@@ -1,0 +1,44 @@
+Build Notes
+-----------
+
+Linux :
+
+    wxGTK 2.8.x
+    ./configure --enable-unicode --with-opengl --enable-mediactrl
+
+    add "--disable-shared" for static libraries
+    
+    make
+    make install (as root) (not required for static libraries)
+   
+    Static .a files are built to the "lib" folder.
+
+    The build-specific headers are located in "lib/wx"
+MacOS :
+
+    wxMac 2.8.x
+    ./configure --enable-unicode --with-opengl --enable-mediactrl
+
+    add "--disable-shared" for static libraries
+    
+    make
+    sudo make install  (requires admin password) (not required for static libraries)
+
+    Static .a files are built to the "lib" folder.
+    The build-specific headers are located in "lib/wx"
+
+Win32 :
+
+    wxMSW 2.8.x
+    
+    edit build/msw/config.gcc, and change the following entries :
+            UNICODE = 1
+            USE_OPENGL = 1
+            
+    make -f makefile.gcc
+
+    creates static .a files in lib\gcc_lib
+    
+
+------------------------------------------------------------
+
