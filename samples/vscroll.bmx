@@ -117,6 +117,8 @@ Type VScrollWindow Extends wxVScrolledWindow
 
 	Function OnPaint(event:wxEvent)
 		Local win:VScrollWindow = VScrollWindow(event.parent)
+		
+		' we *must* create a wxPaintDC in an OnPaint... or else!
 		Local dc:wxPaintDC = New wxPaintDC.Create(win)
 
 		dc.SetPen(wxBLACK_DASHED_PEN())
@@ -138,6 +140,7 @@ Type VScrollWindow Extends wxVScrolledWindow
 			dc.DrawLine(0, y, 1000, y)
 		Next
 
+		' remember to free the device context!!
 		dc.Free()
 	End Function
 
