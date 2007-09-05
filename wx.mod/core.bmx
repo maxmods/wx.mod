@@ -261,48 +261,90 @@ Type wxWindow Extends wxEvtHandler
 	'Method DoUpdateWindowUI(event:wxEvent)
 	'End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method DragAcceptFiles(accept:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Enable:Int(_enable:Int = True)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method FindFocus:wxWindow()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function FindWindowById:wxWindow(id:Int, parent:wxWindow = Null)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function FindWindowByName:wxWindow(name:String, parent:wxWindow = Null)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function FindWindowByLabel:wxWindow(label:String, parent:wxWindow = Null)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Fit()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method FitInside()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Freeze()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetAcceleratorTable:wxAcceleratorTable()
 	End Method
 	
 	'Method GetAccessible()
 	'End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetAdjustedBestSize(w:Int Var, h:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetBackgroundColour:wxColour()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetBackgroundStyle:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetEffectiveMinSize(w:Int Var, h:Int Var)
 	End Method
 	
@@ -322,10 +364,18 @@ Type wxWindow Extends wxEvtHandler
 	'Method GetCaret()
 	'End Method
 	
+	Rem
+	bbdoc: Returns the character height for this window.
+	End Rem
 	Method GetCharHeight:Int()
+		Return bmx_wxwindow_getcharheight(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the average character width for this window.
+	End Rem
 	Method GetCharWidth:Int()
+		Return bmx_wxwindow_getcharwidth(wxObjectPtr)
 	End Method
 	
 	'Method GetChildren()
@@ -334,9 +384,18 @@ Type wxWindow Extends wxEvtHandler
 	'Method GetClassDefaultAttributes()
 	'End Method
 
-	Method GetClientSize(w:Int Var, h:Int Var)
+	Rem
+	bbdoc: This gets the size of the window 'client area' in pixels.
+	about: The client area is the area which may be drawn on by the programmer, excluding title bar,
+	border, scrollbars, etc.
+	End Rem
+	Method GetClientSize(width:Int Var, height:Int Var)
+		bmx_wxwindow_getclientsize(wxObjectPtr, Varptr width, Varptr height)
 	End Method
 	
+	Rem
+	bbdoc: Return the sizer that this window is a member of, if any, otherwise Null.
+	End Rem
 	Method GetContainingSizer:wxSizer()
 	End Method
 	
@@ -346,12 +405,21 @@ Type wxWindow Extends wxEvtHandler
 	Method GetCursor()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetDefaultAttributes:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetDropTarget()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetExtraStyle:Int()
 	End Method
 	
@@ -362,39 +430,93 @@ Type wxWindow Extends wxEvtHandler
 		Return wxFont._create(bmx_wxwindow_getfont(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns the foreground colour of the window.
+	about: The interpretation of foreground colour is open to interpretation according to the window type;
+	it may be the text colour or other colour, or it may not be used at all.
+	End Rem
 	Method GetForegroundColour:wxColour()
+		Return wxColour._create(bmx_wxwindow_getforegroundcolour(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns the grandparent of a window, or Null if there isn't one.
+	End Rem
 	Method GetGrandParent:wxWindow()
+		Local win:Byte Ptr = bmx_wxwindow_getgrandparent(wxObjectPtr)
+		If win Then
+			Local window:wxWindow = wxWindow(wxfind(win))
+			If Not window Then
+				Return _create(win)
+			End If
+			Return window
+		End If
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetHandle:Byte Ptr()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetHelpTextAtPoint:String(x:Int, y:Int, origin:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetHelpText:String()
 		Return bmx_wxwindow_gethelptext(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the identifier of the window.
+	about: Each window has an integer identifier. If the application has not provided one (or the default
+	wxID_ANY) an unique identifier with a negative value will be generated.
+	End Rem
 	Method GetId:Int()
 		Return bmx_wxwindow_getid(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Generic way of getting a label from any window, for identification purposes.
+	about: The interpretation of this method differs from type to type. For frames and dialogs, the
+	value returned is the title. For buttons or static text controls, it is the button text. This
+	method can be useful for meta-programs (such as testing tools or special-needs access programs)
+	which need to identify windows by name.
+	End Rem
 	Method GetLabel:String()
 		Return bmx_wxwindow_getlabel(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the maximum size of the window, an indication to the sizer layout mechanism that this is the maximum possible size.
+	End Rem
 	Method GetMaxSize(w:Int Var, h:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: Returns the minimum size of the window, an indication to the sizer layout mechanism that this is the minimum required size.
+	about: It normally just returns the value set by SetMinSize, but it can be overridden to do the
+	calculation on demand.
+	End Rem
 	Method GetMinSize(w:Int Var, h:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: Returns the window's name.
+	about: This name is not guaranteed to be unique; it is up to the programmer to supply an appropriate name
+	in the window constructor or via wxWindow::SetName.
+	End Rem
 	Method GetName:String()
 	End Method
 	
+	Rem
+	bbdoc: Returns the parent of the window, or Null if there is no parent.
+	End Rem
 	Method GetParent:wxWindow()
 		Local win:Byte Ptr = bmx_wxwindow_getparent(wxObjectPtr)
 		If win Then
@@ -406,27 +528,54 @@ Type wxWindow Extends wxEvtHandler
 		End If
 	End Method
 	
+	Rem
+	bbdoc: This gets the position of the window in pixels, relative to the parent window for the child windows or relative to the display origin for the top level windows.
+	End Rem
 	Method GetPosition(x:Int Var, y:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: Returns the size and position of the window.
+	End Rem
 	Method GetRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: Returns the window position in screen coordinates, whether the window is a child window or a top level one.
+	End Rem
 	Method GetScreenPosition(x:Int Var, y:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: Returns the size and position of the window on the screen.
+	End Rem
 	Method GetScreenRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: Returns the built-in scrollbar position.
+	End Rem
 	Method GetScrollPos:Int(orientation:Int)
+		Return bmx_wxwindow_getscrollpos(wxObjectPtr, orientation)
 	End Method
 	
+	Rem
+	bbdoc: Returns the built-in scrollbar range.
+	End Rem
 	Method GetScrollRange:Int(orientation:Int)
+		Return bmx_wxwindow_getscrollrange(wxObjectPtr, orientation)
 	End Method
 	
+	Rem
+	bbdoc: Returns the built-in scrollbar thumb size.
+	End Rem
 	Method GetScrollThumb:Int(orientation:Int)
+		Return bmx_wxwindow_getscrollthumb(wxObjectPtr, orientation)
 	End Method
 	
+	Rem
+	bbdoc: This gets the size of the entire window in pixels, including title bar, border, scrollbars, etc.
+	End Rem
 	Method GetSize(w:Int Var, h:Int Var)
 	End Method
 

@@ -91,6 +91,15 @@ extern "C" {
 	void bmx_wxwindow_preparedc(wxWindow * window, MaxDC * dc);
 	void bmx_wxwindow_refresh(wxWindow * window, bool erase);
 	wxWindow * bmx_wxwindow_getparent(wxWindow * window);
+	int bmx_wxwindow_getscrollpos(wxWindow * window, int orientation);
+	int bmx_wxwindow_getscrollrange(wxWindow * window, int orientation);
+	int bmx_wxwindow_getscrollthumb(wxWindow * window, int orientation);
+	int bmx_wxwindow_getcharheight(wxWindow * window);
+	int bmx_wxwindow_getcharwidth(wxWindow * window);
+	void bmx_wxwindow_getclientsize(wxWindow * window, int * width, int * height);
+	MaxColour * bmx_wxwindow_getforegroundcolour(wxWindow * window);
+	wxWindow * bmx_wxwindow_getgrandparent(wxWindow * window);
+
 	
 	MaxMenu * bmx_wxmenu_create(BBObject * maxHandle, BBString * title, long style);
 	void bmx_wxmenu_append(MaxMenu * menu, int id, BBString * item, BBString * helpString, int kind);

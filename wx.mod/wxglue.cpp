@@ -454,6 +454,39 @@ wxWindow * bmx_wxwindow_getparent(wxWindow * window) {
 	return window->GetParent();
 }
 
+int bmx_wxwindow_getscrollpos(wxWindow * window, int orientation) {
+	return window->GetScrollPos(orientation);
+}
+
+int bmx_wxwindow_getscrollrange(wxWindow * window, int orientation) {
+	return window->GetScrollRange(orientation);
+}
+
+int bmx_wxwindow_getscrollthumb(wxWindow * window, int orientation) {
+	return window->GetScrollThumb(orientation);
+}
+
+int bmx_wxwindow_getcharheight(wxWindow * window) {
+	return window->GetCharHeight();
+}
+
+int bmx_wxwindow_getcharwidth(wxWindow * window) {
+	return window->GetCharWidth();
+}
+
+void bmx_wxwindow_getclientsize(wxWindow * window, int * width, int * height) {
+	window->GetClientSize(width, height);
+}
+
+MaxColour * bmx_wxwindow_getforegroundcolour(wxWindow * window) {
+	wxColour c(window->GetForegroundColour());
+	return new MaxColour(c);
+}
+
+wxWindow * bmx_wxwindow_getgrandparent(wxWindow * window) {
+	return window->GetGrandParent();
+}
+
 
 // *********************************************
 
