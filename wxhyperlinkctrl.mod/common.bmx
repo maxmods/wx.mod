@@ -42,5 +42,29 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+	Function bmx_wxhyperlinkctrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, label:String, url:String, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxhyperlinkctrl_gethovercolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxhyperlinkctrl_getnormalcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxhyperlinkctrl_getvisitedcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxhyperlinkctrl_sethovercolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxhyperlinkctrl_setvisitedcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxhyperlinkctrl_setnormalcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxhyperlinkctrl_getvisited:Int(handle:Byte Ptr)
+	Function bmx_wxhyperlinkctrl_setvisited(handle:Byte Ptr, visited:Int)
+	Function bmx_wxhyperlinkctrl_geturl:String(handle:Byte Ptr)
+	Function bmx_wxhyperlinkctrl_seturl(handle:Byte Ptr, url:String)
+
+	Function bmx_wxhyperlinkctrl_geteventtype:Int(evt:Int)
 
 End Extern
+
+
+Const wxEVT_COMMAND_HYPERLINK:Int = 3700
+
+Const wxHL_CONTEXTMENU:Int = $0001
+Const wxHL_ALIGN_LEFT:Int = $0002
+Const wxHL_ALIGN_RIGHT:Int = $0004
+Const wxHL_ALIGN_CENTRE:Int = $0008
+Const wxHL_DEFAULT_STYLE:Int = wxHL_CONTEXTMENU | wxNO_BORDER | wxHL_ALIGN_CENTRE
+
+

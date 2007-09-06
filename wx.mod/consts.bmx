@@ -642,11 +642,29 @@ Const wxFONTFLAG_MASK:Int = wxFONTFLAG_ITALIC | wxFONTFLAG_SLANT | wxFONTFLAG_LI
 
 
 Const wxBK_HITTEST_NOWHERE:Int = 1   ' Not on tab
-Const wxBK_HITTEST_ONICON:Int  = 2   ' on icon
+Const wxBK_HITTEST_ONICON:Int = 2   ' on icon
 Const wxBK_HITTEST_ONLABEL:Int = 4   ' on label
-Const wxBK_HITTEST_ONITEM:Int  = wxBK_HITTEST_ONICON | wxBK_HITTEST_ONLABEL
-Const wxBK_HITTEST_ONPAGE:Int  = 8    ' Not on tab control, but over the selected page
+Const wxBK_HITTEST_ONITEM:Int = wxBK_HITTEST_ONICON | wxBK_HITTEST_ONLABEL
+Const wxBK_HITTEST_ONPAGE:Int = 8    ' Not on tab control, but over the selected page
 
 Const wxMessageBoxCaptionStr:String = "Message"
 Const wxFileSelectorPromptStr:String = "Select a file"
 Const wxDirSelectorPromptStr:String = "Select a directory"
+
+
+Const wxSIZE_AUTO_WIDTH:Int = $0001
+Const wxSIZE_AUTO_HEIGHT:Int = $0002
+Const wxSIZE_AUTO:Int = wxSIZE_AUTO_WIDTH | wxSIZE_AUTO_HEIGHT
+Const wxSIZE_USE_EXISTING:Int = $0000
+Const wxSIZE_ALLOW_MINUS_ONE:Int = $0004
+Const wxSIZE_NO_ADJUSTMENTS:Int = $0008
+Const wxSIZE_FORCE:Int = $0010
+
+Const wxUPDATE_UI_NONE:Int = $0000
+Const wxUPDATE_UI_RECURSE:Int = $0001
+Const wxUPDATE_UI_FROMIDLE:Int = $0002
+
+Const Origin_Unknown:Int = 0
+Const Origin_Keyboard:Int = 1
+Const Origin_HelpButton:Int = 2
+ 

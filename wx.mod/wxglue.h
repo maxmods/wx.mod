@@ -28,6 +28,7 @@
 #include <wx/aboutdlg.h>
 #include "wx/artprov.h"
 #include "wx/fontmap.h"
+//#include "wx/event.h"
 
 #include <map>
 
@@ -99,6 +100,21 @@ extern "C" {
 	void bmx_wxwindow_getclientsize(wxWindow * window, int * width, int * height);
 	MaxColour * bmx_wxwindow_getforegroundcolour(wxWindow * window);
 	wxWindow * bmx_wxwindow_getgrandparent(wxWindow * window);
+
+	BBString * bmx_wxwindow_gethelptextatpoint(wxWindow * window, int x, int y, wxHelpEvent::Origin origin);
+	void bmx_wxwindow_getmaxsize(wxWindow * window, int * w, int * h);
+	void bmx_wxwindow_getminsize(wxWindow * window, int * w, int * h);
+	BBString * bmx_wxwindow_getname(wxWindow * window);
+	void bmx_wxwindow_getposition(wxWindow * window, int * x, int * y);
+	void bmx_wxwindow_getrect(wxWindow * window, int * x, int * y, int * w, int * h);
+	void bmx_wxwindow_getscreenposition(wxWindow * window, int * x, int * y);
+	void bmx_wxwindow_getscreenrect(wxWindow * window, int * x, int * y, int * w, int * h);
+	void bmx_wxwindow_getsize(wxWindow * window, int * w, int * h);
+	void bmx_wxwindow_sethelptext(wxWindow * window, BBString * helpText);
+	void bmx_wxwindow_setid(wxWindow * window, int id);
+	void bmx_wxwindow_setlabel(wxWindow * window, BBString * label);
+	void bmx_wxwindow_setscrollbar(wxWindow * window, int orientation, int position, int thumbsize, int range, bool refresh);
+	void bmx_wxwindow_setscrollpos(wxWindow * window, int orientation, int pos, bool refresh);
 
 	
 	MaxMenu * bmx_wxmenu_create(BBObject * maxHandle, BBString * title, long style);

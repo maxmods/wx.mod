@@ -556,7 +556,7 @@ Type wxTreeCtrl Extends wxControl
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetWindowStyle()
+	Method SetWindowStyle(style:Int)
 	End Method
 
 	Rem

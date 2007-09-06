@@ -460,13 +460,18 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the help text to be used as context-sensitive help for this window.
+	about: This method should be overridden if the help message depends on the position inside the
+	window, otherwise GetHelpText can be used.
 	End Rem
 	Method GetHelpTextAtPoint:String(x:Int, y:Int, origin:Int)
+		Return bmx_wxwindow_gethelptextatpoint(wxObjectPtr, x, y, origin)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the help text to be used as context-sensitive help for this window.
+	about: Note that the text is actually stored by the current wxHelpProvider implementation, and not
+	in the window object itself.
 	End Rem
 	Method GetHelpText:String()
 		Return bmx_wxwindow_gethelptext(wxObjectPtr)
@@ -496,6 +501,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Returns the maximum size of the window, an indication to the sizer layout mechanism that this is the maximum possible size.
 	End Rem
 	Method GetMaxSize(w:Int Var, h:Int Var)
+		bmx_wxwindow_getmaxsize(wxObjectPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
@@ -504,6 +510,7 @@ Type wxWindow Extends wxEvtHandler
 	calculation on demand.
 	End Rem
 	Method GetMinSize(w:Int Var, h:Int Var)
+		bmx_wxwindow_getminsize(wxObjectPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
@@ -512,6 +519,7 @@ Type wxWindow Extends wxEvtHandler
 	in the window constructor or via wxWindow::SetName.
 	End Rem
 	Method GetName:String()
+		Return bmx_wxwindow_getname(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -532,24 +540,28 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: This gets the position of the window in pixels, relative to the parent window for the child windows or relative to the display origin for the top level windows.
 	End Rem
 	Method GetPosition(x:Int Var, y:Int Var)
+		bmx_wxwindow_getposition(wxObjectPtr, Varptr x, Varptr y)
 	End Method
 	
 	Rem
 	bbdoc: Returns the size and position of the window.
 	End Rem
 	Method GetRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+		bmx_wxwindow_getrect(wxObjectPtr, Varptr x, Varptr y, Varptr w, Varptr h)
 	End Method
 	
 	Rem
 	bbdoc: Returns the window position in screen coordinates, whether the window is a child window or a top level one.
 	End Rem
 	Method GetScreenPosition(x:Int Var, y:Int Var)
+		bmx_wxwindow_getscreenposition(wxObjectPtr, Varptr x, Varptr y)
 	End Method
 	
 	Rem
 	bbdoc: Returns the size and position of the window on the screen.
 	End Rem
 	Method GetScreenRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+		bmx_wxwindow_getscreenrect(wxObjectPtr, Varptr x, Varptr y, Varptr w, Varptr h)
 	End Method
 	
 	Rem
@@ -577,6 +589,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: This gets the size of the entire window in pixels, including title bar, border, scrollbars, etc.
 	End Rem
 	Method GetSize(w:Int Var, h:Int Var)
+		bmx_wxwindow_getsize(wxObjectPtr, Varptr w, Varptr h)
 	End Method
 
 	Rem
@@ -586,10 +599,17 @@ Type wxWindow Extends wxEvtHandler
 		Return wxSizer._create(bmx_wxwindow_getsizer(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetTextExtent(text:String, x:Int Var, y:Int Var, descent:Int Var, ..
 			externalLeading:Int Var, font:wxFont = Null, use16:Int = False)
+		
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetToolTip:wxToolTip()
 	End Method
 	
@@ -609,24 +629,45 @@ Type wxWindow Extends wxEvtHandler
 		Return GetWindowStyleFlag()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetWindowVariant:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HasCapture:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HasFlag:Int(flag:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HasMultiplePages:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HasScrollbar:Int(orient:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HasTransparentBackground:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Hide:Int()
 	End Method
 	
@@ -667,20 +708,6 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: Sets the window to have the given layout sizer.
-	about: The window will then own the object, and will take care of its deletion. If an existing layout
-	constraints object is already owned by the window, it will be deleted if the deleteOld parameter
-	is true.
-	<p>
-	Note that this method will also call SetAutoLayout implicitly with true parameter if the sizer is
-	non-NULL and false otherwise.
-	</p>
-	End Rem
-	Method SetSizer(sizer:wxSizer, deleteOld:Int = True)
-		bmx_wxwindow_setsizer(wxObjectPtr, sizer.wxSizerPtr, deleteOld)
-	End Method
-
-	Rem
 	bbdoc: Determines whether the wxWindow::Layout function will be called automatically when the window is resized.
 	about: Please note that this only happens for the windows usually used to contain children, namely wxPanel
 	and wxTopLevelWindow (and the classes deriving from them).
@@ -700,17 +727,6 @@ Type wxWindow Extends wxEvtHandler
 		bmx_wxwindow_setfocus(wxObjectPtr)
 	End Method
 
-
-	
-	Rem
-	bbdoc: Shows or hides the window.
-	returns: True if the window has been shown or hidden or False if nothing was done because it already was in the requested state.
-	about: You may need to call #raise for a top level window if you want to bring it to top, although
-	this is not needed if show is called immediately after the frame creation.
-	End Rem
-	Method Show:Int(value:Int = True)
-		Return bmx_wxwindow_show(wxObjectPtr, value)
-	End Method
 
 	Method injectSelf()
 	End Method
@@ -740,33 +756,63 @@ Type wxWindow Extends wxEvtHandler
 		bmx_wxwindow_setbackgroundcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetBackgroundStyle(style:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetInitialSize(w:Int = -1, h:Int = -1)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetCaret()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetClientSize(width:Int, height:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetConstraints()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetContainingSizer(sizer:wxSizer)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetCursor()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetDropTarget()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetInitialBestSize(w:Int, h:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetExtraStyle(style:Int)
 	End Method
 	
@@ -795,6 +841,243 @@ Type wxWindow Extends wxEvtHandler
 	Method SetForegroundColour(colour:wxColour)
 		bmx_wxwindow_setforegroundcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
+	
+	Rem
+	bbdoc: Sets the help text to be used as context-sensitive help for this window.
+	about: Note that the text is actually stored by the current wxHelpProvider implementation, and not
+	in the window object itself.
+	End Rem
+	Method SetHelpText(helpText:String)
+		bmx_wxwindow_sethelptext(wxObjectPtr, helpText:String)
+	End Method
+	
+	Rem
+	bbdoc: Each window has an integer identifier.
+	about: If the application has not provided one, an identifier will be generated. Normally, the
+	identifier should be provided on creation and should not be modified subsequently.
+	End Rem
+	Method SetId(id:Int)
+		bmx_wxwindow_setid(wxObjectPtr, id)
+	End Method
+	
+	Rem
+	bbdoc: Sets the window's label.
+	End Rem
+	Method SetLabel(label:String)
+		bmx_wxwindow_setlabel(wxObjectPtr, label)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetMaxSize(width:Int, height:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetMinSize(width:Int, height:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetName(name:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetOwnBackgroundColour(colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetOwnFont(font:wxFont)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetOwnForegroundColour(colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPalette()
+	End Method
+	
+	Rem
+	bbdoc: Sets the scrollbar properties of a built-in scrollbar.
+	End Rem
+	Method SetScrollbar(orientation:Int, position:Int, thumbsize:Int, range:Int, refresh:Int = True)
+		bmx_wxwindow_setscrollbar(wxObjectPtr, orientation, position, thumbsize, range, refresh)
+	End Method
+	
+	Rem
+	bbdoc: Sets the position of one of the built-in scrollbars.
+	End Rem
+	Method SetScrollPos(orientation:Int, pos:Int, refresh:Int = True)
+		bmx_wxwindow_setscrollpos(wxObjectPtr, orientation, pos, refresh)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDimensions(x:Int, y:Int, width:Int, height:Int, sizeFlags:Int = wxSIZE_AUTO)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetSize(width:Int, height:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPosition(x:Int, y:Int)
+	End Method
+	
+	Rem
+	bbdoc: Sets the window to have the given layout sizer.
+	about: The window will then own the object, and will take care of its deletion. If an existing layout
+	constraints object is already owned by the window, it will be deleted if the deleteOld parameter
+	is true.
+	<p>
+	Note that this method will also call SetAutoLayout implicitly with true parameter if the sizer is
+	non-NULL and false otherwise.
+	</p>
+	End Rem
+	Method SetSizer(sizer:wxSizer, deleteOld:Int = True)
+		bmx_wxwindow_setsizer(wxObjectPtr, sizer.wxSizerPtr, deleteOld)
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetSizerAndFit(sizer:wxSizer, deleteOld:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetThemeEnabled(enable:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetToolTip(tip:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetValidator()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetVirtualSize(width:Int, height:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetVirtualSizeHints(minW:Int = -1, minH:Int = -1, maxW:Int = -1, maxH:Int = -1)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetWindowStyle(style:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetWindowStyleFlag(style:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetWindowVariant(variant:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ShouldInheritColours:Int()
+	End Method
+	
+	Rem
+	bbdoc: Shows or hides the window.
+	returns: True if the window has been shown or hidden or False if nothing was done because it already was in the requested state.
+	about: You may need to call #raise for a top level window if you want to bring it to top, although
+	this is not needed if show is called immediately after the frame creation.
+	End Rem
+	Method Show:Int(value:Int = True)
+		Return bmx_wxwindow_show(wxObjectPtr, value)
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method Thaw()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ToggleWindowStyle:Int(flag:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method TransferDataFromWindow:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method TransferDataToWindow:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method UnregisterHotKey:Int(hotKeyId:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Update()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method UpdateWindowUI(flags:Int = wxUPDATE_UI_NONE)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Validate:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method WarpPointer(x:Int, y:Int)
+	End Method	
 	
 	Method Free()
 		If wxObjectPtr Then

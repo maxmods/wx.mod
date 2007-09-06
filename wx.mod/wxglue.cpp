@@ -487,6 +487,74 @@ wxWindow * bmx_wxwindow_getgrandparent(wxWindow * window) {
 	return window->GetGrandParent();
 }
 
+BBString * bmx_wxwindow_gethelptextatpoint(wxWindow * window, int x, int y, wxHelpEvent::Origin origin) {
+	return bbStringFromWxString(window->GetHelpTextAtPoint(wxPoint(x, y), origin));
+}
+
+void bmx_wxwindow_getmaxsize(wxWindow * window, int * w, int * h) {
+	wxSize s = window->GetMaxSize();
+	*w = s.x;
+	*h = s.y;
+}
+
+void bmx_wxwindow_getminsize(wxWindow * window, int * w, int * h) {
+	wxSize s = window->GetMinSize();
+	*w = s.x;
+	*h = s.y;
+}
+
+BBString * bmx_wxwindow_getname(wxWindow * window) {
+	return bbStringFromWxString(window->GetName());
+}
+
+void bmx_wxwindow_getposition(wxWindow * window, int * x, int * y) {
+	window->GetPosition(x, y);
+}
+
+void bmx_wxwindow_getrect(wxWindow * window, int * x, int * y, int * w, int * h) {
+	wxRect r = window->GetRect();
+	*x = r.x;
+	*y = r.y;
+	*w = r.width;
+	*h = r.height;
+}
+
+void bmx_wxwindow_getscreenposition(wxWindow * window, int * x, int * y) {
+	window->GetScreenPosition(x, y);
+}
+
+void bmx_wxwindow_getscreenrect(wxWindow * window, int * x, int * y, int * w, int * h) {
+	wxRect r = window->GetScreenRect();
+	*x = r.x;
+	*y = r.y;
+	*w = r.width;
+	*h = r.height;
+}
+
+void bmx_wxwindow_getsize(wxWindow * window, int * w, int * h) {
+	window->GetSize(w, h);
+}
+
+void bmx_wxwindow_sethelptext(wxWindow * window, BBString * helpText) {
+	window->SetHelpText(wxStringFromBBString(helpText));
+}
+
+void bmx_wxwindow_setid(wxWindow * window, int id) {
+	window->SetId(id);
+}
+
+void bmx_wxwindow_setlabel(wxWindow * window, BBString * label) {
+	window->SetLabel(wxStringFromBBString(label));
+}
+
+void bmx_wxwindow_setscrollbar(wxWindow * window, int orientation, int position, int thumbsize, int range, bool refresh) {
+	window->SetScrollbar(orientation, position, thumbsize, range, refresh);
+}
+
+void bmx_wxwindow_setscrollpos(wxWindow * window, int orientation, int pos, bool refresh) {
+	window->SetScrollPos(orientation, pos, refresh);
+}
+
 
 // *********************************************
 
