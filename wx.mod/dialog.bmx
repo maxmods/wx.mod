@@ -26,7 +26,19 @@ Import "core.bmx"
 
 Rem
 bbdoc: General purpose message dialog.
-about: 
+returns: One of: wxYES, wxNO, wxCANCEL or wxOK.
+about: @style may be a bit list of the following identifiers:
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxYES_NO</td><td>Puts Yes and No buttons on the message box. May be combined with wxCANCEL. </td></tr>
+<tr><td>wxCANCEL </td><td>Puts a Cancel button on the message box. May only be combined with wxYES_NO or wxOK. </td></tr>
+<tr><td>wxOK </td><td>Puts an Ok button on the message box. May be combined with wxCANCEL. </td></tr>
+<tr><td>wxICON_EXCLAMATION </td><td>Displays an exclamation mark symbol. </td></tr>
+<tr><td>wxICON_HAND </td><td>Displays an error symbol. </td></tr>
+<tr><td>wxICON_ERROR </td><td>Displays an error symbol - the same as wxICON_HAND. </td></tr>
+<tr><td>wxICON_QUESTION </td><td>Displays a question mark symbol. </td></tr>
+<tr><td>wxICON_INFORMATION </td><td>Displays an information symbol. </td></tr>
+</table>
 End Rem
 Function wxMessageBox:Int(message:String, caption:String = "Message", style:Int = wxOK, parent:wxWindow = Null, ..
 		x:Int = -1, y:Int = -1)
@@ -38,3 +50,4 @@ Function wxMessageBox:Int(message:String, caption:String = "Message", style:Int 
 	End If
 		
 End Function
+

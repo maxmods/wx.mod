@@ -647,3 +647,6 @@ Const wxBK_HITTEST_ONLABEL:Int = 4   ' on label
 Const wxBK_HITTEST_ONITEM:Int  = wxBK_HITTEST_ONICON | wxBK_HITTEST_ONLABEL
 Const wxBK_HITTEST_ONPAGE:Int  = 8    ' Not on tab control, but over the selected page
 
+Const wxMessageBoxCaptionStr:String = "Message"
+Const wxFileSelectorPromptStr:String = "Select a file"
+Const wxDirSelectorPromptStr:String = "Select a directory"
