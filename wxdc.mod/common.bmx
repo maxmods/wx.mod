@@ -54,4 +54,6 @@ Extern
 	Function bmx_wxdc_setuserscale(handle:Byte Ptr, xscale:Double, yscale:Double)
 	Function bmx_wxdc_drawline(handle:Byte Ptr, x1:Int, y1:Int, x2:Int, y2:Int)
 	
+	Function bmx_wxmirrordc_create:Byte Ptr(dc:Byte Ptr, mirror:Int)
+	
 End Extern

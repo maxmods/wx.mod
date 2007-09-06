@@ -51,6 +51,25 @@ Extern
 	
 	Function bmx_wxnotebook_assignimagelist(handle:Byte Ptr, imagelist:Byte Ptr)
 	Function bmx_wxnotebook_setimagelist(handle:Byte Ptr, imagelist:Byte Ptr)
+
+	Function bmx_wxnotebook_deleteallpages:Int(handle:Byte Ptr)
+	Function bmx_wxnotebook_deletepage:Int(handle:Byte Ptr, page:Int)
+	Function bmx_wxnotebook_getcurrentpage:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxnotebook_getpage:Byte Ptr(handle:Byte Ptr, page:Int)
+	Function bmx_wxnotebook_getpagecount:Int(handle:Byte Ptr)
+	Function bmx_wxnotebook_getpageimage:Int(handle:Byte Ptr, page:Int)
+	Function bmx_wxnotebook_getpagetext:String(handle:Byte Ptr, page:Int)
+	Function bmx_wxnotebook_getrowcount:Int(handle:Byte Ptr)
+	Function bmx_wxnotebook_getselection:Int(handle:Byte Ptr)
+	Function bmx_wxnotebook_getthemebackgroundcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxnotebook_hittest:Int(handle:Byte Ptr, x:Int, y:Int, flags:Int Ptr)
+	Function bmx_wxnotebook_removepage:Int(handle:Byte Ptr, page:Int)
+	Function bmx_wxnotebook_setpadding(handle:Byte Ptr, width:Int, height:Int)
+	Function bmx_wxnotebook_setpagesize(handle:Byte Ptr, width:Int, height:Int)
+	Function bmx_wxnotebook_setpageimage:Int(handle:Byte Ptr, page:Int, image:Int)
+	Function bmx_wxnotebook_setpagetext:Int(handle:Byte Ptr, page:Int, text:String)
+	Function bmx_wxnotebook_setselection:Int(handle:Byte Ptr, page:Int)
+	Function bmx_wxnotebook_changeselection:Int(handle:Byte Ptr, page:Int)
 	
 	Function bmx_wxnotebookevent_getoldselection:Int(evt:Byte Ptr)
 	Function bmx_wxnotebookevent_getselection:Int(evt:Byte Ptr)
@@ -63,3 +82,9 @@ End Extern
 
 Const wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED:Int = 802
 Const wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING:Int = 803
+
+
+Const wxNB_FIXEDWIDTH:Int = $0100
+Const wxNB_MULTILINE:Int = $0200
+Const wxNB_NOPAGETHEME:Int = $0400
+Const wxNB_FLAT:Int = $0800

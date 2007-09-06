@@ -38,6 +38,25 @@ extern "C" {
 	void bmx_wxnotebook_assignimagelist(MaxNotebook * notebook, wxImageList * list);
 	void bmx_wxnotebook_setimagelist(MaxNotebook * notebook, wxImageList * list);
 
+	bool bmx_wxnotebook_deleteallpages(wxNotebook * notebook);
+	bool bmx_wxnotebook_deletepage(wxNotebook * notebook, int page);
+	wxWindow *  bmx_wxnotebook_getcurrentpage(wxNotebook * notebook);
+	wxWindow * bmx_wxnotebook_getpage(wxNotebook * notebook, int page);
+	int bmx_wxnotebook_getpagecount(wxNotebook * notebook);
+	int bmx_wxnotebook_getpageimage(wxNotebook * notebook, int page);
+	BBString * bmx_wxnotebook_getpagetext(wxNotebook * notebook, int page);
+	int bmx_wxnotebook_getrowcount(wxNotebook * notebook);
+	int bmx_wxnotebook_getselection(wxNotebook * notebook);
+	MaxColour * bmx_wxnotebook_getthemebackgroundcolour(wxNotebook * notebook);
+	int bmx_wxnotebook_hittest(wxNotebook * notebook, int x, int y, long * flags);
+	bool bmx_wxnotebook_removepage(wxNotebook * notebook, int page);
+	void bmx_wxnotebook_setpadding(wxNotebook * notebook, int width, int height);
+	void bmx_wxnotebook_setpagesize(wxNotebook * notebook, int width, int height);
+	bool bmx_wxnotebook_setpageimage(wxNotebook * notebook, int page, int image);
+	bool bmx_wxnotebook_setpagetext(wxNotebook * notebook, int page, BBString * text);
+	int bmx_wxnotebook_setselection(wxNotebook * notebook, int page);
+	int bmx_wxnotebook_changeselection(wxNotebook * notebook, int page);
+
 	int bmx_wxnotebookevent_getoldselection(wxNotebookEvent & event);
 	int bmx_wxnotebookevent_getselection(wxNotebookEvent & event);
 	void bmx_wxnotebookevent_setoldselection(wxNotebookEvent & event, int page);

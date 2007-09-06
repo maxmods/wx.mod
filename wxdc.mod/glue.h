@@ -21,15 +21,25 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/dcmirror.h"
 
-//class MaxNotebook;
+class MaxMirrorDC;
 
 extern "C" {
 
 #include <blitz.h>
 
-
+	MaxMirrorDC * bmx_wxmirrordc_create(MaxDC * dc, bool mirror);
+	
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxMirrorDC : public MaxDC
+{
+public:
+	MaxMirrorDC(wxDC * dc, bool mirror);
+private:
+	wxMirrorDC mirrorDC;
+};
 

@@ -24,8 +24,16 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxMirrorDC::MaxMirrorDC(wxDC * dc, bool mirror)
+	: mirrorDC(*dc, mirror)
+{
+	MaxDC::init(&mirrorDC);
+}
 
 
 // *********************************************
 
 
+MaxMirrorDC * bmx_wxmirrordc_create(MaxDC * dc, bool mirror) {
+	return new MaxMirrorDC(dc->GetDC(), mirror);
+}

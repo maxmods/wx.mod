@@ -23,7 +23,7 @@ SuperStrict
 Module wx.wxIcon
 
 ModuleInfo "Version: 1.00"
-ModuleInfo "License:"
+ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
 ModuleInfo "Copyright: (c) 2007 Bruce A Henderson"
 ModuleInfo "Modserver: BRL"

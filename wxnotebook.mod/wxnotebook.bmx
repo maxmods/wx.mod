@@ -26,7 +26,7 @@ End Rem
 Module wx.wxNotebook
 
 ModuleInfo "Version: 1.00"
-ModuleInfo "License:"
+ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
 ModuleInfo "Copyright: (c) 2007 Bruce A Henderson"
 ModuleInfo "Modserver: BRL"
@@ -107,75 +107,118 @@ Type wxNotebook Extends wxBookCtrlBase
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Deletes all pages.
 	End Rem
 	Method DeleteAllPages:Int()
+		Return bmx_wxnotebook_deleteallpages(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Deletes the specified page, and the associated window.
+	about: The call to this method generates the page changing events.
 	End Rem
 	Method DeletePage:Int(page:Int)
+		Return bmx_wxnotebook_deletepage(wxObjectPtr, page)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the currently selected notebook page or Null.
 	End Rem
 	Method GetCurrentPage:wxWindow()
+		Local win:Byte Ptr = bmx_wxnotebook_getcurrentpage(wxObjectPtr)
+		If win Then
+			Local window:wxWindow = wxWindow(wxfind(win))
+			If Not window Then
+				Return _create(win)
+			End If
+			Return window
+		End If
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the associated image list.
 	End Rem
 	Method GetPage:wxWindow(page:Int)
+		Local win:Byte Ptr = bmx_wxnotebook_getpage(wxObjectPtr, page)
+		If win Then
+			Local window:wxWindow = wxWindow(wxfind(win))
+			If Not window Then
+				Return _create(win)
+			End If
+			Return window
+		End If
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the window at the given page position.
 	End Rem
 	Method GetPageCount:Int()
+		Return bmx_wxnotebook_getpagecount(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the number of pages in the notebook control.
 	End Rem
 	Method GetPageImage:Int(page:Int)
+		Return bmx_wxnotebook_getpageimage(wxObjectPtr, page)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the string for the given page.
 	End Rem
 	Method GetPageText:String(page:Int)
+		Return bmx_wxnotebook_getpagetext(wxObjectPtr, page)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the number of rows in the notebook control.
 	End Rem
 	Method GetRowCount:Int()
+		Return bmx_wxnotebook_getrowcount(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the currently selected page, or -1 if none was selected.
+	about: Note that this method may return either the previously or newly selected page when called from
+	the wxEVT_NOTEBOOK_PAGE_CHANGED handler depending on the platform and so wxNotebookEvent::GetSelection should
+	be used instead in this case.
 	End Rem
 	Method GetSelection:Int()
+		Return bmx_wxnotebook_getselection(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: If running under Windows and themes are enabled for the application, this method returns a suitable colour for painting the background of a notebook page, and can be passed to SetBackgroundColour.
+	about: Otherwise, an uninitialised colour will be returned.
 	End Rem
 	Method GetThemeBackgroundColour:wxColour()
+		Return wxColour._create(bmx_wxnotebook_getthemebackgroundcolour(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the index of the tab at the specified position or wxNOT_FOUND if none.
+	returns: The zero-based tab index or wxNOT_FOUND if there is no tab is at the specified position.
+	about: @flags returns the position of the point inside the tab is returned as well, which can be one of the
+	following values :
+	<table width="90%" align="center">
+	<tr><th>Constant</th><th>Description</th></tr>
+	<tr><td>wxBK_HITTEST_NOWHERE</td><td>There was no tab under this point. </td></tr>
+	<tr><td>wxBK_HITTEST_ONICON</td><td>The point was over an icon (currently wxMSW only). </td></tr>
+	<tr><td>wxBK_HITTEST_ONLABEL</td><td>The point was over a label (currently wxMSW only). </td></tr>
+	<tr><td>wxBK_HITTEST_ONITEM</td><td>The point was over an item, but not on the label or icon. </td></tr>
+	<tr><td>wxBK_HITTEST_ONPAGE</td><td>The point was over a currently selected page, not over any tab. Note
+	that this flag is present only if wxNOT_FOUND is returned. </td></tr>
+	</table>
 	End Rem
 	Method HitTest:Int(x:Int, y:Int, flags:Int Var)
+		Return bmx_wxnotebook_hittest(wxObjectPtr, x, y, Varptr flags)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Deletes the specified page, without deleting the associated window.
 	End Rem
 	Method RemovePage:Int(page:Int)
+		Return bmx_wxnotebook_removepage(wxObjectPtr, page)
 	End Method
 	
 	Rem
@@ -191,6 +234,7 @@ Type wxNotebook Extends wxBookCtrlBase
 	about: NB: The vertical padding cannot be changed in wxGTK.
 	End Rem
 	Method SetPadding(width:Int, height:Int)
+		bmx_wxnotebook_setpadding(wxObjectPtr, width, height)
 	End Method
 	
 	Rem
@@ -198,6 +242,7 @@ Type wxNotebook Extends wxBookCtrlBase
 	about: NB: This method is currently not implemented for wxGTK.
 	End Rem
 	Method SetPageSize(width:Int, height:Int)
+		bmx_wxnotebook_setpagesize(wxObjectPtr, width, height)
 	End Method
 	
 	Rem
@@ -205,12 +250,14 @@ Type wxNotebook Extends wxBookCtrlBase
 	about: @image is an index into the image list which was set with wxNotebook::SetImageList.
 	End Rem
 	Method SetPageImage:Int(page:Int, image:Int)
+		Return bmx_wxnotebook_setpageimage(wxObjectPtr, page, image)
 	End Method
 	
 	Rem
 	bbdoc: Sets the text for the given page.
 	End Rem
 	Method SetPageText:Int(page:Int, text:String)
+		Return bmx_wxnotebook_setpagetext(wxObjectPtr, page, text)
 	End Method
 	
 	Rem
@@ -222,6 +269,7 @@ Type wxNotebook Extends wxBookCtrlBase
 	</p>
 	End Rem
 	Method SetSelection:Int(page:Int)
+		Return bmx_wxnotebook_setselection(wxObjectPtr, page)
 	End Method
 	
 	Rem
@@ -230,8 +278,8 @@ Type wxNotebook Extends wxBookCtrlBase
 	difference with SetSelection. See this topic for more info.
 	End Rem
 	Method ChangeSelection:Int(page:Int)
+		Return bmx_wxnotebook_changeselection(wxObjectPtr, page)
 	End Method
-	
 	
 End Type
 

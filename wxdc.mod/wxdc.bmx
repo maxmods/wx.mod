@@ -26,7 +26,7 @@ End Rem
 Module wx.wxDC
 
 ModuleInfo "Version: 1.00"
-ModuleInfo "License:"
+ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
 ModuleInfo "Copyright: (c) 2007 Bruce A Henderson"
 ModuleInfo "Modserver: BRL"
@@ -378,4 +378,26 @@ Type wxPaintDC Extends wxWindowDC
 
 End Type
 
+Rem
+bbdoc: wxMirrorDC is a simple wrapper which is always associated with a real wxDC object and either forwards all of its operations to it without changes (no mirroring takes place) or exchanges x and y coordinates which makes it possible to reuse the same code to draw a figure and its mirror -- i.e. reflection related to the diagonal line x == y.
+End Rem
+Type wxMirrorDC Extends wxDC
 
+	Rem
+	bbdoc: Creates a (maybe) mirrored DC associated with the real dc.
+	about: Everything drawn on wxMirrorDC will appear (and maybe mirrored) on @dc.
+	End Rem
+	Function CreateMirrorDC:wxMirrorDC(dc:wxDC, mirror:Int)
+		Return New wxMirrorDC.Create(dc, mirror)
+	End Function
+	
+	Rem
+	bbdoc: Creates a (maybe) mirrored DC associated with the real dc.
+	about: Everything drawn on wxMirrorDC will appear (and maybe mirrored) on @dc.
+	End Rem
+	Method Create:wxMirrorDC(dc:wxDC, mirror:Int)
+		wxObjectPtr = bmx_wxmirrordc_create(dc.wxObjectPtr, mirror)
+		Return Self
+	End Method
+	
+End Type
