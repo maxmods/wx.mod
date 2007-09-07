@@ -45,47 +45,47 @@ MaxHyperlinkCtrl * bmx_wxhperlinkctrl_create(BBObject * maxHandle, wxWindow * pa
 		x, y, w, h, style);
 }
 
-MaxColour * bmx_wxhyperlinkctrl_gethovercolour(wxHyperlinkCtrl * hyper) {
-	wxColour c(hyper->GetHoverColour());
+MaxColour * bmx_wxhyperlinkctrl_gethovercolour(wxHyperlinkCtrl * hlink) {
+	wxColour c(hlink->GetHoverColour());
 	return new MaxColour(c);
 }
 
-MaxColour * bmx_wxhyperlinkctrl_getnormalcolour(wxHyperlinkCtrl * hyper) {
-	wxColour c(hyper->GetNormalColour());
+MaxColour * bmx_wxhyperlinkctrl_getnormalcolour(wxHyperlinkCtrl * hlink) {
+	wxColour c(hlink->GetNormalColour());
 	return new MaxColour(c);
 }
 
-MaxColour * bmx_wxhyperlinkctrl_getvisitedcolour(wxHyperlinkCtrl * hyper) {
-	wxColour c(hyper->GetVisitedColour());
+MaxColour * bmx_wxhyperlinkctrl_getvisitedcolour(wxHyperlinkCtrl * hlink) {
+	wxColour c(hlink->GetVisitedColour());
 	return new MaxColour(c);
 }
 
-void bmx_wxhyperlinkctrl_sethovercolour(wxHyperlinkCtrl * hyper, MaxColour * colour) {
-	hyper->SetHoverColour(colour->Colour());
+void bmx_wxhyperlinkctrl_sethovercolour(wxHyperlinkCtrl * hlink, MaxColour * colour) {
+	hlink->SetHoverColour(colour->Colour());
 }
 
-void bmx_wxhyperlinkctrl_setvisitedcolour(wxHyperlinkCtrl * hyper, MaxColour * colour) {
-	hyper->SetVisitedColour(colour->Colour());
+void bmx_wxhyperlinkctrl_setvisitedcolour(wxHyperlinkCtrl * hlink, MaxColour * colour) {
+	hlink->SetVisitedColour(colour->Colour());
 }
 
-void bmx_wxhyperlinkctrl_setnormalcolour(wxHyperlinkCtrl * hyper, MaxColour * colour) {
-	hyper->SetNormalColour(colour->Colour());
+void bmx_wxhyperlinkctrl_setnormalcolour(wxHyperlinkCtrl * hlink, MaxColour * colour) {
+	hlink->SetNormalColour(colour->Colour());
 }
 
-bool bmx_wxhyperlinkctrl_getvisited(wxHyperlinkCtrl * hyper) {
-	return hyper->GetVisited();
+bool bmx_wxhyperlinkctrl_getvisited(wxHyperlinkCtrl * hlink) {
+	return hlink->GetVisited();
 }
 
-void bmx_wxhyperlinkctrl_setvisited(wxHyperlinkCtrl * hyper, bool visited) {
-	hyper->SetVisited(visited);
+void bmx_wxhyperlinkctrl_setvisited(wxHyperlinkCtrl * hlink, bool visited) {
+	hlink->SetVisited(visited);
 }
 
-BBString * bmx_wxhyperlinkctrl_geturl(wxHyperlinkCtrl * hyper) {
-	return bbStringFromWxString(hyper->GetURL());
+BBString * bmx_wxhyperlinkctrl_geturl(wxHyperlinkCtrl * hlink) {
+	return bbStringFromWxString(hlink->GetURL());
 }
 
-void bmx_wxhyperlinkctrl_seturl(wxHyperlinkCtrl * hyper, BBString * url) {
-	hyper->SetURL(wxStringFromBBString(url));
+void bmx_wxhyperlinkctrl_seturl(wxHyperlinkCtrl * hlink, BBString * url) {
+	hlink->SetURL(wxStringFromBBString(url));
 }
 
 

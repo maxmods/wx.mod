@@ -32,16 +32,16 @@ extern "C" {
 	MaxHyperlinkCtrl * bmx_wxhperlinkctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id,
 		BBString * label, BBString * url, int x, int y, int w, int h, long style);
 
-	MaxColour * bmx_wxhyperlinkctrl_gethovercolour(wxHyperlinkCtrl * hyper);
-	MaxColour * bmx_wxhyperlinkctrl_getnormalcolour(wxHyperlinkCtrl * hyper);
-	MaxColour * bmx_wxhyperlinkctrl_getvisitedcolour(wxHyperlinkCtrl * hyper);
-	void bmx_wxhyperlinkctrl_sethovercolour(wxHyperlinkCtrl * hyper, MaxColour * colour);
-	void bmx_wxhyperlinkctrl_setvisitedcolour(wxHyperlinkCtrl * hyper, MaxColour * colour);
-	void bmx_wxhyperlinkctrl_setnormalcolour(wxHyperlinkCtrl * hyper, MaxColour * colour);
-	bool bmx_wxhyperlinkctrl_getvisited(wxHyperlinkCtrl * hyper);
-	void bmx_wxhyperlinkctrl_setvisited(wxHyperlinkCtrl * hyper, bool visited);
-	BBString * bmx_wxhyperlinkctrl_geturl(wxHyperlinkCtrl * hyper);
-	void bmx_wxhyperlinkctrl_seturl(wxHyperlinkCtrl * hyper, BBString * url);
+	MaxColour * bmx_wxhyperlinkctrl_gethovercolour(wxHyperlinkCtrl * hlink);
+	MaxColour * bmx_wxhyperlinkctrl_getnormalcolour(wxHyperlinkCtrl * hlink);
+	MaxColour * bmx_wxhyperlinkctrl_getvisitedcolour(wxHyperlinkCtrl * hlink);
+	void bmx_wxhyperlinkctrl_sethovercolour(wxHyperlinkCtrl * hlink, MaxColour * colour);
+	void bmx_wxhyperlinkctrl_setvisitedcolour(wxHyperlinkCtrl * hlink, MaxColour * colour);
+	void bmx_wxhyperlinkctrl_setnormalcolour(wxHyperlinkCtrl * hlink, MaxColour * colour);
+	bool bmx_wxhyperlinkctrl_getvisited(wxHyperlinkCtrl * hlink);
+	void bmx_wxhyperlinkctrl_setvisited(wxHyperlinkCtrl * hlink, bool visited);
+	BBString * bmx_wxhyperlinkctrl_geturl(wxHyperlinkCtrl * hlink);
+	void bmx_wxhyperlinkctrl_seturl(wxHyperlinkCtrl * hlink, BBString * url);
 
 	int bmx_wxhyperlinkctrl_geteventtype(int type);
 }
