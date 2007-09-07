@@ -34,6 +34,78 @@ MaxMirrorDC::MaxMirrorDC(wxDC * dc, bool mirror)
 // *********************************************
 
 
+
 MaxMirrorDC * bmx_wxmirrordc_create(MaxDC * dc, bool mirror) {
 	return new MaxMirrorDC(dc->GetDC(), mirror);
 }
+
+void bmx_wxdc_clear(MaxDC * dc) {
+	dc->GetDC()->Clear();
+}
+
+void bmx_wxdc_setbackground(MaxDC * dc, MaxBrush * brush) {
+	dc->GetDC()->SetBackground(brush->Brush());
+}
+
+void bmx_wxdc_drawtext(MaxDC * dc, BBString * text, int x, int y) {
+	dc->GetDC()->DrawText(wxStringFromBBString(text), x, y);
+}
+
+int bmx_wxdc_getcharheight(MaxDC * dc) {
+	return dc->GetDC()->GetCharHeight();
+}
+
+void bmx_wxdc_setfont(MaxDC * dc, MaxFont * font) {
+	dc->GetDC()->SetFont(font->Font());
+}
+
+void bmx_wxdc_settextbackground(MaxDC * dc, MaxColour * colour) {
+	dc->GetDC()->SetTextBackground(colour->Colour());
+}
+
+void bmx_wxdc_settextforeground(MaxDC * dc, MaxColour * colour) {
+	dc->GetDC()->SetTextForeground(colour->Colour());
+}
+
+void bmx_wxdc_gettextextent(MaxDC * dc, BBString * text, int * w, int * h) {
+	wxSize s = dc->GetDC()->GetTextExtent(wxStringFromBBString(text));
+	*w = s.x;
+	*h = s.y;
+}
+
+void bmx_wxdc_setmapmode(MaxDC * dc, int mode) {
+	dc->GetDC()->SetMapMode(mode);
+}
+
+void bmx_wxdc_setpen(MaxDC * dc, MaxPen * pen) {
+	dc->GetDC()->SetPen(pen->Pen());
+}
+
+void bmx_wxdc_setuserscale(MaxDC * dc, double xscale, double yscale) {
+	dc->GetDC()->SetUserScale(xscale, yscale);
+}
+
+void bmx_wxdc_drawline(MaxDC * dc, int x1, int y1, int x2, int y2) {
+	dc->GetDC()->DrawLine(x1, y1, x2, y2);
+}
+
+void bmx_wxdc_setbackgroundmode(MaxDC * dc, int mode) {
+	dc->GetDC()->SetBackgroundMode(mode);
+}
+
+void bmx_wxdc_setbrush(MaxDC * dc, MaxBrush * brush) {
+	dc->GetDC()->SetBrush(brush->Brush());
+}
+
+void bmx_wxdc_setclippingregion(MaxDC * dc, int x, int y, int w, int h) {
+	dc->GetDC()->SetClippingRegion(x, y, w, h);
+}
+
+void bmx_wxdc_setdeviceorigin(MaxDC * dc, int x, int y) {
+	dc->GetDC()->SetDeviceOrigin(x, y);
+}
+
+
+
+// *********************************************
+

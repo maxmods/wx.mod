@@ -284,6 +284,13 @@ void bmx_wxwindow_setcursor(wxWindow * window, MaxCursor * cursor) {
 	window->SetCursor(cursor->Cursor());
 }
 
+void bmx_wxwindow_setwindowstyle(wxWindow * window, long style) {
+	window->SetWindowStyle(style);
+}
+
+void bmx_wxwindow_setwindowstyleflag(wxWindow * window, long style) {
+	window->SetWindowStyleFlag(style);
+}
 
 
 // *********************************************

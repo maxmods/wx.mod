@@ -93,6 +93,8 @@ Extern
 	Function bmx_wxwindow_setscrollpos(handle:Byte Ptr, orientation:Int, pos:Int, refresh:Int)
 	
 	Function bmx_wxwindow_setcursor(handle:Byte Ptr, cursor:Byte Ptr)
+	Function bmx_wxwindow_setwindowstyle(handle:Byte Ptr, style:Int)
+	Function bmx_wxwindow_setwindowstyleflag(handle:Byte Ptr, style:Int)
 
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)

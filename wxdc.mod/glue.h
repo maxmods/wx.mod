@@ -29,8 +29,26 @@ extern "C" {
 
 #include <blitz.h>
 
+	void bmx_wxdc_clear(MaxDC * dc);	
+	void bmx_wxdc_setbackground(MaxDC * dc, MaxBrush * brush);
+	void bmx_wxdc_drawtext(MaxDC * dc, BBString * text, int x, int y);
+	int bmx_wxdc_getcharheight(MaxDC * dc);
+	void bmx_wxdc_setfont(MaxDC * dc, MaxFont * font);
+	void bmx_wxdc_settextbackground(MaxDC * dc, MaxColour * colour);
+	void bmx_wxdc_settextforeground(MaxDC * dc, MaxColour * colour);
+	void bmx_wxdc_gettextextent(MaxDC * dc, BBString * text, int * w, int * h);
+	void bmx_wxdc_setmapmode(MaxDC * dc, int mode);
+	void bmx_wxdc_setpen(MaxDC * dc, MaxPen * pen);
+	void bmx_wxdc_setuserscale(MaxDC * dc, double xscale, double yscale);
+	void bmx_wxdc_drawline(MaxDC * dc, int x1, int y1, int x2, int y2);
+
 	MaxMirrorDC * bmx_wxmirrordc_create(MaxDC * dc, bool mirror);
-	
+
+	void bmx_wxdc_setbackgroundmode(MaxDC * dc, int mode);
+	void bmx_wxdc_setbrush(MaxDC * dc, MaxBrush * brush);
+	void bmx_wxdc_setclippingregion(MaxDC * dc, int x, int y, int w, int h);
+	void bmx_wxdc_setdeviceorigin(MaxDC * dc, int x, int y);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

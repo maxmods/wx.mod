@@ -53,6 +53,10 @@ Extern
 	Function bmx_wxdc_setpen(handle:Byte Ptr, pen:Byte Ptr)
 	Function bmx_wxdc_setuserscale(handle:Byte Ptr, xscale:Double, yscale:Double)
 	Function bmx_wxdc_drawline(handle:Byte Ptr, x1:Int, y1:Int, x2:Int, y2:Int)
+	Function bmx_wxdc_setbackgroundmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxdc_setbrush(handle:Byte Ptr, brush:Byte Ptr)
+	Function bmx_wxdc_setclippingregion(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
+	Function bmx_wxdc_setdeviceorigin(handle:Byte Ptr, x:Int, y:Int)
 	
 	Function bmx_wxmirrordc_create:Byte Ptr(dc:Byte Ptr, mirror:Int)
 	

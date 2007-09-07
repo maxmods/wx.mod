@@ -958,15 +958,19 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Identical to SetWindowStyleFlag.
 	End Rem
 	Method SetWindowStyle(style:Int)
+		bmx_wxwindow_setwindowstyle(wxObjectPtr, style)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the style of the window.
+	about: Please note that some styles cannot be changed after the window creation and that
+	Refresh() might need to be be called after changing the others for the change to take place immediately.
 	End Rem
 	Method SetWindowStyleFlag(style:Int)
+		bmx_wxwindow_setwindowstyleflag(wxObjectPtr, style)
 	End Method
 	
 	Rem

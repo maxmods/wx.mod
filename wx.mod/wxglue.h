@@ -168,19 +168,6 @@ extern "C" {
 	MaxPen * bmx_wxpen_createfromcolour(MaxColour * colour, int width, int style);
 	void bmx_wxpen_delete(MaxPen * pen);
 
-	void bmx_wxdc_clear(MaxDC * dc);	
-	void bmx_wxdc_setbackground(MaxDC * dc, MaxBrush * brush);
-	void bmx_wxdc_drawtext(MaxDC * dc, BBString * text, int x, int y);
-	int bmx_wxdc_getcharheight(MaxDC * dc);
-	void bmx_wxdc_setfont(MaxDC * dc, MaxFont * font);
-	void bmx_wxdc_settextbackground(MaxDC * dc, MaxColour * colour);
-	void bmx_wxdc_settextforeground(MaxDC * dc, MaxColour * colour);
-	void bmx_wxdc_gettextextent(MaxDC * dc, BBString * text, int * w, int * h);
-	void bmx_wxdc_setmapmode(MaxDC * dc, int mode);
-	void bmx_wxdc_setpen(MaxDC * dc, MaxPen * pen);
-	void bmx_wxdc_setuserscale(MaxDC * dc, double xscale, double yscale);
-	void bmx_wxdc_drawline(MaxDC * dc, int x1, int y1, int x2, int y2);
-
 	wxFontEncoding bmx_wxfontmapper_getencoding(int n);
 	BBString * bmx_wxfontmapper_getencodingdescription(wxFontEncoding encoding);
 	BBString * bmx_wxfontmapper_getencodingname(wxFontEncoding encoding);

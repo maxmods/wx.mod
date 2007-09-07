@@ -265,6 +265,44 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
+	bbdoc: This setting determines whether text will be drawn with a background colour or not.
+	about: @mode may be one of wxSOLID and wxTRANSPARENT.
+	End Rem
+	Method SetBackgroundMode(mode:Int)
+		bmx_wxdc_setbackgroundmode(wxObjectPtr, mode)
+	End Method
+	
+	Rem
+	bbdoc: Sets the current brush for the DC.
+	about: If the argument is wxNullBrush, the current brush is selected out of the device context,
+	and the original brush restored, allowing the current brush to be destroyed safely.
+	End Rem
+	Method SetBrush(brush:wxBrush)
+		bmx_wxdc_setbrush(wxObjectPtr, brush.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the clipping region for this device context to the intersection of the given region described by the parameters of this method and the previously set clipping region.
+	about: You should call DestroyClippingRegion if you want to set the clipping region exactly to the
+	region specified.
+	<p>
+	The clipping region is an area to which drawing is restricted. Possible uses for the clipping region
+	are for clipping text or for speeding up window redraws when only a known area of the screen is damaged.
+	</p>
+	End Rem
+	Method SetClippingRegion(x:Int, y:Int, width:Int, height:Int)
+		bmx_wxdc_setclippingregion(wxObjectPtr, x, y, width, height)
+	End Method
+	
+	Rem
+	bbdoc: Sets the device origin (i.e., the origin in pixels after scaling has been applied).
+	about: This method may be useful in Windows printing operations for placing a graphic on a page.
+	End Rem
+	Method SetDeviceOrigin(x:Int, y:Int)
+		bmx_wxdc_setdeviceorigin(wxObjectPtr, x, y)
+	End Method	
+
+	Rem
 	bbdoc: Sets the current font for the DC.
 	about: It must be a valid font, in particular you should not pass wxNullFont to this method.
 	End Rem
