@@ -41,4 +41,28 @@ wxCursor & MaxCursor::Cursor() {
 
 // *********************************************
 
+MaxCursor * bmx_wxcursor_stockcreate(int id) {
+	wxCursor c(id);
+	return new MaxCursor(c);
+}
+
+bool bmx_wxcursor_isok(MaxCursor * cursor) {
+	return cursor->Cursor().IsOk();
+}
+
+MaxCursor * bmx_wxstockgdi_cursor_cross() {
+	wxCursor c(*wxCROSS_CURSOR);
+	return new MaxCursor(c);
+}
+
+MaxCursor * bmx_wxstockgdi_cursor_hourglass() {
+	wxCursor c(*wxHOURGLASS_CURSOR);
+	return new MaxCursor(c);
+}
+
+MaxCursor * bmx_wxstockgdi_cursor_standard() {
+	wxCursor c(*wxSTANDARD_CURSOR);
+	return new MaxCursor(c);
+}
+
 
