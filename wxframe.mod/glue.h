@@ -35,11 +35,10 @@ public:
 	virtual MaxToolBar * OnCreateToolBar(long style, wxWindowID id, const wxString& name);
 
 	virtual bool ShouldPreventAppExit() const {
-		return _wx_wxtoplevelwindow_wxTopLevelWindow__myShouldPreventAppExit(maxHandle);
+		return _wx_wxtoplevelwindow_wxTopLevelWindow__myShouldPreventAppExit(wxfind(const_cast<wxObject *>((wxObject*)this)));
 	}
 	
 private:
-	BBObject * maxHandle;
 	
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()

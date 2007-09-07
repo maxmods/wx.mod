@@ -27,7 +27,7 @@
 
 MaxButton::MaxButton(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style)
-	: maxHandle(handle), wxButton(parent, id, label, wxPoint(x, y), wxSize(w, h), style)
+	: wxButton(parent, id, label, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }

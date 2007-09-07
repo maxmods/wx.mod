@@ -26,7 +26,7 @@
 
 
 MaxCheckListBox::MaxCheckListBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxArrayString& array, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxCheckListBox(parent, id, wxPoint(x, y), wxSize(w, h), array, style)
+	: wxCheckListBox(parent, id, wxPoint(x, y), wxSize(w, h), array, style)
 {
 	wxbind(this, handle);
 }

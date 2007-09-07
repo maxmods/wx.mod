@@ -47,8 +47,5 @@ public:
 		int w, int h, long style);
 	~MaxButton();
 	
-private:
-	BBObject * maxHandle;
-
 };
 

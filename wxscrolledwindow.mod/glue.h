@@ -22,14 +22,33 @@
 
 #include "wxglue.h"
 
-//class MaxNotebook;
+class MaxScrolledWindow;
 
 extern "C" {
 
 #include <blitz.h>
 
+	void bmx_wxscrolledwindow_calcscrolledposition(wxScrolledWindow * window, int x, int y, int * xx, int * yy);
+	void bmx_wxscrolledwindow_calcunscrolledposition(wxScrolledWindow * window, int x, int y, int * xx, int * yy);
+	void bmx_wxscrolledwindow_enablescrolling(wxScrolledWindow * window, int xScrolling, int yScrolling);
+	void bmx_wxscrolledwindow_getscrollpixelsperunit(wxScrolledWindow * window, int * xUnit, int * yUnit);
+	void bmx_wxscrolledwindow_getviewstart(wxScrolledWindow * window, int * x, int * y);
+	void bmx_wxscrolledwindow_getvirtualsize(wxScrolledWindow * window, int * x, int * y);
+	void bmx_wxscrolledwindow_dopreparedc(wxScrolledWindow * window, MaxDC * dc);
+	void bmx_wxscrolledwindow_scroll(wxScrolledWindow * window, int x, int y);
+	void bmx_wxscrolledwindow_setscrollbars(wxScrolledWindow * window, int pixelsPerUnitX, int pixelsPerUnitY, int noUnitsX, int noUnitsY, int xPos, int yPos, bool noRefresh);
+	void bmx_wxscrolledwindow_setscrollrate(wxScrolledWindow * window, int xStep, int yStep);
+	void bmx_wxscrolledwindow_settargetwindow(wxScrolledWindow * window, wxWindow * target);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxScrolledWindow: public wxScrolledWindow
+{
+public:
+	MaxScrolledWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
+		int w, int h, long style);
+	~MaxScrolledWindow();
+	
+};

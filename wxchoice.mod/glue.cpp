@@ -26,7 +26,7 @@
 
 
 MaxChoice::MaxChoice(BBObject * handle, wxWindow * parent, wxWindowID id, const wxArrayString& array, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxChoice(parent, id, wxPoint(x, y), wxSize(w, h), array, style)
+	: wxChoice(parent, id, wxPoint(x, y), wxSize(w, h), array, style)
 {
 	wxbind(this, handle);
 }

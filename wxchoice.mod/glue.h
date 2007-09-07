@@ -42,10 +42,6 @@ class MaxChoice : public wxChoice
 public:
 	MaxChoice(BBObject * handle, wxWindow * parent, wxWindowID id, const wxArrayString& array, int x, int y, int w, int h, long style);
 	~MaxChoice();
-
-private:
-	BBObject * maxHandle;
-
 };
 
 

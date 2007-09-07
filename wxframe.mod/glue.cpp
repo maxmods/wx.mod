@@ -8,7 +8,7 @@ END_EVENT_TABLE()
 
 MaxFrame::MaxFrame(BBObject * handle, wxWindow* parent, wxWindowID id, const wxString& title, int x,
 		int y, int w, int h, long style)
-       : maxHandle(handle), wxFrame(parent, id, title, wxPoint(x, y), wxSize(w,h), style)
+       : wxFrame(parent, id, title, wxPoint(x, y), wxSize(w,h), style)
 {
 	wxbind(this, handle);
 }

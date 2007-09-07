@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxPanel
+Import wx.wxDC
 Import BRL.Blitz
 
 
@@ -45,4 +46,16 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxscrolledwindow_calcscrolledposition(handle:Byte Ptr, x:Int, y:Int, xx:Int Ptr, yy:Int Ptr)
+	Function bmx_wxscrolledwindow_calcunscrolledposition(handle:Byte Ptr, x:Int, y:Int, xx:Int Ptr, yy:Int Ptr)
+	Function bmx_wxscrolledwindow_enablescrolling(handle:Byte Ptr, xScrolling:Int, yScrolling:Int)
+	Function bmx_wxscrolledwindow_getscrollpixelsperunit(handle:Byte Ptr, xUnit:Int Ptr, yUnit:Int Ptr)
+	Function bmx_wxscrolledwindow_getviewstart(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxscrolledwindow_getvirtualsize(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxscrolledwindow_dopreparedc(handle:Byte Ptr, dc:Byte Ptr)
+	Function bmx_wxscrolledwindow_scroll(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxscrolledwindow_setscrollbars(handle:Byte Ptr, pixelsPerUnitX:Int, pixelsPerUnitY:Int, noUnitsX:Int, noUnitsY:Int, xPos:Int, yPos:Int, noRefresh:Int)
+	Function bmx_wxscrolledwindow_setscrollrate(handle:Byte Ptr, xStep:Int, yStep:Int)
+	Function bmx_wxscrolledwindow_settargetwindow(handle:Byte Ptr, window:Byte Ptr)
+	
 End Extern

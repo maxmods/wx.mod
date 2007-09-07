@@ -50,9 +50,5 @@ public:
 	MaxCheckBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style);
 	~MaxCheckBox();
-	
-private:
-	BBObject * maxHandle;
-
 };
 

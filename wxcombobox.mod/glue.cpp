@@ -26,7 +26,7 @@
 
 
 MaxComboBox::MaxComboBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, const wxArrayString& array, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxComboBox(parent, id, value, wxPoint(x, y), wxSize(w, h), array, style)
+	: wxComboBox(parent, id, value, wxPoint(x, y), wxSize(w, h), array, style)
 {
 	wxbind(this, handle);
 }

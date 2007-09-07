@@ -46,10 +46,6 @@ class MaxCheckListBox : public wxCheckListBox
 public:
 	MaxCheckListBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxArrayString& array, int x, int y, int w, int h, long style);
 	~MaxCheckListBox();
-
-private:
-	BBObject * maxHandle;
-
 };
 
 
