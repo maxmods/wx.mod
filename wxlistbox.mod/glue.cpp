@@ -26,7 +26,7 @@
 
 
 MaxListBox::MaxListBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxArrayString& array, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxListBox(parent, id, wxPoint(x, y), wxSize(w, h), array, style)
+	: wxListBox(parent, id, wxPoint(x, y), wxSize(w, h), array, style)
 {
 	wxbind(this, handle);
 }
@@ -42,33 +42,33 @@ MaxListBox * bmx_wxlistbox_create(BBObject * maxHandle, wxWindow * parent, wxWin
 }
 
 
-void bmx_wxlistbox_insertitems(MaxListBox * listbox, BBArray * items, int pos) {
+void bmx_wxlistbox_insertitems(wxListBox * listbox, BBArray * items, int pos) {
 	listbox->InsertItems(bbStringArrayTowxArrayStr(items), pos);
 }
 
-BBArray * bmx_wxlistbox_getselections(MaxListBox * listbox) {
+BBArray * bmx_wxlistbox_getselections(wxListBox * listbox) {
 	wxArrayInt selections;
 	listbox->GetSelections(selections);
 	return wxArrayIntToBBIntArray(selections);
 }
 
-bool bmx_wxlistbox_isselected(MaxListBox * listbox, int item) {
+bool bmx_wxlistbox_isselected(wxListBox * listbox, int item) {
 	return listbox->IsSelected(item);
 }
 
-void bmx_wxlistbox_deselect(MaxListBox * listbox, int item) {
+void bmx_wxlistbox_deselect(wxListBox * listbox, int item) {
 	listbox->Deselect(item);
 }
 
-int bmx_wxlistbox_hittest(MaxListBox * listbox, int x, int y) {
+int bmx_wxlistbox_hittest(wxListBox * listbox, int x, int y) {
 	return listbox->HitTest(wxPoint(x, y));
 }
 
-void bmx_wxlistbox_setfirstitem(MaxListBox * listbox, int item) {
+void bmx_wxlistbox_setfirstitem(wxListBox * listbox, int item) {
 	listbox->SetFirstItem(item);
 }
 
-void bmx_wxlistbox_setfirstitemstr(MaxListBox * listbox, BBString * item) {
+void bmx_wxlistbox_setfirstitemstr(wxListBox * listbox, BBString * item) {
 	listbox->SetFirstItem(wxStringFromBBString(item));
 }
 

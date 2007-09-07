@@ -47,7 +47,6 @@ public:
 	virtual MaxStatusBar * OnCreateStatusBar(int number, long style, wxWindowID id, const wxString& name);
 
 private:
-	void * maxHandle;
 	
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()

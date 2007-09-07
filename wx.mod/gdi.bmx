@@ -31,7 +31,3 @@ Type wxGDIObject Extends wxObject
 
 
 End Type
-
-
-Type _wxDC Extends wxObject
-End Type 

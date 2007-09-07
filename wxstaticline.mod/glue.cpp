@@ -25,7 +25,7 @@
 // ---------------------------------------------------------------------------------------
 
 MaxStaticLine::MaxStaticLine(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxStaticLine(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: wxStaticLine(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -43,7 +43,7 @@ MaxStaticLine * bmx_wxstaticlinw_create(BBObject * maxHandle, wxWindow * parent,
 	return new MaxStaticLine(maxHandle, parent, id, x, y, w, h, style);
 }
 
-int bmx_wxstaticline_isvertical(MaxStaticLine * line) {
+int bmx_wxstaticline_isvertical(wxStaticLine * line) {
 	return line->IsVertical();
 }
 

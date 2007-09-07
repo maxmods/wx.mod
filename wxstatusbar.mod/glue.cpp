@@ -30,7 +30,6 @@ MaxStatusBar::MaxStatusBar(wxWindow * parent, long style, wxWindowID id, const w
 }
 
 void MaxStatusBar::injectSelf(BBObject * handle) {
-	maxHandle = handle;
 	wxbind(this, handle);
 }
 

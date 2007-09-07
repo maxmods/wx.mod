@@ -26,7 +26,7 @@
 
 MaxStaticText::MaxStaticText(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style)
-	: maxHandle(handle), wxStaticText(parent, id, label, wxPoint(x, y), wxSize(w, h), style)
+	: wxStaticText(parent, id, label, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -44,14 +44,14 @@ MaxStaticText * bmx_wxstatictext_create(BBObject * maxHandle, wxWindow * parent,
 	return new MaxStaticText(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }
 
-BBString * bmx_wxstatictext_getlabel(MaxStaticText * text) {
+BBString * bmx_wxstatictext_getlabel(wxStaticText * text) {
 	return bbStringFromWxString(text->GetLabel());
 }
 
-void bmx_wxstatictext_setlabel(MaxStaticText * text, BBString * label) {
+void bmx_wxstatictext_setlabel(wxStaticText * text, BBString * label) {
 	text->SetLabel(wxStringFromBBString(label));
 }
 
-void bmx_wxstatictext_wrap(MaxStaticText * text, int width) {
+void bmx_wxstatictext_wrap(wxStaticText * text, int width) {
 	text->Wrap(width);
 }

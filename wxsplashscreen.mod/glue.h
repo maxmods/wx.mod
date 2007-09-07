@@ -33,9 +33,9 @@ extern "C" {
 	MaxSplashScreen * bmx_wxsplashscreen_create(BBObject * maxHandle, MaxBitmap * bitmap, long splashStyle, 
 		int milliseconds, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 
-	long bmx_wxsplashscreen_getsplashstyle(MaxSplashScreen * splash);
-	wxWindow * bmx_wxsplashscreen_getsplashwindow(MaxSplashScreen * splash);
-	int bmx_wxsplashscreen_gettimeout(MaxSplashScreen * splash);
+	long bmx_wxsplashscreen_getsplashstyle(wxSplashScreen * splash);
+	wxWindow * bmx_wxsplashscreen_getsplashwindow(wxSplashScreen * splash);
+	int bmx_wxsplashscreen_gettimeout(wxSplashScreen * splash);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -47,9 +47,5 @@ public:
 	MaxSplashScreen(BBObject * handle, const wxBitmap& bitmap, long splashStyle, int milliseconds, 
 		wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxSplashScreen();
-	
-private:
-	BBObject * maxHandle;
-
 };
 

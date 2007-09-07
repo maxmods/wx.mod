@@ -32,7 +32,7 @@ extern "C" {
 	MaxStaticLine * bmx_wxstaticline_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
 
-	int bmx_wxstaticline_isvertical(MaxStaticLine * line);
+	int bmx_wxstaticline_isvertical(wxStaticLine * line);
 	int bmx_wxstaticline_getdefaultsize();
 }
 
@@ -43,9 +43,5 @@ class MaxStaticLine : public wxStaticLine
 public:
 	MaxStaticLine(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxStaticLine();
-	
-private:
-	BBObject * maxHandle;
-
 };
 

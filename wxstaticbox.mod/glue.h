@@ -40,10 +40,5 @@ class MaxStaticBox : public wxStaticBox
 public:
 	MaxStaticBox(void * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style);
-
-	
-private:
-	void * maxHandle;
-
 };
 

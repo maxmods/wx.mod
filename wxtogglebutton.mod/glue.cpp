@@ -26,7 +26,7 @@
 
 MaxToggleButton::MaxToggleButton(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style)
-	: maxHandle(handle), wxToggleButton(parent, id, label, wxPoint(x, y), wxSize(w, h), style)
+	: wxToggleButton(parent, id, label, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -44,11 +44,11 @@ MaxToggleButton * bmx_wxtogglebutton_create(BBObject * maxHandle, wxWindow * par
 	return new MaxToggleButton(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }
 
-bool bmx_wxtogglebutton_getvalue(MaxToggleButton * button) {
+bool bmx_wxtogglebutton_getvalue(wxToggleButton * button) {
 	return button->GetValue();
 }
 
-void bmx_wxtogglebutton_setvalue(MaxToggleButton * button, bool state) {
+void bmx_wxtogglebutton_setvalue(wxToggleButton * button, bool state) {
 	button->SetValue(state);
 }
 

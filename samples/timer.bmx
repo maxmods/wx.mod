@@ -6,7 +6,7 @@
 '
 SuperStrict
 
-Framework wx.wx
+Framework wx.wxApp
 Import wx.wxTimer
 Import BRL.StandardIO
 

@@ -26,7 +26,7 @@
 
 
 MaxPanel::MaxPanel(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxPanel(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: wxPanel(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -46,15 +46,15 @@ MaxPanel * bmx_wxpanel_create(BBObject * maxHandle, wxWindow * parent, wxWindowI
 	return new MaxPanel(maxHandle, parent, id, x, y, w, h, style);
 }
 
-void bmx_wxpanel_initdialog(MaxPanel * panel) {
+void bmx_wxpanel_initdialog(wxPanel * panel) {
 	panel->InitDialog();
 }
 
-void bmx_wxpanel_setfocus(MaxPanel * panel) {
+void bmx_wxpanel_setfocus(wxPanel * panel) {
 	panel->SetFocus();
 }
 
-void bmx_wxpanel_setfocusignoringchildren(MaxPanel * panel) {
+void bmx_wxpanel_setfocusignoringchildren(wxPanel * panel) {
 	panel->SetFocusIgnoringChildren();
 }
 

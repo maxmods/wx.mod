@@ -56,8 +56,6 @@ ModuleInfo "LD_OPTS: -L%PWD%/../lib/macosx86"
 Import BRL.Map
 
 Import "core.bmx"
-Import "controls.bmx"
-Import "dialog.bmx"
 Import "graphics.bmx"
 Import "fonts.bmx"
 

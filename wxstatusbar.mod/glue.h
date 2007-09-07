@@ -43,10 +43,6 @@ public:
 	MaxStatusBar(wxWindow * parent, long style, wxWindowID id, const wxString& name);
 	~MaxStatusBar();
 	void injectSelf(BBObject * handle);
-	
-private:
-	BBObject * maxHandle;
-
 };
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

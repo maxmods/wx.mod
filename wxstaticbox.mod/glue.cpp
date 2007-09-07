@@ -26,7 +26,7 @@
 
 MaxStaticBox::MaxStaticBox(void * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style)
-	: maxHandle(handle), wxStaticBox(parent, id, label, wxPoint(x, y), wxSize(w, h), style)
+	: wxStaticBox(parent, id, label, wxPoint(x, y), wxSize(w, h), style)
 {
 }
 

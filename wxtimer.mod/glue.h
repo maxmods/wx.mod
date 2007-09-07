@@ -32,12 +32,12 @@ extern "C" {
 	void _wx_wxtimer_wxTimer__notify(BBObject * handle);
 
 	MaxTimer * bmx_wxtimer_create(BBObject * maxHandle, wxEvtHandler * owner, int id);
-	int bmx_wxtimer_getinterval(MaxTimer * timer);
-	bool bmx_wxtimer_isoneshot(MaxTimer * timer);
-	bool bmx_wxtimer_isrunning(MaxTimer * timer);
-	void bmx_wxtimer_setowner(MaxTimer * timer, wxEvtHandler * owner, int id);
-	bool bmx_wxtimer_start(MaxTimer * timer, int milli, bool oneshot);
-	void bmx_wxtimer_stop(MaxTimer * timer);
+	int bmx_wxtimer_getinterval(wxTimer * timer);
+	bool bmx_wxtimer_isoneshot(wxTimer * timer);
+	bool bmx_wxtimer_isrunning(wxTimer * timer);
+	void bmx_wxtimer_setowner(wxTimer * timer, wxEvtHandler * owner, int id);
+	bool bmx_wxtimer_start(wxTimer * timer, int milli, bool oneshot);
+	void bmx_wxtimer_stop(wxTimer * timer);
 
 	int bmx_wxtimerevent_getinterval(wxTimerEvent & event);
 
@@ -52,9 +52,8 @@ public:
 	MaxTimer(BBObject * handle);
 	~MaxTimer();
 	void Notify();
-	
+
 private:
 	BBObject * maxHandle;
-
 };
 

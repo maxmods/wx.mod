@@ -26,7 +26,7 @@
 
 MaxHtmlWindow::MaxHtmlWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style)
-	: maxHandle(handle), wxHtmlWindow(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: wxHtmlWindow(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -44,7 +44,7 @@ MaxHtmlWindow * bmx_wxhtmlwindow_create(BBObject * maxHandle, wxWindow * parent,
 	return new MaxHtmlWindow(maxHandle, parent, id, x, y, w, h, style);
 }
 
-bool bmx_wxhtmlwindow_setpage(MaxHtmlWindow * window, BBString * source) {
+bool bmx_wxhtmlwindow_setpage(wxHtmlWindow * window, BBString * source) {
 	return window->SetPage(wxStringFromBBString(source));
 }
 

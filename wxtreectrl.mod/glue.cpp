@@ -25,7 +25,7 @@
 // ---------------------------------------------------------------------------------------
 
 MaxTreeCtrl::MaxTreeCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxTreeCtrl(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: wxTreeCtrl(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -50,7 +50,7 @@ MaxTreeCtrl * bmx_wxtreectrl_create(BBObject * maxHandle, wxWindow * parent, wxW
 	return new MaxTreeCtrl(maxHandle, parent, id, x, y, w, h, style);
 }
 	
-MaxTreeItem * bmx_wxtreectrl_addroot(MaxTreeCtrl * tree, BBString * text, int image, int selImage, wxTreeItemData * data) {
+MaxTreeItem * bmx_wxtreectrl_addroot(wxTreeCtrl * tree, BBString * text, int image, int selImage, wxTreeItemData * data) {
 	if (data) {
 		return new MaxTreeItem(tree->AddRoot(wxStringFromBBString(text), image, selImage, data));
 	} else {
@@ -58,7 +58,7 @@ MaxTreeItem * bmx_wxtreectrl_addroot(MaxTreeCtrl * tree, BBString * text, int im
 	}
 }
 
-MaxTreeItem * bmx_wxtreectrl_appenditem(MaxTreeCtrl * tree, MaxTreeItem * parent, BBString * text, int image, int selImage, wxTreeItemData * data) {
+MaxTreeItem * bmx_wxtreectrl_appenditem(wxTreeCtrl * tree, MaxTreeItem * parent, BBString * text, int image, int selImage, wxTreeItemData * data) {
 	if (data) {
 		return new MaxTreeItem(tree->AppendItem(parent->Item(), wxStringFromBBString(text), image, selImage, data));
 	} else {
@@ -66,14 +66,14 @@ MaxTreeItem * bmx_wxtreectrl_appenditem(MaxTreeCtrl * tree, MaxTreeItem * parent
 	}
 }
 
-void bmx_wxtreectrl_assignimagelist(MaxTreeCtrl * tree, wxImageList * list) {
+void bmx_wxtreectrl_assignimagelist(wxTreeCtrl * tree, wxImageList * list) {
 	// need to unbind the imagelist, just in case! (so we don't try to delete it later)
 	wxunbind(list);
 	tree->AssignImageList(list);
 
 }
 
-void bmx_wxtreectrl_expand(MaxTreeCtrl * tree, MaxTreeItem * item) {
+void bmx_wxtreectrl_expand(wxTreeCtrl * tree, MaxTreeItem * item) {
 	tree->Expand(item->Item());
 }
 

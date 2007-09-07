@@ -30,9 +30,9 @@ extern "C" {
 
 	MaxStaticText * bmx_wxstatictext_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
-	BBString * bmx_wxstatictext_getlabel(MaxStaticText * text);
-	void bmx_wxstatictext_setlabel(MaxStaticText * text, BBString * label);
-	void bmx_wxstatictext_wrap(MaxStaticText * text, int width);
+	BBString * bmx_wxstatictext_getlabel(wxStaticText * text);
+	void bmx_wxstatictext_setlabel(wxStaticText * text, BBString * label);
+	void bmx_wxstatictext_wrap(wxStaticText * text, int width);
 
 }
 
@@ -44,8 +44,4 @@ public:
 	MaxStaticText(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style);
 	~MaxStaticText();
-	
-private:
-	BBObject * maxHandle;
-
 };

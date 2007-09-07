@@ -62,7 +62,6 @@ public:
 	virtual void OnGetLinesHint(size_t lineMin, size_t lineMax) const;
 	
 private:
-	BBObject * maxHandle;
 
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()

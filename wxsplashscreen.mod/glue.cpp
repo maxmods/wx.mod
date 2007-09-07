@@ -26,7 +26,7 @@
 
 MaxSplashScreen::MaxSplashScreen(BBObject * handle, const wxBitmap& bitmap, long splashStyle, int milliseconds, 
 		wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxSplashScreen(bitmap, splashStyle, milliseconds, parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: wxSplashScreen(bitmap, splashStyle, milliseconds, parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -46,15 +46,15 @@ MaxSplashScreen * bmx_wxsplashscreen_create(BBObject * maxHandle, MaxBitmap * bi
 		w, h, style);
 }
 
-long bmx_wxsplashscreen_getsplashstyle(MaxSplashScreen * splash) {
+long bmx_wxsplashscreen_getsplashstyle(wxSplashScreen * splash) {
 	return splash->GetSplashStyle();
 }
 
-wxWindow * bmx_wxsplashscreen_getsplashwindow(MaxSplashScreen * splash) {
+wxWindow * bmx_wxsplashscreen_getsplashwindow(wxSplashScreen * splash) {
 	return splash->GetSplashWindow();
 }
 
-int bmx_wxsplashscreen_gettimeout(MaxSplashScreen * splash) {
+int bmx_wxsplashscreen_gettimeout(wxSplashScreen * splash) {
 	return splash->GetTimeout();
 }
 

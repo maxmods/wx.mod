@@ -29,14 +29,14 @@ extern "C" {
 #include <blitz.h>
 
 	MaxListBox * bmx_wxlistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
-	void bmx_wxlistbox_insertitems(MaxListBox * listbox, BBArray * items, int pos);
-	BBArray * bmx_wxlistbox_getselections(MaxListBox * listbox);
+	void bmx_wxlistbox_insertitems(wxListBox * listbox, BBArray * items, int pos);
+	BBArray * bmx_wxlistbox_getselections(wxListBox * listbox);
 	
-	bool bmx_wxlistbox_isselected(MaxListBox * listbox, int item);
-	void bmx_wxlistbox_deselect(MaxListBox * listbox, int item);
-	int bmx_wxlistbox_hittest(MaxListBox * listbox, int x, int y);
-	void bmx_wxlistbox_setfirstitem(MaxListBox * listbox, int item);
-	void bmx_wxlistbox_setfirstitemstr(MaxListBox * listbox, BBString * item);
+	bool bmx_wxlistbox_isselected(wxListBox * listbox, int item);
+	void bmx_wxlistbox_deselect(wxListBox * listbox, int item);
+	int bmx_wxlistbox_hittest(wxListBox * listbox, int x, int y);
+	void bmx_wxlistbox_setfirstitem(wxListBox * listbox, int item);
+	void bmx_wxlistbox_setfirstitemstr(wxListBox * listbox, BBString * item);
 
 	int bmx_wxlistbox_geteventtype(int type);
 }
@@ -50,10 +50,6 @@ class MaxListBox : public wxListBox
 public:
 	MaxListBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxArrayString& array, int x, int y, int w, int h, long style);
 	~MaxListBox();
-
-private:
-	BBObject * maxHandle;
-
 };
 
 

@@ -1,6 +1,6 @@
 SuperStrict
 
-Framework wx.wx
+Framework wx.wxApp
 Import wx.wxFrame
 Import wx.wxSplashScreen
 Import wx.wxStaticText

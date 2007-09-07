@@ -25,7 +25,7 @@
 // ---------------------------------------------------------------------------------------
 
 MaxMenuBar::MaxMenuBar(BBObject * handle, long style)
-	: maxHandle(handle), wxMenuBar(style)
+	: wxMenuBar(style)
 {
 	wxbind(this, handle);
 }

@@ -32,12 +32,12 @@ extern "C" {
 
 	MaxToolBar * bmx_wxtoolbar_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id,
 		int x, int y, int w, int h, long style);
-	bool bmx_wxtoolbar_addcontrol(MaxToolBar * toolbar, wxControl * control);
-	void bmx_wxtoolbar_addseparator(MaxToolBar * toolbar);
-	void bmx_wxtoolbar_addtool(MaxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
+	bool bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control);
+	void bmx_wxtoolbar_addseparator(wxToolBar * toolbar);
+	void bmx_wxtoolbar_addtool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
 			MaxBitmap * bitmap2, wxItemKind kind, BBString * shortHelp, BBString * longHelp, void * clientData);
-	bool bmx_wxtoolbar_realize(MaxToolBar * toolbar);
-	void bmx_wxtoolbar_settoolbitmapsize(MaxToolBar * toolbar, int w, int h);
+	bool bmx_wxtoolbar_realize(wxToolBar * toolbar);
+	void bmx_wxtoolbar_settoolbitmapsize(wxToolBar * toolbar, int w, int h);
 
 	int bmx_wxtoolbar_geteventtype(int type);
 
@@ -52,10 +52,6 @@ public:
 	MaxToolBar(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxToolBar();
 	void injectSelf(BBObject * handle);
-	
-private:
-	BBObject * maxHandle;
-
 };
 
 

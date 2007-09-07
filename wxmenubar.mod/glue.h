@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "../wxmenu.mod/glue.h"
 
 class MaxMenuBar;
 
@@ -60,9 +61,5 @@ class MaxMenuBar : public wxMenuBar
 public:
 	MaxMenuBar(BBObject * handle, long style);
 	~MaxMenuBar();
-
-private:
-	BBObject * maxHandle;
-
 };
 

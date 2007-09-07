@@ -26,7 +26,7 @@
 // ---------------------------------------------------------------------------------------
 
 MaxTextCtrl::MaxTextCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxTextCtrl(parent, id, value, wxPoint(x, y), wxSize(w, h), style)
+	: wxTextCtrl(parent, id, value, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -42,83 +42,83 @@ MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxW
 	return new MaxTextCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style);
 }
 
-void bmx_wxtextctrl_appendtext(MaxTextCtrl * ctrl, BBString * text) {
+void bmx_wxtextctrl_appendtext(wxTextCtrl * ctrl, BBString * text) {
 	ctrl->AppendText(wxStringFromBBString(text));
 }
 
-bool bmx_wxtextctrl_cancopy(MaxTextCtrl * ctrl) {
+bool bmx_wxtextctrl_cancopy(wxTextCtrl * ctrl) {
 	return ctrl->CanCopy();
 }
 
-bool bmx_wxtextctrl_cancut(MaxTextCtrl * ctrl) {
+bool bmx_wxtextctrl_cancut(wxTextCtrl * ctrl) {
 	return ctrl->CanCut();
 }
 
-bool bmx_wxtextctrl_canpaste(MaxTextCtrl * ctrl) {
+bool bmx_wxtextctrl_canpaste(wxTextCtrl * ctrl) {
 	return ctrl->CanPaste();
 }
 
-bool bmx_wxtextctrl_canredo(MaxTextCtrl * ctrl) {
+bool bmx_wxtextctrl_canredo(wxTextCtrl * ctrl) {
 	return ctrl->CanRedo();
 }
 
-bool bmx_wxtextctrl_canundo(MaxTextCtrl * ctrl) {
+bool bmx_wxtextctrl_canundo(wxTextCtrl * ctrl) {
 	return ctrl->CanUndo();
 }
 
-void bmx_wxtextctrl_clear(MaxTextCtrl * ctrl) {
+void bmx_wxtextctrl_clear(wxTextCtrl * ctrl) {
 	ctrl->Clear();
 }
 
-void bmx_wxtextctrl_copy(MaxTextCtrl * ctrl) {
+void bmx_wxtextctrl_copy(wxTextCtrl * ctrl) {
 	ctrl->Copy();
 }
 
-void bmx_wxtextctrl_cut(MaxTextCtrl * ctrl) {
+void bmx_wxtextctrl_cut(wxTextCtrl * ctrl) {
 	ctrl->Cut();
 }
 
-void bmx_wxtextctrl_discardedits(MaxTextCtrl * ctrl) {
+void bmx_wxtextctrl_discardedits(wxTextCtrl * ctrl) {
 	ctrl->DiscardEdits();
 }
 
-const wxTextAttr * bmx_wxtextctrl_getdefaultstyle(MaxTextCtrl * ctrl) {
+const wxTextAttr * bmx_wxtextctrl_getdefaultstyle(wxTextCtrl * ctrl) {
 	return & ctrl->GetDefaultStyle();
 }
 
-long bmx_wxtextctrl_getinsertionpoint(MaxTextCtrl * ctrl) {
+long bmx_wxtextctrl_getinsertionpoint(wxTextCtrl * ctrl) {
 	return ctrl->GetInsertionPoint();
 }
 
-long bmx_wxtextctrl_getlastposition(MaxTextCtrl * ctrl) {
+long bmx_wxtextctrl_getlastposition(wxTextCtrl * ctrl) {
 	return ctrl->GetLastPosition();
 }
 
-int bmx_wxtextctrl_getlinelength(MaxTextCtrl * ctrl, long lineNo) {
+int bmx_wxtextctrl_getlinelength(wxTextCtrl * ctrl, long lineNo) {
 	return ctrl->GetLineLength(lineNo);
 }
 
-BBString * bmx_wxtextctrl_getlinetext(MaxTextCtrl * ctrl, long lineNo) {
+BBString * bmx_wxtextctrl_getlinetext(wxTextCtrl * ctrl, long lineNo) {
 	return bbStringFromWxString(ctrl->GetLineText(lineNo));
 }
 
-int bmx_wxtextctrl_getnumberoflines(MaxTextCtrl * ctrl) {
+int bmx_wxtextctrl_getnumberoflines(wxTextCtrl * ctrl) {
 	return ctrl->GetNumberOfLines();
 }
 
-BBString * bmx_wxtextctrl_getrange(MaxTextCtrl * ctrl, long fromPos, long toPos) {
+BBString * bmx_wxtextctrl_getrange(wxTextCtrl * ctrl, long fromPos, long toPos) {
 	return bbStringFromWxString(ctrl->GetRange(fromPos, toPos));
 }
 
-void bmx_wxtextctrl_getselection(MaxTextCtrl * ctrl, long * fromPos, long * toPos) {
+void bmx_wxtextctrl_getselection(wxTextCtrl * ctrl, long * fromPos, long * toPos) {
 	ctrl->GetSelection(fromPos, toPos);
 }
 
-BBString * bmx_wxtextctrl_getstringselection(MaxTextCtrl * ctrl) {
+BBString * bmx_wxtextctrl_getstringselection(wxTextCtrl * ctrl) {
 	return bbStringFromWxString(ctrl->GetStringSelection());
 }
 
-const wxTextAttr * bmx_wxtextctrl_getstyle(MaxTextCtrl * ctrl, long position) {
+const wxTextAttr * bmx_wxtextctrl_getstyle(wxTextCtrl * ctrl, long position) {
 	wxTextAttr attr;
 	bool ret = ctrl->GetStyle(position, attr);
 	
@@ -129,27 +129,27 @@ const wxTextAttr * bmx_wxtextctrl_getstyle(MaxTextCtrl * ctrl, long position) {
 	return 0;
 }
 
-BBString * bmx_wxtextctrl_getvalue(MaxTextCtrl * ctrl) {
+BBString * bmx_wxtextctrl_getvalue(wxTextCtrl * ctrl) {
 	return bbStringFromWxString(ctrl->GetValue());
 }
 
-bool bmx_wxtextctrl_iseditable(MaxTextCtrl * ctrl) {
+bool bmx_wxtextctrl_iseditable(wxTextCtrl * ctrl) {
 	return ctrl->IsEditable();
 }
 
-bool bmx_wxtextctrl_isempty(MaxTextCtrl * ctrl) {
+bool bmx_wxtextctrl_isempty(wxTextCtrl * ctrl) {
 	return ctrl->IsEmpty();
 }
 
-bool bmx_wxtextctrl_ismodified(MaxTextCtrl * ctrl) {
+bool bmx_wxtextctrl_ismodified(wxTextCtrl * ctrl) {
 	return ctrl->IsModified();
 }
 
-bool bmx_wxtextctrl_ismultiline(MaxTextCtrl * ctrl) {
+bool bmx_wxtextctrl_ismultiline(wxTextCtrl * ctrl) {
 	return ctrl->IsMultiLine();
 }
 
-bool bmx_wxtextctrl_issingleline(MaxTextCtrl * ctrl) {
+bool bmx_wxtextctrl_issingleline(wxTextCtrl * ctrl) {
 	return ctrl->IsSingleLine();
 }
 

@@ -30,7 +30,7 @@ MaxToolBar::MaxToolBar(wxWindow * parent, long style, wxWindowID id, const wxStr
 }
 
 MaxToolBar::MaxToolBar(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxToolBar(parent, id, wxPoint(x, y), wxSize(w,h), style)
+	: wxToolBar(parent, id, wxPoint(x, y), wxSize(w,h), style)
 {
 	wxbind(this, handle);
 }
@@ -41,7 +41,6 @@ MaxToolBar::~MaxToolBar() {
 }
 
 void MaxToolBar::injectSelf(BBObject * handle) {
-	maxHandle = handle;
 	wxbind(this, handle);
 }
 
@@ -51,15 +50,15 @@ MaxToolBar * bmx_wxtoolbar_create(BBObject * maxHandle, wxWindow* parent, wxWind
 	return new MaxToolBar(maxHandle, parent, id, x, y, w, h, style);
 }
 
-bool bmx_wxtoolbar_addcontrol(MaxToolBar * toolbar, wxControl * control) {
+bool bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control) {
 	return toolbar->AddControl(control);
 }
 
-void bmx_wxtoolbar_addseparator(MaxToolBar * toolbar) {
+void bmx_wxtoolbar_addseparator(wxToolBar * toolbar) {
 	toolbar->AddSeparator();
 }
 
-void bmx_wxtoolbar_addtool(MaxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
+void bmx_wxtoolbar_addtool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
 		MaxBitmap * bitmap2, wxItemKind kind, BBString * shortHelp, BBString * longHelp, void * clientData) {
 
 	if (bitmap2) {
@@ -71,11 +70,11 @@ void bmx_wxtoolbar_addtool(MaxToolBar * toolbar, int id, BBString * label, MaxBi
 	}
 }
 
-bool bmx_wxtoolbar_realize(MaxToolBar * toolbar) {
+bool bmx_wxtoolbar_realize(wxToolBar * toolbar) {
 	return toolbar->Realize();
 }
 
-void bmx_wxtoolbar_settoolbitmapsize(MaxToolBar * toolbar, int w, int h) {
+void bmx_wxtoolbar_settoolbitmapsize(wxToolBar * toolbar, int w, int h) {
 	toolbar->SetToolBitmapSize(wxSize(w, h));
 }
 

@@ -31,24 +31,24 @@ extern "C" {
 
 	MaxSplitterWindow * bmx_wxsplitterwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
-	int bmx_wxsplitterwindow_getminimumpanesize(MaxSplitterWindow * splitter);
-	double bmx_wxsplitterwindow_getsashgravity(MaxSplitterWindow * splitter);
-	int bmx_wxsplitterwindow_getsashposition(MaxSplitterWindow * splitter);
-	int bmx_wxsplitterwindow_getsplitmode(MaxSplitterWindow * splitter);
-	void bmx_wxsplitterwindow_initialize(MaxSplitterWindow * splitter, wxWindow * window);
-	bool bmx_wxsplitterwindow_issplit(MaxSplitterWindow * splitter);
-	void bmx_wxsplitterwindow_setsashgravity(MaxSplitterWindow * splitter, double gravity);
-	void bmx_wxsplitterwindow_setsashposition(MaxSplitterWindow * splitter, int position, bool redraw);
-	void bmx_wxsplitterwindow_setsashsize(MaxSplitterWindow * splitter, int size);
-	void bmx_wxsplitterwindow_setminimumpanesize(MaxSplitterWindow * splitter, int paneSize);
-	void bmx_wxsplitterwindow_setsplitmode(MaxSplitterWindow * splitter, int mode);
-	bool bmx_wxsplitterwindow_splithorizontally(MaxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition);
-	bool bmx_wxsplitterwindow_splitvertically(MaxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition);
-	void bmx_wxsplitterwindow_updatesize(MaxSplitterWindow * splitter);
-	wxWindow * bmx_wxsplitterwindow_getwindow1(MaxSplitterWindow * splitter);
-	wxWindow * bmx_wxsplitterwindow_getwindow2(MaxSplitterWindow * splitter);
-	bool bmx_wxsplitterwindow_replacewindow(MaxSplitterWindow * splitter, wxWindow * oldwin, wxWindow * newwin);
-	bool bmx_wxsplitterwindow_unsplit(MaxSplitterWindow * splitter, wxWindow * rep);
+	int bmx_wxsplitterwindow_getminimumpanesize(wxSplitterWindow * splitter);
+	double bmx_wxsplitterwindow_getsashgravity(wxSplitterWindow * splitter);
+	int bmx_wxsplitterwindow_getsashposition(wxSplitterWindow * splitter);
+	int bmx_wxsplitterwindow_getsplitmode(wxSplitterWindow * splitter);
+	void bmx_wxsplitterwindow_initialize(wxSplitterWindow * splitter, wxWindow * window);
+	bool bmx_wxsplitterwindow_issplit(wxSplitterWindow * splitter);
+	void bmx_wxsplitterwindow_setsashgravity(wxSplitterWindow * splitter, double gravity);
+	void bmx_wxsplitterwindow_setsashposition(wxSplitterWindow * splitter, int position, bool redraw);
+	void bmx_wxsplitterwindow_setsashsize(wxSplitterWindow * splitter, int size);
+	void bmx_wxsplitterwindow_setminimumpanesize(wxSplitterWindow * splitter, int paneSize);
+	void bmx_wxsplitterwindow_setsplitmode(wxSplitterWindow * splitter, int mode);
+	bool bmx_wxsplitterwindow_splithorizontally(wxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition);
+	bool bmx_wxsplitterwindow_splitvertically(wxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition);
+	void bmx_wxsplitterwindow_updatesize(wxSplitterWindow * splitter);
+	wxWindow * bmx_wxsplitterwindow_getwindow1(wxSplitterWindow * splitter);
+	wxWindow * bmx_wxsplitterwindow_getwindow2(wxSplitterWindow * splitter);
+	bool bmx_wxsplitterwindow_replacewindow(wxSplitterWindow * splitter, wxWindow * oldwin, wxWindow * newwin);
+	bool bmx_wxsplitterwindow_unsplit(wxSplitterWindow * splitter, wxWindow * rep);
 
 	int bmx_wxsplitterevent_getsashposition(wxSplitterEvent & event);
 	int bmx_wxsplitterevent_getx(wxSplitterEvent & event);
@@ -67,9 +67,5 @@ class MaxSplitterWindow : public wxSplitterWindow
 public:
 	MaxSplitterWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxSplitterWindow();
-	
-private:
-	BBObject * maxHandle;
-
 };
 

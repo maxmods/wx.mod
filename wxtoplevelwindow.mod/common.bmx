@@ -21,6 +21,7 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxWindow
 Import wx.wxIcon
 Import BRL.Blitz
 

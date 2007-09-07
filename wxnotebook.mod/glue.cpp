@@ -25,7 +25,7 @@
 // ---------------------------------------------------------------------------------------
 
 MaxNotebook::MaxNotebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxNotebook(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: wxNotebook(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -40,15 +40,15 @@ MaxNotebook * bmx_wxnotebook_create(BBObject * maxHandle, wxWindow * parent, wxW
 	return new MaxNotebook(maxHandle, parent, id, x, y, w, h, style);
 }
 
-bool bmx_wxnotebook_addpage(MaxNotebook * notebook, wxWindow * page, BBString * text, bool selected, int imageId) {
+bool bmx_wxnotebook_addpage(wxNotebook * notebook, wxWindow * page, BBString * text, bool selected, int imageId) {
 	return notebook->AddPage(page, wxStringFromBBString(text), selected, imageId);
 }
 
-bool bmx_wxnotebook_insertpage(MaxNotebook * notebook, int index, wxWindow * page, BBString * text, bool selected, int imageId) {
+bool bmx_wxnotebook_insertpage(wxNotebook * notebook, int index, wxWindow * page, BBString * text, bool selected, int imageId) {
 	return notebook->InsertPage(index, page, wxStringFromBBString(text), selected, imageId);
 }
 
-void bmx_wxnotebook_advanceselection(MaxNotebook * notebook, bool forward) {
+void bmx_wxnotebook_advanceselection(wxNotebook * notebook, bool forward) {
 	notebook->AdvanceSelection(forward);
 }
 
@@ -77,13 +77,13 @@ int bmx_wxnotebook_geteventtype(int type) {
 	return 0;
 }
 
-void bmx_wxnotebook_assignimagelist(MaxNotebook * notebook, wxImageList * list) {
+void bmx_wxnotebook_assignimagelist(wxNotebook * notebook, wxImageList * list) {
 	// need to unbind the imagelist, just in case! (so we don't try to delete it later)
 	wxunbind(list);
 	notebook->AssignImageList(list);
 }
 
-void bmx_wxnotebook_setimagelist(MaxNotebook * notebook, wxImageList * list) {
+void bmx_wxnotebook_setimagelist(wxNotebook * notebook, wxImageList * list) {
 	notebook->SetImageList(list);
 }
 

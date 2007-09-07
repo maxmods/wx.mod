@@ -29,9 +29,9 @@ extern "C" {
 #include <blitz.h>
 
 	MaxPanel * bmx_wxpanel_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
-	void bmx_wxpanel_initdialog(MaxPanel * panel);
-	void bmx_wxpanel_setfocus(MaxPanel * panel);
-	void bmx_wxpanel_setfocusignoringchildren(MaxPanel * panel);
+	void bmx_wxpanel_initdialog(wxPanel * panel);
+	void bmx_wxpanel_setfocus(wxPanel * panel);
+	void bmx_wxpanel_setfocusignoringchildren(wxPanel * panel);
 	
 }
 
@@ -44,7 +44,6 @@ public:
 	~MaxPanel();
 	
 private:
-	BBObject * maxHandle;
 
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()

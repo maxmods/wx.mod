@@ -26,7 +26,7 @@
 
 MaxSpinCtrl::MaxSpinCtrl(BBObject * handle, wxWindow* parent, wxWindowID id, const wxString& value, int x, int y,
 		int w, int h, long style, int min, int max, int initial)
-	: maxHandle(handle), wxSpinCtrl(parent, id, value, wxPoint(x, y), wxSize(w, h), style, min, max, initial)
+	: wxSpinCtrl(parent, id, value, wxPoint(x, y), wxSize(w, h), style, min, max, initial)
 {
 	wxbind(this, handle);
 }

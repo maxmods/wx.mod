@@ -31,7 +31,7 @@ extern "C" {
 
 	MaxHtmlWindow * bmx_wxhtmlwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
-	bool bmx_wxhtmlwindow_setpage(MaxHtmlWindow * window, BBString * source);
+	bool bmx_wxhtmlwindow_setpage(wxHtmlWindow * window, BBString * source);
 
 	int bmx_wxhtmlevent_geteventtype(int type);
 }
@@ -45,9 +45,5 @@ public:
 	MaxHtmlWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
 	~MaxHtmlWindow();
-	
-private:
-	BBObject * maxHandle;
-
 };
 

@@ -53,29 +53,29 @@ int bmx_wxtimerevent_getinterval(wxTimerEvent & event) {
 	return event.GetInterval();
 }
 
-int bmx_wxtimer_getinterval(MaxTimer * timer) {
+int bmx_wxtimer_getinterval(wxTimer * timer) {
 	return timer->GetInterval();
 }
 
-bool bmx_wxtimer_isoneshot(MaxTimer * timer) {
+bool bmx_wxtimer_isoneshot(wxTimer * timer) {
 	return timer->IsOneShot();
 }
 
-bool bmx_wxtimer_isrunning(MaxTimer * timer) {
+bool bmx_wxtimer_isrunning(wxTimer * timer) {
 	return timer->IsRunning();
 }
 
-void bmx_wxtimer_setowner(MaxTimer * timer, wxEvtHandler * owner, int id) {
+void bmx_wxtimer_setowner(wxTimer * timer, wxEvtHandler * owner, int id) {
 	if (owner) {
 		timer->SetOwner(owner, id);
 	}
 }
 
-bool bmx_wxtimer_start(MaxTimer * timer, int milli, bool oneshot) {
+bool bmx_wxtimer_start(wxTimer * timer, int milli, bool oneshot) {
 	return timer->Start(milli, oneshot);
 }
 
-void bmx_wxtimer_stop(MaxTimer * timer) {
+void bmx_wxtimer_stop(wxTimer * timer) {
 	timer->Stop();
 }
 

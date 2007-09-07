@@ -30,7 +30,7 @@ END_EVENT_TABLE()
 
 MaxMiniFrame::MaxMiniFrame(void * handle, wxWindow* parent, wxWindowID id, const wxString& title, int x,
 		int y, int w, int h, long style)
-       : maxHandle(handle), wxMiniFrame(parent, id, title, wxPoint(x, y), wxSize(w,h), style)
+       : wxMiniFrame(parent, id, title, wxPoint(x, y), wxSize(w,h), style)
 {
 }
 

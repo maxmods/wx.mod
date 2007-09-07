@@ -31,33 +31,33 @@ extern "C" {
 
 
 	MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style);
-	void bmx_wxtextctrl_appendtext(MaxTextCtrl * ctrl, BBString * text);
-	bool bmx_wxtextctrl_cancopy(MaxTextCtrl * ctrl);
-	bool bmx_wxtextctrl_cancut(MaxTextCtrl * ctrl);
-	bool bmx_wxtextctrl_canpaste(MaxTextCtrl * ctrl);
-	bool bmx_wxtextctrl_canredo(MaxTextCtrl * ctrl);
-	bool bmx_wxtextctrl_canundo(MaxTextCtrl * ctrl);
-	void bmx_wxtextctrl_clear(MaxTextCtrl * ctrl);
-	void bmx_wxtextctrl_copy(MaxTextCtrl * ctrl);
-	void bmx_wxtextctrl_cut(MaxTextCtrl * ctrl);
+	void bmx_wxtextctrl_appendtext(wxTextCtrl * ctrl, BBString * text);
+	bool bmx_wxtextctrl_cancopy(wxTextCtrl * ctrl);
+	bool bmx_wxtextctrl_cancut(wxTextCtrl * ctrl);
+	bool bmx_wxtextctrl_canpaste(wxTextCtrl * ctrl);
+	bool bmx_wxtextctrl_canredo(wxTextCtrl * ctrl);
+	bool bmx_wxtextctrl_canundo(wxTextCtrl * ctrl);
+	void bmx_wxtextctrl_clear(wxTextCtrl * ctrl);
+	void bmx_wxtextctrl_copy(wxTextCtrl * ctrl);
+	void bmx_wxtextctrl_cut(wxTextCtrl * ctrl);
 
-	void bmx_wxtextctrl_discardedits(MaxTextCtrl * ctrl);
-	const wxTextAttr * bmx_wxtextctrl_getdefaultstyle(MaxTextCtrl * ctrl);
-	long bmx_wxtextctrl_getinsertionpoint(MaxTextCtrl * ctrl);
-	long bmx_wxtextctrl_getlastposition(MaxTextCtrl * ctrl);
-	int bmx_wxtextctrl_getlinelength(MaxTextCtrl * ctrl, long lineNo);
-	BBString * bmx_wxtextctrl_getlinetext(MaxTextCtrl * ctrl, long lineNo);
-	int bmx_wxtextctrl_getnumberoflines(MaxTextCtrl * ctrl);
-	BBString * bmx_wxtextctrl_getrange(MaxTextCtrl * ctrl, long fromPos, long toPos);
-	void bmx_wxtextctrl_getselection(MaxTextCtrl * ctrl, long * fromPos, long * toPos);
-	BBString * bmx_wxtextctrl_getstringselection(MaxTextCtrl * ctrl);
-	const wxTextAttr * bmx_wxtextctrl_getstyle(MaxTextCtrl * ctrl, long position);
-	BBString * bmx_wxtextctrl_getvalue(MaxTextCtrl * ctrl);
-	bool bmx_wxtextctrl_iseditable(MaxTextCtrl * ctrl);
-	bool bmx_wxtextctrl_isempty(MaxTextCtrl * ctrl);
-	bool bmx_wxtextctrl_ismodified(MaxTextCtrl * ctrl);
-	bool bmx_wxtextctrl_ismultiline(MaxTextCtrl * ctrl);
-	bool bmx_wxtextctrl_issingleline(MaxTextCtrl * ctrl);
+	void bmx_wxtextctrl_discardedits(wxTextCtrl * ctrl);
+	const wxTextAttr * bmx_wxtextctrl_getdefaultstyle(wxTextCtrl * ctrl);
+	long bmx_wxtextctrl_getinsertionpoint(wxTextCtrl * ctrl);
+	long bmx_wxtextctrl_getlastposition(wxTextCtrl * ctrl);
+	int bmx_wxtextctrl_getlinelength(wxTextCtrl * ctrl, long lineNo);
+	BBString * bmx_wxtextctrl_getlinetext(wxTextCtrl * ctrl, long lineNo);
+	int bmx_wxtextctrl_getnumberoflines(wxTextCtrl * ctrl);
+	BBString * bmx_wxtextctrl_getrange(wxTextCtrl * ctrl, long fromPos, long toPos);
+	void bmx_wxtextctrl_getselection(wxTextCtrl * ctrl, long * fromPos, long * toPos);
+	BBString * bmx_wxtextctrl_getstringselection(wxTextCtrl * ctrl);
+	const wxTextAttr * bmx_wxtextctrl_getstyle(wxTextCtrl * ctrl, long position);
+	BBString * bmx_wxtextctrl_getvalue(wxTextCtrl * ctrl);
+	bool bmx_wxtextctrl_iseditable(wxTextCtrl * ctrl);
+	bool bmx_wxtextctrl_isempty(wxTextCtrl * ctrl);
+	bool bmx_wxtextctrl_ismodified(wxTextCtrl * ctrl);
+	bool bmx_wxtextctrl_ismultiline(wxTextCtrl * ctrl);
+	bool bmx_wxtextctrl_issingleline(wxTextCtrl * ctrl);
 	
 	int bmx_wxtextctrl_geteventtype(int type);
 }
@@ -70,9 +70,5 @@ class MaxTextCtrl : public wxTextCtrl
 public:
 	MaxTextCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style);
 	~MaxTextCtrl();
-
-private:
-	BBObject * maxHandle;
-
 };
 

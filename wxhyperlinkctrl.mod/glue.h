@@ -54,8 +54,4 @@ public:
 	MaxHyperlinkCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label,
 		const wxString& url, int x, int y, int w, int h, long style);
 	~MaxHyperlinkCtrl();
-	
-private:
-	BBObject * maxHandle;
-
 };

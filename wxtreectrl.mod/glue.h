@@ -33,10 +33,10 @@ extern "C" {
 
 	MaxTreeCtrl * bmx_wxtreectrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
-	MaxTreeItem * bmx_wxtreectrl_addroot(MaxTreeCtrl * tree, BBString * text, int image, int selImage, wxTreeItemData * data);
-	MaxTreeItem * bmx_wxtreectrl_appenditem(MaxTreeCtrl * tree, MaxTreeItem * parent, BBString * text, int image, int selImage, wxTreeItemData * data);
-	void bmx_wxtreectrl_assignimagelist(MaxTreeCtrl * tree, wxImageList * list);
-	void bmx_wxtreectrl_expand(MaxTreeCtrl * tree, MaxTreeItem * item);
+	MaxTreeItem * bmx_wxtreectrl_addroot(wxTreeCtrl * tree, BBString * text, int image, int selImage, wxTreeItemData * data);
+	MaxTreeItem * bmx_wxtreectrl_appenditem(wxTreeCtrl * tree, MaxTreeItem * parent, BBString * text, int image, int selImage, wxTreeItemData * data);
+	void bmx_wxtreectrl_assignimagelist(wxTreeCtrl * tree, wxImageList * list);
+	void bmx_wxtreectrl_expand(wxTreeCtrl * tree, MaxTreeItem * item);
 	
 
 	void bmx_maxtreeitem_delete(MaxTreeItem * item);
@@ -51,10 +51,6 @@ class MaxTreeCtrl : public wxTreeCtrl
 public:
 	MaxTreeCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxTreeCtrl();
-	
-private:
-	BBObject * maxHandle;
-
 };
 
 class MaxTreeItem

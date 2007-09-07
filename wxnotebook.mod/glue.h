@@ -31,12 +31,12 @@ extern "C" {
 #include <blitz.h>
 
 	MaxNotebook * bmx_wxnotebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
-	bool bmx_wxnotebook_addpage(MaxNotebook * notebook, wxWindow * page, BBString * text, bool selected, int imageId);
-	bool bmx_wxnotebook_insertpage(MaxNotebook * notebook, int index, wxWindow * page, BBString * text, bool selected, int imageId);
-	void bmx_wxnotebook_advanceselection(MaxNotebook * notebook, bool forward);
+	bool bmx_wxnotebook_addpage(wxNotebook * notebook, wxWindow * page, BBString * text, bool selected, int imageId);
+	bool bmx_wxnotebook_insertpage(wxNotebook * notebook, int index, wxWindow * page, BBString * text, bool selected, int imageId);
+	void bmx_wxnotebook_advanceselection(wxNotebook * notebook, bool forward);
 
-	void bmx_wxnotebook_assignimagelist(MaxNotebook * notebook, wxImageList * list);
-	void bmx_wxnotebook_setimagelist(MaxNotebook * notebook, wxImageList * list);
+	void bmx_wxnotebook_assignimagelist(wxNotebook * notebook, wxImageList * list);
+	void bmx_wxnotebook_setimagelist(wxNotebook * notebook, wxImageList * list);
 
 	bool bmx_wxnotebook_deleteallpages(wxNotebook * notebook);
 	bool bmx_wxnotebook_deletepage(wxNotebook * notebook, int page);
@@ -72,9 +72,5 @@ class MaxNotebook : public wxNotebook
 public:
 	MaxNotebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxNotebook();
-
-private:
-	BBObject * maxHandle;
-
 };
 

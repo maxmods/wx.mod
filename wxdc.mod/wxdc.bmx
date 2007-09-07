@@ -55,7 +55,7 @@ Import "common.bmx"
 Rem
 bbdoc: 
 End Rem
-Type wxDC Extends _wxDC
+Type wxDC Extends wxObject
 
 	Function _create:wxDC(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
@@ -336,46 +336,6 @@ Type wxDC Extends _wxDC
 End Type
 
 Type wxWindowDC Extends wxDC
-End Type
-
-Rem
-bbdoc: A wxPaintDC must be constructed if an application wishes to paint on the client area of a window from within an OnPaint event.
-about: This should normally be constructed as a temporary stack object; don't store a wxPaintDC object.
-If you have an OnPaint handler, you must create a wxPaintDC object within it even if you don't actually use
-it.
-<p>
-Using wxPaintDC within OnPaint is important because it automatically sets the clipping area to the damaged
-area of the window. Attempts to draw outside this area do not appear.
-</p>
-<p>
-To draw on a window from outside OnPaint, construct a wxClientDC object.
-</p>
-<p>
-To draw on the whole window including decorations, construct a wxWindowDC object (Windows only).
-</p>
-End Rem
-Type wxPaintDC Extends wxWindowDC
-
-	Rem
-	bbdoc: Constructor.
-	about: Pass the window on which you wish to paint.
-	End Rem
-	Method Create:wxPaintDC(window:wxWindow)
-		wxObjectPtr = bmx_wxpaintdc_create(window.wxObjectPtr)
-		Return Self
-	End Method
-
-	Method Delete()
-		Free()
-	End Method
-
-	Method Free()
-		If wxObjectPtr Then
-			bmx_wxpaintdc_delete(wxObjectPtr)
-			wxObjectPtr = Null
-		End If
-	End Method
-
 End Type
 
 Rem

@@ -43,9 +43,5 @@ public:
 	MaxSpinCtrl(BBObject * handle, wxWindow* parent, wxWindowID id, const wxString& value, int x, int y,
 		int w, int h, long style, int min, int max, int initial);
 	~MaxSpinCtrl();
-	
-private:
-	BBObject * maxHandle;
-
 };
 

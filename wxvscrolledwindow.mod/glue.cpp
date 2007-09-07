@@ -25,7 +25,7 @@
 // ---------------------------------------------------------------------------------------
 
 MaxVScrolledWindow::MaxVScrolledWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: maxHandle(handle), wxVScrolledWindow(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: wxVScrolledWindow(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
