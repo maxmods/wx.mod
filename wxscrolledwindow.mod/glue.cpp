@@ -24,9 +24,25 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxScrolledWindow::MaxScrolledWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
+	: wxScrolledWindow(parent, id, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxScrolledWindow::~MaxScrolledWindow() {
+	wxunbind(this);
+}
 
 
 // *********************************************
+
+BEGIN_EVENT_TABLE(MaxScrolledWindow, wxScrolledWindow)
+END_EVENT_TABLE()
+
+MaxScrolledWindow * bmx_wxscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+	return new MaxScrolledWindow(maxHandle, parent, id, x, y, w, h, style);
+}
 
 
 void bmx_wxscrolledwindow_calcscrolledposition(wxScrolledWindow * window, int x, int y, int * xx, int * yy) {

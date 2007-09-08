@@ -105,6 +105,23 @@ End Rem
 Type wxScrolledWindow Extends wxPanel
 
 	Rem
+	bbdoc: Default constructor.
+	End Rem
+	Function CreateScrolledWindow:wxScrolledWindow(parent:wxWindow, id:Int = -1, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, ..
+			style:Int = wxHSCROLL | wxVSCROLL)
+		Return New wxScrolledWindow.Create(parent, id, x, y, w, h, style)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxScrolledWindow(parent:wxWindow, id:Int = -1, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, ..
+			style:Int = wxHSCROLL | wxVSCROLL)
+		wxObjectPtr = bmx_wxscrolledwindow_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		Return Self
+	End Method
+	
+	Rem
 	bbdoc: Translates the logical coordinates to the device ones.
 	about: For example, if a window is scrolled 10 pixels to the bottom, the device coordinates of
 	the origin are (0, 0) (as always), but the logical coordinates are (0, 10) and so the call

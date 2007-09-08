@@ -74,6 +74,12 @@ Extern
 	
 End Extern
 
+Const wxSPLIT_HORIZONTAL:Int = 1
+Const wxSPLIT_VERTICAL:Int = 2
+
+Const wxSPLIT_DRAG_NONE:Int = 0
+Const wxSPLIT_DRAG_DRAGGING:Int = 1
+Const wxSPLIT_DRAG_LEFT_DOWN:Int = 2
 
 Const wxSP_NOBORDER:Int = $0000
 Const wxSP_NOSASH:Int = $0010

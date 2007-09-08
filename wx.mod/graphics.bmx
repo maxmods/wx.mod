@@ -106,3 +106,44 @@ End Function
 Function wxWHITE_PEN:wxPen()
 	Return wxPen._create(bmx_wxstockgdi_pen_white())
 End Function
+
+Function wxBLACK_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_black())
+End Function
+
+Function wxBLUE_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_blue())
+End Function
+
+Function wxCYAN_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_cyan())
+End Function
+
+Function wxGREEN_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_green())
+End Function
+
+Function wxGREY_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_grey())
+End Function
+
+Function wxLIGHT_GREY_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_lightgrey())
+End Function
+
+Function wxMEDIUM_GREY_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_mediumgrey())
+End Function
+
+Function wxRED_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_red())
+End Function
+
+Function wxTRANSPARENT_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_transparent())
+End Function
+
+Function wxWHITE_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_white())
+End Function
+

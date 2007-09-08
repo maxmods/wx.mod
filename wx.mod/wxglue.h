@@ -137,6 +137,17 @@ extern "C" {
 	MaxPen * bmx_wxstockgdi_pen_transparent();
 	MaxPen * bmx_wxstockgdi_pen_white();
 
+	MaxBrush * bmx_wxstockgdi_brush_black();
+	MaxBrush * bmx_wxstockgdi_brush_blue();
+	MaxBrush * bmx_wxstockgdi_brush_cyan();
+	MaxBrush * bmx_wxstockgdi_brush_green();
+	MaxBrush * bmx_wxstockgdi_brush_grey();
+	MaxBrush * bmx_wxstockgdi_brush_lightgrey();
+	MaxBrush * bmx_wxstockgdi_brush_mediumgrey();
+	MaxBrush * bmx_wxstockgdi_brush_red();
+	MaxBrush * bmx_wxstockgdi_brush_transparent();
+	MaxBrush * bmx_wxstockgdi_brush_white();
+
 	void bmx_wxfont_delete(MaxFont * font);
 	int bmx_wxfont_getpointsize(MaxFont * font);
 	void bmx_wxfont_setpointsize(MaxFont * font, int size);

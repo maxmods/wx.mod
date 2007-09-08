@@ -45,7 +45,7 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
-
+	Function bmx_wxscrolledwindow_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxscrolledwindow_calcscrolledposition(handle:Byte Ptr, x:Int, y:Int, xx:Int Ptr, yy:Int Ptr)
 	Function bmx_wxscrolledwindow_calcunscrolledposition(handle:Byte Ptr, x:Int, y:Int, xx:Int Ptr, yy:Int Ptr)
 	Function bmx_wxscrolledwindow_enablescrolling(handle:Byte Ptr, xScrolling:Int, yScrolling:Int)

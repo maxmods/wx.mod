@@ -28,6 +28,8 @@ extern "C" {
 
 #include <blitz.h>
 
+	MaxScrolledWindow * bmx_wxscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+
 	void bmx_wxscrolledwindow_calcscrolledposition(wxScrolledWindow * window, int x, int y, int * xx, int * yy);
 	void bmx_wxscrolledwindow_calcunscrolledposition(wxScrolledWindow * window, int x, int y, int * xx, int * yy);
 	void bmx_wxscrolledwindow_enablescrolling(wxScrolledWindow * window, int xScrolling, int yScrolling);
@@ -50,5 +52,10 @@ public:
 	MaxScrolledWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
 	~MaxScrolledWindow();
+
+private:
+
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
 	
 };

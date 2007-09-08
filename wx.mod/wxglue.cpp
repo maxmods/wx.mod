@@ -691,6 +691,57 @@ MaxFont * bmx_wxstockgdi_font_swiss() {
 	return new MaxFont(f);
 }
 
+MaxBrush * bmx_wxstockgdi_brush_black() {
+	wxBrush b(*wxBLACK_BRUSH);
+	return new MaxBrush(b);
+}
+
+MaxBrush * bmx_wxstockgdi_brush_blue() {
+	wxBrush b(*wxBLUE_BRUSH);
+	return new MaxBrush(b);
+}
+
+MaxBrush * bmx_wxstockgdi_brush_cyan() {
+	wxBrush b(*wxCYAN_BRUSH);
+	return new MaxBrush(b);
+}
+
+MaxBrush * bmx_wxstockgdi_brush_green() {
+	wxBrush b(*wxGREEN_BRUSH);
+	return new MaxBrush(b);
+}
+
+MaxBrush * bmx_wxstockgdi_brush_grey() {
+	wxBrush b(*wxGREY_BRUSH);
+	return new MaxBrush(b);
+}
+
+MaxBrush * bmx_wxstockgdi_brush_lightgrey() {
+	wxBrush b(*wxLIGHT_GREY_BRUSH);
+	return new MaxBrush(b);
+}
+
+MaxBrush * bmx_wxstockgdi_brush_mediumgrey() {
+	wxBrush b(*wxMEDIUM_GREY_BRUSH);
+	return new MaxBrush(b);
+}
+
+MaxBrush * bmx_wxstockgdi_brush_red() {
+	wxBrush b(*wxRED_BRUSH);
+	return new MaxBrush(b);
+}
+
+MaxBrush * bmx_wxstockgdi_brush_transparent() {
+	wxBrush b(*wxTRANSPARENT_BRUSH);
+	return new MaxBrush(b);
+}
+
+MaxBrush * bmx_wxstockgdi_brush_white() {
+	wxBrush b(*wxWHITE_BRUSH);
+	return new MaxBrush(b);
+}
+
+
 
 // **************************
 
