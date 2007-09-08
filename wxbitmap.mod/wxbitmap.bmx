@@ -50,6 +50,9 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Function wxNullBitmap:wxBitmap()
+	Return New wxBitmap.CreateNull()
+End Function
 
 Rem
 bbdoc: This type encapsulates the concept of a platform-dependent bitmap, either monochrome or colour or colour with alpha channel support.
@@ -75,7 +78,20 @@ Type wxBitmap Extends wxGDIObject
 	bbdoc: Default Constructor.
 	End Rem
 	Method Create:wxBitmap()
-		wxObjectPtr = bmx_wxbitmap_create()
+		wxObjectPtr = bmx_wxbitmap_create(False)
+		Return Self
+	End Method
+	
+	Method CreateNull:wxBitmap()
+		wxObjectPtr = bmx_wxbitmap_create(True)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateEmpty:wxBitmap(width:Int, height:Int, depth:Int = -1)
+		wxObjectPtr = bmx_wxbitmap_createempty(width, height, depth)
 		Return Self
 	End Method
 	

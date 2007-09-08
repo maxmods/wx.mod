@@ -205,7 +205,7 @@ Type wxMenuBar Extends wxWindow
 	bbdoc: Determines whether an item is enabled.
 	returns: True if the item was found and is enabled, False otherwise.
 	End Rem
-	Method IsEnabled:Int(id:Int)
+	Method IsItemEnabled:Int(id:Int)
 		Return bmx_wxmenubar_isenabled(wxObjectPtr, id)
 	End Method
 	

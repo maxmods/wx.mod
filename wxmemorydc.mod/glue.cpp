@@ -20,39 +20,30 @@
   THE SOFTWARE.
 */ 
 
-#include "wxglue.h"
-#include "../wximage.mod/glue.h"
+#include "glue.h"
 
-class MaxBitmap;
+// ---------------------------------------------------------------------------------------
 
-extern "C" {
 
-#include <blitz.h>
-
-	MaxBitmap * bmx_wxbitmap_create(bool makeNull);
-	MaxBitmap * bmx_wxbitmap_createfromimage(MaxImage * image, int depth);
-	MaxBitmap * bmx_wxbitmap_createempty(int width, int height, int depth);
-
-	bool bmx_wxbitmap_loadfile(MaxBitmap * bitmap, BBString * name, wxBitmapType type);
-	MaxImage * bmx_wxbitmap_converttoimage(MaxBitmap * bitmap);
-	int bmx_wxbitmap_getdepth(MaxBitmap * bitmap);
-	int bmx_wxbitmap_getheight(MaxBitmap * bitmap);
-	int bmx_wxbitmap_getwidth(MaxBitmap * bitmap);
-	void bmx_wxbitmap_setdepth(MaxBitmap * bitmap, int depth);
-	void bmx_wxbitmap_setheight(MaxBitmap * bitmap, int height);
-	void bmx_wxbitmap_setwidth(MaxBitmap * bitmap, int width);
+MaxMemoryDC::MaxMemoryDC()
+	: memoryDC()
+{
+	MaxDC::init(&memoryDC);
 }
 
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+wxMemoryDC * MaxMemoryDC::MemoryDC() {
+	return &memoryDC;
+}
 
-class MaxBitmap
-{
-public:
-//	MaxBitmap();
-	MaxBitmap(const wxBitmap & b = wxNullBitmap);
-	wxBitmap & Bitmap();
 
-private:
-	wxBitmap bitmap;
+// *********************************************
 
-};
+MaxMemoryDC * bmx_wxmemorydc_create() {
+	return new MaxMemoryDC();
+}
+
+void bmx_wxmemorydc_selectobject(MaxMemoryDC * dc, MaxBitmap * bitmap) {
+	dc->MemoryDC()->SelectObject(bitmap->Bitmap());
+}
+
+

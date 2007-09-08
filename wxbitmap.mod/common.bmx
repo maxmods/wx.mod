@@ -43,9 +43,10 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
-	Function bmx_wxbitmap_create:Byte Ptr()
+	Function bmx_wxbitmap_create:Byte Ptr(makeNull:Int)
 
 	Function bmx_wxbitmap_createfromimage:Byte Ptr(image:Byte Ptr, depth:Int)
+	Function bmx_wxbitmap_createempty:Byte Ptr(width:Int, height:Int, depth:Int)
 	
 	Function bmx_wxbitmap_loadfile:Int(handle:Byte Ptr, name:String, kind:Int)
 	Function bmx_wxbitmap_converttoimage:Byte Ptr(handle:Byte Ptr)

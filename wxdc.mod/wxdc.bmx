@@ -142,6 +142,7 @@ Type wxDC Extends wxObject
 	bdoc: 
 	End Rem
 	Method DrawEllipse(x:Int, y:Int, width:Int, height:Int)
+		bmx_wxdc_drawellipse(wxObjectPtr, x, y, width, height)
 	End Method
 	
 	Rem

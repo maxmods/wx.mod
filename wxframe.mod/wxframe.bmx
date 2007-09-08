@@ -64,7 +64,7 @@ End Rem
 Type wxFrame Extends wxTopLevelWindow
 
 	Field menuBar:wxMenuBar
-	Field statusBar:wxStatusBar
+	'Field statusBar:wxStatusBar
 	
 	Rem
 	bbdoc: TODO
@@ -135,6 +135,45 @@ Type wxFrame Extends wxTopLevelWindow
 	End Rem
 	Method GetMenuBar:wxMenuBar()
 		Return wxMenuBar(wxfind(bmx_wxframe_getmenubar(wxObjectPtr)))
+	End Method
+	
+	Rem
+	bbdoc: Associates a status bar with the frame.
+	End Rem
+	Method SetStatusBar(statusbar:wxStatusBar)
+		If statusbar Then
+			bmx_wxframe_setstatusbar(wxObjectPtr, statusbar.wxObjectPtr)
+		Else
+			bmx_wxframe_setstatusbar(wxObjectPtr, Null)
+		End If
+	End Method
+	
+	Rem
+	bbdoc: Returns the status bar currently associated with the frame (if any).
+	End Rem
+	Method GetStatusBar:wxStatusBar()
+		Local sbPtr:Byte Ptr = bmx_wxframe_getstatusbar(wxObjectPtr)
+		If sbptr Then
+			Local sb:wxStatusBar = wxStatusBar(wxfind(sbPtr))
+			If Not sb Then
+				sb = wxStatusBar._create(sbPtr)
+			End If
+			Return sb
+		End If
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method PositionStatusBar()
+		bmx_wxframe_positionstatusbar(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Set the status bar pane used to display menu and toolbar help.
+	about: Using -1 disables help display.
+	End Rem
+	Method SetStatusBarPane(n:Int)
 	End Method
 
 	Method Delete()

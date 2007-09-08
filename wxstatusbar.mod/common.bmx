@@ -46,4 +46,24 @@ Extern
 
 	Function bmx_wxstatusbar_injectSelf(handle:Byte Ptr, obj:Object)
 	
+	Function bmx_wxstatusbar_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, style:Int)
+	Function bmx_wxstatusbar_getfieldrect:Int(handle:Byte Ptr, index:Int, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxstatusbar_getfieldscount:Int(handle:Byte Ptr)
+	Function bmx_wxstatusbar_getstatustext:String(handle:Byte Ptr, index:Int)
+	Function bmx_wxstatusbar_popstatustext(handle:Byte Ptr, index:Int)
+	Function bmx_wxstatusbar_pushstatustext(handle:Byte Ptr, text:String, index:Int)
+	Function bmx_wxstatusbar_setfieldscount(handle:Byte Ptr, count:Int)
+	Function bmx_wxstatusbar_setminheight(handle:Byte Ptr, height:Int)
+	Function bmx_wxstatusbar_setstatustext(handle:Byte Ptr, text:String, index:Int)
+	Function bmx_wxstatusbar_setstatuswidths(handle:Byte Ptr, widths:Int[])
+	Function bmx_wxstatusbar_setstatusstyles(handle:Byte Ptr, styles:Int[])
+	
 End Extern
+
+Const wxST_SIZEGRIP:Int = $0010
+
+Const wxSB_NORMAL:Int = $0000
+Const wxSB_FLAT:Int = $0001
+Const wxSB_RAISED:Int = $0002
+
+

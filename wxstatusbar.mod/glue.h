@@ -31,6 +31,17 @@ extern "C" {
 
 	void bmx_wxstatusbar_injectSelf(MaxStatusBar * statusbar, BBObject * handle);
 	
+	MaxStatusBar * bmx_wxstatusbar_create(BBObject * handle, wxWindow * parent, int id, long style);
+	bool bmx_wxstatusbar_getfieldrect(wxStatusBar * statusbar, int index, int * x, int * y, int * w, int * h);
+	int bmx_wxstatusbar_getfieldscount(wxStatusBar * statusbar);
+	BBString *  bmx_wxstatusbar_getstatustext(wxStatusBar * statusbar, int index);
+	void bmx_wxstatusbar_popstatustext(wxStatusBar * statusbar, int index);
+	void bmx_wxstatusbar_pushstatustext(wxStatusBar * statusbar, BBString * text, int index);
+	void bmx_wxstatusbar_setfieldscount(wxStatusBar * statusbar, int count);
+	void bmx_wxstatusbar_setminheight(wxStatusBar * statusbar, int height);
+	void bmx_wxstatusbar_setstatustext(wxStatusBar * statusbar, BBString * text, int index);
+	void bmx_wxstatusbar_setstatuswidths(wxStatusBar * statusbar, BBArray * widths);
+	void bmx_wxstatusbar_setstatusstyles(wxStatusBar * statusbar, BBArray * styles);
 
 }
 
@@ -41,6 +52,7 @@ class MaxStatusBar : public wxStatusBar
 {
 public:
 	MaxStatusBar(wxWindow * parent, long style, wxWindowID id, const wxString& name);
+	MaxStatusBar(BBObject * handle, wxWindow * parent, wxWindowID id, long style);
 	~MaxStatusBar();
 	void injectSelf(BBObject * handle);
 };

@@ -203,6 +203,8 @@ Extern
 	Function bmx_wxevent_getid:Int(evt:Byte Ptr)
 	
 	Function bmx_wxupdateeventui_check(evt:Byte Ptr, value:Int)
+	Function bmx_wxupdateeventui_enable(evt:Byte Ptr, value:Int)
+	Function bmx_wxupdateeventui_show(evt:Byte Ptr, value:Int)
 	
 	Function bmx_wxnotifyevent_allow(evt:Byte Ptr)
 	Function bmx_wxnotifyevent_veto(evt:Byte Ptr)

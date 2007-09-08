@@ -63,12 +63,18 @@ Type wxCheckBox Extends wxControl
 	Function CreateCheckBox:wxCheckBox(parent:wxWindow, id:Int, label:String = Null, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = 0)
 	
-		Local this:wxCheckBox = New wxCheckBox
-	
-		this.wxObjectPtr = bmx_wxcheckbox_create(this, parent.wxObjectPtr, id, label, x, y, w, h, style)
-	
-		Return this
+		Return New wxCheckBox.Create(parent, id, label, x, y, w, h, style)
 	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxCheckBox(parent:wxWindow, id:Int, label:String = Null, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = 0)
+			
+		wxObjectPtr = bmx_wxcheckbox_create(Self, parent.wxObjectPtr, id, label, x, y, w, h, style)
+		Return Self
+	End Method
 
 	Rem
 	bbdoc: Gets the state of a 2-state checkbox.

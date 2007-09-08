@@ -84,6 +84,8 @@ extern "C" {
 	int bmx_wxevent_getid(wxEvent & event);
 	
 	void bmx_wxupdateeventui_check(wxUpdateUIEvent & event, bool value);
+	void bmx_wxupdateeventui_enable(wxUpdateUIEvent & event, bool value);
+	void bmx_wxupdateeventui_show(wxUpdateUIEvent & event, bool value);
 	
 	void bmx_wxnotifyevent_allow(wxNotifyEvent & event);
 	void bmx_wxnotifyevent_veto(wxNotifyEvent & event);

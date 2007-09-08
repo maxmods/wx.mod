@@ -24,11 +24,10 @@
 
 // ---------------------------------------------------------------------------------------
 
-MaxBitmap::MaxBitmap()
-	: bitmap(wxNullBitmap)
-{
-	bitmap = wxBitmap();
-}
+//MaxBitmap::MaxBitmap()
+//	: bitmap(wxNullBitmap)
+//{
+//}
 
 MaxBitmap::MaxBitmap(const wxBitmap& b)
 {
@@ -43,15 +42,25 @@ wxBitmap & MaxBitmap::Bitmap() {
 
 // *********************************************
 
-MaxBitmap * bmx_wxbitmap_create() {
-	wxBitmap b;
-	return new MaxBitmap(b);
+MaxBitmap * bmx_wxbitmap_create(bool makeNull) {
+	if (!makeNull) {
+		wxBitmap b;
+		return new MaxBitmap(b);
+	} else {
+		return new MaxBitmap();
+	}
 }
 
 MaxBitmap * bmx_wxbitmap_createfromimage(MaxImage * image, int depth) {
 	wxBitmap b(image->Image(), depth);
 	return new MaxBitmap(b);
 }
+
+MaxBitmap * bmx_wxbitmap_createempty(int width, int height, int depth) {
+	wxBitmap b(width, height, depth);
+	return new MaxBitmap(b);
+}
+
 
 bool bmx_wxbitmap_loadfile(MaxBitmap * bitmap, BBString * name, wxBitmapType type) {
 	return bitmap->Bitmap().LoadFile(wxStringFromBBString(name), type);

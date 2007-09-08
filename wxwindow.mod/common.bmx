@@ -95,6 +95,9 @@ Extern
 	Function bmx_wxwindow_setcursor(handle:Byte Ptr, cursor:Byte Ptr)
 	Function bmx_wxwindow_setwindowstyle(handle:Byte Ptr, style:Int)
 	Function bmx_wxwindow_setwindowstyleflag(handle:Byte Ptr, style:Int)
+	Function bmx_wxwindow_hide:Int(handle:Byte Ptr)
+	Function bmx_wxwindow_move(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxwindow_setdimensions(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, flags:Int)
 
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)

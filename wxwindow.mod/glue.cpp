@@ -292,6 +292,17 @@ void bmx_wxwindow_setwindowstyleflag(wxWindow * window, long style) {
 	window->SetWindowStyleFlag(style);
 }
 
+bool bmx_wxwindow_hide(wxWindow * window) {
+	return window->Hide();
+}
+
+void bmx_wxwindow_move(wxWindow * window, int x, int y) {
+	window->Move(x, y);
+}
+
+void bmx_wxwindow_setdimensions(wxWindow * window, int x, int y, int w, int h, int flags) {
+	window->SetSize(x, y, w, h, flags);
+}
 
 // *********************************************
 

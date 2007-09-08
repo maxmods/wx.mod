@@ -83,6 +83,9 @@ extern "C" {
 	void bmx_wxwindow_setcursor(wxWindow * window, MaxCursor * cursor);
 	void bmx_wxwindow_setwindowstyle(wxWindow * window, long style);
 	void bmx_wxwindow_setwindowstyleflag(wxWindow * window, long style);
+	bool bmx_wxwindow_hide(wxWindow * window);
+	void bmx_wxwindow_move(wxWindow * window, int x, int y);
+	void bmx_wxwindow_setdimensions(wxWindow * window, int x, int y, int w, int h, int flags);
 
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);

@@ -591,6 +591,14 @@ void bmx_wxupdateeventui_check(wxUpdateUIEvent & event, bool value) {
 	event.Check(value);
 }
 
+void bmx_wxupdateeventui_enable(wxUpdateUIEvent & event, bool value) {
+	event.Enable(value);
+}
+
+void bmx_wxupdateeventui_show(wxUpdateUIEvent & event, bool value) {
+	event.Show(value);
+}
+
 
 // **************************
 

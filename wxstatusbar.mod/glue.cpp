@@ -29,6 +29,12 @@ MaxStatusBar::MaxStatusBar(wxWindow * parent, long style, wxWindowID id, const w
 {
 }
 
+MaxStatusBar::MaxStatusBar(BBObject * handle, wxWindow * parent, wxWindowID id, long style)
+	: wxStatusBar(parent, id, style)
+{
+	wxbind(this, handle);
+}
+
 void MaxStatusBar::injectSelf(BBObject * handle) {
 	wxbind(this, handle);
 }
@@ -43,5 +49,55 @@ MaxStatusBar::~MaxStatusBar() {
 
 void bmx_wxstatusbar_injectSelf(MaxStatusBar * statusbar, BBObject * handle) {
 	statusbar->injectSelf(handle);
+}
+
+MaxStatusBar * bmx_wxstatusbar_create(BBObject * handle, wxWindow * parent, int id, long style) {
+	return new MaxStatusBar(handle, parent, id, style);
+}
+
+bool bmx_wxstatusbar_getfieldrect(wxStatusBar * statusbar, int index, int * x, int * y, int * w, int * h) {
+	wxRect r;
+	bool ret = statusbar->GetFieldRect(index, r);
+	*x = r.x;
+	*y = r.y;
+	*w = r.width;
+	*h = r.height;
+	return ret;
+}
+
+int bmx_wxstatusbar_getfieldscount(wxStatusBar * statusbar) {
+	return statusbar->GetFieldsCount();
+}
+
+BBString *  bmx_wxstatusbar_getstatustext(wxStatusBar * statusbar, int index) {
+	return bbStringFromWxString(statusbar->GetStatusText(index));
+}
+
+void bmx_wxstatusbar_popstatustext(wxStatusBar * statusbar, int index) {
+	statusbar->PopStatusText(index);
+}
+
+void bmx_wxstatusbar_pushstatustext(wxStatusBar * statusbar, BBString * text, int index) {
+	statusbar->PushStatusText(wxStringFromBBString(text), index);
+}
+
+void bmx_wxstatusbar_setfieldscount(wxStatusBar * statusbar, int count) {
+	statusbar->SetFieldsCount(count);
+}
+
+void bmx_wxstatusbar_setminheight(wxStatusBar * statusbar, int height) {
+	statusbar->SetMinHeight(height);
+}
+
+void bmx_wxstatusbar_setstatustext(wxStatusBar * statusbar, BBString * text, int index) {
+	statusbar->SetStatusText(wxStringFromBBString(text), index);
+}
+
+void bmx_wxstatusbar_setstatuswidths(wxStatusBar * statusbar, BBArray * widths) {
+	statusbar->SetStatusWidths(widths->scales[0], (int*)BBARRAYDATA( widths, widths->dims ));
+}
+
+void bmx_wxstatusbar_setstatusstyles(wxStatusBar * statusbar, BBArray * styles) {
+	statusbar->SetStatusStyles(styles->scales[0], (int*)BBARRAYDATA( styles, styles->dims ));
 }
 

@@ -105,6 +105,9 @@ void bmx_wxdc_setdeviceorigin(MaxDC * dc, int x, int y) {
 	dc->GetDC()->SetDeviceOrigin(x, y);
 }
 
+void bmx_wxdc_drawellipse(MaxDC * dc, int x, int y, int w, int h) {
+	dc->GetDC()->DrawEllipse(x, y, w, h);
+}
 
 
 // *********************************************

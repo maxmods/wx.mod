@@ -634,6 +634,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: 
 	End Rem
 	Method Hide:Int()
+		Return bmx_wxwindow_hide(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -656,6 +657,36 @@ Type wxWindow Extends wxEvtHandler
 	Method InheritAttributes()
 	End Method
 
+	Method InitDialog()
+	End Method
+	
+	Method InvalidateBestSize()
+	End Method
+	
+	Method IsDoubleBuffered:Int()
+	End Method
+	
+	Method IsEnabled:Int()
+	End Method
+	
+	Method IsExposed:Int(x:Int, y:Int, w:Int = 0, h:Int = 0)
+	End Method
+
+	Method IsFrozen:Int()
+	End Method
+	
+	Method IsRetained:Int()
+	End Method
+	
+	Method IsShown:Int()
+	End Method
+	
+	Method IsShownOnScreen:Int()
+	End Method
+	
+	Method IsTopLevel:Int()
+	End Method
+	
 	Rem
 	bbdoc: Invokes the constraint-based layout algorithm or the sizer-based algorithm for this window.
 	about: See wxWindow::SetAutoLayout: when auto layout is on, this function gets called automatically when the
@@ -664,7 +695,41 @@ Type wxWindow Extends wxEvtHandler
 	Method Layout()
 		bmx_wxwindow_layout(wxObjectPtr)
 	End Method
+
+	Method LineDown()
+	End Method
 	
+	Method LineUp()
+	End Method
+	
+	Method Lower()
+	End Method
+	
+	Method MakeModal(flag:Int)
+	End Method
+	
+	Rem
+	bbdoc: Moves the window to the given position.
+	End Rem
+	Method Move(x:Int, y:Int)
+		bmx_wxwindow_move(wxObjectPtr, x, y)
+	End Method
+	
+	Method MoveAfterInTabOrder(win:wxWindow)
+	End Method
+	
+	Method MoveBeforeInTabOrder(win:wxWindow)
+	End Method
+	
+	Method Navigate:Int()
+	End Method
+	
+	Method PageDown()
+	End Method
+	
+	Method PageUp()
+	End Method
+
 	Rem
 	bbdoc: Call this method to prepare the device context for drawing
 	End Rem
@@ -897,6 +962,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: 
 	End Rem
 	Method SetDimensions(x:Int, y:Int, width:Int, height:Int, sizeFlags:Int = wxSIZE_AUTO)
+		bmx_wxwindow_setdimensions(wxObjectPtr, x, y, width, height, sizeFlags)
 	End Method
 	
 	Rem
@@ -1491,12 +1557,14 @@ Type wxUpdateUIEvent Extends wxCommandEvent
 	bbdoc: Enable or disable the UI element.
 	End Rem
 	Method Enable(value:Int)
+		bmx_wxupdateeventui_enable(wxEventPtr, value)
 	End Method
 	
 	Rem
 	bbdoc: Show or hide the UI element.
 	End Rem
 	Method Show(value:Int)
+		bmx_wxupdateeventui_show(wxEventPtr, value)
 	End Method
 	
 	Rem
