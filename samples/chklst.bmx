@@ -12,6 +12,7 @@ Import wx.wxFrame
 Import wx.wxCheckListBox
 Import wx.wxButton
 Import wx.wxPanel
+Import wx.wxLog
 
 Type CheckListBoxApp Extends wxApp
 
@@ -340,7 +341,7 @@ Type MyFrame Extends wxFrame
 			s:+ "un"
 		End If
 
-		MyFrame(event.parent).SetStatusText(s + "checked)")
+		wxLogStatus(s + "checked)", MyFrame(event.parent))
 
 	End Function
 	
@@ -354,7 +355,7 @@ Type MyFrame Extends wxFrame
 			s:+ "un"
 		End If
 		
-		MyFrame(event.parent).SetStatusText(s + "checked")
+		wxLogStatus(s + "checked", MyFrame(event.parent))
 	End Function
 	
 	Function OnListboxDblClick(event:wxEvent)
@@ -415,9 +416,9 @@ Type MyFrame Extends wxFrame
 
 			If positionNew < 0 Or positionNew > listBox.GetCount() Then
 				If up Then
-					SetStatusText("Can't move this item up")
+					wxLogStatus("Can't move this item up", Self)
 				Else
-					SetStatusText("Can't move this item down")
+					wxLogStatus("Can't move this item down", Self)
 				End If
 			Else
 
@@ -451,13 +452,13 @@ Type MyFrame Extends wxFrame
 				'AdjustColour(selectionNew);
 				
 				If up Then
-					SetStatusText("Item moved up")
+					wxLogStatus("Item moved up", Self)
 				Else
-					SetStatusText("Item moved down")
+					wxLogStatus("Item moved down", Self)
 				End If
 			End If
 		Else
-			SetStatusText("Please select single item")
+			wxLogStatus("Please select single item", Self)
 		End If
 
 	End Method
