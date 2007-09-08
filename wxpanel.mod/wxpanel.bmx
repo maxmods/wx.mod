@@ -86,13 +86,6 @@ Type wxPanel Extends wxWindow
 	End Method
 	
 	Rem
-	bbdoc: Called during panel creation.
-	about: Override this method to provide your own initialization, like adding controls etc.
-	End Rem
-	Method OnInit()
-	End Method
-
-	Rem
 	bbdoc: Sends a wxInitDialogEvent, which in turn transfers data to the dialog via validators.
 	End Rem
 	Method InitDialog()

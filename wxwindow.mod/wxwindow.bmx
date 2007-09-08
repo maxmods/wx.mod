@@ -98,6 +98,10 @@ Type wxWindow Extends wxEvtHandler
 		End If
 	End Function
 
+	Rem
+	bbdoc: Called during window creation.
+	about: Override this method to provide your own initialization, like adding controls etc.
+	End Rem
 	Method OnInit()
 	End Method
 	

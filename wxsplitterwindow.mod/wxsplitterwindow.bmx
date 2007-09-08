@@ -106,9 +106,11 @@ Type wxSplitterWindow Extends wxWindow
 		
 		wxObjectPtr = bmx_wxsplitterwindow_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
 		
+		OnInit()
+		
 		Return Self
 	End Method
-
+	
 	Rem
 	bbdoc: Returns the current minimum pane size (defaults to zero).
 	End Rem

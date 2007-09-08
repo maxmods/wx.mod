@@ -118,6 +118,9 @@ Type wxScrolledWindow Extends wxPanel
 	Method Create:wxScrolledWindow(parent:wxWindow, id:Int = -1, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, ..
 			style:Int = wxHSCROLL | wxVSCROLL)
 		wxObjectPtr = bmx_wxscrolledwindow_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 	
