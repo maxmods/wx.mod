@@ -33,6 +33,7 @@
 #include <map>
 
 class MaxApp;
+class MaxEvtHandler;
 class MaxObject;
 class MaxColour;
 class MaxBrush;
@@ -64,7 +65,7 @@ extern "C" {
 	void bmx_wxapp_setappname(BBString * name);
 	bool bmx_wxapp_yield(bool onlyIfNeeded);
 
-	
+	MaxEvtHandler * bmx_wxevthandler_create(BBObject * maxHandle);
 	void bmx_wxevthandler_connectnoid(wxEvtHandler * evtHandler, wxEventType eventType, void * data);
 	void bmx_wxevthandler_connect(wxEvtHandler * evtHandler, int id, wxEventType eventType, void * data);
 	void bmx_wxevthandler_connectrange(wxEvtHandler * evtHandler, int id, int lastId, wxEventType eventType, void * data);
@@ -303,6 +304,19 @@ private:
 
 };
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxEvtHandler : public wxEvtHandler
+{
+public:
+	MaxEvtHandler(BBObject * handle);
+	~MaxEvtHandler();
+
+private:
+	
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};
 
 
 #endif // _WX_MAX_H_

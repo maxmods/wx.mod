@@ -184,10 +184,12 @@ Extern
 	Function bmx_wxapp_setappname(name:String)
 	Function bmx_wxapp_yield:Int(onlyIfNeeded:Int)
 	
-	
+	Function bmx_wxevthandler_create:Byte Ptr(handle:Object)
 	Function bmx_wxevthandler_connectnoid(handle:Byte Ptr, eventType:Int, data:Object)
 	Function bmx_wxevthandler_connect(handle:Byte Ptr, id:Int, eventType:Int, data:Object)
 	Function bmx_wxevthandler_connectrange(handle:Byte Ptr, id:Int, lastId:Int, eventType:Int, data:Object)
+	
+	
 	Function bmx_event_geteventobject:Object(evt:Byte Ptr)
 	Function bmx_eventtype_value:Int(value:Int)
 	Function bmx_wxcommandevent_getstring:String(evt:Byte Ptr)

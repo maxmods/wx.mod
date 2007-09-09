@@ -304,6 +304,11 @@ void bmx_wxwindow_setdimensions(wxWindow * window, int x, int y, int w, int h, i
 	window->SetSize(x, y, w, h, flags);
 }
 
+void bmx_wxwindow_pusheventhandler(wxWindow * window, wxEvtHandler * evt) {
+	window->PushEventHandler(evt);
+}
+
+
 // *********************************************
 
 

@@ -69,3 +69,7 @@ Extern
 	Function bmx_wxmenubar_setlabeltop(handle:Byte Ptr, pos:Int, label:String)
 	
 End Extern
+
+
+Const wxMB_DOCKABLE:Int = $0001
+

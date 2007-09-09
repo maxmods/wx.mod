@@ -268,6 +268,19 @@ wxPen & MaxPen::Pen() {
 	return pen;
 }
 
+// ---------------------------------------------------------------------------------------
+
+BEGIN_EVENT_TABLE(MaxEvtHandler, wxEvtHandler)
+END_EVENT_TABLE()
+
+MaxEvtHandler::MaxEvtHandler(BBObject * handle)
+{
+	wxbind(this, handle);
+}
+
+MaxEvtHandler::~MaxEvtHandler() {
+	wxunbind(this);
+}
 
 /*****************************************************************************************
 	                                  Max interface
@@ -944,4 +957,8 @@ MaxPen * bmx_wxstockgdi_pen_white() {
 	return new MaxPen(p);
 }
 
+// *********************************************
 
+MaxEvtHandler * bmx_wxevthandler_create(BBObject * maxHandle) {
+	return new MaxEvtHandler(maxHandle);
+}

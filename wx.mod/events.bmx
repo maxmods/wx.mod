@@ -456,6 +456,18 @@ about: wxWindow (and therefore all window classes) are derived from this class.
 End Rem
 Type wxEvtHandler Extends wxObject
 
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateHandler:wxEvtHandler()
+		wxObjectPtr = bmx_wxevthandler_create(Self)
+		OnInit()
+		Return Self
+	End Method
+	
+	Method OnInit()
+	End Method
+
 	' TODO: a map/list of event handles for this instance
 	Field events:TMap = New TMap
 

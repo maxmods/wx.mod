@@ -657,33 +657,63 @@ Type wxWindow Extends wxEvtHandler
 	Method InheritAttributes()
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method InitDialog()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method InvalidateBestSize()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsDoubleBuffered:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsEnabled:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsExposed:Int(x:Int, y:Int, w:Int = 0, h:Int = 0)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsFrozen:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsRetained:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsShown:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsShownOnScreen:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsTopLevel:Int()
 	End Method
 	
@@ -696,15 +726,27 @@ Type wxWindow Extends wxEvtHandler
 		bmx_wxwindow_layout(wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method LineDown()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method LineUp()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Lower()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method MakeModal(flag:Int)
 	End Method
 	
@@ -715,21 +757,48 @@ Type wxWindow Extends wxEvtHandler
 		bmx_wxwindow_move(wxObjectPtr, x, y)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method MoveAfterInTabOrder(win:wxWindow)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method MoveBeforeInTabOrder(win:wxWindow)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Navigate:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method PageDown()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method PageUp()
 	End Method
-
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method PopEventHandler:wxEvtHandler(deleteHandler:Int = False)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method PopupMenu:Int(menu:wxMenu, x:Int, y:Int)
+	End Method
+	
 	Rem
 	bbdoc: Call this method to prepare the device context for drawing
 	End Rem
@@ -737,6 +806,79 @@ Type wxWindow Extends wxEvtHandler
 		bmx_wxwindow_preparedc(wxObjectPtr, dc.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Pushes this event handler onto the event stack for the window.
+	about: An event handler is an object that is capable of processing the events sent to a window.
+	By default, the window is its own event handler, but an application may wish to substitute another,
+	for example to allow central implementation of event-handling for a variety of different window classes.
+	<p>
+	wxWindow::PushEventHandler allows an application to set up a chain of event handlers, where an event not
+	handled by one event handler is handed to the next one in the chain. Use wxWindow::PopEventHandler to
+	remove the event handler.
+	</p>
+	End Rem
+	Method PushEventHandler(handler:wxEvtHandler)
+		bmx_wxwindow_pusheventhandler(wxObjectPtr, handler.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Raise()
+	End Method
+	
+	Rem
+	bbdoc: Causes this window, and all of its children recursively, to be repainted.
+	about: Note that repainting doesn't happen immediately but only during the next event loop iteration,
+	if you need to update the window immediately you should use Update instead.
+	End Rem
+	Method Refresh(eraseBackground:Int = True)
+		bmx_wxwindow_refresh(wxObjectPtr, eraseBackground)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method RefreshRect(x:Int, y:Int, w:Int, h:Int, eraseBackground:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method RegisterHotKey()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ReleaseMouse()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method RemoveChild(child:wxWindow)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method RemoveEventHandler:Int(handler:wxEvtHandler)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Reparent:Int(newParent:wxWindow)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ScreenToClient(x:Int, y:Int)
+	End Method
+	
+
 	Rem
 	bbdoc: Determines whether the wxWindow::Layout function will be called automatically when the window is resized.
 	about: Please note that this only happens for the windows usually used to contain children, namely wxPanel
@@ -759,15 +901,6 @@ Type wxWindow Extends wxEvtHandler
 
 
 	Method injectSelf()
-	End Method
-	
-	Rem
-	bbdoc: Causes this window, and all of its children recursively, to be repainted.
-	about: Note that repainting doesn't happen immediately but only during the next event loop iteration,
-	if you need to update the window immediately you should use Update instead.
-	End Rem
-	Method Refresh(eraseBackground:Int = True)
-		bmx_wxwindow_refresh(wxObjectPtr, eraseBackground)
 	End Method
 	
 	Rem

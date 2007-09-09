@@ -250,6 +250,22 @@ Const wxICON_MASK:Int = $00000100|$00000200|$00000400|$00000800
 
 Const wxTAB_TRAVERSAL:Int = $00080000
 
+
+Const wxID_EDIT:Int = 5030
+Const wxID_CUT:Int = 5031
+Const wxID_COPY:Int = 5032
+Const wxID_PASTE:Int = 5033
+Const wxID_CLEAR:Int = 5034
+Const wxID_FIND:Int = 5035
+Const wxID_DUPLICATE:Int = 5036
+Const wxID_SELECTALL:Int = 5037
+Const wxID_DELETE:Int = 5038
+Const wxID_REPLACE:Int = 5039
+Const wxID_REPLACE_ALL:Int = 5040
+Const wxID_PROPERTIES:Int = 5041
+
+
+
 Const wxID_OK:Int = 5100
 Const wxID_CANCEL:Int = 5101
 Const wxID_APPLY:Int = 5102

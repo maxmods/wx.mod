@@ -23,6 +23,7 @@ SuperStrict
 Import wx.wx
 Import wx.wxDC
 Import wx.wxCursor
+Import wx.wxMenu
 Import BRL.Blitz
 
 
@@ -98,6 +99,7 @@ Extern
 	Function bmx_wxwindow_hide:Int(handle:Byte Ptr)
 	Function bmx_wxwindow_move(handle:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxwindow_setdimensions(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, flags:Int)
+	Function bmx_wxwindow_pusheventhandler(handle:Byte Ptr, evt:Byte Ptr)
 
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)
