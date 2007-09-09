@@ -472,9 +472,9 @@ int bmx_eventtype_value(int type) {
 		case 418: return wxEVT_ERASE_BACKGROUND;
 		case 419: return wxEVT_NC_PAINT;
 		case 420: return wxEVT_PAINT_ICON;
-		case 421: return wxEVT_MENU_OPEN;
-		case 422: return wxEVT_MENU_CLOSE;
-		case 423: return wxEVT_MENU_HIGHLIGHT;
+		//case 421: return wxEVT_MENU_OPEN;
+		//case 422: return wxEVT_MENU_CLOSE;
+		//case 423: return wxEVT_MENU_HIGHLIGHT;
 		case 424: return wxEVT_CONTEXT_MENU;
 		case 425: return wxEVT_SYS_COLOUR_CHANGED;
 		case 426: return wxEVT_DISPLAY_CHANGED;
