@@ -1,3 +1,10 @@
+'
+' wxStatusBar sample
+'
+' From the C++ sample by Vadim Zeitlin
+'
+' BlitzMax port by Bruce A Henderson
+'
 SuperStrict
 
 Framework wx.wxApp
@@ -8,6 +15,7 @@ Import wx.wxBitmapButton
 Import wx.wxLog
 Import wx.wxNumberEntryDialog
 Import wx.wxMemoryDC
+Import wx.wxStaticText
 
 Import BRL.System
 
@@ -25,6 +33,9 @@ Const StatusBar_SetStyle:Int = 1001
 Const StatusBar_SetStyleNormal:Int = 1002
 Const StatusBar_SetStyleFlat:Int = 1003
 Const StatusBar_SetStyleRaised:Int = 1004
+
+' Start the app !!!!!
+New MyApp.run()
 
 
 Type MyApp Extends wxApp
@@ -128,18 +139,17 @@ Type MyStatusBar Extends wxStatusBar
 	End Method
 
 	Method UpdateClock()
-DebugLog("UpdateClock")
 		SetStatusText(CurrentTime(), Field_Clock)
 	End Method
 
 	' event handlers
 
 	Function OnTimer(event:wxEvent)
-DebugLog("OnTimer")
 		MyStatusBar(event.parent).UpdateClock()
 	End Function
 	
 	Function OnSize(event:wxEvent)
+
 		Local sb:MyStatusBar = MyStatusBar(event.parent)
 		If  Not sb.checkbox Then
 			Return
@@ -320,6 +330,8 @@ Type MyFrame Extends wxFrame
 	End Function
 	
 	Function OnAbout(event:wxEvent)
+		Local dlg:MyAboutDialog = New MyAboutDialog.Create(wxWindow(event.parent))
+		dlg.ShowModal()
 	End Function
 	
 	Function OnSetStatusFields(event:wxEvent)
@@ -400,5 +412,51 @@ Type MyFrame Extends wxFrame
 
 End Type
 
-New MyApp.run()
+' ----------------------------------------------------------------------------
+' MyAboutDialog
+' ----------------------------------------------------------------------------
+Type MyAboutDialog Extends wxDialog
+
+	Method Create:MyAboutDialog(parent:wxWindow, id:Int = -1, title:String = "About statbar", x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	
+		super.Create(parent, id, title, x, y, w, h, style)
+		Return Self
+	End Method
+	
+	Method OnInit()
+		Local text:wxStaticText = New wxStaticText.Create(Self, wxID_ANY, "wxStatusBar sample~n" + ..
+			"(c) 2000 Vadim Zeitlin~nBlitzmax port (c) 2007 Bruce A Henderson")
+
+		Local btn:wxButton = New wxButton.Create(Self, wxID_OK, "&Close")
+		
+		' create the top status bar without the size grip (Default style),
+		' otherwise it looks weird
+		Local statbarTop:wxStatusBar = New wxStatusBar.Create(Self, wxID_ANY, 0)
+		statbarTop.SetFieldsCount(3)
+		statbarTop.SetStatusText("This is a top status bar", 0)
+		statbarTop.SetStatusText("in a dialog", 1)
+		statbarTop.SetStatusText("Great, isn't it?", 2)
+		
+		Local statbarBottom:wxStatusBar = New wxStatusBar.Create(Self, wxID_ANY)
+		statbarBottom.SetFieldsCount(2)
+		statbarBottom.SetStatusText("This is a bottom status bar", 0)
+		statbarBottom.SetStatusText("in a dialog", 1)
+		
+		Local sizerTop:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+		sizerTop.Add(statbarTop, 0, wxGROW)
+		sizerTop.AddCustomSpacer(-1, 10, 1, wxGROW)
+		sizerTop.Add(text, 0, wxCENTRE | wxRIGHT | wxLEFT, 20)
+		sizerTop.AddCustomSpacer(-1, 10, 1, wxGROW)
+		sizerTop.Add(btn, 0, wxCENTRE | wxRIGHT | wxLEFT, 20)
+		sizerTop.AddCustomSpacer(-1, 10, 1, wxGROW)
+		sizerTop.Add(statbarBottom, 0, wxGROW)
+		
+		SetSizer(sizerTop)
+		
+		sizerTop.Fit(Self)
+		sizerTop.SetSizeHints(Self)
+
+	End Method
+End Type
 

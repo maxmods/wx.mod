@@ -21,15 +21,30 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/dialog.h"
 
-//class MaxNotebook;
+class MaxDialog;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxDialog * bmx_wxdialog_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y,
+		int w, int h, long style);
 
+	void bmx_wxdialog_centre(wxDialog * dialog, int direction);
+	bool bmx_wxdialog_show(wxDialog * dialog, bool show);
+	int bmx_wxdialog_showmodal(wxDialog * dialog);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxDialog : public wxDialog
+{
+public:
+	MaxDialog(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& title, int x, int y,
+		int w, int h, long style);
+	~MaxDialog();
+	
+};
 

@@ -24,8 +24,35 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxDialog::MaxDialog(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& title, int x, int y,
+		int w, int h, long style)
+	: wxDialog(parent, id, title, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxDialog::~MaxDialog() {
+	wxunbind(this);
+}
 
 
 // *********************************************
 
+
+MaxDialog * bmx_wxdialog_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y,
+		int w, int h, long style) {
+	return new MaxDialog(maxHandle, parent, id, wxStringFromBBString(title), x, y, w, h, style);
+}
+
+void bmx_wxdialog_centre(wxDialog * dialog, int direction) {
+	dialog->Centre(direction);
+}
+
+bool bmx_wxdialog_show(wxDialog * dialog, bool show) {
+	return dialog->Show(show);
+}
+
+int bmx_wxdialog_showmodal(wxDialog * dialog) {
+	return dialog->ShowModal();
+}
 

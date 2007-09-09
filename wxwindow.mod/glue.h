@@ -113,7 +113,8 @@ extern "C" {
 	MaxFlexGridSizer * bmx_wxflexgridsizer_create(BBObject * maxHandle, int cols, int vgap, int hgap);
 	void bmx_wxflexgridsizer_addgrowablecol(MaxFlexGridSizer * sizer, int index, int prop);
 	void bmx_wxflexgridsizer_addgrowablerow(MaxFlexGridSizer * sizer, int index, int prop);
-
+	void bmx_wxsizer_fit(wxSizer * sizer, wxWindow * window);
+	void bmx_wxsizer_fitsize(wxSizer * sizer, wxWindow * window, int * w, int * h);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

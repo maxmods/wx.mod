@@ -411,5 +411,14 @@ void bmx_wxflexgridsizer_addgrowablerow(MaxFlexGridSizer * sizer, int index, int
 	sizer->AddGrowableRow(index, prop);
 }
 
+void bmx_wxsizer_fit(wxSizer * sizer, wxWindow * window) {
+	sizer->Fit(window);
+}
+
+void bmx_wxsizer_fitsize(wxSizer * sizer, wxWindow * window, int * w, int * h) {
+	wxSize s = sizer->Fit(window);
+	*w = s.x;
+	*h = s.y;
+}
 
 

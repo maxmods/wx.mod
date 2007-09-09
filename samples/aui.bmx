@@ -1,3 +1,10 @@
+'
+' wxAui sample
+'
+' From the C++ sample by Benjamin I. Williams
+'
+' BlitzMax port by Bruce A Henderson
+'
 SuperStrict
 
 Framework wx.wxApp

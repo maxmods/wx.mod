@@ -1232,6 +1232,12 @@ Type wxSizer
 	Method AddStretchSpacer:wxSizerItem(proportion:Int = 1)
 		Return wxSizerItem._create(bmx_wxsizer_addstretchspacer(wxSizerPtr, proportion))
 	End Method
+	
+	Method CalcMin(w:Int Var, h:Int Var)
+	End Method
+	
+	Method Clear(deleteWindows:Int = False)
+	End Method
 
 	Rem
 	bbdoc: Detach a child from the sizer without destroying it.
@@ -1245,6 +1251,43 @@ Type wxSizer
 	End Rem
 	Method DetachSizer:Int(sizer:wxSizer)
 		Return bmx_wxsizer_detachsizer(wxSizerPtr, sizer.wxSizerPtr)
+	End Method
+	
+	Rem
+	bbdoc: Tell the sizer to resize the window to match the sizer's minimal size.
+	about: This is commonly done in the constructor of the window itself, see sample in the description
+	of wxBoxSizer.
+	<p>
+	For a top level window this is the total window size, not client size.
+	</p>
+	End Rem
+	Method Fit(window:wxWindow)
+		bmx_wxsizer_fit(wxSizerPtr, window.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Same as wxSizer::Fit, except that it returns the new size.
+	End Rem
+	Method FitSize(window:wxWindow, w:Int Var, h:Int Var)
+		bmx_wxsizer_fitsize(wxSizerPtr, window.wxObjectPtr, Varptr w, Varptr h)
+	End Method
+	
+	Method FitInside(window:wxWindow)
+	End Method
+	
+	Method GetChildren()
+	End Method
+	
+	Method GetContainingWindow:wxWindow()
+	End Method
+	
+	Method GetSize(w:Int Var, h:Int Var)
+	End Method
+	
+	Method GetPosition(x:Int Var, y:Int Var)
+	End Method
+	
+	Method GetMinSize(w:Int Var, h:Int Var)
 	End Method
 	
 	Rem

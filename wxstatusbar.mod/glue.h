@@ -55,6 +55,10 @@ public:
 	MaxStatusBar(BBObject * handle, wxWindow * parent, wxWindowID id, long style);
 	~MaxStatusBar();
 	void injectSelf(BBObject * handle);
+private:
+
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
 };
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -60,6 +60,4 @@ End Extern
 Const wxTIMER_CONTINUOUS:Int = False
 Const wxTIMER_ONE_SHOT:Int = True
 
-
-
 Const wxEVT_TIMER:Int = 80

@@ -30,21 +30,37 @@ MaxTimer::MaxTimer(BBObject * handle)
 	wxbind(this, handle);
 }
 
+MaxTimer::MaxTimer(BBObject * handle, wxEvtHandler * owner, int id)
+	: maxHandle(handle), wxTimer(owner, id)
+{
+	wxbind(this, handle);
+}
+
 MaxTimer::~MaxTimer() {
 	wxunbind(this);
 }
 
 void MaxTimer::Notify() {
-	_wx_wxtimer_wxTimer__notify(maxHandle);
+	if (m_owner == this) {
+		// call our own Notify()
+		_wx_wxtimer_wxTimer__notify(maxHandle);
+	} else {
+		// pass the event to the current owner!
+		wxTimerEvent event(m_idTimer, m_milli);
+		event.SetEventObject(this);
+		(void)m_owner->ProcessEvent(event);
+	}
 }
 
 
 // *********************************************
 
 MaxTimer * bmx_wxtimer_create(BBObject * maxHandle, wxEvtHandler * owner, int id) {
-	MaxTimer * timer = new MaxTimer(maxHandle);
+	MaxTimer * timer;
 	if (owner) {
-		timer->SetOwner(owner, id);
+		timer = new MaxTimer(maxHandle, owner, id);
+	} else {
+		timer = new MaxTimer(maxHandle);
 	}
 	return timer;
 }

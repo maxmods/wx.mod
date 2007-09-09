@@ -50,6 +50,7 @@ class MaxTimer : public wxTimer
 {
 public:
 	MaxTimer(BBObject * handle);
+	MaxTimer(BBObject * handle, wxEvtHandler * owner, int id);
 	~MaxTimer();
 	void Notify();
 

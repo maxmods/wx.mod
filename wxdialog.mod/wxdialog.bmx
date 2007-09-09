@@ -57,5 +57,149 @@ choice or to answer a question.
 End Rem
 Type wxDialog Extends wxTopLevelWindow
 
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateDialog:wxDialog(parent:wxWindow, id:Int, title:String, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
+		Return New wxDialog.Create(parent, id, title, x, y, w, h, style)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxDialog(parent:wxWindow, id:Int, title:String, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
+		wxObjectPtr = bmx_wxdialog_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
+		OnInit()
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Centre(direction:Int = wxBOTH)
+		bmx_wxdialog_centre(wxObjectPtr, direction)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateButtonSizer:wxSizer(flags:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateSeparatedButtonSizer:wxSizer(flags:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateStdDialogButtonSizer:wxStdDialogButtonSizer(flags:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DoOK:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EndModal(retCode:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetAffirmativeId:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetEscapeId:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetReturnCode:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Iconize(value:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsIconized:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsModal:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetAffirmativeId(id:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetEscapeId(id:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetIcon(icon:wxIcon)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetIcons()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetModal(flag:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetReturnCode(retCode:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Show:Int(value:Int)
+		Return bmx_wxdialog_show(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ShowModal:Int()
+		Return bmx_wxdialog_showmodal(wxObjectPtr)
+	End Method
+		
 End Type
 
+Type wxStdDialogButtonSizer Extends wxBoxSizer
+
+End Type

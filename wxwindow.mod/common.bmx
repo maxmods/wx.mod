@@ -125,5 +125,8 @@ Extern
 	Function bmx_wxflexgridsizer_create:Byte Ptr(handle:Object, cols:Int, vgap:Int, hgap:Int)
 	Function bmx_wxflexgridsizer_addgrowablecol(handle:Byte Ptr, index:Int, prop:Int)
 	Function bmx_wxflexgridsizer_addgrowablerow(handle:Byte Ptr, index:Int, prop:Int)
+	Function bmx_wxsizer_fit(handle:Byte Ptr, window:Byte Ptr)
+	Function bmx_wxsizer_fitsize(handle:Byte Ptr, window:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	
 
 End Extern
