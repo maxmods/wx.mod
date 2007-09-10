@@ -24,6 +24,25 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxIcon::MaxIcon()
+	: icon(wxNullIcon)
+{
+	icon = wxIcon();
+}
+
+MaxIcon::MaxIcon(const wxIcon & ic)
+	: icon(wxNullIcon)
+{
+	icon = wxIcon(ic); // we need to make a copy of it !
+}
+
+wxIcon & MaxIcon::Icon() {
+	return icon;
+}
+
+MaxIcon::~MaxIcon() {
+}
+
 
 
 // *********************************************

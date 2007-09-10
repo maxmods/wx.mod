@@ -44,7 +44,7 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 
-		frame = MyFrame(New MyFrame.Create("wxStatusBar sample", 50, 50, 450, 340))
+		frame = MyFrame(New MyFrame.Create(,,"wxStatusBar sample", 50, 50, 450, 340))
 
 		frame.show()
 		

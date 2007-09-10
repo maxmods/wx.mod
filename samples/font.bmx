@@ -16,7 +16,7 @@ Type MyApp Extends wxApp
 	Method OnInit:Int()
 
 		' Create the main application window
-		frame = MyFrame(New MyFrame.Create("Font wxWidgets demo", 50, 50, 600, 400))
+		frame = MyFrame(New MyFrame.Create(,,"Font wxWidgets demo", 50, 50, 600, 400))
 		
 		' Show it and tell the application that it's our main window
 		frame.show(True)

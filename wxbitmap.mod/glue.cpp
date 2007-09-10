@@ -61,6 +61,10 @@ MaxBitmap * bmx_wxbitmap_createempty(int width, int height, int depth) {
 	return new MaxBitmap(b);
 }
 
+MaxBitmap * bmx_wxbitmap_createfromfile(BBString * name, int flag) {
+	wxBitmap b(wxStringFromBBString(name), flag);
+	return new MaxBitmap(b);
+}
 
 bool bmx_wxbitmap_loadfile(MaxBitmap * bitmap, BBString * name, wxBitmapType type) {
 	return bitmap->Bitmap().LoadFile(wxStringFromBBString(name), type);

@@ -21,6 +21,10 @@ extern "C" {
 	void bmx_wxframe_setstatusbar(wxFrame * frame, wxStatusBar * statusbar);
 	wxStatusBar * bmx_wxframe_getstatusbar(wxFrame * frame);
 	void bmx_wxframe_positionstatusbar(MaxFrame * frame);
+
+	MaxToolBar * bmx_wxframe_createtoolbar(wxFrame * frame, long style, wxWindowID id);
+	wxToolBar * bmx_wxframe_gettoolbar(wxFrame * frame);
+	void bmx_wxframe_settoolbar(wxFrame * frame, wxToolBar * toolbar);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

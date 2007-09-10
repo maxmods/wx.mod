@@ -28,4 +28,85 @@
 
 // *********************************************
 
+bool bmx_wxtoplevelwindow_cansettransparent(wxTopLevelWindow * window) {
+	return window->CanSetTransparent();
+}
+
+bool bmx_wxtoplevelwindow_enableclosebutton(wxTopLevelWindow * window, bool value) {
+	return window->EnableCloseButton(value);
+}
+
+MaxIcon * bmx_wxtoplevelwindow_geticon(wxTopLevelWindow * window) {
+	wxIcon i(window->GetIcon());
+	return new MaxIcon(i);
+}
+
+BBString * bmx_wxtoplevelwindow_gettitle(wxTopLevelWindow * window) {
+	return bbStringFromWxString(window->GetTitle());
+}
+
+bool bmx_wxtoplevelwindow_isactive(wxTopLevelWindow * window) {
+	return window->IsActive();
+}
+
+bool bmx_wxtoplevelwindow_isalwaysmaximized(wxTopLevelWindow * window) {
+	return window->IsAlwaysMaximized();
+}
+
+void bmx_wxtoplevelwindow_iconize(wxTopLevelWindow * window, bool value) {
+	window->Iconize(value);
+}
+
+bool bmx_wxtoplevelwindow_isfullscreen(wxTopLevelWindow * window) {
+	return window->IsFullScreen();
+}
+
+bool bmx_wxtoplevelwindow_isiconized(wxTopLevelWindow * window) {
+	return window->IsIconized();
+}
+
+bool bmx_wxtoplevelwindow_ismaximized(wxTopLevelWindow * window) {
+	return window->IsMaximized();
+}
+
+void bmx_wxtoplevelwindow_maximize(wxTopLevelWindow * window, bool value) {
+	window->Maximize(value);
+}
+
+void bmx_wxtoplevelwindow_requestuserattention(wxTopLevelWindow * window, int flags) {
+	window->RequestUserAttention(flags);
+}
+
+void bmx_wxtoplevelwindow_setdefaultitem(wxTopLevelWindow * window, wxWindow * item) {
+	window->SetDefaultItem(item);
+}
+
+void bmx_wxtoplevelwindow_seticon(wxTopLevelWindow * window, MaxIcon * icon) {
+	window->SetIcon(icon->Icon());
+}
+
+void bmx_wxtoplevelwindow_setmaxsize(wxTopLevelWindow * window, int w, int h) {
+	window->SetMaxSize(wxSize(w, h));
+}
+
+void bmx_wxtoplevelwindow_setminsize(wxTopLevelWindow * window, int w, int h) {
+	window->SetMinSize(wxSize(w, h));
+}
+
+void bmx_wxtoplevelwindow_setsizehints(wxTopLevelWindow * window, int minW, int minH, int maxW, int maxH) {
+	window->SetSizeHints(minW, minH, maxW, maxH);
+}
+
+void bmx_wxtoplevelwindow_settitle(wxTopLevelWindow * window, BBString * title) {
+	window->SetTitle(wxStringFromBBString(title));
+}
+
+void bmx_wxtoplevelwindow_settransparent(wxTopLevelWindow * window, int alpha) {
+	window->SetTransparent(alpha);
+}
+
+bool bmx_wxtoplevelwindow_showfullscreen(wxTopLevelWindow * window, bool show, long style) {
+	return window->ShowFullScreen(show, style);
+}
+
 

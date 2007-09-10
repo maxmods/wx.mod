@@ -9,7 +9,7 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 
-		frame = wxFrame.CreateFrame("Hello World", 100, 100)
+		frame = wxFrame.CreateFrame(,,"Hello World", 100, 100)
 		frame.show()
 	
 		Return True

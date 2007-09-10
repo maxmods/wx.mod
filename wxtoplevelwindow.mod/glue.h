@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "../wxicon.mod/glue.h"
 
 //class MaxNotebook;
 
@@ -29,6 +30,27 @@ extern "C" {
 #include <blitz.h>
 
 	bool _wx_wxtoplevelwindow_wxTopLevelWindow__myShouldPreventAppExit(void * window);
+
+	bool bmx_wxtoplevelwindow_cansettransparent(wxTopLevelWindow * window);
+	bool bmx_wxtoplevelwindow_enableclosebutton(wxTopLevelWindow * window, bool value);
+	MaxIcon * bmx_wxtoplevelwindow_geticon(wxTopLevelWindow * window);
+	BBString * bmx_wxtoplevelwindow_gettitle(wxTopLevelWindow * window);
+	bool bmx_wxtoplevelwindow_isactive(wxTopLevelWindow * window);
+	bool bmx_wxtoplevelwindow_isalwaysmaximized(wxTopLevelWindow * window);
+	void bmx_wxtoplevelwindow_iconize(wxTopLevelWindow * window, bool value);
+	bool bmx_wxtoplevelwindow_isfullscreen(wxTopLevelWindow * window);
+	bool bmx_wxtoplevelwindow_isiconized(wxTopLevelWindow * window);
+	bool bmx_wxtoplevelwindow_ismaximized(wxTopLevelWindow * window);
+	void bmx_wxtoplevelwindow_maximize(wxTopLevelWindow * window, bool value);
+	void bmx_wxtoplevelwindow_requestuserattention(wxTopLevelWindow * window, int flags);
+	void bmx_wxtoplevelwindow_setdefaultitem(wxTopLevelWindow * window, wxWindow * item);
+	void bmx_wxtoplevelwindow_seticon(wxTopLevelWindow * window, MaxIcon * icon);
+	void bmx_wxtoplevelwindow_setmaxsize(wxTopLevelWindow * window, int w, int h);
+	void bmx_wxtoplevelwindow_setminsize(wxTopLevelWindow * window, int w, int h);
+	void bmx_wxtoplevelwindow_setsizehints(wxTopLevelWindow * window, int minW, int minH, int maxW, int maxH);
+	void bmx_wxtoplevelwindow_settitle(wxTopLevelWindow * window, BBString * title);
+	void bmx_wxtoplevelwindow_settransparent(wxTopLevelWindow * window, int alpha);
+	bool bmx_wxtoplevelwindow_showfullscreen(wxTopLevelWindow * window, bool show, long style);
 
 }
 

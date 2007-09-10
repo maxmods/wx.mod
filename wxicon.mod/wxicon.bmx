@@ -78,5 +78,14 @@ Rem
 		EndIf
 
 End Rem
+
+	Function _create:wxIcon(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxIcon = New wxIcon
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 End Type
 

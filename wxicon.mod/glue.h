@@ -22,7 +22,7 @@
 
 #include "wxglue.h"
 
-//class MaxNotebook;
+class MaxIcon;
 
 extern "C" {
 
@@ -33,3 +33,15 @@ extern "C" {
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxIcon
+{
+public:
+	MaxIcon();
+	MaxIcon(const wxIcon & icon);
+	~MaxIcon();
+	wxIcon & Icon();
+
+private:
+	wxIcon & icon;
+
+};

@@ -69,6 +69,18 @@ void bmx_wxframe_positionstatusbar(MaxFrame * frame) {
 	frame->PositionStatusBar();
 }
 
+MaxToolBar * bmx_wxframe_createtoolbar(wxFrame * frame, long style, wxWindowID id) {
+	return (MaxToolBar *)frame->CreateToolBar(style, id);
+}
+
+wxToolBar * bmx_wxframe_gettoolbar(wxFrame * frame) {
+	return frame->GetToolBar();
+}
+
+void bmx_wxframe_settoolbar(wxFrame * frame, wxToolBar * toolbar) {
+	frame->SetToolBar(toolbar);
+}
+
 
 // *********************************************
 

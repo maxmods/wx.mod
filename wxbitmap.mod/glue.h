@@ -32,6 +32,7 @@ extern "C" {
 	MaxBitmap * bmx_wxbitmap_create(bool makeNull);
 	MaxBitmap * bmx_wxbitmap_createfromimage(MaxImage * image, int depth);
 	MaxBitmap * bmx_wxbitmap_createempty(int width, int height, int depth);
+	MaxBitmap * bmx_wxbitmap_createfromfile(BBString * name, int flag);
 
 	bool bmx_wxbitmap_loadfile(MaxBitmap * bitmap, BBString * name, wxBitmapType type);
 	MaxImage * bmx_wxbitmap_converttoimage(MaxBitmap * bitmap);

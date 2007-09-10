@@ -46,6 +46,10 @@ void MaxToolBar::injectSelf(BBObject * handle) {
 
 // *********************************************
 
+void bmx_wxtoolbar_injectSelf(MaxToolBar * toolbar, BBObject * handle) {
+	toolbar->injectSelf(handle);
+}
+
 MaxToolBar * bmx_wxtoolbar_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id, int x, int y, int w, int h, long style) {
 	return new MaxToolBar(maxHandle, parent, id, x, y, w, h, style);
 }
@@ -58,14 +62,14 @@ void bmx_wxtoolbar_addseparator(wxToolBar * toolbar) {
 	toolbar->AddSeparator();
 }
 
-void bmx_wxtoolbar_addtool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
+wxToolBarToolBase * bmx_wxtoolbar_addtool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
 		MaxBitmap * bitmap2, wxItemKind kind, BBString * shortHelp, BBString * longHelp, void * clientData) {
 
 	if (bitmap2) {
-		toolbar->AddTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), bitmap2->Bitmap(), kind, 
+		return toolbar->AddTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), bitmap2->Bitmap(), kind, 
 			wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp));
 	} else {
-		toolbar->AddTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), wxNullBitmap, kind, 
+		return toolbar->AddTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), wxNullBitmap, kind, 
 			wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp));
 	}
 }

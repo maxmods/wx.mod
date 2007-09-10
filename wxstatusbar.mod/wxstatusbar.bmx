@@ -82,7 +82,6 @@ Type wxStatusBar Extends wxWindow
 		Local this:wxStatusBar = New wxStatusBar
 		
 		this.wxObjectPtr = wxObjectPtr
-		this.injectSelf()
 		
 		Return this
 	End Function

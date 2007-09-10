@@ -20,7 +20,7 @@ Type CheckListBoxApp Extends wxApp
 
 	Method OnInit:Int()
 
-		frame = MyFrame(New MyFrame.Create("wxWidgets Checklistbox Sample", 200, 200, 400, 400))
+		frame = MyFrame(New MyFrame.Create(,, "wxWidgets Checklistbox Sample", 200, 200, 400, 400))
 		frame.show()
 	
 		Return True

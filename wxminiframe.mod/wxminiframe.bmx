@@ -64,29 +64,29 @@ Type wxMiniFrame Extends wxFrame
 	Rem
 	bbdoc: Constructor, creating the window.
 	End Rem
-	Function CreateMiniFrame:wxMiniFrame(title:String = "", x:Int = -1, y:Int = -1, ..
-			w:Int = -1, h:Int = -1, parent:wxWindow = Null, id:Int = -1, style:Int = wxCAPTION | wxRESIZE_BORDER)
+	Function CreateMiniFrame:wxMiniFrame(parent:wxWindow = Null, id:Int = -1, title:String = "", x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxCAPTION | wxRESIZE_BORDER)
 	
-		Local this:wxMiniFrame = New wxMiniFrame
-		
-		this.init(title, x, y, w, h, parent, id, style)
-		
-		Return this
+		Return New wxMiniFrame.Create(parent, id, title, x, y, w, h, style)
 	End Function
 	
-	Method init(title:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, parent:wxWindow = Null, id:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE)
-
+	Rem
+	bbdoc: Used in two-step frame construction. See CreateMiniFrame for further details.
+	End Rem
+	Method Create:wxMiniFrame(parent:wxWindow = Null, id:Int = -1, title:String = "", x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxCAPTION | wxRESIZE_BORDER)
+	
 		If parent Then
 			wxObjectPtr = bmx_wxminiframe_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
 		Else
 			wxObjectPtr = bmx_wxminiframe_create(Self, Null, id, title, x, y, w, h, style)
 		End If
-			
+		
+		OnInit()
+		Return Self
 	End Method
-
+	
 End Type
-
-
 
 
 

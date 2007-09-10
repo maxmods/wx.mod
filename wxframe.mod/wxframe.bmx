@@ -69,26 +69,19 @@ Type wxFrame Extends wxTopLevelWindow
 	Rem
 	bbdoc: TODO
 	End Rem
-	Function CreateFrame:wxFrame(title:String = "", x:Int = -1, y:Int = -1, ..
-			w:Int = -1, h:Int = -1, parent:wxWindow = Null, id:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE)
+	Function CreateFrame:wxFrame(parent:wxWindow = Null, id:Int = -1, title:String = "", x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE)
 	
-		Return New wxFrame.Create(title, x, y, w, h, parent, id, style)
+		Return New wxFrame.Create(parent, id, title, x, y, w, h, style)
 		
 	End Function
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method Create:wxFrame(title:String = "", x:Int = -1, y:Int = -1, ..
-			w:Int = -1, h:Int = -1, parent:wxWindow = Null, id:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE)
+	Method Create:wxFrame(parent:wxWindow = Null, id:Int = -1, title:String = "", x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE)
 	
-		init(title, x, y, w, h, parent, id, style)
-	
-		Return Self
-	End Method
-	
-	Method init(title:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, parent:wxWindow = Null, id:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE)
-
 		If parent Then
 			wxObjectPtr = bmx_wxframe_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
 		Else
@@ -96,7 +89,7 @@ Type wxFrame Extends wxTopLevelWindow
 		End If
 		
 		OnInit()
-			
+		Return Self
 	End Method
 	
 	Rem
@@ -106,6 +99,9 @@ Type wxFrame Extends wxTopLevelWindow
 	Method OnInit()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetMenuBar(menuBar:wxMenuBar)
 
 		If Not self.menuBar Then
@@ -119,7 +115,9 @@ Type wxFrame Extends wxTopLevelWindow
 	bbdoc: Creates a status bar at the bottom of the frame.
 	End Rem
 	Method CreateStatusBar:wxStatusBar(number:Int = 1, style:Int = 0, id:Int = -1)
-		Return wxStatusBar._create(bmx_wxframe_createstatusbar(wxObjectPtr, number, style, id))
+		Local sb:wxStatusBar = wxStatusBar._create(bmx_wxframe_createstatusbar(wxObjectPtr, number, style, id))
+		sb.injectSelf()
+		Return sb
 	End Method
 	
 	Rem
@@ -175,7 +173,50 @@ Type wxFrame Extends wxTopLevelWindow
 	End Rem
 	Method SetStatusBarPane(n:Int)
 	End Method
-
+	
+	Rem
+	bbdoc: Creates a toolbar at the top or left of the frame
+	End Rem
+	Method CreateToolBar:wxToolBar(style:Int = wxNO_BORDER | wxTB_HORIZONTAL, id:Int = -1)
+		Local tb:wxToolBar = wxToolBar._create(bmx_wxframe_createtoolbar(wxObjectPtr, style, id))
+		tb.injectSelf()
+		Return tb
+	End Method
+	
+	Rem
+	bbdoc: Returns the toolbar currently associated with the frame (if any).
+	End Rem
+	Method GetToolBar:wxToolBar()
+		Local tbPtr:Byte Ptr = bmx_wxframe_gettoolbar(wxObjectPtr)
+		If tbptr Then
+			Local tb:wxToolBar = wxToolBar(wxfind(tbPtr))
+			If Not tb Then
+				tb = wxToolBar._create(tbPtr)
+			End If
+			Return tb
+		End If
+	End Method
+	
+	Rem
+	bbdoc: Associates a toolbar with the frame.
+	End Rem
+	Method SetToolBar(toolbar:wxToolBar)
+		bmx_wxframe_settoolbar(wxObjectPtr, toolbar.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ProcessCommand(id:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SendSizeEvent()
+	End Method
+	
+	
 	Method Delete()
 	End Method
 End Type

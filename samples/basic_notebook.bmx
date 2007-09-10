@@ -14,7 +14,7 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 
-		frame = MyFrame(New MyFrame.Create("Basic Notebook App", 200, 200))
+		frame = MyFrame(New MyFrame.Create(Null, -1, "Basic Notebook App", 200, 200))
 		
 		SetTopWindow(frame)
 		

@@ -63,6 +63,7 @@ Type wxTopLevelWindow Extends wxWindow
 	bbdoc: Returns true if the platform supports making the window translucent.
 	End Rem
 	Method CanSetTransparent:Int()
+		Return bmx_wxtoplevelwindow_cansettransparent(wxObjectPtr)
 	End Method
 
 	Rem
@@ -72,6 +73,7 @@ Type wxTopLevelWindow Extends wxWindow
 	way to find out.
 	End Rem
 	Method EnableCloseButton:Int(value:Int)
+		Return bmx_wxtoplevelwindow_enableclosebutton(wxObjectPtr, value)
 	End Method
 
 	Rem
@@ -79,6 +81,8 @@ Type wxTopLevelWindow Extends wxWindow
 	about: The default button is the one activated by pressing the Enter key.
 	End Rem
 	Method GetDefaultItem:wxWindow()
+		' TODO : get the real object
+		'Return bmx_wxtoplevelwindow_getdefaultitem(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -86,6 +90,7 @@ Type wxTopLevelWindow Extends wxWindow
 	about: The icon will be invalid if it hadn't been previously set by SetIcon.
 	End Rem
 	Method GetIcon:wxIcon()
+		Return wxIcon._create(bmx_wxtoplevelwindow_geticon(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -93,54 +98,63 @@ Type wxTopLevelWindow Extends wxWindow
 	about: Use GetIcon to get the main icon of the window.
 	End Rem
 	Method GetIcons()
+		'TODO
 	End Method
 	
 	Rem
 	bbdoc: Gets a string containing the window title.
 	End Rem
 	Method GetTitle:String()
+		Return bmx_wxtoplevelwindow_gettitle(wxObjectPtr)
 	End Method
 
 	Rem
 	bbdoc: Returns true if this window is currently active, i.e. if the user is currently working with it.
 	End Rem
 	Method IsActive:Int()
+		Return bmx_wxtoplevelwindow_isactive(wxObjectPtr)
 	End Method
 
 	Rem
 	bbdoc: Returns true if this window is expected to be always maximized, either due to platform policy or due to local policy regarding particular class.
 	End Rem
 	Method IsAlwaysMaximized:Int()
+		Return bmx_wxtoplevelwindow_isalwaysmaximized(wxObjectPtr)
 	End Method
 
 	Rem
 	bbdoc: Iconizes or restores the window.
 	End Rem
 	Method Iconize(value:Int)
+		bmx_wxtoplevelwindow_iconize(wxObjectPtr, value)
 	End Method
 
 	Rem
 	bbdoc: Returns True if the window is in fullscreen mode.
 	End Rem
 	Method IsFullScreen:Int()
+		Return bmx_wxtoplevelwindow_isfullscreen(wxObjectPtr)
 	End Method
 
 	Rem
 	bbdoc: Returns True if the window is iconized.
 	End Rem
 	Method IsIconized:Int()
+		Return bmx_wxtoplevelwindow_isiconized(wxObjectPtr)
 	End Method
 
 	Rem
 	bbdoc: Returns True if the window is maximized.
 	End Rem
 	Method IsMaximized:Int()
+		Return bmx_wxtoplevelwindow_ismaximized(wxObjectPtr)
 	End Method
 
 	Rem
 	bbdoc: Maximizes or restores the window.
 	End Rem
 	Method Maximize(value:Int)
+		bmx_wxtoplevelwindow_maximize(wxObjectPtr, value)
 	End Method
 
 	Rem
@@ -156,18 +170,21 @@ Type wxTopLevelWindow Extends wxWindow
 	</p>
 	End Rem
 	Method RequestUserAttention(flags:Int = wxUSER_ATTENTION_INFO)
+		bmx_wxtoplevelwindow_requestuserattention(wxObjectPtr, flags)
 	End Method
 	
 	Rem
 	bbdoc: Changes the default item for the panel, usually @win is a button.
 	End Rem
 	Method SetDefaultItem(win:wxWindow)
+		bmx_wxtoplevelwindow_setdefaultitem(wxObjectPtr, win.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Sets the icon for this window.
 	End Rem
 	Method SetIcon(icon:wxIcon)
+		bmx_wxtoplevelwindow_seticon(wxObjectPtr, icon.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -182,12 +199,14 @@ Type wxTopLevelWindow Extends wxWindow
 	bbdoc: A simpler interface for setting the size hints than SetSizeHints.
 	End Rem
 	Method SetMaxSize(w:Int, h:Int)
+		bmx_wxtoplevelwindow_setmaxsize(wxObjectPtr, w, h)
 	End Method
 	
 	Rem
 	bbdoc: A simpler interface for setting the size hints than SetSizeHints.
 	End Rem
 	Method SetMinSize(w:Int, h:Int)
+		bmx_wxtoplevelwindow_setminsize(wxObjectPtr, w, h)
 	End Method
 	
 	Rem
@@ -195,6 +214,7 @@ Type wxTopLevelWindow Extends wxWindow
 	about: If this method is called, the user will not be able to size the window outside the given bounds.
 	End Rem
 	Method SetSizeHints(minW:Int, minH:Int, maxW:Int = -1, maxH:Int = -1)
+		bmx_wxtoplevelwindow_setsizehints(wxObjectPtr, minW, minH, maxW, maxH)
 	End Method
 	
 	Rem
@@ -204,18 +224,21 @@ Type wxTopLevelWindow Extends wxWindow
 	Returns True if the operation is successful.
 	End Rem
 	Method SetShape:Int(region:wxRegion)
+		'Return bmx_wxtoplevelwindow_setshape(wxObjectPtr, w, h)
 	End Method
 	
 	Rem
 	bbdoc: Sets the window title.
 	End Rem
 	Method SetTitle(title:String)
+		bmx_wxtoplevelwindow_settitle(wxObjectPtr, title)
 	End Method
 	
 	Rem
 	bbdoc: If the platform supports it will set the window to be translucent.
 	End Rem
 	Method SetTransparent(alpha:Int)
+		bmx_wxtoplevelwindow_settransparent(wxObjectPtr, alpha)
 	End Method
 	
 	Rem
@@ -251,6 +274,7 @@ Type wxTopLevelWindow Extends wxWindow
 	</p>
 	End Rem
 	Method ShowFullScreen:Int(show:Int, style:Int = wxFULLSCREEN_ALL)
+		Return bmx_wxtoplevelwindow_showfullscreen(wxObjectPtr, show, style)
 	End Method
 	
 End Type

@@ -56,6 +56,10 @@ Extern
 	Function bmx_wxframe_setstatusbar(handle:Byte Ptr, statusbar:Byte Ptr)
 	Function bmx_wxframe_getstatusbar:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxframe_positionstatusbar(handle:Byte Ptr)
+
+	Function bmx_wxframe_createtoolbar:Byte Ptr(handle:Byte Ptr, style:Int, id:Int)
+	Function bmx_wxframe_gettoolbar:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxframe_settoolbar(handle:Byte Ptr, toolbar:Byte Ptr)
 	
 End Extern
 

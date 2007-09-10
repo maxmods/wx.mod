@@ -11,7 +11,7 @@ Type VScrollApp Extends wxApp
 
 	Method OnInit:Int()
 
-		frame = VScrollFrame(New VScrollFrame.Create("VScroll wxWidgets Sample", , ,400, 350))
+		frame = VScrollFrame(New VScrollFrame.Create(,,"VScroll wxWidgets Sample", , ,400, 350))
 
 		SetTopWindow(frame)
 		

@@ -26,7 +26,7 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 
-		frame = MyFrame(New MyFrame.Create("wxAUI Sample Application", , , 800, 600, , ,wxDEFAULT_FRAME_STYLE | wxSUNKEN_BORDER))
+		frame = MyFrame(New MyFrame.Create(,,"wxAUI Sample Application", , , 800, 600,wxDEFAULT_FRAME_STYLE | wxSUNKEN_BORDER))
 
 		SetTopWindow(frame)
 		

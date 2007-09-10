@@ -94,7 +94,20 @@ Type wxToolBar Extends wxControl
 			
 		wxObjectPtr = bmx_wxtoolbar_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
 		
+		OnInit() ' let's call OnInit, just in case the user wants to do some initialization!
 		Return Self
+	End Method
+
+	Function _create:wxToolBar(wxObjectPtr:Byte Ptr)
+		Local this:wxToolBar = New wxToolBar
+		
+		this.wxObjectPtr = wxObjectPtr
+		
+		Return this
+	End Function
+
+	Method injectSelf()
+		bmx_wxtoolbar_injectSelf(wxObjectPtr, Self)
 	End Method
 
 	Rem
@@ -111,26 +124,179 @@ Type wxToolBar Extends wxControl
 		bmx_wxtoolbar_addseparator(wxObjectPtr)
 	End Method
 	
-	Method AddTool(toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, kind:Int = wxITEM_NORMAL, ..
+	Rem
+	bbdoc: Adds a tool to the toolbar.
+	End Rem
+	Method AddTool:wxToolBarToolBase(toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, kind:Int = wxITEM_NORMAL, ..
 			shortHelpString:String = "", longHelpString:String = "", clientData:Object = Null)
 	
 		If bitmap2 Then
 			If clientData Then
-				bmx_wxtoolbar_addtool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, kind, ..
-					shortHelpString, longHelpString, clientData)
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addtool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, kind, ..
+					shortHelpString, longHelpString, clientData))
 			Else
-				bmx_wxtoolbar_addtool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, kind, ..
-					shortHelpString, longHelpString, Null)
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addtool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, kind, ..
+					shortHelpString, longHelpString, Null))
 			End If
 		Else
 			If clientData Then
-				bmx_wxtoolbar_addtool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, Null, kind, ..
-					shortHelpString, longHelpString, clientData)
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addtool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, Null, kind, ..
+					shortHelpString, longHelpString, clientData))
 			Else
-				bmx_wxtoolbar_addtool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, Null, kind, ..
-					shortHelpString, longHelpString, Null)
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addtool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, Null, kind, ..
+					shortHelpString, longHelpString, Null))
 			End If
 		End If
+	
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method AddCheckTool:wxToolBarToolBase(toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, kind:Int = wxITEM_NORMAL, ..
+			shortHelpString:String = "", longHelpString:String = "", clientData:Object = Null)
+	
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method AddRadioTool:wxToolBarToolBase(toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, kind:Int = wxITEM_NORMAL, ..
+			shortHelpString:String = "", longHelpString:String = "", clientData:Object = Null)
+	
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ClearTools()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DeleteTool:Int(toolId:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DeleteToolByPos:Int(pos:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EnableTool(toolId:Int, enable:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method FindById:wxToolBarToolBase(id:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method FindControl:wxControl(id:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method FindToolForPosition:wxToolBarToolBase(x:Int, y:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolsCount:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolSize(width:Int Var, height:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolBitmapSize(width:Int Var, height:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetMargins(leftRight:Int Var, topBottom:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolClientData:Object(toolId:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolEnabled:Int(toolId:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolLongHelp:String(toolId:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolPacking:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolPos:Int(toolId:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolSeparation:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolShortHelp:String(toolId:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetToolState:Int(toolId:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method InsertControl:wxToolBarToolBase(pos:Int, control:wxControl)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method InsertSeparator:wxToolBarToolBase(pos:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method InsertTool:wxToolBarToolBase(pos:Int, toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, kind:Int = wxITEM_NORMAL, ..
+			shortHelpString:String = "", longHelpString:String = "", clientData:Object = Null)
 	
 	End Method
 	
@@ -140,7 +306,19 @@ Type wxToolBar Extends wxControl
 	Method Realize:Int()
 		Return bmx_wxtoolbar_realize(wxObjectPtr)
 	End Method
-
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method RemoveTool:wxToolBarToolBase(id:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetMargins(leftRight:Int, topBottom:Int)
+	End Method
+		
 	Rem
 	bbdoc: Sets the default size of each tool bitmap.
 	about: The default bitmap size is 16 by 15 pixels.
@@ -149,7 +327,79 @@ Type wxToolBar Extends wxControl
 		bmx_wxtoolbar_settoolbitmapsize(wxObjectPtr, width, height)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetToolClientData(id:Int, clientData:Object)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetToolDisabledBitmap(id:Int, bitmap:wxBitmap)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetToolLongHelp(id:Int, helpString:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetToolPacking(packing:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetToolShortHelp(id:Int, helpString:String)
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetToolNormalBitmap(id:Int, bitmap:wxBitmap)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetToolSeparation(separation:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ToggleTool(toolId:Int, toggle:Int)
+	End Method
+	
 End Type
+
+
+Rem
+bbdoc: A toolbar element.
+about: It has a unique id (except for the separators which always have id wxID_ANY), the
+ style (telling whether it is a normal button, separator or a control), the
+ state (toggled or not, enabled or not) and short and long help strings. The
+ default implementations use the short help string for the tooltip text which
+ is popped up when the mouse pointer enters the tool and the long help string
+ for the applications status bar.
+End Rem
+Type wxToolBarToolBase Extends wxControl
+
+	Function _create:wxToolBarToolBase(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxToolBarToolBase = New wxToolBarToolBase
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+
+End Type
+
 
 
 Type TToolBarEventFactory Extends TEventFactory

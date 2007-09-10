@@ -45,4 +45,25 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxtoplevelwindow_cansettransparent:Int(handle:Byte Ptr)
+	Function bmx_wxtoplevelwindow_enableclosebutton:Int(handle:Byte Ptr, value:Int)
+	Function bmx_wxtoplevelwindow_geticon:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtoplevelwindow_gettitle:String(handle:Byte Ptr)
+	Function bmx_wxtoplevelwindow_isactive:Int(handle:Byte Ptr)
+	Function bmx_wxtoplevelwindow_isalwaysmaximized:Int(handle:Byte Ptr)
+	Function bmx_wxtoplevelwindow_iconize(handle:Byte Ptr, value:Int)
+	Function bmx_wxtoplevelwindow_isfullscreen:Int(handle:Byte Ptr)
+	Function bmx_wxtoplevelwindow_isiconized:Int(handle:Byte Ptr)
+	Function bmx_wxtoplevelwindow_ismaximized:Int(handle:Byte Ptr)
+	Function bmx_wxtoplevelwindow_maximize(handle:Byte Ptr, value:Int)
+	Function bmx_wxtoplevelwindow_requestuserattention(handle:Byte Ptr, flags:Int)
+	Function bmx_wxtoplevelwindow_setdefaultitem(handle:Byte Ptr, win:Byte Ptr)
+	Function bmx_wxtoplevelwindow_seticon(handle:Byte Ptr, icon:Byte Ptr)
+	Function bmx_wxtoplevelwindow_setmaxsize(handle:Byte Ptr, w:Int, h:Int)
+	Function bmx_wxtoplevelwindow_setminsize(handle:Byte Ptr, w:Int, h:Int)
+	Function bmx_wxtoplevelwindow_setsizehints(handle:Byte Ptr, minW:Int, minH:Int, maxW:Int, maxH:Int)
+	Function bmx_wxtoplevelwindow_settitle(handle:Byte Ptr, title:String)
+	Function bmx_wxtoplevelwindow_settransparent(handle:Byte Ptr, alpha:Int)
+	Function bmx_wxtoplevelwindow_showfullscreen:Int(handle:Byte Ptr, show:Int, style:Int)
+
 End Extern

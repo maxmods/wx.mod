@@ -9,7 +9,7 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 
-		frame = MyFrame(New MyFrame.Create("Minimal wxWidgets App", 100, 100))
+		frame = MyFrame(New MyFrame.Create(,,"Minimal wxWidgets App", 100, 100))
 
 		SetTopWindow(frame)
 		

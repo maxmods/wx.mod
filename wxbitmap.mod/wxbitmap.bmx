@@ -50,6 +50,9 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Rem
+bbdoc: A Null bitmap.
+End Rem
 Function wxNullBitmap:wxBitmap()
 	Return New wxBitmap.CreateNull()
 End Function
@@ -88,7 +91,10 @@ Type wxBitmap Extends wxGDIObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a new empty bitmap.
+	about: A depth of -1 indicates the depth of the current screen or visual. Some platforms only support
+	1 for monochrome and -1 for the current colour setting. A depth of 32 including an alpha channel is
+	supported under MSW, Mac and GTK+.
 	End Rem
 	Method CreateEmpty:wxBitmap(width:Int, height:Int, depth:Int = -1)
 		wxObjectPtr = bmx_wxbitmap_createempty(width, height, depth)
@@ -96,10 +102,29 @@ Type wxBitmap Extends wxGDIObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates bitmap object from the image.
+	about: This has to be done to actually display an image as you cannot draw an image directly on a
+	window. The resulting bitmap will use the provided colour depth (or that of the current system if
+	depth is -1) which entails that a colour reduction has to take place.
+	<p>
+	When in 8-bit mode (PseudoColour mode), the GTK port will use a color cube created on program
+	start-up to look up colors. This ensures a very fast conversion, but the image quality won't be
+	perfect (and could be better for photo images using more sophisticated dithering algorithms).
+	</p>
+	<p>
+	On Windows, if there is a palette present (set with SetPalette), it will be used when creating the
+	wxBitmap (most useful in 8-bit display mode). On other platforms, the palette is currently ignored.
+	</p>
 	End Rem
 	Function CreateFromImage:wxBitmap(image:wxImage, depth:Int = -1)
 		Return _create(bmx_wxbitmap_createfromimage(image.wxObjectPtr, depth))
+	End Function
+	
+	Rem
+	bbdoc: Loads a bitmap from a file or resource.
+	End Rem
+	Function CreateFromFile:wxBitmap(name:String, flag:Int)
+		Return _create(bmx_wxbitmap_createfromfile(name, flag))
 	End Function
 	
 	Rem

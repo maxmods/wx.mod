@@ -240,4 +240,8 @@ Type wxScrolledWindow Extends wxPanel
 		bmx_wxscrolledwindow_settargetwindow(wxObjectPtr, window.wxObjectPtr)
 	End Method
 	
+	Method OnDraw(dc:wxDC)
+		
+	End Method
+	
 End Type

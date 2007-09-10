@@ -12,7 +12,7 @@ Type MyApp Extends wxApp
 	Method OnInit:Int()
 		wxImage.AddHandler(New wxPNGHandler)
 
-		frame = MyFrame(New MyFrame.Create("wxSplashScreen sample application"))
+		frame = MyFrame(New MyFrame.Create(,,"wxSplashScreen sample application"))
 
 		Local bitmap:wxBitmap = New wxBitmap.Create()
 		
