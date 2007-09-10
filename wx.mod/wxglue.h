@@ -261,6 +261,8 @@ private:
 class MaxDC
 {
 public:
+	MaxDC();
+	MaxDC(wxDC & dc);
 	wxDC * GetDC();
 	void init(wxDC * _dc);
 private:

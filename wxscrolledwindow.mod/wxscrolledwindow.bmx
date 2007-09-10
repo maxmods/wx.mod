@@ -240,8 +240,19 @@ Type wxScrolledWindow Extends wxPanel
 		bmx_wxscrolledwindow_settargetwindow(wxObjectPtr, window.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Called by the default paint event handler to allow the application to define painting behaviour without having to worry about calling wxScrolledWindow::DoPrepareDC.
+	about: Instead of overriding this method you may also just process the paint event in the derived type
+	as usual, but then you will have to call DoPrepareDC() yourself.
+	End Rem
 	Method OnDraw(dc:wxDC)
-		
+		bmx_wxscrolledwindow_ondraw_default(wxObjectPtr, dc.wxObjectPtr)
 	End Method
+	
+	Function _OnDraw(handle:Object, dc:Byte Ptr)
+		If wxScrolledWindow(handle) Then
+			wxScrolledWindow(handle).OnDraw(wxDC._create(dc))
+		End If
+	End Function
 	
 End Type

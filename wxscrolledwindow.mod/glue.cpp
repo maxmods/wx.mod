@@ -34,6 +34,16 @@ MaxScrolledWindow::~MaxScrolledWindow() {
 	wxunbind(this);
 }
 
+void MaxScrolledWindow::OnDraw(wxDC & dc) {
+	BBObject * obj = wxfind(this);
+	_wx_wxscrolledwindow_wxScrolledWindow__OnDraw(obj, new MaxDC(dc));
+}
+
+void MaxScrolledWindow::DefaultOnDraw(MaxDC * dc) {
+	wxScrolledWindow::OnDraw(*dc->GetDC());
+}
+
+
 
 // *********************************************
 
@@ -87,5 +97,9 @@ void bmx_wxscrolledwindow_setscrollrate(wxScrolledWindow * window, int xStep, in
 
 void bmx_wxscrolledwindow_settargetwindow(wxScrolledWindow * window, wxWindow * target) {
 	window->SetTargetWindow(target);
+}
+
+void bmx_wxscrolledwindow_ondraw_default(MaxScrolledWindow * window, MaxDC * dc) {
+	window->DefaultOnDraw(dc);
 }
 

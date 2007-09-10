@@ -217,6 +217,14 @@ MaxFont::~MaxFont() {
 
 // ---------------------------------------------------------------------------------------
 
+MaxDC::MaxDC()
+{
+}
+
+MaxDC::MaxDC(wxDC & dc)
+{
+	init(&dc);
+}
 
 wxDC * MaxDC::GetDC() {
 	return dc;

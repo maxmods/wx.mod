@@ -58,4 +58,5 @@ Extern
 	Function bmx_wxscrolledwindow_setscrollrate(handle:Byte Ptr, xStep:Int, yStep:Int)
 	Function bmx_wxscrolledwindow_settargetwindow(handle:Byte Ptr, window:Byte Ptr)
 	
+	Function bmx_wxscrolledwindow_ondraw_default(handle:Byte Ptr, dc:Byte Ptr)
 End Extern

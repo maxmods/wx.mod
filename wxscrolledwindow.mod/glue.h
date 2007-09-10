@@ -28,6 +28,8 @@ extern "C" {
 
 #include <blitz.h>
 
+	void _wx_wxscrolledwindow_wxScrolledWindow__OnDraw(BBObject * handle, MaxDC * dc);
+	
 	MaxScrolledWindow * bmx_wxscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 
 	void bmx_wxscrolledwindow_calcscrolledposition(wxScrolledWindow * window, int x, int y, int * xx, int * yy);
@@ -42,6 +44,7 @@ extern "C" {
 	void bmx_wxscrolledwindow_setscrollrate(wxScrolledWindow * window, int xStep, int yStep);
 	void bmx_wxscrolledwindow_settargetwindow(wxScrolledWindow * window, wxWindow * target);
 
+	void bmx_wxscrolledwindow_ondraw_default(MaxScrolledWindow * window, MaxDC * dc);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -52,6 +55,8 @@ public:
 	MaxScrolledWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
 	~MaxScrolledWindow();
+	void OnDraw(wxDC & dc);
+	void DefaultOnDraw(MaxDC * dc);
 
 private:
 
