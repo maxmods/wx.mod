@@ -308,6 +308,82 @@ void bmx_wxwindow_pusheventhandler(wxWindow * window, wxEvtHandler * evt) {
 	window->PushEventHandler(evt);
 }
 
+wxWindowVariant bmx_wxwindow_getwindowvariant(wxWindow * window) {
+	return window->GetWindowVariant();
+}
+
+bool bmx_wxwindow_hascapture(wxWindow * window) {
+	return window->HasCapture();
+}
+
+bool bmx_wxwindow_hasflag(wxWindow * window, int flag) {
+	return window->HasFlag(flag);
+}
+
+bool bmx_wxwindow_hasmultiplepages(wxWindow * window) {
+	return window->HasMultiplePages();
+}
+
+bool bmx_wxwindow_hastransparentbackground(wxWindow * window) {
+	return window->HasTransparentBackground();
+}
+
+bool bmx_wxwindow_hasscrollbar(wxWindow * window, int orient) {
+	return window->HasScrollbar(orient);
+}
+
+void bmx_wxwindow_inheritattributes(wxWindow * window) {
+	window->InheritAttributes();
+}
+
+void bmx_wxwindow_initdialog(wxWindow * window) {
+	window->InitDialog();
+}
+
+void bmx_wxwindow_invalidatebestsize(wxWindow * window) {
+	window->InvalidateBestSize();
+}
+
+bool bmx_wxwindow_isdoublebuffered(wxWindow * window) {
+	return window->IsDoubleBuffered();
+}
+
+bool bmx_wxwindow_isenabled(wxWindow * window) {
+	return window->IsEnabled();
+}
+
+bool bmx_wxwindow_isexposed(wxWindow * window, int x, int y, int w, int h) {
+	if (w == 0 || h == 0) {
+		return window->IsExposed(x, y);
+	} else {
+		return window->IsExposed(x, y, w, h);
+	}
+}
+
+bool bmx_wxwindow_isfrozen(wxWindow * window) {
+	return window->IsFrozen();
+}
+
+bool bmx_wxwindow_isretained(wxWindow * window) {
+	return window->IsRetained();
+}
+
+bool bmx_wxwindow_isshown(wxWindow * window) {
+	return window->IsShown();
+}
+
+bool bmx_wxwindow_isshownonscreen(wxWindow * window) {
+	return window->IsShownOnScreen();
+}
+
+bool bmx_wxwindow_istoplevel(wxWindow * window) {
+	return window->IsTopLevel();
+}
+
+bool bmx_wxwindow_reparent(wxWindow * window, wxWindow * parent) {
+	return window->Reparent(parent);
+}
+
 
 // *********************************************
 

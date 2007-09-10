@@ -170,24 +170,28 @@ Type wxToolBar Extends wxControl
 	bbdoc: 
 	End Rem
 	Method ClearTools()
+		bmx_wxtoolbar_cleartools(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method DeleteTool:Int(toolId:Int)
+		Return bmx_wxtoolbar_deletetool(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method DeleteToolByPos:Int(pos:Int)
+		Return bmx_wxtoolbar_deletetoolbypos(wxObjectPtr, pos)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method EnableTool(toolId:Int, enable:Int)
+		bmx_wxtoolbar_enabletool(wxObjectPtr, toolId, enable)
 	End Method
 	
 	Rem
@@ -212,24 +216,28 @@ Type wxToolBar Extends wxControl
 	bbdoc: 
 	End Rem
 	Method GetToolsCount:Int()
+		Return bmx_wxtoolbar_gettoolscount(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetToolSize(width:Int Var, height:Int Var)
+		bmx_wxtoolbar_gettoolsize(wxObjectPtr, Varptr width, Varptr height)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetToolBitmapSize(width:Int Var, height:Int Var)
+		bmx_wxtoolbar_gettoolbitmapsize(wxObjectPtr, Varptr width, Varptr height)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetMargins(leftRight:Int Var, topBottom:Int Var)
+		bmx_wxtoolbar_getmargins(wxObjectPtr, Varptr leftRight, Varptr topBottom)
 	End Method
 	
 	Rem
@@ -242,42 +250,49 @@ Type wxToolBar Extends wxControl
 	bbdoc: 
 	End Rem
 	Method GetToolEnabled:Int(toolId:Int)
+		Return bmx_wxtoolbar_gettoolenabled(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetToolLongHelp:String(toolId:Int)
+		Return bmx_wxtoolbar_gettoollonghelp(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetToolPacking:Int()
+		Return bmx_wxtoolbar_gettoolpacking(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetToolPos:Int(toolId:Int)
+		Return bmx_wxtoolbar_gettoolpos(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetToolSeparation:Int()
+		Return bmx_wxtoolbar_gettoolseparation(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetToolShortHelp:String(toolId:Int)
+		Return bmx_wxtoolbar_gettoolshorthelp(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetToolState:Int(toolId:Int)
+		Return bmx_wxtoolbar_gettoolstate(wxObjectPtr, toolId)
 	End Method
 	
 	Rem

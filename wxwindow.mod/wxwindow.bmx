@@ -595,39 +595,52 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the value previously passed to wxWindow::SetWindowVariant.
 	End Rem
 	Method GetWindowVariant:Int()
+		Return bmx_wxwindow_getwindowvariant(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this window has the current mouse capture.
 	End Rem
 	Method HasCapture:Int()
+		Return bmx_wxwindow_hascapture(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the window has the given flag bit set.
 	End Rem
 	Method HasFlag:Int(flag:Int)
+		Return bmx_wxwindow_hasflag(wxObjectPtr, flag)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This method should be overridden to return true if this window has multiple pages.
+	about: All standard types with multiple pages such as wxNotebook, wxListbook and wxTreebook already
+	override it to return true and user-defined classes with similar behaviour should do it as well to
+	allow the library to handle such windows appropriately.
 	End Rem
 	Method HasMultiplePages:Int()
+		Return bmx_wxwindow_hasmultiplepages(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this window has a scroll bar for this orientation.
 	End Rem
 	Method HasScrollbar:Int(orient:Int)
+		Return bmx_wxwindow_hasscrollbar(wxObjectPtr, orient)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this window background is transparent (as, for example, for wxStaticText) and should show the parent window background.
+	about: This method is mostly used internally by the library itself and you normally shouldn't have to
+	call it. You may, however, have to override it in your wxWindow-derived class to ensure that
+	background is painted correctly.
 	End Rem
 	Method HasTransparentBackground:Int()
+		' TODO : allow this to be overridden internally
+		Return bmx_wxwindow_hastransparentbackground(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -655,66 +668,85 @@ Type wxWindow Extends wxEvtHandler
 	</p>
 	End Rem
 	Method InheritAttributes()
+		bmx_wxwindow_inheritattributes(wxObjectPtr)
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Sends an wxEVT_INIT_DIALOG event, whose handler usually transfers data to the dialog via validators.
 	End Rem
 	Method InitDialog()
+		bmx_wxwindow_initdialog(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Resets the cached best size value so it will be recalculated the next time it is needed.
 	End Rem
 	Method InvalidateBestSize()
+		bmx_wxwindow_invalidatebestsize(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the window contents is double-buffered by the system
+	about: i.e. if any drawing done on the window is really done on a temporary backing surface and
+	transferred to the screen all at once later.
 	End Rem
 	Method IsDoubleBuffered:Int()
+		Return bmx_wxwindow_isdoublebuffered(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns True if the window is enabled for input, False otherwise.
 	End Rem
 	Method IsEnabled:Int()
+		Return bmx_wxwindow_isenabled(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the given point or rectangle area has been exposed since the last repaint.
+	about: Call this in an paint event handler to optimize redrawing by only redrawing those areas,
+	which have been exposed.
 	End Rem
 	Method IsExposed:Int(x:Int, y:Int, w:Int = 0, h:Int = 0)
+		Return bmx_wxwindow_isexposed(wxObjectPtr, x, y, w, h)
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the window is currently frozen by a call to Freeze().
 	End Rem
 	Method IsFrozen:Int()
+		Return bmx_wxwindow_isfrozen(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the window is retained, false otherwise.
+	about: Retained windows are only available on X platforms.
 	End Rem
 	Method IsRetained:Int()
+		Return bmx_wxwindow_isretained(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the window is shown, false if it has been hidden.
 	End Rem
 	Method IsShown:Int()
+		Return bmx_wxwindow_isshown(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the window is physically visible on the screen
+	about: i.e. it is shown and all its parents up to the toplevel window are shown as well.
 	End Rem
 	Method IsShownOnScreen:Int()
+		Return bmx_wxwindow_isshownonscreen(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the given window is a top-level one.
+	about: Currently all frames and dialogs are considered to be top-level windows (even if they have
+	a parent window).
 	End Rem
 	Method IsTopLevel:Int()
+		Return bmx_wxwindow_istoplevel(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -867,9 +899,12 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Reparents the window
+	about: i.e the window will be removed from its current parent window (e.g. a non-standard toolbar in
+	a wxFrame) and then re-inserted into another.
 	End Rem
 	Method Reparent:Int(newParent:wxWindow)
+		Return bmx_wxwindow_reparent(wxObjectPtr, newParent.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -899,7 +934,7 @@ Type wxWindow Extends wxEvtHandler
 		bmx_wxwindow_setfocus(wxObjectPtr)
 	End Method
 
-
+	' TODO : remove me?
 	Method injectSelf()
 	End Method
 	

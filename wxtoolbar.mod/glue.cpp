@@ -83,6 +83,75 @@ void bmx_wxtoolbar_settoolbitmapsize(wxToolBar * toolbar, int w, int h) {
 }
 
 
+void bmx_wxtoolbar_cleartools(wxToolBar * toolbar) {
+	toolbar->ClearTools();
+}
+
+bool bmx_wxtoolbar_deletetool(wxToolBar * toolbar, int toolId) {
+	return toolbar->DeleteTool(toolId);
+}
+
+bool bmx_wxtoolbar_deletetoolbypos(wxToolBar * toolbar, int pos) {
+	return toolbar->DeleteToolByPos(pos);
+}
+
+void bmx_wxtoolbar_enabletool(wxToolBar * toolbar, int toolId, bool enable) {
+	toolbar->EnableTool(toolId, enable);
+}
+
+int bmx_wxtoolbar_gettoolscount(wxToolBar * toolbar) {
+	return toolbar->GetToolsCount();
+}
+
+void bmx_wxtoolbar_gettoolsize(wxToolBar * toolbar, int * width, int * height) {
+	wxSize m = toolbar->GetToolSize();
+	*width = m.x;
+	*height = m.y;
+}
+
+void bmx_wxtoolbar_gettoolbitmapsize(wxToolBar * toolbar, int * width, int * height) {
+	wxSize m = toolbar->GetToolBitmapSize();
+	*width = m.x;
+	*height = m.y;
+}
+
+void bmx_wxtoolbar_getmargins(wxToolBar * toolbar, int * leftRight, int * topBottom) {
+	wxSize m = toolbar->GetMargins();
+	*leftRight = m.x;
+	*topBottom = m.y;
+}
+
+bool bmx_wxtoolbar_gettoolenabled(wxToolBar * toolbar, int toolId) {
+	return toolbar->GetToolEnabled(toolId);
+}
+
+BBString * bmx_wxtoolbar_gettoollonghelp(wxToolBar * toolbar, int toolId) {
+	return bbStringFromWxString(toolbar->GetToolLongHelp(toolId));
+}
+
+int bmx_wxtoolbar_gettoolpacking(wxToolBar * toolbar) {
+	return toolbar->GetToolPacking();
+}
+
+int bmx_wxtoolbar_gettoolpos(wxToolBar * toolbar, int toolId) {
+	return toolbar->GetToolPos(toolId);
+}
+
+int bmx_wxtoolbar_gettoolseparation(wxToolBar * toolbar) {
+	return toolbar->GetToolSeparation();
+}
+
+BBString * bmx_wxtoolbar_gettoolshorthelp(wxToolBar * toolbar, int toolId) {
+	return bbStringFromWxString(toolbar->GetToolShortHelp(toolId));
+}
+
+bool bmx_wxtoolbar_gettoolstate(wxToolBar * toolbar, int toolId) {
+	return toolbar->GetToolState(toolId);
+}
+
+
+
+
 int bmx_wxtoolbar_geteventtype(int type) {
 	switch(type) {
 		case 9: return wxEVT_COMMAND_TOOL_CLICKED;

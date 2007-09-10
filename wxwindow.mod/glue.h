@@ -88,6 +88,25 @@ extern "C" {
 	void bmx_wxwindow_setdimensions(wxWindow * window, int x, int y, int w, int h, int flags);
 	void bmx_wxwindow_pusheventhandler(wxWindow * window, wxEvtHandler * evt);
 
+	wxWindowVariant bmx_wxwindow_getwindowvariant(wxWindow * window);
+	bool bmx_wxwindow_hascapture(wxWindow * window);
+	bool bmx_wxwindow_hasflag(wxWindow * window, int flag);
+	bool bmx_wxwindow_hasmultiplepages(wxWindow * window);
+	bool bmx_wxwindow_hastransparentbackground(wxWindow * window);
+	bool bmx_wxwindow_hasscrollbar(wxWindow * window, int orient);
+	void bmx_wxwindow_inheritattributes(wxWindow * window);
+	void bmx_wxwindow_initdialog(wxWindow * window);
+	void bmx_wxwindow_invalidatebestsize(wxWindow * window);
+	bool bmx_wxwindow_isdoublebuffered(wxWindow * window);
+	bool bmx_wxwindow_isenabled(wxWindow * window);
+	bool bmx_wxwindow_isexposed(wxWindow * window, int x, int y, int w, int h);
+	bool bmx_wxwindow_isfrozen(wxWindow * window);
+	bool bmx_wxwindow_isretained(wxWindow * window);
+	bool bmx_wxwindow_isshown(wxWindow * window);
+	bool bmx_wxwindow_isshownonscreen(wxWindow * window);
+	bool bmx_wxwindow_istoplevel(wxWindow * window);
+	bool bmx_wxwindow_reparent(wxWindow * window, wxWindow * parent);
+
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);
 	wxSizerItem * bmx_wxsizer_addsizer(wxSizer * sizer, wxSizer * sz, int proportion, int flag, int border);

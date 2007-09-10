@@ -55,6 +55,23 @@ Extern
 	Function bmx_wxtoolbar_realize:Int(handle:Byte Ptr)
 	Function bmx_wxtoolbar_settoolbitmapsize(handle:Byte Ptr, w:Int, h:Int)
 
+	Function bmx_wxtoolbar_cleartools(handle:Byte Ptr)
+	Function bmx_wxtoolbar_deletetool:Int(handle:Byte Ptr, toolId:Int)
+	Function bmx_wxtoolbar_deletetoolbypos:Int(handle:Byte Ptr, pos:Int)
+	Function bmx_wxtoolbar_enabletool(handle:Byte Ptr, toolId:Int, enable:Int)
+	Function bmx_wxtoolbar_gettoolscount:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbar_gettoolsize(handle:Byte Ptr, width:Int Ptr, height:Int Ptr)
+	Function bmx_wxtoolbar_gettoolbitmapsize(handle:Byte Ptr, width:Int Ptr, height:Int Ptr)
+	Function bmx_wxtoolbar_getmargins(handle:Byte Ptr, leftRight:Int Ptr, topBottom:Int Ptr)
+	Function bmx_wxtoolbar_gettoolenabled:Int(handle:Byte Ptr, toolId:Int)
+	Function bmx_wxtoolbar_gettoollonghelp:String(handle:Byte Ptr, toolId:Int)
+	Function bmx_wxtoolbar_gettoolpacking:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbar_gettoolpos:Int(handle:Byte Ptr, toolId:Int)
+	Function bmx_wxtoolbar_gettoolseparation:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbar_gettoolshorthelp:String(handle:Byte Ptr, toolId:Int)
+	Function bmx_wxtoolbar_gettoolstate:Int(handle:Byte Ptr, toolId:Int)
+
+
 	Function bmx_wxtoolbar_geteventtype:Int(evt:Int)
 	
 End Extern

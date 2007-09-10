@@ -41,6 +41,23 @@ extern "C" {
 	bool bmx_wxtoolbar_realize(wxToolBar * toolbar);
 	void bmx_wxtoolbar_settoolbitmapsize(wxToolBar * toolbar, int w, int h);
 
+
+	void bmx_wxtoolbar_cleartools(wxToolBar * toolbar);
+	bool bmx_wxtoolbar_deletetool(wxToolBar * toolbar, int toolId);
+	bool bmx_wxtoolbar_deletetoolbypos(wxToolBar * toolbar, int pos);
+	void bmx_wxtoolbar_enabletool(wxToolBar * toolbar, int toolId, bool enable);
+	int bmx_wxtoolbar_gettoolscount(wxToolBar * toolbar);
+	void bmx_wxtoolbar_gettoolsize(wxToolBar * toolbar, int * width, int * height);
+	void bmx_wxtoolbar_gettoolbitmapsize(wxToolBar * toolbar, int * width, int * height);
+	void bmx_wxtoolbar_getmargins(wxToolBar * toolbar, int * leftRight, int * topBottom);
+	bool bmx_wxtoolbar_gettoolenabled(wxToolBar * toolbar, int toolId);
+	BBString * bmx_wxtoolbar_gettoollonghelp(wxToolBar * toolbar, int toolId);
+	int bmx_wxtoolbar_gettoolpacking(wxToolBar * toolbar);
+	int bmx_wxtoolbar_gettoolpos(wxToolBar * toolbar, int toolId);
+	int bmx_wxtoolbar_gettoolseparation(wxToolBar * toolbar);
+	BBString * bmx_wxtoolbar_gettoolshorthelp(wxToolBar * toolbar, int toolId);
+	bool bmx_wxtoolbar_gettoolstate(wxToolBar * toolbar, int toolId);
+
 	int bmx_wxtoolbar_geteventtype(int type);
 
 }
