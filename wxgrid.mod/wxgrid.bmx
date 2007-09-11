@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxGrid
+End Rem
 Module wx.wxGrid
 
 ModuleInfo "Version: 1.00"
@@ -61,9 +64,15 @@ Type wxGrid Extends wxScrolledWindow
 
 	Rem
 	bbdoc: Constructor to create a grid object.
-	about: Call either wxGrid::CreateGrid or wxGrid::SetTable directly after this to initialize the grid before using it.
+	about: Call either ()
+	End Method
+	
+	Method CreateGrid or ()
+	End Method
+	
+	Method SetTable directly after this to initialize the grid before using it.
 	End Rem
-	Function CreateGrid:wxGrid(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxWANTS_CHARS)
+	Function CreatewxGrid:wxGrid(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxWANTS_CHARS)
 		Local this:wxGrid = New wxGrid
 		
 '		this.wxObjectPtr = bmx_wxgrid_create(this, parent.wxObjectPtr, id, x, y, w, h, style)
@@ -96,14 +105,1068 @@ Type wxGrid Extends wxScrolledWindow
 	Rem
 	bbdoc: Increments the grid's batch count.
 	about: When the count is greater than zero repainting of the grid is suppressed. Each call to
-	BeginBatch must be matched by a later call to wxGrid::EndBatch. Code that does a lot of grid
+	BeginBatch must be matched by a later call to ()
+	End Method
+	
+	Method EndBatch. Code that does a lot of grid
 	modification can be enclosed between BeginBatch and EndBatch calls to avoid screen flicker.
 	The final EndBatch will cause the grid to be repainted.
 	End Rem
 	Method BeginBatch()
 	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method BlockToDeviceRect(row1:Int, col1:Int, row2:Int, col2:Int, x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CanDragColMove:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CanDragColSize:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CanDragRowSize:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CanDragGridSize:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CanEnableCellControl:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CanHaveAttributes:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CellToRect(row:Int, col:Int, x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ClearGrid()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ClearSelection()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateGrid:Int(numRows:Int, numCols:Int, selMode:Int = wxGridSelectCells)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DeleteCols:Int(pos:Int = 0, numCols:Int = 1, updateLabels:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DeleteRows:Int(pos:Int = 0, numRows:Int = 1, updateLabels:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DisableCellEditControl()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DisableDragColMove()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DisableDragColSize()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DisableDragGridSize()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DisableDragRowSize()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EnableCellEditControl(enable:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EnableDragColSize(enable:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EnableDragColMove(enable:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EnableDragGridSize(enable:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EnableDragRowSize(enable:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EnableEditing(edit:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EnableGridLines(enable:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EndBatch()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Fit()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ForceRefresh()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetBatchCount:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetCellAlignment(row:Int, col:Int, horiz:Int Var, vert:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetCellBackgroundColour:wxColour(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetCellEditor:wxGridCellEditor(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetCellFont:wxFont(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetCellRenderer:wxGridCellRenderer(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetCellTextColour:wxColour(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetCellValue:String(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColAt:Int(colPos:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColLeft:Int(colPos:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColLabelAlignment(horiz:Int Var, vert:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColLabelSize:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColLabelValue:String(col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColMinimalAcceptableWidth:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColMinimalWidth:Int(col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColPos:Int(colId:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColRight:Int(col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColSize:Int(col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultCellAlignment(horiz:Int Var, vert:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultCellBackgroundColour:wxColour()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultCellFont:wxFont()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultCellTextColour:wxColour()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultColLabelSize:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultColSize:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultEditor:wxGridCellEditor()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultEditorForCell:wxGridCellEditor(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultEditorForType:wxGridCellEditor(typeName:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultRenderer:wxGridCellRenderer()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultRendererForCell:wxGridCellRenderer()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultRendererForType:wxGridCellRenderer(typeName:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultRowLabelSize:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultRowSize:Int()
+	End Method
 		
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetGridCursorCol:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetGridCursorRow:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetGridLineColour:wxColour()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDefaultGridLinePen:wxPen()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetRowGridLinePen:wxPen(row:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetColGridLinePen:wxPen(col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GridLinesEnabled:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetLabelBackgroundColour:wxColour()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetLabelFont:wxFont()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetLabelTextColour:wxColour()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetNumberCols:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetNumberRows:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetOrCreateCellAttr:wxGridCellAttr(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetRowMinimalAcceptableHeight:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetRowMinimalHeight:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetRowLabelAlignment(horiz:Int Var, vert:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetRowLabelSize:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetRowLabelValue:String(row:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetRowSize:Int(row:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetScrollLineX:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetScrollLineY:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetSelectionMode:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetSelectedCells() ' TODO
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetSelectedCols:Int[]()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetSelectedRows:Int[]()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetSelectionBackground:wxColour()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetSelectionBlockTopLeft() ' TODO
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetSelectionBlockBottomRight() ' TODO
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetSelectionForeground:wxColour()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetTable:wxGridTableBase()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetViewWidth:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method HideCellEditControl()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method InitColWidths()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method InitRowHeights()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method InsertCols:Int(pos:Int = 0, numCols:Int = 1, updateLabels:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method InsertRows:Int(pos:Int = 0, numRows:Int = 1, updateLabels:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsCellEditControlEnabled:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsCurrentCellReadOnly:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsEditable:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsInSelection:Int(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsReadOnly:Int(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsSelection:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsVisible:Int(row:Int, col:Int, wholeCellVisible:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MakeCellVisible(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MoveCursorDown:Int(expandSelection:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MoveCursorLeft:Int(expandSelection:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MoveCursorRight:Int(expandSelection:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MoveCursorUp:Int(expandSelection:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MoveCursorDownBlock:Int(expandSelection:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MoveCursorLeftBlock:Int(expandSelection:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MoveCursorRightBlock:Int(expandSelection:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MoveCursorUpBlock:Int(expandSelection:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MovePageDown:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MovePageUp:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method RegisterDataType(typeName:String, renderer:wxGridCellRenderer, editor:wxGridCellEditor)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SaveEditControlValue()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SelectAll()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SelectBlock(topRow:Int, leftCol:Int, bottomRow:Int, rightCol:Int, addToSelected:Int = False)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SelectCol(col:Int, addToSelected:Int = False)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SelectionToDeviceRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SelectRow(row:Int, addToSelected:Int = False)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetCellAlignment(align:Int, row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetCellBackgroundColour(row:Int, col:Int, colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetCellEditor(row:Int, col:Int, editor:wxGridCellEditor)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetCellFont(row:Int, col:Int, font:wxFont)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetCellRenderer(row:Int, col:Int, renderer:wxGridCellRenderer)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetCellTextColour(row:Int, col:Int, colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetCellValue(row:Int, col:Int, value:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColAttr(col:Int, attr:wxGridCellAttr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColFormatBool(col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColFormatNumber(col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColFormatFloat(col:Int, width:Int = -1, precision:Int = -1)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColFormatCustom(col:Int, typeName:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColLabelAlignment(horiz:Int, vert:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColLabelSize(height:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColLabelValue(col:Int, value:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColMinimalWidth(col:Int, width:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColMinimalAcceptableWidth(width:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColPos(colId:Int, newPos:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetColSize(col:Int, width:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDefaultCellAlignment(horiz:Int, vert:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDefaultCellBackgroundColour(colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDefaultCellFont(font:wxFont)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDefaultCellTextColour(colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDefaultEditor(editor:wxGridCellEditor)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDefaultRenderer(renderer:wxGridCellRenderer)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDefaultColSize(width:Int, resizeExistingCols:Int = False)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDefaultRowSize(height:Int, resizeExistingRows:Int = False)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetGridCursor(row:Int, col:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetGridLineColour(colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetLabelBackgroundColour(colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetLabelFont(font:wxFont)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetLabelTextColour(colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetMargins(extraWidth:Int, extraHeight:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetOrCalcColumnSizes:Int(calcOnly:Int, setAsMin:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetOrCalcRowSizes:Int(calcOnly:Int, setAsMin:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetReadOnly(row:Int, col:Int, isReadOnly:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetRowAttr(row:Int, attr:wxGridCellAttr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetRowLabelAlignment(horiz:Int, vert:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetRowLabelSize(width:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetRowLabelValue(row:Int, value:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetRowMinimalHeight(row:Int, height:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetRowMinimalAcceptableHeight(height:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetRowSize(row:Int, height:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetScrollLineX(x:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetScrollLineY(y:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetSelectionBackground(colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetSelectionForeground(colour:wxColour)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetSelectionMode(selMode:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetTable(table:wxGridTableBase, takeOwnership:Int = False, selMode:Int = wxGridSelectCells)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ShowCellEditControl()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method XToCol:Int(x:Int, clipToMinMax:Int = False)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method XToEdgeOfCol:Int(x:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method YToEdgeOfRow:Int(y:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method YToRow:Int(y:Int)
+	End Method
+	
 End Type
+
 
 
 
@@ -146,7 +1209,10 @@ End Type
 Rem
 bbdoc: This type is responsible for actually drawing the cell in the grid.
 about: You may pass it to the wxGridCellAttr to change the format of one given cell or to
-wxGrid::SetDefaultRenderer() to change the view of all cells. This is an abstract type, and you will
+()
+	End Method
+	
+	Method SetDefaultRenderer() to change the view of all cells. This is an abstract type, and you will
 normally use one of the predefined derived types or derive your own type from it.
 End Rem
 Type wxGridCellRenderer Abstract
@@ -230,6 +1296,36 @@ Type wxGridCellBoolRenderer Extends wxGridCellRenderer
 	End Function
 
 End Type
+
+
+Rem
+bbdoc: This type is responsible for providing and manipulating the in-place edit controls for the grid.
+about: Instances of wxGridCellEditor (actually, instances of derived classes since it is an abstract type)
+can be associated with the cell attributes for individual cells, rows, columns, or even for the entire grid.
+End Rem
+Type wxGridCellEditor
+	
+	Field wxGridCellEditorPtr:Byte Ptr
+
+End Type
+
+
+Type wxGridCellTextEditor Extends wxGridCellEditor
+End Type
+
+
+Type wxGridCellFloatEditor Extends wxGridCellTextEditor
+End Type
+
+Type wxGridCellNumberEditor Extends wxGridCellTextEditor
+End Type
+
+Type wxGridCellBoolEditor Extends wxGridCellEditor
+End Type
+
+Type wxGridCellChoiceEditor Extends wxGridCellEditor
+End Type
+
 
 
 

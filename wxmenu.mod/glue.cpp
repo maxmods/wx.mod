@@ -174,6 +174,171 @@ void bmx_wxmenu_updateui(wxMenu * menu, wxEvtHandler * source) {
 	}
 }
 
+// *********************************************
+
+void bmx_wxmenuitem_check(wxMenuItem * item, bool value) {
+	item->Check(value);
+}
+
+void bmx_wxmenuitem_enable(wxMenuItem * item, bool value) {
+	item->Enable(value);
+}
+
+MaxColour * bmx_wxmenuitem_getbackgroundcolour(wxMenuItem * item) {
+#ifdef WIN32
+	wxColour c(item->GetBackgroundColour());
+#else
+	wxColour c = wxNullColour;
+#endif
+	return new MaxColour(c);
+}
+
+MaxBitmap * bmx_wxmenuitem_getbitmap(wxMenuItem * item, bool checked) {
+#ifdef WIN32
+	wxBitmap b(item->GetBitmap(checked));
+#else
+	wxBitmap b = wxNullBitmap;
+#endif
+	return new MaxBitmap(b);
+}
+
+MaxFont * bmx_wxmenuitem_getfont(wxMenuItem * item) {
+#ifdef WIN32
+	wxFont f(item->GetFont());
+#else
+	wxFont f = wxNullFont;
+#endif
+	return new MaxFont(f);
+}
+
+BBString * bmx_wxmenuitem_gethelp(wxMenuItem * item) {
+	return bbStringFromWxString(item->GetHelp());
+}
+
+int bmx_wxmenuitem_getid(wxMenuItem * item) {
+	return item->GetId();
+}
+
+int bmx_wxmenuitem_getkind(wxMenuItem * item) {
+	return item->GetKind();
+}
+
+BBString * bmx_wxmenuitem_getlabel(wxMenuItem * item) {
+	return bbStringFromWxString(item->GetLabel());
+}
+
+BBString * bmx_wxmenuitem_getlabelfromtext(BBString * text) {
+	return bbStringFromWxString(wxMenuItem::GetLabelFromText(wxStringFromBBString(text)));
+}
+
+int bmx_wxmenuitem_getmarginwidth(wxMenuItem * item) {
+#ifdef WIN32
+	return item->GetMarginWidth();
+#else
+	return 0;
+#endif
+}
+
+wxMenu * bmx_wxmenuitem_getmenu(wxMenuItem * item) {
+	return item->GetMenu();
+}
+
+BBString * bmx_wxmenuitem_gettext(wxMenuItem * item) {
+	return bbStringFromWxString(item->GetText());
+}
+
+wxMenu * bmx_wxmenuitem_getsubmenu(wxMenuItem * item) {
+	return item->GetSubMenu();
+}
+
+MaxColour * bmx_wxmenuitem_gettextcolour(wxMenuItem * item) {
+#ifdef WIN32
+	wxColour c(item->GetTextColour());
+#else
+	wxColour c = wxNullColour;
+#endif
+	return new MaxColour(c);
+}
+
+bool bmx_wxmenuitem_ischeckable(wxMenuItem * item) {
+	return item->IsCheckable();
+}
+
+bool bmx_wxmenuitem_ischecked(wxMenuItem * item) {
+	return item->IsChecked();
+}
+
+bool bmx_wxmenuitem_isenabled(wxMenuItem * item) {
+	return item->IsEnabled();
+}
+
+bool bmx_wxmenuitem_isseparator(wxMenuItem * item) {
+	return item->IsSeparator();
+}
+
+bool bmx_wxmenuitem_issubmenu(wxMenuItem * item) {
+	return item->IsSubMenu();
+}
+
+void bmx_wxmenuitem_setbackgroundcolour(wxMenuItem * item, MaxColour * colour) {
+#ifdef WIN32
+	item->SetBackgroundColour(colour->Colour());
+#endif
+}
+
+void bmx_wxmenuitem_setbitmap(wxMenuItem * item, MaxBitmap * bitmap) {
+#ifdef WIN32
+	item->SetBitmap(bitmap->Bitmap());
+#endif
+}
+
+void bmx_wxmenuitem_setbitmaps(wxMenuItem * item, MaxBitmap * checked, MaxBitmap * unchecked) {
+#ifdef WIN32
+	if (unchecked) {
+		item->SetBitmaps(checked->Bitmap(), unchecked->Bitmap());
+	} else {
+		item->SetBitmaps(checked->Bitmap());
+	}
+#endif
+}
+
+void bmx_wxmenuitem_setfont(wxMenuItem * item, MaxFont * font) {
+#ifdef WIN32
+	item->SetFont(font->Font());
+#endif
+}
+
+void bmx_wxmenuitem_sethelp(wxMenuItem * item, BBString * helpString) {
+	item->SetHelp(wxStringFromBBString(helpString));
+}
+
+void bmx_wxmenuitem_setmarginwidth(wxMenuItem * item, int width) {
+#ifdef WIN32
+	item->SetMarginWidth(width);
+#endif
+}
+
+void bmx_wxmenuitem_setmenu(wxMenuItem * item, wxMenu * menu) {
+	item->SetMenu(menu);
+}
+
+void bmx_wxmenuitem_setsubmenu(wxMenuItem * item, wxMenu * submenu) {
+	item->SetSubMenu(submenu);
+}
+
+void bmx_wxmenuitem_settext(wxMenuItem * item, BBString * text) {
+	item->SetText(wxStringFromBBString(text));
+}
+
+void bmx_wxmenuitem_settextcolour(wxMenuItem * item, MaxColour * colour) {
+#ifdef WIN32
+	item->SetTextColour(colour->Colour());
+#endif
+}
+
+
+// *********************************************
+
 
 int bmx_wxmenu_geteventtype(int type) {
 	switch(type) {

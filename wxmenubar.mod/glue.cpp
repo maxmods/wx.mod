@@ -121,3 +121,8 @@ void bmx_wxmenubar_setlabel(wxMenuBar * menubar, int id, BBString * label) {
 void bmx_wxmenubar_setlabeltop(wxMenuBar * menubar, int pos, BBString * label) {
 	menubar->SetLabelTop(pos, wxStringFromBBString(label));
 }
+
+wxMenuItem * bmx_wxmenubar_finditem(wxMenuBar * menubar, int id) {
+	return menubar->FindItem(id);
+}
+

@@ -20,6 +20,9 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_IMAGE_H_
+#define _WX_MAX_IMAGE_H_
+
 #include "wxglue.h"
 
 class MaxImage;
@@ -53,3 +56,6 @@ private:
 	wxImage & image;
 
 };
+
+
+#endif // _WX_MAX_IMAGE_H_

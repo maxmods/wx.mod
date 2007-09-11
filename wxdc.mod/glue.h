@@ -49,6 +49,8 @@ extern "C" {
 	void bmx_wxdc_setclippingregion(MaxDC * dc, int x, int y, int w, int h);
 	void bmx_wxdc_setdeviceorigin(MaxDC * dc, int x, int y);
 	void bmx_wxdc_drawellipse(MaxDC * dc, int x, int y, int w, int h);
+	void bmx_wxdc_drawrectangle(MaxDC * dc, int x, int y, int w, int h);
+	void bmx_wxdc_drawroundedrectangle(MaxDC * dc, int x, int y, int w, int h, double radius);
 
 }
 

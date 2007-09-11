@@ -78,10 +78,45 @@ Extern
 	Function bmx_wxmenu_setlabel(handle:Byte Ptr, id:Int, label:String)
 	Function bmx_wxmenu_settitle(handle:Byte Ptr, title:String)
 	Function bmx_wxmenu_updateui(handle:Byte Ptr, source:Byte Ptr)
-	
+
+	Function bmx_wxmenuitem_check(handle:Byte Ptr, value:Int)
+	Function bmx_wxmenuitem_enable(handle:Byte Ptr, value:Int)
+	Function bmx_wxmenuitem_getbackgroundcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxmenuitem_getbitmap:Byte Ptr(handle:Byte Ptr, checked:Int)
+	Function bmx_wxmenuitem_getfont:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxmenuitem_gethelp:String(handle:Byte Ptr)
+	Function bmx_wxmenuitem_getid:Int(handle:Byte Ptr)
+	Function bmx_wxmenuitem_getkind:Int(handle:Byte Ptr)
+	Function bmx_wxmenuitem_getlabel:String(handle:Byte Ptr)
+	Function bmx_wxmenuitem_getlabelfromtext:String(text:String)
+	Function bmx_wxmenuitem_getmarginwidth:Int(handle:Byte Ptr)
+	Function bmx_wxmenuitem_getmenu:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxmenuitem_gettext:String(handle:Byte Ptr)
+	Function bmx_wxmenuitem_getsubmenu:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxmenuitem_gettextcolour:Byte Ptr(handle:Byte Ptr)	
+	Function bmx_wxmenuitem_ischeckable:Int(handle:Byte Ptr)
+	Function bmx_wxmenuitem_ischecked:Int(handle:Byte Ptr)
+	Function bmx_wxmenuitem_isenabled:Int(handle:Byte Ptr)
+	Function bmx_wxmenuitem_isseparator:Int(handle:Byte Ptr)
+	Function bmx_wxmenuitem_issubmenu:Int(handle:Byte Ptr)
+	Function bmx_wxmenuitem_setbackgroundcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxmenuitem_setbitmap(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxmenuitem_setbitmaps(handle:Byte Ptr, checked:Byte Ptr, unchecked:Byte Ptr)
+	Function bmx_wxmenuitem_setfont(handle:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxmenuitem_sethelp(handle:Byte Ptr, helpString:String)
+	Function bmx_wxmenuitem_setmarginwidth(handle:Byte Ptr, width:Int)
+	Function bmx_wxmenuitem_setmenu(handle:Byte Ptr, menu:Byte Ptr)
+	Function bmx_wxmenuitem_setsubmenu(handle:Byte Ptr, submenu:Byte Ptr)
+	Function bmx_wxmenuitem_settext(handle:Byte Ptr, text:String)
+	Function bmx_wxmenuitem_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
+
+
 	Function bmx_wxmenu_geteventtype:Int(evt:Int)
 End Extern
 
 Const wxEVT_MENU_OPEN:Int = 421
 Const wxEVT_MENU_CLOSE:Int = 422
 Const wxEVT_MENU_HIGHLIGHT:Int = 423
+
+Const wxID_SEPARATOR:Int = -2
+

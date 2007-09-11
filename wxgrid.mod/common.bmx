@@ -48,6 +48,9 @@ Extern
 	
 End Extern
 
+Const wxGridSelectCells:Int = 1
+Const wxGridSelectRows:Int = 2
+Const wxGridSelectColumns:Int = 3
 
 Const wxEVT_GRID_CELL_LEFT_CLICK:Int = 1580
 Const wxEVT_GRID_CELL_RIGHT_CLICK:Int = 1581
@@ -66,4 +69,13 @@ Const wxEVT_GRID_EDITOR_SHOWN:Int = 1593
 Const wxEVT_GRID_EDITOR_HIDDEN:Int = 1594
 Const wxEVT_GRID_EDITOR_CREATED:Int = 1595
 Const wxEVT_GRID_CELL_BEGIN_DRAG:Int = 1596
+
+Const wxGRID_VALUE_STRING:String = "string"
+Const wxGRID_VALUE_BOOL:String = "bool"
+Const wxGRID_VALUE_NUMBER:String = "long"
+Const wxGRID_VALUE_FLOAT:String = "double"
+Const wxGRID_VALUE_CHOICE:String = "choice"
+
+Const wxGRID_VALUE_TEXT:String = wxGRID_VALUE_STRING
+Const wxGRID_VALUE_LONG:String = wxGRID_VALUE_NUMBER
 

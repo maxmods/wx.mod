@@ -50,7 +50,7 @@ extern "C" {
 	void bmx_wxmenubar_sethelpstring(wxMenuBar * menubar, int id, BBString * helpString);
 	void bmx_wxmenubar_setlabel(wxMenuBar * menubar, int id, BBString * label);
 	void bmx_wxmenubar_setlabeltop(wxMenuBar * menubar, int pos, BBString * label);
-
+	wxMenuItem * bmx_wxmenubar_finditem(wxMenuBar * menubar, int id);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

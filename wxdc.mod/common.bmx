@@ -59,6 +59,8 @@ Extern
 	Function bmx_wxdc_setdeviceorigin(handle:Byte Ptr, x:Int, y:Int)
 	
 	Function bmx_wxdc_drawellipse(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
+	Function bmx_wxdc_drawrectangle(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
+	Function bmx_wxdc_drawroundedrectangle(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, radius:Double)
 	
 	Function bmx_wxmirrordc_create:Byte Ptr(dc:Byte Ptr, mirror:Int)
 	

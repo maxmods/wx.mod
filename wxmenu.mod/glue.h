@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include "wx/menu.h"
+#include "../wxbitmap.mod/glue.h"
 
 class MaxMenu;
 
@@ -65,6 +66,37 @@ extern "C" {
 	void bmx_wxmenu_updateui(wxMenu * menu, wxEvtHandler * source);
 
 	int bmx_wxmenu_geteventtype(int type);
+
+	void bmx_wxmenuitem_check(wxMenuItem * item, bool value);
+	void bmx_wxmenuitem_enable(wxMenuItem * item, bool value);
+	MaxColour * bmx_wxmenuitem_getbackgroundcolour(wxMenuItem * item);
+	MaxBitmap * bmx_wxmenuitem_getbitmap(wxMenuItem * item, bool checked);
+	MaxFont * bmx_wxmenuitem_getfont(wxMenuItem * item);
+	BBString * bmx_wxmenuitem_gethelp(wxMenuItem * item);
+	int bmx_wxmenuitem_getid(wxMenuItem * item);
+	int bmx_wxmenuitem_getkind(wxMenuItem * item);
+	BBString * bmx_wxmenuitem_getlabel(wxMenuItem * item);
+	BBString * bmx_wxmenuitem_getlabelfromtext(BBString * text);
+	int bmx_wxmenuitem_getmarginwidth(wxMenuItem * item);
+	wxMenu * bmx_wxmenuitem_getmenu(wxMenuItem * item);
+	BBString * bmx_wxmenuitem_gettext(wxMenuItem * item);
+	wxMenu * bmx_wxmenuitem_getsubmenu(wxMenuItem * item);
+	MaxColour * bmx_wxmenuitem_gettextcolour(wxMenuItem * item);
+	bool bmx_wxmenuitem_ischeckable(wxMenuItem * item);
+	bool bmx_wxmenuitem_ischecked(wxMenuItem * item);
+	bool bmx_wxmenuitem_isenabled(wxMenuItem * item);
+	bool bmx_wxmenuitem_isseparator(wxMenuItem * item);
+	bool bmx_wxmenuitem_issubmenu(wxMenuItem * item);
+	void bmx_wxmenuitem_setbackgroundcolour(wxMenuItem * item, MaxColour * colour);
+	void bmx_wxmenuitem_setbitmap(wxMenuItem * item, MaxBitmap * bitmap);
+	void bmx_wxmenuitem_setbitmaps(wxMenuItem * item, MaxBitmap * checked, MaxBitmap * unchecked);
+	void bmx_wxmenuitem_setfont(wxMenuItem * item, MaxFont * font);
+	void bmx_wxmenuitem_sethelp(wxMenuItem * item, BBString * helpString);
+	void bmx_wxmenuitem_setmarginwidth(wxMenuItem * item, int width);
+	void bmx_wxmenuitem_setmenu(wxMenuItem * item, wxMenu * menu);
+	void bmx_wxmenuitem_setsubmenu(wxMenuItem * item, wxMenu * submenu);
+	void bmx_wxmenuitem_settext(wxMenuItem * item, BBString * text);
+	void bmx_wxmenuitem_settextcolour(wxMenuItem * item, MaxColour * colour);
 
 }
 

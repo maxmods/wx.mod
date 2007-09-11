@@ -109,6 +109,15 @@ void bmx_wxdc_drawellipse(MaxDC * dc, int x, int y, int w, int h) {
 	dc->GetDC()->DrawEllipse(x, y, w, h);
 }
 
+void bmx_wxdc_drawrectangle(MaxDC * dc, int x, int y, int w, int h) {
+	dc->GetDC()->DrawRectangle(x, y, w, h);
+}
+
+void bmx_wxdc_drawroundedrectangle(MaxDC * dc, int x, int y, int w, int h, double radius) {
+	dc->GetDC()->DrawRoundedRectangle(x, y, w, h, radius);
+}
+
+
 
 // *********************************************
 

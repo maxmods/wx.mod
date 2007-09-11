@@ -199,9 +199,11 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
-	bdoc: 
+	bdoc: Draws a rectangle with the given top left corner, and with the given size.
+	about: The current pen is used for the outline and the current brush for filling the shape.
 	End Rem
 	Method DrawRectangle(x:Int, y:Int, width:Int, height:Int)
+		bmx_wxdc_drawrectangle(wxObjectPtr, x, y, width, height)
 	End Method
 	
 	Rem
@@ -211,9 +213,18 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
-	bdoc: 
+	bdoc: Draws a rectangle with the given top left corner, and with the given size.
+	about: The corners are quarter-circles using the given radius. The current pen is used for the outline
+	and the current brush for filling the shape.
+	<p>
+	If radius is positive, the value is assumed to be the radius of the rounded corner. If radius is negative,
+	the absolute value is assumed to be the proportion of the smallest dimension of the rectangle. This means
+	that the corner can be a sensible size relative to the size of the rectangle, and also avoids the strange
+	effects X produces when the corners are too big for the rectangle.
+	</p>
 	End Rem
-	Method DrawRoundedRectangle(x:Int, y:Int, width:Int, height:Int)
+	Method DrawRoundedRectangle(x:Int, y:Int, width:Int, height:Int, radius:Double)
+		bmx_wxdc_drawroundedrectangle(wxObjectPtr, x, y, width, height, radius)
 	End Method
 	
 	Rem

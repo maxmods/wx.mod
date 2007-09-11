@@ -374,6 +374,33 @@ and GTK+.
 End Rem
 Type wxMenuItem Extends wxObject
 
+	Rem
+	bbdoc: Constructs a wxMenuItem object.
+	about: Menu items can be standard, or "stock menu items'', or custom. For the standard menu items
+	(such as commands to open a file, exit the program and so on, see stock items for the full list) it
+	is enough to specify just the stock ID and leave text and helpString empty. In fact, leaving at least
+	text empty for the stock menu items is strongly recommended as they will have appearance and keyboard
+	interface (including standard accelerators) familiar to the user.
+	<p>
+	For the custom (non-stock) menu items, text must be specified and while helpString may be left empty, it's
+	recommended to pass the item description (which is automatically shown by the library in the status bar
+	when the menu item is selected) in this parameter.
+	</p>
+	End Rem
+	Function CreateMenuItem:wxMenuItem(parentMenu:wxMenu = Null, id:Int = wxID_SEPARATOR, ..
+			text:String = "", helpString:String = "", kind:Int = wxITEM_NORMAL, subMenu:wxMenu = Null)
+		Return New wxMenuItem.Create(parentMenu, id, text, helpString, kind, subMenu)
+	End Function
+	
+	Rem
+	bbdoc: Constructs a wxMenuItem object.
+	End Rem
+	Method Create:wxMenuItem(parentMenu:wxMenu = Null, id:Int = wxID_SEPARATOR, ..
+			text:String = "", helpString:String = "", kind:Int = wxITEM_NORMAL, subMenu:wxMenu = Null)
+'		wxObjectPtr = 
+		Return Self
+	End Method
+
 	Function _create:wxMenuItem(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
 			Local this:wxMenuItem = New wxMenuItem
@@ -383,183 +410,239 @@ Type wxMenuItem Extends wxObject
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Checks or unchecks the menu item.
+	about: Note that this only works when the item is already appended to a menu.
 	End Rem
 	Method Check(value:Int = True)
+		bmx_wxmenuitem_check(wxObjectPtr, value)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Enables or disables the menu item.
 	End Rem
 	Method Enable(value:Int = True)
+		bmx_wxmenuitem_enable(wxObjectPtr, value)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the background colour associated with the menu item (Windows only).
 	End Rem
 	Method GetBackgroundColour:wxColour()
+		Return wxColour._create(bmx_wxmenuitem_getbackgroundcolour(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the checked or unchecked bitmap (Windows only).
 	End Rem
 	Method GetBitmap:wxBitmap(checked:Int = True)
+		Return wxBitmap._create(bmx_wxmenuitem_getbitmap(wxObjectPtr, checked))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the font associated with the menu item (Windows only).
 	End Rem
 	Method GetFont:wxFont()
+		Return wxFont._create(bmx_wxmenuitem_getfont(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the help string associated with the menu item.
 	End Rem
 	Method GetHelp:String()
+		Return bmx_wxmenuitem_gethelp(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the menu item identifier
 	End Rem
 	Method GetId:Int()
+		Return bmx_wxmenuitem_getid(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the item kind, one of wxITEM_SEPARATOR, wxITEM_NORMAL, wxITEM_CHECK or wxITEM_RADIO.
 	End Rem
 	Method GetKind:Int()
+		Return bmx_wxmenuitem_getkind(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the text associated with the menu item without any accelerator characters it might contain.
 	End Rem
 	Method GetLabel:String()
+		Return bmx_wxmenuitem_getlabel(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Strips all accelerator characters and mnemonics from the given text.
+	about: For example,
+	<pre>
+	wxMenuItem.GetLabelFromText("&Hello~tCtrl-H") 
+	</pre>
+	will return just "Hello".
 	End Rem
-	Method GetLabelFromText:String(text:String)
-	End Method
+	Function GetLabelFromText:String(text:String)
+		Return bmx_wxmenuitem_getlabelfromtext(text)
+	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the width of the menu item checkmark bitmap (Windows only).
 	End Rem
 	Method GetMarginWidth:Int()
+		Return bmx_wxmenuitem_getmarginwidth(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the menu this menu item is in, or NULL if this menu item is not attached.
 	End Rem
 	Method GetMenu:wxMenu()
+		Local m:Byte Ptr = bmx_wxmenuitem_getmenu(wxObjectPtr)
+		If m Then
+			Local menu:wxMenu = wxMenu(wxfind(m))
+			If Not menu Then
+				Return wxMenu._create(m)
+			End If
+			Return menu
+		End If
 	End Method
 	
 	Rem
-	bbdoc: 
-	End Rem
-	Method GetName:String()
-	End Method
-	
-	Rem
-	bbdoc: 
+	bbdoc: Returns the text associated with the menu item, such as it was passed to the wxMenuItem constructor, i.e. with any accelerator characters it may contain.
 	End Rem
 	Method GetText:String()
+		Return bmx_wxmenuitem_gettext(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the submenu associated with the menu item, or NULL if there isn't one.
 	End Rem
 	Method GetSubMenu:wxMenu()
+		Local m:Byte Ptr = bmx_wxmenuitem_getsubmenu(wxObjectPtr)
+		If m Then
+			Local menu:wxMenu = wxMenu(wxfind(m))
+			If Not menu Then
+				Return wxMenu._create(m)
+			End If
+			Return menu
+		End If
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the text colour associated with the menu item (Windows only).
 	End Rem
 	Method GetTextColour:wxColour()
+		Return wxColour._create(bmx_wxmenuitem_gettextcolour(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the item is checkable.
+	End Rem
+	Method IsCheckable:Int()
+		Return bmx_wxmenuitem_ischeckable(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Returns true if the item is checked.
 	End Rem
 	Method IsChecked:Int()
+		Return bmx_wxmenuitem_ischecked(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the item is enabled.
 	End Rem
 	Method IsEnabled:Int()
+		Return bmx_wxmenuitem_isenabled(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the item is a separator.
 	End Rem
 	Method IsSeparator:Int()
+		Return bmx_wxmenuitem_isseparator(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the item is a submenu.
 	End Rem
 	Method IsSubMenu:Int()
+		Return bmx_wxmenuitem_issubmenu(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the background colour associated with the menu item (Windows only).
 	End Rem
 	Method SetBackgroundColour(colour:wxColour)
+		bmx_wxmenuitem_setbackgroundcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the bitmap for the menu item (Windows and GTK+ only).
+	about: It is equivalent to SetBitmaps(bmp, Null).
 	End Rem
 	Method SetBitmap(bitmap:wxBitmap)
+		bmx_wxmenuitem_setbitmap(wxObjectPtr, bitmap.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the checked/unchecked bitmaps for the menu item (Windows only).
+	about: The first bitmap is also used as the single bitmap for uncheckable menu items.
 	End Rem
 	Method SetBitmaps(checked:wxBitmap, unchecked:wxBitmap = Null)
+		If unchecked Then
+			bmx_wxmenuitem_setbitmaps(wxObjectPtr, checked.wxObjectPtr, unchecked.wxObjectPtr)
+		Else
+			bmx_wxmenuitem_setbitmaps(wxObjectPtr, checked.wxObjectPtr, Null)
+		End If
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the font associated with the menu item (Windows only).
 	End Rem
 	Method SetFont(font:wxFont)
+		bmx_wxmenuitem_setfont(wxObjectPtr, font.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the help string.
 	End Rem
 	Method SetHelp(helpString:String)
+		bmx_wxmenuitem_sethelp(wxObjectPtr, helpString)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the width of the menu item checkmark bitmap (Windows only).
 	End Rem
 	Method SetMarginWidth(width:Int)
+		bmx_wxmenuitem_setmarginwidth(wxObjectPtr, width)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the parent menu which will contain this menu item.
 	End Rem
 	Method SetMenu(menu:wxMenu)
+		bmx_wxmenuitem_setmenu(wxObjectPtr, menu.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the submenu of this menu item.
 	End Rem
 	Method SetSubMenu(submenu:wxMenu)
+		bmx_wxmenuitem_setsubmenu(wxObjectPtr, submenu.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the text associated with the menu item.
 	End Rem
 	Method SetText(text:String)
+		bmx_wxmenuitem_settext(wxObjectPtr, text)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the text colour associated with the menu item (Windows only).
 	End Rem
 	Method SetTextColour(colour:wxColour)
+		bmx_wxmenuitem_settextcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
 End Type

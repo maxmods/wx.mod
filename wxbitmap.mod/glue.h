@@ -20,6 +20,9 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_BITMAP_H_
+#define _WX_MAX_BITMAP_H_
+
 #include "wxglue.h"
 #include "../wximage.mod/glue.h"
 
@@ -57,3 +60,6 @@ private:
 	wxBitmap bitmap;
 
 };
+
+
+#endif // _WX_MAX_BITMAP_H_

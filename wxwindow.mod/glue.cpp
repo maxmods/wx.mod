@@ -397,7 +397,9 @@ bool bmx_wxwindow_disable(wxWindow * window) {
 }
 
 void bmx_wxwindow_dragacceptfiles(wxWindow * window, bool accept) {
+#ifdef WIN32
 	window->DragAcceptFiles(accept);
+#endif
 }
 
 bool bmx_wxwindow_enable(wxWindow * window, bool value) {

@@ -64,7 +64,7 @@ End Rem
 Type wxMenuBar Extends wxWindow
 	
 	Rem
-	bbdoc: 
+	bbdoc: Default constructor.
 	End Rem
 	Function CreateMenuBar:wxMenuBar(style:Int = 0)
 		Return New wxMenuBar.Create(style)
@@ -128,11 +128,12 @@ Type wxMenuBar Extends wxWindow
 		Return bmx_wxmenubar_findmenuitem(wxObjectPtr, menuString, itemString)
 	End Method
 	
-'	Rem
-'	bbdoc: Finds the menu item object associated with the given menu item identifier.
-'	End Rem
-'	Method FindItem:wxMenuItem(id:Int)
-'	End Method
+	Rem
+	bbdoc: Finds the menu item object associated with the given menu item identifier.
+	End Rem
+	Method FindItem:wxMenuItem(id:Int)
+		Return wxMenuItem._create(bmx_wxmenubar_finditem(wxObjectPtr, id))
+	End Method
 	
 	Rem
 	bbdoc: Gets the help string associated with the menu item identifier.
