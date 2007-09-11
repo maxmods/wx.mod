@@ -259,7 +259,7 @@ Type MyFrame Extends wxFrame
 		Local item:wxMenuItem = GetMenuBar().FindItem(id)
 		If (item And item.IsCheckable()) Or (id = Menu_Popup_ToBeChecked) Then
 			msg:+ " (the item is currently "
-			If Not event.IsChecked Then
+			If Not wxCommandEvent(event).IsChecked() Then
 				msg:+ "not "
 			End If
 		
@@ -281,7 +281,7 @@ Type MyFrame Extends wxFrame
 		' if we only enable this item when the log window is empty, we never see
 		' it in the disable state as a message is logged whenever the menu is
 		' opened, so we disable it if there is not "much" text in the window
-		event.Enable( MyFrame(event.parent).textctrl.GetNumberOfLines() > 5 )
+		wxUpdateUIEvent(event).Enable( MyFrame(event.parent).textctrl.GetNumberOfLines() > 5 )
 	End Function
 	
 	Function OnAbout(event:wxEvent)
