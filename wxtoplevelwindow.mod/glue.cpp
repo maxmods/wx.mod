@@ -109,4 +109,7 @@ bool bmx_wxtoplevelwindow_showfullscreen(wxTopLevelWindow * window, bool show, l
 	return window->ShowFullScreen(show, style);
 }
 
+void bmx_wxtoplevelwindow_centreonscreen(wxTopLevelWindow * window, int direction) {
+	window->CentreOnScreen(direction);
+}
 

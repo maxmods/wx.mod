@@ -384,6 +384,65 @@ bool bmx_wxwindow_reparent(wxWindow * window, wxWindow * parent) {
 	return window->Reparent(parent);
 }
 
+bool bmx_wxwindow_destroy(wxWindow * window) {
+	return window->Destroy();
+}
+
+void bmx_wxwindow_destroyChildren(wxWindow * window) {
+	window->DestroyChildren();
+}
+
+bool bmx_wxwindow_disable(wxWindow * window) {
+	return window->Disable();
+}
+
+void bmx_wxwindow_dragacceptfiles(wxWindow * window, bool accept) {
+	window->DragAcceptFiles(accept);
+}
+
+bool bmx_wxwindow_enable(wxWindow * window, bool value) {
+	return window->Enable(value);
+}
+
+void bmx_wxwindow_fit(wxWindow * window) {
+	window->Fit();
+}
+
+void bmx_wxwindow_fitinside(wxWindow * window) {
+	window->FitInside();
+}
+
+void bmx_wxwindow_freeze(wxWindow * window) {
+	window->Freeze();
+}
+
+MaxColour * bmx_wxwindow_getbackgroundcolour(wxWindow * window) {
+	wxColour c(window->GetBackgroundColour());
+	return new MaxColour(c);
+}
+
+int bmx_wxwindow_getbackgroundstyle(wxWindow * window) {
+	return window->GetBackgroundStyle();
+}
+
+void bmx_wxwindow_geteffectiveminsize(wxWindow * window, int * w, int * h) {
+	wxSize s = window->GetEffectiveMinSize();
+	*w = s.x;
+	*h = s.y;
+}
+
+void bmx_wxwindow_capturemouse(wxWindow * window) {
+	window->CaptureMouse();
+}
+
+void bmx_wxwindow_centre(wxWindow * window, int direction) {
+	window->Centre(direction);
+}
+
+void bmx_wxwindow_centreonparent(wxWindow * window, int direction) {
+	window->CentreOnParent(direction);
+}
+
 
 // *********************************************
 

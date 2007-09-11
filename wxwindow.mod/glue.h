@@ -107,6 +107,21 @@ extern "C" {
 	bool bmx_wxwindow_istoplevel(wxWindow * window);
 	bool bmx_wxwindow_reparent(wxWindow * window, wxWindow * parent);
 
+	bool bmx_wxwindow_destroy(wxWindow * window);
+	void bmx_wxwindow_destroyChildren(wxWindow * window);
+	bool bmx_wxwindow_disable(wxWindow * window);
+	void bmx_wxwindow_dragacceptfiles(wxWindow * window, bool accept);
+	bool bmx_wxwindow_enable(wxWindow * window, bool value);
+	void bmx_wxwindow_fit(wxWindow * window);
+	void bmx_wxwindow_fitinside(wxWindow * window);
+	void bmx_wxwindow_freeze(wxWindow * window);
+	MaxColour * bmx_wxwindow_getbackgroundcolour(wxWindow * window);
+	int bmx_wxwindow_getbackgroundstyle(wxWindow * window);
+	void bmx_wxwindow_geteffectiveminsize(wxWindow * window, int * w, int * h);
+	void bmx_wxwindow_capturemouse(wxWindow * window);
+	void bmx_wxwindow_centre(wxWindow * window, int direction);
+	void bmx_wxwindow_centreonparent(wxWindow * window, int direction);
+
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);
 	wxSizerItem * bmx_wxsizer_addsizer(wxSizer * sizer, wxSizer * sz, int proportion, int flag, int border);

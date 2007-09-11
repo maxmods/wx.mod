@@ -106,9 +106,21 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Directs all mouse input to this window.
+	about: Call wxWindow::ReleaseMouse to release the capture.
+	<p>
+	Note that wxWidgets maintains the stack of windows having captured the mouse and when the mouse is released
+	the capture returns to the window which had had captured it previously and it is only really released if there
+	were no previous window. In particular, this means that you must release the mouse as many times as you capture
+	it, unless the window receives the wxMouseCaptureLostEvent event.
+	</p>
+	<p>
+	Any application which captures the mouse in the beginning of some operation must handle wxMouseCaptureLostEvent
+	and cancel this operation when it receives the event. The event handler must not recapture mouse.
+	</p>
 	End Rem
 	Method CaptureMouse()
+		bmx_wxwindow_capturemouse(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -126,7 +138,8 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Centers the window on screen.
+	about: This only works for top level windows - otherwise, the window will still be centered on its parent.
 	End Rem
 	Method CenterOnScreen(direction:Int = wxBOTH)
 		CentreOnScreen(direction)
@@ -136,16 +149,19 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: 
 	End Rem
 	Method Centre(direction:Int = wxBOTH)
+		bmx_wxwindow_centre(wxObjectPtr, direction)
 	End Method
 
 	Rem
 	bbdoc: 
 	End Rem
 	Method CentreOnParent(direction:Int = wxBOTH)
+		bmx_wxwindow_centreonparent(wxObjectPtr, direction)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Centres the window on screen.
+	about: This only works for top level windows - otherwise, the window will still be centered on its parent.
 	End Rem
 	Method CentreOnScreen(direction:Int = wxBOTH)
 	End Method
@@ -205,6 +221,7 @@ Type wxWindow Extends wxEvtHandler
 	events have been processed. This prevents problems with events being sent to non-existent windows.
 	End Rem
 	Method Destroy:Int()
+		Return bmx_wxwindow_destroy(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -212,12 +229,16 @@ Type wxWindow Extends wxEvtHandler
 	about: Called automatically by the destructor.
 	End Rem
 	Method DestroyChildren()
+		bmx_wxwindow_destroyChildren(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Disables the window, same as Enable(false).
+	returns: True if the window has been disabled, False if it had been already disabled before the call to
+	this method.
 	End Rem
 	Method Disable:Int()
+		Return bmx_wxwindow_disable(wxObjectPtr)
 	End Method
 	
 	'Method DoGetBestSize(w:Int Var, h:Int Var)
@@ -227,57 +248,93 @@ Type wxWindow Extends wxEvtHandler
 	'End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Enables or disables eligibility for drop file events (OnDropFiles).
 	End Rem
 	Method DragAcceptFiles(accept:Int)
+		bmx_wxwindow_dragacceptfiles(wxObjectPtr, accept)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Enable or disable the window for user input.
+	returns: True if the window has been enabled or disabled, False if nothing was done, i.e. if the window had already been in the specified state.
+	about: Note that when a parent window is disabled, all of its children are disabled as well and they are
+	reenabled again when the parent is.
 	End Rem
-	Method Enable:Int(_enable:Int = True)
+	Method Enable:Int(value:Int = True)
+		Return bmx_wxwindow_enable(wxObjectPtr, value)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Finds the window or control which currently has the keyboard focus.
+	about: Note that this is a static function, so it can be called without needing a wxWindow .
 	End Rem
-	Method FindFocus:wxWindow()
-	End Method
+	Function FindFocus:wxWindow()
+	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Find the first window with the given id.
+	about: If parent is NULL, the search will start from all top-level frames and dialog boxes; if non-NULL,
+	the search will be limited to the given window hierarchy. The search is recursive in both cases.
 	End Rem
 	Function FindWindowById:wxWindow(id:Int, parent:wxWindow = Null)
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Find a window by its name (as given in a window constructor or Create function call).
+	about: If parent is NULL, the search will start from all top-level frames and dialog boxes; if non-NULL,
+	the search will be limited to the given window hierarchy. The search is recursive in both cases.
+	<p>
+	If no window with such name is found, FindWindowByLabel is called.
+	</p>
 	End Rem
 	Function FindWindowByName:wxWindow(name:String, parent:wxWindow = Null)
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Find a window by its label.
+	about: Depending on the type of window, the label may be a window title or panel item label. If parent is Null,
+	the search will start from all top-level frames and dialog boxes; if non-NULL, the search will be limited to
+	the given window hierarchy. The search is recursive in both cases.
 	End Rem
 	Function FindWindowByLabel:wxWindow(label:String, parent:wxWindow = Null)
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sizes the window so that it fits around its subwindows.
+	about: This method won't do anything if there are no subwindows and will only really work correctly if the
+	sizers are used for the subwindows layout. Also, if the window has exactly one subwindow it is better
+	(faster and the result is more precise as Fit adds some margin to account for fuzziness of its calculations)
+	to call :
+	<pre>
+    window.SetClientSize(child.GetSize())
+	</pre>
+	instead of calling Fit.
 	End Rem
 	Method Fit()
+		bmx_wxwindow_fit(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Similar to Fit, but sizes the interior (virtual) size of a window.
+	about: Mainly useful with scrolled windows to reset scrollbars after sizing changes that do not trigger a
+	size event, and/or scrolled windows without an interior sizer. This method similarly won't do anything if
+	there are no subwindows.
 	End Rem
 	Method FitInside()
+		bmx_wxwindow_fitinside(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Freezes the window or, in other words, prevents any updates from taking place on screen, the window is not redrawn at all.
+	about: Thaw must be called to reenable window redrawing. Calls to these two functions may be nested.
+	<p>
+	This method is useful for visual appearance optimization (for example, it is a good idea to use it before
+	doing many large text insertions in a row into a wxTextCtrl under wxGTK) but is not implemented on all platforms
+	nor for all controls so it is mostly just a hint to wxWidgets and not a mandatory directive.
+	</p>
 	End Rem
 	Method Freeze()
+		bmx_wxwindow_freeze(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -290,27 +347,32 @@ Type wxWindow Extends wxEvtHandler
 	'End Method
 	
 	Rem
-	bbdoc: 
-	End Rem
-	Method GetAdjustedBestSize(w:Int Var, h:Int Var)
-	End Method
-	
-	Rem
-	bbdoc: 
+	bbdoc: Returns the background colour of the window.
 	End Rem
 	Method GetBackgroundColour:wxColour()
+		Return wxColour._create(bmx_wxwindow_getbackgroundcolour(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the background style of the window.
+	about: The background style indicates whether background colour should be determined by the system
+	(wxBG_STYLE_SYSTEM), be set to a specific colour (wxBG_STYLE_COLOUR), or should be left to the application
+	to implement (wxBG_STYLE_CUSTOM).
+	<p>
+	On GTK+, use of wxBG_STYLE_CUSTOM allows the flicker-free drawing of a custom background, such as a tiled
+	bitmap. Currently the style has no effect on other platforms
+	</p>
 	End Rem
 	Method GetBackgroundStyle:Int()
+		Return bmx_wxwindow_getbackgroundstyle(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Merges the window's best size into the min size and returns the result.
+	about: This is the value used by sizers to determine the appropriate ammount of sapce to allocate for the widget.
 	End Rem
 	Method GetEffectiveMinSize(w:Int Var, h:Int Var)
+		bmx_wxwindow_geteffectiveminsize(wxObjectPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
@@ -323,6 +385,9 @@ Type wxWindow Extends wxEvtHandler
 		bmx_wxwindow_getbestsize(wxObjectPtr, Varptr width, Varptr height)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetCapture:wxWindow()
 	End Function
 	
