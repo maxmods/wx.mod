@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include "wx/dcmirror.h"
+#include "../wxbitmap.mod/glue.h"
 
 class MaxMirrorDC;
 
@@ -51,6 +52,19 @@ extern "C" {
 	void bmx_wxdc_drawellipse(MaxDC * dc, int x, int y, int w, int h);
 	void bmx_wxdc_drawrectangle(MaxDC * dc, int x, int y, int w, int h);
 	void bmx_wxdc_drawroundedrectangle(MaxDC * dc, int x, int y, int w, int h, double radius);
+
+	void wx_wxdc_calcboundingbox(MaxDC * dc, int x, int y);
+	void wx_wxdc_computescaleandorigin(MaxDC * dc);
+	void wx_wxdc_crosshair(MaxDC * dc, int x, int y);
+	void wx_wxdc_destroyclippingregion(MaxDC * dc);
+	int wx_wxdc_devicetologicalx(MaxDC * dc, int x);
+	int wx_wxdc_devicetologicalxrel(MaxDC * dc, int x);
+	int wx_wxdc_devicetologicaly(MaxDC * dc, int y);
+	int wx_wxdc_devicetologicalyrel(MaxDC * dc, int y);
+	void wx_wxdc_drawarc(MaxDC * dc, int x1, int y1, int x2, int y2, int xc, int yc);
+	void wx_wxdc_drawbitmap(MaxDC * dc, MaxBitmap * bitmap, int x, int y, bool transparent);
+	void wx_wxdc_drawcheckmark(MaxDC * dc, int x, int y, int w, int h);
+	void wx_wxdc_drawcircle(MaxDC * dc, int x, int y, int radius);
 
 }
 

@@ -303,10 +303,6 @@ Extern
 	Function bmx_wxpen_createfromcolour:Byte Ptr(colour:Byte Ptr, width:Int, style:Int)
 	Function bmx_wxpen_delete(handle:Byte Ptr)
 	
-	Function bmx_wxdc_clear(handle:Byte Ptr)
-	Function bmx_wxdc_setbackground(handle:Byte Ptr, brush:Byte Ptr)
-	Function bmx_wxdc_drawtext(handle:Byte Ptr, text:String, x:Int, y:Int)
-	
 	Function bmx_wxfontmapper_getencoding:Int(n:Int)
 	Function bmx_wxfontmapper_getencodingdescription:String(encoding:Int)
 	Function bmx_wxfontmapper_getencodingname:String(encoding:Int)

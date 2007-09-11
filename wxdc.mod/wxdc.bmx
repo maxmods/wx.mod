@@ -66,106 +66,139 @@ Type wxDC Extends wxObject
 	End Function
 
 	Rem
-	bdoc: 
+	bbdoc: Adds the specified point to the bounding box which can be retrieved with MinX, MaxX and MinY, MaxY methods.
 	End Rem
 	Method CalcBoundingBox(x:Int, y:Int)
+		wx_wxdc_calcboundingbox(wxObjectPtr, x, y)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Clears the device context using the current background brush.
 	End Rem
 	Method Clear()
 		bmx_wxdc_clear(wxObjectPtr)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Performs all necessary computations for given platform and context type after each change of scale and origin parameters.
+	about: Usually called automatically internally after such changes.
+	End Rem
+	Method ComputeScaleAndOrigin()
+		wx_wxdc_computescaleandorigin(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Displays a cross hair using the current pen.
+	about: This is a vertical and horizontal line the height and width of the window, centred on the given point.
 	End Rem
 	Method CrossHair(x:Int, y:Int)
+		wx_wxdc_crosshair(wxObjectPtr, x, y)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Destroys the current clipping region so that none of the DC is clipped. See also wxDC::SetClippingRegion.
 	End Rem
-	Method DestroyClippingRegion:Int()
+	Method DestroyClippingRegion()
+		wx_wxdc_destroyclippingregion(wxObjectPtr)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Convert device X coordinate to logical coordinate, using the current mapping mode.
 	End Rem
 	Method DeviceToLogicalX:Int(x:Int)
+		Return wx_wxdc_devicetologicalx(wxObjectPtr, x)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Convert device X coordinate to relative logical coordinate, using the current mapping mode but ignoring the x axis orientation.
+	about: Use this method for converting a width, for example.
 	End Rem
 	Method DeviceToLogicalXRel:Int(x:Int)
+		Return wx_wxdc_devicetologicalxrel(wxObjectPtr, x)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Converts device Y coordinate to logical coordinate, using the current mapping mode.
 	End Rem
 	Method DeviceToLogicalY:Int(y:Int)
+		Return wx_wxdc_devicetologicaly(wxObjectPtr, y)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Convert device Y coordinate to relative logical coordinate, using the current mapping mode but ignoring the y axis orientation.
+	about: Use this method for converting a height, for example.
 	End Rem
 	Method DeviceToLogicalYRe:Int(y:Int)
+		Return wx_wxdc_devicetologicalyrel(wxObjectPtr, y)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Draws an arc of a circle, centred on (xc, yc), with starting point (x1, y1) and ending at (x2, y2).
+	about: The current pen is used for the outline and the current brush for filling the shape.
+	<p>
+	The arc is drawn in an anticlockwise direction from the start point to the end point.
+	</p>
 	End Rem
 	Method DrawArc(x1:Int, y1:Int, x2:Int, y2:Int, xc:Int, yc:Int)
+		wx_wxdc_drawarc(wxObjectPtr, x1, y1, x2, y2, xc, yc)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Draw a bitmap on the device context at the specified point.
+	about: If transparent is True and the bitmap has a transparency mask, the bitmap will be drawn
+	transparently.
+	<p>
+	When drawing a mono-bitmap, the current text foreground colour will be used to draw the foreground of the
+	bitmap (all bits set to 1), and the current text background colour to draw the background (all bits set
+	to 0). See also SetTextForeground, SetTextBackground and wxMemoryDC.
+	</p>
 	End Rem
 	Method DrawBitmap(bitmap:wxBitmap, x:Int, y:Int, transparent:Int)
+		wx_wxdc_drawbitmap(wxObjectPtr, bitmap.wxObjectPtr, x, y, transparent)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Draws a check mark inside the given rectangle.
 	End Rem
 	Method DrawCheckMark(x:Int, y:Int, w:Int, h:Int)
+		wx_wxdc_drawcheckmark(wxObjectPtr, x, y, w, h)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: Draws a circle with the given centre and radius.
 	End Rem
 	Method DrawCircle(x:Int, y:Int, radius:Int)
+		wx_wxdc_drawcircle(wxObjectPtr, x, y, radius)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method DrawEllipse(x:Int, y:Int, width:Int, height:Int)
 		bmx_wxdc_drawellipse(wxObjectPtr, x, y, width, height)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method DrawEllipticArc(x:Int, y:Int, width:Int, height:Int, _start:Double, _end:Double)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method DrawIcon(icon:wxIcon, x:Int, y:Int)
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method DrawLabel(text:String, x:Int, y:Int, width:Int, height:Int, image:wxBitmap = Null, ..
 			alignment:Int = wxALIGN_LEFT | wxALIGN_TOP, indexAccel:Int = -1)
 	End Method
 	
 	Rem
-	bdoc: Draws a line from the first point to the second.
+	bbdoc: Draws a line from the first point to the second.
 	about: The current pen is used for drawing the line. Note that the point (x2, y2) is not part of
 	the line and is not drawn by this function (this is consistent with the behaviour of many
 	other toolkits).
@@ -175,31 +208,31 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method DrawLines()
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method DrawPolygon()
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method DrawPolyPolygon()
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method DrawPoint(x:Int, y:Int)
 	End Method
 	
 	Rem
-	bdoc: Draws a rectangle with the given top left corner, and with the given size.
+	bbdoc: Draws a rectangle with the given top left corner, and with the given size.
 	about: The current pen is used for the outline and the current brush for filling the shape.
 	End Rem
 	Method DrawRectangle(x:Int, y:Int, width:Int, height:Int)
@@ -207,13 +240,13 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method DrawRotatedText(text:String, x:Int, y:Int, angle:Double)
 	End Method
 	
 	Rem
-	bdoc: Draws a rectangle with the given top left corner, and with the given size.
+	bbdoc: Draws a rectangle with the given top left corner, and with the given size.
 	about: The corners are quarter-circles using the given radius. The current pen is used for the outline
 	and the current brush for filling the shape.
 	<p>
@@ -228,13 +261,13 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method DrawSpline()
 	End Method
 	
 	Rem
-	bdoc: Draws a text string at the specified point, using the current text font, and the current text foreground and background colours.
+	bbdoc: Draws a text string at the specified point, using the current text font, and the current text foreground and background colours.
 	about: The coordinates refer to the top-left corner of the rectangle bounding the string.
 	See wxDC::GetTextExtent for how to get the dimensions of a text string, which can be used to position
 	the text more precisely
@@ -244,13 +277,13 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method EndDoc()
 	End Method
 	
 	Rem
-	bdoc: 
+	bbdoc: 
 	End Rem
 	Method EndPage()
 	End Method

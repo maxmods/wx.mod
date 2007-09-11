@@ -44,6 +44,10 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxdc_clear(handle:Byte Ptr)
+	Function bmx_wxdc_setbackground(handle:Byte Ptr, brush:Byte Ptr)
+	Function bmx_wxdc_drawtext(handle:Byte Ptr, text:String, x:Int, y:Int)
+	
 	Function bmx_wxdc_getcharheight:Int(handle:Byte Ptr)
 	Function bmx_wxdc_setfont(handle:Byte Ptr, font:Byte Ptr)
 	Function bmx_wxdc_settextbackground(handle:Byte Ptr, colour:Byte Ptr)
@@ -61,7 +65,21 @@ Extern
 	Function bmx_wxdc_drawellipse(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
 	Function bmx_wxdc_drawrectangle(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
 	Function bmx_wxdc_drawroundedrectangle(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, radius:Double)
+
+	Function wx_wxdc_calcboundingbox(handle:Byte Ptr, x:Int, y:Int)
+	Function wx_wxdc_computescaleandorigin(handle:Byte Ptr)
+	Function wx_wxdc_crosshair(handle:Byte Ptr, x:Int, y:Int)
+	Function wx_wxdc_destroyclippingregion(handle:Byte Ptr)
+	Function wx_wxdc_devicetologicalx:Int(handle:Byte Ptr, x:Int)
+	Function wx_wxdc_devicetologicalxrel:Int(handle:Byte Ptr, x:Int)
+	Function wx_wxdc_devicetologicaly:Int(handle:Byte Ptr, y:Int)
+	Function wx_wxdc_devicetologicalyrel:Int(handle:Byte Ptr, y:Int)
+	Function wx_wxdc_drawarc(handle:Byte Ptr, x1:Int, y1:Int, x2:Int, y2:Int, xc:Int, yc:Int)
+	Function wx_wxdc_drawbitmap(handle:Byte Ptr, bitmap:Byte Ptr, x:Int, y:Int, transparent:Int)
+	Function wx_wxdc_drawcheckmark(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
+	Function wx_wxdc_drawcircle(handle:Byte Ptr, x:Int, y:Int, radius:Int)
 	
+
 	Function bmx_wxmirrordc_create:Byte Ptr(dc:Byte Ptr, mirror:Int)
 	
 End Extern

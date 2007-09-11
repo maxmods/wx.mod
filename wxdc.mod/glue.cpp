@@ -117,6 +117,53 @@ void bmx_wxdc_drawroundedrectangle(MaxDC * dc, int x, int y, int w, int h, doubl
 	dc->GetDC()->DrawRoundedRectangle(x, y, w, h, radius);
 }
 
+void wx_wxdc_calcboundingbox(MaxDC * dc, int x, int y) {
+	dc->GetDC()->CalcBoundingBox(x, y);
+}
+
+void wx_wxdc_computescaleandorigin(MaxDC * dc) {
+	dc->GetDC()->ComputeScaleAndOrigin();
+}
+
+void wx_wxdc_crosshair(MaxDC * dc, int x, int y) {
+	dc->GetDC()->CrossHair(x, y);
+}
+
+void wx_wxdc_destroyclippingregion(MaxDC * dc) {
+	dc->GetDC()->DestroyClippingRegion();
+}
+
+int wx_wxdc_devicetologicalx(MaxDC * dc, int x) {
+	return dc->GetDC()->DeviceToLogicalX(x);
+}
+
+int wx_wxdc_devicetologicalxrel(MaxDC * dc, int x) {
+	return dc->GetDC()->DeviceToLogicalXRel(x);
+}
+
+int wx_wxdc_devicetologicaly(MaxDC * dc, int y) {
+	return dc->GetDC()->DeviceToLogicalY(y);
+}
+
+int wx_wxdc_devicetologicalyrel(MaxDC * dc, int y) {
+	return dc->GetDC()->DeviceToLogicalYRel(y);
+}
+
+void wx_wxdc_drawarc(MaxDC * dc, int x1, int y1, int x2, int y2, int xc, int yc) {
+	dc->GetDC()->DrawArc(x1, y1, x2, y2, xc, yc);
+}
+
+void wx_wxdc_drawbitmap(MaxDC * dc, MaxBitmap * bitmap, int x, int y, bool transparent) {
+	dc->GetDC()->DrawBitmap(bitmap->Bitmap(), x, y, transparent);
+}
+
+void wx_wxdc_drawcheckmark(MaxDC * dc, int x, int y, int w, int h) {
+	dc->GetDC()->DrawCheckMark(x, y, w, h);
+}
+
+void wx_wxdc_drawcircle(MaxDC * dc, int x, int y, int radius) {
+	dc->GetDC()->DrawCircle(x, y, radius);
+}
 
 
 // *********************************************
