@@ -211,6 +211,9 @@ Extern
 	Function bmx_wxnotifyevent_allow(evt:Byte Ptr)
 	Function bmx_wxnotifyevent_veto(evt:Byte Ptr)
 	Function bmx_wxnotifyevent_isallowed:Int(evt:Byte Ptr)
+
+	Function bmx_wxscrollevent_getorientation:Int(evt:Byte Ptr)
+	Function bmx_wxscrollevent_getposition:Int(evt:Byte Ptr)
 	
 	Function bmx_wxversion_string:String()
 	Function bmx_wxmessagebox:Int(message:String, caption:String, style:Int, parent:Byte Ptr, x:Int, y:Int)

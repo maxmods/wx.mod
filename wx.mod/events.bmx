@@ -387,6 +387,40 @@ Type wxScrollWinEvent Extends wxEvent
 End Type
 
 Rem
+bbdoc: A scroll event holds information about events sent from stand-alone scrollbars and sliders.
+about: Note that unless specifying a scroll control identifier, you will need to test for scrollbar
+orientation with wxScrollEvent::GetOrientation, since horizontal and vertical scroll events are
+processed using the same event handler.
+End Rem
+Type wxScrollEvent Extends wxCommandEvent
+
+	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxScrollEvent = New wxScrollEvent 
+		
+		this.wxEventPtr = wxEventPtr
+		this.userData = evt.userData
+		this.parent = evt.parent
+		
+		Return this
+	End Function
+	
+	Rem
+	bbdoc: Returns wxHORIZONTAL or wxVERTICAL, depending on the orientation of the scrollbar.
+	End Rem
+	Method GetOrientation:Int()
+		Return bmx_wxscrollevent_getorientation(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the position of the scrollbar.
+	End Rem
+	Method GetPosition:Int()
+		Return bmx_wxscrollevent_getposition(wxEventPtr)
+	End Method
+
+End Type
+
+Rem
 bbdoc: This type is used for idle events, which are generated when the system becomes idle.
 about: Note that, unless you do something specifically, the idle events are not sent if the system remains idle
 once it has become it, e.g. only a single idle event will be generated until something else resulting in more normal
@@ -505,6 +539,19 @@ Type wxEvtHandler Extends wxObject
 			ConnectAny(wxEVT_SCROLLWIN_THUMBRELEASE, callback, userData)
 			Return
 		End If
+		
+		If eventType = wxEVT_SCROLL Then
+			ConnectAny(wxEVT_SCROLL_TOP, callback, userData)
+			ConnectAny(wxEVT_SCROLL_BOTTOM, callback, userData)
+			ConnectAny(wxEVT_SCROLL_LINEUP, callback, userData)
+			ConnectAny(wxEVT_SCROLL_LINEDOWN, callback, userData)
+			ConnectAny(wxEVT_SCROLL_PAGEUP, callback, userData)
+			ConnectAny(wxEVT_SCROLL_PAGEDOWN, callback, userData)
+			ConnectAny(wxEVT_SCROLL_THUMBTRACK, callback, userData)
+			ConnectAny(wxEVT_SCROLL_THUMBRELEASE, callback, userData)
+			ConnectAny(wxEVT_SCROLL_CHANGED, callback, userData)
+			Return
+		End If
 	
 		Local handler:TEventHandler = New TEventHandler
 		' TODO: we may need parent if we are to get back to the original object that the event was generated from?
@@ -546,6 +593,22 @@ Type wxEvtHandler Extends wxObject
 	</pre>
 	End Rem
 	Method Connect(id:Int = -1, eventType:Int, callback(event:wxEvent), userData:Object = Null)
+	
+		' ********** SPECIAL CASES *************
+		If eventType = wxEVT_SCROLL Then
+			Connect(id, wxEVT_SCROLL_TOP, callback, userData)
+			Connect(id, wxEVT_SCROLL_BOTTOM, callback, userData)
+			Connect(id, wxEVT_SCROLL_LINEUP, callback, userData)
+			Connect(id, wxEVT_SCROLL_LINEDOWN, callback, userData)
+			Connect(id, wxEVT_SCROLL_PAGEUP, callback, userData)
+			Connect(id, wxEVT_SCROLL_PAGEDOWN, callback, userData)
+			Connect(id, wxEVT_SCROLL_THUMBTRACK, callback, userData)
+			Connect(id, wxEVT_SCROLL_THUMBRELEASE, callback, userData)
+			Connect(id, wxEVT_SCROLL_CHANGED, callback, userData)
+			Return
+		End If
+
+	
 		Local handler:TEventHandler = New TEventHandler
 		' TODO: we may need parent if we are to get back to the original object that the event was generated from?
 		handler.parent = Self

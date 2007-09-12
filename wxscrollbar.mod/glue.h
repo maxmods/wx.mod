@@ -22,14 +22,28 @@
 
 #include "wxglue.h"
 
-//class MaxNotebook;
+class MaxScrollBar;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxScrollBar * bmx_wxscrollbar_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	int bmx_wxscrollbar_getrange(wxScrollBar * scrollbar);
+	int bmx_wxscrollbar_getpagesize(wxScrollBar * scrollbar);
+	int bmx_wxscrollbar_getthumbposition(wxScrollBar * scrollbar);
+	int bmx_wxscrollbar_getthumbsize(wxScrollBar * scrollbar);
+	void bmx_wxscrollbar_setthumbposition(wxScrollBar * scrollbar, int viewStart);
+	void bmx_wxscrollbar_setscrollbar(wxScrollBar * scrollbar, int position, int thumbSize, int range, int pageSize, int refresh);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxScrollBar : public wxScrollBar
+{
+public:
+	MaxScrollBar(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	~MaxScrollBar();
+
+};

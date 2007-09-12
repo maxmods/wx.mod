@@ -21,6 +21,7 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxControl
 Import BRL.Blitz
 
 
@@ -43,4 +44,19 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxscrollbar_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxscrollbar_getrange:Int(handle:Byte Ptr)
+	Function bmx_wxscrollbar_getpagesize:Int(handle:Byte Ptr)
+	Function bmx_wxscrollbar_getthumbposition:Int(handle:Byte Ptr)
+	Function bmx_wxscrollbar_getthumbsize:Int(handle:Byte Ptr)
+	Function bmx_wxscrollbar_setthumbposition(handle:Byte Ptr, viewStart:Int)
+	Function bmx_wxscrollbar_setscrollbar(handle:Byte Ptr, position:Int, thumbSize:Int, range:Int, pageSize:Int, refresh:Int)
+
+
 End Extern
+
+
+Const wxSB_HORIZONTAL:Int = wxHORIZONTAL
+Const wxSB_VERTICAL:Int = wxVERTICAL
+
+

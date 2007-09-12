@@ -92,6 +92,9 @@ extern "C" {
 	void bmx_wxnotifyevent_veto(wxNotifyEvent & event);
 	bool bmx_wxnotifyevent_isallowed(wxNotifyEvent & event);
 
+	int bmx_wxscrollevent_getorientation(wxScrollEvent & event);
+	int bmx_wxscrollevent_getposition(wxScrollEvent & event);
+
 	BBString * bmx_wxversion_string();
 	BBString * bmx_wxgetosdescription();
 	

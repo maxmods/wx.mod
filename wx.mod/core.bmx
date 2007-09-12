@@ -366,6 +366,16 @@ Type TCoreEventFactory Extends TEventFactory
 				Return wxScrollWinEvent.create(wxEventPtr, evt)
 			Case wxEVT_IDLE
 				Return wxIdleEvent.create(wxEventPtr, evt)
+			Case wxEVT_SCROLL_TOP, ..
+					wxEVT_SCROLL_BOTTOM, ..
+					wxEVT_SCROLL_LINEUP, ..
+					wxEVT_SCROLL_LINEDOWN, ..
+					wxEVT_SCROLL_PAGEUP, ..
+					wxEVT_SCROLL_PAGEDOWN, ..
+					wxEVT_SCROLL_THUMBTRACK, ..
+					wxEVT_SCROLL_THUMBRELEASE, ..
+					wxEVT_SCROLL_CHANGED
+				Return wxScrollEvent.create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -388,7 +398,16 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_SCROLLWIN_PAGEDOWN, ..
 					wxEVT_SCROLLWIN_THUMBTRACK, ..
 					wxEVT_SCROLLWIN_THUMBRELEASE, ..
-					wxEVT_IDLE
+					wxEVT_IDLE, ..
+					wxEVT_SCROLL_TOP, ..
+					wxEVT_SCROLL_BOTTOM, ..
+					wxEVT_SCROLL_LINEUP, ..
+					wxEVT_SCROLL_LINEDOWN, ..
+					wxEVT_SCROLL_PAGEUP, ..
+					wxEVT_SCROLL_PAGEDOWN, ..
+					wxEVT_SCROLL_THUMBTRACK, ..
+					wxEVT_SCROLL_THUMBRELEASE, ..
+					wxEVT_SCROLL_CHANGED
 				Return bmx_eventtype_value(eventType)
 		End Select
 	End Method

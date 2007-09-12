@@ -617,6 +617,14 @@ void bmx_wxupdateeventui_show(wxUpdateUIEvent & event, bool value) {
 	event.Show(value);
 }
 
+int bmx_wxscrollevent_getorientation(wxScrollEvent & event) {
+	return event.GetOrientation();
+}
+
+int bmx_wxscrollevent_getposition(wxScrollEvent & event) {
+	return event.GetPosition();
+}
+
 
 // **************************
 
