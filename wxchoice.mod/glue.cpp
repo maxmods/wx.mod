@@ -45,3 +45,10 @@ int bmx_wxchoice_getcurrentselection(MaxChoice * choice) {
 	return choice->GetCurrentSelection();
 }
 
+int bmx_wxchoice_geteventtype(int type) {
+	switch(type) {
+		case 3: return wxEVT_COMMAND_CHOICE_SELECTED;
+	}
+	
+	return 0;
+}

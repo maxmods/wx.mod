@@ -412,11 +412,8 @@ void * bmx_event_geteventobject(wxEvent * evt) {
 int bmx_eventtype_value(int type) {
 
 	switch(type) {
-		case 3: return wxEVT_COMMAND_CHOICE_SELECTED;
 		case 9: return wxEVT_COMMAND_MENU_SELECTED;
 		case 10: return wxEVT_COMMAND_SLIDER_UPDATED;
-		case 11: return wxEVT_COMMAND_RADIOBOX_SELECTED;
-		case 12: return wxEVT_COMMAND_RADIOBUTTON_SELECTED;
 		case 14: return wxEVT_COMMAND_VLBOX_SELECTED;
 		case 15: return wxEVT_COMMAND_COMBOBOX_SELECTED;
 		case 16: return wxEVT_COMMAND_TOOL_RCLICKED;

@@ -66,13 +66,6 @@ Type wxChoice Extends wxControlWithItems
 	
 		Return this
 	End Function
-
-	'Rem
-	'bbdoc: Gets the number of columns in this choice item.
-	'about: This is implemented For Motif only And always returns 1 For the other platforms.
-	'End Rem
-	'Method GetColumns:Int()
-	'End Method
 	
 	Rem
 	bbdoc: Unlike GetSelection which only returns the accepted selection value, i.e. the selection in the control once the user closes the dropdown list, this function returns the current selection.
@@ -82,10 +75,26 @@ Type wxChoice Extends wxControlWithItems
 	Method GetCurrentSelection:Int()
 		Return bmx_wxchoice_getcurrentselection(wxObjectPtr)
 	End Method
-	
-	'Method SetColumns(n:Int = 1)
-	'End Method
-	
-	
 
 End Type
+
+Type TChoiceEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	
+		If evt.eventType = wxEVT_COMMAND_CHOICE_SELECTED Then
+			Return wxCommandEvent.create(wxEventPtr, evt)
+		End If
+		
+		Return Null
+	End Method
+
+	Method GetEventType:Int(eventType:Int)
+		If eventType = wxEVT_COMMAND_CHOICE_SELECTED Then
+			Return bmx_wxchoice_geteventtype(eventType)
+		End If
+	End Method
+		
+End Type
+
+New TChoiceEventFactory

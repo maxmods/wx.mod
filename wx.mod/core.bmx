@@ -338,8 +338,7 @@ Type TCoreEventFactory Extends TEventFactory
 	
 		' TODO: determine the correct event, and return that type....
 		Select evt.eventType
-			Case wxEVT_COMMAND_CHOICE_SELECTED, ..
-					wxEVT_COMMAND_MENU_SELECTED, ..
+			Case wxEVT_COMMAND_MENU_SELECTED, ..
 					wxEVT_COMMAND_SCROLLBAR_UPDATED, ..
 					wxEVT_COMMAND_SLIDER_UPDATED, ..
 					wxEVT_COMMAND_ENTER
@@ -374,8 +373,7 @@ Type TCoreEventFactory Extends TEventFactory
 	
 	Method GetEventType:Int(eventType:Int)
 		Select eventType
-			Case wxEVT_COMMAND_CHOICE_SELECTED, ..
-					wxEVT_COMMAND_MENU_SELECTED, ..
+			Case wxEVT_COMMAND_MENU_SELECTED, ..
 					wxEVT_COMMAND_SCROLLBAR_UPDATED, ..
 					wxEVT_COMMAND_SLIDER_UPDATED, ..
 					wxEVT_COMMAND_ENTER, ..

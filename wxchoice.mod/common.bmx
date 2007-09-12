@@ -47,4 +47,8 @@ Extern
 	Function bmx_wxchoice_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, choices:String[], x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxchoice_getcurrentselection:Int(handle:Byte Ptr)
 	
+	Function bmx_wxchoice_geteventtype:Int(evt:Int)
+	
 End Extern
+
+Const wxEVT_COMMAND_CHOICE_SELECTED:Int = 3
