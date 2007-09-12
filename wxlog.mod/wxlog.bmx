@@ -128,3 +128,109 @@ End Rem
 Function wxSysErrorMsg:String(code:Int = 0)
 	Return bmx_wxsyserrormsg(code)
 End Function
+
+
+Rem
+bbdoc: Defines the interface for the log targets used by wxWidgets logging functions as explained in the wxLog overview.
+about: The only situations when you need to directly use this class is when you want to derive your own log target
+because the existing ones don't satisfy your needs. Another case is if you wish to customize the behaviour of the
+standard logging classes (all of which respect the wxLog settings): for example, set which trace messages are logged
+and which are not or change (or even remove completely) the timestamp on the messages.
+<p>
+Otherwise, it is completely hidden behind the wxLogXXX() functions and you may not even know about its existence.
+</p>
+End Rem
+Type wxLog
+
+	Field wxLogPtr:Byte Ptr
+	
+	Function _create:wxLog(wxLogPtr:Byte Ptr)
+		If wxLogPtr Then
+			Local this:wxLog = New wxLog
+			this.wxLogPtr = wxLogPtr
+			Return this
+		End If
+	End Function
+	
+	Rem
+	bbdoc: Sets the specified log target as the active one.
+	about: Returns the previous active log target (may be Null). To suppress logging use a new
+	instance of wxLogNull, not Null. If the active log target is set to Null a new default log target will be
+	created when logging occurs.
+	End Rem
+	Function SetActiveTarget:wxLog(target:wxLog)
+		Local m:Byte Ptr = bmx_wxlog_setactivetarget(target.wxLogPtr)
+		If m Then
+			Local logger:wxLog = wxLog(wxlogfind(m))
+			If Not logger Then
+				Return wxLog._create(m)
+			End If
+			Return logger
+		End If
+	End Function
+
+	Rem
+	bbdoc: Sets the timestamp format prepended by the default log targets to all messages.
+	about: The string may contain any normal characters as well as % prefixed format specificators, see strftime()
+	manual for details. Passing a Null value (not empty string) to this function disables message timestamping.
+	End Rem
+	Function SetTimestamp(format:String)
+		If format Then
+			bmx_wxlog_settimestamp(format)
+		Else
+			bmx_wxlog_settimestamp(Null)
+		End If
+	End Function
+	
+	Method Free()
+		If wxLogPtr Then
+			bmx_wxlog_delete(wxLogPtr)
+			wxLogPtr = Null
+		End If
+	End Method
+
+	Method Delete()
+		Free()
+	End Method
+	
+End Type
+
+Rem
+Type wxLogNull Extends wxLog
+
+	Function CreateLogNull:wxLogNull()
+		Return New wxLogNull.Create()
+	End Function
+	
+	Method Create:wxLogNull()
+		wxLogPtr = bmx_wxlognull_create(Self)
+		Return Self
+	End Method
+	
+End Type
+End Rem
+
+Rem
+bbdoc: Allows all the log messages to be redirected to a text control.
+about: The text control must have been created with wxTE_MULTILINE style by the caller previously.
+End Rem
+Type wxLogTextCtrl Extends wxLog
+
+	Rem
+	bbdoc: Constructs a log target which sends all the log messages to the given text control.
+	about: The textctrl parameter cannot be Null.
+	End Rem
+	Function CreateLogTextCtrl:wxLogTextCtrl(textCtrl:wxTextCtrl)
+		Return New wxLogTextCtrl.Create(textCtrl)
+	End Function
+	
+	Rem
+	bbdoc: Constructs a log target which sends all the log messages to the given text control.
+	about: The textctrl parameter cannot be Null.
+	End Rem
+	Method Create:wxLogTextCtrl(textCtrl:wxTextCtrl)
+		wxLogPtr = bmx_wxlogtextctrl_create(Self, textCtrl.wxObjectPtr)
+		Return Self
+	End Method
+
+End Type

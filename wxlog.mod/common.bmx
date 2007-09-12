@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxFrame
+Import wx.wxTextCtrl
 Import BRL.Blitz
 
 
@@ -43,6 +44,7 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+	Function wxlogfind:Object(handle:Byte Ptr)
 
 	Function bmx_wxlogerror(message:String)
 	Function bmx_wxlogfatalerror(message:String)
@@ -53,5 +55,12 @@ Extern
 	Function bmx_wxsafeshowmessage(message:String)
 	Function bmx_wxsyserrorcode:Int()
 	Function bmx_wxsyserrormsg:String(code:Int)
+	
+	'Function bmx_wxlognull_create:Byte Ptr(handle:Object)
+	Function bmx_wxlogtextctrl_create:Byte Ptr(handle:Object, textctrl:Byte Ptr)
+	Function bmx_wxlog_delete(logger:Byte Ptr)
+	
+	Function bmx_wxlog_setactivetarget:Byte Ptr(logger:Byte Ptr)
+	Function bmx_wxlog_settimestamp(format:String)
 	
 End Extern

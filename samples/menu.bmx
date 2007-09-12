@@ -94,9 +94,11 @@ Type MyFrame Extends wxFrame
 	
 	
 	' the previous Log target
-'	Field logOld:wxLog
+	Field logOld:wxLog
 
 	Method OnInit()
+	
+		ConnectAny(wxEvt_Size, OnSize)
 	
 		CreateStatusBar()
 		
@@ -239,15 +241,15 @@ Type MyFrame Extends wxFrame
 		textctrl = New wxTextCtrl.Create(Self, wxID_ANY, "", ,, ,, wxTE_MULTILINE)
 		textctrl.SetEditable(False)
 		
-		'wxLog::SetTimestamp(Null);
-		'm_logOld = wxLog::SetActiveTarget(New wxLogTextCtrl(m_textctrl));
+		wxLog.SetTimestamp(Null)
+		logOld = wxLog.SetActiveTarget(New wxLogTextCtrl.Create(textctrl))
 		
 		wxLogMessage("Brief explanations: the commands or the ~qMenu~q menu " + ..
 			"append/insert/delete items to/from the last menu.~n" + ..
 			"The commands from ~qMenubar~q menu work with the " + ..
 			"menubar itself.~n~n" + ..
 			"Right click the band below to test popup menus.~n")
-		
+				
 	End Method
 
 	Method LogMenuEvent(event:wxEvent)
@@ -388,6 +390,16 @@ Type MyFrame Extends wxFrame
 	End Function
 	
 	Function OnSize(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		
+		If Not frame.textCtrl Then
+			Return
+		End If
+		
+		Local w:Int, h:Int
+		' leave a band below For popup menu testing
+		frame.GetClientSize(w, h)
+		frame.textctrl.SetDimensions(0, 0, w, (3 * h) / 4)
 	End Function
 	
 	Method LogMenuOpenOrClose(event:wxMenuEvent, what:String)

@@ -22,7 +22,35 @@
 
 #include "glue.h"
 
+
+typedef std::map<wxLog*, BBObject*> LogPeerMap;
+
+static LogPeerMap logPeerMap;
+
+void wxlogbind( wxLog *obj, BBObject *peer ) {
+	if( !obj || peer==&bbNullObject ) return;
+	logPeerMap.insert( std::make_pair( obj,peer ) );
+	BBRETAIN( peer );
+}
+
+BBObject *wxlogfind( wxLog *obj ){
+	if( !obj ) return &bbNullObject;
+	LogPeerMap::iterator it = logPeerMap.find( obj );
+	if( it != logPeerMap.end() ) return it->second;
+	return &bbNullObject;
+}
+
+void wxlogunbind(wxLog *obj) {
+	BBObject * peer = wxlogfind(obj);
+	if (peer != &bbNullObject) {
+		logPeerMap.erase(obj);
+		BBRELEASE(peer);
+	}
+}
+
+
 // ---------------------------------------------------------------------------------------
+
 
 
 
@@ -69,3 +97,24 @@ BBString * bmx_wxsyserrormsg(unsigned long code) {
 	return bbStringFromWxString(wxString(wxSysErrorMsg(code)));
 }
 
+void bmx_wxlog_delete(wxLog * logger) {
+	delete logger;
+}
+
+wxLog * bmx_wxlogtextctrl_create(BBObject * handle, wxTextCtrl * textctrl) {
+	wxLogTextCtrl * logger = new wxLogTextCtrl(textctrl);
+	wxlogbind(logger, handle);
+	return logger;
+}
+
+wxLog * bmx_wxlog_setactivetarget(wxLog * log) {
+	return wxLog::SetActiveTarget(log);
+}
+
+void bmx_wxlog_settimestamp(BBString * format) {
+	if (!format) {
+		wxLog::SetTimestamp(wxStringFromBBString(format).c_str());
+	} else {
+		wxLog::SetTimestamp(NULL);
+	}
+}

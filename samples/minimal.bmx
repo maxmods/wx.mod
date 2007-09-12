@@ -34,7 +34,7 @@ Type MyFrame Extends wxFrame
 		
 		helpMenu.Append(wxID_ABOUT, "&About...~tF1", "Show about dialog")
 		
-		fileMenu.Append(wxID_EXIT, "Exit")'"&Quit~tAlt-Q", "Quit this program")
+		fileMenu.Append(wxID_EXIT, "&Quit~tAlt-Q", "Quit this program")
 		
 		' now append the freshly created menu to the menu bar...
 		Local menuBar:wxMenuBar = wxMenuBar.CreateMenuBar()

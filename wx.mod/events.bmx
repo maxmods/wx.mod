@@ -472,21 +472,37 @@ Type wxEvtHandler Extends wxObject
 	Field events:TMap = New TMap
 
 	Rem
-	bbdoc: Connects the given function dynamically with the event handler and event type.
-	about: Use this for events that don't require an event id - like wxEVT_PAINT.
+	bbdoc: A synonymn for ConnectAny
 	End Rem
 	Method ConnectNoId(eventType:Int, callback(event:wxEvent), userData:Object = Null)
+		ConnectAny(eventType, callback, userData)
+	End Method
+
+	Rem
+	bbdoc: Connects the given function dynamically with the event handler and event type.
+	about: Use this for events that don't require an event id - like wxEVT_PAINT, or wxEVT_CLOSE.
+	<p>Example,
+	<pre>
+	ConnectAny(wxEVT_CLOSE, func)
+	</pre>
+	can be used in place of the macro
+	<pre>
+	EVT_CLOSE(func)
+	</pre>
+	</p>
+	End Rem
+	Method ConnectAny(eventType:Int, callback(event:wxEvent), userData:Object = Null)
 	
 		' ********** SPECIAL CASES *************
 		If eventType = wxEVT_SCROLLWIN Then
-			ConnectNoId(wxEVT_SCROLLWIN_TOP, callback, userData)
-			ConnectNoId(wxEVT_SCROLLWIN_BOTTOM, callback, userData)
-			ConnectNoId(wxEVT_SCROLLWIN_LINEUP, callback, userData)
-			ConnectNoId(wxEVT_SCROLLWIN_LINEDOWN, callback, userData)
-			ConnectNoId(wxEVT_SCROLLWIN_PAGEUP, callback, userData)
-			ConnectNoId(wxEVT_SCROLLWIN_PAGEDOWN, callback, userData)
-			ConnectNoId(wxEVT_SCROLLWIN_THUMBTRACK, callback, userData)
-			ConnectNoId(wxEVT_SCROLLWIN_THUMBRELEASE, callback, userData)
+			ConnectAny(wxEVT_SCROLLWIN_TOP, callback, userData)
+			ConnectAny(wxEVT_SCROLLWIN_BOTTOM, callback, userData)
+			ConnectAny(wxEVT_SCROLLWIN_LINEUP, callback, userData)
+			ConnectAny(wxEVT_SCROLLWIN_LINEDOWN, callback, userData)
+			ConnectAny(wxEVT_SCROLLWIN_PAGEUP, callback, userData)
+			ConnectAny(wxEVT_SCROLLWIN_PAGEDOWN, callback, userData)
+			ConnectAny(wxEVT_SCROLLWIN_THUMBTRACK, callback, userData)
+			ConnectAny(wxEVT_SCROLLWIN_THUMBRELEASE, callback, userData)
 			Return
 		End If
 	
@@ -520,6 +536,14 @@ Type wxEvtHandler Extends wxObject
 
 	Rem
 	bbdoc: Connects the given function dynamically with the event handler, id and event type.
+	about: Example :
+	<pre>
+	ConnectAny(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, func)
+	</pre>
+	can be used in place of the macro
+	<pre>
+	EVT_MENU(wxID_ABOUT, func)
+	</pre>
 	End Rem
 	Method Connect(id:Int = -1, eventType:Int, callback(event:wxEvent), userData:Object = Null)
 		Local handler:TEventHandler = New TEventHandler
@@ -552,6 +576,14 @@ Type wxEvtHandler Extends wxObject
 	
 	Rem
 	bbdoc: Connects the given function dynamically with the event handler, an id range and event type.
+	about: Example :
+	<pre>
+	ConnectRange(startId, lastId, wxEVT_COMMAND_MENU_SELECTED, func)
+	</pre>
+	can be used in place of the macro
+	<pre>
+	EVT_MENU_RANGE(startId, lastId, func)
+	</pre>
 	End Rem
 	Method ConnectRange(id:Int, lastId:Int, eventType:Int, callback(event:wxEvent), userData:Object = Null)
 		Local handler:TEventHandler = New TEventHandler
@@ -580,6 +612,11 @@ Type wxEvtHandler Extends wxObject
 		End If
 		
 		bmx_wxevthandler_connectrange(wxObjectPtr, id, lastId, eventType, handler)
+	End Method
+	
+	Method Delete()
+		' cleanup time!
+		events.Clear()
 	End Method
 	
 End Type

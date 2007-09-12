@@ -21,12 +21,13 @@
 */ 
 
 #include "wxglue.h"
-
-//class MaxNotebook;
+#include "wx/log.h"
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject *wxlogfind( wxLog *obj );
 
 	void bmx_wxlogerror(BBString * message);
 	void bmx_wxlogfatalerror(BBString * message);
@@ -38,6 +39,10 @@ extern "C" {
 	unsigned long bmx_wxsyserrorcode();
 	BBString * bmx_wxsyserrormsg(unsigned long code);
 
+	void bmx_wxlog_delete(wxLog * logger);
+	wxLog * bmx_wxlogtextctrl_create(BBObject * handle, wxTextCtrl * textctrl);
+	wxLog * bmx_wxlog_setactivetarget(wxLog * log);
+	void bmx_wxlog_settimestamp(BBString * format);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

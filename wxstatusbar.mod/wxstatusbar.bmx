@@ -63,14 +63,14 @@ End Rem
 Type wxStatusBar Extends wxWindow
 
 	Rem
-	bbdoc: 
+	bbdoc: Constructor, creating the window.
 	End Rem
 	Function CreateStatusBar:wxStatusBar(parent:wxWindow, id:Int = -1, style:Int = wxST_SIZEGRIP)
 		Return New wxStatusBar.Create(parent, id, style)
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates the window, for two-step construction.
 	End Rem
 	Method Create:wxStatusBar(parent:wxWindow, id:Int = -1, style:Int = wxST_SIZEGRIP)
 		wxObjectPtr = bmx_wxstatusbar_create(Self, parent.wxObjectPtr, id, style)
