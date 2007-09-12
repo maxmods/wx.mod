@@ -115,6 +115,8 @@ extern "C" {
 	int bmx_wxcolour_alpha(MaxColour * col);
 	BBString * bmx_wxcolour_getasstring(MaxColour * col, int flags);
 	MaxColour * bmx_wxcolour_createnamedcolour(BBString * name);
+	void bmx_wxcolour_set(MaxColour * col, int r, int g, int b, int a);
+	bool bmx_wxcolour_setasnamedcolour(MaxColour * col, BBString * name);
 	
 	MaxColour * bmx_wxstockgdi_colour_black();
 	MaxColour * bmx_wxstockgdi_colour_blue();

@@ -110,8 +110,6 @@ Const wxEVT_COMMAND_LISTBOX_DOUBLECLICKED:Int = 5
 Const wxEVT_COMMAND_CHECKLISTBOX_TOGGLED:Int = 6
 Const wxEVT_COMMAND_MENU_SELECTED:Int = 9
 Const wxEVT_COMMAND_SLIDER_UPDATED:Int = 10
-Const wxEVT_COMMAND_RADIOBOX_SELECTED:Int = 11
-Const wxEVT_COMMAND_RADIOBUTTON_SELECTED:Int = 12
 Const wxEVT_COMMAND_SCROLLBAR_UPDATED:Int = 13
 Const wxEVT_COMMAND_VLBOX_SELECTED:Int = 14
 Const wxEVT_SOCKET:Int = 50
@@ -402,6 +400,13 @@ Const wxMENU_TEAROFF:Int = $0001
 Const wxCOLOURED:Int = $0800
 Const wxFIXED_LENGTH:Int = $0400
 
+Const wxC2S_NAME:Int = 1   ' Return colour name, when possible
+Const wxC2S_CSS_SYNTAX:Int = 2   ' Return colour in rgb(r,g,b) syntax
+Const wxC2S_HTML_SYNTAX:Int = 4   ' Return colour in #rrggbb syntax
+
+Const wxALPHA_TRANSPARENT:Int = 0
+Const wxALPHA_OPAQUE:Int = $ff
+
 
 Const wxIMAGELIST_DRAW_NORMAL:Int = $0001
 Const wxIMAGELIST_DRAW_TRANSPARENT:Int = $0002
@@ -485,9 +490,6 @@ Const wxART_QUIT:String = "wxART_QUIT"
 Const wxART_FIND:String = "wxART_FIND"
 Const wxART_FIND_AND_REPLACE:String = "wxART_FIND_AND_REPLACE"
 
-
-Const wxALPHA_TRANSPARENT:Int = 0
-Const wxALPHA_OPAQUE:Int = $ff
 
 Const wxBITMAP_TYPE_INVALID:Int = 0          ' should be == 0 For compatibility!
 Const wxBITMAP_TYPE_BMP:Int = 1

@@ -21,6 +21,7 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxControlWithItems
 Import BRL.Blitz
 
 
@@ -43,4 +44,46 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxradiobox_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, label:String, x:Int, y:Int, ..
+		w:Int, h:Int, choices:String[], majorDimension:Int, style:Int)
+	Function bmx_wxradiobox_enable:Int(handle:Byte Ptr, value:Int)
+	Function bmx_wxradiobox_enableitem:Int(handle:Byte Ptr, item:Int, value:Int)
+	Function bmx_wxradiobox_findstring:Int(handle:Byte Ptr, text:String, caseSensitive:Int)
+	Function bmx_wxradiobox_getcolumncount:Int(handle:Byte Ptr)
+	Function bmx_wxradiobox_getitemhelptext:String(handle:Byte Ptr, item:Int)
+	Function bmx_wxradiobox_getitemfrompoint:Int(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxradiobox_getlabel:String(handle:Byte Ptr)
+	Function bmx_wxradiobox_getitemlabel:String(handle:Byte Ptr, item:Int)
+	Function bmx_wxradiobox_getrowcount:Int(handle:Byte Ptr)
+	Function bmx_wxradiobox_getselection:Int(handle:Byte Ptr)
+	Function bmx_wxradiobox_getstringselection:String(handle:Byte Ptr)
+	Function bmx_wxradiobox_getstring:String(handle:Byte Ptr, item:Int)
+	Function bmx_wxradiobox_isitemenabled:Int(handle:Byte Ptr, item:Int)
+	Function bmx_wxradiobox_isitemshown:Int(handle:Byte Ptr, item:Int)
+	Function bmx_wxradiobox_setitemhelptext(handle:Byte Ptr, item:Int, helpText:String)
+	Function bmx_wxradiobox_setlabel(handle:Byte Ptr, label:String)
+	Function bmx_wxradiobox_setitemlabel(handle:Byte Ptr, item:Int, label:String)
+	Function bmx_wxradiobox_setselection(handle:Byte Ptr, item:Int)
+	Function bmx_wxradiobox_setstringselection(handle:Byte Ptr, text:String)
+	Function bmx_wxradiobox_setitemtooltip(handle:Byte Ptr, item:Int, text:String)
+	Function bmx_wxradiobox_show:Int(handle:Byte Ptr, value:Int)
+	Function bmx_wxradiobox_showItem:Int(handle:Byte Ptr, item:Int, value:Int)
+
+	Function bmx_wxradiobox_geteventtype:Int(evt:Int)
+	
 End Extern
+
+Const wxEVT_COMMAND_RADIOBOX_SELECTED:Int = 11
+
+Const wxRA_LEFTTORIGHT:Int = $0001
+Const wxRA_TOPTOBOTTOM:Int = $0002
+
+'  New, more intuitive names To specify majorDim argument */
+Const wxRA_SPECIFY_COLS:Int = wxHORIZONTAL
+Const wxRA_SPECIFY_ROWS:Int = wxVERTICAL
+
+'  Old names For compatibility */
+Const wxRA_HORIZONTAL:Int = wxHORIZONTAL
+Const wxRA_VERTICAL:Int = wxVERTICAL
+
+

@@ -24,8 +24,41 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxRadioButton::MaxRadioButton(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
+		int w, int h, long style)
+	: wxRadioButton(parent, id, label, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxRadioButton::~MaxRadioButton() {
+	wxunbind(this);
+}
 
 
 // *********************************************
+
+MaxRadioButton * bmx_wxradiobutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
+		int w, int h, long style) {
+
+	return new MaxRadioButton(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
+}
+
+bool bmx_wxradiobutton_getvalue(wxRadioButton * button) {
+	return button->GetValue();
+}
+
+void bmx_wxradiobutton_setvalue(wxRadioButton * button, bool value) {
+	button->SetValue(value);
+}
+
+int bmx_wxradiobutton_geteventtype(int type) {
+	switch(type) {
+		case 12: return wxEVT_COMMAND_RADIOBUTTON_SELECTED;
+	}
+	
+	return 0;
+}
+
 
 

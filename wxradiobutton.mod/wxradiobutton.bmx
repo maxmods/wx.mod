@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxRadioButton
+End Rem
 Module wx.wxRadioButton
 
 ModuleInfo "Version: 1.00"
@@ -47,4 +50,71 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Rem
+bbdoc: A radio button item is a button which usually denotes one of several mutually exclusive options.
+about: It has a text label next to a (usually) round button.
+<p>
+You can create a group of mutually-exclusive radio buttons by specifying wxRB_GROUP for the first in the
+group. The group ends when another radio button group is created, or there are no more radio buttons.
+</p>
+End Rem
+Type wxRadioButton Extends wxControl
 
+	Rem
+	bbdoc: Constructor, creating and showing a radio button.
+	End Rem
+	Function CreateRadioButton:wxRadioButton(parent:wxWindow, id:Int, label:String, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = 0)
+			
+		Return New wxRadioButton.Create(parent, id, label, x, y, w, h, style)
+
+	End Function
+	
+	Rem
+	bbdoc: Creation method, for two-step construction. For details see CreateRadioButton.
+	End Rem
+	Method Create:wxRadioButton(parent:wxWindow, id:Int, label:String, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = 0)
+			
+		wxObjectPtr = bmx_wxradiobutton_create(Self, parent.wxObjectPtr, id, label, x, y, w, h, style)
+		
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Returns True if the radio button is depressed, False otherwise.
+	End Rem
+	Method GetValue:Int()
+		Return bmx_wxradiobutton_getvalue(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the radio button to selected or deselected status.
+	about: This does not cause a wxEVT_COMMAND_RADIOBUTTON_SELECTED event to get emitted.
+	End Rem
+	Method SetValue(value:Int)
+		bmx_wxradiobutton_setvalue(wxObjectPtr, value)
+	End Method
+	
+End Type
+
+Type TRadioButtonEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	
+		If evt.eventType = wxEVT_COMMAND_RADIOBUTTON_SELECTED Then
+			Return wxCommandEvent.create(wxEventPtr, evt)
+		End If
+		
+		Return Null
+	End Method
+
+	Method GetEventType:Int(eventType:Int)
+		If eventType = wxEVT_COMMAND_RADIOBUTTON_SELECTED Then
+			Return bmx_wxradiobutton_geteventtype(eventType)
+		End If
+	End Method
+		
+End Type
+
+New TRadioButtonEventFactory

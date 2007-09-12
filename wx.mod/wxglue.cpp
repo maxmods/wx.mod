@@ -662,6 +662,14 @@ MaxColour * bmx_wxcolour_createnamedcolour(BBString * name) {
 	return new MaxColour(c);
 }
 
+void bmx_wxcolour_set(MaxColour * col, int r, int g, int b, int a) {
+	col->Colour().Set(r, g, b, a);
+}
+
+bool bmx_wxcolour_setasnamedcolour(MaxColour * col, BBString * name) {
+	return col->Colour().Set(wxStringFromBBString(name));
+}
+
 
 // **************************
 

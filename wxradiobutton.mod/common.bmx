@@ -21,6 +21,7 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxControl
 Import BRL.Blitz
 
 
@@ -43,4 +44,15 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxradiobutton_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, label:String, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxradiobutton_getvalue:Int(handle:Byte Ptr)
+	Function bmx_wxradiobutton_setvalue(handle:Byte Ptr, value:Int)
+	
+	Function bmx_wxradiobutton_geteventtype:Int(evt:Int)
+	
 End Extern
+
+Const wxEVT_COMMAND_RADIOBUTTON_SELECTED:Int = 12
+
+Const wxRB_GROUP:Int = $0004
+Const wxRB_SINGLE:Int = $0008

@@ -21,15 +21,30 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/radiobut.h"
 
-//class MaxNotebook;
+class MaxRadioButton;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxRadioButton * bmx_wxradiobutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
+		int w, int h, long style);
+	bool bmx_wxradiobutton_getvalue(wxRadioButton * button);
+	void bmx_wxradiobutton_setvalue(wxRadioButton * button, bool value);
+
+	int bmx_wxradiobutton_geteventtype(int type);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxRadioButton : public wxRadioButton
+{
+public:
+	MaxRadioButton(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
+		int w, int h, long style);
+	~MaxRadioButton();
+	
+};

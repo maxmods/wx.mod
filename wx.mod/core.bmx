@@ -116,30 +116,72 @@ Type wxColour Extends wxObject
 		Return this
 	End Function
 	
+	Rem
+	bbdoc: Returns the alpha value.
+	End Rem
 	Method Alpha:Int()
 		Return bmx_wxcolour_alpha(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the blue intensity.
+	End Rem
 	Method Blue:Int()
 		Return bmx_wxcolour_blue(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Converts this colour to a String using the given @flags.
+	about: The supported flags are wxC2S_NAME, to obtain the colour name (e.g. wxColour(255,0,0) -&gt; "red"),
+	wxC2S_CSS_SYNTAX, to obtain the colour in the "rgb(r,g,b)" syntax (e.g. wxColour(255,0,0) -&gt;
+	"rgb(255,0,0)"), and wxC2S_HTML_SYNTAX, to obtain the colour as "#" followed by 6 hexadecimal
+	digits (e.g. wxColour(255,0,0) -&gt; "#FF0000").
+	<p>
+	This method never fails and always returns a non-empty string.
+	</p>
+	End Rem
 	Method GetAsString:String(flags:Int)
 		Return bmx_wxcolour_getasstring(wxObjectPtr, flags)
 	End Method
 	
+	Rem
+	bbdoc: Returns the green intensity.
+	End Rem
 	Method Green:Int()
 		Return bmx_wxcolour_green(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if the colour object is valid (the colour has been initialised with RGB values).
+	End Rem
 	Method IsOk:Int()
 		Return bmx_wxcolour_isok(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the red intensity.
+	End Rem
 	Method Red:Int()
 		Return bmx_wxcolour_red(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the RGB intensity values using the given values.
+	End Rem
+	Method Set(red:Int, green:Int, blue:Int, alpha:Int = wxALPHA_OPAQUE)
+		bmx_wxcolour_set(wxObjectPtr, red, green, blue, alpha)
+	End Method
+	
+	Rem
+	bbdoc: Sets the RGB intensity values using the given string.
+	returns: True if the conversion was successful, False otherwise.
+	about: Accepts - colour names (those listed in wxTheColourDatabase), the CSS-like "RGB(r,g,b)"
+	syntax (case insensitive) and the HTML-like syntax (i.e. "#" followed by 6 hexadecimal digits for
+	red, green, blue components).
+	End Rem
+	Method SetAsNamedColour:Int(name:String)
+		Return bmx_wxcolour_setasnamedcolour(wxObjectPtr, name)
+	End Method
 	
 	Method Delete()
 		If wxObjectPtr Then
@@ -298,8 +340,6 @@ Type TCoreEventFactory Extends TEventFactory
 		Select evt.eventType
 			Case wxEVT_COMMAND_CHOICE_SELECTED, ..
 					wxEVT_COMMAND_MENU_SELECTED, ..
-					wxEVT_COMMAND_RADIOBOX_SELECTED, ..
-					wxEVT_COMMAND_RADIOBUTTON_SELECTED, ..
 					wxEVT_COMMAND_SCROLLBAR_UPDATED, ..
 					wxEVT_COMMAND_SLIDER_UPDATED, ..
 					wxEVT_COMMAND_ENTER
@@ -336,8 +376,6 @@ Type TCoreEventFactory Extends TEventFactory
 		Select eventType
 			Case wxEVT_COMMAND_CHOICE_SELECTED, ..
 					wxEVT_COMMAND_MENU_SELECTED, ..
-					wxEVT_COMMAND_RADIOBOX_SELECTED, ..
-					wxEVT_COMMAND_RADIOBUTTON_SELECTED, ..
 					wxEVT_COMMAND_SCROLLBAR_UPDATED, ..
 					wxEVT_COMMAND_SLIDER_UPDATED, ..
 					wxEVT_COMMAND_ENTER, ..
