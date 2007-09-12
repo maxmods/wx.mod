@@ -61,13 +61,18 @@ Type wxToggleButton Extends wxControl
 	End Rem
 	Function CreateToggleButton:wxToggleButton(parent:wxWindow, id:Int, label:String = Null, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = 0)
-			
-		Local this:wxToggleButton = New wxToggleButton
-		
-		this.wxObjectPtr = bmx_wxtogglebutton_create(this, parent.wxObjectPtr, id, label, x, y, w, h, style)
-		
-		Return this
+		Return New wxToggleButton.Create(parent, id, label, x, y, w, h, style)
 	End Function
+	
+	Rem
+	bbdoc: Creates the toggle button for two-step construction.
+	about: See CreateToggleButton for details. 
+	End Rem
+	Method Create:wxToggleButton(parent:wxWindow, id:Int, label:String = Null, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxtogglebutton_create(Self, parent.wxObjectPtr, id, label, x, y, w, h, style)
+		Return Self
+	End Method
 
 	Rem
 	bbdoc: Gets the state of the toggle button.
