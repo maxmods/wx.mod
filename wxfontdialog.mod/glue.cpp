@@ -24,6 +24,14 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxFontData::MaxFontData()
+{
+	data = wxFontData();
+}
+
+wxFontData & MaxFontData::FontData() {
+	return data;
+}
 
 
 // *********************************************
@@ -38,3 +46,64 @@ MaxFont * bmx_wxgetfontfromuser(wxWindow * window, MaxFont * font, BBString * ca
 	}
 	return new MaxFont(f);
 }
+
+MaxFontData * bmx_wxfontdata_create() {
+	return new MaxFontData();
+}
+
+void bmx_wxfontdata_enableeffects(MaxFontData * data, bool enable) {
+	data->FontData().EnableEffects(enable);
+}
+
+bool bmx_wxfontdata_getallowsymbols(MaxFontData * data) {
+	return data->FontData().GetAllowSymbols();
+}
+
+MaxColour * bmx_wxfontdata_getcolour(MaxFontData * data) {
+	wxColour c(data->FontData().GetColour());
+	return new MaxColour(c);
+}
+
+MaxFont * bmx_wxfontdata_getchosenfont(MaxFontData * data) {
+	wxFont f(data->FontData().GetChosenFont());
+	return new MaxFont(f);
+}
+
+bool bmx_wxfontdata_getenableeffects(MaxFontData * data) {
+	return data->FontData().GetEnableEffects();
+}
+
+MaxFont * bmx_wxfontdata_getinitialfont(MaxFontData * data) {
+	wxFont f(data->FontData().GetInitialFont());
+	return new MaxFont(f);
+}
+
+bool bmx_wxfontdata_getshowhelp(MaxFontData * data) {
+	return data->FontData().GetShowHelp();
+}
+
+void bmx_wxfontdata_setallowsymbols(MaxFontData * data, bool allowSymbols) {
+	data->FontData().SetAllowSymbols(allowSymbols);
+}
+
+void bmx_wxfontdata_setchosenfont(MaxFontData * data, MaxFont * font) {
+	data->FontData().SetChosenFont(font->Font());
+}
+
+void bmx_wxfontdata_setcolour(MaxFontData * data, MaxColour * colour) {
+	data->FontData().SetColour(colour->Colour());
+}
+
+void bmx_wxfontdata_setinitialfont(MaxFontData * data, MaxFont * font) {
+	data->FontData().SetInitialFont(font->Font());
+}
+
+void bmx_wxfontdata_setrange(MaxFontData * data, int minSize, int maxSize) {
+	data->FontData().SetRange(minSize, maxSize);
+}
+
+void bmx_wxfontdata_setshowhelp(MaxFontData * data, bool showhelp) {
+	data->FontData().SetShowHelp(showhelp);
+}
+
+

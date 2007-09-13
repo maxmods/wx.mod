@@ -46,4 +46,19 @@ Extern
 
 	Function bmx_wxgetfontfromuser:Byte Ptr(parent:Byte Ptr, font:Byte Ptr, caption:String)
 
+	Function bmx_wxfontdata_create:Byte Ptr()
+	Function bmx_wxfontdata_enableeffects(handle:Byte Ptr, enable:Int)
+	Function bmx_wxfontdata_getallowsymbols:Int(handle:Byte Ptr)
+	Function bmx_wxfontdata_getcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxfontdata_getchosenfont:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxfontdata_getenableeffects:Int(handle:Byte Ptr)
+	Function bmx_wxfontdata_getinitialfont:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxfontdata_getshowhelp:Int(handle:Byte Ptr)
+	Function bmx_wxfontdata_setallowsymbols(handle:Byte Ptr, allowSymbols:Int)
+	Function bmx_wxfontdata_setchosenfont(handle:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxfontdata_setcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxfontdata_setinitialfont(handle:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxfontdata_setrange(handle:Byte Ptr, minSize:Int, maxSize:Int)
+	Function bmx_wxfontdata_setshowhelp(handle:Byte Ptr, showhelp:Int)
+
 End Extern

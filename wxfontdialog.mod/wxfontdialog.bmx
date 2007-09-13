@@ -82,7 +82,7 @@ Type wxFontData Extends wxObject
 	minSize to 0 and maxSize to 0.
 	End Rem
 	Method Create:wxFontData()
-		
+		wxObjectPtr = bmx_wxfontdata_create()
 		Return Self
 	End Method
 
@@ -93,7 +93,8 @@ Type wxFontData Extends wxObject
 	The default value is true.
 	</p>
 	End Rem
-	Method EnableEffects:Int(enable:Int)
+	Method EnableEffects(enable:Int)
+		bmx_wxfontdata_enableeffects(wxObjectPtr, enable)
 	End Method
 	
 	Rem
@@ -104,6 +105,7 @@ Type wxFontData Extends wxObject
 	</p>
 	End Rem
 	Method GetAllowSymbols:Int()
+		Return bmx_wxfontdata_getallowsymbols(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -111,12 +113,14 @@ Type wxFontData Extends wxObject
 	about: The default value is black.
 	End Rem
 	Method GetColour:wxColour()
+		Return wxColour._create(bmx_wxfontdata_getcolour(wxObjectPtr))
 	End Method
 	
 	Rem
 	bbdoc: Gets the font chosen by the user if the user pressed OK (wxFontDialog::ShowModal returned wxID_OK).
 	End Rem
 	Method GetChosenFont:wxFont()
+		Return wxFont._create(bmx_wxfontdata_getchosenfont(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -127,6 +131,7 @@ Type wxFontData Extends wxObject
 	</p>
 	End Rem
 	Method GetEnableEffects:Int()
+		Return bmx_wxfontdata_getenableeffects(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -134,6 +139,7 @@ Type wxFontData Extends wxObject
 	about: This should have previously been set by the application.
 	End Rem
 	Method GetInitialFont:wxFont()
+		Return wxFont._create(bmx_wxfontdata_getinitialfont(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -141,6 +147,7 @@ Type wxFontData Extends wxObject
 	about: The default value is false.
 	End Rem
 	Method GetShowHelp:Int()
+		Return bmx_wxfontdata_getshowhelp(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -151,12 +158,14 @@ Type wxFontData Extends wxObject
 	</p>
 	End Rem
 	Method SetAllowSymbols(allowSymbols:Int)
+		bmx_wxfontdata_setallowsymbols(wxObjectPtr, allowSymbols)
 	End Method
 	
 	Rem
 	bbdoc: Sets the font that will be returned to the user (for internal use only).
 	End Rem
 	Method SetChosenFont(font:wxFont)
+		bmx_wxfontdata_setchosenfont(wxObjectPtr, font.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -164,12 +173,14 @@ Type wxFontData Extends wxObject
 	about: The default colour is black.
 	End Rem
 	Method SetColour(colour:wxColour)
+		bmx_wxfontdata_setcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Sets the font that will be initially used by the font dialog.
 	End Rem
 	Method SetInitialFont(font:wxFont)
+		bmx_wxfontdata_setinitialfont(wxObjectPtr, font.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -177,6 +188,7 @@ Type wxFontData Extends wxObject
 	about: The default is 0, 0 (unrestricted range).
 	End Rem
 	Method SetRange(minSize:Int, maxSize:Int)
+		bmx_wxfontdata_setrange(wxObjectPtr, minSize, maxSize)
 	End Method
 	
 	Rem
@@ -184,6 +196,7 @@ Type wxFontData Extends wxObject
 	about: The default value is false.
 	End Rem
 	Method SetShowHelp(showHelp:Int)
+		bmx_wxfontdata_setshowhelp(wxObjectPtr, showhelp)
 	End Method
 	
 End Type
