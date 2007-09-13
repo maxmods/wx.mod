@@ -36,7 +36,6 @@ class MaxApp;
 class MaxEvtHandler;
 class MaxObject;
 class MaxColour;
-class MaxBrush;
 class MaxPen;
 class MaxFont;
 class MaxDC;
@@ -145,17 +144,6 @@ extern "C" {
 	MaxPen * bmx_wxstockgdi_pen_transparent();
 	MaxPen * bmx_wxstockgdi_pen_white();
 
-	MaxBrush * bmx_wxstockgdi_brush_black();
-	MaxBrush * bmx_wxstockgdi_brush_blue();
-	MaxBrush * bmx_wxstockgdi_brush_cyan();
-	MaxBrush * bmx_wxstockgdi_brush_green();
-	MaxBrush * bmx_wxstockgdi_brush_grey();
-	MaxBrush * bmx_wxstockgdi_brush_lightgrey();
-	MaxBrush * bmx_wxstockgdi_brush_mediumgrey();
-	MaxBrush * bmx_wxstockgdi_brush_red();
-	MaxBrush * bmx_wxstockgdi_brush_transparent();
-	MaxBrush * bmx_wxstockgdi_brush_white();
-
 	void bmx_wxfont_delete(MaxFont * font);
 	int bmx_wxfont_getpointsize(MaxFont * font);
 	void bmx_wxfont_setpointsize(MaxFont * font, int size);
@@ -179,9 +167,6 @@ extern "C" {
 
 	MaxPaintDC * bmx_wxpaintdc_create(wxWindow * window);
 	void bmx_wxpaintdc_delete(MaxPaintDC * dc);
-	
-	MaxBrush * bmx_wxbrush_create(BBString * name, int style);
-	void bmx_wxbrush_delete(MaxBrush * brush);
 	
 	MaxPen * bmx_wxpen_create(BBString * name, int width, int style);
 	MaxPen * bmx_wxpen_createfromcolour(MaxColour * colour, int width, int style);
@@ -281,21 +266,6 @@ public:
 private:
 	wxPaintDC paintDC;
 };
-
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-class MaxBrush
-{
-public:
-	MaxBrush();
-	MaxBrush(wxBrush & brush = wxNullBrush);
-	wxBrush & Brush();
-
-private:
-	wxBrush brush;
-
-};
-
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

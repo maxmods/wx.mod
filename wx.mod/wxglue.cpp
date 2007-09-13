@@ -243,24 +243,6 @@ MaxPaintDC::MaxPaintDC(wxWindow * window)
 
 // ---------------------------------------------------------------------------------------
 
-MaxBrush::MaxBrush()
-	: brush(wxNullBrush)
-{
-	brush = wxBrush();
-}
-
-MaxBrush::MaxBrush(wxBrush & b)
-{
-	brush = wxBrush(b);
-}
-
-wxBrush & MaxBrush::Brush() {
-	return brush;
-}
-
-
-// ---------------------------------------------------------------------------------------
-
 MaxPen::MaxPen()
 	: pen(wxNullPen)
 {
@@ -733,56 +715,6 @@ MaxFont * bmx_wxstockgdi_font_swiss() {
 	return new MaxFont(f);
 }
 
-MaxBrush * bmx_wxstockgdi_brush_black() {
-	wxBrush b(*wxBLACK_BRUSH);
-	return new MaxBrush(b);
-}
-
-MaxBrush * bmx_wxstockgdi_brush_blue() {
-	wxBrush b(*wxBLUE_BRUSH);
-	return new MaxBrush(b);
-}
-
-MaxBrush * bmx_wxstockgdi_brush_cyan() {
-	wxBrush b(*wxCYAN_BRUSH);
-	return new MaxBrush(b);
-}
-
-MaxBrush * bmx_wxstockgdi_brush_green() {
-	wxBrush b(*wxGREEN_BRUSH);
-	return new MaxBrush(b);
-}
-
-MaxBrush * bmx_wxstockgdi_brush_grey() {
-	wxBrush b(*wxGREY_BRUSH);
-	return new MaxBrush(b);
-}
-
-MaxBrush * bmx_wxstockgdi_brush_lightgrey() {
-	wxBrush b(*wxLIGHT_GREY_BRUSH);
-	return new MaxBrush(b);
-}
-
-MaxBrush * bmx_wxstockgdi_brush_mediumgrey() {
-	wxBrush b(*wxMEDIUM_GREY_BRUSH);
-	return new MaxBrush(b);
-}
-
-MaxBrush * bmx_wxstockgdi_brush_red() {
-	wxBrush b(*wxRED_BRUSH);
-	return new MaxBrush(b);
-}
-
-MaxBrush * bmx_wxstockgdi_brush_transparent() {
-	wxBrush b(*wxTRANSPARENT_BRUSH);
-	return new MaxBrush(b);
-}
-
-MaxBrush * bmx_wxstockgdi_brush_white() {
-	wxBrush b(*wxWHITE_BRUSH);
-	return new MaxBrush(b);
-}
-
 
 
 // **************************
@@ -877,17 +809,6 @@ MaxPaintDC * bmx_wxpaintdc_create(wxWindow * window) {
 
 void bmx_wxpaintdc_delete(MaxPaintDC * dc) {
 	delete dc;
-}
-
-// *********************************************
-
-MaxBrush * bmx_wxbrush_create(BBString * name, int style) {
-	wxBrush b(wxStringFromBBString(name), style);
-	return new MaxBrush(b);
-}
-
-void bmx_wxbrush_delete(MaxBrush * brush) {
-	delete brush;
 }
 
 // *********************************************

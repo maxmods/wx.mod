@@ -266,17 +266,6 @@ Extern
 	Function bmx_wxstockgdi_pen_transparent:Byte Ptr()
 	Function bmx_wxstockgdi_pen_white:Byte Ptr()
 
-	Function bmx_wxstockgdi_brush_black:Byte Ptr()
-	Function bmx_wxstockgdi_brush_blue:Byte Ptr()
-	Function bmx_wxstockgdi_brush_cyan:Byte Ptr()
-	Function bmx_wxstockgdi_brush_green:Byte Ptr()
-	Function bmx_wxstockgdi_brush_grey:Byte Ptr()
-	Function bmx_wxstockgdi_brush_lightgrey:Byte Ptr()
-	Function bmx_wxstockgdi_brush_mediumgrey:Byte Ptr()
-	Function bmx_wxstockgdi_brush_red:Byte Ptr()
-	Function bmx_wxstockgdi_brush_transparent:Byte Ptr()
-	Function bmx_wxstockgdi_brush_white:Byte Ptr()
-	
 	Function bmx_wxfont_delete(handler:Byte Ptr)
 	Function bmx_wxfont_getpointsize:Int(handler:Byte Ptr)
 	Function bmx_wxfont_setpointsize(handler:Byte Ptr, size:Int)
@@ -300,9 +289,6 @@ Extern
 	
 	Function bmx_wxpaintdc_create:Byte Ptr(window:Byte Ptr)
 	Function bmx_wxpaintdc_delete(handle:Byte Ptr)
-	
-	Function bmx_wxbrush_create:Byte Ptr(name:String, style:Int)
-	Function bmx_wxbrush_delete(handle:Byte Ptr)
 	
 	Function bmx_wxpen_create:Byte Ptr(name:String, width:Int, style:Int)
 	Function bmx_wxpen_createfromcolour:Byte Ptr(colour:Byte Ptr, width:Int, style:Int)

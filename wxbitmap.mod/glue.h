@@ -24,6 +24,7 @@
 #define _WX_MAX_BITMAP_H_
 
 #include "wxglue.h"
+#include "wx/bitmap.h"
 #include "../wximage.mod/glue.h"
 
 class MaxBitmap;

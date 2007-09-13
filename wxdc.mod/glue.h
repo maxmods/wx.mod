@@ -23,6 +23,7 @@
 #include "wxglue.h"
 #include "wx/dcmirror.h"
 #include "../wxbitmap.mod/glue.h"
+#include "../wxbrush.mod/glue.h"
 
 class MaxMirrorDC;
 

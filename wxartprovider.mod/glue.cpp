@@ -24,13 +24,70 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxArtProvider::MaxArtProvider(BBObject * handle)
+	: maxHandle(handle)
+{
+	wxbind(this, handle);
+}
+
+MaxArtProvider::~MaxArtProvider() {
+	wxunbind(this);
+}
+
+wxBitmap MaxArtProvider::CreateBitmap(const wxArtID& id, const wxArtClient& client, const wxSize& size) {
+
+	MaxBitmap * bitmap = _wx_wxartprovider_wxArtProvider__CreateBitmap(maxHandle, bbStringFromWxString(id),
+		bbStringFromWxString(client), size.x, size.y);
+		
+	if (bitmap) {
+		return bitmap->Bitmap();
+	} else {
+		return wxNullBitmap;
+	}
+}
 
 
 // *********************************************
+
+MaxArtProvider * bmx_wxartprovider_create(BBObject * handle) {
+	return new MaxArtProvider(handle);
+}
 
 MaxBitmap * bmx_wxartprovider_getbitmap(BBString * id, BBString * client, int w, int h) {
 	wxBitmap b(wxArtProvider::GetBitmap(wxStringFromBBString(id), wxStringFromBBString(client), wxSize(w, h)));
 	return new MaxBitmap(b);
 }
+
+MaxIcon * bmx_wxartprovider_geticon(BBString * id, BBString * client, int w, int h) {
+	wxIcon i(wxArtProvider::GetIcon(wxStringFromBBString(id), wxStringFromBBString(client), wxSize(w, h)));
+	return new MaxIcon(i);
+}
+
+void bmx_wxartprovider_getsizehint(BBString * client, bool platformDefault, int * width, int * height) {
+	wxSize s = wxArtProvider::GetSizeHint(wxStringFromBBString(client), platformDefault);
+	*width = s.x;
+	*height = s.y;
+}
+
+bool bmx_wxartprovider_deleteprovider(wxArtProvider * provider) {
+	return wxArtProvider::Delete(provider);
+}
+
+void bmx_wxartprovider_insert(wxArtProvider * provider) {
+	wxArtProvider::Insert(provider);
+}
+
+bool bmx_wxartprovider_pop() {
+	return wxArtProvider::Pop();
+}
+
+void bmx_wxartprovider_push(wxArtProvider * provider) {
+	wxArtProvider::Push(provider);
+}
+
+bool bmx_wxartprovider_remove(wxArtProvider * provider) {
+	return wxArtProvider::Remove(provider);
+}
+
 
 

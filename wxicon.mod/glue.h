@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "../wxbitmap.mod/glue.h"
 
 class MaxIcon;
 

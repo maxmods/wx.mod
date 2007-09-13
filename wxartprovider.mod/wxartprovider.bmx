@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxArtProvider
+End Rem
 Module wx.wxArtProvider
 
 ModuleInfo "Version: 1.00"
@@ -120,10 +123,96 @@ End Rem
 Type wxArtProvider Extends wxObject
 
 	Rem
+	bbdoc: Creates a new wxArtProvider.
+	End Rem
+	Function CreateArtProvider:wxArtProvider()
+		Return New wxArtProvider.Create()
+	End Function
+	
+	Rem
+	bbdoc: Creates a new wxArtProvider.
+	End Rem
+	Method Create:wxArtProvider()
+		wxObjectPtr = bmx_wxartprovider_create(Self)
+		Return Self
+	End Method
+
+	Rem
 	bbdoc: Query registered providers for bitmap with given ID.
 	End Rem
 	Function GetBitmap:wxBitmap(id:String, client:String = wxART_OTHER, w:Int = -1, h:Int = -1)
 		Return wxBitmap._create(bmx_wxartprovider_getbitmap(id, client, w, h))
+	End Function
+	
+	Rem
+	bbdoc: Same as wxArtProvider::GetBitmap, but return a wxIcon object
+	End Rem
+	Function GetIcon:wxIcon(id:String, client:String = wxART_OTHER, w:Int = -1, h:Int = -1)
+		Return wxIcon._create(bmx_wxartprovider_geticon(id, client, w, h))
+	End Function
+	
+	Rem
+	bbdoc: Returns a suitable size hint for the given wxArtClient.
+	about: If #platformDefault is True, return a size based on the current platform, otherwise return
+	the size from the topmost wxArtProvider. wxDefaultSize may be returned if the client doesn't have
+	a specified size, like wxART_OTHER for example.
+	End Rem
+	Function GetSizeHint(client:String, platformDefault:Int = False, width:Int Var, height:Int Var)
+		bmx_wxartprovider_getsizehint(client, platformDefault, Varptr width, Varptr height)
+	End Function
+	
+	Rem
+	bbdoc: Derived art provider types must override this method to create requested art resource.
+	about: Note that returned bitmaps are cached by wxArtProvider and it is therefore not necessary to
+	optimize CreateBitmap for speed (e.g. you may create wxBitmap objects from XPMs here).
+	<p>
+	This is <b>not</b> part of wxArtProvider's public API, use wxArtProvider::GetBitmap or wxArtProvider::GetIcon
+	to query wxArtProvider for a resource.
+	</p>
+	End Rem
+	Method CreateBitmap:wxBitmap(id:String, client:String, w:Int, h:Int)
+		Return wxNullBitmap()
+	End Method
+	
+	' internal callback function
+	Function _CreateBitmap:Byte Ptr(obj:Object, id:String, client:String, w:Int, h:Int)
+		Return wxArtProvider(obj).CreateBitmap(id, client, w, h).wxObjectPtr
+	End Function
+	
+	Rem
+	bbdoc: Delete the given provider.
+	End Rem
+	Function DeleteProvider:Int(provider:wxArtProvider)
+		Return bmx_wxartprovider_deleteprovider(provider.wxObjectPtr)
+	End Function
+	
+	Rem
+	bbdoc: Register new art provider and add it to the bottom of providers stack (i.e. it will be queried as the last one).
+	End Rem
+	Function Insert(provider:wxArtProvider)
+		bmx_wxartprovider_insert(provider.wxObjectPtr)
+	End Function
+	
+	Rem
+	bbdoc: Remove latest added provider and delete it.
+	End Rem
+	Function Pop:Int()
+		Return bmx_wxartprovider_pop()
+	End Function
+	
+	Rem
+	bbdoc: Register new art provider and add it to the top of providers stack (i.e. it will be queried as the first provider).
+	End Rem
+	Function Push(provider:wxArtProvider)
+		bmx_wxartprovider_push(provider.wxObjectPtr)
+	End Function
+
+	Rem
+	bbdoc: Remove a provider from the stack if it is on it.
+	about: The provider is not deleted, unlike when using DeleteProvider().
+	End Rem
+	Function Remove:Int(provider:wxArtProvider)
+		Return bmx_wxartprovider_remove(provider.wxObjectPtr)
 	End Function
 	
 End Type

@@ -21,18 +21,39 @@
 */ 
 
 #include "wxglue.h"
-#include "../wxbitmap.mod/glue.h"
+#include "wx/artprov.h"
+#include "../wxicon.mod/glue.h"
 
-//class MaxNotebook;
+class MaxArtProvider;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxBitmap * _wx_wxartprovider_wxArtProvider__CreateBitmap(BBObject * handle, BBString * id, BBString * client, int w, int h);
+
+	MaxArtProvider * bmx_wxartprovider_create(BBObject * handle);
 	MaxBitmap * bmx_wxartprovider_getbitmap(BBString * id, BBString * client, int w, int h);
-	
+	MaxIcon * bmx_wxartprovider_geticon(BBString * id, BBString * client, int w, int h);
+	void bmx_wxartprovider_getsizehint(BBString * client, bool platformDefault, int * width, int * height);
+
+	bool bmx_wxartprovider_deleteprovider(wxArtProvider * provider);
+	void bmx_wxartprovider_insert(wxArtProvider * provider);
+	bool bmx_wxartprovider_pop();
+	void bmx_wxartprovider_push(wxArtProvider * provider);
+	bool bmx_wxartprovider_remove(wxArtProvider * provider);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxArtProvider : public wxArtProvider
+{
+public:
+	MaxArtProvider(BBObject * handle);
+	wxBitmap CreateBitmap(const wxArtID& id, const wxArtClient& client, const wxSize& size);
+	~MaxArtProvider();
+
+private:
+	BBObject * maxHandle;
+};

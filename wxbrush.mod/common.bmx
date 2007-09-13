@@ -21,7 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxIcon
+Import wx.wxBitmap
 Import BRL.Blitz
 
 
@@ -44,16 +44,31 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxartprovider_create:Byte Ptr(handle:Object)
+	Function bmx_wxstockgdi_brush_black:Byte Ptr()
+	Function bmx_wxstockgdi_brush_blue:Byte Ptr()
+	Function bmx_wxstockgdi_brush_cyan:Byte Ptr()
+	Function bmx_wxstockgdi_brush_green:Byte Ptr()
+	Function bmx_wxstockgdi_brush_grey:Byte Ptr()
+	Function bmx_wxstockgdi_brush_lightgrey:Byte Ptr()
+	Function bmx_wxstockgdi_brush_mediumgrey:Byte Ptr()
+	Function bmx_wxstockgdi_brush_red:Byte Ptr()
+	Function bmx_wxstockgdi_brush_transparent:Byte Ptr()
+	Function bmx_wxstockgdi_brush_white:Byte Ptr()
 	
-	Function bmx_wxartprovider_getbitmap:Byte Ptr(id:String, client:String, w:Int, h:Int)
-	Function bmx_wxartprovider_geticon:Byte Ptr(id:String, client:String, w:Int, h:Int)
-	Function bmx_wxartprovider_getsizehint(client:String, platformDefault:Int, width:Int Ptr, height:Int Ptr)
+	Function bmx_wxbrush_create:Byte Ptr(name:String, style:Int)
+	Function bmx_wxbrush_delete(handle:Byte Ptr)
+	
+	Function bmx_wxbrush_createfromcolour:Byte Ptr(colour:Byte Ptr, style:Int)
+	Function bmx_wxbrush_getcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxbrush_getstipple:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxbrush_getstyle:Int(handle:Byte Ptr)
+	Function bmx_wxbrush_ishatch:Int(handle:Byte Ptr)
+	Function bmx_wxbrush_isok:Int(handle:Byte Ptr)
+	Function bmx_wxbrush_setcolour(handle:Byte Ptr, colour:String)
+	Function bmx_wxbrush_setfromcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxbrush_setstipple(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxbrush_setstyle(handle:Byte Ptr, style:Int)
 
-	Function bmx_wxartprovider_deleteprovider:Int(provider:Byte Ptr)
-	Function bmx_wxartprovider_insert(provider:Byte Ptr)
-	Function bmx_wxartprovider_pop:Int()
-	Function bmx_wxartprovider_push(provider:Byte Ptr)
-	Function bmx_wxartprovider_remove:Int(provider:Byte Ptr)
-	
 End Extern
+
+

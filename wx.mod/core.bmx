@@ -193,39 +193,6 @@ Type wxColour Extends wxObject
 End Type
 
 Rem
-bbdoc: A brush is a drawing tool for filling in areas. It is used for painting the background of rectangles, ellipses, etc. It has a colour and a style.
-End Rem
-Type wxBrush Extends wxGDIObject
-
-	Function _create:wxBrush(wxObjectPtr:Byte Ptr)
-		If wxObjectPtr Then
-			Local this:wxBrush = New wxBrush
-			this.wxObjectPtr = wxObjectPtr
-			Return this
-		End If
-	End Function
-
-	Rem
-	bbdoc: Constructs a brush from a colour name and style.
-	End Rem
-	Method Create:wxBrush(name:String, style:Int = wxSOLID)
-		wxObjectPtr = bmx_wxbrush_create(name, style)
-		Return Self
-	End Method
-	
-	Method CreateFromColour:wxBrush(colour:wxColour, style:Int = wxSOLID)
-	End Method
-
-	Method Delete()
-		If wxObjectPtr Then
-			bmx_wxbrush_delete(wxObjectPtr)
-			wxObjectPtr = Null
-		End If
-	End Method
-	
-End Type
-
-Rem
 bbdoc: 
 End Rem
 Type wxPen Extends wxGDIObject
