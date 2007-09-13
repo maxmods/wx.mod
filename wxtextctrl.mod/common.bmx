@@ -72,6 +72,28 @@ Extern
 	Function bmx_wxtextctrl_ismodified:Int(handle:Byte Ptr)
 	Function bmx_wxtextctrl_ismultiline:Int(handle:Byte Ptr)
 	Function bmx_wxtextctrl_issingleline:Int(handle:Byte Ptr)
+
+	Function bmx_wxtextctrl_loadfile:Int(handle:Byte Ptr, filename:String, ftype:Int)
+	Function bmx_wxtextctrl_markdirty(handle:Byte Ptr)
+	Function bmx_wxtextctrl_paste(handle:Byte Ptr)
+	Function bmx_wxtextctrl_positiontoxy:Int(handle:Byte Ptr, pos:Int, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxtextctrl_redo(handle:Byte Ptr)
+	Function bmx_wxtextctrl_remove(handle:Byte Ptr, fromPos:Int, toPos:Int)
+	Function bmx_wxtextctrl_replace(handle:Byte Ptr, fromPos:Int, toPos:Int, value:String)
+	Function bmx_wxtextctrl_savefile:Int(handle:Byte Ptr, filename:String, ftype:Int)
+	Function bmx_wxtextctrl_setdefaultstyle:Int(handle:Byte Ptr, style:Byte Ptr)
+	Function bmx_wxtextctrl_seteditable(handle:Byte Ptr, editable:Int)
+	Function bmx_wxtextctrl_setinsertionpoint(handle:Byte Ptr, pos:Int)
+	Function bmx_wxtextctrl_setinsertionpointend(handle:Byte Ptr)
+	Function bmx_wxtextctrl_setmaxlength(handle:Byte Ptr, length:Int)
+	Function bmx_wxtextctrl_setmodified(handle:Byte Ptr, modified:Int)
+	Function bmx_wxtextctrl_setselection(handle:Byte Ptr, fromPos:Int, toPos:Int)
+	Function bmx_wxtextctrl_setstyle(handle:Byte Ptr, fromPos:Int, toPos:Int, style:Byte Ptr)
+	Function bmx_wxtextctrl_changevalue(handle:Byte Ptr, value:String)
+	Function bmx_wxtextctrl_showposition(handle:Byte Ptr, pos:Int)
+	Function bmx_wxtextctrl_undo(handle:Byte Ptr)
+	Function bmx_wxtextctrl_writetext(handle:Byte Ptr, text:String)
+	Function bmx_wxtextctrl_xytoposition:Int(handle:Byte Ptr, x:Int, y:Int)
 	
 	Function bmx_wxtextctrl_geteventtype:Int(evt:Int)
 End Extern
@@ -148,3 +170,4 @@ Const wxTEXT_ATTR_LEFT_INDENT:Int = $0100
 Const wxTEXT_ATTR_RIGHT_INDENT:Int = $0200
 Const wxTEXT_ATTR_TABS:Int = $0400
 
+Const wxTEXT_TYPE_ANY:Int = 0

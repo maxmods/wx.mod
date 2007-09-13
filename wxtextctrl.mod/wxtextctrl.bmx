@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxTextCtrl
+End Rem
 Module wx.wxTextCtrl
 
 ModuleInfo "Version: 1.00"
@@ -311,69 +314,88 @@ Type wxTextCtrl Extends wxControl
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Loads and displays the named file, if it exists.
 	End Rem
-	Method LoadFile:Int() ' fixme
+	Method LoadFile:Int(filename:String, ftype:Int = wxTEXT_TYPE_ANY)
+		Return bmx_wxtextctrl_loadfile(wxObjectPtr, filename, ftype)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Mark text as modified (dirty).
 	End Rem
 	Method MarkDirty()
+		bmx_wxtextctrl_markdirty(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Pastes text from the clipboard to the text item.
 	End Rem
 	Method Paste()
+		bmx_wxtextctrl_paste(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Converts given position to a zero-based column, line number pair.
 	End Rem
 	Method PositionToXY:Int(pos:Int, x:Int Var, y:Int Var)
+		Return bmx_wxtextctrl_positiontoxy(wxObjectPtr, pos, Varptr x, Varptr y)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: If there is a redo facility and the last operation can be redone, redoes the last operation.
+	about: Does nothing if there is no redo facility.
 	End Rem
 	Method Redo()
+		bmx_wxtextctrl_redo(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Removes the text starting at the first given position up to (but not including) the character at the last position.
 	End Rem
 	Method Remove(fromPos:Int, toPos:Int)
+		bmx_wxtextctrl_remove(wxObjectPtr, fromPos, toPos)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Replaces the text starting at the first position up to (but not including) the character at the last position with the given text.
 	End Rem
 	Method Replace(fromPos:Int, toPos:Int, value:String)
+		bmx_wxtextctrl_replace(wxObjectPtr, fromPos, toPos, value)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Saves the contents of the control in a text file.
 	End Rem
-	Method SaveFile:Int() ' fixme
+	Method SaveFile:Int(filename:String, ftype:Int = wxTEXT_TYPE_ANY)
+		Return bmx_wxtextctrl_savefile(wxObjectPtr, filename, ftype)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Changes the default style to use for the new text which is going to be added to the control using WriteText or AppendText.
+	about: If either of the font, foreground, or background colour is not set in style, the values of the previous
+	default style are used for them. If the previous default style didn't set them neither, the global font or
+	colours of the text control itself are used as fall back.
+	<p>
+	However if the style parameter is the default wxTextAttr, then the default style is just reset (instead of
+	being combined with the new style which wouldn't change it at all).
+	</p>
 	End Rem
 	Method SetDefaultStyle:Int(style:wxTextAttr)
+		Return bmx_wxtextctrl_setdefaultstyle(wxObjectPtr, style.wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Makes the text item editable or read-only, overriding the wxTE_READONLY flag.
 	End Rem
 	Method SetEditable(editable:Int)
+		bmx_wxtextctrl_seteditable(wxObjectPtr, editable)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the insertion point at the given position.
 	End Rem
 	Method SetInsertionPoint(pos:Int)
+		bmx_wxtextctrl_setinsertionpoint(wxObjectPtr, pos)
 	End Method
 	
 	Rem
@@ -381,66 +403,96 @@ Type wxTextCtrl Extends wxControl
 	about: This is equivalent to SetInsertionPoint(GetLastPosition()).
 	End Rem
 	Method SetInsertionPointEnd()
+		bmx_wxtextctrl_setinsertionpointend(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This function sets the maximum number of characters the user can enter into the control.
+	about: In other words, it allows to limit the text value length to len not counting the terminating NUL character.
+	<p>
+	If len is 0, the previously set max length limit, if any, is discarded and the user may enter as much text as
+	the underlying native text control widget supports (typically at least 32Kb).
+	</p>
+	<p>
+	If the user tries to enter more characters into the text control when it already is filled up to the maximal
+	length, a wxEVT_COMMAND_TEXT_MAXLEN event is sent to notify the program about it (giving it the possibility
+	to show an explanatory message, for example) and the extra input is discarded.
+	</p>
+	<p>
+	Note that under GTK+, this function may only be used with single line text controls.
+	</p>
 	End Rem
 	Method SetMaxLength(length:Int)
+		bmx_wxtextctrl_setmaxlength(wxObjectPtr, length)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Marks the control as being modified by the user or not.
 	End Rem
 	Method SetModified(modified:Int)
+		bmx_wxtextctrl_setmodified(wxObjectPtr, modified)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Selects the text starting at the first position up to (but not including) the character at the last position.
+	about: If both parameters are equal to -1 all text in the control is selected.
 	End Rem
 	Method SetSelection(fromPos:Int, toPos:Int)
+		bmx_wxtextctrl_setselection(wxObjectPtr, fromPos, toPos)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Changes the style of the given range.
+	about: If any attribute within style is not set, the corresponding attribute from GetDefaultStyle() is used.
 	End Rem
 	Method SetStyle(fromPos:Int, toPos:Int, style:wxTextAttr)
+		bmx_wxtextctrl_setstyle(wxObjectPtr, fromPos, toPos, style.wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
-	End Rem
-	Method SetValue(value:String)
-	End Method
-	
-	Rem
-	bbdoc: 
+	bbdoc: Sets the text value and marks the control as not-modified (which means that IsModified would return false immediately after the call to SetValue).
+	<p>
+	Note that this function will not generate the wxEVT_COMMAND_TEXT_UPDATED event.
+	</p>
 	End Rem
 	Method ChangeValue(value:String)
+		bmx_wxtextctrl_changeValue(wxObjectPtr, value)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Makes the line containing the given position visible.
 	End Rem
 	Method ShowPosition(pos:Int)
+		bmx_wxtextctrl_showposition(wxObjectPtr, pos)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: If there is an undo facility and the last operation can be undone, undoes the last operation.
+	about: Does nothing if there is no undo facility.
 	End Rem
 	Method Undo()
+		bmx_wxtextctrl_undo(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Writes the text into the text control at the current insertion position.
+	about: Newlines in the text string are the only control characters allowed, and they will cause appropriate line
+	breaks.
+	<p>
+	After the write operation, the insertion point will be at the end of the inserted text, so subsequent write
+	operations will be appended. To append text after the user may have interacted with the control,
+	call wxTextCtrl::SetInsertionPointEnd before writing.
+	</p>
 	End Rem
 	Method WriteText(text:String)
+		bmx_wxtextctrl_writetext(wxObjectPtr, text)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Converts the given zero based column and line number to a position.
 	End Rem
 	Method XYToPosition:Int(x:Int, y:Int)
+		bmx_wxtextctrl_xytoposition(wxObjectPtr, x, y)
 	End Method
 	
 End Type

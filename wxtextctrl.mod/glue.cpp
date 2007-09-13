@@ -35,6 +35,17 @@ MaxTextCtrl::~MaxTextCtrl() {
 	wxunbind(this);
 }
 
+
+MaxTextAttr::MaxTextAttr(const wxTextAttr& b)
+	: textAttr(b)
+{
+}
+
+wxTextAttr & MaxTextAttr::TextAttr() {
+	return textAttr;
+}
+
+
 // *********************************************
 
 
@@ -152,6 +163,93 @@ bool bmx_wxtextctrl_ismultiline(wxTextCtrl * ctrl) {
 bool bmx_wxtextctrl_issingleline(wxTextCtrl * ctrl) {
 	return ctrl->IsSingleLine();
 }
+
+
+bool bmx_wxtextctrl_loadfile(wxTextCtrl * ctrl, BBString * filename, int ftype) {
+	return ctrl->LoadFile(wxStringFromBBString(filename), ftype);
+}
+
+void bmx_wxtextctrl_markdirty(wxTextCtrl * ctrl) {
+	ctrl->MarkDirty();
+}
+
+void bmx_wxtextctrl_paste(wxTextCtrl * ctrl) {
+	ctrl->Paste();
+}
+
+bool bmx_wxtextctrl_positiontoxy(wxTextCtrl * ctrl, long pos, long * x, long * y) {
+	return ctrl->PositionToXY(pos, x, y);
+}
+
+void bmx_wxtextctrl_redo(wxTextCtrl * ctrl) {
+	ctrl->Redo();
+}
+
+void bmx_wxtextctrl_remove(wxTextCtrl * ctrl, long fromPos, long toPos) {
+	ctrl->Remove(fromPos, toPos);
+}
+
+void bmx_wxtextctrl_replace(wxTextCtrl * ctrl, long fromPos, long toPos, BBString * value) {
+	ctrl->Replace(fromPos, toPos, wxStringFromBBString(value));
+}
+
+bool bmx_wxtextctrl_savefile(wxTextCtrl * ctrl, BBString * filename, int ftype) {
+	return ctrl->SaveFile(wxStringFromBBString(filename), ftype);
+}
+
+bool bmx_wxtextctrl_setdefaultstyle(wxTextCtrl * ctrl, MaxTextAttr * style) {
+	return ctrl->SetDefaultStyle(style->TextAttr());
+}
+
+void bmx_wxtextctrl_seteditable(wxTextCtrl * ctrl, bool editable) {
+	ctrl->SetEditable(editable);
+}
+
+void bmx_wxtextctrl_setinsertionpoint(wxTextCtrl * ctrl, long pos) {
+	ctrl->SetInsertionPoint(pos);
+}
+
+void bmx_wxtextctrl_setinsertionpointend(wxTextCtrl * ctrl) {
+	ctrl->SetInsertionPointEnd();
+}
+
+void bmx_wxtextctrl_setmaxlength(wxTextCtrl * ctrl, unsigned long length) {
+	ctrl->SetMaxLength(length);
+}
+
+void bmx_wxtextctrl_setmodified(wxTextCtrl * ctrl, bool modified) {
+	ctrl->SetModified(modified);
+}
+
+void bmx_wxtextctrl_setselection(wxTextCtrl * ctrl, long fromPos, long toPos) {
+	ctrl->SetSelection(fromPos, toPos);
+}
+
+void bmx_wxtextctrl_setstyle(wxTextCtrl * ctrl, long fromPos, long toPos, MaxTextAttr * style) {
+	ctrl->SetStyle(fromPos, toPos, style->TextAttr());
+}
+
+void bmx_wxtextctrl_changevalue(wxTextCtrl * ctrl, BBString * value) {
+	ctrl->ChangeValue(wxStringFromBBString(value));
+}
+
+void bmx_wxtextctrl_showposition(wxTextCtrl * ctrl, long pos) {
+	ctrl->ShowPosition(pos);
+}
+
+void bmx_wxtextctrl_undo(wxTextCtrl * ctrl) {
+	ctrl->Undo();
+}
+
+void bmx_wxtextctrl_writetext(wxTextCtrl * ctrl, BBString * text) {
+	ctrl->WriteText(wxStringFromBBString(text));
+}
+
+long bmx_wxtextctrl_xytoposition(wxTextCtrl * ctrl, long x, long y) {
+	return ctrl->XYToPosition(x, y);
+}
+
+
 
 int bmx_wxtextctrl_geteventtype(int type) {
 	switch(type) {

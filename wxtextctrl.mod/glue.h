@@ -24,6 +24,7 @@
 #include <wx/textctrl.h>
 
 class MaxTextCtrl;
+class MaxTextAttr;
 
 extern "C" {
 
@@ -58,6 +59,28 @@ extern "C" {
 	bool bmx_wxtextctrl_ismodified(wxTextCtrl * ctrl);
 	bool bmx_wxtextctrl_ismultiline(wxTextCtrl * ctrl);
 	bool bmx_wxtextctrl_issingleline(wxTextCtrl * ctrl);
+
+	bool bmx_wxtextctrl_loadfile(wxTextCtrl * ctrl, BBString * filename, int ftype);
+	void bmx_wxtextctrl_markdirty(wxTextCtrl * ctrl);
+	void bmx_wxtextctrl_paste(wxTextCtrl * ctrl);
+	bool bmx_wxtextctrl_positiontoxy(wxTextCtrl * ctrl, long pos, long * x, long * y);
+	void bmx_wxtextctrl_redo(wxTextCtrl * ctrl);
+	void bmx_wxtextctrl_remove(wxTextCtrl * ctrl, long fromPos, long toPos);
+	void bmx_wxtextctrl_replace(wxTextCtrl * ctrl, long fromPos, long toPos, BBString * value);
+	bool bmx_wxtextctrl_savefile(wxTextCtrl * ctrl, BBString * filename, int ftype);
+	bool bmx_wxtextctrl_setdefaultstyle(wxTextCtrl * ctrl, MaxTextAttr * style);
+	void bmx_wxtextctrl_seteditable(wxTextCtrl * ctrl, bool editable);
+	void bmx_wxtextctrl_setinsertionpoint(wxTextCtrl * ctrl, long pos);
+	void bmx_wxtextctrl_setinsertionpointend(wxTextCtrl * ctrl);
+	void bmx_wxtextctrl_setmaxlength(wxTextCtrl * ctrl, unsigned long length);
+	void bmx_wxtextctrl_setmodified(wxTextCtrl * ctrl, bool modified);
+	void bmx_wxtextctrl_setselection(wxTextCtrl * ctrl, long fromPos, long toPos);
+	void bmx_wxtextctrl_setstyle(wxTextCtrl * ctrl, long fromPos, long toPos, MaxTextAttr * style);
+	void bmx_wxtextctrl_changevalue(wxTextCtrl * ctrl, BBString * value);
+	void bmx_wxtextctrl_showposition(wxTextCtrl * ctrl, long pos);
+	void bmx_wxtextctrl_undo(wxTextCtrl * ctrl);
+	void bmx_wxtextctrl_writetext(wxTextCtrl * ctrl, BBString * text);
+	long bmx_wxtextctrl_xytoposition(wxTextCtrl * ctrl, long x, long y);
 	
 	int bmx_wxtextctrl_geteventtype(int type);
 }
@@ -72,3 +95,14 @@ public:
 	~MaxTextCtrl();
 };
 
+
+class MaxTextAttr
+{
+public:
+	MaxTextAttr(const wxTextAttr &);
+	wxTextAttr & TextAttr();
+
+private:
+	wxTextAttr textAttr;
+
+};
