@@ -21,7 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxComboBox
+Import wx.wxControl
 Import BRL.Blitz
 
 
@@ -44,13 +44,22 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxbitmapcombobox_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, value:String, choices:String[], x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxbitmapcombobox_append:Int(handle:Byte Ptr, item:String, bitmap:Byte Ptr, clientData:Object)
-	Function bmx_wxbitmapcombobox_getbitmapsize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
-	Function bmx_wxbitmapcombobox_getitembitmap:Byte Ptr(handle:Byte Ptr, item:Int)
-	Function bmx_wxbitmapcombobox_insert:Int(handle:Byte Ptr, pos:Int, item:String, bitmap:Byte Ptr, clientData:Object)
-	Function bmx_wxbitmapcombobox_setitembitmap(handle:Byte Ptr, bitmap:Byte Ptr)
-	
+	Function bmx_wxgauge_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, range:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxgauge_getbezelface:Int(handle:Byte Ptr)
+	Function bmx_wxgauge_getrange:Int(handle:Byte Ptr)
+	Function bmx_wxgauge_getshadowwidth:Int(handle:Byte Ptr)
+	Function bmx_wxgauge_getvalue:Int(handle:Byte Ptr)
+	Function bmx_wxgauge_isvertical:Int(handle:Byte Ptr)
+	Function bmx_wxgauge_setbezelface(handle:Byte Ptr, width:Int)
+	Function bmx_wxgauge_setrange(handle:Byte Ptr, range:Int)
+	Function bmx_wxgauge_setshadowwidth(handle:Byte Ptr, width:Int)
+	Function bmx_wxgauge_setvalue(handle:Byte Ptr, pos:Int)
+	Function bmx_wxgauge_pulse(handle:Byte Ptr)
+
 End Extern
 
 
+Const wxGA_HORIZONTAL:Int = wxHORIZONTAL
+Const wxGA_VERTICAL:Int = wxVERTICAL
+
+Const wxGA_SMOOTH:Int = $0020

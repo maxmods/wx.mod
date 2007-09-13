@@ -24,8 +24,51 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxBitmapComboBox::MaxBitmapComboBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, const wxArrayString& array, int x, int y, int w, int h, long style)
+	: wxBitmapComboBox(parent, id, value, wxPoint(x, y), wxSize(w, h), array, style)
+{
+	wxbind(this, handle);
+}
+
+MaxBitmapComboBox::~MaxBitmapComboBox() {
+	wxunbind(this);
+}
 
 
 // *********************************************
 
+MaxBitmapComboBox * bmx_wxbitmapcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style) {
+	return new MaxBitmapComboBox(maxHandle, parent, id, wxStringFromBBString(value), bbStringArrayTowxArrayStr(array), x, y, w, h, style);
+}
+
+int bmx_wxbitmapcombobox_append(wxBitmapComboBox * combobox, BBString * item, MaxBitmap * bitmap, void * clientData) {
+	if (bitmap) {
+		return combobox->Append(wxStringFromBBString(item), bitmap->Bitmap(), clientData);
+	} else {
+		return combobox->Append(wxStringFromBBString(item), wxNullBitmap, clientData);
+	}
+}
+
+void bmx_wxbitmapcombobox_getbitmapsize(wxBitmapComboBox * combobox, int * w, int * h) {
+	wxSize s = combobox->GetBitmapSize();
+	*w = s.x;
+	*h = s.y;
+}
+
+MaxBitmap * bmx_wxbitmapcombobox_getitembitmap(wxBitmapComboBox * combobox, unsigned int item) {
+	wxBitmap b(combobox->GetItemBitmap(item));
+	return new MaxBitmap(b);
+}
+
+int bmx_wxbitmapcombobox_insert(wxBitmapComboBox * combobox, unsigned int pos, BBString * item, MaxBitmap * bitmap, void * clientData) {
+	if (bitmap) {
+		return combobox->Insert(wxStringFromBBString(item), bitmap->Bitmap(), pos, clientData);
+	} else {
+		return combobox->Insert(wxStringFromBBString(item), wxNullBitmap, pos, clientData);
+	}
+}
+
+void bmx_wxbitmapcombobox_setitembitmap(wxBitmapComboBox * combobox, unsigned int item, MaxBitmap * bitmap) {
+	combobox->SetItemBitmap(item, bitmap->Bitmap());
+}
 

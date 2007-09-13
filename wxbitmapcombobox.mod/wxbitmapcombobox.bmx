@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxBitmapComboBox
+End Rem
 Module wx.wxBitmapComboBox
 
 ModuleInfo "Version: 1.00"
@@ -47,4 +50,78 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Rem
+bbdoc: A combobox that displays bitmap in front of the list items.
+about: It currently only allows using bitmaps of one size, and resizes itself so that a bitmap can be shown
+next to the text field.
+<p>
+Notes: Since BlitzMax doesn't allow method overloading, some of the methods here have the suffix "Bitmap". For example,
+instead of Append(), we use AppendBitmap().
+</p>
+End Rem
+Type wxBitmapComboBox Extends wxComboBox
 
+	Rem
+	bbdoc: Constructor, creating and showing a combobox.
+	End Rem
+	Function CreateBitmapComboBox:wxBitmapComboBox(parent:wxWindow, id:Int, value:String, choices:String[], x:Int = -1, ..
+			y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		
+		Return New wxBitmapComboBox.Create(parent, id, value, choices, x, y, w, h, style)
+	End Function
+	
+	Rem
+	bbdoc: Creates the combobox for two-step construction. 
+	about: See wxBitmapComboBox::wxBitmapComboBox for further details.
+	End Rem
+	Method Create:wxBitmapComboBox(parent:wxWindow, id:Int, value:String, choices:String[], x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxbitmapcombobox_create(Self, parent.wxObjectPtr, id, value, choices, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Adds the item to the end of the combo box, associating the given client data with the item.
+	End Rem
+	Method AppendBitmap:Int(item:String, bitmap:wxBitmap = Null, clientData:Object = Null)
+		If bitmap Then
+			Return bmx_wxbitmapcombobox_append(wxObjectPtr, item, bitmap.wxObjectPtr, clientData)
+		Else
+			Return bmx_wxbitmapcombobox_append(wxObjectPtr, item, Null, clientData)
+		End If
+	End Method
+	
+	Rem
+	bbdoc: Returns size of bitmaps used in the list.
+	End Rem
+	Method GetBitmapSize(w:Int Var, h:Int Var)
+		bmx_wxbitmapcombobox_getbitmapsize(wxObjectPtr, Varptr w, Varptr h)
+	End Method
+	
+	Rem
+	bbdoc: Returns the bitmap of the item with the given index.
+	End Rem
+	Method GetItemBitmap:wxBitmap(item:Int)
+		Return wxBitmap._create(bmx_wxbitmapcombobox_getitembitmap(wxObjectPtr, item))
+	End Method
+	
+	Rem
+	bbdoc: Inserts the item into the list before pos, associating the given client data with the item.
+	about: Not valid for wxCB_SORT style, use Append instead.
+	End Rem
+	Method InsertBitmap:Int(pos:Int, item:String, bitmap:wxBitmap = Null, clientData:Object = Null)
+		If bitmap Then
+			Return bmx_wxbitmapcombobox_insert(wxObjectPtr, pos, item, bitmap.wxObjectPtr, clientData)
+		Else
+			Return bmx_wxbitmapcombobox_insert(wxObjectPtr, pos, item, Null, clientData)
+		End If
+	End Method
+	
+	Rem
+	bbdoc: Sets the bitmap for the given item.
+	End Rem
+	Method SetItemBitmap(item:Int, bitmap:wxBitmap)
+		bmx_wxbitmapcombobox_setitembitmap(wxObjectPtr, bitmap.wxObjectPtr)
+	End Method
+	
+End Type

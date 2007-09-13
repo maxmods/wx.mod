@@ -21,29 +21,36 @@
 */ 
 
 #include "wxglue.h"
-#include "wx/bmpcbox.h"
-#include "../wxbitmap.mod/glue.h"
+#include "wx/gauge.h"
 
-class MaxBitmapComboBox;
+class MaxGauge;
 
 extern "C" {
 
 #include <blitz.h>
 
-	MaxBitmapComboBox * bmx_wxbitmapcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style);
-	int bmx_wxbitmapcombobox_append(wxBitmapComboBox * combobox, BBString * item, MaxBitmap * bitmap, void * clientData);
-	void bmx_wxbitmapcombobox_getbitmapsize(wxBitmapComboBox * combobox, int * w, int * h);
-	MaxBitmap * bmx_wxbitmapcombobox_getitembitmap(wxBitmapComboBox * combobox, unsigned int item);
-	int bmx_wxbitmapcombobox_insert(wxBitmapComboBox * combobox, unsigned int pos, BBString * item, MaxBitmap * bitmap, void * clientData);
-	void bmx_wxbitmapcombobox_setitembitmap(wxBitmapComboBox * combobox, unsigned int item, MaxBitmap * bitmap);
+	MaxGauge * bmx_wxgauge_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int range, int x, int y,
+		int w, int h, long style);
+	int bmx_wxgauge_getbezelface(wxGauge * gauge);
+	int bmx_wxgauge_getrange(wxGauge * gauge);
+	int bmx_wxgauge_getshadowwidth(wxGauge * gauge);
+	int bmx_wxgauge_getvalue(wxGauge * gauge);
+	bool bmx_wxgauge_isvertical(wxGauge * gauge);
+	void bmx_wxgauge_setbezelface(wxGauge * gauge, int width);
+	void bmx_wxgauge_setrange(wxGauge * gauge, int range);
+	void bmx_wxgauge_setshadowwidth(wxGauge * gauge, int width);
+	void bmx_wxgauge_setvalue(wxGauge * gauge, int pos);
+	void bmx_wxgauge_pulse(wxGauge * gauge);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class MaxBitmapComboBox : public wxBitmapComboBox
+class MaxGauge : public wxGauge
 {
 public:
-	MaxBitmapComboBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, const wxArrayString& array, int x, int y, int w, int h, long style);
-	~MaxBitmapComboBox();
+	MaxGauge(BBObject * handle, wxWindow * parent, wxWindowID id, int range, int x, int y,
+		int w, int h, long style);
+	~MaxGauge();
+	
 };
