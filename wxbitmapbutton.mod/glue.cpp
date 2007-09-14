@@ -45,8 +45,49 @@ MaxBitmapButton * bmx_wxbitmapbutton_create(BBObject * maxHandle, wxWindow * par
 	return new MaxBitmapButton(maxHandle, parent, id, bitmap->Bitmap(), x, y, w, h, style);
 }
 
-void bmx_wxbitmapbutton_setbitmaplabel(MaxBitmapButton * button, MaxBitmap * bitmap) {
+void bmx_wxbitmapbutton_setbitmaplabel(wxBitmapButton * button, MaxBitmap * bitmap) {
 	button->SetBitmapLabel(bitmap->Bitmap());
+}
+
+MaxBitmap * bmx_wxbitmapbutton_getbitmapdisabled(wxBitmapButton * button) {
+	wxBitmap b(button->GetBitmapDisabled());
+	return new MaxBitmap(b);
+}
+
+MaxBitmap * bmx_wxbitmapbutton_getbitmapfocus(wxBitmapButton * button) {
+	wxBitmap b(button->GetBitmapFocus());
+	return new MaxBitmap(b);
+}
+
+MaxBitmap * bmx_wxbitmapbutton_getbitmaphover(wxBitmapButton * button) {
+	wxBitmap b(button->GetBitmapHover());
+	return new MaxBitmap(b);
+}
+
+MaxBitmap * bmx_wxbitmapbutton_getbitmaplabel(wxBitmapButton * button) {
+	wxBitmap b(button->GetBitmapLabel());
+	return new MaxBitmap(b);
+}
+
+MaxBitmap * bmx_wxbitmapbutton_getbitmapselected(wxBitmapButton * button) {
+	wxBitmap b(button->GetBitmapSelected());
+	return new MaxBitmap(b);
+}
+
+void bmx_wxbitmapbutton_setbitmapdisabled(wxBitmapButton * button, MaxBitmap * bitmap) {
+	button->SetBitmapDisabled(bitmap->Bitmap());
+}
+
+void bmx_wxbitmapbutton_setbitmapfocus(wxBitmapButton * button, MaxBitmap * bitmap) {
+	button->SetBitmapFocus(bitmap->Bitmap());
+}
+
+void bmx_wxbitmapbutton_setbitmaphover(wxBitmapButton * button, MaxBitmap * bitmap) {
+	button->SetBitmapHover(bitmap->Bitmap());
+}
+
+void bmx_wxbitmapbutton_setbitmapselected(wxBitmapButton * button, MaxBitmap * bitmap) {
+	button->SetBitmapSelected(bitmap->Bitmap());
 }
 
 

@@ -151,167 +151,262 @@ Type wxToolBar Extends wxControl
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Adds a new check (or toggle) tool to the toolbar.
+	about: The parameters are the same as in wxToolBar::AddTool.
 	End Rem
-	Method AddCheckTool:wxToolBarToolBase(toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, kind:Int = wxITEM_NORMAL, ..
+	Method AddCheckTool:wxToolBarToolBase(toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, ..
 			shortHelpString:String = "", longHelpString:String = "", clientData:Object = Null)
+
+		If bitmap2 Then
+			If clientData Then
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addchecktool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, ..
+					shortHelpString, longHelpString, clientData))
+			Else
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addchecktool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, ..
+					shortHelpString, longHelpString, Null))
+			End If
+		Else
+			If clientData Then
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addchecktool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, Null, ..
+					shortHelpString, longHelpString, clientData))
+			Else
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addchecktool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, Null, ..
+					shortHelpString, longHelpString, Null))
+			End If
+		End If
 	
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Adds a new radio tool to the toolbar.
+	about: Consecutive radio tools form a radio group such that exactly one button in the group is pressed at any
+	moment, in other words whenever a button in the group is pressed the previously pressed button is automatically
+	released. You should avoid having the radio groups of only one element as it would be impossible for the user
+	to use such button.
+	<p>
+	By default, the first button in the radio group is initially pressed, the others are not.
+	</p>
 	End Rem
-	Method AddRadioTool:wxToolBarToolBase(toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, kind:Int = wxITEM_NORMAL, ..
+	Method AddRadioTool:wxToolBarToolBase(toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, ..
 			shortHelpString:String = "", longHelpString:String = "", clientData:Object = Null)
+
+		If bitmap2 Then
+			If clientData Then
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addradiotool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, ..
+					shortHelpString, longHelpString, clientData))
+			Else
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addradiotool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, ..
+					shortHelpString, longHelpString, Null))
+			End If
+		Else
+			If clientData Then
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addradiotool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, Null, ..
+					shortHelpString, longHelpString, clientData))
+			Else
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_addradiotool(wxObjectPtr, toolId, label, bitmap1.wxObjectPtr, Null, ..
+					shortHelpString, longHelpString, Null))
+			End If
+		End If
 	
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Deletes all the tools in the toolbar.
 	End Rem
 	Method ClearTools()
 		bmx_wxtoolbar_cleartools(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Removes the specified tool from the toolbar and deletes it.
+	returns: True if the tool was deleted, False otherwise.
+	about: If you don't want to delete the tool, but just to remove it from the toolbar (to possibly add it back
+	later), you may use RemoveTool instead.
+	<p>
+	Note that it is unnecessary to call Realize for the change to take place, it will happen immediately.
+	</p>
 	End Rem
 	Method DeleteTool:Int(toolId:Int)
 		Return bmx_wxtoolbar_deletetool(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Behaves like DeleteTool but it deletes the tool at the specified position and not the one with the given id.
 	End Rem
 	Method DeleteToolByPos:Int(pos:Int)
 		Return bmx_wxtoolbar_deletetoolbypos(wxObjectPtr, pos)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Enables or disables the tool.
+	about: Some implementations will change the visible state of the tool to indicate that it is disabled.
+	<p>
+	NB: This method should only be called after Realize.
+	</p>
 	End Rem
 	Method EnableTool(toolId:Int, enable:Int)
 		bmx_wxtoolbar_enabletool(wxObjectPtr, toolId, enable)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the tool identified by id or Null if no corresponding tool is found.
 	End Rem
 	Method FindById:wxToolBarToolBase(id:Int)
+		Return wxToolBarToolBase._create(bmx_wxtoolbar_findbyid(wxObjectPtr, id))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the control identified by id or Null if no corresponding control is found.
 	End Rem
 	Method FindControl:wxControl(id:Int)
+		Local ctrl:Byte Ptr = bmx_wxtoolbar_findcontrol(wxObjectPtr, id)
+		If ctrl Then
+			Local control:wxControl = wxControl(wxfind(ctrl))
+			If Not control Then
+				Return wxControl._create(ctrl)
+			End If
+			Return control
+		End If
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Finds a tool for the given mouse position.
+	about: Currently not implemented in wxGTK (always returns NULL there).
 	End Rem
 	Method FindToolForPosition:wxToolBarToolBase(x:Int, y:Int)
+		Return wxToolBarToolBase._create(bmx_wxtoolbar_findtoolforposition(wxObjectPtr, x, y))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the number of tools in the toolbar.
 	End Rem
 	Method GetToolsCount:Int()
 		Return bmx_wxtoolbar_gettoolscount(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the size of a whole button, which is usually larger than a tool bitmap because of added 3D effects.
 	End Rem
 	Method GetToolSize(width:Int Var, height:Int Var)
 		bmx_wxtoolbar_gettoolsize(wxObjectPtr, Varptr width, Varptr height)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the size of bitmap that the toolbar expects to have.
+	about: The default bitmap size is 16 by 15 pixels.
+	<p>
+	Note that this is the size of the bitmap you pass to wxToolBar::AddTool, and not the eventual size of the tool button.
+	</p>
 	End Rem
 	Method GetToolBitmapSize(width:Int Var, height:Int Var)
 		bmx_wxtoolbar_gettoolbitmapsize(wxObjectPtr, Varptr width, Varptr height)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the left/right and top/bottom margins, which are also used for inter-toolspacing.
 	End Rem
 	Method GetMargins(leftRight:Int Var, topBottom:Int Var)
 		bmx_wxtoolbar_getmargins(wxObjectPtr, Varptr leftRight, Varptr topBottom)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Get any client data associated with the tool.
 	End Rem
 	Method GetToolClientData:Object(toolId:Int)
+		Return bmx_wxtoolbar_gettoolclientdata(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Called to determine whether a tool is enabled (responds to user input).
+	returns: True if the tool is enabled, False otherwise.
 	End Rem
 	Method GetToolEnabled:Int(toolId:Int)
 		Return bmx_wxtoolbar_gettoolenabled(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the long help for the given tool.
 	End Rem
 	Method GetToolLongHelp:String(toolId:Int)
 		Return bmx_wxtoolbar_gettoollonghelp(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the value used for packing tools.
 	End Rem
 	Method GetToolPacking:Int()
 		Return bmx_wxtoolbar_gettoolpacking(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the tool position in the toolbar, or wxNOT_FOUND if the tool is not found.
 	End Rem
 	Method GetToolPos:Int(toolId:Int)
 		Return bmx_wxtoolbar_gettoolpos(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the default separator size.
 	End Rem
 	Method GetToolSeparation:Int()
 		Return bmx_wxtoolbar_gettoolseparation(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the short help for the given tool.
 	End Rem
 	Method GetToolShortHelp:String(toolId:Int)
 		Return bmx_wxtoolbar_gettoolshorthelp(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the on/off state of a toggle tool.
+	returns: True if the tool is toggled on, False otherwise.
 	End Rem
 	Method GetToolState:Int(toolId:Int)
 		Return bmx_wxtoolbar_gettoolstate(wxObjectPtr, toolId)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Inserts the control into the toolbar at the given position.
+	about: You must call Realize for the change to take place.
 	End Rem
 	Method InsertControl:wxToolBarToolBase(pos:Int, control:wxControl)
+		Return wxToolBarToolBase._create(bmx_wxtoolbar_insertcontrol(wxObjectPtr, pos, control.wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Inserts the separator into the toolbar at the given position.
+	about: You must call Realize for the change to take place.
 	End Rem
 	Method InsertSeparator:wxToolBarToolBase(pos:Int)
+		Return wxToolBarToolBase._create(bmx_wxtoolbar_insertseparator(wxObjectPtr, pos))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Inserts the tool with the specified attributes into the toolbar at the given position.
+	about: You must call Realize for the change to take place.
 	End Rem
-	Method InsertTool:wxToolBarToolBase(pos:Int, toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, kind:Int = wxITEM_NORMAL, ..
-			shortHelpString:String = "", longHelpString:String = "", clientData:Object = Null)
+	Method InsertTool:wxToolBarToolBase(pos:Int, toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, isToggle:Int = False, ..
+			clientData:Object = Null, shortHelpString:String = "", longHelpString:String = "")
+
+		If bitmap2 Then
+			If clientData Then
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, isToggle, ..
+					clientData, shortHelpString, longHelpString))
+			Else
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, isToggle, ..
+					Null, shortHelpString, longHelpString))
+			End If
+		Else
+			If clientData Then
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, Null, isToggle, ..
+					clientData, shortHelpString, longHelpString))
+			Else
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, Null, isToggle, ..
+					Null, shortHelpString, longHelpString))
+			End If
+		End If
 	
 	End Method
 	
@@ -323,15 +418,23 @@ Type wxToolBar Extends wxControl
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Removes the given tool from the toolbar but doesn't delete it.
+	about: This allows to insert/add this tool back to this (or another) toolbar later.
+	<p>
+	Note that it is unnecessary to call Realize for the change to take place, it will happen immediately.
+	</p>
 	End Rem
 	Method RemoveTool:wxToolBarToolBase(id:Int)
+		Return wxToolBarToolBase._create(bmx_wxtoolbar_removetool(wxObjectPtr, id))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Set the values to be used as margins for the toolbar.
+	about: This must be called before the tools are added if absolute positioning is to be used, and the default
+	(zero-size) margins are to be overridden.
 	End Rem
 	Method SetMargins(leftRight:Int, topBottom:Int)
+		bmx_wxtoolbar_setmargins(wxObjectPtr, leftRight, topBottom)
 	End Method
 		
 	Rem
@@ -343,51 +446,65 @@ Type wxToolBar Extends wxControl
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the client data associated with the tool.
 	End Rem
 	Method SetToolClientData(id:Int, clientData:Object)
+		bmx_wxtoolbar_settoolclientdata(wxObjectPtr, id, clientData)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the bitmap to be used by the tool with the given ID when the tool is in a disabled state.
+	about: This can only be used on Button tools, not controls. NOTE: The native toolbar classes on the main
+	platforms all synthesize the disabled bitmap from the normal bitmap, so this function will have no effect
+	on those platforms.
 	End Rem
 	Method SetToolDisabledBitmap(id:Int, bitmap:wxBitmap)
+		bmx_wxtoolbar_settooldisabledbitmap(wxObjectPtr, id, bitmap.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the long help for the given tool.
 	End Rem
 	Method SetToolLongHelp(id:Int, helpString:String)
+		bmx_wxtoolbar_settoollonghelp(wxObjectPtr, id, helpString)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the value used for spacing tools. The default value is 1.
 	End Rem
 	Method SetToolPacking(packing:Int)
+		bmx_wxtoolbar_settoolpacking(wxObjectPtr, packing)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the short help for the given tool.
 	End Rem
 	Method SetToolShortHelp(id:Int, helpString:String)
+		bmx_wxtoolbar_settoolshorthelp(wxObjectPtr, id, helpString)
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Sets the bitmap to be used by the tool with the given ID.
+	about: This can only be used on Button tools, not controls.
 	End Rem
 	Method SetToolNormalBitmap(id:Int, bitmap:wxBitmap)
+		bmx_wxtoolbar_settoolnormalbitmap(wxObjectPtr, id, bitmap.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the default separator size.
+	about: The default value is 5.
 	End Rem
 	Method SetToolSeparation(separation:Int)
+		bmx_wxtoolbar_settoolseparation(wxObjectPtr, separation)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Toggles a tool on or off.
+	about: This does not cause any event to get emitted.
 	End Rem
 	Method ToggleTool(toolId:Int, toggle:Int)
+		bmx_wxtoolbar_toggletool(wxObjectPtr, toolId, toggle)
 	End Method
 	
 End Type

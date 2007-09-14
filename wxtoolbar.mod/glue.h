@@ -58,6 +58,29 @@ extern "C" {
 	BBString * bmx_wxtoolbar_gettoolshorthelp(wxToolBar * toolbar, int toolId);
 	bool bmx_wxtoolbar_gettoolstate(wxToolBar * toolbar, int toolId);
 
+	wxToolBarToolBase * bmx_wxtoolbar_addchecktool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, MaxBitmap * bitmap2,
+			BBString * shortHelp, BBString * longHelp, void * clientData);
+	wxToolBarToolBase * bmx_wxtoolbar_addradiotool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, MaxBitmap * bitmap2,
+			BBString * shortHelp, BBString * longHelp, void * clientData);
+	wxToolBarToolBase * bmx_wxtoolbar_inserttool(wxToolBar * toolbar, unsigned int pos, int id, BBString * label, MaxBitmap * bitmap1,
+			MaxBitmap * bitmap2, bool isToggle, void * clientData, BBString * shortHelp, BBString * longHelp);
+	void bmx_wxtoolbar_setmargins(wxToolBar * toolbar, int leftRight, int topBottom);
+	void bmx_wxtoolbar_settoolclientdata(wxToolBar * toolbar, int id, void * clientData);
+	void bmx_wxtoolbar_settooldisabledbitmap(wxToolBar * toolbar, int id, MaxBitmap * bitmap);
+	void bmx_wxtoolbar_settoollonghelp(wxToolBar * toolbar, int id, BBString * helpString);
+	void bmx_wxtoolbar_settoolpacking(wxToolBar * toolbar, int packing);
+	void bmx_wxtoolbar_settoolshorthelp(wxToolBar * toolbar, int id, BBString * helpString);
+	void bmx_wxtoolbar_settoolnormalbitmap(wxToolBar * toolbar, int id, MaxBitmap * bitmap);
+	void bmx_wxtoolbar_settoolseparation(wxToolBar * toolbar, int separation);
+	void bmx_wxtoolbar_toggletool(wxToolBar * toolbar, int id, bool toggle);
+	wxToolBarToolBase * bmx_wxtoolbar_removetool(wxToolBar * toolbar, int id);
+	void * bmx_wxtoolbar_gettoolclientdata(wxToolBar * toolbar, int id);
+	wxToolBarToolBase * bmx_wxtoolbar_findbyid(wxToolBar * toolbar, int id);
+	wxControl * bmx_wxtoolbar_findcontrol(wxToolBar * toolbar, int id);
+	wxToolBarToolBase * bmx_wxtoolbar_findtoolforposition(wxToolBar * toolbar, int x, int y);
+	wxToolBarToolBase * bmx_wxtoolbar_insertcontrol(wxToolBar * toolbar, int pos, wxControl * control);
+	wxToolBarToolBase * bmx_wxtoolbar_insertseparator(wxToolBar * toolbar, int pos);
+
 	int bmx_wxtoolbar_geteventtype(int type);
 
 }

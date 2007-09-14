@@ -32,7 +32,18 @@ extern "C" {
 	MaxBitmapButton * bmx_wxbitmapbutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, MaxBitmap * bitmap, int x, int y,
 		int w, int h, long style);
 
-	void bmx_wxbitmapbutton_setbitmaplabel(MaxBitmapButton * button, MaxBitmap * bitmap);
+	void bmx_wxbitmapbutton_setbitmaplabel(wxBitmapButton * button, MaxBitmap * bitmap);
+	
+	MaxBitmap * bmx_wxbitmapbutton_getbitmapdisabled(wxBitmapButton * button);
+	MaxBitmap * bmx_wxbitmapbutton_getbitmapfocus(wxBitmapButton * button);
+	MaxBitmap * bmx_wxbitmapbutton_getbitmaphover(wxBitmapButton * button);
+	MaxBitmap * bmx_wxbitmapbutton_getbitmaplabel(wxBitmapButton * button);
+	MaxBitmap * bmx_wxbitmapbutton_getbitmapselected(wxBitmapButton * button);
+	void bmx_wxbitmapbutton_setbitmapdisabled(wxBitmapButton * button, MaxBitmap * bitmap);
+	void bmx_wxbitmapbutton_setbitmapfocus(wxBitmapButton * button, MaxBitmap * bitmap);
+	void bmx_wxbitmapbutton_setbitmaphover(wxBitmapButton * button, MaxBitmap * bitmap);
+	void bmx_wxbitmapbutton_setbitmapselected(wxBitmapButton * button, MaxBitmap * bitmap);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

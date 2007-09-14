@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxBitmapButton
+End Rem
 Module wx.wxBitmapButton
 
 ModuleInfo "Version: 1.00"
@@ -52,9 +55,17 @@ Import "common.bmx"
 Rem
 bbdoc: A bitmap button is a control that contains a bitmap.
 about: It may be placed on a dialog box or panel, or indeed almost any other window.
+<p>
+A bitmap button can be supplied with a single bitmap, and wxWidgets will draw all button states using this bitmap.
+If the application needs more control, additional bitmaps for the selected state, unpressed focused state, and
+greyed-out state may be supplied.
+</p>
 End Rem
 Type wxBitmapButton Extends wxButton
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateBitmapButton:wxButton(parent:wxWindow, id:Int, bitmap:wxBitmap, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxBU_AUTODRAW)
 			
@@ -73,35 +84,75 @@ Type wxBitmapButton Extends wxButton
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Returns the bitmap for the disabled state, may be invalid.
+	End Rem
 	Method GetBitmapDisabled:wxBitmap()
+		Return wxBitmap._create(bmx_wxbitmapbutton_getbitmapdisabled(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns the bitmap for the focused state, may be invalid.
+	End Rem
 	Method GetBitmapFocus:wxBitmap()
+		Return wxBitmap._create(bmx_wxbitmapbutton_getbitmapfocus(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns the bitmap used when the mouse is over the button, may be invalid.
+	End Rem
 	Method GetBitmapHover:wxBitmap()
+		Return wxBitmap._create(bmx_wxbitmapbutton_getbitmaphover(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: A reference to the button's label bitmap.
+	End Rem
 	Method GetBitmapLabel:wxBitmap()
+		Return wxBitmap._create(bmx_wxbitmapbutton_getbitmaplabel(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns the bitmap for the pushed button state, may be invalid.
+	End Rem
 	Method GetBitmapSelected:wxBitmap()
+		Return wxBitmap._create(bmx_wxbitmapbutton_getbitmapselected(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Sets the bitmap for the disabled button appearance.
+	End Rem
 	Method SetBitmapDisabled(bitmap:wxBitmap)
+		bmx_wxbitmapbutton_setbitmapdisabled(wxObjectPtr, bitmap.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the bitmap for the button appearance when it has the keyboard focus.
+	End Rem
 	Method SetBitmapFocus(bitmap:wxBitmap)
+		bmx_wxbitmapbutton_setbitmapfocus(wxObjectPtr, bitmap.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: Sets the bitmap to be shown when the mouse is over the button.
+	End Rem
 	Method SetBitmapHover(bitmap:wxBitmap)
+		bmx_wxbitmapbutton_setbitmaphover(wxObjectPtr, bitmap.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: Sets the bitmap label for the button.
+	about: This is the bitmap used for the unselected state, and for all other states if no other bitmaps are provided.
+	End Rem
 	Method SetBitmapLabel(bitmap:wxBitmap)
 		bmx_wxbitmapbutton_setbitmaplabel(wxObjectPtr, bitmap.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the bitmap for the selected (depressed) button appearance.
+	End Rem
 	Method SetBitmapSelected(bitmap:wxBitmap)
+		bmx_wxbitmapbutton_setbitmapselected(wxObjectPtr, bitmap.wxObjectPtr)
 	End Method
 
 End Type

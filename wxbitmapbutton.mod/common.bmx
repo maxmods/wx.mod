@@ -48,7 +48,17 @@ Extern
 	Function bmx_wxbitmapbutton_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, bitmap:Byte Ptr, x:Int, y:Int, w:Int, h:Int, style:Int)
 
 	Function bmx_wxbitmapbutton_setbitmaplabel(handle:Byte Ptr, bitmap:Byte Ptr)
-	
+
+	Function bmx_wxbitmapbutton_getbitmapdisabled:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxbitmapbutton_getbitmapfocus:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxbitmapbutton_getbitmaphover:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxbitmapbutton_getbitmaplabel:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxbitmapbutton_getbitmapselected:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxbitmapbutton_setbitmapdisabled(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxbitmapbutton_setbitmapfocus(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxbitmapbutton_setbitmaphover(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxbitmapbutton_setbitmapselected(handle:Byte Ptr, bitmap:Byte Ptr)
+
 End Extern
 
 Const wxBU_AUTODRAW:Int = 4

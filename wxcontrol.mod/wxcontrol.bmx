@@ -57,6 +57,14 @@ about: A control is generally a small window which processes user input and/or d
 End Rem
 Type wxControl Extends wxWindow
 
+	Function _create:wxControl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxControl = New wxControl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 	Rem
 	bbdoc: Returns the control's text.
 	about: Note that the returned string contains the mnemonics (& characters) if any, use wxControl::GetLabelText

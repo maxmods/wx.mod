@@ -150,6 +150,130 @@ bool bmx_wxtoolbar_gettoolstate(wxToolBar * toolbar, int toolId) {
 }
 
 
+wxToolBarToolBase * bmx_wxtoolbar_addchecktool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, MaxBitmap * bitmap2,
+		BBString * shortHelp, BBString * longHelp, void * clientData) {
+
+	MaxObject * userData;
+	if (clientData) {
+		userData = new MaxObject(clientData);
+	}
+	
+	if (bitmap2) {
+		return toolbar->AddCheckTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), bitmap2->Bitmap(),
+			wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp), userData);
+	} else {
+		return toolbar->AddCheckTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), wxNullBitmap,
+			wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp), userData);
+	}
+}
+
+wxToolBarToolBase * bmx_wxtoolbar_addradiotool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, MaxBitmap * bitmap2,
+		BBString * shortHelp, BBString * longHelp, void * clientData) {
+
+	MaxObject * userData;
+	if (clientData) {
+		userData = new MaxObject(clientData);
+	}
+	
+	if (bitmap2) {
+		return toolbar->AddRadioTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), bitmap2->Bitmap(),
+			wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp), userData);
+	} else {
+		return toolbar->AddRadioTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), wxNullBitmap,
+			wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp), userData);
+	}
+}
+
+wxToolBarToolBase * bmx_wxtoolbar_inserttool(wxToolBar * toolbar, unsigned int pos, int id, BBString * label, MaxBitmap * bitmap1,
+		MaxBitmap * bitmap2, bool isToggle, void * clientData, BBString * shortHelp, BBString * longHelp) {
+
+//	MaxObject * userData;
+//	if (clientData) {
+//		userData = new MaxObject(clientData);
+//	}
+//
+//	if (bitmap2) {
+//		return toolbar->InsertTool(pos, id, wxStringFromBBString(label), bitmap1->Bitmap(), bitmap2->Bitmap(),
+//			userData, isToggle, wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp));
+//	} else {
+//		return toolbar->InsertTool(pos, id, wxStringFromBBString(label), bitmap1->Bitmap(), wxNullBitmap,
+//			userData, isToggle, wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp));
+//	}
+	
+}
+
+void bmx_wxtoolbar_setmargins(wxToolBar * toolbar, int leftRight, int topBottom) {
+	toolbar->SetMargins(leftRight, topBottom);
+}
+
+void bmx_wxtoolbar_settoolclientdata(wxToolBar * toolbar, int id, void * clientData) {
+	MaxObject * userData;
+	if (clientData) {
+		userData = new MaxObject(clientData);
+	}
+	toolbar->SetToolClientData(id, userData);
+}
+
+void bmx_wxtoolbar_settooldisabledbitmap(wxToolBar * toolbar, int id, MaxBitmap * bitmap) {
+	toolbar->SetToolDisabledBitmap(id, bitmap->Bitmap());
+}
+
+void bmx_wxtoolbar_settoollonghelp(wxToolBar * toolbar, int id, BBString * helpString) {
+	toolbar->SetToolLongHelp(id, wxStringFromBBString(helpString));
+}
+
+void bmx_wxtoolbar_settoolpacking(wxToolBar * toolbar, int packing) {
+	toolbar->SetToolPacking(packing);
+}
+
+void bmx_wxtoolbar_settoolshorthelp(wxToolBar * toolbar, int id, BBString * helpString) {
+	toolbar->SetToolShortHelp(id, wxStringFromBBString(helpString));
+}
+
+void bmx_wxtoolbar_settoolnormalbitmap(wxToolBar * toolbar, int id, MaxBitmap * bitmap) {
+	toolbar->SetToolNormalBitmap(id, bitmap->Bitmap());
+}
+
+void bmx_wxtoolbar_settoolseparation(wxToolBar * toolbar, int separation) {
+	toolbar->SetToolSeparation(separation);
+}
+
+void bmx_wxtoolbar_toggletool(wxToolBar * toolbar, int id, bool toggle) {
+	toolbar->ToggleTool(id, toggle);
+}
+
+wxToolBarToolBase * bmx_wxtoolbar_removetool(wxToolBar * toolbar, int id) {
+	return toolbar->RemoveTool(id);
+}
+
+void * bmx_wxtoolbar_gettoolclientdata(wxToolBar * toolbar, int id) {
+	MaxObject * data = (MaxObject *)toolbar->GetToolClientData(id);
+	if (data) {
+		return data->getHandle();
+	}
+	return 0;
+}
+
+wxToolBarToolBase * bmx_wxtoolbar_findbyid(wxToolBar * toolbar, int id) {
+	return toolbar->FindById(id);
+}
+
+wxControl * bmx_wxtoolbar_findcontrol(wxToolBar * toolbar, int id) {
+	return toolbar->FindControl(id);
+}
+
+wxToolBarToolBase * bmx_wxtoolbar_findtoolforposition(wxToolBar * toolbar, int x, int y) {
+	return toolbar->FindToolForPosition(x, y);
+}
+
+wxToolBarToolBase * bmx_wxtoolbar_insertcontrol(wxToolBar * toolbar, int pos, wxControl * control) {
+	return toolbar->InsertControl(pos, control);
+}
+
+wxToolBarToolBase * bmx_wxtoolbar_insertseparator(wxToolBar * toolbar, int pos) {
+	return toolbar->InsertSeparator(pos);
+}
+
 
 
 int bmx_wxtoolbar_geteventtype(int type) {
