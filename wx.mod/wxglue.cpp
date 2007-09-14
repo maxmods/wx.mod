@@ -904,3 +904,26 @@ MaxPen * bmx_wxstockgdi_pen_white() {
 MaxEvtHandler * bmx_wxevthandler_create(BBObject * maxHandle) {
 	return new MaxEvtHandler(maxHandle);
 }
+
+
+void bmx_wxstreambase_getlength(wxStreamBase * stream, BBInt64 * i) {
+	*i = stream->GetLength();
+}
+
+int bmx_wxstreambase_getlasterror(wxStreamBase * stream) {
+	return stream->GetLastError();
+}
+
+int bmx_wxstreambase_getsize(wxStreamBase * stream) {
+	return stream->GetSize();
+}
+
+bool bmx_wxstreambase_isok(wxStreamBase * stream) {
+	return stream->IsOk();
+}
+
+bool bmx_wxstreambase_isseekable(wxStreamBase * stream) {
+	return stream->IsSeekable();
+}
+
+

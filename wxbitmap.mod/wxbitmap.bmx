@@ -158,10 +158,18 @@ Type wxBitmap Extends wxGDIObject
 		Return bmx_wxbitmap_getheight(wxObjectPtr)
 	End Method
 	
-	Method GetPalette()
+	Rem
+	bbdoc: Gets the associated palette (if any) which may have been loaded from a file or set for the bitmap.
+	End Rem
+	Method GetPalette:wxPalette()
+		Return wxPalette._create(bmx_wxbitmap_getpalette(wxObjectPtr))
 	End Method
 	
-	Method GetMask()
+	Rem
+	bbdoc: Gets the associated mask (if any) which may have been loaded from a file or set for the bitmap.
+	End Rem
+	Method GetMask:wxMask()
+		Return wxMask._create(bmx_wxbitmap_getmask(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -176,30 +184,42 @@ Type wxBitmap Extends wxGDIObject
 	about: This method preserves bit depth and mask information.
 	End Rem
 	Method GetSubBitmap:wxBitmap(x:Int, y:Int, w:Int, h:Int)
+		Return wxbitmap._create(bmx_wxbitmap_getsubbitmap(wxObjectPtr, x, y, w, h))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the depth member (does not affect the bitmap data).
 	End Rem
 	Method SetDepth(depth:Int)
 		bmx_wxbitmap_setdepth(wxObjectPtr, depth)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the height member (does not affect the bitmap data).
 	End Rem
 	Method SetHeight(height:Int)
 		bmx_wxbitmap_setheight(wxObjectPtr, height)
 	End Method
 	
-	Method SetMask()
-	End Method
-	
-	Method SetPalette()
+	Rem
+	bbdoc: Sets the mask for this bitmap.
+	about: The bitmap object owns the mask once this has been called.
+	End Rem
+	Method SetMask(mask:wxMask)
+		bmx_wxbitmap_setmask(wxObjectPtr, mask.wxObjectPtr)
+		mask.wxObjectPtr = Null ' unlink, because the bitmap owns it now
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the associated palette.
+	about: (Not implemented under GTK+).
+	End Rem
+	Method SetPalette(palette:wxPalette)
+		bmx_wxbitmap_setpalette(wxObjectPtr, palette.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the width member (does not affect the bitmap data).
 	End Rem
 	Method SetWidth(width:Int)
 		bmx_wxbitmap_setwidth(wxObjectPtr, width)
@@ -207,10 +227,53 @@ Type wxBitmap Extends wxGDIObject
 	
 	Method Delete()
 		If wxObjectPtr Then
-			'bmx_wxbitmap_delete(wxObjectPtr)
+			bmx_wxbitmap_delete(wxObjectPtr)
 			wxObjectPtr = Null
 		End If
 	End Method
 	
 End Type
 
+
+Rem
+bbdoc: This type encapsulates a monochrome mask bitmap, where the masked area is black and the unmasked area is white. When associated with a bitmap and drawn in a device context, the unmasked area of the bitmap will be drawn, and the masked area will not be drawn.
+about: A mask may be associated with a wxBitmap. It is used in wxDC::Blit when the source device context
+is a wxMemoryDC with wxBitmap selected into it that contains a mask.
+End Rem
+Type wxMask Extends wxObject
+	
+	Function _create:wxMask(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxMask = New wxMask
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Rem
+	bbdoc: Constructs a mask from a bitmap and an optional colour that indicates the background.
+	End Rem
+	Function CreateMask:wxMask(bitmap:wxBitmap, colour:wxColour = Null)
+		Return New wxMask.Create(bitmap, colour)
+	End Function
+	
+	Rem
+	bbdoc: Constructs a mask from a bitmap and an optional colour that indicates the background.
+	End Rem
+	Method Create:wxMask(bitmap:wxBitmap, colour:wxColour = Null)
+		If colour Then
+			wxObjectPtr = bmx_wxmask_create(bitmap.wxObjectPtr, colour.wxObjectPtr)
+		Else
+			wxObjectPtr = bmx_wxmask_create(bitmap.wxObjectPtr, Null)
+		End If
+		Return Self
+	End Method
+
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxmask_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+
+End Type

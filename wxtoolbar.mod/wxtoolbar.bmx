@@ -387,23 +387,23 @@ Type wxToolBar Extends wxControl
 	bbdoc: Inserts the tool with the specified attributes into the toolbar at the given position.
 	about: You must call Realize for the change to take place.
 	End Rem
-	Method InsertTool:wxToolBarToolBase(pos:Int, toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, isToggle:Int = False, ..
+	Method InsertTool:wxToolBarToolBase(pos:Int, toolId:Int, label:String, bitmap1:wxBitmap, bitmap2:wxBitmap = Null, kind:Int = wxITEM_NORMAL, ..
 			clientData:Object = Null, shortHelpString:String = "", longHelpString:String = "")
 
 		If bitmap2 Then
 			If clientData Then
-				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, isToggle, ..
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, kind, ..
 					clientData, shortHelpString, longHelpString))
 			Else
-				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, isToggle, ..
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, bitmap2.wxObjectPtr, kind, ..
 					Null, shortHelpString, longHelpString))
 			End If
 		Else
 			If clientData Then
-				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, Null, isToggle, ..
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, Null, kind, ..
 					clientData, shortHelpString, longHelpString))
 			Else
-				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, Null, isToggle, ..
+				Return wxToolBarToolBase._create(bmx_wxtoolbar_inserttool(wxObjectPtr, pos, toolId, label, bitmap1.wxObjectPtr, Null, kind, ..
 					Null, shortHelpString, longHelpString))
 			End If
 		End If

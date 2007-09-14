@@ -681,3 +681,14 @@ Const Origin_Unknown:Int = 0
 Const Origin_Keyboard:Int = 1
 Const Origin_HelpButton:Int = 2
  
+
+Const wxFromStart:Int = 0
+Const wxFromCurrent:Int = 1
+Const wxFromEnd:Int = 2
+
+Const wxInvalidOffset:Int = -1
+
+Const wxFILE_KIND_UNKNOWN:Int = 0
+Const wxFILE_KIND_DISK:Int = 1     ' a file supporting seeking To arbitrary offsets
+Const wxFILE_KIND_TERMINAL:Int = 2 ' a tty
+Const wxFILE_KIND_PIPE:Int = 3      ' a pipe

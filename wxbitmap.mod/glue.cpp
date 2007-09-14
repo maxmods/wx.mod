@@ -39,7 +39,6 @@ wxBitmap & MaxBitmap::Bitmap() {
 }
 
 
-
 // *********************************************
 
 MaxBitmap * bmx_wxbitmap_create(bool makeNull) {
@@ -49,6 +48,10 @@ MaxBitmap * bmx_wxbitmap_create(bool makeNull) {
 	} else {
 		return new MaxBitmap();
 	}
+}
+
+void bmx_wxbitmap_delete(MaxBitmap * bitmap) {
+	delete bitmap;
 }
 
 MaxBitmap * bmx_wxbitmap_createfromimage(MaxImage * image, int depth) {
@@ -98,4 +101,40 @@ void bmx_wxbitmap_setheight(MaxBitmap * bitmap, int height) {
 void bmx_wxbitmap_setwidth(MaxBitmap * bitmap, int width) {
 	bitmap->Bitmap().SetWidth(width);
 }
+
+MaxPalette * bmx_wxbitmap_getpalette(MaxBitmap * bitmap) {
+	//wxPalette p(*bitmap->Bitmap().GetPalette());
+	return new MaxPalette(*bitmap->Bitmap().GetPalette());
+}
+
+void bmx_wxbitmap_setpalette(MaxBitmap * bitmap, MaxPalette * palette) {
+	bitmap->Bitmap().SetPalette(palette->Palette());
+}
+
+MaxBitmap * bmx_wxbitmap_getsubbitmap(MaxBitmap * bitmap, int x, int y, int w, int h) {
+	wxBitmap b(bitmap->Bitmap().GetSubBitmap(wxRect(x, y, w, h)));
+	return new MaxBitmap(b);
+}
+
+wxMask * bmx_wxmask_create(MaxBitmap * bitmap, MaxColour * colour) {
+	if (colour) {
+		return new wxMask(bitmap->Bitmap(), colour->Colour());
+	} else {
+		return new wxMask(bitmap->Bitmap());
+	}
+}
+
+void bmx_wxmask_delete(wxMask * mask) {
+	delete mask;
+}
+
+wxMask * bmx_wxbitmap_getmask(MaxBitmap * bitmap) {
+	return bitmap->Bitmap().GetMask();
+}
+
+void bmx_wxbitmap_setmask(MaxBitmap * bitmap, wxMask * mask) {
+	bitmap->Bitmap().SetMask(mask);
+}
+
+
 

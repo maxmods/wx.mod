@@ -62,8 +62,8 @@ extern "C" {
 			BBString * shortHelp, BBString * longHelp, void * clientData);
 	wxToolBarToolBase * bmx_wxtoolbar_addradiotool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, MaxBitmap * bitmap2,
 			BBString * shortHelp, BBString * longHelp, void * clientData);
-	wxToolBarToolBase * bmx_wxtoolbar_inserttool(wxToolBar * toolbar, unsigned int pos, int id, BBString * label, MaxBitmap * bitmap1,
-			MaxBitmap * bitmap2, bool isToggle, void * clientData, BBString * shortHelp, BBString * longHelp);
+	wxToolBarToolBase * bmx_wxtoolbar_inserttool(wxToolBar * toolbar, size_t pos, int id, BBString * label, MaxBitmap * bitmap1,
+		MaxBitmap * bitmap2, wxItemKind kind, void * clientData, BBString * shortHelp, BBString * longHelp);
 	void bmx_wxtoolbar_setmargins(wxToolBar * toolbar, int leftRight, int topBottom);
 	void bmx_wxtoolbar_settoolclientdata(wxToolBar * toolbar, int id, void * clientData);
 	void bmx_wxtoolbar_settooldisabledbitmap(wxToolBar * toolbar, int id, MaxBitmap * bitmap);

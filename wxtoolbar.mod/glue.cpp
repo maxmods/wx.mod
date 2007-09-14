@@ -184,21 +184,21 @@ wxToolBarToolBase * bmx_wxtoolbar_addradiotool(wxToolBar * toolbar, int id, BBSt
 	}
 }
 
-wxToolBarToolBase * bmx_wxtoolbar_inserttool(wxToolBar * toolbar, unsigned int pos, int id, BBString * label, MaxBitmap * bitmap1,
-		MaxBitmap * bitmap2, bool isToggle, void * clientData, BBString * shortHelp, BBString * longHelp) {
+wxToolBarToolBase * bmx_wxtoolbar_inserttool(wxToolBar * toolbar, size_t pos, int id, BBString * label, MaxBitmap * bitmap1,
+		MaxBitmap * bitmap2, wxItemKind kind, void * clientData, BBString * shortHelp, BBString * longHelp) {
 
-//	MaxObject * userData;
-//	if (clientData) {
-//		userData = new MaxObject(clientData);
-//	}
-//
-//	if (bitmap2) {
-//		return toolbar->InsertTool(pos, id, wxStringFromBBString(label), bitmap1->Bitmap(), bitmap2->Bitmap(),
-//			userData, isToggle, wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp));
-//	} else {
-//		return toolbar->InsertTool(pos, id, wxStringFromBBString(label), bitmap1->Bitmap(), wxNullBitmap,
-//			userData, isToggle, wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp));
-//	}
+	MaxObject * userData;
+	if (clientData) {
+		userData = new MaxObject(clientData);
+	}
+
+	if (bitmap2) {
+		return toolbar->InsertTool(pos, id, wxStringFromBBString(label), bitmap1->Bitmap(), bitmap2->Bitmap(),
+			kind, wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp), userData);
+	} else {
+		return toolbar->InsertTool(pos, id, wxStringFromBBString(label), bitmap1->Bitmap(), wxNullBitmap,
+			kind, wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp), userData);
+	}
 	
 }
 

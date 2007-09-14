@@ -21,9 +21,8 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxImage
-Import wx.wxPalette
 Import BRL.Blitz
+Import BRL.Stream
 
 
 ' headers :-)
@@ -44,31 +43,9 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
-	Function bmx_wxbitmap_create:Byte Ptr(makeNull:Int)
-	Function bmx_wxbitmap_delete(handle:Byte Ptr)
 
-	Function bmx_wxbitmap_createfromimage:Byte Ptr(image:Byte Ptr, depth:Int)
-	Function bmx_wxbitmap_createempty:Byte Ptr(width:Int, height:Int, depth:Int)
-	Function bmx_wxbitmap_createfromfile:Byte Ptr(name:String, flag:Int)
+	Function bmx_wxmaxinputstream_create:Byte Ptr(handle:Object)
+	Function bmx_wxmaxinputstream_delete(handle:Byte Ptr)
 	
-	Function bmx_wxbitmap_loadfile:Int(handle:Byte Ptr, name:String, kind:Int)
-	Function bmx_wxbitmap_converttoimage:Byte Ptr(handle:Byte Ptr)
-
-	Function bmx_wxbitmap_getdepth:Int(handle:Byte Ptr)
-	Function bmx_wxbitmap_getheight:Int(handle:Byte Ptr)
-	Function bmx_wxbitmap_getwidth:Int(handle:Byte Ptr)	
-	Function bmx_wxbitmap_setdepth(handle:Byte Ptr, depth:Int)
-	Function bmx_wxbitmap_setheight(handle:Byte Ptr, height:Int)
-	Function bmx_wxbitmap_setwidth(handle:Byte Ptr, width:Int)
-	
-	Function bmx_wxbitmap_getpalette:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxbitmap_setpalette(handle:Byte Ptr, palette:Byte Ptr)
-	
-	Function bmx_wxbitmap_getsubbitmap:Byte Ptr(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
-	Function bmx_wxbitmap_getmask:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxbitmap_setmask(handle:Byte Ptr, mask:Byte Ptr)
-
-	Function bmx_wxmask_create:Byte Ptr(bitmap:Byte Ptr, colour:Byte Ptr)
-	Function bmx_wxmask_delete(handle:Byte Ptr)
 
 End Extern

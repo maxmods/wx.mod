@@ -176,6 +176,13 @@ extern "C" {
 	BBString * bmx_wxfontmapper_getencodingdescription(wxFontEncoding encoding);
 	BBString * bmx_wxfontmapper_getencodingname(wxFontEncoding encoding);
 	int bmx_wxfontmapper_getsupportedencodingcount();
+
+	void bmx_wxstreambase_getlength(wxStreamBase * stream, BBInt64 * i);
+	int bmx_wxstreambase_getlasterror(wxStreamBase * stream);
+	int bmx_wxstreambase_getsize(wxStreamBase * stream);
+	bool bmx_wxstreambase_isok(wxStreamBase * stream);
+	bool bmx_wxstreambase_isseekable(wxStreamBase * stream);
+
 }
 
 class wxMainEventLoop : public wxEventLoop

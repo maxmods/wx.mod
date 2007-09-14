@@ -232,9 +232,66 @@ End Type
 
 
 
-
+Rem
+bbdoc: This type is the base type of most stream related types in wxWidgets.
+about: It must not be used directly.
+End Rem
 Type wxStreamBase
 
+	Field wxStreamPtr:Byte Ptr
+	
+	Function _create:wxStreamBase(wxStreamPtr:Byte Ptr)
+		If wxStreamPtr Then
+			Local this:wxStreamBase = New wxStreamBase
+			this.wxStreamPtr = wxStreamPtr
+			Return this
+		End If
+	End Function
+	
+	Rem
+	bbdoc: Returns the length of the stream in bytes.
+	about: If the length cannot be determined (this is always the case for socket streams for
+	example), returns wxInvalidOffset.
+	End Rem
+	Method GetLength:Long()
+		Local value:Long
+		bmx_wxstreambase_getlength(wxStreamPtr, Varptr value)
+		Return value
+	End Method
+	
+	Rem
+	bbdoc: This method returns the last error.
+	End Rem
+	Method GetLastError:Int()
+		Return bmx_wxstreambase_getlasterror(wxStreamPtr)
+	End Method
+	
+	Rem
+	bbdoc: This method returns the size of the stream.
+	about: For example, for a file it is the size of the file.
+	<p>
+	<b>Warning</b> - There are streams which do not have size by definition, such as socket streams.
+	In that cases, GetSize returns 0 so you should always test its return value.
+	</p>
+	End Rem
+	Method GetSize:Int()
+		Return bmx_wxstreambase_getsize(wxStreamPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns True if no error occurred on the stream.
+	End Rem
+	Method IsOk:Int()
+		Return bmx_wxstreambase_isok(wxStreamPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns True if the streams supports seeking to arbitrary offsets.
+	End Rem
+	Method IsSeekable:Int()
+		Return bmx_wxstreambase_isseekable(wxStreamPtr)
+	End Method
+	
 End Type
 
 Type wxInputStream Extends wxStreamBase
@@ -242,6 +299,8 @@ Type wxInputStream Extends wxStreamBase
 	
 
 End Type
+
+
 
 ' wraps an input stream...
 Type TInputStreamHandler

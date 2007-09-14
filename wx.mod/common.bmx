@@ -298,7 +298,13 @@ Extern
 	Function bmx_wxfontmapper_getencodingdescription:String(encoding:Int)
 	Function bmx_wxfontmapper_getencodingname:String(encoding:Int)
 	Function bmx_wxfontmapper_getsupportedencodingcount:Int()
-	
+
+	Function bmx_wxstreambase_getlength(handle:Byte Ptr, value:Long Ptr)
+	Function bmx_wxstreambase_getlasterror:Int(handle:Byte Ptr)
+	Function bmx_wxstreambase_getsize:Int(handle:Byte Ptr)
+	Function bmx_wxstreambase_isok:Int(handle:Byte Ptr)
+	Function bmx_wxstreambase_isseekable:Int(handle:Byte Ptr)
+
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()

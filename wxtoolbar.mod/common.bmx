@@ -76,7 +76,7 @@ Extern
 	Function bmx_wxtoolbar_addradiotool:Byte Ptr(handle:Byte Ptr, id:Int, label:String, bitmap1:Byte Ptr, bitmap2:Byte Ptr, ..
 			shortHelp:String, longHelp:String, clientData:Object)
 	Function bmx_wxtoolbar_inserttool:Byte Ptr(handle:Byte Ptr, pos:Int, id:Int, label:String, bitmap1:Byte Ptr, ..
-			bitmap2:Byte Ptr, isToggle:Int, clientData:Object, shortHelp:String, longHelp:String)
+			bitmap2:Byte Ptr, kind:Int, clientData:Object, shortHelp:String, longHelp:String)
 	Function bmx_wxtoolbar_setmargins(handle:Byte Ptr, leftRight:Int, topBottom:Int)
 	Function bmx_wxtoolbar_settoolclientdata(handle:Byte Ptr, id:Int, clientData:Object)
 	Function bmx_wxtoolbar_settooldisabledbitmap(handle:Byte Ptr, id:Int, bitmap:Byte Ptr)
