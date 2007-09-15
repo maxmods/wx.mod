@@ -108,6 +108,16 @@ Type wxMenu Extends wxEvtHandler
 		wxObjectPtr = bmx_wxmenu_create(Self, title, style)
 		Return Self
 	End Method
+	
+	Rem
+	bbdoc: Deletes this menu.
+	End Rem
+	Method Free()
+		If wxObjectPtr Then
+			bmx_wxmenu_free(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
 
 	Rem
 	bbdoc: Adds a string item to the end of the menu.
@@ -486,6 +496,13 @@ Type wxMenuItem Extends wxObject
 	End Method
 	
 	Rem
+	bbdoc: The item accelerator, or Null.
+	End Rem
+	Method GetAccel:wxAcceleratorEntry()
+		Return wxAcceleratorEntry._create(bmx_wxmenuitem_getaccel(wxObjectPtr))
+	End Method
+	
+	Rem
 	bbdoc: Returns the background colour associated with the menu item (Windows only).
 	End Rem
 	Method GetBackgroundColour:wxColour()
@@ -738,6 +755,12 @@ Type wxMenuEvent Extends wxEvent
 	returned pointer may be Null in some ports.
 	End Rem
 	Method GetMenu:wxMenu()
+		Local mPtr:Byte Ptr = bmx_wxmenuevent_getmenu(wxEventPtr)
+		Local menu:wxMenu = wxMenu(wxfind(mPtr))
+		If Not menu Then
+			menu = wxMenu._create(mPtr)
+		End If
+		Return menu
 	End Method
 	
 	Rem
@@ -745,6 +768,7 @@ Type wxMenuEvent Extends wxEvent
 	about: This method should be only used with the HIGHLIGHT events.
 	End Rem
 	Method GetMenuId:Int()
+		Return bmx_wxmenuevent_getmenuid(wxEventPtr)
 	End Method
 	
 	Rem
@@ -752,6 +776,7 @@ Type wxMenuEvent Extends wxEvent
 	about: This method should only be used with the OPEN and CLOSE events.
 	End Rem
 	Method IsPopup:Int()
+		Return bmx_wxmenuevent_ispopup(wxEventPtr)
 	End Method
 	
 End Type

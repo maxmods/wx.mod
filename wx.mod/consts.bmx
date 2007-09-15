@@ -20,6 +20,7 @@
 ' 
 SuperStrict
 
+Import "keys.bmx"
 
 Const wxVSCROLL:Int = $80000000
 Const wxHSCROLL:Int = $40000000

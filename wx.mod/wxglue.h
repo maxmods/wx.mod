@@ -93,6 +93,10 @@ extern "C" {
 
 	int bmx_wxscrollevent_getorientation(wxScrollEvent & event);
 	int bmx_wxscrollevent_getposition(wxScrollEvent & event);
+	
+	void bmx_wxcontextmenuevent_getposition(wxContextMenuEvent & event, int * x, int * y);
+	void bmx_wxcontextmenuevent_setposition(wxContextMenuEvent & event, int x, int y);
+
 
 	BBString * bmx_wxversion_string();
 	BBString * bmx_wxgetosdescription();
@@ -183,6 +187,13 @@ extern "C" {
 	bool bmx_wxstreambase_isok(wxStreamBase * stream);
 	bool bmx_wxstreambase_isseekable(wxStreamBase * stream);
 
+	int bmx_wxacceleratorentry_getcommand(wxAcceleratorEntry * entry);
+	int bmx_wxacceleratorentry_getflags(wxAcceleratorEntry * entry);
+	int bmx_wxacceleratorentry_getkeycode(wxAcceleratorEntry * entry);
+	void bmx_wxacceleratorentry_set(wxAcceleratorEntry * entry, int flags, int keyCode, int cmd);
+	void bmx_wxacceleratorentry_delete(wxAcceleratorEntry * entry);
+	
+	int bmx_wxisalnum(int code);
 }
 
 class wxMainEventLoop : public wxEventLoop

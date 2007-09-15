@@ -445,6 +445,22 @@ void bmx_wxwindow_centreonparent(wxWindow * window, int direction) {
 	window->CentreOnParent(direction);
 }
 
+bool bmx_wxwindow_popupmenu(wxWindow * window, wxMenu * menu, int x, int y) {
+	return window->PopupMenu(menu, wxPoint(x, y));
+}
+
+void bmx_wxwindow_refreshrect(wxWindow * window, int x, int y, int w, int h, bool erase) {
+	window->RefreshRect(wxRect(x, y, w, h), erase);
+}
+
+void bmx_wxwindow_releasemouse(wxWindow * window) {
+	window->ReleaseMouse();
+}
+
+void bmx_wxwindow_screentoclient(wxWindow * window, int * x, int * y) {
+	window->ScreenToClient(x, y);
+}
+
 
 // *********************************************
 

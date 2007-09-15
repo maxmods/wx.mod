@@ -215,6 +215,9 @@ Extern
 	Function bmx_wxscrollevent_getorientation:Int(evt:Byte Ptr)
 	Function bmx_wxscrollevent_getposition:Int(evt:Byte Ptr)
 	
+	Function bmx_wxcontextmenuevent_getposition(evt:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxcontextmenuevent_setposition(evt:Byte Ptr, x:Int, y:Int)
+	
 	Function bmx_wxversion_string:String()
 	Function bmx_wxmessagebox:Int(message:String, caption:String, style:Int, parent:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxgetosdescription:String()
@@ -305,6 +308,14 @@ Extern
 	Function bmx_wxstreambase_isok:Int(handle:Byte Ptr)
 	Function bmx_wxstreambase_isseekable:Int(handle:Byte Ptr)
 
+
+	Function bmx_wxacceleratorentry_getcommand:Int(handle:Byte Ptr)
+	Function bmx_wxacceleratorentry_getflags:Int(handle:Byte Ptr)
+	Function bmx_wxacceleratorentry_getkeycode:Int(handle:Byte Ptr)
+	Function bmx_wxacceleratorentry_set(handle:Byte Ptr, flags:Int, keyCode:Int, cmd:Int)
+	Function bmx_wxacceleratorentry_delete(handle:Byte Ptr)
+	
+	Function bmx_wxisalnum:Int(code:Int)
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()

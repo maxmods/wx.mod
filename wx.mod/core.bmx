@@ -313,6 +313,59 @@ Type wxAcceleratorTable
 
 End Type
 
+Rem
+bbdoc: An object used by an application wishing to create an accelerator table.
+End Rem
+Type wxAcceleratorEntry
+
+	Field wxAcceleratorPtr:Byte Ptr
+
+	Function _create:wxAcceleratorEntry(wxAcceleratorPtr:Byte Ptr)
+		If wxAcceleratorPtr Then
+			Local this:wxAcceleratorEntry = New wxAcceleratorEntry
+			this.wxAcceleratorPtr = wxAcceleratorPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: Returns the command identifier for the accelerator table entry.
+	End Rem
+	Method GetCommand:Int()
+		Return bmx_wxacceleratorentry_getcommand(wxAcceleratorPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the flags for the accelerator table entry.
+	End Rem
+	Method GetFlags:Int()
+		Return bmx_wxacceleratorentry_getflags(wxAcceleratorPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the keycode for the accelerator table entry.
+	End Rem
+	Method GetKeyCode:Int()
+		Return bmx_wxacceleratorentry_getkeycode(wxAcceleratorPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the accelerator entry parameters.
+	End Rem
+	Method Set(flags:Int, keyCode:Int, cmd:Int)
+		bmx_wxacceleratorentry_set(wxAcceleratorPtr, flags, keyCode, cmd)
+	End Method
+
+	Method Delete()
+		If wxAcceleratorPtr Then
+			bmx_wxacceleratorentry_delete(wxAcceleratorPtr)
+			wxAcceleratorPtr = Null
+		End If
+	End Method
+	
+End Type
+
+
 Type wxRegion
 
 End Type
@@ -357,6 +410,12 @@ Function wxGetOsDescription:String()
 	Return bmx_wxgetosdescription()
 End Function
 
+Rem
+bbdoc: 
+End Rem
+Function wxIsalnum:Int(keycode:Int)
+	Return bmx_wxisalnum(keycode)
+End Function
 
 Type TCoreEventFactory Extends TEventFactory
 
@@ -402,6 +461,8 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_SCROLL_THUMBRELEASE, ..
 					wxEVT_SCROLL_CHANGED
 				Return wxScrollEvent.create(wxEventPtr, evt)
+			Case wxEVT_CONTEXT_MENU
+				Return wxContextMenuEvent.create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -433,7 +494,8 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_SCROLL_PAGEDOWN, ..
 					wxEVT_SCROLL_THUMBTRACK, ..
 					wxEVT_SCROLL_THUMBRELEASE, ..
-					wxEVT_SCROLL_CHANGED
+					wxEVT_SCROLL_CHANGED, ..
+					wxEVT_CONTEXT_MENU
 				Return bmx_eventtype_value(eventType)
 		End Select
 	End Method

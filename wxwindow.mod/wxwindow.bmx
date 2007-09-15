@@ -891,9 +891,21 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Pops up the given menu at the specified coordinates, relative to this window, and returns control when the user has dismissed the menu.
+	about: If a menu item is selected, the corresponding menu event is generated and will be processed as usual.
+	If the coordinates are not specified, current mouse cursor position is used.
+	<p>
+	Just before the menu is popped up, wxMenu::UpdateUI is called to ensure that the menu items are in
+	the correct state. The menu does not get deleted by the window.
+	</p>
+	<p>
+	It is recommended to not explicitly specify coordinates when calling PopupMenu in response to mouse
+	click, because some of the ports (namely, wxGTK) can do a better job of positioning the menu in that
+	case.
+	</p>
 	End Rem
-	Method PopupMenu:Int(menu:wxMenu, x:Int, y:Int)
+	Method PopupMenu:Int(menu:wxMenu, x:Int = -1, y:Int = -1)
+		Return bmx_wxwindow_popupmenu(wxObjectPtr, menu.wxObjectPtr, x, y)
 	End Method
 	
 	Rem
@@ -934,9 +946,12 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Redraws the contents of the given rectangle: only the area inside it will be repainted.
+	about: This is the same as Refresh but has a nicer syntax as it can be called with an argument like
+	this RefreshRect(x, y, w, h).
 	End Rem
 	Method RefreshRect(x:Int, y:Int, w:Int, h:Int, eraseBackground:Int = True)
+		bmx_wxwindow_refreshrect(wxObjectPtr, x, y, w, h, eraseBackground)
 	End Method
 	
 	Rem
@@ -946,13 +961,14 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Releases mouse input captured with wxWindow::CaptureMouse.
 	End Rem
 	Method ReleaseMouse()
+		bmx_wxwindow_releasemouse(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Not implemented, cuz the docs say "Notice that this function is mostly internal to wxWidgets and shouldn't be called by the user code."
 	End Rem
 	Method RemoveChild(child:wxWindow)
 	End Method
@@ -973,9 +989,10 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Converts from screen to client window coordinates.
 	End Rem
-	Method ScreenToClient(x:Int, y:Int)
+	Method ScreenToClient(x:Int Var, y:Int Var)
+		bmx_wxwindow_screentoclient(wxObjectPtr, Varptr x, Varptr y)
 	End Method
 	
 

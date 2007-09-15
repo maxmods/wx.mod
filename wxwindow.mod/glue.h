@@ -121,6 +121,11 @@ extern "C" {
 	void bmx_wxwindow_capturemouse(wxWindow * window);
 	void bmx_wxwindow_centre(wxWindow * window, int direction);
 	void bmx_wxwindow_centreonparent(wxWindow * window, int direction);
+	bool bmx_wxwindow_popupmenu(wxWindow * window, wxMenu * menu, int x, int y);
+	void bmx_wxwindow_refreshrect(wxWindow * window, int x, int y, int w, int h, bool erase);
+	void bmx_wxwindow_releasemouse(wxWindow * window);
+	void bmx_wxwindow_screentoclient(wxWindow * window, int * x, int * y);
+
 
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);

@@ -52,6 +52,7 @@ Extern
 	Function bmx_wxmenu_appendcheckitem:Byte Ptr(handle:Byte Ptr, id:Int, item:String, helpString:String)
 	Function bmx_wxmenu_appendradioitem:Byte Ptr(handle:Byte Ptr, id:Int, item:String, helpString:String)
 	Function bmx_wxmenu_break(handle:Byte Ptr)
+	Function bmx_wxmenu_free(handle:Byte Ptr)
 	
 	Function bmx_wxmenu_appendsubmenu:Byte Ptr(handle:Byte Ptr, submenu:Byte Ptr, item:String, helpString:String)
 	Function bmx_wxmenu_check(handle:Byte Ptr, id:Int, value:Int)
@@ -115,6 +116,11 @@ Extern
 	Function bmx_wxmenuitem_settext(handle:Byte Ptr, text:String)
 	Function bmx_wxmenuitem_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxmenuitem_toggle(handle:Byte Ptr)
+	Function bmx_wxmenuitem_getaccel:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxmenuevent_getmenu:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxmenuevent_getmenuid:Int(handle:Byte Ptr)
+	Function bmx_wxmenuevent_ispopup:Int(handle:Byte Ptr)
 
 	Function bmx_wxmenu_geteventtype:Int(evt:Int)
 End Extern

@@ -40,6 +40,7 @@ extern "C" {
 	wxMenuItem * bmx_wxmenu_appendcheckitem(wxMenu * menu, int id, BBString * item, BBString * helpString);
 	wxMenuItem * bmx_wxmenu_appendradioitem(wxMenu * menu, int id, BBString * item, BBString * helpString);
 	void bmx_wxmenu_break(wxMenu * menu);
+	void bmx_wxmenu_free(wxMenu * menu);
 
 	wxMenuItem * bmx_wxmenu_appendsubmenu(wxMenu * menu, wxMenu * submenu, BBString * item, BBString * helpString);
 	void bmx_wxmenu_check(wxMenu * menu, int id, bool value);
@@ -107,6 +108,11 @@ extern "C" {
 	void bmx_wxmenuitem_settext(wxMenuItem * item, BBString * text);
 	void bmx_wxmenuitem_settextcolour(wxMenuItem * item, MaxColour * colour);
 	void bmx_wxmenuitem_toggle(wxMenuItem * item);
+	wxAcceleratorEntry * bmx_wxmenuitem_getaccel(wxMenuItem * item);
+
+	wxMenu * bmx_wxmenuevent_getmenu(wxMenuEvent & event);
+	int bmx_wxmenuevent_getmenuid(wxMenuEvent & event);
+	bool bmx_wxmenuevent_ispopup(wxMenuEvent & event);
 
 }
 

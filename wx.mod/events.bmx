@@ -448,6 +448,37 @@ Type wxIdleEvent Extends wxEvent
 
 End Type
 
+Rem
+bbdoc: This type is used for context menu events, sent to give the application a chance to show a context (popup) menu.
+End Rem
+Type wxContextMenuEvent Extends wxCommandEvent
+
+	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxContextMenuEvent = New wxContextMenuEvent 
+		
+		this.wxEventPtr = wxEventPtr
+		this.userData = evt.userData
+		this.parent = evt.parent
+		
+		Return this
+	End Function
+	
+	Rem
+	bbdoc: Returns the position at which the menu should be shown.
+	End Rem
+	Method GetPosition(x:Int Var, y:Int Var)
+		bmx_wxcontextmenuevent_getposition(wxEventPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Sets the position at which the menu should be shown.
+	End Rem
+	Method SetPosition(x:Int, y:Int)
+		bmx_wxcontextmenuevent_setposition(wxEventPtr, x, y)
+	End Method
+
+End Type
+
 ' internal event handler.
 Type TEventHandler
 

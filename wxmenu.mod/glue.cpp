@@ -195,6 +195,11 @@ void bmx_wxmenu_getmenuitems(wxMenu * menu, BBArray * items) {
 	} 
 }
 
+void bmx_wxmenu_free(wxMenu * menu) {
+	delete menu;
+}
+
+
 // *********************************************
 
 wxMenuItem * bmx_wxmenuitem_create(wxMenu * parentMenu, int id, BBString * text, BBString * helpString,
@@ -370,8 +375,25 @@ void bmx_wxmenuitem_toggle(wxMenuItem * item) {
 	item->Toggle();
 }
 
+wxAcceleratorEntry * bmx_wxmenuitem_getaccel(wxMenuItem * item) {
+	return item->GetAccel();
+}
+
 
 // *********************************************
+
+wxMenu * bmx_wxmenuevent_getmenu(wxMenuEvent & event) {
+	return event.GetMenu();
+}
+
+int bmx_wxmenuevent_getmenuid(wxMenuEvent & event) {
+	return event.GetMenuId();
+}
+
+bool bmx_wxmenuevent_ispopup(wxMenuEvent & event) {
+	return event.IsPopup();
+}
+
 
 
 int bmx_wxmenu_geteventtype(int type) {

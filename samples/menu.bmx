@@ -1,3 +1,10 @@
+'
+' Menu sample
+'
+' From the C++ sample by Vadim Zeitlin
+'
+' BlitzMax port by Bruce A Henderson
+'
 SuperStrict
 
 Framework wx.wxApp
@@ -5,6 +12,7 @@ Import wx.wxFrame
 Import wx.wxMouseEvent
 Import wx.wxTextCtrl
 Import wx.wxLog
+Import wx.wxTextEntryDialog
 
 New MyApp.run()
 
@@ -87,6 +95,7 @@ Type MyFrame Extends wxFrame
 	
 	' the count of dummy menus already created
 	Field countDummy:Int
+	Field dummyTitle:String
 	
 	
 	' the control used For logging
@@ -158,14 +167,12 @@ Type MyFrame Extends wxFrame
 		stockSubMenu.Append(wxID_ZOOM_OUT)
 		fileMenu.AppendSubMenu(stockSubMenu, "&Standard items demo")
 
-'    wxMenuItem *item = New wxMenuItem(fileMenu, Menu_File_ClearLog,
-'                                      "Clear &log~tCtrl-L"));
-'#If wxUSE_OWNER_DRAWN || defined(__WXGTK__)
-'    item.SetBitmap(copy_xpm);
-'#EndIf
-'    fileMenu.Append(item);
-'    fileMenu.AppendSeparator();
-'#EndIf // USE_LOG_WINDOW
+		Local item:wxMenuItem = New wxMenuItem.Create(fileMenu, Menu_File_ClearLog, "Clear &log~tCtrl-L")
+		'#If wxUSE_OWNER_DRAWN || defined(__WXGTK__)
+		'    item.SetBitmap(copy_xpm);
+		'#EndIf
+		fileMenu.AppendItem(item)
+		fileMenu.AppendSeparator()
 
 		fileMenu.Append(Menu_File_Quit, "E&xit~tAlt-X", "Quit menu sample")
 	
@@ -249,6 +256,55 @@ Type MyFrame Extends wxFrame
 			"The commands from ~qMenubar~q menu work with the " + ..
 			"menubar itself.~n~n" + ..
 			"Right click the band below to test popup menus.~n")
+		
+		Connect(Menu_File_Quit,     wxEVT_COMMAND_MENU_SELECTED, OnQuit)
+		Connect(Menu_File_ClearLog, wxEVT_COMMAND_MENU_SELECTED, OnClearLog)
+		Connect(Menu_File_ClearLog, wxEVT_UPDATE_UI, OnClearLogUpdateUI)
+		
+		Connect(Menu_Help_About, wxEVT_COMMAND_MENU_SELECTED, OnAbout)
+		
+		Connect(Menu_MenuBar_Toggle,   wxEVT_COMMAND_MENU_SELECTED, OnToggleMenu)
+		Connect(Menu_MenuBar_Append,   wxEVT_COMMAND_MENU_SELECTED, OnAppendMenu)
+		Connect(Menu_MenuBar_Insert,   wxEVT_COMMAND_MENU_SELECTED, OnInsertMenu)
+		Connect(Menu_MenuBar_Delete,   wxEVT_COMMAND_MENU_SELECTED, OnDeleteMenu)
+		Connect(Menu_MenuBar_Enable,   wxEVT_COMMAND_MENU_SELECTED, OnEnableMenu)
+		Connect(Menu_MenuBar_GetLabel, wxEVT_COMMAND_MENU_SELECTED, OnGetLabelMenu)
+		Connect(Menu_MenuBar_SetLabel, wxEVT_COMMAND_MENU_SELECTED, OnSetLabelMenu)
+		Connect(Menu_MenuBar_FindMenu, wxEVT_COMMAND_MENU_SELECTED, OnFindMenu)
+		
+		Connect(Menu_Menu_Append,    wxEVT_COMMAND_MENU_SELECTED, OnAppendMenuItem)
+		Connect(Menu_Menu_AppendSub, wxEVT_COMMAND_MENU_SELECTED, OnAppendSubMenu)
+		Connect(Menu_Menu_Insert,    wxEVT_COMMAND_MENU_SELECTED, OnInsertMenuItem)
+		Connect(Menu_Menu_Delete,    wxEVT_COMMAND_MENU_SELECTED, OnDeleteMenuItem)
+		Connect(Menu_Menu_Enable,    wxEVT_COMMAND_MENU_SELECTED, OnEnableMenuItem)
+		Connect(Menu_Menu_Check,     wxEVT_COMMAND_MENU_SELECTED, OnCheckMenuItem)
+		Connect(Menu_Menu_GetLabel,  wxEVT_COMMAND_MENU_SELECTED, OnGetLabelMenuItem)
+		Connect(Menu_Menu_SetLabel,  wxEVT_COMMAND_MENU_SELECTED, OnSetLabelMenuItem)
+		Connect(Menu_Menu_GetInfo,   wxEVT_COMMAND_MENU_SELECTED, OnGetMenuItemInfo)
+		Connect(Menu_Menu_FindItem,  wxEVT_COMMAND_MENU_SELECTED, OnFindMenuItem)
+		
+		Connect(Menu_Test_Normal,    wxEVT_COMMAND_MENU_SELECTED, OnTestNormal)
+		Connect(Menu_Test_Check,     wxEVT_COMMAND_MENU_SELECTED, OnTestCheck)
+		Connect(Menu_Test_Radio1,    wxEVT_COMMAND_MENU_SELECTED, OnTestRadio)
+		Connect(Menu_Test_Radio2,    wxEVT_COMMAND_MENU_SELECTED, OnTestRadio)
+		Connect(Menu_Test_Radio3,    wxEVT_COMMAND_MENU_SELECTED, OnTestRadio)
+		
+		Connect(Menu_SubMenu_Normal,    wxEVT_UPDATE_UI, OnUpdateSubMenuNormal)
+		Connect(Menu_SubMenu_Check,     wxEVT_UPDATE_UI, OnUpdateSubMenuCheck)
+		Connect(Menu_SubMenu_Radio1,    wxEVT_UPDATE_UI, OnUpdateSubMenuRadio)
+		Connect(Menu_SubMenu_Radio2,    wxEVT_UPDATE_UI, OnUpdateSubMenuRadio)
+		Connect(Menu_SubMenu_Radio3,    wxEVT_UPDATE_UI, OnUpdateSubMenuRadio)
+		
+		ConnectRange(Menu_Dummy_First, Menu_Dummy_Last, wxEVT_COMMAND_MENU_SELECTED, OnDummy)
+		
+		Connect(Menu_Menu_Check, wxEVT_UPDATE_UI, OnUpdateCheckMenuItemUI)
+		
+		ConnectAny(wxEVT_CONTEXT_MENU, OnContextMenu)
+		
+		ConnectAny(wxEVT_MENU_OPEN, OnMenuOpen)
+		ConnectAny(wxEVT_MENU_CLOSE, OnMenuClose)
+		
+		ConnectAny(wxEVT_SIZE, OnSize)
 				
 	End Method
 
@@ -293,81 +349,300 @@ Type MyFrame Extends wxFrame
 	End Function
 	
 	Function OnDummy(event:wxEvent)
+		wxLogMessage("Dummy item #" + (event.GetId() - Menu_Dummy_First + 1))
 	End Function
 	
 	Function OnAppendMenuItem(event:wxEvent)
+		Local menubar:wxMenuBar = MyFrame(event.parent).GetMenuBar()
+		Local menu:wxMenu = menubar.GetMenu(menubar.GetMenuCount() - 1)
+		
+		menu.AppendSeparator()
+		menu.Append(Menu_Dummy_Third, "&Third dummy item~tCtrl-F3", "Checkable item", True)
 	End Function
 	
 	Function OnAppendSubMenu(event:wxEvent)
+		Local menubar:wxMenuBar = MyFrame(event.parent).GetMenuBar()
+		
+		Local menu:wxMenu = menubar.GetMenu(menubar.GetMenuCount() - 2)
+		
+		menu.AppendMenu(Menu_Dummy_Last, "&Dummy sub menu", MyFrame(event.parent).CreateDummyMenu(), ..
+			"Dummy sub menu help")
 	End Function
 	
 	Function OnDeleteMenuItem(event:wxEvent)
+		Local menubar:wxMenuBar = MyFrame(event.parent).GetMenuBar()
+		Local menu:wxMenu = menubar.GetMenu(menubar.GetMenuCount() - 1)
+		
+		Local count:Int = menu.GetMenuItemCount()
+		If Not count
+			wxLogWarning("No items to delete!")
+		Else
+			menu.DestroyItem(menu.GetMenuItems()[count - 1])
+		End If
 	End Function
 	
 	Function OnInsertMenuItem(event:wxEvent)
+		Local menubar:wxMenuBar = MyFrame(event.parent).GetMenuBar()
+		Local menu:wxMenu = menubar.GetMenu(menubar.GetMenuCount() - 1)
+		
+		menu.InsertItem(0, New wxMenuItem.Create(menu, Menu_Dummy_Fourth, "Fourth dummy item~tCtrl-F4"))
+		menu.InsertItem(1, New wxMenuItem.Create(menu, wxID_SEPARATOR))
 	End Function
 	
 	Function OnCheckMenuItem(event:wxEvent)
+		Local item:wxMenuItem = MyFrame(event.parent).GetLastMenuItem()
+		
+		item.Toggle()
 	End Function
 	
 	Function OnEnableMenuItem(event:wxEvent)
+		Local item:wxMenuItem = MyFrame(event.parent).GetLastMenuItem()
+		
+		If item Then
+			item.Enable(Not item.IsEnabled())
+		End If
 	End Function
 	
 	Function OnGetLabelMenuItem(event:wxEvent)
+		Local item:wxMenuItem = MyFrame(event.parent).GetLastMenuItem()
+		
+		If item Then
+			wxLogMessage("The label of the last menu item is '" + item.GetLabel() + "'")
+		End If
 	End Function
 	
 	Function OnSetLabelMenuItem(event:wxEvent)
+		Local item:wxMenuItem = MyFrame(event.parent).GetLastMenuItem()
+
+		If item Then
+		
+			Local label:String = wxGetTextFromUser("Enter new label: ", "Change last menu item text", ..
+			item.GetLabel(), MyFrame(event.parent))
+			
+			If label Then
+				item.SetText(label)
+			End If
+		End If
 	End Function
 	
 	Function OnGetMenuItemInfo(event:wxEvent)
+		Local item:wxMenuItem = MyFrame(event.parent).GetLastMenuItem()
+		
+		If item Then
+			Local msg:String = "The item is "
+			If item.IsEnabled() Then
+				msg:+ "enabled"
+			Else
+				msg:+ "disabled"
+			End If
+			msg:+ "~n"
+			
+			If item.IsCheckable() Then
+				msg :+ "It is checkable and "
+				
+				If Not item.IsChecked() Then
+					msg:+ "un"
+				End If
+
+				msg:+ "checked~n"
+			EndIf
+			
+			Local accel:wxAcceleratorEntry = item.GetAccel()
+			If accel Then
+			
+				msg:+ "Its accelerator is "
+				
+				Local flags:Int = accel.GetFlags()
+				If flags & wxACCEL_ALT Then
+					msg:+ "Alt-"
+				End If
+				If flags & wxACCEL_CTRL Then
+					msg:+ "Ctrl-"
+				End If
+				If flags & wxACCEL_SHIFT Then
+					msg:+ "Shift-"
+				End If
+				
+				Local code:Int = accel.GetKeyCode()
+				Select code
+					Case WXK_F1, WXK_F2, WXK_F3, WXK_F4, WXK_F5, ..
+							WXK_F6, WXK_F7, WXK_F8, WXK_F9, WXK_F10, WXK_F11, WXK_F12
+						msg:+ "F" + (code - WXK_F1 + 1)
+					Default
+						If wxIsalnum(code) Then
+							msg:+ Chr(code)
+						End If
+				End Select
+			
+			Else
+				msg:+ "It doesn't have an accelerator"
+			End If
+			
+			wxLogMessage(msg)
+		End If
 	End Function
 	
 	Function OnFindMenuItem(event:wxEvent)
+		Local mbar:wxMenuBar = MyFrame(event.parent).GetMenuBar()
+		Local count:Int = mbar.GetMenuCount()
+		
+		Local label:String = wxGetTextFromUser("Enter label to search for: ", "Find menu item", "", MyFrame(event.parent) )
+		
+		If label Then
+		
+			Local menuindex:Int
+			Local index:Int = wxNOT_FOUND
+			
+			While (menuindex < count) And (index = wxNOT_FOUND)
+				index = mbar.FindMenuItem(mbar.GetMenu(menuindex).GetTitle(), label)
+				menuindex:+ 1
+			Wend
+			
+			If index = wxNOT_FOUND Then
+			
+				wxLogWarning("No menu item with label '" + label + "'")
+			
+			Else
+			
+				wxLogMessage("Menu item " + index + " in menu " + menuindex + " has label '" + label +"'")
+			End If
+		End If
 	End Function
 	
 	Function OnAppendMenu(event:wxEvent)
+		Local menu:wxMenu = MyFrame(event.parent).CreateDummyMenu(True)
+		MyFrame(event.parent).GetMenuBar().Append(menu, MyFrame(event.parent).dummyTitle)
 	End Function
 	
 	Function OnInsertMenu(event:wxEvent)
+		Local menu:wxMenu = MyFrame(event.parent).CreateDummyMenu(True)
+		MyFrame(event.parent).GetMenuBar().Insert(0, menu, MyFrame(event.parent).dummyTitle)
 	End Function
 	
 	Function OnDeleteMenu(event:wxEvent)
+		Local mbar:wxMenuBar = MyFrame(event.parent).GetMenuBar()
+		
+		Local count:Int = mbar.GetMenuCount()
+		If count = 2 Then
+			' don't let delete the first 2 menus
+			wxLogError("Can't delete any more menus")
+		Else
+			mbar.Remove(count - 1).Free()
+		End If
 	End Function
 	
 	Function OnToggleMenu(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		Local mbar:wxMenuBar = frame.GetMenuBar()
+		If Not frame.menu Then
+			' hide the menu
+			frame.menu = mbar.Remove(0)
+		Else
+		
+			' restore it
+			mbar.Insert(0, frame.menu, "&File")
+			frame.menu = Null
+		End If
 	End Function
 	
 	Function OnEnableMenu(event:wxEvent)
+		Local mbar:wxMenuBar = MyFrame(event.parent).GetMenuBar()
+		Local count:Int = mbar.GetMenuCount()
+		
+		mbar.EnableTop(count - 1, wxCommandEvent(event).IsChecked())
 	End Function
 	
 	Function OnGetLabelMenu(event:wxEvent)
+		Local mbar:wxMenuBar = MyFrame(event.parent).GetMenuBar()
+		Local count:Int = mbar.GetMenuCount()
+		
+		Assert count, "no last menu?"
+		
+		wxLogMessage("The label of the last menu item is '" + mbar.GetLabelTop(count - 1) + "'")
 	End Function
 	
 	Function OnSetLabelMenu(event:wxEvent)
+		Local mbar:wxMenuBar = MyFrame(event.parent).GetMenuBar()
+		Local count:Int = mbar.GetMenuCount()
+		
+		Assert count, "no last menu?"
+		
+		Local label:String = wxGetTextFromUser("Enter new label: ", "Change last menu text", ..
+			mbar.GetLabelTop(count - 1), MyFrame(event.parent))
+		
+		If label Then
+			mbar.SetLabelTop(count - 1, label)
+		End If
 	End Function
 	
 	Function OnFindMenu(event:wxEvent)
+		Local mbar:wxMenuBar = MyFrame(event.parent).GetMenuBar()
+		Local count:Int = mbar.GetMenuCount()
+		
+		Assert count, "no last menu?"
+		
+		Local label:String = wxGetTextFromUser("Enter label to search for: ", "Find menu", "", MyFrame(event.parent))
+		
+		If label Then
+			Local index:Int = mbar.FindMenu(label)
+			
+			If index = wxNOT_FOUND Then
+				wxLogWarning("No menu with label '" + label + "'")
+			Else
+				wxLogMessage("Menu " + index + " has label '" + label + "'")
+			End If
+		End If
 	End Function
 	
 	Function OnTestNormal(event:wxEvent)
+		wxLogMessage("Normal item selected")
 	End Function
 	
 	Function OnTestCheck(event:wxEvent)
+		If wxCommandEvent(event).IsChecked() Then
+			wxLogMessage("Check item checked")
+		Else
+			wxLogMessage("Check item unchecked")
+		End If
 	End Function
 	
 	Function OnTestRadio(event:wxEvent)
+		wxLogMessage("Radio item " + (event.GetId() - Menu_Test_Radio1 + 1) + " selected")
 	End Function
 	
 	Function OnUpdateSubMenuNormal(event:wxEvent)
+		wxUpdateUIEvent(event).Enable(False)
 	End Function
 	
 	Function OnUpdateSubMenuCheck(event:wxEvent)
+		wxUpdateUIEvent(event).Enable(True)
 	End Function
 	
 	Function OnUpdateSubMenuRadio(event:wxEvent)
+		Local which:Int = event.GetId() - Menu_SubMenu_Radio1 + 1
+		If which = 2 Then
+			wxUpdateUIEvent(event).Check(True)
+		Else
+			wxUpdateUIEvent(event).Check(False)
+		End If
 	End Function
 	
 	Function OnContextMenu(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		Local x:Int, y:Int
+		
+		wxContextMenuEvent(event).GetPosition(x, y)
+		
+		' If from keyboard
+		If x = -1 And y = -1 Then
+			Local w:Int, h:Int
+			frame.GetSize(w, h)
+			x = w / 2
+			y = h / 2
+		Else
+			frame.ScreenToClient(x, y)
+		End If
+		frame.ShowContextMenu(x, y)
 	End Function
 	
 	Function OnRightUp(event:wxEvent)
@@ -387,6 +662,11 @@ Type MyFrame Extends wxFrame
 	End Function
 		
 	Function OnUpdateCheckMenuItemUI(event:wxEvent)
+		' wxLogNull nolog; ' TODO : sort out the null logger
+		
+		Local item:wxMenuItem = MyFrame(event.parent).GetLastMenuItem()
+		
+		wxUpdateUIEvent(event).Enable(item And item.IsCheckable())
 	End Function
 	
 	Function OnSize(event:wxEvent)
@@ -403,21 +683,67 @@ Type MyFrame Extends wxFrame
 	End Function
 	
 	Method LogMenuOpenOrClose(event:wxMenuEvent, what:String)
+		Local msg:String = "A "
+		If wxMenuEvent(event).IsPopup() Then
+			msg:+ "popup "
+		End If
+		msg:+ "menu has been " + what + "."
+
+		wxLogStatus(msg, MyFrame(event.parent))
 	End Method
 	
 	Method ShowContextMenu(x:Int, y:Int)
+		Local menu:wxMenu = New wxMenu.Create()
+		
+		menu.Append(Menu_Help_About, "&About")
+		menu.AppendMenu(Menu_Popup_Submenu, "&Submenu", CreateDummyMenu())
+		menu.Append(Menu_Popup_ToBeDeleted, "To be &deleted")
+		menu.AppendCheckItem(Menu_Popup_ToBeChecked, "To be &checked")
+		menu.Append(Menu_Popup_ToBeGreyed, "To be &greyed", "This menu item should be initially greyed out")
+		menu.AppendSeparator()
+		menu.Append(Menu_File_Quit, "E&xit")
+		
+		menu.DeleteItem(Menu_Popup_ToBeDeleted)
+		menu.Check(Menu_Popup_ToBeChecked, True)
+		menu.Enable(Menu_Popup_ToBeGreyed, False)
+		
+		PopupMenu(menu, x, y)
+		
+		menu.Free()
 	End Method
 
-	Method CreateDummyMenu:wxMenu(title:String)
+	Method CreateDummyMenu:wxMenu(title:Int = False)
+		Local menu:wxMenu = New wxMenu.Create()
+		menu.Append(Menu_Dummy_First, "&First item~tCtrl-F1")
+		menu.AppendSeparator()
+		menu.AppendCheckItem(Menu_Dummy_Second, "&Second item~tCtrl-F2")
+		
+		If title Then
+			countDummy:+ 1
+			dummyTitle = "Dummy menu " + countDummy
+		End If
+		
+		Return menu
 	End Method
 	
 	Method GetLastMenuItem:wxMenuItem()
+		Local menubar:wxMenuBar = GetMenuBar()
+		Local menu:wxMenu = menubar.GetMenu(menubar.GetMenuCount() - 1)
+		
+		Local items:wxMenuItem[] = menu.GetMenuItems()
+		If items.length = 0
+			wxLogWarning("No last item in the last menu!")
+		
+			Return Null
+		Else
+			Return items[items.length -1]
+		End If
 	End Method
 	
 End Type
 
 
-' A small helper class which intercepts all menu events And logs them
+' A small helper type which intercepts all menu events And logs them
 Type MyEvtHandler Extends wxEvtHandler
 
 	Field frame:MyFrame

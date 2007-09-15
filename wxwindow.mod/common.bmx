@@ -134,6 +134,10 @@ Extern
 	Function bmx_wxwindow_capturemouse(handle:Byte Ptr)
 	Function bmx_wxwindow_centre(handle:Byte Ptr, direction:Int)
 	Function bmx_wxwindow_centreonparent(handle:Byte Ptr, direction:Int)
+	Function bmx_wxwindow_popupmenu:Int(handle:Byte Ptr, menu:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxwindow_refreshrect(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, erase:Int)
+	Function bmx_wxwindow_releasemouse(handle:Byte Ptr)
+	Function bmx_wxwindow_screentoclient(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
 
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)

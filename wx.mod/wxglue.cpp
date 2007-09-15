@@ -607,6 +607,16 @@ int bmx_wxscrollevent_getposition(wxScrollEvent & event) {
 	return event.GetPosition();
 }
 
+void bmx_wxcontextmenuevent_getposition(wxContextMenuEvent & event, int * x, int * y) {
+	wxPoint p = event.GetPosition();
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxcontextmenuevent_setposition(wxContextMenuEvent & event, int x, int y) {
+	event.SetPosition(wxPoint(x, y));
+}
+
 
 // **************************
 
@@ -926,4 +936,28 @@ bool bmx_wxstreambase_isseekable(wxStreamBase * stream) {
 	return stream->IsSeekable();
 }
 
+// *********************************************
 
+int bmx_wxacceleratorentry_getcommand(wxAcceleratorEntry * entry) {
+	return entry->GetCommand();
+}
+
+int bmx_wxacceleratorentry_getflags(wxAcceleratorEntry * entry) {
+	return entry->GetFlags();
+}
+
+int bmx_wxacceleratorentry_getkeycode(wxAcceleratorEntry * entry) {
+	return entry->GetKeyCode();
+}
+
+void bmx_wxacceleratorentry_set(wxAcceleratorEntry * entry, int flags, int keyCode, int cmd) {
+	entry->Set(flags, keyCode, cmd);
+}
+
+void bmx_wxacceleratorentry_delete(wxAcceleratorEntry * entry) {
+	delete entry;
+}
+
+int bmx_wxisalnum(int code) {
+	return wxIsalnum(code);
+}
