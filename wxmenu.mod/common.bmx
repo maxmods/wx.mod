@@ -46,6 +46,7 @@ Extern
 
 	Function bmx_wxmenu_create:Byte Ptr(handle:Object, title:String, style:Int)
 	Function bmx_wxmenu_append:Byte Ptr(handle:Byte Ptr, id:Int, item:String, helpString:String, kind:Int)
+	Function bmx_wxmenu_appenditem:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
 	Function bmx_wxmenu_appendMenu:Byte Ptr(handle:Byte Ptr, id:Int, item:String, submenu:Byte Ptr, helpString:String)
 	Function bmx_wxmenu_appendseparator:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxmenu_appendcheckitem:Byte Ptr(handle:Byte Ptr, id:Int, item:String, helpString:String)
@@ -56,6 +57,7 @@ Extern
 	Function bmx_wxmenu_check(handle:Byte Ptr, id:Int, value:Int)
 	Function bmx_wxmenu_delete(handle:Byte Ptr, id:Int)
 	Function bmx_wxmenu_destroy(handle:Byte Ptr, id:Int)
+	Function bmx_wxmenu_destroyitem(handle:Byte Ptr, item:Byte Ptr)
 	Function bmx_wxmenu_enable(handle:Byte Ptr, id:Int, value:Int)
 	Function bmx_wxmenu_finditem:Int(handle:Byte Ptr, itemString:String)
 	Function bmx_wxmenu_finditembyposition:Byte Ptr(handle:Byte Ptr, pos:Int)
@@ -64,6 +66,7 @@ Extern
 	Function bmx_wxmenu_getmenuitemcount:Int(handle:Byte Ptr)
 	Function bmx_wxmenu_gettitle:String(handle:Byte Ptr)
 	Function bmx_wxmenu_insert:Byte Ptr(handle:Byte Ptr, pos:Int, id:Int, item:String, helpString:String, kind:Int)
+	Function bmx_wxmenu_insertitem:Byte Ptr(handle:Byte Ptr, pos:Int, item:Byte Ptr)
 	Function bmx_wxmenu_insertcheckitem:Byte Ptr(handle:Byte Ptr, pos:Int, id:Int, item:String, helpString:String)
 	Function bmx_wxmenu_insertradioitem:Byte Ptr(handle:Byte Ptr, pos:Int, id:Int, item:String, helpString:String)
 	Function bmx_wxmenu_insertseparator:Byte Ptr(handle:Byte Ptr, pos:Int)
@@ -79,6 +82,8 @@ Extern
 	Function bmx_wxmenu_settitle(handle:Byte Ptr, title:String)
 	Function bmx_wxmenu_updateui(handle:Byte Ptr, source:Byte Ptr)
 
+	Function bmx_wxmenuitem_create:Byte Ptr(parentMenu:Byte Ptr, id:Int, text:String, helpString:String, kind:Int, subMenu:Byte Ptr)
+	Function bmx_wxmenuitem_delete(handle:Byte Ptr)
 	Function bmx_wxmenuitem_check(handle:Byte Ptr, value:Int)
 	Function bmx_wxmenuitem_enable(handle:Byte Ptr, value:Int)
 	Function bmx_wxmenuitem_getbackgroundcolour:Byte Ptr(handle:Byte Ptr)
@@ -109,7 +114,7 @@ Extern
 	Function bmx_wxmenuitem_setsubmenu(handle:Byte Ptr, submenu:Byte Ptr)
 	Function bmx_wxmenuitem_settext(handle:Byte Ptr, text:String)
 	Function bmx_wxmenuitem_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
-
+	Function bmx_wxmenuitem_toggle(handle:Byte Ptr)
 
 	Function bmx_wxmenu_geteventtype:Int(evt:Int)
 End Extern

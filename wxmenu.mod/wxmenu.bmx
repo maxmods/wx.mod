@@ -117,6 +117,17 @@ Type wxMenu Extends wxEvtHandler
 	Method Append:wxMenuItem(id:Int, item:String = "", helpString:String = "", kind:Int = wxITEM_NORMAL)
 		Return wxMenuItem._create(bmx_wxmenu_append(wxObjectPtr, id, item, helpString, kind))
 	End Method
+
+	Rem
+	bbdoc: Adds a menu item object.
+	about: This is the most generic variant of Append() method because it may be used for both items
+	(including separators) and submenus and because you can also specify various extra properties of a
+	menu item this way, such as bitmaps and fonts.
+	End Rem
+	Method AppendItem:wxMenuItem(item:wxMenuItem)
+		item.owner = False
+		Return wxMenuItem._create(bmx_wxmenu_appenditem(wxObjectPtr, item.wxObjectPtr))
+	End Method
 	
 	Rem
 	bbdoc: 
@@ -185,8 +196,17 @@ Type wxMenu Extends wxEvtHandler
 	about: If the item is a submenu, it will be deleted. Use Remove if you want to keep the submenu
 	(for example, to reuse it later).
 	End Rem
-	Method DestroyItem(id:Int)
+	Method Destroy(id:Int)
 		bmx_wxmenu_destroy(wxObjectPtr, id)
+	End Method
+
+	Rem
+	bbdoc: Deletes the menu item from the menu.
+	about: If the item is a submenu, it will be deleted. Use Remove if you want to keep the submenu
+	(for example, to reuse it later).
+	End Rem
+	Method DestroyItem(item:wxMenuItem)
+		bmx_wxmenu_destroyitem(wxObjectPtr, item.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -235,7 +255,14 @@ Type wxMenu Extends wxEvtHandler
 	bbdoc: Returns the list of items in the menu.
 	End Rem
 	Method GetMenuItems:wxMenuItem[]()
+		Local items:wxMenuItem[] = New wxMenuItem[GetMenuItemCount()]
+		bmx_wxmenu_getmenuitems(wxObjectPtr, items)
+		Return items
 	End Method
+	
+	Function _setmenuitem(items:wxMenuItem[], index:Int, item:Byte Ptr)
+		items[index] = wxMenuItem._create(item)
+	End Function
 	
 	Rem
 	bbdoc: Returns the title of the menu.
@@ -251,6 +278,15 @@ Type wxMenu Extends wxEvtHandler
 	End Rem
 	Method Insert:wxMenuItem(pos:Int, id:Int, item:String = "", helpString:String = "", kind:Int = wxITEM_NORMAL)
 		Return wxMenuItem._create(bmx_wxmenu_insert(wxObjectPtr, pos, id, item, helpString, kind))
+	End Method
+	
+	Rem
+	bbdoc: Inserts the given item before the position pos.
+	about: Inserting the item at position GetMenuItemCount is the same as appending it.
+	End Rem
+	Method InsertItem:wxMenuItem(pos:Int, item:wxMenuItem)
+		item.owner = False
+		Return wxMenuItem._create(bmx_wxmenu_insertitem(wxObjectPtr, pos, item.wxObjectPtr))
 	End Method
 	
 	Rem
@@ -363,6 +399,10 @@ Type wxMenu Extends wxEvtHandler
 	
 End Type
 
+Extern
+	Function bmx_wxmenu_getmenuitems(handle:Byte Ptr, items:wxMenuItem[])
+End Extern
+
 Rem
 bbdoc: A menu item represents an item in a menu.
 about: Note that you usually don't have to deal with it directly as wxMenu methods usually construct an
@@ -374,6 +414,8 @@ and GTK+.
 End Rem
 Type wxMenuItem Extends wxObject
 
+	Field owner:Int = False
+	
 	Rem
 	bbdoc: Constructs a wxMenuItem object.
 	about: Menu items can be standard, or "stock menu items'', or custom. For the standard menu items
@@ -397,7 +439,19 @@ Type wxMenuItem Extends wxObject
 	End Rem
 	Method Create:wxMenuItem(parentMenu:wxMenu = Null, id:Int = wxID_SEPARATOR, ..
 			text:String = "", helpString:String = "", kind:Int = wxITEM_NORMAL, subMenu:wxMenu = Null)
-'		wxObjectPtr = 
+		If parentMenu Then
+			If subMenu Then
+				wxObjectPtr = bmx_wxmenuitem_create(parentMenu.wxObjectPtr, id, text, helpString, kind, subMenu.wxObjectPtr)
+			Else
+				wxObjectPtr = bmx_wxmenuitem_create(parentMenu.wxObjectPtr, id, text, helpString, kind, Null)
+			End If
+		Else
+			If subMenu Then
+				wxObjectPtr = bmx_wxmenuitem_create(Null, id, text, helpString, kind, subMenu.wxObjectPtr)
+			Else
+				wxObjectPtr = bmx_wxmenuitem_create(Null, id, text, helpString, kind, Null)
+			End If
+		End If
 		Return Self
 	End Method
 
@@ -408,6 +462,13 @@ Type wxMenuItem Extends wxObject
 			Return this
 		End If
 	End Function
+	
+	Method Delete()
+		If wxObjectPtr And owner Then
+			bmx_wxmenuitem_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
 	
 	Rem
 	bbdoc: Checks or unchecks the menu item.
@@ -643,6 +704,13 @@ Type wxMenuItem Extends wxObject
 	End Rem
 	Method SetTextColour(colour:wxColour)
 		bmx_wxmenuitem_settextcolour(wxObjectPtr, colour.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Toggles the menu item.
+	End Rem
+	Method Toggle()
+		bmx_wxmenuitem_toggle(wxObjectPtr)
 	End Method
 	
 End Type

@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxListView
+End Rem
 Module wx.wxListView
 
 ModuleInfo "Version: 1.00"
@@ -48,8 +51,17 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 Import "common.bmx"
 
 Rem
-bbdoc: 
+bbdoc: This type currently simply presents a simpler to use interface for the wxListCtrl -- it can be thought of as a façade for that complicated type.
+about: Using it is preferable to using wxListCtrl directly whenever possible because in the future some
+ports might implement wxListView but not the full set of wxListCtrl features.
+<p>
+Other than different interface, this type is identical to wxListCtrl. In particular, it uses the same
+events, same window styles and so on.
+</p>
 End Rem
 Type wxListView Extends wxListCtrl
 
+	
+
 End Type
+

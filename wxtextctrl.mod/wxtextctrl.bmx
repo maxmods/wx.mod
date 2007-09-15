@@ -57,6 +57,14 @@ about: It may be single line or multi-line.
 End Rem
 Type wxTextCtrl Extends wxControl
 
+	Function _create:wxTextCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxTextCtrl = New wxTextCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a text control.
 	about: The horizontal scrollbar (wxHSCROLL style flag) will only be created for multi-line

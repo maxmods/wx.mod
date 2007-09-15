@@ -61,6 +61,14 @@ wxImageList is used principally in conjunction with wxTreeCtrl and wxListCtrl ty
 End Rem
 Type wxImageList Extends wxObject
 
+	Function _create:wxImageList(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxImageList = New wxImageList
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 	Rem
 	bbdoc: Constructor specifying the image size, whether image masks should be created, and the initial size of the list.
 	End Rem

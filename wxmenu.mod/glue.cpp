@@ -46,6 +46,11 @@ wxMenuItem * bmx_wxmenu_append(wxMenu * menu, int id, BBString * item, BBString 
 	return menu->Append(id, wxStringFromBBString(item), wxStringFromBBString(helpString), kind);
 }
 
+wxMenuItem * bmx_wxmenu_appenditem(wxMenu * menu, wxMenuItem * item) {
+	return menu->Append(item);
+}
+
+
 wxMenuItem * bmx_wxmenu_appendMenu(wxMenu * menu, int id, BBString * item, MaxMenu * subMenu, BBString * helpString) {
 	return menu->Append(id, wxStringFromBBString(item), subMenu, wxStringFromBBString(helpString));
 }
@@ -82,6 +87,10 @@ void bmx_wxmenu_destroy(wxMenu * menu, int id) {
 	menu->Destroy(id);
 }
 
+void bmx_wxmenu_destroyitem(wxMenu * menu, wxMenuItem * item) {
+	menu->Destroy(item);
+}
+
 void bmx_wxmenu_enable(wxMenu * menu, int id, bool value) {
 	menu->Enable(id, value);
 }
@@ -112,6 +121,10 @@ BBString * bmx_wxmenu_gettitle(wxMenu * menu) {
 
 wxMenuItem * bmx_wxmenu_insert(wxMenu * menu, int pos, int id, BBString * item, BBString * helpString, wxItemKind kind) {
 	return menu->Insert(pos, id, wxStringFromBBString(item), wxStringFromBBString(helpString), kind);
+}
+
+wxMenuItem * bmx_wxmenu_insertitem(wxMenu * menu, int pos, wxMenuItem * item) {
+	return menu->Insert(pos, item);
 }
 
 wxMenuItem * bmx_wxmenu_insertcheckitem(wxMenu * menu, int pos, int id, BBString * item, BBString * helpString) {
@@ -174,7 +187,24 @@ void bmx_wxmenu_updateui(wxMenu * menu, wxEvtHandler * source) {
 	}
 }
 
+void bmx_wxmenu_getmenuitems(wxMenu * menu, BBArray * items) {
+	int index = 0;
+	for ( wxwxMenuItemListNode *node = menu->GetMenuItems().GetFirst(); node; node = node->GetNext() )     { 
+		_wx_wxmenu_wxMenu__setmenuitem(items, index, node->GetData());
+		index++;
+	} 
+}
+
 // *********************************************
+
+wxMenuItem * bmx_wxmenuitem_create(wxMenu * parentMenu, int id, BBString * text, BBString * helpString,
+		wxItemKind kind, wxMenu * subMenu) {	
+	return new wxMenuItem(parentMenu, id, wxStringFromBBString(text), wxStringFromBBString(helpString), kind, subMenu);
+}
+
+void bmx_wxmenuitem_delete(wxMenuItem * item) {
+	delete item;
+}
 
 void bmx_wxmenuitem_check(wxMenuItem * item, bool value) {
 	item->Check(value);
@@ -334,6 +364,10 @@ void bmx_wxmenuitem_settextcolour(wxMenuItem * item, MaxColour * colour) {
 #ifdef WIN32
 	item->SetTextColour(colour->Colour());
 #endif
+}
+
+void bmx_wxmenuitem_toggle(wxMenuItem * item) {
+	item->Toggle();
 }
 
 
