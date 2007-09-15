@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include "wx/listbase.h"
+#include "wx/listctrl.h"
 
 class MaxListCtrl;
 class MaxListItem;
