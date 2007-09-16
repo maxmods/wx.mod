@@ -197,7 +197,21 @@ Type wxDialog Extends wxTopLevelWindow
 	Method ShowModal:Int()
 		Return bmx_wxdialog_showmodal(wxObjectPtr)
 	End Method
-		
+	
+	Rem
+	bbdoc: Frees the Dialog object from memory.
+	End Rem
+	Method Free()
+		If wxObjectPtr Then
+			bmx_wxdialog_free(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Free()
+	End Method
+	
 End Type
 
 Type wxStdDialogButtonSizer Extends wxBoxSizer

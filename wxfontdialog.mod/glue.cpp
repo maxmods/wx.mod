@@ -24,6 +24,27 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxFontDialog::MaxFontDialog(BBObject * handle, wxWindow * parent)
+	: wxFontDialog(parent)
+{
+	wxbind(this, handle);
+}
+
+MaxFontDialog::MaxFontDialog(BBObject * handle, wxWindow * parent, const wxFontData& data)
+	: wxFontDialog(parent, data)
+{
+	wxbind(this, handle);
+}
+
+MaxFontDialog::~MaxFontDialog() {
+	wxunbind(this);
+}
+
+MaxFontData::MaxFontData(wxFontData & d)
+	: data(d)
+{
+}
+
 MaxFontData::MaxFontData()
 {
 	data = wxFontData();
@@ -35,6 +56,23 @@ wxFontData & MaxFontData::FontData() {
 
 
 // *********************************************
+
+MaxFontDialog * bmx_wxfontdialog_create(BBObject * handle, wxWindow  * parent, MaxFontData * data) {
+	if (data) {
+		return new MaxFontDialog(handle, parent, data->FontData());
+	} else {
+		return new MaxFontDialog(handle, parent);
+	}
+}
+
+MaxFontData * bmx_wxfontdialog_getfontdata(wxFontDialog * dialog) {
+	wxFontData d(dialog->GetFontData());
+	return new MaxFontData(d);
+}
+
+int bmx_wxfontdialog_showmodal(wxFontDialog * dialog) {
+	return dialog->ShowModal();
+}
 
 
 MaxFont * bmx_wxgetfontfromuser(wxWindow * window, MaxFont * font, BBString * caption) {

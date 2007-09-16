@@ -31,6 +31,7 @@ extern "C" {
 
 	MaxDialog * bmx_wxdialog_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y,
 		int w, int h, long style);
+	void bmx_wxdialog_free(wxDialog * dialog);
 
 	void bmx_wxdialog_centre(wxDialog * dialog, int direction);
 	bool bmx_wxdialog_show(wxDialog * dialog, bool show);

@@ -1,3 +1,10 @@
+'
+' wxFont sample
+'
+' From the C++ sample by Vadim Zeitlin
+'
+' BlitzMax port by Bruce A Henderson
+'
 SuperStrict
 
 Framework wx.wxApp
@@ -5,6 +12,10 @@ Import wx.wxDC
 Import wx.wxFrame
 Import wx.wxSplitterWindow
 Import wx.wxTextCtrl
+Import wx.wxTextEntryDialog
+Import wx.wxChoiceDialog
+Import wx.wxFontDialog
+Import wx.wxLog
 
 ' used as title For several dialog boxes
 Const SAMPLE_TITLE:String = "wxWidgets Font Sample"
@@ -156,6 +167,10 @@ Type MyFrame Extends wxFrame
 
 	End Method
 	
+	Method GetCanvas:MyCanvas()
+		Return canvas
+	End Method
+	
 	Method DoResizeFont(diff:Int)
 		Local font:wxFont = canvas.GetTextFont()
 		
@@ -208,16 +223,92 @@ Type MyFrame Extends wxFrame
 	End Function
 
 	Function OnSetNativeDesc(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		Local fontInfo:String = wxGetTextFromUser("Enter native font string", "Input font description", ..
+			frame.canvas.GetTextFont().GetNativeFontInfoDesc(), frame)
+		
+		If Not fontInfo Then
+			Return     ' user clicked "Cancel" - do nothing
+		End If
+		
+		Local font:wxFont = New wxFont.Create()
+		font.SetNativeFontInfo(fontInfo)
+		If Not font.IsOk()
+			wxLogError("Font info string ~q" + fontInfo + "~q is invalid.")
+			Return
+		End If
+		
+		frame.DoChangeFont(font)
 	End Function
 
 	Function OnSetFaceName(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		
+		Local facename:String = frame.GetCanvas().GetTextFont().GetFaceName()
+		Local newFaceName:String = wxGetTextFromUser( "Here you can edit current font face name.", ..
+			"Input font facename", facename, frame)
+			
+		If Not newFaceName Then
+			Return     ' user clicked "Cancel" - do nothing
+		End If
+		
+		Local font:wxFont = frame.GetCanvas().GetTextFont()
+		If font.SetFaceName(newFaceName) Then      ' change facename only
+			frame.DoChangeFont(font)
+		Else
+			wxMessageBox("There is no font with such face name...", "Invalid face name", wxOK | wxICON_ERROR, frame)
+		End If
 	End Function
 
 	Function OnSetNativeUserDesc(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		Local fontdesc:String = frame.GetCanvas().GetTextFont().GetNativeFontInfoUserDesc()
+		Local fontUserInfo:String = wxGetTextFromUser("Here you can edit current font description", ..
+			"Input font description", fontdesc, frame)
+		If Not fontUserInfo Then
+			Return     ' user clicked "Cancel" - do nothing
+		End If
+		
+		Local font:wxFont = New wxFont.Create()
+		If font.SetNativeFontInfoUserDesc(fontUserInfo)
+			frame.DoChangeFont(font)
+		Else
+			wxMessageBox("Error trying to create a font with such description...")
+		End If
 	End Function
 
 	Function OnSetEncoding(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		Local enc:Int = frame.GetEncodingFromUser()
+		If enc = wxFONTENCODING_SYSTEM Then
+			Return
+		End If
+		
+		Local font:wxFont = frame.canvas.GetTextFont()
+		font.SetEncoding(enc)
+		frame.DoChangeFont(font)
 	End Function
+	
+	Method GetEncodingFromUser:Int()
+		Local count:Int = wxFontMapper.GetSupportedEncodingsCount()
+		Local names:String[] = New String[count]
+		Local encodings:Int[] = New Int[count]
+		
+		For Local n:Int = 0 Until count
+			Local enc:Int = wxFontMapper.GetEncoding(n)
+			encodings[n] = enc
+			names[n] = wxFontMapper.GetEncodingName(enc)
+		Next
+		
+		Local i:Int = wxGetSingleChoiceIndex("Choose the encoding", SAMPLE_TITLE, names, Self)
+		
+		If i = -1 Then
+			Return wxFONTENCODING_SYSTEM
+		Else
+			Return encodings[i]
+		End If
+
+	End Method
 
 	Function OnBold(event:wxEvent)
 		Local font:wxFont = MyFrame(event.parent).canvas.GetTextFont()
@@ -273,6 +364,21 @@ Type MyFrame Extends wxFrame
 	End Function
 
 	Function OnSelectFont(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		Local data:wxFontData = New wxFontData.Create()
+		data.SetInitialFont(frame.canvas.GetTextFont())
+		data.SetColour(frame.canvas.GetColour())
+		
+		Local dialog:wxFontDialog = New wxFontDialog.CreateFD(frame, data)
+		If dialog.ShowModal() = wxID_OK Then
+		
+			Local retData:wxFontData = dialog.GetFontData()
+			Local font:wxFont = retData.GetChosenFont()
+			Local colour:wxColour = retData.GetColour()
+			
+			frame.DoChangeFont(font, colour)
+		End If
+		dialog.Free()
 	End Function
 
 	Function OnQuit(event:wxEvent)
@@ -281,9 +387,23 @@ Type MyFrame Extends wxFrame
 	End Function
 
 	Function OnTestTextValue(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		Local value:String = frame.textctrl.GetValue()
+		frame.textctrl.ChangeValue(value)
+
+		If frame.textctrl.GetValue() <> value Then		
+			wxLogError("Text value changed after getting and setting it")
+		End If
 	End Function
 
 	Function OnViewMsg(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		Local value:String = frame.textctrl.GetValue()
+		frame.textctrl.ChangeValue(value)
+		
+		If frame.textctrl.GetValue() <> value Then
+			wxLogError("Text value changed after getting and setting it")
+		End If
 	End Function
 
 	Function OnAbout(event:wxEvent)

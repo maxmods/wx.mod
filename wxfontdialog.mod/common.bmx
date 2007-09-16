@@ -45,6 +45,9 @@ Import "glue.cpp"
 Extern
 
 	Function bmx_wxgetfontfromuser:Byte Ptr(parent:Byte Ptr, font:Byte Ptr, caption:String)
+	Function bmx_wxfontdialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, data:Byte Ptr)
+	Function bmx_wxfontdialog_getfontdata:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxfontdialog_showmodal:Int(handle:Byte Ptr)
 
 	Function bmx_wxfontdata_create:Byte Ptr()
 	Function bmx_wxfontdata_enableeffects(handle:Byte Ptr, enable:Int)

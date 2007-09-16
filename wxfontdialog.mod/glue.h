@@ -23,6 +23,7 @@
 #include "wxglue.h"
 #include "wx/fontdlg.h"
 
+class MaxFontDialog;
 class MaxFontData;
 
 extern "C" {
@@ -30,6 +31,10 @@ extern "C" {
 #include <blitz.h>
 
 	MaxFont * bmx_wxgetfontfromuser(wxWindow * window, MaxFont * font, BBString * caption);
+	
+	MaxFontDialog * bmx_wxfontdialog_create(BBObject * handle, wxWindow  * parent, MaxFontData * data);
+	MaxFontData * bmx_wxfontdialog_getfontdata(wxFontDialog * dialog);
+	int bmx_wxfontdialog_showmodal(wxFontDialog * dialog);
 	
 	MaxFontData * bmx_wxfontdata_create();
 
@@ -50,10 +55,19 @@ extern "C" {
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxFontDialog : public wxFontDialog
+{
+public:
+	MaxFontDialog(BBObject * handle, wxWindow * parent);
+	MaxFontDialog(BBObject * handle, wxWindow * parent, const wxFontData& data);
+	~MaxFontDialog();
+};
+
 class MaxFontData
 {
 public:
 	MaxFontData();
+	MaxFontData(wxFontData & data);
 	wxFontData & FontData();
 
 private:

@@ -148,6 +148,7 @@ extern "C" {
 	MaxPen * bmx_wxstockgdi_pen_transparent();
 	MaxPen * bmx_wxstockgdi_pen_white();
 
+	MaxFont * bmx_wxfont_create();
 	void bmx_wxfont_delete(MaxFont * font);
 	int bmx_wxfont_getpointsize(MaxFont * font);
 	void bmx_wxfont_setpointsize(MaxFont * font, int size);
@@ -168,6 +169,12 @@ extern "C" {
 	void bmx_wxfont_setstyle(MaxFont * font, int style);
 	void bmx_wxfont_setunderlined(MaxFont * font, bool underlined);
 	void bmx_wxfont_setweight(MaxFont * font, int weight);
+	void bmx_wxfont_setdefaultencoding(wxFontEncoding encoding);
+	bool bmx_wxfont_setfacename(MaxFont * font, BBString * name);
+	void bmx_wxfont_setfamily(MaxFont * font, int family);
+	bool bmx_wxfont_setnativefontinfo(MaxFont * font, BBString * info);
+	bool bmx_wxfont_setnativefontinfouserdesc(MaxFont * font, BBString * info);
+	void bmx_wxfont_setencoding(MaxFont * font, wxFontEncoding encoding);
 
 	MaxPaintDC * bmx_wxpaintdc_create(wxWindow * window);
 	void bmx_wxpaintdc_delete(MaxPaintDC * dc);

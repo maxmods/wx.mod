@@ -55,9 +55,44 @@ bbdoc: This type represents the font chooser dialog.
 End Rem
 Type wxFontDialog Extends wxDialog
 
+	Rem
+	bbdoc: Constructor.
+	about: Pass a parent window, and optionally the font data object to be used to initialize the dialog
+	controls.
+	End Rem
+	Function CreateFontDialog:wxFontDialog(parent:wxWindow, data:wxFontData = Null)
+		Return New wxFontDialog.CreateFD(parent, data)
+	End Function
 	
+	Rem
+	bbdoc: Constructor.
+	about: Pass a parent window, and optionally the font data object to be used to initialize the dialog
+	controls.
+	End Rem
+	Method CreateFD:wxFontDialog(parent:wxWindow, data:wxFontData = Null)
+		If data Then
+			wxObjectPtr = bmx_wxfontdialog_create(Self, parent.wxObjectPtr, data.wxObjectPtr)
+		Else
+			wxObjectPtr = bmx_wxfontdialog_create(Self, parent.wxObjectPtr, Null)
+		End If
+		Return Self
+	End Method
 
+	Rem
+	bbdoc: Returns the font data associated with the font dialog.
+	End Rem
 	Method GetFontData:wxFontData()
+		Return wxFontData._create(bmx_wxfontdialog_getfontdata(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Shows the dialog, returning wxID_OK if the user pressed Ok, and wxID_CANCEL otherwise.
+	about: If the user cancels the dialog (ShowModal returns wxID_CANCEL), no font will be created.
+	If the user presses OK, a new wxFont will be created and stored in the font dialog's wxFontData
+	structure.
+	End Rem
+	Method ShowModal:Int()
+		Return bmx_wxfontdialog_showmodal(wxObjectPtr)
 	End Method
 	
 End Type
@@ -66,6 +101,14 @@ Rem
 bbdoc: This type holds a variety of information related to font dialogs.
 End Rem
 Type wxFontData Extends wxObject
+
+	Function _create:wxFontData(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxFontData = New wxFontData
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
 
 	Rem
 	bbdoc: Constructor.

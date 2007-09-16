@@ -40,6 +40,15 @@ Type wxFont Extends wxGDIObject
 		
 		Return this
 	End Function
+	
+	Function CreateFont:wxFont()
+		Return New wxFont.Create()
+	End Function
+	
+	Method Create:wxFont()
+		wxObjectPtr = bmx_wxfont_create()
+		Return Self
+	End Method
 
 	Rem
 	bbdoc: Returns true if the font is a fixed width (or monospaced) font, false if it is a proportional one or font is invalid.
@@ -154,21 +163,47 @@ Type wxFont Extends wxGDIObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the default font encoding.
 	End Rem
 	Function SetDefaultEncoding(encoding:Int)
+		bmx_wxfont_setdefaultencoding(encoding)
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Set the font encoding.
 	End Rem
-	Method SetFaceName:Int(name:String)
+	Method SetEncoding(encoding:Int)
+		bmx_wxfont_setencoding(wxObjectPtr, encoding)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the facename for the font.
+	returns True if the given face name exists; False otherwise.
+	about: To avoid portability problems, don't rely on a specific face, but specify the font family
+	instead or as well. A suitable font will be found on the end-user's system. If both the family and
+	the facename are specified, wxWidgets will first search for the specific face, and then for a font
+	belonging to the same family.
+	End Rem
+	Method SetFaceName:Int(name:String)
+		Return bmx_wxfont_setfacename(wxObjectPtr, name)
+	End Method
+	
+	Rem
+	bbdoc: Sets the font family.
+	about: @family can be one of :
+	<table width="90%" align="center">
+	<tr><th>Constant</th><th>Description</th></tr>
+	<tr><td>wxFONTFAMILY_DEFAULT</td><td>Chooses a default font. </td></tr>
+	<tr><td>wxFONTFAMILY_DECORATIVE</td><td>A decorative font. </td></tr>
+	<tr><td>wxFONTFAMILY_ROMAN</td><td>A formal, serif font. </td></tr>
+	<tr><td>wxFONTFAMILY_SCRIPT</td><td>A handwriting font. </td></tr>
+	<tr><td>wxFONTFAMILY_SWISS</td><td>A sans-serif font. </td></tr>
+	<tr><td>wxFONTFAMILY_MODERN</td><td>A fixed pitch font. </td></tr>
+	<tr><td>wxFONTFAMILY_TELETYPE</td><td>A teletype font. </td></tr>
+	</table>
 	End Rem
 	Method SetFamily(family:Int)
+		bmx_wxfont_setfamily(wxObjectPtr, family)
 	End Method
 	
 	Rem
@@ -178,15 +213,24 @@ Type wxFont Extends wxGDIObject
 	a string-form.
 	End Rem
 	Method SetNativeFontInfo:Int(info:String)
+		Return bmx_wxfont_setnativefontinfo(wxObjectPtr, info)
 	End Method
 	
 	Rem
 	bbdoc: Creates the font corresponding to the given native font description string and returns true if the creation was successful.
 	about: Unlike SetNativeFontInfo, this function accepts strings which are user-friendly.
 	Examples of accepted string formats are:
-	TODO
+	<table width="90%" align="center">
+	<tr><th>Generic Syntax</th><th>Example</th></tr>
+	<tr><td>on wxGTK2: <tt>[FACE-NAME] [bold] [oblique|italic] [POINTSIZE]</tt></td><td>Monospace bold 10</td></tr>
+	<tr><td>on wxMSW: <tt>[light|bold] [italic] [FACE-NAME] [POINTSIZE] [ENCODING]</tt></td><td>Tahoma 10 WINDOWS-1252</td></tr>
+	<tr><td>On wxMAC : n/a</td><td>n/a</td></tr>
+	</table>
+	For more detailed information about the allowed syntaxes you can look at the documentation of the
+	native API used for font-rendering.
 	End Rem
 	Method SetNativeFontInfoUserDesc:Int(info:String)
+		Return bmx_wxfont_setnativefontinfouserdesc(wxObjectPtr, info)
 	End Method
 	
 	Rem
@@ -198,6 +242,7 @@ Type wxFont Extends wxGDIObject
 
 	Rem
 	bbdoc: Sets the font style.
+	about: @style one of, wxFONTSTYLE_NORMAL, wxFONTSTYLE_SLANT or wxFONTSTYLE_ITALIC.
 	End Rem
 	Method SetStyle(style:Int)
 		bmx_wxfont_setstyle(wxObjectPtr, style)
@@ -212,6 +257,13 @@ Type wxFont Extends wxGDIObject
 	
 	Rem
 	bbdoc: Sets the font weight.
+	about: @weight, one of :
+	<table width="90%" align="center">
+	<tr><th>Constant</th><th>Description</th></tr>
+	<tr><td>wxFONTWEIGHT_NORMAL</td><td>Normal font. </td></tr>
+	<tr><td>wxFONTWEIGHT_LIGHT</td><td>Light font. </td></tr>
+	<tr><td>wxFONTWEIGHT_BOLD</td><td>Bold font. </td></tr>
+	</table>
 	End Rem
 	Method SetWeight(weight:Int)
 		bmx_wxfont_setweight(wxObjectPtr, weight)

@@ -269,6 +269,7 @@ Extern
 	Function bmx_wxstockgdi_pen_transparent:Byte Ptr()
 	Function bmx_wxstockgdi_pen_white:Byte Ptr()
 
+	Function bmx_wxfont_create:Byte Ptr()
 	Function bmx_wxfont_delete(handler:Byte Ptr)
 	Function bmx_wxfont_getpointsize:Int(handler:Byte Ptr)
 	Function bmx_wxfont_setpointsize(handler:Byte Ptr, size:Int)
@@ -289,6 +290,13 @@ Extern
 	Function bmx_wxfont_setstyle(handle:Byte Ptr, style:Int)
 	Function bmx_wxfont_setunderlined(handle:Byte Ptr, underlined:Int)
 	Function bmx_wxfont_setweight(handle:Byte Ptr, weight:Int)
+	Function bmx_wxfont_setdefaultencoding(encoding:Int)
+	Function bmx_wxfont_setfacename:Int(handle:Byte Ptr, name:String)
+	Function bmx_wxfont_setfamily(handle:Byte Ptr, family:Int)
+	Function bmx_wxfont_setnativefontinfo:Int(handle:Byte Ptr, info:String)
+	Function bmx_wxfont_setnativefontinfouserdesc:Int(handle:Byte Ptr, info:String)
+	Function bmx_wxfont_setencoding(handle:Byte Ptr, encoding:Int)
+
 	
 	Function bmx_wxpaintdc_create:Byte Ptr(window:Byte Ptr)
 	Function bmx_wxpaintdc_delete(handle:Byte Ptr)

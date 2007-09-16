@@ -729,6 +729,11 @@ MaxFont * bmx_wxstockgdi_font_swiss() {
 
 // **************************
 
+MaxFont * bmx_wxfont_create() {
+	wxFont f;
+	return new MaxFont(f);
+}
+
 void bmx_wxfont_delete(MaxFont * font) {
 	delete font;
 }
@@ -750,7 +755,7 @@ wxFontEncoding bmx_wxfont_getdefaultencoding() {
 }
 
 BBString * bmx_wxfont_getfacename(MaxFont * font) {
-	bbStringFromWxString(font->Font().GetFaceName());
+	return bbStringFromWxString(font->Font().GetFaceName());
 }
 
 int bmx_wxfont_getfamily(MaxFont * font) {
@@ -807,6 +812,30 @@ void bmx_wxfont_setunderlined(MaxFont * font, bool underlined) {
 
 void bmx_wxfont_setweight(MaxFont * font, int weight) {
 	font->Font().SetWeight(weight);
+}
+
+void bmx_wxfont_setdefaultencoding(wxFontEncoding encoding) {
+	wxFont::SetDefaultEncoding(encoding);
+}
+
+bool bmx_wxfont_setfacename(MaxFont * font, BBString * name) {
+	return font->Font().SetFaceName(wxStringFromBBString(name));
+}
+
+void bmx_wxfont_setfamily(MaxFont * font, int family) {
+	font->Font().SetFamily(family);
+}
+
+bool bmx_wxfont_setnativefontinfo(MaxFont * font, BBString * info) {
+	return font->Font().SetNativeFontInfo(wxStringFromBBString(info));
+}
+
+bool bmx_wxfont_setnativefontinfouserdesc(MaxFont * font, BBString * info) {
+	return font->Font().SetNativeFontInfoUserDesc(wxStringFromBBString(info));
+}
+
+void bmx_wxfont_setencoding(MaxFont * font, wxFontEncoding encoding) {
+	font->Font().SetEncoding(encoding);
 }
 
 

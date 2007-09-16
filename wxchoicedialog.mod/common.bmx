@@ -21,7 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxTopLevelWindow
+Import wx.wxDialog
 Import BRL.Blitz
 
 
@@ -44,14 +44,9 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxdialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, title:String, x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxdialog_free(handle:Byte Ptr)
-	Function bmx_wxdialog_centre(handle:Byte Ptr, direction:Int)
-	Function bmx_wxdialog_show:Int(handle:Byte Ptr, value:Int)
-	Function bmx_wxdialog_showmodal:Int(handle:Byte Ptr)
-	
+	Function bmx_wxgetsinglechoice:String(message:String, caption:String, choices:String[], ..
+		parent:Byte Ptr, x:Int, y:Int, centre:Int, width:Int, height:Int)
+	Function bmx_wxgetsinglechoiceindex:Int(message:String, caption:String, choices:String[], ..
+		parent:Byte Ptr, x:Int, y:Int, centre:Int, width:Int, height:Int)
+
 End Extern
-
-
-Const wxDEFAULT_DIALOG_STYLE:Int = wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX
-
