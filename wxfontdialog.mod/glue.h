@@ -58,7 +58,6 @@ extern "C" {
 class MaxFontDialog : public wxFontDialog
 {
 public:
-	MaxFontDialog(BBObject * handle, wxWindow * parent);
 	MaxFontDialog(BBObject * handle, wxWindow * parent, const wxFontData& data);
 	~MaxFontDialog();
 };

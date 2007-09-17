@@ -24,12 +24,6 @@
 
 // ---------------------------------------------------------------------------------------
 
-MaxFontDialog::MaxFontDialog(BBObject * handle, wxWindow * parent)
-	: wxFontDialog(parent)
-{
-	wxbind(this, handle);
-}
-
 MaxFontDialog::MaxFontDialog(BBObject * handle, wxWindow * parent, const wxFontData& data)
 	: wxFontDialog(parent, data)
 {
@@ -61,7 +55,8 @@ MaxFontDialog * bmx_wxfontdialog_create(BBObject * handle, wxWindow  * parent, M
 	if (data) {
 		return new MaxFontDialog(handle, parent, data->FontData());
 	} else {
-		return new MaxFontDialog(handle, parent);
+		wxFontData f;
+		return new MaxFontDialog(handle, parent, f);
 	}
 }
 
