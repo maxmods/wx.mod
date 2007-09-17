@@ -1633,6 +1633,17 @@ bbdoc: A grid sizer is a sizer which lays out its children in a two-dimensional 
 End Rem
 Type wxGridSizer Extends wxSizer
 
+	Rem
+	bbdoc: Constructor for a wxGridSize, using rows and cols.
+	End Rem
+	Method CreateRC:wxGridSizer(rows:Int, cols:Int, vgap:Int, hgap:Int)
+		wxSizerPtr = bmx_wxgridsizer_createrc(Self, rows, cols, vgap, hgap)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Constructor for a wxGridSize.
+	End Rem
 	Method Create:wxGridSizer(cols:Int, vgap:Int = 0, hgap:Int = 0)
 		wxSizerPtr = bmx_wxgridsizer_create(Self, cols, vgap, hgap)
 		Return Self

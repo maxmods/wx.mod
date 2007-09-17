@@ -56,6 +56,12 @@ MaxGridSizer::MaxGridSizer(BBObject * handle, int cols, int vgap, int hgap)
 	wxbind(this, handle);
 }
 
+MaxGridSizer::MaxGridSizer(BBObject * handle, int rows, int cols, int vgap, int hgap)
+	: maxHandle(handle), wxGridSizer(rows, cols, vgap, hgap)
+{
+	wxbind(this, handle);
+}
+
 MaxGridSizer::~MaxGridSizer() {
 	wxunbind(this);
 }
@@ -519,6 +525,10 @@ void bmx_wxsizer_setitemminsizesizer(wxSizer * sizer, wxSizer * sz, int width, i
 
 MaxGridSizer * bmx_wxgridsizer_create(BBObject * maxHandle, int cols, int vgap, int hgap) {
 	return new MaxGridSizer(maxHandle, cols, vgap, hgap);
+}
+
+MaxGridSizer * bmx_wxgridsizer_createrc(BBObject * maxHandle, int rows, int cols, int vgap, int hgap) {
+	return new MaxGridSizer(maxHandle, rows, cols, vgap, hgap);
 }
 
 int bmx_wxgridsizer_getcols(MaxGridSizer * sizer) {

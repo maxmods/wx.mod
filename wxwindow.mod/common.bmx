@@ -153,6 +153,7 @@ Extern
 	Function bmx_wxsizer_setitemminsizewindow(handler:Byte Ptr, window:Byte Ptr, width:Int, height:Int)
 	Function bmx_wxsizer_setitemminsizesizer(handler:Byte Ptr, sizer:Byte Ptr, width:Int, height:Int)
 	Function bmx_wxgridsizer_create:Byte Ptr(handle:Object, cols:Int, vgap:Int, hgap:Int)
+	Function bmx_wxgridsizer_createrc:Byte Ptr(handle:Object, rows:Int, cols:Int, vgap:Int, hgap:Int)
 	Function bmx_wxgridsizer_getcols:Int(handle:Byte Ptr)
 	Function bmx_wxgridsizer_gethgap:Int(handle:Byte Ptr)
 	Function bmx_wxgridsizer_getrows:Int(handle:Byte Ptr)

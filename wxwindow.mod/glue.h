@@ -141,6 +141,7 @@ extern "C" {
 	void bmx_wxsizer_setitemminsizewindow(wxSizer * sizer, wxWindow * window, int width, int height);
 	void bmx_wxsizer_setitemminsizesizer(wxSizer * sizer, wxSizer * sz, int width, int height);
 	MaxGridSizer * bmx_wxgridsizer_create(BBObject * maxHandle, int cols, int vgap, int hgap);
+	MaxGridSizer * bmx_wxgridsizer_createrc(BBObject * maxHandle, int rows, int cols, int vgap, int hgap);
 	int bmx_wxgridsizer_getcols(MaxGridSizer * sizer);
 	int bmx_wxgridsizer_gethgap(MaxGridSizer * sizer);
 	int bmx_wxgridsizer_getrows(MaxGridSizer * sizer);
@@ -193,6 +194,7 @@ class MaxGridSizer : public wxGridSizer
 {
 public:
 	MaxGridSizer(BBObject * handle, int cols, int vgap, int hgap);
+	MaxGridSizer(BBObject * handle, int rows, int cols, int vgap, int hgap);
 	~MaxGridSizer();
 
 private:
