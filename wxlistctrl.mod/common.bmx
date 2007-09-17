@@ -140,6 +140,18 @@ Extern
 	Function bmx_wxlistitem_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxlistitem_setwidth(handle:Byte Ptr, width:Int)
 
+	Function bmx_wxlistitemattr_create:Byte Ptr(textCol:Byte Ptr, backCol:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxlistitemattr_getbackgroundcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxlistitemattr_getfont:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxlistitemattr_gettextcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxlistitemattr_hasbackgroundcolour:Int(handle:Byte Ptr)
+	Function bmx_wxlistitemattr_hasfont:Int(handle:Byte Ptr)
+	Function bmx_wxlistitemattr_hastextcolour:Int(handle:Byte Ptr)
+	Function bmx_wxlistitemattr_setbackgroundcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxlistitemattr_setfont(handle:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxlistitemattr_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxlistitemattr_delete(handle:Byte Ptr)
+
 	Function bmx_wxlistctrl_geteventtype:Int(evt:Int)
 End Extern
 

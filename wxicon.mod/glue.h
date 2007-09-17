@@ -30,6 +30,9 @@ extern "C" {
 #include <blitz.h>
 
 
+	MaxIcon * bmx_wxicon_load(BBString * name, wxBitmapType type, int desiredWidth, int desiredHeight);
+	void * bmx_wxicon_delete(MaxIcon * icon);
+	
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

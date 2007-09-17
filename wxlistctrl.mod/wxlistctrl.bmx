@@ -702,6 +702,70 @@ Type wxListCtrl Extends wxControl
 	Method SortItems:Int() ' todo
 	End Method
 	
+	Rem
+	bbdoc: This method may be overloaded in the derived type for a control with wxLC_VIRTUAL style.
+	about: It should return the attribute for the for the specified item or NULL to use the default
+	appearance parameters.
+	<p>
+	wxListCtrl will not delete the pointer or keep a reference of it. You can return the same
+	wxListItemAttr pointer for every OnGetItemAttr call.
+	</p>
+	<p>
+	The base class version always returns Null.
+	</p>
+	End Rem
+	Method OnGetItemAttr:wxListItemAttr(item:Int)
+		Return Null
+	End Method
+	
+	Function _OnGetItemAttr:Byte Ptr(obj:Object, item:Int)
+		Local attr:wxListItemAttr = wxListCtrl(obj).OnGetItemAttr(item)
+		If attr Then
+			Return attr.wxItemAttrPtr
+		Else
+			Return Null
+		End If
+	End Function
+
+	Rem
+	bbdoc: This function <b>must</b> be overloaded in the derived type for a control with wxLC_VIRTUAL style.
+	about: It should return the string containing the text of the given column for the specified item.
+	End Rem
+	Method OnGetItemText:String(item:Int, column:Int)
+	End Method
+	
+	Function _OnGetItemText:String(obj:Object, item:Int, column:Int)
+		Return wxListCtrl(obj).OnGetItemText(item, column)
+	End Function
+	
+	Rem
+	bbdoc: Overload this method in the derived type for a control with wxLC_VIRTUAL and wxLC_REPORT styles in order to specify the image index for the given line and column.
+	about: The base type version always calls OnGetItemImage for the first column, else it returns -1.
+	End Rem
+	Method OnGetItemColumnImage:Int(item:Int, column:Int)
+		Return -1
+	End Method
+	
+	Function _OnGetItemColumnImage:Int(obj:Object, item:Int, column:Int)
+		Return wxListCtrl(obj).OnGetItemColumnImage(item, column)
+	End Function
+	
+	Rem
+	bbdoc: This method must be overloaded in the derived class for a control with wxLC_VIRTUAL style having an image list (if the control doesn't have an image list, it is not necessary to overload it).
+	about: It should return the index of the items image in the controls image list or -1 for no image. In a
+	control with wxLC_REPORT style, OnGetItemImage only gets called for the first column of each line.
+	<p>
+	The base type version always returns -1.
+	</p>
+	End Rem
+	Method OnGetItemImage:Int(item:Int)
+		Return -1
+	End Method
+
+	Function _OnGetItemImage:Int(obj:Object, item:Int)
+		Return wxListCtrl(obj).OnGetItemImage(item)
+	End Function
+	
 End Type
 
 Rem
@@ -729,6 +793,7 @@ Type wxListItem Extends wxObject
 	End Rem
 	Method Create:wxListItem()
 		wxObjectPtr = bmx_wxlistitem_create()
+		Return Self
 	End Method
 	
 	Rem
@@ -948,6 +1013,128 @@ Type wxListItem Extends wxObject
 		If wxObjectPtr Then
 			bmx_wxlistitem_delete(wxObjectPtr)
 			wxObjectPtr = Null
+		End If
+	End Method
+	
+End Type
+
+Rem
+bbdoc: Represents the attributes (color, font, ...) of a wxListCtrl wxListItem.
+End Rem
+Type wxListItemAttr
+
+	Field wxItemAttrPtr:Byte Ptr
+	
+	Rem
+	bbdoc: Construct a wxListItemAttr with the optionally specified foreground and background colors and font.
+	End Rem
+	Function CreateItemAttr:wxListItemAttr(textCol:wxColour = Null, backCol:wxColour = Null, font:wxColour = Null)
+		Return New wxListItemAttr.Create(textCol, backCol, font)
+	End Function
+	
+	Rem
+	bbdoc: Construct a wxListItemAttr with the optionally specified foreground and background colors and font.
+	End Rem
+	Method Create:wxListItemAttr(textCol:wxColour = Null, backCol:wxColour = Null, font:wxColour = Null)
+		If textCol Then
+			If backCol Then
+				If font Then
+					wxItemAttrPtr = bmx_wxlistitemattr_create(textCol.wxObjectPtr, backCol.wxObjectPtr, font.wxObjectPtr)
+				Else
+					wxItemAttrPtr = bmx_wxlistitemattr_create(textCol.wxObjectPtr, backCol.wxObjectPtr, Null)
+				End If
+			Else
+				If font Then
+					wxItemAttrPtr = bmx_wxlistitemattr_create(textCol.wxObjectPtr, Null, font.wxObjectPtr)
+				Else
+					wxItemAttrPtr = bmx_wxlistitemattr_create(textCol.wxObjectPtr, Null, Null)
+				End If
+			End If
+		Else
+			If backCol Then
+				If font Then
+					wxItemAttrPtr = bmx_wxlistitemattr_create(Null, backCol.wxObjectPtr, font.wxObjectPtr)
+				Else
+					wxItemAttrPtr = bmx_wxlistitemattr_create(Null, backCol.wxObjectPtr, Null)
+				End If
+			Else
+				If font Then
+					wxItemAttrPtr = bmx_wxlistitemattr_create(Null, Null, font.wxObjectPtr)
+				Else
+					wxItemAttrPtr = bmx_wxlistitemattr_create(Null, Null, Null)
+				End If
+			End If
+		End If
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Returns the currently set background color.
+	End Rem
+	Method GetBackgroundColour:wxColour()
+		Return wxColour._create(bmx_wxlistitemattr_getbackgroundcolour(wxItemAttrPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the currently set font.
+	End Rem
+	Method GetFont:wxFont()
+		Return wxFont._create(bmx_wxlistitemattr_getfont(wxItemAttrPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the currently set text color.
+	End Rem
+	Method GetTextColour:wxColour()
+		Return wxColour._create(bmx_wxlistitemattr_gettextcolour(wxItemAttrPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the currently set background color is valid.
+	End Rem
+	Method HasBackgroundColour:Int()
+		Return bmx_wxlistitemattr_hasbackgroundcolour(wxItemAttrPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the currently set font is valid.
+	End Rem
+	Method HasFont:Int()
+		Return bmx_wxlistitemattr_hasfont(wxItemAttrPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the currently set text color is valid.
+	End Rem
+	Method HasTextColour:Int()
+		Return bmx_wxlistitemattr_hastextcolour(wxItemAttrPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets a new background colour.
+	End Rem
+	Method SetBackgroundColour(colour:wxColour)
+		bmx_wxlistitemattr_setbackgroundcolour(wxItemAttrPtr, colour.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets a new font.
+	End Rem
+	Method SetFont(font:wxFont)
+		bmx_wxlistitemattr_setfont(wxItemAttrPtr, font.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets a new text colour.
+	End Rem
+	Method SetTextColour(colour:wxColour)
+		bmx_wxlistitemattr_settextcolour(wxItemAttrPtr, colour.wxObjectPtr)
+	End Method
+	
+	Method Delete()
+		If wxItemAttrPtr Then
+			bmx_wxlistitemattr_delete(wxItemAttrPtr)
+			wxItemAttrPtr = Null
 		End If
 	End Method
 	

@@ -56,3 +56,12 @@ void bmx_wximagelist_delete(wxImageList * list) {
 		delete list;
 	}
 }
+
+int bmx_wximagelist_addwithcolourmask(wxImageList * list, MaxBitmap * bitmap, MaxColour * maskColour) {
+	return list->Add(bitmap->Bitmap(), maskColour->Colour());
+}
+
+int bmx_wximagelist_addicon(wxImageList * list, MaxIcon * icon) {
+	return list->Add(icon->Icon());
+}
+

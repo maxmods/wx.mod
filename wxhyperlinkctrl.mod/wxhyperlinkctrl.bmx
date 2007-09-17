@@ -172,12 +172,14 @@ Type wxHyperlinkEvent Extends wxCommandEvent
 	bbdoc: Returns the URL of the hyperlink where the user has just clicked.
 	End Rem
 	Method GetURL:String()
+		Return bmx_wxhyperlinkevent_geturl(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Sets the URL associated with the event.
 	End Rem
 	Method SetURL(url:String)
+		bmx_wxhyperlinkevent_seturl(wxEventPtr, url)
 	End Method
 	
 End Type

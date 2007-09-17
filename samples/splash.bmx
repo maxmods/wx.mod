@@ -16,7 +16,7 @@ Type MyApp Extends wxApp
 
 		Local bitmap:wxBitmap = New wxBitmap.Create()
 		
-		Local ok:Int = bitmap.LoadFile("splash.png", wxBITMAP_TYPE_PNG)
+		Local ok:Int = bitmap.LoadFile("media/splash/splash.png", wxBITMAP_TYPE_PNG)
 		
 		If ok Then
 		

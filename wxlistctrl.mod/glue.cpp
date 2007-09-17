@@ -25,15 +25,35 @@
 // ---------------------------------------------------------------------------------------
 
 MaxListCtrl::MaxListCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: wxListCtrl(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: maxHandle(handle), wxListCtrl(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
+}
+
+wxString MaxListCtrl::OnGetItemText(long item, long column) const {
+	return wxStringFromBBString(_wx_wxlistctrl_wxListCtrl__OnGetItemText(maxHandle, item, column));
+}
+
+int MaxListCtrl::OnGetItemColumnImage(long item, long column) const {
+	return _wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage(maxHandle, item, column);
+}
+
+wxListItemAttr * MaxListCtrl::OnGetItemAttr(long item) const {
+	return _wx_wxlistctrl_wxListCtrl__OnGetItemAttr(maxHandle, item);
+}
+
+int MaxListCtrl::OnGetItemImage(long item) const {
+	return _wx_wxlistctrl_wxListCtrl__OnGetItemImage(maxHandle, item);
 }
 
 MaxListCtrl::~MaxListCtrl() {
 	wxunbind(this);
 }
 
+
+MaxListItem::MaxListItem()
+{
+}
 
 MaxListItem::MaxListItem(wxListItem & ic)
 	: item(ic)
@@ -48,6 +68,9 @@ MaxListItem::~MaxListItem() {
 }
 
 // *********************************************
+
+BEGIN_EVENT_TABLE(MaxListCtrl, wxListCtrl)
+END_EVENT_TABLE()
 
 MaxListCtrl * bmx_wxlistctrl_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, long style) {
 	return new MaxListCtrl(handle, parent, id, x, y, w, h, style);
@@ -341,8 +364,8 @@ void bmx_wxlistctrl_setwindowstyleflag(wxListCtrl * list, long style) {
 // *********************************************
 
 MaxListItem * bmx_wxlistitem_create() {
-	wxListItem i;
-	return new MaxListItem(i);
+//	wxListItem i;
+	return new MaxListItem();
 }
 
 void bmx_wxlistitem_delete(MaxListItem * item) {
@@ -456,8 +479,63 @@ void bmx_wxlistitem_setwidth(MaxListItem * item, int width) {
 	item->Item().SetWidth(width);
 }
 
+// *********************************************
+
+wxListItemAttr * bmx_wxlistitemattr_create(MaxColour * textCol, MaxColour * backCol, MaxFont * font) {
+	if (!textCol && !backCol && !font) {
+		return new wxListItemAttr();
+	} else {
+		return new wxListItemAttr( (textCol) ? textCol->Colour() : wxNullColour, 
+			(backCol) ? backCol->Colour() : wxNullColour,
+			(font) ? font->Font() : wxNullFont );
+	}
+}
+
+MaxColour * bmx_wxlistitemattr_getbackgroundcolour(wxListItemAttr * attr) {
+	wxColour c(attr->GetBackgroundColour());
+	return new MaxColour(c);
+}
+
+MaxFont * bmx_wxlistitemattr_getfont(wxListItemAttr * attr) {
+	wxFont f(attr->GetFont());
+	return new MaxFont(f);
+}
+
+MaxColour * bmx_wxlistitemattr_gettextcolour(wxListItemAttr * attr) {
+	wxColour c(attr->GetTextColour());
+	return new MaxColour(c);
+}
+
+bool bmx_wxlistitemattr_hasbackgroundcolour(wxListItemAttr * attr) {
+	return attr->HasBackgroundColour();
+}
+
+bool bmx_wxlistitemattr_hasfont(wxListItemAttr * attr) {
+	return attr->HasFont();
+}
+
+bool bmx_wxlistitemattr_hastextcolour(wxListItemAttr * attr) {
+	return attr->HasTextColour();
+}
+
+void bmx_wxlistitemattr_setbackgroundcolour(wxListItemAttr * attr, MaxColour * colour) {
+	attr->SetBackgroundColour(colour->Colour());
+}
+
+void bmx_wxlistitemattr_setfont(wxListItemAttr * attr, MaxFont * font) {
+	attr->SetFont(font->Font());
+}
+
+void bmx_wxlistitemattr_settextcolour(wxListItemAttr * attr, MaxColour * colour) {
+	attr->SetTextColour(colour->Colour());
+}
+
+void bmx_wxlistitemattr_delete(wxListItemAttr * attr) {
+	delete attr;
+}
 
 
+// *********************************************
 
 int bmx_wxlistctrl_geteventtype(int type) {
 	switch(type) {

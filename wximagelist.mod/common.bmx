@@ -49,5 +49,7 @@ Extern
 	Function bmx_wximagelist_create:Byte Ptr(handle:Object, width:Int, height:Int, mask:Int, initialCount:Int)
 	Function bmx_wximagelist_add:Int(handle:Byte Ptr, bitmap:Byte Ptr, mask:Byte Ptr)
 	Function bmx_wximagelist_delete(handle:Byte Ptr)
+	Function bmx_wximagelist_addwithcolourmask:Int(handle:Byte Ptr, bitmap:Byte Ptr, maskColour:Byte Ptr)
+	Function bmx_wximagelist_addicon:Int(handle:Byte Ptr, icon:Byte Ptr)
 	
 End Extern

@@ -88,6 +88,13 @@ void bmx_wxhyperlinkctrl_seturl(wxHyperlinkCtrl * hlink, BBString * url) {
 	hlink->SetURL(wxStringFromBBString(url));
 }
 
+BBString * bmx_wxhyperlinkevent_geturl(wxHyperlinkEvent & event) {
+	return bbStringFromWxString(event.GetURL());
+}
+
+void bmx_wxhyperlinkevent_seturl(wxHyperlinkEvent & event, BBString * url) {
+	event.SetURL(wxStringFromBBString(url));
+}
 
 
 int bmx_wxhyperlinkctrl_geteventtype(int type) {

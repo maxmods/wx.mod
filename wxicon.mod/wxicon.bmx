@@ -86,6 +86,20 @@ End Rem
 			Return this
 		End If
 	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Function Load:wxIcon(name:String, bitmapType:Int = wxBITMAP_TYPE_XPM, desiredWidth:Int = -1, desiredHeight:Int = -1)
+		Return _create(bmx_wxicon_load(name, bitmapType, desiredWidth, desiredHeight))
+	End Function
 
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxicon_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type
 

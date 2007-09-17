@@ -23,6 +23,7 @@
 #include "wxglue.h"
 #include "wx/imaglist.h"
 #include "../wxbitmap.mod/glue.h"
+#include "../wxicon.mod/glue.h"
 
 class MaxImageList;
 
@@ -33,6 +34,9 @@ extern "C" {
 	MaxImageList * bmx_wximagelist_create(BBObject * maxHandle, int width, int height, bool mask, int initialCount);
 	int bmx_wximagelist_add(MaxImageList * list, MaxBitmap * bitmap, MaxBitmap * mask);
 	void bmx_wximagelist_delete(wxImageList * list);
+	int bmx_wximagelist_addwithcolourmask(wxImageList * list, MaxBitmap * bitmap, MaxColour * maskColour);
+	int bmx_wximagelist_addicon(wxImageList * list, MaxIcon * icon);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

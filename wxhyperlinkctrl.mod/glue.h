@@ -43,6 +43,9 @@ extern "C" {
 	BBString * bmx_wxhyperlinkctrl_geturl(wxHyperlinkCtrl * hlink);
 	void bmx_wxhyperlinkctrl_seturl(wxHyperlinkCtrl * hlink, BBString * url);
 
+	BBString * bmx_wxhyperlinkevent_geturl(wxHyperlinkEvent & event);
+	void bmx_wxhyperlinkevent_seturl(wxHyperlinkEvent & event, BBString * url);
+
 	int bmx_wxhyperlinkctrl_geteventtype(int type);
 }
 

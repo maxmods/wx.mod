@@ -31,6 +31,11 @@ extern "C" {
 
 #include <blitz.h>
 
+	wxListItemAttr * _wx_wxlistctrl_wxListCtrl__OnGetItemAttr(BBObject * handle, long item);
+	BBString * _wx_wxlistctrl_wxListCtrl__OnGetItemText(BBObject * handle, long item, long column);
+	int _wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage(BBObject * handle, long item, long column);
+	int _wx_wxlistctrl_wxListCtrl__OnGetItemImage(BBObject * handle, long item);
+
 	MaxListCtrl * bmx_wxlistctrl_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, long style);
 	bool bmx_wxlistctrl_arrange(wxListCtrl * list, int flag);
 	void bmx_wxlistctrl_assignimagelist(wxListCtrl * list, wxImageList * imageList, int which);
@@ -125,7 +130,17 @@ extern "C" {
 	void bmx_wxlistitem_settextcolour(MaxListItem * item, MaxColour * colour);
 	void bmx_wxlistitem_setwidth(MaxListItem * item, int width);
 
-
+	wxListItemAttr * bmx_wxlistitemattr_create(MaxColour * textCol, MaxColour * backCol, MaxFont * font);
+	MaxColour * bmx_wxlistitemattr_getbackgroundcolour(wxListItemAttr * attr);
+	MaxFont * bmx_wxlistitemattr_getfont(wxListItemAttr * attr);
+	MaxColour * bmx_wxlistitemattr_gettextcolour(wxListItemAttr * attr);
+	bool bmx_wxlistitemattr_hasbackgroundcolour(wxListItemAttr * attr);
+	bool bmx_wxlistitemattr_hasfont(wxListItemAttr * attr);
+	bool bmx_wxlistitemattr_hastextcolour(wxListItemAttr * attr);
+	void bmx_wxlistitemattr_setbackgroundcolour(wxListItemAttr * attr, MaxColour * colour);
+	void bmx_wxlistitemattr_setfont(wxListItemAttr * attr, MaxFont * font);
+	void bmx_wxlistitemattr_settextcolour(wxListItemAttr * attr, MaxColour * colour);
+	void bmx_wxlistitemattr_delete(wxListItemAttr * attr);
 
 	int bmx_wxlistctrl_geteventtype(int type);
 }
@@ -135,12 +150,13 @@ extern "C" {
 class MaxListItem
 {
 public:
+	MaxListItem();
 	MaxListItem(wxListItem & item);
 	~MaxListItem();
 	wxListItem & Item();
 
 private:
-	wxListItem & item;
+	wxListItem item;
 
 };
 
@@ -150,5 +166,13 @@ class MaxListCtrl : public wxListCtrl
 public:
 	MaxListCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxListCtrl();
+
+	virtual wxString OnGetItemText(long item, long column) const;
+	virtual int OnGetItemColumnImage(long item, long column) const;
+	virtual wxListItemAttr *OnGetItemAttr(long item) const;
+	virtual int OnGetItemImage(long item) const;
 	
+private:
+	BBObject * maxHandle;
+	DECLARE_EVENT_TABLE()
 };

@@ -44,4 +44,7 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxicon_load:Byte Ptr(name:String, bitmapType:Int, desiredWidth:Int, desiredHeight:Int)
+	Function bmx_wxicon_delete(handle:Byte Ptr)
+	
 End Extern

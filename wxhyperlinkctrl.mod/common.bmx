@@ -55,6 +55,9 @@ Extern
 	Function bmx_wxhyperlinkctrl_geturl:String(handle:Byte Ptr)
 	Function bmx_wxhyperlinkctrl_seturl(handle:Byte Ptr, url:String)
 
+	Function bmx_wxhyperlinkevent_geturl:String(handle:Byte Ptr)
+	Function bmx_wxhyperlinkevent_seturl(handle:Byte Ptr, url:String)
+
 	Function bmx_wxhyperlinkctrl_geteventtype:Int(evt:Int)
 
 End Extern

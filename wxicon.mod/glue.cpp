@@ -47,4 +47,12 @@ MaxIcon::~MaxIcon() {
 
 // *********************************************
 
+MaxIcon * bmx_wxicon_load(BBString * name, wxBitmapType type, int desiredWidth, int desiredHeight) {
+	wxIcon i(wxStringFromBBString(name), type, desiredWidth, desiredHeight);
+	return new MaxIcon(i);
+}
+
+void * bmx_wxicon_delete(MaxIcon * icon) {
+	delete icon;
+}
 

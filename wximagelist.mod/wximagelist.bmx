@@ -103,12 +103,14 @@ Type wxImageList Extends wxObject
 	bbdoc: Adds a new image or images using a bitmap and mask colour.
 	End Rem
 	Method AddWithColourMask:Int(bitmap:wxBitmap, maskColour:wxColour)
+		Return bmx_wximagelist_addwithcolourmask(wxObjectPtr, bitmap.wxObjectPtr, maskColour.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Adds a new image using an icon.
 	End Rem
 	Method AddIcon:Int(icon:wxIcon)
+		Return bmx_wximagelist_addicon(wxObjectPtr, icon.wxObjectPtr)
 	End Method
 
 	Rem
