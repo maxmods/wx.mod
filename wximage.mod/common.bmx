@@ -52,6 +52,7 @@ Extern
 	
 	Function bmx_wximage_addhandler(handler:Byte Ptr)	
 	Function bmx_wxpnghandler_create:Byte Ptr()
+	Function bmx_wxxpmhandler_create:Byte Ptr()
 
 End Extern
 

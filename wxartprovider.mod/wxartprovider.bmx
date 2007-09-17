@@ -171,7 +171,7 @@ Type wxArtProvider Extends wxObject
 	</p>
 	End Rem
 	Method CreateBitmap:wxBitmap(id:String, client:String, w:Int, h:Int)
-		Return wxNullBitmap()
+		Return wxNullBitmap
 	End Method
 	
 	' internal callback function

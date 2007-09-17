@@ -387,6 +387,9 @@ Type wxImageHandler Extends wxObject
 
 End Type
 
+Rem
+bbdoc: 
+End Rem
 Type wxPNGHandler Extends wxImageHandler
 
 	Global keepAlive:wxPNGHandler
@@ -394,6 +397,24 @@ Type wxPNGHandler Extends wxImageHandler
 	Method New()
 		If Not keepAlive Then
 			wxObjectPtr = bmx_wxpnghandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxXPMHandler Extends wxImageHandler
+
+	Global keepAlive:wxXPMHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxxpmhandler_create()
 			keepAlive = Self
 		Else
 			wxObjectPtr = keepAlive.wxObjectPtr

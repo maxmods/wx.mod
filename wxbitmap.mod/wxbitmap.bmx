@@ -53,9 +53,7 @@ Import "common.bmx"
 Rem
 bbdoc: A Null bitmap.
 End Rem
-Function wxNullBitmap:wxBitmap()
-	Return New wxBitmap.CreateNull()
-End Function
+Global wxNullBitmap:wxBitmap = New wxBitmap.CreateNull()
 
 Rem
 bbdoc: This type encapsulates the concept of a platform-dependent bitmap, either monochrome or colour or colour with alpha channel support.

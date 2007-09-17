@@ -82,3 +82,6 @@ wxPNGHandler * bmx_wxpnghandler_create() {
 	return new wxPNGHandler();
 }
 
+wxXPMHandler * bmx_wxxpmhandler_create() {
+	return new wxXPMHandler();
+}

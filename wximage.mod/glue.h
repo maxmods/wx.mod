@@ -40,6 +40,7 @@ extern "C" {
 	
 	void bmx_wximage_addhandler(wxImageHandler * handler);
 	wxPNGHandler * bmx_wxpnghandler_create();
+	wxXPMHandler * bmx_wxxpmhandler_create();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
