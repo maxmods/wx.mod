@@ -64,7 +64,7 @@ MaxBitmap * bmx_wxbitmap_createempty(int width, int height, int depth) {
 	return new MaxBitmap(b);
 }
 
-MaxBitmap * bmx_wxbitmap_createfromfile(BBString * name, int flag) {
+MaxBitmap * bmx_wxbitmap_createfromfile(BBString * name, wxBitmapType flag) {
 	wxBitmap b(wxStringFromBBString(name), flag);
 	return new MaxBitmap(b);
 }

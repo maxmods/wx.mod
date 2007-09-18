@@ -211,9 +211,16 @@ Type wxFrame Extends wxTopLevelWindow
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This method sends a dummy size event to the frame forcing it to reevaluate its children positions.
+	about: It is sometimes useful to call this function after adding or deleting a children after the frame
+	creation or if a child size changes.
+	<p>
+	Note that if the frame is using either sizers or constraints for the children layout, it is enough to call
+	Layout() directly and this function should not be used in this case.
+	</p>
 	End Rem
 	Method SendSizeEvent()
+		bmx_wxframe_sendsizeevent(wxObjectPtr)
 	End Method
 	
 	

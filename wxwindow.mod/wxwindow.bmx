@@ -1216,15 +1216,17 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the size of the window in pixels.
 	End Rem
 	Method SetSize(width:Int, height:Int)
+		bmx_wxwindow_setsize(wxObjectPtr, width, height)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the position of the window in pixels.
 	End Rem
 	Method SetPosition(x:Int, y:Int)
+		bmx_wxwindow_setposition(wxObjectPtr, x, y)
 	End Method
 	
 	Rem

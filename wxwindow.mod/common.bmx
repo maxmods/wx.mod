@@ -138,6 +138,8 @@ Extern
 	Function bmx_wxwindow_refreshrect(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, erase:Int)
 	Function bmx_wxwindow_releasemouse(handle:Byte Ptr)
 	Function bmx_wxwindow_screentoclient(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxwindow_setsize(handle:Byte Ptr, width:Int, height:Int)
+	Function bmx_wxwindow_setposition(handle:Byte Ptr, x:Int, y:Int)
 
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)

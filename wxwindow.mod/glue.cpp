@@ -467,6 +467,13 @@ void bmx_wxwindow_screentoclient(wxWindow * window, int * x, int * y) {
 	window->ScreenToClient(x, y);
 }
 
+void bmx_wxwindow_setsize(wxWindow * window, int width, int height) {
+	window->SetSize(width, height);
+}
+
+void bmx_wxwindow_setposition(wxWindow * window, int x, int y) {
+	window->SetSize(x, y, -1, -1);
+}
 
 // *********************************************
 

@@ -125,6 +125,8 @@ extern "C" {
 	void bmx_wxwindow_refreshrect(wxWindow * window, int x, int y, int w, int h, bool erase);
 	void bmx_wxwindow_releasemouse(wxWindow * window);
 	void bmx_wxwindow_screentoclient(wxWindow * window, int * x, int * y);
+	void bmx_wxwindow_setsize(wxWindow * window, int width, int height);
+	void bmx_wxwindow_setposition(wxWindow * window, int x, int y);
 
 
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
