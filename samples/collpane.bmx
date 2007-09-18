@@ -141,7 +141,7 @@ Type MyDialog Extends wxDialog
 	Field collPane:wxCollapsiblePane
 	
 	Method CreateMyDialog:MyDialog(parent:wxFrame)
-		Return MyDialog(Create(parent, wxID_ANY, "Test dialog", ,,,, wxRESIZE_BORDER|wxDEFAULT_DIALOG_STYLE))
+		Return MyDialog(Create_(parent, wxID_ANY, "Test dialog", ,,,, wxRESIZE_BORDER|wxDEFAULT_DIALOG_STYLE))
 	End Method
 	
 	Method OnInit()

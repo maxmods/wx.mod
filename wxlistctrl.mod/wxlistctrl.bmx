@@ -94,6 +94,9 @@ Type wxListCtrl Extends wxControl
 	Method Create:wxListCtrl(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, ..
 			style:Int = wxLC_ICON)
 		wxObjectPtr = bmx_wxlistctrl_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 
@@ -456,7 +459,15 @@ Type wxListCtrl Extends wxControl
 	</table>
 	End Rem
 	Method HitTest:Int(x:Int, y:Int, flags:Int)
-		Return bmx_wxlistctrl_hittest(wxObjectPtr, x, y, flags)
+		Local subItem:Int
+		Return HitTestSub(x, y, flags, subItem)
+	End Method
+
+	Rem
+	bbdoc: See HitTest.
+	End Rem
+	Method HitTestSub:Int(x:Int, y:Int, flags:Int, subItem:Int Var)
+		Return bmx_wxlistctrl_hittest(wxObjectPtr, x, y, flags, Varptr subItem)
 	End Method
 	
 	Rem
@@ -812,6 +823,13 @@ Type wxListItem Extends wxObject
 	End Method
 	
 	Rem
+	bbdoc: Returns the item attributes, if any.
+	End Rem
+	Method GetAttributes:wxListItemAttr()
+		Return wxListItemAttr._create(bmx_wxlistitem_getattributes(wxObjectPtr))
+	End Method
+	
+	Rem
 	bbdoc: Returns the background colour for this item.
 	End Rem
 	Method GetBackgroundColour:wxColour()
@@ -905,6 +923,13 @@ Type wxListItem Extends wxObject
 	End Rem
 	Method GetWidth:Int()
 		Return bmx_wxlistitem_getwidth(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns True if the item has attributes.
+	End Rem
+	Method HasAttributes:Int()
+		Return bmx_wxlistitem_hasattributes(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1025,6 +1050,14 @@ Type wxListItemAttr
 
 	Field wxItemAttrPtr:Byte Ptr
 	
+	Function _create:wxListItemAttr(wxItemAttrPtr:Byte Ptr)
+		If wxItemAttrPtr Then
+			Local this:wxListItemAttr = New wxListItemAttr
+			this.wxItemAttrPtr = wxItemAttrPtr
+			Return this
+		End If
+	End Function
+	
 	Rem
 	bbdoc: Construct a wxListItemAttr with the optionally specified foreground and background colors and font.
 	End Rem
@@ -1141,6 +1174,117 @@ Type wxListItemAttr
 End Type
 
 
+Rem
+bbdoc: A list event holds information about events associated with wxListCtrl objects.
+End Rem
+Type wxListEvent Extends wxNotifyEvent
+
+	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxListEvent = New wxListEvent
+		
+		this.wxEventPtr = wxEventPtr
+		this.userData = evt.userData
+		this.parent = evt.parent
+		
+		Return this
+	End Function
+
+	Rem
+	bbdoc: For wxEVT_COMMAND_LIST_CACHE_HINT event only: returns the first item which the list control advises us to cache.
+	End Rem
+	Method GetCacheFrom:Int()
+		Return bmx_wxlistevent_getcachefrom(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: For wxEVT_COMMAND_LIST_CACHE_HINT event only: returns the last item (inclusive) which the list control advises us to cache.
+	End Rem
+	Method GetCacheTo:Int()
+		Return bmx_wxlistevent_getcacheto(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Key code if the event is a keypress event.
+	End Rem
+	Method GetKeyCode:Int()
+		Return bmx_wxlistevent_getkeycode(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: The item index.
+	End Rem
+	Method GetIndex:Int()
+		Return bmx_wxlistevent_getindex(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: The column position: it is only used with COL events.
+	about: For the column dragging events, it is the column to the left of the divider being dragged, for the
+	column click events it may be -1 if the user clicked in the list control header outside any column.
+	End Rem
+	Method GetColumn:Int()
+		Return bmx_wxlistevent_getcolumn(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: The position of the mouse pointer if the event is a drag event.
+	End Rem
+	Method GetPoint(x:Int Var, y:Int Var)
+		bmx_wxlistevent_getpoint(wxEventPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: The (new) item label for wxEVT_COMMAND_LIST_END_LABEL_EDIT event.
+	End Rem
+	Method GetLabel:String()
+		Return bmx_wxlistevent_getlabel(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: The text.
+	End Rem
+	Method GetText:String()
+		Return bmx_wxlistevent_gettext(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: The image.
+	End Rem
+	Method GetImage:Int()
+		Return bmx_wxlistevent_getimage(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: The data.
+	End Rem
+	Method GetData:Int()
+		Return bmx_wxlistevent_getdata(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: The mask.
+	End Rem
+	Method GetMask:Int()
+		Return bmx_wxlistevent_getmask(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: An item object, used by some events.
+	about: See also wxListCtrl::SetItem.
+	End Rem
+	Method GetItem:wxListItem()
+		Return wxListItem._create(bmx_wxlistevent_getitem(wxEventPtr))
+	End Method
+	
+	Rem
+	bbdoc: This method only makes sense for wxEVT_COMMAND_LIST_END_LABEL_EDIT message and returns true if it the label editing has been cancelled by the user (GetLabel returns an empty string in this case but it doesn't allow the application to distinguish between really cancelling the edit and the admittedly rare case when the user wants to rename it to an empty string).
+	End Rem
+	Method IsEditCancelled:Int()
+		Return bmx_wxlistevent_iseditcancelled(wxEventPtr)
+	End Method
+	
+End Type
+
 Type TListEventFactory Extends TEventFactory
 
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
@@ -1166,7 +1310,7 @@ Type TListEventFactory Extends TEventFactory
 					wxEVT_COMMAND_LIST_COL_DRAGGING, ..
 					wxEVT_COMMAND_LIST_COL_END_DRAG, ..
 					wxEVT_COMMAND_LIST_ITEM_FOCUSED
-
+				Return wxListEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

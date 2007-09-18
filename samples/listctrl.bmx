@@ -1,3 +1,10 @@
+'
+' wxListCtrl sample
+'
+' From the C++ sample by Julian Smart
+'
+' BlitzMax port by Bruce A Henderson
+'
 SuperStrict
 
 Framework wx.wxApp
@@ -6,25 +13,9 @@ Import wx.wxLog
 Import wx.wxPanel
 Import wx.wxSystemSettings
 Import wx.wxColourDialog
+Import wx.wxMessageDialog
+Import wx.wxMouseEvent
 
-New MyApp.run()
-
-
-Type MyApp Extends wxApp
-
-	Method OnInit:Int()
-
-		Local frame:MyFrame = MyFrame(New MyFrame.Create(, , "wxListCtrl Test"))
-
-		frame.show()
-		
-		SetTopWindow(frame)
-	
-		Return True
-	
-	End Method
-
-End Type
 
 ' number of items in list/report view
 Const NUM_ITEMS:Int = 30
@@ -44,6 +35,27 @@ Global SMALL_VIRTUAL_VIEW_ITEMS:String[][] = [ ..
     [ "Pigeon", "coo" ], ..
     [ "Sheep", "baaah" ] ]
 
+
+New MyApp.run()
+
+
+Type MyApp Extends wxApp
+
+	Method OnInit:Int()
+	
+		wxImage.AddHandler( New wxXPMHandler ) ' for Mac/Win32 (it is default on Linux)
+
+		Local frame:MyFrame = MyFrame(New MyFrame.Create(, , "wxListCtrl Test"))
+
+		frame.show()
+		
+		SetTopWindow(frame)
+	
+		Return True
+	
+	End Method
+
+End Type
 
 Type MyFrame Extends wxFrame
 
@@ -186,7 +198,6 @@ Type MyFrame Extends wxFrame
 
 	' recreate the list control with the New flags
 	Method RecreateList(flags:Int, withText:Int = True)
-
 
 		If listCtrl Then
 			listCtrl.Free()
@@ -365,10 +376,13 @@ Type MyFrame Extends wxFrame
 	End Function
 	
 	Function OnAbout(event:wxEvent)
-'    wxMessageDialog dialog(this, _T("List test sample\nJulian Smart (c) 1997"),
-'            _T("About list test"), wxOK|wxCANCEL);
-'
-'    dialog.ShowModal();
+		Local dialog:wxMessageDialog = New wxMessageDialog.Create(wxWindow(event.parent), ..
+			"List test sample~nJulian Smart (c) 1997~nBlitzMax port (c) 2007 Bruce A Henderson", ..
+			"About list test", wxOK | wxCANCEL)
+		
+		dialog.ShowModal()
+		
+		dialog.Free()
 	End Function
 	
 	Function OnListView(event:wxEvent)
@@ -583,18 +597,88 @@ Type MyListCtrl Extends wxListCtrl
     Field logOld:wxLog
     Field attr:wxListItemAttr
 
+	Method OnInit()
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_BEGIN_DRAG, OnBeginDrag)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_BEGIN_RDRAG, OnBeginRDrag)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_BEGIN_LABEL_EDIT, OnBeginLabelEdit)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_END_LABEL_EDIT, OnEndLabelEdit)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_DELETE_ITEM, OnDeleteItem)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_DELETE_ALL_ITEMS, OnDeleteAllItems)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_ITEM_SELECTED, OnSelected)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_ITEM_DESELECTED, OnDeselected)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_KEY_DOWN, OnListKeyDown)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_ITEM_ACTIVATED, OnActivated)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_ITEM_FOCUSED, OnFocused)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_COL_CLICK, OnColClick)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_COL_RIGHT_CLICK, OnColRightClick)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_COL_BEGIN_DRAG, OnColBeginDrag)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_COL_DRAGGING, OnColDragging)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_COL_END_DRAG, OnColEndDrag)
+		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_CACHE_HINT, OnCacheHint)
+		
+		ConnectAny(wxEVT_CONTEXT_MENU, OnContextMenu)
+		ConnectAny(wxEVT_CHAR, OnChar)
+		ConnectAny(wxEVT_RIGHT_DOWN, OnRightClick)
 
-'    Method ShowContextMenu(Const wxPoint& pos);
-'    Method SetColumnImage(Int col, Int image);
-'
-'    Method LogEvent(Const wxListEvent& event, Const wxChar *eventName);
-'    Method LogColEvent(Const wxListEvent& event, Const wxChar *eventName);
-'
-'    Method wxString OnGetItemText(Long item, Long column) Const;
-'    Method Int OnGetItemColumnImage(Long item, Long column) Const;
-'    Method wxListItemAttr *OnGetItemAttr(Long item) Const;
+	End Method
 
+	Method ShowContextMenu(x:Int, y:Int)
+		
+		Local menu:wxMenu = New wxMenu.Create()
+		
+		menu.Append(wxID_ABOUT, "&About")
+		menu.AppendSeparator()
+		menu.Append(wxID_EXIT, "E&xit")
+		
+		PopupMenu(menu, x, y)
 
+		menu.Free()
+	End Method
+
+	Method SetColumnImage(col:Int, image:Int)
+		Local item:wxListItem = New wxListItem.Create()
+		item.SetMask(wxLIST_MASK_IMAGE)
+		item.SetImage(image)
+		SetColumn(col, item)
+	End Method
+
+	Method LogEvent(event:wxListEvent, eventName:String)
+		wxLogMessage("Item " + event.GetIndex() + ": " + eventName + " (item text = " + event.GetText() + ..
+			", data = " + event.GetData() + ")")
+	End Method
+	
+	Method LogColEvent(event:wxListEvent, name:String)
+		Local col:Int = event.GetColumn()
+		wxLogMessage(name + ": column " + col + " (width = " + event.GetItem().GetWidth() + " or " + GetColumnWidth(col) + ").")
+	End Method
+
+	Method OnGetItemText:String(item:Int, column:Int)
+		If GetItemCount() = SMALL_VIRTUAL_VIEW_ITEMS.length Then
+			Return SMALL_VIRTUAL_VIEW_ITEMS[item][column]
+		Else
+			Return "Column " + column + " of item " + item
+		End If
+	End Method
+	
+	Method OnGetItemColumnImage:Int(item:Int, column:Int)
+		If Not column Then
+			Return 0
+		End If
+		
+		If Not (item Mod 3) And column = 1 Then
+			Return 0
+		End If
+		
+		Return -1
+	End Method
+	
+	Method OnGetItemAttr:wxListItemAttr(item:Int)
+		If item Mod 2 Then
+			Return Null
+		Else
+			Return attr
+		End If
+	End Method
 
 	Method InsertItemInReportView(i:Int)
 		Local buf:String = "This is item " + i
@@ -609,79 +693,272 @@ Type MyListCtrl Extends wxListCtrl
 	End Method
 	
 	Function OnColClick(event:wxEvent)
-	
+		Local col:Int = wxListEvent(event).GetColumn()
+		
+		' set Or unset image
+		Global x:Int
+		x = Not x
+		MyListCtrl(event.parent).SetColumnImage(col, (Not x) * -1)
+		
+		wxLogMessage("OnColumnClick at " + col + ".")
 	End Function
 	
 	Function OnColRightClick(event:wxEvent)
-	
+		Local list:MyListCtrl = MyListCtrl(event.parent)
+		
+		Local col:Int = wxListEvent(event).GetColumn()
+		If col <> -1 Then
+			list.SetColumnImage(col, -1)
+		End If
+		
+		' Show popupmenu at position
+		Local menu:wxMenu = New wxMenu.Create("Test")
+		menu.Append(LIST_ABOUT, "&About")
+		
+		Local x:Int, y:Int
+		wxListEvent(event).GetPoint(x, y)
+		list.PopupMenu(menu, x, y)
+		
+		wxLogMessage( "OnColumnRightClick at " + wxListEvent(event).GetColumn() + ".")
+		
+		menu.Free()
 	End Function
 	
 	Function OnColBeginDrag(event:wxEvent)
-	
+		MyListCtrl(event.parent).LogColEvent( wxListEvent(event), "OnColBeginDrag")
+		
+		If wxListEvent(event).GetColumn() = 0 Then
+			wxLogMessage("Resizing this column shouldn't work.")
+		
+			wxListEvent(event).Veto()
+		End If
 	End Function
 	
 	Function OnColDragging(event:wxEvent)
-	
+		MyListCtrl(event.parent).LogColEvent( wxListEvent(event), "OnColDragging")
 	End Function
 	
 	Function OnColEndDrag(event:wxEvent)
-	
+		MyListCtrl(event.parent).LogColEvent( wxListEvent(event), "OnColEndDrag")
 	End Function
 	
 	Function OnBeginDrag(event:wxEvent)
-	
+		Local x:Int, y:Int
+		wxListEvent(event).GetPoint(x, y)
+		
+		Local flags:Int
+		wxLogMessage( "OnBeginDrag at (" + x + ", " + y + "), item " + MyListCtrl(event.parent).HitTest(x, y, flags)+ ".")
+
 	End Function
 	
 	Function OnBeginRDrag(event:wxEvent)
-	
+		Local x:Int, y:Int
+		wxListEvent(event).GetPoint(x, y)
+		wxLogMessage( "OnBeginRDrag at " + x + "," + y + ".")
 	End Function
 	
 	Function OnBeginLabelEdit(event:wxEvent)
-	
+		wxLogMessage( "OnBeginLabelEdit: " + wxListEvent(event).GetItem().GetText())
 	End Function
 	
 	Function OnEndLabelEdit(event:wxEvent)
-	
+		If wxListEvent(event).IsEditCancelled() Then
+			wxLogMessage( "OnEndLabelEdit: [cancelled]")
+		Else
+			wxLogMessage( "OnEndLabelEdit: " + wxListEvent(event).GetItem().GetText())
+		End If
 	End Function
 	
 	Function OnDeleteItem(event:wxEvent)
-	
+		MyListCtrl(event.parent).LogEvent(wxListEvent(event), "OnDeleteItem")
+		wxLogMessage( "Number of items when delete event is sent: " + MyListCtrl(event.parent).GetItemCount() )
 	End Function
 	
 	Function OnDeleteAllItems(event:wxEvent)
-	
+		MyListCtrl(event.parent).LogEvent(wxListEvent(event), "OnDeleteAllItems")
 	End Function
 	
 	Function OnSelected(event:wxEvent)
-	
+		Local list:MyListCtrl = MyListCtrl(event.parent)
+		list.LogEvent(wxListEvent(event), "OnSelected")
+		
+		If list.GetWindowStyle() & wxLC_REPORT Then
+			Local info:wxListItem = New wxListItem.Create()
+			info.SetId(wxListEvent(event).GetIndex())
+			info.SetColumn(1)
+			info.SetMask(wxLIST_MASK_TEXT)
+			If list.GetItem(info) Then
+				wxLogMessage("Value of the 2nd field of the selected item: " + info.GetText())
+			Else
+				DebugLog "wxListCtrl::GetItem() failed"
+			End If
+		End If
 	End Function
 	
 	Function OnDeselected(event:wxEvent)
-	
+		MyListCtrl(event.parent).LogEvent(wxListEvent(event), "OnDeselected")
 	End Function
 	
 	Function OnListKeyDown(event:wxEvent)
-	
+		Local list:MyListCtrl = MyListCtrl(event.parent)
+		Local item:Int
+		
+		Select wxListEvent(event).GetKeyCode()
+			Case Asc("c"), Asc("C") ' colorize
+				Local info:wxListItem = New wxListItem.Create()
+				info.SetId(wxListEvent(event).GetIndex())
+				If info.GetId() = -1 Then
+					' no item
+					Return
+				End If
+				
+				list.GetItem(info)
+				
+				Local attr:wxListItemAttr = info.GetAttributes()
+				If Not attr Or Not attr.HasTextColour() Then
+					info.SetTextColour(wxCYAN())
+				
+					list.SetItem(info)
+					
+					list.RefreshItem(info.GetId())
+				End If
+				
+			
+			Case Asc("n"), Asc("N") ' next
+			
+				item = list.GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED)
+				If item = list.GetItemCount() - 1 Then
+					item = 0
+				End If
+				item:+ 1
+				
+				wxLogMessage("Focusing item " + item)
+				
+				list.SetItemState(item, wxLIST_STATE_FOCUSED, wxLIST_STATE_FOCUSED)
+				list.EnsureVisible(item)
+				
+				
+			Case Asc("r"), Asc("R") ' show bounding Rect
+				item = wxListEvent(event).GetIndex()
+				
+				Local x:Int, y:Int, w:Int, h:Int
+				If Not list.GetItemRect(item, x, y, w, h) 
+					wxLogError("Failed to retrieve rect of item " + item)
+					Return
+				End If
+				
+				wxLogMessage("Bounding rect of item " + item + " is (" + x + ", " + y + ")-(" + (x + w) + ", " + (y + h) + ")")
+				
+			Case WXK_DELETE
+				item = list.GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED)
+				While item <> -1
+					list.DeleteItem(item);
+				
+					wxLogMessage("Item " + item + " deleted")
+			
+					' -1 because the indices were shifted by DeleteItem()
+					item = list.GetNextItem(item - 1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED)
+				Wend
+			
+			
+			Case WXK_INSERT
+				If list.GetWindowStyle() & wxLC_REPORT Then
+					If list.GetWindowStyle() & wxLC_VIRTUAL Then
+						list.SetItemCount(list.GetItemCount() + 1)
+					Else ' !virtual
+						list.InsertItemInReportView(wxListEvent(event).GetIndex())
+					End If
+				Else
+					event.Skip()
+				End If
+				
+			Default
+				list.LogEvent(wxListEvent(event), "OnListKeyDown")
+				
+				event.Skip()
+		End Select
+		
 	End Function
 	
 	Function OnActivated(event:wxEvent)
-	
+		MyListCtrl(event.parent).LogEvent(wxListEvent(event), "OnActivated")
 	End Function
 	
 	Function OnFocused(event:wxEvent)
-	
+		MyListCtrl(event.parent).LogEvent(wxListEvent(event), "OnFocused")
+		event.Skip()
 	End Function
 	
 	Function OnCacheHint(event:wxEvent)
+		wxLogMessage( "OnCacheHint: cache items " + wxListEvent(event).GetCacheFrom() + ".." + ..
+			wxListEvent(event).GetCacheTo() )
 	End Function
 
 	Function OnChar(event:wxEvent)
+		wxLogMessage("Got char event.")
+		
+		Select wxKeyEvent(event).GetKeyCode()
+		
+			Case Asc("n"), Asc("N"), Asc("c"), Asc("C")
+				' these are the keys we process ourselves
+			Default
+				event.Skip()
+		End Select
 	End Function
 	
 	Function OnContextMenu(event:wxEvent)
+		Local list:MyListCtrl = MyListCtrl(event.parent)
+		
+		Local x:Int, y:Int
+		wxContextMenuEvent(event).GetPosition(x, y)
+		
+		' If from keyboard
+		If x = -1 And y = -1 Then
+			Local w:Int, h:Int
+			list.GetSize(w, h)
+			x = w / 2;
+			y = h / 2;
+		Else
+			list.ScreenToClient(x, y)
+		End If
+		
+		list.ShowContextMenu(x, y)
 	End Function
 	
 	Function OnRightClick(event:wxEvent)
+		If Not wxMouseEvent(event).ControlDown() Then
+			event.Skip()
+		Return
+		End If
+		
+		Local flags:Int
+		Local subitem:Int
+		Local x:Int, y:Int
+		wxMouseEvent(event).GetPosition(x, y)
+		Local item:Int = MyListCtrl(event.parent).HitTestSub(x, y, flags, subitem)
+		
+		Local where:String
+		Select flags
+			Case wxLIST_HITTEST_ABOVE
+				where = "above"
+			Case wxLIST_HITTEST_BELOW
+				where = "below"
+			Case wxLIST_HITTEST_NOWHERE
+				where = "nowhere near"
+			Case wxLIST_HITTEST_ONITEMICON
+				where = "on icon of"
+			Case wxLIST_HITTEST_ONITEMLABEL
+				where = "on label of"
+			Case wxLIST_HITTEST_ONITEMRIGHT
+				where = "right on"
+			Case wxLIST_HITTEST_TOLEFT
+				where = "to the left of"
+			Case wxLIST_HITTEST_TORIGHT
+				where = "to the right of"
+			Default
+				where = "not clear exactly where on"
+		End Select
+		wxLogMessage("Right double click " + where + " item " + item + ", subitem " + subitem)
 	End Function
 
 End Type

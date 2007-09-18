@@ -97,6 +97,21 @@ extern "C" {
 	void bmx_wxcontextmenuevent_getposition(wxContextMenuEvent & event, int * x, int * y);
 	void bmx_wxcontextmenuevent_setposition(wxContextMenuEvent & event, int x, int y);
 
+	bool bmx_wxkeyevent_altdown(wxKeyEvent & event);
+	bool bmx_wxkeyevent_cmddown(wxKeyEvent & event);
+	bool bmx_wxkeyevent_controldown(wxKeyEvent & event);
+	int bmx_wxkeyevent_getkeycode(wxKeyEvent & event);
+	int bmx_wxkeyevent_getmodifiers(wxKeyEvent & event);
+	void bmx_wxkeyevent_getposition(wxKeyEvent & event, int * x, int * y);
+	int bmx_wxkeyevent_getrawkeycode(wxKeyEvent & event);
+	int bmx_wxkeyevent_getrawkeyflags(wxKeyEvent & event);
+	BBString * bmx_wxkeyevent_getunicodekey(wxKeyEvent & event);
+	long bmx_wxkeyevent_getx(wxKeyEvent & event);
+	long bmx_wxkeyevent_gety(wxKeyEvent & event);
+	bool bmx_wxkeyevent_hasmodifiers(wxKeyEvent & event);
+	bool bmx_wxkeyevent_metadown(wxKeyEvent & event);
+	bool bmx_wxkeyevent_shiftdown(wxKeyEvent & event);
+
 
 	BBString * bmx_wxversion_string();
 	BBString * bmx_wxgetosdescription();

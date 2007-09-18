@@ -71,7 +71,7 @@ extern "C" {
 	MaxColour * bmx_wxlistctrl_gettextcolour(wxListCtrl * list);
 	long bmx_wxlistctrl_gettopitem(wxListCtrl * list);
 	void bmx_wxlistctrl_getviewrect(wxListCtrl * list, int * x, int * y, int * w, int * h);
-	long bmx_wxlistctrl_hittest(wxListCtrl * list, int x, int y, int flags);
+	long bmx_wxlistctrl_hittest(wxListCtrl * list, int x, int y, int flags, long * subitem);
 	long bmx_wxlistctrl_insertcolumn(wxListCtrl * list, long col, BBString * heading, int format, int width);
 	long bmx_wxlistctrl_insertcolumnitem(wxListCtrl * list, long col, MaxListItem * info);
 	long bmx_wxlistctrl_insertitem(wxListCtrl * list, MaxListItem * item);
@@ -129,6 +129,9 @@ extern "C" {
 	void bmx_wxlistitem_settext(MaxListItem * item, BBString * text);
 	void bmx_wxlistitem_settextcolour(MaxListItem * item, MaxColour * colour);
 	void bmx_wxlistitem_setwidth(MaxListItem * item, int width);
+	wxListItemAttr * bmx_wxlistitem_getattributes(MaxListItem * item);
+	bool bmx_wxlistitem_hasattributes(MaxListItem * item);
+
 
 	wxListItemAttr * bmx_wxlistitemattr_create(MaxColour * textCol, MaxColour * backCol, MaxFont * font);
 	MaxColour * bmx_wxlistitemattr_getbackgroundcolour(wxListItemAttr * attr);
@@ -141,6 +144,20 @@ extern "C" {
 	void bmx_wxlistitemattr_setfont(wxListItemAttr * attr, MaxFont * font);
 	void bmx_wxlistitemattr_settextcolour(wxListItemAttr * attr, MaxColour * colour);
 	void bmx_wxlistitemattr_delete(wxListItemAttr * attr);
+
+	long bmx_wxlistevent_getcachefrom(wxListEvent & event);
+	long bmx_wxlistevent_getcacheto(wxListEvent & event);
+	int bmx_wxlistevent_getkeycode(wxListEvent & event);
+	long bmx_wxlistevent_getindex(wxListEvent & event);
+	long bmx_wxlistevent_getcolumn(wxListEvent & event);
+	void bmx_wxlistevent_getpoint(wxListEvent & event, int * x, int * y);
+	BBString * bmx_wxlistevent_getlabel(wxListEvent & event);
+	BBString * bmx_wxlistevent_gettext(wxListEvent & event);
+	int bmx_wxlistevent_getimage(wxListEvent & event);
+	long bmx_wxlistevent_getdata(wxListEvent & event);
+	long bmx_wxlistevent_getmask(wxListEvent & event);
+	MaxListItem * bmx_wxlistevent_getitem(wxListEvent & event);
+	bool bmx_wxlistevent_iseditcancelled(wxListEvent & event);
 
 	int bmx_wxlistctrl_geteventtype(int type);
 }

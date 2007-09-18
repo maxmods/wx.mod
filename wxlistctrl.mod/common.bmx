@@ -81,7 +81,7 @@ Extern
 	Function bmx_wxlistctrl_gettextcolour:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxlistctrl_gettopitem:Int(handle:Byte Ptr)
 	Function bmx_wxlistctrl_getviewrect(handle:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
-	Function bmx_wxlistctrl_hittest:Int(handle:Byte Ptr, x:Int, y:Int, flags:Int)
+	Function bmx_wxlistctrl_hittest:Int(handle:Byte Ptr, x:Int, y:Int, flags:Int, subitem:Int Ptr)
 	Function bmx_wxlistctrl_insertcolumn:Int(handle:Byte Ptr, col:Int, heading:String, format:Int, width:Int)
 	Function bmx_wxlistctrl_insertcolumnitem:Int(handle:Byte Ptr, col:Int, info:Byte Ptr)
 	Function bmx_wxlistctrl_insertitem:Int(handle:Byte Ptr, item:Byte Ptr)
@@ -139,6 +139,8 @@ Extern
 	Function bmx_wxlistitem_settext(handle:Byte Ptr, text:String)
 	Function bmx_wxlistitem_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxlistitem_setwidth(handle:Byte Ptr, width:Int)
+	Function bmx_wxlistitem_getattributes:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxlistitem_hasattributes:Int(handle:Byte Ptr)
 
 	Function bmx_wxlistitemattr_create:Byte Ptr(textCol:Byte Ptr, backCol:Byte Ptr, font:Byte Ptr)
 	Function bmx_wxlistitemattr_getbackgroundcolour:Byte Ptr(handle:Byte Ptr)
@@ -151,6 +153,20 @@ Extern
 	Function bmx_wxlistitemattr_setfont(handle:Byte Ptr, font:Byte Ptr)
 	Function bmx_wxlistitemattr_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxlistitemattr_delete(handle:Byte Ptr)
+
+	Function bmx_wxlistevent_getcachefrom:Int(handle:Byte Ptr)
+	Function bmx_wxlistevent_getcacheto:Int(handle:Byte Ptr)
+	Function bmx_wxlistevent_getkeycode:Int(handle:Byte Ptr)
+	Function bmx_wxlistevent_getindex:Int(handle:Byte Ptr)
+	Function bmx_wxlistevent_getcolumn:Int(handle:Byte Ptr)
+	Function bmx_wxlistevent_getpoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxlistevent_getlabel:String(handle:Byte Ptr)
+	Function bmx_wxlistevent_gettext:String(handle:Byte Ptr)
+	Function bmx_wxlistevent_getimage:Int(handle:Byte Ptr)
+	Function bmx_wxlistevent_getdata:Int(handle:Byte Ptr)
+	Function bmx_wxlistevent_getmask:Int(handle:Byte Ptr)
+	Function bmx_wxlistevent_getitem:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxlistevent_iseditcancelled:Int(handle:Byte Ptr)
 
 	Function bmx_wxlistctrl_geteventtype:Int(evt:Int)
 End Extern

@@ -990,3 +990,64 @@ void bmx_wxacceleratorentry_delete(wxAcceleratorEntry * entry) {
 int bmx_wxisalnum(int code) {
 	return wxIsalnum(code);
 }
+
+// *********************************************
+
+
+bool bmx_wxkeyevent_altdown(wxKeyEvent & event) {
+	return event.AltDown();
+}
+
+bool bmx_wxkeyevent_cmddown(wxKeyEvent & event) {
+	return event.CmdDown();
+}
+
+bool bmx_wxkeyevent_controldown(wxKeyEvent & event) {
+	return event.ControlDown();
+}
+
+int bmx_wxkeyevent_getkeycode(wxKeyEvent & event) {
+	return event.GetKeyCode();
+}
+
+int bmx_wxkeyevent_getmodifiers(wxKeyEvent & event) {
+	return event.GetModifiers();
+}
+
+void bmx_wxkeyevent_getposition(wxKeyEvent & event, int * x, int * y) {
+	event.GetPosition(x, y);
+}
+
+int bmx_wxkeyevent_getrawkeycode(wxKeyEvent & event) {
+	return event.GetRawKeyCode();
+}
+
+int bmx_wxkeyevent_getrawkeyflags(wxKeyEvent & event) {
+	return event.GetRawKeyFlags();
+}
+
+BBString * bmx_wxkeyevent_getunicodekey(wxKeyEvent & event) {
+	return bbStringFromWxString(wxString(event.GetUnicodeKey()));
+}
+
+long bmx_wxkeyevent_getx(wxKeyEvent & event) {
+	return event.GetX();
+}
+
+long bmx_wxkeyevent_gety(wxKeyEvent & event) {
+	return event.GetY();
+}
+
+bool bmx_wxkeyevent_hasmodifiers(wxKeyEvent & event) {
+	return event.HasModifiers();
+}
+
+bool bmx_wxkeyevent_metadown(wxKeyEvent & event) {
+	return event.MetaDown();
+}
+
+bool bmx_wxkeyevent_shiftdown(wxKeyEvent & event) {
+	return event.ShiftDown();
+}
+
+

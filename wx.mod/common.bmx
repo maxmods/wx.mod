@@ -203,7 +203,7 @@ Extern
 	Function bmx_wxsizeevent_getsize(evt:Byte Ptr, w:Int Ptr, h:Int Ptr)
 	Function bmx_wxevent_geteventtype:Int(evt:Byte Ptr)
 	Function bmx_wxevent_getid:Int(evt:Byte Ptr)
-	
+
 	Function bmx_wxupdateeventui_check(evt:Byte Ptr, value:Int)
 	Function bmx_wxupdateeventui_enable(evt:Byte Ptr, value:Int)
 	Function bmx_wxupdateeventui_show(evt:Byte Ptr, value:Int)
@@ -217,7 +217,23 @@ Extern
 	
 	Function bmx_wxcontextmenuevent_getposition(evt:Byte Ptr, x:Int Ptr, y:Int Ptr)
 	Function bmx_wxcontextmenuevent_setposition(evt:Byte Ptr, x:Int, y:Int)
+
+	Function bmx_wxkeyevent_altdown:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_cmddown:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_controldown:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_getkeycode:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_getmodifiers:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_getposition(evt:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxkeyevent_getrawkeycode:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_getrawkeyflags:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_getunicodekey:String(evt:Byte Ptr)
+	Function bmx_wxkeyevent_getx:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_gety:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_hasmodifiers:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_metadown:Int(evt:Byte Ptr)
+	Function bmx_wxkeyevent_shiftdown:Int(evt:Byte Ptr)
 	
+
 	Function bmx_wxversion_string:String()
 	Function bmx_wxmessagebox:Int(message:String, caption:String, style:Int, parent:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxgetosdescription:String()

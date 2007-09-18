@@ -463,6 +463,10 @@ Type TCoreEventFactory Extends TEventFactory
 				Return wxScrollEvent.create(wxEventPtr, evt)
 			Case wxEVT_CONTEXT_MENU
 				Return wxContextMenuEvent.create(wxEventPtr, evt)
+			Case wxEVT_CHAR, ..
+					wxEVT_KEY_DOWN, ..
+					wxEVT_KEY_UP
+				Return wxKeyEvent.create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -495,7 +499,10 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_SCROLL_THUMBTRACK, ..
 					wxEVT_SCROLL_THUMBRELEASE, ..
 					wxEVT_SCROLL_CHANGED, ..
-					wxEVT_CONTEXT_MENU
+					wxEVT_CONTEXT_MENU, ..
+					wxEVT_CHAR, ..
+					wxEVT_KEY_DOWN, ..
+					wxEVT_KEY_UP
 				Return bmx_eventtype_value(eventType)
 		End Select
 	End Method

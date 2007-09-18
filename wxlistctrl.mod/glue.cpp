@@ -243,8 +243,8 @@ void bmx_wxlistctrl_getviewrect(wxListCtrl * list, int * x, int * y, int * w, in
 	*h = r.height;
 }
 
-long bmx_wxlistctrl_hittest(wxListCtrl * list, int x, int y, int flags) {
-	return list->HitTest(wxPoint(x, y), flags);
+long bmx_wxlistctrl_hittest(wxListCtrl * list, int x, int y, int flags, long * subitem) {
+	return list->HitTest(wxPoint(x, y), flags, subitem);
 }
 
 long bmx_wxlistctrl_insertcolumn(wxListCtrl * list, long col, BBString * heading, int format, int width) {
@@ -479,6 +479,16 @@ void bmx_wxlistitem_setwidth(MaxListItem * item, int width) {
 	item->Item().SetWidth(width);
 }
 
+wxListItemAttr * bmx_wxlistitem_getattributes(MaxListItem * item) {
+	return item->Item().GetAttributes();
+}
+
+bool bmx_wxlistitem_hasattributes(MaxListItem * item) {
+	return item->Item().HasAttributes();
+}
+
+
+
 // *********************************************
 
 wxListItemAttr * bmx_wxlistitemattr_create(MaxColour * textCol, MaxColour * backCol, MaxFont * font) {
@@ -532,6 +542,61 @@ void bmx_wxlistitemattr_settextcolour(wxListItemAttr * attr, MaxColour * colour)
 
 void bmx_wxlistitemattr_delete(wxListItemAttr * attr) {
 	delete attr;
+}
+
+long bmx_wxlistevent_getcachefrom(wxListEvent & event) {
+	return event.GetCacheFrom();
+}
+
+long bmx_wxlistevent_getcacheto(wxListEvent & event) {
+	return event.GetCacheTo();
+}
+
+int bmx_wxlistevent_getkeycode(wxListEvent & event) {
+	return event.GetKeyCode();
+}
+
+long bmx_wxlistevent_getindex(wxListEvent & event) {
+	return event.GetIndex();
+}
+
+long bmx_wxlistevent_getcolumn(wxListEvent & event) {
+	return event.GetColumn();
+}
+
+void bmx_wxlistevent_getpoint(wxListEvent & event, int * x, int * y) {
+	wxPoint p = event.GetPoint();
+	*x = p.x;
+	*y = p.y;
+}
+
+BBString * bmx_wxlistevent_getlabel(wxListEvent & event) {
+	return bbStringFromWxString(event.GetLabel());
+}
+
+BBString * bmx_wxlistevent_gettext(wxListEvent & event) {
+	return bbStringFromWxString(event.GetText());
+}
+
+int bmx_wxlistevent_getimage(wxListEvent & event) {
+	return event.GetImage();
+}
+
+long bmx_wxlistevent_getdata(wxListEvent & event) {
+	return event.GetData();
+}
+
+long bmx_wxlistevent_getmask(wxListEvent & event) {
+	return event.GetMask();
+}
+
+MaxListItem * bmx_wxlistevent_getitem(wxListEvent & event) {
+	wxListItem i(event.GetItem());
+	return new MaxListItem(i);
+}
+
+bool bmx_wxlistevent_iseditcancelled(wxListEvent & event) {
+	return event.IsEditCancelled();
 }
 
 

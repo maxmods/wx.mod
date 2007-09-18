@@ -479,6 +479,208 @@ Type wxContextMenuEvent Extends wxCommandEvent
 
 End Type
 
+
+Rem
+bbdoc: This event type contains information about keypress (character) events.
+about: Notice that there are three different kinds of keyboard events in wxWidgets: key down and up events and
+char events. The difference between the first two is clear - the first corresponds to a key press and the second
+to a key release - otherwise they are identical. Just note that if the key is maintained in a pressed state you
+will typically get a lot of (automatically generated) down events but only one up so it is wrong to assume that
+there is one up event corresponding to each down one.
+<p>
+Both key events provide untranslated key codes while the char event carries the translated one. The untranslated
+code for alphanumeric keys is always an upper case value. For the other keys it is one of WXK_XXX values from the
+keycodes table. The translated key is, in general, the character the user expects to appear as the result of the key
+combination when typing the text into a text entry zone, for example.
+</p>
+<p>
+A few examples to clarify this (all assume that CAPS LOCK is unpressed and the standard US keyboard): when the
+'A' key is pressed, the key down event key code is equal to ASCII A = 65. But the char event key code is ASCII
+a = 97. On the other hand, if you press both SHIFT and 'A' keys simultaneously , the key code in key down event
+will still be just 'A' while the char event key code parameter will now be 'A' as well.
+</p>
+<p>
+Although in this simple case it is clear that the correct key code could be found in the key down event handler by
+checking the value returned by ShiftDown(), in general you should use EVT_CHAR for this as for non-alphanumeric keys
+the translation is keyboard-layout dependent and can only be done properly by the system itself.
+</p>
+<p>
+Another kind of translation is done when the control key is pressed: for example, for CTRL-A key press the key down
+event still carries the same key code 'a' as usual but the char event will have key code of 1, the ASCII value of
+this key combination.
+</p>
+<p>
+You may discover how the other keys on your system behave interactively by running the text wxWidgets sample and
+pressing some keys in any of the text controls shown in it.
+</p>
+<p>
+Note: If a key down (wxEVT_KEY_DOWN) event is caught and the event handler does not call event.Skip() then the
+corresponding char event (wxEVT_CHAR) will not happen. This is by design and enables the programs that handle both
+types of events to be a bit simpler.
+</p>
+<p>
+Note for Windows programmers: The key and char events in wxWidgets are similar to but slightly different from
+Windows WM_KEYDOWN and WM_CHAR events. In particular, Alt-x combination will generate a char event in wxWidgets
+(unless it is used as an accelerator).
+</p>
+<p>
+Tip: be sure to call event.Skip() for events that you don't process in key event function, otherwise menu
+shortcuts may cease to work under Windows.
+</p>
+End Rem
+Type wxKeyEvent Extends wxEvent
+
+	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxKeyEvent = New wxKeyEvent
+		
+		this.wxEventPtr = wxEventPtr
+		this.userData = evt.userData
+		this.parent = evt.parent
+		
+		Return this
+	End Function
+
+	Rem
+	bbdoc: Returns true if the Alt key was down at the time of the key event.
+	about: Notice that GetModifiers is easier to use correctly than this method so you should consider using
+	it in new code.
+	End Rem
+	Method AltDown:Int()
+		Return bmx_wxkeyevent_altdown(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: CMD is a pseudo key which is the same as Control for PC and Unix platforms but the special APPLE (a.k.a as COMMAND) key under Macs
+	about: It makes often sense to use it instead of, say, ControlDown() because Cmd key is used for the same
+	thing under Mac as Ctrl elsewhere (but Ctrl still exists, just not used for this purpose under Mac). So for
+	non-Mac platforms this is the same as ControlDown() and under Mac this is the same as MetaDown().
+	End Rem
+	Method CmdDown:Int()
+		Return bmx_wxkeyevent_cmddown(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the control key was down at the time of the key event.
+	about: Notice that GetModifiers is easier to use correctly than this method so you should consider using it
+	in new code.
+	End Rem
+	Method ControlDown:Int()
+		Return bmx_wxkeyevent_controldown(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the virtual key code.
+	about: ASCII events return normal ASCII values, while non-ASCII events return values such as WXK_LEFT for the
+	left cursor key. See Keycodes for a full list of the virtual key codes.
+	<p>
+	Note that in Unicode build, the returned value is meaningful only if the user entered a character that can be
+	represented in current locale's default charset. You can obtain the corresponding Unicode character using
+	GetUnicodeKey.
+	</p>
+	End Rem
+	Method GetKeyCode:Int()
+		Return bmx_wxkeyevent_getkeycode(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Return the bitmask of modifier keys which were pressed when this event happened.
+	about: See key modifier constants for the full list of modifiers.
+	<p>
+	Notice that this method is easier to use correctly than, for example, ControlDown because when using the latter
+	you also have to remember to test that none of the other modifiers is pressed:
+	<pre>
+	    If ControlDown() And Not AltDown() And Not ShiftDown() And Not MetaDown() Then
+	        ... handle Ctrl-XXX ...
+	</pre>
+	and forgetting to do it can result in serious program bugs (e.g. program not working with European keyboard
+	layout where ALTGR key which is seen by the program as combination of CTRL and ALT is used). On the other hand,
+	you can simply write
+	<pre>
+	    If GetModifiers() & wxMOD_CONTROL Then
+	        ... handle Ctrl-XXX ...
+	</pre>
+	with this method.
+	</p>
+	End Rem
+	Method GetModifiers:Int()
+		Return bmx_wxkeyevent_getmodifiers(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Obtains the position (in client coordinates) at which the key was pressed.
+	End Rem
+	Method GetPosition(x:Int Var, y:Int Var)
+		bmx_wxkeyevent_getposition(wxEventPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Returns the raw key code for this event.
+	about: This is a platform-dependent scan code which should only be used in advanced applications.
+	End Rem
+	Method GetRawKeyCode:Int()
+		Return bmx_wxkeyevent_getrawkeycode(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the low level key flags for this event.
+	about: The flags are platform-dependent and should only be used in advanced applications.
+	End Rem
+	Method GetRawKeyFlags:Int()
+		Return bmx_wxkeyevent_getrawkeyflags(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the Unicode character corresponding to this key event.
+	End Rem
+	Method GetUnicodeKey:String()
+		Return bmx_wxkeyevent_getunicodekey(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the X position (in client coordinates) of the event.
+	End Rem
+	Method GetX:Int()
+		Return bmx_wxkeyevent_getx(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the Y (in client coordinates) position of the event.
+	End Rem
+	Method GetY:Int()
+		Return bmx_wxkeyevent_gety(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if either CTRL or ALT keys was down at the time of the key event.
+	about: Note that this function does not take into account neither SHIFT nor META key states (the reason for
+	ignoring the latter is that it is common for NUMLOCK key to be configured as META under X but the key presses
+	even while NUMLOCK is on should be still processed normally).
+	End Rem
+	Method HasModifiers:Int()
+		Return bmx_wxkeyevent_hasmodifiers(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the Meta key was down at the time of the key event.
+	about: Notice that GetModifiers is easier to use correctly than this method so you should consider using it in
+	new code.
+	End Rem
+	Method MetaDown:Int()
+		Return bmx_wxkeyevent_metadown(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the shift key was down at the time of the key event.
+	about: Notice that GetModifiers is easier to use correctly than this function so you should consider using it
+	in new code.
+	End Rem
+	Method ShiftDown:Int()
+		Return bmx_wxkeyevent_shiftdown(wxEventPtr)
+	End Method
+
+End Type
+
+
 ' internal event handler.
 Type TEventHandler
 

@@ -62,13 +62,13 @@ Type wxDialog Extends wxTopLevelWindow
 	End Rem
 	Function CreateDialog:wxDialog(parent:wxWindow, id:Int, title:String, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
-		Return New wxDialog.Create(parent, id, title, x, y, w, h, style)
+		Return New wxDialog.Create_(parent, id, title, x, y, w, h, style)
 	End Function
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method Create:wxDialog(parent:wxWindow, id:Int, title:String, x:Int = -1, y:Int = -1, ..
+	Method Create_:wxDialog(parent:wxWindow, id:Int, title:String, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
 		wxObjectPtr = bmx_wxdialog_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
 		OnInit()
