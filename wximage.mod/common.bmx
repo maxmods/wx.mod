@@ -21,6 +21,7 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxPalette
 Import BRL.Blitz
 
 
@@ -49,6 +50,8 @@ Extern
 	Function bmx_wximage_setrgb(handle:Byte Ptr, x:Int, y:Int, r:Int, g:Int, b:Int)
 	Function bmx_wximage_rescale(handle:Byte Ptr, width:Int, height:Int, quality:Int)
 	Function bmx_wximage_getwidth:Int(handle:Byte Ptr)
+	Function bmx_wximage_resize(handle:Byte Ptr, width:Int, height:Int, x:Int, y:Int, red:Int, green:Int, blue:Int)
+	Function bmx_wximage_rotate:Byte Ptr(handle:Byte Ptr, angle:Double, centreX:Int, centreY:Int, interpolating:Int, offsetX:Int Ptr, offsetY:Int Ptr)
 	
 	Function bmx_wximage_addhandler(handler:Byte Ptr)	
 	Function bmx_wxpnghandler_create:Byte Ptr()
@@ -59,3 +62,6 @@ End Extern
 
 Const wxIMAGE_QUALITY_NORMAL:Int = 0
 Const wxIMAGE_QUALITY_HIGH:Int = 1
+
+Const wxIMAGE_RESOLUTION_INCHES:Int = 1
+Const wxIMAGE_RESOLUTION_CM:Int = 2

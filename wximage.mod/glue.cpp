@@ -58,9 +58,6 @@ void bmx_wximage_delete(MaxImage * image) {
 }
 
 void bmx_wximage_setrgb(MaxImage * image, int x, int y, int r, int g, int b) {
-//printf("setrgb - %d, %d, %d .. %d\n", r, g, b, static_cast<unsigned char>(r));fflush(stdout);
-//unsigned char z = 1;
-//image->Image().SetRGB(x, y, z, z, z);
 	image->Image().SetRGB(x, y, static_cast<unsigned char>(r), static_cast<unsigned char>(g), static_cast<unsigned char>(b));
 }
 
@@ -71,6 +68,19 @@ void bmx_wximage_rescale(MaxImage * image, int width, int height, int quality) {
 int bmx_wximage_getwidth(MaxImage * image) {
 	return image->Image().GetWidth();
 }
+
+void bmx_wximage_resize(MaxImage * image, int width, int height, int x, int y, int red, int green, int blue) {
+	image->Image().Resize(wxSize(width, height), wxPoint(x, y), red, green, blue);
+}
+
+MaxImage * bmx_wximage_rotate(MaxImage * image, double angle, int centreX, int centreY, bool interpolating, int * offsetX, int * offsetY) {
+	wxPoint offset;
+	wxImage i = image->Image().Rotate(angle, wxPoint(centreX, centreY), interpolating, &offset);
+	*offsetX = offset.x;
+	*offsetY = offset.y;
+	return new MaxImage(i);
+}
+
 
 
 

@@ -3,14 +3,15 @@ Rem
 C++ Splitter sample author info from which this .bmx was ported:
 
 /////////////////////////////////////////////////////////////////////////////
-// Name:        Babyfram.cpp
-// Purpose:     wxBabyFrame sample
+// Name:        Minifram.cpp
+// Purpose:     wxMiniFrame sample
 // Author:      Robert Roebling
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: Babyfram.cpp,v 1.13 2006/10/29 19:26:54 RR Exp $
+// RCS-ID:      $Id: Minifram.cpp,v 1.13 2006/10/29 19:26:54 RR Exp $
 // Copyright:   (c) Julian Smart and Robert Roebling
 // Licence:     wxWindows licence
+// BlitzMax port: Bruce A Henderson and David De Candia
 /////////////////////////////////////////////////////////////////////////////
 
 cpp MiniFrame renamed as BabyFrame for easier visual recognition
@@ -24,13 +25,11 @@ Import wx.wxFrame
 Import wx.wxButton
 Import wx.wxMiniFrame
 
-
-Const		ID_SET_SIZE_TO_150_150:Int 		= 100,..
-			ID_SET_SIZE_TO_200_200:Int 		= 101,..
-			ID_SET_MAX_SIZE_TO_150_150:Int 	= 102,..
-			ID_SET_MAX_SIZE_TO_300_300:Int	= 103,..
-			ID_TOOLBAR:Int					= 500,.. 
+Const		ID_TOOLBAR:Int				= 500,.. 
 			ID_REPARENT:Int				= 501 
+
+'	Run the sample app
+New MyApp.run()
 			
 ' ----------------------------------------------------------------
 Rem
@@ -56,9 +55,10 @@ Type MyApp Extends wxApp
 		
 		' Create the Baby frame window
 		BabyFrame = MyBabyFrame(New MyBabyFrame.CreateMyBabyFrame(Self,MainFrame,wxID_ANY,"wxMiniFrame Baby", 100,100,220,100))
-						
-		MainFrame.Show()
-		BabyFrame.Show()
+		
+		' This cannot be done in Main or Baby's OnInit() - it has to go here				
+		MainFrame.Show(True)
+		BabyFrame.Show(True)
 		
 		SetTopWindow(MainFrame)
 				
@@ -171,7 +171,7 @@ Type MyBabyFrame Extends wxMiniFrame
 		Connect(wxID_PRINT, wxEVT_COMMAND_MENU_SELECTED, OnReparent)
 	
 '		SetIcon(wxICON(mondrian))
-		'Show(True)
+	
 		
 		b_BabyFrameExists	= True
 
@@ -209,6 +209,11 @@ Type MyMainFrame Extends wxFrame
 
 	'	We need access to our creator's Fields. This simplifies this
 	Field ParentApp:MyApp
+	
+	Const	ID_SET_SIZE_TO_150_150:Int 			= 100,..
+			ID_SET_SIZE_TO_200_200:Int 			= 101,..
+			ID_SET_MAX_SIZE_TO_150_150:Int 	= 102,..
+			ID_SET_MAX_SIZE_TO_300_300:Int	= 103
 	
 	' ----------------------------------------------------------------
 	Rem
@@ -277,7 +282,7 @@ Type MyMainFrame Extends wxFrame
 		Connect(wxID_PRINT, wxEVT_COMMAND_MENU_SELECTED, OnReparent)
 		
 '		SetIcon(wxICON(mondrian))
-		'Show(True)
+		
 
 	End Method
 
@@ -372,4 +377,4 @@ Type MyMainFrame Extends wxFrame
 	End Function
 End Type
 
-New MyApp.run()
+

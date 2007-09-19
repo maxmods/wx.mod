@@ -135,16 +135,6 @@ Type wxImage Extends wxObject
 	Function CreateImageFromMime(name:String, mimeType:String)
 	End Function
 
-	Rem
-	bbdoc: Sets the pixel at the given coordinate.
-	about: This routine performs bounds-checks for the coordinate so it can be considered a safe way to
-	manipulate the data, but in some cases this might be too slow so that the data will have to be set directly.
-	In that case you will have to get access to the image data using the GetData method.
-	End Rem
-	Method SetRGB(x:Int, y:Int, red:Int, green:Int, blue:Int)
-		bmx_wximage_setrgb(wxObjectPtr, x, y, red, green, blue)
-	End Method
-	
 	Method Delete()
 		If wxObjectPtr Then
 			bmx_wximage_delete(wxObjectPtr)
@@ -379,6 +369,117 @@ Type wxImage Extends wxObject
 	Method Rescale:wxImage(width:Int, height:Int, quality:Int = wxIMAGE_QUALITY_NORMAL)
 		bmx_wximage_rescale(wxObjectPtr, width, height, quality)
 		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Changes the size of the image in-place without scaling it by adding either a border with the given colour or cropping as necessary.
+	returns: The (modified) image itself.
+	about: The image is pasted into a new image with the given size and background colour at the position pos
+	relative to the upper left of the new image. If red = green = blue = -1 then use either the current mask
+	colour if set or find, use, and set a suitable mask colour for any newly exposed areas.
+	End Rem
+	Method Resize:wxImage(width:Int, height:Int, x:Int, y:Int, red:Int = -1, green:Int = -1, blue:Int = -1)
+		bmx_wximage_resize(wxObjectPtr, width, height, x, y, red, green, blue)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Rotates the image about the given point, by angle radians.
+	returns: The rotated image, leaving this image intact.
+	about: Passing true to interpolating results in better image quality, but is slower. If the image has a mask,
+	then the mask colour is used for the uncovered pixels in the rotated image background. Else, black (rgb 0, 0, 0)
+	will be used.
+	End Rem
+	Method Rotate:wxImage(angle:Double, centreX:Int, centreY:Int, interpolating:Int = True, offsetX:Int Var, offsetY:Int Var)
+		Return wxImage._create(bmx_wximage_rotate(wxObjectPtr, angle, centreX, centreY, interpolating, Varptr offsetX, Varptr offsetY))
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method RotateHue(angle:Double)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Rotate90:wxImage(clockwise:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SaveFile()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Scale:wxImage(width:Int, height:Int, quality:Int = wxIMAGE_QUALITY_NORMAL)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Size:wxImage(width:Int, height:Int, x:Int, y:Int, red:Int = -1, green:Int = -1, blue:Int = -1)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetAlpha(x:Int, y:Int, alpha:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetData()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetMask(hasMask:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetMaskColour(red:Int, green:Int, blue:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetMaskFromImage:Int(mask:wxImage, mr:Int, mg:Int, mb:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetOption(name:String, value:Int)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPalette(palette:wxPalette)
+	End Method
+	
+	Rem
+	bbdoc: Sets the pixel at the given coordinate.
+	about: This routine performs bounds-checks for the coordinate so it can be considered a safe way to
+	manipulate the data, but in some cases this might be too slow so that the data will have to be set directly.
+	In that case you will have to get access to the image data using the GetData method.
+	End Rem
+	Method SetRGB(x:Int, y:Int, red:Int, green:Int, blue:Int)
+		bmx_wximage_setrgb(wxObjectPtr, x, y, red, green, blue)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetRGBRange(x:Int, y:Int, w:Int, h:Int, red:Int, green:Int, blue:Int)
 	End Method
 	
 End Type

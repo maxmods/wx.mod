@@ -37,6 +37,8 @@ extern "C" {
 	void bmx_wximage_setrgb(MaxImage * image, int x, int y, int r, int g, int b);
 	void bmx_wximage_rescale(MaxImage * image, int width, int height, int quality);
 	int bmx_wximage_getwidth(MaxImage * image);
+	void bmx_wximage_resize(MaxImage * image, int width, int height, int x, int y, int red, int green, int blue);
+	MaxImage * bmx_wximage_rotate(MaxImage * image, double angle, int centreX, int centreY, bool interpolating, int * offsetX, int * offsetY);
 	
 	void bmx_wximage_addhandler(wxImageHandler * handler);
 	wxPNGHandler * bmx_wxpnghandler_create();
