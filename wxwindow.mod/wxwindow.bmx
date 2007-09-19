@@ -167,14 +167,15 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Clears the window by filling it with the current background colour.
+	about: Does not cause an erase background event to be generated.
 	End Rem
 	Method ClearBackground()
 		bmx_wxwindow_clearbackground(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Converts to screen coordinates from coordinates relative to this window.
 	End Rem
 	Method ClientToScreen(x:Int Var, y:Int Var)
 		bmx_wxwindow_clienttoscreen(wxObjectPtr, Varptr x, Varptr y)
@@ -207,9 +208,15 @@ Type wxWindow Extends wxEvtHandler
 		Return bmx_wxwindow_close(wxObjectPtr, force)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ConvertDialogToPixel(dx:Int, dy:Int, px:Int Var, py:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ConvertPixelsToDialog(dx:Int, dy:Int, px:Int Var, py:Int Var)
 	End Method
 	
@@ -484,9 +491,10 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the platform-specific handle of the physical window, such as HWND for Windows, GtkWidget for GTK.
 	End Rem
 	Method GetHandle:Byte Ptr()
+		Return bmx_wxwindow_gethandle(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -709,7 +717,7 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Equivalent to calling Show(false).
 	End Rem
 	Method Hide:Int()
 		Return bmx_wxwindow_hide(wxObjectPtr)
@@ -824,27 +832,31 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: This is just a wrapper for ScrollLines(1).
 	End Rem
 	Method LineDown()
+		bmx_wxwindow_linedown(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This is just a wrapper for ScrollLines(-1).
 	End Rem
 	Method LineUp()
+		bmx_wxwindow_lineup(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Lowers the window to the bottom of the window hierarchy (z-order).
 	End Rem
 	Method Lower()
+		bmx_wxwindow_lower(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Disables all other windows in the application so that the user can only interact with this window.
 	End Rem
 	Method MakeModal(flag:Int)
+		bmx_wxwindow_makemodal(wxObjectPtr, flag)
 	End Method
 	
 	Rem
@@ -855,39 +867,59 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Moves this window in the tab navigation order after the specified win.
+	about: This means that when the user presses TAB key on that other window, the focus switches to this window.
+	<p>
+	Default tab order is the same as creation order, this function and MoveBeforeInTabOrder() allow to change
+	it after creating all the windows.
+	</p>
 	End Rem
 	Method MoveAfterInTabOrder(win:wxWindow)
+		bmx_wxwindow_moveafterintaborder(wxObjectPtr, win.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Same as MoveAfterInTabOrder except that it inserts this window just before win instead of putting it right after it.
 	End Rem
 	Method MoveBeforeInTabOrder(win:wxWindow)
+		bmx_wxwindow_movebeforeintaborder(wxObjectPtr, win.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Does keyboard navigation from this window to another, by sending a wxNavigationKeyEvent.
+	about: You may wish to call this from a text control custom keypress handler to do the default
+	navigation behaviour for the tab key, since the standard default behaviour for a multiline text
+	control with the wxTE_PROCESS_TAB style is to insert a tab and not navigate to the next control.
 	End Rem
-	Method Navigate:Int()
+	Method Navigate:Int(flags:Int = 1) ' TODO... set this properly
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This is just a wrapper for ScrollPages()(1).
 	End Rem
 	Method PageDown()
+		bmx_wxwindow_pagedown(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This is just a wrapper for ScrollPages()(-1).
 	End Rem
 	Method PageUp()
+		bmx_wxwindow_pageup(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Removes and returns the top-most event handler on the event handler stack.
 	End Rem
 	Method PopEventHandler:wxEvtHandler(deleteHandler:Int = False)
+		Local h:Byte Ptr = bmx_wxwindow_popeventhandler(wxObjectPtr, deleteHandler)
+		If h Then
+			Local handler:wxEvtHandler = wxEvtHandler(wxfind(h))
+			If Not handler Then
+				Return wxEvtHandler._create(h)
+			End If
+			Return handler
+		End If
 	End Method
 	
 	Rem
@@ -931,9 +963,11 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Raises the window to the top of the window hierarchy (z-order).
+	about: In current version of wxWidgets this works both for managed and child windows.
 	End Rem
 	Method Raise()
+		bmx_wxwindow_raise(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -974,9 +1008,11 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Find the given handler in the windows event handler chain and remove (but not delete) it from it.
+	returns: True if it was found and False otherwise (this also results in an assert failure so this method should only be called when the handler is supposed to be there).
 	End Rem
 	Method RemoveEventHandler:Int(handler:wxEvtHandler)
+		Return bmx_wxwindow_removeeventhandler(wxObjectPtr, handler.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1037,27 +1073,47 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Sets the background style of the window.
+	about: The background style indicates whether background colour should be determined by the system
+	(wxBG_STYLE_SYSTEM), be set to a specific colour (wxBG_STYLE_COLOUR), or should be left to the
+	application to implement (wxBG_STYLE_CUSTOM).
+	<p>
+	On GTK+, use of wxBG_STYLE_CUSTOM allows the flicker-free drawing of a custom background, such as a
+	tiled bitmap. Currently the style has no effect on other platforms.
+	</p>
 	End Rem
 	Method SetBackgroundStyle(style:Int)
+		bmx_wxwindow_setbackgroundstyle(wxObjectPtr, style)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: A smart SetSize that will fill in default size components with the window's best size values.
+	about: Also sets the window's minsize to the value passed in for use with sizers. This means that if
+	a full or partial size is passed to this function then the sizers will use that size instead of the
+	results of GetBestSize to determine the minimum needs of the window for layout.
+	<p>
+	Most controls will use this to set their initial size, and their min size to the passed in value
+	(if any.)
+	</p>
 	End Rem
 	Method SetInitialSize(w:Int = -1, h:Int = -1)
+		bmx_wxwindow_setinitialsize(wxObjectPtr, w, h)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the caret associated with the window.
 	End Rem
 	Method SetCaret()
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This sets the size of the window client area in pixels.
+	about: Using this function to size a window tends to be more device-independent than wxWindow::SetSize,
+	since the application need not worry about what dimensions the border or title bar have when trying
+	to fit the window around panel items, for example.
 	End Rem
 	Method SetClientSize(width:Int, height:Int)
+		bmx_wxwindow_setclientsize(wxObjectPtr, width, height)
 	End Method
 	
 	Rem
@@ -1067,9 +1123,12 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This normally does not need to be called by user code.
+	about: It is called when a window is added to a sizer, and is used so the window can remove itself
+	from the sizer when it is destroyed.
 	End Rem
 	Method SetContainingSizer(sizer:wxSizer)
+		bmx_wxwindow_setcontainingsizer(wxObjectPtr, sizer.wxSizerPtr)
 	End Method
 	
 	Rem
@@ -1089,16 +1148,55 @@ Type wxWindow Extends wxEvtHandler
 	Method SetDropTarget()
 	End Method
 	
+	' Deprecated!
+	'Rem
+	'bbdoc: Sets the initial window size If none is given (i.e. at least one of the components of the size passed To ctor/Create() is wxDefaultCoord (-1, -1)).
+	'End Rem
+	'Method SetInitialBestSize(w:Int, h:Int)
+	'	bmx_wxwindow_setinitialbestsize(wxObjectPtr, w, h)
+	'End Method
+	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the event handler for this window.
+	about: An event handler is an object that is capable of processing the events sent to a window.
+	By default, the window is its own event handler, but an application may wish to substitute another,
+	for example to allow central implementation of event-handling for a variety of different window
+	classes.
+	<p>
+	It is usually better to use wxWindow::PushEventHandler since this sets up a chain of event handlers,
+	where an event not handled by one event handler is handed to the next one in the chain.
+	</p>
 	End Rem
-	Method SetInitialBestSize(w:Int, h:Int)
+	Method SetEventHandler(handler:wxEvtHandler)
+		bmx_wxwindow_seteventhandler(wxObjectPtr, handler.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the extra style bits for the window.
+	about: The currently defined extra style bits are:
+	<table width="90%" align="center">
+	<tr><th>Constant</th><th>Description</th></tr>
+	<tr><td>wxWS_EX_VALIDATE_RECURSIVELY</td><td>TransferDataTo/FromWindow() and Validate() methods will
+	recursively descend into all children of the window if it has this style flag set. </td></tr>
+	<tr><td>wxWS_EX_BLOCK_EVENTS</td><td>Normally, the command events are propagated upwards to the window
+	parent recursively until a handler for them is found. Using this style allows to prevent them from being
+	propagated beyond this window. Notice that wxDialog has this style on by default for the reasons
+	explained in the event processing overview.</td></tr>
+	<tr><td>wxWS_EX_TRANSIENT</td><td>This can be used to prevent a window from being used as an implicit
+	parent for the dialogs which were created without a parent. It is useful for the windows which can
+	disappear at any moment as creating children of such windows results in fatal problems. </td></tr>
+	<tr><td>wxWS_EX_CONTEXTHELP</td><td>Under Windows, puts a query button on the caption. When pressed,
+	Windows will go into a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the
+	user clicked on an application window. This style cannot be used together with wxMAXIMIZE_BOX or
+	wxMINIMIZE_BOX, so these two styles are automatically turned of if this one is used. </td></tr>
+	<tr><td>wxWS_EX_PROCESS_IDLE</td><td>This window should always process idle events, even if the mode
+	set by wxIdleEvent::SetMode is wxIDLE_PROCESS_SPECIFIED. </td></tr>
+	<tr><td>wxWS_EX_PROCESS_UI_UPDATES</td><td>This window should always process UI update events, even
+	if the mode set by wxUpdateUIEvent::SetMode is wxUPDATE_UI_PROCESS_SPECIFIED.</td></tr>
+	</table>
 	End Rem
 	Method SetExtraStyle(style:Int)
+		bmx_wxwindow_setextrastyle(wxObjectPtr, style)
 	End Method
 	
 	' override me !!!!
@@ -1153,45 +1251,47 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the maximum size of the window, to indicate to the sizer layout mechanism that this is the maximum possible size.
 	End Rem
 	Method SetMaxSize(width:Int, height:Int)
+		bmx_wxwindow_setmaxsize(wxObjectPtr, width, height)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the minimum size of the window, to indicate to the sizer layout mechanism that this is the minimum required size.
+	about: You may need to call this if you change the window size after construction and before adding
+	to its parent sizer.
 	End Rem
 	Method SetMinSize(width:Int, height:Int)
+		bmx_wxwindow_setminsize(wxObjectPtr, width, height)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the window's name.
 	End Rem
 	Method SetName(name:String)
+		bmx_wxwindow_setname(wxObjectPtr, name)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the background colour of the window but prevents it from being inherited by the children of this window.
 	End Rem
 	Method SetOwnBackgroundColour(colour:wxColour)
+		bmx_wxwindow_setownbackgroundcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the font of the window but prevents it from being inherited by the children of this window.
 	End Rem
 	Method SetOwnFont(font:wxFont)
+		bmx_wxwindow_setownfont(wxObjectPtr, font.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the foreground colour of the window but prevents it from being inherited by the children of this window.
 	End Rem
 	Method SetOwnForegroundColour(colour:wxColour)
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPalette()
+		bmx_wxwindow_setownforegroundcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
 	Rem

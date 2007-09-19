@@ -475,6 +475,107 @@ void bmx_wxwindow_setposition(wxWindow * window, int x, int y) {
 	window->SetSize(x, y, -1, -1);
 }
 
+void * bmx_wxwindow_gethandle(wxWindow * window) {
+	return window->GetHandle();
+}
+
+void bmx_wxwindow_linedown(wxWindow * window) {
+	window->LineDown();
+}
+
+void bmx_wxwindow_lineup(wxWindow * window) {
+	window->LineUp();
+}
+
+void bmx_wxwindow_lower(wxWindow * window) {
+	window->Lower();
+}
+
+void bmx_wxwindow_makemodal(wxWindow * window, bool flag) {
+	window->MakeModal(flag);
+}
+
+void bmx_wxwindow_moveafterintaborder(wxWindow * window, wxWindow * win) {
+	window->MoveAfterInTabOrder(win);
+}
+
+void bmx_wxwindow_movebeforeintaborder(wxWindow * window, wxWindow * win) {
+	window->MoveBeforeInTabOrder(win);
+}
+
+void bmx_wxwindow_pagedown(wxWindow * window) {
+	window->PageDown();
+}
+
+void bmx_wxwindow_pageup(wxWindow * window) {
+	window->PageUp();
+}
+
+wxEvtHandler * bmx_wxwindow_popeventhandler(wxWindow * window, bool deleteHandler) {
+	return window->PopEventHandler(deleteHandler);
+}
+
+void bmx_wxwindow_raise(wxWindow * window) {
+	window->Raise();
+}
+
+bool bmx_wxwindow_removeeventhandler(wxWindow * window, wxEvtHandler * handler) {
+	return window->RemoveEventHandler(handler);
+}
+
+void bmx_wxwindow_setbackgroundstyle(wxWindow * window, wxBackgroundStyle style) {
+	window->SetBackgroundStyle(style);
+}
+
+void bmx_wxwindow_setinitialsize(wxWindow * window, int w, int h) {
+	window->SetInitialSize(wxSize(w, h));
+}
+
+void bmx_wxwindow_setclientsize(wxWindow * window, int w, int h) {
+	window->SetClientSize(wxSize(w, h));
+}
+
+void bmx_wxwindow_setcontainingsizer(wxWindow * window, wxSizer * sizer) {
+	window->SetContainingSizer(sizer);
+}
+
+//void bmx_wxwindow_setinitialbestsize(wxWindow * window, int w, int h) {
+//	window->SetInitialBestSize(wxSize(w, h));
+//}
+
+void bmx_wxwindow_seteventhandler(wxWindow * window, wxEvtHandler * handler) {
+	window->SetEventHandler(handler);
+}
+
+void bmx_wxwindow_setextrastyle(wxWindow * window, long style) {
+	window->SetExtraStyle(style);
+}
+
+void bmx_wxwindow_setmaxsize(wxWindow * window, int width, int height) {
+	window->SetMaxSize(wxSize(width, height));
+}
+
+void bmx_wxwindow_setminsize(wxWindow * window, int width, int height) {
+	window->SetMinSize(wxSize(width, height));
+}
+
+void bmx_wxwindow_setname(wxWindow * window, BBString * name) {
+	window->SetName(wxStringFromBBString(name));
+}
+
+void bmx_wxwindow_setownbackgroundcolour(wxWindow * window, MaxColour * colour) {
+	window->SetOwnBackgroundColour(colour->Colour());
+}
+
+void bmx_wxwindow_setownfont(wxWindow * window, MaxFont * font) {
+	window->SetOwnFont(font->Font());
+}
+
+void bmx_wxwindow_setownforegroundcolour(wxWindow * window, MaxColour * colour) {
+	window->SetOwnForegroundColour(colour->Colour());
+}
+
+
 // *********************************************
 
 

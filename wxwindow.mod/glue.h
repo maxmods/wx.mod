@@ -128,6 +128,31 @@ extern "C" {
 	void bmx_wxwindow_setsize(wxWindow * window, int width, int height);
 	void bmx_wxwindow_setposition(wxWindow * window, int x, int y);
 
+	void * bmx_wxwindow_gethandle(wxWindow * window);
+	void bmx_wxwindow_linedown(wxWindow * window);
+	void bmx_wxwindow_lineup(wxWindow * window);
+	void bmx_wxwindow_lower(wxWindow * window);
+	void bmx_wxwindow_makemodal(wxWindow * window, bool flag);
+	void bmx_wxwindow_moveafterintaborder(wxWindow * window, wxWindow * win);
+	void bmx_wxwindow_movebeforeintaborder(wxWindow * window, wxWindow * win);
+	void bmx_wxwindow_pagedown(wxWindow * window);
+	void bmx_wxwindow_pageup(wxWindow * window);
+	wxEvtHandler * bmx_wxwindow_popeventhandler(wxWindow * window, bool deleteHandler);
+	void bmx_wxwindow_raise(wxWindow * window);
+	bool bmx_wxwindow_removeeventhandler(wxWindow * window, wxEvtHandler * handler);
+	void bmx_wxwindow_setbackgroundstyle(wxWindow * window, wxBackgroundStyle style);
+	void bmx_wxwindow_setinitialsize(wxWindow * window, int w, int h);
+	void bmx_wxwindow_setclientsize(wxWindow * window, int w, int h);
+	void bmx_wxwindow_setcontainingsizer(wxWindow * window, wxSizer * sizer);
+	//void bmx_wxwindow_setinitialbestsize(wxWindow * window, int w, int h);
+	void bmx_wxwindow_seteventhandler(wxWindow * window, wxEvtHandler * handler);
+	void bmx_wxwindow_setextrastyle(wxWindow * window, long style);
+	void bmx_wxwindow_setmaxsize(wxWindow * window, int width, int height);
+	void bmx_wxwindow_setminsize(wxWindow * window, int width, int height);
+	void bmx_wxwindow_setname(wxWindow * window, BBString * name);
+	void bmx_wxwindow_setownbackgroundcolour(wxWindow * window, MaxColour * colour);
+	void bmx_wxwindow_setownfont(wxWindow * window, MaxFont * font);
+	void bmx_wxwindow_setownforegroundcolour(wxWindow * window, MaxColour * colour);
 
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);

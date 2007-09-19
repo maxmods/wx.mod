@@ -21,40 +21,35 @@
 */ 
 
 #include "wxglue.h"
-#include "../wxlistctrl.mod/glue.h"
+#include "wx/slider.h"
 
-class MaxListView;
+class MaxSlider;
 
 extern "C" {
 
 #include <blitz.h>
 
-	MaxListView * bmx_wxlistview_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, long style);
-	void bmx_wxlistview_clearcolumnimage(wxListView * list, int col);
-	void bmx_wxlistview_focus(wxListView * list, long index);
-	long bmx_wxlistview_getfirstselected(wxListView * list);
-	long bmx_wxlistview_getfocuseditem(wxListView * list);
-	long bmx_wxlistview_getnextselected(wxListView * list, long item);
-	bool bmx_wxlistview_isselected(wxListView * list, long index);
-	void bmx_wxlistview_selectitem(wxListView * list, long item, bool on);
-	void bmx_wxlistview_setcolumnimage(wxListView * list, int col, int image);
+	MaxSlider * bmx_wxslider_create(BBObject * handle, wxWindow * parent, int id, int value,
+			int minValue, int maxValue, int x, int y, int w, int h, long style);
+	int bmx_wxslider_getlinesize(wxSlider * slider);
+	int bmx_wxslider_getmax(wxSlider * slider);
+	int bmx_wxslider_getmin(wxSlider * slider);
+	int bmx_wxslider_getpagesize(wxSlider * slider);
+	int bmx_wxslider_getvalue(wxSlider * slider);
+	void bmx_wxslider_setlinesize(wxSlider * slider, int size);
+	void bmx_wxslider_setpagesize(wxSlider * slider, int size);
+	void bmx_wxslider_setrange(wxSlider * slider, int minValue, int maxValue);
+	void bmx_wxslider_setvalue(wxSlider * slider, int value);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class MaxListView : public wxListView
+class MaxSlider : public wxSlider
 {
 public:
-	MaxListView(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
-	~MaxListView();
+	MaxSlider(BBObject * handle, wxWindow * parent, wxWindowID id, int value, int minValue, int maxValue, 
+			int x, int y, int w, int h, long style);
+	~MaxSlider();
 
-	virtual wxString OnGetItemText(long item, long column) const;
-	virtual int OnGetItemColumnImage(long item, long column) const;
-	virtual wxListItemAttr *OnGetItemAttr(long item) const;
-	virtual int OnGetItemImage(long item) const;
-	
-private:
-	BBObject * maxHandle;
-	DECLARE_EVENT_TABLE()
 };

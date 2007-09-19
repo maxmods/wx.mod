@@ -21,7 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxListCtrl
+Import wx.wxControl
 Import BRL.Blitz
 
 
@@ -44,14 +44,31 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxlistview_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxlistview_clearcolumnimage(handle:Byte Ptr, col:Int)
-	Function bmx_wxlistview_focus(handle:Byte Ptr, index:Int)
-	Function bmx_wxlistview_getfirstselected:Int(handle:Byte Ptr)
-	Function bmx_wxlistview_getfocuseditem:Int(handle:Byte Ptr)
-	Function bmx_wxlistview_getnextselected:Int(handle:Byte Ptr, item:Int)
-	Function bmx_wxlistview_isselected:Int(handle:Byte Ptr, index:Int)
-	Function bmx_wxlistview_selectitem(handle:Byte Ptr, item:Int, on:Int)
-	Function bmx_wxlistview_setcolumnimage(handle:Byte Ptr, col:Int, image:Int)
+	Function bmx_wxslider_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, value:Int, minValue:Int, maxValue:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxslider_getlinesize:Int(handle:Byte Ptr)
+	Function bmx_wxslider_getmax:Int(handle:Byte Ptr)
+	Function bmx_wxslider_getmin:Int(handle:Byte Ptr)
+	Function bmx_wxslider_getpagesize:Int(handle:Byte Ptr)
+	Function bmx_wxslider_getvalue:Int(handle:Byte Ptr)
+	Function bmx_wxslider_setlinesize(handle:Byte Ptr, size:Int)
+	Function bmx_wxslider_setpagesize(handle:Byte Ptr, size:Int)
+	Function bmx_wxslider_setrange(handle:Byte Ptr, minValue:Int, maxValue:Int)
+	Function bmx_wxslider_setvalue(handle:Byte Ptr, value:Int)
 
 End Extern
+
+
+Const wxSL_HORIZONTAL:Int = wxHORIZONTAL ' $0004 */
+Const wxSL_VERTICAL:Int = wxVERTICAL   ' $0008 */
+
+Const wxSL_TICKS:Int = $0010
+Const wxSL_AUTOTICKS:Int = wxSL_TICKS ' we don't support manual ticks
+Const wxSL_LABELS:Int = $0020
+Const wxSL_LEFT:Int = $0040
+Const wxSL_TOP:Int = $0080
+Const wxSL_RIGHT:Int = $0100
+Const wxSL_BOTTOM:Int = $0200
+Const wxSL_BOTH:Int = $0400
+Const wxSL_SELRANGE:Int = $0800
+Const wxSL_INVERSE:Int = $1000
+

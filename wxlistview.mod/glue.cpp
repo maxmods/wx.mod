@@ -24,8 +24,72 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxListView::MaxListView(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
+	: maxHandle(handle), wxListView(parent, id, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
 
+wxString MaxListView::OnGetItemText(long item, long column) const {
+	return wxStringFromBBString(_wx_wxlistctrl_wxListCtrl__OnGetItemText(maxHandle, item, column));
+}
+
+int MaxListView::OnGetItemColumnImage(long item, long column) const {
+	return _wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage(maxHandle, item, column);
+}
+
+wxListItemAttr * MaxListView::OnGetItemAttr(long item) const {
+	return _wx_wxlistctrl_wxListCtrl__OnGetItemAttr(maxHandle, item);
+}
+
+int MaxListView::OnGetItemImage(long item) const {
+	return _wx_wxlistctrl_wxListCtrl__OnGetItemImage(maxHandle, item);
+}
+
+MaxListView::~MaxListView() {
+	wxunbind(this);
+}
 
 // *********************************************
+
+
+BEGIN_EVENT_TABLE(MaxListView, wxListView)
+END_EVENT_TABLE()
+
+MaxListView * bmx_wxlistview_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, long style) {
+	return new MaxListView(handle, parent, id, x, y, w, h, style);
+}
+
+void bmx_wxlistview_clearcolumnimage(wxListView * list, int col) {
+	list->ClearColumnImage(col);
+}
+
+void bmx_wxlistview_focus(wxListView * list, long index) {
+	list->Focus(index);
+}
+
+long bmx_wxlistview_getfirstselected(wxListView * list) {
+	return list->GetFirstSelected();
+}
+
+long bmx_wxlistview_getfocuseditem(wxListView * list) {
+	return list->GetFocusedItem();
+}
+
+long bmx_wxlistview_getnextselected(wxListView * list, long item) {
+	return list->GetNextSelected(item);
+}
+
+bool bmx_wxlistview_isselected(wxListView * list, long index) {
+	return list->IsSelected(index);
+}
+
+void bmx_wxlistview_selectitem(wxListView * list, long item, bool on) {
+	list->Select(item, on);
+}
+
+void bmx_wxlistview_setcolumnimage(wxListView * list, int col, int image) {
+	list->SetColumnImage(col, image);
+}
 
 

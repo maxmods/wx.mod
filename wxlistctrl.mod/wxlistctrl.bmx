@@ -89,7 +89,8 @@ Type wxListCtrl Extends wxControl
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates the list control.
+	about: See CreateListCtrl for further details.
 	End Rem
 	Method Create:wxListCtrl(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, ..
 			style:Int = wxLC_ICON)

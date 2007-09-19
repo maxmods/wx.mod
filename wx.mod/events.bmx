@@ -723,6 +723,14 @@ about: wxWindow (and therefore all window classes) are derived from this class.
 End Rem
 Type wxEvtHandler Extends wxObject
 
+	Function _create:wxEvtHandler(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxEvtHandler = New wxEvtHandler
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
