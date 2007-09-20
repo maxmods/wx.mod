@@ -45,6 +45,7 @@ Import "glue.cpp"
 Extern
 
 	Function bmx_wximage_createempty:Byte Ptr(width:Int, height:Int)
+	Function bmx_wximage_create:Byte Ptr(name:String, flag:Int, index:Int)
 	Function bmx_wximage_delete(handle:Byte Ptr)
 	
 	Function bmx_wximage_setrgb(handle:Byte Ptr, x:Int, y:Int, r:Int, g:Int, b:Int)

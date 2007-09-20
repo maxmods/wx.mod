@@ -118,12 +118,27 @@ Type wxImage Extends wxObject
 		End If
 	End Function
 	
-	Function CreateImage:wxImage(name:String, flag:Int)
+	Rem
+	bbdoc: Loads an image from a file.
+	End Rem
+	Method Create:wxImage(name:String, flag:Int, index:Int = -1)
+		wxObjectPtr = bmx_wximage_create(name, flag, index)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Loads an image from a file.
+	End Rem
+	Function CreateFromFile:wxImage(name:String, flag:Int, index:Int = -1)
+		Return New wxImage.Create(name, flag, index)
 	End Function
 	
 	Function CreateNullImage:wxImage()
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateEmptyImage:wxImage(width:Int, height:Int)
 		Local this:wxImage = New wxImage
 		
@@ -132,6 +147,9 @@ Type wxImage Extends wxObject
 		Return this
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateImageFromMime(name:String, mimeType:String)
 	End Function
 
