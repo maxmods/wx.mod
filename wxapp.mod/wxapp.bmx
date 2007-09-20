@@ -52,7 +52,14 @@ Import "common.bmx"
 
 
 Rem
-bbdoc: TODO
+bbdoc: The wxApp type represents the application itself.
+about: It is used to:
+<ul>
+<li>set and get application-wide properties</li>
+<li>implement the windowing system message or event loop</li>
+<li>initiate application processing via wxApp::OnInit</li>
+<li>allow default processing of events not handled by other objects in the application.</li>
+</ul>
 End Rem
 Type wxApp Abstract
 
@@ -78,11 +85,17 @@ Type wxApp Abstract
 		Return bmx_app_wxentry()
 	End Method
 	
+	Rem
+	bbdoc: TODO
+	End Rem
 	Method SetTopWindow(window:wxWindow)
 		bmx_wxapp_settopwindow(window.wxObjectPtr)
 	End Method
 	
 	
+	Rem
+	bbdoc: TODO
+	End Rem
 	Method SetAppName(name:String)
 		bmx_wxapp_setappname(name)
 	End Method
@@ -114,5 +127,12 @@ Type wxApp Abstract
 	End Method
 	
 End Type
+
+Rem
+bbdoc: Returns a reference to the application object
+End Rem
+Function wxGetApp:wxApp()
+	Return wxApp.app
+End Function
 
 
