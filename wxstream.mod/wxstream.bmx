@@ -58,38 +58,69 @@ Type wxMaxInputStream Extends wxInputStream
 	Field _stream:TStream
 	Field _lastRead:Int
 
-	Function CreateMaxInputStream:wxMaxInputStream(stream:TStream)
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateMaxInputStream:wxMaxInputStream(stream:Object)
 		Return New wxMaxInputStream.Create(stream)
 	End Function
 
-	Method Create:wxMaxInputStream(stream:TStream)
-		_stream = stream
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxMaxInputStream(stream:Object)
+		If TStream(stream) Then
+			_stream = TStream(stream)
+		Else
+			_stream = ReadStream(stream)
+		End If
 		wxStreamPtr = bmx_wxmaxinputstream_create(Self)
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method CanRead:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetC:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Eof:Int()
 		Return _stream.Eof()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method LastRead:Int()
 		Return _lastRead
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Peek:Byte()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Read:wxMaxInputStream(buffer:Byte Ptr, size:Int)
 		_lastRead = _stream.Read( buffer, size )
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SeekI:Int(pos:Int, mode:Int = wxFromStart)
 		Select mode
 			Case wxFromStart
@@ -102,11 +133,17 @@ Type wxMaxInputStream Extends wxInputStream
 		End Select
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method TellI:Int()
 		Return _stream.Pos()
 	End Method
 
 	Method Delete()
+		If _stream Then
+			_stream.Close()
+		End If
 		If wxStreamPtr Then
 			bmx_wxmaxinputstream_delete(wxStreamPtr)
 			wxStreamPtr = Null
@@ -123,10 +160,23 @@ Type wxMaxInputStream Extends wxInputStream
 		Return wxMaxInputStream(obj).Read(buffer, size).wxStreamPtr
 	End Function
 
+	Function _sysread:Int(obj:Object, buffer:Byte Ptr, size:Int)
+		wxMaxInputStream(obj).Read(buffer, size)
+		Return wxMaxInputStream(obj)._lastread
+	End Function
+
 	Function _seeki:Int(obj:Object, pos:Int, mode:Int)
 		Return wxMaxInputStream(obj).SeekI(pos, mode)
 	End Function
+
+	Function _sysseek:Int(obj:Object, pos:Int, mode:Int)
+		Return wxMaxInputStream(obj).SeekI(pos, mode)
+	End Function
 	
+	Function _systell:Int(obj:Object)
+		Return wxMaxInputStream(obj).TellI()
+	End Function
+
 	Function _telli:Int(obj:Object)
 		Return wxMaxInputStream(obj).TellI()
 	End Function

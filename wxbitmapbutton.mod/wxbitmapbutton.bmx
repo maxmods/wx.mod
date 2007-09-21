@@ -79,6 +79,8 @@ Type wxBitmapButton Extends wxButton
 	Method Create:wxBitmapButton(parent:wxWindow, id:Int, bitmap:Object, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxBU_AUTODRAW)
 			
+		Assert wxBitmap(bitmap), "Parameter 'bitmap' does not appear to be a bitmap!"
+		
 		wxObjectPtr = bmx_wxbitmapbutton_create(Self, parent.wxObjectPtr, id, wxBitmap(bitmap).wxObjectPtr, x, y, w, h, style)
 		
 		Return Self

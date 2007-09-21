@@ -32,13 +32,25 @@ MaxInputStream::MaxInputStream(BBObject * handle)
 MaxInputStream::~MaxInputStream() {
 }
 
-bool MaxInputStream::Eof() const {
-	return _wx_wxstream_wxMaxInputStream__eof(maxHandle);
+//bool MaxInputStream::Eof() const {
+//	return _wx_wxstream_wxMaxInputStream__eof(maxHandle);
+//}
+
+//wxInputStream& MaxInputStream::Read(void *buffer, size_t size) {
+//	MaxInputStream * s = _wx_wxstream_wxMaxInputStream__read(maxHandle, buffer, size);
+//	return *s;
+//}
+
+size_t MaxInputStream::OnSysRead(void *buffer, size_t bufsize){
+	return _wx_wxstream_wxMaxInputStream__sysread(maxHandle, buffer, bufsize);
 }
 
-wxInputStream& MaxInputStream::Read(void *buffer, size_t size) {
-	MaxInputStream * s = _wx_wxstream_wxMaxInputStream__read(maxHandle, buffer, size);
-	return *s;
+wxFileOffset MaxInputStream::OnSysSeek(wxFileOffset seek, wxSeekMode mode) {
+	return _wx_wxstream_wxMaxInputStream__sysseek(maxHandle, seek, mode);
+}
+
+wxFileOffset MaxInputStream::OnSysTell() const {
+	return _wx_wxstream_wxMaxInputStream__systell(maxHandle);
 }
 
 // *********************************************

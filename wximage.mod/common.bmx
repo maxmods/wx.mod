@@ -106,6 +106,8 @@ Extern
 	Function bmx_wxpnghandler_create:Byte Ptr()
 	Function bmx_wxxpmhandler_create:Byte Ptr()
 
+	Function bmx_wximage_createfromstream:Byte Ptr(stream:Byte Ptr, kind:Int, index:Int)
+	
 End Extern
 
 

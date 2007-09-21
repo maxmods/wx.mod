@@ -93,6 +93,9 @@ extern "C" {
 	void bmx_wximage_inserthandler(wxImageHandler * handler);
 	wxPNGHandler * bmx_wxpnghandler_create();
 	wxXPMHandler * bmx_wxxpmhandler_create();
+	
+	MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, long kind, int index);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

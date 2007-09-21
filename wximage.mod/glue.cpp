@@ -307,3 +307,10 @@ wxPNGHandler * bmx_wxpnghandler_create() {
 wxXPMHandler * bmx_wxxpmhandler_create() {
 	return new wxXPMHandler();
 }
+
+
+MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, long kind, int index) {
+	wxImage i(*stream, kind, index);
+	return new MaxImage(i);
+}
+

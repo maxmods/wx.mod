@@ -137,7 +137,9 @@ Type wxImage Extends wxObject
 	bbdoc: 
 	End Rem
 	Function CreateFromStream:wxImage(stream:wxInputStream, kind:Int, index:Int = -1)
-		
+		Local this:wxImage = New wxImage
+		this.wxObjectPtr = bmx_wximage_createfromstream(stream.wxStreamPtr, kind, index)
+		Return this
 	End Function
 	
 	Function CreateNullImage:wxImage()
