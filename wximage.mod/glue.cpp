@@ -31,9 +31,8 @@ MaxImage::MaxImage()
 }
 
 MaxImage::MaxImage(const wxImage & img)
-	: image(wxNullImage)
+	: image(img)
 {
-	image = wxImage(img); // we need to make a copy of it !
 }
 
 wxImage & MaxImage::Image() {

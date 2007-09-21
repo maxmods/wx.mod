@@ -121,16 +121,23 @@ Type wxImage Extends wxObject
 	Rem
 	bbdoc: Loads an image from a file.
 	End Rem
-	Method Create:wxImage(name:String, flag:Int, index:Int = -1)
-		wxObjectPtr = bmx_wximage_create(name, flag, index)
+	Method Create:wxImage(name:String, kind:Int, index:Int = -1)
+		wxObjectPtr = bmx_wximage_create(name, kind, index)
 		Return Self
 	End Method
 	
 	Rem
 	bbdoc: Loads an image from a file.
 	End Rem
-	Function CreateFromFile:wxImage(name:String, flag:Int, index:Int = -1)
-		Return New wxImage.Create(name, flag, index)
+	Function CreateFromFile:wxImage(name:String, kind:Int, index:Int = -1)
+		Return New wxImage.Create(name, kind, index)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateFromStream:wxImage(stream:wxInputStream, kind:Int, index:Int = -1)
+		
 	End Function
 	
 	Function CreateNullImage:wxImage()

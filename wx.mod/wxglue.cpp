@@ -184,8 +184,8 @@ MaxColour::MaxColour()
 }
 
 MaxColour::MaxColour(wxColour & col)
+	: colour(col)
 {
-	colour = wxColour(col);
 }
 
 wxColour & MaxColour::Colour() {
@@ -201,9 +201,8 @@ MaxFont::MaxFont()
 }
 
 MaxFont::MaxFont(const wxFont & f)
-	: font(wxNullFont)
+	: font(f)
 {
-	font = wxFont(f);
 }
 
 wxFont & MaxFont::Font() {
@@ -586,6 +585,32 @@ wxEventType bmx_wxevent_geteventtype(wxEvent & event) {
 int bmx_wxevent_getid(wxEvent & event) {
 	return event.GetId();
 }
+
+bool bmx_wxevent_getskipped(wxEvent & event) {
+	return event.GetSkipped();
+}
+
+long bmx_wxevent_gettimestamp(wxEvent & event) {
+	return event.GetTimestamp();
+}
+
+bool bmx_wxevent_iscommandevent(wxEvent & event) {
+	return event.IsCommandEvent();
+}
+
+void bmx_wxevent_resumepropagation(wxEvent & event, int propagationLevel) {
+	event.ResumePropagation(propagationLevel);
+}
+
+bool bmx_wxevent_shouldpropagate(wxEvent & event) {
+	return event.ShouldPropagate();
+}
+
+int bmx_wxevent_stoppropagation(wxEvent & event) {
+	return event.StopPropagation();
+}
+
+
 
 void bmx_wxupdateeventui_check(wxUpdateUIEvent & event, bool value) {
 	event.Check(value);

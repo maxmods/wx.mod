@@ -82,6 +82,13 @@ extern "C" {
 	void bmx_wxsizeevent_getsize(wxSizeEvent & event, int * w, int * h);
 	wxEventType bmx_wxevent_geteventtype(wxEvent & event);
 	int bmx_wxevent_getid(wxEvent & event);
+	bool bmx_wxevent_getskipped(wxEvent & event);
+	long bmx_wxevent_gettimestamp(wxEvent & event);
+	bool bmx_wxevent_iscommandevent(wxEvent & event);
+	void bmx_wxevent_resumepropagation(wxEvent & event, int propagationLevel);
+	bool bmx_wxevent_shouldpropagate(wxEvent & event);
+	int bmx_wxevent_stoppropagation(wxEvent & event);
+
 	
 	void bmx_wxupdateeventui_check(wxUpdateUIEvent & event, bool value);
 	void bmx_wxupdateeventui_enable(wxUpdateUIEvent & event, bool value);
@@ -282,7 +289,7 @@ public:
 	wxFont & Font();
 
 private:
-	wxFont & font;
+	wxFont font;
 
 };
 

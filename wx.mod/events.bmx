@@ -32,13 +32,22 @@ Global event_factories:TEventFactory
 Public
 
 Rem
-bbdoc: 
+bbdoc: An event is a structure holding information about an event passed to a callback or member function.
+about: It is an abstract base type for other event types.
 End Rem
 Type wxEvent
 
 	Field wxEventPtr:Byte Ptr
 	
+	Rem
+	bbdoc: The user data passed into the initial Connect(), if any.
+	End Rem
 	Field userData:Object
+	
+	Rem
+	bbdoc: The owning object for this event.
+	about: Generally, this would be the object from which Connect() was called.
+	End Rem
 	Field parent:wxEvtHandler
 
 	Rem
@@ -59,6 +68,7 @@ Type wxEvent
 	bbdoc: Returns true if the event handler should be skipped, false otherwise.
 	End Rem
 	Method GetSkipped:Int()
+		Return bmx_wxevent_getskipped(wxEventPtr)
 	End Method
 	
 	Rem
@@ -68,6 +78,7 @@ Type wxEvent
 	usually make sense).
 	End Rem
 	Method GetTimestamp:Int()
+		Return bmx_wxevent_gettimestamp(wxEventPtr)
 	End Method
 	
 	Rem
@@ -75,6 +86,7 @@ Type wxEvent
 	about: Exists only for optimization purposes.
 	End Rem
 	Method IsCommandEvent:Int()
+		Return bmx_wxevent_iscommandevent(wxEventPtr)
 	End Method
 	
 	Rem
@@ -82,12 +94,14 @@ Type wxEvent
 	StopPropagation).
 	End Rem
 	Method ResumePropagation(propagationLevel:Int)
+		bmx_wxevent_resumepropagation(wxEventPtr, propagationLevel)
 	End Method
 	
 	Rem
 	bbdoc: Test if this event should be propagated or not, i.e. if the propagation level is currently greater than 0.
 	End Rem
 	Method ShouldPropagate:Int()
+		Return bmx_wxevent_shouldpropagate(wxEventPtr)
 	End Method
 	
 	Rem
@@ -111,6 +125,7 @@ Type wxEvent
 	allow propagating the event again.
 	End Rem
 	Method StopPropagation:Int()
+		Return bmx_wxevent_stoppropagation(wxEventPtr)
 	End Method
 	
 	

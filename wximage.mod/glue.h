@@ -57,8 +57,7 @@ public:
 	wxImage & Image();
 
 private:
-	wxImage & image;
-
+	wxImage image;
 };
 
 

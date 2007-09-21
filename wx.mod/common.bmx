@@ -203,6 +203,12 @@ Extern
 	Function bmx_wxsizeevent_getsize(evt:Byte Ptr, w:Int Ptr, h:Int Ptr)
 	Function bmx_wxevent_geteventtype:Int(evt:Byte Ptr)
 	Function bmx_wxevent_getid:Int(evt:Byte Ptr)
+	Function bmx_wxevent_getskipped:Int(evt:Byte Ptr)
+	Function bmx_wxevent_gettimestamp:Int(evt:Byte Ptr)
+	Function bmx_wxevent_iscommandevent:Int(evt:Byte Ptr)
+	Function bmx_wxevent_resumepropagation(evt:Byte Ptr, propagationLevel:Int)
+	Function bmx_wxevent_shouldpropagate:Int(evt:Byte Ptr)
+	Function bmx_wxevent_stoppropagation:Int(evt:Byte Ptr)
 
 	Function bmx_wxupdateeventui_check(evt:Byte Ptr, value:Int)
 	Function bmx_wxupdateeventui_enable(evt:Byte Ptr, value:Int)
