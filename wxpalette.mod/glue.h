@@ -20,6 +20,9 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_PALETTE_H_
+#define _WX_MAX_PALETTE_H_
+
 #include "wxglue.h"
 
 class MaxPalette;
@@ -48,3 +51,5 @@ private:
 	wxPalette palette;
 
 };
+
+#endif // _WX_MAX_PALETTE_H_
