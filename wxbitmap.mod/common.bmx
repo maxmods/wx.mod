@@ -67,6 +67,8 @@ Extern
 	Function bmx_wxbitmap_getsubbitmap:Byte Ptr(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
 	Function bmx_wxbitmap_getmask:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxbitmap_setmask(handle:Byte Ptr, mask:Byte Ptr)
+	
+	Function bmx_wxbitmap_isok:Int(handle:Byte Ptr)
 
 	Function bmx_wxmask_create:Byte Ptr(bitmap:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxmask_delete(handle:Byte Ptr)

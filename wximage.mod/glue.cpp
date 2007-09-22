@@ -57,6 +57,11 @@ MaxImage * bmx_wximage_create(BBString * name, long flag, int index) {
 	return new MaxImage(i);
 }
 
+MaxImage * bmx_wximage_createnull() {
+	return new MaxImage(wxNullImage);
+}
+
+
 void bmx_wximage_delete(MaxImage * image) {
 	delete image;
 }

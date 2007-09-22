@@ -5,6 +5,10 @@ Import wx.wxFrame
 Import wx.wxSplashScreen
 Import wx.wxStaticText
 
+Import BRL.RamStream
+
+Incbin "media/splash/splash.png" ' embedded splash image :-)
+
 Type MyApp Extends wxApp
 
 	Field frame:MyFrame
@@ -16,7 +20,7 @@ Type MyApp Extends wxApp
 
 		Local bitmap:wxBitmap = New wxBitmap.Create()
 		
-		Local ok:Int = bitmap.LoadFile("media/splash/splash.png", wxBITMAP_TYPE_PNG)
+		Local ok:Int = bitmap.LoadFile("incbin::media/splash/splash.png", wxBITMAP_TYPE_PNG)
 		
 		If ok Then
 		
@@ -76,7 +80,7 @@ Type MyFrame Extends wxFrame
 
 		Local bitmap:wxBitmap = New wxBitmap.Create()
 		
-		Local ok:Int = bitmap.LoadFile("splash.png", wxBITMAP_TYPE_PNG)
+		Local ok:Int = bitmap.LoadFile("incbin::media/splash/splash.png", wxBITMAP_TYPE_PNG)
 
 		If ok Then
 

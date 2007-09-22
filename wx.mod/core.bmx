@@ -294,10 +294,42 @@ Type wxStreamBase
 	
 End Type
 
+Rem
+bbdoc: 
+End Rem
 Type wxInputStream Extends wxStreamBase
 
+	Method CanRead:Int()
+	End Method
 	
+	Method GetC:Int()
+	End Method
+	
+	Method Eof:Int()
+	End Method
+	
+	Method LastRead:Int()
+	End Method
+	
+	Method Peek:Byte()
+	End Method
+	
+	Method Read:wxInputStream(buffer:Byte Ptr, size:Int)
+	End Method
+	
+	Method SeekI:Int(pos:Int, mode:Int = wxFromStart)
+	End Method
+	
+	Method TellI:Int()
+	End Method
 
+'	Method Delete()
+'		If wxStreamPtr Then
+'			bmx_wxmaxinputstream_delete(wxStreamPtr)
+'			wxStreamPtr = Null
+'		End If
+'	End Method
+	
 End Type
 
 

@@ -136,5 +136,8 @@ void bmx_wxbitmap_setmask(MaxBitmap * bitmap, wxMask * mask) {
 	bitmap->Bitmap().SetMask(mask);
 }
 
+bool bmx_wxbitmap_isok(MaxBitmap * bitmap) {
+	return bitmap->Bitmap().IsOk();
+}
 
 

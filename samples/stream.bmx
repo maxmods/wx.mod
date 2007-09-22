@@ -3,7 +3,7 @@ SuperStrict
 Framework wx.wxApp
 Import wx.wxFrame
 Import wx.wxImage
-Import wx.wxStream
+'Import wx.wxStream
 Import wx.wxPanel
 Import wx.wxBitmapButton
 Import wx.wxStaticText
@@ -40,16 +40,11 @@ Type MyFrame Extends wxFrame
 
 		panel = wxPanel.CreatePanel(Self)
 
-		Local stream:wxMaxInputStream = New wxMaxInputStream.Create("media/rotate/duck.png")
-		
-		Local image:wxImage = wxImage.CreateFromStream(stream, wxBITMAP_TYPE_PNG)
-		Local bitmap:wxBitmap = wxBitmap.CreateFromImage(image)
+		Local bitmap:wxBitmap = wxBitmap.CreateFromFile("media/rotate/duck.png", wxBITMAP_TYPE_PNG)
 		New wxBitmapButton.Create(panel, -1, bitmap, 10, 10)
-		New wxStaticText.Create(panel, -1,"Stream", 50, 140)
+		New wxStaticText.Create(panel, -1,"Normal", 50, 140)
 
-		stream = New wxMaxInputStream.Create("incbin::media/rotate/duck.png")
-		image = wxImage.CreateFromStream(stream, wxBITMAP_TYPE_PNG)
-		bitmap = wxBitmap.CreateFromImage(image)
+		bitmap = wxBitmap.CreateFromFile("incbin::media/rotate/duck.png", wxBITMAP_TYPE_PNG)
 		
 		New wxBitmapButton.Create(panel, -1, bitmap, 200, 10)
 		New wxStaticText.Create(panel, -1,"IncBin Stream", 240, 140)

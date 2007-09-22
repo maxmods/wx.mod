@@ -35,6 +35,7 @@ extern "C" {
 	MaxImage * bmx_wximage_createempty(int width, int height);
 	void bmx_wximage_delete(MaxImage * image);
 	MaxImage * bmx_wximage_create(BBString * name, long flag, int index);
+	MaxImage * bmx_wximage_createnull();
 	
 	void bmx_wximage_setrgb(MaxImage * image, int x, int y, int r, int g, int b);
 	void bmx_wximage_rescale(MaxImage * image, int width, int height, int quality);

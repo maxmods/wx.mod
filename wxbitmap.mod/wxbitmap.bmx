@@ -119,10 +119,16 @@ Type wxBitmap Extends wxGDIObject
 	End Function
 	
 	Rem
-	bbdoc: Loads a bitmap from a file or resource.
+	bbdoc: Creates a bitmap from a filename, TStream or wxInputStream.
+	about: Filenames support use of the '::' format.
 	End Rem
-	Function CreateFromFile:wxBitmap(name:String, flag:Int)
-		Return _create(bmx_wxbitmap_createfromfile(name, flag))
+	Function CreateFromFile:wxBitmap(name:Object, kind:Int)
+		Local bitmap:wxBitmap = New wxBitmap.Create()
+		If bitmap.LoadFile(name, kind)
+			Return bitmap
+		End If
+		
+		Return wxNullBitmap
 	End Function
 	
 	Rem
@@ -135,10 +141,60 @@ Type wxBitmap Extends wxGDIObject
 	End Method
 	
 	Rem
-	bbdoc: Loads a bitmap from a file or resource.
+	bbdoc: Loads a bitmap from a filename, TStream or wxInputStream.
+	about: Filenames support use of the '::' format.
 	End Rem
-	Method LoadFile:Int(name:String, kind:Int)
-		Return bmx_wxbitmap_loadfile(wxObjectPtr, name, kind)
+	Method LoadFile:Int(name:Object, kind:Int)
+
+		If TStream(name) Then
+			' create a maxInputStream and attempt to load
+			Local stream:wxMaxInputStream = New wxMaxInputStream.Create(name)
+			Local imagePtr:Byte Ptr = bmx_wximage_createfromstream(stream.wxStreamPtr, kind, -1)
+			TStream(name).Close()
+			
+			If imagePtr Then
+				' create the bitmap from the image
+				bmx_wxbitmap_delete(wxObjectPtr)
+				wxObjectPtr = bmx_wxbitmap_createfromimage(imagePtr, -1)
+				bmx_wximage_delete(imagePtr)
+			End If
+			
+		Else If wxInputStream(name) Then
+			' load using this input stream
+			Local imagePtr:Byte Ptr = bmx_wximage_createfromstream(wxInputStream(name).wxStreamPtr, kind, -1)
+			
+			If imagePtr Then
+				' create the bitmap from the image
+				bmx_wxbitmap_delete(wxObjectPtr)
+				wxObjectPtr = bmx_wxbitmap_createfromimage(imagePtr, -1)
+				bmx_wximage_delete(imagePtr)
+			End If
+		Else
+			Local str:String = String(name)
+			If str Then
+				If str.Find( "::",0 ) > 0 Then
+					' Create a stream and load it
+					Local stream:TStream = ReadStream(str)
+					If stream Then ' did we get a stream?
+						Local inp:wxMaxInputStream = New wxMaxInputStream.Create(stream)
+						Local imagePtr:Byte Ptr = bmx_wximage_createfromstream(inp.wxStreamPtr, kind, -1)
+						stream.Close()
+						
+						If imagePtr Then
+							' create the bitmap from the image
+							bmx_wxbitmap_delete(wxObjectPtr)
+							wxObjectPtr = bmx_wxbitmap_createfromimage(imagePtr, -1)
+							bmx_wximage_delete(imagePtr)
+						End If
+					End If
+				Else
+					' use the default loader
+					Return bmx_wxbitmap_loadfile(wxObjectPtr, str, kind)
+				End If
+			End If
+		End If
+
+		Return IsOk()
 	End Method
 	
 	Rem
@@ -183,6 +239,13 @@ Type wxBitmap Extends wxGDIObject
 	End Rem
 	Method GetSubBitmap:wxBitmap(x:Int, y:Int, w:Int, h:Int)
 		Return wxbitmap._create(bmx_wxbitmap_getsubbitmap(wxObjectPtr, x, y, w, h))
+	End Method
+	
+	Rem
+	bbdoc: Returns true if bitmap data is present.
+	End Rem
+	Method IsOk:Int()
+		Return bmx_wxbitmap_isok(wxObjectPtr)
 	End Method
 	
 	Rem

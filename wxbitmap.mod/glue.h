@@ -51,6 +51,8 @@ extern "C" {
 	
 	MaxPalette * bmx_wxbitmap_getpalette(MaxBitmap * bitmap);
 	void bmx_wxbitmap_setpalette(MaxBitmap * bitmap, MaxPalette * palette);
+	
+	bool bmx_wxbitmap_isok(MaxBitmap * bitmap);
 
 	MaxBitmap * bmx_wxbitmap_getsubbitmap(MaxBitmap * bitmap, int x, int y, int w, int h);
 	wxMask * bmx_wxbitmap_getmask(MaxBitmap * bitmap);

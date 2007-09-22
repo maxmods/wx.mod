@@ -119,27 +119,46 @@ Type wxImage Extends wxObject
 	End Function
 	
 	Rem
-	bbdoc: Loads an image from a file.
+	bbdoc: Creates an image from a filename, TStream or wxInputStream.
+	about: Filenames support use of the '::' format.
 	End Rem
-	Method Create:wxImage(name:String, kind:Int, index:Int = -1)
-		wxObjectPtr = bmx_wximage_create(name, kind, index)
+	Method Create:wxImage(name:Object, kind:Int, index:Int = -1)
+		
+		If TStream(name) Then
+			' create a maxInputStream and attempt to load
+			Local stream:wxMaxInputStream = New wxMaxInputStream.Create(name)
+			wxObjectPtr = bmx_wximage_createfromstream(stream.wxStreamPtr, kind, index)
+			TStream(name).Close()
+			
+		Else If wxInputStream(name) Then
+			' load using this input stream
+			wxObjectPtr = bmx_wximage_createfromstream(wxInputStream(name).wxStreamPtr, kind, index)
+		Else
+			Local str:String = String(name)
+			If str Then
+				If str.Find( "::",0 ) > 0 Then
+					' Create a stream and load it
+					Local stream:TStream = ReadStream(str)
+					Local inp:wxMaxInputStream = New wxMaxInputStream.Create(stream)
+					wxObjectPtr = bmx_wximage_createfromstream(inp.wxStreamPtr, kind, index)
+					stream.Close()
+				Else
+					' use the default loader
+					wxObjectPtr = bmx_wximage_create(str, kind, index)
+				End If
+			Else
+				' none of the above? Create a null image.
+				wxObjectptr = bmx_wximage_createnull()
+			End If
+		End If
 		Return Self
 	End Method
 	
 	Rem
-	bbdoc: Loads an image from a file.
+	bbdoc: Loads an image from a file/stream.
 	End Rem
-	Function CreateFromFile:wxImage(name:String, kind:Int, index:Int = -1)
+	Function CreateFromFile:wxImage(name:Object, kind:Int, index:Int = -1)
 		Return New wxImage.Create(name, kind, index)
-	End Function
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Function CreateFromStream:wxImage(stream:wxInputStream, kind:Int, index:Int = -1)
-		Local this:wxImage = New wxImage
-		this.wxObjectPtr = bmx_wximage_createfromstream(stream.wxStreamPtr, kind, index)
-		Return this
 	End Function
 	
 	Function CreateNullImage:wxImage()
