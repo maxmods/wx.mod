@@ -23,6 +23,7 @@ SuperStrict
 Import wx.wx
 Import wx.wxControl
 Import wx.wxImageList
+Import wx.wxTextCtrl
 Import BRL.Blitz
 
 
@@ -46,12 +47,93 @@ Import "glue.cpp"
 Extern
 
 	Function bmx_wxtreectrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxtreectrl_addroot:Byte Ptr(handle:Byte Ptr, text:String, image:Int, selImage:Int, data:Byte Ptr)
-	Function bmx_wxtreectrl_appenditem:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, text:String, image:Int, selImage:Int, data:Byte Ptr)
+	Function bmx_wxtreectrl_addroot:Byte Ptr(handle:Byte Ptr, text:String, image:Int, selImage:Int, data:Object)
+	Function bmx_wxtreectrl_appenditem:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, text:String, image:Int, selImage:Int, data:Object)
 	Function bmx_wxtreectrl_assignimagelist(handle:Byte Ptr, imagelist:Byte Ptr)
 	Function bmx_wxtreectrl_expand(handle:Byte Ptr, item:Byte Ptr)
 
-	Function bmx_maxtreeitem_delete(item:Byte Ptr)
+	Function bmx_wxtreectrl_assignbuttonsimagelist(handle:Byte Ptr, imageList:Byte Ptr)
+	Function bmx_wxtreectrl_assignstateimagelist(handle:Byte Ptr, imageList:Byte Ptr)
+	Function bmx_wxtreectrl_collapse(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_collapseall(handle:Byte Ptr)
+	Function bmx_wxtreectrl_collapseallchildren(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_collapseandreset(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_deleteitem(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_deleteallitems(handle:Byte Ptr)
+	Function bmx_wxtreectrl_deletechildren(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_editlabel(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_endeditlabel(handle:Byte Ptr, cancelEdit:Int)
+	Function bmx_wxtreectrl_ensurevisible(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_expandall(handle:Byte Ptr)
+	Function bmx_wxtreectrl_expandallchildren(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getboundingrect:Int(handle:Byte Ptr, item:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr, textOnly:Int)
+	Function bmx_wxtreectrl_getbuttonsimagelist:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtreectrl_getchildrencount:Int(handle:Byte Ptr, item:Byte Ptr, recursively:Int)
+	Function bmx_wxtreectrl_getcount:Int(handle:Byte Ptr)
+	Function bmx_wxtreectrl_geteditcontrol:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxtreectrl_getitemdata:Object(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getfirstchild:Byte Ptr(handle:Byte Ptr, item:Byte Ptr, idvalue:Byte Ptr)
+	Function bmx_wxtreectrl_getfirstvisibleitem:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtreectrl_getnextchild:Byte Ptr(handle:Byte Ptr, item:Byte Ptr, idvalue:Byte Ptr)
+	Function bmx_wxtreectrl_getindent:Int(handle:Byte Ptr)
+	Function bmx_wxtreectrl_getitembackgroundcolour:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)	
+	Function bmx_wxtreectrl_getitemfont:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getitemimage:Int(handle:Byte Ptr, item:Byte Ptr, which:Int)
+	Function bmx_wxtreectrl_getitemtext:String(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getitemtextcolour:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getlastchild:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getnextsibling:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getnextvisible:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getitemparent:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getprevsibling:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getprevvisible:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_getquickbestsize(handle:Byte Ptr)
+	Function bmx_wxtreectrl_getrootitem:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtreectrl_getselection:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtreectrl_isbold:Int(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_isempty:Int(handle:Byte Ptr)
+	Function bmx_wxtreectrl_isexpanded:Int(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_isselected:Int(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_isvisible:Int(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_itemhaschildren:Int(handle:Byte Ptr, item:Byte Ptr)
+
+	Function bmx_wxtreectrl_scrollto(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_selectitem(handle:Byte Ptr, item:Byte Ptr, selected:Int)
+	Function bmx_wxtreectrl_setbuttonsimagelist(handle:Byte Ptr, imageList:Byte Ptr)
+	Function bmx_wxtreectrl_setindent(handle:Byte Ptr, indent:Int)
+	Function bmx_wxtreectrl_setimagelist(handle:Byte Ptr, imageList:Byte Ptr)
+	Function bmx_wxtreectrl_setitembackgroundcolour(handle:Byte Ptr, item:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxtreectrl_setitembold(handle:Byte Ptr, item:Byte Ptr, bold:Int)
+	Function bmx_wxtreectrl_setitemdata(handle:Byte Ptr, item:Byte Ptr, data:Object)
+	Function bmx_wxtreectrl_setitemdrophighlight(handle:Byte Ptr, item:Byte Ptr, highlight:Int)
+	Function bmx_wxtreectrl_setitemfont(handle:Byte Ptr, item:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxtreectrl_setitemhaschildren(handle:Byte Ptr, item:Byte Ptr, hasChildren:Int)
+	Function bmx_wxtreectrl_setitemimage(handle:Byte Ptr, item:Byte Ptr, image:Int, which:Int)
+	Function bmx_wxtreectrl_setitemtext(handle:Byte Ptr, item:Byte Ptr, text:String)
+	Function bmx_wxtreectrl_setitemtextcolour(handle:Byte Ptr, item:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxtreectrl_setquickbestsize(handle:Byte Ptr, quickBestSize:Int)
+	Function bmx_wxtreectrl_setstateimagelist(handle:Byte Ptr, imageList:Byte Ptr)
+	Function bmx_wxtreectrl_setwindowstyle(handle:Byte Ptr, style:Int)
+	Function bmx_wxtreectrl_sortchildren(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_toggle(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_toggleitemselection(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxtreectrl_unselect(handle:Byte Ptr)
+	Function bmx_wxtreectrl_unselectall(handle:Byte Ptr)
+	Function bmx_wxtreectrl_unselectitem(handle:Byte Ptr, item:Byte Ptr)
+
+	Function bmx_wxtreectrl_hittest:Byte Ptr(handle:Byte Ptr, x:Int, y:Int, flags:Int Ptr)
+	Function bmx_wxtreectrl_insertitem:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, previous:Byte Ptr, text:String, image:Int, selImage:Int, data:Object)
+	Function bmx_wxtreectrl_insertitembefore:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, before:Int, text:String, image:Int, selImage:Int, data:Object)
+	Function bmx_wxtreectrl_prependitem:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, text:String, image:Int, selImage:Int, data:Object)
+
+	Function bmx_wxtreeitemidvalue_create:Byte Ptr()
+	Function bmx_wxtreeitemidvalue_delete(handle:Byte Ptr)
+
+	Function bmx_wxtreeitemid_isok:Int(handle:Byte Ptr)
+	Function bmx_wxtreeitemid_equals:Int(handle:Byte Ptr, item:Byte Ptr)
+
+	Function bmx_wxtreeitemid_delete(item:Byte Ptr)
 	Function bmx_wxtreectrl_geteventtype:Int(evt:Int)
 
 End Extern
@@ -130,4 +212,8 @@ Const wxTREE_HITTEST_ONITEMLOWERPART:Int = $1000
 ' anywhere on the item
 Const wxTREE_HITTEST_ONITEM:Int = wxTREE_HITTEST_ONITEMICON | wxTREE_HITTEST_ONITEMLABEL
 
-
+Const wxTreeItemIcon_Normal:Int = 0              ' Not selected, Not expanded
+Const wxTreeItemIcon_Selected:Int = 1            '     selected, Not expanded
+Const wxTreeItemIcon_Expanded:Int = 2            ' Not selected,     expanded
+Const wxTreeItemIcon_SelectedExpanded:Int = 3    '     selected,     expanded
+ 

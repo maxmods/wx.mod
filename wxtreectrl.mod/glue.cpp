@@ -24,14 +24,23 @@
 
 // ---------------------------------------------------------------------------------------
 
+IMPLEMENT_DYNAMIC_CLASS(MaxTreeCtrl, wxTreeCtrl)
+
+MaxTreeCtrl::MaxTreeCtrl() {
+}
+
 MaxTreeCtrl::MaxTreeCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: wxTreeCtrl(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: maxHandle(handle), wxTreeCtrl(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
 
 MaxTreeCtrl::~MaxTreeCtrl() {
 	wxunbind(this);
+}
+
+int MaxTreeCtrl::OnCompareItems(const wxTreeItemId& item1, const wxTreeItemId& item2) {
+	return _wx_wxtreectrl_wxTreeCtrl__OnCompareItems(maxHandle, new MaxTreeItem(item1), new MaxTreeItem(item2));
 }
 
 MaxTreeItem::MaxTreeItem(wxTreeItemId treeItem)
@@ -43,6 +52,38 @@ wxTreeItemId MaxTreeItem::Item() {
 	return item;
 }
 
+
+MaxTreeItemData::MaxTreeItemData(BBObject * data)
+	: maxHandle(data)
+{
+	if (data != &bbNullObject) {
+		BBRETAIN(data);
+	}
+}
+
+MaxTreeItemData::~MaxTreeItemData() {
+	if (maxHandle != &bbNullObject) {
+		BBRELEASE(maxHandle);
+	}
+}
+
+void MaxTreeItemData::SetData(BBObject * data) {
+	if (maxHandle != &bbNullObject) {
+		BBRELEASE(maxHandle);
+	}
+	
+	maxHandle = data;
+	
+	if (data != &bbNullObject) {
+		BBRETAIN(data);
+	}	
+}
+
+BBObject * MaxTreeItemData::GetData() {
+	return maxHandle;
+}
+
+
 // *********************************************
 
 MaxTreeCtrl * bmx_wxtreectrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
@@ -50,17 +91,19 @@ MaxTreeCtrl * bmx_wxtreectrl_create(BBObject * maxHandle, wxWindow * parent, wxW
 	return new MaxTreeCtrl(maxHandle, parent, id, x, y, w, h, style);
 }
 	
-MaxTreeItem * bmx_wxtreectrl_addroot(wxTreeCtrl * tree, BBString * text, int image, int selImage, wxTreeItemData * data) {
-	if (data) {
-		return new MaxTreeItem(tree->AddRoot(wxStringFromBBString(text), image, selImage, data));
+MaxTreeItem * bmx_wxtreectrl_addroot(wxTreeCtrl * tree, BBString * text, int image, int selImage, BBObject * data) {
+	if (data != &bbNullObject) {
+		MaxTreeItemData * itemdata = new MaxTreeItemData(data);
+		return new MaxTreeItem(tree->AddRoot(wxStringFromBBString(text), image, selImage, itemdata));
 	} else {
 		return new MaxTreeItem(tree->AddRoot(wxStringFromBBString(text), image, selImage));
 	}
 }
 
-MaxTreeItem * bmx_wxtreectrl_appenditem(wxTreeCtrl * tree, MaxTreeItem * parent, BBString * text, int image, int selImage, wxTreeItemData * data) {
-	if (data) {
-		return new MaxTreeItem(tree->AppendItem(parent->Item(), wxStringFromBBString(text), image, selImage, data));
+MaxTreeItem * bmx_wxtreectrl_appenditem(wxTreeCtrl * tree, MaxTreeItem * parent, BBString * text, int image, int selImage, BBObject * data) {
+	if (data != &bbNullObject) {
+		MaxTreeItemData * itemdata = new MaxTreeItemData(data);
+		return new MaxTreeItem(tree->AppendItem(parent->Item(), wxStringFromBBString(text), image, selImage, itemdata));
 	} else {
 		return new MaxTreeItem(tree->AppendItem(parent->Item(), wxStringFromBBString(text), image, selImage));
 	}
@@ -70,14 +113,356 @@ void bmx_wxtreectrl_assignimagelist(wxTreeCtrl * tree, wxImageList * list) {
 	// need to unbind the imagelist, just in case! (so we don't try to delete it later)
 	wxunbind(list);
 	tree->AssignImageList(list);
+}
 
+void bmx_wxtreectrl_assignbuttonsimagelist(wxTreeCtrl * tree, wxImageList * imageList) {
+	tree->AssignButtonsImageList(imageList);
+}
+
+void bmx_wxtreectrl_assignstateimagelist(wxTreeCtrl * tree, wxImageList * imageList) {
+	tree->AssignStateImageList(imageList);
+}
+
+void bmx_wxtreectrl_collapse(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->Collapse(item->Item());
+}
+
+void bmx_wxtreectrl_collapseall(wxTreeCtrl * tree) {
+	tree->CollapseAll();
+}
+
+void bmx_wxtreectrl_collapseallchildren(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->CollapseAllChildren(item->Item());
+}
+
+void bmx_wxtreectrl_collapseandreset(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->CollapseAndReset(item->Item());
+}
+
+void bmx_wxtreectrl_deleteitem(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->Delete(item->Item());
+}
+
+void bmx_wxtreectrl_deleteallitems(wxTreeCtrl * tree) {
+	tree->DeleteAllItems();
+}
+
+void bmx_wxtreectrl_deletechildren(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->DeleteChildren(item->Item());
+}
+
+void bmx_wxtreectrl_editlabel(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->EditLabel(item->Item());
+}
+
+void bmx_wxtreectrl_endeditlabel(wxTreeCtrl * tree, bool cancelEdit) {
+#ifdef WIN32
+	tree->EndEditLabel(cancelEdit);
+#endif
+}
+
+void bmx_wxtreectrl_ensurevisible(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->EnsureVisible(item->Item());
+}
+
+void bmx_wxtreectrl_expandall(wxTreeCtrl * tree) {
+	tree->ExpandAll();
+}
+
+void bmx_wxtreectrl_expandallchildren(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->ExpandAllChildren(item->Item());
+}
+
+bool bmx_wxtreectrl_getboundingrect(wxTreeCtrl * tree, MaxTreeItem * item, int * x, int * y, int * w, int * h, bool textOnly) {
+	wxRect r;
+	bool ret = tree->GetBoundingRect(item->Item(), r, textOnly);
+	*x = r.x;
+	*y = r.y;
+	*w = r.width;
+	*h = r.height;
+	return ret;
+}
+
+wxImageList * bmx_wxtreectrl_getbuttonsimagelist(wxTreeCtrl * tree) {
+	return tree->GetButtonsImageList();
+}
+
+int bmx_wxtreectrl_getchildrencount(wxTreeCtrl * tree, MaxTreeItem * item, bool recursively) {
+	return tree->GetChildrenCount(item->Item(), recursively);
+}
+
+int bmx_wxtreectrl_getcount(wxTreeCtrl * tree) {
+	return tree->GetCount();
+}
+
+wxTextCtrl * bmx_wxtreectrl_geteditcontrol(wxTreeCtrl * tree) {
+	return tree->GetEditControl();
+}
+
+
+BBObject * bmx_wxtreectrl_getitemdata(wxTreeCtrl * tree, MaxTreeItem * item) {
+	MaxTreeItemData * data = (MaxTreeItemData*)tree->GetItemData(item->Item());
+	if (data) {
+		return data->GetData();
+	}
+	return &bbNullObject;
+}
+
+MaxTreeItem * bmx_wxtreectrl_getfirstchild(wxTreeCtrl * tree, MaxTreeItem * item, wxTreeItemIdValue * idvalue) {
+	return new MaxTreeItem(tree->GetFirstChild(item->Item(), *idvalue));
+}
+
+MaxTreeItem * bmx_wxtreectrl_getfirstvisibleitem(wxTreeCtrl * tree) {
+	return new MaxTreeItem(tree->GetFirstVisibleItem());
+}
+
+MaxTreeItem * bmx_wxtreectrl_getnextchild(wxTreeCtrl * tree, MaxTreeItem * item, wxTreeItemIdValue * idvalue) {
+	return new MaxTreeItem(tree->GetNextChild(item->Item(), *idvalue));
+}
+
+int bmx_wxtreectrl_getindent(wxTreeCtrl * tree) {
+	return tree->GetIndent();
+}
+
+MaxColour * bmx_wxtreectrl_getitembackgroundcolour(wxTreeCtrl * tree, MaxTreeItem * item) {
+	wxColour c(tree->GetItemBackgroundColour(item->Item()));
+	return new MaxColour(c);
+}
+
+MaxFont * bmx_wxtreectrl_getitemfont(wxTreeCtrl * tree, MaxTreeItem * item) {
+	wxFont f(tree->GetItemFont(item->Item()));
+	return new MaxFont(f);
+}
+
+int bmx_wxtreectrl_getitemimage(wxTreeCtrl * tree, MaxTreeItem * item, wxTreeItemIcon which) {
+	return tree->GetItemImage(item->Item(), which);
+}
+
+BBString * bmx_wxtreectrl_getitemtext(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return bbStringFromWxString(tree->GetItemText(item->Item()));
+}
+
+MaxColour * bmx_wxtreectrl_getitemtextcolour(wxTreeCtrl * tree, MaxTreeItem * item) {
+	wxColour c(tree->GetItemTextColour(item->Item()));
+	return new MaxColour(c);
+}
+
+MaxTreeItem * bmx_wxtreectrl_getlastchild(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return new MaxTreeItem(tree->GetLastChild(item->Item()));
+}
+
+MaxTreeItem * bmx_wxtreectrl_getnextsibling(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return new MaxTreeItem(tree->GetNextSibling(item->Item()));
+}
+
+MaxTreeItem * bmx_wxtreectrl_getnextvisible(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return new MaxTreeItem(tree->GetNextVisible(item->Item()));
+}
+
+MaxTreeItem * bmx_wxtreectrl_getitemparent(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return new MaxTreeItem(tree->GetItemParent(item->Item()));
+}
+
+MaxTreeItem * bmx_wxtreectrl_getprevsibling(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return new MaxTreeItem(tree->GetPrevSibling(item->Item()));
+}
+
+MaxTreeItem * bmx_wxtreectrl_getprevvisible(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return new MaxTreeItem(tree->GetPrevVisible(item->Item()));
+}
+
+int bmx_wxtreectrl_getquickbestsize(wxTreeCtrl * tree) {
+	return tree->GetQuickBestSize();
+}
+
+MaxTreeItem * bmx_wxtreectrl_getrootitem(wxTreeCtrl * tree) {
+	return new MaxTreeItem(tree->GetRootItem());
+}
+
+MaxTreeItem * bmx_wxtreectrl_getselection(wxTreeCtrl * tree) {
+	return new MaxTreeItem(tree->GetSelection());
+}
+
+bool bmx_wxtreectrl_isbold(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return tree->IsBold(item->Item());
+}
+
+bool bmx_wxtreectrl_isempty(wxTreeCtrl * tree) {
+	return tree->IsEmpty();
+}
+
+bool bmx_wxtreectrl_isexpanded(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return tree->IsExpanded(item->Item());
+}
+
+bool bmx_wxtreectrl_isselected(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return tree->IsSelected(item->Item());
+}
+
+bool bmx_wxtreectrl_isvisible(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return tree->IsVisible(item->Item());
+}
+
+bool bmx_wxtreectrl_itemhaschildren(wxTreeCtrl * tree, MaxTreeItem * item) {
+	return tree->ItemHasChildren(item->Item());
+}
+
+
+void bmx_wxtreectrl_scrollto(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->ScrollTo(item->Item());
+}
+
+void bmx_wxtreectrl_selectitem(wxTreeCtrl * tree, MaxTreeItem * item, bool selected) {
+	tree->SelectItem(item->Item(), selected);
+}
+
+void bmx_wxtreectrl_setbuttonsimagelist(wxTreeCtrl * tree, wxImageList * imageList) {
+	tree->SetButtonsImageList(imageList);
+}
+
+void bmx_wxtreectrl_setindent(wxTreeCtrl * tree, int indent) {
+	tree->SetIndent(indent);
+}
+
+void bmx_wxtreectrl_setimagelist(wxTreeCtrl * tree, wxImageList * imageList) {
+	tree->SetImageList(imageList);
+}
+
+void bmx_wxtreectrl_setitembackgroundcolour(wxTreeCtrl * tree, MaxTreeItem * item, MaxColour * colour) {
+	tree->SetItemBackgroundColour(item->Item(), colour->Colour());
+}
+
+void bmx_wxtreectrl_setitembold(wxTreeCtrl * tree, MaxTreeItem * item, bool bold) {
+	tree->SetItemBold(item->Item(), bold);
+}
+
+void bmx_wxtreectrl_setitemdata(wxTreeCtrl * tree, MaxTreeItem * item, BBObject * data) {
+	MaxTreeItemData * itemdata = (MaxTreeItemData*)tree->GetItemData(item->Item());
+	
+	if (!itemdata) {
+		tree->SetItemData(item->Item(), new MaxTreeItemData(data));
+	} else {
+		itemdata->SetData(data);
+	}	
+}
+
+void bmx_wxtreectrl_setitemdrophighlight(wxTreeCtrl * tree, MaxTreeItem * item, bool highlight) {
+	tree->SetItemDropHighlight(item->Item(), highlight);
+}
+
+void bmx_wxtreectrl_setitemfont(wxTreeCtrl * tree, MaxTreeItem * item, MaxFont * font) {
+	tree->SetItemFont(item->Item(), font->Font());
+}
+
+void bmx_wxtreectrl_setitemhaschildren(wxTreeCtrl * tree, MaxTreeItem * item, bool hasChildren) {
+	tree->SetItemHasChildren(item->Item(), hasChildren);
+}
+
+void bmx_wxtreectrl_setitemimage(wxTreeCtrl * tree, MaxTreeItem * item, int image, wxTreeItemIcon which) {
+	tree->SetItemImage(item->Item(), image, which);
+}
+
+void bmx_wxtreectrl_setitemtext(wxTreeCtrl * tree, MaxTreeItem * item, BBString * text) {
+	tree->SetItemText(item->Item(), wxStringFromBBString(text));
+}
+
+void bmx_wxtreectrl_setitemtextcolour(wxTreeCtrl * tree, MaxTreeItem * item, MaxColour * colour) {
+	tree->SetItemTextColour(item->Item(), colour->Colour());
+}
+
+void bmx_wxtreectrl_setquickbestsize(wxTreeCtrl * tree, int quickBestSize) {
+	tree->SetQuickBestSize(quickBestSize);
+}
+
+void bmx_wxtreectrl_setstateimagelist(wxTreeCtrl * tree, wxImageList * imageList) {
+	tree->SetStateImageList(imageList);
+}
+
+void bmx_wxtreectrl_setwindowstyle(wxTreeCtrl * tree, long style) {
+	tree->SetWindowStyle(style);
+}
+
+void bmx_wxtreectrl_sortchildren(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->SortChildren(item->Item());
+}
+
+void bmx_wxtreectrl_toggle(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->Toggle(item->Item());
+}
+
+void bmx_wxtreectrl_toggleitemselection(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->ToggleItemSelection(item->Item());
+}
+
+void bmx_wxtreectrl_unselect(wxTreeCtrl * tree) {
+	tree->Unselect();
+}
+
+void bmx_wxtreectrl_unselectall(wxTreeCtrl * tree) {
+	tree->UnselectAll();
+}
+
+void bmx_wxtreectrl_unselectitem(wxTreeCtrl * tree, MaxTreeItem * item) {
+	tree->UnselectItem(item->Item());
+}
+
+MaxTreeItem * bmx_wxtreectrl_hittest(wxTreeCtrl * tree, int x, int y, int * flags) {
+	int f = *flags;
+	MaxTreeItem * item = new MaxTreeItem(tree->HitTest(wxPoint(x, y), f));
+	*flags = f;
+	return item;
+}
+
+MaxTreeItem * bmx_wxtreectrl_insertitem(wxTreeCtrl * tree, MaxTreeItem * parent, MaxTreeItem * previous, BBString * text, int image, int selImage, BBObject * data) {
+	if (data != &bbNullObject) {
+		MaxTreeItemData * itemdata = new MaxTreeItemData(data);
+		return new MaxTreeItem(tree->InsertItem(parent->Item(), previous->Item(), wxStringFromBBString(text), image, selImage, itemdata));
+	} else {
+		return new MaxTreeItem(tree->InsertItem(parent->Item(), previous->Item(), wxStringFromBBString(text), image, selImage));
+	}
+}
+
+MaxTreeItem * bmx_wxtreectrl_insertitembefore(wxTreeCtrl * tree, MaxTreeItem * parent, int before, BBString * text, int image, int selImage, BBObject * data) {
+	if (data != &bbNullObject) {
+		MaxTreeItemData * itemdata = new MaxTreeItemData(data);
+		return new MaxTreeItem(tree->InsertItem(parent->Item(), before, wxStringFromBBString(text), image, selImage, itemdata));
+	} else {
+		return new MaxTreeItem(tree->InsertItem(parent->Item(), before, wxStringFromBBString(text), image, selImage));
+	}
+}
+
+MaxTreeItem * bmx_wxtreectrl_prependitem(wxTreeCtrl * tree, MaxTreeItem * parent, BBString * text, int image, int selImage, BBObject * data) {
+	if (data != &bbNullObject) {
+		MaxTreeItemData * itemdata = new MaxTreeItemData(data);
+		return new MaxTreeItem(tree->PrependItem(parent->Item(), wxStringFromBBString(text), image, selImage, itemdata));
+	} else {
+		return new MaxTreeItem(tree->PrependItem(parent->Item(), wxStringFromBBString(text), image, selImage));
+	}
+}
+
+
+wxTreeItemIdValue * bmx_wxtreeitemidvalue_create() {
+	return new wxTreeItemIdValue();
+}
+
+void bmx_wxtreeitemidvalue_delete(wxTreeItemIdValue * idvalue) {
+	delete idvalue;
 }
 
 void bmx_wxtreectrl_expand(wxTreeCtrl * tree, MaxTreeItem * item) {
 	tree->Expand(item->Item());
 }
 
-void bmx_maxtreeitem_delete(MaxTreeItem * item) {
+
+bool bmx_wxtreeitemid_isok(MaxTreeItem * item) {
+	return item->Item().IsOk();
+}
+
+bool bmx_wxtreeitemid_equals(MaxTreeItem * item, MaxTreeItem * otheritem) {
+	return item->Item() == otheritem->Item();
+}
+
+void bmx_wxtreeitemid_delete(MaxTreeItem * item) {
 	delete item;
 }
 
