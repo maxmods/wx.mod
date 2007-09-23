@@ -112,7 +112,7 @@ extern "C" {
 	bool bmx_wxdc_isok(MaxDC * dc);
 	void bmx_wxdc_resetboundingbox(MaxDC * dc);
 	void bmx_wxdc_setaxisorientation(MaxDC * dc, bool leftRight, bool topBottom);
-	void bmx_wxdc_setlayoutdirection(MaxDC * dc, int dir);
+	void bmx_wxdc_setlayoutdirection(MaxDC * dc, wxLayoutDirection dir);
 	void bmx_wxdc_setlogicalfunction(MaxDC * dc, int func);
 	void bmx_wxdc_setpalette(MaxDC * dc, MaxPalette * palette);
 	void bmx_wxdc_startdoc(MaxDC * dc, BBString * message);

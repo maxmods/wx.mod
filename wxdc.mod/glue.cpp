@@ -376,31 +376,31 @@ bool bmx_wxdc_isok(MaxDC * dc) {
 }
 
 void bmx_wxdc_resetboundingbox(MaxDC * dc) {
-
+	dc->GetDC()->ResetBoundingBox();
 }
 
 void bmx_wxdc_setaxisorientation(MaxDC * dc, bool leftRight, bool topBottom) {
-
+	dc->GetDC()->SetAxisOrientation(leftRight, topBottom);
 }
 
-void bmx_wxdc_setlayoutdirection(MaxDC * dc, int dir) {
-
+void bmx_wxdc_setlayoutdirection(MaxDC * dc, wxLayoutDirection dir) {
+	dc->GetDC()->SetLayoutDirection(dir);
 }
 
 void bmx_wxdc_setlogicalfunction(MaxDC * dc, int func) {
-
+	dc->GetDC()->SetLogicalFunction(func);
 }
 
 void bmx_wxdc_setpalette(MaxDC * dc, MaxPalette * palette) {
-
+	dc->GetDC()->SetPalette(palette->Palette());
 }
 
 void bmx_wxdc_startdoc(MaxDC * dc, BBString * message) {
-
+	dc->GetDC()->StartDoc(wxStringFromBBString(message));
 }
 
 void bmx_wxdc_startpage(MaxDC * dc) {
-
+	dc->GetDC()->StartPage();
 }
 
 
