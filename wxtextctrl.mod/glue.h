@@ -43,7 +43,7 @@ extern "C" {
 	void bmx_wxtextctrl_cut(wxTextCtrl * ctrl);
 
 	void bmx_wxtextctrl_discardedits(wxTextCtrl * ctrl);
-	const wxTextAttr * bmx_wxtextctrl_getdefaultstyle(wxTextCtrl * ctrl);
+	MaxTextAttr * bmx_wxtextctrl_getdefaultstyle(wxTextCtrl * ctrl);
 	long bmx_wxtextctrl_getinsertionpoint(wxTextCtrl * ctrl);
 	long bmx_wxtextctrl_getlastposition(wxTextCtrl * ctrl);
 	int bmx_wxtextctrl_getlinelength(wxTextCtrl * ctrl, long lineNo);
@@ -52,7 +52,7 @@ extern "C" {
 	BBString * bmx_wxtextctrl_getrange(wxTextCtrl * ctrl, long fromPos, long toPos);
 	void bmx_wxtextctrl_getselection(wxTextCtrl * ctrl, long * fromPos, long * toPos);
 	BBString * bmx_wxtextctrl_getstringselection(wxTextCtrl * ctrl);
-	const wxTextAttr * bmx_wxtextctrl_getstyle(wxTextCtrl * ctrl, long position);
+	MaxTextAttr * bmx_wxtextctrl_getstyle(wxTextCtrl * ctrl, long position);
 	BBString * bmx_wxtextctrl_getvalue(wxTextCtrl * ctrl);
 	bool bmx_wxtextctrl_iseditable(wxTextCtrl * ctrl);
 	bool bmx_wxtextctrl_isempty(wxTextCtrl * ctrl);
@@ -81,6 +81,38 @@ extern "C" {
 	void bmx_wxtextctrl_undo(wxTextCtrl * ctrl);
 	void bmx_wxtextctrl_writetext(wxTextCtrl * ctrl, BBString * text);
 	long bmx_wxtextctrl_xytoposition(wxTextCtrl * ctrl, long x, long y);
+	
+	wxTextCtrlHitTestResult bmx_wxtextctrl_hittest(wxTextCtrl * ctrl, int x, int y, long * col, long * row);
+
+	wxTextAttrAlignment bmx_wxtextattr_getalignment(MaxTextAttr * style);
+	MaxColour * bmx_wxtextattr_getbackgroundcolour(MaxTextAttr * style);
+	MaxFont * bmx_wxtextattr_getfont(MaxTextAttr * style);
+	int bmx_wxtextattr_getleftindent(MaxTextAttr * style);
+	int bmx_wxtextattr_getleftsubindent(MaxTextAttr * style);
+	int bmx_wxtextattr_getrightindent(MaxTextAttr * style);
+	BBArray * bmx_wxtextattr_gettabs(MaxTextAttr * style);
+	MaxColour * bmx_wxtextattr_gettextcolour(MaxTextAttr * style);
+	bool bmx_wxtextattr_hasalignment(MaxTextAttr * style);
+	bool bmx_wxtextattr_hasbackgroundcolour(MaxTextAttr * style);
+	bool bmx_wxtextattr_hasfont(MaxTextAttr * style);
+	bool bmx_wxtextattr_hasleftindent(MaxTextAttr * style);
+	bool bmx_wxtextattr_hasrightindent(MaxTextAttr * style);
+	bool bmx_wxtextattr_hastabs(MaxTextAttr * style);
+	bool bmx_wxtextattr_hastextcolour(MaxTextAttr * style);
+	long bmx_wxtextattr_getflags(MaxTextAttr * style);
+	bool bmx_wxtextattr_isdefault(MaxTextAttr * style);
+	void bmx_wxtextattr_merge(MaxTextAttr * style, MaxTextAttr * overlay);
+	void bmx_wxtextattr_setalignment(MaxTextAttr * style, wxTextAttrAlignment alignment);
+	void bmx_wxtextattr_setbackgroundcolour(MaxTextAttr * style, MaxColour * colour);
+	void bmx_wxtextattr_setflags(MaxTextAttr * style, long flags);
+	void bmx_wxtextattr_setfont(MaxTextAttr * style, MaxFont * font);
+	void bmx_wxtextattr_setleftindent(MaxTextAttr * style, int indent, int subIndent);
+	void bmx_wxtextattr_setrightindent(MaxTextAttr * style, int indent);
+	void bmx_wxtextattr_settabs(MaxTextAttr * style, BBArray * tabs);
+	void bmx_wxtextattr_settextcolour(MaxTextAttr * style, MaxColour * colour);
+	
+	MaxTextAttr * bmx_wxtextattr_create(MaxColour * colText, MaxColour * colBack, MaxFont * font, wxTextAttrAlignment alignment);
+	void bmx_wxtextattr_delete(MaxTextAttr * style);
 	
 	int bmx_wxtextctrl_geteventtype(int type);
 }

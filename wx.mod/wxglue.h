@@ -135,6 +135,7 @@ extern "C" {
 	
 
 	MaxColour * bmx_wxcolour_create(int r, int g, int b, int a);
+	MaxColour * bmx_wxcolour_null();
 	void bmx_wxcolour_delete(MaxColour * col);
 	bool bmx_wxcolour_isok(MaxColour * col);
 	int bmx_wxcolour_red(MaxColour * col);

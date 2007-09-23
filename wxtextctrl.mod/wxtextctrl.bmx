@@ -54,6 +54,99 @@ Import "common.bmx"
 Rem
 bbdoc: A text control allows text to be displayed and edited.
 about: It may be single line or multi-line.
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxTE_PROCESS_ENTER</td><td>The control will generate the event wxEVT_COMMAND_TEXT_ENTER
+(otherwise pressing Enter key is either processed internally by the control or used for navigation
+between dialog controls).</td></tr>
+<tr><td>wxTE_PROCESS_TAB</td><td>The control will receive wxEVT_CHAR events for TAB pressed - normally,
+TAB is used for passing to the next control in a dialog instead. For the control created with this style,
+you can still use Ctrl-Enter to pass to the next control from the keyboard. </td></tr>
+<tr><td>wxTE_MULTILINE</td><td>The text control allows multiple lines. </td></tr>
+<tr><td>wxTE_PASSWORD</td><td>The text will be echoed as asterisks. </td></tr>
+<tr><td>wxTE_READONLY</td><td>The text will not be user-editable. </td></tr>
+<tr><td>wxTE_RICH</td><td>Use rich text control under Win32, this allows to have more than 64KB of text
+in the control even under Win9x. This style is ignored under other platforms. </td></tr>
+<tr><td>wxTE_RICH2</td><td>Use rich text control version 2.0 or 3.0 under Win32, this style is ignored
+under other platforms </td></tr>
+<tr><td>wxTE_AUTO_URL</td><td>Highlight the URLs and generate the wxTextUrlEvents when mouse events occur
+over them. This style is only supported for wxTE_RICH Win32 and multi-line wxGTK2 text controls. </td></tr>
+<tr><td>wxTE_NOHIDESEL</td><td>By default, the Windows text control doesn't show the selection when it
+doesn't have focus - use this style to force it to always show it. It doesn't do anything under other platforms. </td></tr>
+<tr><td>wxHSCROLL</td><td>A horizontal scrollbar will be created and used, so that text won't be wrapped.</td></tr>
+<tr><td>wxTE_LEFT</td><td>The text in the control will be left-justified (default). </td></tr>
+<tr><td>wxTE_CENTRE</td><td>The text in the control will be centered (currently wxMSW and wxGTK2 only). </td></tr>
+<tr><td>wxTE_RIGHT</td><td>The text in the control will be right-justified (currently wxMSW and wxGTK2 only). </td></tr>
+<tr><td>wxTE_DONTWRAP</td><td>Same as wxHSCROLL style: don't wrap at all, show horizontal scrollbar instead. </td></tr>
+<tr><td>wxTE_CHARWRAP</td><td>Wrap the lines too long to be shown entirely at any position (wxUniv and
+wxGTK2 only). </td></tr>
+<tr><td>wxTE_WORDWRAP</td><td>Wrap the lines too long to be shown entirely at word boundaries (wxUniv and
+wxGTK2 only).</td></tr>
+<tr><td>wxTE_BESTWRAP</td><td>Wrap the lines at word boundaries or at any other character if there are
+words longer than the window width (this is the default). </td></tr>
+</table>
+</p>
+<h3>Text Format</h3>
+<p>
+The multiline text controls always store the text as a sequence of lines separated by \n characters, i.e. 
+in the Unix text format even on non-Unix platforms. This allows the user code to ignore the differences
+between the platforms but at a price: the indices in the control such as those returned by GetInsertionPoint
+or GetSelection can not be used as indices into the string returned by GetValue as they're going to be
+slightly off for platforms using \r\n as separator (as Windows does), for example.
+</p>
+<p>
+Instead, if you need to obtain a substring between the 2 indices obtained from the control with the help
+of the functions mentioned above, you should use GetRange. And the indices themselves can only be passed
+to other methods, for example SetInsertionPoint or SetSelection.
+</p>
+<p>
+To summarize: never use the indices returned by (multiline) wxTextCtrl as indices into the string it
+contains, but only as arguments to be passed back to the other wxTextCtrl methods.
+</p>
+<h3>Styles</h3>
+<p>
+Multi-line text controls support the styles, i.e. provide a possibility to set colours and font for
+individual characters in it (note that under Windows wxTE_RICH style is required for style support).
+To use the styles you can either call SetDefaultStyle before inserting the text or call SetStyle later
+to change the style of the text already in the control (the first solution is much more efficient).
+</p>
+<p>
+In either case, if the style doesn't specify some of the attributes (for example you only want to set the
+text colour but without changing the font nor the text background), the values of the default style will
+be used for them. If there is no default style, the attributes of the text control itself are used.
+</p>
+<p>
+So the following code correctly describes what it does: the second call to SetDefaultStyle doesn't change
+the text foreground colour (which stays red) while the last one doesn't change the background colour
+(which stays grey):
+<pre>
+    text.SetDefaultStyle(New wxTextAttr.Create(wxRED()))
+    text.AppendText("Red text~n")
+    text.SetDefaultStyle(New wxTextAttr.Create(wxNullColour, wxLIGHT_GREY()))
+    text.AppendText("Red on grey text~n")
+    text.SetDefaultStyle(New wxTextAttr.Create(wxBLUE())
+    text.AppendText("Blue on grey text~n")
+</pre>
+</p>
+<h3>Event Handling</h3>
+<p>
+The following commands are processed by default event handlers in wxTextCtrl: wxID_CUT, wxID_COPY,
+wxID_PASTE, wxID_UNDO, wxID_REDO. The associated UI update events are also processed automatically,
+when the control has the focus.
+<ul>
+<li><tt>wxEVT_COMMAND_TEXT_UPDATED</tt> - Generated when the text changes. Notice that this event will be
+sent when the text controls contents changes - whether this is due to user input or comes from the program
+itself (for example, if SetValue() is called); see ChangeValue() for a function which does not send this
+event.</li>
+<li><tt>wxEVT_COMMAND_TEXT_ENTER</tt> - Generated when enter is pressed in a text control (which must have
+wxTE_PROCESS_ENTER style for this event to be generated).</li>
+<li><tt>wxEVT_COMMAND_TEXT_URL</tt> - A mouse event occurred over an URL in the text control (wxMSW and
+wxGTK2 only)</li>
+<li><tt>wxEVT_COMMAND_TEXT_MAXLEN</tt> - User tried to enter more text into the control than the limit set
+by SetMaxLength.</li>
+</ul>
+</p>
 End Rem
 Type wxTextCtrl Extends wxControl
 
@@ -77,7 +170,8 @@ Type wxTextCtrl Extends wxControl
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates the text control for two-step construction.
+	about: See CreateTextCtrl for further details.
 	End Rem
 	Method Create:wxTextCtrl(parent:wxWindow, id:Int, value:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
 		wxObjectPtr = bmx_wxtextctrl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style)
@@ -276,9 +370,12 @@ Type wxTextCtrl Extends wxControl
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Finds the character at the specified position expressed in pixels.
+	about: If the return code is not wxTE_HT_UNKNOWN the row and column of the character closest to this
+	position are returned in the col and row parameters.
 	End Rem
-	Method HitTest() ' fixme
+	Method HitTest:Int(x:Int, y:Int, col:Int Var, row:Int Var)
+		Return bmx_wxtextctrl_hittest(wxObjectPtr, x, y, Varptr col, Varptr row)
 	End Method
 	
 	Rem
@@ -529,159 +626,226 @@ Type wxTextAttr
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: The constructor initializes one or more of the text foreground colour, background colour, font, and alignment.
+	End Rem
+	Function CreateTextAttr:wxTextAttr(colText:wxColour, colBack:wxColour = Null, font:wxFont = Null, ..
+			alignment:Int = wxTEXT_ALIGNMENT_DEFAULT)
+		Return New wxTextAttr.Create(colText, colBack, font, alignment)
+	End Function
+	
+	Rem
+	bbdoc: Initializes one or more of the text foreground colour, background colour, font, and alignment.
+	End Rem
+	Method Create:wxTextAttr(colText:wxColour, colBack:wxColour = Null, font:wxFont = Null, ..
+			alignment:Int = wxTEXT_ALIGNMENT_DEFAULT)
+		If colBack Then
+			If font Then
+				wxTextAttrPtr = bmx_wxtextattr_create(colText.wxObjectPtr, colBack.wxObjectPtr, font.wxObjectPtr, alignment)
+			Else
+				wxTextAttrPtr = bmx_wxtextattr_create(colText.wxObjectPtr, colBack.wxObjectPtr, Null, alignment)
+			End If
+		Else
+			If font Then
+				wxTextAttrPtr = bmx_wxtextattr_create(colText.wxObjectPtr, Null, font.wxObjectPtr, alignment)
+			Else
+				wxTextAttrPtr = bmx_wxtextattr_create(colText.wxObjectPtr, Null, Null, alignment)
+			End If
+		End If
+		
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Returns the paragraph alignment.
 	End Rem
 	Method GetAlignment:Int()
+		Return bmx_wxtextattr_getalignment(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Return the background colour specified by this attribute.
 	End Rem
 	Method GetBackgroundColour:wxColour()
+		Return wxColour._create(bmx_wxtextattr_getbackgroundcolour(wxTextAttrPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Return the text font specified by this attribute.
 	End Rem
 	Method GetFont:wxFont()
+		Return wxFont._create(bmx_wxtextattr_getfont(wxTextAttrPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the left indent in tenths of a millimetre.
 	End Rem
 	Method GetLeftIndent:Int()
+		Return bmx_wxtextattr_getleftindent(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the left sub indent for all lines but the first line in a paragraph in tenths of a millimetre.
 	End Rem
 	Method GetLeftSubIndent:Int()
+		Return bmx_wxtextattr_getleftsubindent(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the right indent in tenths of a millimetre.
 	End Rem
 	Method GetRightIndent:Int()
+		Return bmx_wxtextattr_getrightindent(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the array of integers representing the tab stops.
+	about: Each array element specifies the tab stop in tenths of a millimetre.
 	End Rem
 	Method GetTabs:Int[]()
+		Return bmx_wxtextattr_gettabs(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Return the text colour specified by this attribute.
 	End Rem
 	Method GetTextColour:wxColour()
+		Return wxColour._create(bmx_wxtextattr_gettextcolour(wxTextAttrPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this style specifies the text alignment.
 	End Rem
 	Method HasAlignment:Int()
+		Return bmx_wxtextattr_hasalignment(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this style specifies the background colour to use.
 	End Rem
 	Method HasBackgroundColour:Int()
+		Return bmx_wxtextattr_hasbackgroundcolour(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this style specifies the font to use.
 	End Rem
 	Method HasFont:Int()
+		Return bmx_wxtextattr_hasfont(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this style specifies the left indent.
 	End Rem
 	Method HasLeftIndent:Int()
+		Return bmx_wxtextattr_hasleftindent(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this style specifies the right indent.
 	End Rem
 	Method HasRightIndent:Int()
+		Return bmx_wxtextattr_hasrightindent(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this style specifies any tabstobs.
 	End Rem
-	Method HasTab:Int()
+	Method HasTabs:Int()
+		Return bmx_wxtextattr_hastabs(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this style specifies the foreground colour to use.
 	End Rem
 	Method HasTextColour:Int()
+		Return bmx_wxtextattr_hastextcolour(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns a bitlist indicating which attributes will be set.
 	End Rem
 	Method GetFlags:Int()
+		Return bmx_wxtextattr_getflags(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this style specifies any non-default attributes.
 	End Rem
 	Method IsDefault:Int()
+		Return bmx_wxtextattr_isdefault(wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Copies all defined/valid properties from overlay to current object.
 	End Rem
 	Method Merge(overlay:wxTextAttr)
+		bmx_wxtextattr_merge(wxTextAttrPtr, overlay.wxTextAttrPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the paragraph alignment.
 	End Rem
 	Method SetAlignment(alignment:Int)
+		bmx_wxtextattr_setalignment(wxTextAttrPtr, alignment)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the background colour.
 	End Rem
 	Method SetBackgroundColour(colour:wxColour)
+		bmx_wxtextattr_setbackgroundcolour(wxTextAttrPtr, colour.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Pass a bitlist indicating which attributes will be set.
 	End Rem
 	Method SetFlags(flags:Int)
+		bmx_wxtextattr_setflags(wxTextAttrPtr, flags)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the text font.
 	End Rem
 	Method SetFont(font:wxFont)
+		bmx_wxtextattr_setfont(wxTextAttrPtr, font.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the left indent in tenths of a millimetre.
+	about: @subIndent sets the indent for all lines but the first line in a paragraph relative to the
+	first line.
 	End Rem
 	Method SetLeftIndent(indent:Int, subIndent:Int = 0)
+		bmx_wxtextattr_setleftindent(wxTextAttrPtr, indent, subIndent)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the right indent in tenths of a millimetre.
 	End Rem
 	Method SetRightIndent(indent:Int)
+		bmx_wxtextattr_setrightindent(wxTextAttrPtr, indent)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the array of integers representing the tab stops.
+	about: Each array element specifies the tab stop in tenths of a millimetre.
 	End Rem
 	Method SetTabs(tabs:Int[])
+		bmx_wxtextattr_settabs(wxTextAttrPtr, tabs)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the text colour.
 	End Rem
 	Method SetTextColour(colour:wxColour)
+		bmx_wxtextattr_settextcolour(wxTextAttrPtr, colour.wxObjectPtr)
+	End Method
+	
+	Method Delete()
+		If wxTextAttrPtr Then
+			bmx_wxtextattr_delete(wxTextAttrPtr)
+			wxTextAttrPtr = Null
+		End If
 	End Method
 	
 End Type

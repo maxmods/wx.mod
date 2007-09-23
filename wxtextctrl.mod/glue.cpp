@@ -93,8 +93,9 @@ void bmx_wxtextctrl_discardedits(wxTextCtrl * ctrl) {
 	ctrl->DiscardEdits();
 }
 
-const wxTextAttr * bmx_wxtextctrl_getdefaultstyle(wxTextCtrl * ctrl) {
-	return & ctrl->GetDefaultStyle();
+MaxTextAttr * bmx_wxtextctrl_getdefaultstyle(wxTextCtrl * ctrl) {
+	wxTextAttr a(ctrl->GetDefaultStyle());
+	return new MaxTextAttr(a);
 }
 
 long bmx_wxtextctrl_getinsertionpoint(wxTextCtrl * ctrl) {
@@ -129,15 +130,11 @@ BBString * bmx_wxtextctrl_getstringselection(wxTextCtrl * ctrl) {
 	return bbStringFromWxString(ctrl->GetStringSelection());
 }
 
-const wxTextAttr * bmx_wxtextctrl_getstyle(wxTextCtrl * ctrl, long position) {
+MaxTextAttr * bmx_wxtextctrl_getstyle(wxTextCtrl * ctrl, long position) {
 	wxTextAttr attr;
 	bool ret = ctrl->GetStyle(position, attr);
 	
-	if (ret) {
-		return & attr;
-	}
-	
-	return 0;
+	return new MaxTextAttr(attr);
 }
 
 BBString * bmx_wxtextctrl_getvalue(wxTextCtrl * ctrl) {
@@ -249,6 +246,143 @@ long bmx_wxtextctrl_xytoposition(wxTextCtrl * ctrl, long x, long y) {
 	return ctrl->XYToPosition(x, y);
 }
 
+wxTextCtrlHitTestResult bmx_wxtextctrl_hittest(wxTextCtrl * ctrl, int x, int y, long * col, long * row) {
+	return ctrl->HitTest(wxPoint(x, y), col, row);
+}
+
+
+void bmx_wxtextattr_delete(MaxTextAttr * style) {
+	delete style;
+}
+
+
+wxTextAttrAlignment bmx_wxtextattr_getalignment(MaxTextAttr * style) {
+	return style->TextAttr().GetAlignment();
+}
+
+MaxColour * bmx_wxtextattr_getbackgroundcolour(MaxTextAttr * style) {
+	wxColour c(style->TextAttr().GetBackgroundColour());
+	return new MaxColour(c);
+}
+
+MaxFont * bmx_wxtextattr_getfont(MaxTextAttr * style) {
+	wxFont f(style->TextAttr().GetFont());
+	return new MaxFont(f);
+}
+
+int bmx_wxtextattr_getleftindent(MaxTextAttr * style) {
+	return style->TextAttr().GetLeftIndent();
+}
+
+int bmx_wxtextattr_getleftsubindent(MaxTextAttr * style) {
+	return style->TextAttr().GetLeftSubIndent();
+}
+
+int bmx_wxtextattr_getrightindent(MaxTextAttr * style) {
+	return style->TextAttr().GetRightIndent();
+}
+
+BBArray * bmx_wxtextattr_gettabs(MaxTextAttr * style) {
+	return wxArrayIntToBBIntArray(style->TextAttr().GetTabs());
+}
+
+MaxColour * bmx_wxtextattr_gettextcolour(MaxTextAttr * style) {
+	wxColour c(style->TextAttr().GetTextColour());
+	return new MaxColour(c);
+}
+
+bool bmx_wxtextattr_hasalignment(MaxTextAttr * style) {
+	return style->TextAttr().HasAlignment();
+}
+
+bool bmx_wxtextattr_hasbackgroundcolour(MaxTextAttr * style) {
+	return style->TextAttr().HasBackgroundColour();
+}
+
+bool bmx_wxtextattr_hasfont(MaxTextAttr * style) {
+	return style->TextAttr().HasFont();
+}
+
+bool bmx_wxtextattr_hasleftindent(MaxTextAttr * style) {
+	return style->TextAttr().HasLeftIndent();
+}
+
+bool bmx_wxtextattr_hasrightindent(MaxTextAttr * style) {
+	return style->TextAttr().HasRightIndent();
+}
+
+bool bmx_wxtextattr_hastabs(MaxTextAttr * style) {
+	return style->TextAttr().HasTabs();
+}
+
+bool bmx_wxtextattr_hastextcolour(MaxTextAttr * style) {
+	return style->TextAttr().HasTextColour();
+}
+
+long bmx_wxtextattr_getflags(MaxTextAttr * style) {
+	return style->TextAttr().GetFlags();
+}
+
+bool bmx_wxtextattr_isdefault(MaxTextAttr * style) {
+	return style->TextAttr().IsDefault();
+}
+
+void bmx_wxtextattr_merge(MaxTextAttr * style, MaxTextAttr * overlay) {
+	style->TextAttr().Merge(overlay->TextAttr());
+}
+
+void bmx_wxtextattr_setalignment(MaxTextAttr * style, wxTextAttrAlignment alignment) {
+	style->TextAttr().SetAlignment(alignment);
+}
+
+void bmx_wxtextattr_setbackgroundcolour(MaxTextAttr * style, MaxColour * colour) {
+	style->TextAttr().SetBackgroundColour(colour->Colour());
+}
+
+void bmx_wxtextattr_setflags(MaxTextAttr * style, long flags) {
+	style->TextAttr().SetFlags(flags);
+}
+
+void bmx_wxtextattr_setfont(MaxTextAttr * style, MaxFont * font) {
+	style->TextAttr().SetFont(font->Font());
+}
+
+void bmx_wxtextattr_setleftindent(MaxTextAttr * style, int indent, int subIndent) {
+	style->TextAttr().SetLeftIndent(indent, subIndent);
+}
+
+void bmx_wxtextattr_setrightindent(MaxTextAttr * style, int indent) {
+	style->TextAttr().SetRightIndent(indent);
+}
+
+void bmx_wxtextattr_settabs(MaxTextAttr * style, BBArray * tabs) {
+	style->TextAttr().SetTabs(bbIntArrayTowxArrayInt(tabs));
+}
+
+void bmx_wxtextattr_settextcolour(MaxTextAttr * style, MaxColour * colour) {
+	style->TextAttr().SetTextColour(colour->Colour());
+}
+
+MaxTextAttr * bmx_wxtextattr_create(MaxColour * colText, MaxColour * colBack, MaxFont * font, wxTextAttrAlignment alignment) {
+
+	wxTextAttr attr;
+	
+	if (colBack) {
+		if (font) {
+			attr = wxTextAttr(colText->Colour(), colBack->Colour(), font->Font(), alignment);
+		} else {
+			attr = wxTextAttr(colText->Colour(), colBack->Colour(), wxNullFont, alignment);
+		}
+	} else {
+		if (font) {
+			attr = wxTextAttr(colText->Colour(), wxNullColour, font->Font(), alignment);
+		} else {
+			attr = wxTextAttr(colText->Colour(), wxNullColour, wxNullFont, alignment);
+		}
+	}
+
+	return new MaxTextAttr(attr);
+}
 
 
 int bmx_wxtextctrl_geteventtype(int type) {

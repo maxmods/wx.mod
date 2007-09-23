@@ -193,6 +193,11 @@ Type wxColour Extends wxObject
 End Type
 
 Rem
+bbdoc: Null colour
+End Rem
+Global wxNullColour:wxColour = wxColour._create(bmx_wxcolour_null())
+
+Rem
 bbdoc: 
 End Rem
 Type wxPen Extends wxGDIObject

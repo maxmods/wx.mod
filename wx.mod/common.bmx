@@ -256,6 +256,7 @@ Extern
 	Function bmx_wxarraystring_delete(handle:Byte Ptr)
 	
 	Function bmx_wxcolour_create:Byte Ptr(r:Int, g:Int, b:Int, a:Int)
+	Function bmx_wxcolour_null:Byte Ptr()
 	Function bmx_wxcolour_delete(handle:Byte Ptr)
 	Function bmx_wxcolour_isok:Int(handle:Byte Ptr)
 	Function bmx_wxcolour_red:Int(handle:Byte Ptr)
