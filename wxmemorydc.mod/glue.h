@@ -31,6 +31,8 @@ extern "C" {
 
 	MaxMemoryDC * bmx_wxmemorydc_create();
 	void bmx_wxmemorydc_selectobject(MaxMemoryDC * dc, MaxBitmap * bitmap);
+	void bmx_wxmemorydc_selectobjectassource(MaxMemoryDC * dc, MaxBitmap * bitmap);
+	void bmx_wxmemorydc_delete(MaxMemoryDC * dc);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

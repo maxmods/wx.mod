@@ -166,5 +166,244 @@ void wx_wxdc_drawcircle(MaxDC * dc, int x, int y, int radius) {
 }
 
 
+void bmx_wxdc_drawellipticarc(MaxDC * dc, int x, int y, int width, int height, double _start, double _end) {
+	dc->GetDC()->DrawEllipticArc(x, y, width, height, _start, _end);
+}
+
+void bmx_wxdc_drawicon(MaxDC * dc, MaxIcon * icon, int x, int y) {
+	dc->GetDC()->DrawIcon(icon->Icon(), x, y);
+}
+
+void bmx_wxdc_drawlabel(MaxDC * dc, BBString * text, int x, int y, int w, int h, MaxBitmap * image, int alignment, int indexAccel) {
+	if (image) {
+		dc->GetDC()->DrawLabel(wxStringFromBBString(text), image->Bitmap(), wxRect(x, y, w, h), alignment, indexAccel);
+	} else {
+		dc->GetDC()->DrawLabel(wxStringFromBBString(text), wxRect(x, y, w, h), alignment, indexAccel);
+	}
+}
+
+void bmx_wxdc_drawlines(MaxDC * dc, BBArray * p, int xOffset, int yOffset) {
+	int n= p->scales[0] / 2;
+	int *s=(int*)BBARRAYDATA( p,p->dims );
+	wxPoint points[n];
+	for (int i = 0; i < n; i++) {
+		points[i].x = s[i * 2];
+		points[i].y = s[i * 2 + 1];
+	}
+	dc->GetDC()->DrawLines(n, points, xOffset, yOffset);
+}
+
+void bmx_wxdc_drawpolygon(MaxDC * dc, BBArray * p, int xOffset, int yOffset, int fillStyle) {
+	int n= p->scales[0] / 2;
+	int *s=(int*)BBARRAYDATA( p,p->dims );
+	wxPoint points[n];
+	for (int i = 0; i < n; i++) {
+		points[i].x = s[i * 2];
+		points[i].y = s[i * 2 + 1];
+	}
+	dc->GetDC()->DrawPolygon(n, points, xOffset, yOffset, fillStyle);
+}
+
+void bmx_wxdc_drawpoint(MaxDC * dc, int x, int y) {
+	dc->GetDC()->DrawPoint(x, y);
+}
+
+void bmx_wxdc_drawrotatedtext(MaxDC * dc, BBString * text, int x, int y, double angle) {
+	dc->GetDC()->DrawRotatedText(wxStringFromBBString(text), x, y, angle);
+}
+
+void bmx_wxdc_drawspline(MaxDC * dc, BBArray * p) {
+	int n= p->scales[0] / 2;
+	int *s=(int*)BBARRAYDATA( p,p->dims );
+	wxPoint points[n];
+	for (int i = 0; i < n; i++) {
+		points[i].x = s[i * 2];
+		points[i].y = s[i * 2 + 1];
+	}
+	dc->GetDC()->DrawSpline(n, points);
+}
+
+void bmx_wxdc_enddoc(MaxDC * dc) {
+	dc->GetDC()->EndDoc();
+}
+
+void bmx_wxdc_endpage(MaxDC * dc) {
+	dc->GetDC()->EndPage();
+}
+
+bool bmx_wxdc_floodfill(MaxDC * dc, int x, int y, MaxColour * colour, int style) {
+	return dc->GetDC()->FloodFill(x, y, colour->Colour(), style);
+}
+
+MaxBrush * bmx_wxdc_getbackground(MaxDC * dc) {
+	wxBrush c(dc->GetDC()->GetBackground());
+	return new MaxBrush(c);
+}
+
+int bmx_wxdc_getbackgroundmode(MaxDC * dc) {
+	return dc->GetDC()->GetBackgroundMode();
+}
+
+MaxBrush * bmx_wxdc_getbrush(MaxDC * dc) {
+	wxBrush b(dc->GetDC()->GetBrush());
+	return new MaxBrush(b);
+}
+
+int bmx_wxdc_getcharwidth(MaxDC * dc) {
+	return dc->GetDC()->GetCharWidth();
+}
+
+void bmx_wxdc_getclippingbox(MaxDC * dc, int * x, int * y, int * w, int * h) {
+	dc->GetDC()->GetClippingBox(x, y, w, h);
+}
+
+MaxFont * bmx_wxdc_getfont(MaxDC * dc) {
+	wxFont f(dc->GetDC()->GetFont());
+	return new MaxFont(f);
+}
+
+int bmx_wxdc_getlayoutdirection(MaxDC * dc) {
+	return dc->GetDC()->GetLayoutDirection();
+}
+
+int bmx_wxdc_getlogicalfunction(MaxDC * dc) {
+	return dc->GetDC()->GetLogicalFunction();
+}
+
+int bmx_wxdc_getmapmode(MaxDC * dc) {
+	return dc->GetDC()->GetMapMode();
+}
+
+void bmx_wxdc_getmultilinetextextent(MaxDC * dc, BBString * text, int * width, int * height, int * heightline) {
+	dc->GetDC()->GetMultiLineTextExtent(wxStringFromBBString(text), width, height, heightline);
+}
+
+BBArray * bmx_wxdc_getpartialtextextents(MaxDC * dc, BBString * text) {
+	wxArrayInt widths;
+	dc->GetDC()->GetPartialTextExtents(wxStringFromBBString(text), widths);
+	return wxArrayIntToBBIntArray(widths);
+}
+
+MaxPen * bmx_wxdc_getpen(MaxDC * dc) {
+	wxPen p(dc->GetDC()->GetPen());
+	return new MaxPen(p);
+}
+
+MaxColour * bmx_wxdc_getpixel(MaxDC * dc, int x, int y) {
+	wxColour c;
+	dc->GetDC()->GetPixel(x, y, &c);
+	return new MaxColour(c);
+}
+
+void bmx_wxdc_getppi(MaxDC * dc, int * w, int * h) {
+	wxSize s = dc->GetDC()->GetPPI();
+	*w = s.x;
+	*h = s.y;	
+}
+
+void bmx_wxdc_getsize(MaxDC * dc, int * w, int * h) {
+	wxSize s = dc->GetDC()->GetSize();
+	*w = s.x;
+	*h = s.y;
+}
+
+void bmx_wxdc_getsizemm(MaxDC * dc, int * w, int * h) {
+	wxSize s = dc->GetDC()->GetSizeMM();
+	*w = s.x;
+	*h = s.y;
+}
+
+MaxColour * bmx_wxdc_gettextbackground(MaxDC * dc) {
+	wxColour c(dc->GetDC()->GetTextBackground());
+	return new MaxColour(c);
+}
+
+MaxColour * bmx_wxdc_gettextforeground(MaxDC * dc) {
+	wxColour c(dc->GetDC()->GetTextForeground());
+	return new MaxColour(c);
+}
+
+void bmx_wxdc_getuserscale(MaxDC * dc, double * x, double * y) {
+	dc->GetDC()->GetUserScale(x, y);
+}
+
+void bmx_wxdc_gradientfillconcentric(MaxDC * dc, int x, int y, int w, int h, MaxColour * initialColour, MaxColour * destColour) {
+	dc->GetDC()->GradientFillConcentric(wxRect(x, y, w, h), initialColour->Colour(), destColour->Colour());
+}
+
+void bmx_wxdc_gradientfillconcentriccentre(MaxDC * dc, int x, int y, int w, int h, MaxColour * initialColour, MaxColour * destColour, int centreX, int centreY) {
+	dc->GetDC()->GradientFillConcentric(wxRect(x, y, w, h), initialColour->Colour(), destColour->Colour(), wxPoint(centreX, centreY));
+}
+
+void bmx_wxdc_gradientfilllinear(MaxDC * dc, int x, int y, int w, int h, MaxColour * initialColour, MaxColour * destColour, wxDirection direction) {
+	dc->GetDC()->GradientFillLinear(wxRect(x, y, w, h), initialColour->Colour(), destColour->Colour(), direction);
+}
+
+int bmx_wxdc_logicaltodevicex(MaxDC * dc, int x) {
+	return dc->GetDC()->LogicalToDeviceX(x);
+}
+
+int bmx_wxdc_logicaltodevicexrel(MaxDC * dc, int x) {
+	return dc->GetDC()->LogicalToDeviceXRel(x);
+}
+
+int bmx_wxdc_logicaltodevicey(MaxDC * dc, int y) {
+	return dc->GetDC()->LogicalToDeviceY(y);
+}
+
+int bmx_wxdc_logicaltodeviceyrel(MaxDC * dc, int y) {
+	return dc->GetDC()->LogicalToDeviceYRel(y);
+}
+
+int bmx_wxdc_maxx(MaxDC * dc) {
+	return dc->GetDC()->MaxX();
+}
+
+int bmx_wxdc_maxy(MaxDC * dc) {
+	return dc->GetDC()->MaxY();
+}
+
+int bmx_wxdc_minx(MaxDC * dc) {
+	return dc->GetDC()->MinX();
+}
+
+int bmx_wxdc_miny(MaxDC * dc) {
+	return dc->GetDC()->MinY();
+}
+
+bool bmx_wxdc_isok(MaxDC * dc) {
+	return dc->GetDC()->IsOk();
+}
+
+void bmx_wxdc_resetboundingbox(MaxDC * dc) {
+
+}
+
+void bmx_wxdc_setaxisorientation(MaxDC * dc, bool leftRight, bool topBottom) {
+
+}
+
+void bmx_wxdc_setlayoutdirection(MaxDC * dc, int dir) {
+
+}
+
+void bmx_wxdc_setlogicalfunction(MaxDC * dc, int func) {
+
+}
+
+void bmx_wxdc_setpalette(MaxDC * dc, MaxPalette * palette) {
+
+}
+
+void bmx_wxdc_startdoc(MaxDC * dc, BBString * message) {
+
+}
+
+void bmx_wxdc_startpage(MaxDC * dc) {
+
+}
+
+
+
 // *********************************************
 

@@ -57,13 +57,48 @@ background colour (i.e. 0) whereas all other colours will draw the foreground co
 End Rem
 Type wxMemoryDC Extends wxDC
 
+	Rem
+	bbdoc: Constructs a new memory device context.
+	about: Use the IsOk() method to test whether the constructor was successful in creating a usable device
+	context. Don't forget to select a bitmap into the DC before drawing on it.
+	End Rem
 	Method Create:wxMemoryDC()
 		wxObjectPtr = bmx_wxmemorydc_create()
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Works exactly like SelectObjectAsSource but this is the method you should use when you select a bitmap because you want to modify it, e.g. drawing on this DC.
+	about: Be careful to use this method and not SelectObjectAsSource when you want to modify the bitmap you
+	are selecting otherwise you may incur in some problems related to wxBitmap being a reference counted object.
+	End Rem
 	Method SelectObject(bitmap:wxBitmap)
 		bmx_wxmemorydc_selectobject(wxObjectPtr, bitmap.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: Selects the given bitmap into the device context, to use as the memory bitmap.
+	about: Selecting the bitmap into a memory DC allows you to draw into the DC (and therefore the bitmap)
+	and also to use wxDC::Blit to copy the bitmap to a window. For this purpose, you may find wxDC::DrawIcon
+	easier to use instead.
+	<p>
+	If the argument is wxNullBitmap (or some other uninitialised wxBitmap) the current bitmap is selected out of
+	the device context, and the original bitmap restored, allowing the current bitmap to be destroyed safely.
+	</p>
+	End Rem
+	Method SelectObjectAsSource(bitmap:wxBitmap)
+		bmx_wxmemorydc_selectobjectassource(wxObjectPtr, bitmap.wxObjectPtr)
+	End Method
+	
+	Method Free()
+		If wxObjectPtr Then
+			bmx_wxmemorydc_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Free()
+	End Method
+	
 End Type

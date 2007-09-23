@@ -46,4 +46,12 @@ void bmx_wxmemorydc_selectobject(MaxMemoryDC * dc, MaxBitmap * bitmap) {
 	dc->MemoryDC()->SelectObject(bitmap->Bitmap());
 }
 
+void bmx_wxmemorydc_selectobjectassource(MaxMemoryDC * dc, MaxBitmap * bitmap) {
+	dc->MemoryDC()->SelectObjectAsSource(bitmap->Bitmap());
+}
+
+void bmx_wxmemorydc_delete(MaxMemoryDC * dc) {
+	delete dc;
+}
+
 

@@ -22,7 +22,7 @@
 
 #include "wxglue.h"
 #include "wx/dcmirror.h"
-#include "../wxbitmap.mod/glue.h"
+#include "../wxicon.mod/glue.h"
 #include "../wxbrush.mod/glue.h"
 
 class MaxMirrorDC;
@@ -66,6 +66,57 @@ extern "C" {
 	void wx_wxdc_drawbitmap(MaxDC * dc, MaxBitmap * bitmap, int x, int y, bool transparent);
 	void wx_wxdc_drawcheckmark(MaxDC * dc, int x, int y, int w, int h);
 	void wx_wxdc_drawcircle(MaxDC * dc, int x, int y, int radius);
+
+	void bmx_wxdc_drawellipticarc(MaxDC * dc, int x, int y, int width, int height, double _start, double _end);
+	void bmx_wxdc_drawicon(MaxDC * dc, MaxIcon * icon, int x, int y);
+	void bmx_wxdc_drawlabel(MaxDC * dc, BBString * text, int x, int y, int w, int h, MaxBitmap * image, int alignment, int indexAccel);
+	void bmx_wxdc_drawlines(MaxDC * dc, BBArray * points, int xOffset, int yOffset);
+	void bmx_wxdc_drawpolygon(MaxDC * dc, BBArray * points, int xOffset, int yOffset, int fillStyle);
+	void bmx_wxdc_drawpoint(MaxDC * dc, int x, int y);
+	void bmx_wxdc_drawrotatedtext(MaxDC * dc, BBString * text, int x, int y, double angle);
+	void bmx_wxdc_drawspline(MaxDC * dc, BBArray * points);
+	void bmx_wxdc_enddoc(MaxDC * dc);
+	void bmx_wxdc_endpage(MaxDC * dc);
+	bool bmx_wxdc_floodfill(MaxDC * dc, int x, int y, MaxColour * colour, int style);
+	MaxBrush * bmx_wxdc_getbackground(MaxDC * dc);
+	int bmx_wxdc_getbackgroundmode(MaxDC * dc);
+	MaxBrush * bmx_wxdc_getbrush(MaxDC * dc);
+	int bmx_wxdc_getcharwidth(MaxDC * dc);
+	void bmx_wxdc_getclippingbox(MaxDC * dc, int * x, int * y, int * w, int * h);
+	MaxFont * bmx_wxdc_getfont(MaxDC * dc);
+	int bmx_wxdc_getlayoutdirection(MaxDC * dc);
+	int bmx_wxdc_getlogicalfunction(MaxDC * dc);
+	int bmx_wxdc_getmapmode(MaxDC * dc);
+
+	void bmx_wxdc_getmultilinetextextent(MaxDC * dc, BBString * text, int * width, int * height, int * heightline);
+	BBArray * bmx_wxdc_getpartialtextextents(MaxDC * dc, BBString * text);
+	MaxPen * bmx_wxdc_getpen(MaxDC * dc);
+	MaxColour * bmx_wxdc_getpixel(MaxDC * dc, int x, int y);
+	void bmx_wxdc_getppi(MaxDC * dc, int * w, int * h);
+	void bmx_wxdc_getsize(MaxDC * dc, int * w, int * h);
+	void bmx_wxdc_getsizemm(MaxDC * dc, int * w, int * h);
+	MaxColour * bmx_wxdc_gettextbackground(MaxDC * dc);
+	MaxColour * bmx_wxdc_gettextforeground(MaxDC * dc);
+	void bmx_wxdc_getuserscale(MaxDC * dc, double * x, double * y);
+	void bmx_wxdc_gradientfillconcentric(MaxDC * dc, int x, int y, int w, int h, MaxColour * initialColour, MaxColour * destColour);
+	void bmx_wxdc_gradientfillconcentriccentre(MaxDC * dc, int x, int y, int w, int h, MaxColour * initialColour, MaxColour * destColour, int centreX, int centreY);
+	void bmx_wxdc_gradientfilllinear(MaxDC * dc, int x, int y, int w, int h, MaxColour * initialColour, MaxColour * destColour, wxDirection direction);
+	int bmx_wxdc_logicaltodevicex(MaxDC * dc, int x);
+	int bmx_wxdc_logicaltodevicexrel(MaxDC * dc, int x);
+	int bmx_wxdc_logicaltodevicey(MaxDC * dc, int y);
+	int bmx_wxdc_logicaltodeviceyrel(MaxDC * dc, int y);
+	int bmx_wxdc_maxx(MaxDC * dc);
+	int bmx_wxdc_maxy(MaxDC * dc);
+	int bmx_wxdc_minx(MaxDC * dc);
+	int bmx_wxdc_miny(MaxDC * dc);
+	bool bmx_wxdc_isok(MaxDC * dc);
+	void bmx_wxdc_resetboundingbox(MaxDC * dc);
+	void bmx_wxdc_setaxisorientation(MaxDC * dc, bool leftRight, bool topBottom);
+	void bmx_wxdc_setlayoutdirection(MaxDC * dc, int dir);
+	void bmx_wxdc_setlogicalfunction(MaxDC * dc, int func);
+	void bmx_wxdc_setpalette(MaxDC * dc, MaxPalette * palette);
+	void bmx_wxdc_startdoc(MaxDC * dc, BBString * message);
+	void bmx_wxdc_startpage(MaxDC * dc);
 
 }
 

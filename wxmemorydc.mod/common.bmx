@@ -46,5 +46,7 @@ Extern
 
 	Function bmx_wxmemorydc_create:Byte Ptr()
 	Function bmx_wxmemorydc_selectobject(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxmemorydc_selectobjectassource(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxmemorydc_delete(handle:Byte Ptr)
 	
 End Extern
