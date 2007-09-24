@@ -690,7 +690,7 @@ Type MyPanel Extends wxPanel
 				"very very very long line to test " + ..
 				"wxHSCROLL style~n" + ..
 				"~nAnd here is a link in quotation marks to " + ..
-				"test wxTE_AUTO_URL: ~qhttp:'www.wxwidgets.org~q", ..
+				"test wxTE_AUTO_URL: ~qhttp://www.wxwidgets.org~q", ..
 				450, 10, 200, 230, wxTE_RICH | wxTE_MULTILINE | wxTE_AUTO_URL))
 		textrich.SetStyle(0, 10, New wxTextAttr.Create(wxRED()))
 		textrich.SetStyle(10, 20, New wxTextAttr.Create(wxBLUE()))
