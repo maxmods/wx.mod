@@ -109,22 +109,6 @@ Type wxTreeCtrl Extends wxControl
 	End Method
 	
 	Rem
-	bbdoc: Sets the buttons image list.
-	about: The button images assigned with this method will be automatically deleted by wxTreeCtrl as
-	appropriate (i.e. it takes ownership of the list).
-	<p>
-	Setting or assigning the button image list enables the display of image buttons. Once enabled, 
-	the only way to disable the display of button images is to set the button image list to Null.
-	</p>
-	<p>
-	This method is only available in the generic version.
-	</p>
-	End Rem
-	Method AssignButtonsImageList(imageList:wxImageList)
-		bmx_wxtreectrl_assignbuttonsimagelist(wxObjectPtr, imageList.wxObjectPtr)
-	End Method
-
-	Rem
 	bbdoc: Sets the state image list.
 	about: Image list assigned with this method will be automatically deleted by wxTreeCtrl
 	as appropriate (i.e. it takes ownership of the list).
@@ -222,8 +206,8 @@ Type wxTreeCtrl Extends wxControl
 	This method is currently supported under Windows only.
 	</p>
 	End Rem
-	Method EndEditLabel(cancelEdit:Int)
-		bmx_wxtreectrl_endeditlabel(wxObjectPtr, cancelEdit)
+	Method EndEditLabel(item:wxTreeItemId, cancelEdit:Int)
+		bmx_wxtreectrl_endeditlabel(wxObjectPtr, item, cancelEdit)
 	End Method
 
 	Rem
@@ -269,15 +253,6 @@ Type wxTreeCtrl Extends wxControl
 	End Rem
 	Method GetBoundingRect:Int(item:wxTreeItemId, x:Int Var, y:Int Var, w:Int Var, h:Int Var, textOnly:Int = False)
 		Return bmx_wxtreectrl_getboundingrect(wxObjectPtr, item.wxTreeItemIdPtr, Varptr x, Varptr y, Varptr w, Varptr h, textOnly)
-	End Method
-
-	Rem
-	bbdoc: Returns the buttons image list (from which application-defined button images are taken).
-	about: This method is only available in the generic version.
-	End Rem
-	Method GetButtonsImageList:wxImageList()
-		' todo
-		' bmx_wxtreectrl_getbuttonsimagelist(wxObjectPtr)
 	End Method
 
 	Rem
@@ -619,21 +594,6 @@ Type wxTreeCtrl Extends wxControl
 	End Rem
 	Method SelectItem(item:wxTreeItemId, selected:Int = True)
 		bmx_wxtreectrl_selectitem(wxObjectPtr, item.wxTreeItemIdPtr, selected)
-	End Method
-
-	Rem
-	bbdoc: Sets the buttons image list (from which application-defined button images are taken).
-	about: The button images assigned with this method will not be deleted by wxTreeCtrl's destructor,
-	you must delete it yourself.
-	<p>
-	Setting or assigning the button image list enables the display of image buttons. Once enabled, the only way to disable the display of button images is to set the button image list to NULL.
-	</p>
-	<p>
-	This method is only available in the generic version.
-	</p>
-	End Rem
-	Method SetButtonsImageList(imageList:wxImageList)
-		bmx_wxtreectrl_setbuttonsimagelist(wxObjectPtr, imageList.wxObjectPtr)
 	End Method
 
 	Rem

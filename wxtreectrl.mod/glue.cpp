@@ -115,10 +115,6 @@ void bmx_wxtreectrl_assignimagelist(wxTreeCtrl * tree, wxImageList * list) {
 	tree->AssignImageList(list);
 }
 
-void bmx_wxtreectrl_assignbuttonsimagelist(wxTreeCtrl * tree, wxImageList * imageList) {
-	tree->AssignButtonsImageList(imageList);
-}
-
 void bmx_wxtreectrl_assignstateimagelist(wxTreeCtrl * tree, wxImageList * imageList) {
 	tree->AssignStateImageList(imageList);
 }
@@ -155,9 +151,9 @@ void bmx_wxtreectrl_editlabel(wxTreeCtrl * tree, MaxTreeItem * item) {
 	tree->EditLabel(item->Item());
 }
 
-void bmx_wxtreectrl_endeditlabel(wxTreeCtrl * tree, bool cancelEdit) {
+void bmx_wxtreectrl_endeditlabel(wxTreeCtrl * tree, MaxTreeItem * item, bool cancelEdit) {
 #ifdef WIN32
-	tree->EndEditLabel(cancelEdit);
+	tree->EndEditLabel(item->Item(), cancelEdit);
 #endif
 }
 
@@ -181,10 +177,6 @@ bool bmx_wxtreectrl_getboundingrect(wxTreeCtrl * tree, MaxTreeItem * item, int *
 	*w = r.width;
 	*h = r.height;
 	return ret;
-}
-
-wxImageList * bmx_wxtreectrl_getbuttonsimagelist(wxTreeCtrl * tree) {
-	return tree->GetButtonsImageList();
 }
 
 int bmx_wxtreectrl_getchildrencount(wxTreeCtrl * tree, MaxTreeItem * item, bool recursively) {
@@ -314,10 +306,6 @@ void bmx_wxtreectrl_scrollto(wxTreeCtrl * tree, MaxTreeItem * item) {
 
 void bmx_wxtreectrl_selectitem(wxTreeCtrl * tree, MaxTreeItem * item, bool selected) {
 	tree->SelectItem(item->Item(), selected);
-}
-
-void bmx_wxtreectrl_setbuttonsimagelist(wxTreeCtrl * tree, wxImageList * imageList) {
-	tree->SetButtonsImageList(imageList);
 }
 
 void bmx_wxtreectrl_setindent(wxTreeCtrl * tree, int indent) {
