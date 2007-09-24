@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxControl
+Import wx.wxMouseEvent
 Import BRL.Blitz
 
 
@@ -60,7 +61,7 @@ Extern
 	Function bmx_wxtextctrl_getinsertionpoint:Int(handle:Byte Ptr)
 	Function bmx_wxtextctrl_getlastposition:Int(handle:Byte Ptr)
 	Function bmx_wxtextctrl_getlinelength:Int(handle:Byte Ptr, lineNo:Int)
-	Function bmx_wxtextctrl_getlinetext:Int(handle:Byte Ptr, lineNo:Int)
+	Function bmx_wxtextctrl_getlinetext:String(handle:Byte Ptr, lineNo:Int)
 	Function bmx_wxtextctrl_getnumberoflines:Int(handle:Byte Ptr)
 	Function bmx_wxtextctrl_getrange:String(handle:Byte Ptr, fromPos:Int, toPos:Int)
 	Function bmx_wxtextctrl_getselection:Int(handle:Byte Ptr, fromPos:Int Ptr, toPos:Int Ptr)
@@ -129,6 +130,11 @@ Extern
 	Function bmx_wxtextattr_delete(handle:Byte Ptr)
 	
 	Function bmx_wxtextctrl_geteventtype:Int(evt:Int)
+
+	Function bmx_wxtexturlevent_getmouseevent:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtexturlevent_geturlstart:Int(handle:Byte Ptr)
+	Function bmx_wxtexturlevent_geturlend:Int(handle:Byte Ptr)
+
 End Extern
 
 ' note : these are set as negative because they used to be positive but where then moved (in wxWidgets), where

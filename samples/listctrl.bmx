@@ -77,23 +77,23 @@ Type MyFrame Extends wxFrame
 		End If
 
 		' Give it an icon
-		'SetIcon( wxIcon(mondrian) );
+		SetIcon( wxIcon.CreateFromFile("media/mondrian.xpm") )
 
 		' Make an image list containing large icons
 		imageListNormal = New wxImageList.Create(32, 32, True)
 		imageListSmall = New wxImageList.Create(16, 16, True)
 	
-		imageListNormal.AddIcon( wxIcon.Load( "media/listctrl/toolbrai.xpm" ) )
-		imageListNormal.AddIcon( wxIcon.Load( "media/listctrl/toolchar.xpm" ) )
-		imageListNormal.AddIcon( wxIcon.Load( "media/listctrl/tooldata.xpm" ) )
-		imageListNormal.AddIcon( wxIcon.Load( "media/listctrl/toolnote.xpm" ) )
-		imageListNormal.AddIcon( wxIcon.Load( "media/listctrl/tooltodo.xpm" ) )
-		imageListNormal.AddIcon( wxIcon.Load( "media/listctrl/toolchec.xpm" ) )
-		imageListNormal.AddIcon( wxIcon.Load( "media/listctrl/toolgame.xpm" ) )
-		imageListNormal.AddIcon( wxIcon.Load( "media/listctrl/tooltime.xpm" ) )
-		imageListNormal.AddIcon( wxIcon.Load( "media/listctrl/toolword.xpm" ) )
+		imageListNormal.AddIcon( wxIcon.CreateFromFile( "media/listctrl/toolbrai.xpm" ) )
+		imageListNormal.AddIcon( wxIcon.CreateFromFile( "media/listctrl/toolchar.xpm" ) )
+		imageListNormal.AddIcon( wxIcon.CreateFromFile( "media/listctrl/tooldata.xpm" ) )
+		imageListNormal.AddIcon( wxIcon.CreateFromFile( "media/listctrl/toolnote.xpm" ) )
+		imageListNormal.AddIcon( wxIcon.CreateFromFile( "media/listctrl/tooltodo.xpm" ) )
+		imageListNormal.AddIcon( wxIcon.CreateFromFile( "media/listctrl/toolchec.xpm" ) )
+		imageListNormal.AddIcon( wxIcon.CreateFromFile( "media/listctrl/toolgame.xpm" ) )
+		imageListNormal.AddIcon( wxIcon.CreateFromFile( "media/listctrl/tooltime.xpm" ) )
+		imageListNormal.AddIcon( wxIcon.CreateFromFile( "media/listctrl/toolword.xpm" ) )
 		
-		imageListSmall.AddIcon( wxIcon.Load( "media/listctrl/small1.xpm" ) )
+		imageListSmall.AddIcon( wxIcon.CreateFromFile( "media/listctrl/small1.xpm" ) )
 		
 		' Make a menubar
 		Local menuFile:wxMenu = New wxMenu.Create()

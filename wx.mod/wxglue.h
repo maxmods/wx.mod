@@ -224,6 +224,7 @@ extern "C" {
 	void bmx_wxacceleratorentry_delete(wxAcceleratorEntry * entry);
 	
 	int bmx_wxisalnum(int code);
+	int bmx_wxisprint(int code);
 }
 
 class wxMainEventLoop : public wxEventLoop

@@ -58,26 +58,6 @@ between a wxBitmap with a mask and an icon; and there is no specific icon format
 (such as Windows) make the distinction, so a separate class is provided.
 End Rem
 Type wxIcon Extends wxBitmap
-Rem
-	Function CreateIconURL
-	
-		Local str$=String( url ),proto$,path$
-	If str
-		Local i=str.Find( "::",0 )
-		If i=-1 Return TCStream.OpenFile( str,readable,writeable )
-		proto$=str[..i].ToLower()
-		path$=str[i+2..]
-	EndIf
-	
-
-		If proto="incbin" And writeable=False
-			Local buf:Byte Ptr=IncbinPtr( path )
-			If Not buf Return
-			Local size=IncbinLen( path )
-			Return TRamStream.Create( buf,size,readable,writeable )
-		EndIf
-
-End Rem
 
 	Function _create:wxIcon(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
@@ -90,9 +70,78 @@ End Rem
 	Rem
 	bbdoc: 
 	End Rem
-	Function Load:wxIcon(name:String, bitmapType:Int = wxBITMAP_TYPE_XPM, desiredWidth:Int = -1, desiredHeight:Int = -1)
-		Return _create(bmx_wxicon_load(name, bitmapType, desiredWidth, desiredHeight))
+	Function CreateFromFile:wxIcon(name:Object, kind:Int = wxBITMAP_TYPE_XPM, desiredWidth:Int = -1, desiredHeight:Int = -1)
+		Local icon:wxIcon = New wxIcon.Create()
+		If icon.LoadFile(name, kind, desiredWidth, desiredHeight)
+			Return icon
+		End If
+		
+		Return wxNullIcon
 	End Function
+	
+	Method Create:wxIcon()
+		wxObjectPtr = bmx_wxicon_create()
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method LoadFile:Int(name:Object, kind:Int = wxBITMAP_TYPE_XPM, desiredWidth:Int = -1, desiredHeight:Int = -1)
+
+		If TStream(name) Then
+			' create a maxInputStream and attempt to load
+			Local stream:wxMaxInputStream = New wxMaxInputStream.Create(name)
+			Local imagePtr:Byte Ptr = bmx_wximage_createfromstream(stream.wxStreamPtr, kind, -1)
+			TStream(name).Close()
+			
+			If imagePtr Then
+				' create the bitmap from the image
+				Local bitmapPtr:Byte Ptr = bmx_wxbitmap_createfromimage(imagePtr, -1)
+				bmx_wxicon_copyfrombitmap(wxObjectPtr, bitmapPtr)
+				bmx_wximage_delete(imagePtr)
+				bmx_wxbitmap_delete(bitmapPtr)
+			End If
+			
+		Else If wxInputStream(name) Then
+			' load using this input stream
+			Local imagePtr:Byte Ptr = bmx_wximage_createfromstream(wxInputStream(name).wxStreamPtr, kind, -1)
+			
+			If imagePtr Then
+				' create the bitmap from the image
+				Local bitmapPtr:Byte Ptr = bmx_wxbitmap_createfromimage(imagePtr, -1)
+				bmx_wxicon_copyfrombitmap(wxObjectPtr, bitmapPtr)
+				bmx_wximage_delete(imagePtr)
+				bmx_wxbitmap_delete(bitmapPtr)
+			End If
+		Else
+			Local str:String = String(name)
+			If str Then
+				If str.Find( "::",0 ) > 0 Then
+					' Create a stream and load it
+					Local stream:TStream = ReadStream(str)
+					If stream Then ' did we get a stream?
+						Local inp:wxMaxInputStream = New wxMaxInputStream.Create(stream)
+						Local imagePtr:Byte Ptr = bmx_wximage_createfromstream(inp.wxStreamPtr, kind, -1)
+						stream.Close()
+						
+						If imagePtr Then
+							' create the bitmap from the image
+							Local bitmapPtr:Byte Ptr = bmx_wxbitmap_createfromimage(imagePtr, -1)
+							bmx_wxicon_copyfrombitmap(wxObjectPtr, bitmapPtr)
+							bmx_wximage_delete(imagePtr)
+							bmx_wxbitmap_delete(bitmapPtr)
+						End If
+					End If
+				Else
+					' use the default loader
+					Return bmx_wxicon_loadfile(wxObjectPtr, str, kind)
+				End If
+			End If
+		End If
+
+		Return IsOk()
+	End Method
 
 	Method Delete()
 		If wxObjectPtr Then
@@ -103,3 +152,7 @@ End Rem
 	
 End Type
 
+Rem
+bbdoc: 
+End Rem
+Global wxNullIcon:wxIcon = wxIcon._create(bmx_wxicon_null())

@@ -133,7 +133,7 @@ Type MyStatusBar Extends wxStatusBar
 		dc.SetBackground(wxLIGHT_GREY_BRUSH())
 		dc.Clear()
 		dc.DrawEllipse(0, 0, BMP_BUTTON_SIZE_X, BMP_BUTTON_SIZE_Y)
-		dc.SelectObject(wxNullBitmap())
+		dc.SelectObject(wxNullBitmap)
 		
 		Return bitmap
 	End Method
@@ -420,7 +420,7 @@ Type MyAboutDialog Extends wxDialog
 	Method Create:MyAboutDialog(parent:wxWindow, id:Int = -1, title:String = "About statbar", x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	
-		super.Create(parent, id, title, x, y, w, h, style)
+		super.Create_(parent, id, title, x, y, w, h, style)
 		Return Self
 	End Method
 	

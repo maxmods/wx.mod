@@ -86,16 +86,3 @@ Const wxMOUSE_BTN_LEFT:Int = 1
 Const wxMOUSE_BTN_MIDDLE:Int = 2
 Const wxMOUSE_BTN_RIGHT:Int = 3
 
-Const wxEVT_LEFT_DOWN:Int = 100
-Const wxEVT_LEFT_UP:Int = 101
-Const wxEVT_MIDDLE_DOWN:Int = 102
-Const wxEVT_MIDDLE_UP:Int = 103
-Const wxEVT_RIGHT_DOWN:Int = 104
-Const wxEVT_RIGHT_UP:Int = 105
-Const wxEVT_MOTION:Int = 106
-Const wxEVT_ENTER_WINDOW:Int = 107
-Const wxEVT_LEAVE_WINDOW:Int = 108
-Const wxEVT_LEFT_DCLICK:Int = 109
-Const wxEVT_MIDDLE_DCLICK:Int = 110
-Const wxEVT_RIGHT_DCLICK:Int = 111
-Const wxEVT_MOUSEWHEEL:Int = 115

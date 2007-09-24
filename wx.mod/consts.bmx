@@ -113,8 +113,6 @@ Const wxEVT_COMMAND_SLIDER_UPDATED:Int = 10
 Const wxEVT_COMMAND_SCROLLBAR_UPDATED:Int = 13
 Const wxEVT_COMMAND_VLBOX_SELECTED:Int = 14
 Const wxEVT_SOCKET:Int = 50
-Const wxEVT_SET_FOCUS:Int = 112
-Const wxEVT_KILL_FOCUS:Int = 113
 Const wxEVT_CHILD_FOCUS:Int = 114
 
 Const wxEVT_NC_LEFT_DOWN:Int = 200
@@ -206,11 +204,6 @@ Const wxEVT_SIZING:Int = 441
 Const wxEVT_MOVING:Int = 442
 Const wxEVT_HIBERNATE:Int = 443
 
-' Clipboard events
-Const wxEVT_COMMAND_TEXT_COPY:Int = 444
-Const wxEVT_COMMAND_TEXT_CUT:Int = 445
-Const wxEVT_COMMAND_TEXT_PASTE:Int = 446
-
 ' Generic command events
 ' Note: a click is a higher-level event than button down/up
 Const wxEVT_COMMAND_LEFT_CLICK:Int = 500
@@ -225,6 +218,21 @@ Const wxEVT_COMMAND_ENTER:Int = 506
 Const wxEVT_HELP:Int = 1050
 Const wxEVT_DETAILED_HELP:Int = 1051
 
+' mouse events
+Const wxEVT_MOUSE_EVENTS:Int = -100
+Const wxEVT_LEFT_DOWN:Int = 100
+Const wxEVT_LEFT_UP:Int = 101
+Const wxEVT_MIDDLE_DOWN:Int = 102
+Const wxEVT_MIDDLE_UP:Int = 103
+Const wxEVT_RIGHT_DOWN:Int = 104
+Const wxEVT_RIGHT_UP:Int = 105
+Const wxEVT_MOTION:Int = 106
+Const wxEVT_ENTER_WINDOW:Int = 107
+Const wxEVT_LEAVE_WINDOW:Int = 108
+Const wxEVT_LEFT_DCLICK:Int = 109
+Const wxEVT_MIDDLE_DCLICK:Int = 110
+Const wxEVT_RIGHT_DCLICK:Int = 111
+Const wxEVT_MOUSEWHEEL:Int = 115
 
 
 Const wxYES:Int = $00000002

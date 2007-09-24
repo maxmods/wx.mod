@@ -48,6 +48,9 @@ wxTextAttr & MaxTextAttr::TextAttr() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxTextCtrl, wxTextCtrl)
+END_EVENT_TABLE()
+
 
 MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style) {
 	return new MaxTextCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style);
@@ -382,6 +385,18 @@ MaxTextAttr * bmx_wxtextattr_create(MaxColour * colText, MaxColour * colBack, Ma
 	}
 
 	return new MaxTextAttr(attr);
+}
+
+const wxMouseEvent & bmx_wxtexturlevent_getmouseevent(wxTextUrlEvent & event) {
+	return event.GetMouseEvent();
+}
+
+long bmx_wxtexturlevent_geturlstart(wxTextUrlEvent & event) {
+	return event.GetURLStart();
+}
+
+long bmx_wxtexturlevent_geturlend(wxTextUrlEvent & event) {
+	return event.GetURLEnd();
 }
 
 

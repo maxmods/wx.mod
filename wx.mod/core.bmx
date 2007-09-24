@@ -26,9 +26,6 @@ Import "fonts.bmx"
 
 
 
-Type wxToolTip
-End Type
-
 
 Rem
 bbdoc: 
@@ -454,6 +451,10 @@ Function wxIsalnum:Int(keycode:Int)
 	Return bmx_wxisalnum(keycode)
 End Function
 
+Function wxIsprint:Int(keycode:Int)
+	Return bmx_wxisprint(keycode)
+End Function
+
 Type TCoreEventFactory Extends TEventFactory
 
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
@@ -465,14 +466,8 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_COMMAND_SLIDER_UPDATED, ..
 					wxEVT_COMMAND_ENTER
 				Return wxCommandEvent.create(wxEventPtr, evt)
-'			Case wxEVT_CLOSE_WINDOW, ..
-'					wxEVT_END_SESSION, ..
-'					wxEVT_QUERY_END_SESSION
-'				Return wxCloseEvent.create(wxEventPtr, evt)
 			Case wxEVT_MOVE
 				Return wxMoveEvent.create(wxEventPtr, evt)
-'			Case wxEVT_UPDATE_UI
-'				Return wxUpdateUIEvent.create(wxEventPtr, evt)
 			Case wxEVT_PAINT
 				Return wxPaintEvent.create(wxEventPtr, evt)
 			Case wxEVT_SIZE

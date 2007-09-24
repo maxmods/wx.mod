@@ -575,6 +575,58 @@ void bmx_wxwindow_setownforegroundcolour(wxWindow * window, MaxColour * colour) 
 	window->SetOwnForegroundColour(colour->Colour());
 }
 
+wxWindow * bmx_wxwindow_findfocus() {
+	return wxWindow::FindFocus();
+}
+
+void bmx_wxwindow_thaw(wxWindow * window) {
+	window->Thaw();
+}
+
+bool bmx_wxwindow_togglewindowstyle(wxWindow * window, int flag) {
+	return window->ToggleWindowStyle(flag);
+}
+
+bool bmx_wxwindow_transferdatafromwindow(wxWindow * window) {
+	return window->TransferDataFromWindow();
+}
+
+bool bmx_wxwindow_transferdatatowindow(wxWindow * window) {
+	return window->TransferDataToWindow();
+}
+
+void bmx_wxwindow_udpate(wxWindow * window) {
+	window->Update();
+}
+
+void bmx_wxwindow_updatewindowui(wxWindow * window, long flags) {
+	window->UpdateWindowUI(flags);
+}
+
+bool bmx_wxwindow_validate(wxWindow * window) {
+	return window->Validate();
+}
+
+void bmx_wxwindow_setsizerandfit(wxWindow * window, wxSizer * sizer, bool deleteOld) {
+	window->SetSizerAndFit(sizer, deleteOld);
+}
+
+void bmx_wxwindow_setthemeenabled(wxWindow * window, bool enable) {
+	window->SetThemeEnabled(enable);
+}
+
+void bmx_wxwindow_settooltip(wxWindow * window, BBString * tip) {
+	window->SetToolTip(wxStringFromBBString(tip));
+}
+
+void bmx_wxwindow_setvirtualsize(wxWindow * window, int width, int height) {
+	window->SetVirtualSize(width, height);
+}
+
+void bmx_wxwindow_setvirtualsizehints(wxWindow * window, int minW, int minH, int maxW, int maxH) {
+	window->SetVirtualSizeHints(minW, minH, maxW, maxH);
+}
+
 
 // *********************************************
 
@@ -697,4 +749,11 @@ void bmx_wxsizer_fitsize(wxSizer * sizer, wxWindow * window, int * w, int * h) {
 	*h = s.y;
 }
 
+void bmx_wxtooltip_enable(bool flag) {
+	wxToolTip::Enable(flag);
+}
+
+void bmx_wxtooltip_setdelay(long msecs) {
+	wxToolTip::SetDelay(msecs);
+}
 

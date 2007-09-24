@@ -175,6 +175,7 @@ Type wxTextCtrl Extends wxControl
 	End Rem
 	Method Create:wxTextCtrl(parent:wxWindow, id:Int, value:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
 		wxObjectPtr = bmx_wxtextctrl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style)
+		OnInit()
 		Return Self
 	End Method
 	
@@ -636,8 +637,11 @@ Type wxTextAttr
 	Rem
 	bbdoc: Initializes one or more of the text foreground colour, background colour, font, and alignment.
 	End Rem
-	Method Create:wxTextAttr(colText:wxColour, colBack:wxColour = Null, font:wxFont = Null, ..
+	Method Create:wxTextAttr(colText:wxColour = Null, colBack:wxColour = Null, font:wxFont = Null, ..
 			alignment:Int = wxTEXT_ALIGNMENT_DEFAULT)
+		If Not colText Then
+			colText = wxNullColour
+		End If
 		If colBack Then
 			If font Then
 				wxTextAttrPtr = bmx_wxtextattr_create(colText.wxObjectPtr, colBack.wxObjectPtr, font.wxObjectPtr, alignment)
@@ -850,6 +854,47 @@ Type wxTextAttr
 	
 End Type
 
+Rem
+bbdoc: 
+End Rem
+Type wxTextUrlEvent Extends wxCommandEvent
+
+	Field evt:TEventHandler
+
+	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxTextUrlEvent = New wxTextUrlEvent
+		
+		this.wxEventPtr = wxEventPtr
+		this.userData = evt.userData
+		this.parent = evt.parent
+		this.evt = evt
+		
+		Return this
+	End Function
+
+	Rem
+	bbdoc: get the mouse event which happend over the URL
+	End Rem
+	Method GetMouseEvent:wxMouseEvent()
+		Return wxMouseEvent(wxMouseEvent.create(bmx_wxtexturlevent_getmouseevent(wxEventPtr), evt))
+	End Method
+	
+	Rem
+	bbdoc: get the start of the URL
+	End Rem
+	Method GetURLStart:Int()
+		Return bmx_wxtexturlevent_geturlstart(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: get the end of the URL
+	End Rem
+	Method GetURLEnd:Int()
+		Return bmx_wxtexturlevent_geturlend(wxEventPtr)
+	End Method
+	
+End Type
+
 
 
 Type TTextCtrlEventFactory Extends TEventFactory
@@ -859,9 +904,10 @@ Type TTextCtrlEventFactory Extends TEventFactory
 		Select evt.eventType
 			Case wxEVT_COMMAND_TEXT_UPDATED, ..
 					wxEVT_COMMAND_TEXT_ENTER, ..
-					wxEVT_COMMAND_TEXT_URL, ..
 					wxEVT_COMMAND_TEXT_MAXLEN
 				Return wxCommandEvent.create(wxEventPtr, evt)
+			Case wxEVT_COMMAND_TEXT_URL
+				Return wxTextUrlEvent.create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

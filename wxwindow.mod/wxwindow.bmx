@@ -276,6 +276,14 @@ Type wxWindow Extends wxEvtHandler
 	about: Note that this is a static function, so it can be called without needing a wxWindow .
 	End Rem
 	Function FindFocus:wxWindow()
+		Local w:Byte Ptr = bmx_wxwindow_findfocus()
+		If w Then
+			Local win:wxWindow = wxWindow(wxfind(w))
+			If Not win Then
+				Return wxWindow._create(w)
+			End If
+			Return win
+		End If
 	End Function
 	
 	Rem
@@ -1344,21 +1352,31 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: The same as SetSizer, except it also sets the size hints for the window based on the sizer's minimum size.
 	End Rem
 	Method SetSizerAndFit(sizer:wxSizer, deleteOld:Int = True)
+		bmx_wxwindow_setsizerandfit(wxObjectPtr, sizer.wxSizerPtr, deleteOld)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This method tells a window if it should use the system's "theme" code to draw the windows' background instead if its own background drawing code.
+	about: This does not always have any effect since the underlying platform obviously needs to support the
+	notion of themes in user defined windows. One such platform is GTK+ where windows can have (very colourful)
+	backgrounds defined by a user's selected theme.
+	<p>
+	Dialogs, notebook pages and the status bar have this flag set to true by default so that the default look
+	and feel is simulated best.
+	</p>
 	End Rem
 	Method SetThemeEnabled(enable:Int)
+		bmx_wxwindow_setthemeenabled(wxObjectPtr, enable)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Attach a tooltip to the window.
 	End Rem
 	Method SetToolTip(tip:String)
+		bmx_wxwindow_settooltip(wxObjectPtr, tip)
 	End Method
 	
 	Rem
@@ -1368,15 +1386,18 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the virtual size of the window in pixels.
 	End Rem
 	Method SetVirtualSize(width:Int, height:Int)
+		bmx_wxwindow_setvirtualsize(wxObjectPtr, width, height)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Allows specification of minimum and maximum virtual window sizes.
+	about: If a pair of values is not set (or set to -1), the default values will be used.
 	End Rem
 	Method SetVirtualSizeHints(minW:Int = -1, minH:Int = -1, maxW:Int = -1, maxH:Int = -1)
+		bmx_wxwindow_setvirtualsizehints(wxObjectPtr, minW, minH, maxW, maxH)
 	End Method
 	
 	Rem
@@ -1418,27 +1439,44 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Reenables window updating after a previous call to Freeze.
+	about: To really thaw the control, it must be called exactly the same number of times as Freeze.
 	End Rem
 	Method Thaw()
+		bmx_wxwindow_thaw(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Turns the given flag on if it's currently turned off and vice versa.
+	returns: True if the style was turned on by this function, False if it was switched off.
+	about: This method cannot be used if the value of the flag is 0 (which is often the case for default
+	flags).
+	<p>
+	Also, please notice that not all styles can be changed after the control creation.
+	</p>
 	End Rem
 	Method ToggleWindowStyle:Int(flag:Int)
+		Return bmx_wxwindow_togglewindowstyle(wxObjectPtr, flag)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Transfers values from child controls to data areas specified by their validators.
+	returns: False if a transfer failed.
+	about: If the window has wxWS_EX_VALIDATE_RECURSIVELY extra style flag set, the method will also call
+	TransferDataFromWindow() of all child windows.
 	End Rem
 	Method TransferDataFromWindow:Int()
+		Return bmx_wxwindow_transferdatafromwindow(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Transfers values to child controls from data areas specified by their validators.
+	returns: False if a transfer failed.
+	about: If the window has wxWS_EX_VALIDATE_RECURSIVELY extra style flag set, the method will also call
+	TransferDataToWindow() of all child windows.
 	End Rem
 	Method TransferDataToWindow:Int()
+		Return bmx_wxwindow_transferdatatowindow(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1448,21 +1486,57 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Calling this method immediately repaints the invalidated area of the window and all of its children recursively while this would usually only happen when the flow of control returns to the event loop.
+	about: Notice that this method doesn't invalidate any area of the window so nothing happens if nothing has
+	been invalidated (i.e. marked as requiring a redraw). Use Refresh first if you want to immediately redraw
+	the window unconditionally.
 	End Rem
 	Method Update()
+		bmx_wxwindow_udpate(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This method sends wxUpdateUIEvents to the window.
+	about: The particular implementation depends on the window; for example a wxToolBar will send an update
+	UI event for each toolbar button, and a wxFrame will send an update UI event for each menubar menu item.
+	You can call this function from your application to ensure that your UI is up-to-date at this point (as
+	far as your wxUpdateUIEvent handlers are concerned). This may be necessary if you have called
+	wxUpdateUIEvent::SetMode or wxUpdateUIEvent::SetUpdateInterval to limit the overhead that wxWidgets
+	incurs by sending update UI events in idle time.
+	<p>
+	flags should be a bitlist of one or more of the following values :
+	<ul>
+	<li>wxUPDATE_UI_NONE - No particular value</li>
+	<li>wxUPDATE_UI_RECURSE -  Call the function for descendants</li>
+	<li>wxUPDATE_UI_FROMIDLE - Invoked from On(Internal)Idle</li>
+	</ul>
+	</p>
+	<p>
+	If you are calling this method from an OnInternalIdle or OnIdle function, make sure you pass
+	the wxUPDATE_UI_FROMIDLE flag, since this tells the window to only update the UI elements that need to
+	be updated in idle time. Some windows update their elements only when necessary, for example when a menu
+	is about to be shown. The following is an example of how to call UpdateWindowUI from an idle function :
+	<pre>
+	Method OnInternalIdle()
+		If wxUpdateUIEvent.CanUpdate(Self) Then
+			UpdateWindowUI(wxUPDATE_UI_FROMIDLE)
+		End If
+	End Method
+	</pre>
+	</p>
 	End Rem
 	Method UpdateWindowUI(flags:Int = wxUPDATE_UI_NONE)
+		bmx_wxwindow_updatewindowui(wxObjectPtr, flags)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Validates the current values of the child controls using their validators.
+	returns: False if any of the validations failed.
+	about: If the window has wxWS_EX_VALIDATE_RECURSIVELY extra style flag set, the method will also call
+	Validate() of all child windows.
 	End Rem
 	Method Validate:Int()
+		Return bmx_wxwindow_validate(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -2043,6 +2117,63 @@ Type wxUpdateUIEvent Extends wxCommandEvent
 End Type
 
 
+
+Rem
+bbdoc: A focus event is sent when a window's focus changes.
+about: The window losing focus receives a "kill focus" event while the window gaining it gets a "set focus"
+one.
+<p>
+Notice that the set focus event happens both when the user gives focus to the window (whether using
+the mouse or keyboard) and when it is done from the program itself using SetFocus.
+</p>
+End Rem
+Type wxFocusEvent Extends wxEvent
+
+	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxFocusEvent = New wxFocusEvent
+		
+		this.wxEventPtr = wxEventPtr
+		this.userData = evt.userData
+		this.parent = evt.parent
+		
+		Return this
+	End Function
+
+End Type
+
+Rem
+bbdoc: This type represents the events generated by a control (typically a wxTextCtrl but other windows can generate these events as well) when its content gets copied or cut to, or pasted from the clipboard.
+about: There are three types of corresponding events wxEVT_COMMAND_TEXT_COPY, wxEVT_COMMAND_TEXT_CUT and
+wxEVT_COMMAND_TEXT_PASTE.
+<p>
+If any of these events is processed (without being skipped) by an event handler, the corresponding operation
+doesn't take place which allows to prevent the text from being copied from or pasted to a control. It is
+also possible to examine the clipboard contents in the PASTE event handler and transform it in some way
+before inserting in a control -- for example, changing its case or removing invalid characters.
+</p>
+<p>
+Finally notice that a CUT event is always preceded by the COPY event which makes it possible to only process
+the latter if it doesn't matter if the text was copied or cut.
+</p>
+<p>
+These events are currently only generated by wxComboBox and under Windows and wxTextCtrl under Windows
+and GTK and are not generated for the text controls with wxTE_RICH style under Windows.
+</p>
+End Rem
+Type wxClipboardTextEvent Extends wxCommandEvent
+
+	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxClipboardTextEvent = New wxClipboardTextEvent
+		
+		this.wxEventPtr = wxEventPtr
+		this.userData = evt.userData
+		this.parent = evt.parent
+		
+		Return this
+	End Function
+
+End Type
+
 Rem
 bbdoc: A wxPaintDC must be constructed if an application wishes to paint on the client area of a window from within an OnPaint event.
 about: This should normally be constructed as a temporary stack object; don't store a wxPaintDC object.
@@ -2083,6 +2214,33 @@ Type wxPaintDC Extends wxWindowDC
 
 End Type
 
+Rem
+bbdoc: This type holds information about a tooltip associated with a window (see wxWindow::SetToolTip).
+about: The two functions, wxToolTip::Enable and wxToolTip::SetDelay can be used to globally alter tooltips
+behaviour.
+End Rem
+Type wxToolTip Extends wxObject
+
+	Rem
+	bbdoc: Enable or disable tooltips globally.
+	about: May not be supported on all platforms (eg. wxCocoa).
+	End Rem
+	Function Enable(flag:Int)
+		bmx_wxtooltip_enable(flag)
+	End Function
+	
+	Rem
+	bbdoc: Set the delay after which the tooltip appears.
+	about: May not be supported on all platforms (eg. wxCocoa).
+	End Rem
+	Function SetDelay(msecs:Int)
+		bmx_wxtooltip_setdelay(msecs)
+	End Function
+	
+	
+End Type
+
+
 
 Type TWindowEventFactory Extends TEventFactory
 
@@ -2095,6 +2253,13 @@ Type TWindowEventFactory Extends TEventFactory
 				Return wxCloseEvent.create(wxEventPtr, evt)
 			Case wxEVT_UPDATE_UI
 				Return wxUpdateUIEvent.create(wxEventPtr, evt)
+			Case wxEVT_SET_FOCUS, ..
+					wxEVT_KILL_FOCUS
+				Return wxFocusEvent.create(wxEventPtr, evt)
+			Case wxEVT_COMMAND_TEXT_COPY, ..
+					wxEVT_COMMAND_TEXT_CUT, ..
+					wxEVT_COMMAND_TEXT_PASTE
+				Return wxClipboardTextEvent.create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -2105,7 +2270,12 @@ Type TWindowEventFactory Extends TEventFactory
 			Case wxEVT_CLOSE_WINDOW, ..
 					wxEVT_END_SESSION, ..
 					wxEVT_QUERY_END_SESSION, ..
-					wxEVT_UPDATE_UI
+					wxEVT_UPDATE_UI, ..
+					wxEVT_SET_FOCUS, ..
+					wxEVT_KILL_FOCUS, ..
+					wxEVT_COMMAND_TEXT_COPY, ..
+					wxEVT_COMMAND_TEXT_CUT, ..
+					wxEVT_COMMAND_TEXT_PASTE
 			Return bmx_eventtype_value(eventType)
 		End Select
 	End Method

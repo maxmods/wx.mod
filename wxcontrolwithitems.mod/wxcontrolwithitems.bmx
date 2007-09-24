@@ -110,7 +110,7 @@ Type wxControlWithItems Extends wxControl Abstract
 	bbdoc: Returns the client data associated with the given item (if any).
 	returns: The client data, or Null if not present.
 	End Rem
-	Method GetClientData:Object(item:Int)
+	Method GetItemClientData:Object(item:Int)
 		Return bmx_wxcontrolwithitems_getclientdata(wxObjectPtr, item)
 	End Method
 	
@@ -178,7 +178,7 @@ Type wxControlWithItems Extends wxControl Abstract
 	Rem
 	bbdoc: Associates the given client data with the given item.
 	End Rem
-	Method SetClientData(item:Int, data:Object)
+	Method SetItemClientData(item:Int, data:Object)
 		bmx_wxcontrolwithitems_setclientdata(wxObjectPtr, item, data)
 	End Method
 	

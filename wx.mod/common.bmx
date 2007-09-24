@@ -347,6 +347,7 @@ Extern
 	Function bmx_wxacceleratorentry_delete(handle:Byte Ptr)
 	
 	Function bmx_wxisalnum:Int(code:Int)
+	Function bmx_wxisprint:Int(code:Int)
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()

@@ -738,6 +738,8 @@ about: wxWindow (and therefore all window classes) are derived from this class.
 End Rem
 Type wxEvtHandler Extends wxObject
 
+	Field clientData:Object
+
 	Function _create:wxEvtHandler(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
 			Local this:wxEvtHandler = New wxEvtHandler
@@ -808,6 +810,23 @@ Type wxEvtHandler Extends wxObject
 			ConnectAny(wxEVT_SCROLL_CHANGED, callback, userData)
 			Return
 		End If
+		
+		If eventType = wxEVT_MOUSE_EVENTS Then
+			ConnectAny(wxEVT_ENTER_WINDOW, callback, userData)
+			ConnectAny(wxEVT_LEAVE_WINDOW, callback, userData)
+			ConnectAny(wxEVT_LEFT_DOWN, callback, userData)
+			ConnectAny(wxEVT_LEFT_UP, callback, userData)
+			ConnectAny(wxEVT_LEFT_DCLICK, callback, userData)
+			ConnectAny(wxEVT_MIDDLE_DOWN, callback, userData)
+			ConnectAny(wxEVT_MIDDLE_UP, callback, userData)
+			ConnectAny(wxEVT_MIDDLE_DCLICK, callback, userData)
+			ConnectAny(wxEVT_RIGHT_DOWN, callback, userData)
+			ConnectAny(wxEVT_RIGHT_UP, callback, userData)
+			ConnectAny(wxEVT_RIGHT_DCLICK, callback, userData)
+			ConnectAny(wxEVT_MOTION, callback, userData)
+			ConnectAny(wxEVT_MOUSEWHEEL, callback, userData)
+			Return
+		End If
 	
 		Local handler:TEventHandler = New TEventHandler
 		' TODO: we may need parent if we are to get back to the original object that the event was generated from?
@@ -864,7 +883,6 @@ Type wxEvtHandler Extends wxObject
 			Return
 		End If
 
-	
 		Local handler:TEventHandler = New TEventHandler
 		' TODO: we may need parent if we are to get back to the original object that the event was generated from?
 		handler.parent = Self
@@ -933,7 +951,102 @@ Type wxEvtHandler Extends wxObject
 		bmx_wxevthandler_connectrange(wxObjectPtr, id, lastId, eventType, handler)
 	End Method
 	
+	Rem
+	bbdoc: Posts an event to be processed later.
+	about: The difference between sending an event (using the ProcessEvent method) and posting it is that
+	in the first case the event is processed before the function returns, while in the second case, the
+	function returns immediately and the event will be processed sometime later (usually during the next
+	event loop iteration).
+	<p>
+	A copy of event is made by the function, so the original can be deleted as soon as function returns
+	(it is common that the original is created on the stack). This requires that the wxEvent::Clone method be
+	implemented by event so that it can be duplicated and stored until it gets processed.
+	</p>
+	<p>
+	This is also the method to call for inter-thread communication---it will post events safely between
+	different threads which means that this method is thread-safe by using critical sections where needed. In
+	a multi-threaded program, you often need to inform the main GUI thread about the status of other working
+	threads and such notification should be done using this method.
+	</p>
+	<p>
+	This method automatically wakes up idle handling if the underlying window system is currently idle and
+	thus would not send any idle events. (Waking up idle handling is done calling ::wxWakeUpIdle.)
+	</p>
+	End Rem
+	Method AddPendingEvent(event:wxEvent)
+	End Method
+	
+	Rem
+	bbdoc: Gets user-supplied client data.
+	End Rem
+	Method GetClientData:Object()
+		Return clientData
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the event handler is enabled, false otherwise.
+	End Rem
+	Method GetEvtHandlerEnabled:Int()
+	End Method
+	
+	Rem
+	bbdoc: Gets the next handler in the chain.
+	End Rem
+	Method GetNextHandler:wxEvtHandler()
+	End Method
+	
+	Rem
+	bbdoc: Gets the previous handler in the chain.
+	End Rem
+	Method GetPreviousHandler:wxEvtHandler()
+	End Method
+	
+	Rem
+	bbdoc: Processes an event, searching event tables and calling zero or more suitable event handler function(s).
+	about: Normally, your application would not call this function: it is called in the wxWidgets
+	implementation to dispatch incoming user interface events to the framework (and application).
+	<p>
+	However, you might need to call it if implementing new functionality (such as a new control) where
+	you define new event types, as opposed to allowing the user to override virtual functions.
+	</p>
+	<p>
+	An instance where you might actually override the ProcessEvent function is where you want to direct
+	event processing to event handlers not normally noticed by wxWidgets. For example, in the document/view
+	architecture, documents and views are potential event handlers. When an event reaches a frame,
+	ProcessEvent will need to be called on the associated document and view in case event handler
+	functions are associated with these objects. The property classes library (wxProperty) also overrides
+	ProcessEvent for similar reasons.
+	</p>
+	<p>
+	The normal order of event table searching is as follows:
+	<ol>
+	<li>If the object is disabled (via a call to wxEvtHandler::SetEvtHandlerEnabled) the function skips to
+	step (6).</li>
+	<li>If the object is a wxWindow, ProcessEvent is recursively called on the window's wxValidator. If
+	this returns true, the function exits. </li>
+	<li>SearchEventTable is called for this event handler. If this fails, the base class table is tried,
+	and so on until no more tables exist or an appropriate function was found, in which case the function
+	exits. </li>
+	<li>The search is applied down the entire chain of event handlers (usually the chain has a length of
+	one). If this succeeds, the function exits. </li>
+	<li>If the object is a wxWindow and the event is a wxCommandEvent, ProcessEvent is recursively
+	applied to the parent window's event handler. If this returns true, the function exits. </li>
+	<li>Finally, ProcessEvent is called on the wxApp object.</li>
+	</ol>
+	</p>
+	End Rem
+	Method ProcessEvent(event:wxEvent)
+	End Method
+	
+	Rem
+	bbdoc: Sets user-supplied client data.
+	End Rem
+	Method SetClientData(data:Object)
+		clientData = data
+	End Method
+	
 	Method Delete()
+		clientData = Null
 		' cleanup time!
 		events.Clear()
 	End Method

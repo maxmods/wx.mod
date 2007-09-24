@@ -1020,6 +1020,10 @@ int bmx_wxisalnum(int code) {
 	return wxIsalnum(code);
 }
 
+int bmx_wxisprint(int code) {
+	return wxIsprint(code);
+}
+
 // *********************************************
 
 

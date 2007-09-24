@@ -27,7 +27,6 @@
 MaxIcon::MaxIcon()
 	: icon(wxNullIcon)
 {
-	icon = wxIcon();
 }
 
 MaxIcon::MaxIcon(const wxIcon & ic)
@@ -47,12 +46,29 @@ MaxIcon::~MaxIcon() {
 
 // *********************************************
 
-MaxIcon * bmx_wxicon_load(BBString * name, wxBitmapType type, int desiredWidth, int desiredHeight) {
+MaxIcon * bmx_wxicon_createfromfile(BBString * name, wxBitmapType type, int desiredWidth, int desiredHeight) {
 	wxIcon i(wxStringFromBBString(name), type, desiredWidth, desiredHeight);
 	return new MaxIcon(i);
 }
 
+MaxIcon * bmx_wxicon_create() {
+	return new MaxIcon();
+}
+
 void * bmx_wxicon_delete(MaxIcon * icon) {
 	delete icon;
+}
+
+void bmx_wxicon_copyfrombitmap(MaxIcon * icon, MaxBitmap * bitmap) {
+	icon->Icon().CopyFromBitmap(bitmap->Bitmap());
+}
+
+MaxIcon * bmx_wxicon_null() {
+	wxIcon i(wxNullIcon);
+	return new MaxIcon(i);
+}
+
+bool bmx_wxicon_loadfile(MaxIcon * icon, BBString * name, wxBitmapType type) {
+	return icon->Icon().LoadFile(wxStringFromBBString(name), type);
 }
 

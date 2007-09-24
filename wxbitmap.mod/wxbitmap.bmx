@@ -122,7 +122,7 @@ Type wxBitmap Extends wxGDIObject
 	bbdoc: Creates a bitmap from a filename, TStream or wxInputStream.
 	about: Filenames support use of the '::' format.
 	End Rem
-	Function CreateFromFile:wxBitmap(name:Object, kind:Int)
+	Function CreateFromFile:wxBitmap(name:Object, kind:Int, notUsed1:Int = -1, notUsed2:Int = -1)
 		Local bitmap:wxBitmap = New wxBitmap.Create()
 		If bitmap.LoadFile(name, kind)
 			Return bitmap
@@ -144,7 +144,7 @@ Type wxBitmap Extends wxGDIObject
 	bbdoc: Loads a bitmap from a filename, TStream or wxInputStream.
 	about: Filenames support use of the '::' format.
 	End Rem
-	Method LoadFile:Int(name:Object, kind:Int)
+	Method LoadFile:Int(name:Object, kind:Int, notUsed1:Int = -1, notUsed2:Int = -1)
 
 		If TStream(name) Then
 			' create a maxInputStream and attempt to load

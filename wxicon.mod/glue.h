@@ -29,10 +29,12 @@ extern "C" {
 
 #include <blitz.h>
 
-
-	MaxIcon * bmx_wxicon_load(BBString * name, wxBitmapType type, int desiredWidth, int desiredHeight);
+	MaxIcon * bmx_wxicon_create();
+	MaxIcon * bmx_wxicon_createfromfile(BBString * name, wxBitmapType type, int desiredWidth, int desiredHeight);
+	void bmx_wxicon_copyfrombitmap(MaxIcon * icon, MaxBitmap * bitmap);
 	void * bmx_wxicon_delete(MaxIcon * icon);
-	
+	MaxIcon * bmx_wxicon_null();
+	bool bmx_wxicon_loadfile(MaxIcon * icon, BBString * name, wxBitmapType type);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

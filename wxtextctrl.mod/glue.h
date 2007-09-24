@@ -115,6 +115,11 @@ extern "C" {
 	void bmx_wxtextattr_delete(MaxTextAttr * style);
 	
 	int bmx_wxtextctrl_geteventtype(int type);
+	
+	const wxMouseEvent & bmx_wxtexturlevent_getmouseevent(wxTextUrlEvent & event);
+	long bmx_wxtexturlevent_geturlstart(wxTextUrlEvent & event);
+	long bmx_wxtexturlevent_geturlend(wxTextUrlEvent & event);
+
 }
 
 
@@ -125,6 +130,9 @@ class MaxTextCtrl : public wxTextCtrl
 public:
 	MaxTextCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style);
 	~MaxTextCtrl();
+	
+private:
+	DECLARE_EVENT_TABLE()
 };
 
 

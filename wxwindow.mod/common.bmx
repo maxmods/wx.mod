@@ -167,6 +167,19 @@ Extern
 	Function bmx_wxwindow_setownfont(handle:Byte Ptr, font:Byte Ptr)
 	Function bmx_wxwindow_setownforegroundcolour(handle:Byte Ptr, colour:Byte Ptr)
 
+	Function bmx_wxwindow_findfocus:Byte Ptr()
+	Function bmx_wxwindow_thaw(handle:Byte Ptr)
+	Function bmx_wxwindow_togglewindowstyle:Int(handle:Byte Ptr, flag:Int)
+	Function bmx_wxwindow_transferdatafromwindow:Int(handle:Byte Ptr)
+	Function bmx_wxwindow_transferdatatowindow:Int(handle:Byte Ptr)
+	Function bmx_wxwindow_udpate(handle:Byte Ptr)
+	Function bmx_wxwindow_updatewindowui(handle:Byte Ptr, flags:Int)
+	Function bmx_wxwindow_validate:Int(handle:Byte Ptr)
+	Function bmx_wxwindow_setsizerandfit(handle:Byte Ptr, sizer:Byte Ptr, deleteOld:Int)
+	Function bmx_wxwindow_setthemeenabled(handle:Byte Ptr, enable:Int)
+	Function bmx_wxwindow_settooltip(handle:Byte Ptr, tip:String)
+	Function bmx_wxwindow_setvirtualsize(handle:Byte Ptr, width:Int, height:Int)
+	Function bmx_wxwindow_setvirtualsizehints(handle:Byte Ptr, minW:Int, minH:Int, maxW:Int, maxH:Int)
 
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)
@@ -198,5 +211,17 @@ Extern
 	Function bmx_wxsizer_fit(handle:Byte Ptr, window:Byte Ptr)
 	Function bmx_wxsizer_fitsize(handle:Byte Ptr, window:Byte Ptr, w:Int Ptr, h:Int Ptr)
 	
+	Function bmx_wxtooltip_enable(flag:Int)
+	Function bmx_wxtooltip_setdelay(msecs:Int)
 
 End Extern
+
+
+Const wxEVT_SET_FOCUS:Int = 112
+Const wxEVT_KILL_FOCUS:Int = 113
+
+' Clipboard events
+Const wxEVT_COMMAND_TEXT_COPY:Int = 444
+Const wxEVT_COMMAND_TEXT_CUT:Int = 445
+Const wxEVT_COMMAND_TEXT_PASTE:Int = 446
+

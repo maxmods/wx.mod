@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/tooltip.h"
 #include "../wxcursor.mod/glue.h"
 
 class MaxWindow;
@@ -154,6 +155,20 @@ extern "C" {
 	void bmx_wxwindow_setownfont(wxWindow * window, MaxFont * font);
 	void bmx_wxwindow_setownforegroundcolour(wxWindow * window, MaxColour * colour);
 
+	wxWindow * bmx_wxwindow_findfocus();
+	void bmx_wxwindow_thaw(wxWindow * window);
+	bool bmx_wxwindow_togglewindowstyle(wxWindow * window, int flag);
+	bool bmx_wxwindow_transferdatafromwindow(wxWindow * window);
+	bool bmx_wxwindow_transferdatatowindow(wxWindow * window);
+	void bmx_wxwindow_udpate(wxWindow * window);
+	void bmx_wxwindow_updatewindowui(wxWindow * window, long flags);
+	bool bmx_wxwindow_validate(wxWindow * window);
+	void bmx_wxwindow_setsizerandfit(wxWindow * window, wxSizer * sizer, bool deleteOld);
+	void bmx_wxwindow_setthemeenabled(wxWindow * window, bool enable);
+	void bmx_wxwindow_settooltip(wxWindow * window, BBString * tip);
+	void bmx_wxwindow_setvirtualsize(wxWindow * window, int width, int height);
+	void bmx_wxwindow_setvirtualsizehints(wxWindow * window, int minW, int minH, int maxW, int maxH);
+
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);
 	wxSizerItem * bmx_wxsizer_addsizer(wxSizer * sizer, wxSizer * sz, int proportion, int flag, int border);
@@ -183,6 +198,10 @@ extern "C" {
 	void bmx_wxflexgridsizer_addgrowablerow(MaxFlexGridSizer * sizer, int index, int prop);
 	void bmx_wxsizer_fit(wxSizer * sizer, wxWindow * window);
 	void bmx_wxsizer_fitsize(wxSizer * sizer, wxWindow * window, int * w, int * h);
+
+	void bmx_wxtooltip_enable(bool flag);
+	void bmx_wxtooltip_setdelay(long msecs);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

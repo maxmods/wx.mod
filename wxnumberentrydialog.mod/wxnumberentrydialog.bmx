@@ -69,7 +69,7 @@ initial value of it. If the user enters an invalid value or cancels the dialog, 
 Dialog is centered on its parent unless an explicit position is given in pos.
 </p>
 End Rem
-Function wxGetNumberFromUser:Int(message:String, prompt:String, caption:String, value:Int, ..
+Function wxGetNumberFromUser:Int(message:String, prompt:String, caption:String, value:Int = 0, ..
 		minVal:Int = 0, maxVal:Int = 100, parent:wxWindow = Null, x:Int = -1, y:Int = -1)
 		
 	If parent Then
