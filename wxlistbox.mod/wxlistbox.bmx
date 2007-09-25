@@ -86,12 +86,17 @@ Type wxListBox Extends wxControlWithItems
 	bbdoc: Constructor, creating and showing a list box.
 	End Rem
 	Function CreateListBox:wxListBox(parent:wxWindow, id:Int, choices:String[], x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
-		Local this:wxListBox = New wxListBox
-		
-		this.wxObjectPtr = bmx_wxlistbox_create(this, parent.wxObjectPtr, id, choices, x, y, w, h, style)
-		
-		Return this
+		Return New wxListBox.Create(parent, id, choices, x, y, w, h, style)
 	End Function
+	
+	Rem
+	bbdoc: Creates the listbox for two-step construction.
+	about: See CreateListBox for further details.
+	End Rem
+	Method Create:wxListBox(parent:wxWindow, id:Int, choices:String[], x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxlistbox_create(Self, parent.wxObjectPtr, id, choices, x, y, w, h, style)
+		Return Self
+	End Method
 	
 	Rem
 	bbdoc: Deselects an item in the list box.
