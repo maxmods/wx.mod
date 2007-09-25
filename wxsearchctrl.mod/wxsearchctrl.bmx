@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc wxSearchCtrl
+End Rem
 Module wx.wxSearchCtrl
 
 ModuleInfo "Version: 1.00"
@@ -47,4 +50,108 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Rem
+bbdoc: A search control is a composite control with a search button, a text control, and a cancel button.
+End Rem
+Type wxSearchCtrl Extends wxTextCtrl
 
+	Rem
+	bbdoc: Constructor, creating and showing a text control.
+	End Rem
+	Function CreateSearchCtrl:wxSearchCtrl(parent:wxWindow, id:Int, value:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		Return New wxSearchCtrl.Create(parent, id, value, x, y, w, h, style)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxSearchCtrl(parent:wxWindow, id:Int, value:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxsearchctrl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Sets the search control's menu object.
+	about: If there is already a menu associated with the search control it is deleted.
+	End Rem
+	Method SetMenu(menu:wxMenu)
+		bmx_wxsearchctrl_setmenu(wxObjectPtr, menu.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the search control's menu object or Null if there is no menu attached.
+	End Rem
+	Method GetMenu:wxMenu()
+		Local m:Byte Ptr = bmx_wxsearchctrl_getmenu(wxObjectPtr)
+		If m Then
+			Local menu:wxMenu = wxMenu(wxfind(m))
+			If Not menu Then
+				Return wxMenu._create(m)
+			End If
+			Return menu
+		End If
+	End Method
+	
+	Rem
+	bbdoc: Sets the search button visibility value on the search control.
+	about: If there is a menu attached, the search button will be visible regardless of the search button visibility value. 
+	<p>
+	This has no effect in Mac OS X v10.3
+	</p>
+	End Rem
+	Method ShowSearchButton(show:Int)
+		bmx_wxsearchctrl_showsearchbutton(wxObjectPtr, show)
+	End Method
+	
+	Rem
+	bbdoc: Returns the search button visibility value.
+	about: If there is a menu attached, the search button will be visible regardless of the search button visibility value. 
+	<p>
+	This always returns false in Mac OS X v10.3
+	</p>
+	End Rem
+	Method IsSearchButtonVisible:Int()
+		Return bmx_wxsearchctrl_issearchbuttonvisible(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Shows or hides the cancel button.
+	End Rem
+	Method ShowCancelButton(show:Int)
+		bmx_wxsearchctrl_showcancelbutton(wxObjectPtr, show)
+	End Method
+	
+	Rem
+	bbdoc: Indicates whether the cancel button is visible.
+	End Rem
+	Method IsCancelButtonVisible:Int()
+		Return bmx_wxsearchctrl_iscancelbuttonvisible(wxObjectPtr)
+	End Method
+
+End Type
+
+
+Type TSearchCtrlEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	
+		Select evt.eventType
+			Case wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN, ..
+					wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN
+				Return wxCommandEvent.create(wxEventPtr, evt)
+		End Select
+		
+		Return Null
+	End Method
+
+	Method GetEventType:Int(eventType:Int)
+		Select eventType
+			Case wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN, ..
+					wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN
+				Return bmx_wxsearchctrl_geteventtype(eventType)
+		End Select
+	End Method
+
+End Type
+
+New TSearchCtrlEventFactory

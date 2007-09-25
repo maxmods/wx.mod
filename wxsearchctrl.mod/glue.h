@@ -21,15 +21,34 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/srchctrl.h"
 
-//class MaxNotebook;
+class MaxSearchCtrl;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style);
+	void bmx_wxsearchctrl_setmenu(wxSearchCtrl * search, wxMenu * menu);
+	wxMenu * bmx_wxsearchctrl_getmenu(wxSearchCtrl * search);
+	void bmx_wxsearchctrl_showsearchbutton(wxSearchCtrl * search, bool show);
+	bool bmx_wxsearchctrl_issearchbuttonvisible(wxSearchCtrl * search);
+	void  bmx_wxsearchctrl_showcancelbutton(wxSearchCtrl * search, bool show);
+	bool bmx_wxsearchctrl_iscancelbuttonvisible(wxSearchCtrl * search);
+
+	int bmx_wxsearchctrl_geteventtype(int type);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxSearchCtrl : public wxSearchCtrl
+{
+public:
+	MaxSearchCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style);
+	~MaxSearchCtrl();
+	
+private:
+	DECLARE_EVENT_TABLE()
+};

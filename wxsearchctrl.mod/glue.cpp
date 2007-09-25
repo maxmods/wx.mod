@@ -24,8 +24,57 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxSearchCtrl::MaxSearchCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style)
+	: wxSearchCtrl(parent, id, value, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxSearchCtrl::~MaxSearchCtrl() {
+	wxunbind(this);
+}
 
 
 // *********************************************
 
+
+BEGIN_EVENT_TABLE(MaxSearchCtrl, wxSearchCtrl)
+END_EVENT_TABLE()
+
+MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style) {
+	return new MaxSearchCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style);
+}
+
+void bmx_wxsearchctrl_setmenu(wxSearchCtrl * search, wxMenu * menu) {
+	search->SetMenu(menu);
+}
+
+wxMenu * bmx_wxsearchctrl_getmenu(wxSearchCtrl * search) {
+	return search->GetMenu();
+}
+
+void bmx_wxsearchctrl_showsearchbutton(wxSearchCtrl * search, bool show) {
+	search->ShowSearchButton(show);
+}
+
+bool bmx_wxsearchctrl_issearchbuttonvisible(wxSearchCtrl * search) {
+	return search->IsSearchButtonVisible();
+}
+
+void  bmx_wxsearchctrl_showcancelbutton(wxSearchCtrl * search, bool show) {
+	search->ShowCancelButton(show);
+}
+
+bool bmx_wxsearchctrl_iscancelbuttonvisible(wxSearchCtrl * search) {
+	return search->IsCancelButtonVisible();
+}
+
+int bmx_wxsearchctrl_geteventtype(int type) {
+	switch(type) {
+		case 1119: return wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN;
+		case 1120: return wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN;
+	}
+	
+	return 0;
+}
 
