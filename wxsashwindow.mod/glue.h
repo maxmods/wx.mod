@@ -21,15 +21,45 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/sashwin.h"
 
-//class MaxNotebook;
+class MaxSashWindow;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxSashWindow * bmx_wxsashwindow_create(BBObject * handle, wxWindow * parent, wxWindowID id, 
+		int x, int y, int w, int h, long style);
+	bool bmx_wxsashwindow_getsashvisible(wxSashWindow * sash, wxSashEdgePosition edge);
+	int bmx_wxsashwindow_getmaximumsizex(wxSashWindow * sash);
+	int bmx_wxsashwindow_getmaximumsizey(wxSashWindow * sash);
+	int bmx_wxsashwindow_getminimumsizex(wxSashWindow * sash);
+	int bmx_wxsashwindow_getminimumsizey(wxSashWindow * sash);
+	int bmx_wxsashwindow_setmaximumsizex(wxSashWindow * sash, int size);
+	void bmx_wxsashwindow_setmaximumsizey(wxSashWindow * sash, int size);
+	void bmx_wxsashwindow_setminimumsizex(wxSashWindow * sash, int size);
+	void bmx_wxsashwindow_setminimumsizey(wxSashWindow * sash, int size);
+	void bmx_wxsashwindow_setsashvisible(wxSashWindow * sash, wxSashEdgePosition edge, bool visible);
+
+	wxSashEdgePosition bmx_wxsashevent_getedge(wxSashEvent & event);
+	void bmx_wxsashevent_getdragrect(wxSashEvent & event, int * x, int * y, int * w, int * h);
+	wxSashDragStatus bmx_wxsashevent_getdragstatus(wxSashEvent & event);
+
+	int bmx_wxsashwindow_geteventtype(int type);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxSashWindow: public wxSashWindow
+{
+public:
+	MaxSashWindow(BBObject * handle, wxWindow* parent, wxWindowID id, int x, int y, int w, int h, long style);
+	~MaxSashWindow();
+
+private:
+
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};

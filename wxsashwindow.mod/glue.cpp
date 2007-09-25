@@ -24,8 +24,92 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxSashWindow::MaxSashWindow(BBObject * handle, wxWindow* parent, wxWindowID id, int x, int y, int w, int h, long style)
+	: wxSashWindow(parent, id, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxSashWindow::~MaxSashWindow() {
+	wxunbind(this);
+}
 
 
 // *********************************************
+
+BEGIN_EVENT_TABLE(MaxSashWindow, wxSashWindow)
+END_EVENT_TABLE()
+
+MaxSashWindow * bmx_wxsashwindow_create(BBObject * handle, wxWindow * parent, wxWindowID id, 
+		int x, int y, int w, int h, long style) {
+	return new MaxSashWindow(handle, parent, id, x, y, w, h, style);
+}
+
+bool bmx_wxsashwindow_getsashvisible(wxSashWindow * sash, wxSashEdgePosition edge) {
+	return sash->GetSashVisible(edge);
+}
+
+int bmx_wxsashwindow_getmaximumsizex(wxSashWindow * sash) {
+	return sash->GetMaximumSizeX();
+}
+
+int bmx_wxsashwindow_getmaximumsizey(wxSashWindow * sash) {
+	return sash->GetMaximumSizeY();
+}
+
+int bmx_wxsashwindow_getminimumsizex(wxSashWindow * sash) {
+	return sash->GetMinimumSizeX();
+}
+
+int bmx_wxsashwindow_getminimumsizey(wxSashWindow * sash) {
+	return sash->GetMinimumSizeY();
+}
+
+int bmx_wxsashwindow_setmaximumsizex(wxSashWindow * sash, int size) {
+	sash->SetMaximumSizeX(size);
+}
+
+void bmx_wxsashwindow_setmaximumsizey(wxSashWindow * sash, int size) {
+	sash->SetMaximumSizeY(size);
+}
+
+void bmx_wxsashwindow_setminimumsizex(wxSashWindow * sash, int size) {
+	sash->SetMinimumSizeX(size);
+}
+
+void bmx_wxsashwindow_setminimumsizey(wxSashWindow * sash, int size) {
+	sash->SetMinimumSizeY(size);
+}
+
+void bmx_wxsashwindow_setsashvisible(wxSashWindow * sash, wxSashEdgePosition edge, bool visible) {
+	sash->SetSashVisible(edge, visible);
+}
+
+
+wxSashEdgePosition bmx_wxsashevent_getedge(wxSashEvent & event) {
+	return event.GetEdge();
+}
+
+void bmx_wxsashevent_getdragrect(wxSashEvent & event, int * x, int * y, int * w, int * h) {
+	wxRect r = event.GetDragRect();
+	*x = r.x;
+	*y = r.y;
+	*w = r.width;
+	*h = r.height;
+}
+
+wxSashDragStatus bmx_wxsashevent_getdragstatus(wxSashEvent & event) {
+	return event.GetDragStatus();
+}
+
+
+int bmx_wxsashwindow_geteventtype(int type) {
+
+	switch(type) {
+		case 11200: return wxEVT_SASH_DRAGGED;
+	}
+	return 0;
+
+}
 
 
