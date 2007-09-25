@@ -23,11 +23,18 @@
 #include "wxglue.h"
 #include "wx/spinbutt.h"
 
-//class MaxNotebook;
+class MaxSpinButton;
 
 extern "C" {
 
 #include <blitz.h>
+
+	MaxSpinButton * bmx_wxspinbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	int bmx_wxspinbutton_getmax(wxSpinButton * button);
+	int bmx_wxspinbutton_getmin(wxSpinButton * button);
+	int bmx_wxspinbutton_getvalue(wxSpinButton * button);
+	void bmx_wxspinbutton_setrange(wxSpinButton * button, int minValue, int maxValue);
+	void bmx_wxspinbutton_setvalue(wxSpinButton * button, int value);
 
 	int bmx_wxspinevent_getposition(wxSpinEvent & event);
 	void bmx_wxspinevent_setposition(wxSpinEvent & event, int pos);
@@ -37,3 +44,9 @@ extern "C" {
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxSpinButton: public wxSpinButton
+{
+public:
+	MaxSpinButton(BBObject * handle, wxWindow* parent, wxWindowID id, int x, int y, int w, int h, long style);
+	~MaxSpinButton();
+};

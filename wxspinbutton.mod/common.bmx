@@ -43,6 +43,14 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+
+	Function bmx_wxspinbutton_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxspinbutton_getmax:Int(handle:Byte Ptr)
+	Function bmx_wxspinbutton_getmin:Int(handle:Byte Ptr)
+	Function bmx_wxspinbutton_getvalue:Int(handle:Byte Ptr)
+	Function bmx_wxspinbutton_setrange(handle:Byte Ptr, minValue:Int, maxValue:Int)
+	Function bmx_wxspinbutton_setvalue(handle:Byte Ptr, value:Int)
+
 	Function bmx_wxspinevent_getposition:Int(evt:Byte Ptr)
 	Function bmx_wxspinevent_setposition(evt:Byte Ptr, pos:Int)
 

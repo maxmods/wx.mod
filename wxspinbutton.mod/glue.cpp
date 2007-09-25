@@ -24,9 +24,44 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxSpinButton::MaxSpinButton(BBObject * handle, wxWindow* parent, wxWindowID id, int x, int y, int w, int h, long style)
+	: wxSpinButton(parent, id, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxSpinButton::~MaxSpinButton() {
+	wxunbind(this);
+}
 
 
 // *********************************************
+
+
+MaxSpinButton * bmx_wxspinbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+	return new MaxSpinButton(handle, parent, id, x, y, w, h, style);
+}
+
+int bmx_wxspinbutton_getmax(wxSpinButton * button) {
+	return button->GetMax();
+}
+
+int bmx_wxspinbutton_getmin(wxSpinButton * button) {
+	return button->GetMin();
+}
+
+int bmx_wxspinbutton_getvalue(wxSpinButton * button) {
+	return button->GetValue();
+}
+
+void bmx_wxspinbutton_setrange(wxSpinButton * button, int minValue, int maxValue) {
+	button->SetRange(minValue, maxValue);
+}
+
+void bmx_wxspinbutton_setvalue(wxSpinButton * button, int value) {
+	button->SetValue(value);
+}
+
 
 
 int bmx_wxspinevent_getposition(wxSpinEvent & event) {
