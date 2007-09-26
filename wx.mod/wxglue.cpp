@@ -105,10 +105,6 @@ BBArray *wxArrayIntToBBIntArray( wxArrayInt t ){
 }
 
 
-void MaxApp::SetShouldLeave(bool should) {
-	mShouldLeave = should;
-}
-
 
 IMPLEMENT_APP_NO_MAIN(MaxApp)
 /*
@@ -123,6 +119,7 @@ void wxMainEventLoop::OnExit()
 }
 */
 
+
 bool MaxApp::OnInit()
 {
     if ( !wxApp::OnInit() ) {
@@ -130,6 +127,21 @@ bool MaxApp::OnInit()
 	}
 
     return _wx_wxapp_wxApp__OnInit();
+}
+
+bool MaxApp::ownMain = false;
+
+
+int MaxApp::MainLoop() {
+	if (!ownMain) {
+		return wxApp::MainLoop();
+	}
+	
+	SetExitOnFrameDelete(true);
+	eventLoop = m_mainLoop = new wxEventLoop;
+	wxEventLoop::SetActive(m_mainLoop);
+	
+	return _wx_wxapp_wxAppMain__MainLoop();
 }
 
 /*
@@ -299,6 +311,22 @@ void bmx_wxapp_setappname(BBString * name) {
 
 bool bmx_wxapp_yield(bool onlyIfNeeded) {
 	return wxGetApp().Yield(onlyIfNeeded);
+}
+
+void bmx_wxapp_setownmain() {
+	MaxApp::ownMain = true;
+}
+
+bool bmx_wxapp_dispatch() {
+	return wxGetApp().Dispatch();
+}
+
+int bmx_wxapp_pending() {
+	return wxGetApp().Pending();
+}
+
+bool bmx_wxapp_processidle() {
+	return wxGetApp().ProcessIdle();
 }
 
 // *********************************************

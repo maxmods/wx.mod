@@ -29,6 +29,7 @@
 #include "wx/artprov.h"
 #include "wx/fontmap.h"
 //#include "wx/event.h"
+#include "wx/ptr_scpd.h"
 
 #include <map>
 
@@ -46,6 +47,7 @@ extern "C" {
 #include <blitz.h>
 
 	void _wx_wx_TEventHandler_eventCallback(wxEvent &, void * data);
+	int _wx_wxapp_wxAppMain__MainLoop();
 
 	BBString *bbStringFromWxString(const wxString &s );
 	wxString wxStringFromBBString(BBString * s);
@@ -63,6 +65,10 @@ extern "C" {
 	void bmx_wxapp_settopwindow(wxWindow * window);
 	void bmx_wxapp_setappname(BBString * name);
 	bool bmx_wxapp_yield(bool onlyIfNeeded);
+	void bmx_wxapp_setownmain();
+	bool bmx_wxapp_dispatch();
+	int bmx_wxapp_pending();
+	bool bmx_wxapp_processidle();
 
 	MaxEvtHandler * bmx_wxevthandler_create(BBObject * maxHandle);
 	void bmx_wxevthandler_connectnoid(wxEvtHandler * evtHandler, wxEventType eventType, void * data);
@@ -227,6 +233,7 @@ extern "C" {
 	int bmx_wxisprint(int code);
 }
 
+/*
 class wxMainEventLoop : public wxEventLoop
 {
 	public:
@@ -237,6 +244,7 @@ class wxMainEventLoop : public wxEventLoop
 	private:
 	MaxApp *mMaxApp;
 };
+*/
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -244,12 +252,12 @@ class MaxApp : public wxApp
 {
 public:
 	virtual bool OnInit();
-	//virtual int OnRun();
+	virtual int MainLoop();
 
-	void SetShouldLeave(bool should);
-	
+	static bool ownMain;
 private:
-	bool mShouldLeave;
+
+	wxEventLoop * eventLoop;
 };
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

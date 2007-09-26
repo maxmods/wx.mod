@@ -44,4 +44,8 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxapp_setownmain()
+	Function bmx_wxapp_dispatch:Int()
+	Function bmx_wxapp_pending:Int()
+	Function bmx_wxapp_processidle:Int()
 End Extern

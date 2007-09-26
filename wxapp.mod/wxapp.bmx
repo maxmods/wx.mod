@@ -70,7 +70,15 @@ Type wxApp Abstract
 	End Method
 
 	Rem
-	bbdoc: TODO
+	bbdoc: This must be provided by the application, and will usually create the application's main window, optionally calling wxApp::SetTopWindow.
+	about: You may use OnExit to clean up anything initialized here, provided that the method returns true.
+	<p>
+	Notice that if you want to to use the command line processing provided by wxWidgets you have to call the
+	base type version in the derived type OnInit().
+	</p>
+	<p>
+	Return true to continue processing, false to exit the application immediately.
+	</p>
 	End Rem
 	Method OnInit:Int() Abstract
 
@@ -86,15 +94,20 @@ Type wxApp Abstract
 	End Method
 	
 	Rem
-	bbdoc: TODO
+	bbdoc: Sets the 'top' window.
+	about: You can call this from within wxApp::OnInit to let wxWidgets know which is the main window.
+	You don't have to set the top window; it is only a convenience so that (for example) certain dialogs without
+	parents can use a specific window as the top window. If no top window is specified by the application,
+	wxWidgets just uses the first frame or dialog in its top-level window list, when it needs to use the top window.
 	End Rem
 	Method SetTopWindow(window:wxWindow)
 		bmx_wxapp_settopwindow(window.wxObjectPtr)
 	End Method
 	
-	
 	Rem
-	bbdoc: TODO
+	bbdoc: Sets the name of the application.
+	about: The name may be used in dialogs (for example by the document/view framework). A default name is set by
+	wxWidgets.
 	End Rem
 	Method SetAppName(name:String)
 		bmx_wxapp_setappname(name)
@@ -135,4 +148,41 @@ Function wxGetApp:wxApp()
 	Return wxApp.app
 End Function
 
+Rem
+bbdoc: 
+End Rem
+Type wxAppMain Extends wxApp Abstract
 
+	Method Run:Int()
+		bmx_wxapp_setownmain()
+		Return bmx_app_wxentry()
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method Dispatch:Int()
+		Return bmx_wxapp_dispatch()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MainLoop:Int() Abstract
+
+	Function _MainLoop:Int()
+		Return wxAppMain(app).MainLoop()
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Pending:Int()
+		Return bmx_wxapp_pending()
+	End Method
+	
+	Method ProcessIdle:Int()
+		Return bmx_wxapp_processidle()
+	End Method
+
+End Type
