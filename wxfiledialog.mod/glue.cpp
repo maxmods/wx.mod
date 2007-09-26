@@ -29,3 +29,16 @@
 // *********************************************
 
 
+BBString * bmx_wxfileselector(BBString * message, BBString * defaultPath, BBString * defaultFilename, 
+		BBString * defaultExtension, BBString * wildcard, int flags, wxWindow * parent, int x, int y) {
+	if (parent) {
+		return bbStringFromWxString(wxFileSelector(wxStringFromBBString(message), wxStringFromBBString(defaultPath), 
+			wxStringFromBBString(defaultFilename), wxStringFromBBString(defaultExtension), wxStringFromBBString(wildcard),
+			flags, parent, x, y));
+	} else {
+		return bbStringFromWxString(wxFileSelector(wxStringFromBBString(message), wxStringFromBBString(defaultPath), 
+			wxStringFromBBString(defaultFilename), wxStringFromBBString(defaultExtension), wxStringFromBBString(wildcard),
+			flags, NULL, x, y));
+	}
+}
+

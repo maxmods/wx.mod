@@ -44,4 +44,15 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxfileselector:String(message:String, defaultPath:String, defaultFilename:String, ..
+		defaultExtension:String, wildcard:String, flags:Int,  parent:Byte Ptr, x:Int, y:Int)
+
 End Extern
+
+Const wxFD_OPEN:Int = $0001
+Const wxFD_SAVE:Int = $0002
+Const wxFD_OVERWRITE_PROMPT:Int = $0004
+Const wxFD_FILE_MUST_EXIST:Int = $0010
+Const wxFD_MULTIPLE:Int = $0020
+Const wxFD_CHANGE_DIR:Int = $0080
+Const wxFD_PREVIEW:Int = $0100

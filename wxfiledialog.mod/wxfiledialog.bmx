@@ -62,7 +62,7 @@ about: In Windows, this is the common file selector dialog. In X, this is a file
 functionality. The path and filename are distinct elements of a full file pathname. If path is empty, the current
 directory will be used. If filename is empty, no default filename will be supplied. The wildcard determines what
 files are displayed in the file selector, and file extension supplies a type extension for the required filename.
-Flags may be a combination of wxOPEN, wxSAVE, wxOVERWRITE_PROMPT or wxFILE_MUST_EXIST. Note that wxMULTIPLE can only
+Flags may be a combination of wxFD_OPEN, wxFD_SAVE, wxFD_OVERWRITE_PROMPT or wxFD_FILE_MUST_EXIST. Note that wxFD_MULTIPLE can only
 be used with wxFileDialog and not here as this function only returns a single file name.
 <p>
 Both the Unix and Windows versions implement a wildcard filter. Typing a filename containing wildcards
@@ -78,9 +78,9 @@ Function wxFileSelector:String(message:String, defaultPath:String = "", defaultF
 		defaultExtension:String = "", wildcard:String = "*.*", flags:Int = 0, parent:wxWindow = Null, x:Int = -1, y:Int = -1)
 		
 	If parent Then
-'		Return bmx_wxfileselector(message, defaultPath, defaultFilename, defaultExtension, wildcard, flags,  parent.wxObjectPtr, x, y)
+		Return bmx_wxfileselector(message, defaultPath, defaultFilename, defaultExtension, wildcard, flags,  parent.wxObjectPtr, x, y)
 	Else
-'		Return bmx_wxfileselector(message, defaultPath, defaultFilename, defaultExtension, wildcard, flags,  Null, x, y)
+		Return bmx_wxfileselector(message, defaultPath, defaultFilename, defaultExtension, wildcard, flags,  Null, x, y)
 	End If
 
 End Function

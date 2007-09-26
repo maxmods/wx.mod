@@ -69,12 +69,13 @@ Type wxComboBox Extends wxControlWithItems
 	bbdoc: 
 	End Rem
 	Function CreateComboBox:wxComboBox(parent:wxWindow, id:Int, value:String, choices:String[], x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
-		Local this:wxComboBox = New wxComboBox
-		
-		this.wxObjectPtr = bmx_wxcombobox_create(this, parent.wxObjectPtr, id, value, choices, x, y, w, h, style)
-		
-		Return this
+		Return New wxComboBox.Create(parent, id, value, choices, x, y, w, h, style)
 	End Function
+	
+	Method Create:wxComboBox(parent:wxWindow, id:Int, value:String, choices:String[], x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxcombobox_create(Self, parent.wxObjectPtr, id, value, choices, x, y, w, h, style)
+		Return Self
+	End Method
 
 	Rem
 	bbdoc: Returns true if the combobox is editable and there is a text selection to copy to the clipboard.

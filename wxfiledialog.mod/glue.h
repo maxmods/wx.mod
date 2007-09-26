@@ -28,6 +28,8 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBString * bmx_wxfileselector(BBString * message, BBString * defaultPath, BBString * defaultFilename, 
+		BBString * defaultExtension, BBString * wildcard, int flags, wxWindow * parent, int x, int y);
 
 }
 
