@@ -83,6 +83,8 @@ extern "C" {
 	int bmx_wxcommandevent_getselection(wxCommandEvent & event);
 	bool bmx_wxcommandevent_isselection(wxCommandEvent & event);
 	long bmx_wxcommandevent_getextralong(wxCommandEvent & event);
+	void * bmx_wxcommandevent_getclientdata(wxCommandEvent & event);
+	void bmx_wxcommandevent_setclientdata(wxCommandEvent & event, void * data);
 	void bmx_wxmoveevent_getposition(wxMoveEvent & event, int * x, int * y);
 	void bmx_wxevent_skip(wxEvent & event, bool skip);
 	void bmx_wxsizeevent_getsize(wxSizeEvent & event, int * w, int * h);

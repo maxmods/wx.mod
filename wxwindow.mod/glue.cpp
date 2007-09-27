@@ -757,3 +757,43 @@ void bmx_wxtooltip_setdelay(long msecs) {
 	wxToolTip::SetDelay(msecs);
 }
 
+bool bmx_wxupdateeventui_canupdate(wxWindow * window) {
+	return wxUpdateUIEvent::CanUpdate(window);
+}
+
+bool bmx_wxupdateeventui_getchecked(wxUpdateUIEvent & event) {
+	return event.GetChecked();
+}
+
+bool bmx_wxupdateeventui_getenabled(wxUpdateUIEvent & event) {
+	return event.GetEnabled();
+}
+
+bool bmx_wxupdateeventui_getshown(wxUpdateUIEvent & event) {
+	return event.GetShown();
+}
+
+BBString * bmx_wxupdateeventui_gettext(wxUpdateUIEvent & event) {
+	return bbStringFromWxString(event.GetText());
+}
+
+wxUpdateUIMode bmx_wxupdateeventui_getmode() {
+	return wxUpdateUIEvent::GetMode();
+}
+
+long bmx_wxupdateeventui_getupdateinterval() {
+	return wxUpdateUIEvent::GetUpdateInterval();
+}
+
+void bmx_wxupdateeventui_setmode(wxUpdateUIMode mode) {
+	wxUpdateUIEvent::SetMode(mode);
+}
+
+void bmx_wxupdateeventui_settext(wxUpdateUIEvent & event, BBString * text) {
+	event.SetText(wxStringFromBBString(text));
+}
+
+void bmx_wxupdateeventui_setupdateinterval(long interval) {
+	wxUpdateUIEvent::SetUpdateInterval(interval);
+}
+

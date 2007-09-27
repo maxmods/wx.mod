@@ -97,7 +97,7 @@ void bmx_wxcontrolwithitems_setclientdata(wxControlWithItems * control, int item
 	control->SetClientData(item, clientData);
 }
 
-void bmx_wxcontrolwithitems_setstring(wxControlWithItems * control, int item, BBString * text) {
+void bmx_wxcontrolwithitems_setstring(wxControlWithItems * control, unsigned int item, BBString * text) {
 	control->SetString(item, wxStringFromBBString(text));
 }
 

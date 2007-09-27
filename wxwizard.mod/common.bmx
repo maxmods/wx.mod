@@ -21,6 +21,8 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxDialog
+Import wx.wxPanel
 Import BRL.Blitz
 
 
@@ -43,4 +45,23 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxwizard_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, title:String, bitmap:Byte Ptr, x:Int, y:Int, style:Int)
+	Function bmx_wxwizard_getcurrentpage:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxwizard_getpageareasizer:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxwizard_getpagesize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxwizard_hasnextpage:Int(handle:Byte Ptr, page:Byte Ptr)
+	Function bmx_wxwizard_hasprevpage:Int(handle:Byte Ptr, page:Byte Ptr)
+	Function bmx_wxwizard_runwizard:Int(handle:Byte Ptr, firstPage:Byte Ptr)
+	Function bmx_wxwizard_setborder(handle:Byte Ptr, border:Int)
+
+	Function bmx_wizardpage_create:Byte Ptr(handle:Object, parent:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxwizardpage_getprev:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxwizardpage_getnext:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxwizardpage_getbitmap:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxwizardpagesimple_create:Byte Ptr(handle:Object, parent:Byte Ptr, prev:Byte Ptr, nxt:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxwizardpagesimple_setprev(handle:Byte Ptr, page:Byte Ptr)
+	Function bmx_wxwizardpagesimple_setnext(handle:Byte Ptr, page:Byte Ptr)
+	Function bmx_wxwizardpagesimple_chain(First:Byte Ptr, Second:Byte Ptr)
+	
 End Extern

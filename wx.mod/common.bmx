@@ -29,8 +29,7 @@ Import "consts.bmx"
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
 Import "../include/*.h"
 
-' For dynamic linking :
-
+' the wx libs
 Import "-lwx_gtk2u_aui-2.8"
 Import "-lwx_gtk2u_xrc-2.8"
 Import "-lwx_gtk2u_qa-2.8"
@@ -44,20 +43,7 @@ Import "-lwx_gtk2u_gl-2.8"
 Import "-lwx_gtk2u_richtext-2.8"
 Import "-lwxregexu-2.8"
 
-Rem
-Import "../lib/linux/libwx_gtk2u_aui-2.8.a"
-Import "../lib/linux/libwx_gtk2u_xrc-2.8.a"
-Import "../lib/linux/libwx_gtk2u_qa-2.8.a"
-Import "../lib/linux/libwx_gtk2u_html-2.8.a"
-Import "../lib/linux/libwx_gtk2u_adv-2.8.a"
-Import "../lib/linux/libwx_gtk2u_core-2.8.a"
-Import "../lib/linux/libwx_baseu_xml-2.8.a"
-Import "../lib/linux/libwx_baseu_net-2.8.a"
-Import "../lib/linux/libwx_baseu-2.8.a"
-Import "../lib/linux/libwx_gtk2u_gl-2.8.a"
-Import "../lib/linux/libwx_gtk2u_richtext-2.8.a"
-Import "../lib/linux/libwxregexu-2.8.a"
-End Rem
+' other libs
 Import "-lgdk-x11-2.0"
 Import "-latk-1.0"
 Import "-lgdk_pixbuf-2.0"
@@ -73,7 +59,7 @@ Import "-lXinerama"
 Import "-lSM"
 Import "-ltiff"
 Import "-lgtk-x11-2.0"
-' end of static linking
+Import "-lXxf86vm"
 
 ?win32
 Import "../lib/win32/mswu/*.h"
@@ -198,6 +184,8 @@ Extern
 	Function bmx_wxcommandevent_getselection:Int(evt:Byte Ptr)
 	Function bmx_wxcommandevent_isselection:Int(evt:Byte Ptr)
 	Function bmx_wxcommandevent_getextralong:Int(evt:Byte Ptr)
+	Function bmx_wxcommandevent_getclientdata:Object(evt:Byte Ptr)
+	Function bmx_wxcommandevent_setclientdata(evt:Byte Ptr, data:Object)
 	Function bmx_wxmoveevent_getposition(evt:Byte Ptr, x:Int Ptr, y:Int Ptr)
 	Function bmx_wxevent_skip(evt:Byte Ptr, skip:Int)
 	Function bmx_wxsizeevent_getsize(evt:Byte Ptr, w:Int Ptr, h:Int Ptr)

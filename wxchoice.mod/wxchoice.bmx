@@ -60,12 +60,17 @@ Type wxChoice Extends wxControlWithItems
 	bbdoc: Constructor, creating and showing a choice.
 	End Rem
 	Function CreateChoice:wxChoice(parent:wxWindow, id:Int, choices:String[], x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
-		Local this:wxChoice = New wxChoice
-
-		this.wxObjectPtr = bmx_wxchoice_create(this, parent.wxObjectPtr, id, choices, x, y, w, h, style)
-	
-		Return this
+		Return New wxChoice.Create(parent, id, choices, x, y, w, h, style)
 	End Function
+	
+	Rem
+	bbdoc: Creates the choice for two-step construction.
+	about: See CreateChoice.
+	End Rem
+	Method Create:wxChoice(parent:wxWindow, id:Int, choices:String[], x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxchoice_create(Self, parent.wxObjectPtr, id, choices, x, y, w, h, style)
+		Return Self
+	End Method
 	
 	Rem
 	bbdoc: Unlike GetSelection which only returns the accepted selection value, i.e. the selection in the control once the user closes the dropdown list, this function returns the current selection.

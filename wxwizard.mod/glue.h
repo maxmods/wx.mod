@@ -21,15 +21,82 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/wizard.h"
+#include "../wxbitmap.mod/glue.h"
 
-//class MaxNotebook;
+class MaxWizard;
+class MaxWizardPage;
+class MaxWizardPageSimple;
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxWizardPage * _wx_wxwizard_wxWizardPage__GetPrev(BBObject * handle);
+	wxWizardPage * _wx_wxwizard_wxWizardPage__GetNext(BBObject * handle);
+
+	MaxWizard * bmx_wxwizard_create(BBObject * handle, wxWindow * parent, int id, BBString * title, MaxBitmap * bitmap, int x, int y, long style);
+	wxWizardPage * bmx_wxwizard_getcurrentpage(wxWizard * wizard);
+	wxSizer * bmx_wxwizard_getpageareasizer(wxWizard * wizard);
+	void bmx_wxwizard_getpagesize(wxWizard * wizard, int * w, int * h);
+	bool bmx_wxwizard_hasnextpage(wxWizard * wizard, wxWizardPage * page);
+	bool bmx_wxwizard_hasprevpage(wxWizard * wizard, wxWizardPage * page);
+	bool bmx_wxwizard_runwizard(wxWizard * wizard, wxWizardPage * firstPage);
+	void bmx_wxwizard_setborder(wxWizard * wizard, int border);
+
+	MaxWizardPage * bmx_wizardpage_create(BBObject * handle, wxWizard * parent, MaxBitmap * bitmap);
+	wxWizardPage * bmx_wxwizardpage_getprev(wxWizardPage * page);
+	wxWizardPage * bmx_wxwizardpage_getnext(wxWizardPage * page);
+	MaxBitmap * bmx_wxwizardpage_getbitmap(wxWizardPage * page);
+
+	MaxWizardPageSimple * bmx_wxwizardpagesimple_create(BBObject * handle, wxWizard * parent, wxWizardPage * prev, wxWizardPage * nxt, MaxBitmap * bitmap);
+	void bmx_wxwizardpagesimple_setprev(wxWizardPageSimple * p, wxWizardPage * page);
+	void bmx_wxwizardpagesimple_setnext(wxWizardPageSimple * p, wxWizardPage * page);
+	void bmx_wxwizardpagesimple_chain(wxWizardPageSimple * first, wxWizardPageSimple * second);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxWizard : public wxWizard
+{
+public:
+	MaxWizard(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& title, 
+		const wxBitmap& bitmap, int x, int y, long style);
+	~MaxWizard();
+	
+private:
+
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};
+
+
+class MaxWizardPage : public wxWizardPage
+{
+public:
+	MaxWizardPage(BBObject * handle, wxWizard * parent, const wxBitmap& bitmap);
+	~MaxWizardPage();
+	
+	wxWizardPage* GetPrev() const;
+	wxWizardPage* GetNext() const;
+	
+private:
+
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+	BBObject * maxHandle;
+};
+
+
+class MaxWizardPageSimple : public wxWizardPageSimple
+{
+public:
+	MaxWizardPageSimple(BBObject * handle, wxWizard * parent, wxWizardPage * prev, wxWizardPage * next, const wxBitmap& bitmap);
+	~MaxWizardPageSimple();
+	
+private:
+
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};

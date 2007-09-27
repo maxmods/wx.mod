@@ -590,6 +590,14 @@ long bmx_wxcommandevent_getextralong(wxCommandEvent & event) {
 	return event.GetExtraLong();
 }
 
+void * bmx_wxcommandevent_getclientdata(wxCommandEvent & event) {
+	return event.GetClientData();
+}
+
+void bmx_wxcommandevent_setclientdata(wxCommandEvent & event, void * data) {
+	event.SetClientData(data);
+}
+
 void bmx_wxmoveevent_getposition(wxMoveEvent & event, int * x, int * y) {
 	wxPoint p = event.GetPosition();
 	*x = p.x;

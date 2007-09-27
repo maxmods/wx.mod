@@ -196,6 +196,20 @@ Type wxCommandEvent Extends wxEvent
 		Return bmx_wxcommandevent_getint(wxEventPtr)
 	End Method
 
+	Rem
+	bbdoc: Returns client data for a listbox or choice selection event (not valid for a deselection).
+	End Rem
+	Method GetClientData:Object()
+		Return bmx_wxcommandevent_getclientdata(wxEventPtr)
+	End Method
+
+	Rem
+	bbdoc: Sets the client data for this event.
+	End Rem
+	Method SetClientData(data:Object)
+		bmx_wxcommandevent_setclientdata(wxEventPtr, data)
+	End Method
+	
 End Type
 
 Rem

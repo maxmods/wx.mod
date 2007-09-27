@@ -58,7 +58,7 @@ End Rem
 Type wxCheckBox Extends wxControl
 
 	Rem
-	bbdoc: 
+	bbdoc: Constructor, creating and showing a checkbox.
 	End Rem
 	Function CreateCheckBox:wxCheckBox(parent:wxWindow, id:Int, label:String = Null, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = 0)
@@ -67,7 +67,8 @@ Type wxCheckBox Extends wxControl
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates the checkbox for two-step construction.
+	about: See CreateCheckBox for details.
 	End Rem
 	Method Create:wxCheckBox(parent:wxWindow, id:Int, label:String = Null, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = 0)

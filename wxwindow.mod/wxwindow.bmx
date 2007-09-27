@@ -2023,8 +2023,9 @@ Type wxUpdateUIEvent Extends wxCommandEvent
 	sent as often as possible. You can reduce the frequency that events are sent by changing the mode and/or
 	setting an update interval.
 	End Rem
-	Method CanUpdate:Int(window:wxWindow)
-	End Method
+	Function CanUpdate:Int(window:wxWindow)
+		Return bmx_wxupdateeventui_canupdate(window.wxObjectPtr)
+	End Function
 	
 	Rem
 	bbdoc: Check or uncheck the UI element.
@@ -2051,30 +2052,35 @@ Type wxUpdateUIEvent Extends wxCommandEvent
 	bbdoc: Returns true if the UI element should be checked.
 	End Rem
 	Method GetChecked:Int()
+		Return bmx_wxupdateeventui_getchecked(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the UI element should be enabled.
 	End Rem
 	Method GetEnabled:Int()
+		Return bmx_wxupdateeventui_getenabled(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the UI element should be shown.
 	End Rem
 	Method GetShown:Int()
+		Return bmx_wxupdateeventui_getshown(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns the text that should be set for the UI element.
 	End Rem
 	Method GetText:String()
+		Return bmx_wxupdateeventui_gettext(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Static function returning a value specifying how wxWidgets will send update events: to all windows, or only to those which specify that they will process the events.
 	End Rem
 	Function GetMode:Int()
+		Return bmx_wxupdateeventui_getmode()
 	End Function
 	
 	Rem
@@ -2082,24 +2088,21 @@ Type wxUpdateUIEvent Extends wxCommandEvent
 	about: -1 disables updates, 0 updates as frequently as possible.
 	End Rem
 	Function GetUpdateInterval:Int()
+		Return bmx_wxupdateeventui_getupdateinterval()
 	End Function
-	
-	'Rem
-	'bbdoc: 
-	'End Rem
-	'Function ResetUpdateTime()
-	'End Function
-	
+
 	Rem
 	bbdoc: Specify how wxWidgets will send update events: to all windows, or only to those which specify that they will process the events.
 	End Rem
 	Function SetMode(mode:Int)
+		bmx_wxupdateeventui_setmode(mode)
 	End Function
 	
 	Rem
 	bbdoc: Sets the text for this UI element.
 	End Rem
 	Method SetText(text:String)
+		bmx_wxupdateeventui_settext(wxEventPtr, text)
 	End Method
 	
 	Rem
@@ -2112,6 +2115,7 @@ Type wxUpdateUIEvent Extends wxCommandEvent
 	</p>
 	End Rem
 	Function SetUpdateInterval(interval:Int)
+		bmx_wxupdateeventui_setupdateinterval(interval)
 	End Function
 	
 End Type

@@ -73,12 +73,16 @@ Type wxCheckListBox Extends wxListBox
 	bbdoc: Constructor, creating and showing a check list box.
 	End Rem
 	Function CreateCheckListBox:wxCheckListBox(parent:wxWindow, id:Int, choices:String[], x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
-		Local this:wxCheckListBox = New wxCheckListBox
-		
-		this.wxObjectPtr = bmx_wxchecklistbox_create(this, parent.wxObjectPtr, id, choices, x, y, w, h, style)
-		
-		Return this
+		Return New wxCheckListBox.Create(parent, id, choices, x, y, w, h, style)
 	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxCheckListBox(parent:wxWindow, id:Int, choices:String[], x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxchecklistbox_create(Self, parent.wxObjectPtr, id, choices, x, y, w, h, style)
+		Return Self
+	End Method
 	
 	Rem
 	bbdoc: Checks the given item.

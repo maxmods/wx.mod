@@ -202,6 +202,17 @@ extern "C" {
 	void bmx_wxtooltip_enable(bool flag);
 	void bmx_wxtooltip_setdelay(long msecs);
 
+	bool bmx_wxupdateeventui_canupdate(wxWindow * window);
+	bool bmx_wxupdateeventui_getchecked(wxUpdateUIEvent & event);
+	bool bmx_wxupdateeventui_getenabled(wxUpdateUIEvent & event);
+	bool bmx_wxupdateeventui_getshown(wxUpdateUIEvent & event);
+	BBString * bmx_wxupdateeventui_gettext(wxUpdateUIEvent & event);
+	wxUpdateUIMode bmx_wxupdateeventui_getmode();
+	long bmx_wxupdateeventui_getupdateinterval();
+	void bmx_wxupdateeventui_setmode(wxUpdateUIMode mode);
+	void bmx_wxupdateeventui_settext(wxUpdateUIEvent & event, BBString * text);
+	void bmx_wxupdateeventui_setupdateinterval(long interval);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
