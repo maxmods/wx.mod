@@ -2179,6 +2179,77 @@ Type wxClipboardTextEvent Extends wxCommandEvent
 End Type
 
 Rem
+bbdoc: This type is used for idle events, which are generated when the system becomes idle.
+about: Note that, unless you do something specifically, the idle events are not sent if the system remains idle
+once it has become it, e.g. only a single idle event will be generated until something else resulting in more normal
+events happens and only then is the next idle event sent again. If you need to ensure a continuous stream of idle
+events, you can either use RequestMore method in your handler or call wxWakeUpIdle periodically (for example from
+timer event), but note that both of these approaches (and especially the first one) increase the system load and so
+should be avoided if possible.
+<p>
+By default, idle events are sent to all windows (and also wxApp, as usual). If this is causing a significant
+overhead in your application, you can call wxIdleEvent::SetMode with the value wxIDLE_PROCESS_SPECIFIED, and set the
+wxWS_EX_PROCESS_IDLE extra window style for every window which should receive idle events.
+</p>
+End Rem
+Type wxIdleEvent Extends wxEvent
+
+	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxIdleEvent = New wxIdleEvent 
+		
+		this.wxEventPtr = wxEventPtr
+		this.userData = evt.userData
+		this.parent = evt.parent
+		
+		Return this
+	End Function
+
+	Rem
+	bbdoc: Returns true if it is appropriate to send idle events to this window.
+	about: This function looks at the mode used (see wxIdleEvent::SetMode), and the wxWS_EX_PROCESS_IDLE
+	style in window to determine whether idle events should be sent to this window now. By default this
+	will always return true because the update mode is initially wxIDLE_PROCESS_ALL. You can change the
+	mode to only send idle events to windows with the wxWS_EX_PROCESS_IDLE extra window style set.
+	End Rem
+	Function CanSend:Int(window:wxWindow)
+		Return bmx_wxidleevent_cansend(window.wxObjectPtr)
+	End Function
+	
+	Rem
+	bbdoc: Returns a value specifying how wxWidgets will send idle events: to all windows, or only to those which specify that they will process the events.
+	End Rem
+	Function GetMode:Int()
+		Return bmx_wxidleevent_getmode()
+	End Function
+	
+	Rem
+	bbdoc: Tells wxWidgets that more processing is required.
+	about: This method can be called by an OnIdle handler for a window or window event handler to indicate
+	that wxApp::OnIdle should forward the OnIdle event once more to the application windows. If no window
+	calls this method during OnIdle, then the application will remain in a passive event loop (not calling
+	OnIdle) until a new event is posted to the application by the windowing system.
+	End Rem
+	Method RequestMore(needMore:Int = True)
+		bmx_wxidleevent_requestmore(wxEventPtr, needMore)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the OnIdle function processing this event requested more processing time.
+	End Rem
+	Method MoreRequested:Int()
+		Return bmx_wxidleevent_morerequested(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Function for specifying how wxWidgets will send idle events: to all windows, or only to those which specify that they will process the events.
+	End Rem
+	Function SetMode(mode:Int)
+		bmx_wxidleevent_setmode(mode)
+	End Function
+	
+End Type
+
+Rem
 bbdoc: A wxPaintDC must be constructed if an application wishes to paint on the client area of a window from within an OnPaint event.
 about: This should normally be constructed as a temporary stack object; don't store a wxPaintDC object.
 If you have an OnPaint handler, you must create a wxPaintDC object within it even if you don't actually use
@@ -2264,6 +2335,8 @@ Type TWindowEventFactory Extends TEventFactory
 					wxEVT_COMMAND_TEXT_CUT, ..
 					wxEVT_COMMAND_TEXT_PASTE
 				Return wxClipboardTextEvent.create(wxEventPtr, evt)
+			Case wxEVT_IDLE
+				Return wxIdleEvent.create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -2277,6 +2350,7 @@ Type TWindowEventFactory Extends TEventFactory
 					wxEVT_UPDATE_UI, ..
 					wxEVT_SET_FOCUS, ..
 					wxEVT_KILL_FOCUS, ..
+					wxEVT_IDLE, ..
 					wxEVT_COMMAND_TEXT_COPY, ..
 					wxEVT_COMMAND_TEXT_CUT, ..
 					wxEVT_COMMAND_TEXT_PASTE

@@ -213,6 +213,12 @@ extern "C" {
 	void bmx_wxupdateeventui_settext(wxUpdateUIEvent & event, BBString * text);
 	void bmx_wxupdateeventui_setupdateinterval(long interval);
 
+	bool bmx_wxidleevent_cansend(wxWindow * window);
+	wxIdleMode bmx_wxidleevent_getmode();
+	void bmx_wxidleevent_requestmore(wxIdleEvent & event, bool needMore);
+	bool bmx_wxidleevent_morerequested(wxIdleEvent & event);
+	void bmx_wxidleevent_setmode(wxIdleMode mode);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

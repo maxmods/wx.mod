@@ -22,52 +22,6 @@ SuperStrict
 
 Import "events.bmx"
 Import "fonts.bmx"
-'Import "common.bmx"
-
-
-
-
-Rem
-bbdoc: 
-
-Type wxArrayString
-
-	Field wxArrayStringPtr:Byte Ptr
-	
-	Function Create:wxArrayString()
-		Local this:wxArrayString = New wxArrayString
-		
-		this.wxArrayStringPtr = bmx_wxarraystring_create()
-		
-		Return this
-	End Function
-	
-	'Rem
-	'bbdoc: 
-	'End Rem
-	Method Add:Int(txt:String, copies:Int = 1)
-		Return bmx_wxarraystring_add(wxArrayStringPtr, txt, copies)
-	End Method
-
-	'Rem
-	'bbdoc: Preallocates enough memory To store nCount items.
-	'about: This Function May be used To improve array class performance before adding a known number
-	'of items consecutively.
-	'End Rem
-	Method Alloc(count:Int)
-		bmx_wxarraystring_alloc(wxArrayStringPtr, count)
-	End Method
-	
-	
-	Method Delete()
-		If wxArrayStringPtr Then
-			bmx_wxarraystring_delete(wxArrayStringPtr)
-			wxArrayStringPtr = Null
-		End If
-	End Method
-	
-End Type
-End Rem
 
 Rem
 bbdoc: A colour is an object representing a combination of Red, Green, and Blue (RGB) intensity values, and is used to determine drawing colours.
@@ -232,6 +186,10 @@ Type wxPen Extends wxGDIObject
 	
 End Type
 
+Rem
+bbdoc: Null colour
+End Rem
+Global wxNullPen:wxPen = wxPen._create(bmx_wxpen_null())
 
 
 Rem
@@ -334,14 +292,6 @@ Type wxInputStream Extends wxStreamBase
 	
 End Type
 
-
-
-' wraps an input stream...
-Type TInputStreamHandler
-
-	 
-
-End Type
 
 Type wxAcceleratorTable
 
@@ -481,8 +431,6 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_SCROLLWIN_THUMBTRACK, ..
 					wxEVT_SCROLLWIN_THUMBRELEASE
 				Return wxScrollWinEvent.create(wxEventPtr, evt)
-			Case wxEVT_IDLE
-				Return wxIdleEvent.create(wxEventPtr, evt)
 			Case wxEVT_SCROLL_TOP, ..
 					wxEVT_SCROLL_BOTTOM, ..
 					wxEVT_SCROLL_LINEUP, ..
@@ -521,7 +469,6 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_SCROLLWIN_PAGEDOWN, ..
 					wxEVT_SCROLLWIN_THUMBTRACK, ..
 					wxEVT_SCROLLWIN_THUMBRELEASE, ..
-					wxEVT_IDLE, ..
 					wxEVT_SCROLL_TOP, ..
 					wxEVT_SCROLL_BOTTOM, ..
 					wxEVT_SCROLL_LINEUP, ..

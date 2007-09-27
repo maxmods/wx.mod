@@ -797,3 +797,26 @@ void bmx_wxupdateeventui_setupdateinterval(long interval) {
 	wxUpdateUIEvent::SetUpdateInterval(interval);
 }
 
+
+bool bmx_wxidleevent_cansend(wxWindow * window) {
+	return wxIdleEvent::CanSend(window);
+}
+
+wxIdleMode bmx_wxidleevent_getmode() {
+	return wxIdleEvent::GetMode();
+}
+
+void bmx_wxidleevent_requestmore(wxIdleEvent & event, bool needMore) {
+	event.RequestMore(needMore);
+}
+
+bool bmx_wxidleevent_morerequested(wxIdleEvent & event) {
+	return event.MoreRequested();
+}
+
+void bmx_wxidleevent_setmode(wxIdleMode mode) {
+	wxIdleEvent::SetMode(mode);
+}
+
+
+

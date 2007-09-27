@@ -225,6 +225,12 @@ Extern
 	Function bmx_wxupdateeventui_settext(handle:Byte Ptr, text:String)
 	Function bmx_wxupdateeventui_setupdateinterval(interval:Int)
 
+	Function bmx_wxidleevent_cansend:Int(window:Byte Ptr)
+	Function bmx_wxidleevent_getmode:Int()
+	Function bmx_wxidleevent_requestmore(handle:Byte Ptr, needMore:Int)
+	Function bmx_wxidleevent_morerequested:Int(handle:Byte Ptr)
+	Function bmx_wxidleevent_setmode(mode:Int)
+
 End Extern
 
 

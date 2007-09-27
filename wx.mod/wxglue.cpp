@@ -951,6 +951,10 @@ void bmx_wxpen_delete(MaxPen * pen) {
 	delete pen;
 }
 
+MaxPen * bmx_wxpen_null() {
+	return new MaxPen(wxNullPen);
+}
+
 // *********************************************
 
 MaxPen * bmx_wxstockgdi_pen_blackdashed() {
@@ -1117,6 +1121,28 @@ bool bmx_wxkeyevent_metadown(wxKeyEvent & event) {
 
 bool bmx_wxkeyevent_shiftdown(wxKeyEvent & event) {
 	return event.ShiftDown();
+}
+
+// *********************************************
+
+bool bmx_wxcloseevent_canveto(wxCloseEvent & event) {
+	return event.CanVeto();
+}
+
+bool bmx_wxcloseevent_getloggingoff(wxCloseEvent & event) {
+	return event.GetLoggingOff();
+}
+
+void bmx_wxcloseevent_setcanveto(wxCloseEvent & event, bool canVeto) {
+	event.SetCanVeto(canVeto);
+}
+
+void bmx_wxcloseevent_setloggingoff(wxCloseEvent & event, bool loggingOff) {
+	event.SetLoggingOff(loggingOff);
+}
+
+void bmx_wxcloseevent_veto(wxCloseEvent & event, bool value) {
+	event.Veto(value);
 }
 
 

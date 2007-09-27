@@ -246,6 +246,7 @@ Type wxCloseEvent Extends wxEvent
 	application to exit, and so this function must be called to check this.
 	End Rem
 	Method CanVeto:Int()
+		Return bmx_wxcloseevent_canveto(wxEventPtr)
 	End Method
 	
 	Rem
@@ -254,31 +255,29 @@ Type wxCloseEvent Extends wxEvent
 	sense for close window event.
 	End Rem
 	Method GetLoggingOff:Int()
+		Return bmx_wxcloseevent_getloggingoff(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Sets the 'can veto' flag.
 	End Rem
 	Method SetCanVeto(canVeto:Int)
-	End Method
-	
-	Rem
-	bbdoc: Sets the 'force' flag.
-	End Rem
-	Method SetForce(force:Int)
+		bmx_wxcloseevent_setcanveto(wxEventPtr, canVeto)
 	End Method
 	
 	Rem
 	bbdoc: Sets the 'logging off' flag.
 	End Rem
-	Method SetLoggingOff(logginOff:Int)
+	Method SetLoggingOff(loggingOff:Int)
+		bmx_wxcloseevent_setloggingoff(wxEventPtr, loggingOff)
 	End Method
 	
 	Rem
 	bbdoc: Call this from your event handler to veto a system shutdown or to signal to the calling application that a window close did not happen.
 	about: You can only veto a shutdown if wxCloseEvent::CanVeto returns true.
 	End Rem
-	Method Veto(_veto:Int = True)
+	Method Veto(value:Int = True)
+		bmx_wxcloseevent_veto(wxEventPtr, value)
 	End Method
 	
 End Type
@@ -446,34 +445,6 @@ Type wxScrollEvent Extends wxCommandEvent
 	Method GetPosition:Int()
 		Return bmx_wxscrollevent_getposition(wxEventPtr)
 	End Method
-
-End Type
-
-Rem
-bbdoc: This type is used for idle events, which are generated when the system becomes idle.
-about: Note that, unless you do something specifically, the idle events are not sent if the system remains idle
-once it has become it, e.g. only a single idle event will be generated until something else resulting in more normal
-events happens and only then is the next idle event sent again. If you need to ensure a continuous stream of idle
-events, you can either use RequestMore method in your handler or call wxWakeUpIdle periodically (for example from
-timer event), but note that both of these approaches (and especially the first one) increase the system load and so
-should be avoided if possible.
-<p>
-By default, idle events are sent to all windows (and also wxApp, as usual). If this is causing a significant
-overhead in your application, you can call wxIdleEvent::SetMode with the value wxIDLE_PROCESS_SPECIFIED, and set the
-wxWS_EX_PROCESS_IDLE extra window style for every window which should receive idle events.
-</p>
-End Rem
-Type wxIdleEvent Extends wxEvent
-
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
-		Local this:wxIdleEvent = New wxIdleEvent 
-		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
-		
-		Return this
-	End Function
 
 End Type
 

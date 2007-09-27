@@ -227,6 +227,11 @@ Extern
 	Function bmx_wxkeyevent_metadown:Int(evt:Byte Ptr)
 	Function bmx_wxkeyevent_shiftdown:Int(evt:Byte Ptr)
 	
+	Function bmx_wxcloseevent_canveto:Int(evt:Byte Ptr)
+	Function bmx_wxcloseevent_getloggingoff:Int(evt:Byte Ptr)
+	Function bmx_wxcloseevent_setcanveto(evt:Byte Ptr, canVeto:Int)
+	Function bmx_wxcloseevent_setloggingoff(evt:Byte Ptr, loggingOff:Int)
+	Function bmx_wxcloseevent_veto(evt:Byte Ptr, value:Int)
 
 	Function bmx_wxversion_string:String()
 	Function bmx_wxmessagebox:Int(message:String, caption:String, style:Int, parent:Byte Ptr, x:Int, y:Int)
@@ -315,6 +320,7 @@ Extern
 	Function bmx_wxpen_create:Byte Ptr(name:String, width:Int, style:Int)
 	Function bmx_wxpen_createfromcolour:Byte Ptr(colour:Byte Ptr, width:Int, style:Int)
 	Function bmx_wxpen_delete(handle:Byte Ptr)
+	Function bmx_wxpen_null:Byte Ptr()
 	
 	Function bmx_wxfontmapper_getencoding:Int(n:Int)
 	Function bmx_wxfontmapper_getencodingdescription:String(encoding:Int)

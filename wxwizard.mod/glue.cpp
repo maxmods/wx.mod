@@ -114,7 +114,7 @@ void bmx_wxwizard_setborder(wxWizard * wizard, int border) {
 }
 
 
-MaxWizardPage * bmx_wizardpage_create(BBObject * handle, wxWizard * parent, MaxBitmap * bitmap) {
+MaxWizardPage * bmx_wxwizardpage_create(BBObject * handle, wxWizard * parent, MaxBitmap * bitmap) {
 	if (!bitmap) {
 		return new MaxWizardPage(handle, parent, wxNullBitmap);
 	} else {
@@ -156,3 +156,22 @@ void bmx_wxwizardpagesimple_chain(wxWizardPageSimple * first, wxWizardPageSimple
 	wxWizardPageSimple::Chain(first, second);
 }
 
+bool bmx_wxwizardevent_getdirection(wxWizardEvent & event) {
+	return event.GetDirection();
+}
+
+wxWizardPage * bmx_wxwizardevent_getpage(wxWizardEvent & event) {
+	return event.GetPage();
+}
+
+int bmx_wxwizard_geteventtype(int type) {
+	switch(type) {
+		case 900: return wxEVT_WIZARD_PAGE_CHANGED;
+		case 901: return wxEVT_WIZARD_PAGE_CHANGING;
+		case 902: return wxEVT_WIZARD_CANCEL;
+		case 903: return wxEVT_WIZARD_HELP;
+		case 904: return wxEVT_WIZARD_FINISHED;
+	}
+	
+	return 0;
+}

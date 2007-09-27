@@ -54,7 +54,7 @@ Extern
 	Function bmx_wxwizard_runwizard:Int(handle:Byte Ptr, firstPage:Byte Ptr)
 	Function bmx_wxwizard_setborder(handle:Byte Ptr, border:Int)
 
-	Function bmx_wizardpage_create:Byte Ptr(handle:Object, parent:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxwizardpage_create:Byte Ptr(handle:Object, parent:Byte Ptr, bitmap:Byte Ptr)
 	Function bmx_wxwizardpage_getprev:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxwizardpage_getnext:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxwizardpage_getbitmap:Byte Ptr(handle:Byte Ptr)
@@ -63,5 +63,17 @@ Extern
 	Function bmx_wxwizardpagesimple_setprev(handle:Byte Ptr, page:Byte Ptr)
 	Function bmx_wxwizardpagesimple_setnext(handle:Byte Ptr, page:Byte Ptr)
 	Function bmx_wxwizardpagesimple_chain(First:Byte Ptr, Second:Byte Ptr)
+
+	Function bmx_wxwizardevent_getdirection:Int(evt:Byte Ptr)
+	Function bmx_wxwizardevent_getpage:Byte Ptr(evt:Byte Ptr)
+
+	Function bmx_wxwizard_geteventtype:Int(evt:Int)
 	
 End Extern
+
+Const wxEVT_WIZARD_PAGE_CHANGED:Int = 900
+Const wxEVT_WIZARD_PAGE_CHANGING:Int = 901
+Const wxEVT_WIZARD_CANCEL:Int = 902
+Const wxEVT_WIZARD_HELP:Int = 903
+Const wxEVT_WIZARD_FINISHED:Int = 904
+

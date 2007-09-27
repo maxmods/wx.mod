@@ -127,6 +127,12 @@ extern "C" {
 	bool bmx_wxkeyevent_metadown(wxKeyEvent & event);
 	bool bmx_wxkeyevent_shiftdown(wxKeyEvent & event);
 
+	bool bmx_wxcloseevent_canveto(wxCloseEvent & event);
+	bool bmx_wxcloseevent_getloggingoff(wxCloseEvent & event);
+	void bmx_wxcloseevent_setcanveto(wxCloseEvent & event, bool canVeto);
+	void bmx_wxcloseevent_setloggingoff(wxCloseEvent & event, bool loggingOff);
+	void bmx_wxcloseevent_veto(wxCloseEvent & event, bool value);
+
 
 	BBString * bmx_wxversion_string();
 	BBString * bmx_wxgetosdescription();
@@ -213,6 +219,7 @@ extern "C" {
 	MaxPen * bmx_wxpen_create(BBString * name, int width, int style);
 	MaxPen * bmx_wxpen_createfromcolour(MaxColour * colour, int width, int style);
 	void bmx_wxpen_delete(MaxPen * pen);
+	MaxPen * bmx_wxpen_null();
 
 	wxFontEncoding bmx_wxfontmapper_getencoding(int n);
 	BBString * bmx_wxfontmapper_getencodingdescription(wxFontEncoding encoding);
