@@ -394,6 +394,15 @@ Function wxGetOsDescription:String()
 	Return bmx_wxgetosdescription()
 End Function
 
+
+Rem
+bbdoc: Initializes all available image handlers.
+about: For a list of available handlers, see wxImage.
+End Rem
+Function wxInitAllImageHandlers()
+	bmx_wxinitallimagehandlers()
+End Function
+
 Rem
 bbdoc: 
 End Rem

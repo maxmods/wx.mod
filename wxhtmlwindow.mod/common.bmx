@@ -23,6 +23,7 @@ SuperStrict
 Import wx.wx
 Import wx.wxFrame
 Import wx.wxScrolledWindow
+Import wx.wxMouseEvent
 Import BRL.Blitz
 
 
@@ -47,6 +48,37 @@ Extern
 
 	Function bmx_wxhtmlwindow_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxhtmlwindow_setpage:Int(handle:Byte Ptr, source:String)
+
+	Function bmx_wxhtmlwindow_appendtopage:Int(handle:Byte Ptr, source:String)
+	Function bmx_wxhtmlwindow_getopenedanchor:String(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_getopenedpage:String(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_getopenedpagetitle:String(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_getrelatedframe:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_historyback:Int(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_hisotrycanback:Int(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_historycanforward:Int(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_historyclear(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_historyforward:Int(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_loadpage:Int(handle:Byte Ptr, location:String)
+	Function bmx_wxhtmlwindow_selectall(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_selectiontotext:String(handle:Byte Ptr)
+	Function bmx_wxhtmlwindow_selectline(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxhtmlwindow_selectword(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxhtmlwindow_setborders(handle:Byte Ptr, size:Int)
+	Function bmx_wxhtmlwindow_setfonts(handle:Byte Ptr, normalFace:String, fixedFace:String, sizes:Int[])
+	Function bmx_wxhtmlwindow_setrelatedframe(handle:Byte Ptr, frame:Byte Ptr, format:String)
+	Function bmx_wxhtmlwindow_setrelatedstatusbar(handle:Byte Ptr, bar:Int)
+	Function bmx_wxhtmlwindow_totext:String(handle:Byte Ptr)
+
+	Function bmx_wxhtmllinkevent_getlinkinfo:Byte Ptr(handle:Byte Ptr)
+	
+	Function bmx_wxhtmlcellevent_getpoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxhtmlcellevent_setlinkclicked(handle:Byte Ptr, clicked:Int)
+	Function bmx_wxhtmlcellevent_getlinkclicked:Int(handle:Byte Ptr)
+
+	Function bmx_wxhtmllinkinfo_getevent:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxhtmllinkinfo_gethref:String(handle:Byte Ptr)
+	Function bmx_wxhtmllinkinfo_gettarget:String(handle:Byte Ptr)
 
 	Function bmx_wxhtmlevent_geteventtype:Int(evt:Int)
 	

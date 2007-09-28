@@ -33,6 +33,38 @@ extern "C" {
 		int w, int h, long style);
 	bool bmx_wxhtmlwindow_setpage(wxHtmlWindow * window, BBString * source);
 
+
+	bool bmx_wxhtmlwindow_appendtopage(wxHtmlWindow * window, BBString * source);
+	BBString * bmx_wxhtmlwindow_getopenedanchor(wxHtmlWindow * window);
+	BBString * bmx_wxhtmlwindow_getopenedpage(wxHtmlWindow * window);
+	BBString * bmx_wxhtmlwindow_getopenedpagetitle(wxHtmlWindow * window);
+	wxFrame * bmx_wxhtmlwindow_getrelatedframe(wxHtmlWindow * window);
+	bool bmx_wxhtmlwindow_historyback(wxHtmlWindow * window);
+	bool bmx_wxhtmlwindow_hisotrycanback(wxHtmlWindow * window);
+	bool bmx_wxhtmlwindow_historycanforward(wxHtmlWindow * window);
+	void bmx_wxhtmlwindow_historyclear(wxHtmlWindow * window);
+	bool bmx_wxhtmlwindow_historyforward(wxHtmlWindow * window);
+	bool bmx_wxhtmlwindow_loadpage(wxHtmlWindow * window, BBString * location);
+	void bmx_wxhtmlwindow_selectall(wxHtmlWindow * window);
+	BBString * bmx_wxhtmlwindow_selectiontotext(wxHtmlWindow * window);
+	void bmx_wxhtmlwindow_selectline(wxHtmlWindow * window, int x, int y);
+	void bmx_wxhtmlwindow_selectword(wxHtmlWindow * window, int x, int y);
+	void bmx_wxhtmlwindow_setborders(wxHtmlWindow * window, int size);
+	void bmx_wxhtmlwindow_setfonts(wxHtmlWindow * window, BBString * normalFace, BBString * fixedFace, BBArray * sizes);
+	void bmx_wxhtmlwindow_setrelatedframe(wxHtmlWindow * window, wxFrame * frame, BBString * format);
+	void bmx_wxhtmlwindow_setrelatedstatusbar(wxHtmlWindow * window, int bar);
+	BBString * bmx_wxhtmlwindow_totext(wxHtmlWindow * window);
+
+	wxHtmlLinkInfo & bmx_wxhtmllinkevent_getlinkinfo(wxHtmlLinkEvent & event);
+	
+	void bmx_wxhtmlcellevent_getpoint(wxHtmlCellEvent & event, int * x, int * y);
+	void bmx_wxhtmlcellevent_setlinkclicked(wxHtmlCellEvent & event, bool clicked);
+	bool bmx_wxhtmlcellevent_getlinkclicked(wxHtmlCellEvent & event);
+
+	wxMouseEvent & bmx_wxhtmllinkinfo_getevent(wxHtmlLinkInfo * info);
+	BBString * bmx_wxhtmllinkinfo_gethref(wxHtmlLinkInfo * info);
+	BBString * bmx_wxhtmllinkinfo_gettarget(wxHtmlLinkInfo * info);
+
 	int bmx_wxhtmlevent_geteventtype(int type);
 }
 

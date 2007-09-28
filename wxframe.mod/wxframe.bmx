@@ -66,6 +66,24 @@ Type wxFrame Extends wxTopLevelWindow
 	Field menuBar:wxMenuBar
 	'Field statusBar:wxStatusBar
 	
+	Function _create:wxFrame(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxFrame = New wxFrame
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _find:wxFrame(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local frame:wxFrame = wxFrame(wxfind(wxObjectPtr))
+			If Not frame Then
+				Return wxFrame._create(wxObjectPtr)
+			End If
+			Return frame
+		End If
+	End Function
+	
 	Rem
 	bbdoc: TODO
 	End Rem

@@ -49,6 +49,116 @@ bool bmx_wxhtmlwindow_setpage(wxHtmlWindow * window, BBString * source) {
 }
 
 
+bool bmx_wxhtmlwindow_appendtopage(wxHtmlWindow * window, BBString * source) {
+	return window->AppendToPage(wxStringFromBBString(source));
+}
+
+BBString * bmx_wxhtmlwindow_getopenedanchor(wxHtmlWindow * window) {
+	return bbStringFromWxString(window->GetOpenedAnchor());
+}
+
+BBString * bmx_wxhtmlwindow_getopenedpage(wxHtmlWindow * window) {
+	return bbStringFromWxString(window->GetOpenedPage());
+}
+
+BBString * bmx_wxhtmlwindow_getopenedpagetitle(wxHtmlWindow * window) {
+	return bbStringFromWxString(window->GetOpenedPageTitle());
+}
+
+wxFrame * bmx_wxhtmlwindow_getrelatedframe(wxHtmlWindow * window) {
+	return window->GetRelatedFrame();
+}
+
+bool bmx_wxhtmlwindow_historyback(wxHtmlWindow * window) {
+	return window->HistoryBack();
+}
+
+bool bmx_wxhtmlwindow_hisotrycanback(wxHtmlWindow * window) {
+	return window->HistoryCanBack();
+}
+
+bool bmx_wxhtmlwindow_historycanforward(wxHtmlWindow * window) {
+	return window->HistoryCanForward();
+}
+
+void bmx_wxhtmlwindow_historyclear(wxHtmlWindow * window) {
+	window->HistoryClear();
+}
+
+bool bmx_wxhtmlwindow_historyforward(wxHtmlWindow * window) {
+	return window->HistoryForward();
+}
+
+bool bmx_wxhtmlwindow_loadpage(wxHtmlWindow * window, BBString * location) {
+	return window->LoadPage(wxStringFromBBString(location));
+}
+
+void bmx_wxhtmlwindow_selectall(wxHtmlWindow * window) {
+	window->SelectAll();
+}
+
+BBString * bmx_wxhtmlwindow_selectiontotext(wxHtmlWindow * window) {
+	return bbStringFromWxString(window->SelectionToText());
+}
+
+void bmx_wxhtmlwindow_selectline(wxHtmlWindow * window, int x, int y) {
+	window->SelectLine(wxPoint(x, y));
+}
+
+void bmx_wxhtmlwindow_selectword(wxHtmlWindow * window, int x, int y) {
+	window->SelectWord(wxPoint(x, y));
+}
+
+void bmx_wxhtmlwindow_setborders(wxHtmlWindow * window, int size) {
+	window->SetBorders(size);
+}
+
+void bmx_wxhtmlwindow_setfonts(wxHtmlWindow * window, BBString * normalFace, BBString * fixedFace, BBArray * sizes) {
+	//window->SetFonts(wxStringFromBBString(normalFace), wxStringFromBBString(fixedFace), 
+}
+
+void bmx_wxhtmlwindow_setrelatedframe(wxHtmlWindow * window, wxFrame * frame, BBString * format) {
+	window->SetRelatedFrame(frame, wxStringFromBBString(format));
+}
+
+void bmx_wxhtmlwindow_setrelatedstatusbar(wxHtmlWindow * window, int bar) {
+	window->SetRelatedStatusBar(bar);
+}
+
+BBString * bmx_wxhtmlwindow_totext(wxHtmlWindow * window) {
+	return bbStringFromWxString(window->ToText());
+}
+
+wxHtmlLinkInfo & bmx_wxhtmllinkevent_getlinkinfo(wxHtmlLinkEvent & event) {
+	
+}
+
+void bmx_wxhtmlcellevent_getpoint(wxHtmlCellEvent & event, int * x, int * y) {
+	wxPoint p = event.GetPoint();
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxhtmlcellevent_setlinkclicked(wxHtmlCellEvent & event, bool clicked) {
+	event.SetLinkClicked(clicked);
+}
+
+bool bmx_wxhtmlcellevent_getlinkclicked(wxHtmlCellEvent & event) {
+	return event.GetLinkClicked();
+}
+
+wxMouseEvent & bmx_wxhtmllinkinfo_getevent(wxHtmlLinkInfo * info) {
+
+}
+
+BBString * bmx_wxhtmllinkinfo_gethref(wxHtmlLinkInfo * info) {
+
+}
+
+BBString * bmx_wxhtmllinkinfo_gettarget(wxHtmlLinkInfo * info) {
+
+}
+
 
 int bmx_wxhtmlevent_geteventtype(int type) {
 	switch(type) {

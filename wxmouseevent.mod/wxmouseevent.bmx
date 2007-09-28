@@ -68,6 +68,16 @@ returns true, LeftIsDown will also return true in wxWidgets whatever the underly
 End Rem
 Type wxMouseEvent Extends wxEvent
 
+	Function _create:wxMouseEvent(wxEventPtr:Byte Ptr, userData:Object, parent:wxEvtHandler)
+		If wxEventPtr Then
+			Local this:wxMouseEvent = New wxMouseEvent
+			this.wxEventPtr = wxEventPtr
+			this.userData = userData
+			this.parent = parent
+			Return this
+		End If
+	End Function
+
 	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxMouseEvent = New wxMouseEvent
 		

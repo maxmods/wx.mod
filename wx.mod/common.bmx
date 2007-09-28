@@ -342,6 +342,8 @@ Extern
 	
 	Function bmx_wxisalnum:Int(code:Int)
 	Function bmx_wxisprint:Int(code:Int)
+	Function 	bmx_wxinitallimagehandlers()
+
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()

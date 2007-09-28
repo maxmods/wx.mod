@@ -240,6 +240,7 @@ extern "C" {
 	
 	int bmx_wxisalnum(int code);
 	int bmx_wxisprint(int code);
+	void bmx_wxinitallimagehandlers();
 }
 
 /*

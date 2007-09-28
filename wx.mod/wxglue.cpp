@@ -1064,6 +1064,10 @@ int bmx_wxisprint(int code) {
 	return wxIsprint(code);
 }
 
+void bmx_wxinitallimagehandlers() {
+	wxInitAllImageHandlers();
+}
+
 // *********************************************
 
 

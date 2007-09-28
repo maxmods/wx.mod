@@ -90,9 +90,11 @@ Type wxHtmlWindow Extends wxScrolledWindow
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Appends HTML fragment to currently displayed text and refreshes the window.
+	returns: False if an error occurred, True otherwise.
 	End Rem
 	Method AppendToPage:Int(source:String)
+		Return bmx_wxhtmlwindow_appendtopage(wxObjectPtr, source)
 	End Method
 	
 	Rem
@@ -102,84 +104,158 @@ Type wxHtmlWindow Extends wxScrolledWindow
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns anchor within currently opened page (see GetOpenedPage).
+	about: If no page is opened or if the displayed page wasn't produced by call to LoadPage, empty string is
+	returned.
 	End Rem
 	Method GetOpenedAnchor:String()
+		Return bmx_wxhtmlwindow_getopenedanchor(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns full location of the opened page.
+	about: If no page is opened or if the displayed page wasn't produced by call to LoadPage, empty string is
+	returned.
 	End Rem
 	Method GetOpenedPage:String()
+		Return bmx_wxhtmlwindow_getopenedpage(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns title of the opened page or wxEmptyString if current page does not contain <TITLE> tag.
 	End Rem
 	Method GetOpenedPageTitle:String()
+		Return bmx_wxhtmlwindow_getopenedpagetitle(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the related frame.
 	End Rem
 	Method GetRelatedFrame:wxFrame()
+		Return wxFrame._find(bmx_wxhtmlwindow_getrelatedframe(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Moves back to the previous page.
+	about: Each page displayed using LoadPage is stored in history list.
 	End Rem
 	Method HistoryBack:Int()
+		Return bmx_wxhtmlwindow_historyback(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if it is possible to go back in the history (i.e. HistoryBack() won't fail).
 	End Rem
 	Method HistoryCanBack:Int()
+		Return bmx_wxhtmlwindow_hisotrycanback(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if it is possible to go forward in the history (i.e. HistoryBack() won't fail).
 	End Rem
 	Method HistoryCanForward:Int()
+		Return bmx_wxhtmlwindow_historycanforward(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Clears history.
 	End Rem
 	Method HistoryClear()
+		bmx_wxhtmlwindow_historyclear(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Moves to next page in history.
 	End Rem
 	Method HistoryForward:Int()
+		Return bmx_wxhtmlwindow_historyforward(wxObjectPtr)
 	End Method
 	
-	Rem
-	bbdoc: 
-	End Rem
-	Method LoadFile:Int()
-	End Method
+	'Rem
+	'bbdoc:
+	'End Rem
+	'Method LoadFile:Int()
+	'End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Unlike SetPage this method first loads HTML page from location and then displays it.
+	returns: False if an error occurred, True otherwise
+	about: See example:
+	<pre>
+	htmlwin.LoadPage("help/myproject/index.htm")
+	</pre>
 	End Rem
 	Method LoadPage:Int(location:String)
+		Return bmx_wxhtmlwindow_loadpage(wxObjectPtr, location)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Called when an URL is being opened (either when the user clicks on a link or an image is loaded).
+	about: The URL will be opened only if @returnStatus is wxHTML_OPEN. This method is called by
+	wxHtmlParser::OpenURL. You can override OnOpeningURL to selectively block some URLs (e.g. for security reasons)
+	or to redirect them elsewhere (by passing back the redirect URL). Default behaviour is to always set
+	@returnStatus to  wxHTML_OPEN.
 	End Rem
 	Method OnOpeningURL:String(urlType:Int, url:String, returnStatus:Int Ptr)
 		returnStatus[0] = wxHTML_OPEN
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Called on parsing <TITLE> tag.
 	End Rem
 	Method OnSetTitle(title:String)
 	End Method
-		
+	
+	Rem
+	bbdoc: Selects all text in the window.
+	End Rem
+	Method SelectAll()
+		bmx_wxhtmlwindow_selectall(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns current selection as plain text.
+	about: Returns empty string if no text is currently selected.
+	End Rem
+	Method SelectionToText:String()
+		Return bmx_wxhtmlwindow_selectiontotext(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Selects the line of text that pos points at.
+	about: Note that pos is relative to the top of displayed page, not to window's origin, use
+	CalcUnscrolledPosition to convert physical coordinate.
+	End Rem
+	Method SelectLine(x:Int, y:Int)
+		bmx_wxhtmlwindow_selectline(wxObjectPtr, x, y)
+	End Method
+	
+	Rem
+	bbdoc: Selects the word at position pos.
+	about: Note that pos is relative to the top of displayed page, not to window's origin, use
+	CalcUnscrolledPosition to convert physical coordinate.
+	End Rem
+	Method SelectWord(x:Int, y:Int)
+		bmx_wxhtmlwindow_selectword(wxObjectPtr, x, y)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetBorders(size:Int)
+		bmx_wxhtmlwindow_setborders(wxObjectPtr, size)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetFonts(normalFace:String, fixedFace:String, sizes:Int[] = Null)
+		If sizes Then
+			Assert sizes.length = 7, "Sizes should contain 7 values"
+		End If
+		bmx_wxhtmlwindow_setfonts(wxObjectPtr, normalFace, fixedFace, sizes)
+	End Method
+	
 	Rem
 	bbdoc: Sets HTML page and display it.
 	about: This won't load the page!! It will display the source. See example:
@@ -198,6 +274,7 @@ Type wxHtmlWindow Extends wxScrolledWindow
 	This %s is substituted with HTML page title.
 	End Rem
 	Method SetRelatedFrame(frame:wxFrame, format:String)
+		bmx_wxhtmlwindow_setrelatedframe(wxObjectPtr, frame.wxObjectPtr, format)
 	End Method
 	
 	Rem
@@ -205,12 +282,14 @@ Type wxHtmlWindow Extends wxScrolledWindow
 	about: (Default is -1 = no messages.)
 	End Rem
 	Method SetRelatedStatusBar(bar:Int)
+		bmx_wxhtmlwindow_setrelatedstatusbar(wxObjectPtr, bar)
 	End Method
 	
 	Rem
 	bbdoc: Returns content of currently displayed page as plain text.
 	End Rem
 	Method ToText:String()
+		Return bmx_wxhtmlwindow_totext(wxObjectPtr)
 	End Method
 	
 	Function _cbopeningurl:String(obj:wxHtmlWindow, urlType:Int, url:String, returnStatus:Int Ptr)
@@ -222,6 +301,53 @@ Type wxHtmlWindow Extends wxScrolledWindow
 	End Function
 
 End Type
+
+Rem
+bbdoc: This type stores all necessary information about hypertext links (as represented by <A> tag in HTML documents).
+about: In current implementation it stores URL and target frame name. <b>Note that frames are not currently supported by wxHTML!</b>
+End Rem
+Type wxHtmlLinkInfo Extends wxObject
+
+	Field userData:Object
+	Field parent:wxEvtHandler
+
+	Function _createLink:wxHtmlLinkInfo(wxObjectPtr:Byte Ptr, userData:Object, parent:wxEvtHandler)
+		If wxObjectPtr Then
+			Local this:wxHtmlLinkInfo = New wxHtmlLinkInfo
+			this.wxObjectPtr = wxObjectPtr
+			this.userData = userData
+			this.parent = parent
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: Return pointer to event that generated OnLinkClicked event.
+	about: Valid only within wxHtmlWindow::OnLinkClicked, NULL otherwise.
+	End Rem
+	Method GetEvent:wxMouseEvent()
+		Return wxMouseEvent._create(bmx_wxhtmllinkinfo_getevent(wxObjectPtr), userData, parent)
+	End Method
+	
+	'Method GetHtmlCell:wxHtmlCell()
+	'End Method
+	
+	Rem
+	bbdoc: Return HREF value of the <A> tag.
+	End Rem
+	Method GetHref:String()
+		Return bmx_wxhtmllinkinfo_gethref(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Return TARGET value of the <A> tag 
+	End Rem
+	Method GetTarget:String()
+		Return bmx_wxhtmllinkinfo_gettarget(wxObjectPtr)
+	End Method
+
+End Type
+
 
 Rem
 bbdoc: This event type is used for the events generated by wxHtmlWindow.
@@ -237,6 +363,13 @@ Type wxHtmlLinkEvent Extends wxCommandEvent
 		
 		Return this
 	End Function
+
+	Rem
+	bbdoc: Returns the wxHtmlLinkInfo which contains info about the cell clicked and the hyperlink it contains.
+	End Rem
+	Method GetLinkInfo:wxHtmlLinkInfo()
+		Return wxHtmlLinkInfo._createLink(bmx_wxhtmllinkevent_getlinkinfo(wxEventPtr), userData, parent)
+	End Method
 
 End Type
 
@@ -255,6 +388,31 @@ Type wxHtmlCellEvent Extends wxCommandEvent
 		Return this
 	End Function
 
+	'Method GetCell:wxHtmlCell()
+	'End Method
+	
+	Rem
+	bbdoc: returns the point associated with the event.
+	End Rem
+	Method GetPoint(x:Int Var, y:Int Var)
+		bmx_wxhtmlcellevent_getpoint(wxEventPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Call this with @clicked set to true if the cell which has been clicked contained a link or false otherwise (which is the default).
+	about: With this method the event handler can return info to the wxHtmlWindow which sent the event.
+	End Rem
+	Method SetLinkClicked(clicked:Int)
+		bmx_wxhtmlcellevent_setlinkclicked(wxEventPtr, clicked)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if SetLinkClicked(true) has previously been called; false otherwise.
+	End Rem
+	Method GetLinkClicked:Int()
+		bmx_wxhtmlcellevent_getlinkclicked(wxEventPtr)
+	End Method
+	
 End Type
 
 
