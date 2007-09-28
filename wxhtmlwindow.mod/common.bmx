@@ -70,6 +70,12 @@ Extern
 	Function bmx_wxhtmlwindow_setrelatedstatusbar(handle:Byte Ptr, bar:Int)
 	Function bmx_wxhtmlwindow_totext:String(handle:Byte Ptr)
 
+	Function bmx_wxhtmlwindow_addprocessor(handle:Byte Ptr, processor:Byte Ptr)
+
+	Function bmx_wxhtmlprocessor_create:Byte Ptr(handle:Object)
+	Function bmx_wxhtmlprocessor_enable(handle:Byte Ptr, value:Int)
+	Function bmx_wxhtmlprocessor_isenabled:Int(handle:Byte Ptr)
+
 	Function bmx_wxhtmllinkevent_getlinkinfo:Byte Ptr(handle:Byte Ptr)
 	
 	Function bmx_wxhtmlcellevent_getpoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)

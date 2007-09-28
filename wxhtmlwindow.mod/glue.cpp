@@ -35,8 +35,26 @@ MaxHtmlWindow::~MaxHtmlWindow() {
 	wxunbind(this);
 }
 
+MaxHtmlProcessor::MaxHtmlProcessor(BBObject * handle)
+	: maxHandle(handle)
+{
+	wxbind(this, handle);
+}
+
+MaxHtmlProcessor::~MaxHtmlProcessor() {
+	wxunbind(this);
+}
+
+wxString MaxHtmlProcessor::Process(const wxString& text) const {
+	wxStringFromBBString(_wx_wxhtmlwindow_wxHtmlProcessor__Process(maxHandle, bbStringFromWxString(text)));
+}
+
 
 // *********************************************
+
+BEGIN_EVENT_TABLE(MaxHtmlWindow, wxHtmlWindow)
+END_EVENT_TABLE()
+
 
 MaxHtmlWindow * bmx_wxhtmlwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style) {
@@ -157,6 +175,22 @@ BBString * bmx_wxhtmllinkinfo_gethref(wxHtmlLinkInfo * info) {
 
 BBString * bmx_wxhtmllinkinfo_gettarget(wxHtmlLinkInfo * info) {
 
+}
+
+void bmx_wxhtmlwindow_addprocessor(wxHtmlWindow * window, wxHtmlProcessor * proc) {
+	window->AddProcessor(proc);
+}
+
+MaxHtmlProcessor * bmx_wxhtmlprocessor_create(BBObject * handle) {
+	return new MaxHtmlProcessor(handle);
+}
+
+void bmx_wxhtmlprocessor_enable(wxHtmlProcessor * proc, bool value) {
+	proc->Enable(value);
+}
+
+bool bmx_wxhtmlprocessor_isenabled(wxHtmlProcessor * proc) {
+	return proc->IsEnabled();
 }
 
 

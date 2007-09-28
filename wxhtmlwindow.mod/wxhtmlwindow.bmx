@@ -73,16 +73,23 @@ Type wxHtmlWindow Extends wxScrolledWindow
 	End Function
 	
 	Rem
-	bbdoc: Creation method, for two-step construction. For details see CreateButton.
+	bbdoc: Creation method, for two-step construction. For details see CreateHtmlWindow.
 	End Rem
 	Method Create:wxHtmlWindow(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxHW_DEFAULT_STYLE)
 			
 		wxObjectPtr = bmx_wxhtmlwindow_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
-		
+		OnInit()
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Adds an HTML processor to this instance of wxHtmlWindow.
+	End Rem
+	Method AddProcessor(processor:wxHtmlProcessor)
+		bmx_wxhtmlwindow_addprocessor(wxObjectPtr, processor.wxObjectPtr)
+	End Method
+	
 	Rem
 	bbdoc: 
 	End Rem
@@ -415,13 +422,63 @@ Type wxHtmlCellEvent Extends wxCommandEvent
 	
 End Type
 
+Rem
+bbdoc: Types derived from this class serve as simple text processors for wxHtmlWindow.
+about: wxHtmlWindow runs HTML markup through all registered processors before displaying it, thus allowing
+for on-the-fly modifications of the markup.
+End Rem
+Type wxHtmlProcessor Extends wxObject
+
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateHtmlProcessor:wxHtmlProcessor()
+		Return New wxHtmlProcessor.Create()
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxHtmlProcessor()
+		wxObjectPtr = bmx_wxhtmlprocessor_create(Self)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Enable/disable the processor.
+	about: wxHtmlWindow won't use a disabled processor even if it is in its processors queue.
+	End Rem
+	Method Enable(value:Int = True)
+		bmx_wxhtmlprocessor_enable(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Returns the enabled state of the processor.
+	End Rem
+	Method IsEnabled:Int()
+		Return bmx_wxhtmlprocessor_isenabled(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Process input text and return processed result.
+	End Rem
+	Method Process:String(text:String)
+		Return text
+	End Method
+
+	Function _Process:String(obj:Object, text:String)
+		Return wxHtmlProcessor(obj).Process(text)
+	End Function
+	
+End Type
+
 
 Type THtmlEventFactory Extends TEventFactory
 
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		Select evt.eventType 
-			Case wxEVT_COMMAND_HTML_CELL_CLICKED
+			Case wxEVT_COMMAND_HTML_LINK_CLICKED
 				Return wxHtmlLinkEvent.create(wxEventPtr, evt)
 			Case wxEVT_COMMAND_HTML_CELL_CLICKED, ..
 					wxEVT_COMMAND_HTML_CELL_HOVER
@@ -433,7 +490,7 @@ Type THtmlEventFactory Extends TEventFactory
 
 	Method GetEventType:Int(eventType:Int)
 		Select eventType
-			Case wxEVT_COMMAND_HTML_CELL_CLICKED, ..
+			Case wxEVT_COMMAND_HTML_LINK_CLICKED, ..
 					wxEVT_COMMAND_HTML_CELL_CLICKED, ..
 					wxEVT_COMMAND_HTML_CELL_HOVER
 				Return bmx_wxhtmlevent_geteventtype(eventType)

@@ -22,17 +22,20 @@
 
 #include "wxglue.h"
 #include "wx/html/htmlwin.h"
+#include "wx/html/htmlproc.h"
 
 class MaxHtmlWindow;
+class MaxHtmlProcessor;
 
 extern "C" {
 
 #include <blitz.h>
 
+	BBString * _wx_wxhtmlwindow_wxHtmlProcessor__Process(BBObject * handle, BBString * text);
+
 	MaxHtmlWindow * bmx_wxhtmlwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
 	bool bmx_wxhtmlwindow_setpage(wxHtmlWindow * window, BBString * source);
-
 
 	bool bmx_wxhtmlwindow_appendtopage(wxHtmlWindow * window, BBString * source);
 	BBString * bmx_wxhtmlwindow_getopenedanchor(wxHtmlWindow * window);
@@ -54,6 +57,12 @@ extern "C" {
 	void bmx_wxhtmlwindow_setrelatedframe(wxHtmlWindow * window, wxFrame * frame, BBString * format);
 	void bmx_wxhtmlwindow_setrelatedstatusbar(wxHtmlWindow * window, int bar);
 	BBString * bmx_wxhtmlwindow_totext(wxHtmlWindow * window);
+
+	void bmx_wxhtmlwindow_addprocessor(wxHtmlWindow * window, wxHtmlProcessor * proc);
+
+	MaxHtmlProcessor * bmx_wxhtmlprocessor_create(BBObject * handle);
+	void bmx_wxhtmlprocessor_enable(wxHtmlProcessor * proc, bool value);
+	bool bmx_wxhtmlprocessor_isenabled(wxHtmlProcessor * proc);
 
 	wxHtmlLinkInfo & bmx_wxhtmllinkevent_getlinkinfo(wxHtmlLinkEvent & event);
 	
@@ -77,5 +86,21 @@ public:
 	MaxHtmlWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
 	~MaxHtmlWindow();
+	
+private:
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};
+
+class MaxHtmlProcessor : public wxHtmlProcessor
+{
+public:
+	MaxHtmlProcessor(BBObject * handle);
+	~MaxHtmlProcessor();
+
+	wxString Process(const wxString& text) const;
+
+private:
+	BBObject * maxHandle;
 };
 
