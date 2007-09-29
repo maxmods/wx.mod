@@ -1068,6 +1068,10 @@ void bmx_wxinitallimagehandlers() {
 	wxInitAllImageHandlers();
 }
 
+bool bmx_wxlaunchdefaultbrowser(BBString * url, int flags) {
+	return wxLaunchDefaultBrowser(wxStringFromBBString(url), flags);
+}
+
 // *********************************************
 
 

@@ -81,10 +81,12 @@ Extern
 	Function bmx_wxhtmlcellevent_getpoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
 	Function bmx_wxhtmlcellevent_setlinkclicked(handle:Byte Ptr, clicked:Int)
 	Function bmx_wxhtmlcellevent_getlinkclicked:Int(handle:Byte Ptr)
+	Function bmx_wxhtmlcellevent_getcell:Byte Ptr(handle:Byte Ptr)
 
 	Function bmx_wxhtmllinkinfo_getevent:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxhtmllinkinfo_gethref:String(handle:Byte Ptr)
 	Function bmx_wxhtmllinkinfo_gettarget:String(handle:Byte Ptr)
+	Function bmx_wxhtmllinkinfo_delete(handle:Byte Ptr)
 
 	Function bmx_wxhtmlevent_geteventtype:Int(evt:Int)
 	

@@ -203,8 +203,8 @@ Type wxHtmlWindow Extends wxScrolledWindow
 	or to redirect them elsewhere (by passing back the redirect URL). Default behaviour is to always set
 	@returnStatus to  wxHTML_OPEN.
 	End Rem
-	Method OnOpeningURL:String(urlType:Int, url:String, returnStatus:Int Ptr)
-		returnStatus[0] = wxHTML_OPEN
+	Method OnOpeningURL:String(urlType:Int, url:String, returnStatus:Int Var)
+		returnStatus = wxHTML_OPEN
 	End Method
 	
 	Rem
@@ -299,14 +299,35 @@ Type wxHtmlWindow Extends wxScrolledWindow
 		Return bmx_wxhtmlwindow_totext(wxObjectPtr)
 	End Method
 	
-	Function _cbopeningurl:String(obj:wxHtmlWindow, urlType:Int, url:String, returnStatus:Int Ptr)
+	Function _OnOpeningURL:String(obj:wxHtmlWindow, urlType:Int, url:String, returnStatus:Int Var)
 		Return obj.OnOpeningURL(urlType, url, returnStatus)
 	End Function
 	
-	Function _cbonsettitle(obj:wxHtmlWindow, title:String)
+	Function _OnSetTitle(obj:wxHtmlWindow, title:String)
 		obj.OnSetTitle(title)
 	End Function
 
+End Type
+
+Rem
+bbdoc: Internal data structure.
+about: It represents fragments of parsed HTML page, the so-called cell - a word, picture, table,
+horizontal line and so on. It is used by wxHtmlWindow and wxHtmlWinParser to represent HTML page in memory.
+<p>
+You can divide cells into two groups : visible cells with non-zero width and height and helper cells
+(usually with zero width and height) that perform special actions such as color or font change.
+</p>
+End Rem
+Type wxHtmlCell Extends wxObject
+
+	Function _create:wxHtmlCell(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxHtmlCell = New wxHtmlCell
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
 End Type
 
 Rem
@@ -353,6 +374,12 @@ Type wxHtmlLinkInfo Extends wxObject
 		Return bmx_wxhtmllinkinfo_gettarget(wxObjectPtr)
 	End Method
 
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxhtmllinkinfo_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
 End Type
 
 
@@ -395,8 +422,12 @@ Type wxHtmlCellEvent Extends wxCommandEvent
 		Return this
 	End Function
 
-	'Method GetCell:wxHtmlCell()
-	'End Method
+	Rem
+	bbdoc: Returns the wxHtmlCell associated with the event.
+	End Rem
+	Method GetCell:wxHtmlCell()
+		Return wxHtmlCell._create(bmx_wxhtmlcellevent_getcell(wxEventPtr))
+	End Method
 	
 	Rem
 	bbdoc: returns the point associated with the event.

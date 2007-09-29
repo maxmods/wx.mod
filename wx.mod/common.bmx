@@ -342,7 +342,8 @@ Extern
 	
 	Function bmx_wxisalnum:Int(code:Int)
 	Function bmx_wxisprint:Int(code:Int)
-	Function 	bmx_wxinitallimagehandlers()
+	Function bmx_wxinitallimagehandlers()
+	Function bmx_wxlaunchdefaultbrowser:Int(url:String, flags:Int)
 
 End Extern
 

@@ -241,6 +241,8 @@ extern "C" {
 	int bmx_wxisalnum(int code);
 	int bmx_wxisprint(int code);
 	void bmx_wxinitallimagehandlers();
+	bool bmx_wxlaunchdefaultbrowser(BBString * url, int flags);
+
 }
 
 /*

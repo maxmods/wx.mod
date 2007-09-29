@@ -404,6 +404,21 @@ Function wxInitAllImageHandlers()
 End Function
 
 Rem
+bbdoc: Open the url in user's default browser.
+returns: True if the application was successfully launched.
+about: If flags parameter contains wxBROWSER_NEW_WINDOW flag, a new window is opened for the URL
+(currently this is only supported under Windows).
+<p>
+Note that for some configurations of the running user, the application which is launched to open the given
+URL may be URL-dependent (e.g. a browser may be used for local URLs while another one may be used for
+remote URLs).
+</p>
+End Rem
+Function wxLaunchDefaultBrowser:Int(url:String, flags:Int = 0)
+	Return bmx_wxlaunchdefaultbrowser(url, flags)
+End Function
+
+Rem
 bbdoc: 
 End Rem
 Function wxIsalnum:Int(keycode:Int)

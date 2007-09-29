@@ -26,7 +26,7 @@
 
 MaxHtmlWindow::MaxHtmlWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style)
-	: wxHtmlWindow(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: maxHandle(handle), wxHtmlWindow(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -34,6 +34,20 @@ MaxHtmlWindow::MaxHtmlWindow(BBObject * handle, wxWindow * parent, wxWindowID id
 MaxHtmlWindow::~MaxHtmlWindow() {
 	wxunbind(this);
 }
+
+wxHtmlOpeningStatus MaxHtmlWindow::OnOpeningURL(wxHtmlURLType type,const wxString& url, wxString *redirect) const {
+	wxHtmlOpeningStatus status;
+
+	*redirect = wxStringFromBBString(_wx_wxhtmlwindow_wxHtmlWindow__OnOpeningURL(maxHandle, type,
+		bbStringFromWxString(url), &status));
+
+	return status;
+}
+
+void MaxHtmlWindow::OnSetTitle(const wxString& title) const{
+	_wx_wxhtmlwindow_wxHtmlWindow__OnSetTitle(maxHandle, bbStringFromWxString(title));
+}
+
 
 MaxHtmlProcessor::MaxHtmlProcessor(BBObject * handle)
 	: maxHandle(handle)
@@ -46,7 +60,17 @@ MaxHtmlProcessor::~MaxHtmlProcessor() {
 }
 
 wxString MaxHtmlProcessor::Process(const wxString& text) const {
-	wxStringFromBBString(_wx_wxhtmlwindow_wxHtmlProcessor__Process(maxHandle, bbStringFromWxString(text)));
+	return wxStringFromBBString(_wx_wxhtmlwindow_wxHtmlProcessor__Process(maxHandle, bbStringFromWxString(text)));
+}
+
+
+MaxHtmlLinkInfo::MaxHtmlLinkInfo(const wxHtmlLinkInfo & linkInfo)
+{
+	info = linkInfo;
+}
+
+wxHtmlLinkInfo & MaxHtmlLinkInfo::Info() {
+	return info;
 }
 
 
@@ -147,8 +171,9 @@ BBString * bmx_wxhtmlwindow_totext(wxHtmlWindow * window) {
 	return bbStringFromWxString(window->ToText());
 }
 
-wxHtmlLinkInfo & bmx_wxhtmllinkevent_getlinkinfo(wxHtmlLinkEvent & event) {
-	
+
+MaxHtmlLinkInfo * bmx_wxhtmllinkevent_getlinkinfo(wxHtmlLinkEvent & event) {
+	return new MaxHtmlLinkInfo(event.GetLinkInfo());
 }
 
 void bmx_wxhtmlcellevent_getpoint(wxHtmlCellEvent & event, int * x, int * y) {
@@ -165,17 +190,28 @@ bool bmx_wxhtmlcellevent_getlinkclicked(wxHtmlCellEvent & event) {
 	return event.GetLinkClicked();
 }
 
-wxMouseEvent & bmx_wxhtmllinkinfo_getevent(wxHtmlLinkInfo * info) {
-
+wxHtmlCell * bmx_wxhtmlcellevent_getcell(wxHtmlCellEvent & event) {
+	return event.GetCell();
 }
 
-BBString * bmx_wxhtmllinkinfo_gethref(wxHtmlLinkInfo * info) {
 
+
+const wxMouseEvent & bmx_wxhtmllinkinfo_getevent(MaxHtmlLinkInfo * info) {
+	return * info->Info().GetEvent();
 }
 
-BBString * bmx_wxhtmllinkinfo_gettarget(wxHtmlLinkInfo * info) {
-
+BBString * bmx_wxhtmllinkinfo_gethref(MaxHtmlLinkInfo * info) {
+	return bbStringFromWxString(info->Info().GetHref());
 }
+
+BBString * bmx_wxhtmllinkinfo_gettarget(MaxHtmlLinkInfo * info) {
+	return bbStringFromWxString(info->Info().GetTarget());
+}
+
+void bmx_wxhtmllinkinfo_delete(MaxHtmlLinkInfo * info) {
+	delete info;
+}
+
 
 void bmx_wxhtmlwindow_addprocessor(wxHtmlWindow * window, wxHtmlProcessor * proc) {
 	window->AddProcessor(proc);

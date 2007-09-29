@@ -23,15 +23,20 @@
 #include "wxglue.h"
 #include "wx/html/htmlwin.h"
 #include "wx/html/htmlproc.h"
+#include "wx/html/htmlcell.h"
 
 class MaxHtmlWindow;
 class MaxHtmlProcessor;
+class MaxHtmlLinkInfo;
 
 extern "C" {
 
 #include <blitz.h>
 
 	BBString * _wx_wxhtmlwindow_wxHtmlProcessor__Process(BBObject * handle, BBString * text);
+	BBString * _wx_wxhtmlwindow_wxHtmlWindow__OnOpeningURL(BBObject * handle, wxHtmlURLType urlType, BBString * url, wxHtmlOpeningStatus * returnStatus);
+	void _wx_wxhtmlwindow_wxHtmlWindow__OnSetTitle(BBObject * handle, BBString * title);
+
 
 	MaxHtmlWindow * bmx_wxhtmlwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
@@ -64,15 +69,18 @@ extern "C" {
 	void bmx_wxhtmlprocessor_enable(wxHtmlProcessor * proc, bool value);
 	bool bmx_wxhtmlprocessor_isenabled(wxHtmlProcessor * proc);
 
-	wxHtmlLinkInfo & bmx_wxhtmllinkevent_getlinkinfo(wxHtmlLinkEvent & event);
+	MaxHtmlLinkInfo * bmx_wxhtmllinkevent_getlinkinfo(wxHtmlLinkEvent & event);
 	
 	void bmx_wxhtmlcellevent_getpoint(wxHtmlCellEvent & event, int * x, int * y);
 	void bmx_wxhtmlcellevent_setlinkclicked(wxHtmlCellEvent & event, bool clicked);
 	bool bmx_wxhtmlcellevent_getlinkclicked(wxHtmlCellEvent & event);
+	wxHtmlCell * bmx_wxhtmlcellevent_getcell(wxHtmlCellEvent & event);
 
-	wxMouseEvent & bmx_wxhtmllinkinfo_getevent(wxHtmlLinkInfo * info);
-	BBString * bmx_wxhtmllinkinfo_gethref(wxHtmlLinkInfo * info);
-	BBString * bmx_wxhtmllinkinfo_gettarget(wxHtmlLinkInfo * info);
+
+	const wxMouseEvent & bmx_wxhtmllinkinfo_getevent(MaxHtmlLinkInfo * info);
+	BBString * bmx_wxhtmllinkinfo_gethref(MaxHtmlLinkInfo * info);
+	BBString * bmx_wxhtmllinkinfo_gettarget(MaxHtmlLinkInfo * info);
+	void bmx_wxhtmllinkinfo_delete(MaxHtmlLinkInfo * info);
 
 	int bmx_wxhtmlevent_geteventtype(int type);
 }
@@ -87,7 +95,12 @@ public:
 		int w, int h, long style);
 	~MaxHtmlWindow();
 	
+	virtual wxHtmlOpeningStatus OnOpeningURL(wxHtmlURLType type, const wxString& url, wxString *redirect) const;
+	virtual void OnSetTitle(const wxString& title) const;
+	
 private:
+	BBObject * maxHandle;
+	
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
@@ -104,3 +117,13 @@ private:
 	BBObject * maxHandle;
 };
 
+class MaxHtmlLinkInfo
+{
+public:
+	MaxHtmlLinkInfo(const wxHtmlLinkInfo & linkInfo);
+	wxHtmlLinkInfo & Info();
+
+private:
+	wxHtmlLinkInfo info;
+
+};
