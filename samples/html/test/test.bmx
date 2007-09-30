@@ -95,7 +95,7 @@ Type MyFrame Extends wxFrame
 		html.LoadPage(RealPath("test.htm"))
 		html.AddProcessor(processor)
 
-	    Local text:wxTextCtrl = New wxTextCtrl.Create(Self, wxID_ANY, "", ,, ,, wxTE_MULTILINE)
+		Local text:wxTextCtrl = New wxTextCtrl.Create(Self, wxID_ANY, "", ,, ,, wxTE_MULTILINE)
 
 		wxLog.SetActiveTarget(New wxLogTextCtrl.Create(text))
 

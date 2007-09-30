@@ -186,6 +186,8 @@ extern "C" {
 	MaxPen * bmx_wxstockgdi_pen_white();
 
 	MaxFont * bmx_wxfont_create();
+	MaxFont * bmx_wxfont_createattr(int pointSize, wxFontFamily family, int style, wxFontWeight weight,
+			bool underline, BBString * faceName, wxFontEncoding encoding);
 	void bmx_wxfont_delete(MaxFont * font);
 	int bmx_wxfont_getpointsize(MaxFont * font);
 	void bmx_wxfont_setpointsize(MaxFont * font, int size);

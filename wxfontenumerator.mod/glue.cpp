@@ -25,13 +25,44 @@
 // ---------------------------------------------------------------------------------------
 
 
+MaxFontEnumerator::MaxFontEnumerator(BBObject * handle)
+	: maxHandle(handle)
+{
+}
+
+MaxFontEnumerator::~MaxFontEnumerator() {
+}
+
 
 // *********************************************
 
-
-wxInternetFSHandler * bmx_wxinternetfshandler_new(BBObject * handle) {
-
-	wxInternetFSHandler * handler = new wxInternetFSHandler;
-	wxbind(handler, handle);
-	return handler;
+MaxFontEnumerator * bmx_wxfontenumerator_create(BBObject * handle) {
+	return new MaxFontEnumerator(handle);
 }
+
+void bmx_wxfontenumerator_delete(wxFontEnumerator * enumerator) {
+	delete enumerator;
+}
+
+bool bmx_wxfontenumerator_enumeratefacenames(wxFontEnumerator * enumerator, wxFontEncoding encoding, bool fixedWidthOnly) {
+	return enumerator->EnumerateFacenames(encoding, fixedWidthOnly);
+}
+
+bool bmx_wxfontenumerator_enumerateencodings(wxFontEnumerator * enumerator, BBString * font) {
+	return enumerator->EnumerateEncodings(wxStringFromBBString(font));
+}
+
+BBArray * bmx_wxfontenumerator_getencodings(BBString * facename) {
+	return wxArrayStringToBBStringArray(wxFontEnumerator::GetEncodings(wxStringFromBBString(facename)));
+}
+
+BBArray * bmx_wxfontenumerator_getfacenames(wxFontEncoding encoding, bool fixedWidthOnly) {
+	return wxArrayStringToBBStringArray(wxFontEnumerator::GetFacenames(encoding, fixedWidthOnly));
+}
+
+bool bmx_wxfontenumerator_isvalidfacename(BBString * facename) {
+	return wxFontEnumerator::IsValidFacename(wxStringFromBBString(facename));
+}
+
+
+

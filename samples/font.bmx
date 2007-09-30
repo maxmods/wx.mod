@@ -16,6 +16,9 @@ Import wx.wxTextEntryDialog
 Import wx.wxChoiceDialog
 Import wx.wxFontDialog
 Import wx.wxLog
+Import wx.wxFontEnumerator
+
+Import BRL.LinkedList
 
 ' used as title For several dialog boxes
 Const SAMPLE_TITLE:String = "wxWidgets Font Sample"
@@ -209,6 +212,11 @@ Type MyFrame Extends wxFrame
 	End Function
 
 	Function OnEnumerateFamiliesForEncoding(event:wxEvent)
+		Local enc:Int = MyFrame(event.parent).GetEncodingFromUser()
+		If enc <> wxFONTENCODING_SYSTEM Then
+		
+			MyFrame(event.parent).DoEnumerateFamilies(False, enc)
+		End If	
 	End Function
 
 	Function OnEnumerateFamilies(event:wxEvent)
@@ -220,6 +228,11 @@ Type MyFrame Extends wxFrame
 	End Function
 
 	Function OnEnumerateEncodings(event:wxEvent)
+		Local fontEnumerator:MyEncodingEnumerator = MyEncodingEnumerator(New MyEncodingEnumerator.Create())
+		
+		fontEnumerator.EnumerateEncodings()
+		
+		wxLogMessage("Enumerating all available encodings:~n" + fontEnumerator.GetText())
 	End Function
 
 	Function OnSetNativeDesc(event:wxEvent)
@@ -412,6 +425,100 @@ Type MyFrame Extends wxFrame
 	End Function
 
 	Method DoEnumerateFamilies:Int(fixedWidthOnly:Int, encoding:Int = wxFONTENCODING_SYSTEM, silent:Int = False)
+		Local fontEnumerator:MyFontEnumerator = MyFontEnumerator(New MyFontEnumerator.Create())
+		
+		fontEnumerator.EnumerateFacenames(encoding, fixedWidthOnly)
+		
+		If fontEnumerator.GotAny() Then
+		
+			Local facenames:String[] = fontEnumerator.GetNames()
+			Local count:Int = facenames.length
+			If Not silent Then
+				If fixedWidthOnly Then
+					wxLogStatus("Found " + count + " fixed width fonts", Self)
+				Else
+					wxLogStatus("Found " + count + " fonts", Self)
+				End If
+			End If
+			
+			Local facename:String
+			
+			If silent Then
+				' choose the First
+				facename = facenames[0]
+			Else
+				' let the user choose
+				
+				Local n:Int = wxGetSingleChoiceIndex( "Choose a facename", SAMPLE_TITLE, facenames, Self)
+				
+				If n <> -1 Then
+					facename = facenames[n]
+				End If
+				
+			End If
+			
+			If facename Then
+				Local font:wxFont = New wxFont.CreateWithAttribs(wxNORMAL_FONT().GetPointSize(), wxFONTFAMILY_DEFAULT, ..
+					wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, False, facename, encoding)
+				
+				DoChangeFont(font)
+			End If
+			
+			Return True
+			
+		Else If Not silent Then
+			wxLogWarning("No such fonts found.")
+		End If
+		
+		Return False
+		
+	End Method
+	
+End Type
+
+Type MyEncodingEnumerator Extends wxFontEnumerator
+
+	Field count:Int
+	Field text:String
+
+	Method OnFontEncoding:Int(facename:String, encoding:String)
+		count:+ 1
+		
+		Local txt:String = "Encoding " + count + ": " + encoding + " (available in facename '" + facename + "')~n"
+		text:+ txt
+		
+		Return True
+	End Method
+
+	Method GetText:String()
+		Return text
+	End Method
+	
+End Type
+
+Type MyFontEnumerator Extends wxFontEnumerator
+
+	Field facenames:TList = New TList
+
+	Method OnFacename:Int(facename:String)
+		facenames.AddLast(facename)
+		
+		Return True
+	End Method
+
+	Method GotAny:Int()
+		Return facenames.count() > 0
+	End Method
+
+	Method GetNames:String[]()
+		Local n:Int=facenames.count()
+		Local arr:String[n]
+		Local i:Int
+		For Local o:String = EachIn facenames
+			arr[i] = o 
+			i:+1
+		Next
+		Return arr
 	End Method
 	
 End Type

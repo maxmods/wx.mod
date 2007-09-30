@@ -41,12 +41,35 @@ Type wxFont Extends wxGDIObject
 		Return this
 	End Function
 	
+	Rem
+	bbdoc: Default Constructor.
+	End Rem
 	Function CreateFont:wxFont()
 		Return New wxFont.Create()
 	End Function
 	
+	Rem
+	bbdoc: Creates a font object with the specified attributes.
+	End Rem
+	Function CreateFontWithAttributes:wxFont(pointSize:Int, family:Int, style:Int, weight:Int, ..
+			underline:Int = False, faceName:String = "", encoding:Int = wxFONTENCODING_DEFAULT)
+		Return New wxFont.CreateWithAttribs(pointSize, family, style, weight, underline, faceName, encoding)
+	End Function
+	
+	Rem
+	bbdoc: Default Constructor.
+	End Rem
 	Method Create:wxFont()
 		wxObjectPtr = bmx_wxfont_create()
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Creates a font object with the specified attributes.
+	End Rem
+	Method CreateWithAttribs:wxFont(pointSize:Int, family:Int, style:Int, weight:Int, ..
+			underline:Int = False, faceName:String = "", encoding:Int = wxFONTENCODING_DEFAULT)
+		wxObjectPtr = bmx_wxfont_createattr(pointSize, family, style, weight, underline, faceName, encoding)
 		Return Self
 	End Method
 

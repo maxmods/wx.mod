@@ -799,6 +799,14 @@ MaxFont * bmx_wxfont_create() {
 	return new MaxFont(f);
 }
 
+MaxFont * bmx_wxfont_createattr(int pointSize, wxFontFamily family, int style, wxFontWeight weight,
+		bool underline, BBString * faceName, wxFontEncoding encoding) {
+
+	wxFont f(pointSize, family, style, weight, underline, wxStringFromBBString(faceName), encoding);
+	return new MaxFont(f);
+
+}
+
 void bmx_wxfont_delete(MaxFont * font) {
 	delete font;
 }

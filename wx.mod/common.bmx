@@ -286,6 +286,7 @@ Extern
 	Function bmx_wxstockgdi_pen_white:Byte Ptr()
 
 	Function bmx_wxfont_create:Byte Ptr()
+	Function bmx_wxfont_createattr:Byte Ptr(pointSize:Int, family:Int, style:Int, weight:Int, underline:Int, faceName:String, encoding:Int)
 	Function bmx_wxfont_delete(handler:Byte Ptr)
 	Function bmx_wxfont_getpointsize:Int(handler:Byte Ptr)
 	Function bmx_wxfont_setpointsize(handler:Byte Ptr, size:Int)
