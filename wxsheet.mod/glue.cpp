@@ -401,6 +401,34 @@ void bmx_wxsheet_setgridcolattr(wxSheet * sheet, int col, MaxSheetCellAttr * att
 	sheet->SetGridColAttr(col, attr->Attr());
 }
 
+bool bmx_wxsheet_hasspannedcells(wxSheet * sheet) {
+	return sheet->HasSpannedCells();
+}
+
+void bmx_wxsheet_getcellowner(wxSheet * sheet, int row, int col, int * ownerRow, int * ownerCol) {
+	wxSheetCoords c = sheet->GetCellOwner(wxSheetCoords(row, col));
+	*ownerRow = c.GetRow();
+	*ownerCol = c.GetCol();
+}
+
+void bmx_wxsheet_getcellblock(wxSheet * sheet, int row, int col, int * oRow, int * oCol, int * oWidth, int * oHeight) {
+	wxSheetBlock b = sheet->GetCellBlock(wxSheetCoords(row, col));
+	*oRow = b.GetLeft();
+	*oCol = b.GetTop();
+	*oWidth = b.GetWidth();
+	*oHeight = b.GetHeight();
+}
+
+void bmx_wxsheet_getcellspan(wxSheet * sheet, int row, int col, int * rowSpan, int * colSpan) {
+	wxSheetCoords c = sheet->GetCellSpan(wxSheetCoords(row, col));
+	*rowSpan = c.GetRow();
+	*colSpan = c.GetCol();
+}
+
+void bmx_wxsheet_setcellspan(wxSheet * sheet, int row, int col, int rows, int cols) {
+	sheet->SetCellSpan(wxSheetCoords(row, col), wxSheetCoords(rows, cols));
+}
+
 
 
 // *********************************************
@@ -522,6 +550,73 @@ wxSheetCellAutoWrapStringRendererRefData * bmx_wxsheetcellautowrapstringrenderer
 }
 
 // *********************************************
+
+wxSheetCellTextEditorRefData * bmx_wxsheetcelltexteditorrefdata_create() {
+	return new wxSheetCellTextEditorRefData();
+}
+
+// *********************************************
+
+wxSheetCellNumberEditorRefData * bmx_wxsheetcellnumbereditorrefdata_create(int minimum, int maximum) {
+	return new wxSheetCellNumberEditorRefData(minimum, maximum);
+}
+
+// *********************************************
+
+wxSheetCellFloatEditorRefData * bmx_wxsheetcellfloateditorrefdata_create(int width, int precision) {
+	return new wxSheetCellFloatEditorRefData(width, precision);
+}
+
+// *********************************************
+
+wxSheetCellChoiceEditorRefData * bmx_wxsheetcellchoiceeditorrefdata_create(BBArray * choices, bool allowOthers) {
+	return new wxSheetCellChoiceEditorRefData(bbStringArrayTowxArrayStr(choices), allowOthers);
+}
+
+// *********************************************
+
+wxSheetCellBoolEditorRefData * bmx_wxsheetcellbooleditorrefdata_create() {
+	return new wxSheetCellBoolEditorRefData();
+}
+
+// *********************************************
+
+wxSheetCellEnumEditorRefData * bmx_wxsheetcellenumeditorrefdata_create(BBString * choices) {
+	return new wxSheetCellEnumEditorRefData(wxStringFromBBString(choices));
+}
+
+// *********************************************
+
+wxSheetCellStringRendererRefData * bmx_wxsheetcellstringrendererrefdata_create() {
+	return new wxSheetCellStringRendererRefData();
+}
+
+// *********************************************
+
+wxSheetCellNumberRendererRefData * bmx_wxsheetcellnumberrendererrefdata_create() {
+	return new wxSheetCellNumberRendererRefData();
+}
+
+// *********************************************
+
+wxSheetCellFloatRendererRefData * bmx_wxsheetcellfloatrendererrefdata_create(int width, int precision) {
+	return new wxSheetCellFloatRendererRefData(width, precision);
+}
+
+// *********************************************
+
+wxSheetCellBoolRendererRefData * bmx_wxsheetcellboolrendererrefdata_create() {
+	return new wxSheetCellBoolRendererRefData();
+}
+
+// *********************************************
+
+wxSheetCellEnumRendererRefData * bmx_wxsheetcellenumrendererrefdata_create(BBString * choices) {
+	return new wxSheetCellEnumRendererRefData(wxStringFromBBString(choices));
+}
+
+// *********************************************
+
 
 MaxSheetCellAttr * bmx_wxsheetcellattr_create(bool createData) {
 	wxSheetCellAttr s(createData);

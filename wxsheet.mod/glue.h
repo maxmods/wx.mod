@@ -118,6 +118,12 @@ extern "C" {
 	void bmx_wxsheet_setgridrowattr(wxSheet * sheet, int row, MaxSheetCellAttr * attr);
 	void bmx_wxsheet_setgridcolattr(wxSheet * sheet, int col, MaxSheetCellAttr * attr);
 
+	bool bmx_wxsheet_hasspannedcells(wxSheet * sheet);
+	void bmx_wxsheet_getcellowner(wxSheet * sheet, int row, int col, int * ownerRow, int * ownerCol);
+	void bmx_wxsheet_getcellblock(wxSheet * sheet, int row, int col, int * oRow, int * oCol, int * oWidth, int * oHeight);
+	void bmx_wxsheet_getcellspan(wxSheet * sheet, int row, int col, int * rowSpan, int * colSpan);
+	void bmx_wxsheet_setcellspan(wxSheet * sheet, int row, int col, int rows, int cols);
+
 	MaxSheetSplitter * bmx_wxsheetsplitter_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	void bmx_wxsheetsplitter_initialize(wxSheetSplitter * splitter, wxSheet * sheet);
 
@@ -149,6 +155,17 @@ extern "C" {
 	void bmx_wxsheetcellrenderer_delete(MaxSheetCellRenderer * renderer);
 	
 	wxSheetCellAutoWrapStringRendererRefData * bmx_wxsheetcellautowrapstringrendererrefdata_create();
+	wxSheetCellTextEditorRefData * bmx_wxsheetcelltexteditorrefdata_create();
+	wxSheetCellNumberEditorRefData * bmx_wxsheetcellnumbereditorrefdata_create(int minimum, int maximum);
+	wxSheetCellFloatEditorRefData * bmx_wxsheetcellfloateditorrefdata_create(int width, int precision);
+	wxSheetCellChoiceEditorRefData * bmx_wxsheetcellchoiceeditorrefdata_create(BBArray * choices, bool allowOthers);
+	wxSheetCellBoolEditorRefData * bmx_wxsheetcellbooleditorrefdata_create();
+	wxSheetCellEnumEditorRefData * bmx_wxsheetcellenumeditorrefdata_create(BBString * choices);
+	wxSheetCellStringRendererRefData * bmx_wxsheetcellstringrendererrefdata_create();
+	wxSheetCellNumberRendererRefData * bmx_wxsheetcellnumberrendererrefdata_create();
+	wxSheetCellFloatRendererRefData * bmx_wxsheetcellfloatrendererrefdata_create(int width, int precision);
+	wxSheetCellBoolRendererRefData * bmx_wxsheetcellboolrendererrefdata_create();
+	wxSheetCellEnumRendererRefData * bmx_wxsheetcellenumrendererrefdata_create(BBString * choices);
 
 
 	MaxSheetCellAttr * bmx_wxsheetcellattr_create(bool createData);

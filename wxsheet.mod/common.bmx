@@ -139,6 +139,12 @@ Extern
 	Function bmx_wxsheet_setgridrowattr(handle:Byte Ptr, row:Int, attr:Byte Ptr)
 	Function bmx_wxsheet_setgridcolattr(handle:Byte Ptr, col:Int, attr:Byte Ptr)
 
+	Function bmx_wxsheet_hasspannedcells:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_getcellowner(handle:Byte Ptr, row:Int, col:Int, ownerRow:Int Ptr, ownerCol:Int Ptr)
+	Function bmx_wxsheet_getcellblock(handle:Byte Ptr, row:Int, col:Int, oRow:Int Ptr, oCol:Int Ptr, oWidth:Int Ptr, oHeight:Int Ptr)
+	Function bmx_wxsheet_getcellspan(handle:Byte Ptr, row:Int, col:Int, rowSpan:Int Ptr, colSpan:Int Ptr)
+	Function bmx_wxsheet_setcellspan(handle:Byte Ptr, row:Int, col:Int, rows:Int, cols:Int)
+
 	Function bmx_wxsheetsplitter_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxsheetsplitter_initialize(handle:Byte Ptr, sheet:Byte Ptr)
 
@@ -170,6 +176,17 @@ Extern
 	Function bmx_wxsheetcellrenderer_delete(handle:Byte Ptr)
 	
 	Function bmx_wxsheetcellautowrapstringrendererrefdata_create:Byte Ptr()
+	Function bmx_wxsheetcelltexteditorrefdata_create:Byte Ptr()
+	Function bmx_wxsheetcellnumbereditorrefdata_create:Byte Ptr(minimum:Int, maximum:Int)
+	Function bmx_wxsheetcellfloateditorrefdata_create:Byte Ptr(width:Int, precision:Int)
+	Function bmx_wxsheetcellchoiceeditorrefdata_create:Byte Ptr(choices:String[], allowOthers:Int)
+	Function bmx_wxsheetcellbooleditorrefdata_create:Byte Ptr()
+	Function bmx_wxsheetcellenumeditorrefdata_create:Byte Ptr(choices:String)
+	Function bmx_wxsheetcellstringrendererrefdata_create:Byte Ptr()
+	Function bmx_wxsheetcellnumberrendererrefdata_create:Byte Ptr()
+	Function bmx_wxsheetcellfloatrendererrefdata_create:Byte Ptr(width:Int, precision:Int)
+	Function bmx_wxsheetcellboolrendererrefdata_create:Byte Ptr()
+	Function bmx_wxsheetcellenumrendererrefdata_create:Byte Ptr(choices:String)
 
 
 	Function bmx_wxsheetcellattr_create:Byte Ptr(createData:Int)

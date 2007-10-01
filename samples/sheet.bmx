@@ -287,8 +287,8 @@ Type GridFrame Extends wxFrame
 		'    grid.SetAttrRenderer( 4, 4, wxSheetCellRenderer(New MyGridCellRendererRefData()))
 		
 		grid.SetCellValue( 3, 0, "0")
-		'    grid.SetAttrRenderer( 3, 0, wxSheetCellRenderer(New wxSheetCellBoolRendererRefData()))
-		'    grid.SetAttrEditor( 3, 0, wxSheetCellEditor(New wxSheetCellBoolEditorRefData()))
+		grid.SetAttrRenderer( 3, 0, New wxSheetCellRenderer.Create(New wxSheetCellBoolRendererRefData.Create()))
+		grid.SetAttrEditor( 3, 0, New wxSheetCellEditor.Create(New wxSheetCellBoolEditorRefData.Create()))
 		
 		Local attr:wxSheetCellAttr = New wxSheetCellAttr.Create(True)
 		attr.SetForegroundColour(wxBLUE())
@@ -310,18 +310,33 @@ Type GridFrame Extends wxFrame
 		grid.SetCellValue( 1, 6, "1415")
 		grid.SetCellValue( 2, 6, "12345.67890")
 		
-		'    grid.SetAttrEditor( 0, 6, wxSheetCellEditor(New wxSheetCellFloatEditorRefData(-1, -1)) )
+		grid.SetAttrEditor( 0, 6, New wxSheetCellEditor.Create(New wxSheetCellFloatEditorRefData.Create(-1, -1)))
 		
 		grid.SetColFormatFloat(7, 6, 2)
 		grid.SetCellValue( 0, 7, "3.1415")
 		grid.SetCellValue( 1, 7, "1415")
 		grid.SetCellValue( 2, 7, "12345.67890")
 
+		Local choices:String[] = [ "Please select a choice", "This takes two cells", "Another choice" ]
+	
+
+		grid.SetAttrEditor( 4, 0, New wxSheetCellEditor.Create(New wxSheetCellChoiceEditorRefData.Create(choices)))
+		grid.SetCellSpan( 4, 0, 1, 2)
+		grid.SetCellValue( 4, 0, choices[0])
+		grid.SetAttrOverflow( 4, 0, False)
+		
+		grid.SetCellSpan( 7, 1, 3, 4)
+		grid.SetAttrAlignment( 7, 1, wxSHEET_AttrAlignCenter)
+		grid.SetCellValue( 7, 1, "Big box!")
+		
+		grid.SetCellSpan( 26, 1, 3, 2)
+		grid.SetCellSpan( 26, 4, 3, 2)
+		grid.SetCellSpan( 26, 7, 3, 2)
+
+		' ---------------------------------------------------------
+		' Extra wxSheet tests
 
 		' lots todo.....
-	
-	
-	
 	
 	
 	
@@ -380,8 +395,47 @@ Type GridFrame Extends wxFrame
 		grid.SetAttrAlignment(17, 4, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignLeft)
 		grid.SetAttrAlignment(17, 5, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignCenterHoriz)
 		grid.SetAttrAlignment(17, 6, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignRight)
+
+		' Editor tests Col 10
+		grid.SetCellValue(-1, 9, "Editor/Renderer types")
+		grid.SetCellValue(0, 9, "StringEditor   StringRenderer")
+		grid.SetCellValue(1, 9, "AWStringEditor AWStringRenderer")
+		grid.SetCellValue(2, 9, "NumberEditor   NumberRenderer")
+		grid.SetCellValue(3, 9, "NumberEditor   NumberRenderer")
+		grid.SetCellValue(4, 9, "FloatEditor    FloatRenderer")
+		grid.SetCellValue(5, 9, "FloatEditor    FloatRenderer")
+		grid.SetCellValue(6, 9, "BoolEditor     BoolRenderer")
+		grid.SetCellValue(7, 9, "ChoiceEditor   StringRenderer")
+		grid.SetCellValue(8, 9, "ChoiceEditor   StringRenderer")
+		grid.SetCellValue(9, 9, "EnumEditor     EnumRenderer")
+		grid.AutoSizeCol(9, False) ' make the text fit nicely
 	
-	
+		Local enumStrings:String = "Red,Green,Blue"
+		
+		grid.SetCellValue(-1, 10, "Test")
+		grid.SetAttrEditor(0, 10, New wxSheetCellEditor.Create(New wxSheetCellTextEditorRefData.Create()))
+		grid.SetAttrEditor(1, 10, New wxSheetCellEditor.Create(New wxSheetCellAutoWrapStringEditorRefData.Create()))
+		grid.SetAttrEditor(2, 10, New wxSheetCellEditor.Create(New wxSheetCellNumberEditorRefData.Create()))
+		grid.SetAttrEditor(3, 10, New wxSheetCellEditor.Create(New wxSheetCellNumberEditorRefData.Create(0, 100)))
+		grid.SetAttrEditor(4, 10, New wxSheetCellEditor.Create(New wxSheetCellFloatEditorRefData.Create()))
+		grid.SetAttrEditor(5, 10, New wxSheetCellEditor.Create(New wxSheetCellFloatEditorRefData.Create(4, 4)))
+		grid.SetAttrEditor(6, 10, New wxSheetCellEditor.Create(New wxSheetCellBoolEditorRefData.Create()))
+		grid.SetAttrEditor(7, 10, New wxSheetCellEditor.Create(New wxSheetCellChoiceEditorRefData.Create(choices, False)))
+		grid.SetAttrEditor(8, 10, New wxSheetCellEditor.Create(New wxSheetCellChoiceEditorRefData.Create(choices, True)))
+		grid.SetAttrEditor(9, 10, New wxSheetCellEditor.Create(New wxSheetCellEnumEditorRefData.CreateData(enumStrings)))
+		
+		grid.SetAttrRenderer(0, 10, New wxSheetCellRenderer.Create(New wxSheetCellStringRendererRefData.Create()))
+		grid.SetAttrRenderer(1, 10, New wxSheetCellRenderer.Create(New wxSheetCellAutoWrapStringRendererRefData.Create()))
+		grid.SetAttrRenderer(2, 10, New wxSheetCellRenderer.Create(New wxSheetCellNumberRendererRefData.Create()))
+		grid.SetAttrRenderer(3, 10, New wxSheetCellRenderer.Create(New wxSheetCellNumberRendererRefData.Create()))
+		grid.SetAttrRenderer(4, 10, New wxSheetCellRenderer.Create(New wxSheetCellFloatRendererRefData.CreateData()))
+		grid.SetAttrRenderer(5, 10, New wxSheetCellRenderer.Create(New wxSheetCellFloatRendererRefData.CreateData(4, 4)))
+		grid.SetAttrRenderer(6, 10, New wxSheetCellRenderer.Create(New wxSheetCellBoolRendererRefData.Create()))
+		grid.SetAttrRenderer(7, 10, New wxSheetCellRenderer.Create(New wxSheetCellStringRendererRefData.Create()))
+		grid.SetAttrRenderer(8, 10, New wxSheetCellRenderer.Create(New wxSheetCellStringRendererRefData.Create()))
+		grid.SetAttrRenderer(9, 10, New wxSheetCellRenderer.Create(New wxSheetCellEnumRendererRefData.CreateData(enumStrings)))
+
+
 		splitter.SplitHorizontally(sheetSplitter, logWin, 400)
 		Centre()
 		SetDefaults()

@@ -501,7 +501,27 @@ Type wxSheet Extends wxWindow
 	Method SetGridColAttr(col:Int, attr:wxSheetCellAttr)
 		bmx_wxsheet_setgridcolattr(wxObjectPtr, col, attr.wxObjectPtr)
 	End Method
+
+	Method HasSpannedCells:Int()
+		Return bmx_wxsheet_hasspannedcells(wxObjectPtr)
+	End Method
 	
+	Method GetCellOwner(row:Int, col:Int, ownerRow:Int Var, ownerCol:Int Var )
+		bmx_wxsheet_getcellowner(wxObjectPtr, row, col, Varptr ownerRow, Varptr ownerCol)
+	End Method
+	
+	Method GetCellBlock(row:Int, col:Int, oRow:Int Var, oCol:Int Var, oWidth:Int Var, oHeight:Int Var)
+		bmx_wxsheet_getcellblock(wxObjectPtr, row, col, Varptr oRow, Varptr oCol, Varptr oWidth, Varptr oHeight)
+	End Method
+	
+	Method GetCellSpan(row:Int, col:Int, rowSpan:Int Var, colSpan:Int Var)
+		bmx_wxsheet_getcellspan(wxObjectPtr, row, col, Varptr rowSpan, Varptr colSpan)
+	End Method
+		
+	Method SetCellSpan(row:Int, col:Int, rows:Int, cols:Int)
+		bmx_wxsheet_setcellspan(wxObjectPtr, row, col, rows, cols)
+	End Method
+
 End Type
 
 
@@ -543,6 +563,12 @@ Rem
 bbdoc: 
 End Rem
 Type wxSheetCellStringRendererRefData Extends wxSheetCellRendererRefData
+
+	Method Create:wxSheetCellStringRendererRefData()
+		wxObjectPtr = bmx_wxsheetcellstringrendererrefdata_create()
+		Return Self
+	End Method
+
 End Type
 
 Rem
@@ -561,12 +587,24 @@ Rem
 bbdoc: 
 End Rem
 Type wxSheetCellNumberRendererRefData Extends wxSheetCellStringRendererRefData
+
+	Method Create:wxSheetCellNumberRendererRefData()
+		wxObjectPtr = bmx_wxsheetcellnumberrendererrefdata_create()
+		Return Self
+	End Method
+
 End Type
 
 Rem
 bbdoc: 
 End Rem
 Type wxSheetCellFloatRendererRefData Extends wxSheetCellStringRendererRefData
+
+	Method CreateData:wxSheetCellFloatRendererRefData(width:Int = -1, precision:Int = -1)
+		wxObjectPtr = bmx_wxsheetcellfloatrendererrefdata_create(width, precision)
+		Return Self
+	End Method
+
 End Type
 
 Rem
@@ -579,6 +617,12 @@ Rem
 bbdoc: 
 End Rem
 Type wxSheetCellBoolRendererRefData Extends wxSheetCellRendererRefData
+
+	Method Create:wxSheetCellBoolRendererRefData()
+		wxObjectPtr = bmx_wxsheetcellboolrendererrefdata_create()
+		Return Self
+	End Method
+
 End Type
 
 Rem
@@ -587,6 +631,18 @@ End Rem
 Type wxSheetCellDateTimeRendererRefData Extends wxSheetCellStringRendererRefData
 End Type
 
+Rem
+bbdoc: 
+End Rem
+Type wxSheetCellEnumRendererRefData Extends wxSheetCellStringRendererRefData
+
+	Method CreateData:wxSheetCellEnumRendererRefData(choices:String)
+		wxObjectPtr = bmx_wxsheetcellenumrendererrefdata_create(choices)
+		Return Self
+	End Method
+
+
+End Type
 
 Rem
 bbdoc: 
@@ -627,6 +683,23 @@ Rem
 bbdoc: 
 End Rem
 Type wxSheetCellTextEditorRefData Extends wxSheetCellEditorRefData
+
+	Function _create:wxSheetCellTextEditorRefData(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetCellTextEditorRefData = New wxSheetCellTextEditorRefData
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxSheetCellTextEditorRefData(na1:Int = -1, na2:Int = -1)
+		wxObjectPtr = bmx_wxsheetcelltexteditorrefdata_create()
+		Return Self
+	End Method
+	
 End Type
 
 Rem
@@ -642,7 +715,10 @@ Type wxSheetCellAutoWrapStringEditorRefData Extends wxSheetCellTextEditorRefData
 		End If
 	End Function
 
-	Method Create:wxSheetCellAutoWrapStringEditorRefData()
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxSheetCellAutoWrapStringEditorRefData(na1:Int = -1, na2:Int = -1)
 		wxObjectPtr = bmx_wxsheetcellautowrapstringeditorrefdata_create()
 		Return Self
 	End Method
@@ -654,7 +730,20 @@ bbdoc:
 End Rem
 Type wxSheetCellNumberEditorRefData Extends wxSheetCellTextEditorRefData
 
+	Function _create:wxSheetCellNumberEditorRefData(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetCellNumberEditorRefData = New wxSheetCellNumberEditorRefData
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxSheetCellNumberEditorRefData(minimum:Int = -1, maximum:Int = -1)
+		wxObjectPtr = bmx_wxsheetcellnumbereditorrefdata_create(minimum, maximum)
+		Return Self
 	End Method
 	
 	
@@ -665,7 +754,20 @@ bbdoc:
 End Rem
 Type wxSheetCellFloatEditorRefData Extends wxSheetCellTextEditorRefData
 
+	Function _create:wxSheetCellFloatEditorRefData(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetCellFloatEditorRefData = New wxSheetCellFloatEditorRefData
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxSheetCellFloatEditorRefData(width:Int = -1, precision:Int = -1)
+		wxObjectPtr = bmx_wxsheetcellfloateditorrefdata_create(width, precision)
+		Return Self
 	End Method
 	
 End Type
@@ -675,7 +777,20 @@ bbdoc:
 End Rem
 Type wxSheetCellBoolEditorRefData Extends wxSheetCellEditorRefData
 
+	Function _create:wxSheetCellBoolEditorRefData(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetCellBoolEditorRefData = New wxSheetCellBoolEditorRefData
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxSheetCellBoolEditorRefData()
+		wxObjectPtr = bmx_wxsheetcellbooleditorrefdata_create()
+		Return Self
 	End Method
 	
 End Type
@@ -685,7 +800,20 @@ bbdoc:
 End Rem
 Type wxSheetCellChoiceEditorRefData Extends wxSheetCellEditorRefData
 
+	Function _create:wxSheetCellChoiceEditorRefData(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetCellChoiceEditorRefData = New wxSheetCellChoiceEditorRefData
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxSheetCellChoiceEditorRefData(choices:String[], allowOthers:Int = False)
+		wxObjectPtr = bmx_wxsheetcellchoiceeditorrefdata_create(choices, allowOthers)
+		Return Self
 	End Method
 	
 End Type
@@ -694,6 +822,23 @@ Rem
 bbdoc: 
 End Rem
 Type wxSheetCellEnumEditorRefData Extends wxSheetCellChoiceEditorRefData
+
+	Function _create:wxSheetCellEnumEditorRefData(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetCellEnumEditorRefData = New wxSheetCellEnumEditorRefData
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateData:wxSheetCellEnumEditorRefData(choices:String)
+		wxObjectPtr = bmx_wxsheetcellenumeditorrefdata_create(choices)
+		Return Self
+	End Method
+
 End Type
 
 Rem
