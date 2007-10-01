@@ -55,6 +55,7 @@ wxSheetCellEditor & MaxSheetCellEditor::Editor() {
 	return editor;
 }
 
+
 MaxSheetCellRenderer::MaxSheetCellRenderer(const wxSheetCellRenderer& r)
 {
 	renderer = r;
@@ -62,6 +63,16 @@ MaxSheetCellRenderer::MaxSheetCellRenderer(const wxSheetCellRenderer& r)
 
 wxSheetCellRenderer & MaxSheetCellRenderer::Renderer() {
 	return renderer;
+}
+
+
+MaxSheetCellAttr::MaxSheetCellAttr(const wxSheetCellAttr& a)
+{
+	attr = a;
+}
+
+wxSheetCellAttr & MaxSheetCellAttr::Attr() {
+	return attr;
 }
 
 // *********************************************
@@ -217,6 +228,179 @@ void bmx_wxsheet_setattrorientation(wxSheet * sheet, int row, int col, int orien
 	sheet->SetAttrOrientation(wxSheetCoords(row, col), orientation, attrType);
 }
 
+void bmx_wxsheet_setattrbackgroundcolour(wxSheet * sheet, int row, int col, MaxColour * colour, wxSheetAttr_Type attrType) {
+	sheet->SetAttrBackgroundColour(wxSheetCoords(row, col), colour->Colour(), attrType);
+}
+
+void bmx_wxsheet_setattrforegroundcolour(wxSheet * sheet, int row, int col, MaxColour * colour, wxSheetAttr_Type attrType) {
+	sheet->SetAttrForegroundColour(wxSheetCoords(row, col), colour->Colour(), attrType);
+}
+
+void bmx_wxsheet_setattrfont(wxSheet * sheet, int row, int col, MaxFont * font, wxSheetAttr_Type attrType) {
+	sheet->SetAttrFont(wxSheetCoords(row, col), font->Font(), attrType);
+}
+
+void bmx_wxsheet_setattralignment(wxSheet * sheet, int row, int col, int align, wxSheetAttr_Type attrType) {
+	sheet->SetAttrAlignment(wxSheetCoords(row, col), align, attrType);
+}
+
+void bmx_wxsheet_setattrlevel(wxSheet * sheet, int row, int col, int level, wxSheetAttr_Type attrType) {
+	sheet->SetAttrLevel(wxSheetCoords(row, col), level, attrType);
+}
+
+void bmx_wxsheet_setattroverflow(wxSheet * sheet, int row, int col, bool allow, wxSheetAttr_Type attrType) {
+	sheet->SetAttrOverflow(wxSheetCoords(row, col), allow, attrType);
+}
+
+void bmx_wxsheet_setattroverflowmarker(wxSheet * sheet, int row, int col, bool drawMarker, wxSheetAttr_Type attrType) {
+	sheet->SetAttrOverflowMarker(wxSheetCoords(row, col), drawMarker, attrType);
+}
+
+void bmx_wxsheet_setattrshoweditor(wxSheet * sheet, int row, int col, bool showEditor, wxSheetAttr_Type attrType) {
+	sheet->SetAttrShowEditor(wxSheetCoords(row, col), showEditor, attrType);
+}
+
+MaxColour * bmx_wxsheet_getattrbackgroundcolour(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	wxColour c(sheet->GetAttrBackgroundColour(wxSheetCoords(row, col), attrType));
+	return new MaxColour(c);
+}
+
+MaxColour * bmx_wxsheet_getattrforegroundcolour(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	wxColour c(sheet->GetAttrForegroundColour(wxSheetCoords(row, col), attrType));
+	return new MaxColour(c);
+}
+
+MaxFont * bmx_wxsheet_getattrfont(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	wxFont f(sheet->GetAttrFont(wxSheetCoords(row, col), attrType));
+	return new MaxFont(f);
+}
+
+int bmx_wxsheet_getattralignment(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return sheet->GetAttrAlignment(wxSheetCoords(row, col), attrType);
+}
+
+int bmx_wxsheet_getattrorientation(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return sheet->GetAttrOrientation(wxSheetCoords(row, col), attrType);
+}
+
+int bmx_wxsheet_getattrlevel(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return sheet->GetAttrLevel(wxSheetCoords(row, col), attrType);
+}
+
+bool bmx_wxsheet_getattroverflow(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return sheet->GetAttrOverflow(wxSheetCoords(row, col), attrType);
+}
+
+bool bmx_wxsheet_getattroverflowmarker(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return sheet->GetAttrOverflowMarker(wxSheetCoords(row, col), attrType);
+}
+
+bool bmx_wxsheet_getattrshoweditor(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return sheet->GetAttrShowEditor(wxSheetCoords(row, col), attrType);
+}
+
+bool bmx_wxsheet_getattrreadonly(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return sheet->GetAttrReadOnly(wxSheetCoords(row, col), attrType);
+}
+
+MaxSheetCellRenderer * bmx_wxsheet_getattrrenderer(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return new MaxSheetCellRenderer(sheet->GetAttrRenderer(wxSheetCoords(row, col), attrType));
+}
+
+MaxSheetCellEditor * bmx_wxsheet_getattreditor(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return new MaxSheetCellEditor(sheet->GetAttrEditor(wxSheetCoords(row, col), attrType));
+}
+
+void bmx_wxsheet_setcolformatbool(wxSheet * sheet, int col) {
+	sheet->SetColFormatBool(col);
+}
+
+void bmx_wxsheet_setcolformatnumber(wxSheet * sheet, int col) {
+	sheet->SetColFormatNumber(col);
+}
+
+void bmx_wxsheet_setcolformatfloat(wxSheet * sheet, int col, int width, int precision) {
+	sheet->SetColFormatFloat(col, width, precision);
+}
+
+void bmx_wxsheet_setcolformatcustom(wxSheet * sheet, int col, BBString * typeName) {
+	sheet->SetColFormatCustom(col, wxStringFromBBString(typeName));
+}
+
+bool bmx_wxsheet_iscellvisible(wxSheet * sheet, int row, int col, bool wholeCellVisible) {
+	return sheet->IsCellVisible(wxSheetCoords(row, col), wholeCellVisible);
+}
+
+bool bmx_wxsheet_isrowvisible(wxSheet * sheet, int row, bool wholeRowVisible) {
+	return sheet->IsRowVisible(row, wholeRowVisible);
+}
+
+bool bmx_wxsheet_iscolvisible(wxSheet * sheet, int col, bool wholeColVisible) {
+	return sheet->IsColVisible(col, wholeColVisible);
+}
+
+void bmx_wxsheet_makecellvisible(wxSheet * sheet, int row, int col) {
+	sheet->MakeCellVisible(wxSheetCoords(row, col));
+}
+
+void bmx_wxsheet_getgridcursorcell(wxSheet * sheet, int * row, int * col) {
+	wxSheetCoords c(sheet->GetGridCursorCell());
+	*row = c.GetRow();
+	*col = c.GetCol();
+}
+
+int bmx_wxsheet_getgridcursorrow(wxSheet * sheet) {
+	return sheet->GetGridCursorRow();
+}
+
+int bmx_wxsheet_getgridcursorcol(wxSheet * sheet) {
+	return sheet->GetGridCursorCol();
+}
+
+void bmx_wxsheet_setgridcursorcell(wxSheet * sheet, int row, int col) {
+	sheet->SetGridCursorCell(wxSheetCoords(row, col));
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getorcreateattr(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return new MaxSheetCellAttr(sheet->GetOrCreateAttr(wxSheetCoords(row, col), attrType));
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getattr(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return new MaxSheetCellAttr(sheet->GetAttr(wxSheetCoords(row, col), attrType));
+}
+
+void bmx_wxsheet_setattr(wxSheet * sheet, int row, int col, MaxSheetCellAttr * attr, wxSheetAttr_Type attrType) {
+	sheet->SetAttr(wxSheetCoords(row, col), attr->Attr(), attrType);
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getgridattr(wxSheet * sheet, int row, int col) {
+	return new MaxSheetCellAttr(sheet->GetGridAttr(wxSheetCoords(row, col)));
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getgridcellattr(wxSheet * sheet, int row, int col) {
+	return new MaxSheetCellAttr(sheet->GetGridCellAttr(wxSheetCoords(row, col)));
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getgridrowattr(wxSheet * sheet, int row) {
+	return new MaxSheetCellAttr(sheet->GetGridRowAttr(row));
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getgridcolattr(wxSheet * sheet, int col) {
+	return new MaxSheetCellAttr(sheet->GetGridColAttr(col));
+}
+
+void bmx_wxsheet_setgridcellattr(wxSheet * sheet, int row, int col, MaxSheetCellAttr * attr) {
+	sheet->SetGridCellAttr(wxSheetCoords(row, col), attr->Attr());
+}
+
+void bmx_wxsheet_setgridrowattr(wxSheet * sheet, int row, MaxSheetCellAttr * attr) {
+	sheet->SetGridRowAttr(row, attr->Attr());
+}
+
+void bmx_wxsheet_setgridcolattr(wxSheet * sheet, int col, MaxSheetCellAttr * attr) {
+	sheet->SetGridColAttr(col, attr->Attr());
+}
+
 
 
 // *********************************************
@@ -336,4 +520,183 @@ void bmx_wxsheetcellrenderer_delete(MaxSheetCellRenderer * renderer) {
 wxSheetCellAutoWrapStringRendererRefData * bmx_wxsheetcellautowrapstringrendererrefdata_create() {
 	return new wxSheetCellAutoWrapStringRendererRefData();
 }
+
+// *********************************************
+
+MaxSheetCellAttr * bmx_wxsheetcellattr_create(bool createData) {
+	wxSheetCellAttr s(createData);
+	return new MaxSheetCellAttr(s);
+}
+
+void bmx_wxsheetcellattr_setforegroundcolour(MaxSheetCellAttr * attr, MaxColour * colour) {
+	attr->Attr().SetForegroundColour(colour->Colour());
+}
+
+void bmx_wxsheetcellattr_setbackgroundcolour(MaxSheetCellAttr * attr, MaxColour * colour) {
+	attr->Attr().SetBackgroundColour(colour->Colour());
+}
+
+void bmx_wxsheetcellattr_setfont(MaxSheetCellAttr * attr, MaxFont * font) {
+	attr->Attr().SetFont(font->Font());
+}
+
+void bmx_wxsheetcellattr_setalignment(MaxSheetCellAttr * attr, int align) {
+	attr->Attr().SetAlignment(align);
+}
+
+void bmx_wxsheetcellattr_setalignmenthv(MaxSheetCellAttr * attr, int horzAlign, int vertAlign) {
+	attr->Attr().SetAlignment(horzAlign, vertAlign);
+}
+
+void bmx_wxsheetcellattr_setorientation(MaxSheetCellAttr * attr, int orientation) {
+	attr->Attr().SetOrientation(orientation);
+}
+
+void bmx_wxsheetcellattr_setlevel(MaxSheetCellAttr * attr, wxSheetAttrLevel_Type level) {
+	attr->Attr().SetLevel(level);
+}
+
+void bmx_wxsheetcellattr_setoverflow(MaxSheetCellAttr * attr, bool allow) {
+	attr->Attr().SetOverflow(allow);
+}
+
+void bmx_wxsheetcellattr_setoverflowmarker(MaxSheetCellAttr * attr, bool drawMarker) {
+	attr->Attr().SetOverflowMarker(drawMarker);
+}
+
+void bmx_wxsheetcellattr_setshoweditor(MaxSheetCellAttr * attr, bool showEditor) {
+	attr->Attr().SetShowEditor(showEditor);
+}
+
+void bmx_wxsheetcellattr_setreadonly(MaxSheetCellAttr * attr, bool isReadOnly) {
+	attr->Attr().SetReadOnly(isReadOnly);
+}
+
+void bmx_wxsheetcellattr_setrenderer(MaxSheetCellAttr * attr, MaxSheetCellRenderer * renderer) {
+	attr->Attr().SetRenderer(renderer->Renderer());
+}
+
+void bmx_wxsheetcellattr_seteditor(MaxSheetCellAttr * attr, MaxSheetCellEditor * editor) {
+	attr->Attr().SetEditor(editor->Editor());
+}
+
+void bmx_wxsheetcellattr_setkind(MaxSheetCellAttr * attr, wxSheetAttr_Type kind) {
+	attr->Attr().SetKind(kind);
+}
+
+bool bmx_wxsheetcellattr_hasforegroundcolour(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasForegroundColour();
+}
+
+bool bmx_wxsheetcellattr_hasbackgroundcolour(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasBackgroundColour();
+}
+
+bool bmx_wxsheetcellattr_hasfont(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasFont();
+}
+
+bool bmx_wxsheetcellattr_hasalignment(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasAlignment();
+}
+
+bool bmx_wxsheetcellattr_hasorientation(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasOrientation();
+}
+
+bool bmx_wxsheetcellattr_haslevel(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasLevel();
+}
+
+bool bmx_wxsheetcellattr_hasoverflowmode(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasOverflowMode();
+}
+
+bool bmx_wxsheetcellattr_hasoverflowmarkermode(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasOverflowMarkerMode();
+}
+
+bool bmx_wxsheetcellattr_hasshoweditormode(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasShowEditorMode();
+}
+
+bool bmx_wxsheetcellattr_hasreadwritemode(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasReadWriteMode();
+}
+
+bool bmx_wxsheetcellattr_hasrenderer(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasRenderer();
+}
+
+bool bmx_wxsheetcellattr_haseditor(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasEditor();
+}
+
+bool bmx_wxsheetcellattr_hasdefaultattr(MaxSheetCellAttr * attr) {
+	return attr->Attr().HasDefaultAttr();
+}
+
+bool bmx_wxsheetcellattr_iscomplete(MaxSheetCellAttr * attr) {
+	return attr->Attr().IsComplete();
+}
+
+MaxColour * bmx_wxsheetcellattr_getforegroundcolour(MaxSheetCellAttr * attr) {
+	wxColour c(attr->Attr().GetForegroundColour());
+	return new MaxColour(c);
+}
+
+MaxColour * bmx_wxsheetcellattr_getbackgroundcolour(MaxSheetCellAttr * attr) {
+	wxColour c(attr->Attr().GetBackgroundColour());
+	return new MaxColour(c);
+}
+
+MaxFont * bmx_wxsheetcellattr_getfont(MaxSheetCellAttr * attr) {
+	wxFont f(attr->Attr().GetFont());
+	return new MaxFont(f);
+}
+
+int bmx_wxsheetcellattr_getalignment(MaxSheetCellAttr * attr) {
+	return attr->Attr().GetAlignment();
+}
+
+wxOrientation bmx_wxsheetcellattr_getorientation(MaxSheetCellAttr * attr) {
+	return attr->Attr().GetOrientation();
+}
+
+wxSheetAttrLevel_Type bmx_wxsheetcellattr_getlevel(MaxSheetCellAttr * attr) {
+	return attr->Attr().GetLevel();
+}
+
+bool bmx_wxsheetcellattr_getoverflow(MaxSheetCellAttr * attr) {
+	return attr->Attr().GetOverflow();
+}
+
+bool bmx_wxsheetcellattr_getoverflowmarker(MaxSheetCellAttr * attr) {
+	return attr->Attr().GetOverflowMarker();
+}
+
+bool bmx_wxsheetcellattr_getshoweditor(MaxSheetCellAttr * attr) {
+	return attr->Attr().GetShowEditor();
+}
+
+bool bmx_wxsheetcellattr_getreadonly(MaxSheetCellAttr * attr) {
+	return attr->Attr().GetReadOnly();
+}
+
+MaxSheetCellRenderer * bmx_wxsheetcellattr_getrenderer(MaxSheetCellAttr * attr, wxSheet * sheet, int row, int col) {
+	return new MaxSheetCellRenderer(attr->Attr().GetRenderer(sheet, wxSheetCoords(row, col)));
+}
+
+MaxSheetCellEditor * bmx_wxsheetcellattr_geteditor(MaxSheetCellAttr * attr, wxSheet * sheet, int row, int col) {
+	return new MaxSheetCellEditor(attr->Attr().GetEditor(sheet, wxSheetCoords(row, col)));
+}
+
+wxSheetAttr_Type bmx_wxsheetcellattr_getkind(MaxSheetCellAttr * attr) {
+	return attr->Attr().GetKind();
+}
+
+void bmx_wxsheetcellattr_delete(MaxSheetCellAttr * attr) {
+	delete attr;
+}
+
 

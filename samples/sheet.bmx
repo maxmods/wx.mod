@@ -13,7 +13,7 @@ Type GridApp Extends wxApp
 
 	Method OnInit:Int()
 
-		Local frame:GridFrame = GridFrame(New GridFrame.Create(Null, -1, "wxWidgets sheet demo"))
+		Local frame:GridFrame = GridFrame(New GridFrame.Create(Null, -1, "wxSheet example"))
 		
 		frame.SetSize(800, 600)
 		frame.show()
@@ -266,11 +266,120 @@ Type GridFrame Extends wxFrame
 		grid.SetCellValue( 0, 8, "Rotated")
 		grid.SetAttrOrientation( 0, 8, wxSHEET_AttrOrientVert )
 
+		grid.SetRowHeight( 99, 60 )
+		grid.SetCellValue( 99, 99, "Ctrl+End~nwill go to~nthis cell")
+		grid.SetCellValue( 1, 0, "This default cell will overflow into neighboring cells, but not if you turn overflow off.")
+		
+		grid.SetAttrForegroundColour( 1, 2, wxRED())
+		grid.SetAttrBackgroundColour( 1, 2, wxGREEN())
+		
+		grid.SetCellValue( 1, 4, "I'm in the middle")
+		
+		grid.SetCellValue( 2, 2, "red")
+		
+		grid.SetAttrForegroundColour( 2, 2, wxRED())
+		grid.SetCellValue( 3, 3, "green on grey")
+		grid.SetAttrForegroundColour( 3, 3, wxGREEN())
+		grid.SetAttrBackgroundColour( 3, 3, wxLIGHT_GREY())
+		
+		grid.SetCellValue( 4, 4, "a weird looking cell")
+		'    grid.SetAttrAlignment( 4, 4, wxSHEET_AttrAlignCenter)
+		'    grid.SetAttrRenderer( 4, 4, wxSheetCellRenderer(New MyGridCellRendererRefData()))
+		
+		grid.SetCellValue( 3, 0, "0")
+		'    grid.SetAttrRenderer( 3, 0, wxSheetCellRenderer(New wxSheetCellBoolRendererRefData()))
+		'    grid.SetAttrEditor( 3, 0, wxSheetCellEditor(New wxSheetCellBoolEditorRefData()))
+		
+		Local attr:wxSheetCellAttr = New wxSheetCellAttr.Create(True)
+		attr.SetForegroundColour(wxBLUE())
+		grid.SetGridColAttr(5, attr)
+		attr = New wxSheetCellAttr.Create(True)
+		attr.SetBackgroundColour(wxRED())
+		grid.SetGridRowAttr(5, attr)
+		
+		grid.SetCellValue( 2, 4, "a wider column")
+		grid.SetColWidth(4, 120)
+		grid.SetMinimalColWidth(4, 120)
+		
+		grid.SetAttrForegroundColour( 5, 8, wxGREEN())
+		grid.SetCellValue( 5, 8, "Bg from row attr~nText colour from cell attr")
+		grid.SetCellValue( 5, 5, "Bg from row attr Text col from col attr and this text is so long that it covers over many many empty cells but is broken by one that isn't")
+		
+		grid.SetColFormatFloat(6)
+		grid.SetCellValue( 0, 6, "3.1415")
+		grid.SetCellValue( 1, 6, "1415")
+		grid.SetCellValue( 2, 6, "12345.67890")
+		
+		'    grid.SetAttrEditor( 0, 6, wxSheetCellEditor(New wxSheetCellFloatEditorRefData(-1, -1)) )
+		
+		grid.SetColFormatFloat(7, 6, 2)
+		grid.SetCellValue( 0, 7, "3.1415")
+		grid.SetCellValue( 1, 7, "1415")
+		grid.SetCellValue( 2, 7, "12345.67890")
+
+
 		' lots todo.....
 	
 	
 	
 	
+	
+	
+		' text alignment tests, a 3x3 grid
+		grid.SetCellValue(10, 4, "The below 3x3 grid tests text alignment")
+		
+		grid.SetCellValue(11, 4, "TopLeft")
+		grid.SetCellValue(11, 5, "TopCenter")
+		grid.SetCellValue(11, 6, "TopRight")
+		grid.SetCellValue(12, 4, "CenterLeft")
+		grid.SetCellValue(12, 5, "CenterCenter")
+		grid.SetCellValue(12, 6, "CenterRight")
+		grid.SetCellValue(13, 4, "BottomLeft")
+		grid.SetCellValue(13, 5, "BottomCenter")
+		grid.SetCellValue(13, 6, "BottomRight")
+		
+		grid.SetAttrAlignment(11, 4, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignLeft)
+		grid.SetAttrAlignment(11, 5, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetAttrAlignment(11, 6, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignRight)
+		grid.SetAttrAlignment(12, 4, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignLeft)
+		grid.SetAttrAlignment(12, 5, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetAttrAlignment(12, 6, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignRight)
+		grid.SetAttrAlignment(13, 4, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignLeft)
+		grid.SetAttrAlignment(13, 5, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetAttrAlignment(13, 6, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignRight)
+
+		' rotated text alignment tests, a 3x3 grid
+		grid.SetCellValue(14, 4, "The below 3x3 grid tests rotated text alignment")
+		
+		grid.SetCellValue(15, 4, "TopLeft")
+		grid.SetCellValue(15, 5, "TopCenter")
+		grid.SetCellValue(15, 6, "TopRight")
+		grid.SetCellValue(16, 4, "CenterLeft")
+		grid.SetCellValue(16, 5, "CenterCenter")
+		grid.SetCellValue(16, 6, "CenterRight")
+		grid.SetCellValue(17, 4, "BottomLeft")
+		grid.SetCellValue(17, 5, "BottomCenter")
+		grid.SetCellValue(17, 6, "BottomRight")
+		
+		grid.SetAttrOrientation(15, 4, wxSHEET_AttrOrientVert)
+		grid.SetAttrOrientation(15, 5, wxSHEET_AttrOrientVert)
+		grid.SetAttrOrientation(15, 6, wxSHEET_AttrOrientVert)
+		grid.SetAttrOrientation(16, 4, wxSHEET_AttrOrientVert)
+		grid.SetAttrOrientation(16, 5, wxSHEET_AttrOrientVert)
+		grid.SetAttrOrientation(16, 6, wxSHEET_AttrOrientVert)
+		grid.SetAttrOrientation(17, 4, wxSHEET_AttrOrientVert)
+		grid.SetAttrOrientation(17, 5, wxSHEET_AttrOrientVert)
+		grid.SetAttrOrientation(17, 6, wxSHEET_AttrOrientVert)
+		
+		grid.SetAttrAlignment(15, 4, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignLeft)
+		grid.SetAttrAlignment(15, 5, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetAttrAlignment(15, 6, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignRight)
+		grid.SetAttrAlignment(16, 4, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignLeft)
+		grid.SetAttrAlignment(16, 5, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetAttrAlignment(16, 6, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignRight)
+		grid.SetAttrAlignment(17, 4, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignLeft)
+		grid.SetAttrAlignment(17, 5, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetAttrAlignment(17, 6, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignRight)
 	
 	
 		splitter.SplitHorizontally(sheetSplitter, logWin, 400)

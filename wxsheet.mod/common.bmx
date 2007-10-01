@@ -94,6 +94,50 @@ Extern
 	Function bmx_wxsheet_setattreditor(handle:Byte Ptr, row:Int, col:Int, editor:Byte Ptr, attrType:Int)
 	Function bmx_wxsheet_setattrreadonly(handle:Byte Ptr, row:Int, col:Int, isReadOnly:Int, attrType:Int)
 	Function bmx_wxsheet_setattrorientation(handle:Byte Ptr, row:Int, col:Int, orientation:Int, attrType:Int)
+	
+	Function bmx_wxsheet_setattrbackgroundcolour(handle:Byte Ptr, row:Int, col:Int, colour:Byte Ptr, attrType:Int)
+	Function bmx_wxsheet_setattrforegroundcolour(handle:Byte Ptr, row:Int, col:Int, colour:Byte Ptr, attrType:Int)
+	Function bmx_wxsheet_setattrfont(handle:Byte Ptr, row:Int, col:Int, font:Byte Ptr, attrType:Int)
+	Function bmx_wxsheet_setattralignment(handle:Byte Ptr, row:Int, col:Int, align:Int, attrType:Int)
+	Function bmx_wxsheet_setattrlevel(handle:Byte Ptr, row:Int, col:Int, level:Int, attrType:Int)
+	Function bmx_wxsheet_setattroverflow(handle:Byte Ptr, row:Int, col:Int, allow:Int, attrType:Int)
+	Function bmx_wxsheet_setattroverflowmarker(handle:Byte Ptr, row:Int, col:Int, drawMarker:Int, attrType:Int)
+	Function bmx_wxsheet_setattrshoweditor(handle:Byte Ptr, row:Int, col:Int, showEditor:Int, attrType:Int)
+	Function bmx_wxsheet_getattrbackgroundcolour:Byte Ptr(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattrforegroundcolour:Byte Ptr(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattrfont:Byte Ptr(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattralignment:Int(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattrorientation:Int(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattrlevel:Int(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattroverflow:Int(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattroverflowmarker:Int(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattrshoweditor:Int(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattrreadonly:Int(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattrrenderer:Byte Ptr(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattreditor:Byte Ptr(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_setcolformatbool(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_setcolformatnumber(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_setcolformatfloat(handle:Byte Ptr, col:Int, width:Int, precision:Int)
+	Function bmx_wxsheet_setcolformatcustom(handle:Byte Ptr, col:Int, typeName:String)
+	Function bmx_wxsheet_iscellvisible:Int(handle:Byte Ptr, row:Int, col:Int, wholeCellVisible:Int)
+	Function bmx_wxsheet_isrowvisible:Int(handle:Byte Ptr, row:Int, wholeRowVisible:Int)
+	Function bmx_wxsheet_iscolvisible:Int(handle:Byte Ptr, col:Int, wholeColVisible:Int)
+	Function bmx_wxsheet_makecellvisible(handle:Byte Ptr, row:Int, col:Int)
+	Function bmx_wxsheet_getgridcursorcell(handle:Byte Ptr, row:Int Ptr, col:Int Ptr)
+	Function bmx_wxsheet_getgridcursorrow:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_getgridcursorcol:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_setgridcursorcell(handle:Byte Ptr, row:Int, col:Int)
+
+	Function bmx_wxsheet_getorcreateattr:Byte Ptr(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_getattr:Byte Ptr(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_setattr(handle:Byte Ptr, row:Int, col:Int, attr:Byte Ptr, attrType:Int)
+	Function bmx_wxsheet_getgridattr:Byte Ptr(handle:Byte Ptr, row:Int, col:Int)
+	Function bmx_wxsheet_getgridcellattr:Byte Ptr(handle:Byte Ptr, row:Int, col:Int)
+	Function bmx_wxsheet_getgridrowattr:Byte Ptr(handle:Byte Ptr, row:Int)
+	Function bmx_wxsheet_getgridcolattr:Byte Ptr(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_setgridcellattr(handle:Byte Ptr, row:Int, col:Int, attr:Byte Ptr)
+	Function bmx_wxsheet_setgridrowattr(handle:Byte Ptr, row:Int, attr:Byte Ptr)
+	Function bmx_wxsheet_setgridcolattr(handle:Byte Ptr, col:Int, attr:Byte Ptr)
 
 	Function bmx_wxsheetsplitter_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxsheetsplitter_initialize(handle:Byte Ptr, sheet:Byte Ptr)
@@ -126,6 +170,51 @@ Extern
 	Function bmx_wxsheetcellrenderer_delete(handle:Byte Ptr)
 	
 	Function bmx_wxsheetcellautowrapstringrendererrefdata_create:Byte Ptr()
+
+
+	Function bmx_wxsheetcellattr_create:Byte Ptr(createData:Int)
+	Function bmx_wxsheetcellattr_setforegroundcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxsheetcellattr_setbackgroundcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxsheetcellattr_setfont(handle:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxsheetcellattr_setalignment(handle:Byte Ptr, align:Int)
+	Function bmx_wxsheetcellattr_setalignmenthv(handle:Byte Ptr, horzAlign:Int, vertAlign:Int)
+	Function bmx_wxsheetcellattr_setorientation(handle:Byte Ptr, orientation:Int)
+	Function bmx_wxsheetcellattr_setlevel(handle:Byte Ptr, level:Int)
+	Function bmx_wxsheetcellattr_setoverflow(handle:Byte Ptr, allow:Int)
+	Function bmx_wxsheetcellattr_setoverflowmarker(handle:Byte Ptr, drawMarker:Int)
+	Function bmx_wxsheetcellattr_setshoweditor(handle:Byte Ptr, showEditor:Int)
+	Function bmx_wxsheetcellattr_setreadonly(handle:Byte Ptr, isReadOnly:Int)
+	Function bmx_wxsheetcellattr_setrenderer(handle:Byte Ptr, renderer:Byte Ptr)
+	Function bmx_wxsheetcellattr_seteditor(handle:Byte Ptr, editor:Byte Ptr)
+	Function bmx_wxsheetcellattr_setkind(handle:Byte Ptr, kind:Int)
+	Function bmx_wxsheetcellattr_hasforegroundcolour:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_hasbackgroundcolour:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_hasfont:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_hasalignment:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_hasorientation:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_haslevel:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_hasoverflowmode:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_hasoverflowmarkermode:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_hasshoweditormode:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_hasreadwritemode:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_hasrenderer:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_haseditor:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_hasdefaultattr:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_iscomplete:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getforegroundcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getbackgroundcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getfont:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getalignment:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getorientation:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getlevel:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getoverflow:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getoverflowmarker:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getshoweditor:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getreadonly:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_getrenderer:Byte Ptr(handle:Byte Ptr, sheet:Byte Ptr, row:Int, col:Int)
+	Function bmx_wxsheetcellattr_geteditor:Byte Ptr(handle:Byte Ptr, sheet:Byte Ptr, row:Int, col:Int)
+	Function bmx_wxsheetcellattr_getkind:Int(handle:Byte Ptr)
+	Function bmx_wxsheetcellattr_delete(handle:Byte Ptr)
 
 
 End Extern
@@ -215,6 +304,21 @@ Const wxSHEET_AttrOrientHoriz:Int = wxHORIZONTAL ' 0x0004 Horizontally orientate
 Const wxSHEET_AttrOrientVert:Int = wxVERTICAL   ' 0x0008 Vertically orientated
 Const wxSHEET_AttrOrientType_Mask:Int = wxSHEET_AttrOrientHoriz | wxSHEET_AttrOrientVert
 
+Const wxSHEET_AttrAlignHorizUnset:Int = $01000
+Const wxSHEET_AttrAlignVertUnset:Int = $02000
+Const wxSHEET_AttrAlignUnset:Int = wxSHEET_AttrAlignHorizUnset|wxSHEET_AttrAlignVertUnset
+
+Const wxSHEET_AttrAlignCenterHoriz:Int = wxALIGN_CENTER_HORIZONTAL ' = 0x0100,
+Const wxSHEET_AttrAlignLeft:Int = wxALIGN_LEFT              ' = wxALIGN_NOT,
+Const wxSHEET_AttrAlignTop:Int = wxALIGN_TOP               ' = wxALIGN_NOT,
+Const wxSHEET_AttrAlignRight:Int = wxALIGN_RIGHT             ' = 0x0200,
+Const wxSHEET_AttrAlignBottom:Int = wxALIGN_BOTTOM            ' = 0x0400,
+Const wxSHEET_AttrAlignCenterVert:Int = wxALIGN_CENTER_VERTICAL   ' = 0x0800,
+Const wxSHEET_AttrAlignCenter:Int = wxALIGN_CENTER            ' = (wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL),
+Const wxSHEET_AttrAlignType_Mask:Int = wxALIGN_MASK|wxSHEET_AttrAlignUnset ' = 0x0f00
+
+Const wxSHEET_AttrAlignHoriz_Mask:Int = wxALIGN_LEFT|wxALIGN_RIGHT|wxALIGN_CENTER_HORIZONTAL|wxSHEET_AttrAlignHorizUnset
+Const wxSHEET_AttrAlignVert_Mask:Int = wxALIGN_TOP|wxALIGN_BOTTOM|wxALIGN_CENTER_VERTICAL|wxSHEET_AttrAlignVertUnset
 
 
 Const wxEVT_SHEET_VIEW_CHANGED:Int = 15920

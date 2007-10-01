@@ -318,6 +318,86 @@ Type wxSheet Extends wxWindow
 	Method SetCornerLabelValue(value:String)
 	End Method
 
+	Method GetAttrBackgroundColour:wxColour( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return wxColour._create(bmx_wxsheet_getattrbackgroundcolour(wxObjectPtr, row, col, attrType))
+	End Method
+	
+	Method GetAttrForegroundColour:wxColour( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return wxColour._create(bmx_wxsheet_getattrforegroundcolour(wxObjectPtr, row, col, attrType))
+	End Method
+	
+	Method GetAttrFont:wxFont( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return wxFont._create(bmx_wxsheet_getattrfont(wxObjectPtr, row, col, attrType))
+	End Method
+	
+	Method GetAttrAlignment:Int( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return bmx_wxsheet_getattralignment(wxObjectPtr, row, col, attrType)
+	End Method
+	
+	Method GetAttrOrientation:Int( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return bmx_wxsheet_getattrorientation(wxObjectPtr, row, col, attrType)
+	End Method
+	
+	Method GetAttrLevel:Int( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return bmx_wxsheet_getattrlevel(wxObjectPtr, row, col, attrType)
+	End Method
+	
+	Method GetAttrOverflow:Int( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return bmx_wxsheet_getattroverflow(wxObjectPtr, row, col, attrType)
+	End Method
+	
+	Method GetAttrOverflowMarker:Int( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return bmx_wxsheet_getattroverflowmarker(wxObjectPtr, row, col, attrType)
+	End Method
+	
+	Method GetAttrShowEditor:Int( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return bmx_wxsheet_getattrshoweditor(wxObjectPtr, row, col, attrType)
+	End Method
+	
+	Method GetAttrReadOnly:Int( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return bmx_wxsheet_getattrreadonly(wxObjectPtr, row, col, attrType)
+	End Method
+	
+	Method GetAttrRenderer:wxSheetCellRenderer( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
+		Return wxSheetCellRenderer._create(bmx_wxsheet_getattrrenderer(wxObjectPtr, row, col, attrType))
+	End Method
+	
+	Method GetAttrEditor:wxSheetCellEditor( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny ) 
+		Return wxSheetCellEditor._create(bmx_wxsheet_getattreditor(wxObjectPtr, row, col, attrType))
+	End Method
+
+	Method SetAttrBackgroundColour( row:Int, col:Int, colour:wxColour, attrType:Int = wxSHEET_AttrCell )
+		bmx_wxsheet_setattrbackgroundcolour(wxObjectPtr, row, col, colour.wxObjectPtr, attrType)
+	End Method
+	
+	Method SetAttrForegroundColour( row:Int, col:Int, colour:wxColour, attrType:Int = wxSHEET_AttrCell )
+		bmx_wxsheet_setattrforegroundcolour(wxObjectPtr, row, col, colour.wxObjectPtr, attrType)
+	End Method
+	
+	Method SetAttrFont( row:Int, col:Int, font:wxFont, attrType:Int = wxSHEET_AttrCell )
+		bmx_wxsheet_setattrfont(wxObjectPtr, row, col, font.wxObjectPtr, attrType)
+	End Method
+	
+	Method SetAttrAlignment( row:Int, col:Int, align:Int, attrType:Int = wxSHEET_AttrCell )
+		bmx_wxsheet_setattralignment(wxObjectPtr, row, col, align, attrType)
+	End Method
+	
+	Method SetAttrLevel( row:Int, col:Int, level:Int, attrType:Int = wxSHEET_AttrCell )
+		bmx_wxsheet_setattrlevel(wxObjectPtr, row, col, level, attrType)
+	End Method
+	
+	Method SetAttrOverflow( row:Int, col:Int, allow:Int, attrType:Int = wxSHEET_AttrCell )
+		bmx_wxsheet_setattroverflow(wxObjectPtr, row, col, allow, attrType)
+	End Method
+	
+	Method SetAttrOverflowMarker( row:Int, col:Int, drawMarker:Int, attrType:Int = wxSHEET_AttrCell )
+		bmx_wxsheet_setattroverflowmarker(wxObjectPtr, row, col, drawMarker, attrType)
+	End Method
+	
+	Method SetAttrShowEditor( row:Int, col:Int, showEditor:Int, attrType:Int = wxSHEET_AttrCell )
+		bmx_wxsheet_setattrshoweditor(wxObjectPtr, row, col,showEditor, attrType)
+	End Method
+
 	Method SetAttrRenderer(row:Int, col:Int, renderer:wxSheetCellRenderer, attrType:Int = wxSHEET_AttrCell )
 		bmx_wxsheet_setattrrenderer(wxObjectPtr, row, col, renderer.wxObjectPtr, attrType)
 	End Method
@@ -334,6 +414,94 @@ Type wxSheet Extends wxWindow
 		bmx_wxsheet_setattrorientation(wxObjectPtr, row, col, orientation, attrType)
 	End Method
 
+	Method SetColFormatBool(col:Int)
+		bmx_wxsheet_setcolformatbool(wxObjectPtr, col)
+	End Method
+	
+	Method SetColFormatNumber(col:Int)
+		bmx_wxsheet_setcolformatnumber(wxObjectPtr, col)
+	End Method
+	
+	Method SetColFormatFloat(col:Int, width:Int = -1, precision:Int = -1)
+		bmx_wxsheet_setcolformatfloat(wxObjectPtr, col, width, precision)
+	End Method
+	
+	Method SetColFormatCustom(col:Int, typeName:String)
+		bmx_wxsheet_setcolformatcustom(wxObjectPtr, col, typeName)
+	End Method
+	
+	Method IsCellVisible:Int( row:Int, col:Int, wholeCellVisible:Int = True )
+		Return bmx_wxsheet_iscellvisible(wxObjectPtr, row, col, wholeCellVisible)
+	End Method
+	
+	Method IsRowVisible:Int( row:Int, wholeRowVisible:Int = True )
+		Return bmx_wxsheet_isrowvisible(wxObjectPtr, row, wholeRowVisible)
+	End Method
+	
+	Method IsColVisible:Int( col:Int, wholeColVisible:Int = True )
+		Return bmx_wxsheet_iscolvisible(wxObjectPtr, col, wholeColVisible)
+	End Method
+	
+	Method MakeCellVisible( row:Int, col:Int )
+		bmx_wxsheet_makecellvisible(wxObjectPtr, row, col)
+	End Method
+	
+	Method GetGridCursorCell(row:Int Var, col:Int Var)
+		bmx_wxsheet_getgridcursorcell(wxObjectPtr, Varptr row, Varptr col)
+	End Method
+	
+	Method GetGridCursorRow:Int()
+		Return bmx_wxsheet_getgridcursorrow(wxObjectPtr)
+	End Method
+	
+	Method GetGridCursorCol:Int()
+		Return bmx_wxsheet_getgridcursorcol(wxObjectPtr)
+	End Method
+	
+	Method SetGridCursorCell(row:Int, col:Int)
+		bmx_wxsheet_setgridcursorcell(wxObjectPtr, row, col)
+	End Method
+
+	Method GetOrCreateAttr:wxSheetCellAttr( row:Int, col:Int, attrType:Int )
+		Return wxSheetCellAttr._create(bmx_wxsheet_getorcreateattr(wxObjectPtr, row, col, attrType))
+	End Method
+	
+	Method GetAttr:wxSheetCellAttr( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny)
+		Return wxSheetCellAttr._create(bmx_wxsheet_getattr(wxObjectPtr, row, col, attrType))
+	End Method
+	
+	Method SetAttr(row:Int, col:Int, attr:wxSheetCellAttr, attrType:Int )
+		bmx_wxsheet_setattr(wxObjectPtr, row, col, attr.wxObjectPtr, attrType)
+	End Method
+	
+	Method GetGridAttr:wxSheetCellAttr(row:Int, col:Int)
+		Return wxSheetCellAttr._create(bmx_wxsheet_getgridattr(wxObjectPtr, row, col))
+	End Method
+	
+	Method GetGridCellAttr:wxSheetCellAttr(row:Int, col:Int)
+		Return wxSheetCellAttr._create(bmx_wxsheet_getgridcellattr(wxObjectPtr, row, col))
+	End Method
+	
+	Method GetGridRowAttr:wxSheetCellAttr(row:Int)
+		Return wxSheetCellAttr._create(bmx_wxsheet_getgridrowattr(wxObjectPtr, row))
+	End Method
+	
+	Method GetGridColAttr:wxSheetCellAttr(col:Int)
+		Return wxSheetCellAttr._create(bmx_wxsheet_getgridcolattr(wxObjectPtr, col))
+	End Method
+	
+	Method SetGridCellAttr(row:Int, col:Int, attr:wxSheetCellAttr)
+		bmx_wxsheet_setgridcellattr(wxObjectPtr, row, col, attr.wxObjectPtr)
+	End Method
+	
+	Method SetGridRowAttr(row:Int, attr:wxSheetCellAttr)
+		bmx_wxsheet_setgridrowattr(wxObjectPtr, row, attr.wxObjectPtr)
+	End Method
+	
+	Method SetGridColAttr(col:Int, attr:wxSheetCellAttr)
+		bmx_wxsheet_setgridcolattr(wxObjectPtr, col, attr.wxObjectPtr)
+	End Method
+	
 End Type
 
 
@@ -341,6 +509,14 @@ Rem
 bbdoc: 
 End Rem
 Type wxSheetCellRenderer Extends wxObject
+
+	Function _create:wxSheetCellRenderer(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetCellRenderer = New wxSheetCellRenderer
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
 
 	Method Create:wxSheetCellRenderer(renderer:wxSheetCellRendererRefData)
 		wxObjectPtr = bmx_wxsheetcellrenderer_create(renderer.wxObjectPtr)
@@ -416,6 +592,15 @@ Rem
 bbdoc: 
 End Rem
 Type wxSheetCellEditor Extends wxObject
+
+	Function _create:wxSheetCellEditor(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetCellEditor = New wxSheetCellEditor
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 
 	Method Create:wxSheetCellEditor(editor:wxSheetCellEditorRefData)
 		wxObjectPtr = bmx_wxsheetcelleditor_create(editor.wxObjectPtr)
@@ -511,6 +696,200 @@ End Rem
 Type wxSheetCellEnumEditorRefData Extends wxSheetCellChoiceEditorRefData
 End Type
 
+Rem
+bbdoc: Contains all the attributes for a wxSheet cell
+End Rem
+Type wxSheetCellAttr Extends wxObject
+
+	Function _create:wxSheetCellAttr(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetCellAttr = New wxSheetCellAttr
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function CreateSheeCellAttr:wxSheetCellAttr(createData:Int = False)
+		Return New wxSheetCellAttr.Create(createData)
+	End Function
+	
+	Method Create:wxSheetCellAttr(createData:Int = False)
+		wxObjectPtr = bmx_wxsheetcellattr_create(createData)
+		Return Self
+	End Method
+	
+	Method SetForegroundColour(colour:wxColour)
+		bmx_wxsheetcellattr_setforegroundcolour(wxObjectPtr, colour.wxObjectPtr)
+	End Method
+	
+	Method SetBackgroundColour(colour:wxColour)
+		bmx_wxsheetcellattr_setbackgroundcolour(wxObjectPtr, colour.wxObjectPtr)
+	End Method
+	
+	Method SetFont(font:wxFont)
+		bmx_wxsheetcellattr_setfont(wxObjectPtr, font.wxObjectPtr)
+	End Method
+	
+	Method SetAlignment(align:Int)
+		bmx_wxsheetcellattr_setalignment(wxObjectPtr, align)
+	End Method
+	
+	Method SetAlignmentHV(horzAlign:Int, vertAlign:Int)
+		bmx_wxsheetcellattr_setalignmenthv(wxObjectPtr, horzAlign, vertAlign)
+	End Method
+	
+	Method SetOrientation(orientation:Int)
+		bmx_wxsheetcellattr_setorientation(wxObjectPtr, orientation)
+	End Method
+	
+	Method SetLevel(level:Int)
+		bmx_wxsheetcellattr_setlevel(wxObjectPtr, level)
+	End Method
+	
+	Method SetOverflow(allow:Int)
+		bmx_wxsheetcellattr_setoverflow(wxObjectPtr, allow)
+	End Method
+	
+	Method SetOverflowMarker(drawMarker:Int)
+		bmx_wxsheetcellattr_setoverflowmarker(wxObjectPtr, drawMarker)
+	End Method
+	
+	Method SetShowEditor(showEditor:Int)
+		bmx_wxsheetcellattr_setshoweditor(wxObjectPtr, showEditor)
+	End Method
+	
+	Method SetReadOnly(isReadOnly:Int)
+		bmx_wxsheetcellattr_setreadonly(wxObjectPtr, isReadOnly)
+	End Method
+	
+	Method SetRenderer(renderer:wxSheetCellRenderer)
+		bmx_wxsheetcellattr_setrenderer(wxObjectPtr, renderer.wxObjectPtr)
+	End Method
+	
+	Method SetEditor(editor:wxSheetCellEditor)
+		bmx_wxsheetcellattr_seteditor(wxObjectPtr, editor.wxObjectPtr)
+	End Method
+	
+	Method SetKind(kind:Int)
+		bmx_wxsheetcellattr_setkind(wxObjectPtr, kind)
+	End Method
+	
+	Method HasForegroundColour:Int()
+		Return bmx_wxsheetcellattr_hasforegroundcolour(wxObjectPtr)
+	End Method
+	
+	Method HasBackgroundColour:Int()
+		Return bmx_wxsheetcellattr_hasbackgroundcolour(wxObjectPtr)
+	End Method
+	
+	Method HasFont:Int()
+		Return bmx_wxsheetcellattr_hasfont(wxObjectPtr)
+	End Method
+	
+	Method HasAlignment:Int()
+		Return bmx_wxsheetcellattr_hasalignment(wxObjectPtr)
+	End Method
+	
+	Method HasOrientation:Int()
+		Return bmx_wxsheetcellattr_hasorientation(wxObjectPtr)
+	End Method
+	
+	Method HasLevel:Int()
+		Return bmx_wxsheetcellattr_haslevel(wxObjectPtr)
+	End Method
+	
+	Method HasOverflowMode:Int()
+		Return bmx_wxsheetcellattr_hasoverflowmode(wxObjectPtr)
+	End Method
+	
+	Method HasOverflowMarkerMode:Int()
+		Return bmx_wxsheetcellattr_hasoverflowmarkermode(wxObjectPtr)
+	End Method
+	
+	Method HasShowEditorMode:Int()
+		Return bmx_wxsheetcellattr_hasshoweditormode(wxObjectPtr)
+	End Method
+	
+	Method HasReadWriteMode:Int()
+		Return bmx_wxsheetcellattr_hasreadwritemode(wxObjectPtr)
+	End Method
+	
+	Method HasRenderer:Int()
+		Return bmx_wxsheetcellattr_hasrenderer(wxObjectPtr)
+	End Method
+	
+	Method HasEditor:Int()
+		Return bmx_wxsheetcellattr_haseditor(wxObjectPtr)
+	End Method
+	
+	Method HasDefaultAttr:Int()
+		Return bmx_wxsheetcellattr_hasdefaultattr(wxObjectPtr)
+	End Method
+	
+	Method IsComplete:Int()
+		Return bmx_wxsheetcellattr_iscomplete(wxObjectPtr)
+	End Method
+	
+	Method GetForegroundColour:wxColour()
+		Return wxColour._create(bmx_wxsheetcellattr_getforegroundcolour(wxObjectPtr))
+	End Method
+	
+	Method GetBackgroundColour:wxColour()
+		Return wxColour._create(bmx_wxsheetcellattr_getbackgroundcolour(wxObjectPtr))
+	End Method
+	
+	Method GetFont:wxFont()
+		Return wxFont._create(bmx_wxsheetcellattr_getfont(wxObjectPtr))
+	End Method
+	
+	Method GetAlignment:Int()
+		Return bmx_wxsheetcellattr_getalignment(wxObjectPtr)
+	End Method
+	
+	Method GetOrientation:Int()
+		Return bmx_wxsheetcellattr_getorientation(wxObjectPtr)
+	End Method
+	
+	Method GetLevel:Int()
+		Return bmx_wxsheetcellattr_getlevel(wxObjectPtr)
+	End Method
+	
+	Method GetOverflow:Int()
+		Return bmx_wxsheetcellattr_getoverflow(wxObjectPtr)
+	End Method
+	
+	Method GetOverflowMarker:Int()
+		Return bmx_wxsheetcellattr_getoverflowmarker(wxObjectPtr)
+	End Method
+	
+	Method GetShowEditor:Int()
+		Return bmx_wxsheetcellattr_getshoweditor(wxObjectPtr)
+	End Method
+	
+	Method GetReadOnly:Int()
+		Return bmx_wxsheetcellattr_getreadonly(wxObjectPtr)
+	End Method
+	
+	Method GetRenderer:wxSheetCellRenderer(sheet:wxSheet, row:Int, col:Int)
+		Return wxSheetCellRenderer._create(bmx_wxsheetcellattr_getrenderer(wxObjectPtr, sheet.wxObjectPtr, row, col))
+	End Method
+	
+	Method GetEditor:wxSheetCellEditor(sheet:wxSheet, row:Int, col:Int)
+		Return wxSheetCellEditor._create(bmx_wxsheetcellattr_geteditor(wxObjectPtr, sheet.wxObjectPtr, row, col))
+	End Method
+	
+	Method GetKind:Int()
+		Return bmx_wxsheetcellattr_getkind(wxObjectPtr)
+	End Method
+
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxsheetcellattr_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
+End Type
 
 Rem
 bbdoc: 
