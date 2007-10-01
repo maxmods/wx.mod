@@ -98,6 +98,16 @@ Type wxWindow Extends wxEvtHandler
 		End If
 	End Function
 
+	Function _find:wxWindow(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local window:wxWindow = wxWindow(wxfind(wxObjectPtr))
+			If Not window Then
+				Return wxWindow._create(wxObjectPtr)
+			End If
+			Return window
+		End If
+	End Function
+
 	Rem
 	bbdoc: Called during window creation.
 	about: Override this method to provide your own initialization, like adding controls etc.
@@ -2004,7 +2014,7 @@ are only sent when the menu is about to be shown, and not in idle time.
 End Rem
 Type wxUpdateUIEvent Extends wxCommandEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxUpdateUIEvent = New wxUpdateUIEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -2133,7 +2143,7 @@ the mouse or keyboard) and when it is done from the program itself using SetFocu
 End Rem
 Type wxFocusEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxFocusEvent = New wxFocusEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -2166,7 +2176,7 @@ and GTK and are not generated for the text controls with wxTE_RICH style under W
 End Rem
 Type wxClipboardTextEvent Extends wxCommandEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxClipboardTextEvent = New wxClipboardTextEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -2194,7 +2204,7 @@ wxWS_EX_PROCESS_IDLE extra window style for every window which should receive id
 End Rem
 Type wxIdleEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxIdleEvent = New wxIdleEvent 
 		
 		this.wxEventPtr = wxEventPtr
@@ -2325,18 +2335,18 @@ Type TWindowEventFactory Extends TEventFactory
 			Case wxEVT_CLOSE_WINDOW, ..
 					wxEVT_END_SESSION, ..
 					wxEVT_QUERY_END_SESSION
-				Return wxCloseEvent.create(wxEventPtr, evt)
+				Return wxCloseEvent.Create(wxEventPtr, evt)
 			Case wxEVT_UPDATE_UI
-				Return wxUpdateUIEvent.create(wxEventPtr, evt)
+				Return wxUpdateUIEvent.Create(wxEventPtr, evt)
 			Case wxEVT_SET_FOCUS, ..
 					wxEVT_KILL_FOCUS
-				Return wxFocusEvent.create(wxEventPtr, evt)
+				Return wxFocusEvent.Create(wxEventPtr, evt)
 			Case wxEVT_COMMAND_TEXT_COPY, ..
 					wxEVT_COMMAND_TEXT_CUT, ..
 					wxEVT_COMMAND_TEXT_PASTE
-				Return wxClipboardTextEvent.create(wxEventPtr, evt)
+				Return wxClipboardTextEvent.Create(wxEventPtr, evt)
 			Case wxEVT_IDLE
-				Return wxIdleEvent.create(wxEventPtr, evt)
+				Return wxIdleEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

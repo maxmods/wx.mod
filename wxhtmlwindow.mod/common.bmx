@@ -90,6 +90,34 @@ Extern
 
 	Function bmx_wxhtmlevent_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxhtmltagsmodule_create:Byte Ptr(handle:Object)
+	
+	Function bmx_wxhtmltaghandler_create:Byte Ptr(handle:Object)
+	Function bmx_wxhtmltaghandler_getparser:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxhtmltaghandler_parseinner(handle:Byte Ptr, tag:Byte Ptr)
+
+	Function bmx_wxhtmlcontainercell_insertcell(handle:Byte Ptr, cell:Byte Ptr)
+	Function bmx_wxhtmlwidgetcell_create:Byte Ptr(wnd:Byte Ptr, w:Int)
+
+	Function bmx_wxhtmltag_delete(handle:Byte Ptr)
+	Function bmx_wxhtmltag_getallparams:String(handle:Byte Ptr)
+	Function bmx_wxhtmltag_getbeginpos:Int(handle:Byte Ptr)
+	Function bmx_wxhtmltag_getendpos1:Int(handle:Byte Ptr)
+	Function bmx_wxhtmltag_getendpos2:Int(handle:Byte Ptr)
+	Function bmx_wxhtmltag_getname:String(handle:Byte Ptr)
+	Function bmx_wxhtmltag_getparam:String(handle:Byte Ptr, par:String, withCommas:Int)
+	Function bmx_wxhtmltag_getparamascolour:Byte Ptr(handle:Byte Ptr, par:String)
+	Function bmx_wxhtmltag_getparamasint:Int(handle:Byte Ptr, par:String, value:Int Ptr)
+	Function bmx_wxhtmltag_hasending:Int(handle:Byte Ptr)
+	Function bmx_wxhtmltag_hasparam:Int(handle:Byte Ptr, par:String)
+
+	Function bmx_wxhtmlparser_addtaghandler(handle:Byte Ptr, handler:Byte Ptr)
+
+	Function bmx_wxhtmlwinparser_getcontainer:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxhtmlwinparser_getwindowinterface:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxhtmlwindowinterface_gethtmlwindow:Byte Ptr(handle:Byte Ptr)
+
 End Extern
 
 Const wxHW_SCROLLBAR_NEVER:Int = $0002

@@ -28,6 +28,9 @@
 class MaxHtmlWindow;
 class MaxHtmlProcessor;
 class MaxHtmlLinkInfo;
+class MaxHtmlTagsModule;
+class MaxHtmlTag;
+class MaxHtmlTagHandler;
 
 extern "C" {
 
@@ -36,7 +39,9 @@ extern "C" {
 	BBString * _wx_wxhtmlwindow_wxHtmlProcessor__Process(BBObject * handle, BBString * text);
 	BBString * _wx_wxhtmlwindow_wxHtmlWindow__OnOpeningURL(BBObject * handle, wxHtmlURLType urlType, BBString * url, wxHtmlOpeningStatus * returnStatus);
 	void _wx_wxhtmlwindow_wxHtmlWindow__OnSetTitle(BBObject * handle, BBString * title);
-
+	void _wx_wxhtmlwindow_wxHtmlTagsModule__FillHandlersTable(BBObject * handle, wxHtmlWinParser * parser);
+	bool _wx_wxhtmlwindow_wxHtmlTagHandler__HandleTag(BBObject * handle, MaxHtmlTag * tag);
+	BBString * _wx_wxhtmlwindow_wxHtmlTagHandler__GetSupportedTags(BBObject * handle);
 
 	MaxHtmlWindow * bmx_wxhtmlwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
@@ -83,6 +88,36 @@ extern "C" {
 	void bmx_wxhtmllinkinfo_delete(MaxHtmlLinkInfo * info);
 
 	int bmx_wxhtmlevent_geteventtype(int type);
+	
+	
+	MaxHtmlTagsModule * bmx_wxhtmltagsmodule_create(BBObject * handle);
+
+	void bmx_wxhtmltag_delete(MaxHtmlTag * tag);
+	BBString * bmx_wxhtmltag_getallparams(MaxHtmlTag * tag);
+	int bmx_wxhtmltag_getbeginpos(MaxHtmlTag * tag);
+	int bmx_wxhtmltag_getendpos1(MaxHtmlTag * tag);
+	int bmx_wxhtmltag_getendpos2(MaxHtmlTag * tag);
+	BBString * bmx_wxhtmltag_getname(MaxHtmlTag * tag);
+	BBString * bmx_wxhtmltag_getparam(MaxHtmlTag * tag, BBString * par, bool withCommas);
+	MaxColour * bmx_wxhtmltag_getparamascolour(MaxHtmlTag * tag, BBString * par);
+	int bmx_wxhtmltag_getparamasint(MaxHtmlTag * tag, BBString * par, int * value);
+	bool bmx_wxhtmltag_hasending(MaxHtmlTag * tag);
+	bool bmx_wxhtmltag_hasparam(MaxHtmlTag * tag, BBString * par);
+
+	MaxHtmlTagHandler * bmx_wxhtmltaghandler_create(BBObject * handle);
+	wxHtmlWinParser * bmx_wxhtmltaghandler_getparser(MaxHtmlTagHandler * handler);
+	void bmx_wxhtmltaghandler_parseinner(MaxHtmlTagHandler * handler, MaxHtmlTag * tag);
+
+	void bmx_wxhtmlcontainercell_insertcell(wxHtmlContainerCell * container, wxHtmlCell * cell);
+	wxHtmlWidgetCell * bmx_wxhtmlwidgetcell_create(wxWindow * wnd, int w);
+
+	void bmx_wxhtmlparser_addtaghandler(wxHtmlParser * parser, wxHtmlTagHandler * handler);
+
+	wxHtmlContainerCell * bmx_wxhtmlwinparser_getcontainer(wxHtmlWinParser * parser);
+	wxHtmlWindowInterface * bmx_wxhtmlwinparser_getwindowinterface(wxHtmlWinParser * parser);
+
+	wxWindow * bmx_wxhtmlwindowinterface_gethtmlwindow(wxHtmlWindowInterface * win);
+
 }
 
 
@@ -126,4 +161,44 @@ public:
 private:
 	wxHtmlLinkInfo info;
 
+};
+
+class MaxHtmlTagsModule : public wxHtmlTagsModule
+{
+public:
+	MaxHtmlTagsModule(BBObject * handle);
+	
+	virtual void FillHandlersTable(wxHtmlWinParser *parser);
+
+private :
+	BBObject * maxHandle;
+	
+};
+
+class MaxHtmlTag
+{
+public:
+	MaxHtmlTag(const wxHtmlTag & t);
+	const wxHtmlTag & Tag();
+
+private:
+	const wxHtmlTag * tag;
+
+};
+
+class MaxHtmlTagHandler : public wxHtmlWinTagHandler
+{
+public :
+	MaxHtmlTagHandler(BBObject * handle);
+	~MaxHtmlTagHandler();
+	
+	virtual bool HandleTag(const wxHtmlTag& tag);
+	virtual wxString GetSupportedTags();
+	
+	wxHtmlWinParser * GetParser() { return m_WParser; }
+	void XParseInner(const wxHtmlTag& tag) { ParseInner(tag); }
+	
+private:
+	BBObject * maxHandle;
+	
 };

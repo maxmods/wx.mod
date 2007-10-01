@@ -73,6 +73,47 @@ wxHtmlLinkInfo & MaxHtmlLinkInfo::Info() {
 	return info;
 }
 
+MaxHtmlTagsModule::MaxHtmlTagsModule(BBObject * handle)
+	: maxHandle(handle), wxHtmlTagsModule()
+{
+	RegisterModule(this);
+	wxHtmlWinParser::AddModule(this);
+	wxbind(this, handle);
+}
+
+void MaxHtmlTagsModule::FillHandlersTable(wxHtmlWinParser *parser) {
+	_wx_wxhtmlwindow_wxHtmlTagsModule__FillHandlersTable(maxHandle, parser);
+}
+
+
+MaxHtmlTagHandler::MaxHtmlTagHandler(BBObject * handle)
+	: maxHandle(handle)
+{
+	wxbind(this, handle);
+}
+
+MaxHtmlTagHandler::~MaxHtmlTagHandler() {
+	wxunbind(this);
+}
+
+bool MaxHtmlTagHandler::HandleTag(const wxHtmlTag& tag) {
+	return _wx_wxhtmlwindow_wxHtmlTagHandler__HandleTag(maxHandle, new MaxHtmlTag(tag));
+}
+
+wxString MaxHtmlTagHandler::GetSupportedTags() {
+	return wxStringFromBBString(_wx_wxhtmlwindow_wxHtmlTagHandler__GetSupportedTags(maxHandle));
+}
+
+
+MaxHtmlTag::MaxHtmlTag(const wxHtmlTag & t)
+{
+	tag = &t;
+}
+
+const wxHtmlTag & MaxHtmlTag::Tag() {
+	return *tag;
+}
+
 
 // *********************************************
 
@@ -240,3 +281,99 @@ int bmx_wxhtmlevent_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+
+void bmx_wxhtmltag_delete(MaxHtmlTag * tag) {
+	delete tag;
+}
+
+BBString * bmx_wxhtmltag_getallparams(MaxHtmlTag * tag) {
+	return bbStringFromWxString(tag->Tag().GetAllParams());
+}
+
+int bmx_wxhtmltag_getbeginpos(MaxHtmlTag * tag) {
+	return tag->Tag().GetBeginPos();
+}
+
+int bmx_wxhtmltag_getendpos1(MaxHtmlTag * tag) {
+	return tag->Tag().GetEndPos1();
+}
+
+int bmx_wxhtmltag_getendpos2(MaxHtmlTag * tag) {
+	return tag->Tag().GetEndPos2();
+}
+
+BBString * bmx_wxhtmltag_getname(MaxHtmlTag * tag) {
+	return bbStringFromWxString(tag->Tag().GetName());
+}
+
+BBString * bmx_wxhtmltag_getparam(MaxHtmlTag * tag, BBString * par, bool withCommas) {
+	return bbStringFromWxString(tag->Tag().GetParam(wxStringFromBBString(par), withCommas));
+}
+
+MaxColour * bmx_wxhtmltag_getparamascolour(MaxHtmlTag * tag, BBString * par) {
+	wxColour c;
+	if (tag->Tag().GetParamAsColour(wxStringFromBBString(par), &c)) {
+		return new MaxColour(c);
+	}
+	return new MaxColour(wxNullColour);
+}
+
+int bmx_wxhtmltag_getparamasint(MaxHtmlTag * tag, BBString * par, int * value) {
+	return tag->Tag().GetParamAsInt(wxStringFromBBString(par), value);
+}
+
+bool bmx_wxhtmltag_hasending(MaxHtmlTag * tag) {
+	return tag->Tag().HasEnding();
+}
+
+bool bmx_wxhtmltag_hasparam(MaxHtmlTag * tag, BBString * par) {
+	return tag->Tag().HasParam(wxStringFromBBString(par));
+}
+
+
+// *********************************************
+
+MaxHtmlTagsModule * bmx_wxhtmltagsmodule_create(BBObject * handle) {
+	return new MaxHtmlTagsModule(handle);
+}
+
+MaxHtmlTagHandler * bmx_wxhtmltaghandler_create(BBObject * handle) {
+	return new MaxHtmlTagHandler(handle);
+}
+
+wxHtmlWinParser * bmx_wxhtmltaghandler_getparser(MaxHtmlTagHandler * handler) {
+	return handler->GetParser();
+}
+
+void bmx_wxhtmltaghandler_parseinner(MaxHtmlTagHandler * handler, MaxHtmlTag * tag) {
+	handler->XParseInner(tag->Tag());
+}
+
+
+void bmx_wxhtmlcontainercell_insertcell(wxHtmlContainerCell * container, wxHtmlCell * cell) {
+	container->InsertCell(cell);
+}
+
+wxHtmlWidgetCell * bmx_wxhtmlwidgetcell_create(wxWindow * wnd, int w) {
+	return new wxHtmlWidgetCell(wnd, w);
+}
+
+void bmx_wxhtmlparser_addtaghandler(wxHtmlParser * parser, wxHtmlTagHandler * handler) {
+	parser->AddTagHandler(handler);
+}
+
+// *********************************************
+
+wxHtmlContainerCell * bmx_wxhtmlwinparser_getcontainer(wxHtmlWinParser * parser) {
+	return parser->GetContainer();
+}
+
+wxHtmlWindowInterface * bmx_wxhtmlwinparser_getwindowinterface(wxHtmlWinParser * parser) {
+	return parser->GetWindowInterface();
+}
+	
+wxWindow * bmx_wxhtmlwindowinterface_gethtmlwindow(wxHtmlWindowInterface * win) {
+	return win->GetHTMLWindow();
+}
