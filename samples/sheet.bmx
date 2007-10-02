@@ -336,8 +336,24 @@ Type GridFrame Extends wxFrame
 		' ---------------------------------------------------------
 		' Extra wxSheet tests
 
-		' lots todo.....
+		grid.SetCellSpan(-1, 1, 1, 2)
+		grid.SetCellSpan(3, -1, 2, 1)
+		
+		' By Default labels are read-only, allow editing
+		'  note: shown below are 3 ways To do the same thing, the SetAttrReadOnly
+		'        is the preferred one.
+		grid.GetDefaultRowLabelAttr().SetReadOnly(False)
+		grid.GetAttr(wxColLabelSheetRow, wxColLabelSheetCol, wxSHEET_AttrDefault).SetReadOnly(False)
+		grid.SetAttrReadOnly(wxCornerLabelSheetRow, wxCornerLabelSheetCol, False, wxSHEET_AttrDefault)
+		
+		' set arbitrary attr values, colours in this Case For labels
+		grid.SetAttrBackgroundColour(5, -1, wxGREEN())
+		grid.SetAttrBackgroundColour(-1, 5, wxGREEN())
+		grid.SetCornerLabelValue("Hello")
 	
+
+
+		' lots todo.....
 	
 	
 		' text alignment tests, a 3x3 grid

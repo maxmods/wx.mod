@@ -233,60 +233,78 @@ Type wxSheet Extends wxWindow
 	End Method
 	
 	Method GetCellSize(row:Int, col:Int, w:Int Var, h:Int Var)
+		bmx_wxsheet_getcellsize(wxObjectPtr, row, col, Varptr w, Varptr h)
 	End Method
 	
 	Method IsCellShown:Int(row:Int, col:Int)
+		Return bmx_wxsheet_iscellshown(wxObjectPtr, row, col)
 	End Method
 
 	Method SetMargins(width:Int, height:Int)
+		bmx_wxsheet_setmargins(wxObjectPtr, width, height)
 	End Method
 	
 	Method GetCellBestSize(row:Int, col:Int, w:Int Var, h:Int Var, dc:wxDC = Null)
 	End Method
 	
 	Method GetRowBestHeight:Int(row:Int)
+		Return bmx_wxsheet_getrowbestheight(wxObjectPtr, row)
 	End Method
 	
 	Method GetColBestWidth:Int(col:Int)
+		Return bmx_wxsheet_getcolbestwidth(wxObjectPtr, col)
 	End Method
 	
 	Method GetRowLabelWidth:Int(zeroNotShown:Int = True)
+		Return bmx_wxsheet_getrowlabelwidth(wxObjectPtr, zeroNotShown)
 	End Method
 	
 	Method GetColLabelHeight:Int(zeroNotShown:Int = True)
+		Return bmx_wxsheet_getcollabelheight(wxObjectPtr, zeroNotShown)
 	End Method
 	
 	Method SetRowLabelWidth( width:Int )
+		bmx_wxsheet_setrowlabelwidth(wxObjectPtr, width)
 	End Method
 	
 	Method SetColLabelHeight( height:Int )
+		bmx_wxsheet_setcollabelheight(wxObjectPtr, height)
 	End Method
 	
 	Method AutoSizeRow:Int( row:Int, setAsMin:Int = True )
+		Return bmx_wxsheet_autosizerow(wxObjectPtr, row, setAsMin)
 	End Method
 	
 	Method AutoSizeCol:Int( col:Int, setAsMin:Int = True )
+		Return bmx_wxsheet_autosizecol(wxObjectPtr, col, setAsMin)
 	End Method
 	
 	
 	Method AutoSizeRows( setAsMin:Int = True )
+		bmx_wxsheet_autosizerows(wxObjectPtr, setAsMin)
 	End Method
 	
 	Method AutoSizeCols( setAsMin:Int = True )
+		bmx_wxsheet_autosizecols(wxObjectPtr, setAsMin)
 	End Method
 	
 	
 	Method AutoSize( setAsMin:Int = True )
+		bmx_wxsheet_autosize(wxObjectPtr, setAsMin)
 	End Method
 	
 	Method AutoSizeRowLabelHeight( row:Int )
+		bmx_wxsheet_autosizerowlabelheight(wxObjectPtr, row)
 	End Method
 	
 	Method AutoSizeColLabelWidth( col:Int )
+		bmx_wxsheet_autosizecollabelwidth(wxObjectPtr, col)
 	End Method
 	
 	Method SetEqualColWidths(minWidth:Int)
+		bmx_wxsheet_setequalcolwidths(wxObjectPtr, minWidth)
 	End Method
+	
 	
 	Method GetCellValue:String( row:Int, col:Int )
 		Return bmx_wxsheet_getcellvalue(wxObjectPtr, row, col)
@@ -301,21 +319,27 @@ Type wxSheet Extends wxWindow
 	End Method
 	
 	Method GetRowLabelValue:String( row:Int )
+		Return bmx_wxsheet_getrowlabelvalue(wxObjectPtr, row)
 	End Method
 	
 	Method GetColLabelValue:String( col:Int )
+		Return bmx_wxsheet_getcollabelvalue(wxObjectPtr, col)
 	End Method
 	
 	Method SetRowLabelValue( row:Int, value:String )
+		bmx_wxsheet_setrowlabelvalue(wxObjectPtr, row, value)
 	End Method
 	
 	Method SetColLabelValue( col:Int, value:String )
+		bmx_wxsheet_setcollabelvalue(wxObjectPtr, col, value)
 	End Method
 	
 	Method GetCornerLabelValue:String()
+		Return bmx_wxsheet_getcornerlabelvalue(wxObjectPtr)
 	End Method
 	
 	Method SetCornerLabelValue(value:String)
+		bmx_wxsheet_setcornerlabelvalue(wxObjectPtr, value)
 	End Method
 
 	Method GetAttrBackgroundColour:wxColour( row:Int, col:Int, attrType:Int = wxSHEET_AttrAny )
@@ -501,6 +525,74 @@ Type wxSheet Extends wxWindow
 	Method SetGridColAttr(col:Int, attr:wxSheetCellAttr)
 		bmx_wxsheet_setgridcolattr(wxObjectPtr, col, attr.wxObjectPtr)
 	End Method
+	
+	
+	Method GetRowLabelAttr:wxSheetCellAttr(row:Int)
+		Return wxSheetCellAttr._create(bmx_wxsheet_getrowlabelattr(wxObjectPtr, row))
+	End Method
+	
+	Method GetColLabelAttr:wxSheetCellAttr(col:Int)
+		Return wxSheetCellAttr._create(bmx_wxsheet_getcollabelattr(wxObjectPtr, col))
+	End Method
+
+	Method GetCornerLabelAttr:wxSheetCellAttr()
+		Return wxSheetCellAttr._create(bmx_wxsheet_getcornerlabelattr(wxObjectPtr))
+	End Method
+
+	
+	Method GetRowLabelCellAttr:wxSheetCellAttr(row:Int)
+		Return wxSheetCellAttr._create(bmx_wxsheet_getrowlabelcellattr(wxObjectPtr, row))
+	End Method
+
+	Method GetColLabelCellAttr:wxSheetCellAttr(col:Int)
+		Return wxSheetCellAttr._create(bmx_wxsheet_getcollabelcellattr(wxObjectPtr, col))
+	End Method
+
+	
+	Method SetRowLabelCellAttr(row:Int, attr:wxSheetCellAttr)
+		bmx_wxsheet_setrowlabelcellattr(wxObjectPtr, row, attr.wxObjectPtr)
+	End Method
+
+	Method SetColLabelCellAttr(col:Int, attr:wxSheetCellAttr)
+		bmx_wxsheet_setcollabelcellattr(wxObjectPtr, col, attr.wxObjectPtr)
+	End Method
+
+	Method SetCornerLabelAttr(attr:wxSheetCellAttr)
+		bmx_wxsheet_setcornerlabelattr(wxObjectPtr, attr.wxObjectPtr)
+	End Method
+
+	Method GetDefaultAttr:wxSheetCellAttr(row:Int, col:Int)
+		Return wxSheetCellAttr._create(bmx_wxsheet_getdefaultattr(wxObjectPtr, row, col))
+	End Method
+
+	Method GetDefaultGridCellAttr:wxSheetCellAttr()
+		Return wxSheetCellAttr._create(bmx_wxsheet_getdefaultgridcellattr(wxObjectPtr))
+	End Method
+
+	Method GetDefaultRowLabelAttr:wxSheetCellAttr()
+		Return wxSheetCellAttr._create(bmx_wxsheet_getdefaultrowlabelattr(wxObjectPtr))
+	End Method
+
+	Method GetDefaultColLabelAttr:wxSheetCellAttr()
+		Return wxSheetCellAttr._create(bmx_wxsheet_getdefaultcollabelattr(wxObjectPtr))
+	End Method
+
+	Method SetDefaultAttr(row:Int, col:Int, attr:wxSheetCellAttr)
+		bmx_wxsheet_setdefaultattr(wxObjectPtr, row, col, attr.wxObjectPtr)
+	End Method
+
+	Method SetDefaultGridCellAttr(attr:wxSheetCellAttr)
+		bmx_wxsheet_setdefaultgridcellattr(wxObjectPtr, attr.wxObjectPtr)
+	End Method
+
+	Method SetDefaultRowLabelAttr(attr:wxSheetCellAttr)
+		bmx_wxsheet_setdefaultrowlabelattr(wxObjectPtr, attr.wxObjectPtr)
+	End Method
+
+	Method SetDefaultColLabelAttr(attr:wxSheetCellAttr)
+		bmx_wxsheet_setdefaultcollabelattr(wxObjectPtr, attr.wxObjectPtr)
+	End Method
+
 
 	Method HasSpannedCells:Int()
 		Return bmx_wxsheet_hasspannedcells(wxObjectPtr)

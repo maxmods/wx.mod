@@ -145,6 +145,46 @@ Extern
 	Function bmx_wxsheet_getcellspan(handle:Byte Ptr, row:Int, col:Int, rowSpan:Int Ptr, colSpan:Int Ptr)
 	Function bmx_wxsheet_setcellspan(handle:Byte Ptr, row:Int, col:Int, rows:Int, cols:Int)
 
+	Function bmx_wxsheet_getrowlabelattr:Byte Ptr(handle:Byte Ptr, row:Int)
+	Function bmx_wxsheet_getcollabelattr:Byte Ptr(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_getcornerlabelattr:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheet_getrowlabelcellattr:Byte Ptr(handle:Byte Ptr, row:Int)
+	Function bmx_wxsheet_getcollabelcellattr:Byte Ptr(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_setrowlabelcellattr(handle:Byte Ptr, row:Int, attr:Byte Ptr)
+	Function bmx_wxsheet_setcollabelcellattr(handle:Byte Ptr, col:Int, attr:Byte Ptr)
+	Function bmx_wxsheet_setcornerlabelattr(handle:Byte Ptr, attr:Byte Ptr)
+	Function bmx_wxsheet_getdefaultattr:Byte Ptr(handle:Byte Ptr, row:Int, col:Int)
+	Function bmx_wxsheet_getdefaultgridcellattr:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheet_getdefaultrowlabelattr:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheet_getdefaultcollabelattr:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheet_setdefaultattr(handle:Byte Ptr, row:Int, col:Int, attr:Byte Ptr)
+	Function bmx_wxsheet_setdefaultgridcellattr(handle:Byte Ptr, attr:Byte Ptr)
+	Function bmx_wxsheet_setdefaultrowlabelattr(handle:Byte Ptr, attr:Byte Ptr)
+	Function bmx_wxsheet_setdefaultcollabelattr(handle:Byte Ptr, attr:Byte Ptr)
+	Function bmx_wxsheet_getcellsize(handle:Byte Ptr, row:Int, col:Int, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxsheet_iscellshown:Int(handle:Byte Ptr, row:Int, col:Int)
+	Function bmx_wxsheet_setmargins(handle:Byte Ptr, width:Int, height:Int)
+	Function bmx_wxsheet_getrowbestheight:Int(handle:Byte Ptr, row:Int)
+	Function bmx_wxsheet_getcolbestwidth:Int(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_getrowlabelwidth:Int(handle:Byte Ptr, zeroNotShown:Int)
+	Function bmx_wxsheet_getcollabelheight:Int(handle:Byte Ptr, zeroNotShown:Int)
+	Function bmx_wxsheet_setrowlabelwidth(handle:Byte Ptr, width:Int)
+	Function bmx_wxsheet_setcollabelheight(handle:Byte Ptr, height:Int)
+	Function bmx_wxsheet_autosizerow:Int(handle:Byte Ptr, row:Int, setAsMin:Int)
+	Function bmx_wxsheet_autosizecol:Int(handle:Byte Ptr, col:Int, setAsMin:Int)
+	Function bmx_wxsheet_autosizerows(handle:Byte Ptr, setAsMin:Int)
+	Function bmx_wxsheet_autosizecols(handle:Byte Ptr, setAsMin:Int)
+	Function bmx_wxsheet_autosize(handle:Byte Ptr, setAsMin:Int)
+	Function bmx_wxsheet_autosizerowlabelheight(handle:Byte Ptr, row:Int)
+	Function bmx_wxsheet_autosizecollabelwidth(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_setequalcolwidths(handle:Byte Ptr, minWidth:Int)
+	Function bmx_wxsheet_getrowlabelvalue:String(handle:Byte Ptr, row:Int)
+	Function bmx_wxsheet_getcollabelvalue:String(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_setrowlabelvalue(handle:Byte Ptr, row:Int, value:String)
+	Function bmx_wxsheet_setcollabelvalue(handle:Byte Ptr, col:Int, value:String)
+	Function bmx_wxsheet_getcornerlabelvalue:String(handle:Byte Ptr)
+	Function bmx_wxsheet_setcornerlabelvalue(handle:Byte Ptr, value:String)
+
 	Function bmx_wxsheetsplitter_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxsheetsplitter_initialize(handle:Byte Ptr, sheet:Byte Ptr)
 
@@ -337,6 +377,15 @@ Const wxSHEET_AttrAlignType_Mask:Int = wxALIGN_MASK|wxSHEET_AttrAlignUnset ' = 0
 Const wxSHEET_AttrAlignHoriz_Mask:Int = wxALIGN_LEFT|wxALIGN_RIGHT|wxALIGN_CENTER_HORIZONTAL|wxSHEET_AttrAlignHorizUnset
 Const wxSHEET_AttrAlignVert_Mask:Int = wxALIGN_TOP|wxALIGN_BOTTOM|wxALIGN_CENTER_VERTICAL|wxSHEET_AttrAlignVertUnset
 
+
+Const wxGridCellSheetRow:Int = 0
+Const wxGridCellSheetCol:Int = 0
+Const wxColLabelSheetRow:Int = -1
+Const wxColLabelSheetCol:Int = 0
+Const wxCornerLabelSheetRow:Int = -1
+Const wxCornerLabelSheetCol:Int = -1
+Const wxRowLabelSheetRow:Int = 0
+Const wxRowLabelSheetCol:Int = -1
 
 Const wxEVT_SHEET_VIEW_CHANGED:Int = 15920
 Const wxEVT_SHEET_SELECTING_CELL:Int = 15921

@@ -53,3 +53,6 @@ End Extern
 
 
 Const wxST_NO_AUTORESIZE:Int = $0001
+Const wxST_DOTS_MIDDLE:Int = $0002
+Const wxST_DOTS_END:Int = $0004
+

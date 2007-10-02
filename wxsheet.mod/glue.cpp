@@ -430,6 +430,164 @@ void bmx_wxsheet_setcellspan(wxSheet * sheet, int row, int col, int rows, int co
 }
 
 
+MaxSheetCellAttr * bmx_wxsheet_getrowlabelattr(wxSheet * sheet, int row) {
+	return new MaxSheetCellAttr(sheet->GetRowLabelAttr(row));
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getcollabelattr(wxSheet * sheet, int col) {
+	return new MaxSheetCellAttr(sheet->GetColLabelAttr(col));
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getcornerlabelattr(wxSheet * sheet) {
+	return new MaxSheetCellAttr(sheet->GetCornerLabelAttr());
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getrowlabelcellattr(wxSheet * sheet, int row) {
+	return new MaxSheetCellAttr(sheet->GetRowLabelCellAttr(row));
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getcollabelcellattr(wxSheet * sheet, int col) {
+	return new MaxSheetCellAttr(sheet->GetColLabelCellAttr(col));
+}
+
+void bmx_wxsheet_setrowlabelcellattr(wxSheet * sheet, int row, MaxSheetCellAttr * attr) {
+	sheet->SetRowLabelCellAttr(row, attr->Attr());
+}
+
+void bmx_wxsheet_setcollabelcellattr(wxSheet * sheet, int col, MaxSheetCellAttr * attr) {
+	sheet->SetColLabelCellAttr(col, attr->Attr());
+}
+
+void bmx_wxsheet_setcornerlabelattr(wxSheet * sheet, MaxSheetCellAttr * attr) {
+	sheet->SetCornerLabelAttr(attr->Attr());
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getdefaultattr(wxSheet * sheet, int row, int col) {
+	return new MaxSheetCellAttr(sheet->GetDefaultAttr(wxSheetCoords(row, col)));
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getdefaultgridcellattr(wxSheet * sheet) {
+	return new MaxSheetCellAttr(sheet->GetDefaultGridCellAttr());
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getdefaultrowlabelattr(wxSheet * sheet) {
+	return new MaxSheetCellAttr(sheet->GetDefaultRowLabelAttr());
+}
+
+MaxSheetCellAttr * bmx_wxsheet_getdefaultcollabelattr(wxSheet * sheet) {
+	return new MaxSheetCellAttr(sheet->GetDefaultColLabelAttr());
+}
+
+void bmx_wxsheet_setdefaultattr(wxSheet * sheet, int row, int col, MaxSheetCellAttr * attr) {
+	sheet->SetDefaultAttr(wxSheetCoords(row, col), attr->Attr());
+}
+
+void bmx_wxsheet_setdefaultgridcellattr(wxSheet * sheet, MaxSheetCellAttr * attr) {
+	sheet->SetDefaultGridCellAttr(attr->Attr());
+}
+
+void bmx_wxsheet_setdefaultrowlabelattr(wxSheet * sheet, MaxSheetCellAttr * attr) {
+	sheet->SetDefaultRowLabelAttr(attr->Attr());
+}
+
+void bmx_wxsheet_setdefaultcollabelattr(wxSheet * sheet, MaxSheetCellAttr * attr) {
+	sheet->SetDefaultColLabelAttr(attr->Attr());
+}
+
+void bmx_wxsheet_getcellsize(wxSheet * sheet, int row, int col, int * w, int * h) {
+	wxSize s = sheet->GetCellSize(wxSheetCoords(row, col));
+	*w = s.x;
+	*h = s.y;
+}
+
+bool bmx_wxsheet_iscellshown(wxSheet * sheet, int row, int col) {
+	return sheet->IsCellShown(wxSheetCoords(row, col));
+}
+
+void bmx_wxsheet_setmargins(wxSheet * sheet, int width, int height) {
+	sheet->SetMargins(width, height);
+}
+
+int bmx_wxsheet_getrowbestheight(wxSheet * sheet, int row) {
+	return sheet->GetRowBestHeight(row);
+}
+
+int bmx_wxsheet_getcolbestwidth(wxSheet * sheet, int col) {
+	return sheet->GetColBestWidth(col);
+}
+
+int bmx_wxsheet_getrowlabelwidth(wxSheet * sheet, bool zeroNotShown) {
+	return sheet->GetRowLabelWidth(zeroNotShown);
+}
+
+int bmx_wxsheet_getcollabelheight(wxSheet * sheet, bool zeroNotShown) {
+	return sheet->GetColLabelHeight(zeroNotShown);
+}
+
+void bmx_wxsheet_setrowlabelwidth(wxSheet * sheet, int width) {
+	sheet->SetRowLabelWidth(width);
+}
+
+void bmx_wxsheet_setcollabelheight(wxSheet * sheet, int height) {
+	sheet->SetColLabelHeight(height);
+}
+
+int bmx_wxsheet_autosizerow(wxSheet * sheet, int row, bool setAsMin) {
+	return sheet->AutoSizeRow(row, setAsMin);
+}
+
+int bmx_wxsheet_autosizecol(wxSheet * sheet, int col, bool setAsMin) {
+	return sheet->AutoSizeCol(col, setAsMin);
+}
+
+void bmx_wxsheet_autosizerows(wxSheet * sheet, bool setAsMin) {
+	sheet->AutoSizeRows(setAsMin);
+}
+
+void bmx_wxsheet_autosizecols(wxSheet * sheet, bool setAsMin) {
+	sheet->AutoSizeCols(setAsMin);
+}
+
+void bmx_wxsheet_autosize(wxSheet * sheet, bool setAsMin) {
+	sheet->AutoSize(setAsMin);
+}
+
+void bmx_wxsheet_autosizerowlabelheight(wxSheet * sheet, int row) {
+	sheet->AutoSizeRowLabelHeight(row);
+}
+
+void bmx_wxsheet_autosizecollabelwidth(wxSheet * sheet, int col) {
+	sheet->AutoSizeColLabelWidth(col);
+}
+
+void bmx_wxsheet_setequalcolwidths(wxSheet * sheet, int minWidth) {
+	sheet->SetEqualColWidths(minWidth);
+}
+
+BBString * bmx_wxsheet_getrowlabelvalue(wxSheet * sheet, int row) {
+	return bbStringFromWxString(sheet->GetRowLabelValue(row));
+}
+
+BBString * bmx_wxsheet_getcollabelvalue(wxSheet * sheet, int col) {
+	return bbStringFromWxString(sheet->GetColLabelValue(col));
+}
+
+void bmx_wxsheet_setrowlabelvalue(wxSheet * sheet, int row, BBString * value) {
+	sheet->SetRowLabelValue(row, wxStringFromBBString(value));
+}
+
+void bmx_wxsheet_setcollabelvalue(wxSheet * sheet, int col, BBString * value) {
+	sheet->SetColLabelValue(col, wxStringFromBBString(value));
+}
+
+BBString * bmx_wxsheet_getcornerlabelvalue(wxSheet * sheet) {
+	return bbStringFromWxString(sheet->GetCornerLabelValue());
+}
+
+void bmx_wxsheet_setcornerlabelvalue(wxSheet * sheet, BBString * value) {
+	sheet->SetCornerLabelValue(wxStringFromBBString(value));
+}
+
 
 // *********************************************
 

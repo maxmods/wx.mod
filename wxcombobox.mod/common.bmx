@@ -74,3 +74,9 @@ End Extern
 
 
 Const wxEVT_COMMAND_COMBOBOX_SELECTED:Int = 15
+
+
+Const wxCB_SIMPLE:Int = $0004
+Const wxCB_SORT:Int = $0008
+Const wxCB_READONLY:Int = $0010
+Const wxCB_DROPDOWN:Int = $0020
