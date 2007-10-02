@@ -4599,17 +4599,20 @@ void wxSheet::DrawTextRectangle( wxDC& dc, const wxArrayString& lines,
                 y = rect.y + rect.height - 1;
         }
 
-        if ( text_orientation == wxHORIZONTAL )
-        {
+		switch(text_orientation) {
+        case wxHORIZONTAL:
+
             //dc.SetPen(*wxRED_PEN); dc.SetBrush(*wxTRANSPARENT_BRUSH); dc.DrawRectangle(rect); // debug drawing
             dc.DrawText( lines[l], (int)x, (int)y );
             y += line_height;
-        }
-        else // wxVERTICAL
-        {
+        	break;
+        case wxVERTICAL:
             //dc.SetPen(*wxRED_PEN); dc.SetBrush(*wxTRANSPARENT_BRUSH); dc.DrawRectangle(rect); // debug drawing
             dc.DrawRotatedText( lines[l], (int)x, (int)y, 90.0 );
             x += line_height;
+            break;
+        default:
+        	printf("Invalid orientation? - %d\n", text_orientation);fflush(stdout);
         }
     }
 
