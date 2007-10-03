@@ -21,10 +21,9 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxWindow
-Import wx.wxPrintout
 Import wx.wxDC
-Import wx.wxPrintDialog
+Import wx.wxDialog
+Import wx.wxPrintData
 Import BRL.Blitz
 
 

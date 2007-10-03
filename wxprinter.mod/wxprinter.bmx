@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxPrinter
+End Rem
 Module wx.wxPrinter
 
 ModuleInfo "Version: 1.00"
@@ -47,4 +50,75 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Rem
+bbdoc: This type represents the Windows or PostScript printer, and is the vehicle through which printing may be launched by an application.
+about: Printing can also be achieved through using of lower functions and types, but this and associated types
+provide a more convenient and general method of printing.
+End Rem
+Type wxPrinter Extends wxObject
 
+	Rem
+	bbdoc: Creates the default printing abort window, with a cancel button.
+	End Rem
+	Method CreateAbortWindow(parent:wxWindow, printout:wxPrintout)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the user has aborted the print job.
+	End Rem
+	Method GetAbort:Int()
+	End Method
+		
+	Rem
+	bbdoc: Return last error.
+	about: Valid after calling Print, PrintDialog or wxPrintPreview::Print. These functions set last error
+	to wxPRINTER_NO_ERROR if no error happened.
+	End Rem
+	Function GetLastError:Int()
+	End Function
+	
+	Rem
+	bbdoc: Returns the print data associated with the printer object.
+	End Rem
+	Method GetPrintDialogData:wxPrintDialogData()
+	End Method
+	
+	Rem
+	bbdoc: Starts the printing process.
+	about: Provide a parent window, a user-defined wxPrintout object which controls the printing of a document,
+	and whether the print dialog should be invoked first.
+	<p>
+	Print could return false if there was a problem initializing the printer device context (current printer not
+	set, for example) or the user cancelled printing. Call wxPrinter::GetLastError to get detailed information
+	about the kind of the error.
+	</p>
+	End Rem
+	Method Print:Int(parent:wxWindow, printout:wxPrintout, prompt:Int = True)
+	End Method
+	
+	Rem
+	bbdoc: Invokes the print dialog.
+	about: If successful (the user did not press Cancel and no error occurred), a suitable device context will
+	be returned (otherwise NULL is returned -- call wxPrinter::GetLastError to get detailed information about
+	the kind of the error).
+	<p>
+	The application must free this device context to avoid a memory leak.
+	</p>
+	End Rem
+	Method PrintDialog:wxDC(parent:wxWindow)
+	End Method
+	
+	Rem
+	bbdoc: Default error-reporting method.
+	End Rem
+	Method ReportError(parent:wxWindow, printout:wxPrintout, message:String)
+	End Method
+	
+	Rem
+	bbdoc: Invokes the print setup dialog.
+	about: Note that the setup dialog is obsolete from Windows 95, though retained for backward compatibility.
+	End Rem
+	Method Setup(parent:wxWindow)
+	End Method
+
+End Type
