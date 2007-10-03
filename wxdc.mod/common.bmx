@@ -23,6 +23,7 @@ SuperStrict
 Import wx.wx
 Import wx.wxIcon
 Import wx.wxBrush
+Import wx.wxPen
 Import BRL.Blitz
 
 

@@ -149,50 +149,6 @@ End Rem
 Global wxNullColour:wxColour = wxColour._create(bmx_wxcolour_null())
 
 Rem
-bbdoc: 
-End Rem
-Type wxPen Extends wxGDIObject
-
-	Function _create:wxPen(wxObjectPtr:Byte Ptr)
-		If wxObjectPtr Then
-			Local this:wxPen = New wxPen
-			this.wxObjectPtr = wxObjectPtr
-			Return this
-		End If
-	End Function
-
-	Rem
-	bbdoc: Constructs a pen from a colour name, pen width and style.
-	End Rem
-	Method Create:wxPen(name:String, width:Int = 1, style:Int = wxSOLID)
-		wxObjectPtr = bmx_wxpen_create(name, width, style)
-		Return Self
-	End Method
-
-	Rem
-	bbdoc: Constructs a pen from a colour object, pen width and style.
-	End Rem
-	Method CreateFromColour:wxPen(colour:wxColour, width:Int = 1, style:Int = wxSOLID)
-		wxObjectPtr = bmx_wxpen_createfromcolour(colour.wxObjectPtr, width, style)
-		Return Self
-	End Method
-
-	Method Delete()
-		If wxObjectPtr Then
-			bmx_wxpen_delete(wxObjectPtr)
-			wxObjectPtr = Null
-		End If
-	End Method
-	
-End Type
-
-Rem
-bbdoc: Null colour
-End Rem
-Global wxNullPen:wxPen = wxPen._create(bmx_wxpen_null())
-
-
-Rem
 bbdoc: This type is the base type of most stream related types in wxWidgets.
 about: It must not be used directly.
 End Rem
@@ -367,7 +323,7 @@ create your own temporary wxClientDC object.
 End Rem
 Type wxEraseEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxEraseEvent = New wxEraseEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -439,13 +395,13 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_COMMAND_SCROLLBAR_UPDATED, ..
 					wxEVT_COMMAND_SLIDER_UPDATED, ..
 					wxEVT_COMMAND_ENTER
-				Return wxCommandEvent.create(wxEventPtr, evt)
+				Return wxCommandEvent.Create(wxEventPtr, evt)
 			Case wxEVT_MOVE
-				Return wxMoveEvent.create(wxEventPtr, evt)
+				Return wxMoveEvent.Create(wxEventPtr, evt)
 			Case wxEVT_PAINT
-				Return wxPaintEvent.create(wxEventPtr, evt)
+				Return wxPaintEvent.Create(wxEventPtr, evt)
 			Case wxEVT_SIZE
-				Return wxSizeEvent.create(wxEventPtr, evt)
+				Return wxSizeEvent.Create(wxEventPtr, evt)
 			Case wxEVT_SCROLLWIN_TOP, ..
 					wxEVT_SCROLLWIN_BOTTOM, ..
 					wxEVT_SCROLLWIN_LINEUP, ..
@@ -454,7 +410,7 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_SCROLLWIN_PAGEDOWN, ..
 					wxEVT_SCROLLWIN_THUMBTRACK, ..
 					wxEVT_SCROLLWIN_THUMBRELEASE
-				Return wxScrollWinEvent.create(wxEventPtr, evt)
+				Return wxScrollWinEvent.Create(wxEventPtr, evt)
 			Case wxEVT_SCROLL_TOP, ..
 					wxEVT_SCROLL_BOTTOM, ..
 					wxEVT_SCROLL_LINEUP, ..
@@ -464,13 +420,13 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_SCROLL_THUMBTRACK, ..
 					wxEVT_SCROLL_THUMBRELEASE, ..
 					wxEVT_SCROLL_CHANGED
-				Return wxScrollEvent.create(wxEventPtr, evt)
+				Return wxScrollEvent.Create(wxEventPtr, evt)
 			Case wxEVT_CONTEXT_MENU
-				Return wxContextMenuEvent.create(wxEventPtr, evt)
+				Return wxContextMenuEvent.Create(wxEventPtr, evt)
 			Case wxEVT_CHAR, ..
 					wxEVT_KEY_DOWN, ..
 					wxEVT_KEY_UP
-				Return wxKeyEvent.create(wxEventPtr, evt)
+				Return wxKeyEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

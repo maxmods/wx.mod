@@ -67,43 +67,4 @@ Function wxSWISS_FONT:wxFont()
 End Function
 
 
-Function wxBLACK_DASHED_PEN:wxPen()
-	Return wxPen._create(bmx_wxstockgdi_pen_blackdashed())
-End Function
-
-Function wxBLACK_PEN:wxPen()
-	Return wxPen._create(bmx_wxstockgdi_pen_black())
-End Function
-
-Function wxCYAN_PEN:wxPen()
-	Return wxPen._create(bmx_wxstockgdi_pen_cyan())
-End Function
-
-Function wxGREEN_PEN:wxPen()
-	Return wxPen._create(bmx_wxstockgdi_pen_green())
-End Function
-
-Function wxGREY_PEN:wxPen()
-	Return wxPen._create(bmx_wxstockgdi_pen_grey())
-End Function
-
-Function wxLIGHT_GREY_PEN:wxPen()
-	Return wxPen._create(bmx_wxstockgdi_pen_lightgrey())
-End Function
-
-Function wxMEDIUM_GREY_PEN:wxPen()
-	Return wxPen._create(bmx_wxstockgdi_pen_mediumgrey())
-End Function
-
-Function wxRED_PEN :wxPen()
-	Return wxPen._create(bmx_wxstockgdi_pen_red())
-End Function
-
-Function wxTRANSPARENT_PEN:wxPen()
-	Return wxPen._create(bmx_wxstockgdi_pen_transparent())
-End Function
-
-Function wxWHITE_PEN:wxPen()
-	Return wxPen._create(bmx_wxstockgdi_pen_white())
-End Function
 
