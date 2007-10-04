@@ -82,28 +82,118 @@ Type wxPen Extends wxGDIObject
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: Returns the pen cap style, which may be one of wxCAP_ROUND, wxCAP_PROJECTING and wxCAP_BUTT.
+	about: The default is wxCAP_ROUND.
+	End Rem
 	Method GetCap:Int()
+		Return bmx_wxpen_getcap(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns a reference to the pen colour.
+	End Rem
 	Method GetColour:wxColour()
+		Return wxColour._create(bmx_wxpen_getcolour(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetDashes()
 	End Method
 	
+	Rem
+	bbdoc: Returns the pen join style, which may be one of wxJOIN_BEVEL, wxJOIN_ROUND and wxJOIN_MITER.
+	about: The default is wxJOIN_ROUND.
+	End Rem
 	Method GetJoin:Int()
+		Return bmx_wxpen_getjoin(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Gets a the stipple bitmap.
+	End Rem
 	Method GetStipple:wxBitmap()
+		Return wxBitmap._create(bmx_wxpen_getstipple(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns the pen style.
+	End Rem
 	Method GetStyle:Int()
+		Return bmx_wxpen_getstyle(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the pen width.
+	End Rem
 	Method GetWidth:Int()
+		Return bmx_wxpen_getwidth(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if the pen is initialised.
+	End Rem
 	Method IsOk:Int()
+		Return bmx_wxpen_isok(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the pen cap style, which may be one of wxCAP_ROUND, wxCAP_PROJECTING and wxCAP_BUTT.
+	about: The default is wxCAP_ROUND.
+	End Rem
+	Method SetCap(style:Int)
+		bmx_wxpen_setcap(wxObjectPtr, style)
+	End Method
+	
+	Rem
+	bbdoc: The pen's colour is changed to the given colour.
+	End Rem
+	Method SetColour(name:String)
+		bmx_wxpen_setcolour(wxObjectPtr, name)
+	End Method
+	
+	Rem
+	bbdoc: The pen's colour is changed to the given colour.
+	End Rem
+	Method SetFromColour(colour:wxColour)
+		bmx_wxpen_setfromcolour(wxObjectPtr, colour.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDashes()
+	End Method
+	
+	Rem
+	bbdoc: Sets the pen join style, which may be one of wxJOIN_BEVEL, wxJOIN_ROUND and wxJOIN_MITER.
+	about: The default is wxJOIN_ROUND.
+	End Rem
+	Method SetJoin(style:Int)
+		bmx_wxpen_setjoin(wxObjectPtr, style)
+	End Method
+	
+	Rem
+	bbdoc: Sets the bitmap for stippling.
+	End Rem
+	Method SetStipple(stipple:wxBitmap)
+		bmx_wxpen_setstipple(wxObjectPtr, stipple.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Set the pen style.
+	End Rem
+	Method SetStyle(style:Int)
+		bmx_wxpen_setstyle(wxObjectPtr, style)
+	End Method
+	
+	Rem
+	bbdoc: Sets the pen width.
+	End Rem
+	Method SetWidth(width:Int)
+		bmx_wxpen_setwidth(wxObjectPtr, width)
 	End Method
 
 	Method Delete()

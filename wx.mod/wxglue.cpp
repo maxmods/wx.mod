@@ -254,23 +254,6 @@ MaxPaintDC::MaxPaintDC(wxWindow * window)
 
 // ---------------------------------------------------------------------------------------
 
-MaxPen::MaxPen()
-	: pen(wxNullPen)
-{
-	pen = wxPen();
-}
-
-MaxPen::MaxPen(wxPen & p)
-{
-	pen = wxPen(p);
-}
-
-wxPen & MaxPen::Pen() {
-	return pen;
-}
-
-// ---------------------------------------------------------------------------------------
-
 BEGIN_EVENT_TABLE(MaxEvtHandler, wxEvtHandler)
 END_EVENT_TABLE()
 
@@ -941,78 +924,6 @@ BBString * bmx_wxfontmapper_getencodingname(wxFontEncoding encoding) {
 
 int bmx_wxfontmapper_getsupportedencodingcount() {
 	return wxFontMapper::GetSupportedEncodingsCount();
-}
-
-// *********************************************
-
-MaxPen * bmx_wxpen_create(BBString * name, int width, int style) {
-	wxPen p(wxStringFromBBString(name), width, style);
-	return new MaxPen(p);
-}
-
-MaxPen * bmx_wxpen_createfromcolour(MaxColour * colour, int width, int style) {
-	wxPen p(colour->Colour(), width, style);
-	return new MaxPen(p);
-}
-
-void bmx_wxpen_delete(MaxPen * pen) {
-	delete pen;
-}
-
-MaxPen * bmx_wxpen_null() {
-	return new MaxPen(wxNullPen);
-}
-
-// *********************************************
-
-MaxPen * bmx_wxstockgdi_pen_blackdashed() {
-	wxPen p(*wxBLACK_DASHED_PEN);
-	return new MaxPen(p);
-}
-
-MaxPen * bmx_wxstockgdi_pen_black() {
-	wxPen p(*wxBLACK_PEN);
-	return new MaxPen(p);
-}
-
-MaxPen * bmx_wxstockgdi_pen_cyan() {
-	wxPen p(*wxCYAN_PEN);
-	return new MaxPen(p);
-}
-
-MaxPen * bmx_wxstockgdi_pen_green() {
-	wxPen p(*wxGREEN_PEN);
-	return new MaxPen(p);
-}
-
-MaxPen * bmx_wxstockgdi_pen_grey() {
-	wxPen p(*wxGREY_PEN);
-	return new MaxPen(p);
-}
-
-MaxPen * bmx_wxstockgdi_pen_lightgrey() {
-	wxPen p(*wxLIGHT_GREY_PEN);
-	return new MaxPen(p);
-}
-
-MaxPen * bmx_wxstockgdi_pen_mediumgrey() {
-	wxPen p(*wxMEDIUM_GREY_PEN);
-	return new MaxPen(p);
-}
-
-MaxPen * bmx_wxstockgdi_pen_red() {
-	wxPen p(*wxRED_PEN);
-	return new MaxPen(p);
-}
-
-MaxPen * bmx_wxstockgdi_pen_transparent() {
-	wxPen p(*wxTRANSPARENT_PEN);
-	return new MaxPen(p);
-}
-
-MaxPen * bmx_wxstockgdi_pen_white() {
-	wxPen p(*wxWHITE_PEN);
-	return new MaxPen(p);
 }
 
 // *********************************************
