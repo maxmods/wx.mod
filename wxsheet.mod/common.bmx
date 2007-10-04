@@ -185,6 +185,38 @@ Extern
 	Function bmx_wxsheet_getcornerlabelvalue:String(handle:Byte Ptr)
 	Function bmx_wxsheet_setcornerlabelvalue(handle:Byte Ptr, value:String)
 
+	Function bmx_wxsheet_isareaeditable:Int(handle:Byte Ptr, cellType:Int)
+	Function bmx_wxsheet_getareaeditable:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_setareaeditable(handle:Byte Ptr, cellType:Int)
+	Function bmx_wxsheet_enabledragrowsize(handle:Byte Ptr, enable:Int)
+	Function bmx_wxsheet_enabledragcolsize(handle:Byte Ptr, enable:Int)
+	Function bmx_wxsheet_enabledraggridsize(handle:Byte Ptr, enable:Int)
+	Function bmx_wxsheet_disabledragrowsize(handle:Byte Ptr)
+	Function bmx_wxsheet_disabledragcolsize(handle:Byte Ptr)
+	Function bmx_wxsheet_disabledraggridsize(handle:Byte Ptr)
+	Function bmx_wxsheet_candragrowsize:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_candragcolsize:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_candraggridsize:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_enablegridlines(handle:Byte Ptr, dir:Int)
+	Function bmx_wxsheet_gridlinesenabled:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_getgridlinecolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheet_setgridlinecolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxsheet_getselection:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxsheetselection_getnumberrows:Int(handle:Byte Ptr)
+	Function bmx_wxsheetselection_getnumbercols:Int(handle:Byte Ptr)
+	Function bmx_wxsheetselection_getoptions:Int(handle:Byte Ptr)
+	Function bmx_wxsheetselection_setoptions(handle:Byte Ptr, options:Int)
+	Function bmx_wxsheetselection_hasselection:Int(handle:Byte Ptr)
+	Function bmx_wxsheetselection_getcount:Int(handle:Byte Ptr)
+	Function bmx_wxsheetselection_isminimized:Int(handle:Byte Ptr)
+	Function bmx_wxsheetselection_clear:Int(handle:Byte Ptr)
+	Function bmx_wxsheetselection_empty:Int(handle:Byte Ptr)
+	Function bmx_wxsheetselection_getblock:Byte Ptr(handle:Byte Ptr, index:Int)
+	Function bmx_wxsheetselection_delete(handle:Byte Ptr)
+
+	Function bmx_wxsheetblock_delete(handle:Byte Ptr)
+
 	Function bmx_wxsheetsplitter_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxsheetsplitter_initialize(handle:Byte Ptr, sheet:Byte Ptr)
 
@@ -285,6 +317,18 @@ Const wxSHEET_VALUE_CHOICE:String = "choice"
 Const wxSHEET_VALUE_CHOICEINT:String = "choiceint"
 Const wxSHEET_VALUE_DATETIME:String = "datetime"
 Const wxSHEET_VALUE_LABEL:String = "label"
+
+?win32
+    Const WXSHEET_DEFAULT_ROW_HEIGHT:Int = 25
+?Not win32
+    Const WXSHEET_DEFAULT_ROW_HEIGHT:Int = 30
+?
+Const WXSHEET_DEFAULT_COL_WIDTH:Int = 80
+Const WXSHEET_DEFAULT_COL_LABEL_HEIGHT:Int = 32
+Const WXSHEET_DEFAULT_ROW_LABEL_WIDTH:Int = 82
+Const WXSHEET_LABEL_EDGE_ZONE:Int = 2
+Const WXSHEET_MIN_ROW_HEIGHT:Int = 15
+Const WXSHEET_MIN_COL_WIDTH:Int = 15
 
 
 Const wxSHEET_CELL_UNKNOWN:Int = $00 ' An invalid cell coords

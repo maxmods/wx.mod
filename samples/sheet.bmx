@@ -109,6 +109,7 @@ Type GridFrame Extends wxFrame
 	Const ID_TESTFUNC:Int = 164
 
 	Method OnInit()
+		SetupConnections()
 		
 		Local fileMenu:wxMenu = New wxMenu.Create()
 		fileMenu.Append( ID_VTABLE, "&Virtual table test~tCtrl-A")
@@ -458,6 +459,82 @@ Type GridFrame Extends wxFrame
 		
 	End Method
 	
+	Method SetupConnections()
+		Connect( ID_TOGGLEROWLABELS,  wxEVT_COMMAND_MENU_SELECTED, ToggleRowLabels )
+		Connect( ID_TOGGLECOLLABELS,  wxEVT_COMMAND_MENU_SELECTED, ToggleColLabels )
+		Connect( ID_TOGGLEEDIT, wxEVT_COMMAND_MENU_SELECTED, ToggleEditing )
+		Connect( ID_TOGGLEROWSIZING, wxEVT_COMMAND_MENU_SELECTED, ToggleRowSizing )
+		Connect( ID_TOGGLECOLSIZING, wxEVT_COMMAND_MENU_SELECTED, ToggleColSizing )
+		Connect( ID_TOGGLEGRIDSIZING, wxEVT_COMMAND_MENU_SELECTED, ToggleGridSizing )
+		Connect( ID_TOGGLEHORIZGRIDLINES, wxEVT_COMMAND_MENU_SELECTED, ToggleGridLines )
+		Connect( ID_TOGGLEVERTGRIDLINES, wxEVT_COMMAND_MENU_SELECTED, ToggleGridLines )
+		Connect( ID_HIDESELROWS, wxEVT_COMMAND_MENU_SELECTED, OnHideShowSelRowsCols )
+		Connect( ID_HIDESELCOLS, wxEVT_COMMAND_MENU_SELECTED, OnHideShowSelRowsCols )
+		Connect( ID_SHOWSELROWS, wxEVT_COMMAND_MENU_SELECTED, OnHideShowSelRowsCols )
+		Connect( ID_SHOWSELCOLS, wxEVT_COMMAND_MENU_SELECTED, OnHideShowSelRowsCols )
+		
+		Connect( ID_AUTOSIZECOLS,          wxEVT_COMMAND_MENU_SELECTED, AutoSizeCols )
+		Connect( ID_CELLOVERFLOW,          wxEVT_COMMAND_MENU_SELECTED, CellOverflow )
+		Connect( ID_RESIZECELL,            wxEVT_COMMAND_MENU_SELECTED, ResizeCell )
+		
+		Connect( ID_SETLABELCOLOUR,        wxEVT_COMMAND_MENU_SELECTED, SetLabelColour )
+		Connect( ID_SETLABELTEXTCOLOUR,    wxEVT_COMMAND_MENU_SELECTED, SetLabelTextColour )
+		Connect( ID_SETLABEL_FONT,         wxEVT_COMMAND_MENU_SELECTED, SetLabelFont )
+		Connect( ID_GRIDLINECOLOUR,        wxEVT_COMMAND_MENU_SELECTED, SetGridLineColour )
+		Connect( ID_SET_CELL_FG_COLOUR,    wxEVT_COMMAND_MENU_SELECTED, SetCellFgColour )
+		Connect( ID_SET_CELL_BG_COLOUR,    wxEVT_COMMAND_MENU_SELECTED, SetCellBgColour )
+		
+		Connect( ID_SCROLLBARS_MENU,           wxEVT_COMMAND_MENU_SELECTED, OnScrollbarsShown )
+		Connect( ID_SCROLLBARS_AS_NEEDED,      wxEVT_COMMAND_MENU_SELECTED, OnScrollbarsShown )
+		Connect( ID_SCROLLBARS_HORIZ_NEVER,    wxEVT_COMMAND_MENU_SELECTED, OnScrollbarsShown )
+		Connect( ID_SCROLLBARS_VERT_NEVER,     wxEVT_COMMAND_MENU_SELECTED, OnScrollbarsShown )
+		Connect( ID_SCROLLBARS_NEVER,          wxEVT_COMMAND_MENU_SELECTED, OnScrollbarsShown )
+		Connect( ID_SCROLLBARS_HORIZ_ALWAYS,   wxEVT_COMMAND_MENU_SELECTED, OnScrollbarsShown )
+		Connect( ID_SCROLLBARS_VERT_ALWAYS,    wxEVT_COMMAND_MENU_SELECTED, OnScrollbarsShown )
+		Connect( ID_SCROLLBARS_ALWAYS,         wxEVT_COMMAND_MENU_SELECTED, OnScrollbarsShown )
+		
+		Connect( ID_ROWLABELHORIZALIGN,    wxEVT_COMMAND_MENU_SELECTED, SetRowLabelHorizAlignment )
+		Connect( ID_ROWLABELVERTALIGN,     wxEVT_COMMAND_MENU_SELECTED, SetRowLabelVertAlignment )
+		Connect( ID_COLLABELHORIZALIGN,    wxEVT_COMMAND_MENU_SELECTED, SetColLabelHorizAlignment )
+		Connect( ID_COLLABELVERTALIGN,     wxEVT_COMMAND_MENU_SELECTED, SetColLabelVertAlignment )
+		
+		Connect( wxID_COPY,        wxEVT_COMMAND_MENU_SELECTED, OnCopyPaste )
+		Connect( wxID_PASTE,       wxEVT_COMMAND_MENU_SELECTED, OnCopyPaste )
+		Connect( ID_INSERTROW,     wxEVT_COMMAND_MENU_SELECTED, InsertRow )
+		Connect( ID_INSERTCOL,     wxEVT_COMMAND_MENU_SELECTED, InsertCol )
+		Connect( ID_DELETEROW,     wxEVT_COMMAND_MENU_SELECTED, DeleteSelectedRows )
+		Connect( ID_DELETECOL,     wxEVT_COMMAND_MENU_SELECTED, DeleteSelectedCols )
+		Connect( ID_CLEARGRID,     wxEVT_COMMAND_MENU_SELECTED, ClearGrid )
+		Connect( ID_ENABLEGRID,    wxEVT_COMMAND_MENU_SELECTED, EnableGrid )
+		
+		Connect( ID_SELNONE,   wxEVT_COMMAND_MENU_SELECTED, SelectionMode )
+		Connect( ID_SELCELLS,  wxEVT_COMMAND_MENU_SELECTED, SelectionMode )
+		Connect( ID_SELROWS,   wxEVT_COMMAND_MENU_SELECTED, SelectionMode )
+		Connect( ID_SELCOLS,   wxEVT_COMMAND_MENU_SELECTED, SelectionMode )
+		Connect( ID_SELSINGLE, wxEVT_COMMAND_MENU_SELECTED, SelectionMode )
+		
+		Connect( ID_ABOUT,         wxEVT_COMMAND_MENU_SELECTED, About )
+		Connect( wxID_EXIT,        wxEVT_COMMAND_MENU_SELECTED, OnQuit )
+		Connect( ID_VTABLE,        wxEVT_COMMAND_MENU_SELECTED, OnVTable)
+		Connect( ID_BUGS_TABLE,    wxEVT_COMMAND_MENU_SELECTED, OnBugsTable)
+		Connect( ID_SMALL_GRID,    wxEVT_COMMAND_MENU_SELECTED, OnSmallGrid)
+		
+		Connect( ID_DESELECT_CELL,     wxEVT_COMMAND_MENU_SELECTED, DeselectCell)
+		Connect( ID_DESELECT_COL,      wxEVT_COMMAND_MENU_SELECTED, DeselectCol)
+		Connect( ID_DESELECT_ROW,      wxEVT_COMMAND_MENU_SELECTED, DeselectRow)
+		Connect( ID_DESELECT_ALL,      wxEVT_COMMAND_MENU_SELECTED, DeselectAll)
+		Connect( ID_SELECT_CELL,       wxEVT_COMMAND_MENU_SELECTED, SelectCell)
+		Connect( ID_SELECT_COL,        wxEVT_COMMAND_MENU_SELECTED, SelectCol)
+		Connect( ID_SELECT_ROW,        wxEVT_COMMAND_MENU_SELECTED, SelectRow)
+		Connect( ID_SELECT_ALL,        wxEVT_COMMAND_MENU_SELECTED, SelectAll)
+		Connect( ID_SELECT_UNSELECT,   wxEVT_COMMAND_MENU_SELECTED, OnAddToSelectToggle)
+		
+		Connect( ID_SET_HIGHLIGHT_WIDTH,    wxEVT_COMMAND_MENU_SELECTED, OnSetHighlightWidth)
+		Connect( ID_SET_RO_HIGHLIGHT_WIDTH, wxEVT_COMMAND_MENU_SELECTED, OnSetROHighlightWidth)
+
+
+	End Method
+	
 
 	
 	Method SetDefaults()
@@ -473,27 +550,106 @@ Type GridFrame Extends wxFrame
 	End Method
 	
 	Function ToggleRowLabels(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		If frame.GetMenuBar().IsChecked( ID_TOGGLEROWLABELS ) Then
+			frame.grid.SetRowLabelWidth( WXSHEET_DEFAULT_ROW_LABEL_WIDTH )
+		Else
+			frame.grid.SetRowLabelWidth( 0 )
+		End If
 	End Function
 	
 	Function ToggleColLabels(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		If frame.GetMenuBar().IsChecked( ID_TOGGLECOLLABELS ) Then
+			frame.grid.SetColLabelHeight( WXSHEET_DEFAULT_COL_LABEL_HEIGHT )
+		Else
+			frame.grid.SetColLabelHeight( 0 )
+		End If
 	End Function
 	
 	Function ToggleEditing(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		If frame.GetMenuBar().IsChecked( ID_TOGGLEEDIT ) Then
+			frame.grid.SetAreaEditable( wxSHEET_CELL_ANY )
+		Else
+			frame.grid.SetAreaEditable( wxSHEET_CELL_NONE )
+		End If
 	End Function
 	
 	Function ToggleRowSizing(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+
+		frame.grid.EnableDragRowSize(frame.GetMenuBar().IsChecked( ID_TOGGLEROWSIZING ) )
 	End Function
 	
 	Function ToggleColSizing(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+
+		frame.grid.EnableDragColSize( frame.GetMenuBar().IsChecked( ID_TOGGLECOLSIZING ) )
 	End Function
 	
 	Function ToggleGridSizing(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+
+		frame.grid.EnableDragGridSize( frame.GetMenuBar().IsChecked( ID_TOGGLEGRIDSIZING ) )
 	End Function
 	
 	Function ToggleGridLines(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local flag:Int
+		If frame.GetMenuBar().IsChecked( ID_TOGGLEHORIZGRIDLINES ) Then
+			flag:| wxHORIZONTAL
+		End If
+		
+		If frame.GetMenuBar().IsChecked( ID_TOGGLEVERTGRIDLINES ) Then
+			flag:| wxVERTICAL
+		End If
+		
+		frame.grid.EnableGridLines(flag)
 	End Function
 	
 	Function OnHideShowSelRowsCols(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local isRows:Int = (event.GetId() = ID_HIDESELROWS) Or (event.GetId() = ID_SHOWSELROWS)
+		Local isHide:Int = (event.GetId() = ID_HIDESELROWS) Or (event.GetId() = ID_HIDESELCOLS)
+		
+		Local sel:wxSheetSelection = frame.grid.GetSelection()
+		Local count:Int = sel.GetCount()
+		For Local n:Int = 0 Until count
+		
+			Local block:wxSheetBlock = sel.GetBlock(n)
+			If isRows Then
+			
+				If block.GetWidth() >= frame.grid.GetNumberCols() Then
+				
+					For Local r:Int = block.GetTop() To block.GetBottom()
+					
+						If isHide Then
+							frame.grid.SetRowHeight(r, 0, True)
+						Else If frame.grid.GetRowHeight(r) = 0 Then
+							frame.grid.SetRowHeight(r, frame.grid.GetDefaultRowHeight())
+						End If
+					Next
+				End If
+			Else
+			
+				If block.GetHeight() >= frame.grid.GetNumberRows() Then
+				
+					For Local c:Int = block.GetLeft() To block.GetRight()
+						If isHide Then
+							frame.grid.SetColWidth(c, 0, True)
+						Else If frame.grid.GetColWidth(c) = 0 Then
+							frame.grid.SetColWidth(c, frame.grid.GetDefaultColWidth())
+						End If
+					Next
+				End If
+			End If
+		Next
 	End Function
 	
 	Function AutoSizeCols(event:wxEvent)

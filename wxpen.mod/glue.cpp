@@ -129,7 +129,11 @@ int bmx_wxpen_getjoin(MaxPen * pen) {
 }
 
 MaxBitmap * bmx_wxpen_getstipple(MaxPen * pen) {
+#ifdef WIN32 || defined(__APPLE__)
 	return new MaxBitmap(* pen->Pen().GetStipple());
+#else
+	return new MaxBitmap(wxNullBitmap);
+#endif
 }
 
 int bmx_wxpen_getstyle(MaxPen * pen) {
@@ -161,7 +165,9 @@ void bmx_wxpen_setjoin(MaxPen * pen, int style) {
 }
 
 void bmx_wxpen_setstipple(MaxPen * pen, MaxBitmap * stipple) {
+#ifdef WIN32 || defined(__APPLE__)
 	pen->Pen().SetStipple(stipple->Bitmap());
+#endif
 }
 
 void bmx_wxpen_setstyle(MaxPen * pen, int style) {

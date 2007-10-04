@@ -247,14 +247,14 @@ Type wxHtmlWindow Extends wxScrolledWindow
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This function sets the space between border of window and HTML contents.
 	End Rem
 	Method SetBorders(size:Int)
 		bmx_wxhtmlwindow_setborders(wxObjectPtr, size)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This method sets font sizes and faces.
 	End Rem
 	Method SetFonts(normalFace:String, fixedFace:String, sizes:Int[] = Null)
 		If sizes Then
@@ -327,6 +327,128 @@ Type wxHtmlCell Extends wxObject
 			Return this
 		End If
 	End Function
+	
+	Rem
+	bbdoc: This method is used to adjust pagebreak position.
+	about: The parameter is variable that contains y-coordinate of page break (= horizontal line that
+	should not be crossed by words, images etc.). If this cell cannot be divided into two pieces (each
+	one on another page) then it moves the pagebreak few pixels up.
+	End Rem
+	Method AdjustPagebreak:Int(pageBreak:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Draw()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method DrawInvisible()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Find:wxHtmlCell(condition:Int, param:Object)
+	End Method
+	
+	Rem
+	bbdoc: Returns descent value of the cell.
+	End Rem
+	Method GetDescent:Int()
+	End Method
+	
+	Rem
+	bbdoc: Returns height of the cell.
+	End Rem
+	Method GetHeight:Int()
+	End Method
+	
+	Rem
+	bbdoc: Returns unique cell identifier if there is any, empty string otherwise.
+	End Rem
+	Method GetId:String()
+	End Method
+	
+	Rem
+	bbdoc: Returns hypertext link if associated with this cell or NULL otherwise.
+	about: See wxHtmlLinkInfo. (Note: this makes sense only for visible tags).
+	End Rem
+	Method GetLink:wxHtmlLinkInfo(x:Int = 0, y:Int = 0)
+	End Method
+	
+	Rem
+	bbdoc: Returns cursor to show when mouse pointer is over the cell.
+	End Rem
+	Method GetMouseCursor:wxCursor(window:wxHtmlWindowInterface)
+	End Method
+	
+	Rem
+	bbdoc: Returns the next cell in list
+	End Rem
+	Method GetNext:wxHtmlCell()
+	End Method
+	
+	Rem
+	bbdoc: Returns the parent container.
+	End Rem
+	Method GetParent:wxHtmlContainerCell()
+	End Method
+	
+	Rem
+	bbdoc: Returns X position within parent (the value is relative to parent's upper left corner).
+	about: The returned value is meaningful only if parent's Layout was called before!
+	End Rem
+	Method GetPosX:Int()
+	End Method
+	
+	Rem
+	bbdoc: Returns Y position within parent (the value is relative to parent's upper left corner).
+	about: The returned value is meaningful only if parent's Layout was called before!
+	End Rem
+	Method GetPosY:Int()
+	End Method
+	
+	Rem
+	bbdoc: Returns width of the cell.
+	End Rem
+	Method GetWidth:Int()
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Layout(width:Int)
+	End Method
+	
+	Rem
+	bbdoc: Sets unique cell identifier.
+	about: Default value is no identifier, i.e. empty string.
+	End Rem
+	Method SetId(id:String)
+	End Method
+	
+	Rem
+	bbdoc: Sets the hypertext link associated with this cell.
+	about: (Default value is wxHtmlLinkInfo("", "") (no link))
+	End Rem
+	Method SetLink(link:wxHtmlLinkInfo)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetParent(parent:wxHtmlContainerCell)
+	End Method
+	
+	Rem
+	bbdoc: Sets the cell's position within parent container.
+	End Rem
+	Method SetPos(x:Int, y:Int)
+	End Method
 	
 End Type
 
@@ -729,6 +851,28 @@ Type wxHtmlContainerCell Extends wxHtmlCell
 		bmx_wxhtmlcontainercell_insertcell(wxObjectPtr, cell.wxObjectPtr)
 	End Method
 	
+End Type
+
+Rem
+bbdoc: This cell changes the colour of either the background or the foreground.
+End Rem
+Type wxHtmlColourCell Extends wxHtmlCell
+
+	Function _create:wxHtmlColourCell(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxHtmlColourCell = New wxHtmlColourCell
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function CreateColourCell:wxHtmlColourCell(colour:wxColour, flags:Int = wxHTML_CLR_FOREGROUND)
+		Return New wxHtmlColourCell.Create(colour, flags)
+	End Function
+	
+	Method Create:wxHtmlColourCell(colour:wxColour, flags:Int = wxHTML_CLR_FOREGROUND)
+	End Method
+
 End Type
 
 Rem

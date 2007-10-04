@@ -75,6 +75,26 @@ wxSheetCellAttr & MaxSheetCellAttr::Attr() {
 	return attr;
 }
 
+
+MaxSheetSelection::MaxSheetSelection(const wxSheetSelection& s)
+{
+	selection = s;
+}
+
+wxSheetSelection & MaxSheetSelection::Selection() {
+	return selection;
+}
+
+
+MaxSheetBlock::MaxSheetBlock(const wxSheetBlock& b)
+{
+	block = b;
+}
+
+wxSheetBlock & MaxSheetBlock::Block() {
+	return block;
+}
+
 // *********************************************
 
 BEGIN_EVENT_TABLE(MaxSheet, wxSheet)
@@ -586,6 +606,133 @@ BBString * bmx_wxsheet_getcornerlabelvalue(wxSheet * sheet) {
 
 void bmx_wxsheet_setcornerlabelvalue(wxSheet * sheet, BBString * value) {
 	sheet->SetCornerLabelValue(wxStringFromBBString(value));
+}
+
+int bmx_wxsheet_isareaeditable(wxSheet * sheet, int cellType) {
+	return sheet->IsAreaEditable(cellType);
+}
+
+int bmx_wxsheet_getareaeditable(wxSheet * sheet) {
+	return sheet->GetAreaEditable();
+}
+
+void bmx_wxsheet_setareaeditable(wxSheet * sheet, int cellType) {
+	sheet->SetAreaEditable(cellType);
+}
+
+void bmx_wxsheet_enabledragrowsize(wxSheet * sheet, bool enable) {
+	sheet->EnableDragRowSize(enable);
+}
+
+void bmx_wxsheet_enabledragcolsize(wxSheet * sheet, bool enable) {
+	sheet->EnableDragColSize(enable);
+}
+
+void bmx_wxsheet_enabledraggridsize(wxSheet * sheet, bool enable) {
+	sheet->EnableDragGridSize(enable);
+}
+
+void bmx_wxsheet_disabledragrowsize(wxSheet * sheet) {
+	sheet->DisableDragRowSize();
+}
+
+void bmx_wxsheet_disabledragcolsize(wxSheet * sheet) {
+	sheet->DisableDragColSize();
+}
+
+void bmx_wxsheet_disabledraggridsize(wxSheet * sheet) {
+	sheet->DisableDragGridSize();
+}
+
+bool bmx_wxsheet_candragrowsize(wxSheet * sheet) {
+	return sheet->CanDragRowSize();
+}
+
+bool bmx_wxsheet_candragcolsize(wxSheet * sheet) {
+	return sheet->CanDragColSize();
+}
+
+bool bmx_wxsheet_candraggridsize(wxSheet * sheet) {
+	return sheet->CanDragGridSize();
+}
+
+void bmx_wxsheet_enablegridlines(wxSheet * sheet, int dir) {
+	sheet->EnableGridLines(dir);
+}
+
+int bmx_wxsheet_gridlinesenabled(wxSheet * sheet) {
+	return sheet->GridLinesEnabled();
+}
+
+MaxColour * bmx_wxsheet_getgridlinecolour(wxSheet * sheet) {
+	wxColour c(sheet->GetGridLineColour());
+	return new MaxColour(c);
+}
+
+void bmx_wxsheet_setgridlinecolour(wxSheet * sheet, MaxColour * colour) {
+	sheet->SetGridLineColour(colour->Colour());
+}
+
+MaxSheetSelection * bmx_wxsheet_getselection(wxSheet * sheet) {
+//	wxSheetSelection s(sheet->GetSelection());
+	return new MaxSheetSelection(*sheet->GetSelection());
+}
+
+
+
+// *********************************************
+
+int bmx_wxsheetselection_getnumberrows(MaxSheetSelection * selection) {
+	return selection->Selection().GetNumberRows();
+}
+
+int bmx_wxsheetselection_getnumbercols(MaxSheetSelection * selection) {
+	return selection->Selection().GetNumberCols();
+}
+
+int bmx_wxsheetselection_getoptions(MaxSheetSelection * selection) {
+	return selection->Selection().GetOptions();
+}
+
+void bmx_wxsheetselection_setoptions(MaxSheetSelection * selection, int options) {
+	selection->Selection().SetOptions(options);
+}
+
+bool bmx_wxsheetselection_hasselection(MaxSheetSelection * selection) {
+	return selection->Selection().HasSelection();
+}
+
+int bmx_wxsheetselection_getcount(MaxSheetSelection * selection) {
+	return selection->Selection().GetCount();
+}
+
+bool bmx_wxsheetselection_isminimized(MaxSheetSelection * selection) {
+	return selection->Selection().IsMinimzed();
+}
+
+int bmx_wxsheetselection_clear(MaxSheetSelection * selection) {
+	return selection->Selection().Clear();
+}
+
+int bmx_wxsheetselection_empty(MaxSheetSelection * selection) {
+	return selection->Selection().Empty();
+}
+
+MaxSheetBlock * bmx_wxsheetselection_getblock(MaxSheetSelection * selection, int index) {
+	wxSheetBlock b(selection->Selection().GetBlock(index));
+	return new MaxSheetBlock(b);
+}
+
+void bmx_wxsheetselection_delete(MaxSheetSelection * selection) {
+	delete selection;
+}
+
+
+// *********************************************
+
+
+void bmx_wxsheetblock_delete(MaxSheetBlock * block) {
+	delete block;
 }
 
 

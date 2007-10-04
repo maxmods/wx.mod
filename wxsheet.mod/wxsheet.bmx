@@ -614,6 +614,75 @@ Type wxSheet Extends wxWindow
 		bmx_wxsheet_setcellspan(wxObjectPtr, row, col, rows, cols)
 	End Method
 
+
+	Method IsAreaEditable:Int( cellType:Int )
+		Return bmx_wxsheet_isareaeditable(wxObjectPtr, cellType)
+	End Method
+	
+	Method GetAreaEditable:Int()
+		Return bmx_wxsheet_getareaeditable(wxObjectPtr)
+	End Method
+	
+	Method SetAreaEditable( cellType:Int )
+		bmx_wxsheet_setareaeditable(wxObjectPtr, cellType)
+	End Method
+
+	Method EnableDragRowSize( enable:Int = True )
+		bmx_wxsheet_enabledragrowsize(wxObjectPtr, enable)
+	End Method
+	
+	Method EnableDragColSize( enable:Int = True )
+		bmx_wxsheet_enabledragcolsize(wxObjectPtr, enable)
+	End Method
+	
+	Method EnableDragGridSize( enable:Int = True )
+		bmx_wxsheet_enabledraggridsize(wxObjectPtr, enable)
+	End Method
+	
+	Method DisableDragRowSize()
+		bmx_wxsheet_disabledragrowsize(wxObjectPtr)
+	End Method
+	
+	Method DisableDragColSize()
+		bmx_wxsheet_disabledragcolsize(wxObjectPtr)
+	End Method
+	
+	Method DisableDragGridSize()
+		bmx_wxsheet_disabledraggridsize(wxObjectPtr)
+	End Method
+	
+	Method CanDragRowSize:Int()
+		Return bmx_wxsheet_candragrowsize(wxObjectPtr)
+	End Method
+	
+	Method CanDragColSize:Int()
+		Return bmx_wxsheet_candragcolsize(wxObjectPtr)
+	End Method
+	
+	Method CanDragGridSize:Int()
+		Return bmx_wxsheet_candraggridsize(wxObjectPtr)
+	End Method
+
+	Method EnableGridLines( dir:Int = wxBOTH )
+		bmx_wxsheet_enablegridlines(wxObjectPtr, dir)
+	End Method
+	
+	Method GridLinesEnabled:Int()
+		Return bmx_wxsheet_gridlinesenabled(wxObjectPtr)
+	End Method
+	
+	Method GetGridLineColour:wxColour()
+		Return wxColour._create(bmx_wxsheet_getgridlinecolour(wxObjectPtr))
+	End Method
+	
+	Method SetGridLineColour(colour:wxColour )
+		bmx_wxsheet_setgridlinecolour(wxObjectPtr, colour.wxObjectPtr)
+	End Method
+
+	Method GetSelection:wxSheetSelection()
+		Return wxSheetSelection._create(bmx_wxsheet_getselection(wxObjectPtr))
+	End Method
+
 End Type
 
 
@@ -1308,12 +1377,186 @@ End Type
 
 
 
-
+Rem
+bbdoc: 
+End Rem
 Type wxSheetSelection Extends wxObject
+
+	Function _create:wxSheetSelection(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetSelection = New wxSheetSelection
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Method GetNumberRows:Int()
+		Return bmx_wxsheetselection_getnumberrows(wxObjectPtr)
+	End Method
+	
+	Method GetNumberCols:Int()
+		Return bmx_wxsheetselection_getnumbercols(wxObjectPtr)
+	End Method
+	
+	Method GetOptions:Int()
+		Return bmx_wxsheetselection_getoptions(wxObjectPtr)
+	End Method
+	
+	Method SetOptions(options:Int)
+		bmx_wxsheetselection_setoptions(wxObjectPtr, options)
+	End Method
+	
+	Method HasSelection:Int()
+		Return bmx_wxsheetselection_hasselection(wxObjectPtr)
+	End Method
+	
+	Method GetCount:Int()
+		Return bmx_wxsheetselection_getcount(wxObjectPtr)
+	End Method
+	
+	Method IsMinimized:Int()
+		Return bmx_wxsheetselection_isminimized(wxObjectPtr)
+	End Method
+	
+	Method Clear:Int()
+		Return bmx_wxsheetselection_clear(wxObjectPtr)
+	End Method
+	
+	Method Empty:Int()
+		Return bmx_wxsheetselection_empty(wxObjectPtr)
+	End Method
+
+	Method GetBlock:wxSheetBlock(index:Int)
+		Return wxSheetBlock._create(bmx_wxsheetselection_getblock(wxObjectPtr, index))
+	End Method
+	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxsheetselection_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
 
 End Type
 
 
+Type wxSheetBlock
+	
+	Field wxObjectPtr:Byte Ptr
+	
+	Function _create:wxSheetBlock(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetBlock = New wxSheetBlock
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	
+	Method GetLeft:Int()
+	End Method
+	
+	Method GetRight:Int()
+	End Method
+	
+	Method GetTop:Int()
+	End Method
+	
+	Method GetBottom:Int()
+	End Method
+	
+	Method GetWidth:Int()
+	End Method
+	
+	Method GetHeight:Int()
+	End Method	
+	
+	Method GetLeftTop(row:Int Var, col:Int Var)
+	End Method
+	
+	Method GetLeftBottom(row:Int Var, col:Int Var)
+	End Method
+	
+	Method GetRightTop(row:Int Var, col:Int Var)
+	End Method
+	
+	Method GetRightBottom(row:Int Var, col:Int Var)
+	End Method
+
+	Method GetSize(row:Int Var, col:Int Var)
+	End Method
+	
+	Method SetLeft( left_:Int)
+	End Method
+	
+	Method SetTop( top_:Int )
+	End Method
+	
+	Method SetRight( right_:Int )
+	End Method
+	
+	Method SetBottom( bottom_:Int )
+	End Method
+	
+	Method SetWidth( width_:Int )
+	End Method
+	
+	Method SetHeight( height_:Int )
+	End Method
+	
+	Method SetLeftTop(row:Int, col:Int)
+	End Method
+	
+	Method SetLeftBottom(row:Int, col:Int)
+	End Method
+	
+	Method SetRightTop(row:Int, col:Int)
+	End Method
+	
+	Method SetRightBottom(row:Int, col:Int)
+	End Method
+	
+	Method SetLeftCoord( left_ :Int)
+	End Method
+	
+	Method SetTopCoord( top_:Int )
+	End Method
+	
+	Method SetRightCoord( right_:Int )
+	End Method
+	
+	Method SetBottomCoord( bottom_:Int )
+	End Method
+	
+	Method SetLeftTopCoords(row:Int, col:Int)
+	End Method
+	
+	Method SetLeftBottomCoords(row:Int, col:Int)
+	End Method
+	
+	Method SetRightTopCoords(row:Int, col:Int)
+	End Method
+	
+	Method SetRightBottomCoords(row:Int, col:Int)
+	End Method
+	
+	Method Set( row:Int, col:Int, height:Int, width:Int ) 
+	End Method
+	
+	Method SetCoords( top_:Int, left_:Int, bottom_:Int, right_:Int )
+	End Method
+	
+	Method SetSize(height:Int, width:Int)
+	End Method
+
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxsheetblock_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+
+End Type
 
 Type wxSheetEvent Extends wxNotifyEvent
 

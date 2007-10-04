@@ -31,6 +31,8 @@ class MaxSheetSplitter;
 class MaxSheetCellEditor;
 class MaxSheetCellRenderer;
 class MaxSheetCellAttr;
+class MaxSheetSelection;
+class MaxSheetBlock;
 
 extern "C" {
 
@@ -163,6 +165,38 @@ extern "C" {
 	void bmx_wxsheet_getcellblock(wxSheet * sheet, int row, int col, int * oRow, int * oCol, int * oWidth, int * oHeight);
 	void bmx_wxsheet_getcellspan(wxSheet * sheet, int row, int col, int * rowSpan, int * colSpan);
 	void bmx_wxsheet_setcellspan(wxSheet * sheet, int row, int col, int rows, int cols);
+
+	int bmx_wxsheet_isareaeditable(wxSheet * sheet, int cellType);
+	int bmx_wxsheet_getareaeditable(wxSheet * sheet);
+	void bmx_wxsheet_setareaeditable(wxSheet * sheet, int cellType);
+	void bmx_wxsheet_enabledragrowsize(wxSheet * sheet, bool enable);
+	void bmx_wxsheet_enabledragcolsize(wxSheet * sheet, bool enable);
+	void bmx_wxsheet_enabledraggridsize(wxSheet * sheet, bool enable);
+	void bmx_wxsheet_disabledragrowsize(wxSheet * sheet);
+	void bmx_wxsheet_disabledragcolsize(wxSheet * sheet);
+	void bmx_wxsheet_disabledraggridsize(wxSheet * sheet);
+	bool bmx_wxsheet_candragrowsize(wxSheet * sheet);
+	bool bmx_wxsheet_candragcolsize(wxSheet * sheet);
+	bool bmx_wxsheet_candraggridsize(wxSheet * sheet);
+	void bmx_wxsheet_enablegridlines(wxSheet * sheet, int dir);
+	int bmx_wxsheet_gridlinesenabled(wxSheet * sheet);
+	MaxColour * bmx_wxsheet_getgridlinecolour(wxSheet * sheet);
+	void bmx_wxsheet_setgridlinecolour(wxSheet * sheet, MaxColour * colour);
+	MaxSheetSelection * bmx_wxsheet_getselection(wxSheet * sheet);
+
+	int bmx_wxsheetselection_getnumberrows(MaxSheetSelection * selection);
+	int bmx_wxsheetselection_getnumbercols(MaxSheetSelection * selection);
+	int bmx_wxsheetselection_getoptions(MaxSheetSelection * selection);
+	void bmx_wxsheetselection_setoptions(MaxSheetSelection * selection, int options);
+	bool bmx_wxsheetselection_hasselection(MaxSheetSelection * selection);
+	int bmx_wxsheetselection_getcount(MaxSheetSelection * selection);
+	bool bmx_wxsheetselection_isminimized(MaxSheetSelection * selection);
+	int bmx_wxsheetselection_clear(MaxSheetSelection * selection);
+	int bmx_wxsheetselection_empty(MaxSheetSelection * selection);
+	MaxSheetBlock * bmx_wxsheetselection_getblock(MaxSheetSelection * selection, int index);
+	void bmx_wxsheetselection_delete(MaxSheetSelection * selection);
+
+	void bmx_wxsheetblock_delete(MaxSheetBlock * block);
 
 	MaxSheetSplitter * bmx_wxsheetsplitter_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	void bmx_wxsheetsplitter_initialize(wxSheetSplitter * splitter, wxSheet * sheet);
@@ -309,5 +343,27 @@ public:
 
 private:
 	wxSheetCellAttr attr;
+
+};
+
+class MaxSheetSelection
+{
+public:
+	MaxSheetSelection(const wxSheetSelection & s);
+	wxSheetSelection & Selection();
+
+private:
+	wxSheetSelection selection;
+
+};
+
+class MaxSheetBlock
+{
+public:
+	MaxSheetBlock(const wxSheetBlock & b);
+	wxSheetBlock & Block();
+
+private:
+	wxSheetBlock block;
 
 };
