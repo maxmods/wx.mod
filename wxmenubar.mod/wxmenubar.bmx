@@ -169,12 +169,7 @@ Type wxMenuBar Extends wxWindow
 	bbdoc: Returns the menu at menuIndex (zero-based).
 	End Rem
 	Method GetMenu:wxMenu(menuIndex:Int)
-		Local mPtr:Byte Ptr = bmx_wxmenubar_getmenu(wxObjectPtr, menuIndex)
-		Local menu:wxMenu = wxMenu(wxfind(mPtr))
-		If Not menu Then
-			menu = wxMenu._create(mPtr)
-		End If
-		Return menu
+		Return wxMenu._find(bmx_wxmenubar_getmenu(wxObjectPtr, menuIndex))
 	End Method
 	
 	Rem
@@ -222,12 +217,7 @@ Type wxMenuBar Extends wxWindow
 	about: This method may be used together with wxMenuBar::Insert to change the menubar dynamically.
 	End Rem
 	Method Remove:wxMenu(pos:Int)
-		Local mPtr:Byte Ptr = bmx_wxmenubar_remove(wxObjectPtr, pos)
-		Local menu:wxMenu = wxMenu(wxfind(mPtr))
-		If Not menu Then
-			menu = wxMenu._create(mPtr)
-		End If
-		Return menu
+		Return wxMenu._find(bmx_wxmenubar_remove(wxObjectPtr, pos))
 	End Method
 	
 	Rem
@@ -235,12 +225,7 @@ Type wxMenuBar Extends wxWindow
 	returns: The menu which was previously at position pos. The caller is responsible for deleting it.
 	End Rem
 	Method Replace:wxMenu(pos:Int, menu:wxMenu, title:String)
-		Local mPtr:Byte Ptr = bmx_wxmenubar_replace(wxObjectPtr, pos, menu.wxObjectPtr, title)
-		Local retMenu:wxMenu = wxMenu(wxfind(mPtr))
-		If Not retMenu Then
-			retMenu = wxMenu._create(mPtr)
-		End If
-		Return retMenu
+		Return wxMenu._find(bmx_wxmenubar_replace(wxObjectPtr, pos, menu.wxObjectPtr, title))
 	End Method
 	
 	Rem

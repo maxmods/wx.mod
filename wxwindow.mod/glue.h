@@ -74,6 +74,8 @@ extern "C" {
 	void bmx_wxwindow_getrect(wxWindow * window, int * x, int * y, int * w, int * h);
 	void bmx_wxwindow_getscreenposition(wxWindow * window, int * x, int * y);
 	void bmx_wxwindow_getscreenrect(wxWindow * window, int * x, int * y, int * w, int * h);
+	MaxRect * bmx_wxwindow_getrectrect(wxWindow * window);
+	MaxRect * bmx_wxwindow_getscreenrectrect(wxWindow * window);
 	void bmx_wxwindow_getsize(wxWindow * window, int * w, int * h);
 	void bmx_wxwindow_sethelptext(wxWindow * window, BBString * helpText);
 	void bmx_wxwindow_setid(wxWindow * window, int id);
@@ -87,6 +89,7 @@ extern "C" {
 	bool bmx_wxwindow_hide(wxWindow * window);
 	void bmx_wxwindow_move(wxWindow * window, int x, int y);
 	void bmx_wxwindow_setdimensions(wxWindow * window, int x, int y, int w, int h, int flags);
+	void bmx_wxwindow_setdimensionsrect(wxWindow * window, MaxRect * rect);
 	void bmx_wxwindow_pusheventhandler(wxWindow * window, wxEvtHandler * evt);
 
 	wxWindowVariant bmx_wxwindow_getwindowvariant(wxWindow * window);
@@ -101,6 +104,7 @@ extern "C" {
 	bool bmx_wxwindow_isdoublebuffered(wxWindow * window);
 	bool bmx_wxwindow_isenabled(wxWindow * window);
 	bool bmx_wxwindow_isexposed(wxWindow * window, int x, int y, int w, int h);
+	bool bmx_wxwindow_isexposedrect(wxWindow * window, MaxRect * rect);
 	bool bmx_wxwindow_isfrozen(wxWindow * window);
 	bool bmx_wxwindow_isretained(wxWindow * window);
 	bool bmx_wxwindow_isshown(wxWindow * window);
@@ -124,6 +128,7 @@ extern "C" {
 	void bmx_wxwindow_centreonparent(wxWindow * window, int direction);
 	bool bmx_wxwindow_popupmenu(wxWindow * window, wxMenu * menu, int x, int y);
 	void bmx_wxwindow_refreshrect(wxWindow * window, int x, int y, int w, int h, bool erase);
+	void bmx_wxwindow_refreshrectrect(wxWindow * window, MaxRect * rect, bool erase);
 	void bmx_wxwindow_releasemouse(wxWindow * window);
 	void bmx_wxwindow_screentoclient(wxWindow * window, int * x, int * y);
 	void bmx_wxwindow_setsize(wxWindow * window, int width, int height);

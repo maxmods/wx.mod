@@ -137,7 +137,7 @@ about: More complex controls, such as wxTreeCtrl, have separate command event cl
 End Rem
 Type wxCommandEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxCommandEvent = New wxCommandEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -230,7 +230,7 @@ on whether the close instruction was honoured or not.
 End Rem
 Type wxCloseEvent Extends wxEvent
 	
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxCloseEvent = New wxCloseEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -287,7 +287,7 @@ bbdoc: A move event holds information about move change events.
 End Rem
 Type wxMoveEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxMoveEvent = New wxMoveEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -356,7 +356,7 @@ and repaint the whole window. In which case, you may need to call wxWindow::Refr
 End Rem
 Type wxSizeEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxSizeEvent = New wxSizeEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -383,7 +383,7 @@ work on some platforms, this is inherently not portable and won't work everywher
 End Rem
 Type wxPaintEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxPaintEvent = New wxPaintEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -401,7 +401,7 @@ bbdoc: A scroll event holds information about events sent from scrolling windows
 End Rem
 Type wxScrollWinEvent Extends wxEvent
 	
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxScrollWinEvent = New wxScrollWinEvent 
 		
 		this.wxEventPtr = wxEventPtr
@@ -422,7 +422,7 @@ processed using the same event handler.
 End Rem
 Type wxScrollEvent Extends wxCommandEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxScrollEvent = New wxScrollEvent 
 		
 		this.wxEventPtr = wxEventPtr
@@ -453,7 +453,7 @@ bbdoc: This type is used for context menu events, sent to give the application a
 End Rem
 Type wxContextMenuEvent Extends wxCommandEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxContextMenuEvent = New wxContextMenuEvent 
 		
 		this.wxEventPtr = wxEventPtr
@@ -530,7 +530,7 @@ shortcuts may cease to work under Windows.
 End Rem
 Type wxKeyEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxKeyEvent = New wxKeyEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -730,6 +730,16 @@ Type wxEvtHandler Extends wxObject
 			Local this:wxEvtHandler = New wxEvtHandler
 			this.wxObjectPtr = wxObjectPtr
 			Return this
+		End If
+	End Function
+
+	Function _find:wxEvtHandler(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local handler:wxEvtHandler = wxEvtHandler(wxfind(wxObjectPtr))
+			If Not handler Then
+				Return wxEvtHandler._create(wxObjectPtr)
+			End If
+			Return handler
 		End If
 	End Function
 

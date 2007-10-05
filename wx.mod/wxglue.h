@@ -40,6 +40,7 @@ class MaxColour;
 class MaxFont;
 class MaxDC;
 class MaxPaintDC;
+class MaxRect;
 
 extern "C" {
 
@@ -228,6 +229,38 @@ extern "C" {
 	void bmx_wxinitallimagehandlers();
 	bool bmx_wxlaunchdefaultbrowser(BBString * url, int flags);
 
+	MaxRect * bmx_wxrect_create(int x, int y, int w, int h);
+	MaxRect * bmx_wxrect_centrein(MaxRect * rect, MaxRect * r, int dir);
+	MaxRect * bmx_wxrect_centerin(MaxRect * rect, MaxRect * r, int dir);
+	bool bmx_wxrect_contains(MaxRect * rect, int x, int y);
+	bool bmx_wxrect_containsrect(MaxRect * rect, MaxRect * r);
+	void bmx_wxrect_deflate(MaxRect * rect, int dx, int dy);
+	int bmx_wxrect_getbottom(MaxRect * rect);
+	int bmx_wxrect_getheight(MaxRect * rect);
+	int bmx_wxrect_getleft(MaxRect * rect);
+	void bmx_wxrect_getposition(MaxRect * rect, int * x, int * y);
+	void bmx_wxrect_gettopleft(MaxRect * rect, int * x, int * y);
+	void bmx_wxrect_gettopright(MaxRect * rect, int * x, int * y);
+	void bmx_wxrect_getbottomleft(MaxRect * rect, int * x, int * y);
+	void bmx_wxrect_getbottomright(MaxRect * rect, int * x, int * y);
+	int bmx_wxrect_getright(MaxRect * rect);
+	void bmx_wxrect_getsize(MaxRect * rect, int * w, int * h);
+	int bmx_wxrect_gettop(MaxRect * rect);
+	int bmx_wxrect_getwidth(MaxRect * rect);
+	int bmx_wxrect_getx(MaxRect * rect);
+	int bmx_wxrect_gety(MaxRect * rect);
+	void bmx_wxrect_inflate(MaxRect * rect, int dx, int dy);
+	bool bmx_wxrect_intersects(MaxRect * rect, MaxRect * r);
+	bool bmx_wxrect_isempty(MaxRect * rect);
+	void bmx_wxrect_offset(MaxRect * rect, int dx, int dy);
+	void bmx_wxrect_setheight(MaxRect * rect, int height);
+	void bmx_wxrect_setsize(MaxRect * rect, int w, int h);
+	void bmx_wxrect_setwidth(MaxRect * rect, int width);
+	void bmx_wxrect_setx(MaxRect * rect, int x);
+	void bmx_wxrect_sety(MaxRect * rect, int y);
+	MaxRect * bmx_wxrect_union(MaxRect * rect, MaxRect * r);
+	void bmx_wxrect_delete(MaxRect * rect);
+
 }
 
 /*
@@ -334,6 +367,22 @@ private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxRect
+{
+public:
+	MaxRect(const wxRect & r);
+	~MaxRect();
+	wxRect & Rect();
+
+private:
+	wxRect rect;
+
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 #endif // _WX_MAX_H_

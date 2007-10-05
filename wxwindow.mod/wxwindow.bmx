@@ -286,14 +286,7 @@ Type wxWindow Extends wxEvtHandler
 	about: Note that this is a static function, so it can be called without needing a wxWindow .
 	End Rem
 	Function FindFocus:wxWindow()
-		Local w:Byte Ptr = bmx_wxwindow_findfocus()
-		If w Then
-			Local win:wxWindow = wxWindow(wxfind(w))
-			If Not win Then
-				Return wxWindow._create(w)
-			End If
-			Return win
-		End If
+		Return wxWindow._find(bmx_wxwindow_findfocus())
 	End Function
 	
 	Rem
@@ -498,14 +491,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Returns the grandparent of a window, or Null if there isn't one.
 	End Rem
 	Method GetGrandParent:wxWindow()
-		Local win:Byte Ptr = bmx_wxwindow_getgrandparent(wxObjectPtr)
-		If win Then
-			Local window:wxWindow = wxWindow(wxfind(win))
-			If Not window Then
-				Return _create(win)
-			End If
-			Return window
-		End If
+		Return wxWindow._find(bmx_wxwindow_getgrandparent(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -582,14 +568,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Returns the parent of the window, or Null if there is no parent.
 	End Rem
 	Method GetParent:wxWindow()
-		Local win:Byte Ptr = bmx_wxwindow_getparent(wxObjectPtr)
-		If win Then
-			Local window:wxWindow = wxWindow(wxfind(win))
-			If Not window Then
-				Return _create(win)
-			End If
-			Return window
-		End If
+		Return wxWindow._find(bmx_wxwindow_getparent(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -605,7 +584,14 @@ Type wxWindow Extends wxEvtHandler
 	Method GetRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
 		bmx_wxwindow_getrect(wxObjectPtr, Varptr x, Varptr y, Varptr w, Varptr h)
 	End Method
-	
+
+	Rem
+	bbdoc: Returns the size and position of the window.
+	End Rem
+	Method GetRectRect:wxRect()
+		Return wxRect._create(bmx_wxwindow_getrectrect(wxObjectPtr))
+	End Method
+
 	Rem
 	bbdoc: Returns the window position in screen coordinates, whether the window is a child window or a top level one.
 	End Rem
@@ -618,6 +604,13 @@ Type wxWindow Extends wxEvtHandler
 	End Rem
 	Method GetScreenRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
 		bmx_wxwindow_getscreenrect(wxObjectPtr, Varptr x, Varptr y, Varptr w, Varptr h)
+	End Method
+
+	Rem
+	bbdoc: Returns the size and position of the window on the screen.
+	End Rem
+	Method GetScreenRectRect:wxRect()
+		Return wxRect._create(bmx_wxwindow_getscreenrectrect(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -802,6 +795,15 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 
 	Rem
+	bbdoc: Returns true if the given point or rectangle area has been exposed since the last repaint.
+	about: Call this in an paint event handler to optimize redrawing by only redrawing those areas,
+	which have been exposed.
+	End Rem
+	Method IsExposedRect:Int(rect:wxRect)
+		Return bmx_wxwindow_isexposedrect(wxObjectPtr, rect.wxObjectPtr)
+	End Method
+
+	Rem
 	bbdoc: Returns true if the window is currently frozen by a call to Freeze().
 	End Rem
 	Method IsFrozen:Int()
@@ -930,14 +932,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Removes and returns the top-most event handler on the event handler stack.
 	End Rem
 	Method PopEventHandler:wxEvtHandler(deleteHandler:Int = False)
-		Local h:Byte Ptr = bmx_wxwindow_popeventhandler(wxObjectPtr, deleteHandler)
-		If h Then
-			Local handler:wxEvtHandler = wxEvtHandler(wxfind(h))
-			If Not handler Then
-				Return wxEvtHandler._create(h)
-			End If
-			Return handler
-		End If
+		Return wxEvtHandler._find(bmx_wxwindow_popeventhandler(wxObjectPtr, deleteHandler))
 	End Method
 	
 	Rem
@@ -1004,6 +999,15 @@ Type wxWindow Extends wxEvtHandler
 	End Rem
 	Method RefreshRect(x:Int, y:Int, w:Int, h:Int, eraseBackground:Int = True)
 		bmx_wxwindow_refreshrect(wxObjectPtr, x, y, w, h, eraseBackground)
+	End Method
+
+	Rem
+	bbdoc: Redraws the contents of the given rectangle: only the area inside it will be repainted.
+	about: This is the same as Refresh but has a nicer syntax as it can be called with an argument like
+	this RefreshRectRect(rect).
+	End Rem
+	Method RefreshRectRect(rect:wxRect, eraseBackground:Int = True)
+		bmx_wxwindow_refreshrectrect(wxObjectPtr, rect.wxObjectPtr, eraseBackground)
 	End Method
 	
 	Rem
@@ -1332,7 +1336,14 @@ Type wxWindow Extends wxEvtHandler
 	Method SetDimensions(x:Int, y:Int, width:Int, height:Int, sizeFlags:Int = wxSIZE_AUTO)
 		bmx_wxwindow_setdimensions(wxObjectPtr, x, y, width, height, sizeFlags)
 	End Method
-	
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDimensionsRect(rect:wxRect)
+		bmx_wxwindow_setdimensionsrect(wxObjectPtr, rect.wxObjectPtr)
+	End Method
+
 	Rem
 	bbdoc: Sets the size of the window in pixels.
 	End Rem

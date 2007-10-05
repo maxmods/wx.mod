@@ -109,6 +109,10 @@ void bmx_wxdc_drawellipse(MaxDC * dc, int x, int y, int w, int h) {
 	dc->GetDC()->DrawEllipse(x, y, w, h);
 }
 
+void bmx_wxdc_drawellipserect(MaxDC * dc, MaxRect * rect) {
+	dc->GetDC()->DrawEllipse(rect->Rect());
+}
+
 void bmx_wxdc_drawrectangle(MaxDC * dc, int x, int y, int w, int h) {
 	dc->GetDC()->DrawRectangle(x, y, w, h);
 }
@@ -161,6 +165,10 @@ void wx_wxdc_drawcheckmark(MaxDC * dc, int x, int y, int w, int h) {
 	dc->GetDC()->DrawCheckMark(x, y, w, h);
 }
 
+void wx_wxdc_drawcheckmarkrect(MaxDC * dc, MaxRect * rect) {
+	dc->GetDC()->DrawCheckMark(rect->Rect());
+}
+
 void wx_wxdc_drawcircle(MaxDC * dc, int x, int y, int radius) {
 	dc->GetDC()->DrawCircle(x, y, radius);
 }
@@ -181,6 +189,15 @@ void bmx_wxdc_drawlabel(MaxDC * dc, BBString * text, int x, int y, int w, int h,
 		dc->GetDC()->DrawLabel(wxStringFromBBString(text), wxRect(x, y, w, h), alignment, indexAccel);
 	}
 }
+
+void bmx_wxdc_drawlabelrect(MaxDC * dc, BBString * text, MaxRect * rect, MaxBitmap * image, int alignment, int indexAccel) {
+	if (image) {
+		dc->GetDC()->DrawLabel(wxStringFromBBString(text), image->Bitmap(), rect->Rect(), alignment, indexAccel);
+	} else {
+		dc->GetDC()->DrawLabel(wxStringFromBBString(text), rect->Rect(), alignment, indexAccel);
+	}
+}
+
 
 void bmx_wxdc_drawlines(MaxDC * dc, BBArray * p, int xOffset, int yOffset) {
 	int n= p->scales[0] / 2;
@@ -337,6 +354,18 @@ void bmx_wxdc_gradientfillconcentriccentre(MaxDC * dc, int x, int y, int w, int 
 
 void bmx_wxdc_gradientfilllinear(MaxDC * dc, int x, int y, int w, int h, MaxColour * initialColour, MaxColour * destColour, wxDirection direction) {
 	dc->GetDC()->GradientFillLinear(wxRect(x, y, w, h), initialColour->Colour(), destColour->Colour(), direction);
+}
+
+void bmx_wxdc_gradientfillconcentricrect(MaxDC * dc, MaxRect * rect, MaxColour * initialColour, MaxColour * destColour) {
+	dc->GetDC()->GradientFillConcentric(rect->Rect(), initialColour->Colour(), destColour->Colour());
+}
+
+void bmx_wxdc_gradientfillconcentriccentrerect(MaxDC * dc, MaxRect * rect, MaxColour * initialColour, MaxColour * destColour, int centreX, int centreY) {
+	dc->GetDC()->GradientFillConcentric(rect->Rect(), initialColour->Colour(), destColour->Colour(), wxPoint(centreX, centreY));
+}
+
+void bmx_wxdc_gradientfilllinearrect(MaxDC * dc, MaxRect * rect, MaxColour * initialColour, MaxColour * destColour, wxDirection direction) {
+	dc->GetDC()->GradientFillLinear(rect->Rect(), initialColour->Colour(), destColour->Colour(), direction);
 }
 
 int bmx_wxdc_logicaltodevicex(MaxDC * dc, int x) {

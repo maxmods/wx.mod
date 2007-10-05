@@ -342,6 +342,274 @@ Type wxEraseEvent Extends wxEvent
 	
 End Type
 
+
+Rem
+bbdoc: A type for manipulating rectangles.
+End Rem
+Type wxRect Extends wxObject
+
+	Function _create:wxRect(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxRect = New wxRect
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Rem
+	bbdoc: Creates a wxRect object from x, y, width and height values.
+	End Rem
+	Function CreateRect:wxRect(x:Int, y:Int, width:Int, height:Int)
+		Return New wxRect.Create(x, y, width, height)
+	End Function
+	
+	Rem
+	bbdoc: Creates a wxRect object from x, y, width and height values.
+	End Rem
+	Method Create:wxRect(x:Int, y:Int, width:Int, height:Int)
+		wxObjectPtr = bmx_wxrect_create(x, y, width, height)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Returns the rectangle having the same size as this one but centered relatively to the given rectangle r.
+	about: By default, rectangle is centred in both directions but if dir includes only wxVERTICAL or only
+	wxHORIZONTAL flag, then it is only centered in this direction while the other component of its position
+	remains unchanged.
+	End Rem
+	Method CentreIn:wxRect(rect:wxRect, dir:Int = wxBOTH)
+		Return _create(bmx_wxrect_centrein(wxObjectPtr, rect.wxObjectPtr, dir))
+	End Method
+	
+	Rem
+	bbdoc: Returns the rectangle having the same size as this one but centered relatively to the given rectangle r.
+	about: By default, rectangle is centred in both directions but if dir includes only wxVERTICAL or only
+	wxHORIZONTAL flag, then it is only centered in this direction while the other component of its position
+	remains unchanged.
+	End Rem
+	Method CenterIn:wxRect(rect:wxRect, dir:Int = wxBOTH)
+		Return _create(bmx_wxrect_centerin(wxObjectPtr, rect.wxObjectPtr, dir))
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the given point is inside the rectangle (or on its boundary) and false otherwise.
+	End Rem
+	Method Contains:Int(x:Int, y:Int)
+		Return bmx_wxrect_contains(wxObjectPtr, x, y)
+	End Method
+
+	Rem
+	bbdoc: Returns true if the given rectangle is completely inside this rectangle (or touches its boundary) and false otherwise.
+	End Rem
+	Method ContainsRect:Int(rect:wxRect)
+		Return bmx_wxrect_containsrect(wxObjectPtr, rect.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Decrease the rectangle size.
+	about: This method is the opposite from Inflate: Deflate(a, b) is equivalent to Inflate(-a, -b). Please
+	refer to Inflate for full description.
+	End Rem
+	Method Deflate(dx:Int, dy:Int)
+		bmx_wxrect_deflate(wxObjectPtr, dx, dy)
+	End Method
+	
+	Rem
+	bbdoc: Gets the bottom point of the rectangle.
+	End Rem
+	Method GetBottom:Int()
+		Return bmx_wxrect_getbottom(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the height member.
+	End Rem
+	Method GetHeight:Int()
+		Return bmx_wxrect_getheight(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the left point of the rectangle (the same as wxRect::GetX).
+	End Rem
+	Method GetLeft:Int()
+		Return bmx_wxrect_getleft(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the position.
+	End Rem
+	Method GetPosition(x:Int Var, y:Int Var)
+		bmx_wxrect_getposition(wxObjectPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Gets the position of the top left corner of the rectangle, same as GetPosition.
+	End Rem
+	Method GetTopLeft(x:Int Var, y:Int Var)
+		bmx_wxrect_gettopleft(wxObjectPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Gets the position of the top right corner.
+	End Rem
+	Method GetTopRight(x:Int Var, y:Int Var)
+		bmx_wxrect_gettopright(wxObjectPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Gets the position of the bottom left corner.
+	End Rem
+	Method GetBottomLeft(x:Int Var, y:Int Var)
+		bmx_wxrect_getbottomleft(wxObjectPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Gets the position of the bottom right corner.
+	End Rem
+	Method GetBottomRight(x:Int Var, y:Int Var)
+		bmx_wxrect_getbottomright(wxObjectPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Gets the right point of the rectangle.
+	End Rem
+	Method GetRight:Int()
+		Return bmx_wxrect_getright(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the size.
+	End Rem
+	Method GetSize(w:Int Var, h:Int Var)
+		bmx_wxrect_getsize(wxObjectPtr, Varptr w, Varptr h)
+	End Method
+	
+	Rem
+	bbdoc: Gets the top point of the rectangle (the same as wxRect::GetY).
+	End Rem
+	Method GetTop:Int()
+		Return bmx_wxrect_gettop(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the width member.
+	End Rem
+	Method GetWidth:Int()
+		Return bmx_wxrect_getwidth(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the x member.
+	End Rem
+	Method GetX:Int()
+		Return bmx_wxrect_getx(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the y member.
+	End Rem
+	Method GetY:Int()
+		Return bmx_wxrect_gety(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Increases the size of the rectangle.
+	about: The left border is moved farther left and the right border is moved farther right by dx. The upper
+	border is moved farther up and the bottom border is moved farther down by dy. (Note the the width and height
+	of the rectangle thus change by 2*dx and 2*dy, respectively.) If one or both of dx and dy are negative, the
+	opposite happens: the rectangle size decreases in the respective direction.
+	<p>
+	Inflating and deflating behaves "naturally''. Defined more precisely, that means: 
+	<ol>
+	<li>"Real'' inflates (that is, dx and/or dy &gt;= 0) are not constrained. Thus inflating a rectangle can cause
+	its upper left corner to move into the negative numbers. (the versions prior to 2.5.4 forced the top left
+	coordinate to not fall below (0, 0), which implied a forced move of the rectangle.)</li>
+	<li>Deflates are clamped to not reduce the width or height of the rectangle below zero. In such cases, the
+	top-left corner is nonetheless handled properly. For example, a rectangle at (10, 10) with size (20, 40)
+	that is inflated by (-15, -15) will become located at (20, 25) at size (0, 10). Finally, observe that the
+	width and height are treated independently. In the above example, the width is reduced by 20, whereas the
+	height is reduced by the full 30 (rather than also stopping at 20, when the width reached zero). </li>
+	</ol>
+	</p>
+	End Rem
+	Method Inflate(dx:Int, dy:Int)
+		bmx_wxrect_inflate(wxObjectPtr, dx, dy)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if this rectangle has a non-empty intersection with the rectangle rect and false otherwise.
+	End Rem
+	Method Intersects:Int(rect:wxRect)
+		Return bmx_wxrect_intersects(wxObjectPtr, rect.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if this rectangle has a width or height less than or equal to 0 and false otherwise.
+	End Rem
+	Method IsEmpty:Int()
+		Return bmx_wxrect_isempty(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Moves the rectangle by the specified offset.
+	about: If dx is positive, the rectangle is moved to the right, if dy is positive, it is moved to the bottom,
+	otherwise it is moved to the left or top respectively.
+	End Rem
+	Method Offset(dx:Int, dy:Int)
+		bmx_wxrect_offset(wxObjectPtr, dx, dy)
+	End Method
+	
+	Rem
+	bbdoc: Sets the height.
+	End Rem
+	Method SetHeight(height:Int)
+		bmx_wxrect_setheight(wxObjectPtr, height)
+	End Method
+	
+	Rem
+	bbdoc: Sets the size.
+	End Rem
+	Method SetSize(w:Int, h:Int)
+		bmx_wxrect_setsize(wxObjectPtr, w, h)
+	End Method
+	
+	Rem
+	bbdoc: Sets the width.
+	End Rem
+	Method SetWidth(width:Int)
+		bmx_wxrect_setwidth(wxObjectPtr, width)
+	End Method
+	
+	Rem
+	bbdoc: Sets the x position.
+	End Rem
+	Method SetX(x:Int)
+		bmx_wxrect_setx(wxObjectPtr, x)
+	End Method
+	
+	Rem
+	bbdoc: Sets the y position.
+	End Rem
+	Method SetY(y:Int)
+		bmx_wxrect_sety(wxObjectPtr, y)
+	End Method
+	
+	Rem
+	bbdoc: Returns a new rectangle containing the bounding box of this rectangle and the one passed in as parameter.
+	End Rem
+	Method Union:wxRect(rect:wxRect)
+		Return _create(bmx_wxrect_union(wxObjectPtr, rect.wxObjectPtr))
+	End Method
+	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxrect_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
+End Type
+
 Rem
 bbdoc: Returns the string containing the description of the current platform in a user-readable form.
 about: For example, this function may return strings like Windows NT Version 4.0 or Linux 2.2.2 i386.

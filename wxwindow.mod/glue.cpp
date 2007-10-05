@@ -262,6 +262,16 @@ void bmx_wxwindow_getscreenrect(wxWindow * window, int * x, int * y, int * w, in
 	*h = r.height;
 }
 
+MaxRect * bmx_wxwindow_getrectrect(wxWindow * window) {
+	wxRect r = window->GetRect();
+	return new MaxRect(r);
+}
+
+MaxRect * bmx_wxwindow_getscreenrectrect(wxWindow * window) {
+	wxRect r = window->GetScreenRect();
+	return new MaxRect(r);
+}
+
 void bmx_wxwindow_getsize(wxWindow * window, int * w, int * h) {
 	window->GetSize(w, h);
 }
@@ -308,6 +318,10 @@ void bmx_wxwindow_move(wxWindow * window, int x, int y) {
 
 void bmx_wxwindow_setdimensions(wxWindow * window, int x, int y, int w, int h, int flags) {
 	window->SetSize(x, y, w, h, flags);
+}
+
+void bmx_wxwindow_setdimensionsrect(wxWindow * window, MaxRect * rect) {
+	window->SetSize(rect->Rect());
 }
 
 void bmx_wxwindow_pusheventhandler(wxWindow * window, wxEvtHandler * evt) {
@@ -364,6 +378,10 @@ bool bmx_wxwindow_isexposed(wxWindow * window, int x, int y, int w, int h) {
 	} else {
 		return window->IsExposed(x, y, w, h);
 	}
+}
+
+bool bmx_wxwindow_isexposed(wxWindow * window, MaxRect * rect) {
+	return window->IsExposed(rect->Rect());
 }
 
 bool bmx_wxwindow_isfrozen(wxWindow * window) {
@@ -457,6 +475,10 @@ bool bmx_wxwindow_popupmenu(wxWindow * window, wxMenu * menu, int x, int y) {
 
 void bmx_wxwindow_refreshrect(wxWindow * window, int x, int y, int w, int h, bool erase) {
 	window->RefreshRect(wxRect(x, y, w, h), erase);
+}
+
+void bmx_wxwindow_refreshrectrect(wxWindow * window, MaxRect * rect, bool erase) {
+	window->RefreshRect(rect->Rect(), erase);
 }
 
 void bmx_wxwindow_releasemouse(wxWindow * window) {

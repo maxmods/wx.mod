@@ -92,6 +92,16 @@ Type wxMenu Extends wxEvtHandler
 			Return this
 		End If
 	End Function
+	
+	Function _find:wxMenu(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local menu:wxMenu = wxMenu(wxfind(wxObjectPtr))
+			If Not menu Then
+				Return _create(wxObjectPtr)
+			End If
+			Return menu
+		End If
+	End Function
 
 	Rem
 	bbdoc: Constructs a #wxMenu object.
@@ -574,14 +584,7 @@ Type wxMenuItem Extends wxObject
 	bbdoc: Returns the menu this menu item is in, or NULL if this menu item is not attached.
 	End Rem
 	Method GetMenu:wxMenu()
-		Local m:Byte Ptr = bmx_wxmenuitem_getmenu(wxObjectPtr)
-		If m Then
-			Local menu:wxMenu = wxMenu(wxfind(m))
-			If Not menu Then
-				Return wxMenu._create(m)
-			End If
-			Return menu
-		End If
+		Return wxMenu._find(bmx_wxmenuitem_getmenu(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -595,14 +598,7 @@ Type wxMenuItem Extends wxObject
 	bbdoc: Returns the submenu associated with the menu item, or NULL if there isn't one.
 	End Rem
 	Method GetSubMenu:wxMenu()
-		Local m:Byte Ptr = bmx_wxmenuitem_getsubmenu(wxObjectPtr)
-		If m Then
-			Local menu:wxMenu = wxMenu(wxfind(m))
-			If Not menu Then
-				Return wxMenu._create(m)
-			End If
-			Return menu
-		End If
+		Return wxMenu._find(bmx_wxmenuitem_getsubmenu(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -739,7 +735,7 @@ The default handler for wxEVT_MENU_HIGHLIGHT displays help text in the first fie
 End Rem
 Type wxMenuEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxMenuEvent = New wxMenuEvent 
 		
 		this.wxEventPtr = wxEventPtr
@@ -755,12 +751,7 @@ Type wxMenuEvent Extends wxEvent
 	returned pointer may be Null in some ports.
 	End Rem
 	Method GetMenu:wxMenu()
-		Local mPtr:Byte Ptr = bmx_wxmenuevent_getmenu(wxEventPtr)
-		Local menu:wxMenu = wxMenu(wxfind(mPtr))
-		If Not menu Then
-			menu = wxMenu._create(mPtr)
-		End If
-		Return menu
+		Return wxMenu._find(bmx_wxmenuevent_getmenu(wxEventPtr))
 	End Method
 	
 	Rem
@@ -790,7 +781,7 @@ Type TMenuEventFactory Extends TEventFactory
 			Case wxEVT_MENU_OPEN, ..
 					wxEVT_MENU_CLOSE, ..
 					wxEVT_MENU_HIGHLIGHT
-				Return wxMenuEvent.create(wxEventPtr, evt)
+				Return wxMenuEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

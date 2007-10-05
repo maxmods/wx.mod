@@ -170,6 +170,13 @@ Type wxDC Extends wxObject
 	Method DrawCheckMark(x:Int, y:Int, w:Int, h:Int)
 		wx_wxdc_drawcheckmark(wxObjectPtr, x, y, w, h)
 	End Method
+
+	Rem
+	bbdoc: Draws a check mark inside the given rectangle.
+	End Rem
+	Method DrawCheckMarkRect(rect:wxRect)
+		wx_wxdc_drawcheckmarkrect(wxObjectPtr, rect.wxObjectPtr)
+	End Method
 	
 	Rem
 	bbdoc: Draws a circle with the given centre and radius.
@@ -185,6 +192,13 @@ Type wxDC Extends wxObject
 		bmx_wxdc_drawellipse(wxObjectPtr, x, y, width, height)
 	End Method
 	
+	Rem
+	bbdoc: Draws an ellipse contained in the rectangle specified either with the given top left corner and the given size or directly. The current pen is used for the outline and the current brush for filling the shape.
+	End Rem
+	Method DrawEllipseRect(rect:wxRect)
+		bmx_wxdc_drawellipserect(wxObjectPtr, rect.wxObjectPtr)
+	End Method
+
 	Rem
 	bbdoc: Draws an arc of an ellipse.
 	about: The current pen is used for drawing the arc and the current brush is used for drawing the pie.
@@ -224,7 +238,20 @@ Type wxDC Extends wxObject
 			bmx_wxdc_drawlabel(wxObjectPtr, text, x, y, width, height, Null, alignment, indexAccel)
 		End If
 	End Method
-	
+
+	Rem
+	bbdoc: Draw optional bitmap and the text into the given rectangle and aligns it as specified by alignment parameter.
+	about: It also will emphasize the character with the given index if it is != -1.
+	End Rem
+	Method DrawLabelRect(text:String, rect:wxRect, image:wxBitmap = Null, ..
+			alignment:Int = wxALIGN_LEFT | wxALIGN_TOP, indexAccel:Int = -1)
+		If image Then
+			bmx_wxdc_drawlabelrect(wxObjectPtr, text, rect.wxObjectPtr, image.wxObjectPtr, alignment, indexAccel)
+		Else
+			bmx_wxdc_drawlabelrect(wxObjectPtr, text, rect.wxObjectPtr, Null, alignment, indexAccel)
+		End If
+	End Method
+
 	Rem
 	bbdoc: Draws a line from the first point to the second.
 	about: The current pen is used for drawing the line. Note that the point (x2, y2) is not part of
@@ -532,6 +559,13 @@ Type wxDC Extends wxObject
 
 	Rem
 	bbdoc: Fill the area specified by rect with a radial gradient, starting from initialColour at the centre of the circle and fading to destColour on the circle outside.
+	End Rem
+	Method GradientFillConcentricRect(rect:wxRect, initialColour:wxColour, destColour:wxColour)
+		bmx_wxdc_gradientfillconcentricrect(wxObjectPtr, rect.wxObjectPtr, initialColour.wxObjectPtr, destColour.wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Fill the area specified by rect with a radial gradient, starting from initialColour at the centre of the circle and fading to destColour on the circle outside.
 	about: @centreX and @centreY are the relative coordinates of centre of the circle in the specified rect.
 	End Rem
 	Method GradientFillConcentricCentre(x:Int, y:Int, w:Int, h:Int, initialColour:wxColour, destColour:wxColour, centreX:Int, centreY:Int)
@@ -539,12 +573,29 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
+	bbdoc: Fill the area specified by rect with a radial gradient, starting from initialColour at the centre of the circle and fading to destColour on the circle outside.
+	about: @centreX and @centreY are the relative coordinates of centre of the circle in the specified rect.
+	End Rem
+	Method GradientFillConcentricCentreRect(rect:wxRect, initialColour:wxColour, destColour:wxColour, centreX:Int, centreY:Int)
+		bmx_wxdc_gradientfillconcentriccentrerect(wxObjectPtr, rect.wxObjectPtr, initialColour.wxObjectPtr, destColour.wxObjectPtr, centreX, centreY)
+	End Method
+
+	Rem
 	bbdoc: Fill the area specified by rect with a linear gradient, starting from initialColour and eventually fading to destColour.
 	about: The @direction specifies the direction of the colour change, default is to use initialColour on
 	the left part of the rectangle and destColour on the right one.
 	End Rem
 	Method GradientFillLinear(x:Int, y:Int, w:Int, h:Int, initialColour:wxColour, destColour:wxColour, direction:Int = wxEAST)
 		bmx_wxdc_gradientfilllinear(wxObjectPtr, x, y, w, h, initialColour.wxObjectPtr, destColour.wxObjectPtr, direction)
+	End Method
+
+	Rem
+	bbdoc: Fill the area specified by rect with a linear gradient, starting from initialColour and eventually fading to destColour.
+	about: The @direction specifies the direction of the colour change, default is to use initialColour on
+	the left part of the rectangle and destColour on the right one.
+	End Rem
+	Method GradientFillLinearRect(rect:wxRect, initialColour:wxColour, destColour:wxColour, direction:Int = wxEAST)
+		bmx_wxdc_gradientfilllinearrect(wxObjectPtr, rect.wxObjectPtr, initialColour.wxObjectPtr, destColour.wxObjectPtr, direction)
 	End Method
 	
 	Rem

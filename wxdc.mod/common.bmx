@@ -65,6 +65,7 @@ Extern
 	Function bmx_wxdc_setdeviceorigin(handle:Byte Ptr, x:Int, y:Int)
 	
 	Function bmx_wxdc_drawellipse(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
+	Function bmx_wxdc_drawellipserect(handle:Byte Ptr, rect:Byte Ptr)
 	Function bmx_wxdc_drawrectangle(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
 	Function bmx_wxdc_drawroundedrectangle(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, radius:Double)
 
@@ -79,11 +80,13 @@ Extern
 	Function wx_wxdc_drawarc(handle:Byte Ptr, x1:Int, y1:Int, x2:Int, y2:Int, xc:Int, yc:Int)
 	Function wx_wxdc_drawbitmap(handle:Byte Ptr, bitmap:Byte Ptr, x:Int, y:Int, transparent:Int)
 	Function wx_wxdc_drawcheckmark(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
+	Function wx_wxdc_drawcheckmarkrect(handle:Byte Ptr, rect:Byte Ptr)
 	Function wx_wxdc_drawcircle(handle:Byte Ptr, x:Int, y:Int, radius:Int)
 	
 	Function bmx_wxdc_drawellipticarc(handle:Byte Ptr, x:Int, y:Int, width:Int, height:Int, _start:Double, _end:Double)
 	Function bmx_wxdc_drawicon(handle:Byte Ptr, icon:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxdc_drawlabel(handle:Byte Ptr, text:String, x:Int, y:Int, w:Int, h:Int, image:Byte Ptr, alignment:Int, indexAccel:Int)
+	Function bmx_wxdc_drawlabelrect(handle:Byte Ptr, text:String, rect:Byte Ptr, image:Byte Ptr, alignment:Int, indexAccel:Int)
 	Function bmx_wxdc_drawlines(handle:Byte Ptr, points:Int[], xOffset:Int, yOffset:Int)
 	Function bmx_wxdc_drawpolygon(handle:Byte Ptr, points:Int[], xOffset:Int, yOffset:Int, fillStyle:Int)
 	Function bmx_wxdc_drawpoint(handle:Byte Ptr, x:Int, y:Int)
@@ -115,6 +118,9 @@ Extern
 	Function bmx_wxdc_gradientfillconcentric(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, initialColour:Byte Ptr, destColour:Byte Ptr)
 	Function bmx_wxdc_gradientfillconcentriccentre(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, initialColour:Byte Ptr, destColour:Byte Ptr, centreX:Int, centreY:Int)
 	Function bmx_wxdc_gradientfilllinear(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, initialColour:Byte Ptr, destColour:Byte Ptr, direction:Int)
+	Function bmx_wxdc_gradientfillconcentricrect(handle:Byte Ptr, rect:Byte Ptr, initialColour:Byte Ptr, destColour:Byte Ptr)
+	Function bmx_wxdc_gradientfillconcentriccentrerect(handle:Byte Ptr, rect:Byte Ptr, initialColour:Byte Ptr, destColour:Byte Ptr, centreX:Int, centreY:Int)
+	Function bmx_wxdc_gradientfilllinearrect(handle:Byte Ptr, rect:Byte Ptr, initialColour:Byte Ptr, destColour:Byte Ptr, direction:Int)
 	Function bmx_wxdc_logicaltodevicex:Int(handle:Byte Ptr, x:Int)
 	Function bmx_wxdc_logicaltodevicexrel:Int(handle:Byte Ptr, x:Int)
 	Function bmx_wxdc_logicaltodevicey:Int(handle:Byte Ptr, y:Int)

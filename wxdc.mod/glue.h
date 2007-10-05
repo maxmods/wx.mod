@@ -24,6 +24,7 @@
 #include "wx/dcmirror.h"
 #include "../wxicon.mod/glue.h"
 #include "../wxbrush.mod/glue.h"
+#include "../wxpen.mod/glue.h"
 
 class MaxMirrorDC;
 
@@ -51,6 +52,7 @@ extern "C" {
 	void bmx_wxdc_setclippingregion(MaxDC * dc, int x, int y, int w, int h);
 	void bmx_wxdc_setdeviceorigin(MaxDC * dc, int x, int y);
 	void bmx_wxdc_drawellipse(MaxDC * dc, int x, int y, int w, int h);
+	void bmx_wxdc_drawellipserect(MaxDC * dc, MaxRect * rect);
 	void bmx_wxdc_drawrectangle(MaxDC * dc, int x, int y, int w, int h);
 	void bmx_wxdc_drawroundedrectangle(MaxDC * dc, int x, int y, int w, int h, double radius);
 
@@ -65,11 +67,13 @@ extern "C" {
 	void wx_wxdc_drawarc(MaxDC * dc, int x1, int y1, int x2, int y2, int xc, int yc);
 	void wx_wxdc_drawbitmap(MaxDC * dc, MaxBitmap * bitmap, int x, int y, bool transparent);
 	void wx_wxdc_drawcheckmark(MaxDC * dc, int x, int y, int w, int h);
+	void wx_wxdc_drawcheckmarkrect(MaxDC * dc, MaxRect * rect);
 	void wx_wxdc_drawcircle(MaxDC * dc, int x, int y, int radius);
 
 	void bmx_wxdc_drawellipticarc(MaxDC * dc, int x, int y, int width, int height, double _start, double _end);
 	void bmx_wxdc_drawicon(MaxDC * dc, MaxIcon * icon, int x, int y);
 	void bmx_wxdc_drawlabel(MaxDC * dc, BBString * text, int x, int y, int w, int h, MaxBitmap * image, int alignment, int indexAccel);
+	void bmx_wxdc_drawlabelrect(MaxDC * dc, BBString * text, MaxRect * rect, MaxBitmap * image, int alignment, int indexAccel);
 	void bmx_wxdc_drawlines(MaxDC * dc, BBArray * points, int xOffset, int yOffset);
 	void bmx_wxdc_drawpolygon(MaxDC * dc, BBArray * points, int xOffset, int yOffset, int fillStyle);
 	void bmx_wxdc_drawpoint(MaxDC * dc, int x, int y);
@@ -101,6 +105,9 @@ extern "C" {
 	void bmx_wxdc_gradientfillconcentric(MaxDC * dc, int x, int y, int w, int h, MaxColour * initialColour, MaxColour * destColour);
 	void bmx_wxdc_gradientfillconcentriccentre(MaxDC * dc, int x, int y, int w, int h, MaxColour * initialColour, MaxColour * destColour, int centreX, int centreY);
 	void bmx_wxdc_gradientfilllinear(MaxDC * dc, int x, int y, int w, int h, MaxColour * initialColour, MaxColour * destColour, wxDirection direction);
+	void bmx_wxdc_gradientfillconcentricrect(MaxDC * dc, MaxRect * rect, MaxColour * initialColour, MaxColour * destColour);
+	void bmx_wxdc_gradientfillconcentriccentrerect(MaxDC * dc, MaxRect * rect, MaxColour * initialColour, MaxColour * destColour, int centreX, int centreY);
+	void bmx_wxdc_gradientfilllinearrect(MaxDC * dc, MaxRect * rect, MaxColour * initialColour, MaxColour * destColour, wxDirection direction);
 	int bmx_wxdc_logicaltodevicex(MaxDC * dc, int x);
 	int bmx_wxdc_logicaltodevicexrel(MaxDC * dc, int x);
 	int bmx_wxdc_logicaltodevicey(MaxDC * dc, int y);

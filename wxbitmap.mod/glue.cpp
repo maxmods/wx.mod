@@ -116,6 +116,11 @@ MaxBitmap * bmx_wxbitmap_getsubbitmap(MaxBitmap * bitmap, int x, int y, int w, i
 	return new MaxBitmap(b);
 }
 
+MaxBitmap * bmx_wxbitmap_getsubbitmaprect(MaxBitmap * bitmap, MaxRect * rect) {
+	wxBitmap b(bitmap->Bitmap().GetSubBitmap(rect->Rect()));
+	return new MaxBitmap(b);
+}
+
 wxMask * bmx_wxmask_create(MaxBitmap * bitmap, MaxColour * colour) {
 	if (colour) {
 		return new wxMask(bitmap->Bitmap(), colour->Colour());

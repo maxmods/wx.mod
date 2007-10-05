@@ -238,7 +238,15 @@ Type wxBitmap Extends wxGDIObject
 	about: This method preserves bit depth and mask information.
 	End Rem
 	Method GetSubBitmap:wxBitmap(x:Int, y:Int, w:Int, h:Int)
-		Return wxbitmap._create(bmx_wxbitmap_getsubbitmap(wxObjectPtr, x, y, w, h))
+		Return wxBitmap._create(bmx_wxbitmap_getsubbitmap(wxObjectPtr, x, y, w, h))
+	End Method
+	
+	Rem
+	bbdoc: Returns a sub bitmap of the current one as long as the rect belongs entirely to the bitmap.
+	about: This method preserves bit depth and mask information.
+	End Rem
+	Method GetSubBitmapRect:wxBitmap(rect:wxRect)
+		Return wxBitmap._create(bmx_wxbitmap_getsubbitmaprect(wxObjectPtr, rect.wxObjectPtr))
 	End Method
 	
 	Rem

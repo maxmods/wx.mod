@@ -55,6 +55,7 @@ extern "C" {
 	bool bmx_wxbitmap_isok(MaxBitmap * bitmap);
 
 	MaxBitmap * bmx_wxbitmap_getsubbitmap(MaxBitmap * bitmap, int x, int y, int w, int h);
+	MaxBitmap * bmx_wxbitmap_getsubbitmaprect(MaxBitmap * bitmap, MaxRect * rect);
 	wxMask * bmx_wxbitmap_getmask(MaxBitmap * bitmap);
 	void bmx_wxbitmap_setmask(MaxBitmap * bitmap, wxMask * mask);
 

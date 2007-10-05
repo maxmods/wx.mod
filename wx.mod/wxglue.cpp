@@ -1072,4 +1072,146 @@ void bmx_wxcloseevent_veto(wxCloseEvent & event, bool value) {
 	event.Veto(value);
 }
 
+// *********************************************
+
+MaxRect * bmx_wxrect_create(int x, int y, int w, int h) {
+	wxRect r(x, y, w, h);
+	return new MaxRect(r);
+}
+
+MaxRect * bmx_wxrect_centrein(MaxRect * rect, MaxRect * r, int dir) {
+	wxRect rr(rect->Rect().CentreIn(r->Rect(), dir));
+	return new MaxRect(rr);
+}
+
+MaxRect * bmx_wxrect_centerin(MaxRect * rect, MaxRect * r, int dir) {
+	wxRect rr(rect->Rect().CenterIn(r->Rect(), dir));
+	return new MaxRect(rr);
+}
+
+bool bmx_wxrect_contains(MaxRect * rect, int x, int y) {
+	return rect->Rect().Contains(x, y);
+}
+
+bool bmx_wxrect_containsrect(MaxRect * rect, MaxRect * r) {
+	return rect->Rect().Contains(r->Rect());
+}
+
+void bmx_wxrect_deflate(MaxRect * rect, int dx, int dy) {
+	rect->Rect().Deflate(dx, dy);
+}
+
+int bmx_wxrect_getbottom(MaxRect * rect) {
+	return rect->Rect().GetBottom();
+}
+
+int bmx_wxrect_getheight(MaxRect * rect) {
+	return rect->Rect().GetHeight();
+}
+
+int bmx_wxrect_getleft(MaxRect * rect) {
+	return rect->Rect().GetLeft();
+}
+
+void bmx_wxrect_getposition(MaxRect * rect, int * x, int * y) {
+	wxPoint p(rect->Rect().GetPosition());
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxrect_gettopleft(MaxRect * rect, int * x, int * y) {
+	wxPoint p(rect->Rect().GetTopLeft());
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxrect_gettopright(MaxRect * rect, int * x, int * y) {
+	wxPoint p(rect->Rect().GetTopRight());
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxrect_getbottomleft(MaxRect * rect, int * x, int * y) {
+	wxPoint p(rect->Rect().GetBottomLeft());
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxrect_getbottomright(MaxRect * rect, int * x, int * y) {
+	wxPoint p(rect->Rect().GetBottomRight());
+	*x = p.x;
+	*y = p.y;
+}
+
+int bmx_wxrect_getright(MaxRect * rect) {
+	return rect->Rect().GetRight();
+}
+
+void bmx_wxrect_getsize(MaxRect * rect, int * w, int * h) {
+	wxSize s(rect->Rect().GetSize());
+	*w = s.x;
+	*h = s.y;
+}
+
+int bmx_wxrect_gettop(MaxRect * rect) {
+	return rect->Rect().GetTop();
+}
+
+int bmx_wxrect_getwidth(MaxRect * rect) {
+	return rect->Rect().GetWidth();
+}
+
+int bmx_wxrect_getx(MaxRect * rect) {
+	return rect->Rect().GetX();
+}
+
+int bmx_wxrect_gety(MaxRect * rect) {
+	return rect->Rect().GetY();
+}
+
+void bmx_wxrect_inflate(MaxRect * rect, int dx, int dy) {
+	rect->Rect().Inflate(dx, dy);
+}
+
+bool bmx_wxrect_intersects(MaxRect * rect, MaxRect * r) {
+	return rect->Rect().Intersects(r->Rect());
+}
+
+bool bmx_wxrect_isempty(MaxRect * rect) {
+	return rect->Rect().IsEmpty();
+}
+
+void bmx_wxrect_offset(MaxRect * rect, int dx, int dy) {
+	rect->Rect().Offset(dx, dy);
+}
+
+void bmx_wxrect_setheight(MaxRect * rect, int height) {
+	rect->Rect().SetHeight(height);
+}
+
+void bmx_wxrect_setsize(MaxRect * rect, int w, int h) {
+	rect->Rect().SetSize(wxSize(w, h));
+}
+
+void bmx_wxrect_setwidth(MaxRect * rect, int width) {
+	rect->Rect().SetWidth(width);
+}
+
+void bmx_wxrect_setx(MaxRect * rect, int x) {
+	rect->Rect().SetX(x);
+}
+
+void bmx_wxrect_sety(MaxRect * rect, int y) {
+	rect->Rect().SetY(y);
+}
+
+MaxRect * bmx_wxrect_union(MaxRect * rect, MaxRect * r) {
+	wxRect rr(rect->Rect().Union(r->Rect()));
+	return new MaxRect(rr);
+}
+
+void bmx_wxrect_delete(MaxRect * rect) {
+	delete rect;
+}
+
 
