@@ -203,6 +203,36 @@ Extern
 	Function bmx_wxsheet_setgridlinecolour(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxsheet_getselection:Byte Ptr(handle:Byte Ptr)
 
+	Function bmx_wxsheet_adjustscrollbars(handle:Byte Ptr, calcWinSizes:Int)
+	Function bmx_wxsheet_getscrollbarmode:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_setscrollbarmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxsheet_sethorizontalscrollbarmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxsheet_setverticalscrollbarmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxsheet_needsverticalscrollbar:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_needshorizontalscrollbar:Int(handle:Byte Ptr)
+
+	Function bmx_wxsheet_refreshcell(handle:Byte Ptr, row:Int, col:Int, singleCell:Int)
+	Function bmx_wxsheet_refreshblock(handle:Byte Ptr, block:Byte Ptr)
+	Function bmx_wxsheet_refreshrow(handle:Byte Ptr, row:Int)
+	Function bmx_wxsheet_refreshcol(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_refreshgridcellblock(handle:Byte Ptr, block:Byte Ptr)
+	Function bmx_wxsheet_refreshattrchange(handle:Byte Ptr, row:Int, col:Int, attrType:Int)
+	Function bmx_wxsheet_refreshsheet(handle:Byte Ptr, eraseb:Int, rect:Byte Ptr)
+
+	Function bmx_wxsheet_hasselection:Int(handle:Byte Ptr, selecting:Int)
+	Function bmx_wxsheet_iscellselected:Int(handle:Byte Ptr, row:Int, col:Int)
+	Function bmx_wxsheet_isrowselected:Int(handle:Byte Ptr, row:Int)
+	Function bmx_wxsheet_iscolselected:Int(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_isblockselected:Int(handle:Byte Ptr, block:Byte Ptr)
+	Function bmx_wxsheet_isselecting:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_setselectionmode(handle:Byte Ptr, selmode:Int)
+	Function bmx_wxsheet_getselectionmode:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_hasselectionmode:Int(handle:Byte Ptr, mode:Int)
+	Function bmx_wxsheet_beginbatch(handle:Byte Ptr)
+	Function bmx_wxsheet_endbatch(handle:Byte Ptr, refresh:Int)
+	Function bmx_wxsheet_getbatchcount:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_forcerefresh(handle:Byte Ptr)
+
 	Function bmx_wxsheetselection_getnumberrows:Int(handle:Byte Ptr)
 	Function bmx_wxsheetselection_getnumbercols:Int(handle:Byte Ptr)
 	Function bmx_wxsheetselection_getoptions:Int(handle:Byte Ptr)
@@ -401,22 +431,22 @@ Const wxSHEET_AttrAny:Int = wxSHEET_AttrDefault|wxSHEET_AttrCell|wxSHEET_AttrRow
 Const wxSHEET_AttrType_Mask:Int = wxSHEET_AttrAny
 
 Const wxSHEET_AttrOrientUnset:Int = 0
-Const wxSHEET_AttrOrientHoriz:Int = wxHORIZONTAL ' 0x0004 Horizontally orientated
-Const wxSHEET_AttrOrientVert:Int = wxVERTICAL   ' 0x0008 Vertically orientated
+Const wxSHEET_AttrOrientHoriz:Int = wxHORIZONTAL ' $0004 Horizontally orientated
+Const wxSHEET_AttrOrientVert:Int = wxVERTICAL   ' $0008 Vertically orientated
 Const wxSHEET_AttrOrientType_Mask:Int = wxSHEET_AttrOrientHoriz | wxSHEET_AttrOrientVert
 
 Const wxSHEET_AttrAlignHorizUnset:Int = $01000
 Const wxSHEET_AttrAlignVertUnset:Int = $02000
 Const wxSHEET_AttrAlignUnset:Int = wxSHEET_AttrAlignHorizUnset|wxSHEET_AttrAlignVertUnset
 
-Const wxSHEET_AttrAlignCenterHoriz:Int = wxALIGN_CENTER_HORIZONTAL ' = 0x0100,
+Const wxSHEET_AttrAlignCenterHoriz:Int = wxALIGN_CENTER_HORIZONTAL ' = $0100,
 Const wxSHEET_AttrAlignLeft:Int = wxALIGN_LEFT              ' = wxALIGN_NOT,
 Const wxSHEET_AttrAlignTop:Int = wxALIGN_TOP               ' = wxALIGN_NOT,
-Const wxSHEET_AttrAlignRight:Int = wxALIGN_RIGHT             ' = 0x0200,
-Const wxSHEET_AttrAlignBottom:Int = wxALIGN_BOTTOM            ' = 0x0400,
-Const wxSHEET_AttrAlignCenterVert:Int = wxALIGN_CENTER_VERTICAL   ' = 0x0800,
+Const wxSHEET_AttrAlignRight:Int = wxALIGN_RIGHT             ' = $0200,
+Const wxSHEET_AttrAlignBottom:Int = wxALIGN_BOTTOM            ' = $0400,
+Const wxSHEET_AttrAlignCenterVert:Int = wxALIGN_CENTER_VERTICAL   ' = $0800,
 Const wxSHEET_AttrAlignCenter:Int = wxALIGN_CENTER            ' = (wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL),
-Const wxSHEET_AttrAlignType_Mask:Int = wxALIGN_MASK|wxSHEET_AttrAlignUnset ' = 0x0f00
+Const wxSHEET_AttrAlignType_Mask:Int = wxALIGN_MASK|wxSHEET_AttrAlignUnset ' = $0f00
 
 Const wxSHEET_AttrAlignHoriz_Mask:Int = wxALIGN_LEFT|wxALIGN_RIGHT|wxALIGN_CENTER_HORIZONTAL|wxSHEET_AttrAlignHorizUnset
 Const wxSHEET_AttrAlignVert_Mask:Int = wxALIGN_TOP|wxALIGN_BOTTOM|wxALIGN_CENTER_VERTICAL|wxSHEET_AttrAlignVertUnset
@@ -459,3 +489,15 @@ Const wxEVT_SHEET_CELL_VALUE_CHANGED:Int = 15911
 Const wxEVT_SHEET_EDITOR_ENABLED:Int = 15930
 Const wxEVT_SHEET_EDITOR_DISABLED:Int = 15940
 Const wxEVT_SHEET_EDITOR_CREATED:Int = 15950
+
+
+Const SB_AS_NEEDED:Int = $0  ' Show the scrollbars as needed
+Const SB_HORIZ_NEVER:Int = $1  ' Never show horiz scrollbar, even If needed
+Const SB_VERT_NEVER:Int = $2  ' Never show vert scrollbar, even If needed
+Const SB_NEVER:Int = SB_HORIZ_NEVER | SB_VERT_NEVER
+Const SB_HORIZ_ALWAYS:Int = $4  ' Always show horiz scrollbar
+Const SB_VERT_ALWAYS:Int = $8  ' Always show vert scrollbar
+Const SB_ALWAYS:Int = SB_HORIZ_ALWAYS | SB_VERT_ALWAYS
+
+Const SB_HORIZ_MASK:Int = SB_HORIZ_NEVER|SB_HORIZ_ALWAYS
+Const SB_VERT_MASK:Int = SB_VERT_NEVER|SB_VERT_ALWAYS

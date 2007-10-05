@@ -96,6 +96,13 @@ Type wxStatusBar Extends wxWindow
 	Method GetFieldRect:Int(index:Int, x:Int Var, y:Int Var, w:Int Var, h:Int Var)
 		Return bmx_wxstatusbar_getfieldrect(wxObjectPtr, index, Varptr x, Varptr y, Varptr w, Varptr h)
 	End Method
+
+	Rem
+	bbdoc: Returns the size and position of a field's internal bounding rectangle, or Null if the field is invalid.
+	End Rem
+	Method GetFieldRectRect:wxRect(index:Int)
+		Return wxRect._create(bmx_wxstatusbar_getfieldrectrect(wxObjectPtr, index))
+	End Method
 	
 	Rem
 	bbdoc: Returns the number of fields in the status bar.

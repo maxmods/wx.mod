@@ -683,6 +683,118 @@ Type wxSheet Extends wxWindow
 		Return wxSheetSelection._create(bmx_wxsheet_getselection(wxObjectPtr))
 	End Method
 
+	Method AdjustScrollbars(calcWinSizes:Int = True)
+		bmx_wxsheet_adjustscrollbars(wxObjectPtr, calcWinSizes)
+	End Method
+	
+	Method GetScrollBarMode:Int()
+		Return bmx_wxsheet_getscrollbarmode(wxObjectPtr)
+	End Method
+	
+	Method SetScrollBarMode(mode:Int)
+		bmx_wxsheet_setscrollbarmode(wxObjectPtr, mode)
+	End Method
+	
+	Method SetHorizontalScrollBarMode(mode:Int)
+		bmx_wxsheet_sethorizontalscrollbarmode(wxObjectPtr, mode)
+	End Method
+	
+	Method SetVerticalScrollBarMode(mode:Int)
+		bmx_wxsheet_setverticalscrollbarmode(wxObjectPtr, mode)
+	End Method
+	
+	Method NeedsVerticalScrollBar:Int()
+		Return bmx_wxsheet_needsverticalscrollbar(wxObjectPtr)
+	End Method
+	
+	Method NeedsHorizontalScrollBar:Int()
+		Return bmx_wxsheet_needshorizontalscrollbar(wxObjectPtr)
+	End Method
+
+	Method RefreshCell(row:Int, col:Int, singleCell:Int = True)
+		bmx_wxsheet_refreshcell(wxObjectPtr, row, col, singleCell)
+	End Method
+	
+	Method RefreshBlock(block:wxSheetBlock)
+		bmx_wxsheet_refreshblock(wxObjectPtr, block.wxObjectPtr)
+	End Method
+	
+	Method RefreshRow(row:Int)
+		bmx_wxsheet_refreshrow(wxObjectPtr, row)
+	End Method
+	
+	Method RefreshCol(col:Int)
+		bmx_wxsheet_refreshcol(wxObjectPtr, col)
+	End Method
+	
+	Method RefreshGridCellBlock(block:wxSheetBlock)
+		bmx_wxsheet_refreshgridcellblock(wxObjectPtr, block.wxObjectPtr)
+	End Method
+	
+	Method RefreshAttrChange(row:Int, col:Int, attrType:Int)
+		bmx_wxsheet_refreshattrchange(wxObjectPtr, row, col, attrType)
+	End Method
+	
+	Method RefreshSheet(eraseb:Int = True, rect:wxRect = Null)
+		If rect Then
+			bmx_wxsheet_refreshsheet(wxObjectPtr, eraseb, rect.wxObjectPtr)
+		Else
+			bmx_wxsheet_refreshsheet(wxObjectPtr, eraseb, Null)
+		End If
+	End Method
+
+	Method HasSelection:Int(selecting:Int = True)
+		Return bmx_wxsheet_hasselection(wxObjectPtr, selecting)
+	End Method
+	
+	Method IsCellSelected:Int( row:Int, col:Int )
+		Return bmx_wxsheet_iscellselected(wxObjectPtr, row, col)
+	End Method
+	
+	Method IsRowSelected:Int( row:Int )
+		Return bmx_wxsheet_isrowselected(wxObjectPtr, row)
+	End Method
+	
+	Method IsColSelected:Int( col:Int )
+		Return bmx_wxsheet_iscolselected(wxObjectPtr, col)
+	End Method
+	
+	Method IsBlockSelected:Int(block:wxSheetBlock )
+		Return bmx_wxsheet_isblockselected(wxObjectPtr, block.wxObjectPtr)
+	End Method
+	
+	Method IsSelecting:Int()
+		Return bmx_wxsheet_isselecting(wxObjectPtr)
+	End Method
+	
+	Method SetSelectionMode(selmode:Int)
+		bmx_wxsheet_setselectionmode(wxObjectPtr, selmode)
+	End Method
+	
+	Method  GetSelectionMode:Int()
+		Return bmx_wxsheet_getselectionmode(wxObjectPtr)
+	End Method
+	
+	Method HasSelectionMode:Int(mode:Int)
+		Return bmx_wxsheet_hasselectionmode(wxObjectPtr, mode)
+	End Method
+
+	Method BeginBatch()
+		bmx_wxsheet_beginbatch(wxObjectPtr)
+	End Method
+	
+	Method EndBatch(refresh:Int = True)
+		bmx_wxsheet_endbatch(wxObjectPtr, refresh)
+	End Method
+	
+	Method GetBatchCount:Int()
+		Return bmx_wxsheet_getbatchcount(wxObjectPtr)
+	End Method
+	
+	Method ForceRefresh()
+		bmx_wxsheet_forcerefresh(wxObjectPtr)
+	End Method
+
 End Type
 
 

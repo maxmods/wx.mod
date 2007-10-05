@@ -380,7 +380,7 @@ bool bmx_wxwindow_isexposed(wxWindow * window, int x, int y, int w, int h) {
 	}
 }
 
-bool bmx_wxwindow_isexposed(wxWindow * window, MaxRect * rect) {
+bool bmx_wxwindow_isexposedrect(wxWindow * window, MaxRect * rect) {
 	return window->IsExposed(rect->Rect());
 }
 

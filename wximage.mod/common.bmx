@@ -91,6 +91,7 @@ Extern
 	Function bmx_wximage_mirror:Byte Ptr(handle:Byte Ptr, horizontally:Int)
 	Function bmx_wximage_replace(handle:Byte Ptr, r1:Int, g1:Int, b1:Int, r2:Int, g2:Int, b2:Int)
 	Function bmx_wximage_setrgbrange(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, red:Int, green:Int, blue:Int)
+	Function bmx_wximage_setrgbrect(handle:Byte Ptr, rect:Byte Ptr, red:Int, green:Int, blue:Int)
 	Function bmx_wximage_setpalette(handle:Byte Ptr, palette:Byte Ptr)
 	Function bmx_wximage_setoption(handle:Byte Ptr, name:String, value:String)
 	Function bmx_wximage_setoptionint(handle:Byte Ptr, name:String, value:Int)

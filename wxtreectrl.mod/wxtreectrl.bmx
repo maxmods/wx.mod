@@ -256,6 +256,23 @@ Type wxTreeCtrl Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Retrieves the rectangle bounding the item.
+	about: If textOnly is true, only the rectangle around the item's label will be returned, otherwise the
+	item's image is also taken into account.
+	<p>
+	The return value is true if the rectangle was successfully retrieved or false if it was not (in this
+	case rect is not changed) -- for example, if the item is currently invisible.
+	</p>
+	<p>
+	Notice that the rectangle coordinates are logical, not physical ones. So, for example, the x
+	coordinate may be negative if the tree has a horizontal scrollbar and its position is not 0.
+	</p>
+	End Rem
+	Method GetBoundingRectRect:wxRect(item:wxTreeItemId, textOnly:Int = False)
+		Return wxRect._create(bmx_wxtreectrl_getboundingrectrect(wxObjectPtr, item.wxTreeItemIdPtr, textOnly))
+	End Method
+
+	Rem
 	bbdoc: Returns the number of items in the branch.
 	about: If recursively is true, returns the total number of descendants, otherwise only one level of
 	children is counted.
@@ -858,7 +875,7 @@ bbdoc: A tree event holds information about events associated with wxTreeCtrl ob
 End Rem
 Type wxTreeEvent Extends wxNotifyEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxTreeEvent = New wxTreeEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -898,7 +915,7 @@ Type TTreeEventFactory Extends TEventFactory
 					wxEVT_COMMAND_TREE_ITEM_GETTOOLTIP, ..
 					wxEVT_COMMAND_TREE_ITEM_MENU
 			
-				Return wxTreeEvent.create(wxEventPtr, evt)
+				Return wxTreeEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

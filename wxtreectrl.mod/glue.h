@@ -54,6 +54,7 @@ extern "C" {
 	void bmx_wxtreectrl_expandall(wxTreeCtrl * tree);
 	void bmx_wxtreectrl_expandallchildren(wxTreeCtrl * tree, MaxTreeItem * item);
 	bool bmx_wxtreectrl_getboundingrect(wxTreeCtrl * tree, MaxTreeItem * item, int * x, int * y, int * w, int * h, bool textOnly);
+	MaxRect * bmx_wxtreectrl_getboundingrectrect(wxTreeCtrl * tree, MaxTreeItem * item, bool textOnly);
 	int bmx_wxtreectrl_getchildrencount(wxTreeCtrl * tree, MaxTreeItem * item, bool recursively);
 	int bmx_wxtreectrl_getcount(wxTreeCtrl * tree);
 	wxTextCtrl * bmx_wxtreectrl_geteditcontrol(wxTreeCtrl * tree);

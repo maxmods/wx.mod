@@ -77,6 +77,7 @@ extern "C" {
 	MaxImage * bmx_wximage_mirror(MaxImage * image, bool horizontally);
 	void bmx_wximage_replace(MaxImage * image, int r1, int g1, int b1, int r2, int g2, int b2);
 	void bmx_wximage_setrgbrange(MaxImage * image, int x, int y, int w, int h, int red, int green, int blue);
+	void bmx_wximage_setrgbrect(MaxImage * image, MaxRect * rect, int red, int green, int blue);
 	void bmx_wximage_setpalette(MaxImage * image, MaxPalette * palette);
 	void bmx_wximage_setoption(MaxImage * image, BBString * name, BBString * value);
 	void bmx_wximage_setoptionint(MaxImage * image, BBString * name, int value);

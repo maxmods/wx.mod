@@ -5,6 +5,8 @@ Import wx.wxSheet
 Import wx.wxFrame
 Import wx.wxTextCtrl
 Import wx.wxLog
+Import wx.wxColourDialog
+Import wx.wxFontDialog
 
 New GridApp.run()
 
@@ -653,46 +655,219 @@ Type GridFrame Extends wxFrame
 	End Function
 	
 	Function AutoSizeCols(event:wxEvent)
+ 		Local frame:GridFrame = GridFrame(event.parent)
+
+		frame.grid.AutoSizeCols()
+		frame.grid.Refresh()
 	End Function
 	
 	Function CellOverflow(event:wxEvent)
+ 		Local frame:GridFrame = GridFrame(event.parent)
+
+		frame.grid.SetAttrOverflow(wxGridCellSheetRow, wxGridCellSheetCol, wxCommandEvent(event).IsChecked(), wxSHEET_AttrDefault)
 	End Function
 	
 	Function ResizeCell(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		If wxCommandEvent(event).IsChecked() Then
+			frame.grid.SetCellSpan( 7, 1, 5, 5 )
+		Else
+			frame.grid.SetCellSpan( 7, 1, 1, 5 )
+		End If
 	End Function
 	
 	Function SetLabelColour(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local colour:wxColour = wxGetColourFromUser(frame, frame.grid.GetAttrBackgroundColour( wxRowLabelSheetRow, wxRowLabelSheetCol, wxSHEET_AttrDefault ))
+		
+		If colour.IsOk() Then
+			frame.grid.SetAttrBackgroundColour( wxRowLabelSheetRow, wxRowLabelSheetCol, colour, wxSHEET_AttrDefault )
+		End If
 	End Function
 	
 	Function SetLabelTextColour(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local colour:wxColour = wxGetColourFromUser(frame, frame.grid.GetAttrForegroundColour( wxRowLabelSheetRow, ..
+			wxRowLabelSheetCol, wxSHEET_AttrDefault ))
+		
+		If colour.IsOk() Then
+			frame.grid.SetAttrForegroundColour( wxRowLabelSheetRow, wxRowLabelSheetCol, colour, wxSHEET_AttrDefault )
+		End If
 	End Function
 	
 	Function SetLabelFont(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local font:wxFont = wxGetFontFromUser(frame)
+		
+		If font.IsOk() Then
+			frame.grid.SetAttrFont( wxRowLabelSheetRow, wxRowLabelSheetCol, font, wxSHEET_AttrDefault )
+		End If
 	End Function
 	
 	Function OnScrollbarsShown(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+
+		Select event.GetId()
+			Case ID_SCROLLBARS_HORIZ_NEVER
+				frame.grid.SetScrollBarMode(SB_HORIZ_NEVER)
+			
+			Case ID_SCROLLBARS_VERT_NEVER
+				frame.grid.SetScrollBarMode(SB_VERT_NEVER)
+			
+			Case ID_SCROLLBARS_NEVER
+				frame.grid.SetScrollBarMode(SB_NEVER)
+			
+			Case ID_SCROLLBARS_HORIZ_ALWAYS
+				frame.grid.SetScrollBarMode(SB_HORIZ_ALWAYS)
+			
+			Case ID_SCROLLBARS_VERT_ALWAYS
+				frame.grid.SetScrollBarMode(SB_VERT_ALWAYS)
+			
+			Case ID_SCROLLBARS_ALWAYS
+				frame.grid.SetScrollBarMode(SB_ALWAYS)		
+			
+			Default
+				frame.grid.SetScrollBarMode(SB_AS_NEEDED)
+			
+		End Select
+		
+		frame.grid.AdjustScrollbars() ' always call this To update SB settings
 	End Function
 	
 	Function SetRowLabelHorizAlignment(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local align:Int = frame.grid.GetAttrAlignment(wxRowLabelSheetRow, wxRowLabelSheetCol, wxSHEET_AttrDefault)
+		Local horiz:Int
+		
+		Select align & wxSHEET_AttrAlignHoriz_Mask
+			Case wxSHEET_AttrAlignLeft
+				horiz = wxSHEET_AttrAlignCenterHoriz
+			
+			Case wxSHEET_AttrAlignCenterHoriz
+				horiz = wxSHEET_AttrAlignRight
+			
+			Default
+				horiz = wxSHEET_AttrAlignLeft
+			
+		End Select
+
+		align:& ~wxSHEET_AttrAlignHoriz_Mask ' clear old
+		align:| horiz
+		
+		frame.grid.SetAttrAlignment( wxRowLabelSheetRow, wxRowLabelSheetCol, align, wxSHEET_AttrDefault )
 	End Function
 	
 	Function SetRowLabelVertAlignment(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local align:Int = frame.grid.GetAttrAlignment(wxRowLabelSheetRow, wxRowLabelSheetCol, wxSHEET_AttrDefault)
+		Local vert:Int
+		
+		Select align & wxSHEET_AttrAlignVert_Mask
+			Case wxSHEET_AttrAlignTop
+				vert = wxSHEET_AttrAlignCenterVert
+			
+			Case wxSHEET_AttrAlignCenterVert
+				vert = wxSHEET_AttrAlignBottom
+			
+			Default
+				vert = wxSHEET_AttrAlignTop
+		End Select
+		
+		align:& ~wxSHEET_AttrAlignVert_Mask ' clear old
+		align:| vert
+		frame.grid.SetAttrAlignment( wxRowLabelSheetRow, wxRowLabelSheetCol, align, wxSHEET_AttrDefault )
 	End Function
 	
 	Function SetColLabelHorizAlignment(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local align:Int = frame.grid.GetAttrAlignment(wxColLabelSheetRow, wxColLabelSheetCol, wxSHEET_AttrDefault)
+		Local horiz:Int
+		
+		Select align & wxSHEET_AttrAlignHoriz_Mask
+			Case wxSHEET_AttrAlignLeft
+				horiz = wxSHEET_AttrAlignCenterHoriz
+			
+			Case wxSHEET_AttrAlignCenterHoriz
+				horiz = wxSHEET_AttrAlignRight
+			
+			Default
+				horiz = wxSHEET_AttrAlignLeft
+		End Select
+		
+		align:& ~wxSHEET_AttrAlignHoriz_Mask
+		align:| horiz
+		frame.grid.SetAttrAlignment( wxColLabelSheetRow, wxColLabelSheetCol, align, wxSHEET_AttrDefault )
 	End Function
 	
 	Function SetColLabelVertAlignment(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local align:Int = frame.grid.GetAttrAlignment(wxColLabelSheetRow, wxColLabelSheetCol, wxSHEET_AttrDefault)
+		Local vert:Int
+		
+		Select align & wxSHEET_AttrAlignVert_Mask
+			Case wxSHEET_AttrAlignTop
+				vert = wxSHEET_AttrAlignCenterVert
+			
+			Case wxSHEET_AttrAlignCenterVert
+				vert = wxSHEET_AttrAlignBottom
+			
+			Default
+				vert = wxSHEET_AttrAlignTop
+		End Select
+		
+		align:& ~wxSHEET_AttrAlignVert_Mask
+		align:| vert
+		frame.grid.SetAttrAlignment( wxColLabelSheetRow, wxColLabelSheetCol, align, wxSHEET_AttrDefault )
 	End Function
 	
 	Function SetGridLineColour(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local colour:wxColour = wxGetColourFromUser(frame, frame.grid.GetGridLineColour(), "Set grid line colour")
+		
+		If colour.IsOk() Then
+			frame.grid.SetGridLineColour( colour )
+		End If
 	End Function
 	
 	
 	Function SetCellFgColour(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local colour:wxColour = wxGetColourFromUser(frame, ..
+			frame.grid.GetAttrForegroundColour(wxGridCellSheetRow, wxGridCellSheetCol, wxSHEET_AttrDefault))
+		
+		If colour.IsOk() Then
+			frame.grid.SetAttrForegroundColour(wxGridCellSheetRow, wxGridCellSheetCol, colour, wxSHEET_AttrDefault)
+			frame.grid.Refresh()
+		End If
 	End Function
 	
 	Function SetCellBgColour(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local colour:wxColour = wxGetColourFromUser(frame, ..
+			frame.grid.GetAttrBackgroundColour(wxGridCellSheetRow, wxGridCellSheetCol, wxSHEET_AttrDefault))
+		
+		If colour.IsOk() Then
+			' Check the New Refresh Function by passing it a rectangle
+			' which exactly fits the grid.
+			Local w:Int, h:Int
+			frame.grid.GetSize(w, h)
+			
+			Local r:wxRect = New wxRect.Create(0, 0, w, h)
+			
+			frame.grid.SetAttrBackgroundColour(wxGridCellSheetRow, wxGridCellSheetCol, colour, wxSHEET_AttrDefault)
+			frame.grid.RefreshSheet(True, r)
+		End If
 	End Function
 	
 	
@@ -700,24 +875,81 @@ Type GridFrame Extends wxFrame
 	End Function
 	
 	Function InsertRow(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		frame.grid.InsertRows( frame.grid.GetGridCursorRow(), 1 )
 	End Function
 	
 	Function InsertCol(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		frame.grid.InsertCols( frame.grid.GetGridCursorCol(), 1 )
 	End Function
 	
 	Function DeleteSelectedRows(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		If frame.grid.HasSelection() Then
+		
+			frame.grid.BeginBatch()
+
+			Local n:Int = 0
+			While n < frame.grid.GetNumberRows()
+				If frame.grid.IsRowSelected( n )
+					frame.grid.DeleteRows( n, 1 )
+				Else
+					n:+ 1
+				End If
+			Wend
+	
+			frame.grid.EndBatch()
+		End If
 	End Function
 	
 	Function DeleteSelectedCols(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		If frame.grid.HasSelection() Then
+		
+			frame.grid.BeginBatch()
+			
+			Local n:Int = 0
+			While n < frame.grid.GetNumberCols()
+			
+				If frame.grid.IsColSelected( n ) Then
+					frame.grid.DeleteCols( n, 1 )
+				Else
+					n:+ 1
+				End If
+			Wend
+			
+			frame.grid.EndBatch()
+		
+		End If
 	End Function
 	
 	Function ClearGrid(event:wxEvent)
+		GridFrame(event.parent).grid.ClearValues()
 	End Function
 	
 	Function EnableGrid(event:wxEvent)
+		GridFrame(event.parent).grid.Enable(wxCommandEvent(event).IsChecked())
 	End Function
 	
 	Function SelectionMode(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		Select event.GetId()
+			Case ID_SELNONE
+				frame.grid.SetSelectionMode( wxSHEET_SelectNone   )
+			Case ID_SELCELLS
+				frame.grid.SetSelectionMode( wxSHEET_SelectCells  )
+			Case ID_SELROWS
+				frame.grid.SetSelectionMode( wxSHEET_SelectRows   )
+			Case ID_SELCOLS
+				frame.grid.SetSelectionMode( wxSHEET_SelectCols   )
+			Case ID_SELSINGLE
+				frame.grid.SetSelectionMode( wxSHEET_SelectSingle )
+		End Select
 	End Function
 	
 	

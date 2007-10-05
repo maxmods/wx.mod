@@ -44,6 +44,7 @@ extern "C" {
 
 	wxSashEdgePosition bmx_wxsashevent_getedge(wxSashEvent & event);
 	void bmx_wxsashevent_getdragrect(wxSashEvent & event, int * x, int * y, int * w, int * h);
+	MaxRect * bmx_wxsashevent_getdragrectrect(wxSashEvent & event);
 	wxSashDragStatus bmx_wxsashevent_getdragstatus(wxSashEvent & event);
 
 	int bmx_wxsashwindow_geteventtype(int type);

@@ -66,6 +66,7 @@ Extern
 	Function bmx_wxtreectrl_expandall(handle:Byte Ptr)
 	Function bmx_wxtreectrl_expandallchildren(handle:Byte Ptr, item:Byte Ptr)
 	Function bmx_wxtreectrl_getboundingrect:Int(handle:Byte Ptr, item:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr, textOnly:Int)
+	Function bmx_wxtreectrl_getboundingrectrect:Byte Ptr(handle:Byte Ptr, item:Byte Ptr, textOnly:Int)
 	Function bmx_wxtreectrl_getchildrencount:Int(handle:Byte Ptr, item:Byte Ptr, recursively:Int)
 	Function bmx_wxtreectrl_getcount:Int(handle:Byte Ptr)
 	Function bmx_wxtreectrl_geteditcontrol:Byte Ptr(handle:Byte Ptr)

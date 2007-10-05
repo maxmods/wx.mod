@@ -674,10 +674,120 @@ void bmx_wxsheet_setgridlinecolour(wxSheet * sheet, MaxColour * colour) {
 }
 
 MaxSheetSelection * bmx_wxsheet_getselection(wxSheet * sheet) {
-//	wxSheetSelection s(sheet->GetSelection());
 	return new MaxSheetSelection(*sheet->GetSelection());
 }
 
+void bmx_wxsheet_adjustscrollbars(wxSheet * sheet, bool calcWinSizes) {
+	sheet->AdjustScrollbars(calcWinSizes);
+}
+
+int bmx_wxsheet_getscrollbarmode(wxSheet * sheet) {
+	return sheet->GetScrollBarMode();
+}
+
+void bmx_wxsheet_setscrollbarmode(wxSheet * sheet, int mode) {
+	sheet->SetScrollBarMode(mode);
+}
+
+void bmx_wxsheet_sethorizontalscrollbarmode(wxSheet * sheet, int mode) {
+	sheet->SetHorizontalScrollBarMode(mode);
+}
+
+void bmx_wxsheet_setverticalscrollbarmode(wxSheet * sheet, int mode) {
+	sheet->SetVerticalScrollBarMode(mode);
+}
+
+int bmx_wxsheet_needsverticalscrollbar(wxSheet * sheet) {
+	return sheet->NeedsVerticalScrollBar();
+}
+
+int bmx_wxsheet_needshorizontalscrollbar(wxSheet * sheet) {
+	return sheet->NeedsHorizontalScrollBar();
+}
+
+void bmx_wxsheet_refreshcell(wxSheet * sheet, int row, int col, bool singleCell) {
+	sheet->RefreshCell(wxSheetCoords(row, col), singleCell);
+}
+
+void bmx_wxsheet_refreshblock(wxSheet * sheet, MaxSheetBlock * block) {
+	sheet->RefreshBlock(block->Block());
+}
+
+void bmx_wxsheet_refreshrow(wxSheet * sheet, int row) {
+	sheet->RefreshRow(row);
+}
+
+void bmx_wxsheet_refreshcol(wxSheet * sheet, int col) {
+	sheet->RefreshCol(col);
+}
+
+void bmx_wxsheet_refreshgridcellblock(wxSheet * sheet, MaxSheetBlock * block) {
+	sheet->RefreshGridCellBlock(block->Block());
+}
+
+void bmx_wxsheet_refreshattrchange(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	sheet->RefreshAttrChange(wxSheetCoords(row, col), attrType);
+}
+
+void bmx_wxsheet_refreshsheet(wxSheet * sheet, bool eraseb, MaxRect * rect) {
+	if (rect) {
+		sheet->Refresh(eraseb, & rect->Rect());
+	} else {
+		sheet->Refresh(eraseb);
+	}
+}
+
+bool bmx_wxsheet_hasselection(wxSheet * sheet, bool selecting) {
+	return sheet->HasSelection(selecting);
+}
+
+bool bmx_wxsheet_iscellselected(wxSheet * sheet, int row, int col) {
+	return sheet->IsCellSelected(wxSheetCoords(row, col));
+}
+
+bool bmx_wxsheet_isrowselected(wxSheet * sheet, int row) {
+	return sheet->IsRowSelected(row);
+}
+
+bool bmx_wxsheet_iscolselected(wxSheet * sheet, int col) {
+	return sheet->IsColSelected(col);
+}
+
+bool bmx_wxsheet_isblockselected(wxSheet * sheet, MaxSheetBlock * block) {
+	return sheet->IsBlockSelected(block->Block());
+}
+
+bool bmx_wxsheet_isselecting(wxSheet * sheet) {
+	return sheet->IsSelecting();
+}
+
+void bmx_wxsheet_setselectionmode(wxSheet * sheet, wxSheetSelectionMode_Type selmode) {
+	sheet->SetSelectionMode(selmode);
+}
+
+int bmx_wxsheet_getselectionmode(wxSheet * sheet) {
+	return sheet->GetSelectionMode();
+}
+
+bool bmx_wxsheet_hasselectionmode(wxSheet * sheet, int mode) {
+	return sheet->HasSelectionMode(mode);
+}
+
+void bmx_wxsheet_beginbatch(wxSheet * sheet) {
+	sheet->BeginBatch();
+}
+
+void bmx_wxsheet_endbatch(wxSheet * sheet, bool refresh) {
+	sheet->EndBatch(refresh);
+}
+
+int bmx_wxsheet_getbatchcount(wxSheet * sheet) {
+	return sheet->GetBatchCount();
+}
+
+void bmx_wxsheet_forcerefresh(wxSheet * sheet) {
+	sheet->ForceRefresh();
+}
 
 
 // *********************************************

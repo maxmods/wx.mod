@@ -98,6 +98,10 @@ void bmx_wxsashevent_getdragrect(wxSashEvent & event, int * x, int * y, int * w,
 	*h = r.height;
 }
 
+MaxRect * bmx_wxsashevent_getdragrectrect(wxSashEvent & event) {
+	return new MaxRect(event.GetDragRect());	
+}
+
 wxSashDragStatus bmx_wxsashevent_getdragstatus(wxSashEvent & event) {
 	return event.GetDragStatus();
 }

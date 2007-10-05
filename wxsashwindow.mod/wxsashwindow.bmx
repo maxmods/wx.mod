@@ -162,7 +162,7 @@ allowed range.
 End Rem
 Type wxSashEvent Extends wxCommandEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxSashEvent = New wxSashEvent
 		
 		this.wxEventPtr = wxEventPtr
@@ -187,6 +187,14 @@ Type wxSashEvent Extends wxCommandEvent
 	Method GetDragRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
 		bmx_wxsashevent_getdragrect(wxEventPtr, Varptr x, Varptr y, Varptr w, Varptr h)
 	End Method
+
+	Rem
+	bbdoc: Returns the rectangle representing the new size the window would be if the resize was applied.
+	about: It is up to the application to set the window size if required.
+	End Rem
+	Method GetDragRectRect:wxRect()
+		Return wxRect._create(bmx_wxsashevent_getdragrectrect(wxEventPtr))
+	End Method
 	
 	Rem
 	bbdoc: Returns the status of the sash: one of wxSASH_STATUS_OK, wxSASH_STATUS_OUT_OF_RANGE.
@@ -204,7 +212,7 @@ Type TSashEventFactory Extends TEventFactory
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		If evt.eventType = wxEVT_SASH_DRAGGED Then
-			Return wxSashEvent.create(wxEventPtr, evt)
+			Return wxSashEvent.Create(wxEventPtr, evt)
 		End If
 		
 		Return Null

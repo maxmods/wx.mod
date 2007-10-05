@@ -69,6 +69,15 @@ bool bmx_wxstatusbar_getfieldrect(wxStatusBar * statusbar, int index, int * x, i
 	return ret;
 }
 
+MaxRect * bmx_wxstatusbar_getfieldrectrect(wxStatusBar * statusbar, int index) {
+	wxRect r;
+	bool ret = statusbar->GetFieldRect(index, r);
+	if (ret) {
+		return new MaxRect(r);
+	}
+	return 0;
+}
+
 int bmx_wxstatusbar_getfieldscount(wxStatusBar * statusbar) {
 	return statusbar->GetFieldsCount();
 }

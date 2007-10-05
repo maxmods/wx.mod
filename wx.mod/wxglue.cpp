@@ -254,6 +254,21 @@ MaxPaintDC::MaxPaintDC(wxWindow * window)
 
 // ---------------------------------------------------------------------------------------
 
+MaxRect::MaxRect(const wxRect & r)
+{
+	rect = r;
+}
+
+wxRect & MaxRect::Rect() {
+	return rect;
+}
+
+MaxRect::~MaxRect() {
+}
+
+
+// ---------------------------------------------------------------------------------------
+
 BEGIN_EVENT_TABLE(MaxEvtHandler, wxEvtHandler)
 END_EVENT_TABLE()
 

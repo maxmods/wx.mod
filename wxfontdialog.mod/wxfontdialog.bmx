@@ -247,7 +247,7 @@ End Type
 Rem
 bbdoc: Shows the font selection dialog and returns the font selected by user or invalid font (use wxFont:IsOk to test whether a font is valid) if the dialog was cancelled.
 End Rem
-Function wxGetFontFromUser:wxFont(parent:wxWindow, font:wxFont, caption:String = "")
+Function wxGetFontFromUser:wxFont(parent:wxWindow, font:wxFont = Null, caption:String = "")
 
 	If parent Then
 		If font Then

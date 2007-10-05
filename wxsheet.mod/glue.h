@@ -184,6 +184,36 @@ extern "C" {
 	void bmx_wxsheet_setgridlinecolour(wxSheet * sheet, MaxColour * colour);
 	MaxSheetSelection * bmx_wxsheet_getselection(wxSheet * sheet);
 
+	void bmx_wxsheet_adjustscrollbars(wxSheet * sheet, bool calcWinSizes);
+	int bmx_wxsheet_getscrollbarmode(wxSheet * sheet);
+	void bmx_wxsheet_setscrollbarmode(wxSheet * sheet, int mode);
+	void bmx_wxsheet_sethorizontalscrollbarmode(wxSheet * sheet, int mode);
+	void bmx_wxsheet_setverticalscrollbarmode(wxSheet * sheet, int mode);
+	int bmx_wxsheet_needsverticalscrollbar(wxSheet * sheet);
+	int bmx_wxsheet_needshorizontalscrollbar(wxSheet * sheet);
+
+	void bmx_wxsheet_refreshcell(wxSheet * sheet, int row, int col, bool singleCell);
+	void bmx_wxsheet_refreshblock(wxSheet * sheet, MaxSheetBlock * block);
+	void bmx_wxsheet_refreshrow(wxSheet * sheet, int row);
+	void bmx_wxsheet_refreshcol(wxSheet * sheet, int col);
+	void bmx_wxsheet_refreshgridcellblock(wxSheet * sheet, MaxSheetBlock * block);
+	void bmx_wxsheet_refreshattrchange(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType);
+	void bmx_wxsheet_refreshsheet(wxSheet * sheet, bool eraseb, MaxRect * rect);
+
+	bool bmx_wxsheet_hasselection(wxSheet * sheet, bool selecting);
+	bool bmx_wxsheet_iscellselected(wxSheet * sheet, int row, int col);
+	bool bmx_wxsheet_isrowselected(wxSheet * sheet, int row);
+	bool bmx_wxsheet_iscolselected(wxSheet * sheet, int col);
+	bool bmx_wxsheet_isblockselected(wxSheet * sheet, MaxSheetBlock * block);
+	bool bmx_wxsheet_isselecting(wxSheet * sheet);
+	void bmx_wxsheet_setselectionmode(wxSheet * sheet, wxSheetSelectionMode_Type selmode);
+	int bmx_wxsheet_getselectionmode(wxSheet * sheet);
+	bool bmx_wxsheet_hasselectionmode(wxSheet * sheet, int mode);
+	void bmx_wxsheet_beginbatch(wxSheet * sheet);
+	void bmx_wxsheet_endbatch(wxSheet * sheet, bool refresh);
+	int bmx_wxsheet_getbatchcount(wxSheet * sheet);
+	void bmx_wxsheet_forcerefresh(wxSheet * sheet);
+
 	int bmx_wxsheetselection_getnumberrows(MaxSheetSelection * selection);
 	int bmx_wxsheetselection_getnumbercols(MaxSheetSelection * selection);
 	int bmx_wxsheetselection_getoptions(MaxSheetSelection * selection);

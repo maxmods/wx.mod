@@ -58,6 +58,7 @@ Extern
 
 	Function bmx_wxsashevent_getedge:Int(handle:Byte Ptr)
 	Function bmx_wxsashevent_getdragrect(handle:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxsashevent_getdragrectrect:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxsashevent_getdragstatus:Int(handle:Byte Ptr)
 
 	Function bmx_wxsashwindow_geteventtype:Int(evt:Int)

@@ -667,6 +667,15 @@ Type wxImage Extends wxObject
 		bmx_wximage_setrgbrange(wxObjectPtr, x, y, w, h, red, green, blue)
 	End Method
 	
+	Rem
+	bbdoc: Sets the colour of the pixels within the given rectangle.
+	about: This routine performs bounds-checks for the coordinate so it can be considered a safe way to
+	manipulate the data.
+	End Rem
+	Method SetRGBRect(rect:wxRect, red:Int, green:Int, blue:Int)
+		bmx_wximage_setrgbrect(wxObjectPtr, rect.wxObjectPtr, red, green, blue)
+	End Method
+
 End Type
 
 Type wxImageHandler Extends wxObject

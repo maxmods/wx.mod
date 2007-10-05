@@ -48,6 +48,7 @@ Extern
 	
 	Function bmx_wxstatusbar_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, style:Int)
 	Function bmx_wxstatusbar_getfieldrect:Int(handle:Byte Ptr, index:Int, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxstatusbar_getfieldrectrect:Byte Ptr(handle:Byte Ptr, index:Int)
 	Function bmx_wxstatusbar_getfieldscount:Int(handle:Byte Ptr)
 	Function bmx_wxstatusbar_getstatustext:String(handle:Byte Ptr, index:Int)
 	Function bmx_wxstatusbar_popstatustext(handle:Byte Ptr, index:Int)

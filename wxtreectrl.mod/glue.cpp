@@ -179,6 +179,15 @@ bool bmx_wxtreectrl_getboundingrect(wxTreeCtrl * tree, MaxTreeItem * item, int *
 	return ret;
 }
 
+MaxRect * bmx_wxtreectrl_getboundingrectrect(wxTreeCtrl * tree, MaxTreeItem * item, bool textOnly) {
+	wxRect r;
+	bool ret = tree->GetBoundingRect(item->Item(), r, textOnly);
+	if (ret) {
+		return new MaxRect(r);
+	}
+	return 0;	
+}
+
 int bmx_wxtreectrl_getchildrencount(wxTreeCtrl * tree, MaxTreeItem * item, bool recursively) {
 	return tree->GetChildrenCount(item->Item(), recursively);
 }

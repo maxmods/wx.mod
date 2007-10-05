@@ -244,6 +244,10 @@ void bmx_wximage_setrgbrange(MaxImage * image, int x, int y, int w, int h, int r
 	image->Image().SetRGB(wxRect(x, y, w, h), static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
 }
 
+void bmx_wximage_setrgbrect(MaxImage * image, MaxRect * rect, int red, int green, int blue) {
+	image->Image().SetRGB(rect->Rect(), static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
+}
+
 void bmx_wximage_setpalette(MaxImage * image, MaxPalette * palette) {
 	image->Image().SetPalette(palette->Palette());
 }
