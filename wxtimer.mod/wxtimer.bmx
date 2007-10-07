@@ -154,12 +154,10 @@ bbdoc: wxTimerEvent object is passed to the event handler of timer events.
 End Rem
 Type wxTimerEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxTimerEvent = New wxTimerEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -179,7 +177,7 @@ Type TTimerEventFactory Extends TEventFactory
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		If evt.eventType = wxEVT_TIMER Then
-			Return wxTimerEvent.create(wxEventPtr, evt)
+			Return wxTimerEvent.Create(wxEventPtr, evt)
 		End If
 		
 		Return Null

@@ -878,9 +878,7 @@ Type wxTreeEvent Extends wxNotifyEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxTreeEvent = New wxTreeEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function

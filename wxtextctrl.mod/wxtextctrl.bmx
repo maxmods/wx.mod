@@ -861,12 +861,10 @@ Type wxTextUrlEvent Extends wxCommandEvent
 
 	Field evt:TEventHandler
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxTextUrlEvent = New wxTextUrlEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		this.evt = evt
 		
 		Return this
@@ -876,7 +874,7 @@ Type wxTextUrlEvent Extends wxCommandEvent
 	bbdoc: get the mouse event which happend over the URL
 	End Rem
 	Method GetMouseEvent:wxMouseEvent()
-		Return wxMouseEvent(wxMouseEvent.create(bmx_wxtexturlevent_getmouseevent(wxEventPtr), evt))
+		Return wxMouseEvent(wxMouseEvent.Create(bmx_wxtexturlevent_getmouseevent(wxEventPtr), evt))
 	End Method
 	
 	Rem
@@ -905,9 +903,9 @@ Type TTextCtrlEventFactory Extends TEventFactory
 			Case wxEVT_COMMAND_TEXT_UPDATED, ..
 					wxEVT_COMMAND_TEXT_ENTER, ..
 					wxEVT_COMMAND_TEXT_MAXLEN
-				Return wxCommandEvent.create(wxEventPtr, evt)
+				Return wxCommandEvent.Create(wxEventPtr, evt)
 			Case wxEVT_COMMAND_TEXT_URL
-				Return wxTextUrlEvent.create(wxEventPtr, evt)
+				Return wxTextUrlEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

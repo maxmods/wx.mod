@@ -306,12 +306,10 @@ result in assert failure (in debug mode) and will return meaningless results.
 End Rem
 Type wxSplitterEvent Extends wxNotifyEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxSplitterEvent = New wxSplitterEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -377,7 +375,7 @@ Type TSplitterEventFactory Extends TEventFactory
 					wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING, ..
 					wxEVT_COMMAND_SPLITTER_DOUBLECLICKED, ..
 					wxEVT_COMMAND_SPLITTER_UNSPLIT
-				Return wxSplitterEvent.create(wxEventPtr, evt)
+				Return wxSplitterEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

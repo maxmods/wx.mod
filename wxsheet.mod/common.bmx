@@ -233,6 +233,65 @@ Extern
 	Function bmx_wxsheet_getbatchcount:Int(handle:Byte Ptr)
 	Function bmx_wxsheet_forcerefresh(handle:Byte Ptr)
 
+	Function bmx_wxsheet_fixselectionblock:Byte Ptr(handle:Byte Ptr, block:Byte Ptr, selMode:Int)
+	Function bmx_wxsheet_selectrow:Int(handle:Byte Ptr, row:Int, addToSelected:Int, sendEvt:Int)
+	Function bmx_wxsheet_selectrows:Int(handle:Byte Ptr, rowTop:Int, rowBottom:Int, addToSelected:Int, sendEvt:Int)
+	Function bmx_wxsheet_selectCol:Int(handle:Byte Ptr, col:Int, addToSelected:Int, sendEvt:Int)
+	Function bmx_wxsheet_selectcols:Int(handle:Byte Ptr, colLeft:Int, colRight:Int, addToSelected:Int, sendEvt:Int)
+	Function bmx_wxsheet_selectcell:Int(handle:Byte Ptr, row:Int, col:Int, addToSelected:Int, sendEvt:Int)
+	Function bmx_wxsheet_selectblock:Int(handle:Byte Ptr, block:Byte Ptr, addToSelected:Int, sendEvt:Int)
+	Function bmx_wxsheet_selectall:Int(handle:Byte Ptr, sendEvt:Int)
+	Function bmx_wxsheet_deselectrow:Int(handle:Byte Ptr, row:Int, sendEvt:Int)
+	Function bmx_wxsheet_deselectrows:Int(handle:Byte Ptr, rowTop:Int, rowBottom:Int, sendEvt:Int)
+	Function bmx_wxsheet_deselectcol:Int(handle:Byte Ptr, col:Int, sendEvt:Int)
+	Function bmx_wxsheet_deselectcols:Int(handle:Byte Ptr, colLeft:Int, colRight:Int, sendEvt:Int)
+	Function bmx_wxsheet_deselectcell:Int(handle:Byte Ptr, row:Int, col:Int, sendEvt:Int)
+	Function bmx_wxsheet_deselectblock:Int(handle:Byte Ptr, block:Byte Ptr, sendEvt:Int)
+	Function bmx_wxsheet_clearselection:Int(handle:Byte Ptr, sendEvt:Int)
+	Function bmx_wxsheet_togglecellselection:Int(handle:Byte Ptr, row:Int, col:Int, addToSelected:Int, sendEvt:Int)
+	Function bmx_wxsheet_togglerowselection:Int(handle:Byte Ptr, row:Int, addToSelected:Int, sendEvt:Int)
+	Function bmx_wxsheet_togglecolselection:Int(handle:Byte Ptr, col:Int, addToSelected:Int, sendEvt:Int)
+
+	Function bmx_wxsheet_getcursorcellhighlightpen:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheet_getcursorcellhighlightropen:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheet_setcursorcellhighlightpen(handle:Byte Ptr, pen:Byte Ptr)
+	Function bmx_wxsheet_setcursorcellhighlightreopen(handle:Byte Ptr, pen:Byte Ptr)
+	Function bmx_wxsheet_getlabeloutlinecolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheet_setlabeloutlinecolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxsheet_getselectionbackground:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheet_getselectionforeground:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheet_setselectionbackground(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxsheet_setselectionforeground(handle:Byte Ptr, colour:Byte Ptr)
+
+	Function bmx_wxsheet_hasfocus:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_copycurrentselectiontoclipboard:Int(handle:Byte Ptr, copyCursor:Int, colSep:String)
+	Function bmx_wxsheet_copycurrentselectiontointernalselection:Int(handle:Byte Ptr, copyCursor:Int)
+	Function bmx_wxsheet_copyinternalselectiontoclipboard:Int(handle:Byte Ptr, colSep:String)
+	Function bmx_wxsheet_copyinternalselectiontostring:String(handle:Byte Ptr, colSep:String)
+	Function bmx_wxsheet_copystringtointernalselection:Int(handle:Byte Ptr, value:String, colSep:String)
+	Function bmx_wxsheet_pastefromclipboard:Int(handle:Byte Ptr, row:Int, col:Int, colSep:String)
+	Function bmx_wxsheet_pasteinternalcopiedselection:Int(handle:Byte Ptr, row:Int, col:Int)
+	Function bmx_wxsheet_currentlypasting:Int(handle:Byte Ptr)
+
+	Function bmx_wxsheet_getdefaulteditorfortype:Byte Ptr(handle:Byte Ptr, typeName:String)
+	Function bmx_wxsheet_getdefaultrendererfortype:Byte Ptr(handle:Byte Ptr, typeName:String)
+
+	Function bmx_wxsheet_setnumberrows:Int(handle:Byte Ptr, rows:Int, update:Int)
+	Function bmx_wxsheet_setnumbercols:Int(handle:Byte Ptr, cols:Int, update:Int)
+	Function bmx_wxsheet_setnumbercells:Int(handle:Byte Ptr, rows:Int, cols:Int, update:Int)
+	Function bmx_wxsheet_getdefaultrowheight:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_getdefaultcolwidth:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_setdefaultrowheight(handle:Byte Ptr, height:Int, resizeExistingRows:Int)
+	Function bmx_wxsheet_setdefaultcolwidth(handle:Byte Ptr, width:Int, resizeExistingCols:Int)
+	Function bmx_wxsheet_getminimalacceptablerowheight:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_getminimalacceptablecolwidth:Int(handle:Byte Ptr)
+	Function bmx_wxsheet_setminimalacceptablerowheight(handle:Byte Ptr, height:Int)
+	Function bmx_wxsheet_setminimalacceptablecolwidth(handle:Byte Ptr, width:Int)
+	Function bmx_wxsheet_getminimalrowheight:Int(handle:Byte Ptr, row:Int)
+	Function bmx_wxsheet_getminimalcolwidth:Int(handle:Byte Ptr, col:Int)
+	Function bmx_wxsheet_setminimalrowheight(handle:Byte Ptr, row:Int, height:Int)
+	Function bmx_wxsheet_setminimalcolwidth(handle:Byte Ptr, col:Int, width:Int)
+
 	Function bmx_wxsheetselection_getnumberrows:Int(handle:Byte Ptr)
 	Function bmx_wxsheetselection_getnumbercols:Int(handle:Byte Ptr)
 	Function bmx_wxsheetselection_getoptions:Int(handle:Byte Ptr)
@@ -246,6 +305,13 @@ Extern
 	Function bmx_wxsheetselection_delete(handle:Byte Ptr)
 
 	Function bmx_wxsheetblock_delete(handle:Byte Ptr)
+	Function bmx_wxsheetblock_create:Byte Ptr(row:Int, col:Int, height:Int, width:Int)
+	Function bmx_wxsheetblock_getleft:Int(handle:Byte Ptr)
+	Function bmx_wxsheetblock_getright:Int(handle:Byte Ptr)
+	Function bmx_wxsheetblock_gettop:Int(handle:Byte Ptr)
+	Function bmx_wxsheetblock_getbottom:Int(handle:Byte Ptr)
+	Function bmx_wxsheetblock_getwidth:Int(handle:Byte Ptr)
+	Function bmx_wxsheetblock_getheight:Int(handle:Byte Ptr)
 
 	Function bmx_wxsheetsplitter_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxsheetsplitter_initialize(handle:Byte Ptr, sheet:Byte Ptr)
@@ -284,12 +350,15 @@ Extern
 	Function bmx_wxsheetcellchoiceeditorrefdata_create:Byte Ptr(choices:String[], allowOthers:Int)
 	Function bmx_wxsheetcellbooleditorrefdata_create:Byte Ptr()
 	Function bmx_wxsheetcellenumeditorrefdata_create:Byte Ptr(choices:String)
-	Function bmx_wxsheetcellstringrendererrefdata_create:Byte Ptr()
+	Function bmx_wxsheetcellstringrendererrefdata_create:Byte Ptr(handle:Object)
 	Function bmx_wxsheetcellnumberrendererrefdata_create:Byte Ptr()
 	Function bmx_wxsheetcellfloatrendererrefdata_create:Byte Ptr(width:Int, precision:Int)
 	Function bmx_wxsheetcellboolrendererrefdata_create:Byte Ptr()
 	Function bmx_wxsheetcellenumrendererrefdata_create:Byte Ptr(choices:String)
+	Function bmx_wxsheetcellbitmaprendererrefdata_create:Byte Ptr(bitmap:Byte Ptr, align:Int)
 
+	Function bmx_wxsheetcellstringrendererrefdata_draw(handle:Byte Ptr, sheet:Byte Ptr, attr:Byte Ptr, ..
+			dc:Byte Ptr, rectCell:Byte Ptr, row:Int, col:Int, isSelected:Int)
 
 	Function bmx_wxsheetcellattr_create:Byte Ptr(createData:Int)
 	Function bmx_wxsheetcellattr_setforegroundcolour(handle:Byte Ptr, colour:Byte Ptr)
@@ -336,6 +405,37 @@ Extern
 	Function bmx_wxsheetcellattr_delete(handle:Byte Ptr)
 
 
+	Function bmx_wxsheetevent_getrow:Int(handle:Byte Ptr)
+	Function bmx_wxsheetevent_getcol:Int(handle:Byte Ptr)
+	Function bmx_wxsheetevent_getcoords(handle:Byte Ptr, row:Int Ptr, col:Int Ptr)
+	Function bmx_wxsheetevent_selecting:Int(handle:Byte Ptr)
+	Function bmx_wxsheetevent_controldown:Int(handle:Byte Ptr)
+	Function bmx_wxsheetevent_shiftdown:Int(handle:Byte Ptr)
+	Function bmx_wxsheetevent_altdown:Int(handle:Byte Ptr)
+	Function bmx_wxsheetevent_metadown:Int(handle:Byte Ptr)
+	Function bmx_wxsheetevent_getposition(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxsheetevent_getscrolledposition(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxsheetevent_geteventwindow:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxsheetsplitterevent_getsashposition:Int(handle:Byte Ptr)
+	Function bmx_wxsheetsplitterevent_setsashposition(handle:Byte Ptr, pos:Int)
+	Function bmx_wxsheetsplitterevent_getsplitmode:Int(handle:Byte Ptr)
+	Function bmx_wxsheetsplitterevent_isverticalsplit:Int(handle:Byte Ptr)
+	Function bmx_wxsheetsplitterevent_getsheet:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheetsplitterevent_getsheetsplitter:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxsheeteditorcreatedevent_getcoords(handle:Byte Ptr, row:Int Ptr, col:Int Ptr)
+	Function bmx_wxsheeteditorcreatedevent_getcontrol:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheeteditorcreatedevent_setcoords(handle:Byte Ptr, row:Int, col:Int)
+	Function bmx_wxsheeteditorcreatedevent_setcontrol(handle:Byte Ptr, control:Byte Ptr)
+	
+	Function bmx_wxsheetrangeselectevent_getblock:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsheetrangeselectevent_getaddtoselection:Int(handle:Byte Ptr)
+	Function bmx_wxsheetrangeselectevent_setblock(handle:Byte Ptr, block:Byte Ptr)
+
+	Function bmx_wxsheetcellsizeevent_getsize:Int(handle:Byte Ptr)
+
+	Function bmx_wxsheet_geteventtype:Int(evt:Int)
 End Extern
 
 
@@ -460,6 +560,8 @@ Const wxCornerLabelSheetRow:Int = -1
 Const wxCornerLabelSheetCol:Int = -1
 Const wxRowLabelSheetRow:Int = 0
 Const wxRowLabelSheetCol:Int = -1
+Const wxNullSheetRow:Int = -2
+Const wxNullSheetCol:Int = -2
 
 Const wxEVT_SHEET_VIEW_CHANGED:Int = 15920
 Const wxEVT_SHEET_SELECTING_CELL:Int = 15921
@@ -490,6 +592,12 @@ Const wxEVT_SHEET_EDITOR_ENABLED:Int = 15930
 Const wxEVT_SHEET_EDITOR_DISABLED:Int = 15940
 Const wxEVT_SHEET_EDITOR_CREATED:Int = 15950
 
+Const wxEVT_SHEET_SPLIT_BEGIN:Int = 1800
+Const wxEVT_SHEET_SPLIT_CHANGING:Int = 1801
+Const wxEVT_SHEET_SPLIT_CHANGED:Int = 1802
+Const wxEVT_SHEET_SPLIT_DOUBLECLICKED:Int = 1803
+Const wxEVT_SHEET_SPLIT_UNSPLIT:Int = 1804
+Const wxEVT_SHEET_SPLIT_CREATE_SHEET:Int = 1805
 
 Const SB_AS_NEEDED:Int = $0  ' Show the scrollbars as needed
 Const SB_HORIZ_NEVER:Int = $1  ' Never show horiz scrollbar, even If needed
@@ -501,3 +609,11 @@ Const SB_ALWAYS:Int = SB_HORIZ_ALWAYS | SB_VERT_ALWAYS
 
 Const SB_HORIZ_MASK:Int = SB_HORIZ_NEVER|SB_HORIZ_ALWAYS
 Const SB_VERT_MASK:Int = SB_VERT_NEVER|SB_VERT_ALWAYS
+
+
+Const wxSHEET_BMPREN_BMPLEFT:Int = $000000 ' bmp To Left of text
+Const wxSHEET_BMPREN_BMPRIGHT:Int = $010000 ' bmp To Right of text
+Const wxSHEET_BMPREN_BMPABOVE:Int = $020000 ' bmp above text
+Const wxSHEET_BMPREN_BMPBELOW:Int = $040000 ' bmp below text
+Const wxSHEET_BMPREN_BMPEXPAND:Int = $080000  ' bmp aligned within extra space
+

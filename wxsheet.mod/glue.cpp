@@ -95,6 +95,35 @@ wxSheetBlock & MaxSheetBlock::Block() {
 	return block;
 }
 
+
+
+IMPLEMENT_DYNAMIC_CLASS(MaxSheetCellStringRendererRefData, wxSheetCellStringRendererRefData)
+
+MaxSheetCellStringRendererRefData::MaxSheetCellStringRendererRefData(BBObject * handle)
+	: maxHandle(handle)
+{
+	wxbind(this, handle);	
+}
+
+MaxSheetCellStringRendererRefData::~MaxSheetCellStringRendererRefData() {
+	wxunbind(this);
+}
+
+// call this to call the super-class Draw() method
+void MaxSheetCellStringRendererRefData::MaxDraw(wxSheet * sheet, MaxSheetCellAttr * attr, MaxDC * dc,
+		MaxRect * rect, int row, int col, bool isSelected) {
+
+	wxSheetCellStringRendererRefData::Draw(*sheet, attr->Attr(), *dc->GetDC(), rect->Rect(),
+			wxSheetCoords(row, col), isSelected);
+}
+		
+void MaxSheetCellStringRendererRefData::Draw(wxSheet& sheet, const wxSheetCellAttr& attr, wxDC& dc,
+		const wxRect& rect, const wxSheetCoords& coords, bool isSelected) {
+
+	_wx_wxsheet_wxSheetCellStringRendererRefData__Draw(maxHandle, &sheet, new MaxSheetCellAttr(attr), 
+			new MaxDC(dc), new MaxRect(rect), coords.GetRow(), coords.GetCol(), isSelected);
+}
+
 // *********************************************
 
 BEGIN_EVENT_TABLE(MaxSheet, wxSheet)
@@ -789,6 +818,226 @@ void bmx_wxsheet_forcerefresh(wxSheet * sheet) {
 	sheet->ForceRefresh();
 }
 
+MaxSheetBlock * bmx_wxsheet_fixselectionblock(wxSheet * sheet, MaxSheetBlock * block, int selMode) {
+	return new MaxSheetBlock(sheet->FixSelectionBlock(block->Block(), selMode));
+}
+
+bool bmx_wxsheet_selectrow(wxSheet * sheet, int row, bool addToSelected, bool sendEvt) {
+	return sheet->SelectRow(row, addToSelected, sendEvt);
+}
+
+bool bmx_wxsheet_selectrows(wxSheet * sheet, int rowTop, int rowBottom, bool addToSelected, bool sendEvt) {
+	return sheet->SelectRows(rowTop, rowBottom, addToSelected, sendEvt);
+}
+
+bool bmx_wxsheet_selectCol(wxSheet * sheet, int col, bool addToSelected, bool sendEvt) {
+	return sheet->SelectCol(col, addToSelected, sendEvt);
+}
+
+bool bmx_wxsheet_selectcols(wxSheet * sheet, int colLeft, int colRight, bool addToSelected, bool sendEvt) {
+	return sheet->SelectCols(colLeft, colRight, addToSelected, sendEvt);
+}
+
+bool bmx_wxsheet_selectcell(wxSheet * sheet, int row, int col, bool addToSelected, bool sendEvt) {
+	return sheet->SelectCell(wxSheetCoords(row, col), addToSelected, sendEvt);
+}
+
+bool bmx_wxsheet_selectblock(wxSheet * sheet, MaxSheetBlock * block, bool addToSelected, bool sendEvt) {
+	return sheet->SelectBlock(block->Block(), addToSelected, sendEvt);
+}
+
+bool bmx_wxsheet_selectall(wxSheet * sheet, bool sendEvt) {
+	return sheet->SelectAll(sendEvt);
+}
+
+bool bmx_wxsheet_deselectrow(wxSheet * sheet, int row, bool sendEvt) {
+	return sheet->DeselectRow(row, sendEvt);
+}
+
+bool bmx_wxsheet_deselectrows(wxSheet * sheet, int rowTop, int rowBottom, bool sendEvt) {
+	return sheet->DeselectRows(rowTop, rowBottom, sendEvt);
+}
+
+bool bmx_wxsheet_deselectcol(wxSheet * sheet, int col, bool sendEvt) {
+	return sheet->DeselectCol(col, sendEvt);
+}
+
+bool bmx_wxsheet_deselectcols(wxSheet * sheet, int colLeft, int colRight, bool sendEvt) {
+	return sheet->DeselectCols(colLeft, colRight, sendEvt);
+}
+
+bool bmx_wxsheet_deselectcell(wxSheet * sheet, int row, int col, bool sendEvt) {
+	return sheet->DeselectCell(wxSheetCoords(row, col), sendEvt);
+}
+
+bool bmx_wxsheet_deselectblock(wxSheet * sheet, MaxSheetBlock * block, bool sendEvt) {
+	return sheet->DeselectBlock(block->Block(), sendEvt);
+}
+
+bool bmx_wxsheet_clearselection(wxSheet * sheet, bool sendEvt) {
+	return sheet->ClearSelection(sendEvt);
+}
+
+bool bmx_wxsheet_togglecellselection(wxSheet * sheet, int row, int col, bool addToSelected, bool sendEvt) {
+	return sheet->ToggleCellSelection(wxSheetCoords(row, col), addToSelected, sendEvt);
+}
+
+bool bmx_wxsheet_togglerowselection(wxSheet * sheet, int row, bool addToSelected, bool sendEvt) {
+	return sheet->ToggleRowSelection(row, addToSelected, sendEvt);
+}
+
+bool bmx_wxsheet_togglecolselection(wxSheet * sheet, int col, bool addToSelected, bool sendEvt) {
+	return sheet->ToggleColSelection(col, addToSelected, sendEvt);
+}
+
+MaxPen * bmx_wxsheet_getcursorcellhighlightpen(wxSheet * sheet) {
+	wxPen p(sheet->GetCursorCellHighlightPen());
+	return new MaxPen(p);
+}
+
+MaxPen * bmx_wxsheet_getcursorcellhighlightropen(wxSheet * sheet) {
+	wxPen p(sheet->GetCursorCellHighlightROPen());
+	return new MaxPen(p);
+}
+
+void bmx_wxsheet_setcursorcellhighlightpen(wxSheet * sheet, MaxPen * pen) {
+	sheet->SetCursorCellHighlightPen(pen->Pen());
+}
+
+void bmx_wxsheet_setcursorcellhighlightreopen(wxSheet * sheet, MaxPen * pen) {
+	sheet->SetCursorCellHighlightROPen(pen->Pen());
+}
+
+MaxColour * bmx_wxsheet_getlabeloutlinecolour(wxSheet * sheet) {
+	wxColour c(sheet->GetLabelOutlineColour());
+	return new MaxColour(c);
+}
+
+void bmx_wxsheet_setlabeloutlinecolour(wxSheet * sheet, MaxColour * colour) {
+	sheet->SetLabelOutlineColour(colour->Colour());
+}
+
+MaxColour * bmx_wxsheet_getselectionbackground(wxSheet * sheet) {
+	wxColour c(sheet->GetSelectionBackground());
+	return new MaxColour(c);
+}
+
+MaxColour * bmx_wxsheet_getselectionforeground(wxSheet * sheet) {
+	wxColour c(sheet->GetSelectionForeground());
+	return new MaxColour(c);
+}
+
+void bmx_wxsheet_setselectionbackground(wxSheet * sheet, MaxColour * colour) {
+	sheet->SetSelectionBackground(colour->Colour());
+}
+
+void bmx_wxsheet_setselectionforeground(wxSheet * sheet, MaxColour * colour) {
+	sheet->SetSelectionForeground(colour->Colour());
+}
+
+bool bmx_wxsheet_hasfocus(wxSheet * sheet) {
+	return sheet->HasFocus();
+}
+
+bool bmx_wxsheet_copycurrentselectiontoclipboard(wxSheet * sheet, bool copyCursor, BBString * colSep) {
+	return sheet->CopyCurrentSelectionToClipboard(copyCursor, wxStringFromBBString(colSep).GetChar(0));
+}
+
+bool bmx_wxsheet_copycurrentselectiontointernalselection(wxSheet * sheet, bool copyCursor) {
+	return sheet->CopyCurrentSelectionToInternalSelection(copyCursor);
+}
+
+bool bmx_wxsheet_copyinternalselectiontoclipboard(wxSheet * sheet, BBString * colSep) {
+	return sheet->CopyInternalSelectionToClipboard(wxStringFromBBString(colSep).GetChar(0));
+}
+
+BBString * bmx_wxsheet_copyinternalselectiontostring(wxSheet * sheet, BBString * colSep) {
+	return bbStringFromWxString(sheet->CopyInternalSelectionToString(wxStringFromBBString(colSep).GetChar(0)));
+}
+
+bool bmx_wxsheet_copystringtointernalselection(wxSheet * sheet, BBString * value, BBString * colSep) {
+	return sheet->CopyStringToInternalSelection(wxStringFromBBString(value), wxStringFromBBString(colSep).GetChar(0));
+}
+
+bool bmx_wxsheet_pastefromclipboard(wxSheet * sheet, int row, int col, BBString * colSep) {
+	return sheet->PasteFromClipboard(wxSheetCoords(row, col), wxStringFromBBString(colSep).GetChar(0));
+}
+
+bool bmx_wxsheet_pasteinternalcopiedselection(wxSheet * sheet, int row, int col) {
+	return sheet->PasteInternalCopiedSelection(wxSheetCoords(row, col));
+}
+
+bool bmx_wxsheet_currentlypasting(wxSheet * sheet) {
+	return sheet->CurrentlyPasting();
+}
+
+MaxSheetCellEditor * bmx_wxsheet_getdefaulteditorfortype(wxSheet * sheet, BBString * typeName) {
+	return new MaxSheetCellEditor(sheet->GetDefaultEditorForType(wxStringFromBBString(typeName)));
+}
+
+MaxSheetCellRenderer * bmx_wxsheet_getdefaultrendererfortype(wxSheet * sheet, BBString * typeName) {
+	return new MaxSheetCellRenderer(sheet->GetDefaultRendererForType(wxStringFromBBString(typeName)));
+}
+
+bool bmx_wxsheet_setnumberrows(wxSheet * sheet, int rows, bool update) {
+	return sheet->SetNumberRows(rows, update);
+}
+
+bool bmx_wxsheet_setnumbercols(wxSheet * sheet, int cols, bool update) {
+	return sheet->SetNumberCols(cols, update);
+}
+
+bool bmx_wxsheet_setnumbercells(wxSheet * sheet, int rows, int cols, bool update) {
+	return sheet->SetNumberCells(rows, cols, update);
+}
+
+int bmx_wxsheet_getdefaultrowheight(wxSheet * sheet) {
+	return sheet->GetDefaultRowHeight();
+}
+
+int bmx_wxsheet_getdefaultcolwidth(wxSheet * sheet) {
+	return sheet->GetDefaultColWidth();
+}
+
+void bmx_wxsheet_setdefaultrowheight(wxSheet * sheet, int height, bool resizeExistingRows) {
+	sheet->SetDefaultRowHeight(height, resizeExistingRows);
+}
+
+void bmx_wxsheet_setdefaultcolwidth(wxSheet * sheet, int width, bool resizeExistingCols) {
+	sheet->SetDefaultColWidth(width, resizeExistingCols);
+}
+
+int bmx_wxsheet_getminimalacceptablerowheight(wxSheet * sheet) {
+	return sheet->GetMinimalAcceptableRowHeight();
+}
+
+int bmx_wxsheet_getminimalacceptablecolwidth(wxSheet * sheet) {
+	return sheet->GetMinimalAcceptableColWidth();
+}
+
+void bmx_wxsheet_setminimalacceptablerowheight(wxSheet * sheet, int height) {
+	sheet->SetMinimalAcceptableRowHeight(height);
+}
+
+void bmx_wxsheet_setminimalacceptablecolwidth(wxSheet * sheet, int width) {
+	sheet->SetMinimalAcceptableColWidth(width);
+}
+
+int bmx_wxsheet_getminimalrowheight(wxSheet * sheet, int row) {
+	return sheet->GetMinimalRowHeight(row);
+}
+
+int bmx_wxsheet_getminimalcolwidth(wxSheet * sheet, int col) {
+	return sheet->GetMinimalColWidth(col);
+}
+
+void bmx_wxsheet_setminimalrowheight(wxSheet * sheet, int row, int height) {
+	sheet->SetMinimalRowHeight(row, height);
+}
+
+void bmx_wxsheet_setminimalcolwidth(wxSheet * sheet, int col, int width) {
+	sheet->SetMinimalColWidth(col, width);
+}
 
 // *********************************************
 
@@ -844,6 +1093,36 @@ void bmx_wxsheetselection_delete(MaxSheetSelection * selection) {
 void bmx_wxsheetblock_delete(MaxSheetBlock * block) {
 	delete block;
 }
+
+MaxSheetBlock * bmx_wxsheetblock_create(int row, int col, int height, int width) {
+	wxSheetBlock b(row, col, height, width);
+	return new MaxSheetBlock(b);
+}
+
+int bmx_wxsheetblock_getleft(MaxSheetBlock * block) {
+	return block->Block().GetLeft();
+}
+
+int bmx_wxsheetblock_getright(MaxSheetBlock * block) {
+	return block->Block().GetRight();
+}
+
+int bmx_wxsheetblock_gettop(MaxSheetBlock * block) {
+	return block->Block().GetTop();
+}
+
+int bmx_wxsheetblock_getbottom(MaxSheetBlock * block) {
+	return block->Block().GetBottom();
+}
+
+int bmx_wxsheetblock_getwidth(MaxSheetBlock * block) {
+	return block->Block().GetWidth();
+}
+
+int bmx_wxsheetblock_getheight(MaxSheetBlock * block) {
+	return block->Block().GetHeight();
+}
+
 
 
 // *********************************************
@@ -1002,8 +1281,15 @@ wxSheetCellEnumEditorRefData * bmx_wxsheetcellenumeditorrefdata_create(BBString 
 
 // *********************************************
 
-wxSheetCellStringRendererRefData * bmx_wxsheetcellstringrendererrefdata_create() {
-	return new wxSheetCellStringRendererRefData();
+MaxSheetCellStringRendererRefData * bmx_wxsheetcellstringrendererrefdata_create(BBObject * handle) {
+	return new MaxSheetCellStringRendererRefData(handle);
+}
+
+
+void bmx_wxsheetcellstringrendererrefdata_draw(MaxSheetCellStringRendererRefData * data,
+		wxSheet * sheet, MaxSheetCellAttr * attr, MaxDC * dc, MaxRect * rect, int row, int col, bool isSelected) {
+
+	data->MaxDraw(sheet, attr, dc, rect, row, col, isSelected);
 }
 
 // *********************************************
@@ -1032,6 +1318,12 @@ wxSheetCellEnumRendererRefData * bmx_wxsheetcellenumrendererrefdata_create(BBStr
 
 // *********************************************
 
+wxSheetCellBitmapRendererRefData * bmx_wxsheetcellbitmaprendererrefdata_create(MaxBitmap * bitmap, int align) {
+	return new wxSheetCellBitmapRendererRefData(bitmap->Bitmap(), align);
+}
+
+
+// *********************************************
 
 MaxSheetCellAttr * bmx_wxsheetcellattr_create(bool createData) {
 	wxSheetCellAttr s(createData);
@@ -1209,4 +1501,170 @@ void bmx_wxsheetcellattr_delete(MaxSheetCellAttr * attr) {
 	delete attr;
 }
 
+// *********************************************
+
+int bmx_wxsheetevent_getrow(wxSheetEvent & event) {
+	return event.GetRow();
+}
+
+int bmx_wxsheetevent_getcol(wxSheetEvent & event) {
+	return event.GetCol();
+}
+
+void bmx_wxsheetevent_getcoords(wxSheetEvent & event, int * row, int * col) {
+	wxSheetCoords s(event.GetCoords());
+	*row = s.GetRow();
+	*col = s.GetCol();
+}
+
+bool bmx_wxsheetevent_selecting(wxSheetEvent & event) {
+	return event.Selecting();
+}
+
+bool bmx_wxsheetevent_controldown(wxSheetEvent & event) {
+	return event.ControlDown();
+}
+
+bool bmx_wxsheetevent_shiftdown(wxSheetEvent & event) {
+	return event.ShiftDown();
+}
+
+bool bmx_wxsheetevent_altdown(wxSheetEvent & event) {
+	return event.AltDown();
+}
+
+bool bmx_wxsheetevent_metadown(wxSheetEvent & event) {
+	return event.MetaDown();
+}
+
+void bmx_wxsheetevent_getposition(wxSheetEvent & event, int * x, int * y) {
+	wxPoint p(event.GetPosition());
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxsheetevent_getscrolledposition(wxSheetEvent & event, int * x, int * y) {
+	wxPoint p(event.GetScrolledPosition());
+	*x = p.x;
+	*y = p.y;
+}
+
+wxWindow * bmx_wxsheetevent_geteventwindow(wxSheetEvent & event) {
+	return event.GetEventWindow();
+}
+
+
+// *********************************************
+
+int bmx_wxsheetsplitterevent_getsashposition(wxSheetSplitterEvent & event) {
+	return event.GetSashPosition();
+}
+
+void bmx_wxsheetsplitterevent_setsashposition(wxSheetSplitterEvent & event, int pos) {
+	event.SetSashPosition(pos);
+}
+
+int bmx_wxsheetsplitterevent_getsplitmode(wxSheetSplitterEvent & event) {
+	return event.GetSplitMode();
+}
+
+bool bmx_wxsheetsplitterevent_isverticalsplit(wxSheetSplitterEvent & event) {
+	return event.IsVerticalSplit();
+}
+
+wxSheet * bmx_wxsheetsplitterevent_getsheet(wxSheetSplitterEvent & event) {
+	return event.GetSheet();
+}
+
+wxSheetSplitter * bmx_wxsheetsplitterevent_getsheetsplitter(wxSheetSplitterEvent & event) {
+	return event.GetSheetSplitter();
+}
+
+
+// *********************************************
+
+void bmx_wxsheeteditorcreatedevent_getcoords(wxSheetEditorCreatedEvent & event, int * row, int * col) {
+	wxSheetCoords s(event.GetCoords());
+	*row = s.GetRow();
+	*col = s.GetCol();
+}
+
+wxWindow * bmx_wxsheeteditorcreatedevent_getcontrol(wxSheetEditorCreatedEvent & event) {
+	return event.GetControl();
+}
+
+void bmx_wxsheeteditorcreatedevent_setcoords(wxSheetEditorCreatedEvent & event, int row, int col) {
+	event.SetCoords(wxSheetCoords(row, col));
+}
+
+void bmx_wxsheeteditorcreatedevent_setcontrol(wxSheetEditorCreatedEvent & event, wxWindow * control) {
+	event.SetControl(control);
+}
+
+	
+// *********************************************
+
+MaxSheetBlock * bmx_wxsheetrangeselectevent_getblock(wxSheetRangeSelectEvent & event) {
+	return new MaxSheetBlock(event.GetBlock());
+}
+
+bool bmx_wxsheetrangeselectevent_getaddtoselection(wxSheetRangeSelectEvent & event) {
+	return event.GetAddToSelection();
+}
+
+void bmx_wxsheetrangeselectevent_setblock(wxSheetRangeSelectEvent & event, MaxSheetBlock * block) {
+	event.SetBlock(block->Block());
+}
+
+
+// *********************************************
+
+int bmx_wxsheetcellsizeevent_getsize(wxSheetCellSizeEvent & event) {
+	return event.GetSize();
+}
+
+
+
+// *********************************************
+
+int bmx_wxsheet_geteventtype(int type) {
+	switch(type) {
+		case 15920: return wxEVT_SHEET_VIEW_CHANGED;
+		case 15921: return wxEVT_SHEET_SELECTING_CELL;
+		case 15922: return wxEVT_SHEET_SELECTED_CELL;
+		case 15800: return wxEVT_SHEET_CELL_LEFT_DOWN;
+		case 15810: return wxEVT_SHEET_CELL_RIGHT_DOWN;
+		case 15801: return wxEVT_SHEET_CELL_LEFT_UP;
+		case 15811: return wxEVT_SHEET_CELL_RIGHT_UP;
+		case 15820: return wxEVT_SHEET_CELL_LEFT_DCLICK;
+		case 15830: return wxEVT_SHEET_CELL_RIGHT_DCLICK;
+		case 15840: return wxEVT_SHEET_LABEL_LEFT_DOWN;
+		case 15850: return wxEVT_SHEET_LABEL_RIGHT_DOWN;
+		case 15841: return wxEVT_SHEET_LABEL_LEFT_UP;
+		case 15851: return wxEVT_SHEET_LABEL_RIGHT_UP;
+		case 15860: return wxEVT_SHEET_LABEL_LEFT_DCLICK;
+		case 15870: return wxEVT_SHEET_LABEL_RIGHT_DCLICK;
+		case 15880: return wxEVT_SHEET_ROW_SIZE;
+		case 15881: return wxEVT_SHEET_ROW_SIZING;
+		case 15882: return wxEVT_SHEET_ROW_SIZED;
+		case 15890: return wxEVT_SHEET_COL_SIZE;
+		case 15891: return wxEVT_SHEET_COL_SIZING;
+		case 15892: return wxEVT_SHEET_COL_SIZED;
+		case 15900: return wxEVT_SHEET_RANGE_SELECTING;
+		case 15901: return wxEVT_SHEET_RANGE_SELECTED;
+		case 15910: return wxEVT_SHEET_CELL_VALUE_CHANGING;
+		case 15911: return wxEVT_SHEET_CELL_VALUE_CHANGED;
+		case 15930: return wxEVT_SHEET_EDITOR_ENABLED;
+		case 15940: return wxEVT_SHEET_EDITOR_DISABLED;
+		case 15950: return wxEVT_SHEET_EDITOR_CREATED;
+		case 1800: return wxEVT_SHEET_SPLIT_BEGIN;
+		case 1801: return wxEVT_SHEET_SPLIT_CHANGING;
+		case 1802: return wxEVT_SHEET_SPLIT_CHANGED;
+		case 1803: return wxEVT_SHEET_SPLIT_DOUBLECLICKED;
+		case 1804: return wxEVT_SHEET_SPLIT_UNSPLIT;
+		case 1805: return wxEVT_SHEET_SPLIT_CREATE_SHEET;
+	}
+	
+	return 0;
+}
 

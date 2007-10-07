@@ -300,12 +300,10 @@ In any case, it is probably unnecessary to process both events at once.
 End Rem
 Type wxNotebookEvent Extends wxNotifyEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxMoveEvent = New wxMoveEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -353,7 +351,7 @@ Type TNoteBookEventFactory Extends TEventFactory
 		Select evt.eventType
 			Case wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, ..
 					wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING
-				Return wxNotebookEvent.create(wxEventPtr, evt)
+				Return wxNotebookEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

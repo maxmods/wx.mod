@@ -55,12 +55,97 @@ bbdoc: This type represents a dialog that shows a list of strings, and allows th
 about: Double-clicking on a list item is equivalent to single-clicking and then pressing OK.
 End Rem
 Type wxSingleChoiceDialog Extends wxDialog
+
+	Rem
+	bbdoc: Constructor, taking an array of wxString choices
+	End Rem
+	Function CreateSingleChoiceDialog:wxSingleChoiceDialog(parent:wxWindow, message:String, ..
+			caption:String, choices:String[], style:Int = wxCHOICEDLG_STYLE, x:Int = -1, y:Int = -1)
+		Return New wxSingleChoiceDialog.Create(parent, message, caption, choices, style, x, y)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxSingleChoiceDialog(parent:wxWindow, message:String, ..
+			caption:String, choices:String[], style:Int = wxCHOICEDLG_STYLE, x:Int = -1, y:Int = -1)
+		wxObjectPtr = bmx_wxsinglechoicedialog_create(Self, parent.wxObjectPtr, message, caption, choices, style, x, y)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Returns the index of selected item.
+	End Rem
+	Method GetSelection:Int()
+		Return bmx_wxsinglechoicedialog_getselection(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the selected string.
+	End Rem
+	Method GetStringSelection:String()
+		Return bmx_wxsinglechoicedialog_getstringselection(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the index of the initially selected item.
+	End Rem
+	Method SetSelection(index:Int)
+		bmx_wxsinglechoicedialog_setselection(wxObjectPtr, index)
+	End Method
+	
+	Rem
+	bbdoc: Shows the dialog, returning either wxID_OK or wxID_CANCEL.
+	End Rem
+	Method ShowModal:Int()
+		Return bmx_wxsinglechoicedialog_showmodal(wxObjectPtr)
+	End Method
+	
 End Type
 
 Rem
 bbdoc: This type represents a dialog that shows a list of strings, and allows the user to select one or more.
 End Rem
 Type wxMultiChoiceDialog Extends wxDialog
+
+	Rem
+	bbdoc: Constructor, taking an array of string choices
+	End Rem
+	Function CreateSingleChoiceDialog:wxMultiChoiceDialog(parent:wxWindow, message:String, ..
+			caption:String, choices:String[], style:Int = wxCHOICEDLG_STYLE, x:Int = -1, y:Int = -1)
+		Return New wxMultiChoiceDialog.Create(parent, message, caption, choices, style, x, y)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxMultiChoiceDialog(parent:wxWindow, message:String, ..
+			caption:String, choices:String[], style:Int = wxCHOICEDLG_STYLE, x:Int = -1, y:Int = -1)
+		wxObjectPtr = bmx_wxmultichoicedialog_create(Self, parent.wxObjectPtr, message, caption, choices, style, x, y)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Returns array with indexes of selected items.
+	End Rem
+	Method GetSelections:Int[]()
+		Return bmx_wxmultichoicedialog_getselections(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets selected items from the array of selected items' indexes.
+	End Rem
+	Method SetSelections(selections:Int[])
+		bmx_wxmultichoicedialog_setselections(wxObjectPtr, selections)
+	End Method
+	
+	Rem
+	bbdoc: Shows the dialog, returning either wxID_OK or wxID_CANCEL.
+	End Rem
+	Method ShowModal:Int()
+		Return bmx_wxmultichoicedialog_showmodal(wxObjectPtr)
+	End Method
+	
 End Type
 
 Rem

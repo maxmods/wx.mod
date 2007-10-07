@@ -1180,12 +1180,10 @@ bbdoc: A list event holds information about events associated with wxListCtrl ob
 End Rem
 Type wxListEvent Extends wxNotifyEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxListEvent = New wxListEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function

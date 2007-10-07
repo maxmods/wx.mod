@@ -78,12 +78,10 @@ Type wxMouseEvent Extends wxEvent
 		End If
 	End Function
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxMouseEvent = New wxMouseEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -391,7 +389,7 @@ Type TMouseEventFactory Extends TEventFactory
 					wxEVT_RIGHT_DCLICK, ..
 					wxEVT_MOTION, ..
 					wxEVT_MOUSEWHEEL
-				Return wxMouseEvent.create(wxEventPtr, evt)
+				Return wxMouseEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

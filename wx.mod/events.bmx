@@ -49,12 +49,33 @@ Type wxEvent
 	about: Generally, this would be the object from which Connect() was called.
 	End Rem
 	Field parent:wxEvtHandler
+	
+	Field eventType:Int
+	
+	Method init(eventPtr:Byte Ptr, evt:TEventHandler)
+		wxEventPtr = eventPtr
+		userData = evt.userData
+		parent = evt.parent
+		eventType = evt.eventType
+	End Method
 
+	Rem
+	bbdoc: Returns the object (usually a window) associated with the event, if any.
+	End Rem
+	Method GetEventObject:wxObject()
+		Local objPtr:Byte Ptr = bmx_wxevent_geteventobject(wxEventPtr)
+		If objPtr Then
+			Local obj:wxObject = wxObject(wxfind(objPtr))
+			Return obj
+		End If
+	End Method
+	
 	Rem
 	bbdoc: Returns the identifier of the given event type, such as wxEVT_COMMAND_BUTTON_CLICKED.
 	End Rem
 	Method GetEventType:Int()
-		Return bmx_wxevent_geteventtype(wxEventPtr)
+		Return eventType
+		'Return bmx_wxevent_geteventtype(wxEventPtr)
 	End Method
 	
 	Rem
@@ -140,9 +161,7 @@ Type wxCommandEvent Extends wxEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxCommandEvent = New wxCommandEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -233,9 +252,7 @@ Type wxCloseEvent Extends wxEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxCloseEvent = New wxCloseEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -290,9 +307,7 @@ Type wxMoveEvent Extends wxEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxMoveEvent = New wxMoveEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -359,9 +374,7 @@ Type wxSizeEvent Extends wxEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxSizeEvent = New wxSizeEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -386,9 +399,7 @@ Type wxPaintEvent Extends wxEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxPaintEvent = New wxPaintEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -404,9 +415,7 @@ Type wxScrollWinEvent Extends wxEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxScrollWinEvent = New wxScrollWinEvent 
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -425,9 +434,7 @@ Type wxScrollEvent Extends wxCommandEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxScrollEvent = New wxScrollEvent 
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -456,9 +463,7 @@ Type wxContextMenuEvent Extends wxCommandEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxContextMenuEvent = New wxContextMenuEvent 
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -533,9 +538,7 @@ Type wxKeyEvent Extends wxEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxKeyEvent = New wxKeyEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function

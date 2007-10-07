@@ -7,6 +7,8 @@ Import wx.wxTextCtrl
 Import wx.wxLog
 Import wx.wxColourDialog
 Import wx.wxFontDialog
+Import wx.wxChoiceDialog
+Import wx.wxMemoryDC
 
 New GridApp.run()
 
@@ -286,8 +288,8 @@ Type GridFrame Extends wxFrame
 		grid.SetAttrBackgroundColour( 3, 3, wxLIGHT_GREY())
 		
 		grid.SetCellValue( 4, 4, "a weird looking cell")
-		'    grid.SetAttrAlignment( 4, 4, wxSHEET_AttrAlignCenter)
-		'    grid.SetAttrRenderer( 4, 4, wxSheetCellRenderer(New MyGridCellRendererRefData()))
+		grid.SetAttrAlignment( 4, 4, wxSHEET_AttrAlignCenter)
+		grid.SetAttrRenderer( 4, 4, New wxSheetCellRenderer.Create(New MyGridCellRendererRefData.Create()))
 		
 		grid.SetCellValue( 3, 0, "0")
 		grid.SetAttrRenderer( 3, 0, New wxSheetCellRenderer.Create(New wxSheetCellBoolRendererRefData.Create()))
@@ -354,9 +356,145 @@ Type GridFrame Extends wxFrame
 		grid.SetAttrBackgroundColour(-1, 5, wxGREEN())
 		grid.SetCornerLabelValue("Hello")
 	
+		' can set New renderers/editor this way
+		grid.SetCellValue(0,-1, "Autowrap~nString~nEdit/Ren")
+		grid.SetAttrEditor(0,-1, New wxSheetCellEditor.Create(New wxSheetCellAutoWrapStringEditorRefData.Create()))
+		grid.SetAttrRenderer(0,-1, New wxSheetCellRenderer.Create(New wxSheetCellAutoWrapStringRendererRefData.Create()))
+		
+		' Or use the get ren/edit For typename And ref prexisting ones
+		grid.SetCellValue(2,-1, "String Ren")
+		grid.SetAttrRenderer(2,-1, grid.GetDefaultRendererForType(wxSHEET_VALUE_STRING))
+		
+		grid.SetCellValue(5, 2, "Label Ren")
+		grid.SetAttrRenderer(5, 2, grid.GetDefaultRendererForType(wxSHEET_VALUE_LABEL))
+		
+		grid.SetAttrEditor(-1, 3, grid.GetDefaultEditorForType(wxSHEET_VALUE_BOOL))
+		grid.SetAttrRenderer(-1, 3, grid.GetDefaultRendererForType(wxSHEET_VALUE_BOOL))
+		
+		grid.SetCellValue(-1, 4, "Choice Edit")
+		grid.SetAttrEditor(-1, 4, New wxSheetCellEditor.Create(New wxSheetCellChoiceEditorRefData.Create(choices)))
+		
+		' FIXME - what To do about sizing this control?
+		grid.SetCellValue(6, 1, "Choice Edit")
+		grid.SetAttrEditor(6, 1, grid.GetAttrEditor(-1, 4) )
 
-
-		' lots todo.....
+		' bitmap renderer test
+		'wxBitmap bmp(wxArtProvider::GetBitmap(wxART_FOLDER));
+		Local bmp:wxBitmap = New wxBitmap.CreateEmpty(16, 16)
+		
+		Local memDC:wxMemoryDC = New wxMemoryDC.Create()  ' draw a clean bitmap filling size
+		memDC.SelectObject(bmp)
+		memDC.SetBrush(wxBLUE_BRUSH())
+		memDC.SetPen(wxBLACK_PEN())
+		memDC.DrawRectangle(0, 0, 16, 16)
+		memDC.SelectObject(wxNullBitmap)
+		memDC.Free()
+		
+		
+		grid.SetCellValue(10, 0, "The below 3x3 grid tests the wxSheetCellBitmapRendererRefData, the text fills free space")
+		
+		Local bmpRenderer:wxSheetCellRenderer = New wxSheetCellRenderer.Create( ..
+			New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignTop|wxSHEET_AttrAlignLeft|wxSHEET_BMPREN_BMPLEFT))
+		
+		grid.SetAttrRenderer(11, 0, bmpRenderer)
+		grid.SetAttrAlignment(11, 0, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignLeft)
+		grid.SetCellValue(11, 0, "bmpTL, txtTL")
+		
+		bmpRenderer = New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignTop|wxSHEET_AttrAlignCenterHoriz|wxSHEET_BMPREN_BMPABOVE))
+		grid.SetAttrRenderer(11, 1, bmpRenderer)
+		grid.SetAttrAlignment(11, 1, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetCellValue(11, 1, "bmpTC, txtTC")
+		
+		bmpRenderer = New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignTop|wxSHEET_AttrAlignRight|wxSHEET_BMPREN_BMPRIGHT))
+		grid.SetAttrRenderer(11, 2, bmpRenderer)
+		grid.SetAttrAlignment(11, 2, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignRight)
+		grid.SetCellValue(11, 2, "bmpTR, txtTR")
+		
+		bmpRenderer = New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignLeft|wxSHEET_BMPREN_BMPLEFT));
+		grid.SetAttrRenderer(12, 0, bmpRenderer)
+		grid.SetAttrAlignment(12, 0, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetCellValue(12, 0, "bmpCL, txtCC")
+		
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignCenterHoriz))
+		grid.SetAttrRenderer(12, 1, bmpRenderer)
+		grid.SetAttrAlignment(12, 1, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetCellValue(12, 1, "bmpCC, txtCC")
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignRight|wxSHEET_BMPREN_BMPRIGHT));
+		grid.SetAttrRenderer(12, 2, bmpRenderer)
+		grid.SetAttrAlignment(12, 2, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetCellValue(12, 2, "bmpCR, txtCC")
+		
+		bmpRenderer = New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignLeft|wxSHEET_BMPREN_BMPLEFT));
+		grid.SetAttrRenderer(13, 0, bmpRenderer);
+		grid.SetAttrAlignment(13, 0, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignRight);
+		grid.SetCellValue(13, 0, "bmpBL, txtBR")
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignCenterHoriz|wxSHEET_BMPREN_BMPBELOW))
+		grid.SetAttrRenderer(13, 1, bmpRenderer)
+		grid.SetAttrAlignment(13, 1, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetCellValue(13, 1, "bmpBC, txtBC")
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignRight|wxSHEET_BMPREN_BMPRIGHT))
+		grid.SetAttrRenderer(13, 2, bmpRenderer)
+		grid.SetAttrAlignment(13, 2, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignLeft)
+		grid.SetCellValue(13, 2, "bmpBR, txtBL")
+		
+		grid.SetCellValue(14, 0, "The below 3x3 grid tests the wxSheetCellBitmapRendererRefData, the bitmap fills free space")
+		
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignTop|wxSHEET_AttrAlignLeft|wxSHEET_BMPREN_BMPLEFT|wxSHEET_BMPREN_BMPEXPAND))
+		grid.SetAttrRenderer(15, 0, bmpRenderer)
+		grid.SetAttrAlignment(15, 0, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignLeft)
+		grid.SetCellValue(15, 0, "bmpTL, txtTL")
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignTop|wxSHEET_AttrAlignCenterHoriz|wxSHEET_BMPREN_BMPABOVE|wxSHEET_BMPREN_BMPEXPAND))
+		grid.SetAttrRenderer(15, 1, bmpRenderer)
+		grid.SetAttrAlignment(15, 1, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetCellValue(15, 1, "bmpTC, txtTC")
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignTop|wxSHEET_AttrAlignRight|wxSHEET_BMPREN_BMPRIGHT|wxSHEET_BMPREN_BMPEXPAND))
+		grid.SetAttrRenderer(15, 2, bmpRenderer)
+		grid.SetAttrAlignment(15, 2, wxSHEET_AttrAlignTop|wxSHEET_AttrAlignRight)
+		grid.SetCellValue(15, 2, "bmpTR, txtTR")
+		
+		bmpRenderer = New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignLeft|wxSHEET_BMPREN_BMPLEFT|wxSHEET_BMPREN_BMPEXPAND))
+		grid.SetAttrRenderer(16, 0, bmpRenderer)
+		grid.SetAttrAlignment(16, 0, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetCellValue(16, 0, "bmpCL, txtCC")
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignCenterHoriz|wxSHEET_BMPREN_BMPEXPAND))
+		grid.SetAttrRenderer(16, 1, bmpRenderer)
+		grid.SetAttrAlignment(16, 1, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetCellValue(16, 1, "bmpCC, txtCC")
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignRight|wxSHEET_BMPREN_BMPRIGHT|wxSHEET_BMPREN_BMPEXPAND))
+		grid.SetAttrRenderer(16, 2, bmpRenderer)
+		grid.SetAttrAlignment(16, 2, wxSHEET_AttrAlignCenterVert|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetCellValue(16, 2, "bmpCR, txtCC")
+		
+		bmpRenderer = New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignLeft|wxSHEET_BMPREN_BMPLEFT|wxSHEET_BMPREN_BMPEXPAND))
+		grid.SetAttrRenderer(17, 0, bmpRenderer)
+		grid.SetAttrAlignment(17, 0, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignRight)
+		grid.SetCellValue(17, 0, "bmpBL, txtBR")
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignCenterHoriz|wxSHEET_BMPREN_BMPBELOW|wxSHEET_BMPREN_BMPEXPAND))
+		grid.SetAttrRenderer(17, 1, bmpRenderer);
+		grid.SetAttrAlignment(17, 1, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignCenterHoriz)
+		grid.SetCellValue(17, 1, "bmpBC, txtBC")
+		bmpRenderer= New wxSheetCellRenderer.Create(New wxSheetCellBitmapRendererRefData.CreateData(bmp, ..
+			wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignRight|wxSHEET_BMPREN_BMPRIGHT|wxSHEET_BMPREN_BMPEXPAND))
+		grid.SetAttrRenderer(17, 2, bmpRenderer)
+		grid.SetAttrAlignment(17, 2, wxSHEET_AttrAlignBottom|wxSHEET_AttrAlignLeft)
+		grid.SetCellValue(17, 2, "bmpBR, txtBL")
 	
 	
 		' text alignment tests, a 3x3 grid
@@ -534,7 +672,31 @@ Type GridFrame Extends wxFrame
 		Connect( ID_SET_HIGHLIGHT_WIDTH,    wxEVT_COMMAND_MENU_SELECTED, OnSetHighlightWidth)
 		Connect( ID_SET_RO_HIGHLIGHT_WIDTH, wxEVT_COMMAND_MENU_SELECTED, OnSetROHighlightWidth)
 
-
+		Connect(-1, wxEVT_SHEET_LABEL_LEFT_DOWN, OnLabelLeftDown )
+		Connect(-1, wxEVT_SHEET_CELL_LEFT_DOWN, OnCellLeftDown )
+		Connect(-1, wxEVT_SHEET_CELL_RIGHT_DOWN, OnCellRightDown )
+		Connect(-1, wxEVT_SHEET_ROW_SIZE, OnRowSize )
+		Connect(-1, wxEVT_SHEET_ROW_SIZING, OnRowSize )
+		Connect(-1, wxEVT_SHEET_ROW_SIZED, OnRowSize )
+		Connect(-1, wxEVT_SHEET_COL_SIZE, OnColSize )
+		Connect(-1, wxEVT_SHEET_COL_SIZING, OnColSize )
+		Connect(-1, wxEVT_SHEET_COL_SIZED, OnColSize )
+		Connect(-1, wxEVT_SHEET_SELECTED_CELL, OnSelectCell )
+		Connect(-1, wxEVT_SHEET_RANGE_SELECTING, OnRangeSelect )
+		Connect(-1, wxEVT_SHEET_RANGE_SELECTED, OnRangeSelect )
+		
+		Connect(-1, wxEVT_SHEET_CELL_VALUE_CHANGING, OnCellValueChanged )
+		Connect(-1, wxEVT_SHEET_CELL_VALUE_CHANGED, OnCellValueChanged )
+		
+		Connect(-1, wxEVT_SHEET_EDITOR_ENABLED, OnEditorShown )
+		Connect(-1, wxEVT_SHEET_EDITOR_DISABLED, OnEditorHidden )
+		
+		Connect(-1, wxEVT_SHEET_SPLIT_BEGIN, OnSheetSplitter )
+		Connect(-1, wxEVT_SHEET_SPLIT_CHANGING, OnSheetSplitter )
+		Connect(-1, wxEVT_SHEET_SPLIT_CHANGED, OnSheetSplitter )
+		Connect(-1, wxEVT_SHEET_SPLIT_DOUBLECLICKED, OnSheetSplitter )
+		Connect(-1, wxEVT_SHEET_SPLIT_UNSPLIT, OnSheetSplitter )
+		Connect(-1, wxEVT_SHEET_SPLIT_CREATE_SHEET, OnSheetSplitter )
 	End Method
 	
 
@@ -872,6 +1034,21 @@ Type GridFrame Extends wxFrame
 	
 	
 	Function OnCopyPaste(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		If Not frame.grid.HasFocus() ' Not For virtual Or bugs test windows
+			Return	
+		End If
+		
+		Select event.GetId()
+			Case wxID_COPY
+				frame.grid.CopyCurrentSelectionToClipboard()
+			
+			Case wxID_PASTE 
+				frame.grid.PasteFromClipboard()
+		
+		End Select
+		
 	End Function
 	
 	Function InsertRow(event:wxEvent)
@@ -954,76 +1131,442 @@ Type GridFrame Extends wxFrame
 	
 	
 	Function DeselectCell(event:wxEvent)
+		GridFrame(event.parent).grid.DeselectCell(3, 1)
 	End Function
 	
 	Function DeselectCol(event:wxEvent)
+		GridFrame(event.parent).grid.DeselectCol(2)
 	End Function
 	
 	Function DeselectRow(event:wxEvent)
+		GridFrame(event.parent).grid.DeselectRow(2)
 	End Function
 	
 	Function DeselectAll(event:wxEvent)
+		GridFrame(event.parent).grid.ClearSelection()
 	End Function
 	
 	Function SelectCell(event:wxEvent)
+		GridFrame(event.parent).grid.SelectBlock(New wxSheetBlock.Create(3, 1, 1, 1), GridFrame(event.parent).addToSel)
 	End Function
 	
 	Function SelectCol(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+
+		frame.grid.SelectCol(2, frame.addToSel)
 	End Function
 	
 	Function SelectRow(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+
+		frame.grid.SelectRow(2, frame.addToSel)
 	End Function
 	
 	Function SelectAll(event:wxEvent)
+		GridFrame(event.parent).grid.SelectAll()
 	End Function
 	
 	Function OnAddToSelectToggle(event:wxEvent)
+		GridFrame(event.parent).addToSel = wxCommandEvent(event).IsChecked()
 	End Function
 	
 	
 	Function OnLabelLeftDown(event:wxEvent)
+		Local ev:wxSheetEvent = wxSheetEvent(event)
+		
+		Local logBuf:String
+		Local row:Int, col:Int
+		ev.GetCoords(row, col)
+		
+		If row <> -1 Then
+			logBuf:+ "Left click on row label " + row
+		Else If col <> -1 Then
+			logBuf:+ "Left click on col label " + col
+		Else
+			logBuf:+ "Left click on corner label"
+		End If
+		
+		Local x:Int, y:Int
+		ev.GetPosition(x, y)
+		logBuf:+ " point (" + x + ", " + y + ")"
+		
+		Local sheet:wxSheet = wxSheet(ev.GetEventObject())
+		Local w:Int, h:Int
+		sheet.GetCellSize(row, col, w, h)
+		logBuf:+ " size (" + w + ", " + h + ")"
+		
+		If ev.Selecting()   logBuf:+ " (selecting)"
+		If ev.ShiftDown()   logBuf:+ " (shift down)"
+		If ev.ControlDown() logBuf:+ " (control down)"
+		If ev.AltDown()     logBuf:+ " (alt down)"
+		If ev.MetaDown()    logBuf:+ " (meta down)"
+		
+		wxLogMessage(logBuf)
+		
+		' you must call event skip If you want Default grid processing
+		ev.Skip()
 	End Function
 	
 	Function OnCellLeftDown(event:wxEvent)
+		Local ev:wxSheetEvent = wxSheetEvent(event)
+		
+		Local logBuf:String
+		Local row:Int, col:Int, x:Int, y:Int
+		ev.GetCoords(row, col)
+		ev.GetPosition(x, y)
+		
+		logBuf = "Left click at row " + row + ", col " + col + ", point (" + x + ", " + y + ")"
+		
+		Local sheet:wxSheet = wxSheet(ev.GetEventObject())
+		Local w:Int, h:Int
+		sheet.GetCellSize(row, col, w, h)
+		logBuf:+ " size (" + w + ", " + h + ")"
+		
+		If ev.Selecting()   logBuf:+ " (selecting)"
+		If ev.ShiftDown()   logBuf:+ " (shift down)"
+		If ev.ControlDown() logBuf:+ " (control down)"
+		If ev.AltDown()     logBuf:+ " (alt down)"
+		If ev.MetaDown()    logBuf:+ " (meta down)"
+		
+		wxLogMessage( logBuf )
+		
+		' you must call event skip If you want Default grid processing
+		' (cell highlighting etc.)
+		ev.Skip()
 	End Function
 	
 	Function OnCellRightDown(event:wxEvent)
+		Local ev:wxSheetEvent = wxSheetEvent(event)
+		
+		Local row:Int, col:Int, x:Int, y:Int, sx:Int, sy:Int
+		ev.GetCoords(row, col)
+		ev.GetPosition(x, y)
+		ev.GetScrolledPosition(sx, sy)
+		
+		Local logBuf:String = "Right click at row " + row + ", col " + col + ..
+			", point (" + x + ", " + y + "), scrpoint(" + sx + ", " + sy + ")"
+		
+		If ev.Selecting()   logBuf:+ " (selecting)"
+		If ev.ShiftDown()   logBuf:+ " (shift down)"
+		If ev.ControlDown() logBuf:+ " (control down)"
+		If ev.AltDown()     logBuf:+ " (alt down)"
+		If ev.MetaDown()    logBuf:+ " (meta down)"
+		
+		wxLogMessage( logBuf )
+		
+		' you must call event skip If you want Default grid processing
+		' (cell highlighting etc.)
+		'
+		ev.Skip()
 	End Function
 	
 	Function OnRowSize(event:wxEvent)
+		Local ev:wxSheetCellSizeEvent = wxSheetCellSizeEvent(event)
+		
+		Local row:Int, col:Int
+		ev.GetCoords(row, col)
+		
+		Local sheet:wxSheet = wxSheet(ev.GetEventObject())
+		Local s:String = "T=" + sheet.GetRowTop(row) + " B=" + sheet.GetRowBottom(row) + ..
+			" B-T+1=" + (sheet.GetRowBottom(row) - sheet.GetRowTop(row) + 1) + " = H=" + sheet.GetRowHeight(row)
+		
+		Local logBuf:String
+		
+		If ev.GetEventType() = wxEVT_SHEET_ROW_SIZE Then
+			logBuf:+ "Resize row "
+		Else If ev.GetEventType() = wxEVT_SHEET_ROW_SIZING Then
+			logBuf:+ "Resizing row "
+			If GridFrame(event.parent).GetMenuBar().IsChecked(ID_TOGGLEROWSIZINGVETO) Then
+				logBuf:+ " Evt vetoed "
+				ev.Veto()
+			End If
+		Else
+			logBuf:+ "Resized row "
+		End If
+		
+		logBuf:+ row + " size " + ev.GetSize()
+		
+		wxLogMessage( logBuf + " - " + s )
+		
+		ev.Skip()
 	End Function
-	
+		
 	Function OnColSize(event:wxEvent)
+		Local ev:wxSheetCellSizeEvent = wxSheetCellSizeEvent(event)
+		
+		Local row:Int, col:Int
+		ev.GetCoords(row, col)
+		
+		Local sheet:wxSheet = wxSheet(ev.GetEventObject())
+		Local s:String = "L=" + sheet.GetColLeft(col) + " R=" + sheet.GetColRight(col) + ..
+			" R-L+1=" + (sheet.GetColRight(col) - sheet.GetColLeft(col) + 1)+ " = W=" + sheet.GetColWidth(col)
+		
+		Local logBuf:String
+		
+		If ev.GetEventType() = wxEVT_SHEET_COL_SIZE Then
+			logBuf:+ "Resize col "
+		Else If ev.GetEventType() = wxEVT_SHEET_COL_SIZING Then
+			logBuf:+ "Resizing col "
+			If GridFrame(event.parent).GetMenuBar().IsChecked(ID_TOGGLECOLSIZINGVETO) Then
+				logBuf:+ " Evt vetoed "
+				ev.Veto()
+			End If
+		Else
+			logBuf:+ "Resized col "
+		End If
+		
+		logBuf:+ col + " size " + ev.GetSize()
+		
+		wxLogMessage( logBuf + " - " + s)
+		
+		ev.Skip()
 	End Function
 	
 	Function OnSelectCell(event:wxEvent)
+		Local ev:wxSheetEvent = wxSheetEvent(event)
+		
+		Local row:Int, col:Int
+		ev.GetCoords(row, col)
+		
+		Local logBuf:String = "Cursor "
+		
+		logBuf:+ "cell at row " + row + " col " + col
+		
+		logBuf:+ " ( ControlDown: "
+		If ev.ControlDown()
+			logBuf:+ "T"
+		Else
+			logBuf:+ "F"
+		End If
+		
+		logBuf:+ ", ShiftDown: "
+		If ev.ShiftDown()
+			logBuf:+ "T"
+		Else
+			logBuf:+ "F"
+		End If
+		
+		logBuf:+ ", AltDown: "
+		If ev.AltDown()
+			logBuf:+ "T"
+		Else
+			logBuf:+ "F"
+		End If
+		
+		logBuf:+ ", MetaDown: "
+		If ev.MetaDown()
+			logBuf:+ "T"
+		Else
+			logBuf:+ "F"
+		End If
+		
+		logBuf:+ ")"
+		
+		wxLogMessage( logBuf )
+		
+		' you must call Skip() If you want the Default processing
+		' To occur in wxSheet
+		ev.Skip()
 	End Function
 	
 	Function OnRangeSelect(event:wxEvent)
+		Local ev:wxSheetRangeSelectEvent = wxSheetRangeSelectEvent(event)
+		
+		Local logBuf:String
+		
+		If ev.GetEventType() = wxEVT_SHEET_RANGE_SELECTING Then
+			If ev.Selecting() Then
+				logBuf:+ "Selecting "
+			Else
+				logBuf:+ "Deselecting "
+			End If
+		Else
+			If ev.Selecting() Then
+				logBuf:+ "Selected "
+			Else
+				logBuf:+ "Deselected "
+			End If
+		End If
+		
+		Local block:wxSheetBlock = ev.GetBlock()
+		
+		logBuf:+ "cells from row " + block.GetTop() + " col " + block.GetLeft() + ..
+			" to row " + block.GetBottom() + " col " + block.GetRight()
+		
+		logBuf:+ " ( ControlDown: "
+		If ev.ControlDown()
+			logBuf:+ "T"
+		Else
+			logBuf:+ "F"
+		End If
+		
+		logBuf:+ ", ShiftDown: "
+		If ev.ShiftDown()
+			logBuf:+ "T"
+		Else
+			logBuf:+ "F"
+		End If
+		
+		logBuf:+ ", AltDown: "
+		If ev.AltDown()
+			logBuf:+ "T"
+		Else
+			logBuf:+ "F"
+		End If
+		
+		logBuf:+ ", MetaDown: "
+		If ev.MetaDown()
+			logBuf:+ "T"
+		Else
+			logBuf:+ "F"
+		End If
+		
+		logBuf:+ ")"
+		wxLogMessage( logBuf )
+		
+		ev.Skip()
 	End Function
 	
 	Function OnCellValueChanged(event:wxEvent)
+		Local logBuf:String
+		Local ev:wxSheetEvent = wxSheetEvent(event)
+		
+		Local row:Int, col:Int
+		ev.GetCoords(row, col)
+		
+		If ev.GetEventType() = wxEVT_SHEET_CELL_VALUE_CHANGING Then
+			logBuf:+ "Value changing for cell at"
+		Else If ev.GetEventType() = wxEVT_SHEET_CELL_VALUE_CHANGED Then
+			logBuf:+ "Value changed for cell at"
+		End If
+
+		logBuf:+ " row " + row + " col " + col
+		
+		If ev.GetEventType() = wxEVT_SHEET_CELL_VALUE_CHANGING Then
+			logBuf:+ " New value:'" + ev.GetString() + "'"
+		End If
+		
+		If row = 0 And col = 2 Then
+			logBuf:+ " Event was vetoed"
+			ev.Veto()
+		End If
+		
+		wxLogMessage( logBuf )
+		
+		ev.Skip()
 	End Function
 	
 	Function OnEditorShown(event:wxEvent)
+		Local ev:wxSheetEvent = wxSheetEvent(event)
+		
+		Local row:Int, col:Int
+		ev.GetCoords(row, col)
+		
+		If col = 4 And row = 0 And wxMessageBox("Are you sure you wish to edit this cell", ..
+				"Checking", wxYES_NO|wxICON_QUESTION) = wxNO Then
+		
+			ev.Veto()
+			Return
+		End If
+		
+		wxLogMessage("Cell editor shown.")
+		
+		ev.Skip()
 	End Function
 	
 	Function OnEditorHidden(event:wxEvent)
+		Local ev:wxSheetEvent = wxSheetEvent(event)
+		
+		Local row:Int, col:Int
+		ev.GetCoords(row, col)
+		
+		If col = 4 And row = 0 And wxMessageBox("Are you sure you wish to finish editing this cell", ..
+				"Checking", wxYES_NO|wxICON_QUESTION) = wxNO Then
+		
+			ev.Veto()
+			Return
+		End If
+		
+		wxLogMessage("Cell editor hidden.")
+		
+		ev.Skip()
 	End Function
 	
 	Function OnSheetSplitter(event:wxEvent)
+		Local ev:wxSheetSplitterEvent = wxSheetSplitterEvent(event)
+		
+		Local logBuf:String
+		
+		If ev.GetEventType() = wxEVT_SHEET_SPLIT_BEGIN Then
+			logBuf:+ "Splitting beginning"
+		Else If ev.GetEventType() = wxEVT_SHEET_SPLIT_CHANGING Then
+			logBuf:+ "Splitter position changing"
+		Else If ev.GetEventType() = wxEVT_SHEET_SPLIT_CHANGED Then
+			logBuf:+ "Splitter position changed"
+		Else If ev.GetEventType() = wxEVT_SHEET_SPLIT_DOUBLECLICKED Then
+			logBuf:+ "Splitter doubleclicked"
+		Else If ev.GetEventType() = wxEVT_SHEET_SPLIT_UNSPLIT Then
+			logBuf:+ "Splitter unsplit"
+		Else If ev.GetEventType() = wxEVT_SHEET_SPLIT_CREATE_SHEET Then
+			logBuf:+ "Splitter create sheet"
+		End If
+		
+		logBuf:+" Sash pos " + ev.GetSashPosition() + " Is vertical " + ev.IsVerticalSplit()
+		
+		wxLogMessage( logBuf )
+		
+		ev.Skip()
 	End Function
 	
 	Function OnSetHighlightWidth(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local choices:String[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+		
+		Local dlg:wxSingleChoiceDialog = New wxSingleChoiceDialog.Create(frame, ..
+				"Choose the thickness of the highlight pen:", "Pen Width", choices)
+		
+		Local pen:wxPen = frame.grid.GetCursorCellHighlightPen()
+		dlg.SetSelection(pen.GetWidth())
+		
+		If dlg.ShowModal() = wxID_OK Then
+			pen.SetWidth(dlg.GetSelection())
+			frame.grid.SetCursorCellHighlightPen(pen)
+		End If
+		
+		dlg.Free()
+		
 	End Function
 	
 	Function OnSetROHighlightWidth(event:wxEvent)
+		Local frame:GridFrame = GridFrame(event.parent)
+		
+		Local choices:String[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+		
+		Local dlg:wxSingleChoiceDialog = New wxSingleChoiceDialog.Create(frame, ..
+				"Choose the thickness of the highlight pen:", "Pen Width", choices)
+		
+		Local pen:wxPen = frame.grid.GetCursorCellHighlightROPen()
+		dlg.SetSelection(pen.GetWidth())
+		
+		If dlg.ShowModal() = wxID_OK Then
+			pen.SetWidth(dlg.GetSelection())
+			frame.grid.SetCursorCellHighlightROPen(pen)
+		End If
+		
+		dlg.Free()
 	End Function
 	
 	Function OnQuit(event:wxEvent)
+		wxWindow(event.parent).Close( True )
 	End Function
 	
 	Function About(event:wxEvent)
+		wxMessageBox( "~n~nwxSheet demo ~n~n" + ..
+			"Michael Bedward ~n" + ..
+			"BlitzMax port by Bruce A Henderson~n~n", ..
+			"About", ..
+			wxOK|wxICON_INFORMATION )
 	End Function
 	
 	Function OnVTable(event:wxEvent)
@@ -1034,6 +1577,20 @@ Type GridFrame Extends wxFrame
 	
 	Function OnSmallGrid(event:wxEvent)
 	End Function
+
+End Type
+
+
+Type MyGridCellRendererRefData Extends wxSheetCellStringRendererRefData
+
+	Method Draw(sheet:wxSheet, attr:wxSheetCellAttr, dc:wxDC, rect:wxRect, row:Int, col:Int, isSelected:Int)
+		Super.Draw(sheet, attr, dc, rect, row, col, isSelected)
+
+		dc.SetPen(wxGREEN_PEN())
+		dc.SetBrush(wxTRANSPARENT_BRUSH())
+		dc.DrawEllipseRect(rect)
+		
+	End Method
 
 End Type
 

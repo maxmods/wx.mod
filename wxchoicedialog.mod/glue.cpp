@@ -24,7 +24,28 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxSingleChoiceDialog::MaxSingleChoiceDialog(BBObject * handle, wxWindow * parent,
+		const wxString& message, const wxString& caption, const wxArrayString& choices, long style, int x, int y)
+	: wxSingleChoiceDialog(parent, message, caption, choices, NULL, style, wxPoint(x, y))
+{
+	wxbind(this, handle);
+}
 
+MaxSingleChoiceDialog::~MaxSingleChoiceDialog() {
+	wxunbind(this);
+}
+
+
+MaxMultiChoiceDialog::MaxMultiChoiceDialog(BBObject * handle, wxWindow * parent,
+		const wxString& message, const wxString& caption, const wxArrayString& choices, long style, int x, int y)
+	: wxMultiChoiceDialog(parent, message, caption, choices, style, wxPoint(x, y))
+{
+	wxbind(this, handle);
+}
+
+MaxMultiChoiceDialog::~MaxMultiChoiceDialog() {
+	wxunbind(this);
+}
 
 // *********************************************
 
@@ -54,3 +75,48 @@ int bmx_wxgetsinglechoiceindex(BBString * message, BBString * caption, BBArray *
 	}
 
 }
+
+MaxSingleChoiceDialog * bmx_wxsinglechoicedialog_create(BBObject * handle, wxWindow * parent,
+		BBString * message, BBString * caption, BBArray * choices, long style, int x, int y) {
+
+	return new MaxSingleChoiceDialog(handle, parent, wxStringFromBBString(message), 
+		wxStringFromBBString(caption), bbStringArrayTowxArrayStr(choices), style, x, y);
+}
+
+int bmx_wxsinglechoicedialog_getselection(wxSingleChoiceDialog * dialog) {
+	return dialog->GetSelection();
+}
+
+BBString * bmx_wxsinglechoicedialog_getstringselection(wxSingleChoiceDialog * dialog) {
+	return bbStringFromWxString(dialog->GetStringSelection());
+}
+
+void bmx_wxsinglechoicedialog_setselection(wxSingleChoiceDialog * dialog, int index) {
+	dialog->SetSelection(index);
+}
+
+int bmx_wxsinglechoicedialog_showmodal(wxSingleChoiceDialog * dialog) {
+	return dialog->ShowModal();
+}
+
+
+MaxMultiChoiceDialog * bmx_wxmultichoicedialog_create(BBObject * handle, wxWindow * parent,
+		BBString * message, BBString * caption, BBArray * choices, long style, int x, int y) {
+
+	return new MaxMultiChoiceDialog(handle, parent, wxStringFromBBString(message), 
+		wxStringFromBBString(caption), bbStringArrayTowxArrayStr(choices), style, x, y);
+}
+
+BBArray * bmx_wxmultichoicedialog_getselections(wxMultiChoiceDialog * dialog) {
+	return wxArrayIntToBBIntArray(dialog->GetSelections());
+}
+
+void bmx_wxmultichoicedialog_setselections(wxMultiChoiceDialog * dialog, BBArray * selections) {
+	dialog->SetSelections(bbIntArrayTowxArrayInt(selections));
+}
+
+int bmx_wxmultichoicedialog_showmodal(wxMultiChoiceDialog * dialog) {
+	return dialog->ShowModal();
+}
+
+

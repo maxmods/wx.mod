@@ -96,6 +96,7 @@ extern "C" {
 	void bmx_wxevent_resumepropagation(wxEvent & event, int propagationLevel);
 	bool bmx_wxevent_shouldpropagate(wxEvent & event);
 	int bmx_wxevent_stoppropagation(wxEvent & event);
+	wxObject * bmx_wxevent_geteventobject(wxEvent & event);
 
 	
 	void bmx_wxupdateeventui_check(wxUpdateUIEvent & event, bool value);

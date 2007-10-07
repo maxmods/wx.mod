@@ -1191,12 +1191,10 @@ bbdoc:
 End Rem
 Type wxAuiManagerEvent Extends wxEvent
 
-	Function create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxAuiManagerEvent = New wxAuiManagerEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
@@ -1269,14 +1267,14 @@ Type TAuiEventFactory Extends TEventFactory
 					wxEVT_COMMAND_AUINOTEBOOK_END_DRAG, ..
 					wxEVT_COMMAND_AUINOTEBOOK_DRAG_MOTION, ..
 					wxEVT_COMMAND_AUINOTEBOOK_ALLOW_DND
-				Return wxCommandEvent.create(wxEventPtr, evt)
+				Return wxCommandEvent.Create(wxEventPtr, evt)
 			Case wxEVT_AUI_PANE_BUTTON, ..
 					wxEVT_AUI_PANE_CLOSE, ..
 					wxEVT_AUI_PANE_MAXIMIZE, ..
 					wxEVT_AUI_PANE_RESTORE, ..
 					wxEVT_AUI_RENDER, ..
 					wxEVT_AUI_FIND_MANAGER
-				Return wxAuiManagerEvent.create(wxEventPtr, evt)
+				Return wxAuiManagerEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

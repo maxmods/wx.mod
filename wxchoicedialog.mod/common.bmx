@@ -49,4 +49,19 @@ Extern
 	Function bmx_wxgetsinglechoiceindex:Int(message:String, caption:String, choices:String[], ..
 		parent:Byte Ptr, x:Int, y:Int, centre:Int, width:Int, height:Int)
 
+	Function bmx_wxsinglechoicedialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, message:String, caption:String, choices:String[], style:Int, x:Int, y:Int)
+	Function bmx_wxsinglechoicedialog_getselection:Int(handle:Byte Ptr)
+	Function bmx_wxsinglechoicedialog_getstringselection:String(handle:Byte Ptr)
+	Function bmx_wxsinglechoicedialog_setselection(handle:Byte Ptr, index:Int)
+	Function bmx_wxsinglechoicedialog_showmodal:Int(handle:Byte Ptr)
+
+	Function bmx_wxmultichoicedialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, message:String, caption:String, choices:String[], style:Int, x:Int, y:Int)
+	Function bmx_wxmultichoicedialog_getselections:Int[](handle:Byte Ptr)
+	Function bmx_wxmultichoicedialog_setselections(handle:Byte Ptr, selections:Int[])
+	Function bmx_wxmultichoicedialog_showmodal:Int(handle:Byte Ptr)
+
 End Extern
+
+
+Const wxCHOICEDLG_STYLE:Int = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxOK | wxCANCEL | wxCENTRE
+

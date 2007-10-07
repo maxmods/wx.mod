@@ -644,6 +644,9 @@ int bmx_wxevent_stoppropagation(wxEvent & event) {
 	return event.StopPropagation();
 }
 
+wxObject * bmx_wxevent_geteventobject(wxEvent & event) {
+	return event.GetEventObject();
+}
 
 
 void bmx_wxupdateeventui_check(wxUpdateUIEvent & event, bool value) {

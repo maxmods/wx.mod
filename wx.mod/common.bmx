@@ -197,6 +197,7 @@ Extern
 	Function bmx_wxevent_resumepropagation(evt:Byte Ptr, propagationLevel:Int)
 	Function bmx_wxevent_shouldpropagate:Int(evt:Byte Ptr)
 	Function bmx_wxevent_stoppropagation:Int(evt:Byte Ptr)
+	Function bmx_wxevent_geteventobject:Byte Ptr(evt:Byte Ptr)
 
 	Function bmx_wxupdateeventui_check(evt:Byte Ptr, value:Int)
 	Function bmx_wxupdateeventui_enable(evt:Byte Ptr, value:Int)

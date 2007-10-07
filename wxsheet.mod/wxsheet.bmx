@@ -64,6 +64,25 @@ Type wxSheet Extends wxWindow
 		Return Self
 	End Method
 
+	' soft linking
+	Function _create:wxSheet(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheet = New wxSheet
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _find:wxSheet(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local sheet:wxSheet = wxSheet(wxfind(wxObjectPtr))
+			If Not sheet Then
+				Return wxSheet._create(wxObjectPtr)
+			End If
+			Return sheet
+		End If
+	End Function
+
 	Method GetTable:wxSheetTable()
 	
 	End Method
@@ -156,50 +175,65 @@ Type wxSheet Extends wxWindow
 	End Method
 
 	Method SetNumberRows:Int(rows:Int, update:Int = wxSHEET_UpdateAll)
+		Return bmx_wxsheet_setnumberrows(wxObjectPtr, rows, update)
 	End Method
 
 	Method SetNumberCols:Int(cols:Int, update:Int = wxSHEET_UpdateAll)
+		Return bmx_wxsheet_setnumbercols(wxObjectPtr, cols, update)
 	End Method
 
 	Method SetNumberCells:Int(rows:Int, cols:Int, update:Int = wxSHEET_UpdateAll)
+		Return bmx_wxsheet_setnumbercells(wxObjectPtr, rows, cols, update)
 	End Method
 
 	Method GetDefaultRowHeight:Int()
+		Return bmx_wxsheet_getdefaultrowheight(wxObjectPtr)
 	End Method
 	
 	Method GetDefaultColWidth:Int()
+		Return bmx_wxsheet_getdefaultcolwidth(wxObjectPtr)
 	End Method
 	
 	Method SetDefaultRowHeight( height:Int, resizeExistingRows:Int = False )
+		bmx_wxsheet_setdefaultrowheight(wxObjectPtr, height, resizeExistingRows)
 	End Method
 	
 	Method SetDefaultColWidth( width:Int, resizeExistingCols:Int = False )
+		bmx_wxsheet_setdefaultcolwidth(wxObjectPtr, width, resizeExistingCols)
 	End Method
 	
 	Method GetMinimalAcceptableRowHeight:Int()
+		Return bmx_wxsheet_getminimalacceptablerowheight(wxObjectPtr)
 	End Method
 	
 	Method GetMinimalAcceptableColWidth:Int()
+		Return bmx_wxsheet_getminimalacceptablecolwidth(wxObjectPtr)
 	End Method
 	
 	Method SetMinimalAcceptableRowHeight(height:Int)
+		bmx_wxsheet_setminimalacceptablerowheight(wxObjectPtr, height)
 	End Method
 	
 	Method SetMinimalAcceptableColWidth(width:Int)
+		bmx_wxsheet_setminimalacceptablecolwidth(wxObjectPtr, width)
 	End Method
 	
 	Method GetMinimalRowHeight:Int(row:Int)
+		Return bmx_wxsheet_getminimalrowheight(wxObjectPtr, row)
 	End Method
 	
 	Method GetMinimalColWidth:Int(col:Int)
+		Return bmx_wxsheet_getminimalcolwidth(wxObjectPtr, col)
 	End Method
 	
 	Method SetMinimalRowHeight(row:Int, height:Int)
+		bmx_wxsheet_setminimalrowheight(wxObjectPtr, row, height)
 	End Method
 	
 	Method SetMinimalColWidth(col:Int, width:Int)
+		bmx_wxsheet_setminimalcolwidth(wxObjectPtr, col, width)
 	End Method
-	
+
 	Method SetRowHeight(row:Int, height:Int, ignoreMinSize:Int = False )
 		bmx_wxsheet_setrowheight(wxObjectPtr, row, height, ignoreMinSize)
 	End Method
@@ -795,6 +829,162 @@ Type wxSheet Extends wxWindow
 		bmx_wxsheet_forcerefresh(wxObjectPtr)
 	End Method
 
+	Method FixSelectionBlock:wxSheetBlock(block:wxSheetBlock, selMode:Int = -1)
+		Return wxSheetBlock._create(bmx_wxsheet_fixselectionblock(wxObjectPtr, block.wxObjectPtr, selMode))
+	End Method
+	
+	Method SelectRow:Int( row:Int, addToSelected:Int = False, sendEvt:Int = False )
+		Return bmx_wxsheet_selectrow(wxObjectPtr, row, addToSelected, sendEvt)
+	End Method
+	
+	Method SelectRows:Int( rowTop:Int, rowBottom:Int, addToSelected:Int = False, sendEvt:Int = False )
+		Return bmx_wxsheet_selectrows(wxObjectPtr, rowTop, rowBottom, addToSelected, sendEvt)
+	End Method
+	
+	Method SelectCol:Int( col:Int, addToSelected:Int = False, sendEvt:Int = False )
+		Return bmx_wxsheet_selectCol(wxObjectPtr, col, addToSelected, sendEvt)
+	End Method
+	
+	Method SelectCols:Int( colLeft:Int, colRight:Int, addToSelected:Int = False, sendEvt:Int = False )
+		Return bmx_wxsheet_selectcols(wxObjectPtr, colLeft, colRight, addToSelected, sendEvt)
+	End Method
+	
+	Method SelectCell:Int( row:Int, col:Int, addToSelected:Int = False, sendEvt:Int = False )
+		Return bmx_wxsheet_selectcell(wxObjectPtr, row, col, addToSelected, sendEvt)
+	End Method
+	
+	Method SelectBlock:Int( block:wxSheetBlock, addToSelected:Int = False, sendEvt:Int = False )
+		Return bmx_wxsheet_selectblock(wxObjectPtr, block.wxObjectPtr, addToSelected, sendEvt)
+	End Method
+	
+	Method SelectAll:Int(sendEvt:Int = False)
+		Return bmx_wxsheet_selectall(wxObjectPtr, sendEvt)
+	End Method
+	
+	Method DeselectRow:Int( row:Int, sendEvt:Int = False )
+		Return bmx_wxsheet_deselectrow(wxObjectPtr, row, sendEvt)
+	End Method
+	
+	Method DeselectRows:Int( rowTop:Int, rowBottom:Int, sendEvt:Int = False )
+		Return bmx_wxsheet_deselectrows(wxObjectPtr, rowTop, rowBottom, sendEvt)
+	End Method
+	
+	Method DeselectCol:Int( col:Int, sendEvt:Int = False )
+		Return bmx_wxsheet_deselectcol(wxObjectPtr, col, sendEvt)
+	End Method
+	
+	Method DeselectCols:Int( colLeft:Int, colRight:Int, sendEvt:Int = False )
+		Return bmx_wxsheet_deselectcols(wxObjectPtr, colLeft, colRight, sendEvt)
+	End Method
+	
+	Method DeselectCell:Int( row:Int, col:Int, sendEvt:Int = False )
+		Return bmx_wxsheet_deselectcell(wxObjectPtr, row, col, sendEvt)
+	End Method
+	
+	Method DeselectBlock:Int( block:wxSheetBlock, sendEvt:Int = False )
+		Return bmx_wxsheet_deselectblock(wxObjectPtr, block.wxObjectPtr, sendEvt)
+	End Method
+	
+	Method ClearSelection:Int(sendEvt:Int = False)
+		Return bmx_wxsheet_clearselection(wxObjectPtr, sendEvt)
+	End Method
+	
+	Method ToggleCellSelection:Int( row:Int, col:Int, addToSelected:Int = False, sendEvt:Int = False )
+		Return bmx_wxsheet_togglecellselection(wxObjectPtr, row, col, addToSelected, sendEvt)
+	End Method
+	
+	Method ToggleRowSelection:Int( row:Int, addToSelected:Int = False, sendEvt:Int = False )
+		Return bmx_wxsheet_togglerowselection(wxObjectPtr, row, addToSelected, sendEvt)
+	End Method
+	
+	Method ToggleColSelection:Int( col:Int, addToSelected:Int = False, sendEvt:Int = False)
+		Return bmx_wxsheet_togglecolselection(wxObjectPtr, col, addToSelected, sendEvt)
+	End Method
+	
+	Method GetCursorCellHighlightPen:wxPen()
+		Return wxPen._create(bmx_wxsheet_getcursorcellhighlightpen(wxObjectPtr))
+	End Method
+	
+	Method GetCursorCellHighlightROPen:wxPen()
+		Return wxPen._create(bmx_wxsheet_getcursorcellhighlightropen(wxObjectPtr))
+	End Method
+	
+	Method SetCursorCellHighlightPen(pen:wxPen)
+		bmx_wxsheet_setcursorcellhighlightpen(wxObjectPtr, pen.wxObjectPtr)
+	End Method
+	
+	Method SetCursorCellHighlightROPen(pen:wxPen)
+		bmx_wxsheet_setcursorcellhighlightreopen(wxObjectPtr, pen.wxObjectPtr)
+	End Method
+	
+	Method GetLabelOutlineColour:wxColour()
+		Return wxColour._create(bmx_wxsheet_getlabeloutlinecolour(wxObjectPtr))
+	End Method
+	
+	Method SetLabelOutlineColour(colour:wxColour)
+		bmx_wxsheet_setlabeloutlinecolour(wxObjectPtr, colour.wxObjectPtr)
+	End Method
+		
+	Method GetSelectionBackground:wxColour()
+		Return wxColour._create(bmx_wxsheet_getselectionbackground(wxObjectPtr))
+	End Method
+	
+	Method GetSelectionForeground:wxColour()
+		Return wxColour._create(bmx_wxsheet_getselectionforeground(wxObjectPtr))
+	End Method
+	
+	Method SetSelectionBackground(colour:wxColour)
+		bmx_wxsheet_setselectionbackground(wxObjectPtr, colour.wxObjectPtr)
+	End Method
+	
+	Method SetSelectionForeground(colour:wxColour)
+		bmx_wxsheet_setselectionforeground(wxObjectPtr, colour.wxObjectPtr)
+	End Method
+
+	Method HasFocus:Int()
+		Return bmx_wxsheet_hasfocus(wxObjectPtr)
+	End Method
+
+	Method CopyCurrentSelectionToClipboard:Int(copyCursor:Int = True, colSep:String = "~t")
+		Return bmx_wxsheet_copycurrentselectiontoclipboard(wxObjectPtr, copyCursor, colSep)
+	End Method
+	
+	Method CopyCurrentSelectionToInternalSelection:Int(copyCursor:Int = True)
+		Return bmx_wxsheet_copycurrentselectiontointernalselection(wxObjectPtr, copyCursor)
+	End Method
+	
+	Method CopyInternalSelectionToClipboard:Int(colSep:String = "~t")
+		Return bmx_wxsheet_copyinternalselectiontoclipboard(wxObjectPtr, colSep)
+	End Method
+	
+	Method CopyInternalSelectionToString:String(colSep:String = "~t")
+		Return bmx_wxsheet_copyinternalselectiontostring(wxObjectPtr, colSep)
+	End Method
+	
+	Method CopyStringToInternalSelection:Int(value:String, colSep:String = "~t")
+		Return bmx_wxsheet_copystringtointernalselection(wxObjectPtr, value, colSep)
+	End Method
+	
+	Method PasteFromClipboard:Int(row:Int = wxNullSheetRow, col:Int = wxNullSheetCol, colSep:String = "~t")
+		Return bmx_wxsheet_pastefromclipboard(wxObjectPtr, row, col, colSep)
+	End Method
+	
+	Method PasteInternalCopiedSelection:Int(row:Int = wxNullSheetRow, col:Int = wxNullSheetCol)
+		Return bmx_wxsheet_pasteinternalcopiedselection(wxObjectPtr, row, col)
+	End Method
+	
+	Method CurrentlyPasting:Int()
+		Return bmx_wxsheet_currentlypasting(wxObjectPtr)
+	End Method
+
+	Method GetDefaultEditorForType:wxSheetCellEditor(typeName:String)
+		Return wxSheetCellEditor._create(bmx_wxsheet_getdefaulteditorfortype(wxObjectPtr, typeName))
+	End Method
+	
+	Method GetDefaultRendererForType:wxSheetCellRenderer(typeName:String) 
+		Return wxSheetCellRenderer._create(bmx_wxsheet_getdefaultrendererfortype(wxObjectPtr, typeName))
+	End Method
+	
 End Type
 
 
@@ -838,10 +1028,20 @@ End Rem
 Type wxSheetCellStringRendererRefData Extends wxSheetCellRendererRefData
 
 	Method Create:wxSheetCellStringRendererRefData()
-		wxObjectPtr = bmx_wxsheetcellstringrendererrefdata_create()
+		wxObjectPtr = bmx_wxsheetcellstringrendererrefdata_create(Self)
 		Return Self
 	End Method
 
+	Method Draw(sheet:wxSheet, attr:wxSheetCellAttr, dc:wxDC, rectCell:wxRect, row:Int, col:Int, isSelected:Int)
+		bmx_wxsheetcellstringrendererrefdata_draw(wxObjectPtr, sheet.wxObjectPtr, attr.wxObjectPtr, dc.wxObjectPtr, ..
+			rectCell.wxObjectPtr, row, col, isSelected);
+	End Method
+	
+	Function _Draw(obj:wxObject, sheet:Byte Ptr, attr:Byte Ptr, dc:Byte Ptr, rectCell:Byte Ptr, row:Int, col:Int, isSelected:Int)
+		wxSheetCellStringRendererRefData(obj).Draw(wxSheet._find(sheet), wxSheetCellAttr._create(attr), ..
+				wxDC._create(dc), wxRect._create(rectCell), row, col, isSelected)
+	End Function
+	
 End Type
 
 Rem
@@ -884,6 +1084,16 @@ Rem
 bbdoc: 
 End Rem
 Type wxSheetCellBitmapRendererRefData Extends wxSheetCellStringRendererRefData
+
+	Method CreateData:wxSheetCellBitmapRendererRefData(bitmap:wxBitmap = Null, align:Int = 0)
+		If bitmap Then
+			wxObjectPtr = bmx_wxsheetcellbitmaprendererrefdata_create(bitmap.wxObjectPtr, align)
+		Else
+			wxObjectPtr = bmx_wxsheetcellbitmaprendererrefdata_create(wxNullBitmap.wxObjectPtr, align)
+		End If
+		Return Self
+	End Method
+	
 End Type
 
 Rem
@@ -1452,6 +1662,25 @@ Type wxSheetSplitter Extends wxWindow
 		Return Self
 	End Method
 
+	' soft linking
+	Function _create:wxSheetSplitter(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSheetSplitter = New wxSheetSplitter
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _find:wxSheetSplitter(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local splitter:wxSheetSplitter = wxSheetSplitter(wxfind(wxObjectPtr))
+			If Not splitter Then
+				Return wxSheetSplitter._create(wxObjectPtr)
+			End If
+			Return splitter
+		End If
+	End Function
+
 	Rem
 	bbdoc: Initialize the splitter with one window
 	about: The splitter must be sheet's parent
@@ -1483,7 +1712,6 @@ Type wxSheetSplitter Extends wxWindow
 	
 	Method CanSplitHorizontally:Int()
 	End Method
-	
 	
 End Type
 
@@ -1552,6 +1780,9 @@ Type wxSheetSelection Extends wxObject
 End Type
 
 
+Rem
+bbdoc: 
+End Rem
 Type wxSheetBlock
 	
 	Field wxObjectPtr:Byte Ptr
@@ -1564,23 +1795,37 @@ Type wxSheetBlock
 		End If
 	End Function
 	
+	Function CreateSheetBlock:wxSheetBlock(row:Int, col:Int, height:Int, width:Int)
+		Return New wxSheetBlock.Create(row, col, height, width)
+	End Function
+	
+	Method Create:wxSheetBlock(row:Int, col:Int, height:Int, width:Int)
+		wxObjectPtr = bmx_wxsheetblock_create(row, col, height, width)
+		Return Self
+	End Method
 	
 	Method GetLeft:Int()
+		Return bmx_wxsheetblock_getleft(wxObjectPtr)
 	End Method
 	
 	Method GetRight:Int()
+		Return bmx_wxsheetblock_getright(wxObjectPtr)
 	End Method
 	
 	Method GetTop:Int()
+		Return bmx_wxsheetblock_gettop(wxObjectPtr)
 	End Method
 	
 	Method GetBottom:Int()
+		Return bmx_wxsheetblock_getbottom(wxObjectPtr)
 	End Method
 	
 	Method GetWidth:Int()
+		Return bmx_wxsheetblock_getwidth(wxObjectPtr)
 	End Method
 	
 	Method GetHeight:Int()
+		Return bmx_wxsheetblock_getheight(wxObjectPtr)
 	End Method	
 	
 	Method GetLeftTop(row:Int Var, col:Int Var)
@@ -1670,34 +1915,273 @@ Type wxSheetBlock
 
 End Type
 
+Rem
+bbdoc: 
+End Rem
 Type wxSheetEvent Extends wxNotifyEvent
 
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxSheetEvent = New wxSheetEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Method GetRow:Int()
+		Return bmx_wxsheetevent_getrow(wxEventPtr)
+	End Method
+	
+	Method GetCol:Int()
+		Return bmx_wxsheetevent_getcol(wxEventPtr)
+	End Method
+	
+	Method GetCoords(row:Int Var, col:Int Var)
+		bmx_wxsheetevent_getcoords(wxEventPtr, Varptr row, Varptr col)
+	End Method
+	
+	Method Selecting:Int()
+		Return bmx_wxsheetevent_selecting(wxEventPtr)
+	End Method
+	
+	Method ControlDown:Int()
+		Return bmx_wxsheetevent_controldown(wxEventPtr)
+	End Method
+	
+	Method ShiftDown:Int()
+		Return bmx_wxsheetevent_shiftdown(wxEventPtr)
+	End Method
+	
+	Method AltDown:Int()
+		Return bmx_wxsheetevent_altdown(wxEventPtr)
+	End Method
+	
+	Method MetaDown:Int()
+		Return bmx_wxsheetevent_metadown(wxEventPtr)
+	End Method
+	
+	Method GetPosition(x:Int Var, y:Int Var)
+		bmx_wxsheetevent_getposition(wxEventPtr, Varptr x, Varptr y)
+	End Method
+	
+	Method GetScrolledPosition(x:Int Var, y:Int Var)
+		bmx_wxsheetevent_getscrolledposition(wxEventPtr, Varptr x, Varptr y)
+	End Method
+	
+	Method GetEventWindow:wxWindow()
+		Return wxWindow._find(bmx_wxsheetevent_geteventwindow(wxEventPtr))
+	End Method
+
 End Type
 
+Rem
+bbdoc: 
+End Rem
 Type wxSheetCellSizeEvent Extends wxSheetEvent
 
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxSheetCellSizeEvent = New wxSheetCellSizeEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Method GetSize:Int()
+		Return bmx_wxsheetcellsizeevent_getsize(wxEventPtr)
+	End Method
+
 End Type
 
+Rem
+bbdoc: 
+End Rem
 Type wxSheetRangeSelectEvent Extends wxSheetEvent
 
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxSheetRangeSelectEvent = New wxSheetRangeSelectEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Method GetBlock:wxSheetBlock()
+		Return wxSheetBlock._create(bmx_wxsheetrangeselectevent_getblock(wxEventPtr))
+	End Method
 	
+	Method GetAddToSelection:Int()
+		Return bmx_wxsheetrangeselectevent_getaddtoselection(wxEventPtr)
+	End Method
+	
+	Method SetBlock( block:wxSheetBlock )
+		bmx_wxsheetrangeselectevent_setblock(wxEventPtr, block.wxObjectPtr)
+	End Method
+
 
 End Type
 
+Rem
+bbdoc: 
+End Rem
 Type wxSheetEditorCreatedEvent Extends wxCommandEvent
 
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxSheetEditorCreatedEvent = New wxSheetEditorCreatedEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
 	Method GetCoords(row:Int Var, col:Int Var)
+		bmx_wxsheeteditorcreatedevent_getcoords(wxEventPtr, Varptr row, Varptr col)
 	End Method
 	
 	Method GetControl:wxWindow()
+		Return wxWindow._find(bmx_wxsheeteditorcreatedevent_getcontrol(wxEventPtr))
 	End Method
 	
 	Method SetCoords(row:Int, col:Int)
+		bmx_wxsheeteditorcreatedevent_setcoords(wxEventPtr, row, col)
 	End Method
 	
 	Method SetControl(control:wxWindow)
+		bmx_wxsheeteditorcreatedevent_setcontrol(wxEventPtr, control.wxObjectPtr)
 	End Method
 	
-	
 End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxSheetSplitterEvent Extends wxNotifyEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxSheetSplitterEvent = New wxSheetSplitterEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Method GetSashPosition:Int()
+		Return bmx_wxsheetsplitterevent_getsashposition(wxEventPtr)
+	End Method
+	
+	Method SetSashPosition(pos:Int)
+		bmx_wxsheetsplitterevent_setsashposition(wxEventPtr, pos)
+	End Method
+	
+	Method GetSplitMode:Int()
+		Return bmx_wxsheetsplitterevent_getsplitmode(wxEventPtr)
+	End Method
+	
+	Method IsVerticalSplit:Int()
+		Return bmx_wxsheetsplitterevent_isverticalsplit(wxEventPtr)
+	End Method
+	
+	Method GetSheet:wxSheet()
+		Return wxSheet._find(bmx_wxsheetsplitterevent_getsheet(wxEventPtr))
+	End Method
+	
+	Method GetSheetSplitter:wxSheetSplitter()
+		Return wxSheetSplitter._find(bmx_wxsheetsplitterevent_getsheetsplitter(wxEventPtr))
+	End Method
+
+End Type
+
+Type TSheetEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	
+		Select evt.eventType
+			Case wxEVT_SHEET_VIEW_CHANGED, ..
+					wxEVT_SHEET_SELECTING_CELL, ..
+					wxEVT_SHEET_SELECTED_CELL, ..
+					wxEVT_SHEET_CELL_LEFT_DOWN, ..
+					wxEVT_SHEET_CELL_RIGHT_DOWN, ..
+					wxEVT_SHEET_CELL_LEFT_UP, ..
+					wxEVT_SHEET_CELL_RIGHT_UP, ..
+					wxEVT_SHEET_CELL_LEFT_DCLICK, ..
+					wxEVT_SHEET_CELL_RIGHT_DCLICK, ..
+					wxEVT_SHEET_LABEL_LEFT_DOWN, ..
+					wxEVT_SHEET_LABEL_RIGHT_DOWN, ..
+					wxEVT_SHEET_LABEL_LEFT_UP, ..
+					wxEVT_SHEET_LABEL_RIGHT_UP, ..
+					wxEVT_SHEET_LABEL_LEFT_DCLICK, ..
+					wxEVT_SHEET_LABEL_RIGHT_DCLICK, ..
+					wxEVT_SHEET_CELL_VALUE_CHANGING, ..
+					wxEVT_SHEET_CELL_VALUE_CHANGED, ..
+					wxEVT_SHEET_EDITOR_ENABLED, ..
+					wxEVT_SHEET_EDITOR_DISABLED
+				Return wxSheetEvent.Create(wxEventPtr, evt)
+			Case wxEVT_SHEET_ROW_SIZE, ..
+					wxEVT_SHEET_ROW_SIZING, ..
+					wxEVT_SHEET_ROW_SIZED, ..
+					wxEVT_SHEET_COL_SIZE, ..
+					wxEVT_SHEET_COL_SIZING, ..
+					wxEVT_SHEET_COL_SIZED
+				Return wxSheetCellSizeEvent.Create(wxEventPtr, evt)
+			Case wxEVT_SHEET_RANGE_SELECTING, ..
+					wxEVT_SHEET_RANGE_SELECTED
+				Return wxSheetRangeSelectEvent.Create(wxEventPtr, evt)
+			Case wxEVT_SHEET_EDITOR_CREATED
+				Return wxSheetEditorCreatedEvent.Create(wxEventPtr, evt)
+			Case wxEVT_SHEET_SPLIT_BEGIN, ..
+					wxEVT_SHEET_SPLIT_CHANGING, ..
+					wxEVT_SHEET_SPLIT_CHANGED, ..
+					wxEVT_SHEET_SPLIT_DOUBLECLICKED, ..
+					wxEVT_SHEET_SPLIT_UNSPLIT, ..
+					wxEVT_SHEET_SPLIT_CREATE_SHEET
+				Return wxSheetSplitterEvent.Create(wxEventPtr, evt)
+		End Select
+		
+		Return Null
+	End Method
+
+	Method GetEventType:Int(eventType:Int)
+		Select eventType
+			Case wxEVT_SHEET_VIEW_CHANGED, ..
+					wxEVT_SHEET_SELECTING_CELL, ..
+					wxEVT_SHEET_SELECTED_CELL, ..
+					wxEVT_SHEET_CELL_LEFT_DOWN, ..
+					wxEVT_SHEET_CELL_RIGHT_DOWN, ..
+					wxEVT_SHEET_CELL_LEFT_UP, ..
+					wxEVT_SHEET_CELL_RIGHT_UP, ..
+					wxEVT_SHEET_CELL_LEFT_DCLICK, ..
+					wxEVT_SHEET_CELL_RIGHT_DCLICK, ..
+					wxEVT_SHEET_LABEL_LEFT_DOWN, ..
+					wxEVT_SHEET_LABEL_RIGHT_DOWN, ..
+					wxEVT_SHEET_LABEL_LEFT_UP, ..
+					wxEVT_SHEET_LABEL_RIGHT_UP, ..
+					wxEVT_SHEET_LABEL_LEFT_DCLICK, ..
+					wxEVT_SHEET_LABEL_RIGHT_DCLICK, ..
+					wxEVT_SHEET_CELL_VALUE_CHANGING, ..
+					wxEVT_SHEET_CELL_VALUE_CHANGED, ..
+					wxEVT_SHEET_EDITOR_ENABLED, ..
+					wxEVT_SHEET_EDITOR_DISABLED, ..
+					wxEVT_SHEET_ROW_SIZE, ..
+					wxEVT_SHEET_ROW_SIZING, ..
+					wxEVT_SHEET_ROW_SIZED, ..
+					wxEVT_SHEET_COL_SIZE, ..
+					wxEVT_SHEET_COL_SIZING, ..
+					wxEVT_SHEET_COL_SIZED, ..
+					wxEVT_SHEET_RANGE_SELECTING, ..
+					wxEVT_SHEET_RANGE_SELECTED, ..
+					wxEVT_SHEET_EDITOR_CREATED, ..
+					wxEVT_SHEET_SPLIT_BEGIN, ..
+					wxEVT_SHEET_SPLIT_CHANGING, ..
+					wxEVT_SHEET_SPLIT_CHANGED, ..
+					wxEVT_SHEET_SPLIT_DOUBLECLICKED, ..
+					wxEVT_SHEET_SPLIT_UNSPLIT, ..
+					wxEVT_SHEET_SPLIT_CREATE_SHEET
+				Return bmx_wxsheet_geteventtype(eventType)
+		End Select
+	End Method
+		
+End Type
+
+New TSheetEventFactory
+
 
