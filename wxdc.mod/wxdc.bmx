@@ -857,9 +857,6 @@ Type wxDC Extends wxObject
 
 End Type
 
-Type wxWindowDC Extends wxDC
-End Type
-
 Rem
 bbdoc: wxMirrorDC is a simple wrapper which is always associated with a real wxDC object and either forwards all of its operations to it without changes (no mirroring takes place) or exchanges x and y coordinates which makes it possible to reuse the same code to draw a figure and its mirror -- i.e. reflection related to the diagonal line x == y.
 End Rem

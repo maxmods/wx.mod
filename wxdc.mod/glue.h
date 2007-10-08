@@ -27,6 +27,7 @@
 #include "../wxpen.mod/glue.h"
 
 class MaxMirrorDC;
+class MaxClientDC;
 
 extern "C" {
 
@@ -125,6 +126,9 @@ extern "C" {
 	void bmx_wxdc_startdoc(MaxDC * dc, BBString * message);
 	void bmx_wxdc_startpage(MaxDC * dc);
 
+	MaxClientDC * bmx_wxclientdc_create(wxWindow * window);
+	void bmx_wxclientdc_delete(MaxClientDC * dc);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -137,3 +141,10 @@ private:
 	wxMirrorDC mirrorDC;
 };
 
+class MaxClientDC : public MaxDC
+{
+public:
+	MaxClientDC(wxWindow * window);
+private:
+	wxClientDC clientDC;
+};

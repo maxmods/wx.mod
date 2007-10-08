@@ -140,7 +140,10 @@ Extern
 
 
 	Function bmx_wxmirrordc_create:Byte Ptr(dc:Byte Ptr, mirror:Int)
-	
+
+	Function bmx_wxclientdc_create:Byte Ptr(window:Byte Ptr)
+	Function bmx_wxclientdc_delete(handle:Byte Ptr)
+
 End Extern
 
 

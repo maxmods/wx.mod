@@ -2302,6 +2302,43 @@ Type wxPaintDC Extends wxWindowDC
 
 End Type
 
+Type wxWindowDC Extends wxDC
+End Type
+
+Rem
+bbdoc: A wxClientDC must be constructed if an application wishes to paint on the client area of a window from outside an OnPaint event.
+about: Remeber to call Free() to release the DC.
+<p>
+To draw on a window from within OnPaint, construct a wxPaintDC object.
+</p>
+<p>
+To draw on the whole window including decorations, construct a wxWindowDC object (Windows only).
+</p>
+End Rem
+Type wxClientDC Extends wxWindowDC
+
+	Rem
+	bbdoc: Constructor.
+	about: Pass the window on which you wish to paint.
+	End Rem
+	Method Create:wxClientDC(window:wxWindow)
+		wxObjectPtr = bmx_wxclientdc_create(window.wxObjectPtr)
+		Return Self
+	End Method
+
+	Method Delete()
+		Free()
+	End Method
+
+	Method Free()
+		If wxObjectPtr Then
+			bmx_wxclientdc_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+
+End Type
+
 Rem
 bbdoc: This type holds information about a tooltip associated with a window (see wxWindow::SetToolTip).
 about: The two functions, wxToolTip::Enable and wxToolTip::SetDelay can be used to globally alter tooltips

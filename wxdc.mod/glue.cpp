@@ -30,6 +30,12 @@ MaxMirrorDC::MaxMirrorDC(wxDC * dc, bool mirror)
 	MaxDC::init(&mirrorDC);
 }
 
+MaxClientDC::MaxClientDC(wxWindow * window)
+	: clientDC(window)
+{
+	MaxDC::init(&clientDC);
+}
+
 
 // *********************************************
 
@@ -436,3 +442,12 @@ void bmx_wxdc_startpage(MaxDC * dc) {
 
 // *********************************************
 
+MaxClientDC * bmx_wxclientdc_create(wxWindow * window) {
+	return new MaxClientDC(window);
+}
+
+void bmx_wxclientdc_delete(MaxClientDC * dc) {
+	delete dc;
+}
+
+// *********************************************
