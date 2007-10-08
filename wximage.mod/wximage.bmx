@@ -678,6 +678,11 @@ Type wxImage Extends wxObject
 
 End Type
 
+Rem
+bbdoc: 
+End Rem
+Global wxNullImage:wxImage = wxImage._create(bmx_wximage_createnull())
+
 Type wxImageHandler Extends wxObject
 
 End Type

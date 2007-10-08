@@ -285,6 +285,10 @@ MaxEvtHandler::~MaxEvtHandler() {
 	                                  Max interface
 ******************************************************************************************/
 
+BEGIN_EVENT_TABLE(MaxApp, wxApp)
+END_EVENT_TABLE()
+
+
 int bmx_app_wxentry() {
 	static int i = 0;
 	static const char *const empty = "";
