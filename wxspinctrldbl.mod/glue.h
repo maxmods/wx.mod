@@ -21,51 +21,15 @@
 */ 
 
 #include "wxglue.h"
-#include "wx/colordlg.h"
 
-class MaxColourDialog;
-class MaxColourData;
+//class MaxNotebook;
 
 extern "C" {
 
 #include <blitz.h>
 
-	MaxColourDialog * bmx_wxcolourdialog_create(BBObject * handle, wxWindow * parent, MaxColourData * data);
-	MaxColourData * bmx_wxcolourdialog_getcolourdata(wxColourDialog * dialog);
-	int bmx_wxcolourdialog_showmodal(wxColourDialog * dialog);
-
-	MaxColourData * bmx_wxcolourdata_create();
-	bool bmx_wxcolourdata_getchoosefull(MaxColourData * data);
-	MaxColour * bmx_wxcolourdata_getcolour(MaxColourData * data);
-	MaxColour * bmx_wxcolourdata_getcustomcolour(MaxColourData * data, int i);
-	void bmx_wxcolourdata_setchoosefull(MaxColourData * data, bool flag);
-	void bmx_wxcolourdata_setcolour(MaxColourData * data, MaxColour * colour);
-	void bmx_wxcolourdata_setcustomcolour(MaxColourData * data, int i, MaxColour * colour);
-	void bmx_wxcolourdata_delete(MaxColourData * data);
-
-	MaxColour * bmx_wxgetcolourfromuser(wxWindow * parent, MaxColour * init, BBString * caption);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-class MaxColourDialog : public wxColourDialog
-{
-public:
-	MaxColourDialog(BBObject * handle, wxWindow * parent, wxColourData * data);
-	~MaxColourDialog();
-};
-
-
-class MaxColourData
-{
-public:
-	MaxColourData();
-	MaxColourData(const wxColourData & c);
-	wxColourData & Data();
-
-private:
-	wxColourData data;
-
-};
 

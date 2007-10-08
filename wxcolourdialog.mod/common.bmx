@@ -44,6 +44,20 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxcolourdialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, data:Byte Ptr)
+	Function bmx_wxcolourdialog_getcolourdata:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxcolourdialog_showmodal:Int(handle:Byte Ptr)
+
+	Function bmx_wxcolourdata_create:Byte Ptr()
+	Function bmx_wxcolourdata_getchoosefull:Int(handle:Byte Ptr)
+	Function bmx_wxcolourdata_getcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxcolourdata_getcustomcolour:Byte Ptr(handle:Byte Ptr, i:Int)
+	Function bmx_wxcolourdata_setchoosefull(handle:Byte Ptr, flag:Int)
+	Function bmx_wxcolourdata_setcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxcolourdata_setcustomcolour(handle:Byte Ptr, i:Int, colour:Byte Ptr)
+	Function bmx_wxcolourdata_delete(handle:Byte Ptr)
+
+
 	Function bmx_wxgetcolourfromuser:Byte Ptr(parent:Byte Ptr, init:Byte Ptr, caption:String)
 
 End Extern

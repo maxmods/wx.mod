@@ -73,6 +73,59 @@ Type wxSpinCtrl Extends wxControl
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Sets the value of the spin control.
+	End Rem
+	Method SetValue(value:Int)
+		bmx_wxspinctrl_setvalue(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value of the spin control.
+	End Rem
+	Method SetTextValue(value:String)
+		bmx_wxspinctrl_settextvalue(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Gets the value of the spin control.
+	End Rem
+	Method GetValue:Int()
+		Return bmx_wxspinctrl_getvalue(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets range of allowable values.
+	End Rem
+	Method SetRange(minVal:Int, maxVal:Int)
+		bmx_wxspinctrl_setrange(wxObjectPtr, minVal, maxVal)
+	End Method
+	
+	Rem
+	bbdoc: Select the text in the text part of the control between positions from (inclusive) and to (exclusive).
+	about: This is similar to wxTextCtrl::SetSelection.
+	<p>
+	NB: this is currently only implemented for Windows and generic versions of the control.
+	</p>
+	End Rem
+	Method SetSelection(fromPos:Int, toPos:Int)
+		bmx_wxspinctrl_setselection(wxObjectPtr, fromPos, toPos)
+	End Method
+	
+	Rem
+	bbdoc: Gets minimal allowable value.
+	End Rem
+	Method GetMin:Int()
+		Return bmx_wxspinctrl_getmin(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets maximal allowable value.
+	End Rem
+	Method GetMax:Int()
+		Return bmx_wxspinctrl_getmax(wxObjectPtr)
+	End Method
+	
 End Type
 
 
@@ -81,7 +134,7 @@ Type TSpinCtrlEventFactory Extends TEventFactory
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		If evt.eventType = wxEVT_COMMAND_SPINCTRL_UPDATED Then
-			Return wxSpinEvent.create(wxEventPtr, evt)
+			Return wxSpinEvent.Create(wxEventPtr, evt)
 		End If
 		
 		Return Null

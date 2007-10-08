@@ -21,7 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxSpinButton
+Import wx.wxControl
 Import BRL.Blitz
 
 
@@ -43,22 +43,5 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
-	Function bmx_wxspinctrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, value:String, x:Int, y:Int, ..
-		w:Int, h:Int, style:Int, minimum:Int, maximum:Int, initial:Int)
 
-	Function bmx_wxspinctrl_setvalue(handle:Byte Ptr, value:Int)
-	Function bmx_wxspinctrl_settextvalue(handle:Byte Ptr, value:String)
-	Function bmx_wxspinctrl_getvalue:Int(handle:Byte Ptr)
-	Function bmx_wxspinctrl_setrange(handle:Byte Ptr, minVal:Int, maxVal:Int)
-	Function bmx_wxspinctrl_setselection(handle:Byte Ptr, fromPos:Int, toPos:Int)
-	Function bmx_wxspinctrl_getmin:Int(handle:Byte Ptr)
-	Function bmx_wxspinctrl_getmax:Int(handle:Byte Ptr)
-
-
-	Function bmx_wxspinctrl_geteventtype:Int(evt:Int)
 End Extern
-
-
-
-Const wxEVT_COMMAND_SPINCTRL_UPDATED:Int = 18
-
