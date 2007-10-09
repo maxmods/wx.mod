@@ -45,6 +45,36 @@ MaxSpinCtrl * bmx_wxspinctrl_create(BBObject * maxHandle, wxWindow * parent, wxW
 }
 
 
+void bmx_wxspinctrl_setvalue(wxSpinCtrl * spin, int value) {
+	spin->SetValue(value);
+}
+
+void bmx_wxspinctrl_settextvalue(wxSpinCtrl * spin, BBString * value) {
+	spin->SetValue(wxStringFromBBString(value));
+}
+
+int bmx_wxspinctrl_getvalue(wxSpinCtrl * spin) {
+	return spin->GetValue();
+}
+
+void bmx_wxspinctrl_setrange(wxSpinCtrl * spin, int minVal, int maxVal) {
+	spin->SetRange(minVal, maxVal);
+}
+
+void bmx_wxspinctrl_setselection(wxSpinCtrl * spin, int fromPos, int toPos) {
+	spin->SetSelection(fromPos, toPos);
+}
+
+int bmx_wxspinctrl_getmin(wxSpinCtrl * spin) {
+	return spin->GetMin();
+}
+
+int bmx_wxspinctrl_getmax(wxSpinCtrl * spin) {
+	return spin->GetMax();
+}
+
+
+
 
 int bmx_wxspinctrl_geteventtype(int type) {
 
