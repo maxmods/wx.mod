@@ -48,7 +48,7 @@ ModuleInfo "CC_OPTS: -D__WXMAC__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
-ModuleInfo "CC_OPTS: -DSCI_NAMESPACE -DMACOSX -D__WX__ -DSCI_LEXER"
+ModuleInfo "CC_OPTS: -DMACOSX -D__WX__ -DSCI_LEXER"
 ?
 
 Import "common.bmx"
@@ -63,13 +63,13 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Function CreateScintilla:wxScintilla(parent:wxWindow, id:Int = wxID_ANY, x:Int = -1, y:Int = -1, w:Int = -1, ..
 			h:Int = -1, style:Int = 0)
-		Return New wxScintilla.Create(parent, id, x, y, w, h, style)
+		Return New wxScintilla.create(parent, id, x, y, w, h, style)
 	End Function
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method Create:wxScintilla(parent:wxWindow, id:Int = wxID_ANY, x:Int = -1, y:Int = -1, w:Int = -1, ..
+	Method create:wxScintilla(parent:wxWindow, id:Int = wxID_ANY, x:Int = -1, y:Int = -1, w:Int = -1, ..
 			h:Int = -1, style:Int = 0)
 		'wxObjectPtr = bmx_wxscintilla_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
 		Return Self
@@ -412,7 +412,7 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Add a set of markers to a line.
 	End Rem
-	Method MarkerAddSet(line:Int, set:Int)
+	Method MarkerAddSet(line:Int, Set:Int)
 		
 	End Method
 
