@@ -1411,10 +1411,6 @@ bool bmx_wxscintilla_getmousedowncaptures(wxScintilla * sc) {
 	return sc->GetMouseDownCaptures();
 }
 
-void bmx_wxscintilla_setcursor(wxScintilla * sc, int cursorType) {
-	sc->SetCursor(cursorType);
-}
-
 void bmx_wxscintilla_setcontrolcharsymbol(wxScintilla * sc, int symbol) {
 	sc->SetControlCharSymbol(symbol);
 }

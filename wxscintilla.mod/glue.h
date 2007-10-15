@@ -379,7 +379,6 @@ void bmx_wxscintilla_releasedocument(wxScintilla * sc, void * docPointer);
 	int bmx_wxscintilla_getstatus(wxScintilla * sc);
 	void bmx_wxscintilla_setmousedowncaptures(wxScintilla * sc, bool captures);
 	bool bmx_wxscintilla_getmousedowncaptures(wxScintilla * sc);
-	void bmx_wxscintilla_setcursor(wxScintilla * sc, int cursorType);
 	void bmx_wxscintilla_setcontrolcharsymbol(wxScintilla * sc, int symbol);
 	int bmx_wxscintilla_getcontrolcharsymbol(wxScintilla * sc);
 	void bmx_wxscintilla_wordpartleft(wxScintilla * sc);

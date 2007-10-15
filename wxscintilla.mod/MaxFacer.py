@@ -51,77 +51,77 @@ def printMainFile(f,out):
 				# special cases
 				if name == "GetCurLine":
 					out.write(":String(index:Int Var)\n")
-					out.write("\t\t\n")
+					out.write("\t\tReturn bmx_wxscintilla_getcurline(wxObjectPtr, VarPtr index)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "FindText":
 					out.write(":Int(minPos:Int, maxPos:Int, text:String, flags:Int)\n")
-					out.write("\t\t\n")
+					out.write("\t\tReturn bmx_wxscintilla_findtext(wxObjectPtr, minPos, maxPos, text, flags)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "FormatRange":
-					out.write(":Int(doDraw:Int, startPos:Int, endPos:Int, draw:Byte Ptr, target:Byte Ptr, renderRect:Byte Ptr, pageRect:Byte Ptr)\n")
-					out.write("\t\t\n")
+					out.write(":Int(doDraw:Int, startPos:Int, endPos:Int, draw:wxDC, target:wxDC, renderRect:wxRect, pageRect:wxRect)\n")
+					out.write("\t\tReturn bmx_wxscintilla_formatrange(wxObjectPtr, doDraw, startPos, endPos, draw.wxObjectPtr, target.wxObjectPtr, renderRect.wxObjectPtr, pageRect.wxObjectPtr)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "GetLine":
 					out.write(":String(line:Int)\n")
-					out.write("\t\t\n")
+					out.write("\t\tReturn bmx_wxscintilla_getline(wxObjectPtr, line)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "GetSelectedText":
 					out.write(":String()\n")
-					out.write("\t\t\n")
+					out.write("\t\tReturn bmx_wxscintilla_getselectedtext(wxObjectPtr)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "GetTextRange":
 					out.write(":String(startPos:Int, endPos:Int)\n")
-					out.write("\t\t\n")
+					out.write("\t\tReturn bmx_wxscintilla_gettextrange(wxObjectPtr, startPos, endPos)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "GetText":
 					out.write(":String()\n")
-					out.write("\t\t\n")
+					out.write("\t\tReturn bmx_wxscintilla_gettext(wxObjectPtr)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "GetProperty":
 					out.write(":String(key:String)\n")
-					out.write("\t\t\n")
+					out.write("\t\tReturn bmx_wxscintilla_getproperty(wxObjectPtr, key)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "GetPropertyExpanded":
 					out.write(":String(key:String)\n")
-					out.write("\t\t\n")
+					out.write("\t\tReturn bmx_wxscintilla_getpropertyexpanded(wxObjectPtr, key)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "MarkerDefineBitmap":
-					out.write("(markerNumber:Int, bitmap:Byte Ptr)\n")
-					out.write("\t\t\n")
+					out.write("(markerNumber:Int, bitmap:wxBitmap)\n")
+					out.write("\t\tbmx_wxscintilla_markerdefinebitmap(wxObjectPtr, markerNumber, bitmap.wxObjectPtr)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "GetDocPointer":
 					out.write(":Byte Ptr()\n")
-					out.write("\t\t\n")
+					out.write("\t\tReturn bmx_wxscintilla_getdocpointer(wxObjectPtr)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "SetDocPointer":
 					out.write("(docPointer:Byte Ptr)\n")
-					out.write("\t\t\n")
+					out.write("\t\tbmx_wxscintilla_setdocpointer(wxObjectPtr, docPointer)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "ReleaseDocument":
 					out.write("(docPointer:Byte Ptr)\n")
-					out.write("\t\t\n")
+					out.write("\t\tbmx_wxscintilla_releasedocument(wxObjectPtr, docPointer)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "CreateDocument":
 					out.write(":Byte Ptr()\n")
-					out.write("\t\t\n")
+					out.write("\t\tReturn bmx_wxscintilla_createdocument(wxObjectPtr)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				elif name == "AddRefDocument":
 					out.write("(docPointer:Byte Ptr)\n")
-					out.write("\t\t\n")
+					out.write("\t\tbmx_wxscintilla_addrefdocument(wxObjectPtr, docPointer)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				
@@ -186,9 +186,50 @@ def printMainFile(f,out):
 				out.write(")\n")
 				
 				# The method content...
-				out.write("\t\t\n")
+				out.write("\t\t")
+				if v["ReturnType"] != "void":
+					out.write("Return ")
+				
+				if v["ReturnType"] == "colour":
+					out.write("wxColour._create(")
+				
+				out.write("bmx_wxscintilla_" + string.lower(name) + "(wxObjectPtr")
+				if v["Param1Type"]:
+					paramName = v["Param1Name"]
+					if paramName == "type":
+						paramName = "type_"
+					elif paramName == "handle":
+						paramName = "handle_"
+					elif paramName == "start":
+						paramName = "startPos"
+					elif paramName == "end":
+						paramName = "endPos"
+					out.write(", " + paramName)
+					
+					if v["Param1Type"] == "colour":
+						out.write(".wxObjectPtr")
+				
+				if v["Param2Type"]:
+					paramName = v["Param2Name"]
+					if paramName == "type":
+						paramName = "type_"
+					elif paramName == "handle":
+						paramName = "handle_"
+					elif paramName == "start":
+						paramName = "startPos"
+					elif paramName == "end":
+						paramName = "endPos"
+					out.write(", " + paramName)
+					
+					if v["Param2Type"] == "colour":
+						out.write(".wxObjectPtr")
 				
 				
+				out.write(")")
+				
+				if v["ReturnType"] == "colour":
+					out.write(")")
+				out.write("\n")
 				
 				# method end...
 				out.write("\tEnd Method\n\n")
@@ -776,7 +817,7 @@ def checkNameChange(name):
 	return name
 
 def includeName(name):
-	if name in ["StyleGetFont", "EncodedFromUTF8", "TargetAsUTF8", "SetUsePalette", "StyleGetFore", "StyleGetBack", "StyleGetBold", "StyleGetItalic", "StyleGetSize", "StyleGetEOLFilled", "StyleGetUnderline", "StyleGetCase", "StyleGetCharacterSet", "StyleGetVisible", "StyleGetChangeable", "StyleGetHotSpot", "PointXFromPosition", "PointYFromPosition", "SetCaretStyle", "GetCaretStyle", "SetIndicatorCurrent", "GetIndicatorCurrent", "SetIndicatorValue", "GetIndicatorValue", "IndicatorFillRange", "IndicatorClearRange", "IndicatorAllOnFor", "IndicatorValueAt", "IndicatorStart", "IndicatorEnd", "GetPositionCache", "SetPositionCache", "LoadLexerLibrary", "SetLengthForEncode", "GetSelEOLFilled", "SetSelEOLFilled", "GetUsePalette", "GetDirectFunction", "GetDirectPointer", "IndicSetUnder", "IndicGetUnder", "Null", "GrabFocus", "CopyText", "GetCursor", "SetStylingEx"]:
+	if name in ["StyleGetFont", "EncodedFromUTF8", "TargetAsUTF8", "SetUsePalette", "StyleGetFore", "StyleGetBack", "StyleGetBold", "StyleGetItalic", "StyleGetSize", "StyleGetEOLFilled", "StyleGetUnderline", "StyleGetCase", "StyleGetCharacterSet", "StyleGetVisible", "StyleGetChangeable", "StyleGetHotSpot", "PointXFromPosition", "PointYFromPosition", "SetCaretStyle", "GetCaretStyle", "SetIndicatorCurrent", "GetIndicatorCurrent", "SetIndicatorValue", "GetIndicatorValue", "IndicatorFillRange", "IndicatorClearRange", "IndicatorAllOnFor", "IndicatorValueAt", "IndicatorStart", "IndicatorEnd", "GetPositionCache", "SetPositionCache", "LoadLexerLibrary", "SetLengthForEncode", "GetSelEOLFilled", "SetSelEOLFilled", "GetUsePalette", "GetDirectFunction", "GetDirectPointer", "IndicSetUnder", "IndicGetUnder", "Null", "GrabFocus", "CopyText", "GetCursor", "SetStylingEx", "SetCursor"]:
 		return False
 	if Contains(name, "GetHotspot"):
 		return False

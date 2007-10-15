@@ -23,6 +23,8 @@ SuperStrict
 Import wx.wx
 Import wx.wxControl
 Import wx.wxScrollBar
+Import wx.wxDC
+Import wx.wxBitmap
 Import BRL.Blitz
 
 ' headers :-)
@@ -156,7 +158,7 @@ Extern
 	Function bmx_wxscintilla_stylesetbold(handle:Byte Ptr, style:Int, bold:Int)
 	Function bmx_wxscintilla_stylesetitalic(handle:Byte Ptr, style:Int, italic:Int)
 	Function bmx_wxscintilla_stylesetsize(handle:Byte Ptr, style:Int, sizePoints:Int)
-	Function bmx_wxscintilla_stylesetfont(handle:Byte Ptr, style:Int, FontName:String)
+	Function bmx_wxscintilla_stylesetfont(handle:Byte Ptr, style:Int, fontName:String)
 	Function bmx_wxscintilla_styleseteolfilled(handle:Byte Ptr, style:Int, filled:Int)
 	Function bmx_wxscintilla_styleresetdefault(handle:Byte Ptr)
 	Function bmx_wxscintilla_stylesetunderline(handle:Byte Ptr, style:Int, underline:Int)
@@ -441,7 +443,6 @@ Extern
 	Function bmx_wxscintilla_getstatus:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_setmousedowncaptures(handle:Byte Ptr, captures:Int)
 	Function bmx_wxscintilla_getmousedowncaptures:Int(handle:Byte Ptr)
-	Function bmx_wxscintilla_setcursor(handle:Byte Ptr, cursorType:Int)
 	Function bmx_wxscintilla_setcontrolcharsymbol(handle:Byte Ptr, symbol:Int)
 	Function bmx_wxscintilla_getcontrolcharsymbol:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_wordpartleft(handle:Byte Ptr)
