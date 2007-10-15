@@ -70,6 +70,25 @@ Type wxFindReplaceDialog Extends wxDialog
 	Method GetData:wxFindReplaceData()
 	End Method
 
+	' soft linking
+	Function _create:wxFindReplaceDialog(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxFindReplaceDialog = New wxFindReplaceDialog
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _find:wxFindReplaceDialog(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local dialog:wxFindReplaceDialog = wxFindReplaceDialog(wxfind(wxObjectPtr))
+			If Not dialog Then
+				Return wxFindReplaceDialog._create(wxObjectPtr)
+			End If
+			Return dialog
+		End If
+	End Function
+
 End Type
 
 Rem
@@ -83,37 +102,61 @@ Note that all SetXXX() methods may only be called before showing the dialog and 
 End Rem
 Type wxFindReplaceData Extends wxObject
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateFindReplaceData:wxFindReplaceData()
 		Return New wxFindReplaceData.Create()
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxFindReplaceData()
 		wxObjectPtr = bmx_wxfindreplacedata_create(Self)
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Get the string to find.
+	End Rem
 	Method GetFindString:String()
 		Return bmx_wxfindreplacedata_getfindstring(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Get the replacement string.
+	End Rem
 	Method GetReplaceString:String()
-		Return bmx_wxfindreplacedata_getreplacesstring(wxObjectPtr)
+		Return bmx_wxfindreplacedata_getreplacestring(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Get the combination of flag values. (see #wxFindReplaceData)
+	End Rem
 	Method GetFlags:Int()
 		Return bmx_wxfindreplacedata_getflags(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Set the flags to use to initialize the controls of the dialog.
+	End Rem
 	Method SetFlags(flags:Int)
 		bmx_wxfindreplacedata_setflags(wxObjectPtr, flags)
 	End Method
 	
+	Rem
+	bbdoc: Set the string to find (used as initial value by the dialog).
+	End Rem
 	Method SetFindString(s:String)
 		bmx_wxfindreplacedata_setfindstring(wxObjectPtr, s)
 	End Method
 	
+	Rem
+	bbdoc: Set the replacement string (used as initial value by the dialog).
+	End Rem
 	Method SetReplaceString(s:String)
-		bmx_wxfindreplacedata_setreplacesstring(wxObjectPtr, s)
+		bmx_wxfindreplacedata_setreplacestring(wxObjectPtr, s)
 	End Method
 	
 	Method Free()
@@ -134,16 +177,73 @@ bbdoc: wxFindReplaceDialog events
 End Rem
 Type wxFindDialogEvent Extends wxCommandEvent
 
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxFindDialogEvent = New wxFindDialogEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Rem
+	bbdoc: Get the currently selected flags: this is the combination of wxFR_DOWN, wxFR_WHOLEWORD and wxFR_MATCHCASE flags.
+	End Rem
 	Method GetFlags:Int()
+		Return bmx_wxfinddialogevent_getflags(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: Return the string to find (never empty).
+	End Rem
 	Method GetFindString:String()
+		Return bmx_wxfinddialogevent_getfindstring(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: Return the string to replace the search string with (only for replace and replace all events).
+	End Rem
 	Method GetReplaceString:String()
+		Return bmx_wxfinddialogevent_getreplacestring(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: Return the  dialog which generated this event.
+	End Rem
 	Method GetDialog:wxFindReplaceDialog()
+		Return wxFindReplaceDialog._find(bmx_wxfinddialogevent_getdialog(wxEventPtr))
 	End Method
 	
 End Type
+
+
+Type TFindDialogEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	
+		Select evt.eventType
+			Case wxEVT_COMMAND_FIND, ..
+					wxEVT_COMMAND_FIND_NEXT, ..
+					wxEVT_COMMAND_FIND_REPLACE, ..
+					wxEVT_COMMAND_FIND_REPLACE_ALL, ..
+					wxEVT_COMMAND_FIND_CLOSE
+				Return wxFindDialogEvent.Create(wxEventPtr, evt)
+		End Select
+		
+		Return Null
+	End Method
+
+	Method GetEventType:Int(eventType:Int)
+		Select eventType
+			Case wxEVT_COMMAND_FIND, ..
+					wxEVT_COMMAND_FIND_NEXT, ..
+					wxEVT_COMMAND_FIND_REPLACE, ..
+					wxEVT_COMMAND_FIND_REPLACE_ALL, ..
+					wxEVT_COMMAND_FIND_CLOSE
+				Return bmx_wxfindreplacedialog_geteventtype(eventType)
+		End Select
+	End Method
+		
+End Type
+
+New TFindDialogEventFactory
+

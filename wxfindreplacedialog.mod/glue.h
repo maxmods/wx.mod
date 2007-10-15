@@ -21,15 +21,40 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/fdrepdlg.h"
 
-//class MaxNotebook;
+
+class MaxFindReplaceDialog;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxFindReplaceDialog * bmx_wxfindreplacedialog_create(BBObject * handle, wxWindow * parent, wxFindReplaceData * data, BBString * title, int style);
+
+	wxFindReplaceData * bmx_wxfindreplacedata_create(BBObject * handle);
+	BBString * bmx_wxfindreplacedata_getfindstring(wxFindReplaceData * data);
+	BBString * bmx_wxfindreplacedata_getreplacestring(wxFindReplaceData * data);
+	int bmx_wxfindreplacedata_getflags(wxFindReplaceData * data);
+	void bmx_wxfindreplacedata_setflags(wxFindReplaceData * data, int flags);
+	void bmx_wxfindreplacedata_setfindstring(wxFindReplaceData * data, BBString * str);
+	void bmx_wxfindreplacedata_setreplacestring(wxFindReplaceData * data, BBString * str);
+	void bmx_wxfindreplacedata_free(wxFindReplaceData * data);
+
+	int bmx_wxfinddialogevent_getflags(wxFindDialogEvent & event);
+	BBString * bmx_wxfinddialogevent_getfindstring(wxFindDialogEvent & event);
+	BBString * bmx_wxfinddialogevent_getreplacestring(wxFindDialogEvent & event);
+	wxFindReplaceDialog * bmx_wxfinddialogevent_getdialog(wxFindDialogEvent & event);
+
+	int bmx_wxfindreplacedialog_geteventtype(int type);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxFindReplaceDialog : public wxFindReplaceDialog
+{
+public:
+	MaxFindReplaceDialog(BBObject * handle, wxWindow * parent, wxFindReplaceData* data, const wxString& title, int style);
+	~MaxFindReplaceDialog();
+};

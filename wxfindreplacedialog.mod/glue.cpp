@@ -24,8 +24,80 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxFindReplaceDialog::MaxFindReplaceDialog(BBObject * handle, wxWindow * parent, wxFindReplaceData * data, const wxString& title, int style)
+	: wxFindReplaceDialog(parent, data, title, style)
+{
+	wxbind(this, handle);
+}
+
+MaxFindReplaceDialog::~MaxFindReplaceDialog() {
+	wxunbind(this);
+}
 
 
 // *********************************************
 
+
+MaxFindReplaceDialog * bmx_wxfindreplacedialog_create(BBObject * handle, wxWindow * parent, wxFindReplaceData * data, BBString * title, int style) {
+	return new MaxFindReplaceDialog(handle, parent, data, wxStringFromBBString(title), style);
+}
+
+wxFindReplaceData * bmx_wxfindreplacedata_create(BBObject * handle) {
+	wxFindReplaceData * data = new wxFindReplaceData ();
+	wxbind(data, handle);
+	return data;
+}
+
+BBString * bmx_wxfindreplacedata_getfindstring(wxFindReplaceData * data) {
+	return bbStringFromWxString(data->GetFindString());
+}
+
+BBString * bmx_wxfindreplacedata_getreplacestring(wxFindReplaceData * data) {
+	return bbStringFromWxString(data->GetReplaceString());
+}
+
+int bmx_wxfindreplacedata_getflags(wxFindReplaceData * data) {
+	return data->GetFlags();
+}
+
+void bmx_wxfindreplacedata_setflags(wxFindReplaceData * data, int flags) {
+	data->SetFlags(flags);
+}
+
+void bmx_wxfindreplacedata_setfindstring(wxFindReplaceData * data, BBString * str) {
+	data->SetFindString(wxStringFromBBString(str));
+}
+
+void bmx_wxfindreplacedata_setreplacestring(wxFindReplaceData * data, BBString * str) {
+	data->SetReplaceString(wxStringFromBBString(str));
+}
+
+void bmx_wxfindreplacedata_free(wxFindReplaceData * data) {
+	wxunbind(data);
+	delete data;
+}
+
+
+int bmx_wxfinddialogevent_getflags(wxFindDialogEvent & event) {
+	return event.GetFlags();
+}
+
+BBString * bmx_wxfinddialogevent_getfindstring(wxFindDialogEvent & event) {
+	return bbStringFromWxString(event.GetFindString());
+}
+
+BBString * bmx_wxfinddialogevent_getreplacestring(wxFindDialogEvent & event) {
+	return bbStringFromWxString(event.GetReplaceString());
+}
+
+wxFindReplaceDialog * bmx_wxfinddialogevent_getdialog(wxFindDialogEvent & event) {
+	return event.GetDialog();
+}
+
+
+
+
+int bmx_wxfindreplacedialog_geteventtype(int type) {
+
+}
 

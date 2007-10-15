@@ -48,11 +48,36 @@ Extern
 
 	Function bmx_wxfindreplacedata_create:Byte Ptr(handle:Object)
 	Function bmx_wxfindreplacedata_getfindstring:String(handle:Byte Ptr)
-	Function bmx_wxfindreplacedata_getreplacesstring:String(handle:Byte Ptr)
+	Function bmx_wxfindreplacedata_getreplacestring:String(handle:Byte Ptr)
 	Function bmx_wxfindreplacedata_getflags:Int(handle:Byte Ptr)
 	Function bmx_wxfindreplacedata_setflags(handle:Byte Ptr, flags:Int)
 	Function bmx_wxfindreplacedata_setfindstring(handle:Byte Ptr, s:String)
-	Function bmx_wxfindreplacedata_setreplacesstring(handle:Byte Ptr, s:String)
+	Function bmx_wxfindreplacedata_setreplacestring(handle:Byte Ptr, s:String)
 	Function bmx_wxfindreplacedata_free(handle:Byte Ptr)
 
+	Function bmx_wxfinddialogevent_getflags:Int(handle:Byte Ptr)
+	Function bmx_wxfinddialogevent_getfindstring:String(handle:Byte Ptr)
+	Function bmx_wxfinddialogevent_getreplacestring:String(handle:Byte Ptr)
+	Function bmx_wxfinddialogevent_getdialog:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxfindreplacedialog_geteventtype:Int(evt:Int)
+
 End Extern
+
+Const wxEVT_COMMAND_FIND:Int = 510
+Const wxEVT_COMMAND_FIND_NEXT:Int = 511
+Const wxEVT_COMMAND_FIND_REPLACE:Int = 512
+Const wxEVT_COMMAND_FIND_REPLACE_ALL:Int = 513
+Const wxEVT_COMMAND_FIND_CLOSE:Int = 514
+
+
+Const wxFR_DOWN:Int = 1
+Const wxFR_WHOLEWORD:Int = 2
+Const wxFR_MATCHCASE:Int = 4
+
+Const wxFR_REPLACEDIALOG:Int = 1
+Const wxFR_NOUPDOWN:Int = 2
+Const wxFR_NOMATCHCASE:Int = 4
+Const wxFR_NOWHOLEWORD:Int = 8
+
+

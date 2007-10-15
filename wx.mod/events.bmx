@@ -111,8 +111,7 @@ Type wxEvent
 	End Method
 	
 	Rem
-	bbdoc: Sets the propagation level to the given value (for example returned from an earlier call to
-	StopPropagation).
+	bbdoc: Sets the propagation level to the given value (for example returned from an earlier call to StopPropagation).
 	End Rem
 	Method ResumePropagation(propagationLevel:Int)
 		bmx_wxevent_resumepropagation(wxEventPtr, propagationLevel)
