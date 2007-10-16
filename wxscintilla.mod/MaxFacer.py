@@ -395,7 +395,7 @@ def printGlueHFile(f,out):
 					out.write("\tBBString * bmx_wxscintilla_getline(wxScintilla * sc, int line);\n")
 					continue
 				elif name == "GetSelectedText":
-					out.write("\tBBString * bmx_wxscintilla_getselection(wxScintilla * sc);\n")
+					out.write("\tBBString * bmx_wxscintilla_getselectedtext(wxScintilla * sc);\n")
 					continue
 				elif name == "GetTextRange":
 					out.write("\tBBString * bmx_wxscintilla_gettextrange(wxScintilla * sc, int start, int end);\n")
@@ -504,10 +504,14 @@ def printGlueCPPFile(f,out):
 					out.write("}\n\n")
 					continue
 				elif name == "FindText":
-					out.write("int bmx_wxscintilla_findtext(wxScintilla * sc, int minPos, int maxPos, BBString * text, int flags);\n")
+					out.write("int bmx_wxscintilla_findtext(wxScintilla * sc, int minPos, int maxPos, BBString * text, int flags) {\n")
+					out.write("\treturn sc->FindText(minPos, maxPos, wxStringFromBBString(text), flags);\n")
+					out.write("}\n\n")
 					continue
 				elif name == "FormatRange":
-					out.write("int bmx_wxscintilla_formatrange(wxScintilla * sc, bool doDraw, int start, int end, MaxDC * draw, MaxDC * target, MaxRect * renderRect, MaxRect * pageRect);\n")
+					out.write("int bmx_wxscintilla_formatrange(wxScintilla * sc, bool doDraw, int start, int end, MaxDC * draw, MaxDC * target, MaxRect * renderRect, MaxRect * pageRect) {\n")
+					out.write("\treturn sc->FormatRange(doDraw, start, end, draw->GetDC(), target->GetDC(), renderRect->Rect(), pageRect->Rect());\n")
+					out.write("}\n\n")
 					continue
 				elif name == "GetLine":
 					out.write("BBString * bmx_wxscintilla_getline(wxScintilla * sc, int line) {\n")
@@ -515,7 +519,7 @@ def printGlueCPPFile(f,out):
 					out.write("}\n\n")
 					continue
 				elif name == "GetSelectedText":
-					out.write("BBString * bmx_wxscintilla_getselection(wxScintilla * sc) {\n")
+					out.write("BBString * bmx_wxscintilla_getselectedtext(wxScintilla * sc) {\n")
 					out.write("\treturn bbStringFromWxString(sc->GetSelectedText());\n")
 					out.write("}\n\n")
 					continue
@@ -550,28 +554,28 @@ def printGlueCPPFile(f,out):
 					out.write("}\n\n")
 					continue
 				elif name == "GetDocPointer":
-					out.write("void * bmx_wxscintilla_setdocpointer(wxScintilla * sc) {\n")
-					out.write("\t")
+					out.write("void * bmx_wxscintilla_getdocpointer(wxScintilla * sc) {\n")
+					out.write("\treturn sc->GetDocPointer();\n")
 					out.write("}\n\n")
 					continue
 				elif name == "SetDocPointer":
 					out.write("void bmx_wxscintilla_setdocpointer(wxScintilla * sc, void * docPointer) {\n")
-					out.write("\t")
+					out.write("\tsc->SetDocPointer(docPointer);\n")
 					out.write("}\n\n")
 					continue
 				elif name == "ReleaseDocument":
 					out.write("void bmx_wxscintilla_releasedocument(wxScintilla * sc, void * docPointer) {\n")
-					out.write("\t")
+					out.write("\tsc->ReleaseDocument(docPointer);\n")
 					out.write("}\n\n")
 					continue
 				elif name == "CreateDocument":
 					out.write("void * bmx_wxscintilla_createdocument(wxScintilla * sc) {\n")
-					out.write("\t")
+					out.write("\treturn sc->CreateDocument();\n")
 					out.write("}\n\n")
 					continue
 				elif name == "AddRefDocument":
 					out.write("void bmx_wxscintilla_addrefdocument(wxScintilla * sc, void * docPointer) {\n")
-					out.write("\t")
+					out.write("\tsc->AddRefDocument(docPointer);\n")
 					out.write("}\n\n")
 					continue
 			
