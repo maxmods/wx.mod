@@ -39,7 +39,7 @@ Const wxSCI_CP_UTF8:Int = 65001
 
 ' The SC_CP_DBCS value can be used to indicate a DBCS mode for GTK+.
 Const wxSCI_CP_DBCS:Int = 1
-Const MARKER_MAX:Int = 31
+Const wxSCI_MARKER_MAX:Int = 31
 Const wxSCI_MARK_CIRCLE:Int = 0
 Const wxSCI_MARK_ROUNDRECT:Int = 1
 Const wxSCI_MARK_ARROW:Int = 2
@@ -214,12 +214,12 @@ Const wxSCI_CURSORNORMAL:Int = -1
 Const wxSCI_CURSORWAIT:Int = 4
 
 ' Constants for use with SetVisiblePolicy, similar to SetCaretPolicy.
-Const VISIBLE_SLOP:Int = $01
-Const VISIBLE_STRICT:Int = $04
-Const CARET_SLOP:Int = $01
-Const CARET_STRICT:Int = $04
-Const CARET_JUMPS:Int = $10
-Const CARET_EVEN:Int = $08
+Const wxSCI_VISIBLE_SLOP:Int = $01
+Const wxSCI_VISIBLE_STRICT:Int = $04
+Const wxSCI_CARET_SLOP:Int = $01
+Const wxSCI_CARET_STRICT:Int = $04
+Const wxSCI_CARET_JUMPS:Int = $10
+Const wxSCI_CARET_EVEN:Int = $08
 
 ' Copy argument text to the clipboard.
 Const wxSCI_SEL_STREAM:Int = 0
@@ -232,12 +232,12 @@ Const wxSCI_ALPHA_OPAQUE:Int = 255
 Const wxSCI_ALPHA_NOALPHA:Int = 256
 
 ' Get the background alpha of the caret line.
-Const CARETSTYLE_INVISIBLE:Int = 0
-Const CARETSTYLE_LINE:Int = 1
-Const CARETSTYLE_BLOCK:Int = 2
+Const wxSCI_CARETSTYLE_INVISIBLE:Int = 0
+Const wxSCI_CARETSTYLE_LINE:Int = 1
+Const wxSCI_CARETSTYLE_BLOCK:Int = 2
 
 ' Maximum value of keywordSet parameter of SetKeyWords.
-Const KEYWORDSET_MAX:Int = 8
+Const wxSCI_KEYWORDSET_MAX:Int = 8
 Const wxSCI_MOD_INSERTTEXT:Int = $1
 Const wxSCI_MOD_DELETETEXT:Int = $2
 Const wxSCI_MOD_CHANGESTYLE:Int = $4
@@ -274,10 +274,10 @@ Const wxSCI_KEY_DIVIDE:Int = 312
 Const wxSCI_KEY_WIN:Int = 313
 Const wxSCI_KEY_RWIN:Int = 314
 Const wxSCI_KEY_MENU:Int = 315
-Const SCMOD_NORM:Int = 0
-Const SCMOD_SHIFT:Int = 1
-Const SCMOD_CTRL:Int = 2
-Const SCMOD_ALT:Int = 4
+Const wxSCI_SCMOD_NORM:Int = 0
+Const wxSCI_SCMOD_SHIFT:Int = 1
+Const wxSCI_SCMOD_CTRL:Int = 2
+Const wxSCI_SCMOD_ALT:Int = 4
 
 ' For SciLexer.h
 Const wxSCI_LEX_CONTAINER:Int = 0

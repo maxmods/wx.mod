@@ -72,6 +72,7 @@ Type wxScintilla Extends wxControl
 	Method Create:wxScintilla(parent:wxWindow, id:Int = wxID_ANY, x:Int = -1, y:Int = -1, w:Int = -1, ..
 			h:Int = -1, style:Int = 0)
 		wxObjectPtr = bmx_wxscintilla_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		OnInit()
 		Return Self
 	End Method
 	
@@ -255,7 +256,7 @@ Type wxScintilla Extends wxControl
 	about: Returns the index of the caret on the line.
 	End Rem
 	Method GetCurLine:String(index:Int Var)
-		Return bmx_wxscintilla_getcurline(wxObjectPtr, Varptr index)
+		Return bmx_wxscintilla_getcurline(wxObjectPtr, VarPtr index)
 	End Method
 
 	Rem
@@ -3129,26 +3130,29 @@ Type wxScintilla Extends wxControl
 	bbdoc: 
 	End Rem
 	Method GetCurrentLine:Int()
-'		Return bmx_wxscintilla_getcurrentline(wxObjectPtr)
+		Return bmx_wxscintilla_getcurrentline(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method StyleSetSpec(styleNum:Int, spec:String)
+	Method StyleSetSpec(style:Int, spec:String)
+		bmx_wxscintilla_stylesetspec(wxObjectPtr, style, spec)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method StyleSetFontFont(styleNum:Int, font:wxFont)
+	Method StyleSetFontFont(style:Int, font:wxFont)
+		bmx_wxscintilla_stylesetfontfont(wxObjectPtr, style, font.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method StyleSetFontAttr(styleNum:Int, size:Int, faceName:String, bold:Int, italic:Int, underline:Int, ..
+	Method StyleSetFontAttr(style:Int, size:Int, faceName:String, bold:Int, italic:Int, underline:Int, ..
 			encoding:Int = wxFONTENCODING_DEFAULT)
+		bmx_wxscintilla_stylesetfontattr(wxObjectPtr, style, size, faceName, bold, italic, underline, encoding)
 	End Method
 	
 	'Method StyleSetCharacterSet(style:Int, characterSet:Int)
@@ -3158,6 +3162,7 @@ Type wxScintilla Extends wxControl
 	bbdoc: 
 	End Rem
 	Method StyleSetFontEncoding (style:Int, encoding:Int)
+		bmx_wxscintilla_stylesetfontencoding(wxObjectPtr, style, encoding)
 	End Method
 	
 	Rem

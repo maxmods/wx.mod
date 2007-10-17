@@ -742,6 +742,8 @@ def printConstsFile(f,out):
 						convertName = convertName.replace("EDGE_","wxSCI_EDGE_")
 					elif convertName.startswith("SCLEX_"):
 						convertName = convertName.replace("SCLEX_","wxSCI_LEX_")
+					else:
+						convertName = "wxSCI_" + convertName
 					convertValue = v["Value"]
 					if Contains(convertValue, "0x"):
 						convertValue = convertValue.replace("0x", "$")
