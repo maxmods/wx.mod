@@ -34,6 +34,12 @@ MaxScintilla::~MaxScintilla() {
 	wxunbind(this);
 }
 
+#ifdef __APPLE__
+#include "Platform.h"
+bool Platform ::WaitMouseMoved(Point pt) {
+	return true;
+}
+#endif
 
 
 // *********************************************
