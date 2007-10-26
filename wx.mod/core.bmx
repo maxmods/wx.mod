@@ -643,6 +643,15 @@ Function wxLaunchDefaultBrowser:Int(url:String, flags:Int = 0)
 End Function
 
 Rem
+bbdoc: Returns the dimensions of the work area on the display.
+about: On Windows this means the area not covered by the taskbar, etc. Other platforms are currently defaulting
+to the whole display until a way is found to provide this info for all window managers, etc.
+End Rem
+Function wxGetClientDisplayRect:wxRect()
+	Return wxRect._create(bmx_gdi_wxgetclientdisplayrect())
+End Function
+
+Rem
 bbdoc: 
 End Rem
 Function wxIsalnum:Int(keycode:Int)

@@ -262,6 +262,13 @@ extern "C" {
 	MaxRect * bmx_wxrect_union(MaxRect * rect, MaxRect * r);
 	void bmx_wxrect_delete(MaxRect * rect);
 
+	void bmx_gdi_wxclientdisplayrect(int * x, int * y, int * width, int * height);
+	MaxRect * bmx_gdi_wxgetclientdisplayrect();
+	bool bmx_gdi_wxcolourdisplay();
+	int bmx_gdi_wxdisplaydepth();
+	void bmx_gdi_wxdisplaysize(int * width, int * height);
+	void bmx_gdi_wxdisplaysizemm(int * width, int * height);
+
 }
 
 /*

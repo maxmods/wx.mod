@@ -31,3 +31,41 @@ Type wxGDIObject Extends wxObject
 
 
 End Type
+
+Rem
+bbdoc: Returns the dimensions of the work area on the display.
+about: On Windows this means the area not covered by the taskbar, etc. Other platforms are currently defaulting
+to the whole display until a way is found to provide this info for all window managers, etc.
+End Rem
+Function wxClientDisplayRect(x:Int Var, y:Int Var, width:Int Var, height:Int Var)
+	bmx_gdi_wxclientdisplayrect(Varptr x, Varptr y, Varptr width, Varptr height)
+End Function
+
+Rem
+bbdoc: Returns True if the display is colour, False otherwise.
+End Rem
+Function wxColourDisplay:Int()
+	Return bmx_gdi_wxcolourdisplay()
+End Function
+
+Rem
+bbdoc: Returns the depth of the display (a value of 1 denotes a monochrome display).
+End Rem
+Function wxDisplayDepth:Int()
+	Return bmx_gdi_wxdisplaydepth()
+End Function
+
+Rem
+bbdoc: Returns the display size in pixels.
+End Rem
+Function wxDisplaySize(width:Int Var, height:Int Var)
+	bmx_gdi_wxdisplaysize(Varptr width, Varptr height)
+End Function
+
+Rem
+bbdoc: Returns the display size in millimeters.
+End Rem
+Function wxDisplaySizeMM(width:Int Var, height:Int Var)
+	bmx_gdi_wxdisplaysizemm(Varptr width, Varptr height)
+End Function
+

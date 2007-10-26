@@ -374,6 +374,13 @@ Extern
 	Function bmx_wxrect_union:Byte Ptr(handle:Byte Ptr, rect:Byte Ptr)
 	Function bmx_wxrect_delete(handle:Byte Ptr)
 
+	Function bmx_gdi_wxclientdisplayrect(x:Int Ptr, y:Int Ptr, width:Int Ptr, height:Int Ptr)
+	Function bmx_gdi_wxgetclientdisplayrect:Byte Ptr()
+	Function bmx_gdi_wxcolourdisplay:Int()
+	Function bmx_gdi_wxdisplaydepth:Int()
+	Function bmx_gdi_wxdisplaysize(width:Int Ptr, height:Int Ptr)
+	Function bmx_gdi_wxdisplaysizemm(width:Int Ptr, height:Int Ptr)
+
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()
