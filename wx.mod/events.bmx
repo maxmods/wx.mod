@@ -232,12 +232,12 @@ End Type
 
 Rem
 bbdoc: This event type contains information about window and session close events.
-about: The handler function for EVT_CLOSE is called when the user has tried to close a a frame or
+about: The handler function for wxEVT_CLOSE is called when the user has tried to close a a frame or
 dialog box using the window manager (X) or system menu (Windows). It can also be invoked by the
 application itself programmatically, for example by calling the wxWindow::Close function.
 <p>
 You should check whether the application is forcing the deletion of the window using wxCloseEvent::CanVeto.
-If this is false, you must destroy the window using wxWindow::Destroy. If the return value is true,
+If this is false, you <b>must</b> destroy the window using wxWindow::Destroy. If the return value is true,
 it is up to you whether you respond by destroying the window.
 </p>
 <p>

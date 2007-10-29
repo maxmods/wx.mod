@@ -704,6 +704,10 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_KEY_DOWN, ..
 					wxEVT_KEY_UP
 				Return wxKeyEvent.Create(wxEventPtr, evt)
+			Case wxEVT_CLOSE_WINDOW, ..
+					wxEVT_END_SESSION, ..
+					wxEVT_QUERY_END_SESSION
+				Return wxCloseEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -738,7 +742,10 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_CONTEXT_MENU, ..
 					wxEVT_CHAR, ..
 					wxEVT_KEY_DOWN, ..
-					wxEVT_KEY_UP
+					wxEVT_KEY_UP, ..
+					wxEVT_CLOSE_WINDOW, ..
+					wxEVT_END_SESSION, ..
+					wxEVT_QUERY_END_SESSION
 				Return bmx_eventtype_value(eventType)
 		End Select
 	End Method
