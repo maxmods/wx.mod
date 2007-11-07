@@ -160,6 +160,13 @@ Type wxPen Extends wxGDIObject
 	Method SetFromColour(colour:wxColour)
 		bmx_wxpen_setfromcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
+
+	Rem
+	bbdoc: The pen's colour is changed to the given colour.
+	End Rem
+	Method SetFromRGB(red:Int, green:Int, blue:Int)
+		bmx_wxpen_setfromrgb(wxObjectPtr, red, green, blue)
+	End Method
 	
 	Rem
 	bbdoc: 

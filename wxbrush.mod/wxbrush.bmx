@@ -150,6 +150,13 @@ Type wxBrush Extends wxGDIObject
 	End Method
 
 	Rem
+	bbdoc: Sets the brush colour using a reference to a colour object.
+	End Rem
+	Method SetFromRGB(red:Int, green:Int, blue:Int)
+		bmx_wxbrush_setfromrgb(wxObjectPtr, red, green, blue)
+	End Method
+
+	Rem
 	bbdoc: Sets the stipple bitmap.
 	about: The style will be set to wxSTIPPLE, unless the bitmap has a mask associated to it, in which
 	case the style will be set to wxSTIPPLE_MASK_OPAQUE.

@@ -136,6 +136,11 @@ void bmx_wxbrush_setfromcolour(MaxBrush * brush, MaxColour * colour) {
 	brush->Brush().SetColour(colour->Colour());
 }
 
+void bmx_wxbrush_setfromrgb(MaxBrush * brush, int red, int green, int blue) {
+	brush->Brush().SetColour(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
+}
+
+
 void bmx_wxbrush_setstipple(MaxBrush * brush, MaxBitmap * bitmap) {
 	brush->Brush().SetStipple(bitmap->Bitmap());
 }

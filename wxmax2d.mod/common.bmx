@@ -21,9 +21,13 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxBitmap
+Import wx.wxBrush
+Import wx.wxPen
+Import wx.wxDC
+Import wx.wxWindow
 Import BRL.Blitz
-
+Import BRL.Max2D
+Import BRL.Graphics
 
 ' headers :-)
 ?linux
@@ -43,26 +47,5 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
-
-	Function bmx_wxpen_create:Byte Ptr(name:String, width:Int, style:Int)
-	Function bmx_wxpen_createfromcolour:Byte Ptr(colour:Byte Ptr, width:Int, style:Int)
-	Function bmx_wxpen_delete(handle:Byte Ptr)
-	Function bmx_wxpen_null:Byte Ptr()
-	
-	Function bmx_wxpen_getcap:Int(handle:Byte Ptr)
-	Function bmx_wxpen_getcolour:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxpen_getjoin:Int(handle:Byte Ptr)
-	Function bmx_wxpen_getstipple:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxpen_getstyle:Int(handle:Byte Ptr)
-	Function bmx_wxpen_getwidth:Int(handle:Byte Ptr)
-	Function bmx_wxpen_isok:Int(handle:Byte Ptr)
-	Function bmx_wxpen_setcap(handle:Byte Ptr, style:Int)
-	Function bmx_wxpen_setcolour(handle:Byte Ptr, name:String)
-	Function bmx_wxpen_setfromcolour(handle:Byte Ptr, colour:Byte Ptr)
-	Function bmx_wxpen_setfromrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
-	Function bmx_wxpen_setjoin(handle:Byte Ptr, style:Int)
-	Function bmx_wxpen_setstipple(handle:Byte Ptr, stipple:Byte Ptr)
-	Function bmx_wxpen_setstyle(handle:Byte Ptr, style:Int)
-	Function bmx_wxpen_setwidth(handle:Byte Ptr, width:Int)
 
 End Extern

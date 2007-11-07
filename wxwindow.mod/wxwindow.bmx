@@ -73,6 +73,8 @@ the behaviour of the latter.
 End Rem
 Type wxWindow Extends wxEvtHandler
 
+	Field _data:Object
+
 	Rem
 	bbdoc: Constructs a window, which can be a child of a frame, dialog or any other non-control window.
 	End Rem

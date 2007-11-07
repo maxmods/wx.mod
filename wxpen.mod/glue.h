@@ -55,6 +55,7 @@ extern "C" {
 	void bmx_wxpen_setcap(MaxPen * pen, int style);
 	void bmx_wxpen_setcolour(MaxPen * pen, BBString * name);
 	void bmx_wxpen_setfromcolour(MaxPen * pen, MaxColour * colour);
+	void bmx_wxpen_setfromrgb(MaxPen * pen, int red, int green, int blue);
 	void bmx_wxpen_setjoin(MaxPen * pen, int style);
 	void bmx_wxpen_setstipple(MaxPen * pen, MaxBitmap * stipple);
 	void bmx_wxpen_setstyle(MaxPen * pen, int style);

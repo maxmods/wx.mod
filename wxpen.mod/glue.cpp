@@ -160,6 +160,10 @@ void bmx_wxpen_setfromcolour(MaxPen * pen, MaxColour * colour) {
 	pen->Pen().SetColour(colour->Colour());
 }
 
+void bmx_wxpen_setfromrgb(MaxPen * pen, int red, int green, int blue) {
+	pen->Pen().SetColour( static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
+}
+
 void bmx_wxpen_setjoin(MaxPen * pen, int style) {
 	pen->Pen().SetJoin(style);
 }

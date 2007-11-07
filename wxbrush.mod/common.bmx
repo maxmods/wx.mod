@@ -66,6 +66,7 @@ Extern
 	Function bmx_wxbrush_isok:Int(handle:Byte Ptr)
 	Function bmx_wxbrush_setcolour(handle:Byte Ptr, colour:String)
 	Function bmx_wxbrush_setfromcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxbrush_setfromrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
 	Function bmx_wxbrush_setstipple(handle:Byte Ptr, bitmap:Byte Ptr)
 	Function bmx_wxbrush_setstyle(handle:Byte Ptr, style:Int)
 
