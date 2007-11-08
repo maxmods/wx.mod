@@ -17,7 +17,7 @@ Type MyApp Extends wxApp
 
 		' Create the main application windowType MyFrame Extends wxFrame
 
-		frame = MyFrame(New MyFrame.Create(,,"", , , 640, 480))
+		frame = MyFrame(New MyFrame.create(,,"", , , 640, 480))
 		
 		' Show it and tell the application that it's our main window
 		frame.show(True)
@@ -30,14 +30,21 @@ End Type
 
 Type MyFrame Extends wxFrame
 
-	Field canvas:wxWindow
+	Field canvas:MyCanvas
 
 	Method OnInit()
 		
 		canvas = MyCanvas(New MyCanvas.CreateWin(Self))
 		
+		ConnectAny(wxEVT_CLOSE, OnClose)
 	End Method
 
+	Function OnClose(event:wxEvent)
+	
+		MyFrame(event.parent).canvas.timer.Stop() ' stop the timer!
+		wxWindow(event.parent).Destroy() ' remove the frame
+	
+	End Function
 
 End Type
 
@@ -48,11 +55,11 @@ Type MyCanvas Extends wxWindow
 	Method OnInit()
 		SetBackgroundStyle(wxBG_STYLE_CUSTOM)
 	
-		timer = New wxTimer.Create(Self)
+		timer = New wxTimer.create(Self)
 
 
-		ConnectNoId(wxEVT_PAINT, OnPaint)
-		ConnectNoId(wxEVT_TIMER, OnTick)
+		ConnectAny(wxEVT_PAINT, OnPaint)
+		ConnectAny(wxEVT_TIMER, OnTick)
 
 		timer.Start(30)
 	End Method

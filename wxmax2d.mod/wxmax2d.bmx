@@ -156,12 +156,12 @@ Type TwxMax2DDriver Extends TMax2DDriver
 	
 	Method AttachGraphics:TMax2DGraphics( widget:Int ,flags:Int )
 		Local g:TwxGraphics=wxGraphicsDriver().AttachGraphics( widget,flags )
-		If g Return TMax2DGraphics.Create( g,Self )
+		If g Return TMax2DGraphics.create( g,Self )
 	End Method
 	
 	Method CreateGraphics:TMax2DGraphics( width:Int ,height:Int ,depth:Int ,hertz:Int ,flags:Int  )
 		Local g:TwxGraphics=wxGraphicsDriver().CreateGraphics( width,height,depth,hertz,flags )
-		If g Return TMax2DGraphics.Create( g,Self )
+		If g Return TMax2DGraphics.create( g,Self )
 	End Method
 	
 	Method SetGraphics( g:TGraphics )
@@ -324,7 +324,7 @@ End Rem
 
 	Method DrawLine( x0#,y0#,x1#,y1#,tx#,ty# )
 		If dc Then
-		dc.setPen(pen)
+			dc.setPen(pen)
 			dc.DrawLine x0*ix+y0*iy+tx+.5, x0*jx+y0*jy+ty+.5, x1*ix+y1*iy+tx+.5, x1*jx+y1*jy+ty+.5
 		End If
 	End Method
