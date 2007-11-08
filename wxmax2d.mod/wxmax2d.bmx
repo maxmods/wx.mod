@@ -52,11 +52,99 @@ Import "common.bmx"
 
 
 
+Type TwxImageFrame Extends TImageFrame
+
+	Field u0#,v0#,u1#,v1#
+
+	Field name,seq
+	Field bitmap:wxBitmap
+	
+	Method New()
+		seq=GraphicsSeq
+	End Method
+	
+	Method Delete()
+		If Not seq Return
+		'GLGraphicsDriver().SwapSharedContext
+		'glDeleteTextures 1,Varptr name
+		'GLGraphicsDriver().SwapSharedContext
+		'If seq=GraphicsSeq glDeleteTextures 1,Varptr name
+		'seq=0
+	End Method
+	
+	Method Draw( x0#,y0#,x1#,y1#,tx#,ty# )
+		Assert seq=GraphicsSeq Else "Image does not exist"
+		'EnableTex name
+		'glBegin GL_QUADS
+		'glTexCoord2f u0,v0
+		'glVertex2f x0*ix+y0*iy+tx,x0*jx+y0*jy+ty
+		'glTexCoord2f u1,v0
+		'glVertex2f x1*ix+y0*iy+tx,x1*jx+y0*jy+ty
+		'glTexCoord2f u1,v1
+		'glVertex2f x1*ix+y1*iy+tx,x1*jx+y1*jy+ty
+		'glTexCoord2f u0,v1
+		'glVertex2f x0*ix+y1*iy+tx,x0*jx+y1*jy+ty
+		'glEnd
+	End Method
+	
+	Function CreateFromPixmap:TwxImageFrame( src:TPixmap,flags )
+	
+		'determine tex size
+		'Local tex_w=src.width
+		'Local tex_h=src.height
+		'AdjustTexSize tex_w,tex_h
+		
+		'make sure pixmap fits texture
+		'Local width=Min( src.width,tex_w )
+		'Local height=Min( src.height,tex_h )
+		'If src.width<>width Or src.height<>height src=ResizePixmap( src,width,height )
+
+		'create texture pixmap
+		'Local tex:TPixmap=src
+		
+		'"smear" right/bottom edges if necessary
+		'If width<tex_w Or height<tex_h
+		'	tex=TPixmap.Create( tex_w,tex_h,PF_RGBA8888 )
+		'	tex.Paste src,0,0
+		'	If width<tex_w
+		'		tex.Paste src.Window( width-1,0,1,height ),width,0
+		'	EndIf
+		'	If height<tex_h
+		'		tex.Paste src.Window( 0,height-1,width,1 ),0,height
+		'		If width<tex_w 
+		'			tex.Paste src.Window( width-1,height-1,1,1 ),width,height
+		'		EndIf
+		'	EndIf
+		'Else
+		'	If tex.format<>PF_RGBA8888 tex=tex.Convert( PF_RGBA8888 )
+		'EndIf
+		
+		'create tex
+		'Local name=CreateTex( tex_w,tex_h,flags )
+		
+		'upload it
+		'UploadTex tex,flags
+
+		'done!
+		Local frame:TwxImageFrame = New TwxImageFrame
+		'frame.name=name
+		'frame.u1=Float(width)/Float(tex_w)
+		'frame.v1=Float(height)/Float(tex_h)
+		Return frame
+
+	End Function
+
+End Type
+
+
+
+
+
 Type TwxMax2DDriver Extends TMax2DDriver
 
 	Field ix#,iy#,jx#,jy#
 
-	Field clsColor:wxBrush = Null
+	Field clsColor:wxBrush = wxWHITE_BRUSH()
 	Field brush:wxBrush = wxBLACK_BRUSH()
 	Field pen:wxPen = wxBLACK_PEN()
 	Field dc:wxDC = Null
@@ -81,7 +169,7 @@ Type TwxMax2DDriver Extends TMax2DDriver
 		Assert t And TwxGraphics( t._graphics )
 
 		If TwxGraphics(t._graphics).target Then
-			dc = New wxPaintDC.Create(TwxGraphics(t._graphics).target)
+			dc = New wxAutoBufferedPaintDC.CreatePaintDC(TwxGraphics(t._graphics).target)
 			TwxGraphics(t._graphics).target.PrepareDC(dc)
 			dc.setPen(pen)
 			dc.setBrush(brush)
@@ -135,11 +223,11 @@ Type TwxMax2DDriver Extends TMax2DDriver
 	End Method
 
 	Method CreateFrameFromPixmap:TImageFrame( pixmap:TPixmap,flags:Int  )
-'		Local frame:TGLImageFrame
+		Local frame:TwxImageFrame
 '		GLGraphicsDriver().SwapSharedContext
-'		frame=TGLImageFrame.CreateFromPixmap( pixmap,flags )
+		frame = TwxImageFrame.CreateFromPixmap( pixmap, flags )
 '		GLGraphicsDriver().SwapSharedContext
-'		Return frame
+		Return frame
 	End Method
 
 	Method SetBlend( blend:Int  )
@@ -189,7 +277,7 @@ End Rem
 	
 	Method SetColor( red:Int ,green:Int ,blue:Int  )
 		brush.SetFromRGB(red, green, blue)
-		'pen.SetFromRGB(red, green, blue)
+		pen.SetFromRGB(red, green, blue)
 '		color4ub[0]=Min(Max(red,0),255)
 '		color4ub[1]=Min(Max(green,0),255)
 '		color4ub[2]=Min(Max(blue,0),255)
@@ -226,41 +314,34 @@ End Rem
 			End If
 			dc.Clear()
 		End If
-'		glClear GL_COLOR_BUFFER_BIT
 	End Method
 
 	Method Plot( x#,y# )
 		If dc Then
 			dc.DrawPoint(x + 0.5, y + 0.5)
 		End If
-'		DisableTex
-'		glBegin GL_POINTS
-'		glVertex2f x+.5,y+.5
-'		glEnd
 	End Method
 
 	Method DrawLine( x0#,y0#,x1#,y1#,tx#,ty# )
 		If dc Then
+		dc.setPen(pen)
 			dc.DrawLine x0*ix+y0*iy+tx+.5, x0*jx+y0*jy+ty+.5, x1*ix+y1*iy+tx+.5, x1*jx+y1*jy+ty+.5
 		End If
-'		DisableTex
-'		glBegin GL_LINES
-'		glVertex2f x0*ix+y0*iy+tx+.5,x0*jx+y0*jy+ty+.5
-'		glVertex2f x1*ix+y1*iy+tx+.5,x1*jx+y1*jy+ty+.5
-'		glEnd
 	End Method
 
 	Method DrawRect( x0#,y0#,x1#,y1#,tx#,ty# )
 		If dc Then
-			dc.DrawRectangle x0*ix+y0*iy+tx, x0*jx+y0*jy+ty, x1 -x0, y1 -y0
+			Global points:Int[] = New Int[8]
+			points[0] = x0*ix+y0*iy+tx
+			points[1] = x0*jx+y0*jy+ty
+			points[2] = x1*ix+y0*iy+tx
+			points[3] = x1*jx+y0*jy+ty
+			points[4] = x1*ix+y1*iy+tx
+			points[5] = x1*jx+y1*jy+ty
+			points[6] = x0*ix+y1*iy+tx
+			points[7] = x0*jx+y1*jy+ty
+			dc.DrawPolygon(points)
 		End If
-'		DisableTex
-'		glBegin GL_QUADS
-'		glVertex2f x0*ix+y0*iy+tx,x0*jx+y0*jy+ty
-'		glVertex2f x1*ix+y0*iy+tx,x1*jx+y0*jy+ty
-'		glVertex2f x1*ix+y1*iy+tx,x1*jx+y1*jy+ty
-'		glVertex2f x0*ix+y1*iy+tx,x0*jx+y1*jy+ty
-'		glEnd
 	End Method
 	
 	Method DrawOval( x0#,y0#,x1#,y1#,tx#,ty# )
@@ -287,9 +368,20 @@ End Rem
 	End Method
 	
 	Method DrawPoly( xy#[],handle_x#,handle_y#,origin_x#,origin_y# )
-Rem
-		If xy.length<6 Or (xy.length&1) Return
+		If dc Then
+			If xy.length<6 Or (xy.length&1) Return
 		
+			Local points:Int[] = New Int[xy.length]
+			Local x:Float, y:Float
+			For Local i:Int = 0 Until xy.length Step 2
+				x = xy[i] + handle_x
+				y = xy[i + 1] + handle_y
+				points[i] = x*ix+y*iy+origin_x
+				points[i + 1] = x*jx+y*jy+origin_y
+			Next
+		
+		End If
+Rem		
 		DisableTex
 		glBegin GL_POLYGON
 		For Local i=0 Until Len xy Step 2

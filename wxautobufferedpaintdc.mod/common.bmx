@@ -21,14 +21,10 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxBrush
-Import wx.wxPen
-Import wx.wxDC
+Import wx.wxBufferedPaintDC
 Import wx.wxWindow
-Import wx.wxAutoBufferedPaintDC
 Import BRL.Blitz
-Import BRL.Max2D
-Import BRL.Graphics
+
 
 ' headers :-)
 ?linux
@@ -48,5 +44,8 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+
+	Function bmx_wxautobufferedpaintdc_create:Byte Ptr(window:Byte Ptr)
+	Function bmx_wxautobufferedpaintdc_delete(handle:Byte Ptr)
 
 End Extern

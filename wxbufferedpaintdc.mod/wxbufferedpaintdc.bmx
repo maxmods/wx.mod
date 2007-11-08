@@ -20,33 +20,39 @@
 ' 
 SuperStrict
 
-Import wx.wx
-Import wx.wxBrush
-Import wx.wxPen
-Import wx.wxDC
-Import wx.wxWindow
-Import wx.wxAutoBufferedPaintDC
-Import BRL.Blitz
-Import BRL.Max2D
-Import BRL.Graphics
+Rem
+bbdoc: wxBufferedPaintDC
+End Rem
+Module wx.wxBufferedPaintDC
 
-' headers :-)
+ModuleInfo "Version: 1.00"
+ModuleInfo "License: MIT"
+ModuleInfo "Author: Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2007 Bruce A Henderson"
+ModuleInfo "Modserver: BRL"
+
 ?linux
-Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
-Import "../include/*.h"
+ModuleInfo "CC_OPTS: -D__WXGTK__"
+ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
+ModuleInfo "CC_OPTS: -D_LARGE_FILES"
+ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?win32
-Import "../lib/win32/mswu/*.h"
-Import "../include/*.h"
-?macosppc
-Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
-?macosx86
-Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
+ModuleInfo "CC_OPTS: -DHAVE_W32API_H"
+ModuleInfo "CC_OPTS: -D__WXMSW__"
+ModuleInfo "CC_OPTS: -D_UNICODE"
+ModuleInfo "CC_OPTS: -DUNICODE"
+?macos
+ModuleInfo "CC_OPTS: -D__WXMAC__"
+ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
+ModuleInfo "CC_OPTS: -D_LARGE_FILES"
+ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
 
-Import "glue.cpp"
+Import "common.bmx"
 
-Extern
 
-End Extern
+Type wxBufferedPaintDC Extends wxBufferedDC
+
+End Type
+
+

@@ -21,14 +21,9 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxBrush
-Import wx.wxPen
-Import wx.wxDC
-Import wx.wxWindow
-Import wx.wxAutoBufferedPaintDC
+Import wx.wxBufferedDC
 Import BRL.Blitz
-Import BRL.Max2D
-Import BRL.Graphics
+
 
 ' headers :-)
 ?linux

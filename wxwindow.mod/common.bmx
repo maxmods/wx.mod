@@ -101,7 +101,7 @@ Extern
 	Function bmx_wxwindow_hide:Int(handle:Byte Ptr)
 	Function bmx_wxwindow_move(handle:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxwindow_setdimensions(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, flags:Int)
-	Function bmx_wxwindow_setdimensionsrect(handle:Byte Ptr, rect:Byte ptr)
+	Function bmx_wxwindow_setdimensionsrect(handle:Byte Ptr, rect:Byte Ptr)
 	Function bmx_wxwindow_pusheventhandler(handle:Byte Ptr, evt:Byte Ptr)
 
 	Function bmx_wxwindow_getwindowvariant:Int(handle:Byte Ptr)
@@ -246,4 +246,8 @@ Const wxEVT_KILL_FOCUS:Int = 113
 Const wxEVT_COMMAND_TEXT_COPY:Int = 444
 Const wxEVT_COMMAND_TEXT_CUT:Int = 445
 Const wxEVT_COMMAND_TEXT_PASTE:Int = 446
+
+Const wxBG_STYLE_SYSTEM:Int = 0
+Const wxBG_STYLE_COLOUR:Int = 1
+Const wxBG_STYLE_CUSTOM:Int = 2
 

@@ -3,6 +3,7 @@ SuperStrict
 Framework wx.wxApp
 Import wx.wxFrame
 Import wx.wxmax2D
+Import wx.wxTimer
 
 
 New MyApp.run()
@@ -42,25 +43,97 @@ End Type
 
 Type MyCanvas Extends wxWindow
 
+	Field timer:wxTimer
+
 	Method OnInit()
+		SetBackgroundStyle(wxBG_STYLE_CUSTOM)
+	
+		timer = New wxTimer.Create(Self)
+
+
 		ConnectNoId(wxEVT_PAINT, OnPaint)
+		ConnectNoId(wxEVT_TIMER, OnTick)
+
+		timer.Start(30)
 	End Method
 
 	Function OnPaint(event:wxEvent)
-'DebugLog "OnPaint"
-'DebugStop
 		Local canvas:MyCanvas = MyCanvas(event.parent)
 
 		SetGraphics wxGraphics(canvas)
 		
+		SetColor(0, 0, 0)
+		
 		Cls
-'DebugStop
-		DrawLine 50, 50, 100, 100
-		DrawRect 150, 150, 100, 30
+
+		canvas.drawClock()
 		
 		Flip
 
 	End Function
 
+	Function OnTick(event:wxEvent)
+		wxWindow(event.parent).Refresh()
+	End Function
+	
+	
+	Method drawClock()
+	
+		SetLineWidth(2)
+
+		Local x:Int = 200, y:Int = 200
+		Local radius:Int = 100
+		' clock ticks
+		For Local i:Int = 0 Until 12
+			Local inset:Double = 0
+		
+			If i Mod 3 = 0 Then
+				SetLineWidth(2)
+				inset = 0.2 * radius
+			Else
+				inset = 0.1 * radius
+				SetLineWidth(1)
+			End If
+			
+			DrawLine x + (radius - inset) * Cos(i * 30), y + (radius - inset) * Sin(i * 30), ..
+				x + radius * Cos(i * 30), y + radius * Sin (i * 30)
+			
+			' draw numbers
+			'inset = 0.3 * radius
+		Next
+
+
+		' clock hands
+		Local hours:Int = CurrentTime()[0..2].toInt() Mod 12
+		Local minutes:Int = CurrentTime()[3..5].toInt()
+		Local seconds:Int = CurrentTime()[6..8].toInt()
+		
+		' hour hand:
+		' the hour hand is rotated 30 degrees  per hour + 1/2 a degree per minute
+		'
+		SetLineWidth(4)
+
+		DrawLine x, y, x + radius / 2 * Sin(30 * hours + minutes / 2.0), ..
+				   y + radius / 2 * -Cos(30 * hours + minutes / 2.0)
+		
+		
+		' minute hand:
+		' the minute hand is rotated 6 degrees per minute + 1/10 a degree per second
+		'
+		SetLineWidth(2)
+		DrawLine x, y, x + radius * 0.75 * Sin(6 * minutes + seconds / 10.0), ..
+				   y + radius * 0.75 * -Cos(6 * minutes + seconds / 10.0)
+		
+		' seconds hand:
+		' the second hand is rotated 6 degrees per second
+		'
+		SetColor(255, 0, 0)
+
+		DrawLine x, y, x + radius * 0.7 * Sin(6 * seconds), ..
+				   y + radius * 0.7 * -Cos(6 * seconds)
+
+
+	End Method
+	
 End Type
 
