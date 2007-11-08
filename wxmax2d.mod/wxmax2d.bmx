@@ -56,7 +56,7 @@ Type TwxImageFrame Extends TImageFrame
 
 	Field u0#,v0#,u1#,v1#
 
-	Field name,seq
+	Field name:Int,seq:Int
 	Field bitmap:wxBitmap
 	
 	Method New()
@@ -87,7 +87,7 @@ Type TwxImageFrame Extends TImageFrame
 		'glEnd
 	End Method
 	
-	Function CreateFromPixmap:TwxImageFrame( src:TPixmap,flags )
+	Function CreateFromPixmap:TwxImageFrame( src:TPixmap, flags:Int )
 	
 		'determine tex size
 		'Local tex_w=src.width
