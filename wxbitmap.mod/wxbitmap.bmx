@@ -132,6 +132,21 @@ Type wxBitmap Extends wxGDIObject
 	End Function
 	
 	Rem
+	bbdoc: 
+	End Rem
+	Function CreateBitmapFromPixmap:wxBitmap(pixmap:TPixmap)
+		Return New wxBitmap.CreateFromPixmap(pixmap)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateFromPixmap:wxBitmap(pixmap:TPixmap)
+		wxObjectPtr = bmx_wxbitmap_createfrompixmap(pixmap.pixels, pixmap.width, pixmap.height, pixmap.pitch, BytesPerPixel[pixmap.format], BitsPerPixel[pixmap.format])
+		Return Self
+	End Method
+	
+	Rem
 	bbdoc: Creates an image from a platform-dependent bitmap.
 	about: This preserves mask information so that bitmaps and images can be converted back and forth
 	without loss in that respect.

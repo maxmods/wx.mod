@@ -17,7 +17,7 @@ Type MyApp Extends wxApp
 
 		' Create the main application windowType MyFrame Extends wxFrame
 
-		frame = MyFrame(New MyFrame.create(,,"", , , 640, 480))
+		frame = MyFrame(New MyFrame.Create(,,"", , , 640, 480))
 		
 		' Show it and tell the application that it's our main window
 		frame.show(True)
@@ -55,7 +55,7 @@ Type MyCanvas Extends wxWindow
 	Method OnInit()
 		SetBackgroundStyle(wxBG_STYLE_CUSTOM)
 	
-		timer = New wxTimer.create(Self)
+		timer = New wxTimer.Create(Self)
 
 
 		ConnectAny(wxEVT_PAINT, OnPaint)
@@ -106,7 +106,10 @@ Type MyCanvas Extends wxWindow
 				x + radius * Cos(i * 30), y + radius * Sin (i * 30)
 			
 			' draw numbers
-			'inset = 0.3 * radius
+			inset = 0.3 * radius
+			
+			Local t:Int = (i + 2) Mod 12 + 1
+			DrawText romanNumerals(t), x + (radius - inset) * Cos(i * 30) - 7, y + (radius - inset) * Sin(i * 30) - 6
 		Next
 
 
@@ -141,6 +144,37 @@ Type MyCanvas Extends wxWindow
 
 
 	End Method
+
+	Method romanNumerals:String(value:Int)
+		Local rn:String = ""
+		
+		While value > 9
+			rn:+ "X"
+			value:- 10
+		Wend
 	
+		If value > 8 Then
+			rn:+ "IX"
+			value:- 9
+		End If
+		
+		If value > 4 Then
+			rn:+ "V"
+			value:- 5
+		End If
+		
+		If value > 3 Then
+			rn:+ "IV"
+			value:- 4
+		End If
+		
+		While value > 0
+			rn:+ "I"
+			value:- 1
+		Wend
+		
+		Return rn
+	End Method
+
 End Type
 

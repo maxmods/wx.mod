@@ -145,4 +145,26 @@ bool bmx_wxbitmap_isok(MaxBitmap * bitmap) {
 	return bitmap->Bitmap().IsOk();
 }
 
+MaxBitmap * bmx_wxbitmap_createfrompixmap(void * pixels, int width, int height, int pitch, int bytesPerPixel, int bitsPerPixel) {
+
+	wxImage image(width, height);
+	image.InitAlpha();
+	
+	unsigned char * data = image.GetData();
+
+	for (int row = 0; row < height; row++) {
+		int drow = row * (3 * width);
+		int prow = row * pitch;
+		for (int col = 0; col < width; col++) {
+			int dpos = drow + col * 3;
+			int ppos = prow + col * bytesPerPixel;
+			data[dpos] = ((unsigned char*)pixels)[ppos];
+			data[dpos+1] = ((unsigned char*)pixels)[ppos+1];
+			data[dpos+2] = ((unsigned char*)pixels)[ppos+2];
+		}
+	}
+
+	return new MaxBitmap(wxBitmap(image));
+}
+
 

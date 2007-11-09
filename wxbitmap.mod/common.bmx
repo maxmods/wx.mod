@@ -24,6 +24,7 @@ Import wx.wx
 Import wx.wxImage
 Import wx.wxPalette
 Import BRL.Blitz
+Import BRL.Pixmap
 
 
 ' headers :-)
@@ -73,5 +74,7 @@ Extern
 
 	Function bmx_wxmask_create:Byte Ptr(bitmap:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxmask_delete(handle:Byte Ptr)
+
+	Function bmx_wxbitmap_createfrompixmap:Byte Ptr(pixels:Byte Ptr, width:Int, height:Int, pitch:Int, bytesPerPixel:Int, bitsPerPixel:Int)
 
 End Extern

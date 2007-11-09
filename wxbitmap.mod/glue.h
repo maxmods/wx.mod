@@ -61,6 +61,9 @@ extern "C" {
 
 	wxMask * bmx_wxmask_create(MaxBitmap * bitmap, MaxColour * colour);
 	void bmx_wxmask_delete(wxMask * mask);
+	
+	MaxBitmap * bmx_wxbitmap_createfrompixmap(void * pixels, int width, int height, int pitch, int bytesPerPixel, int bitsPerPixel);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

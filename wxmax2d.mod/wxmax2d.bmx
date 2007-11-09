@@ -58,6 +58,7 @@ Type TwxImageFrame Extends TImageFrame
 
 	Field name:Int,seq:Int
 	Field bitmap:wxBitmap
+	Field driver:TwxMax2DDriver
 	
 	Method New()
 		seq=GraphicsSeq
@@ -85,6 +86,7 @@ Type TwxImageFrame Extends TImageFrame
 		'glTexCoord2f u0,v1
 		'glVertex2f x0*ix+y1*iy+tx,x0*jx+y1*jy+ty
 		'glEnd
+		driver.DrawImage(x0, y0, x1, y1, tx, ty, bitmap)
 	End Method
 	
 	Function CreateFromPixmap:TwxImageFrame( src:TPixmap, flags:Int )
@@ -127,6 +129,7 @@ Type TwxImageFrame Extends TImageFrame
 
 		'done!
 		Local frame:TwxImageFrame = New TwxImageFrame
+		frame.bitmap = New wxBitmap.CreateFromPixmap(src)
 		'frame.name=name
 		'frame.u1=Float(width)/Float(tex_w)
 		'frame.v1=Float(height)/Float(tex_h)
@@ -147,6 +150,8 @@ Type TwxMax2DDriver Extends TMax2DDriver
 	Field clsColor:wxBrush = wxWHITE_BRUSH()
 	Field brush:wxBrush = wxBLACK_BRUSH()
 	Field pen:wxPen = wxBLACK_PEN()
+	Field textForeground:wxColour = wxBLACK()
+	Field textBackground:wxColour = wxWHITE()
 	Field dc:wxDC = Null
 
 	'graphics driver overrides
@@ -156,12 +161,12 @@ Type TwxMax2DDriver Extends TMax2DDriver
 	
 	Method AttachGraphics:TMax2DGraphics( widget:Int ,flags:Int )
 		Local g:TwxGraphics=wxGraphicsDriver().AttachGraphics( widget,flags )
-		If g Return TMax2DGraphics.create( g,Self )
+		If g Return TMax2DGraphics.Create( g,Self )
 	End Method
 	
 	Method CreateGraphics:TMax2DGraphics( width:Int ,height:Int ,depth:Int ,hertz:Int ,flags:Int  )
 		Local g:TwxGraphics=wxGraphicsDriver().CreateGraphics( width,height,depth,hertz,flags )
-		If g Return TMax2DGraphics.create( g,Self )
+		If g Return TMax2DGraphics.Create( g,Self )
 	End Method
 	
 	Method SetGraphics( g:TGraphics )
@@ -226,6 +231,7 @@ Type TwxMax2DDriver Extends TMax2DDriver
 		Local frame:TwxImageFrame
 '		GLGraphicsDriver().SwapSharedContext
 		frame = TwxImageFrame.CreateFromPixmap( pixmap, flags )
+		frame.driver = Self
 '		GLGraphicsDriver().SwapSharedContext
 		Return frame
 	End Method
@@ -278,6 +284,7 @@ End Rem
 	Method SetColor( red:Int ,green:Int ,blue:Int  )
 		brush.SetFromRGB(red, green, blue)
 		pen.SetFromRGB(red, green, blue)
+'		textForeground.Set(red, green, blue)
 '		color4ub[0]=Min(Max(red,0),255)
 '		color4ub[1]=Min(Max(green,0),255)
 '		color4ub[2]=Min(Max(blue,0),255)
@@ -407,6 +414,14 @@ Rem
 		
 		SetBlend blend
 End Rem
+	End Method
+	
+	Method DrawImage( x0#,y0#,x1#,y1#,tx#,ty#, bitmap:wxBitmap)
+'DebugLog "x0 = " + x0 + ", y0 = " + y0 + ", x1 = " + x1 + ", y1 = " + y1
+'DebugLog "tx = " + tx + ", ty = " + ty
+		If dc Then
+			dc.DrawBitmap(bitmap, tx, ty, False)
+		End If
 	End Method
 
 	Method GrabPixmap:TPixmap( x:Int ,y:Int ,w:Int ,h:Int  )
