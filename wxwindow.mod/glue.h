@@ -187,6 +187,16 @@ extern "C" {
 	void bmx_wxsizer_setitemminsize(wxSizer * sizer, int index, int width, int height);
 	void bmx_wxsizer_setitemminsizewindow(wxSizer * sizer, wxWindow * window, int width, int height);
 	void bmx_wxsizer_setitemminsizesizer(wxSizer * sizer, wxSizer * sz, int width, int height);
+	void bmx_wxsizer_clear(wxSizer * sizer, bool deleteWindows);
+	void bmx_wxsizer_fitinside(wxSizer * sizer, wxWindow * window);
+	wxWindow * bmx_wxsizer_getcontainingwindow(wxSizer * sizer);
+	void bmx_wxsizer_getsize(wxSizer * sizer, int * w, int * h);
+	void bmx_wxsizer_getposition(wxSizer * sizer, int * x, int * y);
+	void bmx_wxsizer_getminsize(wxSizer * sizer, int * w, int * h);
+	void bmx_wxsizer_setvirtualsizehints(wxSizer * sizer, wxWindow * window);
+	bool bmx_wxsizer_show(wxSizer * sizer, wxWindow * window, bool doShow, bool recursive);
+	bool bmx_wxsizer_showsizer(wxSizer * sizer, wxSizer * s, bool doShow, bool recursive);
+	bool bmx_wxsizer_showitem(wxSizer * sizer, int index, bool doShow);
 	MaxGridSizer * bmx_wxgridsizer_create(BBObject * maxHandle, int cols, int vgap, int hgap);
 	MaxGridSizer * bmx_wxgridsizer_createrc(BBObject * maxHandle, int rows, int cols, int vgap, int hgap);
 	int bmx_wxgridsizer_getcols(MaxGridSizer * sizer);
@@ -203,6 +213,7 @@ extern "C" {
 	void bmx_wxflexgridsizer_addgrowablerow(MaxFlexGridSizer * sizer, int index, int prop);
 	void bmx_wxsizer_fit(wxSizer * sizer, wxWindow * window);
 	void bmx_wxsizer_fitsize(wxSizer * sizer, wxWindow * window, int * w, int * h);
+	int bmx_wxboxsizer_getorientation(wxBoxSizer * sizer);
 
 	void bmx_wxtooltip_enable(bool flag);
 	void bmx_wxtooltip_setdelay(long msecs);

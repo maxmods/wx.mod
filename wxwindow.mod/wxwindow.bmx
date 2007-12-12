@@ -1646,21 +1646,30 @@ Type wxSizer
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Appends a wxWindow to the sizer.
+	about: Its initial size (either set explicitly by the user or calculated internally when
+	using default size (-1, -1)) is interpreted as the minimal and in many cases also the initial size.
 	End Rem
 	Method Add:wxSizerItem(window:wxWindow, proportion:Int = 0, flag:Int = 0, border:Int = 0)
 		Return wxSizerItem._create(bmx_wxsizer_add(wxSizerPtr, window.wxObjectPtr, proportion, flag, border))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Appends a child-sizer to the sizer.
+	about: This allows placing a child sizer in a sizer and thus to create hierarchies of sizers
+	(typically a vertical box as the top sizer and several horizontal boxes on the level beneath).
 	End Rem
 	Method AddSizer:wxSizerItem(sizer:wxSizer, proportion:Int = 0, flag:Int = 0, border:Int = 0)
 		Return wxSizerItem._create(bmx_wxsizer_addsizer(wxSizerPtr, sizer.wxSizerPtr, proportion, flag, border))
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Appends a custom spacer to the sizer.
+	about: Adding spacers to sizers gives more flexibility in the design of dialogs; imagine for
+	example a horizontal box with two buttons at the bottom of a dialog: you might want to insert a
+	space between the two buttons and make that space stretchable using the proportion flag and the
+	result will be that the left button will be aligned with the left side of the dialog and the
+	right button with the right side - the space in between will shrink and grow with the dialog.
 	End Rem
 	Method AddCustomSpacer:wxSizerItem(width:Int, height:Int, proportion:Int = 0, flag:Int = 0, border:Int = 0)
 		Return wxSizerItem._create(bmx_wxsizer_addcustomspacer(wxSizerPtr, width, height, proportion, flag, border))
@@ -1682,10 +1691,18 @@ Type wxSizer
 		Return wxSizerItem._create(bmx_wxsizer_addstretchspacer(wxSizerPtr, proportion))
 	End Method
 	
+	Rem
+	bbdoc: The sizer will do the actual calculation of its children minimal sizes.
+	End Rem
 	Method CalcMin(w:Int Var, h:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: Detaches all children from the sizer.
+	about: If delete_windows is true then child windows will also be deleted.
+	End Rem
 	Method Clear(deleteWindows:Int = False)
+		bmx_wxsizer_clear(wxSizerPtr, deleteWindows)
 	End Method
 
 	Rem
@@ -1721,22 +1738,50 @@ Type wxSizer
 		bmx_wxsizer_fitsize(wxSizerPtr, window.wxObjectPtr, Varptr w, Varptr h)
 	End Method
 	
+	Rem
+	bbdoc: Tell the sizer to resize the virtual size of the window to match the sizer's minimal size.
+	about: This will not alter the on screen size of the window, but may cause the
+	addition/removal/alteration of scrollbars required to view the virtual area in windows which
+	manage it.
+	End Rem
 	Method FitInside(window:wxWindow)
+		bmx_wxsizer_fitinside(wxSizerPtr, window.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the list of the items in this sizer.
+	End Rem
 	Method GetChildren()
 	End Method
 	
+	Rem
+	bbdoc: Returns the window this sizer is used in or NULL if none.
+	End Rem
 	Method GetContainingWindow:wxWindow()
+		Return wxWindow._find(bmx_wxsizer_getcontainingwindow(wxSizerPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns the current size of the sizer.
+	End Rem
 	Method GetSize(w:Int Var, h:Int Var)
+		bmx_wxsizer_getsize(wxSizerPtr, Varptr w, Varptr h)
 	End Method
 	
+	Rem
+	bbdoc: Returns the current position of the sizer.
+	End Rem
 	Method GetPosition(x:Int Var, y:Int Var)
+		bmx_wxsizer_getposition(wxSizerPtr, Varptr x, Varptr y)
 	End Method
 	
+	Rem
+	bbdoc: Returns the minimal size of the sizer.
+	about: This is either the combined minimal size of all the children and their borders or the
+	minimal size set by SetMinSize, depending on which is bigger.
+	End Rem
 	Method GetMinSize(w:Int Var, h:Int Var)
+		bmx_wxsizer_getminsize(wxSizerPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
@@ -1794,10 +1839,126 @@ Type wxSizer
 		bmx_wxsizer_setsizehints(wxSizerPtr, window.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Tell the sizer to set the minimal size of the window virtual area to match the sizer's minimal size.
+	about: For windows with managed scrollbars this will set them appropriately.
+	End Rem
+	Method SetVirtualSizeHints(window:wxWindow)
+		bmx_wxsizer_setvirtualsizehints(wxSizerPtr, window.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Shows or hides the window.
+	returns: True if the child item was found, False otherwise.
+	about: To make a sizer item disappear or reappear, use Show() followed by Layout(). Use parameter
+	recursive to show or hide elements found in subsizers.
+	End Rem
+	Method Show:Int(window:wxWindow, doShow:Int = True, recursive:Int = False)
+		Return bmx_wxsizer_show(wxSizerPtr, window.wxObjectPtr, doShow, recursive)
+	End Method
+	
+	Rem
+	bbdoc: Shows or hides the sizer.
+	returns: True if the child item was found, False otherwise.
+	about: To make a sizer item disappear or reappear, use Show() followed by Layout(). Use parameter
+	recursive to show or hide elements found in subsizers.
+	End Rem
+	Method ShowSizer:Int(sizer:wxSizer, doShow:Int = True, recursive:Int = False)
+		Return bmx_wxsizer_showsizer(wxSizerPtr, sizer.wxSizerPtr, doShow, recursive)
+	End Method
+	
+	Rem
+	bbdoc: Shows or hides the item at @index.
+	returns: True if the child item was found, False otherwise.
+	about: To make a sizer item disappear or reappear, use Show() followed by Layout(). Use parameter
+	recursive to show or hide elements found in subsizers.
+	End Rem
+	Method ShowItem:Int(index:Int, doShow:Int = True)
+		Return bmx_wxsizer_showitem(wxSizerPtr, index, doShow)
+	End Method
+	
 End Type
 
 Rem
-bbdoc: 
+bbdoc: The basic idea behind a box sizer is that windows will most often be laid out in rather simple basic geometry, typically in a row or a column or several hierarchies of either.
+about: As an example, we will construct a dialog that will contain a text field at the top and two
+buttons at the bottom. This can be seen as a top-hierarchy column with the text at the top and
+buttons at the bottom and a low-hierarchy row with an OK button to the left and a Cancel button
+to the right. In many cases (particularly dialogs under Unix and normal frames) the main window
+will be resizable by the user and this change of size will have to get propagated to its children.
+In our case, we want the text area to grow with the dialog, whereas the button shall have a fixed
+size. In addition, there will be a thin border around all controls to make the dialog look nice and
+- to make matter worse - the buttons shall be centred as the width of the dialog changes.
+<p>
+It is the unique feature of a box sizer, that it can grow in both directions (height and width) but
+can distribute its growth in the main direction (horizontal for a row) unevenly among its children.
+In our example case, the vertical sizer is supposed to propagate all its height changes to only the
+text area, not to the button area. This is determined by the proportion parameter when adding a
+window (or another sizer) to a sizer. It is interpreted as a weight factor, i.e. it can be zero,
+indicating that the window may not be resized at all, or above zero. If several windows have a value
+above zero, the value is interpreted relative to the sum of all weight factors of the sizer, so when
+adding two windows with a value of 1, they will both get resized equally much and each half as much
+as the sizer owning them. Then what do we do when a column sizer changes its width? This behaviour
+is controlled by flags (the second parameter of the Add() function): Zero or no flag indicates that
+the window will preserve it is original size, wxGROW flag (same as wxEXPAND) forces the window to
+grow with the sizer, and wxSHAPED flag tells the window to change it is size proportionally,
+preserving original aspect ratio. When wxGROW flag is not used, the item can be aligned within
+available space. wxALIGN_LEFT, wxALIGN_TOP, wxALIGN_RIGHT, wxALIGN_BOTTOM, wxALIGN_CENTER_HORIZONTAL
+and wxALIGN_CENTER_VERTICAL do what they say. wxALIGN_CENTRE (same as wxALIGN_CENTER) is defined as
+(wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL). Default alignment is wxALIGN_LEFT |
+wxALIGN_TOP.
+</p>
+<p>
+As mentioned above, any window belonging to a sizer may have border, and it can be specified which
+of the four sides may have this border, using the wxTOP, wxLEFT, wxRIGHT and wxBOTTOM constants or
+wxALL for all directions (and you may also use wxNORTH, wxWEST etc instead). These flags can be used
+in combination with the alignment flags above as the second parameter of the Add() method using the
+binary or operator |. The sizer of the border also must be made known, and it is the third parameter
+in the Add() method. This means, that the entire behaviour of a sizer and its children can be
+controlled by the three parameters of the Add() method.
+</p>
+<pre>
+' we want to get a dialog that is stretchable because it
+' has a text ctrl at the top and two buttons at the bottom 
+Type MyDialog Extends wxDialog
+
+	Function CreateMyDialog:MyDialog(parent:wxFrame, id:Int, title:String)
+	    Return New MyDialog.Create(parent, id, title, -1, -1, -1, -1, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	End Function
+
+	Method OnInit:Int()
+	
+	  Local topsizer:wxBoxSizer = New wxBoxSizer.Create( wxVERTICAL )
+	  ' create text ctrl with minimal size 100x60 
+	  topsizer.Add( ..
+	    New wxTextCtrl.Create( Self, -1, "My text.", -1, -1, 100, 60, wxTE_MULTILINE), ..
+	    1,           .. ' make vertically stretchable 
+	    wxEXPAND |   .. ' make horizontally stretchable 
+	    wxALL,       .. '   and make border all around 
+	    10 )            ' set border width to 10 
+	  Local button_sizer:wxBoxSizer = New wxBoxSizer.Create( wxHORIZONTAL )
+	  button_sizer.Add( ..
+	     New wxButton.Create( Self, wxID_OK, "OK" ), ..
+	     0,          .. ' make horizontally unstretchable 
+	     wxALL,      .. ' make border all around (implicit top alignment) 
+	     10 )           ' set border width to 10 
+	  button_sizer.Add(  ..
+	     New wxButton.Create( Self, wxID_CANCEL, "Cancel" ), ..
+	     0,          .. ' make horizontally unstretchable 
+	     wxALL,      .. ' make border all around (implicit top alignment) 
+	     10 )           ' set border width to 10 
+	  topsizer.AddSizer( .. 
+	     button_sizer,  ..
+	     0,             .. ' make vertically unstretchable 
+	     wxALIGN_CENTER ) ' no border and centre horizontally 
+	  SetSizer( topsizer )      ' use the sizer for layout 
+	  topsizer.SetSizeHints( Self )   ' set size hints to honour minimum size 
+	  
+		Return True
+	End Method
+
+End Type
+</pre>
 End Rem
 Type wxBoxSizer Extends wxSizer
 
@@ -1811,17 +1972,38 @@ Type wxBoxSizer Extends wxSizer
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a new wxBoxSizer.
+	about: @orient may be either of wxVERTICAL or wxHORIZONTAL for creating either a column sizer
+	or a row sizer.
 	End Rem
 	Method Create:wxBoxSizer(orient:Int)
 		wxSizerPtr = bmx_wxboxsizer_create(Self, orient)
 		Return Self
 	End Method
 
+	' Internal use only!
+	'Method RecalcSizes()
+	'	bmx_wxboxsizer_recalcsizes(wxSizerPtr)
+	'End Method
+	
+	' Internal use only!
+	'Method CalcMin(w:Int Var, h:Int Var)
+	'	bmx_wxboxsizer_calcmin(wxSizerPtr, Varptr w, Varptr h)
+	'End Method
+
+	Rem
+	bbdoc: Returns the orientation of the box sizer, either wxVERTICAL or wxHORIZONTAL.
+	End Rem
+	Method GetOrientation:Int()
+		Return bmx_wxboxsizer_getorientation(wxSizerPtr)
+	End Method
+		
 End Type
 
 Rem
-bbdoc: 
+bbdoc: wxStaticBoxSizer is a sizer derived from wxBoxSizer but adds a static box around the sizer.
+about: This static box may be either created independently or the sizer may create it itself as a
+convenience. In any case, the sizer owns the wxStaticBox control and will delete it if it is deleted.
 End Rem
 Type wxStatixBoxSizer Extends wxBoxSizer
 

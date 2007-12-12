@@ -705,6 +705,52 @@ void bmx_wxsizer_setitemminsizesizer(wxSizer * sizer, wxSizer * sz, int width, i
 	sizer->SetItemMinSize(sz, width, height);
 }
 
+void bmx_wxsizer_clear(wxSizer * sizer, bool deleteWindows) {
+	sizer->Clear(deleteWindows);
+}
+
+void bmx_wxsizer_fitinside(wxSizer * sizer, wxWindow * window) {
+	sizer->FitInside(window);
+}
+
+wxWindow * bmx_wxsizer_getcontainingwindow(wxSizer * sizer) {
+	return sizer->GetContainingWindow();
+}
+
+void bmx_wxsizer_getsize(wxSizer * sizer, int * w, int * h) {
+	wxSize s = sizer->GetSize();
+	*w = s.x;
+	*h = s.y;
+}
+
+void bmx_wxsizer_getposition(wxSizer * sizer, int * x, int * y) {
+	wxPoint p = sizer->GetPosition();
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxsizer_getminsize(wxSizer * sizer, int * w, int * h) {
+	wxSize s = sizer->GetMinSize();
+	*w = s.x;
+	*h = s.y;
+}
+
+void bmx_wxsizer_setvirtualsizehints(wxSizer * sizer, wxWindow * window) {
+	sizer->SetVirtualSizeHints(window);
+}
+
+bool bmx_wxsizer_show(wxSizer * sizer, wxWindow * window, bool doShow, bool recursive) {
+	return sizer->Show(window, doShow, recursive);
+}
+
+bool bmx_wxsizer_showsizer(wxSizer * sizer, wxSizer * s, bool doShow, bool recursive) {
+	return sizer->Show(s, doShow, recursive);
+}
+
+bool bmx_wxsizer_showitem(wxSizer * sizer, int index, bool doShow) {
+	return sizer->Show(index, doShow);
+}
+
 MaxGridSizer * bmx_wxgridsizer_create(BBObject * maxHandle, int cols, int vgap, int hgap) {
 	return new MaxGridSizer(maxHandle, cols, vgap, hgap);
 }
@@ -769,6 +815,10 @@ void bmx_wxsizer_fitsize(wxSizer * sizer, wxWindow * window, int * w, int * h) {
 	wxSize s = sizer->Fit(window);
 	*w = s.x;
 	*h = s.y;
+}
+
+int bmx_wxboxsizer_getorientation(wxBoxSizer * sizer) {
+	return sizer->GetOrientation();
 }
 
 void bmx_wxtooltip_enable(bool flag) {
