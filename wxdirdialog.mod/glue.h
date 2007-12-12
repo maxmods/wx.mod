@@ -21,15 +21,32 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/dirdlg.h"
 
-//class MaxNotebook;
+class MaxDirDialog;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxDirDialog * bmx_wxdirdialog_create(BBObject * handle, wxWindow * parent, BBString * message, 
+		BBString * defaultPath, long style, int x, int y, int w, int h);
+	BBString * bmx_wxdirdialog_getpath(MaxDirDialog * dir);
+	BBString * bmx_wxdirdialog_getmessage(MaxDirDialog * dir);
+	void bmx_wxdirdialog_setmessage(MaxDirDialog * dir, BBString * message);
+	void bmx_wxdirdialog_setpath(MaxDirDialog * dir, BBString * path);
+	int bmx_wxdirdialog_showmodal(MaxDirDialog * dir);
+
+	BBString * bmx_wxdirselector(BBString * message, BBString * defaultPath, long style, int x, int y, wxWindow *parent);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxDirDialog : public wxDirDialog
+{
+public:
+	MaxDirDialog(BBObject * handle, wxWindow * parent, const wxString& message, const wxString& defaultPath,
+		long style, int x, int y, int w, int h);
+	~ MaxDirDialog();
+};

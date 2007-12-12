@@ -42,8 +42,8 @@ MaxFindReplaceDialog * bmx_wxfindreplacedialog_create(BBObject * handle, wxWindo
 	return new MaxFindReplaceDialog(handle, parent, data, wxStringFromBBString(title), style);
 }
 
-wxFindReplaceData * bmx_wxfindreplacedata_create(BBObject * handle) {
-	wxFindReplaceData * data = new wxFindReplaceData ();
+wxFindReplaceData * bmx_wxfindreplacedata_create(BBObject * handle, wxUint32 flags) {
+	wxFindReplaceData * data = new wxFindReplaceData(flags);
 	wxbind(data, handle);
 	return data;
 }

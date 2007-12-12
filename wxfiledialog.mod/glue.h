@@ -22,7 +22,7 @@
 
 #include "wxglue.h"
 
-//class MaxNotebook;
+class MaxFileDialog;
 
 extern "C" {
 
@@ -31,7 +31,33 @@ extern "C" {
 	BBString * bmx_wxfileselector(BBString * message, BBString * defaultPath, BBString * defaultFilename, 
 		BBString * defaultExtension, BBString * wildcard, int flags, wxWindow * parent, int x, int y);
 
+	MaxFileDialog * bmx_wxfiledialog_create(BBObject * handle, wxWindow * parent, BBString * message, BBString * defaultDir, BBString * defaultFile,
+			BBString * wildcard, long style, int x, int y, int w, int h);
+	BBString * bmx_wxfiledialog_getdirectory(wxFileDialog * file);
+	BBString * bmx_wxfiledialog_getfilename(wxFileDialog * file);
+	BBArray * bmx_wxfiledialog_getfilenames(wxFileDialog * file);
+	int bmx_wxfiledialog_getfilterindex(wxFileDialog * file);
+	BBString * bmx_wxfiledialog_getmessage(wxFileDialog * file);
+	BBString * bmx_wxfiledialog_getpath(wxFileDialog * file);
+	BBArray * bmx_wxfiledialog_getpaths(wxFileDialog * file);
+	BBString * bmx_wxfiledialog_getwildcard(wxFileDialog * file);
+	void bmx_wxfiledialog_setdirectory(wxFileDialog * file, BBString * directory);
+	void bmx_wxfiledialog_setfilename(wxFileDialog * file, BBString * filename);
+	void bmx_wxfiledialog_setfilterindex(wxFileDialog * file, int index);
+	void bmx_wxfiledialog_setmessage(wxFileDialog * file, BBString * message);
+	void bmx_wxfiledialog_setpath(wxFileDialog * file, BBString * path);
+	void bmx_wxfiledialog_setwildcard(wxFileDialog * file, BBString * wildcard);
+	int bmx_wxfiledialog_showmodal(wxFileDialog * file);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxFileDialog : public wxFileDialog
+{
+public:
+	MaxFileDialog(BBObject * handle, wxWindow * parent, const wxString& message, const wxString& defaultDir,
+		const wxString& defaultFile, const wxString& wildcard, long style, int x, int y, int w, int h);
+	~ MaxFileDialog();
+};
 

@@ -32,7 +32,7 @@ extern "C" {
 
 	MaxFindReplaceDialog * bmx_wxfindreplacedialog_create(BBObject * handle, wxWindow * parent, wxFindReplaceData * data, BBString * title, int style);
 
-	wxFindReplaceData * bmx_wxfindreplacedata_create(BBObject * handle);
+	wxFindReplaceData * bmx_wxfindreplacedata_create(BBObject * handle, wxUint32 flags);
 	BBString * bmx_wxfindreplacedata_getfindstring(wxFindReplaceData * data);
 	BBString * bmx_wxfindreplacedata_getreplacestring(wxFindReplaceData * data);
 	int bmx_wxfindreplacedata_getflags(wxFindReplaceData * data);

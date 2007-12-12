@@ -46,7 +46,7 @@ Extern
 
 	Function bmx_wxfindreplacedialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, data:Byte Ptr, title:String, style:Int)
 
-	Function bmx_wxfindreplacedata_create:Byte Ptr(handle:Object)
+	Function bmx_wxfindreplacedata_create:Byte Ptr(handle:Object, flags:Int)
 	Function bmx_wxfindreplacedata_getfindstring:String(handle:Byte Ptr)
 	Function bmx_wxfindreplacedata_getreplacestring:String(handle:Byte Ptr)
 	Function bmx_wxfindreplacedata_getflags:Int(handle:Byte Ptr)

@@ -54,6 +54,63 @@ Rem
 bbdoc: This type represents the directory chooser dialog.
 End Rem
 Type wxDirDialog Extends wxDialog
+
+	Rem
+	bbdoc: Constructor.
+	about: Use wxDirDialog::ShowModal to show the dialog.
+	controls.
+	End Rem
+	Function CreateDirDialog:wxDirDialog(parent:wxWindow, message:String = "Choose a directory", defaultPath:String = "", ..
+			style:Int = wxDD_DEFAULT_STYLE, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1)
+		Return New wxDirDialog.Create(parent, message, defaultPath, style, x, y, w, h)
+	End Function
+	
+	Rem
+	bbdoc: Constructor.
+	about: Use wxDirDialog::ShowModal to show the dialog.
+	controls.
+	End Rem
+	Method Create:wxDirDialog(parent:wxWindow, message:String = "Choose a directory", defaultPath:String = "", ..
+			style:Int = wxDD_DEFAULT_STYLE, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1)
+		wxObjectPtr = bmx_wxdirdialog_create(Self, parent.wxObjectPtr, message, defaultPath, style, x, y, w, h)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Returns the default or user-selected path.
+	End Rem
+	Method GetPath:String()
+		Return bmx_wxdirdialog_getpath(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the message that will be displayed on the dialog.
+	End Rem
+	Method GetMessage:String()
+		Return bmx_wxdirdialog_getmessage(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the message that will be displayed on the dialog.
+	End Rem
+	Method SetMessage(message:String)
+		bmx_wxdirdialog_setmessage(wxObjectPtr, message)
+	End Method
+	
+	Rem
+	bbdoc: Sets the default path.
+	End Rem
+	Method SetPath(path:String)
+		bmx_wxdirdialog_setpath(wxObjectPtr, path)
+	End Method
+	
+	Rem
+	bbdoc: Shows the dialog, returning wxID_OK if the user pressed OK, and wxID_CANCEL otherwise.
+	End Rem
+	Method ShowModal:Int()
+		Return bmx_wxdirdialog_showmodal(wxObjectPtr)
+	End Method
+	
 End Type
 
 
@@ -69,9 +126,9 @@ Function wxDirSelector:String(message:String = wxDirSelectorPromptStr, defaultPa
 		x:Int = -1, y:Int = -1, parent:wxWindow = Null)
 		
 	If parent Then
-'		Return bmx_wxdirselector(message, defaultPath, style, x, y, parent.wxObjectPtr)
+		Return bmx_wxdirselector(message, defaultPath, style, x, y, parent.wxObjectPtr)
 	Else
-'		Return bmx_wxdirselector(message, defaultPath, style, x, y, Null)
+		Return bmx_wxdirselector(message, defaultPath, style, x, y, Null)
 	End If
 		
 End Function

@@ -44,4 +44,19 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxdirdialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, message:String, defaultPath:String, style:Int, x:Int, y:Int, w:Int, h:Int)
+	Function bmx_wxdirdialog_getpath:String(handle:Byte Ptr)
+	Function bmx_wxdirdialog_getmessage:String(handle:Byte Ptr)
+	Function bmx_wxdirdialog_setmessage(handle:Byte Ptr, message:String)
+	Function bmx_wxdirdialog_setpath(handle:Byte Ptr, path:String)
+	Function bmx_wxdirdialog_showmodal:Int(handle:Byte Ptr)
+
+	Function bmx_wxdirselector:String(message:String, defaultPath:String, style:Int, x:Int, y:Int, parent:Byte Ptr)
+
 End Extern
+
+Const wxDD_CHANGE_DIR:Int = $0100
+Const wxDD_DIR_MUST_EXIST:Int = $0200
+Const wxDD_DEFAULT_STYLE:Int = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER
+
+

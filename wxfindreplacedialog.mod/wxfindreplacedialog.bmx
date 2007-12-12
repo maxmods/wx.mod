@@ -58,6 +58,8 @@ use this dialog in a modal way; it is always, by design and implementation, mode
 End Rem
 Type wxFindReplaceDialog Extends wxDialog
 
+	Field _data:wxFindReplaceData
+
 	Function CreateFindReplaceDialog:wxFindReplaceDialog(parent:wxWindow, data:wxFindReplaceData, title:String = "", style:Int = 0)
 		Return New wxFindReplaceDialog.Create(parent, data, title, style)
 	End Function
@@ -67,7 +69,11 @@ Type wxFindReplaceDialog Extends wxDialog
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: Get the wxFindReplaceData object used by this dialog
+	End Rem
 	Method GetData:wxFindReplaceData()
+		Return _data
 	End Method
 
 	' soft linking
@@ -99,21 +105,40 @@ wxFindDialogEvent methods you can also directly query this object.
 <p>
 Note that all SetXXX() methods may only be called before showing the dialog and calling them has no effect later.
 </p>
+<p>
+Flags used by wxFindReplaceData::GetFlags() and wxFindDialogEvent::GetFlags()
+<ul>
+<li>wxFR_DOWN -  downward search/replace selected (otherwise - upwards)</li>
+<li>wxFR_WHOLEWORD - whole word search/replace selected</li>
+<li>wxFR_MATCHCASE - case sensitive search/replace selected (otherwise - case insensitive)</li>
+</ul>
+</p>
+<p>
+These flags can be specified in wxFindReplaceDialog constructor or Create():
+<ul>
+<li>wxFR_REPLACEDIALOG - replace dialog (otherwise find dialog)</li>
+<li>wxFR_NOUPDOWN - don't allow changing the search direction</li>
+<li>wxFR_NOMATCHCASE - don't allow case sensitive searching</li>
+<li>wxFR_NOWHOLEWORD - don't allow whole word searching</li>
+</ul>
+</p>
 End Rem
 Type wxFindReplaceData Extends wxObject
 
 	Rem
-	bbdoc: 
+	bbdoc: Constructor.
+	about: Initializes the flags to default value (0).
 	End Rem
-	Function CreateFindReplaceData:wxFindReplaceData()
-		Return New wxFindReplaceData.Create()
+	Function CreateFindReplaceData:wxFindReplaceData(flags:Int = 0)
+		Return New wxFindReplaceData.Create(flags)
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Constructor.
+	about: Initializes the flags to default value (0).
 	End Rem
-	Method Create:wxFindReplaceData()
-		wxObjectPtr = bmx_wxfindreplacedata_create(Self)
+	Method Create:wxFindReplaceData(flags:Int = 0)
+		wxObjectPtr = bmx_wxfindreplacedata_create(Self, flags)
 		Return Self
 	End Method
 
@@ -207,7 +232,7 @@ Type wxFindDialogEvent Extends wxCommandEvent
 	End Method
 	
 	Rem
-	bbdoc: Return the  dialog which generated this event.
+	bbdoc: Return the dialog which generated this event.
 	End Rem
 	Method GetDialog:wxFindReplaceDialog()
 		Return wxFindReplaceDialog._find(bmx_wxfinddialogevent_getdialog(wxEventPtr))
