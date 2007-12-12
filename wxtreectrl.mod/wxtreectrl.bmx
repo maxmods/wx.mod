@@ -481,8 +481,17 @@ Type wxTreeCtrl Extends wxControl
 	about: This method can be called only if the control has the wxTR_MULTIPLE style.
 	End Rem
 	Method GetSelections:wxTreeItemId[]()
+		Return bmx_wxtreectrl_getselections(wxObjectPtr)
 	End Method
 
+	Function _newSelections:wxTreeItemId[](size:Int)
+		Return New wxTreeItemId[size]
+	End Function
+	
+	Function _setSelection(selections:wxTreeItemId[], index:Int, value:Byte Ptr)
+		selections[index] = wxTreeItemId._create(value)
+	End Function
+	
 	Rem
 	bbdoc: Returns the state image list (from which application-defined state images are taken).
 	End Rem
@@ -775,6 +784,10 @@ Type wxTreeCtrl Extends wxControl
 	End Method
 	
 End Type
+
+Extern
+	Function bmx_wxtreectrl_getselections:wxTreeItemId[](handle:Byte Ptr)
+End Extern
 
 Rem
 bbdoc: An opaque reference to a tree item.

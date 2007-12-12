@@ -463,7 +463,21 @@ void bmx_wxtreeitemid_delete(MaxTreeItem * item) {
 	delete item;
 }
 
+BBArray * bmx_wxtreectrl_getselections(wxTreeCtrl * tree) {
+	wxArrayTreeItemIds selection;
+	int count = tree->GetSelections(selection);
+	
+	BBArray * array = _wx_wxtreectrl_wxTreeCtrl__newSelections(count);
+	
+	if (count > 0) {
+		for (int i = 0; i < count; i++) {
+			MaxTreeItem * item = new MaxTreeItem(selection.Item(i));
+			_wx_wxtreectrl_wxTreeCtrl__setSelection(array, i, item);
+		}
+	}
 
+	return array;
+}
 
 int bmx_wxtreectrl_geteventtype(int type) {
 	switch(type) {

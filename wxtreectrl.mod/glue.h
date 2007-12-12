@@ -33,6 +33,9 @@ extern "C" {
 
 	int _wx_wxtreectrl_wxTreeCtrl__OnCompareItems(BBObject * maxHandle, MaxTreeItem * item1, MaxTreeItem * item2);
 
+	BBArray * _wx_wxtreectrl_wxTreeCtrl__newSelections(int size);
+	void _wx_wxtreectrl_wxTreeCtrl__setSelection(BBArray * array, int index, MaxTreeItem * item);
+
 	MaxTreeCtrl * bmx_wxtreectrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
 	MaxTreeItem * bmx_wxtreectrl_addroot(wxTreeCtrl * tree, BBString * text, int image, int selImage, BBObject * data);
@@ -112,6 +115,8 @@ extern "C" {
 	MaxTreeItem * bmx_wxtreectrl_insertitem(wxTreeCtrl * tree, MaxTreeItem * parent, MaxTreeItem * previous, BBString * text, int image, int selImage, BBObject * data);
 	MaxTreeItem * bmx_wxtreectrl_insertitembefore(wxTreeCtrl * tree, MaxTreeItem * parent, int before, BBString * text, int image, int selImage, BBObject * data);
 	MaxTreeItem * bmx_wxtreectrl_prependitem(wxTreeCtrl * tree, MaxTreeItem * parent, BBString * text, int image, int selImage, BBObject * data);
+
+	BBArray * bmx_wxtreectrl_getselections(wxTreeCtrl * tree);
 
 	wxTreeItemIdValue * bmx_wxtreeitemidvalue_create();
 	void bmx_wxtreeitemidvalue_delete(wxTreeItemIdValue * idvalue);
