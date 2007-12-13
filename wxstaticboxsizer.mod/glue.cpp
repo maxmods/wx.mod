@@ -20,29 +20,38 @@
   THE SOFTWARE.
 */ 
 
-#include "wxglue.h"
-#include "wx/pickerbase.h"
+#include "glue.h"
 
-//class MaxNotebook;
+// ---------------------------------------------------------------------------------------
 
-extern "C" {
-
-#include <blitz.h>
-
-	void bmx_wxpickerbase_setinternalmargin(wxPickerBase * picker, int margin);
-	int bmx_wxpickerbase_getinternalmargin(wxPickerBase * picker);
-	void bmx_wxpickerbase_settextctrlproportion(wxPickerBase * picker, int prop);
-	void bmx_wxpickerbase_setpickerctrlproportion(wxPickerBase * picker, int prop);
-	int bmx_wxpickerbase_gettextctrlproportion(wxPickerBase * picker);
-	int bmx_wxpickerbase_getpickerctrlproportion(wxPickerBase * picker);
-	bool bmx_wxpickerbase_hastextctrl(wxPickerBase * picker);
-	wxTextCtrl * bmx_wxpickerbase_gettextctrl(wxPickerBase * picker);
-	bool bmx_wxpickerbase_istextctrlgrowable(wxPickerBase * picker);
-	void bmx_wxpickerbase_setpickerctrlgrowable(wxPickerBase * picker, bool grow);
-	void bmx_wxpickerbase_settextctrlgrowable(wxPickerBase * picker, bool grow);
-	bool bmx_wxpickerbase_ispickerctrlgrowable(wxPickerBase * picker);
-
+MaxStaticBoxSizer::MaxStaticBoxSizer(BBObject * handle, int orient, wxWindow * parent, const wxString& label)
+	: maxHandle(handle), wxStaticBoxSizer(orient, parent, label)
+{
+	wxbind(this, handle);
 }
 
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+MaxStaticBoxSizer::MaxStaticBoxSizer(BBObject * handle, wxStaticBox * box, int orient)
+	: maxHandle(handle), wxStaticBoxSizer(box, orient)
+{
+	wxbind(this, handle);
+}
+
+MaxStaticBoxSizer::~MaxStaticBoxSizer() {
+	wxunbind(this);
+}
+
+
+// *********************************************
+
+MaxStaticBoxSizer * bmx_wxstaticboxsizer_createsizer(BBObject * handle, int orient, wxWindow * parent, BBString * label) {
+	return new MaxStaticBoxSizer(handle, orient, parent, wxStringFromBBString(label));
+}
+
+MaxStaticBoxSizer * bmx_wxstaticboxsizer_createsizerwithbox(BBObject * handle, wxStaticBox * box, int orient) {
+	return new MaxStaticBoxSizer(handle, box, orient);
+}
+
+wxStaticBox * bmx_wxstaticboxsizer_getstaticbox(wxStaticBoxSizer * sizer) {
+	return sizer->GetStaticBox();
+}
 

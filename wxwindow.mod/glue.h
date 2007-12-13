@@ -215,6 +215,13 @@ extern "C" {
 	void bmx_wxsizer_fitsize(wxSizer * sizer, wxWindow * window, int * w, int * h);
 	int bmx_wxboxsizer_getorientation(wxBoxSizer * sizer);
 
+	int bmx_wxflexgridsizer_getflexibledirection(wxFlexGridSizer * sizer);
+	int bmx_wxflexgridsizer_getnonflexiblegrowmode(wxFlexGridSizer * sizer);
+	void bmx_wxflexgridsizer_removegrowablecol(wxFlexGridSizer * sizer, int idx);
+	void bmx_wxflexgridsizer_removegrowablerow(wxFlexGridSizer * sizer, int idx);
+	void bmx_wxflexgridsizer_setflexibledirection(wxFlexGridSizer * sizer, int direction);
+	void bmx_wxflexgridsizer_setnonflexiblegrowmode(wxFlexGridSizer * sizer, wxFlexSizerGrowMode mode);
+
 	void bmx_wxtooltip_enable(bool flag);
 	void bmx_wxtooltip_setdelay(long msecs);
 

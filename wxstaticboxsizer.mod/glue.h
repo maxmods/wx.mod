@@ -21,28 +21,30 @@
 */ 
 
 #include "wxglue.h"
-#include "wx/pickerbase.h"
+#include "wx/sizer.h"
 
-//class MaxNotebook;
+class MaxStaticBoxSizer;
 
 extern "C" {
 
 #include <blitz.h>
 
-	void bmx_wxpickerbase_setinternalmargin(wxPickerBase * picker, int margin);
-	int bmx_wxpickerbase_getinternalmargin(wxPickerBase * picker);
-	void bmx_wxpickerbase_settextctrlproportion(wxPickerBase * picker, int prop);
-	void bmx_wxpickerbase_setpickerctrlproportion(wxPickerBase * picker, int prop);
-	int bmx_wxpickerbase_gettextctrlproportion(wxPickerBase * picker);
-	int bmx_wxpickerbase_getpickerctrlproportion(wxPickerBase * picker);
-	bool bmx_wxpickerbase_hastextctrl(wxPickerBase * picker);
-	wxTextCtrl * bmx_wxpickerbase_gettextctrl(wxPickerBase * picker);
-	bool bmx_wxpickerbase_istextctrlgrowable(wxPickerBase * picker);
-	void bmx_wxpickerbase_setpickerctrlgrowable(wxPickerBase * picker, bool grow);
-	void bmx_wxpickerbase_settextctrlgrowable(wxPickerBase * picker, bool grow);
-	bool bmx_wxpickerbase_ispickerctrlgrowable(wxPickerBase * picker);
+	MaxStaticBoxSizer * bmx_wxstaticboxsizer_createsizer(BBObject * handle, int orient, wxWindow * parent, BBString * label);
+	MaxStaticBoxSizer * bmx_wxstaticboxsizer_createsizerwithbox(BBObject * handle, wxStaticBox * box, int orient);
+	wxStaticBox * bmx_wxstaticboxsizer_getstaticbox(wxStaticBoxSizer * sizer);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxStaticBoxSizer : public wxStaticBoxSizer
+{
+public:
+	MaxStaticBoxSizer(BBObject * handle, int orient, wxWindow * parent, const wxString& label);
+	MaxStaticBoxSizer(BBObject * handle, wxStaticBox * box, int orient);
+	~ MaxStaticBoxSizer();
+
+private:
+	BBObject * maxHandle;
+
+};

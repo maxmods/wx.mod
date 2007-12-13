@@ -28,4 +28,52 @@
 
 // *********************************************
 
+void bmx_wxpickerbase_setinternalmargin(wxPickerBase * picker, int margin) {
+    picker->SetInternalMargin(margin);
+}
+
+int bmx_wxpickerbase_getinternalmargin(wxPickerBase * picker) {
+    return picker->GetInternalMargin();
+}
+
+void bmx_wxpickerbase_settextctrlproportion(wxPickerBase * picker, int prop) {
+    picker->SetTextCtrlProportion(prop);
+}
+
+void bmx_wxpickerbase_setpickerctrlproportion(wxPickerBase * picker, int prop) {
+    picker->SetPickerCtrlProportion(prop);
+}
+
+int bmx_wxpickerbase_gettextctrlproportion(wxPickerBase * picker) {
+    return picker->GetTextCtrlProportion();
+}
+
+int bmx_wxpickerbase_getpickerctrlproportion(wxPickerBase * picker) {
+    return picker->GetPickerCtrlProportion();
+}
+
+bool bmx_wxpickerbase_hastextctrl(wxPickerBase * picker) {
+    return picker->HasTextCtrl();
+}
+
+wxTextCtrl * bmx_wxpickerbase_gettextctrl(wxPickerBase * picker) {
+    return picker->GetTextCtrl();
+}
+
+bool bmx_wxpickerbase_istextctrlgrowable(wxPickerBase * picker) {
+    return picker->IsTextCtrlGrowable();
+}
+
+void bmx_wxpickerbase_setpickerctrlgrowable(wxPickerBase * picker, bool grow) {
+    picker->SetPickerCtrlGrowable(grow);
+}
+
+void bmx_wxpickerbase_settextctrlgrowable(wxPickerBase * picker, bool grow) {
+    picker->SetTextCtrlGrowable(grow);
+}
+
+bool bmx_wxpickerbase_ispickerctrlgrowable(wxPickerBase * picker) {
+    return picker->IsPickerCtrlGrowable();
+}
+
 

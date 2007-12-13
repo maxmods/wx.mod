@@ -226,7 +226,14 @@ Extern
 	Function bmx_wxsizer_fit(handle:Byte Ptr, window:Byte Ptr)
 	Function bmx_wxsizer_fitsize(handle:Byte Ptr, window:Byte Ptr, w:Int Ptr, h:Int Ptr)
 	Function bmx_wxboxsizer_getorientation:Int(handle:Byte Ptr)
-	
+
+	Function bmx_wxflexgridsizer_getflexibledirection:Int(handle:Byte Ptr)
+	Function bmx_wxflexgridsizer_getnonflexiblegrowmode:Int(handle:Byte Ptr)
+	Function bmx_wxflexgridsizer_removegrowablecol(handle:Byte Ptr, idx:Int)
+	Function bmx_wxflexgridsizer_removegrowablerow(handle:Byte Ptr, idx:Int)
+	Function bmx_wxflexgridsizer_setflexibledirection(handle:Byte Ptr, direction:Int)
+	Function bmx_wxflexgridsizer_setnonflexiblegrowmode(handle:Byte Ptr, mode:Int)
+
 	Function bmx_wxtooltip_enable(flag:Int)
 	Function bmx_wxtooltip_setdelay(msecs:Int)
 

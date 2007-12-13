@@ -20,10 +20,7 @@
 ' 
 SuperStrict
 
-Rem
-bbdoc: wxStaticBox
-End Rem
-Module wx.wxStaticBox
+Module wx.wxStaticBoxSizer
 
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
@@ -51,57 +48,34 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 Import "common.bmx"
 
 Rem
-bbdoc: A static box is a rectangle drawn around other panel items to denote a logical grouping of items.
-about: Please note that a static box should <b>not</b> be used as the parent for the controls it contains,
-instead they should be siblings of each other. Although using a static box as a parent might work
-in some versions of wxWidgets, it results in a crash under, for example, wxGTK.
-<p>
-Also, please note that because of this, the order in which you create new controls is important.
-Create your wxStaticBox control <b>before</b> any siblings that are to appear inside the wxStaticBox
-in order to preserve the correct Z-Order of controls.
-</p>
+bbdoc: wxStaticBoxSizer is a sizer derived from wxBoxSizer but adds a static box around the sizer.
+about: This static box may be either created independently or the sizer may create it itself as a
+convenience. In any case, the sizer owns the wxStaticBox control and will delete it if it is deleted.
 End Rem
-Type wxStaticBox Extends wxControl
+Type wxStaticBoxSizer Extends wxBoxSizer
 
-	' soft linking
-	Function _create:wxStaticBox(wxObjectPtr:Byte Ptr)
-		If wxObjectPtr Then
-			Local this:wxStaticBox = New wxStaticBox
-			this.wxObjectPtr = wxObjectPtr
-			Return this
-		End If
+	Function CreateStaticBoxSizer:wxStaticBoxSizer(orient:Int, parent:wxWindow, label:String = "")
+		Return New wxStaticBoxSizer.CreateSizer(orient, parent, label)
 	End Function
 
-	Function _find:wxStaticBox(wxObjectPtr:Byte Ptr)
-		If wxObjectPtr Then
-			Local window:wxStaticBox = wxStaticBox(wxfind(wxObjectPtr))
-			If Not window Then
-				Return wxStaticBox._create(wxObjectPtr)
-			End If
-			Return window
-		End If
-	End Function
-
-	Rem
-	bbdoc: Constructor, creating and showing a static box.
-	End Rem
-	Function CreateStaticBox:wxStaticBox(parent:wxWindow, id:Int, label:String = Null, x:Int = -1, y:Int = -1, ..
-			w:Int = -1, h:Int = -1, style:Int = 0)
-			
-		Return New wxStaticBox.Create(parent, id, label, x, y, w, h, style)
-
+	Function CreateStaticBoxSizerWithBox:wxStaticBoxSizer(box:wxStaticBox, orient:Int)
+		Return New wxStaticBoxSizer.CreateSizerWithBox(box, orient)
 	End Function
 	
-	Rem
-	bbdoc: Creation method, for two-step construction. For details see CreateStaticBox.
-	End Rem
-	Method Create:wxStaticBox(parent:wxWindow, id:Int, label:String = Null, x:Int = -1, y:Int = -1, ..
-			w:Int = -1, h:Int = -1, style:Int = 0)
-			
-		wxObjectPtr = bmx_wxstaticbox_create(Self, parent.wxObjectPtr, id, label, x, y, w, h, style)
-		
+	Method CreateSizer:wxStaticBoxSizer(orient:Int, parent:wxWindow, label:String = "")
+		wxSizerPtr = bmx_wxstaticboxsizer_createsizer(Self, orient, parent.wxObjectPtr, label)
 		Return Self
 	End Method
 
+	Method CreateSizerWithBox:wxStaticBoxSizer(box:wxStaticBox, orient:Int)
+		wxSizerPtr = bmx_wxstaticboxsizer_createsizerwithbox(Self, box.wxObjectPtr, orient)
+		Return Self
+	End Method
+	
+	Method GetStaticBox:wxStaticBox()
+		Return wxStaticBox._find(bmx_wxstaticboxsizer_getstaticbox(wxSizerPtr))
+	End Method
+	
 End Type
+
 

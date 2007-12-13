@@ -2001,15 +2001,6 @@ Type wxBoxSizer Extends wxSizer
 End Type
 
 Rem
-bbdoc: wxStaticBoxSizer is a sizer derived from wxBoxSizer but adds a static box around the sizer.
-about: This static box may be either created independently or the sizer may create it itself as a
-convenience. In any case, the sizer owns the wxStaticBox control and will delete it if it is deleted.
-End Rem
-Type wxStatixBoxSizer Extends wxBoxSizer
-
-End Type
-
-Rem
 bbdoc: A grid sizer is a sizer which lays out its children in a two-dimensional table with all table fields having the same size, i.e. the width of each field is the width of the widest child, the height of each field is the height of the tallest child.
 End Rem
 Type wxGridSizer Extends wxSizer
@@ -2129,39 +2120,56 @@ Type wxFlexGridSizer Extends wxGridSizer
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns a wxOrientation value that specifies whether the sizer flexibly resizes its columns, rows, or both (default).
 	End Rem
 	Method GetFlexibleDirection:Int()
+		Return bmx_wxflexgridsizer_getflexibledirection(wxSizerPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the value that specifies how the sizer grows in the "non-flexible" direction if there is one.
 	End Rem
 	Method GetNonFlexibleGrowMode:Int()
+		Return bmx_wxflexgridsizer_getnonflexiblegrowmode(wxSizerPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Specifies that column idx is no longer growable.
 	End Rem
 	Method RemoveGrowableCol(idx:Int)
+		bmx_wxflexgridsizer_removegrowablecol(wxSizerPtr, idx)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Specifies that row idx is no longer growable.
 	End Rem
 	Method RemoveGrowableRow(idx:Int)
+		bmx_wxflexgridsizer_removegrowablerow(wxSizerPtr, idx)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Specifies whether the sizer should flexibly resize its columns, rows, or both.
+	about: Argument direction can be wxVERTICAL, wxHORIZONTAL or wxBOTH (which is the default
+	value). Any other value is ignored. See GetFlexibleDirection() for the explanation of these
+	values.
+	<p>
+	Note that this method does not trigger relayout.
+	</p>
 	End Rem
 	Method SetFlexibleDirection(direction:Int)
+		bmx_wxflexgridsizer_setflexibledirection(wxSizerPtr, direction)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Specifies how the sizer should grow in the non-flexible direction if there is one (so SetFlexibleDirection() must have been called previously).
+	about: Argument mode can be one of those documented in GetNonFlexibleGrowMode, please see there
+	for their explanation.
+	<p>
+	Note that this method does not trigger relayout.
+	</p>
 	End Rem
 	Method SetNonFlexibleGrowMode(mode:Int)
+		bmx_wxflexgridsizer_setnonflexiblegrowmode(wxSizerPtr, mode)
 	End Method
 		
 End Type

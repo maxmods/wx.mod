@@ -59,40 +59,99 @@ isn't a text control associated (see wxPB_USE_TEXTCTRL style) and to 0 otherwise
 End Rem
 Type wxPickerBase Extends wxControl Abstract
 
+	Rem
+	bbdoc: Sets the margin (in pixel) between the picker and the text control.
+	about: This method can be used only when HasTextCtrl returns true.
+	End Rem
 	Method SetInternalMargin(margin:Int)
+		bmx_wxpickerbase_setinternalmargin(wxObjectPtr, margin)
 	End Method
 	
+	Rem
+	bbdoc: Returns the margin (in pixel) between the picker and the text control.
+	about: This method can be used only when HasTextCtrl returns true.
+	End Rem
 	Method GetInternalMargin:Int()
+		Return bmx_wxpickerbase_getinternalmargin(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the proportion value of the text control.
+	about: This method can be used only when HasTextCtrl returns true.
+	End Rem
 	Method SetTextCtrlProportion(prop:Int)
+		bmx_wxpickerbase_settextctrlproportion(wxObjectPtr, prop)
 	End Method
 	
+	Rem
+	bbdoc: Sets the proportion value of the picker.
+	End Rem
 	Method SetPickerCtrlProportion(prop:Int)
+		bmx_wxpickerbase_setpickerctrlproportion(wxObjectPtr, prop)
 	End Method
 	
+	Rem
+	bbdoc: Returns the proportion value of the text control.
+	about: This method can be used only when HasTextCtrl returns true.
+	End Rem
 	Method GetTextCtrlProportion:Int()
+		Return bmx_wxpickerbase_gettextctrlproportion(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the proportion value of the picker.
+	End Rem
 	Method GetPickerCtrlProportion:Int()
+		Return bmx_wxpickerbase_getpickerctrlproportion(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if this window has a valid text control (i.e. if the wxPB_USE_TEXTCTRL style was given when creating this control).
+	End Rem
 	Method HasTextCtrl:Int()
+		Return bmx_wxpickerbase_hastextctrl(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns a pointer to the text control handled by this window or Null if the wxPB_USE_TEXTCTRL style was not specified when this control was created.
+	about: Very important: the contents of the text control could be containing an invalid
+	representation of the entity which can be chosen through the picker (e.g. the user entered an
+	invalid colour syntax because of a typo). Thus you should never parse the content of the
+	textctrl to get the user's input; rather use the derived-class getter (e.g.
+	wxColourPickerCtrl::GetColour, wxFilePickerCtrl::GetPath, etc).
+	End Rem
 	Method GetTextCtrl:wxTextCtrl()
+		Return wxTextCtrl._create(bmx_wxpickerbase_gettextctrl(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns true if the text control is growable.
+	about: This method can be used only when HasTextCtrl returns true.
+	End Rem
 	Method IsTextCtrlGrowable:Int()
+		Return bmx_wxpickerbase_istextctrlgrowable(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the picker control as growable when grow is true.
+	End Rem
 	Method SetPickerCtrlGrowable(grow:Int = True)
+		bmx_wxpickerbase_setpickerctrlgrowable(wxObjectPtr, grow)
 	End Method
 	
+	Rem
+	bbdoc: Sets the text control as growable when grow is true.
+	about: This method can be used only when HasTextCtrl returns true.
+	End Rem
 	Method SetTextCtrlGrowable(grow:Int = True)
+		bmx_wxpickerbase_settextctrlgrowable(wxObjectPtr, grow)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if the picker control is growable.
+	End Rem
 	Method IsPickerCtrlGrowable:Int()
+		Return bmx_wxpickerbase_ispickerctrlgrowable(wxObjectPtr)
 	End Method
 	
 End Type

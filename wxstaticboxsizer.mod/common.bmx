@@ -21,8 +21,8 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxControl
-Import wx.wxTextCtrl
+Import wx.wxWindow
+Import wx.wxStaticBox
 Import BRL.Blitz
 
 
@@ -45,21 +45,8 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxpickerbase_setinternalmargin(handle:Byte Ptr, margin:Int)
-	Function bmx_wxpickerbase_getinternalmargin:Int(handle:Byte Ptr)
-	Function bmx_wxpickerbase_settextctrlproportion(handle:Byte Ptr, prop:Int)
-	Function bmx_wxpickerbase_setpickerctrlproportion(handle:Byte Ptr, prop:Int)
-	Function bmx_wxpickerbase_gettextctrlproportion:Int(handle:Byte Ptr)
-	Function bmx_wxpickerbase_getpickerctrlproportion:Int(handle:Byte Ptr)
-	Function bmx_wxpickerbase_hastextctrl:Int(handle:Byte Ptr)
-	Function bmx_wxpickerbase_gettextctrl:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxpickerbase_istextctrlgrowable:Int(handle:Byte Ptr)
-	Function bmx_wxpickerbase_setpickerctrlgrowable(handle:Byte Ptr, grow:Int)
-	Function bmx_wxpickerbase_settextctrlgrowable(handle:Byte Ptr, grow:Int)
-	Function bmx_wxpickerbase_ispickerctrlgrowable:Int(handle:Byte Ptr)
-
+	Function bmx_wxstaticboxsizer_createsizer:Byte Ptr(handle:Object, orient:Int, parent:Byte Ptr, label:String)
+	Function bmx_wxstaticboxsizer_createsizerwithbox:Byte Ptr(handle:Object, box:Byte Ptr, orient:Int)
+	Function bmx_wxstaticboxsizer_getstaticbox:Byte Ptr(handle:Byte Ptr)
+	
 End Extern
-
-
-Const wxPB_USE_TEXTCTRL:Int = $0002
-
