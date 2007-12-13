@@ -309,6 +309,13 @@ Type wxBitmap Extends wxGDIObject
 		bmx_wxbitmap_setwidth(wxObjectPtr, width)
 	End Method
 	
+	Rem
+	bbdoc: Applies @colour to each pixel
+	End Rem
+	Method Colourize(colour:wxColour)
+		bmx_wxbitmap_colourize(wxObjectPtr, colour.wxObjectPtr)
+	End Method
+	
 	Method Delete()
 		If wxObjectPtr Then
 			bmx_wxbitmap_delete(wxObjectPtr)

@@ -738,6 +738,10 @@ MaxColour * bmx_wxcolour_null() {
 	return new MaxColour(c);
 }
 
+bool bmx_wxcolour_equals(MaxColour * col, MaxColour * other) {
+	return col->Colour() == other->Colour();
+}
+
 // **************************
 
 MaxColour * bmx_wxstockgdi_colour_black() {

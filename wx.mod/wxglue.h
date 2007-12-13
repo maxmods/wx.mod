@@ -161,7 +161,8 @@ extern "C" {
 	MaxColour * bmx_wxcolour_createnamedcolour(BBString * name);
 	void bmx_wxcolour_set(MaxColour * col, int r, int g, int b, int a);
 	bool bmx_wxcolour_setasnamedcolour(MaxColour * col, BBString * name);
-	
+	bool bmx_wxcolour_equals(MaxColour * col, MaxColour * other);
+
 	MaxColour * bmx_wxstockgdi_colour_black();
 	MaxColour * bmx_wxstockgdi_colour_blue();
 	MaxColour * bmx_wxstockgdi_colour_cyan();

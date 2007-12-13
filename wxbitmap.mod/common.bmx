@@ -77,4 +77,6 @@ Extern
 
 	Function bmx_wxbitmap_createfrompixmap:Byte Ptr(pixels:Byte Ptr, width:Int, height:Int, pitch:Int, bytesPerPixel:Int, bitsPerPixel:Int)
 
+	Function bmx_wxbitmap_colourize(bitmap:Byte Ptr, colour:Byte ptr)
+
 End Extern

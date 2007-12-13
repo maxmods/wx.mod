@@ -64,6 +64,8 @@ extern "C" {
 	
 	MaxBitmap * bmx_wxbitmap_createfrompixmap(void * pixels, int width, int height, int pitch, int bytesPerPixel, int bitsPerPixel);
 
+	void bmx_wxbitmap_colourize(MaxBitmap * bitmap, MaxColour * colour);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -73,6 +75,7 @@ class MaxBitmap
 public:
 	MaxBitmap(const wxBitmap & b = wxNullBitmap);
 	wxBitmap & Bitmap();
+	void SetBitmap(const wxBitmap & b);
 
 private:
 	wxBitmap bitmap;

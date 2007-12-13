@@ -134,6 +134,10 @@ Type wxColour Extends wxObject
 		Return bmx_wxcolour_setasnamedcolour(wxObjectPtr, name)
 	End Method
 	
+	Method Equals:Int(colour:wxColour)
+		Return bmx_wxcolour_equals(wxObjectPtr, colour.wxObjectPtr)
+	End Method
+	
 	Method Delete()
 		If wxObjectPtr Then
 			bmx_wxcolour_delete(wxObjectPtr)

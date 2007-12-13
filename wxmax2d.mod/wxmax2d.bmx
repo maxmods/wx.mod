@@ -58,7 +58,12 @@ Type TwxImageFrame Extends TImageFrame
 
 	Field name:Int,seq:Int
 	Field bitmap:wxBitmap
+	
+	Field displayBitmap:wxBitmap
+	
 	Field driver:TwxMax2DDriver
+	
+	Field lastColour:wxColour
 	
 	Method New()
 		seq=GraphicsSeq
@@ -75,6 +80,13 @@ Type TwxImageFrame Extends TImageFrame
 	
 	Method Draw( x0#,y0#,x1#,y1#,tx#,ty# )
 		Assert seq=GraphicsSeq Else "Image does not exist"
+
+		If Not lastColour Or Not lastColour.Equals(driver.pen.GetColour()) Then
+			lastColour = driver.pen.GetColour()
+			
+			displayBitmap = bitmap.GetSubBitmap(0, 0, bitmap.GetWidth(), bitmap.GetHeight())
+			displayBitmap.Colourize(lastColour)
+		End If
 		'EnableTex name
 		'glBegin GL_QUADS
 		'glTexCoord2f u0,v0
@@ -86,7 +98,7 @@ Type TwxImageFrame Extends TImageFrame
 		'glTexCoord2f u0,v1
 		'glVertex2f x0*ix+y1*iy+tx,x0*jx+y1*jy+ty
 		'glEnd
-		driver.DrawImage(x0, y0, x1, y1, tx, ty, bitmap)
+		driver.DrawImage(x0, y0, x1, y1, tx, ty, displayBitmap)
 	End Method
 	
 	Function CreateFromPixmap:TwxImageFrame( src:TPixmap, flags:Int )
@@ -150,8 +162,8 @@ Type TwxMax2DDriver Extends TMax2DDriver
 	Field clsColor:wxBrush = wxWHITE_BRUSH()
 	Field brush:wxBrush = wxBLACK_BRUSH()
 	Field pen:wxPen = wxBLACK_PEN()
-	Field textForeground:wxColour = wxBLACK()
-	Field textBackground:wxColour = wxWHITE()
+	'Field textForeground:wxColour = wxBLACK()
+	'Field textBackground:wxColour = wxWHITE()
 	Field dc:wxDC = Null
 
 	'graphics driver overrides

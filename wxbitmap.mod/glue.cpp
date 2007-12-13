@@ -38,6 +38,9 @@ wxBitmap & MaxBitmap::Bitmap() {
 	return bitmap;
 }
 
+void MaxBitmap::SetBitmap(const wxBitmap & b) {
+	bitmap = wxBitmap(b);
+}
 
 // *********************************************
 
@@ -149,7 +152,7 @@ MaxBitmap * bmx_wxbitmap_createfrompixmap(void * pixels, int width, int height, 
 
 	wxImage image(width, height);
 	image.InitAlpha();
-	
+
 	unsigned char * data = image.GetData();
 
 	for (int row = 0; row < height; row++) {
@@ -161,10 +164,37 @@ MaxBitmap * bmx_wxbitmap_createfrompixmap(void * pixels, int width, int height, 
 			data[dpos] = ((unsigned char*)pixels)[ppos];
 			data[dpos+1] = ((unsigned char*)pixels)[ppos+1];
 			data[dpos+2] = ((unsigned char*)pixels)[ppos+2];
+			
+			image.SetAlpha(col, row, ((unsigned char*)pixels)[ppos+3]);
 		}
 	}
 
 	return new MaxBitmap(wxBitmap(image));
 }
 
+void bmx_wxbitmap_colourize(MaxBitmap * bitmap, MaxColour * colour) {
+
+	wxImage image = bitmap->Bitmap().ConvertToImage();
+	int width = image.GetWidth();
+	int height = image.GetHeight();
+	unsigned char r = colour->Colour().Red();
+	unsigned char g = colour->Colour().Green();
+	unsigned char b = colour->Colour().Blue();
+	
+	unsigned char* data = image.GetData();
+	
+	for (int row = 0; row < height; row++) {
+		int drow = row * (3 * width);
+		for (int col = 0; col < width; col++) {
+			int dpos = drow + col * 3;
+			
+			data[dpos] &= r;
+			data[dpos+1] &= g;
+			data[dpos+2] &= b;
+		}
+	}
+	
+	bitmap->SetBitmap(wxBitmap(image));
+
+}
 
