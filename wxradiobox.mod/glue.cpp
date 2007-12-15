@@ -100,7 +100,7 @@ bool bmx_wxradiobox_isitemshown(wxRadioBox * radiobox, unsigned int item) {
 	return radiobox->IsItemShown(item);
 }
 
-void bmx_wxradiobox_setitemhelptext(wxRadioBox * radiobox, int item, BBString * helpText) {
+void bmx_wxradiobox_setitemhelptext(wxRadioBox * radiobox, unsigned int item, BBString * helpText) {
 	radiobox->SetItemHelpText(item, wxStringFromBBString(helpText));
 }
 
