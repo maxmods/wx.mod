@@ -2538,6 +2538,18 @@ behaviour.
 End Rem
 Type wxToolTip Extends wxObject
 
+	Function _create:wxToolTip(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxToolTip = New wxToolTip
+		
+			this.wxObjectPtr = wxObjectPtr
+		
+			Return this
+		End If
+		
+		Return Null
+	End Function
+
 	Rem
 	bbdoc: Enable or disable tooltips globally.
 	about: May not be supported on all platforms (eg. wxCocoa).
@@ -2554,6 +2566,26 @@ Type wxToolTip Extends wxObject
 		bmx_wxtooltip_setdelay(msecs)
 	End Function
 	
+	Rem
+	bbdoc: Set the tooltip text.
+	End Rem
+	Method SetTip(tip:String)
+		bmx_wxtooltip_settip(wxObjectPtr, tip)
+	End Method
+	
+	Rem
+	bbdoc: Get the tooltip text.
+	End Rem
+	Method GetTip:String()
+		Return bmx_wxtooltip_gettip(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Get the associated window.
+	End Rem
+	Method GetWindow:wxWindow()
+		Return wxWindow._find(bmx_wxtooltip_getwindow(wxObjectPtr))
+	End Method
 	
 End Type
 

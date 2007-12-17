@@ -94,6 +94,8 @@ Type wxButton Extends wxControl
 			
 		wxObjectPtr = bmx_wxbutton_create(Self, parent.wxObjectPtr, id, String(label), x, y, w, h, style)
 		
+		OnInit()
+		
 		Return Self
 	End Method
 	
@@ -139,7 +141,7 @@ Type TButtonEventFactory Extends TEventFactory
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		If evt.eventType = wxEVT_COMMAND_BUTTON_CLICKED Then
-			Return wxCommandEvent.create(wxEventPtr, evt)
+			Return wxCommandEvent.Create(wxEventPtr, evt)
 		End If
 		
 		Return Null

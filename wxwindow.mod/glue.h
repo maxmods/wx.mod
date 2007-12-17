@@ -224,6 +224,9 @@ extern "C" {
 
 	void bmx_wxtooltip_enable(bool flag);
 	void bmx_wxtooltip_setdelay(long msecs);
+	void bmx_wxtooltip_settip(wxToolTip * tip, BBString * tip);
+	BBString * bmx_wxtooltip_gettip(wxToolTip * tip);
+	wxWindow * bmx_wxtooltip_getwindow(wxToolTip * tip);
 
 	bool bmx_wxupdateeventui_canupdate(wxWindow * window);
 	bool bmx_wxupdateeventui_getchecked(wxUpdateUIEvent & event);

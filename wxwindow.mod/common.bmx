@@ -236,6 +236,9 @@ Extern
 
 	Function bmx_wxtooltip_enable(flag:Int)
 	Function bmx_wxtooltip_setdelay(msecs:Int)
+	Function bmx_wxtooltip_settip(handle:Byte Ptr, tip:String)
+	Function bmx_wxtooltip_gettip:String(handle:Byte Ptr)
+	Function bmx_wxtooltip_getwindow:Byte Ptr(handle:Byte Ptr)
 
 	Function bmx_wxupdateeventui_canupdate:Int(window:Byte Ptr)
 	Function bmx_wxupdateeventui_getchecked:Int(handle:Byte Ptr)

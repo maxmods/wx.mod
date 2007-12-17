@@ -48,3 +48,6 @@ Extern
 		x:Int, y:Int, centre:Int)
 
 End Extern
+
+Const wxGetTextFromUserPromptStr:String = "Input Text"
+Const wxGetPasswordFromUserPromptStr:String = "Enter Password"

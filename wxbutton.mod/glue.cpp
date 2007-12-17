@@ -39,6 +39,9 @@ MaxButton::~MaxButton() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxButton, wxButton)
+END_EVENT_TABLE()
+
 MaxButton * bmx_wxbutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style) {
 

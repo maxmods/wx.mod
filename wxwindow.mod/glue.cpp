@@ -856,6 +856,20 @@ void bmx_wxtooltip_setdelay(long msecs) {
 	wxToolTip::SetDelay(msecs);
 }
 
+void bmx_wxtooltip_settip(wxToolTip * tip, BBString * text) {
+	tip->SetTip(wxStringFromBBString(text));
+}
+
+BBString * bmx_wxtooltip_gettip(wxToolTip * tip) {
+	return bbStringFromWxString(tip->GetTip());
+}
+
+wxWindow * bmx_wxtooltip_getwindow(wxToolTip * tip) {
+	return tip->GetWindow();
+}
+
+// *********************************************
+
 bool bmx_wxupdateeventui_canupdate(wxWindow * window) {
 	return wxUpdateUIEvent::CanUpdate(window);
 }
