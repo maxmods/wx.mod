@@ -132,6 +132,10 @@ bool bmx_wxradiobox_showItem(wxRadioBox * radiobox, unsigned int item, bool valu
 	return radiobox->Show(item, value);
 }
 
+wxToolTip * bmx_wxradiobox_getitemtooltip(wxRadioBox * radiobox, int item) {
+	return radiobox->GetItemToolTip(item);
+}
+
 int bmx_wxradiobox_geteventtype(int type) {
 	switch(type) {
 		case 11: return wxEVT_COMMAND_RADIOBOX_SELECTED;

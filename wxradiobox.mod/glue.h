@@ -53,6 +53,7 @@ extern "C" {
 	void bmx_wxradiobox_setitemtooltip(wxRadioBox * radiobox, unsigned int item, BBString * text);
 	bool bmx_wxradiobox_show(wxRadioBox * radiobox, bool value);
 	bool bmx_wxradiobox_showItem(wxRadioBox * radiobox, unsigned int item, bool value);
+	wxToolTip * bmx_wxradiobox_getitemtooltip(wxRadioBox * radiobox, int item);
 
 	int bmx_wxradiobox_geteventtype(int type);
 

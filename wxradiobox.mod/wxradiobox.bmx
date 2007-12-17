@@ -112,8 +112,8 @@ Type wxRadioBox Extends wxControlWithItems
 	Rem
 	bbdoc: Returns the tooltip associated with the specified item if any or NULL.
 	End Rem
-	Method GetItemToolTip(item:Int)
-		'Return bmx_wxradiobox_getitemtooltip(wxObjectPtr, item)
+	Method GetItemToolTip:wxToolTip(item:Int)
+		Return wxToolTip._create(bmx_wxradiobox_getitemtooltip(wxObjectPtr, item))
 	End Method
 	
 	Rem
@@ -245,7 +245,7 @@ Type TRadioBoxEventFactory Extends TEventFactory
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		If evt.eventType = wxEVT_COMMAND_RADIOBOX_SELECTED Then
-			Return wxCommandEvent.create(wxEventPtr, evt)
+			Return wxCommandEvent.Create(wxEventPtr, evt)
 		End If
 		
 		Return Null

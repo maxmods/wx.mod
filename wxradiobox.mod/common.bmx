@@ -68,6 +68,7 @@ Extern
 	Function bmx_wxradiobox_setitemtooltip(handle:Byte Ptr, item:Int, text:String)
 	Function bmx_wxradiobox_show:Int(handle:Byte Ptr, value:Int)
 	Function bmx_wxradiobox_showItem:Int(handle:Byte Ptr, item:Int, value:Int)
+	Function bmx_wxradiobox_getitemtooltip:Byte Ptr(handle:Byte Ptr, item:Int)
 
 	Function bmx_wxradiobox_geteventtype:Int(evt:Int)
 	
