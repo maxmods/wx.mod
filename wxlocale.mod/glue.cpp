@@ -217,11 +217,11 @@ wxUint32 bmx_wxlanguageinfo_getwinlang(MaxLanguageInfo * info) {
 }
 
 void bmx_wxlanguageinfo_setwinsublang(MaxLanguageInfo * info, wxUint32 lang) {
-    info->Info().WinSubLang = lang;
+    info->Info().WinSublang = lang;
 }
 
 wxUint32 bmx_wxlanguageinfo_getwinsublang(MaxLanguageInfo * info) {
-    return info->Info().WinSubLang;
+    return info->Info().WinSublang;
 }
 
 #endif
