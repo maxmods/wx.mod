@@ -44,5 +44,32 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+	Function bmx_wxprintout_create:Byte Ptr(handle:Object, title:String)
+	Function bmx_printout_delete(handle:Byte Ptr)
+
+	Function bmx_wxprintout_getdc:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintout_getpagesizemm(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxprintout_getpagesizepixels(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxprintout_getpaperrectpixels(handle:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxprintout_getpaperrectpixelsrect:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintout_getppiprinter(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxprintout_getppiscreen(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxprintout_gettitle:String(handle:Byte Ptr)
+	Function bmx_wxprintout_ispreview:Int(handle:Byte Ptr)
+	Function bmx_wxprintout_fitthissizetopaper(handle:Byte Ptr, w:Int, h:Int)
+	Function bmx_wxprintout_fitthissizetopage(handle:Byte Ptr, w:Int, h:Int)
+	Function bmx_wxprintout_fitthissizetopagemargins(handle:Byte Ptr, w:Int, h:Int, pageSetupData:Byte Ptr)
+	Function bmx_wxprintout_mapscreensizetopaper(handle:Byte Ptr)
+	Function bmx_wxprintout_mapscreensizetopage(handle:Byte Ptr)
+	Function bmx_wxprintout_mapscreensizetopagemargins(handle:Byte Ptr, pageSetupData:Byte Ptr)
+	Function bmx_wxprintout_mapscreensizetodevice(handle:Byte Ptr)
+	Function bmx_wxprintout_getlogicalpaperrect(handle:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxprintout_getlogicalpaperrectrect:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintout_getlogicalpagerect(handle:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxprintout_getlogicalpagerectrect:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintout_getlogicalpagemarginsrect(handle:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr, pageSetupData:Byte Ptr)
+	Function bmx_wxprintout_getlogicalpagemarginsrectrect:Byte Ptr(handle:Byte Ptr, pageSetupData:Byte Ptr)
+	Function bmx_wxprintout_setlogicalorigin(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxprintout_offsetlogicalorigin(handle:Byte Ptr, xOff:Int, yOff:Int)
 
 End Extern

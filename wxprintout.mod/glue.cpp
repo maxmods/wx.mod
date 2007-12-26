@@ -24,8 +24,186 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxPrintout::MaxPrintout(BBObject * handle, const wxString& title)
+	: maxHandle(handle), wxPrintout(title)
+{
+}
+
+bool MaxPrintout::OnBeginDocument(int startPage, int endPage) {
+
+	bool check = _wx_wxprintout_wxPrintout__OnBeginDocument(maxHandle, startPage, endPage);
+	if (!wxPrintout::OnBeginDocument(startPage, endPage)) {
+		return false;
+	}
+	return check;
+}
+
+void MaxPrintout::OnEndDocument() {
+
+	_wx_wxprintout_wxPrintout__OnEndDocument(maxHandle);
+	wxPrintout::OnEndDocument();
+
+}
+
+void MaxPrintout::OnBeginPrinting() {
+
+	_wx_wxprintout_wxPrintout__OnBeginPrinting(maxHandle);
+
+}
+
+void MaxPrintout::OnEndPrinting() {
+
+	_wx_wxprintout_wxPrintout__OnEndPrinting(maxHandle);
+
+}
+
+void MaxPrintout::OnPreparePrinting() {
+
+	_wx_wxprintout_wxPrintout__OnPreparePrinting(maxHandle);
+
+}
+
+bool MaxPrintout::OnPrintPage(int pageNum) {
+
+	return _wx_wxprintout_wxPrintout__OnPrintPage(maxHandle, pageNum);
+
+}
+
+void MaxPrintout::GetPageInfo(int *minPage, int *maxPage, int *pageFrom, int *pageTo) {
+
+	_wx_wxprintout_wxPrintout__GetPageInfo(maxHandle, minPage, maxPage, pageFrom, pageTo);
+
+}
+
+bool MaxPrintout::HasPage(int pageNum) {
+
+	return _wx_wxprintout_wxPrintout__HasPage(maxHandle, pageNum);
+
+}
+
 
 
 // *********************************************
+
+MaxPrintout * bmx_wxprintout_create(BBObject * handle, BBString * title) {
+	return new MaxPrintout(handle, wxStringFromBBString(title));
+}
+
+void bmx_printout_delete(wxPrintout * printout){
+	delete printout;
+}
+
+
+MaxDC * bmx_wxprintout_getdc(wxPrintout * printout) {
+    return new MaxDC(*printout->GetDC());
+}
+
+void bmx_wxprintout_getpagesizemm(wxPrintout * printout, int * w, int * h) {
+    printout->GetPageSizeMM(w, h);
+}
+
+void bmx_wxprintout_getpagesizepixels(wxPrintout * printout, int * w, int * h) {
+    printout->GetPageSizePixels(w, h);
+}
+
+void bmx_wxprintout_getpaperrectpixels(wxPrintout * printout, int * x, int * y, int * w, int * h) {
+    wxRect r(printout->GetPaperRectPixels());
+    *x = r.x;
+    *y = r.y;
+    *w = r.width;
+    *h = r.height;
+}
+
+MaxRect * bmx_wxprintout_getpaperrectpixelsrect(wxPrintout * printout) {
+    return new MaxRect(printout->GetPaperRectPixels());
+}
+
+void bmx_wxprintout_getppiprinter(wxPrintout * printout, int * w, int * h) {
+    printout->GetPPIPrinter(w, h);
+}
+
+void bmx_wxprintout_getppiscreen(wxPrintout * printout, int * w, int * h) {
+    printout->GetPPIScreen(w, h);
+}
+
+BBString * bmx_wxprintout_gettitle(wxPrintout * printout) {
+    return bbStringFromWxString(printout->GetTitle());
+}
+
+bool bmx_wxprintout_ispreview(wxPrintout * printout) {
+    return printout->IsPreview();
+}
+
+void bmx_wxprintout_fitthissizetopaper(wxPrintout * printout, int w, int h) {
+    printout->FitThisSizeToPaper(wxSize(w, h));
+}
+
+void bmx_wxprintout_fitthissizetopage(wxPrintout * printout, int w, int h) {
+    printout->FitThisSizeToPage(wxSize(w, h));
+}
+
+void bmx_wxprintout_fitthissizetopagemargins(wxPrintout * printout, int w, int h, wxPageSetupDialogData * pageSetupData) {
+    printout->FitThisSizeToPageMargins(wxSize(w, h), *pageSetupData);
+}
+
+void bmx_wxprintout_mapscreensizetopaper(wxPrintout * printout) {
+    printout->MapScreenSizeToPaper();
+}
+
+void bmx_wxprintout_mapscreensizetopage(wxPrintout * printout) {
+    printout->MapScreenSizeToPage();
+}
+
+void bmx_wxprintout_mapscreensizetopagemargins(wxPrintout * printout, wxPageSetupDialogData * pageSetupData) {
+    printout->MapScreenSizeToPageMargins(*pageSetupData);
+}
+
+void bmx_wxprintout_mapscreensizetodevice(wxPrintout * printout) {
+    printout->MapScreenSizeToDevice();
+}
+
+void bmx_wxprintout_getlogicalpaperrect(wxPrintout * printout, int * x, int * y, int * w, int * h) {
+    wxRect r(printout->GetLogicalPaperRect());
+    *x = r.x;
+    *y = r.y;
+    *w = r.width;
+    *h = r.height;
+}
+
+MaxRect * bmx_wxprintout_getlogicalpaperrectrect(wxPrintout * printout) {
+    return new MaxRect(printout->GetLogicalPaperRect());
+}
+
+void bmx_wxprintout_getlogicalpagerect(wxPrintout * printout, int * x, int * y, int * w, int * h) {
+    wxRect r(printout->GetLogicalPageRect());
+    *x = r.x;
+    *y = r.y;
+    *w = r.width;
+    *h = r.height;
+}
+
+MaxRect * bmx_wxprintout_getlogicalpagerectrect(wxPrintout * printout) {
+    return new MaxRect(printout->GetLogicalPageRect());
+}
+
+void bmx_wxprintout_getlogicalpagemarginsrect(wxPrintout * printout, int * x, int * y, int * w, int * h, wxPageSetupDialogData * pageSetupData) {
+    wxRect r(printout->GetLogicalPageMarginsRect(*pageSetupData));
+    *x = r.x;
+    *y = r.y;
+    *w = r.width;
+    *h = r.height;
+}
+
+MaxRect * bmx_wxprintout_getlogicalpagemarginsrectrect(wxPrintout * printout, wxPageSetupDialogData * pageSetupData) {
+    return new MaxRect(printout->GetLogicalPageMarginsRect(*pageSetupData));
+}
+
+void bmx_wxprintout_setlogicalorigin(wxPrintout * printout, int x, int y) {
+    printout->SetLogicalOrigin(x, y);
+}
+
+void bmx_wxprintout_offsetlogicalorigin(wxPrintout * printout, int xOff, int yOff) {
+    printout->OffsetLogicalOrigin(xOff, yOff);
+}
 
 

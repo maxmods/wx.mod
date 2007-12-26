@@ -4,9 +4,10 @@ Build Notes
 Linux :
 
     wxGTK 2.8.x
-    ./configure --enable-unicode --with-opengl --enable-mediactrl
+    ./configure --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx
 
     add "--disable-shared" for static libraries
+    using "--enable-mediactrl" requires gstreamer installation
     
     make
     make install (as root) (not required for static libraries)
@@ -17,7 +18,7 @@ Linux :
 MacOS :
 
     wxMac 2.8.x
-    ./configure --enable-unicode --with-opengl --enable-mediactrl
+    ./configure --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-expat=builtin
 
     add "--disable-shared" for static libraries
     
@@ -32,6 +33,7 @@ Win32 :
     wxMSW 2.8.x
     
     edit build/msw/config.gcc, and change the following entries :
+            BUILD := release
             UNICODE = 1
             USE_OPENGL = 1
             

@@ -438,6 +438,13 @@ void bmx_wxdc_startpage(MaxDC * dc) {
 	dc->GetDC()->StartPage();
 }
 
+void bmx_wxdc_delete(MaxDC * dc) {
+	delete dc;
+}
+
+void bmx_wxdc_free(MaxDC * dc) {
+	delete dc;
+}
 
 
 // *********************************************

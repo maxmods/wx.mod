@@ -46,4 +46,36 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxprintdialog_getprintdialogdata:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintdialog_getprintdc:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintdialog_showmodal:Int(handle:Byte Ptr)
+
+	Function bmx_wxprintdialogdata_create:Byte Ptr(printData:Byte Ptr)
+	Function bmx_wxprintdialogdata_delete(handle:Byte Ptr)
+
+	Function bmx_wxprintdialogdata_enablehelp(handle:Byte Ptr, flag:Int)
+	Function bmx_wxprintdialogdata_enablepagenumbers(handle:Byte Ptr, flag:Int)
+	Function bmx_wxprintdialogdata_enableprinttofile(handle:Byte Ptr, flag:Int)
+	Function bmx_wxprintdialogdata_enableselection(handle:Byte Ptr, flag:Int)
+	Function bmx_wxprintdialogdata_getallpages:Int(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_getcollate:Int(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_getfrompage:Int(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_getmaxpage:Int(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_getminpage:Int(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_getnocopies:Int(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_getprintdata:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_getprinttofile:Int(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_getselection:Int(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_gettopage:Int(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_isok:Int(handle:Byte Ptr)
+	Function bmx_wxprintdialogdata_setcollate(handle:Byte Ptr, flag:Int)
+	Function bmx_wxprintdialogdata_setfrompage(handle:Byte Ptr, page:Int)
+	Function bmx_wxprintdialogdata_setmaxpage(handle:Byte Ptr, page:Int)
+	Function bmx_wxprintdialogdata_setminpage(handle:Byte Ptr, page:Int)
+	Function bmx_wxprintdialogdata_setnocopies(handle:Byte Ptr, count:Int)
+	Function bmx_wxprintdialogdata_setprintdata(handle:Byte Ptr, printdata:Byte Ptr)
+	Function bmx_wxprintdialogdata_setprinttofile(handle:Byte Ptr, flag:Int)
+	Function bmx_wxprintdialogdata_setselection(handle:Byte Ptr, flag:Int)
+	Function bmx_wxprintdialogdata_settopage(handle:Byte Ptr, page:Int)
+
 End Extern

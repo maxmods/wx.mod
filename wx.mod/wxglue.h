@@ -352,9 +352,12 @@ class MaxDC
 public:
 	MaxDC();
 	MaxDC(wxDC & dc);
+	MaxDC(wxDC * dc);
+	~MaxDC();
 	wxDC * GetDC();
 	void init(wxDC * _dc);
 private:
+	bool owner;
 	wxDC * dc;
 };
 

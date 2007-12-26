@@ -244,12 +244,25 @@ wxDC * MaxDC::GetDC() {
 void MaxDC::init(wxDC * _dc)
 {
 	dc = _dc;
+	owner = false;
 }
 
 MaxPaintDC::MaxPaintDC(wxWindow * window)
 	: paintDC(window)
 {
 	MaxDC::init(&paintDC);
+}
+
+MaxDC::MaxDC(wxDC * _dc)
+{
+	dc = _dc;
+	owner = true;
+}
+
+MaxDC::~MaxDC() {
+	if (owner) {
+		delete dc;
+	}
 }
 
 // ---------------------------------------------------------------------------------------

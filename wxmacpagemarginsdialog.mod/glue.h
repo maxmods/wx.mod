@@ -20,36 +20,16 @@
   THE SOFTWARE.
 */ 
 
-#ifndef _WX_MAX_PRINTDIALOGDATA_H_
-#define _WX_MAX_PRINTDIALOGDATA_H_
-
 #include "wxglue.h"
-#include "../wxprintdialog.mod/glue.h"
 
-#include "wx/print.h"
-
-//class MaxPrinter;
+//class MaxNotebook;
 
 extern "C" {
 
 #include <blitz.h>
 
-	wxPrinter * bmx_wxprinter_create(MaxPrintDialogData * data);
-	void bmx_wxprinter_delete(wxPrinter * printer);
-
-	void bmx_wxprinter_createabortwindow(wxPrinter * printer, wxWindow * parent, wxPrintout * printout);
-	bool bmx_wxprinter_getabort(wxPrinter * printer);
-	wxPrinterError bmx_wxprinter_getlasterror();
-	bool bmx_wxprinter_print(wxPrinter * printer, wxWindow * parent, wxPrintout * printout, bool prompt);
-	MaxPrintDialogData * bmx_wxprinter_getprintdialogdata(wxPrinter * printer);
-
-	MaxDC * bmx_wxprinter_printdialog(wxPrinter * printer, wxWindow * parent);
-	void bmx_wxprinter_setup(wxPrinter * printer, wxWindow * parent);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-
-#endif // _WX_MAX_PRINTDIALOGDATA_H_

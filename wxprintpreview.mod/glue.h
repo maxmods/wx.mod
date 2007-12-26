@@ -21,15 +21,50 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/print.h"
+#include "../wxprintdata.mod/glue.h"
 
-//class MaxNotebook;
+class MaxPrintPreview;
 
 extern "C" {
 
 #include <blitz.h>
 
+	bool _wx_wxprintpreview_wxPrintPreview__PaintPage(BBObject * maxHandle, wxPreviewCanvas * canvas, MaxDC * dc);
+
+	wxPrintPreview * bmx_wxprintpreview_create(BBObject * handle, wxPrintout * printout, wxPrintout * printoutForPrinting, MaxPrintData * data);
+	void bmx_wxprintpreview_free(wxPrintPreview * preview);
+	wxPreviewCanvas * bmx_wxprintpreview_getcanvas(wxPrintPreview * preview);
+	int bmx_wxprintpreview_getcurrentpage(wxPrintPreview * preview);
+	wxFrame * bmx_wxprintpreview_getframe(wxPrintPreview * preview);
+	int bmx_wxprintpreview_getmaxpage(wxPrintPreview * preview);
+	int bmx_wxprintpreview_getminpage(wxPrintPreview * preview);
+	wxPrintout * bmx_wxprintpreview_getprintout(wxPrintPreview * preview);
+	wxPrintout * bmx_wxprintpreview_getprintoutforprinting(wxPrintPreview * preview);
+	bool bmx_wxprintpreview_isok(wxPrintPreview * preview);
+	bool bmx_wxprintpreview_paintpage(wxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc);
+	bool bmx_wxprintpreview_paintpageX(MaxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc);
+	bool bmx_wxprintpreview_print(wxPrintPreview * preview, bool prompt);
+	void bmx_wxprintpreview_setCanvas(wxPrintPreview * preview, wxPreviewCanvas * canvas);
+	void bmx_wxprintpreview_setcurrentpage(wxPrintPreview * preview, int pageNum);
+	void bmx_wxprintpreview_setframe(wxPrintPreview * preview, wxFrame * frame);
+	void bmx_wxprintpreview_setprintout(wxPrintPreview * preview, wxPrintout * printout);
+	void bmx_wxprintpreview_setzoom(wxPrintPreview * preview, int percent);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxPrintPreview : public wxPrintPreview
+{
+public:
+	MaxPrintPreview(BBObject * handle, wxPrintout* printout, wxPrintout* printoutForPrinting, wxPrintData* data);
+	~MaxPrintPreview();
+
+	bool PaintPage(wxPreviewCanvas *canvas, wxDC dc);
+	bool PaintPageX(wxPreviewCanvas *canvas, MaxDC * dc);
+
+private:
+	BBObject * maxHandle;
+};
 

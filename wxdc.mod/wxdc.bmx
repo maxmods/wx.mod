@@ -160,7 +160,7 @@ Type wxDC Extends wxObject
 	to 0). See also SetTextForeground, SetTextBackground and wxMemoryDC.
 	</p>
 	End Rem
-	Method DrawBitmap(bitmap:wxBitmap, x:Int, y:Int, transparent:Int)
+	Method DrawBitmap(bitmap:wxBitmap, x:Int, y:Int, transparent:Int = True)
 		wx_wxdc_drawbitmap(wxObjectPtr, bitmap.wxObjectPtr, x, y, transparent)
 	End Method
 	
@@ -853,8 +853,19 @@ Type wxDC Extends wxObject
 	undesired effects.
 	End Rem
 	Method Free()
+		If wxObjectPtr Then
+			bmx_wxdc_free(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
 	End Method
 
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxdc_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+		
 End Type
 
 Rem

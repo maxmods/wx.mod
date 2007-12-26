@@ -44,4 +44,36 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxpagesetupdialogdata_create:Byte Ptr(handle:Object, printData:Byte Ptr)
+
+	Function bmx_wxpagesetupdialogdata_enablehelp(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpagesetupdialogdata_enablemargins(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpagesetupdialogdata_enableorientation(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpagesetupdialogdata_enablepaper(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpagesetupdialogdata_enableprinter(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpagesetupdialogdata_getdefaultminmargins:Int(handle:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_getenablemargins:Int(handle:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_getenableorientation:Int(handle:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_getenablepaper:Int(handle:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_getenableprinter:Int(handle:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_getenablehelp:Int(handle:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_getdefaultinfo:Int(handle:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_getmargintopleft(handle:Byte Ptr, leftMargin:Int Ptr, topMargin:Int Ptr)
+	Function bmx_wxpagesetupdialogdata_getmarginbottomright(handle:Byte Ptr, rightMargin:Int Ptr, bottomMargin:Int Ptr)
+	Function bmx_wxpagesetupdialogdata_getminmargintopleft(handle:Byte Ptr, leftMin:Int Ptr, topMin:Int Ptr)
+	Function bmx_wxpagesetupdialogdata_getminmarginbottomright(handle:Byte Ptr, rightMin:Int Ptr, bottomMin:Int Ptr)
+	Function bmx_wxpagesetupdialogdata_getpaperid:Int(handle:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_getpapersize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxpagesetupdialogdata_getprintdata:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_isok:Int(handle:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_setdefaultinfo(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpagesetupdialogdata_setdefaultminmargins(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpagesetupdialogdata_setmargintopleft(handle:Byte Ptr, leftMargin:Int, topMargin:Int)
+	Function bmx_wxpagesetupdialogdata_setmarginbottomright(handle:Byte Ptr, rightMargin:Int, bottomMargin:Int)
+	Function bmx_wxpagesetupdialogdata_setminmargintopleft(handle:Byte Ptr, leftMin:Int, topMin:Int)
+	Function bmx_wxpagesetupdialogdata_setminmarginbottomright(handle:Byte Ptr, rightMin:Int, bottomMin:Int)
+	Function bmx_wxpagesetupdialogdata_setpaperid(handle:Byte Ptr, id:Int)
+	Function bmx_wxpagesetupdialogdata_setpapersize(handle:Byte Ptr, w:Int, h:Int)
+	Function bmx_wxpagesetupdialogdata_setprintdata(handle:Byte Ptr, printData:Byte Ptr)
+
 End Extern

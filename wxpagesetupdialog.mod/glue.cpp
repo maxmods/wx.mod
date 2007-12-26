@@ -24,46 +24,28 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxPageSetupDialog::MaxPageSetupDialog(BBObject * handle, wxWindow * parent, wxPageSetupDialogData * data)
+	: wxPageSetupDialog(parent, data)
+{
+	wxbind(this, handle);
+}
+
+MaxPageSetupDialog::~MaxPageSetupDialog() {
+	wxunbind(this);
+}
+
 
 // *********************************************
 
-wxPrinter * bmx_wxprinter_create(MaxPrintDialogData * data) {
-	if (data) {
-		return new wxPrinter(&data->Data());
-	} else {
-		return new wxPrinter();
-	}
+wxPageSetupDialog * bmx_wxpagesetupdialog_create(BBObject * handle, wxWindow * parent, wxPageSetupDialogData * data) {
+	return new MaxPageSetupDialog(handle, parent, data);
 }
 
-void bmx_wxprinter_delete(wxPrinter * printer) {
-	delete printer;
+wxPageSetupDialogData * bmx_wxpagesetupdialog_getpagesetupdata(wxPageSetupDialog * dialog) {
+	return &dialog->GetPageSetupData();
 }
 
-void bmx_wxprinter_createabortwindow(wxPrinter * printer, wxWindow * parent, wxPrintout * printout) {
-	printer->CreateAbortWindow(parent, printout);
-}
-
-bool bmx_wxprinter_getabort(wxPrinter * printer) {
-	return printer->GetAbort();
-}
-
-wxPrinterError bmx_wxprinter_getlasterror() {
-	return wxPrinter::GetLastError();
-}
-
-bool bmx_wxprinter_print(wxPrinter * printer, wxWindow * parent, wxPrintout * printout, bool prompt) {
-	return printer->Print(parent, printout, prompt);
-}
-
-MaxPrintDialogData * bmx_wxprinter_getprintdialogdata(wxPrinter * printer) {
-	return new MaxPrintDialogData(printer->GetPrintDialogData());
-}
-
-MaxDC * bmx_wxprinter_printdialog(wxPrinter * printer, wxWindow * parent) {
-	return new MaxDC(printer->PrintDialog(parent));
-}
-
-void bmx_wxprinter_setup(wxPrinter * printer, wxWindow * parent) {
-	printer->Setup(parent);
+int bmx_wxpagesetupdialog_showmodal(wxPageSetupDialog * dialog) {
+	return dialog->ShowModal();
 }
 

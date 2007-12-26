@@ -21,10 +21,9 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxWindow
-Import wx.wxPrintout
-Import wx.wxDC
-Import wx.wxPrintDialog
+Import wx.wxDialog
+Import wx.wxPageSetupDialogData
+Import wx.wxFrame
 Import BRL.Blitz
 
 
@@ -47,20 +46,4 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxprinter_create:Byte Ptr(data:Byte Ptr)
-	Function bmx_wxprinter_delete(handle:Byte Ptr)
-
-	Function bmx_wxprinter_createabortwindow(handle:Byte Ptr, parent:Byte Ptr, printout:Byte Ptr)
-	Function bmx_wxprinter_getabort:Int(handle:Byte Ptr)
-	Function bmx_wxprinter_getlasterror:Int()
-	Function bmx_wxprinter_print:Int(handle:Byte Ptr, parent:Byte Ptr, printout:Byte Ptr, prompt:Int)
-	Function bmx_wxprinter_getprintdialogdata:Byte Ptr(handle:Byte Ptr)
-
-	Function bmx_wxprinter_printdialog:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr)
-	Function bmx_wxprinter_setup(handle:Byte Ptr, parent:Byte Ptr)
-
 End Extern
-
-Const wxPRINTER_NO_ERROR:Int = 0
-Const wxPRINTER_CANCELLED:Int = 1
-Const wxPRINTER_ERROR:Int = 2

@@ -58,15 +58,40 @@ End Rem
 Type wxPrinter Extends wxObject
 
 	Rem
+	bbdoc: Constructor.
+	about: Pass an optional block of print dialog data, which will be copied to
+	the printer object's local data.
+	End Rem
+	Function CreatePrinter:wxPrinter(data:wxPrintDialogData = Null)
+		Return New wxPrinter.Create(data)
+	End Function
+	
+	Rem
+	bbdoc: Constructor.
+	about: Pass an optional block of print dialog data, which will be copied to
+	the printer object's local data.
+	End Rem
+	Method Create:wxPrinter(data:wxPrintDialogData = Null)
+		If data Then
+			wxObjectPtr = bmx_wxprinter_create(data.wxObjectPtr)
+		Else
+			wxObjectPtr = bmx_wxprinter_create(Null)
+		End If
+		Return Self
+	End Method
+
+	Rem
 	bbdoc: Creates the default printing abort window, with a cancel button.
 	End Rem
 	Method CreateAbortWindow(parent:wxWindow, printout:wxPrintout)
+		bmx_wxprinter_createabortwindow(wxObjectPtr, parent.wxObjectPtr, printout.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the user has aborted the print job.
 	End Rem
 	Method GetAbort:Int()
+		Return bmx_wxprinter_getabort(wxObjectPtr)
 	End Method
 		
 	Rem
@@ -75,12 +100,14 @@ Type wxPrinter Extends wxObject
 	to wxPRINTER_NO_ERROR if no error happened.
 	End Rem
 	Function GetLastError:Int()
+		Return bmx_wxprinter_getlasterror()
 	End Function
 	
 	Rem
 	bbdoc: Returns the print data associated with the printer object.
 	End Rem
 	Method GetPrintDialogData:wxPrintDialogData()
+		Return wxPrintDialogData._create(bmx_wxprinter_getprintdialogdata(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -94,6 +121,7 @@ Type wxPrinter Extends wxObject
 	</p>
 	End Rem
 	Method Print:Int(parent:wxWindow, printout:wxPrintout, prompt:Int = True)
+		Return bmx_wxprinter_print(wxObjectPtr, parent.wxObjectPtr, printout.wxObjectPtr, prompt)
 	End Method
 	
 	Rem
@@ -102,16 +130,18 @@ Type wxPrinter Extends wxObject
 	be returned (otherwise NULL is returned -- call wxPrinter::GetLastError to get detailed information about
 	the kind of the error).
 	<p>
-	The application must free this device context to avoid a memory leak.
+	The application <b>must</b> Free() this device context to avoid a memory leak.
 	</p>
 	End Rem
 	Method PrintDialog:wxDC(parent:wxWindow)
+		Return wxDC._create(bmx_wxprinter_printdialog(wxObjectPtr, parent.wxObjectPtr))
 	End Method
 	
 	Rem
 	bbdoc: Default error-reporting method.
 	End Rem
 	Method ReportError(parent:wxWindow, printout:wxPrintout, message:String)
+		' TODO
 	End Method
 	
 	Rem
@@ -119,6 +149,14 @@ Type wxPrinter Extends wxObject
 	about: Note that the setup dialog is obsolete from Windows 95, though retained for backward compatibility.
 	End Rem
 	Method Setup(parent:wxWindow)
+		bmx_wxprinter_setup(wxObjectPtr, parent.wxObjectPtr)
 	End Method
 
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxprinter_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type

@@ -21,15 +21,72 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/print.h"
+#include "../wxpagesetupdialogdata.mod/glue.h"
 
-//class MaxNotebook;
+class MaxPrintout;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxPrintout * bmx_wxprintout_create(BBObject * handle, BBString * title);
+	void bmx_printout_delete(wxPrintout * printout);
+	
+	void _wx_wxprintout_wxPrintout__GetPageInfo(BBObject * handle, int *minPage, int *maxPage, int *pageFrom, int *pageTo);
+	bool _wx_wxprintout_wxPrintout__HasPage(BBObject * handle, int pageNum);
+
+	bool _wx_wxprintout_wxPrintout__OnBeginDocument(BBObject * handle, int startPage, int endPage);
+	void _wx_wxprintout_wxPrintout__OnEndDocument(BBObject * handle);
+	void _wx_wxprintout_wxPrintout__OnBeginPrinting(BBObject * handle);
+	void _wx_wxprintout_wxPrintout__OnEndPrinting(BBObject * handle);
+	void _wx_wxprintout_wxPrintout__OnPreparePrinting(BBObject * handle);
+	bool _wx_wxprintout_wxPrintout__OnPrintPage(BBObject * handle, int pageNum);
+
+	MaxDC * bmx_wxprintout_getdc(wxPrintout * printout);
+	void bmx_wxprintout_getpagesizemm(wxPrintout * printout, int * w, int * h);
+	void bmx_wxprintout_getpagesizepixels(wxPrintout * printout, int * w, int * h);
+	void bmx_wxprintout_getpaperrectpixels(wxPrintout * printout, int * x, int * y, int * w, int * h);
+	MaxRect * bmx_wxprintout_getpaperrectpixelsrect(wxPrintout * printout);
+	void bmx_wxprintout_getppiprinter(wxPrintout * printout, int * w, int * h);
+	void bmx_wxprintout_getppiscreen(wxPrintout * printout, int * w, int * h);
+	BBString * bmx_wxprintout_gettitle(wxPrintout * printout);
+	bool bmx_wxprintout_ispreview(wxPrintout * printout);
+	void bmx_wxprintout_fitthissizetopaper(wxPrintout * printout, int w, int h);
+	void bmx_wxprintout_fitthissizetopage(wxPrintout * printout, int w, int h);
+	void bmx_wxprintout_fitthissizetopagemargins(wxPrintout * printout, int w, int h,  wxPageSetupDialogData * pageSetupData);
+	void bmx_wxprintout_mapscreensizetopaper(wxPrintout * printout);
+	void bmx_wxprintout_mapscreensizetopage(wxPrintout * printout);
+	void bmx_wxprintout_mapscreensizetopagemargins(wxPrintout * printout, wxPageSetupDialogData * pageSetupData);
+	void bmx_wxprintout_mapscreensizetodevice(wxPrintout * printout);
+	void bmx_wxprintout_getlogicalpaperrect(wxPrintout * printout, int * x, int * y, int * w, int * h);
+	MaxRect * bmx_wxprintout_getlogicalpaperrectrect(wxPrintout * printout);
+	void bmx_wxprintout_getlogicalpagerect(wxPrintout * printout, int * x, int * y, int * w, int * h);
+	MaxRect * bmx_wxprintout_getlogicalpagerectrect(wxPrintout * printout);
+	void bmx_wxprintout_getlogicalpagemarginsrect(wxPrintout * printout, int * x, int * y, int * w, int * h, wxPageSetupDialogData * pageSetupData);
+	MaxRect * bmx_wxprintout_getlogicalpagemarginsrectrect(wxPrintout * printout, wxPageSetupDialogData * pageSetupData);
+	void bmx_wxprintout_setlogicalorigin(wxPrintout * printout, int x, int y);
+	void bmx_wxprintout_offsetlogicalorigin(wxPrintout * printout, int xOff, int yOff);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxPrintout : public wxPrintout
+{
+public:
+	MaxPrintout(BBObject * handle, const wxString& title);
+
+	void GetPageInfo(int *minPage, int *maxPage, int *pageFrom, int *pageTo);
+	bool HasPage(int pageNum);
+	
+	bool OnBeginDocument(int startPage, int endPage);
+	void OnEndDocument();
+	void OnBeginPrinting();
+	void OnEndPrinting();
+	void OnPreparePrinting();
+	bool OnPrintPage(int pageNum);
+	
+private:
+	BBObject * maxHandle;
+};

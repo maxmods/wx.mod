@@ -21,6 +21,9 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxPrintout
+Import wx.wxScrolledWindow
+Import wx.wxFrame
 Import BRL.Blitz
 
 
@@ -42,5 +45,26 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+
+	Function bmx_wxprintpreview_create:Byte Ptr(handle:Object, printout:Byte Ptr, printoutForPrinting:Byte Ptr, data:Byte Ptr)
+	Function bmx_wxprintpreview_free(handle:Byte Ptr)
+	Function bmx_wxprintpreview_getcanvas:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintpreview_getcurrentpage:Int(handle:Byte Ptr)
+	Function bmx_wxprintpreview_getframe:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintpreview_getmaxpage:Int(handle:Byte Ptr)
+	Function bmx_wxprintpreview_getminpage:Int(handle:Byte Ptr)
+	Function bmx_wxprintpreview_getprintout:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintpreview_getprintoutforprinting:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprintpreview_isok:Int(handle:Byte Ptr)
+	Function bmx_wxprintpreview_paintpage:Int(handle:Byte Ptr, canvas:Byte Ptr, dc:Byte Ptr)
+	Function bmx_wxprintpreview_paintpageX:Int(handle:Byte Ptr, canvas:Byte Ptr, dc:Byte Ptr)
+	Function bmx_wxprintpreview_print:Int(handle:Byte Ptr, prompt:Int)
+	Function bmx_wxprintpreview_renderpage:Int(handle:Byte Ptr, pageNum:Int)
+	Function bmx_wxprintpreview_setCanvas(handle:Byte Ptr, canvas:Byte Ptr)
+	Function bmx_wxprintpreview_setcurrentpage(handle:Byte Ptr, pageNum:Int)
+	Function bmx_wxprintpreview_setframe(handle:Byte Ptr, frame:Byte Ptr)
+	Function bmx_wxprintpreview_setprintout(handle:Byte Ptr, printout:Byte Ptr)
+	Function bmx_wxprintpreview_setzoom(handle:Byte Ptr, percent:Int)
+
 
 End Extern

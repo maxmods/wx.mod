@@ -138,6 +138,8 @@ Extern
 	Function bmx_wxdc_startdoc(handle:Byte Ptr, message:String)
 	Function bmx_wxdc_startpage(handle:Byte Ptr)
 
+	Function bmx_wxdc_delete(handle:Byte Ptr)
+	Function bmx_wxdc_free(handle:Byte Ptr)
 
 	Function bmx_wxmirrordc_create:Byte Ptr(dc:Byte Ptr, mirror:Int)
 

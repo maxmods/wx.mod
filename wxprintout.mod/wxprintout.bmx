@@ -72,11 +72,50 @@ End Rem
 Type wxPrintout Extends wxObject
 
 	Rem
+	bbdoc: Constructor.
+	about: Pass an optional title argument - the current filename would be a good idea. This
+	will appear in the printing list (at least in MSW)
+	End Rem
+	Function CreatePrintout:wxPrintout(title:String = "Printout")
+		Return New wxPrintout.Create(title)
+	End Function
+	
+	Rem
+	bbdoc: Constructor.
+	about: Pass an optional title argument - the current filename would be a good idea. This
+	will appear in the printing list (at least in MSW)
+	End Rem
+	Method Create:wxPrintout(title:String = "Printout")
+		wxObjectPtr = bmx_wxprintout_create(Self, title)
+		Return Self
+	End Method
+
+	' soft linking
+	Function _create:wxPrintout(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxPrintout = New wxPrintout
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _find:wxPrintout(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local printout:wxPrintout = wxPrintout(wxfind(wxObjectPtr))
+			If Not printout Then
+				Return wxPrintout._create(wxObjectPtr)
+			End If
+			Return printout
+		End If
+	End Function
+
+	Rem
 	bbdoc: Returns the device context associated with the printout (given to the printout at start of printing or previewing).
 	about: This will be a wxPrinterDC if printing under Windows or Mac, a wxPostScriptDC if printing on
 	other platforms, and a wxMemoryDC if previewing.
 	End Rem
 	Method GetDC:wxDC()
+		Return wxDC._create(bmx_wxprintout_getdc(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -102,6 +141,7 @@ Type wxPrintout Extends wxObject
 	bbdoc: Returns the size of the printer page in millimetres.
 	End Rem
 	Method GetPageSizeMM(w:Int Var, h:Int Var)
+		bmx_wxprintout_getpagesizemm(wxObjectPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
@@ -112,6 +152,7 @@ Type wxPrintout Extends wxObject
 	preview zoom. The application must take this discrepancy into account if previewing is to be supported.
 	End Rem
 	Method GetPageSizePixels(w:Int Var, h:Int Var)
+		bmx_wxprintout_getpagesizepixels(wxObjectPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
@@ -127,6 +168,23 @@ Type wxPrintout Extends wxObject
 	its entire area were printable, so this function will return the same rectangle as the page rectangle.
 	End Rem
 	Method GetPaperRectPixels(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+		bmx_wxprintout_getpaperrectpixels(wxObjectPtr, Varptr x, Varptr y, Varptr w, Varptr h)
+	End Method
+
+	Rem
+	bbdoc: Returns the rectangle that corresponds to the entire paper in pixels, called the paper rectangle.
+	about: This distinction between paper rectangle and page rectangle reflects the fact that most
+	printers cannot print all the way to the edge of the paper. The page rectangle is a rectangle whose
+	top left corner is at (0,0) and whose width and height are given by wxDC::GetPageSizePixels.
+	On MSW and Mac, the page rectangle gives the printable area of the paper, while the paper rectangle
+	represents the entire paper, including non-printable borders. Thus, the rectangle returned by
+	GetPaperRectPixels will have a top left corner whose coordinates are small negative numbers and the
+	bottom right corner will have values somewhat larger than the width and height given by
+	wxDC::GetPageSizePixels. On other platforms and for PostScript printing, the paper is treated as if
+	its entire area were printable, so this function will return the same rectangle as the page rectangle.
+	End Rem
+	Method GetPaperRectPixelsRect:wxRect()
+		Return wxRect._create(bmx_wxprintout_getpaperrectpixelsrect(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -137,6 +195,7 @@ Type wxPrintout Extends wxObject
 	most of the scaling calculations for you.
 	End Rem
 	Method GetPPIPrinter(w:Int Var, h:Int Var)
+		bmx_wxprintout_getppiprinter(wxObjectPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
@@ -146,12 +205,14 @@ Type wxPrintout Extends wxObject
 	take the preview DC size into account.
 	End Rem
 	Method GetPPIScreen(w:Int Var, h:Int Var)
+		bmx_wxprintout_getppiscreen(wxObjectPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
 	bbdoc: Returns the title of the printout
 	End Rem
 	Method GetTitle:String()
+		Return bmx_wxprintout_gettitle(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -160,6 +221,10 @@ Type wxPrintout Extends wxObject
 	document has only one page.
 	End Rem
 	Method HasPage:Int(pageNum:Int)
+		If pageNum = 1 Then
+			Return True
+		End If
+		Return False
 	End Method
 	
 	Function _HasPage:Int(obj:wxPrintout, pageNum:Int)
@@ -170,6 +235,7 @@ Type wxPrintout Extends wxObject
 	bbdoc: Returns true if the printout is currently being used for previewing.
 	End Rem
 	Method IsPreview:Int()
+		Return bmx_wxprintout_ispreview(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -178,6 +244,7 @@ Type wxPrintout Extends wxObject
 	that the edges of the image could be cut off. Use this if you're managing your own page margins.
 	End Rem
 	Method FitThisSizeToPaper(w:Int, h:Int)
+		bmx_wxprintout_fitthissizetopaper(wxObjectPtr, w, h)
 	End Method
 	
 	Rem
@@ -188,6 +255,7 @@ Type wxPrintout Extends wxObject
 	off at the edges.
 	End Rem
 	Method FitThisSizeToPage(w:Int, h:Int)
+		bmx_wxprintout_fitthissizetopage(wxObjectPtr, w, h)
 	End Method
 	
 	Rem
@@ -198,6 +266,7 @@ Type wxPrintout Extends wxObject
 	type wxMacPageMarginsDialog.
 	End Rem
 	Method FitThisSizeToPageMargins(w:Int, h:Int, pageSetupData:wxPageSetupDialogData)
+		bmx_wxprintout_fitthissizetopagemargins(wxObjectPtr, w, h, pageSetupData.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -207,18 +276,21 @@ Type wxPrintout Extends wxObject
 	if you want WYSIWYG behavior, e.g., in a text editor.
 	End Rem
 	Method MapScreenSizeToPaper()
+		bmx_wxprintout_mapscreensizetopaper(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: This sets the user scale of the wxDC assocated with this wxPrintout to the same scale as MapScreenSizeToPaper but sets the logical origin to the top left corner of the page rectangle.
 	End Rem
 	Method MapScreenSizeToPage()
+		bmx_wxprintout_mapscreensizetopage(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: This sets the user scale of the wxDC assocated with this wxPrintout to the same scale as MapScreenSizeToPageMargins but sets the logical origin to the top left corner of the page margins specified by the given wxPageSetupDialogData object.
 	End Rem
 	Method MapScreenSizeToPageMargins(pageSetupData:wxPageSetupDialogData)
+		bmx_wxprintout_mapscreensizetopagemargins(wxObjectPtr, pageSetupData.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -231,12 +303,21 @@ Type wxPrintout Extends wxObject
 	page rectangle, or page margins rectangle to perform your own scaling.
 	End Rem
 	Method MapScreenSizeToDevice()
+		bmx_wxprintout_mapscreensizetodevice(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Return the rectangle corresponding to the paper in the associated wxDC's logical coordinates for the current user scale and device origin.
 	End Rem
 	Method GetLogicalPaperRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+		bmx_wxprintout_getlogicalpaperrect(wxObjectPtr, Varptr x, Varptr y, Varptr w, Varptr h)
+	End Method
+
+	Rem
+	bbdoc: Return the rectangle corresponding to the paper in the associated wxDC's logical coordinates for the current user scale and device origin.
+	End Rem
+	Method GetLogicalPaperRectRect:wxRect()
+		Return wxRect._create(bmx_wxprintout_getlogicalpaperrectrect(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -245,6 +326,16 @@ Type wxPrintout Extends wxObject
 	printing, this will be the full paper rectangle.
 	End Rem
 	Method GetLogicalPageRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+		bmx_wxprintout_getlogicalpagerect(wxObjectPtr, Varptr x, Varptr y, Varptr w, Varptr h)
+	End Method
+
+	Rem
+	bbdoc: Return the rectangle corresponding to the page in the associated wxDC's logical coordinates for the current user scale and device origin.
+	about: On MSW and Mac, this will be the printable area of the paper. On other platforms and PostScript
+	printing, this will be the full paper rectangle.
+	End Rem
+	Method GetLogicalPageRectRect:wxRect()
+		Return wxRect._create(bmx_wxprintout_getlogicalpagerectrect(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -252,18 +343,29 @@ Type wxPrintout Extends wxObject
 	about: The page margins are specified with respect to the edges of the paper on all platforms.
 	End Rem
 	Method GetLogicalPageMarginsRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var, pageSetupData:wxPageSetupDialogData)
+		bmx_wxprintout_getlogicalpagemarginsrect(wxObjectPtr, Varptr x, Varptr y, Varptr w, Varptr h, pageSetupData.wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Return the rectangle corresponding to the page margins specified by the given wxPageSetupDialogData object in the associated wxDC's logical coordinates for the current user scale and device origin.
+	about: The page margins are specified with respect to the edges of the paper on all platforms.
+	End Rem
+	Method GetLogicalPageMarginsRectRect:wxRect(pageSetupData:wxPageSetupDialogData)
+		Return wxRect._create(bmx_wxprintout_getlogicalpagemarginsrectrect(wxObjectPtr, pageSetupData.wxObjectPtr))
 	End Method
 	
 	Rem
 	bbdoc: Set the device origin of the associated wxDC so that the current logical point becomes the new logical origin.
 	End Rem
 	Method SetLogicalOrigin(x:Int, y:Int)
+		bmx_wxprintout_setlogicalorigin(wxObjectPtr, x, y)
 	End Method
 	
 	Rem
 	bbdoc: Shift the device origin by an amount specified in logical coordinates.
 	End Rem
 	Method OffsetLogicalOrigin(xOff:Int, yOff:Int)
+		bmx_wxprintout_offsetlogicalorigin(wxObjectPtr, xOff, yOff)
 	End Method
 	
 	Rem
@@ -336,5 +438,12 @@ Type wxPrintout Extends wxObject
 		Return obj.OnPrintPage(pageNum)
 	End Function
 
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_printout_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type
 

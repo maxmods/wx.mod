@@ -20,36 +20,41 @@
   THE SOFTWARE.
 */ 
 
-#ifndef _WX_MAX_PRINTDIALOGDATA_H_
-#define _WX_MAX_PRINTDIALOGDATA_H_
-
 #include "wxglue.h"
-#include "../wxprintdialog.mod/glue.h"
-
 #include "wx/print.h"
 
-//class MaxPrinter;
+class MaxPreviewFrame;
 
 extern "C" {
 
 #include <blitz.h>
 
-	wxPrinter * bmx_wxprinter_create(MaxPrintDialogData * data);
-	void bmx_wxprinter_delete(wxPrinter * printer);
+	void _wx_wxpreviewframe_wxPreviewFrame__CreateControlBar(BBObject * handle);
+	void _wx_wxpreviewframe_wxPreviewFrame__CreateCanvas(BBObject * handle);
 
-	void bmx_wxprinter_createabortwindow(wxPrinter * printer, wxWindow * parent, wxPrintout * printout);
-	bool bmx_wxprinter_getabort(wxPrinter * printer);
-	wxPrinterError bmx_wxprinter_getlasterror();
-	bool bmx_wxprinter_print(wxPrinter * printer, wxWindow * parent, wxPrintout * printout, bool prompt);
-	MaxPrintDialogData * bmx_wxprinter_getprintdialogdata(wxPrinter * printer);
 
-	MaxDC * bmx_wxprinter_printdialog(wxPrinter * printer, wxWindow * parent);
-	void bmx_wxprinter_setup(wxPrinter * printer, wxWindow * parent);
+	wxPreviewFrame * bmx_wxpreviewframe_create(BBObject * handle, wxPrintPreview * preview, wxWindow * parent, BBString * title,
+		int x, int y, int w, int h, long style);
+
+	void bmx_wxpreviewframe_createcontrolbar(MaxPreviewFrame * frame);
+	void bmx_wxpreviewframe_createcanvas(MaxPreviewFrame * frame);
+	void bmx_wxpreviewframe_initialize(wxPreviewFrame * frame);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-
-#endif // _WX_MAX_PRINTDIALOGDATA_H_
+class MaxPreviewFrame : public wxPreviewFrame
+{
+public:
+    MaxPreviewFrame(BBObject * handle, wxPrintPreview * preview, wxWindow* parent, const wxString& title, int x,
+		int y, int w, int h, long style);
+	~ MaxPreviewFrame();
+	void CreateControlBar();
+	void CreateCanvas();
+	void CreateControlBarX();
+	void CreateCanvasX();
+	
+private:
+	BBObject * maxHandle;
+};

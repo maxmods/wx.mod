@@ -125,6 +125,9 @@ extern "C" {
 	void bmx_wxdc_setpalette(MaxDC * dc, MaxPalette * palette);
 	void bmx_wxdc_startdoc(MaxDC * dc, BBString * message);
 	void bmx_wxdc_startpage(MaxDC * dc);
+	
+	void bmx_wxdc_delete(MaxDC * dc);
+	void bmx_wxdc_free(MaxDC * dc);
 
 	MaxClientDC * bmx_wxclientdc_create(wxWindow * window);
 	void bmx_wxclientdc_delete(MaxClientDC * dc);
