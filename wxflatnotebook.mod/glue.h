@@ -1,0 +1,92 @@
+/*
+  Copyright (c) 2007 Bruce A Henderson
+ 
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+*/ 
+
+#include "wxglue.h"
+#include "wx/wxFlatNotebook/wxFlatNotebook.h"
+//#include "../wxwindow.mod/glue.h"
+
+class MaxFlatNotebook;
+
+extern "C" {
+
+#include <blitz.h>
+
+	wxFlatNotebook * bmx_wxflatnotebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+
+    void bmx_wxflatnotebook_advanceselection(wxFlatNotebook * fnb, bool forward);
+    bool bmx_wxflatnotebook_addpage(wxFlatNotebook * fnb, wxWindow * window, BBString * caption, bool selected, int imgIndex);
+    bool bmx_wxflatnotebook_insertpage(wxFlatNotebook * fnb, int index, wxWindow * page, BBString * text, bool selected, int imgIndex);
+    void bmx_wxflatnotebook_setselection(wxFlatNotebook * fnb, int page);
+    void bmx_wxflatnotebook_deletepage(wxFlatNotebook * fnb, int page, bool _notify);
+    bool bmx_wxflatnotebook_deleteallpages(wxFlatNotebook * fnb);
+    int bmx_wxflatnotebook_getpagecount(wxFlatNotebook * fnb);
+    wxWindow * bmx_wxflatnotebook_getcurrentpage(wxFlatNotebook * fnb);
+    wxWindow * bmx_wxflatnotebook_getpage(wxFlatNotebook * fnb, int page);
+    int bmx_wxflatnotebook_getpageindex(wxFlatNotebook * fnb, wxWindow * win);
+    int bmx_wxflatnotebook_getpreviousselection(wxFlatNotebook * fnb);
+    bool bmx_wxflatnotebook_getpageshapeangle(wxFlatNotebook * fnb, int page, unsigned int * result);
+    void bmx_wxflatnotebook_setpageshapeangle(wxFlatNotebook * fnb, int page, unsigned int angle);
+    void bmx_wxflatnotebook_setallpagesshapeangle(wxFlatNotebook * fnb, unsigned int angle);
+    void bmx_wxflatnotebook_getpagebestsize(wxFlatNotebook * fnb, int * w, int * h);
+    bool bmx_wxflatnotebook_setpagetext(wxFlatNotebook * fnb, int page, BBString * text);
+    bool bmx_wxflatnotebook_removepage(wxFlatNotebook * fnb, int page, bool _notify);
+    void bmx_wxflatnotebook_setpadding(wxFlatNotebook * fnb, int padW, int padH);
+    void bmx_wxflatnotebook_setwindowstyleflag(wxFlatNotebook * fnb, long style);
+    void bmx_wxflatnotebook_setrightclickmenu(wxFlatNotebook * fnb, wxMenu * menu);
+    BBString * bmx_wxflatnotebook_getpagetext(wxFlatNotebook * fnb, int page);
+    void bmx_wxflatnotebook_setpageimageindex(wxFlatNotebook * fnb, int page, int imgIndex);
+    int bmx_wxflatnotebook_getpageimageindex(wxFlatNotebook * fnb, int page);
+    void bmx_wxflatnotebook_setgradientcolors(wxFlatNotebook * fnb, MaxColour * colFrom, MaxColour * colTo, MaxColour * border);
+    void bmx_wxflatnotebook_setgradientcolorfrom(wxFlatNotebook * fnb, MaxColour * colour);
+    void bmx_wxflatnotebook_setgradientcolorto(wxFlatNotebook * fnb, MaxColour * colour);
+    void bmx_wxflatnotebook_setgradientcolorborder(wxFlatNotebook * fnb, MaxColour * colour);
+    void bmx_wxflatnotebook_enablepage(wxFlatNotebook * fnb, int page, bool enabled);
+    bool bmx_wxflatnotebook_getpageenabled(wxFlatNotebook * fnb, int page);
+    void bmx_wxflatnotebook_setactivetabtextcolour(wxFlatNotebook * fnb, MaxColour * colour);
+    MaxColour * bmx_wxflatnotebook_getgradientcolorfrom(wxFlatNotebook * fnb);
+    MaxColour * bmx_wxflatnotebook_getgradientcolorto(wxFlatNotebook * fnb);
+    MaxColour * bmx_wxflatnotebook_getgradientcolorborder(wxFlatNotebook * fnb);
+    MaxColour * bmx_wxflatnotebook_getactivetabtextcolour(wxFlatNotebook * fnb);
+    MaxColour * bmx_wxflatnotebook_getnonactivetabtextcolour(wxFlatNotebook * fnb);
+    void bmx_wxflatnotebook_setnonactivetabtextcolour(wxFlatNotebook * fnb, MaxColour * colour);
+    wxPanel * bmx_wxflatnotebook_gettabarea(wxFlatNotebook * fnb);
+    MaxColour * bmx_wxflatnotebook_gettabareacolour(wxFlatNotebook * fnb);
+    void bmx_wxflatnotebook_settabareacolour(wxFlatNotebook * fnb, MaxColour * colour);
+    MaxColour * bmx_wxflatnotebook_getactivetabcolour(wxFlatNotebook * fnb);
+    void bmx_wxflatnotebook_setactivetabcolour(wxFlatNotebook * fnb, MaxColour * colour);
+    int bmx_wxflatnotebook_getpadding(wxFlatNotebook * fnb);
+    void bmx_wxflatnotebook_setcustomizeoptions(wxFlatNotebook * fnb, long options);
+    long bmx_wxflatnotebook_getcustomizeoptions(wxFlatNotebook * fnb);
+    void bmx_wxflatnotebook_setforceselection(wxFlatNotebook * fnb, bool force);
+    bool bmx_wxflatnotebook_getforceselection(wxFlatNotebook * fnb);
+    wxBoxSizer * bmx_wxflatnotebook_getmainsizer(wxFlatNotebook * fnb);
+
+}
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxFlatNotebook : public wxFlatNotebook
+{
+public:
+	MaxFlatNotebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	~ MaxFlatNotebook();
+};
