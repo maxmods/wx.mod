@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include "wx/printdlg.h"
+#include "../wxpagesetupdialogdata.mod/glue.h"
 
 class MaxPageSetupDialog;
 
@@ -29,8 +30,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxPageSetupDialog * bmx_wxpagesetupdialog_create(BBObject * handle, wxWindow * parent, wxPageSetupDialogData * data);
-	wxPageSetupDialogData * bmx_wxpagesetupdialog_getpagesetupdata(wxPageSetupDialog * dialog);
+	wxPageSetupDialog * bmx_wxpagesetupdialog_create(BBObject * handle, wxWindow * parent, MaxPageSetupDialogData * data);
+	MaxPageSetupDialogData * bmx_wxpagesetupdialog_getpagesetupdata(wxPageSetupDialog * dialog);
 	int bmx_wxpagesetupdialog_showmodal(wxPageSetupDialog * dialog);
 
 }

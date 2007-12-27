@@ -43,7 +43,7 @@ extern "C" {
 	wxPrintout * bmx_wxprintpreview_getprintoutforprinting(wxPrintPreview * preview);
 	bool bmx_wxprintpreview_isok(wxPrintPreview * preview);
 	bool bmx_wxprintpreview_paintpage(wxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc);
-	bool bmx_wxprintpreview_paintpageX(MaxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc);
+	bool bmx_wxprintpreview_paintpage_default(MaxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc);
 	bool bmx_wxprintpreview_print(wxPrintPreview * preview, bool prompt);
 	void bmx_wxprintpreview_setCanvas(wxPrintPreview * preview, wxPreviewCanvas * canvas);
 	void bmx_wxprintpreview_setcurrentpage(wxPrintPreview * preview, int pageNum);
@@ -61,8 +61,8 @@ public:
 	MaxPrintPreview(BBObject * handle, wxPrintout* printout, wxPrintout* printoutForPrinting, wxPrintData* data);
 	~MaxPrintPreview();
 
-	bool PaintPage(wxPreviewCanvas *canvas, wxDC dc);
-	bool PaintPageX(wxPreviewCanvas *canvas, MaxDC * dc);
+	bool PaintPage(wxPreviewCanvas *canvas, wxDC & dc);
+	bool PaintPage_default(wxPreviewCanvas *canvas, MaxDC * dc);
 
 private:
 	BBObject * maxHandle;

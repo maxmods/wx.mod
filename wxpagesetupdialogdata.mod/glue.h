@@ -32,48 +32,52 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxPageSetupDialogData * bmx_wxpagesetupdialogdata_create(BBObject * handle, MaxPrintData * data);
+	MaxPageSetupDialogData * bmx_wxpagesetupdialogdata_create(MaxPrintData * data);
+	void bmx_wxpagesetupdialogdata_delete(MaxPageSetupDialogData * setup);
 
-	void bmx_wxpagesetupdialogdata_enablehelp(wxPageSetupDialogData * setup, bool flag);
-	void bmx_wxpagesetupdialogdata_enablemargins(wxPageSetupDialogData * setup, bool flag);
-	void bmx_wxpagesetupdialogdata_enableorientation(wxPageSetupDialogData * setup, bool flag);
-	void bmx_wxpagesetupdialogdata_enablepaper(wxPageSetupDialogData * setup, bool flag);
-	void bmx_wxpagesetupdialogdata_enableprinter(wxPageSetupDialogData * setup, bool flag);
-	bool bmx_wxpagesetupdialogdata_getdefaultminmargins(wxPageSetupDialogData * setup);
-	bool bmx_wxpagesetupdialogdata_getenablemargins(wxPageSetupDialogData * setup);
-	bool bmx_wxpagesetupdialogdata_getenableorientation(wxPageSetupDialogData * setup);
-	bool bmx_wxpagesetupdialogdata_getenablepaper(wxPageSetupDialogData * setup);
-	bool bmx_wxpagesetupdialogdata_getenableprinter(wxPageSetupDialogData * setup);
-	bool bmx_wxpagesetupdialogdata_getenablehelp(wxPageSetupDialogData * setup);
-	bool bmx_wxpagesetupdialogdata_getdefaultinfo(wxPageSetupDialogData * setup);
-	void bmx_wxpagesetupdialogdata_getmargintopleft(wxPageSetupDialogData * setup, int * leftMargin, int * topMargin);
-	void bmx_wxpagesetupdialogdata_getmarginbottomright(wxPageSetupDialogData * setup, int * rightMargin, int * bottomMargin);
-	void bmx_wxpagesetupdialogdata_getminmargintopleft(wxPageSetupDialogData * setup, int * leftMin, int * topMin);
-	void bmx_wxpagesetupdialogdata_getminmarginbottomright(wxPageSetupDialogData * setup, int * rightMin, int * bottomMin);
-	wxPaperSize bmx_wxpagesetupdialogdata_getpaperid(wxPageSetupDialogData * setup);
-	void bmx_wxpagesetupdialogdata_getpapersize(wxPageSetupDialogData * setup, int * w, int * h);
-	MaxPrintData * bmx_wxpagesetupdialogdata_getprintdata(wxPageSetupDialogData * setup);
-	bool bmx_wxpagesetupdialogdata_isok(wxPageSetupDialogData * setup);
-	void bmx_wxpagesetupdialogdata_setdefaultinfo(wxPageSetupDialogData * setup, bool flag);
-	void bmx_wxpagesetupdialogdata_setdefaultminmargins(wxPageSetupDialogData * setup, bool flag);
-	void bmx_wxpagesetupdialogdata_setmargintopleft(wxPageSetupDialogData * setup, int leftMargin, int topMargin);
-	void bmx_wxpagesetupdialogdata_setmarginbottomright(wxPageSetupDialogData * setup, int rightMargin, int bottomMargin);
-	void bmx_wxpagesetupdialogdata_setminmargintopleft(wxPageSetupDialogData * setup, int leftMin, int topMin);
-	void bmx_wxpagesetupdialogdata_setminmarginbottomright(wxPageSetupDialogData * setup, int rightMin, int bottomMin);
-	void bmx_wxpagesetupdialogdata_setpaperid(wxPageSetupDialogData * setup, wxPaperSize id);
-	void bmx_wxpagesetupdialogdata_setpapersize(wxPageSetupDialogData * setup, int w, int h);
-	void bmx_wxpagesetupdialogdata_setprintdata(wxPageSetupDialogData * setup, MaxPrintData * data);
+	void bmx_wxpagesetupdialogdata_enablehelp(MaxPageSetupDialogData * setup, bool flag);
+	void bmx_wxpagesetupdialogdata_enablemargins(MaxPageSetupDialogData * setup, bool flag);
+	void bmx_wxpagesetupdialogdata_enableorientation(MaxPageSetupDialogData * setup, bool flag);
+	void bmx_wxpagesetupdialogdata_enablepaper(MaxPageSetupDialogData * setup, bool flag);
+	void bmx_wxpagesetupdialogdata_enableprinter(MaxPageSetupDialogData * setup, bool flag);
+	bool bmx_wxpagesetupdialogdata_getdefaultminmargins(MaxPageSetupDialogData * setup);
+	bool bmx_wxpagesetupdialogdata_getenablemargins(MaxPageSetupDialogData * setup);
+	bool bmx_wxpagesetupdialogdata_getenableorientation(MaxPageSetupDialogData * setup);
+	bool bmx_wxpagesetupdialogdata_getenablepaper(MaxPageSetupDialogData * setup);
+	bool bmx_wxpagesetupdialogdata_getenableprinter(MaxPageSetupDialogData * setup);
+	bool bmx_wxpagesetupdialogdata_getenablehelp(MaxPageSetupDialogData * setup);
+	bool bmx_wxpagesetupdialogdata_getdefaultinfo(MaxPageSetupDialogData * setup);
+	void bmx_wxpagesetupdialogdata_getmargintopleft(MaxPageSetupDialogData * setup, int * leftMargin, int * topMargin);
+	void bmx_wxpagesetupdialogdata_getmarginbottomright(MaxPageSetupDialogData * setup, int * rightMargin, int * bottomMargin);
+	void bmx_wxpagesetupdialogdata_getminmargintopleft(MaxPageSetupDialogData * setup, int * leftMin, int * topMin);
+	void bmx_wxpagesetupdialogdata_getminmarginbottomright(MaxPageSetupDialogData * setup, int * rightMin, int * bottomMin);
+	wxPaperSize bmx_wxpagesetupdialogdata_getpaperid(MaxPageSetupDialogData * setup);
+	void bmx_wxpagesetupdialogdata_getpapersize(MaxPageSetupDialogData * setup, int * w, int * h);
+	MaxPrintData * bmx_wxpagesetupdialogdata_getprintdata(MaxPageSetupDialogData * setup);
+	bool bmx_wxpagesetupdialogdata_isok(MaxPageSetupDialogData * setup);
+	void bmx_wxpagesetupdialogdata_setdefaultinfo(MaxPageSetupDialogData * setup, bool flag);
+	void bmx_wxpagesetupdialogdata_setdefaultminmargins(MaxPageSetupDialogData * setup, bool flag);
+	void bmx_wxpagesetupdialogdata_setmargintopleft(MaxPageSetupDialogData * setup, int leftMargin, int topMargin);
+	void bmx_wxpagesetupdialogdata_setmarginbottomright(MaxPageSetupDialogData * setup, int rightMargin, int bottomMargin);
+	void bmx_wxpagesetupdialogdata_setminmargintopleft(MaxPageSetupDialogData * setup, int leftMin, int topMin);
+	void bmx_wxpagesetupdialogdata_setminmarginbottomright(MaxPageSetupDialogData * setup, int rightMin, int bottomMin);
+	void bmx_wxpagesetupdialogdata_setpaperid(MaxPageSetupDialogData * setup, wxPaperSize id);
+	void bmx_wxpagesetupdialogdata_setpapersize(MaxPageSetupDialogData * setup, int w, int h);
+	void bmx_wxpagesetupdialogdata_setprintdata(MaxPageSetupDialogData * setup, MaxPrintData * data);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class MaxPageSetupDialogData : public wxPageSetupDialogData
+class MaxPageSetupDialogData
 {
 public:
-	MaxPageSetupDialogData(BBObject * handle);
-	MaxPageSetupDialogData(BBObject * handle, wxPrintData & data);
+	MaxPageSetupDialogData(const wxPageSetupDialogData & d);
 	~ MaxPageSetupDialogData();
+	wxPageSetupDialogData & Data();
+	
+private:
+	wxPageSetupDialogData data;
 };
 
 #endif // _WX_MAX_PAGESETUPDIALOGDATA_H_

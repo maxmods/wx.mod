@@ -69,9 +69,9 @@ Type wxPageSetupDialogData Extends wxObject
 	End Rem
 	Method Create:wxPageSetupDialogData(printData:wxPrintData = Null)
 		If printData Then
-			wxObjectPtr = bmx_wxpagesetupdialogdata_create(Self, printData.wxObjectptr)
+			wxObjectPtr = bmx_wxpagesetupdialogdata_create(printData.wxObjectptr)
 		Else
-			wxObjectPtr = bmx_wxpagesetupdialogdata_create(Self, Null)
+			wxObjectPtr = bmx_wxpagesetupdialogdata_create(Null)
 		End If
 		Return Self
 	End Method
@@ -82,16 +82,6 @@ Type wxPageSetupDialogData Extends wxObject
 			Local this:wxPageSetupDialogData = New wxPageSetupDialogData
 			this.wxObjectPtr = wxObjectPtr
 			Return this
-		End If
-	End Function
-
-	Function _find:wxPageSetupDialogData(wxObjectPtr:Byte Ptr)
-		If wxObjectPtr Then
-			Local data:wxPageSetupDialogData = wxPageSetupDialogData(wxfind(wxObjectPtr))
-			If Not data Then
-				Return wxPageSetupDialogData._create(wxObjectPtr)
-			End If
-			Return data
 		End If
 	End Function
 
@@ -311,5 +301,12 @@ Type wxPageSetupDialogData Extends wxObject
 		bmx_wxpagesetupdialogdata_setprintdata(wxObjectPtr, printData.wxObjectPtr)
 	End Method
 
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxpagesetupdialogdata_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type
 

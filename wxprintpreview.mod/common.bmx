@@ -57,7 +57,7 @@ Extern
 	Function bmx_wxprintpreview_getprintoutforprinting:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxprintpreview_isok:Int(handle:Byte Ptr)
 	Function bmx_wxprintpreview_paintpage:Int(handle:Byte Ptr, canvas:Byte Ptr, dc:Byte Ptr)
-	Function bmx_wxprintpreview_paintpageX:Int(handle:Byte Ptr, canvas:Byte Ptr, dc:Byte Ptr)
+	Function bmx_wxprintpreview_paintpage_default:Int(handle:Byte Ptr, canvas:Byte Ptr, dc:Byte Ptr)
 	Function bmx_wxprintpreview_print:Int(handle:Byte Ptr, prompt:Int)
 	Function bmx_wxprintpreview_renderpage:Int(handle:Byte Ptr, pageNum:Int)
 	Function bmx_wxprintpreview_setCanvas(handle:Byte Ptr, canvas:Byte Ptr)

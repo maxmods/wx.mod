@@ -34,11 +34,11 @@ MaxPrintPreview::~MaxPrintPreview() {
 	wxunbind(this);	
 }
 
-bool MaxPrintPreview::PaintPage(wxPreviewCanvas *canvas, wxDC dc) {
+bool MaxPrintPreview::PaintPage(wxPreviewCanvas *canvas, wxDC & dc) {
 	_wx_wxprintpreview_wxPrintPreview__PaintPage(maxHandle, canvas, new MaxDC(dc));
 }
 
-bool MaxPrintPreview::PaintPageX(wxPreviewCanvas *canvas, MaxDC * dc) {
+bool MaxPrintPreview::PaintPage_default(wxPreviewCanvas *canvas, MaxDC * dc) {
 	wxPrintPreview::PaintPage(canvas, *dc->GetDC());
 }
 
@@ -100,8 +100,8 @@ bool bmx_wxprintpreview_paintpage(wxPrintPreview * preview, wxPreviewCanvas * ca
     return preview->PaintPage(canvas, *dc->GetDC());
 }
 
-bool bmx_wxprintpreview_paintpageX(MaxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc) {
-    return preview->PaintPageX(canvas, dc);
+bool bmx_wxprintpreview_paintpage_default(MaxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc) {
+    return preview->PaintPage_default(canvas, dc);
 }
 
 bool bmx_wxprintpreview_print(wxPrintPreview * preview, bool prompt) {

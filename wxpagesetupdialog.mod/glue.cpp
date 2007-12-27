@@ -37,12 +37,12 @@ MaxPageSetupDialog::~MaxPageSetupDialog() {
 
 // *********************************************
 
-wxPageSetupDialog * bmx_wxpagesetupdialog_create(BBObject * handle, wxWindow * parent, wxPageSetupDialogData * data) {
-	return new MaxPageSetupDialog(handle, parent, data);
+wxPageSetupDialog * bmx_wxpagesetupdialog_create(BBObject * handle, wxWindow * parent, MaxPageSetupDialogData * data) {
+	return new MaxPageSetupDialog(handle, parent, &data->Data());
 }
 
-wxPageSetupDialogData * bmx_wxpagesetupdialog_getpagesetupdata(wxPageSetupDialog * dialog) {
-	return &dialog->GetPageSetupData();
+MaxPageSetupDialogData * bmx_wxpagesetupdialog_getpagesetupdata(wxPageSetupDialog * dialog) {
+	return new MaxPageSetupDialogData(dialog->GetPageSetupDialogData());
 }
 
 int bmx_wxpagesetupdialog_showmodal(wxPageSetupDialog * dialog) {

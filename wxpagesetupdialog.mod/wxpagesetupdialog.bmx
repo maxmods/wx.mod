@@ -96,7 +96,7 @@ Type wxPageSetupDialog Extends wxDialog
 	bbdoc: Returns the page setup data associated with the dialog.
 	End Rem
 	Method GetPageSetupData:wxPageSetupDialogData()
-		Return wxPageSetupDialogData._find(bmx_wxpagesetupdialog_getpagesetupdata(wxObjectPtr))
+		Return wxPageSetupDialogData._create(bmx_wxpagesetupdialog_getpagesetupdata(wxObjectPtr))
 	End Method
 	
 	Rem

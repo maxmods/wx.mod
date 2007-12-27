@@ -182,7 +182,7 @@ Type wxPrintPreview Extends wxObject
 	</p>
 	End Rem
 	Method PaintPage:Int(canvas:wxPreviewCanvas, dc:wxDC)
-		Return bmx_wxprintpreview_paintpage(wxObjectPtr, canvas.wxObjectPtr, dc.wxObjectPtr)
+		Return bmx_wxprintpreview_paintpage_default(wxObjectPtr, canvas.wxObjectPtr, dc.wxObjectPtr)
 	End Method
 	
 	Function _PaintPage:Int(preview:wxPrintPreview, canvas:Byte Ptr, dc:Byte Ptr)

@@ -44,7 +44,8 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxpagesetupdialogdata_create:Byte Ptr(handle:Object, printData:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_create:Byte Ptr(printData:Byte Ptr)
+	Function bmx_wxpagesetupdialogdata_delete(handle:Byte Ptr)
 
 	Function bmx_wxpagesetupdialogdata_enablehelp(handle:Byte Ptr, flag:Int)
 	Function bmx_wxpagesetupdialogdata_enablemargins(handle:Byte Ptr, flag:Int)
