@@ -1798,6 +1798,61 @@ Type wxSizer
 		Return wxSizerItem._create(bmx_wxsizer_insertsizer(wxSizerPtr, index, sizer.wxSizerPtr, proportion, flag, border))
 	End Method
 
+
+	Method InsertSpacer:wxSizerItem(index:Int, size:Int)
+	End Method
+	
+	Method InsertStretchSpacer:wxSizerItem(index:Int, prop:Int = 1)
+	End Method
+	
+	Method IsWindowShown:Int(window:wxWindow)
+	End Method
+	
+	Method IsSizerShown:Int(sizer:wxSizer)
+	End Method
+	
+	Method IsShown:Int(index:Int)
+		Return bmx_wxsizer_isshown(wxSizerPtr, index)
+	End Method
+	
+	Method Layout()
+		bmx_wxsizer_layout(wxSizerPtr)
+	End Method
+	
+	Method PrependSpacer:wxSizerItem(size:Int)
+	End Method
+	
+	Method PrependStretchSpacer:wxSizerItem(prop:Int = 1)
+	End Method
+	
+	Method RecalcSizes()
+		bmx_wxsizer_recalcsizes(wxSizerPtr)
+	End Method
+	
+	Method RemoveWindow:Int(window:wxWindow)
+	End Method
+	
+	Method RemoveSizer:Int(sizer:wxSizer)
+	End Method
+	
+	Method Remove:Int(index:Int)
+	End Method
+	
+	Method ReplaceWindow:Int(oldWin:wxWindow, newWin:wxWindow, recursive:Int = False)
+	End Method
+	
+	Method ReplaceSizer:Int(oldsz:wxSizer, newsz:wxSizer, recursive:Int = False)
+	End Method
+	
+	Method Replace:Int(oldIndex:Int, newItem:wxSizerItem)
+	End Method
+	
+	Method SetDimension(x:Int, y:Int, width:Int, height:Int)
+	End Method
+	
+	Method SetMinSize(width:Int, height:Int)
+	End Method
+
 	Rem
 	bbdoc: Set an item's minimum size by position.
 	about: The item will be found recursively in the sizer's descendants. This function enables an
@@ -1961,6 +2016,18 @@ End Type
 </pre>
 End Rem
 Type wxBoxSizer Extends wxSizer
+
+	Function _create:wxBoxSizer(wxSizerPtr:Byte Ptr)
+		If wxSizerPtr Then
+			Local this: wxBoxSizer= New wxBoxSizer
+		
+			this.wxSizerPtr = wxSizerPtr
+		
+			Return this
+		End If
+		
+		Return Null
+	End Function
 
 	Rem
 	bbdoc: Constructor for a wxBoxSizer.

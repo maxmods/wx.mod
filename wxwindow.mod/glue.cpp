@@ -821,6 +821,18 @@ int bmx_wxboxsizer_getorientation(wxBoxSizer * sizer) {
 	return sizer->GetOrientation();
 }
 
+bool bmx_wxsizer_isshown(wxSizer * sizer, int index) {
+	return sizer->IsShown(index);
+}
+
+void bmx_wxsizer_layout(wxSizer * sizer) {
+	sizer->Layout();
+}
+
+void bmx_wxsizer_recalcsizes(wxSizer * sizer) {
+	sizer->RecalcSizes();
+}
+
 int bmx_wxflexgridsizer_getflexibledirection(wxFlexGridSizer * sizer) {
     return sizer->GetFlexibleDirection();
 }

@@ -226,6 +226,9 @@ Extern
 	Function bmx_wxsizer_fit(handle:Byte Ptr, window:Byte Ptr)
 	Function bmx_wxsizer_fitsize(handle:Byte Ptr, window:Byte Ptr, w:Int Ptr, h:Int Ptr)
 	Function bmx_wxboxsizer_getorientation:Int(handle:Byte Ptr)
+	Function bmx_wxsizer_isshown:Int(handle:Byte Ptr, index:Int)
+	Function bmx_wxsizer_layout(handle:Byte Ptr)
+	Function bmx_wxsizer_recalcsizes(handle:Byte Ptr)
 
 	Function bmx_wxflexgridsizer_getflexibledirection:Int(handle:Byte Ptr)
 	Function bmx_wxflexgridsizer_getnonflexiblegrowmode:Int(handle:Byte Ptr)

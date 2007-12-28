@@ -20,6 +20,10 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_WINDOW_H_
+#define _WX_MAX_WINDOW_H_
+
+
 #include "wxglue.h"
 #include "wx/tooltip.h"
 #include "../wxcursor.mod/glue.h"
@@ -214,6 +218,9 @@ extern "C" {
 	void bmx_wxsizer_fit(wxSizer * sizer, wxWindow * window);
 	void bmx_wxsizer_fitsize(wxSizer * sizer, wxWindow * window, int * w, int * h);
 	int bmx_wxboxsizer_getorientation(wxBoxSizer * sizer);
+	bool bmx_wxsizer_isshown(wxSizer * sizer, int index);
+	void bmx_wxsizer_layout(wxSizer * sizer);
+	void bmx_wxsizer_recalcsizes(wxSizer * sizer);
 
 	int bmx_wxflexgridsizer_getflexibledirection(wxFlexGridSizer * sizer);
 	int bmx_wxflexgridsizer_getnonflexiblegrowmode(wxFlexGridSizer * sizer);
@@ -305,3 +312,6 @@ private:
 };
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+#endif // _WX_MAX_WINDOW_H_

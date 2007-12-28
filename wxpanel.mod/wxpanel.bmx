@@ -85,6 +85,14 @@ Type wxPanel Extends wxWindow
 		Return Self			
 	End Method
 	
+	Function _create:wxPanel(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxPanel = New wxPanel
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
 	Rem
 	bbdoc: Sends a wxInitDialogEvent, which in turn transfers data to the dialog via validators.
 	End Rem
