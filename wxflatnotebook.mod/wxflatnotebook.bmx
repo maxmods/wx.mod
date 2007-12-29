@@ -55,6 +55,8 @@ bbdoc: Nice cross-platform flat notebook with X-button, navigation arrows and mu
 End Rem
 Type wxFlatNotebook Extends wxPanel
 
+	Field imageListPtr:Byte Ptr
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -141,6 +143,13 @@ Type wxFlatNotebook Extends wxPanel
 	End Rem
 	Method GetPageIndex:Int(win:wxWindow)
 		Return bmx_wxflatnotebook_getpageindex(wxObjectPtr, win.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the currently visible/selected notebook page 0 based index.
+	End Rem
+	Method GetSelection:Int()
+		Return bmx_wxflatnotebook_getselection(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -262,11 +271,40 @@ Type wxFlatNotebook Extends wxPanel
 		bmx_wxflatnotebook_setgradientcolorborder(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
-	Method SetImageList()
+	Rem
+	bbdoc: Sets an image list associated with notebook pages
+	End Rem
+	Method SetImageList(list:wxBitmap[])
+		If list And list.length > 0 Then
+'			Local bits:Byte Ptr[] = New Byte Ptr[list.length]
+'			For Local i:Int = 0 Until list.length
+'				bits[i] = list[i].wxObjectPtr
+'			Next
+			If imageListPtr Then
+				bmx_wxflatnotebook_deleteimagelist(imageListPtr)
+			End If
+			imageListPtr = bmx_wxflatnotebook_setimagelist(wxObjectPtr, list)
+		End If
 	End Method
 	
-	Method GetImageList()
+	Function _getbitmap:Byte Ptr(list:wxBitmap[], index:Int)
+		Return list[index].wxObjectPtr
+	End Function
+	
+	Rem
+	bbdoc: Returns an image list object associated with wxFlatNotebook
+	End Rem
+	Method GetImageList:wxBitmap[]()
+		Return bmx_wxflatnotebook_getimagelist(wxObjectPtr)
 	End Method
+	
+	Function _newbitmaparray:wxBitmap[](size:Int)
+		Return New wxBitmap[size]
+	End Function
+	
+	Function _setbitmap(list:wxBitmap[], index:Int, bitmap:Byte Ptr)
+		list[index] = wxBitmap._create(bitmap)
+	End Function
 	
 	Rem
 	bbdoc: Enable / Disable page
@@ -408,6 +446,86 @@ Type wxFlatNotebook Extends wxPanel
 		Return wxBoxSizer._create(bmx_wxflatnotebook_getmainsizer(wxObjectPtr))
 	End Method
 
-
+	Method Delete()
+		If imageListPtr Then
+			bmx_wxflatnotebook_deleteimagelist(imageListPtr)
+			imageListPtr = Null
+		End If
+	End Method
 End Type
 
+Rem
+bbdoc: Holds information about events associated with wxFlatNotebook objects
+End Rem
+Type wxFlatNotebookEvent Extends wxNotifyEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxFlatNotebookEvent = New wxFlatNotebookEvent
+		
+		this.wxEventPtr = wxEventPtr
+		this.userData = evt.userData
+		this.parent = evt.parent
+		
+		Return this
+	End Function
+	
+	Rem
+	bbdoc: Sets the value of current selection
+	End Rem
+	Method SetSelection(selection:Int)
+		bmx_wxflatnotebookevent_setselection(wxEventPtr, selection)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value of previous selection
+	End Rem
+	Method SetOldSelection(selection:Int)
+		bmx_wxflatnotebookevent_setoldselection(wxEventPtr, selection)
+	End Method
+	
+	Rem
+	bbdoc: Returns the index of currently selected page
+	End Rem
+	Method GetSelection:Int()
+		Return bmx_wxflatnotebookevent_getselection(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the index of previously selected page
+	End Rem
+	Method GetOldSelection:Int()
+		Return bmx_wxflatnotebookevent_getoldselection(wxEventPtr)
+	End Method
+	
+End Type
+
+Type TFlatNotebookEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	
+		Select evt.eventType
+			Case wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGED, ..
+					wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGING, ..
+					wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CLOSING, ..
+					wxEVT_COMMAND_FLATNOTEBOOK_CONTEXT_MENU, ..
+					wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CLOSED
+				Return wxFlatNotebookEvent.Create(wxEventPtr, evt)
+		End Select
+		
+		Return Null
+	End Method
+
+	Method GetEventType:Int(eventType:Int)
+		Select eventType
+			Case wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGED, ..
+					wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGING, ..
+					wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CLOSING, ..
+					wxEVT_COMMAND_FLATNOTEBOOK_CONTEXT_MENU, ..
+					wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CLOSED
+				Return bmx_wxflatnotebook_geteventtype(eventType)
+		End Select
+	End Method
+		
+End Type
+
+New TFlatNotebookEventFactory

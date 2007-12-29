@@ -81,6 +81,10 @@ int bmx_wxflatnotebook_getpageindex(wxFlatNotebook * fnb, wxWindow * win) {
     return fnb->GetPageIndex(win);
 }
 
+int bmx_wxflatnotebook_getselection(wxFlatNotebook * fnb) {
+    return fnb->GetSelection();
+}
+
 int bmx_wxflatnotebook_getpreviousselection(wxFlatNotebook * fnb) {
     return fnb->GetPreviousSelection();
 }
@@ -238,4 +242,73 @@ wxBoxSizer * bmx_wxflatnotebook_getmainsizer(wxFlatNotebook * fnb) {
     return fnb->GetMainSizer();
 }
 
+wxFlatNotebookImageList * bmx_wxflatnotebook_setimagelist(wxFlatNotebook * fnb, BBArray * bits) {
+	wxFlatNotebookImageList * list = new wxFlatNotebookImageList();
+	
+	int n = bits->scales[0];
+	MaxBitmap *s = (MaxBitmap*)BBARRAYDATA( bits, bits->dims );
+	for( int i = 0; i < n; ++i ){
+		wxBitmap b = _wx_wxflatnotebook_wxFlatNotebook__getbitmap(bits, i)->Bitmap();
+		list->push_back(b);
+	}
+	
+	fnb->SetImageList(list);
+	
+	return list;
+}
+
+
+BBArray * bmx_wxflatnotebook_getimagelist(wxFlatNotebook * fnb) {
+	wxFlatNotebookImageList * imageList = fnb->GetImageList();
+	int size = imageList->size();
+	
+	BBArray * list = _wx_wxflatnotebook_wxFlatNotebook__newbitmaparray(size);
+	
+	for (int i = 0; i < size; i++) {
+		MaxBitmap * bitmap = new MaxBitmap(imageList->Item(i));
+		_wx_wxflatnotebook_wxFlatNotebook__setbitmap(list, i, bitmap);
+	}
+	
+	return list;
+}
+
+void bmx_wxflatnotebook_deleteimagelist(wxFlatNotebookImageList * list) {
+	delete list;
+}
+
+
+void bmx_wxflatnotebookevent_setselection(wxFlatNotebookEvent & event, int selection) {
+	event.SetSelection(selection);
+}
+
+void bmx_wxflatnotebookevent_setoldselection(wxFlatNotebookEvent & event, int selection) {
+	event.SetOldSelection(selection);
+}
+
+int bmx_wxflatnotebookevent_getselection(wxFlatNotebookEvent & event) {
+	return event.GetSelection();
+}
+
+int bmx_wxflatnotebookevent_getoldselection(wxFlatNotebookEvent & event) {
+	return event.GetOldSelection();
+}
+
+
+
+int bmx_wxflatnotebook_geteventtype(int type) {
+	switch(type) {
+		case 50000: return wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGED;
+
+		case 50001: return wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGING;
+
+		case 50002: return wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CLOSING;
+
+		case 50003: return wxEVT_COMMAND_FLATNOTEBOOK_CONTEXT_MENU;
+
+		case 50004: return wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CLOSED;
+
+	}
+	
+	return 0;
+}
 

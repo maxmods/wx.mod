@@ -44,6 +44,11 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxtextentrydialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, message:String, caption:String, defaultValue:String, style:Int, x:Int, y:Int)
+	Function bmx_wxtextentrydialog_getvalue:String(handle:Byte Ptr)
+	Function bmx_wxtextentrydialog_setvalue(handle:Byte Ptr, value:String)
+	Function bmx_wxtextentrydialog_showmodal:Int(handle:Byte Ptr)
+
 	Function bmx_wxgettextfromuser:String(message:String, caption:String, defaultValue:String, parent:Byte Ptr, ..
 		x:Int, y:Int, centre:Int)
 

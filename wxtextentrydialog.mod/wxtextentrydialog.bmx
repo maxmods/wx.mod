@@ -55,6 +55,47 @@ bbdoc: This type represents a dialog that requests a one-line text string from t
 about: It is implemented as a generic wxWidgets dialog.
 End Rem
 Type wxTextEntryDialog Extends wxDialog
+
+	Rem
+	bbdoc: Constructor.
+	about: Use wxTextEntryDialog::ShowModal to show the dialog.
+	End Rem
+	Function CreateTextEntryDialog:wxTextEntryDialog(parent:wxWindow, message:String, caption:String = "Please enter text", ..
+			defaultValue:String = "", style:Int = wxOK | wxCANCEL | wxCENTRE, x:Int = -1, y:Int = -1)
+		Return New wxTextEntryDialog.Create(parent, message, caption, defaultValue, style, x, y)
+	End Function
+	
+	Rem
+	bbdoc: Constructor.
+	about: Use wxTextEntryDialog::ShowModal to show the dialog.
+	End Rem
+	Method Create:wxTextEntryDialog(parent:wxWindow, message:String, caption:String = "Please enter text", ..
+			defaultValue:String = "", style:Int = wxOK | wxCANCEL | wxCENTRE, x:Int = -1, y:Int = -1)
+		wxObjectPtr = bmx_wxtextentrydialog_create(Self, parent.wxObjectPtr, message, caption, defaultValue, style, x, y)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Returns the text that the user has entered if the user has pressed OK, or the original value if the user has pressed Cancel.
+	End Rem
+	Method GetValue:String()
+		Return bmx_wxtextentrydialog_getvalue(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the default text value.
+	End Rem
+	Method SetValue(value:String)
+		bmx_wxtextentrydialog_setvalue(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Shows the dialog, returning wxID_OK if the user pressed OK, and wxID_CANCEL otherwise.
+	End Rem
+	Method ShowModal:Int()
+		Return bmx_wxtextentrydialog_showmodal(wxObjectPtr)
+	End Method
+
 End Type
 
 Rem

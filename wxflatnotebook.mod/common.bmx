@@ -66,6 +66,7 @@ Extern
 	Function bmx_wxflatnotebook_getcurrentpage:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxflatnotebook_getpage:Byte Ptr(handle:Byte Ptr, page:Int)
 	Function bmx_wxflatnotebook_getpageindex:Int(handle:Byte Ptr, win:Byte Ptr)
+	Function bmx_wxflatnotebook_getselection:Int(handle:Byte Ptr)
 	Function bmx_wxflatnotebook_getpreviousselection:Int(handle:Byte Ptr)
 	Function bmx_wxflatnotebook_getpageshapeangle:Int(handle:Byte Ptr, page:Int, result:Int Ptr)
 	Function bmx_wxflatnotebook_setpageshapeangle(handle:Byte Ptr, page:Int, angle:Int)
@@ -103,6 +104,17 @@ Extern
 	Function bmx_wxflatnotebook_setforceselection(handle:Byte Ptr, force:Int)
 	Function bmx_wxflatnotebook_getforceselection:Int(handle:Byte Ptr)
 	Function bmx_wxflatnotebook_getmainsizer:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxflatnotebook_geteventtype:Int(eventType:Int)
+
+	Function bmx_wxflatnotebookevent_setselection(handle:Byte Ptr, selection:Int)
+	Function bmx_wxflatnotebookevent_setoldselection(handle:Byte Ptr, selection:Int)
+	Function bmx_wxflatnotebookevent_getselection(handle:Byte Ptr)
+	Function bmx_wxflatnotebookevent_getoldselection(handle:Byte Ptr)
+
+	Function bmx_wxflatnotebook_setimagelist:Byte Ptr(handle:Byte Ptr, list:wxBitmap[])
+	Function bmx_wxflatnotebook_getimagelist:wxBitmap[](handle:Byte Ptr)
+	Function bmx_wxflatnotebook_deleteimagelist(handle:Byte Ptr)
 
 End Extern
 
@@ -146,5 +158,16 @@ Const wxFNB_LEFT_ARROW:Int = 3
 Const wxFNB_RIGHT_ARROW:Int = 4
 Const wxFNB_DROP_DOWN_ARROW:Int = 5
 Const wxFNB_NOWHERE:Int = 6
+
+
+Const wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGED:Int = 50000
+
+Const wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGING:Int = 50001
+
+Const wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CLOSING:Int = 50002
+
+Const wxEVT_COMMAND_FLATNOTEBOOK_CONTEXT_MENU:Int = 50003
+
+Const wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CLOSED:Int = 50004
 
 

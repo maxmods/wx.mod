@@ -1,3 +1,10 @@
+'
+' wxFlatNotebook sample
+'
+' From the C++ sample by Eran Ifrah and Priyank Bolia
+'
+' BlitzMax port by Bruce A Henderson
+'
 SuperStrict
 
 Framework wx.wxApp
@@ -5,6 +12,9 @@ Import wx.wxFlatNotebook
 Import wx.wxFrame
 Import wx.wxSystemSettings
 Import wx.wxTextCtrl
+Import wx.wxTextEntryDialog
+Import wx.wxColourDialog
+Import BRL.Random
 
 Global mainFrame:Frame
 
@@ -14,12 +24,12 @@ New MyApp.run()
 
 Type MyApp Extends wxApp
 
-	'Field frame:wxFrame
-
 	Method OnInit:Int()
+	
+		wxInitAllImageHandlers()
 
 		mainFrame = Frame(New Frame.Create(Null, -1, "Frame"))
-	'	frame = wxFrame.CreateFrame(,,"Hello World", 100, 100)
+
 		mainFrame.show()
 	
 		Return True
@@ -46,9 +56,16 @@ Type Frame Extends wxFrame
 	Field m_bVCStyle:Int
 	Field newPageCounter:Int
 
+	Field m_ImageList:wxBitmap[]
 
 	Method OnInit()
-	
+		m_ImageList = New wxBitmap[3]
+		m_ImageList[0] = wxBitmap.CreateFromFile("media/flatnotebook/book_red.png", wxBITMAP_TYPE_PNG)
+		m_ImageList[1] = wxBitmap.CreateFromFile("media/flatnotebook/book_green.png", wxBITMAP_TYPE_PNG)
+
+		m_ImageList[2] = wxBitmap.CreateFromFile("media/flatnotebook/book_blue.png", wxBITMAP_TYPE_PNG)
+
+
 		' Init the menu bar
 		m_menuBar  = New wxMenuBar.Create( wxMB_DOCKABLE )
 		m_fileMenu = New wxMenu.Create()
@@ -224,7 +241,7 @@ Type Frame Extends wxFrame
 		book.SetRightClickMenu(rmenu)
 	
 		' Set the image list 
-		'book.SetImageList(&m_ImageList)
+		book.SetImageList(m_ImageList)
 	
 		' Add spacer between the books
 		Local spacer:wxPanel = New wxPanel.Create(Self, wxID_ANY)
@@ -279,21 +296,62 @@ Type Frame Extends wxFrame
 		Connect(MENU_USE_DROP_ARROW_BUTTON, wxEVT_COMMAND_MENU_SELECTED, OnDropDownArrow)
 		Connect(MENU_ALLOW_FOREIGN_DND, wxEVT_COMMAND_MENU_SELECTED, OnAllowForeignDnd)
 
+		Connect(MENU_USE_DROP_ARROW_BUTTON, wxEVT_UPDATE_UI, OnDropDownArrowUI)
+		Connect(MENU_HIDE_NAV_BUTTONS, wxEVT_UPDATE_UI, OnHideNavigationButtonsUI)
+		Connect(MENU_ALLOW_FOREIGN_DND, wxEVT_UPDATE_UI, OnAllowForeignDndUI)
+
+		Connect(-1, wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGING, OnPageChanging)
+
+		Connect(-1, wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGED, OnPageChanged)
+
+		Connect(-1, wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CLOSING, OnPageClosing)
+
+		
+
+		Connect(MENU_EDIT_INSERT_PAGE, wxEVT_COMMAND_MENU_SELECTED, OnInsertPage)
+
+		Connect(MENU_EDIT_INSERT_BEFORE_PAGE, wxEVT_COMMAND_MENU_SELECTED, OnInsertBeforeGivenPage)
+
+		Connect(MENU_EDIT_SELECT_PAGE_TO_DELETE, wxEVT_COMMAND_MENU_SELECTED, OnDeleteGivenPage)
+
+
 		Maximize(True)
 	End Method
 
 	Method DeleteNotebookPage(tabIdx:Int)
+		book.DeletePage(tabIdx)
 	End Method
-	
 
 	Method InsertNotebookPage:Int(tabIdx:Int)
+		Local caption:String = "New Page Inserted #" + newPageCounter
+
+		Local img:Int = -1
+		If m_bShowImages Then
+			img = Rand(0, book.GetImageList().length - 1)
+		End If
+		Return book.InsertPage(tabIdx, CreatePage(),  caption, True, img)
+
 	End Method
 
 
 	Function OnInsertPage(event:wxEvent)
+		Local frm:Frame = Frame(event.parent)
+
+		Local index:Int = frm.book.GetSelection()
+		frm.Freeze()
+		frm.InsertNotebookPage(index)
+		frm.Thaw()
 	End Function
 	
 	Function OnInsertBeforeGivenPage(event:wxEvent)
+		Local frm:Frame = Frame(event.parent)
+
+		Local tabIdx:Int = frm.GetTabIndexFromUser("Insert Page", "Enter Tab Number to insert the page before:")
+		If tabIdx <> -1 Then
+			frm.Freeze()
+			frm.InsertNotebookPage(tabIdx)
+			frm.Thaw()
+		End If
 	End Function
 
 	Function OnQuit(event:wxEvent)
@@ -311,8 +369,7 @@ Type Frame Extends wxFrame
 		frm.Freeze()
 		Local img:Int = -1
 		If frm.m_bShowImages Then
-			'img = Rand(0, frm.book.GetImageList().size()
-			img = 0
+			img = Rand(0, frm.book.GetImageList().length - 1)
 		End If
 		frm.book.AddPage(frm.CreatePage(), caption, True, img)
 		frm.Thaw()	
@@ -330,21 +387,41 @@ Type Frame Extends wxFrame
 	End Method
 
 	Function OnDeletePage(event:wxEvent)
+		Local frm:Frame = Frame(event.parent)
+
+		frm.DeleteNotebookPage(frm.book.GetSelection())
+
 	End Function
 
 	Function OnDeleteGivenPage(event:wxEvent)
+		Local frm:Frame = Frame(event.parent)
+
+		Local tabIdx:Int = frm.GetTabIndexFromUser("Delete Page", "Enter Tab Number to delete:")
+		If tabIdx <> -1 Then
+			frm.DeleteNotebookPage(tabIdx)
+		End If
 	End Function
 
 	Function OnSetSelection(event:wxEvent)
+		Local frm:Frame = Frame(event.parent)
+
+		Local tabIdx:Int = frm.GetTabIndexFromUser("Enable Tab", "Enter Tab Number to enable:")
+		If tabIdx <> -1 Then
+			frm.book.SetSelection(tabIdx)
+		End If
 	End Function
 
 	Function OnAdvanceSelectionFwd(event:wxEvent)
+		Frame(event.parent).book.AdvanceSelection(True)
 	End Function
 
 	Function OnAdvanceSelectionBack(event:wxEvent)
+		Frame(event.parent).book.AdvanceSelection(False)
 	End Function
 
 	Function OnShowImages(event:wxEvent)
+		Frame(event.parent).m_bShowImages = wxCommandEvent(event).IsChecked()
+
 	End Function
 
 	Function OnVC71Style(event:wxEvent)
@@ -416,52 +493,298 @@ Type Frame Extends wxFrame
 	End Function
 
 	Function OnSelectColor(event:wxEvent)
+		Local frm:Frame = Frame(event.parent)
+
+		' Open a color dialog
+		Local dlg:wxColourDialog = New wxColourDialog.Create(frm)
+		If dlg.ShowModal() = wxID_OK Then
+			Select event.GetId()
+	            Case MENU_SELECT_GRADIENT_COLOR_BORDER
+	                frm.book.SetGradientColorBorder(dlg.GetColourData().GetColour())
+	
+	            Case MENU_SELECT_GRADIENT_COLOR_FROM
+	                frm.book.SetGradientColorFrom(dlg.GetColourData().GetColour())
+	
+	            Case MENU_SELECT_GRADIENT_COLOR_TO
+	                frm.book.SetGradientColorTo(dlg.GetColourData().GetColour())
+	
+	            Case MENU_SET_ACTIVE_TEXT_COLOR
+	                frm.book.SetActiveTabTextColour(dlg.GetColourData().GetColour())
+	
+	            Case MENU_SELECT_NONACTIVE_TEXT_COLOR
+	                frm.book.SetNonActiveTabTextColour(dlg.GetColourData().GetColour())
+	
+	            Case MENU_SET_ACTIVE_TAB_COLOR
+	                frm.book.SetActiveTabColour(dlg.GetColourData().GetColour())
+	
+	            Case MENU_SET_TAB_AREA_COLOR
+	                frm.book.SetTabAreaColour(dlg.GetColourData().GetColour())
+	
+	        End Select
+			frm.book.Refresh()
+		End If
+		dlg.Free()
 	End Function
 
 	Function OnSetPageImageIndex(event:wxEvent)
+		Local frm:Frame = Frame(event.parent)
+
+		Local size:Int = frm.book.GetImageList().length - 1
+		Local dlg: wxTextEntryDialog = New wxTextEntryDialog.Create(frm, "Enter an image index (0-" + size + "):", "Set Angle")
+
+		If dlg.ShowModal() = wxID_OK Then
+
+			Local val:String = dlg.GetValue()
+
+			frm.book.SetPageImageIndex(frm.book.GetSelection(), Max(0, Min(size, val.ToInt())))
+
+		End If
+		dlg.Free()
+
 	End Function
 
-	Function OnStyle(event:wxEvent)
+	Function OnStyle(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+        Local style:Int = frm.book.GetWindowStyleFlag()
+        Select event.GetId()
+            Case MENU_HIDE_NAV_BUTTONS
+                If event.IsChecked() Then
+                    ' Hide the navigation buttons
+                    style :| wxFNB_NO_NAV_BUTTONS
+                Else
+                    style :& ~(wxFNB_NO_NAV_BUTTONS)
+                    style :& ~(wxFNB_DROPDOWN_TABS_LIST)
+                End If
+                frm.book.SetWindowStyleFlag(style)
+    
+            Case MENU_HIDE_X
+                If event.IsChecked() Then
+                    ' Hide the X button
+                    style :| wxFNB_NO_X_BUTTON
+                Else
+                    If style & wxFNB_NO_X_BUTTON Then
+                        style :~ wxFNB_NO_X_BUTTON
+                    End If
+                End If
+                frm.book.SetWindowStyleFlag(style)
+    
+            Case MENU_DRAW_BORDER
+                If event.IsChecked() Then
+                    style :| wxFNB_TABS_BORDER_SIMPLE
+                Else
+                    If style & wxFNB_TABS_BORDER_SIMPLE Then
+                        style :~ wxFNB_TABS_BORDER_SIMPLE
+                    End If
+                End If
+                frm.book.SetWindowStyleFlag(style)
+    
+            Case MENU_USE_MOUSE_MIDDLE_BTN
+                If event.IsChecked() Then
+                    style :| wxFNB_MOUSE_MIDDLE_CLOSES_TABS
+                Else
+                    If style & wxFNB_MOUSE_MIDDLE_CLOSES_TABS Then
+                        style :~ wxFNB_MOUSE_MIDDLE_CLOSES_TABS
+                    End If
+                End If
+                frm.book.SetWindowStyleFlag(style)
+    
+            Case MENU_USE_BOTTOM_TABS
+                If event.IsChecked() Then
+                    style :| wxFNB_BOTTOM
+                Else
+                    If style & wxFNB_BOTTOM Then
+                        style :~ wxFNB_BOTTOM
+                    End If
+                End If
+                frm.book.SetWindowStyleFlag(style)
+                frm.book.Refresh()
+        End Select
 	End Function
 
-	Function OnDrawTabX(event:wxEvent)
+	Function OnDrawTabX(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+		If event.IsChecked() Then
+			style :| wxFNB_X_ON_TAB
+		Else
+			If style & wxFNB_X_ON_TAB Then
+				style :~ wxFNB_X_ON_TAB
+			End If		
+		End If
+	
+		frm.book.SetWindowStyleFlag(style)
 	End Function
 
-	Function OnGradientBack(event:wxEvent)
+	Function OnGradientBack(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+		If event.IsChecked() Then
+			style :| wxFNB_BACKGROUND_GRADIENT
+		Else
+			style :& ~(wxFNB_BACKGROUND_GRADIENT)
+		End If
+		frm.book.SetWindowStyleFlag( style )
+		frm.book.Refresh()
 	End Function
 
-	Function OnColorfullTabs(event:wxEvent)
+	Function OnColorfullTabs(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+		If event.IsChecked() Then
+			style :| wxFNB_COLORFUL_TABS
+		Else
+			style :& ~(wxFNB_COLORFUL_TABS)
+		End If
+		frm.book.SetWindowStyleFlag( style )
+		frm.book.Refresh()
 	End Function
 
-	Function OnSmartTabs(event:wxEvent)
+	Function OnSmartTabs(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+		If event.IsChecked() Then
+			style :| wxFNB_SMART_TABS
+		Else
+			style :& ~(wxFNB_SMART_TABS)
+		End If
+		frm.book.SetWindowStyleFlag( style )
+		frm.book.Refresh()
 	End Function
 
-	Function OnDropDownArrow(event:wxEvent)
+	Function OnDropDownArrow(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+		If event.IsChecked() Then
+			style :| wxFNB_DROPDOWN_TABS_LIST
+			style :| wxFNB_NO_NAV_BUTTONS
+		Else
+			style :& ~(wxFNB_DROPDOWN_TABS_LIST)
+			style :& ~(wxFNB_NO_NAV_BUTTONS)
+		End If
+	
+		frm.book.SetWindowStyleFlag( style )
+		frm.book.Refresh()
 	End Function
 
 	Function OnDropDownArrowUI(event:wxEvent)
+		Local style:Int = Frame(event.parent).book.GetWindowStyleFlag()
+		If style & wxFNB_DROPDOWN_TABS_LIST Then
+			wxUpdateUIEvent(event).Check( True )
+		Else
+			wxUpdateUIEvent(event).Check( True )
+		End If
+
 	End Function
 
 	Function OnHideNavigationButtonsUI(event:wxEvent)
+		Local style:Int = Frame(event.parent).book.GetWindowStyleFlag()
+		If style & wxFNB_NO_NAV_BUTTONS Then
+			wxUpdateUIEvent(event).Check(True)
+		Else
+			wxUpdateUIEvent(event).Check(False)
+		End If
+
 	End Function
 
 
 	Function OnEnableTab(event:wxEvent)
+		Local frm:Frame = Frame(event.parent)
+
+		Local tabIdx:Int = frm.GetTabIndexFromUser("Set Selection", "Enter Tab Number to select:")
+		If tabIdx <> -1 Then
+			frm.book.EnablePage(tabIdx, True)
+		End If
 	End Function
 
 	Function OnDisableTab(event:wxEvent)
+		Local frm:Frame = Frame(event.parent)
+
+		Local tabIdx:Int = frm.GetTabIndexFromUser("Disable Tab", "Enter Tab Number To disable:")
+		If tabIdx <> -1 Then
+			frm.book.EnablePage(tabIdx, False)
+		End If
 	End Function
 
-	Function OnEnableDrag(event:wxEvent)
+	Function OnEnableDrag(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+		If event.IsChecked() Then
+			If style & wxFNB_NODRAG Then
+				style :~ wxFNB_NODRAG
+			End If
+		Else
+			style :| wxFNB_NODRAG
+		End If
+	
+		frm.book.SetWindowStyleFlag(style)
 	End Function
 
-	Function OnDClickCloseTab(event:wxEvent)
+	Function OnDClickCloseTab(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+
+		If event.IsChecked() Then
+
+			style :| wxFNB_DCLICK_CLOSES_TABS
+
+		Else
+
+			style :& ~(wxFNB_DCLICK_CLOSES_TABS)
+
+		End If
+
+	
+
+		frm.book.SetWindowStyleFlag(style)
+
 	End Function
 
-	Function OnAllowForeignDnd( event:wxEvent )
+	Function OnAllowForeignDnd( evt:wxEvent )
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+
+		If event.IsChecked() Then
+
+			style :| wxFNB_ALLOW_FOREIGN_DND
+
+		Else
+
+			style :& ~(wxFNB_ALLOW_FOREIGN_DND)
+		End If
+
+		frm.book.SetWindowStyleFlag( style )
+
+		frm.book.Refresh()
+
 	End Function
 
 	Function OnAllowForeignDndUI( event:wxEvent )
+		Local style:Int = Frame(event.parent).book.GetWindowStyleFlag()
+		If style & wxFNB_NODRAG Then
+
+			wxUpdateUIEvent(event).Enable(False)
+		Else
+			wxUpdateUIEvent(event).Enable(True)
+		End If
+
 	End Function
 
 
@@ -470,13 +793,46 @@ Type Frame Extends wxFrame
 	End Function
 
 	Function OnPageChanged(event:wxEvent)
+		DebugLog("Page has changed, new selection is now = " + wxFlatNotebookEvent(event).GetSelection())
 	End Function
 
 	Function OnPageClosing(event:wxEvent)
+		DebugLog("Page is closing: selection = " + wxFlatNotebookEvent(event).GetSelection())
 	End Function
 
 	Function OnSetAllPagesShapeAngle(event:wxEvent)
+		Local frm:Frame = Frame(event.parent)
+
+		Local dlg:wxTextEntryDialog = New wxTextEntryDialog.Create(frm, "Enter an inclination of header borders (0-15):", "Set Angle")
+
+		If dlg.ShowModal() = wxID_OK Then
+
+			Local val:String = dlg.GetValue()
+
+			frm.book.SetAllPagesShapeAngle(Max(0, Min(15, val.ToInt())))
+
+		End If
+		dlg.Free()
+
 	End Function
+
+	Method GetTabIndexFromUser:Int(title:String, prompt:String)
+
+		Local dlg:wxTextEntryDialog = New wxTextEntryDialog.Create(Self, prompt, title)
+
+		If dlg.ShowModal() = wxID_OK Then
+
+			Local val:String = dlg.GetValue()
+			dlg.Free()
+
+			Return val.ToInt()
+
+		End If
+		dlg.Free()
+
+		Return -1
+
+	End Method
 
 
 End Type

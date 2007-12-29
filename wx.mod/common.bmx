@@ -26,6 +26,7 @@ Import BRL.Blitz
 Import "consts.bmx"
 
 ?linux
+'Import "-L../lib/linux/"
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
 Import "../include/*.h"
 

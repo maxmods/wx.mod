@@ -22,13 +22,17 @@
 
 #include "wxglue.h"
 #include "wx/wxFlatNotebook/wxFlatNotebook.h"
-//#include "../wxwindow.mod/glue.h"
+#include "../wxbitmap.mod/glue.h"
 
 class MaxFlatNotebook;
 
 extern "C" {
 
 #include <blitz.h>
+	
+	BBArray * _wx_wxflatnotebook_wxFlatNotebook__newbitmaparray(int size);
+	void _wx_wxflatnotebook_wxFlatNotebook__setbitmap(BBArray * list, int index, MaxBitmap * bitmap);
+	MaxBitmap * _wx_wxflatnotebook_wxFlatNotebook__getbitmap(BBArray * list, int index);
 
 	wxFlatNotebook * bmx_wxflatnotebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 
@@ -42,6 +46,7 @@ extern "C" {
     wxWindow * bmx_wxflatnotebook_getcurrentpage(wxFlatNotebook * fnb);
     wxWindow * bmx_wxflatnotebook_getpage(wxFlatNotebook * fnb, int page);
     int bmx_wxflatnotebook_getpageindex(wxFlatNotebook * fnb, wxWindow * win);
+    int bmx_wxflatnotebook_getselection(wxFlatNotebook * fnb);
     int bmx_wxflatnotebook_getpreviousselection(wxFlatNotebook * fnb);
     bool bmx_wxflatnotebook_getpageshapeangle(wxFlatNotebook * fnb, int page, unsigned int * result);
     void bmx_wxflatnotebook_setpageshapeangle(wxFlatNotebook * fnb, int page, unsigned int angle);
@@ -79,6 +84,17 @@ extern "C" {
     void bmx_wxflatnotebook_setforceselection(wxFlatNotebook * fnb, bool force);
     bool bmx_wxflatnotebook_getforceselection(wxFlatNotebook * fnb);
     wxBoxSizer * bmx_wxflatnotebook_getmainsizer(wxFlatNotebook * fnb);
+
+	wxFlatNotebookImageList * bmx_wxflatnotebook_setimagelist(wxFlatNotebook * fnb, BBArray * bits);
+	BBArray * bmx_wxflatnotebook_getimagelist(wxFlatNotebook * fnb);
+	void bmx_wxflatnotebook_deleteimagelist(wxFlatNotebookImageList * list);
+
+	int bmx_wxflatnotebook_geteventtype(int type);
+
+	void bmx_wxflatnotebookevent_setselection(wxFlatNotebookEvent & event, int selection);
+	void bmx_wxflatnotebookevent_setoldselection(wxFlatNotebookEvent & event, int selection);
+	int bmx_wxflatnotebookevent_getselection(wxFlatNotebookEvent & event);
+	int bmx_wxflatnotebookevent_getoldselection(wxFlatNotebookEvent & event);
 
 }
 

@@ -24,9 +24,39 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxTextEntryDialog::MaxTextEntryDialog(BBObject * handle, wxWindow * parent, const wxString& message,
+		const wxString& caption, const wxString& defaultValue, long style, int x, int y)
+	: wxTextEntryDialog(parent, message, caption, defaultValue, style, wxPoint(x, y))
+{
+	wxbind(this, handle);
+}
+
+MaxTextEntryDialog::~MaxTextEntryDialog() {
+	wxunbind(this);
+}
 
 
 // *********************************************
+
+wxTextEntryDialog * bmx_wxtextentrydialog_create(BBObject * handle, wxWindow * parent, BBString * message,
+		BBString * caption, BBString * defaultValue, long style, int x, int y) {
+
+	return new MaxTextEntryDialog(handle, parent, wxStringFromBBString(message), wxStringFromBBString(caption),
+		wxStringFromBBString(defaultValue), style, x, y);
+}
+
+BBString * bmx_wxtextentrydialog_getvalue(wxTextEntryDialog * dialog) {
+	return bbStringFromWxString(dialog->GetValue());
+}
+
+void bmx_wxtextentrydialog_setvalue(wxTextEntryDialog * dialog, BBString * value) {
+	dialog->SetValue(wxStringFromBBString(value));
+}
+
+int bmx_wxtextentrydialog_showmodal(wxTextEntryDialog * dialog) {
+	return dialog->ShowModal();
+}
+
 
 
 BBString * bmx_wxgettextfromuser(BBString * message, BBString * caption, BBString * defaultValue, wxWindow * parent,

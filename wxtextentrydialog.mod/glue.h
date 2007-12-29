@@ -23,11 +23,17 @@
 #include "wxglue.h"
 #include "wx/textdlg.h"
 
-//class MaxNotebook;
+class MaxTextEntryDialog;
 
 extern "C" {
 
 #include <blitz.h>
+
+	wxTextEntryDialog * bmx_wxtextentrydialog_create(BBObject * handle, wxWindow * parent, BBString * message,
+			BBString * caption, BBString * defaultValue, long style, int x, int y);
+	BBString * bmx_wxtextentrydialog_getvalue(wxTextEntryDialog * dialog);
+	void bmx_wxtextentrydialog_setvalue(wxTextEntryDialog * dialog, BBString * value);
+	int bmx_wxtextentrydialog_showmodal(wxTextEntryDialog * dialog);
 
 	BBString * bmx_wxgettextfromuser(BBString * message, BBString * caption, BBString * defaultValue, wxWindow * parent,
 		int x, int y, bool centre);
@@ -36,3 +42,11 @@ extern "C" {
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxTextEntryDialog : public wxTextEntryDialog
+{
+public:
+	MaxTextEntryDialog(BBObject * handle, wxWindow * parent, const wxString& message, const wxString& caption,
+		const wxString& defaultValue, long style, int x, int y);
+	~ MaxTextEntryDialog();
+	
+};
