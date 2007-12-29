@@ -113,3 +113,7 @@ void bmx_wxtoplevelwindow_centreonscreen(wxTopLevelWindow * window, int directio
 	window->CentreOnScreen(direction);
 }
 
+wxWindow * bmx_wxtoplevelwindow_getdefaultitem(wxTopLevelWindow * window) {
+	return window->GetDefaultItem();
+}
+

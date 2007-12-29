@@ -120,6 +120,8 @@ extern "C" {
 	long bmx_wxtexturlevent_geturlstart(wxTextUrlEvent & event);
 	long bmx_wxtexturlevent_geturlend(wxTextUrlEvent & event);
 
+	int bmx_wxtextctrl_emulatekeypress(wxTextCtrl * ctrl, wxKeyEvent & event);
+
 }
 
 

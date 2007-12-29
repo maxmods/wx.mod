@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxStaticBoxSizer
+End Rem
 Module wx.wxStaticBoxSizer
 
 ModuleInfo "Version: 1.00"
@@ -54,24 +57,39 @@ convenience. In any case, the sizer owns the wxStaticBox control and will delete
 End Rem
 Type wxStaticBoxSizer Extends wxBoxSizer
 
+	Rem
+	bbdoc: Creates a new static box with the given label and parent window.
+	End Rem
 	Function CreateStaticBoxSizer:wxStaticBoxSizer(orient:Int, parent:wxWindow, label:String = "")
 		Return New wxStaticBoxSizer.CreateSizer(orient, parent, label)
 	End Function
 
+	Rem
+	bbdoc: Creates a wxStaticBoxSizer using the associated static box and the orientation orient, which can be either wxVERTICAL or wxHORIZONTAL as parameters.
+	End Rem
 	Function CreateStaticBoxSizerWithBox:wxStaticBoxSizer(box:wxStaticBox, orient:Int)
 		Return New wxStaticBoxSizer.CreateSizerWithBox(box, orient)
 	End Function
 	
+	Rem
+	bbdoc: Creates a new static box with the given label and parent window.
+	End Rem
 	Method CreateSizer:wxStaticBoxSizer(orient:Int, parent:wxWindow, label:String = "")
 		wxSizerPtr = bmx_wxstaticboxsizer_createsizer(Self, orient, parent.wxObjectPtr, label)
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Creates a wxStaticBoxSizer using the associated static box and the orientation orient, which can be either wxVERTICAL or wxHORIZONTAL as parameters.
+	End Rem
 	Method CreateSizerWithBox:wxStaticBoxSizer(box:wxStaticBox, orient:Int)
 		wxSizerPtr = bmx_wxstaticboxsizer_createsizerwithbox(Self, box.wxObjectPtr, orient)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: Returns the static box associated with the sizer.
+	End Rem
 	Method GetStaticBox:wxStaticBox()
 		Return wxStaticBox._find(bmx_wxstaticboxsizer_getstaticbox(wxSizerPtr))
 	End Method

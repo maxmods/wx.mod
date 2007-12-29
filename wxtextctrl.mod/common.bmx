@@ -135,6 +135,8 @@ Extern
 	Function bmx_wxtexturlevent_geturlstart:Int(handle:Byte Ptr)
 	Function bmx_wxtexturlevent_geturlend:Int(handle:Byte Ptr)
 
+	Function bmx_wxtextctrl_emulatekeypress:Int(handle:Byte Ptr, event:Byte Ptr)
+
 End Extern
 
 ' note : these are set as negative because they used to be positive but where then moved (in wxWidgets), where

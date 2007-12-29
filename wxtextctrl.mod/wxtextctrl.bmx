@@ -255,9 +255,16 @@ Type wxTextCtrl Extends wxControl
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Inserts into the control the character which would have been inserted if the given key event had occurred in the text control.
+	returns: True if the event resulted in a change to the control, False otherwise.
+	about: The event object should be the same as the one passed to EVT_KEY_DOWN handler previously
+	by wxWidgets.
+	<p>
+	Please note that this function doesn't currently work correctly for all keys under any platform but MSW.
+	</p>
 	End Rem
-	Method EmulateKeyPress:Int() ' FIXME
+	Method EmulateKeyPress:Int(event:wxKeyEvent)
+		Return bmx_wxtextctrl_emulatekeypress(wxObjectPtr, event.wxEventPtr)
 	End Method
 	
 	Rem

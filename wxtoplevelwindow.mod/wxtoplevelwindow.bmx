@@ -89,8 +89,7 @@ Type wxTopLevelWindow Extends wxWindow
 	about: The default button is the one activated by pressing the Enter key.
 	End Rem
 	Method GetDefaultItem:wxWindow()
-		' TODO : get the real object
-		'Return bmx_wxtoplevelwindow_getdefaultitem(wxObjectPtr)
+		Return wxWindow._find(bmx_wxtoplevelwindow_getdefaultitem(wxObjectPtr))
 	End Method
 	
 	Rem

@@ -253,6 +253,9 @@ wxTextCtrlHitTestResult bmx_wxtextctrl_hittest(wxTextCtrl * ctrl, int x, int y, 
 	return ctrl->HitTest(wxPoint(x, y), col, row);
 }
 
+int bmx_wxtextctrl_emulatekeypress(wxTextCtrl * ctrl, wxKeyEvent & event) {
+	return ctrl->EmulateKeyPress(event);
+}
 
 void bmx_wxtextattr_delete(MaxTextAttr * style) {
 	delete style;
