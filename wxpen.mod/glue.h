@@ -60,6 +60,12 @@ extern "C" {
 	void bmx_wxpen_setstipple(MaxPen * pen, MaxBitmap * stipple);
 	void bmx_wxpen_setstyle(MaxPen * pen, int style);
 	void bmx_wxpen_setwidth(MaxPen * pen, int width);
+	wxDash * bmx_wxpen_getdashes(MaxPen * pen, int * count);
+	void bmx_wxpen_setdashes(MaxPen * pen, wxDash * dashes, int count);
+
+	wxDash * bmx_wxdashes_create(BBArray * dashes);
+	BBArray * bmx_wxdashes_populate(wxDash * dashes, int count);
+	void bmx_wxdashes_delete(wxDash * dashes);
 
 }
 

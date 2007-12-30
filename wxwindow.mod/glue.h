@@ -38,6 +38,9 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBArray * _wx_wxwindow_wxWindow__newwindowarray(int size);
+	void _wx_wxwindow_wxWindow__setwindow(BBArray * array, int index, wxWindow * window);
+
 	MaxWindow * bmx_wxwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	bool bmx_wxwindow_show(wxWindow * window, bool value);
 	bool bmx_wxwindow_close(wxWindow * window, bool force);
@@ -177,6 +180,32 @@ extern "C" {
 	void bmx_wxwindow_settooltip(wxWindow * window, BBString * tip);
 	void bmx_wxwindow_setvirtualsize(wxWindow * window, int width, int height);
 	void bmx_wxwindow_setvirtualsizehints(wxWindow * window, int minW, int minH, int maxW, int maxH);
+	
+	BBArray * bmx_wxwindow_getchildren(wxWindow * window);
+	void bmx_wxwindow_convertdialogtopixels(wxWindow * window, int dx, int dy, int * px, int  * py);
+	void bmx_wxwindow_convertpixelstodialog(wxWindow * window, int px, int py, int * dx, int * dy);
+	wxWindow * bmx_wxwindow_findwindow(wxWindow * window, long id);
+	wxWindow * bmx_wxwindow_findwindowbyid(long id, wxWindow * parent);
+	wxWindow * bmx_wxwindow_findwindowbyname(BBString * name, wxWindow * parent);
+	wxWindow * bmx_wxwindow_findwindowbylabel(BBString * label, wxWindow * parent);
+	wxWindow * bmx_wxwindow_getcapture();
+	wxCaret * bmx_wxwindow_getcaret(wxWindow * window);
+	wxSizer * bmx_wxwindow_getcontainingsizer(wxWindow * window);
+	MaxCursor * bmx_wxwindow_getcursor(wxWindow * window);
+	long bmx_wxwindow_getextrastyle(wxWindow * window);
+	wxEvtHandler * bmx_wxwindow_geteventhandler(wxWindow * window);
+	void bmx_wxwindow_gettextextent(wxWindow * window, BBString * text, int * x, int * y, int * descent, int * externalLeading, MaxFont * font, bool use16);
+	void bmx_wxwindow_getvirtualsize(wxWindow * window, int * width, int * height);
+	void bmx_wxwindow_getwindowbordersize(wxWindow * window, int * leftRight, int * topBottom);
+	void bmx_wxwindow_navigate(wxWindow * window, int flags);
+	bool bmx_wxwindow_registerhotkey(wxWindow * window, int hotKeyId, int modifiers, int virtualKeyCode);
+	bool bmx_wxwindow_scrolllines(wxWindow * window, int lines);
+	bool bmx_wxwindow_scrollpages(wxWindow * window, int pages);
+	void bmx_wxwindow_setcaret(wxWindow * window, wxCaret * caret);
+	void bmx_wxwindow_setwindowvariant(wxWindow * window, wxWindowVariant variant);
+	bool bmx_wxwindow_unregisterhotkey(wxWindow * window, int hotKeyId);
+	void bmx_wxwindow_warppointer(wxWindow * window, int x, int y);
+
 
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);

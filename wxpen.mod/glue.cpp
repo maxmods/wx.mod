@@ -182,3 +182,42 @@ void bmx_wxpen_setwidth(MaxPen * pen, int width) {
 	pen->Pen().SetWidth(width);
 }
 
+wxDash * bmx_wxpen_getdashes(MaxPen * pen, int * count) {
+	wxDash * dashes;
+	*count = pen->Pen().GetDashes(&dashes);
+	return dashes;
+}
+
+void bmx_wxpen_setdashes(MaxPen * pen, wxDash * dashes, int count) {
+	pen->Pen().SetDashes(count, dashes);
+}
+
+// *********************************************
+
+
+wxDash * bmx_wxdashes_create(BBArray * p) {
+
+	int n=p->scales[0];
+	int *s=(int*)BBARRAYDATA( p,p->dims );
+
+	wxDash * dashes = (wxDash*)malloc(sizeof(wxDash) * n);
+
+	for( int i=0;i<n;++i ){
+		dashes[i] = static_cast<wxDash>(s[i]);
+	}
+	
+	return dashes;
+}
+
+BBArray * bmx_wxdashes_populate(wxDash * dashes, int count) {
+	BBArray *p=bbArrayNew1D( "i", count );
+	int *s=(int*)BBARRAYDATA( p,p->dims );
+	for( int i=0;i<count;++i ){
+		s[i]= static_cast<int>(dashes[i]);
+	}
+	return p;
+}
+
+void bmx_wxdashes_delete(wxDash * dashes) {
+	free(dashes);
+}

@@ -50,6 +50,9 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Extern
+	Function bmx_wxwindow_getchildren:wxWindow[](handle:Byte Ptr)
+End Extern
 
 
 Rem
@@ -136,14 +139,22 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Centres the window.
+	about: If the window is a top level one (i.e. doesn't have a parent), it will be centered
+	relative to the screen anyhow.
 	End Rem
 	Method Center(direction:Int = wxBOTH)
 		Centre(direction)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Centres the window on its parent.
+	about: This is a more readable synonym for Centre.
+	<p>
+	This methods provides for a way to center top level windows over their parents instead of the
+	entire screen. If there is no parent or if the window is not a top level window, then behaviour
+	is the same as wxWindow::Centre.
+	</p>
 	End Rem
 	Method CenterOnParent(direction:Int = wxBOTH)
 		CentreOnParent(direction)
@@ -158,14 +169,22 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Centres the window.
+	about: If the window is a top level one (i.e. doesn't have a parent), it will be centered
+	relative to the screen anyhow.
 	End Rem
 	Method Centre(direction:Int = wxBOTH)
 		bmx_wxwindow_centre(wxObjectPtr, direction)
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Centres the window on its parent.
+	about: This is a more readable synonym for Centre.
+	<p>
+	This methods provides for a way to center top level windows over their parents instead of the
+	entire screen. If there is no parent or if the window is not a top level window, then behaviour
+	is the same as wxWindow::Centre.
+	</p>
 	End Rem
 	Method CentreOnParent(direction:Int = wxBOTH)
 		bmx_wxwindow_centreonparent(wxObjectPtr, direction)
@@ -221,15 +240,17 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Converts dimensions from dialog units to pixels.
 	End Rem
-	Method ConvertDialogToPixel(dx:Int, dy:Int, px:Int Var, py:Int Var)
+	Method ConvertDialogToPixels(dx:Int, dy:Int, px:Int Var, py:Int Var)
+		bmx_wxwindow_convertdialogtopixels(wxObjectPtr, dx, dy, Varptr px, Varptr py)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Converts dimensions from pixels to dialog units
 	End Rem
-	Method ConvertPixelsToDialog(dx:Int, dy:Int, px:Int Var, py:Int Var)
+	Method ConvertPixelsToDialog(px:Int, py:Int, dx:Int Var, dy:Int Var)
+		bmx_wxwindow_convertpixelstodialog(wxObjectPtr, px, py, Varptr dx, Varptr dy)
 	End Method
 	
 	Rem
@@ -290,13 +311,25 @@ Type wxWindow Extends wxEvtHandler
 	Function FindFocus:wxWindow()
 		Return wxWindow._find(bmx_wxwindow_findfocus())
 	End Function
-	
+
+	Rem
+	bbdoc: Find a child of this window, by identifier.
+	End Rem
+	Method FindWindow:wxWindow(id:Int)
+		Return _find(bmx_wxwindow_findwindow(wxObjectPtr, id))
+	End Method
+		
 	Rem
 	bbdoc: Find the first window with the given id.
 	about: If parent is NULL, the search will start from all top-level frames and dialog boxes; if non-NULL,
 	the search will be limited to the given window hierarchy. The search is recursive in both cases.
 	End Rem
 	Function FindWindowById:wxWindow(id:Int, parent:wxWindow = Null)
+		If parent Then
+			Return wxWindow._find(bmx_wxwindow_findwindowbyid(id, parent.wxObjectPtr))
+		Else
+			Return wxWindow._find(bmx_wxwindow_findwindowbyid(id, Null))
+		End If
 	End Function
 	
 	Rem
@@ -308,6 +341,11 @@ Type wxWindow Extends wxEvtHandler
 	</p>
 	End Rem
 	Function FindWindowByName:wxWindow(name:String, parent:wxWindow = Null)
+		If parent Then
+			Return wxWindow._find(bmx_wxwindow_findwindowbyname(name, parent.wxObjectPtr))
+		Else
+			Return wxWindow._find(bmx_wxwindow_findwindowbyname(name, Null))
+		End If
 	End Function
 	
 	Rem
@@ -317,6 +355,11 @@ Type wxWindow Extends wxEvtHandler
 	the given window hierarchy. The search is recursive in both cases.
 	End Rem
 	Function FindWindowByLabel:wxWindow(label:String, parent:wxWindow = Null)
+		If parent Then
+			Return wxWindow._find(bmx_wxwindow_findwindowbylabel(label, parent.wxObjectPtr))
+		Else
+			Return wxWindow._find(bmx_wxwindow_findwindowbylabel(label, Null))
+		End If
 	End Function
 	
 	Rem
@@ -406,13 +449,18 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the currently captured window.
 	End Rem
 	Function GetCapture:wxWindow()
+		Return wxWindow._find(bmx_wxwindow_getcapture())
 	End Function
 	
-	'Method GetCaret()
-	'End Method
+	Rem
+	bbdoc: Returns the caret associated with the window.
+	End Rem
+	Method GetCaret:wxCaret()
+		Return wxCaret._create(bmx_wxwindow_getcaret(wxObjectPtr))
+	End Method
 	
 	Rem
 	bbdoc: Returns the character height for this window.
@@ -428,8 +476,20 @@ Type wxWindow Extends wxEvtHandler
 		Return bmx_wxwindow_getcharwidth(wxObjectPtr)
 	End Method
 	
-	'Method GetChildren()
-	'End Method
+	Rem
+	bbdoc: Returns a list of the window's children.
+	End Rem
+	Method GetChildren:wxWindow[]()
+		Return bmx_wxwindow_getchildren(wxObjectPtr)
+	End Method
+	
+	Function _newwindowarray:wxWindow[](size:Int)
+		Return New wxWindow[size]
+	End Function
+	
+	Function _setwindow(list:wxWindow[], index:Int, windowPtr:Byte Ptr)
+		list[index] = wxWindow._find(windowPtr)
+	End Function
 
 	'Method GetClassDefaultAttributes()
 	'End Method
@@ -447,12 +507,14 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Return the sizer that this window is a member of, if any, otherwise Null.
 	End Rem
 	Method GetContainingSizer:wxSizer()
+		Return wxSizer._find(bmx_wxwindow_getcontainingsizer(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: not yet implemented
+	bbdoc: Return the cursor associated with this window.
 	End Rem
-	Method GetCursor()
+	Method GetCursor:wxCursor()
+		Return wxCursor._create(bmx_wxwindow_getcursor(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -468,9 +530,18 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the event handler for this window.
+	about: By default, the window is its own event handler.
+	End Rem
+	Method GetEventHandler:wxEvtHandler()
+		Return wxEvtHandler._find(bmx_wxwindow_geteventhandler(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the extra style bits for the window.
 	End Rem
 	Method GetExtraStyle:Int()
+		Return bmx_wxwindow_getextrastyle(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -647,7 +718,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Return the sizer associated with the window by a previous call to SetSizer() or null.
 	End Rem
 	Method GetSizer:wxSizer()
-		Return wxSizer._create(bmx_wxwindow_getsizer(wxObjectPtr))
+		Return wxSizer._find(bmx_wxwindow_getsizer(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -655,15 +726,37 @@ Type wxWindow Extends wxEvtHandler
 	End Rem
 	Method GetTextExtent(text:String, x:Int Var, y:Int Var, descent:Int Var, ..
 			externalLeading:Int Var, font:wxFont = Null, use16:Int = False)
-		
+		If font Then
+			bmx_wxwindow_gettextextent(wxObjectPtr, text, Varptr x, Varptr y, Varptr descent, ..
+				Varptr externalLeading, font.wxObjectPtr, use16)
+		Else
+			bmx_wxwindow_gettextextent(wxObjectPtr, text, Varptr x, Varptr y, Varptr descent, ..
+				Varptr externalLeading, Null, use16)
+		End If
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetToolTip:wxToolTip()
+'		Return bmx_wxwindow_gettooltip(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: This gets the virtual size of the window in pixels.
+	about: By default it returns the client size of the window, but after a call to
+	SetVirtualSize it will return that size.
+	End Rem
+	Method GetVirtualSize(width:Int Var, height:Int Var)
+		bmx_wxwindow_getvirtualsize(wxObjectPtr, Varptr width, Varptr height)
 	End Method
 	
+	Rem
+	bbdoc: Returns the size of the left/right and top/bottom borders of this window.
+	End Rem
+	Method GetWindowBorderSize(leftRight:Int Var, topBottom:Int Var)
+		bmx_wxwindow_getwindowbordersize(wxObjectPtr, Varptr leftRight, Varptr topBottom)
+	End Method
 		
 	Rem
 	bbdoc: Gets the window style that was passed to the constructor or Create method.
@@ -913,7 +1006,8 @@ Type wxWindow Extends wxEvtHandler
 	navigation behaviour for the tab key, since the standard default behaviour for a multiline text
 	control with the wxTE_PROCESS_TAB style is to insert a tab and not navigate to the next control.
 	End Rem
-	Method Navigate:Int(flags:Int = 1) ' TODO... set this properly
+	Method Navigate:Int(flags:Int = wxNavigationKeyEvent.IsForward)
+		bmx_wxwindow_navigate(wxObjectPtr, flags)
 	End Method
 	
 	Rem
@@ -1013,9 +1107,13 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Registers a system wide hotkey.
+	about: Every time the user presses the hotkey registered here, this window will receive
+	a hotkey event. It will receive the event even if the application is in the background
+	and does not have the input focus because the user is working with some other application.
 	End Rem
-	Method RegisterHotKey()
+	Method RegisterHotKey:Int(hotKeyId:Int, modifiers:Int, virtualKeyCode:Int)
+		Return bmx_wxwindow_registerhotkey(wxObjectPtr, hotKeyId, modifiers, virtualKeyCode)
 	End Method
 	
 	Rem
@@ -1029,6 +1127,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Not implemented, cuz the docs say "Notice that this function is mostly internal to wxWidgets and shouldn't be called by the user code."
 	End Rem
 	Method RemoveChild(child:wxWindow)
+		' nothing to see here, move along, move along.
 	End Method
 	
 	Rem
@@ -1054,6 +1153,29 @@ Type wxWindow Extends wxEvtHandler
 	Method ScreenToClient(x:Int Var, y:Int Var)
 		bmx_wxwindow_screentoclient(wxObjectPtr, Varptr x, Varptr y)
 	End Method
+
+	Rem
+	bbdoc: Scrolls the window by the given number of lines down (if lines is positive) or up.
+	about: This method is currently only implemented under MSW and wxTextCtrl under wxGTK (it also works for wxScrolledWindow derived classes under all platforms).
+	End Rem
+	Method ScrollLines:Int(lines:Int)
+		Return bmx_wxwindow_scrolllines(wxObjectPtr, lines)
+	End Method
+	
+	Rem
+	bbdoc: Scrolls the window by the given number of pages down (if pages is positive) or up.
+	about: This method is currently only implemented under MSW and wxGTK.
+	End Rem
+	Method ScrollPages:Int(pages:Int)
+		Return bmx_wxwindow_scrollpages(wxObjectPtr, pages)
+	End Method
+	
+	Method ScrollWindow(dx:Int, dy:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1)
+	End Method
+
+	Method ScrollWindowRect(dx:Int, dy:Int, rect:wxRect = Null)
+	End Method
+	
 	
 
 	Rem
@@ -1127,7 +1249,8 @@ Type wxWindow Extends wxEvtHandler
 	Rem
 	bbdoc: Sets the caret associated with the window.
 	End Rem
-	Method SetCaret()
+	Method SetCaret(caret:wxCaret)
+		bmx_wxwindow_setcaret(wxObjectPtr, caret.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1141,9 +1264,10 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Not used. Use sizers instead.
 	End Rem
 	Method SetConstraints()
+	 ' nothing to see here, move along, move along.
 	End Method
 	
 	Rem
@@ -1320,6 +1444,26 @@ Type wxWindow Extends wxEvtHandler
 	
 	Rem
 	bbdoc: Sets the scrollbar properties of a built-in scrollbar.
+	about: Let's say you wish to display 50 lines of text, using the same font. The window is sized so that you can only see 16
+	lines at a time.
+	<p>
+	You would use:
+	<pre>
+	SetScrollbar(wxVERTICAL, 0, 16, 50)
+	</pre>
+	Note that with the window at this size, the thumb position can never go above 50 minus
+	16, or 34.
+	</p>
+	<p>
+	You can determine how many lines are currently visible by dividing the current view size
+	by the character height in pixels.
+	</p>
+	<p>
+	When defining your own scrollbar behaviour, you will always need to recalculate the
+	scrollbar settings when the window size changes. You could therefore put your scrollbar
+	calculations and SetScrollbar call into a function named AdjustScrollbars, which can be
+	called initially and also from your wxSizeEvent handler function.
+	</p>
 	End Rem
 	Method SetScrollbar(orientation:Int, position:Int, thumbsize:Int, range:Int, refresh:Int = True)
 		bmx_wxwindow_setscrollbar(wxObjectPtr, orientation, position, thumbsize, range, refresh)
@@ -1327,20 +1471,22 @@ Type wxWindow Extends wxEvtHandler
 	
 	Rem
 	bbdoc: Sets the position of one of the built-in scrollbars.
+	about: This method does not directly affect the contents of the window: it is up to the
+	application to take note of scrollbar attributes and redraw contents accordingly.
 	End Rem
 	Method SetScrollPos(orientation:Int, pos:Int, refresh:Int = True)
 		bmx_wxwindow_setscrollpos(wxObjectPtr, orientation, pos, refresh)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the size and position of the window in pixels.
 	End Rem
 	Method SetDimensions(x:Int, y:Int, width:Int, height:Int, sizeFlags:Int = wxSIZE_AUTO)
 		bmx_wxwindow_setdimensions(wxObjectPtr, x, y, width, height, sizeFlags)
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Sets the size and position of the window in pixels.
 	End Rem
 	Method SetDimensionsRect(rect:wxRect)
 		bmx_wxwindow_setdimensionsrect(wxObjectPtr, rect.wxObjectPtr)
@@ -1440,16 +1586,34 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: This method can be called under all platforms but only does anything under Mac OS X 10.3+ currently.
+	about: Under this system, each of the standard control can exist in several sizes which
+	correspond to the following values : 
+	<table width="90%" align="center">
+	<tr><th>Constant</th><th>Description</th></tr>
+	<tr><td>wxWINDOW_VARIANT_NORMAL</td><td>Normal size</td></tr>
+	<tr><td>wxWINDOW_VARIANT_SMALL</td><td>Smaller size (about 25 % smaller than normal )</td></tr>
+	<tr><td>wxWINDOW_VARIANT_MINI</td><td>Mini size (about 33 % smaller than normal )</td></tr>
+	<tr><td>wxWINDOW_VARIANT_LARGE</td><td>Large size (about 25 % larger than normal )</td></tr>
+	</table>
+	By default the controls use the normal size, of course, but this method can be used to change this.
 	End Rem
 	Method SetWindowVariant(variant:Int)
+		bmx_wxwindow_setwindowvariant(wxObjectPtr, variant)
 	End Method
 	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ShouldInheritColours:Int()
-	End Method
+	'Rem
+	'bbdoc: Return True from here To allow the colours of this window To be changed by InheritAttributes, returning False forbids inheriting them from the parent window.
+	'about: The base Type version returns False, but this Method is overridden in wxControl where it returns True.
+	'End Rem
+	'Method ShouldInheritColours:Int()
+	'	Return bmx_wxwindow_shouldinheritcolours(wxObjectPtr)
+	'End Method
+	
+	'Function _shouldinheritcolour:Int(window:wxWindow)
+	'	Return window.ShouldInheritColours()
+	'End Function
+	
 	
 	Rem
 	bbdoc: Shows or hides the window.
@@ -1503,9 +1667,11 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Unregisters a system wide hotkey.
+	about: This method is currently only implemented under MSW.
 	End Rem
 	Method UnregisterHotKey:Int(hotKeyId:Int)
+		Return bmx_wxwindow_unregisterhotkey(wxObjectPtr, hotKeyId)
 	End Method
 	
 	Rem
@@ -1563,9 +1729,12 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Moves the pointer to the given position on the window.
+	about: NB: This function is not supported under Mac because Apple Human Interface
+	Guidelines forbid moving the mouse cursor programmatically.
 	End Rem
 	Method WarpPointer(x:Int, y:Int)
+		bmx_wxwindow_warppointer(wxObjectPtr, x, y)
 	End Method	
 	
 	Method Free()
@@ -1644,6 +1813,17 @@ Type wxSizer
 		
 		Return Null
 	End Function
+
+	Function _find:wxSizer(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local sizer:wxSizer = wxSizer(wxfind(wxObjectPtr))
+			If Not sizer Then
+				Return wxSizer._create(wxObjectPtr)
+			End If
+			Return sizer
+		End If
+	End Function
+
 	
 	Rem
 	bbdoc: Appends a wxWindow to the sizer.
@@ -2656,6 +2836,43 @@ Type wxToolTip Extends wxObject
 	
 End Type
 
+
+Rem
+bbdoc: A caret is a blinking cursor showing the position where the typed text will appear.
+about: The text controls usually have a caret but wxCaret class also allows to use a caret in
+other windows.
+<p>
+Currently, the caret appears as a rectangle of the given size. In the future, it will be possible
+to specify a bitmap to be used for the caret shape.
+</p>
+<p>
+A caret is always associated with a window and the current caret can be retrieved using wxWindow::GetCaret.
+The same caret can't be reused in two different windows.
+</p>
+End Rem
+Type wxCaret
+
+	Field wxObjectPtr:Byte Ptr
+	
+	Function _create:wxCaret(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxCaret = New wxCaret
+		
+			this.wxObjectPtr = wxObjectPtr
+		
+			Return this
+		End If
+		
+		Return Null
+	End Function
+	
+	Function CreateCaret:wxCaret()
+	End Function
+	
+	Method Create:wxCaret()
+	End Method
+
+End Type
 
 
 Type TWindowEventFactory Extends TEventFactory

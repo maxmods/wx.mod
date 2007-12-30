@@ -649,6 +649,144 @@ void bmx_wxwindow_setvirtualsizehints(wxWindow * window, int minW, int minH, int
 	window->SetVirtualSizeHints(minW, minH, maxW, maxH);
 }
 
+BBArray * bmx_wxwindow_getchildren(wxWindow * window) {
+	wxWindowList wlist = window->GetChildren();
+	int size = wlist.size();
+	BBArray * array = _wx_wxwindow_wxWindow__newwindowarray(size);
+
+	wxWindowList::iterator iter;
+	int i = 0;
+	for (iter = wlist.begin(); iter != wlist.end(); ++iter) { 
+		wxWindow * win = *iter;
+		_wx_wxwindow_wxWindow__setwindow(array, i++, win);
+	}
+	return array;
+}
+
+void bmx_wxwindow_convertdialogtopixels(wxWindow * window, int dx, int dy, int * px, int  * py) {
+	wxPoint p = window->ConvertDialogToPixels(wxPoint(dx, dy));
+	*px = p.x;
+	*py = p.y;
+}
+
+void bmx_wxwindow_convertpixelstodialog(wxWindow * window, int px, int py, int * dx, int * dy) {
+	wxPoint p = window->ConvertPixelsToDialog(wxPoint(px, py));
+	*dx = p.x;
+	*dy = p.y;
+}
+
+wxWindow * bmx_wxwindow_findwindow(wxWindow * window, long id) {
+	return window->FindWindow(id);
+}
+
+wxWindow * bmx_wxwindow_findwindowbyid(long id, wxWindow * parent) {
+	if (parent) {
+		return wxWindow::FindWindowById(id, parent);
+	} else {
+		return wxWindow::FindWindowById(id);
+	}
+}
+
+wxWindow * bmx_wxwindow_findwindowbyname(BBString * name, wxWindow * parent) {
+	if (parent) {
+		return wxWindow::FindWindowByName(wxStringFromBBString(name), parent);
+	} else {
+		return wxWindow::FindWindowByName(wxStringFromBBString(name));
+	}
+}
+
+wxWindow * bmx_wxwindow_findwindowbylabel(BBString * label, wxWindow * parent) {
+	if (parent) {
+		return wxWindow::FindWindowByLabel(wxStringFromBBString(label), parent);
+	} else {
+		return wxWindow::FindWindowByLabel(wxStringFromBBString(label));
+	}
+}
+
+wxWindow * bmx_wxwindow_getcapture() {
+	return wxWindow::GetCapture();
+}
+
+wxCaret * bmx_wxwindow_getcaret(wxWindow * window) {
+	return window->GetCaret();
+}
+
+wxSizer * bmx_wxwindow_getcontainingsizer(wxWindow * window) {
+	return window->GetContainingSizer();
+}
+
+MaxCursor * bmx_wxwindow_getcursor(wxWindow * window) {
+	wxCursor c(window->GetCursor());
+	return new MaxCursor(c);
+}
+
+long bmx_wxwindow_getextrastyle(wxWindow * window) {
+	return window->GetExtraStyle();
+}
+
+wxEvtHandler * bmx_wxwindow_geteventhandler(wxWindow * window) {
+	return window->GetEventHandler();
+}
+
+void bmx_wxwindow_gettextextent(wxWindow * window, BBString * text, int * x, int * y, int * descent,
+		int * externalLeading, MaxFont * font, bool use16) {
+	if (font) {
+		window->GetTextExtent(wxStringFromBBString(text), x, y, descent, externalLeading, &font->Font());//, use16);
+	} else {
+		window->GetTextExtent(wxStringFromBBString(text), x, y, descent, externalLeading, NULL);//, use16);
+	}
+}
+
+void bmx_wxwindow_getvirtualsize(wxWindow * window, int * width, int * height) {
+	window->GetVirtualSize(width, height);
+}
+
+void bmx_wxwindow_getwindowbordersize(wxWindow * window, int * leftRight, int * topBottom) {
+	wxSize s(window->GetWindowBorderSize());
+	*leftRight = s.x;
+	*topBottom = s.y;
+}
+
+void bmx_wxwindow_navigate(wxWindow * window, int flags) {
+	window->Navigate(flags);
+}
+
+bool bmx_wxwindow_registerhotkey(wxWindow * window, int hotKeyId, int modifiers, int virtualKeyCode) {
+#ifdef WIN32
+	return window->RegisterHotKey(hotKeyId, modifiers, virtualKeyCode);
+#else
+	return false;
+#endif
+}
+
+bool bmx_wxwindow_scrolllines(wxWindow * window, int lines) {
+	return window->ScrollLines(lines);
+}
+
+bool bmx_wxwindow_scrollpages(wxWindow * window, int pages) {
+	return window->ScrollPages(pages);
+}
+
+void bmx_wxwindow_setcaret(wxWindow * window, wxCaret * caret) {
+	window->SetCaret(caret);
+}
+
+void bmx_wxwindow_setwindowvariant(wxWindow * window, wxWindowVariant variant) {
+	window->SetWindowVariant(variant);
+}
+
+bool bmx_wxwindow_unregisterhotkey(wxWindow * window, int hotKeyId) {
+#ifdef WIN32
+	return window->UnregisterHotKey(hotKeyId);
+#else
+	return false;
+#endif
+}
+
+void bmx_wxwindow_warppointer(wxWindow * window, int x, int y) {
+	window->WarpPointer(x, y);
+}
+
 
 // *********************************************
 

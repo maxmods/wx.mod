@@ -98,9 +98,12 @@ Type wxPen Extends wxGDIObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets an array of dashes.
 	End Rem
-	Method GetDashes()
+	Method GetDashes:wxDashes()
+		Local count:Int
+		Local bp:Byte Ptr = bmx_wxpen_getdashes(wxObjectPtr, Varptr count)
+		Return wxDashes._create(bp, count)
 	End Method
 	
 	Rem
@@ -169,9 +172,10 @@ Type wxPen Extends wxGDIObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Associates dashes with the pen.
 	End Rem
-	Method SetDashes()
+	Method SetDashes(dashes:wxDashes)
+		bmx_wxpen_setdashes(wxObjectPtr, dashes.wxDashesPtr, dashes.count)
 	End Method
 	
 	Rem
@@ -258,3 +262,54 @@ Function wxWHITE_PEN:wxPen()
 	Return wxPen._create(bmx_wxstockgdi_pen_white())
 End Function
 
+Rem
+bbdoc: Represents a set of dashes.
+about: Although it is created with an Int array, each "dash" is assumed to be a maximum of 8 bits in size.
+End Rem
+Type wxDashes
+
+	Field count:Int
+	Field dashes:Int[]
+	
+	Field wxDashesPtr:Byte Ptr
+	
+	Field owner:Int
+	
+	Rem
+	bbdoc: Creates a new dashes object using the specified array.
+	End Rem
+	Function CreateDashes:wxDashes(dashes:Int[])
+		Return New wxDashes.Create(dashes)
+	End Function
+	
+	Rem
+	bbdoc: Creates a new dashes object using the specified array.
+	End Rem
+	Method Create:wxDashes(_dashes:Int[])
+		count = _dashes.length
+		dashes = _dashes[0.._dashes.length]
+		wxDashesPtr = bmx_wxdashes_create(dashes)
+		owner = True
+		Return Self
+	End Method
+
+	Function _create:wxDashes(wxObjectPtr:Byte Ptr, count:Int)
+		If wxObjectPtr Then
+			Local this:wxDashes = New wxDashes
+			this.wxDashesPtr = wxObjectPtr
+			this.dashes = bmx_wxdashes_populate(wxObjectPtr, count)
+			this.count = count
+			Return this
+		End If
+	End Function
+	
+	Method Delete()
+		If wxDashesPtr Then
+			If owner Then
+				bmx_wxdashes_delete(wxDashesPtr)
+			End If
+			wxDashesPtr = Null
+		End If
+	End Method
+	
+End Type

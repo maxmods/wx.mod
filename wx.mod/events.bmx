@@ -682,6 +682,15 @@ Type wxKeyEvent Extends wxEvent
 
 End Type
 
+Type wxNavigationKeyEvent Extends wxEvent
+
+	Const IsBackward:Int = $0000
+	Const IsForward:Int = $0001
+	Const WinChange:Int = $0002
+	Const FromTab:Int = $0004
+
+
+End Type
 
 ' internal event handler.
 Type TEventHandler

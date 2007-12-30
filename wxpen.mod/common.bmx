@@ -64,5 +64,11 @@ Extern
 	Function bmx_wxpen_setstipple(handle:Byte Ptr, stipple:Byte Ptr)
 	Function bmx_wxpen_setstyle(handle:Byte Ptr, style:Int)
 	Function bmx_wxpen_setwidth(handle:Byte Ptr, width:Int)
+	Function bmx_wxpen_getdashes:Byte Ptr(handle:Byte Ptr, count:Int Ptr)
+	Function bmx_wxpen_setdashes(handle:Byte Ptr, dashes:Byte Ptr, count:Int)
+
+	Function bmx_wxdashes_create:Byte Ptr(dashes:Int[])
+	Function bmx_wxdashes_populate:Int[](handle:Byte Ptr, count:Int)
+	Function bmx_wxdashes_delete(handle:Byte Ptr)
 
 End Extern
