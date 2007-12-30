@@ -1,6 +1,7 @@
 #ifndef __fnb_customize_dlg__
 #define __fnb_customize_dlg__
 
+#include <wx/wxFlatNotebook/wxFlatNotebookSDK.h>
 #include <wx/statline.h>
 #include <wx/button.h>
 #include "wx/dialog.h"
@@ -12,7 +13,7 @@ class wxRadioBox;
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxFNBCustomizeDialog
 ///////////////////////////////////////////////////////////////////////////////
-class wxFNBCustomizeDialog : public wxDialog 
+class WXDLLIMPEXP_FNB wxFNBCustomizeDialog : public wxDialog 
 {
 protected:
 	wxStaticLine* m_staticline2;

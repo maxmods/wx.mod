@@ -50,6 +50,10 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+' Changed wxFlatNotebook.cpp
+'     Fixed SetFont() to skip m_pages-> bit if it is NULL. (for OS X)
+'
+
 Rem
 bbdoc: Nice cross-platform flat notebook with X-button, navigation arrows and much more
 End Rem

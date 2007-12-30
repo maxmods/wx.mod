@@ -18,10 +18,6 @@ static void DrawButton(wxDC& dc,
 			const bool &focus, 
 			const bool &upperTabs)
 {
-	// Define the rounded rectangle base on the given rect
-	// we need an array of 9 points for it
-	wxPoint regPts[9];
-
 	// Define the middle points
 	wxPoint leftPt, rightPt;
 	if( focus ){
@@ -459,6 +455,7 @@ void wxFNBRenderer::DrawTabsLine(wxWindow* pageContainer, wxDC& dc, wxCoord selT
 			dc.DrawLine(selTabX1 + 2, 2, selTabX2 - 1, 2);
 		} else {
 
+		
 			dc.DrawLine(1, clntRect.height, clntRect.width-1, clntRect.height);
 			dc.DrawLine(1, clntRect.height-1, clntRect.width-1, clntRect.height-1);
 
@@ -469,6 +466,8 @@ void wxFNBRenderer::DrawTabsLine(wxWindow* pageContainer, wxDC& dc, wxCoord selT
 			dc.DrawLine(selTabX1 + 2, clntRect.height-2, selTabX2-1, clntRect.height-2);
 		}
 	} else {
+
+
 		if(pc->HasFlag(wxFNB_BOTTOM))
 		{
 			clientRect = wxRect(0, 2, clntRect.width, clntRect.height - 2);
@@ -485,7 +484,12 @@ void wxFNBRenderer::DrawTabsLine(wxWindow* pageContainer, wxDC& dc, wxCoord selT
 		dc.DrawRectangle(clientRect2);
 		dc.DrawRectangle(clientRect3);
 
-		dc.SetPen(wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW)));
+	/// Patch ---- Ti-R ---- Enable to have the same color border has the selected tab
+		if(pc->HasFlag(wxFNB_INVERSE_COLOR_LINE_VC8))
+			dc.SetPen(wxPen(pc->m_colorBorder));
+		else
+			dc.SetPen(wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW)));
+
 		dc.DrawRectangle(clientRect);
 
 		if( !pc->HasFlag(wxFNB_TABS_BORDER_SIMPLE) )
@@ -500,6 +504,18 @@ void wxFNBRenderer::DrawTabsLine(wxWindow* pageContainer, wxDC& dc, wxCoord selT
 				dc.DrawLine(0, 0, clientRect.width, 0);
 			dc.DrawLine(clientRect.width - 1, 0, clientRect.width - 1, clientRect.height+1);
 		}
+
+	/// Patch ---- Ti-R ---- Enable to have the same color border has the selected tab
+		if(pc->HasFlag(wxFNB_BOTTOM_LINE_COLOR_CHANGE))
+		{
+			dc.SetPen(wxPen(pc->m_colorBorder));
+
+			clientRect3 = wxRect(0, clntRect.height-2, 1, 2);
+			dc.DrawRectangle(clientRect3);
+
+			clientRect3 = wxRect(clntRect.width-1, clntRect.height-2, 1, 2);
+			dc.DrawRectangle(clientRect3);
+		}
 	}
 }
 
@@ -512,8 +528,11 @@ int wxFNBRenderer::CalcTabWidth(wxWindow *pageContainer, int tabIdx, int tabHeig
 	// bitmap must be set before it can be used for anything
 	wxBitmap bmp(10, 10);
 	dc.SelectObject(bmp);
-
-	wxFont normalFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+	
+	/// Patch (SetTextForeground) ---- Ti-R ---- Good Text Colour
+		/// -- old code ---
+//	wxFont normalFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+	wxFont normalFont = pc->m_font;
 	wxFont boldFont(normalFont);
 	boldFont.SetWeight(wxFONTWEIGHT_BOLD);
 
@@ -531,7 +550,7 @@ int wxFNBRenderer::CalcTabWidth(wxWindow *pageContainer, int tabIdx, int tabHeig
 		width = 20;
 
 	tabWidth = ((wxFlatNotebook *)pc->m_pParent)->GetPadding() * 2 + width;
-
+	
 	/// Style to add a small 'x' button on the top right
 	/// of the tab
 	if(pc->HasFlag(wxFNB_X_ON_TAB) && tabIdx == pc->GetSelection())
@@ -591,7 +610,7 @@ void wxFNBRenderer::NumberTabsCanFit(wxWindow *pageContainer, std::vector<wxRect
 		vTabInfo.push_back(tabRect);
 
 		/// Advance posx
-		posx += tabWidth + wxFNB_HEIGHT_SPACER;
+		posx += tabWidth;
 	}
 }
 
@@ -656,7 +675,7 @@ void wxFNBRenderer::DrawTabs(wxWindow *pageContainer, wxDC &dc, wxEvent &event)
 	
 	// Calculate the number of rows required for drawing the tabs
 	wxRect rect = pc->GetClientRect();
-	int clientWidth = rect.width;
+//	int clientWidth = rect.width;
 
 	// Set the maximum client size
 #ifdef __WXMAC__
@@ -771,7 +790,10 @@ void wxFNBRenderer::DrawTabs(wxWindow *pageContainer, wxDC &dc, wxEvent &event)
 #endif
 
 	// Draw labels
-	wxFont normalFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+	/// Patch (SetTextForeground) ---- Ti-R ---- Good Text Colour
+		/// -- old code ---
+		//wxFont normalFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+	wxFont normalFont = pc->m_font;
 	wxFont boldFont = normalFont;
 	boldFont.SetWeight(wxFONTWEIGHT_BOLD);
 	dc.SetFont(boldFont);
@@ -790,7 +812,10 @@ void wxFNBRenderer::DrawTabs(wxWindow *pageContainer, wxDC &dc, wxEvent &event)
 	// Go over and draw the visible tabs
 	//----------------------------------------------------------
 	wxCoord x1(-1), x2(-1);
-	for(i=pc->m_nFrom; i<(int)pc->GetPageInfoVector().GetCount(); i++)
+	std::vector<wxRect> vTabsInfo;
+	NumberTabsCanFit(pc, vTabsInfo);
+
+	for(i=pc->m_nFrom; i<pc->m_nFrom+(int)vTabsInfo.size(); i++)
 	{
 		dc.SetPen(borderPen);
 		if( !pc->HasFlag(wxFNB_FF2) ){
@@ -806,10 +831,6 @@ void wxFNBRenderer::DrawTabs(wxWindow *pageContainer, wxDC &dc, wxEvent &event)
 		// | PADDING | IMG | IMG_PADDING | TEXT | PADDING | x |PADDING |
 		// +-----------------------------------------------------------+
 		int tabWidth = CalcTabWidth(pageContainer, i, tabHeight);
-
-		// Check if we can draw more
-		if(posx + tabWidth + GetButtonsAreaLength( pc ) >= clientWidth)
-			break;
 
 		// By default we clean the tab region
 		pc->GetPageInfoVector()[i].GetRegion().Clear();
@@ -1048,9 +1069,10 @@ void wxFNBRendererFirefox2::DrawTab(wxWindow* pageContainer, wxDC &dc, const int
 	// Paint the tab with gradient
 	//------------------------------------
 	wxRect rr(tabPoints[2], tabPoints[5]);
+
 	DrawButton( dc, 
 				rr, 
-				pc->GetSelection() == tabIdx , 
+				(pc->GetSelection() == tabIdx) || (pc->HasFlag( wxFNB_PREVIEW_SELECT_TAB ) && pc->GetEnabled(tabIdx) && pc->m_nTabStatus == wxFNB_BTN_HOVER && pc->m_nTabPreviewId == tabIdx) , 
 				!pc->HasFlag(wxFNB_BOTTOM));
 
 	dc.SetBrush( *wxTRANSPARENT_BRUSH );
@@ -1331,7 +1353,10 @@ void wxFNBRendererVC8::DrawTabs(wxWindow *pageContainer, wxDC &dc, wxEvent &even
 	int tabHeight = CalcTabHeight( pageContainer );
 
 	// Set the font for measuring the tab height
-	wxFont normalFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+	/// Patch (SetTextForeground) ---- Ti-R ---- Good Text Colour
+		/// -- old code ---
+		//wxFont normalFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+	wxFont normalFont = pc->m_font;
 	wxFont boldFont = normalFont;
 	boldFont.SetWeight(wxFONTWEIGHT_BOLD);
 
@@ -1552,7 +1577,12 @@ void wxFNBRendererVC8::DrawTab(wxWindow* pageContainer, wxDC &dc, const int &pos
 	// Draw the polygon
 	wxBrush br = dc.GetBrush();
 	dc.SetBrush(wxBrush(tabIdx == pc->GetSelection() ? pc->GetActiveTabColour() : pc->GetGradientColourTo() ));
-	dc.SetPen(wxPen(tabIdx == pc->GetSelection() ? wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW) : pc->GetBorderColour()));
+	
+/// Patch ---- Ti-R ---- Enable to have the same line color as the selected tab
+	if(pc->HasFlag( wxFNB_INVERSE_COLOR_LINE_VC8 ))
+		dc.SetPen(wxPen(tabIdx == pc->GetSelection() ? pc->GetBorderColour() : wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW)));
+	else
+		dc.SetPen(wxPen(tabIdx == pc->GetSelection() ? wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW) : pc->GetBorderColour()));
 	dc.DrawPolygon(8, tabPoints);
 
 	// Restore the brush
@@ -1562,8 +1592,19 @@ void wxFNBRendererVC8::DrawTab(wxWindow* pageContainer, wxDC &dc, const int &pos
 
 	if(tabIdx != pc->GetSelection() && !pc->HasFlag( wxFNB_BOTTOM ))
 	{
-		// Top default tabs
-		dc.SetPen(wxPen( pc->GetBorderColour() ));
+
+	/// Patch ---- Ti-R ---- Enable to have the same line color as the selected tab
+		if(pc->HasFlag( wxFNB_INVERSE_COLOR_LINE_VC8 ))
+		{
+			// Top default tabs
+			dc.SetPen(wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW)));
+		}
+		else
+		{
+			// Top default tabs
+			dc.SetPen(wxPen( pc->GetBorderColour() ));
+		}
+
 		int lineY = rect.height;
 		wxPen curPen = dc.GetPen();
 		curPen.SetWidth(1);
@@ -1575,7 +1616,14 @@ void wxFNBRendererVC8::DrawTab(wxWindow* pageContainer, wxDC &dc, const int &pos
 	// but without the bottom (upper line incase of wxBOTTOM)
 	if(tabIdx == pc->GetSelection())
 	{
-		wxPen borderPen = wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW));
+		wxPen borderPen ;
+
+	/// Patch ---- Ti-R ---- Enable to have the same line color as the selected tab
+		if(pc->HasFlag( wxFNB_INVERSE_COLOR_LINE_VC8 ))
+			borderPen = pc->GetBorderColour();
+		else
+			borderPen = wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW));
+
 		wxBrush brush(*wxTRANSPARENT_BRUSH);
 		dc.SetPen(borderPen);
 		dc.SetBrush(brush);
@@ -1622,12 +1670,30 @@ void wxFNBRendererVC8::DrawTab(wxWindow* pageContainer, wxDC &dc, const int &pos
 			posx + imageXOffset, imageYCoord, true);
 	}
 
-	wxFont boldFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
-		
-	// if selected tab, draw text in bold
-	if( tabIdx == pc->GetSelection() )
+	/// Patch (SetTextForeground) ---- Ti-R ---- Good Text Colour
+		/// -- old code ---
+		//wxFont boldFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+	wxFont boldFont = pc->m_font;
+
+	/// Patch (Test GetEnabled) ---- Ti-R ---- change color is disable
+	if(!pc->GetEnabled(tabIdx))
 	{
-		boldFont.SetWeight(wxFONTWEIGHT_BOLD);
+		dc.SetTextForeground(pc->m_disableTextColor);
+	}
+	else
+	{
+		// if selected tab, draw text in bold
+		if( tabIdx == pc->GetSelection() )
+		{
+		/// Patch (SetTextForeground) ---- Ti-R ---- Good Text Colour
+			dc.SetTextForeground(pc->m_activeTextColor);
+			boldFont.SetWeight(wxFONTWEIGHT_BOLD);
+		}
+		else
+		{
+		/// Patch (SetTextForeground) ---- Ti-R ---- Good Text Colour
+			dc.SetTextForeground(pc->m_nonActiveTextColor);
+		}
 	}
 
 	dc.SetFont( boldFont );
@@ -1654,17 +1720,35 @@ void wxFNBRendererVC8::DrawTab(wxWindow* pageContainer, wxDC &dc, const int &pos
 
 void wxFNBRendererVC8::FillVC8GradientColor(wxWindow* pageContainer, wxDC &dc, const wxPoint tabPoints[], const bool bSelectedTab, const int tabIdx)
 {
+wxColour p_colorFrom;
+wxColour p_colorTo;
+
 	// calculate gradient coefficients
 	wxPageContainer *pc = static_cast<wxPageContainer*>( pageContainer );
 
-	if( m_first )
+	/// Patch (comment) ---- Ti-R ---- No need anymore, see below
+/*	if( m_first )
 	{
 		m_first = false;
 		pc->m_colorTo   = LightColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE), 0); 
 		pc->m_colorFrom = LightColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE), 60);
+	}*/
+
+	/// (BEGIN) Patch (m_nTabStatus) ---- Ti-R ---- Set the preview color
+	if( pc->HasFlag( wxFNB_PREVIEW_SELECT_TAB ) && pc->GetEnabled(tabIdx) && pc->m_nTabStatus == wxFNB_BTN_HOVER && pc->m_nTabPreviewId == tabIdx)
+	{
+		p_colorTo   = pc->m_colorPreview; 
+		p_colorFrom = pc->m_colorPreview;
 	}
-	wxColour col2 = pc->HasFlag( wxFNB_BOTTOM ) ? pc->GetGradientColourTo() : pc->GetGradientColourFrom();
-	wxColour col1 = pc->HasFlag( wxFNB_BOTTOM ) ? pc->GetGradientColourFrom() : pc->GetGradientColourTo();
+	else
+	{
+		p_colorTo   = pc->GetGradientColourTo(); //LightColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE), 0); 
+		p_colorFrom = pc->GetGradientColourFrom(); //LightColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE), 60);
+	}
+	/// (END) Patch (m_nTabStatus) ---- Ti-R ---- 
+
+	wxColour col2 = pc->HasFlag( wxFNB_BOTTOM ) ? p_colorTo : p_colorFrom;
+	wxColour col1 = pc->HasFlag( wxFNB_BOTTOM ) ? p_colorFrom : p_colorTo;
 
 	// If colorful tabs style is set, override the tab color
 	if(pc->HasFlag(wxFNB_COLORFUL_TABS))
@@ -1729,7 +1813,11 @@ void wxFNBRendererVC8::FillVC8GradientColor(wxWindow* pageContainer, wxDC &dc, c
 		dc.DrawLine(startX, y, endX, y);
 
 		// Draw the border using the 'edge' point
-		dc.SetPen(wxPen(bSelectedTab ? wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW) : pc->m_colorBorder));
+		/// Patch ---- Ti-R ---- Enable to have the same line color as the selected tab
+		if(pc->HasFlag( wxFNB_INVERSE_COLOR_LINE_VC8 ))
+			dc.SetPen(wxPen(bSelectedTab ? pc->m_colorBorder : wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW)));
+		else
+			dc.SetPen(wxPen(bSelectedTab ? wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW) : pc->m_colorBorder));
 		
 		dc.DrawPoint(startX, y);
 		dc.DrawPoint(endX, y);

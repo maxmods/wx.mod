@@ -1,6 +1,7 @@
 #ifndef RENDERE_H
 #define RENDERE_H
 
+#include <wx/wxFlatNotebook/wxFlatNotebookSDK.h>
 #include <wx/dc.h>
 #include <wx/string.h>
 #include <wx/wxFlatNotebook/fnb_singleton.h>
@@ -9,7 +10,7 @@
 #include <vector>
 #include <wx/event.h>
 
-class wxFNBRenderer
+class WXDLLIMPEXP_FNB wxFNBRenderer
 {
 protected:
 	// A bitmap that holds the background of the
@@ -232,5 +233,12 @@ private:
 	wxFNBRendererMgr();
 	virtual ~wxFNBRendererMgr();
 };
-typedef wxFNBSingleton<wxFNBRendererMgr> wxFNBRendererMgrST;
+
+/// Patch (DLL) ---- Ti-R ----  Enable to get a real singleton share over dlls
+	// --- old ---
+	//typedef wxFNBSingleton<wxFNBRendererMgr> wxFNBRendererMgrST;
+
+class WXDLLIMPEXP_FNB wxFNBRendererMgrST:public wxFNBSingleton<wxFNBRendererMgr>
+{};
+
 #endif // RENDERE_H

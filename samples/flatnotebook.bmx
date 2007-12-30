@@ -184,6 +184,15 @@ Type Frame Extends wxFrame
 	
 		item = New wxMenuItem.Create(m_visualMenu, MENU_DRAW_TAB_X, "Draw X button On Active Tab", "Draw X button On Active Tab", wxITEM_CHECK)
 		m_visualMenu.AppendItem(item)
+
+		item = New wxMenuItem.Create(m_visualMenu, MENU_PREVIEW_SELECT_TAB, "Active Preview Select Tab", "Active Preview Select Tab", wxITEM_CHECK)
+		m_visualMenu.AppendItem(item)
+		
+		item = New wxMenuItem.Create(m_visualMenu, MENU_INVERT_COLOR_LINE_VC8, "Invert Color Line Around Tab VC8", "Invert Color Line Around Tab VC8", wxITEM_CHECK)
+		m_visualMenu.AppendItem(item)
+		
+		item = New wxMenuItem.Create(m_visualMenu, MENU_BOTTOM_LINE_BORDER, "Set Panel Line Bottom Border as same Color as Tab", "Set Panel Line Bottom Border as same Color as Tab", wxITEM_CHECK)
+		m_visualMenu.AppendItem(item)
 		
 		item = New wxMenuItem.Create(m_visualMenu, MENU_SET_ACTIVE_TAB_COLOR, "Select Active Tab Color", "Select Active Tab Color", wxITEM_NORMAL)
 		m_visualMenu.AppendItem(item)
@@ -289,6 +298,9 @@ Type Frame Extends wxFrame
 		Connect(MENU_SET_TAB_AREA_COLOR, wxEVT_COMMAND_MENU_SELECTED, OnSelectColor)
 		Connect(MENU_SET_ACTIVE_TEXT_COLOR, wxEVT_COMMAND_MENU_SELECTED, OnSelectColor)
 		Connect(MENU_DRAW_TAB_X, wxEVT_COMMAND_MENU_SELECTED, OnDrawTabX)
+		Connect(MENU_PREVIEW_SELECT_TAB, wxEVT_COMMAND_MENU_SELECTED, OnPreviewSelectTab)
+		Connect(MENU_INVERT_COLOR_LINE_VC8, wxEVT_COMMAND_MENU_SELECTED, OnInvertColorLineVC8)
+		Connect(MENU_BOTTOM_LINE_BORDER, wxEVT_COMMAND_MENU_SELECTED, OnBottomLineBorder)
 		Connect(MENU_DCLICK_CLOSES_TAB, wxEVT_COMMAND_MENU_SELECTED, OnDClickCloseTab)
 		Connect(MENU_GRADIENT_BACKGROUND, wxEVT_COMMAND_MENU_SELECTED, OnGradientBack)
 		Connect(MENU_COLORFULL_TABS, wxEVT_COMMAND_MENU_SELECTED, OnColorfullTabs)
@@ -733,6 +745,55 @@ Type Frame Extends wxFrame
 		frm.book.SetWindowStyleFlag(style)
 	End Function
 
+	
+	Function OnPreviewSelectTab(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+		If event.IsChecked() Then
+			style :| wxFNB_PREVIEW_SELECT_TAB
+		Else
+			If style & wxFNB_PREVIEW_SELECT_TAB Then
+				style :~ wxFNB_PREVIEW_SELECT_TAB
+			End If
+		End If
+		
+			frm.book.SetWindowStyleFlag(style)
+	End Function
+		
+	Function OnInvertColorLineVC8(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+		If event.IsChecked() Then
+			style :| wxFNB_INVERSE_COLOR_LINE_VC8
+		Else
+			If style & wxFNB_INVERSE_COLOR_LINE_VC8 Then
+				style :~ wxFNB_INVERSE_COLOR_LINE_VC8
+			End If
+		End If
+		
+		frm.book.SetWindowStyleFlag(style)
+	End Function
+ 	 
+	Function OnBottomLineBorder(evt:wxEvent)
+		Local event:wxCommandEvent = wxCommandEvent(evt)
+		Local frm:Frame = Frame(event.parent)
+
+		Local style:Int = frm.book.GetWindowStyleFlag()
+		If event.IsChecked() Then
+			style :| wxFNB_BOTTOM_LINE_COLOR_CHANGE
+		Else
+			If style & wxFNB_BOTTOM_LINE_COLOR_CHANGE Then
+				style :~ wxFNB_BOTTOM_LINE_COLOR_CHANGE
+			End If
+		End If
+		
+		frm.book.SetWindowStyleFlag(style)
+	End Function
+
 	Function OnDClickCloseTab(evt:wxEvent)
 		Local event:wxCommandEvent = wxCommandEvent(evt)
 		Local frm:Frame = Frame(event.parent)
@@ -878,4 +939,6 @@ Const MENU_ALLOW_FOREIGN_DND:Int = 10036
 Const MENU_EDIT_INSERT_PAGE:Int = 10037
 Const MENU_EDIT_INSERT_BEFORE_PAGE:Int = 10038
 Const MENU_EDIT_SELECT_PAGE_TO_DELETE:Int = 10039
-
+Const MENU_PREVIEW_SELECT_TAB:Int = 10040
+Const MENU_INVERT_COLOR_LINE_VC8:Int = 10041
+Const MENU_BOTTOM_LINE_BORDER:Int = 10042
