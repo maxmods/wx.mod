@@ -38,6 +38,8 @@ MaxBitmapButton::~MaxBitmapButton() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxBitmapButton, wxBitmapButton)
+END_EVENT_TABLE()
 
 MaxBitmapButton * bmx_wxbitmapbutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, MaxBitmap * bitmap, int x, int y,
 		int w, int h, long style) {

@@ -57,6 +57,9 @@ public:
 		const wxString& message, const wxString& wildcard, int x, int y, int w, int h, long style);
 	~MaxFilePickerCtrl();
 	
+private:
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
 };
 
 class MaxDirPickerCtrl : public wxDirPickerCtrl
@@ -66,4 +69,7 @@ public:
 		const wxString& message, int x, int y, int w, int h, long style);
 	~MaxDirPickerCtrl();
 	
+private:
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
 };

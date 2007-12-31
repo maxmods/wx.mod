@@ -48,6 +48,8 @@ MaxDirPickerCtrl::~MaxDirPickerCtrl() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxFilePickerCtrl, wxFilePickerCtrl)
+END_EVENT_TABLE()
 
 MaxFilePickerCtrl * bmx_wxfilepickerctrl_create(BBObject * handle, wxWindow * parent, int id,
 		BBString * path, BBString * message, BBString * wildcard, int x, int y, int w, int h, long style) {
@@ -63,6 +65,8 @@ void bmx_wxfilepickerctrl_setpath(wxFilePickerCtrl * picker, BBString * filename
 	picker->SetPath(wxStringFromBBString(filename));
 }
 
+BEGIN_EVENT_TABLE(MaxDirPickerCtrl, wxDirPickerCtrl)
+END_EVENT_TABLE()
 
 MaxDirPickerCtrl * bmx_wxdirpickerctrl_create(BBObject * handle, wxWindow * parent, int id,
 		BBString * path, BBString * message, int x, int y, int w, int h, long style) {

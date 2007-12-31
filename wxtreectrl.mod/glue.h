@@ -144,6 +144,9 @@ public:
 
 private:
 	BBObject * maxHandle;
+
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
 };
 
 class MaxTreeItem

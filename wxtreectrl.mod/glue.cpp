@@ -86,6 +86,9 @@ BBObject * MaxTreeItemData::GetData() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxTreeCtrl, wxTreeCtrl)
+END_EVENT_TABLE()
+
 MaxTreeCtrl * bmx_wxtreectrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style) {
 	return new MaxTreeCtrl(maxHandle, parent, id, x, y, w, h, style);

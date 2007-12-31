@@ -38,6 +38,8 @@ MaxSplitterWindow::~MaxSplitterWindow() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxSplitterWindow, wxSplitterWindow)
+END_EVENT_TABLE()
 
 MaxSplitterWindow * bmx_wxsplitterwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style) {

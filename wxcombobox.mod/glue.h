@@ -66,6 +66,10 @@ class MaxComboBox : public wxComboBox
 public:
 	MaxComboBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, const wxArrayString& array, int x, int y, int w, int h, long style);
 	~MaxComboBox();
+
+private:
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
 };
 
 

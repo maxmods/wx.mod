@@ -33,6 +33,8 @@ MaxStaticBox::MaxStaticBox(void * handle, wxWindow * parent, wxWindowID id, cons
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxStaticBox, wxStaticBox)
+END_EVENT_TABLE()
 
 MaxStaticBox * bmx_wxstaticbox_create(void * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style) {

@@ -47,4 +47,8 @@ public:
 	MaxStaticBitmap(BBObject * handle, wxWindow* parent, wxWindowID id, const wxBitmap& bitmap, int x, int y,
 		int w, int h, long style);
 	~MaxStaticBitmap();
+	
+private:
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
 };

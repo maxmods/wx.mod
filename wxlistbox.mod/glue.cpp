@@ -37,6 +37,9 @@ MaxListBox::~MaxListBox() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxListBox, wxListBox)
+END_EVENT_TABLE()
+
 MaxListBox * bmx_wxlistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style) {
 	return new MaxListBox(maxHandle, parent, id, bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }

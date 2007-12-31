@@ -37,6 +37,10 @@ MaxChoice::~MaxChoice() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxChoice, wxChoice)
+END_EVENT_TABLE()
+
+
 MaxChoice * bmx_wxchoice_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style) {
 	return new MaxChoice(maxHandle, parent, id, bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }

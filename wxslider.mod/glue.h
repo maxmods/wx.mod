@@ -52,4 +52,7 @@ public:
 			int x, int y, int w, int h, long style);
 	~MaxSlider();
 
+private:
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
 };

@@ -38,6 +38,8 @@ MaxCheckBox::~MaxCheckBox() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxCheckBox, wxCheckBox)
+END_EVENT_TABLE()
 
 MaxCheckBox * bmx_wxcheckbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style) {

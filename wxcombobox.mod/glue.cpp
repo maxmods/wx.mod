@@ -37,6 +37,9 @@ MaxComboBox::~MaxComboBox() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxComboBox, wxComboBox)
+END_EVENT_TABLE()
+
 MaxComboBox * bmx_wxcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style) {
 	return new MaxComboBox(maxHandle, parent, id, wxStringFromBBString(value), bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }

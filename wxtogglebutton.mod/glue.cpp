@@ -37,6 +37,8 @@ MaxToggleButton::~MaxToggleButton() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxToggleButton, wxToggleButton)
+END_EVENT_TABLE()
 
 MaxToggleButton * bmx_wxtogglebutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style) {

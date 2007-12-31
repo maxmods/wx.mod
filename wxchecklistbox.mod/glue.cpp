@@ -37,6 +37,9 @@ MaxCheckListBox::~MaxCheckListBox() {
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxCheckListBox, wxCheckListBox)
+END_EVENT_TABLE()
+
 MaxCheckListBox * bmx_wxchecklistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style) {
 	return new MaxCheckListBox(maxHandle, parent, id, bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }
