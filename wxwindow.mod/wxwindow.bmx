@@ -1932,6 +1932,7 @@ Type wxSizer
 	bbdoc: Returns the list of the items in this sizer.
 	End Rem
 	Method GetChildren()
+		' TODO
 	End Method
 	
 	Rem
@@ -1978,59 +1979,173 @@ Type wxSizer
 		Return wxSizerItem._create(bmx_wxsizer_insertsizer(wxSizerPtr, index, sizer.wxSizerPtr, proportion, flag, border))
 	End Method
 
-
+	Rem
+	bbdoc: Inserts non-stretchable space to the sizer.
+	End Rem
 	Method InsertSpacer:wxSizerItem(index:Int, size:Int)
+		Return wxSizerItem._create(bmx_wxsizer_insertspacer(wxSizerPtr, index, size))
 	End Method
 	
+	Rem
+	bbdoc: Inserts stretchable space to the sizer.
+	End Rem
 	Method InsertStretchSpacer:wxSizerItem(index:Int, prop:Int = 1)
+		Return wxSizerItem._create(bmx_wxsizer_insertstretchspacer(wxSizerPtr, index, prop))
 	End Method
 	
+	Rem
+	bbdoc: Returns true if the window is shown.
+	End Rem
 	Method IsWindowShown:Int(window:wxWindow)
+		Return bmx_wxsizer_iswindowshown(wxSizerPtr, window.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if the sizer is shown.
+	End Rem
 	Method IsSizerShown:Int(sizer:wxSizer)
+		Return bmx_wxsizer_issizershown(wxSizerPtr, sizer.wxSizerPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if the item at index is shown.
+	End Rem
 	Method IsShown:Int(index:Int)
 		Return bmx_wxsizer_isshown(wxSizerPtr, index)
 	End Method
 	
+	Rem
+	bbdoc: Call this to force layout of the children anew, e.g. after having added a child to or removed a child (window, other sizer or space) from the sizer while keeping the current dimension.
+	End Rem
 	Method Layout()
 		bmx_wxsizer_layout(wxSizerPtr)
 	End Method
+
+	Rem
+	bbdoc: Same as wxSizer::Add, but prepends the window to the beginning of the list of items owned by this sizer.
+	End Rem
+	Method Prepend:wxSizerItem(window:wxWindow, proportion:Int = 0, flag:Int = 0, border:Int = 0)
+		Return wxSizerItem._create(bmx_wxsizer_prepend(wxSizerPtr, window.wxObjectPtr, proportion, flag, border))
+	End Method
+
+	Rem
+	bbdoc: Same as wxSizer::AddSizer, but prepends the sizer to the beginning of the list of items owned by this sizer.
+	End Rem
+	Method PrependSizer:wxSizerItem(sizer:wxSizer, proportion:Int = 0, flag:Int = 0, border:Int = 0)
+		Return wxSizerItem._create(bmx_wxsizer_prependsizer(wxSizerPtr, sizer.wxSizerPtr, proportion, flag, border))
+	End Method
 	
+	Rem
+	bbdoc: Same as wxSizer::AddSpacer, but prepends the spacer to the beginning of the list of items owned by this sizer.
+	End Rem
 	Method PrependSpacer:wxSizerItem(size:Int)
+		Return wxSizerItem._create(bmx_wxsizer_prependspacer(wxSizerPtr, size))
 	End Method
 	
+	Rem
+	bbdoc: Same as wxSizer::AddStretchSpacer, but prepends the spacer to the beginning of the list of items owned by this sizer.
+	End Rem
 	Method PrependStretchSpacer:wxSizerItem(prop:Int = 1)
+		Return wxSizerItem._create(bmx_wxsizer_prependstretchspacer(wxSizerPtr, prop))
 	End Method
 	
+	Rem
+	bbdoc: The sizer will do the actual calculation of its children's positions and sizes.
+	End Rem
 	Method RecalcSizes()
 		bmx_wxsizer_recalcsizes(wxSizerPtr)
 	End Method
 	
+	Rem
+	bbdoc:  This method is deprecated as it does not destroy the window as would usually be expected from Remove.
+	returns: True if the child item was found and removed, false otherwise.
+	You should use wxSizer::Detach in new code instead. There is currently no wxSizer method
+	that will both detach and destroy a wxWindow item. For your convenience, Detach is called here anyway... but you've been warned :-p
+	End Rem
 	Method RemoveWindow:Int(window:wxWindow)
+		Return Detach(window)
 	End Method
 	
+	Rem
+	bbdoc: Removes a child sizer from the sizer and destroys it if it.
+	returns: True if the child item was found and removed, false otherwise.
+	about: This method does not cause any layout or resizing to take place, call wxSizer::Layout
+	to update the layout "on screen" after removing a child from the sizer.	
+	End Rem
 	Method RemoveSizer:Int(sizer:wxSizer)
+		Return bmx_wxsizer_removesizer(wxSizerPtr, sizer.wxSizerPtr)
 	End Method
 	
+	Rem
+	bbdoc: Removes a child item from the sizer and destroys it if it.
+	returns: True if the child item was found and removed, false otherwise.
+	about: This method does not cause any layout or resizing to take place, call wxSizer::Layout
+	to update the layout "on screen" after removing a child from the sizer.	
+	End Rem
 	Method Remove:Int(index:Int)
+		Return bmx_wxsizer_remove(wxSizerPtr, index)
 	End Method
 	
+	Rem
+	bbdoc: Detaches the given @oldWin child from the sizer and replaces it with the given window.
+	about: The detached child is removed only if it is a sizer or a spacer (because windows are owned by their parent window, not the sizer).
+	<p>
+	Use parameter recursive to search the given element recursively in subsizers.
+	</p>
+	<p>
+	This method does not cause any layout or resizing to take place, call wxSizer::Layout to
+	update the layout "on screen" after replacing a child from the sizer.
+	</p>
+	End Rem
 	Method ReplaceWindow:Int(oldWin:wxWindow, newWin:wxWindow, recursive:Int = False)
+		Return bmx_wxsizer_replacewindow(wxSizerPtr, oldWin.wxObjectPtr, newWin.wxObjectPtr, recursive)
 	End Method
 	
+	Rem
+	bbdoc: Detaches the given @oldsz child from the sizer and replaces it with the given sizer.
+	about: The detached child is removed only if it is a sizer or a spacer (because windows are owned by their parent window, not the sizer).
+	<p>
+	Use parameter recursive to search the given element recursively in subsizers.
+	</p>
+	<p>
+	This method does not cause any layout or resizing to take place, call wxSizer::Layout to
+	update the layout "on screen" after replacing a child from the sizer.
+	</p>
+	End Rem
 	Method ReplaceSizer:Int(oldsz:wxSizer, newsz:wxSizer, recursive:Int = False)
+		Return bmx_wxsizer_replacesizer(wxSizerPtr, oldsz.wxSizerPtr, newsz.wxSizerPtr, recursive)
 	End Method
 	
+	Rem
+	bbdoc: Detaches the given indexed child from the sizer and replaces it with the new item.
+	about: The detached child is removed only if it is a sizer or a spacer (because windows are owned by their parent window, not the sizer).
+	<p>
+	Use parameter recursive to search the given element recursively in subsizers.
+	</p>
+	<p>
+	This method does not cause any layout or resizing to take place, call wxSizer::Layout to
+	update the layout "on screen" after replacing a child from the sizer.
+	</p>
+	End Rem
 	Method Replace:Int(oldIndex:Int, newItem:wxSizerItem)
+		Return bmx_wxsizer_replace(wxSizerPtr, oldIndex, newItem.wxSizerItemPtr)
 	End Method
 	
+	Rem
+	bbdoc: Call this to force the sizer to take the given dimension and thus force the items owned by the sizer to resize themselves according to the rules defined by the parameter in the Add and Prepend methods.
+	End Rem
 	Method SetDimension(x:Int, y:Int, width:Int, height:Int)
+		bmx_wxsizer_setdimension(wxSizerPtr, x, y, width, height)
 	End Method
 	
+	Rem
+	bbdoc: Call this to give the sizer a minimal size.
+	about: Normally, the sizer will calculate its minimal size based purely on how much space
+	its children need. After calling this method GetMinSize will return either the minimal size
+	as requested by its children or the minimal size set here, depending on which is bigger.
+	End Rem
 	Method SetMinSize(width:Int, height:Int)
+		bmx_wxsizer_setminsize(wxSizerPtr, width, height)
 	End Method
 
 	Rem

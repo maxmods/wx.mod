@@ -251,6 +251,22 @@ extern "C" {
 	void bmx_wxsizer_layout(wxSizer * sizer);
 	void bmx_wxsizer_recalcsizes(wxSizer * sizer);
 
+	wxSizerItem * bmx_wxsizer_insertspacer(wxSizer * sizer, int index, int size);
+	wxSizerItem * bmx_wxsizer_insertstretchspacer(wxSizer * sizer, int index, int prop);
+	bool bmx_wxsizer_iswindowshown(wxSizer * sizer, wxWindow * window);
+	bool bmx_wxsizer_issizershown(wxSizer * sizer, wxSizer * sz);
+	void bmx_wxsizer_setdimension(wxSizer * sizer, int x, int y, int width, int height);
+	void bmx_wxsizer_setminsize(wxSizer * sizer, int width, int height);
+	wxSizerItem * bmx_wxsizer_prepend(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);
+	wxSizerItem * bmx_wxsizer_prependsizer(wxSizer * sizer, wxSizer * sz, int proportion, int flag, int border);
+	wxSizerItem * bmx_wxsizer_prependspacer(wxSizer * sizer, int size);
+	wxSizerItem * bmx_wxsizer_prependstretchspacer(wxSizer * sizer, int prop);
+	bool bmx_wxsizer_removesizer(wxSizer * sizer, wxSizer * sz);
+	bool bmx_wxsizer_remove(wxSizer * sizer, int index);
+	bool bmx_wxsizer_replacewindow(wxSizer * sizer, wxWindow * oldWin, wxWindow * newWin, bool recursive);
+	bool bmx_wxsizer_replacesizer(wxSizer * sizer, wxSizer * oldsz, wxSizer * newsz, bool recursive);
+	bool bmx_wxsizer_replace(wxSizer * sizer, int oldIndex, wxSizerItem * newItem);
+
 	int bmx_wxflexgridsizer_getflexibledirection(wxFlexGridSizer * sizer);
 	int bmx_wxflexgridsizer_getnonflexiblegrowmode(wxFlexGridSizer * sizer);
 	void bmx_wxflexgridsizer_removegrowablecol(wxFlexGridSizer * sizer, int idx);

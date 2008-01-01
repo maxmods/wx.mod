@@ -995,6 +995,67 @@ void bmx_wxflexgridsizer_setnonflexiblegrowmode(wxFlexGridSizer * sizer, wxFlexS
     sizer->SetNonFlexibleGrowMode(mode);
 }
 
+wxSizerItem * bmx_wxsizer_insertspacer(wxSizer * sizer, int index, int size) {
+	return sizer->InsertSpacer(index, size);
+}
+
+wxSizerItem * bmx_wxsizer_insertstretchspacer(wxSizer * sizer, int index, int prop) {
+	return sizer->InsertStretchSpacer(index, prop);
+}
+
+bool bmx_wxsizer_iswindowshown(wxSizer * sizer, wxWindow * window) {
+	return sizer->IsShown(window);
+}
+
+bool bmx_wxsizer_issizershown(wxSizer * sizer, wxSizer * sz) {
+	return sizer->IsShown(sz);
+}
+
+void bmx_wxsizer_setdimension(wxSizer * sizer, int x, int y, int width, int height) {
+	sizer->SetDimension(x, y, width, height);
+}
+
+void bmx_wxsizer_setminsize(wxSizer * sizer, int width, int height) {
+	sizer->SetMinSize(width, height);
+}
+
+wxSizerItem * bmx_wxsizer_prepend(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border) {
+	return sizer->Prepend(window, proportion, flag, border);
+}
+
+wxSizerItem * bmx_wxsizer_prependsizer(wxSizer * sizer, wxSizer * sz, int proportion, int flag, int border) {
+	return sizer->Prepend(sz, proportion, flag, border);
+}
+
+wxSizerItem * bmx_wxsizer_prependspacer(wxSizer * sizer, int size) {
+	return sizer->PrependSpacer(size);
+}
+
+wxSizerItem * bmx_wxsizer_prependstretchspacer(wxSizer * sizer, int prop) {
+	return sizer->PrependStretchSpacer(prop);
+}
+
+bool bmx_wxsizer_removesizer(wxSizer * sizer, wxSizer * sz) {
+	return sizer->Remove(sz);
+}
+
+bool bmx_wxsizer_remove(wxSizer * sizer, int index) {
+	return sizer->Remove(index);
+}
+
+bool bmx_wxsizer_replacewindow(wxSizer * sizer, wxWindow * oldWin, wxWindow * newWin, bool recursive) {
+	return sizer->Replace(oldWin, newWin, recursive);
+}
+
+bool bmx_wxsizer_replacesizer(wxSizer * sizer, wxSizer * oldsz, wxSizer * newsz, bool recursive) {
+	return sizer->Replace(oldsz, newsz, recursive);
+}
+
+bool bmx_wxsizer_replace(wxSizer * sizer, int oldIndex, wxSizerItem * newItem) {
+	return sizer->Replace(oldIndex, newItem);
+}
+
+
 // *********************************************
 
 
