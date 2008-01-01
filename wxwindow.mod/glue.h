@@ -297,6 +297,8 @@ extern "C" {
 	bool bmx_wxidleevent_morerequested(wxIdleEvent & event);
 	void bmx_wxidleevent_setmode(wxIdleMode mode);
 
+	wxWindow * bmx_wxfocusevent_getwindow(wxFocusEvent & event);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

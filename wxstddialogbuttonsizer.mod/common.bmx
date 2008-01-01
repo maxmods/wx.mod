@@ -21,8 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxTopLevelWindow
-Import wx.wxStdDialogButtonSizer
+Import wx.wxButton
 Import BRL.Blitz
 
 
@@ -45,29 +44,11 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxdialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, title:String, x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxdialog_free(handle:Byte Ptr)
-	Function bmx_wxdialog_centre(handle:Byte Ptr, direction:Int)
-	Function bmx_wxdialog_show:Int(handle:Byte Ptr, value:Int)
-	Function bmx_wxdialog_showmodal:Int(handle:Byte Ptr)
-
-	Function bmx_wxdialog_createbuttonsizer:Byte Ptr(handle:Byte Ptr, flags:Int)
-	Function bmx_wxdialog_createseparatedbuttonsizer:Byte Ptr(handle:Byte Ptr, flags:Int)
-	Function bmx_wxdialog_createstddialogbuttonsizer:Byte Ptr(handle:Byte Ptr, flags:Int)
-	Function bmx_wxdialog_endmodal(handle:Byte Ptr, retCode:Int)
-	Function bmx_wxdialog_getaffirmativeid:Int(handle:Byte Ptr)
-	Function bmx_wxdialog_getescapeid:Int(handle:Byte Ptr)
-	Function bmx_wxdialog_getreturncode:Int(handle:Byte Ptr)
-	Function bmx_wxdialog_iconize(handle:Byte Ptr, value:Int)
-	Function bmx_wxdialog_isiconized:Int(handle:Byte Ptr)
-	Function bmx_wxdialog_ismodal:Int(handle:Byte Ptr)
-	Function bmx_wxdialog_setaffirmativeid(handle:Byte Ptr, id:Int)
-	Function bmx_wxdialog_setescapeid(handle:Byte Ptr, id:Int)
-	Function bmx_wxdialog_seticon(handle:Byte Ptr, icon:Byte Ptr)
-	Function bmx_wxdialog_setreturncode(handle:Byte Ptr, retCode:Int)
+	Function bmx_wxstddialogbuttonsizer_create:Byte Ptr(handle:Object)
+	Function bmx_wxstddialogbuttonsizer_addbutton(handle:Byte Ptr, button:Byte Ptr)
+	Function bmx_wxstddialogbuttonsizer_realize(handle:Byte Ptr)
+	Function bmx_wxstddialogbuttonsizer_setaffirmativebutton(handle:Byte Ptr, button:Byte Ptr)
+	Function bmx_wxstddialogbuttonsizer_setcancelbutton(handle:Byte Ptr, button:Byte Ptr)
+	Function bmx_wxstddialogbuttonsizer_setnegativebutton(handle:Byte Ptr, button:Byte Ptr)
 
 End Extern
-
-
-Const wxDEFAULT_DIALOG_STYLE:Int = wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX
-

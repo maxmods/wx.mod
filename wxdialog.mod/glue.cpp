@@ -60,3 +60,60 @@ int bmx_wxdialog_showmodal(wxDialog * dialog) {
 	return dialog->ShowModal();
 }
 
+
+wxSizer * bmx_wxdialog_createbuttonsizer(wxDialog * dialog, int flags) {
+	return dialog->CreateButtonSizer(flags);
+}
+
+wxSizer * bmx_wxdialog_createseparatedbuttonsizer(wxDialog * dialog, int flags) {
+	return dialog->CreateSeparatedButtonSizer(flags);
+}
+
+wxStdDialogButtonSizer * bmx_wxdialog_createstddialogbuttonsizer(wxDialog * dialog, int flags) {
+	return dialog->CreateStdDialogButtonSizer(flags);
+}
+
+void bmx_wxdialog_endmodal(wxDialog * dialog, int retCode) {
+	dialog->EndModal(retCode);
+}
+
+int bmx_wxdialog_getaffirmativeid(wxDialog * dialog) {
+	return dialog->GetAffirmativeId();
+}
+
+int bmx_wxdialog_getescapeid(wxDialog * dialog) {
+	return dialog->GetEscapeId();
+}
+
+int bmx_wxdialog_getreturncode(wxDialog * dialog) {
+	return dialog->GetReturnCode();
+}
+
+void bmx_wxdialog_iconize(wxDialog * dialog, bool value) {
+	dialog->Iconize(value);
+}
+
+bool bmx_wxdialog_isiconized(wxDialog * dialog) {
+	return dialog->IsIconized();
+}
+
+bool bmx_wxdialog_ismodal(wxDialog * dialog) {
+	return dialog->IsModal();
+}
+
+void bmx_wxdialog_setaffirmativeid(wxDialog * dialog, int id) {
+	dialog->SetAffirmativeId(id);
+}
+
+void bmx_wxdialog_setescapeid(wxDialog * dialog, int id) {
+	dialog->SetEscapeId(id);
+}
+
+void bmx_wxdialog_seticon(wxDialog * dialog, MaxIcon * icon) {
+	dialog->SetIcon(icon->Icon());
+}
+
+void bmx_wxdialog_setreturncode(wxDialog * dialog, int retCode) {
+	dialog->SetReturnCode(retCode);
+}
+

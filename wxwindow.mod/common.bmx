@@ -301,6 +301,8 @@ Extern
 	Function bmx_wxidleevent_morerequested:Int(handle:Byte Ptr)
 	Function bmx_wxidleevent_setmode(mode:Int)
 
+	Function bmx_wxfocusevent_getwindow:Byte Ptr(handle:Byte Ptr)
+
 End Extern
 
 

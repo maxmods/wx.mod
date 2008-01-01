@@ -1142,5 +1142,9 @@ void bmx_wxidleevent_setmode(wxIdleMode mode) {
 	wxIdleEvent::SetMode(mode);
 }
 
+// *********************************************
 
+wxWindow * bmx_wxfocusevent_getwindow(wxFocusEvent & event) {
+	return event.GetWindow();
+}
 

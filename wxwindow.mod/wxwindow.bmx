@@ -2713,6 +2713,18 @@ Type wxFocusEvent Extends wxEvent
 		
 		Return this
 	End Function
+	
+	Rem
+	bbdoc: Returns the window associated with this event.
+	about: That is the window which had the focus before for the wxEVT_SET_FOCUS event and
+	the window which is going to receive focus for the wxEVT_KILL_FOCUS one.
+	<p>
+	Warning: the window may be NULL!
+	</p>
+	End Rem
+	Method GetWindow:wxWindow()
+		Return wxWindow._find(bmx_wxfocusevent_getwindow(wxEventPtr))
+	End Method
 
 End Type
 

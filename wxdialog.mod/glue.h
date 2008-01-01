@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include "wx/dialog.h"
+#include "../wxicon.mod/glue.h"
 
 class MaxDialog;
 
@@ -36,6 +37,22 @@ extern "C" {
 	void bmx_wxdialog_centre(wxDialog * dialog, int direction);
 	bool bmx_wxdialog_show(wxDialog * dialog, bool show);
 	int bmx_wxdialog_showmodal(wxDialog * dialog);
+
+
+	wxSizer * bmx_wxdialog_createbuttonsizer(wxDialog * dialog, int flags);
+	wxSizer * bmx_wxdialog_createseparatedbuttonsizer(wxDialog * dialog, int flags);
+	wxStdDialogButtonSizer * bmx_wxdialog_createstddialogbuttonsizer(wxDialog * dialog, int flags);
+	void bmx_wxdialog_endmodal(wxDialog * dialog, int retCode);
+	int bmx_wxdialog_getaffirmativeid(wxDialog * dialog);
+	int bmx_wxdialog_getescapeid(wxDialog * dialog);
+	int bmx_wxdialog_getreturncode(wxDialog * dialog);
+	void bmx_wxdialog_iconize(wxDialog * dialog, bool value);
+	bool bmx_wxdialog_isiconized(wxDialog * dialog);
+	bool bmx_wxdialog_ismodal(wxDialog * dialog);
+	void bmx_wxdialog_setaffirmativeid(wxDialog * dialog, int id);
+	void bmx_wxdialog_setescapeid(wxDialog * dialog, int id);
+	void bmx_wxdialog_seticon(wxDialog * dialog, MaxIcon * icon);
+	void bmx_wxdialog_setreturncode(wxDialog * dialog, int retCode);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxPageSetupDialog
+End Rem
 Module wx.wxPageSetupDialog
 
 ModuleInfo "Version: 1.00"

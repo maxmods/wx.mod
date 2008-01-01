@@ -58,7 +58,7 @@ End Rem
 Type wxDialog Extends wxTopLevelWindow
 
 	Rem
-	bbdoc: 
+	bbdoc: Creates a new wxDialog.
 	End Rem
 	Function CreateDialog:wxDialog(parent:wxWindow, id:Int, title:String, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
@@ -66,7 +66,7 @@ Type wxDialog Extends wxTopLevelWindow
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a new wxDialog.
 	End Rem
 	Method Create_:wxDialog(parent:wxWindow, id:Int, title:String, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
@@ -76,94 +76,139 @@ Type wxDialog Extends wxTopLevelWindow
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Centres the dialog box on the display.
 	End Rem
 	Method Centre(direction:Int = wxBOTH)
 		bmx_wxdialog_centre(wxObjectPtr, direction)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a sizer with standard buttons.
+	about: @flags is a bit list of the following flags: wxOK, wxCANCEL, wxYES, wxNO, wxHELP,
+	wxNO_DEFAULT.
+	<p>
+	The sizer lays out the buttons in a manner appropriate to the platform.
+	</p>
+	<p>
+	This method uses CreateStdDialogButtonSizer internally for most platforms but doesn't create
+	the sizer at all for the platforms with hardware buttons (such as smartphones) for which
+	it sets up the hardware buttons appropriately and returns NULL, so don't forget to test that
+	the return value is valid before using it.
+	</p>
 	End Rem
 	Method CreateButtonSizer:wxSizer(flags:Int)
+		Return wxSizer._find(bmx_wxdialog_createbuttonsizer(wxObjectPtr, flags))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a sizer with standard buttons using CreateButtonSizer separated from the rest of the dialog contents by a horizontal wxStaticLine.
+	about: Please notice that just like CreateButtonSizer() this function may return NULL if
+	no buttons were created.
 	End Rem
 	Method CreateSeparatedButtonSizer:wxSizer(flags:Int)
+		Return wxSizer._find(bmx_wxdialog_createseparatedbuttonsizer(wxObjectPtr, flags))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a wxStdDialogButtonSizer with standard buttons.
+	about: @flags is a bit list of the following flags: wxOK, wxCANCEL, wxYES, wxNO, wxHELP,
+	wxNO_DEFAULT.
+	<p>
+	The sizer lays out the buttons in a manner appropriate to the platform.
+	</p>
 	End Rem
 	Method CreateStdDialogButtonSizer:wxStdDialogButtonSizer(flags:Int)
+		Return wxStdDialogButtonSizer._create(bmx_wxdialog_createstddialogbuttonsizer(wxObjectPtr, flags))
 	End Method
 	
 	Rem
-	bbdoc: 
-	End Rem
-	Method DoOK:Int()
-	End Method
-	
-	Rem
-	bbdoc: 
+	bbdoc: Ends a modal dialog, passing a value to be returned from the wxDialog::ShowModal invocation.
 	End Rem
 	Method EndModal(retCode:Int)
+		bmx_wxdialog_endmodal(wxObjectPtr, retCode)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the identifier of the button which works like standard OK button in this dialog.
 	End Rem
 	Method GetAffirmativeId:Int()
+		Return bmx_wxdialog_getaffirmativeid(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the identifier of the button to map presses of ESC button to.
 	End Rem
 	Method GetEscapeId:Int()
+		Return bmx_wxdialog_getescapeid(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the return code for this window.
+	about: A return code is normally associated with a modal dialog, where wxDialog::ShowModal
+	returns a code to the application.
 	End Rem
 	Method GetReturnCode:Int()
+		Return bmx_wxdialog_getreturncode(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Iconizes or restores the dialog. Windows only.
+	about: Note that in Windows, iconization has no effect since dialog boxes cannot be iconized.
+	However, calling Iconize(false) will bring the window to the front, as does Show(true).
 	End Rem
 	Method Iconize(value:Int)
+		bmx_wxdialog_iconize(wxObjectPtr, value)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the dialog box is iconized. Windows only.
+	about: Always returns false under Windows since dialogs cannot be iconized.
 	End Rem
 	Method IsIconized:Int()
+		Return bmx_wxdialog_isiconized(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the dialog box is modal, false otherwise.
 	End Rem
 	Method IsModal:Int()
+		Return bmx_wxdialog_ismodal(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the identifier to be used as OK button.
+	about: When the button with this identifier is pressed, the dialog calls Validate and wxWindow::TransferDataFromWindow
+	and, if they both return true, closes the dialog with wxID_OK return code.
+	<p>
+	By default, the affirmative id is wxID_OK.
+	</p>
 	End Rem
 	Method SetAffirmativeId(id:Int)
+		bmx_wxdialog_setaffirmativeid(wxObjectPtr, id)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the identifier of the button which should work like the standard CANCEL button in this dialog.
+	about: When the button with this id is clicked, the dialog is closed. Also, when the user
+	presses ESC key in the dialog or closes the dialog using the close button in the title bar,
+	this is mapped to the click of the button with the specified id.
+	<p>
+	By default, the escape id is the special value wxID_ANY meaning that wxID_CANCEL button is
+	used if it's present in the dialog and otherwise the button with GetAffirmativeId() is used.
+	Another special value for id is wxID_NONE meaning that ESC presses should be ignored. If
+	any other value is given, it is interpreted as the id of the button to map the escape key
+	to.
+	</p>
 	End Rem
 	Method SetEscapeId(id:Int)
+		bmx_wxdialog_setescapeid(wxObjectPtr, id)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the icon for this dialog.
 	End Rem
 	Method SetIcon(icon:wxIcon)
+		bmx_wxdialog_seticon(wxObjectPtr, icon.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -173,26 +218,32 @@ Type wxDialog Extends wxTopLevelWindow
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: NB: This function is deprecated and doesn't work for all ports, just use ShowModal to show a modal dialog instead.
 	End Rem
 	Method SetModal(flag:Int)
+		'bmx_wxdialog_setmodal(wxObjectPtr, flag)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the return code for this window.
+	about: A return code is normally associated with a modal dialog, where wxDialog::ShowModal
+	returns a code to the application. The function wxDialog::EndModal calls SetReturnCode.
 	End Rem
 	Method SetReturnCode(retCode:Int)
+		bmx_wxdialog_setreturncode(wxObjectPtr, retCode)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Hides or shows the dialog.
+	about: The preferred way of dismissing a modal dialog is to use wxDialog::EndModal.
 	End Rem
 	Method Show:Int(value:Int)
 		Return bmx_wxdialog_show(wxObjectPtr, value)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Shows a modal dialog.
+	about: Program flow does not return until the dialog has been dismissed with wxDialog::EndModal.
 	End Rem
 	Method ShowModal:Int()
 		Return bmx_wxdialog_showmodal(wxObjectPtr)
@@ -214,6 +265,3 @@ Type wxDialog Extends wxTopLevelWindow
 	
 End Type
 
-Type wxStdDialogButtonSizer Extends wxBoxSizer
-
-End Type
