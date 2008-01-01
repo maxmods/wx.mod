@@ -24,9 +24,26 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxPasswordEntryDialog::MaxPasswordEntryDialog(BBObject * handle, wxWindow * parent, const wxString& message,
+		const wxString& caption, const wxString& defaultValue, long style, int x, int y)
+	: wxPasswordEntryDialog(parent, message, caption, defaultValue, style, wxPoint(x, y))
+{
+	wxbind(this, handle);
+}
+
+MaxPasswordEntryDialog::~MaxPasswordEntryDialog() {
+	wxunbind(this);
+}
 
 
 // *********************************************
+
+wxPasswordEntryDialog * bmx_wxpasswordentrydialog_create(BBObject * handle, wxWindow * parent, BBString * message,
+		BBString * caption, BBString * defaultValue, long style, int x, int y) {
+
+	return new MaxPasswordEntryDialog(handle, parent, wxStringFromBBString(message), wxStringFromBBString(caption),
+		wxStringFromBBString(defaultValue), style, x, y);
+}
 
 
 BBString * bmx_wxgetpasswordfromuser(BBString * message, BBString * caption, BBString * defaultValue, wxWindow * parent,

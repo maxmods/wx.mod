@@ -44,4 +44,18 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxprogressdialog_create:Byte Ptr(handle:Object, title:String, message:String, maximum:Int, parent:Byte Ptr, style:Int)
+	Function bmx_wxprogressdialog_resume(handle:Byte Ptr)
+	Function bmx_wxprogressdialog_updateprogress:Int(handle:Byte Ptr, value:Int, newMessage:String, skip:Int Ptr)
+	Function bmx_wxprogressdialog_pulse:Int(handle:Byte Ptr, newMessage:String, skip:Int Ptr)
+
 End Extern
+
+Const wxPD_CAN_ABORT:Int = $0001
+Const wxPD_APP_MODAL:Int = $0002
+Const wxPD_AUTO_HIDE:Int = $0004
+Const wxPD_ELAPSED_TIME:Int = $0008
+Const wxPD_ESTIMATED_TIME:Int = $0010
+Const wxPD_SMOOTH:Int = $0020
+Const wxPD_REMAINING_TIME:Int = $0040
+Const wxPD_CAN_SKIP:Int = $0080

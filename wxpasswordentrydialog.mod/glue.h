@@ -23,7 +23,7 @@
 #include "wxglue.h"
 #include "../wxtextentrydialog.mod/glue.h"
 
-//class MaxNotebook;
+class MaxPasswordEntryDialog;
 
 extern "C" {
 
@@ -32,7 +32,18 @@ extern "C" {
 	BBString * bmx_wxgetpasswordfromuser(BBString * message, BBString * caption, BBString * defaultValue, wxWindow * parent,
 		int x, int y, bool centre);
 
+	wxPasswordEntryDialog * bmx_wxpasswordentrydialog_create(BBObject * handle, wxWindow * parent, BBString * message,
+			BBString * caption, BBString * defaultValue, long style, int x, int y);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxPasswordEntryDialog : public wxPasswordEntryDialog
+{
+public:
+	MaxPasswordEntryDialog(BBObject * handle, wxWindow * parent, const wxString& message, const wxString& caption,
+		const wxString& defaultValue, long style, int x, int y);
+	~MaxPasswordEntryDialog();
+	
+};

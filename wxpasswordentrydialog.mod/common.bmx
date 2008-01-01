@@ -47,4 +47,6 @@ Extern
 	Function bmx_wxgetpasswordfromuser:String(message:String, caption:String, defaultValue:String, parent:Byte Ptr, ..
 		x:Int, y:Int, centre:Int)
 
+	Function bmx_wxpasswordentrydialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, message:String, caption:String, defaultValue:String, style:Int, x:Int, y:Int)
+
 End Extern

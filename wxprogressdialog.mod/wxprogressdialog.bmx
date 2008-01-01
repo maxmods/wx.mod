@@ -58,19 +58,54 @@ time for the end of the progress.
 End Rem
 Type wxProgressDialog Extends wxDialog
 
-	Function CreateProgressDialog:wxProgressDialog()
+	Rem
+	bbdoc: Constructor.
+	about: Creates the dialog, displays it and disables user input for other windows, or,
+	if wxPD_APP_MODAL flag is not given, for its parent window only.
+	End Rem
+	Function CreateProgressDialog:wxProgressDialog(title:String, message:String, maximum:Int = 100, ..
+			parent:wxWindow = Null, style:Int = wxPD_AUTO_HIDE | wxPD_APP_MODAL)
+		Return New wxProgressDialog.Create(title, message, maximum, parent, style)
 	End Function
 	
-	Method Create:wxProgressDialog()
+	Rem
+	bbdoc: Constructor.
+	about: Creates the dialog, displays it and disables user input for other windows, or,
+	if wxPD_APP_MODAL flag is not given, for its parent window only.
+	End Rem
+	Method Create:wxProgressDialog(title:String, message:String, maximum:Int = 100, ..
+			parent:wxWindow = Null, style:Int = wxPD_AUTO_HIDE | wxPD_APP_MODAL)
+		If parent Then
+			wxObjectPtr = bmx_wxprogressdialog_create(Self, title, message, maximum, parent.wxObjectPtr, style)
+		Else
+			wxObjectPtr = bmx_wxprogressdialog_create(Self, title, message, maximum, Null, style)
+		End If
+		Return Self
 	End Method
 
+	Rem
+	bbdoc: Can be used to continue with the dialog, after the user had chosen ABORT.
+	End Rem
 	Method Resume()
+		bmx_wxprogressdialog_resume(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Updates the dialog, setting the progress bar to the new value and, if given changes the message above it.
+	returns: True unless the Cancel button has been pressed.
+	about: If false is returned, the application can either immediately destroy the dialog or
+	ask the user for the confirmation and if the abort is not confirmed the dialog may be resumed
+	with Resume method.
+	End Rem
 	Method UpdateProgress:Int(value:Int, newMessage:String = "", skip:Int Var)
+		Return bmx_wxprogressdialog_updateprogress(wxObjectPtr, value, newMessage, Varptr skip)
 	End Method
 	
+	Rem
+	bbdoc: Just like Update but makes the gauge control run in indeterminate mode (see wxGauge documentation), sets the remaining and the estimated time labels (if present) to Unknown and moves the progress bar a bit to indicate that some progress was done.
+	End Rem
 	Method Pulse:Int(newMessage:String = "", skip:Int Var)
+		Return bmx_wxprogressdialog_pulse(wxObjectPtr, newMessage, Varptr skip)
 	End Method
 
 End Type

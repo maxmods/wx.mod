@@ -51,9 +51,34 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 Import "common.bmx"
 
 Rem
-bbdoc: a dialog with spin control, [ok] and [cancel] buttons
+bbdoc: A dialog with spin control, [ok] and [cancel] buttons
 End Rem
 Type wxNumberEntryDialog Extends wxDialog
+
+	Rem
+	bbdoc: Creates a new dialog object.
+	End Rem
+	Function CreateNumberEntryDialog:wxNumberEntryDialog(parent:wxWindow, message:String, prompt:String, ..
+			caption:String, value:Int, minimum:Int, maximum:Int, x:Int = -1, y:Int = -1)
+		Return New wxNumberEntryDialog.Create(parent, message, prompt, caption, value, minimum, maximum, x, y)
+	End Function
+	
+	Rem
+	bbdoc: Creates a new dialog object.
+	End Rem
+	Method Create:wxNumberEntryDialog(parent:wxWindow, message:String, prompt:String, ..
+			caption:String, value:Int, minimum:Int, maximum:Int, x:Int = -1, y:Int = -1)
+		wxObjectPtr = bmx_wxnumberentrydialog_create(Self, parent.wxObjectPtr, message, prompt, caption, ..
+			value, minimum, maximum, x, y)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Returns the number from the dialog.
+	End Rem
+	Method GetValue:Int()
+		Return bmx_wxnumberentrydialog_getvalue(wxObjectPtr)
+	End Method	
 
 End Type
 

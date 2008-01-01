@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxPrintPreview
+End Rem
 Module wx.wxPrintPreview
 
 ModuleInfo "Version: 1.00"

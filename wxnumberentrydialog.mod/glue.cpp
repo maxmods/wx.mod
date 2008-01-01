@@ -25,6 +25,17 @@
 // ---------------------------------------------------------------------------------------
 
 
+MaxNumberEntryDialog::MaxNumberEntryDialog(BBObject * handle, wxWindow * parent, const wxString& message,
+		const wxString& prompt, const wxString& caption, long value, long min, long max, int x, int y)
+	: wxNumberEntryDialog(parent, message, prompt, caption, value, min, max, wxPoint(x, y))
+{
+	wxbind(this, handle);
+}
+
+MaxNumberEntryDialog::~MaxNumberEntryDialog()
+{
+	wxunbind(this);
+}
 
 // *********************************************
 
@@ -41,3 +52,14 @@ long bmx_wxgetnumberfromuser(BBString * message, BBString * prompt, BBString * c
 	}
 }
 
+// *********************************************
+
+wxNumberEntryDialog * bmx_wxnumberentrydialog_create(BBObject * handle, wxWindow * parent,
+		BBString * message, BBString * prompt, BBString * caption, long value, long minimum, long maximum, int x, int y) {
+	return new MaxNumberEntryDialog(handle, parent, wxStringFromBBString(message), wxStringFromBBString(prompt),
+		wxStringFromBBString(caption), value, minimum, maximum, x, y);
+}
+
+long bmx_wxnumberentrydialog_getvalue(wxNumberEntryDialog * dialog) {
+	return dialog->GetValue();
+}

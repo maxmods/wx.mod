@@ -55,6 +55,26 @@ bbdoc: This type represents a dialog that requests a one-line password string fr
 about: It is implemented as a generic wxWidgets dialog.
 End Rem
 Type wxPasswordEntryDialog Extends wxTextEntryDialog
+
+	Rem
+	bbdoc: Constructor.
+	about: Use wxTextEntryDialog::ShowModal to show the dialog.
+	End Rem
+	Function CreatePasswordEntryDialog:wxPasswordEntryDialog(parent:wxWindow, message:String, caption:String = "Enter password", ..
+			defaultValue:String = "", style:Int = wxOK | wxCANCEL | wxCENTRE, x:Int = -1, y:Int = -1)
+		Return New wxPasswordEntryDialog.Create(parent, message, caption, defaultValue, style, x, y)
+	End Function
+	
+	Rem
+	bbdoc: Constructor.
+	about: Use wxTextEntryDialog::ShowModal to show the dialog.
+	End Rem
+	Method Create:wxPasswordEntryDialog(parent:wxWindow, message:String, caption:String = "Enter password", ..
+			defaultValue:String = "", style:Int = wxOK | wxCANCEL | wxCENTRE, x:Int = -1, y:Int = -1)
+		wxObjectPtr = bmx_wxpasswordentrydialog_create(Self, parent.wxObjectPtr, message, caption, defaultValue, style, x, y)
+		Return Self
+	End Method
+
 End Type
 
 Rem

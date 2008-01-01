@@ -46,5 +46,9 @@ Extern
 
 	Function bmx_wxgetnumberfromuser:Int(message:String, prompt:String, caption:String, value:Int, minVal:Int,  ..
 		maxVal:Int, parent:Byte Ptr, x:Int, y:Int)
-	
+
+	Function bmx_wxnumberentrydialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, message:String, prompt:String, caption:String, ..
+			value:Int, minimum:Int, maximum:Int, x:Int, y:Int)
+	Function bmx_wxnumberentrydialog_getvalue:Int(handle:Byte Ptr)
+
 End Extern

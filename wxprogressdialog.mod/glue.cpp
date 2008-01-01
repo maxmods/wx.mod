@@ -24,8 +24,38 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxProgressDialog::MaxProgressDialog(BBObject * handle, const wxString& title, const wxString& message, int max,
+		wxWindow * parent, int style)
+	: wxProgressDialog(title, message, max, parent, style)
+{
+	wxbind(this, handle);
+}
+
+MaxProgressDialog::~MaxProgressDialog() {
+	wxunbind(this);
+}
 
 
 // *********************************************
+
+wxProgressDialog * bmx_wxprogressdialog_create(BBObject * handle, BBString * title, BBString * message, int maximum, wxWindow * parent, int style) {
+	if (parent) {
+		return new MaxProgressDialog(handle, wxStringFromBBString(title), wxStringFromBBString(message), maximum, parent, style);
+	} else {
+		return new MaxProgressDialog(handle, wxStringFromBBString(title), wxStringFromBBString(message), maximum, NULL, style);
+	}
+}
+
+void bmx_wxprogressdialog_resume(wxProgressDialog * dialog) {
+	dialog->Resume();
+}
+
+bool bmx_wxprogressdialog_updateprogress(wxProgressDialog * dialog, int value, BBString * newMessage, bool * skip) {
+	return dialog->Update(value, wxStringFromBBString(newMessage), skip);
+}
+
+bool bmx_wxprogressdialog_pulse(wxProgressDialog * dialog, BBString * newMessage, bool * skip) {
+	return dialog->Pulse(wxStringFromBBString(newMessage), skip);
+}
 
 
