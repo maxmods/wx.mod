@@ -176,7 +176,6 @@ Extern
 	Function bmx_wxevthandler_connect(handle:Byte Ptr, id:Int, eventType:Int, data:Object)
 	Function bmx_wxevthandler_connectrange(handle:Byte Ptr, id:Int, lastId:Int, eventType:Int, data:Object)
 	
-	
 	Function bmx_event_geteventobject:Object(evt:Byte Ptr)
 	Function bmx_eventtype_value:Int(value:Int)
 	Function bmx_wxcommandevent_getstring:String(evt:Byte Ptr)

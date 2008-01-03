@@ -49,6 +49,12 @@ Type wxEvent
 	about: Generally, this would be the object from which Connect() was called.
 	End Rem
 	Field parent:wxEvtHandler
+
+	Rem
+	bbdoc: The owning object for this event.
+	about: Generally, this would be the object from which Connect() was called.
+	End Rem
+	Field sink:wxEvtHandler
 	
 	Field eventType:Int
 	
@@ -56,6 +62,7 @@ Type wxEvent
 		wxEventPtr = eventPtr
 		userData = evt.userData
 		parent = evt.parent
+		sink = evt.eventSink
 		eventType = evt.eventType
 	End Method
 
@@ -696,6 +703,7 @@ End Type
 Type TEventHandler
 
 	Field parent:wxEvtHandler
+	Field eventSink:wxEvtHandler
 	Field key:String
 	Field callback(event:wxEvent)
 	Field userData:Object
@@ -789,54 +797,59 @@ Type wxEvtHandler Extends wxObject
 	</pre>
 	</p>
 	End Rem
-	Method ConnectAny(eventType:Int, callback(event:wxEvent), userData:Object = Null)
+	Method ConnectAny(eventType:Int, callback(event:wxEvent), userData:Object = Null, sink:wxEvtHandler = Null)
 	
 		' ********** SPECIAL CASES *************
 		If eventType = wxEVT_SCROLLWIN Then
-			ConnectAny(wxEVT_SCROLLWIN_TOP, callback, userData)
-			ConnectAny(wxEVT_SCROLLWIN_BOTTOM, callback, userData)
-			ConnectAny(wxEVT_SCROLLWIN_LINEUP, callback, userData)
-			ConnectAny(wxEVT_SCROLLWIN_LINEDOWN, callback, userData)
-			ConnectAny(wxEVT_SCROLLWIN_PAGEUP, callback, userData)
-			ConnectAny(wxEVT_SCROLLWIN_PAGEDOWN, callback, userData)
-			ConnectAny(wxEVT_SCROLLWIN_THUMBTRACK, callback, userData)
-			ConnectAny(wxEVT_SCROLLWIN_THUMBRELEASE, callback, userData)
+			ConnectAny(wxEVT_SCROLLWIN_TOP, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLLWIN_BOTTOM, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLLWIN_LINEUP, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLLWIN_LINEDOWN, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLLWIN_PAGEUP, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLLWIN_PAGEDOWN, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLLWIN_THUMBTRACK, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLLWIN_THUMBRELEASE, callback, userData, sink)
 			Return
 		End If
 		
 		If eventType = wxEVT_SCROLL Then
-			ConnectAny(wxEVT_SCROLL_TOP, callback, userData)
-			ConnectAny(wxEVT_SCROLL_BOTTOM, callback, userData)
-			ConnectAny(wxEVT_SCROLL_LINEUP, callback, userData)
-			ConnectAny(wxEVT_SCROLL_LINEDOWN, callback, userData)
-			ConnectAny(wxEVT_SCROLL_PAGEUP, callback, userData)
-			ConnectAny(wxEVT_SCROLL_PAGEDOWN, callback, userData)
-			ConnectAny(wxEVT_SCROLL_THUMBTRACK, callback, userData)
-			ConnectAny(wxEVT_SCROLL_THUMBRELEASE, callback, userData)
-			ConnectAny(wxEVT_SCROLL_CHANGED, callback, userData)
+			ConnectAny(wxEVT_SCROLL_TOP, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLL_BOTTOM, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLL_LINEUP, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLL_LINEDOWN, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLL_PAGEUP, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLL_PAGEDOWN, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLL_THUMBTRACK, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLL_THUMBRELEASE, callback, userData, sink)
+			ConnectAny(wxEVT_SCROLL_CHANGED, callback, userData, sink)
 			Return
 		End If
 		
 		If eventType = wxEVT_MOUSE_EVENTS Then
-			ConnectAny(wxEVT_ENTER_WINDOW, callback, userData)
-			ConnectAny(wxEVT_LEAVE_WINDOW, callback, userData)
-			ConnectAny(wxEVT_LEFT_DOWN, callback, userData)
-			ConnectAny(wxEVT_LEFT_UP, callback, userData)
-			ConnectAny(wxEVT_LEFT_DCLICK, callback, userData)
-			ConnectAny(wxEVT_MIDDLE_DOWN, callback, userData)
-			ConnectAny(wxEVT_MIDDLE_UP, callback, userData)
-			ConnectAny(wxEVT_MIDDLE_DCLICK, callback, userData)
-			ConnectAny(wxEVT_RIGHT_DOWN, callback, userData)
-			ConnectAny(wxEVT_RIGHT_UP, callback, userData)
-			ConnectAny(wxEVT_RIGHT_DCLICK, callback, userData)
-			ConnectAny(wxEVT_MOTION, callback, userData)
-			ConnectAny(wxEVT_MOUSEWHEEL, callback, userData)
+			ConnectAny(wxEVT_ENTER_WINDOW, callback, userData, sink)
+			ConnectAny(wxEVT_LEAVE_WINDOW, callback, userData, sink)
+			ConnectAny(wxEVT_LEFT_DOWN, callback, userData, sink)
+			ConnectAny(wxEVT_LEFT_UP, callback, userData, sink)
+			ConnectAny(wxEVT_LEFT_DCLICK, callback, userData, sink)
+			ConnectAny(wxEVT_MIDDLE_DOWN, callback, userData, sink)
+			ConnectAny(wxEVT_MIDDLE_UP, callback, userData, sink)
+			ConnectAny(wxEVT_MIDDLE_DCLICK, callback, userData, sink)
+			ConnectAny(wxEVT_RIGHT_DOWN, callback, userData, sink)
+			ConnectAny(wxEVT_RIGHT_UP, callback, userData, sink)
+			ConnectAny(wxEVT_RIGHT_DCLICK, callback, userData, sink)
+			ConnectAny(wxEVT_MOTION, callback, userData, sink)
+			ConnectAny(wxEVT_MOUSEWHEEL, callback, userData, sink)
 			Return
 		End If
 	
 		Local handler:TEventHandler = New TEventHandler
 		' TODO: we may need parent if we are to get back to the original object that the event was generated from?
 		handler.parent = Self
+		If sink Then
+			handler.eventSink = sink
+		Else
+			handler.eventSink = Self
+		End If
 		handler.key = "xx.-1." + eventType
 		handler.id = 0
 		'handler.lastId = lastId
@@ -873,25 +886,30 @@ Type wxEvtHandler Extends wxObject
 	EVT_MENU(wxID_ABOUT, func)
 	</pre>
 	End Rem
-	Method Connect(id:Int = -1, eventType:Int, callback(event:wxEvent), userData:Object = Null)
+	Method Connect(id:Int = -1, eventType:Int, callback(event:wxEvent), userData:Object = Null, sink:wxEvtHandler = Null)
 	
 		' ********** SPECIAL CASES *************
 		If eventType = wxEVT_SCROLL Then
-			Connect(id, wxEVT_SCROLL_TOP, callback, userData)
-			Connect(id, wxEVT_SCROLL_BOTTOM, callback, userData)
-			Connect(id, wxEVT_SCROLL_LINEUP, callback, userData)
-			Connect(id, wxEVT_SCROLL_LINEDOWN, callback, userData)
-			Connect(id, wxEVT_SCROLL_PAGEUP, callback, userData)
-			Connect(id, wxEVT_SCROLL_PAGEDOWN, callback, userData)
-			Connect(id, wxEVT_SCROLL_THUMBTRACK, callback, userData)
-			Connect(id, wxEVT_SCROLL_THUMBRELEASE, callback, userData)
-			Connect(id, wxEVT_SCROLL_CHANGED, callback, userData)
+			Connect(id, wxEVT_SCROLL_TOP, callback, userData, sink)
+			Connect(id, wxEVT_SCROLL_BOTTOM, callback, userData, sink)
+			Connect(id, wxEVT_SCROLL_LINEUP, callback, userData, sink)
+			Connect(id, wxEVT_SCROLL_LINEDOWN, callback, userData, sink)
+			Connect(id, wxEVT_SCROLL_PAGEUP, callback, userData, sink)
+			Connect(id, wxEVT_SCROLL_PAGEDOWN, callback, userData, sink)
+			Connect(id, wxEVT_SCROLL_THUMBTRACK, callback, userData, sink)
+			Connect(id, wxEVT_SCROLL_THUMBRELEASE, callback, userData, sink)
+			Connect(id, wxEVT_SCROLL_CHANGED, callback, userData, sink)
 			Return
 		End If
 
 		Local handler:TEventHandler = New TEventHandler
 		' TODO: we may need parent if we are to get back to the original object that the event was generated from?
 		handler.parent = Self
+		If sink Then
+			handler.eventSink = sink
+		Else
+			handler.eventSink = Self
+		End If
 		handler.key = id + ".-1." + eventType
 		handler.id = id
 		'handler.lastId = lastId
@@ -916,7 +934,7 @@ Type wxEvtHandler Extends wxObject
 		
 		bmx_wxevthandler_connect(wxObjectPtr, id, eventType, handler)
 	End Method
-	
+
 	Rem
 	bbdoc: Connects the given function dynamically with the event handler, an id range and event type.
 	about: Example :
@@ -928,10 +946,15 @@ Type wxEvtHandler Extends wxObject
 	EVT_MENU_RANGE(startId, lastId, func)
 	</pre>
 	End Rem
-	Method ConnectRange(id:Int, lastId:Int, eventType:Int, callback(event:wxEvent), userData:Object = Null)
+	Method ConnectRange(id:Int, lastId:Int, eventType:Int, callback(event:wxEvent), userData:Object = Null, sink:wxEvtHandler = Null)
 		Local handler:TEventHandler = New TEventHandler
 
 		handler.parent = Self
+		If sink Then
+			handler.eventSink = sink
+		Else
+			handler.eventSink = Self
+		End If
 		handler.key = id + "." + lastId + "." + eventType
 		handler.id = id
 		handler.lastId = lastId
