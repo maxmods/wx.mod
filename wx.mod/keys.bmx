@@ -1,4 +1,4 @@
-' Copyright (c) 2007 Bruce A Henderson
+' Copyright (c) 2007,2008 Bruce A Henderson
 ' 
 ' Permission is hereby granted:Int =  free of charge:Int =  to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"):Int =  to deal
