@@ -50,7 +50,19 @@ Extern
 	Function bmx_wxbitmapcombobox_getitembitmap:Byte Ptr(handle:Byte Ptr, item:Int)
 	Function bmx_wxbitmapcombobox_insert:Int(handle:Byte Ptr, pos:Int, item:String, bitmap:Byte Ptr, clientData:Object)
 	Function bmx_wxbitmapcombobox_setitembitmap(handle:Byte Ptr, bitmap:Byte Ptr)
+
+	Function bmx_wxbitmapcombobox_selectitem(handle:Byte Ptr, item:Int)
+	Function bmx_wxbitmapcombobox_setselection(handle:Byte Ptr, item:Int)
 	
+	Function bmx_wxbitmapcombobox_getselection:Int(handle:Byte Ptr)
+	Function bmx_wxbitmapcombobox_getcount:Int(handle:Byte Ptr)
+	Function bmx_wxbitmapcombobox_isempty:Int(handle:Byte Ptr)
+	Function bmx_wxbitmapcombobox_clear(handle:Byte Ptr)
+	Function bmx_wxbitmapcombobox_deleteitem(handle:Byte Ptr, item:Int)
+	Function bmx_wxbitmapcombobox_getstring:String(handle:Byte Ptr, item:Int)
+	Function bmx_wxbitmapcombobox_getstrings:String[](handle:Byte Ptr)
+	Function bmx_wxbitmapcombobox_getstringselection:String(handle:Byte Ptr)
+
 End Extern
 
 

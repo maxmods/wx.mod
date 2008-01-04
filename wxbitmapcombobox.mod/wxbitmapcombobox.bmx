@@ -91,6 +91,10 @@ Type wxBitmapComboBox Extends wxComboBox
 		End If
 	End Method
 	
+	Method Append:Int(item:String, clientData:Object = Null)
+		Assert Null, "Use AppendBitmap() instead of Append() for wxBitmapComboBox"
+	End Method
+
 	Rem
 	bbdoc: Returns size of bitmaps used in the list.
 	End Rem
@@ -116,12 +120,93 @@ Type wxBitmapComboBox Extends wxComboBox
 			Return bmx_wxbitmapcombobox_insert(wxObjectPtr, pos, item, Null, clientData)
 		End If
 	End Method
-	
+
+	Method Insert:Int(item:String, pos:Int, clientData:Object = Null)
+		Assert Null, "Use InsertBitmap() instead of Insert() for wxBitmapComboBox"
+	End Method
+
 	Rem
 	bbdoc: Sets the bitmap for the given item.
 	End Rem
 	Method SetItemBitmap(item:Int, bitmap:wxBitmap)
 		bmx_wxbitmapcombobox_setitembitmap(wxObjectPtr, bitmap.wxObjectPtr)
 	End Method
+
+	Rem
+	bbdoc: This is the same as SetSelection and exists only because it is slightly more natural for controls which support multiple selection.
+	End Rem
+	Method SelectItem(item:Int)
+		bmx_wxbitmapcombobox_selectitem(wxObjectPtr, item)
+	End Method
+
+	Rem
+	bbdoc: Sets the selection to the given item n or removes the selection entirely if n == wxNOT_FOUND.
+	about: Note that this does not cause any command events to be emitted nor does it deselect any
+	other items in the controls which support multiple selections.
+	End Rem
+	Method SetSelection(item:Int)
+		bmx_wxbitmapcombobox_setselection(wxObjectPtr, item)
+	End Method
+
+	Rem
+	bbdoc: Removes all items from the control.
+	End Rem
+	Method Clear()
+		bmx_wxbitmapcombobox_clear(wxObjectPtr)
+	End Method
 	
+	Rem
+	bbdoc: Deletes an item from the control.
+	about: Note that it is an error (signalled by an assert failure in debug builds) to remove an item
+	with the index negative or greater or equal than the number of items in the control.
+	End Rem
+	Method DeleteItem(item:Int)
+		bmx_wxbitmapcombobox_deleteitem(wxObjectPtr, item)
+	End Method
+
+	Rem
+	bbdoc: Returns the number of items in the control.
+	End Rem
+	Method GetCount:Int()
+		Return bmx_wxbitmapcombobox_getcount(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the index of the selected item or wxNOT_FOUND if no item is selected.
+	about: This method can be used with single selection list boxes only, you should use
+	wxListBox::GetSelections for the list boxes with wxLB_MULTIPLE style.
+	End Rem
+	Method GetSelection:Int()
+		Return bmx_wxbitmapcombobox_getselection(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the label of the item with the given index.
+	returns: The label of the item or an empty string if the position was invalid.
+	End Rem
+	Method GetString:String(item:Int)
+		Return bmx_wxbitmapcombobox_getstring(wxObjectPtr, item)
+	End Method
+	
+	Rem
+	bbdoc: Returns the array of the labels of all items in the control.
+	End Rem
+	Method GetStrings:String[]()
+		Return bmx_wxbitmapcombobox_getstrings(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Returns the label of the selected item or an empty string if no item is selected.
+	End Rem
+	Method GetStringSelection:String()
+		Return bmx_wxbitmapcombobox_getstringselection(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Returns True if the control is empty or Talse if it has some items.
+	End Rem
+	Method IsEmpty:Int()
+		Return bmx_wxbitmapcombobox_isempty(wxObjectPtr)
+	End Method
+
 End Type

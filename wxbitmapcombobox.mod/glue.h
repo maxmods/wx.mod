@@ -37,6 +37,18 @@ extern "C" {
 	int bmx_wxbitmapcombobox_insert(wxBitmapComboBox * combobox, unsigned int pos, BBString * item, MaxBitmap * bitmap, void * clientData);
 	void bmx_wxbitmapcombobox_setitembitmap(wxBitmapComboBox * combobox, unsigned int item, MaxBitmap * bitmap);
 
+	void bmx_wxbitmapcombobox_selectitem(wxBitmapComboBox * combobox, int item);
+	void bmx_wxbitmapcombobox_setselection(wxBitmapComboBox * combobox, int item);
+
+	void bmx_wxbitmapcombobox_clear(wxBitmapComboBox * combobox);
+	void bmx_wxbitmapcombobox_deleteitem(wxBitmapComboBox * combobox, int item);
+	int bmx_wxbitmapcombobox_getselection(wxBitmapComboBox * combobox);
+	int bmx_wxbitmapcombobox_getcount(wxBitmapComboBox * combobox);
+	bool bmx_wxbitmapcombobox_isempty(wxBitmapComboBox * combobox);
+	BBString * bmx_wxbitmapcombobox_getstring(wxBitmapComboBox * combobox, int item);
+	BBArray * bmx_wxbitmapcombobox_getstrings(wxBitmapComboBox * combobox);
+	BBString * bmx_wxbitmapcombobox_getstringselection(wxBitmapComboBox * combobox);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

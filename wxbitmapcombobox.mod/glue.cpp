@@ -75,3 +75,43 @@ void bmx_wxbitmapcombobox_setitembitmap(wxBitmapComboBox * combobox, unsigned in
 	combobox->SetItemBitmap(item, bitmap->Bitmap());
 }
 
+void bmx_wxbitmapcombobox_selectitem(wxBitmapComboBox * combobox, int item) {
+	combobox->Select(item);
+}
+
+void bmx_wxbitmapcombobox_setselection(wxBitmapComboBox * combobox, int item) {
+	combobox->SetSelection(item);
+}
+
+int bmx_wxbitmapcombobox_getselection(wxBitmapComboBox * combobox) {
+	return combobox->GetSelection();
+}
+
+int bmx_wxbitmapcombobox_getcount(wxBitmapComboBox * combobox) {
+	return combobox->GetCount();
+}
+
+bool bmx_wxbitmapcombobox_isempty(wxBitmapComboBox * combobox) {
+	return combobox->IsEmpty();
+}
+
+void bmx_wxbitmapcombobox_clear(wxBitmapComboBox * combobox) {
+	combobox->Clear();
+}
+
+void bmx_wxbitmapcombobox_deleteitem(wxBitmapComboBox * combobox, int item) {
+	combobox->Delete(item);
+}
+
+BBString * bmx_wxbitmapcombobox_getstring(wxBitmapComboBox * combobox, int item) {
+	return bbStringFromWxString(combobox->GetString(item));
+}
+
+BBArray * bmx_wxbitmapcombobox_getstrings(wxBitmapComboBox * combobox) {
+	return wxArrayStringToBBStringArray(combobox->GetStrings());
+}
+
+BBString * bmx_wxbitmapcombobox_getstringselection(wxBitmapComboBox * combobox) {
+	return bbStringFromWxString(combobox->GetStringSelection());
+}
+
