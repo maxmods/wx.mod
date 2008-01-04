@@ -136,8 +136,8 @@ Type MyFrame Extends wxFrame
 
 		' this demonstrates RTL layout mirroring For Arabic locales
 		Local sizer:wxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
-		sizer.Add(New wxStaticText.Create(Self, wxID_ANY, _("First")), wxBORDER)
-		sizer.Add(New wxStaticText.Create(Self, wxID_ANY, _("Second")), wxBORDER)
+		sizer.Add(New wxStaticText.Create(Self, wxID_ANY, _("First")), wxEXPAND | wxBORDER, wxALL)
+		sizer.Add(New wxStaticText.Create(Self, wxID_ANY, _("Second")), wxEXPAND | wxBORDER, wxALL)
 		SetSizer(sizer)
 
 	    Connect(INTERNAT_TEST, wxEVT_COMMAND_MENU_SELECTED, OnTestLocaleAvail)
