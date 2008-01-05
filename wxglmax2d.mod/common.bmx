@@ -1,4 +1,4 @@
-' Copyright (c) 2007,2008 Bruce A Henderson
+' Copyright (c) 2007 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxWindow
 Import BRL.Blitz
 
 
@@ -43,12 +42,5 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
-
-	Function bmx_wxglcanvas_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, ..
-		flags:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
-
-	Function bmx_wxglcanvas_swapbuffers(handle:Byte Ptr)
-
-	Function bmx_wxglcanvas_onpainthook(handle:Byte Ptr, event:wxEvent)
 
 End Extern

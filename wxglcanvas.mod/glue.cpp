@@ -24,8 +24,62 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxGLCanvas::MaxGLCanvas(BBObject * handle, wxWindow* parent, wxWindowID id,
+		int x, int y, int w, int h, long style, const wxString& name, int* attribList)
+	: wxGLCanvas(parent, id, wxPoint(x, y), wxSize(w, h), style, name, attribList)
+{
+	wxbind(this, handle);
+}
 
+MaxGLCanvas::~MaxGLCanvas() {
+	wxunbind(this);
+}
+
+
+void MaxGLCanvas::Render(BBObject * event) {
+	wxGLCanvas::SetCurrent();
+	wxPaintDC(this);
+	_wx_wxglcanvas_wxGLCanvas__OnPaint(event);
+}
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxGLCanvas, wxGLCanvas)
+END_EVENT_TABLE()
 
+static int _initAttrs( int attrs[16],int flags ){
+	int n=0;
+	attrs[n++] = WX_GL_RGBA;
+	if( flags & FLAGS_BACKBUFFER ) attrs[n++]=WX_GL_DOUBLEBUFFER;
+	if( flags & FLAGS_ALPHABUFFER ){ attrs[n++]=WX_GL_MIN_ALPHA;attrs[n++]=1; }
+	if( flags & FLAGS_DEPTHBUFFER ){ attrs[n++]=WX_GL_DEPTH_SIZE;attrs[n++]=16; }
+	if( flags & FLAGS_STENCILBUFFER ){ attrs[n++]=WX_GL_STENCIL_SIZE;attrs[n++]=1; }
+	if( flags & FLAGS_ACCUMBUFFER ){ attrs[n++]=WX_GL_MIN_ACCUM_RED;attrs[n++]=1; }
+//	if( flags & FLAGS_FULLSCREEN ){
+//		attrs[n++]=kCGLPFAFullScreen;
+////		attrs[n++]=kCGLPFADisplayMask;
+//		attrs[n++]=CGDisplayIDToOpenGLDisplayMask( kCGDirectMainDisplay );
+//	}else{
+//		attrs[n++]=kCGLPFANoRecovery;
+//	}
+	attrs[n]=0;
+	return n;
+}
+
+MaxGLCanvas * bmx_wxglcanvas_create(BBObject * handle, wxWindow* parent, wxWindowID id,
+	int flags, int x, int y, int w, int h, long style) {
+
+	int attribList[16];
+	
+	_initAttrs(attribList, flags);
+
+	return new MaxGLCanvas(handle, parent, id, x, y, w, h, style, wxT("GLCanvas"), attribList);
+}
+
+void bmx_wxglcanvas_onpainthook(MaxGLCanvas * canvas, BBObject * event) {
+	canvas->Render(event);
+}
+
+void bmx_wxglcanvas_swapbuffers(wxGLCanvas * canvas) {
+	canvas->SwapBuffers();
+}
