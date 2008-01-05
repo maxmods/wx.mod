@@ -72,6 +72,14 @@ Type wxChoice Extends wxControlWithItems
 		Return Self
 	End Method
 	
+	Function _create:wxChoice(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxChoice = New wxChoice
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
 	Rem
 	bbdoc: Unlike GetSelection which only returns the accepted selection value, i.e. the selection in the control once the user closes the dropdown list, this function returns the current selection.
 	about: That is, while the dropdown list is shown, it returns the currently selected item in it.
@@ -88,7 +96,7 @@ Type TChoiceEventFactory Extends TEventFactory
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		If evt.eventType = wxEVT_COMMAND_CHOICE_SELECTED Then
-			Return wxCommandEvent.create(wxEventPtr, evt)
+			Return wxCommandEvent.Create(wxEventPtr, evt)
 		End If
 		
 		Return Null

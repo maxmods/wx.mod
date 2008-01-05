@@ -93,11 +93,6 @@ Type wxControl Extends wxWindow
 	
 End Type
 
-Type wxBookCtrlBase Extends wxControl
-
-End Type
-
-
 
 Rem
 bbdoc: General purpose message dialog.

@@ -21,15 +21,24 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/choicebk.h"
 
-//class MaxNotebook;
+class MaxChoicebook;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxChoicebook * bmx_wxchoicebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	wxChoice * bmx_wxchoicebook_getchoicectrl(wxChoicebook * book);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxChoicebook : public wxChoicebook
+{
+public:
+	MaxChoicebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	~ MaxChoicebook();
+};

@@ -21,6 +21,8 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxBookCtrlBase
+Import wx.wxChoice
 Import BRL.Blitz
 
 
@@ -43,4 +45,14 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxchoicebook_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxchoicebook_getchoicectrl:Byte Ptr(handle:Byte Ptr)
+
 End Extern
+
+Const wxCHB_DEFAULT:Int = wxBK_DEFAULT
+Const wxCHB_TOP:Int = wxBK_TOP
+Const wxCHB_BOTTOM:Int = wxBK_BOTTOM
+Const wxCHB_LEFT:Int = wxBK_LEFT
+Const wxCHB_RIGHT:Int = wxBK_RIGHT
+Const wxCHB_ALIGN_MASK:Int = wxBK_ALIGN_MASK

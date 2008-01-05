@@ -24,8 +24,24 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxChoicebook:: MaxChoicebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
+	: wxChoicebook(parent, id, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxChoicebook::~MaxChoicebook() {
+	wxunbind(this);
+}
 
 
 // *********************************************
 
+MaxChoicebook * bmx_wxchoicebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+	return new MaxChoicebook(maxHandle, parent, id, x, y, w, h, style);
+}
+
+wxChoice * bmx_wxchoicebook_getchoicectrl(wxChoicebook * book) {
+	return book->GetChoiceCtrl();
+}
 

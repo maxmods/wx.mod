@@ -21,15 +21,25 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/listbook.h"
 
-//class MaxNotebook;
+class MaxListbook;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxListbook * bmx_wxlistbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	wxListView * bmx_wxlistbook_getlistview(wxListbook * book);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxListbook : public wxListbook
+{
+public:
+	MaxListbook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	~ MaxListbook();
+};
 

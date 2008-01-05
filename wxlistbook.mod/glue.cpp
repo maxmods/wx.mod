@@ -24,8 +24,22 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxListbook:: MaxListbook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
+	: wxListbook(parent, id, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
 
+MaxListbook::~MaxListbook() {
+	wxunbind(this);
+}
 
 // *********************************************
 
+MaxListbook * bmx_wxlistbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+	return new MaxListbook(maxHandle, parent, id, x, y, w, h, style);
+}
 
+wxListView * bmx_wxlistbook_getlistview(wxListbook * book) {
+	return book->GetListView();
+}

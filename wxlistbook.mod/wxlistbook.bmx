@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxListBook
+End Rem
 Module wx.wxListBook
 
 ModuleInfo "Version: 1.00"
@@ -47,4 +50,32 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Rem
+bbdoc: wxListbook is a type similar to wxNotebook but which uses a wxListCtrl to show the labels instead of the tabs.
+End Rem
+Type wxListBook Extends wxBookCtrlBase
+
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateListbook:wxListbook(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		Return New wxListbook.Create(parent, id, x, y, w, h, style)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxListbook(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxlistbook_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetListView:wxListView()
+		Return wxListView._create(bmx_wxlistbook_getlistview(wxObjectPtr))
+	End Method
+	
+End Type
 

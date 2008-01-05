@@ -22,7 +22,6 @@
 
 #include "wxglue.h"
 #include <wx/notebook.h>
-#include "wx/imaglist.h"
 
 class MaxNotebook;
 
@@ -31,31 +30,9 @@ extern "C" {
 #include <blitz.h>
 
 	MaxNotebook * bmx_wxnotebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
-	bool bmx_wxnotebook_addpage(wxNotebook * notebook, wxWindow * page, BBString * text, bool selected, int imageId);
-	bool bmx_wxnotebook_insertpage(wxNotebook * notebook, int index, wxWindow * page, BBString * text, bool selected, int imageId);
-	void bmx_wxnotebook_advanceselection(wxNotebook * notebook, bool forward);
-
-	void bmx_wxnotebook_assignimagelist(wxNotebook * notebook, wxImageList * list);
-	void bmx_wxnotebook_setimagelist(wxNotebook * notebook, wxImageList * list);
-
-	bool bmx_wxnotebook_deleteallpages(wxNotebook * notebook);
-	bool bmx_wxnotebook_deletepage(wxNotebook * notebook, int page);
-	wxWindow *  bmx_wxnotebook_getcurrentpage(wxNotebook * notebook);
-	wxWindow * bmx_wxnotebook_getpage(wxNotebook * notebook, int page);
-	int bmx_wxnotebook_getpagecount(wxNotebook * notebook);
-	int bmx_wxnotebook_getpageimage(wxNotebook * notebook, int page);
-	BBString * bmx_wxnotebook_getpagetext(wxNotebook * notebook, int page);
 	int bmx_wxnotebook_getrowcount(wxNotebook * notebook);
-	int bmx_wxnotebook_getselection(wxNotebook * notebook);
 	MaxColour * bmx_wxnotebook_getthemebackgroundcolour(wxNotebook * notebook);
-	int bmx_wxnotebook_hittest(wxNotebook * notebook, int x, int y, long * flags);
-	bool bmx_wxnotebook_removepage(wxNotebook * notebook, int page);
 	void bmx_wxnotebook_setpadding(wxNotebook * notebook, int width, int height);
-	void bmx_wxnotebook_setpagesize(wxNotebook * notebook, int width, int height);
-	bool bmx_wxnotebook_setpageimage(wxNotebook * notebook, int page, int image);
-	bool bmx_wxnotebook_setpagetext(wxNotebook * notebook, int page, BBString * text);
-	int bmx_wxnotebook_setselection(wxNotebook * notebook, int page);
-	int bmx_wxnotebook_changeselection(wxNotebook * notebook, int page);
 
 	int bmx_wxnotebookevent_getoldselection(wxNotebookEvent & event);
 	int bmx_wxnotebookevent_getselection(wxNotebookEvent & event);

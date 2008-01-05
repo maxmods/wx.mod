@@ -40,18 +40,6 @@ MaxNotebook * bmx_wxnotebook_create(BBObject * maxHandle, wxWindow * parent, wxW
 	return new MaxNotebook(maxHandle, parent, id, x, y, w, h, style);
 }
 
-bool bmx_wxnotebook_addpage(wxNotebook * notebook, wxWindow * page, BBString * text, bool selected, int imageId) {
-	return notebook->AddPage(page, wxStringFromBBString(text), selected, imageId);
-}
-
-bool bmx_wxnotebook_insertpage(wxNotebook * notebook, int index, wxWindow * page, BBString * text, bool selected, int imageId) {
-	return notebook->InsertPage(index, page, wxStringFromBBString(text), selected, imageId);
-}
-
-void bmx_wxnotebook_advanceselection(wxNotebook * notebook, bool forward) {
-	notebook->AdvanceSelection(forward);
-}
-
 int bmx_wxnotebookevent_getoldselection(wxNotebookEvent & event) {
 	return event.GetOldSelection();
 }
@@ -77,50 +65,8 @@ int bmx_wxnotebook_geteventtype(int type) {
 	return 0;
 }
 
-void bmx_wxnotebook_assignimagelist(wxNotebook * notebook, wxImageList * list) {
-	// need to unbind the imagelist, just in case! (so we don't try to delete it later)
-	wxunbind(list);
-	notebook->AssignImageList(list);
-}
-
-void bmx_wxnotebook_setimagelist(wxNotebook * notebook, wxImageList * list) {
-	notebook->SetImageList(list);
-}
-
-bool bmx_wxnotebook_deleteallpages(wxNotebook * notebook) {
-	return notebook->DeleteAllPages();
-}
-
-bool bmx_wxnotebook_deletepage(wxNotebook * notebook, int page) {
-	return notebook->DeletePage(page);
-}
-
-wxWindow *  bmx_wxnotebook_getcurrentpage(wxNotebook * notebook) {
-	return notebook->GetCurrentPage();
-}
-
-wxWindow * bmx_wxnotebook_getpage(wxNotebook * notebook, int page) {
-	return notebook->GetPage(page);
-}
-
-int bmx_wxnotebook_getpagecount(wxNotebook * notebook) {
-	return notebook->GetPageCount();
-}
-
-int bmx_wxnotebook_getpageimage(wxNotebook * notebook, int page) {
-	return notebook->GetPageImage(page);
-}
-
-BBString * bmx_wxnotebook_getpagetext(wxNotebook * notebook, int page) {
-	return bbStringFromWxString(notebook->GetPageText(page));
-}
-
 int bmx_wxnotebook_getrowcount(wxNotebook * notebook) {
 	return notebook->GetRowCount();
-}
-
-int bmx_wxnotebook_getselection(wxNotebook * notebook) {
-	return notebook->GetSelection();
 }
 
 MaxColour * bmx_wxnotebook_getthemebackgroundcolour(wxNotebook * notebook) {
@@ -128,36 +74,7 @@ MaxColour * bmx_wxnotebook_getthemebackgroundcolour(wxNotebook * notebook) {
 	return new MaxColour(c);
 }
 
-int bmx_wxnotebook_hittest(wxNotebook * notebook, int x, int y, long * flags) {
-	return notebook->HitTest(wxPoint(x, y), flags);
-}
-
-bool bmx_wxnotebook_removepage(wxNotebook * notebook, int page) {
-	return notebook->RemovePage(page);
-}
-
 void bmx_wxnotebook_setpadding(wxNotebook * notebook, int width, int height) {
 	notebook->SetPadding(wxSize(width, height));
 }
-
-void bmx_wxnotebook_setpagesize(wxNotebook * notebook, int width, int height) {
-	notebook->SetPageSize(wxSize(width, height));
-}
-
-bool bmx_wxnotebook_setpageimage(wxNotebook * notebook, int page, int image) {
-	return notebook->SetPageImage(page, image);
-}
-
-bool bmx_wxnotebook_setpagetext(wxNotebook * notebook, int page, BBString * text) {
-	return notebook->SetPageText(page, wxStringFromBBString(text));
-}
-
-int bmx_wxnotebook_setselection(wxNotebook * notebook, int page) {
-	return notebook->SetSelection(page);
-}
-
-int bmx_wxnotebook_changeselection(wxNotebook * notebook, int page) {
-	return notebook->ChangeSelection(page);
-}
-
 

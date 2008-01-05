@@ -21,6 +21,8 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxBookCtrlBase
+Import wx.wxListView
 Import BRL.Blitz
 
 
@@ -43,4 +45,14 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxlistbook_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxlistbook_getlistview:Byte Ptr(handle:Byte Ptr)
+
 End Extern
+
+Const wxLB_DEFAULT:Int = wxBK_DEFAULT
+Const wxLB_TOP:Int = wxBK_TOP
+Const wxLB_BOTTOM:Int = wxBK_BOTTOM
+Const wxLB_LEFT:Int = wxBK_LEFT
+Const wxLB_RIGHT:Int = wxBK_RIGHT
+Const wxLB_ALIGN_MASK:Int = wxBK_ALIGN_MASK

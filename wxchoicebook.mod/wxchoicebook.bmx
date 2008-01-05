@@ -20,7 +20,10 @@
 ' 
 SuperStrict
 
-Module wx.wxChoiceBook
+Rem
+bbdoc: wxChoicebook
+End Rem
+Module wx.wxChoicebook
 
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
@@ -47,4 +50,31 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Rem
+bbdoc: 
+End Rem
+Type wxChoicebook Extends wxBookCtrlBase
 
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateChoicebook:wxChoicebook(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		Return New wxChoicebook.Create(parent, id, x, y, w, h, style)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxChoicebook(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxchoicebook_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc:  Returns the choice control
+	End Rem
+	Method GetChoiceCtrl:wxChoice()
+		Return wxChoice._create(bmx_wxchoicebook_getchoicectrl(wxObjectPtr))
+	End Method
+
+End Type

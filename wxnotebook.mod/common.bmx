@@ -21,8 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxControl
-Import wx.wxImageList
+Import wx.wxBookCtrlBase
 Import BRL.Blitz
 
 
@@ -46,31 +45,9 @@ Import "glue.cpp"
 Extern
 
 	Function bmx_wxnotebook_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxnotebook_addpage:Int(handle:Byte Ptr, page:Byte Ptr, text:String, selected:Int, imageId:Int)
-	Function bmx_wxnotebook_insertpage:Int(handle:Byte Ptr, index:Int, page:Byte Ptr, text:String, selected:Int, imageId:Int)
-	Function bmx_wxnotebook_advanceselection(handle:Byte Ptr, forward:Int)
-	
-	Function bmx_wxnotebook_assignimagelist(handle:Byte Ptr, imagelist:Byte Ptr)
-	Function bmx_wxnotebook_setimagelist(handle:Byte Ptr, imagelist:Byte Ptr)
-
-	Function bmx_wxnotebook_deleteallpages:Int(handle:Byte Ptr)
-	Function bmx_wxnotebook_deletepage:Int(handle:Byte Ptr, page:Int)
-	Function bmx_wxnotebook_getcurrentpage:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxnotebook_getpage:Byte Ptr(handle:Byte Ptr, page:Int)
-	Function bmx_wxnotebook_getpagecount:Int(handle:Byte Ptr)
-	Function bmx_wxnotebook_getpageimage:Int(handle:Byte Ptr, page:Int)
-	Function bmx_wxnotebook_getpagetext:String(handle:Byte Ptr, page:Int)
 	Function bmx_wxnotebook_getrowcount:Int(handle:Byte Ptr)
-	Function bmx_wxnotebook_getselection:Int(handle:Byte Ptr)
 	Function bmx_wxnotebook_getthemebackgroundcolour:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxnotebook_hittest:Int(handle:Byte Ptr, x:Int, y:Int, flags:Int Ptr)
-	Function bmx_wxnotebook_removepage:Int(handle:Byte Ptr, page:Int)
 	Function bmx_wxnotebook_setpadding(handle:Byte Ptr, width:Int, height:Int)
-	Function bmx_wxnotebook_setpagesize(handle:Byte Ptr, width:Int, height:Int)
-	Function bmx_wxnotebook_setpageimage:Int(handle:Byte Ptr, page:Int, image:Int)
-	Function bmx_wxnotebook_setpagetext:Int(handle:Byte Ptr, page:Int, text:String)
-	Function bmx_wxnotebook_setselection:Int(handle:Byte Ptr, page:Int)
-	Function bmx_wxnotebook_changeselection:Int(handle:Byte Ptr, page:Int)
 	
 	Function bmx_wxnotebookevent_getoldselection:Int(evt:Byte Ptr)
 	Function bmx_wxnotebookevent_getselection:Int(evt:Byte Ptr)

@@ -82,6 +82,13 @@ Type wxListView Extends wxListCtrl
 		Return Self
 	End Method
 
+	Function _create:wxListView(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxListView = New wxListView
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
 
 	Rem
 	bbdoc: Resets the column image -- after calling this method, no image will be shown.
