@@ -23,7 +23,8 @@
 #include "wxglue.h"
 #include "wx/glcanvas.h"
 
-#ifdef wxUSE_GLCANVAS
+#if wxUSE_GLCANVAS
+
 
 class MaxGLCanvas;
 
