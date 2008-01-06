@@ -23,6 +23,7 @@
 #include "wxglue.h"
 #include "wx/glcanvas.h"
 
+#ifdef wxUSE_GLCANVAS
 
 class MaxGLCanvas;
 
@@ -64,3 +65,5 @@ private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+#endif

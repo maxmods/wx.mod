@@ -22,6 +22,9 @@
 
 #include "glue.h"
 
+#ifdef wxUSE_GLCANVAS
+
+
 // ---------------------------------------------------------------------------------------
 
 MaxGLCanvas::MaxGLCanvas(BBObject * handle, wxWindow* parent, wxWindowID id,
@@ -83,3 +86,6 @@ void bmx_wxglcanvas_onpainthook(MaxGLCanvas * canvas, BBObject * event) {
 void bmx_wxglcanvas_swapbuffers(wxGLCanvas * canvas) {
 	canvas->SwapBuffers();
 }
+
+
+#endif
