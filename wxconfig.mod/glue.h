@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/confbase.h"
 
 //class MaxNotebook;
 
@@ -28,7 +29,42 @@ extern "C" {
 
 #include <blitz.h>
 
+	void bmx_wxconfigbase_dontcreateondemand(wxConfigBase * config);
 
+	bool bmx_wxconfigbase_deleteall(wxConfigBase * config);
+	bool bmx_wxconfigbase_deleteentry(wxConfigBase * config, BBString * key, bool deleteGroupIfEmpty);
+	bool bmx_wxconfigbase_deletegroup(wxConfigBase * config, BBString * key);
+	bool bmx_wxconfigbase_exists(wxConfigBase * config, BBString * name);
+	bool bmx_wxconfigbase_flush(wxConfigBase * config, bool currentOnly);
+	BBString * bmx_wxconfigbase_getappname(wxConfigBase * config);
+	wxConfigBase::EntryType bmx_wxconfigbase_getentrytype(wxConfigBase * config, BBString * name);
+	bool bmx_wxconfigbase_getfirstgroup(wxConfigBase * config, BBString * name, long * index);
+	bool bmx_wxconfigbase_getfirstentry(wxConfigBase * config, BBString * name, long * index);
+	bool bmx_wxconfigbase_getnextgroup(wxConfigBase * config, BBString * name, long * index);
+	bool bmx_wxconfigbase_getnextentry(wxConfigBase * config, BBString * name, long * index);
+	uint bmx_wxconfigbase_getnumberofentries(wxConfigBase * config, bool recursive);
+	uint bmx_wxconfigbase_getnumberofgroups(wxConfigBase * config, bool recursive);
+	BBString * bmx_wxconfigbase_getpath(wxConfigBase * config);
+	BBString * bmx_wxconfigbase_getvendorname(wxConfigBase * config);
+	bool bmx_wxconfigbase_hasentry(wxConfigBase * config, BBString * name);
+	bool bmx_wxconfigbase_hasgroup(wxConfigBase * config, BBString * name);
+	bool bmx_wxconfigbase_isexpandingenvvars(wxConfigBase * config);
+	bool bmx_wxconfigbase_isrecordingdefaults(wxConfigBase * config);
+	BBString * bmx_wxconfigbase_readstring(wxConfigBase * config, BBString * key, BBString * defaultValue);
+	int bmx_wxconfigbase_readint(wxConfigBase * config, BBString * key, int defaultValue);
+	bool bmx_wxconfigbase_readbool(wxConfigBase * config, BBString * key, bool defaultValue);
+	double bmx_wxconfigbase_readdouble(wxConfigBase * config, BBString * key, double defaultValue);
+	bool bmx_wxconfigbase_renameentry(wxConfigBase * config, BBString * oldname, BBString * newname);
+	bool bmx_wxconfigbase_renamegroup(wxConfigBase * config, BBString * oldname, BBString * newname);
+	void bmx_wxconfigbase_setexpandenvvars(wxConfigBase * config, bool doIt);
+	void bmx_wxconfigbase_setpath(wxConfigBase * config, BBString * path);
+	void bmx_wxconfigbase_setrecorddefaults(wxConfigBase * config, bool doIt);
+	bool bmx_wxconfigbase_writestring(wxConfigBase * config, BBString * key, BBString * value);
+	bool bmx_wxconfigbase_writeint(wxConfigBase * config, BBString * key, int value);
+	bool bmx_wxconfigbase_writebool(wxConfigBase * config, BBString * key, bool value);
+	bool bmx_wxconfigbase_writedouble(wxConfigBase * config, BBString * key, double value);
+
+	
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
