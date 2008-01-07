@@ -62,6 +62,9 @@ public:
 	~MaxGLCanvas();
 	void Render(BBObject * event);
 
+protected:
+    void OnEraseBackground(wxEraseEvent& event);
+
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()

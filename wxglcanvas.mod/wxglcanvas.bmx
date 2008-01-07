@@ -199,7 +199,6 @@ Type TwxGLGraphicsDriver Extends TGraphicsDriver
 	End Method
 	
 	Method Flip( sync:Int )
-		'bbwxGLGraphicsFlip sync
 		' SwapBuffers
 		currentContext.SwapBuffers()
 	End Method

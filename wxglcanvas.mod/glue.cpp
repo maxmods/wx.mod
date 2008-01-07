@@ -38,6 +38,10 @@ MaxGLCanvas::~MaxGLCanvas() {
 	wxunbind(this);
 }
 
+void MaxGLCanvas::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
+{
+    // Do nothing, to avoid flashing on MSW
+}
 
 void MaxGLCanvas::Render(BBObject * event) {
 	wxGLCanvas::SetCurrent();
@@ -48,6 +52,7 @@ void MaxGLCanvas::Render(BBObject * event) {
 // *********************************************
 
 BEGIN_EVENT_TABLE(MaxGLCanvas, wxGLCanvas)
+    EVT_ERASE_BACKGROUND(MaxGLCanvas::OnEraseBackground)
 END_EVENT_TABLE()
 
 static int _initAttrs( int attrs[16],int flags ){
