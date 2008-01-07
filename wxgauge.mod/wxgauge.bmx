@@ -87,6 +87,8 @@ Type wxGauge Extends wxControl
 			
 		wxObjectPtr = bmx_wxgauge_create(Self, parent.wxObjectPtr, id, range, x, y, w, h, style)
 		
+		OnInit()
+		
 		Return Self
 	End Method
 

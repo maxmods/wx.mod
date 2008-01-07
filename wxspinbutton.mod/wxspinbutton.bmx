@@ -77,6 +77,9 @@ Type wxSpinButton Extends wxControl
 	Method Create:wxSpinButton(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1,  ..
 			h:Int = -1, style:Int = wxSP_HORIZONTAL)
 		wxObjectPtr = bmx_wxspinbutton_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 	

@@ -71,6 +71,9 @@ Type wxSashWindow Extends wxWindow
 	Method Create:wxSashWindow(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, ..
 			h:Int = -1, style:Int = wxCLIP_CHILDREN | wxSW_3D)
 		wxObjectPtr = bmx_wxsashwindow_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 

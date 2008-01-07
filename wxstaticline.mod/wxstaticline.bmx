@@ -80,6 +80,8 @@ Type wxStaticLine Extends wxControl
 			
 		wxObjectPtr = bmx_wxstaticline_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
 		
+		OnInit()
+		
 		Return Self
 	End Method
 

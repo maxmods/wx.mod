@@ -69,6 +69,9 @@ Type wxChoice Extends wxControlWithItems
 	End Rem
 	Method Create:wxChoice(parent:wxWindow, id:Int, choices:String[], x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
 		wxObjectPtr = bmx_wxchoice_create(Self, parent.wxObjectPtr, id, choices, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 	

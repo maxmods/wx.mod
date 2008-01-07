@@ -71,6 +71,9 @@ Type wxToggleButton Extends wxControl
 	Method Create:wxToggleButton(parent:wxWindow, id:Int, label:String = Null, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = 0)
 		wxObjectPtr = bmx_wxtogglebutton_create(Self, parent.wxObjectPtr, id, label, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 
@@ -97,7 +100,7 @@ Type TToggleButtonEventFactory Extends TEventFactory
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		If evt.eventType = wxEVT_COMMAND_TOGGLEBUTTON_CLICKED Then
-			Return wxCommandEvent.create(wxEventPtr, evt)
+			Return wxCommandEvent.Create(wxEventPtr, evt)
 		End If
 		
 		Return Null

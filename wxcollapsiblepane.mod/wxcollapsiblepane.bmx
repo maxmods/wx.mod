@@ -95,6 +95,9 @@ Type wxCollapsiblePane Extends wxControl
 	Method Create:wxCollapsiblePane(parent:wxWindow, id:Int, label:String, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxCP_DEFAULT_STYLE)
 		wxObjectPtr = bmx_wxcollapsiblepane_create(Self, parent.wxObjectPtr, id, label, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 

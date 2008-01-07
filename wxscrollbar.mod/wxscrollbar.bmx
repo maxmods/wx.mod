@@ -99,6 +99,9 @@ Type wxScrollBar Extends wxControl
 			style:Int = wxSB_HORIZONTAL)
 
 		wxObjectPtr = bmx_wxscrollbar_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self			
 	End Method
 

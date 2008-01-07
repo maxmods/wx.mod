@@ -74,6 +74,9 @@ Type wxCheckBox Extends wxControl
 			w:Int = -1, h:Int = -1, style:Int = 0)
 			
 		wxObjectPtr = bmx_wxcheckbox_create(Self, parent.wxObjectPtr, id, label, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 
@@ -141,7 +144,7 @@ Type TCheckBoxEventFactory Extends TEventFactory
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		If evt.eventType = wxEVT_COMMAND_CHECKBOX_CLICKED Then
-			Return wxCommandEvent.create(wxEventPtr, evt)
+			Return wxCommandEvent.Create(wxEventPtr, evt)
 		End If
 		
 		Return Null

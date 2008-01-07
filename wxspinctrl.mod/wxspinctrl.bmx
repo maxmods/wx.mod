@@ -70,6 +70,8 @@ Type wxSpinCtrl Extends wxControl
 			
 		wxObjectPtr = bmx_wxspinctrl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style, minimum, maximum, initial)
 		
+		OnInit()
+		
 		Return Self
 	End Method
 

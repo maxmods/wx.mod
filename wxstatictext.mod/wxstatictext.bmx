@@ -85,6 +85,8 @@ Type wxStaticText Extends wxControl
 			
 		wxObjectPtr = bmx_wxstatictext_create(Self, parent.wxObjectPtr, id, label, x, y, w, h, style)
 		
+		OnInit()
+		
 		Return Self
 	End Method
 

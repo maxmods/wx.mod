@@ -100,6 +100,8 @@ Type wxStaticBox Extends wxControl
 			
 		wxObjectPtr = bmx_wxstaticbox_create(Self, parent.wxObjectPtr, id, label, x, y, w, h, style)
 		
+		OnInit()
+		
 		Return Self
 	End Method
 

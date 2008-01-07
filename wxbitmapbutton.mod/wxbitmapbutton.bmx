@@ -83,6 +83,8 @@ Type wxBitmapButton Extends wxButton
 		
 		wxObjectPtr = bmx_wxbitmapbutton_create(Self, parent.wxObjectPtr, id, wxBitmap(bitmap).wxObjectPtr, x, y, w, h, style)
 		
+		OnInit()
+		
 		Return Self
 	End Method
 

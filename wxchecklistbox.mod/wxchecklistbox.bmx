@@ -81,6 +81,9 @@ Type wxCheckListBox Extends wxListBox
 	End Rem
 	Method Create:wxCheckListBox(parent:wxWindow, id:Int, choices:String[], x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
 		wxObjectPtr = bmx_wxchecklistbox_create(Self, parent.wxObjectPtr, id, choices, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 	
@@ -114,7 +117,7 @@ Type TCheckListBoxEventFactory Extends TEventFactory
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		If evt.eventType = wxEVT_COMMAND_CHECKLISTBOX_TOGGLED Then
-			Return wxCommandEvent.create(wxEventPtr, evt)
+			Return wxCommandEvent.Create(wxEventPtr, evt)
 		End If
 		
 		Return Null

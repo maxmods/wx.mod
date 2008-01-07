@@ -71,6 +71,9 @@ Type wxRadioBox Extends wxControlWithItems
 	Method Create:wxRadioBox(parent:wxWindow, id:Int, label:String, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, choices:String[] = Null, majorDimension:Int = 0, style:Int = wxRA_SPECIFY_COLS)
 		wxObjectPtr = bmx_wxradiobox_create(Self, parent.wxObjectPtr, id, label, x, y, w, h, choices, majorDimension, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 	

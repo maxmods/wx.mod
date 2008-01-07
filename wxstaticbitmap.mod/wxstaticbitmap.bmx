@@ -72,6 +72,9 @@ Type wxStaticBitmap Extends wxControl
 	Method Create:wxStaticBitmap(parent:wxWindow, id:Int, bitmap:wxBitmap, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = 0)
 		wxObjectPtr = bmx_wxstaticbitmap_create(Self, parent.wxObjectPtr, id, bitmap.wxObjectPtr, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 

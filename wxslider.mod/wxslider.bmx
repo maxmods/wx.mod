@@ -73,6 +73,9 @@ Type wxSlider Extends wxControl
 	Method Create:wxSlider(parent:wxWindow, id:Int, value:Int, minValue:Int, maxValue:Int, ..
 			x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxSL_HORIZONTAL)
 		wxObjectPtr = bmx_wxslider_create(Self, parent.wxObjectPtr, id, value, minValue, maxValue, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 

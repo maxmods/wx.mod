@@ -131,6 +131,9 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	Method Create:wxPropertyGrid(parent:wxWindow, id:Int = wxID_ANY, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = 0)
 		wxObjectPtr = bmx_wxpropertygrid_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 

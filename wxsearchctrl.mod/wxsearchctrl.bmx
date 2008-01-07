@@ -67,6 +67,9 @@ Type wxSearchCtrl Extends wxTextCtrl
 	End Rem
 	Method Create:wxSearchCtrl(parent:wxWindow, id:Int, value:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
 		wxObjectPtr = bmx_wxsearchctrl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style)
+		
+		OnInit()
+		
 		Return Self
 	End Method
 
@@ -138,7 +141,7 @@ Type TSearchCtrlEventFactory Extends TEventFactory
 		Select evt.eventType
 			Case wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN, ..
 					wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN
-				Return wxCommandEvent.create(wxEventPtr, evt)
+				Return wxCommandEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
