@@ -42,8 +42,8 @@ extern "C" {
 	bool bmx_wxconfigbase_getfirstentry(wxConfigBase * config, BBString * name, long * index);
 	bool bmx_wxconfigbase_getnextgroup(wxConfigBase * config, BBString * name, long * index);
 	bool bmx_wxconfigbase_getnextentry(wxConfigBase * config, BBString * name, long * index);
-	uint bmx_wxconfigbase_getnumberofentries(wxConfigBase * config, bool recursive);
-	uint bmx_wxconfigbase_getnumberofgroups(wxConfigBase * config, bool recursive);
+	unsigned int bmx_wxconfigbase_getnumberofentries(wxConfigBase * config, bool recursive);
+	unsigned int bmx_wxconfigbase_getnumberofgroups(wxConfigBase * config, bool recursive);
 	BBString * bmx_wxconfigbase_getpath(wxConfigBase * config);
 	BBString * bmx_wxconfigbase_getvendorname(wxConfigBase * config);
 	bool bmx_wxconfigbase_hasentry(wxConfigBase * config, BBString * name);

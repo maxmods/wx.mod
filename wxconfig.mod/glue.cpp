@@ -81,11 +81,11 @@ bool bmx_wxconfigbase_getnextentry(wxConfigBase * config, BBString * name, long 
 	return config->GetNextEntry(n, *index);
 }
 
-uint bmx_wxconfigbase_getnumberofentries(wxConfigBase * config, bool recursive) {
+unsigned int bmx_wxconfigbase_getnumberofentries(wxConfigBase * config, bool recursive) {
 	return config->GetNumberOfEntries(recursive);
 }
 
-uint bmx_wxconfigbase_getnumberofgroups(wxConfigBase * config, bool recursive) {
+unsigned int bmx_wxconfigbase_getnumberofgroups(wxConfigBase * config, bool recursive) {
 	return config->GetNumberOfGroups(recursive);
 }
 
