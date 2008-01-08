@@ -21,7 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxWindow
+Import wx.wxConfig
 Import BRL.Blitz
 
 
@@ -44,13 +44,8 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxapp_setownmain()
-	Function bmx_wxapp_dispatch:Int()
-	Function bmx_wxapp_pending:Int()
-	Function bmx_wxapp_processidle:Int()
+	Function bmx_wxfileconfig_create:Byte Ptr(appName:String, vendorName:String, localFilename:String, globalFilename:String, style:Int)
+	Function bmx_wxfileconfig_setumask(handle:Byte Ptr, mode:Int)
 
-	Function bmx_wxapp_setvendorname(name:String)
-	Function bmx_wxapp_setexitonframedelete(flag:Int)
-	Function bmx_wxapp_isactive:Int()
 
 End Extern

@@ -302,6 +302,8 @@ private:
 	wxEventLoop * eventLoop;
 };
 
+DECLARE_APP(MaxApp)
+
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 class MaxObject : public wxObject

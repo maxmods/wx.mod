@@ -114,6 +114,29 @@ Type wxApp Abstract
 	End Method
 	
 	Rem
+	bbdoc: Returns the application's vendor name.
+	End Rem
+	Method SetVendorName(name:String)
+		bmx_wxapp_setvendorname(name)
+	End Method
+	
+	Rem
+	bbdoc: Allows the programmer to specify whether the application will exit when the top-level frame is deleted.
+	End Rem
+	Method SetExitOnFrameDelete(flag:Int)
+		bmx_wxapp_setexitonframedelete(flag)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the application is active, i.e. if one of its windows is currently in the foreground.
+	about: If this method returns false and you need to attract users attention to the application,
+	you may use wxTopLevelWindow::RequestUserAttention to do it.
+	End Rem
+	Method IsActive:Int()
+		Return bmx_wxapp_isactive()
+	End Method
+	
+	Rem
 	bbdoc: Yields control to pending messages in the windowing system.
 	about: This can be useful, for example, when a time-consuming process writes to a text window.
 	Without an occasional yield, the text window will not be updated properly, and on systems with

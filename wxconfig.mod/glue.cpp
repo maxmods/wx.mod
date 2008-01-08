@@ -28,6 +28,18 @@
 
 // *********************************************
 
+wxConfigBase * bmx_wxconfigbase_set(wxConfigBase * config) {
+	if (config) {
+		return wxConfigBase::Set(config);
+	} else {
+		return wxConfigBase::Set(NULL);
+	}
+}
+
+wxConfigBase * bmx_wxconfigbase_get(bool onDemand) {
+	return wxConfigBase::Get(onDemand);
+}
+
 
 void bmx_wxconfigbase_dontcreateondemand(wxConfigBase * config) {
 	config->DontCreateOnDemand();
@@ -165,3 +177,6 @@ bool bmx_wxconfigbase_writedouble(wxConfigBase * config, BBString * key, double 
 	return config->Write(wxStringFromBBString(key), value);
 }
 
+void bmx_wxconfigbase_free(wxConfigBase * config) {
+	delete config;
+}

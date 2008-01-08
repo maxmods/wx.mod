@@ -43,6 +43,9 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxconfigbase_set:Byte Ptr(config:Byte Ptr)
+	Function bmx_wxconfigbase_get:Byte Ptr(onDemand:Int)
+
 	Function bmx_wxconfigbase_dontcreateondemand(handle:Byte Ptr)
 
 	Function bmx_wxconfigbase_deleteall:Int(handle:Byte Ptr)
@@ -78,6 +81,12 @@ Extern
 	Function bmx_wxconfigbase_writebool:Int(handle:Byte Ptr, key:String, value:Int)
 	Function bmx_wxconfigbase_writedouble:Int(handle:Byte Ptr, key:String, value:Double)
 
-
+	Function bmx_wxconfigbase_free(handle:Byte Ptr)
 
 End Extern
+
+Const wxCONFIG_USE_LOCAL_FILE:Int = 1
+Const wxCONFIG_USE_GLOBAL_FILE:Int = 2
+Const wxCONFIG_USE_RELATIVE_PATH:Int = 4
+Const wxCONFIG_USE_NO_ESCAPE_CHARACTERS:Int = 8
+Const wxCONFIG_USE_SUBDIR:Int = 16

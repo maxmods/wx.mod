@@ -20,23 +20,19 @@
   THE SOFTWARE.
 */ 
 
-#include "glue.h"
+#include "wxglue.h"
+#include "wx/fileconf.h"
 
-// ---------------------------------------------------------------------------------------
+//class MaxNotebook;
 
+extern "C" {
 
+#include <blitz.h>
 
-// *********************************************
+	wxFileConfig * bmx_wxfileconfig_create(BBString * appName, BBString * vendorName, BBString * localFilename, BBString * globalFilename, long style);
+	void bmx_wxfileconfig_setumask(wxFileConfig * config, int mode);
 
-void bmx_wxapp_setvendorname(BBString * name) {
-	wxGetApp().SetVendorName(wxStringFromBBString(name));
 }
 
-void bmx_wxapp_setexitonframedelete(bool flag) {
-	wxGetApp().SetExitOnFrameDelete(flag);
-}
-
-bool bmx_wxapp_isactive() {
-	return wxGetApp().IsActive();
-}
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

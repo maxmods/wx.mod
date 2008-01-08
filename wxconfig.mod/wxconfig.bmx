@@ -55,10 +55,36 @@ bbdoc: wxConfigBase type defines the basic interface of all config classes.
 about: It can not be used by itself (it is an abstract base type) and you will always use one
 of its derivations: wxFileConfig, wxRegConfig or any other.
 End Rem
-Type wxConfigBase Abstract
+Type wxConfigBase
 
 	Field wxObjectPtr:Byte Ptr
+	
+	Function _create:wxConfigBase(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxConfigBase = New wxConfigBase
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
 
+	Rem
+	bbdoc: Sets the config object as the current one, returns the previous current object (both the parameter and returned value may be NULL)
+	End Rem
+	Function Set:wxConfigBase(config:wxConfigBase)
+		If config Then
+			Return wxConfigBase._create(bmx_wxconfigbase_set(config.wxObjectPtr))
+		Else
+			Return wxConfigBase._create(bmx_wxconfigbase_set(Null))
+		End If
+	End Function
+	
+	Rem
+	bbdoc: Get the current config object.
+	End Rem
+	Function Get:wxConfigBase(onDemand:Int = True)
+		Return wxConfigBase._create(bmx_wxconfigbase_get(onDemand))
+	End Function
+	
 	Rem
 	bbdoc: Calling this method will prevent Get() from automatically creating a new config object if the current one is NULL.
 	about: It might be useful to call it near the program end to prevent "accidental" creation
@@ -318,6 +344,15 @@ Type wxConfigBase Abstract
 		Return bmx_wxconfigbase_writedouble(wxObjectPtr, key, value)
 	End Method
 
+	Rem
+	bbdoc: Free the config, automatically storing the information.
+	End Rem
+	Method Free()
+		If wxObjectPtr Then
+			bmx_wxconfigbase_free(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
 	
 End Type
 

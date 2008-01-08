@@ -29,6 +29,9 @@ extern "C" {
 
 #include <blitz.h>
 
+	wxConfigBase * bmx_wxconfigbase_set(wxConfigBase * config);
+	wxConfigBase * bmx_wxconfigbase_get(bool onDemand);
+
 	void bmx_wxconfigbase_dontcreateondemand(wxConfigBase * config);
 
 	bool bmx_wxconfigbase_deleteall(wxConfigBase * config);
@@ -64,7 +67,8 @@ extern "C" {
 	bool bmx_wxconfigbase_writebool(wxConfigBase * config, BBString * key, bool value);
 	bool bmx_wxconfigbase_writedouble(wxConfigBase * config, BBString * key, double value);
 
-	
+	void bmx_wxconfigbase_free(wxConfigBase * config);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

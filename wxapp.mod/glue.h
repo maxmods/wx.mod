@@ -28,6 +28,9 @@ extern "C" {
 
 #include <blitz.h>
 
+	void bmx_wxapp_setvendorname(BBString * name);
+	void bmx_wxapp_setexitonframedelete(bool flag);
+	bool bmx_wxapp_isactive();
 
 }
 

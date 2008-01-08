@@ -28,15 +28,12 @@
 
 // *********************************************
 
-void bmx_wxapp_setvendorname(BBString * name) {
-	wxGetApp().SetVendorName(wxStringFromBBString(name));
+
+wxFileConfig * bmx_wxfileconfig_create(BBString * appName, BBString * vendorName, BBString * localFilename, BBString * globalFilename, long style) {
+	return new wxFileConfig(wxStringFromBBString(appName), wxStringFromBBString(vendorName),
+		wxStringFromBBString(localFilename), wxStringFromBBString(globalFilename), style);
 }
 
-void bmx_wxapp_setexitonframedelete(bool flag) {
-	wxGetApp().SetExitOnFrameDelete(flag);
+void bmx_wxfileconfig_setumask(wxFileConfig * config, int mode) {
+	config->SetUmask(mode);
 }
-
-bool bmx_wxapp_isactive() {
-	return wxGetApp().IsActive();
-}
-

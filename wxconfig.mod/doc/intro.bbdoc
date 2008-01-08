@@ -1,0 +1,295 @@
+<h3>Example</h3>
+<p>
+Here is how you would typically use this class:
+</p>
+<PRE>
+  local config:wxFileConfig = new wxFileConfig.Create("MyAppName")
+
+  local str:String = config.ReadString("LastPrompt")
+  If str Then
+    ' last prompt was found in the config file/registry
+    ...
+  Else
+    ' no last prompt...
+  End If
+
+  ' another example: using default values and the full path instead of just
+  ' key name: if the key is not found , the value 17 is returned
+  Local value:Int = config.ReadInt("/LastRun/CalculatedValues/MaxValue", 17)
+  ...
+  ...
+  ...
+  ' at the end of the program we would save everything back
+  config.WriteString("LastPrompt", str)
+  config.WriteInt("/LastRun/CalculatedValues/MaxValue", value)
+
+  ' the changes will be written back automatically
+  config.Free()
+</PRE>
+<p>
+This basic example, of course, doesn't show all wxConfig features, such as
+enumerating, testing for existence and deleting the entries and groups of
+entries in the config file, its abilities to automatically store the default
+values or expand the environment variables on the fly. However, the main idea
+is that using this class is easy and that it should normally do what you
+expect it to.</p>
+<p>
+NB: in the documentation of this class, the words "config file" also mean
+"registry hive" for wxRegConfig and, generally speaking, might mean any
+physical storage where a wxConfigBase-derived class stores its data.
+</p>
+<h3>Functions</h3>
+<p>
+These functions deal with the "default" config object. Although its usage is
+not at all mandatory it may be convenient to use a global config object
+instead of creating and deleting the local config objects each time you need
+one (especially because creating a wxFileConfig object might be a time
+consuming operation). In this case, you may create this global config object
+in the very start of the program and <I>Set()</I> it as the default. Then, from
+anywhere in your program, you may access it using the <I>Get()</I> function.
+This global wxConfig object will be deleted by wxWidgets automatically if it
+exists. Note that this implies that if you do delete this object yourself
+(usually in <A HREF="wx_wxapp.html#wxapponexit">wxApp::OnExit</A>) you must use <I>Set(Null)</I>
+to prevent wxWidgets from deleting it the second time.</p>
+<p>
+<B>Note:</B> You should use either <I>Set()</I> or <I>Get()</I> because wxWidgets
+library itself would take advantage of it and could save various information
+in it. For example wxFontMapper or Unix version
+of wxFileDialog have the ability to use wxConfig class.</p>
+<h3>Path management</h3>
+<p>
+As explained in <A HREF="wx_wxconfigoverview.html#wxconfigoverview">config overview</A>, the config classes
+support a file system-like hierarchy of keys (files) and groups (directories).
+As in the file system case, to specify a key in the config class you must use
+a path to it. Config classes also support the notion of the current group,
+which makes it possible to use the relative paths. To clarify all this, here
+is an example (it is only for the sake of demonstration, it doesn't do anything
+sensible!):</p>
+<PRE>
+  Local config:wxFile = new wxFileConfig.Create("FooBarApp")
+
+  ' right now the current path is '/'
+  conf.WriteInt("RootEntry", 1)
+
+  ' go to some other place: if the group(s) don't exist, they will be created
+  conf.SetPath("/Group/Subgroup")
+
+  ' create an entry in subgroup
+  conf.WriteInt("SubgroupEntry", 3)
+
+  ' '..' is understood
+  conf.WriteInt("../GroupEntry", 2)
+  conf.SetPath("..")
+
+  Assert conf.ReadInt("Subgroup/SubgroupEntry") = 3
+
+  ' use absolute path: it is allowed, too
+  Asser conf.Read("/RootEntry") = 1
+</PRE>
+<p>
+<I>Warning</I>: it is probably a good idea to always restore the path to its
+old value on function exit:
+<PRE>
+  Function foo(config:wxConfigBase)
+
+    Locale strOldPath:string = config.GetPath()
+
+    config.SetPath("/Foo/Data")
+    ...
+
+    config.SetPath(strOldPath)
+  End Function
+</PRE>
+because otherwise the assert in the following example will surely fail
+(we suppose here that <I>foo()</I> function is the same as above except that it
+doesn't save and restore the path):
+<PRE>
+  Function bar(config:wxConfigBase)
+
+    config.WriteInt("Test", 17)
+
+    foo(config)
+
+    ' we're reading "/Foo/Data/Test" here! -1 will probably be returned...
+    wxASSERT config.ReadInt("Test", -1) = 17
+  End Function
+</PRE>
+</p>
+<p>
+Finally, the path separator in wxConfigBase and derived classes is always '/',
+regardless of the platform (i.e. it is <B>not</B> '\\' under Windows).</p>
+
+<H3>Enumeration</H3>
+<p>
+The functions in this section allow to enumerate all entries and groups in the
+config file. All functions here return <TT>false</TT> when there are no more items.
+</p>
+<P>
+You must pass the same index to GetNext and GetFirst (don't modify it).
+Please note that it is <B>not</B> the index of the current item (you will have
+some great surprises with wxRegConfig if you assume this) and you shouldn't
+even look at it: it is just a "cookie" which stores the state of the
+enumeration. It can't be stored inside the class because it would prevent you
+from running several enumerations simultaneously, that's why you must pass it
+explicitly.
+</p>
+<P>
+Having said all this, enumerating the config entries/groups is very simple:
+</P>
+<PRE>
+  Local config:wxConfigBase = ...
+  Local aNames:TList = New TList
+
+  ' enumeration variables
+  Local str:String
+  Local dummy:Int
+
+  ' first enum all entries
+  Local bCont:Int = config.GetFirstEntry(str, dummy)
+  While bCont
+    aNames.AddLast(str)
+
+    bCont = GetConfig()-&gt;GetNextEntry(str, dummy);
+  Wend
+
+  ... we have all entry names in aNames...
+
+  ' now all groups...
+  bCont = GetConfig()-&gt;GetFirstGroup(str, dummy);
+  while ( bCont ) {
+    aNames.Add(str);
+
+    bCont = GetConfig()-&gt;GetNextGroup(str, dummy);
+  }
+
+  ... we have all group (and entry) names in aNames...
+
+</PRE>
+There are also functions to get the number of entries/subgroups without
+actually enumerating them, but you will probably never need them.<P>
+<A HREF="wx_wxconfigbase.html#wxconfigbasegetfirstgroup">GetFirstGroup</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasegetnextgroup">GetNextGroup</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasegetfirstentry">GetFirstEntry</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasegetnextentry">GetNextEntry</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasegetnumberofentries">GetNumberOfEntries</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasegetnumberofgroups">GetNumberOfGroups</A><P>
+
+
+<HR>
+<A NAME="configtestsofexistence"></A>
+<H3>Tests of existence</H3>
+<P>
+<A HREF="wx_wxconfigbase.html#wxconfigbasehasgroup">HasGroup</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasehasentry">HasEntry</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbaseexists">Exists</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasegetentrytype">GetEntryType</A><P>
+
+
+<HR>
+<A NAME="configmiscellaneous"></A>
+<H3>Miscellaneous functions</H3>
+<P>
+<A HREF="wx_wxconfigbase.html#wxconfigbasegetappname">GetAppName</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasegetvendorname">GetVendorName</A><BR>
+
+<A HREF="wx_wxfileconfig.html#wxfileconfigsetumask">SetUmask</A><P>
+
+
+<HR>
+<A NAME="configkeyaccess"></A>
+<H3>Key access</H3>
+<P>
+These function are the core of wxConfigBase class: they allow you to read and
+write config file data. All <I>Read</I> function take a default value which
+will be returned if the specified key is not found in the config file.<P>
+Currently, only two types of data are supported: string and long (but it might
+change in the near future). To work with other types: for <I>int</I> or <I>
+bool</I> you can work with function taking/returning <I>long</I> and just use the
+casts. Better yet, just use <I>long</I> for all variables which you're going to
+save in the config file: chances are that <TT>sizeof(bool) == sizeof(int) == sizeof(long)</TT> anyhow on your system. For <I>float</I>, <I>double</I> and, in
+general, any other type you'd have to translate them to/from string
+representation and use string functions.<P>
+Try not to read long values into string variables and vice versa: although it
+just might work with wxFileConfig, you will get a system error with
+wxRegConfig because in the Windows registry the different types of entries are
+indeed used.<P>
+Final remark: the <I>szKey</I> parameter for all these functions can contain an
+arbitrary path (either relative or absolute), not just the key name.<P>
+<A HREF="wx_wxconfigbase.html#wxconfigbaseread">Read</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasewrite">Write</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbaseflush">Flush</A><P>
+
+
+<HR>
+<A NAME="configrenaming"></A>
+<H3>Rename entries/groups</H3>
+<P>
+The functions in this section allow to rename entries or subgroups of the
+current group. They will return <TT>false</TT> on error. typically because either the
+entry/group with the original name doesn't exist, because the entry/group with
+the new name already exists or because the function is not supported in this
+wxConfig implementation.<P>
+<A HREF="wx_wxconfigbase.html#wxconfigbaserenameentry">RenameEntry</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbaserenamegroup">RenameGroup</A><P>
+
+
+<HR>
+<A NAME="configdeleting"></A>
+<H3>Delete entries/groups</H3>
+<P>
+The functions in this section delete entries and/or groups of entries from the
+config file. <I>DeleteAll()</I> is especially useful if you want to erase all
+traces of your program presence: for example, when you uninstall it.<P>
+<A HREF="wx_wxconfigbase.html#wxconfigbasedeleteentry">DeleteEntry</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasedeletegroup">DeleteGroup</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasedeleteall">DeleteAll</A><P>
+
+
+<HR>
+<A NAME="configoptions"></A>
+<H3>Options</H3>
+<P>
+Some aspects of wxConfigBase behaviour can be changed during run-time. The
+first of them is the expansion of environment variables in the string values
+read from the config file: for example, if you have the following in your
+config file:<P>
+<PRE>
+  # config file for my program
+  UserData = $HOME/data
+
+  # the following syntax is valud only under Windows
+  UserData = %windir%\\data.dat
+</PRE>
+the call to <TT>config-&gt;Read("UserData")</TT> will return something like
+<TT>"/home/zeitlin/data"</TT> if you're lucky enough to run a Linux system ;-)<P>
+Although this feature is very useful, it may be annoying if you read a value
+which containts '$' or '%' symbols (% is used for environment variables
+expansion under Windows) which are not used for environment variable
+expansion. In this situation you may call SetExpandEnvVars(false) just before
+reading this value and SetExpandEnvVars(true) just after. Another solution
+would be to prefix the offending symbols with a backslash.<P>
+The following functions control this option:<P>
+<A HREF="wx_wxconfigbase.html#wxconfigbaseisexpandingenvvars">IsExpandingEnvVars</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasesetexpandenvvars">SetExpandEnvVars</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbasesetrecorddefaults">SetRecordDefaults</A><BR>
+
+<A HREF="wx_wxconfigbase.html#wxconfigbaseisrecordingdefaults">IsRecordingDefaults</A><P>
+<P>
+
+
