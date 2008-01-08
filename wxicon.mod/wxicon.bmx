@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxIcon
+End Rem
 Module wx.wxIcon
 
 ModuleInfo "Version: 1.00"
@@ -141,6 +144,56 @@ Type wxIcon Extends wxBitmap
 		End If
 
 		Return IsOk()
+	End Method
+
+	Rem
+	bbdoc: Gets the colour depth of the icon.
+	about: A value of 1 indicates a monochrome icon.
+	End Rem
+	Method GetDepth:Int()
+		Return bmx_wxicon_getdepth(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the height of the bitmap in pixels.
+	End Rem
+	Method GetHeight:Int()
+		Return bmx_wxicon_getheight(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the width of the bitmap in pixels.
+	End Rem
+	Method GetWidth:Int()
+		Return bmx_wxicon_getwidth(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if bitmap data is present.
+	End Rem
+	Method IsOk:Int()
+		Return bmx_wxicon_isok(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the depth member (does not affect the icon data).
+	End Rem
+	Method SetDepth(depth:Int)
+		bmx_wxicon_setdepth(wxObjectPtr, depth)
+	End Method
+	
+	Rem
+	bbdoc: Sets the height member (does not affect the icon data).
+	End Rem
+	Method SetHeight(height:Int)
+		bmx_wxicon_setheight(wxObjectPtr, height)
+	End Method
+	
+	Rem
+	bbdoc: Sets the width member (does not affect the icon data).
+	End Rem
+	Method SetWidth(width:Int)
+		bmx_wxicon_setwidth(wxObjectPtr, width)
 	End Method
 
 	Method Delete()

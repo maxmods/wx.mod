@@ -35,6 +35,16 @@ extern "C" {
 	void * bmx_wxicon_delete(MaxIcon * icon);
 	MaxIcon * bmx_wxicon_null();
 	bool bmx_wxicon_loadfile(MaxIcon * icon, BBString * name, wxBitmapType type);
+
+	int bmx_wxicon_getdepth(MaxIcon * icon);
+	int bmx_wxicon_getheight(MaxIcon * icon);
+	int bmx_wxicon_getwidth(MaxIcon * icon);
+	void bmx_wxicon_setdepth(MaxIcon * icon, int depth);
+	void bmx_wxicon_setheight(MaxIcon * icon, int height);
+	void bmx_wxicon_setwidth(MaxIcon * icon, int width);
+	
+	bool bmx_wxicon_isok(MaxIcon * icon);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

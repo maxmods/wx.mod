@@ -50,5 +50,14 @@ Extern
 	Function bmx_wxicon_loadfile:Int(handle:Byte Ptr, name:String, kind:Int)
 	Function bmx_wxicon_delete(handle:Byte Ptr)
 	Function bmx_wxicon_null:Byte Ptr()
+
+	Function bmx_wxicon_getdepth:Int(handle:Byte Ptr)
+	Function bmx_wxicon_getheight:Int(handle:Byte Ptr)
+	Function bmx_wxicon_getwidth:Int(handle:Byte Ptr)	
+	Function bmx_wxicon_setdepth(handle:Byte Ptr, depth:Int)
+	Function bmx_wxicon_setheight(handle:Byte Ptr, height:Int)
+	Function bmx_wxicon_setwidth(handle:Byte Ptr, width:Int)
 	
+	Function bmx_wxicon_isok:Int(handle:Byte Ptr)
+
 End Extern

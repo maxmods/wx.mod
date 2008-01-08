@@ -48,6 +48,7 @@ MaxIcon::~MaxIcon() {
 
 MaxIcon * bmx_wxicon_createfromfile(BBString * name, wxBitmapType type, int desiredWidth, int desiredHeight) {
 	wxIcon i(wxStringFromBBString(name), type, desiredWidth, desiredHeight);
+
 	return new MaxIcon(i);
 }
 
@@ -69,6 +70,35 @@ MaxIcon * bmx_wxicon_null() {
 }
 
 bool bmx_wxicon_loadfile(MaxIcon * icon, BBString * name, wxBitmapType type) {
-	return icon->Icon().LoadFile(wxStringFromBBString(name), type);
+	bool ret = icon->Icon().LoadFile(wxStringFromBBString(name), type);
+	printf("w = %d\n", icon->Icon().GetWidth());fflush(stdout);
+}
+
+int bmx_wxicon_getdepth(MaxIcon * icon) {
+	return icon->Icon().GetDepth();
+}
+
+int bmx_wxicon_getheight(MaxIcon * icon) {
+	return icon->Icon().GetHeight();
+}
+
+int bmx_wxicon_getwidth(MaxIcon * icon) {
+	return icon->Icon().GetWidth();
+}
+
+void bmx_wxicon_setdepth(MaxIcon * icon, int depth) {
+	icon->Icon().SetDepth(depth);
+}
+
+void bmx_wxicon_setheight(MaxIcon * icon, int height) {
+	icon->Icon().SetHeight(height);
+}
+
+void bmx_wxicon_setwidth(MaxIcon * icon, int width) {
+	icon->Icon().SetWidth(width);
+}
+
+bool bmx_wxicon_isok(MaxIcon * icon) {
+	return icon->Icon().IsOk();
 }
 
