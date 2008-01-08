@@ -71,7 +71,6 @@ MaxIcon * bmx_wxicon_null() {
 
 bool bmx_wxicon_loadfile(MaxIcon * icon, BBString * name, wxBitmapType type) {
 	bool ret = icon->Icon().LoadFile(wxStringFromBBString(name), type);
-	printf("w = %d\n", icon->Icon().GetWidth());fflush(stdout);
 }
 
 int bmx_wxicon_getdepth(MaxIcon * icon) {
