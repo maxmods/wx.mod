@@ -57,64 +57,149 @@ a wxChoice window containing a list of filters.
 End Rem
 Type wxGenericDirCtrl Extends wxControl
 
-	Function CreateGenericDirCtrl:wxGenericDirCtrl()
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateGenericDirCtrl:wxGenericDirCtrl(parent:wxWindow, id:Int = -1, dir:String = "/", x:Int = -1, ..
+			y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxDIRCTRL_3D_INTERNAL|wxSUNKEN_BORDER, ..
+			filter:String = "", defaultFilter:Int = 0)
+		Return New wxGenericDirCtrl.Create(parent, id, dir, x, y, w, h, style, filter, defaultFilter)
 	End Function
 	
-	Method Create:wxGenericDirCtrl()
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxGenericDirCtrl(parent:wxWindow, id:Int = -1, dir:String = "/", x:Int = -1, ..
+			y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxDIRCTRL_3D_INTERNAL|wxSUNKEN_BORDER, ..
+			filter:String = "", defaultFilter:Int = 0)
+		wxObjectPtr = bmx_wxgenericdirctrl_create(Self, parent.wxObjectPtr, id, dir, x, y, w, h, style, filter, defaultFilter)
+		Return Self
 	End Method
 	
+	Rem
+	bbdoc: Initializes variables
+	End Rem
 	Method Init()
+		bmx_wxgenericdirctrl_init(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Collapses the entire tree.
+	End Rem
 	Method CollapseTree()
+		bmx_wxgenericdirctrl_collapsetree(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Tries to expand as much of the given path as possible, so that the filename or directory is visible in the tree control.
+	End Rem
 	Method ExpandPath:Int(path:String)
+		Return bmx_wxgenericdirctrl_expandpath(wxObjectPtr, path)
 	End Method
 	
+	Rem
+	bbdoc: Collapse the given path.
+	End Rem
 	Method CollapsePath:Int(path:String)
+		Return bmx_wxgenericdirctrl_collapsepath(wxObjectPtr, path)
 	End Method
 	
+	Rem
+	bbdoc: Gets the default path.
+	End Rem
 	Method GetDefaultPath:String()
+		Return bmx_wxgenericdirctrl_getdefaultpath(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Gets the currently-selected directory or filename.
+	End Rem
 	Method GetPath:String()
+		Return bmx_wxgenericdirctrl_getpath(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Gets selected filename path only (else empty string).
+	about: This method doesn't count a directory as a selection.
+	End Rem
 	Method GetFilePath:String()
+		Return bmx_wxgenericdirctrl_getfilepath(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the filter string.
+	End Rem
 	Method GetFilter:String()
+		Return bmx_wxgenericdirctrl_getfilter(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the current filter index (zero-based).
+	End Rem
 	Method GetFilterIndex:Int()
+		Return bmx_wxgenericdirctrl_getfilterindex(wxObjectPtr)
 	End Method
 	
-	Method GetFilterListCtrl()
-	End Method
+	'Method GetFilterListCtrl()
+	'	bmx_wxgenericdirctrl_init(wxObjectPtr)
+	'End Method
 	
+	Rem
+	bbdoc: Returns the root id for the tree control.
+	End Rem
 	Method GetRootId:wxTreeItemId()
+		Return wxTreeItemId._create(bmx_wxgenericdirctrl_getrootid(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns a pointer to the tree control.
+	End Rem
 	Method GetTreeCtrl:wxTreeCtrl()
+		Return wxTreeCtrl._create(bmx_wxgenericdirctrl_gettreectrl(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Collapse and expand the tree, thus re-creating it from scratch.
+	about: May be used to update the displayed directory content.
+	End Rem
 	Method ReCreateTree()
+		bmx_wxgenericdirctrl_recreatetree(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the default path.
+	End Rem
 	Method SetDefaultPath(path:String)
+		bmx_wxgenericdirctrl_setdefaultpath(wxObjectPtr, path)
 	End Method
 	
+	Rem
+	bbdoc: Sets the filter string.
+	End Rem
 	Method SetFilter(filter:String)
+		bmx_wxgenericdirctrl_setfilter(wxObjectPtr, filter)
 	End Method
 	
+	Rem
+	bbdoc: Sets the current filter index (zero-based).
+	End Rem
 	Method SetFilterIndex(index:Int)
+		bmx_wxgenericdirctrl_setfilterindex(wxObjectPtr, index)
 	End Method
 	
+	Rem
+	bbdoc: Sets the current path.
+	End Rem
 	Method SetPath(path:String)
+		bmx_wxgenericdirctrl_setpath(wxObjectPtr, path)
 	End Method
 	
+	Rem
+	bbdoc: Shows or hides hidden folders.
+	about: If true, hidden folders and files will be displayed by the control. If false, they will not be displayed.
+	End Rem
 	Method ShowHidden(show:Int)
+		bmx_wxgenericdirctrl_showhidden(wxObjectPtr, show)
 	End Method
 	
 End Type

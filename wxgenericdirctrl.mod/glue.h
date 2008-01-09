@@ -21,15 +21,48 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/dirctrl.h"
+#include "../wxtreectrl.mod/glue.h"
 
-//class MaxNotebook;
+class MaxGenericDirCtrl;
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxGenericDirCtrl * bmx_wxgenericdirctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id,
+		BBString * dir, int x, int y, int w, int h, long style, BBString * filter, int defaultFilter);
+	void bmx_wxgenericdirctrl_init(wxGenericDirCtrl * dir);
+	void bmx_wxgenericdirctrl_collapsetree(wxGenericDirCtrl * dir);
+	bool bmx_wxgenericdirctrl_expandpath(wxGenericDirCtrl * dir, BBString * path);
+	bool bmx_wxgenericdirctrl_collapsepath(wxGenericDirCtrl * dir, BBString * path);
+	BBString * bmx_wxgenericdirctrl_getdefaultpath(wxGenericDirCtrl * dir);
+	BBString * bmx_wxgenericdirctrl_getpath(wxGenericDirCtrl * dir);
+	BBString * bmx_wxgenericdirctrl_getfilepath(wxGenericDirCtrl * dir);
+	BBString * bmx_wxgenericdirctrl_getfilter(wxGenericDirCtrl * dir);
+	int bmx_wxgenericdirctrl_getfilterindex(wxGenericDirCtrl * dir);
+	MaxTreeItem * bmx_wxgenericdirctrl_getrootid(wxGenericDirCtrl * dir);
+	wxTreeCtrl * bmx_wxgenericdirctrl_gettreectrl(wxGenericDirCtrl * dir);
+	void bmx_wxgenericdirctrl_recreatetree(wxGenericDirCtrl * dir);
+	void bmx_wxgenericdirctrl_setdefaultpath(wxGenericDirCtrl * dir, BBString * path);
+	void bmx_wxgenericdirctrl_setfilter(wxGenericDirCtrl * dir, BBString * filter);
+	void bmx_wxgenericdirctrl_setfilterindex(wxGenericDirCtrl * dir, int index);
+	void bmx_wxgenericdirctrl_setpath(wxGenericDirCtrl * dir, BBString * path);
+	void bmx_wxgenericdirctrl_showhidden(wxGenericDirCtrl * dir, bool show);
 
+	
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxGenericDirCtrl : public wxGenericDirCtrl
+{
+public:
+	MaxGenericDirCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& dir,
+		int x, int y, int w, int h, long style, const wxString& filter, int defaultFilter);
+	~MaxGenericDirCtrl();
+
+private:
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};

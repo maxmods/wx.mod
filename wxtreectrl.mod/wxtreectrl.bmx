@@ -82,6 +82,14 @@ Type wxTreeCtrl Extends wxControl
 		Return Self
 	End Method
 
+	Function _create:wxTreeCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxTreeCtrl = New wxTreeCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 	Rem
 	bbdoc: Adds the root node to the tree, returning the new item.
 	about: The image and selImage parameters are an index within the normal image list specifying
