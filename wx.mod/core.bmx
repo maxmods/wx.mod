@@ -219,6 +219,14 @@ bbdoc:
 End Rem
 Type wxInputStream Extends wxStreamBase
 
+	Function _create:wxInputStream(wxStreamPtr:Byte Ptr)
+		If wxStreamPtr Then
+			Local this:wxInputStream = New wxInputStream
+			this.wxStreamPtr = wxStreamPtr
+			Return this
+		End If
+	End Function
+
 	Method CanRead:Int()
 	End Method
 	
@@ -252,6 +260,35 @@ Type wxInputStream Extends wxStreamBase
 	
 End Type
 
+Rem
+bbdoc: 
+End Rem
+Type wxOutputStream Extends wxStreamBase
+
+	Function _create:wxOutputStream(wxStreamPtr:Byte Ptr)
+		If wxStreamPtr Then
+			Local this:wxOutputStream = New wxOutputStream
+			this.wxStreamPtr = wxStreamPtr
+			Return this
+		End If
+	End Function
+
+	Method Close:Int()
+	End Method
+	
+	Method LastWrite:Int()
+	End Method
+	
+	Method PutC(c:Int)
+	End Method
+	
+	Method SeekO:Int(pos:Int, mode:Int = wxFromStart)
+	End Method
+	
+	Method TellO:Int()
+	End Method
+	
+End Type
 
 Type wxAcceleratorTable
 
