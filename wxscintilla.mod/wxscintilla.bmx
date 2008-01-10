@@ -256,7 +256,7 @@ Type wxScintilla Extends wxControl
 	about: Returns the index of the caret on the line.
 	End Rem
 	Method GetCurLine:String(index:Int Var)
-		Return bmx_wxscintilla_getcurline(wxObjectPtr, VarPtr index)
+		Return bmx_wxscintilla_getcurline(wxObjectPtr, Varptr index)
 	End Method
 
 	Rem
@@ -525,8 +525,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Set the font of a style.
 	End Rem
-	Method StyleSetFont(style:Int, fontName:String)
-		bmx_wxscintilla_stylesetfont(wxObjectPtr, style, fontName)
+	Method StyleSetFont(style:Int, FontName:String)
+		bmx_wxscintilla_stylesetfont(wxObjectPtr, style, FontName)
 	End Method
 
 	Rem
@@ -3169,38 +3169,42 @@ Type wxScintilla Extends wxControl
 	bbdoc: 
 	End Rem
 	Method CmdKeyExecute(cmd:Int)
+		bmx_wxscintilla_cmdkeyexecute(wxObjectPtr, cmd)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetMargins(leftMargin:Int, rightMargin:Int)
+		bmx_wxscintilla_setmargins(wxObjectPtr, leftMargin, rightMargin)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetSelection(startPos:Int Var, endPos:Int Var)
-'		bmx_wxscintilla_getselection(wxObjectPtr, Varptr startPos, Varptr endPos)
+		bmx_wxscintilla_getselection(wxObjectPtr, Varptr startPos, Varptr endPos)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Retrieve the point in the window where a position is displayed.
 	End Rem
 	Method PointFromPosition(pos:Int, x:Int Var, y:Int Var)
-'		bmx_wxscintilla_pointfromposition(wxObjectPtr, pos, Varptr x, Varptr y)
+		bmx_wxscintilla_pointfromposition(wxObjectPtr, pos, Varptr x, Varptr y)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Scroll enough to make the given line visible
 	End Rem
 	Method ScrollToLine(line:Int)
+		bmx_wxscintilla_scrolltoline(wxObjectPtr, line)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Scroll enough to make the given column visible
 	End Rem
 	Method ScrollToColumn(column:Int)
+		bmx_wxscintilla_scrolltocolumn(wxObjectPtr, column)
 	End Method
 	
 	Rem
@@ -3210,39 +3214,45 @@ Type wxScintilla Extends wxControl
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Set the vertical scrollbar to use instead of the one that's built-in.
 	End Rem
 	Method SetVScrollBar(bar:wxScrollBar)
+		bmx_wxscintilla_setvscrollbar(wxObjectPtr, bar.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Set the horizontal scrollbar to use instead of the one that's built-in.
 	End Rem
 	Method SetHScrollBar(bar:wxScrollBar)
+		bmx_wxscintilla_sethscrollbar(wxObjectPtr, bar.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Can be used to prevent the EVT_CHAR handler from adding the char
 	End Rem
 	Method GetLastKeydownProcessed:Int()
+		Return bmx_wxscintilla_getlastkeydownprocessed(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Can be used to prevent the EVT_CHAR handler from adding the char
 	End Rem
 	Method SetLastKeydownProcessed(val:Int)
+		bmx_wxscintilla_setlastkeydownprocessed(wxObjectPtr, val)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Write the contents of the editor to filename
 	End Rem
 	Method SaveFile:Int(filename:String)
+		Return bmx_wxscintilla_savefile(wxObjectPtr, filename)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Load the contents of filename into the editor
 	End Rem
 	Method LoadFile:Int(filename:String)
+		Return bmx_wxscintilla_loadfile(wxObjectPtr, filename)
 	End Method
 	
 	'wxDragResult DoDragOver (wxCoord x, wxCoord y, wxDragResult def);

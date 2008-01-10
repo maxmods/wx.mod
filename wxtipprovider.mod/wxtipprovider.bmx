@@ -135,8 +135,8 @@ End Type
 Rem
 bbdoc: This function creates a wxTipProvider which may be used with wxShowTip.
 End Rem
-Function wxCreateFileTipProvider:wxTipProvider(filename:String, currentType:Int)
-	Return wxTipProvider._create(bmx_wxcreatefiletipprovider(filename, currentType))
+Function wxCreateFileTipProvider:wxTipProvider(filename:String, currentTip:Int)
+	Return wxTipProvider._create(bmx_wxcreatefiletipprovider(filename, currentTip))
 End Function
 
 Rem
