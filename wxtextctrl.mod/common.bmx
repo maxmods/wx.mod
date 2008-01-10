@@ -23,7 +23,7 @@ SuperStrict
 Import wx.wx
 Import wx.wxControl
 Import wx.wxMouseEvent
-Import wx.wxValidator
+Import wx.wxTextValidator
 Import BRL.Blitz
 
 
