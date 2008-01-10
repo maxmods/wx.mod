@@ -25,8 +25,8 @@
 
 // ---------------------------------------------------------------------------------------
 
-MaxTextCtrl::MaxTextCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style)
-	: wxTextCtrl(parent, id, value, wxPoint(x, y), wxSize(w, h), style)
+MaxTextCtrl::MaxTextCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style, const wxValidator & val)
+	: wxTextCtrl(parent, id, value, wxPoint(x, y), wxSize(w, h), style, val)
 {
 	wxbind(this, handle);
 }
@@ -52,8 +52,12 @@ BEGIN_EVENT_TABLE(MaxTextCtrl, wxTextCtrl)
 END_EVENT_TABLE()
 
 
-MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style) {
-	return new MaxTextCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style);
+MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, MaxTextValidator * validator) {
+	if (validator) {
+		return new MaxTextCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, validator->Validator());
+	} else {
+		return new MaxTextCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, wxDefaultValidator);
+	}
 }
 
 void bmx_wxtextctrl_appendtext(wxTextCtrl * ctrl, BBString * text) {

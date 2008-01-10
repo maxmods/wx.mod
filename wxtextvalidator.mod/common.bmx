@@ -21,8 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxTextCtrl
-Import wx.wxMenu
+Import wx.wxValidator
 Import BRL.Blitz
 
 
@@ -45,17 +44,27 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxsearchctrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, value:String, x:Int, y:Int, w:Int, h:Int, style:Int, validator:Byte Ptr)
-	Function bmx_wxsearchctrl_setmenu(handle:Byte Ptr, menu:Byte Ptr)
-	Function bmx_wxsearchctrl_getmenu:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxsearchctrl_showsearchbutton(handle:Byte Ptr, show:Int)
-	Function bmx_wxsearchctrl_issearchbuttonvisible:Int(handle:Byte Ptr)
-	Function bmx_wxsearchctrl_showcancelbutton(handle:Byte Ptr, show:Int)
-	Function bmx_wxsearchctrl_iscancelbuttonvisible:Int(handle:Byte Ptr)
+	Function bmx_wxtextvalidator_create:Byte Ptr(style:Int)
+	Function bmx_wxtextvalidator_getwindow:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtextvalidator_setwindow(handle:Byte Ptr, window:Byte Ptr)
+	Function bmx_wxtextvalidator_getexcludes:String[](handle:Byte Ptr)
+	Function bmx_wxtextvalidator_getincludes:String[](handle:Byte Ptr)
+	Function bmx_wxtextvalidator_getstyle:Int(handle:Byte Ptr)
+	Function bmx_wxtextvalidator_setexcludes(handle:Byte Ptr, list:String[])
+	Function bmx_wxtextvalidator_setincludes(handle:Byte Ptr, list:String[])
+	Function bmx_wxtextvalidator_setstyle(handle:Byte Ptr, style:Int)
+	Function bmx_wxtextvalidator_delete(handle:Byte Ptr)
 
-	Function bmx_wxsearchctrl_geteventtype:Int(evt:Int)
-	
 End Extern
 
-Const wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN:Int = 1119
-Const wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN:Int = 1120
+
+Const wxFILTER_NONE:Int = $0000
+Const wxFILTER_ASCII:Int = $0001
+Const wxFILTER_ALPHA:Int = $0002
+Const wxFILTER_ALPHANUMERIC:Int = $0004
+Const wxFILTER_NUMERIC:Int = $0008
+Const wxFILTER_INCLUDE_LIST:Int = $0010
+Const wxFILTER_EXCLUDE_LIST:Int = $0020
+Const wxFILTER_INCLUDE_CHAR_LIST:Int = $0040
+Const wxFILTER_EXCLUDE_CHAR_LIST:Int = $0080
+

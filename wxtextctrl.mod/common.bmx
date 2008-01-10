@@ -23,6 +23,7 @@ SuperStrict
 Import wx.wx
 Import wx.wxControl
 Import wx.wxMouseEvent
+Import wx.wxValidator
 Import BRL.Blitz
 
 
@@ -45,7 +46,7 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxtextctrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, value:String, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxtextctrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, value:String, x:Int, y:Int, w:Int, h:Int, style:Int, validator:Byte Ptr)
 	Function bmx_wxtextctrl_appendtext(handle:Byte Ptr, text:String)
 	Function bmx_wxtextctrl_cancopy:Int(handle:Byte Ptr)
 	Function bmx_wxtextctrl_cancut:Int(handle:Byte Ptr)

@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include <wx/textctrl.h>
+#include "../wxtextvalidator.mod/glue.h"
 
 class MaxTextCtrl;
 class MaxTextAttr;
@@ -31,7 +32,7 @@ extern "C" {
 #include <blitz.h>
 
 
-	MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style);
+	MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, MaxTextValidator * validator);
 	void bmx_wxtextctrl_appendtext(wxTextCtrl * ctrl, BBString * text);
 	bool bmx_wxtextctrl_cancopy(wxTextCtrl * ctrl);
 	bool bmx_wxtextctrl_cancut(wxTextCtrl * ctrl);
@@ -130,7 +131,7 @@ extern "C" {
 class MaxTextCtrl : public wxTextCtrl
 {
 public:
-	MaxTextCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style);
+	MaxTextCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style, const wxValidator & val);
 	~MaxTextCtrl();
 	
 private:

@@ -165,16 +165,20 @@ Type wxTextCtrl Extends wxControl
 	be wrapped (but no newline character is inserted). Single line controls don't have a horizontal
 	scrollbar, the text is automatically scrolled so that the insertion point is always visible.
 	End Rem
-	Function CreateTextCtrl:wxTextCtrl(parent:wxWindow, id:Int, value:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
-		Return New wxTextCtrl.Create(parent, id, value, x, y, w, h, style)
+	Function CreateTextCtrl:wxTextCtrl(parent:wxWindow, id:Int, value:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0, validator:wxValidator = Null)
+		Return New wxTextCtrl.Create(parent, id, value, x, y, w, h, style, validator)
 	End Function
 	
 	Rem
 	bbdoc: Creates the text control for two-step construction.
 	about: See CreateTextCtrl for further details.
 	End Rem
-	Method Create:wxTextCtrl(parent:wxWindow, id:Int, value:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
-		wxObjectPtr = bmx_wxtextctrl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style)
+	Method Create:wxTextCtrl(parent:wxWindow, id:Int, value:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0, validator:wxValidator = Null)
+		If validator Then
+			wxObjectPtr = bmx_wxtextctrl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style, validator.wxObjectPtr)
+		Else
+			wxObjectPtr = bmx_wxtextctrl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style, Null)
+		End If
 		OnInit()
 		Return Self
 	End Method

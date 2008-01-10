@@ -21,8 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxTextCtrl
-Import wx.wxMenu
+Import wx.wxWindow
 Import BRL.Blitz
 
 
@@ -45,17 +44,4 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxsearchctrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, value:String, x:Int, y:Int, w:Int, h:Int, style:Int, validator:Byte Ptr)
-	Function bmx_wxsearchctrl_setmenu(handle:Byte Ptr, menu:Byte Ptr)
-	Function bmx_wxsearchctrl_getmenu:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxsearchctrl_showsearchbutton(handle:Byte Ptr, show:Int)
-	Function bmx_wxsearchctrl_issearchbuttonvisible:Int(handle:Byte Ptr)
-	Function bmx_wxsearchctrl_showcancelbutton(handle:Byte Ptr, show:Int)
-	Function bmx_wxsearchctrl_iscancelbuttonvisible:Int(handle:Byte Ptr)
-
-	Function bmx_wxsearchctrl_geteventtype:Int(evt:Int)
-	
 End Extern
-
-Const wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN:Int = 1119
-Const wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN:Int = 1120

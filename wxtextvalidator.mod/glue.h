@@ -21,35 +21,43 @@
 */ 
 
 #include "wxglue.h"
-#include "wx/srchctrl.h"
-#include "../wxtextvalidator.mod/glue.h"
+#include "wx/valtext.h"
+#include "../wxvalidator.mod/glue.h"
 
-class MaxSearchCtrl;
+#ifndef _WX_MAX_TEXTVALIDATOR_H_
+#define _WX_MAX_TEXTVALIDATOR_H_
+
+class MaxTextValidator;
 
 extern "C" {
 
 #include <blitz.h>
 
-	MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, MaxTextValidator * validator);
-	void bmx_wxsearchctrl_setmenu(wxSearchCtrl * search, wxMenu * menu);
-	wxMenu * bmx_wxsearchctrl_getmenu(wxSearchCtrl * search);
-	void bmx_wxsearchctrl_showsearchbutton(wxSearchCtrl * search, bool show);
-	bool bmx_wxsearchctrl_issearchbuttonvisible(wxSearchCtrl * search);
-	void  bmx_wxsearchctrl_showcancelbutton(wxSearchCtrl * search, bool show);
-	bool bmx_wxsearchctrl_iscancelbuttonvisible(wxSearchCtrl * search);
-
-	int bmx_wxsearchctrl_geteventtype(int type);
+	MaxTextValidator * bmx_wxtextvalidator_create(long style);
+	wxWindow * bmx_wxtextvalidator_getwindow(MaxTextValidator * validator);
+	void bmx_wxtextvalidator_setwindow(MaxTextValidator * validator, wxWindow * window);
+	BBArray * bmx_wxtextvalidator_getexcludes(MaxTextValidator * validator);
+	BBArray *bmx_wxtextvalidator_getincludes(MaxTextValidator * validator);
+	long bmx_wxtextvalidator_getstyle(MaxTextValidator * validator);
+	void bmx_wxtextvalidator_setexcludes(MaxTextValidator * validator, BBArray * list);
+	void bmx_wxtextvalidator_setincludes(MaxTextValidator * validator, BBArray * list);
+	void bmx_wxtextvalidator_setstyle(MaxTextValidator * validator, long style);
+	void bmx_wxtextvalidator_delete(MaxTextValidator * validator);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class MaxSearchCtrl : public wxSearchCtrl
+class MaxTextValidator
 {
 public:
-	MaxSearchCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style, const wxValidator & val);
-	~MaxSearchCtrl();
-	
-private:
-	DECLARE_EVENT_TABLE()
+	MaxTextValidator();
+	MaxTextValidator(const wxTextValidator & v);
+	wxTextValidator & Validator();
+
+protected:
+	wxTextValidator validator;
+
 };
+
+#endif // _WX_MAX_TEXTVALIDATOR_H_

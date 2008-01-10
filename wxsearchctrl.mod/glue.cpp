@@ -24,8 +24,8 @@
 
 // ---------------------------------------------------------------------------------------
 
-MaxSearchCtrl::MaxSearchCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style)
-	: wxSearchCtrl(parent, id, value, wxPoint(x, y), wxSize(w, h), style)
+MaxSearchCtrl::MaxSearchCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style, const wxValidator & val)
+	: wxSearchCtrl(parent, id, value, wxPoint(x, y), wxSize(w, h), style, val)
 {
 	wxbind(this, handle);
 }
@@ -41,8 +41,12 @@ MaxSearchCtrl::~MaxSearchCtrl() {
 BEGIN_EVENT_TABLE(MaxSearchCtrl, wxSearchCtrl)
 END_EVENT_TABLE()
 
-MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style) {
-	return new MaxSearchCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style);
+MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, MaxTextValidator * validator) {
+	if (validator) {
+		return new MaxSearchCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, validator->Validator());
+	} else {
+		return new MaxSearchCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, wxDefaultValidator);
+	}
 }
 
 void bmx_wxsearchctrl_setmenu(wxSearchCtrl * search, wxMenu * menu) {

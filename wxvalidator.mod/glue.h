@@ -21,35 +21,27 @@
 */ 
 
 #include "wxglue.h"
-#include "wx/srchctrl.h"
-#include "../wxtextvalidator.mod/glue.h"
+#include "wx/validate.h"
 
-class MaxSearchCtrl;
+class MaxValidator;
 
 extern "C" {
 
 #include <blitz.h>
 
-	MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, MaxTextValidator * validator);
-	void bmx_wxsearchctrl_setmenu(wxSearchCtrl * search, wxMenu * menu);
-	wxMenu * bmx_wxsearchctrl_getmenu(wxSearchCtrl * search);
-	void bmx_wxsearchctrl_showsearchbutton(wxSearchCtrl * search, bool show);
-	bool bmx_wxsearchctrl_issearchbuttonvisible(wxSearchCtrl * search);
-	void  bmx_wxsearchctrl_showcancelbutton(wxSearchCtrl * search, bool show);
-	bool bmx_wxsearchctrl_iscancelbuttonvisible(wxSearchCtrl * search);
-
-	int bmx_wxsearchctrl_geteventtype(int type);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class MaxSearchCtrl : public wxSearchCtrl
+class MaxValidator
 {
 public:
-	MaxSearchCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style, const wxValidator & val);
-	~MaxSearchCtrl();
-	
-private:
-	DECLARE_EVENT_TABLE()
+	MaxValidator();
+	MaxValidator(wxValidator & v);
+	wxValidator & Validator();
+
+protected:
+	wxValidator validator;
+
 };
