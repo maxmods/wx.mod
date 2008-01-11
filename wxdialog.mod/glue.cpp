@@ -41,7 +41,11 @@ MaxDialog::~MaxDialog() {
 
 MaxDialog * bmx_wxdialog_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y,
 		int w, int h, long style) {
-	return new MaxDialog(maxHandle, parent, id, wxStringFromBBString(title), x, y, w, h, style);
+	if (parent) {
+		return new MaxDialog(maxHandle, parent, id, wxStringFromBBString(title), x, y, w, h, style);
+	} else {
+		return new MaxDialog(maxHandle, NULL, id, wxStringFromBBString(title), x, y, w, h, style);
+	}
 }
 
 void bmx_wxdialog_free(wxDialog * dialog) {

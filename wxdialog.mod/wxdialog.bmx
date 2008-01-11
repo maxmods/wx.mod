@@ -70,7 +70,11 @@ Type wxDialog Extends wxTopLevelWindow
 	End Rem
 	Method Create_:wxDialog(parent:wxWindow, id:Int, title:String, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
-		wxObjectPtr = bmx_wxdialog_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
+		If parent Then
+			wxObjectPtr = bmx_wxdialog_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
+		Else
+			wxObjectPtr = bmx_wxdialog_create(Self, Null, id, title, x, y, w, h, style)
+		End If
 		OnInit()
 		Return Self
 	End Method
