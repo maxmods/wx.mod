@@ -116,6 +116,7 @@ Type wxMenu Extends wxEvtHandler
 	End Rem
 	Method Create:wxMenu(title:String = "", style:Int = 0)
 		wxObjectPtr = bmx_wxmenu_create(Self, title, style)
+		OnInit()
 		Return Self
 	End Method
 	

@@ -120,7 +120,7 @@ End Rem
 Type wxNotebookEvent Extends wxNotifyEvent
 
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
-		Local this:wxMoveEvent = New wxMoveEvent
+		Local this:wxNotebookEvent = New wxNotebookEvent
 		
 		this.init(wxEventPtr, evt)
 		
