@@ -73,9 +73,10 @@ wxConfigBase::EntryType bmx_wxconfigbase_getentrytype(wxConfigBase * config, BBS
 	return config->GetEntryType(wxStringFromBBString(name));
 }
 
-bool bmx_wxconfigbase_getfirstgroup(wxConfigBase * config, BBString * name, long * index) {
-	wxString n(wxStringFromBBString(name));
-	return config->GetFirstGroup(n, *index);
+BBString * bmx_wxconfigbase_getfirstgroup(wxConfigBase * config, long * index, bool * cont) {
+	wxString n;
+	*cont = config->GetFirstGroup(n, *index);
+	return bbStringFromWxString(n);
 }
 
 bool bmx_wxconfigbase_getfirstentry(wxConfigBase * config, BBString * name, long * index) {
@@ -83,9 +84,10 @@ bool bmx_wxconfigbase_getfirstentry(wxConfigBase * config, BBString * name, long
 	return config->GetFirstEntry(n, *index);
 }
 
-bool bmx_wxconfigbase_getnextgroup(wxConfigBase * config, BBString * name, long * index) {
-	wxString n(wxStringFromBBString(name));
-	return config->GetNextGroup(n, *index);
+BBString * bmx_wxconfigbase_getnextgroup(wxConfigBase * config, long * index, bool * cont) {
+	wxString n;
+	*cont =  config->GetNextGroup(n, *index);
+	return bbStringFromWxString(n);
 }
 
 bool bmx_wxconfigbase_getnextentry(wxConfigBase * config, BBString * name, long * index) {

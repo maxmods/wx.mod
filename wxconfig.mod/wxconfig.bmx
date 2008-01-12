@@ -157,8 +157,8 @@ Type wxConfigBase
 	Rem
 	bbdoc: Gets the first group.
 	End Rem
-	Method GetFirstGroup:Int(name:String, index:Int Var)
-		Return bmx_wxconfigbase_getfirstgroup(wxObjectPtr, name, Varptr index)
+	Method GetFirstGroup:String(index:Int Var, cont:Int Var)
+		Return bmx_wxconfigbase_getfirstgroup(wxObjectPtr, Varptr index, Varptr cont)
 	End Method
 	
 	Rem
@@ -171,8 +171,8 @@ Type wxConfigBase
 	Rem
 	bbdoc: Gets the next group.
 	End Rem
-	Method GetNextGroup:Int(name:String, index:Int Var)
-		Return bmx_wxconfigbase_getnextgroup(wxObjectPtr, name, Varptr index)
+	Method GetNextGroup:String(index:Int Var, cont:Int Var)
+		Return bmx_wxconfigbase_getnextgroup(wxObjectPtr, Varptr index, Varptr cont)
 	End Method
 	
 	Rem
