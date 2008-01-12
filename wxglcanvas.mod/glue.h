@@ -59,7 +59,7 @@ class MaxGLCanvas : public wxGLCanvas
 public:
 	MaxGLCanvas(BBObject * handle, wxWindow* parent, wxWindowID id,
 		int x, int y, int w, int h, long style, const wxString& name, int* attribList);
-	MaxGLCanvas(BBObject * handle, wxWindow* parent, wxGLCanvas* sharedCanvas, wxWindowID id,
+	MaxGLCanvas(BBObject * handle, wxWindow* parent, wxGLContext* sharedContext, wxWindowID id,
 		int x, int y, int w, int h, long style, const wxString& name, int* attribList);
 	~MaxGLCanvas();
 	void Render(BBObject * event);
