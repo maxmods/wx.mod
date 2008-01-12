@@ -469,9 +469,7 @@ Type wxFlatNotebookEvent Extends wxNotifyEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxFlatNotebookEvent = New wxFlatNotebookEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function

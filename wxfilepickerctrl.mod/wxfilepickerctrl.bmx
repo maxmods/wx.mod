@@ -148,9 +148,7 @@ Type wxFileDirPickerEvent Extends wxCommandEvent
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxFileDirPickerEvent = New wxFileDirPickerEvent
 		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
+		this.init(wxEventPtr, evt)
 		
 		Return this
 	End Function
