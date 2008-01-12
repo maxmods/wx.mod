@@ -27,6 +27,9 @@
 
 // ---------------------------------------------------------------------------------------
 
+static wxGLCanvas * sharedCanvas;
+
+
 MaxGLCanvas::MaxGLCanvas(BBObject * handle, wxWindow* parent, wxWindowID id,
 		int x, int y, int w, int h, long style, const wxString& name, int* attribList)
 	: wxGLCanvas(parent, id, wxPoint(x, y), wxSize(w, h), style, name, attribList)
@@ -34,7 +37,17 @@ MaxGLCanvas::MaxGLCanvas(BBObject * handle, wxWindow* parent, wxWindowID id,
 	wxbind(this, handle);
 }
 
+MaxGLCanvas::MaxGLCanvas(BBObject * handle, wxWindow* parent, wxGLCanvas * sharedCanvas, wxWindowID id,
+		int x, int y, int w, int h, long style, const wxString& name, int* attribList)
+	: wxGLCanvas(parent, sharedCanvas, id, wxPoint(x, y), wxSize(w, h), style, name, attribList)
+{
+	wxbind(this, handle);
+}
+
 MaxGLCanvas::~MaxGLCanvas() {
+	if (sharedCanvas == this) {
+		sharedCanvas = NULL;
+	}
 	wxunbind(this);
 }
 
@@ -88,8 +101,14 @@ MaxGLCanvas * bmx_wxglcanvas_create(BBObject * handle, wxWindow* parent, wxWindo
 	int attribList[16];
 	
 	_initAttrs(attribList, flags);
-
-	return new MaxGLCanvas(handle, parent, id, x, y, w, h, style, wxT("GLCanvas"), attribList);
+	
+	if (sharedCanvas) {
+		return new MaxGLCanvas(handle, parent, sharedCanvas, id, x, y, w, h, style, wxT("GLCanvas"), attribList);
+	} else {
+		MaxGLCanvas * canvas = new MaxGLCanvas(handle, parent, id, x, y, w, h, style, wxT("GLCanvas"), attribList);
+		sharedCanvas = canvas;
+		return canvas;
+	}
 }
 
 void bmx_wxglcanvas_onpainthook(MaxGLCanvas * canvas, BBObject * event) {
