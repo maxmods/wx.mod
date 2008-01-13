@@ -36,6 +36,10 @@ Win32 :
             BUILD := release
             UNICODE = 1
             USE_OPENGL = 1
+
+    Also, edit wx/msw/setup.h and enable wxUSE_GLCANVAS :
+            #define wxUSE_GLCANVAS       1
+
             
     make -f makefile.gcc
 

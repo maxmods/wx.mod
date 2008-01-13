@@ -24,8 +24,6 @@ Framework wx.wxApp
 Import "cgmain.bmx"
 
 
-Const AppVersion:String = "0.80"
-
 New MyApp.run()
 
 
@@ -287,7 +285,11 @@ Type CodeGenFrame Extends CodeGenFrameBase
 			"About wxCodeGen v"+ AppVersion, wxOK, Self)
 	End Method
 
+	Method OnNewProject(event:wxCommandEvent)
+		CreateNewProject()
+	End Method
 
+	
 End Type
 
 

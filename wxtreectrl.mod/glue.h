@@ -127,6 +127,15 @@ extern "C" {
 	void bmx_wxtreeitemid_delete(MaxTreeItem * item);
 	int bmx_wxtreectrl_geteventtype(int type);
 
+	int bmx_wxtreeevent_getkeycode(wxTreeEvent & event);
+	MaxTreeItem * bmx_wxtreeevent_getitem(wxTreeEvent & event);
+	const wxKeyEvent & bmx_wxtreeevent_getkeyevent(wxTreeEvent & event);
+	BBString * bmx_wxtreeevent_getlabel(wxTreeEvent & event);
+	MaxTreeItem * bmx_wxtreeevent_getolditem(wxTreeEvent & event);
+	void bmx_wxtreeevent_getpoint(wxTreeEvent & event, int * x, int * y);
+	bool bmx_wxtreeevent_iseditcancelled(wxTreeEvent & event);
+	void bmx_wxtreeevent_settooltip(wxTreeEvent & event, BBString * tip);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

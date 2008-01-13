@@ -898,14 +898,78 @@ bbdoc: A tree event holds information about events associated with wxTreeCtrl ob
 End Rem
 Type wxTreeEvent Extends wxNotifyEvent
 
+	Field evt:TEventHandler
+
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxTreeEvent = New wxTreeEvent
 		
 		this.init(wxEventPtr, evt)
+		this.evt = evt
 		
 		Return this
 	End Function
 
+	Rem
+	bbdoc: Returns the key code if the event is a key event.
+	about: Use GetKeyEvent to get the values of the modifier keys for this event (i.e. Shift
+	or Ctrl).
+	End Rem
+	Method GetKeyCode:Int()
+		Return bmx_wxtreeevent_getkeycode(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the item (valid for all events).
+	End Rem
+	Method GetItem:wxTreeItemId()
+		Return wxTreeItemId._create(bmx_wxtreeevent_getitem(wxEventPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the key event for wxEVT_TREE_KEY_DOWN events.
+	End Rem
+	Method GetKeyEvent:wxKeyEvent()
+		Return wxKeyEvent(wxKeyEvent.Create(bmx_wxtreeevent_getkeyevent(wxEventPtr), evt))
+	End Method
+	
+	Rem
+	bbdoc: Returns the label if the event is a begin or end edit label event.
+	End Rem
+	Method GetLabel:String()
+		Return bmx_wxtreeevent_getlabel(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the old item index (valid for wxEVT_TREE_ITEM_CHANGING and CHANGED events)
+	End Rem
+	Method GetOldItem:wxTreeItemId()
+		Return wxTreeItemId._create(bmx_wxtreeevent_getolditem(wxEventPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the position of the mouse pointer if the event is a drag or menu-context event.
+	about: In both cases the position is in client coordinates - i.e. relative to the wxTreeCtrl
+	window (so that you can pass it directly to e.g. wxWindow::PopupMenu).
+	End Rem
+	Method GetPoint(x:Int Var, y:Int Var)
+		bmx_wxtreeevent_getpoint(wxEventPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the label edit was cancelled.
+	about: This should be called from within an wxEVT_TREE_END_LABEL_EDIT handler.
+	End Rem
+	Method IsEditCancelled:Int()
+		Return bmx_wxtreeevent_iseditcancelled(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Set the tooltip for the item (valid for wxEVT_TREE_ITEM_GETTOOLTIP events). Windows only.
+	End Rem
+	Method SetToolTip(tip:String)
+		bmx_wxtreeevent_settooltip(wxEventPtr, tip)
+	End Method
+	
 End Type
 
 

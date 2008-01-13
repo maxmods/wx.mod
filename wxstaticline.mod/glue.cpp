@@ -37,7 +37,7 @@ MaxStaticLine::~MaxStaticLine() {
 // *********************************************
 
 
-MaxStaticLine * bmx_wxstaticlinw_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
+MaxStaticLine * bmx_wxstaticline_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style) {
 
 	return new MaxStaticLine(maxHandle, parent, id, x, y, w, h, style);

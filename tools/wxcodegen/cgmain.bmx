@@ -35,6 +35,7 @@ Global config:wxConfigBase
 Global checkUpdates:Int
 Global localization:Int
 Global lastId:Int
+Global fileVersion:String
 
 Type TCGProject
 
@@ -105,47 +106,53 @@ Function LoadProjects()
 	checkUpdates = config.ReadBool("checkUpdates", False)
 	localization = config.ReadInt("localization", 0)
 	lastId = config.ReadInt("lastId", 0)
+	fileVersion = config.ReadString("fileVersion", "")
 	
 	config.SetPath("/Projects")
 
 	
-	Local dummy:Int, cont:Int
-	Local project:String = config.GetFirstGroup(dummy, cont)
-
-	While cont
-		Local path:String = project + "/"
+'	If Not fileVersion Then
+'		LoadOldStyleProjects()
+'	Else
 	
-		Local proj:TCGProject = New TCGProject
-
-		proj.id = config.ReadInt(path + "id", -1)
-		If proj.id = -1 Then
-			proj.id = GetNewId()
-		End If
-		proj.name = config.ReadString(path + "name", "Project " + proj.id)
-		proj.projectFile = config. ReadString(path + "projectFile", "")
+		Local dummy:Int, cont:Int
+		Local project:String = config.GetFirstGroup(dummy, cont)
+	
+		While cont
+			Local path:String = project + "/"
 		
-		' get the project file reference
-		If proj.projectFile Then
-			proj.projectFileRef = wxFileName.FileName(proj.projectFile)
-			If Not proj.projectFileRef.FileExists() Then
-				proj.projectFile = ""
-				proj.projectFileRef = Null
-			Else
-				proj.lastmod = config.ReadInt(path + "lastmod", 0)
+			Local proj:TCGProject = New TCGProject
+	
+			proj.id = config.ReadInt(path + "id", -1)
+			If proj.id = -1 Then
+				proj.id = GetNewId()
 			End If
-		End If
-		
-		proj.bmxFolder = config. ReadString(path + "bmxFolder", "")
-		proj.generatedName = config. ReadString(path + "generatedName", "")
-		
-		proj.createSuper = config.ReadBool(path + "createSuper", True)
-		proj.createImports = config. ReadBool(path + "createImports", True)
-		proj.autoGenOnUpdate = config. ReadBool(path + "autoGenOnUpdate", False)
-
-		projects.AddLast(proj)
-
-		project = config.GetNextGroup(dummy, cont)
-	Wend
+			proj.name = config.ReadString(path + "name", "Project " + proj.id)
+			proj.projectFile = config. ReadString(path + "projectFile", "")
+			
+			' get the project file reference
+			If proj.projectFile Then
+				proj.projectFileRef = wxFileName.FileName(proj.projectFile)
+				If Not proj.projectFileRef.FileExists() Then
+					proj.projectFile = ""
+					proj.projectFileRef = Null
+				Else
+					proj.lastmod = config.ReadInt(path + "lastmod", 0)
+				End If
+			End If
+			
+			proj.bmxFolder = config. ReadString(path + "bmxFolder", "")
+			proj.generatedName = config. ReadString(path + "generatedName", "")
+			
+			proj.createSuper = config.ReadBool(path + "createSuper", True)
+			proj.createImports = config. ReadBool(path + "createImports", True)
+			proj.autoGenOnUpdate = config. ReadBool(path + "autoGenOnUpdate", False)
+	
+			projects.AddLast(proj)
+	
+			project = config.GetNextGroup(dummy, cont)
+		Wend
+'	End If
 	
 	config.SetPath("/")
 
@@ -158,6 +165,7 @@ Function SaveProjects()
 	config.WriteBool("checkUpdates", checkUpdates)
 	config.WriteInt("localization", localization)
 	config.WriteInt("lastId", lastId)
+	config.WriteString("fileVersion", AppVersion)
 	
 	config.DeleteGroup("/Projects")
 	

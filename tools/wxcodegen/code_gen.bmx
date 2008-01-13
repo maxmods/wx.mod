@@ -24,6 +24,10 @@ Import BaH.libxml
 Import BRL.StandardIO
 Import BRL.System
 
+
+Const AppVersion:String = "0.81"
+
+
 Global eventMap:TMap = New TMap
 InitEvents()
 
@@ -51,29 +55,33 @@ Type TFBObject
 		class = node.GetAttribute("class")
 		expanded = Int(node.GetAttribute("expanded"))
 		
-		For Local det:TxmlNode = EachIn node.getChildren()
+		Local children:TList = node.getChildren()
 		
-			Select det.GetName()
+		If children Then
+			For Local det:TxmlNode = EachIn children
 			
-				Case "property"
-					Local text:String = det.GetText().Trim()
-					If text Then
-						Local name:String = det.getAttribute("name")
-						properties.Insert(name, text)
-					End If
-				Case "event"
-					Local text:String = det.GetText().Trim()
-					If text Then
-						Local name:String = det.getAttribute("name")
-						events.Insert(name, text)
-					End If
-				Case "object"
-					Local widget:TFBObject = New TFBObject
-					objects.AddLast(widget)
-					widget.extractDetails(det)
-			End Select
-		
-		Next
+				Select det.GetName()
+				
+					Case "property"
+						Local text:String = det.GetText().Trim()
+						If text Then
+							Local name:String = det.getAttribute("name")
+							properties.Insert(name, text)
+						End If
+					Case "event"
+						Local text:String = det.GetText().Trim()
+						If text Then
+							Local name:String = det.getAttribute("name")
+							events.Insert(name, text)
+						End If
+					Case "object"
+						Local widget:TFBObject = New TFBObject
+						objects.AddLast(widget)
+						widget.extractDetails(det)
+				End Select
+			
+			Next
+		End If
 		
 	End Method
 	
@@ -321,7 +329,7 @@ Function MapEventConst:String(event:String)
 End Function
 
 ' generates the position, size and style part, leaving out the particular section if it doesn't have a value.
-Function DoPosSizeStyle:String(widget:TFBWidget)
+Function DoPosSizeStyle:String(widget:TFBWidget, showIfEmpty:Int = False)
 
 	Local text:String
 
@@ -329,7 +337,7 @@ Function DoPosSizeStyle:String(widget:TFBWidget)
 		text:+ ", "
 		text:+ widget.prop("pos")
 	Else
-		If widget.prop("size") Or widget.prop("style") Or widget.prop("window_style") Then
+		If widget.prop("size") Or widget.prop("style") Or widget.prop("window_style") Or showIfEmpty Then
 			text:+ ",,"
 		End If
 	End If
@@ -338,12 +346,12 @@ Function DoPosSizeStyle:String(widget:TFBWidget)
 		text:+ ", "
 		text:+ widget.prop("size")
 	Else
-		If widget.prop("style") Or widget.prop("window_style") Then
+		If widget.prop("style") Or widget.prop("window_style") Or showIfEmpty Then
 			text:+ ",,"
 		End If
 	End If
 	
-	If widget.prop("style") Or widget.prop("window_style") Then
+	If widget.prop("style") Or widget.prop("window_style") Or showIfEmpty Then
 		text:+ ", " + widget.WindowStyle()
 	End If
 
@@ -1345,9 +1353,6 @@ Type TFBTreeCtrl Extends TFBWidget
 		End If
 		
 		Local text:String = prop("name") + " = new wxTreeCtrl.Create(" + ContainerReference() + ", " + prop("id")
-		
-		' choices
-		text:+ ", Null"
 
 		text:+ DoPosSizeStyle(Self)
 
@@ -1574,7 +1579,30 @@ Type TFBCheckListBox Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
 
-		' TODO 
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+		
+		If prop("choices") Then
+			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
+		End If
+
+		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
+
+		' choices
+		If prop("choices") Then
+			text:+ ", " + prop("name") + "Choices"
+		Else
+			text:+ ", Null"
+		End If
+
+		text:+ DoPosSizeStyle(Self)
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
 		
 		out.Add("")
 
@@ -1603,6 +1631,8 @@ Type TFBToggleButton Extends TFBWidget
 
 		StandardSettings(out)
 
+		out.Add("")
+
 	End Method
 
 	Method GetType:String()
@@ -1620,7 +1650,9 @@ Type TFBScrollBar Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
 
-		' TODO 
+		StandardCreate(out)
+
+		StandardSettings(out)
 
 		out.Add("")
 
@@ -1641,7 +1673,26 @@ Type TFBSpinCtrl Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
 
-		' TODO 
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+		
+		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+
+		text:+ GetString("~q" + prop("value") + "~q")
+		
+
+		text:+ DoPosSizeStyle(Self, True)
+		
+		text:+ ", " + prop("min")
+		text:+ ", " + prop("max")
+		text:+ ", " + prop("initial")
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
 
 		out.Add("")
 
@@ -2435,9 +2486,48 @@ Function InitEvents()
 
 	AddEvent(TEventType.Set("OnListBoxDClick", "wxCommandEvent", "wxEVT_COMMAND_LISTBOX_DOUBLECLICKED"))
 	AddEvent(TEventType.Set("OnListBox", "wxCommandEvent", "wxEVT_COMMAND_LISTBOX_SELECTED"))
-	
+   
+	AddEvent(TEventType.Set("OnTreeBeginDrag", "wxCommandEvent", "wxEVT_COMMAND_TREE_BEGIN_DRAG"))
+	AddEvent(TEventType.Set("OnTreeBeginRDrag", "wxCommandEvent", "wxEVT_COMMAND_TREE_BEGIN_RDRAG"))
+	AddEvent(TEventType.Set("OnTreeBeginLabelEdit", "wxCommandEvent", "wxEVT_COMMAND_TREE_BEGIN_LABEL_EDIT"))
+	AddEvent(TEventType.Set("OnTreeEndLabelEdit", "wxCommandEvent", "wxEVT_COMMAND_TREE_END_LABEL_EDIT"))
+	AddEvent(TEventType.Set("OnTreeDeleteItem", "wxCommandEvent", "wxEVT_COMMAND_TREE_DELETE_ITEM"))
+	AddEvent(TEventType.Set("OnTreeGetInfo", "wxCommandEvent", "wxEVT_COMMAND_TREE_GET_INFO"))
+	AddEvent(TEventType.Set("OnTreeSetInfo", "wxCommandEvent", "wxEVT_COMMAND_TREE_SET_INFO"))
+	AddEvent(TEventType.Set("OnTreeItemExpanded", "wxCommandEvent", "wxEVT_COMMAND_TREE_ITEM_EXPANDED"))
+	AddEvent(TEventType.Set("OnTreeItemExpanding", "wxCommandEvent", "wxEVT_COMMAND_TREE_ITEM_EXPANDING"))
+	AddEvent(TEventType.Set("OnTreeItemCollapsed", "wxCommandEvent", "wxEVT_COMMAND_TREE_ITEM_COLLAPSED"))
+	AddEvent(TEventType.Set("OnTreeItemCollapsing", "wxCommandEvent", "wxEVT_COMMAND_TREE_ITEM_COLLAPSING"))
+	AddEvent(TEventType.Set("OnTreeSelChanged", "wxCommandEvent", "wxEVT_COMMAND_TREE_SEL_CHANGED"))
+	AddEvent(TEventType.Set("OnTreeSelChanging", "wxCommandEvent", "wxEVT_COMMAND_TREE_SEL_CHANGING"))
+	AddEvent(TEventType.Set("OnTreeKeyDown", "wxCommandEvent", "wxEVT_COMMAND_TREE_KEY_DOWN"))
+	AddEvent(TEventType.Set("OnTreeItemActivated", "wxCommandEvent", "wxEVT_COMMAND_TREE_ITEM_ACTIVATED"))
+	AddEvent(TEventType.Set("OnTreeItemRightClick", "wxCommandEvent", "wxEVT_COMMAND_TREE_ITEM_RIGHT_CLICK"))
+	AddEvent(TEventType.Set("OnTreeItemMiddleClick", "wxCommandEvent", "wxEVT_COMMAND_TREE_ITEM_MIDDLE_CLICK"))
+	AddEvent(TEventType.Set("OnTreeEndDrag", "wxCommandEvent", "wxEVT_COMMAND_TREE_END_DRAG"))
+	AddEvent(TEventType.Set("OnTreeStateImageClick", "wxCommandEvent", "wxEVT_COMMAND_TREE_STATE_IMAGE_CLICK"))
+	AddEvent(TEventType.Set("OnTreeItemGetTooltip", "wxCommandEvent", "wxEVT_COMMAND_TREE_ITEM_GETTOOLTIP"))
+	AddEvent(TEventType.Set("OnTreeItemMenu", "wxCommandEvent", "wxEVT_COMMAND_TREE_ITEM_MENU"))
 
+	AddEvent(TEventType.Set("OnHtmlLinkClicked", "wxHtmlLinkEvent", "wxEVT_COMMAND_HTML_LINK_CLICKED"))
+	AddEvent(TEventType.Set("OnHtmlCellClicked", "wxHtmlCellEvent", "wxEVT_COMMAND_HTML_CELL_CLICKED"))
+	AddEvent(TEventType.Set("OnHtmlCellHover", "wxHtmlCellEvent", "wxEVT_COMMAND_HTML_CELL_HOVER"))
 
+	AddEvent(TEventType.Set("OnCheckListBox", "wxCommandEvent", "wxEVT_COMMAND_LISTBOX_SELECTED"))
+	AddEvent(TEventType.Set("OnCheckListBoxDClick", "wxCommandEvent", "wxEVT_COMMAND_LISTBOX_DOUBLECLICKED"))
+	AddEvent(TEventType.Set("OnCheckListBoxToggled", "wxCommandEvent", "wxEVT_COMMAND_CHECKLISTBOX_TOGGLED"))
+		
+	AddEvent(TEventType.Set("OnToggleButton", "wxCommandEvent", "wxEVT_COMMAND_TOGGLEBUTTON_CLICKED"))
+
+	AddEvent(TEventType.Set("OnSpinCtrl", "wxCommandEvent", "wxEVT_COMMAND_SPINCTRL_UPDATED"))
+	AddEvent(TEventType.Set("OnSpinCtrlText", "wxCommandEvent", "wxEVT_COMMAND_TEXT_UPDATED"))
+		
+	AddEvent(TEventType.Set("OnText", "wxCommandEvent", "wxEVT_COMMAND_TEXT_UPDATED"))
+	AddEvent(TEventType.Set("OnTextEnter", "wxCommandEvent", "wxEVT_COMMAND_TEXT_ENTER"))
+	AddEvent(TEventType.Set("OnTextMaxLen", "wxCommandEvent", "wxEVT_COMMAND_TEXT_MAXLEN"))
+	AddEvent(TEventType.Set("OnTextURL", "wxTextUrlEvent", "wxEVT_COMMAND_TEXT_URL"))
+
+	AddEvent(TEventType.Set("OnInitDialog", "wxInitDialogEvent", "wxEVT_INIT_DIALOG"))
 
 End Function
 

@@ -134,6 +134,15 @@ Extern
 	Function bmx_wxtreeitemid_delete(item:Byte Ptr)
 	Function bmx_wxtreectrl_geteventtype:Int(evt:Int)
 
+	Function bmx_wxtreeevent_getkeycode:Int(handle:Byte Ptr)
+	Function bmx_wxtreeevent_getitem:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtreeevent_getkeyevent:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtreeevent_getlabel:String(handle:Byte Ptr)
+	Function bmx_wxtreeevent_getolditem:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtreeevent_getpoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxtreeevent_iseditcancelled(handle:Byte Ptr)
+	Function bmx_wxtreeevent_settooltip(handle:Byte Ptr, tip:String)
+
 End Extern
 
 Const wxTR_NO_BUTTONS:Int = $0000     ' For convenience

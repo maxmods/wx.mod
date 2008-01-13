@@ -430,6 +430,65 @@ Type wxScrollWinEvent Extends wxEvent
 End Type
 
 Rem
+bbdoc: A wxInitDialogEvent is sent as a dialog or panel is being initialised.
+about: Handlers for this event can transfer data to the window. The default handler calls
+wxWindow::TransferDataToWindow.
+End Rem
+Type wxInitDialogEvent Extends wxEvent
+	
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxInitDialogEvent = New wxInitDialogEvent 
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+End Type
+
+Rem
+bbdoc: An activate event is sent when a window or application is being activated or deactivated.
+End Rem
+Type wxActivateEvent Extends wxEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxActivateEvent = New wxActivateEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+	
+	Rem
+	bbdoc: Returns true if the application or window is being activated, false otherwise.
+	End Rem
+	Method GetActive:Int()
+		DebugLog "GetActive TODO"
+	End Method
+
+End Type
+
+Rem
+bbdoc: An event being sent when the frame is iconized (minimized) or restored.
+about: Currently only wxMSW and wxGTK generate such events.
+End Rem
+Type wxIconizeEvent Extends wxEvent
+	
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxIconizeEvent = New wxIconizeEvent 
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Method Iconized:Int()
+		DebugLog "Iconized TODO"
+	End Method
+	
+End Type
+
+Rem
 bbdoc: A scroll event holds information about events sent from stand-alone scrollbars and sliders.
 about: Note that unless specifying a scroll control identifier, you will need to test for scrollbar
 orientation with wxScrollEvent::GetOrientation, since horizontal and vertical scroll events are

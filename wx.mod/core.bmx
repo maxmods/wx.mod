@@ -745,6 +745,13 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_KEY_DOWN, ..
 					wxEVT_KEY_UP
 				Return wxKeyEvent.Create(wxEventPtr, evt)
+			Case wxEVT_INIT_DIALOG
+				Return wxInitDialogEvent.Create(wxEventPtr, evt)
+			Case wxEVT_ACTIVATE_APP, ..
+					wxEVT_ACTIVATE
+				Return wxActivateEvent.Create(wxEventPtr, evt)
+			Case wxEVT_ICONIZE
+				Return wxIconizeEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -779,7 +786,11 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_CONTEXT_MENU, ..
 					wxEVT_CHAR, ..
 					wxEVT_KEY_DOWN, ..
-					wxEVT_KEY_UP
+					wxEVT_KEY_UP, ..
+					wxEVT_INIT_DIALOG, ..
+					wxEVT_ACTIVATE_APP, ..
+					wxEVT_ACTIVATE, ..
+					wxEVT_ICONIZE
 				Return bmx_eventtype_value(eventType)
 		End Select
 	End Method

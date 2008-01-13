@@ -482,6 +482,42 @@ BBArray * bmx_wxtreectrl_getselections(wxTreeCtrl * tree) {
 	return array;
 }
 
+int bmx_wxtreeevent_getkeycode(wxTreeEvent & event) {
+	return event.GetKeyCode();
+}
+
+MaxTreeItem * bmx_wxtreeevent_getitem(wxTreeEvent & event) {
+	return new MaxTreeItem(event.GetItem());
+}
+
+const wxKeyEvent & bmx_wxtreeevent_getkeyevent(wxTreeEvent & event) {
+	return event.GetKeyEvent();
+}
+
+BBString * bmx_wxtreeevent_getlabel(wxTreeEvent & event) {
+	return bbStringFromWxString(event.GetLabel());
+}
+
+MaxTreeItem * bmx_wxtreeevent_getolditem(wxTreeEvent & event) {
+	return new MaxTreeItem(event.GetOldItem());
+}
+
+void bmx_wxtreeevent_getpoint(wxTreeEvent & event, int * x, int * y) {
+	wxPoint p = event.GetPoint();
+	*x = p.x;
+	*y = p.y;
+}
+
+bool bmx_wxtreeevent_iseditcancelled(wxTreeEvent & event) {
+	return event.IsEditCancelled();
+}
+
+void bmx_wxtreeevent_settooltip(wxTreeEvent & event, BBString * tip) {
+	event.SetToolTip(wxStringFromBBString(tip));
+}
+
+
+
 int bmx_wxtreectrl_geteventtype(int type) {
 	switch(type) {
 		case 600: return wxEVT_COMMAND_TREE_BEGIN_DRAG;

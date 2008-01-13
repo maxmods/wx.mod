@@ -1,5 +1,5 @@
 '
-' BlitzMax code generated with wxCodeGen : 12 Jan 2008 22:17:09
+' BlitzMax code generated with wxCodeGen : 13 Jan 2008 17:36:33
 ' 
 ' 
 ' PLEASE DO "NOT" EDIT THIS FILE!
@@ -75,7 +75,7 @@ Type CodeGenFrameBase Extends wxFrame
 		bSizer7 = new wxBoxSizer.Create(wxVERTICAL)
 		m_staticText1 = new wxStaticText.Create(m_panel1, wxID_ANY, "Projects")
 		m_staticText1.Wrap(-1)
-		m_staticText1.SetFont(new wxFont.CreateWithAttribs(12, 70, 90, 92, False))
+		m_staticText1.SetFont(new wxFont.CreateWithAttribs(wxNORMAL_FONT().GetPointSize(), 70, 90, 92, False))
 		bSizer7.Add(m_staticText1, 0, wxEXPAND|wxLEFT|wxTOP, 5)
 
 		lstProjects = new wxListBox.Create(m_panel1, wxID_ANY, Null,,,,, wxLB_NEEDED_SB|wxLB_SINGLE)
