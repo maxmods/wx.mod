@@ -36,7 +36,7 @@ Type MyApp Extends wxApp
 	Method OnInit:Int()
 	
 		SetAppName("wxCodeGen")
-		SetVendorName("BaH")
+		SetVendorName("wxMax")
 		
 		config = wxConfigBase.Get()
 	
