@@ -209,7 +209,6 @@ Function GetGenFlags:Int(proj:TCGProject)
 			flags :| GEN_BAHLOCALE
 	End Select
 	
-	
 	Return flags
 End Function
 

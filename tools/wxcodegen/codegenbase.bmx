@@ -1,5 +1,5 @@
 '
-' BlitzMax code generated with wxCodeGen : 14 Jan 2008 08:51:36
+' BlitzMax code generated with wxCodeGen : 14 Jan 2008 12:35:15
 ' 
 ' 
 ' PLEASE DO "NOT" EDIT THIS FILE!
@@ -11,6 +11,7 @@ Import wx.wxCheckBox
 Import wx.wxFilePickerCtrl
 Import wx.wxFrame
 Import wx.wxListBox
+Import wx.wxLocale
 Import wx.wxMenu
 Import wx.wxMenuBar
 Import wx.wxNotebook
@@ -73,7 +74,7 @@ Type CodeGenFrameBase Extends wxFrame
 
 		Local bSizer7:wxBoxSizer
 		bSizer7 = new wxBoxSizer.Create(wxVERTICAL)
-		m_staticText1 = new wxStaticText.Create(m_panel1, wxID_ANY, "Projects")
+		m_staticText1 = new wxStaticText.Create(m_panel1, wxID_ANY, _("Projects"))
 		m_staticText1.Wrap(-1)
 		m_staticText1.SetFont(new wxFont.CreateWithAttribs(wxNORMAL_FONT().GetPointSize(), 70, 90, 92, False))
 		bSizer7.Add(m_staticText1, 0, wxEXPAND|wxLEFT|wxTOP, 5)
@@ -85,10 +86,10 @@ Type CodeGenFrameBase Extends wxFrame
 
 		Local bSizer13:wxBoxSizer
 		bSizer13 = new wxBoxSizer.Create(wxHORIZONTAL)
-		btnAddProject = new wxButton.Create(m_panel1, wxID_ANY, "Add")
+		btnAddProject = new wxButton.Create(m_panel1, wxID_ANY, _("Add"))
 		bSizer13.Add(btnAddProject, 0, wxALL, 5)
 
-		btnDeleteProject = new wxButton.Create(m_panel1, wxID_ANY, "Delete")
+		btnDeleteProject = new wxButton.Create(m_panel1, wxID_ANY, _("Delete"))
 		btnDeleteProject.Enable(False)
 		bSizer13.Add(btnDeleteProject, 0, wxALL, 5)
 
@@ -111,7 +112,7 @@ Type CodeGenFrameBase Extends wxFrame
 		fgSizer1.AddGrowableCol( 1 )
 		fgSizer1.SetFlexibleDirection( wxBOTH )
 		fgSizer1.SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED )
-		m_staticText6 = new wxStaticText.Create(pnlProject, wxID_ANY, "Project Name")
+		m_staticText6 = new wxStaticText.Create(pnlProject, wxID_ANY, _("Project Name"))
 		m_staticText6.Wrap(-1)
 		fgSizer1.Add(m_staticText6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
@@ -120,25 +121,25 @@ Type CodeGenFrameBase Extends wxFrame
 		txtProjectName.Enable(False)
 		fgSizer1.Add(txtProjectName, 1, wxALL|wxEXPAND, 5)
 
-		m_staticText2 = new wxStaticText.Create(pnlProject, wxID_ANY, "wxFormBuilder Project File")
+		m_staticText2 = new wxStaticText.Create(pnlProject, wxID_ANY, _("wxFormBuilder Project File"))
 		m_staticText2.Wrap(-1)
 		fgSizer1.Add(m_staticText2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
-		fpkProjectFile = new wxFilePickerCtrl.Create(pnlProject, wxID_ANY, "", "Select a wxFormbuilder Project File", "*.*",,,,, wxFLP_DEFAULT_STYLE)
+		fpkProjectFile = new wxFilePickerCtrl.Create(pnlProject, wxID_ANY, "", _("Select a wxFormbuilder Project File"), _("*.*"),,,,, wxFLP_DEFAULT_STYLE)
 		fpkProjectFile.Enable(False)
 
 		fgSizer1.Add(fpkProjectFile, 1, wxALL|wxEXPAND, 5)
 
-		m_staticText3 = new wxStaticText.Create(pnlProject, wxID_ANY, "BMX Project Folder")
+		m_staticText3 = new wxStaticText.Create(pnlProject, wxID_ANY, _("BMX Project Folder"))
 		m_staticText3.Wrap(-1)
 		fgSizer1.Add(m_staticText3, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
-		dpkProjectFolder = new wxDirPickerCtrl.Create(pnlProject, wxID_ANY, "", "Select the BlitzMax Project folder",,,,, wxDIRP_DEFAULT_STYLE)
+		dpkProjectFolder = new wxDirPickerCtrl.Create(pnlProject, wxID_ANY, "", _("Select the BlitzMax Project folder"),,,,, wxDIRP_DEFAULT_STYLE)
 		dpkProjectFolder.Enable(False)
 
 		fgSizer1.Add(dpkProjectFolder, 1, wxALL|wxEXPAND, 5)
 
-		m_staticText4 = new wxStaticText.Create(pnlProject, wxID_ANY, "Generated Filename")
+		m_staticText4 = new wxStaticText.Create(pnlProject, wxID_ANY, _("Generated Filename"))
 		m_staticText4.Wrap(-1)
 		fgSizer1.Add(m_staticText4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
@@ -150,7 +151,7 @@ Type CodeGenFrameBase Extends wxFrame
 		txtGenFilename.Enable(False)
 		bSizer12.Add(txtGenFilename, 1, wxALL, 5)
 
-		m_staticText5 = new wxStaticText.Create(pnlProject, wxID_ANY, ".bmx")
+		m_staticText5 = new wxStaticText.Create(pnlProject, wxID_ANY, _(".bmx"))
 		m_staticText5.Wrap(-1)
 		bSizer12.Add(m_staticText5, 0, wxALIGN_CENTER|wxALL, 5)
 
@@ -160,21 +161,21 @@ Type CodeGenFrameBase Extends wxFrame
 
 
 		Local sbSizer1:wxStaticBoxSizer
-		sbSizer1 = new wxStaticBoxSizer.CreateSizerWithBox( new wxStaticBox.Create(pnlProject, wxID_ANY, "App Structure"), wxVERTICAL)
-		cbSuperStrict = new wxCheckBox.Create(pnlProject, wxID_ANY, "Create SuperStrict")
+		sbSizer1 = new wxStaticBoxSizer.CreateSizerWithBox( new wxStaticBox.Create(pnlProject, wxID_ANY, _("App Structure")), wxVERTICAL)
+		cbSuperStrict = new wxCheckBox.Create(pnlProject, wxID_ANY, _("Create SuperStrict"))
 		sbSizer1.Add(cbSuperStrict, 0, wxALL, 5)
 
-		cbImports = new wxCheckBox.Create(pnlProject, wxID_ANY, "Create Import statements")
+		cbImports = new wxCheckBox.Create(pnlProject, wxID_ANY, _("Create Import statements"))
 		sbSizer1.Add(cbImports, 0, wxALL, 5)
 
 		bSizer5.AddSizer(sbSizer1, 0, wxALL|wxEXPAND, 5)
 
-		cbAutoGenerate = new wxCheckBox.Create(pnlProject, wxID_ANY, "Auto-Generate Code on Update")
+		cbAutoGenerate = new wxCheckBox.Create(pnlProject, wxID_ANY, _("Auto-Generate Code on Update"))
 		bSizer5.Add(cbAutoGenerate, 0, wxALL, 5)
 
 		pnlProject.SetSizer(bSizer5)
 		pnlProject.Layout()
-		ntbMain.AddPage(pnlProject, "Project Config", True)
+		ntbMain.AddPage(pnlProject, _("Project Config"), True)
 
 		pnlCode = new wxPanel.Create(ntbMain, wxID_ANY,,,,, wxTAB_TRAVERSAL)
 		pnlCode.Enable(False)
@@ -188,23 +189,23 @@ Type CodeGenFrameBase Extends wxFrame
 
 		pnlCode.SetSizer(bSizer6)
 		pnlCode.Layout()
-		ntbMain.AddPage(pnlCode, "Application Code", False)
+		ntbMain.AddPage(pnlCode, _("Application Code"), False)
 
 		pnlPrefs = new wxPanel.Create(ntbMain, wxID_ANY,,,,, wxTAB_TRAVERSAL)
 
 		Local bSizer10:wxBoxSizer
 		bSizer10 = new wxBoxSizer.Create(wxVERTICAL)
-		cbProjectUpdates = new wxCheckBox.Create(pnlPrefs, wxID_ANY, "Check for Project File Updates")
-		cbProjectUpdates.SetToolTip("Monitors the project files for changes.")
+		cbProjectUpdates = new wxCheckBox.Create(pnlPrefs, wxID_ANY, _("Check for Project File Updates"))
+		cbProjectUpdates.SetToolTip(_("Monitors the project files for changes."))
 		bSizer10.Add(cbProjectUpdates, 0, wxALL, 5)
 
 		Local rbLocaleChoices:String[] = [ "None", "wxLocale", "BaH.Locale" ]
-		rbLocale = new wxRadioBox.Create(pnlPrefs, wxID_ANY, "String Localization",,,,, rbLocaleChoices, 1, wxRA_SPECIFY_COLS)
+		rbLocale = new wxRadioBox.Create(pnlPrefs, wxID_ANY, _("String Localization"),,,,, rbLocaleChoices, 1, wxRA_SPECIFY_COLS)
 		bSizer10.Add(rbLocale, 0, wxALL, 5)
 
 		pnlPrefs.SetSizer(bSizer10)
 		pnlPrefs.Layout()
-		ntbMain.AddPage(pnlPrefs, "Global Preferences", False)
+		ntbMain.AddPage(pnlPrefs, _("Global Preferences"), False)
 
 
 		bSizer3.Add(ntbMain, 1, wxEXPAND | wxALL, 5)
@@ -212,7 +213,7 @@ Type CodeGenFrameBase Extends wxFrame
 
 		Local bSizer4:wxBoxSizer
 		bSizer4 = new wxBoxSizer.Create(wxHORIZONTAL)
-		btnGenerate = new wxButton.Create(m_panel1, wxID_ANY, "Generate")
+		btnGenerate = new wxButton.Create(m_panel1, wxID_ANY, _("Generate"))
 		btnGenerate.Enable(False)
 		bSizer4.Add(btnGenerate, 0, wxALL, 5)
 
@@ -231,22 +232,22 @@ Type CodeGenFrameBase Extends wxFrame
 		m_menu1 = new wxMenu.Create()
 
 		Local m_menuItem2:wxMenuItem
-		m_menuItem2 = new wxMenuItem.Create(m_menu1, ID_NEW_PROJECT, "New Project" + "	CTRL-N", "", wxITEM_NORMAL)
+		m_menuItem2 = new wxMenuItem.Create(m_menu1, ID_NEW_PROJECT, _("New Project") + "	CTRL-N", "", wxITEM_NORMAL)
 		m_menu1.AppendItem(m_menuItem2)
 
 		m_menu1.AppendSeparator()
 
 		Local m_menuItem3:wxMenuItem
-		m_menuItem3 = new wxMenuItem.Create(m_menu1, wxID_EXIT, "Quit" + "	CTRL-Q", "", wxITEM_NORMAL)
+		m_menuItem3 = new wxMenuItem.Create(m_menu1, wxID_EXIT, _("Quit") + "	CTRL-Q", "", wxITEM_NORMAL)
 		m_menu1.AppendItem(m_menuItem3)
-		m_menubar1.Append(m_menu1, "File")
+		m_menubar1.Append(m_menu1, _("File"))
 
 		m_menu2 = new wxMenu.Create()
 
 		Local m_menuItem1:wxMenuItem
-		m_menuItem1 = new wxMenuItem.Create(m_menu2, wxID_ABOUT, "About", "", wxITEM_NORMAL)
+		m_menuItem1 = new wxMenuItem.Create(m_menu2, wxID_ABOUT, _("About"), "", wxITEM_NORMAL)
 		m_menu2.AppendItem(m_menuItem1)
-		m_menubar1.Append(m_menu2, "Help")
+		m_menubar1.Append(m_menu2, _("Help"))
 		SetMenuBar(m_menubar1)
 
 		SetSizer(bSizer1)

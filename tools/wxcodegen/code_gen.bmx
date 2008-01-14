@@ -109,10 +109,7 @@ Type TFBGenFactory
 	
 		If obj.class = "Project" Then
 		
-			Local project:TFBProject = TFBProject(Make(Null, obj))
-			If project Then
-				project.SetOpts(flags:Int)
-			End If
+			Local project:TFBProject = TFBProject(Make(Null, obj, flags))
 			
 			Return project
 		
@@ -121,7 +118,7 @@ Type TFBGenFactory
 	End Function
 
 
-	Function Make:TFBWidget(parent:TFBWidget, obj:TFBObject)
+	Function Make:TFBWidget(parent:TFBWidget, obj:TFBObject, flags:Int = 0)
 	
 		Local widget:TFBWidget
 	
@@ -132,6 +129,9 @@ Type TFBGenFactory
 			
 			Case "Frame"
 				widget = New TFBFrame
+
+			Case "Dialog"
+				widget = New TFBDialog
 
 			Case "wxBoxSizer"
 				widget = New TFBBoxSizer
@@ -264,6 +264,7 @@ Type TFBGenFactory
 			If TFBProject(widget) Then
 				firstId = widget.prop("first_id").ToInt() - 1
 				lastId = firstId
+				TFBProject(widget).SetOpts(flags)
 			End If
 			
 			' add the new widget to the parent
@@ -522,6 +523,7 @@ Type TFBWidget
 	Method AddImport()
 		Local proj:TFBProject = GetProject()
 		If proj Then
+
 			Local imp:String = GetImport()
 			If imp Then
 				proj.imports.Insert(imp, "")
@@ -1182,6 +1184,97 @@ Type TFBPanel Extends TFBContainer
 
 	Method GetImport:String()
 		Return "wx.wxPanel"
+	End Method
+
+End Type
+
+Type TFBDialog Extends TFBContainer
+
+	Method Generate(out:TCodeOutput)
+	
+		If IsMainContainer() Then
+			Super.Generate(out)
+		Else
+		
+			Local topSizer:TFBWidget
+	
+			StandardCreate(out)
+
+			StandardSettings(out)
+	
+			' our forms and things
+			For Local child:TFBWidget = EachIn kids
+	
+				If Not topSizer Then
+					If TFBSizer(child) Then
+						topSizer = child
+					End If
+				End If
+	
+				child.Generate(out)
+			Next
+	
+			' the main sizer
+			If topSizer Then
+				out.Add(prop("name") + ".SetSizer(" + topSizer.prop("name") + ")", 2)
+			End If
+			
+			' layout
+			out.Add(prop("name") + ".Layout()", 2)
+		End If
+	End Method
+
+
+	Method DoConstructor(out:TCodeOutput)
+		Local text:String = "Method Create_:" + prop("name") + "Base(parent:wxWindow = Null,"
+		text:+ "id:Int = "
+		If prop("id") Then
+			text:+ prop("id")
+		Else
+			text:+ "-1"
+		End If
+		
+		text:+ ", "
+
+		text:+ ", title:String = ~q"
+		If prop("title") Then
+			text:+ prop("title")
+		End If
+
+		text:+ "~q, "
+		
+		If Not prop("pos") Then
+			text:+ "x:Int = -1, y:Int = -1, "
+		Else
+			Local pos:String[] = prop("pos").Split(",")
+			text:+ "x:Int = " + pos[0] + ", y:Int = " + pos[1] + ", "
+		End If
+			
+		If Not prop("size") Then
+			text:+ "w:Int = -1, h:Int = -1, "
+		Else
+			Local size:String[] = prop("size").Split(",")
+			text:+ "w:Int = " + size[0] + ", h:Int = " + size[1] + ", "
+		End If
+		
+		If prop("style") Then
+			text:+ "style:Int = 0"
+		Else
+			text:+ "style:Int = " + prop("style")
+		End If
+		
+		text:+")"
+		out.Add(text, 1)
+		out.Add("return " + prop("name") + "Base(Super.Create_(parent, id, title, x, y, w, h, style))", 2)
+		out.Add("End Method", 1, 2)
+	End Method
+
+	Method GetType:String()
+		Return "wxDialog"
+	End Method
+
+	Method GetImport:String()
+		Return "wx.wxDialog"
 	End Method
 
 End Type
