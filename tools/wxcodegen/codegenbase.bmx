@@ -1,5 +1,5 @@
 '
-' BlitzMax code generated with wxCodeGen : 14 Jan 2008 12:35:15
+' BlitzMax code generated with wxCodeGen : 14 янв 2008 17:57:34
 ' 
 ' 
 ' PLEASE DO "NOT" EDIT THIS FILE!
@@ -50,6 +50,7 @@ Type CodeGenFrameBase Extends wxFrame
 	Field pnlPrefs:wxPanel
 	Field cbProjectUpdates:wxCheckBox
 	Field rbLocale:wxRadioBox
+	Field btnLanguage:wxButton
 	Field btnGenerate:wxButton
 	Field sbStatus:wxStatusBar
 	Field m_menubar1:wxMenuBar
@@ -203,6 +204,9 @@ Type CodeGenFrameBase Extends wxFrame
 		rbLocale = new wxRadioBox.Create(pnlPrefs, wxID_ANY, _("String Localization"),,,,, rbLocaleChoices, 1, wxRA_SPECIFY_COLS)
 		bSizer10.Add(rbLocale, 0, wxALL, 5)
 
+		btnLanguage = new wxButton.Create(pnlPrefs, wxID_ANY, _("wxCodeGen Language"))
+		bSizer10.Add(btnLanguage, 0, wxALL, 5)
+
 		pnlPrefs.SetSizer(bSizer10)
 		pnlPrefs.Layout()
 		ntbMain.AddPage(pnlPrefs, _("Global Preferences"), False)
@@ -232,22 +236,22 @@ Type CodeGenFrameBase Extends wxFrame
 		m_menu1 = new wxMenu.Create()
 
 		Local m_menuItem2:wxMenuItem
-		m_menuItem2 = new wxMenuItem.Create(m_menu1, ID_NEW_PROJECT, _("New Project") + "	CTRL-N", "", wxITEM_NORMAL)
+		m_menuItem2 = new wxMenuItem.Create(m_menu1, ID_NEW_PROJECT, _("&New Project") + "	CTRL-N", "", wxITEM_NORMAL)
 		m_menu1.AppendItem(m_menuItem2)
 
 		m_menu1.AppendSeparator()
 
 		Local m_menuItem3:wxMenuItem
-		m_menuItem3 = new wxMenuItem.Create(m_menu1, wxID_EXIT, _("Quit") + "	CTRL-Q", "", wxITEM_NORMAL)
+		m_menuItem3 = new wxMenuItem.Create(m_menu1, wxID_EXIT, _("&Quit") + "	CTRL-Q", "", wxITEM_NORMAL)
 		m_menu1.AppendItem(m_menuItem3)
 		m_menubar1.Append(m_menu1, _("File"))
 
 		m_menu2 = new wxMenu.Create()
 
 		Local m_menuItem1:wxMenuItem
-		m_menuItem1 = new wxMenuItem.Create(m_menu2, wxID_ABOUT, _("About"), "", wxITEM_NORMAL)
+		m_menuItem1 = new wxMenuItem.Create(m_menu2, wxID_ABOUT, _("&About"), "", wxITEM_NORMAL)
 		m_menu2.AppendItem(m_menuItem1)
-		m_menubar1.Append(m_menu2, _("Help"))
+		m_menubar1.Append(m_menu2, _("&Help"))
 		SetMenuBar(m_menubar1)
 
 		SetSizer(bSizer1)
@@ -268,6 +272,7 @@ Type CodeGenFrameBase Extends wxFrame
 		cbAutoGenerate.ConnectAny(wxEVT_COMMAND_CHECKBOX_CLICKED, _OnAutoGenChecked, Null, Self)
 		cbProjectUpdates.ConnectAny(wxEVT_COMMAND_CHECKBOX_CLICKED, _OnCheckForUpdatesChecked, Null, Self)
 		rbLocale.ConnectAny(wxEVT_COMMAND_RADIOBOX_SELECTED, _OnLocaleSelected, Null, Self)
+		btnLanguage.ConnectAny(wxEVT_COMMAND_BUTTON_CLICKED, _OnChangeLanguage, Null, Self)
 		btnGenerate.ConnectAny(wxEVT_COMMAND_BUTTON_CLICKED, _OnGenerate, Null, Self)
 		Connect(m_menuItem2.GetId(), wxEVT_COMMAND_MENU_SELECTED, _OnNewProject)
 		Connect(m_menuItem3.GetId(), wxEVT_COMMAND_MENU_SELECTED, _OnQuit)
@@ -388,6 +393,15 @@ Type CodeGenFrameBase Extends wxFrame
 
 	Method OnLocaleSelected(event:wxCommandEvent)
 		DebugLog "Please override CodeGenFrame.OnLocaleSelected()"
+		event.Skip()
+	End Method
+
+	Function _OnChangeLanguage(event:wxEvent)
+		CodeGenFrameBase(event.sink).OnChangeLanguage(wxCommandEvent(event))
+	End Function
+
+	Method OnChangeLanguage(event:wxCommandEvent)
+		DebugLog "Please override CodeGenFrame.OnChangeLanguage()"
 		event.Skip()
 	End Method
 

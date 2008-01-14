@@ -2,130 +2,130 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxCodeGen\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-14 13:52+0200\n"
-"PO-Revision-Date: 2008-01-14 13:58+0200\n"
-"Last-Translator: Brucey\n"
+"POT-Creation-Date: 2008-01-14 16:43+0200\n"
+"PO-Revision-Date: 2008-01-14 16:43+0200\n"
+"Last-Translator: Bruce A Henderson\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-0: ../..\n"
 
-#: codegenbase.bmx:77
+#: ../../codegenbase.bmx:77
 msgid "Projects"
 msgstr ""
 
-#: codegenbase.bmx:89
+#: ../../codegenbase.bmx:89
 msgid "Add"
 msgstr ""
 
-#: codegenbase.bmx:92
+#: ../../codegenbase.bmx:92
 msgid "Delete"
 msgstr ""
 
-#: codegenbase.bmx:115
+#: ../../codegenbase.bmx:115
 msgid "Project Name"
 msgstr ""
 
-#: codegenbase.bmx:124
+#: ../../codegenbase.bmx:124
 msgid "wxFormBuilder Project File"
 msgstr ""
 
-#: codegenbase.bmx:128
+#: ../../codegenbase.bmx:128
 msgid "Select a wxFormbuilder Project File"
 msgstr ""
 
-#: codegenbase.bmx:128
+#: ../../codegenbase.bmx:128
 msgid "*.*"
 msgstr ""
 
-#: codegenbase.bmx:133
+#: ../../codegenbase.bmx:133
 msgid "BMX Project Folder"
 msgstr ""
 
-#: codegenbase.bmx:137
+#: ../../codegenbase.bmx:137
 msgid "Select the BlitzMax Project folder"
 msgstr ""
 
-#: codegenbase.bmx:142
+#: ../../codegenbase.bmx:142
 msgid "Generated Filename"
 msgstr ""
 
-#: codegenbase.bmx:154
+#: ../../codegenbase.bmx:154
 msgid ".bmx"
 msgstr ""
 
-#: codegenbase.bmx:164
+#: ../../codegenbase.bmx:164
 msgid "App Structure"
 msgstr ""
 
-#: codegenbase.bmx:165
+#: ../../codegenbase.bmx:165
 msgid "Create SuperStrict"
 msgstr ""
 
-#: codegenbase.bmx:168
+#: ../../codegenbase.bmx:168
 msgid "Create Import statements"
 msgstr ""
 
-#: codegenbase.bmx:173
+#: ../../codegenbase.bmx:173
 msgid "Auto-Generate Code on Update"
 msgstr ""
 
-#: codegenbase.bmx:178
+#: ../../codegenbase.bmx:178
 msgid "Project Config"
 msgstr ""
 
-#: codegenbase.bmx:192
+#: ../../codegenbase.bmx:192
 msgid "Application Code"
 msgstr ""
 
-#: codegenbase.bmx:198
+#: ../../codegenbase.bmx:198
 msgid "Check for Project File Updates"
 msgstr ""
 
-#: codegenbase.bmx:199
+#: ../../codegenbase.bmx:199
 msgid "Monitors the project files for changes."
 msgstr ""
 
-#: codegenbase.bmx:203
+#: ../../codegenbase.bmx:203
 msgid "String Localization"
 msgstr ""
 
-#: codegenbase.bmx:208
+#: ../../codegenbase.bmx:208
 msgid "Global Preferences"
 msgstr ""
 
-#: codegenbase.bmx:216
+#: ../../codegenbase.bmx:216
 msgid "Generate"
 msgstr ""
 
-#: codegenbase.bmx:235
+#: ../../codegenbase.bmx:235
 msgid "New Project"
 msgstr ""
 
-#: codegenbase.bmx:241
+#: ../../codegenbase.bmx:241
 msgid "Quit"
 msgstr ""
 
-#: codegenbase.bmx:243
+#: ../../codegenbase.bmx:243
 msgid "File"
 msgstr ""
 
-#: codegenbase.bmx:248
+#: ../../codegenbase.bmx:248
 msgid "About"
 msgstr ""
 
-#: codegenbase.bmx:250
+#: ../../codegenbase.bmx:250
 msgid "Help"
 msgstr ""
 
-#: wxCodeGen.bmx:258
-msgid "Are you sure you want to delete? : ~n"
+#: ../../wxCodeGen.bmx:264
+msgid "Are you sure you want to delete? : "
 msgstr ""
 
-#: wxCodeGen.bmx:260
+#: ../../wxCodeGen.bmx:266
 msgid "Delete Project?"
 msgstr ""
 

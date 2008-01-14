@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.82"
+Const AppVersion:String = "0.83"
 
 
 Global eventMap:TMap = New TMap

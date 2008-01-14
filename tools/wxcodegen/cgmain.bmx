@@ -20,9 +20,11 @@
 ' 
 SuperStrict
 
+Import wx.wxLocale
 Import wx.wxConfig
 Import wx.wxFileName
 Import BRL.LinkedList
+Import wx.wxChoiceDialog
 
 Import "codegenbase.bmx"
 Import "code_gen.bmx"
@@ -30,12 +32,27 @@ Import "code_gen.bmx"
 ' projects list
 Global projects:TList = New TList
 
+Global locale:wxLocale
+
+
 Global config:wxConfigBase
 
 Global checkUpdates:Int
 Global localization:Int
 Global lastId:Int
 Global fileVersion:String
+Global languageId:Int
+
+' language data
+Global langIds:Int[] = [ ..
+	wxLANGUAGE_ENGLISH, ..
+	wxLANGUAGE_GERMAN, ..
+	wxLANGUAGE_RUSSIAN ]
+
+Global langNames:String[] = [ ..
+	"English", ..
+	"German", ..
+	"Russian" ]
 
 Type TCGProject
 
@@ -58,7 +75,7 @@ Type TCGProject
 		Local this:TCGProject = New TCGProject
 		
 		this.id = GetNewId()
-		this.name = "New Project " + this.id
+		this.name = _("New Project") + " " + this.id
 		
 		Return this
 	End Function
@@ -100,6 +117,8 @@ Function GetNewId:Int()
 End Function
 
 Function LoadProjects()
+
+	locale = New wxLocale.Create()
 	
 	config.SetPath("/Global")
 	
@@ -107,6 +126,17 @@ Function LoadProjects()
 	localization = config.ReadInt("localization", 0)
 	lastId = config.ReadInt("lastId", 0)
 	fileVersion = config.ReadString("fileVersion", "")
+	languageId = config.ReadInt("languageId", -1)
+	
+	If languageId = -1 Then
+		GetLanguage()
+	End If
+
+    locale.Init(languageId, wxLOCALE_CONV_ENCODING)
+
+	wxLocale.AddCatalogLookupPathPrefix("locale")
+	locale.AddCatalog("wxCodeGen")
+	locale.AddCatalog("wxstd")
 	
 	config.SetPath("/Projects")
 
@@ -166,6 +196,7 @@ Function SaveProjects()
 	config.WriteInt("localization", localization)
 	config.WriteInt("lastId", lastId)
 	config.WriteString("fileVersion", AppVersion)
+	config.WriteInt("languageId", languageId)
 	
 	config.DeleteGroup("/Projects")
 	
@@ -252,5 +283,28 @@ Function GenerateProject(proj:TCGProject)
 
 	projBase.Free()
 	project.Free()
+
+End Function
+
+Function GetLanguage()
+
+	Local lng:Int = wxGetSingleChoiceIndex("Select a language:", "Language", langNames)
+
+	If lng <> -1 Then
+		' don't use wxLOCALE_LOAD_DEFAULT flag so that Init() doesn't return
+		' False just because it failed To Load wxstd catalog
+		If Not locale.Init(langIds[lng], wxLOCALE_CONV_ENCODING) Then
+			languageId = wxLANGUAGE_ENGLISH
+		Else
+			languageId = langIds[lng]
+		End If
+	Else
+		If languageId < 0 Then
+			languageId = wxLANGUAGE_ENGLISH
+		End If
+	End If
+
+	locale.AddCatalog("wxCodeGen")
+	locale.AddCatalog("wxstd")
 
 End Function

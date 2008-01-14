@@ -30,13 +30,9 @@ New MyApp.run()
 Type MyApp Extends wxApp
 
 	Field frame: CodeGenFrame
-	Field locale:wxLocale = New wxLocale.Create()
 
 	Method OnInit:Int()
 
-		wxLocale.AddCatalogLookupPathPrefix("locale")
-	    locale.AddCatalog("wxCodeGen")
-	
 		SetAppName("wxCodeGen")
 		SetVendorName("wxMax")
 		
@@ -259,8 +255,8 @@ Type CodeGenFrame Extends CodeGenFrameBase
 
 	Method OnDeleteProject(event:wxCommandEvent)
 		If currentProject Then
-			Local result:Int = wxMessageBox(_("Are you sure you want to delete? : ~n") + ..
-				"'" + currentProject.name + "'", ..
+			Local result:Int = wxMessageBox(_("Are you sure you want to delete? : ") + ..
+				"~n'" + currentProject.name + "'", ..
 				_("Delete Project?"), ..
 				wxYES | wxNO | wxCANCEL, Self)
 			If result = wxYES Then
@@ -293,6 +289,16 @@ Type CodeGenFrame Extends CodeGenFrameBase
 		CreateNewProject()
 	End Method
 
+	Method OnChangeLanguage(event:wxCommandEvent)
+		Local oldLang:Int = languageId
+
+		GetLanguage()
+		
+		If languageId <> oldLang Then
+			wxMessageBox(_("You will need to restart wxCodeGen to see the new language."), ..
+				_("Language Changed"), wxOK, Self)
+		End If
+	End Method
 	
 End Type
 
