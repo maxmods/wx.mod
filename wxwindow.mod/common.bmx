@@ -246,6 +246,7 @@ Extern
 	Function bmx_wxgridsizer_setvgap(handle:Byte Ptr, vgap:Int)
 	Function bmx_wxsizer_setsizehints(handle:Byte Ptr, window:Byte Ptr)
 	Function bmx_wxflexgridsizer_create:Byte Ptr(handle:Object, cols:Int, vgap:Int, hgap:Int)
+	Function bmx_wxflexgridsizer_createrc:Byte Ptr(handle:Object, rows:Int, cols:Int, vgap:Int, hgap:Int)
 	Function bmx_wxflexgridsizer_addgrowablecol(handle:Byte Ptr, index:Int, prop:Int)
 	Function bmx_wxflexgridsizer_addgrowablerow(handle:Byte Ptr, index:Int, prop:Int)
 	Function bmx_wxsizer_fit(handle:Byte Ptr, window:Byte Ptr)
@@ -318,3 +319,6 @@ Const wxBG_STYLE_SYSTEM:Int = 0
 Const wxBG_STYLE_COLOUR:Int = 1
 Const wxBG_STYLE_CUSTOM:Int = 2
 
+Const wxFLEX_GROWMODE_NONE:Int = 0
+Const wxFLEX_GROWMODE_SPECIFIED:Int = 1
+Const wxFLEX_GROWMODE_ALL:Int = 2

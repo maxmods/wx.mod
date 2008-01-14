@@ -242,6 +242,7 @@ extern "C" {
 	void bmx_wxgridsizer_setvgap(MaxGridSizer * sizer, int vgap);
 	void bmx_wxsizer_setsizehints(wxSizer * sizer, wxWindow * window);
 	MaxFlexGridSizer * bmx_wxflexgridsizer_create(BBObject * maxHandle, int cols, int vgap, int hgap);
+	MaxFlexGridSizer * bmx_wxflexgridsizer_createrc(BBObject * maxHandle, int rows, int cols, int vgap, int hgap);
 	void bmx_wxflexgridsizer_addgrowablecol(MaxFlexGridSizer * sizer, int index, int prop);
 	void bmx_wxflexgridsizer_addgrowablerow(MaxFlexGridSizer * sizer, int index, int prop);
 	void bmx_wxsizer_fit(wxSizer * sizer, wxWindow * window);
@@ -351,6 +352,7 @@ class MaxFlexGridSizer : public wxFlexGridSizer
 {
 public:
 	MaxFlexGridSizer(BBObject * handle, int cols, int vgap, int hgap);
+	MaxFlexGridSizer(BBObject * handle, int rows, int cols, int vgap, int hgap);
 	~MaxFlexGridSizer();
 
 private:

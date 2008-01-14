@@ -2451,13 +2451,24 @@ End Rem
 Type wxFlexGridSizer Extends wxGridSizer
 
 	Rem
-	bbdoc: Constructor for a wxGridSizer.
-	about: rows and cols determine the number of columns and rows in the sizer - if either of the
+	bbdoc: Constructor for a wxFlexGridSizer.
+	about: @cols determine the number of columns and rows in the sizer - if either of the
 	parameters is zero, it will be calculated to form the total number of children in the sizer,
 	thus making the sizer grow dynamically. vgap and hgap define extra space between all children.
 	End Rem
 	Method Create:wxFlexGridSizer(cols:Int, vgap:Int = 0, hgap:Int = 0)
 		wxSizerPtr = bmx_wxflexgridsizer_create(Self, cols, vgap, hgap)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Constructor for a wxFlexGridSizer.
+	about: @rows and @cols determine the number of columns and rows in the sizer - if either of the
+	parameters is zero, it will be calculated to form the total number of children in the sizer,
+	thus making the sizer grow dynamically. vgap and hgap define extra space between all children.
+	End Rem
+	Method CreateRC:wxFlexGridSizer(rows:Int, cols:Int, vgap:Int, hgap:Int)
+		wxSizerPtr = bmx_wxflexgridsizer_createrc(Self, rows, cols, vgap, hgap)
 		Return Self
 	End Method
 

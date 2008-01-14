@@ -74,6 +74,12 @@ MaxFlexGridSizer::MaxFlexGridSizer(BBObject * handle, int cols, int vgap, int hg
 	wxbind(this, handle);
 }
 
+MaxFlexGridSizer::MaxFlexGridSizer(BBObject * handle, int rows, int cols, int vgap, int hgap)
+	: maxHandle(handle), wxFlexGridSizer(rows, cols, vgap, hgap)
+{
+	wxbind(this, handle);
+}
+
 MaxFlexGridSizer::~MaxFlexGridSizer() {
 	wxunbind(this);
 }
@@ -936,6 +942,11 @@ void bmx_wxsizer_setsizehints(wxSizer * sizer, wxWindow * window) {
 MaxFlexGridSizer * bmx_wxflexgridsizer_create(BBObject * maxHandle, int cols, int vgap, int hgap) {
 	return new MaxFlexGridSizer(maxHandle, cols, vgap, hgap);
 }
+
+MaxFlexGridSizer * bmx_wxflexgridsizer_createrc(BBObject * maxHandle, int rows, int cols, int vgap, int hgap) {
+	return new MaxFlexGridSizer(maxHandle, rows, cols, vgap, hgap);
+}
+
 
 void bmx_wxflexgridsizer_addgrowablecol(MaxFlexGridSizer * sizer, int index, int prop) {
 	sizer->AddGrowableCol(index, prop);

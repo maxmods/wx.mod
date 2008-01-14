@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.81"
+Const AppVersion:String = "0.82"
 
 
 Global eventMap:TMap = New TMap
@@ -138,6 +138,9 @@ Type TFBGenFactory
 
 			Case "wxGridSizer"
 				widget = New TFBGridSizer
+
+			Case "wxFlexGridSizer"
+				widget = New TFBFlexGridSizer
 
 			Case "sizeritem"
 				widget = New TFBsizeritem
@@ -2177,6 +2180,56 @@ Type TFBGridSizer Extends TFBSizer
 
 	Method GetType:String()
 		Return "wxGridSizer"
+	End Method
+
+	Method GetImport:String()
+		Return "wx.wxWindow"
+	End Method
+
+End Type
+
+Type TFBFlexGridSizer Extends TFBSizer
+
+	Method Generate(out:TCodeOutput)
+	
+		Super.Generate(out)
+	
+		Local text:String = prop("name") + " = new " + GetType() + ".CreateRC("
+	
+		text:+ prop("rows") + ", " + prop("cols") + ", "
+		text:+ prop("vgap") + ", " + prop("hgap")
+		text:+ ")"
+		
+		out.Add(text, 2)
+	
+		If prop("growablecols") Then	
+			out.Add(prop("name") + ".AddGrowableCol( " + prop("growablecols") + " )", 2)
+		End If
+
+		If prop("growablerows") Then	
+			out.Add(prop("name") + ".AddGrowableRow( " + prop("growablerows") + " )", 2)
+		End If
+
+		If prop("flexible_direction") Then	
+			out.Add(prop("name") + ".SetFlexibleDirection( " + prop("flexible_direction") + " )", 2)
+		End If
+
+		If prop("non_flexible_grow_mode") Then	
+			out.Add(prop("name") + ".SetNonFlexibleGrowMode( " + prop("non_flexible_grow_mode") + " )", 2)
+		End If
+
+		If prop("minimum_size") Then
+			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
+		End If
+	
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+		Next
+		
+	End Method
+
+	Method GetType:String()
+		Return "wxFlexGridSizer"
 	End Method
 
 	Method GetImport:String()

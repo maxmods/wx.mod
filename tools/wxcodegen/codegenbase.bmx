@@ -1,5 +1,5 @@
 '
-' BlitzMax code generated with wxCodeGen : 13 Jan 2008 17:36:33
+' BlitzMax code generated with wxCodeGen : 14 Jan 2008 08:51:36
 ' 
 ' 
 ' PLEASE DO "NOT" EDIT THIS FILE!
@@ -106,64 +106,57 @@ Type CodeGenFrameBase Extends wxFrame
 		Local bSizer5:wxBoxSizer
 		bSizer5 = new wxBoxSizer.Create(wxVERTICAL)
 
-		Local bSizer12:wxBoxSizer
-		bSizer12 = new wxBoxSizer.Create(wxHORIZONTAL)
+		Local fgSizer1:wxFlexGridSizer
+		fgSizer1 = new wxFlexGridSizer.CreateRC(4, 2, 0, 0)
+		fgSizer1.AddGrowableCol( 1 )
+		fgSizer1.SetFlexibleDirection( wxBOTH )
+		fgSizer1.SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED )
 		m_staticText6 = new wxStaticText.Create(pnlProject, wxID_ANY, "Project Name")
 		m_staticText6.Wrap(-1)
-		bSizer12.Add(m_staticText6, 0, wxALIGN_CENTER|wxALL, 5)
+		fgSizer1.Add(m_staticText6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
 		txtProjectName = new wxTextCtrl.Create(pnlProject, wxID_ANY, "")
 		txtProjectName.SetMaxLength(0)
 		txtProjectName.Enable(False)
-		bSizer12.Add(txtProjectName, 1, wxALL, 5)
+		fgSizer1.Add(txtProjectName, 1, wxALL|wxEXPAND, 5)
 
-		bSizer5.AddSizer(bSizer12, 0, wxEXPAND, 5)
-
-
-		Local bSizer8:wxBoxSizer
-		bSizer8 = new wxBoxSizer.Create(wxHORIZONTAL)
 		m_staticText2 = new wxStaticText.Create(pnlProject, wxID_ANY, "wxFormBuilder Project File")
 		m_staticText2.Wrap(-1)
-		bSizer8.Add(m_staticText2, 0, wxALIGN_CENTER|wxALL, 5)
+		fgSizer1.Add(m_staticText2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
 		fpkProjectFile = new wxFilePickerCtrl.Create(pnlProject, wxID_ANY, "", "Select a wxFormbuilder Project File", "*.*",,,,, wxFLP_DEFAULT_STYLE)
 		fpkProjectFile.Enable(False)
 
-		bSizer8.Add(fpkProjectFile, 1, wxALL, 5)
+		fgSizer1.Add(fpkProjectFile, 1, wxALL|wxEXPAND, 5)
 
-		bSizer5.AddSizer(bSizer8, 0, wxEXPAND, 5)
-
-
-		Local bSizer9:wxBoxSizer
-		bSizer9 = new wxBoxSizer.Create(wxHORIZONTAL)
 		m_staticText3 = new wxStaticText.Create(pnlProject, wxID_ANY, "BMX Project Folder")
 		m_staticText3.Wrap(-1)
-		bSizer9.Add(m_staticText3, 0, wxALIGN_CENTER|wxALL, 5)
+		fgSizer1.Add(m_staticText3, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
 		dpkProjectFolder = new wxDirPickerCtrl.Create(pnlProject, wxID_ANY, "", "Select the BlitzMax Project folder",,,,, wxDIRP_DEFAULT_STYLE)
 		dpkProjectFolder.Enable(False)
 
-		bSizer9.Add(dpkProjectFolder, 1, wxALL, 5)
+		fgSizer1.Add(dpkProjectFolder, 1, wxALL|wxEXPAND, 5)
 
-		bSizer5.AddSizer(bSizer9, 0, wxEXPAND, 5)
-
-
-		Local bSizer11:wxBoxSizer
-		bSizer11 = new wxBoxSizer.Create(wxHORIZONTAL)
 		m_staticText4 = new wxStaticText.Create(pnlProject, wxID_ANY, "Generated Filename")
 		m_staticText4.Wrap(-1)
-		bSizer11.Add(m_staticText4, 0, wxALIGN_CENTER|wxALL, 5)
+		fgSizer1.Add(m_staticText4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
+
+		Local bSizer12:wxBoxSizer
+		bSizer12 = new wxBoxSizer.Create(wxHORIZONTAL)
 		txtGenFilename = new wxTextCtrl.Create(pnlProject, wxID_ANY, "")
 		txtGenFilename.SetMaxLength(0)
 		txtGenFilename.Enable(False)
-		bSizer11.Add(txtGenFilename, 1, wxALL, 5)
+		bSizer12.Add(txtGenFilename, 1, wxALL, 5)
 
 		m_staticText5 = new wxStaticText.Create(pnlProject, wxID_ANY, ".bmx")
 		m_staticText5.Wrap(-1)
-		bSizer11.Add(m_staticText5, 0, wxALIGN_CENTER|wxALL, 5)
+		bSizer12.Add(m_staticText5, 0, wxALIGN_CENTER|wxALL, 5)
 
-		bSizer5.AddSizer(bSizer11, 0, wxEXPAND, 5)
+		fgSizer1.AddSizer(bSizer12, 0, wxEXPAND, 5)
+
+		bSizer5.AddSizer(fgSizer1, 0, wxEXPAND, 5)
 
 
 		Local sbSizer1:wxStaticBoxSizer
