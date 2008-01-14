@@ -793,6 +793,14 @@ void bmx_wxwindow_warppointer(wxWindow * window, int x, int y) {
 	window->WarpPointer(x, y);
 }
 
+wxDropTarget * bmx_wxwindow_getdroptarget(wxWindow * window) {
+	return window->GetDropTarget();
+}
+
+void bmx_wxwindow_setdroptarget(wxWindow * window, wxDropTarget * target) {
+	window->SetDropTarget(target);
+}
+
 
 // *********************************************
 

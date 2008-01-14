@@ -206,6 +206,9 @@ extern "C" {
 	bool bmx_wxwindow_unregisterhotkey(wxWindow * window, int hotKeyId);
 	void bmx_wxwindow_warppointer(wxWindow * window, int x, int y);
 
+	wxDropTarget * bmx_wxwindow_getdroptarget(wxWindow * window);
+	void bmx_wxwindow_setdroptarget(wxWindow * window, wxDropTarget * target);
+
 
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);

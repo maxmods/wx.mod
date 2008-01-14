@@ -29,7 +29,7 @@ New MyApp.run()
 
 Type MyApp Extends wxApp
 
-	Field frame: CodeGenFrame
+	Field frame:CodeGenFrame
 
 	Method OnInit:Int()
 
@@ -59,6 +59,8 @@ Type CodeGenFrame Extends CodeGenFrameBase
 	Method OnInit()
 		Super.OnInit()
 		
+		lstProjects.SetDropTarget(New MyDropTarget.Create())
+		
 		InitializeUI()
 	End Method
 	
@@ -87,7 +89,7 @@ Type CodeGenFrame Extends CodeGenFrameBase
 	End Method
 
 	
-	Method CreateNewProject()
+	Method CreateNewProject:TCGProject()
 		
 		Local proj:TCGProject = TCGProject.CreateNew()
 
@@ -95,6 +97,7 @@ Type CodeGenFrame Extends CodeGenFrameBase
 		
 		lstProjects.Append(proj.name, proj)
 		
+		Return proj
 	End Method
 
 	Method OnSelectItem(event:wxCommandEvent)
@@ -302,4 +305,50 @@ Type CodeGenFrame Extends CodeGenFrameBase
 	
 End Type
 
+Type MyDropTarget Extends wxFileDropTarget
+
+	Method OnDropFiles:Int(x:Int, y:Int, filenames:String[])
+	
+		Local dropped:Int = False
+	
+		' process the dropped files
+		For Local i:Int = 0 Until filenames.length
+			
+			Local file:String = filenames[i]
+			
+			' is this a formbuilder project?
+			If file.EndsWith(".fbp") Then
+			
+				Local found:Int
+				
+				' check our projects to see if we have it already!
+				For Local proj:TCGProject = EachIn projects
+					If file = proj.projectFile Then
+						' we should switch to this project
+						MyApp(wxGetApp()).frame.ShowProject(proj)
+						found = True
+						dropped = True
+						Exit
+					End If
+				Next
+				
+				If Not found Then
+					' otherwise... is it a valid file? (exists etc)
+					If wxFileName.FFileExists(file) Then
+						' add as a new project
+						Local proj:TCGProject = MyApp(wxGetApp()).frame.CreateNewProject()
+						proj.projectFile = file
+
+						dropped = True
+					End If
+				End If
+			
+			End If
+			
+		Next
+		
+		Return dropped
+	End Method
+
+End Type
 

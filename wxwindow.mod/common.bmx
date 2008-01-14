@@ -24,6 +24,7 @@ Import wx.wx
 Import wx.wxDC
 Import wx.wxCursor
 Import wx.wxMenu
+Import wx.wxDropTarget
 Import BRL.Blitz
 
 
@@ -210,6 +211,9 @@ Extern
 	Function bmx_wxwindow_setwindowvariant(handle:Byte Ptr, variant:Int)
 	Function bmx_wxwindow_unregisterhotkey:Int(handle:Byte Ptr, hotKeyId:Int)
 	Function bmx_wxwindow_warppointer(handle:Byte Ptr, x:Int, y:Int)
+	
+	Function bmx_wxwindow_getdroptarget:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxwindow_setdroptarget(handle:Byte Ptr, target:Byte Ptr)
 
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)

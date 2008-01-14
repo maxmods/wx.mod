@@ -1,5 +1,5 @@
 '
-' BlitzMax code generated with wxCodeGen : 14 янв 2008 17:57:34
+' BlitzMax code generated with wxCodeGen : 14 Jan 2008 20:47:14
 ' 
 ' 
 ' PLEASE DO "NOT" EDIT THIS FILE!
@@ -67,7 +67,7 @@ Type CodeGenFrameBase Extends wxFrame
 
 		Local bSizer1:wxBoxSizer
 		bSizer1 = new wxBoxSizer.Create(wxVERTICAL)
-		bSizer1.SetMinSize(600,400)
+		bSizer1.SetMinSize(700,400)
 		m_panel1 = new wxPanel.Create(Self, wxID_ANY,,,,, wxTAB_TRAVERSAL)
 
 		Local bSizer2:wxBoxSizer

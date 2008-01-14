@@ -72,7 +72,7 @@
             <event name="OnSize"></event>
             <event name="OnUpdateUI"></event>
             <object class="wxBoxSizer" expanded="1">
-                <property name="minimum_size">600,400</property>
+                <property name="minimum_size">700,400</property>
                 <property name="name">bSizer1</property>
                 <property name="orient">wxVERTICAL</property>
                 <property name="permission">none</property>

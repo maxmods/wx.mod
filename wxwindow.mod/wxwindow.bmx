@@ -524,9 +524,10 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the associated drop target, which may be NULL.
 	End Rem
-	Method GetDropTarget()
+	Method GetDropTarget:wxDropTarget()
+		Return wxDropTarget._create(bmx_wxwindow_getdroptarget(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -1291,9 +1292,11 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Associates a drop target with this window.
+	about: If the window already has a drop target, it is deleted.
 	End Rem
-	Method SetDropTarget()
+	Method SetDropTarget(target:wxDropTarget)
+		bmx_wxwindow_setdroptarget(wxObjectPtr, target.wxObjectPtr)
 	End Method
 	
 	' Deprecated!

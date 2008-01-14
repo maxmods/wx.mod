@@ -25,6 +25,7 @@ Import wx.wxConfig
 Import wx.wxFileName
 Import BRL.LinkedList
 Import wx.wxChoiceDialog
+Import wx.wxFileDropTarget
 
 Import "codegenbase.bmx"
 Import "code_gen.bmx"
