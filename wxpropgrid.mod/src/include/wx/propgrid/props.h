@@ -12,10 +12,6 @@
 #ifndef _WX_PROPGRID_PROPS_H_
 #define _WX_PROPGRID_PROPS_H_
 
-#if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-    #pragma interface "props.cpp"
-#endif
-
 // -----------------------------------------------------------------------
 
 class WXDLLIMPEXP_PG wxArrayEditorDialog;
@@ -73,12 +69,8 @@ wxPG_BEGIN_PROPERTY_CLASS_BODY2(wxPG_PROPCLASS(NAME),UPCLASS,T,T,T_AS_ARG,DEFVAL
 #define WX_PG_DECLARE_ATTRIBUTE_METHODS() \
     virtual bool DoSetAttribute( const wxString& name, wxVariant& value );
 
-#if wxUSE_VALIDATORS
-    #define WX_PG_DECLARE_VALIDATOR_METHODS() \
-        virtual wxValidator* DoGetValidator() const;
-#else
-    #define WX_PG_DECLARE_VALIDATOR_METHODS()
-#endif
+#define WX_PG_DECLARE_VALIDATOR_METHODS() \
+    virtual wxValidator* DoGetValidator() const;
 
 // Adds constructor function as well.
 #define WX_PG_IMPLEMENT_PROPERTY_CLASS2(NAME,CLASSNAME,UPCLASS,T,T_AS_ARG,EDITOR) \
@@ -125,18 +117,10 @@ NAME::NAME( const wxString& name, const wxString& label, const wxString& value )
 } \
 NAME::~NAME() { }
 
-#if wxUSE_VALIDATORS
-
-#define WX_PG_IMPLEMENT_STRING_PROPERTY(NAME,FLAGS) \
+#define WX_PG_IMPLEMENT_STRING_PROPERTY(NAME, FLAGS) \
 WX_PG_IMPLEMENT_STRING_PROPERTY_WITH_VALIDATOR(NAME,FLAGS) \
 wxValidator* wxPG_PROPCLASS(NAME)::DoGetValidator () const \
 { return (wxValidator*) NULL; }
-
-#else
-
-// TODO
-
-#endif
 
 // -----------------------------------------------------------------------
 
@@ -371,10 +355,8 @@ wxPG_BEGIN_PROPERTY_CLASS_BODY_WITH_DECL(wxIntProperty,wxPGProperty,long,long,0,
     wxIntProperty( const wxString& label, const wxString& name = wxPG_LABEL, const wxLongLong& value = wxLongLong() );
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     virtual bool IntToValue( wxVariant& variant, int number, int argFlags = 0 ) const;
-#if wxUSE_VALIDATORS
     static wxValidator* GetClassValidator();
     virtual wxValidator* DoGetValidator() const;
-#endif
 wxPG_END_PROPERTY_CLASS_BODY()
 
 // -----------------------------------------------------------------------
@@ -399,10 +381,8 @@ wxPG_BEGIN_PROPERTY_CLASS_BODY_WITH_DECL(wxFloatProperty,wxPGProperty,double,dou
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
 protected:
     int m_precision;
-#if wxUSE_VALIDATORS
     //static wxValidator* GetClassValidator ();
     virtual wxValidator* DoGetValidator () const;
-#endif
 wxPG_END_PROPERTY_CLASS_BODY()
 
 // -----------------------------------------------------------------------
@@ -625,10 +605,8 @@ public:
 
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
 
-#if wxUSE_VALIDATORS
     static wxValidator* GetClassValidator();
     virtual wxValidator* DoGetValidator() const;
-#endif
 
 protected:
     wxString    m_wildcard;
@@ -794,8 +772,6 @@ bool wxPG_PROPCLASS(PROPNAME)::OnEvent( wxPropertyGrid* propgrid, wxWindow* prim
     return false; \
 }
 
-#if wxUSE_VALIDATORS
-
 #define WX_PG_DECLARE_ARRAYSTRING_PROPERTY(PROPNAME) \
 WX_PG_DECLARE_ARRAYSTRING_PROPERTY_WITH_VALIDATOR(PROPNAME)
 
@@ -806,12 +782,6 @@ WX_PG_DECLARE_ARRAYSTRING_PROPERTY_WITH_VALIDATOR_WITH_DECL(PROPNAME, DECL)
 WX_PG_IMPLEMENT_ARRAYSTRING_PROPERTY_WITH_VALIDATOR(PROPNAME,DELIMCHAR,CUSTBUTTXT) \
 wxValidator* wxPG_PROPCLASS(PROPNAME)::DoGetValidator () const \
 { return (wxValidator*) NULL; }
-
-#else
-
-// TODO
-
-#endif
 
 
 // -----------------------------------------------------------------------

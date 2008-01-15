@@ -12,10 +12,6 @@
 #ifndef __WX_PROPGRID_PROPGRID_H__
 #define __WX_PROPGRID_PROPGRID_H__
 
-#if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-    #pragma interface "propgrid.cpp"
-#endif
-
 #include <wx/dynarray.h>
 #include <wx/hashmap.h>
 #include <wx/variant.h>
@@ -61,7 +57,8 @@
 
 
 //
-// Check some wxUSE_FOOs
+// Check that some wxUSE_FOOs exist
+// (we don't care if they are 1 or 0, just that they exist)
 #ifndef wxUSE_VALIDATORS
     #error "wxUSE_VALIDATORS not defined"
 #endif
@@ -1398,8 +1395,12 @@ template<> inline wxVariant WXVARIANT( const wxString& value ) { return wxVarian
 #endif
 
 #if wxCHECK_VERSION(2,9,0)
+    #define _WX_PG_VARIANT_DATA_CLASSINFO_CONTAINER_DECL(CLASSNAME) \
+        int CLASSNAME##_DoesNothingFunc() { return 1; }
     #define _WX_PG_VARIANT_DATA_CLASSINFO_CONTAINER(CLASSNAME)
 #else
+    #define _WX_PG_VARIANT_DATA_CLASSINFO_CONTAINER_DECL(CLASSNAME) \
+        extern wxPGVariantDataClassInfo CLASSNAME##_ClassInfo
     #define _WX_PG_VARIANT_DATA_CLASSINFO_CONTAINER(CLASSNAME) \
         wxPGVariantDataClassInfo CLASSNAME##_ClassInfo = &CLASSNAME::ms_classInfo;
 #endif
@@ -1463,7 +1464,7 @@ DECL wxVariant& operator <<( wxVariant &variant, const DATATYPE& value ); \
 DECL DATATYPE& DATATYPE##FromVariant( const wxVariant& variant ); \
 DECL wxVariant DATATYPE##ToVariant( const DATATYPE& value ); \
 template<> inline wxVariant WXVARIANT( const DATATYPE& value ) { return DATATYPE##ToVariant(value); } \
-DECL extern wxPGVariantDataClassInfo CLASSNAME##_ClassInfo;
+DECL _WX_PG_VARIANT_DATA_CLASSINFO_CONTAINER_DECL(CLASSNAME);
 
 #define WX_PG_DECLARE_WXOBJECT_VARIANT_DATA WX_PG_DECLARE_VARIANT_DATA
 
@@ -1472,7 +1473,7 @@ DECL DATATYPE* operator <<( DATATYPE* value, const wxVariant &variant ); \
 DECL wxVariant& operator <<( wxVariant &variant, DATATYPE* value ); \
 DECL DATATYPE* DATATYPE##FromVariant( const wxVariant& variant ); \
 DECL wxVariant DATATYPE##ToVariant( DATATYPE* value ); \
-DECL extern wxPGVariantDataClassInfo CLASSNAME##_ClassInfo;
+DECL _WX_PG_VARIANT_DATA_CLASSINFO_CONTAINER_DECL(CLASSNAME);
 
 
 #define WX_PG_IMPLEMENT_PTR_VARIANT_DATA(CLASSNAME, DATATYPE, DEFAULT) \
@@ -1948,7 +1949,6 @@ public:
     virtual wxString GetEditor() const;
 #endif
 
-#if wxUSE_VALIDATORS
     /** Returns pointer to the wxValidator that should be used
         with the editor of this property (NULL for no validator).
         Setting validator explicitly via SetPropertyValidator
@@ -1980,7 +1980,6 @@ public:
         for example, uses it.
     */
     virtual wxValidator* DoGetValidator () const;
-#endif // #if wxUSE_VALIDATORS
 
     /** Returns 0 for normal items. 1 for categories, -1 for other properties with children,
         -2 for wxCustomProperty (mostly like -1 ones but with few expections).
@@ -4371,7 +4370,7 @@ public:
         wxVariantData* data = p->GetValue().GetData();
         if ( !data )
             return 0;
-        return (size_t)data->GetClassInfo();
+        return (size_t)wxPGVariantDataGetClassInfo(data);;
     }
 #endif
 

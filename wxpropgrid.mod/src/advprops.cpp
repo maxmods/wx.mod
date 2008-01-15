@@ -9,10 +9,6 @@
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
 
-#if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-    #pragma implementation "advprops.h"
-#endif
-
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
@@ -1343,55 +1339,6 @@ wxSize wxCursorProperty::OnMeasureImage( int item ) const
 
 #if wxPG_CAN_DRAW_CURSOR
 
-/*class wxPGCursorPropertyRenderer : public wxPGDefaultRenderer
-{
-public:
-    virtual void Render( wxDC& dc, const wxRect& rect,
-                         const wxPropertyGrid* WXUNUSED(propertyGrid), wxPGProperty* property,
-                         int WXUNUSED(column), int item, int WXUNUSED(flags) ) const
-    {
-        //wxASSERT( property->IsKindOf(CLASSINFO(wxCursorProperty)) );
-        dc.SetBrush( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNFACE ) );
-
-        if ( item >= 0 )
-        {
-            dc.DrawRectangle( rect );
-
-            int cursorindex = gs_cp_es_syscursors_values[item];
-
-            if ( cursorindex == wxCURSOR_NONE )
-                cursorindex = wxCURSOR_ARROW;
-
-            wxCursor cursor( cursorindex );
-
-        #ifdef __WXMSW__
-            ::DrawIconEx( (HDC)dc.GetHDC(),
-                          rect.x,
-                          rect.y,
-                          (HICON)cursor.GetHandle(),
-                          0,
-                          0,
-                          0,
-                          NULL,
-                          DI_COMPAT | DI_DEFAULTSIZE | DI_NORMAL
-                        );
-        #endif
-        }
-
-        DrawText( dc, rect, wxPG_CURSOR_IMAGE_WIDTH, property->GetValueAsString() );
-    }
-protected:
-};
-
-wxPGCursorPropertyRenderer g_wxPGCursorPropertyRenderer;
-
-wxPGCellRenderer* wxCursorProperty::GetCellRenderer( int column ) const
-{
-    if ( column == 1 )
-        return &g_wxPGCursorPropertyRenderer;
-    return wxEnumProperty::GetCellRenderer(column);
-}*/
-
 void wxCursorProperty::OnCustomPaint( wxDC& dc,
                                       const wxRect& rect,
                                       wxPGPaintData& paintdata )
@@ -1414,7 +1361,11 @@ void wxCursorProperty::OnCustomPaint( wxDC& dc,
                 wxCursor cursor( cursorindex );
 
             #ifdef __WXMSW__
-                ::DrawIconEx( (HDC)dc.GetHDC(),
+                #if wxCHECK_VERSION(2,9,0)
+                  ::DrawIconEx( (HDC)((const wxMSWDCImpl *)dc.GetImpl())->GetHDC(),
+                #else
+                  ::DrawIconEx( (HDC)dc.GetHDC(),
+                #endif
                               rect.x,
                               rect.y,
                               (HICON)cursor.GetHandle(),
@@ -1836,10 +1787,16 @@ wxDateProperty::~wxDateProperty()
 }
 
 bool wxDateProperty::StringToValue( wxVariant& variant, const wxString& text,
-                                      int WXUNUSED(argFlags) ) const
+                                    int WXUNUSED(argFlags) ) const
 {
     wxDateTime dt;
-    const wxChar* c = dt.ParseFormat(text.c_str(),wxDefaultDateTimeFormat);
+
+#if wxCHECK_VERSION(2,9,0)
+    const char* c = dt.ParseFormat(text, wxString(wxDefaultDateTimeFormat), wxDefaultDateTime, NULL);
+#else
+    const wxChar* c = dt.ParseFormat(text, wxDefaultDateTimeFormat);
+#endif
+
     if ( c )
     {
         variant = dt;

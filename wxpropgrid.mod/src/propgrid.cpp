@@ -9,10 +9,6 @@
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
 
-#if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-    #pragma implementation "propgrid.h"
-#endif
-
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
@@ -1087,15 +1083,15 @@ void wxPGProperty::SetChoiceSelection( int newValue, const wxPGChoiceInfo& choic
 {
     // Changes value of a property with choices, but only
     // works if the value type is long or string.
-    const wxChar* ts = GetValue().GetType();
+    wxString ts = GetValue().GetType();
 
     wxCHECK_RET( choiceInfo.m_choices, wxT("invalid choiceinfo") );
 
-    if ( wxStrcmp(ts, wxT("long")) == 0 )
+    if ( ts == wxT("long") )
     {
         SetValue( (long) newValue );
     }
-    else if ( wxStrcmp(ts, wxT("string")) == 0 )
+    else if ( ts == wxT("string") )
     {
         SetValue( choiceInfo.m_choices->GetLabel(newValue) );
     }
@@ -1308,12 +1304,10 @@ void wxPGProperty::SetFlagsFromString( const wxString& str )
     m_flags = (m_flags & ~wxPG_STRING_STORED_FLAGS) | flags;
 }
 
-#if wxUSE_VALIDATORS
 wxValidator* wxPGProperty::DoGetValidator() const
 {
     return (wxValidator*) NULL;
 }
-#endif
 
 wxPGChoices& wxPGProperty::GetChoices()
 {
@@ -8714,7 +8708,9 @@ PyObject* wxPropertyContainerMethods::GetPropertyValueAsPyObject( wxPGPropArg id
 {
     wxPG_PROP_ARG_CALL_PROLOG_RETVAL(NULL)
     wxVariant value = p->GetValue();
-    if ( value.IsNull() || value.GetData()->GetClassInfo() != wxPGVariantDataPyObject_ClassInfo )
+
+    wxPGVariantDataPyObject* pgvdata = wxDynamicCastVariantData(value.GetData(), wxPGVariantDataPyObject);
+    if ( value.IsNull() || !pgvdata )
     {
         wxPGGetFailed(p,wxT("PyObject*"));
         return NULL;

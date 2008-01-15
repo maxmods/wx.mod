@@ -9,10 +9,6 @@
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
 
-#if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-    #pragma implementation "manager.h"
-#endif
-
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
@@ -1025,6 +1021,9 @@ void wxPropertyGridManager::RefreshHelpBox( int new_splittery, int new_width, in
     else
     {
         m_pTxtHelpCaption->SetSize(3,cap_y,new_width-6,cap_hei);
+#if wxCHECK_VERSION(2,6,2)
+        m_pTxtHelpCaption->Wrap(-1);
+#endif
         m_pTxtHelpCaption->Show( true );
         if ( cnt_hei <= 2 )
         {

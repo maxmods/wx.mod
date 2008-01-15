@@ -12,10 +12,6 @@
 #ifndef _WX_PROPGRID_MANAGER_H_
 #define _WX_PROPGRID_MANAGER_H_
 
-#if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-    #pragma interface "manager.cpp"
-#endif
-
 #include <wx/propgrid/propgrid.h>
 
 #if wxPG_INCLUDE_MANAGER || defined(DOXYGEN)

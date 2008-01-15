@@ -12,10 +12,6 @@
 #ifndef _WX_PROPGRID_EDITORS_H_
 #define _WX_PROPGRID_EDITORS_H_
 
-#if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-    #pragma interface "editors.cpp"
-#endif
-
 // -----------------------------------------------------------------------
 // wxPGWindowList contains list of editor windows returned by CreateControls.
 

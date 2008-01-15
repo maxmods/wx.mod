@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxPropGrid
+End Rem
 Module wx.wxPropGrid
 
 ModuleInfo "Version: 1.00"

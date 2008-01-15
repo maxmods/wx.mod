@@ -373,10 +373,10 @@ bool wxIntProperty::IntToValue( wxVariant& variant, int value, int WXUNUSED(argF
     return false;
 }
 
-#if wxUSE_VALIDATORS
 
 wxValidator* wxIntProperty::GetClassValidator()
 {
+#if wxUSE_VALIDATORS
     WX_PG_DOGETVALIDATOR_ENTRY()
 
     // Atleast wxPython 2.6.2.1 required that the string argument is given
@@ -384,14 +384,15 @@ wxValidator* wxIntProperty::GetClassValidator()
     wxTextValidator* validator = new wxTextValidator(wxFILTER_NUMERIC,&v);
 
     WX_PG_DOGETVALIDATOR_EXIT(validator)
+#else
+    return NULL;
+#endif
 }
 
 wxValidator* wxIntProperty::DoGetValidator() const
 {
     return GetClassValidator();
 }
-
-#endif
 
 // -----------------------------------------------------------------------
 // wxUIntProperty
@@ -664,14 +665,10 @@ bool wxFloatProperty::DoSetAttribute( const wxString& name, wxVariant& value )
     return false;
 }
 
-#if wxUSE_VALIDATORS
-
 wxValidator* wxFloatProperty::DoGetValidator() const
 {
     return wxIntProperty::GetClassValidator();
 }
-
-#endif
 
 // -----------------------------------------------------------------------
 // wxBoolProperty
@@ -1393,8 +1390,7 @@ long wxFlagsProperty::IdToBit( const wxString& id ) const
     unsigned int i;
     for ( i = 0; i < GetItemCount(); i++ )
     {
-        const wxChar* ptr = GetLabel(i);
-        if ( id == ptr )
+        if ( id == GetLabel(i) )
         {
             if ( m_choices.HasValue(i) )
                 return m_choices.GetValue(i);
@@ -1465,14 +1461,10 @@ wxDirProperty::wxDirProperty( const wxString& name, const wxString& label, const
 }
 wxDirProperty::~wxDirProperty() { }
 
-#if wxUSE_VALIDATORS
-
 wxValidator* wxDirProperty::DoGetValidator() const
 {
     return wxFileProperty::GetClassValidator();
 }
-
-#endif
 
 bool wxDirProperty::OnButtonClick( wxPropertyGrid* propGrid, wxString& value )
 {
@@ -2387,8 +2379,10 @@ bool wxArrayStringProperty::OnButtonClick( wxPropertyGrid* propGrid,
 
     // Create editor dialog.
     wxArrayEditorDialog* dlg = CreateEditorDialog();
+#if wxUSE_VALIDATORS
     wxValidator* validator = GetValidator();
     wxPGInDialogValidator dialogValidator;
+#endif
 
     wxPGArrayStringEditorDialog* strEdDlg = wxDynamicCast(dlg, wxPGArrayStringEditorDialog);
 
@@ -2418,7 +2412,9 @@ bool wxArrayStringProperty::OnButtonClick( wxPropertyGrid* propGrid,
                 wxArrayString actualValue = value.GetArrayString();
                 wxString tempStr;
                 ARRSTRPROP_ARRAY_TO_STRING(tempStr, actualValue)
+            #if wxUSE_VALIDATORS
                 if ( dialogValidator.DoValidate( propGrid, validator, tempStr ) )
+            #endif
                 {
                     propGrid->ValueChangeInEvent( actualValue );
                     retVal = true;
