@@ -21,15 +21,49 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/propdlg.h"
+#include "wx/generic/propdlg.h"
 
-//class MaxNotebook;
+class MaxPropertySheetDialog;
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxBookCtrlBase * _wx_wxpropertysheetdialog_wxPropertySheetDialog__CreateBookCtrl(BBObject * handle);
+	void _wx_wxpropertysheetdialog_wxPropertySheetDialog__AddBookCtrl(BBObject * handle, wxSizer * sizer);
+	
+
+	wxPropertySheetDialog * bmx_wxpropertysheetdialog_create(BBObject * handle, wxWindow * parent,
+		wxWindowID id, BBString * title, int x, int y, int w, int h, long style);
+	void bmx_wxpropertysheetdialog_addbookctrl(MaxPropertySheetDialog * dialog, wxSizer * sizer);
+	wxBookCtrlBase * bmx_wxpropertysheetdialog_createbookctrl(MaxPropertySheetDialog * dialog);
+	void bmx_wxpropertysheetdialog_createbuttons(wxPropertySheetDialog * dialog, int flags);
+	wxBookCtrlBase * bmx_wxpropertysheetdialog_getbookctrl(wxPropertySheetDialog * dialog);
+	wxSizer * bmx_wxpropertysheetdialog_getinnersizer(wxPropertySheetDialog * dialog);
+	int bmx_wxpropertysheetdialog_getsheetstyle(wxPropertySheetDialog * dialog);
+	void bmx_wxpropertysheetdialog_layoutdialog(wxPropertySheetDialog * dialog, int centreFlags);
+	void bmx_wxpropertysheetdialog_setbookctrl(wxPropertySheetDialog * dialog, wxBookCtrlBase * bookCtrl);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxPropertySheetDialog : public wxPropertySheetDialog
+{
+public:
+	MaxPropertySheetDialog(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& title, int x, int y,
+		int w, int h, long style);
+	~MaxPropertySheetDialog();
+	void AddBookCtrl(wxSizer* sizer);
+	wxBookCtrlBase* CreateBookCtrl();
+	void AddBookCtrl_default(wxSizer* sizer);
+	wxBookCtrlBase* CreateBookCtrl_default();
+	
+
+private:
+	BBObject * maxHandle;
+	
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};

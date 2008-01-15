@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxDialog
+Import wx.wxBookCtrlBase
 Import BRL.Blitz
 
 
@@ -43,5 +44,15 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+
+	Function bmx_wxpropertysheetdialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, title:String, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxpropertysheetdialog_addbookctrl(handle:Byte Ptr, sizer:Byte Ptr)
+	Function bmx_wxpropertysheetdialog_createbookctrl:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpropertysheetdialog_createbuttons(handle:Byte Ptr, flags:Int)
+	Function bmx_wxpropertysheetdialog_getbookctrl:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpropertysheetdialog_getinnersizer:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpropertysheetdialog_getsheetstyle:Int(handle:Byte Ptr)
+	Function bmx_wxpropertysheetdialog_layoutdialog(handle:Byte Ptr, centreFlags:Int)
+	Function bmx_wxpropertysheetdialog_setbookctrl(handle:Byte Ptr, bookCtrl:Byte Ptr)
 
 End Extern

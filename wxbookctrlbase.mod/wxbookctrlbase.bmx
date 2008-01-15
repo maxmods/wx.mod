@@ -55,6 +55,14 @@ bbdoc: Common base type for book controls
 End Rem
 Type wxBookCtrlBase Extends wxControl
 
+	Function _create:wxBookCtrlBase(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxBookCtrlBase = New wxBookCtrlBase
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 
 	Rem
 	bbdoc: Adds a new page.

@@ -55,4 +55,58 @@ bbdoc: This type represents a property sheet dialog: a tabbed dialog for showing
 End Rem
 Type wxPropertySheetDialog Extends wxDialog
 
+	Function CreatePropertySheetDialog:wxPropertySheetDialog(parent:wxWindow, id:Int, title:String, ..
+			x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
+		Return New wxPropertySheetDialog.Create(parent, id, title, x, y, w, h, style)
+	End Function
+	
+	Method Create:wxPropertySheetDialog(parent:wxWindow, id:Int, title:String, ..
+			x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
+		wxObjectPtr = bmx_wxpropertysheetdialog_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Override this if you wish to add the book control in a way different from the standard way (for example, using different spacing).
+	End Rem
+	Method AddBookCtrl(sizer:wxSizer)
+		bmx_wxpropertysheetdialog_addbookctrl(wxObjectPtr, sizer.wxSizerPtr)
+	End Method
+	
+	Function _AddBookCtrl(obj:wxPropertySheetDialog, sizer:Byte Ptr)
+		obj.AddBookCtrl(wxSizer._create(sizer))
+	End Function
+
+	Method CreateBookCtrl:wxBookCtrlBase()
+		Return wxBookCtrlBase._create(bmx_wxpropertysheetdialog_createbookctrl(wxObjectPtr))
+	End Method
+	
+	Function _CreateBookCtrl:Byte Ptr(obj:wxPropertySheetDialog)
+		Return obj.CreateBookCtrl().wxObjectPtr
+	End Function
+
+	Method CreateButtons(flags:Int = wxOK | wxCANCEL)
+		bmx_wxpropertysheetdialog_createbuttons(wxObjectPtr, flags)
+	End Method
+
+	Method GetBookCtrl:wxBookCtrlBase()
+		Return wxBookCtrlBase._create(bmx_wxpropertysheetdialog_getbookctrl(wxObjectPtr))
+	End Method
+
+	Method GetInnerSizer:wxSizer()
+		Return wxSizer._create(bmx_wxpropertysheetdialog_getinnersizer(wxObjectPtr))
+	End Method
+
+	Method GetSheetStyle:Int()
+		Return bmx_wxpropertysheetdialog_getsheetstyle(wxObjectPtr)
+	End Method
+
+	Method LayoutDialog(centreFlags:Int = wxBOTH)
+		bmx_wxpropertysheetdialog_layoutdialog(wxObjectPtr, centreFlags)
+	End Method
+
+	Method SetBookCtrl(bookCtrl:wxBookCtrlBase)
+		bmx_wxpropertysheetdialog_setbookctrl(wxObjectPtr, bookCtrl.wxObjectPtr)
+	End Method
+
 End Type

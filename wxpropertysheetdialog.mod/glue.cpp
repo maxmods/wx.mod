@@ -24,8 +24,74 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxPropertySheetDialog::MaxPropertySheetDialog(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& title, int x, int y,
+		int w, int h, long style)
+	: maxHandle(handle), wxPropertySheetDialog(parent, id, title, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
 
+MaxPropertySheetDialog::~MaxPropertySheetDialog() {
+	wxunbind(this);
+}
+
+void MaxPropertySheetDialog::AddBookCtrl(wxSizer* sizer) {
+	_wx_wxpropertysheetdialog_wxPropertySheetDialog__AddBookCtrl(maxHandle, sizer);
+}
+
+wxBookCtrlBase* MaxPropertySheetDialog::CreateBookCtrl() {
+	return _wx_wxpropertysheetdialog_wxPropertySheetDialog__CreateBookCtrl(maxHandle);
+}
+
+void MaxPropertySheetDialog::AddBookCtrl_default(wxSizer* sizer) {
+	wxPropertySheetDialog::AddBookCtrl(sizer);
+}
+
+wxBookCtrlBase* MaxPropertySheetDialog::CreateBookCtrl_default() {
+	return wxPropertySheetDialog::CreateBookCtrl();
+}
 
 // *********************************************
+
+BEGIN_EVENT_TABLE(MaxPropertySheetDialog, wxPropertySheetDialog)
+END_EVENT_TABLE()
+
+
+wxPropertySheetDialog * bmx_wxpropertysheetdialog_create(BBObject * handle, wxWindow * parent,
+		wxWindowID id, BBString * title, int x, int y, int w, int h, long style) {
+	return new MaxPropertySheetDialog(handle, parent, id, wxStringFromBBString(title), x, y, w, h, style);
+}
+
+void bmx_wxpropertysheetdialog_addbookctrl(MaxPropertySheetDialog * dialog, wxSizer * sizer) {
+	dialog->AddBookCtrl_default(sizer);
+}
+
+wxBookCtrlBase * bmx_wxpropertysheetdialog_createbookctrl(MaxPropertySheetDialog * dialog) {
+	return dialog->CreateBookCtrl_default();
+}
+
+void bmx_wxpropertysheetdialog_createbuttons(wxPropertySheetDialog * dialog, int flags) {
+	dialog->CreateButtons(flags);
+}
+
+wxBookCtrlBase * bmx_wxpropertysheetdialog_getbookctrl(wxPropertySheetDialog * dialog) {
+	return dialog->GetBookCtrl();
+}
+
+wxSizer * bmx_wxpropertysheetdialog_getinnersizer(wxPropertySheetDialog * dialog) {
+	return dialog->GetInnerSizer();
+}
+
+int bmx_wxpropertysheetdialog_getsheetstyle(wxPropertySheetDialog * dialog) {
+	return dialog->GetSheetStyle();
+}
+
+void bmx_wxpropertysheetdialog_layoutdialog(wxPropertySheetDialog * dialog, int centreFlags) {
+	dialog->LayoutDialog(centreFlags);
+}
+
+void bmx_wxpropertysheetdialog_setbookctrl(wxPropertySheetDialog * dialog, wxBookCtrlBase * bookCtrl) {
+	dialog->SetBookCtrl(bookCtrl);
+}
 
 
