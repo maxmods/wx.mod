@@ -52,17 +52,45 @@ Import "common.bmx"
 
 Rem
 bbdoc: This type represents a property sheet dialog: a tabbed dialog for showing settings.
+about: It can be customized to use different controllers instead of the default notebook style.
+<p>
+To use this type, extend wxPropertySheetDialog, and then, in the OnInit, call CreateButtons, and create pages, adding them
+to the book control. Finally call LayoutDialog.
+</p>
+<p>
+For example:
+<pre>
+Method OnInit()
+    CreateButtons(wxOK | wxCANCEL | wxHELP)
+
+    ' Add page
+    Local panel:wxPanel = new wxPanel.Create(GetBookCtrl(), ...)
+    GetBookCtrl().AddPage(panel, "General")
+
+    LayoutDialog()
+
+End Method
+</pre>
+If necessary, override CreateBookCtrl and AddBookCtrl to create and add a different kind of book control.
+</p>
 End Rem
 Type wxPropertySheetDialog Extends wxDialog
 
+	Rem
+	bbdoc: Creates a new wxPropertySheetDialog.
+	End Rem
 	Function CreatePropertySheetDialog:wxPropertySheetDialog(parent:wxWindow, id:Int, title:String, ..
 			x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
 		Return New wxPropertySheetDialog.Create(parent, id, title, x, y, w, h, style)
 	End Function
 	
+	Rem
+	bbdoc: Creates a new wxPropertySheetDialog.
+	End Rem
 	Method Create:wxPropertySheetDialog(parent:wxWindow, id:Int, title:String, ..
 			x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE)
 		wxObjectPtr = bmx_wxpropertysheetdialog_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
+		OnInit()
 		Return Self
 	End Method
 
@@ -77,6 +105,11 @@ Type wxPropertySheetDialog Extends wxDialog
 		obj.AddBookCtrl(wxSizer._create(sizer))
 	End Function
 
+	Rem
+	bbdoc: Override this if you wish to create a different kind of book control.
+	about: By default, the value passed to SetSheetStyle is used to determine the control.
+	The default behaviour is to create a notebook.
+	End Rem
 	Method CreateBookCtrl:wxBookCtrlBase()
 		Return wxBookCtrlBase._create(bmx_wxpropertysheetdialog_createbookctrl(wxObjectPtr))
 	End Method
@@ -85,26 +118,46 @@ Type wxPropertySheetDialog Extends wxDialog
 		Return obj.CreateBookCtrl().wxObjectPtr
 	End Function
 
+	Rem
+	bbdoc: Call this to create the buttons for the dialog.
+	about: This calls wxDialog::CreateButtonSizer, and the flags are the same.
+	End Rem
 	Method CreateButtons(flags:Int = wxOK | wxCANCEL)
 		bmx_wxpropertysheetdialog_createbuttons(wxObjectPtr, flags)
 	End Method
 
+	Rem
+	bbdoc: Returns the book control that will contain your settings pages.
+	End Rem
 	Method GetBookCtrl:wxBookCtrlBase()
 		Return wxBookCtrlBase._create(bmx_wxpropertysheetdialog_getbookctrl(wxObjectPtr))
 	End Method
 
+	Rem
+	bbdoc: Returns the inner sizer that contains the book control and button sizer.
+	End Rem
 	Method GetInnerSizer:wxSizer()
 		Return wxSizer._create(bmx_wxpropertysheetdialog_getinnersizer(wxObjectPtr))
 	End Method
 
+	Rem
+	bbdoc: Returns the sheet style.
+	End Rem
 	Method GetSheetStyle:Int()
 		Return bmx_wxpropertysheetdialog_getsheetstyle(wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: Call this to lay out the dialog.
+	End Rem
 	Method LayoutDialog(centreFlags:Int = wxBOTH)
 		bmx_wxpropertysheetdialog_layoutdialog(wxObjectPtr, centreFlags)
 	End Method
 
+	Rem
+	bbdoc: Sets the book control used for the dialog.
+	about: You will normally not need to use this.
+	End Rem
 	Method SetBookCtrl(bookCtrl:wxBookCtrlBase)
 		bmx_wxpropertysheetdialog_setbookctrl(wxObjectPtr, bookCtrl.wxObjectPtr)
 	End Method

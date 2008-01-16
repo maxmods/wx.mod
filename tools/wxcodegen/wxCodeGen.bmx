@@ -61,6 +61,9 @@ Type CodeGenFrame Extends CodeGenFrameBase
 		
 		lstProjects.SetDropTarget(New MyDropTarget.Create())
 		
+		updateTimer = New wxTimer.Create(Self)
+		ConnectAny(wxEVT_TIMER, OnTimer)
+		
 		InitializeUI()
 	End Method
 	
@@ -75,10 +78,16 @@ Type CodeGenFrame Extends CodeGenFrameBase
 			lstProjects.Append(proj.name, proj)
 		
 		Next
+
+		If checkUpdates Then
+			updateTimer.Start(timerWait, True)
+		End If
 		
 	End Method
 
 	Method OnClose(event:wxCloseEvent)
+		updateTimer.Stop()
+
 		SaveProjects()
 	
 		Destroy()
@@ -118,6 +127,15 @@ Type CodeGenFrame Extends CodeGenFrameBase
 
 	Method OnCheckForUpdatesChecked(event:wxCommandEvent)
 		checkUpdates = event.IsChecked()
+
+		If checkUpdates Then
+			If Not updateTimer.IsRunning() Then
+				updateTimer.Start(timerWait, True)
+			End If
+		Else
+			upDateTimer.Stop()
+		End If
+		
 	End Method
 	
 	Method ShowProject(proj:TCGProject)
@@ -213,7 +231,7 @@ Type CodeGenFrame Extends CodeGenFrameBase
 		If currentProject Then
 			currentProject.projectFile = event.GetPath()
 			CheckGenerate()
-		End If	
+		End If
 	End Method
 
 	
@@ -221,38 +239,38 @@ Type CodeGenFrame Extends CodeGenFrameBase
 		If currentProject Then
 			currentProject.bmxFolder = event.GetPath()
 			CheckGenerate()
-		End If	
+		End If
 	End Method
 
 	Method OnGenNameLostFocus(event:wxFocusEvent)
 		If currentProject Then
 			currentProject.generatedName = txtGenFilename.GetValue()
 			CheckGenerate()
-		End If	
+		End If
 	End Method
 
 	Method OnSuperStrictChecked(event:wxCommandEvent)
 		If currentProject Then
 			currentProject.createSuper = event.IsChecked()
-		End If	
+		End If
 	End Method
 
 	Method OnImportsChecked(event:wxCommandEvent)
 		If currentProject Then
 			currentProject.createImports = event.IsChecked()
-		End If	
+		End If
 	End Method
 
 	Method OnAutoGenChecked(event:wxCommandEvent)
 		If currentProject Then
 			currentProject.autoGenOnUpdate = event.IsChecked()
-		End If	
+		End If
 	End Method
 
 	Method OnGenerate(event:wxCommandEvent)
 		If currentProject Then
 			currentProject.Generate()
-		End If	
+		End If
 	End Method
 
 
@@ -302,6 +320,20 @@ Type CodeGenFrame Extends CodeGenFrameBase
 				_("Language Changed"), wxOK, Self)
 		End If
 	End Method
+	
+	Function OnTimer(event:wxEvent)
+	
+		For Local proj:TCGProject = EachIn projects
+		
+			If proj.RequiredUpdate() Then
+				wxFrame(event.parent).SetStatusText(_("Updated at ") + CurrentTime() + " : " + proj.name)
+			End If
+		
+		Next
+		
+		' restart the timer...
+		updateTimer.Start(timerWait, True)
+	End Function
 	
 End Type
 

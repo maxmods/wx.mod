@@ -26,6 +26,7 @@ Import wx.wxFileName
 Import BRL.LinkedList
 Import wx.wxChoiceDialog
 Import wx.wxFileDropTarget
+Import wx.wxTimer
 
 Import "codegenbase.bmx"
 Import "code_gen.bmx"
@@ -35,6 +36,8 @@ Global projects:TList = New TList
 
 Global locale:wxLocale
 
+Const timerWait:Int = 2500
+Global updateTimer:wxTimer
 
 Global config:wxConfigBase
 
@@ -107,6 +110,22 @@ Type TCGProject
 			
 			GenerateProject(Self)
 			
+		End If
+	End Method
+	
+	' check if we need
+	Method RequiredUpdate:Int()
+		If autoGenOnUpdate And IsValid() Then
+		
+			If lastmod <> projectFileRef.GetModificationTime() Then
+
+				Generate()
+				UpdateLastMod()
+				
+				Return True
+
+			End If
+		
 		End If
 	End Method
 	

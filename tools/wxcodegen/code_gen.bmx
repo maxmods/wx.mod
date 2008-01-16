@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.84"
+Const AppVersion:String = "0.85"
 
 
 Global eventMap:TMap = New TMap
@@ -2529,7 +2529,7 @@ Function GeneratedNotice:String()
 
 	Local text:String = ..
 		"'~n" + ..
-		"' BlitzMax code generated with wxCodeGen : " + CurrentDate() + " " + CurrentTime() + "~n" + ..
+		"' BlitzMax code generated with wxCodeGen v" + AppVersion + " : " + CurrentDate() + " " + CurrentTime() + "~n" + ..
 		"' ~n" + ..
 		"' ~n" + ..
 		"' PLEASE DO ~qNOT~q EDIT THIS FILE!~n" + ..
