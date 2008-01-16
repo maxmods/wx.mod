@@ -425,6 +425,7 @@ Type TFBWidget
 	Field kids:TList = New TList
 	
 	Field id:Int = 0
+	Global version:Float
 	
 	Method Free()
 		parent = Null
@@ -735,13 +736,33 @@ Type TFBWidget
 	End Method
 	
 	Method MakeChoices:String(text:String)
-		Local s:String = text.Replace("\~q", "~~q")
-		s = s.Replace("~n", "~~n")
-		s = s.Replace("~t", "~~t")
-		s = s.Replace("~q ~q", "~q, ~q")
-		s = s.Replace("\n", "~~n")
+	
+		Local s:String = text.Replace("\'", "'")
+		s = s.Replace("\\", "\")
+		s = s.Replace("\~q", "~~q")
 		s = s.Replace("\t", "~~t")
-		Return s
+		s = s.Replace("\r", "~~r")
+		
+		Local tok:TStringTokenizer
+
+		' 1.9 uses ", <1.9 uses '
+		If version < 1.9 Then
+			tok = New TStringTokenizer.Create(s, "'")
+		Else
+			tok = New TStringTokenizer.Create(s, "~q")
+		End If
+	
+		Local str:String
+		
+		While tok.HasMoreTokens()
+			If str Then
+				str:+ ", "
+			End If
+		
+			str:+ "~q" + tok.GetNextToken() + "~q"
+		Wend
+		
+		Return str
 	End Method
 	
 	Method IsSpecialId:Int(text:String)
@@ -757,6 +778,7 @@ Type TFBWidget
 	End Method
 	
 	Method GetString:String(text:String)
+		text = text.Replace("~r", "")
 		text = text.Replace("~n", "~~n")
 		text = text.Replace("~t", "~~t")
 		If genflags & GEN_WXLOCALE And Not IsEmptyQuotes(text) Then
@@ -2680,3 +2702,74 @@ End Function
 Function AddEvent(evt:TEventType)
 	eventMap.Insert(evt.name, evt)
 End Function
+
+
+Type TStringTokenizer
+
+	Field str:String
+	Field curpos:Int
+	Field readyToken:String
+	Field delimeter:String
+
+	Function Create:TStringTokenizer(str:String, delim:String)
+		Local this:TStringTokenizer = New TStringTokenizer
+		this.str = str
+		this.delimeter = delim
+		Return this
+	End Function
+
+	Method HasMoreTokens:Int()
+	
+		Local i:Int = curpos
+		Local inToken:Int = False
+		
+		Local prevA:String
+		
+		While i < str.length
+		
+			Local a:String = str[i..i+1]
+			
+			If Not inToken Then
+				If a = delimeter Then
+					inToken = True
+					readyToken = ""
+				End If
+			Else
+				If prevA <> "~~" Then
+					If a <> delimeter Then
+						If a <> "~~" Then
+							readyToken :+ a
+						End If
+					Else
+						i:+ 1
+						curPos = i
+						Return True
+					End If
+				
+					prevA = a
+				Else
+					readyToken:+ "~~" + a
+					prevA = ""
+				End If
+			End If
+
+			i:+ 1
+		Wend
+		
+		curpos = str.length
+		
+		If inToken Then
+			Return True
+		End If
+		
+		Return False
+		
+	End Method
+	
+	Method GetNextToken:String()
+		Return readyToken
+	End Method
+
+
+End Type
+

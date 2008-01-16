@@ -270,8 +270,13 @@ Function GenerateProject(proj:TCGProject)
 	Local root:TxmlNode = doc.getRootElement()
 	
 	Local project:TFBObject
+	Local version:Float
 	
 	For Local node:TxmlNode = EachIn root.getChildren()
+	
+		If node.GetName() = "FileVersion" Then
+			version = node.GetAttribute("major").ToFloat() + (node.GetAttribute("minor").ToFloat()/10.0)
+		End If
 	
 		If node.GetName() = "object" Then
 			project = New TFBObject
@@ -282,10 +287,11 @@ Function GenerateProject(proj:TCGProject)
 	
 	doc.Free()
 	doc = Null
-	
+
 	' process the project
 	
 	Local projBase:TFBProject = TFBGenFactory.CreateModel(project, GetGenFlags(proj))
+	projBase.version = version
 	
 	Local out:TCodeOutput = New TCodeOutput
 	
