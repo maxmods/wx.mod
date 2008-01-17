@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.85"
+Const AppVersion:String = "0.86"
 
 
 Global eventMap:TMap = New TMap
@@ -255,6 +255,9 @@ Type TFBGenFactory
 
 			Case "wxGenericDirCtrl"
 				widget = New TFBGenericDirCtrl
+
+			Case "wxScintilla"
+				widget = New TFBScintilla
 				
 		End Select
 		
@@ -1248,7 +1251,7 @@ Type TFBDialog Extends TFBContainer
 
 
 	Method DoConstructor(out:TCodeOutput)
-		Local text:String = "Method Create_:" + prop("name") + "Base(parent:wxWindow = Null,"
+		Local text:String = "Method Create_:" + prop("name") + "Base(parent:wxWindow = Null, "
 		text:+ "id:Int = "
 		If prop("id") Then
 			text:+ prop("id")
@@ -1256,8 +1259,6 @@ Type TFBDialog Extends TFBContainer
 			text:+ "-1"
 		End If
 		
-		text:+ ", "
-
 		text:+ ", title:String = ~q"
 		If prop("title") Then
 			text:+ prop("title")
@@ -1279,7 +1280,7 @@ Type TFBDialog Extends TFBContainer
 			text:+ "w:Int = " + size[0] + ", h:Int = " + size[1] + ", "
 		End If
 		
-		If prop("style") Then
+		If Not prop("style") Then
 			text:+ "style:Int = 0"
 		Else
 			text:+ "style:Int = " + prop("style")
@@ -2191,6 +2192,113 @@ Type TFBGenericDirCtrl Extends TFBWidget
 
 End Type
 
+
+Type TFBScintilla Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		StandardCreate(out)
+		
+		out.Add("")
+
+		If prop("use_tabs") = "1" Then
+			out.Add(prop("name") + ".SetUseTabs( True )", 2)
+		Else
+			out.Add(prop("name") + ".SetUseTabs( False )", 2)
+		End If
+		
+		out.Add(prop("name") + ".SetTabWidth( " + prop("tab_width") + " )", 2)
+		out.Add(prop("name") + ".SetIndent( " + prop("tab_width") + " )", 2)
+		
+		If prop("tab_indents") = "1" Then
+			out.Add(prop("name") + ".SetTabIndents( True )", 2)
+		Else
+			out.Add(prop("name") + ".SetTabIndents( False )", 2)
+		End If
+		
+		If prop("backspace_unindents") = "1" Then
+			out.Add(prop("name") + ".SetBackSpaceUnIndents( True )", 2)
+		Else
+			out.Add(prop("name") + ".SetBackSpaceUnIndents( False )", 2)
+		End If
+		
+		If prop("view_eol") = "1" Then
+			out.Add(prop("name") + ".SetViewEOL( True )", 2)
+		Else
+			out.Add(prop("name") + ".SetViewEOL( False )", 2)
+		End If
+		
+		If prop("view_whitespace") = "1" Then
+			out.Add(prop("name") + ".SetViewWhiteSpace( True )", 2)
+		Else
+			out.Add(prop("name") + ".SetViewWhiteSpace( False )", 2)
+		End If
+		
+		out.Add(prop("name") + ".SetMarginWidth( 2, 0 )", 2)
+		
+		If prop("indentation_guides") = "1" Then
+			out.Add(prop("name") + ".SetIndentationGuides( True )", 2)
+		Else
+			out.Add(prop("name") + ".SetIndentationGuides( False )", 2)
+		End If
+		
+		If prop("folding") = "1" Then
+			out.Add(prop("name") + ".SetMarginType( 1, wxSCI_MARGIN_SYMBOL )", 2)
+			out.Add(prop("name") + ".SetMarginMask( 1, wxSCI_MASK_FOLDERS )", 2)
+			out.Add(prop("name") + ".SetMarginWidth( 1, 16)", 2)
+			out.Add(prop("name") + ".SetMarginSensitive( 1, True )", 2)
+			out.Add(prop("name") + ".SetProperty( ~qfold~q), ~q1~q )", 2)
+			out.Add(prop("name") + ".SetFoldFlags( wxSCI_FOLDFLAG_LINEBEFORE_CONTRACTED | wxSCI_FOLDFLAG_LINEAFTER_CONTRACTED )", 2)
+		Else
+			out.Add(prop("name") + ".SetMarginWidth( 1, 0 )", 2)
+		End If
+	
+		If prop("line_numbers") = "1" Then
+			out.Add(prop("name") + ".SetMarginType( 0, wxSCI_MARGIN_NUMBER )", 2)
+			out.Add(prop("name") + ".SetMarginWidth( 0, " + prop("name") + ".TextWidth( wxSCI_STYLE_LINENUMBER, ~q_99999~q ) )", 2)
+		Else
+			out.Add(prop("name") + ".SetMarginWidth( 0, 0 )", 2)
+		End If
+	
+		out.Add(prop("name") + ".MarkerDefine( wxSCI_MARKNUM_FOLDER, wxSCI_MARK_BOXPLUS )", 2)
+		out.Add(prop("name") + ".MarkerSetBackground( wxSCI_MARKNUM_FOLDER, new wxColour.CreateNamedColour( ~qBLACK~q ) )", 2)
+		out.Add(prop("name") + ".MarkerSetForeground( wxSCI_MARKNUM_FOLDER, new wxColour.CreateNamedColour( ~qWHITE~q ) )", 2)
+		out.Add(prop("name") + ".MarkerDefine( wxSCI_MARKNUM_FOLDEROPEN, wxSCI_MARK_BOXMINUS )", 2)
+		out.Add(prop("name") + ".MarkerSetBackground( wxSCI_MARKNUM_FOLDEROPEN, new wxColour.CreateNamedColour( ~qBLACK~q ) )", 2)
+		out.Add(prop("name") + ".MarkerSetForeground( wxSCI_MARKNUM_FOLDEROPEN, new wxColour.CreateNamedColour( ~qWHITE~q ) )", 2)
+		out.Add(prop("name") + ".MarkerDefine( wxSCI_MARKNUM_FOLDERSUB, wxSCI_MARK_EMPTY )", 2)
+		out.Add(prop("name") + ".MarkerDefine( wxSCI_MARKNUM_FOLDEREND, wxSCI_MARK_BOXPLUS )", 2)
+		out.Add(prop("name") + ".MarkerSetBackground( wxSCI_MARKNUM_FOLDEREND, new wxColour.CreateNamedColour( ~qBLACK~q ) )", 2)
+		out.Add(prop("name") + ".MarkerSetForeground( wxSCI_MARKNUM_FOLDEREND, new wxColour.CreateNamedColour( ~qWHITE~q ) )", 2)
+		out.Add(prop("name") + ".MarkerDefine( wxSCI_MARKNUM_FOLDEROPENMID, wxSCI_MARK_BOXMINUS )", 2)
+		out.Add(prop("name") + ".MarkerSetBackground( wxSCI_MARKNUM_FOLDEROPENMID, new wxColour.CreateNamedColour( ~qBLACK~q ) )", 2)
+		out.Add(prop("name") + ".MarkerSetForeground( wxSCI_MARKNUM_FOLDEROPENMID, new wxColour.CreateNamedColour( ~qWHITE~q ) )", 2)
+		out.Add(prop("name") + ".MarkerDefine( wxSCI_MARKNUM_FOLDERMIDTAIL, wxSCI_MARK_EMPTY )", 2)
+		out.Add(prop("name") + ".MarkerDefine( wxSCI_MARKNUM_FOLDERTAIL, wxSCI_MARK_EMPTY )", 2)
+		out.Add(prop("name") + ".SetSelBackground( true, wxSystemSettings.GetColour( wxSYS_COLOUR_HIGHLIGHT ) )", 2)
+		out.Add(prop("name") + ".SetSelForeground( true, wxSystemSettings.GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) )", 2)
+	
+		Local proj:TFBProject = GetProject()
+		If proj Then
+			proj.imports.Insert("wx.wxSystemSettings", "")
+		End If
+	
+		StandardSettings(out)
+			
+		out.Add("")
+
+	End Method
+
+	Method GetType:String()
+		Return "wxScintilla"
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxScintilla"
+	End Method
+
+End Type
 
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
