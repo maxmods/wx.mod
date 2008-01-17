@@ -55,25 +55,33 @@ searched for a matching string. As this function is used very often, an alternat
 common in Unix world) syntax is provided: the _() function is defined to do the same thing as
 wxGetTranslation.
 End Rem
-Function wxGetTranslation:String(str:String, domain:String = Null)
-	str = str.Replace("~~", "~~~~")
+Function wxGetTranslation:String(s:String, domain:String = Null)
+	Local str:String = s.Replace("~~", "~~~~")
 	str = str.Replace("~t", "~~t")
 	str = str.Replace("~n", "~~n")
 	str = str.Replace("~r", "~~r")
 	str = str.Replace("~q", "~~q")
-	Return bmx_wxlocale_wxgettranslation(str, domain)
+	Local tstr:String = bmx_wxlocale_wxgettranslation(str, domain)
+	If tstr <> str Then
+		Return tstr
+	End If
+	Return s
 End Function
 
 Rem
 bbdoc: Performs the same function as wxGetTranslation.
 End Rem
-Function _:String(str:String, domain:String = Null)
-	str = str.Replace("~~", "~~~~")
+Function _:String(s:String, domain:String = Null)
+	Local str:String = s.Replace("~~", "~~~~")
 	str = str.Replace("~t", "~~t")
 	str = str.Replace("~n", "~~n")
 	str = str.Replace("~r", "~~r")
 	str = str.Replace("~q", "~~q")
-	Return bmx_wxlocale_wxgettranslation(str, domain)
+	Local tstr:String = bmx_wxlocale_wxgettranslation(str, domain)
+	If tstr <> str Then
+		Return tstr
+	End If
+	Return s
 End Function
 
 Rem
@@ -83,25 +91,33 @@ string to be converted and is used as the key for the search in the catalog. The
 parameter is the plural form (in English). The parameter n is used to determine the plural form.
 If no message catalog is found @str is returned if 'n = 1', otherwise @strPlural.
 End Rem
-Function wxGetTranslationN:String(str:String, strPlural:String, n:Int, domain:String = Null)
-	str = str.Replace("~~", "~~~~")
+Function wxGetTranslationN:String(s:String, strPlural:String, n:Int, domain:String = Null)
+	Local str:String = s.Replace("~~", "~~~~")
 	str = str.Replace("~t", "~~t")
 	str = str.Replace("~n", "~~n")
 	str = str.Replace("~r", "~~r")
 	str = str.Replace("~q", "~~q")
-	Return bmx_wxlocale_wxgettranslationp(str, strPlural, n, domain)
+	Local tstr:String = bmx_wxlocale_wxgettranslationp(str, strPlural, n, domain)
+	If tstr <> str Then
+		Return tstr
+	End If
+	Return s
 End Function
 
 Rem
 bbdoc: Performs the same function as wxGetTranslationN.
 End Rem
-Function _N:String(str:String, strPlural:String, n:Int, domain:String = Null)
-	str = str.Replace("~~", "~~~~")
+Function _N:String(s:String, strPlural:String, n:Int, domain:String = Null)
+	Local str:String = s.Replace("~~", "~~~~")
 	str = str.Replace("~t", "~~t")
 	str = str.Replace("~n", "~~n")
 	str = str.Replace("~r", "~~r")
 	str = str.Replace("~q", "~~q")
-	Return bmx_wxlocale_wxgettranslationp(str, strPlural, n, domain)
+	Local tstr:String = bmx_wxlocale_wxgettranslationp(str, strPlural, n, domain)
+	If tstr <> str Then
+		Return tstr
+	End If
+	Return s
 End Function
 
 Rem
@@ -249,13 +265,17 @@ Type wxLocale
 	returns: The original string if translation is not available (in this case an error message is
 	generated the first time a string is not found; use wxLogNull to suppress it).
 	End Rem
-	Method GetString:String(str:String, domain:String = Null)
-		str = str.Replace("~~", "~~~~")
+	Method GetString:String(s:String, domain:String = Null)
+		Local str:String = s.Replace("~~", "~~~~")
 		str = str.Replace("~t", "~~t")
 		str = str.Replace("~n", "~~n")
 		str = str.Replace("~r", "~~r")
 		str = str.Replace("~q", "~~q")
-		Return bmx_wxlocale_getstring(wxObjectPtr, str, domain)
+		Local tstr:String = bmx_wxlocale_getstring(wxObjectPtr, str, domain)
+		If tstr <> str Then
+			Return tstr
+		End If
+		Return s
 	End Method
 	
 	Rem
@@ -266,13 +286,17 @@ Type wxLocale
 	If no message catalog is found szOrigString is returned if 'n = 1', otherwise @strPlural. See
 	GNU gettext manual for additional information on plural forms handling.
 	End Rem
-	Method GetStringN:String(str:String, strPlural:String, n:Int, domain:String = Null)
-		str = str.Replace("~~", "~~~~")
+	Method GetStringN:String(s:String, strPlural:String, n:Int, domain:String = Null)
+		Local str:String = s.Replace("~~", "~~~~")
 		str = str.Replace("~t", "~~t")
 		str = str.Replace("~n", "~~n")
 		str = str.Replace("~r", "~~r")
 		str = str.Replace("~q", "~~q")
-		Return bmx_wxlocale_getstringp(wxObjectPtr, str, strPlural, n, domain)
+		Local tstr:String = bmx_wxlocale_getstringp(wxObjectPtr, str, strPlural, n, domain)
+		If tstr <> str Then
+			Return tstr
+		End If
+		Return s
 	End Method
 	
 	Rem
