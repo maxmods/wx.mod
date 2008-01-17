@@ -43,6 +43,23 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxprocess_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int)
+	Function bmx_wxprocess_createwithflags:Byte Ptr(handle:Object, flags:Int)
+	Function bmx_wxprocess_closeoutput(handle:Byte Ptr)
+	Function bmx_wxprocess_detach(handle:Byte Ptr)
+	Function bmx_wxprocess_geterrorstream:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprocess_getintputstream:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprocess_getoutputstream:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxprocess_iserroravailable:Int(handle:Byte Ptr)
+	Function bmx_wxprocess_isinputavailable:Int(handle:Byte Ptr)
+	Function bmx_wxprocess_isinputopened:Int(handle:Byte Ptr)
+	Function bmx_wxprocess_kill:Int(pid:Int, signal:Int, flags:Int)
+	Function bmx_wxprocess_exists:Int(pid:Int)
+	Function bmx_wxprocess_open:Byte Ptr(cmd:String, flags:Int)
+	Function bmx_wxprocess_getpid:Int(handle:Byte Ptr)
+	Function bmx_wxprocess_redirect(handle:Byte Ptr)
+	Function bmx_wxprocess_free(handle:Byte Ptr)
+
 End Extern
 
 

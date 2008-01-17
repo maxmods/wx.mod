@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.86"
+Const AppVersion:String = "0.87"
 
 
 Global eventMap:TMap = New TMap
@@ -596,7 +596,7 @@ Type TFBWidget
 			End If
 			
 			If attribs[0] Then
-				text:+ ", " + attribs[0]
+				text:+ ", ~q" + attribs[0] + "~q"
 			End If
 			
 			text:+ "))"

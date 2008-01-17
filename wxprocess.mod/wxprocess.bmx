@@ -52,62 +52,196 @@ Import "common.bmx"
 
 
 Rem
-bbdoc: 
+bbdoc: The objects of this class are used in conjunction with the wxExecute function.
+about: When a wxProcess object is passed to wxExecute(), its OnTerminate() virtual method is called
+when the process terminates. This allows the program to be (asynchronously) notified about the
+process termination and also retrieve its exit status which is unavailable from wxExecute() in
+the case of asynchronous execution.
+<p>
+Please note that if the process termination notification is processed by the parent, it is responsible
+for deleting the wxProcess object which sent it. However, if it is not processed, the object will
+delete itself and so the library users should only delete those objects whose notifications have
+been processed (and call Detach() for others).
+</p>
+<p>
+wxProcess also supports IO redirection of the child process. For this, you have to call its Redirect
+method before passing it to wxExecute. If the child process was launched successfully, GetInputStream,
+GetOutputStream and GetErrorStream can then be used to retrieve the streams corresponding to the
+child process standard output, input and error output respectively.
+</p>
 End Rem
 Type wxProcess Extends wxEvtHandler
 
+	Function _create:wxProcess(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxProcess = New wxProcess
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: Constructs a process object.
+	about: @id is only used in the case you want to use wxWidgets events. It identifies this
+	object, or another window that will receive the event.
+	<p>
+	If the @parent parameter is not Null, it will receive a wxEVT_END_PROCESS notification event
+	(you should connect a wxEVT_END_PROCESS function to the parent to handle it)
+	with the given id.
+	End Rem
 	Function CreateProcess:wxProcess(parent:wxEvtHandler = Null, id:Int = -1)
+		Return New wxProcess.Create(parent, id)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxProcess(parent:wxEvtHandler = Null, id:Int = -1)
+		If parent Then
+			wxObjectPtr = bmx_wxprocess_create(Self, parent.wxObjectPtr, id)
+		Else
+			wxObjectPtr = bmx_wxprocess_create(Self, Null, id)
+		End If
+		Return Self
 	End Method
 	
+	Rem
+	bbdoc: Creates an object without any associated parent (and hence no id neither) but allows to specify the flags which can have the value of wxPROCESS_DEFAULT or wxPROCESS_REDIRECT.
+	about: Specifying the former value has no particular effect while using the latter one is
+	equivalent to calling Redirect.
+	End Rem
 	Function CreateProcessWithFlags:wxProcess(flags:Int)
+		Return New wxProcess.CreateWithFlags(flags)
 	End Function
 	
+	Rem
+	bbdoc: Creates an object without any associated parent (and hence no id neither) but allows to specify the flags which can have the value of wxPROCESS_DEFAULT or wxPROCESS_REDIRECT.
+	about: Specifying the former value has no particular effect while using the latter one is
+	equivalent to calling Redirect.
+	End Rem
 	Method CreateWithFlags:wxProcess(flags:Int)
+		wxObjectPtr = bmx_wxprocess_createwithflags(Self, flags)
+		Return Self
 	End Method
 	
+	Rem
+	bbdoc: Closes the output stream (the one connected to the stdin of the child process).
+	about: This method can be used to indicate to the child process that there is no more
+	data to be read - usually, a filter program will only terminate when the input stream
+	is closed.
+	End Rem
 	Method CloseOutput()
+		bmx_wxprocess_closeoutput(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Normally, a wxProcess object is deleted by its parent when it receives the notification about the process termination.
+	about: However, it might happen that the parent object is destroyed before the external process
+	is terminated (e.g. a window from which this external process was launched is closed by the
+	user) and in this case it should not delete the wxProcess object, but should call Detach() instead.
+	After the wxProcess object is detached from its parent, no notification events will be sent
+	to the parent and the object will delete itself upon reception of the process termination
+	notification.
+	End Rem
 	Method Detach()
+		bmx_wxprocess_detach(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns an input stream which corresponds to the standard error output (stderr) of the child process.
+	End Rem
 	Method GetErrorStream:wxInputStream()
+		Return wxInputStream._create(bmx_wxprocess_geterrorstream(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: It returns an input stream corresponding to the standard output stream of the subprocess.
+	about: If it is NULL, you have not turned on the redirection. See wxProcess::Redirect.
+	End Rem
 	Method GetInputStream:wxInputStream()
+		Return wxInputStream._create(bmx_wxprocess_getintputstream(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: It returns an output stream correspoding to the input stream of the subprocess.
+	about: If it is NULL, you have not turned on the redirection. See wxProcess::Redirect.
+	End Rem
 	Method GetOutputStream:wxOutputStream()
+		Return wxOutputStream._create(bmx_wxprocess_getoutputstream(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns true if there is data to be read on the child process standard error stream.
+	End Rem
 	Method IsErrorAvailable:Int()
+		Return bmx_wxprocess_iserroravailable(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if there is data to be read on the child process standard output stream.
+	about: This allows to write simple (and extremely inefficient) polling-based code waiting
+	for a better mechanism in future wxWidgets versions.
+	End Rem
 	Method IsInputAvailable:Int()
+		Return bmx_wxprocess_isinputavailable(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if the child process standard output stream is opened.
+	End Rem
 	Method IsInputOpened:Int()
+		Return bmx_wxprocess_isinputopened(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Send the specified signal to the given process.
+	End Rem
 	Function Kill:Int(pid:Int, signal:Int = wxSIGNONE, flags:Int = wxKILL_NOCHILDREN)
+		Return bmx_wxprocess_kill(pid, signal, flags)
 	End Function
 	
+	Rem
+	bbdoc: Returns true if the given process exists in the system.
+	End Rem
 	Function Exists:Int(pid:Int)
+		Return bmx_wxprocess_exists(pid)
 	End Function
 	
+	Rem
+	bbdoc: This function replaces the standard popen() function: it launches the process specified by the cmd parameter and returns the wxProcess object which can be used to retrieve the streams connected to the standard input, output and error output of the child process.
+	about: If the process couldn't be launched, NULL is returned. Note that the process object will be destroyed automatically when
+	the child process terminates. This does mean that the child process should be told to quit
+	before the main program exits to avoid memory leaks.
+	End Rem
 	Function Open:wxProcess(cmd:String, flags:Int = wxEXEC_ASYNC)
+		Return _create(bmx_wxprocess_open(cmd, flags))
 	End Function
 	
+	Rem
+	bbdoc: Returns the process ID of the process launched by Open.
+	End Rem
 	Method GetPid:Int()
+		Return bmx_wxprocess_getpid(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Turns on redirection.
+	about: wxExecute will try to open a couple of pipes to catch the subprocess stdio. The caught
+	input stream is returned by GetOutputStream() as a non-seekable stream. The caught output
+	stream is returned by GetInputStream() as a non-seekable stream.
+	End Rem
 	Method Redirect()
+		bmx_wxprocess_redirect(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Free()
+		If wxObjectPtr Then
+			bmx_wxprocess_free(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
 	End Method
 
 End Type

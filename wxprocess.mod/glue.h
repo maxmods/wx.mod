@@ -21,15 +21,40 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/process.h"
 
-//class MaxNotebook;
+class MaxProcess;
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxProcess * bmx_wxprocess_create(BBObject * handle, wxEvtHandler * parent, int id);
+	wxProcess * bmx_wxprocess_createwithflags(BBObject * handle, int flags);
+	void bmx_wxprocess_closeoutput(wxProcess * process);
+	void bmx_wxprocess_detach(wxProcess * process);
+	wxInputStream * bmx_wxprocess_geterrorstream(wxProcess * process);
+	wxInputStream * bmx_wxprocess_getintputstream(wxProcess * process);
+	wxOutputStream * bmx_wxprocess_getoutputstream(wxProcess * process);
+	bool bmx_wxprocess_iserroravailable(wxProcess * process);
+	bool bmx_wxprocess_isinputavailable(wxProcess * process);
+	bool bmx_wxprocess_isinputopened(wxProcess * process);
+	wxKillError bmx_wxprocess_kill(int pid, wxSignal signal, int flags);
+	bool bmx_wxprocess_exists(int pid);
+	wxProcess * bmx_wxprocess_open(BBString * cmd, int flags);
+	int bmx_wxprocess_getpid(wxProcess * process);
+	void bmx_wxprocess_redirect(wxProcess * process);
+	void bmx_wxprocess_free(wxProcess * process);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxProcess : public wxProcess
+{
+public:
+	MaxProcess(BBObject * handle, wxEvtHandler * parent, int id);
+	MaxProcess(BBObject * handle, int flags);
+	~ MaxProcess();
+
+};

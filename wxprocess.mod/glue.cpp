@@ -24,8 +24,87 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxProcess::MaxProcess(BBObject * handle, wxEvtHandler * parent, int id)
+	: wxProcess(parent, id)
+{
+	wxbind(this, handle);
+}
+
+MaxProcess::MaxProcess(BBObject * handle, int flags)
+	: wxProcess(flags)
+{
+	wxbind(this, handle);
+}
+
+MaxProcess::~MaxProcess() {
+	wxunbind(this);
+}
 
 
 // *********************************************
 
+
+wxProcess * bmx_wxprocess_create(BBObject * handle, wxEvtHandler * parent, int id) {
+	return new MaxProcess(handle, parent, id);
+}
+
+wxProcess * bmx_wxprocess_createwithflags(BBObject * handle, int flags) {
+	return new MaxProcess(handle, flags);
+}
+
+void bmx_wxprocess_closeoutput(wxProcess * process) {
+	process->CloseOutput();
+}
+
+void bmx_wxprocess_detach(wxProcess * process) {
+	process->Detach();
+}
+
+wxInputStream * bmx_wxprocess_geterrorstream(wxProcess * process) {
+	return process->GetErrorStream();
+}
+
+wxInputStream * bmx_wxprocess_getintputstream(wxProcess * process) {
+	return process->GetInputStream();
+}
+
+wxOutputStream * bmx_wxprocess_getoutputstream(wxProcess * process) {
+	return process->GetOutputStream();
+}
+
+bool bmx_wxprocess_iserroravailable(wxProcess * process) {
+	return process->IsErrorAvailable();
+}
+
+bool bmx_wxprocess_isinputavailable(wxProcess * process) {
+	return process->IsInputAvailable();
+}
+
+bool bmx_wxprocess_isinputopened(wxProcess * process) {
+	return process->IsInputOpened();
+}
+
+wxKillError bmx_wxprocess_kill(int pid, wxSignal signal, int flags) {
+	return wxProcess::Kill(pid, signal, flags);
+}
+
+bool bmx_wxprocess_exists(int pid) {
+	return wxProcess::Exists(pid);
+}
+
+wxProcess * bmx_wxprocess_open(BBString * cmd, int flags) {
+	return wxProcess::Open(wxStringFromBBString(cmd), flags); 
+}
+
+int bmx_wxprocess_getpid(wxProcess * process) {
+	return process->GetPid();
+}
+
+void bmx_wxprocess_redirect(wxProcess * process) {
+	process->Redirect();
+}
+
+void bmx_wxprocess_free(wxProcess * process) {
+	delete process;
+}
 
