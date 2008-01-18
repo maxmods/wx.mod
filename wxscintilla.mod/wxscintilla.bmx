@@ -3267,12 +3267,14 @@ Type wxScintilla Extends wxControl
 	bbdoc: 
 	End Rem
 	Method SetUseAntiAliasing(useAA:Int)
+		bmx_wxscintilla_setuseantialiasing(wxObjectPtr, useAA)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetUseAntiAliasing:Int()
+		Return bmx_wxscintilla_getuseantialiasing(wxObjectPtr)
 	End Method
 
 
