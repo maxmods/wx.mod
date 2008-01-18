@@ -25,19 +25,27 @@
 // ---------------------------------------------------------------------------------------
 
 MaxProcess::MaxProcess(BBObject * handle, wxEvtHandler * parent, int id)
-	: wxProcess(parent, id)
+	: maxHandle(handle), wxProcess(parent, id)
 {
 	wxbind(this, handle);
 }
 
 MaxProcess::MaxProcess(BBObject * handle, int flags)
-	: wxProcess(flags)
+	: maxHandle(handle), wxProcess(flags)
 {
 	wxbind(this, handle);
 }
 
 MaxProcess::~MaxProcess() {
 	wxunbind(this);
+}
+
+void MaxProcess::OnTerminate(int pid, int status) {
+	_wx_wxprocess_wxProcess__OnTerminate(maxHandle, pid, status);
+}
+
+void MaxProcess::OnTerminate_default(int pid, int status) {
+	wxProcess::OnTerminate(pid, status);
 }
 
 
@@ -108,6 +116,10 @@ void bmx_wxprocess_free(wxProcess * process) {
 	delete process;
 }
 
+void bmx_wxprocess_onterminate(MaxProcess * process, int pid, int status) {
+	process->OnTerminate_default(pid, status);
+}
+
 // *********************************************
 
 bool bmx_wxshell(BBString * command) {
@@ -134,3 +146,28 @@ int bmx_wxkill(long pid, wxSignal signal, wxKillError * rc, int flags) {
 	return wxKill(pid, signal, rc, flags);
 }
 
+long bmx_wxexecute(BBString * command, int sync, wxProcess * callback) {
+	if (callback) {
+		return wxExecute(wxStringFromBBString(command), sync, callback);
+	} else {
+		return wxExecute(wxStringFromBBString(command), sync);
+	}
+}
+
+
+
+int bmx_wxprocess_geteventtype(int type) {
+	switch(type) {
+		case -440: return wxEVT_END_PROCESS;
+	}
+	
+	return 0;
+}
+
+int bmx_wxprocessevent_getpid(wxProcessEvent & event) {
+	return event.GetPid();
+}
+
+int bmx_wxprocessevent_getexitcode(wxProcessEvent & event) {
+	return event.GetExitCode();
+}

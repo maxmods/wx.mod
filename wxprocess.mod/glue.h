@@ -29,6 +29,8 @@ extern "C" {
 
 #include <blitz.h>
 
+	void _wx_wxprocess_wxProcess__OnTerminate(BBObject * handle, int pid, int status);
+
 	wxProcess * bmx_wxprocess_create(BBObject * handle, wxEvtHandler * parent, int id);
 	wxProcess * bmx_wxprocess_createwithflags(BBObject * handle, int flags);
 	void bmx_wxprocess_closeoutput(wxProcess * process);
@@ -45,12 +47,19 @@ extern "C" {
 	int bmx_wxprocess_getpid(wxProcess * process);
 	void bmx_wxprocess_redirect(wxProcess * process);
 	void bmx_wxprocess_free(wxProcess * process);
+	void bmx_wxprocess_onterminate(MaxProcess * process, int pid, int status);
+
 
 	bool bmx_wxshell(BBString * command);
 	bool bmx_wxshutdown(wxShutdownFlags flags);
 	unsigned long bmx_wxgetprocessid();
 	void bmx_wxexit();
 	int bmx_wxkill(long pid, wxSignal signal, wxKillError * rc, int flags);
+	long bmx_wxexecute(BBString * command, int sync, wxProcess * callback);
+
+	int bmx_wxprocess_geteventtype(int type);
+	int bmx_wxprocessevent_getpid(wxProcessEvent & event);
+	int bmx_wxprocessevent_getexitcode(wxProcessEvent & event);
 
 }
 
@@ -61,6 +70,10 @@ class MaxProcess : public wxProcess
 public:
 	MaxProcess(BBObject * handle, wxEvtHandler * parent, int id);
 	MaxProcess(BBObject * handle, int flags);
+	void OnTerminate(int pid, int status);
+	void OnTerminate_default(int pid, int status);
 	~ MaxProcess();
 
+private:
+	BBObject * maxHandle;
 };

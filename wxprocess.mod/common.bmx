@@ -59,15 +59,22 @@ Extern
 	Function bmx_wxprocess_getpid:Int(handle:Byte Ptr)
 	Function bmx_wxprocess_redirect(handle:Byte Ptr)
 	Function bmx_wxprocess_free(handle:Byte Ptr)
+	Function bmx_wxprocess_onterminate(handle:Byte Ptr, pid:Int, status:Int)
 
 	Function bmx_wxshell:Int(command:String)
 	Function bmx_wxshutdown:Int(flags:Int)
 	Function bmx_wxgetprocessid:Int()
 	Function 	bmx_wxexit()
 	Function bmx_wxkill:Int(pid:Int, signal:Int, rc:Int Ptr, flags:Int)
+	Function bmx_wxexecute(command:String, sync:Int, callback:Byte Ptr)
+
+	Function bmx_wxprocess_geteventtype:Int(evt:Int)
+	Function bmx_wxprocessevent_getpid:Int(handle:Byte Ptr)
+	Function bmx_wxprocessevent_getexitcode:Int(handle:Byte Ptr)
 
 End Extern
 
+Const wxEVT_END_PROCESS:Int = -440
 
 Const wxSIGNONE:Int = 0
 Const wxSIGHUP:Int = 1

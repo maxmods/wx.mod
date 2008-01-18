@@ -235,6 +235,18 @@ Type wxProcess Extends wxEvtHandler
 	End Method
 	
 	Rem
+	bbdoc: It is called when the process with the pid @pid finishes.
+	about: It raises a wxWidgets event when it isn't overridden.
+	End Rem
+	Method OnTerminate(pid:Int, status:Int)
+		bmx_wxprocess_onterminate(wxObjectPtr, pid, status)
+	End Method
+	
+	Function _OnTerminate(obj:wxProcess, pid:Int, status:Int)
+		obj.OnTerminate(pid, status)
+	End Function
+	
+	Rem
 	bbdoc: 
 	End Rem
 	Method Free()
@@ -251,7 +263,11 @@ bbdoc: Executes another program.
 about: 
 End Rem
 Function wxExecute:Int(command:String, sync:Int = wxEXEC_ASYNC, callback:wxProcess = Null)
-
+	If callback Then
+		Return bmx_wxexecute(command, sync, callback.wxObjectPtr)
+	Else
+		Return bmx_wxexecute(command, sync, Null)
+	End If
 End Function
 
 
@@ -298,4 +314,54 @@ Function wxShutdown:Int(flags:Int)
 	Return bmx_wxshutdown(flags)
 End Function
 
+Rem
+bbdoc: A process event is sent when a process is terminated.
+End Rem
+Type wxProcessEvent Extends wxEvent
+
+	Function Create:wxProcessEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxProcessEvent = New wxProcessEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Rem
+	bbdoc: Returns the process id.
+	End Rem
+	Method GetPid:Int()
+		Return bmx_wxprocessevent_getpid(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the exist status.
+	End Rem
+	Method GetExitCode:Int()
+		Return bmx_wxprocessevent_getexitcode(wxEventPtr)
+	End Method
+	
+End Type
+
+
+Type TProcessEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	
+		If evt.eventType = wxEVT_END_PROCESS Then
+			Return wxProcessEvent.Create(wxEventPtr, evt)
+		End If
+		
+		Return Null
+	End Method
+
+	Method GetEventType:Int(eventType:Int)
+		If eventType = wxEVT_END_PROCESS Then
+			Return bmx_wxprocess_geteventtype(eventType)
+		End If
+	End Method
+		
+End Type
+
+New TProcessEventFactory
 
