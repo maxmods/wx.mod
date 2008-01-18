@@ -159,7 +159,16 @@ int bmx_wxlistctrl_getitemcount(wxListCtrl * list) {
 }
 
 BBObject * bmx_wxlistctrl_getitemdata(wxListCtrl * list, long item) {
-	return (BBObject*)wxUIntToPtr(list->GetItemData(item));
+	void * data = wxUIntToPtr(list->GetItemData(item));
+
+	if (data) {
+
+		return (BBObject *)data;
+
+	}
+
+	return &bbNullObject;
+
 }
 
 MaxFont * bmx_wxlistctrl_getitemfont(wxListCtrl * list, long item) {
@@ -390,7 +399,16 @@ int bmx_wxlistitem_getcolumn(MaxListItem * item) {
 }
 
 BBObject * bmx_wxlistitem_getdata(MaxListItem * item) {
-	return (BBObject *)item->Item().GetData();
+	void * data = wxUIntToPtr(item->Item().GetData());
+
+	if (data) {
+
+		return (BBObject *)data;
+
+	}
+
+	return &bbNullObject;
+
 }
 
 MaxFont * bmx_wxlistitem_getfont(MaxListItem * item) {
