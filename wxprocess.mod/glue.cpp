@@ -108,3 +108,29 @@ void bmx_wxprocess_free(wxProcess * process) {
 	delete process;
 }
 
+// *********************************************
+
+bool bmx_wxshell(BBString * command) {
+	if (command == &bbEmptyString) {
+		return wxShell();
+	} else {
+		return wxShell(wxStringFromBBString(command));
+	}
+}
+
+bool bmx_wxshutdown(wxShutdownFlags flags) {
+	return wxShutdown(flags);
+}
+
+unsigned long bmx_wxgetprocessid() {
+	return wxGetProcessId();
+}
+
+void bmx_wxexit() {
+	wxExit();
+}
+
+int bmx_wxkill(long pid, wxSignal signal, wxKillError * rc, int flags) {
+	return wxKill(pid, signal, rc, flags);
+}
+

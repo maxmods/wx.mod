@@ -46,6 +46,12 @@ extern "C" {
 	void bmx_wxprocess_redirect(wxProcess * process);
 	void bmx_wxprocess_free(wxProcess * process);
 
+	bool bmx_wxshell(BBString * command);
+	bool bmx_wxshutdown(wxShutdownFlags flags);
+	unsigned long bmx_wxgetprocessid();
+	void bmx_wxexit();
+	int bmx_wxkill(long pid, wxSignal signal, wxKillError * rc, int flags);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

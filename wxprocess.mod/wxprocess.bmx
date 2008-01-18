@@ -256,15 +256,19 @@ End Function
 
 
 Rem
-bbdoc: 
+bbdoc: Exits application after calling wxApp::OnExit.
+about: Should only be used in an emergency: normally the top-level frame should be deleted (after deleting all other
+frames) to terminate the application. See wxCloseEvent and wxApp.
 End Rem
 Function wxExit()
+	bmx_wxexit()
 End Function
 
 Rem
 bbdoc: 
 End Rem
 Function wxKill:Int(pid:Int, signal:Int = wxSIGNONE, rc:Int Var, flags:Int = 0)
+	Return bmx_wxkill(pid, signal, Varptr rc, flags)
 End Function
 
 Rem
@@ -272,6 +276,7 @@ bbdoc: Returns the number uniquely identifying the current process in the system
 about: If an error occurs, 0 is returned.
 End Rem
 Function wxGetProcessId:Int()
+	Return bmx_wxgetprocessid()
 End Function
 
 Rem
@@ -279,6 +284,7 @@ bbdoc: Executes a command in an interactive shell window.
 about: If no command is specified, then just the shell is spawned.
 End Rem
 Function wxShell:Int(command:String = Null)
+	Return bmx_wxshell(command)
 End Function
 
 Rem
@@ -286,8 +292,10 @@ bbdoc: This function shuts down or reboots the computer depending on the value o
 returns: True on success, false if an error occurred.
 about: Please notice that doing this requires the corresponding access rights (superuser under Unix, SE_SHUTDOWN
 privilege under Windows NT) and that this function is only implemented under Unix and Win32.
+<p>@flags : Either wxSHUTDOWN_POWEROFF or wxSHUTDOWN_REBOOT</p>
 End Rem
 Function wxShutdown:Int(flags:Int)
+	Return bmx_wxshutdown(flags)
 End Function
 
 

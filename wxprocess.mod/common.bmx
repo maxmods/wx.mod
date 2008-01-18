@@ -60,6 +60,12 @@ Extern
 	Function bmx_wxprocess_redirect(handle:Byte Ptr)
 	Function bmx_wxprocess_free(handle:Byte Ptr)
 
+	Function bmx_wxshell:Int(command:String)
+	Function bmx_wxshutdown:Int(flags:Int)
+	Function bmx_wxgetprocessid:Int()
+	Function 	bmx_wxexit()
+	Function bmx_wxkill:Int(pid:Int, signal:Int, rc:Int Ptr, flags:Int)
+
 End Extern
 
 
