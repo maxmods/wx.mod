@@ -588,6 +588,46 @@ Type wxListCtrl Extends wxControl
 	
 	Rem
 	bbdoc: Sets information about the given wxListItem.
+	about: wxListItem is a type with the following members:
+	<ul>
+	<li><b>mask</b> - Indicates which fields are valid. See the list of valid mask flags below.</li>
+	<li><b>id</b> - The zero-based item position.</li>
+	<li><b>column</b> - Zero-based column, if in report mode.</li>
+	<li><b>state</b> - The state of the item. See the list of valid state flags below.</li>
+	<li><b>stateMask</b> - A mask indicating which state flags are valid. See the list of valid state flags below.</li>
+	<li><b>text</b> - The label/header text. </li>
+	<li><b>image</b> - The zero-based index into an image list. </li>
+	<li><b>data</b> - Application-defined data.</li>
+	<li><b>format</b> - For columns only: the format. Can be wxLIST_FORMAT_LEFT, wxLIST_FORMAT_RIGHT or wxLIST_FORMAT_CENTRE. </li>
+	<li><b>width</b> - For columns only: the column width.</li>
+	</ul>
+	<p>
+	The mask member contains a bitlist specifying which of the other fields are valid. The flags are:
+	<table width="90%" align="center">
+	<tr><th>Constant</th><th>Description</th></tr>
+	<tr><td>wxLIST_MASK_STATE </td><td>The <b>state</b field is valid.</td></tr>
+	<tr><td>wxLIST_MASK_TEXT </td><td>The <b>text</b field is valid.</td></tr>
+	<tr><td>wxLIST_MASK_IMAGE </td><td>The <b>image</b field is valid.</td></tr>
+	<tr><td>wxLIST_MASK_DATA </td><td>The <b>data</b field is valid.</td></tr>
+	<tr><td>wxLIST_MASK_WIDTH </td><td>The <b>width</b field is valid.</td></tr>
+	<tr><td>wxLIST_MASK_FORMAT </td><td>The <b>format</b field is valid.</td></tr>
+	</table>
+	</p>
+	<p>
+	The stateMask and state members take flags from the following:
+	<table width="90%" align="center">
+	<tr><th>Constant</th><th>Description</th></tr>
+	<tr><td>wxLIST_STATE_DONTCARE</td><td>Don't care what the state is. Win32 only.</td></tr>
+	<tr><td>wxLIST_STATE_DROPHILITED</td><td>The item is highlighted to receive a drop event. Win32 only. </td></tr>
+	<tr><td>wxLIST_STATE_FOCUSED</td><td>The item has the focus.</td></tr>
+	<tr><td>wxLIST_STATE_SELECTED</td><td>The item is selected. </td></tr>
+	<tr><td>wxLIST_STATE_CUT</td><td>The item is in the cut state. Win32 only.</td></tr>
+	</table>
+	The wxListItem object can also contain item-specific colour and font information: for this
+	you need to call one of SetTextColour(), SetBackgroundColour() or SetFont() method on it
+	passing it the colour/font to use. If the colour/font is not specified, the default list
+	control colour/font is used.
+	</p>
 	End Rem
 	Method SetItem:Int(item:wxListItem)
 		Return bmx_wxlistctrl_setitem(wxObjectPtr, item.wxObjectPtr)
