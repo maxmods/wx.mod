@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.87"
+Const AppVersion:String = "0.88"
 
 
 Global eventMap:TMap = New TMap
@@ -2425,12 +2425,18 @@ Type TFBFlexGridSizer Extends TFBSizer
 		
 		out.Add(text, 2)
 	
-		If prop("growablecols") Then	
-			out.Add(prop("name") + ".AddGrowableCol( " + prop("growablecols") + " )", 2)
+		If prop("growablecols") Then
+			Local cols:String[] = prop("growablecols").Split(",")
+			For Local i:Int = 0 Until cols.length
+				out.Add(prop("name") + ".AddGrowableCol( " + cols[i] + " )", 2)
+			Next
 		End If
 
 		If prop("growablerows") Then	
-			out.Add(prop("name") + ".AddGrowableRow( " + prop("growablerows") + " )", 2)
+			Local rows:String[] = prop("growablerows").Split(",")
+			For Local i:Int = 0 Until rows.length
+				out.Add(prop("name") + ".AddGrowableRow( " + rows[i] + " )", 2)
+			Next
 		End If
 
 		If prop("flexible_direction") Then	
