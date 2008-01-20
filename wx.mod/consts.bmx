@@ -32,6 +32,12 @@ Const wxID_HIGHEST:Int = 5999
 Const wxNOT_FOUND:Int = -1
 
 Rem
+bbdoc: Instead of hiding the scrollbar when it is not needed, disable it - but still show (see also wxLB_ALWAYS_SB style)
+about: NB: This style is only supported by wxMSW so far
+End Rem
+Const wxALWAYS_SHOW_SB:Int = $00800000
+
+Rem
 bbdoc: Clip children when painting.
 about: Reduces flicker in e.g. frames and splitter windows, but can't be used in a panel where a static box must be
 'transparent' (panel paints the background for it)
