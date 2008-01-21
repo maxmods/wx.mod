@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	MaxHyperlinkCtrl * bmx_wxhperlinkctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id,
+	MaxHyperlinkCtrl * bmx_wxhyperlinkctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id,
 		BBString * label, BBString * url, int x, int y, int w, int h, long style);
 
 	MaxColour * bmx_wxhyperlinkctrl_gethovercolour(wxHyperlinkCtrl * hlink);

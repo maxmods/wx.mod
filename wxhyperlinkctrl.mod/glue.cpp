@@ -42,7 +42,7 @@ MaxHyperlinkCtrl::~MaxHyperlinkCtrl() {
 BEGIN_EVENT_TABLE(MaxHyperlinkCtrl, wxHyperlinkCtrl)
 END_EVENT_TABLE()
 
-MaxHyperlinkCtrl * bmx_wxhperlinkctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id,
+MaxHyperlinkCtrl * bmx_wxhyperlinkctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id,
 		BBString * label, BBString * url, int x, int y, int w, int h, long style) {
 	return new MaxHyperlinkCtrl(maxHandle, parent, id, wxStringFromBBString(label), wxStringFromBBString(url),
 		x, y, w, h, style);

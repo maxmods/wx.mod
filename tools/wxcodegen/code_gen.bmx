@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.88"
+Const AppVersion:String = "0.89"
 
 
 Global eventMap:TMap = New TMap
@@ -258,6 +258,12 @@ Type TFBGenFactory
 
 			Case "wxScintilla"
 				widget = New TFBScintilla
+
+			Case "wxHyperlinkCtrl"
+				widget = New TFBHyperlinkCtrl
+				
+			Case "wxBitmapButton"
+				widget = New TFBBitmapButton
 				
 		End Select
 		
@@ -563,6 +569,36 @@ Type TFBWidget
 		End If
 	End Method
 	
+	Method DoColour:String(col:String)
+
+		Local text:String = ""
+
+		If col.Find("wx") >= 0 Then
+			text:+ "wxSystemSettings.GetColour(" + col + ")"
+
+			Local proj:TFBProject = GetProject()
+			If proj Then
+				proj.imports.Insert("wx.wxSystemSettings", "")
+			End If
+		Else
+			text:+ "new wxColour.Create(" + col + ")"
+		End If
+		
+		Return text
+	
+	End Method
+	
+	Method DoBitmap:String(bm:String)
+
+		Local text:String = ""
+		
+		Local bitmap:String[] = bm.Split(";")
+		text:+ "wxBitmap.CreateFromFile(~q" + bitmap[0] + "~q, wxBITMAP_TYPE_ANY)"
+		
+		Return text
+	
+	End Method
+	
 	' standard widget settings, like Enabled,  MinSize, MaxSize etc.
 	Method StandardSettings(out:TCodeOutput, noref:Int = False)
 
@@ -609,16 +645,7 @@ Type TFBWidget
 		If col Then
 			Local text:String = NameReference(prop("name"), noref) + "SetForegroundColour("
 			
-			If col.Find("wx") >= 0 Then
-				text:+ "wxSystemSettings.GetColour(" + col + ")"
-
-				Local proj:TFBProject = GetProject()
-				If proj Then
-					proj.imports.Insert("wx.wxSystemSettings", "")
-				End If
-			Else
-				text:+ "new wxColour.Create(" + col + ")"
-			End If
+			text:+ DoColour(col)
 			
 			text:+ ")"
 			
@@ -629,17 +656,8 @@ Type TFBWidget
 		col = prop("bg")
 		If col Then
 			Local text:String = NameReference(prop("name"), noref) + "SetBackgroundColour("
-			
-			If col.Find("wx") >= 0 Then
-				text:+ "wxSystemSettings.GetColour(" + col + ")"
 
-				Local proj:TFBProject = GetProject()
-				If proj Then
-					proj.imports.Insert("wx.wxSystemSettings", "")
-				End If
-			Else
-				text:+ "new wxColour.Create(" + col + ")"
-			End If
+			text:+ DoColour(col)
 			
 			text:+ ")"
 			
@@ -780,15 +798,17 @@ Type TFBWidget
 		Return text = "~q~q"
 	End Method
 	
-	Method GetString:String(text:String)
+	Method GetString:String(text:String, noLocale:Int = False)
 		text = text.Replace("~r", "")
 		text = text.Replace("~n", "~~n")
 		text = text.Replace("~t", "~~t")
-		If genflags & GEN_WXLOCALE And Not IsEmptyQuotes(text) Then
-			text = "_(" + text + ")"
-		End If
-		If genflags & GEN_BAHLOCALE And Not IsEmptyQuotes(text) Then
-			text = "GetLocaleText(" + text + ")"
+		If Not noLocale Then
+			If genflags & GEN_WXLOCALE And Not IsEmptyQuotes(text) Then
+				text = "_(" + text + ")"
+			End If
+			If genflags & GEN_BAHLOCALE And Not IsEmptyQuotes(text) Then
+				text = "GetLocaleText(" + text + ")"
+			End If
 		End If
 		Return text
 	End Method
@@ -2300,6 +2320,103 @@ Type TFBScintilla Extends TFBWidget
 
 End Type
 
+Type TFBHyperlinkCtrl Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+		
+		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		
+		text:+ GetString("~q" + prop("label") + "~q") + ", "
+		text:+ GetString("~q" + prop("url") + "~q", True)
+		
+		text:+ DoPosSizeStyle(Self)
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		If prop("hover_color") Then
+			out.Add(prop("name") + ".SetHoverColour(" + DoColour(prop("hover_color")) + ")", 2)
+		End If
+
+		If prop("normal_color") Then
+			out.Add(prop("name") + ".SetNormalColour(" + DoColour(prop("normal_color")) + ")", 2)
+		End If
+
+		If prop("visited_color") Then
+			out.Add(prop("name") + ".SetVisitedColour(" + DoColour(prop("visited_color")) + ")", 2)
+		End If
+
+		StandardSettings(out)
+		
+	End Method
+
+	Method GetType:String()
+		Return "wxHyperlinkCtrl"
+	End Method
+
+	Method GetImport:String()
+		Return "wx.wxHyperlinkCtrl"
+	End Method
+
+End Type
+
+Type TFBBitmapButton Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+		
+		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		
+		If prop("bitmap") Then
+			text:+ DoBitmap(prop("bitmap"))
+		Else
+			text:+ "wxNullBitmap"
+		End If
+		
+		text:+ DoPosSizeStyle(Self)
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		If prop("disabled") Then
+			out.Add(prop("name") + ".SetBitmapDisabled(" + DoBitmap(prop("disabled")) + ")", 2)
+		End If
+
+		If prop("selected") Then
+			out.Add(prop("name") + ".SetBitmapSelected(" + DoBitmap(prop("selected")) + ")", 2)
+		End If
+
+		If prop("focus") Then
+			out.Add(prop("name") + ".SetBitmapFocus(" + DoBitmap(prop("focus")) + ")", 2)
+		End If
+
+		If prop("hover") Then
+			out.Add(prop("name") + ".SetBitmapHover(" + DoBitmap(prop("hover")) + ")", 2)
+		End If
+
+		StandardSettings(out)
+		
+	End Method
+
+	Method GetType:String()
+		Return "wxBitmapButton"
+	End Method
+
+	Method GetImport:String()
+		Return "wx.wxBitmapButton"
+	End Method
+
+End Type
+
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
 Type TFBSizer Extends TFBWidget
@@ -2810,6 +2927,12 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnTextURL", "wxTextUrlEvent", "wxEVT_COMMAND_TEXT_URL"))
 
 	AddEvent(TEventType.Set("OnInitDialog", "wxInitDialogEvent", "wxEVT_INIT_DIALOG"))
+
+	AddEvent(TEventType.Set("OnRadioButton", "wxCommandEvent", "wxEVT_COMMAND_RADIOBUTTON_SELECTED"))
+
+	AddEvent(TEventType.Set("OnCombobox", "wxCommandEvent", "wxEVT_COMMAND_COMBOBOX_SELECTED"))
+
+	AddEvent(TEventType.Set("OnHyperlink", "wxHyperlinkEvent", "wxEVT_COMMAND_HYPERLINK"))
 
 End Function
 
