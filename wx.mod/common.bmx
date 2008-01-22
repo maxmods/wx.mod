@@ -382,6 +382,18 @@ Extern
 	Function bmx_gdi_wxdisplaysize(width:Int Ptr, height:Int Ptr)
 	Function bmx_gdi_wxdisplaysizemm(width:Int Ptr, height:Int Ptr)
 
+	Function bmx_wxgetemailaddress:String()
+	Function bmx_wxgetfreememory(mem:Long Ptr)
+	Function bmx_wxgetfullhostname:String()
+	Function bmx_wxgethomedir:String()
+	Function bmx_wxgethostname:String()
+	Function bmx_wxgetosversion:Int(major:Int Ptr, minor:Int Ptr)
+	Function bmx_wxisplatformlittleendian:Int()
+	Function bmx_wxisplatform64bit:Int()
+	Function bmx_wxgetuserhome:String(user:String)
+	Function bmx_wxgetuserid:String()
+	Function bmx_wxgetusername:String()
+
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()

@@ -270,6 +270,19 @@ extern "C" {
 	void bmx_gdi_wxdisplaysize(int * width, int * height);
 	void bmx_gdi_wxdisplaysizemm(int * width, int * height);
 
+	BBString * bmx_wxgetosdescription();
+	BBString * bmx_wxgetemailaddress();
+	void bmx_wxgetfreememory(BBInt64 * mem);
+	BBString * bmx_wxgetfullhostname();
+	BBString * bmx_wxgethomedir();
+	BBString * bmx_wxgethostname();
+	wxOperatingSystemId bmx_wxgetosversion(int * major, int * minor);
+	bool bmx_wxisplatformlittleendian();
+	bool bmx_wxisplatform64bit();
+	BBString * bmx_wxgetuserhome(BBString * user);
+	BBString * bmx_wxgetuserid();
+	BBString * bmx_wxgetusername();
+
 }
 
 /*

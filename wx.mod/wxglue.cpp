@@ -1279,3 +1279,50 @@ MaxRect * bmx_gdi_wxgetclientdisplayrect() {
 	return new MaxRect(wxGetClientDisplayRect());
 }
 
+// *********************************************
+
+BBString * bmx_wxgetemailaddress() {
+	return bbStringFromWxString(wxGetEmailAddress());
+}
+
+void bmx_wxgetfreememory(BBInt64 * mem) {
+	*mem = wxGetFreeMemory().GetValue();
+}
+
+BBString * bmx_wxgetfullhostname() {
+	return bbStringFromWxString(wxGetFullHostName());
+}
+
+BBString * bmx_wxgethomedir() {
+	return bbStringFromWxString(wxGetHomeDir());
+}
+
+BBString * bmx_wxgethostname() {
+	return bbStringFromWxString(wxGetHostName());
+}
+
+wxOperatingSystemId bmx_wxgetosversion(int * major, int * minor) {
+	return wxGetOsVersion(major, minor);
+}
+
+bool bmx_wxisplatformlittleendian() {
+	return wxIsPlatformLittleEndian();
+}
+
+bool bmx_wxisplatform64bit() {
+	return wxIsPlatform64Bit();
+}
+
+BBString * bmx_wxgetuserhome(BBString * user) {
+	return bbStringFromWxString(wxString(wxGetUserHome(wxStringFromBBString(user))));
+}
+
+BBString * bmx_wxgetuserid() {
+	return bbStringFromWxString(wxGetUserId());
+}
+
+BBString * bmx_wxgetusername() {
+	bbStringFromWxString(wxGetUserName());
+}
+
+

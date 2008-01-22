@@ -659,6 +659,95 @@ Function wxGetOsDescription:String()
 	Return bmx_wxgetosdescription()
 End Function
 
+Rem
+bbdoc: Gets the users email address by concatenating the values returned by wxGetFullHostName and wxGetUserId.
+End Rem
+Function wxGetEmailAddress:String()
+	Return bmx_wxgetemailaddress()
+End Function
+
+Rem
+bbdoc: Returns the amount of free memory in bytes under environments which support it, and -1 if not supported or failed to perform measurement.
+End Rem
+Function wxGetFreeMemory:Long()
+	Local mem:Long
+	bmx_wxgetfreememory(Varptr mem)
+	Return mem
+End Function
+
+Rem
+bbdoc: Returns the amount of free memory in bytes under environments which support it, and -1 if not supported or failed to perform measurement.
+End Rem
+Function wxGetFullHostName:String()
+	Return bmx_wxgetfullhostname()
+End Function
+
+Rem
+bbdoc: Return the (current) user's home directory.
+End Rem
+Function wxGetHomeDir:String()
+	Return bmx_wxgethomedir()
+End Function
+
+Rem
+bbdoc: Returns the hostname if successful or an empty string otherwise.
+End Rem
+Function wxGetHostName:String()
+	Return bmx_wxgethostname()
+End Function
+
+Rem
+bbdoc: Gets the version and the operating system ID for currently running OS.
+about: See wxPlatformInfo for more details about the returned Id.
+End Rem
+Function wxGetOsVersion:Int(major:Int Var, minor:Int Var)
+	Return bmx_wxgetosversion(Varptr major, Varptr minor)
+End Function
+
+Rem
+bbdoc: Returns true if the current platform is little endian (instead of big endian).
+about: The check is performed at run-time.
+End Rem
+Function wxIsPlatformLittleEndian:Int()
+	Return bmx_wxisplatformlittleendian()
+End Function
+
+Rem
+bbdoc: Returns true if the operating system the program is running under is 64 bit.
+about: The check is performed at run-time and may differ from the value available at compile-time (at compile-time
+you can just check if sizeof(void*)==8) since the program could be running in emulation mode or in a mixed 32/64 bit
+system (bi-architecture operating system).
+<p>
+Very important: this function is not 100% reliable on some systems given the fact that there isn't always a
+standard way to do a reliable check on the OS architecture.
+</p>
+End Rem
+Function wxIsPlatform64Bit:Int()
+	Return bmx_wxisplatform64bit()
+End Function
+
+Rem
+bbdoc: Returns the home directory for the given user.
+about: If the username is empty (default value), this function behaves like wxGetHomeDir.
+End Rem
+Function wxGetUserHome:String(user:String = "")
+	Return bmx_wxgetuserhome(user)
+End Function
+
+Rem
+bbdoc: This function returns the "user id" also known as "login name" under Unix i.e. something like "jsmith".
+about: It uniquely identifies the current user (on this system).
+End Rem
+Function wxGetUserId:String()
+	Return bmx_wxgetuserid()
+End Function
+
+Rem
+bbdoc: This function returns the full user name (something like "Mr. John Smith").
+End Rem
+Function wxGetUserName:String()
+	Return bmx_wxgetusername()
+End Function
 
 Rem
 bbdoc: Initializes all available image handlers.
