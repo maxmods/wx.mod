@@ -1322,7 +1322,7 @@ BBString * bmx_wxgetuserid() {
 }
 
 BBString * bmx_wxgetusername() {
-	bbStringFromWxString(wxGetUserName());
+	return bbStringFromWxString(wxGetUserName());
 }
 
 
