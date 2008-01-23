@@ -119,9 +119,13 @@ const wxString wxMidiDevice::DeviceName()
 {
 	if (m_pInfo) {
 #if defined(_UNICODE) || defined(UNICODE)
+#ifdef WIN32
 		wxString s; // BaH
 		s.Printf(_T("%s"), m_pInfo->name);//, wxConvUTF8);
 		return s;
+#else
+	return wxString(m_pInfo->name, wxConvUTF8);
+#endif
 #else
 		return m_pInfo->name;
 #endif
