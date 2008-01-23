@@ -169,6 +169,21 @@ Type wxMidiShortMessage Extends wxMidiMessage
 			Return this
 		End If
 	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateShortMessage:wxMidiShortMessage(status:Int, data1:Int, data2:Int)
+		Return New wxMidiShortMessage.Create(status, data1, data2)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxMidiShortMessage(status:Int, data1:Int, data2:Int)
+		wxObjectPtr = bmx_wxmidishortmessage_create(status, data1, data2)
+		Return Self
+	End Method
 
 	Rem
 	bbdoc: Returns the first data byte of the message or 0x00 if the type of message only has the status byte.
@@ -211,6 +226,21 @@ Type wxMidiSysExMessage Extends wxMidiMessage
 			Return this
 		End If
 	End Function
+
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateSysExMessage:wxMidiSysExMessage(msg:Byte Ptr, timestamp:Int = 0)
+		Return New wxMidiSysExMessage.Create(msg, timestamp)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxMidiSysExMessage(msg:Byte Ptr, timestamp:Int = 0)
+		wxObjectPtr = bmx_wxmidisysexmessage_create(msg, timestamp)
+		Return Self
+	End Method
 	
 	Rem
 	bbdoc: 
@@ -305,6 +335,17 @@ Type wxMidiDevice
 		Return bmx_wxmididevice_hashosterror(wxObjectPtr)
 	End Method
 
+	Method Free()
+		If wxObjectPtr Then
+			bmx_wxmididevice_free(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Free()
+	End Method
+	
 End Type
 
 Rem
@@ -319,6 +360,21 @@ Type wxMidiOutDevice Extends wxMidiDevice
 			Return this
 		End If
 	End Function
+	
+	Rem
+	bbdoc: Constructor.
+	End Rem	
+	Function CreateMidiOutDevice:wxMidiOutDevice(device:Int)
+		Return New wxMidiOutDevice.Create(device)
+	End Function
+
+	Rem
+	bbdoc: Constructor.
+	End Rem	
+	Method Create:wxMidiOutDevice(device:Int)
+		wxObjectPtr = bmx_wxmidioutdevice_create(device)
+		Return Self
+	End Method
 
 	Rem
 	bbdoc: Terminates any outgoing message immediately; this call may result in a partial transmission of a MIDI message.
@@ -431,6 +487,21 @@ Type wxMidiInDevice Extends wxMidiDevice
 	End Function
 
 	Rem
+	bbdoc: Constructor.
+	End Rem	
+	Function CreateMidiInDevice:wxMidiInDevice(device:Int)
+		Return New wxMidiInDevice.Create(device)
+	End Function
+
+	Rem
+	bbdoc: Constructor.
+	End Rem	
+	Method Create:wxMidiInDevice(device:Int)
+		wxObjectPtr = bmx_wxmidiindevice_create(device)
+		Return Self
+	End Method
+
+	Rem
 	bbdoc: Open the device, so that the device can be used.
 	about: Upon success Open() returns zero (wxMIDI_NO_ERROR). If the open process fails a non-zero error code is returned.
 	<p>
@@ -503,8 +574,175 @@ Type wxMidiInDevice Extends wxMidiDevice
 	
 End Type
 
+Rem
+bbdoc: The General MIDI (GM) Specification, published by the International MIDI Association, defines a set of general capabilities for General MIDI Instruments.
+about: The General MIDI Specification includes the definition of a General MIDI Sound Set
+(a patch map), a General MIDI Percussion map (mapping of percussion sounds to note numbers),
+and a set of General MIDI Performance capabilities (number of voices, types of MIDI messages
+recognized, etc.).
+<p>
+A MIDI sequence which has been generated for use on a General MIDI Instrument should play
+correctly on any General MIDI synthesizer or sound module.
+</p>
+<p>
+The wxMidi package has a database with the General Midi standard (GM) instruments list.
+Instruments are grouped into sections, to facilitate the user to search for a specific
+instrument. The database includes methods to populate a combo box, a list box and, in
+general, any other control derived from wxControlWithItems.
+</p>
+<p>
+wxMidiSystem is a singleton and, therefore, the constructor is not public. Access to the
+only instance must be through method GetInstance.
+</p>
+<p>
+The General MIDI system specifies which instrument or sound corresponds with each
+program/patch number, but General MIDI does not specify how these sounds are produced.
+Thus, program number 0 should select the Acoustic Grand Piano sound on any General MIDI
+instrument. However, the Acoustic Grand Piano sound on two General MIDI synthesizers which
+use different synthesis techniques may sound quite different.
+</p>
+<p>
+The General MIDI system utilizes MIDI channels 0-8 and 10-15 for chromatic instrument
+sounds, while channel number 9 is utilized for "key-based" percussion sounds.
+</p>
+<p>
+For sounds on channels 0-8 and 10-15, the note number in a NoteOn message is used to select
+the pitch of the sound which will be played. For example if the Vibraphone instrument
+(program number 11) has been selected on channel 2, then playing note number 60 on channel
+2 would play the middle C note (this would be the default note to pitch assignment on most
+instruments), and note number 59 on channel 2 would play B below middle C. Both notes would
+be played using the Vibraphone sound.
+</p>
+<p>
+The General MIDI system specifies sounds (or instruments, in wxMidi terminilogy) by using
+program numbers 0 through 127. The list of all these 128 sounds could be obtained by
+using different methods; for example, by calling PopulateWithAllInstruments.
+</p>
+<p>
+These instrument sounds are grouped into "sets" of related sounds. For example, instruments
+0-7 are piano sounds, 8-15 are chromatic percussion sounds, 16-23 are organ sounds, 24-31
+are guitar sounds, etc. Each one of these "sets" is called a "section" in the
+wxMidiDatabaseGM. There are two specific methods to deal with sections: GetNumSections,
+GetSectionName and PopulateWithSections.
+</p>
+<p>
+The list of instruments in a section is available through method PopulateWithInstruments .
+</p>
+<p>
+As said, channel 9 reserved for "key-based" percussion sounds. For these "key-based" sounds,
+the note number data in a NoteOn message is used differently. Note numbers on channel 9
+are used to select which drum sound will be played. For example, a NoteOn message on channel
+9 with note number 60 will play a Hi Bongo drum sound. Note number 59 on channel 9 will
+play the Ride Cymbal 2 sound. The list of all key-based percussion sounds is accesible
+trhough method PopulateWithPercusionInstr
+</p>
+<p>
+The wxMidiDatabaseGM object includes additional methods for retrieving an instrumen name
+given its number or the number of the section and the index inside the section. See, for
+example, GetInstrFromSection, GetInstrumentName, GetNumInstrumentsInSection
+</p>
+End Rem
 Type wxMidiDatabaseGM
 
+	Field wxObjectPtr:Byte Ptr
+
+	Function _create:wxMidiDatabaseGM(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxMidiDatabaseGM = New wxMidiDatabaseGM
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: Returns the wxMidiDatabaseGM instance.
+	about: Note that wxMidiDatabaseGM is a singleton and, therefore, the constructor is not
+	public. Access to the only instance must be through this GetInstance() method.
+	End Rem
+	Function GetInstance:wxMidiDatabaseGM()
+		Return wxMidiDatabaseGM._create(bmx_wxmididatabasegm_getinstance())
+	End Function
+	
+	Rem
+	bbdoc: Load control pCtrol with the list of all instrumens that belong to section nSection.
+	about: If nInstr is specified, the name of that instrument is left selected in the control.
+	Otherwise, the first instrument of the section is left selected.
+	End Rem
+	Method PopulateWithInstruments(ctrl:wxControlWithItems, section:Int, nInstr:Int = 0)
+		bmx_wxmididatabasegm_populatewithinstruments(wxObjectPtr, ctrl.wxObjectPtr, section, nInstr)
+	End Method
+	
+	Rem
+	bbdoc: In the MIDI standard channel 9 is reserved for "key-based" percussion sounds.
+	about: For these "key-based" sounds, the note number data in a NoteOn message is used
+	to select which drum sound will be played. For example, a NoteOn message on channel 9
+	with note number 60 will play a Hi Bongo drum sound. Note number 59 on channel 9 will
+	play the Ride Cymbal 2 sound. Method PopulateWithPercusionInstr is used to load a
+	control (combo box, list box, or other derived from wxControlWithItems) whit the list
+	of all key-based percussion sounds in the GM standard.
+	End Rem
+	Method PopulateWithPercusionInstr(ctrl:wxControlWithItems, iSel:Int = 0)
+		bmx_wxmididatabasegm_populatewithpercusioninstr(wxObjectPtr, ctrl.wxObjectPtr, iSel)
+	End Method
+	
+	Rem
+	bbdoc: Load control pCtrol with the list of all sections in which the instruments in the GM standard have been organized in the wxMidiDatabaseGM.
+	about: If nSelInstris specified, the name of that section is left selected in the control.
+	Otherwise, the first section is left selected.
+	End Rem
+	Method PopulateWithSections:Int(ctrl:wxControlWithItems, nSelInstr:Int = -1)
+		Return bmx_wxmididatabasegm_populatewithsections(wxObjectPtr, ctrl.wxObjectPtr, nSelInstr)
+	End Method
+	
+	Rem
+	bbdoc: Load control pCtrol with the list of all instrumens in the GM standard.
+	about: If nInstr is specified, the name of that instrument is left selected in the
+	control. Otherwise, the first instrument is left selected.
+	End Rem
+	Method PopulateWithAllInstruments(ctrl:wxControlWithItems, nInstr:Int = 0)
+		bmx_wxmididatabasegm_populatewithallinstruments(wxObjectPtr, ctrl.wxObjectPtr, nInstr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the number of sections in which the instruments in the GM standard has been organized.
+	about: In the wxMidiDatabaseGM, the number sections is always 16. This method was
+	included to allow for future extensions and to deal with other MIDI standards.
+	End Rem
+	Method GetNumSections:Int()
+		Return bmx_wxmididatabasegm_getnumsections(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the number of instruments that are included in section number @sect.
+	about: In the wxMidiDatabaseGM, the number of instruments in a section is always eight.
+	This method was included to allow for future extensions and to deal with other MIDI
+	standards.
+	End Rem
+	Method GetNumInstrumentsInSection:Int(sect:Int)
+		Return bmx_wxmididatabasegm_getnuminstrumentsinsection(wxObjectPtr, sect)
+	End Method
+	
+	Rem
+	bbdoc: Returns the GM number of the nth instrument in section @sect.
+	End Rem
+	Method GetInstrFromSection:Int(sect:Int, n:Int)
+		Return bmx_wxmididatabasegm_getinstrfromsection(wxObjectPtr, sect, n)
+	End Method
+	
+	Rem
+	bbdoc: Returns a string with the name of instrumen nInstr.
+	End Rem
+	Method GetInstrumentName:String(nInstr:Int)
+		Return bmx_wxmididatabasegm_getinstrumentname(wxObjectPtr, nInstr)
+	End Method
+	
+	Rem
+	bbdoc: Returns a string containig the name of section number nSect.
+	End Rem
+	Method GetSectionName:String(sect:Int)
+		Return bmx_wxmididatabasegm_getsectionname(wxObjectPtr, sect)
+	End Method
+	
 End Type
 
 Rem

@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxWindow
+Import wx.wxControlWithItems
 Import BRL.Blitz
 
 
@@ -92,6 +93,7 @@ Extern
 	Function bmx_wxmidisystem_gethosterrortext:String(handle:Byte Ptr)
 	Function bmx_wxmidisystem_countdevices:Int(handle:Byte Ptr)
 
+	Function bmx_wxmidiindevice_create:Byte Ptr(device:Int)
 	Function bmx_wxmidiindevice_open:Int(handle:Byte Ptr)
 	Function bmx_wxmidiindevice_flush(handle:Byte Ptr)
 	Function bmx_wxmidiindevice_poll:Int(handle:Byte Ptr)
@@ -101,6 +103,7 @@ Extern
 	Function bmx_wxmidiindevice_startlistening:Int(handle:Byte Ptr, window:Byte Ptr, pollingRate:Int)
 	Function bmx_wxmidiindevice_stoplistening:Int(handle:Byte Ptr)
 
+	Function bmx_wxmidioutdevice_create:Byte Ptr(device:Int)
 	Function bmx_wxmidioutdevice_abort:Int(handle:Byte Ptr)
 	Function bmx_wxmidioutdevice_allsoundsoff:Int(handle:Byte Ptr)
 	Function bmx_wxmidioutdevice_noteon:Int(handle:Byte Ptr, channel:Int, note:Int, velocity:Int)
@@ -117,12 +120,15 @@ Extern
 	Function bmx_wxmidimessage_gettype:Int(handle:Byte Ptr)
 	Function bmx_wxmidimessage_getstatus:Int(handle:Byte Ptr)
 
+	Function bmx_wxmidishortmessage_create:Byte Ptr(status:Int, data1:Int, data2:Int)
 	Function bmx_wxmidishortmessage_getdata1:Int(handle:Byte Ptr)
 	Function bmx_wxmidishortmessage_getdata2:Int(handle:Byte Ptr)
 
+	Function bmx_wxmidisysexmessage_create:Byte Ptr(msg:Byte Ptr, timestamp:Int)
 	Function bmx_wxmidisysexmessage_error:Int(handle:Byte Ptr)
 	Function bmx_wxmidisysexmessage_getmessage:Byte[](handle:Byte Ptr)
 
+	Function bmx_wxmididevice_free(handle:Byte Ptr)
 	Function bmx_wxmididevice_close:Int(handle:Byte Ptr)
 	Function bmx_wxmididevice_devicename:String(handle:Byte Ptr)
 	Function bmx_wxmididevice_interfaceused:String(handle:Byte Ptr)
@@ -133,7 +139,18 @@ Extern
 	Function bmx_wxmidi_geteventtype:Int(evt:Int)
 
 	Function bmx_wxmidi_version:String()
-	
+
+	Function bmx_wxmididatabasegm_getinstance:Byte Ptr()
+	Function bmx_wxmididatabasegm_populatewithinstruments(handle:Byte Ptr, ctrl:Byte Ptr, section:Int, nInstr:Int)
+	Function bmx_wxmididatabasegm_populatewithpercusioninstr(handle:Byte Ptr, ctrl:Byte Ptr, iSel:Int)
+	Function bmx_wxmididatabasegm_populatewithsections:Int(handle:Byte Ptr, ctrl:Byte Ptr, nSelInstr:Int)
+	Function bmx_wxmididatabasegm_populatewithallinstruments(handle:Byte Ptr, ctrl:Byte Ptr, nInstr:Int)
+	Function bmx_wxmididatabasegm_getnumsections:Int(handle:Byte Ptr)
+	Function bmx_wxmididatabasegm_getnuminstrumentsinsection:Int(handle:Byte Ptr, sect:Int)
+	Function bmx_wxmididatabasegm_getinstrfromsection:Int(handle:Byte Ptr, sect:Int, i:Int)
+	Function bmx_wxmididatabasegm_getinstrumentname:String(handle:Byte Ptr, nInstr:Int)
+	Function bmx_wxmididatabasegm_getsectionname:String(handle:Byte Ptr, sect:Int)
+
 End Extern
 
 Const wxEVT_MIDI_INPUT:Int = -650

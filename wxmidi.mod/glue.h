@@ -35,6 +35,7 @@ extern "C" {
 	BBString * bmx_wxmidisystem_gethosterrortext(wxMidiSystem * sys);
 	int bmx_wxmidisystem_countdevices(wxMidiSystem * sys);
 
+	wxMidiInDevice * bmx_wxmidiindevice_create(wxMidiDeviceID device);
 	wxMidiError bmx_wxmidiindevice_open(wxMidiInDevice * in);
 	void bmx_wxmidiindevice_flush(wxMidiInDevice * in);
 	wxMidiError bmx_wxmidiindevice_poll(wxMidiInDevice * in);
@@ -44,6 +45,7 @@ extern "C" {
 	wxMidiError bmx_wxmidiindevice_startlistening(wxMidiInDevice * in, wxWindow * window, unsigned long pollingRate);
 	wxMidiError bmx_wxmidiindevice_stoplistening(wxMidiInDevice * in);
 
+	wxMidiOutDevice * bmx_wxmidioutdevice_create(wxMidiDeviceID device);
 	wxMidiError bmx_wxmidioutdevice_abort(wxMidiOutDevice * out);
 	wxMidiError bmx_wxmidioutdevice_allsoundsoff(wxMidiOutDevice * out);
 	wxMidiError bmx_wxmidioutdevice_noteon(wxMidiOutDevice * out, int channel, int note, int velocity);
@@ -60,12 +62,15 @@ extern "C" {
 	wxMidiMsgType bmx_wxmidimessage_gettype(wxMidiMessage * msg);
 	int bmx_wxmidimessage_getstatus(wxMidiMessage * msg);
 
+	wxMidiShortMessage * bmx_wxmidishortmessage_create(int status, int data1, int data2);
 	int bmx_wxmidishortmessage_getdata1(wxMidiShortMessage * msg);
 	int bmx_wxmidishortmessage_getdata2(wxMidiShortMessage * msg);
 
+	wxMidiSysExMessage * bmx_wxmidisysexmessage_create(wxByte * msg, wxMidiTimestamp timestamp);
 	wxMidiError bmx_wxmidisysexmessage_error(wxMidiSysExMessage * msg);
 	BBArray * bmx_wxmidisysexmessage_getmessage(wxMidiSysExMessage * msg);
 
+	void bmx_wxmididevice_free(wxMidiDevice * device);
 	wxMidiError bmx_wxmididevice_close(wxMidiDevice * device);
 	BBString * bmx_wxmididevice_devicename(wxMidiDevice * device);
 	BBString *bmx_wxmididevice_interfaceused(wxMidiDevice * device);
@@ -76,6 +81,17 @@ extern "C" {
 	int bmx_wxmidi_geteventtype(int type);
 
 	BBString * bmx_wxmidi_version();
+
+	wxMidiDatabaseGM * bmx_wxmididatabasegm_getinstance();
+	void bmx_wxmididatabasegm_populatewithinstruments(wxMidiDatabaseGM * gm, wxControlWithItems * ctrl, int section, int nInstr);
+	void bmx_wxmididatabasegm_populatewithpercusioninstr(wxMidiDatabaseGM * gm, wxControlWithItems * ctrl, int iSel);
+	int bmx_wxmididatabasegm_populatewithsections(wxMidiDatabaseGM * gm, wxControlWithItems * ctrl, int nSelInstr);
+	void bmx_wxmididatabasegm_populatewithallinstruments(wxMidiDatabaseGM * gm, wxControlWithItems * ctrl, int nInstr);
+	int bmx_wxmididatabasegm_getnumsections(wxMidiDatabaseGM * gm);
+	int bmx_wxmididatabasegm_getnuminstrumentsinsection(wxMidiDatabaseGM * gm, int sect);
+	int bmx_wxmididatabasegm_getinstrfromsection(wxMidiDatabaseGM * gm, int sect, int i);
+	BBString * bmx_wxmididatabasegm_getinstrumentname(wxMidiDatabaseGM * gm, int nInstr);
+	BBString * bmx_wxmididatabasegm_getsectionname(wxMidiDatabaseGM * gm, int sect);
 
 }
 
