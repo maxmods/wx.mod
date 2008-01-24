@@ -58,6 +58,8 @@ Type wxEvent
 	
 	Field eventType:Int
 	
+	Field customEventPtr:Byte Ptr
+	
 	Method init(eventPtr:Byte Ptr, evt:TEventHandler)
 		wxEventPtr = eventPtr
 		userData = evt.userData
@@ -75,6 +77,13 @@ Type wxEvent
 			Local obj:wxObject = wxObject(wxfind(objPtr))
 			Return obj
 		End If
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem	
+	Method SetEventObject(obj:wxObject)
+		bmx_wxevent_seteventobject(wxEventPtr, obj.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -155,7 +164,16 @@ Type wxEvent
 		Return bmx_wxevent_stoppropagation(wxEventPtr)
 	End Method
 	
+	Method NewEvent:wxEvent(evtType:Int, winId:Int = 0)
+	End Method
 	
+	Method Delete()
+		If customEventPtr Then
+			bmx_wxevent_delete(customEventPtr)
+			customEventPtr = Null
+		End If
+	End Method
+		
 End Type
 
 Rem
@@ -171,6 +189,15 @@ Type wxCommandEvent Extends wxEvent
 		
 		Return this
 	End Function
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method NewEvent:wxCommandEvent(evtType:Int, winId:Int = 0)
+		customEventPtr = bmx_wxcommandevent_create(_GetCustomEventType(evtType), winId)
+		wxEventPtr = bmx_wxevent_getcustref(customEventPtr)
+		Return Self
+	End Method
 	
 	Rem
 	bbdoc: Returns item index for a listbox or choice selection event (not valid for a deselection).
@@ -1062,6 +1089,7 @@ Type wxEvtHandler Extends wxObject
 	</p>
 	End Rem
 	Method AddPendingEvent(event:wxEvent)
+		bmx_wxevthandler_addpendingevent(wxObjectPtr, event.wxEventPtr)
 	End Method
 	
 	Rem
@@ -1141,6 +1169,15 @@ Type wxEvtHandler Extends wxObject
 	
 End Type
 
+Rem
+bbdoc: Generates a new unique event type
+End Rem
+Function wxNewEventType:Int()
+	Global eventTypeId:Int = wxEVT_USER_FIRST
+	Local id:Int = eventTypeId
+	eventTypeId:+ 1
+	Return id
+End Function
 
 
 Type TEventFactory
@@ -1155,5 +1192,49 @@ Type TEventFactory
 	
 	Method GetEventType:Int(eventType:Int) Abstract
 	
+End Type
+
+
+' Controls the relationship between custom user ids and wxIds.
+Function _GetCustomEventType:Int(eventType:Int)
+
+	Global eventMap:TMap = New TMap
+
+	' created as a local, so we can simply use this if we need to create a new entry
+	Local eType:EvtIntWrap = EvtIntWrap.Set(eventType)
+	
+	' exists already?
+	Local evt:EvtIntWrap = EvtIntWrap(eventMap.ValueForKey(eType))
+	
+	' we found one already present!
+	If evt Then
+		Return evt.wxId
+	End If
+	
+	' otherwise we need to create a new wxId, add to the map, and return the id..
+	eType.wxId = bmx_wxneweventtype()
+	eventMap.Insert(eType, eType)
+	
+	Return eType.wxId
+	
+End Function
+
+Type EvtIntWrap
+	Field id:Int
+	Field wxId:Int
+	Function Set:EvtIntWrap(id:Int)
+		Local this:EvtIntWrap = New EvtIntWrap
+		this.id = id
+		Return this
+	End Function
+	
+	Method Compare:Int(obj:Object)
+		If id < EvtIntWrap(obj).id Then
+			Return -1
+		Else If id > EvtIntWrap(obj).id Then
+			Return 1
+		End If
+		Return 0
+	End Method
 End Type
 

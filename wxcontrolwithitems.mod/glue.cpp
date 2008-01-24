@@ -44,19 +44,39 @@ void bmx_wxcontrolwithitems_selectitem(wxControlWithItems * control, int item) {
 	control->Select(item);
 }
 
-int bmx_wxcontrolwithitems_append(wxControlWithItems * control, BBString * item, void * clientData) {
+int bmx_wxcontrolwithitems_append(wxControlWithItems * control, BBString * item, BBObject * clientData) {
+	if (clientData != &bbNullObject) {
+		BBRETAIN(clientData);
+	}
 	return control->Append(wxStringFromBBString(item), clientData);
 }
 
 void bmx_wxcontrolwithitems_clear(wxControlWithItems * control) {
+
+	int count = control->GetCount();
+	for (int i = 0; i < count; i++) {
+		void * data = control->GetClientData(i);
+		if (data) {
+			BBRELEASE((BBObject*)data);
+		}
+	}
+
 	control->Clear();
 }
 
 void bmx_wxcontrolwithitems_deleteitem(wxControlWithItems * control, int item) {
+	void * data = control->GetClientData(item);
+	if (data) {
+		BBRELEASE((BBObject*)data);
+	}
+	
 	control->Delete(item);
 }
 
-int bmx_wxcontrolwithitems_insert(wxControlWithItems * control, BBString * item, int pos, void * clientData) {
+int bmx_wxcontrolwithitems_insert(wxControlWithItems * control, BBString * item, int pos, BBObject * clientData) {
+	if (clientData != &bbNullObject) {
+		BBRETAIN(clientData);
+	}
 	return control->Insert(wxStringFromBBString(item), pos, clientData);
 }
 
@@ -76,10 +96,10 @@ int bmx_wxcontrolwithitems_findstring(wxControlWithItems * control, BBString * t
 	return control->FindString(wxStringFromBBString(text), caseSensitive);
 }
 
-void * bmx_wxcontrolwithitems_getclientdata(wxControlWithItems * control, int item) {
+BBObject * bmx_wxcontrolwithitems_getclientdata(wxControlWithItems * control, int item) {
 	void * data = control->GetClientData(item);
 	if (data) {
-		return data;
+		return (BBObject*)data;
 	} else {
 		return &bbNullObject;
 	}
@@ -93,8 +113,15 @@ BBString * bmx_wxcontrolwithitems_getstringselection(wxControlWithItems * contro
 	return bbStringFromWxString(control->GetStringSelection());
 }
 
-void bmx_wxcontrolwithitems_setclientdata(wxControlWithItems * control, int item, void * clientData) {
+void bmx_wxcontrolwithitems_setclientdata(wxControlWithItems * control, int item, BBObject * clientData) {
+	void * data = control->GetClientData(item);
+	if (data) {
+		BBRELEASE((BBObject*)data);
+	}
 	control->SetClientData(item, clientData);
+	if (clientData != &bbNullObject) {
+		BBRETAIN(clientData);
+	}
 }
 
 void bmx_wxcontrolwithitems_setstring(wxControlWithItems * control, unsigned int item, BBString * text) {

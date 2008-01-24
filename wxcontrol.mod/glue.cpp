@@ -28,4 +28,17 @@
 
 // *********************************************
 
+BBString * bmx_wxcontrol_getlabel(wxControl * control) {
+	return bbStringFromWxString(control->GetLabel());
+}
+
+BBString * bmx_wxcontrol_getlabeltext(wxControl * control) {
+	return bbStringFromWxString(control->GetLabelText());
+}
+
+void bmx_wxcontrol_setlabel(wxControl * control, BBString * label) {
+	control->SetLabel(wxStringFromBBString(label));
+}
+
+// *********************************************
 

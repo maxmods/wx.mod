@@ -10,6 +10,10 @@ Import wx.wxNotebook
 Import wx.wxStaticText
 Import wx.wxLocale
 
+Global wxEVT_POLLING_EVENT:Int = wxNewEventType()
+
+New MyEventFactory
+
 New MyApp.run()
 
 Const ID_MY_PANEL:Int = 100
@@ -31,7 +35,7 @@ Const ID_START_LISTENING:Int = 115
 Const ID_STOP_LISTENING:Int = 116
 Const ID_LOOP_BACK:Int = 117
 
-	
+
 Type MyApp Extends wxApp
 
 	Method OnInit:Int()
@@ -68,7 +72,7 @@ Type MyFrame Extends wxFrame
 	    SetMenuBar(menuBar)
 	
 	
-		New MyPanel.Create(Self)
+		New MyPanel.Create(Self, ID_MY_PANEL)
 
 		' Create a status bar just For fun (by Default with 1 pane only)
 		CreateStatusBar(2)
@@ -135,7 +139,10 @@ Type MyPanel Extends wxPanel
 	Field m_pOutDev:wxMidiOutDevice		' current MIDI output device
 	Field m_pInDev:wxMidiInDevice		' current MIDI Input device
 
-
+	Field m_fReceiveEnabled:Int
+	Field m_fDoCrash:Int
+	Field m_fCreatePollingEvent:Int
+	
 	Method OnInit()
 	
 		m_pMidi = wxMidiSystem.GetInstance()
@@ -371,10 +378,11 @@ Type MyPanel Extends wxPanel
 		Connect(ID_COMBO_SECTIONS, wxEVT_COMMAND_COMBOBOX_SELECTED, _OnComboSections)
 		Connect(ID_COMBO_INSTRUMENTS, wxEVT_COMMAND_COMBOBOX_SELECTED, _OnComboInstruments)
 	
-		'EVT_COMMAND	  (ID_MY_PANEL, wxEVT_POLLING_EVENT, MyPanel::OnPollingEvent)
+		Connect(ID_MY_PANEL, wxEVT_POLLING_EVENT, _OnPollingEvent)
 		Connect(wxID_ANY, wxEVT_MIDI_INPUT, _OnMidiReceive)
 
-	
+		ConnectAny(wxEVT_IDLE, _OnIdle)
+		
 	End Method
 
 	Function OnPageChanging(evt:wxEvent)
@@ -508,7 +516,12 @@ Type MyPanel Extends wxPanel
 	End Function
 
 	Method OnButtonSysEx(event:wxCommandEvent)
-	End Method
+		Local deviceEnquiry:Byte[] = [Byte($F0),Byte($7E),Byte($00),Byte($06),Byte($01),Byte($F7)]
+       
+		Local msg:wxMidiSysExMessage = New wxMidiSysExMessage.CreateSysExMessage( deviceEnquiry )
+       
+		m_pOutDev.WriteSysex(msg)
+ 	End Method
 
 	Function _OnButtonLoopBack(event:wxEvent)
 		MyPanel(event.parent).OnButtonLoopBack(wxCommandEvent(event))
@@ -522,6 +535,7 @@ Type MyPanel Extends wxPanel
 	End Function
 
 	Method OnButtonStartReceiving(event:wxCommandEvent)
+		StartReceiving()
 	End Method
 
 	Function _OnButtonStopReceiving(event:wxEvent)
@@ -529,6 +543,8 @@ Type MyPanel Extends wxPanel
 	End Function
 
 	Method OnButtonStopReceiving(event:wxCommandEvent)
+		m_fReceiveEnabled = False
+		m_text.AppendText("Reception stopped.~n")
 	End Method
 
 	Function _OnButtonCrash(event:wxEvent)
@@ -590,6 +606,37 @@ Type MyPanel Extends wxPanel
 		DoProgramChange()
 	End Method
 
+	Function _OnPollingevent(event:wxEvent)
+		MyPanel(event.parent).OnPollingevent(wxCommandEvent(event))
+	End Function
+
+	Method OnPollingEvent(event:wxCommandEvent)
+		event.Skip(True)			'do not propagate this event
+
+ 	   ' simulate crash if m_fDoCrash is true
+	    If m_fDoCrash Then
+			m_fDoCrash = False
+			' crash the program to test whether midi ports get closed
+'			Int * tmp = Null
+'			*tmp = 5
+	    End If
+
+		If Not m_pInDev Then
+			Return
+		End If
+
+	    If m_pInDev.Poll() Then
+			DoReceiveMessage()
+		Else
+			'no messages available
+			' wait 100ms for low event creation rate when no data available
+			Delay(100)
+		End If
+
+		'continue polling the Midi input
+		m_fCreatePollingEvent = True		'when idle, create a polling Midi input event
+	End Method
+
 	Function _OnComboInstruments(event:wxEvent)
 		MyPanel(event.parent).OnComboInstruments(wxCommandEvent(event))
 	End Function
@@ -611,6 +658,17 @@ Type MyPanel Extends wxPanel
 			DoReceiveMessage()
 		Wend
 
+	End Method
+
+	Function _OnIdle(event:wxEvent)
+		MyPanel(event.parent).OnIdle(wxIdleEvent(event))
+	End Function
+
+	Method OnIdle(event:wxIdleEvent)
+		If m_fCreatePollingEvent Then
+			m_fCreatePollingEvent = False
+			CreatePollingEvent()
+		End If
 	End Method
 
 	Method DoReceiveMessage()
@@ -665,6 +723,35 @@ Type MyPanel Extends wxPanel
 	
 	End Method
 
+	Method CreatePollingEvent()
+		' If reception enabled Create New polling Midi Input event 
+
+		If m_fReceiveEnabled Then
+			Local event:wxCommandEvent = New wxCommandEvent.NewEvent( wxEVT_POLLING_EVENT, GetId() )
+			event.SetEventObject( Self )
+			GetEventHandler().AddPendingEvent( event ) ' Add it To the queue
+		End If
+
+	End Method
+
+	Method StartReceiving()
+		If Not m_pInDev Then
+			m_text.AppendText("No input device. Reception not started.~n")
+			Return
+		End If
+
+		m_text.AppendText("Start receiving:~n")
+		m_fReceiveEnabled = True
+
+		'Filter out active sensing messages (0xFE) and clock messages (0xF8 only)
+	    m_pInDev.SetFilter(wxMIDI_FILT_ACTIVE | wxMIDI_FILT_CLOCK)
+
+	    ' empty the buffer after setting filter, just in case anything got through
+	    m_pInDev.Flush()
+
+		'CreatePollingEvent()
+		m_fCreatePollingEvent = True		'when idle, create a Midi event
+	End Method
 	
 End Type
 
@@ -689,3 +776,16 @@ Function Hex$( val:Int, size:Int )
 	Next
 	Return String.FromShorts( buf,size )
 End Function
+
+Type MyEventFactory Extends TCustomEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Select evt.eventType
+			Case wxEVT_POLLING_EVENT
+				Return wxCommandEvent.Create(wxEventPtr, evt)
+		End Select
+		Return Null
+	End Method
+	
+End Type
+

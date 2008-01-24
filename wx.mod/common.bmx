@@ -175,6 +175,7 @@ Extern
 	Function bmx_wxevthandler_connectnoid(handle:Byte Ptr, eventType:Int, data:Object)
 	Function bmx_wxevthandler_connect(handle:Byte Ptr, id:Int, eventType:Int, data:Object)
 	Function bmx_wxevthandler_connectrange(handle:Byte Ptr, id:Int, lastId:Int, eventType:Int, data:Object)
+	Function bmx_wxevthandler_addpendingevent(handle:Byte Ptr, event:Byte Ptr)
 	
 	Function bmx_event_geteventobject:Object(evt:Byte Ptr)
 	Function bmx_eventtype_value:Int(value:Int)
@@ -237,10 +238,6 @@ Extern
 	Function bmx_wxversion_string:String()
 	Function bmx_wxmessagebox:Int(message:String, caption:String, style:Int, parent:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxgetosdescription:String()
-	
-	Function bmx_wxcontrol_getlabel:String(handle:Byte Ptr)
-	Function bmx_wxcontrol_getlabeltext:String(handle:Byte Ptr)
-	Function bmx_wxcontrol_setlabel(handle:Byte Ptr, label:String)
 	
 	
 
@@ -393,6 +390,13 @@ Extern
 	Function bmx_wxgetuserhome:String(user:String)
 	Function bmx_wxgetuserid:String()
 	Function bmx_wxgetusername:String()
+
+	Function bmx_wxneweventtype:Int()
+
+	Function bmx_wxevent_seteventobject(handle:Byte Ptr, obj:Byte Ptr)
+	Function bmx_wxevent_delete(handle:Byte Ptr)
+	Function bmx_wxcommandevent_create:Byte Ptr(evtType:Int, winId:Int)
+	Function bmx_wxevent_getcustref:Byte Ptr(customEventPtr:Byte Ptr)
 
 End Extern
 

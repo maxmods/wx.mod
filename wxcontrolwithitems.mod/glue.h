@@ -28,23 +28,23 @@ extern "C" {
 
 #include <blitz.h>
 
-	int bmx_wxcontrolwithitems_append(wxControlWithItems * control, BBString * item, void * clientData);
+	int bmx_wxcontrolwithitems_append(wxControlWithItems * control, BBString * item, BBObject * clientData);
 	void bmx_wxcontrolwithitems_clear(wxControlWithItems * control);
 	void bmx_wxcontrolwithitems_deleteitem(wxControlWithItems * control, int item);
 	int bmx_wxcontrolwithitems_getselection(wxControlWithItems * control);
 	int bmx_wxcontrolwithitems_getcount(wxControlWithItems * control);
 	bool bmx_wxcontrolwithitems_isempty(wxControlWithItems * control);
 	void bmx_wxcontrolwithitems_selectitem(wxControlWithItems * control, int item);
-	int bmx_wxcontrolwithitems_insert(wxControlWithItems * control, BBString * item, int pos, void * clientData);
+	int bmx_wxcontrolwithitems_insert(wxControlWithItems * control, BBString * item, int pos, BBObject * clientData);
 	BBString * bmx_wxcontrolwithitems_getstring(wxControlWithItems * control, int item);
 	void bmx_wxcontrolwithitems_setselection(wxControlWithItems * control, int item);
 
 	void bmx_wxcontrolwithitems_appenditems(wxControlWithItems * control, BBArray * items);
 	int bmx_wxcontrolwithitems_findstring(wxControlWithItems * control, BBString * text, int caseSensitive);
-	void * bmx_wxcontrolwithitems_getclientdata(wxControlWithItems * control, int item);
+	BBObject * bmx_wxcontrolwithitems_getclientdata(wxControlWithItems * control, int item);
 	BBArray * bmx_wxcontrolwithitems_getstrings(wxControlWithItems * control);
 	BBString * bmx_wxcontrolwithitems_getstringselection(wxControlWithItems * control);
-	void bmx_wxcontrolwithitems_setclientdata(wxControlWithItems * control, int item, void * clientData);
+	void bmx_wxcontrolwithitems_setclientdata(wxControlWithItems * control, int item, BBObject * clientData);
 	void bmx_wxcontrolwithitems_setstring(wxControlWithItems * control, unsigned int item, BBString * text);
 	void bmx_wxcontrolwithitems_setstringselection(wxControlWithItems * control, BBString * text);
 

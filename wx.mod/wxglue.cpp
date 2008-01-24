@@ -365,19 +365,6 @@ void bmx_wxarraystring_delete(wxArrayString * arr) {
 
 // *********************************************
 
-BBString * bmx_wxcontrol_getlabel(wxControl * control) {
-	return bbStringFromWxString(control->GetLabel());
-}
-
-BBString * bmx_wxcontrol_getlabeltext(wxControl * control) {
-	return bbStringFromWxString(control->GetLabelText());
-}
-
-void bmx_wxcontrol_setlabel(wxControl * control, BBString * label) {
-	control->SetLabel(wxStringFromBBString(label));
-}
-
-// *********************************************
 
 MaxObject::MaxObject(void * handle)
 	: maxHandle(handle)
@@ -423,6 +410,11 @@ void bmx_wxevthandler_connectrange(wxEvtHandler * evtHandler, int id, int lastId
 	evtHandler->Connect(id, lastId, eventType, (wxObjectEventFunction) &MaxEventCallBack::EventThunker, userData);
 	
 }
+
+void bmx_wxevthandler_addpendingevent(wxEvtHandler * evtHandler, wxEvent & event) {
+	evtHandler->AddPendingEvent(event);
+}
+
 
 void * bmx_event_geteventobject(wxEvent * evt) {
 
@@ -1325,4 +1317,27 @@ BBString * bmx_wxgetusername() {
 	return bbStringFromWxString(wxGetUserName());
 }
 
+// *********************************************
+
+wxEventType bmx_wxneweventtype() {
+	return wxNewEventType();
+}
+
+void bmx_wxevent_seteventobject(wxEvent & event, wxObject * obj) {
+	event.SetEventObject(obj);
+}
+
+void bmx_wxevent_delete(wxEvent * event) {
+	delete event;
+}
+
+wxCommandEvent * bmx_wxcommandevent_create(wxEventType type, int winId) {
+	return new wxCommandEvent(type, winId);
+}
+
+wxEvent & bmx_wxevent_getcustref(wxEvent * customEventPtr) {
+	return *customEventPtr;
+}
+
+// *********************************************
 

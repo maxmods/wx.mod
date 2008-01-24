@@ -74,7 +74,8 @@ extern "C" {
 	void bmx_wxevthandler_connectnoid(wxEvtHandler * evtHandler, wxEventType eventType, void * data);
 	void bmx_wxevthandler_connect(wxEvtHandler * evtHandler, int id, wxEventType eventType, void * data);
 	void bmx_wxevthandler_connectrange(wxEvtHandler * evtHandler, int id, int lastId, wxEventType eventType, void * data);
-	
+	void bmx_wxevthandler_addpendingevent(wxEvtHandler * evtHandler, wxEvent & event);
+
 	void * bmx_event_geteventobject(wxEvent * evt);
 	wxEventType bmx_eventtype_value(int type);
 	BBString * bmx_wxcommandevent_getstring(wxCommandEvent & event);
@@ -144,10 +145,6 @@ extern "C" {
 	void bmx_wxaboutdialoginfo_delete(wxAboutDialogInfo * info);
 	void bmx_wxaboutbox(wxAboutDialogInfo * info);
 
-	BBString * bmx_wxcontrol_getlabel(wxControl * control);
-	BBString * bmx_wxcontrol_getlabeltext(wxControl * control);
-	void bmx_wxcontrol_setlabel(wxControl * control, BBString * label);
-	
 
 	MaxColour * bmx_wxcolour_create(int r, int g, int b, int a);
 	MaxColour * bmx_wxcolour_null();
@@ -282,6 +279,13 @@ extern "C" {
 	BBString * bmx_wxgetuserhome(BBString * user);
 	BBString * bmx_wxgetuserid();
 	BBString * bmx_wxgetusername();
+
+	wxEventType bmx_wxneweventtype();
+
+	void bmx_wxevent_seteventobject(wxEvent & event, wxObject * obj);
+	void bmx_wxevent_delete(wxEvent * event);
+	wxCommandEvent * bmx_wxcommandevent_create(wxEventType type, int winId);
+	wxEvent & bmx_wxevent_getcustref(wxEvent * customEventPtr);
 
 }
 

@@ -44,4 +44,8 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxcontrol_getlabel:String(handle:Byte Ptr)
+	Function bmx_wxcontrol_getlabeltext:String(handle:Byte Ptr)
+	Function bmx_wxcontrol_setlabel(handle:Byte Ptr, label:String)
+	
 End Extern

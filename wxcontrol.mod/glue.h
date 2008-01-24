@@ -28,7 +28,10 @@ extern "C" {
 
 #include <blitz.h>
 
-
+	BBString * bmx_wxcontrol_getlabel(wxControl * control);
+	BBString * bmx_wxcontrol_getlabeltext(wxControl * control);
+	void bmx_wxcontrol_setlabel(wxControl * control, BBString * label);
+	
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
