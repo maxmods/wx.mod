@@ -654,3 +654,7 @@ Const wxFILE_KIND_UNKNOWN:Int = 0
 Const wxFILE_KIND_DISK:Int = 1     ' a file supporting seeking To arbitrary offsets
 Const wxFILE_KIND_TERMINAL:Int = 2 ' a tty
 Const wxFILE_KIND_PIPE:Int = 3      ' a pipe
+
+
+Const wxEVT_FIRST:Int = 10000
+Const wxEVT_USER_FIRST:Int = wxEVT_FIRST + 2000
