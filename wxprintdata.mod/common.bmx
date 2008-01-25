@@ -262,3 +262,5 @@ Const wxPRINT_QUALITY_MEDIUM:Int = -2
 Const wxPRINT_QUALITY_LOW:Int = -3
 Const wxPRINT_QUALITY_DRAFT:Int = -4
 
+Const wxPORTRAIT:Int = 1
+Const wxLANDSCAPE:Int = 2
