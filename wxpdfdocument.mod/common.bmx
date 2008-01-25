@@ -154,6 +154,30 @@ Extern
 	Function bmx_wxpdfdocument_clippingtext(handle:Byte Ptr, x:Double, y:Double, txt:String, outline:Int)
 	Function bmx_wxpdfdocument_closepath(handle:Byte Ptr, style:Int)
 
+	Function bmx_wxpdfdocument_setalpha:Int(handle:Byte Ptr, lineAlpha:Double, fillAlpha:Double, blendMode:Int)
+	Function bmx_wxpdfdocument_rect(handle:Byte Ptr, x:Double, y:Double, w:Double, h:Double, style:Int)
+	Function bmx_wxpdfdocument_imagemask:Int(handle:Byte Ptr, file:String, mimeType:String)
+	Function bmx_wxpdfdocument_starttransform(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_settopmargin(handle:Byte Ptr, margin:Double)
+	Function bmx_wxpdfdocument_setviewerpreferences(handle:Byte Ptr, preferences:Int)
+	Function bmx_wxpdfdocument_setxy(handle:Byte Ptr, x:Double, y:Double)
+	Function bmx_wxpdfdocument_skew:Int(handle:Byte Ptr, xAngle:Double, yAngle:Double, x:Double, y:Double)
+	Function bmx_wxpdfdocument_skewx:Int(handle:Byte Ptr, xAngle:Double, x:Double, y:Double)
+	Function bmx_wxpdfdocument_skewy:Int(handle:Byte Ptr, yAngle:Double, x:Double, y:Double)
+	Function bmx_wxpdfdocument_starpolygon(handle:Byte Ptr, x0:Double, y0:Double, r:Double, ..
+			nv:Int, nr:Int, angle:Double, circle:Int, style:Int, circleStyle:Int, circleLineStype:Byte Ptr, circleFillColor:Byte Ptr)
+	Function bmx_wxpdfdocument_shape(handle:Byte Ptr, shape:Byte Ptr, style:Int)
+	Function bmx_wxpdfdocument_shapedtext(handle:Byte Ptr, shape:Byte Ptr, text:String, mode:Int)
+	Function bmx_wxpdfdocument_setlink:Int(handle:Byte Ptr, link:Int, y:Double, page:Int)
+	Function bmx_wxpdfdocument_getpageheight:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getpagewidth:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getrightmargin:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getscalefactor:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getsourceinfo:Int(handle:Byte Ptr, info:Byte Ptr)
+	Function bmx_wxpdfdocument_coonspatchgradient:Int(handle:Byte Ptr, mesh:Byte Ptr, minCoord:Double, maxCoord:Double)
+	Function bmx_wxpdfdocument_curveto(handle:Byte Ptr, x1:Double, y1:Double, x2:Double, y2:Double, x3:Double, y3:Double)
+	Function bmx_wxpdfdocument_endtemplate:Int(handle:Byte Ptr)
+	
 End Extern
 
 ' Border options

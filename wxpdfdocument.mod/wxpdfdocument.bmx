@@ -277,7 +277,11 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_closepath(wxObjectPtr, style)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method CoonsPatchGradient:Int(mesh:wxPdfCoonsPatchMesh, minCoord:Double = 0, maxCoord:Double = 1)
+		Return bmx_wxpdfdocument_coonspatchgradient(wxObjectPtr, mesh.wxObjectPtr, minCoord, maxCoord)
 	End Method
 
 	Rem
@@ -287,7 +291,11 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_curve(wxObjectPtr, x0, y0, x1, y1, x2, y2, x3, y3, style)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method CurveTo(x1:Double, y1:Double, x2:Double, y2:Double, x3:Double, y3:Double)
+		bmx_wxpdfdocument_curveto(wxObjectPtr, x1, y1, x2, y2, x3, y3)
 	End Method
 
 	Rem
@@ -298,9 +306,16 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_ellipse(wxObjectPtr, x0, y0, rx, ry, angle, astart, afinish, style, nSeg)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method EndTemplate:Int()
+		Return bmx_wxpdfdocument_endtemplate(wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Footer()
 	End Method
 	
@@ -397,22 +412,39 @@ Type wxPdfDocument
 		Return bmx_wxpdfdocument_getlinewidth(wxObjectPtr)
 	End Method
 	
-	Method SetLink:Int(link:Int, y:Double = 0, page:Int = -1)
-	End Method
-	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPageHeight:Double()
+		Return bmx_wxpdfdocument_getpageheight(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPageWidth:Double()
+		Return bmx_wxpdfdocument_getpagewidth(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetRightMargin:Double()
+		Return bmx_wxpdfdocument_getrightmargin(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetScaleFactor:Double()
+		Return bmx_wxpdfdocument_getscalefactor(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetSourceInfo:Int(info:wxPdfInfo)
+		Return bmx_wxpdfdocument_getsourceinfo(wxObjectPtr, info.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -479,7 +511,11 @@ Type wxPdfDocument
 			link:wxPdfLink = Null, maskImage:Int = 0)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ImageMask:Int(file:String, mimeType:String = "")
+		Return bmx_wxpdfdocument_imagemask(wxObjectPtr, file, mimeType)
 	End Method
 	
 	Method ImageMaskImage:Int(name:String, _image:wxImage)
@@ -564,7 +600,11 @@ Type wxPdfDocument
 	Method RadioButtonXY(group:String, name:String, x:Double, y:Double, width:Double)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Rect(x:Double, y:Double, w:Double, h:Double, style:Int = wxPDF_STYLE_DRAW)
+		bmx_wxpdfdocument_rect(wxObjectPtr, x, y, w, h, style)
 	End Method
 	
 	Method RegularPolygon(x0:Double, y0:Double, r:Double, ns:Int, angle:Double = 0, circle:Int = False, ..
@@ -617,6 +657,7 @@ Type wxPdfDocument
 	End Method
 	
 	Method SetAlpha:Int(lineAlpha:Double = 1, fillAlpha:Double = 1, blendMode:Int = wxPDF_BLENDMODE_NORMAL)
+		Return bmx_wxpdfdocument_setalpha(wxObjectPtr, lineAlpha, fillAlpha, blendMode)
 	End Method
 	
 	Method SetAlphaState(state:Int)
@@ -752,6 +793,10 @@ Type wxPdfDocument
 	Method SetLineWidth(width:Double)
 		bmx_wxpdfdocument_setlinewidth(wxObjectPtr, width)
 	End Method
+
+	Method SetLink:Int(link:Int, y:Double = 0, page:Int = -1)
+		Return bmx_wxpdfdocument_setlink(wxObjectPtr, link, y, page)
+	End Method
 	
 	Method SetMargins(marginLeft:Double, marginTop:Double, marginRight:Double = -1)
 	End Method
@@ -806,10 +851,18 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_settitle(wxObjectPtr, title)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetTopMargin(margin:Double)
+		bmx_wxpdfdocument_settopmargin(wxObjectPtr, margin)
 	End Method
 		
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetViewerPreferences(preferences:Int = 0)
+		bmx_wxpdfdocument_setviewerpreferences(wxObjectPtr, preferences)
 	End Method
 	
 	Rem
@@ -819,7 +872,11 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_setx(wxObjectPtr, x)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetXY(x:Double, y:Double)
+		bmx_wxpdfdocument_setxy(wxObjectPtr, x, y)
 	End Method
 	
 	Rem
@@ -829,24 +886,67 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_sety(wxObjectPtr, y)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Shape(_shape:wxPdfShape, style:Int = wxPDF_STYLE_DRAW)
+		bmx_wxpdfdocument_shape(wxObjectPtr, _shape.wxObjectPtr, style)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ShapedText(shape:wxPdfShape, text:String, mode:Int = wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT)
+		bmx_wxpdfdocument_shapedtext(wxObjectPtr, shape.wxObjectPtr, text, mode)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Skew:Int(xAngle:Double, yAngle:Double, x:Double = -1, y:Double = -1)
+		Return bmx_wxpdfdocument_skew(wxObjectPtr, xAngle, yAngle, x, y)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SkewX:Int(xAngle:Double, x:Double = -1, y:Double = -1)
+		Return bmx_wxpdfdocument_skewx(wxObjectPtr, xAngle, x, y)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SkewY:Int(yAngle:Double, x:Double = -1, y:Double = -1)
+		Return bmx_wxpdfdocument_skewy(wxObjectPtr, yAngle, x, y)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method StarPolygon(x0:Double, y0:Double, r:Double, nv:Int, nr:Int, angle:Double = 0, circle:Int = False, ..
 			style:Int = wxPDF_STYLE_DRAW, circleStyle:Int = wxPDF_STYLE_DRAW, ..
 			circleLineStyle:wxPdfLineStyle = Null, circleFillColor:wxPdfColour = Null)
+		If circleLineStyle Then
+			If circleFillColor Then
+				bmx_wxpdfdocument_starpolygon(wxObjectPtr, x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStyle.wxObjectPtr, circleFillColor.wxObjectPtr)
+			Else
+				bmx_wxpdfdocument_starpolygon(wxObjectPtr, x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStyle.wxObjectPtr, Null)
+			End If
+		Else
+			If circleFillColor Then
+				bmx_wxpdfdocument_starpolygon(wxObjectPtr, x0, y0, r, nv, nr, angle, circle, style, circleStyle, Null, circleFillColor.wxObjectPtr)
+			Else
+				bmx_wxpdfdocument_starpolygon(wxObjectPtr, x0, y0, r, nv, nr, angle, circle, style, circleStyle, Null, Null)
+			End If
+		End If
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method StartTransform()
+		bmx_wxpdfdocument_starttransform(wxObjectPtr)
 	End Method
 	
 	Rem

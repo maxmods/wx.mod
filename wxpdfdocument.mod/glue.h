@@ -28,6 +28,8 @@ class MaxPdfLink;
 class MaxPdfLineStyle;
 class MaxPdfColour;
 class MaxPdfShape;
+class MaxPdfCoonsPatchMesh;
+class MaxPdfInfo;
 
 extern "C" {
 
@@ -124,6 +126,31 @@ extern "C" {
 	void bmx_wxpdfdocument_clippingtext(wxPdfDocument * doc, double x, double y, BBString * txt, bool outline);
 	void bmx_wxpdfdocument_closepath(wxPdfDocument * doc, int style);
 
+	int bmx_wxpdfdocument_setalpha(wxPdfDocument * doc, double lineAlpha, double fillAlpha, wxPdfBlendMode blendMode);
+	void bmx_wxpdfdocument_rect(wxPdfDocument * doc, double x, double y, double w, double h, int style);
+	int bmx_wxpdfdocument_imagemask(wxPdfDocument * doc, BBString * file, BBString * mimeType);
+	void bmx_wxpdfdocument_starttransform(wxPdfDocument * doc);
+
+	void bmx_wxpdfdocument_settopmargin(wxPdfDocument * doc, double margin);
+	void bmx_wxpdfdocument_setviewerpreferences(wxPdfDocument * doc, int preferences);
+	void bmx_wxpdfdocument_setxy(wxPdfDocument * doc, double x, double y);
+	bool bmx_wxpdfdocument_skew(wxPdfDocument * doc, double xAngle, double yAngle, double x, double y);
+	bool bmx_wxpdfdocument_skewx(wxPdfDocument * doc, double xAngle, double x, double y);
+	bool bmx_wxpdfdocument_skewy(wxPdfDocument * doc, double yAngle, double x, double y);
+	void bmx_wxpdfdocument_starpolygon(wxPdfDocument * doc, double x0, double y0, double r,
+			int nv, int nr, double angle, bool circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStype, MaxPdfColour * circleFillColor);
+	void bmx_wxpdfdocument_shape(wxPdfDocument * doc, MaxPdfShape * shape, int style);
+	void bmx_wxpdfdocument_shapedtext(wxPdfDocument * doc, MaxPdfShape * shape, BBString * text, wxPdfShapedTextMode mode);
+	bool bmx_wxpdfdocument_setlink(wxPdfDocument * doc, int link, double y, int page);
+	double bmx_wxpdfdocument_getpageheight(wxPdfDocument * doc);
+	double bmx_wxpdfdocument_getpagewidth(wxPdfDocument * doc);
+	double bmx_wxpdfdocument_getrightmargin(wxPdfDocument * doc);
+	double bmx_wxpdfdocument_getscalefactor(wxPdfDocument * doc);
+	bool bmx_wxpdfdocument_getsourceinfo(wxPdfDocument * doc, MaxPdfInfo * info);
+	int bmx_wxpdfdocument_coonspatchgradient(wxPdfDocument * doc, MaxPdfCoonsPatchMesh * mesh, double minCoord, double maxCoord);
+	void bmx_wxpdfdocument_curveto(wxPdfDocument * doc, double x1, double y1, double x2, double y2, double x3, double y3);
+	int bmx_wxpdfdocument_endtemplate(wxPdfDocument * doc);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -187,4 +214,28 @@ private:
 	wxPdfShape shape;
 
 };
+
+class MaxPdfInfo
+{
+public:
+	MaxPdfInfo(const wxPdfInfo & i);
+	wxPdfInfo & Info();
+
+private:
+	wxPdfInfo info;
+
+};
+
+class MaxPdfCoonsPatchMesh
+{
+public:
+	MaxPdfCoonsPatchMesh(const wxPdfCoonsPatchMesh & m);
+	wxPdfCoonsPatchMesh & Mesh();
+
+private:
+	wxPdfCoonsPatchMesh mesh;
+
+};
+
+
 

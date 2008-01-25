@@ -97,6 +97,30 @@ wxPdfShape & MaxPdfShape::Shape() {
 
 // *********************************************
 
+MaxPdfInfo::MaxPdfInfo(const wxPdfInfo & i)
+	: info(i)
+{
+}
+
+wxPdfInfo & MaxPdfInfo::Info() {
+	return info;
+}
+
+
+// *********************************************
+
+MaxPdfCoonsPatchMesh::MaxPdfCoonsPatchMesh(const wxPdfCoonsPatchMesh & m)
+	: mesh(m)
+{
+}
+
+wxPdfCoonsPatchMesh & MaxPdfCoonsPatchMesh::Mesh() {
+	return mesh;
+}
+
+
+// *********************************************
+
 
 wxPdfArrayDouble bbDoubleArrayTowxPdfArrayDouble( BBArray *p ){
 	int n=p->scales[0];
@@ -445,6 +469,107 @@ void bmx_wxpdfdocument_clippingtext(wxPdfDocument * doc, double x, double y, BBS
 
 void bmx_wxpdfdocument_closepath(wxPdfDocument * doc, int style) {
 	doc->ClosePath(style);
+}
+
+int bmx_wxpdfdocument_setalpha(wxPdfDocument * doc, double lineAlpha, double fillAlpha, wxPdfBlendMode blendMode) {
+	return doc->SetAlpha(lineAlpha, fillAlpha, blendMode);
+}
+
+void bmx_wxpdfdocument_rect(wxPdfDocument * doc, double x, double y, double w, double h, int style) {
+	doc->Rect(x, y, w, h, style);
+}
+
+int bmx_wxpdfdocument_imagemask(wxPdfDocument * doc, BBString * file, BBString * mimeType) {
+	return doc->ImageMask(wxStringFromBBString(file), wxStringFromBBString(mimeType));
+}
+
+void bmx_wxpdfdocument_starttransform(wxPdfDocument * doc) {
+	doc->StartTransform();
+}
+
+void bmx_wxpdfdocument_settopmargin(wxPdfDocument * doc, double margin) {
+	doc->SetTopMargin(margin);
+}
+
+void bmx_wxpdfdocument_setviewerpreferences(wxPdfDocument * doc, int preferences) {
+	doc->SetViewerPreferences(preferences);
+}
+
+void bmx_wxpdfdocument_setxy(wxPdfDocument * doc, double x, double y) {
+	doc->SetXY(x, y);
+}
+
+bool bmx_wxpdfdocument_skew(wxPdfDocument * doc, double xAngle, double yAngle, double x, double y) {
+	return doc->Skew(xAngle, yAngle, x, y);
+}
+
+bool bmx_wxpdfdocument_skewx(wxPdfDocument * doc, double xAngle, double x, double y) {
+	return doc->SkewX(xAngle, x, y);
+}
+
+bool bmx_wxpdfdocument_skewy(wxPdfDocument * doc, double yAngle, double x, double y) {
+	return doc->SkewY(yAngle, x, y);
+}
+
+void bmx_wxpdfdocument_starpolygon(wxPdfDocument * doc, double x0, double y0, double r,
+		int nv, int nr, double angle, bool circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStype, MaxPdfColour * circleFillColor) {
+	if (circleLineStype) {
+		if (circleFillColor) {
+			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStype->Style(), circleFillColor->Colour());
+		} else {
+			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStype->Style(), wxPdfColour());
+		}
+	} else {
+		if (circleFillColor) {
+			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, wxPdfLineStyle(), circleFillColor->Colour());
+		} else {
+			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, wxPdfLineStyle(), wxPdfColour());
+		}
+	}
+}
+
+void bmx_wxpdfdocument_shape(wxPdfDocument * doc, MaxPdfShape * shape, int style) {
+	doc->Shape(shape->Shape(), style);
+}
+
+void bmx_wxpdfdocument_shapedtext(wxPdfDocument * doc, MaxPdfShape * shape, BBString * text, wxPdfShapedTextMode mode) {
+	doc->ShapedText(shape->Shape(), wxStringFromBBString(text), mode);
+}
+
+bool bmx_wxpdfdocument_setlink(wxPdfDocument * doc, int link, double y, int page) {
+	return doc->SetLink(link, y, page);
+}
+
+double bmx_wxpdfdocument_getpageheight(wxPdfDocument * doc) {
+	return doc->GetPageHeight();
+}
+
+double bmx_wxpdfdocument_getpagewidth(wxPdfDocument * doc) {
+	return doc->GetPageWidth();
+}
+
+double bmx_wxpdfdocument_getrightmargin(wxPdfDocument * doc) {
+	return doc->GetRightMargin();
+}
+
+double bmx_wxpdfdocument_getscalefactor(wxPdfDocument * doc) {
+	return doc->GetScaleFactor();
+}
+
+bool bmx_wxpdfdocument_getsourceinfo(wxPdfDocument * doc, MaxPdfInfo * info) {
+	return doc->GetSourceInfo(info->Info());
+}
+
+int bmx_wxpdfdocument_coonspatchgradient(wxPdfDocument * doc, MaxPdfCoonsPatchMesh * mesh, double minCoord, double maxCoord) {
+	return doc->CoonsPatchGradient(mesh->Mesh(), minCoord, maxCoord);
+}
+
+void bmx_wxpdfdocument_curveto(wxPdfDocument * doc, double x1, double y1, double x2, double y2, double x3, double y3) {
+	doc->CurveTo(x1, y1, x2, y2, x3, y3);
+}
+
+int bmx_wxpdfdocument_endtemplate(wxPdfDocument * doc) {
+	return doc->EndTemplate();
 }
 
 

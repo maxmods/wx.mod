@@ -8,6 +8,7 @@ Import "tutorial2.bmx"
 Import "tutorial3.bmx"
 Import "tutorial4.bmx"
 Import "xmlwrite.bmx"
+Import "transparency.bmx"
 
 
 New MyApp.run()
@@ -25,6 +26,7 @@ Type MyApp Extends wxApp
 		tutorial4()
 		
 		xmlwrite()
+		transparency()
 		
 		Return False
 	
