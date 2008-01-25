@@ -40,6 +40,17 @@ void MaxPdfDocument::Footer() {
 	_wx_wxpdfdocument_wxPdfDocument__Footer(maxHandle);
 }
 
+bool MaxPdfDocument::AcceptPageBreak() {
+	return _wx_wxpdfdocument_wxPdfDocument__AcceptPageBreak(maxHandle);
+}
+
+bool MaxPdfDocument::AcceptPageBreak_default() {
+	return wxPdfDocument::AcceptPageBreak();
+}
+
+
+// ---------------------------------------------------------------------------------------
+
 MaxPdfLink::MaxPdfLink(const wxPdfLink & l)
 	: pdfLink(l)
 {
@@ -49,8 +60,56 @@ wxPdfLink & MaxPdfLink::Link() {
 	return pdfLink;
 }
 
+// ---------------------------------------------------------------------------------------
+
+MaxPdfColour::MaxPdfColour(const wxPdfColour & c)
+	: colour(c)
+{
+}
+
+wxPdfColour & MaxPdfColour::Colour() {
+	return colour;
+}
+
+// ---------------------------------------------------------------------------------------
+
+MaxPdfLineStyle::MaxPdfLineStyle(const wxPdfLineStyle & s)
+	: style(s)
+{
+}
+
+wxPdfLineStyle & MaxPdfLineStyle::Style() {
+	return style;
+}
+
 
 // *********************************************
+
+MaxPdfShape::MaxPdfShape(const wxPdfShape & s)
+	: shape(s)
+{
+}
+
+wxPdfShape & MaxPdfShape::Shape() {
+	return shape;
+}
+
+
+// *********************************************
+
+
+wxPdfArrayDouble bbDoubleArrayTowxPdfArrayDouble( BBArray *p ){
+	int n=p->scales[0];
+	double *s=(double*)BBARRAYDATA( p,p->dims );
+	wxPdfArrayDouble arr;
+	arr.Alloc(n);
+	for( int i=0;i<n;++i ){
+		arr.Add(s[i]);
+	}
+	return arr;
+}
+
+
 
 void bmx_wxpdfdocument_free(wxPdfDocument * doc) {
 	delete doc;
@@ -164,5 +223,228 @@ int bmx_wxpdfdocument_multicell(wxPdfDocument * doc, double w, double h, BBStrin
 	return doc->MultiCell(w, h, wxStringFromBBString(txt), border, align, fill, maxline);
 }
 
+bool bmx_wxpdfdocument_acceptpagebreak(MaxPdfDocument * doc) {
+	return doc->AcceptPageBreak_default();
+}
+
+bool bmx_wxpdfdocument_addfont(wxPdfDocument * doc, BBString * family, BBString * style, BBString * file) {
+	return doc->AddFont(wxStringFromBBString(family), wxStringFromBBString(style), wxStringFromBBString(file));
+}
+
+bool bmx_wxpdfdocument_addfontcjk(wxPdfDocument * doc, BBString * family) {
+	return doc->AddFontCJK(wxStringFromBBString(family));
+}
+
+int bmx_wxpdfdocument_addlink(wxPdfDocument * doc) {
+	return doc->AddLink();
+}
+
+void bmx_wxpdfdocument_annotate(wxPdfDocument * doc, double x, double y, BBString * text) {
+	doc->Annotate(x, y, wxStringFromBBString(text));
+}
+
+void bmx_wxpdfdocument_appendjavascript(wxPdfDocument * doc, BBString * javascript) {
+	doc->AppendJavascript(wxStringFromBBString(javascript));
+}
+
+int bmx_wxpdfdocument_axialgradient(wxPdfDocument * doc, MaxPdfColour * col1, MaxPdfColour * col2, double x1, double y1, double x2, double y2, double intexp) {
+	return doc->AxialGradient(col1->Colour(), col2->Colour(), x1, y1, x2, y2, intexp);
+}
+
+int bmx_wxpdfdocument_begintemplate(wxPdfDocument * doc, double x, double y, double width, double height) {
+	return doc->BeginTemplate(x, y, width, height);
+}
+
+void bmx_wxpdfdocument_bookmark(wxPdfDocument * doc, BBString * txt, int level, double y) {
+	doc->Bookmark(wxStringFromBBString(txt), level, y);
+}
+
+void bmx_wxpdfdocument_setimagescale(wxPdfDocument * doc, double scale) {
+	doc->SetImageScale(scale);
+}
+
+void bmx_wxpdfdocument_setkeywords(wxPdfDocument * doc, BBString * keywords) {
+	doc->SetKeywords(wxStringFromBBString(keywords));
+}
+
+void bmx_wxpdfdocument_setleftmargin(wxPdfDocument * doc, double margin) {
+	doc->SetLeftMargin(margin);
+}
+
+void bmx_wxpdfdocument_setlineheight(wxPdfDocument * doc, double height) {
+	doc->SetLineHeight(height);
+}
+
+void bmx_wxpdfdocument_setlinestyle(wxPdfDocument * doc, MaxPdfLineStyle * style) {
+	doc->SetLineStyle(style->Style());
+}
+
+double bmx_wxpdfdocument_gettopmargin(wxPdfDocument * doc) {
+	doc->GetTopMargin();
+}
+
+double bmx_wxpdfdocument_getx(wxPdfDocument * doc) {
+	return doc->GetX();
+}
+
+double bmx_wxpdfdocument_gety(wxPdfDocument * doc) {
+	return doc->GetY();
+}
+
+double bmx_wxpdfdocument_getbreakmargin(wxPdfDocument * doc) {
+	return doc->GetBreakMargin();
+}
+
+double bmx_wxpdfdocument_getcellmargin(wxPdfDocument * doc) {
+	return doc->GetCellMargin();
+}
+
+BBString * bmx_wxpdfdocument_getfontfamily(wxPdfDocument * doc) {
+	return bbStringFromWxString(doc->GetFontFamily());
+}
+
+BBString * bmx_wxpdfdocument_getfontpath(wxPdfDocument * doc) {
+	return bbStringFromWxString(doc->GetFontPath());
+}
+
+double bmx_wxpdfdocument_getfontsize(wxPdfDocument * doc) {
+	return doc->GetFontSize();
+}
+
+BBString * bmx_wxpdfdocument_getfontstyle(wxPdfDocument * doc) {
+	return bbStringFromWxString(doc->GetFontStyle());
+}
+
+bool bmx_wxpdfdocument_getfontsubsetting(wxPdfDocument * doc) {
+	return doc->GetFontSubsetting();
+}
+
+double bmx_wxpdfdocument_getimagescale(wxPdfDocument * doc) {
+	return doc->GetImageScale();
+}
+
+double bmx_wxpdfdocument_getleftmargin(wxPdfDocument * doc) {
+	return doc->GetLeftMargin();
+}
+
+double bmx_wxpdfdocument_getlineheight(wxPdfDocument * doc) {
+	return doc->GetLineHeight();
+}
+
+double bmx_wxpdfdocument_getlinewidth(wxPdfDocument * doc) {
+	return doc->GetLineWidth();
+}
+
+void bmx_wxpdfdocument_writexml(wxPdfDocument * doc, BBString * txt) {
+	doc->WriteXml(wxStringFromBBString(txt));
+}
+
+void bmx_wxpdfdocument_translate(wxPdfDocument * doc, double tx, double ty) {
+	doc->Translate(tx, ty);
+}
+
+void bmx_wxpdfdocument_translatex(wxPdfDocument * doc, double tx) {
+	doc->TranslateX(tx);
+}
+
+void bmx_wxpdfdocument_translatey(wxPdfDocument * doc, double ty) {
+	doc->TranslateY(ty);
+}
+
+void bmx_wxpdfdocument_unsetclipping(wxPdfDocument * doc) {
+	doc->UnsetClipping();
+}
+
+void bmx_wxpdfdocument_usetemplate(wxPdfDocument * doc, int templateId, double x, double y, double width, double height) {
+	doc->UseTemplate(templateId, x, y, width, height);
+}
+
+void bmx_wxpdfdocument_write(wxPdfDocument * doc, double h, BBString * txt, MaxPdfLink * link) {
+	if (link) {
+		doc->Write(h, wxStringFromBBString(txt), link->Link());
+	} else {
+		doc->Write(h, wxStringFromBBString(txt));
+	}
+}
+
+void bmx_wxpdfdocument_writecell(wxPdfDocument * doc, double h, BBString * txt, int border, int fill, MaxPdfLink * link) {
+	if (link) {
+		doc->WriteCell(h, wxStringFromBBString(txt), border, fill, link->Link());
+	} else {
+		doc->WriteCell(h, wxStringFromBBString(txt), border, fill);
+	}
+}
+
+void bmx_wxpdfdocument_textfield(wxPdfDocument * doc, BBString * name, double width, double height, BBString * value, bool multiline) {
+	doc->TextField(wxStringFromBBString(name), width, height, wxStringFromBBString(value), multiline);
+}
+
+void bmx_wxpdfdocument_textfieldxy(wxPdfDocument * doc, BBString * name, double x, double y, double width, double height, BBString * value, bool multiline) {
+	doc->TextField(wxStringFromBBString(name), x, y, width, height, wxStringFromBBString(value), multiline);
+}
+
+void bmx_wxpdfdocument_stoptransform(wxPdfDocument * doc) {
+	doc->StopTransform();
+}
+
+void bmx_wxpdfdocument_text(wxPdfDocument * doc, double x, double y, BBString * txt) {
+	doc->Text(x, y, wxStringFromBBString(txt));
+}
+
+int bmx_wxpdfdocument_textbox(wxPdfDocument * doc, double w, double h, BBString * txt, int halign, int valign, int border, int fill) {
+	return doc->TextBox(w, h, wxStringFromBBString(txt), halign, valign, border, fill);
+}
+
+void bmx_wxpdfdocument_checkbox(wxPdfDocument * doc, BBString * name, double width, bool checked) {
+	doc->CheckBox(wxStringFromBBString(name), width, checked);
+}
+
+void bmx_wxpdfdocument_checkboxxy(wxPdfDocument * doc, BBString * name, double x, double y, double width, bool checked) {
+	doc->CheckBox(wxStringFromBBString(name), x, y, width, checked);
+}
+
+void bmx_wxpdfdocument_combobox(wxPdfDocument * doc, BBString * name, double width, double height, BBArray * values) {
+	doc->ComboBox(wxStringFromBBString(name), width, height, bbStringArrayTowxArrayStr(values));
+}
+
+void bmx_wxpdfdocument_comboboxxy(wxPdfDocument * doc, BBString * name, double x, double y, double width, double height, BBArray * values) {
+	doc->ComboBox(wxStringFromBBString(name), x, y, width, height, bbStringArrayTowxArrayStr(values));
+}
+
+void bmx_wxpdfdocument_clippedcell(wxPdfDocument * doc, double w, double h, BBString * txt, int border, int ln, int align, int fill, MaxPdfLink * link) {
+	if (link) {
+		doc->ClippedCell(w, h, wxStringFromBBString(txt), border, ln, align, fill, link->Link());
+	} else {
+		doc->ClippedCell(w, h, wxStringFromBBString(txt), border, ln, align, fill);
+	}
+}
+
+void bmx_wxpdfdocument_clippingellipse(wxPdfDocument * doc, double x, double y, double rx, double ry, bool outline) {
+	doc->ClippingEllipse(x, y, rx, ry, outline);
+}
+
+void bmx_wxpdfdocument_clippingpath(wxPdfDocument * doc) {
+	doc->ClippingPath();
+}
+
+void bmx_wxpdfdocument_clippingpathshape(wxPdfDocument * doc, MaxPdfShape * shape, int style) {
+	doc->ClippingPath(shape->Shape(), style);
+}
+
+void bmx_wxpdfdocument_clippingpolygon(wxPdfDocument * doc, BBArray * x, BBArray * y, bool outline) {
+	doc->ClippingPolygon(bbDoubleArrayTowxPdfArrayDouble(x), bbDoubleArrayTowxPdfArrayDouble(y), outline);
+}
+
+void bmx_wxpdfdocument_clippingrect(wxPdfDocument * doc, double x, double y, double w, double h, bool outline) {
+	doc->ClippingRect(x, y, w, h, outline);
+}
+
+void bmx_wxpdfdocument_clippingtext(wxPdfDocument * doc, double x, double y, BBString * txt, bool outline) {
+	doc->ClippingText(x, y, wxStringFromBBString(txt), outline);
+}
+
+void bmx_wxpdfdocument_closepath(wxPdfDocument * doc, int style) {
+	doc->ClosePath(style);
+}
 
 

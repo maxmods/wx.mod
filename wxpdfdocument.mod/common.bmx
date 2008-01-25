@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxPrintData
+Import wx.wxImage
 Import BRL.Blitz
 
 
@@ -94,7 +95,64 @@ Extern
 	Function bmx_wxpdfdocument_setlinewidth(handle:Byte Ptr, width:Double)
 	Function bmx_wxpdfdocument_setauthor(handle:Byte Ptr, author:String)
 	Function bmx_wxpdfdocument_settextcolorgrayscale(handle:Byte Ptr, grayscale:Int)
-	Function  bmx_wxpdfdocument_multicell:Int(handle:Byte Ptr, w:Double, h:Double, txt:String, border:Int, align:Int, fill:Int, maxline:Int)
+	Function bmx_wxpdfdocument_multicell:Int(handle:Byte Ptr, w:Double, h:Double, txt:String, border:Int, align:Int, fill:Int, maxline:Int)
+
+	Function bmx_wxpdfdocument_acceptpagebreak:Int(handle:Byte Ptr)
+
+	Function bmx_wxpdfdocument_addfont:Int(handle:Byte Ptr, family:String, style:String, file:String)
+	Function bmx_wxpdfdocument_addfontcjk:Int(handle:Byte Ptr, family:String)
+	Function bmx_wxpdfdocument_addlink:Int(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_annotate(handle:Byte Ptr, x:Double, y:Double, text:String)
+	Function bmx_wxpdfdocument_appendjavascript(handle:Byte Ptr, javascript:String)
+	Function bmx_wxpdfdocument_axialgradient:Int(handle:Byte Ptr, col1:Byte Ptr, col2:Byte Ptr, x1:Double, y1:Double, x2:Double, y2:Double, intexp:Double)
+	Function bmx_wxpdfdocument_begintemplate:Int(handle:Byte Ptr, x:Double, y:Double, width:Double, height:Double)
+	Function bmx_wxpdfdocument_bookmark(handle:Byte Ptr, txt:String, level:Int, y:Double)
+	Function bmx_wxpdfdocument_setimagescale(handle:Byte Ptr, scale:Double)
+	Function bmx_wxpdfdocument_setkeywords(handle:Byte Ptr, keywords:String)
+	Function bmx_wxpdfdocument_setleftmargin(handle:Byte Ptr, margin:Double)
+	Function bmx_wxpdfdocument_setlineheight(handle:Byte Ptr, height:Double)
+	Function bmx_wxpdfdocument_setlinestyle(handle:Byte Ptr, style:Int)
+	Function bmx_wxpdfdocument_gettopmargin:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getx:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_gety:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getbreakmargin:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getcellmargin:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getfontfamily:String(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getfontpath:String(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getfontsize:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getfontstyle:String(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getfontsubsetting:Int(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getimagescale:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getleftmargin:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getlineheight:Double(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getlinewidth:Double(handle:Byte Ptr)
+
+	Function bmx_wxpdfdocument_writexml(handle:Byte Ptr, txt:String)
+
+	Function bmx_wxpdfdocument_translate(handle:Byte Ptr, tx:Double, ty:Double)
+	Function bmx_wxpdfdocument_translatex(handle:Byte Ptr, tx:Double)
+	Function bmx_wxpdfdocument_translatey(handle:Byte Ptr, ty:Double)
+	Function bmx_wxpdfdocument_unsetclipping(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_usetemplate(handle:Byte Ptr, templateId:Int, x:Double, y:Double, width:Double, height:Double)
+	Function bmx_wxpdfdocument_write(handle:Byte Ptr, h:Double, txt:String, link:Byte Ptr)
+	Function bmx_wxpdfdocument_writecell(handle:Byte Ptr, h:Double, txt:String, border:Int, fill:Int, link:Byte Ptr)
+	Function bmx_wxpdfdocument_textfield(handle:Byte Ptr, name:String, width:Double, height:Double, value:String, multiline:Int)
+	Function bmx_wxpdfdocument_textfieldxy(handle:Byte Ptr, name:String, x:Double, y:Double, width:Double, height:Double, value:String, multiline:Int)
+	Function bmx_wxpdfdocument_stoptransform(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_text(handle:Byte Ptr, x:Double, y:Double, txt:String)
+	Function bmx_wxpdfdocument_textbox:Int(handle:Byte Ptr, w:Double, h:Double, txt:String, halign:Int, valign:Int, border:Int, fill:Int)
+	Function bmx_wxpdfdocument_checkbox(handle:Byte Ptr, name:String, width:Double, checked:Int)
+	Function bmx_wxpdfdocument_checkboxxy(handle:Byte Ptr, name:String, x:Double, y:Double, width:Double, checked:Int)
+	Function bmx_wxpdfdocument_combobox(handle:Byte Ptr, name:String, width:Double, height:Double, values:String[])
+	Function bmx_wxpdfdocument_comboboxxy(handle:Byte Ptr, name:String, x:Double, y:Double, width:Double, height:Double, values:String[])
+	Function bmx_wxpdfdocument_clippedcell(handle:Byte Ptr, w:Double, h:Double, txt:String, border:Int, ln:Int, align:Int, fill:Int, link:Byte Ptr)
+	Function bmx_wxpdfdocument_clippingellipse(handle:Byte Ptr, x:Double, y:Double, rx:Double, ry:Double, outline:Int)
+	Function bmx_wxpdfdocument_clippingpath(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_clippingpathshape(handle:Byte Ptr, shape:Byte Ptr, style:Int)
+	Function bmx_wxpdfdocument_clippingpolygon(handle:Byte Ptr, x:Double[], y:Double[], outline:Int)
+	Function bmx_wxpdfdocument_clippingrect(handle:Byte Ptr, x:Double, y:Double, w:Double, h:Double, outline:Int)
+	Function bmx_wxpdfdocument_clippingtext(handle:Byte Ptr, x:Double, y:Double, txt:String, outline:Int)
+	Function bmx_wxpdfdocument_closepath(handle:Byte Ptr, style:Int)
 
 End Extern
 

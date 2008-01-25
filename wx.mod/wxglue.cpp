@@ -104,6 +104,16 @@ BBArray *wxArrayIntToBBIntArray( wxArrayInt t ){
 	return p;
 }
 
+wxArrayDouble bbDoubleArrayTowxArrayDouble( BBArray *p ){
+	int n=p->scales[0];
+	double *s=(double*)BBARRAYDATA( p,p->dims );
+	wxArrayDouble arr;
+	arr.Alloc(n);
+	for( int i=0;i<n;++i ){
+		arr.Add(s[i]);
+	}
+	return arr;
+}
 
 
 IMPLEMENT_APP_NO_MAIN(MaxApp)
