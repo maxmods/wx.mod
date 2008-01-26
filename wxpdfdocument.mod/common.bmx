@@ -227,7 +227,7 @@ Extern
 	Function bmx_wxpdfdocument_scalexy:Int(handle:Byte Ptr, s:Double, x:Double, y:Double)
 	Function bmx_wxpdfdocument_setdrawcolorgrayscale(handle:Byte Ptr, grayscale:Int)
 	Function bmx_wxpdfdocument_setfillcolorgrayscale(handle:Byte Ptr, grayscale:Int)
-	Function bmx_wxpdfdocument_setsourcefile:Int(handle:Byte Ptr, filename:String, password:string)
+	Function bmx_wxpdfdocument_setsourcefile:Int(handle:Byte Ptr, filename:String, password:String)
 
 
 	Function bmx_wxpdfcolour_createforname:Byte Ptr(name:String)
@@ -243,6 +243,22 @@ Extern
 	Function bmx_wxpdfinfo_getcreationdate:String(handle:Byte Ptr)
 	Function bmx_wxpdfinfo_getmoddate:String(handle:Byte Ptr)
 	Function bmx_wxpdfinfo_delete(handle:Byte Ptr)
+
+	Function bmx_wxpdflink_create:Byte Ptr(linkRef:Int)
+	Function bmx_wxpdflink_createurl:Byte Ptr(linkURL:String)
+	Function bmx_wxpdflink_delete(handle:Byte Ptr)
+
+	Function bmx_wxpdflinestyle_create:Byte Ptr(width:Double, cap:Int, join:Int, dash:Double[], phase:Double, colour:Byte Ptr)
+	Function bmx_wxpdflinestyle_delete(handle:Byte Ptr)
+
+	Function bmx_wxpdfbarcodecreator_create:Byte Ptr(document:Byte Ptr)
+	Function bmx_wxpdfbarcodecreator_free(handle:Byte Ptr)
+	Function bmx_wxpdfbarcodecreator_ean13:Int(handle:Byte Ptr, x:Double, y:Double, barcode:String, w:Double, h:Double)
+	Function bmx_wxpdfbarcodecreator_upc_a:Int(handle:Byte Ptr, x:Double, y:Double, barcode:String, w:Double, h:Double)
+	Function bmx_wxpdfbarcodecreator_code39:Int(handle:Byte Ptr, x:Double, y:Double, code:String, ext:Int, cks:Int, w:Double, h:Double, wide:Int)
+	Function bmx_wxpdfbarcodecreator_I25:Int(handle:Byte Ptr, x:Double, y:Double, code:String, basewidth:Double, height:Double)
+	Function bmx_wxpdfbarcodecreator_postnet:Int(handle:Byte Ptr, x:Double, y:Double, zipcode:String)
+
 
 End Extern
 

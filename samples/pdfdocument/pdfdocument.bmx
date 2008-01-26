@@ -12,6 +12,7 @@ Import "transparency.bmx"
 Import "transformation.bmx"
 Import "bookmark.bmx"
 Import "templates.bmx"
+Import "barcodes.bmx"
 
 New MyApp.run()
 
@@ -33,6 +34,8 @@ Type MyApp Extends wxApp
 		transformation()
 		templates1()
 		templates2()
+		
+		barcodes()
 		
 		Return False
 	

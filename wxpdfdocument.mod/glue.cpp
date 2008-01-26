@@ -839,3 +839,66 @@ void bmx_wxpdfinfo_delete(MaxPdfInfo * info) {
 	delete info;
 }
 
+// *********************************************
+
+MaxPdfLink * bmx_wxpdflink_create(int linkRef) {
+	wxPdfLink p(linkRef);
+	return new MaxPdfLink(p);
+}
+
+MaxPdfLink * bmx_wxpdflink_createurl(BBString * linkURL) {
+	wxPdfLink p(wxStringFromBBString(linkURL));
+	return new MaxPdfLink(p);
+}
+
+void bmx_wxpdflink_delete(MaxPdfLink * link) {
+	delete link;
+}
+
+
+// *********************************************
+
+MaxPdfLineStyle * bmx_wxpdflinestyle_create(double width, wxPdfLineCap cap, wxPdfLineJoin join, BBArray * dash, double phase, MaxPdfColour * colour) {
+	if (colour) {
+		wxPdfLineStyle s(width, cap, join, bbDoubleArrayTowxPdfArrayDouble(dash), phase, colour->Colour());
+		return new MaxPdfLineStyle(s);
+	} else {
+		wxPdfLineStyle s(width, cap, join, bbDoubleArrayTowxPdfArrayDouble(dash), phase);
+		return new MaxPdfLineStyle(s);
+	}	
+}
+
+void bmx_wxpdflinestyle_delete(MaxPdfLineStyle * style) {
+	delete style;
+}
+
+// *********************************************
+
+wxPdfBarCodeCreator * bmx_wxpdfbarcodecreator_create(wxPdfDocument * document) {
+	return new wxPdfBarCodeCreator(*document);
+}
+
+void bmx_wxpdfbarcodecreator_free(wxPdfBarCodeCreator * creator) {
+	delete creator;
+}
+
+bool bmx_wxpdfbarcodecreator_ean13(wxPdfBarCodeCreator * creator, double x, double y, BBString * barcode, double w, double h) {
+	return creator->EAN13(x, y, wxStringFromBBString(barcode), h, w);
+}
+
+bool bmx_wxpdfbarcodecreator_upc_a(wxPdfBarCodeCreator * creator, double x, double y, BBString * barcode, double w, double h) {
+	return creator->UPC_A(x, y, wxStringFromBBString(barcode), h, w);
+}
+
+bool bmx_wxpdfbarcodecreator_code39(wxPdfBarCodeCreator * creator, double x, double y, BBString * code, bool ext, bool cks, double w, double h, bool wide) {
+	return creator->Code39(x, y, wxStringFromBBString(code), ext, cks, w, h, wide);
+}
+
+bool bmx_wxpdfbarcodecreator_I25(wxPdfBarCodeCreator * creator, double x, double y, BBString * code, double basewidth, double height) {
+	return creator->I25(x, y, wxStringFromBBString(code), basewidth, height);
+}
+
+bool bmx_wxpdfbarcodecreator_postnet(wxPdfBarCodeCreator * creator, double x, double y, BBString * zipcode) {
+	return creator->PostNet(x, y, wxStringFromBBString(zipcode));
+}
+

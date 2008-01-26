@@ -1349,7 +1349,7 @@ Type wxPdfDocument
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Represents internal or external links.
 End Rem
 Type wxPdfLink
 
@@ -1362,7 +1362,65 @@ Type wxPdfLink
 			Return this
 		End If
 	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreatePdfLink:wxPdfLink(linkRef:Int)
+		Return New wxPdfLink.Create(linkRef)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreatePdfLinkURL:wxPdfLink(linkURL:String)
+		Return New wxPdfLink.CreateURL(linkURL)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxPdfLink(linkRef:Int)
+		wxObjectPtr = bmx_wxpdflink_create(linkRef)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateURL:wxPdfLink(linkURL:String)
+		wxObjectPtr = bmx_wxpdflink_createurl(linkURL)
+		Return Self
+	End Method
+	
+	Method IsValid:Int()
+	End Method
+	
+	Method IsLinkRef:Int()
+	End Method
+	
+	Method GetLinkRef:Int()
+	End Method
+	
+	Method GetLinkURL:String()
+	End Method
+	
+	Method SetLink(page:Int, ypos:Double)
+	End Method
+	
+	Method GetPage:Int()
+	End Method
+	
+	Method GetPosition:Double()
+	End Method
 
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxpdflink_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type
 
 Rem
@@ -1413,6 +1471,69 @@ Type wxPdfLineStyle
 		End If
 	End Function
 
+	Function CreatePdfLineStyle:wxPdfLineStyle(width:Double = -1, cap:Int = wxPDF_LINECAP_NONE, ..
+			join:Int = wxPDF_LINEJOIN_NONE, dash:Double[] = Null, phase:Double = -1, ..
+			colour:wxPdfColour = Null)
+		Return New wxPdfLineStyle.Create(width, cap, join, dash, phase, colour)
+	End Function
+	
+	Method Create:wxPdfLineStyle(width:Double = -1, cap:Int = wxPDF_LINECAP_NONE, ..
+			join:Int = wxPDF_LINEJOIN_NONE, dash:Double[] = Null, phase:Double = -1, ..
+			colour:wxPdfColour = Null)
+		If colour Then
+			wxObjectPtr = bmx_wxpdflinestyle_create(width, cap, join, dash, phase, colour.wxObjectPtr)
+		Else
+			wxObjectPtr = bmx_wxpdflinestyle_create(width, cap, join, dash, phase, Null)
+		End If
+		Return Self
+	End Method
+	
+	Method IsSet:Int()
+	End Method
+	
+	Method SetWidth(width:Double)
+	End Method
+	
+	Method GetWidth:Double()
+	End Method
+	
+	Method SetLineCap(cap:Int)
+	End Method
+	
+	Method GetLineCap:Int()
+	End Method
+	
+	Method SetLineJoin(join:Int)
+	End Method
+	
+	Method GetLineJoin:Int()
+	End Method
+	
+	Method SetDash(dash:Double[])
+	End Method
+	
+	Method GetDash:Double[]()
+	End Method
+	
+	Method SetPhase(phase:Double)
+	End Method
+	
+	Method GetPhase:Double()
+	End Method
+	
+	Method SetColour(colour:wxPdfColour)
+	End Method
+	
+	Method GetColour:wxPdfColour()
+	End Method
+	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxpdflinestyle_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type
 
 
@@ -1431,6 +1552,13 @@ Type wxPdfShape
 		End If
 	End Function
 
+	Function CreatePdfShape:wxPdfShape()
+	End Function
+	
+	Method Create:wxPdfShape()
+	End Method
+	
+	
 End Type
 
 Rem
@@ -1468,7 +1596,7 @@ Type wxPdfFontDescription
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Represents a PDF document information dictionary.
 End Rem
 Type wxPdfInfo
 
@@ -1482,43 +1610,73 @@ Type wxPdfInfo
 		End If
 	End Function
 	
+	Rem
+	bbdoc: Creates a new wxPdfInfo object.
+	End Rem
 	Function CreatePdfInfo:wxPdfInfo()
 		Return New wxPdfInfo.Create()
 	End Function
 	
+	Rem
+	bbdoc: Creates a new wxPdfInfo object.
+	End Rem
 	Method Create:wxPdfInfo()
 		wxObjectPtr = bmx_wxpdfinfo_create()
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetTitle:String()
 		Return bmx_wxpdfinfo_gettitle(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetAuthor:String()
 		Return bmx_wxpdfinfo_getauthor(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetSubject:String()
 		Return bmx_wxpdfinfo_getsubject(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetKeywords:String()
 		Return bmx_wxpdfinfo_getkeywords(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetCreator:String()
 		Return bmx_wxpdfinfo_getcreator(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetProducer:String()
 		Return bmx_wxpdfinfo_getproducer(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetCreationDate:String()
 		Return bmx_wxpdfinfo_getcreationdate(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetModDate:String()
 		Return bmx_wxpdfinfo_getmoddate(wxObjectPtr)
 	End Method
@@ -1540,15 +1698,69 @@ Type wxPdfBarCodeCreator
 
 	Field wxObjectPtr:Byte Ptr
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreatePdfBarCodeCreator:wxPdfBarCodeCreator(document:wxPdfDocument)
 		Return New wxPdfBarCodeCreator.Create(document)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxPdfBarCodeCreator(document:wxPdfDocument)
-		
+		wxObjectPtr = bmx_wxpdfbarcodecreator_create(document.wxObjectPtr)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
+	Method EAN13:Int(x:Double, y:Double, barcode:String, w:Double = 0.35, h:Double = 16)
+		Return bmx_wxpdfbarcodecreator_ean13(wxObjectptr, x, y, barcode, w, h)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method UPC_A:Int(x:Double, y:Double, barcode:String, w:Double = 0.35, h:Double = 16)
+		Return bmx_wxpdfbarcodecreator_upc_a(wxObjectptr, x, y, barcode, w, h)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Code39:Int(x:Double, y:Double, code:String, ext:Int = True, cks:Int = False, w:Double = 0.4, h:Double = 20, wide:Int = True)
+		Return bmx_wxpdfbarcodecreator_code39(wxObjectptr, x, y, code, ext, cks, w, h, wide)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method I25:Int(x:Double, y:Double, code:String, basewidth:Double = 1, height:Double = 10)
+		Return bmx_wxpdfbarcodecreator_I25(wxObjectptr, x, y, code, basewidth, height)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method PostNet:Int(x:Double, y:Double, zipcode:String)
+		Return bmx_wxpdfbarcodecreator_postnet(wxObjectptr, x, y, zipcode)
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method Free()
+		If wxObjectPtr Then
+			bmx_wxpdfbarcodecreator_free(wxObjectptr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Free()
+	End Method
 	
 End Type
 

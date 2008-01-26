@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include "wx/pdfdoc.h"
+#include "wx/pdfbarcode.h"
 #include "../wximage.mod/glue.h"
 
 class MaxPdfDocument;
@@ -217,6 +218,23 @@ extern "C" {
 	BBString * bmx_wxpdfinfo_getcreationdate(MaxPdfInfo * info);
 	BBString * bmx_wxpdfinfo_getmoddate(MaxPdfInfo * info);
 	void bmx_wxpdfinfo_delete(MaxPdfInfo * info);
+
+	MaxPdfLink * bmx_wxpdflink_create(int linkRef);
+	MaxPdfLink * bmx_wxpdflink_createurl(BBString * linkURL);
+	void bmx_wxpdflink_delete(MaxPdfLink * link);
+
+	MaxPdfLineStyle * bmx_wxpdflinestyle_create(double width, wxPdfLineCap cap, wxPdfLineJoin join, BBArray  * dash, double phase, MaxPdfColour * colour);
+	void bmx_wxpdflinestyle_delete(MaxPdfLineStyle * style);
+
+
+	wxPdfBarCodeCreator * bmx_wxpdfbarcodecreator_create(wxPdfDocument * document);
+	void bmx_wxpdfbarcodecreator_free(wxPdfBarCodeCreator * creator);
+	bool bmx_wxpdfbarcodecreator_ean13(wxPdfBarCodeCreator * creator, double x, double y, BBString * barcode, double w, double h);
+	bool bmx_wxpdfbarcodecreator_upc_a(wxPdfBarCodeCreator * creator, double x, double y, BBString * barcode, double w, double h);
+	bool bmx_wxpdfbarcodecreator_code39(wxPdfBarCodeCreator * creator, double x, double y, BBString * code, bool ext, bool cks, double w, double h, bool wide);
+	bool bmx_wxpdfbarcodecreator_I25(wxPdfBarCodeCreator * creator, double x, double y, BBString * code, double basewidth, double height);
+	bool bmx_wxpdfbarcodecreator_postnet(wxPdfBarCodeCreator * creator, double x, double y, BBString * zipcode);
+	
 
 }
 
