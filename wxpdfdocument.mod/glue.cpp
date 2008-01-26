@@ -121,6 +121,18 @@ wxPdfCoonsPatchMesh & MaxPdfCoonsPatchMesh::Mesh() {
 
 // *********************************************
 
+MaxPdfFontDescription::MaxPdfFontDescription(const wxPdfFontDescription & d)
+	: desc(d)
+{
+}
+
+wxPdfFontDescription & MaxPdfFontDescription::Desc() {
+	return desc;
+}
+
+
+// *********************************************
+
 
 wxPdfArrayDouble bbDoubleArrayTowxPdfArrayDouble( BBArray *p ){
 	int n=p->scales[0];
@@ -572,4 +584,258 @@ int bmx_wxpdfdocument_endtemplate(wxPdfDocument * doc) {
 	return doc->EndTemplate();
 }
 
+MaxPdfColour * bmx_wxpdfdocument_getdrawcolor(wxPdfDocument * doc) {
+	return new MaxPdfColour(doc->GetDrawColor());
+}
+
+
+MaxPdfColour * bmx_wxpdfdocument_getfillcolor(wxPdfDocument * doc) {
+	return new MaxPdfColour(doc->GetFillColor());
+}
+
+MaxPdfFontDescription * bmx_wxpdfdocument_getfontdescription(wxPdfDocument * doc) {
+	return new MaxPdfFontDescription(doc->GetFontDescription());
+}
+
+MaxPdfLineStyle *  bmx_wxpdfdocument_getlinestyle(wxPdfDocument * doc) {
+	return new MaxPdfLineStyle(doc->GetLineStyle());
+}
+
+void bmx_wxpdfdocument_gettemplatebbox(wxPdfDocument * doc, int templateId, double * x, double * y, double * width, double * height) {
+	doc->GetTemplateBBox(templateId, *x, *y, *width, *height);
+}
+
+void bmx_wxpdfdocument_gettemplatessize(wxPdfDocument * doc, int templateId, double * width, double * height) {
+	doc->GetTemplateSize(templateId, *width, *height);
+}
+
+MaxPdfColour * bmx_wxpdfdocument_gettextcolor(wxPdfDocument * doc) {
+	return new MaxPdfColour(doc->GetTextColor());
+}
+
+bool bmx_wxpdfdocument_imageimage(wxPdfDocument * doc, BBString * name, MaxImage * image, double x, double y, double w, double h, MaxPdfLink * link, int maskImage) {
+	if (link) {
+		return doc->Image(wxStringFromBBString(name), image->Image(), x, y, w, h, link->Link(), maskImage);
+	} else {
+		return doc->Image(wxStringFromBBString(name), image->Image(), x, y, w, h, wxPdfLink(-1), maskImage);
+	}
+}
+
+bool bmx_wxpdfdocument_imagemaskimage(wxPdfDocument * doc, BBString * name, MaxImage * image) {
+	return doc->ImageMask(wxStringFromBBString(name), image->Image());
+}
+
+int bmx_wxpdfdocument_importpage(wxPdfDocument * doc, int page) {
+	return doc->ImportPage(page);
+}
+
+bool bmx_wxpdfdocument_isinfooter(wxPdfDocument * doc) {
+	return doc->IsInFooter();
+}
+
+void bmx_wxpdfdocument_line(wxPdfDocument * doc, double x1, double y1, double x2, double y2) {
+	doc->Line(x1, y1, x2, y2);
+}
+
+int bmx_wxpdfdocument_lineargradient(wxPdfDocument * doc, MaxPdfColour * col1, MaxPdfColour * col2, wxPdfLinearGradientType gradientType) {
+	return doc->LinearGradient(col1->Colour(), col2->Colour(), gradientType);
+}
+
+int bmx_wxpdfdocument_linecount(wxPdfDocument * doc, double w, BBString * txt) {
+	return doc->LineCount(w, wxStringFromBBString(txt));
+}
+
+void bmx_wxpdfdocument_lineto(wxPdfDocument * doc, double x, double y) {
+	doc->LineTo(x, y);
+}
+
+void bmx_wxpdfdocument_link(wxPdfDocument * doc, double x, double y, double w, double h, MaxPdfLink * link) {
+	doc->Link(x, y, w, h, link->Link());
+}
+
+void bmx_wxpdfdocument_marker(wxPdfDocument * doc, double x, double y, wxPdfMarker markerType, double size) {
+	doc->Marker(x, y, markerType, size);
+}
+
+void bmx_wxpdfdocument_midaxialgradient(wxPdfDocument * doc, MaxPdfColour * col1, MaxPdfColour * col2, double x1, double y1, double x2, double y2, double midpoint, double intexp) {
+	doc->MidAxialGradient(col1->Colour(), col2->Colour(), x1, y1, x2, y2, midpoint, intexp);
+}
+
+void bmx_wxpdfdocument_mirrorh(wxPdfDocument * doc, double x) {
+	doc->MirrorH(x);
+}
+
+void bmx_wxpdfdocument_mirrorv(wxPdfDocument * doc, double y) {
+	doc->MirrorV(y);
+}
+
+void bmx_wxpdfdocument_moveto(wxPdfDocument * doc, double x, double y) {
+	doc->MoveTo(x, y);
+}
+
+void bmx_wxpdfdocument_polygon(wxPdfDocument * doc, BBArray * x, BBArray * y, int style) {
+	doc->Polygon(bbDoubleArrayTowxPdfArrayDouble(x), bbDoubleArrayTowxPdfArrayDouble(y), style);
+}
+
+void bmx_wxpdfdocument_pushbutton(wxPdfDocument * doc, BBString * name, double width, double height, BBString * caption, BBString * action) {
+	doc->PushButton(wxStringFromBBString(name), width, height, wxStringFromBBString(caption), wxStringFromBBString(action));
+}
+
+void bmx_wxpdfdocument_pushbuttonxy(wxPdfDocument * doc, BBString * name, double x, double y, double width, double height, BBString * caption, BBString * action) {
+	doc->PushButton(wxStringFromBBString(name), x, y, width, height, wxStringFromBBString(caption), wxStringFromBBString(action));
+}
+
+int bmx_wxpdfdocument_radialgradient(wxPdfDocument * doc, MaxPdfColour * col1, MaxPdfColour * col2, double x1, double y1, double r1, double x2, double y2, double r2, double intexp) {
+	return doc->RadialGradient(col1->Colour(), col2->Colour(), x1, y1, r1, x2, y2, r2, intexp);
+}
+
+void bmx_wxpdfdocument_radiobutton(wxPdfDocument * doc, BBString * group, BBString * name, double width) {
+	doc->RadioButton(wxStringFromBBString(group), wxStringFromBBString(name), width);
+}
+
+void bmx_wxpdfdocument_radiobuttonxy(wxPdfDocument * doc, BBString * group, BBString * name, double x, double y, double width) {
+	doc->RadioButton(wxStringFromBBString(group), wxStringFromBBString(name), x, y, width);
+}
+
+void bmx_wxpdfdocument_settextcolorpdf(wxPdfDocument * doc, MaxPdfColour * pdfColour) {
+	doc->SetTextColor(pdfColour->Colour());
+}
+
+void bmx_wxpdfdocument_settextcolorrgb(wxPdfDocument * doc, int red, int green, int blue) {
+	doc->SetTextColor(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
+}
+
+void bmx_wxpdfdocument_settextcolorcmyk(wxPdfDocument * doc, double cyan, double magenta, double yellow, double black) {
+	doc->SetTextColor(cyan, magenta, yellow, black);
+}
+
+void bmx_wxpdfdocument_settextcolorname(wxPdfDocument * doc, BBString * name, double tint) {
+	doc->SetTextColor(wxStringFromBBString(name), tint);
+}
+
+void bmx_wxpdfdocument_setdrawcolorpdf(wxPdfDocument * doc, MaxPdfColour * pdfColour) {
+	doc->SetDrawColor(pdfColour->Colour());
+}
+
+void bmx_wxpdfdocument_setdrawcolorrgb(wxPdfDocument * doc, int red, int green, int blue) {
+	doc->SetDrawColor(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
+}
+
+void bmx_wxpdfdocument_setdrawcolorcmyk(wxPdfDocument * doc, double cyan, double magenta, double yellow, double black) {
+	doc->SetDrawColor(cyan, magenta, yellow, black);
+}
+
+void bmx_wxpdfdocument_setdrawcolorname(wxPdfDocument * doc, BBString * name, double tint) {
+	doc->SetDrawColor(wxStringFromBBString(name), tint);
+}
+
+void bmx_wxpdfdocument_setfillcolorpdf(wxPdfDocument * doc, MaxPdfColour * pdfColour) {
+	doc->SetFillColor(pdfColour->Colour());
+}
+
+void bmx_wxpdfdocument_setfillcolorrgb(wxPdfDocument * doc, int red, int green, int blue) {
+	doc->SetFillColor(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
+}
+
+void bmx_wxpdfdocument_setfillcolorcmyk(wxPdfDocument * doc, double cyan, double magenta, double yellow, double black) {
+	doc->SetFillColor(cyan, magenta, yellow, black);
+}
+
+void bmx_wxpdfdocument_setfillcolorname(wxPdfDocument * doc, BBString * name, double tint) {
+	doc->SetFillColor(wxStringFromBBString(name), tint);
+}
+
+void bmx_wxpdfdocument_rotate(wxPdfDocument * doc, double angle, double x, double y) {
+	doc->Rotate(angle, x, y);
+}
+
+void bmx_wxpdfdocument_rotatedtext(wxPdfDocument * doc, double x, double y, BBString * txt, double angle) {
+	doc->RotatedText(x, y, wxStringFromBBString(txt), angle);
+}
+
+void bmx_wxpdfdocument_roundedrect(wxPdfDocument * doc, double x, double y, double w, double h, int roundCorner, int style) {
+	doc->RoundedRect(x, y, w, h, roundCorner, style);
+}
+
+bool bmx_wxpdfdocument_scale(wxPdfDocument * doc, double sx, double sy, double x, double y) {
+	return doc->Scale(sx, sy, x, y);
+}
+
+bool bmx_wxpdfdocument_scalex(wxPdfDocument * doc, double sx, double x, double y) {
+	return doc->ScaleX(sx, x, y);
+}
+
+bool bmx_wxpdfdocument_scaley(wxPdfDocument * doc, double sy, double x, double y) {
+	return doc->ScaleY(sy, x, y);
+}
+
+bool bmx_wxpdfdocument_scalexy(wxPdfDocument * doc, double s, double x, double y) {
+	return doc->ScaleXY(s, x, y);
+}
+
+void bmx_wxpdfdocument_setdrawcolorgrayscale(wxPdfDocument * doc, int grayscale) {
+	doc->SetDrawColor(static_cast<unsigned char>(grayscale));
+}
+
+void bmx_wxpdfdocument_setfillcolorgrayscale(wxPdfDocument * doc, int grayscale) {
+	doc->SetFillColor(static_cast<unsigned char>(grayscale));
+}
+
+int bmx_wxpdfdocument_setsourcefile(wxPdfDocument * doc, BBString * filename, BBString * password) {
+	return doc->SetSourceFile(wxStringFromBBString(filename), wxStringFromBBString(password));
+}
+
+// *********************************************
+
+MaxPdfColour * bmx_wxpdfcolour_createforname(BBString * name) {
+	wxPdfColour c(wxStringFromBBString(name));
+	return new MaxPdfColour(c);
+}
+
+void bmx_wxpdfcolour_delete(MaxPdfColour * colour) {
+	delete colour;
+}
+
+// *********************************************
+
+MaxPdfInfo * bmx_wxpdfinfo_create() {
+	wxPdfInfo i;
+	return new MaxPdfInfo(i);
+}
+
+BBString * bmx_wxpdfinfo_gettitle(MaxPdfInfo * info) {
+	return bbStringFromWxString(info->Info().GetTitle());
+}
+
+BBString * bmx_wxpdfinfo_getauthor(MaxPdfInfo * info) {
+	return bbStringFromWxString(info->Info().GetAuthor());
+}
+
+BBString * bmx_wxpdfinfo_getsubject(MaxPdfInfo * info) {
+	return bbStringFromWxString(info->Info().GetSubject());
+}
+
+BBString * bmx_wxpdfinfo_getkeywords(MaxPdfInfo * info) {
+	return bbStringFromWxString(info->Info().GetKeywords());
+}
+
+BBString * bmx_wxpdfinfo_getcreator(MaxPdfInfo * info) {
+	return bbStringFromWxString(info->Info().GetCreator());
+}
+
+BBString * bmx_wxpdfinfo_getproducer(MaxPdfInfo * info) {
+	return bbStringFromWxString(info->Info().GetProducer());
+}
+
+BBString * bmx_wxpdfinfo_getcreationdate(MaxPdfInfo * info) {
+	return bbStringFromWxString(info->Info().GetCreationDate());
+}
+
+BBString * bmx_wxpdfinfo_getmoddate(MaxPdfInfo * info) {
+	return bbStringFromWxString(info->Info().GetModDate());
+}
+
+void bmx_wxpdfinfo_delete(MaxPdfInfo * info) {
+	delete info;
+}
 

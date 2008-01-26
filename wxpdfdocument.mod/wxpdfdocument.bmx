@@ -58,14 +58,40 @@ Type wxPdfDocument
 	Field wxObjectPtr:Byte Ptr
 	
 	Rem
-	bbdoc: 
+	bbdoc: Constructor.
+	about:  Parameters :
+	<ul>
+	<li>@orientation - Defines the default page orientation. Possible values are wxPORTRAIT and wxLANDSCAPE.</li>
+	<li>@unit - Defines the user units. Possible values are: 
+	<ul>
+	<li>"mm" millimeter (1 mm = 0.0394 in = 2.833 pt = 0.1 cm) (default)</li>
+	<li>"cm" centimeter (1 cm = 0.394 in = 28.33 pt = 10 mm)</li>
+	<li>"pt" points (1 pt = 1/72 in = 0.0353 cm = 0.353 mm)</li>
+	<li>"in" inch (1 in = 72 pt = 2.54 cm = 25.4 mm)</li>
+	</ul>
+	</li>
+	<li>@format - Defines the page format. All known wxWidgets paper types are allowed. (Default: wxPAPER_A4)</li>
+	</ul>
 	End Rem
 	Function CreatePfdDocument:wxPdfDocument(orientation:Int = wxPORTRAIT, unit:String = "mm", format:Int = wxPAPER_A4)
 		Return New wxPdfDocument.Create(orientation, unit, format)
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Constructor.
+	about:  Parameters :
+	<ul>
+	<li>@orientation - Defines the default page orientation. Possible values are wxPORTRAIT and wxLANDSCAPE.</li>
+	<li>@unit - Defines the user units. Possible values are: 
+	<ul>
+	<li>"mm" millimeter (1 mm = 0.0394 in = 2.833 pt = 0.1 cm) (default)</li>
+	<li>"cm" centimeter (1 cm = 0.394 in = 28.33 pt = 10 mm)</li>
+	<li>"pt" points (1 pt = 1/72 in = 0.0353 cm = 0.353 mm)</li>
+	<li>"in" inch (1 in = 72 pt = 2.54 cm = 25.4 mm)</li>
+	</ul>
+	</li>
+	<li>@format - Defines the page format. All known wxWidgets paper types are allowed. (Default: wxPAPER_A4)</li>
+	</ul>
 	End Rem
 	Method Create:wxPdfDocument(orientation:Int = wxPORTRAIT, unit:String = "mm", format:Int = wxPAPER_A4)
 		wxObjectPtr = bmx_wxpdfdocument_create(Self, orientation, unit, format)
@@ -73,7 +99,11 @@ Type wxPdfDocument
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Whenever a page break condition is met, this method is called, and the break is issued or not depending on the returned value.
+	about: The default implementation returns a value according to the mode selected by SetAutoPageBreak()
+	<p>
+	This method is called automatically and should not be called directly by the application.
+	</p>
 	End Rem
 	Method AcceptPageBreak:Int()
 		Return bmx_wxpdfdocument_acceptpagebreak(wxObjectPtr)
@@ -98,49 +128,102 @@ Type wxPdfDocument
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a new internal link and returns its identifier.
+	about: An internal link is a clickable area which directs to another place within the
+	document. The identifier can then be passed to #Cell(), #Write(), #Image() or #Link(). 
+	The destination is defined with #SetLink().
 	End Rem
 	Method AddLink:Int()
 		Return bmx_wxpdfdocument_addlink(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Adds a new page to the document.
+	about: If a page is already present, the #Footer() method is called first to output the
+	footer. Then the page is added, the current position set to the top-left corner
+	according to the left and top margins, and Header() is called to display the header.
+	The font which was set before calling is automatically restored. There is no need to
+	call #SetFont() again if you want to continue with the same font. The same is true for
+	colors and line width. The origin of the coordinate system is at the top-left corner
+	and increasing ordinates go downwards.
+	<p>Parameters:
+	<ul>
+	<li>@orientation - Page orientation. Possible values are, wxPORTRAIT and wxLANDSCAPE</li>
+	</ul>
+	</p>
 	End Rem
 	Method AddPage(orientation:Int = -1)
 		bmx_wxpdfdocument_addpage(wxObjectPtr, orientation)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Add spot color.
+	about: Add a spot color which can be referenced in color setting methods
+	<p>Parameters :
+	<ul>
+	<li>@name - the name of the spot color (case sensitive)</li>
+	<li>@cyan - indicates the cyan level. Value between 0 and 100 </li>
+	<li>@magenta - indicates the magenta level. Value between 0 and 100 </li>
+	<li>@yellow - indicates the yellow level. Value between 0 and 100 </li>
+	<li>@black - indicates the black level. Value between 0 and 100 </li>
+	</ul>
+	</p>
 	End Rem
 	Method AddSpotColor(name:String, cyan:Double, magenta:Double, yellow:Double, black:Double)
 		bmx_wxpdfdocument_addspotcolor(wxObjectPtr, name, cyan, magenta, yellow, black)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Defines an alias for the total number of pages.
+	about: It will be substituted as the document is closed.
+	<p>Parameters :
+	<ul>
+	<li>@alias - The alias. Default value: {nb} </li>
+	</ul>
+	</p>
 	End Rem
 	Method AliasNbPages(_alias:String = "{nb}")
 		bmx_wxpdfdocument_aliasnbpages(wxObjectPtr, _alias)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Adds a text annotation.
+	about: Parameters :
+	<ul>
+	<li>@x - abscissa of the annotation symbol</li>
+	<li>@y - ordinate of the annotation symbol</li>
+	<li>@text - annotation text </li>
+	</ul>
 	End Rem
 	Method Annotate(x:Double, y:Double, text:String)
 		bmx_wxpdfdocument_annotate(wxObjectPtr, x, y, text)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Appends Javascript.
+	about: Allows to append Javascript code to a Javascript object at the document level.
+	<p>Parameters :
+	<ul>
+	<li>@javascript - Javascript code to be appended </li>
+	</ul>
+	</p>
 	End Rem
 	Method AppendJavascript(javascript:String)
 		bmx_wxpdfdocument_appendjavascript(wxObjectPtr, javascript)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Draws an arrow line between two points.
+	about: Parameters :
+	<ul>
+	<li>@x1 - Abscissa of first point </li>
+	<li>@y1 - Ordinate of first point </li>
+	<li>@x2 - Abscissa of second point </li>
+	<li>@y2 - Ordinate of second point </li>
+	<li>@linewidth - line width </li>
+	<li>@height - height of the arrow head </li>
+	<li>@width - width of the arrow head </li>
+	</ul>
 	End Rem
 	Method Arrow(x1:Double, y1:Double, x2:Double, y2:Double, lineWidth:Double, height:Double, width:Double)
 		bmx_wxpdfdocument_arrow(wxObjectPtr, x1, y1, x2, y2, lineWidth, height, width)
@@ -314,7 +397,10 @@ Type wxPdfDocument
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: This method is used to render the page footer.
+	about: It is automatically called by #AddPage() and #Close() and should not be called
+	directly by the application. The implementation in wxPdfDocument is empty, so you have
+	to subclass it and override the method if you want a specific processing.
 	End Rem
 	Method Footer()
 	End Method
@@ -324,7 +410,7 @@ Type wxPdfDocument
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the page break margin.
 	End Rem
 	Method GetBreakMargin:Double()
 		Return bmx_wxpdfdocument_getbreakmargin(wxObjectPtr)
@@ -337,13 +423,25 @@ Type wxPdfDocument
 		Return bmx_wxpdfdocument_getcellmargin(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetDrawColor:wxPdfColour()
+		Return wxPdfColour._create(bmx_wxpdfdocument_getdrawcolor(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetFillColor:wxPdfColour()
+		Return wxPdfColour._create(bmx_wxpdfdocument_getfillcolor(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetFontDescription:wxPdfFontDescription()
+		Return wxPdfFontDescription._create(bmx_wxpdfdocument_getfontdescription(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -402,39 +500,43 @@ Type wxPdfDocument
 		Return bmx_wxpdfdocument_getlineheight(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetLineStyle:wxPdfLineStyle()
+		Return wxPdfLineStyle._create(bmx_wxpdfdocument_getlinestyle(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the current line width.
 	End Rem
 	Method GetLineWidth:Double()
 		Return bmx_wxpdfdocument_getlinewidth(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the page height in units.
 	End Rem
 	Method GetPageHeight:Double()
 		Return bmx_wxpdfdocument_getpageheight(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the page width in units.
 	End Rem
 	Method GetPageWidth:Double()
 		Return bmx_wxpdfdocument_getpagewidth(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the right margin.
 	End Rem
 	Method GetRightMargin:Double()
 		Return bmx_wxpdfdocument_getrightmargin(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the scale factor (number of points in user unit).
 	End Rem
 	Method GetScaleFactor:Double()
 		Return bmx_wxpdfdocument_getscalefactor(wxObjectPtr)
@@ -454,13 +556,25 @@ Type wxPdfDocument
 		Return bmx_wxpdfdocument_getstringwidth(wxObjectPtr, text)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetTemplateBBox(templateId:Int, x:Double Var, y:Double Var, width:Double Var, height:Double Var)
+		bmx_wxpdfdocument_gettemplatebbox(wxObjectPtr, templateId, Varptr x, Varptr y, Varptr width, Varptr height)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetTemplateSize(templateId:Int, width:Double Var, height:Double Var)
+		bmx_wxpdfdocument_gettemplatessize(wxObjectPtr, templateId, Varptr width, Varptr height)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetTextColor:wxPdfColour()
+		Return wxPdfColour._create(bmx_wxpdfdocument_gettextcolor(wxObjectPtr))
 	End Method
 
 	Rem
@@ -485,7 +599,10 @@ Type wxPdfDocument
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: This method is used to render the page header.
+	about: It is automatically called by @AddPage() and should not be called directly by
+	the application. The implementation in wxPdfDocument is empty, so you have to subclass
+	it and override the method if you want a specific processing.
 	End Rem
 	Method Header()
 	End Method
@@ -507,8 +624,16 @@ Type wxPdfDocument
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method ImageImage:Int(name:String, _image:wxImage, x:Double, y:Double, w:Double = 0, h:Double = 0, ..
 			link:wxPdfLink = Null, maskImage:Int = 0)
+		If link Then
+			Return bmx_wxpdfdocument_imageimage(wxObjectPtr, name, _image.wxObjectPtr, x, y, w, h, link.wxObjectPtr, maskImage)
+		Else
+			Return bmx_wxpdfdocument_imageimage(wxObjectPtr, name, _image.wxObjectPtr, x, y, w, h, Null, maskImage)
+		End If
 	End Method
 	
 	Rem
@@ -518,28 +643,60 @@ Type wxPdfDocument
 		Return bmx_wxpdfdocument_imagemask(wxObjectPtr, file, mimeType)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ImageMaskImage:Int(name:String, _image:wxImage)
+		Return bmx_wxpdfdocument_imagemaskimage(wxObjectPtr, name, _image.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ImportPage:Int(page:Int)
+		Return bmx_wxpdfdocument_importpage(wxObjectPtr, page)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsInFooter:Int()
+		Return bmx_wxpdfdocument_isinfooter(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Line(x1:Double, y1:Double, x2:Double, y2:Double)
+		bmx_wxpdfdocument_line(wxObjectPtr, x1, y1, x2, y2)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method LinearGradient:Int(col1:wxPdfColour, col2:wxPdfColour, gradientType:Int = wxPDF_LINEAR_GRADIENT_HORIZONTAL)
+		Return bmx_wxpdfdocument_lineargradient(wxObjectPtr, col1.wxObjectptr, col2.wxObjectPtr, gradientType)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method LineCount:Int(w:Double, txt:String)
+		Return bmx_wxpdfdocument_linecount(wxObjectPtr, w, txt)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method LineTo(x:Double, y:Double)
+		bmx_wxpdfdocument_lineto(wxObjectPtr, x, y)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Link(x:Double, y:Double, w:Double, h:Double, _link:wxPdfLink)
+		bmx_wxpdfdocument_link(wxObjectPtr, x, y, w, h, _link.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -549,20 +706,40 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_ln(wxObjectPtr, h)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Marker(x:Double, y:Double, markerType:Int, size:Double)
+		bmx_wxpdfdocument_marker(wxObjectPtr, x, y, markerType, size)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method MidAxialGradient:Int(col1:wxPdfColour, col2:wxPdfColour, x1:Double = 0, ..
 			y1:Double = 0, x2:Double = 1, y2:Double = 0, midpoint:Double = 0.5, intexp:Double = 1)
+		bmx_wxpdfdocument_midaxialgradient(wxObjectPtr, col1.wxObjectPtr, col2.wxObjectPtr, x1, y1, x2, y2, midpoint, intexp)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method MirrorH(x:Double = -1)
+		bmx_wxpdfdocument_mirrorh(wxObjectPtr, x)
 	End Method
 
-	Method MirrorV(x:Double = -1)
+	Rem
+	bbdoc: 
+	End Rem
+	Method MirrorV(y:Double = -1)
+		bmx_wxpdfdocument_mirrorv(wxObjectPtr, y)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method MoveTo(x:Double, y:Double)
+		bmx_wxpdfdocument_moveto(wxObjectPtr, x, y)
 	End Method
 	
 	Rem
@@ -580,24 +757,47 @@ Type wxPdfDocument
 		Return bmx_wxpdfdocument_pageno(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Polygon(x:Double[], y:Double[], style:Int = wxPDF_STYLE_DRAW)
+		bmx_wxpdfdocument_polygon(wxObjectPtr, x, y, style)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method PushButton(name:String, width:Double, height:Double, caption:String, action:String)
+		bmx_wxpdfdocument_pushbutton(wxObjectPtr, name, width, height, caption, action)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method PushButtonXy(name:String, x:Double, y:Double, width:Double, height:Double, caption:String, action:String)
+		bmx_wxpdfdocument_pushbuttonxy(wxObjectPtr, name, x, y, width, height, caption, action)
 	End Method
 
-
+	Rem
+	bbdoc: 
+	End Rem
 	Method RadialGradient:Int(col1:wxPdfColour, col2:wxPdfColour, x1:Double = 0.5, ..
 			y1:Double = 0.5, r1:Double = 0, x2:Double = 0.5, y2:Double = 0.5, r2:Double = 1, intexp:Double = 1)
+		Return bmx_wxpdfdocument_radialgradient(wxObjectPtr, col1.wxObjectPtr, col2.wxObjectPtr, x1, y1, r1, x2, y2, r2, intexp)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method RadioButton(group:String, name:String, width:Double)
+		bmx_wxpdfdocument_radiobutton(wxObjectPtr, group, name, width)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method RadioButtonXY(group:String, name:String, x:Double, y:Double, width:Double)
+		bmx_wxpdfdocument_radiobuttonxy(wxObjectPtr, group, name, x, y, width)
 	End Method
 
 	Rem
@@ -612,19 +812,30 @@ Type wxPdfDocument
 			circleLineStyle:wxPdfLineStyle = Null, circleFillColor:wxPdfColour = Null)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Rotate(angle:Double, x:Double = -1, y:Double = -1)
+		bmx_wxpdfdocument_rotate(wxObjectPtr, angle, x, y)
 	End Method
 	
 	Method RotatedImage(file:String, x:Double, y:Double, w:Double, h:Double, angle:Double, ..
 			imgType:String = "", link:wxPdfLink = Null, maskImage:Int = 0)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method RotatedText(x:Double, y:Double, txt:String, angle:Double)
+		bmx_wxpdfdocument_rotatedtext(wxObjectPtr, x, y, txt, angle)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method RoundedRect(x:Double, y:Double, w:Double, h:Double, roundCorner:Int = wxPDF_CORNER_ALL, style:Int = wxPDF_STYLE_DRAW)
+		bmx_wxpdfdocument_roundedrect(wxObjectPtr, x, y, w, h, roundCorner, style)
 	End Method
-
 	
 	Rem
 	bbdoc: Saves the document to a file on disk.
@@ -639,23 +850,41 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_saveasfile(wxObjectPtr, name)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Scale:Int(sx:Double, sy:Double, x:Double = -1, y:Double = -1)
+		Return bmx_wxpdfdocument_scale(wxObjectPtr, sx, sy, x, y)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ScaleX:Int(sx:Double, x:Double = -1, y:Double = -1)
+		Return bmx_wxpdfdocument_scalex(wxObjectPtr, sx, x, y)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method ScaleY:Int(sy:Double, x:Double = -1, y:Double = -1)
+		Return bmx_wxpdfdocument_scaley(wxObjectPtr, sy, x, y)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method ScaleXY:Int(s:Double, x:Double = -1, y:Double = -1)
+		Return bmx_wxpdfdocument_scalexy(wxObjectPtr, s, x, y)
 	End Method
-	
 
 	Method Sector(x0:Double, y0:Double, r:Double, astart:Double = 0, afinish:Double = 360, ..
 			style:Int = wxPDF_STYLE_DRAW, clockwise:Int = True, origin:Double = 90)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetAlpha:Int(lineAlpha:Double = 1, fillAlpha:Double = 1, blendMode:Int = wxPDF_BLENDMODE_NORMAL)
 		Return bmx_wxpdfdocument_setalpha(wxObjectPtr, lineAlpha, fillAlpha, blendMode)
 	End Method
@@ -685,7 +914,11 @@ Type wxPdfDocument
 	Method SetDisplayMode(zoom:Int, layout:Int = wxPDF_LAYOUT_CONTINUOUS, zoomFactor:Double = 100)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetDrawColorGrayScale(grayscale:Int)
+		bmx_wxpdfdocument_setdrawcolorgrayscale(wxObjectPtr, grayscale)
 	End Method
 	
 	Rem
@@ -695,19 +928,39 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_setdrawcolor(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetDrawColorPdf(pdfColour:wxPdfColour)
+		bmx_wxpdfdocument_setdrawcolorpdf(wxObjectPtr, pdfColour.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetDrawColorRGB(red:Int, green:Int, blue:Int)
+		bmx_wxpdfdocument_setdrawcolorrgb(wxObjectPtr, red, green, blue)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetDrawColorCMYK(cyan:Double, magenta:Double, yellow:Double, black:Double)
+		bmx_wxpdfdocument_setdrawcolorcmyk(wxObjectPtr, cyan, magenta, yellow, black)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetDrawColorName(name:String, tint:Double = 100)
+		bmx_wxpdfdocument_setdrawcolorname(wxObjectPtr, name, tint)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetFillColorGrayScale(grayscale:Int)
+		bmx_wxpdfdocument_setfillcolorgrayscale(wxObjectPtr, grayscale)
 	End Method
 	
 	Rem
@@ -717,16 +970,32 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_setfillcolor(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetFillColorPdf(pdfColour:wxPdfColour)
+		bmx_wxpdfdocument_setfillcolorpdf(wxObjectPtr, pdfColour.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetFillColorRGB(red:Int, green:Int, blue:Int)
+		bmx_wxpdfdocument_setfillcolorrgb(wxObjectPtr, red, green, blue)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetFillColorCMYK(cyan:Double, magenta:Double, yellow:Double, black:Double)
+		bmx_wxpdfdocument_setfillcolorcmyk(wxObjectPtr, cyan, magenta, yellow, black)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetFillColorName(name:String, tint:Double = 100)
+		bmx_wxpdfdocument_setfillcolorname(wxObjectPtr, name, tint)
 	End Method
 	
 	Method SetFillGradient(x:Double, y:Double, w:Double, h:Double, gradient:Int)
@@ -810,6 +1079,7 @@ Type wxPdfDocument
 	End Method
 	
 	Method SetSourceFile:Int(filename:String, password:String = "")
+		Return bmx_wxpdfdocument_setsourcefile(wxObjectPtr, filename, password)
 	End Method
 	
 	Method SetSubject(subject:String)
@@ -832,16 +1102,32 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_settextcolor(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetTextColorPdf(pdfColour:wxPdfColour)
+		bmx_wxpdfdocument_settextcolorpdf(wxObjectPtr, pdfColour.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetTextColorRGB(red:Int, green:Int, blue:Int)
+		bmx_wxpdfdocument_settextcolorrgb(wxObjectPtr, red, green, blue)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetTextColorCMYK(cyan:Double, magenta:Double, yellow:Double, black:Double)
+		bmx_wxpdfdocument_settextcolorcmyk(wxObjectPtr, cyan, magenta, yellow, black)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetTextColorName(name:String, tint:Double = 100)
+		bmx_wxpdfdocument_settextcolorname(wxObjectPtr, name, tint)
 	End Method
 	
 	Rem
@@ -1069,6 +1355,14 @@ Type wxPdfLink
 
 	Field wxObjectPtr:Byte Ptr
 
+	Function _create:wxPdfLink(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxPdfLink = New wxPdfLink
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 End Type
 
 Rem
@@ -1078,6 +1372,29 @@ Type wxPdfColour
 	
 	Field wxObjectPtr:Byte Ptr
 	
+	Function _create:wxPdfColour(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxPdfColour = New wxPdfColour
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Method CreateForName:wxPdfColour(name:String)
+		wxObjectPtr = bmx_wxpdfcolour_createforname(name)
+		Return Self
+	End Method
+	
+	Method GetColorType:Int()
+	End Method
+
+
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxpdfcolour_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
 	
 End Type
 
@@ -1087,6 +1404,14 @@ End Rem
 Type wxPdfLineStyle
 
 	Field wxObjectPtr:Byte Ptr
+
+	Function _create:wxPdfLineStyle(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxPdfLineStyle = New wxPdfLineStyle
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
 
 End Type
 
@@ -1098,6 +1423,14 @@ Type wxPdfShape
 
 	Field wxObjectPtr:Byte Ptr
 
+	Function _create:wxPdfShape(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxPdfShape = New wxPdfShape
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 End Type
 
 Rem
@@ -1106,6 +1439,14 @@ End Rem
 Type wxPdfCoonsPatchMesh
 
 	Field wxObjectPtr:Byte Ptr
+
+	Function _create:wxPdfCoonsPatchMesh(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxPdfCoonsPatchMesh = New wxPdfCoonsPatchMesh
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
 
 End Type
 
@@ -1116,6 +1457,14 @@ Type wxPdfFontDescription
 
 	Field wxObjectPtr:Byte Ptr
 
+	Function _create:wxPdfFontDescription(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxPdfFontDescription = New wxPdfFontDescription
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 End Type
 
 Rem
@@ -1125,6 +1474,62 @@ Type wxPdfInfo
 
 	Field wxObjectPtr:Byte Ptr
 
+	Function _create:wxPdfInfo(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxPdfInfo = New wxPdfInfo
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function CreatePdfInfo:wxPdfInfo()
+		Return New wxPdfInfo.Create()
+	End Function
+	
+	Method Create:wxPdfInfo()
+		wxObjectPtr = bmx_wxpdfinfo_create()
+		Return Self
+	End Method
+
+	Method GetTitle:String()
+		Return bmx_wxpdfinfo_gettitle(wxObjectPtr)
+	End Method
+	
+	Method GetAuthor:String()
+		Return bmx_wxpdfinfo_getauthor(wxObjectPtr)
+	End Method
+	
+	Method GetSubject:String()
+		Return bmx_wxpdfinfo_getsubject(wxObjectPtr)
+	End Method
+	
+	Method GetKeywords:String()
+		Return bmx_wxpdfinfo_getkeywords(wxObjectPtr)
+	End Method
+	
+	Method GetCreator:String()
+		Return bmx_wxpdfinfo_getcreator(wxObjectPtr)
+	End Method
+	
+	Method GetProducer:String()
+		Return bmx_wxpdfinfo_getproducer(wxObjectPtr)
+	End Method
+	
+	Method GetCreationDate:String()
+		Return bmx_wxpdfinfo_getcreationdate(wxObjectPtr)
+	End Method
+	
+	Method GetModDate:String()
+		Return bmx_wxpdfinfo_getmoddate(wxObjectPtr)
+	End Method
+	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxpdfinfo_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type
 
 Rem
