@@ -785,6 +785,87 @@ int bmx_wxpdfdocument_setsourcefile(wxPdfDocument * doc, BBString * filename, BB
 	return doc->SetSourceFile(wxStringFromBBString(filename), wxStringFromBBString(password));
 }
 
+void bmx_wxpdfdocument_setsubject(wxPdfDocument * doc, BBString * subject) {
+	doc->SetSubject(wxStringFromBBString(subject));
+}
+
+void bmx_wxpdfdocument_settemplatebbox(wxPdfDocument * doc, int templateId, double x, double y, double width, double height) {
+	doc->SetTemplateBBox(templateId, x, y, width, height);
+}
+
+void bmx_wxpdfdocument_setmargins(wxPdfDocument * doc, double marginLeft, double marginTop, double marginRight) {
+	doc->SetMargins(marginLeft, marginTop, marginRight);
+}
+
+void bmx_wxpdfdocument_setprotection(wxPdfDocument * doc, int permissions, BBString * userPassword, BBString * ownerPassword, wxPdfEncryptionMethod encryptionMethod, int keyLength) {
+	doc->SetProtection(permissions, wxStringFromBBString(userPassword), wxStringFromBBString(ownerPassword), encryptionMethod, keyLength);
+}
+
+void bmx_wxpdfdocument_setrightmargin(wxPdfDocument * doc, double margin) {
+	doc->SetRightMargin(margin);
+}
+
+void bmx_wxpdfdocument_setfontpath(wxPdfDocument * doc, BBString * fontPath) {
+	doc->SetFontPath(wxStringFromBBString(fontPath));
+}
+
+void bmx_wxpdfdocument_setfontsize(wxPdfDocument * doc, double size) {
+	doc->SetFontSize(size);
+}
+
+void bmx_wxpdfdocument_setfontsubsetting(wxPdfDocument * doc, bool fontSubsetting) {
+	doc->SetFontSubsetting(fontSubsetting);
+}
+
+void bmx_wxpdfdocument_setformborderstyle(wxPdfDocument * doc, wxPdfBorderStyle borderStyle, double borderWidth) {
+	doc->SetFormBorderStyle(borderStyle, borderWidth);
+}
+
+void bmx_wxpdfdocument_setformcolors(wxPdfDocument * doc, MaxPdfColour * borderColor, MaxPdfColour * backgroundColor, MaxPdfColour * textColor) {
+	doc->SetFormColors((borderColor)?borderColor->Colour():wxPdfColour(), (backgroundColor)?backgroundColor->Colour():wxPdfColour(250), (textColor)?textColor->Colour():wxPdfColour());
+}
+
+void bmx_wxpdfdocument_setfillgradient(wxPdfDocument * doc, double x, double y, double w, double h, int gradient) {
+	doc->SetFillGradient(x, y, w, h, gradient);
+}
+
+void bmx_wxpdfdocument_setautopagebreak(wxPdfDocument * doc, bool autoPageBreak, double margin) {
+	doc->SetAutoPageBreak(autoPageBreak, margin);
+}
+
+void bmx_wxpdfdocument_setcellmargin(wxPdfDocument * doc, double margin) {
+	doc->SetCellMargin(margin);
+}
+
+void bmx_wxpdfdocument_setcompression(wxPdfDocument * doc, bool compress) {
+	doc->SetCompression(compress);
+}
+
+void bmx_wxpdfdocument_setcreator(wxPdfDocument * doc, BBString * creator) {
+	doc->SetCreator(wxStringFromBBString(creator));
+}
+
+void bmx_wxpdfdocument_setdisplaymode(wxPdfDocument * doc, wxPdfZoom zoom, wxPdfLayout layout, double zoomFactor) {
+	doc->SetDisplayMode(zoom, layout, zoomFactor);
+}
+
+void bmx_wxpdfdocument_setalphastate(wxPdfDocument * doc, int state) {
+	doc->SetAlphaState(state);
+}
+
+void bmx_wxpdfdocument_sector(wxPdfDocument * doc, double x0, double y0, double r, double astart, double afinish, int style, bool clockwise, double origin) {
+	doc->Sector(x0, y0, r, astart, afinish, style, clockwise, origin);
+}
+
+void bmx_wxpdfdocument_regularpolygon(wxPdfDocument * doc, double x0, double y0, double r, int ns, double angle, bool circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStyle, MaxPdfColour * circleFillColor) {
+	doc->RegularPolygon(x0, y0, r, ns, angle, circle, style, circleStyle, (circleLineStyle)?circleLineStyle->Style():wxPdfLineStyle(), (circleFillColor)?circleFillColor->Colour():wxPdfColour());
+}
+
+void bmx_wxpdfdocument_rotatedimage(wxPdfDocument * doc, BBString * file, double x, double y, double w, double h, double angle, BBString * imgType, MaxPdfLink * link, int maskImage) {
+	doc->RotatedImage(wxStringFromBBString(file), x, y, w, h, angle, wxStringFromBBString(imgType), (link)?link->Link():wxPdfLink(-1), maskImage);
+}
+
+
 // *********************************************
 
 MaxPdfColour * bmx_wxpdfcolour_createforname(BBString * name) {

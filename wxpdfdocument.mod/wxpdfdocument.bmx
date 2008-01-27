@@ -52,6 +52,30 @@ Import "common.bmx"
 
 Rem
 bbdoc: A type which allows wxWidgets applications to generate PDF files.
+about: The main features are:
+<ul>
+<li>Choice of measure unit, page format and margins</li>
+<li>Page header and footer management</li>
+<li>Automatic page break</li>
+<li>Automatic line break and text justification</li>
+<li>Image support (GIF, JPEG, PNG and WMF)</li>
+<li>Colors (Grayscale, RGB, CMYK, Spot colors)</li>
+<li>Links (internal and external)</li>
+<li>14 Adobe standard fonts</li>
+<li>TrueType and Type1 fonts (with or without embedding) and encoding support</li>
+<li>TrueType Unicode and Type0 fonts (for Chinese, Japanese and Korean) support in the Unicode build</li>
+<li>Page compression</li>
+<li>Graphics primitives for the creation of simple drawings</li>
+<li>Definition of clipping areas</li>
+<li>Bookmarks for outlining the document</li>
+<li>Rotation</li>
+<li>Protecting the document by passwords and/or access permissions</li>
+<li>Text annotations</li>
+<li>PDF forms (supported field types: text, combo box, check box, radio button, push button)</li>
+<li>JavaScript</li>
+<li>Fill gradients</li>
+<li>Templates</li>
+</ul>
 End Rem
 Type wxPdfDocument
 
@@ -231,6 +255,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method AxialGradient:Int(col1:wxPdfColour, col2:wxPdfColour, x1:Double = 0, ..
 			y1:Double = 0, x2:Double = 1, y2:Double = 0, intexp:Double = 1)
@@ -239,6 +267,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method BeginTemplate:Int(x:Double = 0, y:Double = 0, width:Double = 0, height:Double = 0)
 		Return bmx_wxpdfdocument_begintemplate(wxObjectPtr, x, y, width, height)
@@ -246,6 +278,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Bookmark(txt:String, level:Int = 0, y:Double = 0)
 		bmx_wxpdfdocument_bookmark(wxObjectPtr, txt, level, y)
@@ -253,6 +289,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Cell(w:Double, h:Double = 0, txt:String = "", border:Int = wxPDF_BORDER_NONE, ln:Int = 0, ..
 			align:Int = wxPDF_ALIGN_LEFT, fill:Int = 0, link:wxPdfLink = Null)
@@ -265,6 +305,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Circle(x0:Double, y0:Double, r:Double, astart:Double = 0, afinish:Double = 360, ..
 			style:Int = wxPDF_STYLE_DRAW, nSeg:Int = 8)
@@ -273,6 +317,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method CheckBox(name:String, width:Double, checked:Int = False)
 		bmx_wxpdfdocument_checkbox(wxObjectPtr, name, width, checked)
@@ -280,6 +328,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method CheckBoxXy(name:String, x:Double, y:Double, width:Double, checked:Int = False)
 		bmx_wxpdfdocument_checkboxxy(wxObjectPtr, name, x, y, width, checked)
@@ -287,6 +339,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ComboBox(name:String, width:Double, height:Double, values:String[])
 		bmx_wxpdfdocument_combobox(wxObjectPtr, name, width, height, values)
@@ -294,6 +350,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ComboBoxXy(name:String, x:Double, y:Double, width:Double, height:Double, values:String[])
 		bmx_wxpdfdocument_comboboxxy(wxObjectPtr, name, x, y, width, height, values)
@@ -301,6 +361,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ClippedCell(w:Double, h:Double = 0, txt:String = "", border:Int = wxPDF_BORDER_NONE, ..
 			ln:Int = 0, align:Int = wxPDF_ALIGN_LEFT, fill:Int = 0, link:wxPdfLink = Null)
@@ -313,6 +377,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ClippingEllipse(x:Double, y:Double, rx:Double, ry:Double = 0, outline:Int = False)
 		bmx_wxpdfdocument_clippingellipse(wxObjectPtr, x, y, rx, ry, outline)
@@ -327,6 +395,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ClippingPathShape(shape:wxPdfShape, style:Int = wxPDF_STYLE_NOOP)
 		bmx_wxpdfdocument_clippingpathshape(wxObjectPtr, shape.wxObjectPtr, style)
@@ -334,6 +406,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ClippingPolygon(x:Double[], y:Double[], outline:Int = False)
 		bmx_wxpdfdocument_clippingpolygon(wxObjectPtr, x, y, outline)
@@ -341,6 +417,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ClippingRect(x:Double, y:Double, w:Double, h:Double, outline:Int = False)
 		bmx_wxpdfdocument_clippingrect(wxObjectPtr, x, y, w, h, outline)
@@ -348,6 +428,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ClippingText(x:Double, y:Double, txt:String, outline:Int = False)
 		bmx_wxpdfdocument_clippingtext(wxObjectPtr, x, y, txt, outline)
@@ -355,6 +439,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ClosePath(style:Int = wxPDF_STYLE_NOOP)
 		bmx_wxpdfdocument_closepath(wxObjectPtr, style)
@@ -362,6 +450,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method CoonsPatchGradient:Int(mesh:wxPdfCoonsPatchMesh, minCoord:Double = 0, maxCoord:Double = 1)
 		Return bmx_wxpdfdocument_coonspatchgradient(wxObjectPtr, mesh.wxObjectPtr, minCoord, maxCoord)
@@ -369,6 +461,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Curve(x0:Double, y0:Double, x1:Double, y1:Double, x2:Double, y2:Double, x3:Double, y3:Double, style:Int = wxPDF_STYLE_DRAW)
 		bmx_wxpdfdocument_curve(wxObjectPtr, x0, y0, x1, y1, x2, y2, x3, y3, style)
@@ -376,6 +472,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method CurveTo(x1:Double, y1:Double, x2:Double, y2:Double, x3:Double, y3:Double)
 		bmx_wxpdfdocument_curveto(wxObjectPtr, x1, y1, x2, y2, x3, y3)
@@ -383,6 +483,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Ellipse(x0:Double, y0:Double, rx:Double, ry:Double = 0, angle:Double = 0, astart:Double = 0, ..
 			afinish:Double = 360, style:Int = wxPDF_STYLE_DRAW, nSeg:Int = 8)
@@ -544,6 +648,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method GetSourceInfo:Int(info:wxPdfInfo)
 		Return bmx_wxpdfdocument_getsourceinfo(wxObjectPtr, info.wxObjectPtr)
@@ -551,6 +659,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method GetStringWidth:Double(text:String)
 		Return bmx_wxpdfdocument_getstringwidth(wxObjectPtr, text)
@@ -558,6 +670,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method GetTemplateBBox(templateId:Int, x:Double Var, y:Double Var, width:Double Var, height:Double Var)
 		bmx_wxpdfdocument_gettemplatebbox(wxObjectPtr, templateId, Varptr x, Varptr y, Varptr width, Varptr height)
@@ -565,6 +681,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method GetTemplateSize(templateId:Int, width:Double Var, height:Double Var)
 		bmx_wxpdfdocument_gettemplatessize(wxObjectPtr, templateId, Varptr width, Varptr height)
@@ -614,6 +734,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Image:Int(file:String, x:Double, y:Double, w:Double = 0, h:Double = 0, mimeType:String = "", ..
 			link:wxPdfLink = Null, maskImage:Int = 0)
@@ -626,6 +750,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ImageImage:Int(name:String, _image:wxImage, x:Double, y:Double, w:Double = 0, h:Double = 0, ..
 			link:wxPdfLink = Null, maskImage:Int = 0)
@@ -638,6 +766,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ImageMask:Int(file:String, mimeType:String = "")
 		Return bmx_wxpdfdocument_imagemask(wxObjectPtr, file, mimeType)
@@ -645,6 +777,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ImageMaskImage:Int(name:String, _image:wxImage)
 		Return bmx_wxpdfdocument_imagemaskimage(wxObjectPtr, name, _image.wxObjectPtr)
@@ -652,6 +788,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ImportPage:Int(page:Int)
 		Return bmx_wxpdfdocument_importpage(wxObjectPtr, page)
@@ -666,6 +806,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Line(x1:Double, y1:Double, x2:Double, y2:Double)
 		bmx_wxpdfdocument_line(wxObjectPtr, x1, y1, x2, y2)
@@ -673,13 +817,21 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method LinearGradient:Int(col1:wxPdfColour, col2:wxPdfColour, gradientType:Int = wxPDF_LINEAR_GRADIENT_HORIZONTAL)
 		Return bmx_wxpdfdocument_lineargradient(wxObjectPtr, col1.wxObjectptr, col2.wxObjectPtr, gradientType)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Counts the number of lines a text would occupy in respect to a given maximal width.
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method LineCount:Int(w:Double, txt:String)
 		Return bmx_wxpdfdocument_linecount(wxObjectPtr, w, txt)
@@ -687,6 +839,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method LineTo(x:Double, y:Double)
 		bmx_wxpdfdocument_lineto(wxObjectPtr, x, y)
@@ -694,6 +850,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Link(x:Double, y:Double, w:Double, h:Double, _link:wxPdfLink)
 		bmx_wxpdfdocument_link(wxObjectPtr, x, y, w, h, _link.wxObjectPtr)
@@ -701,6 +861,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Ln(h:Double = -1)
 		bmx_wxpdfdocument_ln(wxObjectPtr, h)
@@ -708,6 +872,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Marker(x:Double, y:Double, markerType:Int, size:Double)
 		bmx_wxpdfdocument_marker(wxObjectPtr, x, y, markerType, size)
@@ -715,6 +883,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method MidAxialGradient:Int(col1:wxPdfColour, col2:wxPdfColour, x1:Double = 0, ..
 			y1:Double = 0, x2:Double = 1, y2:Double = 0, midpoint:Double = 0.5, intexp:Double = 1)
@@ -723,6 +895,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method MirrorH(x:Double = -1)
 		bmx_wxpdfdocument_mirrorh(wxObjectPtr, x)
@@ -730,6 +906,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method MirrorV(y:Double = -1)
 		bmx_wxpdfdocument_mirrorv(wxObjectPtr, y)
@@ -737,6 +917,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method MoveTo(x:Double, y:Double)
 		bmx_wxpdfdocument_moveto(wxObjectPtr, x, y)
@@ -744,6 +928,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method MultiCell:Int(w:Double, h:Double, txt:String, border:Int = 0, align:Int = wxPDF_ALIGN_JUSTIFY, ..
 			fill:Int = 0, maxline:Int = 0)
@@ -759,6 +947,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Polygon(x:Double[], y:Double[], style:Int = wxPDF_STYLE_DRAW)
 		bmx_wxpdfdocument_polygon(wxObjectPtr, x, y, style)
@@ -766,6 +958,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method PushButton(name:String, width:Double, height:Double, caption:String, action:String)
 		bmx_wxpdfdocument_pushbutton(wxObjectPtr, name, width, height, caption, action)
@@ -773,6 +969,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method PushButtonXy(name:String, x:Double, y:Double, width:Double, height:Double, caption:String, action:String)
 		bmx_wxpdfdocument_pushbuttonxy(wxObjectPtr, name, x, y, width, height, caption, action)
@@ -780,6 +980,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method RadialGradient:Int(col1:wxPdfColour, col2:wxPdfColour, x1:Double = 0.5, ..
 			y1:Double = 0.5, r1:Double = 0, x2:Double = 0.5, y2:Double = 0.5, r2:Double = 1, intexp:Double = 1)
@@ -788,6 +992,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method RadioButton(group:String, name:String, width:Double)
 		bmx_wxpdfdocument_radiobutton(wxObjectPtr, group, name, width)
@@ -795,6 +1003,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method RadioButtonXY(group:String, name:String, x:Double, y:Double, width:Double)
 		bmx_wxpdfdocument_radiobuttonxy(wxObjectPtr, group, name, x, y, width)
@@ -802,29 +1014,73 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Rect(x:Double, y:Double, w:Double, h:Double, style:Int = wxPDF_STYLE_DRAW)
 		bmx_wxpdfdocument_rect(wxObjectPtr, x, y, w, h, style)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method RegularPolygon(x0:Double, y0:Double, r:Double, ns:Int, angle:Double = 0, circle:Int = False, ..
 			style:Int = wxPDF_STYLE_DRAW, circleStyle:Int = wxPDF_STYLE_DRAW, ..
 			circleLineStyle:wxPdfLineStyle = Null, circleFillColor:wxPdfColour = Null)
+		If circleLineStyle Then
+			If circleFillColor Then
+				bmx_wxpdfdocument_regularpolygon(wxObjectPtr, x0, y0, r, ns, angle, circle, style, circleStyle, circleLineStyle.wxObjectPtr, circleFillColor.wxObjectPtr)
+			Else
+				bmx_wxpdfdocument_regularpolygon(wxObjectPtr, x0, y0, r, ns, angle, circle, style, circleStyle, circleLineStyle.wxObjectPtr, Null)
+			End If
+		Else
+			If circleFillColor Then
+				bmx_wxpdfdocument_regularpolygon(wxObjectPtr, x0, y0, r, ns, angle, circle, style, circleStyle, Null, circleFillColor.wxObjectPtr)
+			Else
+				bmx_wxpdfdocument_regularpolygon(wxObjectPtr, x0, y0, r, ns, angle, circle, style, circleStyle, Null, Null)
+			End If
+		End If
 	End Method
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Rotate(angle:Double, x:Double = -1, y:Double = -1)
 		bmx_wxpdfdocument_rotate(wxObjectPtr, angle, x, y)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method RotatedImage(file:String, x:Double, y:Double, w:Double, h:Double, angle:Double, ..
 			imgType:String = "", link:wxPdfLink = Null, maskImage:Int = 0)
+		If link Then
+			bmx_wxpdfdocument_rotatedimage(wxObjectPtr, file, x, y, w, h, angle, imgType, link.wxObjectPtr, maskImage)
+		Else
+			bmx_wxpdfdocument_rotatedimage(wxObjectPtr, file, x, y, w, h, angle, imgType, Null, maskImage)
+		End If
 	End Method
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method RotatedText(x:Double, y:Double, txt:String, angle:Double)
 		bmx_wxpdfdocument_rotatedtext(wxObjectPtr, x, y, txt, angle)
@@ -832,6 +1088,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method RoundedRect(x:Double, y:Double, w:Double, h:Double, roundCorner:Int = wxPDF_CORNER_ALL, style:Int = wxPDF_STYLE_DRAW)
 		bmx_wxpdfdocument_roundedrect(wxObjectPtr, x, y, w, h, roundCorner, style)
@@ -852,6 +1112,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Scale:Int(sx:Double, sy:Double, x:Double = -1, y:Double = -1)
 		Return bmx_wxpdfdocument_scale(wxObjectPtr, sx, sy, x, y)
@@ -859,6 +1123,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ScaleX:Int(sx:Double, x:Double = -1, y:Double = -1)
 		Return bmx_wxpdfdocument_scalex(wxObjectPtr, sx, x, y)
@@ -866,6 +1134,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ScaleY:Int(sy:Double, x:Double = -1, y:Double = -1)
 		Return bmx_wxpdfdocument_scaley(wxObjectPtr, sy, x, y)
@@ -873,45 +1145,113 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ScaleXY:Int(s:Double, x:Double = -1, y:Double = -1)
 		Return bmx_wxpdfdocument_scalexy(wxObjectPtr, s, x, y)
 	End Method
 
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method Sector(x0:Double, y0:Double, r:Double, astart:Double = 0, afinish:Double = 360, ..
 			style:Int = wxPDF_STYLE_DRAW, clockwise:Int = True, origin:Double = 90)
+		bmx_wxpdfdocument_sector(wxObjectPtr, x0, y0, r, astart, afinish, style, clockwise, origin)
 	End Method
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetAlpha:Int(lineAlpha:Double = 1, fillAlpha:Double = 1, blendMode:Int = wxPDF_BLENDMODE_NORMAL)
 		Return bmx_wxpdfdocument_setalpha(wxObjectPtr, lineAlpha, fillAlpha, blendMode)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetAlphaState(state:Int)
+		bmx_wxpdfdocument_setalphastate(wxObjectPtr, state)
 	End Method
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetAuthor(author:String)
 		bmx_wxpdfdocument_setauthor(wxObjectPtr, author)
 	End Method
 
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetAutoPageBreak(autoPageBreak:Int, margin:Double = 0)
+		bmx_wxpdfdocument_setautopagebreak(wxObjectPtr, autoPageBreak, margin)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetCellMargin(margin:Double)
+		bmx_wxpdfdocument_setcellmargin(wxObjectPtr, margin)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetCompression(compress:Int)
+		bmx_wxpdfdocument_setcompression(wxObjectPtr, compress)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetCreator(creator:String)
+		bmx_wxpdfdocument_setcreator(wxObjectPtr, creator)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetDisplayMode(zoom:Int, layout:Int = wxPDF_LAYOUT_CONTINUOUS, zoomFactor:Double = 100)
+		bmx_wxpdfdocument_setdisplaymode(wxObjectPtr, zoom, layout, zoomFactor)
 	End Method
 	
 	Rem
@@ -999,6 +1339,7 @@ Type wxPdfDocument
 	End Method
 	
 	Method SetFillGradient(x:Double, y:Double, w:Double, h:Double, gradient:Int)
+		bmx_wxpdfdocument_setfillgradient(wxObjectPtr, x, y, w, h, gradient)
 	End Method
 	
 	Rem
@@ -1008,20 +1349,88 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_setfont(wxObjectPtr, family, style, size)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetFontPath(fontPath:String = "")
+		bmx_wxpdfdocument_setfontpath(wxObjectPtr, fontPath)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetFontSize(size:Double)
+		bmx_wxpdfdocument_setfontsize(wxObjectPtr, size)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetFontSubsetting(fontSubsetting:Int = True)
+		bmx_wxpdfdocument_setfontsubsetting(wxObjectPtr, fontSubsetting)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetFormBorderStyle(borderStyle:Int = wxPDF_BORDER_SOLID, borderWidth:Double = -1)
+		bmx_wxpdfdocument_setformborderstyle(wxObjectPtr, borderStyle, borderWidth)
 	End Method
 	
-	Method SetFormColors(borderColour:wxPdfColour = Null, backgroundColor:wxPdfColour = Null, ..
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
+	Method SetFormColors(borderColor:wxPdfColour = Null, backgroundColor:wxPdfColour = Null, ..
 			textColor:wxPdfColour = Null)
+		If borderColor Then
+			If backgroundColor Then
+				If textColor Then
+					bmx_wxpdfdocument_setformcolors(wxObjectPtr, borderColor.wxObjectPtr, backgroundColor.wxObjectPtr, textColor.wxObjectPtr)
+				Else
+					bmx_wxpdfdocument_setformcolors(wxObjectPtr, borderColor.wxObjectPtr, backgroundColor.wxObjectPtr, Null)
+				End If
+			Else
+				If textColor Then
+					bmx_wxpdfdocument_setformcolors(wxObjectPtr, borderColor.wxObjectPtr, Null, textColor.wxObjectPtr)
+				Else
+					bmx_wxpdfdocument_setformcolors(wxObjectPtr, borderColor.wxObjectPtr, Null, Null)
+				End If
+			End If
+		Else
+			If backgroundColor Then
+				If textColor Then
+					bmx_wxpdfdocument_setformcolors(wxObjectPtr, Null, backgroundColor.wxObjectPtr, textColor.wxObjectPtr)
+				Else
+					bmx_wxpdfdocument_setformcolors(wxObjectPtr, Null, backgroundColor.wxObjectPtr, Null)
+				End If
+			Else
+				If textColor Then
+					bmx_wxpdfdocument_setformcolors(wxObjectPtr, Null, Null, textColor.wxObjectPtr)
+				Else
+					bmx_wxpdfdocument_setformcolors(wxObjectPtr, Null, Null, Null)
+				End If
+			End If
+		End If
 	End Method
 	
 	Rem
@@ -1052,8 +1461,15 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_setlineheight(wxObjectPtr, height)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetLineStyle(style:wxPdfLineStyle)
-		'bmx_wxpdfdocument_setlinestyle(wxObjectPtr, style)
+		bmx_wxpdfdocument_setlinestyle(wxObjectPtr, style.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1063,33 +1479,74 @@ Type wxPdfDocument
 		bmx_wxpdfdocument_setlinewidth(wxObjectPtr, width)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetLink:Int(link:Int, y:Double = 0, page:Int = -1)
 		Return bmx_wxpdfdocument_setlink(wxObjectPtr, link, y, page)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetMargins(marginLeft:Double, marginTop:Double, marginRight:Double = -1)
+		bmx_wxpdfdocument_setmargins(wxObjectPtr, marginLeft, marginTop, marginRight)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetProtection(permissions:Int, userPassword:String = "", ownerPassword:String = "", ..
 			encryptionMethod:Int = wxPDF_ENCRYPTION_RC4V1, keyLength:Int = 0)
-		
+		bmx_wxpdfdocument_setprotection(wxObjectPtr, permissions, userPassword, ownerPassword, encryptionMethod, keyLength)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetRightMargin(margin:Double)
+		bmx_wxpdfdocument_setrightmargin(wxObjectPtr, margin)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetSourceFile:Int(filename:String, password:String = "")
 		Return bmx_wxpdfdocument_setsourcefile(wxObjectPtr, filename, password)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetSubject(subject:String)
+		bmx_wxpdfdocument_setsubject(wxObjectPtr, subject)
 	End Method
 	
+	Rem
+	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
+	End Rem
 	Method SetTemplateBBox(templateId:Int, x:Double, y:Double, width:Double, height:Double)
+		bmx_wxpdfdocument_settemplatebbox(wxObjectPtr, templateId, x, y, width, height)
 	End Method
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetTextColorGrayScale(grayscale:Int)
 		bmx_wxpdfdocument_settextcolorgrayscale(wxObjectPtr, grayscale)
@@ -1097,6 +1554,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetTextColor(colour:wxColour)
 		bmx_wxpdfdocument_settextcolor(wxObjectPtr, colour.wxObjectPtr)
@@ -1104,6 +1565,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetTextColorPdf(pdfColour:wxPdfColour)
 		bmx_wxpdfdocument_settextcolorpdf(wxObjectPtr, pdfColour.wxObjectPtr)
@@ -1111,6 +1576,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetTextColorRGB(red:Int, green:Int, blue:Int)
 		bmx_wxpdfdocument_settextcolorrgb(wxObjectPtr, red, green, blue)
@@ -1118,6 +1587,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetTextColorCMYK(cyan:Double, magenta:Double, yellow:Double, black:Double)
 		bmx_wxpdfdocument_settextcolorcmyk(wxObjectPtr, cyan, magenta, yellow, black)
@@ -1125,6 +1598,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetTextColorName(name:String, tint:Double = 100)
 		bmx_wxpdfdocument_settextcolorname(wxObjectPtr, name, tint)
@@ -1132,6 +1609,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetTitle(title:String)
 		bmx_wxpdfdocument_settitle(wxObjectPtr, title)
@@ -1139,6 +1620,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetTopMargin(margin:Double)
 		bmx_wxpdfdocument_settopmargin(wxObjectPtr, margin)
@@ -1146,6 +1631,10 @@ Type wxPdfDocument
 		
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetViewerPreferences(preferences:Int = 0)
 		bmx_wxpdfdocument_setviewerpreferences(wxObjectPtr, preferences)
@@ -1153,6 +1642,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetX(x:Double)
 		bmx_wxpdfdocument_setx(wxObjectPtr, x)
@@ -1160,6 +1653,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetXY(x:Double, y:Double)
 		bmx_wxpdfdocument_setxy(wxObjectPtr, x, y)
@@ -1167,6 +1664,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SetY(y:Double)
 		bmx_wxpdfdocument_sety(wxObjectPtr, y)
@@ -1174,6 +1675,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Shape(_shape:wxPdfShape, style:Int = wxPDF_STYLE_DRAW)
 		bmx_wxpdfdocument_shape(wxObjectPtr, _shape.wxObjectPtr, style)
@@ -1181,6 +1686,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method ShapedText(shape:wxPdfShape, text:String, mode:Int = wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT)
 		bmx_wxpdfdocument_shapedtext(wxObjectPtr, shape.wxObjectPtr, text, mode)
@@ -1188,6 +1697,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Skew:Int(xAngle:Double, yAngle:Double, x:Double = -1, y:Double = -1)
 		Return bmx_wxpdfdocument_skew(wxObjectPtr, xAngle, yAngle, x, y)
@@ -1195,6 +1708,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SkewX:Int(xAngle:Double, x:Double = -1, y:Double = -1)
 		Return bmx_wxpdfdocument_skewx(wxObjectPtr, xAngle, x, y)
@@ -1202,6 +1719,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method SkewY:Int(yAngle:Double, x:Double = -1, y:Double = -1)
 		Return bmx_wxpdfdocument_skewy(wxObjectPtr, yAngle, x, y)
@@ -1209,6 +1730,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method StarPolygon(x0:Double, y0:Double, r:Double, nv:Int, nr:Int, angle:Double = 0, circle:Int = False, ..
 			style:Int = wxPDF_STYLE_DRAW, circleStyle:Int = wxPDF_STYLE_DRAW, ..
@@ -1244,6 +1769,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Text(x:Double, y:Double, txt:String)
 		bmx_wxpdfdocument_text(wxObjectPtr, x, y, txt)
@@ -1251,6 +1780,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method TextBox:Int(w:Double, h:Double, txt:String, halign:Int = wxPDF_ALIGN_JUSTIFY, ..
 			valign:Int = wxPDF_ALIGN_TOP, border:Int = 0, fill:Int = 0)
@@ -1259,6 +1792,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method TextField(name:String, width:Double, height:Double, value:String = "", multiline:Int = False)
 		bmx_wxpdfdocument_textfield(wxObjectPtr, name, width, height, value, multiline)
@@ -1266,6 +1803,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method TextFieldXY(name:String, x:Double, y:Double, width:Double, height:Double, value:String = "", multiline:Int = False)
 		bmx_wxpdfdocument_textfieldxy(wxObjectPtr, name, x, y, width, height, value, multiline)
@@ -1273,6 +1814,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Translate(tx:Double, ty:Double)
 		bmx_wxpdfdocument_translate(wxObjectPtr, tx, ty)
@@ -1280,6 +1825,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method TranslateX(tx:Double)
 		bmx_wxpdfdocument_translatex(wxObjectPtr, tx)
@@ -1287,6 +1836,10 @@ Type wxPdfDocument
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method TranslateY(ty:Double)
 		bmx_wxpdfdocument_translatey(wxObjectPtr, ty)
@@ -1301,6 +1854,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method UseTemplate(templateId:Int, x:Double = -1, y:Double = -1, width:Double = 0, height:Double = 0)
 		bmx_wxpdfdocument_usetemplate(wxObjectPtr, templateId, x, y, width, height)
@@ -1308,6 +1865,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Write(h:Double, txt:String, link:wxPdfLink = Null)
 		If link Then
@@ -1319,6 +1880,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method WriteCell(h:Double, txt:String, border:Int = wxPDF_BORDER_NONE, fill:Int = 0, link:wxPdfLink = Null)
 		If link Then
@@ -1330,6 +1895,10 @@ Type wxPdfDocument
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method WriteXml(txt:String)
 		bmx_wxpdfdocument_writexml(wxObjectPtr, txt)
@@ -1700,6 +2269,10 @@ Type wxPdfBarCodeCreator
 
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Function CreatePdfBarCodeCreator:wxPdfBarCodeCreator(document:wxPdfDocument)
 		Return New wxPdfBarCodeCreator.Create(document)
@@ -1707,6 +2280,10 @@ Type wxPdfBarCodeCreator
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Create:wxPdfBarCodeCreator(document:wxPdfDocument)
 		wxObjectPtr = bmx_wxpdfbarcodecreator_create(document.wxObjectPtr)
@@ -1715,6 +2292,10 @@ Type wxPdfBarCodeCreator
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method EAN13:Int(x:Double, y:Double, barcode:String, w:Double = 0.35, h:Double = 16)
 		Return bmx_wxpdfbarcodecreator_ean13(wxObjectptr, x, y, barcode, w, h)
@@ -1722,6 +2303,10 @@ Type wxPdfBarCodeCreator
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method UPC_A:Int(x:Double, y:Double, barcode:String, w:Double = 0.35, h:Double = 16)
 		Return bmx_wxpdfbarcodecreator_upc_a(wxObjectptr, x, y, barcode, w, h)
@@ -1729,6 +2314,10 @@ Type wxPdfBarCodeCreator
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method Code39:Int(x:Double, y:Double, code:String, ext:Int = True, cks:Int = False, w:Double = 0.4, h:Double = 20, wide:Int = True)
 		Return bmx_wxpdfbarcodecreator_code39(wxObjectptr, x, y, code, ext, cks, w, h, wide)
@@ -1736,6 +2325,10 @@ Type wxPdfBarCodeCreator
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method I25:Int(x:Double, y:Double, code:String, basewidth:Double = 1, height:Double = 10)
 		Return bmx_wxpdfbarcodecreator_I25(wxObjectptr, x, y, code, basewidth, height)
@@ -1743,6 +2336,10 @@ Type wxPdfBarCodeCreator
 	
 	Rem
 	bbdoc: 
+	about: Parameters :
+	<ul>
+	<li>xxxxxxxxxxxxxx</li>
+	</ul>
 	End Rem
 	Method PostNet:Int(x:Double, y:Double, zipcode:String)
 		Return bmx_wxpdfbarcodecreator_postnet(wxObjectptr, x, y, zipcode)
