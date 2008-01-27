@@ -13,6 +13,8 @@ Import "transformation.bmx"
 Import "bookmark.bmx"
 Import "templates.bmx"
 Import "barcodes.bmx"
+Import "clipping.bmx"
+Import "drawing.bmx"
 
 New MyApp.run()
 
@@ -29,6 +31,8 @@ Type MyApp Extends wxApp
 		tutorial4()
 		
 		bookmark()
+		clipping()
+		drawing()
 		xmlwrite()
 		transparency()
 		transformation()

@@ -82,14 +82,14 @@ Function templates2()
 	Local pdf:wxPdfDocument = New wxPdfDocument.Create()
 	pdf.AddPage()
 
-	pdf.SetTextColorPdf(New wxPdfColour.CreateForName("black"))
+	pdf.SetTextColorPdf(New wxPdfColour.CreateNamedColour("black"))
 	Local pages:Int = pdf.SetSourceFile("chart2d.pdf")
 	
 	' Get the document information from the imported PDF file
-	local info:wxPdfInfo = new wxPdfInfo.Create()
+	Local info:wxPdfInfo = New wxPdfInfo.Create()
 	pdf.GetSourceInfo(info)
 	
-	local tpl:int = pdf.ImportPage(1)
+	Local tpl:Int = pdf.ImportPage(1)
 	
 	' Add some extra white space around the template
 	pdf.GetTemplateBBox(tpl, x, y, w, h)

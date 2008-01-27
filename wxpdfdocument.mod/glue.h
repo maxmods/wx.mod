@@ -196,7 +196,7 @@ extern "C" {
 
 	void bmx_wxpdfdocument_rotate(wxPdfDocument * doc, double angle, double x, double y);
 	void bmx_wxpdfdocument_rotatedtext(wxPdfDocument * doc, double x, double y, BBString * txt, double angle);
-	void bmx_wxpdfdocument_roundedrect(wxPdfDocument * doc, double x, double y, double w, double h, int roundCorner, int style);
+	void bmx_wxpdfdocument_roundedrect(wxPdfDocument * doc, double x, double y, double w, double h, double r, int roundCorner, int style);
 	bool bmx_wxpdfdocument_scale(wxPdfDocument * doc, double sx, double sy, double x, double y);
 	bool bmx_wxpdfdocument_scalex(wxPdfDocument * doc, double sx, double x, double y);
 	bool bmx_wxpdfdocument_scaley(wxPdfDocument * doc, double sy, double x, double y);
@@ -229,6 +229,11 @@ extern "C" {
 
 	MaxPdfColour * bmx_wxpdfcolour_createforname(BBString * name);
 	void bmx_wxpdfcolour_delete(MaxPdfColour * colour);
+	MaxPdfColour * bmx_wxpdfcolour_create(int r, int g, int b);
+	MaxPdfColour * bmx_wxpdfcolour_creategrayscalecolour(int grayscale);
+	MaxPdfColour * bmx_wxpdfcolour_createfromcolour(MaxColour * colour);
+	MaxPdfColour * bmx_wxpdfcolour_createcmykcolour(double cyan, double magenta, double yellow, double black);
+	wxPdfColourType bmx_wxpdfcolour_getcolortype(MaxPdfColour * colour);
 
 	MaxPdfInfo * bmx_wxpdfinfo_create();
 	BBString * bmx_wxpdfinfo_gettitle(MaxPdfInfo * info);
@@ -257,6 +262,13 @@ extern "C" {
 	bool bmx_wxpdfbarcodecreator_I25(wxPdfBarCodeCreator * creator, double x, double y, BBString * code, double basewidth, double height);
 	bool bmx_wxpdfbarcodecreator_postnet(wxPdfBarCodeCreator * creator, double x, double y, BBString * zipcode);
 	
+	MaxPdfShape * bmx_wxpdfshape_create();
+	void bmx_wxpdfshape_moveto(MaxPdfShape * shape, double x, double y);
+	void bmx_wxpdfshape_lineto(MaxPdfShape * shape, double x, double y);
+	void bmx_wxpdfshape_curveto(MaxPdfShape * shape, double x1, double y1, double x2, double y2, double x3, double y3);
+	void bmx_wxpdfshape_closepath(MaxPdfShape * shape);
+	int bmx_wxpdfshape_getsegmentcount(MaxPdfShape * shape);
+	void bmx_wxpdfshape_delete(MaxPdfShape * shape);
 
 }
 

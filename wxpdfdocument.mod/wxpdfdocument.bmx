@@ -1087,14 +1087,30 @@ Type wxPdfDocument
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Draws a rounded rectangle.
 	about: Parameters :
 	<ul>
-	<li>xxxxxxxxxxxxxx</li>
+	<li>@x - Abscissa of upper-left corner</li>
+	<li>@y - Ordinate of upper-left corner</li>
+	<li>@w - Width</li>
+	<li>@h - Height</li>
+	<li>@r - Radius of the rounded corners</li>
+	<li>@roundCorner - Draws rounded corner or not:
+	<table width="90%" align="center">
+	<tr><th>Constant</th><th>Description</th></tr>
+	<tr><td> wxPDF_CORNER_NONE </td><td>no rounded corners</td></tr>
+	<tr><td> wxPDF_CORNER_TOP_LEFT </td><td> top left corner </td></tr>
+	<tr><td> wxPDF_CORNER_TOP_RIGHT </td><td> top right corner </td></tr>
+	<tr><td> wxPDF_CORNER_BOTTOM_LEFT </td><td> bottom left corner </td></tr>
+	<tr><td> wxPDF_CORNER_BOTTOM_RIGHT </td><td> bottom right corner </td></tr>
+	<tr><td> wxPDF_CORNER_ALL </td><td> all corners </td></tr>
+	</table>
+	</li>
+	<li>@style - Style of rectangle (draw and/or fill)</li>
 	</ul>
 	End Rem
-	Method RoundedRect(x:Double, y:Double, w:Double, h:Double, roundCorner:Int = wxPDF_CORNER_ALL, style:Int = wxPDF_STYLE_DRAW)
-		bmx_wxpdfdocument_roundedrect(wxObjectPtr, x, y, w, h, roundCorner, style)
+	Method RoundedRect(x:Double, y:Double, w:Double, h:Double, r:Double, roundCorner:Int = wxPDF_CORNER_ALL, style:Int = wxPDF_STYLE_DRAW)
+		bmx_wxpdfdocument_roundedrect(wxObjectPtr, x, y, w, h, r, roundCorner, style)
 	End Method
 	
 	Rem
@@ -2007,12 +2023,58 @@ Type wxPdfColour
 		End If
 	End Function
 
-	Method CreateForName:wxPdfColour(name:String)
-		wxObjectPtr = bmx_wxpdfcolour_createforname(name)
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateColour:wxPdfColour(r:Int, g:Int, b:Int)
+		Return New wxPdfColour.Create(r, g, b)
+	End Function
+	
+	Rem
+	bbdoc: Constructs a colour from red, green, and blue values.
+	End Rem
+	Method Create:wxPdfColour(r:Int, g:Int, b:Int)
+		wxObjectPtr = bmx_wxpdfcolour_create(r, g, b)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateNamedColour:wxPdfColour(name:String)
+		wxObjectPtr = bmx_wxpdfcolour_createforname(name)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateGrayscaleColour:wxPdfColour(grayscale:Int)
+		wxObjectPtr = bmx_wxpdfcolour_creategrayscalecolour(grayscale)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateFromColour:wxPdfColour(colour:wxColour)
+		wxObjectPtr = bmx_wxpdfcolour_createfromcolour(colour.wxObjectPtr)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method CreateCMYKColour:wxPdfColour(cyan:Int, magenta:Int, yellow:Int, black:Int)
+		wxObjectPtr = bmx_wxpdfcolour_createcmykcolour(cyan, magenta, yellow, black)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetColorType:Int()
+		Return bmx_wxpdfcolour_getcolortype(wxObjectPtr)
 	End Method
 
 
@@ -2121,12 +2183,62 @@ Type wxPdfShape
 		End If
 	End Function
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreatePdfShape:wxPdfShape()
+		Return New wxPdfShape.Create()
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxPdfShape()
+		wxObjectPtr = bmx_wxpdfshape_create()
+		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MoveTo(x:Double, y:Double)
+		bmx_wxpdfshape_moveto(wxObjectPtr, x, y)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method LineTo(x:Double, y:Double)
+		bmx_wxpdfshape_lineto(wxObjectPtr, x, y)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CurveTo(x1:Double, y1:Double, x2:Double, y2:Double, x3:Double, y3:Double)
+		bmx_wxpdfshape_curveto(wxObjectPtr, x1, y1, x2, y2, x3, y3)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ClosePath()
+		bmx_wxpdfshape_closepath(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetSegmentCount:Int()
+		Return bmx_wxpdfshape_getsegmentcount(wxObjectPtr)
+	End Method
+	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxpdfshape_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
 	
 End Type
 

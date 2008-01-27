@@ -753,8 +753,8 @@ void bmx_wxpdfdocument_rotatedtext(wxPdfDocument * doc, double x, double y, BBSt
 	doc->RotatedText(x, y, wxStringFromBBString(txt), angle);
 }
 
-void bmx_wxpdfdocument_roundedrect(wxPdfDocument * doc, double x, double y, double w, double h, int roundCorner, int style) {
-	doc->RoundedRect(x, y, w, h, roundCorner, style);
+void bmx_wxpdfdocument_roundedrect(wxPdfDocument * doc, double x, double y, double w, double h, double r, int roundCorner, int style) {
+	doc->RoundedRect(x, y, w, h, r, roundCorner, style);
 }
 
 bool bmx_wxpdfdocument_scale(wxPdfDocument * doc, double sx, double sy, double x, double y) {
@@ -877,6 +877,30 @@ void bmx_wxpdfcolour_delete(MaxPdfColour * colour) {
 	delete colour;
 }
 
+MaxPdfColour * bmx_wxpdfcolour_create(int r, int g, int b) {
+	wxPdfColour c(static_cast<unsigned char>(r), static_cast<unsigned char>(g), static_cast<unsigned char>(b));
+	return new MaxPdfColour(c);
+}
+
+MaxPdfColour * bmx_wxpdfcolour_creategrayscalecolour(int grayscale) {
+	wxPdfColour c(static_cast<unsigned char>(grayscale));
+	return new MaxPdfColour(c);
+}
+
+MaxPdfColour * bmx_wxpdfcolour_createfromcolour(MaxColour * colour) {
+	wxPdfColour c(colour->Colour());
+	return new MaxPdfColour(c);
+}
+
+MaxPdfColour * bmx_wxpdfcolour_createcmykcolour(double cyan, double magenta, double yellow, double black) {
+	wxPdfColour c(cyan, magenta, yellow, black);
+	return new MaxPdfColour(c);
+}
+
+wxPdfColourType bmx_wxpdfcolour_getcolortype(MaxPdfColour * colour) {
+	return colour->Colour().GetColorType();
+}
+
 // *********************************************
 
 MaxPdfInfo * bmx_wxpdfinfo_create() {
@@ -981,5 +1005,36 @@ bool bmx_wxpdfbarcodecreator_I25(wxPdfBarCodeCreator * creator, double x, double
 
 bool bmx_wxpdfbarcodecreator_postnet(wxPdfBarCodeCreator * creator, double x, double y, BBString * zipcode) {
 	return creator->PostNet(x, y, wxStringFromBBString(zipcode));
+}
+
+// *********************************************
+
+MaxPdfShape * bmx_wxpdfshape_create() {
+	wxPdfShape s;
+	return new MaxPdfShape(s);
+}
+
+void bmx_wxpdfshape_moveto(MaxPdfShape * shape, double x, double y) {
+	shape->Shape().MoveTo(x, y);
+}
+
+void bmx_wxpdfshape_lineto(MaxPdfShape * shape, double x, double y) {
+	shape->Shape().LineTo(x, y);
+}
+
+void bmx_wxpdfshape_curveto(MaxPdfShape * shape, double x1, double y1, double x2, double y2, double x3, double y3) {
+	shape->Shape().CurveTo(x1, y1, x2, y2, x3, y3);
+}
+
+void bmx_wxpdfshape_closepath(MaxPdfShape * shape) {
+	shape->Shape().ClosePath();
+}
+
+int bmx_wxpdfshape_getsegmentcount(MaxPdfShape * shape) {
+	return shape->Shape().GetSegmentCount();
+}
+
+void bmx_wxpdfshape_delete(MaxPdfShape * shape) {
+	delete shape;
 }
 

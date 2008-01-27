@@ -220,7 +220,7 @@ Extern
 
 	Function bmx_wxpdfdocument_rotate(handle:Byte Ptr, angle:Double, x:Double, y:Double)
 	Function bmx_wxpdfdocument_rotatedtext(handle:Byte Ptr, x:Double, y:Double, txt:String, angle:Double)
-	Function bmx_wxpdfdocument_roundedrect(handle:Byte Ptr, x:Double, y:Double, w:Double, h:Double, roundCorner:Int, style:Int)
+	Function bmx_wxpdfdocument_roundedrect(handle:Byte Ptr, x:Double, y:Double, w:Double, h:Double, r:Double, roundCorner:Int, style:Int)
 	Function bmx_wxpdfdocument_scale:Int(handle:Byte Ptr, sx:Double, sy:Double, x:Double, y:Double)
 	Function bmx_wxpdfdocument_scalex:Int(handle:Byte Ptr, sx:Double, x:Double, y:Double)
 	Function bmx_wxpdfdocument_scaley:Int(handle:Byte Ptr, sy:Double, x:Double, y:Double)
@@ -252,6 +252,11 @@ Extern
 
 	Function bmx_wxpdfcolour_createforname:Byte Ptr(name:String)
 	Function bmx_wxpdfcolour_delete(handle:Byte Ptr)
+	Function bmx_wxpdfcolour_create:Byte Ptr(r:Int, g:Int, b:Int)
+	Function bmx_wxpdfcolour_creategrayscalecolour:Byte Ptr(grayscale:Int)
+	Function bmx_wxpdfcolour_createfromcolour:Byte Ptr(colour:Byte Ptr)
+	Function bmx_wxpdfcolour_createcmykcolour:Byte Ptr(cyan:Double, magenta:Double, yellow:Double, black:Double)
+	Function bmx_wxpdfcolour_getcolortype:Int(handle:Byte Ptr)
 
 	Function bmx_wxpdfinfo_create:Byte Ptr()
 	Function bmx_wxpdfinfo_gettitle:String(handle:Byte Ptr)
@@ -279,6 +284,13 @@ Extern
 	Function bmx_wxpdfbarcodecreator_I25:Int(handle:Byte Ptr, x:Double, y:Double, code:String, basewidth:Double, height:Double)
 	Function bmx_wxpdfbarcodecreator_postnet:Int(handle:Byte Ptr, x:Double, y:Double, zipcode:String)
 
+	Function bmx_wxpdfshape_create:Byte Ptr()
+	Function bmx_wxpdfshape_moveto(handle:Byte Ptr, x:Double, y:Double)
+	Function bmx_wxpdfshape_lineto(handle:Byte Ptr, x:Double, y:Double)
+	Function bmx_wxpdfshape_curveto(handle:Byte Ptr, x1:Double, y1:Double, x2:Double, y2:Double, x3:Double, y3:Double)
+	Function bmx_wxpdfshape_closepath(handle:Byte Ptr)
+	Function bmx_wxpdfshape_getsegmentcount:Int(handle:Byte Ptr)
+	Function bmx_wxpdfshape_delete(handle:Byte Ptr)
 
 End Extern
 
