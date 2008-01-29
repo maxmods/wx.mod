@@ -291,6 +291,8 @@ extern "C" {
 
 	int bmx_wxinputstream_lastread(wxInputStream * s);
 	wxInputStream * bmx_wxinputstream_read(wxInputStream * s, void * buffer, int size);
+	bool bmx_wxinputstream_canread(wxInputStream * s);
+	bool bmx_wxinputstream_eof(wxInputStream * s);
 
 	wxTextInputStream * bmx_wxtextinputstream_create(wxInputStream * inp, BBString * separators);
 	int bmx_wxtextinputstream_read8(wxTextInputStream * s, int base);
@@ -304,6 +306,7 @@ extern "C" {
 	BBString * bmx_wxtextinputstream_readline(wxTextInputStream * s);
 	BBString * bmx_wxtextinputstream_readword(wxTextInputStream * s);
 	void bmx_wxtextinputstream_setstringseparators(wxTextInputStream * s, BBString * separators);
+	void bmx_wxtextinputstream_delete(wxTextInputStream * s);
 
 }
 

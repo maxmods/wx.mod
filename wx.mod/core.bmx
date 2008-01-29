@@ -228,12 +228,14 @@ Type wxInputStream Extends wxStreamBase
 	End Function
 
 	Method CanRead:Int()
+		Return bmx_wxinputstream_canread(wxStreamPtr)
 	End Method
 	
 	Method GetC:Int()
 	End Method
 	
 	Method Eof:Int()
+		Return bmx_wxinputstream_eof(wxStreamPtr)
 	End Method
 	
 	Method LastRead:Int()
@@ -294,65 +296,128 @@ Type wxOutputStream Extends wxStreamBase
 End Type
 
 Rem
-bbdoc: 
+bbdoc: This type provides functions that read text datas using an input stream.
+about: So, you can read text floats, integers.
+<p>
+The wxTextInputStream correctly reads text files (or streams) in DOS, Macintosh and Unix
+formats and reports a single newline char as a line ending.
+</p>
 End Rem
 Type wxTextInputStream
 
 	Field wxStreamPtr:Byte Ptr
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateTextInputStream:wxTextInputStream(stream:wxInputStream, separators:String = " ~t")
 		Return New wxTextInputStream.Create(stream, separators)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxTextInputStream(stream:wxInputStream, separators:String = " ~t")
 		wxStreamPtr = bmx_wxtextinputstream_create(stream.wxStreamPtr, separators)
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Reads a single unsigned byte from the stream, given in base base.
+	about: The value of base must be comprised between 2 and 36, inclusive, or be a
+	special value 0 which means that the usual rules of C numbers are applied: if the
+	number starts with 0x it is considered to be in base 16, if it starts with 0 - in
+	base 8 and in base 10 otherwise. Note that you may not want to specify the base 0
+	if you are parsing the numbers which may have leading zeroes as they can yield
+	unexpected (to the user not familiar with C) results.
+	End Rem
 	Method Read8:Int(base:Int = 10)
 		Return bmx_wxtextinputstream_read8(wxStreamPtr, base)
 	End Method
 	
+	Rem
+	bbdoc: Reads a single signed byte from the stream.
+	about: See wxTextInputStream::Read8 for the description of the base parameter.
+	End Rem
 	Method Read8S:Int(base:Int = 10)
 		Return bmx_wxtextinputstream_read8s(wxStreamPtr, base)
 	End Method
 	
+	Rem
+	bbdoc: Reads a unsigned 16 bit integer from the stream.
+	about: See wxTextInputStream::Read8 for the description of the base parameter.
+	End Rem
 	Method Read16:Int(base:Int = 10)
 		Return bmx_wxtextinputstream_read16(wxStreamPtr, base)
 	End Method
 
+	Rem
+	bbdoc: Reads a signed 16 bit integer from the stream.
+	about: See wxTextInputStream::Read8 for the description of the base parameter.
+	End Rem
 	Method Read16S:Int(base:Int = 10)
 		Return bmx_wxtextinputstream_read16s(wxStreamPtr, base)
 	End Method
 
+	Rem
+	bbdoc: Reads a 32 bit unsigned integer from the stream.
+	about: See wxTextInputStream::Read8 for the description of the base parameter.
+	End Rem
 	Method Read32:Int(base:Int = 10)
 		Return bmx_wxtextinputstream_read32(wxStreamPtr, base)
 	End Method
 
+	Rem
+	bbdoc: Reads a 32 bit signed integer from the stream.
+	about: See wxTextInputStream::Read8 for the description of the base parameter.
+	End Rem
 	Method Read32S:Int(base:Int = 10)
 		Return bmx_wxtextinputstream_read32s(wxStreamPtr, base)
 	End Method
 
+	Rem
+	bbdoc: Reads a character, returns 0 if there are no more characters in the stream.
+	End Rem
 	Method GetChar:Int()
 		Return bmx_wxtextinputstream_getchar(wxStreamPtr)
 	End Method
 	
+	Rem
+	bbdoc: Reads a double (IEEE encoded) from the stream.
+	End Rem
 	Method ReadDouble:Double()
 		Return bmx_wxtextinputstream_readdouble(wxStreamPtr)
 	End Method
 	
+	Rem
+	bbdoc: Reads a line from the input stream and returns it (without the end of line character).
+	End Rem
 	Method ReadLine:String()
 		Return bmx_wxtextinputstream_readline(wxStreamPtr)
 	End Method
 	
+	Rem
+	bbdoc: Reads a word (a sequence of characters until the next separator) from the input stream.
+	End Rem
 	Method ReadWord:String()
 		Return bmx_wxtextinputstream_readword(wxStreamPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the characters which are used to define the word boundaries in ReadWord.
+	about: The default separators are the space and TAB characters.
+	End Rem
 	Method SetStringSeparators(separators:String)
 		bmx_wxtextinputstream_setstringseparators(wxStreamPtr, separators)
 	End Method
-	
+
+	Method Delete()
+		If wxStreamPtr Then
+			bmx_wxtextinputstream_delete(wxStreamPtr)
+			wxStreamPtr = Null
+		End If
+	End Method
+		
 End Type
 
 Type wxAcceleratorTable
