@@ -237,12 +237,15 @@ Type wxInputStream Extends wxStreamBase
 	End Method
 	
 	Method LastRead:Int()
+		Return bmx_wxinputstream_lastread(wxStreamPtr)
 	End Method
 	
 	Method Peek:Byte()
 	End Method
 	
 	Method Read:wxInputStream(buffer:Byte Ptr, size:Int)
+		bmx_wxinputstream_read(wxStreamPtr, buffer, size)
+		Return Self
 	End Method
 	
 	Method SeekI:Int(pos:Int, mode:Int = wxFromStart)
@@ -286,6 +289,68 @@ Type wxOutputStream Extends wxStreamBase
 	End Method
 	
 	Method TellO:Int()
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxTextInputStream
+
+	Field wxStreamPtr:Byte Ptr
+
+	Function CreateTextInputStream:wxTextInputStream(stream:wxInputStream, separators:String = " ~t")
+		Return New wxTextInputStream.Create(stream, separators)
+	End Function
+	
+	Method Create:wxTextInputStream(stream:wxInputStream, separators:String = " ~t")
+		wxStreamPtr = bmx_wxtextinputstream_create(stream.wxStreamPtr, separators)
+		Return Self
+	End Method
+
+	Method Read8:Int(base:Int = 10)
+		Return bmx_wxtextinputstream_read8(wxStreamPtr, base)
+	End Method
+	
+	Method Read8S:Int(base:Int = 10)
+		Return bmx_wxtextinputstream_read8s(wxStreamPtr, base)
+	End Method
+	
+	Method Read16:Int(base:Int = 10)
+		Return bmx_wxtextinputstream_read16(wxStreamPtr, base)
+	End Method
+
+	Method Read16S:Int(base:Int = 10)
+		Return bmx_wxtextinputstream_read16s(wxStreamPtr, base)
+	End Method
+
+	Method Read32:Int(base:Int = 10)
+		Return bmx_wxtextinputstream_read32(wxStreamPtr, base)
+	End Method
+
+	Method Read32S:Int(base:Int = 10)
+		Return bmx_wxtextinputstream_read32s(wxStreamPtr, base)
+	End Method
+
+	Method GetChar:Int()
+		Return bmx_wxtextinputstream_getchar(wxStreamPtr)
+	End Method
+	
+	Method ReadDouble:Double()
+		Return bmx_wxtextinputstream_readdouble(wxStreamPtr)
+	End Method
+	
+	Method ReadLine:String()
+		Return bmx_wxtextinputstream_readline(wxStreamPtr)
+	End Method
+	
+	Method ReadWord:String()
+		Return bmx_wxtextinputstream_readword(wxStreamPtr)
+	End Method
+	
+	Method SetStringSeparators(separators:String)
+		bmx_wxtextinputstream_setstringseparators(wxStreamPtr, separators)
 	End Method
 	
 End Type

@@ -1351,3 +1351,61 @@ wxEvent & bmx_wxevent_getcustref(wxEvent * customEventPtr) {
 
 // *********************************************
 
+int bmx_wxinputstream_lastread(wxInputStream * s) {
+	return s->LastRead();
+}
+
+wxInputStream * bmx_wxinputstream_read(wxInputStream * s, void * buffer, int size) {
+	return &s->Read(buffer, size);
+}
+
+// *********************************************
+
+wxTextInputStream * bmx_wxtextinputstream_create(wxInputStream * inp, BBString * separators) {
+	//return new wxTextInputStream(
+}
+
+int bmx_wxtextinputstream_read8(wxTextInputStream * s, int base) {
+
+}
+
+int bmx_wxtextinputstream_read8s(wxTextInputStream * s, int base) {
+
+}
+
+int bmx_wxtextinputstream_read16(wxTextInputStream * s, int base) {
+
+}
+
+int bmx_wxtextinputstream_read16s(wxTextInputStream * s, int base) {
+
+}
+
+int bmx_wxtextinputstream_read32(wxTextInputStream * s, int base) {
+
+}
+
+int bmx_wxtextinputstream_read32s(wxTextInputStream * s, int base) {
+	return s->Read32S();
+}
+
+int bmx_wxtextinputstream_getchar(wxTextInputStream * s) {
+	return static_cast<int>(s->GetChar());
+}
+
+double bmx_wxtextinputstream_readdouble(wxTextInputStream * s) {
+	return s->ReadDouble();
+}
+
+BBString * bmx_wxtextinputstream_readline(wxTextInputStream * s) {
+	return bbStringFromWxString(s->ReadLine());
+}
+
+BBString * bmx_wxtextinputstream_readword(wxTextInputStream * s) {
+	return bbStringFromWxString(s->ReadWord());
+}
+
+void bmx_wxtextinputstream_setstringseparators(wxTextInputStream * s, BBString * separators) {
+	s->SetStringSeparators(wxStringFromBBString(separators));
+}
+

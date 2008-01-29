@@ -398,6 +398,22 @@ Extern
 	Function bmx_wxcommandevent_create:Byte Ptr(evtType:Int, winId:Int)
 	Function bmx_wxevent_getcustref:Byte Ptr(customEventPtr:Byte Ptr)
 
+	Function bmx_wxinputstream_lastread:Int(handle:Byte Ptr)
+	Function bmx_wxinputstream_read:Byte Ptr(handle:Byte Ptr, buffer:Byte Ptr, size:Int)
+
+	Function bmx_wxtextinputstream_create:Byte Ptr(stream:Byte Ptr, separators:String)
+	Function bmx_wxtextinputstream_read8:Int(handle:Byte Ptr, base:Int)
+	Function bmx_wxtextinputstream_read8s:Int(handle:Byte Ptr, base:Int)
+	Function bmx_wxtextinputstream_read16:Int(handle:Byte Ptr, base:Int)
+	Function bmx_wxtextinputstream_read16s:Int(handle:Byte Ptr, base:Int)
+	Function bmx_wxtextinputstream_read32:Int(handle:Byte Ptr, base:Int)
+	Function bmx_wxtextinputstream_read32s:Int(handle:Byte Ptr, base:Int)
+	Function bmx_wxtextinputstream_getchar:Int(handle:Byte Ptr)
+	Function bmx_wxtextinputstream_readdouble(handle:Byte Ptr)
+	Function bmx_wxtextinputstream_readline(handle:Byte Ptr)
+	Function bmx_wxtextinputstream_readword(handle:Byte Ptr)
+	Function bmx_wxtextinputstream_setstringseparators(handle:Byte Ptr, separators:String)
+
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()

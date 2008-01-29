@@ -30,6 +30,7 @@
 #include "wx/fontmap.h"
 //#include "wx/event.h"
 #include "wx/ptr_scpd.h"
+#include "wx/txtstrm.h"
 
 #include <map>
 
@@ -287,6 +288,22 @@ extern "C" {
 	void bmx_wxevent_delete(wxEvent * event);
 	wxCommandEvent * bmx_wxcommandevent_create(wxEventType type, int winId);
 	wxEvent & bmx_wxevent_getcustref(wxEvent * customEventPtr);
+
+	int bmx_wxinputstream_lastread(wxInputStream * s);
+	wxInputStream * bmx_wxinputstream_read(wxInputStream * s, void * buffer, int size);
+
+	wxTextInputStream * bmx_wxtextinputstream_create(wxInputStream * inp, BBString * separators);
+	int bmx_wxtextinputstream_read8(wxTextInputStream * s, int base);
+	int bmx_wxtextinputstream_read8s(wxTextInputStream * s, int base);
+	int bmx_wxtextinputstream_read16(wxTextInputStream * s, int base);
+	int bmx_wxtextinputstream_read16s(wxTextInputStream * s, int base);
+	int bmx_wxtextinputstream_read32(wxTextInputStream * s, int base);
+	int bmx_wxtextinputstream_read32s(wxTextInputStream * s, int base);
+	int bmx_wxtextinputstream_getchar(wxTextInputStream * s);
+	double bmx_wxtextinputstream_readdouble(wxTextInputStream * s);
+	BBString * bmx_wxtextinputstream_readline(wxTextInputStream * s);
+	BBString * bmx_wxtextinputstream_readword(wxTextInputStream * s);
+	void bmx_wxtextinputstream_setstringseparators(wxTextInputStream * s, BBString * separators);
 
 }
 
