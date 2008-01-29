@@ -1421,3 +1421,32 @@ void bmx_wxtextinputstream_delete(wxTextInputStream * s) {
 	delete s;
 }
 
+// *********************************************
+
+bool bmx_wxoutputstream_close(wxOutputStream * s) {
+	return s->Close();
+}
+
+int bmx_wxoutputstream_lastwrite(wxOutputStream * s) {
+	return s->LastWrite();
+}
+
+wxOutputStream * bmx_wxoutputstream_write(wxOutputStream * s, void * buffer, int size) {
+	return &s->Write(buffer, size);
+}
+
+// *********************************************
+
+wxFileOutputStream * bmx_wxfileoutputstream_create(BBString * filename) {
+	return new wxFileOutputStream(wxStringFromBBString(filename));
+}
+
+bool bmx_wxfileoutputstream_isok(wxFileOutputStream * stream) {
+	return stream->IsOk();
+}
+
+void bmx_wxfileoutputstream_free(wxFileOutputStream * stream) {
+	delete stream;
+}
+
+

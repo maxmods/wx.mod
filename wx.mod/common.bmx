@@ -417,6 +417,14 @@ Extern
 	Function bmx_wxtextinputstream_setstringseparators(handle:Byte Ptr, separators:String)
 	Function bmx_wxtextinputstream_delete(handle:Byte Ptr)
 
+	Function bmx_wxoutputstream_close:Int(handle:Byte Ptr)
+	Function bmx_wxoutputstream_lastwrite:Int(handle:Byte Ptr)
+	Function bmx_wxoutputstream_write(handle:Byte Ptr, buffer:Byte Ptr, size:Int)
+
+	Function bmx_wxfileoutputstream_create:Byte Ptr(filename:String)
+	Function bmx_wxfileoutputstream_isok:Int(handle:Byte Ptr)
+	Function bmx_wxfileoutputstream_free(handle:Byte Ptr)
+
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()

@@ -279,9 +279,11 @@ Type wxOutputStream Extends wxStreamBase
 	End Function
 
 	Method Close:Int()
+		Return bmx_wxoutputstream_close(wxStreamPtr)
 	End Method
 	
 	Method LastWrite:Int()
+		Return bmx_wxoutputstream_lastwrite(wxStreamPtr)
 	End Method
 	
 	Method PutC(c:Int)
@@ -293,6 +295,56 @@ Type wxOutputStream Extends wxStreamBase
 	Method TellO:Int()
 	End Method
 	
+	Method Write:wxOutputStream(buffer:Byte Ptr, size:Int)
+		bmx_wxoutputstream_write(wxStreamPtr, buffer, size)
+		Return Self
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxFilterInputStream Extends wxInputStream
+
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxFilterOutputStream Extends wxOutputStream
+
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxFileOutputStream Extends wxOutputStream
+
+	Function CreateFileOutputStream:wxFileOutputStream(filename:String)
+		Return New wxFileOutputStream.Create(filename)
+	End Function
+	
+	Method Create:wxFileOutputStream(filename:String)
+		wxStreamPtr = bmx_wxfileoutputstream_create(filename)
+		Return Self
+	End Method
+
+	Method IsOk:Int()
+		Return bmx_wxfileoutputstream_isok(wxStreamPtr)
+	End Method
+	
+	Method Free()
+		If wxStreamPtr Then
+			bmx_wxfileoutputstream_free(wxStreamPtr)
+			wxStreamPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Free()
+	End Method
+
 End Type
 
 Rem

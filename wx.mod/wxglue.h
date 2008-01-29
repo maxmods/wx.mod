@@ -31,6 +31,7 @@
 //#include "wx/event.h"
 #include "wx/ptr_scpd.h"
 #include "wx/txtstrm.h"
+#include "wx/wfstream.h"
 
 #include <map>
 
@@ -307,6 +308,14 @@ extern "C" {
 	BBString * bmx_wxtextinputstream_readword(wxTextInputStream * s);
 	void bmx_wxtextinputstream_setstringseparators(wxTextInputStream * s, BBString * separators);
 	void bmx_wxtextinputstream_delete(wxTextInputStream * s);
+
+	bool bmx_wxoutputstream_close(wxOutputStream * s);
+	int bmx_wxoutputstream_lastwrite(wxOutputStream * s);
+	wxOutputStream * bmx_wxoutputstream_write(wxOutputStream * s, void * buffer, int size);
+
+	wxFileOutputStream * bmx_wxfileoutputstream_create(BBString * filename);
+	bool bmx_wxfileoutputstream_isok(wxFileOutputStream * stream);
+	void bmx_wxfileoutputstream_free(wxFileOutputStream * stream);
 
 }
 
