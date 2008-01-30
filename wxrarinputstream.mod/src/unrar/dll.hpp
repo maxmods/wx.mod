@@ -27,13 +27,13 @@
 
 #define RAR_DLL_VERSION       4
 
-#if defined(_UNIX) || defined(__MINGW32__)
+//#if defined(_UNIX) || defined(__MINGW32__)
 #define CALLBACK
 #define PASCAL
 #define LONG long
 #define HANDLE void *
 #define UINT unsigned int
-#endif
+//#endif
 
 struct RARHeaderData
 {
