@@ -41,19 +41,20 @@ MKDIR_CODE MakeDir(const char *Name,const wchar *NameW,uint Attr)
 }
 
 
-void CreatePath(const char *Path,const wchar *PathW,bool SkipLastName)
+bool CreatePath(const char *Path,const wchar *PathW,bool SkipLastName)
 {
-#ifdef _WIN_32
+#if defined(_WIN_32) || defined(_EMX)
   uint DirAttr=0;
 #else
   uint DirAttr=0777;
 #endif
 #ifdef UNICODE_SUPPORTED
-  bool Wide=PathW!=NULL && *PathW!=0;
+  bool Wide=PathW!=NULL && *PathW!=0 && UnicodeEnabled();
 #else
   bool Wide=false;
 #endif
   bool IgnoreAscii=false;
+  bool Success=true;
 
   const char *s=Path;
   for (int PosW=0;;PosW++)
@@ -76,6 +77,15 @@ void CreatePath(const char *Path,const wchar *PathW,bool SkipLastName)
         WideToChar(DirPtrW,DirName);
       else
       {
+#ifndef DBCS_SUPPORTED
+        if (*s!=CPATHDIVIDER)
+          for (const char *n=s;*n!=0 && n-Path<NM;n++)
+            if (*n==CPATHDIVIDER)
+            {
+              s=n;
+              break;
+            }
+#endif
         strncpy(DirName,Path,s-Path);
         DirName[s-Path]=0;
       }
@@ -86,23 +96,33 @@ void CreatePath(const char *Path,const wchar *PathW,bool SkipLastName)
         mprintf(" %s",St(MOk));
 #endif
       }
+      else
+        Success=false;
     }
     if (!IgnoreAscii)
       s=charnext(s);
   }
-  if (!SkipLastName)
-    MakeDir(Path,PathW,DirAttr);
+  if (!SkipLastName && !IsPathDiv(*PointToLastChar(Path)))
+    if (MakeDir(Path,PathW,DirAttr)!=MKDIR_SUCCESS)
+      Success=false;
+  return(Success);
 }
 
 
 void SetDirTime(const char *Name,RarTime *ftm,RarTime *ftc,RarTime *fta)
 {
-  bool sm=ftm!=NULL && ftm->IsSet();
-  bool sc=ftc!=NULL && ftc->IsSet();
-  bool sa=ftc!=NULL && fta->IsSet();
 #ifdef _WIN_32
   if (!WinNT())
     return;
+
+  bool sm=ftm!=NULL && ftm->IsSet();
+  bool sc=ftc!=NULL && ftc->IsSet();
+  bool sa=fta!=NULL && fta->IsSet();
+
+  unsigned int DirAttr=GetFileAttr(Name);
+  bool ResetAttr=(DirAttr!=0xffffffff && (DirAttr & FA_RDONLY)!=0);
+  if (ResetAttr)
+    SetFileAttr(Name,NULL,0);
   HANDLE hFile=CreateFile(Name,GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,
                           NULL,OPEN_EXISTING,FILE_FLAG_BACKUP_SEMANTICS,NULL);
   if (hFile==INVALID_HANDLE_VALUE)
@@ -116,6 +136,8 @@ void SetDirTime(const char *Name,RarTime *ftm,RarTime *ftc,RarTime *fta)
     fta->GetWin32(&fa);
   SetFileTime(hFile,sc ? &fc:NULL,sa ? &fa:NULL,sm ? &fm:NULL);
   CloseHandle(hFile);
+  if (ResetAttr)
+    SetFileAttr(Name,NULL,DirAttr);
 #endif
 #if defined(_UNIX) || defined(_EMX)
   File::SetCloseFileTimeByName(Name,ftm,fta);
@@ -131,7 +153,7 @@ bool IsRemovable(const char *Name)
   int Type=GetDriveType(*Root ? Root:NULL);
   return(Type==DRIVE_REMOVABLE || Type==DRIVE_CDROM);
 #elif defined(_EMX)
-  char Drive=toupper(Name[0]);
+  char Drive=etoupper(Name[0]);
   return((Drive=='A' || Drive=='B') && Name[1]==':');
 #else
   return(false);
@@ -153,13 +175,13 @@ Int64 GetFreeDisk(const char *Name)
 
   if (pGetDiskFreeSpaceEx==NULL)
   {
-	HMODULE hKernel=GetModuleHandle("kernel32.dll");
+    HMODULE hKernel=GetModuleHandle("kernel32.dll");
     if (hKernel!=NULL)
       pGetDiskFreeSpaceEx=(GETDISKFREESPACEEX)GetProcAddress(hKernel,"GetDiskFreeSpaceExA");
   }
   if (pGetDiskFreeSpaceEx!=NULL)
   {
-    GetFilePath(Name,Root);
+    GetFilePath(Name,Root,ASIZE(Root));
     ULARGE_INTEGER uiTotalSize,uiTotalFree,uiUserFree;
     uiUserFree.u.LowPart=uiUserFree.u.HighPart=0;
     if (pGetDiskFreeSpaceEx(*Root ? Root:NULL,&uiUserFree,&uiTotalSize,&uiTotalFree) &&
@@ -175,7 +197,7 @@ Int64 GetFreeDisk(const char *Name)
   return(FreeSize);
 #elif defined(_BEOS)
   char Root[NM];
-  GetFilePath(Name,Root);
+  GetFilePath(Name,Root,ASIZE(Root));
   dev_t Dev=dev_for_path(*Root ? Root:".");
   if (Dev<0)
     return(1457664);
@@ -188,7 +210,8 @@ Int64 GetFreeDisk(const char *Name)
 #elif defined(_UNIX)
   return(1457664);
 #elif defined(_EMX)
-  int Drive=(!isalpha(Name[0]) || Name[1]!=':') ? 0:toupper(Name[0])-'A'+1;
+  int Drive=(!isalpha(Name[0]) || Name[1]!=':') ? 0:etoupper(Name[0])-'A'+1;
+#ifndef _DJGPP
   if (_osmode == OS2_MODE)
   {
     FSALLOCATE fsa;
@@ -199,12 +222,17 @@ Int64 GetFreeDisk(const char *Name)
     return(FreeSize);
   }
   else
+#endif
   {
     union REGS regs,outregs;
     memset(&regs,0,sizeof(regs));
     regs.h.ah=0x36;
     regs.h.dl=Drive;
+#ifdef _DJGPP
+    int86 (0x21,&regs,&outregs);
+#else
     _int86 (0x21,&regs,&outregs);
+#endif
     if (outregs.x.ax==0xffff)
       return(1457664);
     Int64 FreeSize=outregs.x.ax*outregs.x.cx;
@@ -283,8 +311,9 @@ bool IsLink(uint Attr)
 {
 #ifdef _UNIX
   return((Attr & 0xF000)==0xA000);
-#endif
+#else
   return(false);
+#endif
 }
 
 
@@ -297,7 +326,7 @@ bool IsDeleteAllowed(uint FileAttr)
 #if defined(_WIN_32) || defined(_EMX)
   return((FileAttr & (FA_RDONLY|FA_SYSTEM|FA_HIDDEN))==0);
 #else
-  return(false);
+  return((FileAttr & (S_IRUSR|S_IWUSR))==(S_IRUSR|S_IWUSR));
 #endif
 }
 
@@ -308,7 +337,7 @@ void PrepareToDelete(const char *Name,const wchar *NameW)
   SetFileAttr(Name,NameW,0);
 #endif
 #ifdef _UNIX
-  chmod(Name,S_IRUSR|S_IWUSR);
+  chmod(Name,S_IRUSR|S_IWUSR|S_IXUSR);
 #endif
 }
 
@@ -447,7 +476,7 @@ char *MkTemp(char *Name)
 
 
 #ifndef SFX_MODULE
-uint CalcFileCRC(File *SrcFile,Int64 Size)
+uint CalcFileCRC(File *SrcFile,Int64 Size,CALCCRC_SHOWMODE ShowMode)
 {
   SaveFilePos SavePos(*SrcFile);
   const int BufSize=0x10000;
@@ -456,18 +485,36 @@ uint CalcFileCRC(File *SrcFile,Int64 Size)
   uint DataCRC=0xffffffff;
   int ReadSize;
 
+#if !defined(SILENT) && !defined(_WIN_CE)
+  Int64 FileLength=SrcFile->FileLength();
+  if (ShowMode!=CALCCRC_SHOWNONE)
+  {
+    mprintf(St(MCalcCRC));
+    mprintf("     ");
+  }
+
+#endif
 
   SrcFile->Seek(0,SEEK_SET);
   while ((ReadSize=SrcFile->Read(&Data[0],int64to32(Size==INT64ERR ? Int64(BufSize):Min(Int64(BufSize),Size))))!=0)
   {
-    if ((++BlockCount & 15)==0)
+    ++BlockCount;
+    if ((BlockCount & 15)==0)
     {
+#if !defined(SILENT) && !defined(_WIN_CE)
+      if (ShowMode==CALCCRC_SHOWALL)
+        mprintf("\b\b\b\b%3d%%",ToPercent(BlockCount*Int64(BufSize),FileLength));
+#endif
       Wait();
     }
     DataCRC=CRC(DataCRC,&Data[0],ReadSize);
     if (Size!=INT64ERR)
       Size-=ReadSize;
   }
+#if !defined(SILENT) && !defined(_WIN_CE)
+  if (ShowMode==CALCCRC_SHOWALL)
+    mprintf("\b\b\b\b    ");
+#endif
   return(DataCRC^0xffffffff);
 }
 #endif
@@ -501,3 +548,23 @@ bool DelDir(const char *Name,const wchar *NameW)
 {
   return(rmdir(Name)==0);
 }
+
+
+#if defined(_WIN_32) && !defined(_WIN_CE)
+bool SetFileCompression(char *Name,wchar *NameW,bool State)
+{
+  wchar FileNameW[NM];
+  GetWideName(Name,NameW,FileNameW);
+  HANDLE hFile=CreateFileW(FileNameW,FILE_READ_DATA|FILE_WRITE_DATA,
+                 FILE_SHARE_READ|FILE_SHARE_WRITE,NULL,OPEN_EXISTING,
+                 FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_SEQUENTIAL_SCAN,NULL);
+  if (hFile==INVALID_HANDLE_VALUE)
+    return(false);
+  SHORT NewState=State ? COMPRESSION_FORMAT_DEFAULT:COMPRESSION_FORMAT_NONE;
+  DWORD Result;
+  int RetCode=DeviceIoControl(hFile,FSCTL_SET_COMPRESSION,&NewState,
+                              sizeof(NewState),NULL,0,&Result,NULL);
+  CloseHandle(hFile);
+  return(RetCode!=0);
+}
+#endif

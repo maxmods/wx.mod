@@ -1,49 +1,105 @@
 #include "rar.hpp"
 
-void WideToChar(const wchar *Src,char *Dest,int DestSize)
+#if defined(_EMX) && !defined(_DJGPP)
+#include "unios2.cpp"
+#endif
+
+bool WideToChar(const wchar *Src,char *Dest,int DestSize)
 {
+  bool RetCode=true;
 #ifdef _WIN_32
-  WideCharToMultiByte(CP_ACP,0,Src,-1,Dest,DestSize,NULL,NULL);
+  if (WideCharToMultiByte(CP_ACP,0,Src,-1,Dest,DestSize,NULL,NULL)==0)
+    RetCode=false;
 #else
 #ifdef _APPLE
   WideToUtf(Src,Dest,DestSize);
 #else
 #ifdef MBFUNCTIONS
-  if (wcstombs(Dest,Src,DestSize)==-1)
-    *Dest=0;
-#else
-  for (int I=0;I<DestSize;I++)
+
+  if (wcstombs(Dest,Src,DestSize)==(size_t)-1)
+    RetCode=false;
+
+  if ((!RetCode || *Dest==0 && *Src!=0) && DestSize>NM && strlenw(Src)<NM)
   {
-    Dest[I]=(char)Src[I];
-    if (Src[I]==0)
-      break;
+    /* Workaround for strange Linux Unicode functions bug.
+       Some of wcstombs and mbstowcs implementations in some situations
+       (we are yet to find out what it depends on) can return an empty
+       string and success code if buffer size value is too large.
+    */
+    return(WideToChar(Src,Dest,NM));
   }
+
+#else
+  if (UnicodeEnabled())
+  {
+#if defined(_EMX) && !defined(_DJGPP)
+    int len=Min(strlenw(Src)+1,DestSize-1);
+    if (uni_fromucs((UniChar*)Src,len,Dest,(size_t*)&DestSize)==-1 ||
+        DestSize>len*2)
+      RetCode=false;
+    Dest[DestSize]=0;
+#endif
+  }
+  else
+    for (int I=0;I<DestSize;I++)
+    {
+      Dest[I]=(char)Src[I];
+      if (Src[I]==0)
+        break;
+    }
 #endif
 #endif
 #endif
+  return(RetCode);
 }
 
 
-void CharToWide(const char *Src,wchar *Dest,int DestSize)
+bool CharToWide(const char *Src,wchar *Dest,int DestSize)
 {
+  bool RetCode=true;
 #ifdef _WIN_32
-  MultiByteToWideChar(CP_ACP,0,Src,-1,Dest,DestSize);
+  if (MultiByteToWideChar(CP_ACP,0,Src,-1,Dest,DestSize)==0)
+    RetCode=false;
 #else
 #ifdef _APPLE
   UtfToWide(Src,Dest,DestSize);
 #else
 #ifdef MBFUNCTIONS
-  mbstowcs(Dest,Src,DestSize);
-#else
-  for (int I=0;I<DestSize;I++)
+
+  if (mbstowcs(Dest,Src,DestSize)==(size_t)-1)
+    RetCode=false;
+
+  if ((!RetCode || *Dest==0 && *Src!=0) && DestSize>NM && strlen(Src)<NM)
   {
-    Dest[I]=(wchar_t)Src[I];
-    if (Src[I]==0)
-      break;
+    /* Workaround for strange Linux Unicode functions bug.
+       Some of wcstombs and mbstowcs implementations in some situations
+       (we are yet to find out what it depends on) can return an empty
+       string and success code if buffer size value is too large.
+    */
+    return(CharToWide(Src,Dest,NM));
   }
+#else
+  if (UnicodeEnabled())
+  {
+#if defined(_EMX) && !defined(_DJGPP)
+    int len=Min(strlen(Src)+1,DestSize-1);
+    if (uni_toucs((char*)Src,len,(UniChar*)Dest,(size_t*)&DestSize)==-1 ||
+        DestSize>len)
+      DestSize=0;
+    RetCode=false;
+#endif
+  }
+  else
+    for (int I=0;I<DestSize;I++)
+    {
+      Dest[I]=(wchar_t)Src[I];
+      if (Src[I]==0)
+        break;
+    }
 #endif
 #endif
 #endif
+  return(RetCode);
 }
 
 
@@ -69,7 +125,6 @@ wchar* RawToWide(const byte *Src,wchar *Dest,int DestSize)
 }
 
 
-#ifdef _APPLE
 void WideToUtf(const wchar *Src,char *Dest,int DestSize)
 {
   DestSize--;
@@ -91,13 +146,19 @@ void WideToUtf(const wchar *Src,char *Dest,int DestSize)
           *(Dest++)=(0x80|((c>>6)&0x3f));
           *(Dest++)=(0x80|(c&0x3f));
         }
+        else
+          if (c < 0x200000 && (DestSize-=3)>=0)
+          {
+            *(Dest++)=(0xf0|(c>>18));
+            *(Dest++)=(0x80|((c>>12)&0x3f));
+            *(Dest++)=(0x80|((c>>6)&0x3f));
+            *(Dest++)=(0x80|(c&0x3f));
+          }
   }
   *Dest=0;
 }
-#endif
 
 
-#ifdef _APPLE
 void UtfToWide(const char *Src,wchar *Dest,int DestSize)
 {
   DestSize--;
@@ -123,14 +184,43 @@ void UtfToWide(const char *Src,wchar *Dest,int DestSize)
           Src+=2;
         }
         else
-          break;
+          if ((c>>3)==30)
+          {
+            if ((Src[0]&0xc0)!=0x80 || (Src[1]&0xc0)!=0x80 || (Src[2]&0xc0)!=0x80)
+              break;
+            d=((c&7)<<18)|((Src[0]&0x3f)<<12)|((Src[1]&0x3f)<<6)|(Src[2]&0x3f);
+            Src+=3;
+          }
+          else
+            break;
     if (--DestSize<0)
       break;
-    *(Dest++)=d;
+    if (d>0xffff)
+    {
+      if (--DestSize<0 || d>0x10ffff)
+        break;
+      *(Dest++)=((d-0x10000)>>10)+0xd800;
+      *(Dest++)=(d&0x3ff)+0xdc00;
+    }
+    else
+      *(Dest++)=d;
   }
   *Dest=0;
 }
+
+
+bool UnicodeEnabled()
+{
+#ifdef UNICODE_SUPPORTED
+  #ifdef _EMX
+    return(uni_ready);
+  #else
+    return(true);
+  #endif
+#else
+  return(false);
 #endif
+}
 
 
 int strlenw(const wchar *str)
@@ -346,6 +436,21 @@ void SupportDBCS::Init()
 char* SupportDBCS::charnext(const char *s)
 {
   return (char *)(IsLeadByte[*s] ? s+2:s+1);
+}
+
+
+uint SupportDBCS::strlend(const char *s)
+{
+  uint Length=0;
+  while (*s!=0)
+  {
+    if (IsLeadByte[*s])
+      s+=2;
+    else
+      s++;
+    Length++;
+  }
+  return(Length);
 }
 
 

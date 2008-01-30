@@ -50,6 +50,7 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 ModuleInfo "CC_OPTS: -fexceptions"
 ModuleInfo "CC_OPTS: -DRARDLL"
+ModuleInfo "CC_OPTS: -DGUI -DSILENT"
 
 Import "common.bmx"
 
@@ -65,15 +66,18 @@ Type wxRarInputStream
 	End Function
 
 	Method Create:wxRarInputStream(filename:String)
+		wxStreamPtr = bmx_wxrarinputstream_create(filename)
 		Return Self
 	End Method
 	
 	'Method OpenFile:int(Const char* szFileName);
 	
 	Method OpenNextFile:Int()
+		Return bmx_wxrarinputstream_opennextfile(wxStreamPtr)
 	End Method
 	
 	Method ExtractFile:Int(destPath:String, destName:String = Null)
+		Return bmx_wxrarinputstream_extractfile(wxStreamPtr, destPath, destName)
 	End Method
 	
 '	bool GetFileInfo(wxRarFileInfo& Info);

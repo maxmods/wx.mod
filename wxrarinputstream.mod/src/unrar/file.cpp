@@ -1,6 +1,6 @@
 #include "rar.hpp"
 
-static File *CreatedFiles[32];
+static File *CreatedFiles[256];
 static int RemoveCreatedActive=0;
 
 File::File()
@@ -18,6 +18,9 @@ File::File()
   AllowDelete=true;
   CloseCount=0;
   AllowExceptions=true;
+#ifdef _WIN_32
+  NoSequentialRead=false;
+#endif
 }
 
 
@@ -55,12 +58,11 @@ bool File::Open(const char *Name,const wchar *NameW,bool OpenShared,bool Update)
   uint ShareMode=FILE_SHARE_READ;
   if (OpenShared)
     ShareMode|=FILE_SHARE_WRITE;
+  uint Flags=NoSequentialRead ? 0:FILE_FLAG_SEQUENTIAL_SCAN;
   if (WinNT() && NameW!=NULL && *NameW!=0)
-    hNewFile=CreateFileW(NameW,Access,ShareMode,NULL,OPEN_EXISTING,
-                         FILE_FLAG_SEQUENTIAL_SCAN,NULL);
+    hNewFile=CreateFileW(NameW,Access,ShareMode,NULL,OPEN_EXISTING,Flags,NULL);
   else
-    hNewFile=CreateFile(Name,Access,ShareMode,NULL,OPEN_EXISTING,
-                        FILE_FLAG_SEQUENTIAL_SCAN,NULL);
+    hNewFile=CreateFile(Name,Access,ShareMode,NULL,OPEN_EXISTING,Flags,NULL);
 
   if (hNewFile==BAD_HANDLE && GetLastError()==ERROR_FILE_NOT_FOUND)
     ErrorType=FILE_NOTFOUND;
@@ -78,6 +80,11 @@ bool File::Open(const char *Name,const wchar *NameW,bool OpenShared,bool Update)
 #else
   int handle=open(Name,flags);
 #ifdef LOCK_EX
+
+#ifdef _OSF_SOURCE
+  extern "C" int flock(int, int);
+#endif
+
   if (!OpenShared && Update && handle>=0 && flock(handle,LOCK_EX|LOCK_NB)==-1)
   {
     close(handle);
@@ -231,10 +238,12 @@ void File::Flush()
 
 bool File::Delete()
 {
-  if (HandleType!=FILE_HANDLENORMAL || !AllowDelete)
+  if (HandleType!=FILE_HANDLENORMAL)
     return(false);
   if (hFile!=BAD_HANDLE)
     Close();
+  if (!AllowDelete)
+    return(false);
   return(DelFile(FileName,FileNameW));
 }
 
@@ -292,7 +301,8 @@ void File::Write(const void *Data,int Size)
     else
       Success=WriteFile(hFile,Data,Size,&Written,NULL);
 #else
-    Success=fwrite(Data,1,Size,hFile)==Size && !ferror(hFile);
+    int Written=fwrite(Data,1,Size,hFile);
+    Success=Written==Size && !ferror(hFile);
 #endif
     if (!Success && AllowExceptions && HandleType==FILE_HANDLENORMAL)
     {
@@ -305,7 +315,14 @@ void File::Write(const void *Data,int Size)
         ErrHandler.WriteErrorFAT(FileName);
 #endif
       if (ErrHandler.AskRepeatWrite(FileName))
+      {
+#ifndef _WIN_32
+        clearerr(hFile);
+#endif
+        if (Written<Size && Written>0)
+          Seek(Tell()-Written,SEEK_SET);
         continue;
+      }
       ErrHandler.WriteError(NULL,FileName);
     }
     break;
@@ -417,10 +434,10 @@ bool File::RawSeek(Int64 Offset,int Method)
     return(false);
 #else
   LastWrite=false;
-#ifdef _LARGEFILE_SOURCE
+#if defined(_LARGEFILE_SOURCE) && !defined(_OSF_SOURCE) && !defined(__VMS)
   if (fseeko(hFile,Offset,Method)!=0)
 #else
-  if (fseek(hFile,int64to32(Offset),Method)!=0)
+  if (fseek(hFile,(long)int64to32(Offset),Method)!=0)
 #endif
     return(false);
 #endif
@@ -440,7 +457,7 @@ Int64 File::Tell()
       return(-1);
   return(int32to64(HighDist,LowDist));
 #else
-#ifdef _LARGEFILE_SOURCE
+#if defined(_LARGEFILE_SOURCE) && !defined(_OSF_SOURCE)
   return(ftello(hFile));
 #else
   return(ftell(hFile));

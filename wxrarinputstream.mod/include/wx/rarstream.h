@@ -18,6 +18,7 @@
 #endif
 
 #include "wx/defs.h"
+#include "wx/msgdlg.h"
 
 #if wxUSE_STREAMS
 #include "wx/stream.h"

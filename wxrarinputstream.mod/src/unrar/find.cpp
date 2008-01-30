@@ -92,7 +92,16 @@ bool FindFile::Next(struct FindData *fd,bool GetSymLink)
     {
       char FullName[NM];
       strcpy(FullName,FindMask);
-      strcpy(PointToName(FullName),ent->d_name);
+      *PointToName(FullName)=0;
+      if (strlen(FullName)+strlen(ent->d_name)>=ASIZE(FullName)-1)
+      {
+#ifndef SILENT
+        Log(NULL,"\n%s%s",FullName,ent->d_name);
+        Log(NULL,St(MPathTooLong));
+#endif
+        return(false);
+      }
+      strcat(FullName,ent->d_name);
       if (!FastFind(FullName,NULL,fd,GetSymLink))
       {
         ErrHandler.OpenErrorMsg(FullName);
@@ -106,6 +115,9 @@ bool FindFile::Next(struct FindData *fd,bool GetSymLink)
 #ifdef _APPLE
   if (!LowAscii(fd->Name))
     UtfToWide(fd->Name,fd->NameW,sizeof(fd->NameW));
+#elif defined(UNICODE_SUPPORTED)
+  if (!LowAscii(fd->Name) && UnicodeEnabled())
+    CharToWide(fd->Name,fd->NameW);
 #endif
 #endif
   fd->IsDir=IsDir(fd->FileAttr);
@@ -150,7 +162,7 @@ bool FindFile::FastFind(const char *FindMask,const wchar *FindMaskW,struct FindD
       return(false);
     }
 #ifdef _DJGPP
-  fd->FileAttr=chmod(FindMask,0);
+  fd->FileAttr=_chmod(FindMask,0);
 #elif defined(_EMX)
   fd->FileAttr=st.st_attr;
 #else
@@ -163,10 +175,14 @@ bool FindFile::FastFind(const char *FindMask,const wchar *FindMaskW,struct FindD
   fd->ctime=st.st_ctime;
   fd->FileTime=fd->mtime.GetDos();
   strcpy(fd->Name,FindMask);
+
   *fd->NameW=0;
 #ifdef _APPLE
   if (!LowAscii(fd->Name))
     UtfToWide(fd->Name,fd->NameW,sizeof(fd->NameW));
+#elif defined(UNICODE_SUPPORTED)
+  if (!LowAscii(fd->Name) && UnicodeEnabled())
+    CharToWide(fd->Name,fd->NameW);
 #endif
 #endif
   fd->IsDir=IsDir(fd->FileAttr);
@@ -213,6 +229,7 @@ HANDLE FindFile::Win32Find(HANDLE hFind,const char *Mask,const wchar *MaskW,stru
       WideToChar(fd->NameW,fd->Name);
       fd->Size=int32to64(FindData.nFileSizeHigh,FindData.nFileSizeLow);
       fd->FileAttr=FindData.dwFileAttributes;
+      WideToChar(FindData.cAlternateFileName,fd->ShortName);
       fd->ftCreationTime=FindData.ftCreationTime;
       fd->ftLastAccessTime=FindData.ftLastAccessTime;
       fd->ftLastWriteTime=FindData.ftLastWriteTime;
@@ -260,6 +277,7 @@ HANDLE FindFile::Win32Find(HANDLE hFind,const char *Mask,const wchar *MaskW,stru
       CharToWide(fd->Name,fd->NameW);
       fd->Size=int32to64(FindData.nFileSizeHigh,FindData.nFileSizeLow);
       fd->FileAttr=FindData.dwFileAttributes;
+      strcpy(fd->ShortName,FindData.cAlternateFileName);
       fd->ftCreationTime=FindData.ftCreationTime;
       fd->ftLastAccessTime=FindData.ftLastAccessTime;
       fd->ftLastWriteTime=FindData.ftLastWriteTime;

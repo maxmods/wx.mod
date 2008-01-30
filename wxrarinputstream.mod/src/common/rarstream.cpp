@@ -97,7 +97,10 @@ bool wxRarInputStream::OpenNextFile()
 
     if ((nError = RARReadHeader(m_hRar, &hd)) != 0)
     {
-        wxMessageBox(wxString::Format(_T("AHH  %ld"), nError));
+        //wxMessageBox(wxString::Format(_T("AHH  %ld"), nError));
+		if (nError != ERAR_END_ARCHIVE) {
+			wxLogSysError(wxString::Format(_("Error : %ld"), nError));
+		}
         return false;
 	}
 	
@@ -114,7 +117,7 @@ bool wxRarInputStream::ExtractFile(const char* szDestPath, const char* szDestNam
                                 )) != 0
       )
     {
-	    wxMessageBox(wxString::Format(_T("AHHPROCESS  %ld"), nError));
+	    //wxMessageBox(wxString::Format(_T("AHHPROCESS  %ld"), nError));
         return false;
     }
     return true;

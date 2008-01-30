@@ -66,20 +66,19 @@ struct VM_PreparedProgram
   int CmdCount;
 
   Array<byte> GlobalData;
-  Array<byte> StaticData;
+  Array<byte> StaticData; // static data contained in DB operators
   uint InitR[7];
 
   byte *FilteredData;
   unsigned int FilteredDataSize;
 };
 
-class RarVM:BitInput
+class RarVM:private BitInput
 {
   private:
     inline uint GetValue(bool ByteMode,uint *Addr);
     inline void SetValue(bool ByteMode,uint *Addr,uint Value);
     inline uint* GetOperand(VM_PreparedOperand *CmdOp);
-    void PrintState(uint IP);
     void DecodeArg(VM_PreparedOperand &Op,bool ByteMode);
 #ifdef VM_OPTIMIZE
     void Optimize(VM_PreparedProgram *Prg);
@@ -102,7 +101,7 @@ class RarVM:BitInput
     void Init();
     void Prepare(byte *Code,int CodeSize,VM_PreparedProgram *Prg);
     void Execute(VM_PreparedProgram *Prg);
-    void SetValue(uint *Addr,uint Value);
+    void SetLowEndianValue(uint *Addr,uint Value);
     void SetMemory(unsigned int Pos,byte *Data,unsigned int DataSize);
     static uint ReadData(BitInput &Inp);
 };

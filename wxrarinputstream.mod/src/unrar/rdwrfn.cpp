@@ -62,9 +62,13 @@ int ComprDataIO::UnpRead(byte *Addr,uint Count)
         PackedCRC=CRC(PackedCRC,ReadAddr,ReadSize);
     }
     CurUnpRead+=RetCode;
-    ReadAddr+=RetCode;
     TotalRead+=RetCode;
+#ifndef NOVOLUME
+    // these variable are not used below in NOVOLUME mode, so it is better
+    // to exclude these commands to avoid compiler warnings
+    ReadAddr+=RetCode;
     Count-=RetCode;
+#endif
     UnpPackedSize-=RetCode;
     if (UnpPackedSize == 0 && UnpVolume)
     {
@@ -114,15 +118,15 @@ void ComprDataIO::UnpWrite(byte *Addr,uint Count)
   if (Cmd->DllOpMode!=RAR_SKIP)
   {
     if (Cmd->Callback!=NULL &&
-        Cmd->Callback(UCM_PROCESSDATA,Cmd->UserData,(long)Addr,Count)==-1)
+        Cmd->Callback(UCM_PROCESSDATA,Cmd->UserData,(LONG)Addr,Count)==-1)
       ErrHandler.Exit(USER_BREAK);
     if (Cmd->ProcessDataProc!=NULL)
     {
-#ifdef WINDOWS
+#if defined(_WIN_32) && !defined(_MSC_VER) && !defined(__MINGW32__)
       _EBX=_ESP;
 #endif
       int RetCode=Cmd->ProcessDataProc(Addr,Count);
-#ifdef WINDOWS
+#if defined(_WIN_32) && !defined(_MSC_VER) && !defined(__MINGW32__)
       _ESP=_EBX;
 #endif
       if (RetCode==0)
@@ -211,26 +215,26 @@ void ComprDataIO::GetUnpackedData(byte **Data,uint *Size)
 }
 
 
-void ComprDataIO::SetEncryption(int Method,char *Password,byte *Salt,bool Encrypt)
+void ComprDataIO::SetEncryption(int Method,char *Password,byte *Salt,bool Encrypt,bool HandsOffHash)
 {
   if (Encrypt)
   {
     Encryption=*Password ? Method:0;
 #ifndef NOCRYPT
-    Crypt.SetCryptKeys(Password,Salt,Encrypt);
+    Crypt.SetCryptKeys(Password,Salt,Encrypt,false,HandsOffHash);
 #endif
   }
   else
   {
     Decryption=*Password ? Method:0;
 #ifndef NOCRYPT
-    Decrypt.SetCryptKeys(Password,Salt,Encrypt,Method<29);
+    Decrypt.SetCryptKeys(Password,Salt,Encrypt,Method<29,HandsOffHash);
 #endif
   }
 }
 
 
-#ifndef SFX_MODULE
+#if !defined(SFX_MODULE) && !defined(NOCRYPT)
 void ComprDataIO::SetAV15Encryption()
 {
   Decryption=15;
@@ -239,7 +243,7 @@ void ComprDataIO::SetAV15Encryption()
 #endif
 
 
-#ifndef SFX_MODULE
+#if !defined(SFX_MODULE) && !defined(NOCRYPT)
 void ComprDataIO::SetCmt13Encryption()
 {
   Decryption=13;

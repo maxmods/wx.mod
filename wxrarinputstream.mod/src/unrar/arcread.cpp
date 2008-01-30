@@ -19,7 +19,7 @@ int Archive::SearchBlock(int BlockType)
 int Archive::SearchSubBlock(const char *Type)
 {
   int Size;
-  while ((Size=ReadHeader())!=0)
+  while ((Size=ReadHeader())!=0 && GetHeaderType()!=ENDARC_HEAD)
   {
     if (GetHeaderType()==NEWSUB_HEAD && SubHead.CmpName(Type))
       return(Size);
@@ -52,7 +52,7 @@ int Archive::ReadHeader()
     if (*Cmd->Password==0)
 #ifdef RARDLL
       if (Cmd->Callback==NULL ||
-          Cmd->Callback(UCM_NEEDPASSWORD,Cmd->UserData,(long)Cmd->Password,sizeof(Cmd->Password))==-1)
+          Cmd->Callback(UCM_NEEDPASSWORD,Cmd->UserData,(LONG)Cmd->Password,sizeof(Cmd->Password))==-1)
       {
         Close();
         ErrHandler.Exit(USER_BREAK);
@@ -65,7 +65,7 @@ int Archive::ReadHeader()
         ErrHandler.Exit(USER_BREAK);
       }
 #endif
-    HeadersCrypt.SetCryptKeys(Cmd->Password,HeadersSalt,false);
+    HeadersCrypt.SetCryptKeys(Cmd->Password,HeadersSalt,false,false,NewMhd.EncryptVer>=36);
     Raw.SetCrypt(&HeadersCrypt);
 #endif
   }
@@ -116,11 +116,15 @@ int Archive::ReadHeader()
       *(BaseBlock *)&NewMhd=ShortBlock;
       Raw.Get(NewMhd.HighPosAV);
       Raw.Get(NewMhd.PosAV);
+      if (NewMhd.Flags & MHD_ENCRYPTVER)
+        Raw.Get(NewMhd.EncryptVer);
       break;
     case ENDARC_HEAD:
       *(BaseBlock *)&EndArcHead=ShortBlock;
       if (EndArcHead.Flags & EARC_DATACRC)
         Raw.Get(EndArcHead.ArcDataCRC);
+      if (EndArcHead.Flags & EARC_VOLNUMBER)
+        Raw.Get(EndArcHead.VolNumber);
       break;
     case FILE_HEAD:
     case NEWSUB_HEAD:
@@ -142,7 +146,14 @@ int Archive::ReadHeader()
           Raw.Get(hd->HighUnpSize);
         }
         else 
+        {
           hd->HighPackSize=hd->HighUnpSize=0;
+          if (hd->UnpSize==0xffffffff)
+          {
+            hd->UnpSize=int64to32(INT64MAX);
+            hd->HighUnpSize=int64to32(INT64MAX>>32);
+          }
+        }
         hd->FullPackSize=int32to64(hd->HighPackSize,hd->PackSize);
         hd->FullUnpSize=int32to64(hd->HighUnpSize,hd->UnpSize);
 
@@ -151,8 +162,7 @@ int Archive::ReadHeader()
         Raw.Get((byte *)FileName,NameSize);
         FileName[NameSize]=0;
 
-        strncpy(hd->FileName,FileName,sizeof(hd->FileName));
-        hd->FileName[sizeof(hd->FileName)-1]=0;
+        strncpyz(hd->FileName,FileName,ASIZE(hd->FileName));
 
         if (hd->HeadType==NEWSUB_HEAD)
         {
@@ -176,10 +186,20 @@ int Archive::ReadHeader()
             if (hd->Flags & LHD_UNICODE)
             {
               EncodeFileName NameCoder;
-              int Length=strlen(FileName)+1;
-              NameCoder.Decode(FileName,(byte *)FileName+Length,
-                               hd->NameSize-Length,hd->FileNameW,
-                               sizeof(hd->FileNameW)/sizeof(hd->FileNameW[0]));
+              int Length=strlen(FileName);
+              if (Length==hd->NameSize)
+              {
+                UtfToWide(FileName,hd->FileNameW,sizeof(hd->FileNameW)/sizeof(hd->FileNameW[0])-1);
+                WideToChar(hd->FileNameW,hd->FileName,sizeof(hd->FileName)/sizeof(hd->FileName[0])-1);
+                ExtToInt(hd->FileName,hd->FileName);
+              }
+              else
+              {
+                Length++;
+                NameCoder.Decode(FileName,(byte *)FileName+Length,
+                                 hd->NameSize-Length,hd->FileNameW,
+                                 sizeof(hd->FileNameW)/sizeof(hd->FileNameW[0]));
+              }
               if (*hd->FileNameW==0)
                 hd->Flags &= ~LHD_UNICODE;
             }
@@ -424,6 +444,11 @@ int Archive::ReadOldHeader()
     NewLhd.FullPackSize=NewLhd.PackSize;
     NewLhd.FullUnpSize=NewLhd.UnpSize;
 
+    NewLhd.mtime.SetDos(NewLhd.FileTime);
+    NewLhd.ctime.Reset();
+    NewLhd.atime.Reset();
+    NewLhd.arctime.Reset();
+
     Raw.Read(OldLhd.NameSize);
     Raw.Get((byte *)NewLhd.FileName,OldLhd.NameSize);
     NewLhd.FileName[OldLhd.NameSize]=0;
@@ -434,7 +459,7 @@ int Archive::ReadOldHeader()
       NextBlockPos=CurBlockPos+NewLhd.HeadSize+NewLhd.PackSize;
     CurHeaderType=FILE_HEAD;
   }
-  return(Raw.Size());
+  return(NextBlockPos>CurBlockPos ? Raw.Size():0);
 }
 #endif
 
@@ -564,18 +589,6 @@ void Archive::ConvertUnknownHeader()
 }
 
 
-int Archive::LhdSize()
-{
-  return((NewLhd.Flags & LHD_LARGE) ? SIZEOF_NEWLHD+8:SIZEOF_NEWLHD);
-}
-
-
-int Archive::LhdExtraSize()
-{
-  return(NewLhd.HeadSize-NewLhd.NameSize-LhdSize());
-}
-
-
 #ifndef SHELL_EXT
 bool Archive::ReadSubData(Array<byte> *UnpData,File *DestFile)
 {
@@ -587,7 +600,7 @@ bool Archive::ReadSubData(Array<byte> *UnpData,File *DestFile)
     ErrHandler.SetErrorCode(CRC_ERROR);
     return(false);
   }
-  if (SubHead.Method<0x30 || SubHead.Method>0x35 || SubHead.UnpVer>PACK_VER)
+  if (SubHead.Method<0x30 || SubHead.Method>0x35 || SubHead.UnpVer>/*PACK_VER*/36)
   {
 #ifndef SHELL_EXT
     Log(FileName,St(MSubHeadUnknown));
@@ -610,7 +623,8 @@ bool Archive::ReadSubData(Array<byte> *UnpData,File *DestFile)
   if (SubHead.Flags & LHD_PASSWORD)
     if (*Cmd->Password)
       SubDataIO.SetEncryption(SubHead.UnpVer,Cmd->Password,
-             (SubHead.Flags & LHD_SALT) ? SubHead.Salt:NULL,false);
+             (SubHead.Flags & LHD_SALT) ? SubHead.Salt:NULL,false,
+             SubHead.UnpVer>=36);
     else
       return(false);
   SubDataIO.SetPackedSizeToRead(SubHead.PackSize);

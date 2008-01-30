@@ -28,4 +28,31 @@
 
 // *********************************************
 
+wxRarInputStream * bmx_wxrarinputstream_create(BBString * filename) {
+	return new wxRarInputStream(wxStringFromBBString(filename));
+}
 
+bool bmx_wxrarinputstream_opennextfile(wxRarInputStream * stream) {
+	return stream->OpenNextFile();
+}
+
+bool bmx_wxrarinputstream_extractfile(wxRarInputStream * stream, BBString * destPath, BBString * destName) {
+	char *p = bbStringToCString( destPath );
+	char *n;
+	bool ret;
+	
+	if (destName != &bbEmptyString) {
+		n = bbStringToCString( destName );
+	}
+	
+	if (n) {
+		ret = stream->ExtractFile(p, n);
+	} else {
+		ret = stream->ExtractFile(p, NULL);
+	}
+	
+	bbMemFree(p);
+	if (n) bbMemFree(n);
+	
+	return ret;
+}

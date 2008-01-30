@@ -11,6 +11,8 @@
 #endif
 
 #if defined(__WIN32__) || defined(_WIN32)
+  #undef UNICODE
+  #undef _UNICODE
   #define _WIN_32
 #endif
 

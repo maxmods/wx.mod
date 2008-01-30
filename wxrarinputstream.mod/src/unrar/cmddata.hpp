@@ -1,7 +1,7 @@
 #ifndef _RAR_CMDDATA_
 #define _RAR_CMDDATA_
 
-#define DefaultStoreList "ace;arj;bz2;cab;gz;jpeg;jpg;lha;lzh;mp3;rar;zip;taz;tgz;z"
+#define DefaultStoreList "7z;ace;arj;bz2;cab;gz;jpeg;jpg;lha;lzh;mp3;rar;taz;tgz;z;zip"
 
 class CommandData:public RAROptions
 {
@@ -9,6 +9,7 @@ class CommandData:public RAROptions
     void ProcessSwitchesString(char *Str);
     void ProcessSwitch(char *Switch);
     void BadSwitch(char *Switch);
+    bool ExclCheckArgs(StringList *Args,char *CheckName,bool CheckFullPath,int MatchMode);
     uint GetExclAttr(char *Str);
 
     bool FileLists;
@@ -31,6 +32,7 @@ class CommandData:public RAROptions
     bool ExclCheck(char *CheckName,bool CheckFullPath);
     bool StoreCheck(char *CheckName);
     bool TimeCheck(RarTime &ft);
+    bool SizeCheck(Int64 Size);
     int IsProcessFile(FileHeader &NewLhd,bool *ExactMatch=NULL,int MatchType=MATCH_WILDSUBPATH);
     void ProcessCommand();
     void AddArcName(char *Name,wchar *NameW);
@@ -47,6 +49,7 @@ class CommandData:public RAROptions
 
     StringList *FileArgs;
     StringList *ExclArgs;
+    StringList *InclArgs;
     StringList *ArcNames;
     StringList *StoreArgs;
 };

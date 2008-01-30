@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/rarstream.h"
 
 //class MaxNotebook;
 
@@ -28,6 +29,9 @@ extern "C" {
 
 #include <blitz.h>
 
+	wxRarInputStream * bmx_wxrarinputstream_create(BBString * filename);
+	bool bmx_wxrarinputstream_opennextfile(wxRarInputStream * stream);
+	bool bmx_wxrarinputstream_extractfile(wxRarInputStream * stream, BBString * destPath, BBString * destName);
 
 }
 

@@ -42,8 +42,12 @@ Import "../include/*.h"
 Import "include/*.h"
 Import "src/unrar/*.hpp"
 
-Import "src/unrar/smallfn.cpp"
 Import "src/unrar/dll.cpp"
+Import "src/unrar/filestr.cpp"
+Import "src/unrar/recvol.cpp"
+Import "src/unrar/rs.cpp"
+Import "src/unrar/scantree.cpp"
+Import "src/unrar/rar.cpp"
 Import "src/unrar/strlist.cpp"
 Import "src/unrar/strfn.cpp"
 Import "src/unrar/pathfn.cpp"
@@ -81,14 +85,16 @@ Import "src/unrar/list.cpp"
 Import "src/unrar/find.cpp"
 Import "src/unrar/unpack.cpp"
 Import "src/unrar/cmddata.cpp"
-Import "src/unrar/scantree.cpp"
-Import "src/unrar/filestr.cpp"
-
+	
 
 Import "src/common/rarstream.cpp"
 
 Import "glue.cpp"
 
 Extern
+
+	Function bmx_wxrarinputstream_create:Byte Ptr(filename:String)
+	Function bmx_wxrarinputstream_opennextfile:Int(handle:Byte Ptr)
+	Function bmx_wxrarinputstream_extractfile:Int(handle:Byte Ptr, destPath:String, destName:String)
 
 End Extern
