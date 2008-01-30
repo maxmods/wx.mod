@@ -1449,4 +1449,18 @@ void bmx_wxfileoutputstream_free(wxFileOutputStream * stream) {
 	delete stream;
 }
 
+// *********************************************
+
+wxFileInputStream * bmx_wxfileinputstream_create(BBString * filename) {
+	return new wxFileInputStream(wxStringFromBBString(filename));
+}
+
+bool bmx_wxfileinputstream_isok(wxFileInputStream * stream) {
+	return stream->IsOk();
+}
+
+void bmx_wxfileinputstream_free(wxFileInputStream * stream) {
+	delete stream;
+}
+
 

@@ -425,6 +425,10 @@ Extern
 	Function bmx_wxfileoutputstream_isok:Int(handle:Byte Ptr)
 	Function bmx_wxfileoutputstream_free(handle:Byte Ptr)
 
+	Function bmx_wxfileinputstream_create:Byte Ptr(filename:String)
+	Function bmx_wxfileinputstream_isok:Int(handle:Byte Ptr)
+	Function bmx_wxfileinputstream_free(handle:Byte Ptr)
+
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()

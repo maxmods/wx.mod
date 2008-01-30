@@ -33,6 +33,7 @@ extern "C" {
 	void bmx_wxbzipinputstream_free(wxBZipInputStream * stream);
 
 	wxBZipOutputStream * bmx_wxbzipoutputstream_create(wxOutputStream * stream, wxInt32 compressionFactor);
+	void bmx_wxbzipoutputstream_free(wxBZipOutputStream * stream);
 
 }
 

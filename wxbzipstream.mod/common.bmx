@@ -60,5 +60,6 @@ Extern
 	Function bmx_wxbzipinputstream_free(handle:Byte Ptr)
 
 	Function bmx_wxbzipoutputstream_create:Byte Ptr(stream:Byte Ptr, compressionFactor:Int)
+	Function bmx_wxbzipoutputstream_free(handle:Byte Ptr)
 
 End Extern

@@ -112,6 +112,19 @@ Type wxBZipOutputStream Extends wxFilterOutputStream
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Frees the stream object.
+	End Rem
+	Method Free()
+		If wxStreamPtr Then
+			bmx_wxbzipoutputstream_free(wxStreamPtr)
+			wxStreamPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Free()
+	End Method
 
 End Type
 

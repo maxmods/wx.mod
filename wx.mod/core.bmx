@@ -256,6 +256,9 @@ Type wxInputStream Extends wxStreamBase
 	Method TellI:Int()
 	End Method
 
+	Method Free()
+	End Method
+
 '	Method Delete()
 '		If wxStreamPtr Then
 '			bmx_wxmaxinputstream_delete(wxStreamPtr)
@@ -300,6 +303,9 @@ Type wxOutputStream Extends wxStreamBase
 		Return Self
 	End Method
 	
+	Method Free()
+	End Method
+	
 End Type
 
 Rem
@@ -317,26 +323,82 @@ Type wxFilterOutputStream Extends wxOutputStream
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Represents data written to a file.
+about: Note that SeekO() can seek beyond the end of the stream (file) and will thus not return wxInvalidOffset for that.
 End Rem
 Type wxFileOutputStream Extends wxOutputStream
 
+	Rem
+	bbdoc: Creates a new file with @filename name and initializes the stream in write-only mode. 
+	End Rem
 	Function CreateFileOutputStream:wxFileOutputStream(filename:String)
 		Return New wxFileOutputStream.Create(filename)
 	End Function
 	
+	Rem
+	bbdoc: Creates a new file with @filename name and initializes the stream in write-only mode. 
+	End Rem
 	Method Create:wxFileOutputStream(filename:String)
 		wxStreamPtr = bmx_wxfileoutputstream_create(filename)
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Returns true if the stream is initialized and ready.
+	End Rem
 	Method IsOk:Int()
 		Return bmx_wxfileoutputstream_isok(wxStreamPtr)
 	End Method
 	
+	Rem
+	bbdoc: Frees the stream object.
+	End Rem
 	Method Free()
 		If wxStreamPtr Then
 			bmx_wxfileoutputstream_free(wxStreamPtr)
+			wxStreamPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Free()
+	End Method
+
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxFileInputStream Extends wxInputStream
+
+	Rem
+	bbdoc: Opens the specified file using its @filename name in read-only mode. 
+	End Rem
+	Function CreateFileInputStream:wxFileInputStream(filename:String)
+		Return New wxFileInputStream.Create(filename)
+	End Function
+	
+	Rem
+	bbdoc: Opens the specified file using its @filename name in read-only mode. 
+	End Rem
+	Method Create:wxFileInputStream(filename:String)
+		wxStreamPtr = bmx_wxfileinputstream_create(filename)
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Returns true if the stream is initialized and ready.
+	End Rem
+	Method IsOk:Int()
+		Return bmx_wxfileinputstream_isok(wxStreamPtr)
+	End Method
+	
+	Rem
+	bbdoc: Frees the stream object.
+	End Rem
+	Method Free()
+		If wxStreamPtr Then
+			bmx_wxfileinputstream_free(wxStreamPtr)
 			wxStreamPtr = Null
 		End If
 	End Method
@@ -462,12 +524,16 @@ Type wxTextInputStream
 	Method SetStringSeparators(separators:String)
 		bmx_wxtextinputstream_setstringseparators(wxStreamPtr, separators)
 	End Method
-
-	Method Delete()
+	
+	Method Free()
 		If wxStreamPtr Then
 			bmx_wxtextinputstream_delete(wxStreamPtr)
 			wxStreamPtr = Null
 		End If
+	End Method
+
+	Method Delete()
+		Free()
 	End Method
 		
 End Type

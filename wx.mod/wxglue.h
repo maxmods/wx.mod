@@ -317,6 +317,11 @@ extern "C" {
 	bool bmx_wxfileoutputstream_isok(wxFileOutputStream * stream);
 	void bmx_wxfileoutputstream_free(wxFileOutputStream * stream);
 
+	wxFileInputStream * bmx_wxfileinputstream_create(BBString * filename);
+	bool bmx_wxfileinputstream_isok(wxFileInputStream * stream);
+	void bmx_wxfileinputstream_free(wxFileInputStream * stream);
+
+
 }
 
 /*
