@@ -73,11 +73,21 @@ Extern
 	Function bmx_wxserialport_free(handle:Byte Ptr)
 
 	Function bmx_wxiobase_close:Int(handle:Byte Ptr)
-	Function bmx_wxiobase_open:Int(handle:Byte Ptr, deviceName:String)
+	Function bmx_wxiobase_open:Int(handle:Byte Ptr, deviceName:String, dcs:Byte Ptr)
 	Function bmx_wxiobase_putback:Int(handle:Byte Ptr, char:Int)
 	Function bmx_wxiobase_readuntileos:Int(handle:Byte Ptr, buffer:Byte Ptr, bytesRead:Int Ptr, eos:String, timeout:Int, quota:Int)
 	Function bmx_wxiobase_readv:Int(handle:Byte Ptr, buffer:Byte Ptr, size:Int, timeoutFlag:Int Ptr, nice:Int)
 	Function bmx_wxiobase_writev:Int(handle:Byte Ptr, buffer:Byte Ptr, size:Int, timeoutFlag:Int Ptr, nice:Int)
+
+	Function bmx_wxserialportdcs_create:Byte Ptr()
+	Function bmx_wxserialportdcs_getsettings:String(handle:Byte Ptr)
+	Function bmx_wxserialportdcs_setbaud(handle:Byte Ptr, baud:Int)
+	Function bmx_wxserialportdcs_setparity(handle:Byte Ptr, parity:Int)
+	Function bmx_wxserialportdcs_setwordlen(handle:Byte Ptr, wordLen:Int)
+	Function bmx_wxserialportdcs_setstopbits(handle:Byte Ptr, stopBits:Int)
+	Function bmx_wxserialportdcs_enablertscts(handle:Byte Ptr, value:Int)
+	Function bmx_wxserialportdcs_enablexonxoff(handle:Byte Ptr, value:Int)
+	Function bmx_wxserialportdcs_delete(handle:Byte Ptr)
 
 End Extern
 

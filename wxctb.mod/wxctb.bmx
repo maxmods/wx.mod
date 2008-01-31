@@ -58,32 +58,57 @@ Type wxIOBase
 
 	Field wxObjectPtr:Byte Ptr
 	
+	Rem
+	bbdoc: Close the interface.
+	End Rem
 	Method Close:Int()
 		Return bmx_wxiobase_close(wxObjectPtr)
 	End Method
 	
 	Method IsOpen:Int() Abstract
 	
-	Method Open:Int(deviceName:String)
-		Return bmx_wxiobase_open(wxObjectPtr, deviceName)
+	Rem
+	bbdoc: Opens the specified device.
+	about: The optional dcs will be used for special device dependent settings. Because this is very specific,
+	the struct or destination of the dcs will be defined by every device itself. (For example: a serial device
+	type should refer things like parity, word length and count of stop bits, a IEEE type address and EOS character).
+	End Rem
+	Method Open:Int(deviceName:String, dcs:wxDCS = Null)
+		If dcs Then
+			Return bmx_wxiobase_open(wxObjectPtr, deviceName, dcs.wxObjectPtr)
+		Else
+			Return bmx_wxiobase_open(wxObjectPtr, deviceName, Null)
+		End If
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method PutBack:Int(char:Int)
 		Return bmx_wxiobase_putback(wxObjectPtr, char)
 	End Method
 	
 	Method Read:Int(buffer:Byte Ptr, size:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ReadUntilEOS:Int(buffer:Byte Ptr, bytesRead:Int Var, eos:String = "~n", timeout:Int = 1000, quota:Int = 0)
 		Return bmx_wxiobase_readuntileos(wxObjectPtr, buffer, Varptr bytesRead, eos, timeout, quota)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Readv:Int(buffer:Byte Ptr, size:Int, timeoutFlag:Int Var, nice:Int = False)
 		Return bmx_wxiobase_readv(wxObjectPtr, buffer, size, Varptr timeoutFlag, nice)
 	End Method
 	
 	Method Write:Int(buffer:Byte Ptr, size:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Writev:Int(buffer:Byte Ptr, size:Int, timeoutFlag:Int Var, nice:Int = False)
 		Return bmx_wxiobase_writev(wxObjectPtr, buffer, size, Varptr timeoutFlag, nice)
 	End Method
@@ -104,14 +129,14 @@ End Rem
 Type wxSerialPort Extends wxSerialPort_x
 
 	Rem
-	bbdoc: 
+	bbdoc: Creates a new serial port instance.
 	End Rem
 	Function CreateSerialPort:wxSerialPort()
 		Return New wxSerialPort.Create()
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a new serial port instance.
 	End Rem
 	Method Create:wxSerialPort()
 		wxObjectPtr = bmx_wxserialport_create()
@@ -189,7 +214,7 @@ Type wxSerialPort Extends wxSerialPort_x
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Frees the serial port object.
 	End Rem
 	Method Free()
 		If wxObjectPtr Then
@@ -204,4 +229,94 @@ Type wxSerialPort Extends wxSerialPort_x
 
 End Type
 
+Rem
+bbdoc: The base device control struct
+End Rem
+Type wxDCS
+
+	Field wxObjectPtr:Byte Ptr
+
+End Type
+
+
+Rem
+bbdoc: The device control struct for the serial communication type.
+about: This type should be used, if you want to use advanced parameters.
+End Rem
+Type wxSerialPort_DCS Extends wxDCS
+
+	Rem
+	bbdoc: Creates a new serial device control struct.
+	End Rem
+	Function CreateSerialPortDCS:wxSerialPort_DCS()
+		Return New wxSerialPort_DCS.Create()
+	End Function
+	
+	Rem
+	bbdoc: Creates a new serial device control struct.
+	End Rem
+	Method Create:wxSerialPort_DCS()
+		wxObjectPtr = bmx_wxserialportdcs_create()
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Returns the internal settings of the DCS as a human readable string like '8N1 115200'.
+	End Rem
+	Method GetSettings:String()
+		Return bmx_wxserialportdcs_getsettings(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the baud rate.
+	End Rem
+	Method SetBaud(baud:Int)
+		bmx_wxserialportdcs_setbaud(wxObjectPtr, baud)
+	End Method
+	
+	Rem
+	bbdoc: Sets the parity.
+	End Rem
+	Method SetParity(parity:Int)
+		bmx_wxserialportdcs_setparity(wxObjectPtr, parity)
+	End Method
+	
+	Rem
+	bbdoc: Sets the word length.
+	End Rem
+	Method SetWordLen(wordLen:Int)
+		bmx_wxserialportdcs_setwordlen(wxObjectPtr, wordLen)
+	End Method
+	
+	Rem
+	bbdoc: Sets the count of stopbits.
+	End Rem
+	Method SetStopBits(stopBits:Int)
+		bmx_wxserialportdcs_setstopbits(wxObjectPtr, stopBits)
+	End Method
+	
+	Rem
+	bbdoc: Enables rtscts flow control.
+	about: Use a @value of False to disable.
+	End Rem
+	Method EnableRTSCTS(value:Int = True)
+		bmx_wxserialportdcs_enablertscts(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Enables XON/XOFF flow control.
+	about: Use a @value of False to disable.
+	End Rem
+	Method EnableXONXOFF(value:Int = True)
+		bmx_wxserialportdcs_enablexonxoff(wxObjectPtr, value)
+	End Method
+	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxserialportdcs_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+
+End Type
 

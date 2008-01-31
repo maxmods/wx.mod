@@ -43,11 +43,21 @@ extern "C" {
 	void bmx_wxserialport_free(wxSerialPort * port);
 
 	int bmx_wxiobase_close(wxIOBase * base);
-	int bmx_wxiobase_open(wxIOBase * base, BBString * deviceName);
+	int bmx_wxiobase_open(wxIOBase * base, BBString * deviceName, void * dcs);
 	int bmx_wxiobase_putback(wxIOBase * base, int chr);
 	int bmx_wxiobase_readuntileos(wxIOBase * base, char * buffer, int * bytesRead, BBString * eos, long timeout, int quota);
 	int bmx_wxiobase_readv(wxIOBase * base, char * buffer, int size, int * timeoutFlag, bool nice);
 	int bmx_wxiobase_writev(wxIOBase * base, char * buffer, int size, int * timeoutFlag, bool nice);
+
+	wxSerialPort_DCS * bmx_wxserialportdcs_create();
+	BBString * bmx_wxserialportdcs_getsettings(wxSerialPort_DCS * dcs);
+	void bmx_wxserialportdcs_setbaud(wxSerialPort_DCS * dcs, wxBaud baud);
+	void bmx_wxserialportdcs_setparity(wxSerialPort_DCS * dcs, wxParity 	parity);
+	void bmx_wxserialportdcs_setwordlen(wxSerialPort_DCS * dcs, int wordLen);
+	void bmx_wxserialportdcs_setstopbits(wxSerialPort_DCS * dcs, int stopBits);
+	void bmx_wxserialportdcs_enablertscts(wxSerialPort_DCS * dcs, bool value);
+	void bmx_wxserialportdcs_enablexonxoff(wxSerialPort_DCS * dcs, bool value);
+	void bmx_wxserialportdcs_delete(wxSerialPort_DCS * dcs);
 
 }
 

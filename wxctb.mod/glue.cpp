@@ -84,9 +84,9 @@ int bmx_wxiobase_close(wxIOBase * base) {
 	return base->Close();
 }
 
-int bmx_wxiobase_open(wxIOBase * base, BBString * deviceName) {
+int bmx_wxiobase_open(wxIOBase * base, BBString * deviceName, void * dcs) {
 	char * p = bbStringToCString( deviceName );
-	int ret = base->Open(p);
+	int ret = base->Open(p, dcs);
 	
 	bbMemFree( p );
 	return ret;
@@ -114,4 +114,43 @@ int bmx_wxiobase_readv(wxIOBase * base, char * buffer, int size, int * timeoutFl
 int bmx_wxiobase_writev(wxIOBase * base, char * buffer, int size, int * timeoutFlag, bool nice) {
 	return base->Writev(buffer, size, timeoutFlag, nice);
 }
+
+// *********************************************
+
+wxSerialPort_DCS * bmx_wxserialportdcs_create() {
+	return new wxSerialPort_DCS();
+}
+
+BBString * bmx_wxserialportdcs_getsettings(wxSerialPort_DCS * dcs) {
+	return bbStringFromCString(dcs->GetSettings());
+}
+
+void bmx_wxserialportdcs_setbaud(wxSerialPort_DCS * dcs, wxBaud baud) {
+	dcs->baud = baud;
+}
+
+void bmx_wxserialportdcs_setparity(wxSerialPort_DCS * dcs, wxParity 	parity) {
+	dcs->parity = parity;
+}
+
+void bmx_wxserialportdcs_setwordlen(wxSerialPort_DCS * dcs, int wordLen) {
+	dcs->wordlen = static_cast<unsigned char>(wordLen);
+}
+
+void bmx_wxserialportdcs_setstopbits(wxSerialPort_DCS * dcs, int stopBits) {
+	dcs->stopbits = static_cast<unsigned char>(stopBits);
+}
+
+void bmx_wxserialportdcs_enablertscts(wxSerialPort_DCS * dcs, bool value) {
+	dcs->rtscts = value;
+}
+
+void bmx_wxserialportdcs_enablexonxoff(wxSerialPort_DCS * dcs, bool value) {
+	dcs->xonxoff = value;
+}
+
+void bmx_wxserialportdcs_delete(wxSerialPort_DCS * dcs) {
+	delete dcs;
+}
+
 
