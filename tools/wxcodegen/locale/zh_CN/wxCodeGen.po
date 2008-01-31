@@ -1,0 +1,151 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxCodeGen\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-01-31 20:30+0200\n"
+"PO-Revision-Date: 2008-01-31 20:37+0200\n"
+"Last-Translator: Bruce A Henderson\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ../..\n"
+
+#: ../../cgmain.bmx:82
+msgid "New Project"
+msgstr "新项目"
+
+#: ../../codegenbase.bmx:78
+msgid "Projects"
+msgstr "项目"
+
+#: ../../codegenbase.bmx:90
+msgid "Add"
+msgstr "放入"
+
+#: ../../codegenbase.bmx:93
+msgid "Delete"
+msgstr "删除"
+
+#: ../../codegenbase.bmx:116
+msgid "Project Name"
+msgstr "项目名称"
+
+#: ../../codegenbase.bmx:125
+msgid "wxFormBuilder Project File"
+msgstr "wxFormBuilder项目档案"
+
+#: ../../codegenbase.bmx:129
+msgid "Select a wxFormbuilder Project File"
+msgstr "选择一个wxFormbuilder项目档案"
+
+#: ../../codegenbase.bmx:129
+msgid "*.*"
+msgstr ""
+
+#: ../../codegenbase.bmx:134
+msgid "BMX Project Folder"
+msgstr "为BMX项目文件夹"
+
+#: ../../codegenbase.bmx:138
+msgid "Select the BlitzMax Project folder"
+msgstr "选择BlitzMax项目文件夹"
+
+#: ../../codegenbase.bmx:143
+msgid "Generated Filename"
+msgstr "生成的文件名"
+
+#: ../../codegenbase.bmx:155
+msgid ".bmx"
+msgstr ""
+
+#: ../../codegenbase.bmx:165
+msgid "App Structure"
+msgstr "应用结构"
+
+#: ../../codegenbase.bmx:166
+msgid "Create SuperStrict"
+msgstr "创造SuperStrict"
+
+#: ../../codegenbase.bmx:169
+msgid "Create Import statements"
+msgstr "创造Import报表"
+
+#: ../../codegenbase.bmx:174
+msgid "Auto-Generate Code on Update"
+msgstr "自动生成代码更新"
+
+#: ../../codegenbase.bmx:179
+msgid "Project Config"
+msgstr "项目配置"
+
+#: ../../codegenbase.bmx:193
+msgid "Application Code"
+msgstr "应用布局"
+
+#: ../../codegenbase.bmx:199
+msgid "Check for Project File Updates"
+msgstr "检查项目档案更新"
+
+#: ../../codegenbase.bmx:200
+msgid "Monitors the project files for changes."
+msgstr "监察项目档案改变。"
+
+#: ../../codegenbase.bmx:204
+msgid "String Localization"
+msgstr "文本定位"
+
+#: ../../codegenbase.bmx:207
+msgid "wxCodeGen Language"
+msgstr "wxCodeGen语言"
+
+#: ../../codegenbase.bmx:212
+msgid "Global Preferences"
+msgstr "全球喜好"
+
+#: ../../codegenbase.bmx:220
+msgid "Generate"
+msgstr "产生"
+
+#: ../../codegenbase.bmx:239
+msgid "&New Project"
+msgstr "新项目"
+
+#: ../../codegenbase.bmx:245
+msgid "&Quit"
+msgstr "戒烟"
+
+#: ../../codegenbase.bmx:247
+msgid "File"
+msgstr "档案"
+
+#: ../../codegenbase.bmx:252
+msgid "&About"
+msgstr "约"
+
+#: ../../codegenbase.bmx:254
+msgid "&Help"
+msgstr "帮助"
+
+#: ../../wxCodeGen.bmx:279
+msgid "Are you sure you want to delete? : "
+msgstr "你确认要删除吗？: "
+
+#: ../../wxCodeGen.bmx:281
+msgid "Delete Project?"
+msgstr "删除项目？"
+
+#: ../../wxCodeGen.bmx:319
+msgid "You will need to restart wxCodeGen to see the new language."
+msgstr "您必须重新wxCodeGen看到新的语言。"
+
+#: ../../wxCodeGen.bmx:320
+msgid "Language Changed"
+msgstr "语言改变"
+
+#: ../../wxCodeGen.bmx:329
+msgid "Updated at "
+msgstr "更新"
+

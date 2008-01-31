@@ -51,12 +51,14 @@ Global languageId:Int
 Global langIds:Int[] = [ ..
 	wxLANGUAGE_ENGLISH, ..
 	wxLANGUAGE_GERMAN, ..
-	wxLANGUAGE_RUSSIAN ]
+	wxLANGUAGE_RUSSIAN, ..
+	wxLANGUAGE_CHINESE_SIMPLIFIED ]
 
 Global langNames:String[] = [ ..
 	"English", ..
 	"German", ..
-	"Russian" ]
+	"Russian", ..
+	"Simplified Chinese" ]
 
 Type TCGProject
 
