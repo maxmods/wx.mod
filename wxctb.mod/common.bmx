@@ -40,7 +40,6 @@ Import "../include/*.h"
 ?
 
 Import "include/*.h"
-'Import "include/wx/ctb-0.13/*.h"
 
 Import "src/fifo.cpp"
 Import "src/getopt.cpp"
@@ -51,11 +50,34 @@ Import "src/kbhit.cpp"
 ?macos
 Import "src/macos/timer.cpp"
 Import "src/macos/serport.cpp"
+?win32
+Import "src/win32/timer.cpp"
+Import "src/win32/serport.cpp"
 ?
 
 Import "glue.cpp"
 
 Extern
+
+	Function bmx_wxserialport_create:Byte Ptr()
+	Function bmx_wxserialport_changelinestate:Int(handle:Byte Ptr, flags:Int)
+	Function bmx_wxserialport_clrlinestate:Int(handle:Byte Ptr, flags:Int)
+	Function bmx_wxserialport_getlinestate:Int(handle:Byte Ptr)
+	Function bmx_wxserialport_ioctl:Int(handle:Byte Ptr, cmd:Int, args:Byte Ptr)
+	Function bmx_wxserialport_isopen:Int(handle:Byte Ptr)
+	Function bmx_wxserialport_read:Int(handle:Byte Ptr, buffer:Byte Ptr, size:Int)
+	Function bmx_wxserialport_sendbreak:Int(handle:Byte Ptr, duration:Int)
+	Function bmx_wxserialport_setbaudrate:Int(handle:Byte Ptr, baudRate:Int)
+	Function bmx_wxserialport_setlinestate:Int(handle:Byte Ptr, flags:Int)
+	Function bmx_wxserialport_write:Int(handle:Byte Ptr, buffer:Byte Ptr, size:Int)
+	Function bmx_wxserialport_free(handle:Byte Ptr)
+
+	Function bmx_wxiobase_close:Int(handle:Byte Ptr)
+	Function bmx_wxiobase_open:Int(handle:Byte Ptr, deviceName:String)
+	Function bmx_wxiobase_putback:Int(handle:Byte Ptr, char:Int)
+	Function bmx_wxiobase_readuntileos:Int(handle:Byte Ptr, buffer:Byte Ptr, bytesRead:Int Ptr, eos:String, timeout:Int, quota:Int)
+	Function bmx_wxiobase_readv:Int(handle:Byte Ptr, buffer:Byte Ptr, size:Int, timeoutFlag:Int Ptr, nice:Int)
+	Function bmx_wxiobase_writev:Int(handle:Byte Ptr, buffer:Byte Ptr, size:Int, timeoutFlag:Int Ptr, nice:Int)
 
 End Extern
 

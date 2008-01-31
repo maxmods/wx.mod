@@ -11,7 +11,7 @@
 #define _WX_SERIALPORT_MACOS_H
 
 #include "wx/ctb-0.13/serportx.h"
-//#include <macos/serial.h>
+
 #include <termios.h>
 
 #define wxCOM1 "/dev/ttyS0"

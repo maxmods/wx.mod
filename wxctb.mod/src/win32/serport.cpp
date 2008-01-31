@@ -179,6 +179,7 @@ int wxSerialPort::OpenDevice(const char* devname, void* dcs)
     // if dcs isn't NULL, type cast
     if(dcs) m_dcs = *(wxSerialPort_DCS*)dcs;
 
+#ifndef UNICODE
     fd = CreateFile(devname,	// device name
 				GENERIC_READ | GENERIC_WRITE,	// O_RDWR
 				0,		// not shared
@@ -186,6 +187,37 @@ int wxSerialPort::OpenDevice(const char* devname, void* dcs)
 				OPEN_EXISTING, // file (device) exists
 				FILE_FLAG_OVERLAPPED,	// asynchron handling
 				NULL); // no more handle flags
+#else
+
+	LPWSTR devnameW = NULL;
+	
+	if (devname != NULL) {
+	    int nInputStrLen = strlen(devname);
+	
+	    // Double NULL Termination
+	    int nOutputStrLen = MultiByteToWideChar(CP_ACP, 0, devname, nInputStrLen, NULL, 0) + 2;
+	    devnameW = new WCHAR[nOutputStrLen];
+	
+	    if (devnameW) {
+	        memset(devnameW, 0x00, sizeof (WCHAR)*nOutputStrLen);
+	        MultiByteToWideChar(CP_ACP, 0, devname, nInputStrLen, devnameW, nInputStrLen);
+	    }
+	}
+	
+	if (!devnameW) {
+		return -1;
+	}
+	
+    fd = CreateFile(devnameW,	// device name
+				GENERIC_READ | GENERIC_WRITE,	// O_RDWR
+				0,		// not shared
+				NULL,	// default value for object security ?!?
+				OPEN_EXISTING, // file (device) exists
+				FILE_FLAG_OVERLAPPED,	// asynchron handling
+				NULL); // no more handle flags
+
+	delete []devnameW;
+#endif
 	
     if(fd == INVALID_HANDLE_VALUE) {
 	   return -1;

@@ -12,6 +12,8 @@
 
 #if defined (WIN32)
 # include "wx/ctb-0.13/win32/serport.h"
+#elif defined(__APPLE__)
+# include "wx/ctb-0.13/macos/serport.h"
 #else
 # include "wx/ctb-0.13/linux/serport.h"
 #endif

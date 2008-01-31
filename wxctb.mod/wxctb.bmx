@@ -59,30 +59,33 @@ Type wxIOBase
 	Field wxObjectPtr:Byte Ptr
 	
 	Method Close:Int()
+		Return bmx_wxiobase_close(wxObjectPtr)
 	End Method
 	
-	Method IsOpen:Int()
-	End Method
+	Method IsOpen:Int() Abstract
 	
 	Method Open:Int(deviceName:String)
+		Return bmx_wxiobase_open(wxObjectPtr, deviceName)
 	End Method
 	
 	Method PutBack:Int(char:Int)
+		Return bmx_wxiobase_putback(wxObjectPtr, char)
 	End Method
 	
-	Method Read:Int(buffer:Byte Ptr, size:Int)
-	End Method
+	Method Read:Int(buffer:Byte Ptr, size:Int) Abstract
 	
 	Method ReadUntilEOS:Int(buffer:Byte Ptr, bytesRead:Int Var, eos:String = "~n", timeout:Int = 1000, quota:Int = 0)
+		Return bmx_wxiobase_readuntileos(wxObjectPtr, buffer, Varptr bytesRead, eos, timeout, quota)
 	End Method
 	
 	Method Readv:Int(buffer:Byte Ptr, size:Int, timeoutFlag:Int Var, nice:Int = False)
+		Return bmx_wxiobase_readv(wxObjectPtr, buffer, size, Varptr timeoutFlag, nice)
 	End Method
 	
-	Method Write:Int(buffer:Byte Ptr, size:Int)
-	End Method
+	Method Write:Int(buffer:Byte Ptr, size:Int) Abstract
 	
 	Method Writev:Int(buffer:Byte Ptr, size:Int, timeoutFlag:Int Var, nice:Int = False)
+		Return bmx_wxiobase_writev(wxObjectPtr, buffer, size, Varptr timeoutFlag, nice)
 	End Method
 	
 End Type
@@ -100,43 +103,103 @@ bbdoc:
 End Rem
 Type wxSerialPort Extends wxSerialPort_x
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateSerialPort:wxSerialPort()
 		Return New wxSerialPort.Create()
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxSerialPort()
-		
+		wxObjectPtr = bmx_wxserialport_create()
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangeLineState:Int(flags:Int)
+		Return bmx_wxserialport_changelinestate(wxObjectPtr, flags)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ClrLineState:Int(flags:Int)
+		Return bmx_wxserialport_clrlinestate(wxObjectPtr, flags)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetLineState:Int()
+		Return bmx_wxserialport_getlinestate(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Ioctl:Int(cmd:Int, args:Byte Ptr)
+		Return bmx_wxserialport_ioctl(wxObjectPtr, cmd, args)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsOpen:Int()
+		Return bmx_wxserialport_isopen(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Read:Int(buffer:Byte Ptr, size:Int)
+		Return bmx_wxserialport_read(wxObjectPtr, buffer, size)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SendBreak:Int(duration:Int)
+		Return bmx_wxserialport_sendbreak(wxObjectPtr, duration)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetBaudRate:Int(baudRate:Int)
+		Return bmx_wxserialport_setbaudrate(wxObjectPtr, baudRate)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetLineState:Int(flags:Int)
+		Return bmx_wxserialport_setlinestate(wxObjectPtr, flags)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Write:Int(buffer:Byte Ptr, size:Int)
+		Return bmx_wxserialport_write(wxObjectPtr, buffer, size)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Free()
+		If wxObjectPtr Then
+			bmx_wxserialport_free(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Free()
 	End Method
 
 End Type

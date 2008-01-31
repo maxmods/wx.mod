@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/ctb-0.13/serport.h"
 
 //class MaxNotebook;
 
@@ -28,6 +29,25 @@ extern "C" {
 
 #include <blitz.h>
 
+	wxSerialPort * bmx_wxserialport_create();
+	int bmx_wxserialport_changelinestate(wxSerialPort * port, wxSerialLineState flags);
+	int bmx_wxserialport_clrlinestate(wxSerialPort * port, wxSerialLineState flags);
+	int bmx_wxserialport_getlinestate(wxSerialPort * port);
+	int bmx_wxserialport_ioctl(wxSerialPort * port, int cmd, void * args);
+	int bmx_wxserialport_isopen(wxSerialPort * port);
+	int bmx_wxserialport_read(wxSerialPort * port, char * buffer, int size);
+	int bmx_wxserialport_sendbreak(wxSerialPort * port, int duration);
+	int bmx_wxserialport_setbaudrate(wxSerialPort * port, wxBaud baudRate);
+	int bmx_wxserialport_setlinestate(wxSerialPort * port, wxSerialLineState flags);
+	int bmx_wxserialport_write(wxSerialPort * port, char * buffer, int size);
+	void bmx_wxserialport_free(wxSerialPort * port);
+
+	int bmx_wxiobase_close(wxIOBase * base);
+	int bmx_wxiobase_open(wxIOBase * base, BBString * deviceName);
+	int bmx_wxiobase_putback(wxIOBase * base, int chr);
+	int bmx_wxiobase_readuntileos(wxIOBase * base, char * buffer, int * bytesRead, BBString * eos, long timeout, int quota);
+	int bmx_wxiobase_readv(wxIOBase * base, char * buffer, int size, int * timeoutFlag, bool nice);
+	int bmx_wxiobase_writev(wxIOBase * base, char * buffer, int size, int * timeoutFlag, bool nice);
 
 }
 
