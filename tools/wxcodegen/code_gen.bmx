@@ -264,6 +264,9 @@ Type TFBGenFactory
 				
 			Case "wxBitmapButton"
 				widget = New TFBBitmapButton
+
+			Case "wxChoice"
+				widget = New TFBChoice
 				
 		End Select
 		
@@ -2417,6 +2420,56 @@ Type TFBBitmapButton Extends TFBWidget
 
 End Type
 
+Type TFBChoice Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+		
+		If prop("choices") Then
+			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
+		End If
+
+		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
+
+		' choices
+		If prop("choices") Then
+			text:+ ", " + prop("name") + "Choices"
+		Else
+			text:+ ", Null"
+		End If
+
+		text:+ DoPosSizeStyle(Self)
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+		
+		If prop("selection") Then
+			out.Add(prop("name") + ".SetSelection(" + prop("selection") + ")", 2)
+		End If
+		
+
+		StandardSettings(out)
+		
+		out.Add("")
+
+	End Method
+
+	Method GetType:String()
+		Return "wxChoice"
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxChoice"
+	End Method
+
+End Type
+
+
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
 Type TFBSizer Extends TFBWidget
@@ -2933,6 +2986,8 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnCombobox", "wxCommandEvent", "wxEVT_COMMAND_COMBOBOX_SELECTED"))
 
 	AddEvent(TEventType.Set("OnHyperlink", "wxHyperlinkEvent", "wxEVT_COMMAND_HYPERLINK"))
+
+	AddEvent(TEventType.Set("OnChoice", "wxCommandEvent", "wxEVT_COMMAND_CHOICE_SELECTED"))
 
 End Function
 

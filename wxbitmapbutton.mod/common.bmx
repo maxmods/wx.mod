@@ -60,5 +60,3 @@ Extern
 	Function bmx_wxbitmapbutton_setbitmapselected(handle:Byte Ptr, bitmap:Byte Ptr)
 
 End Extern
-
-Const wxBU_AUTODRAW:Int = 4
