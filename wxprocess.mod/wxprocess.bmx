@@ -102,6 +102,7 @@ Type wxProcess Extends wxEvtHandler
 		Else
 			wxObjectPtr = bmx_wxprocess_create(Self, Null, id)
 		End If
+		OnInit()
 		Return Self
 	End Method
 	
@@ -121,6 +122,7 @@ Type wxProcess Extends wxEvtHandler
 	End Rem
 	Method CreateWithFlags:wxProcess(flags:Int)
 		wxObjectPtr = bmx_wxprocess_createwithflags(Self, flags)
+		OnInit()
 		Return Self
 	End Method
 	
