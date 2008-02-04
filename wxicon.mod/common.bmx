@@ -60,4 +60,11 @@ Extern
 	
 	Function bmx_wxicon_isok:Int(handle:Byte Ptr)
 
+	Function bmx_iconbundle_create:Byte Ptr(filename:String, ftype:Int)
+	Function bmx_wxiconbundle_createwithicon:Byte Ptr(icon:Byte Ptr)
+	Function bmx_wxiconbundle_addicon(handle:Byte Ptr, file:String, ftype:Int)
+	Function bmx_wxiconbundle_addiconicon(handle:Byte Ptr, icon:Byte Ptr)
+	Function bmx_wxiconbundle_geticon:Byte Ptr(handle:Byte Ptr, w:Int, h:Int)
+	Function bmx_wxiconbundle_delete(handle:Byte Ptr)
+
 End Extern

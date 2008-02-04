@@ -121,3 +121,7 @@ void bmx_wxdialog_setreturncode(wxDialog * dialog, int retCode) {
 	dialog->SetReturnCode(retCode);
 }
 
+void bmx_wxdialog_seticons(wxDialog * dialog, MaxIconBundle * icons) {
+	dialog->SetIcons(icons->Bundle());
+}
+

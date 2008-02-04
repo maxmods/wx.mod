@@ -66,6 +66,8 @@ Extern
 	Function bmx_wxdialog_seticon(handle:Byte Ptr, icon:Byte Ptr)
 	Function bmx_wxdialog_setreturncode(handle:Byte Ptr, retCode:Int)
 
+	Function bmx_wxdialog_seticons(handle:Byte Ptr, icons:Byte Ptr)
+
 End Extern
 
 

@@ -23,6 +23,7 @@ SuperStrict
 Import wx.wx
 Import wx.wxWindow
 Import wx.wxIcon
+Import wx.wxRegion
 Import BRL.Blitz
 
 
@@ -68,5 +69,9 @@ Extern
 	Function bmx_wxtoplevelwindow_centreonscreen(handle:Byte Ptr, direction:Int)
 
 	Function bmx_wxtoplevelwindow_getdefaultitem:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxtoplevelwindow_seticons(handle:Byte Ptr, icons:Byte Ptr)
+	Function bmx_wxtoplevelwindow_geticons:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtoplevelwindow_setshape:Int(handle:Byte Ptr, region:Byte Ptr)
 
 End Extern

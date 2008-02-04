@@ -24,6 +24,7 @@
 #include "../wxbitmap.mod/glue.h"
 
 class MaxIcon;
+class MaxIconBundle;
 
 extern "C" {
 
@@ -45,6 +46,14 @@ extern "C" {
 	
 	bool bmx_wxicon_isok(MaxIcon * icon);
 
+
+	MaxIconBundle * bmx_iconbundle_create(BBString * filename, long ftype);
+	MaxIconBundle * bmx_wxiconbundle_createwithicon(MaxIcon * icon);
+	void bmx_wxiconbundle_addicon(MaxIconBundle * bundle, BBString * file, long ftype);
+	void bmx_wxiconbundle_addiconicon(MaxIconBundle * bundle, MaxIcon * icon);
+	MaxIcon * bmx_wxiconbundle_geticon(MaxIconBundle * bundle, int w, int h);
+	void bmx_wxiconbundle_delete(MaxIconBundle * bundle);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -61,3 +70,16 @@ private:
 	wxIcon & icon;
 
 };
+
+
+class MaxIconBundle
+{
+public:
+	MaxIconBundle(const wxIconBundle & b);
+	wxIconBundle & Bundle();
+
+private:
+	wxIconBundle bundle;
+
+};
+

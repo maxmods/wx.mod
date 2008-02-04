@@ -42,6 +42,14 @@ wxIcon & MaxIcon::Icon() {
 MaxIcon::~MaxIcon() {
 }
 
+MaxIconBundle::MaxIconBundle(const wxIconBundle & b)
+	: bundle(b)
+{
+}
+
+wxIconBundle & MaxIconBundle::Bundle() {
+	return bundle;
+}
 
 
 // *********************************************
@@ -99,5 +107,33 @@ void bmx_wxicon_setwidth(MaxIcon * icon, int width) {
 
 bool bmx_wxicon_isok(MaxIcon * icon) {
 	return icon->Icon().IsOk();
+}
+
+// *********************************************
+
+MaxIconBundle * bmx_iconbundle_create(BBString * filename, long ftype) {
+	wxIconBundle b(wxStringFromBBString(filename), ftype);
+	return new MaxIconBundle(b);
+}
+
+MaxIconBundle * bmx_wxiconbundle_createwithicon(MaxIcon * icon) {
+	wxIconBundle b(icon->Icon());
+	return new MaxIconBundle(b);
+}
+
+void bmx_wxiconbundle_addicon(MaxIconBundle * bundle, BBString * file, long ftype) {
+	bundle->Bundle().AddIcon(wxStringFromBBString(file), ftype);
+}
+
+void bmx_wxiconbundle_addiconicon(MaxIconBundle * bundle, MaxIcon * icon) {
+	bundle->Bundle().AddIcon(icon->Icon());
+}
+
+MaxIcon * bmx_wxiconbundle_geticon(MaxIconBundle * bundle, int w, int h) {
+	return new MaxIcon(bundle->Bundle().GetIcon(wxSize(w, h)));
+}
+
+void bmx_wxiconbundle_delete(MaxIconBundle * bundle) {
+	delete bundle;
 }
 

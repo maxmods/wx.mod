@@ -209,3 +209,86 @@ Rem
 bbdoc: 
 End Rem
 Global wxNullIcon:wxIcon = wxIcon._create(bmx_wxicon_null())
+
+Rem
+bbdoc: This type contains multiple copies of an icon in different sizes, see also wxDialog::SetIcons and wxTopLevelWindow::SetIcons.
+End Rem
+Type wxIconBundle
+
+	Field wxObjectPtr:Byte Ptr
+	
+	Function _create:wxIconBundle(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxIconBundle = New wxIconBundle
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: Creates the bundle with the icon(s) found in the file.
+	End Rem
+	Function CreateIconBundle:wxIconBundle(filename:String, ftype:Int)
+		Return New wxIconBundle.Create(filename, ftype)
+	End Function
+	
+	Rem
+	bbdoc: Creates the bundle with the icon(s) found in the file.
+	End Rem
+	Method Create:wxIconBundle(filename:String, ftype:Int)
+		wxObjectPtr = bmx_iconbundle_create(filename, ftype)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Creates the bundle with a single icon.
+	End Rem
+	Function CreateIconBundleWithIcon:wxIconBundle(icon:wxIcon)
+		Return New wxIconBundle.CreateWithIcon(icon)
+	End Function
+	
+	Rem
+	bbdoc: Creates the bundle with a single icon.
+	End Rem
+	Method CreateWithIcon:wxIconBundle(icon:wxIcon)
+		wxObjectPtr = bmx_wxiconbundle_createwithicon(icon.wxObjectPtr)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Adds all the icons contained in the file to the bundle.
+	about: If the collection already contains icons with the same width and height,
+	they are replaced by the new ones.
+	End Rem
+	Method AddIcon(file:String, ftype:Int)
+		bmx_wxiconbundle_addicon(wxObjectPtr, file, ftype)
+	End Method
+	
+	Rem
+	bbdoc: Adds the icon to the collection.
+	about: If the collection already contains an icon with the same width and height,
+	it is replaced by the new one.
+	End Rem
+	Method AddIconIcon(icon:wxIcon)
+		bmx_wxiconbundle_addiconicon(wxObjectPtr, icon.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the icon with the given size.
+	about: If no such icon exists, returns the icon with size wxSYS_ICON_X/wxSYS_ICON_Y.
+	If no such icon exists, returns the first icon in the bundle. If size is ( -1, -1 ), returns
+	the icon with size wxSYS_ICON_X/wxSYS_ICON_Y.
+	End Rem
+	Method GetIcon:wxIcon(w:Int, h:Int)
+		Return wxIcon._create(bmx_wxiconbundle_geticon(wxObjectPtr, w, h))
+	End Method
+	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxiconbundle_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+
+End Type
+

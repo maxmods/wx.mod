@@ -658,3 +658,7 @@ Const wxFILE_KIND_PIPE:Int = 3      ' a pipe
 
 Const wxEVT_FIRST:Int = 10000
 Const wxEVT_USER_FIRST:Int = wxEVT_FIRST + 2000
+
+Const wxODDEVEN_RULE:Int = 1
+Const wxWINDING_RULE:Int = 2
+

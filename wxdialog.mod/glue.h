@@ -53,6 +53,9 @@ extern "C" {
 	void bmx_wxdialog_setescapeid(wxDialog * dialog, int id);
 	void bmx_wxdialog_seticon(wxDialog * dialog, MaxIcon * icon);
 	void bmx_wxdialog_setreturncode(wxDialog * dialog, int retCode);
+
+	void bmx_wxdialog_seticons(wxDialog * dialog, MaxIconBundle * icons);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

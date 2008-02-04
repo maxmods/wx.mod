@@ -117,3 +117,15 @@ wxWindow * bmx_wxtoplevelwindow_getdefaultitem(wxTopLevelWindow * window) {
 	return window->GetDefaultItem();
 }
 
+void bmx_wxtoplevelwindow_seticons(wxTopLevelWindow * window, MaxIconBundle * icons) {
+	window->SetIcons(icons->Bundle());
+}
+
+MaxIconBundle * bmx_wxtoplevelwindow_geticons(wxTopLevelWindow * window) {
+	return new MaxIconBundle(window->GetIcons());
+}
+
+bool bmx_wxtoplevelwindow_setshape(wxTopLevelWindow * window, MaxRegion * region) {
+	return window->SetShape(region->Region());
+}
+

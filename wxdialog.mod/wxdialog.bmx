@@ -216,9 +216,10 @@ Type wxDialog Extends wxTopLevelWindow
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the icons for this dialog.
 	End Rem
-	Method SetIcons()
+	Method SetIcons(icons:wxIconBundle)
+		bmx_wxdialog_seticons(wxObjectPtr, icons.wxObjectPtr)
 	End Method
 	
 	Rem

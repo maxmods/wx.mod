@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include "../wxicon.mod/glue.h"
+#include "../wxregion.mod/glue.h"
 
 //class MaxNotebook;
 
@@ -54,6 +55,10 @@ extern "C" {
 	void bmx_wxtoplevelwindow_centreonscreen(wxTopLevelWindow * window, int direction);
 
 	wxWindow * bmx_wxtoplevelwindow_getdefaultitem(wxTopLevelWindow * window);
+
+	void bmx_wxtoplevelwindow_seticons(wxTopLevelWindow * window, MaxIconBundle * icons);
+	MaxIconBundle * bmx_wxtoplevelwindow_geticons(wxTopLevelWindow * window);
+	bool bmx_wxtoplevelwindow_setshape(wxTopLevelWindow * window, MaxRegion * region);
 
 }
 

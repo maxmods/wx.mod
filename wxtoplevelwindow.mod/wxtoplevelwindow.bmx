@@ -104,8 +104,8 @@ Type wxTopLevelWindow Extends wxWindow
 	bbdoc: Returns all icons associated with the window, there will be none of them if neither SetIcon nor SetIcons had been called before.
 	about: Use GetIcon to get the main icon of the window.
 	End Rem
-	Method GetIcons()
-		'TODO
+	Method GetIcons:wxIconBundle()
+		Return wxIconBundle._create(bmx_wxtoplevelwindow_geticons(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -199,7 +199,8 @@ Type wxTopLevelWindow Extends wxWindow
 	about: This allows to use different icons for different situations (e.g. task switching bar, taskbar,
 	window title bar) instead of scaling, with possibly bad looking results, the only icon set by SetIcon.
 	End Rem
-	Method SetIcons()
+	Method SetIcons(icons:wxIconBundle)
+		bmx_wxtoplevelwindow_seticons(wxObjectPtr, icons.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -231,7 +232,7 @@ Type wxTopLevelWindow Extends wxWindow
 	Returns True if the operation is successful.
 	End Rem
 	Method SetShape:Int(region:wxRegion)
-		'Return bmx_wxtoplevelwindow_setshape(wxObjectPtr, w, h)
+		Return bmx_wxtoplevelwindow_setshape(wxObjectPtr, region.wxObjectPtr)
 	End Method
 	
 	Rem

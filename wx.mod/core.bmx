@@ -594,12 +594,6 @@ Type wxAcceleratorEntry
 	
 End Type
 
-
-Type wxRegion
-
-End Type
-
-
 Rem
 bbdoc: An erase event is sent when a window's background needs to be repainted.
 about: On some platforms, such as GTK+, this event is simulated (simply generated just before the paint event)
