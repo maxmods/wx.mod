@@ -21,6 +21,9 @@
 SuperStrict
 
 Import wx.wx
+?macos
+Import wx.wxChoiceDialog
+?
 Import BRL.Blitz
 
 
@@ -57,6 +60,10 @@ Import "src/win32/serport.cpp"
 
 Import "glue.cpp"
 
+?macos
+Import "macglue.cpp"
+?
+
 Extern
 
 	Function bmx_wxserialport_create:Byte Ptr()
@@ -89,6 +96,9 @@ Extern
 	Function bmx_wxserialportdcs_enablexonxoff(handle:Byte Ptr, value:Int)
 	Function bmx_wxserialportdcs_delete(handle:Byte Ptr)
 
+?macos
+	Function bmx_wxctb_listserialports:String[]()
+?
 End Extern
 
 ?linux

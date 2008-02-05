@@ -320,3 +320,23 @@ Type wxSerialPort_DCS Extends wxDCS
 
 End Type
 
+?macos
+Rem
+bbdoc: Returns a list of available serial ports.
+End Rem
+Function wxListSerialPorts:String[]()
+	Return bmx_wxctb_listserialports()
+End Function
+
+Rem
+bbdoc: Presents a choice dialog of serial ports, returning the port choosen or Null if cancelled.
+End Rem
+Function wxChooseSerialPort:String()
+	Local ports:String[] = wxListSerialPorts()
+	Local port:Int = wxGetSingleChoiceIndex("Please choose a serial port :", "Serial Port", ports)
+	If port <> -1 Then
+		Return ports[port]
+	End If
+	Return Null
+End Function
+?
