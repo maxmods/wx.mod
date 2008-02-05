@@ -62,4 +62,13 @@ void bmx_wxdatepickerctrl_setvalue(wxDatePickerCtrl * picker, MaxDateTime * dt) 
 	picker->SetValue(dt->DateTime());
 }
 
+// *********************************************
+
+int bmx_wxdatepickerctrl_geteventtype(int type) {
+	switch(type) {
+		case 1101: return wxEVT_DATE_CHANGED;
+	}
+	
+	return 0;
+}
 

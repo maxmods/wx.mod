@@ -25,6 +25,7 @@
 
 #include "wxglue.h"
 #include "wx/datetime.h"
+#include "wx/dateevt.h"
 
 class MaxDateTime;
 class MaxDateSpan;
@@ -101,6 +102,10 @@ extern "C" {
 	bool bmx_wxdatetime_isbetween(MaxDateTime * datetime, MaxDateTime * t1, MaxDateTime * t2);
 	bool bmx_wxdatetime_issamedate(MaxDateTime * datetime, MaxDateTime * dt);
 	bool bmx_wxdatetime_issametime(MaxDateTime * datetime, MaxDateTime * dt);
+
+
+	MaxDateTime * bmx_wxdateevent_getdate(wxDateEvent & event);
+	void bmx_wxdateevent_setdate(wxDateEvent & event, MaxDateTime * date);
 
 }
 

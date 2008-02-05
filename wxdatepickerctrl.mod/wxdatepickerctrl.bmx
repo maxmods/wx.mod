@@ -151,3 +151,25 @@ Type wxDatePickerCtrl Extends wxControl
 	End Method
 
 End Type
+
+Type TDateEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	
+		If evt.eventType = wxEVT_DATE_CHANGED Then
+			Return wxDateEvent.Create(wxEventPtr, evt)
+		End If
+		
+		Return Null
+	End End Method
+
+	Method GetEventType:Int(eventType:Int)
+		If eventType = wxEVT_DATE_CHANGED Then
+			Return bmx_wxdatepickerctrl_geteventtype(eventType)
+		End If
+	End Method
+
+End Type
+
+New TDateEventFactory
+

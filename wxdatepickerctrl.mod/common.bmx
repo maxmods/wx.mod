@@ -52,6 +52,8 @@ Extern
 	Function bmx_wxdatepickerctrl_setrange(handle:Byte Ptr, dt1:Byte Ptr, dt2:Byte Ptr)
 	Function bmx_wxdatepickerctrl_setvalue(handle:Byte Ptr, dt:Byte Ptr)
 
+	Function bmx_wxdatepickerctrl_geteventtype:Int(evt:Int)
+	
 End Extern
 
 Const wxDP_DEFAULT:Int = 0
@@ -60,4 +62,5 @@ Const wxDP_DROPDOWN:Int = 2
 Const wxDP_SHOWCENTURY:Int = 4
 Const wxDP_ALLOWNONE:Int = 8
 
+Const wxEVT_DATE_CHANGED:Int = 1101
 

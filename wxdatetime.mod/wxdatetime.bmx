@@ -700,3 +700,33 @@ Type TimeZone
 End Type
 
 
+Rem
+bbdoc: This event type holds information about a date change and is used together with wxDatePickerCtrl.
+about: It also serves as a base type for wxCalendarEvent.
+End Rem
+Type wxDateEvent Extends wxCommandEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxDateEvent = New wxDateEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Rem
+	bbdoc: Returns the date.
+	End Rem
+	Method GetDate:wxDateTime()
+		Return wxDateTime._create(bmx_wxdateevent_getdate(wxEventPtr))
+	End Method
+	
+	Rem
+	bbdoc: Sets the date carried by the event, normally only used by the library internally.
+	End Rem
+	Method SetDate(date:wxDateTime)
+		bmx_wxdateevent_setdate(wxEventPtr, date.wxObjectPtr)
+	End Method
+
+End Type
+

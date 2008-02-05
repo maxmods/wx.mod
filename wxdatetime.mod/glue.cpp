@@ -348,3 +348,13 @@ bool bmx_wxdatetime_issametime(MaxDateTime * datetime, MaxDateTime * dt) {
 	return datetime->DateTime().IsSameTime(dt->DateTime());
 }
 
+
+// *********************************************
+
+MaxDateTime * bmx_wxdateevent_getdate(wxDateEvent & event) {
+	return new MaxDateTime(event.GetDate());
+}
+
+void bmx_wxdateevent_setdate(wxDateEvent & event, MaxDateTime * date) {
+	event.SetDate(date->DateTime());
+}

@@ -111,6 +111,9 @@ Extern
 	Function bmx_wxdatetime_issametime:Int(handle:Byte Ptr, datetime:Byte Ptr)
 
 
+	Function bmx_wxdateevent_getdate:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxdateevent_setdate(handle:Byte Ptr, date:Byte Ptr)
+
 End Extern
 
 
