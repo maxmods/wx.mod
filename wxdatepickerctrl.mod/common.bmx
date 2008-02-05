@@ -21,6 +21,8 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxControl
+Import wx.wxDateTime
 Import BRL.Blitz
 
 
@@ -43,4 +45,19 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxdatepickerctrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, dt:Byte Ptr, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxdatepickerctrl_getrange(handle:Byte Ptr, dt1:Byte Ptr, dt2:Byte Ptr)
+	Function bmx_wxdatepickerctrl_getvalue:Byte Ptr(handle:Byte Ptr)
+'	Function bmx_wxdatepickerctrl_setformat(handle:Byte Ptr, format:String)
+	Function bmx_wxdatepickerctrl_setrange(handle:Byte Ptr, dt1:Byte Ptr, dt2:Byte Ptr)
+	Function bmx_wxdatepickerctrl_setvalue(handle:Byte Ptr, dt:Byte Ptr)
+
 End Extern
+
+Const wxDP_DEFAULT:Int = 0
+Const wxDP_SPIN:Int = 1
+Const wxDP_DROPDOWN:Int = 2
+Const wxDP_SHOWCENTURY:Int = 4
+Const wxDP_ALLOWNONE:Int = 8
+
+

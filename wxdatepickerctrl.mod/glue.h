@@ -21,15 +21,33 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/datectrl.h"
+#include "../wxdatetime.mod/glue.h"
 
-//class MaxNotebook;
+class MaxDatePickerCtrl;
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxDatePickerCtrl * bmx_wxdatepickerctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * dt, int x, int y, int w, int h, long style);
+	void bmx_wxdatepickerctrl_getrange(wxDatePickerCtrl * picker, MaxDateTime * dt1, MaxDateTime * dt2);
+	MaxDateTime * bmx_wxdatepickerctrl_getvalue(wxDatePickerCtrl * picker);
+//	void bmx_wxdatepickerctrl_setformat(wxDatePickerCtrl * picker, BBString * format);
+	void bmx_wxdatepickerctrl_setrange(wxDatePickerCtrl * picker, MaxDateTime * dt1, MaxDateTime * dt2);
+	void bmx_wxdatepickerctrl_setvalue(wxDatePickerCtrl * picker, MaxDateTime * dt);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxDatePickerCtrl : public wxDatePickerCtrl
+{
+public:
+	MaxDatePickerCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxDateTime& dt, int x, int y, int w, int h, long style);
+	~MaxDatePickerCtrl();
+
+private:
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};

@@ -24,8 +24,42 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxDatePickerCtrl::MaxDatePickerCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxDateTime& dt, int x, int y, int w, int h, long style)
+	: wxDatePickerCtrl(parent, id, dt, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxDatePickerCtrl::~MaxDatePickerCtrl() {
+	wxunbind(this);
+}
 
 
 // *********************************************
+
+BEGIN_EVENT_TABLE(MaxDatePickerCtrl, wxDatePickerCtrl)
+END_EVENT_TABLE()
+
+
+wxDatePickerCtrl * bmx_wxdatepickerctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, 
+		MaxDateTime * dt, int x, int y, int w, int h, long style) {
+	return new MaxDatePickerCtrl(handle, parent, id, (dt)?dt->DateTime():wxDefaultDateTime, x, y, w, h, style);
+}
+
+void bmx_wxdatepickerctrl_getrange(wxDatePickerCtrl * picker, MaxDateTime * dt1, MaxDateTime * dt2) {
+	picker->GetRange((dt1)?&dt1->DateTime():NULL, (dt2)?&dt2->DateTime():NULL);
+}
+
+MaxDateTime * bmx_wxdatepickerctrl_getvalue(wxDatePickerCtrl * picker) {
+	return new MaxDateTime(picker->GetValue());
+}
+
+void bmx_wxdatepickerctrl_setrange(wxDatePickerCtrl * picker, MaxDateTime * dt1, MaxDateTime * dt2) {
+	picker->SetRange((dt1)?dt1->DateTime():wxInvalidDateTime, (dt2)?dt2->DateTime():wxInvalidDateTime);
+}
+
+void bmx_wxdatepickerctrl_setvalue(wxDatePickerCtrl * picker, MaxDateTime * dt) {
+	picker->SetValue(dt->DateTime());
+}
 
 

@@ -50,4 +50,104 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Rem
+bbdoc: This control allows the user to select a date.
+about: Unlike wxCalendarCtrl, which is a relatively big control, wxDatePickerCtrl is implemented
+as a small window showing the currently selected date. The control can be edited using the keyboard,
+and can also display a popup window for more user-friendly date selection, depending on the styles
+used and the platform.
+End Rem
+Type wxDatePickerCtrl Extends wxControl
 
+	Rem
+	bbdoc: Creates a new wxDatePickerCtrl object.
+	End Rem
+	Function CreateDatePickerCtrl:wxDatePickerCtrl(parent:wxWindow, id:Int, dt:wxDateTime = Null, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxDP_DEFAULT | wxDP_SHOWCENTURY)
+		Return New wxDatePickerCtrl.Create(parent, id, dt, x, y, w, h, style)
+	End Function
+	
+	Rem
+	bbdoc: Creates a new wxDatePickerCtrl object.
+	End Rem
+	Method Create:wxDatePickerCtrl(parent:wxWindow, id:Int, dt:wxDateTime = Null, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxDP_DEFAULT | wxDP_SHOWCENTURY)
+		If dt Then
+			wxObjectPtr = bmx_wxdatepickerctrl_create(Self, parent.wxObjectPtr, id, dt.wxObjectPtr, x, y, w, h, style)
+		Else
+			wxObjectPtr = bmx_wxdatepickerctrl_create(Self, parent.wxObjectPtr, id, Null, x, y, w, h, style)
+		End If
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: If the control had been previously limited to a range of dates using SetRange(), returns the lower and upper bounds of this range.
+	returns: False if no range limits are currently set, True if at least one bound is set.
+	about: If no range is set (or only one of the bounds is set), dt1 and/or dt2 are set to
+	be invalid.
+	End Rem
+	Method GetRange:Int(dt1:wxDateTime = Null, dt2:wxDateTime = Null)
+		If dt1 Then
+			If dt2 Then
+				Return bmx_wxdatepickerctrl_getrange(wxObjectPtr, dt1.wxObjectPtr, dt2.wxObjectPtr)
+			Else
+				Return bmx_wxdatepickerctrl_getrange(wxObjectPtr, dt1.wxObjectPtr, Null)
+			End If
+		Else
+			If dt2 Then
+				Return bmx_wxdatepickerctrl_getrange(wxObjectPtr, Null, dt2.wxObjectPtr)
+			Else
+				Return bmx_wxdatepickerctrl_getrange(wxObjectPtr, Null, Null)
+			End If
+		End If
+	End Method
+	
+	Rem
+	bbdoc: Returns the currently selected.
+	about: If there is no selection or the selection is outside of the current range, an
+	invalid object is returned.
+	End Rem
+	Method GetValue:wxDateTime()
+		Return wxDateTime._create(bmx_wxdatepickerctrl_getvalue(wxObjectPtr))
+	End Method
+	
+'	Rem
+'	bbdoc: 
+'	End Rem
+'	Method SetFormat(format:String)
+'		bmx_wxdatepickerctrl_setformat(wxObjectPtr, format)
+'	End Method
+	
+	Rem
+	bbdoc: Sets the valid range for the date selection.
+	about: If dt1 is valid, it becomes the earliest date (inclusive) accepted by the control.
+	If dt2 is valid, it becomes the latest possible date.
+	End Rem
+	Method SetRange(dt1:wxDateTime = Null, dt2:wxDateTime = Null)
+		If dt1 Then
+			If dt2 Then
+				bmx_wxdatepickerctrl_setrange(wxObjectPtr, dt1.wxObjectPtr, dt2.wxObjectPtr)
+			Else
+				bmx_wxdatepickerctrl_setrange(wxObjectPtr, dt1.wxObjectPtr, Null)
+			End If
+		Else
+			If dt2 Then
+				bmx_wxdatepickerctrl_setrange(wxObjectPtr, Null, dt2.wxObjectPtr)
+			Else
+				bmx_wxdatepickerctrl_setrange(wxObjectPtr, Null, Null)
+			End If
+		End If
+	End Method
+	
+	Rem
+	bbdoc: Changes the current value of the control.
+	about: The date should be valid and included in the currently selected range, if any.
+	<p>
+	Calling this method does not result in a date change event.
+	</p>
+	End Rem
+	Method SetValue(dt:wxDateTime)
+		bmx_wxdatepickerctrl_setvalue(wxObjectPtr, dt.wxObjectPtr)
+	End Method
+
+End Type
