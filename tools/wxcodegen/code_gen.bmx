@@ -3028,7 +3028,7 @@ Function InitEvents()
 
 	AddEvent(TEventType.Set("OnChoice", "wxCommandEvent", "wxEVT_COMMAND_CHOICE_SELECTED"))
 
-	AddEvent(TEventType.Set("OnDateChange", "wxDateEvent", "wxEVT_DATE_CHANGED"))
+	AddEvent(TEventType.Set("OnDateChanged", "wxDateEvent", "wxEVT_DATE_CHANGED"))
 
 End Function
 
