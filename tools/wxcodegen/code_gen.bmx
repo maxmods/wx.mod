@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.90"
+Const AppVersion:String = "0.91"
 
 
 Global eventMap:TMap = New TMap
@@ -268,6 +268,9 @@ Type TFBGenFactory
 			Case "wxChoice"
 				widget = New TFBChoice
 				
+			Case "wxDatePickerCtrl"
+				widget = New TFBDatePickerCtrl
+			
 		End Select
 		
 		If widget Then
@@ -2469,6 +2472,42 @@ Type TFBChoice Extends TFBWidget
 
 End Type
 
+Type TFBDatePickerCtrl Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+		
+		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		
+		' default datetime
+		text:+ "Null"
+
+		text:+ DoPosSizeStyle(Self)
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+
+		out.Add("")
+
+	End Method
+
+	Method GetType:String()
+		Return "wxDatePickerCtrl"
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxDatePickerCtrl"
+	End Method
+
+End Type
+
 
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
@@ -2988,6 +3027,8 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnHyperlink", "wxHyperlinkEvent", "wxEVT_COMMAND_HYPERLINK"))
 
 	AddEvent(TEventType.Set("OnChoice", "wxCommandEvent", "wxEVT_COMMAND_CHOICE_SELECTED"))
+
+	AddEvent(TEventType.Set("OnDateChange", "wxDateEvent", "wxEVT_DATE_CHANGED"))
 
 End Function
 

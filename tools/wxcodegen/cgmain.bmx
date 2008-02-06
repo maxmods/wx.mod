@@ -50,12 +50,14 @@ Global languageId:Int
 ' language data
 Global langIds:Int[] = [ ..
 	wxLANGUAGE_ENGLISH, ..
+	wxLANGUAGE_FRENCH, ..
 	wxLANGUAGE_GERMAN, ..
 	wxLANGUAGE_RUSSIAN, ..
 	wxLANGUAGE_CHINESE_SIMPLIFIED ]
 
 Global langNames:String[] = [ ..
 	"English", ..
+	"French",..
 	"German", ..
 	"Russian", ..
 	"Simplified Chinese" ]
