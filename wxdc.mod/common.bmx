@@ -170,5 +170,3 @@ Const wxSET:Int = 15
 Const wxFLOOD_SURFACE:Int = 1
 Const wxFLOOD_BORDER:Int = 2
 
-Const wxODDEVEN_RULE:Int = 1
-Const wxWINDING_RULE:Int = 2
