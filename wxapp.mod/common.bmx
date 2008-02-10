@@ -53,4 +53,6 @@ Extern
 	Function bmx_wxapp_setexitonframedelete(flag:Int)
 	Function bmx_wxapp_isactive:Int()
 
+	Function bmx_app_getapp:Byte Ptr()
+	
 End Extern

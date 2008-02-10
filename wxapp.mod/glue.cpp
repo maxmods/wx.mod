@@ -40,3 +40,7 @@ bool bmx_wxapp_isactive() {
 	return wxGetApp().IsActive();
 }
 
+wxApp * bmx_app_getapp() {
+	return wxTheApp;
+}
+

@@ -32,6 +32,8 @@ extern "C" {
 	void bmx_wxapp_setexitonframedelete(bool flag);
 	bool bmx_wxapp_isactive();
 
+	wxApp * bmx_app_getapp();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

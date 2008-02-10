@@ -62,6 +62,10 @@ bool bmx_wxtaskbaricon_seticon(wxTaskBarIcon * taskBarIcon, MaxIcon * icon, BBSt
 	return taskBarIcon->SetIcon(icon->Icon(), wxStringFromBBString(tooltip));
 }
 
+void bmx_wxtaskbaricon_free(wxTaskBarIcon * taskBarIcon) {
+	delete taskBarIcon;
+}
+
 int bmx_wxtaskbariconevent_geteventtype(int type) {
 	switch(type) {
 		case 1550: return wxEVT_TASKBAR_MOVE;

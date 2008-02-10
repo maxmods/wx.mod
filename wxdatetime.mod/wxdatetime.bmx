@@ -200,195 +200,324 @@ Type wxDateTime
 		End If
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateDateTime:wxDateTime()
 		Return New wxDateTime.Create()
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxDateTime()
 		wxObjectPtr = bmx_wxdatetime_create()
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method CreateFromTimeT:wxDateTime(timet:Int)
 		wxObjectPtr = bmx_wxdatetime_createfromtimet(timet)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method CreateFromJDN:wxDateTime(jdn:Double)
 		wxObjectPtr = bmx_wxdatetime_createfromjdn(jdn)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method CreateFromHMS:wxDateTime(hour:Int, minute:Int = 0, Second:Int = 0, millisec:Int = 0)
 		wxObjectPtr = bmx_wxdatetime_createfromhms(hour, minute, Second, millisec)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method CreateFromDMY:wxDateTime(day:Int, Month:Int = Inv_Month, year:Int = Inv_Year, hour:Int = 0, ..
 			minute:Int = 0, Second:Int = 0, millisec:Int = 0)
 		wxObjectPtr = bmx_wxdatetime_createfromdmy(day, Month, year, hour, minute, Second, millisec)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function SetCountry(country:Int)
 		bmx_wxdatetime_setcountry(country)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetCountry:Int()
 		Return bmx_wxdatetime_getcountry()
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function IsWestEuropeanCountry:Int(country:Int = Country_Default)
 		Return bmx_wxdatetime_iswesteuropeancountry(country)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetCurrentYear:Int(cal:Int = Gregorian)
 		Return bmx_wxdatetime_getcurrentyear(cal)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function ConvertYearToBC:Int(year:Int)
 		Return bmx_wxdatetime_convertyeartobc(year)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetCurrentMonth:Int(cal:Int = Gregorian)
 		Return bmx_wxdatetime_getcurrentmonth(cal)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function IsLeapYear:Int(year:Int = Inv_Year, cal:Int = Gregorian)
 		Return bmx_wxdatetime_isleapyear(year, cal)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetCenturyForYear:Int(year:Int)
 		Return bmx_wxdatetime_getcenturyforyear(year)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetNumberOfDaysForYear:Int(year:Int, cal:Int = Gregorian)
 		Return bmx_wxdatetime_getnumberofdaysforyear(year, cal)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetNumberOfDays:Int(Month:Int, year:Int = Inv_Year, cal:Int = Gregorian)
 		Return bmx_wxdatetime_getnumberofdays(Month, year, cal)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetMonthName:String(Month:Int, flags:Int = Name_Full)
 		Return bmx_wxdatetime_getmonthname(Month, flags)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetWeekDayName:String(WeekDay:Int, flags:Int = Name_Full)
 		Return bmx_wxdatetime_getweekdayname(WeekDay, flags)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetAmString:String()
 		Return bmx_wxdatetime_getamstring()
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetPmString:String()
 		Return bmx_wxdatetime_getpmstring()
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function IsDSTApplicable:Int(year:Int = Inv_Year, country:Int = Country_Default)
 		Return bmx_wxdatetime_isdstapplicable(year, country)
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetBeginDST:wxDateTime(year:Int = Inv_Year, country:Int = Country_Default)
 		Return _create(bmx_wxdatetime_getbegindst(year, country))
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function GetEndDST:wxDateTime(year:Int = Inv_Year, country:Int = Country_Default)
 		Return _create(bmx_wxdatetime_getenddst(year, country))
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function Now:wxDateTime()
 		Return _create(bmx_wxdatetime_now())
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function UNow:wxDateTime()
 		Return _create(bmx_wxdatetime_unow())
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function Today:wxDateTime()
 		Return _create(bmx_wxdatetime_today())
 	End Function
 	
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetToCurrent:wxDateTime()
 		bmx_wxdatetime_settocurrent(wxObjectPtr)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetTimeT:wxDateTime(timet:Int)
 		bmx_wxdatetime_settimet(wxObjectPtr, timet)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetJDN:wxDateTime(jdn:Double)
 		bmx_wxdatetime_setjdn(wxObjectPtr, jdn)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetHMS:wxDateTime(hour:Int, minute:Int = 0, Second:Int = 0, millisec:Int = 0)
 		bmx_wxdatetime_sethms(wxObjectPtr, hour, minute, Second, millisec)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetDMY:wxDateTime(day:Int, Month:Int = Inv_Month, year:Int = Inv_Year, hour:Int = 0, ..
 			minute:Int = 0, Second:Int = 0, millisec:Int = 0)
 		bmx_wxdatetime_setdmy(wxObjectPtr, day, Month, year, hour, minute, Second, millisec)
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method ResetTime:wxDateTime()
 		bmx_wxdatetime_resettime(wxObjectPtr)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetYear:wxDateTime(year:Int)
 		bmx_wxdatetime_setyear(wxObjectPtr, year)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetMonth:wxDateTime(Month:Int)
 		bmx_wxdatetime_setmonth(wxObjectPtr, Month)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetDay:wxDateTime(day:Int)
 		bmx_wxdatetime_setday(wxObjectPtr, day)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetHour:wxDateTime(hour:Int)
 		bmx_wxdatetime_sethour(wxObjectPtr, hour)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetMinute:wxDateTime(minute:Int)
 		bmx_wxdatetime_setminute(wxObjectPtr, minute)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetSecond:wxDateTime(Second:Int)
 		bmx_wxdatetime_setsecond(wxObjectPtr, Second)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetMillisecond:wxDateTime(millisec:Int)
 		bmx_wxdatetime_setmillisecond(wxObjectPtr, millisec)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsValid:Int()
 		Return bmx_wxdatetime_isvalid(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetDateOnly:wxDateTime()
 		Return wxDateTime._create(bmx_wxdatetime_getdateonly(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetTicks:Int()
 		Return bmx_wxdatetime_getticks(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetCentury:Int(tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getcentury(wxObjectPtr, tz.wxObjectPtr)
@@ -397,6 +526,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetYear:Int(tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getyear(wxObjectPtr, tz.wxObjectPtr)
@@ -405,6 +537,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetMonth:Int(tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getmonth(wxObjectPtr, tz.wxObjectPtr)
@@ -413,6 +548,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetDay:Int(tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getday(wxObjectPtr, tz.wxObjectPtr)
@@ -421,6 +559,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetWeekDay:Int(tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getweekday(wxObjectPtr, tz.wxObjectPtr)
@@ -429,6 +570,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetHour:Int(tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_gethour(wxObjectPtr, tz.wxObjectPtr)
@@ -437,6 +581,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetMinute:Int(tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getminute(wxObjectPtr, tz.wxObjectPtr)
@@ -445,6 +592,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetSecond:Int(tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getsecond(wxObjectPtr, tz.wxObjectPtr)
@@ -453,6 +603,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetMillisecond:Int(tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getmillisecond(wxObjectPtr, tz.wxObjectPtr)
@@ -461,6 +614,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetDayOfYear:Int(tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getdayofyear(wxObjectPtr, tz.wxObjectPtr)
@@ -469,6 +625,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetWeekOfYear:Int(flags:Int = Monday_First, tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getweekofyear(wxObjectPtr, flags, tz.wxObjectPtr)
@@ -477,6 +636,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetWeekOfMonth:Int(flags:Int = Monday_First, tz:TimeZone = Null)
 		If tz Then
 			Return bmx_wxdatetime_getweekofmonth(wxObjectPtr, flags, tz.wxObjectPtr)
@@ -485,6 +647,9 @@ Type wxDateTime
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsWorkDay:Int(country:Int = Country_Default)
 		Return bmx_wxdatetime_isworkday(wxObjectPtr, country)
 	End Method
@@ -492,182 +657,377 @@ Type wxDateTime
 '	Method IsGregorianDate:Int(country:Int = Gr_Standard)
 '	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetFromDOS(ddt:Int)
 		bmx_wxdatetime_setfromdos(wxObjectPtr, ddt)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetAsDOS:Int()
 		Return bmx_wxdatetime_getasdos(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsEqualTo:Int(datetime:wxDateTime)
 		Return bmx_wxdatetime_isequalto(wxObjectPtr, datetime.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsEarlierThan:Int(datetime:wxDateTime)
 		Return bmx_wxdatetime_isearlierthan(wxObjectPtr, datetime.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsLaterThan:Int(datetime:wxDateTime)
 		Return bmx_wxdatetime_islaterthan(wxObjectPtr, datetime.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsStrictlyBetween:Int(t1:wxDateTime, t2:wxDateTime)
 		Return bmx_wxdatetime_isstrictlybetween(wxObjectPtr, t1.wxObjectPtr, t2.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsBetween:Int(t1:wxDateTime, t2:wxDateTime)
 		Return bmx_wxdatetime_isbetween(wxObjectPtr, t1.wxObjectPtr, t2.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsSameDate:Int(datetime:wxDateTime)
 		Return bmx_wxdatetime_issamedate(wxObjectPtr, datetime.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsSameTime:Int(datetime:wxDateTime)
 		Return bmx_wxdatetime_issametime(wxObjectPtr, datetime.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsEqualUpTo:Int(dt:wxDateTime, ts:wxTimeSpan)
+		Return bmx_wxdatetime_isequalupto(wxObjectPtr, dt.wxObjectPtr, ts.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method AddTS:wxDateTime(diff:wxTimeSpan)
+		Return wxDateTime._create(bmx_wxdatetime_addts(wxObjectPtr, diff.wxObjectPtr))
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SubtractTS:wxDateTime(diff:wxTimeSpan)
+		Return wxDateTime._create(bmx_wxdatetime_subtractts(wxObjectPtr, diff.wxObjectPtr))
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method AddDS:wxDateTime(diff:wxDateSpan)
+		Return wxDateTime._create(bmx_wxdatetime_addds(wxObjectPtr, diff.wxObjectPtr))
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SubtractDS:wxDateTime(diff:wxDateSpan)
+		Return wxDateTime._create(bmx_wxdatetime_subtractds(wxObjectPtr, diff.wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ParseRfc822Date:String(date:String)
+		Return bmx_wxdatetime_parserfc822date(wxObjectPtr, date)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ParseFormat:String(date:String, format:String = wxDefaultDateTimeFormat, dateDef:wxDateTime = Null)
+		If dateDef Then
+			Return bmx_wxdatetime_parseformat(wxObjectPtr, date, format, dateDef.wxObjectPtr)
+		Else
+			Return bmx_wxdatetime_parseformat(wxObjectPtr, date, format, Null)
+		End If
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ParseDateTime:String(datetime:String)
+		Return bmx_wxdatetime_parsedatetime(wxObjectPtr, datetime)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ParseDate:String(date:String)
+		Return bmx_wxdatetime_parsedate(wxObjectPtr, date)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ParseTime:String(time:String)
+		Return bmx_wxdatetime_parsetime(wxObjectPtr, time)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Format:String(format:String = wxDefaultDateTimeFormat, tz:TimeZone = Null)
+		If tz Then
+			Return bmx_wxdatetime_format(wxObjectPtr, format, tz.wxObjectPtr)
+		Else
+			Return bmx_wxdatetime_format(wxObjectPtr, format, Null)
+		End If
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method FormatDate:String()
+		Return bmx_wxdatetime_formatdate(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method FormatTime:String()
+		Return bmx_wxdatetime_formattime(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method FormatISODate:String()
+		Return bmx_wxdatetime_formatisodate(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method FormatISOTime:String()
+		Return bmx_wxdatetime_formatisotime(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetToWeekDayInSameWeek:wxDateTime(WeekDay:Int, flags:Int = Monday_First)
-	
+		bmx_wxdatetime_settoweekdayinsameweek(wxObjectPtr, WeekDay, flags)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetWeekDayInSameWeek:wxDateTime(WeekDay:Int, flags:Int = Monday_First)
+		Return wxDateTime._create(bmx_wxdatetime_getweekdayinsameweek(wxObjectPtr, WeekDay, flags))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetToNextWeekDay:wxDateTime(WeekDay:Int)
-	
+		bmx_wxdatetime_settonextweekday(wxObjectPtr, WeekDay)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetNextWeekDay:wxDateTime(WeekDay:Int)
+		Return wxDateTime._create(bmx_wxdatetime_getnextweekday(wxObjectPtr, WeekDay))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetToPrevWeekDay:wxDateTime(WeekDay:Int)
-	
+		bmx_wxdatetime_settoprevweekday(wxObjectPtr, WeekDay)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPrevWeekDay:wxDateTime(WeekDay:Int)
+		Return wxDateTime._create(bmx_wxdatetime_getprevweekday(wxObjectPtr, WeekDay))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetToWeekDay:Int(WeekDay:Int, n:Int = 1, Month:Int = Inv_Month, year:Int = Inv_Year)
+		Return bmx_wxdatetime_settoweekday(wxObjectPtr, WeekDay, n, Month, year)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetToWeekDay:wxDateTime(WeekDay:Int, n:Int = 1, Month:Int = Inv_Month, year:Int = Inv_Year)
+		Return wxDateTime._create(bmx_wxdatetime_gettoweekday(wxObjectPtr, WeekDay, n, Month, year))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetToLastWeekDay:Int(WeekDay:Int, Month:Int = Inv_Month, year:Int = Inv_Year)
+		Return bmx_wxdatetime_settolastweekday(wxObjectPtr, WeekDay, Month, year)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetLastWeekDay:wxDateTime(WeekDay:Int, Month:Int = Inv_Month, year:Int = Inv_Year)
+		Return wxDateTime._create(bmx_wxdatetime_getlastweekday(wxObjectPtr, WeekDay, Month, year))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Function SetToWeekOfYear:wxDateTime(year:Int, numWeek:Int, WeekDay:Int = Mon)
+		Return wxDateTime._create(bmx_wxdatetime_settoweekofyear(year, numWeek, WeekDay))
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetToLastMonthDay:wxDateTime(Month:Int = Inv_Month, year:Int = Inv_Year)
-	
+		bmx_wxdatetime_settolastdayofmonth(wxObjectPtr, Month, year)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetLastMonthDay:wxDateTime(Month:Int = Inv_Month, year:Int = Inv_Year)
+		Return wxDateTime._create(bmx_wxdatetime_getlastmonthday(wxObjectPtr, Month, year))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetToYearDay:wxDateTime(yday:Int)
-	
+		bmx_wxdatetime_settoyearday(wxObjectPtr, yday)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetYearDay:wxDateTime(yday:Int)
+		Return wxDateTime._create(bmx_wxdatetime_getyearday(wxObjectPtr, yday))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetJulianDayNumber:Double()
+		Return bmx_wxdatetime_getjuliandaynumber(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetJDN:Double()
+		Return bmx_wxdatetime_getjdn(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetModifiedJulianDayNumber:Double()
+		Return bmx_wxdatetime_getmodifiedjuliandaynumber(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetMJD:Double()
+		Return bmx_wxdatetime_getmjd(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetRataDie:Double()
+		Return bmx_wxdatetime_getratadie(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method FromTimezone:wxDateTime(tz:TimeZone, noDST:Int = False)
+		Return wxDateTime._create(bmx_wxdatetime_fromtimezone(wxObjectPtr, tz.wxObjectPtr, noDST))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ToTimezone:wxDateTime(tz:TimeZone, noDST:Int = False)
+		Return wxDateTime._create(bmx_wxdatetime_totimezone(wxObjectPtr, tz.wxObjectPtr, noDST))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method MakeTimezone:wxDateTime(tz:TimeZone, noDST:Int = False)
-
+		bmx_wxdatetime_maketimezone(wxObjectPtr, tz.wxObjectPtr, noDST)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method MakeFromTimezone:wxDateTime(tz:TimeZone, noDST:Int = False)
-
+		bmx_wxdatetime_makefromtimezone(wxObjectPtr, tz.wxObjectPtr, noDST)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ToUTC:wxDateTime(noDST:Int = False)
+		Return wxDateTime._create(bmx_wxdatetime_toutc(wxObjectPtr, noDST))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method MakeUTC:wxDateTime(noDST:Int = False)
-	
+		bmx_wxdatetime_makeutc(wxObjectPtr, noDST)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsDST:Int(country:Int = Country_Default)
+		Return bmx_wxdatetime_isdst(wxObjectPtr, country)
 	End Method
 	
 	Method Delete()
@@ -679,15 +1039,95 @@ Type wxDateTime
 	
 End Type
 
+Rem
+bbdoc: Represents a time interval.
+End Rem
 Type wxTimeSpan
 
 	Field wxObjectPtr:Byte Ptr
 
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxtimespan_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+
 End Type
 
+Rem
+bbdoc: This type is a "logical time span"
+about: It is useful for implementing program logic for such things as "add one month to the
+date" which, in general, doesn't mean to add 60*60*24*31 seconds to it, but to take the same
+date the next month (to understand that this is indeed different consider adding one month
+to Feb, 15 -- we want to get Mar, 15, of course).
+<p>
+When adding a month to the date, all lesser components (days, hours, ...) won't be changed
+unless the resulting date would be invalid: for example, Jan 31 + 1 month will be Feb 28,
+not (non-existing) Feb 31.
+</p>
+<p>
+Because of this feature, adding and subtracting back again the same wxDateSpan will not, in
+general give back the original date: Feb 28 - 1 month will be Jan 28, not Jan 31!
+</p>
+<p>
+wxDateSpan objects can be either positive or negative. They may be multiplied by scalars
+which multiply all deltas by the scalar: i.e. 2*(1 month and 1 day) is 2 months and 2 days.
+They can be added together and with wxDateTime or wxTimeSpan, but the type of result is
+different for each case.
+</p>
+<p>
+Beware about weeks: if you specify both weeks and days, the total number of days added will
+be 7*weeks + days! See also GetTotalDays() function.
+</p>
+<p>
+Equality operators are defined for wxDateSpans. Two datespans are equal if and only if they
+both give the same target date when added to every source date. Thus wxDateSpan::Months(1)
+is not equal to wxDateSpan::Days(30), because they don't give the same date when added to 1
+Feb. But wxDateSpan::Days(14) is equal to wxDateSpan::Weeks(2)
+</p>
+<p>
+Finally, notice that for adding hours, minutes and so on you don't need this type at all:
+wxTimeSpan will do the job because there are no subtleties associated with those (we don't
+support leap seconds).
+</p>
+End Rem
 Type wxDateSpan
 
 	Field wxObjectPtr:Byte Ptr
+
+	Function _create:wxDateSpan(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxDateSpan = New wxDateSpan
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateDateSpan:wxDateSpan(years:Int = 0, months:Int = 0, weeks:Int = 0, days:Int = 0)
+		Return New wxDateSpan.Create(years, months, weeks, days)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxDateSpan(years:Int = 0, months:Int = 0, weeks:Int = 0, days:Int = 0)
+		wxObjectPtr = bmx_wxdatespan_create(years, months, weeks, days)
+		Return Self
+	End Method
+	
+	
+	
+	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxdatespan_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
 
 End Type
 

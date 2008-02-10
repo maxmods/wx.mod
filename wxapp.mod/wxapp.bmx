@@ -61,12 +61,14 @@ about: It is used to:
 <li>allow default processing of events not handled by other objects in the application.</li>
 </ul>
 End Rem
-Type wxApp Abstract
+Type wxApp Extends wxEvtHandler Abstract
 
 	Global app:wxApp
 	
 	Method New()
-		app = Self
+		If Not app Then
+			app = Self
+		End If
 	End Method
 
 	Rem
@@ -83,6 +85,7 @@ Type wxApp Abstract
 	Method OnInit:Int() Abstract
 
 	Function _OnInit:Int()
+		app.wxObjectPtr = bmx_app_getapp()
 		Return app.OnInit()
 	End Function
 
@@ -178,7 +181,7 @@ Type wxAppMain Extends wxApp Abstract
 
 	Method Run:Int()
 		bmx_wxapp_setownmain()
-		Return bmx_app_wxentry()
+		Return Super.Run()
 	End Method
 
 	Rem

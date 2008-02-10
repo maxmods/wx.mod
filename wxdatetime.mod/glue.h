@@ -104,6 +104,55 @@ extern "C" {
 	bool bmx_wxdatetime_issametime(MaxDateTime * datetime, MaxDateTime * dt);
 
 
+	bool bmx_wxdatetime_isequalupto(MaxDateTime * datetime, MaxDateTime * dt, MaxTimeSpan * ts);
+	MaxDateTime * bmx_wxdatetime_addts(MaxDateTime * datetime, MaxTimeSpan * diff);
+	MaxDateTime * bmx_wxdatetime_subtractts(MaxDateTime * datetime, MaxTimeSpan *diff);
+	MaxDateTime * bmx_wxdatetime_addds(MaxDateTime * datetime, MaxDateSpan * diff);
+	MaxDateTime * bmx_wxdatetime_subtractds(MaxDateTime * datetime, MaxDateSpan * diff);
+	BBString * bmx_wxdatetime_parserfc822date(MaxDateTime * datetime, BBString * date);
+	BBString * bmx_wxdatetime_parseformat(MaxDateTime * datetime, BBString * date, BBString * format, MaxDateTime * dateDef);
+	BBString * bmx_wxdatetime_parsedatetime(MaxDateTime * datetime, BBString * dt);
+	BBString * bmx_wxdatetime_parsedate(MaxDateTime * datetime, BBString * date);
+	BBString * bmx_wxdatetime_parsetime(MaxDateTime * datetime, BBString * time);
+	BBString * bmx_wxdatetime_format(MaxDateTime * datetime, BBString * format, MaxTimeZone * tz);
+	BBString * bmx_wxdatetime_formatdate(MaxDateTime * datetime);
+	BBString * bmx_wxdatetime_formattime(MaxDateTime * datetime);
+	BBString * bmx_wxdatetime_formatisodate(MaxDateTime * datetime);
+	BBString * bmx_wxdatetime_formatisotime(MaxDateTime * datetime);
+	void bmx_wxdatetime_settoweekdayinsameweek(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, wxDateTime::WeekFlags flags);
+	MaxDateTime * bmx_wxdatetime_getweekdayinsameweek(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, wxDateTime::WeekFlags flags);
+	void bmx_wxdatetime_settonextweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekday);
+	MaxDateTime * bmx_wxdatetime_getnextweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekday);
+	void bmx_wxdatetime_settoprevweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay);
+	MaxDateTime * bmx_wxdatetime_getprevweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay);
+	bool bmx_wxdatetime_settoweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, int n, wxDateTime::Month month, int year);
+	MaxDateTime * bmx_wxdatetime_gettoweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, int n, wxDateTime::Month month, int year);
+	bool bmx_wxdatetime_settolastweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, wxDateTime::Month month, int year);
+	MaxDateTime * bmx_wxdatetime_getlastweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, wxDateTime::Month month, int year);
+	MaxDateTime * bmx_wxdatetime_settoweekofyear(int year, int numWeek, wxDateTime::WeekDay weekDay);
+	void bmx_wxdatetime_settolastdayofmonth(MaxDateTime * datetime, wxDateTime::Month month, int year);
+	MaxDateTime * bmx_wxdatetime_getlastmonthday(MaxDateTime * datetime, wxDateTime::Month month, int year);
+	void bmx_wxdatetime_settoyearday(MaxDateTime * datetime, int yday);
+	MaxDateTime * bmx_wxdatetime_getyearday(MaxDateTime * datetime, int yday);
+	double bmx_wxdatetime_getjuliandaynumber(MaxDateTime * datetime);
+	double bmx_wxdatetime_getjdn(MaxDateTime * datetime);
+	double bmx_wxdatetime_getmodifiedjuliandaynumber(MaxDateTime * datetime);
+	double bmx_wxdatetime_getmjd(MaxDateTime * datetime);
+	double bmx_wxdatetime_getratadie(MaxDateTime * datetime);
+	MaxDateTime * bmx_wxdatetime_fromtimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST);
+	MaxDateTime * bmx_wxdatetime_totimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST);
+	void bmx_wxdatetime_maketimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST);
+	void bmx_wxdatetime_makefromtimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST);
+	MaxDateTime * bmx_wxdatetime_toutc(MaxDateTime * datetime, bool noDST);
+	void bmx_wxdatetime_makeutc(MaxDateTime * datetime, bool noDST);
+	bool bmx_wxdatetime_isdst(MaxDateTime * datetime, wxDateTime::Country country);
+
+	MaxDateSpan * bmx_wxdatespan_create(int years, int months, int weeks, int days);
+	void bmx_wxdatespan_delete(MaxDateSpan * span);
+	
+	void bmx_wxtimespan_delete(MaxTimeSpan * span);
+
+
 	MaxDateTime * bmx_wxdateevent_getdate(wxDateEvent & event);
 	void bmx_wxdateevent_setdate(wxDateEvent & event, MaxDateTime * date);
 
