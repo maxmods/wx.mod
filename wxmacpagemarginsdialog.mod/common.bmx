@@ -46,4 +46,9 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxmacpagemarginsdialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, data:Byte Ptr)
+	Function bmx_wxmacpagemarginsdialog_transfertowindow:Int(handle:Byte Ptr)
+	Function bmx_wxmacpagemarginsdialog_transferdatafromwindow:Int(handle:Byte Ptr)
+	Function bmx_wxmacpagemarginsdialog_getpagesetupdialogdata:Byte Ptr(handle:Byte Ptr)
+
 End Extern

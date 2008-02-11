@@ -24,8 +24,37 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxMacPageMarginsDialog::MaxMacPageMarginsDialog(BBObject * handle, wxFrame * parent, wxPageSetupDialogData* data)
+	: wxMacPageMarginsDialog(parent, data)
+{
+	wxbind(this, handle);
+}
+
+MaxMacPageMarginsDialog::~MaxMacPageMarginsDialog() {
+	wxunbind(this);
+}
 
 
 // *********************************************
+
+wxMacPageMarginsDialog * bmx_wxmacpagemarginsdialog_create(BBObject * handle, wxFrame * parent, MaxPageSetupDialogData * data) {
+	if (data) {
+		return new MaxMacPageMarginsDialog(handle, parent, &data->Data());
+	} else {
+		return new MaxMacPageMarginsDialog(handle, parent, NULL);
+	}
+}
+
+bool bmx_wxmacpagemarginsdialog_transfertowindow(wxMacPageMarginsDialog * dialog) {
+	return dialog->TransferToWindow();
+}
+
+bool bmx_wxmacpagemarginsdialog_transferdatafromwindow(wxMacPageMarginsDialog * dialog) {
+	return dialog->TransferDataFromWindow();
+}
+
+MaxPageSetupDialogData * bmx_wxmacpagemarginsdialog_getpagesetupdialogdata(wxMacPageMarginsDialog * dialog) {
+	return new MaxPageSetupDialogData(dialog->GetPageSetupDialogData());
+}
 
 

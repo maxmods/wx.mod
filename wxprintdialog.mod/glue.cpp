@@ -24,6 +24,16 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxPrintDialog::MaxPrintDialog(BBObject * handle, wxWindow * parent, wxPrintDialogData* data)
+	: wxPrintDialog(parent, data)
+{
+	wxbind(this, handle);
+}
+
+MaxPrintDialog::~MaxPrintDialog() {
+	wxunbind(this);
+}
+
 MaxPrintDialogData::MaxPrintDialogData(const wxPrintDialogData & d)
 {
 	data = d;
@@ -39,6 +49,14 @@ wxPrintDialogData & MaxPrintDialogData::Data() {
 }
 
 // *********************************************
+
+wxPrintDialog * bmx_wxprintdialog_create(BBObject * handle, wxWindow * parent, MaxPrintDialogData * data) {
+	if (data) {
+		return new MaxPrintDialog(handle, parent, &data->Data());
+	} else {
+		return new MaxPrintDialog(handle, parent, NULL);
+	}
+}
 
 MaxPrintDialogData * bmx_wxprintdialog_getprintdialogdata(wxPrintDialog * dialog) {
 	return new MaxPrintDialogData(dialog->GetPrintDialogData());

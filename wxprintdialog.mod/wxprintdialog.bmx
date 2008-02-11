@@ -58,15 +58,26 @@ End Rem
 Type wxPrintDialog Extends wxDialog
 
 	Rem
-	bbdoc: 
+	bbdoc: Constructor
+	about: Pass a parent window, and optionally a block of print data, which will be copied
+	to the print dialog's print data.
 	End Rem
-	Function CreatePrintDialog:wxPrintDialog()
+	Function CreatePrintDialog:wxPrintDialog(parent:wxWindow, data:wxPrintDialogData = Null)
+		Return New wxPrintDialog.Create(parent, data)
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Constructor
+	about: Pass a parent window, and optionally a block of print data, which will be copied
+	to the print dialog's print data.
 	End Rem
-	Method Create:wxPrintDialog()
+	Method Create:wxPrintDialog(parent:wxWindow, data:wxPrintDialogData = Null)
+		If data Then
+			wxObjectPtr = bmx_wxprintdialog_create(Self, parent, data.wxObjectPtr)
+		Else
+			wxObjectPtr = bmx_wxprintdialog_create(Self, parent, Null)
+		End If
+		Return Self
 	End Method
 
 	Rem

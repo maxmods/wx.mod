@@ -68,6 +68,11 @@ Type wxMacPageMarginsDialog Extends wxDialog
 	bbdoc: 
 	End Rem
 	Method Create:wxMacPageMarginsDialog(parent:wxFrame, data:wxPageSetupDialogData = Null)
+		If data Then
+			wxObjectPtr = bmx_wxmacpagemarginsdialog_create(Self, parent.wxObjectPtr, data.wxObjectPtr)
+		Else
+			wxObjectPtr = bmx_wxmacpagemarginsdialog_create(Self, parent.wxObjectPtr, Null)
+		End If
 		Return Self
 	End Method
 	
@@ -75,18 +80,21 @@ Type wxMacPageMarginsDialog Extends wxDialog
 	bbdoc: 
 	End Rem
 	Method TransferToWindow:Int()
+		Return bmx_wxmacpagemarginsdialog_transfertowindow(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method TransferDataFromWindow:Int()
+		Return bmx_wxmacpagemarginsdialog_transferdatafromwindow(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetPageSetupDialogData:wxPageSetupDialogData()
+		Return wxPageSetupDialogData._create(bmx_wxmacpagemarginsdialog_getpagesetupdialogdata(wxObjectPtr))
 	End Method
 
 End Type

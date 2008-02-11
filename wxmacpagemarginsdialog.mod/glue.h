@@ -21,15 +21,27 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/mac/carbon/printdlg.h"
+#include "../wxpagesetupdialogdata.mod/glue.h"
 
-//class MaxNotebook;
+class MaxMacPageMarginsDialog;
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxMacPageMarginsDialog * bmx_wxmacpagemarginsdialog_create(BBObject * handle, wxFrame * parent, MaxPageSetupDialogData * data);
+	bool bmx_wxmacpagemarginsdialog_transfertowindow(wxMacPageMarginsDialog * dialog);
+	bool bmx_wxmacpagemarginsdialog_transferdatafromwindow(wxMacPageMarginsDialog * dialog);
+	MaxPageSetupDialogData * bmx_wxmacpagemarginsdialog_getpagesetupdialogdata(wxMacPageMarginsDialog * dialog);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxMacPageMarginsDialog : public wxMacPageMarginsDialog
+{
+public:
+	MaxMacPageMarginsDialog(BBObject * handle, wxFrame * parent, wxPageSetupData* data);
+	~MaxMacPageMarginsDialog();
+};

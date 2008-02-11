@@ -46,6 +46,8 @@ extern "C" {
 	MaxDC * bmx_wxprinter_printdialog(wxPrinter * printer, wxWindow * parent);
 	void bmx_wxprinter_setup(wxPrinter * printer, wxWindow * parent);
 
+	void bmx_wxprinter_reporterror(wxPrinter * printer, wxWindow * parent, wxPrintout * printout, BBString * message);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

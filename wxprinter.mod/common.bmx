@@ -58,6 +58,9 @@ Extern
 
 	Function bmx_wxprinter_printdialog:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr)
 	Function bmx_wxprinter_setup(handle:Byte Ptr, parent:Byte Ptr)
+	
+	Function bmx_wxprinter_reporterror(handle:Byte Ptr, parent:Byte Ptr, printout:Byte Ptr, message:String)
+
 
 End Extern
 

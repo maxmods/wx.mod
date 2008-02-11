@@ -67,3 +67,6 @@ void bmx_wxprinter_setup(wxPrinter * printer, wxWindow * parent) {
 	printer->Setup(parent);
 }
 
+void bmx_wxprinter_reporterror(wxPrinter * printer, wxWindow * parent, wxPrintout * printout, BBString * message) {
+	printer->ReportError(parent, printout, wxStringFromBBString(message));
+}

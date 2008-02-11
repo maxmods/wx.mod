@@ -141,7 +141,7 @@ Type wxPrinter Extends wxObject
 	bbdoc: Default error-reporting method.
 	End Rem
 	Method ReportError(parent:wxWindow, printout:wxPrintout, message:String)
-		' TODO
+		bmx_wxprinter_reporterror(wxObjectPtr, parent.wxObjectPtr, printout.wxObjectPtr, message)
 	End Method
 	
 	Rem

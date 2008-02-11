@@ -31,6 +31,8 @@ extern "C" {
 
 #include <blitz.h>
 
+	wxPrintDialog * bmx_wxprintdialog_create(BBObject * handle, wxWindow * parent, MaxPrintDialogData * data);
+
 	MaxPrintDialogData * bmx_wxprintdialog_getprintdialogdata(wxPrintDialog * dialog);
 	MaxDC * bmx_wxprintdialog_getprintdc(wxPrintDialog * dialog);
 	int bmx_wxprintdialog_showmodal(wxPrintDialog * dialog);

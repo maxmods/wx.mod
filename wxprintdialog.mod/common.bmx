@@ -78,4 +78,6 @@ Extern
 	Function bmx_wxprintdialogdata_setselection(handle:Byte Ptr, flag:Int)
 	Function bmx_wxprintdialogdata_settopage(handle:Byte Ptr, page:Int)
 
+	Function bmx_wxprintdialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, data:Byte Ptr)
+
 End Extern
