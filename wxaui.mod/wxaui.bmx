@@ -365,6 +365,13 @@ Type wxAuiNotebook Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Sets the selection to the next or previous page.
+	End Rem
+	Method AdvanceSelection(forward:Int = True)
+		bmx_wxauinotebook_advanceselection(wxObjectPtr, forward)
+	End Method
+
+	Rem
 	bbdoc: Adds a page.
 	about: If the @sel parameter is true, calling this will generate a page change event.
 	End Rem
@@ -381,32 +388,43 @@ Type wxAuiNotebook Extends wxControl
 	about: Calling this method will generate a page change event.
 	End Rem
 	Method DeletePage:Int(page:Int)
-		'Return bmx_wxauinotebook_deletepage(wxObjectPtr, page)
+		Return bmx_wxauinotebook_deletepage(wxObjectPtr, page)
 	End Method
 	
 	Rem
 	bbdoc: Returns the associated art provider.
 	End Rem
 	Method GetArtProvider:wxAuiTabArt()
+		Return wxAuiTabArt._create(bmx_wxauinotebook_getartprovider(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the desired height of the notebook for the given page height.
+	about: Use this to fit the notebook to a given page size.
+	End Rem
+	Method GetHeightForPageHeight:Int(pageHeight:Int)
+		Return bmx_wxauinotebook_getheightforpageheight(wxObjectPtr, pageHeight)
 	End Method
 	
 	Rem
 	bbdoc: Returns the page specified by the given index.
 	End Rem
 	Method GetPage:wxWindow(page:Int)
-		'Return bmx_wxauinotebook_getpage(wxObjectPtr, page)
+		Return wxWindow._find(bmx_wxauinotebook_getpage(wxObjectPtr, page))
 	End Method
 	
 	Rem
 	bbdoc: Returns the tab bitmap for the page.
 	End Rem
 	Method GetPageBitmap:wxBitmap(page:Int)
+		Return wxBitmap._create(bmx_wxauinotebook_getpagebitmap(wxObjectPtr, page))
 	End Method
 	
 	Rem
 	bbdoc: Returns the number of pages in the notebook.
 	End Rem
 	Method GetPageCount:Int()
+		Return bmx_wxauinotebook_getpagecount(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -414,18 +432,28 @@ Type wxAuiNotebook Extends wxControl
 	about: If the window is not found in the notebook, wxNOT_FOUND is returned.
 	End Rem
 	Method GetPageIndex:Int(page:wxWindow)
+		Return bmx_wxauinotebook_getpageindex(wxObjectPtr, page.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns the tab label for the page.
 	End Rem
 	Method GetPageText:String(page:Int)
+		Return bmx_wxauinotebook_getpagetext(wxObjectPtr, page)
 	End Method
 	
 	Rem
 	bbdoc: Returns the currently selected page.
 	End Rem
 	Method GetSelection:Int()
+		Return bmx_wxauinotebook_getselection(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the height of the tab control.
+	End Rem
+	Method GetTabCtrlHeight:Int()
+		Return bmx_wxauinotebook_gettabctrlheight(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -433,18 +461,53 @@ Type wxAuiNotebook Extends wxControl
 	about: If the @sel parameter is True, calling this will generate a page change event.
 	End Rem
 	Method InsertPage:Int(index:Int, page:wxWindow, caption:String, sel:Int = False, bitmap:wxBitmap = Null)
+		If bitmap Then
+			Return bmx_wxauinotebook_insertpage(wxObjectPtr, index, page.wxObjectPtr, caption, sel, bitmap.wxObjectPtr)
+		Else
+			Return bmx_wxauinotebook_insertpage(wxObjectPtr, index, page.wxObjectPtr, caption, sel, Null)
+		End If
 	End Method
 	
 	Rem
 	bbdoc: Removes a page, without deleting the window reference.
 	End Rem
 	Method RemovePage:Int(page:Int)
+		Return bmx_wxauinotebook_removepage(wxObjectPtr, page)
 	End Method
 	
 	Rem
 	bbdoc: Sets the art provider to be used by the notebook.
 	End Rem
 	Method SetArtProvider(art:wxAuiTabArt)
+		bmx_wxauinotebook_setartprovider(wxObjectPtr, art.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the font for drawing the tab labels, using a bold version of the font for selected tab labels.
+	End Rem
+	Method SetFont:Int(font:wxFont)
+		Return bmx_wxauinotebook_setfont(wxObjectPtr, font.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the font for drawing unselected tab labels.
+	End Rem
+	Method SetNormalFont(font:wxFont)
+		bmx_wxauinotebook_setnormalfont(wxObjectPtr, font.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the font for drawing selected tab labels.
+	End Rem
+	Method SetSelectedFont(font:wxFont)
+		bmx_wxauinotebook_setselectedfont(wxObjectPtr, font.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the font for measuring tab labels.
+	End Rem
+	Method SetMeasuringFont(font:wxFont)
+		bmx_wxauinotebook_setmeasuringfont(wxObjectPtr, font.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -452,12 +515,14 @@ Type wxAuiNotebook Extends wxControl
 	about: To remove a bitmap from the tab caption, pass wxNullBitmap.
 	End Rem
 	Method SetPageBitmap:Int(page:Int, bitmap:wxBitmap)
+		Return bmx_wxauinotebook_setpagebitmap(wxObjectPtr, page, bitmap.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Sets the tab label for the page.
 	End Rem
 	Method SetPageText:Int(page:Int, text:String)
+		Return bmx_wxauinotebook_setpagetext(wxObjectPtr, page, text)
 	End Method
 	
 	Rem
@@ -465,6 +530,7 @@ Type wxAuiNotebook Extends wxControl
 	about: Calling this method will generate a page change event.
 	End Rem
 	Method SetSelection:Int(page:Int)
+		Return bmx_wxauinotebook_setselection(wxObjectPtr, page)
 	End Method
 	
 	Rem
@@ -476,6 +542,7 @@ Type wxAuiNotebook Extends wxControl
 	auto-sizing behaviour.
 	End Rem
 	Method SetTabCtrlHeight(height:Int)
+		bmx_wxauinotebook_settabctrlheight(wxObjectPtr, height)
 	End Method
 	
 	Rem
@@ -485,6 +552,7 @@ Type wxAuiNotebook Extends wxControl
 	added, the tab control's height will automatically increase to accommodate the larger bitmap.
 	End Rem
 	Method SetUniformBitmapSize(w:Int, h:Int)
+		bmx_wxauinotebook_setuniformbitmapsize(wxObjectPtr, w, h)
 	End Method
 	
 	Rem
@@ -494,6 +562,14 @@ Type wxAuiNotebook Extends wxControl
 	it should be one of the following: wxTOP, wxBOTTOM, wxLEFT, or wxRIGHT.
 	End Rem
 	Method Split(page:Int, direction:Int)
+		bmx_wxauinotebook_split(wxObjectPtr, page, direction)
+	End Method
+	
+	Rem
+	bbdoc: Shows the window menu for the active tab control associated with this notebook, and returns true if a selection was made.
+	End Rem
+	Method ShowWindowMenu:Int()
+		Return bmx_wxauinotebook_showwindowmenu(wxObjectPtr)
 	End Method
 	
 End Type
@@ -519,14 +595,14 @@ Type wxAuiPaneInfo
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Constructs a new wxAuiPaneInfo object.
 	End Rem
 	Function CreateAuiPanelInfo:wxAuiPaneInfo()
 		Return New wxAuiPaneInfo.Create()	
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Constructs a new wxAuiPaneInfo object.
 	End Rem
 	Method Create:wxAuiPaneInfo()
 		Return _create(bmx_wxauipanelinfo_create())
@@ -654,7 +730,8 @@ Type wxAuiPaneInfo
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates that a pane should be docked.
+	about: It is the opposite of Float().
 	End Rem
 	Method Dock:wxAuiPaneInfo()
 		Return _create(bmx_wxauipanelinfo_dock(wxAuiPaneInfoPtr))
@@ -1110,6 +1187,18 @@ Rem
 bbdoc: 
 End Rem
 Type wxAuiTabArt
+
+	Field wxObjectPtr:Byte Ptr
+
+	Function _create:wxAuiTabArt(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxAuiTabArt = New wxAuiTabArt
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+		Return Null
+	End Function
+
 End Type
 
 Rem

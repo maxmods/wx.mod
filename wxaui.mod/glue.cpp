@@ -526,6 +526,7 @@ void bmx_wxauidockart_setcolour(wxAuiDockArt * dockart, int id, MaxColour * colo
 	dockart->SetColour(id, colour->Colour());
 }
 
+// *********************************************
 
 MaxAuiNotebook * bmx_wxauinotebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style) {
@@ -541,6 +542,113 @@ bool bmx_wxauinotebook_addpage(MaxAuiNotebook * notebook, wxWindow * page, BBStr
 	}
 }
 
+void bmx_wxauinotebook_advanceselection(wxAuiNotebook * notebook, bool forward) {
+	notebook->AdvanceSelection(forward);
+}
+
+bool bmx_wxauinotebook_deletepage(wxAuiNotebook * notebook, int page) {
+	return notebook->DeletePage(page);
+}
+
+wxAuiTabArt * bmx_wxauinotebook_getartprovider(wxAuiNotebook * notebook) {
+	return notebook->GetArtProvider();
+}
+
+int bmx_wxauinotebook_getheightforpageheight(wxAuiNotebook * notebook, int pageHeight) {
+	return notebook->GetHeightForPageHeight(pageHeight);
+}
+
+wxWindow * bmx_wxauinotebook_getpage(wxAuiNotebook * notebook, int page) {
+	return notebook->GetPage(page);
+}
+
+MaxBitmap * bmx_wxauinotebook_getpagebitmap(wxAuiNotebook * notebook, int page) {
+	return new MaxBitmap(notebook->GetPageBitmap(page));
+}
+
+int bmx_wxauinotebook_getpagecount(wxAuiNotebook * notebook) {
+	return notebook->GetPageCount();
+}
+
+int bmx_wxauinotebook_getpageindex(wxAuiNotebook * notebook, wxWindow * page) {
+	return notebook->GetPageIndex(page);
+}
+
+BBString * bmx_wxauinotebook_getpagetext(wxAuiNotebook * notebook, int page) {
+	return bbStringFromWxString(notebook->GetPageText(page));
+}
+
+int bmx_wxauinotebook_getselection(wxAuiNotebook * notebook) {
+	return notebook->GetSelection();
+}
+
+int bmx_wxauinotebook_gettabctrlheight(wxAuiNotebook * notebook) {
+	return notebook->GetTabCtrlHeight();
+}
+
+bool bmx_wxauinotebook_insertpage(wxAuiNotebook * notebook, int index, wxWindow * page, BBString * caption, bool sel, MaxBitmap * bitmap) {
+	if (bitmap) {
+		return notebook->InsertPage(index, page, wxStringFromBBString(caption), sel, bitmap->Bitmap());
+	} else {
+		return notebook->InsertPage(index, page, wxStringFromBBString(caption), sel);
+	}
+}
+
+bool bmx_wxauinotebook_removepage(wxAuiNotebook * notebook, int page) {
+	return notebook->RemovePage(page);
+}
+
+void bmx_wxauinotebook_setartprovider(wxAuiNotebook * notebook, wxAuiTabArt * art) {
+	notebook->SetArtProvider(art);
+}
+
+bool bmx_wxauinotebook_setfont(wxAuiNotebook * notebook, MaxFont * font) {
+	return notebook->SetFont(font->Font());
+}
+
+void bmx_wxauinotebook_setnormalfont(wxAuiNotebook * notebook, MaxFont * font) {
+	notebook->SetNormalFont(font->Font());
+}
+
+void bmx_wxauinotebook_setselectedfont(wxAuiNotebook * notebook, MaxFont * font) {
+	notebook->SetSelectedFont(font->Font());
+}
+
+void bmx_wxauinotebook_setmeasuringfont(wxAuiNotebook * notebook, MaxFont * font) {
+	notebook->SetMeasuringFont(font->Font());
+}
+
+bool bmx_wxauinotebook_setpagebitmap(wxAuiNotebook * notebook, int page, MaxBitmap * bitmap) {
+	return notebook->SetPageBitmap(page, bitmap->Bitmap());
+}
+
+bool bmx_wxauinotebook_setpagetext(wxAuiNotebook * notebook, int page, BBString * text) {
+	return notebook->SetPageText(page, wxStringFromBBString(text));
+}
+
+int bmx_wxauinotebook_setselection(wxAuiNotebook * notebook, int page) {
+	return notebook->SetSelection(page);
+}
+
+void bmx_wxauinotebook_settabctrlheight(wxAuiNotebook * notebook, int height) {
+	notebook->SetTabCtrlHeight(height);
+}
+
+void bmx_wxauinotebook_setuniformbitmapsize(wxAuiNotebook * notebook, int w, int h) {
+	notebook->SetUniformBitmapSize(wxSize(w, h));
+}
+
+void bmx_wxauinotebook_split(wxAuiNotebook * notebook, int page, int direction) {
+	notebook->Split(page, direction);
+}
+
+bool bmx_wxauinotebook_showwindowmenu(wxAuiNotebook * notebook) {
+	return notebook->ShowWindowMenu();
+}
+
+
+
+// *********************************************
 
 int bmx_wxaui_geteventtype(int type) {
 	switch(type) {

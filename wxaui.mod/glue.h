@@ -155,6 +155,33 @@ extern "C" {
 		int w, int h, long style);
 	bool bmx_wxauinotebook_addpage(MaxAuiNotebook * notebook, wxWindow * page, BBString * caption, bool sel, MaxBitmap * bitmap);
 
+	void bmx_wxauinotebook_advanceselection(wxAuiNotebook * notebook, bool forward);
+	bool bmx_wxauinotebook_deletepage(wxAuiNotebook * notebook, int page);
+	wxAuiTabArt * bmx_wxauinotebook_getartprovider(wxAuiNotebook * notebook);
+	int bmx_wxauinotebook_getheightforpageheight(wxAuiNotebook * notebook, int pageHeight);
+	wxWindow * bmx_wxauinotebook_getpage(wxAuiNotebook * notebook, int page);
+	MaxBitmap * bmx_wxauinotebook_getpagebitmap(wxAuiNotebook * notebook, int page);
+	int bmx_wxauinotebook_getpagecount(wxAuiNotebook * notebook);
+	int bmx_wxauinotebook_getpageindex(wxAuiNotebook * notebook, wxWindow * page);
+	BBString * bmx_wxauinotebook_getpagetext(wxAuiNotebook * notebook, int page);
+	int bmx_wxauinotebook_getselection(wxAuiNotebook * notebook);
+	int bmx_wxauinotebook_gettabctrlheight(wxAuiNotebook * notebook);
+	bool bmx_wxauinotebook_insertpage(wxAuiNotebook * notebook, int index, wxWindow * page, BBString * caption, bool sel, MaxBitmap * bitmap);
+	bool bmx_wxauinotebook_removepage(wxAuiNotebook * notebook, int page);
+	void bmx_wxauinotebook_setartprovider(wxAuiNotebook * notebook, wxAuiTabArt * art);
+	bool bmx_wxauinotebook_setfont(wxAuiNotebook * notebook, MaxFont * font);
+	void bmx_wxauinotebook_setnormalfont(wxAuiNotebook * notebook, MaxFont * font);
+	void bmx_wxauinotebook_setselectedfont(wxAuiNotebook * notebook, MaxFont * font);
+	void bmx_wxauinotebook_setmeasuringfont(wxAuiNotebook * notebook, MaxFont * font);
+	bool bmx_wxauinotebook_setpagebitmap(wxAuiNotebook * notebook, int page, MaxBitmap * bitmap);
+	bool bmx_wxauinotebook_setpagetext(wxAuiNotebook * notebook, int page, BBString * text);
+	int bmx_wxauinotebook_setselection(wxAuiNotebook * notebook, int page);
+	void bmx_wxauinotebook_settabctrlheight(wxAuiNotebook * notebook, int height);
+	void bmx_wxauinotebook_setuniformbitmapsize(wxAuiNotebook * notebook, int w, int h);
+	void bmx_wxauinotebook_split(wxAuiNotebook * notebook, int page, int direction);
+	bool bmx_wxauinotebook_showwindowmenu(wxAuiNotebook * notebook);
+
+	
 	int bmx_wxaui_geteventtype(int type);
 
 }

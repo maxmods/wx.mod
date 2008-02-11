@@ -168,7 +168,34 @@ Extern
 	Function bmx_wxauinotebook_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxauinotebook_addpage:Int(handle:Byte Ptr, page:Byte Ptr, caption:String, sel:Int, bitmap:Byte Ptr)
 
+	Function bmx_wxauinotebook_advanceselection(handle:Byte Ptr, forward:Int)
+	Function bmx_wxauinotebook_deletepage:Int(handle:Byte Ptr, page:Int)
+	Function bmx_wxauinotebook_getartprovider:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxauinotebook_getheightforpageheight:Int(handle:Byte Ptr, pageHeight:Int)
+	Function bmx_wxauinotebook_getpage:Byte Ptr(handle:Byte Ptr, page:Int)
+	Function bmx_wxauinotebook_getpagebitmap:Byte Ptr(handle:Byte Ptr, page:Int)
+	Function bmx_wxauinotebook_getpagecount:Int(handle:Byte Ptr)
+	Function bmx_wxauinotebook_getpageindex:Int(handle:Byte Ptr, page:Byte Ptr)
+	Function bmx_wxauinotebook_getpagetext:String(handle:Byte Ptr, page:Int)
+	Function bmx_wxauinotebook_getselection:Int(handle:Byte Ptr)
+	Function bmx_wxauinotebook_gettabctrlheight:Int(handle:Byte Ptr)
+	Function bmx_wxauinotebook_insertpage:Int(handle:Byte Ptr, index:Int, page:Byte Ptr, caption:String, sel:Int, bitmap:Byte Ptr)
+	Function bmx_wxauinotebook_removepage:Int(handle:Byte Ptr, page:Int)
+	Function bmx_wxauinotebook_setartprovider(handle:Byte Ptr, art:Byte Ptr)
+	Function bmx_wxauinotebook_setfont:Int(handle:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxauinotebook_setnormalfont(handle:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxauinotebook_setselectedfont(handle:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxauinotebook_setmeasuringfont(handle:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxauinotebook_setpagebitmap:Int(handle:Byte Ptr, page:Int, bitmap:Byte Ptr)
+	Function bmx_wxauinotebook_setpagetext:Int(handle:Byte Ptr, page:Int, text:String)
+	Function bmx_wxauinotebook_setselection:Int(handle:Byte Ptr, page:Int)
+	Function bmx_wxauinotebook_settabctrlheight(handle:Byte Ptr, height:Int)
+	Function bmx_wxauinotebook_setuniformbitmapsize(handle:Byte Ptr, w:Int, h:Int)
+	Function bmx_wxauinotebook_split(handle:Byte Ptr, page:Int, direction:Int)
+	Function bmx_wxauinotebook_showwindowmenu:Int(handle:Byte Ptr)
+
 	Function bmx_wxaui_geteventtype:Int(evt:Int)
+	
 End Extern
 
 
