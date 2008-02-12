@@ -52,6 +52,7 @@ Extern
 	Function bmx_wxapp_setvendorname(name:String)
 	Function bmx_wxapp_setexitonframedelete(flag:Int)
 	Function bmx_wxapp_isactive:Int()
+	Function bmx_wxapp_gettopwindow:Byte Ptr()
 
 	Function bmx_app_getapp:Byte Ptr()
 	

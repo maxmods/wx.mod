@@ -108,6 +108,15 @@ Type wxApp Extends wxEvtHandler Abstract
 	End Method
 	
 	Rem
+	bbdoc: Returns the top window
+	about: If the top window hasn't been set using wxApp::SetTopWindow, this method will
+	find the first top-level window (frame or dialog) and return that.
+	End Rem
+	Method GetTopWindow:wxWindow()
+		Return wxWindow._find(bmx_wxapp_gettopwindow())
+	End Method
+	
+	Rem
 	bbdoc: Sets the name of the application.
 	about: The name may be used in dialogs (for example by the document/view framework). A default name is set by
 	wxWidgets.

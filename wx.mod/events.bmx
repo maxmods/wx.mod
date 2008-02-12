@@ -262,6 +262,20 @@ Type wxCommandEvent Extends wxEvent
 		bmx_wxcommandevent_setclientdata(wxEventPtr, data)
 	End Method
 	
+	Rem
+	bbdoc: Sets the string property.
+	End Rem
+	Method SetString(value:String)
+		bmx_wxcommandevent_setstring(wxEventPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Sets the int property.
+	End Rem
+	Method SetInt(value:Int)
+		bmx_wxcommandevent_setint(wxEventPtr, value)
+	End Method
+	
 End Type
 
 Rem
@@ -1151,7 +1165,8 @@ Type wxEvtHandler Extends wxObject
 	</ol>
 	</p>
 	End Rem
-	Method ProcessEvent(event:wxEvent)
+	Method ProcessEvent:Int(event:wxEvent)
+		Return bmx_wxevthandler_processevent(wxObjectPtr, event.wxEventPtr)
 	End Method
 	
 	Rem

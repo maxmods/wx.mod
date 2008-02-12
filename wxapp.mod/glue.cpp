@@ -40,6 +40,11 @@ bool bmx_wxapp_isactive() {
 	return wxGetApp().IsActive();
 }
 
+wxWindow * bmx_wxapp_gettopwindow() {
+	return wxGetApp().GetTopWindow();
+}
+
+
 wxApp * bmx_app_getapp() {
 	return wxTheApp;
 }

@@ -78,6 +78,7 @@ extern "C" {
 	void bmx_wxevthandler_connect(wxEvtHandler * evtHandler, int id, wxEventType eventType, void * data);
 	void bmx_wxevthandler_connectrange(wxEvtHandler * evtHandler, int id, int lastId, wxEventType eventType, void * data);
 	void bmx_wxevthandler_addpendingevent(wxEvtHandler * evtHandler, wxEvent & event);
+	bool bmx_wxevthandler_processevent(wxEvtHandler * evtHandler, wxEvent & event);
 
 	void * bmx_event_geteventobject(wxEvent * evt);
 	wxEventType bmx_eventtype_value(int type);
@@ -89,6 +90,9 @@ extern "C" {
 	long bmx_wxcommandevent_getextralong(wxCommandEvent & event);
 	void * bmx_wxcommandevent_getclientdata(wxCommandEvent & event);
 	void bmx_wxcommandevent_setclientdata(wxCommandEvent & event, void * data);
+	void bmx_wxcommandevent_setstring(wxCommandEvent & event, BBString * value);
+	void bmx_wxcommandevent_setint(wxCommandEvent & event, int value);
+
 	void bmx_wxmoveevent_getposition(wxMoveEvent & event, int * x, int * y);
 	void bmx_wxevent_skip(wxEvent & event, bool skip);
 	void bmx_wxsizeevent_getsize(wxSizeEvent & event, int * w, int * h);

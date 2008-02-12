@@ -176,6 +176,8 @@ Extern
 	Function bmx_wxevthandler_connect(handle:Byte Ptr, id:Int, eventType:Int, data:Object)
 	Function bmx_wxevthandler_connectrange(handle:Byte Ptr, id:Int, lastId:Int, eventType:Int, data:Object)
 	Function bmx_wxevthandler_addpendingevent(handle:Byte Ptr, event:Byte Ptr)
+	Function bmx_wxevthandler_processevent:Int(handle:Byte Ptr, event:Byte Ptr)
+
 	
 	Function bmx_event_geteventobject:Object(evt:Byte Ptr)
 	Function bmx_eventtype_value:Int(value:Int)
@@ -187,6 +189,9 @@ Extern
 	Function bmx_wxcommandevent_getextralong:Int(evt:Byte Ptr)
 	Function bmx_wxcommandevent_getclientdata:Object(evt:Byte Ptr)
 	Function bmx_wxcommandevent_setclientdata(evt:Byte Ptr, data:Object)
+	Function bmx_wxcommandevent_setstring(evt:Byte Ptr, value:String)
+	Function bmx_wxcommandevent_setint(evt:Byte Ptr, value:Int)
+
 	Function bmx_wxmoveevent_getposition(evt:Byte Ptr, x:Int Ptr, y:Int Ptr)
 	Function bmx_wxevent_skip(evt:Byte Ptr, skip:Int)
 	Function bmx_wxsizeevent_getsize(evt:Byte Ptr, w:Int Ptr, h:Int Ptr)

@@ -31,6 +31,7 @@ extern "C" {
 	void bmx_wxapp_setvendorname(BBString * name);
 	void bmx_wxapp_setexitonframedelete(bool flag);
 	bool bmx_wxapp_isactive();
+	wxWindow * bmx_wxapp_gettopwindow();
 
 	wxApp * bmx_app_getapp();
 

@@ -425,6 +425,10 @@ void bmx_wxevthandler_addpendingevent(wxEvtHandler * evtHandler, wxEvent & event
 	evtHandler->AddPendingEvent(event);
 }
 
+bool bmx_wxevthandler_processevent(wxEvtHandler * evtHandler, wxEvent & event) {
+	return evtHandler->ProcessEvent(event);
+}
+
 
 void * bmx_event_geteventobject(wxEvent * evt) {
 
@@ -614,6 +618,16 @@ void * bmx_wxcommandevent_getclientdata(wxCommandEvent & event) {
 void bmx_wxcommandevent_setclientdata(wxCommandEvent & event, void * data) {
 	event.SetClientData(data);
 }
+
+void bmx_wxcommandevent_setstring(wxCommandEvent & event, BBString * value) {
+	event.SetString(wxStringFromBBString(value));
+}
+
+void bmx_wxcommandevent_setint(wxCommandEvent & event, int value) {
+	event.SetInt(value);
+}
+
+
 
 void bmx_wxmoveevent_getposition(wxMoveEvent & event, int * x, int * y) {
 	wxPoint p = event.GetPosition();
