@@ -98,10 +98,16 @@ int bmx_wxiobase_putback(wxIOBase * base, int chr) {
 
 int bmx_wxiobase_readuntileos(wxIOBase * base, char * buffer, int * bytesRead, BBString * eos, long timeout, int quota) {
 	char * p = bbStringToCString( eos );
+	char * newbuff = NULL;
 	
 	size_t size;
-	int ret = base->ReadUntilEOS(buffer, &size, p, timeout, static_cast<char>(quota));
+	int ret = base->ReadUntilEOS(newbuff, &size, p, timeout, static_cast<char>(quota));
 	*bytesRead = static_cast<int>(size);
+	
+	if (bytesRead > 0) {
+		memcpy(buffer, newbuff, size);
+	}
+	delete newbuff;
 
 	bbMemFree( p );
 	return ret;

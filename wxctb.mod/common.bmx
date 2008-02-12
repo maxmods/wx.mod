@@ -56,6 +56,9 @@ Import "src/macos/serport.cpp"
 ?win32
 Import "src/win32/timer.cpp"
 Import "src/win32/serport.cpp"
+?linux
+Import "src/linux/timer.cpp"
+Import "src/linux/serport.cpp"
 ?
 
 Import "glue.cpp"
