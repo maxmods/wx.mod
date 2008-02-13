@@ -65,4 +65,8 @@ MaxCursor * bmx_wxstockgdi_cursor_standard() {
 	return new MaxCursor(c);
 }
 
+void bmx_wxcursor_delete(MaxCursor * cursor) {
+	delete cursor;
+}
+
 

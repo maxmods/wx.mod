@@ -119,6 +119,13 @@ Type wxCursor Extends wxBitmap
 		Return bmx_wxcursor_isok(wxObjectPtr)
 	End Method
 	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxcursor_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type
 
 Function wxCROSS_CURSOR:wxCursor()

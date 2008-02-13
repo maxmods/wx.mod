@@ -35,6 +35,9 @@ extern "C" {
 	MaxCursor * bmx_wxstockgdi_cursor_cross();
 	MaxCursor * bmx_wxstockgdi_cursor_hourglass();
 	MaxCursor * bmx_wxstockgdi_cursor_standard();
+
+	void bmx_wxcursor_delete(MaxCursor * cursor);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

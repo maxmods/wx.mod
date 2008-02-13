@@ -51,6 +51,8 @@ Extern
 	Function bmx_wxstockgdi_cursor_hourglass:Byte Ptr()
 	Function bmx_wxstockgdi_cursor_standard:Byte Ptr()
 	
+	Function bmx_wxcursor_delete(handle:Byte Ptr)
+
 End Extern
 
 Const wxCURSOR_NONE:Int = 0
