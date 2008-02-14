@@ -128,14 +128,30 @@ Type wxCursor Extends wxBitmap
 	
 End Type
 
+Rem
+bbdoc: Globally sets the cursor.
+End Rem
+Function wxSetCursor(cursor:wxCursor)
+	bmx_wxsetcursor(cursor.wxObjectPtr)
+End Function
+
+Rem
+bbdoc: 
+End Rem
 Function wxCROSS_CURSOR:wxCursor()
 	Return wxCursor._create(bmx_wxstockgdi_cursor_cross())
 End Function
 
+Rem
+bbdoc: 
+End Rem
 Function wxHOURGLASS_CURSOR:wxCursor()
 	Return wxCursor._create(bmx_wxstockgdi_cursor_hourglass())
 End Function
 
+Rem
+bbdoc: 
+End Rem
 Function wxSTANDARD_CURSOR:wxCursor()
 	Return wxCursor._create(bmx_wxstockgdi_cursor_standard())
 End Function

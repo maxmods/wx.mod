@@ -53,6 +53,8 @@ Extern
 	
 	Function bmx_wxcursor_delete(handle:Byte Ptr)
 
+	Function bmx_wxsetcursor(handle:Byte Ptr)
+	
 End Extern
 
 Const wxCURSOR_NONE:Int = 0

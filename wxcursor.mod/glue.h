@@ -38,6 +38,7 @@ extern "C" {
 
 	void bmx_wxcursor_delete(MaxCursor * cursor);
 
+	void bmx_wxsetcursor(MaxCursor * cursor);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
