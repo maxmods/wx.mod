@@ -56,3 +56,37 @@ bool bmx_wxrarinputstream_extractfile(wxRarInputStream * stream, BBString * dest
 	
 	return ret;
 }
+
+wxRarFileInfo * bmx_wxrarinputstream_getfileinfo(wxRarInputStream * stream) {
+	wxRarFileInfo * info = new wxRarFileInfo;
+	stream->GetFileInfo(*info);
+	return info;
+}
+
+// *********************************************
+
+void bmx_wxrarfileinfo_delete(wxRarFileInfo * info) {
+	delete info;
+}
+
+BBString * bmx_wxrarfileinfo_getname(wxRarFileInfo * info) {
+	return bbStringFromWxString(info->szName);
+}
+
+BBString * bmx_wxrarfileinfo_getcomment(wxRarFileInfo * info) {
+	return bbStringFromCString(info->szComment);
+}
+
+wxUint32 bmx_wxrarfileinfo_getuncompressedsize(wxRarFileInfo * info) {
+	return info->dwUncompressedSize;
+}
+
+wxUint32 bmx_wxrarfileinfo_getcompressedsize(wxRarFileInfo * info) {
+	return info->dwCompressedSize;
+}
+
+wxUint32 bmx_wxrarfileinfo_getfiletime(wxRarFileInfo * info) {
+	return info->dwTime;
+}
+
+

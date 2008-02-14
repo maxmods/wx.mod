@@ -103,8 +103,13 @@ bool wxRarInputStream::OpenNextFile()
 		}
         return false;
 	}
+
+	m_Info.szName = wxStringFromBBString(bbStringFromCString(hd.FileName));
+	m_Info.szComment = hd.CmtBuf;
+	m_Info.dwUncompressedSize = hd.UnpSize;
+	m_Info.dwCompressedSize = hd.PackSize;
+	m_Info.dwTime = hd.FileTime;
 	
-//	wxMessageBox(hd.FileName);
 	return true;
 }
 
@@ -131,6 +136,12 @@ bool wxRarInputStream::OpenFile(const char* szFileName)
 
 bool wxRarInputStream::GetFileInfo(wxRarFileInfo& Info)
 {
+	Info.szName = m_Info.szName;
+	Info.szComment = m_Info.szComment;
+	Info.dwUncompressedSize = m_Info.dwUncompressedSize;
+	Info.dwCompressedSize = m_Info.dwCompressedSize;
+	Info.dwTime = m_Info.dwTime;
+	
 	return true;
 }
 

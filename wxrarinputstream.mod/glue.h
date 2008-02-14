@@ -23,7 +23,7 @@
 #include "wxglue.h"
 #include "wx/rarstream.h"
 
-//class MaxNotebook;
+//class MaxRarFileInfo;
 
 extern "C" {
 
@@ -32,6 +32,14 @@ extern "C" {
 	wxRarInputStream * bmx_wxrarinputstream_create(BBString * filename);
 	bool bmx_wxrarinputstream_opennextfile(wxRarInputStream * stream);
 	bool bmx_wxrarinputstream_extractfile(wxRarInputStream * stream, BBString * destPath, BBString * destName);
+	wxRarFileInfo * bmx_wxrarinputstream_getfileinfo(wxRarInputStream * stream);
+
+	void bmx_wxrarfileinfo_delete(wxRarFileInfo * info);
+	BBString * bmx_wxrarfileinfo_getname(wxRarFileInfo * info);
+	BBString * bmx_wxrarfileinfo_getcomment(wxRarFileInfo * info);
+	wxUint32 bmx_wxrarfileinfo_getuncompressedsize(wxRarFileInfo * info);
+	wxUint32 bmx_wxrarfileinfo_getcompressedsize(wxRarFileInfo * info);
+	wxUint32 bmx_wxrarfileinfo_getfiletime(wxRarFileInfo * info);
 
 }
 

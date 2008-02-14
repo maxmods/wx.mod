@@ -96,5 +96,13 @@ Extern
 	Function bmx_wxrarinputstream_create:Byte Ptr(filename:String)
 	Function bmx_wxrarinputstream_opennextfile:Int(handle:Byte Ptr)
 	Function bmx_wxrarinputstream_extractfile:Int(handle:Byte Ptr, destPath:String, destName:String)
+	Function bmx_wxrarinputstream_getfileinfo:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxrarfileinfo_delete(handle:Byte Ptr)
+	Function bmx_wxrarfileinfo_getname:String(handle:Byte Ptr)
+	Function bmx_wxrarfileinfo_getcomment:String(handle:Byte Ptr)
+	Function bmx_wxrarfileinfo_getuncompressedsize:Int(handle:Byte Ptr)
+	Function bmx_wxrarfileinfo_getcompressedsize:Int(handle:Byte Ptr)
+	Function bmx_wxrarfileinfo_getfiletime:Int(handle:Byte Ptr)
 
 End Extern

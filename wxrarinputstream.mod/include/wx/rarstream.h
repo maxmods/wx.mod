@@ -17,6 +17,8 @@
 #pragma interface "rarstream.h"
 #endif
 
+#include "../wx.mod/wxglue.h"
+
 #include "wx/defs.h"
 #include "wx/msgdlg.h"
 

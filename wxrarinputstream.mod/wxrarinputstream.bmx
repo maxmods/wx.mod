@@ -61,10 +61,16 @@ Type wxRarInputStream
 
 	Field wxStreamPtr:Byte Ptr
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateRarInputStream:wxRarInputStream(filename:String)
 		Return New wxRarInputStream.Create(filename)
 	End Function
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxRarInputStream(filename:String)
 		wxStreamPtr = bmx_wxrarinputstream_create(filename)
 		Return Self
@@ -72,15 +78,85 @@ Type wxRarInputStream
 	
 	'Method OpenFile:int(Const char* szFileName);
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method OpenNextFile:Int()
 		Return bmx_wxrarinputstream_opennextfile(wxStreamPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ExtractFile:Int(destPath:String, destName:String = Null)
 		Return bmx_wxrarinputstream_extractfile(wxStreamPtr, destPath, destName)
 	End Method
 	
-'	bool GetFileInfo(wxRarFileInfo& Info);
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetFileInfo:wxRarFileInfo()
+		Return wxRarFileInfo._create(bmx_wxrarinputstream_getfileinfo(wxStreamPtr))
+	End Method
 
+End Type
+
+Rem
+bbdoc:
+End Rem
+Type wxRarFileInfo
+
+	Field wxObjectPtr:Byte Ptr
+
+	Function _create:wxRarFileInfo(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxRarFileInfo = New wxRarFileInfo
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetName:String()
+		Return bmx_wxrarfileinfo_getname(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetComment:String()
+		Return bmx_wxrarfileinfo_getcomment(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetUncompressedSize:Int()
+		Return bmx_wxrarfileinfo_getuncompressedsize(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetCompressedSize:Int()
+		Return bmx_wxrarfileinfo_getcompressedsize(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetFileTime:Int()
+		Return bmx_wxrarfileinfo_getfiletime(wxObjectPtr)
+	End Method
+	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxrarfileinfo_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type
 
