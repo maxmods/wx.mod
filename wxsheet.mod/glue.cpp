@@ -30,13 +30,20 @@ MaxSheet::MaxSheet(BBObject * handle, wxWindow * parent, wxWindowID id, int x, i
 	wxbind(this, handle);
 }
 
+MaxSheet::MaxSheet(BBObject * handle, wxWindow * parent, wxWindowID id)
+	: wxSheet(parent, id)
+{
+	wxbind(this, handle);
+}
+
+
 MaxSheet::~MaxSheet() {
 	wxunbind(this);
 }
 
 
 MaxSheetSplitter::MaxSheetSplitter(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: wxSheetSplitter(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: maxHandle(handle), wxSheetSplitter(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
@@ -44,6 +51,11 @@ MaxSheetSplitter::MaxSheetSplitter(BBObject * handle, wxWindow * parent, wxWindo
 MaxSheetSplitter::~MaxSheetSplitter() {
 	wxunbind(this);
 }
+
+wxSheet * MaxSheetSplitter::CreateSheet(wxWindowID id) {
+	return _wx_wxsheet_wxSheetSplitter__createsheet(maxHandle, id);
+}
+
 
 
 MaxSheetCellEditor::MaxSheetCellEditor(const wxSheetCellEditor& e)

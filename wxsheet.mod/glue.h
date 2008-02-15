@@ -42,8 +42,11 @@ extern "C" {
 
 	void _wx_wxsheet_wxSheetCellStringRendererRefData__Draw(BBObject * handle, wxSheet * sheet,
 			MaxSheetCellAttr * attr, MaxDC * dc, MaxRect * rect, int row, int col, bool isSelected);
+	
+	wxSheet * _wx_wxsheet_wxSheetSplitter__createsheet(BBObject * handle, wxWindowID id);
 
 	MaxSheet * bmx_wxsheet_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+//	MaxSheet * bmx_wxsheet_createforsplitter(BBObject * handle, wxWindow * parent, wxWindowID id);
 	bool bmx_wxsheet_creategrid(wxSheet * sheet, int numRows, int numCols, int options);
 	int bmx_wxsheet_getnumberrows(wxSheet * sheet);
 	int bmx_wxsheet_getnumbercols(wxSheet * sheet);
@@ -430,6 +433,7 @@ class MaxSheet : public wxSheet
 {
 public:
 	MaxSheet(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxSheet(BBObject * handle, wxWindow * parent, wxWindowID id);
 	~MaxSheet();
 private:
 
@@ -442,8 +446,13 @@ class MaxSheetSplitter : public wxSheetSplitter
 public:
 	MaxSheetSplitter(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxSheetSplitter();
-private:
+	
+protected:
+	wxSheet * CreateSheet(wxWindowID id = wxID_ANY);
 
+private:
+	BBObject * maxHandle;
+	
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };

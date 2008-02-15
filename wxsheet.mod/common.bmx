@@ -58,6 +58,7 @@ Import "src/sheetval.cpp"
 Extern
 
 	Function bmx_wxsheet_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	'Function bmx_wxsheet_createforsplitter:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int)
 	Function bmx_wxsheet_creategrid:Int(handle:Byte Ptr, numRows:Int, numCols:Int, options:Int)
 	Function bmx_wxsheet_getnumberrows:Int(handle:Byte Ptr)
 	Function bmx_wxsheet_getnumbercols:Int(handle:Byte Ptr)
