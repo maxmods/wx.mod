@@ -44,6 +44,11 @@ about: Reduces flicker in e.g. frames and splitter windows, but can't be used in
 End Rem
 Const wxCLIP_CHILDREN:Int = $00400000
 
+Const wxTRANSPARENT_WINDOW:Int = $00100000
+
+Const wxFULL_REPAINT_ON_RESIZE:Int = $00010000
+
+
 Rem
 bbdoc: Add this style if the control wants to get all keyboard messages.
 about: Under Windows, it won't normally get the dialog navigation key events

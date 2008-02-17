@@ -70,3 +70,9 @@ Const wxFRAME_TOOL_WINDOW:Int = $0004  ' No taskbar button, no system menu
 Const wxFRAME_FLOAT_ON_PARENT:Int = $0008  ' Always above its parent
 Const wxFRAME_SHAPED:Int = $0010  ' Create a window that is able To be shaped
 
+Const wxFRAME_EX_CONTEXTHELP:Int = wxWS_EX_CONTEXTHELP
+
+Rem
+bbdoc: Create a window which is attachable To another top level window
+End Rem
+Const wxFRAME_DRAWER:Int = $0020

@@ -332,3 +332,51 @@ Const wxWINDOW_VARIANT_SMALL:Int = 1
 Const wxWINDOW_VARIANT_MINI:Int = 2
 Const wxWINDOW_VARIANT_LARGE:Int = 3
 Const wxWINDOW_VARIANT_MAX:Int = 4
+
+Rem
+bbdo: By Default, TransferDataTo/FromWindow() only work on direct children of the window (compatible behaviour).
+about: Set this flag To make them recursively descend into all subwindows
+End Rem
+Const wxWS_EX_VALIDATE_RECURSIVELY:Int = $00000001
+
+Rem
+bbdoc: wxCommandEvents And the objects of the derived classes are forwarded To the parent window And so on recursively by Default.
+about: Using this flag For the given window allows To block this propagation at this window,
+i.e. prevent the events from being propagated further upwards. The dialogs have this 
+flag on by Default.
+End Rem
+Const wxWS_EX_BLOCK_EVENTS:Int = $00000002
+
+Rem
+bbdoc: Don't use this window as an implicit parent for the other windows.
+about: This must be used with transient windows as otherwise there is the risk of creating a
+dialog/frame with this window as a parent which would lead to a crash if the
+parent is destroyed before the child
+End Rem
+Const  wxWS_EX_TRANSIENT:Int = $00000004
+
+Rem
+bbdoc: Don't paint the window background, we'll assume it will be done by a theming engine.
+about: This is not yet used but could possibly be made to work in the future, at least on
+Windows.
+End Rem
+Const wxWS_EX_THEMED_BACKGROUND:Int = $00000008
+
+Rem
+bbdoc: This window should always process idle events
+End Rem
+Const wxWS_EX_PROCESS_IDLE:Int = $00000010
+
+Rem
+bbdoc: This window should always process UI update events
+End Rem
+Const wxWS_EX_PROCESS_UI_UPDATES:Int = $00000020
+
+Rem
+bbdoc: Use this style to add a context-sensitive help to the window.
+about: Currently for Win32 only and it doesn't work if wxMINIMIZE_BOX or wxMAXIMIZE_BOX are used.
+
+End Rem
+Const wxWS_EX_CONTEXTHELP:Int = $00000080
+
+
