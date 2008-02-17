@@ -32,25 +32,6 @@ class WXDLLIMPEXP_PG wxArrayEditorDialog;
     virtual wxString GetValueAsString( int argFlags = 0 ) const; \
     virtual bool StringToValue( wxVariant& variant, const wxString& text, int argFlags = 0 ) const;
 
-// class WXDLLIMPEXP_PG
-#define wxPG_BEGIN_PROPERTY_CLASS_BODY2(CLASSNAME,UPCLASS,T,INTERNAL_T,T_AS_ARG,DEFVAL,DECL) \
-DECL CLASSNAME : public UPCLASS \
-{ \
-    WX_PG_DECLARE_PROPERTY_CLASS(CLASSNAME) \
-protected: \
-public: \
-    CLASSNAME( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL, T_AS_ARG value = DEFVAL ); \
-    virtual ~CLASSNAME();
-
-#define wxPG_BEGIN_PROPERTY_CLASS_BODY(NAME,UPCLASS,T,T_AS_ARG,DEFVAL) \
-wxPG_BEGIN_PROPERTY_CLASS_BODY2(wxPG_PROPCLASS(NAME),UPCLASS,T,T,T_AS_ARG,DEFVAL,class)
-
-#define wxPG_BEGIN_PROPERTY_CLASS_BODY_WITH_DECL(NAME,UPCLASS,T,T_AS_ARG,DEFVAL,DECL) \
-wxPG_BEGIN_PROPERTY_CLASS_BODY2(wxPG_PROPCLASS(NAME),UPCLASS,T,T,T_AS_ARG,DEFVAL,class DECL)
-
-#define wxPG_END_PROPERTY_CLASS_BODY() \
-};
-
 #define WX_PG_DECLARE_CHOICE_METHODS() \
     virtual bool IntToValue( wxVariant& variant, int number, int argFlags = 0 ) const; \
     virtual int GetChoiceInfo( wxPGChoiceInfo* choiceinfo );
@@ -326,8 +307,6 @@ private:
 
 #endif  // SWIG
 
-#ifndef DOXYGEN
-
 
 // -----------------------------------------------------------------------
 // Property classes
@@ -335,6 +314,17 @@ private:
 
 #define wxPG_PROP_PASSWORD  wxPG_PROP_CLASS_SPECIFIC_2
 
+/** \class wxStringProperty
+	\ingroup classes
+    \brief Basic property with string value.
+
+    <b>Supported special attributes:</b>
+    - "Password": set to 1 inorder to enable wxTE_PASSWORD on the editor.
+
+    \remarks
+    - If value "<composed>" is set, then actual value is formed (or composed) from
+      values of child properties.
+*/
 class WXDLLIMPEXP_PG wxStringProperty : public wxPGProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS(wxStringProperty)
@@ -346,22 +336,55 @@ public:
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
 
+    /** This is updated so "<composed>" special value can be handled.
+    */
+    virtual void OnSetValue();
+
 protected:
 };
 
 // -----------------------------------------------------------------------
 
-wxPG_BEGIN_PROPERTY_CLASS_BODY_WITH_DECL(wxIntProperty,wxPGProperty,long,long,0,WXDLLIMPEXP_PG)
+/** \class wxIntProperty
+	\ingroup classes
+    \brief Basic property with integer value. Seamlessly supports 64-bit integer (wxLongLong) on overflow.
+*/
+class WXDLLIMPEXP_PG wxIntProperty : public wxPGProperty
+{
+    WX_PG_DECLARE_PROPERTY_CLASS(wxIntProperty)
+public:
+    wxIntProperty( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL,
+                   long value = 0 );
+    virtual ~wxIntProperty();
+
     wxIntProperty( const wxString& label, const wxString& name = wxPG_LABEL, const wxLongLong& value = wxLongLong() );
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     virtual bool IntToValue( wxVariant& variant, int number, int argFlags = 0 ) const;
     static wxValidator* GetClassValidator();
     virtual wxValidator* DoGetValidator() const;
-wxPG_END_PROPERTY_CLASS_BODY()
+
+protected:
+};
 
 // -----------------------------------------------------------------------
 
-wxPG_BEGIN_PROPERTY_CLASS_BODY_WITH_DECL(wxUIntProperty,wxPGProperty,long,unsigned long,0,WXDLLIMPEXP_PG)
+/** \class wxUIntProperty
+	\ingroup classes
+    \brief Basic property with unsigned integer value. Seamlessly supports 64-bit integer (wxULongLong) on overflow.
+
+    <b>Supported special attributes:</b>
+    - "Base": Define base. Valid constants are wxPG_BASE_OCT, wxPG_BASE_DEC, wxPG_BASE_HEX and wxPG_BASE_HEXL
+    (lowercase characters). Arbitrary bases are <b>not</b> supported.
+    - "Prefix": Possible values are wxPG_PREFIX_NONE, wxPG_PREFIX_0x, and wxPG_PREFIX_DOLLAR_SIGN.
+    Only wxPG_PREFIX_NONE works with Decimal and Octal numbers.
+*/
+class WXDLLIMPEXP_PG wxUIntProperty : public wxPGProperty
+{
+    WX_PG_DECLARE_PROPERTY_CLASS(wxUIntProperty)
+public:
+    wxUIntProperty( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL,
+                   unsigned long value = 0 );
+    virtual ~wxUIntProperty();
     wxUIntProperty( const wxString& label, const wxString& name = wxPG_LABEL, const wxULongLong& value = wxULongLong() );
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
@@ -372,27 +395,55 @@ protected:
     wxByte      m_prefix;
 private:
     void Init();
-wxPG_END_PROPERTY_CLASS_BODY()
+};
 
 // -----------------------------------------------------------------------
 
-wxPG_BEGIN_PROPERTY_CLASS_BODY_WITH_DECL(wxFloatProperty,wxPGProperty,double,double,0.0,WXDLLIMPEXP_PG)
+/** \class wxFloatProperty
+	\ingroup classes
+    \brief Basic property with double-precision floating point value.
+
+    <b>Supported special attributes:</b>
+    - "Precision": Sets the (max) precision used when floating point value is rendered as text.
+    The default -1 means infinite precision.
+*/
+class WXDLLIMPEXP_PG wxFloatProperty : public wxPGProperty
+{
+    WX_PG_DECLARE_PROPERTY_CLASS(wxFloatProperty)
+public:
+    wxFloatProperty( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL,
+                     double value = 0.0 );
+    virtual ~wxFloatProperty();
+
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
 protected:
     int m_precision;
-    //static wxValidator* GetClassValidator ();
     virtual wxValidator* DoGetValidator () const;
-wxPG_END_PROPERTY_CLASS_BODY()
+};
 
 // -----------------------------------------------------------------------
 
-wxPG_BEGIN_PROPERTY_CLASS_BODY2(wxBoolProperty,wxPGProperty,bool,long,bool,false,class WXDLLIMPEXP_PG)
-    //virtual const wxPGEditor* DoGetEditorClass() const;
+/** \class wxBoolProperty
+	\ingroup classes
+    \brief Basic property with boolean value.
+
+    <b>Supported special attributes:</b>
+    - "UseCheckbox": Set to 1 to use check box editor instead of combo box.
+    - "UseDClickCycling": Set to 1 to cycle combo box instead showing the list.
+*/
+class WXDLLIMPEXP_PG wxBoolProperty : public wxPGProperty
+{
+    WX_PG_DECLARE_PROPERTY_CLASS(wxBoolProperty)
+public:
+    wxBoolProperty( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL,
+                    bool value = false );
+    virtual ~wxBoolProperty();
+
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     WX_PG_DECLARE_CHOICE_METHODS()
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
-wxPG_END_PROPERTY_CLASS_BODY()
+};
 
 // -----------------------------------------------------------------------
 
@@ -474,7 +525,7 @@ class WXDLLIMPEXP_PG wxEnumProperty : public wxBaseEnumProperty
 public:
 
 #ifndef SWIG
-    wxEnumProperty( const wxString& label, const wxString& name = wxPG_LABEL,
+    wxEnumProperty( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL,
         const wxChar** labels = NULL, const long* values = NULL, int value = 0 );
     wxEnumProperty( const wxString& label, const wxString& name, 
         wxPGChoices& choices, int value = 0 );
@@ -482,10 +533,15 @@ public:
     // Special constructor for caching choices (used by derived class)
     wxEnumProperty( const wxString& label, const wxString& name, const wxChar** labels,
         const long* values, wxPGChoices* choicesCache, int value = 0 );
-#endif
+
+    wxEnumProperty( const wxString& label, const wxString& name,
+        const wxArrayString& labels, const wxArrayInt& values = wxArrayInt(),
+        int value = 0 );
+#else
     wxEnumProperty( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL,
         const wxArrayString& labels = wxArrayString(), const wxArrayInt& values = wxArrayInt(),
         int value = 0 );
+#endif
 
     virtual ~wxEnumProperty();
 
@@ -502,6 +558,15 @@ protected:
 
 // -----------------------------------------------------------------------
 
+/** \class wxEditEnumProperty
+    \ingroup classes
+    \brief
+    wxEnumProperty with wxString value and writable combo box editor.
+
+    \remarks
+    Uses int value, similar to wxEnumProperty, unless text entered by user is
+    is not in choices (in which case string value is used).
+*/
 class WXDLLIMPEXP_PG wxEditEnumProperty : public wxEnumProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS(wxEditEnumProperty)
@@ -526,7 +591,17 @@ protected:
 
 // -----------------------------------------------------------------------
 
-class WXDLLIMPEXP_PG wxFlagsProperty : public wxPGPropertyWithChildren
+/** \class wxFlagsProperty
+    \ingroup classes
+    \brief
+    Represents a bit set that fits in a long integer. wxBoolProperty sub-properties
+    are created for editing individual bits. Textctrl is created to manually edit
+    the flags as a text; a continous sequence of spaces, commas and semicolons
+    is considered as a flag id separator.
+    <b>Note:</b> When changing "choices" (ie. flag labels) of wxFlagsProperty, you
+    will need to use SetPropertyChoices - otherwise they will not get updated properly.
+*/
+class WXDLLIMPEXP_PG wxFlagsProperty : public wxPGProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS(wxFlagsProperty)
 public:
@@ -587,6 +662,21 @@ public:
 // Indicates first bit useable by derived properties.
 #define wxPG_PROP_SHOW_FULL_FILENAME  wxPG_PROP_CLASS_SPECIFIC_1
 
+/** \class wxFileProperty
+    \ingroup classes
+    \brief
+    Like wxLongStringProperty, but the button triggers file selector instead.
+
+    <b>Supported special attributes:</b>
+    - "Wildcard": Sets wildcard (see wxFileDialog for format details), "All files..."
+      is default.
+    - "ShowFullPath": Default 1. When 0, only the file name is shown (i.e. drive
+      and directory are hidden).
+    - "ShowRelativePath": If set, then the filename is shown relative to the given
+      path string.
+    - "InitialPath": Sets the initial path of where to look for files.
+    - "DialogTitle": Sets a specific title for the dir dialog.
+*/
 class WXDLLIMPEXP_PG wxFileProperty : public wxPGProperty
 {
     friend class wxPGFileDialogAdapter;
@@ -621,13 +711,12 @@ protected:
 
 #define wxPG_PROP_NO_ESCAPE     wxPG_PROP_CLASS_SPECIFIC_1
 
-//
-// In wxTextCtrl, strings a space delimited C-like strings. For example:
-// "String 1" "String 2" "String 3"
-//
-// To have " in a string, use \".
-// To have \ in a string, use \\.
-//
+/** \class wxLongStringProperty
+    \ingroup classes
+    \brief
+    Like wxStringProperty, but has a button that triggers a small text
+    editor dialog.
+*/
 class WXDLLIMPEXP_PG wxLongStringProperty : public wxPGProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS(wxLongStringProperty)
@@ -653,6 +742,14 @@ protected:
 
 // -----------------------------------------------------------------------
 
+/** \class wxDirProperty
+    \ingroup classes
+    \brief
+    Like wxLongStringProperty, but the button triggers dir selector instead.
+
+    <b>Supported special attributes:</b>
+    - "DialogMessage": Sets specific message in the dir selector.
+*/
 class WXDLLIMPEXP_PG wxDirProperty : public wxLongStringProperty
 {
     DECLARE_DYNAMIC_CLASS(wxDirProperty)
@@ -681,6 +778,11 @@ protected:
 
 // -----------------------------------------------------------------------
 
+/** \class wxArrayStringProperty
+    \ingroup classes
+    \brief
+    Property that manages a list of strings.
+*/
 class WXDLLIMPEXP_PG wxArrayStringProperty : public wxPGProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS(wxArrayStringProperty)
@@ -948,26 +1050,10 @@ private:
 
 // -----------------------------------------------------------------------
 
-
-/** This is a simple property which holds sub-properties. Has default editing
-    textctrl based editing capability. In essence, it is a category that has
-    look and feel of a property, and which children can be edited via the textctrl.
-*/
-class WXDLLIMPEXP_PG wxParentProperty : public wxPGPropertyWithChildren
-{
-    WX_PG_DECLARE_PROPERTY_CLASS(wxParentProperty)
-public:
-
-    wxParentProperty( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL );
-    virtual ~wxParentProperty();
-
-    virtual void ChildChanged( wxVariant& thisValue, int childIndex, wxVariant& childValue ) const;
-    virtual wxString GetValueAsString( int argFlags = 0 ) const;
-
-protected:
-    wxString    m_string;
-};
-
+// Since 1.3.1, separate wxParentProperty is no longer needed
+#if wxPG_COMPATIBILITY_1_2_0
+    typedef wxStringProperty wxParentProperty;
+#endif
 
 // -----------------------------------------------------------------------
 
@@ -985,7 +1071,7 @@ protected:
    Also note:
      - Has m_parentingType of -2 (technical detail).
 */
-class WXDLLIMPEXP_PG wxCustomProperty : public wxPGPropertyWithChildren
+class WXDLLIMPEXP_PG wxCustomProperty : public wxPGProperty
 {
 #ifndef SWIG
     WX_PG_DECLARE_PROPERTY_CLASS(wxCustomProperty)
@@ -1027,7 +1113,5 @@ protected:
 };
 
 // -----------------------------------------------------------------------
-
-#endif // !DOXYGEN
 
 #endif // _WX_PROPGRID_PROPS_H_

@@ -26,8 +26,6 @@
     #include "wx/window.h"
     #include "wx/panel.h"
     #include "wx/dc.h"
-    #include "wx/dcclient.h"
-    #include "wx/button.h"
     #include "wx/pen.h"
     #include "wx/brush.h"
     #include "wx/cursor.h"
@@ -35,9 +33,7 @@
     #include "wx/settings.h"
     #include "wx/msgdlg.h"
     #include "wx/choice.h"
-    #include "wx/stattext.h"
     #include "wx/textctrl.h"
-    #include "wx/scrolwin.h"
     #include "wx/dirdlg.h"
     #include "wx/combobox.h"
     #include "wx/layout.h"
@@ -45,7 +41,6 @@
     #include "wx/textdlg.h"
     #include "wx/filedlg.h"
     #include "wx/statusbr.h"
-    #include "wx/toolbar.h"
     #include "wx/intl.h"
 #endif
 
@@ -216,6 +211,10 @@ wxPropertyGridPage::~wxPropertyGridPage()
 void wxPropertyGridPage::RefreshProperty( wxPGProperty* p )
 {
     m_manager->RefreshProperty(p);
+}
+
+void wxPropertyGridPage::OnShow()
+{
 }
 
 /*
@@ -568,11 +567,16 @@ bool wxPropertyGridManager::DoSelectPage( int index )
     if ( index >= 0 )
     {
         nextPage = (wxPropertyGridPage*)m_arrPages.Item(index);
+
+        nextPage->OnShow();
     }
     else
     {
         if ( !m_emptyPage )
+        {
             m_emptyPage = new wxPropertyGridPage();
+            m_emptyPage->m_pPropGrid = m_pPropGrid;
+        }
 
         nextPage = m_emptyPage;
     }
@@ -650,6 +654,19 @@ wxPropertyGridState* wxPropertyGridManager::GetPageState( int page ) const
     if ( page == -1 )
         return m_pState;
     return GETPAGESTATE(page);
+}
+
+// -----------------------------------------------------------------------
+
+void wxPropertyGridManager::Clear()
+{
+    m_pPropGrid->Freeze();
+
+    int i;
+    for ( i=(int)GetPageCount()-1; i>=0; i-- )
+        RemovePage(i);
+
+    m_pPropGrid->Thaw();
 }
 
 // -----------------------------------------------------------------------
@@ -773,7 +790,13 @@ int wxPropertyGridManager::InsertPage( int index, const wxString& label,
         state->InitNonCatMode();
     }
 
-    pageObj->m_label = label;
+    if ( label.length() )
+    {
+        wxASSERT_MSG( !pageObj->m_label.length(),
+                      wxT("If page label is given in constructor, empty label must be given in AddPage"));
+        pageObj->m_label = label;
+    }
+
     pageObj->m_id = m_nextTbInd;
 
     if ( isPageInserted )
@@ -823,6 +846,8 @@ int wxPropertyGridManager::InsertPage( int index, const wxString& label,
     pageObj->Init();
 
     m_iFlags |= wxPG_MAN_FL_PAGE_INSERTED;
+
+    wxASSERT( pageObj->GetGrid() );
 
     return index;
 }
@@ -1699,6 +1724,36 @@ wxPGVIterator wxPropertyGridManager::GetVIterator( int flags ) const
 {
     return wxPGVIterator( new wxPGVIteratorBase_Manager( (wxPropertyGridManager*)this, flags ) );
 }
+
+// -----------------------------------------------------------------------
+// Implementation of various deprecated methods that were inline,
+// made non-inline to eliminate problems with wxDEPRECATED.
+// -----------------------------------------------------------------------
+
+#if wxPG_COMPATIBILITY_1_2_0
+
+int wxPropertyGridManager::GetTargetPage() const
+{
+    wxFAIL_MSG(wxT("Use GetPage() and wxPropertyGridPage facilities instead"));
+    return -1;
+}
+
+void wxPropertyGridManager::SetPropertyColour( wxPGPropArg id, const wxColour& col )
+{
+    m_pPropGrid->SetPropertyBackgroundColour( id, col );
+}
+
+void wxPropertyGridManager::SetTargetPage( int )
+{
+    wxFAIL_MSG(wxT("Use GetPage() and wxPropertyGridPage facilities instead"));
+}
+
+void wxPropertyGridManager::SetTargetPage( const wxChar* )
+{
+    wxFAIL_MSG(wxT("Use GetPage() and wxPropertyGridPage facilities instead"));
+}
+
+#endif  // wxPG_COMPATIBILITY_1_2_0
 
 // -----------------------------------------------------------------------
 

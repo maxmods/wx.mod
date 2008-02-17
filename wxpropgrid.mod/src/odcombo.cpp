@@ -3350,7 +3350,7 @@ void wxPGComboControl::OnPaintEvent( wxPaintEvent& WXUNUSED(event) )
     const bool isEnabled = IsEnabled();
     wxColour bgCol = GetBackgroundColour();
 
-    HDC hDc = GetHdcOf(dc);
+    HDC hDc = wxPG_GetHDCOf(dc);
     HWND hWnd = GetHwndOf(this);
 
     wxUxThemeEngine* theme = NULL;

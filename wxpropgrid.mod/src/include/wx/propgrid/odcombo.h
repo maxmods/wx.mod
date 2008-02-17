@@ -12,6 +12,7 @@
 #ifndef _WX_PROPGRID_ODCOMBO_H_
 #define _WX_PROPGRID_ODCOMBO_H_
 
+#ifndef DOXYGEN
 
 #include "wx/renderer.h"
 
@@ -1093,5 +1094,7 @@ private:
 
     DECLARE_DYNAMIC_CLASS(wxPGOwnerDrawnComboBox)
 };
+
+#endif  // !DOXYGEN
 
 #endif // _WX_PROPGRID_ODCOMBO_H_

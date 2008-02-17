@@ -21,7 +21,7 @@ class WXDLLIMPEXP_PG wxArrayEditorDialog;
 
 // These are intuitive substitutes for base property classes.
 typedef wxPGProperty                wxBasePropertyClass;
-typedef wxPGPropertyWithChildren    wxBaseParentPropertyClass;
+typedef wxPGProperty                wxBaseParentPropertyClass;
 
 // -----------------------------------------------------------------------
 
@@ -85,6 +85,14 @@ public:
     bool                m_autoGetTranslation; // If true then some things are automatically translated
 
     int                 m_offline; // > 0 if errors cannot or should not be shown in statusbar etc.
+
+    int                 m_extraStyle;  // global extra style
+
+#ifdef __WXDEBUG__
+    int                 m_warnings;
+#endif
+
+    int HasExtraStyle( int style ) const { return (m_extraStyle & style); }
 
 /*#if wxUSE_THREADS
     wxCriticalSection   m_critSect; // To allow different property grids to be addressed from different threads

@@ -16,6 +16,12 @@
 
 #if wxPG_INCLUDE_MANAGER || defined(DOXYGEN)
 
+#include <wx/dcclient.h>
+#include <wx/scrolwin.h>
+#include <wx/toolbar.h>
+#include <wx/stattext.h>
+#include <wx/button.h>
+
 // -----------------------------------------------------------------------
 
 #ifndef SWIG
@@ -78,7 +84,7 @@ public:
         - Called every time the page is added into a manager.
         - You can add properties to the page here.
     */
-    virtual void Init() {};
+    virtual void Init() {}
 
     /** Return false here to indicate unhandled events should be
         propagated to manager's parent, as normal.
@@ -89,6 +95,11 @@ public:
     */
     virtual void DoSetSplitterPosition( int pos, int splitterColumn = 0, bool allPages = true );
 
+    /** Called every time page is about to be shown.
+        Useful, for instance, creating properties just-in-time.
+    */
+    virtual void OnShow();
+
     /** Propagate to other pages.
     */
     void DoSetSplitterPositionThisPage( int pos, int splitterColumn = 0 )
@@ -96,15 +107,22 @@ public:
         wxPropertyGridState::DoSetSplitterPosition( pos, splitterColumn );
     }
 
-#ifndef SWIG
+    virtual void RefreshProperty( wxPGProperty* p );
+
 protected:
 
-    virtual void RefreshProperty( wxPGProperty* p );
+    /** Page label (may be referred as name in some parts of documentation).
+        Can be set in constructor, or passed in wxPropertyGridManager::AddPage(),
+        but *not* in both.
+    */
+    wxString                m_label;
+
+#ifndef SWIG
 
     //virtual bool ProcessEvent( wxEvent& event );
 
     wxPropertyGridManager*  m_manager;
-    wxString                m_label;
+    
     int                     m_id;  // toolbar index
 
 private:
@@ -248,6 +266,10 @@ public:
         m_pPropGrid->ClearModifiedStatus();
     }
 
+    /** Deletes all all properties and all pages.
+    */
+    void Clear();
+
     /** Deletes all properties on given page.
     */
     void ClearPage( int page );
@@ -375,9 +397,8 @@ public:
     inline wxPGProperty* GetLastChild( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
-        wxPGPropertyWithChildren* pwc = (wxPGPropertyWithChildren*) p;
-        if ( !pwc->GetParentingType() || !pwc->GetCount() ) return wxNullProperty;
-        return pwc->Last();
+        if ( !p->GetChildCount() ) return wxNullProperty;
+        return p->Last();
     }
 
 #endif // wxPG_COMPATIBILITY_1_2_0
@@ -403,7 +424,7 @@ public:
         return (wxPropertyGridPage*)m_arrPages.Item(ind);
     }
 
-    /** Returns page object for given page index.
+    /** Returns page object for given page name.
     */
     wxPropertyGridPage* GetPage( const wxString& name ) const
     {
@@ -468,7 +489,7 @@ public:
 #if wxPG_COMPATIBILITY_1_2_0
     /** DEPRECATED: Use GetPage() and wxPropertyGridPage facilities instead.
     */
-    wxDEPRECATED( int GetTargetPage() const { wxFAIL_MSG(wxT("Use GetPage() and wxPropertyGridPage facilities instead")); return -1; } )
+    wxDEPRECATED( int GetTargetPage() const );
 #endif
 
     /** Returns a pointer to the toolbar currently associated with the
@@ -522,10 +543,12 @@ public:
     */
     void SelectPage( int index );
 
-    /** Select and displays a given page. */
-    void SelectPage( const wxChar* name )
+    /** Select and displays a given page (by label). */
+    void SelectPage( const wxString& label )
     {
-        SelectPage( GetPageByName(name) );
+        int index = GetPageByName(label);
+        wxCHECK_RET( index >= 0, wxT("No page with such name") );
+        SelectPage( index );
     }
 
     /** Select and displays a given page. */
@@ -572,10 +595,7 @@ public:
 
         NOTE: This function is deprecated. Use SetPropertyBackgroundColour instead.
     */
-    wxDEPRECATED( void SetPropertyColour( wxPGPropArg id, const wxColour& col )
-    {
-        m_pPropGrid->SetPropertyBackgroundColour( id, col );
-    } )
+    wxDEPRECATED( void SetPropertyColour( wxPGPropArg id, const wxColour& col ) );
 #endif
 
     /** Sets background colour of property and all its children. Colours of
@@ -628,8 +648,8 @@ public:
 #if wxPG_COMPATIBILITY_1_2_0
     /** DEPRECATED: Use GetPage() and wxPropertyGridPage facilities instead.
     */
-    wxDEPRECATED( void SetTargetPage( int ) { wxFAIL_MSG(wxT("Use GetPage() and wxPropertyGridPage facilities instead")); } )
-    wxDEPRECATED( void SetTargetPage( const wxChar* ) { wxFAIL_MSG(wxT("Use GetPage() and wxPropertyGridPage facilities instead")); } )
+    wxDEPRECATED( void SetTargetPage( int ) );
+    wxDEPRECATED( void SetTargetPage( const wxChar* ) );
 #endif
 
     /** Deselect current selection, if any (from current page).

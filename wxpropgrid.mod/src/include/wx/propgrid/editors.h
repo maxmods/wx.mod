@@ -326,7 +326,7 @@ public:
 };
 
 
-#if wxPG_INCLUDE_CHECKBOX
+#if wxPG_INCLUDE_CHECKBOX || defined(DOXYGEN)
 
 //
 // Use custom check box code instead of native control

@@ -6,6 +6,9 @@ Import wx.wxPropGrid
 Import wx.wxTextCtrl
 Import wx.wxRadioBox
 Import wx.wxSystemSettings
+Import wx.wxArtProvider
+Import wx.wxDatePickerCtrl
+Import wx.wxButton
 
 New MyApp.run()
 
@@ -99,11 +102,10 @@ Type MyFrame Extends wxFrame
 		wxInitAllImageHandlers()
 	
 		CreateGrid( wxPG_BOLD_MODIFIED | wxPG_SPLITTER_AUTO_CENTER | ..
-                wxPG_AUTO_SORT ..
-                | wxTAB_TRAVERSAL ..
-                | wxPG_TOOLBAR ..
-                | wxPG_DESCRIPTION, ..
-                wxPG_EX_MODE_BUTTONS)
+               wxPG_AUTO_SORT ..
+                | wxPG_SPLITTER_AUTO_CENTER ..
+                | wxPG_DEFAULT_STYLE, ..
+				wxPG_EX_HELP_AS_TOOLTIPS | wxPG_EX_NATIVE_DOUBLE_BUFFERING)
                 'wxPG_HIDE_MARGIN|wxPG_STATIC_SPLITTER |
                 'wxPG_TOOLTIPS |
                 'wxPG_HIDE_CATEGORIES |
@@ -217,9 +219,99 @@ Type MyFrame Extends wxFrame
 		CreateStatusBar(1)
 		SetStatusText("")
 		
+	'
+    ' Finalize
+    '
+
+    SetSize((wxSystemSettings.GetMetric(wxSYS_SCREEN_X)/10)*4, ..
+        (wxSystemSettings.GetMetric(wxSYS_SCREEN_Y)/10)*8)
+    Centre()
+	
 		'Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, OnQuit)
 		'Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, OnAbout)
 		
+		
+		' This occurs when a property is selected
+		Connect( PGID, wxEVT_PG_SELECTED, OnPropertyGridSelect )
+		' This occurs when a property value changes
+		Connect( PGID, wxEVT_PG_CHANGED, OnPropertyGridChange )
+		' This occurs just prior a property value is changed
+		Connect( PGID, wxEVT_PG_CHANGING, OnPropertyGridChanging )
+		' This occurs when a mouse moves over another property
+		Connect( PGID, wxEVT_PG_HIGHLIGHTED, OnPropertyGridHighlight )
+		' This occurs when mouse is right-clicked.
+		Connect( PGID, wxEVT_PG_RIGHT_CLICK, OnPropertyGridItemRightClick )
+		' This occurs when mouse is double-clicked.
+		Connect( PGID, wxEVT_PG_DOUBLE_CLICK, OnPropertyGridItemDoubleClick )
+		' This occurs when propgridmanager's page changes.
+		Connect( PGID, wxEVT_PG_PAGE_CHANGED, OnPropertyGridPageChange )
+		' This occurs when property's editor button (if any) is clicked.
+		Connect( PGID, wxEVT_COMMAND_BUTTON_CLICKED, OnPropertyGridButtonClick )
+
+
+		Connect( ID_APPENDPROP, wxEVT_COMMAND_MENU_SELECTED, OnAppendPropClick )
+		Connect( ID_APPENDCAT, wxEVT_COMMAND_MENU_SELECTED, OnAppendCatClick )
+		Connect( ID_INSERTPROP, wxEVT_COMMAND_MENU_SELECTED, OnInsertPropClick )
+		Connect( ID_INSERTCAT, wxEVT_COMMAND_MENU_SELECTED, OnInsertCatClick )
+		Connect( ID_DELETE, wxEVT_COMMAND_MENU_SELECTED, OnDelPropClick )
+		Connect( ID_DELETER, wxEVT_COMMAND_MENU_SELECTED, OnDelPropRClick )
+		Connect( ID_UNSPECIFY, wxEVT_COMMAND_MENU_SELECTED, OnMisc )
+		Connect( ID_DELETEALL, wxEVT_COMMAND_MENU_SELECTED, OnClearClick )
+		Connect( ID_ENABLE, wxEVT_COMMAND_MENU_SELECTED, OnEnableDisable )
+		Connect( ID_HIDE, wxEVT_COMMAND_MENU_SELECTED, OnHideShow )
+		Connect( ID_ITERATE1, wxEVT_COMMAND_MENU_SELECTED, OnIterate1Click )
+		Connect( ID_ITERATE2, wxEVT_COMMAND_MENU_SELECTED, OnIterate2Click )
+		Connect( ID_ITERATE3, wxEVT_COMMAND_MENU_SELECTED, OnIterate3Click )
+		Connect( ID_ITERATE4, wxEVT_COMMAND_MENU_SELECTED, OnIterate4Click )
+		Connect( ID_SETCOLOUR, wxEVT_COMMAND_MENU_SELECTED, OnMisc )
+		Connect( ID_CLEARMODIF, wxEVT_COMMAND_MENU_SELECTED, OnClearModifyStatusClick )
+		Connect( ID_FREEZE, wxEVT_COMMAND_MENU_SELECTED, OnFreezeClick )
+		Connect( ID_DUMPLIST, wxEVT_COMMAND_MENU_SELECTED, OnDumpList )
+	
+		Connect( ID_COLOURSCHEME1, wxEVT_COMMAND_MENU_SELECTED, OnColourScheme )
+		Connect( ID_COLOURSCHEME2, wxEVT_COMMAND_MENU_SELECTED, OnColourScheme )
+		Connect( ID_COLOURSCHEME3, wxEVT_COMMAND_MENU_SELECTED, OnColourScheme )
+		Connect( ID_COLOURSCHEME4, wxEVT_COMMAND_MENU_SELECTED, OnColourScheme )
+	
+		Connect( ID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, OnAbout )
+		Connect( ID_QUIT, wxEVT_COMMAND_MENU_SELECTED, OnCloseClick )
+	
+		Connect( ID_CATCOLOURS, wxEVT_COMMAND_MENU_SELECTED, OnCatColours )
+		Connect( ID_SETCOLUMNS, wxEVT_COMMAND_MENU_SELECTED, OnSetColumns )
+		Connect( ID_TESTXRC, wxEVT_COMMAND_MENU_SELECTED, OnTestXRC )
+		Connect( ID_ENABLECOMMONVALUES, wxEVT_COMMAND_MENU_SELECTED, OnEnableCommonValues )
+		Connect( ID_SELECTSTYLE, wxEVT_COMMAND_MENU_SELECTED, OnSelectStyle )
+	
+		Connect( ID_STATICLAYOUT, wxEVT_COMMAND_MENU_SELECTED, OnMisc )
+		Connect( ID_CLEAR, wxEVT_COMMAND_MENU_SELECTED, OnMisc )
+		Connect( ID_COLLAPSE, wxEVT_COMMAND_MENU_SELECTED, OnMisc )
+		Connect( ID_COLLAPSEALL, wxEVT_COMMAND_MENU_SELECTED, OnMisc )
+	
+		Connect( ID_POPULATE1, wxEVT_COMMAND_MENU_SELECTED, OnPopulateClick )
+		Connect( ID_POPULATE2, wxEVT_COMMAND_MENU_SELECTED, OnPopulateClick )
+	
+		Connect( ID_GETVALUES, wxEVT_COMMAND_MENU_SELECTED, OnMisc )
+		Connect( ID_SETVALUES, wxEVT_COMMAND_MENU_SELECTED, OnMisc )
+		Connect( ID_SETVALUES2, wxEVT_COMMAND_MENU_SELECTED, OnMisc )
+	
+		Connect( ID_SAVETOFILE, wxEVT_COMMAND_MENU_SELECTED, OnSaveToFileClick )
+		Connect( ID_SAVETOFILE2, wxEVT_COMMAND_MENU_SELECTED, OnSaveToFileClick )
+		Connect( ID_LOADFROMFILE, wxEVT_COMMAND_MENU_SELECTED, OnLoadFromFileClick )
+	
+		Connect( ID_CHANGEFLAGSITEMS, wxEVT_COMMAND_MENU_SELECTED, OnChangeFlagsPropItemsClick )
+	
+		Connect( ID_RUNTEST, wxEVT_COMMAND_MENU_SELECTED, OnMisc )
+	
+		Connect( ID_TESTINSERTCHOICE, wxEVT_COMMAND_MENU_SELECTED, OnInsertChoice )
+		Connect( ID_TESTDELETECHOICE, wxEVT_COMMAND_MENU_SELECTED, OnDeleteChoice )
+	
+		Connect( ID_INSERTPAGE, wxEVT_COMMAND_MENU_SELECTED, OnInsertPage )
+		Connect( ID_REMOVEPAGE, wxEVT_COMMAND_MENU_SELECTED, OnRemovePage )
+	
+		Connect( ID_SETSPINCTRLEDITOR, wxEVT_COMMAND_MENU_SELECTED, OnSetSpinCtrlEditorClick )
+		Connect( ID_TESTREPLACE, wxEVT_COMMAND_MENU_SELECTED, OnTestReplaceClick )
+		Connect( ID_SETPROPERTYVALUE, wxEVT_COMMAND_MENU_SELECTED, OnSetPropertyValue )
+	
 	End Method
 	
 	Method CreateGrid( style:Int, extraStyle:Int )
@@ -250,7 +342,8 @@ Type MyFrame Extends wxFrame
 		
 		pg.SetExtraStyle(extraStyle)
 
-		PopulateWithStandardItems()
+		'PopulateWithStandardItems()
+		PopulateWithExamples()
 		
 		topSizer.Add( m_propGrid, 1, wxEXPAND )
 
@@ -275,15 +368,15 @@ Type MyFrame Extends wxFrame
 	
 		Local pg:wxPropertyGrid = m_propGrid
 		
-		Local pid:wxPGId
-		
+		Local pid:wxPGProperty
+'DebugStop
 		' Append is ideal way To add items To wxPropertyGrid.
 		pg.Append( New wxPropertyCategory.Create("Appearance", wxPG_LABEL) )
 
 		pg.Append( New wxStringProperty.Create("Label", wxPG_LABEL, GetTitle()) )
 		
 		pg.Append( New wxFontProperty.Create("Font", wxPG_LABEL) )
-		pg.SetPropertyHelpString("Font", "Editing this will change font used in the property grid.")
+		pg.SetPropertyHelpStringByName("Font", "Editing this will change font used in the property grid.")
 
 		pg.Append( New wxSystemColourProperty.Create("Margin Colour", wxPG_LABEL, pg.GetGrid().GetMarginColour()) )
 
@@ -295,12 +388,264 @@ Type MyFrame Extends wxFrame
 
 		pg.Append( New wxSystemColourProperty.Create("Line Colour", wxPG_LABEL, pg.GetGrid().GetLineColour()) )
 
-'		pg.Append( New wxFlagsProperty.Create("Window Styles", wxPG_LABEL, m_combinedFlags, GetWindowStyle()) )
+		Local fs_windowstyle_labels:String[] = [ ..
+			"wxSIMPLE_BORDER", "wxDOUBLE_BORDER", ..
+			"wxSUNKEN_BORDER", "wxRAISED_BORDER", ..
+			"wxNO_BORDER", "wxTRANSPARENT_WINDOW", ..
+			"wxTAB_TRAVERSAL", "wxWANTS_CHARS", ..
+			"wxVSCROLL", ..
+			"wxALWAYS_SHOW_SB", "wxCLIP_CHILDREN", ..
+			"wxFULL_REPAINT_ON_RESIZE"]
+
+		Local fs_windowstyle_values:Int[] = [ ..
+			wxSIMPLE_BORDER, wxDOUBLE_BORDER, ..
+			wxSUNKEN_BORDER, wxRAISED_BORDER, ..
+			wxNO_BORDER, wxTRANSPARENT_WINDOW, ..
+			wxTAB_TRAVERSAL, wxWANTS_CHARS, ..
+			wxVSCROLL, ..
+			wxALWAYS_SHOW_SB, wxCLIP_CHILDREN, ..
+			wxFULL_REPAINT_ON_RESIZE ]
+
+		pg.Append( New wxFlagsProperty.Create("Window Styles", wxPG_LABEL, fs_windowstyle_labels, fs_windowstyle_values , GetWindowStyle()) )
+
+		pg.Append( New wxCursorProperty.Create("Cursor", wxPG_LABEL) )
+
+		pg.Append( New wxPropertyCategory.Create("Position", "PositionCategory") )
+		pg.SetPropertyHelpStringByName( "PositionCategory", "Change in items in this category will cause respective changes in frame." )
+		pg.Append( New wxIntProperty.Create("Height", wxPG_LABEL, 480) )
+		pg.Append( New wxIntProperty.Create("Width", wxPG_LABEL, 640) )
+		pg.Append( New wxIntProperty.Create("X", wxPG_LABEL, 10) )
+		pg.Append( New wxIntProperty.Create("Y", wxPG_LABEL, 10) )
+
+
+		Local disabledHelpString:String = "This property is simply disabled. Inorder to have label disabled as well, " + ..
+			"you need to set wxPG_EX_GREY_LABEL_WHEN_DISABLED using SetExtraStyle."
+		
+		pg.Append( New wxPropertyCategory.Create("Environment", wxPG_LABEL) )
+		pg.Append( New wxStringProperty.Create("Operating System", wxPG_LABEL, wxGetOsDescription()) )
+		
+		pg.Append( New wxStringProperty.Create("User Id", wxPG_LABEL, wxGetUserId()) )
+		pg.Append( New wxDirProperty.Create("User Home", wxPG_LABEL, wxGetUserHome()) )
+		pg.Append( New wxStringProperty.Create("User Name", wxPG_LABEL, wxGetUserName()) )
+		
+		' Disable some of them
+		pg.DisablePropertyByName( "Operating System" )
+		pg.DisablePropertyByName( "User Id" )
+		pg.DisablePropertyByName( "User Name" )
+		
+		pg.SetPropertyHelpStringByName( "Operating System", disabledHelpString )
+		pg.SetPropertyHelpStringByName( "User Id", disabledHelpString )
+		pg.SetPropertyHelpStringByName( "User Name", disabledHelpString )
+
+ '		pg.Append( New wxPropertyCategory.Create("More Examples", wxPG_LABEL) )
+'		
+'		pg.Append( New wxFontDataProperty.Create( "FontDataProperty", wxPG_LABEL) )
+'		pg.SetPropertyHelpStringByName( "FontDataProperty", ..
+'			"This demonstrates wxFontDataProperty class defined in this sample app. " + ..
+'			"It is exactly like wxFontProperty from the library, but also has colour sub-property." )
+'		
+'		pg.Append( New wxDirsProperty.Create("DirsProperty", wxPG_LABEL) )
+'		pg.SetPropertyHelpStringByName( "DirsProperty", ..
+'			"This demonstrates wxDirsProperty class defined in this sample app. " + ..
+'			"It is built with WX_PG_IMPLEMENT_ARRAYSTRING_PROPERTY_WITH_VALIDATOR macro, " + ..
+'			"with custom action (dir dialog popup) defined." )
+'		
+'		pg.Append( New wxAdvImageFileProperty.Create("AdvImageFileProperty", wxPG_LABEL) )
+'		pg.SetPropertyHelpStringByName( "AdvImageFileProperty", ..
+'			"This demonstrates wxAdvImageFileProperty class defined in this sample app. " + ..
+'			"Button can be used to add new images to the popup list." )
+
 
 
 	End Method
 	
 	Method PopulateWithExamples()
+
+		Local pg:wxPropertyGrid = m_propGrid
+
+	    ' Add bool property
+	    pg.Append( New wxBoolProperty.Create( "BoolProperty", wxPG_LABEL, False ) )
+	
+	    ' Add bool property with check box
+	    pg.Append( New wxBoolProperty.Create( "BoolProperty with CheckBox", wxPG_LABEL, False ) )
+	    pg.SetPropertyAttributeByName( "BoolProperty with CheckBox", wxPG_BOOL_USE_CHECKBOX, 1 )
+	
+	    pg.SetPropertyHelpStringByName( "BoolProperty with CheckBox", ..
+	        "Property attribute wxPG_BOOL_USE_CHECKBOX has been set to 1." )
+
+	    pg.Append( New wxDoubleProperty.Create( "DoubleProperty", wxPG_LABEL, 1234500.23 ) )
+	
+	    ' A string property that can be edited in a separate editor dialog.
+	    pg.Append( New wxLongStringProperty.Create( "LongStringProperty", "LongStringProp", ..
+	        "This is much longer string than the first one. Edit it by clicking the button." ) )
+	
+	    ' A property that edits a wxArrayString.
+		Local example_array:String[] = [ "String 1", "String 2", "String 3" ]
+		pg.Append( New wxArrayStringProperty.Create( "ArrayStringProperty", wxPG_LABEL, example_array) )
+
+		' A file selector property. Note that argument between name
+		' and initial value is wildcard (format same as in wxFileDialog).
+		Local prop:wxPGProperty = New wxFileProperty.Create( "FileProperty", "TextFile" )
+		pg.Append( prop )
+		
+		prop.SetAttributeString(wxPG_FILE_WILDCARD, "Text Files (*.txt)|*.txt")
+		prop.SetAttributeString(wxPG_FILE_DIALOG_TITLE, "Custom File Dialog Title")
+		prop.SetAttributeInt(wxPG_FILE_SHOW_FULL_PATH, 0)
+
+?win32
+		prop.SetAttributeString(wxPG_FILE_SHOW_RELATIVE_PATH, "C:\Windows")
+		pg.SetPropertyValue(prop, "C:\Windows\System32\msvcrt71.dll")
+?
+
+
+
+    ' An image file property. Arguments are just like for FileProperty, but
+    ' wildcard is missing (it is autogenerated from supported image formats).
+    ' If you really need to override it, create property separately, and call
+    ' its SetWildcard method.
+    pg.Append( New wxImageFileProperty.Create( "ImageFile", wxPG_LABEL ) )
+
+
+    'pid = pg.Append( new wxColourProperty("ColourProperty", wxPG_LABEL, wxRED()) )
+    'pg.SetPropertyAttribute(pid, wxPG_COLOUR_ALLOW_CUSTOM, 0)
+    'pg.SetPropertyEditor( "ColourProperty"), wxPG_EDITOR(Choice) )
+    'pg.SetPropertyHelpString( "ColourProperty",
+    '    "wxPropertyGrid::SetPropertyEditor method has been used to change "
+    '    "editor of this property to wxPG_EDITOR(Choice)")
+
+
+    '
+    ' wxEnumProperty does not store strings or even list of strings
+    ' ( so that's why they are static in function ).
+    Local enum_prop_labels:String[] = [ "One Item", ..
+        "Another Item", "One More", "This Is Last" ]
+
+    ' this value array would be optional if values matched string indexes
+    Local enum_prop_values:Int[] = [ 40, 80, 120, 160 ]
+
+    ' note that the initial value (the last argument) is the actual value,
+    ' not index or anything like that. Thus, our value selects "Another Item".
+    '
+    ' 0 before value is number of items. If it is 0, like in our example,
+    ' number of items is calculated, and this requires that the string pointer
+    ' array is terminated with NULL.
+    pg.Append( New wxEnumProperty.CreateWithArrays("EnumProperty", wxPG_LABEL, ..
+        enum_prop_labels, enum_prop_values, 80 ) )
+
+
+    Local soc:wxPGChoices = New wxPGChoices.Create()
+'DebugLog soc.GetCount()
+
+	    ' use basic table from our previous example
+	    ' can also set/add wxArrayStrings and wxArrayInts directly.
+	    soc.Set( enum_prop_labels, enum_prop_values )
+
+	    ' add extra items
+	    soc.Add( "Look, it continues", 200 )
+	    soc.Add( "Even More", 240 )
+	    soc.Add( "And More", 280 )
+	    soc.Add( "True End of the List", 320 )
+
+	    ' Test custom colours ([] operator of wxPGChoices returns
+	    ' references to wxPGChoiceEntry).
+	    soc.Item(1).SetFgCol(wxRED())
+	    soc.Item(1).SetBgCol(wxLIGHT_GREY())
+	    soc.Item(2).SetFgCol(wxGREEN())
+	    soc.Item(2).SetBgCol(wxLIGHT_GREY())
+	    soc.Item(3).SetFgCol(wxBLUE())
+	    soc.Item(3).SetBgCol(wxLIGHT_GREY())
+	    soc.Item(4).SetBitmap(wxArtProvider.GetBitmap(wxART_FOLDER))
+
+		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty 2", wxPG_LABEL, soc, 240) )
+ 
+		pg.AddPropertyChoiceByName("EnumProperty 2", "Testing Extra", 360)
+
+		' Add a second time to test that the caching works
+		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty 3", wxPG_LABEL, soc , 360 ) )
+
+		pg.SetPropertyHelpStringByName("EnumProperty 3", "Should have same choices as EnumProperty 2")
+
+
+		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty 4",wxPG_LABEL, soc, 240 ) )
+		pg.SetPropertyHelpStringByName("EnumProperty 4", "Should have same choices as EnumProperty 2")
+		
+		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty 5",wxPG_LABEL, soc, 240 ) )
+		pg.SetPropertyChoicesExclusiveByName("EnumProperty 5")
+		pg.AddPropertyChoiceByName("EnumProperty 5", "5th only", 360)
+		pg.SetPropertyHelpStringByName("EnumProperty 5", "Should have one extra item when compared to EnumProperty 4")
+		
+		' Password property example.
+		pg.Append( New wxStringProperty.Create("Password", wxPG_LABEL, "password") )
+		pg.SetPropertyAttributeByName( "Password", wxPG_STRING_PASSWORD, 1 )
+		pg.SetPropertyHelpStringByName( "Password", "Has attribute wxPG_STRING_PASSWORD set to 1" )
+		
+		' String editor with dir selector button. Uses wxEmptyString as name, which
+		' is allowed (naturally, in this case property cannot be accessed by name).
+		pg.Append( New wxDirProperty.Create( "DirProperty", wxPG_LABEL, wxGetUserHome()) )
+		pg.SetPropertyAttributeStringByName( "DirProperty", wxPG_DIR_DIALOG_MESSAGE, "This is a custom dir dialog message" )
+		
+		' Add string property - first arg is label, second name, and third initial value
+		pg.Append( New wxStringProperty.Create( "StringProperty", wxPG_LABEL ) )
+		pg.SetPropertyMaxLengthByName( "StringProperty", 6 )
+		pg.SetPropertyHelpStringByName( "StringProperty", ..
+			"Max length of this text has been limited to 6, using wxPropertyGrid::SetPropertyMaxLength." )
+		
+		' Set value after limiting so that it will be applied
+		pg.SetPropertyValueStringByName( "StringProperty", "some text" )
+
+			' Multi choice dialog.
+		Local tchoices:wxPGChoices = New wxPGChoices.Create()
+		tchoices.Add("Cabbage",10)
+		tchoices.Add("Carrot",15)
+		tchoices.Add("Onion",20)
+		tchoices.Add("Potato",25)
+		tchoices.Add("Strawberry",30)
+		
+		Local tchoicesValues:Int[] = [1, 15, 20]
+	
+		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty X", wxPG_LABEL, tchoices ) )
+	
+		pg.Append( New wxMultiChoiceProperty.CreateWithChoices( "MultiChoiceProperty", wxPG_LABEL, tchoices, tchoicesValues ) )
+	
+		'pg.Append( new wxTestCustomFlagsProperty("Custom FlagsProperty", wxPG_LABEL ) )
+		'pg.SetPropertyEditor( "Custom FlagsProperty", wxPG_EDITOR(TextCtrlAndButton) )
+	
+		'pg.Append( new wxTestCustomEnumProperty("Custom EnumProperty"), wxPG_LABEL ) )
+	
+		'pg.Append( New wxSizeProperty.Create( "SizeProperty", "Size", GetSize() ) )
+		'pg.Append( New wxPointProperty.Create( "PointProperty", "Position", GetPosition() ) )
+	
+	
+		' UInt samples
+		pg.Append( New wxUIntProperty.Create( "UIntProperty", wxPG_LABEL, $FEEEFEEE))
+		pg.SetPropertyAttributeByName( "UIntProperty", wxPG_UINT_PREFIX, wxPG_PREFIX_NONE )
+		pg.SetPropertyAttributeByName( "UIntProperty", wxPG_UINT_BASE, wxPG_BASE_HEX )
+		'pg.SetPropertyAttribute( "UIntProperty", wxPG_UINT_PREFIX, wxPG_PREFIX_NONE )
+		'pg.SetPropertyAttribute( "UIntProperty", wxPG_UINT_BASE, wxPG_BASE_OCT )
+	
+		'
+		' wxEditEnumProperty
+		Local eech:wxPGChoices = New wxPGChoices.Create()
+		eech.Add("Choice 1")
+		eech.Add("Choice 2")
+		eech.Add("Choice 3")
+'		pg.Append( New wxEditEnumProperty.Create("EditEnumProperty", wxPG_LABEL, eech) ) ' , "Choice 2")
+	
+		'wxString v_
+		'wxTextValidator validator1(wxFILTER_NUMERIC,&v_)
+		'pg.SetPropertyValidator( "EditEnumProperty", validator1 )
+	
+		'
+		' wxDateTimeProperty
+		pg.Append( New wxDateProperty.Create("DateProperty", wxPG_LABEL, wxDateTime.Now() ) )
+	
+		pg.SetPropertyAttributeByName( "DateProperty", wxPG_DATE_PICKER_STYLE, wxDP_DROPDOWN | wxDP_SHOWCENTURY )
+	
+		pg.SetPropertyHelpStringByName( "DateProperty", ..
+			"Attribute wxPG_DATE_PICKER_STYLE has been set to wxDP_DROPDOWN | wxDP_SHOWCENTURY." + ..
+			"Also note that wxPG_ALLOW_WXADV needs to be defined inorder to use wxDatePickerCtrl." )
+'End Rem
+			
 	End Method
 	
 	Method PopulateWithLibraryConfig()
@@ -345,6 +690,20 @@ Type MyFrame Extends wxFrame
 	
 	
 	Function OnEnableDisable( event:wxEvent )
+		Local frame:MyFrame = MyFrame(event.parent)
+		Local prop:wxPGProperty = frame.m_propGrid.GetSelection()
+		If Not prop Then
+			wxMessageBox("First select a property.")
+			Return
+		End If
+
+		If frame.m_propGrid.IsPropertyEnabled( prop ) Then
+			frame.m_propGrid.DisableProperty ( prop )
+			frame.m_itemEnable.SetText( "Enable" )
+		Else
+			frame. m_propGrid.EnableProperty( prop )
+			frame.m_itemEnable.SetText( "Disable" )
+		End If
 	End Function
 	
 	Function OnHideShow( event:wxEvent )
@@ -437,6 +796,23 @@ Type MyFrame Extends wxFrame
 	End Function
 	
 	Function OnPropertyGridSelect( event:wxEvent )
+		Local frame:MyFrame = MyFrame(event.parent)
+		Local evt:wxPropertyGridEvent = wxPropertyGridEvent(event)
+		Local property:wxPGProperty = evt.GetProperty()
+
+		
+		frame.m_itemEnable.Enable(True)
+		If evt.IsPropertyEnabled() Then
+			frame.m_itemEnable.SetText( "Disable" )
+		Else
+			frame.m_itemEnable.SetText( "Enable" )
+		End If
+    '}
+    'Else
+    '{
+    '    m_itemEnable->Enable( False );
+    '}
+
 	End Function
 	
 	Function OnPropertyGridHighlight( event:wxEvent )

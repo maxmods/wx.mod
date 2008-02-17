@@ -66,11 +66,22 @@ WX_PG_IMPLEMENT_PROPERTY_CLASS(wxStringProperty,wxPGProperty,
                                wxString,const wxString&,TextCtrl)
 
 wxStringProperty::wxStringProperty( const wxString& label,
-                                              const wxString& name,
-                                              const wxString& value )
+                                    const wxString& name,
+                                    const wxString& value )
     : wxPGProperty(label,name)
 {
     SetValue(value);
+}
+
+void wxStringProperty::OnSetValue()
+{
+    if ( !m_value.IsNull() && m_value.GetString() == wxT("<composed>") )
+    {
+        SetFlag(wxPG_PROP_COMPOSED_VALUE);
+        wxString s;
+        GenerateComposedValue(s, 0);
+        m_value = s;
+    }
 }
 
 wxStringProperty::~wxStringProperty() { }
@@ -78,6 +89,15 @@ wxStringProperty::~wxStringProperty() { }
 wxString wxStringProperty::GetValueAsString( int argFlags ) const
 {
     wxString s = m_value.GetString();
+
+    if ( GetChildCount() && HasFlag(wxPG_PROP_COMPOSED_VALUE) )
+    {
+        // Value stored in m_value is non-editable, non-full value
+        if ( (argFlags & wxPG_FULL_VALUE) || (argFlags & wxPG_EDITABLE_VALUE) )
+            GenerateComposedValue(s, argFlags);
+
+        return s;
+    }
 
     // If string is password and value is for visual purposes,
     // then return asterisks instead the actual string.
@@ -87,9 +107,12 @@ wxString wxStringProperty::GetValueAsString( int argFlags ) const
     return s;
 }
 
-bool wxStringProperty::StringToValue( wxVariant& variant, const wxString& text, int ) const
+bool wxStringProperty::StringToValue( wxVariant& variant, const wxString& text, int argFlags ) const
 {
-    if ( m_value != text )
+    if ( GetChildCount() && HasFlag(wxPG_PROP_COMPOSED_VALUE) )
+        return wxPGProperty::StringToValue(variant, text, argFlags);
+
+    if ( m_value.GetString() != text )
     {
         variant = text;
         return true;
@@ -621,10 +644,14 @@ void wxPropertyGrid::DoubleToString(wxString& target,
 wxString wxFloatProperty::GetValueAsString( int argFlags ) const
 {
     wxString text;
-    wxPropertyGrid::DoubleToString(text,m_value,
-                                   m_precision,
-                                   !(argFlags & wxPG_FULL_VALUE),
-                                   (wxString*) NULL);
+    if ( !m_value.IsNull() )
+    {
+        wxPropertyGrid::DoubleToString(text,
+                                       m_value,
+                                       m_precision,
+                                       !(argFlags & wxPG_FULL_VALUE),
+                                       (wxString*) NULL);
+    }
     return text;
 }
 
@@ -717,6 +744,9 @@ wxString wxBoolProperty::GetValueAsString( int argFlags ) const
 
 int wxBoolProperty::GetChoiceInfo( wxPGChoiceInfo* choiceinfo )
 {
+    if ( IsValueUnspecified() )
+        return -1;
+
     if ( choiceinfo )
         choiceinfo->m_choices = &wxPGGlobalVars->m_boolChoices;
     return m_value.GetBool()?1:0;
@@ -831,6 +861,9 @@ void wxBaseEnumProperty::OnSetValue()
 
 wxString wxBaseEnumProperty::GetValueAsString( int ) const
 {
+    if ( wxPGIsVariantType(m_value, string) )
+        return m_value.GetString();
+
     if ( m_index >= 0 )
     {
         int unusedVal;
@@ -874,7 +907,22 @@ bool wxBaseEnumProperty::ValueFromString_( wxVariant& value, const wxString& tex
         entryLabel = GetEntry(i, &entryValue);
     }
 
-    if ( m_index != useIndex )
+    bool asText = false;
+
+    // If text not any of the choices, store as text instead
+    if ( useIndex == -1 &&
+         (!wxPGIsVariantType(m_value, string) || (m_value.GetString() != text)) )
+    {
+        asText = true;
+    }
+
+    if ( asText )
+    {
+        ms_nextIndex = -1;
+        value = text;
+        return true;
+    }
+    else if ( m_index != useIndex )
     {
         if ( useIndex != -1 )
         {
@@ -891,6 +939,7 @@ bool wxBaseEnumProperty::ValueFromString_( wxVariant& value, const wxString& tex
 
         return true;
     }
+
     /*}
     else if ( argFlags & wxPG_REPORT_ERROR )
     {
@@ -1103,12 +1152,15 @@ wxEditEnumProperty::~wxEditEnumProperty()
 // wxFlagsProperty
 // -----------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxFlagsProperty,wxPGPropertyWithChildren)
+IMPLEMENT_DYNAMIC_CLASS(wxFlagsProperty,wxPGProperty)
 
 WX_PG_IMPLEMENT_PROPERTY_CLASS_PLAIN(wxFlagsProperty,long,TextCtrl)
 
 void wxFlagsProperty::Init()
 {
+    SetFlag(wxPG_PROP_AGGREGATE);  // This is must be done here to support flag props
+                                   // with inital zero children.
+
     long value = m_value;
 
     //
@@ -1124,7 +1176,7 @@ void wxFlagsProperty::Init()
         wxPropertyGridState* state = GetParentState();
 
         // State safety check (it may be NULL in immediate parent)
-        //wxPGPropertyWithChildren* parent = GetParent();
+        //wxPGProperty* parent = GetParent();
         //while ( !state ) { wxASSERT(parent); state = parent->GetParentState(); parent = parent->GetParent(); }
         wxASSERT( state );
 
@@ -1185,7 +1237,7 @@ void wxFlagsProperty::Init()
 }
 
 wxFlagsProperty::wxFlagsProperty( const wxString& label, const wxString& name,
-    const wxChar** labels, const long* values, long value ) : wxPGPropertyWithChildren(label,name)
+    const wxChar** labels, const long* values, long value ) : wxPGProperty(label,name)
 {
     m_oldChoicesData = (wxPGChoicesData*) NULL;
 
@@ -1205,7 +1257,7 @@ wxFlagsProperty::wxFlagsProperty( const wxString& label, const wxString& name,
 
 wxFlagsProperty::wxFlagsProperty( const wxString& label, const wxString& name,
         const wxArrayString& labels, const wxArrayInt& values, int value )
-    : wxPGPropertyWithChildren(label,name)
+    : wxPGProperty(label,name)
 {
     m_oldChoicesData = (wxPGChoicesData*) NULL;
 
@@ -1225,7 +1277,7 @@ wxFlagsProperty::wxFlagsProperty( const wxString& label, const wxString& name,
 
 wxFlagsProperty::wxFlagsProperty( const wxString& label, const wxString& name,
     wxPGChoices& choices, long value )
-    : wxPGPropertyWithChildren(label,name)
+    : wxPGProperty(label,name)
 {
     m_oldChoicesData = (wxPGChoicesData*) NULL;
 
@@ -2462,42 +2514,10 @@ bool wxArrayStringProperty::StringToValue( wxVariant& variant, const wxString& t
 }
 
 // -----------------------------------------------------------------------
-// wxParentProperty
-// -----------------------------------------------------------------------
-
-WX_PG_IMPLEMENT_PROPERTY_CLASS_PLAIN(wxParentProperty,none,TextCtrl)
-IMPLEMENT_DYNAMIC_CLASS(wxParentProperty, wxPGPropertyWithChildren)
-
-
-wxParentProperty::wxParentProperty( const wxString& label, const wxString& name )
-    : wxPGPropertyWithChildren(label,name)
-{
-    m_parentingType = -2;
-    m_value = wxPGVariant_EmptyString;  // Do this to avoid having 'unspecified' value
-}
-
-
-wxParentProperty::~wxParentProperty() { }
-
-
-void wxParentProperty::ChildChanged( wxVariant&, int, wxVariant& ) const
-{
-}
-
-
-wxString wxParentProperty::GetValueAsString( int argFlags ) const
-{
-    if ( !GetCount() )
-        return wxEmptyString;
-
-    return wxPGPropertyWithChildren::GetValueAsString(argFlags);
-}
-
-// -----------------------------------------------------------------------
 // wxCustomProperty
 // -----------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(wxCustomProperty, wxPGPropertyWithChildren)
+IMPLEMENT_DYNAMIC_CLASS(wxCustomProperty, wxPGProperty)
 
 const wxPGEditor* wxCustomProperty::DoGetEditorClass() const
 {
@@ -2506,9 +2526,9 @@ const wxPGEditor* wxCustomProperty::DoGetEditorClass() const
 
 wxCustomProperty::wxCustomProperty( const wxString& label,
                                     const wxString& name )
-    : wxPGPropertyWithChildren(label,name)
+    : wxPGProperty(label,name)
 {
-    m_parentingType = -2;
+    //m_parentingType = -2;
 #ifdef wxPG_COMPATIBILITY_1_0_0
     m_callback = (wxPropertyGridCallback) NULL;
 #endif
@@ -2556,7 +2576,7 @@ wxSize wxCustomProperty::OnMeasureImage( int item ) const
     if ( m_paintCallback )
         return wxSize(-wxPG_CUSTOM_IMAGE_WIDTH,-wxPG_CUSTOM_IMAGE_WIDTH);
 
-    return wxPGPropertyWithChildren::OnMeasureImage(item);
+    return wxPGProperty::OnMeasureImage(item);
 }
 
 void wxCustomProperty::OnCustomPaint( wxDC& dc,
@@ -2566,7 +2586,7 @@ void wxCustomProperty::OnCustomPaint( wxDC& dc,
     if ( m_paintCallback )
         m_paintCallback(this,dc,rect,paintData);
     else
-        wxPGPropertyWithChildren::OnCustomPaint(dc,rect,paintData);
+        wxPGProperty::OnCustomPaint(dc,rect,paintData);
 }
 
 bool wxCustomProperty::IntToValue( wxVariant& variant, int number, int ) const
@@ -2639,12 +2659,10 @@ bool wxCustomProperty::DoSetAttribute( const wxString& name, wxVariant& value )
     {
         if ( value.GetLong() )
         {
-            m_parentingType = -1;
             SetFlag( wxPG_PROP_AGGREGATE );
         }
         else
         {
-            m_parentingType = -2;
             ClearFlag( wxPG_PROP_AGGREGATE );
         }
         return true;

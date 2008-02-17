@@ -462,7 +462,7 @@ wxPGWindowList wxPGTextCtrlEditor::CreateControls( wxPropertyGrid* propGrid,
 
     // If has children and limited editing, then don't create.
     if ((property->GetFlags() & wxPG_PROP_NOEDITOR) &&
-        property->GetParentingType() < 0 &&
+        !property->IsCategory() &&
         !property->IsKindOf(WX_PG_CLASSINFO(wxCustomProperty)))
         return (wxWindow*) NULL;
 
@@ -1651,9 +1651,15 @@ wxPGWindowList wxPGCheckBoxEditor::CreateControls( wxPropertyGrid* propGrid,
             if ( cb->m_state > 1 )
                 cb->m_state = 0;
 
-            property->SetValueFromInt(cb->m_state,0);
-            propGrid->EditorsValueWasModified();
-            propGrid->DoPropertyChanged(property, NULL, 0);
+            // Makes sure wxPG_EVT_CHANGING is sent for this initial click as well
+            // (second argument, pPendingValue, of DoPropertyChanged() needs to
+            // set).
+            wxVariant variant(property->GetValueRef());
+            if ( ActualGetValueFromControl( variant, property, cb ) )
+            {
+               propGrid->EditorsValueWasModified();
+               propGrid->DoPropertyChanged(property, &variant, 0);
+            }
         }
     }
 

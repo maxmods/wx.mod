@@ -445,13 +445,13 @@ static long gs_fp_es_weight_values[] = {
 // Class body is in advprops.h
 
 
-WX_PG_IMPLEMENT_PROPERTY_CLASS(wxFontProperty,wxPGPropertyWithChildren,
+WX_PG_IMPLEMENT_PROPERTY_CLASS(wxFontProperty,wxPGProperty,
                                wxFont,const wxFont&,TextCtrlAndButton)
 
 
 wxFontProperty::wxFontProperty( const wxString& label, const wxString& name,
                                 const wxFont& value )
-    : wxPGPropertyWithChildren(label,name)
+    : wxPGProperty(label,name)
 {
     SetValue( wxFontToVariant(value) );
 
@@ -527,7 +527,7 @@ bool wxFontProperty::ValidateValue( wxVariant& value ) const
 
 wxString wxFontProperty::GetValueAsString( int argFlags ) const
 {
-    return wxPGPropertyWithChildren::GetValueAsString(argFlags);
+    return wxPGProperty::GetValueAsString(argFlags);
 }
 
 bool wxFontProperty::OnEvent( wxPropertyGrid* propgrid, wxWindow* WXUNUSED(primary),
@@ -585,7 +585,13 @@ void wxFontProperty::ChildChanged( wxVariant& thisValue, int ind, wxVariant& chi
     }
     else if ( ind == 2 )
     {
-        font.SetFaceName( wxPGGlobalVars->m_fontFamilyChoices->GetLabel(childValue.GetLong()) );
+        wxString faceName;
+        int faceIndex = childValue.GetLong();
+
+        if ( faceIndex >= 0 )
+            faceName = wxPGGlobalVars->m_fontFamilyChoices->GetLabel(faceIndex);
+
+        font.SetFaceName( faceName );
     }
     else if ( ind == 3 )
     {
@@ -1361,11 +1367,7 @@ void wxCursorProperty::OnCustomPaint( wxDC& dc,
                 wxCursor cursor( cursorindex );
 
             #ifdef __WXMSW__
-                #if wxCHECK_VERSION(2,9,0)
-                  ::DrawIconEx( (HDC)((const wxMSWDCImpl *)dc.GetImpl())->GetHDC(),
-                #else
-                  ::DrawIconEx( (HDC)dc.GetHDC(),
-                #endif
+                  ::DrawIconEx( wxPG_GetHDCOf(dc),
                               rect.x,
                               rect.y,
                               (HICON)cursor.GetHandle(),

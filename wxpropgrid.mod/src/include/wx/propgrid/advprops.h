@@ -12,11 +12,20 @@
 #ifndef _WX_PROPGRID_ADVPROPS_H_
 #define _WX_PROPGRID_ADVPROPS_H_
 
-#ifndef wxPG_INCLUDE_ADVPROPS
-    #error "Include propgrid.h"
+#ifdef DOXYGEN
+    #define wxUSE_IMAGE 1
+    #define wxUSE_CHOICEDLG 1
+    #define wxUSE_DATETIME 1
+#else
+
+    #ifndef wxPG_INCLUDE_ADVPROPS
+        #error "Include propgrid.h"
+    #endif
+
 #endif
 
 #include "props.h"
+
 
 // -----------------------------------------------------------------------
 
@@ -151,7 +160,7 @@ WX_PG_DECLARE_WXOBJECT_VARIANT_DATA(wxPGVariantDataColourPropertyValue, wxColour
 
 // -----------------------------------------------------------------------
 
-class WXDLLIMPEXP_PG wxFontProperty : public wxPGPropertyWithChildren
+class WXDLLIMPEXP_PG wxFontProperty : public wxPGProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS(wxFontProperty)
 public:

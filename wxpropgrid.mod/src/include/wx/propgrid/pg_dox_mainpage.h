@@ -13,7 +13,7 @@
 #define __WX_PG_DOX_MAINPAGE_H__
 
 /**
-    \mainpage wxPropertyGrid 1.3.1 Overview
+    \mainpage wxPropertyGrid 1.3.2 Overview
 
       wxPropertyGrid is a specialized for editing properties such as strings, numbers,
     flagsets, fonts, and colours. It allows hierarchial, collapsible properties (via
@@ -262,28 +262,29 @@
     \endcode
 
 
-    \section parentprops Parent Properties
+    \section parentprops Tree-like Property Structure
 
-      If you want to combine number of properties under single parent (just
-    like wxFontProperty combines font attributes), then the easiest way to
-    proceed is to use wxParentProperty.
+      As a new feature in version 1.3.1, basicly any property can have children. There
+    are few limitations, however.
 
     \remarks
-    - wxParentProperty's value type is string, in which
-      a child property that has children of its own will be embedded in
-      braces ([]).
-    - Children of wxParentProperty cannot be accessed globally by their name.
-      Instead, use "Parent.Child" format.
-    - However, events occur for the children, not the parent. In addition
-      to GetPropertyParent, You can use wxPropertyGridEvent::GetMainParent()
-      to find out property's highest wxParentProperty or wxCustomProperty.
+    - Names of properties with non-category, non-root parents are not stored in hash map.
+      Instead, they can be accessed with strings like "Parent.Child". For instance, in
+      the sample below, child property named "Max. Speed (mph)" can be accessed by global
+      name "Car.Speeds.Max Speed (mph)".
+    - Events occur for the children, not the parent.
+    - If you want to property's value to be a string composed based on the values of
+      child properties, you must use wxStringProperty as parent and use value "<composed>".
+    - Old wxParentProperty class is deprecated, and remains as a typedef of wxStringProperty.
+      If you want old value behaviour, you must specify "<composed>" as wxStringProperty's
+      value.
 
     Sample:
 
     \code
-        wxPGId pid = pg->Append( new wxParentProperty(wxT("Car"),wxPG_LABEL) );
+        wxPGId pid = pg->Append( new wxStringProperty(wxT("Car"),wxPG_LABEL,wxT("<composed>")) );
 
-        pg->AppendIn( pid, new wxStringProperty(wxT("Model")),
+        pg->AppendIn( pid, new wxStringProperty(wxT("Model"),
                                                 wxPG_LABEL,
                                                 wxT("Lamborghini Diablo SV")) );
 
@@ -291,15 +292,17 @@
                                              wxPG_LABEL,
                                              5707) );
 
-        wxPGId speedId = pg->AppendIn( pid, new wxParentProperty(wxT("Speeds"),wxPG_LABEL) );
-        pg->AppendIn( speedId, new wxIntProperty(wxT("Max. Speed (mph)"),wxPG_LABEL,300) );
+        wxPGId speedId = pg->AppendIn( pid, new wxStringProperty(wxT("Speeds"),wxPG_LABEL,wxT("<composed>")) );
+        pg->AppendIn( speedId, new wxIntProperty(wxT("Max. Speed (mph)"),wxPG_LABEL,290) );
         pg->AppendIn( speedId, new wxFloatProperty(wxT("0-100 mph (sec)"),wxPG_LABEL,3.9) );
         pg->AppendIn( speedId, new wxFloatProperty(wxT("1/4 mile (sec)"),wxPG_LABEL,8.6) );
+
+        // Make sure the child properties can be accessed correctly
+        pg->SetPropertyValue( wxT("Car.Speeds.Max. Speed (mph)"), 300 );
 
         pg->AppendIn( pid, new wxIntProperty(wxT("Price ($)"),
                                              wxPG_LABEL,
                                              300000) );
-
         // Displayed value of "Car" property is now:
         // "Lamborghini Diablo SV; [300; 3.9; 8.6]; 300000"
 
@@ -445,8 +448,8 @@
     supplied macro pairs. See \ref newprops for details.
 
     <b>wxEditEnumProperty</b> is works exactly like wxEnumProperty, except
-    is uses non-readonly combobox as default editor, and has string value by
-    default.
+    is uses non-readonly combobox as default editor, and value is stored as
+    string when it is not any of the choices.
 
     wxFlagsProperty is similar:
 
@@ -718,24 +721,24 @@
     \endcode
 
     \remarks On Sub-property Event Handling
-    - For wxParentProperty and wxCustomProperty, events will occur for
-      sub-property. For those properties that inherit directly from
-      wxPGPropertyWithChildren/wxBaseParentPropertyClass (wxFontProperty,
-      wxFlagsProperty, etc), events occur for the main parent property
-      only (actually, you can adjust this behaviour for wxCustomProperty
+    - For aggregate type properties (wxFontProperty, wxFlagsProperty, etc), events
+      occur for the main parent property only. For other properties events occur
+      for the children themselves (actually, you can adjust this behaviour for wxCustomProperty
       by adjusting wxPG_CUSTOM_PRIVATE_CHILDREN attribute).
 
-    - When wxParentProperty or wxCustomProperty's child gets changed, you can
-      use wxPropertyGridEvent::GetMainParent to obtain its top non-category
-      parent (useful, if you have wxParentProperty as child of another
-      wxParentProperty, for example).
+    - When property's child gets changed, you can use wxPropertyGridEvent::GetMainParent
+      to obtain its topmost non-category parent (useful, if you have deeply nested
+      properties).
 
 
     \subsection fromfile Loading Population from a Text-based Storage
 
     Class wxPropertyGridPopulator may be helpful when writing code that
     loads properties from a text-source. In fact, the supplied xrc handler
-    (samples/xm_propgrid.cpp) uses it. See that code for more info.
+    (src/xh_propgrid.cpp) uses it. See that code for more info.
+    NOTE: src/xh_propgrid.cpp is not included in the library by default,
+    to avoid dependency to wxXRC. You will need to add it to your application
+    separately.
 
 
     \section cellrender Customizing Individual Cell Appearance
@@ -841,18 +844,8 @@
     there is a CustomProperty property that has children that can be
     used to modify the property itself.
 
-    \remarks
-    - Children of wxParentProperty cannot be accessed globally by their name.
-      Instead, use "Parent.Child" format.
-    - However, events occur for the children, not the parent. In addition
-      to GetPropertyParent, You can use wxPropertyGridEvent::GetMainParent()
-      to find out property's highest wxParentProperty or wxCustomProperty.
-
     <b>Limitations:</b>
     - Currently wxCustomProperty is limited to wxString value type.
-    - As in wxParentProperty: names of child properties are not visible
-      globally. You need to use "Parent.SubProperty" name format to access
-      them.
 
 
     \section usage2 Using wxPropertyGridManager
@@ -1040,19 +1033,18 @@
 
     Not an actual property per se, but a header for a group of properties.
 
-    \subsection wxParentProperty
-
-    Pseudo-property that can have sub-properties inserted under itself.
-    Has textctrl editor that allows editing values of all sub-properties
-    in a one string. In essence, it is a category that has look and feel
-    of a property, and which children can be edited via the textctrl.
-
     \subsection wxStringProperty
 
     <b>Inheritable Class:</b> wxStringProperty
 
     Simple string property. wxPG_STRING_PASSWORD attribute may be used
     to echo value as asterisks and use wxTE_PASSWORD for wxTextCtrl.
+
+    \remarks
+    * wxStringProperty has a special trait: if it has value of '<composed>',
+      and also has child properties, then its displayed value becomes
+      composition of child property values, similar as with wxFontProperty,
+      for instance.
 
     \subsection wxIntProperty
 
@@ -1329,8 +1321,8 @@
     \remarks
     - For practical examples of arbitrary properties, please take a look
       at the sample properties in samples/sampleprops.cpp.
-    - Read wxPGProperty and wxPGPropertyWithChildren class documentation to
-      find out what each virtual member function should do.
+    - Read wxPGProperty class documentation to find out what each virtual member
+      function should do.
     - Documentation below may be helpful (altough you'd probably do better
       by looking at the sample properties first).
 
