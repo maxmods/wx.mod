@@ -494,7 +494,7 @@ Type MyFrame Extends wxFrame
 
 ?win32
 		prop.SetAttributeString(wxPG_FILE_SHOW_RELATIVE_PATH, "C:\Windows")
-		pg.SetPropertyValue(prop, "C:\Windows\System32\msvcrt71.dll")
+		pg.SetPropertyValueString(prop, "C:\Windows\System32\msvcrt71.dll")
 ?
 
 
