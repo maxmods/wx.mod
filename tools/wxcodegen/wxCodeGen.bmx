@@ -147,8 +147,14 @@ Type CodeGenFrame Extends CodeGenFrameBase
 			fpkProjectFile.Enable()
 			dpkProjectFolder.Enable()
 			txtGenFilename.Enable()
+			
+			pnlCode.Enable()
+			txtAppCode.Enable()
+			btnRefresh.Enable()
 
-			CheckGenerate()
+			If CheckGenerate() Then
+				txtAppCode.ChangeValue(ShowAppCode())
+			End If
 			
 			btnDeleteProject.Enable()
 			
@@ -169,13 +175,13 @@ Type CodeGenFrame Extends CodeGenFrameBase
 		End If
 	End Method
 	
-	Method CheckGenerate()
+	Method CheckGenerate:Int()
 		If currentProject Then
 			If currentProject.IsValid() Then
 
 				btnGenerate.Enable()
 	
-				Return			
+				Return True
 			End If
 		End If
 		
@@ -192,6 +198,10 @@ Type CodeGenFrame Extends CodeGenFrameBase
 		fpkProjectFile.Disable()
 		dpkProjectFolder.Disable()
 		txtGenFilename.Disable()
+
+		pnlCode.Disable()
+		txtAppCode.Disable()
+		btnRefresh.Disable()
 		
 		CheckGenerate()
 		
@@ -201,6 +211,7 @@ Type CodeGenFrame Extends CodeGenFrameBase
 		fpkProjectFile.SetPath("")
 		dpkProjectFolder.SetPath("")
 		txtGenFilename.ChangeValue("")
+		txtAppCode.ChangeValue("")
 
 	End Method
 
@@ -335,6 +346,33 @@ Type CodeGenFrame Extends CodeGenFrameBase
 		updateTimer.Start(timerWait, True)
 	End Function
 	
+	Method OnCodeRefresh(event:wxCommandEvent)
+		If currentProject Then
+			txtAppCode.ChangeValue(ShowAppCode())
+		End If
+	End Method
+	
+	Method ShowAppCode:String()
+		If currentProject Then
+			Return currentProject.GenerateAppCode()
+		Else
+			Return ""
+		End If
+	End Method
+
+	Method OnAppCodeKeyDown(evt:wxKeyEvent)
+?win32
+		Local event:wxKeyEvent = wxKeyEvent(evt)
+
+		If event.ControlDown() Then
+			If event.GetKeyCode() = 65 Then ' 65 on Win32... 1 on Linux...
+				txtAppCode.SetSelection(-1, -1)
+			End If
+		End If
+?
+		event.skip()
+	End Method
+
 End Type
 
 Type MyDropTarget Extends wxFileDropTarget

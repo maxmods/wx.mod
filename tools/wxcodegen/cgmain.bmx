@@ -117,6 +117,14 @@ Type TCGProject
 		End If
 	End Method
 	
+	Method GenerateAppCode:String()
+		If IsValid() Then
+			Return GenerateApplicationStubCode(Self)
+		End If
+		
+		Return ""
+	End Method
+	
 	' check if we need
 	Method RequiredUpdate:Int()
 		If autoGenOnUpdate And IsValid() Then
@@ -267,14 +275,13 @@ Function GetGenFlags:Int(proj:TCGProject)
 	Return flags
 End Function
 
-Function GenerateProject(proj:TCGProject)
+Function ImportProject:TFBObject(proj:TCGProject, version:Float Var)
 
 	Local doc:TxmlDoc = TxmlDoc.parseFile(proj.projectFile)
 
 	Local root:TxmlNode = doc.getRootElement()
 	
 	Local project:TFBObject
-	Local version:Float
 	
 	For Local node:TxmlNode = EachIn root.getChildren()
 	
@@ -292,6 +299,14 @@ Function GenerateProject(proj:TCGProject)
 	doc.Free()
 	doc = Null
 
+	Return project
+End Function
+
+Function GenerateProject(proj:TCGProject)
+
+	Local version:Float
+	Local project:TFBObject = ImportProject(proj, version)
+	
 	' process the project
 	
 	Local projBase:TFBProject = TFBGenFactory.CreateModel(project, GetGenFlags(proj))
@@ -313,6 +328,28 @@ Function GenerateProject(proj:TCGProject)
 
 	projBase.Free()
 	project.Free()
+
+End Function
+
+Function GenerateApplicationStubCode:String(proj:TCGProject)
+
+	Local version:Float
+	Local project:TFBObject = ImportProject(proj, version)
+
+	' process the project
+	
+	Local projBase:TFBProject = TFBGenFactory.CreateModel(project, GetGenFlags(proj))
+	projBase.version = version
+	projBase.generatedName = proj.generatedName
+	
+	Local out:TCodeOutput = New TCodeOutput
+	
+	projBase.GenerateAppCode(out)
+	
+	projBase.Free()
+	project.Free()
+
+	Return out.code
 
 End Function
 

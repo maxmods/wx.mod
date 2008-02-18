@@ -1,5 +1,5 @@
 '
-' BlitzMax code generated with wxCodeGen v0.85 : 16 Jan 2008 15:16:43
+' BlitzMax code generated with wxCodeGen v0.92 : 18 Feb 2008 12:39:55
 ' 
 ' 
 ' PLEASE DO "NOT" EDIT THIS FILE!
@@ -47,6 +47,7 @@ Type CodeGenFrameBase Extends wxFrame
 	Field cbAutoGenerate:wxCheckBox
 	Field pnlCode:wxPanel
 	Field txtAppCode:wxTextCtrl
+	Field btnRefresh:wxButton
 	Field pnlPrefs:wxPanel
 	Field cbProjectUpdates:wxCheckBox
 	Field rbLocale:wxRadioBox
@@ -188,6 +189,9 @@ Type CodeGenFrameBase Extends wxFrame
 		txtAppCode.SetFont(new wxFont.CreateWithAttribs(wxNORMAL_FONT().GetPointSize(), 76, 90, 90, False))
 		bSizer6.Add(txtAppCode, 1, wxALL|wxEXPAND, 5)
 
+		btnRefresh = new wxButton.Create(pnlCode, wxID_ANY, _("Refresh"))
+		bSizer6.Add(btnRefresh, 0, wxALIGN_RIGHT|wxALL, 5)
+
 		pnlCode.SetSizer(bSizer6)
 		pnlCode.Layout()
 		ntbMain.AddPage(pnlCode, _("Application Code"), False)
@@ -270,6 +274,8 @@ Type CodeGenFrameBase Extends wxFrame
 		cbSuperStrict.ConnectAny(wxEVT_COMMAND_CHECKBOX_CLICKED, _OnSuperStrictChecked, Null, Self)
 		cbImports.ConnectAny(wxEVT_COMMAND_CHECKBOX_CLICKED, _OnImportsChecked, Null, Self)
 		cbAutoGenerate.ConnectAny(wxEVT_COMMAND_CHECKBOX_CLICKED, _OnAutoGenChecked, Null, Self)
+		txtAppCode.ConnectAny(wxEVT_KEY_DOWN, _OnAppCodeKeyDown, Null, Self)
+		btnRefresh.ConnectAny(wxEVT_COMMAND_BUTTON_CLICKED, _OnCodeRefresh, Null, Self)
 		cbProjectUpdates.ConnectAny(wxEVT_COMMAND_CHECKBOX_CLICKED, _OnCheckForUpdatesChecked, Null, Self)
 		rbLocale.ConnectAny(wxEVT_COMMAND_RADIOBOX_SELECTED, _OnLocaleSelected, Null, Self)
 		btnLanguage.ConnectAny(wxEVT_COMMAND_BUTTON_CLICKED, _OnChangeLanguage, Null, Self)
@@ -375,6 +381,24 @@ Type CodeGenFrameBase Extends wxFrame
 
 	Method OnAutoGenChecked(event:wxCommandEvent)
 		DebugLog "Please override CodeGenFrame.OnAutoGenChecked()"
+		event.Skip()
+	End Method
+
+	Function _OnAppCodeKeyDown(event:wxEvent)
+		CodeGenFrameBase(event.sink).OnAppCodeKeyDown(wxKeyEvent(event))
+	End Function
+
+	Method OnAppCodeKeyDown(event:wxKeyEvent)
+		DebugLog "Please override CodeGenFrame.OnAppCodeKeyDown()"
+		event.Skip()
+	End Method
+
+	Function _OnCodeRefresh(event:wxEvent)
+		CodeGenFrameBase(event.sink).OnCodeRefresh(wxCommandEvent(event))
+	End Function
+
+	Method OnCodeRefresh(event:wxCommandEvent)
+		DebugLog "Please override CodeGenFrame.OnCodeRefresh()"
 		event.Skip()
 	End Method
 

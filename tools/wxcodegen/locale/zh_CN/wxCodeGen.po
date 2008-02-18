@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxCodeGen\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-31 20:30+0200\n"
-"PO-Revision-Date: 2008-01-31 20:37+0200\n"
-"Last-Translator: Bruce A Henderson\n"
+"POT-Creation-Date: 2008-02-18 12:55+0200\n"
+"PO-Revision-Date: 2008-02-18 12:55+0200\n"
+"Last-Translator: Brucey\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,139 +13,143 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ../..\n"
 
-#: ../../cgmain.bmx:82
+#: ../../cgmain.bmx:86
 msgid "New Project"
 msgstr "新项目"
 
-#: ../../codegenbase.bmx:78
+#: ../../codegenbase.bmx:79
 msgid "Projects"
 msgstr "项目"
 
-#: ../../codegenbase.bmx:90
+#: ../../codegenbase.bmx:91
 msgid "Add"
 msgstr "放入"
 
-#: ../../codegenbase.bmx:93
+#: ../../codegenbase.bmx:94
 msgid "Delete"
 msgstr "删除"
 
-#: ../../codegenbase.bmx:116
+#: ../../codegenbase.bmx:117
 msgid "Project Name"
 msgstr "项目名称"
 
-#: ../../codegenbase.bmx:125
+#: ../../codegenbase.bmx:126
 msgid "wxFormBuilder Project File"
 msgstr "wxFormBuilder项目档案"
 
-#: ../../codegenbase.bmx:129
+#: ../../codegenbase.bmx:130
 msgid "Select a wxFormbuilder Project File"
 msgstr "选择一个wxFormbuilder项目档案"
 
-#: ../../codegenbase.bmx:129
+#: ../../codegenbase.bmx:130
 msgid "*.*"
 msgstr ""
 
-#: ../../codegenbase.bmx:134
+#: ../../codegenbase.bmx:135
 msgid "BMX Project Folder"
 msgstr "为BMX项目文件夹"
 
-#: ../../codegenbase.bmx:138
+#: ../../codegenbase.bmx:139
 msgid "Select the BlitzMax Project folder"
 msgstr "选择BlitzMax项目文件夹"
 
-#: ../../codegenbase.bmx:143
+#: ../../codegenbase.bmx:144
 msgid "Generated Filename"
 msgstr "生成的文件名"
 
-#: ../../codegenbase.bmx:155
+#: ../../codegenbase.bmx:156
 msgid ".bmx"
 msgstr ""
 
-#: ../../codegenbase.bmx:165
+#: ../../codegenbase.bmx:166
 msgid "App Structure"
 msgstr "应用结构"
 
-#: ../../codegenbase.bmx:166
+#: ../../codegenbase.bmx:167
 msgid "Create SuperStrict"
 msgstr "创造SuperStrict"
 
-#: ../../codegenbase.bmx:169
+#: ../../codegenbase.bmx:170
 msgid "Create Import statements"
 msgstr "创造Import报表"
 
-#: ../../codegenbase.bmx:174
+#: ../../codegenbase.bmx:175
 msgid "Auto-Generate Code on Update"
 msgstr "自动生成代码更新"
 
-#: ../../codegenbase.bmx:179
+#: ../../codegenbase.bmx:180
 msgid "Project Config"
 msgstr "项目配置"
 
-#: ../../codegenbase.bmx:193
+#: ../../codegenbase.bmx:192
+msgid "Refresh"
+msgstr ""
+
+#: ../../codegenbase.bmx:197
 msgid "Application Code"
 msgstr "应用布局"
 
-#: ../../codegenbase.bmx:199
+#: ../../codegenbase.bmx:203
 msgid "Check for Project File Updates"
 msgstr "检查项目档案更新"
 
-#: ../../codegenbase.bmx:200
+#: ../../codegenbase.bmx:204
 msgid "Monitors the project files for changes."
 msgstr "监察项目档案改变。"
 
-#: ../../codegenbase.bmx:204
+#: ../../codegenbase.bmx:208
 msgid "String Localization"
 msgstr "文本定位"
 
-#: ../../codegenbase.bmx:207
+#: ../../codegenbase.bmx:211
 msgid "wxCodeGen Language"
 msgstr "wxCodeGen语言"
 
-#: ../../codegenbase.bmx:212
+#: ../../codegenbase.bmx:216
 msgid "Global Preferences"
 msgstr "全球喜好"
 
-#: ../../codegenbase.bmx:220
+#: ../../codegenbase.bmx:224
 msgid "Generate"
 msgstr "产生"
 
-#: ../../codegenbase.bmx:239
+#: ../../codegenbase.bmx:243
 msgid "&New Project"
 msgstr "新项目"
 
-#: ../../codegenbase.bmx:245
+#: ../../codegenbase.bmx:249
 msgid "&Quit"
 msgstr "戒烟"
 
-#: ../../codegenbase.bmx:247
+#: ../../codegenbase.bmx:251
 msgid "File"
 msgstr "档案"
 
-#: ../../codegenbase.bmx:252
+#: ../../codegenbase.bmx:256
 msgid "&About"
 msgstr "约"
 
-#: ../../codegenbase.bmx:254
+#: ../../codegenbase.bmx:258
 msgid "&Help"
 msgstr "帮助"
 
-#: ../../wxCodeGen.bmx:279
+#: ../../wxCodeGen.bmx:290
 msgid "Are you sure you want to delete? : "
 msgstr "你确认要删除吗？: "
 
-#: ../../wxCodeGen.bmx:281
+#: ../../wxCodeGen.bmx:292
 msgid "Delete Project?"
 msgstr "删除项目？"
 
-#: ../../wxCodeGen.bmx:319
+#: ../../wxCodeGen.bmx:330
 msgid "You will need to restart wxCodeGen to see the new language."
 msgstr "您必须重新wxCodeGen看到新的语言。"
 
-#: ../../wxCodeGen.bmx:320
+#: ../../wxCodeGen.bmx:331
 msgid "Language Changed"
 msgstr "语言改变"
 
-#: ../../wxCodeGen.bmx:329
+#: ../../wxCodeGen.bmx:340
 msgid "Updated at "
 msgstr "更新"
 

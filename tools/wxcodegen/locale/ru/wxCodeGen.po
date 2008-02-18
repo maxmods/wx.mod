@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxCodeGen\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-14 18:14+0200\n"
-"PO-Revision-Date: 2008-01-14 18:14+0200\n"
-"Last-Translator: Bruce A Henderson\n"
+"POT-Creation-Date: 2008-02-18 12:54+0200\n"
+"PO-Revision-Date: 2008-02-18 12:54+0200\n"
+"Last-Translator: Brucey\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,137 +13,145 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ../..\n"
 
-#: ../../cgmain.bmx:78
+#: ../../cgmain.bmx:86
 msgid "New Project"
 msgstr "Новый проект"
 
-#: ../../codegenbase.bmx:78
+#: ../../codegenbase.bmx:79
 msgid "Projects"
 msgstr "Проекты"
 
-#: ../../codegenbase.bmx:90
+#: ../../codegenbase.bmx:91
 msgid "Add"
 msgstr ""
 
-#: ../../codegenbase.bmx:93
+#: ../../codegenbase.bmx:94
 msgid "Delete"
 msgstr "Исключить"
 
-#: ../../codegenbase.bmx:116
+#: ../../codegenbase.bmx:117
 msgid "Project Name"
 msgstr "Название проекта"
 
-#: ../../codegenbase.bmx:125
+#: ../../codegenbase.bmx:126
 msgid "wxFormBuilder Project File"
 msgstr ""
 
-#: ../../codegenbase.bmx:129
+#: ../../codegenbase.bmx:130
 msgid "Select a wxFormbuilder Project File"
 msgstr ""
 
-#: ../../codegenbase.bmx:129
+#: ../../codegenbase.bmx:130
 msgid "*.*"
 msgstr ""
 
-#: ../../codegenbase.bmx:134
+#: ../../codegenbase.bmx:135
 msgid "BMX Project Folder"
 msgstr ""
 
-#: ../../codegenbase.bmx:138
+#: ../../codegenbase.bmx:139
 msgid "Select the BlitzMax Project folder"
 msgstr ""
 
-#: ../../codegenbase.bmx:143
+#: ../../codegenbase.bmx:144
 msgid "Generated Filename"
 msgstr ""
 
-#: ../../codegenbase.bmx:155
+#: ../../codegenbase.bmx:156
 msgid ".bmx"
 msgstr ""
 
-#: ../../codegenbase.bmx:165
+#: ../../codegenbase.bmx:166
 msgid "App Structure"
 msgstr ""
 
-#: ../../codegenbase.bmx:166
+#: ../../codegenbase.bmx:167
 msgid "Create SuperStrict"
 msgstr ""
 
-#: ../../codegenbase.bmx:169
+#: ../../codegenbase.bmx:170
 msgid "Create Import statements"
 msgstr ""
 
-#: ../../codegenbase.bmx:174
+#: ../../codegenbase.bmx:175
 msgid "Auto-Generate Code on Update"
 msgstr ""
 
-#: ../../codegenbase.bmx:179
+#: ../../codegenbase.bmx:180
 msgid "Project Config"
 msgstr ""
 
-#: ../../codegenbase.bmx:193
+#: ../../codegenbase.bmx:192
+msgid "Refresh"
+msgstr ""
+
+#: ../../codegenbase.bmx:197
 msgid "Application Code"
 msgstr ""
 
-#: ../../codegenbase.bmx:199
+#: ../../codegenbase.bmx:203
 msgid "Check for Project File Updates"
 msgstr ""
 
-#: ../../codegenbase.bmx:200
+#: ../../codegenbase.bmx:204
 msgid "Monitors the project files for changes."
 msgstr ""
 
-#: ../../codegenbase.bmx:204
+#: ../../codegenbase.bmx:208
 msgid "String Localization"
 msgstr ""
 
-#: ../../codegenbase.bmx:207
+#: ../../codegenbase.bmx:211
 msgid "wxCodeGen Language"
 msgstr ""
 
-#: ../../codegenbase.bmx:212
+#: ../../codegenbase.bmx:216
 msgid "Global Preferences"
 msgstr ""
 
-#: ../../codegenbase.bmx:220
+#: ../../codegenbase.bmx:224
 msgid "Generate"
 msgstr ""
 
-#: ../../codegenbase.bmx:239
+#: ../../codegenbase.bmx:243
 msgid "&New Project"
 msgstr "Новый проект"
 
-#: ../../codegenbase.bmx:245
+#: ../../codegenbase.bmx:249
 msgid "&Quit"
 msgstr ""
 
-#: ../../codegenbase.bmx:247
+#: ../../codegenbase.bmx:251
 msgid "File"
 msgstr ""
 
-#: ../../codegenbase.bmx:252
+#: ../../codegenbase.bmx:256
 msgid "&About"
 msgstr ""
 
-#: ../../codegenbase.bmx:254
+#: ../../codegenbase.bmx:258
 msgid "&Help"
 msgstr ""
 
-#: ../../wxCodeGen.bmx:258
+#: ../../wxCodeGen.bmx:290
 msgid "Are you sure you want to delete? : "
 msgstr "Вы действительно хотите удалить? :"
 
-#: ../../wxCodeGen.bmx:260
+#: ../../wxCodeGen.bmx:292
 msgid "Delete Project?"
 msgstr ""
 
-#: ../../wxCodeGen.bmx:298
+#: ../../wxCodeGen.bmx:330
 msgid "You will need to restart wxCodeGen to see the new language."
 msgstr "Вам необходимо будет перезагрузить wxCodeGen видеть на новом языке."
 
-#: ../../wxCodeGen.bmx:299
+#: ../../wxCodeGen.bmx:331
 msgid "Language Changed"
 msgstr "Язык Изменено"
+
+#: ../../wxCodeGen.bmx:340
+msgid "Updated at "
+msgstr ""
 
 #, fuzzy
 #~ msgid "New Project "

@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxCodeGen\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-14 20:40+0200\n"
-"PO-Revision-Date: 2008-01-14 20:40+0200\n"
-"Last-Translator: Bruce A Henderson\n"
+"POT-Creation-Date: 2008-02-18 12:53+0200\n"
+"PO-Revision-Date: 2008-02-18 12:54+0200\n"
+"Last-Translator: Brucey\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,135 +13,143 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ../..\n"
 
-#: ../../cgmain.bmx:79
+#: ../../cgmain.bmx:86
 msgid "New Project"
 msgstr "Neues Projekt"
 
-#: ../../codegenbase.bmx:78
+#: ../../codegenbase.bmx:79
 msgid "Projects"
 msgstr "Projekte"
 
-#: ../../codegenbase.bmx:90
+#: ../../codegenbase.bmx:91
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: ../../codegenbase.bmx:93
+#: ../../codegenbase.bmx:94
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../../codegenbase.bmx:116
+#: ../../codegenbase.bmx:117
 msgid "Project Name"
 msgstr "Projektname"
 
-#: ../../codegenbase.bmx:125
+#: ../../codegenbase.bmx:126
 msgid "wxFormBuilder Project File"
 msgstr "wxFormBuilder-Datei"
 
-#: ../../codegenbase.bmx:129
+#: ../../codegenbase.bmx:130
 msgid "Select a wxFormbuilder Project File"
 msgstr "Wähle eine wxFormBuilder-Datei aus"
 
-#: ../../codegenbase.bmx:129
+#: ../../codegenbase.bmx:130
 msgid "*.*"
 msgstr "*.*"
 
-#: ../../codegenbase.bmx:134
+#: ../../codegenbase.bmx:135
 msgid "BMX Project Folder"
 msgstr "Projektordner"
 
-#: ../../codegenbase.bmx:138
+#: ../../codegenbase.bmx:139
 msgid "Select the BlitzMax Project folder"
 msgstr "Wähle den Projektordner aus"
 
-#: ../../codegenbase.bmx:143
+#: ../../codegenbase.bmx:144
 msgid "Generated Filename"
 msgstr "Dateiname"
 
-#: ../../codegenbase.bmx:155
+#: ../../codegenbase.bmx:156
 msgid ".bmx"
 msgstr ".bmx"
 
-#: ../../codegenbase.bmx:165
+#: ../../codegenbase.bmx:166
 msgid "App Structure"
 msgstr "Programmstruktur"
 
-#: ../../codegenbase.bmx:166
+#: ../../codegenbase.bmx:167
 msgid "Create SuperStrict"
 msgstr "SuperStrict-Modus benutzen"
 
-#: ../../codegenbase.bmx:169
+#: ../../codegenbase.bmx:170
 msgid "Create Import statements"
 msgstr "Import-Deklarationen erstellen"
 
-#: ../../codegenbase.bmx:174
+#: ../../codegenbase.bmx:175
 msgid "Auto-Generate Code on Update"
 msgstr "Bei einer Änderung Code automatisch neu generieren"
 
-#: ../../codegenbase.bmx:179
+#: ../../codegenbase.bmx:180
 msgid "Project Config"
 msgstr "Projektkonfiguration"
 
-#: ../../codegenbase.bmx:193
+#: ../../codegenbase.bmx:192
+msgid "Refresh"
+msgstr ""
+
+#: ../../codegenbase.bmx:197
 msgid "Application Code"
 msgstr "Programmcode"
 
-#: ../../codegenbase.bmx:199
+#: ../../codegenbase.bmx:203
 msgid "Check for Project File Updates"
 msgstr "Projektdateien auf Änderungen prüfen."
 
-#: ../../codegenbase.bmx:200
+#: ../../codegenbase.bmx:204
 msgid "Monitors the project files for changes."
 msgstr "Überprüft die Projektdateien auf Änderungen."
 
-#: ../../codegenbase.bmx:204
+#: ../../codegenbase.bmx:208
 msgid "String Localization"
 msgstr "String-Lokalisierung"
 
-#: ../../codegenbase.bmx:207
+#: ../../codegenbase.bmx:211
 msgid "wxCodeGen Language"
 msgstr "wxCodeGen-Sprache"
 
-#: ../../codegenbase.bmx:212
+#: ../../codegenbase.bmx:216
 msgid "Global Preferences"
 msgstr "Globale Einstellungen"
 
-#: ../../codegenbase.bmx:220
+#: ../../codegenbase.bmx:224
 msgid "Generate"
 msgstr "Generieren"
 
-#: ../../codegenbase.bmx:239
+#: ../../codegenbase.bmx:243
 msgid "&New Project"
 msgstr "&Neues Projekt"
 
-#: ../../codegenbase.bmx:245
+#: ../../codegenbase.bmx:249
 msgid "&Quit"
 msgstr "S&chließen"
 
-#: ../../codegenbase.bmx:247
+#: ../../codegenbase.bmx:251
 msgid "File"
 msgstr "Datei"
 
-#: ../../codegenbase.bmx:252
+#: ../../codegenbase.bmx:256
 msgid "&About"
 msgstr "Über"
 
-#: ../../codegenbase.bmx:254
+#: ../../codegenbase.bmx:258
 msgid "&Help"
 msgstr "Hilfe"
 
-#: ../../wxCodeGen.bmx:260
+#: ../../wxCodeGen.bmx:290
 msgid "Are you sure you want to delete? : "
 msgstr "Bist du sicher, dass du das löschen willst? :"
 
-#: ../../wxCodeGen.bmx:262
+#: ../../wxCodeGen.bmx:292
 msgid "Delete Project?"
 msgstr "Projekt löschen?"
 
-#: ../../wxCodeGen.bmx:300
+#: ../../wxCodeGen.bmx:330
 msgid "You will need to restart wxCodeGen to see the new language."
 msgstr "Du musst wxCodeGen neustarten um die neue Sprache zu sehen."
 
-#: ../../wxCodeGen.bmx:301
+#: ../../wxCodeGen.bmx:331
 msgid "Language Changed"
 msgstr "Sprache würde geändert"
+
+#: ../../wxCodeGen.bmx:340
+msgid "Updated at "
+msgstr ""
 
