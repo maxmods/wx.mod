@@ -21,6 +21,8 @@
 SuperStrict
 
 Framework wx.wxApp
+Import wx.wxSystemOptions
+
 Import "cgmain.bmx"
 
 
@@ -32,6 +34,11 @@ Type MyApp Extends wxApp
 	Field frame:CodeGenFrame
 
 	Method OnInit:Int()
+
+?macos
+		' make the default Mac font for controls not so big
+		wxSystemOptions.SetOption(wxWINDOW_DEFAULT_VARIANT, wxWINDOW_VARIANT_SMALL)
+?
 
 		SetAppName("wxCodeGen")
 		SetVendorName("wxMax")
@@ -58,6 +65,11 @@ Type CodeGenFrame Extends CodeGenFrameBase
 
 	Method OnInit()
 		Super.OnInit()
+
+?macos
+		' default font size is a bit big
+		txtAppCode.SetFont(New wxFont.CreateWithAttribs(wxNORMAL_FONT().GetPointSize() * .9, 76, 90, 90, False))
+?
 		
 		lstProjects.SetDropTarget(New MyDropTarget.Create())
 		
@@ -370,7 +382,7 @@ Type CodeGenFrame Extends CodeGenFrameBase
 			End If
 		End If
 ?
-		event.skip()
+		evt.skip()
 	End Method
 
 End Type

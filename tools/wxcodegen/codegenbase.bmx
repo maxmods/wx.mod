@@ -1,5 +1,5 @@
 '
-' BlitzMax code generated with wxCodeGen v0.92 : 18 Feb 2008 12:39:55
+' BlitzMax code generated with wxCodeGen v0.92 : 18 Feb 2008 17:28:12
 ' 
 ' 
 ' PLEASE DO "NOT" EDIT THIS FILE!

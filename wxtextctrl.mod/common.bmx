@@ -213,3 +213,20 @@ Const wxTEXT_ATTR_RIGHT_INDENT:Int = $0200
 Const wxTEXT_ATTR_TABS:Int = $0400
 
 Const wxTEXT_TYPE_ANY:Int = 0
+
+?macos
+Rem
+bbdoc: Set this To True if you want to use the 'classic' MLTE-based implementation instead of the HIView-based implementation in 10.3 and upwards.
+about: The former has more features (backgrounds etc.), but may show redraw artefacts and other
+problems depending on your usage; hence, the default is False.
+End Rem
+Const wxMAC_TEXTCONTROL_USE_MLTE:String = "mac.textcontrol-use-mlte"
+
+Rem
+bbdoc: Set this To True if you want editable text controls to have spell checking turned on by default.
+about: You can change this setting individually on a control using MacCheckSpelling
+
+End Rem
+Const wxMAC_TEXTCONTROL_USE_SPELL_CHECKER:String = "mac.textcontrol-use-spell-checker"
+
+?

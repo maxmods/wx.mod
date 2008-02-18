@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.92"
+Const AppVersion:String = "0.93"
 
 
 Global eventMap:TMap = New TMap
@@ -271,6 +271,15 @@ Type TFBGenFactory
 			Case "wxDatePickerCtrl"
 				widget = New TFBDatePickerCtrl
 			
+			Case "wxToolBar"
+				widget = New TFBToolBar
+
+			Case "tool"
+				widget = New TFBToolItem
+
+			Case "toolSeparator"
+				widget = New TFBToolSeparator
+				
 		End Select
 		
 		If widget Then
@@ -2575,6 +2584,114 @@ Type TFBDatePickerCtrl Extends TFBWidget
 
 End Type
 
+Type TFBToolBar Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+		
+		Local text:String = prop("name") + " = CreateToolBar("
+		
+		text:+ prop("style") + ", " + prop("id") + ")"
+		
+		out.Add(text, 2)
+		
+		If prop("bitmapsize") And Not IsDefault(prop("bitmapsize")) Then
+			out.Add(prop("name") + ".SetToolBitmapSize(" + prop("bitmapsize") + ")", 2)
+		End If
+
+		If prop("margins") And Not IsDefault(prop("margins")) Then
+			out.Add(prop("name") + ".SetMargins(" + prop("margins") + ")", 2)
+		End If
+		
+		If prop("packing") <> "1" Then
+			out.Add(prop("name") + ".SetToolPacking(" + prop("packing") + ")", 2)
+		End If
+
+		If prop("separation") <> "5" Then
+			out.Add(prop("name") + ".SetToolSeparation(" + prop("separation") + ")", 2)
+		End If
+
+		StandardSettings(out)
+
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+		Next
+		
+		out.Add(prop("name") + ".Realize()",2)
+
+		out.Add("")
+
+	End Method
+
+	Method GetType:String()
+		Return "wxToolBar"
+	End Method
+	
+	Method GetImport:String()
+		Return "wx.wxToolBar"
+	End Method
+
+End Type
+
+Type TFBToolItem Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		Local text:String = parent.prop("name")
+		text:+ ".AddTool(" + prop("id") + ", "
+
+		text:+ GetString("~q" + prop("label") + "~q") + ", "
+
+		If prop("bitmap") Then
+			Local bitmap:String[] = prop("bitmap").Split(";")
+			text:+ "wxBitmap.CreateFromFile(~q" + bitmap[0] + "~q, wxBITMAP_TYPE_ANY)"
+		Else
+			text:+ "wxNullBitmap"
+		End If
+		
+		text:+ ", wxNullBitmap, "
+		
+		text:+ prop("kind") + ", "
+		
+		text:+ GetString("~q" + prop("tooltip") + "~q") + ", "
+		text:+ GetString("~q" + prop("statusbar") + "~q") + ")"
+
+		out.Add(text, 2)
+
+	End Method
+
+	Method GetType:String()
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxToolBar"
+	End Method
+
+End Type
+
+
+Type TFBToolSeparator Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		out.Add(parent.prop("name") + ".AddSeparator()", 2)
+
+	End Method
+
+	Method GetType:String()
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxToolBar"
+	End Method
+
+End Type
+
 
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
@@ -3096,6 +3213,10 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnChoice", "wxCommandEvent", "wxEVT_COMMAND_CHOICE_SELECTED"))
 
 	AddEvent(TEventType.Set("OnDateChanged", "wxDateEvent", "wxEVT_DATE_CHANGED"))
+
+	AddEvent(TEventType.Set("OnToolClicked", "wxCommandEvent", "wxEVT_COMMAND_TOOL_CLICKED"))
+	AddEvent(TEventType.Set("OnToolRClicked", "wxCommandEvent", "wxEVT_COMMAND_TOOL_RCLICKED"))
+	AddEvent(TEventType.Set("OnToolEnter", "wxCommandEvent", "wxEVT_COMMAND_TOOL_ENTER"))
 
 End Function
 
