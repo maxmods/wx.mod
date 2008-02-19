@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.94"
+Const AppVersion:String = "0.95"
 
 
 Global eventMap:TMap = New TMap
@@ -1050,9 +1050,9 @@ Type TFBContainer Extends TFBWidget
 		' my events
 		For Local evt:String = EachIn obj.events.keys()
 		
-			If Not functions.Contains(evt) Then
+			If Not functions.Contains(event(evt)) Then
 
-				functions.Insert(evt, "")		
+				functions.Insert(event(evt), "")		
 
 				If Not forAppCode Then
 					out.Add("Function _" + event(evt) + "(event:wxEvent)", 1)
@@ -1088,9 +1088,9 @@ Type TFBContainer Extends TFBWidget
 		' my events
 		For Local evt:String = EachIn widget.obj.events.keys()
 
-			If Not functions.Contains(evt) Then
+			If Not functions.Contains(widget.event(evt)) Then
 
-				functions.Insert(evt, "")		
+				functions.Insert(widget.event(evt), "")		
 		
 				If Not forAppCode Then
 					out.Add("Function _" + widget.event(evt) + "(event:wxEvent)", 1)

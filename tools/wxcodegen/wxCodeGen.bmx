@@ -293,6 +293,9 @@ Type CodeGenFrame Extends CodeGenFrameBase
 	Method OnGenerate(event:wxCommandEvent)
 		If currentProject Then
 			currentProject.Generate()
+			
+			' also update the code section.
+			txtAppCode.ChangeValue(currentProject.GenerateAppCode())
 		End If
 	End Method
 
@@ -349,6 +352,11 @@ Type CodeGenFrame Extends CodeGenFrameBase
 		For Local proj:TCGProject = EachIn projects
 		
 			If proj.RequiredUpdate() Then
+				' also recreate the Application Code section
+				If CodeGenFrame(event.parent).currentProject = proj Then
+					CodeGenFrame(event.parent).txtAppCode.ChangeValue(proj.GenerateAppCode())
+				End If
+				
 				wxFrame(event.parent).SetStatusText(_("Updated at ") + CurrentTime() + " : " + proj.name)
 			End If
 		
