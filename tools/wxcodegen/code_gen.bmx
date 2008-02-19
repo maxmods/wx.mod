@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.93"
+Const AppVersion:String = "0.94"
 
 
 Global eventMap:TMap = New TMap
@@ -923,6 +923,8 @@ Type TFBContainer Extends TFBWidget
 
 	Field consts:TList = New TList
 	
+	Field functions:TMap = New TMap
+	
 	Method Free()
 		Super.Free()
 		
@@ -931,6 +933,9 @@ Type TFBContainer Extends TFBWidget
 	End Method
 
 	Method Generate(out:TCodeOutput)
+	
+		' reset the functions map
+		functions.Clear()
 	
 		Local topSizer:TFBWidget
 		
@@ -1045,24 +1050,28 @@ Type TFBContainer Extends TFBWidget
 		' my events
 		For Local evt:String = EachIn obj.events.keys()
 		
-			If Not forAppCode Then
-				out.Add("Function _" + event(evt) + "(event:wxEvent)", 1)
+			If Not functions.Contains(evt) Then
+
+				functions.Insert(evt, "")		
+
+				If Not forAppCode Then
+					out.Add("Function _" + event(evt) + "(event:wxEvent)", 1)
+					
+					text = prop("name") + "Base(event.parent)." + event(evt) + "(" + MapEvent(evt) + "(event))"
+					out.Add(text, 2, 1)
+					
+					out.Add("End Function", 1, 2)
+				End If
 				
-				text = prop("name") + "Base(event.parent)." + event(evt) + "(" + MapEvent(evt) + "(event))"
-				out.Add(text, 2, 1)
-				
-				out.Add("End Function", 1, 2)
+				out.Add("Method " + event(evt) + "(event:" + MapEvent(evt) + ")", 1)
+				If Not forAppCode Then
+					out.Add("DebugLog ~qPlease override " + prop("name") + "." + event(evt) + "()~q", 2)
+					out.Add("event.Skip()", 2)
+				Else
+					out.Add("' TODO : Implement me", 2)
+				End If
+				out.Add("End Method", 1, 2)
 			End If
-			
-			out.Add("Method " + event(evt) + "(event:" + MapEvent(evt) + ")", 1)
-			If Not forAppCode Then
-				out.Add("DebugLog ~qPlease override " + prop("name") + "." + event(evt) + "()~q", 2)
-				out.Add("event.Skip()", 2)
-			Else
-				out.Add("' TODO : Implement me", 2)
-			End If
-			out.Add("End Method", 1, 2)
-		
 		Next
 		
 		' child events
@@ -1078,33 +1087,38 @@ Type TFBContainer Extends TFBWidget
 	
 		' my events
 		For Local evt:String = EachIn widget.obj.events.keys()
+
+			If Not functions.Contains(evt) Then
+
+				functions.Insert(evt, "")		
 		
-			If Not forAppCode Then
-				out.Add("Function _" + widget.event(evt) + "(event:wxEvent)", 1)
-				
-				text = prop("name") + "Base(event."
-				
-				If Not widget.id Then
-					text:+ "sink"
-				Else
-					text:+ "parent"
+				If Not forAppCode Then
+					out.Add("Function _" + widget.event(evt) + "(event:wxEvent)", 1)
+					
+					text = prop("name") + "Base(event."
+					
+					If Not widget.id Then
+						text:+ "sink"
+					Else
+						text:+ "parent"
+					End If
+					
+					text:+ ")." + widget.event(evt) + "(" + MapEvent(evt) + "(event))"
+					out.Add(text, 2, 1)
+					
+					out.Add("End Function", 1, 2)
 				End If
-				
-				text:+ ")." + widget.event(evt) + "(" + MapEvent(evt) + "(event))"
-				out.Add(text, 2, 1)
-				
-				out.Add("End Function", 1, 2)
-			End If
 			
-			out.Add("Method " + widget.event(evt) + "(event:" + MapEvent(evt) + ")", 1)
-			If Not forAppCode Then
-				out.Add("DebugLog ~qPlease override " + prop("name") + "." + widget.event(evt) + "()~q", 2)
-				out.Add("event.Skip()", 2)
-			Else
-				out.Add("' TODO : Implement me", 2)
-			End If
-			out.Add("End Method", 1, 2)
+				out.Add("Method " + widget.event(evt) + "(event:" + MapEvent(evt) + ")", 1)
+				If Not forAppCode Then
+					out.Add("DebugLog ~qPlease override " + prop("name") + "." + widget.event(evt) + "()~q", 2)
+					out.Add("event.Skip()", 2)
+				Else
+					out.Add("' TODO : Implement me", 2)
+				End If
+				out.Add("End Method", 1, 2)
 		
+			End If
 		Next
 
 		For Local child:TFBWidget = EachIn widget.kids
@@ -1124,7 +1138,7 @@ Type TFBContainer Extends TFBWidget
 			If TFBMenuItem(widget) Then
 				out.Add("Connect(" + widget.prop("name") + ".GetId(), " + ec + ", _" + event + ")", 2)
 			Else
-				If Not widget.id Then
+				If Not widget.id And Not TFBToolItem(widget) Then
 					out.Add(widget.prop("name") + ".ConnectAny(" + ec + ", _" + event + ", Null, Self)", 2)
 				Else
 					out.Add("Connect(" + widget.prop("id") + ", " + ec + ", _" + event + ")", 2)
