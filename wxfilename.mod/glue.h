@@ -20,6 +20,9 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_FILENAME_H_
+#define _WX_MAX_FILENAME_H_
+
 #include "wxglue.h"
 #include "wx/filename.h"
 
@@ -126,3 +129,6 @@ private:
 	wxFileName filename;
 
 };
+
+#endif // _WX_MAX_FILENAME_H_
+
