@@ -21,9 +21,9 @@
 SuperStrict
 
 Rem
-bbdoc: wxHelpController
+bbdoc: wxBestHelpController
 End Rem
-Module wx.wxHelpController
+Module wx.wxBestHelpController
 
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
@@ -48,18 +48,49 @@ ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
 
+?win32
 Import "common.bmx"
 
-Rem
-bbdoc: 
-End Rem
-?win32
-Type wxHelpController Extends wxCHMHelpController
-?Not Win32
-Type wxHelpController Extends wxHtmlHelpController
-?
 
+Type wxBestHelpController Extends wxHelpControllerBase
+
+	Rem
+	bbdoc: Creates a new wxchmhelpcontroller.
+	End Rem
+	Function CreateBestHelpController:wxBestHelpController(parentWindow:wxWindow = Null, style:Int = wxHF_DEFAULT_STYLE)
+		Return New wxBestHelpController.Create(parentWindow, style)
+	End Function
+	
+	Rem
+	bbdoc: Creates a new wxchmhelpcontroller.
+	End Rem
+	Method Create:wxBestHelpController(parentWindow:wxWindow = Null, style:Int = wxHF_DEFAULT_STYLE)
+		If parentWindow Then
+			wxObjectPtr = bmx_wxbesthelpcontroller_create(Self, parentWindow.wxObjectPtr, style)
+		Else
+			wxObjectPtr = bmx_wxbesthelpcontroller_create(Self, Null, style)
+		End If
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Displays help window and focuses contents panel.
+	End Rem
+	Method DisplayContents()
+		bmx_wxbesthelpcontroller_displaycontents(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Displays help window, focuses search panel and starts searching.
+	about: Returns true if the keyword was found. Optionally it searches through the index
+	(mode = wxHELP_SEARCH_INDEX), default the content (mode = wxHELP_SEARCH_ALL).
+	<p>
+	Important: KeywordSearch searches only pages listed in .hhc file(s). You should list all pages in the contents file.
+	</p>
+	End Rem
+	Method KeywordSearch:Int(keyword:String, mode:Int = wxHELP_SEARCH_ALL)
+		Return bmx_wxbesthelpcontroller_keywordsearch(wxObjectPtr, keyword, mode)
+	End Method
 
 End Type
-
-
+?

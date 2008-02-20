@@ -1,3 +1,9 @@
+'
+' wxHelpController demo
+' by Karsten Ballueder
+'
+' BlitzMax port by Bruce A Henderson
+'
 SuperStrict
 
 Framework wx.wxApp
@@ -9,6 +15,9 @@ Import wx.wxFileSystem
 Import wx.wxZipFSHandler
 Import wx.wxLog
 Import wx.wxTextEntryDialog
+?win32
+Import wx.wxBestHelpController
+?
 
 New MyApp.run()
 
@@ -36,7 +45,7 @@ Type MyApp Extends wxApp
  		frame = MyFrame(New MyFrame.Create(,,"HelpDemo wxWidgets App", 50, 50, 450, 340))
 
 ?win32
-'		provider.SetHelpController(frame.GetMSHtmlHelpController())
+		provider.SetHelpController(frame.GetMSHtmlHelpController())
 ?Not Win32
 		provider.SetHelpController(frame.GetHelpController())
 ?
@@ -91,8 +100,8 @@ Type MyFrame Extends wxFrame
 
 
 ?win32
-	Field m_msHtmlHelp:wxCHMHelpController
-	Field m_bestHelp:wxBestHelpController
+	Field m_msHtmlHelp:wxCHMHelpController = New wxCHMHelpController.Create()
+	Field m_bestHelp:wxBestHelpController = New wxBestHelpController.Create()
 ?
 
 
@@ -226,9 +235,13 @@ Type MyFrame Extends wxFrame
 
 ?win32
 	Function OnMSHtmlHelp(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		frame.ShowHelp(event.GetId(), frame.m_msHtmlHelp)
 	End Function
 
 	Function OnBestHelp(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+		frame.ShowHelp(event.GetId(), frame.m_bestHelp)
 	End Function
 ?
 

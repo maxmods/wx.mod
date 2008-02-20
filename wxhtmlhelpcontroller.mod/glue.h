@@ -45,6 +45,7 @@ extern "C" {
 	void bmx_wxhtmlhelpcontroller_writecustomization(wxHtmlHelpController * cont, wxConfigBase * config, BBString * path);
 	void bmx_wxhtmlhelpcontroller_sethelpwindow(wxHtmlHelpController * cont, wxHtmlHelpWindow * helpWindow);
 
+
 	
 }
 

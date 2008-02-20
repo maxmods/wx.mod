@@ -21,11 +21,10 @@
 SuperStrict
 
 Import wx.wx
-?win32
-Import wx.wxCHMHelpController
-?Not Win32
-Import wx.wxHtmlHelpController
-?
+Import wx.wxHelpControllerBase
+Import wx.wxHtmlHelpWindow
+Import wx.wxConfig
+Import wx.wxFileName
 Import BRL.Blitz
 
 
@@ -47,5 +46,9 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+
+	Function bmx_wxbesthelpcontroller_create:Byte Ptr(handle:Object, parentWindow:Byte Ptr, style:Int)
+	Function bmx_wxbesthelpcontroller_displaycontents(handle:Byte Ptr)
+	Function bmx_wxbesthelpcontroller_keywordsearch:Int(handle:Byte Ptr, keyword:String, mode:Int)
 
 End Extern
