@@ -20,45 +20,28 @@
 ' 
 SuperStrict
 
-Rem
-bbdoc: wxHelpController
-End Rem
-Module wx.wxHelpController
+Import wx.wx
+Import wx.wxWindow
+Import BRL.Blitz
 
-ModuleInfo "Version: 1.00"
-ModuleInfo "License: MIT"
-ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2007 Bruce A Henderson"
-ModuleInfo "Modserver: BRL"
 
+' headers :-)
 ?linux
-ModuleInfo "CC_OPTS: -D__WXGTK__"
-ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
-ModuleInfo "CC_OPTS: -D_LARGE_FILES"
-ModuleInfo "CC_OPTS: -DWX_PRECOMP"
+Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
+Import "../include/*.h"
 ?win32
-ModuleInfo "CC_OPTS: -DHAVE_W32API_H"
-ModuleInfo "CC_OPTS: -D__WXMSW__"
-ModuleInfo "CC_OPTS: -D_UNICODE"
-ModuleInfo "CC_OPTS: -DUNICODE"
-?macos
-ModuleInfo "CC_OPTS: -D__WXMAC__"
-ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
-ModuleInfo "CC_OPTS: -D_LARGE_FILES"
-ModuleInfo "CC_OPTS: -DWX_PRECOMP"
+Import "../lib/win32/mswu/*.h"
+Import "../include/*.h"
+?macosppc
+Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
+Import "../include/*.h"
+?macosx86
+Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
+Import "../include/*.h"
 ?
 
-Import "common.bmx"
+Import "glue.cpp"
 
-Type wxHelpControllerBase Extends wxObject
+Extern
 
-
-End Type
-
-
-Type wxHelpController Extends wxHelpControllerBase
-
-
-End Type
-
-
+End Extern

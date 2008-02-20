@@ -723,3 +723,187 @@ Type wxXPMHandler Extends wxImageHandler
 	
 End Type
 
+Rem
+bbdoc: 
+End Rem
+Type wxGIFHandler Extends wxImageHandler
+
+	Global keepAlive:wxGIFHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxgifhandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+
+Rem
+bbdoc: 
+End Rem
+Type wxBMPHandler Extends wxImageHandler
+
+	Global keepAlive:wxBMPHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxbmphandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxJPEGHandler Extends wxImageHandler
+
+	Global keepAlive:wxJPEGHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxjpeghandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxPCXHandler Extends wxImageHandler
+
+	Global keepAlive:wxPCXHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxpcxhandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxPNMHandler Extends wxImageHandler
+
+	Global keepAlive:wxPNMHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxpnmhandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxTIFFHandler Extends wxImageHandler
+
+	Global keepAlive:wxTIFFHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxtiffhandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxTGAHandler Extends wxImageHandler
+
+	Global keepAlive:wxTGAHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxtgahandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxICOHandler Extends wxImageHandler
+
+	Global keepAlive:wxICOHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxicohandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxCURHandler Extends wxImageHandler
+
+	Global keepAlive:wxCURHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxcurhandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxANIHandler Extends wxImageHandler
+
+	Global keepAlive:wxANIHandler
+	
+	Method New()
+		If Not keepAlive Then
+			wxObjectPtr = bmx_wxanihandler_create()
+			keepAlive = Self
+		Else
+			wxObjectPtr = keepAlive.wxObjectPtr
+		End If
+	End Method
+	
+End Type
+
+
+
+

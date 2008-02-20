@@ -317,6 +317,45 @@ wxXPMHandler * bmx_wxxpmhandler_create() {
 	return new wxXPMHandler();
 }
 
+wxGIFHandler * bmx_wxgifhandler_create() {
+	return new wxGIFHandler();
+}
+
+wxBMPHandler * bmx_wxbmphandler_create() {
+	return new wxBMPHandler();
+}
+
+wxJPEGHandler * bmx_wxjpeghandler_create() {
+	return new wxJPEGHandler();
+}
+
+wxPCXHandler * bmx_wxpcxhandler_create() {
+	return new wxPCXHandler();
+}
+
+wxPNMHandler * bmx_wxpnmhandler_create() {
+	return new wxPNMHandler();
+}
+
+wxTIFFHandler * bmx_wxtiffhandler_create() {
+	return new wxTIFFHandler();
+}
+
+wxTGAHandler * bmx_wxtgahandler_create() {
+	return new wxTGAHandler();
+}
+
+wxICOHandler * bmx_wxicohandler_create() {
+	return new wxICOHandler();
+}
+
+wxCURHandler * bmx_wxcurhandler_create() {
+	return new wxCURHandler();
+}
+
+wxANIHandler * bmx_wxanihandler_create() {
+	return new wxANIHandler();
+}
 
 MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, long kind, int index) {
 	wxImage i(*stream, kind, index);

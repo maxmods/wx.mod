@@ -139,6 +139,12 @@ bool MaxApp::OnInit()
     return _wx_wxapp_wxApp__OnInit();
 }
 
+int MaxApp::OnExit()
+{
+	return _wx_wxapp_wxApp__OnExit();
+}
+
+
 bool MaxApp::ownMain = false;
 
 

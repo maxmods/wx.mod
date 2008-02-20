@@ -95,6 +95,17 @@ extern "C" {
 	void bmx_wximage_inserthandler(wxImageHandler * handler);
 	wxPNGHandler * bmx_wxpnghandler_create();
 	wxXPMHandler * bmx_wxxpmhandler_create();
+	wxGIFHandler * bmx_wxgifhandler_create();
+
+	wxBMPHandler * bmx_wxbmphandler_create();
+	wxJPEGHandler * bmx_wxjpeghandler_create();
+	wxPCXHandler * bmx_wxpcxhandler_create();
+	wxPNMHandler * bmx_wxpnmhandler_create();
+	wxTIFFHandler * bmx_wxtiffhandler_create();
+	wxTGAHandler * bmx_wxtgahandler_create();
+	wxICOHandler * bmx_wxicohandler_create();
+	wxCURHandler * bmx_wxcurhandler_create();
+	wxANIHandler * bmx_wxanihandler_create();
 	
 	MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, long kind, int index);
 

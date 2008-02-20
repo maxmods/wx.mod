@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxHtmlHelpController
+End Rem
 Module wx.wxHtmlHelpController
 
 ModuleInfo "Version: 1.00"
@@ -50,7 +53,7 @@ Import "common.bmx"
 Rem
 bbdoc: 
 End Rem
-Type wxHtmlHelpController Extends wxHelpController
+Type wxHtmlHelpController Extends wxHelpControllerBase
 
 	Rem
 	bbdoc: Creates a new wxHtmlHelpController.

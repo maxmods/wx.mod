@@ -21,9 +21,9 @@
 SuperStrict
 
 Rem
-bbdoc: wxHelpController
+bbdoc: wxHelpProvider
 End Rem
-Module wx.wxHelpController
+Module wx.wxHelpProvider
 
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
@@ -50,15 +50,41 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
-Type wxHelpControllerBase Extends wxObject
+Rem
+bbdoc: An abstract class used by a program implementing context-sensitive help to show the help text for the given window.
+about: The current help provider must be explicitly set by the application using wxHelpProvider::Set().
+End Rem
+Type wxHelpProvider Abstract
 
+	Field wxObjectPtr:Byte Ptr
 
+	Function Set:wxHelpProvider(helpProvider:wxHelpProvider)
+	End Function
+	
+	Function Get:wxHelpProvider()
+	End Function
+	
+	Method AddHelp(window:wxWindow, text:String)
+	End Method
+	
+	Method GetHelp:String(window:wxWindow)
+	End Method
+	
+	Method RemoveHelp(window:wxWindow)
+	End Method
+	
 End Type
 
 
-Type wxHelpController Extends wxHelpControllerBase
+Rem
+bbdoc: An implementation of wxHelpProvider which supports only plain text help strings, and shows the string associated with the control (if any) in a tooltip.
+End Rem
+Type wxSimpleHelpProvider Extends wxHelpProvider
 
+	Function CreateSimpleHelpProvider:wxSimpleHelpProvider()
+	End Function
+	
+	Method Create:wxSimpleHelpProvider()
+	End Method
 
 End Type
-
-

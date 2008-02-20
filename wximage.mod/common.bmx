@@ -108,6 +108,16 @@ Extern
 	Function bmx_wximage_addhandler(handler:Byte Ptr)	
 	Function bmx_wxpnghandler_create:Byte Ptr()
 	Function bmx_wxxpmhandler_create:Byte Ptr()
+	Function bmx_wxgifhandler_create:Byte Ptr()
+	Function bmx_wxbmphandler_create:Byte Ptr()
+	Function bmx_wxjpeghandler_create:Byte Ptr()
+	Function bmx_wxpcxhandler_create:Byte Ptr()
+	Function bmx_wxpnmhandler_create:Byte Ptr()
+	Function bmx_wxtiffhandler_create:Byte Ptr()
+	Function bmx_wxtgahandler_create:Byte Ptr()
+	Function bmx_wxicohandler_create:Byte Ptr()
+	Function bmx_wxcurhandler_create:Byte Ptr()
+	Function bmx_wxanihandler_create:Byte Ptr()
 
 	Function bmx_wximage_createfromstream:Byte Ptr(stream:Byte Ptr, kind:Int, index:Int)
 	

@@ -64,6 +64,7 @@ extern "C" {
 
 	int bmx_app_wxentry();
 	int _wx_wxapp_wxApp__OnInit();
+	int _wx_wxapp_wxApp__OnExit();
 	int bmx_wxapp_macexitmenuitemid();
 	void bmx_wxapp_settopwindow(wxWindow * window);
 	void bmx_wxapp_setappname(BBString * name);
@@ -348,6 +349,7 @@ class MaxApp : public wxApp
 public:
 	virtual bool OnInit();
 	virtual int MainLoop();
+	virtual int OnExit();
 
 	static bool ownMain;
 private:

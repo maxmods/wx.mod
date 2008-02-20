@@ -90,6 +90,22 @@ Type wxApp Extends wxEvtHandler Abstract
 	End Function
 
 	Rem
+	bbdoc: Override this method for any processing which needs to be done as the application is about to exit.
+	about: OnExit is called after destroying all application windows and controls, but before wxWidgets cleanup.
+	Note that it is not called at all if OnInit failed.
+	<p>
+	The return value of this method is currently ignored, return the same value as returned by the base class
+	method if you override it.
+	</p>
+	End Rem
+	Method OnExit:Int()
+	End Method
+	
+	Function _OnExit:Int()
+		Return app.OnExit()
+	End Function
+	
+	Rem
 	bbdoc: TODO
 	End Rem
 	Method Run:Int()

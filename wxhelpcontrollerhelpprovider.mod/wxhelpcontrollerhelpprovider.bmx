@@ -21,9 +21,9 @@
 SuperStrict
 
 Rem
-bbdoc: wxHelpController
+bbdoc: wxHelpControllerHelpProvider
 End Rem
-Module wx.wxHelpController
+Module wx.wxHelpControllerHelpProvider
 
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
@@ -50,14 +50,21 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
-Type wxHelpControllerBase Extends wxObject
+Type wxHelpControllerHelpProvider Extends wxSimpleHelpProvider
 
+	Function CreateHelpControllerHelpProvider:wxHelpControllerHelpProvider()
+	End Function
+	
+	Method Create:wxHelpControllerHelpProvider()
+	End Method
 
-End Type
-
-
-Type wxHelpController Extends wxHelpControllerBase
-
+	Method SetHelpController(hc:wxHelpControllerBase)
+	End Method
+	
+	Method GetHelpController:wxHelpControllerBase()
+	End Method
+	
+	
 
 End Type
 
