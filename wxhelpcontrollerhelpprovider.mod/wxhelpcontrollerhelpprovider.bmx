@@ -50,21 +50,43 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Rem
+bbdoc: An implementation of wxHelpProvider which supports both context identifiers and plain text help strings.
+about: If the help text is an integer, it is passed to wxHelpController::DisplayContextPopup.
+Otherwise, it shows the string in a tooltip as per wxSimpleHelpProvider. If you use this with
+a wxCHMHelpController instance on Windows, it will use the native style of tip window instead
+of wxTipWindow.
+End Rem
 Type wxHelpControllerHelpProvider Extends wxSimpleHelpProvider
 
+	Rem
+	bbdoc: Creates a new wxHelpControllerHelpProvider object.
+	End Rem
 	Function CreateHelpControllerHelpProvider:wxHelpControllerHelpProvider()
+		Return New wxHelpControllerHelpProvider.Create()
 	End Function
 	
+	Rem
+	bbdoc: Creates a new wxHelpControllerHelpProvider object.
+	End Rem
 	Method Create:wxHelpControllerHelpProvider()
+		wxObjectPtr = bmx_wxhelpcontrollerhelpprovider_create()
+		Return Self
 	End Method
 
+	Rem
+	bbdoc: Sets the help controller associated with this help provider.
+	End Rem
 	Method SetHelpController(hc:wxHelpControllerBase)
+		bmx_wxhelpcontrollerhelpprovider_sethelpcontroller(wxObjectPtr, hc.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the help controller associated with this help provider.
+	End Rem
 	Method GetHelpController:wxHelpControllerBase()
+		Return wxHelpControllerBase._find(bmx_wxhelpcontrollerhelpprovider_gethelpcontroller(wxObjectPtr))
 	End Method
-	
-	
 
 End Type
 

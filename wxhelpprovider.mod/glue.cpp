@@ -29,3 +29,7 @@
 // *********************************************
 
 
+void bmx_wxhelpprovider_free(wxHelpProvider * provider) {
+	delete provider;
+}
+

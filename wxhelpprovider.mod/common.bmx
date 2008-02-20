@@ -44,4 +44,6 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxhelpprovider_free(handle:Byte Ptr)
+
 End Extern

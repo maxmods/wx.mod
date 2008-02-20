@@ -21,6 +21,10 @@
 SuperStrict
 
 Import wx.wx
+?win32
+?Not Win32
+Import wx.wxHtmlHelpController
+?
 Import BRL.Blitz
 
 
@@ -44,41 +48,3 @@ Import "glue.cpp"
 Extern
 
 End Extern
-
-Const wxHELP_NETSCAPE:Int = 1
-
-Const wxHELP_SEARCH_INDEX:Int = 0
-Const wxHELP_SEARCH_ALL:Int = 1
-
-
-' This style indicates that the window is
-' embedded in the application And must Not be
-' destroyed by the help controller.
-Const wxHF_EMBEDDED:Int = $00008000
-
-' Create a dialog For the help window.
-Const wxHF_DIALOG:Int = $00010000
-
-' Create a frame For the help window.
-Const wxHF_FRAME:Int = $00020000
-
-' Make the dialog modal when displaying help.
-Const wxHF_MODAL:Int = $00040000
-
-
-Const wxHF_TOOLBAR:Int = $0001
-Const wxHF_CONTENTS:Int = $0002
-Const wxHF_INDEX:Int = $0004
-Const wxHF_SEARCH:Int = $0008
-Const wxHF_BOOKMARKS:Int = $0010
-Const wxHF_OPEN_FILES:Int = $0020
-Const wxHF_PRINT:Int = $0040
-Const wxHF_FLAT_TOOLBAR:Int = $0080
-Const wxHF_MERGE_BOOKS:Int = $0100
-Const wxHF_ICONS_BOOK:Int = $0200
-Const wxHF_ICONS_BOOK_CHAPTER:Int = $0400
-Const wxHF_ICONS_FOLDER:Int = $0000 ' this is 0 since it is Default
-Const wxHF_DEFAULT_STYLE:Int = wxHF_TOOLBAR | wxHF_CONTENTS | ..
-	wxHF_INDEX | wxHF_SEARCH | wxHF_BOOKMARKS | wxHF_PRINT
-
-

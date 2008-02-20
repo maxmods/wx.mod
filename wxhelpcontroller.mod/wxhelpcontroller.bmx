@@ -50,13 +50,14 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
-Type wxHelpControllerBase Extends wxObject
-
-
-End Type
-
-
+Rem
+bbdoc: 
+End Rem
+?win32
 Type wxHelpController Extends wxHelpControllerBase
+?Not Win32
+Type wxHelpController Extends wxHtmlHelpController
+?
 
 
 End Type

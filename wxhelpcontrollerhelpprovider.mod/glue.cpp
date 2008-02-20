@@ -29,3 +29,14 @@
 // *********************************************
 
 
+wxHelpControllerHelpProvider * bmx_wxhelpcontrollerhelpprovider_create() {
+	return new wxHelpControllerHelpProvider;
+}
+
+void bmx_wxhelpcontrollerhelpprovider_sethelpcontroller(wxHelpControllerHelpProvider * provider, wxHelpControllerBase * hc) {
+	provider->SetHelpController(hc);
+}
+
+wxHelpControllerBase * bmx_wxhelpcontrollerhelpprovider_gethelpcontroller(wxHelpControllerHelpProvider * provider) {
+	return provider->GetHelpController();
+}

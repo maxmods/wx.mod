@@ -21,7 +21,7 @@
 */ 
 
 #include "wxglue.h"
-#include "wx/cshelp.h"
+#include "wx/helpbase.h"
 
 //class MaxNotebook;
 
@@ -29,9 +29,18 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxHelpControllerHelpProvider * bmx_wxhelpcontrollerhelpprovider_create();
-	void bmx_wxhelpcontrollerhelpprovider_sethelpcontroller(wxHelpControllerHelpProvider * provider, wxHelpControllerBase * hc);
-	wxHelpControllerBase * bmx_wxhelpcontrollerhelpprovider_gethelpcontroller(wxHelpControllerHelpProvider * provider);
+	bool bmx_wxhelpcontrollerbase_initialize(wxHelpControllerBase * controller, BBString * file);
+
+	bool bmx_wxhelpcontrollerbase_displayBlock(wxHelpControllerBase * controller, long blockNo);
+	bool bmx_wxhelpcontrollerbase_displaycontextpopup(wxHelpControllerBase * controller, int contextId);
+	bool bmx_wxhelpcontrollerbase_displaysection(wxHelpControllerBase * controller, int sectionNo);
+	bool bmx_wxhelpcontrollerbase_displaysectionbyname(wxHelpControllerBase * controller, BBString * section);
+	bool bmx_wxhelpcontrollerbase_displaytextpopup(wxHelpControllerBase * controller, BBString * text, int x, int y);
+	wxWindow * bmx_wxhelpcontrollerbase_getparentwindow(wxHelpControllerBase * controller);
+	bool bmx_wxhelpcontrollerbase_quit(wxHelpControllerBase * controller);
+
+	bool bmx_wxhelpcontrollerbase_keywordsearch(wxHelpControllerBase * cont, BBString * keyword, wxHelpSearchMode mode);
+	void bmx_wxhelpcontrollerbase_displaycontents(wxHelpControllerBase * cont);
 
 }
 

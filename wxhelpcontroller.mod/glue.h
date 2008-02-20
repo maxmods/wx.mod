@@ -22,7 +22,7 @@
 
 #include "wxglue.h"
 
-//class MaxNotebook;
+//class MaxHelpController;
 
 extern "C" {
 
@@ -32,4 +32,5 @@ extern "C" {
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 

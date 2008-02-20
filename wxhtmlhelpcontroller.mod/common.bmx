@@ -21,7 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxHelpController
+Import wx.wxHelpControllerBase
 Import wx.wxHtmlHelpWindow
 Import wx.wxConfig
 Import wx.wxFileName

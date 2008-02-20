@@ -22,7 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxHelpProvider
-Import wx.wxHelpController
+Import wx.wxHelpControllerBase
 Import BRL.Blitz
 
 
@@ -44,5 +44,9 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+
+	Function bmx_wxhelpcontrollerhelpprovider_create:Byte Ptr()
+	Function bmx_wxhelpcontrollerhelpprovider_sethelpcontroller(handle:Byte Ptr, hc:Byte Ptr)
+	Function bmx_wxhelpcontrollerhelpprovider_gethelpcontroller:Byte Ptr(handle:Byte Ptr)
 
 End Extern

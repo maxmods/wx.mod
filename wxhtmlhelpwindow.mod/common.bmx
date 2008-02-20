@@ -23,7 +23,7 @@ SuperStrict
 Import wx.wx
 Import wx.wxWindow
 Import wx.wxConfig
-Import wx.wxHelpController
+Import wx.wxHelpControllerBase
 Import BRL.Blitz
 
 

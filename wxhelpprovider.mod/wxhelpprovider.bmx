@@ -73,6 +73,16 @@ Type wxHelpProvider Abstract
 	Method RemoveHelp(window:wxWindow)
 	End Method
 	
+	Rem
+	bbdoc: Frees the internal object
+	End Rem
+	Method Free()
+		If wxObjectPtr Then
+			bmx_wxhelpprovider_free(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type
 
 

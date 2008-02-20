@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/cshelp.h"
 
 //class MaxNotebook;
 
@@ -28,6 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
+	void bmx_wxhelpprovider_free(wxHelpProvider * provider);
 
 }
 
