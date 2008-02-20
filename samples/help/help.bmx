@@ -27,8 +27,6 @@ Type MyApp Extends wxApp
 	Field frame:MyFrame 
 
 	Method OnInit:Int()
-	
-	DebugLog wxGetUserName()
 
 		Local provider:wxHelpControllerHelpProvider = New wxHelpControllerHelpProvider.Create()
 
