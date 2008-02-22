@@ -38,7 +38,7 @@ MaxGridBagSizer::~MaxGridBagSizer() {
 // *********************************************
 
 wxGridBagSizer * bmx_wxgridbagsizer_create(BBObject * handle, int vgap, int hgap) {
-
+	return new MaxGridBagSizer(handle, vgap, hgap);
 }
 
 wxSizerItem * bmx_wxgridbagsizer_add(wxGridBagSizer * gb, wxWindow * window, int row, int col, int rowspan, int colspan, int flag, int border) {
