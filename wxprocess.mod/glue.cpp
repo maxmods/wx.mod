@@ -130,8 +130,61 @@ bool bmx_wxshell(BBString * command) {
 	}
 }
 
+#ifdef __APPLE__
+OSStatus SendAppleEventToSystemProcess(AEEventID EventToSend)
+{
+    AEAddressDesc targetDesc;
+    static const ProcessSerialNumber kPSNOfSystemProcess = { 0, kSystemProcess };
+    AppleEvent eventReply = {typeNull, NULL};
+    AppleEvent appleEventToSend = {typeNull, NULL};
+
+    OSStatus error = noErr;
+
+    error = AECreateDesc(typeProcessSerialNumber, &kPSNOfSystemProcess,
+                                            sizeof(kPSNOfSystemProcess), &targetDesc);
+
+    if (error != noErr)
+    {
+        return(error);
+    }
+
+    error = AECreateAppleEvent(kCoreEventClass, EventToSend, &targetDesc,
+                   kAutoGenerateReturnID, kAnyTransactionID, &appleEventToSend);
+
+    AEDisposeDesc(&targetDesc);
+    if (error != noErr)
+    {
+        return(error);
+    }
+
+    error = AESend(&appleEventToSend, &eventReply, kAENoReply,
+                  kAENormalPriority, kAEDefaultTimeout, NULL, NULL);
+
+    AEDisposeDesc(&appleEventToSend);
+    if (error != noErr)
+    {
+        return(error);
+    }
+
+    AEDisposeDesc(&eventReply);
+
+    return(error);
+}
+#endif
+
 bool bmx_wxshutdown(wxShutdownFlags flags) {
+#ifndef __APPLE__
 	return wxShutdown(flags);
+#else
+	OSStatus error = noErr;
+
+	if (flags == wxSHUTDOWN_REBOOT) {
+		error = SendAppleEventToSystemProcess(kAERestart);
+	} else {
+		error = SendAppleEventToSystemProcess(kAEShutDown);
+	}
+	return (error == noErr);
+#endif
 }
 
 unsigned long bmx_wxgetprocessid() {

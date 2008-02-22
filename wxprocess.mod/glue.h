@@ -23,6 +23,14 @@
 #include "wxglue.h"
 #include "wx/process.h"
 
+#ifdef __APPLE__
+extern "C" {
+#include <mach/mach.h>
+}
+#include <CoreFoundation/CFMachPort.h>
+#include "wx/mac/private.h"
+#endif
+
 class MaxProcess;
 
 extern "C" {
