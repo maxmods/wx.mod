@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.95"
+Const AppVersion:String = "0.96"
 
 
 Global eventMap:TMap = New TMap
@@ -280,6 +280,9 @@ Type TFBGenFactory
 			Case "toolSeparator"
 				widget = New TFBToolSeparator
 				
+			Case "wxStdDialogButtonSizer"
+				widget = New TFBStdDialogButtonSizer
+
 		End Select
 		
 		If widget Then
@@ -621,7 +624,7 @@ Type TFBWidget
 	Method StandardSettings(out:TCodeOutput, noref:Int = False)
 
 		' Enable()
-		If prop("enabled") <> "1" Then
+		If prop("enabled") And prop("enabled") <> "1" Then
 			out.Add(NameReference(prop("name"), noref) + "Enable(False)", 2)
 		End If
 		
@@ -1139,7 +1142,11 @@ Type TFBContainer Extends TFBWidget
 				out.Add("Connect(" + widget.prop("name") + ".GetId(), " + ec + ", _" + event + ")", 2)
 			Else
 				If Not widget.id And Not TFBToolItem(widget) Then
-					out.Add(widget.prop("name") + ".ConnectAny(" + ec + ", _" + event + ", Null, Self)", 2)
+					If Not TFBStdDialogButtonSizer(widget) Then
+						out.Add(widget.prop("name") + ".ConnectAny(" + ec + ", _" + event + ", Null, Self)", 2)
+					Else
+						TFBStdDialogButtonSizer(widget).ConnectEvent(out, evt, ec, event)
+					End If
 				Else
 					out.Add("Connect(" + widget.prop("id") + ", " + ec + ", _" + event + ")", 2)
 				End If
@@ -2706,7 +2713,6 @@ Type TFBToolSeparator Extends TFBWidget
 
 End Type
 
-
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
 Type TFBSizer Extends TFBWidget
@@ -2906,6 +2912,161 @@ Type TFBSizerItem Extends TFBWidget
 
 End Type
 
+
+Type TFBStdDialogButtonSizer Extends TFBSizer
+
+	Method Generate(out:TCodeOutput)
+		Super.Generate(out)
+
+		If Not HasPermissions() Then
+			
+			If prop("Apply") = "1" Then
+				out.Add(prop("name") + "Apply:wxButton", 2)
+			End If
+			If prop("Cancel") = "1" Then
+				out.Add(prop("name") + "Cancel:wxButton", 2)
+			End If
+			If prop("ContextHelp") = "1" Then
+				out.Add(prop("name") + "ContextHelp:wxButton", 2)
+			End If
+			If prop("Help") = "1" Then
+				out.Add(prop("name") + "Help:wxButton", 2)
+			End If
+			If prop("No") = "1" Then
+				out.Add(prop("name") + "No:wxButton", 2)
+			End If
+			If prop("OK") = "1" Then
+				out.Add(prop("name") + "OK:wxButton", 2)
+			End If
+			If prop("Save") = "1" Then
+				out.Add(prop("name") + "Save:wxButton", 2)
+			End If
+			If prop("Yes") = "1" Then
+				out.Add(prop("name") + "Yes:wxButton", 2)
+			End If
+		End If
+		
+		Local text:String = prop("name") + " = new " + GetType() + ".CreateSizer()"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+		
+		If prop("Apply") = "1" Then
+			addButton(out, "Apply")
+		End If
+		
+		If prop("Cancel") = "1" Then
+			addButton(out, "Cancel")
+		End If
+
+		If prop("ContextHelp") = "1" Then
+			addButton(out, "ContextHelp")
+		End If
+
+		If prop("Help") = "1" Then
+			addButton(out, "Help")
+		End If
+
+		If prop("No") = "1" Then
+			addButton(out, "No")
+		End If
+
+		If prop("OK") = "1" Then
+			addButton(out, "OK")
+		End If
+
+		If prop("Save") = "1" Then
+			addButton(out, "Save")
+		End If
+
+		If prop("Yes") = "1" Then
+			addButton(out, "Yes")
+		End If
+		
+		out.Add(prop("name") + ".Realize()", 2)
+	
+	End Method
+
+	Method GetType:String()
+		Return "wxStdDialogButtonSizer"
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxStdDialogButtonSizer"
+	End Method
+
+	Method Configure:Int(lastId:Int)
+		Super.Configure(lastId)
+		
+		Local perm:String = String(prop("permission"))
+		If perm And perm <> "none" Then
+			Local form:TFBContainer = GetMainContainer()
+			If form Then
+				
+				If prop("Apply") = "1" Then
+					form.fields.AddLast(makeButton(prop("name") + "Apply"))
+				End If
+
+				If prop("Cancel") = "1" Then
+					form.fields.AddLast(makeButton(prop("name") + "Cancel"))
+				End If
+
+				If prop("ContextHelp") = "1" Then
+					form.fields.AddLast(makeButton(prop("name") + "ContextHelp"))
+				End If
+
+				If prop("Help") = "1" Then
+					form.fields.AddLast(makeButton(prop("name") + "Help"))
+				End If
+
+				If prop("No") = "1" Then
+					form.fields.AddLast(makeButton(prop("name") + "No"))
+				End If
+
+				If prop("OK") = "1" Then
+					form.fields.AddLast(makeButton(prop("name") + "OK"))
+				End If
+
+				If prop("Save") = "1" Then
+					form.fields.AddLast(makeButton(prop("name") + "Save"))
+				End If
+
+				If prop("Yes") = "1" Then
+					form.fields.AddLast(makeButton(prop("name") + "Yes"))
+				End If
+				
+			End If
+		End If
+
+	End Method
+	
+	Method makebutton:TFBButton(name:String)
+		Local but:TFBButton = New TFBButton
+		but.obj = New TFBObject
+		but.obj.properties.Insert("name", name)
+		Return but
+	End Method
+	
+	Method addButton(out:TCodeOutput, name:String)
+		Local upperName:String = name.ToUpper()
+		If upperName = "CONTEXTHELP" Then
+			upperName = "CONTEXT_HELP"
+		End If
+		out.Add(prop("name") + name + " = new wxButton.Create(" + ContainerReference() + ", wxID_" + upperName + ")", 2)
+		out.Add(prop("name") + ".AddButton( " + prop("name") + name + ")", 2)
+	End Method
+
+	Method ConnectEvent(out:TCodeOutput, evt:String, ec:String, event:String)
+		out.Add(prop("name") + nameFromEvt(evt) + ".ConnectAny(" + ec + ", _" + event + ", Null, Self)", 2)
+	End Method
+	
+	Method nameFromEvt:String(evt:String)
+		Return evt.Replace("ButtonClick", "").Replace("On", "")
+	End Method
+	
+End Type
 
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
@@ -3231,6 +3392,15 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnToolClicked", "wxCommandEvent", "wxEVT_COMMAND_TOOL_CLICKED"))
 	AddEvent(TEventType.Set("OnToolRClicked", "wxCommandEvent", "wxEVT_COMMAND_TOOL_RCLICKED"))
 	AddEvent(TEventType.Set("OnToolEnter", "wxCommandEvent", "wxEVT_COMMAND_TOOL_ENTER"))
+
+	AddEvent(TEventType.Set("OnApplyButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
+	AddEvent(TEventType.Set("OnCancelButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
+	AddEvent(TEventType.Set("OnContextHelpButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
+	AddEvent(TEventType.Set("OnHelpButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
+	AddEvent(TEventType.Set("OnNoButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
+	AddEvent(TEventType.Set("OnOKButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
+	AddEvent(TEventType.Set("OnSaveButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
+	AddEvent(TEventType.Set("OnYesButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
 
 End Function
 

@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:		renerder.h
+// Author:      Eran Ifrah <eran.ifrah@gmail.com>
+// Created:     30/12/2005
+// Modified:    01/01/2006
+// Copyright:   Eran Ifrah (c)
+// Licence:     wxWindows license <http://www.wxwidgets.org/licence3.txt>
+///////////////////////////////////////////////////////////////////////////////
+
 #ifndef RENDERE_H
 #define RENDERE_H
 

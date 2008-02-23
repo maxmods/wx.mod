@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:		wxFNBDropTarget.h
+// Purpose:     helper class to implement drag and drop of tabs in the wxFNB
+// Author:      T-Rex 
+// Modified by: Eran Ifrah <eran.ifrah@gmail.com>
+// Created:     30/12/2005
+// Modified:    01/01/2006
+// Licence:     wxWindows license <http://www.wxwidgets.org/licence3.txt>
+///////////////////////////////////////////////////////////////////////////////
 #ifndef _WX_FNB_DROP_TARGET_H 
 #define _WX_FNB_DROP_TARGET_H
 

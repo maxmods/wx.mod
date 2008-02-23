@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:		fnb_smart_ptr.h
+// Purpose:		A smart pointer class that provides a reference counting and auto delete memory.
+// Author:      Eran Ifrah <eran.ifrah@gmail.com>
+// Created:     30/12/2005
+// Modified:    01/01/2006
+// Copyright:   Eran Ifrah (c)
+// Licence:     wxWindows license <http://www.wxwidgets.org/licence3.txt>
+///////////////////////////////////////////////////////////////////////////////
 #ifndef FNB_SMART_PTR_H
 #define FNB_SMART_PTR_H
 

@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:		fnb_customize_dlg.cpp 
+// Purpose:     customise dialog used by wxFlatNotebook
+// Author:      Eran Ifrah <eran.ifrah@gmail.com>
+// Created:     30/12/2005
+// Modified:    01/01/2006
+// Copyright:   Eran Ifrah (c)
+// Licence:     wxWindows license <http://www.wxwidgets.org/licence3.txt>
+///////////////////////////////////////////////////////////////////////////////
 #include "wx/wxFlatNotebook/fnb_customize_dlg.h"
 #include "wx/wxFlatNotebook/wxFlatNotebook.h"
 #include "wx/sizer.h"

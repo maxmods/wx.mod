@@ -1,3 +1,13 @@
+/////////////////////////////////////////////////////////////////////////////
+// Name:        fnb_resources.h
+// Purpose:     resources used by wxFlatNotebook
+// Author:      Armel Asselin
+// Created:     2008/02/12
+// RCS-ID:      $Id: $
+// Copyright:   (c) 2008 Eran Ifrah
+// Licence:     wxWindows licence
+/////////////////////////////////////////////////////////////////////////////
+
 #ifndef FNB_RESOURCES_H
 #define FNB_RESOURCES_H
 

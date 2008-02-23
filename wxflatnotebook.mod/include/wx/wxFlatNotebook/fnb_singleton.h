@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:		fnb_singleton.h 
+// Purpose:     A template class that implements the wxFNBSingleton pattern.
+// Author:      Eran Ifrah <erani.ifrah@gmail.com>
+// Created:     30/12/2005
+// Modified:    01/01/2006
+// Copyright:   Eran Ifrah (c)
+// Licence:     wxWindows license <http://www.wxwidgets.org/licence3.txt>
+///////////////////////////////////////////////////////////////////////////////
 #ifndef FNB_SINGLETON_H
 #define FNB_SINGLETON_H
 

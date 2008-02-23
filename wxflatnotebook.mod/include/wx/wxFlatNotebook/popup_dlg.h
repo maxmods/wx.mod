@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:		popup_dlg.h
+// Purpose:		declaration of the navigation dialog
+// Author:      Eran Ifrah <eran.ifrah@gmail.com>
+// Created:     30/12/2005
+// Modified:    01/01/2006
+// Copyright:   Eran Ifrah (c)
+// Licence:     wxWindows license <http://www.wxwidgets.org/licence3.txt>
+///////////////////////////////////////////////////////////////////////////////
 #ifndef FNB_POPUPDLG_H
 #define FNB_POPUPDLG_H
 

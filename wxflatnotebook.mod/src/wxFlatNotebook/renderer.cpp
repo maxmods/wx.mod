@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:		renderer.cpp 
+// Purpose:     implementation of the different renderers used by wxFlatNotebook
+// Author:      Eran Ifrah <eranif@bezeqint.net>
+// Created:     30/12/2005
+// Modified:    01/01/2006
+// Copyright:   Eran Ifrah (c)
+// Licence:     wxWindows license <http://www.wxwidgets.org/licence3.txt>
+///////////////////////////////////////////////////////////////////////////////
 #include <wx/wxFlatNotebook/renderer.h>
 #include <wx/wxFlatNotebook/wxFlatNotebook.h> // for the styles
 #include <wx/wxFlatNotebook/fnb_resources.h>

@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:		wxFlatNotebook.cpp 
 // Purpose:     generic implementation of flat style notebook class.
-// Author:      Eran Ifrah <eranif@bezeqint.net>
+// Author:      Eran Ifrah <eran.ifrah@gmail.com>
 // Modified by: Priyank Bolia <soft@priyank.in>
 // Created:     30/12/2005
 // Modified:    01/01/2006
@@ -113,7 +113,6 @@ bool wxFlatNotebook::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
                              long style, const wxString& name)
 {
 	style |= wxTAB_TRAVERSAL;
-
 	wxPanel::Create(parent, id, pos, size, style, name);
 
 	m_pages = new wxPageContainer(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, style);
@@ -165,7 +164,7 @@ bool wxFlatNotebook::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
 
 bool wxFlatNotebook::SetFont(const wxFont& font)
 {
-	if (m_pages) { // BaH
+	if (m_pages) {
 		m_pages->m_font = font;
 	}
 	return true;

@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:		popup_dlg.cpp 
+// Purpose:     Impl of the navigation dialog used by wxFlatNotebook
+// Author:      Eran Ifrah <eran.ifrah@gmail.com>
+// Created:     30/12/2005
+// Modified:    01/01/2006
+// Copyright:   Eran Ifrah (c)
+// Licence:     wxWindows license <http://www.wxwidgets.org/licence3.txt>
+///////////////////////////////////////////////////////////////////////////////
 #include <wx/wxFlatNotebook/popup_dlg.h>
 #include <wx/listctrl.h>
 #include <wx/wxFlatNotebook/wxFlatNotebook.h>

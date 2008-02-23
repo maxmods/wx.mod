@@ -83,31 +83,66 @@ Type wxStdDialogButtonSizer Extends wxBoxSizer
 		Return Null
 	End Function
 
+	Rem
+	bbdoc: Constructor for a wxStdDialogButtonSizer.
+	End Rem
 	Function CreateStdDialogButtonSizer:wxStdDialogButtonSizer()
 		Return New wxStdDialogButtonSizer.CreateSIzer()
 	End Function
 	
+	Rem
+	bbdoc: Constructor for a wxStdDialogButtonSizer.
+	End Rem
 	Method CreateSizer:wxStdDialogButtonSizer()
 		wxSizerPtr = bmx_wxstddialogbuttonsizer_create(Self)
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Adds a button to the wxStdDialogButtonSizer.
+	about: The button must have one of the following identifiers:
+	<ul>
+	<li>wxID_OK </li>
+	<li>wxID_YES </li>
+	<li>wxID_SAVE </li>
+	<li>wxID_APPLY </li>
+	<li>wxID_NO </li>
+	<li>wxID_CANCEL </li>
+	<li>wxID_HELP </li>
+	<li>wxID_CONTEXT_HELP </li>
+	</ul>
+	End Rem
 	Method AddButton(button:wxButton)
 		bmx_wxstddialogbuttonsizer_addbutton(wxSizerPtr, button.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Rearranges the buttons and applies proper spacing between buttons to make them match the platform or toolkit's interface guidelines.
+	End Rem
 	Method Realize()
 		bmx_wxstddialogbuttonsizer_realize(wxSizerPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the affirmative button for the sizer.
+	about: This allows you to use identifiers other than the standard identifiers outlined above.
+	End Rem
 	Method SetAffirmativeButton(button:wxButton)
 		bmx_wxstddialogbuttonsizer_setaffirmativebutton(wxSizerPtr, button.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the cancel button for the sizer.
+	about: This allows you to use identifiers other than the standard identifiers outlined above.
+	End Rem
 	Method SetCancelButton(button:wxButton)
 		bmx_wxstddialogbuttonsizer_setcancelbutton(wxSizerPtr, button.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the negative button for the sizer.
+	about: This allows you to use identifiers other than the standard identifiers outlined above.
+	End Rem
 	Method SetNegativeButton(button:wxButton)
 		bmx_wxstddialogbuttonsizer_setnegativebutton(wxSizerPtr, button.wxObjectPtr)
 	End Method
