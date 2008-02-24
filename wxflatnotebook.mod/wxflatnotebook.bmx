@@ -82,6 +82,18 @@ Type wxFlatNotebook Extends wxPanel
 	End Method
 
 	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxFlatNotebook(parent:wxWindow, id:Int = wxID_ANY, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxflatnotebook_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		
+		OnInit()
+		
+		Return Self
+	End Method
+
+	Rem
 	bbdoc: Advance the current selection
 	about: if @forward is set to true then selection should be advanced forward otherwise - backward
 	End Rem

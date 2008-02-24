@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.96"
+Const AppVersion:String = "0.97"
 
 
 Global eventMap:TMap = New TMap
@@ -42,6 +42,7 @@ Const GEN_BAHLOCALE:Int = $008
 Type TFBObject
 
 	Field class:String
+	Field subclass:String
 	Field expanded:Int
 
 	Field properties:TMap = New TMap
@@ -53,6 +54,7 @@ Type TFBObject
 	Method extractDetails(node:TxmlNode)
 	
 		class = node.GetAttribute("class")
+		subclass = node.GetAttribute("subclass")
 		expanded = Int(node.GetAttribute("expanded"))
 		
 		Local children:TList = node.getChildren()
@@ -282,6 +284,12 @@ Type TFBGenFactory
 				
 			Case "wxStdDialogButtonSizer"
 				widget = New TFBStdDialogButtonSizer
+
+			Case "wxSplitterWindow"
+				widget = New TFBSplitterWindow
+
+			Case "splitteritem"
+				widget = New TFBSplitterItem
 
 		End Select
 		
@@ -515,7 +523,10 @@ Type TFBWidget
 		If TFBForm(Self) Then
 			Return TFBForm(Self)
 		End If
-		Return parent.GetForm()
+		If parent Then
+			Return parent.GetForm()
+		End If
+		Return Null
 	End Method
 
 	' retrieves the main container - this is my somewhere-parent who is a child of project
@@ -614,7 +625,17 @@ Type TFBWidget
 		Local text:String = ""
 		
 		Local bitmap:String[] = bm.Split(";")
-		text:+ "wxBitmap.CreateFromFile(~q" + bitmap[0] + "~q, wxBITMAP_TYPE_ANY)"
+		text:+ "wxBitmap.CreateFromFile(~q" + bitmap[0] + "~q, "
+		
+		Local kind:String = bitmap[0].Split(".")[1].ToUpper()
+		Select kind
+			Case "PNG"
+				text:+ "wxBITMAP_TYPE_PNG"
+			Default
+				text:+ "wxBITMAP_TYPE_ANY"
+		End Select
+		
+		text:+ ")"
 		
 		Return text
 	
@@ -746,7 +767,7 @@ Type TFBWidget
 	Method StandardCreate(out:TCodeOutput)
 
 		If Not HasPermissions() Then
-			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+			out.Add("Local " + prop("name") + ":" + GetType(True), 2)
 		End If
 
 		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
@@ -762,7 +783,7 @@ Type TFBWidget
 	Method StandardCreateWithLabel(out:TCodeOutput)
 
 		If Not HasPermissions() Then
-			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+			out.Add("Local " + prop("name") + ":" + GetType(True), 2)
 		End If
 
 		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
@@ -834,8 +855,36 @@ Type TFBWidget
 		Return text
 	End Method
 	
-	Method GetType:String() Abstract
+	Method GetType:String(def:Int = False) Abstract
 	Method GetImport:String() Abstract
+
+	Method GetFullType:String(name:String, def:Int = False)
+		If prop("subclass") Then
+			Local s:String = prop("subclass").split(";")[0]
+			If s Then
+				If def And s.StartsWith("T") Then
+					Return s + "Base"
+				Else
+					Return s
+				End If
+			End If
+		End If
+		Return name
+	End Method
+	
+	Method GetFullImport:String(name:String)
+		If prop("subclass") Then
+			Local s:String = prop("subclass").split(";")[1].Trim()
+			If s Then
+				If s.find(".bmx") >= 0 Then
+					Return "~q" + s + "~q"
+				Else
+					Return s
+				End If
+			End If
+		End If
+		Return name
+	End Method
 	
 End Type
 
@@ -912,7 +961,7 @@ Type TFBProject Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 	End Method
 	
 	Method GetImport:String()
@@ -946,7 +995,7 @@ Type TFBContainer Extends TFBWidget
 		
 		' fields
 		For Local fld:TFBWidget = EachIn fields
-			out.Add("Field " + fld.prop("name") + ":" + fld.GetType(), 1)
+			out.Add("Field " + fld.prop("name") + ":" + fld.GetType(True), 1)
 		Next
 		
 		out.Add("")
@@ -1213,7 +1262,7 @@ Type TFBFrame Extends TFBForm
 		out.Add("End Method", 1, 2)
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxFrame"
 	End Method
 
@@ -1243,7 +1292,7 @@ Type TFBListCtrl Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxListCtrl"
 	End Method
 
@@ -1326,12 +1375,12 @@ Type TFBPanel Extends TFBContainer
 		out.Add("End Method", 1, 2)
 	End Method
 
-	Method GetType:String()
-		Return "wxPanel"
+	Method GetType:String(def:Int = False)
+		Return GetFullType("wxPanel")
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxPanel"
+		Return GetFullImport("wx.wxPanel")
 	End Method
 
 End Type
@@ -1415,7 +1464,7 @@ Type TFBDialog Extends TFBContainer
 		out.Add("End Method", 1, 2)
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxDialog"
 	End Method
 
@@ -1435,7 +1484,7 @@ Type TFBButton Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxButton"
 	End Method
 
@@ -1471,7 +1520,7 @@ Type TFBTextCtrl Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxTextCtrl"
 	End Method
 
@@ -1492,8 +1541,7 @@ Type TFBStaticBitmap Extends TFBWidget
 		Local text:String = prop("name") + " = new wxStaticBitmap.Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		If prop("bitmap") Then
-			Local bitmap:String[] = prop("bitmap").Split(";")
-			text:+ "wxBitmap.CreateFromFile(~q" + bitmap[0] + "~q, wxBITMAP_TYPE_ANY)"
+			text:+ DoBitmap(prop("bitmap"))
 		Else
 			text:+ "wxNullBitmap"
 		End If
@@ -1508,7 +1556,7 @@ Type TFBStaticBitmap Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxStaticBitmap"
 	End Method
 
@@ -1533,7 +1581,7 @@ Type TFBStaticText Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxStaticText"
 	End Method
 
@@ -1576,7 +1624,7 @@ Type TFBComboBox Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxComboBox"
 	End Method
 
@@ -1606,7 +1654,7 @@ Type TFBTreeCtrl Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxTreeCtrl"
 	End Method
 
@@ -1642,7 +1690,7 @@ Type TFBGauge Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxGauge"
 	End Method
 
@@ -1674,7 +1722,7 @@ Type TFBSlider Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxSlider"
 	End Method
 
@@ -1694,7 +1742,7 @@ Type TFBStaticLine Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxStaticLine"
 	End Method
 
@@ -1718,7 +1766,7 @@ Type TFBRadioButton Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxRadioButton"
 	End Method
 
@@ -1762,7 +1810,7 @@ Type TFBRadioBox Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxRadioBox"
 	End Method
 
@@ -1786,7 +1834,7 @@ Type TFBCheckBox Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxCheckBox"
 	End Method
 
@@ -1806,7 +1854,7 @@ Type TFBHTMLWindow Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxHtmlWindow"
 	End Method
 
@@ -1850,7 +1898,7 @@ Type TFBCheckListBox Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxCheckListBox"
 	End Method
 
@@ -1877,7 +1925,7 @@ Type TFBToggleButton Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxToggleButton"
 	End Method
 
@@ -1900,7 +1948,7 @@ Type TFBScrollBar Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxScrollBar"
 	End Method
 
@@ -1940,7 +1988,7 @@ Type TFBSpinCtrl Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxSpinCtrl"
 	End Method
 
@@ -1962,7 +2010,7 @@ Type TFBListBook Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxListBook"
 	End Method
 
@@ -1983,7 +2031,7 @@ Type TFBListBookPage Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 	End Method
 
 	
@@ -2003,7 +2051,7 @@ Type TFBChoicebook Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxChoicebook"
 	End Method
 
@@ -2024,7 +2072,7 @@ Type TFBChoicebookPage Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 	End Method
 
 	
@@ -2044,7 +2092,7 @@ Type TFBRichTextCtrl Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxRichTextCtrl"
 	End Method
 
@@ -2072,13 +2120,13 @@ Type TFBNotebook Extends TFBContainer
 
 	End Method
 
-	Method GetType:String()
-		Return "wxNotebook"
+	Method GetType:String(def:Int = False)
+		Return GetFullType("wxNotebook")
 	End Method
 
 	
 	Method GetImport:String()
-		Return "wx.wxNotebook"
+		Return GetFullImport("wx.wxNotebook")
 	End Method
 
 End Type
@@ -2111,7 +2159,7 @@ Type TFBNotebookPage Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 	End Method
 
 	
@@ -2147,7 +2195,7 @@ Type TFBFilePickerCtrl Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxFilePickerCtrl"
 	End Method
 
@@ -2183,7 +2231,7 @@ Type TFBDirPickerCtrl Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxDirPickerCtrl"
 	End Method
 
@@ -2213,7 +2261,7 @@ Type TFBStatusBar Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxStatusBar"
 	End Method
 
@@ -2255,7 +2303,7 @@ Type TFBListBox Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxListBox"
 	End Method
 
@@ -2304,7 +2352,7 @@ Type TFBGenericDirCtrl Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxGenericDirCtrl"
 	End Method
 
@@ -2412,7 +2460,7 @@ Type TFBScintilla Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxScintilla"
 	End Method
 
@@ -2458,7 +2506,7 @@ Type TFBHyperlinkCtrl Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxHyperlinkCtrl"
 	End Method
 
@@ -2510,7 +2558,7 @@ Type TFBBitmapButton Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxBitmapButton"
 	End Method
 
@@ -2558,7 +2606,7 @@ Type TFBChoice Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxChoice"
 	End Method
 
@@ -2594,7 +2642,7 @@ Type TFBDatePickerCtrl Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxDatePickerCtrl"
 	End Method
 
@@ -2613,9 +2661,18 @@ Type TFBToolBar Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = CreateToolBar("
+		Local text:String = prop("name") + " = "
 		
-		text:+ prop("style") + ", " + prop("id") + ")"
+		If GetForm()
+			text:+ "CreateToolBar("
+			text:+ prop("style") + ", " + prop("id") + ")"
+		Else
+			text:+ " new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
+	
+			text:+ DoPosSizeStyle(Self)
+	
+			text:+ ")"
+		End If
 		
 		out.Add(text, 2)
 		
@@ -2647,7 +2704,7 @@ Type TFBToolBar Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxToolBar"
 	End Method
 	
@@ -2667,8 +2724,7 @@ Type TFBToolItem Extends TFBWidget
 		text:+ GetString("~q" + prop("label") + "~q") + ", "
 
 		If prop("bitmap") Then
-			Local bitmap:String[] = prop("bitmap").Split(";")
-			text:+ "wxBitmap.CreateFromFile(~q" + bitmap[0] + "~q, wxBITMAP_TYPE_ANY)"
+			text:+ DoBitmap(prop("bitmap"))
 		Else
 			text:+ "wxNullBitmap"
 		End If
@@ -2684,7 +2740,7 @@ Type TFBToolItem Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 	End Method
 
 	
@@ -2703,7 +2759,7 @@ Type TFBToolSeparator Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 	End Method
 
 	
@@ -2712,6 +2768,101 @@ Type TFBToolSeparator Extends TFBWidget
 	End Method
 
 End Type
+
+Type TFBSplitterWindow Extends TFBContainer
+
+	Method Generate(out:TCodeOutput)
+
+		StandardCreate(out)
+
+		StandardSettings(out)
+
+		If kids.count() < 2 Then 
+			For Local child:TFBWidget = EachIn kids
+				child.Generate(out)
+			Next
+		Else
+			Local splits:String = ""
+			
+			For Local child:TFBWidget = EachIn kids
+				If splits.length > 0 Then
+					splits:+ ", "
+				End If
+				splits:+ TFBSplitterItem(child).GenerateSplit(out)
+			Next
+			
+			Local text:String = prop("name") + ".Split"
+			If prop("splitmode") = "wxSPLIT_VERTICAL" Then
+				text:+ "Vertically"
+			Else
+				text:+ "Horizontally"
+			End If
+			
+			text:+ "(" + splits + ")"
+			
+			out.Add(text, 2)
+			
+		End If
+
+		out.Add("")
+
+	End Method
+
+	'Method GetChild:TFBWidget(index:Int)
+	'	Return TFBWidget(kids.ValueAtIndex(index))
+	'End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxSplitterWindow"
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxSplitterWindow"
+	End Method
+
+End Type
+
+Type TFBSplitterItem Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+
+			out.Add(parent.prop("name") + ".Initialize(" + child.prop("name") + ")", 2)
+		Next
+
+		out.Add("")
+
+	End Method
+
+	Method GenerateSplit:String(out:TCodeOutput)
+		Local name:String
+		
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+			name = child.prop("name")
+		Next
+
+		out.Add("")
+		Return name
+	End Method
+	
+	'Method GetChild:TFBWidget(index:Int)
+	'	Return TFBWidget(kids.ValueAtIndex(index))
+	'End Method
+
+	Method GetType:String(def:Int = False)
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxSplitterWindow"
+	End Method
+
+End Type
+
 
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
@@ -2731,7 +2882,7 @@ End Type
 
 Type TFBBoxSizer Extends TFBSizer
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxBoxSizer"
 	End Method
 
@@ -2759,7 +2910,7 @@ End Type
 
 Type TFBStaticBoxSizer Extends TFBSizer
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxStaticBoxSizer"
 	End Method
 
@@ -2814,7 +2965,7 @@ Type TFBGridSizer Extends TFBSizer
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxGridSizer"
 	End Method
 
@@ -2870,7 +3021,7 @@ Type TFBFlexGridSizer Extends TFBSizer
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxFlexGridSizer"
 	End Method
 
@@ -2904,7 +3055,7 @@ Type TFBSizerItem Extends TFBWidget
 		
 	End Method
 	
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 	End Method
 	
 	Method GetImport:String()
@@ -2988,7 +3139,7 @@ Type TFBStdDialogButtonSizer Extends TFBSizer
 	
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxStdDialogButtonSizer"
 	End Method
 
@@ -3101,7 +3252,7 @@ Type TFBMenuBar Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxMenuBar"
 	End Method
 	
@@ -3144,7 +3295,7 @@ Type TFBMenu Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxMenu"
 	End Method
 
@@ -3196,7 +3347,7 @@ Type TFBMenuItem Extends TFBWidget
 		
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxMenuItem"
 	End Method
 
@@ -3215,7 +3366,7 @@ Type TFBMenuSeparator Extends TFBWidget
 
 	End Method
 
-	Method GetType:String()
+	Method GetType:String(def:Int = False)
 		Return "wxMenuItem"
 	End Method
 
