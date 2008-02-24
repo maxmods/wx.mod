@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.97"
+Const AppVersion:String = "0.98"
 
 
 Global eventMap:TMap = New TMap
@@ -3552,6 +3552,9 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnOKButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
 	AddEvent(TEventType.Set("OnSaveButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
 	AddEvent(TEventType.Set("OnYesButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
+
+	AddEvent(TEventType.Set("OnNotebookPageChanged", "wxCommandEvent", "wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED"))
+	AddEvent(TEventType.Set("OnNotebookPageChanging", "wxCommandEvent", "wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING"))
 
 End Function
 
