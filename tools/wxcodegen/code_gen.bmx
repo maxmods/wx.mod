@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.98"
+Const AppVersion:String = "0.99"
 
 
 Global eventMap:TMap = New TMap
@@ -330,14 +330,14 @@ Type TEventType
 	Field name:String
 	Field event:String
 	Field constant:String
-	Field kind:Int
+	Field extraImport:String
 	
-	Function Set:TEventType(name:String, event:String, constant:String, kind:Int = 0)
+	Function Set:TEventType(name:String, event:String, constant:String, extraImport:String = "")
 		Local this:TEventType = New TEventType
 		this.name = name
 		this.event = event
 		this.constant = constant
-		this.kind = kind
+		this.extraImport = extraImport
 		Return this
 	End Function
 	
@@ -366,6 +366,18 @@ Function MapEventConst:String(event:String)
 	Return "EVENT_" + event + "_NOT_AVAILABLE"
 
 End Function
+
+Function MapEventImport:String(event:String)
+
+	Local evt:TEventType = TEventType(eventMap.ValueForKey(event))
+	
+	If evt Then
+		Return evt.extraImport
+	End If
+
+	Return Null
+End Function
+
 
 ' generates the position, size and style part, leaving out the particular section if it doesn't have a value.
 Function DoPosSizeStyle:String(widget:TFBWidget, showIfEmpty:Int = False)
@@ -1086,6 +1098,10 @@ Type TFBContainer Extends TFBWidget
 			Local ec:String = MapEventConst(evt)
 			out.Add("ConnectAny(" + ec + ", _" + event + ")", 2)
 		
+			ec = MapEventImport(evt)
+			If ec Then
+				GetProject().imports.Insert(ec, "")
+			End If
 		Next
 	
 		' child events
@@ -1199,6 +1215,11 @@ Type TFBContainer Extends TFBWidget
 				Else
 					out.Add("Connect(" + widget.prop("id") + ", " + ec + ", _" + event + ")", 2)
 				End If
+			End If
+
+			ec = MapEventImport(evt)
+			If ec Then
+				GetProject().imports.Insert(ec, "")
 			End If
 		Next
 		
@@ -3410,20 +3431,20 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnKeyDown", "wxKeyEvent", "wxEVT_KEY_DOWN"))
 	AddEvent(TEventType.Set("OnKeyUp", "wxKeyEvent", "wxEVT_KEY_UP"))
 			
-	AddEvent(TEventType.Set("OnEnterWindow", "wxMouseEvent", "wxEVT_ENTER_WINDOW"))
-	AddEvent(TEventType.Set("OnLeaveWindow", "wxMouseEvent", "wxEVT_LEAVE_WINDOW"))
-	AddEvent(TEventType.Set("OnLeftDClick", "wxMouseEvent", "wxEVT_LEFT_DCLICK"))
-	AddEvent(TEventType.Set("OnLeftDown", "wxMouseEvent", "wxEVT_LEFT_DOWN"))
-	AddEvent(TEventType.Set("OnLeftUp", "wxMouseEvent", "wxEVT_LEFT_UP"))
-	AddEvent(TEventType.Set("OnMiddleDClick", "wxMouseEvent", "wxEVT_MIDDLE_DCLICK"))
-	AddEvent(TEventType.Set("OnMiddleDown", "wxMouseEvent", "wxEVT_MIDDLE_DOWN"))
-	AddEvent(TEventType.Set("OnMiddleUp", "wxMouseEvent", "wxEVT_MIDDLE_UP"))
-	AddEvent(TEventType.Set("OnMotion", "wxMouseEvent", "wxEVT_MOTION"))
-	AddEvent(TEventType.Set("OnMouseEvents", "wxMouseEvent", "wxEVT_MOUSE_EVENTS"))
-	AddEvent(TEventType.Set("OnMouseWheel", "wxMouseEvent", "wxEVT_MOUSEWHEEL"))
-	AddEvent(TEventType.Set("OnRightDClick", "wxMouseEvent", "wxEVT_RIGHT_DCLICK"))
-	AddEvent(TEventType.Set("OnRightDown", "wxMouseEvent", "wxEVT_RIGHT_DOWN"))
-	AddEvent(TEventType.Set("OnRightUp", "wxMouseEvent", "wxEVT_RIGHT_UP"))
+	AddEvent(TEventType.Set("OnEnterWindow", "wxMouseEvent", "wxEVT_ENTER_WINDOW", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnLeaveWindow", "wxMouseEvent", "wxEVT_LEAVE_WINDOW", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnLeftDClick", "wxMouseEvent", "wxEVT_LEFT_DCLICK", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnLeftDown", "wxMouseEvent", "wxEVT_LEFT_DOWN", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnLeftUp", "wxMouseEvent", "wxEVT_LEFT_UP", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnMiddleDClick", "wxMouseEvent", "wxEVT_MIDDLE_DCLICK", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnMiddleDown", "wxMouseEvent", "wxEVT_MIDDLE_DOWN", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnMiddleUp", "wxMouseEvent", "wxEVT_MIDDLE_UP", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnMotion", "wxMouseEvent", "wxEVT_MOTION", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnMouseEvents", "wxMouseEvent", "wxEVT_MOUSE_EVENTS", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnMouseWheel", "wxMouseEvent", "wxEVT_MOUSEWHEEL", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnRightDClick", "wxMouseEvent", "wxEVT_RIGHT_DCLICK", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnRightDown", "wxMouseEvent", "wxEVT_RIGHT_DOWN", "wx.wxMouseEvent"))
+	AddEvent(TEventType.Set("OnRightUp", "wxMouseEvent", "wxEVT_RIGHT_UP", "wx.wxMouseEvent"))
 	AddEvent(TEventType.Set("OnSetFocus", "wxFocusEvent", "wxEVT_SET_FOCUS"))
 	AddEvent(TEventType.Set("OnKillFocus", "wxFocusEvent", "wxEVT_KILL_FOCUS"))
 	
