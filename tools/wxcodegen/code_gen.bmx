@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "0.99"
+Const AppVersion:String = "1.00"
 
 
 Global eventMap:TMap = New TMap
@@ -2819,19 +2819,25 @@ Type TFBSplitterWindow Extends TFBContainer
 				text:+ "Horizontally"
 			End If
 			
-			text:+ "(" + splits + ")"
+			text:+ "(" + splits
+			
+			If prop("sashpos") And prop("sashpos") <> "0" Then
+				text:+ ", " + prop("sashpos")
+			End If
+			
+			text:+ ")"
 			
 			out.Add(text, 2)
 			
+		End If
+		
+		If prop("min_pane_size") And prop("min_pane_size") <> "0" Then
+			out.Add(prop("name") + ".SetMinimumPaneSize(" + prop("min_pane_size") + ")", 2)
 		End If
 
 		out.Add("")
 
 	End Method
-
-	'Method GetChild:TFBWidget(index:Int)
-	'	Return TFBWidget(kids.ValueAtIndex(index))
-	'End Method
 
 	Method GetType:String(def:Int = False)
 		Return "wxSplitterWindow"
@@ -2870,10 +2876,6 @@ Type TFBSplitterItem Extends TFBWidget
 		Return name
 	End Method
 	
-	'Method GetChild:TFBWidget(index:Int)
-	'	Return TFBWidget(kids.ValueAtIndex(index))
-	'End Method
-
 	Method GetType:String(def:Int = False)
 	End Method
 
