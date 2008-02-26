@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "1.00"
+Const AppVersion:String = "1.01"
 
 
 Global eventMap:TMap = New TMap
@@ -290,6 +290,12 @@ Type TFBGenFactory
 
 			Case "splitteritem"
 				widget = New TFBSplitterItem
+
+			Case "wxGridBagSizer"
+				widget = New TFBGridBagSizer
+
+			Case "gbsizeritem"
+				widget = New TFBgbsizeritem
 
 		End Select
 		
@@ -1444,7 +1450,7 @@ Type TFBDialog Extends TFBContainer
 
 
 	Method DoConstructor(out:TCodeOutput)
-		Local text:String = "Method Create_:" + prop("name") + "Base(parent:wxWindow = Null, "
+		Local text:String = "Method Create:" + prop("name") + "Base(parent:wxWindow = Null, "
 		text:+ "id:Int = "
 		If prop("id") Then
 			text:+ prop("id")
@@ -3034,7 +3040,7 @@ Type TFBFlexGridSizer Extends TFBSizer
 			out.Add(prop("name") + ".SetNonFlexibleGrowMode( " + prop("non_flexible_grow_mode") + " )", 2)
 		End If
 
-		If prop("minimum_size") Then
+		If prop("minimum_size") And Not IsDefault(prop("minimum_size")) Then
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
 	
@@ -3073,7 +3079,6 @@ Type TFBSizerItem Extends TFBWidget
 			text:+ prop("border") + ")"
 			
 			out.Add(text, 2, 2)
-			' sbSizer1->Add( m_listCtrl1, 1, wxALL|wxEXPAND, 5 );
 		Next
 		
 	End Method
@@ -3240,6 +3245,97 @@ Type TFBStdDialogButtonSizer Extends TFBSizer
 		Return evt.Replace("ButtonClick", "").Replace("On", "")
 	End Method
 	
+End Type
+
+
+Type TFBGridBagSizer Extends TFBSizer
+
+	Method GetType:String(def:Int = False)
+		Return "wxGridBagSizer"
+	End Method
+
+	Method Generate(out:TCodeOutput)
+	
+		Super.Generate(out)
+	
+		out.Add(prop("name") + " = new " + GetType() + ".CreateGB(" + prop("vgap") + ", " + prop("hgap") + ")", 2)
+
+		If prop("growablecols") Then
+			Local cols:String[] = prop("growablecols").Split(",")
+			For Local i:Int = 0 Until cols.length
+				out.Add(prop("name") + ".AddGrowableCol( " + cols[i] + " )", 2)
+			Next
+		End If
+
+		If prop("growablerows") Then	
+			Local rows:String[] = prop("growablerows").Split(",")
+			For Local i:Int = 0 Until rows.length
+				out.Add(prop("name") + ".AddGrowableRow( " + rows[i] + " )", 2)
+			Next
+		End If
+
+		If prop("flexible_direction") Then
+			out.Add(prop("name") + ".SetFlexibleDirection(" + prop("flexible_direction") + ")", 2)
+		End If
+
+		If prop("non_flexible_grow_mode") Then
+			out.Add(prop("name") + ".SetNonFlexibleGrowMode(" + prop("non_flexible_grow_mode") + ")", 2)
+		End If
+
+		If prop("empty_cell_size") And Not IsDefault(prop("empty_cell_size")) Then
+			out.Add(prop("name") + ".SetEmptyCellSize(" + prop("empty_cell_size") + ")", 2)
+		End If
+		
+		out.Add("")
+	
+		If prop("minimum_size") And Not IsDefault(prop("minimum_size")) Then
+			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
+		End If
+		
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+		Next
+		
+	End Method
+
+	Method GetImport:String()
+		Return "wx.wxGridBagSizer"
+	End Method
+
+End Type
+
+Type TFBGBSizerItem Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+	
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+			
+			
+			Local text:String = parent.prop("name") + ".AddGB"
+			If TFBSizer(child) Then
+				text:+ "Sizer"
+			End If
+			
+			text:+ "(" + child.prop("name") + ", "
+			text:+ prop("row") + ", "
+			text:+ prop("column") + ", "
+			text:+ prop("rowspan") + ", "
+			text:+ prop("colspan") + ", "
+			text:+ prop("flag") + ", "
+			text:+ prop("border") + ")"
+			
+			out.Add(text, 2, 2)
+		Next
+		
+	End Method
+	
+	Method GetType:String(def:Int = False)
+	End Method
+	
+	Method GetImport:String()
+	End Method
+
 End Type
 
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
