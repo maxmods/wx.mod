@@ -3280,4 +3280,182 @@ Type wxScintilla Extends wxControl
 
 End Type
 
+Rem
+bbdoc: 
+End Rem
+Type wxScintillaEvent Extends wxCommandEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxScintillaEvent = New wxScintillaEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Method GetPosition:Int()
+		Return bmx_wxscintillaevent_getposition(wxEventPtr)
+	End Method
+	
+	Method GetKey:Int()
+		Return bmx_wxscintillaevent_getkey(wxEventPtr)
+	End Method
+	
+	Method GetModifiers:Int()
+		Return bmx_wxscintillaevent_getmodifiers(wxEventPtr)
+	End Method
+	
+	Method GetModificationType:Int()
+		Return bmx_wxscintillaevent_getmodificationtype(wxEventPtr)
+	End Method
+	
+	Method GetText:String()
+		Return bmx_wxscintillaevent_gettext(wxEventPtr)
+	End Method
+	
+	Method GetLength:Int()
+		Return bmx_wxscintillaevent_getlength(wxEventPtr)
+	End Method
+	
+	Method GetLinesAdded:Int()
+		Return bmx_wxscintillaevent_getlinesadded(wxEventPtr)
+	End Method
+	
+	Method GetLine:Int()
+		Return bmx_wxscintillaevent_getline(wxEventPtr)
+	End Method
+	
+	Method GetFoldLevelNow:Int()
+		Return bmx_wxscintillaevent_getfoldlevelnow(wxEventPtr)
+	End Method
+	
+	Method GetFoldLevelPrev:Int()
+		Return bmx_wxscintillaevent_getfoldlevelprev(wxEventPtr)
+	End Method
+	
+	Method GetMargin:Int()
+		Return bmx_wxscintillaevent_getmargin(wxEventPtr)
+	End Method
+	
+	Method GetMessage:Int()
+		Return bmx_wxscintillaevent_getmessage(wxEventPtr)
+	End Method
+	
+	Method GetWParam:Int()
+		Return bmx_wxscintillaevent_getwparam(wxEventPtr)
+	End Method
+	
+	Method GetLParam:Int()
+		Return bmx_wxscintillaevent_getlparam(wxEventPtr)
+	End Method
+	
+	Method GetListType:Int()
+		Return bmx_wxscintillaevent_getlisttype(wxEventPtr)
+	End Method
+	
+	Method GetX:Int()
+		Return bmx_wxscintillaevent_getx(wxEventPtr)
+	End Method
+	
+	Method GetY:Int()
+		Return bmx_wxscintillaevent_gety(wxEventPtr)
+	End Method
+	
+	Method GetDragText:String()
+		Return bmx_wxscintillaevent_getdragtext(wxEventPtr)
+	End Method
+	
+	Method GetDragAllowMove:Int()
+		Return bmx_wxscintillaevent_getdragallowmove(wxEventPtr)
+	End Method
+	
+'    wxDragResult GetDragResult()
+
+	Method GetShift:int()
+		Return bmx_wxscintillaevent_getshift(wxEventPtr)
+	End Method
+	
+	Method GetControl:int()
+		Return bmx_wxscintillaevent_getcontrol(wxEventPtr)
+	End Method
+	
+	Method GetAlt:int()
+		Return bmx_wxscintillaevent_getalt(wxEventPtr)
+	End Method
+	
+
+End Type
+
+Type TScintillaEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	
+		Select evt.eventType
+			Case wxEVT_SCI_CHANGE, ..
+					wxEVT_SCI_STYLENEEDED, ..
+					wxEVT_SCI_CHARADDED, ..
+					wxEVT_SCI_SAVEPOINTREACHED, ..
+					wxEVT_SCI_SAVEPOINTLEFT, ..
+					wxEVT_SCI_ROMODIFYATTEMPT, ..
+					wxEVT_SCI_KEY, ..
+					wxEVT_SCI_DOUBLECLICK, ..
+					wxEVT_SCI_UPDATEUI, ..
+					wxEVT_SCI_MODIFIED, ..
+					wxEVT_SCI_MACRORECORD, ..
+					wxEVT_SCI_MARGINCLICK, ..
+					wxEVT_SCI_NEEDSHOWN, ..
+					wxEVT_SCI_PAINTED, ..
+					wxEVT_SCI_USERLISTSELECTION, ..
+					wxEVT_SCI_URIDROPPED, ..
+					wxEVT_SCI_DWELLSTART, ..
+					wxEVT_SCI_DWELLEND, ..
+					wxEVT_SCI_START_DRAG, ..
+					wxEVT_SCI_DRAG_OVER, ..
+					wxEVT_SCI_DO_DROP, ..
+					wxEVT_SCI_ZOOM, ..
+					wxEVT_SCI_HOTSPOT_CLICK, ..
+					wxEVT_SCI_HOTSPOT_DCLICK, ..
+					wxEVT_SCI_CALLTIP_CLICK, ..
+					wxEVT_SCI_AUTOCOMP_SELECTION
+				Return wxScintillaEvent.Create(wxEventPtr, evt)
+		End Select
+		
+		Return Null
+	End Method
+
+	Method GetEventType:Int(eventType:Int)
+		Select eventType
+			Case wxEVT_SCI_CHANGE, ..
+					wxEVT_SCI_STYLENEEDED, ..
+					wxEVT_SCI_CHARADDED, ..
+					wxEVT_SCI_SAVEPOINTREACHED, ..
+					wxEVT_SCI_SAVEPOINTLEFT, ..
+					wxEVT_SCI_ROMODIFYATTEMPT, ..
+					wxEVT_SCI_KEY, ..
+					wxEVT_SCI_DOUBLECLICK, ..
+					wxEVT_SCI_UPDATEUI, ..
+					wxEVT_SCI_MODIFIED, ..
+					wxEVT_SCI_MACRORECORD, ..
+					wxEVT_SCI_MARGINCLICK, ..
+					wxEVT_SCI_NEEDSHOWN, ..
+					wxEVT_SCI_PAINTED, ..
+					wxEVT_SCI_USERLISTSELECTION, ..
+					wxEVT_SCI_URIDROPPED, ..
+					wxEVT_SCI_DWELLSTART, ..
+					wxEVT_SCI_DWELLEND, ..
+					wxEVT_SCI_START_DRAG, ..
+					wxEVT_SCI_DRAG_OVER, ..
+					wxEVT_SCI_DO_DROP, ..
+					wxEVT_SCI_ZOOM, ..
+					wxEVT_SCI_HOTSPOT_CLICK, ..
+					wxEVT_SCI_HOTSPOT_DCLICK, ..
+					wxEVT_SCI_CALLTIP_CLICK, ..
+					wxEVT_SCI_AUTOCOMP_SELECTION
+				Return bmx_wxscintilla_geteventtype(eventType)
+		End Select
+	End Method
+		
+End Type
+
+New TScintillaEventFactory
 
