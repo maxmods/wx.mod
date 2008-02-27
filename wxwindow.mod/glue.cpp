@@ -956,11 +956,11 @@ MaxFlexGridSizer * bmx_wxflexgridsizer_createrc(BBObject * maxHandle, int rows, 
 }
 
 
-void bmx_wxflexgridsizer_addgrowablecol(MaxFlexGridSizer * sizer, int index, int prop) {
+void bmx_wxflexgridsizer_addgrowablecol(wxFlexGridSizer * sizer, int index, int prop) {
 	sizer->AddGrowableCol(index, prop);
 }
 
-void bmx_wxflexgridsizer_addgrowablerow(MaxFlexGridSizer * sizer, int index, int prop) {
+void bmx_wxflexgridsizer_addgrowablerow(wxFlexGridSizer * sizer, int index, int prop) {
 	sizer->AddGrowableRow(index, prop);
 }
 

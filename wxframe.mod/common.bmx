@@ -76,3 +76,8 @@ Rem
 bbdoc: Create a window which is attachable To another top level window
 End Rem
 Const wxFRAME_DRAWER:Int = $0020
+
+Rem
+bbdoc: Draw the window in a metal theme on Mac 
+End Rem
+Const wxFRAME_EX_METAL:Int = $00000040

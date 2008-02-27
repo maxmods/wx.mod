@@ -74,3 +74,10 @@ End Extern
 Const wxDEFAULT_DIALOG_STYLE:Int = wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX
 
 Const wxDIALOG_EX_CONTEXTHELP:Int = wxWS_EX_CONTEXTHELP
+
+Rem
+bbdoc: Draw the window in a metal theme on Mac
+End Rem
+Const wxDIALOG_EX_METAL:Int = $00000040
+
+
