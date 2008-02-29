@@ -1177,9 +1177,16 @@ Type wxEvtHandler Extends wxObject
 	End Method
 	
 	Method Delete()
+		Free()
+	End Method
+	
+	Method Free()
 		clientData = Null
 		' cleanup time!
-		events.Clear()
+		If events Then
+			events.Clear()
+			events = Null
+		End If
 	End Method
 	
 End Type

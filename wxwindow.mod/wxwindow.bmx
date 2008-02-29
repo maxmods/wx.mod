@@ -1740,13 +1740,6 @@ Type wxWindow Extends wxEvtHandler
 		bmx_wxwindow_warppointer(wxObjectPtr, x, y)
 	End Method	
 	
-	Method Free()
-		If wxObjectPtr Then
-			bmx_wxwindow_delete(wxObjectPtr)
-			wxObjectPtr = Null
-		End If
-	End Method
-	
 End Type
 
 

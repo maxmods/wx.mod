@@ -30,6 +30,17 @@ Type wxObject
 
 	Field wxObjectPtr:Byte Ptr
 
+	Function _Free(obj:wxObject)
+		' WARNING... we free wxObjectPtr NOW, just in case any of the subclasses have a Free() method, where
+		' the probably shouldn't have.
+		obj.wxObjectPtr = Null
+		
+		obj.Free()
+	End Function
+
+	Method Free()
+	End Method
+	
 End Type
 
 

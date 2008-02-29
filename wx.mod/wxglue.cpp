@@ -43,6 +43,7 @@ void wxunbind(wxObject *obj) {
 	BBObject * peer = wxfind(obj);
 	if (peer != &bbNullObject) {
 		peerMap.erase(obj);
+		_wx_wx_wxObject__Free(peer);
 		BBRELEASE(peer);
 	}
 }

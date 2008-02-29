@@ -636,3 +636,27 @@ Const wxEVT_USER_FIRST:Int = wxEVT_FIRST + 2000
 Const wxODDEVEN_RULE:Int = 1
 Const wxWINDING_RULE:Int = 2
 
+Const wxPATH_NATIVE:Int = 0
+Const wxPATH_UNIX:Int = 1 
+Const wxPATH_BEOS:Int = wxPATH_UNIX
+Const wxPATH_MAC:Int = 2
+Const wxPATH_DOS:Int = 3
+Const wxPATH_WIN:Int = wxPATH_DOS
+Const wxPATH_OS2:Int = wxPATH_DOS
+Const wxPATH_VMS:Int = 4
+
+
+Const wxPATH_NORM_ENV_VARS:Int = $0001
+Const wxPATH_NORM_DOTS:Int = $0002
+Const wxPATH_NORM_TILDE:Int = $0004
+Const wxPATH_NORM_CASE:Int = $0008
+Const wxPATH_NORM_ABSOLUTE:Int = $0010
+Const wxPATH_NORM_LONG:Int = $0020
+Const wxPATH_NORM_SHORTCUT:Int = $0040
+Const wxPATH_NORM_ALL:Int = $00ff & ~wxPATH_NORM_CASE
+
+Const wxPATH_GET_VOLUME:Int = $0001
+Const wxPATH_GET_SEPARATOR:Int = $0002
+
+Const wxPATH_MKDIR_FULL:Int = $0001
+

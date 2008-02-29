@@ -50,6 +50,7 @@ extern "C" {
 
 	void _wx_wx_TEventHandler_eventCallback(wxEvent &, void * data);
 	int _wx_wxapp_wxAppMain__MainLoop();
+	void _wx_wx_wxObject__Free(BBObject * handle);
 
 	BBString *bbStringFromWxString(const wxString &s );
 	wxString wxStringFromBBString(BBString * s);
