@@ -296,6 +296,16 @@ wxRect & MaxRect::Rect() {
 MaxRect::~MaxRect() {
 }
 
+// ---------------------------------------------------------------------------------------
+
+MaxAcceleratorTable::MaxAcceleratorTable(const wxAcceleratorTable & t)
+	: table(t)
+{
+}
+
+wxAcceleratorTable & MaxAcceleratorTable::Table() {
+	return table;
+}
 
 // ---------------------------------------------------------------------------------------
 
@@ -1017,6 +1027,33 @@ bool bmx_wxstreambase_isseekable(wxStreamBase * stream) {
 
 // *********************************************
 
+MaxAcceleratorTable * bmx_wxacceleratortable_create(BBArray * p) {
+	int n = p->scales[0];
+	wxAcceleratorEntry entries[n];
+
+	for( int i=0;i<n;++i ){
+		entries[i] = *_wx_wx_wxAcceleratorTable__getEntry(p, i);
+	}
+
+	wxAcceleratorTable table(n, entries);
+	return new MaxAcceleratorTable(table);
+}
+
+bool bmx_wxacceleratortable_isok(MaxAcceleratorTable * table) {
+	return table->Table().IsOk();
+}
+
+void bmx_wxacceleratortable_delete(MaxAcceleratorTable * table) {
+	delete table;
+}
+
+
+// *********************************************
+
+wxAcceleratorEntry * bmx_wxacceleratorentry_create(int flags, int keyCode, int cmd) {
+	return new wxAcceleratorEntry(flags, keyCode, cmd);
+}
+
 int bmx_wxacceleratorentry_getcommand(wxAcceleratorEntry * entry) {
 	return entry->GetCommand();
 }
@@ -1036,6 +1073,8 @@ void bmx_wxacceleratorentry_set(wxAcceleratorEntry * entry, int flags, int keyCo
 void bmx_wxacceleratorentry_delete(wxAcceleratorEntry * entry) {
 	delete entry;
 }
+
+// *********************************************
 
 int bmx_wxisalnum(int code) {
 	return wxIsalnum(code);
@@ -1484,4 +1523,24 @@ void bmx_wxfileinputstream_free(wxFileInputStream * stream) {
 	delete stream;
 }
 
+
+// *********************************************
+
+long bmx_wxnewid() {
+	return wxNewId();
+}
+
+void bmx_wxregisterid(long id) {
+	wxRegisterId(id);
+}
+
+void bmx_wxenabletoplevelwindows(bool enable) {
+	wxEnableTopLevelWindows(enable);
+}
+
+void bmx_wxgetmouseposition(int * x, int * y) {
+	wxPoint p = wxGetMousePosition();
+	*x = p.x;
+	*y = p.y;
+}
 

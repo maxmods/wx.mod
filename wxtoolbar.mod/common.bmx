@@ -94,7 +94,34 @@ Extern
 	Function bmx_wxtoolbar_insertcontrol:Byte Ptr(handle:Byte Ptr, pos:Int, control:Byte Ptr)
 	Function bmx_wxtoolbar_insertseparator:Byte Ptr(handle:Byte Ptr, pos:Int)
 	
-	
+	Function bmx_wxtoolbartoolbase_isbutton:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_iscontrol:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_isseparator:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_getstyle:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_getkind:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_isenabled:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_istoggled:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_canbetoggled:Int(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_getnormalbitmap:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_getdisabledbitmap:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_getbitmap:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_getlabel:String(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_getshorthelp:String(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_getlonghelp:String(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_getclientdata:Object(handle:Byte Ptr)
+
+	Function bmx_wxtoolbartoolbase_enable:Int(handle:Byte Ptr, value:Int)
+	Function bmx_wxtoolbartoolbase_toggle(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_settoggle:Int(handle:Byte Ptr, value:Int)
+	Function bmx_wxtoolbartoolbase_setshorthelp:Int(handle:Byte Ptr, help:String)
+	Function bmx_wxtoolbartoolbase_setlonghelp:Int(handle:Byte Ptr, help:String)
+	Function bmx_wxtoolbartoolbase_setnormalbitmap(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_setdisabledbitmap(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_setlabel(handle:Byte Ptr, label:String)
+	Function bmx_wxtoolbartoolbase_setclientdata(handle:Byte Ptr, data:Object)
+	Function bmx_wxtoolbartoolbase_detach(handle:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_attach(handle:Byte Ptr, toolbar:Byte Ptr)
+
 	Function bmx_wxtoolbar_geteventtype:Int(evt:Int)
 	
 End Extern

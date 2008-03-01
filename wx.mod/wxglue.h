@@ -43,6 +43,7 @@ class MaxFont;
 class MaxDC;
 class MaxPaintDC;
 class MaxRect;
+class MaxAcceleratorTable;
 
 extern "C" {
 
@@ -50,6 +51,7 @@ extern "C" {
 
 	void _wx_wx_TEventHandler_eventCallback(wxEvent &, void * data);
 	int _wx_wxapp_wxAppMain__MainLoop();
+	wxAcceleratorEntry * _wx_wx_wxAcceleratorTable__getEntry(BBArray * entries, int index);
 	void _wx_wx_wxObject__Free(BBObject * handle);
 
 	BBString *bbStringFromWxString(const wxString &s );
@@ -226,6 +228,11 @@ extern "C" {
 	bool bmx_wxstreambase_isok(wxStreamBase * stream);
 	bool bmx_wxstreambase_isseekable(wxStreamBase * stream);
 
+	MaxAcceleratorTable * bmx_wxacceleratortable_create(BBArray * entries);
+	bool bmx_wxacceleratortable_isok(MaxAcceleratorTable * table);
+	void bmx_wxacceleratortable_delete(MaxAcceleratorTable * table);
+
+	wxAcceleratorEntry * bmx_wxacceleratorentry_create(int flags, int keyCode, int cmd);
 	int bmx_wxacceleratorentry_getcommand(wxAcceleratorEntry * entry);
 	int bmx_wxacceleratorentry_getflags(wxAcceleratorEntry * entry);
 	int bmx_wxacceleratorentry_getkeycode(wxAcceleratorEntry * entry);
@@ -327,6 +334,10 @@ extern "C" {
 	bool bmx_wxfileinputstream_isok(wxFileInputStream * stream);
 	void bmx_wxfileinputstream_free(wxFileInputStream * stream);
 
+	long bmx_wxnewid();
+	void bmx_wxregisterid(long id);
+	void bmx_wxenabletoplevelwindows(bool enable);
+	void bmx_wxgetmouseposition(int * x, int * y);
 
 }
 
@@ -460,5 +471,17 @@ private:
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxAcceleratorTable
+{
+public:
+	MaxAcceleratorTable(const wxAcceleratorTable & t);
+	wxAcceleratorTable & Table();
+
+private:
+	wxAcceleratorTable table;
+
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #endif // _WX_MAX_H_

@@ -81,6 +81,34 @@ extern "C" {
 	wxToolBarToolBase * bmx_wxtoolbar_insertcontrol(wxToolBar * toolbar, int pos, wxControl * control);
 	wxToolBarToolBase * bmx_wxtoolbar_insertseparator(wxToolBar * toolbar, int pos);
 
+	bool bmx_wxtoolbartoolbase_isbutton(wxToolBarToolBase * base);
+	bool bmx_wxtoolbartoolbase_iscontrol(wxToolBarToolBase * base);
+	bool bmx_wxtoolbartoolbase_isseparator(wxToolBarToolBase * base);
+	int bmx_wxtoolbartoolbase_getstyle(wxToolBarToolBase * base);
+	wxItemKind bmx_wxtoolbartoolbase_getkind(wxToolBarToolBase * base);
+	bool bmx_wxtoolbartoolbase_isenabled(wxToolBarToolBase * base);
+	bool bmx_wxtoolbartoolbase_istoggled(wxToolBarToolBase * base);
+	bool bmx_wxtoolbartoolbase_canbetoggled(wxToolBarToolBase * base);
+	MaxBitmap * bmx_wxtoolbartoolbase_getnormalbitmap(wxToolBarToolBase * base);
+	MaxBitmap * bmx_wxtoolbartoolbase_getdisabledbitmap(wxToolBarToolBase * base);
+	MaxBitmap * bmx_wxtoolbartoolbase_getbitmap(wxToolBarToolBase * base);
+	BBString * bmx_wxtoolbartoolbase_getlabel(wxToolBarToolBase * base);
+	BBString * bmx_wxtoolbartoolbase_getshorthelp(wxToolBarToolBase * base);
+	BBString * bmx_wxtoolbartoolbase_getlonghelp(wxToolBarToolBase * base);
+	BBObject * bmx_wxtoolbartoolbase_getclientdata(wxToolBarToolBase * base);
+
+	bool bmx_wxtoolbartoolbase_enable(wxToolBarToolBase * base, bool value);
+	void bmx_wxtoolbartoolbase_toggle(wxToolBarToolBase * base);
+	bool bmx_wxtoolbartoolbase_settoggle(wxToolBarToolBase * base, bool value);
+	bool bmx_wxtoolbartoolbase_setshorthelp(wxToolBarToolBase * base, BBString * help);
+	bool bmx_wxtoolbartoolbase_setlonghelp(wxToolBarToolBase * base, BBString * help);
+	void bmx_wxtoolbartoolbase_setnormalbitmap(wxToolBarToolBase * base, MaxBitmap * bitmap);
+	void bmx_wxtoolbartoolbase_setdisabledbitmap(wxToolBarToolBase * base, MaxBitmap * bitmap);
+	void bmx_wxtoolbartoolbase_setlabel(wxToolBarToolBase * base, BBString * label);
+	void bmx_wxtoolbartoolbase_setclientdata(wxToolBarToolBase * base, BBObject * data);
+	void bmx_wxtoolbartoolbase_detach(wxToolBarToolBase * base);
+	void bmx_wxtoolbartoolbase_attach(wxToolBarToolBase * base, wxToolBarBase * toolbar);
+
 	int bmx_wxtoolbar_geteventtype(int type);
 
 }

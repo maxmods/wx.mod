@@ -801,6 +801,13 @@ void bmx_wxwindow_setdroptarget(wxWindow * window, wxDropTarget * target) {
 	window->SetDropTarget(target);
 }
 
+MaxAcceleratorTable * bmx_wxwindow_getacceleratortable(wxWindow * window) {
+	return new MaxAcceleratorTable(*window->GetAcceleratorTable());
+}
+
+void bmx_wxwindow_setacceleratortable(wxWindow * window, MaxAcceleratorTable * table) {
+	window->SetAcceleratorTable(table->Table());
+}
 
 // *********************************************
 

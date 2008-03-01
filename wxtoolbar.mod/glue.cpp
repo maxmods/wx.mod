@@ -275,6 +275,130 @@ wxToolBarToolBase * bmx_wxtoolbar_insertseparator(wxToolBar * toolbar, int pos) 
 }
 
 
+bool bmx_wxtoolbartoolbase_isbutton(wxToolBarToolBase * base) {
+	return base->IsButton();
+}
+
+bool bmx_wxtoolbartoolbase_iscontrol(wxToolBarToolBase * base) {
+	return base->IsControl();
+}
+
+bool bmx_wxtoolbartoolbase_isseparator(wxToolBarToolBase * base) {
+	return base->IsSeparator();
+}
+
+int bmx_wxtoolbartoolbase_getstyle(wxToolBarToolBase * base) {
+	return base->GetStyle();
+}
+
+wxItemKind bmx_wxtoolbartoolbase_getkind(wxToolBarToolBase * base) {
+	return base->GetKind();
+}
+
+bool bmx_wxtoolbartoolbase_isenabled(wxToolBarToolBase * base) {
+	return base->IsEnabled();
+}
+
+bool bmx_wxtoolbartoolbase_istoggled(wxToolBarToolBase * base) {
+	return base->IsToggled();
+}
+
+bool bmx_wxtoolbartoolbase_canbetoggled(wxToolBarToolBase * base) {
+	return base->CanBeToggled();
+}
+
+MaxBitmap * bmx_wxtoolbartoolbase_getnormalbitmap(wxToolBarToolBase * base) {
+	wxBitmap b(base->GetNormalBitmap());
+	return new MaxBitmap(b);
+}
+
+MaxBitmap * bmx_wxtoolbartoolbase_getdisabledbitmap(wxToolBarToolBase * base) {
+	wxBitmap b(base->GetDisabledBitmap());
+	return new MaxBitmap(b);
+}
+
+MaxBitmap * bmx_wxtoolbartoolbase_getbitmap(wxToolBarToolBase * base) {
+	wxBitmap b(base->GetBitmap());
+	return new MaxBitmap(b);
+}
+
+BBString * bmx_wxtoolbartoolbase_getlabel(wxToolBarToolBase * base) {
+	return bbStringFromWxString(base->GetLabel());
+}
+
+BBString * bmx_wxtoolbartoolbase_getshorthelp(wxToolBarToolBase * base) {
+	return bbStringFromWxString(base->GetShortHelp());
+}
+
+BBString * bmx_wxtoolbartoolbase_getlonghelp(wxToolBarToolBase * base) {
+	return bbStringFromWxString(base->GetLongHelp());
+}
+
+BBObject * bmx_wxtoolbartoolbase_getclientdata(wxToolBarToolBase * base) {
+	void * data = base->GetClientData();
+	if (data) {
+		return (BBObject*)data;
+	} else {
+		return &bbNullObject;
+	}
+}
+
+bool bmx_wxtoolbartoolbase_enable(wxToolBarToolBase * base, bool value) {
+	return base->Enable(value);
+}
+
+void bmx_wxtoolbartoolbase_toggle(wxToolBarToolBase * base) {
+	base->Toggle();
+}
+
+bool bmx_wxtoolbartoolbase_settoggle(wxToolBarToolBase * base, bool value) {
+	return base->SetToggle(value);
+}
+
+bool bmx_wxtoolbartoolbase_setshorthelp(wxToolBarToolBase * base, BBString * help) {
+	return base->SetShortHelp(wxStringFromBBString(help));
+}
+
+bool bmx_wxtoolbartoolbase_setlonghelp(wxToolBarToolBase * base, BBString * help) {
+	return base->SetLongHelp(wxStringFromBBString(help));
+}
+
+void bmx_wxtoolbartoolbase_setnormalbitmap(wxToolBarToolBase * base, MaxBitmap * bitmap) {
+	base->SetNormalBitmap(bitmap->Bitmap());
+}
+
+void bmx_wxtoolbartoolbase_setdisabledbitmap(wxToolBarToolBase * base, MaxBitmap * bitmap) {
+	base->SetDisabledBitmap(bitmap->Bitmap());
+}
+
+void bmx_wxtoolbartoolbase_setlabel(wxToolBarToolBase * base, BBString * label) {
+	base->SetLabel(wxStringFromBBString(label));
+}
+
+void bmx_wxtoolbartoolbase_setclientdata(wxToolBarToolBase * base, BBObject * data) {
+
+	MaxObject * userData = (MaxObject *)base->GetClientData();
+	if (userData) {
+		delete userData;
+		userData = 0;
+	}
+
+	if (data) {
+		userData = new MaxObject(data);
+	}
+
+	base->SetClientData(userData);
+}
+
+void bmx_wxtoolbartoolbase_detach(wxToolBarToolBase * base) {
+	base->Detach();
+}
+
+void bmx_wxtoolbartoolbase_attach(wxToolBarToolBase * base, wxToolBarBase * toolbar) {
+	base->Attach(toolbar);
+}
+
+
 
 int bmx_wxtoolbar_geteventtype(int type) {
 	switch(type) {

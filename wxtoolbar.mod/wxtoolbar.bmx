@@ -529,7 +529,188 @@ Type wxToolBarToolBase Extends wxControl
 		End If
 	End Function
 
-
+	Rem
+	bbdoc: Returns True if this item is a button.
+	End Rem
+	Method IsButton:Int()
+		Return bmx_wxtoolbartoolbase_isbutton(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns True if this item is a control.
+	End Rem
+	Method IsControl:Int()
+		Return bmx_wxtoolbartoolbase_iscontrol(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns True if this item is a separator.
+	End Rem
+	Method IsSeparator:Int()
+		Return bmx_wxtoolbartoolbase_isseparator(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetStyle:Int()
+		Return bmx_wxtoolbartoolbase_getstyle(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetKind:Int()
+		Return bmx_wxtoolbartoolbase_getkind(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsEnabled:Int()
+		Return bmx_wxtoolbartoolbase_isenabled(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method IsToggled:Int()
+		Return bmx_wxtoolbartoolbase_istoggled(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method CanBeToggled:Int()
+		Return bmx_wxtoolbartoolbase_canbetoggled(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the normal item bitmap.
+	End Rem
+	Method GetNormalBitmap:wxBitmap()
+		Return wxBitmap._create(bmx_wxtoolbartoolbase_getnormalbitmap(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the disabled item bitmap
+	End Rem
+	Method GetDisabledBitmap:wxBitmap()
+		Return wxBitmap._create(bmx_wxtoolbartoolbase_getdisabledbitmap(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the bitmap for the item current state.
+	End Rem
+	Method GetBitmap:wxBitmap()
+		Return wxBitmap._create(bmx_wxtoolbartoolbase_getbitmap(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the item label
+	End Rem
+	Method GetLabel:String()
+		Return bmx_wxtoolbartoolbase_getlabel(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the item short help.
+	End Rem
+	Method GetShortHelp:String()
+		Return bmx_wxtoolbartoolbase_getshorthelp(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the item long help.
+	End Rem
+	Method GetLongHelp:String()
+		Return bmx_wxtoolbartoolbase_getlonghelp(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetClientData:Object()
+		Return bmx_wxtoolbartoolbase_getclientdata(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Enable:Int(value:Int)
+		Return bmx_wxtoolbartoolbase_enable(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Toggle the check item.
+	End Rem
+	Method Toggle()
+		bmx_wxtoolbartoolbase_toggle(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetToggle:Int(value:Int)
+		Return bmx_wxtoolbartoolbase_settoggle(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetShortHelp:Int(help:String)
+		Return bmx_wxtoolbartoolbase_setshorthelp(wxObjectPtr, help)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetLongHelp:Int(help:String)
+		Return bmx_wxtoolbartoolbase_setlonghelp(wxObjectPtr, help)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetNormalBitmap(bitmap:wxBitmap)
+		bmx_wxtoolbartoolbase_setnormalbitmap(wxObjectPtr, bitmap.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDisabledBitmap(bitmap:wxBitmap)
+		bmx_wxtoolbartoolbase_setdisabledbitmap(wxObjectPtr, bitmap.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetLabel(label:String)
+		bmx_wxtoolbartoolbase_setlabel(wxObjectPtr, label)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetClientData(data:Object)
+		bmx_wxtoolbartoolbase_setclientdata(wxObjectPtr, data)
+	End Method
+	
+	Rem
+	bbdoc: Remove tool from the toolbar
+	End Rem
+	Method Detach()
+		bmx_wxtoolbartoolbase_detach(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Add tool to the toolbar
+	End Rem
+	Method Attach(toolbar:wxToolBar)
+		bmx_wxtoolbartoolbase_attach(wxObjectPtr, toolbar.wxObjectPtr)
+	End Method
+	
 End Type
 
 
@@ -542,7 +723,7 @@ Type TToolBarEventFactory Extends TEventFactory
 			Case wxEVT_COMMAND_TOOL_CLICKED, ..
 					wxEVT_COMMAND_TOOL_RCLICKED, ..
 					wxEVT_COMMAND_TOOL_ENTER
-				Return wxCommandEvent.create(wxEventPtr, evt)
+				Return wxCommandEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null

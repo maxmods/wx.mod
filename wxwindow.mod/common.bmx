@@ -308,6 +308,9 @@ Extern
 
 	Function bmx_wxfocusevent_getwindow:Byte Ptr(handle:Byte Ptr)
 
+	Function bmx_wxwindow_getacceleratortable:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxwindow_setacceleratortable(handle:Byte Ptr, table:Byte Ptr)
+
 End Extern
 
 

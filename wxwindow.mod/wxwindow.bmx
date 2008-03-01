@@ -404,6 +404,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: 
 	End Rem
 	Method GetAcceleratorTable:wxAcceleratorTable()
+		Return wxAcceleratorTable._create(bmx_wxwindow_getacceleratortable(wxObjectPtr))
 	End Method
 	
 	'Method GetAccessible()
@@ -1177,7 +1178,12 @@ Type wxWindow Extends wxEvtHandler
 	Method ScrollWindowRect(dx:Int, dy:Int, rect:wxRect = Null)
 	End Method
 	
-	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetAcceleratorTable(accel:wxAcceleratorTable)
+		bmx_wxwindow_setacceleratortable(wxObjectPtr, accel.wxObjectPtr)
+	End Method
 
 	Rem
 	bbdoc: Determines whether the wxWindow::Layout function will be called automatically when the window is resized.

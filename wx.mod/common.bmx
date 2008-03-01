@@ -334,6 +334,10 @@ Extern
 	Function bmx_wxstreambase_isseekable:Int(handle:Byte Ptr)
 
 
+	Function bmx_wxacceleratortable_isok:Int(handle:Byte Ptr)
+	Function bmx_wxacceleratortable_delete(handle:Byte Ptr)
+
+	Function bmx_wxacceleratorentry_create:Byte Ptr(flags:Int, keyCode:Int, cmd:Int)
 	Function bmx_wxacceleratorentry_getcommand:Int(handle:Byte Ptr)
 	Function bmx_wxacceleratorentry_getflags:Int(handle:Byte Ptr)
 	Function bmx_wxacceleratorentry_getkeycode:Int(handle:Byte Ptr)
@@ -433,6 +437,11 @@ Extern
 	Function bmx_wxfileinputstream_create:Byte Ptr(filename:String)
 	Function bmx_wxfileinputstream_isok:Int(handle:Byte Ptr)
 	Function bmx_wxfileinputstream_free(handle:Byte Ptr)
+
+	Function bmx_wxnewid:Int()
+	Function bmx_wxregisterid(id:Int)
+	Function bmx_wxenabletoplevelwindows(enable:Int)
+	Function bmx_wxgetmouseposition(x:Int Ptr, y:Int Ptr)
 
 End Extern
 
