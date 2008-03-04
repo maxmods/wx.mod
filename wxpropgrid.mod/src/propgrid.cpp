@@ -9590,7 +9590,7 @@ void wxPropertyGridState::CheckColumnWidths()
 #endif
 
     // Check min sizes
-    if ( timeSinceCreation >= 750 )
+    if ( timeSinceCreation >= 0 ) // BaH - changed from 750
     {
         for ( i=0; i<m_colWidths.size(); i++ )
         {
