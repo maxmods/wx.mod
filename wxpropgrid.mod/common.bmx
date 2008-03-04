@@ -288,6 +288,28 @@ Extern
 	Function bmx_wxpropertygrid_setpropertyvaluedouble(handle:Byte Ptr, prop:Byte Ptr, value:Double)
 	Function bmx_wxpropertygrid_setpropertyvalueint(handle:Byte Ptr, prop:Byte Ptr, value:Int)
 
+	Function bmx_wxpropertygrid_setpropertyreadonlybyname(handle:Byte Ptr, name:String, set:Int)
+	Function bmx_wxpropertygrid_setpropertyunspecifiedbyname(handle:Byte Ptr, name:String)
+	Function bmx_wxpropertygrid_setpropertyvalueintarraybyname(handle:Byte Ptr, name:String, value:Int[])
+	Function bmx_wxpropertygrid_setpropertyvalueulongbyname(handle:Byte Ptr, name:String, value:Long)
+	Function bmx_wxpropertygrid_setpropertyvaluelongbyname(handle:Byte Ptr, name:String, value:Long)
+	Function bmx_wxpropertygrid_setpropertyvaluesizebyname(handle:Byte Ptr, name:String, w:Int, h:Int)
+	Function bmx_wxpropertygrid_setpropertyvaluepointbyname(handle:Byte Ptr, name:String, x:Int, y:Int)
+	Function bmx_wxpropertygrid_setpropertyvaluebyteptrbyname(handle:Byte Ptr, name:String, value:Byte Ptr)
+	Function bmx_wxpropertygrid_setpropertyvaluestringbyname(handle:Byte Ptr, name:String, value:String)
+	Function bmx_wxpropertygrid_setpropertyvaluedatetimebyname(handle:Byte Ptr, name:String, time:Byte Ptr)
+	Function bmx_wxpropertygrid_setpropertyvaluestringarraybyname(handle:Byte Ptr, name:String, value:String[])
+	Function bmx_wxpropertygrid_setpropertyvalueboolbyname(handle:Byte Ptr, name:String, value:Int)
+	Function bmx_wxpropertygrid_setpropertyvaluedoublebyname(handle:Byte Ptr, name:String, value:Double)
+	Function bmx_wxpropertygrid_setpropertyvalueintbyname(handle:Byte Ptr, name:String, value:Int)
+	Function bmx_wxpropertygrid_setpropertyimagebyname(handle:Byte Ptr, name:String, bmp:Byte Ptr)
+	Function bmx_wxpropertygrid_setpropertylabelbyname(handle:Byte Ptr, name:String, newproplabel:String)
+	Function bmx_wxpropertygrid_hidepropertybyname:Int(handle:Byte Ptr, name:String, hide:Int)
+	Function bmx_wxpropertygrid_insertbyname:Byte Ptr(handle:Byte Ptr, parent:String, index:Int, newproperty:Byte Ptr)
+	Function bmx_wxpropertygrid_insertcategorybyname:Byte Ptr(handle:Byte Ptr, name:String, index:Int, label:String)
+	Function bmx_wxpropertygrid_clear(handle:Byte Ptr)
+	Function bmx_wxpropertygrid_clearmodifiedstatus(handle:Byte Ptr)
+
 End Extern
 
 Const INT_MAX:Int = 2147483647

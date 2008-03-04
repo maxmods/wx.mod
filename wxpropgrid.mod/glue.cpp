@@ -1030,6 +1030,89 @@ void bmx_wxpropertygrid_setpropertyvalueint(wxPropertyGrid * grid, wxPGProperty 
 	grid->SetPropertyValue(prop, value);
 }
 
+void bmx_wxpropertygrid_setpropertyreadonlybyname(wxPropertyGrid * grid, BBString * name, bool set) {
+	grid->SetPropertyReadOnly(wxStringFromBBString(name), set);
+}
+
+void bmx_wxpropertygrid_setpropertyunspecifiedbyname(wxPropertyGrid * grid, BBString * name) {
+	grid->SetPropertyUnspecified(wxStringFromBBString(name));
+}
+
+void bmx_wxpropertygrid_setpropertyvalueintarraybyname(wxPropertyGrid * grid, BBString * name, BBArray * value) {
+	grid->SetPropertyValue(wxStringFromBBString(name), bbIntArrayTowxArrayInt(value));
+}
+
+void bmx_wxpropertygrid_setpropertyvalueulongbyname(wxPropertyGrid * grid, BBString * name, BBInt64 value) {
+	grid->SetPropertyValue(wxStringFromBBString(name), value);
+}
+
+void bmx_wxpropertygrid_setpropertyvaluelongbyname(wxPropertyGrid * grid, BBString * name, BBInt64 value) {
+	grid->SetPropertyValue(wxStringFromBBString(name), value);
+}
+
+void bmx_wxpropertygrid_setpropertyvaluesizebyname(wxPropertyGrid * grid, BBString * name, int w, int h) {
+	grid->SetPropertyValue(wxStringFromBBString(name), wxSize(w, h));
+}
+
+void bmx_wxpropertygrid_setpropertyvaluepointbyname(wxPropertyGrid * grid, BBString * name, int x, int y) {
+	grid->SetPropertyValue(wxStringFromBBString(name), wxPoint(x, y));
+}
+
+void bmx_wxpropertygrid_setpropertyvaluebyteptrbyname(wxPropertyGrid * grid, BBString * name, void * value) {
+	grid->SetPropertyValue(wxStringFromBBString(name), value);
+}
+
+void bmx_wxpropertygrid_setpropertyvaluestringbyname(wxPropertyGrid * grid, BBString * name, BBString * value) {
+	grid->SetPropertyValue(wxStringFromBBString(name), wxStringFromBBString(value));
+}
+
+void bmx_wxpropertygrid_setpropertyvaluedatetimebyname(wxPropertyGrid * grid, BBString * name, wxDateTime * time) {
+	grid->SetPropertyValue(wxStringFromBBString(name), time);
+}
+
+void bmx_wxpropertygrid_setpropertyvaluestringarraybyname(wxPropertyGrid * grid, BBString * name, BBArray * value) {
+	grid->SetPropertyValue(wxStringFromBBString(name), bbStringArrayTowxArrayStr(value));
+}
+
+void bmx_wxpropertygrid_setpropertyvalueboolbyname(wxPropertyGrid * grid, BBString * name, bool value) {
+	grid->SetPropertyValue(wxStringFromBBString(name), value);
+}
+
+void bmx_wxpropertygrid_setpropertyvaluedoublebyname(wxPropertyGrid * grid, BBString * name, double value) {
+	grid->SetPropertyValue(wxStringFromBBString(name), value);
+}
+
+void bmx_wxpropertygrid_setpropertyvalueintbyname(wxPropertyGrid * grid, BBString * name, int value) {
+	grid->SetPropertyValue(wxStringFromBBString(name), value);
+}
+
+void bmx_wxpropertygrid_setpropertyimagebyname(wxPropertyGrid * grid, BBString * name, MaxBitmap * bmp) {
+	grid->SetPropertyImage(wxStringFromBBString(name), bmp->Bitmap());
+}
+
+void bmx_wxpropertygrid_setpropertylabelbyname(wxPropertyGrid * grid, BBString * name, BBString * newproplabel) {
+	grid->SetPropertyLabel(wxStringFromBBString(name), wxStringFromBBString(newproplabel));
+}
+
+bool bmx_wxpropertygrid_hidepropertybyname(wxPropertyGrid * grid, BBString * name, bool hide) {
+	return grid->HideProperty(wxStringFromBBString(name), hide);
+}
+
+wxPGProperty * bmx_wxpropertygrid_insertbyname(wxPropertyGrid * grid, BBString * parent, int index, wxPGProperty * newproperty) {
+	return grid->Insert(wxStringFromBBString(parent), index, newproperty);
+}
+
+wxPGProperty * bmx_wxpropertygrid_insertcategorybyname(wxPropertyGrid * grid, BBString * name, int index, BBString * label) {
+	return grid->InsertCategory(wxStringFromBBString(name), index, wxStringFromBBString(label));
+}
+
+void bmx_wxpropertygrid_clear(wxPropertyGrid * grid) {
+	grid->Clear();
+}
+
+void bmx_wxpropertygrid_clearmodifiedstatus(wxPropertyGrid * grid) {
+	grid->ClearModifiedStatus();
+}
 
 // *********************************************
 

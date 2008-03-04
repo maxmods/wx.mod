@@ -483,15 +483,16 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		Return wxPGProperty._create(bmx_wxpropertygrid_append(wxObjectPtr, property.wxObjectPtr))
 	End Method
 
-'Rem
-'	Rem
-'	bbdoc: Deletes all properties.
-'	about: Does Not free memory allocated For arrays etc. This should *Not* be called in wxPropertyGridManager.
-'	End Rem
+	Rem
+	bbdoc: Deletes all properties.
+	about: Does Not free memory allocated For arrays etc. This should *Not* be called in wxPropertyGridManager.
+	End Rem
 	Method Clear()
+		bmx_wxpropertygrid_clear(wxObjectPtr)
 	End Method
 	
 	Method ClearModifiedStatus()
+		bmx_wxpropertygrid_clearmodifiedstatus(wxObjectPtr)
 	End Method
 	
 '	Method ClearModifiedStatusId(id:wxPGPropArg)
@@ -511,18 +512,12 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 '	Method ClearPropertyValueId(id:wxPGPropArg)
 '	End Method
 	
-	Method ClearTargetPage()
-	End Method
-'	
 '	Method Collapse(name:String)
 '	End Method
 	
 '	Method CollapseId(id:wxPGPropArg)
 '	End Method
 '	
-	Method Compact(show:Int)
-	End Method
-	
 	Method GetCaptionBackgroundColour:wxColour()
 		Return wxColour._create(bmx_wxpropertygrid_getcaptionbackgroundcolour(wxObjectPtr))
 	End Method
@@ -1002,12 +997,15 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 
 	Method HidePropertyByName:Int(name:String, hide:Int = True)
+		Return bmx_wxpropertygrid_hidepropertybyname(wxObjectPtr, name, hide)
 	End Method
 	
 	Method InsertByName:wxPGProperty(parent:String, index:Int, newproperty:wxPGProperty)
+		Return wxPGProperty._find(bmx_wxpropertygrid_insertbyname(wxObjectPtr, parent, index, newproperty.wxObjectPtr))
 	End Method
 	
 	Method InsertCategoryByName:wxPGProperty(name:String, index:Int, label:String)
+		Return wxPGProperty._find(bmx_wxpropertygrid_insertcategorybyname(wxObjectPtr, name, index, label))
 	End Method
 	
 	Method InsertPropertyChoiceByName(name:String, label:String, index:Int, value:Int = INT_MAX)
@@ -1087,12 +1085,15 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 	
 	Method SetPropertyClientDataByName(name:String, clientData:Object)
+		' todo
 	End Method
 	
 	Method SetPropertyEditorbyPropNameAndName(name:String, editorName:String)
+		' todo
 	End Method
 	
 	Method SetPropertyEditorByPropName(name:String, editor:wxPGEditor)
+		' todo
 	End Method
 	
 	Method SetPropertyImage(prop:wxPGProperty, bmp:wxBitmap)
@@ -1106,7 +1107,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	Method SetPropertyMaxLength:Int(prop:wxPGProperty, maxLen:Int)
 		Return bmx_wxpropertygrid_setpropertymaxlength(wxObjectPtr, prop.wxObjectPtr, maxLen)
 	End Method
-	' bah
+
 	Method SetPropertyReadOnly(prop:wxPGProperty, set:Int = True)
 		bmx_wxpropertygrid_setpropertyreadonly(wxObjectPtr, prop.wxObjectPtr, set)
 	End Method
@@ -1164,55 +1165,71 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 
 	Method SetPropertyImageByName(name:String, bmp:wxBitmap)
+		bmx_wxpropertygrid_setpropertyimagebyname(wxObjectPtr, name, bmp.wxObjectPtr)
 	End Method
 	
 	Method SetPropertyLabelByName(name:String, newproplabel:String)
+		bmx_wxpropertygrid_setpropertylabelbyname(wxObjectPtr, name, newproplabel)
 	End Method
 	
 	Method SetPropertyMaxLengthByName:Int(name:String, maxLen:Int)
 		Return bmx_wxpropertygrid_setpropertymaxlengthbyname(wxObjectPtr, name, maxLen)
 	End Method
-	
+
 	Method SetPropertyReadOnlyByName(name:String, set:Int = True)
+		bmx_wxpropertygrid_setpropertyreadonlybyname(wxObjectPtr, name, set)
 	End Method
 	
 	Method SetPropertyUnspecifiedByName(name:String)
+		bmx_wxpropertygrid_setpropertyunspecifiedbyname(wxObjectPtr, name)
 	End Method
 	
 	Method SetPropertyValueIntArrayByName(name:String, value:Int[])
+		bmx_wxpropertygrid_setpropertyvalueintarraybyname(wxObjectPtr, name, value)
 	End Method
 	
 	Method SetPropertyValueULongByName(name:String, value:Long)
+		bmx_wxpropertygrid_setpropertyvalueulongbyname(wxObjectPtr, name, value)
 	End Method
 	
 	Method SetPropertyValueLongByName(name:String, value:Long)
+		bmx_wxpropertygrid_setpropertyvaluelongbyname(wxObjectPtr, name, value)
 	End Method
 	
 	Method SetPropertyValueSizeByName(name:String, w:Int, h:Int)
+		bmx_wxpropertygrid_setpropertyvaluesizebyname(wxObjectPtr, name, w, h)
 	End Method
 	
 	Method SetPropertyValuePointByName(name:String, x:Int, y:Int)
+		bmx_wxpropertygrid_setpropertyvaluepointbyname(wxObjectPtr, name, x, y)
 	End Method
 	
 	Method SetPropertyValueBytePtrByName(name:String, value:Byte Ptr)
+		bmx_wxpropertygrid_setpropertyvaluebyteptrbyname(wxObjectPtr, name, value)
 	End Method
 	
 	Method SetPropertyValueStringByName(name:String, value:String)
+		bmx_wxpropertygrid_setpropertyvaluestringbyname(wxObjectPtr, name, value)
 	End Method
 	
 	Method SetPropertyValueDateTimeByName(name:String, time:wxDateTime)
+		bmx_wxpropertygrid_setpropertyvaluedatetimebyname(wxObjectPtr, name, time)
 	End Method
 	
 	Method SetPropertyValueStringArrayByName(name:String, value:String[])
+		bmx_wxpropertygrid_setpropertyvaluestringarraybyname(wxObjectPtr, name, value)
 	End Method
 	
 	Method SetPropertyValueBoolByName(name:String, value:Int)
+		bmx_wxpropertygrid_setpropertyvalueboolbyname(wxObjectPtr, name, value)
 	End Method
 	
 	Method SetPropertyValueDoubleByName(name:String, value:Double)
+		bmx_wxpropertygrid_setpropertyvaluedoublebyname(wxObjectPtr, name, value)
 	End Method
 	
 	Method SetPropertyValueIntByName(name:String, value:Int)
+		bmx_wxpropertygrid_setpropertyvalueintbyname(wxObjectPtr, name, value)
 	End Method
 
 	Method SetPropertyAttributeByName(name:String, attrName:String, value:Int, argFlags:Int = 0)
