@@ -247,6 +247,16 @@ MaxMultiChoiceProperty::~MaxMultiChoiceProperty() {
 	wxunbind(this);
 }
 
+MaxColourProperty::MaxColourProperty(BBObject * handle, const wxString &label, const wxString &name, const wxColour &value)
+	: wxColourProperty(label, name, value)
+{
+	wxbind(this, handle);
+}
+MaxColourProperty::~MaxColourProperty() {
+	wxunbind(this);
+}
+
+
 // *********************************************
 
 BEGIN_EVENT_TABLE(MaxPropertyGrid, wxPropertyGrid)
@@ -530,6 +540,8 @@ wxSystemColourProperty * bmx_wxsystemcolourproperty_create(BBObject * handle, BB
 		(value) ? value->Colour() : wxColour());
 }
 
+// *********************************************
+
 wxIntProperty * bmx_wxintproperty_create(BBObject * handle, BBString * label, BBString * name, int value) {
 	return new MaxIntProperty(handle, wxStringFromBBString(label), 
 		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
@@ -636,6 +648,14 @@ wxArrayStringProperty * bmx_wxarraystringproperty_create(BBObject * handle, BBSt
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
 		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
 		bbStringArrayTowxArrayStr(value));
+}
+
+// *********************************************
+
+wxColourProperty * bmx_wxcolourproperty_create(BBObject * handle, BBString * label, BBString * name, MaxColour * value) {
+	return new MaxColourProperty(handle, wxStringFromBBString(label), 
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(value) ? value->Colour() : wxColour());
 }
 
 // *********************************************
@@ -1113,6 +1133,22 @@ void bmx_wxpropertygrid_clear(wxPropertyGrid * grid) {
 void bmx_wxpropertygrid_clearmodifiedstatus(wxPropertyGrid * grid) {
 	grid->ClearModifiedStatus();
 }
+
+MaxColour * bmx_wxpropertygrid_getpropertyvalueascolour(wxPropertyGrid * grid, wxPGProperty * prop) {
+	wxVariant v = grid->GetPropertyValue(prop);
+	wxColour c;
+	c << v;
+	return new MaxColour(c);
+}
+
+MaxColour * bmx_wxpropertygrid_getpropertyvalueascolourbyname(wxPropertyGrid * grid, BBString * name) {
+	wxVariant v = grid->GetPropertyValue(wxStringFromBBString(name));
+	wxColour c;
+	c << v;
+	return new MaxColour(c);
+}
+
+
 
 // *********************************************
 

@@ -178,6 +178,8 @@ Type wxPropertyContainerMethods Extends wxPanel
 
 	Method GetPropertyValueAsULong:Int(prop:wxPGProperty) Abstract
 
+	Method GetPropertyValueAsColour:wxColour(prop:wxPGProperty) Abstract
+
 	Method GetPropertyValueType:String(prop:wxPGProperty) Abstract
 	
 	Method GetSelection:wxPGProperty() Abstract
@@ -276,6 +278,8 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Method GetPropertyValueAsSizeByName(name:String, w:Int Var, h:Int Var) Abstract
 
 	Method GetPropertyValueAsStringByName:String(name:String) Abstract
+
+	Method GetPropertyValueAsColourByName:wxColour(name:String) Abstract
 
 	Method GetPropertyValueAsULongByName:Int(name:String) Abstract
 
@@ -1248,6 +1252,14 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		bmx_wxpropertygrid_setpropertyattributestring(wxObjectPtr, prop.wxObjectPtr, attrName, value, argFlags)
 	End Method
 
+	Method GetPropertyValueAsColour:wxColour(prop:wxPGProperty)
+		Return wxColour._create(bmx_wxpropertygrid_getpropertyvalueascolour(wxObjectPtr, prop.wxObjectPtr))
+	End Method
+
+	Method GetPropertyValueAsColourByName:wxColour(name:String)
+		Return wxColour._create(bmx_wxpropertygrid_getpropertyvalueascolourbyname(wxObjectPtr, name))
+	End Method
+
 End Type
 
 Rem
@@ -1837,6 +1849,22 @@ Type wxSystemColourProperty Extends wxEnumProperty
 			wxObjectPtr = bmx_wxsystemcolourproperty_create(Self, label, name, value.wxObjectPtr)
 		Else
 			wxObjectPtr = bmx_wxsystemcolourproperty_create(Self, label, name, Null)
+		End If
+		Return Self
+	End Method
+	
+End Type
+
+Rem
+bbdoc: 
+End Rem
+Type wxColourProperty Extends wxSystemColourProperty
+
+	Method Create:wxColourProperty(label:String, name:String = Null, value:wxColour = Null)
+		If value Then
+			wxObjectPtr = bmx_wxcolourproperty_create(Self, label, name, value.wxObjectPtr)
+		Else
+			wxObjectPtr = bmx_wxcolourproperty_create(Self, label, name, Null)
 		End If
 		Return Self
 	End Method

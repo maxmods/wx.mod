@@ -44,7 +44,8 @@ class MaxCursorProperty;
 class MaxImageFileProperty;
 class MaxDateProperty;
 class MaxMultiChoiceProperty;
-	
+class MaxColourProperty;
+
 extern "C" {
 
 #include <blitz.h>
@@ -95,6 +96,7 @@ extern "C" {
 	wxCursorProperty * bmx_wxcursorproperty_create(BBObject * handle, BBString * label, BBString * name, int value);
 	wxImageFileProperty * bmx_wximagefileproperty_create(BBObject * handle, BBString * label, BBString * name, BBString * value);
 	wxDateProperty * bmx_wxdateproperty_create(BBObject * handle, BBString * label, BBString * name, MaxDateTime * value);
+	wxColourProperty * bmx_wxcolourproperty_create(BBObject * handle, BBString * label, BBString * name, MaxColour * colour);
 
 	MaxColour * bmx_wxpropertygrid_getpropertybackgroundcolour(wxPropertyGrid * grid, wxPGProperty * prop);
 	MaxColour * bmx_wxpropertygrid_getpropertycolour(wxPropertyGrid * grid, wxPGProperty * prop);
@@ -306,6 +308,9 @@ extern "C" {
 	void bmx_wxpropertygrid_clear(wxPropertyGrid * grid);
 	void bmx_wxpropertygrid_clearmodifiedstatus(wxPropertyGrid * grid);
 
+	MaxColour * bmx_wxpropertygrid_getpropertyvalueascolour(wxPropertyGrid * grid, wxPGProperty * prop);
+	MaxColour * bmx_wxpropertygrid_getpropertyvalueascolourbyname(wxPropertyGrid * grid, BBString * name);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -391,6 +396,13 @@ class MaxSystemColourProperty : public wxSystemColourProperty
 public:
 	MaxSystemColourProperty(BBObject * handle, const wxString &label, const wxString &name, const wxColour &value);
 	~MaxSystemColourProperty();
+};
+
+class MaxColourProperty : public wxColourProperty
+{
+public:
+	MaxColourProperty(BBObject * handle, const wxString &label, const wxString &name, const wxColour &value);
+	~MaxColourProperty();
 };
 
 class MaxIntProperty : public wxIntProperty
