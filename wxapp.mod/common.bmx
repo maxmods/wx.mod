@@ -55,5 +55,7 @@ Extern
 	Function bmx_wxapp_gettopwindow:Byte Ptr()
 
 	Function bmx_app_getapp:Byte Ptr()
-	
+
+	Function bmx_wxapp_pollevents()
+
 End Extern

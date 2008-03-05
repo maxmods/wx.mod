@@ -104,7 +104,7 @@ Type wxApp Extends wxEvtHandler Abstract
 	Function _OnExit:Int()
 		Return app.OnExit()
 	End Function
-	
+
 	Rem
 	bbdoc: TODO
 	End Rem
@@ -202,6 +202,13 @@ End Function
 Rem
 bbdoc: 
 End Rem
+Function wxPollEvents()
+	bmx_wxapp_pollevents()
+End Function
+
+Rem
+bbdoc: 
+End Rem
 Type wxAppMain Extends wxApp Abstract
 
 	Method Run:Int()
@@ -235,5 +242,31 @@ Type wxAppMain Extends wxApp Abstract
 	Method ProcessIdle:Int()
 		Return bmx_wxapp_processidle()
 	End Method
+Rem
+	Method FilterEvent:Int(event:wxEvent)
+		Return -1
+	End Method
+
+	Function _FilterEvent:Int(event:Byte Ptr)
+DebugLog "...filterevent"
+		Local evt:TEventHandler = New TEventHandler
+		
+		Local eType:EvtIntWrap = EvtIntWrap.Set(bmx_wxevent_geteventtype(event))
+		Local _eventId:EvtIntWrap = EvtIntWrap(maxToWxMap.ValueForKey(eType))
+		If _eventId Then
+			evt.eventType = _eventId.otherId
+DebugLog "eventType = " + evt.eventType
+		End If
+		
+		evt.callback = __evtcallback
+		TEventHandler.eventCallback(event, evt)
+		Return -1
+	End Function
+	
+	Function __evtcallback(event:wxEvent)
+DebugLog "evtcallback"
+		event._eventFilter = wxAppMain(wxGetApp()).FilterEvent(event)
+	End Function
+End Rem
 
 End Type

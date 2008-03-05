@@ -161,6 +161,216 @@ int MaxApp::MainLoop() {
 	return _wx_wxapp_wxAppMain__MainLoop();
 }
 
+
+void doEmitEvent(wxEvent& event) {
+	bool checkEvent = false;
+
+#ifdef __APPLE__
+	if (CGDisplayIsCaptured( kCGDirectMainDisplay )) {
+		checkEvent = true;
+	}
+#endif
+
+	if (checkEvent) {
+	
+		if (event.GetEventType() == wxEVT_KEY_DOWN) {
+			printf("Key down\n");fflush(stdout);
+		} else if (event.GetEventType() == wxEVT_KEY_UP) {
+			printf("Key up\n");fflush(stdout);
+		} else if (event.GetEventType() == wxEVT_LEFT_DOWN) {
+			printf("Mouse Down\n");fflush(stdout);
+		} else if (event.GetEventType() == wxEVT_MOTION) {
+			printf("Mouse Move\n");fflush(stdout);
+			int ev=0,data=0,x=0,y=0,oldMods,mask;
+			ev=BBEVENT_MOUSEMOVE;
+			((wxMouseEvent&)event).GetPosition(&x, &y);
+			printf("mousemove\n");fflush(stdout);
+		}
+	}
+}
+
+static int _oldX;
+static int _oldY;
+static bool _oldLeftDown = false;
+static bool _oldMiddleDown = false;
+static bool _oldRightDown = false;
+static bool _mods;
+
+#define _MOUSEMOVE  0x0001
+#define _MOUSELDOWN 0x0002
+#define _MOUSEMDOWN 0x0004
+#define _MOUSERDOWN 0x0008
+#define _MOUSELUP   0x0010
+#define _MOUSEMUP   0x0020
+#define _MOUSERUP   0x0040
+
+void bmx_wxapp_pollevents() {
+	int eventsRequired = 0;
+
+	wxMouseState state = wxGetMouseState();
+	
+	if (_oldX != state.GetX() || _oldY != state.GetY()) {
+		_oldX = state.GetX();
+		_oldY = state.GetY();
+		eventsRequired |= _MOUSEMOVE;
+	}
+	
+	if (_oldLeftDown != state.LeftDown()) {
+		if (_oldLeftDown) {
+			eventsRequired |= _MOUSELUP;
+		} else {
+			eventsRequired |= _MOUSELDOWN;
+		}
+		_oldLeftDown = !_oldLeftDown;
+	}
+
+	if (_oldMiddleDown != state.MiddleDown()) {
+		if ( _oldMiddleDown) {
+			eventsRequired |= _MOUSEMUP;
+		} else {
+			eventsRequired |= _MOUSEMDOWN;
+		}
+		_oldMiddleDown = !_oldMiddleDown;
+	}
+
+	if (_oldRightDown != state.RightDown()) {
+		if (_oldRightDown) {
+			eventsRequired |= _MOUSERUP;
+		} else {
+			eventsRequired |= _MOUSERDOWN;
+		}
+		_oldRightDown = !_oldRightDown;
+	}
+
+	if (!eventsRequired) return;
+	
+	_mods = 0;
+	if (state.ShiftDown()) _mods |= 1;
+	if (state.ControlDown()) _mods |= 2;
+	if (state.AltDown()) _mods |= 4;
+	if (state.CmdDown()) _mods |= 8;
+
+	if (	eventsRequired & _MOUSEMOVE) {
+		bbSystemEmitEvent( BBEVENT_MOUSEMOVE,&bbNullObject,
+			(_oldLeftDown) ? 1 : (_oldRightDown) ? 2 : (_oldMiddleDown) ? 3 : 0,
+			_mods,_oldX,_oldY,&bbNullObject );
+	}
+	if (	eventsRequired & _MOUSELDOWN) {
+		bbSystemEmitEvent( BBEVENT_MOUSEDOWN,&bbNullObject,1,_mods,_oldX,_oldY,&bbNullObject );
+	}
+	if (	eventsRequired & _MOUSERDOWN) {
+		bbSystemEmitEvent( BBEVENT_MOUSEDOWN,&bbNullObject,2,_mods,_oldX,_oldY,&bbNullObject );
+	}
+	if (	eventsRequired & _MOUSEMDOWN) {
+		bbSystemEmitEvent( BBEVENT_MOUSEDOWN,&bbNullObject,3,_mods,_oldX,_oldY,&bbNullObject );
+	}
+	if (	eventsRequired & _MOUSELUP) {
+		bbSystemEmitEvent( BBEVENT_MOUSEUP,&bbNullObject,1,_mods,_oldX,_oldY,&bbNullObject );
+	}
+	if (	eventsRequired & _MOUSERUP) {
+		bbSystemEmitEvent( BBEVENT_MOUSEUP,&bbNullObject,2,_mods,_oldX,_oldY,&bbNullObject );
+	}
+	if (	eventsRequired & _MOUSEMUP) {
+		bbSystemEmitEvent( BBEVENT_MOUSEUP,&bbNullObject,3,_mods,_oldX,_oldY,&bbNullObject );
+	}
+}
+
+/*
+void bbSystemEmitOSEvent( NSEvent *event,NSView *view,BBObject *source ){
+	int inView;
+	NSEventType type;
+	NSString *characters;
+	int ev=0,data=0,x=0,y=0,oldMods,mask;
+	float f;
+
+	type=[event type];
+
+	switch( type ){
+	case NSKeyDown:
+		if( data=bbSystemTranslateKey( [event keyCode] ) ){
+			ev=[event isARepeat] ? BBEVENT_KEYREPEAT : BBEVENT_KEYDOWN;
+			bbSystemEmitEvent( ev,source,data,bbSystemTranslateMods(mods),0,0,&bbNullObject );
+		}
+		characters=[event characters];
+		if( [characters length]!=1 ) return;
+		data=[characters characterAtIndex:0];
+		if( data>=0xf700 && data<=0xf8ff ) return;
+		ev=BBEVENT_KEYCHAR;
+		data=bbSystemTranslateChar( data );
+		break;
+	case NSKeyUp:
+		data=bbSystemTranslateKey( [event keyCode] );
+		if( !data ) return;
+		ev=BBEVENT_KEYUP;
+		break;
+	case NSFlagsChanged:
+		oldMods=mods;
+		mods=[event modifierFlags];
+		deltaMods=mods^oldMods;
+		if( deltaMods & (mask=LSHIFTMASK) ) data=KEY_LSHIFT;
+		else if( deltaMods & (mask=RSHIFTMASK) ) data=KEY_RSHIFT;
+		else if( deltaMods & (mask=LCTRLMASK) ) data=KEY_LCONTROL;
+		else if( deltaMods & (mask=RCTRLMASK) ) data=KEY_RCONTROL;
+		else if( deltaMods & (mask=LALTMASK) ) data=KEY_LALT;
+		else if( deltaMods & (mask=RALTMASK) ) data=KEY_RALT;
+		else if( deltaMods & (mask=LSYSMASK) ) data=KEY_LSYS;
+		else if( deltaMods & (mask=RSYSMASK) ) data=KEY_RSYS;
+		if( !data ) return;
+		ev=(mods & mask) ? BBEVENT_KEYDOWN : BBEVENT_KEYUP;
+		break;
+	case NSLeftMouseDown:
+	case NSRightMouseDown:
+	case NSOtherMouseDown:
+		inView=mouseViewPos( view,&x,&y );
+		if( !inView ) return;
+		setMouseView( view,x,y,source );
+		capturedView=mouseView;
+		ev=BBEVENT_MOUSEDOWN;
+		data=(type==NSLeftMouseDown) ? 1 : (type==NSRightMouseDown ? 2 : 3);
+		break;
+	case NSLeftMouseUp:
+	case NSRightMouseUp:
+	case NSOtherMouseUp:
+		inView=mouseViewPos( view,&x,&y );
+		if( !inView && !capturedView ) return;
+		capturedView=0;
+		ev=BBEVENT_MOUSEUP;
+		data=(type==NSLeftMouseUp) ? 1 : (type==NSRightMouseUp ? 2 : 3);
+		break;
+	case NSMouseMoved:
+	case NSLeftMouseDragged:
+	case NSRightMouseDragged:
+	case NSOtherMouseDragged:
+		inView=mouseViewPos( view,&x,&y );
+		setMouseView( inView ? view : 0,x,y,source );
+		if( !inView && !capturedView ) return;
+		ev=BBEVENT_MOUSEMOVE;
+		data=(type==NSLeftMouseDragged) ? 1 : (type==NSRightMouseDragged ? 2 : (type==NSOtherMouseDragged ? 3 : 0));
+		break;
+	case NSScrollWheel:
+		inView=mouseViewPos( view,&x,&y );
+		if( !inView && view!=capturedView ) return;
+		ev=BBEVENT_MOUSEWHEEL;
+		f=[event deltaY];
+		data=f>0 ? ceil(f) : floor(f);
+		break;
+	default:
+		return;
+	}
+	bbSystemEmitEvent( ev,source,data,bbSystemTranslateMods(mods),x,y,&bbNullObject );
+}
+*/
+
+int MaxApp::FilterEvent(wxEvent& event) {
+	if (!ownMain) {
+		return -1;
+	}
+	
+	doEmitEvent(event);
+	
+	return -1;
+}
+
 /*
 int MaxApp::OnRun()
 {

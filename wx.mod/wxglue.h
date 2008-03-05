@@ -33,6 +33,10 @@
 #include "wx/txtstrm.h"
 #include "wx/wfstream.h"
 
+#ifdef __WXMAC__
+#include "wx/mac/private.h"
+#endif
+
 #include <map>
 
 class MaxApp;
@@ -48,6 +52,8 @@ class MaxAcceleratorTable;
 extern "C" {
 
 #include <blitz.h>
+#include "../../brl.mod/event.mod/event.h"
+	void bbSystemEmitEvent( int id,BBObject *source,int data,int mods,int x,int y,BBObject *extra );
 
 	void _wx_wx_TEventHandler_eventCallback(wxEvent &, void * data);
 	int _wx_wxapp_wxAppMain__MainLoop();
@@ -76,6 +82,7 @@ extern "C" {
 	bool bmx_wxapp_dispatch();
 	int bmx_wxapp_pending();
 	bool bmx_wxapp_processidle();
+	void bmx_wxapp_pollevents();
 
 	MaxEvtHandler * bmx_wxevthandler_create(BBObject * maxHandle);
 	void bmx_wxevthandler_connectnoid(wxEvtHandler * evtHandler, wxEventType eventType, void * data);
@@ -364,6 +371,7 @@ public:
 	virtual bool OnInit();
 	virtual int MainLoop();
 	virtual int OnExit();
+	int FilterEvent(wxEvent& event);
 
 	static bool ownMain;
 private:
