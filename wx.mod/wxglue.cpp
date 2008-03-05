@@ -788,6 +788,19 @@ bool bmx_wxcolour_equals(MaxColour * col, MaxColour * other) {
 	return col->Colour() == other->Colour();
 }
 
+void bmx_wxcolour_getrgb(MaxColour * col, int * r, int * g, int * b) {
+	*r = col->Colour().Red();
+	*g = col->Colour().Green();
+	*b = col->Colour().Blue();
+}
+
+void bmx_wxcolour_getrgba(MaxColour * col, int * r, int * g, int * b, int * a) {
+	*r = col->Colour().Red();
+	*g = col->Colour().Green();
+	*b = col->Colour().Blue();
+	*a = col->Colour().Alpha();
+}
+
 // **************************
 
 MaxColour * bmx_wxstockgdi_colour_black() {

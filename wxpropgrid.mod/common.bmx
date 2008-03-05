@@ -313,6 +313,8 @@ Extern
 	Function bmx_wxpropertygrid_getpropertyvalueascolour:Byte Ptr(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertyvalueascolourbyname:Byte Ptr(handle:Byte Ptr, name:String)
 	Function bmx_wxcolourproperty_create:Byte Ptr(handle:Object, label:String, name:String, value:Byte Ptr)
+	Function bmx_wxpropertygrid_setpropertyvaluecolour(handle:Byte Ptr, prop:Byte Ptr, value:Byte Ptr)
+	Function bmx_wxpropertygrid_setpropertyvaluecolourbyname(handle:Byte Ptr, name:String, value:Byte Ptr)
 
 End Extern
 

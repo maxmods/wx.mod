@@ -310,6 +310,8 @@ extern "C" {
 
 	MaxColour * bmx_wxpropertygrid_getpropertyvalueascolour(wxPropertyGrid * grid, wxPGProperty * prop);
 	MaxColour * bmx_wxpropertygrid_getpropertyvalueascolourbyname(wxPropertyGrid * grid, BBString * name);
+	void bmx_wxpropertygrid_setpropertyvaluecolour(wxPropertyGrid * grid, wxPGProperty * prop, MaxColour * value);
+	void bmx_wxpropertygrid_setpropertyvaluecolourbyname(wxPropertyGrid * grid, BBString * name, MaxColour * value);
 
 }
 

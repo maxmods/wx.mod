@@ -1260,6 +1260,14 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		Return wxColour._create(bmx_wxpropertygrid_getpropertyvalueascolourbyname(wxObjectPtr, name))
 	End Method
 
+	Method SetPropertyValueColour(prop:wxPGProperty, value:wxColour)
+		bmx_wxpropertygrid_setpropertyvaluecolour(wxObjectPtr, prop.wxObjectPtr, value.wxObjectPtr)
+	End Method
+
+	Method SetPropertyValueColourByName(name:String, value:wxColour)
+		bmx_wxpropertygrid_setpropertyvaluecolourbyname(wxObjectPtr, name, value.wxObjectPtr)
+	End Method
+
 End Type
 
 Rem

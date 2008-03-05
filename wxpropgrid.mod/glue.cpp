@@ -1148,6 +1148,13 @@ MaxColour * bmx_wxpropertygrid_getpropertyvalueascolourbyname(wxPropertyGrid * g
 	return new MaxColour(c);
 }
 
+void bmx_wxpropertygrid_setpropertyvaluecolour(wxPropertyGrid * grid, wxPGProperty * prop, MaxColour * value) {
+	grid->SetPropertyValue(prop, value->Colour());
+}
+
+void bmx_wxpropertygrid_setpropertyvaluecolourbyname(wxPropertyGrid * grid, BBString * name, MaxColour * value) {
+	grid->SetPropertyValue(wxStringFromBBString(name), value->Colour());
+}
 
 
 // *********************************************

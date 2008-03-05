@@ -264,6 +264,8 @@ Extern
 	Function bmx_wxcolour_set(handle:Byte Ptr, r:Int, g:Int, b:Int, a:Int)
 	Function bmx_wxcolour_setasnamedcolour:Int(handle:Byte Ptr, name:String)
 	Function bmx_wxcolour_equals:Int(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxcolour_getrgb(handle:Byte Ptr, r:Int Ptr, g:Int Ptr, b:Int Ptr)
+	Function bmx_wxcolour_getrgba(handle:Byte Ptr, r:Int Ptr, g:Int Ptr, b:Int Ptr, a:Int Ptr)
 	
 	Function bmx_wxstockgdi_colour_black:Byte Ptr()
 	Function bmx_wxstockgdi_colour_blue:Byte Ptr()

@@ -138,6 +138,20 @@ Type wxColour Extends wxObject
 		Return bmx_wxcolour_equals(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Retrieves the RGB values of the colour.
+	End Rem
+	Method GetRGB(red:Int Var, green:Int Var, blue:Int Var)
+		bmx_wxcolour_getrgb(wxObjectPtr, Varptr red, Varptr green, Varptr blue)
+	End Method
+
+	Rem
+	bbdoc: Retrieves the RGBA values of the colour.
+	End Rem
+	Method GetRGBA(red:Int Var, green:Int Var, blue:Int Var, alpha:Int Var)
+		bmx_wxcolour_getrgba(wxObjectPtr, Varptr red, Varptr green, Varptr blue, Varptr alpha)
+	End Method
+	
 	Method Delete()
 		If wxObjectPtr Then
 			bmx_wxcolour_delete(wxObjectPtr)
