@@ -77,7 +77,7 @@ Extern
 	Function bmx_wxflatnotebook_setpadding(handle:Byte Ptr, padW:Int, padH:Int)
 	Function bmx_wxflatnotebook_setwindowstyleflag(handle:Byte Ptr, style:Int)
 	Function bmx_wxflatnotebook_setrightclickmenu(handle:Byte Ptr, menu:Byte Ptr)
-	Function bmx_wxflatnotebook_getpagetext(handle:Byte Ptr, page:Int)
+	Function bmx_wxflatnotebook_getpagetext:String(handle:Byte Ptr, page:Int)
 	Function bmx_wxflatnotebook_setpageimageindex(handle:Byte Ptr, page:Int, imgIndex:Int)
 	Function bmx_wxflatnotebook_getpageimageindex:Int(handle:Byte Ptr, page:Int)
 	Function bmx_wxflatnotebook_setgradientcolors(handle:Byte Ptr, colFrom:Byte Ptr, colTo:Byte Ptr, border:Byte Ptr)

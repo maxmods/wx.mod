@@ -252,14 +252,20 @@ Type wxFlatNotebook Extends wxPanel
 	bbdoc: Sets an image index of specified page
 	End Rem
 	Method SetPageImageIndex(page:Int, imgIndex:Int)
-		bmx_wxflatnotebook_setpageimageindex(wxObjectPtr, page, imgIndex)
+		If imageListPtr Then
+			bmx_wxflatnotebook_setpageimageindex(wxObjectPtr, page, imgIndex)
+		End If
 	End Method
 	
 	Rem
 	bbdoc: Returns an image index of specified page
 	End Rem
 	Method GetPageImageIndex:Int(page:Int)
-		Return bmx_wxflatnotebook_getpageimageindex(wxObjectPtr, page)
+		If imageListPtr Then
+			Return bmx_wxflatnotebook_getpageimageindex(wxObjectPtr, page)
+		Else
+			Return -1
+		End If
 	End Method
 	
 	Rem
