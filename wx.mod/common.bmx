@@ -22,6 +22,7 @@ SuperStrict
 
 Import BRL.Map
 Import BRL.Blitz
+Import BRL.System
 
 Import "consts.bmx"
 
@@ -444,6 +445,16 @@ Extern
 	Function bmx_wxregisterid(id:Int)
 	Function bmx_wxenabletoplevelwindows(enable:Int)
 	Function bmx_wxgetmouseposition(x:Int Ptr, y:Int Ptr)
+
+	Function bmx_wxgetelapsedtime:Int(resetTimer:Int)
+	Function bmx_wxgetlocaltime:Int()
+	Function bmx_wxgetlocaltimemillis(time:Long Ptr)
+	Function bmx_wxgetutctime:Int()
+	Function bmx_wxmicrosleep(microseconds:Int)
+	Function bmx_wxmillisleep(milliseconds:Int)
+	Function bmx_wxnow:String()
+	Function bmx_wxsleep(secs:Int)
+	Function bmx_wxstarttimer()
 
 End Extern
 

@@ -1133,6 +1133,82 @@ Function wxGetMousePosition(x:Int Var, y:Int Var)
 	bmx_wxgetmouseposition(Varptr x, Varptr y)
 End Function
 
+Rem
+bbdoc: Gets the time in milliseconds since the last ::wxStartTimer.
+about: If resetTimer is true (the default), the timer is reset to zero by this call.
+<p>
+See also wxTimer.
+</p>
+End Rem
+Function wxGetElapsedTime:Int(resetTimer:Int = True)
+	Return bmx_wxgetelapsedtime(resetTimer)
+End Function
+
+Rem
+bbdoc: Returns the number of seconds since local time 00:00:00 Jan 1st 1970.
+End Rem
+Function wxGetLocalTime:Int()
+	Return bmx_wxgetlocaltime()
+End Function
+
+Rem
+bbdoc: Returns the number of milliseconds since local time 00:00:00 Jan 1st 1970.
+End Rem
+Function wxGetLocalTimeMillis:Long()
+	Local time:Long
+	bmx_wxgetlocaltimemillis(Varptr time)
+	Return time
+End Function
+
+Rem
+bbdoc: Returns the number of seconds since GMT 00:00:00 Jan 1st 1970.
+End Rem
+Function wxGetUTCTime:Int()
+	Return bmx_wxgetutctime()
+End Function
+
+Rem
+bbdoc: Sleeps for the specified number of microseconds.
+about: The microsecond resolution may not, in fact, be available on all platforms (currently only Unix platforms
+with nanosleep(2) may provide it) in which case this is the same as wxMilliSleep(microseconds/1000).
+End Rem
+Function wxMicroSleep(microseconds:Int)
+	bmx_wxmicrosleep(microseconds)
+End Function
+
+Rem
+bbdoc: Sleeps for the specified number of milliseconds.
+about: Notice that usage of this function is encouraged instead of calling usleep(3) directly because the standard
+usleep() function is not MT safe.
+End Rem
+Function wxMilliSleep(milliseconds:Int)
+	bmx_wxmillisleep(milliseconds)
+End Function
+
+Rem
+bbdoc: Returns a string representing the current date and time.
+End Rem
+Function wxNow:String()
+	Return bmx_wxnow()
+End Function
+
+Rem
+bbdoc: Sleeps for the specified number of seconds.
+End Rem
+Function wxSleep(secs:Int)
+	bmx_wxsleep(secs)
+End Function
+
+Rem
+bbdoc: Starts a stopwatch
+about: Use ::wxGetElapsedTime to get the elapsed time.
+<p>
+See also wxTimer.
+</p>
+End Rem
+Function wxStartTimer()
+	bmx_wxstarttimer()
+End Function
 
 Rem
 bbdoc: 

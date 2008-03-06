@@ -1767,3 +1767,43 @@ void bmx_wxgetmouseposition(int * x, int * y) {
 	*y = p.y;
 }
 
+// *********************************************
+
+long bmx_wxgetelapsedtime(bool resetTimer) {
+	return wxGetElapsedTime(resetTimer);
+}
+
+long bmx_wxgetlocaltime() {
+	return wxGetLocalTime();
+}
+
+void bmx_wxgetlocaltimemillis(BBInt64 * time) {
+	wxLongLong t = wxGetLocalTimeMillis();
+	*time = t.GetValue();
+}
+
+long bmx_wxgetutctime() {
+	return wxGetUTCTime();
+}
+
+void bmx_wxmicrosleep(unsigned long microseconds) {
+	wxMicroSleep(microseconds);
+}
+
+void bmx_wxmillisleep(unsigned long milliseconds) {
+	wxMilliSleep(milliseconds);
+}
+
+BBString * bmx_wxnow() {
+	return bbStringFromWxString(wxNow());
+}
+
+void bmx_wxsleep(int secs) {
+	wxSleep(secs);
+}
+
+void bmx_wxstarttimer() {
+	wxStartTimer();
+}
+
+

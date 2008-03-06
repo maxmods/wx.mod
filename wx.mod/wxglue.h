@@ -28,7 +28,7 @@
 #include <wx/aboutdlg.h>
 #include "wx/artprov.h"
 #include "wx/fontmap.h"
-//#include "wx/event.h"
+#include "wx/timer.h"
 #include "wx/ptr_scpd.h"
 #include "wx/txtstrm.h"
 #include "wx/wfstream.h"
@@ -347,6 +347,16 @@ extern "C" {
 	void bmx_wxregisterid(long id);
 	void bmx_wxenabletoplevelwindows(bool enable);
 	void bmx_wxgetmouseposition(int * x, int * y);
+
+	long bmx_wxgetelapsedtime(bool resetTimer);
+	long bmx_wxgetlocaltime();
+	void bmx_wxgetlocaltimemillis(BBInt64 * time);
+	long bmx_wxgetutctime();
+	void bmx_wxmicrosleep(unsigned long microseconds);
+	void bmx_wxmillisleep(unsigned long milliseconds);
+	BBString * bmx_wxnow();
+	void bmx_wxsleep(int secs);
+	void bmx_wxstarttimer();
 
 }
 
