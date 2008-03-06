@@ -173,19 +173,8 @@ void doEmitEvent(wxEvent& event) {
 
 	if (checkEvent) {
 	
-		if (event.GetEventType() == wxEVT_KEY_DOWN) {
-			printf("Key down\n");fflush(stdout);
-		} else if (event.GetEventType() == wxEVT_KEY_UP) {
-			printf("Key up\n");fflush(stdout);
-		} else if (event.GetEventType() == wxEVT_LEFT_DOWN) {
-			printf("Mouse Down\n");fflush(stdout);
-		} else if (event.GetEventType() == wxEVT_MOTION) {
-			printf("Mouse Move\n");fflush(stdout);
-			int ev=0,data=0,x=0,y=0,oldMods,mask;
-			ev=BBEVENT_MOUSEMOVE;
-			((wxMouseEvent&)event).GetPosition(&x, &y);
-			printf("mousemove\n");fflush(stdout);
-		}
+		// nothing to see here! - yet...
+	
 	}
 }
 
