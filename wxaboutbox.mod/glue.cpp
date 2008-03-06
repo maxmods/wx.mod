@@ -20,7 +20,14 @@
   THE SOFTWARE.
 */ 
 
-#include "advglue.h"
+#include "glue.h"
+
+// ---------------------------------------------------------------------------------------
+
+
+
+// *********************************************
+
 
 
 wxAboutDialogInfo * bmx_wxaboutdialoginfo_create() {
@@ -75,4 +82,27 @@ void bmx_wxaboutdialoginfo_setwebsite(wxAboutDialogInfo * info, BBString * url, 
 	}
 }
 
+void bmx_wxaboutdialoginfo_setartists(wxAboutDialogInfo * info, BBArray * names) {
+	info->SetArtists(bbStringArrayTowxArrayStr(names));
+}
+
+void bmx_wxaboutdialoginfo_setlicence(wxAboutDialogInfo * info, BBString * licence) {
+	info->SetLicence(wxStringFromBBString(licence));
+}
+
+void bmx_wxaboutdialoginfo_setdevelopers(wxAboutDialogInfo * info, BBArray * names) {
+	info->SetDevelopers(bbStringArrayTowxArrayStr(names));
+}
+
+void bmx_wxaboutdialoginfo_setdocwriters(wxAboutDialogInfo * info, BBArray * names) {
+	info->SetDocWriters(bbStringArrayTowxArrayStr(names));
+}
+
+void bmx_wxaboutdialoginfo_seticon(wxAboutDialogInfo * info, MaxIcon * icon) {
+	info->SetIcon(icon->Icon());
+}
+
+void bmx_wxaboutdialoginfo_settranslators(wxAboutDialogInfo * info, BBArray * names) {
+	info->SetTranslators(bbStringArrayTowxArrayStr(names));
+}
 

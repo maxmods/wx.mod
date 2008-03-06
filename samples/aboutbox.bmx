@@ -1,15 +1,29 @@
+'
+' wxAboutBox sample
+'
+'
+'
 SuperStrict
 
-Framework BaH.wxadv
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxABoutBox
+
+
+New MyApp.run()
+
 
 Type MyApp Extends wxApp
 
 	Field frame:MyFrame
 
-	Method init:Int()
+	Method OnInit:Int()
 
-		frame = MyFrame.Create("AboutBox example", 100, 100)
-		frame.show()
+		frame = MyFrame(New MyFrame.Create(, -1, "AboutBox example"))
+		
+		frame.Center()
+		frame.Show()
+		
 	
 		Return True
 	
@@ -19,16 +33,7 @@ End Type
 
 Type MyFrame Extends wxFrame
 
-	Function Create:MyFrame(title:String, x:Int, y:Int)
-		Local this:MyFrame = New MyFrame
-		
-		this.init(title, x, y)
-		
-		Return this
-	End Function
-
-	Method init(title:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, parent:wxFrame = Null, id:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE)
-		Super.init(title, x, y, w, h, parent, id, style)
+	Method OnInit()
 	
 		' create a menu bar
 		
@@ -52,19 +57,19 @@ Type MyFrame Extends wxFrame
 		CreateStatusBar(2)
 		SetStatusText("Welcome to wxWidgets!")
 		
-		Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxMenuEventHandler, OnQuit)
-		Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxMenuEventHandler, OnAbout)
+		Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, OnQuit)
+		Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, OnAbout)
 		
 	End Method
 
 	Function OnQuit(event:wxEvent)
 		' true is to force the frame to close
-		wxWindow(event.handler).Close(True)
+		wxWindow(event.parent).Close(True)
 	End Function
 	
 	Function OnAbout(event:wxEvent)
 		
-		Local info:wxAboutDialogInfo = wxAboutDialogInfo.Create()
+		Local info:wxAboutDialogInfo = New wxAboutDialogInfo.Create()
 		
 		info.SetName("My Program")
 		info.SetVersion("1.2.3 Beta")
@@ -79,6 +84,4 @@ Type MyFrame Extends wxFrame
 	End Function
 	
 End Type
-
-New MyApp.run()
 

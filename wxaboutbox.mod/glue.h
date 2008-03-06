@@ -21,12 +21,13 @@
 */ 
 
 #include "wxglue.h"
-#include <wx/aboutdlg.h>
+#include "wx/aboutdlg.h"
+#include "../wxicon.mod/glue.h"
 
 extern "C" {
 
 #include <blitz.h>
-	
+
 	wxAboutDialogInfo * bmx_wxaboutdialoginfo_create();
 	void bmx_wxaboutdialoginfo_delete(wxAboutDialogInfo * info);
 	void bmx_wxaboutbox(wxAboutDialogInfo * info);
@@ -41,6 +42,14 @@ extern "C" {
 	void bmx_wxaboutdialoginfo_setversion(wxAboutDialogInfo * info, BBString * version);
 	void bmx_wxaboutdialoginfo_setwebsite(wxAboutDialogInfo * info, BBString * url, BBString * desc);
 
+	void bmx_wxaboutdialoginfo_setartists(wxAboutDialogInfo * info, BBArray * names);
+	void bmx_wxaboutdialoginfo_setlicence(wxAboutDialogInfo * info, BBString * licence);
+	void bmx_wxaboutdialoginfo_setdevelopers(wxAboutDialogInfo * info, BBArray * names);
+	void bmx_wxaboutdialoginfo_setdocwriters(wxAboutDialogInfo * info, BBArray * names);
+	void bmx_wxaboutdialoginfo_seticon(wxAboutDialogInfo * info, MaxIcon * icon);
+	void bmx_wxaboutdialoginfo_settranslators(wxAboutDialogInfo * info, BBArray * names);
+
 }
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

@@ -20,12 +20,12 @@
 ' 
 SuperStrict
 
-Import BRL.Map
-Import BRL.Blitz
 Import wx.wx
+Import wx.wxIcon
+Import BRL.Blitz
 
 
-
+' headers :-)
 ?linux
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
 Import "../include/*.h"
@@ -40,9 +40,7 @@ Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
 Import "../include/*.h"
 ?
 
-
-Import "advglue.cpp"
-
+Import "glue.cpp"
 
 Extern
 
@@ -57,7 +55,14 @@ Extern
 	Function bmx_wxaboutdialoginfo_setname(handle:Byte Ptr, name:String)
 	Function bmx_wxaboutdialoginfo_setversion(handle:Byte Ptr, version:String)
 	Function bmx_wxaboutdialoginfo_setwebsite(handle:Byte Ptr, url:String, desc:String)
-	
+
+	Function bmx_wxaboutdialoginfo_setartists(handle:Byte Ptr, names:String[])
+	Function bmx_wxaboutdialoginfo_setlicence(handle:Byte Ptr, licence:String)
+	Function bmx_wxaboutdialoginfo_setdevelopers(handle:Byte Ptr, names:String[])
+	Function bmx_wxaboutdialoginfo_setdocwriters(handle:Byte Ptr, names:String[])
+	Function bmx_wxaboutdialoginfo_seticon(handle:Byte Ptr, icon:Byte Ptr)
+	Function bmx_wxaboutdialoginfo_settranslators(handle:Byte Ptr, names:String[])
+
 	Function bmx_wxaboutbox(info:Byte Ptr)
 	
 End Extern

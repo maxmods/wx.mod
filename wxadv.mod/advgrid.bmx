@@ -1,5 +1,0 @@
-SuperStrict
-
-Import "advcommon.bmx"
-
-

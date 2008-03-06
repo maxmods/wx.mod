@@ -20,7 +20,10 @@
 ' 
 SuperStrict
 
-Module wx.wxadv
+Rem
+bbdoc: wxAboutBox
+End Rem
+Module wx.wxAboutBox
 
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
@@ -38,7 +41,6 @@ ModuleInfo "CC_OPTS: -DHAVE_W32API_H"
 ModuleInfo "CC_OPTS: -D__WXMSW__"
 ModuleInfo "CC_OPTS: -D_UNICODE"
 ModuleInfo "CC_OPTS: -DUNICODE"
-'ModuleInfo "LD_OPTS: -L%PWD%/win32"
 ?macos
 ModuleInfo "CC_OPTS: -D__WXMAC__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
@@ -46,10 +48,7 @@ ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
 
-'Import "advgrid.bmx"
-Import "advcommon.bmx"
-
-
+Import "common.bmx"
 
 Rem
 bbdoc: This function shows the standard about dialog containing the information specified in info.
@@ -85,13 +84,18 @@ Type wxAboutDialogInfo
 	bbdoc: Default constructor leaves all fields are initially uninitialized
 	about: In general you should call at least SetVersion, SetCopyright and SetDescription.
 	End Rem
-	Function Create:wxAboutDialogInfo()
-		Local this:wxAboutDialogInfo = New wxAboutDialogInfo
-		
-		this.wxAboutDialogInfoPtr = bmx_wxaboutdialoginfo_create()
-		
-		Return this
+	Function CreateAboutDialogInfo:wxAboutDialogInfo()
+		Return New wxAboutDialogInfo.Create()
 	End Function
+	
+	Rem
+	bbdoc: Default constructor leaves all fields are initially uninitialized
+	about: In general you should call at least SetVersion, SetCopyright and SetDescription.
+	End Rem
+	Method Create:wxAboutDialogInfo()
+		wxAboutDialogInfoPtr = bmx_wxaboutdialoginfo_create()
+		Return Self
+	End Method
 
 	Rem
 	bbdoc: Adds an artist name to be shown in the program credits.
@@ -125,9 +129,10 @@ Type wxAboutDialogInfo
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the the list of artists to be shown in the program credits.
 	End Rem
 	Method SetArtists(names:String[])
+		bmx_wxaboutdialoginfo_setartists(wxAboutDialogInfoPtr, names)
 	End Method
 
 	Rem
@@ -148,6 +153,30 @@ Type wxAboutDialogInfo
 	End Method
 	
 	Rem
+	bbdoc: Set the list of developers of the program.
+	End Rem
+	Method SetDevelopers(names:String[])
+		bmx_wxaboutdialoginfo_setdevelopers(wxAboutDialogInfoPtr, names)
+	End Method
+	
+	Rem
+	bbdoc: Set the list of documentation writers.
+	End Rem
+	Method SetDocWriters(names:String[])
+		bmx_wxaboutdialoginfo_setdocwriters(wxAboutDialogInfoPtr, names)
+	End Method
+	
+	Rem
+	bbdoc: Set the icon to be shown in the dialog.
+	about: By default the icon of the main frame will be shown if the native about dialog supports custom icons.
+	If it doesn't but a valid icon is specified using this method, the generic about dialog is used instead so
+	you should avoid calling this function for maximally native look and feel.
+	End Rem
+	Method SetIcon(icon:wxIcon)
+		bmx_wxaboutdialoginfo_seticon(wxAboutDialogInfoPtr, icon.wxObjectPtr)
+	End Method
+	
+	Rem
 	bbdoc: Set the long, multiline string containing the text of the program licence.
 	about: Only GTK+ version supports showing the licence text in the native about dialog currently so the
 	generic version will be used under all the other platforms if this method is called. To preserve the native
@@ -155,6 +184,7 @@ Type wxAboutDialogInfo
 	menu for displaying the text of your program licence.
 	End Rem
 	Method SetLicence(licence:String)
+		bmx_wxaboutdialoginfo_setlicence(wxAboutDialogInfoPtr, licence)
 	End Method
 	
 	Rem
@@ -170,6 +200,14 @@ Type wxAboutDialogInfo
 	End Rem
 	Method SetName(name:String)
 		bmx_wxaboutdialoginfo_setname(wxAboutDialogInfoPtr, name)
+	End Method
+	
+	Rem
+	bbdoc: Set the list of translators.
+	about: Please see AddTranslator for additional discussion.
+	End Rem
+	Method SetTranslators(names:String[])
+		bmx_wxaboutdialoginfo_settranslators(wxAboutDialogInfoPtr, names)
 	End Method
 	
 	Rem
@@ -191,7 +229,11 @@ Type wxAboutDialogInfo
 	End Method
 	
 	Method Delete()
-		bmx_wxaboutdialoginfo_delete(wxAboutDialogInfoPtr)
+		If wxAboutDialogInfoPtr Then
+			bmx_wxaboutdialoginfo_delete(wxAboutDialogInfoPtr)
+			wxAboutDialogInfoPtr = Null
+		End If
 	End Method
 	
 End Type
+
