@@ -124,7 +124,7 @@ Type MyFrame Extends wxFrame
 			timeout.free()
 			
 			' dont uncomment this unless you really really want to shutdown.
-''			wxShutdown()
+''			wxShutdown(wxSHUTDOWN_POWEROFF)
 		EndIf
 
 	EndMethod
