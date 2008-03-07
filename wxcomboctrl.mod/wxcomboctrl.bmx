@@ -20,6 +20,9 @@
 ' 
 SuperStrict
 
+Rem
+bbdoc: wxComboCtrl
+End Rem
 Module wx.wxComboCtrl
 
 ModuleInfo "Version: 1.00"
@@ -47,4 +50,6 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Type wxComboCtrl Extends wxControl
+End Type
 
