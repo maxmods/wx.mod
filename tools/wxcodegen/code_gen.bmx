@@ -25,7 +25,7 @@ Import BRL.StandardIO
 Import BRL.System
 
 
-Const AppVersion:String = "1.01"
+Const AppVersion:String = "1.02"
 
 
 Global eventMap:TMap = New TMap
@@ -2325,6 +2325,8 @@ Type TFBListBox Extends TFBWidget
 		text:+ ")"
 		
 		out.Add(text, 2)
+
+		StandardSettings(out)
 
 		out.Add("")
 
