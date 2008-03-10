@@ -30,22 +30,22 @@ extern "C" {
 #include <blitz.h>
 
 	wxStandardPathsBase * bmx_wxstandardpaths_get();
-	BBString * bmx_wxstandardpaths_getconfigdir(wxStandardPathsBase * sp);
-	BBString * bmx_wxstandardpaths_getdatadir(wxStandardPathsBase * sp);
-	BBString * bmx_wxstandardpaths_getdocumentsdir(wxStandardPathsBase * sp);
-	BBString * bmx_wxstandardpaths_getexecutablepath(wxStandardPathsBase * sp);
+	BBString * bmx_wxstandardpaths_getconfigdir(wxStandardPaths * sp);
+	BBString * bmx_wxstandardpaths_getdatadir(wxStandardPaths * sp);
+	BBString * bmx_wxstandardpaths_getdocumentsdir(wxStandardPaths * sp);
+	BBString * bmx_wxstandardpaths_getexecutablepath(wxStandardPaths * sp);
 #ifdef __WXGTK__
-	BBString * bmx_wxstandardpaths_getinstallprefix(wxStandardPathsBase * sp);
+	BBString * bmx_wxstandardpaths_getinstallprefix(wxStandardPaths * sp);
 #endif
-	BBString * bmx_wxstandardpaths_getlocaldatadir(wxStandardPathsBase * sp);
-	BBString * bmx_wxstandardpaths_getpluginsdir(wxStandardPathsBase * sp);
-	BBString * bmx_wxstandardpaths_getresourcesdir(wxStandardPathsBase * sp);
-	BBString * bmx_wxstandardpaths_gettempdir(wxStandardPathsBase * sp);
-	BBString * bmx_wxstandardpaths_getuserconfigdir(wxStandardPathsBase * sp);
-	BBString * bmx_wxstandardpaths_getuserdatadir(wxStandardPathsBase * sp);
-	BBString * bmx_wxstandardpaths_getuserlocaldatadir(wxStandardPathsBase * sp);
+	BBString * bmx_wxstandardpaths_getlocaldatadir(wxStandardPaths * sp);
+	BBString * bmx_wxstandardpaths_getpluginsdir(wxStandardPaths * sp);
+	BBString * bmx_wxstandardpaths_getresourcesdir(wxStandardPaths * sp);
+	BBString * bmx_wxstandardpaths_gettempdir(wxStandardPaths * sp);
+	BBString * bmx_wxstandardpaths_getuserconfigdir(wxStandardPaths * sp);
+	BBString * bmx_wxstandardpaths_getuserdatadir(wxStandardPaths * sp);
+	BBString * bmx_wxstandardpaths_getuserlocaldatadir(wxStandardPaths * sp);
 #ifdef __WXGTK__
-	void bmx_wxstandardpaths_setinstallprefix(wxStandardPathsBase * sp, BBString * prefix);
+	void bmx_wxstandardpaths_setinstallprefix(wxStandardPaths * sp, BBString * prefix);
 #endif
 
 }

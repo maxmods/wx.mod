@@ -32,60 +32,60 @@ wxStandardPathsBase * bmx_wxstandardpaths_get() {
 	return &wxStandardPaths::Get();
 }
 
-BBString * bmx_wxstandardpaths_getconfigdir(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getconfigdir(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetConfigDir());
 }
 
-BBString * bmx_wxstandardpaths_getdatadir(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getdatadir(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetDataDir());
 }
 
-BBString * bmx_wxstandardpaths_getdocumentsdir(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getdocumentsdir(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetDocumentsDir());
 }
 
-BBString * bmx_wxstandardpaths_getexecutablepath(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getexecutablepath(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetExecutablePath());
 }
 
 
 #ifdef __WXGTK__
-BBString * bmx_wxstandardpaths_getinstallprefix(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getinstallprefix(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetInstallPrefix());
 }
 #endif
 
-BBString * bmx_wxstandardpaths_getlocaldatadir(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getlocaldatadir(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetLocalDataDir());
 }
 
-BBString * bmx_wxstandardpaths_getpluginsdir(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getpluginsdir(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetPluginsDir());
 }
 
-BBString * bmx_wxstandardpaths_getresourcesdir(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getresourcesdir(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetResourcesDir());
 }
 
-BBString * bmx_wxstandardpaths_gettempdir(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_gettempdir(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetTempDir());
 }
 
-BBString * bmx_wxstandardpaths_getuserconfigdir(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getuserconfigdir(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetUserConfigDir());
 }
 
-BBString * bmx_wxstandardpaths_getuserdatadir(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getuserdatadir(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetUserDataDir());
 }
 
-BBString * bmx_wxstandardpaths_getuserlocaldatadir(wxStandardPathsBase * sp) {
+BBString * bmx_wxstandardpaths_getuserlocaldatadir(wxStandardPaths * sp) {
 	return bbStringFromWxString(sp->GetUserLocalDataDir());
 }
 
 
 #ifdef __WXGTK__
-void bmx_wxstandardpaths_setinstallprefix(wxStandardPathsBase * sp, BBString * prefix) {
+void bmx_wxstandardpaths_setinstallprefix(wxStandardPaths * sp, BBString * prefix) {
 	sp->SetInstallPrefix(wxStringFromBBString(prefix));
 }
 #endif
