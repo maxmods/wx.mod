@@ -53,6 +53,17 @@ Import "common.bmx"
 Rem
 bbdoc: A choice item is used to select one of a list of strings.
 about: Unlike a listbox, only the selection is visible until the user pulls down the menu of choices.
+<p><b>Styles</b>
+There are no special styles for wxChoice.
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
+<p><b>Event Handling</b>
+<ul>
+<li><tt>wxEVT_COMMAND_CHOICE_SELECTED </tt> - Process the event when an item on the list is selected. </li>
+</ul>
+</p>
 End Rem
 Type wxChoice Extends wxControlWithItems
 

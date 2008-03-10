@@ -60,6 +60,55 @@ A frame that has a status bar and toolbar created via the CreateStatusBar/Create
 these windows, and adjusts the value returned by GetClientSize to reflect the remaining size available
 to application windows.
 </p>
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxDEFAULT_FRAME_STYLE </td><td>Defined as wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN.</td></tr>
+<tr><td>wxICONIZE </td><td>Display the frame iconized (minimized). Windows only. </td></tr>
+<tr><td>wxCAPTION </td><td>Puts a caption on the frame.</td></tr>
+<tr><td>wxMINIMIZE </td><td>Identical to wxICONIZE. Windows only. </td></tr>
+<tr><td>wxMINIMIZE_BOX </td><td>Displays a minimize box on the frame. </td></tr>
+<tr><td>wxMAXIMIZE </td><td>Displays the frame maximized. Windows only. </td></tr>
+<tr><td>wxMAXIMIZE_BOX </td><td>Displays a maximize box on the frame. </td></tr>
+<tr><td>wxCLOSE_BOX </td><td>Displays a close box on the frame. </td></tr>
+<tr><td>wxSTAY_ON_TOP </td><td>Stay on top of all other windows, see also wxFRAME_FLOAT_ON_PARENT. </td></tr>
+<tr><td>wxSYSTEM_MENU </td><td>Displays a system menu. </td></tr>
+<tr><td>wxRESIZE_BORDER </td><td>Displays a resizeable border around the window. </td></tr>
+<tr><td>wxFRAME_TOOL_WINDOW </td><td>Causes a frame with a small titlebar to be created; the frame does not appear in the taskbar under Windows or GTK+. </td></tr>
+<tr><td>wxFRAME_NO_TASKBAR </td><td>Creates an otherwise normal frame but it does not appear in the taskbar under Windows or GTK+ (note that
+it will minimize to the desktop window under Windows which may seem strange to the users and thus it might be better to use this style
+only without wxMINIMIZE_BOX style). In wxGTK, the flag is respected only if GTK+ is at least version 2.2 and the window manager
+supports _NET_WM_STATE_SKIP_TASKBAR hint. Has no effect under other platforms. </td></tr>
+<tr><td>wxFRAME_FLOAT_ON_PARENT </td><td>The frame will always be on top of its parent (unlike wxSTAY_ON_TOP). A frame created with this style must have a non-NULL parent. </td></tr>
+<tr><td>wxFRAME_EX_CONTEXTHELP </td><td>Under Windows, puts a query button on the caption. When pressed, Windows will go into a
+context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. Note that this is an
+<i>extra</i> style and must be set by calling <tt>SetExtraStyle</tt>. You cannot use this style
+together with wxMAXIMIZE_BOX or wxMINIMIZE_BOX, so you should use wxDEFAULT_FRAME_STYLE &amp; ~ (wxMINIMIZE_BOX | wxMAXIMIZE_BOX) for the
+frames having this style (the dialogs don't have a minimize or a maximize box by default) </td></tr>
+<tr><td>wxFRAME_SHAPED </td><td>Windows with this style are allowed to have their shape changed with the SetShape method. </td></tr>
+<tr><td>wxFRAME_EX_METAL </td><td>On Mac OS X, frames with this style will be shown with a metallic look. This is an <i>extra</i> style. </td></tr>
+</table>
+</p>
+<p>
+The default frame style is for normal, resizeable frames. To create a frame which can not be resized by user,
+you may use the following combination of styles:
+<tt>wxDEFAULT_FRAME_STYLE &amp; ~ (wxRESIZE_BORDER | wxRESIZE_BOX | wxMAXIMIZE_BOX)</tt>.
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
+<p><b>Event Handling</b>
+<ul>
+<li><tt>wxEVT_SIZE</tt> - If the frame has exactly one child window, not counting the status and toolbar, this child is resized to
+take the entire frame client area. If two or more windows are present, they should be laid out explicitly either by manually
+handling wxEVT_SIZE or using sizers </li>
+<li><tt>wxEVT_MENU_HIGHLIGHT</tt> - The default implementation displays the help string associated with the selected item in the first pane of the status bar, if there is one. </li>
+</ul>
+</p>
+<p>
+An application should normally define a #wxCloseEvent handler for the frame to respond to system close events,
+for example so that related data and subwindows can be cleaned up.
+</p>
 End Rem
 Type wxFrame Extends wxTopLevelWindow
 
@@ -118,12 +167,21 @@ Type wxFrame Extends wxTopLevelWindow
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Tells the frame to show the given menu bar.
+	about: If the frame is destroyed, the menu bar and its menus will be destroyed also, so do not delete the
+	menu bar explicitly (except by resetting the frame's menu bar to another frame or NULL).
+	<p>
+	Under Windows, a size event is generated, so be sure to initialize data members properly before calling
+	SetMenuBar.
+	</p>
+	<p>
+	Note that on some platforms, it is not possible to call this function twice for the same frame object.
+	</p>
 	End Rem
 	Method SetMenuBar(menuBar:wxMenuBar)
 
-		If Not self.menuBar Then
-			self.menuBar = menuBar
+		If Not Self.menuBar Then
+			Self.menuBar = menuBar
 			bmx_wxframe_setmenubar(wxObjectPtr, menuBar.wxObjectPtr)
 		End If
 		
@@ -147,7 +205,7 @@ Type wxFrame Extends wxTopLevelWindow
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the menubar currently associated with the frame (if any).
 	End Rem
 	Method GetMenuBar:wxMenuBar()
 		Return wxMenuBar(wxfind(bmx_wxframe_getmenubar(wxObjectPtr)))
@@ -190,6 +248,7 @@ Type wxFrame Extends wxTopLevelWindow
 	about: Using -1 disables help display.
 	End Rem
 	Method SetStatusBarPane(n:Int)
+		bmx_wxframe_setstatusbarpane(wxObjectPtr, n)
 	End Method
 	
 	Rem
@@ -223,9 +282,10 @@ Type wxFrame Extends wxTopLevelWindow
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Simulate a menu command.
 	End Rem
 	Method ProcessCommand(id:Int)
+		bmx_wxframe_processcommand(wxObjectPtr, id)
 	End Method
 	
 	Rem
@@ -241,8 +301,5 @@ Type wxFrame Extends wxTopLevelWindow
 		bmx_wxframe_sendsizeevent(wxObjectPtr)
 	End Method
 	
-	
-	Method Delete()
-	End Method
 End Type
 

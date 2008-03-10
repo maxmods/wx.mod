@@ -65,6 +65,9 @@ about: It may be placed on a dialog box or panel, or indeed almost any other win
 <tr><td>wxNO_BORDER</td><td>Creates a flat button. Windows and GTK+ only.</td></tr>
 </table>
 </p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
 <p><b>Event Handling</b>
 <ul>
 <li><tt>wxEVT_COMMAND_BUTTON_CLICKED</tt> - handle button click.</li>

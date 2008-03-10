@@ -52,6 +52,23 @@ Import "common.bmx"
 
 Rem
 bbdoc: This type represents the directory chooser dialog.
+about:
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxDD_DEFAULT_STYLE </td><td>Equivalent to a combination of wxDEFAULT_DIALOG_STYLE and wxRESIZE_BORDER. </td></tr>
+<tr><td>wxDD_DIR_MUST_EXIST </td><td>The dialog will allow the user to choose only an existing folder. When this style is not given,
+a "Create new directory" button is added to the dialog (on Windows) or some other way is provided to the user to type the name
+of a new folder. </td></tr>
+<tr><td>wxDD_CHANGE_DIR </td><td>Change the current working directory to the directory chosen by the user. </td></tr>
+</table>
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
+<p>
+NB: on Windows the new directory button is only available with recent versions of the common dialogs.
+</p>
 End Rem
 Type wxDirDialog Extends wxDialog
 

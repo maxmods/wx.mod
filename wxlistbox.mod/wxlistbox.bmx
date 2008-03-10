@@ -73,6 +73,9 @@ List box elements are numbered from zero. Their number may be limited under some
 Note that wxLB_SINGLE, wxLB_MULTIPLE and wxLB_EXTENDED styles are mutually exclusive and you can specify at most
 one of them (single selection is the default).
 </p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
 <p><b>Event Handling</b>
 <ul>
 <li><tt>wxEVT_COMMAND_LISTBOX_SELECTED</tt> - handle single clicks.</li>

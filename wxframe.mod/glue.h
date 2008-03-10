@@ -26,6 +26,9 @@ extern "C" {
 	wxToolBar * bmx_wxframe_gettoolbar(wxFrame * frame);
 	void bmx_wxframe_settoolbar(wxFrame * frame, wxToolBar * toolbar);
 	void bmx_wxframe_sendsizeevent(wxFrame * frame);
+	void bmx_wxframe_processcommand(wxFrame * frame, int id);
+	void bmx_wxframe_setstatusbarpane(wxFrame * frame, int n);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -55,6 +55,26 @@ Rem
 bbdoc: This type represents a dialog that shows a short message and a progress bar.
 about: Optionally, it can display ABORT and SKIP buttons, the elapsed, remaining and estimated
 time for the end of the progress.
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxPD_APP_MODAL </td><td>Make the progress dialog modal. If this flag is not given, it is only "locally" modal - that is the
+input to the parent window is disabled, but not to the other ones. </td></tr>
+<tr><td>wxPD_AUTO_HIDE </td><td>Causes the progress dialog to disappear from screen as soon as the maximum value of the progress meter
+has been reached. </td></tr>
+<tr><td>wxPD_SMOOTH </td><td>Causes smooth progress of the gauge control. </td></tr>
+<tr><td>wxPD_CAN_ABORT </td><td>This flag tells the dialog that it should have a "Cancel" button which the user may press. If this
+happens, the next call to Update() will return false. </td></tr>
+<tr><td>wxPD_CAN_SKIP </td><td>This flag tells the dialog that it should have a "Skip" button which the user may press. If this happens,
+the next call to Update() will return true in its skip parameter. </td></tr>
+<tr><td>wxPD_ELAPSED_TIME </td><td>This flag tells the dialog that it should show elapsed time (since creating the dialog). </td></tr>
+<tr><td>wxPD_ESTIMATED_TIME </td><td>This flag tells the dialog that it should show estimated time. </td></tr>
+<tr><td>wxPD_REMAINING_TIME </td><td>This flag tells the dialog that it should show remaining time. </td></tr>
+</table>
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
 End Rem
 Type wxProgressDialog Extends wxDialog
 

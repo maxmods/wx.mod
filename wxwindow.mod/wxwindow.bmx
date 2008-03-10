@@ -73,6 +73,59 @@ overrides any of them). To allow overriding them in the derived class, wxWidgets
 virtual DoGetXXX() method and all GetXXX() ones are forwarded to it, so overriding the former changes
 the behaviour of the latter.
 </p>
+<p><b>Styles</b>
+<p>
+The following styles can apply to all windows, although they will not always make sense
+for a particular window class or on all platforms.
+</p>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxBORDER_SIMPLE </td><td>Displays a thin border around the window. wxSIMPLE_BORDER is the old name for this style. </td></tr>
+<tr><td>wxBORDER_DOUBLE </td><td>Displays a double border. wxDOUBLE_BORDER is the old name for this style. Windows and Mac only. </td></tr>
+<tr><td>wxBORDER_SUNKEN </td><td>Displays a sunken border. wxSUNKEN_BORDER is the old name for this style. </td></tr>
+<tr><td>wxBORDER_RAISED </td><td>Displays a raised border. wxRAISED_BORDER is the old name for this style. </td></tr>
+<tr><td>wxBORDER_STATIC </td><td>Displays a border suitable for a static control. wxSTATIC_BORDER is the old name for this style. Windows only. </td></tr>
+<tr><td>wxBORDER_THEME </td><td>Displays a themed border where possible. Currently this has an effect on Windows XP and above only. For more information on themed borders, please see Themed borders on Windows. </td></tr>
+<tr><td>wxBORDER_NONE </td><td>Displays no border, overriding the default border style for the window. wxNO_BORDER is the old name for this style. </td></tr>
+<tr><td>wxTRANSPARENT_WINDOW </td><td>The window is transparent, that is, it will not receive paint events. Windows only. </td></tr>
+<tr><td>wxTAB_TRAVERSAL </td><td>Use this to enable tab traversal for non-dialog windows. </td></tr>
+<tr><td>wxWANTS_CHARS </td><td>Use this to indicate that the window wants to get all char/key events for all keys - even for keys
+like TAB or ENTER which are usually used for dialog navigation and which wouldn't be generated without this style. If you need
+to use this style in order to get the arrows or etc., but would still like to have normal keyboard navigation take place, you
+should create and send a wxNavigationKeyEvent in response to the key events for Tab and Shift-Tab. </td></tr>
+<tr><td>wxVSCROLL </td><td>Use this style to enable a vertical scrollbar. </td></tr>
+<tr><td>wxHSCROLL </td><td>Use this style to enable a horizontal scrollbar. </td></tr>
+<tr><td>wxALWAYS_SHOW_SB </td><td>If a window has scrollbars, disable them instead of hiding them when they are not needed
+(i.e. when the size of the window is big enough to not require the scrollbars to navigate it). This style is currently
+implemented for wxMSW, wxGTK and wxUniversal and does nothing on the other platforms. </td></tr>
+<tr><td>wxCLIP_CHILDREN </td><td>Use this style to eliminate flicker caused by the background being repainted,
+then children being painted over them. Windows only. </td></tr>
+<tr><td>wxFULL_REPAINT_ON_RESIZE </td><td>Use this style to force a complete redraw of the window whenever it is resized
+instead of redrawing just the part of the window affected by resizing. Note that this was the behaviour by default before 2.5.1
+release and that if you experience redraw problems with code which previously used to work you may want to try this. Currently
+this style applies on GTK+ 2 and Windows only, and full repainting is always done on other platforms. </td></tr>
+</table>
+</p>
+<p><b>Extra window styles</b>
+<p>
+The following are extra styles, set using wxWindow::SetExtraStyle.
+</p>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxWS_EX_VALIDATE_RECURSIVELY </td><td>By default, Validate/TransferDataTo/FromWindow() only work on direct children of the window
+(compatible behaviour). Set this flag to make them recursively descend into all subwindows. </td></tr>
+<tr><td>wxWS_EX_BLOCK_EVENTS </td><td>wxCommandEvents and the objects of the derived classes are forwarded to the parent window and so on
+recursively by default. Using this flag for the given window allows to block this propagation at this window, i.e. prevent the events
+from being propagated further upwards. Dialogs have this flag on by default. </td></tr>
+<tr><td>wxWS_EX_TRANSIENT </td><td>Don't use this window as an implicit parent for the other windows: this must be used with transient
+windows as otherwise there is the risk of creating a dialog/frame with this window as a parent which would lead to a crash if the
+parent is destroyed before the child. </td></tr>
+<tr><td>wxWS_EX_PROCESS_IDLE </td><td>This window should always process idle events, even if the mode set by wxIdleEvent::SetMode is
+wxIDLE_PROCESS_SPECIFIED. </td></tr>
+<tr><td>wxWS_EX_PROCESS_UI_UPDATES </td><td>This window should always process UI update events, even if the mode set by
+wxUpdateUIEvent::SetMode is wxUPDATE_UI_PROCESS_SPECIFIED. </td></tr>
+</table>
+</p>
 End Rem
 Type wxWindow Extends wxEvtHandler
 

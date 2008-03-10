@@ -77,6 +77,53 @@ Mac Note: wxListCtrl uses a native implementation for report mode, and uses a ge
 for other modes. You can use the generic implementation for report mode as well by setting
 the <tt>mac.listctrl.always_use_generic</tt> wxSystemOption to 1.
 </p>
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxLC_LIST </td><td>Multicolumn list view, with optional small icons. Columns are computed automatically, i.e. you don't set columns as in wxLC_REPORT. In other words, the list wraps, unlike a wxListBox. </td></tr>
+<tr><td>wxLC_REPORT </td><td>Single or multicolumn report view, with optional header. </td></tr>
+<tr><td>wxLC_VIRTUAL </td><td>The application provides items text on demand. May only be used with wxLC_REPORT. </td></tr>
+<tr><td>wxLC_ICON </td><td>Large icon view, with optional labels. </td></tr>
+<tr><td>wxLC_SMALL_ICON </td><td>Small icon view, with optional labels. </td></tr>
+<tr><td>wxLC_ALIGN_TOP </td><td>Icons align to the top. Win32 default, Win32 only. </td></tr>
+<tr><td>wxLC_ALIGN_LEFT </td><td>Icons align to the left. </td></tr>
+<tr><td>wxLC_AUTOARRANGE </td><td>Icons arrange themselves. Win32 only. </td></tr>
+<tr><td>wxLC_EDIT_LABELS </td><td>Labels are editable: the application will be notified when editing starts. </td></tr>
+<tr><td>wxLC_NO_HEADER </td><td>No header in report mode. </td></tr>
+<tr><td>wxLC_SINGLE_SEL </td><td>Single selection (default is multiple). </td></tr>
+<tr><td>wxLC_SORT_ASCENDING </td><td>Sort in ascending order (must still supply a comparison callback in SortItems. </td></tr>
+<tr><td>wxLC_SORT_DESCENDING /td><td>Sort in descending order (must still supply a comparison callback in SortItems. </td></tr>
+<tr><td>wxLC_HRULES </td><td>Draws light horizontal rules between rows in report mode. </td></tr>
+<tr><td>wxLC_VRULES </td><td>Draws light vertical rules between columns in report mode. </td></tr>
+</table>
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
+<p><b>Event Handling</b>
+<ul>
+<li><tt>wxEVT_LIST_BEGIN_DRAG</tt> - Begin dragging with the left mouse button. </li>
+<li><tt>wxEVT_LIST_BEGIN_RDRAG</tt> - Begin dragging with the right mouse button. </li>
+<li><tt>wxEVT_LIST_BEGIN_LABEL_EDIT</tt> - Begin editing a label. This can be prevented by calling Veto(). </li>
+<li><tt>wxEVT_LIST_END_LABEL_EDIT</tt> - Finish editing a label. This can be prevented by calling Veto(). </li>
+<li><tt>wxEVT_LIST_DELETE_ITEM</tt> - Delete an item. </li>
+<li><tt>wxEVT_LIST_DELETE_ALL_ITEMS</tt> - Delete all items. </li>
+<li><tt>wxEVT_LIST_ITEM_SELECTED</tt> - The item has been selected. </li>
+<li><tt>wxEVT_LIST_ITEM_DESELECTED</tt> - The item has been deselected. </li>
+<li><tt>wxEVT_LIST_ITEM_ACTIVATED</tt> - The item has been activated (ENTER or double click). </li>
+<li><tt>wxEVT_LIST_ITEM_FOCUSED</tt> - The currently focused item has changed. </li>
+<li><tt>wxEVT_LIST_ITEM_MIDDLE_CLICK</tt> - The middle mouse button has been clicked on an item. </li>
+<li><tt>wxEVT_LIST_ITEM_RIGHT_CLICK</tt> - The right mouse button has been clicked on an item. </li>
+<li><tt>wxEVT_LIST_KEY_DOWN</tt> - A key has been pressed. </li>
+<li><tt>wxEVT_LIST_INSERT_ITEM</tt> - An item has been inserted. </li>
+<li><tt>wxEVT_LIST_COL_CLICK</tt> - A column has been left-clicked. </li>
+<li><tt>wxEVT_LIST_COL_RIGHT_CLICK</tt> - A column has been right-clicked. </li>
+<li><tt>xwEVT_LIST_COL_BEGIN_DRAG</tt> - The user started resizing a column - can be vetoed. </li>
+<li><tt>wxEVT_LIST_COL_DRAGGING</tt> - The divider between columns is being dragged. </li>
+<li><tt>wxEVT_LIST_COL_END_DRAG</tt> - A column has been resized by the user. </li>
+<li><tt>wxEVT_LIST_CACHE_HINT</tt> - Prepare cache for a virtual list control </li>
+</ul>
+</p>
 End Rem
 Type wxListCtrl Extends wxControl
 

@@ -54,6 +54,32 @@ Rem
 bbdoc: A dialog box is a window with a title bar and sometimes a system menu, which can be moved around the screen.
 about: It can contain controls and other windows and is often used to allow the user to make some
 choice or to answer a question.
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxCAPTION </td><td>Puts a caption on the dialog box. </td></tr>
+<tr><td>wxDEFAULT_DIALOG_STYLE </td><td>Equivalent to a combination of wxCAPTION, wxCLOSE_BOX and wxSYSTEM_MENU (the last one is not
+used under Unix) </td></tr>
+<tr><td>wxRESIZE_BORDER </td><td>Display a resizeable frame around the window. </td></tr>
+<tr><td>wxSYSTEM_MENU </td><td>Display a system menu. </td></tr>
+<tr><td>wxCLOSE_BOX </td><td>Displays a close box on the frame. </td></tr>
+<tr><td>wxMAXIMIZE_BOX </td><td>Displays a maximize box on the dialog. </td></tr>
+<tr><td>wxMINIMIZE_BOX </td><td>Displays a minimize box on the dialog. </td></tr>
+<tr><td>wxTHICK_FRAME </td><td>Display a thick frame around the window. </td></tr>
+<tr><td>wxSTAY_ON_TOP </td><td>The dialog stays on top of all other windows. </td></tr>
+<tr><td>wxNO_3D </td><td>Under Windows, specifies that the child controls should not have 3D borders unless specified in the control. </td></tr>
+<tr><td>wxDIALOG_NO_PARENT </td><td>By default, a dialog created with a NULL parent window will be given the application's
+top level window as parent. Use this style to prevent this from happening and create an orphan dialog. This is not recommended
+for modal dialogs. </td></tr>
+<tr><td>wxDIALOG_EX_CONTEXTHELP </td><td>Under Windows, puts a query button on the caption. When pressed, Windows will go into
+a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. Note that
+this is an extended style and must be set by calling SetExtraStyle. </td></tr>
+<tr><td>wxDIALOG_EX_METAL </td><td>On Mac OS X, frames with this style will be shown with a metallic look. This is an extra style. </td></tr>
+</table>
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
 End Rem
 Type wxDialog Extends wxTopLevelWindow
 

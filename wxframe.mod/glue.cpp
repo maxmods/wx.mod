@@ -85,6 +85,13 @@ void bmx_wxframe_sendsizeevent(wxFrame * frame) {
 	frame->SendSizeEvent();
 }
 
+void bmx_wxframe_processcommand(wxFrame * frame, int id) {
+	frame->ProcessCommand(id);
+}
+
+void bmx_wxframe_setstatusbarpane(wxFrame * frame, int n) {
+	frame->SetStatusBarPane(n);
+}
 
 // *********************************************
 

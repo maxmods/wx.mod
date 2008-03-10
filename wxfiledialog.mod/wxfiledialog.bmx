@@ -67,6 +67,29 @@ displayed.
 The wildcard may be a specification for multiple types of file with a description for each, such as:
 <pre>"BMP files (*.bmp)|*.bmp|GIF files (*.gif)|*.gif"</pre>
 </p>
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxFD_DEFAULT_STYLE </td><td>Equivalent to wxFD_OPEN. </td></tr>
+<tr><td>wxFD_OPEN </td><td>This is an open dialog; usually this means that the default button's label of the dialog is "Open".
+Cannot be combined with wxFD_SAVE. </td></tr>
+<tr><td>wxFD_SAVE </td><td>This is a save dialog; usually this means that the default button's label of the dialog is "Save".
+Cannot be combined with wxFD_OPEN. </td></tr>
+<tr><td>wxFD_OVERWRITE_PROMPT </td><td>For save dialog only: prompt for a confirmation if a file will be overwritten. </td></tr>
+<tr><td>wxFD_FILE_MUST_EXIST </td><td>For open dialog only: the user may only select files that actually exist. </td></tr>
+<tr><td>wxFD_MULTIPLE </td><td>For open dialog only: allows selecting multiple files. </td></tr>
+<tr><td>wxFD_CHANGE_DIR </td><td>Change the current working directory to the directory where the file(s) chosen by the user are. </td></tr>
+<tr><td>wxFD_PREVIEW </td><td>Show the preview of the selected files (currently only supported by wxGTK using GTK+ 2.4 or later). </td></tr>
+</table>
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
+<p>
+NB: Previous versions of wxWidgets used wxFD_CHANGE_DIR by default under MS Windows which allowed the program to simply remember the
+last directory where user selected the files to open/save. This (desired) functionality must be implemented in the program itself now
+(manually remember the last path used and pass it to the dialog the next time it is called) or by using this flag.
+</p>
 End Rem
 Type wxFileDialog Extends wxDialog
 
