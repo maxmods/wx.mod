@@ -33,10 +33,6 @@
 #include "wx/txtstrm.h"
 #include "wx/wfstream.h"
 
-#ifdef __WXMAC__
-#include "wx/mac/private.h"
-#endif
-
 #include <map>
 
 class MaxApp;

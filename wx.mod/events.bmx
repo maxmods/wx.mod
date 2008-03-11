@@ -1017,7 +1017,7 @@ Type wxEvtHandler Extends wxObject
 	bbdoc: Connects the given function dynamically with the event handler, id and event type.
 	about: Example :
 	<pre>
-	ConnectAny(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, func)
+	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, func)
 	</pre>
 	can be used in place of the macro
 	<pre>

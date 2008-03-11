@@ -161,6 +161,9 @@ int MaxApp::MainLoop() {
 	return _wx_wxapp_wxAppMain__MainLoop();
 }
 
+#ifdef __WXMAC__
+#include "wx/mac/private.h"
+#endif
 
 void doEmitEvent(wxEvent& event) {
 	bool checkEvent = false;
