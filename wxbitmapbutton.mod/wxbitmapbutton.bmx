@@ -60,6 +60,46 @@ A bitmap button can be supplied with a single bitmap, and wxWidgets will draw al
 If the application needs more control, additional bitmaps for the selected state, unpressed focused state, and
 greyed-out state may be supplied.
 </p>
+<p><b>Button States</b>
+<br>
+This type supports bitmaps for several different states:
+<table width="90%" align="center">
+<tr><td>normal</td><td>This is the bitmap shown in the default state, it must be always valid
+while all the other bitmaps are optional and don't have to be set. </td></tr>
+<tr><td>disabled</td><td>Bitmap shown when the button is disabled. </td></tr>
+<tr><td>selected</td><td>Bitmap shown when the button is pushed (e.g. while the user keeps the
+mouse button pressed on it) </td></tr>
+<tr><td>focus</td><td>Bitmap shown when the button has keyboard focus but is not pressed. </td></tr>
+<tr><td>hover</td><td>Bitmap shown when the mouse is over the button (but it is not pressed).
+Notice that if hover bitmap is not specified but the current platform UI uses hover images for
+the buttons (such as Windows XP or GTK+), then the focus bitmap is used for hover state as well.
+This makes it possible to set focus bitmap only to get reasonably good behaviour on all platforms. </td></tr>
+</table>
+</p>
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxBU_AUTODRAW</td><td>If this is specified, the button will be drawn automatically using
+the label bitmap only, providing a 3D-look border. If this style is not specified, the button
+will be drawn without borders and using all provided bitmaps. WIN32 only. </td></tr>
+<tr><td>wxBU_LEFT</td><td>Left-justifies the bitmap label. WIN32 only.</td></tr>
+<tr><td>wxBU_TOP</td><td>Aligns the bitmap label to the top of the button. WIN32 only. </td></tr>
+<tr><td>wxBU_RIGHT</td><td>Right-justifies the bitmap label. WIN32 only. </td></tr>
+<tr><td>wxBU_BOTTOM</td><td>Aligns the bitmap label to the bottom of the button. WIN32 only.</td></tr>
+</table>
+</p>
+<p>
+Note that wxBU_EXACTFIT supported by wxButton is not used by this class as bitmap buttons don't
+have any minimal standard size by default.
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
+<p><b>Event Handling</b>
+<ul>
+<li><tt>wxEVT_COMMAND_BUTTON_CLICKED </tt> - Process a wxCommandEvent, when the button is clicked.</li>
+</ul>
+</p>
 End Rem
 Type wxBitmapButton Extends wxButton
 

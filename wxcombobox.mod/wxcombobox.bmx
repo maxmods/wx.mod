@@ -62,6 +62,30 @@ A combobox permits a single selection only. Combobox items are numbered from zer
 If you need a customized combobox, have a look at wxComboCtrl, wxOwnerDrawnComboBox, wxComboPopup and the
 ready-to-use wxBitmapComboBox.
 </p>
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxCB_SIMPLE</td><td>Creates a combobox with a permanently displayed list. Windows only.</td></tr>
+<tr><td>wxCB_DROPDOWN</td><td>Creates a combobox with a drop-down list. </td></tr>
+<tr><td>wxCB_READONLY</td><td>Same as wxCB_DROPDOWN but only the strings specified as the
+combobox choices can be selected, it is impossible to select (even from a program) a string
+which is not in the choices list. </td></tr>
+<tr><td>wxCB_SORT</td><td>Sorts the entries in the list alphabetically. </td></tr>
+<tr><td>wxTE_PROCESS_ENTER</td><td>The control will generate the event wxEVT_COMMAND_TEXT_ENTER
+(otherwise pressing Enter key is either processed internally by the control or used for
+navigation between dialog controls). Windows only. </td></tr>
+</table>
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
+<p><b>Event Handling</b>
+<ul>
+<li><tt>wxEVT_COMMAND_COMBOBOX_SELECTED </tt> - Process a wxCommandEvent, when an item on the list is selected. Note that calling GetValue returns the new value of selection. </li>
+<li><tt>wxEVT_COMMAND_TEXT_UPDATED </tt> - Process a wxCommandEvent, when the combobox text changes. </li>
+<li><tt>wxEVT_COMMAND_TEXT_ENTER </tt> - Process a wxCommandEvent, when <RETURN> is pressed in the combobox. </li>
+</ul>
+</p>
 End Rem
 Type wxComboBox Extends wxControlWithItems
 

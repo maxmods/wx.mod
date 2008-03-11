@@ -56,6 +56,31 @@ about: Unlike wxCalendarCtrl, which is a relatively big control, wxDatePickerCtr
 as a small window showing the currently selected date. The control can be edited using the keyboard,
 and can also display a popup window for more user-friendly date selection, depending on the styles
 used and the platform.
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxDP_SPIN</td><td>Creates a control without a month calendar drop down but with
+spin-control-like arrows to change individual date components. This style is not supported by
+the generic version. </td></tr>
+<tr><td>wxDP_DROPDOWN</td><td>Creates a control with a month calendar drop-down part from which
+the user can select a date.</td></tr>
+<tr><td>wxDP_DEFAULT</td><td>Creates a control with the style that is best supported for the
+current platform (currently wxDP_SPIN under Windows and wxDP_DROPDOWN elsewhere). </td></tr>
+<tr><td>wxDP_ALLOWNONE</td><td>With this style, the control allows the user to not enter any
+valid date at all. Without it - the default - the control always has some valid date. </td></tr>
+<tr><td>wxDP_SHOWCENTURY</td><td>Forces display of the century in the default date format.
+Without this style the century could be displayed, or not, depending on the default date
+representation in the system. </td></tr>
+</table>
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
+<p><b>Event Handling</b>
+<ul>
+<li><tt>wxEVT_DATE_CHANGED</tt> - This event fires when the user changes the current selection in the control.</li>
+</ul>
+</p>
 End Rem
 Type wxDatePickerCtrl Extends wxControl
 

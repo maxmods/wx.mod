@@ -58,6 +58,27 @@ next to the text field.
 Notes: Since BlitzMax doesn't allow method overloading, some of the methods here have the suffix "Bitmap". For example,
 instead of Append(), we use AppendBitmap().
 </p>
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxCB_READONLY</td><td>Creates a combobox without a text editor. On some platforms the
+control may appear very different when this style is used. </td></tr>
+<tr><td>wxCB_SORT</td><td>Sorts the entries in the list alphabetically. </td></tr>
+<tr><td>wxTE_PROCESS_ENTER</td><td>The control will generate the event wxEVT_COMMAND_TEXT_ENTER
+(otherwise pressing Enter key is either processed internally by the control or used for
+navigation between dialog controls). Windows only.</td></tr>
+</table>
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
+<p><b>Event Handling</b>
+<ul>
+<li><tt>wxEVT_COMMAND_COMBOBOX_SELECTED </tt> - Process a wxCommandEvent, when an item on the list is selected. </li>
+<li><tt>wxEVT_COMMAND_TEXT_UPDATED </tt> - Process a wxCommandEvent, when the combobox text changes.</li>
+<li><tt>wxEVT_COMMAND_TEXT_ENTER </tt> - Process a wxCommandEvent, when &lt;RETURN&gt; is pressed in the combobox.</li>
+</ul>
+</p>
 End Rem
 Type wxBitmapComboBox Extends wxComboBox
 

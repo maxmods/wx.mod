@@ -54,6 +54,25 @@ Rem
 bbdoc: A checkbox is a labelled box which by default is either on (checkmark is visible) or off (no checkmark).
 about: Optionally (when the wxCHK_3STATE style flag is set) it can have a third state, called the
 mixed or undetermined state. Often this is used as a "Does Not Apply" state.
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxCHK_2STATE</td><td>Create a 2-state checkbox. This is the default. </td></tr>
+<tr><td>wxCHK_3STATE</td><td>Create a 3-state checkbox.</td></tr>
+<tr><td>wxCHK_ALLOW_3RD_STATE_FOR_USER</td><td>By default a user can't set a 3-state checkbox to
+the third state. It can only be done from code. Using this flags allows the user to set the
+checkbox to the third state by clicking.</td></tr>
+<tr><td>wxALIGN_RIGHT</td><td>Makes the text appear on the left of the checkbox. </td></tr>
+</table>
+</p>
+<p>
+See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> styles.
+</p>
+<p><b>Event Handling</b>
+<ul>
+<li><tt>wxEVT_COMMAND_CHECKBOX_CLICKED </tt> - Process a wxCommandEvent, when the checkbox is clicked. </li>
+</ul>
+</p>
 End Rem
 Type wxCheckBox Extends wxControl
 

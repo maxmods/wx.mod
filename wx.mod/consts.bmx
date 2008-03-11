@@ -293,6 +293,25 @@ Const wxID_REPLACE:Int = 5039
 Const wxID_REPLACE_ALL:Int = 5040
 Const wxID_PROPERTIES:Int = 5041
 
+Const wxID_VIEW_DETAILS:Int = 5042
+Const wxID_VIEW_LARGEICONS:Int = 5043
+Const wxID_VIEW_SMALLICONS:Int = 5044
+Const wxID_VIEW_LIST:Int = 5045
+Const wxID_VIEW_SORTDATE:Int = 5046
+Const wxID_VIEW_SORTNAME:Int = 5047
+Const wxID_VIEW_SORTSIZE:Int = 5048
+Const wxID_VIEW_SORTTYPE:Int = 5049
+
+Const wxID_FILE:Int = 5050
+Const wxID_FILE1:Int = 5051
+Const wxID_FILE2:Int = 5052
+Const wxID_FILE3:Int = 5053
+Const wxID_FILE4:Int = 5054
+Const wxID_FILE5:Int = 5055
+Const wxID_FILE6:Int = 5056
+Const wxID_FILE7:Int = 5057
+Const wxID_FILE8:Int = 5058
+Const wxID_FILE9:Int = 5059
 
 
 Const wxID_OK:Int = 5100
