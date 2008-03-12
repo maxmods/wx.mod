@@ -22,6 +22,27 @@
 
 #include "glue.h"
 
+void bmx_releaseallclientdata(wxListCtrl * list) {
+	int count = list->GetItemCount();
+	for (int i = 0; i < count; i++) {
+		void * data = wxUIntToPtr(list->GetItemData(i));
+		if (data) {
+			if ((BBObject*)data != &bbNullObject) {
+				BBRELEASE((BBObject*)data);
+			}
+		}
+	}
+}
+
+void bmx_releaseindexedclientdata(wxListCtrl * list, long index) {
+	void * data = wxUIntToPtr(list->GetItemData(index));
+	if (data) {
+		if ((BBObject*)data != &bbNullObject) {
+			BBRELEASE((BBObject*)data);
+		}
+	}
+}
+
 // ---------------------------------------------------------------------------------------
 
 MaxListCtrl::MaxListCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
@@ -47,6 +68,7 @@ int MaxListCtrl::OnGetItemImage(long item) const {
 }
 
 MaxListCtrl::~MaxListCtrl() {
+	bmx_releaseallclientdata(this);
 	wxunbind(this);
 }
 
@@ -86,10 +108,12 @@ void bmx_wxlistctrl_assignimagelist(wxListCtrl * list, wxImageList * imageList, 
 }
 
 void bmx_wxlistctrl_clearall(wxListCtrl * list) {
+	bmx_releaseallclientdata(list);
 	list->ClearAll();
 }
 
 bool bmx_wxlistctrl_deleteallitems(wxListCtrl * list) {
+	bmx_releaseallclientdata(list);
 	return list->DeleteAllItems();
 }
 
@@ -98,6 +122,7 @@ bool bmx_wxlistctrl_deletecolumn(wxListCtrl * list, int col) {
 }
 
 bool bmx_wxlistctrl_deleteitem(wxListCtrl * list, long item) {
+	bmx_releaseindexedclientdata(list, item);
 	return list->DeleteItem(item);
 }
 
@@ -325,6 +350,12 @@ void bmx_wxlistctrl_setitemcount(wxListCtrl * list, long count) {
 }
 
 bool bmx_wxlistctrl_setitemdata(wxListCtrl * list, long item, BBObject * data) {
+	// delete current client data if any exists
+	bmx_releaseindexedclientdata(list, item);
+
+	if (data != &bbNullObject) {
+		BBRETAIN( data );
+	}
 	return list->SetItemData(item, wxPtrToUInt((void *)data));
 }
 
@@ -373,7 +404,6 @@ void bmx_wxlistctrl_setwindowstyleflag(wxListCtrl * list, long style) {
 // *********************************************
 
 MaxListItem * bmx_wxlistitem_create() {
-//	wxListItem i;
 	return new MaxListItem();
 }
 
@@ -402,13 +432,10 @@ BBObject * bmx_wxlistitem_getdata(MaxListItem * item) {
 	void * data = wxUIntToPtr(item->Item().GetData());
 
 	if (data) {
-
 		return (BBObject *)data;
-
 	}
 
 	return &bbNullObject;
-
 }
 
 MaxFont * bmx_wxlistitem_getfont(MaxListItem * item) {
@@ -458,7 +485,16 @@ void bmx_wxlistitem_setcolumn(MaxListItem * item, int col) {
 }
 
 void bmx_wxlistitem_setdata(MaxListItem * item, BBObject * data) {
-	item->Item().SetData((void*)data);
+	// is there any data here already?
+	BBObject * oldData = (BBObject *)wxUIntToPtr(item->Item().GetData());
+	if (oldData && (oldData != &bbNullObject)) {
+		BBRELEASE(oldData);
+	}
+
+	if (data != &bbNullObject) {
+		BBRETAIN( data );
+	}
+	item->Item().SetData(wxPtrToUInt((void*)data));
 }
 
 void bmx_wxlistitem_setfont(MaxListItem * item, MaxFont * font) {
