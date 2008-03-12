@@ -21,15 +21,36 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/docview.h"
 
-//class MaxNotebook;
+class MaxFileHistory;
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxFileHistory * bmx_wxfilehistory_create(BBObject * handle, int maxFiles, wxWindowID idBase);
+	void bmx_wxfilehistory_addfiletohistory(wxFileHistory * hist, BBString * filename);
+	void bmx_wxfilehistory_addfilestomenu(wxFileHistory * hist, wxMenu * menu);
+	wxWindowID bmx_wxfilehistory_getbaseid(wxFileHistory * hist);
+	int bmx_wxfilehistory_getcount(wxFileHistory * hist);
+	BBString * bmx_wxfilehistory_gethistoryfile(wxFileHistory * hist, int index);
+	int bmx_wxfilehistory_getmaxfiles(wxFileHistory * hist);
+	void bmx_wxfilehistory_load(wxFileHistory * hist, wxConfigBase * config);
+	void bmx_wxfilehistory_removefilefromhistory(wxFileHistory * hist, int index);
+	void bmx_wxfilehistory_removemenu(wxFileHistory * hist, wxMenu * menu);
+	void bmx_wxfilehistory_save(wxFileHistory * hist, wxConfigBase * config);
+	void bmx_wxfilehistory_setbaseid(wxFileHistory * hist, wxWindowID id);
+	void bmx_wxfilehistory_usemenu(wxFileHistory * hist, wxMenu * menu);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxFileHistory : public wxFileHistory
+{
+public:
+	MaxFileHistory(BBObject * handle, size_t maxFiles, wxWindowID idBase);
+	~MaxFileHistory();
+
+};

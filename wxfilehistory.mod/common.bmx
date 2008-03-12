@@ -45,4 +45,19 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxfilehistory_create:Byte Ptr(handle:Object, maxFiles:Int, idBase:Int)
+	Function bmx_wxfilehistory_addfiletohistory(handle:Byte Ptr, filename:String)
+	Function bmx_wxfilehistory_addfilestomenu(handle:Byte Ptr, menu:Byte Ptr)
+	Function bmx_wxfilehistory_getbaseid:Int(handle:Byte Ptr)
+	Function bmx_wxfilehistory_getcount:Int(handle:Byte Ptr)
+	Function bmx_wxfilehistory_gethistoryfile:String(handle:Byte Ptr, index:Int)
+	Function bmx_wxfilehistory_getmaxfiles:Int(handle:Byte Ptr)
+	'Function bmx_wxfilehistory_getmenus(handle:Byte ptr)
+	Function bmx_wxfilehistory_load(handle:Byte Ptr, config:Byte Ptr)
+	Function bmx_wxfilehistory_removefilefromhistory(handle:Byte Ptr, index:Int)
+	Function bmx_wxfilehistory_removemenu(handle:Byte Ptr, menu:Byte Ptr)
+	Function bmx_wxfilehistory_save(handle:Byte Ptr, config:Byte Ptr)
+	Function bmx_wxfilehistory_setbaseid(handle:Byte Ptr, id:Int)
+	Function bmx_wxfilehistory_usemenu(handle:Byte Ptr, menu:Byte Ptr)
+
 End Extern

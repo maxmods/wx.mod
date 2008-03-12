@@ -24,8 +24,72 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxFileHistory::MaxFileHistory(BBObject * handle, size_t maxFiles, wxWindowID idBase)
+	: wxFileHistory(maxFiles, idBase)
+{
+	wxbind(this, handle);
+}
 
+MaxFileHistory::~MaxFileHistory() {
+	wxunbind(this);
+}
 
 // *********************************************
 
+
+wxFileHistory * bmx_wxfilehistory_create(BBObject * handle, int maxFiles, wxWindowID idBase) {
+	return new MaxFileHistory(handle, static_cast<size_t>(maxFiles), idBase);
+}
+
+void bmx_wxfilehistory_addfiletohistory(wxFileHistory * hist, BBString * filename) {
+	hist->AddFileToHistory(wxStringFromBBString(filename));
+}
+
+void bmx_wxfilehistory_addfilestomenu(wxFileHistory * hist, wxMenu * menu) {
+	if (menu) {
+		hist->AddFilesToMenu(menu);
+	} else {
+		hist->AddFilesToMenu();
+	}
+}
+
+wxWindowID bmx_wxfilehistory_getbaseid(wxFileHistory * hist) {
+	return hist->GetBaseId();
+}
+
+int bmx_wxfilehistory_getcount(wxFileHistory * hist) {
+	return static_cast<int>(hist->GetCount());
+}
+
+BBString * bmx_wxfilehistory_gethistoryfile(wxFileHistory * hist, int index) {
+	return bbStringFromWxString(hist->GetHistoryFile(static_cast<size_t>(index)));
+}
+
+int bmx_wxfilehistory_getmaxfiles(wxFileHistory * hist) {
+	return hist->GetMaxFiles();
+}
+
+void bmx_wxfilehistory_load(wxFileHistory * hist, wxConfigBase * config) {
+	hist->Load(*config);
+}
+
+void bmx_wxfilehistory_removefilefromhistory(wxFileHistory * hist, int index) {
+	hist->RemoveFileFromHistory(static_cast<size_t>(index));
+}
+
+void bmx_wxfilehistory_removemenu(wxFileHistory * hist, wxMenu * menu) {
+	hist->RemoveMenu(menu);
+}
+
+void bmx_wxfilehistory_save(wxFileHistory * hist, wxConfigBase * config) {
+	hist->Save(*config);
+}
+
+void bmx_wxfilehistory_setbaseid(wxFileHistory * hist, wxWindowID id) {
+	hist->SetBaseId(id);
+}
+
+void bmx_wxfilehistory_usemenu(wxFileHistory * hist, wxMenu * menu) {
+	hist->UseMenu(menu);
+}
 
