@@ -456,6 +456,16 @@ Extern
 	Function bmx_wxsleep(secs:Int)
 	Function bmx_wxstarttimer()
 
+	Function bmx_wxtextoutputstream_create:Byte Ptr(stream:Byte Ptr, mode:Int)
+	Function bmx_wxtextoutputstream_getmode:Int(handle:Byte Ptr)
+	Function bmx_wxtextoutputstream_setmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxtextoutputstream_write8(handle:Byte Ptr, value:Int)
+	Function bmx_wxtextoutputstream_write16(handle:Byte Ptr, value:Int)
+	Function bmx_wxtextoutputstream_write32(handle:Byte Ptr, value:Int)
+	Function bmx_wxtextoutputstream_writedouble(handle:Byte Ptr, value:Double)
+	Function bmx_wxtextoutputstream_writestring(handle:Byte Ptr, value:String)
+	Function bmx_wxtextoutputstream_delete(handle:Byte Ptr)
+
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()

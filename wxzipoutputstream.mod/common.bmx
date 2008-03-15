@@ -44,4 +44,14 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxzipoutputstream_create:Byte Ptr(stream:Byte Ptr, level:Int)
+	Function bmx_wxzipoutputstream_close:Int(handle:Byte Ptr)
+	Function bmx_wxzipoutputstream_closeentry:Int(handle:Byte Ptr)
+	Function bmx_wxzipoutputstream_getlevel:Int(handle:Byte Ptr)
+	Function bmx_wxzipoutputstream_setlevel(handle:Byte Ptr, level:Int)
+	Function bmx_wxzipoutputstream_putnextdirentry:Int(handle:Byte Ptr, name:String, dt:Byte Ptr)
+	Function bmx_wxzipoutputstream_putnextentry:Int(handle:Byte Ptr, name:String, dt:Byte Ptr)
+	Function bmx_wxzipoutputstream_setcomment(handle:Byte Ptr, comment:String)
+	Function bmx_wxzipoutputstream_delete(handle:Byte Ptr)
+
 End Extern

@@ -553,6 +553,95 @@ Type wxTextInputStream
 End Type
 
 Rem
+bbdoc: This type provides functions that write text datas using an output stream.
+about: So, you can write text floats, integers.
+End Rem
+Type wxTextOutputStream
+
+	Field wxStreamPtr:Byte Ptr
+
+	Rem
+	bbdoc: Constructs a text stream object associated to the given output stream.
+	End Rem
+	Function CreateTextOutputStream:wxTextOutputStream(stream:wxOutputStream, mode:Int = wxEOL_NATIVE)
+		Return New wxTextOutputStream.Create(stream, mode)
+	End Function
+	
+	Rem
+	bbdoc: Constructs a text stream object associated to the given output stream.
+	End Rem
+	Method Create:wxTextOutputStream(stream:wxOutputStream, mode:Int = wxEOL_NATIVE)
+		wxStreamPtr = bmx_wxtextoutputstream_create(stream.wxStreamPtr, mode)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Returns the end-of-line mode.
+	about: One of wxEOL_DOS, wxEOL_MAC and wxEOL_UNIX.
+	End Rem
+	Method GetMode:Int()
+		Return bmx_wxtextoutputstream_getmode(wxStreamPtr)
+	End Method
+	
+	Rem
+	bbdoc: Set the end-of-line mode.
+	about: One of wxEOL_NATIVE, wxEOL_DOS, wxEOL_MAC and wxEOL_UNIX.
+	End Rem
+	Method SetMode(mode:Int = wxEOL_NATIVE)
+		bmx_wxtextoutputstream_setmode(wxStreamPtr, mode)
+	End Method
+	
+	Rem
+	bbdoc: Writes a single byte to the stream.
+	End Rem
+	Method Write8(value:Int)
+		bmx_wxtextoutputstream_write8(wxStreamPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Writes a 16 bit short to the stream.
+	End Rem
+	Method Write16(value:Int)
+		bmx_wxtextoutputstream_write16(wxStreamPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Writes an integer to the stream.
+	End Rem
+	Method Write32(value:Int)
+		bmx_wxtextoutputstream_write32(wxStreamPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Writes a double to the stream using the IEEE format.
+	End Rem
+	Method WriteDouble(value:Double)
+		bmx_wxtextoutputstream_writedouble(wxStreamPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Writes string as a line.
+	about: Depending on the end-of-line mode the end of line ('\n') characters in the string
+	are converted to the correct line ending terminator.
+	End Rem
+	Method WriteString(value:String)
+		bmx_wxtextoutputstream_writestring(wxStreamPtr, value)
+	End Method
+
+	Method Free()
+		If wxStreamPtr Then
+			bmx_wxtextoutputstream_delete(wxStreamPtr)
+			wxStreamPtr = Null
+		End If
+	End Method
+
+	Method Delete()
+		Free()
+	End Method
+
+End Type
+
+Rem
 bbdoc: An accelerator table allows the application to specify a table of keyboard shortcuts for menus or other commands.
 about: On Windows, menu or button commands are supported; on GTK, only menu commands are
 supported.

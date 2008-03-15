@@ -679,3 +679,8 @@ Const wxPATH_GET_SEPARATOR:Int = $0002
 
 Const wxPATH_MKDIR_FULL:Int = $0001
 
+Const wxEOL_NATIVE:Int = 0
+Const wxEOL_UNIX:Int = 1
+Const wxEOL_MAC:Int = 2
+Const wxEOL_DOS:Int = 3
+

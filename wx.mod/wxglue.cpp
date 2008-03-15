@@ -1798,4 +1798,42 @@ void bmx_wxstarttimer() {
 	wxStartTimer();
 }
 
+// *********************************************
+
+wxTextOutputStream * bmx_wxtextoutputstream_create(wxOutputStream * out, wxEOL mode) {
+	return new wxTextOutputStream(*out, mode);
+}
+
+wxEOL bmx_wxtextoutputstream_getmode(wxTextOutputStream * s) {
+	return s->GetMode();
+}
+
+void bmx_wxtextoutputstream_setmode(wxTextOutputStream * s, wxEOL mode) {
+	s->SetMode(mode);
+}
+
+void bmx_wxtextoutputstream_write8(wxTextOutputStream * s, int value) {
+	s->Write8(static_cast<wxUint8>(value));
+}
+
+void bmx_wxtextoutputstream_write16(wxTextOutputStream * s, int value) {
+	s->Write16(static_cast<wxUint16>(value));
+}
+
+void bmx_wxtextoutputstream_write32(wxTextOutputStream * s, int value) {
+	s->Write32(value);
+}
+
+void bmx_wxtextoutputstream_writedouble(wxTextOutputStream * s, double value) {
+	s->WriteDouble(value);
+}
+
+void bmx_wxtextoutputstream_writestring(wxTextOutputStream * s, BBString * value) {
+	s->WriteString(wxStringFromBBString(value));
+}
+
+void bmx_wxtextoutputstream_delete(wxTextOutputStream * s) {
+	delete s;
+}
+
 

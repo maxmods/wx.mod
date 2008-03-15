@@ -124,7 +124,7 @@ Type wxArchiveOutputStream Extends wxFilterOutputStream
 	Method PutNextDirEntry:Int(name:String, dt:wxDateTime = Null)
 	End Method
 	
-	Method PutNextEntry:Int(entry:wxArchiveEntry)
+	Method PutNextEntry:Int(name:String, dt:wxDateTime = Null)
 	End Method
 	
 End Type

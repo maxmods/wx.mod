@@ -21,6 +21,8 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/zipstrm.h"
+#include "../wxdatetime.mod/glue.h"
 
 //class MaxNotebook;
 
@@ -28,6 +30,15 @@ extern "C" {
 
 #include <blitz.h>
 
+	wxZipOutputStream * bmx_wxzipoutputstream_create(wxOutputStream * s, int level);
+	bool bmx_wxzipoutputstream_close(wxZipOutputStream * s);
+	bool bmx_wxzipoutputstream_closeentry(wxZipOutputStream * s);
+	int bmx_wxzipoutputstream_getlevel(wxZipOutputStream * s);
+	void bmx_wxzipoutputstream_setlevel(wxZipOutputStream * s, int level);
+	bool bmx_wxzipoutputstream_putnextdirentry(wxZipOutputStream * s, BBString * name, MaxDateTime * dt);
+	bool bmx_wxzipoutputstream_putnextentry(wxZipOutputStream * s, BBString * name, MaxDateTime * dt);
+	void bmx_wxzipoutputstream_setcomment(wxZipOutputStream * s, BBString * comment);
+	void bmx_wxzipoutputstream_delete(wxZipOutputStream * s);
 
 }
 

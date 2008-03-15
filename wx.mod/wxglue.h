@@ -354,6 +354,16 @@ extern "C" {
 	void bmx_wxsleep(int secs);
 	void bmx_wxstarttimer();
 
+	wxTextOutputStream * bmx_wxtextoutputstream_create(wxOutputStream * out, wxEOL mode);
+	wxEOL bmx_wxtextoutputstream_getmode(wxTextOutputStream * s);
+	void bmx_wxtextoutputstream_setmode(wxTextOutputStream * s, wxEOL mode);
+	void bmx_wxtextoutputstream_write8(wxTextOutputStream * s, int value);
+	void bmx_wxtextoutputstream_write16(wxTextOutputStream * s, int value);
+	void bmx_wxtextoutputstream_write32(wxTextOutputStream * s, int value);
+	void bmx_wxtextoutputstream_writedouble(wxTextOutputStream * s, double value);
+	void bmx_wxtextoutputstream_writestring(wxTextOutputStream * s, BBString * value);
+	void bmx_wxtextoutputstream_delete(wxTextOutputStream * s);
+
 }
 
 /*
