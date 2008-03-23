@@ -327,7 +327,7 @@ Type CodeGenFrame Extends CodeGenFrameBase
 
 	Method OnAbout(event:wxCommandEvent)
 
-		wxMessageBox("A wxFormBuilder BlitzMax Code Generator~n" + ..
+		wxMessageBox("A wxMax BlitzMax Code Generator~n" + ..
 			"(c) 2008 Bruce A Henderson", ..
 			"About wxCodeGen v"+ AppVersion, wxOK, Self)
 	End Method
@@ -381,6 +381,7 @@ Type CodeGenFrame Extends CodeGenFrameBase
 	End Method
 
 	Method OnAppCodeKeyDown(evt:wxKeyEvent)
+' enable Select ALL (ctrl-A) for Win32
 ?win32
 		Local event:wxKeyEvent = wxKeyEvent(evt)
 
@@ -407,7 +408,7 @@ Type MyDropTarget Extends wxFileDropTarget
 			Local file:String = filenames[i]
 			
 			' is this a formbuilder project?
-			If file.EndsWith(".fbp") Then
+			If file.EndsWith(".fbp") Or file.EndsWith(".pjd") Then
 			
 				Local found:Int
 				

@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxCodeGen\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-18 12:53+0200\n"
-"PO-Revision-Date: 2008-02-18 12:54+0200\n"
-"Last-Translator: Brucey\n"
+"POT-Creation-Date: 2008-03-23 23:16+0200\n"
+"PO-Revision-Date: 2008-03-23 23:17+0200\n"
+"Last-Translator: Bruce A Henderson\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,12 +34,12 @@ msgid "Project Name"
 msgstr "Projektname"
 
 #: ../../codegenbase.bmx:126
-msgid "wxFormBuilder Project File"
-msgstr "wxFormBuilder-Datei"
+msgid "Project File"
+msgstr "Projektname"
 
 #: ../../codegenbase.bmx:130
-msgid "Select a wxFormbuilder Project File"
-msgstr "Wähle eine wxFormBuilder-Datei aus"
+msgid "Select a Project File"
+msgstr "Wähle eine Projektdatei aus"
 
 #: ../../codegenbase.bmx:130
 msgid "*.*"
@@ -133,23 +133,26 @@ msgstr "Über"
 msgid "&Help"
 msgstr "Hilfe"
 
-#: ../../wxCodeGen.bmx:290
+#: ../../wxCodeGen.bmx:305
 msgid "Are you sure you want to delete? : "
 msgstr "Bist du sicher, dass du das löschen willst? :"
 
-#: ../../wxCodeGen.bmx:292
+#: ../../wxCodeGen.bmx:307
 msgid "Delete Project?"
 msgstr "Projekt löschen?"
 
-#: ../../wxCodeGen.bmx:330
+#: ../../wxCodeGen.bmx:345
 msgid "You will need to restart wxCodeGen to see the new language."
 msgstr "Du musst wxCodeGen neustarten um die neue Sprache zu sehen."
 
-#: ../../wxCodeGen.bmx:331
+#: ../../wxCodeGen.bmx:346
 msgid "Language Changed"
 msgstr "Sprache würde geändert"
 
-#: ../../wxCodeGen.bmx:340
+#: ../../wxCodeGen.bmx:360
 msgid "Updated at "
 msgstr ""
+
+#~ msgid "wxFormBuilder Project File"
+#~ msgstr "Projektdatei"
 

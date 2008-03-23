@@ -24,8 +24,9 @@ Import BaH.libxml
 Import BRL.StandardIO
 Import BRL.System
 
+Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.02"
+Const AppVersion:String = "1.03"
 
 
 Global eventMap:TMap = New TMap
@@ -36,70 +37,6 @@ Const GEN_SUPER:Int = $001
 Const GEN_IMPORTS:Int = $002
 Const GEN_WXLOCALE:Int = $004
 Const GEN_BAHLOCALE:Int = $008
-
-
-
-Type TFBObject
-
-	Field class:String
-	Field subclass:String
-	Field expanded:Int
-
-	Field properties:TMap = New TMap
-	Field events:TMap = New TMap
-	
-	Field objects:TList = New TList
-
-
-	Method extractDetails(node:TxmlNode)
-	
-		class = node.GetAttribute("class")
-		subclass = node.GetAttribute("subclass")
-		expanded = Int(node.GetAttribute("expanded"))
-		
-		Local children:TList = node.getChildren()
-		
-		If children Then
-			For Local det:TxmlNode = EachIn children
-			
-				Select det.GetName()
-				
-					Case "property"
-						Local text:String = det.GetText().Trim()
-						If text Then
-							Local name:String = det.getAttribute("name")
-							properties.Insert(name, text)
-						End If
-					Case "event"
-						Local text:String = det.GetText().Trim()
-						If text Then
-							Local name:String = det.getAttribute("name")
-							events.Insert(name, text)
-						End If
-					Case "object"
-						Local widget:TFBObject = New TFBObject
-						objects.AddLast(widget)
-						widget.extractDetails(det)
-				End Select
-			
-			Next
-		End If
-		
-	End Method
-	
-	Method Free()
-		properties.Clear()
-		events.Clear()
-		
-		For Local obj:TFBObject = EachIn objects
-			obj.Free()
-		Next
-		
-		objects.Clear()
-	End Method
-
-End Type
-
 
 Type TFBGenFactory
 
@@ -371,6 +308,19 @@ Function MapEventConst:String(event:String)
 	
 	Return "EVENT_" + event + "_NOT_AVAILABLE"
 
+End Function
+
+Function EventRequiresSink:Int(event:String)
+	Global requires:String[] = ["wxEVT_ENTER_WINDOW", 	"wxEVT_LEAVE_WINDOW", ..
+		"wxEVT_LEFT_DCLICK", "wxEVT_LEFT_DOWN", "wxEVT_LEFT_UP", 	"wxEVT_MIDDLE_DCLICK", ..
+		"wxEVT_MIDDLE_DOWN", "wxEVT_MIDDLE_UP", "wxEVT_MOTION", 	"wxEVT_MOUSE_EVENTS",..
+		"wxEVT_MOUSEWHEEL", "wxEVT_RIGHT_DCLICK", "wxEVT_RIGHT_DOWN", 	"wxEVT_RIGHT_UP", ..
+		"wxEVT_SET_FOCUS", "wxEVT_KILL_FOCUS"]
+	For Local i:Int = 0 Until requires.length
+		If requires[i] = event Then
+			Return True
+		End If
+	Next
 End Function
 
 Function MapEventImport:String(event:String)
@@ -1171,7 +1121,7 @@ Type TFBContainer Extends TFBWidget
 					
 					text = prop("name") + "Base(event."
 					
-					If Not widget.id Then
+					If EventRequiresSink(MapEventConst(evt)) Or (Not widget.id) Then
 						text:+ "sink"
 					Else
 						text:+ "parent"
@@ -1212,7 +1162,7 @@ Type TFBContainer Extends TFBWidget
 			If TFBMenuItem(widget) Then
 				out.Add("Connect(" + widget.prop("name") + ".GetId(), " + ec + ", _" + event + ")", 2)
 			Else
-				If Not widget.id And Not TFBToolItem(widget) Then
+				If EventRequiresSink(ec) Or (Not widget.id And Not TFBToolItem(widget)) Then
 					If Not TFBStdDialogButtonSizer(widget) Then
 						out.Add(widget.prop("name") + ".ConnectAny(" + ec + ", _" + event + ", Null, Self)", 2)
 					Else

@@ -1,5 +1,5 @@
 '
-' BlitzMax code generated with wxCodeGen v0.92 : 18 Feb 2008 17:28:12
+' BlitzMax code generated with wxCodeGen v1.03 : 23 Mar 2008 23:21:46
 ' 
 ' 
 ' PLEASE DO "NOT" EDIT THIS FILE!
@@ -123,11 +123,11 @@ Type CodeGenFrameBase Extends wxFrame
 		txtProjectName.Enable(False)
 		fgSizer1.Add(txtProjectName, 1, wxALL|wxEXPAND, 5)
 
-		m_staticText2 = new wxStaticText.Create(pnlProject, wxID_ANY, _("wxFormBuilder Project File"))
+		m_staticText2 = new wxStaticText.Create(pnlProject, wxID_ANY, _("Project File"))
 		m_staticText2.Wrap(-1)
 		fgSizer1.Add(m_staticText2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
-		fpkProjectFile = new wxFilePickerCtrl.Create(pnlProject, wxID_ANY, "", _("Select a wxFormbuilder Project File"), _("*.*"),,,,, wxFLP_DEFAULT_STYLE)
+		fpkProjectFile = new wxFilePickerCtrl.Create(pnlProject, wxID_ANY, "", _("Select a Project File"), _("*.*"),,,,, wxFLP_DEFAULT_STYLE)
 		fpkProjectFile.Enable(False)
 
 		fgSizer1.Add(fpkProjectFile, 1, wxALL|wxEXPAND, 5)

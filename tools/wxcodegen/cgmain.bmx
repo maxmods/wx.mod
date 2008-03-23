@@ -277,29 +277,8 @@ End Function
 
 Function ImportProject:TFBObject(proj:TCGProject, version:Float Var)
 
-	Local doc:TxmlDoc = TxmlDoc.parseFile(proj.projectFile)
+	Return TObjectFactory.ImportObject(proj.projectFile, version)
 
-	Local root:TxmlNode = doc.getRootElement()
-	
-	Local project:TFBObject
-	
-	For Local node:TxmlNode = EachIn root.getChildren()
-	
-		If node.GetName() = "FileVersion" Then
-			version = node.GetAttribute("major").ToFloat() + (node.GetAttribute("minor").ToFloat()/10.0)
-		End If
-	
-		If node.GetName() = "object" Then
-			project = New TFBObject
-			project.extractDetails(node)
-		End If
-	
-	Next
-	
-	doc.Free()
-	doc = Null
-
-	Return project
 End Function
 
 Function GenerateProject(proj:TCGProject)

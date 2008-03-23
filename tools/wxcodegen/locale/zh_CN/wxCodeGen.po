@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxCodeGen\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-18 12:55+0200\n"
-"PO-Revision-Date: 2008-02-18 12:55+0200\n"
-"Last-Translator: Brucey\n"
+"POT-Creation-Date: 2008-03-23 23:19+0200\n"
+"PO-Revision-Date: 2008-03-23 23:20+0200\n"
+"Last-Translator: Bruce A Henderson\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,12 +34,12 @@ msgid "Project Name"
 msgstr "项目名称"
 
 #: ../../codegenbase.bmx:126
-msgid "wxFormBuilder Project File"
-msgstr "wxFormBuilder项目档案"
+msgid "Project File"
+msgstr "项目名称"
 
 #: ../../codegenbase.bmx:130
-msgid "Select a wxFormbuilder Project File"
-msgstr "选择一个wxFormbuilder项目档案"
+msgid "Select a Project File"
+msgstr "选择一个项目档案"
 
 #: ../../codegenbase.bmx:130
 msgid "*.*"
@@ -133,23 +133,26 @@ msgstr "约"
 msgid "&Help"
 msgstr "帮助"
 
-#: ../../wxCodeGen.bmx:290
+#: ../../wxCodeGen.bmx:305
 msgid "Are you sure you want to delete? : "
 msgstr "你确认要删除吗？: "
 
-#: ../../wxCodeGen.bmx:292
+#: ../../wxCodeGen.bmx:307
 msgid "Delete Project?"
 msgstr "删除项目？"
 
-#: ../../wxCodeGen.bmx:330
+#: ../../wxCodeGen.bmx:345
 msgid "You will need to restart wxCodeGen to see the new language."
 msgstr "您必须重新wxCodeGen看到新的语言。"
 
-#: ../../wxCodeGen.bmx:331
+#: ../../wxCodeGen.bmx:346
 msgid "Language Changed"
 msgstr "语言改变"
 
-#: ../../wxCodeGen.bmx:340
+#: ../../wxCodeGen.bmx:360
 msgid "Updated at "
 msgstr "更新"
+
+#~ msgid "wxFormBuilder Project File"
+#~ msgstr "wxFormBuilder项目档案"
 
