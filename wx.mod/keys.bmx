@@ -20,6 +20,8 @@
 ' 
 SuperStrict
 
+Import BRL.KeyCodes
+
 Const wxACCEL_NORMAL:Int = $0000   ' no modifiers
 Const wxACCEL_ALT:Int = $001   ' hold Alt key down
 Const wxACCEL_CTRL:Int = $0002   ' hold Ctrl key down
@@ -167,4 +169,124 @@ Const WXK_SPECIAL18:Int = 210
 Const WXK_SPECIAL19:Int = 211
 Const WXK_SPECIAL20:Int = 212
 
- 
+Rem
+bbdoc: Maps a wxMax keycode to a BlitzMax keycode.
+End Rem
+Function MapWxKeyCodeToBlitz:Int(key:Int)
+	If key < 91 Then
+		If key < 58 And key > 47 Then
+			Return key
+		Else If key > 64 Then
+			Return key
+		End If
+	End If
+	
+	If key >= WXK_F1 And key <= WXK_F12 Then
+		Return KEY_F1 + (key - WXK_F1)
+	End If
+	
+	Select key
+		Case WXK_BACK
+			Return KEY_BACKSPACE
+		Case WXK_TAB
+			Return KEY_TAB
+		Case WXK_RETURN
+			Return KEY_RETURN
+		Case WXK_ESCAPE
+			Return KEY_ESCAPE
+		Case WXK_SPACE
+			Return KEY_SPACE
+		Case WXK_DELETE
+			Return KEY_DELETE
+		Case WXK_SHIFT
+			Return KEY_LSHIFT
+		Case WXK_ALT
+			Return KEY_LALT
+		Case WXK_CONTROL
+			Return KEY_LCONTROL
+		Case WXK_CLEAR
+			Return KEY_CLEAR
+		Case WXK_MENU
+			Return 0
+		Case WXK_PAUSE
+			Return 19 'KEY_PAUSE
+		Case WXK_CAPITAL
+			Return 20 'KEY_CAPSLOCK
+		Case WXK_END
+			Return KEY_END
+		Case WXK_HOME
+			Return KEY_HOME
+		Case WXK_LEFT
+			Return KEY_LEFT
+		Case WXK_UP
+			Return KEY_UP
+		Case WXK_RIGHT
+			Return KEY_RIGHT
+		Case WXK_DOWN
+			Return KEY_DOWN
+		Case WXK_SELECT
+			Return KEY_SELECT
+		Case WXK_PRINT
+			Return KEY_PRINT
+		Case WXK_EXECUTE
+			Return KEY_EXECUTE
+		Case WXK_SNAPSHOT
+			Return KEY_SCREEN
+		Case WXK_INSERT
+			Return KEY_INSERT
+		Case WXK_HELP
+			Return 47 'KEY_HELP
+		Case WXK_NUMLOCK
+			Return 144 'KEY_NUMLOCK
+		Case WXK_SCROLL
+			Return 145 'KEY_SCROLL
+		Case WXK_PAGEUP
+			Return KEY_PAGEUP
+		Case WXK_PAGEDOWN
+			Return KEY_PAGEDOWN
+		Case WXK_NUMPAD0
+			Return KEY_NUM0
+		Case WXK_NUMPAD1
+			Return KEY_NUM1
+		Case WXK_NUMPAD2
+			Return KEY_NUM2
+		Case WXK_NUMPAD3
+			Return KEY_NUM3
+		Case WXK_NUMPAD4
+			Return KEY_NUM4
+		Case WXK_NUMPAD5
+			Return KEY_NUM5
+		Case WXK_NUMPAD6
+			Return KEY_NUM6
+		Case WXK_NUMPAD7
+			Return KEY_NUM7
+		Case WXK_NUMPAD8
+			Return KEY_NUM8
+		Case WXK_NUMPAD9
+			Return KEY_NUM9
+		Case WXK_NUMPAD_MULTIPLY
+			Return KEY_NUMMULTIPLY
+		Case WXK_NUMPAD_ADD
+			Return KEY_NUMADD
+		Case WXK_NUMPAD_SUBTRACT
+			Return KEY_NUMSUBTRACT
+		Case WXK_NUMPAD_DECIMAL
+			Return KEY_NUMDECIMAL
+		Case WXK_NUMPAD_DIVIDE
+			Return KEY_NUMDIVIDE
+	End Select
+
+	' if we haven't covered the key already, we really need to protect ourselves from returning an out-of-range
+	' value.
+	Assert False, "Unmapped key : " + key
+	' if we don't assert during testing, we'll just return 0 now... just to be sure :-)
+	Return 0
+End Function
+
+Rem
+bbdoc: Maps a BlitzMax keycode to a wxMax keycode.
+End Rem
+Function MapBlitzKeyCodeToWx:Int(key:Int)
+	
+	Return key
+End Function
