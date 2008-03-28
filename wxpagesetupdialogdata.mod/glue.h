@@ -73,11 +73,13 @@ class MaxPageSetupDialogData
 {
 public:
 	MaxPageSetupDialogData(const wxPageSetupDialogData & d);
+	MaxPageSetupDialogData(wxPageSetupDialogData * d);
 	~ MaxPageSetupDialogData();
 	wxPageSetupDialogData & Data();
 	
 private:
 	wxPageSetupDialogData data;
+	wxPageSetupDialogData * dataPtr;
 };
 
 #endif // _WX_MAX_PAGESETUPDIALOGDATA_H_

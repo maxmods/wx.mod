@@ -34,9 +34,16 @@ MaxPrintData::MaxPrintData()
 	data = wxPrintData();
 }
 
+MaxPrintData::MaxPrintData(wxPrintData * d) {
+	dataPtr = d;
+}
 
 wxPrintData & MaxPrintData::Data() {
-	return data;
+	if (dataPtr) {
+		return *dataPtr;
+	} else {
+		return data;
+	}
 }
 
 

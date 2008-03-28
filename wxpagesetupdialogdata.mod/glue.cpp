@@ -29,12 +29,21 @@ MaxPageSetupDialogData::MaxPageSetupDialogData(const wxPageSetupDialogData & d)
 	data = d;
 }
 
+MaxPageSetupDialogData::MaxPageSetupDialogData(wxPageSetupDialogData * d)
+{
+	dataPtr = d;
+}
+
 MaxPageSetupDialogData::~ MaxPageSetupDialogData()
 {
 }
 
 wxPageSetupDialogData & MaxPageSetupDialogData::Data() {
-	return data;
+	if (dataPtr) {
+		return *dataPtr;
+	} else {
+		return data;
+	}
 }
 
 // *********************************************

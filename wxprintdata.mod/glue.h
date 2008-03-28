@@ -62,12 +62,13 @@ class MaxPrintData
 {
 public:
 	MaxPrintData(const wxPrintData & d);
+	MaxPrintData(wxPrintData * d);
 	MaxPrintData();
 	wxPrintData & Data();
 
 private:
 	wxPrintData data;
-
+	wxPrintData * dataPtr;
 };
 
 #endif // _WX_MAX_PRINTDATA_H_

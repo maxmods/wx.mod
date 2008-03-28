@@ -65,7 +65,7 @@ void bmx_wxhtmleasyprinting_setfooter(wxHtmlEasyPrinting * easy, BBString * foot
 }
 
 MaxPrintData * bmx_wxhtmleasyprinting_getprintdata(wxHtmlEasyPrinting * easy) {
-	return new MaxPrintData(*easy->GetPrintData());
+	return new MaxPrintData(easy->GetPrintData());
 }
 
 MaxPageSetupDialogData * bmx_wxhtmleasyprinting_getpagesetupdata(wxHtmlEasyPrinting * easy) {
