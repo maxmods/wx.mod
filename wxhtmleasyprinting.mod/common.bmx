@@ -45,6 +45,19 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxhtmleasyprinting_create:Byte Ptr(name:String, parent:Byte Ptr)
+	Function bmx_wxhtmleasyprinting_previewfile:Int(handle:Byte Ptr, htmlFile:String)
+	Function bmx_wxhtmleasyprinting_previewtext:Int(handle:Byte Ptr, htmlText:String, basePath:String)
+	Function bmx_wxhtmleasyprinting_printfile:Int(handle:Byte Ptr, htmlFile:String)
+	Function bmx_wxhtmleasyprinting_printtext:Int(handle:Byte Ptr, htmlText:String, basePath:String)
+	Function bmx_wxhtmleasyprinting_pagesetup(handle:Byte Ptr)
+	Function bmx_wxhtmleasyprinting_setfonts(handle:Byte Ptr, normalFace:String, fixedFace:String, sizes:Int[])
+	Function bmx_wxhtmleasyprinting_setheader(handle:Byte Ptr, header:String, page:Int)
+	Function bmx_wxhtmleasyprinting_setfooter(handle:Byte Ptr, footer:String, page:Int)
+	Function bmx_wxhtmleasyprinting_getprintdata:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxhtmleasyprinting_getpagesetupdata:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxhtmleasyprinting_setparentwindow(handle:Byte Ptr, parent:Byte Ptr)
+
 End Extern
 
 

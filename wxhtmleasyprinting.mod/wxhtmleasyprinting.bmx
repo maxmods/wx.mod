@@ -72,9 +72,18 @@ Type wxHtmlEasyPrinting Extends wxObject
 	End Rem
 	Method Create:wxHtmlEasyPrinting(name:String = "Printing", parent:wxWindow = Null)
 		If Not globalInstancePtr Then
-			'globalInstancePtr = 
+			If parent Then
+				globalInstancePtr = bmx_wxhtmleasyprinting_create(name, parent.wxObjectPtr)
+			Else
+				globalInstancePtr = bmx_wxhtmleasyprinting_create(name, Null)
+			End If
+			wxObjectPtr = globalInstancePtr
+		Else
+			wxObjectPtr = globalInstancePtr
+			If parent Then
+				SetParentWindow(parent)
+			End If
 		End If
-		wxObjectPtr = globalInstancePtr
 		Return Self
 	End Method
 	
@@ -83,6 +92,7 @@ Type wxHtmlEasyPrinting Extends wxObject
 	returns: False in case of error -- call wxPrinter::GetLastError to get detailed information about the kind of the error.
 	End Rem
 	Method PreviewFile:Int(htmlFile:String)
+		Return bmx_wxhtmleasyprinting_previewfile(wxObjectPtr, htmlFile)
 	End Method
 	
 	Rem
@@ -90,6 +100,7 @@ Type wxHtmlEasyPrinting Extends wxObject
 	returns: False in case of error -- call wxPrinter::GetLastError to get detailed information about the kind of the error.
 	End Rem
 	Method PreviewText:Int(htmlText:String, basePath:String = "")
+		Return bmx_wxhtmleasyprinting_previewtext(wxObjectPtr, htmlText, basePath)
 	End Method
 	
 	Rem
@@ -97,6 +108,7 @@ Type wxHtmlEasyPrinting Extends wxObject
 	returns: False in case of error -- call wxPrinter::GetLastError to get detailed information about the kind of the error.
 	End Rem
 	Method PrintFile:Int(htmlFile:String)
+		Return bmx_wxhtmleasyprinting_printfile(wxObjectPtr, htmlFile)
 	End Method
 	
 	Rem
@@ -104,12 +116,14 @@ Type wxHtmlEasyPrinting Extends wxObject
 	returns: False in case of error -- call wxPrinter::GetLastError to get detailed information about the kind of the error.
 	End Rem
 	Method PrintText:Int(htmlText:String, basePath:String = "")
+		Return bmx_wxhtmleasyprinting_printtext(wxObjectPtr, htmlText, basePath)
 	End Method
 	
 	Rem
 	bbdoc: Display page setup dialog and allows the user to modify settings. 
 	End Rem
 	Method PageSetup()
+		bmx_wxhtmleasyprinting_pagesetup(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -117,18 +131,41 @@ Type wxHtmlEasyPrinting Extends wxObject
 	about: See wxHtmlWindow::SetFonts for detailed description.
 	End Rem
 	Method SetFonts(normalFace:String, fixedFace:String, sizes:Int[] = Null)
+		If sizes Then
+			Assert sizes.length = 7, "Sizes should contain 7 values"
+		End If
+		bmx_wxhtmleasyprinting_setfonts(wxObjectPtr, normalFace, fixedFace, sizes)
 	End Method
 	
 	Rem
 	bbdoc: Set page header.
+	about: 
+	The following macros can be used inside it: 
+	<ul>
+	<li>&#64;DATE&#64; is replaced by the current date in default format</li>
+	<li>&#64;PAGENUM&#64; is replaced by page number </li>
+	<li>&#64;PAGESCNT&#64; is replaced by total number of pages </li>
+	<li>&#64;TIME&#64; is replaced by the current time in default format </li>
+	<li>&#64;TITLE&#64; is replaced with the title of the document </li>
+	</ul>
 	End Rem
 	Method SetHeader(header:String, page:Int = wxPAGE_ALL)
+		bmx_wxhtmleasyprinting_setheader(wxObjectPtr, header, page)
 	End Method
 	
 	Rem
 	bbdoc: Set page footer.
+	about: The following macros can be used inside it: 
+	<ul>
+	<li>&#64;DATE&#64; is replaced by the current date in default format </li>
+	<li>&#64;PAGENUM&#64; is replaced by page number </li>
+	<li>&#64;PAGESCNT&#64; is replaced by total number of pages </li>
+	<li>&#64;TIME&#64; is replaced by the current time in default format </li>
+	<li>&#64;TITLE&#64; is replaced with the title of the document </li>
+	</ul>
 	End Rem
 	Method SetFooter(footer:String, page:Int = wxPAGE_ALL)
+		bmx_wxhtmleasyprinting_setfooter(wxObjectPtr, footer, page)
 	End Method
 	
 	Rem
@@ -136,6 +173,7 @@ Type wxHtmlEasyPrinting Extends wxObject
 	about: You can set its parameters (via SetXXXX methods).
 	End Rem
 	Method GetPrintData:wxPrintData()
+		Return wxPrintData._create(bmx_wxhtmleasyprinting_getprintdata(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -143,6 +181,14 @@ Type wxHtmlEasyPrinting Extends wxObject
 	about: You can set its parameters (via SetXXXX methods).
 	End Rem
 	Method GetPageSetupData:wxPageSetupDialogData()
+		Return wxPageSetupDialogData._create(bmx_wxhtmleasyprinting_getpagesetupdata(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Sets the parent window for dialogs.
+	End Rem
+	Method SetParentWindow(parent:wxWindow)
+		bmx_wxhtmleasyprinting_setparentwindow(wxObjectPtr, parent.wxObjectPtr)
 	End Method
 	
 End Type

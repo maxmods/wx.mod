@@ -21,6 +21,8 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/html/htmprint.h"
+#include "../wxpagesetupdialogdata.mod/glue.h"
 
 //class MaxNotebook;
 
@@ -28,6 +30,18 @@ extern "C" {
 
 #include <blitz.h>
 
+	wxHtmlEasyPrinting * bmx_wxhtmleasyprinting_create(BBString * name, wxWindow * parent);
+	bool bmx_wxhtmleasyprinting_previewfile(wxHtmlEasyPrinting * easy, BBString * htmlFile);
+	bool bmx_wxhtmleasyprinting_previewtext(wxHtmlEasyPrinting * easy, BBString * htmlText, BBString * basePath);
+	bool bmx_wxhtmleasyprinting_printfile(wxHtmlEasyPrinting * easy, BBString * htmlFile);
+	bool bmx_wxhtmleasyprinting_printtext(wxHtmlEasyPrinting * easy, BBString * htmlText, BBString * basePath);
+	void bmx_wxhtmleasyprinting_pagesetup(wxHtmlEasyPrinting * easy);
+	void bmx_wxhtmleasyprinting_setfonts(wxHtmlEasyPrinting * easy, BBString * normalFace, BBString * fixedFace, BBArray * sizes);
+	void bmx_wxhtmleasyprinting_setheader(wxHtmlEasyPrinting * easy, BBString * header, int page);
+	void bmx_wxhtmleasyprinting_setfooter(wxHtmlEasyPrinting * easy, BBString * footer, int page);
+	MaxPrintData * bmx_wxhtmleasyprinting_getprintdata(wxHtmlEasyPrinting * easy);
+	MaxPageSetupDialogData * bmx_wxhtmleasyprinting_getpagesetupdata(wxHtmlEasyPrinting * easy);
+	void bmx_wxhtmleasyprinting_setparentwindow(wxHtmlEasyPrinting * easy, wxWindow * parent);
 
 }
 
