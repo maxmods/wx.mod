@@ -27,11 +27,13 @@
 MaxPrintData::MaxPrintData(const wxPrintData & d)
 {
 	data = d;
+	dataPtr = 0;
 }
 
 MaxPrintData::MaxPrintData()
 {
 	data = wxPrintData();
+	dataPtr = 0;
 }
 
 MaxPrintData::MaxPrintData(wxPrintData * d) {

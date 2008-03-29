@@ -27,6 +27,7 @@
 MaxPageSetupDialogData::MaxPageSetupDialogData(const wxPageSetupDialogData & d)
 {
 	data = d;
+	dataPtr = 0;
 }
 
 MaxPageSetupDialogData::MaxPageSetupDialogData(wxPageSetupDialogData * d)
