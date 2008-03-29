@@ -306,6 +306,12 @@ extern "C" {
 
 	wxWindow * bmx_wxfocusevent_getwindow(wxFocusEvent & event);
 
+	MaxCursor * bmx_wxsetcursorevent_getcursor(wxSetCursorEvent & event);
+	int bmx_wxsetcursorevent_getx(wxSetCursorEvent & event);
+	int bmx_wxsetcursorevent_gety(wxSetCursorEvent & event);
+	bool bmx_wxsetcursorevent_hascursor(wxSetCursorEvent & event);
+	void bmx_wxsetcursorevent_setcursor(wxSetCursorEvent & event, MaxCursor * cursor);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

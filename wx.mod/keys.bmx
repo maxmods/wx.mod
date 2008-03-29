@@ -198,6 +198,14 @@ Function MapWxKeyCodeToBlitz:Int(key:Int)
 			Return KEY_SPACE
 		Case WXK_DELETE
 			Return KEY_DELETE
+		Case 96 ' TILDE
+			Return KEY_TILDE
+		Case 91 ' openbracket
+			Return KEY_OPENBRACKET
+		Case 92 ' backslash
+			Return KEY_BACKSLASH
+		Case 93 ' closebracket
+			Return KEY_CLOSEBRACKET
 		Case WXK_SHIFT
 			Return KEY_LSHIFT
 		Case WXK_ALT
@@ -274,6 +282,8 @@ Function MapWxKeyCodeToBlitz:Int(key:Int)
 			Return KEY_NUMDECIMAL
 		Case WXK_NUMPAD_DIVIDE
 			Return KEY_NUMDIVIDE
+		Case WXK_COMMAND
+			Return KEY_LSYS
 	End Select
 
 	' if we haven't covered the key already, we really need to protect ourselves from returning an out-of-range

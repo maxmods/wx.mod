@@ -2895,6 +2895,59 @@ Type wxIdleEvent Extends wxEvent
 End Type
 
 Rem
+bbdoc: A SetCursorEvent is generated when the mouse cursor is about to be set as a result of mouse motion.
+about: This event gives the application the chance to perform specific mouse cursor processing
+based on the current position of the mouse within the window. Use SetCursor to specify the
+cursor you want to be displayed.
+End Rem
+Type wxSetCursorEvent Extends wxEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxSetCursorEvent = New wxSetCursorEvent 
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Rem
+	bbdoc: Returns a reference to the cursor specified by this event.
+	End Rem
+	Method GetCursor:wxCursor()
+		Return wxCursor._create(bmx_wxsetcursorevent_getcursor(wxEventPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the X coordinate of the mouse in client coordinates.
+	End Rem
+	Method GetX:Int()
+		Return bmx_wxsetcursorevent_getx(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the Y coordinate of the mouse in client coordinates.
+	End Rem
+	Method GetY:Int()
+		Return bmx_wxsetcursorevent_gety(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the cursor specified by this event is a valid cursor.
+	End Rem
+	Method HasCursor:Int()
+		Return bmx_wxsetcursorevent_hascursor(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the cursor associated with this event.
+	End Rem
+	Method SetCursor(cursor:wxCursor)
+		bmx_wxsetcursorevent_setcursor(wxEventPtr, cursor.wxObjectPtr)
+	End Method
+	
+End Type
+
+Rem
 bbdoc: A wxPaintDC must be constructed if an application wishes to paint on the client area of a window from within an OnPaint event.
 about: This should normally be constructed as a temporary stack object; don't store a wxPaintDC object.
 If you have an OnPaint handler, you must create a wxPaintDC object within it even if you don't actually use
@@ -2934,6 +2987,7 @@ Type wxPaintDC Extends wxWindowDC
 
 End Type
 
+' TODO
 Type wxWindowDC Extends wxDC
 End Type
 
@@ -3088,6 +3142,8 @@ Type TWindowEventFactory Extends TEventFactory
 				Return wxClipboardTextEvent.Create(wxEventPtr, evt)
 			Case wxEVT_IDLE
 				Return wxIdleEvent.Create(wxEventPtr, evt)
+			Case wxEVT_SET_CURSOR
+				Return wxSetCursorEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -3104,7 +3160,8 @@ Type TWindowEventFactory Extends TEventFactory
 					wxEVT_IDLE, ..
 					wxEVT_COMMAND_TEXT_COPY, ..
 					wxEVT_COMMAND_TEXT_CUT, ..
-					wxEVT_COMMAND_TEXT_PASTE
+					wxEVT_COMMAND_TEXT_PASTE, ..
+					wxEVT_SET_CURSOR
 			Return bmx_eventtype_value(eventType)
 		End Select
 	End Method

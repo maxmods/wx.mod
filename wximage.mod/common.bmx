@@ -130,3 +130,54 @@ Const wxIMAGE_QUALITY_HIGH:Int = 1
 
 Const wxIMAGE_RESOLUTION_INCHES:Int = 1
 Const wxIMAGE_RESOLUTION_CM:Int = 2
+
+Const wxIMAGE_OPTION_QUALITY:String = "quality"
+Const wxIMAGE_OPTION_FILENAME:String = "FileName"
+
+Const wxIMAGE_OPTION_RESOLUTION:String = "Resolution"
+Const wxIMAGE_OPTION_RESOLUTIONX:String = "ResolutionX"
+Const wxIMAGE_OPTION_RESOLUTIONY:String = "ResolutionY"
+
+Const wxIMAGE_OPTION_RESOLUTIONUNIT:String = "ResolutionUnit"
+
+
+Rem
+bbdoc: For saving the BMP file in different formats, eg. Bits Per Pixel
+About: Use, image.SetOptionInt( wxIMAGE_OPTION_BMP_FORMAT, wxBMP_xBPP )
+End Rem
+Const wxIMAGE_OPTION_BMP_FORMAT:String = "wxBMP_FORMAT"
+
+Rem
+bbdoc: Defines the x-coord hotspot for a cursor.
+End Rem
+Const wxIMAGE_OPTION_CUR_HOTSPOT_X:String = "HotSpotX"
+Rem
+bbdoc: Defines the y-coord hotspot for a cursor.
+End Rem
+Const wxIMAGE_OPTION_CUR_HOTSPOT_Y:String = "HotSpotY"
+
+Const wxBMP_24BPP:Int = 24
+Const wxBMP_8BPP:Int = 8
+Const wxBMP_8BPP_GREY:Int = 9
+Const wxBMP_8BPP_GRAY:Int = wxBMP_8BPP_GREY
+Const wxBMP_8BPP_RED:Int = 10
+Const wxBMP_8BPP_PALETTE:Int = 11
+Const wxBMP_4BPP:Int = 4
+Const wxBMP_1BPP:Int = 1
+Const wxBMP_1BPP_BW:Int = 2
+
+
+Const wxIMAGE_OPTION_PNG_FORMAT:String = "PngFormat"
+Const wxIMAGE_OPTION_PNG_BITDEPTH:String = "PngBitDepth"
+
+Const wxPNG_TYPE_COLOUR:Int = 0
+Const wxPNG_TYPE_GREY:Int = 2
+Const wxPNG_TYPE_GREY_RED:Int = 3
+
+
+Const wxIMAGE_OPTION_BITSPERSAMPLE:String = "BitsPerSample"
+Const wxIMAGE_OPTION_SAMPLESPERPIXEL:String = "SamplesPerPixel"
+Const wxIMAGE_OPTION_COMPRESSION:String = "Compression"
+Const wxIMAGE_OPTION_IMAGEDESCRIPTOR:String = "ImageDescriptor"
+
+

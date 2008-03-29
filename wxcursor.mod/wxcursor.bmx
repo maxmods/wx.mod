@@ -113,6 +113,16 @@ Type wxCursor Extends wxBitmap
 	End Method
 	
 	Rem
+	bbdoc: Constructs a cursor from a wxImage.
+	about: The cursor is monochrome, colors with the RGB elements all greater than 127 will be
+	foreground, colors less than this background. The mask (if any) will be used as transparent.
+	End Rem
+	Method CreateWithImage:wxCursor(image:wxImage)
+		wxObjectPtr = bmx_wxcursor_createfromimage(image.wxObjectPtr)
+		Return Self
+	End Method
+	
+	Rem
 	bbdoc: Returns true if cursor data is present.
 	End Rem
 	Method IsOk:Int()
@@ -132,7 +142,11 @@ Rem
 bbdoc: Globally sets the cursor.
 End Rem
 Function wxSetCursor(cursor:wxCursor)
-	bmx_wxsetcursor(cursor.wxObjectPtr)
+	If cursor Then
+		bmx_wxsetcursor(cursor.wxObjectPtr)
+	Else
+		bmx_wxsetcursor(Null)
+	End If
 End Function
 
 Rem

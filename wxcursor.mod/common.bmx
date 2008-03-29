@@ -46,6 +46,7 @@ Extern
 
 	Function bmx_wxcursor_stockcreate:Byte Ptr(id:Int)
 	Function bmx_wxcursor_isok:Int(handle:Byte Ptr)
+	Function bmx_wxcursor_createfromimage:Byte Ptr(image:Byte Ptr)
 	
 	Function bmx_wxstockgdi_cursor_cross:Byte Ptr()
 	Function bmx_wxstockgdi_cursor_hourglass:Byte Ptr()

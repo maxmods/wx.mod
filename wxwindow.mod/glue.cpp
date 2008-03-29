@@ -1174,3 +1174,26 @@ wxWindow * bmx_wxfocusevent_getwindow(wxFocusEvent & event) {
 	return event.GetWindow();
 }
 
+// *********************************************
+
+MaxCursor * bmx_wxsetcursorevent_getcursor(wxSetCursorEvent & event) {
+	wxCursor c(event.GetCursor());
+	return new MaxCursor(c);
+}
+
+int bmx_wxsetcursorevent_getx(wxSetCursorEvent & event) {
+	return event.GetX();
+}
+
+int bmx_wxsetcursorevent_gety(wxSetCursorEvent & event) {
+	return event.GetY();
+}
+
+bool bmx_wxsetcursorevent_hascursor(wxSetCursorEvent & event) {
+	return event.HasCursor();
+}
+
+void bmx_wxsetcursorevent_setcursor(wxSetCursorEvent & event, MaxCursor * cursor) {
+	event.SetCursor(cursor->Cursor());
+}
+

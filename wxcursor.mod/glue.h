@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include "wx/cursor.h"
+#include "../wximage.mod/glue.h"
 
 class MaxCursor;
 
@@ -31,7 +32,8 @@ extern "C" {
 
 	MaxCursor * bmx_wxcursor_stockcreate(int id);
 	bool bmx_wxcursor_isok(MaxCursor * cursor);
-	
+	MaxCursor * bmx_wxcursor_createfromimage(MaxImage * image);
+
 	MaxCursor * bmx_wxstockgdi_cursor_cross();
 	MaxCursor * bmx_wxstockgdi_cursor_hourglass();
 	MaxCursor * bmx_wxstockgdi_cursor_standard();

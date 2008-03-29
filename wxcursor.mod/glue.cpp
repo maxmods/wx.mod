@@ -46,6 +46,11 @@ MaxCursor * bmx_wxcursor_stockcreate(int id) {
 	return new MaxCursor(c);
 }
 
+MaxCursor * bmx_wxcursor_createfromimage(MaxImage * image) {
+	wxCursor c(image->Image());
+	return new MaxCursor(c);
+}
+
 bool bmx_wxcursor_isok(MaxCursor * cursor) {
 	return cursor->Cursor().IsOk();
 }
@@ -71,5 +76,9 @@ void bmx_wxcursor_delete(MaxCursor * cursor) {
 
 
 void bmx_wxsetcursor(MaxCursor * cursor) {
-	wxSetCursor(cursor->Cursor());
+	if (cursor) {
+		wxSetCursor(cursor->Cursor());
+	} else {
+		wxSetCursor(wxNullCursor);
+	}
 }

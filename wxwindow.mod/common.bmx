@@ -311,6 +311,12 @@ Extern
 	Function bmx_wxwindow_getacceleratortable:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxwindow_setacceleratortable(handle:Byte Ptr, table:Byte Ptr)
 
+	Function bmx_wxsetcursorevent_getcursor:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxsetcursorevent_getx:Int(handle:Byte Ptr)
+	Function bmx_wxsetcursorevent_gety:Int(handle:Byte Ptr)
+	Function bmx_wxsetcursorevent_hascursor:Int(handle:Byte Ptr)
+	Function bmx_wxsetcursorevent_setcursor(handle:Byte Ptr, cursor:Byte Ptr)
+
 End Extern
 
 
