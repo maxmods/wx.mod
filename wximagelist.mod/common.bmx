@@ -51,5 +51,16 @@ Extern
 	Function bmx_wximagelist_delete(handle:Byte Ptr)
 	Function bmx_wximagelist_addwithcolourmask:Int(handle:Byte Ptr, bitmap:Byte Ptr, maskColour:Byte Ptr)
 	Function bmx_wximagelist_addicon:Int(handle:Byte Ptr, icon:Byte Ptr)
-	
+
+	Function bmx_wximagelist_getbitmap:Byte Ptr(handle:Byte Ptr, index:Int)
+	Function bmx_wximagelist_geticon:Byte Ptr(handle:Byte Ptr, index:Int)
+	Function bmx_wximagelist_getimagecount:Int(handle:Byte Ptr)
+	Function bmx_wximagelist_getsize:Int(handle:Byte Ptr, index:Int, width:Int Ptr, height:Int Ptr)
+	Function bmx_wximagelist_remove:Int(handle:Byte Ptr, index:Int)
+	Function bmx_wximagelist_removeall:Int(handle:Byte Ptr)
+	Function bmx_wximagelist_replace:Int(handle:Byte Ptr, index:Int, bitmap:Byte Ptr, mask:Byte Ptr)
+	Function bmx_wximagelist_replaceicon:Int(handle:Byte Ptr, index:Int, icon:Byte Ptr)
+
+	Function bmx_wximagelist_draw:Int(handle:Byte Ptr, index:Int, dc:Byte Ptr, x:Int, y:Int, flags:Int, solidBackground:Int)
+
 End Extern

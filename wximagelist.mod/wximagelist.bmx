@@ -76,6 +76,9 @@ Type wxImageList Extends wxObject
 		Return New wxImageList.Create(width, height, mask, initialCount)
 	End Function
 	
+	Rem
+	bbdoc: Constructor specifying the image size, whether image masks should be created, and the initial size of the list.
+	End Rem
 	Method Create:wxImageList(width:Int, height:Int, mask:Int = True, initialCount:Int = 1)
 		wxObjectPtr = bmx_wximagelist_create(Self, width, height, mask, initialCount)
 		Return Self
@@ -114,28 +117,31 @@ Type wxImageList Extends wxObject
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Draws a specified image onto a device context.
 	End Rem
 	Method Draw:Int(index:Int, dc:wxDC, x:Int, y:Int, flags:Int = wxIMAGELIST_DRAW_NORMAL, solidBackground:Int = False)
-	
+		Return bmx_wximagelist_draw(wxObjectPtr, index, dc.wxObjectPtr, x, y, flags, solidBackground)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the bitmap corresponding to the given index.
 	End Rem
 	Method GetBitmap:wxBitmap(index:Int)
+		Return wxBitmap._create(bmx_wximagelist_getbitmap(wxObjectPtr, index))
 	End Method
 	
 	Rem
 	bbdoc: Returns the icon corresponding to the given index.
 	End Rem
 	Method GetIcon:wxIcon(index:Int)
+		Return wxIcon._create(bmx_wximagelist_geticon(wxObjectPtr, index))
 	End Method
 	
 	Rem
 	bbdoc: Returns the number of images in the list.
 	End Rem
 	Method GetImageCount:Int()
+		Return bmx_wximagelist_getimagecount(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -143,30 +149,39 @@ Type wxImageList Extends wxObject
 	about: Currently, the index parameter is ignored as all images in the list have the same size.
 	End Rem
 	Method GetSize:Int(index:Int, width:Int Var, height:Int Var)
+		Return bmx_wximagelist_getsize(wxObjectPtr, index, Varptr width, Varptr height)
 	End Method
 	
 	Rem
 	bbdoc: Removes the image at the given position.
 	End Rem
 	Method Remove:Int(index:Int)
+		Return bmx_wximagelist_remove(wxObjectPtr, index)
 	End Method
 	
 	Rem
 	bbdoc: Removes all the images in the list.
 	End Rem
 	Method RemoveAll:Int()
+		Return bmx_wximagelist_removeall(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Replaces the existing image with the bitmap.
 	End Rem
 	Method Replace:Int(index:Int, bitmap:wxBitmap, mask:wxBitmap = Null)
+		If mask Then
+			Return bmx_wximagelist_replace(wxObjectPtr, index, bitmap.wxObjectPtr, mask.wxObjectPtr)
+		Else
+			Return bmx_wximagelist_replace(wxObjectPtr, index, bitmap.wxObjectPtr, Null)
+		End If
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Replaces the existing image with the icon.
 	End Rem
 	Method ReplaceIcon:Int(index:Int, icon:wxIcon)
+		Return bmx_wximagelist_replaceicon(wxObjectPtr, index, icon.wxObjectPtr)
 	End Method
 	
 End Type

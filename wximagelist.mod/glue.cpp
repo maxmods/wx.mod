@@ -65,3 +65,42 @@ int bmx_wximagelist_addicon(wxImageList * list, MaxIcon * icon) {
 	return list->Add(icon->Icon());
 }
 
+MaxBitmap * bmx_wximagelist_getbitmap(wxImageList * list, int index) {
+	wxBitmap b(list->GetBitmap(index));
+	return new MaxBitmap(b);
+}
+
+MaxIcon * bmx_wximagelist_geticon(wxImageList * list, int index) {
+	wxIcon i(list->GetIcon(index));
+	return new MaxIcon(i);
+}
+
+int bmx_wximagelist_getimagecount(wxImageList * list) {
+	return list->GetImageCount();
+}
+
+bool bmx_wximagelist_getsize(wxImageList * list, int index, int * width, int * height) {
+	return list->GetSize(index, *width, *height);
+}
+
+bool bmx_wximagelist_remove(wxImageList * list, int index) {
+	return list->Remove(index);
+}
+
+bool bmx_wximagelist_removeall(wxImageList * list) {
+	return list->RemoveAll();
+}
+
+bool bmx_wximagelist_replace(wxImageList * list, int index, MaxBitmap * bitmap, MaxBitmap * mask) {
+	return list->Replace(index, bitmap->Bitmap(), (mask) ? mask->Bitmap() : wxNullBitmap);
+}
+
+bool bmx_wximagelist_replaceicon(wxImageList * list, int index, MaxIcon * icon) {
+	return list->Replace(index, icon->Icon());
+}
+
+bool bmx_wximagelist_draw(wxImageList * list, int index, MaxDC * dc, int x, int y, int flags, bool solidBackground) {
+	return list->Draw(index, *dc->GetDC(), x, y, flags, solidBackground);
+}
+
+

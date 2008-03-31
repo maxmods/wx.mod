@@ -37,6 +37,17 @@ extern "C" {
 	int bmx_wximagelist_addwithcolourmask(wxImageList * list, MaxBitmap * bitmap, MaxColour * maskColour);
 	int bmx_wximagelist_addicon(wxImageList * list, MaxIcon * icon);
 
+	MaxBitmap * bmx_wximagelist_getbitmap(wxImageList * list, int index);
+	MaxIcon * bmx_wximagelist_geticon(wxImageList * list, int index);
+	int bmx_wximagelist_getimagecount(wxImageList * list);
+	bool bmx_wximagelist_getsize(wxImageList * list, int index, int * width, int * height);
+	bool bmx_wximagelist_remove(wxImageList * list, int index);
+	bool bmx_wximagelist_removeall(wxImageList * list);
+	bool bmx_wximagelist_replace(wxImageList * list, int index, MaxBitmap * bitmap, MaxBitmap * mask);
+	bool bmx_wximagelist_replaceicon(wxImageList * list, int index, MaxIcon * icon);
+
+	bool bmx_wximagelist_draw(wxImageList * list, int index, MaxDC * dc, int x, int y, int flags, bool solidBackground);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
