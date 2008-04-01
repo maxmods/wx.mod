@@ -278,7 +278,7 @@ static void FoldBasicDoc(unsigned int startPos, int length,
 
 static void ColouriseBlitzMaxDoc(unsigned int startPos, int length, int initStyle,
                            WordList *keywordlists[], Accessor &styler) {
-	ColouriseBasicDoc(startPos, length, initStyle, keywordlists, styler, ';');
+	ColouriseBasicDoc(startPos, length, initStyle, keywordlists, styler, '\'');
 }
 
 static void FoldBlitzMaxDoc(unsigned int startPos, int length, int,
