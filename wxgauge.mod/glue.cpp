@@ -70,7 +70,7 @@ void bmx_wxgauge_setbezelface(wxGauge * gauge, int width) {
 }
 
 void bmx_wxgauge_setrange(wxGauge * gauge, int range) {
-
+	gauge->SetRange(range);
 }
 
 void bmx_wxgauge_setshadowwidth(wxGauge * gauge, int width) {

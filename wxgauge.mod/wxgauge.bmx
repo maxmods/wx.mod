@@ -60,7 +60,7 @@ the Pulse function to make the progress bar switch to indeterminate mode (graphi
 which move or bounce in the bar control).
 </p>
 <p>
-wxGauge supports dynamic switch between these two work modes.
+wxGauge supports dynamic switching between these two work modes.
 </p>
 <p>
 There are no user commands for the gauge.
