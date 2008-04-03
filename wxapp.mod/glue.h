@@ -35,6 +35,9 @@ extern "C" {
 
 	wxApp * bmx_app_getapp();
 
+	bool bmx_wxsafeyield(wxWindow * win, bool onlyIfNeeded);
+	void bmx_wxwakeupidle();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

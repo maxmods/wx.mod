@@ -58,4 +58,8 @@ Extern
 
 	Function bmx_wxapp_pollevents()
 
+	Function bmx_wxsafeyield:Int(win:Byte Ptr, onlyIfNeeded:Int)
+	Function bmx_wxwakeupidle()
+
+
 End Extern

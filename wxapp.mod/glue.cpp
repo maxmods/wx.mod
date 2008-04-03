@@ -49,3 +49,13 @@ wxApp * bmx_app_getapp() {
 	return wxTheApp;
 }
 
+
+// *********************************************
+
+bool bmx_wxsafeyield(wxWindow * win, bool onlyIfNeeded) {
+	return wxSafeYield(win, onlyIfNeeded);
+}
+
+void bmx_wxwakeupidle() {
+	wxWakeUpIdle();
+}

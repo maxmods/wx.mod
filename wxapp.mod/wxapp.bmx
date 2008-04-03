@@ -270,3 +270,28 @@ DebugLog "evtcallback"
 End Rem
 
 End Type
+
+Rem
+bbdoc: This function disables the user input to all program windows before calling wxYield and re-enables it again afterwards.
+about: If @win is not NULL, this window will remain enabled, allowing the implementation of some limited user
+interaction.
+End Rem
+Function wxSafeYield:Int(win:wxWindow = Null, onlyIfNeeded:Int = False)
+	If win Then
+		Return bmx_wxsafeyield(win.wxObjectPtr, onlyIfNeeded)
+	Else
+		Return bmx_wxsafeyield(Null, onlyIfNeeded)
+	End If
+End Function
+
+Rem
+bbdoc: This function wakes up the (internal and platform dependent) idle system.
+about: It will force the system to send an idle event even if the system currently is idle and thus would not send
+any idle event until after some other event would get sent. This is also useful for sending events between two
+threads and is used by the corresponding functions ::wxPostEvent and wxEvtHandler::AddPendingEvent.
+End Rem
+Function wxWakeUpIdle()
+	bmx_wxwakeupidle()
+End Function
+
+
