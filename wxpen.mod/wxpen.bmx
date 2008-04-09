@@ -217,7 +217,7 @@ Type wxPen Extends wxGDIObject
 End Type
 
 Rem
-bbdoc: Null colour
+bbdoc: Null Pen
 End Rem
 Global wxNullPen:wxPen = wxPen._create(bmx_wxpen_null())
 

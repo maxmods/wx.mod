@@ -149,3 +149,8 @@ void bmx_wxbrush_setstyle(MaxBrush * brush, int style) {
 	brush->Brush().SetStyle(style);
 }
 
+MaxBrush * bmx_wxbrush_null() {
+	return new MaxBrush(wxNullBrush);
+}
+
+

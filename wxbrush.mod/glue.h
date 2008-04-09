@@ -55,6 +55,8 @@ extern "C" {
 	void bmx_wxbrush_setstipple(MaxBrush * brush, MaxBitmap * bitmap);
 	void bmx_wxbrush_setstyle(MaxBrush * brush, int style);
 
+	MaxBrush * bmx_wxbrush_null();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

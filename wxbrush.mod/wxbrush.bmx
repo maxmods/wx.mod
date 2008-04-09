@@ -205,6 +205,11 @@ Type wxBrush Extends wxGDIObject
 	
 End Type
 
+Rem
+bbdoc: Null Brush
+End Rem
+Global wxNullBrush:wxBrush = wxBrush._create(bmx_wxbrush_null())
+
 
 Function wxBLACK_BRUSH:wxBrush()
 	Return wxBrush._create(bmx_wxstockgdi_brush_black())
