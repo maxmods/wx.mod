@@ -60,6 +60,9 @@ extern "C" {
 	MaxIconBundle * bmx_wxtoplevelwindow_geticons(wxTopLevelWindow * window);
 	bool bmx_wxtoplevelwindow_setshape(wxTopLevelWindow * window, MaxRegion * region);
 
+#ifdef __WXMAC__
+	WXWindow bmx_wxtoplevelwindow_macgetwindowref(wxTopLevelWindow * window);
+#endif
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
