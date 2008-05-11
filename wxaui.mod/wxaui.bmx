@@ -360,7 +360,7 @@ Type wxAuiNotebook Extends wxControl
 			w:Int = -1, h:Int = -1, style:Int = wxAUI_NB_DEFAULT_STYLE)
 			
 		wxObjectPtr = bmx_wxauinotebook_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
-		
+		OnInit()
 		Return Self
 	End Method
 
