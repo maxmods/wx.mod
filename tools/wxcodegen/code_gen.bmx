@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.03"
+Const AppVersion:String = "1.04"
 
 
 Global eventMap:TMap = New TMap
@@ -790,7 +790,7 @@ Type TFBWidget
 				str:+ ", "
 			End If
 		
-			str:+ "~q" + tok.GetNextToken() + "~q"
+			str:+ GetString("~q" + tok.GetNextToken() + "~q")
 		Wend
 		
 		Return str
@@ -1310,8 +1310,13 @@ Type TFBPanel Extends TFBContainer
 				out.Add(prop("name") + ".SetSizer(" + topSizer.prop("name") + ")", 2)
 			End If
 			
-			' layout
-			out.Add(prop("name") + ".Layout()", 2)
+			If topSizer Then
+				' layout
+				out.Add(prop("name") + ".Layout()", 2)
+				' fit
+				out.Add(topSizer.prop("name") + ".Fit(" + prop("name") + ")", 2)
+			End If
+			
 		End If
 	End Method
 
@@ -1981,7 +1986,24 @@ Type TFBListBook Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
 
-		' TODO 
+		StandardCreate(out)
+
+		StandardSettings(out)
+		
+		' do the imagelist stuff
+		If prop("bitmapsize") And Not IsDefault(prop("bitmapsize")) Then
+
+			out.Add("Local " + prop("name") + "Images:wxImageList = new wxImageList.Create(" + prop("bitmapsize") + ")", 2)
+			out.Add(prop("name") + ".AssignImageList(" + prop("name") + "Images)", 2)
+
+			out.Add("Local " + prop("name") + "Index:int", 2)
+			out.Add("Local " + prop("name") + "Bitmap:wxBitmap", 2)
+			out.Add("Local " + prop("name") + "Image:wxImage", 2)
+		End If
+		 
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+		Next
 
 		out.Add("")
 
@@ -2002,7 +2024,37 @@ Type TFBListBookPage Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
 
-		' TODO 
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+
+
+			Local text:String = parent.prop("name")
+			text:+ ".AddPage(" + child.prop("name") + ", "
+			
+			text:+ GetString("~q" + prop("label") + "~q") + ", "
+			
+			If prop("select") = "1" Then
+				text:+ "True"
+			Else
+				text:+ "False"
+			End If
+			
+			text:+ ")"
+			
+			out.Add(text, 2)
+			
+			If prop("bitmap") And (parent.prop("bitmapsize") And Not IsDefault(parent.prop("bitmapsize"))) Then
+			
+				out.Add(parent.prop("name") + "Bitmap = " + DoBitmap(prop("bitmap")), 2)
+				out.Add("If " + parent.prop("name") + "Bitmap.IsOk() Then", 2)
+				out.Add(parent.prop("name") + "Image = " + parent.prop("name") + "Bitmap.ConvertToImage()", 3)
+				out.Add(parent.prop("name") + "Images.Add(" + parent.prop("name") + "Image.Scale(" + parent.prop("bitmapsize") + "))", 3)
+				out.Add(parent.prop("name") + ".SetPageImage(" + parent.prop("name") + "Index, " + parent.prop("name") + "Index)", 3)
+				out.Add(parent.prop("name") + "Index :+ 1", 3)
+				out.Add("End If", 2)
+			
+			End If
+		Next
 
 		out.Add("")
 
@@ -2013,7 +2065,7 @@ Type TFBListBookPage Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxSpinCtrl"
+		Return "wx.wxListBook"
 	End Method
 
 End Type
@@ -2022,7 +2074,13 @@ Type TFBChoicebook Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
 
-		' TODO 
+		StandardCreate(out)
+
+		StandardSettings(out)
+		
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+		Next
 
 		out.Add("")
 
@@ -2043,7 +2101,25 @@ Type TFBChoicebookPage Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
 
-		' TODO 
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+
+
+			Local text:String = parent.prop("name")
+			text:+ ".AddPage(" + child.prop("name") + ", "
+			
+			text:+ GetString("~q" + prop("label") + "~q") + ", "
+			
+			If prop("select") = "1" Then
+				text:+ "True"
+			Else
+				text:+ "False"
+			End If
+			
+			text:+ ")"
+			
+			out.Add(text, 2)
+		Next
 
 		out.Add("")
 
