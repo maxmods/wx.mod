@@ -72,6 +72,13 @@ Type wxFont Extends wxGDIObject
 		wxObjectPtr = bmx_wxfont_createattr(pointSize, family, style, weight, underline, faceName, encoding)
 		Return Self
 	End Method
+	
+	Rem
+	bbdoc: Copies the font, returning a new wxFont object.
+	End Rem
+	Method Copy:wxFont()
+		Return _create(bmx_wxfont_copy(wxObjectPtr))
+	End Method
 
 	Rem
 	bbdoc: Returns true if the font is a fixed width (or monospaced) font, false if it is a proportional one or font is invalid.
@@ -301,6 +308,11 @@ Type wxFont Extends wxGDIObject
 
 
 End Type
+
+Rem
+bbdoc: Null font
+End Rem
+Global wxNullFont:wxFont = wxFont._create(bmx_wxfont_null())
 
 Rem
 bbdoc: wxFontMapper manages user-definable correspondence between logical font names and the fonts present on the machine.

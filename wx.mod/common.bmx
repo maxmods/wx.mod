@@ -267,7 +267,8 @@ Extern
 	Function bmx_wxcolour_equals:Int(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxcolour_getrgb(handle:Byte Ptr, r:Int Ptr, g:Int Ptr, b:Int Ptr)
 	Function bmx_wxcolour_getrgba(handle:Byte Ptr, r:Int Ptr, g:Int Ptr, b:Int Ptr, a:Int Ptr)
-	
+	Function bmx_wxcolour_copy:Byte Ptr(handle:Byte Ptr)
+
 	Function bmx_wxstockgdi_colour_black:Byte Ptr()
 	Function bmx_wxstockgdi_colour_blue:Byte Ptr()
 	Function bmx_wxstockgdi_colour_cyan:Byte Ptr()
@@ -320,7 +321,8 @@ Extern
 	Function bmx_wxfont_setnativefontinfo:Int(handle:Byte Ptr, info:String)
 	Function bmx_wxfont_setnativefontinfouserdesc:Int(handle:Byte Ptr, info:String)
 	Function bmx_wxfont_setencoding(handle:Byte Ptr, encoding:Int)
-
+	Function bmx_wxfont_copy:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxfont_null:Byte Ptr()
 	
 	Function bmx_wxpaintdc_create:Byte Ptr(window:Byte Ptr)
 	Function bmx_wxpaintdc_delete(handle:Byte Ptr)

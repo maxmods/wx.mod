@@ -53,7 +53,13 @@ extern "C" {
 	int bmx_wxbookctrlbase_setselection(wxBookCtrlBase * book, int page);
 	int bmx_wxbookctrlbase_changeselection(wxBookCtrlBase * book, int page);
 
-	
+	int bmx_wxbookctrlevent_getoldselection(wxNotebookEvent & event);
+	int bmx_wxbookctrlevent_getselection(wxNotebookEvent & event);
+	void bmx_wxbookctrlevent_setoldselection(wxNotebookEvent & event, int page);
+	void bmx_wxbookctrlevent_setselection(wxNotebookEvent & event, int page);
+
+	int bmx_wxbookctrlbase_geteventtype(int type);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

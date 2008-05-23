@@ -111,3 +111,32 @@ int bmx_wxbookctrlbase_changeselection(wxBookCtrlBase * book, int page) {
 }
 
 
+
+int bmx_wxbookctrlevent_getoldselection(wxBookCtrlEvent & event) {
+	return event.GetOldSelection();
+}
+
+int bmx_wxbookctrlevent_getselection(wxBookCtrlEvent & event) {
+	return event.GetSelection();
+}
+
+void bmx_wxbookctrlevent_setoldselection(wxBookCtrlEvent & event, int page) {
+	event.SetOldSelection(page);
+}
+
+void bmx_wxbookctrlevent_setselection(wxBookCtrlEvent & event, int page) {
+	event.SetSelection(page);
+}
+
+int bmx_wxbookctrlbase_geteventtype(int type) {
+	switch(type) {
+		case -802:
+		case -804:
+		case 802: return wxEVT_COMMAND_BOOKCTRL_PAGE_CHANGED;
+		case -803:
+		case -805:
+		case 803: return wxEVT_COMMAND_BOOKCTRL_PAGE_CHANGING;
+	}
+	
+	return 0;
+}

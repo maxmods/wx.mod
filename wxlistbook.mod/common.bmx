@@ -50,6 +50,9 @@ Extern
 
 End Extern
 
+Const wxEVT_COMMAND_LISTBOOK_PAGE_CHANGED:Int = -804
+Const wxEVT_COMMAND_LISTBOOK_PAGE_CHANGING:Int = -805
+
 Const wxLB_DEFAULT:Int = wxBK_DEFAULT
 Const wxLB_TOP:Int = wxBK_TOP
 Const wxLB_BOTTOM:Int = wxBK_BOTTOM

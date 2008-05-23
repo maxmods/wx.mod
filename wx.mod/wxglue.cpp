@@ -1003,6 +1003,11 @@ void bmx_wxcolour_getrgba(MaxColour * col, int * r, int * g, int * b, int * a) {
 	*a = col->Colour().Alpha();
 }
 
+MaxColour * bmx_wxcolour_copy(MaxColour * col) {
+	wxColour c(col->Colour());
+	return new MaxColour(c);
+}
+
 // **************************
 
 MaxColour * bmx_wxstockgdi_colour_black() {
@@ -1181,7 +1186,14 @@ void bmx_wxfont_setencoding(MaxFont * font, wxFontEncoding encoding) {
 	font->Font().SetEncoding(encoding);
 }
 
+MaxFont * bmx_wxfont_copy(MaxFont * font) {
+	wxFont f(font->Font());
+	return new MaxFont(f);
+}
 
+MaxFont * bmx_wxfont_null() {
+	return new MaxFont(wxNullFont);
+}
 
 // *********************************************
 

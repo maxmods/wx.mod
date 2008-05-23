@@ -68,7 +68,13 @@ Extern
 	Function bmx_wxbookctrlbase_setselection:Int(handle:Byte Ptr, page:Int)
 	Function bmx_wxbookctrlbase_changeselection:Int(handle:Byte Ptr, page:Int)
 
+	Function bmx_wxbookctrlevent_getoldselection:Int(evt:Byte Ptr)
+	Function bmx_wxbookctrlevent_getselection:Int(evt:Byte Ptr)
+	Function bmx_wxbookctrlevent_setoldselection(evt:Byte Ptr, page:Int)
+	Function bmx_wxbookctrlevent_setselection(evt:Byte Ptr, page:Int)
 	
+	Function bmx_wxbookctrlbase_geteventtype:Int(evt:Int)
+
 End Extern
 
 Const wxBK_HITTEST_NOWHERE:Int = 1

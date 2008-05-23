@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.04"
+Const AppVersion:String = "1.05"
 
 
 Global eventMap:TMap = New TMap
@@ -233,6 +233,12 @@ Type TFBGenFactory
 
 			Case "gbsizeritem"
 				widget = New TFBgbsizeritem
+
+			Case "wxFontPickerCtrl"
+				widget = New TFBFontPickerCtrl
+			
+			Case "spacer"
+				widget = New TFBSpacer
 
 		End Select
 		
@@ -447,7 +453,7 @@ Type TFBWidget
 
 	Method Configure:Int(lastId:Int)
 		Local perm:String = String(prop("permission"))
-		If perm And perm <> "none" Then
+		If perm And perm <> "none" And Not TFBSpacer(Self) Then  ' spacers are not real widgets...
 			Local form:TFBContainer = GetMainContainer()
 			If form Then
 				form.fields.AddLast(Self)
@@ -2920,6 +2926,74 @@ Type TFBSplitterItem Extends TFBWidget
 
 End Type
 
+Type TFBFontPickerCtrl Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+		
+		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+
+		If prop("value") Then
+			Local font:String = prop("value")
+			
+			text:+ "new wxFont.CreateWithAttribs("
+			
+			Local attribs:String[] = font.Split(",")
+			
+			If attribs[3] = "-1" Then
+				text:+ "wxNORMAL_FONT().GetPointSize(), "
+			Else
+				text:+ attribs[3] + ", "
+			End If
+			
+			text:+ attribs[4] + ", "
+			text:+ attribs[1] + ", "
+			text:+ attribs[2] + ", "
+			
+			If attribs[5] = "0" Then
+				text:+ "False"
+			Else
+				text:+ "True"
+			End If
+			
+			If attribs[0] Then
+				text:+ ", ~q" + attribs[0] + "~q"
+			End If
+			
+			text:+ ")"
+		Else
+			text:+ "Null"
+		End If
+		
+		text:+ DoPosSizeStyle(Self)
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+		
+		If prop("max_point_size") Then
+			out.Add(prop("name") + ".SetMaxPointSize(" + prop("max_point_size") + ")", 2)
+		End If
+
+		out.Add("")
+
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxFontPickerCtrl"
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxFontPickerCtrl"
+	End Method
+
+End Type
 
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
@@ -3093,15 +3167,26 @@ Type TFBSizerItem Extends TFBWidget
 	Method Generate(out:TCodeOutput)
 	
 		For Local child:TFBWidget = EachIn kids
-			child.Generate(out)
+			If Not TFBSpacer(child) Then
+				child.Generate(out)
+			End If
 			
 			
 			Local text:String = parent.prop("name") + ".Add"
 			If TFBSizer(child) Then
 				text:+ "Sizer"
+			Else If TFBSpacer(child) Then
+				text:+ "CustomSpacer"
 			End If
 			
-			text:+ "(" + child.prop("name") + ", "
+			text:+ "("
+			
+			If Not TFBSpacer(child) Then
+				text:+ child.prop("name") + ", "
+			Else
+				text:+ child.prop("width") + ", " + child.prop("height") + ", "
+			End If
+			
 			text:+ prop("proportion") + ", "
 			text:+ prop("flag") + ", "
 			text:+ prop("border") + ")"
@@ -3343,9 +3428,17 @@ Type TFBGBSizerItem Extends TFBWidget
 			Local text:String = parent.prop("name") + ".AddGB"
 			If TFBSizer(child) Then
 				text:+ "Sizer"
+			Else If TFBSpacer(child) Then
+				text:+ "Spacer"
 			End If
 			
-			text:+ "(" + child.prop("name") + ", "
+			text:+ "("
+			If Not TFBSpacer(child) Then
+				text:+ child.prop("name") + ", "
+			Else
+				
+			End If
+			
 			text:+ prop("row") + ", "
 			text:+ prop("column") + ", "
 			text:+ prop("rowspan") + ", "
@@ -3361,6 +3454,19 @@ Type TFBGBSizerItem Extends TFBWidget
 	Method GetType:String(def:Int = False)
 	End Method
 	
+	Method GetImport:String()
+	End Method
+
+End Type
+
+Type TFBSpacer Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+	End Method
+
+	Method GetType:String(def:Int = False)
+	End Method
+
 	Method GetImport:String()
 	End Method
 
@@ -3702,6 +3808,8 @@ Function InitEvents()
 
 	AddEvent(TEventType.Set("OnNotebookPageChanged", "wxCommandEvent", "wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED"))
 	AddEvent(TEventType.Set("OnNotebookPageChanging", "wxCommandEvent", "wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING"))
+
+	AddEvent(TEventType.Set("OnFontChanged", "wxFontPickerEvent", "wxEVT_COMMAND_FONTPICKER_CHANGED"))
 
 End Function
 

@@ -240,4 +240,41 @@ Type wxBookCtrlBase Extends wxControl
 
 End Type
 
+Type wxBookCtrlEvent Extends wxNotifyEvent
+
+	Rem
+	bbdoc: Returns the page that was selected before the change, -1 if none was selected.
+	End Rem
+	Method GetOldSelection:Int()
+		Return bmx_wxbookctrlevent_getoldselection(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the currently selected page, or -1 if none was selected.
+	about: Under Windows, GetSelection() will return the same value as GetOldSelection() when
+	called from EVT_NOTEBOOK_PAGE_CHANGING handler and not the page which is going to be selected.
+	Also note that the values of selection and old selection returned for an event generated in
+	response to a call to wxNotebook::SetSelection shouldn't be trusted as they are currently
+	inconsistent under different platforms (but in this case you presumably don't need them anyhow
+	as you already have the corresponding information).
+	End Rem
+	Method GetSelection:Int()
+		Return bmx_wxbookctrlevent_getselection(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the id of the page selected before the change.
+	End Rem
+	Method SetOldSelection(page:Int)
+		bmx_wxbookctrlevent_setoldselection(wxEventPtr, page)
+	End Method
+	
+	Rem
+	bbdoc: Sets the selection member variable.
+	End Rem
+	Method SetSelection(page:Int)
+		bmx_wxbookctrlevent_setselection(wxEventPtr, page)
+	End Method
+
+End Type
 

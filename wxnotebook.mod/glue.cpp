@@ -40,31 +40,6 @@ MaxNotebook * bmx_wxnotebook_create(BBObject * maxHandle, wxWindow * parent, wxW
 	return new MaxNotebook(maxHandle, parent, id, x, y, w, h, style);
 }
 
-int bmx_wxnotebookevent_getoldselection(wxNotebookEvent & event) {
-	return event.GetOldSelection();
-}
-
-int bmx_wxnotebookevent_getselection(wxNotebookEvent & event) {
-	return event.GetSelection();
-}
-
-void bmx_wxnotebookevent_setoldselection(wxNotebookEvent & event, int page) {
-	event.SetOldSelection(page);
-}
-
-void bmx_wxnotebookevent_setselection(wxNotebookEvent & event, int page) {
-	event.SetSelection(page);
-}
-
-int bmx_wxnotebook_geteventtype(int type) {
-	switch(type) {
-		case 802: return wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED;
-		case 803: return wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING;
-	}
-	
-	return 0;
-}
-
 int bmx_wxnotebook_getrowcount(wxNotebook * notebook) {
 	return notebook->GetRowCount();
 }

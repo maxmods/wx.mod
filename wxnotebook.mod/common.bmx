@@ -49,12 +49,6 @@ Extern
 	Function bmx_wxnotebook_getthemebackgroundcolour:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxnotebook_setpadding(handle:Byte Ptr, width:Int, height:Int)
 	
-	Function bmx_wxnotebookevent_getoldselection:Int(evt:Byte Ptr)
-	Function bmx_wxnotebookevent_getselection:Int(evt:Byte Ptr)
-	Function bmx_wxnotebookevent_setoldselection(evt:Byte Ptr, page:Int)
-	Function bmx_wxnotebookevent_setselection(evt:Byte Ptr, page:Int)
-	
-	Function bmx_wxnotebook_geteventtype:Int(evt:Int)
 End Extern
 
 

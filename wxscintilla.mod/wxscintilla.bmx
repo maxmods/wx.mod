@@ -3277,6 +3277,14 @@ Type wxScintilla Extends wxControl
 		Return bmx_wxscintilla_getuseantialiasing(wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: Helper method for setting marker properties.
+	End Rem
+	Method DefineMarker(marker:Int, markerType:Int, foreground:wxColour, background:wxColour)
+		MarkerDefine(marker, markerType)
+		MarkerSetForeground(marker, foreground)
+		MarkerSetBackground(marker, background)
+	End Method
 
 End Type
 
@@ -3371,15 +3379,15 @@ Type wxScintillaEvent Extends wxCommandEvent
 	
 '    wxDragResult GetDragResult()
 
-	Method GetShift:int()
+	Method GetShift:Int()
 		Return bmx_wxscintillaevent_getshift(wxEventPtr)
 	End Method
 	
-	Method GetControl:int()
+	Method GetControl:Int()
 		Return bmx_wxscintillaevent_getcontrol(wxEventPtr)
 	End Method
 	
-	Method GetAlt:int()
+	Method GetAlt:Int()
 		Return bmx_wxscintillaevent_getalt(wxEventPtr)
 	End Method
 	

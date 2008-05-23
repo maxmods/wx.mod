@@ -34,12 +34,6 @@ extern "C" {
 	MaxColour * bmx_wxnotebook_getthemebackgroundcolour(wxNotebook * notebook);
 	void bmx_wxnotebook_setpadding(wxNotebook * notebook, int width, int height);
 
-	int bmx_wxnotebookevent_getoldselection(wxNotebookEvent & event);
-	int bmx_wxnotebookevent_getselection(wxNotebookEvent & event);
-	void bmx_wxnotebookevent_setoldselection(wxNotebookEvent & event, int page);
-	void bmx_wxnotebookevent_setselection(wxNotebookEvent & event, int page);
-
-	int bmx_wxnotebook_geteventtype(int type);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

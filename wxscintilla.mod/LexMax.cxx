@@ -5,16 +5,9 @@
 // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
 
-// This tries to be a unified Lexer/Folder for all the BlitzMax/BlitzMax/PurBasic basics
-// and derivatives. Once they diverge enough, might want to split it into multiple
-// lexers for more code clearity.
-//
-// Mail me (elias <at> users <dot> sf <dot> net) for any bugs.
+// Adapted for BlitzMax by Bruce A Henderson, 2008.
 
-// Folding only works for simple things like functions or types.
-
-// You may want to have a look at my ctags lexer as well, if you additionally to coloring
-// and folding need to extract things like label tags in your editor.
+// Supports Rem/End Rem blocks.
 
 #include <stdlib.h>
 #include <string.h>
@@ -34,6 +27,9 @@
 #ifdef SCI_NAMESPACE
 using namespace Scintilla;
 #endif
+
+// for rem block
+#define SCE_B_COMMENTREM 19
 
 /* Bits:
  * 1  - whitespace
@@ -86,9 +82,39 @@ static int LowerCase(int c)
 	return c;
 }
 
+static bool CheckBlitzEndRem(char const *token) {
+	const char * k;
+	const char * n;
+	int i = 0;
+
+	// endrem
+	if (strlen(token) == 6) {
+		k = token;
+		n = "endrem";
+		while (i++ < 6) {
+			if (*k++ != *n++) return false;
+		}
+		return true;
+	}
+	
+	// end rem
+	if (strlen(token) == 7) {
+		k = token;
+		n = "end rem";
+		while (i++ < 7) {
+			if (*k++ != *n++) return false;
+		}
+		return true;
+	}
+	return false;
+}
+
 static void ColouriseBasicDoc(unsigned int startPos, int length, int initStyle,
                            WordList *keywordlists[], Accessor &styler, char comment_char) {
 	bool wasfirst = true, isfirst = true; // true if first token in a line
+	int endPos = startPos + length;
+	char word[256];
+	int wordlen = 0;
 	styler.StartAt(startPos);
 
 	StyleContext sc(startPos, length, initStyle, styler);
@@ -110,21 +136,78 @@ static void ColouriseBasicDoc(unsigned int startPos, int length, int initStyle,
 						SCE_B_KEYWORD4,
 					};
 					sc.GetCurrentLowered(s, sizeof(s));
-					for (int i = 0; i < 4; i++) {
-						if (keywordlists[i]->InList(s)) {
-							sc.ChangeState(kstates[i]);
-						}
-					}
-					// Types, must set them as operator else they will be
-					// matched as number/constant
-					if (sc.Match('.') || sc.Match('$') || sc.Match('%') ||
-						sc.Match('#')) {
-						sc.SetState(SCE_B_OPERATOR);
-					} else {
-						sc.SetState(SCE_B_DEFAULT);
+					// special case for Rem blocks
+    				if (strcmp(s, "rem") == 0) {
+	   				    sc.ChangeState(SCE_B_COMMENTREM);
+                    } else {
+                        for (int i = 0; i < 4; i++) {
+                            if (keywordlists[i]->InList(s)) {
+                                sc.ChangeState(kstates[i]);
+						break;
+                            }
+                        }
+                        // Types, must set them as operator else they will be
+                        // matched as number/constant
+                        if (sc.Match('.') || sc.Match('$') || sc.Match('%') ||
+                            sc.Match('#')) {
+                            sc.SetState(SCE_B_OPERATOR);
+                        } else {
+                            sc.SetState(SCE_B_DEFAULT);
+                        }
 					}
 				}
 			}
+		} else if (sc.state == SCE_B_COMMENTREM) {
+		  // check if this line has endrem or end rem... indicating finish of rem block
+		  if (sc.atLineStart) {
+			bool go;
+			wordlen = 0;
+			for (int i = sc.currentPos; i < endPos; i++) {
+				int c = styler.SafeGetCharAt(i);
+
+				if (wordlen) { // are we scanning a token already?
+					word[wordlen] = static_cast<char>(LowerCase(c));
+					if (!IsIdentifier(c)) { // done with token
+						if (wordlen > 8) {
+							break;
+						}
+						word[wordlen] = '\0';
+						go = CheckBlitzEndRem(word);
+						if (!go) {
+						    // skip linebreaks..
+						    if (c == '\n' || c == '\r') {
+						      wordlen = 0;
+						      continue;
+						    }
+							// Treat any whitespace as single blank, for
+							// things like "End   Function".
+							if (IsSpace(c) && IsIdentifier(word[wordlen - 1])) {
+								word[wordlen] = ' ';
+								if (wordlen < 255)
+									wordlen++;
+							}
+							else {  // done with this line
+								break;
+							}
+						} else {
+							sc.Forward(i - sc.currentPos);
+							sc.SetState(SCE_B_DEFAULT);
+							break;
+						}
+					} else if (wordlen < 255) {
+						wordlen++;
+					}
+				} else { // start scanning at first non-whitespace character
+					if (!IsSpace(c)) {
+						if (IsIdentifier(c)) {
+							word[0] = static_cast<char>(LowerCase(c));
+							wordlen = 1;
+						} else // done with this line
+							break;
+					}
+				}
+			}
+		  }
 		} else if (sc.state == SCE_B_OPERATOR) {
 			if (!IsOperator(sc.ch) || sc.Match('#'))
 				sc.SetState(SCE_B_DEFAULT);
@@ -204,12 +287,17 @@ static void ColouriseBasicDoc(unsigned int startPos, int length, int initStyle,
 
 static int CheckBlitzFoldPoint(char const *token, int &level) {
 	if (!strcmp(token, "function") ||
-		!strcmp(token, "type")) {
+		!strcmp(token, "type") ||
+		!strcmp(token, "method")) {
 		level |= SC_FOLDLEVELHEADERFLAG;
 		return 1;
 	}
 	if (!strcmp(token, "end function") ||
-		!strcmp(token, "end type")) {
+        !strcmp(token, "endfunction") ||
+        !strcmp(token, "end type") ||
+	 	!strcmp(token, "endtype") ||
+		!strcmp(token, "end method") ||
+        	!strcmp(token, "endmethod")) {
 		return -1;
 	}
 	return 0;
@@ -291,6 +379,10 @@ static const char * const blitzmaxWordListDesc[] = {
 	"user1",
 	"user2",
 	"user3",
+	"BlitzMax Cased-Keywords",
+	"user1 cased",
+	"user2 cased",
+	"user3 cased",
 	0
 };
 

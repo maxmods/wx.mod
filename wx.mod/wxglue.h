@@ -175,6 +175,7 @@ extern "C" {
 	bool bmx_wxcolour_equals(MaxColour * col, MaxColour * other);
 	void bmx_wxcolour_getrgb(MaxColour * col, int * r, int * g, int * b);
 	void bmx_wxcolour_getrgba(MaxColour * col, int * r, int * g, int * b, int * a);
+	MaxColour * bmx_wxcolour_copy(MaxColour * col);
 
 	MaxColour * bmx_wxstockgdi_colour_black();
 	MaxColour * bmx_wxstockgdi_colour_blue();
@@ -218,6 +219,8 @@ extern "C" {
 	bool bmx_wxfont_setnativefontinfo(MaxFont * font, BBString * info);
 	bool bmx_wxfont_setnativefontinfouserdesc(MaxFont * font, BBString * info);
 	void bmx_wxfont_setencoding(MaxFont * font, wxFontEncoding encoding);
+	MaxFont * bmx_wxfont_copy(MaxFont * font);
+	MaxFont * bmx_wxfont_null();
 
 	MaxPaintDC * bmx_wxpaintdc_create(wxWindow * window);
 	void bmx_wxpaintdc_delete(MaxPaintDC * dc);

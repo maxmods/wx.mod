@@ -152,6 +152,13 @@ Type wxColour Extends wxObject
 		bmx_wxcolour_getrgba(wxObjectPtr, Varptr red, Varptr green, Varptr blue, Varptr alpha)
 	End Method
 	
+	Rem
+	bbdoc: Copies colour, returning a new wxColour object.
+	End Rem
+	Method Copy:wxColour()
+		Return _create(bmx_wxcolour_copy(wxObjectPtr))
+	End Method
+	
 	Method Delete()
 		If wxObjectPtr Then
 			bmx_wxcolour_delete(wxObjectPtr)
