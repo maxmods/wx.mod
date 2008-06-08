@@ -79,7 +79,7 @@ Type wxMDIParentFrame Extends wxFrame
 	Rem
 	bbdoc: 
 	End Rem
-	Function CreateMDIParentFrame:wxMDIParentFrame(parent:wxWindow, id:Int, title:String, x:Int = -1, y:Int = -1, ..
+	Function CreateMDIParentFrame:wxMDIParentFrame(parent:wxWindow = Null, id:Int = wxID_ANY, title:String = "", x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE | wxVSCROLL | wxHSCROLL)
 		Return New wxMDIParentFrame.Create(parent, id, title, x, y, w, h, style)
 	End Function
@@ -87,9 +87,14 @@ Type wxMDIParentFrame Extends wxFrame
 	Rem
 	bbdoc: 
 	End Rem
-	Method Create:wxMDIParentFrame(parent:wxWindow, id:Int, title:String, x:Int = -1, y:Int = -1, ..
+	Method Create:wxMDIParentFrame(parent:wxWindow = Null, id:Int = wxID_ANY, title:String = "", x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE | wxVSCROLL | wxHSCROLL)
-		wxObjectPtr = bmx_wxmdiparentframe_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
+		If parent Then
+			wxObjectPtr = bmx_wxmdiparentframe_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
+		Else
+			wxObjectPtr = bmx_wxmdiparentframe_create(Self, Null, id, title, x, y, w, h, style)
+		End If
+		OnInit()
 		Return Self
 	End Method
 
@@ -154,8 +159,8 @@ Type wxMDIParentFrame Extends wxFrame
 	Rem
 	bbdoc: Returns the active MDI child, if there is one.
 	End Rem
-	Method GetActiveChild:wxMDIchildFrame()
-		Return wxMDIchildFrame._find(bmx_wxmdiparentframe_getactivechild(wxObjectPtr))
+	Method GetActiveChild:wxMDIChildFrame()
+		Return wxMDIChildFrame._find(bmx_wxmdiparentframe_getactivechild(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -237,6 +242,7 @@ Type wxMDIChildFrame Extends wxFrame
 	Method CreateCF:wxMDIChildFrame(parent:wxMDIParentFrame, id:Int, title:String, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE)
 		wxObjectPtr = bmx_wxmdichildframe_create(Self, parent.wxObjectPtr, id, title, x, y, w, h, style)
+		OnInit()
 		Return Self
 	End Method
 
