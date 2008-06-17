@@ -60,6 +60,7 @@ extern "C" {
 	bool bmx_wxmouseevent_rightisdown(wxMouseEvent & event);
 	bool bmx_wxmouseevent_rightup(wxMouseEvent & event);
 	bool bmx_wxmouseevent_shiftdown(wxMouseEvent & event);
+	void bmx_wxmouseevent_getlogicalposition(wxMouseEvent & event, MaxDC * dc, int * x, int * y);
 
 }
 

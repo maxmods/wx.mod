@@ -184,9 +184,10 @@ Type wxMouseEvent Extends wxEvent
 	End Method
 	
 	Rem
-	bbdoc: Not *yet* implemented
+	bbdoc: Returns the logical mouse position in pixels (i.e. translated according to the translation set for the DC, which usually indicates that the window has been scrolled).
 	End Rem
-	Method GetLogicalPosition()
+	Method GetLogicalPosition(dc:wxDC, x:Int Var, y:Int Var)
+		bmx_wxmouseevent_getlogicalposition(wxEventPtr, dc.wxobjectPtr, Varptr x, Varptr y)
 	End Method
 	
 	Rem

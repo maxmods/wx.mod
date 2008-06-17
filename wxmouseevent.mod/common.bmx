@@ -21,6 +21,7 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxDC
 Import BRL.Blitz
 
 
@@ -77,6 +78,7 @@ Extern
 	Function bmx_wxmouseevent_rightisdown:Int(event:Byte Ptr)
 	Function bmx_wxmouseevent_rightup:Int(event:Byte Ptr)
 	Function bmx_wxmouseevent_shiftdown:Int(event:Byte Ptr)
+	Function bmx_wxmouseevent_getlogicalposition(event:Byte Ptr, dc:Byte Ptr, x:Int Ptr, y:Int Ptr)
 
 End Extern
 

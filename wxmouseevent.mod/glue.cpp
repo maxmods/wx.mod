@@ -160,6 +160,11 @@ bool bmx_wxmouseevent_shiftdown(wxMouseEvent & event) {
 	return event.ShiftDown();
 }
 
+void bmx_wxmouseevent_getlogicalposition(wxMouseEvent & event, MaxDC * dc, int * x, int * y) {
+	wxPoint p(event.GetLogicalPosition(*dc->GetDC()));
+	*x = p.x;
+	*y = p.y;
+}
 
 
 // *********************************************

@@ -5,6 +5,7 @@ Import wx.wxFrame
 Import wx.wxMDI
 Import wx.wxTextCtrl
 Import wx.wxScrolledWindow
+Import wx.wxTextEntryDialog
 
 New MyApp.run()
 
@@ -17,6 +18,11 @@ Const MDI_CHANGE_SIZE:Int = 105
 Const MDI_CHILD_QUIT:Int = 106
 Const MDI_ABOUT:Int = wxID_ABOUT
 
+' For drawing lines in a canvas
+Global xpos:Int = -1
+Global ypos:Int = -1
+
+Global gs_nFrames:Int = 0
 
 Type MyApp Extends wxApp
 
@@ -30,15 +36,15 @@ Type MyApp Extends wxApp
 
 
 		' Make a menubar
-		local file_menu:wxMenu = new wxMenu.Create()
+		Local file_menu:wxMenu = New wxMenu.Create()
 
 		file_menu.Append(MDI_NEW_WINDOW, "&New window~tCtrl-N", "Create a new child window")
 		file_menu.Append(MDI_QUIT, "&Exit~tAlt-X", "Quit the program")
 
-		Local help_menu:wxMenu = new wxMenu.Create()
+		Local help_menu:wxMenu = New wxMenu.Create()
 		help_menu.Append(MDI_ABOUT, "&About~tF1")
 
-		local menu_bar:wxMenuBar = new wxMenuBar.Create()
+		Local menu_bar:wxMenuBar = New wxMenuBar.Create()
 
 		menu_bar.Append(file_menu, "&File")
 		menu_bar.Append(help_menu, "&Help")
@@ -61,8 +67,6 @@ End Type
 Type MyFrame Extends wxMDIParentFrame
 
    	Field textWindow:wxTextCtrl
-
-	Global gs_nFrames:Int = 0
 
 	Method OnInit()
 'DebugStop
@@ -183,13 +187,235 @@ Type MyFrame Extends wxMDIParentFrame
 	End Function
 	
 	Function OnNewWindow(event:wxEvent)
+		Local frame:MyFrame = MyFrame(event.parent)
+	
+	
+		' Make another frame, containing a canvas
+		Local subframe:MyChild = MyChild(New MyChild.Create(frame, -1, "Canvas Frame"))
+		
+		Local title:String = "Canvas Frame " + gs_nFrames
+		gs_nFrames:+ 1
+		
+		subframe.SetTitle(title)
+		
+		' Give it an icon
+'		subframe.SetIcon(wxIcon(chart))
+		
+		'#If wxUSE_MENUS
+		' Make a menubar
+		Local file_menu:wxMenu = New wxMenu.Create()
+		
+		file_menu.Append(MDI_NEW_WINDOW, "&New window")
+		file_menu.Append(MDI_CHILD_QUIT, "&Close child", "Close this window")
+		file_menu.Append(MDI_QUIT, "&Exit")
+		
+		Local option_menu:wxMenu = New wxMenu.Create()
+		
+		option_menu.Append(MDI_REFRESH, "&Refresh picture")
+		option_menu.Append(MDI_CHANGE_TITLE, "Change &title...~tCtrl-T")
+		option_menu.AppendSeparator()
+		option_menu.Append(MDI_CHANGE_POSITION, "Move frame~tCtrl-M")
+		option_menu.Append(MDI_CHANGE_SIZE, "Resize frame~tCtrl-S")
+		'#If wxUSE_CLIPBOARD
+		option_menu.AppendSeparator()
+		option_menu.Append(wxID_PASTE, "Copy text from clipboard~tCtrl-V")
+		'#EndIf // wxUSE_CLIPBOARD
+		
+		Local help_menu:wxMenu = New wxMenu.Create()
+		help_menu.Append(MDI_ABOUT, "&About")
+		
+		Local menu_bar:wxMenuBar = New wxMenuBar.Create()
+		
+		menu_bar.Append(file_menu, "&File")
+		menu_bar.Append(option_menu, "&Child")
+		menu_bar.Append(help_menu, "&Help")
+		
+		' Associate the menu bar with the frame
+		subframe.SetMenuBar(menu_bar)
+		'#EndIf // wxUSE_MENUS
+		
+		'#If wxUSE_STATUSBAR
+		subframe.CreateStatusBar()
+		subframe.SetStatusText(title)
+		'#EndIf // wxUSE_STATUSBAR
+		
+		Local width:Int, height:Int
+		subframe.GetClientSize(width, height)
+		Local canvas:MyCanvas = MyCanvas(New MyCanvas.Create(subframe, -1, 0, 0, width, height))
+'		canvas.SetCursor(New wxCursor.Create(wxCURSOR_PENCIL))
+		subframe.canvas = canvas
+		
+		' Give it scrollbars
+		canvas.SetScrollbars(20, 20, 50, 50)
+		
+		subframe.Show(True)
 	End Function
 	
 
 End Type
 
+Type MyChild Extends wxMDIChildFrame
+
+	Field canvas:MyCanvas
+
+	Method OnInit()
+
+
+	    Connect(MDI_CHILD_QUIT, wxEVT_COMMAND_MENU_SELECTED, OnQuit)
+	    Connect(MDI_REFRESH, wxEVT_COMMAND_MENU_SELECTED, OnRefresh)
+	    Connect(MDI_CHANGE_TITLE, wxEVT_COMMAND_MENU_SELECTED, OnChangeTitle)
+	    Connect(MDI_CHANGE_POSITION, wxEVT_COMMAND_MENU_SELECTED, OnChangePosition)
+	    Connect(MDI_CHANGE_SIZE, wxEVT_COMMAND_MENU_SELECTED, OnChangeSize)
+	
+	    ConnectAny(wxID_PASTE, OnPaste)
+		' EVT_UPDATE_UI(wxID_PASTE, MyChild::OnUpdatePaste)
+	
+	    ConnectAny(wxEVT_SIZE, OnSize)
+	    ConnectAny(wxEVT_MOVE, OnMove)
+	
+	    ConnectAny(wxEVT_CLOSE, OnClose)
+
+	End Method
+
+    'Function OnActivate(wxActivateEvent& event)
+
+    Function OnRefresh(event:wxEvent)
+		Local frame:MyChild = MyChild(event.parent)
+		If frame.canvas Then
+			frame.canvas.Refresh()
+		End If
+	End Function
+	
+    Function OnUpdateRefresh(event:wxEvent)
+	End Function
+	
+    Function OnChangeTitle(event:wxEvent)
+		Global s_title:String = "Canvas Frame"
+		
+		Local title:String = wxGetTextFromUser("Enter the new title for MDI child", ..
+			"MDI sample question", s_title, MyChild(event.parent).GetParent().GetParent())
+		If Not title Then
+			Return
+		End If
+		
+		s_title = title
+		MyChild(event.parent).SetTitle(s_title)
+	End Function
+	
+    Function OnChangePosition(event:wxEvent)
+		MyChild(event.parent).Move(10, 10)
+	End Function
+	
+	Function OnChangeSize(event:wxEvent)
+		MyChild(event.parent).SetClientSize(100, 100)
+	End Function
+	
+    Function OnQuit(event:wxEvent)
+		MyChild(event.parent).Close(True)
+	End Function
+	
+    Function OnSize(event:wxEvent)
+	End Function
+	
+    Function OnMove(event:wxEvent)
+	End Function
+	
+    Function OnClose(evt:wxEvent)
+		Local event:wxCloseEvent = wxCloseEvent(evt)
+		Local frame:MyChild = MyChild(event.parent)
+
+		If frame.canvas And frame.canvas.IsDirty() Then
+			If wxMessageBox("Really close?", "Please confirm", ..
+			           wxICON_QUESTION | wxYES_NO) <> wxYES Then
+				event.Veto()
+				Return
+			End If
+		End If
+		
+		gs_nFrames:- 1
+		
+		event.Skip()
+	End Function
+
+    Function OnPaste(event:wxEvent)
+	End Function
+
+    Function OnUpdatePaste(event:wxEvent)
+	End Function
+	
+End Type
+
 
 Type MyCanvas Extends wxScrolledWindow
+
+	Field m_text:String
+	Field m_dirty:Int
+
+	Method OnInit()
+		ConnectAny(wxEVT_MOUSE_EVENTS, OnEvent)
+	End Method
+
+    Method OnDraw(DC:wxDC)
+		If Not m_text Then
+		    dc.DrawText(m_text, 10, 10)
+		End If
+		
+		dc.SetFont(wxSWISS_FONT())
+		dc.SetPen(wxGREEN_PEN())
+		dc.DrawLine(0, 0, 200, 200)
+		dc.DrawLine(200, 0, 0, 200)
+		
+		dc.SetBrush(wxCYAN_BRUSH())
+		dc.SetPen(wxRED_PEN())
+		dc.DrawRectangle(100, 100, 100, 50)
+		dc.DrawRoundedRectangle(150, 150, 100, 50, 20)
+		
+		dc.DrawEllipse(250, 250, 100, 50)
+'		#If wxUSE_SPLINES
+'		dc.DrawSpline(50, 200, 50, 100, 200, 10)
+'		#EndIf // wxUSE_SPLINES
+		dc.DrawLine(50, 230, 200, 230)
+		dc.DrawText("This is a test string", 50, 230)
+		
+'		wxPoint points[3]
+'		points[0].x = 200 points[0].y = 300
+'		points[1].x = 100 points[1].y = 400
+'		points[2].x = 300 points[2].y = 400
+'		
+'		dc.DrawPolygon(3, points)
+	End Method
+
+    Method IsDirty:Int()
+		Return m_dirty
+	End Method
+	
+    Function OnEvent(evt:wxEvent)
+		Local event:wxMouseEvent = wxMouseEvent(evt)
+		Local canvas:MyCanvas = MyCanvas(evt.parent)
+
+		Local dc:wxClientDC = New wxClientDC.Create(canvas)
+		canvas.PrepareDC(dc)
+		
+		Local ptX:Int, ptY:Int
+		event.GetLogicalPosition(dc, ptX, ptY)
+		
+		If xpos > -1 And ypos > -1 And event.Dragging() Then
+			dc.SetPen(wxBLACK_PEN())
+			dc.DrawLine(xpos, ypos, ptX, ptY)
+		
+			canvas.m_dirty = True
+		End If
+		
+		xpos = ptX
+		ypos = ptY
+		
+		' remember to release the DC!
+		dc.Free()
+	End Function
+
+    Method SetText(text:String)
+		m_text = text
+	End Method
 
 End Type
 
