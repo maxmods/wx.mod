@@ -233,12 +233,12 @@ MaxEnumProperty::~MaxEnumProperty() {
 	wxunbind(this);
 }
 
-MaxMultiChoiceProperty::MaxMultiChoiceProperty(BBObject * handle, const wxString &label, const wxString &name, const wxArrayString &labels, const wxArrayInt &value)
+MaxMultiChoiceProperty::MaxMultiChoiceProperty(BBObject * handle, const wxString &label, const wxString &name, const wxArrayString &labels, const wxArrayString &value)
 	: wxMultiChoiceProperty(label, name, labels, value)
 {
 	wxbind(this, handle);
 }
-MaxMultiChoiceProperty::MaxMultiChoiceProperty(BBObject * handle, const wxString &label, const wxString &name, wxPGChoices &choices, const wxArrayInt &value)
+MaxMultiChoiceProperty::MaxMultiChoiceProperty(BBObject * handle, const wxString &label, const wxString &name, wxPGChoices &choices, const wxArrayString &value)
 	: wxMultiChoiceProperty(label, name, choices, value)
 {
 	wxbind(this, handle);
@@ -1156,6 +1156,53 @@ void bmx_wxpropertygrid_setpropertyvaluecolourbyname(wxPropertyGrid * grid, BBSt
 	grid->SetPropertyValue(wxStringFromBBString(name), value->Colour());
 }
 
+BBArray * bmx_wxpropertygrid_getpropertieswithflag(wxPropertyGrid * grid, wxPGProperty::FlagType flags, bool inverse, int iterFlags) {
+	wxArrayPGProperty arr;
+	
+	grid->GetPropertiesWithFlag(&arr, flags, inverse, iterFlags);
+	
+	int n = arr.GetCount();
+	BBArray * props = _wx_wxpropgrid_wxPropertyGrid__newPropertiesArray(n);
+	for( int i=0;i<n;++i ){
+		_wx_wxpropgrid_wxPropertyGrid__addProperty(props, i, arr[i]);
+	}
+
+	return props;
+}
+
+BBArray * bmx_wxpropertygrid_propertiestonames(wxPropertyGrid * grid, BBArray * props) {
+	wxArrayPGProperty arr;
+	
+	int n = props->scales[0];
+	arr.Alloc(n);
+	
+	for( int i=0;i<n;++i ){
+		arr.Add(_wx_wxpropgrid_wxPropertyGrid__getProperty(props, i));
+	}
+
+	wxArrayString names;
+	
+	grid->PropertiesToNames(&names, arr);
+	
+	return wxArrayStringToBBStringArray(names);
+}
+
+BBArray * bmx_wxpropertygrid_namestoproperties(wxPropertyGrid * grid, BBArray * names) {
+
+	wxArrayString arr = bbStringArrayTowxArrayStr(names);
+
+	wxArrayPGProperty props;
+	
+	grid->NamesToProperties(&props, arr);
+	
+	int n = props.GetCount();
+	BBArray * properties = _wx_wxpropgrid_wxPropertyGrid__newPropertiesArray(n);
+	for( int i=0;i<n;++i ){
+		_wx_wxpropgrid_wxPropertyGrid__addProperty(properties, i, props[i]);
+	}
+
+	return properties;
+}
 
 // *********************************************
 
@@ -1334,7 +1381,7 @@ wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwitharrays(BBObject * ha
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
 		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
 		(labels) ? bbStringArrayTowxArrayStr(labels) : wxArrayString(),
-		(value) ? bbIntArrayTowxArrayInt(value) : wxArrayInt() );
+		(value) ? bbStringArrayTowxArrayStr(value) : wxArrayString() );
 }
 
 wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwithchoices(BBObject * handle, BBString * label, BBString * name, MaxPGChoices * choices, BBArray * value) {
@@ -1342,7 +1389,7 @@ wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwithchoices(BBObject * h
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
 		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
 		choices->Choices(),
-		(value) ? bbIntArrayTowxArrayInt(value) : wxArrayInt() );
+		(value) ? bbStringArrayTowxArrayStr(value) : wxArrayString() );
 }
 
 // *********************************************

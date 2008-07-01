@@ -642,6 +642,9 @@ bool wxPGVListBoxComboPopup::HandleKey( int keycode, bool saturate )
     int value = m_value;
     int itemCount = GetCount();
 
+    if ( itemCount == 0 )
+        return false;
+
     if ( keycode == WXK_DOWN || keycode == WXK_RIGHT )
     {
         value++;

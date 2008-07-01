@@ -103,7 +103,7 @@ void wxPropertyGridXmlHandler::PopulatePage( wxPropertyGridState* state )
         state->SetColumnCount( GetLong(sColumns) );
 
     m_populator->SetState( state );
-    m_populator->AddChildren( state->GetRoot() );
+    m_populator->AddChildren( state->DoGetRoot() );
 }
 
 void wxPropertyGridXmlHandler::DonePopulator()

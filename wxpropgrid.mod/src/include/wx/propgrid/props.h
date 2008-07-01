@@ -163,7 +163,7 @@ public: \
     CLASSNAME( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL, \
         const wxColourPropertyValue& value = wxColourPropertyValue() ); \
     virtual ~CLASSNAME(); \
-    virtual long GetColour( int index ) const; \
+    virtual wxColour GetColour( int index ) const; \
 };
 
 #define WX_PG_DECLARE_CUSTOM_COLOUR_PROPERTY(CLASSNAME) \
@@ -179,7 +179,7 @@ CLASSNAME::CLASSNAME( const wxString& label, const wxString& name, \
     m_flags |= wxPG_PROP_TRANSLATE_CUSTOM; \
 } \
 CLASSNAME::~CLASSNAME () { } \
-long CLASSNAME::GetColour ( int index ) const \
+wxColour CLASSNAME::GetColour ( int index ) const \
 { \
     if ( !m_choices.HasValue(index) ) \
     { \
@@ -200,7 +200,7 @@ public: \
         const wxColour& value = wxColour() ); \
     virtual ~CLASSNAME(); \
     virtual wxString GetValueAsString( int argFlags ) const; \
-    virtual long GetColour( int index ) const; \
+    virtual wxColour GetColour( int index ) const; \
     virtual wxVariant DoTranslateVal( wxColourPropertyValue& v ) const; \
     void Init( wxColour colour ); \
 };
@@ -237,11 +237,12 @@ wxString CLASSNAME::GetValueAsString( int argFlags ) const \
 { \
     const wxPGEditor* editor = GetEditorClass(); \
     if ( editor != wxPG_EDITOR(Choice) && \
-         editor != wxPG_EDITOR(ChoiceAndButton) ) \
+         editor != wxPG_EDITOR(ChoiceAndButton) && \
+         editor != wxPG_EDITOR(ComboBox) ) \
         argFlags |= wxPG_PROPERTY_SPECIFIC; \
     return wxSystemColourProperty::GetValueAsString(argFlags); \
 } \
-long CLASSNAME::GetColour( int index ) const \
+wxColour CLASSNAME::GetColour( int index ) const \
 { \
     if ( !m_choices.HasValue(index) ) \
     { \
@@ -348,6 +349,41 @@ protected:
 /** \class wxIntProperty
 	\ingroup classes
     \brief Basic property with integer value. Seamlessly supports 64-bit integer (wxLongLong) on overflow.
+
+    <b>Example how to use seamless 64-bit integer support</b>
+
+      Getting value:
+
+      \code
+          wxLongLong_t value = pg->GetPropertyValueAsLongLong();
+      \endcode
+
+         or
+
+      \code
+          wxLongLong_t value;
+          wxVariant variant = property->GetValue();
+          if ( variant.GetType() == wxT("wxLongLong") )
+              value = wxLongLongFromVariant(variant);
+          else
+              value = variant.GetLong();
+      \endcode
+
+      Setting value:
+
+       \code
+          pg->SetPropertyValue(longLongVal);
+      \endcode
+
+         or
+
+      \code
+          property->SetValue(WXVARIANT(longLongVal));
+      \endcode
+
+
+    <b>Supported special attributes:</b>
+    - "Min", "Max": Specify acceptable value range.
 */
 class WXDLLIMPEXP_PG wxIntProperty : public wxPGProperty
 {
@@ -357,11 +393,20 @@ public:
                    long value = 0 );
     virtual ~wxIntProperty();
 
-    wxIntProperty( const wxString& label, const wxString& name = wxPG_LABEL, const wxLongLong& value = wxLongLong() );
+    wxIntProperty( const wxString& label, const wxString& name, const wxLongLong& value );
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
+    virtual bool ValidateValue( wxVariant& value ) const;
     virtual bool IntToValue( wxVariant& variant, int number, int argFlags = 0 ) const;
     static wxValidator* GetClassValidator();
     virtual wxValidator* DoGetValidator() const;
+
+    /** Validation helper.
+
+        \param showError
+        If true, error message is shown and value is not modified, if false no error
+        message is shown and value is saturated to limits.
+    */
+    static bool DoValidation( const wxPGProperty* property, wxLongLong_t& value, bool showError = false );
 
 protected:
 };
@@ -373,10 +418,15 @@ protected:
     \brief Basic property with unsigned integer value. Seamlessly supports 64-bit integer (wxULongLong) on overflow.
 
     <b>Supported special attributes:</b>
+    - "Min", "Max": Specify acceptable value range.
     - "Base": Define base. Valid constants are wxPG_BASE_OCT, wxPG_BASE_DEC, wxPG_BASE_HEX and wxPG_BASE_HEXL
     (lowercase characters). Arbitrary bases are <b>not</b> supported.
     - "Prefix": Possible values are wxPG_PREFIX_NONE, wxPG_PREFIX_0x, and wxPG_PREFIX_DOLLAR_SIGN.
     Only wxPG_PREFIX_NONE works with Decimal and Octal numbers.
+
+    \remarks
+    - For example how to use seamless 64-bit integer support, see wxIntProperty documentation (just
+      use wxULongLong instead of wxLongLong).
 */
 class WXDLLIMPEXP_PG wxUIntProperty : public wxPGProperty
 {
@@ -385,9 +435,10 @@ public:
     wxUIntProperty( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL,
                    unsigned long value = 0 );
     virtual ~wxUIntProperty();
-    wxUIntProperty( const wxString& label, const wxString& name = wxPG_LABEL, const wxULongLong& value = wxULongLong() );
+    wxUIntProperty( const wxString& label, const wxString& name, const wxULongLong& value );
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
+    virtual bool ValidateValue( wxVariant& value ) const;
     virtual bool IntToValue( wxVariant& variant, int number, int argFlags = 0 ) const;
 protected:
     wxByte      m_base;
@@ -417,6 +468,16 @@ public:
 
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
+    virtual bool ValidateValue( wxVariant& value ) const;
+
+    /** Validation helper.
+
+        \param showError
+        If true, error message is shown and value is not modified, if false no error
+        message is shown and value is saturated to limits.
+    */
+    static bool DoValidation( const wxPGProperty* property, double& value, bool showError = false );
+
 protected:
     int m_precision;
     virtual wxValidator* DoGetValidator () const;
@@ -463,7 +524,6 @@ class WXDLLIMPEXP_PG wxBaseEnumProperty : public wxPGProperty
 public:
     wxBaseEnumProperty( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL );
 
-    virtual bool ValidateValue( wxVariant& value ) const;
     virtual void OnSetValue();
     virtual wxString GetValueAsString( int argFlags ) const;
     virtual bool StringToValue( wxVariant& variant, const wxString& text, int argFlags = 0 ) const;
@@ -617,7 +677,6 @@ public:
         const wxArrayInt& values = wxArrayInt(), int value = 0 );
     virtual ~wxFlagsProperty ();
 
-    virtual bool ValidateValue( wxVariant& value ) const;
     virtual void OnSetValue();
     virtual wxString GetValueAsString( int argFlags ) const;
     virtual bool StringToValue( wxVariant& variant, const wxString& text, int flags ) const;
@@ -752,7 +811,9 @@ protected:
 */
 class WXDLLIMPEXP_PG wxDirProperty : public wxLongStringProperty
 {
+#ifndef SWIG
     DECLARE_DYNAMIC_CLASS(wxDirProperty)
+#endif
 public:
     wxDirProperty( const wxString& name = wxPG_LABEL, const wxString& label = wxPG_LABEL,
                    const wxString& value = wxEmptyString );
@@ -1044,8 +1105,10 @@ protected:
     virtual void ArraySwap( size_t first, size_t second );
 
 private:
+#ifndef SWIG
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxPGArrayStringEditorDialog)
     DECLARE_EVENT_TABLE()
+#endif
 };
 
 // -----------------------------------------------------------------------
@@ -1111,6 +1174,13 @@ protected:
 
     //wxString                m_value;
 };
+
+// -----------------------------------------------------------------------
+
+// Helper functions
+
+WXDLLIMPEXP_PG bool wxPGStringToLongLong(const wxString s, wxLongLong_t* val, int base);
+WXDLLIMPEXP_PG bool wxPGStringToULongLong(const wxString s, wxULongLong_t* val, int base);
 
 // -----------------------------------------------------------------------
 

@@ -59,10 +59,6 @@ Import "common.bmx"
 '
 ' in wxPGProperty::Init(), must include the check for "_LABEL_AS_NAME"
 '
-' in wxPropertyGridState::CheckColumnWidths(), changed "timeSinceCreation" check from 750 to 0 to
-' work in a non-sizer environment.
-'
-
 
 Rem
 bbdoc: 
@@ -124,7 +120,7 @@ Type wxPropertyContainerMethods Extends wxPanel
 	
 	Method GetNextSibling:wxPGProperty(prop:wxPGProperty) Abstract
 	
-	Method GetPropertiesWithFlag:wxPGProperty[](flags:Int, inverse:Int = True, iterFlags:Int) Abstract
+	Method GetPropertiesWithFlag:wxPGProperty[](flags:Int, inverse:Int = False, iterFlags:Int = wxPG_ITERATE_PROPERTIES | wxPG_ITERATE_HIDDEN | wxPG_ITERATE_CATEGORIES) Abstract
 	
 	Method GetPropertyBySubName:wxPGProperty(name:String, subName:String) Abstract
 	
@@ -208,9 +204,9 @@ Type wxPropertyContainerMethods Extends wxPanel
 	
 	Method LimitPropertyEditing(prop:wxPGProperty, limit:Int = True) Abstract
 	
-	Method NamesToProperties(properties:wxPGProperty[], names:String[]) Abstract
+	Method NamesToProperties:wxPGProperty[](names:String[]) Abstract
 	
-	Method PropertiesToNames(names:String[], properties:wxPGProperty[]) Abstract
+	Method PropertiesToNames:String[](properties:wxPGProperty[]) Abstract
 	
 	Method RefreshGrid(state:wxPropertyGridState = Null) Abstract
 	
@@ -672,9 +668,21 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 
 
-	Method GetPropertiesWithFlag:wxPGProperty[](flags:Int, inverse:Int = True, iterFlags:Int)
-		' TODO
+	Method GetPropertiesWithFlag:wxPGProperty[](flags:Int, inverse:Int = False, iterFlags:Int = wxPG_ITERATE_PROPERTIES | wxPG_ITERATE_HIDDEN | wxPG_ITERATE_CATEGORIES)
+		Return bmx_wxpropertygrid_getpropertieswithflag(wxObjectPtr, flags, inverse, iterFlags)
 	End Method
+	
+	Function _newPropertiesArray:wxPGProperty[](size:Int)
+		Return New wxPGProperty[size]
+	End Function
+	
+	Function _addProperty(arr:wxPGProperty[], index:Int, prop:Byte Ptr)
+		arr[index] = wxPGProperty._find(prop)
+	End Function
+
+	Function _getProperty:Byte Ptr(arr:wxPGProperty[], index:Int)
+		Return arr[index].wxObjectPtr
+	End Function
 	
 	Method GetPropertyBySubName:wxPGProperty(name:String, subName:String)
 		Return wxPGProperty._find(bmx_wxpropertygrid_getpropertybysubname(wxObjectPtr, name, subName))
@@ -835,10 +843,12 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		bmx_wxpropertygrid_limitpropertyediting(wxObjectPtr, prop.wxObjectPtr, limit)
 	End Method
 	
-	Method NamesToProperties(properties:wxPGProperty[], names:String[])
+	Method NamesToProperties:wxPGProperty[](names:String[])
+		Return bmx_wxpropertygrid_namestoproperties(wxObjectPtr, names)
 	End Method
 	
-	Method PropertiesToNames(names:String[], properties:wxPGProperty[])
+	Method PropertiesToNames:String[](properties:wxPGProperty[])
+		Return bmx_wxpropertygrid_propertiestonames(wxObjectPtr, properties)
 	End Method
 	
 	Method RefreshGrid(state:wxPropertyGridState = Null)
@@ -1269,6 +1279,12 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 
 End Type
+
+Extern
+	Function bmx_wxpropertygrid_getpropertieswithflag:wxPGProperty[](handle:Byte Ptr, flags:Int, inverse:Int, iterFlags:Int)
+	Function bmx_wxpropertygrid_propertiestonames:String[](handle:Byte Ptr, properties:wxPGProperty[])
+	Function bmx_wxpropertygrid_namestoproperties:wxPGProperty[](handle:Byte Ptr, names:String[])
+End Extern
 
 Rem
 bbdoc: 
@@ -1925,21 +1941,21 @@ End Rem
 Type wxMultiChoiceProperty Extends wxPGProperty
 
 	Function CreateMultiChoicePropertyWithArrays:wxMultiChoiceProperty(label:String, name:String, labels:String[], ..
-			value:Int[] = Null)
+			value:String[] = Null)
 		Return New wxMultiChoiceProperty.CreateWithArrays(label, name, labels, value)
 	End Function
 
 	Method CreateWithArrays:wxMultiChoiceProperty(label:String, name:String, labels:String[], ..
-			value:Int[] = Null)
+			value:String[] = Null)
 		wxObjectPtr = bmx_wxmultichoiceproperty_createwitharrays(Self, label, name, labels, value)
 		Return Self
 	End Method
 
-	Function CreateMultiChoicePropertyWithChoice:wxMultiChoiceProperty(label:String, name:String, choices:wxPGChoices, value:Int[] = Null)
+	Function CreateMultiChoicePropertyWithChoice:wxMultiChoiceProperty(label:String, name:String, choices:wxPGChoices, value:String[] = Null)
 		Return New wxMultiChoiceProperty.CreateWithChoices(label, name, choices, value)
 	End Function
 
-	Method CreateWithChoices:wxMultiChoiceProperty(label:String, name:String, choices:wxPGChoices, value:Int[] = Null)
+	Method CreateWithChoices:wxMultiChoiceProperty(label:String, name:String, choices:wxPGChoices, value:String[] = Null)
 		wxObjectPtr = bmx_wxmultichoiceproperty_createwithchoices(Self, label, name, choices.wxObjectPtr, value)
 		Return Self
 	End Method

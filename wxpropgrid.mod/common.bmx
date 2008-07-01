@@ -231,8 +231,8 @@ Extern
 	Function bmx_wxenumproperty_createwitharrays:Byte Ptr(handle:Object, label:String, name:String, labels:String[], values:Int[], value:Int)
 	Function bmx_wxenumproperty_createwithchoices:Byte Ptr(handle:Object, label:String, name:String, choices:Byte Ptr, value:Int)
 
-	Function bmx_wxmultichoiceproperty_createwitharrays:Byte Ptr(handle:Object, label:String, name:String, labels:String[], value:Int[])
-	Function bmx_wxmultichoiceproperty_createwithchoices:Byte Ptr(handle:Object, label:String, name:String, choices:Byte Ptr, value:Int[])
+	Function bmx_wxmultichoiceproperty_createwitharrays:Byte Ptr(handle:Object, label:String, name:String, labels:String[], value:String[])
+	Function bmx_wxmultichoiceproperty_createwithchoices:Byte Ptr(handle:Object, label:String, name:String, choices:Byte Ptr, value:String[])
 
 	Function bmx_wxpropertygrid_geteventtype:Int(evt:Int)
 
@@ -421,4 +421,11 @@ Const wxEVT_PG_ITEM_EXPANDED:Int = -4306
 Const wxEVT_PG_ITEM_COLLAPSED:Int = -4307
 Const wxEVT_PG_DOUBLE_CLICK:Int = -4308
 
+Const wxPG_ITERATE_PROPERTIES:Int = wxPG_PROP_PROPERTY | wxPG_PROP_MISC_PARENT | wxPG_PROP_AGGREGATE | ..
+	wxPG_PROP_COLLAPSED | ((wxPG_PROP_MISC_PARENT | wxPG_PROP_CATEGORY) Shl 16)
+Const wxPG_ITERATE_HIDDEN:Int = wxPG_PROP_HIDDEN | (wxPG_PROP_COLLAPSED Shl 16)
+Const wxPG_ITERATE_FIXED_CHILDREN:Int = (wxPG_PROP_AGGREGATE Shl 16) | wxPG_ITERATE_PROPERTIES
+Const wxPG_ITERATE_CATEGORIES:Int = wxPG_PROP_CATEGORY | (wxPG_PROP_CATEGORY Shl 6) | wxPG_PROP_COLLAPSED
+Const wxPG_ITERATE_ALL_PARENTS:Int = wxPG_PROP_MISC_PARENT|wxPG_PROP_AGGREGATE|wxPG_PROP_CATEGORY
+Const wxPG_ITERATE_ALL_PARENTS_RECURSIVELY:Int = wxPG_ITERATE_ALL_PARENTS | (wxPG_ITERATE_ALL_PARENTS Shl 16)
 

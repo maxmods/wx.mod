@@ -427,7 +427,7 @@ Type MyFrame Extends wxFrame
 		pg.Append( New wxStringProperty.Create("User Id", wxPG_LABEL, wxGetUserId()) )
 		pg.Append( New wxDirProperty.Create("User Home", wxPG_LABEL, wxGetUserHome()) )
 		pg.Append( New wxStringProperty.Create("User Name", wxPG_LABEL, wxGetUserName()) )
-		
+
 		' Disable some of them
 		pg.DisablePropertyByName( "Operating System" )
 		pg.DisablePropertyByName( "User Id" )
@@ -594,19 +594,21 @@ Type MyFrame Extends wxFrame
 		pg.SetPropertyValueStringByName( "StringProperty", "some text" )
 
 			' Multi choice dialog.
-		Local tchoices:wxPGChoices = New wxPGChoices.Create()
-		tchoices.Add("Cabbage",10)
-		tchoices.Add("Carrot",15)
-		tchoices.Add("Onion",20)
-		tchoices.Add("Potato",25)
-		tchoices.Add("Strawberry",30)
+		Local tchoices:String[]
+		'Local tchoices:wxPGChoices = New wxPGChoices.Create()
+		'tchoices.Add("Cabbage",10)
+		'tchoices.Add("Carrot",15)
+		'tchoices.Add("Onion",20)
+		'tchoices.Add("Potato",25)
+		'tchoices.Add("Strawberry",30)
 		
-		Local tchoicesValues:Int[] = [1, 15, 20]
+		Local tchoicesValues:String[] = ["Carrot", "Potato"]
 	
-		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty X", wxPG_LABEL, tchoices ) )
+		pg.Append( New wxEnumProperty.CreateWithArrays("EnumProperty X", wxPG_LABEL, tchoices ) )
 	
-		pg.Append( New wxMultiChoiceProperty.CreateWithChoices( "MultiChoiceProperty", wxPG_LABEL, tchoices, tchoicesValues ) )
-	
+		pg.Append( New wxMultiChoiceProperty.CreateWithArrays( "MultiChoiceProperty", wxPG_LABEL, tchoices, tchoicesValues ) )
+		pg.SetPropertyAttributeByName( "MultiChoiceProperty", "UserStringMode", True )
+		
 		'pg.Append( new wxTestCustomFlagsProperty("Custom FlagsProperty", wxPG_LABEL ) )
 		'pg.SetPropertyEditor( "Custom FlagsProperty", wxPG_EDITOR(TextCtrlAndButton) )
 	
@@ -645,7 +647,21 @@ Type MyFrame Extends wxFrame
 			"Attribute wxPG_DATE_PICKER_STYLE has been set to wxDP_DROPDOWN | wxDP_SHOWCENTURY." + ..
 			"Also note that wxPG_ALLOW_WXADV needs to be defined inorder to use wxDatePickerCtrl." )
 'End Rem
-			
+
+For Local i:Int = 0 Until 20
+		pg.Append( New wxStringProperty.Create("blah"+i, wxPG_LABEL, wxGetUserName()) )
+Next		
+
+		Local props:wxPGProperty[] = pg.GetPropertiesWithFlag(0)
+		DebugLog props.length
+		
+		Local names:String[] = pg.PropertiesToNames(props)
+		DebugLog names.length
+		
+		For Local s:String = EachIn names
+			DebugLog s
+		Next
+		
 	End Method
 	
 	Method PopulateWithLibraryConfig()

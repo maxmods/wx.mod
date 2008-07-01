@@ -67,7 +67,9 @@ public:
 */
 class WXDLLIMPEXP_PG wxPGEditor : public wxObject
 {
+#ifndef SWIG
     DECLARE_ABSTRACT_CLASS(wxPGEditor)
+#endif
 public:
 
     /** Constructor. */
@@ -93,18 +95,15 @@ public:
           shall use wxPG_SUBID2.
         \param propgrid
         wxPropertyGrid to which the property belongs (use as parent for control).
-        \param propert
+        \param property
         Property for which this method is called.
         \param pos
         Position, inside wxPropertyGrid, to create control(s) to.
         \param size
         Initial size for control(s).
-        \param psecondary
-        If method generates a secondary (button) control, pointer to it must
-        be stored here.
     */
     virtual wxPGWindowList CreateControls( wxPropertyGrid* propgrid, wxPGProperty* property,
-        const wxPoint& pos, const wxSize& sz ) const = 0;
+        const wxPoint& pos, const wxSize& size ) const = 0;
     #define wxPG_DECLARE_CREATECONTROLS \
         virtual wxPGWindowList CreateControls( wxPropertyGrid* propgrid, wxPGProperty* property, \
         const wxPoint& pos, const wxSize& sz ) const;
@@ -159,13 +158,13 @@ public:
     }
 
     /** Sets value in control to unspecified. */
-    virtual void SetValueToUnspecified( wxWindow* ctrl ) const = 0;
+    virtual void SetValueToUnspecified( wxPGProperty* property, wxWindow* ctrl ) const = 0;
 
     /** Sets control's value specifically from string. */
-    virtual void SetControlStringValue( wxWindow* ctrl, const wxString& txt ) const;
+    virtual void SetControlStringValue( wxPGProperty* property, wxWindow* ctrl, const wxString& txt ) const;
 
     /** Sets control's value specifically from int (applies to choice etc.). */
-    virtual void SetControlIntValue( wxWindow* ctrl, int value ) const;
+    virtual void SetControlIntValue( wxPGProperty* property, wxWindow* ctrl, int value ) const;
 
     /** Inserts item to existing control. Index -1 means appending.
         Default implementation does nothing. Returns index of item added.
@@ -196,10 +195,10 @@ protected:
 };
 
 
-//#ifndef SWIG
-#if 1
-
-
+//
+// Note that we don't use this macro in this file because
+// otherwise doxygen gets confused.
+//
 #define WX_PG_DECLARE_EDITOR_CLASS(CLASSNAME) \
     DECLARE_DYNAMIC_CLASS(CLASSNAME) \
 public: \
@@ -227,7 +226,7 @@ virtual void UpdateControl( wxPGProperty* property, wxWindow* ctrl ) const; \
 virtual bool OnEvent( wxPropertyGrid* propgrid, wxPGProperty* property, \
     wxWindow* primary, wxEvent& event ) const; \
 virtual bool GetValueFromControl( wxVariant& variant, wxPGProperty* property, wxWindow* ctrl ) const; \
-virtual void SetValueToUnspecified( wxWindow* ctrl ) const;
+virtual void SetValueToUnspecified( wxPGProperty* property, wxWindow* ctrl ) const;
 
 
 //
@@ -236,15 +235,18 @@ virtual void SetValueToUnspecified( wxWindow* ctrl ) const;
 
 class WXDLLIMPEXP_PG wxPGTextCtrlEditor : public wxPGEditor
 {
-    WX_PG_DECLARE_EDITOR_CLASS(wxPGTextCtrlEditor)
+#ifndef SWIG
+    DECLARE_DYNAMIC_CLASS(wxPGTextCtrlEditor)
+#endif
 public:
     wxPGTextCtrlEditor() {}
     virtual ~wxPGTextCtrlEditor();
 
     WX_PG_IMPLEMENT_EDITOR_CLASS_STD_METHODS()
+    virtual wxPG_CONST_WXCHAR_PTR GetName() const;
 
     //virtual wxPGCellRenderer* GetCellRenderer() const;
-    virtual void SetControlStringValue( wxWindow* ctrl, const wxString& txt ) const;
+    virtual void SetControlStringValue( wxPGProperty* property, wxWindow* ctrl, const wxString& txt ) const;
     virtual void OnFocus( wxPGProperty* property, wxWindow* wnd ) const;
 
     // Provided so that, for example, ComboBox editor can use the same code
@@ -261,15 +263,18 @@ public:
 
 class WXDLLIMPEXP_PG wxPGChoiceEditor : public wxPGEditor
 {
-    WX_PG_DECLARE_EDITOR_CLASS(wxPGChoiceEditor)
+#ifndef SWIG
+    DECLARE_DYNAMIC_CLASS(wxPGChoiceEditor)
+#endif
 public:
     wxPGChoiceEditor() {}
     virtual ~wxPGChoiceEditor();
 
     WX_PG_IMPLEMENT_EDITOR_CLASS_STD_METHODS()
+    virtual wxPG_CONST_WXCHAR_PTR GetName() const;
 
-    virtual void SetControlIntValue( wxWindow* ctrl, int value ) const;
-    virtual void SetControlStringValue( wxWindow* ctrl, const wxString& txt ) const;
+    virtual void SetControlIntValue( wxPGProperty* property, wxWindow* ctrl, int value ) const;
+    virtual void SetControlStringValue( wxPGProperty* property, wxWindow* ctrl, const wxString& txt ) const;
 
     virtual int InsertItem( wxWindow* ctrl, const wxString& label, int index ) const;
     virtual void DeleteItem( wxWindow* ctrl, int index ) const;
@@ -287,12 +292,16 @@ public:
 
 class WXDLLIMPEXP_PG wxPGComboBoxEditor : public wxPGChoiceEditor
 {
-    WX_PG_DECLARE_EDITOR_CLASS(wxPGComboBoxEditor)
+#ifndef SWIG
+    DECLARE_DYNAMIC_CLASS(wxPGComboBoxEditor)
+#endif
 public:
     wxPGComboBoxEditor() {}
     virtual ~wxPGComboBoxEditor();
 
     wxPG_DECLARE_CREATECONTROLS  // Macro is used for conviency due to different signature with wxPython
+
+    virtual wxPG_CONST_WXCHAR_PTR GetName() const;
 
     virtual void UpdateControl( wxPGProperty* property, wxWindow* ctrl ) const;
 
@@ -308,20 +317,26 @@ public:
 
 class WXDLLIMPEXP_PG wxPGChoiceAndButtonEditor : public wxPGChoiceEditor
 {
-    WX_PG_DECLARE_EDITOR_CLASS(wxPGChoiceAndButtonEditor)
+#ifndef SWIG
+    DECLARE_DYNAMIC_CLASS(wxPGChoiceAndButtonEditor)
+#endif
 public:
     wxPGChoiceAndButtonEditor() {}
     virtual ~wxPGChoiceAndButtonEditor();
+    virtual wxPG_CONST_WXCHAR_PTR GetName() const;
     wxPG_DECLARE_CREATECONTROLS  // Macro is used for conviency due to different signature with wxPython
 };
 
 
 class WXDLLIMPEXP_PG wxPGTextCtrlAndButtonEditor : public wxPGTextCtrlEditor
 {
-    WX_PG_DECLARE_EDITOR_CLASS(wxPGTextCtrlAndButtonEditor)
+#ifndef SWIG
+    DECLARE_DYNAMIC_CLASS(wxPGTextCtrlAndButtonEditor)
+#endif
 public:
     wxPGTextCtrlAndButtonEditor() {}
     virtual ~wxPGTextCtrlAndButtonEditor();
+    virtual wxPG_CONST_WXCHAR_PTR GetName() const;
     wxPG_DECLARE_CREATECONTROLS
 };
 
@@ -334,22 +349,23 @@ public:
 //
 class WXDLLIMPEXP_PG wxPGCheckBoxEditor : public wxPGEditor
 {
-    WX_PG_DECLARE_EDITOR_CLASS(wxPGCheckBoxEditor)
+#ifndef SWIG
+    DECLARE_DYNAMIC_CLASS(wxPGCheckBoxEditor)
+#endif
 public:
     wxPGCheckBoxEditor() {}
     virtual ~wxPGCheckBoxEditor();
 
+    virtual wxPG_CONST_WXCHAR_PTR GetName() const;
     WX_PG_IMPLEMENT_EDITOR_CLASS_STD_METHODS()
 
     virtual void DrawValue( wxDC& dc, const wxRect& rect, wxPGProperty* property, const wxString& text ) const;
     //virtual wxPGCellRenderer* GetCellRenderer() const;
 
-    virtual void SetControlIntValue( wxWindow* ctrl, int value ) const;
+    virtual void SetControlIntValue( wxPGProperty* property, wxWindow* ctrl, int value ) const;
 };
 
 #endif
-
-#endif // SWIG
 
 
 // -----------------------------------------------------------------------
@@ -386,7 +402,9 @@ if ( wxPGEditor_##EDITOR == (wxPGEditor*) NULL ) \
 */
 class WXDLLIMPEXP_PG wxPGEditorDialogAdapter : public wxObject
 {
+#ifndef SWIG
     DECLARE_ABSTRACT_CLASS(wxPGEditorDialogAdapter)
+#endif
 public:
     wxPGEditorDialogAdapter()
         : wxObject()

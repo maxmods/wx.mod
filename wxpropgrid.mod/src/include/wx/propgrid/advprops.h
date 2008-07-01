@@ -93,7 +93,10 @@ public:
     /** Resulting colour. Should be correct regardless of type. */
     wxColour    m_colour;
 
-    wxColourPropertyValue() { }
+    wxColourPropertyValue()
+    {
+        m_type = 0;
+    }
 
     wxColourPropertyValue( const wxColourPropertyValue& v )
     {
@@ -160,6 +163,10 @@ WX_PG_DECLARE_WXOBJECT_VARIANT_DATA(wxPGVariantDataColourPropertyValue, wxColour
 
 // -----------------------------------------------------------------------
 
+/** \class wxFontProperty
+    \ingroup classes
+    \brief Property representing wxFont.
+*/
 class WXDLLIMPEXP_PG wxFontProperty : public wxPGProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS(wxFontProperty)
@@ -167,7 +174,7 @@ public:
 
     wxFontProperty( const wxString& label = wxPG_LABEL, const wxString& name = wxPG_LABEL, const wxFont& value = wxFont() );
     virtual ~wxFontProperty();
-    virtual bool ValidateValue( wxVariant& value ) const;
+    virtual void OnSetValue();
     virtual wxString GetValueAsString( int argFlags = 0 ) const;
 
     WX_PG_DECLARE_EVENT_METHODS()
@@ -184,6 +191,11 @@ protected:
 #define wxPG_PROP_TRANSLATE_CUSTOM      wxPG_PROP_CLASS_SPECIFIC_1
 
 
+/** \class wxSystemColourProperty
+    \ingroup classes
+    \brief Has dropdown list of wxWidgets system colours. Value used is
+    of wxColourPropertyValue type.
+*/
 class WXDLLIMPEXP_PG wxSystemColourProperty : public wxEnumProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS(wxSystemColourProperty)
@@ -194,9 +206,17 @@ public:
                             const wxColourPropertyValue& value = wxColourPropertyValue() );
     ~wxSystemColourProperty();
 
-    virtual bool ValidateValue( wxVariant& value ) const;
     virtual void OnSetValue();
     virtual bool IntToValue( wxVariant& variant, int number, int argFlags = 0 ) const;
+
+    /** Override in derived class to customize how colours are printed as strings.
+    */
+    virtual wxString ColourToString( const wxColour& col, int index ) const;
+
+    /** Returns index of entry that triggers colour picker dialog
+        (default is last).
+    */
+    virtual int GetCustomColourIndex() const;
 
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     WX_PG_DECLARE_EVENT_METHODS()
@@ -209,9 +229,10 @@ public:
     // Helper function to show the colour dialog
     bool QueryColourFromUser( wxVariant& variant ) const;
 
-    // Default is to use wxSystemSettings::GetColour(index). Override to use
-    // custom colour tables etc.
-    virtual long GetColour( int index ) const;
+    /** Default is to use wxSystemSettings::GetColour(index). Override to use
+        custom colour tables etc.
+    */
+    virtual wxColour GetColour( int index ) const;
 
     wxColourPropertyValue GetVal( const wxVariant* pVariant = NULL ) const;
 
@@ -249,6 +270,10 @@ WX_PG_DECLARE_CUSTOM_COLOUR_PROPERTY_USES_WXCOLOUR_WITH_DECL(wxColourProperty, c
 
 // -----------------------------------------------------------------------
 
+/** \class wxCursorProperty
+    \ingroup classes
+    \brief Property representing wxCursor.
+*/
 class WXDLLIMPEXP_PG wxCursorProperty : public wxEnumProperty
 {
     DECLARE_DYNAMIC_CLASS(wxCursorProperty)
@@ -269,6 +294,10 @@ class WXDLLIMPEXP_PG wxCursorProperty : public wxEnumProperty
 
 WXDLLIMPEXP_PG const wxString& wxPGGetDefaultImageWildcard();
 
+/** \class wxImageFileProperty
+    \ingroup classes
+    \brief Property representing image file(name).
+*/
 class WXDLLIMPEXP_PG wxImageFileProperty : public wxFileProperty
 {
     DECLARE_DYNAMIC_CLASS(wxImageFileProperty)
@@ -292,6 +321,19 @@ protected:
 
 #if wxUSE_CHOICEDLG || defined(SWIG)
 
+/** \class wxMultiChoiceProperty
+    \ingroup classes
+    \brief
+    Property that manages a value resulting from wxMultiChoiceDialog. Value is
+    array of strings. You can get value as array of choice values/indices by
+    calling wxMultiChoiceProperty::GetValueAsArrayInt().
+
+    <b>Supported special attributes:</b>
+    - "UserStringMode": If > 0, allow user to manually enter strings that are not
+      in the list of choices. If this value is 1, user strings
+      are preferably placed in front of valid choices. If value is 2, then
+      those strings will placed behind valid choices.
+*/
 class WXDLLIMPEXP_PG wxMultiChoiceProperty : public wxPGProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS(wxMultiChoiceProperty)
@@ -300,15 +342,15 @@ public:
     wxMultiChoiceProperty( const wxString& label,
                            const wxString& name,
                            const wxArrayString& strings,
-                           const wxArrayInt& value );
+                           const wxArrayString& value );
 #ifndef SWIG
     wxMultiChoiceProperty( const wxString& label = wxPG_LABEL,
                            const wxString& name = wxPG_LABEL,
-                           const wxArrayInt& value = wxArrayInt() );
+                           const wxArrayString& value = wxArrayString() );
     wxMultiChoiceProperty( const wxString& label,
                            const wxString& name,
                            const wxPGChoices& choices,
-                           const wxArrayInt& value = wxArrayInt() );
+                           const wxArrayString& value = wxArrayString() );
 #endif
     virtual ~wxMultiChoiceProperty();
 
@@ -319,15 +361,21 @@ public:
 
     virtual int GetChoiceInfo( wxPGChoiceInfo* choiceinfo );
 
+    wxArrayInt GetValueAsArrayInt() const
+    {
+        return m_choices.GetValuesForStrings(m_value.GetArrayString());
+    }
+
 protected:
 
-    void SetValueI( const wxArrayInt& arr );  // I stands for internal
     void GenerateValueAsString();
 
     // Returns translation of values into string indices.
     wxArrayInt GetValueAsIndices() const;
 
-    wxPGChoices         m_choices; // Holds strings (any values given are ignored).
+    wxArrayString       m_valueAsStrings;  // Value as array of strings
+
+    wxPGChoices         m_choices;
 
     wxString            m_display; // Cache displayed text since generating it is relatively complicated.
 };
@@ -338,6 +386,15 @@ protected:
 
 #if wxUSE_DATETIME || defined(SWIG)
 
+/** \class wxDateProperty
+    \ingroup classes
+    \brief Property representing wxDateTime.
+
+    <b>Supported special attributes:</b>
+    - "DateFormat": Determines displayed date format.
+    - "PickerStyle": Determines window style used with wxDatePickerCtrl.
+       Default is wxDP_DEFAULT | wxDP_SHOWCENTURY.
+*/
 class WXDLLIMPEXP_PG wxDateProperty : public wxPGProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS(wxDateProperty)

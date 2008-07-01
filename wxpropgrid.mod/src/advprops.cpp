@@ -59,6 +59,9 @@
 
 #ifdef __WXMSW__
     #include <wx/msw/private.h>
+  #if wxCHECK_VERSION(2,9,0)
+    #include <wx/msw/dc.h>
+  #endif
 #endif
 
 // -----------------------------------------------------------------------
@@ -170,24 +173,16 @@ wxPGWindowList wxPGSpinCtrlEditor::CreateControls( wxPropertyGrid* propgrid, wxP
 #endif
     wnd2->Create( propgrid->GetPanel(), wxPG_SUBID2, butPos, butSz, wxSP_VERTICAL );
 
-    int min = INT_MIN;
-    int max = INT_MAX;
-
-    wxVariant v;
-    v = property->GetAttribute(wxT("Min"));
-    if ( wxPGIsVariantType(v, long) )
-        min = v.GetLong();
-    v = property->GetAttribute(wxT("Max"));
-    if ( wxPGIsVariantType(v, long) )
-        max = v.GetLong();
-
-    wnd2->SetRange( min, max );
+    wnd2->SetRange( INT_MIN, INT_MAX );
     wnd2->SetValue( 0 );
 
     propgrid->Connect( wxPG_SUBID2, wxEVT_SCROLL_LINEUP,
                        (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction)
                        &wxPropertyGrid::OnCustomEditorEvent, NULL, propgrid );
     propgrid->Connect( wxPG_SUBID2, wxEVT_SCROLL_LINEDOWN,
+                       (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction)
+                       &wxPropertyGrid::OnCustomEditorEvent, NULL, propgrid );
+    propgrid->Connect( wxPG_SUBID1, wxEVT_KEY_DOWN,
                        (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction)
                        &wxPropertyGrid::OnCustomEditorEvent, NULL, propgrid );
 
@@ -206,6 +201,29 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
                                   wxWindow* wnd, wxEvent& event ) const
 {
     int evtType = event.GetEventType();
+    int keycode = -1;
+    bool bigStep = false;
+
+    if ( evtType == wxEVT_KEY_DOWN )
+    {
+        wxKeyEvent& keyEvent = (wxKeyEvent&)event;
+        keycode = keyEvent.GetKeyCode();
+
+        if ( keycode == WXK_UP )
+            evtType = wxEVT_SCROLL_LINEUP;
+        else if ( keycode == WXK_DOWN )
+            evtType = wxEVT_SCROLL_LINEDOWN;
+        else if ( keycode == WXK_PAGEUP )
+        {
+            evtType = wxEVT_SCROLL_LINEUP;
+            bigStep = true;
+        }
+        else if ( keycode == WXK_PAGEDOWN )
+        {
+            evtType = wxEVT_SCROLL_LINEDOWN;
+            bigStep = true;
+        }
+    }
 
     if ( evtType == wxEVT_SCROLL_LINEUP || evtType == wxEVT_SCROLL_LINEDOWN )
     {
@@ -218,26 +236,23 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
         else
             s = property->GetValueAsString(wxPG_FULL_VALUE);
 
-        wxSpinButton* spinButton = (wxSpinButton*) propgrid->GetEditorControlSecondary();
-        int spinMin = spinButton->GetMin();
-        int spinMax = spinButton->GetMax();
-
-        if ( property->IsValueType(wxT("double")) )
+        if ( property->GetValueType() == wxT("double") )
         {
             double v_d;
+            double step = 1.0;
 
             // Try double
             if ( s.ToDouble(&v_d) )
             {
-                if ( evtType == wxEVT_SCROLL_LINEUP ) v_d += 1.0;
-                else v_d -= 1.0;
+                if ( bigStep )
+                    step *= 10.0;
 
-                // Min/Max
-                double dSpinMin = (double) spinMin;
-                double dSpinMax = (double) spinMax;
-                if ( v_d > dSpinMax ) v_d = dSpinMax;
-                else if ( v_d < dSpinMin ) v_d = dSpinMin;
-                
+                if ( evtType == wxEVT_SCROLL_LINEUP ) v_d += step;
+                else v_d -= step;
+
+                // Min/Max check
+                wxFloatProperty::DoValidation(property, v_d, false);
+
                 wxPropertyGrid::DoubleToString(s, v_d, 6, true, NULL);
             }
             else
@@ -247,19 +262,22 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
         }
         else
         {
-            long v_l;
+            wxLongLong_t v_ll;
+            wxLongLong_t step = 1;
 
             // Try long
-            if ( s.ToLong(&v_l, 0) )
+            if ( wxPGStringToLongLong(s, &v_ll, 10) )
             {
-                if ( evtType == wxEVT_SCROLL_LINEUP ) v_l++;
-                else v_l--;
+                if ( bigStep )
+                    step *= 10;
 
-                // Min/Max
-                if ( v_l > spinMax ) v_l = spinMax;
-                else if ( v_l < spinMin ) v_l = spinMin;
+                if ( evtType == wxEVT_SCROLL_LINEUP ) v_ll += step;
+                else v_ll -= step;
 
-                s = wxString::Format(wxT("%i"),(int)v_l);
+                // Min/Max check
+                wxIntProperty::DoValidation(property, v_ll, false);
+
+                s = wxLongLong(v_ll).ToString();
             }
             else
             {
@@ -268,7 +286,12 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
         }
 
         if ( tc )
+        {
+            int ip = tc->GetInsertionPoint();
+            int lp = tc->GetLastPosition();
             tc->SetValue(s);
+            tc->SetInsertionPoint(ip+(tc->GetLastPosition()-lp));
+        }
 
         return true;
     }
@@ -301,7 +324,7 @@ public:
     virtual bool OnEvent( wxPropertyGrid* propgrid, wxPGProperty* property,
         wxWindow* wnd, wxEvent& event ) const;
     virtual bool GetValueFromControl( wxVariant& variant, wxPGProperty* property, wxWindow* wnd ) const;
-    virtual void SetValueToUnspecified( wxWindow* wnd ) const;
+    virtual void SetValueToUnspecified( wxPGProperty* WXUNUSED(property), wxWindow* wnd ) const;
 };
 
 
@@ -386,7 +409,7 @@ bool wxPGDatePickerCtrlEditor::GetValueFromControl( wxVariant& variant, wxPGProp
     return true;
 }
 
-void wxPGDatePickerCtrlEditor::SetValueToUnspecified( wxWindow* WXUNUSED(wnd) ) const
+void wxPGDatePickerCtrlEditor::SetValueToUnspecified( wxPGProperty* WXUNUSED(property), wxWindow* WXUNUSED(wnd) ) const
 {
     // TODO?
     //wxDateProperty* prop = (wxDateProperty*) property;
@@ -509,9 +532,9 @@ wxFontProperty::wxFontProperty( const wxString& label, const wxString& name,
 
 wxFontProperty::~wxFontProperty() { }
 
-bool wxFontProperty::ValidateValue( wxVariant& value ) const
+void wxFontProperty::OnSetValue()
 {
-    wxFont& font = wxFontFromVariant(value);
+    wxFont& font = wxFontFromVariant(m_value);
     wxASSERT(&font);
 
     wxFont font2;
@@ -520,9 +543,7 @@ bool wxFontProperty::ValidateValue( wxVariant& value ) const
     else
         font2 = font;
 
-    value = wxFontToVariant(font2);
-
-    return true;
+    m_value = wxFontToVariant(font2);
 }
 
 wxString wxFontProperty::GetValueAsString( int argFlags ) const
@@ -805,6 +826,9 @@ wxColourPropertyValue wxSystemColourProperty::GetVal( const wxVariant* pVariant 
     if ( !pVariant )
         pVariant = &m_value;
 
+    if ( pVariant->IsNull() )
+        return wxColourPropertyValue(wxPG_COLOUR_UNSPECIFIED, wxColour());
+
     wxColourPropertyValue* v1 = &wxColourPropertyValueFromVariant(*pVariant);
     if ( v1 )
         return *v1;
@@ -836,18 +860,11 @@ int wxSystemColourProperty::ColToInd( const wxColour& colour ) const
     size_t i;
     size_t i_max = m_choices.GetCount() - 1;
 
-    if ( !colour.Ok() )
-        return wxNOT_FOUND;
-
-    long pixval = wxPG_COLOUR(colour.Red(),colour.Green(),colour.Blue());
-
     for ( i=0; i<i_max; i++ )
     {
-        int ind = i;
-        if ( m_choices[i].HasValue() )
-            ind = m_choices[i].GetValue();
+        int ind = m_choices[i].GetValue();
 
-        if ( GetColour(ind) == pixval )
+        if ( colour == GetColour(ind) )
         {
             /*wxLogDebug(wxT("%s(%s): Index %i for ( getcolour(%i,%i,%i), colour(%i,%i,%i))"),
                 GetClassName(),GetLabel().c_str(),
@@ -866,45 +883,36 @@ static inline wxColour wxColourFromPGLong( long col )
 }
 
 
-bool wxSystemColourProperty::ValidateValue( wxVariant& value ) const
+void wxSystemColourProperty::OnSetValue()
 {
-    // Convert from generic wxobject ptr to wxPGDataColour
-    if ( wxPGIsVariantType(value, wxobject) )
+    // Convert from generic wxobject ptr to wxPGVariantDataColour
+    if ( wxPGIsVariantType(m_value, wxobject) )
     {
-        wxASSERT( value.IsValueKindOf(CLASSINFO(wxColour)) );
-        wxColour* pCol = (wxColour*) value.GetWxObjectPtr();
+        wxASSERT( m_value.IsValueKindOf(CLASSINFO(wxColour)) );
+        wxColour* pCol = (wxColour*) m_value.GetWxObjectPtr();
 #if wxCHECK_VERSION(2,8,0)
-        value << *pCol;
+        m_value << *pCol;
 #else
         wxPGVariantAssign(value, WXVARIANT(*pCol));
 #endif
     }
 
-    wxColourPropertyValue val = GetVal(&value);
+    wxColourPropertyValue val = GetVal(&m_value);
 
     if ( val.m_type == wxPG_COLOUR_UNSPECIFIED )
     {
-        value.MakeNull();
-        return true;
+        m_value.MakeNull();
+        return;
     }
-
-    if ( !val.m_colour.Ok() )
+    else
     {
-        val.Init( wxPG_COLOUR_CUSTOM, *wxWHITE );
-        value = TranslateVal(val);
-        return true;
+
+        if ( val.m_type < wxPG_COLOUR_WEB_BASE )
+            val.m_colour = GetColour( val.m_type );
+
+        m_value = TranslateVal(val);
     }
 
-    if ( val.m_type < wxPG_COLOUR_WEB_BASE )
-        val.m_colour = GetColour( val.m_type );
-
-    value = TranslateVal(val);
-    return true;
-}
-
-
-void wxSystemColourProperty::OnSetValue()
-{
     wxColourPropertyValue* pCpv = &wxColourPropertyValueFromVariant(m_value);
     wxColour col;
     if ( pCpv )
@@ -922,6 +930,7 @@ void wxSystemColourProperty::OnSetValue()
     int ind;
 
     if ( pCpv )
+    {
         if ( pCpv->m_type < wxPG_COLOUR_WEB_BASE )
         {
             if ( m_choices.HasValues() )
@@ -932,42 +941,55 @@ void wxSystemColourProperty::OnSetValue()
         else
         {
             pCpv->m_type = wxPG_COLOUR_CUSTOM;
-            ind = m_choices.GetCount()-1;
+            ind = GetCustomColourIndex();
         }
+    }
     else
+    {
         ind = ColToInd(col);
+
+        if ( ind == wxNOT_FOUND )
+            ind = GetCustomColourIndex();
+    }
 
     SetIndex(ind);
 }
 
 
-long wxSystemColourProperty::GetColour( int index ) const
+wxColour wxSystemColourProperty::GetColour( int index ) const
 {
-    wxColour colour = wxSystemSettings::GetColour( (wxSystemColour)index );
-    return wxPG_COLOUR(colour.Red(),colour.Green(),colour.Blue());
+    return wxSystemSettings::GetColour( (wxSystemColour)index );
 }
 
+wxString wxSystemColourProperty::ColourToString( const wxColour& col, int index ) const
+{
+    if ( index == wxNOT_FOUND )
+        return wxString::Format(wxT("(%i,%i,%i)"),
+                                (int)col.Red(),
+                                (int)col.Green(),
+                                (int)col.Blue());
+    else
+        return m_choices.GetLabel(index);
+}
 
 wxString wxSystemColourProperty::GetValueAsString( int argFlags ) const
 {
     wxColourPropertyValue val = GetVal();
 
-    // Always show custom colour for non-choice editor
-    // Assumes changed editor means its textctrl based...
+    int ind = GetIndex();
+
+    // Always show custom colour for textctrl-editor
     if ( val.m_type == wxPG_COLOUR_CUSTOM ||
+         ind == GetCustomColourIndex() ||
          (argFlags & wxPG_PROPERTY_SPECIFIC) )
     {
-        return wxString::Format(wxT("(%i,%i,%i)"),
-                                (int)val.m_colour.Red(),
-                                (int)val.m_colour.Green(),
-                                (int)val.m_colour.Blue());
+        return ColourToString(val.m_colour, wxNOT_FOUND);
     }
 
-    int ind = GetIndex();
     if ( ind == -1 )
         return wxEmptyString;
 
-    return m_choices.GetLabel(ind);
+    return ColourToString(val.m_colour, ind);
 }
 
 
@@ -977,13 +999,24 @@ wxSize wxSystemColourProperty::OnMeasureImage( int ) const
 }
 
 
+int wxSystemColourProperty::GetCustomColourIndex() const
+{
+    return m_choices.GetCount() - 1;
+}
+
+
 bool wxSystemColourProperty::QueryColourFromUser( wxVariant& variant ) const
 {
     wxASSERT( m_value.GetType() != wxT("string") );
-
     bool res = false;
 
     wxPropertyGrid* propgrid = GetGrid();
+    wxASSERT( propgrid );
+
+    // Must only occur when user triggers event
+    if ( !(propgrid->GetInternalFlags() & wxPG_FL_IN_ONCUSTOMEDITOREVENT) )
+        return res;
+
     wxColourPropertyValue val = GetVal();
 
     val.m_type = wxPG_COLOUR_CUSTOM;
@@ -1006,6 +1039,8 @@ bool wxSystemColourProperty::QueryColourFromUser( wxVariant& variant ) const
 
         variant = DoTranslateVal(val);
 
+        propgrid->ValueChangeInEvent(variant);
+
         res = true;
     }
 
@@ -1020,7 +1055,7 @@ bool wxSystemColourProperty::IntToValue( wxVariant& variant, int number, int WXU
     bool hasValue = m_choices[index].HasValue();
 
     if ( ( hasValue && type == wxPG_COLOUR_CUSTOM ) ||
-         ( !hasValue && (index == (int)(m_choices.GetCount()-1) &&
+         ( !hasValue && (index == (int)GetCustomColourIndex() &&
                                       !(m_flags & wxPG_PROP_HIDE_CUSTOM_COLOUR))
          )
        )
@@ -1044,10 +1079,7 @@ bool wxSystemColourProperty::OnEvent( wxPropertyGrid* propgrid, wxWindow* WXUNUS
         // switched to one that has wxButton as well.
         wxVariant variant;
         if ( QueryColourFromUser(variant) )
-        {
-            propgrid->ValueChangeInEvent(variant);
             return true;
-        }
     }
     return false;
 }
@@ -1064,7 +1096,7 @@ public:
 
         dc.SetPen(*wxBLACK_PEN);
         if ( item >= 0 &&
-             ( item < (int)(prop->GetItemCount()-1) || (prop->HasFlag(wxPG_PROP_HIDE_CUSTOM_COLOUR)))
+             ( item < (int)(GetCustomColourIndex) || (prop->HasFlag(wxPG_PROP_HIDE_CUSTOM_COLOUR)))
            )
         {
             int colInd;
@@ -1107,58 +1139,114 @@ wxPGCellRenderer* wxSystemColourProperty::GetCellRenderer( int column ) const
 void wxSystemColourProperty::OnCustomPaint( wxDC& dc, const wxRect& rect,
                                             wxPGPaintData& paintdata )
 {
-    if ( paintdata.m_choiceItem >= 0 &&
-         ( paintdata.m_choiceItem < (int)(GetItemCount()-1) || (m_flags & wxPG_PROP_HIDE_CUSTOM_COLOUR))
-       )
+    wxColour col;
+
+    if ( paintdata.m_choiceItem >= 0 && paintdata.m_choiceItem < (int)m_choices.GetCount() &&
+         paintdata.m_choiceItem != GetCustomColourIndex() )
     {
-        int colInd;
-        if ( m_choices[paintdata.m_choiceItem].HasValue() )
-            colInd = m_choices[paintdata.m_choiceItem].GetValue();
-        else
-            colInd = paintdata.m_choiceItem;
-        dc.SetBrush( wxColour ( GetColour( colInd ) ) );
+        int colInd = m_choices[paintdata.m_choiceItem].GetValue();
+        col = GetColour( colInd );
     }
     else if ( !IsValueUnspecified() )
-        dc.SetBrush( GetVal().m_colour );
-    else
-        dc.SetBrush( *wxWHITE );
+    {
+        col = GetVal().m_colour;
+    }
 
-    dc.DrawRectangle ( rect );
+    if ( col.IsOk() )
+    {
+        dc.SetBrush(col);
+        dc.DrawRectangle(rect);
+    }
 }
 
 
 bool wxSystemColourProperty::StringToValue( wxVariant& value, const wxString& text, int argFlags ) const
 {
-    wxColourPropertyValue val;
-    if ( text[0] == wxT('(') )
-    {
-        // Custom colour.
-        val.m_type = wxPG_COLOUR_CUSTOM;
+    //
+    // Accept colour format "[Name] [(R,G,B)]"
+    // Name takes precedence.
+    //
+    wxString colourName;
+    wxString colourRGB;
 
-        int r, g, b;
-        wxSscanf(text.c_str(),wxT("(%i,%i,%i)"),&r,&g,&b);
-        val.m_colour.Set(r,g,b);
+    int ppos = text.Find(wxT("("));
+
+    if ( ppos == wxNOT_FOUND )
+    {
+        colourName = text;
     }
     else
     {
-        // Predefined colour.
-        bool res = wxEnumProperty::StringToValue(value, text, argFlags);
-        if ( res )
-        {
-            val.m_type = GetIndex();
-            if ( val.m_type >= 0 && m_choices[val.m_type].HasValue() )
-                val.m_type = m_choices[val.m_type].GetValue();
-
-            // Get proper colour for type.
-            val.m_colour = wxColourFromPGLong(GetColour(val.m_type));
-        }
-        else
-        {
-            return false;
-        }
+        colourName = text.substr(0, ppos);
+        colourRGB = text.substr(ppos, text.length()-ppos);
     }
 
-    value = wxColourPropertyValueToVariant(val);
+    // Strip spaces from extremities
+    colourName.Trim(true);
+    colourName.Trim(false);
+    colourRGB.Trim(true);
+
+    // Validate colourRGB string - (1,1,1) is shortest allowed
+    if ( colourRGB.length() < 7 )
+        colourRGB.clear();
+
+    if ( colourRGB.length() == 0 && m_choices.GetCount() &&
+         colourName == m_choices.GetLabel(GetCustomColourIndex()) )
+    {
+        if ( !(argFlags & wxPG_EDITABLE_VALUE ))
+        {
+            // This really should not occurr...
+            // wxASSERT(false);
+            return false;
+        }
+
+        QueryColourFromUser(value);
+    }
+    else
+    {
+        wxColourPropertyValue val;
+
+        bool done = false;
+
+        if ( colourName.length() )
+        {
+            // Try predefined colour first
+            bool res = wxEnumProperty::StringToValue(value, colourName, argFlags);
+            if ( res && GetIndex() >= 0 )
+            {
+                val.m_type = GetIndex();
+                if ( val.m_type >= 0 && val.m_type < m_choices.GetCount() && m_choices[val.m_type].HasValue() )
+                    val.m_type = m_choices[val.m_type].GetValue();
+
+                // Get proper colour for type.
+                val.m_colour = GetColour(val.m_type);
+
+                done = true;
+            }
+        }
+        if ( colourRGB.length() && !done )
+        {
+            // Then check custom colour.
+            val.m_type = wxPG_COLOUR_CUSTOM;
+
+            int r = -1, g = -1, b = -1;
+            wxSscanf(colourRGB.c_str(),wxT("(%i,%i,%i)"),&r,&g,&b);
+
+            if ( r >= 0 && r <= 255 &&
+                 g >= 0 && g <= 255 &&
+                 b >= 0 && b <= 255 )
+            {
+                val.m_colour.Set(r,g,b);
+
+                done = true;
+            }
+        }
+
+        if ( !done )
+            return false;
+
+        value = DoTranslateVal(val);
+    }
 
     return true;
 }
@@ -1168,20 +1256,20 @@ bool wxSystemColourProperty::DoSetAttribute( const wxString& name, wxVariant& va
 {
     if ( name == wxPG_COLOUR_ALLOW_CUSTOM )
     {
-        int ival = value.GetLong();
+        int ival = wxPGVariantToInt(value);
 
         SetChoicesExclusive(); // Make sure we don't corrupt colour lists of other properties
 
         if ( ival && (m_flags & wxPG_PROP_HIDE_CUSTOM_COLOUR) )
         {
             // Show custom choice
-            m_choices.Add(wxT("Custom"),wxPG_COLOUR_CUSTOM);
+            m_choices.Insert(wxT("Custom"), GetCustomColourIndex(), wxPG_COLOUR_CUSTOM);
             m_flags &= ~(wxPG_PROP_HIDE_CUSTOM_COLOUR);
         }
         else if ( !ival && !(m_flags & wxPG_PROP_HIDE_CUSTOM_COLOUR) )
         {
             // Hide custom choice
-            m_choices.RemoveAt(m_choices.GetCount()-1);
+            m_choices.RemoveAt(GetCustomColourIndex());
             m_flags |= wxPG_PROP_HIDE_CUSTOM_COLOUR;
         }
         return true;
@@ -1525,70 +1613,39 @@ void wxImageFileProperty::OnCustomPaint( wxDC& dc,
 
 #include <wx/choicdlg.h>
 
-#ifndef __WXPYTHON__
-wxPGProperty* wxPG_CONSTFUNC(wxMultiChoiceProperty)(const wxString& label,
-                                                    const wxString& name,
-                                                    const wxPGChoices& choices,
-                                                    const wxArrayInt& value)
-{
-    return new wxPG_PROPCLASS(wxMultiChoiceProperty)(label,name,choices,value);
-}
-#endif
-
-wxPGProperty* wxPG_CONSTFUNC(wxMultiChoiceProperty)(const wxString& label,
-                                                    const wxString& name,
-                                                    const wxArrayString& strings,
-                                                    const wxArrayInt& value)
-{
-    return new wxPG_PROPCLASS(wxMultiChoiceProperty)(label,name,strings,value);
-}
-
 WX_PG_IMPLEMENT_PROPERTY_CLASS(wxMultiChoiceProperty,wxPGProperty,
                                wxArrayInt,const wxArrayInt&,TextCtrlAndButton)
 
 wxMultiChoiceProperty::wxMultiChoiceProperty( const wxString& label,
                                               const wxString& name,
                                               const wxPGChoices& choices,
-                                              const wxArrayInt& value)
+                                              const wxArrayString& value)
                                                 : wxPGProperty(label,name)
 {
     m_choices.Assign(choices);
-    SetValueI(value);
+    SetValue(value);
 }
 
 
 wxMultiChoiceProperty::wxMultiChoiceProperty( const wxString& label,
                                               const wxString& name,
                                               const wxArrayString& strings,
-                                              const wxArrayInt& value)
+                                              const wxArrayString& value)
                                                 : wxPGProperty(label,name)
 {
     m_choices.Set(strings);
-    SetValueI(value);
+    SetValue(value);
 }
 
 wxMultiChoiceProperty::wxMultiChoiceProperty( const wxString& label,
                                               const wxString& name,
-                                              const wxArrayInt& WXUNUSED(value))
+                                              const wxArrayString& WXUNUSED(value))
                                                 : wxPGProperty(label,name)
 {
 }
 
 wxMultiChoiceProperty::~wxMultiChoiceProperty()
 {
-}
-
-void wxMultiChoiceProperty::SetValueI( const wxArrayInt& arr )
-{
-    if ( &arr )
-    {
-        m_value = WXVARIANT(arr);
-        GenerateValueAsString();
-    }
-    else
-    {
-        m_display = wxEmptyString;
-    }
 }
 
 void wxMultiChoiceProperty::OnSetValue()
@@ -1603,17 +1660,14 @@ wxString wxMultiChoiceProperty::GetValueAsString( int ) const
 
 void wxMultiChoiceProperty::GenerateValueAsString()
 {
-    // Allow zero-length strings list
-    if ( !m_choices.IsOk() || !m_choices.GetCount() )
-    {
-        m_display = wxEmptyString;
-        return;
-    }
+    wxArrayString strings;
+
+    if ( wxPGIsVariantType(m_value, arrstring) )
+        strings = m_value.GetArrayString();
 
     wxString& tempStr = m_display;
-    wxArrayInt indices = GetValueAsIndices();
     unsigned int i;
-    unsigned int itemCount = indices.GetCount();
+    unsigned int itemCount = strings.GetCount();
 
     tempStr.Empty();
 
@@ -1622,10 +1676,7 @@ void wxMultiChoiceProperty::GenerateValueAsString()
 
     for ( i = 0; i < itemCount; i++ )
     {
-        int ind = indices.Item(i);
-        wxCHECK_RET( ind >= 0 && ind < (int)m_choices.GetCount(),
-                     wxT("value out of range") );
-        tempStr.append( m_choices.GetLabel(ind) );
+        tempStr.append( strings[i] );
         tempStr.append( wxT("\"") );
         if ( i < (itemCount-1) )
             tempStr.append ( wxT(" \"") );
@@ -1634,25 +1685,28 @@ void wxMultiChoiceProperty::GenerateValueAsString()
 
 wxArrayInt wxMultiChoiceProperty::GetValueAsIndices() const
 {
-    const wxArrayInt& valueArr = WX_PG_VARIANT_GETVALUEREF( m_value, wxArrayInt );
+    const wxArrayInt& valueArr = wxArrayIntFromVariant(GetValue());
+    unsigned int i;
 
-    if ( m_choices.GetCount() )
+    // Translate values to string indices.
+    wxArrayInt selections;
+
+    if ( !m_choices.IsOk() || !m_choices.GetCount() || !(&valueArr) )
     {
-        // Translate values to string indices.
-        wxArrayInt selections;
-
-        unsigned int i;
+        for ( i=0; i<valueArr.GetCount(); i++ )
+            selections.Add(-1);
+    }
+    else
+    {
         for ( i=0; i<valueArr.GetCount(); i++ )
         {
             int sIndex = m_choices.Index(valueArr[i]);
             if ( sIndex >= 0 )
                 selections.Add(sIndex);
         }
-
-        return selections;
     }
 
-    return valueArr;
+    return selections;
 }
 
 bool wxMultiChoiceProperty::OnEvent( wxPropertyGrid* propgrid,
@@ -1665,40 +1719,59 @@ bool wxMultiChoiceProperty::OnEvent( wxPropertyGrid* propgrid,
         PrepareValueForDialogEditing(propgrid);
 
         wxArrayString labels = m_choices.GetLabels();
+        unsigned int choiceCount;
+
+        if ( m_choices.IsOk() )
+            choiceCount = m_choices.GetCount();
+        else
+            choiceCount = 0;
 
         // launch editor dialog
         wxMultiChoiceDialog dlg( propgrid,
                                  _("Make a selection:"),
                                  m_label,
-                                 m_choices.GetCount(),
-                                 &labels[0],
+                                 choiceCount,
+                                 choiceCount?&labels[0]:NULL,
                                  wxCHOICEDLG_STYLE );
 
         dlg.Move( propgrid->GetGoodEditorDialogPosition(this,dlg.GetSize()) );
 
-        dlg.SetSelections(GetValueAsIndices());
+        wxArrayString strings = m_value.GetArrayString();
+        wxArrayString extraStrings;
 
-        if ( dlg.ShowModal() == wxID_OK )
+        dlg.SetSelections(m_choices.GetIndicesForStrings(strings, &extraStrings));
+
+        if ( dlg.ShowModal() == wxID_OK && choiceCount )
         {
+            int userStringMode = GetAttributeAsLong(wxT("UserStringMode"), 0);
+
             wxArrayInt arrInt = dlg.GetSelections();
 
             wxVariant variant;
 
-            if ( m_choices.GetCount() )
-            {
-                // Translate string indices to values.
-                wxArrayInt values;
+            // Strings that were not in list of choices
+            wxArrayString value;
 
-                unsigned int i;
-                for ( i=0; i<arrInt.GetCount(); i++ )
-                    values.Add(m_choices.GetValue(arrInt.Item(i)));
+            // Translate string indices to strings
 
-                variant = WXVARIANT(values);
-            }
-            else
+            unsigned int n;
+            if ( userStringMode == 1 )
             {
-                variant = WXVARIANT(arrInt);
+                for (n=0;n<extraStrings.size();n++)
+                    value.push_back(extraStrings[n]);
             }
+
+            unsigned int i;
+            for ( i=0; i<arrInt.GetCount(); i++ )
+                value.Add(m_choices.GetLabel(arrInt.Item(i)));
+
+            if ( userStringMode == 2 )
+            {
+                for (n=0;n<extraStrings.size();n++)
+                    value.push_back(extraStrings[n]);
+            }
+
+            variant = WXVARIANT(value);
 
             propgrid->ValueChangeInEvent(variant);
 
@@ -1711,27 +1784,19 @@ bool wxMultiChoiceProperty::OnEvent( wxPropertyGrid* propgrid,
 int wxMultiChoiceProperty::GetChoiceInfo( wxPGChoiceInfo* choiceinfo )
 {
     if ( choiceinfo )
-    {
-        if ( m_choices.IsOk() )
-            choiceinfo->m_choices = &m_choices;
-
-    }
+        choiceinfo->m_choices = &m_choices;
     return -1;
 }
 
 bool wxMultiChoiceProperty::StringToValue( wxVariant& variant, const wxString& text, int ) const
 {
-    wxArrayInt arr;
+    wxArrayString arr;
+
+    int userStringMode = GetAttributeAsLong(wxT("UserStringMode"), 0);
 
     WX_PG_TOKENIZER2_BEGIN(text,wxT('"'))
-        int ind = m_choices.Index( token );
-        if ( ind != wxNOT_FOUND )
-        {
-            if ( m_choices.HasValue(ind) )
-                ind = m_choices.GetValue(ind);
-
-            arr.Add(ind);
-        }
+        if ( userStringMode > 0 || (m_choices.IsOk() && m_choices.Index( token ) != wxNOT_FOUND) )
+            arr.Add(token);
     WX_PG_TOKENIZER2_END()
 
     wxVariant v( WXVARIANT(arr) );

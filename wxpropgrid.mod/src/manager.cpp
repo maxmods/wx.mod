@@ -208,9 +208,15 @@ wxPropertyGridPage::~wxPropertyGridPage()
 {
 }
 
+void wxPropertyGridPage::Clear()
+{
+    GetStatePtr()->DoClear();
+}
+
 void wxPropertyGridPage::RefreshProperty( wxPGProperty* p )
 {
-    m_manager->RefreshProperty(p);
+    if ( m_manager )
+        m_manager->RefreshProperty(p);
 }
 
 void wxPropertyGridPage::OnShow()
@@ -625,7 +631,7 @@ int wxPropertyGridManager::GetPageByName( const wxString& name ) const
 
 // -----------------------------------------------------------------------
 
-int wxPropertyGridManager::GetPageByState( wxPropertyGridState* pState ) const
+int wxPropertyGridManager::GetPageByState( const wxPropertyGridState* pState ) const
 {
     wxASSERT( pState );
 
@@ -683,7 +689,7 @@ void wxPropertyGridManager::ClearPage( int page )
         if ( state == m_pPropGrid->GetState() )
             m_pPropGrid->Clear();
         else
-            state->Clear();
+            state->DoClear();
     }
 }
 
@@ -808,22 +814,25 @@ int wxPropertyGridManager::InsertPage( int index, const wxString& label,
         if ( !m_pToolbar )
             RecreateControls();
 
-        wxASSERT( m_pToolbar );
+        if ( !(GetExtraStyle()&wxPG_EX_HIDE_PAGE_BUTTONS) )
+        {
+            wxASSERT( m_pToolbar );
 
-        // Add separator before first page.
-        if ( GetPageCount() < 2 && (GetExtraStyle()&wxPG_EX_MODE_BUTTONS) )
-            m_pToolbar->AddSeparator();
+            // Add separator before first page.
+            if ( GetPageCount() < 2 && (GetExtraStyle()&wxPG_EX_MODE_BUTTONS) )
+                m_pToolbar->AddSeparator();
 
-        if ( &bmp != &wxNullBitmap )
-            m_pToolbar->AddTool(m_nextTbInd,label,bmp,label,wxITEM_RADIO);
-            //m_pToolbar->InsertTool(index+3,m_nextTbInd,bmp);
-        else
-            m_pToolbar->AddTool(m_nextTbInd,label,wxBitmap( (const char**)gs_xpm_defpage ),
-                label,wxITEM_RADIO);
+            if ( &bmp != &wxNullBitmap )
+                m_pToolbar->AddTool(m_nextTbInd,label,bmp,label,wxITEM_RADIO);
+                //m_pToolbar->InsertTool(index+3,m_nextTbInd,bmp);
+            else
+                m_pToolbar->AddTool(m_nextTbInd,label,wxBitmap( (const char**)gs_xpm_defpage ),
+                    label,wxITEM_RADIO);
 
-        m_nextTbInd++;
+            m_nextTbInd++;
 
-        m_pToolbar->Realize();
+            m_pToolbar->Realize();
+        }
     }
 #else
     wxUnusedVar(bmp);

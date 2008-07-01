@@ -13,7 +13,7 @@
 #define __WX_PG_DOX_MAINPAGE_H__
 
 /**
-    \mainpage wxPropertyGrid 1.3.2 Overview
+    \mainpage wxPropertyGrid 1.3.3 Overview
 
       wxPropertyGrid is a specialized for editing properties such as strings, numbers,
     flagsets, fonts, and colours. It allows hierarchial, collapsible properties (via
@@ -769,8 +769,8 @@
 
     You can set wxValidator for a property using wxPropertyGrid::SetPropertyValidator.
 
-    If you need the validators act just like in wxWidgets (instead of lazily, as
-    is the default behaviour), you must set the extra style wxPG_EX_TRADITIONAL_VALIDATORS.
+    Validator will work just like in wxWidgets (ie. editorControl->SetValidator(validator)
+    is called).
 
     \subsection customeditor Setting Property's Editor Control(s)
 
@@ -829,7 +829,7 @@
     following (call after bool properties have been added):
 
     \code
-        pg->SetPropertyAttributeAll(wxPG_BOOL_USE_CHECKBOX,(long)1);
+        pg->SetPropertyAttributeAll(wxPG_BOOL_USE_CHECKBOX,true);
     \endcode
 
 
@@ -964,7 +964,7 @@
         For example, if you have a wxFlagsProperty, you can
         set its all items to use check box using the following:
         \code
-            pg->SetPropertyAttribute(wxT("MyFlagsProperty"),wxPG_BOOL_USE_CHECKBOX,(long)1,wxPG_RECURSE);
+            pg->SetPropertyAttribute(wxT("MyFlagsProperty"),wxPG_BOOL_USE_CHECKBOX,true,wxPG_RECURSE);
         \endcode
 
       - Default item names for wxBoolProperty are [wxT("False"),wxT("True")]. This can be
@@ -991,6 +991,23 @@
     wxPropertyGrid::CenterSplitter() method. <b>However, be sure to call it after
     the sizer setup and SetSize calls!</b> (ie. usually at the end of the
     frame/dialog constructor)
+
+    \subsection colourproperty wxColourProperty and wxSystemColourProperty
+
+    Through subclassing, these two property classes provide substantial customization
+    features. Subclass wxSystemColourProperty if you want to use wxColourPropertyValue
+    (which features colour type in addition to wxColour), and wxColourProperty if plain
+    wxColour is enough.
+  
+    Override wxSystemColourProperty::ColourToString() to redefine how colours are
+    printed as strings.
+
+    Override wxSystemColourProperty::GetCustomColourIndex() to redefine location of
+    the item that triggers colour picker dialog (default is last).
+
+    Override wxSystemColourProperty::GetColour() to determine which colour matches
+    which choice entry.
+
 
     \subsection compilerdefines Supported Preprocessor Defines
 
@@ -1041,7 +1058,7 @@
     to echo value as asterisks and use wxTE_PASSWORD for wxTextCtrl.
 
     \remarks
-    * wxStringProperty has a special trait: if it has value of '<composed>',
+    * wxStringProperty has a special trait: if it has value of "<composed>",
       and also has child properties, then its displayed value becomes
       composition of child property values, similar as with wxFontProperty,
       for instance.
@@ -1069,7 +1086,7 @@
     \subsection wxBoolProperty
 
     Represents a boolean value. wxChoice is used as editor control, by the
-    default. wxPG_BOOL_USE_CHECKBOX attribute can be set to 1 inorder to use
+    default. wxPG_BOOL_USE_CHECKBOX attribute can be set to true inorder to use
     check box instead.
 
     \subsection wxLongStringProperty
@@ -1086,7 +1103,7 @@
     Like wxLongStringProperty, but the button triggers file selector instead.
     Default wildcard is "All files..." but this can be changed by setting
     wxPG_FILE_WILDCARD attribute (see wxFileDialog for format details).
-    Attribute wxPG_FILE_SHOW_FULL_PATH can be set to 0 inorder to show
+    Attribute wxPG_FILE_SHOW_FULL_PATH can be set to false inorder to show
     only the filename, not the entire path.
 
     \subsection wxEnumProperty
@@ -1124,6 +1141,7 @@
 
     Allows editing a multiple selection from a list of strings. This is
     property is pretty much built around concept of wxMultiChoiceDialog.
+    It uses wxArrayString value.
 
     \subsection wxImageFileProperty
 
@@ -1264,19 +1282,17 @@
         }
 
         // Do something special when button is clicked.
-        virtual bool OnButtonClick(wxPropertyGrid* propGrid,
-                                   wxWindow* primaryCtrl)
+        virtual bool OnButtonClick(wxPropertyGrid* propGrid, wxString& value)
         {
             // Update value in case last minute changes were made.
             PrepareValueForDialogEditing(propGrid);
 
-            // TODO: Create dialog (m_value has current string, if needed)
+            // TODO: Create dialog (value has current string, if needed)
 
             int res = dlg.ShowModal();
             if ( res == wxID_OK && dlg.IsModified() )
             {
-                DoSetValue(dlg.GetString());
-                UpdateControl(primaryCtrl);
+                value = dlg.GetString();
                 return true;
             }
 

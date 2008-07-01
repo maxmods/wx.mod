@@ -50,6 +50,10 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBArray * _wx_wxpropgrid_wxPropertyGrid__newPropertiesArray(int size);
+	void _wx_wxpropgrid_wxPropertyGrid__addProperty(BBArray * props, int i, wxPGProperty * prop);
+	wxPGProperty * _wx_wxpropgrid_wxPropertyGrid__getProperty(BBArray * props, int i);
+
 	wxPropertyGrid * bmx_wxpropertygrid_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	wxPGProperty * bmx_wxpropertycontainermethods_append(wxPropertyContainerMethods * prop, wxPGProperty * property);
 	wxPropertyGrid * bmx_wxpropertygrid_getgrid(wxPropertyGrid * grid);
@@ -313,6 +317,10 @@ extern "C" {
 	void bmx_wxpropertygrid_setpropertyvaluecolour(wxPropertyGrid * grid, wxPGProperty * prop, MaxColour * value);
 	void bmx_wxpropertygrid_setpropertyvaluecolourbyname(wxPropertyGrid * grid, BBString * name, MaxColour * value);
 
+	BBArray * bmx_wxpropertygrid_getpropertieswithflag(wxPropertyGrid * grid, wxPGProperty::FlagType flags, bool inverse, int iterFlags);
+	BBArray * bmx_wxpropertygrid_propertiestonames(wxPropertyGrid * grid, BBArray * props);
+	BBArray * bmx_wxpropertygrid_namestoproperties(wxPropertyGrid * grid, BBArray * names);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -502,8 +510,8 @@ public:
 class MaxMultiChoiceProperty : public wxMultiChoiceProperty
 {
 public:
-	MaxMultiChoiceProperty(BBObject * handle, const wxString &label, const wxString &name, const wxArrayString &labels, const wxArrayInt &value);
-	MaxMultiChoiceProperty(BBObject * handle, const wxString &label, const wxString &name, wxPGChoices &choices, const wxArrayInt &value);
+	MaxMultiChoiceProperty(BBObject * handle, const wxString &label, const wxString &name, const wxArrayString &labels, const wxArrayString &value);
+	MaxMultiChoiceProperty(BBObject * handle, const wxString &label, const wxString &name, wxPGChoices &choices, const wxArrayString &value);
 	~MaxMultiChoiceProperty();
 };
 

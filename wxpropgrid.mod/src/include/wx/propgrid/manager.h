@@ -21,6 +21,8 @@
 #include <wx/toolbar.h>
 #include <wx/stattext.h>
 #include <wx/button.h>
+#include <wx/textctrl.h>
+#include <wx/dialog.h> 
 
 // -----------------------------------------------------------------------
 
@@ -72,9 +74,29 @@ public:
     wxPropertyGridPage();
     virtual ~wxPropertyGridPage();
 
+    /** Deletes all properties on page.
+    */
+    virtual void Clear();
+
+    /** Returns page index in manager;
+    */
+    int GetIndex() const;
+
+    /** Returns "root property". It does not have name, etc. and it is not
+        visible. It is only useful for accessing its children.
+    */
+    wxPGProperty* GetRoot() const { return GetStatePtr()->DoGetRoot(); }
+
     /** Return pointer to contained property grid state.
     */
-    inline wxPropertyGridState* GetStatePtr()
+    wxPropertyGridState* GetStatePtr()
+    {
+        return this;
+    }
+
+    /** Return pointer to contained property grid state.
+    */
+    const wxPropertyGridState* GetStatePtr() const
     {
         return this;
     }
@@ -268,7 +290,7 @@ public:
 
     /** Deletes all all properties and all pages.
     */
-    void Clear();
+    virtual void Clear();
 
     /** Deletes all properties on given page.
     */
@@ -288,22 +310,12 @@ public:
     /** Enables or disables (shows/hides) categories according to parameter enable.
         WARNING: Not tested properly, use at your own risk.
     */
-    inline bool EnableCategories( bool enable )
+    bool EnableCategories( bool enable )
     {
         long fl = m_windowStyle | wxPG_HIDE_CATEGORIES;
         if ( enable ) fl = m_windowStyle & ~(wxPG_HIDE_CATEGORIES);
-        SetWindowStyleFlag(m_windowStyle);
+        SetWindowStyleFlag(fl);
         return true;
-    }
-
-    /** Call to enable or disable usage of common values (values that can be selected for
-        properties instead of their normal values).
-
-        Common values are disabled by the default.
-    */
-    void EnableCommonValues( bool enable = true )
-    {
-        m_pPropGrid->EnableCommonValues(enable);
     }
 
     /** Selects page, scrolls and/or expands items to ensure that the
@@ -390,7 +402,8 @@ public:
 #if wxPG_COMPATIBILITY_1_2_0
 
     /** Returns id of last child of given property.
-        DEPRECATED: Use GetPage()->GetIterator() instead.
+        \deprecated
+        Since version 1.3. Use GetPage()->GetIterator() instead.
         \remarks
         Returns even sub-properties.
     */
@@ -437,7 +450,7 @@ public:
     /** Returns index for a relevant propertygrid state. If no match is found,
         wxNOT_FOUND is returned.
     */
-    int GetPageByState( wxPropertyGridState* pstate ) const;
+    int GetPageByState( const wxPropertyGridState* pstate ) const;
 
     /** Returns wxPropertyGridState of given page, current page's for -1.
     */
@@ -487,7 +500,8 @@ public:
     inline int GetSelection() const { return m_selPage; }
 
 #if wxPG_COMPATIBILITY_1_2_0
-    /** DEPRECATED: Use GetPage() and wxPropertyGridPage facilities instead.
+    /** \deprecated
+        Since version 1.3. Use GetPage() and wxPropertyGridPage facilities instead.
     */
     wxDEPRECATED( int GetTargetPage() const );
 #endif
@@ -593,7 +607,8 @@ public:
         captions are not affected. Background brush cache is optimized for often
         set colours to be set last.
 
-        NOTE: This function is deprecated. Use SetPropertyBackgroundColour instead.
+        \deprecated
+        Since version 1.3. Use SetPropertyBackgroundColour instead.
     */
     wxDEPRECATED( void SetPropertyColour( wxPGPropArg id, const wxColour& col ) );
 #endif
@@ -646,7 +661,8 @@ public:
     }
 
 #if wxPG_COMPATIBILITY_1_2_0
-    /** DEPRECATED: Use GetPage() and wxPropertyGridPage facilities instead.
+    /** \deprecated
+        Since version 1.3. Use GetPage() and wxPropertyGridPage facilities instead.
     */
     wxDEPRECATED( void SetTargetPage( int ) );
     wxDEPRECATED( void SetTargetPage( const wxChar* ) );
@@ -727,6 +743,8 @@ protected:
     */
     virtual wxPropertyGrid* CreatePropertyGrid() const;
 
+    virtual void RefreshProperty( wxPGProperty* p );
+
 public:
 
 #ifndef DOXYGEN
@@ -745,7 +763,6 @@ public:
     virtual void SetWindowStyleFlag ( long style );
 
 protected:
-    virtual void RefreshProperty( wxPGProperty* p );
 
 public:
 
@@ -844,6 +861,15 @@ private:
 #endif // #ifndef SWIG
 #endif // #ifndef DOXYGEN
 };
+
+// -----------------------------------------------------------------------
+
+inline int wxPropertyGridPage::GetIndex() const
+{
+    if ( !m_manager )
+        return wxNOT_FOUND;
+    return m_manager->GetPageByState(this);
+}
 
 // -----------------------------------------------------------------------
 

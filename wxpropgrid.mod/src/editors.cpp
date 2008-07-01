@@ -217,12 +217,12 @@ wxPGVariantAndBool wxPGEditor::PyGetValueFromControl( wxPGProperty* property, wx
 }
 #endif
 
-void wxPGEditor::SetControlStringValue( wxWindow*, const wxString& ) const
+void wxPGEditor::SetControlStringValue( wxPGProperty* WXUNUSED(property), wxWindow*, const wxString& ) const
 {
 }
 
 
-void wxPGEditor::SetControlIntValue( wxWindow*, int ) const
+void wxPGEditor::SetControlIntValue( wxPGProperty* WXUNUSED(property), wxWindow*, int ) const
 {
 }
 
@@ -504,6 +504,8 @@ void wxPGTextCtrlEditor::DrawValue( wxDC& dc, wxPGProperty* property, const wxRe
 void wxPGTextCtrlEditor::UpdateControl( wxPGProperty* property, wxWindow* ctrl ) const
 {
     wxTextCtrl* tc = wxStaticCast(ctrl, wxTextCtrl);
+    wxPropertyGrid* pg = property->GetGrid();
+    pg->IgnoreNextTextUpdated();
     tc->SetValue(property->GetDisplayedString());
 }
 
@@ -511,7 +513,7 @@ void wxPGTextCtrlEditor::UpdateControl( wxPGProperty* property, wxWindow* ctrl )
 // Provided so that, for example, ComboBox editor can use the same code
 // (multiple inheritance would get way too messy).
 bool wxPGTextCtrlEditor::OnTextCtrlEvent( wxPropertyGrid* propGrid,
-                                          wxPGProperty* property,
+                                          wxPGProperty* WXUNUSED(property),
                                           wxWindow* ctrl,
                                           wxEvent& event )
 {
@@ -527,29 +529,19 @@ bool wxPGTextCtrlEditor::OnTextCtrlEvent( wxPropertyGrid* propGrid,
     }
     else if ( event.GetEventType() == wxEVT_COMMAND_TEXT_UPDATED )
     {
-        wxTextCtrl* tc = wxStaticCast(ctrl, wxTextCtrl);
-
-        // If value is unspecified and character count is zero,
-        // then do not set as modified.
-        if ( !property->IsValueUnspecified() ||
-             !tc ||
-             (tc->IsKindOf(CLASSINFO(wxTextCtrl)) &&
-              (tc->GetLastPosition() > 0)) )
+        if ( propGrid->ShouldHandleTextUpdated() )
         {
+            // If value is unspecified and character count is zero,
+            // then do not set as modified.
 
-            // We must check this since an 'empty' text event
-            // may be triggered when creating the property.
-            if ( !(propGrid->GetInternalFlags() & wxPG_FL_IN_SELECT_PROPERTY) )
-            {
-                //
-                // Pass this event outside wxPropertyGrid so that,
-                // if necessary, program can tell when user is editing
-                // a textctrl.
-                // FIXME: Is it safe to change event id in the middle of event
-                //        processing (seems to work, but...)?
-                event.Skip();
-                event.SetId(propGrid->GetId());
-            }
+            //
+            // Pass this event outside wxPropertyGrid so that,
+            // if necessary, program can tell when user is editing
+            // a textctrl.
+            // FIXME: Is it safe to change event id in the middle of event
+            //        processing (seems to work, but...)?
+            event.Skip();
+            event.SetId(propGrid->GetId());
 
             propGrid->EditorsValueWasModified();
         }
@@ -570,13 +562,20 @@ bool wxPGTextCtrlEditor::OnEvent( wxPropertyGrid* propGrid,
 bool wxPGTextCtrlEditor::GetTextCtrlValueFromControl( wxVariant& variant, wxPGProperty* property, wxWindow* ctrl )
 {
     wxTextCtrl* tc = wxStaticCast(ctrl, wxTextCtrl);
+    wxString textVal = tc->GetValue();
 
-    bool res = property->ActualStringToValue(variant, tc->GetValue(), 0);
+    if ( property->UsesAutoUnspecified() && !textVal.length() )
+    {
+        variant.MakeNull();
+        return true;
+    }
+
+    bool res = property->ActualStringToValue(variant, textVal, wxPG_EDITABLE_VALUE);
 
     // Changing unspecified always causes event (returning
     // true here should be enough to trigger it).
     // TODO: Move to propgrid.cpp
-    if ( !res && property->IsValueUnspecified() )
+    if ( !res && variant.IsNull() )
         res = true;
 
     return res;
@@ -589,18 +588,24 @@ bool wxPGTextCtrlEditor::GetValueFromControl( wxVariant& variant, wxPGProperty* 
 }
 
 
-void wxPGTextCtrlEditor::SetValueToUnspecified( wxWindow* ctrl ) const
+void wxPGTextCtrlEditor::SetValueToUnspecified( wxPGProperty* property, wxWindow* ctrl ) const
 {
     wxTextCtrl* tc = wxStaticCast(ctrl, wxTextCtrl);
 
-    tc->Remove(0,tc->GetValue().length());
+    wxPropertyGrid* pg = property->GetGrid();
+    wxASSERT(pg);  // Really, property grid should exist if editor does
+    pg->IgnoreNextTextUpdated();
+    tc->SetValue(wxT(""));
 }
 
 
-void wxPGTextCtrlEditor::SetControlStringValue( wxWindow* ctrl, const wxString& txt ) const
+void wxPGTextCtrlEditor::SetControlStringValue( wxPGProperty* property, wxWindow* ctrl, const wxString& txt ) const
 {
     wxTextCtrl* tc = wxStaticCast(ctrl, wxTextCtrl);
 
+    wxPropertyGrid* pg = property->GetGrid();
+    wxASSERT(pg);  // Really, property grid should exist if editor does
+    pg->IgnoreNextTextUpdated();
     tc->SetValue(txt);
 }
 
@@ -905,7 +910,7 @@ void wxPropertyGrid::OnComboItemPaint( wxPGCustomComboControl* pCc,
             renderFlags |= wxPGCellRenderer::Selected;
 
         if ( cis.x > 0 && (p->HasFlag(wxPG_PROP_CUSTOMIMAGE) || !(flags & wxPGCC_PAINTING_CONTROL)) &&
-             ( !p->m_dataExt || !p->m_dataExt->m_valueBitmap || item == pCb->GetSelection() ) &&
+             ( !p->m_valueBitmap || item == pCb->GetSelection() ) &&
              ( item >= 0 || (flags & wxPGCC_PAINTING_CONTROL) )
            )
         {
@@ -1041,14 +1046,6 @@ wxWindow* wxPGChoiceEditor::CreateControlsBase( wxPropertyGrid* propGrid,
     wxWindow* ctrlParent = propGrid->GetPanel();
 
     int odcbFlags = extraStyle | wxNO_BORDER | wxPGCC_PROCESS_ENTER | wxPGCC_ALT_KEYS;
-
-    //
-    // If this editor was alternate for TextCtrlAndButton, then
-    // let's clear the readonly flag.
-    if ( property->DoGetEditorClass()->IsKindOf(CLASSINFO(wxPGTextCtrlAndButtonEditor)) )
-    {
-        odcbFlags &= ~wxCB_READONLY;
-    }
 
     if ( (property->GetFlags() & wxPG_PROP_USE_DCC) &&
          (property->IsKindOf(CLASSINFO(wxBoolProperty)) ) )
@@ -1209,7 +1206,7 @@ bool wxPGChoiceEditor::GetValueFromControl( wxVariant& variant, wxPGProperty* pr
 }
 
 
-void wxPGChoiceEditor::SetControlStringValue( wxWindow* ctrl, const wxString& txt ) const
+void wxPGChoiceEditor::SetControlStringValue( wxPGProperty* WXUNUSED(property), wxWindow* ctrl, const wxString& txt ) const
 {
     wxPGOwnerDrawnComboBox* cb = (wxPGOwnerDrawnComboBox*)ctrl;
     wxASSERT( cb );
@@ -1217,7 +1214,7 @@ void wxPGChoiceEditor::SetControlStringValue( wxWindow* ctrl, const wxString& tx
 }
 
 
-void wxPGChoiceEditor::SetControlIntValue( wxWindow* ctrl, int value ) const
+void wxPGChoiceEditor::SetControlIntValue( wxPGProperty* WXUNUSED(property), wxWindow* ctrl, int value ) const
 {
     wxPGOwnerDrawnComboBox* cb = (wxPGOwnerDrawnComboBox*)ctrl;
     wxASSERT( cb );
@@ -1225,7 +1222,7 @@ void wxPGChoiceEditor::SetControlIntValue( wxWindow* ctrl, int value ) const
 }
 
 
-void wxPGChoiceEditor::SetValueToUnspecified( wxWindow* ctrl ) const
+void wxPGChoiceEditor::SetValueToUnspecified( wxPGProperty* WXUNUSED(property), wxWindow* ctrl ) const
 {
     wxPGOwnerDrawnComboBox* cb = (wxPGOwnerDrawnComboBox*)ctrl;
     cb->SetSelection(-1);
@@ -1291,12 +1288,19 @@ bool wxPGComboBoxEditor::OnEvent( wxPropertyGrid* propGrid,
 bool wxPGComboBoxEditor::GetValueFromControl( wxVariant& variant, wxPGProperty* property, wxWindow* ctrl ) const
 {
     wxPGOwnerDrawnComboBox* cb = (wxPGOwnerDrawnComboBox*)ctrl;
+    wxString textVal = cb->GetValue();
 
-    bool res = property->ActualStringToValue(variant, cb->GetValue(), 0);
+    if ( property->UsesAutoUnspecified() && !textVal.length() )
+    {
+        variant.MakeNull();
+        return true;
+    }
+
+    bool res = property->ActualStringToValue(variant, textVal, wxPG_EDITABLE_VALUE);
 
     // Changing unspecified always causes event (returning
     // true here should be enough to trigger it).
-    if ( !res && property->IsValueUnspecified() )
+    if ( !res && variant.IsNull() )
         res = true;
 
     return res;
@@ -1745,7 +1749,7 @@ bool wxPGCheckBoxEditor::GetValueFromControl( wxVariant& variant, wxPGProperty* 
 }
 
 
-void wxPGCheckBoxEditor::SetControlIntValue( wxWindow* ctrl, int value ) const
+void wxPGCheckBoxEditor::SetControlIntValue( wxPGProperty* WXUNUSED(property), wxWindow* ctrl, int value ) const
 {
     if ( value != 0 ) value = 1;
     ((wxSimpleCheckBox*)ctrl)->m_state = value;
@@ -1753,7 +1757,7 @@ void wxPGCheckBoxEditor::SetControlIntValue( wxWindow* ctrl, int value ) const
 }
 
 
-void wxPGCheckBoxEditor::SetValueToUnspecified( wxWindow* ctrl ) const
+void wxPGCheckBoxEditor::SetValueToUnspecified( wxPGProperty* WXUNUSED(property), wxWindow* ctrl ) const
 {
     ((wxSimpleCheckBox*)ctrl)->m_state = 0;
     ctrl->Refresh();
@@ -1769,7 +1773,7 @@ wxPGCheckBoxEditor::~wxPGCheckBoxEditor() { }
 
 wxWindow* wxPropertyGrid::GetEditorControl() const
 {
-    wxWindow* ctrl = m_wndPrimary;
+    wxWindow* ctrl = m_wndEditor;
 
     if ( !ctrl )
         return ctrl;
@@ -1796,38 +1800,38 @@ void wxPropertyGrid::CorrectEditorWidgetSizeX()
     int newSplitterx = m_pState->GetSplitterPosition(m_selColumn-1);
     int newWidth = newSplitterx + m_pState->m_colWidths[m_selColumn];
 
-    if ( m_wndSecondary )
+    if ( m_wndEditor2 )
     {
         // if width change occurred, move secondary wnd by that amount
-        wxRect r = m_wndSecondary->GetRect();
+        wxRect r = m_wndEditor2->GetRect();
         secWid = r.width;
         r.x = newWidth - secWid;
 
-        m_wndSecondary->SetSize( r );
+        m_wndEditor2->SetSize( r );
 
         // if primary is textctrl, then we have to add some extra space
 #ifdef __WXMAC__
-        if ( m_wndPrimary )
+        if ( m_wndEditor )
 #else
-        if ( m_wndPrimary && m_wndPrimary->IsKindOf(CLASSINFO(wxTextCtrl)) )
+        if ( m_wndEditor && m_wndEditor->IsKindOf(CLASSINFO(wxTextCtrl)) )
 #endif
             secWid += wxPG_TEXTCTRL_AND_BUTTON_SPACING;
     }
 
-    if ( m_wndPrimary )
+    if ( m_wndEditor )
     {
-        wxRect r = m_wndPrimary->GetRect();
+        wxRect r = m_wndEditor->GetRect();
 
         r.x = newSplitterx+m_ctrlXAdjust;
 
         if ( !(m_iFlags & wxPG_FL_FIXED_WIDTH_EDITOR) )
             r.width = newWidth - r.x - secWid;
 
-        m_wndPrimary->SetSize(r);
+        m_wndEditor->SetSize(r);
     }
 
-    if ( m_wndSecondary )
-        m_wndSecondary->Refresh();
+    if ( m_wndEditor2 )
+        m_wndEditor2->Refresh();
 }
 
 // -----------------------------------------------------------------------
@@ -1841,20 +1845,20 @@ void wxPropertyGrid::CorrectEditorWidgetPosY( wxPGProperty* isBelowThis, int hei
     if ( isBelowThis )
         propY += isBelowThis->GetY2(m_lineHeight);
 
-    if ( m_wndPrimary )
+    if ( m_wndEditor )
     {
-        wxPoint pos = m_wndPrimary->GetPosition();
+        wxPoint pos = m_wndEditor->GetPosition();
 
         if ( pos.y > propY )
-            m_wndPrimary->Move(pos.x, pos.y+heightAdd);
+            m_wndEditor->Move(pos.x, pos.y+heightAdd);
     }
 
-    if ( m_wndSecondary )
+    if ( m_wndEditor2 )
     {
-        wxPoint pos = m_wndSecondary->GetPosition();
+        wxPoint pos = m_wndEditor2->GetPosition();
 
         if ( pos.y > propY )
-            m_wndSecondary->Move(pos.x, pos.y+heightAdd);
+            m_wndEditor2->Move(pos.x, pos.y+heightAdd);
     }
 }
 

@@ -594,7 +594,11 @@ void wxPGProperty::Init()
 
     m_clientData = NULL;
 
-    m_dataExt = (wxPGPropertyDataExt*) NULL;
+    m_customEditor = (wxPGEditor*) NULL;
+#if wxUSE_VALIDATORS
+    m_validator = (wxValidator*) NULL;
+#endif
+    m_valueBitmap = (wxBitmap*) NULL;
 
     m_maxLen = 0; // infinite maximum length
 
@@ -613,6 +617,7 @@ void wxPGProperty::Init( const wxString& label, const wxString& name )
     if ( &label != ((wxString*)NULL) )
         m_label = label;
 
+// BaH
 //#ifndef __WXPYTHON__
 //    if ( &name != ((wxString*)NULL) )
 //#else
@@ -648,12 +653,15 @@ wxPGProperty::~wxPGProperty()
 
     Empty();  // this deletes items
 
+    delete m_valueBitmap;
+#if wxUSE_VALIDATORS
+    delete m_validator;
+#endif
+
     unsigned int i;
 
     for ( i=0; i<m_cells.size(); i++ )
         delete (wxPGCell*) m_cells[i];
-
-    delete m_dataExt;
 
     // This makes it easier for us to detect dangling pointers
     m_parent = NULL;
@@ -716,7 +724,8 @@ void wxPGProperty::ShowError( const wxString& msg ) const
 
 wxPropertyGrid* wxPGProperty::GetGrid() const
 {
-    wxASSERT(m_parentState);
+    if ( !m_parentState )
+        return NULL;
     return m_parentState->GetGrid();
 }
 
@@ -1083,8 +1092,8 @@ bool wxPGProperty::SetValueFromInt( long number, int argFlags )
 
 wxSize wxPGProperty::OnMeasureImage( int WXUNUSED(item) ) const
 {
-    if ( m_dataExt && m_dataExt->m_valueBitmap )
-        return wxSize(m_dataExt->m_valueBitmap->GetWidth(),-1);
+    if ( m_valueBitmap )
+        return wxSize(m_valueBitmap->GetWidth(),-1);
 
     return wxSize(0,0);
 }
@@ -1106,9 +1115,7 @@ void wxPGProperty::OnCustomPaint( wxDC& dc,
                                   const wxRect& rect,
                                   wxPGPaintData& )
 {
-    wxCHECK_RET( m_dataExt, wxT("m_dataExt is mandatory") );
-
-    wxBitmap* bmp = m_dataExt->m_valueBitmap;
+    wxBitmap* bmp = m_valueBitmap;
 
     wxCHECK_RET( bmp && bmp->Ok(), wxT("invalid bitmap") );
 
@@ -1139,7 +1146,6 @@ bool wxPGProperty::OnEvent( wxPropertyGrid*, wxWindow*, wxEvent& )
 
 void wxPGProperty::SetValue0( wxVariant& value, wxVariant* pList, bool refreshEditor )
 {
-    SetCommonValue(-1);
 #ifdef __WXPYTHON__
     // Translate Py_None to Null wxVariant
     PyObject* obj = PyObjectFromVariant(value);
@@ -1147,11 +1153,13 @@ void wxPGProperty::SetValue0( wxVariant& value, wxVariant* pList, bool refreshEd
     {
         if ( obj == Py_None )
             value.MakeNull();
+        Py_DECREF(obj);
     }
 #endif
 
     if ( !value.IsNull() )
     {
+        SetCommonValue(-1);
         // List variants are reserved a special purpose
         // as intermediate containers for child values
         // of properties with children.
@@ -1205,21 +1213,25 @@ void wxPGProperty::SetValue0( wxVariant& value, wxVariant* pList, bool refreshEd
             }
         }
 
-        if ( ActualValidateValue(value) )
+        if ( !value.IsNull() )
         {
-            if ( !value.IsNull() )
-            {
-                wxPGVariantAssign(m_value, value);
-                OnSetValue();
-                UpdateParentValues();
-            }
-
-            if ( IsFlagSet(wxPG_PROP_AGGREGATE) )
-                RefreshChildren();
+            wxPGVariantAssign(m_value, value);
+            OnSetValue();
+            UpdateParentValues();
         }
+
+        if ( IsFlagSet(wxPG_PROP_AGGREGATE) )
+            RefreshChildren();
     }
     else
     {
+        if ( m_commonValue != -1 )
+        {
+            wxPropertyGrid* pg = GetGrid();
+            if ( !pg || m_commonValue != pg->GetUnspecifiedCommonValue() )
+                SetCommonValue(-1);
+        }
+
         m_value = value;
 
         unsigned int i;
@@ -1242,6 +1254,17 @@ void wxPGProperty::SetValue( wxVariant value )
     SetValue0(value);
 }
 
+void wxPGProperty::SetFlagRecursively( FlagType flag, bool set )
+{
+    if ( set )
+        SetFlag(flag);
+    else
+        ClearFlag(flag);
+
+    unsigned int i;
+    for ( i = 0; i < GetChildCount(); i++ )
+        Item(i)->SetFlagRecursively(flag, set);
+}
 
 void wxPGProperty::RefreshEditor()
 {
@@ -1301,14 +1324,6 @@ wxVariant wxPGProperty::GetDefaultValue() const
     }
 
     return wxVariant();
-}
-
-int wxPGProperty::GetDisplayedCommonValueCount() const
-{
-    if ( m_flags & wxPG_PROP_DENY_COMMON_VALUES )
-        return 0;
-
-    return GetGrid()->GetDisplayedCommonValueCount();
 }
 
 void wxPGProperty::SetCell( int column, wxPGCell* cellObj )
@@ -1461,14 +1476,11 @@ wxString wxPGProperty::GetAttribute( const wxString& name, const wxString& defVa
     return defVal;
 }
 
-long wxPGProperty::GetAttribute( const wxString& name, long defVal )
+long wxPGProperty::GetAttributeAsLong( const wxString& name, long defVal ) const
 {
     wxVariant variant = m_attributes.FindValue(name);
 
-    if ( !variant.IsNull() )
-        return variant.GetLong();
-
-    return defVal;
+    return wxPGVariantToInt(variant, defVal);
 }
 
 wxVariant wxPGProperty::GetAttributesAsList() const
@@ -1497,7 +1509,7 @@ static const wxChar* gs_propFlagToString[gs_propFlagToStringSize] = {
     wxT("COLLAPSED"),
     NULL,
     NULL,
-    wxT("DENY_COMMON_VALUES"),
+    NULL,
     NULL,
     NULL,
     NULL,
@@ -1579,7 +1591,7 @@ const wxPGChoiceEntry* wxPGProperty::GetCurrentChoice() const
     wxPGChoiceInfo ci;
     ci.m_choices = (wxPGChoices*) NULL;
     int index = ((wxPGProperty*)this)->GetChoiceInfo(&ci);
-    if ( index == -1 || !ci.m_choices )
+    if ( index == -1 || !ci.m_choices || index >= (int)ci.m_choices->GetCount() )
         return NULL;
 
     return &(*ci.m_choices)[index];
@@ -1617,7 +1629,7 @@ const wxPGEditor* wxPGProperty::GetEditorClass() const
 {
     const wxPGEditor* editor;
 
-    if ( !m_dataExt || !m_dataExt->m_customEditor )
+    if ( !m_customEditor )
     {
 #ifdef __WXPYTHON__
         wxString editorName = GetEditor();
@@ -1628,7 +1640,7 @@ const wxPGEditor* wxPGProperty::GetEditorClass() const
             editor = DoGetEditorClass();
     }
     else
-        editor = m_dataExt->m_customEditor;
+        editor = m_customEditor;
 
     //
     // Maybe override editor if common value specified
@@ -1680,22 +1692,9 @@ bool wxPGProperty::RecreateEditor()
 }
 
 
-bool wxPGProperty::EnsureDataExt()
-{
-    if ( !m_dataExt )
-    {
-        m_dataExt = new wxPGPropertyDataExt();
-        return true;
-    }
-    return false;
-}
-
-
 void wxPGProperty::SetValueImage( wxBitmap& bmp )
 {
-    EnsureDataExt();
-
-    delete m_dataExt->m_valueBitmap;
+    delete m_valueBitmap;
 
     if ( &bmp && bmp.Ok() )
     {
@@ -1720,16 +1719,18 @@ void wxPGProperty::SetValueImage( wxBitmap& bmp )
 
             dc.DrawBitmap( bmp, 0, 0 );
 
-            m_dataExt->m_valueBitmap = bmpNew;
+            m_valueBitmap = bmpNew;
         }
         else
-            m_dataExt->m_valueBitmap = new wxBitmap(bmp);
+        {
+            m_valueBitmap = new wxBitmap(bmp);
+        }
 
         m_flags |= wxPG_PROP_CUSTOMIMAGE;
     }
     else
     {
-        m_dataExt->m_valueBitmap = (wxBitmap*) NULL;
+        m_valueBitmap = NULL;
         m_flags &= ~(wxPG_PROP_CUSTOMIMAGE);
     }
 }
@@ -1773,15 +1774,6 @@ bool wxPGProperty::IsVisible() const
 
     return true;
 }
-
-bool wxPGProperty::UsesAutoUnspecified() const
-{
-    if ( GetGrid()->GetExtraStyle() & wxPG_EX_AUTO_UNSPECIFIED_VALUES )
-        return true;
-
-    return false;
-}
-
 
 wxPropertyGrid* wxPGProperty::GetGridIfDisplayed() const
 {
@@ -2857,7 +2849,7 @@ void wxPropertyGrid::Init1()
 
     m_iFlags = 0;
     m_pState = (wxPropertyGridState*) NULL;
-    m_wndPrimary = m_wndSecondary = (wxWindow*) NULL;
+    m_wndEditor = m_wndEditor2 = (wxWindow*) NULL;
     m_selected = (wxPGProperty*) NULL;
     m_selColumn = -1;
     m_propHover = (wxPGProperty*) NULL;
@@ -3231,14 +3223,6 @@ void wxPropertyGrid::SetExtraStyle( long exStyle )
 
     // Set global style
     wxPGGlobalVars->m_extraStyle = exStyle;
-}
-
-// -----------------------------------------------------------------------
-
-void wxPropertyGrid::EnableCommonValues( bool enable )
-{
-    if ( enable ) m_iFlags |= wxPG_FL_USE_COMMON_VALUES;
-    else m_iFlags &= ~wxPG_FL_USE_COMMON_VALUES;
 }
 
 // -----------------------------------------------------------------------
@@ -3956,12 +3940,12 @@ bool wxPropertyContainerMethods::ExpandAll( bool doExpand )
 {
     wxPropertyGridState* state = m_pState;
 
-    if ( !state->GetRoot()->GetChildCount() )
+    if ( !state->DoGetRoot()->GetChildCount() )
         return true;
 
     wxPropertyGrid* pg = state->GetGrid();
 
-    if ( GetSelection() && GetSelection() != state->GetRoot() &&
+    if ( GetSelection() && GetSelection() != state->DoGetRoot() &&
          !doExpand )
     {
         if ( !pg->ClearSelection() )
@@ -3974,8 +3958,25 @@ bool wxPropertyContainerMethods::ExpandAll( bool doExpand )
     {
         wxPGProperty* p = (wxPGProperty*) it.GetProperty();
         if ( p->GetChildCount() )
-            p->SetExpanded( doExpand );
+        {
+            if ( doExpand )
+            {
+                if ( !p->IsExpanded() )
+                {
+                    state->DoExpand(p);
+                }
+            }
+            else
+            {
+                if ( p->IsExpanded() )
+                {
+                    state->DoCollapse(p);
+                }
+            }
+        }
     }
+
+    pg->RecalculateVirtualSize();
 
     RefreshGrid();
 
@@ -4135,8 +4136,8 @@ bool wxPropertyGrid::EnsureVisible( wxPGPropArg id )
 // Control font changer helper.
 void wxPropertyGrid::SetCurControlBoldFont()
 {
-    wxASSERT( m_wndPrimary );
-    m_wndPrimary->SetFont( m_captionFont );
+    wxASSERT( m_wndEditor );
+    m_wndEditor->SetFont( m_captionFont );
 }
 
 // -----------------------------------------------------------------------
@@ -4859,7 +4860,7 @@ int wxPropertyGrid::DoDrawItems( wxDC& dcMain,
                 bool ctrlCell = false;
 
                 // Background
-                if ( p == selected && m_wndPrimary && ci == 1 )
+                if ( p == selected && m_wndEditor && ci == 1 )
                 {
                     dc.SetBrush(m_colPropBack);
                     dc.SetPen(m_colPropBack);
@@ -4939,10 +4940,10 @@ int wxPropertyGrid::DoDrawItems( wxDC& dcMain,
 #if wxPG_REFRESH_CONTROLS_AFTER_REPAINT
     if ( wasSelectedPainted )
     {
-        if ( m_wndPrimary )
-            m_wndPrimary->Refresh();
-        if ( m_wndSecondary )
-            m_wndSecondary->Refresh();
+        if ( m_wndEditor )
+            m_wndEditor->Refresh();
+        if ( m_wndEditor2 )
+            m_wndEditor2->Refresh();
     }
 #endif
 
@@ -5100,8 +5101,8 @@ void wxPropertyGrid::Refresh( bool WXUNUSED(eraseBackground),
         m_canvas->Refresh(false, rect);
 #if wxPG_REFRESH_CONTROLS_AFTER_REPAINT
     // I think this really helps only GTK+1.2
-    if ( m_wndPrimary ) m_wndPrimary->Refresh();
-    if ( m_wndSecondary ) m_wndSecondary->Refresh();
+    if ( m_wndEditor ) m_wndEditor->Refresh();
+    if ( m_wndEditor2 ) m_wndEditor2->Refresh();
 #endif
 }
 
@@ -5138,7 +5139,7 @@ void wxPropertyGrid::Clear()
                             wxT("failed to deselect a property (editor probably had invalid value)") );
     }
 
-    m_pState->Clear();
+    m_pState->DoClear();
 
     m_propHover = NULL;
 
@@ -5405,17 +5406,56 @@ void wxPropertyGrid::SetButtonShortcut( int keycode, bool ctrlDown, bool altDown
 // flags are same as with DoSelectProperty
 bool wxPropertyGrid::CommitChangesFromEditor( wxUint32 flags )
 {
-    if ( m_wndPrimary && IsEditorsValueModified() &&
+    // Committing already?
+    if ( m_propValChanging )
+        return true;
+
+    // Don't do this if already processing editor event. It might
+    // induce recursive dialogs and crap like that.
+    if ( m_iFlags & wxPG_FL_IN_ONCUSTOMEDITOREVENT )
+        return false;
+
+    if ( m_wndEditor && IsEditorsValueModified() &&
          (m_iFlags & wxPG_FL_INITIALIZED) )
     {
+        wxVariant variant(m_selected->GetValueRef());
+        wxVariant* pvariant = NULL;
+
         bool wasUnspecified = m_selected->IsValueUnspecified();
 
         // JACS - necessary to avoid new focus being found spuriously within OnIdle
         // due to another window getting focus
         wxWindow* oldFocus = m_curFocused;
 
-        if ( !(flags & (wxPG_SEL_NOVALIDATE|wxPG_SEL_FORCE)) &&
-             !DoEditorValidate() )
+        bool validationFailure = false;
+
+        if ( (flags & (wxPG_SEL_NOVALIDATE|wxPG_SEL_FORCE)) || DoEditorValidate() )
+        {
+            // If truly modified, schedule value as pending.
+            if ( m_selected->GetEditorClass()->ActualGetValueFromControl( variant, m_selected, GetEditorControl() ) )
+            {
+                if ( wxPGIsVariantType(variant, list) || m_selected->ActualValidateValue( variant ) )
+                    pvariant = &variant;
+                else
+                    validationFailure = true;
+            }
+            else
+            {
+                EditorsValueWasNotModified();
+            }
+
+            if ( !validationFailure )
+            {
+                if ( m_selected->IsValueUnspecified() && !wasUnspecified && m_selected->UsesAutoUnspecified() )
+                    flags |= wxPG_SEL_SETUNSPEC;
+            }
+        }
+        else
+        {
+            validationFailure = true;
+        }
+
+        if ( validationFailure )
         {
             if (oldFocus)
             {
@@ -5425,17 +5465,6 @@ bool wxPropertyGrid::CommitChangesFromEditor( wxUint32 flags )
 
             return false;
         }
-
-        // If truly modified, schedule value as pending.
-        wxVariant variant(m_selected->GetValueRef());
-        wxVariant* pvariant = NULL;
-        if ( m_selected->GetEditorClass()->ActualGetValueFromControl( variant, m_selected, GetEditorControl() ) )
-            pvariant = &variant;
-        else
-            EditorsValueWasNotModified();
-
-        if ( m_selected->IsValueUnspecified() && !wasUnspecified && UsesAutoUnspecified() )
-            flags |= wxPG_SEL_SETUNSPEC;
 
         DoPropertyChanged( m_selected, pvariant, flags );
 
@@ -5536,8 +5565,8 @@ bool wxPropertyGrid::DoPropertyChanged( wxPGProperty* p, wxVariant* pPendingValu
                 wxASSERT( changedProperty == m_selected );
 
                 // For composed properties, get the posted value from text ctrl
-                wxASSERT( m_wndPrimary->IsKindOf(CLASSINFO(wxTextCtrl)) );
-                postValue = ((wxTextCtrl*)m_wndPrimary)->GetValue();
+                wxASSERT( m_wndEditor->IsKindOf(CLASSINFO(wxTextCtrl)) );
+                postValue = ((wxTextCtrl*)m_wndEditor)->GetValue();
             }
 
             // SendEvent returns true if event was vetoed
@@ -5558,7 +5587,7 @@ bool wxPropertyGrid::DoPropertyChanged( wxPGProperty* p, wxVariant* pPendingValu
                 p->m_flags |= wxPG_PROP_MODIFIED;
                 if ( p == m_selected && (m_windowStyle & wxPG_BOLD_MODIFIED) )
                 {
-                    if ( m_wndPrimary )
+                    if ( m_wndEditor )
                         SetCurControlBoldFont();
                 }
             }
@@ -5581,7 +5610,7 @@ bool wxPropertyGrid::DoPropertyChanged( wxPGProperty* p, wxVariant* pPendingValu
 
                 if ( pwc == m_selected && (m_windowStyle & wxPG_BOLD_MODIFIED) )
                 {
-                    if ( m_wndPrimary )
+                    if ( m_wndEditor )
                         SetCurControlBoldFont();
                 }
 
@@ -5597,14 +5626,14 @@ bool wxPropertyGrid::DoPropertyChanged( wxPGProperty* p, wxVariant* pPendingValu
             // control.
             if ( selFlags & wxPG_SEL_DIALOGVAL )
             {
-                if ( m_wndPrimary )
-                    p->GetEditorClass()->UpdateControl(p, m_wndPrimary);
+                if ( m_wndEditor )
+                    p->GetEditorClass()->UpdateControl(p, m_wndEditor);
             }
             else
             {
         #if wxPG_REFRESH_CONTROLS_AFTER_REPAINT
-                if ( m_wndPrimary ) m_wndPrimary->Refresh();
-                if ( m_wndSecondary ) m_wndSecondary->Refresh();
+                if ( m_wndEditor ) m_wndEditor->Refresh();
+                if ( m_wndEditor2 ) m_wndEditor2->Refresh();
         #endif
             }
 
@@ -5624,7 +5653,7 @@ bool wxPropertyGrid::DoEditorValidate()
 {
 #if wxUSE_VALIDATORS
     // With traditional validator style, we dont need to more
-    if ( GetExtraStyle() & wxPG_EX_TRADITIONAL_VALIDATORS )
+    if ( !(GetExtraStyle() & wxPG_EX_LEGACY_VALIDATORS) )
         return true;
 
     if ( m_iFlags & wxPG_FL_VALIDATION_FAILED )
@@ -5701,11 +5730,16 @@ void wxPropertyGrid::OnCustomEditorEvent( wxCommandEvent &event )
     if ( !selected )
         return;
 
+    if ( m_iFlags & wxPG_FL_IN_ONCUSTOMEDITOREVENT )
+        return;
+
+    SetInternalFlag(wxPG_FL_IN_ONCUSTOMEDITOREVENT);
+
     wxVariant variant(selected->GetValueRef());
     wxWindow* wnd = GetEditorControl();
     int selFlags = 0;
     bool wasUnspecified = selected->IsValueUnspecified();
-    bool usesAutoUnspecified = UsesAutoUnspecified();
+    int usesAutoUnspecified = selected->UsesAutoUnspecified();
     bool valuePending = false;
     bool res0 = false;
     bool res1 = false;
@@ -5714,7 +5748,7 @@ void wxPropertyGrid::OnCustomEditorEvent( wxCommandEvent &event )
     m_iFlags &= ~(wxPG_FL_VALIDATION_FAILED|wxPG_FL_VALUE_CHANGE_IN_EVENT);
 
     // Try common button handling
-    if ( m_wndSecondary && event.GetEventType() == wxEVT_COMMAND_BUTTON_CLICKED )
+    if ( m_wndEditor2 && event.GetEventType() == wxEVT_COMMAND_BUTTON_CLICKED )
     {
         wxPGEditorDialogAdapter* adapter = selected->GetEditorDialog();
         if ( adapter )
@@ -5736,32 +5770,38 @@ void wxPropertyGrid::OnCustomEditorEvent( wxCommandEvent &event )
 
         if ( res1 )
         {
+            bool validationFailure = false;
+
             // If changes, validate them
             if ( DoEditorValidate() )
             {
                 if ( editor->ActualGetValueFromControl( variant, selected, wnd ) )
                 {
-                    valuePending = true;
-                }
-                else
-                {
-                    // False alarm
-                    res1 = false;
-
-                    EditorsValueWasNotModified();
-
-                    // However, even moot editing will clear the unspecified status
-                    //if ( wasUnspecified || !usesAutoUnspecified )
-                    //    CLEAR_PROPERTY_UNSPECIFIED_FLAG(selected);
+                    if ( wxPGIsVariantType(variant, list) || selected->ActualValidateValue( variant ) )
+                        valuePending = true;
+                    else
+                        validationFailure = true;
                 }
             }
             else
             {
+                validationFailure = true;
+            }
+
+            if ( !valuePending )
+            {
+                // Clean up
                 res1 = false;
                 EditorsValueWasNotModified();
-                if ( wasUnspecified || !usesAutoUnspecified )
-                    CLEAR_PROPERTY_UNSPECIFIED_FLAG(selected);
-                return;
+
+                if ( validationFailure )
+                {
+                    if ( wasUnspecified || !usesAutoUnspecified )
+                        CLEAR_PROPERTY_UNSPECIFIED_FLAG(selected);
+
+                    ClearInternalFlag(wxPG_FL_IN_ONCUSTOMEDITOREVENT);
+                    return;
+                }
             }
         }
 
@@ -5791,12 +5831,16 @@ void wxPropertyGrid::OnCustomEditorEvent( wxCommandEvent &event )
         DoPropertyChanged(selected, pvariant, selFlags);
     }
     else
+    {
         // Let unhandled button click events go to the parent
         if ( event.GetEventType() == wxEVT_COMMAND_BUTTON_CLICKED )
         {
             wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED,GetId());
             GetEventHandler()->AddPendingEvent(evt);
         }
+    }
+
+    ClearInternalFlag(wxPG_FL_IN_ONCUSTOMEDITOREVENT);
 }
 
 // -----------------------------------------------------------------------
@@ -5905,7 +5949,7 @@ void wxPropertyGrid::CustomSetCursor( int type, bool override )
 
     m_canvas->SetCursor( *cursor );
 
-    //if ( m_wndPrimary ) m_wndPrimary->SetCursor(wxNullCursor);
+    //if ( m_wndEditor ) m_wndEditor->SetCursor(wxNullCursor);
 
     m_curcursor = type;
 }
@@ -5925,7 +5969,7 @@ void wxPropertyGrid::SetupEventHandling( wxWindow* argWnd, int id )
 {
     wxWindow* wnd = argWnd;
 
-    if ( argWnd == m_wndPrimary )
+    if ( argWnd == m_wndEditor )
     {
         CONNECT_CHILD(wxEVT_MOTION,(wxMouseEventFunction),OnMouseMoveChild)
         CONNECT_CHILD(wxEVT_LEFT_UP,(wxMouseEventFunction),OnMouseUpChild)
@@ -5949,18 +5993,18 @@ void wxPropertyGrid::FreeEditors()
     if ( !m_windowsToDelete )
         m_windowsToDelete = new wxArrayPtrVoid;
 
-    if ( m_wndSecondary )
+    if ( m_wndEditor2 )
     {
-        m_windowsToDelete->push_back(m_wndSecondary);
-        m_wndSecondary->Hide();
-        m_wndSecondary = (wxWindow*) NULL;
+        m_windowsToDelete->push_back(m_wndEditor2);
+        m_wndEditor2->Hide();
+        m_wndEditor2 = (wxWindow*) NULL;
     }
 
-    if ( m_wndPrimary )
+    if ( m_wndEditor )
     {
-        m_windowsToDelete->push_back(m_wndPrimary);
-        m_wndPrimary->Hide();
-        m_wndPrimary = (wxWindow*) NULL;
+        m_windowsToDelete->push_back(m_wndEditor);
+        m_wndEditor->Hide();
+        m_wndEditor = (wxWindow*) NULL;
     }
 }
 
@@ -6020,9 +6064,9 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
             {
                 if ( flags & wxPG_SEL_FOCUS )
                 {
-                    if ( m_wndPrimary )
+                    if ( m_wndEditor )
                     {
-                        m_wndPrimary->SetFocus();
+                        m_wndEditor->SetFocus();
                         m_editorFocused = 1;
                     }
                 }
@@ -6037,9 +6081,6 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
         }
 
         wxClientDC dc(m_canvas);
-
-        // Don't put this earlier, due to return statements
-        m_iFlags |= wxPG_FL_IN_SELECT_PROPERTY;
 
         //
         // First, deactivate previous
@@ -6074,6 +6115,8 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
             m_iFlags &= ~(wxPG_FL_VALUE_MODIFIED|wxPG_FL_ABNORMAL_EDITOR);
         }
 
+        SetInternalFlag(wxPG_FL_IN_SELECT_PROPERTY);
+
         //
         // Then, activate the one given.
         if ( p )
@@ -6088,7 +6131,7 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
             if ( p != prev )
                 m_iFlags &= ~(wxPG_FL_VALIDATION_FAILED);
 
-            wxASSERT( m_wndPrimary == (wxWindow*) NULL );
+            wxASSERT( m_wndEditor == (wxWindow*) NULL );
 
             // Do we need OnMeasureCalls?
             wxSize imsz = p->OnMeasureImage();
@@ -6126,30 +6169,30 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
                                                                 goodPos,
                                                                 grect.GetSize());
 
-                m_wndPrimary = wndList.m_primary;
-                m_wndSecondary = wndList.m_secondary;
+                m_wndEditor = wndList.m_primary;
+                m_wndEditor2 = wndList.m_secondary;
 
-                // NOTE: It is allowed for m_wndPrimary to be NULL - in this case
-                //       value is drawn as normal, and m_wndSecondary is assumed
+                // NOTE: It is allowed for m_wndEditor to be NULL - in this case
+                //       value is drawn as normal, and m_wndEditor2 is assumed
                 //       to be a right-aligned button that triggers a separate editor
                 //       window.
 
-                if ( m_wndPrimary )
+                if ( m_wndEditor )
                 {
-                    wxASSERT_MSG( m_wndPrimary->GetParent() == m_canvas,
+                    wxASSERT_MSG( m_wndEditor->GetParent() == m_canvas,
                                   wxT("CreateControls must use result of wxPropertyGrid::GetPanel() as parent of controls.") );
 
                     // Set validator, if any
                 #if wxUSE_VALIDATORS
-                    if ( GetExtraStyle() & wxPG_EX_TRADITIONAL_VALIDATORS )
+                    if ( !(GetExtraStyle() & wxPG_EX_LEGACY_VALIDATORS) )
                     {
                         wxValidator* validator = p->GetValidator();
                         if ( validator )
-                            m_wndPrimary->SetValidator(*validator);
+                            m_wndEditor->SetValidator(*validator);
                     }
                 #endif
 
-                    if ( m_wndPrimary->GetSize().y > (m_lineHeight+6) )
+                    if ( m_wndEditor->GetSize().y > (m_lineHeight+6) )
                         m_iFlags |= wxPG_FL_ABNORMAL_EDITOR;
 
                     // If it has modified status, use bold font
@@ -6161,33 +6204,33 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
                     // Fix TextCtrl indentation
                 #if defined(__WXMSW__) && !defined(__WXWINCE__)
                     wxTextCtrl* tc = NULL;
-                    if ( m_wndPrimary->IsKindOf(CLASSINFO(wxPGOwnerDrawnComboBox)) )
-                        tc = ((wxPGOwnerDrawnComboBox*)m_wndPrimary)->GetTextCtrl();
+                    if ( m_wndEditor->IsKindOf(CLASSINFO(wxPGOwnerDrawnComboBox)) )
+                        tc = ((wxPGOwnerDrawnComboBox*)m_wndEditor)->GetTextCtrl();
                     else
-                        tc = wxDynamicCast(m_wndPrimary, wxTextCtrl);
+                        tc = wxDynamicCast(m_wndEditor, wxTextCtrl);
                     if ( tc )
                         ::SendMessage(GetHwndOf(tc), EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
                 #endif
 
                     // Store x relative to splitter (we'll need it).
-                    m_ctrlXAdjust = m_wndPrimary->GetPosition().x - splitterX;
+                    m_ctrlXAdjust = m_wndEditor->GetPosition().x - splitterX;
 
                     // Check if background clear is not necessary
-                    wxPoint pos = m_wndPrimary->GetPosition();
+                    wxPoint pos = m_wndEditor->GetPosition();
                     if ( pos.x > (splitterX+1) || pos.y > propY )
                     {
                         m_iFlags &= ~(wxPG_FL_PRIMARY_FILLS_ENTIRE);
                     }
 
-                    m_wndPrimary->SetSizeHints(3, 3);
+                    m_wndEditor->SetSizeHints(3, 3);
 
                 #if wxPG_CREATE_CONTROLS_HIDDEN
-                    m_wndPrimary->Show(false);
-                    m_wndPrimary->Freeze();
+                    m_wndEditor->Show(false);
+                    m_wndEditor->Freeze();
 
-                    goodPos = m_wndPrimary->GetPosition();
+                    goodPos = m_wndEditor->GetPosition();
                     goodPos.y -= coord_adjust;
-                    m_wndPrimary->Move( goodPos );
+                    m_wndEditor->Move( goodPos );
                 #endif
 
                     wxWindow* primaryCtrl = GetEditorControl();
@@ -6202,22 +6245,22 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
                     }
                 }
 
-                if ( m_wndSecondary )
+                if ( m_wndEditor2 )
                 {
-                    wxASSERT_MSG( m_wndSecondary->GetParent() == m_canvas,
+                    wxASSERT_MSG( m_wndEditor2->GetParent() == m_canvas,
                                   wxT("CreateControls must use result of wxPropertyGrid::GetPanel() as parent of controls.") );
 
                     // Get proper id for wndSecondary
-                    m_wndSecId = m_wndSecondary->GetId();
-                    wxWindowList children = m_wndSecondary->GetChildren();
+                    m_wndSecId = m_wndEditor2->GetId();
+                    wxWindowList children = m_wndEditor2->GetChildren();
                     wxWindowList::iterator node = children.begin();
                     if ( node != children.end() )
                         m_wndSecId = ((wxWindow*)*node)->GetId();
 
-                    m_wndSecondary->SetSizeHints(3,3);
+                    m_wndEditor2->SetSizeHints(3,3);
 
                 #if wxPG_CREATE_CONTROLS_HIDDEN
-                    wxRect sec_rect = m_wndSecondary->GetRect();
+                    wxRect sec_rect = m_wndEditor2->GetRect();
                     sec_rect.y -= coord_adjust;
 
                     // Fine tuning required to fix "oversized"
@@ -6227,19 +6270,19 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
                         sec_rect.height += sec_rect.y;
                         sec_rect.y = 0;
                     }
-                    m_wndSecondary->SetSize( sec_rect );
+                    m_wndEditor2->SetSize( sec_rect );
                 #endif
-                    m_wndSecondary->Show();
+                    m_wndEditor2->Show();
 
-                    SetupEventHandling(m_wndSecondary,wxPG_SUBID2);
+                    SetupEventHandling(m_wndEditor2,wxPG_SUBID2);
 
                     // If no primary editor, focus to button to allow
                     // it to interprete ENTER etc.
                     // NOTE: Due to problems focusing away from it, this
                     //       has been disabled.
                     /*
-                    if ( (flags & wxPG_SEL_FOCUS) && !m_wndPrimary )
-                        m_wndSecondary->SetFocus();
+                    if ( (flags & wxPG_SEL_FOCUS) && !m_wndEditor )
+                        m_wndEditor2->SetFocus();
                     */
                 }
 
@@ -6260,7 +6303,7 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
             if ( !(flags & wxPG_SEL_NONVISIBLE) )
                 EnsureVisible( p );
 
-            if ( m_wndPrimary )
+            if ( m_wndEditor )
             {
                 // Clear its background
                 // (why can't this be optimized by some other drawing?)
@@ -6273,13 +6316,15 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
                 }
 
             #if wxPG_CREATE_CONTROLS_HIDDEN
-                m_wndPrimary->Thaw();
+                m_wndEditor->Thaw();
             #endif
-                m_wndPrimary->Show(true);
+                m_wndEditor->Show(true);
             }
 
             DoDrawItems( dc, p, p, NULL );
         }
+
+        ClearInternalFlag(wxPG_FL_IN_SELECT_PROPERTY);
     }
 
 #if wxUSE_STATUSBAR
@@ -6304,9 +6349,9 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
         {
             const wxString* pHelpString = (const wxString*) NULL;
 
-            if ( p && p->m_dataExt )
+            if ( p )
             {
-                pHelpString = &p->m_dataExt->m_helpString;
+                pHelpString = &p->GetHelpString();
                 if ( pHelpString->length() )
                 {
                     // Set help box text.
@@ -6327,8 +6372,6 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
     }
 #endif
 
-    m_iFlags &= ~(wxPG_FL_IN_SELECT_PROPERTY);
-
     // call wx event handler (here so that it also occurs on deselection)
     SendEvent( wxEVT_PG_SELECTED, m_selected, NULL, flags );
 
@@ -6339,7 +6382,7 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
 
 bool wxPropertyGrid::UnfocusEditor()
 {
-    if ( !m_selected || !m_wndPrimary || m_frozen )
+    if ( !m_selected || !m_wndEditor || m_frozen )
         return true;
 
     if ( !CommitChangesFromEditor(0) )
@@ -6457,7 +6500,7 @@ bool wxPropertyGrid::DoExpand( wxPGProperty* p, bool sendEvents )
 bool wxPropertyGrid::DoHideProperty( wxPGProperty* p, bool hide )
 {
     if ( m_frozen )
-        return m_pState->HideProperty(p, hide);
+        return m_pState->DoHideProperty(p, hide);
 
     if ( m_selected &&
          ( m_selected == p || m_selected->IsSomeParent(p) )
@@ -6467,7 +6510,7 @@ bool wxPropertyGrid::DoHideProperty( wxPGProperty* p, bool hide )
                 return false;
         }
 
-    m_pState->HideProperty(p, hide);
+    m_pState->DoHideProperty(p, hide);
 
     RedrawAllVisible();
 
@@ -6823,14 +6866,14 @@ bool wxPropertyGrid::HandleMouseClick( int x, unsigned int y, wxMouseEvent &even
                             (int)(x - splitterX) );
                     #endif
 
-                        if ( m_wndPrimary )
+                        if ( m_wndEditor )
                         {
                             // Changes must be committed here or the
                             // value won't be drawn correctly
                             if ( !CommitChangesFromEditor() )
                                 return res;
 
-                            m_wndPrimary->Show ( false );
+                            m_wndEditor->Show ( false );
                         }
 
                         BEGIN_MOUSE_CAPTURE
@@ -6843,8 +6886,8 @@ bool wxPropertyGrid::HandleMouseClick( int x, unsigned int y, wxMouseEvent &even
 
                     #if wxPG_REFRESH_CONTROLS_AFTER_REPAINT
                         // Fixes button disappearance bug
-                        if ( m_wndSecondary )
-                            m_wndSecondary->Show ( false );
+                        if ( m_wndEditor2 )
+                            m_wndEditor2->Show ( false );
                     #endif
 
                         m_startingSplitterX = x - splitterHitOffset;
@@ -7231,15 +7274,15 @@ bool wxPropertyGrid::HandleMouseUp( int x, unsigned int WXUNUSED(y),
             DrawItem( m_selected );
         #endif
 
-        if ( m_wndPrimary )
+        if ( m_wndEditor )
         {
-            m_wndPrimary->Show ( true );
+            m_wndEditor->Show ( true );
         }
 
     #if wxPG_REFRESH_CONTROLS_AFTER_REPAINT
         // Fixes button disappearance bug
-        if ( m_wndSecondary )
-            m_wndSecondary->Show ( true );
+        if ( m_wndEditor2 )
+            m_wndEditor2->Show ( true );
     #endif
 
         // This clears the focus.
@@ -7260,13 +7303,13 @@ bool wxPropertyGrid::OnMouseCommon( wxMouseEvent& event, int* px, int* py )
     int ux = event.m_x;
     int uy = event.m_y;
 
-    wxWindow* wnd = m_wndPrimary;
+    wxWindow* wnd = m_wndEditor;
 
     // Hide popup on clicks
     if ( event.GetEventType() != wxEVT_MOTION )
         if ( wnd && wnd->IsKindOf(CLASSINFO(wxPGOwnerDrawnComboBox)) )
         {
-            ((wxPGOwnerDrawnComboBox*)m_wndPrimary)->HidePopup();
+            ((wxPGOwnerDrawnComboBox*)m_wndEditor)->HidePopup();
         }
 
     //if (printmsg) wxLogDebug( wxT("On") wxT(#func) wxT("( %i, %i )"),(int)ux,(int)uy );
@@ -7383,7 +7426,7 @@ void wxPropertyGrid::OnMouseEntry( wxMouseEvent &event )
             GetParent()->SetCursor(wxNullCursor);
 
             m_iFlags |= wxPG_FL_MOUSE_INSIDE;
-            //if ( m_wndPrimary ) m_wndPrimary->Show ( true );
+            //if ( m_wndEditor ) m_wndEditor->Show ( true );
         }
         else
             GetParent()->SetCursor(wxNullCursor);
@@ -7407,7 +7450,7 @@ void wxPropertyGrid::OnMouseEntry( wxMouseEvent &event )
                     wxLogDebug(wxT("Mouse Leaves Window"));
                 #endif
                     m_iFlags &= ~(wxPG_FL_MOUSE_INSIDE);
-                    //if ( m_wndPrimary ) m_wndPrimary->Show ( false );
+                    //if ( m_wndEditor ) m_wndEditor->Show ( false );
                 }
 
                 if ( m_dragStatus )
@@ -7472,10 +7515,10 @@ void wxPropertyGrid::OnMouseClickChild( wxMouseEvent &event )
 void wxPropertyGrid::OnMouseRightClickChild( wxMouseEvent &event )
 {
     int x,y;
-    wxASSERT( m_wndPrimary );
+    wxASSERT( m_wndEditor );
     // These coords may not be exact (about +-2),
     // but that should not matter (right click is about item, not position).
-    wxPoint pt = m_wndPrimary->GetPosition();
+    wxPoint pt = m_wndEditor->GetPosition();
     CalcUnscrolledPosition( event.m_x + pt.x, event.m_y + pt.y, &x, &y );
     wxASSERT( m_selected );
     m_propHover = m_selected;
@@ -7633,7 +7676,7 @@ bool wxPropertyGrid::HandleChildKey( wxKeyEvent& event )
     if ( keycode == WXK_ESCAPE )
     {
         wxASSERT(m_selected);
-        wxASSERT(m_wndPrimary);
+        wxASSERT(m_wndEditor);
 
         // Esc cancels any changes
         if ( IsEditorsValueModified() )
@@ -7641,7 +7684,9 @@ bool wxPropertyGrid::HandleChildKey( wxKeyEvent& event )
             EditorsValueWasNotModified();
 
             // Update the control as well
-            m_selected->GetEditorClass()->SetControlStringValue( m_wndPrimary, m_selected->GetDisplayedString() );
+            m_selected->GetEditorClass()->SetControlStringValue( m_selected,
+                                                                 m_wndEditor,
+                                                                 m_selected->GetDisplayedString() );
         }
 
         res = false;
@@ -7704,7 +7749,7 @@ void wxPropertyGrid::OnNavigationKey( wxNavigationKeyEvent& event )
 
     if ( m_selected )
     {
-        if ( dir == 1 && (m_wndPrimary || m_wndSecondary) )
+        if ( dir == 1 && (m_wndEditor || m_wndEditor2) )
         {
             wxWindow* focused = wxWindow::FindFocus();
 
@@ -7723,17 +7768,17 @@ void wxPropertyGrid::OnNavigationKey( wxNavigationKeyEvent& event )
             if ( !wndToCheck )
             {
                 // No primary, use secondary
-                wndToCheck = m_wndSecondary;
+                wndToCheck = m_wndEditor2;
             }
             // If it has editor button, focus to it after the primary editor.
             // NB: Doesn't work since wxButton on wxMSW doesn't seem to propagate
             //     key events (yes, I'm using wxWANTS_CHARS with it, and yes I
             //     have somewhat debugged in window.cpp itself).
             else if ( focused == wndToCheck &&
-                      m_wndSecondary &&
+                      m_wndEditor2 &&
                       !(GetExtraStyle() & wxPG_EX_NO_TAB_TO_BUTTON) )
             {
-                wndToCheck = m_wndSecondary;
+                wndToCheck = m_wndEditor2;
                 wxLogDebug(wxT("Exp1"));
             }
             */
@@ -7744,7 +7789,7 @@ void wxPropertyGrid::OnNavigationKey( wxNavigationKeyEvent& event )
                 wndToCheck->SetFocus();
 
                 // Select all text in wxTextCtrl etc.
-                if ( m_wndPrimary && wndToCheck == m_wndPrimary )
+                if ( m_wndEditor && wndToCheck == m_wndEditor )
                     m_selected->GetEditorClass()->OnFocus(m_selected,wndToCheck);
 
                 m_editorFocused = 1;
@@ -7776,13 +7821,13 @@ bool wxPropertyGrid::ButtonTriggerKeyTest( wxKeyEvent &event )
 
     // Does the keycode trigger button?
     if ( keycode == m_pushButKeyCode &&
-         m_wndSecondary &&
+         m_wndEditor2 &&
          (!m_pushButKeyCodeNeedsAlt || event.AltDown()) &&
          (!m_pushButKeyCodeNeedsCtrl || event.ControlDown()) )
     {
         m_keyComboConsumed = 1;
 
-        wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED,m_wndSecondary->GetId());
+        wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED,m_wndEditor2->GetId());
         GetEventHandler()->AddPendingEvent(evt);
         return true;
     }
@@ -8044,8 +8089,89 @@ WX_PG_IMPLEMENT_WXOBJECT_VARIANT_DATA(wxPGVariantDataFont, wxFont)
 #endif
 
 #ifdef __WXPYTHON__
-    WX_PG_IMPLEMENT_PTR_VARIANT_DATA(wxPGVariantDataPyObject, PyObject, Py_None)
-#endif
+
+// Implement PyObject* wxVariantData manually, since it has
+// some needs for customization.
+class wxPGVariantDataPyObject : public wxPGVariantData
+{
+    WX_PG_DECLARE_DYNAMIC_CLASS_VARIANTDATA(wxPGVariantDataPyObject)
+protected:
+    PyObject* m_value;
+public:
+    wxPGVariantDataPyObject()
+    {
+        m_value = NULL;
+    }
+    wxPGVariantDataPyObject( PyObject* value )
+    {
+        if (!value) value = Py_None;
+        Py_INCREF(value);
+        m_value = value;
+    }
+    virtual ~wxPGVariantDataPyObject()
+    {
+        // Avoid crashing on program exit
+        if ( _PyThreadState_Current != NULL && m_value )
+            Py_DECREF(m_value);
+    }
+    inline PyObject* GetValue() const { return m_value; }
+    inline PyObject* GetValueRef() const { return m_value; }
+    inline void SetValue(PyObject* value)
+    {
+        if (m_value)
+            Py_DECREF(m_value);
+        if (!value) value = Py_None;
+        Py_INCREF(value);
+        m_value = value;
+    }
+    // TODO
+    virtual bool Eq(wxVariantData&) const { return false; }
+    virtual wxString GetType() const { return wxT("PyObject*"); }
+    virtual wxVariantData* Clone() { return new wxPGVariantDataPyObject(); }
+    virtual bool Read(wxString &) { return false; }
+    virtual bool Write(wxString &) const { return true; }
+    virtual wxVariant GetDefaultValue() const { return wxVariant( new wxPGVariantDataPyObject(NULL) ); }
+public:
+    virtual void* GetValuePtr() { return (void*)m_value; }
+};
+
+_WX_PG_VARIANT_DATA_CLASSINFO_CONTAINER(wxPGVariantDataPyObject)
+
+WX_PG_IMPLEMENT_DYNAMIC_CLASS_VARIANTDATA(wxPGVariantDataPyObject, wxPGVariantData)
+
+PyObject* operator <<( PyObject* value, const wxVariant &variant )
+{
+	wxPGVariantDataPyObject *data = wxDynamicCastVariantData( variant.GetData(), wxPGVariantDataPyObject );
+    wxASSERT( data );
+    value = data->GetValue();
+    Py_INCREF(value);
+    return value;
+}
+
+wxVariant& operator <<( wxVariant &variant, PyObject* value )
+{
+    wxPGVariantDataPyObject *data = new wxPGVariantDataPyObject( value );
+    variant.SetData( data );
+    return variant;
+}
+
+PyObject* PyObjectFromVariant( const wxVariant& v )
+{
+	wxPGVariantDataPyObject *data = wxDynamicCastVariantData( v.GetData(), wxPGVariantDataPyObject );
+    if ( !data )
+        return NULL;
+    PyObject* retval = data->GetValue();
+    Py_INCREF(retval);
+    return retval;
+}
+
+wxVariant PyObjectToVariant( PyObject* value )
+{
+    wxVariant variant( new wxPGVariantDataPyObject( value ) );
+    return variant;
+}
+
+#endif // __WXPYTHON__
 
 
 wxObject* wxPG_VariantToWxObject( const wxVariant& variant, wxClassInfo* classInfo )
@@ -8073,10 +8199,16 @@ wxObject* wxPG_VariantToWxObject( const wxVariant& variant, wxClassInfo* classIn
 // wxVariant helpers
 // -----------------------------------------------------------------------
 
-long wxPGVariantToInt( const wxVariant& variant )
+long wxPGVariantToInt( const wxVariant& variant, long defVal )
 {
+    if ( variant.IsNull() )
+        return defVal;
+
     if ( wxPGIsVariantType(variant, long) )
         return variant.GetLong();
+
+    if ( wxPGIsVariantType(variant, bool) )
+        return variant.GetBool() ? 1 : 0;
 
 #if wxCHECK_VERSION(2,9,0)
     if ( typeid(*variant.GetData()) == typeid(wxPGVariantDataLongLong) )
@@ -8092,12 +8224,101 @@ long wxPGVariantToInt( const wxVariant& variant )
         return ll.ToLong();
     }
 
-    long l = 0;
+    long l = defVal;
 
     if ( wxPGIsVariantType(variant, string) )
         variant.GetString().ToLong(&l, 0);
 
     return l;
+}
+
+// -----------------------------------------------------------------------
+
+bool wxPGVariantToLongLong( const wxVariant& variant, wxLongLong_t* pResult )
+{
+    if ( variant.IsNull() )
+        return false;
+
+    if ( wxPGIsVariantType(variant, long) )
+    {
+        *pResult = variant.GetLong();
+        return true;
+    }
+
+#if wxCHECK_VERSION(2,9,0)
+    if ( typeid(*variant.GetData()) == typeid(wxPGVariantDataLongLong) )
+#else
+    if ( wxPGVariantDataGetClassInfo(variant.GetData()) == &wxPGVariantDataLongLong::ms_classInfo )
+#endif
+    {
+        *pResult = ((const wxPGVariantDataLongLong&)variant).GetValue().GetValue();
+        return true;
+    }
+
+    return false;
+}
+
+// -----------------------------------------------------------------------
+
+bool wxPGVariantToULongLong( const wxVariant& variant, wxULongLong_t* pResult )
+{
+    if ( variant.IsNull() )
+        return false;
+
+    if ( wxPGIsVariantType(variant, long) )
+    {
+        *pResult = (unsigned long)variant.GetLong();
+        return true;
+    }
+
+#if wxCHECK_VERSION(2,9,0)
+    if ( typeid(*variant.GetData()) == typeid(wxPGVariantDataULongLong) )
+#else
+    if ( wxPGVariantDataGetClassInfo(variant.GetData()) == &wxPGVariantDataULongLong::ms_classInfo )
+#endif
+    {
+        *pResult = ((const wxPGVariantDataULongLong&)variant).GetValue().GetValue();
+        return true;
+    }
+
+    return false;
+}
+
+// -----------------------------------------------------------------------
+
+bool wxPGVariantToDouble( const wxVariant& variant, double* pResult )
+{
+    if ( variant.IsNull() )
+        return false;
+
+    if ( wxPGIsVariantType(variant, double) )
+    {
+        *pResult = variant.GetDouble();
+        return true;
+    }
+
+    if ( wxPGIsVariantType(variant, long) )
+    {
+        *pResult = (double)variant.GetLong();
+        return true;
+    }
+
+#if wxCHECK_VERSION(2,9,0)
+    if ( typeid(*variant.GetData()) == typeid(wxPGVariantDataLongLong) )
+#else
+    if ( wxPGVariantDataGetClassInfo(variant.GetData()) == &wxPGVariantDataLongLong::ms_classInfo )
+#endif
+    {
+        wxLongLong ll = ((const wxPGVariantDataLongLong&)variant).GetValue();
+        *pResult = ll.ToDouble();
+        return true;
+    }
+
+    if ( wxPGIsVariantType(variant, string) )
+        if ( variant.GetString().ToDouble(pResult) )
+            return true;
+
+    return false;
 }
 
 // -----------------------------------------------------------------------
@@ -8297,7 +8518,11 @@ void wxPGChoicesData::Clear()
         delete Item(i);
     }
 
+#if wxPG_USE_STL
     m_items.resize(0);
+#else
+    m_items.Empty();
+#endif
 }
 
 void wxPGChoicesData::CopyDataFrom( wxPGChoicesData* data )
@@ -8475,9 +8700,56 @@ wxArrayString wxPGChoices::GetLabels() const
 
 bool wxPGChoices::HasValues() const
 {
-    if ( IsOk() && GetCount() && GetValue(0) != wxPG_INVALID_VALUE )
-        return true;
-    return false;
+    //if ( GetCount() && GetValue(0) != wxPG_INVALID_VALUE )
+    //    return true;
+    //return false;
+    return true;
+}
+
+// -----------------------------------------------------------------------
+
+wxArrayInt wxPGChoices::GetValuesForStrings( const wxArrayString& strings ) const
+{
+    wxArrayInt arr;
+
+    if ( IsOk() )
+    {
+        unsigned int i;
+        for ( i=0; i< strings.size(); i++ )
+        {
+            int index = Index(strings[i]);
+            if ( index >= 0 )
+                arr.Add(GetValue(index));
+            else
+                arr.Add(wxPG_INVALID_VALUE);
+        }
+    }
+
+    return arr;
+}
+
+// -----------------------------------------------------------------------
+
+wxArrayInt wxPGChoices::GetIndicesForStrings( const wxArrayString& strings, 
+                                              wxArrayString* unmatched ) const
+{
+    wxArrayInt arr;
+
+    if ( IsOk() )
+    {
+        unsigned int i;
+        for ( i=0; i< strings.size(); i++ )
+        {
+            const wxString& str = strings[i];
+            int index = Index(str);
+            if ( index >= 0 )
+                arr.Add(index);
+            else if ( unmatched )
+                unmatched->Add(str);
+        }
+    }
+
+    return arr;
 }
 
 // -----------------------------------------------------------------------
@@ -8731,7 +9003,7 @@ bool wxPropertyContainerMethods::HideProperty( wxPGPropArg id, bool hide )
     if ( pg == p->GetGrid() )
         return pg->DoHideProperty(p, hide);
     else
-        m_pState->HideProperty(p, hide);
+        m_pState->DoHideProperty(p, hide);
 
     return true;
 }
@@ -8969,7 +9241,7 @@ void wxPropertyGridIteratorBase::Init( wxPropertyGridState* state, int flags, wx
     wxASSERT( dir == 1 || dir == -1 );
 
     m_state = state;
-    m_baseParent = state->GetRoot();
+    m_baseParent = state->DoGetRoot();
     if ( !property && m_baseParent->GetChildCount() )
         property = m_baseParent->Item(0);
 
@@ -9574,7 +9846,7 @@ void wxPropertyGridState::CheckColumnWidths()
     const bool debug = false;
 #endif
 
-    long timeSinceCreation = (::wxGetLocalTimeMillis() - pg->m_timeCreated).ToLong();
+    //long timeSinceCreation = (::wxGetLocalTimeMillis() - pg->m_timeCreated).ToLong();
 
     unsigned int i;
     unsigned int lastColumn = m_colWidths.size() - 1;
@@ -9590,7 +9862,9 @@ void wxPropertyGridState::CheckColumnWidths()
 #endif
 
     // Check min sizes
-    if ( timeSinceCreation >= 0 ) // BaH - changed from 750
+    // FIXME: This should be fixed in better way than this.
+    //   (eg. value 750 nor 250 did not work right)
+    //if ( timeSinceCreation >= 50 )
     {
         for ( i=0; i<m_colWidths.size(); i++ )
         {
@@ -9811,9 +10085,9 @@ void wxPropertyGridState::DoSetPropertyUnspecified( wxPGProperty* p )
 
         if ( m_pPropGrid->GetState() == this )
         {
-            if ( m_pPropGrid->m_selected == p && m_pPropGrid->m_wndPrimary )
+            if ( m_pPropGrid->m_selected == p && m_pPropGrid->m_wndEditor )
             {
-                p->GetEditorClass()->SetValueToUnspecified(m_pPropGrid->GetEditorControl());
+                p->GetEditorClass()->SetValueToUnspecified(p, m_pPropGrid->GetEditorControl());
             }
         }
 
@@ -9836,8 +10110,8 @@ void wxPropertyGridState::ClearModifiedStatus( wxPGProperty* p )
         if ( m_pPropGrid->GetState() == this )
         {
             // Clear active editor bold
-            if ( p == m_selected && m_pPropGrid->m_wndPrimary )
-                m_pPropGrid->m_wndPrimary->SetFont( m_pPropGrid->GetFont() );
+            if ( p == m_selected && m_pPropGrid->m_wndEditor )
+                m_pPropGrid->m_wndEditor->SetFont( m_pPropGrid->GetFont() );
 
             m_pPropGrid->DrawItem( p );
         }
@@ -9859,12 +10133,15 @@ bool wxPropertyGridState::DoCollapse( wxPGProperty* p, int* pHeightAdd )
 
     if ( !pwc->IsExpanded() ) return false;
 
-    int heightAdd = -pwc->GetChildrenHeight(m_pPropGrid->GetRowHeight());
+    if ( pwc->IsVisible() )
+    {
+        int heightAdd = -pwc->GetChildrenHeight(m_pPropGrid->GetRowHeight());
 
-    if ( pHeightAdd )
-        *pHeightAdd = heightAdd;
+        if ( pHeightAdd )
+            *pHeightAdd = heightAdd;
 
-    m_bottomY += heightAdd;
+        m_bottomY += heightAdd;
+    }
 
     pwc->SetExpanded(false);
 
@@ -9884,12 +10161,15 @@ bool wxPropertyGridState::DoExpand( wxPGProperty* p, int* pHeightAdd )
 
     pwc->SetExpanded(true);
 
-    int heightAdd = pwc->GetChildrenHeight(m_pPropGrid->GetRowHeight());
+    if ( pwc->IsVisible() )
+    {
+        int heightAdd = pwc->GetChildrenHeight(m_pPropGrid->GetRowHeight());
 
-    if ( pHeightAdd )
-        *pHeightAdd = heightAdd;
+        if ( pHeightAdd )
+            *pHeightAdd = heightAdd;
 
-    m_bottomY += heightAdd;
+        m_bottomY += heightAdd;
+    }
 
     return true;
 }
@@ -9907,38 +10187,16 @@ bool wxPropertyGridState::DoSelectProperty( wxPGProperty* p, unsigned int flags 
 
 // -----------------------------------------------------------------------
 
-bool wxPropertyGridState::HideProperty( wxPGProperty* p, bool hide )
+bool wxPropertyGridState::DoHideProperty( wxPGProperty* p, bool hide )
 {
     if ( !hide ) p->ClearFlag( wxPG_PROP_HIDDEN );
     else p->SetFlag( wxPG_PROP_HIDDEN );
 
     unsigned int i;
     for ( i = 0; i < p->GetChildCount(); i++ )
-        HideProperty(p->Item(i), hide);
+        DoHideProperty(p->Item(i), hide);
 
     return true;
-}
-
-// -----------------------------------------------------------------------
-
-void wxPropertyGridState::SetPropertyAndChildrenFlags( wxPGProperty* p, long flags )
-{
-    p->m_flags |= flags;
-
-    unsigned int i;
-    for ( i = 0; i < p->GetChildCount(); i++ )
-        ClearPropertyAndChildrenFlags( p->Item(i), flags );
-}
-
-// -----------------------------------------------------------------------
-
-void wxPropertyGridState::ClearPropertyAndChildrenFlags( wxPGProperty* p, long flags )
-{
-    p->m_flags &= ~(flags);
-
-    unsigned int i;
-    for ( i = 0; i < p->GetChildCount(); i++ )
-        ClearPropertyAndChildrenFlags( p->Item(i), flags );
 }
 
 // -----------------------------------------------------------------------
@@ -10467,6 +10725,9 @@ int wxPropertyGridState::PrepareToAddItem( wxPGProperty* property,
             return -1;
         }
 
+        if ( propGrid && (propGrid->GetExtraStyle() & wxPG_EX_AUTO_UNSPECIFIED_VALUES) )
+            property->SetFlagRecursively(wxPG_PROP_AUTO_UNSPECIFIED, true);
+
         return 0;
     }
     else
@@ -10785,7 +11046,7 @@ void wxPropertyGridState::InitNonCatMode()
 
 // -----------------------------------------------------------------------
 
-void wxPropertyGridState::Clear()
+void wxPropertyGridState::DoClear()
 {
     m_regularArray.Empty();
     if ( m_abcArray )
