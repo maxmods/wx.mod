@@ -312,6 +312,8 @@ extern "C" {
 	bool bmx_wxsetcursorevent_hascursor(wxSetCursorEvent & event);
 	void bmx_wxsetcursorevent_setcursor(wxSetCursorEvent & event, MaxCursor * cursor);
 
+	MaxDC * bmx_wxeraseevent_getdc(wxEraseEvent & event);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

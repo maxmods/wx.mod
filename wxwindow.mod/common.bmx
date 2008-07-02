@@ -317,6 +317,8 @@ Extern
 	Function bmx_wxsetcursorevent_hascursor:Int(handle:Byte Ptr)
 	Function bmx_wxsetcursorevent_setcursor(handle:Byte Ptr, cursor:Byte Ptr)
 
+	Function bmx_wxeraseevent_getdc:Byte Ptr(handle:Byte Ptr)
+	
 End Extern
 
 

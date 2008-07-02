@@ -772,38 +772,6 @@ Type wxAcceleratorEntry
 End Type
 
 Rem
-bbdoc: An erase event is sent when a window's background needs to be repainted.
-about: On some platforms, such as GTK+, this event is simulated (simply generated just before the paint event)
-and may cause flicker. It is therefore recommended that you set the text background colour explicitly in order
-to prevent flicker. The default background colour under GTK+ is grey.
-<p>
-You must call wxEraseEvent::GetDC and use the returned device context if it is non-NULL. If it is NULL,
-create your own temporary wxClientDC object. 
-</p>
-End Rem
-Type wxEraseEvent Extends wxEvent
-
-	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
-		Local this:wxEraseEvent = New wxEraseEvent
-		
-		this.wxEventPtr = wxEventPtr
-		this.userData = evt.userData
-		this.parent = evt.parent
-		
-		Return this
-	End Function
-	
-
-	Rem
-	bbdoc: Returns the device context associated with the erase event to draw on.
-	End Rem
-'	Method GetDC:_wxDC()
-'	End Method
-	
-End Type
-
-
-Rem
 bbdoc: A type for manipulating rectangles.
 End Rem
 Type wxRect Extends wxObject

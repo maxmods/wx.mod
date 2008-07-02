@@ -3121,6 +3121,35 @@ Type wxCaret
 
 End Type
 
+Rem
+bbdoc: An erase event is sent when a window's background needs to be repainted.
+about: On some platforms, such as GTK+, this event is simulated (simply generated just before the paint event)
+and may cause flicker. It is therefore recommended that you set the text background colour explicitly in order
+to prevent flicker. The default background colour under GTK+ is grey.
+<p>
+You must call wxEraseEvent.GetDC and use the returned device context if it is non-NULL. If it is NULL,
+create your own temporary wxClientDC object. 
+</p>
+End Rem
+Type wxEraseEvent Extends wxEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxEraseEvent = New wxEraseEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+	
+
+	Rem
+	bbdoc: Returns the device context associated with the erase event to draw on.
+	End Rem
+	Method GetDC:wxDC()
+		Return wxDC._create(bmx_wxeraseevent_getdc(wxEventPtr))
+	End Method
+	
+End Type
 
 Type TWindowEventFactory Extends TEventFactory
 
@@ -3144,6 +3173,8 @@ Type TWindowEventFactory Extends TEventFactory
 				Return wxIdleEvent.Create(wxEventPtr, evt)
 			Case wxEVT_SET_CURSOR
 				Return wxSetCursorEvent.Create(wxEventPtr, evt)
+			Case wxEVT_ERASE_BACKGROUND
+				Return wxEraseEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -3161,7 +3192,8 @@ Type TWindowEventFactory Extends TEventFactory
 					wxEVT_COMMAND_TEXT_COPY, ..
 					wxEVT_COMMAND_TEXT_CUT, ..
 					wxEVT_COMMAND_TEXT_PASTE, ..
-					wxEVT_SET_CURSOR
+					wxEVT_SET_CURSOR, ..
+					wxEVT_ERASE_BACKGROUND
 			Return bmx_eventtype_value(eventType)
 		End Select
 	End Method

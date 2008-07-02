@@ -1197,3 +1197,9 @@ void bmx_wxsetcursorevent_setcursor(wxSetCursorEvent & event, MaxCursor * cursor
 	event.SetCursor(cursor->Cursor());
 }
 
+// *********************************************
+
+MaxDC * bmx_wxeraseevent_getdc(wxEraseEvent & event) {
+	return new MaxDC(event.GetDC());
+}
+
