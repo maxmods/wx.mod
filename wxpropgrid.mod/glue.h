@@ -58,6 +58,7 @@ extern "C" {
 	wxPGProperty * bmx_wxpropertycontainermethods_append(wxPropertyContainerMethods * prop, wxPGProperty * property);
 	wxPropertyGrid * bmx_wxpropertygrid_getgrid(wxPropertyGrid * grid);
 	wxPGProperty * bmx_wxpropertygrid_append(wxPropertyGrid * prop, wxPGProperty * property);
+	wxPGProperty * bmx_wxpropertygrid_appendin(wxPropertyGrid * prop, wxPGProperty * parent, wxPGProperty * newproperty);
 	MaxColour * bmx_wxpropertygrid_getcaptionbackgroundcolour(wxPropertyGrid * grid);
 	MaxColour * bmx_wxpropertygrid_getcaptionforegroundcolour(wxPropertyGrid * grid);
 	MaxColour * bmx_wxpropertygrid_getcellbackgroundcolour(wxPropertyGrid * grid);
@@ -228,6 +229,20 @@ extern "C" {
 	void bmx_wxpgproperty_setattributeint(wxPGProperty * prop, BBString * name, int value);
 	void bmx_wxpgproperty_setattributedouble(wxPGProperty * prop, BBString * name, double value);
 	void bmx_wxpgproperty_setattributebool(wxPGProperty * prop, BBString * name, bool value);
+
+	void bmx_wxpgproperty_addchild(wxPGProperty * prop, wxPGProperty * child);
+	int bmx_wxpgproperty_appendchoice(wxPGProperty * prop, BBString * label, int value);
+	bool bmx_wxpgproperty_canhaveextrachildren(wxPGProperty * prop);
+	void bmx_wxpgproperty_deletechoice(wxPGProperty * prop, int index);
+	void bmx_wxpgproperty_empty(wxPGProperty * prop);
+	//bool bmx_wxpgproperty_ensuredataext(wxPGProperty * prop);
+	BBString * bmx_wxpgproperty_getbasename(wxPGProperty * prop);
+	unsigned int bmx_wxpgproperty_getchildcount(wxPGProperty * prop);
+	int bmx_wxpgproperty_getchildrenheight(wxPGProperty * prop, int lh, int iMax);
+	int bmx_wxpgproperty_getcommonvalue(wxPGProperty * prop);
+	unsigned int bmx_wxpgproperty_getcount(wxPGProperty * prop);
+	unsigned int bmx_wxpgproperty_getdepth(wxPGProperty * prop);
+	int bmx_wxpgproperty_getdisplayedcommonvaluecount(wxPGProperty * prop);
 
 	wxEnumProperty * bmx_wxenumproperty_createwitharrays(BBObject * handle, BBString * label, BBString * name, BBArray * labels, BBArray * values, int value);
 	wxEnumProperty * bmx_wxenumproperty_createwithchoices(BBObject * handle, BBString * label, BBString * name, MaxPGChoices * choices, int value);

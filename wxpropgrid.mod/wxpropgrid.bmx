@@ -74,43 +74,122 @@ Type wxPropertyContainerMethods Extends wxPanel
 	about: wxPropertyGrid assumes ownership of the object. Becomes child of most recently added category.
 	End Rem
 	Method Append:wxPGProperty(property:wxPGProperty) Abstract
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method AppendIn:wxPGProperty(prop:wxPGProperty, newProperty:wxPGProperty) Abstract
 		
+	Rem
+	bbdoc: Inorder to add new items into a property with fixed children (for instance, wxFlagsProperty), you need to call this method.
+	about: After populating has been finished, you need to call EndAddChildren/Name.	
+	End Rem
 	Method BeginAddChildren(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: Inorder to add new items into a property with fixed children (for instance, wxFlagsProperty), you need to call this method.
+	about: After populating has been finished, you need to call EndAddChildren/Name.	
+	End Rem
 	Method BeginAddChildrenByName(name:String) Abstract
 
+	Rem
+	bbdoc: Resets value of a property to its default.
+	End Rem
 	Method ClearPropertyValue:Int(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: Resets value of a property to its default.
+	End Rem
 	Method ClearPropertyValueByName:Int(name:String) Abstract
 
+	Rem
+	bbdoc: Deselect current selection, if any.
+	returns: True if success (ie. validator did not intercept).
+	End Rem
 	Method ClearSelection:Int() Abstract
 
+	Rem
+	bbdoc: Collapses given category or property with children.
+	returns: True if actually collapses.
+	End Rem
 	Method Collapse:Int(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: Collapses given category or property with children.
+	returns: True if actually collapses.
+	End Rem
 	Method CollapseByName:Int(name:String) Abstract
 
+	Rem
+	bbdoc: Deletes a property.
+	about: If category is deleted, all children are automatically deleted as well.
+	End Rem
 	Method DeleteProperty(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: Deletes a property by name.
+	about: If category is deleted, all children are automatically deleted as well.
+	End Rem
 	Method DeletePropertyByName(name:String) Abstract
 
+	Rem
+	bbdoc: Deletes choice from a property.
+	about: If selected item is deleted, then the value is set to unspecified.
+	<p>
+	See AddPropertyChoice for more details.
+	</p>
+	End Rem
 	Method DeletePropertyChoice(prop:wxPGProperty, index:Int) Abstract
 	
+	Rem
+	bbdoc: Deletes choice from a property.
+	about: If selected item is deleted, then the value is set to unspecified.
+	<p>
+	See AddPropertyChoice for more details.
+	</p>
+	End Rem
 	Method DeletePropertyChoiceByName(name:String, index:Int) Abstract
 
+	Rem
+	bbdoc: Disables property.
+	End Rem
 	Method DisableProperty:Int(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: Disables property.
+	End Rem
 	Method DisablePropertyByName:Int(name:String) Abstract
 
+	Rem
+	bbdoc: Enables or disables property, depending on whether enable is true or false.
+	End Rem
 	Method EnableProperty:Int(prop:wxPGProperty, enable:Int = True) Abstract
 	
+	Rem
+	bbdoc: Enables or disables property, depending on whether enable is true or false.
+	End Rem
 	Method EnablePropertyByName:Int(name:String, enable:Int = True) Abstract
 
+	Rem
+	bbdoc: Called after population of property with fixed children has finished.
+	End Rem
 	Method EndAddChildren(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: Called after population of property with fixed children has finished.
+	End Rem
 	Method EndAddChildrenByName(name:String) Abstract
 	
+	Rem
+	bbdoc: Expands given category or property with children.
+	returns: True if actually expands.
+	End Rem
 	Method Expand:Int(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: Expands given category or property with children.
+	returns: True if actually expands.
+	End Rem
 	Method ExpandByName:Int(name:String) Abstract
 	
 	
@@ -481,6 +560,10 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 
 	Method Append:wxPGProperty(property:wxPGProperty)
 		Return wxPGProperty._create(bmx_wxpropertygrid_append(wxObjectPtr, property.wxObjectPtr))
+	End Method
+
+	Method AppendIn:wxPGProperty(prop:wxPGProperty, newProperty:wxPGProperty)
+		Return wxPGProperty._create(bmx_wxpropertygrid_appendin(wxObjectPtr, prop.wxObjectPtr, newProperty.wxObjectPtr))
 	End Method
 
 	Rem
@@ -1287,7 +1370,7 @@ Extern
 End Extern
 
 Rem
-bbdoc: 
+bbdoc: wxPGProperty, is base type for properties.
 End Rem
 Type wxPGProperty Extends wxObject
 
@@ -1309,114 +1392,241 @@ Type wxPGProperty Extends wxObject
 		End If
 	End Function
 
+	Rem
+	bbdoc: This is used by properties that have fixed sub-properties.
+	End Rem
 	Method AddChild(prop:wxPGProperty)
+		bmx_wxpgproperty_addchild(wxObjectPtr, prop.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Adds entry to property's wxPGChoices and editor control (if it is active).
+	returns: Index of item added.
+	End Rem
 	Method AppendChoice:Int(label:String, value:Int = INT_MAX)
+		Return bmx_wxpgproperty_appendchoice(wxObjectPtr, label, value)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if extra children can be added for this property (i.e. it is wxPropertyCategory or wxCustomProperty)
+	End Rem
 	Method CanHaveExtraChildren:Int()
+		Return bmx_wxpgproperty_canhaveextrachildren(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ClearFlag(flag:Int)
 	End Method
 	
+	Rem
+	bbdoc: Removes entry from property's wxPGChoices and editor control (if it is active).
+	about: If selected item is deleted, then the value is set to unspecified.
+	End Rem
 	Method DeleteChoice(index:Int)
+		bmx_wxpgproperty_deletechoice(wxObjectPtr, index)
 	End Method
 	
+	Rem
+	bbdoc: Deletes all sub-properties.
+	End Rem
 	Method Empty()
+		bmx_wxpgproperty_empty(wxObjectPtr)
 	End Method
 	
-	Method EnsureDataExt:Int()
-	End Method
+	'Rem
+	'bbdoc: If property did Not have data extension, one is created now (returns True in that Case).
+	'End Rem
+	'Method EnsureDataExt:Int()
+	'	Return bmx_wxpgproperty_ensuredataext(wxObjectPtr)
+	'End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method FixIndexesOfChildren(starthere:Int = 0)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetArrIndex:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetAttributeAsInt:Int(name:String, defVal:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetAttributeAsString:String(name:String, defVal:String)
 	End Method
 	
+	Rem
+	bbdoc: Returns property's base name (ie. parent's name is not added in any case)
+	End Rem
 	Method GetBaseName:String()
+		Return bmx_wxpgproperty_getbasename(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetCell:wxPGCell(column:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetCellRenderer:wxPGCellRenderer(column:Int)
 	End Method
 	
+	Rem
+	bbdoc: Returns number of child properties.
+	End Rem
 	Method GetChildCount:Int()
+		Return bmx_wxpgproperty_getchildcount(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns height of children, recursively, and by taking expanded/collapsed status into account.
+	about: iMax is used when finding property y-positions.
+	End Rem
 	Method GetChildrenHeight:Int(lh:Int, iMax:Int = -1)
+		Return bmx_wxpgproperty_getchildrenheight(wxObjectPtr, lh, iMax)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetChoiceCount:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetChoiceInfo:Int(choiceinfo:wxPGChoiceInfo)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetChoices:wxPGChoices()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetChoiceString:String(index:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetClassName:String()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetClientData:Object()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetColumnEditor:wxPGEditor(column:Int)
 	End Method
 	
+	Rem
+	bbdoc: Returns common value selected for this property, -1 for none.
+	End Rem
 	Method GetCommonValue:Int()
+		Return bmx_wxpgproperty_getcommonvalue(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns number of child properties.
+	End Rem
 	Method GetCount:Int()
+		Return bmx_wxpgproperty_getcount(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetCurrentChoice:wxPGChoiceEntry()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetDataExt:wxPGPropertyDataExt()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetDepth:Int()
+		Return bmx_wxpgproperty_getdepth(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Return number of displayed common values for this property.
+	End Rem
 	Method GetDisplayedCommonValueCount:Int()
+		Return bmx_wxpgproperty_getdisplayedcommonvaluecount(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetDisplayedString:String()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetEditorClass:wxPGEditor()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetEditorDialog:wxPGEditorDialogAdapter()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetFlags:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetFlagsAsString:String(flagsMask:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetGrid:wxPropertyGrid()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetGridIfDisplayedwxPropertyGrid()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetHelpString:String()
 	End Method
 	
@@ -1755,11 +1965,11 @@ End Type
 
 
 
-Rem
-bbdoc: 
-End Rem
-Type wxParentProperty Extends wxPGPropertyWithChildren
-End Type
+'Rem
+'bbdoc: 
+'End Rem
+'Type wxParentProperty Extends wxPGPropertyWithChildren
+'End Type
 
 Rem
 bbdoc: 
@@ -1806,7 +2016,9 @@ Type wxPropertyCategory Extends wxPGPropertyWithChildren
 		End If
 	End Function
 	
-
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxPropertyCategory(label:String, name:String = Null)
 		If label = wxPG_LABEL label = Null
 		If name = wxPG_LABEL name = Null

@@ -274,6 +274,10 @@ wxPGProperty * bmx_wxpropertygrid_append(wxPropertyGrid * prop, wxPGProperty * p
 	return prop->Append(property);
 }
 
+wxPGProperty * bmx_wxpropertygrid_appendin(wxPropertyGrid * prop, wxPGProperty * parent, wxPGProperty * newproperty) {
+	return prop->AppendIn(parent, newproperty);
+}
+
 wxPropertyGrid * bmx_wxpropertygrid_getgrid(wxPropertyGrid * grid) {
 	return grid->GetGrid();
 }
@@ -1354,6 +1358,59 @@ void bmx_wxpgproperty_setattributedouble(wxPGProperty * prop, BBString * name, d
 void bmx_wxpgproperty_setattributebool(wxPGProperty * prop, BBString * name, bool value) {
 	prop->SetAttribute(wxStringFromBBString(name), value);
 }
+
+void bmx_wxpgproperty_addchild(wxPGProperty * prop, wxPGProperty * child) {
+	prop->AddChild(child);
+}
+
+int bmx_wxpgproperty_appendchoice(wxPGProperty * prop, BBString * label, int value) {
+	return prop->AppendChoice(wxStringFromBBString(label), value);
+}
+
+bool bmx_wxpgproperty_canhaveextrachildren(wxPGProperty * prop) {
+	return prop->CanHaveExtraChildren();
+}
+
+void bmx_wxpgproperty_deletechoice(wxPGProperty * prop, int index) {
+	prop->DeleteChoice(index);
+}
+
+void bmx_wxpgproperty_empty(wxPGProperty * prop) {
+	prop->Empty();
+}
+
+//bool bmx_wxpgproperty_ensuredataext(wxPGProperty * prop) {
+//	return prop->EnsureDataExt();
+//}
+
+BBString * bmx_wxpgproperty_getbasename(wxPGProperty * prop) {
+	return bbStringFromWxString(prop->GetBaseName());
+}
+
+unsigned int bmx_wxpgproperty_getchildcount(wxPGProperty * prop) {
+	return prop->GetChildCount();
+}
+
+int bmx_wxpgproperty_getchildrenheight(wxPGProperty * prop, int lh, int iMax) {
+	return prop->GetChildrenHeight(lh, iMax);
+}
+
+int bmx_wxpgproperty_getcommonvalue(wxPGProperty * prop) {
+	return prop->GetCommonValue();
+}
+
+unsigned int bmx_wxpgproperty_getcount(wxPGProperty * prop) {
+	return prop->GetCount();
+}
+
+unsigned int bmx_wxpgproperty_getdepth(wxPGProperty * prop) {
+	return prop->GetDepth();
+}
+
+int bmx_wxpgproperty_getdisplayedcommonvaluecount(wxPGProperty * prop) {
+	return prop->GetDisplayedCommonValueCount();
+}
+
 
 // *********************************************
 

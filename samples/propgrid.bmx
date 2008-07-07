@@ -661,6 +661,22 @@ Next
 		For Local s:String = EachIn names
 			DebugLog s
 		Next
+
+		
+		' nested categories
+		
+		Local cat_gadget:wxPropertyCategory = New wxPropertyCategory.Create("category", wxPG_LABEL)
+		Local cat_gadget2:wxPropertyCategory = New wxPropertyCategory.Create("category2", wxPG_LABEL)
+		
+		'..create a prop and add it to the category
+		Local prop1:wxPGProperty = wxPGProperty(New wxIntProperty.Create("propnameA", wxPG_LABEL, 0))
+		pg.AppendIn(cat_gadget, prop1)
+		pg.AppendIn(cat_gadget, cat_gadget2)
+
+		pg.AppendIn(cat_gadget2, wxPGProperty(New wxIntProperty.Create("propnameB", wxPG_LABEL, 0)))
+
+		'add the category to the propgrid
+		pg.Append(cat_gadget)
 		
 	End Method
 	
