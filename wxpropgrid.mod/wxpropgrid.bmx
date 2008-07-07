@@ -2537,82 +2537,169 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 		Return this
 	End Function
 
+	Rem
+	bbdoc: Returns true if you can veto the action that the event is signaling.
+	End Rem
 	Method CanVeto:Int()
+		Return bmx_wxpropertygridevent_canveto(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method DisableProperty()
+		bmx_wxpropertygridevent_disableproperty(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method EnableProperty(enable:Int = True)
+		bmx_wxpropertygridevent_enableproperty(wxEventPtr, enable)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetMainParent:wxPGProperty()
 		Return wxPGProperty._find(bmx_wxpropertygridevent_getmainparent(wxEventPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetProperty:wxPGProperty()
 		Return wxPGProperty._find(bmx_wxpropertygridevent_getproperty(wxEventPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyClientData:Object()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyLabel:String()
+		Return bmx_wxpropertygridevent_getpropertylabel(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyName:String()
+		Return bmx_wxpropertygridevent_getpropertyname(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyPtr:wxPGProperty()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsArrayInt:Int[]()
+		Return bmx_wxpropertygridevent_getpropertyvalueasarrayint(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsArrayString:String[]()
+		Return bmx_wxpropertygridevent_getpropertyvalueasarraystring(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsBool:Int()
+		Return bmx_wxpropertygridevent_getpropertyvalueasbool(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsDouble:Double()
+		Return bmx_wxpropertygridevent_getpropertyvalueasdouble(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsInt:Int()
+		Return bmx_wxpropertygridevent_getpropertyvalueasint(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsPoint(x:Int Var, y:Int Var)
+		bmx_wxpropertygridevent_getpropertyvalueaspoint(wxEventPtr, Varptr x, Varptr y)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsSize(w:Int Var, h:Int Var)
+		bmx_wxpropertygridevent_getpropertyvalueassize(wxEventPtr, Varptr w, Varptr h)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsString:String()
+		Return bmx_wxpropertygridevent_getpropertyvalueasstring(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if event has associated property.
+	End Rem
 	Method HasProperty:Int()
 		Return bmx_wxpropertygridevent_hasproperty(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyEnabled:Int()
 		Return bmx_wxpropertygridevent_ispropertyenabled(wxEventPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetCanVeto(canVeto:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetProperty(p:wxPGProperty)
 	End Method
 	
+	Rem
+	bbdoc: Changes the associated property.
+	End Rem
 	Method SetPropertyGrid(pg:wxPropertyGrid)
 	End Method
 	
 	'method SetValue(Const wxVariant &value)
 	'end method
 	
+	Rem
+	bbdoc: Call this from your event handler to veto action that the event is signaling.
+	about: You can only veto a shutdown if wxPropertyGridEvent::CanVeto returns true.
+	End Rem
 	Method Veto(value:Int = True)
+		bmx_wxpropertygridevent_veto(wxEventPtr, value)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method WasVetoed:Int()
 	End Method
 	

@@ -255,7 +255,22 @@ Extern
 	Function bmx_wxpropertygridevent_getproperty:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxpropertygridevent_hasproperty:Int(handle:Byte Ptr)
 	Function bmx_wxpropertygridevent_ispropertyenabled:Int(handle:Byte Ptr)
-	
+	Function bmx_wxpropertygridevent_canveto:Int(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_disableproperty(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_enableproperty(handle:Byte Ptr, enable:Int)
+	Function bmx_wxpropertygridevent_getpropertylabel:String(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getpropertyname:String(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_veto(handle:Byte Ptr, value:Int)
+
+	Function bmx_wxpropertygridevent_getpropertyvalueasarrayint:Int[](handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getpropertyvalueasarraystring:String[](handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getpropertyvalueasbool:Int(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getpropertyvalueasdouble:Double(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getpropertyvalueasint:Int(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getpropertyvalueaspoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxpropertygridevent_getpropertyvalueassize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxpropertygridevent_getpropertyvalueasstring:String(handle:Byte Ptr)
+
 	Function bmx_wxpropertygrid_getpropertybysubname:Byte Ptr(handle:Byte Ptr, name:String, subName:String)
 	Function bmx_wxpropertygrid_getpropertybyname:Byte Ptr(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_getpropertycategory:Byte Ptr(handle:Byte Ptr, prop:Byte Ptr)

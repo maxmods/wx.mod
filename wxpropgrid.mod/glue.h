@@ -256,6 +256,20 @@ extern "C" {
 	wxPGProperty * bmx_wxpropertygridevent_getproperty(wxPropertyGridEvent & event);
 	bool bmx_wxpropertygridevent_hasproperty(wxPropertyGridEvent & event);
 	bool bmx_wxpropertygridevent_ispropertyenabled(wxPropertyGridEvent & event);
+	bool bmx_wxpropertygridevent_canveto(wxPropertyGridEvent & event);
+	void bmx_wxpropertygridevent_disableproperty(wxPropertyGridEvent & event);
+	void bmx_wxpropertygridevent_enableproperty(wxPropertyGridEvent & event, bool enable);
+	BBString * bmx_wxpropertygridevent_getpropertylabel(wxPropertyGridEvent & event);
+	BBString * bmx_wxpropertygridevent_getpropertyname(wxPropertyGridEvent & event);
+	void bmx_wxpropertygridevent_veto(wxPropertyGridEvent & event, bool value);
+	BBArray * bmx_wxpropertygridevent_getpropertyvalueasarrayint(wxPropertyGridEvent & event);
+	BBArray * bmx_wxpropertygridevent_getpropertyvalueasarraystring(wxPropertyGridEvent & event);
+	bool bmx_wxpropertygridevent_getpropertyvalueasbool(wxPropertyGridEvent & event);
+	double bmx_wxpropertygridevent_getpropertyvalueasdouble(wxPropertyGridEvent & event);
+	long bmx_wxpropertygridevent_getpropertyvalueasint(wxPropertyGridEvent & event);
+	void bmx_wxpropertygridevent_getpropertyvalueaspoint(wxPropertyGridEvent & event, int * x, int * y);
+	void bmx_wxpropertygridevent_getpropertyvalueassize(wxPropertyGridEvent & event, int * w, int * h);
+	BBString * bmx_wxpropertygridevent_getpropertyvalueasstring(wxPropertyGridEvent & event);
 
 	wxPGProperty * bmx_wxpropertygrid_getpropertybysubname(wxPropertyGrid * grid, BBString * name, BBString * subName);
 	wxPGProperty * bmx_wxpropertygrid_getpropertybyname(wxPropertyGrid * grid, BBString * name);

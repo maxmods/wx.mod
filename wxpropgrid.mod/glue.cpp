@@ -1467,6 +1467,66 @@ bool bmx_wxpropertygridevent_ispropertyenabled(wxPropertyGridEvent & event) {
 	return event.IsPropertyEnabled();
 }
 
+bool bmx_wxpropertygridevent_canveto(wxPropertyGridEvent & event) {
+	return event.CanVeto();
+}
+
+void bmx_wxpropertygridevent_disableproperty(wxPropertyGridEvent & event) {
+	event.DisableProperty();
+}
+
+void bmx_wxpropertygridevent_enableproperty(wxPropertyGridEvent & event, bool enable) {
+	event.EnableProperty(enable);
+}
+
+BBString * bmx_wxpropertygridevent_getpropertylabel(wxPropertyGridEvent & event) {
+	return bbStringFromWxString(event.GetPropertyLabel());
+}
+
+BBString * bmx_wxpropertygridevent_getpropertyname(wxPropertyGridEvent & event) {
+	return bbStringFromWxString(event.GetPropertyName());
+}
+
+void bmx_wxpropertygridevent_veto(wxPropertyGridEvent & event, bool value) {
+	event.Veto(value);
+}
+
+BBArray * bmx_wxpropertygridevent_getpropertyvalueasarrayint(wxPropertyGridEvent & event) {
+	return wxArrayIntToBBIntArray(wxArrayIntFromVariant(event.GetPropertyValue()));
+}
+
+BBArray * bmx_wxpropertygridevent_getpropertyvalueasarraystring(wxPropertyGridEvent & event) {
+	return wxArrayStringToBBStringArray(event.GetPropertyValue().GetArrayString());
+}
+
+bool bmx_wxpropertygridevent_getpropertyvalueasbool(wxPropertyGridEvent & event) {
+	return event.GetPropertyValue().GetBool();
+}
+
+double bmx_wxpropertygridevent_getpropertyvalueasdouble(wxPropertyGridEvent & event) {
+	return event.GetPropertyValue().GetDouble();
+}
+
+long bmx_wxpropertygridevent_getpropertyvalueasint(wxPropertyGridEvent & event) {
+	return event.GetPropertyValue().GetLong();
+}
+
+void bmx_wxpropertygridevent_getpropertyvalueaspoint(wxPropertyGridEvent & event, int * x, int * y) {
+	wxPoint s(wxPointFromVariant(event.GetPropertyValue()));
+	*x = s.x;
+	*y = s.y;
+}
+
+void bmx_wxpropertygridevent_getpropertyvalueassize(wxPropertyGridEvent & event, int * w, int * h) {
+	wxSize s(wxSizeFromVariant(event.GetPropertyValue()));
+	*w = s.x;
+	*h = s.y;
+}
+
+BBString * bmx_wxpropertygridevent_getpropertyvalueasstring(wxPropertyGridEvent & event) {
+	return bbStringFromWxString(event.GetPropertyValue().GetString());
+}
+
 
 // *********************************************
 
