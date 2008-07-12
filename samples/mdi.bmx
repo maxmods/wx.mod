@@ -191,7 +191,7 @@ Type MyFrame Extends wxMDIParentFrame
 	
 	
 		' Make another frame, containing a canvas
-		Local subframe:MyChild = MyChild(New MyChild.Create(frame, -1, "Canvas Frame"))
+		Local subframe:MyChild = MyChild(New MyChild.CreateCF(frame, -1, "Canvas Frame"))
 		
 		Local title:String = "Canvas Frame " + gs_nFrames
 		gs_nFrames:+ 1
