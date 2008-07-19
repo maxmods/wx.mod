@@ -20,7 +20,7 @@
 ////////////////////////////////////////////////////////////
 
 /* XPM */
-char *signpost_xpm[] = {
+const char *signpost_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 104 2",
 "   c Black",
@@ -164,7 +164,7 @@ unsigned char signpost_alpha[]={
 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 }; 
 
 /* XPM */
-char *left_arrow_disabled_xpm[] = {
+const char *left_arrow_disabled_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -196,7 +196,7 @@ char *left_arrow_disabled_xpm[] = {
 };
 
 /* XPM */
-char *x_button_pressed_xpm[] = {
+const char *x_button_pressed_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -229,7 +229,7 @@ char *x_button_pressed_xpm[] = {
 
 
 /* XPM */
-char *tab_x_button_pressed_xpm[] = {
+const char *tab_x_button_pressed_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -261,7 +261,7 @@ char *tab_x_button_pressed_xpm[] = {
 };
 
 /* XPM */
-char *left_arrow_xpm[] = {
+const char *left_arrow_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -293,7 +293,7 @@ char *left_arrow_xpm[] = {
 };
 
 /* XPM */
-char *x_button_hilite_xpm[] = {
+const char *x_button_hilite_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -325,7 +325,7 @@ char *x_button_hilite_xpm[] = {
 };
 
 /* XPM */
-char *x_button_xpm[] = {
+const char *x_button_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -357,7 +357,7 @@ char *x_button_xpm[] = {
 };
 
 /* XPM */
-char *left_arrow_pressed_xpm[] = {
+const char *left_arrow_pressed_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -389,7 +389,7 @@ char *left_arrow_pressed_xpm[] = {
 };
 
 /* XPM */
-char *left_arrow_hilite_xpm[] = {
+const char *left_arrow_hilite_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -421,7 +421,7 @@ char *left_arrow_hilite_xpm[] = {
 };
 
 /* XPM */
-char *right_arrow_disabled_xpm[] = {
+const char *right_arrow_disabled_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -453,7 +453,7 @@ char *right_arrow_disabled_xpm[] = {
 };
 
 /* XPM */
-char *right_arrow_hilite_xpm[] = {
+const char *right_arrow_hilite_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -485,7 +485,7 @@ char *right_arrow_hilite_xpm[] = {
 };
 
 /* XPM */
-char *right_arrow_pressed_xpm[] = {
+const char *right_arrow_pressed_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -518,7 +518,7 @@ char *right_arrow_pressed_xpm[] = {
 
 
 /* XPM */
-char *right_arrow_xpm[] = {
+const char *right_arrow_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -551,7 +551,7 @@ char *right_arrow_xpm[] = {
 
 // Arrow down bitmaps
 /* XPM */
-char *down_arrow_hilite_xpm[] = {
+const char *down_arrow_hilite_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -583,7 +583,7 @@ char *down_arrow_hilite_xpm[] = {
 };
 
 /* XPM */
-char *down_arrow_pressed_xpm[] = {
+const char *down_arrow_pressed_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -616,7 +616,7 @@ char *down_arrow_pressed_xpm[] = {
 
 
 /* XPM */
-char *down_arrow_xpm[] = {
+const char *down_arrow_xpm[] = {
 /* width height num_colors chars_per_pixel */
 "    16    16        8            1",
 /* colors */
@@ -670,7 +670,7 @@ unsigned char arrow_down_blue_alpha[]={
   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 
 };
 /* XPM */
-char *arrow_down_blue_xpm[] = {
+const char *arrow_down_blue_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 99 2",
 "a  c #3E8FDC",
@@ -810,7 +810,7 @@ unsigned char arrow_up_blue_alpha[]={
   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 
 };
 /* XPM */
-char *arrow_up_blue_xpm[] = {
+const char *arrow_up_blue_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 93 2",
 "   c Black",

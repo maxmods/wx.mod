@@ -164,7 +164,8 @@ bool wxFlatNotebook::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
 
 bool wxFlatNotebook::SetFont(const wxFont& font)
 {
-	if (m_pages) {
+	if ( m_pages != NULL )
+	{
 		m_pages->m_font = font;
 	}
 	return true;
