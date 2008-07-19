@@ -28,4 +28,104 @@
 
 // *********************************************
 
+wxURI * bmx_wxuri_create(BBString * uri) {
+	if (uri != &bbEmptyString) {
+		return new wxURI(wxStringFromBBString(uri));
+	} else {
+		return new wxURI();
+	}
+}
+
+void bmx_wxuri_delete(wxURI * uri) {
+	delete uri;
+}
+
+BBString * bmx_wxuri_builduri(wxURI * uri) {
+	return bbStringFromWxString(uri->BuildURI());
+}
+
+BBString * bmx_wxuri_buildunescapeduri(wxURI * uri) {
+	return bbStringFromWxString(uri->BuildUnescapedURI());
+}
+
+BBString * bmx_wxuri_getfragment(wxURI * uri) {
+	return bbStringFromWxString(uri->GetFragment());
+}
+
+wxURIHostType bmx_wxuri_gethostyype(wxURI * uri) {
+	return uri->GetHostType();
+}
+
+BBString * bmx_wxuri_getpassword(wxURI * uri) {
+	return bbStringFromWxString(uri->GetPassword());
+}
+
+BBString * bmx_wxuri_getpath(wxURI * uri) {
+	return bbStringFromWxString(uri->GetPath());
+}
+
+BBString * bmx_wxuri_getport(wxURI * uri) {
+	return bbStringFromWxString(uri->GetPort());
+}
+
+BBString * bmx_wxuri_getquery(wxURI * uri) {
+	return bbStringFromWxString(uri->GetQuery());
+}
+
+BBString * bmx_wxuri_getscheme(wxURI * uri) {
+	return bbStringFromWxString(uri->GetScheme());
+}
+
+BBString * bmx_wxuri_getserver(wxURI * uri) {
+	return bbStringFromWxString(uri->GetServer());
+}
+
+BBString * bmx_wxuri_getuser(wxURI * uri) {
+	return bbStringFromWxString(uri->GetUser());
+}
+
+BBString * bmx_wxuri_getuserinfo(wxURI * uri) {
+	return bbStringFromWxString(uri->GetUserInfo());
+}
+
+bool bmx_wxuri_hasfragment(wxURI * uri) {
+	return uri->HasFragment();
+}
+
+bool bmx_wxuri_haspath(wxURI * uri) {
+	return uri->HasPath();
+}
+
+bool bmx_wxuri_hasport(wxURI * uri) {
+	return uri->HasPort();
+}
+
+bool bmx_wxuri_hasquery(wxURI * uri) {
+	return uri->HasQuery();
+}
+
+bool bmx_wxuri_hasscheme(wxURI * uri) {
+	return uri->HasScheme();
+}
+
+bool bmx_wxuri_hasserver(wxURI * uri) {
+	return uri->HasServer();
+}
+
+bool bmx_wxuri_isreference(wxURI * uri) {
+	return uri->IsReference();
+}
+
+bool bmx_wxuri_equals(wxURI * uri, wxURI * other) {
+	return *uri == *other;
+}
+
+void bmx_wxuri_resolve(wxURI * uri, wxURI * base, int flags) {
+	uri->Resolve(*base, flags);
+}
+
+BBString * bmx_wxuri_unescape(BBString * uri) {
+	return bbStringFromWxString(wxURI::Unescape(wxStringFromBBString(uri)));
+}
+
 

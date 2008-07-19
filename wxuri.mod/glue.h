@@ -21,13 +21,36 @@
 */ 
 
 #include "wxglue.h"
-
-//class MaxNotebook;
+#include "wx/uri.h"
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxURI * bmx_wxuri_create(BBString * uri);
+	void bmx_wxuri_delete(wxURI * uri);
+	BBString * bmx_wxuri_builduri(wxURI * uri);
+	BBString * bmx_wxuri_buildunescapeduri(wxURI * uri);
+	BBString * bmx_wxuri_getfragment(wxURI * uri);
+	wxURIHostType bmx_wxuri_gethostyype(wxURI * uri);
+	BBString * bmx_wxuri_getpassword(wxURI * uri);
+	BBString * bmx_wxuri_getpath(wxURI * uri);
+	BBString * bmx_wxuri_getport(wxURI * uri);
+	BBString * bmx_wxuri_getquery(wxURI * uri);
+	BBString * bmx_wxuri_getscheme(wxURI * uri);
+	BBString * bmx_wxuri_getserver(wxURI * uri);
+	BBString * bmx_wxuri_getuser(wxURI * uri);
+	BBString * bmx_wxuri_getuserinfo(wxURI * uri);
+	bool bmx_wxuri_hasfragment(wxURI * uri);
+	bool bmx_wxuri_haspath(wxURI * uri);
+	bool bmx_wxuri_hasport(wxURI * uri);
+	bool bmx_wxuri_hasquery(wxURI * uri);
+	bool bmx_wxuri_hasscheme(wxURI * uri);
+	bool bmx_wxuri_hasserver(wxURI * uri);
+	bool bmx_wxuri_isreference(wxURI * uri);
+	bool bmx_wxuri_equals(wxURI * uri, wxURI * other);
+	void bmx_wxuri_resolve(wxURI * uri, wxURI * base, int flags);
+	BBString * bmx_wxuri_unescape(BBString * uri);
 
 }
 
