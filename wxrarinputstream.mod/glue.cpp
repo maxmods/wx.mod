@@ -63,6 +63,10 @@ wxRarFileInfo * bmx_wxrarinputstream_getfileinfo(wxRarInputStream * stream) {
 	return info;
 }
 
+void bmx_wxrarinputstream_close(wxRarInputStream * stream) {
+	delete stream;
+}
+
 // *********************************************
 
 void bmx_wxrarfileinfo_delete(wxRarFileInfo * info) {

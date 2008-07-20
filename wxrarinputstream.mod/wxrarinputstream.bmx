@@ -99,6 +99,20 @@ Type wxRarInputStream
 		Return wxRarFileInfo._create(bmx_wxrarinputstream_getfileinfo(wxStreamPtr))
 	End Method
 
+	Rem
+	bbdoc: Closes the input stream
+	End Rem
+	Method Close()
+		If wxStreamPtr Then
+			bmx_wxrarinputstream_close(wxStreamPtr)
+			wxStreamPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Close()
+	End Method
+	
 End Type
 
 Rem

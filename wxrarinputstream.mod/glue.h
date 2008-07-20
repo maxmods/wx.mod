@@ -33,6 +33,7 @@ extern "C" {
 	bool bmx_wxrarinputstream_opennextfile(wxRarInputStream * stream);
 	bool bmx_wxrarinputstream_extractfile(wxRarInputStream * stream, BBString * destPath, BBString * destName);
 	wxRarFileInfo * bmx_wxrarinputstream_getfileinfo(wxRarInputStream * stream);
+	void bmx_wxrarinputstream_close(wxRarInputStream * stream);
 
 	void bmx_wxrarfileinfo_delete(wxRarFileInfo * info);
 	BBString * bmx_wxrarfileinfo_getname(wxRarFileInfo * info);
