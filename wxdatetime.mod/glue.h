@@ -149,10 +149,64 @@ extern "C" {
 
 	MaxDateSpan * bmx_wxdatespan_create(int years, int months, int weeks, int days);
 	void bmx_wxdatespan_delete(MaxDateSpan * span);
+	MaxDateSpan * bmx_wxdatespan_add(MaxDateSpan * datespan, MaxDateSpan * other);
+	MaxDateSpan * bmx_wxdatespan_day();
+	MaxDateSpan * bmx_wxdatespan_days(int days);
+	int bmx_wxdatespan_getdays(MaxDateSpan * datespan);
+	int bmx_wxdatespan_getmonths(MaxDateSpan * datespan);
+	int bmx_wxdatespan_gettotaldays(MaxDateSpan * datespan);
+	int bmx_wxdatespan_getweeks(MaxDateSpan * datespan);
+	int bmx_wxdatespan_getyears(MaxDateSpan * datespan);
+	MaxDateSpan * bmx_wxdatespan_month();
+	MaxDateSpan * bmx_wxdatespan_months(int mon);
+	MaxDateSpan * bmx_wxdatespan_multiply(MaxDateSpan * datespan, int factor);
+	MaxDateSpan * bmx_wxdatespan_negate(MaxDateSpan * datespan);
+	void bmx_wxdatespan_setdays(MaxDateSpan * datespan, int n);
+	void bmx_wxdatespan_setyears(MaxDateSpan * datespan, int n);
+	void bmx_wxdatespan_setmonths(MaxDateSpan * datespan, int n);
+	void bmx_wxdatespan_setweeks(MaxDateSpan * datespan, int n);
+	MaxDateSpan * bmx_wxdatespan_subtract(MaxDateSpan * datespan, MaxDateSpan * other);
+	MaxDateSpan * bmx_wxdatespan_week();
+	MaxDateSpan * bmx_wxdatespan_weeks(int weeks);
+	MaxDateSpan * bmx_wxdatespan_year();
+	MaxDateSpan * bmx_wxdatespan_years(int years);
+	bool bmx_wxdatespan_equals(MaxDateSpan * datespan, MaxDateSpan * other);
 	
 	void bmx_wxtimespan_delete(MaxTimeSpan * span);
+	MaxTimeSpan * bmx_wxtimespan_create(long hours, long minutes, long seconds, long msec);
+	MaxTimeSpan * bmx_wxtimespan_abs(MaxTimeSpan * timespan);
+	MaxTimeSpan * bmx_wxtimespan_add(MaxTimeSpan * timespan, MaxTimeSpan * diff);
+	MaxTimeSpan * bmx_wxtimespan_days(long numDays);
+	MaxTimeSpan * bmx_wxtimespan_day();
+	BBString * bmx_wxtimespan_format(MaxTimeSpan * timespan, BBString * format);
+	int bmx_wxtimespan_getdays(MaxTimeSpan * timespan);
+	int bmx_wxtimespan_gethours(MaxTimeSpan * timespan);
+	void bmx_wxtimespan_getmilliseconds(MaxTimeSpan * timespan, BBInt64 * value);
+	int bmx_wxtimespan_getminutes(MaxTimeSpan * timespan);
+	void bmx_wxtimespan_getseconds(MaxTimeSpan * timespan, BBInt64 * value);
+	void bmx_wxtimespan_getvalue(MaxTimeSpan * timespan, BBInt64 * value);
+	int bmx_wxtimespan_getweeks(MaxTimeSpan * timespan);
+	MaxTimeSpan * bmx_wxtimespan_hours(long hours);
+	MaxTimeSpan * bmx_wxtimespan_hour();
+	bool bmx_wxtimespan_isequalto(MaxTimeSpan * timespan, MaxTimeSpan * ts);
+	bool bmx_wxtimespan_islongerthan(MaxTimeSpan * timespan, MaxTimeSpan * ts);
+	bool bmx_wxtimespan_isnegative(MaxTimeSpan * timespan);
+	bool bmx_wxtimespan_isnull(MaxTimeSpan * timespan);
+	bool bmx_wxtimespan_ispositive(MaxTimeSpan * timespan);
+	bool bmx_wxtimespan_isshorterthan(MaxTimeSpan * timespan, MaxTimeSpan * ts);
+	MaxTimeSpan * bmx_wxtimespan_minutes(long mins);
+	MaxTimeSpan * bmx_wxtimespan_minute();
+	MaxTimeSpan * bmx_wxtimespan_multiply(MaxTimeSpan * timespan, int n);
+	MaxTimeSpan * bmx_wxtimespan_negate(MaxTimeSpan * timespan);
+	MaxTimeSpan * bmx_wxtimespan_milliseconds(long ms);
+	MaxTimeSpan * bmx_wxtimespan_millisecond();
+	MaxTimeSpan * bmx_wxtimespan_seconds(long sec);
+	MaxTimeSpan * bmx_wxtimespan_second();
+	MaxTimeSpan * bmx_wxtimespan_subtract(MaxTimeSpan * timespan, MaxTimeSpan * diff);
+	MaxTimeSpan * bmx_wxtimespan_weeks(long wks);
+	MaxTimeSpan * bmx_wxtimespan_week();
 
-
+	
 	MaxDateTime * bmx_wxdateevent_getdate(wxDateEvent & event);
 	void bmx_wxdateevent_setdate(wxDateEvent & event, MaxDateTime * date);
 

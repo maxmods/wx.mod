@@ -541,11 +541,230 @@ void bmx_wxdatespan_delete(MaxDateSpan * span) {
 	delete span;
 }
 
+MaxDateSpan * bmx_wxdatespan_add(MaxDateSpan * datespan, MaxDateSpan * other) {
+	return new MaxDateSpan(datespan->Span().Add(other->Span()));
+}
+
+MaxDateSpan * bmx_wxdatespan_day() {
+	return new MaxDateSpan(wxDateSpan::Day());
+}
+
+MaxDateSpan * bmx_wxdatespan_days(int days) {
+	return new MaxDateSpan(wxDateSpan::Days(days));
+}
+
+int bmx_wxdatespan_getdays(MaxDateSpan * datespan) {
+	return datespan->Span().GetDays();
+}
+
+int bmx_wxdatespan_getmonths(MaxDateSpan * datespan) {
+	return datespan->Span().GetMonths();
+}
+
+int bmx_wxdatespan_gettotaldays(MaxDateSpan * datespan) {
+	return datespan->Span().GetTotalDays();
+}
+
+int bmx_wxdatespan_getweeks(MaxDateSpan * datespan) {
+	return datespan->Span().GetWeeks();
+}
+
+int bmx_wxdatespan_getyears(MaxDateSpan * datespan) {
+	return datespan->Span().GetYears();
+}
+
+MaxDateSpan * bmx_wxdatespan_month() {
+	return new MaxDateSpan(wxDateSpan::Month());
+}
+
+MaxDateSpan * bmx_wxdatespan_months(int mon) {
+	return new MaxDateSpan(wxDateSpan::Months(mon));
+}
+
+MaxDateSpan * bmx_wxdatespan_multiply(MaxDateSpan * datespan, int factor) {
+	return new MaxDateSpan(datespan->Span().Multiply(factor));
+}
+
+MaxDateSpan * bmx_wxdatespan_negate(MaxDateSpan * datespan) {
+	return new MaxDateSpan(datespan->Span().Negate());
+}
+
+void bmx_wxdatespan_setdays(MaxDateSpan * datespan, int n) {
+	datespan->Span().SetDays(n);
+}
+
+void bmx_wxdatespan_setyears(MaxDateSpan * datespan, int n) {
+	datespan->Span().SetYears(n);
+}
+
+void bmx_wxdatespan_setmonths(MaxDateSpan * datespan, int n) {
+	datespan->Span().SetMonths(n);
+}
+
+void bmx_wxdatespan_setweeks(MaxDateSpan * datespan, int n) {
+	datespan->Span().SetWeeks(n);
+}
+
+MaxDateSpan * bmx_wxdatespan_subtract(MaxDateSpan * datespan, MaxDateSpan * other) {
+	return new MaxDateSpan(datespan->Span().Subtract(other->Span()));
+}
+
+MaxDateSpan * bmx_wxdatespan_week() {
+	return new MaxDateSpan(wxDateSpan::Week());
+}
+
+MaxDateSpan * bmx_wxdatespan_weeks(int weeks) {
+	return new MaxDateSpan(wxDateSpan::Weeks(weeks));
+}
+
+MaxDateSpan * bmx_wxdatespan_year() {
+	return new MaxDateSpan(wxDateSpan::Year());
+}
+
+MaxDateSpan * bmx_wxdatespan_years(int years) {
+	return new MaxDateSpan(wxDateSpan::Years(years));
+}
+
+bool bmx_wxdatespan_equals(MaxDateSpan * datespan, MaxDateSpan * other) {
+	return datespan->Span() == other->Span();
+}
+
+
 // *********************************************
 
 void bmx_wxtimespan_delete(MaxTimeSpan * span) {
 	delete span;
 }
+
+MaxTimeSpan * bmx_wxtimespan_create(long hours, long minutes, long seconds, long msec) {
+	wxTimeSpan ts;
+	return new MaxTimeSpan(ts);
+}
+
+MaxTimeSpan * bmx_wxtimespan_abs(MaxTimeSpan * timespan) {
+	return new MaxTimeSpan(timespan->Span().Abs());
+}
+
+MaxTimeSpan * bmx_wxtimespan_add(MaxTimeSpan * timespan, MaxTimeSpan * diff) {
+	return new MaxTimeSpan(timespan->Span().Add(diff->Span()));
+}
+
+MaxTimeSpan * bmx_wxtimespan_days(long numDays) {
+	return new MaxTimeSpan(wxTimeSpan::Days(numDays));
+}
+
+MaxTimeSpan * bmx_wxtimespan_day() {
+	return new MaxTimeSpan(wxTimeSpan::Day());
+}
+
+BBString * bmx_wxtimespan_format(MaxTimeSpan * timespan, BBString * format) {
+		return bbStringFromWxString(timespan->Span().Format(wxStringFromBBString(format).c_str()));
+}
+
+int bmx_wxtimespan_getdays(MaxTimeSpan * timespan) {
+	return timespan->Span().GetDays();
+}
+
+int bmx_wxtimespan_gethours(MaxTimeSpan * timespan) {
+	return timespan->Span().GetHours();
+}
+
+void bmx_wxtimespan_getmilliseconds(MaxTimeSpan * timespan, BBInt64 * value) {
+	*value = timespan->Span().GetMilliseconds().GetValue();
+}
+
+int bmx_wxtimespan_getminutes(MaxTimeSpan * timespan) {
+	return timespan->Span().GetDays();
+}
+
+void bmx_wxtimespan_getseconds(MaxTimeSpan * timespan, BBInt64 * value) {
+	*value = timespan->Span().GetSeconds().GetValue();
+}
+
+void bmx_wxtimespan_getvalue(MaxTimeSpan * timespan, BBInt64 * value) {
+	*value = timespan->Span().GetValue().GetValue();
+}
+
+int bmx_wxtimespan_getweeks(MaxTimeSpan * timespan) {
+	return timespan->Span().GetWeeks();
+}
+
+MaxTimeSpan * bmx_wxtimespan_hours(long hours) {
+	return new MaxTimeSpan(wxTimeSpan::Hours(hours));
+}
+
+MaxTimeSpan * bmx_wxtimespan_hour() {
+	return new MaxTimeSpan(wxTimeSpan::Hour());
+}
+
+bool bmx_wxtimespan_isequalto(MaxTimeSpan * timespan, MaxTimeSpan * ts) {
+	return timespan->Span().IsEqualTo(ts->Span());
+}
+
+bool bmx_wxtimespan_islongerthan(MaxTimeSpan * timespan, MaxTimeSpan * ts) {
+	return timespan->Span().IsLongerThan(ts->Span());
+}
+
+bool bmx_wxtimespan_isnegative(MaxTimeSpan * timespan) {
+	return timespan->Span().IsNegative();
+}
+
+bool bmx_wxtimespan_isnull(MaxTimeSpan * timespan) {
+	return timespan->Span().IsNull();
+}
+
+bool bmx_wxtimespan_ispositive(MaxTimeSpan * timespan) {
+	return timespan->Span().IsPositive();
+}
+
+bool bmx_wxtimespan_isshorterthan(MaxTimeSpan * timespan, MaxTimeSpan * ts) {
+	return timespan->Span().IsShorterThan(ts->Span());
+}
+
+MaxTimeSpan * bmx_wxtimespan_minutes(long mins) {
+	return new MaxTimeSpan(wxTimeSpan::Hour());
+}
+
+MaxTimeSpan * bmx_wxtimespan_minute() {
+	return new MaxTimeSpan(wxTimeSpan::Hour());
+}
+
+MaxTimeSpan * bmx_wxtimespan_multiply(MaxTimeSpan * timespan, int n) {
+	return new MaxTimeSpan(timespan->Span().Multiply(n));
+}
+
+MaxTimeSpan * bmx_wxtimespan_negate(MaxTimeSpan * timespan) {
+	return new MaxTimeSpan(timespan->Span().Negate());
+}
+
+MaxTimeSpan * bmx_wxtimespan_milliseconds(long ms) {
+	return new MaxTimeSpan(wxTimeSpan::Milliseconds(ms));
+}
+
+MaxTimeSpan * bmx_wxtimespan_millisecond() {
+	return new MaxTimeSpan(wxTimeSpan::Millisecond());
+}
+
+MaxTimeSpan * bmx_wxtimespan_seconds(long sec) {
+	return new MaxTimeSpan(wxTimeSpan::Seconds(sec));
+}
+
+MaxTimeSpan * bmx_wxtimespan_second() {
+	return new MaxTimeSpan(wxTimeSpan::Second());
+}
+
+MaxTimeSpan * bmx_wxtimespan_subtract(MaxTimeSpan * timespan, MaxTimeSpan * diff) {
+	return new MaxTimeSpan(timespan->Span().Subtract(diff->Span()));
+}
+
+MaxTimeSpan * bmx_wxtimespan_weeks(long wks) {
+	return new MaxTimeSpan(wxTimeSpan::Weeks(wks));
+}
+
+MaxTimeSpan * bmx_wxtimespan_week() {
+	return new MaxTimeSpan(wxTimeSpan::Week());
+}
+
 
 // *********************************************
 
