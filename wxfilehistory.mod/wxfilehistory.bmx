@@ -131,9 +131,20 @@ Type wxFileHistory Extends wxObject
 		Return bmx_wxfilehistory_getmaxfiles(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the list of menus that are managed by this file history object.
+	End Rem
 	Method GetMenus:wxMenu[]()
-		'Return bmx_wxfilehistory_getmenus(wxObjectPtr)
+		Return bmx_wxfilehistory_getmenus(wxObjectPtr)
 	End Method
+	
+	Function _makeMenus:wxMenu[](size:Int)
+		Return New wxMenu[size]
+	End Function
+	
+	Function _addMenu(menus:wxMenu[], index:Int, menu:Byte Ptr)
+		menus[index] = wxMenu._create(menu)
+	End Function
 	
 	Rem
 	bbdoc: Loads the file history from the given config object.

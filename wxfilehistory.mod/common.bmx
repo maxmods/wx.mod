@@ -52,7 +52,7 @@ Extern
 	Function bmx_wxfilehistory_getcount:Int(handle:Byte Ptr)
 	Function bmx_wxfilehistory_gethistoryfile:String(handle:Byte Ptr, index:Int)
 	Function bmx_wxfilehistory_getmaxfiles:Int(handle:Byte Ptr)
-	'Function bmx_wxfilehistory_getmenus(handle:Byte ptr)
+	Function bmx_wxfilehistory_getmenus:wxMenu[](handle:Byte Ptr)
 	Function bmx_wxfilehistory_load(handle:Byte Ptr, config:Byte Ptr)
 	Function bmx_wxfilehistory_removefilefromhistory(handle:Byte Ptr, index:Int)
 	Function bmx_wxfilehistory_removemenu(handle:Byte Ptr, menu:Byte Ptr)
