@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.05"
+Const AppVersion:String = "1.06"
 
 
 Global eventMap:TMap = New TMap
@@ -3806,8 +3806,8 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnSaveButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
 	AddEvent(TEventType.Set("OnYesButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
 
-	AddEvent(TEventType.Set("OnNotebookPageChanged", "wxCommandEvent", "wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED"))
-	AddEvent(TEventType.Set("OnNotebookPageChanging", "wxCommandEvent", "wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING"))
+	AddEvent(TEventType.Set("OnNotebookPageChanged", "wxNotebookEvent", "wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED"))
+	AddEvent(TEventType.Set("OnNotebookPageChanging", "wxNotebookEvent", "wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING"))
 
 	AddEvent(TEventType.Set("OnFontChanged", "wxFontPickerEvent", "wxEVT_COMMAND_FONTPICKER_CHANGED"))
 
