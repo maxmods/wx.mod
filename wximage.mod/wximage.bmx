@@ -78,35 +78,32 @@ support for saving images with alpha channel which also isn't implemented).
 </p>
 <h3>Available Image Handlers</h3>
 <p>
-The following image handlers are available. wxBMPHandler is always installed by default. To use other image formats, install the appropriate handler with wxImage::AddHandler or call wxInitAllImageHandlers.
-wxBMPHandler 
-For loading and saving, always installed. 
-wxPNGHandler 
-For loading (including alpha support) and saving. 
-wxJPEGHandler 
-For loading and saving. 
-wxGIFHandler 
-Only for loading, due to legal issues. 
-wxPCXHandler 
-For loading and saving (see below). 
-wxPNMHandler 
-For loading and saving (see below). 
-wxTIFFHandler 
-For loading and saving. 
-wxTGAHandler 
-For loading only. 
-wxIFFHandler 
-For loading only. 
-wxXPMHandler 
-For loading and saving. 
-wxICOHandler 
-For loading and saving. 
-wxCURHandler 
-For loading and saving. 
-wxANIHandler 
-For loading only. 
-When saving in PCX format, wxPCXHandler will count the number of different colours in the image; if there are 256 or less colours, it will save as 8 bit, else it will save as 24 bit.
+The following image handlers are available. <b>wxBMPHandler</b> is always installed by default. To use other image
+formats, install the appropriate handler with wxImage::AddHandler or call wxInitAllImageHandlers.
+</p>
+<table width="90%" align="center">
+<tr><th>Handler</th><th>Description</th></tr>
+<tr><td> wxBMPHandler </td><td>For loading and saving, always installed. </td></tr>
+<tr><td> wxPNGHandler </td><td>For loading (including alpha support) and saving. </td></tr>
+<tr><td> wxJPEGHandler </td><td>For loading and saving. </td></tr>
+<tr><td> wxGIFHandler </td><td>Only for loading, due to legal issues. </td></tr>
+<tr><td> wxPCXHandler </td><td>For loading and saving (see below). </td></tr>
+<tr><td> wxPNMHandler </td><td>For loading and saving (see below). </td></tr>
+<tr><td> wxTIFFHandler </td><td>For loading and saving. </td></tr>
+<tr><td> wxTGAHandler </td><td>For loading only. </td></tr>
+<tr><td> wxIFFHandler </td><td>For loading only. </td></tr>
+<tr><td> wxXPMHandler </td><td>For loading and saving. </td></tr>
+<tr><td> wxICOHandler </td><td>For loading and saving. </td></tr>
+<tr><td> wxCURHandler </td><td>For loading and saving. </td></tr>
+<tr><td> wxANIHandler </td><td>For loading only. </td></tr>
+</table>
+<p>
+When saving in PCX format, wxPCXHandler will count the number of different colours in the image; if
+there are 256 or less colours, it will save as 8 bit, else it will save as 24 bit.
+</p>
+<p>
 Loading PNMs only works for ASCII or raw RGB images. When saving in PNM format, wxPNMHandler will always save as raw RGB.
+</p>
 End Rem
 Type wxImage Extends wxObject
 
@@ -161,9 +158,6 @@ Type wxImage Extends wxObject
 		Return New wxImage.Create(name, kind, index)
 	End Function
 	
-	Function CreateNullImage:wxImage()
-	End Function
-	
 	Rem
 	bbdoc: 
 	End Rem
@@ -175,9 +169,6 @@ Type wxImage Extends wxObject
 		Return this
 	End Function
 	
-	Rem
-	bbdoc: 
-	End Rem
 	Function CreateImageFromMime(name:String, mimeType:String)
 	End Function
 
@@ -279,6 +270,34 @@ Type wxImage Extends wxObject
 	End Method
 	
 	Rem
+	bbdoc: Finds the handler with the given name.
+	End Rem
+	Function FindHandler:wxImageHandler(name:String)
+		Return wxImageHandler._create(bmx_wximage_findhandler(name))
+	End Function
+
+	Rem
+	bbdoc: Finds the handler associated with the given extension and type.
+	End Rem
+	Function FindHandlerByExtension:wxImageHandler(extension:String, imageType:Int)
+		Return wxImageHandler._create(bmx_wximage_findhandlerbyextension(extension, imageType))
+	End Function
+	
+	Rem
+	bbdoc: Finds the handler associated with the given image type.
+	End Rem
+	Function FindHandlerByType:wxImageHandler(imageType:Int)
+		Return wxImageHandler._create(bmx_wximage_findhandlerbytype(imageType))
+	End Function
+	
+	Rem
+	bbdoc: Finds the handler associated with the given MIME type.
+	End Rem
+	Function FindHandlerMime:wxImageHandler(mimeType:String)
+		Return wxImageHandler._create(bmx_wximage_findhandlermime(mimeType))
+	End Function
+	
+	Rem
 	bbdoc: Iterates all registered wxImageHandler objects, and returns a string containing file extension masks suitable for passing to file open/save dialog boxes.
 	about: The format of the returned string is "(*.ext1;*.ext2)|*.ext1;*.ext2".
 	End Rem
@@ -369,6 +388,7 @@ Type wxImage Extends wxObject
 	or less colour images in GIF or PNG format).
 	End Rem
 	Method GetPalette:wxPalette()
+		Return wxPalette._create(bmx_wximage_getpalette(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -541,9 +561,26 @@ Type wxImage Extends wxObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Saves an image in the named file.
 	End Rem
-	Method SaveFile()
+	Method SaveFileType:Int(name:String, _type:Int)
+		Return bmx_wximage_savefiletype(wxObjectPtr, name, _type)
+	End Method
+
+	Rem
+	bbdoc: Saves an image in the named file.
+	End Rem
+	Method SaveFileMimeType:Int(name:String, mimeType:String)
+		Return bmx_wximage_savefilemimetype(wxObjectPtr, name, mimeType)
+	End Method
+	
+	Rem
+	bbdoc: Saves an image in the named file.
+	about: File type is determined from the extension of the file name. Note that this function may fail if the
+	extension is not recognized! You can use one of the forms above to save images to files with non-standard extensions.
+	End Rem
+	Method SaveFile:Int(name:String)
+		Return bmx_wximage_savefile(wxObjectPtr, name)
 	End Method
 	
 	Rem
@@ -679,12 +716,55 @@ Type wxImage Extends wxObject
 End Type
 
 Rem
-bbdoc: 
+bbdoc: A Null image.
 End Rem
 Global wxNullImage:wxImage = wxImage._create(bmx_wximage_createnull())
 
+Rem
+bbdoc: This is the base type for implementing image file loading/saving, and image creation from data.
+about: It is used within wxImage and is not normally seen by the application.
+<p>
+If you wish to extend the capabilities of wxImage, derive a class from wxImageHandler and add the handler using wxImage::AddHandler in your application initialisation.
+</p>
+End Rem
 Type wxImageHandler Extends wxObject
 
+	Function _create:wxImageHandler(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxImageHandler = New wxImageHandler
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: Gets the name of this handler.
+	End Rem
+	Method GetName:String()
+		Return bmx_wximagehandler_getname(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the file extension associated with this handler.
+	End Rem
+	Method GetExtension:String()
+		Return bmx_wximagehandler_getextension(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the image type associated with this handler.
+	End Rem
+	Method GetType:Int()
+		Return bmx_wximagehandler_gettype(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the MIME type associated with this handler.
+	End Rem
+	Method GetMimeType:String()
+		Return bmx_wximagehandler_getmimetype(wxObjectPtr)
+	End Method
+	
 End Type
 
 Rem

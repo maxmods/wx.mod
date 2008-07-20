@@ -124,5 +124,12 @@ Type wxPalette Extends wxGDIObject
 		Return bmx_wxpalette_isok(wxObjectPtr)
 	End Method
 
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxpalette_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
+	
 End Type
 

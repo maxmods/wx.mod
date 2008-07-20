@@ -64,3 +64,7 @@ bool bmx_wxpalette_getrgb(MaxPalette * palette, int pixel, int * red, int * gree
 bool bmx_wxpalette_isok(MaxPalette * palette) {
 	return palette->Palette().IsOk();
 }
+
+void bmx_wxpalette_delete(MaxPalette * palette) {
+	delete palette;
+}

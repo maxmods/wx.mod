@@ -48,5 +48,6 @@ Extern
 	Function bmx_wxpalette_getpixel:Int(handle:Byte Ptr, red:Int, green:Int, blue:Int)
 	Function bmx_wxpalette_getrgb:Int(handle:Byte Ptr, pixel:Int, red:Int Ptr, green:Int Ptr, blue:Int Ptr)
 	Function bmx_wxpalette_isok:Int(handle:Byte Ptr)
+	Function bmx_wxpalette_delete(handle:Byte Ptr)
 
 End Extern

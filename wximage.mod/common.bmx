@@ -120,7 +120,21 @@ Extern
 	Function bmx_wxanihandler_create:Byte Ptr()
 
 	Function bmx_wximage_createfromstream:Byte Ptr(stream:Byte Ptr, kind:Int, index:Int)
-	
+
+	Function bmx_wximage_savefiletype:Int(handle:Byte Ptr, name:String, _type:Int)
+	Function bmx_wximage_savefilemimetype:Int(handle:Byte Ptr, name:String, mimeType:String)
+	Function bmx_wximage_savefile:Int(handle:Byte Ptr, name:String)
+	Function bmx_wximage_getpalette:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wximage_findhandler:Byte Ptr(name:String)
+	Function bmx_wximage_findhandlerbyextension:Byte Ptr(extension:String, imageType:Int)
+	Function bmx_wximage_findhandlerbytype:Byte Ptr(imageType:Int)
+	Function bmx_wximage_findhandlermime:Byte Ptr(mimeType:String)
+
+	Function bmx_wximagehandler_getname:String(handle:Byte Ptr)
+	Function bmx_wximagehandler_getextension:String(handle:Byte Ptr)
+	Function bmx_wximagehandler_gettype:Int(handle:Byte Ptr)
+	Function bmx_wximagehandler_getmimetype:String(handle:Byte Ptr)
+
 	Function bmx_wximage_null:Byte Ptr()
 End Extern
 

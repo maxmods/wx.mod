@@ -109,6 +109,20 @@ extern "C" {
 	
 	MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, long kind, int index);
 
+	bool bmx_wximage_savefiletype(MaxImage * image, BBString * name, int type);
+	bool bmx_wximage_savefilemimetype(MaxImage * image, BBString * name, BBString * mimeType);
+	bool bmx_wximage_savefile(MaxImage * image, BBString * name);
+	MaxPalette * bmx_wximage_getpalette(MaxImage * image);
+	wxImageHandler * bmx_wximage_findhandler(BBString * name);
+	wxImageHandler * bmx_wximage_findhandlerbyextension(BBString * extension, long imageType);
+	wxImageHandler * bmx_wximage_findhandlerbytype(long imageType);
+	wxImageHandler * bmx_wximage_findhandlermime(BBString * mimeType);
+
+	BBString * bmx_wximagehandler_getname(wxImageHandler * handler);
+	BBString * bmx_wximagehandler_getextension(wxImageHandler * handler);
+	long bmx_wximagehandler_gettype(wxImageHandler * handler);
+	BBString * bmx_wximagehandler_getmimetype(wxImageHandler * handler);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

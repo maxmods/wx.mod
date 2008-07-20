@@ -36,6 +36,7 @@ extern "C" {
 	int bmx_wxpalette_getpixel(MaxPalette * palette, int red, int green, int blue);
 	bool bmx_wxpalette_getrgb(MaxPalette * palette, int pixel, int * red, int * green, int * blue);
 	bool bmx_wxpalette_isok(MaxPalette * palette);
+	void bmx_wxpalette_delete(MaxPalette * palette);
 
 }
 

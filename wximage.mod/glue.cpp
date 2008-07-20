@@ -362,3 +362,54 @@ MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, long kind, int i
 	return new MaxImage(i);
 }
 
+bool bmx_wximage_savefiletype(MaxImage * image, BBString * name, int type) {
+	return image->Image().SaveFile(wxStringFromBBString(name), type);
+}
+
+bool bmx_wximage_savefilemimetype(MaxImage * image, BBString * name, BBString * mimeType) {
+	return image->Image().SaveFile(wxStringFromBBString(name), wxStringFromBBString(mimeType));
+}
+
+bool bmx_wximage_savefile(MaxImage * image, BBString * name) {
+	return image->Image().SaveFile(wxStringFromBBString(name));
+}
+
+MaxPalette * bmx_wximage_getpalette(MaxImage * image) {
+	return new MaxPalette(image->Image().GetPalette());
+}
+
+wxImageHandler * bmx_wximage_findhandler(BBString * name) {
+	return wxImage::FindHandler(wxStringFromBBString(name));
+}
+
+wxImageHandler * bmx_wximage_findhandlerbyextension(BBString * extension, long imageType) {
+	return wxImage::FindHandler(wxStringFromBBString(extension), imageType);
+}
+
+wxImageHandler * bmx_wximage_findhandlerbytype(long imageType) {
+	return wxImage::FindHandler(imageType);
+}
+
+wxImageHandler * bmx_wximage_findhandlermime(BBString * mimeType) {
+	return wxImage::FindHandlerMime(wxStringFromBBString(mimeType));
+}
+
+
+// *********************************************
+
+BBString * bmx_wximagehandler_getname(wxImageHandler * handler) {
+	return bbStringFromWxString(handler->GetName());
+}
+
+BBString * bmx_wximagehandler_getextension(wxImageHandler * handler) {
+	return bbStringFromWxString(handler->GetExtension());
+}
+
+long bmx_wximagehandler_gettype(wxImageHandler * handler) {
+	return handler->GetType();
+}
+
+BBString * bmx_wximagehandler_getmimetype(wxImageHandler * handler) {
+	return bbStringFromWxString(handler->GetMimeType());
+}
+
