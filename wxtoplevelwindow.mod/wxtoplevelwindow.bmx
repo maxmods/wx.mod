@@ -75,6 +75,14 @@ Type wxTopLevelWindow Extends wxWindow
 	End Method
 
 	Rem
+	bbdoc: Centers the window on screen.
+	about: This only works for top level windows - otherwise, the window will still be centered on its parent.
+	End Rem
+	Method CenterOnScreen(direction:Int = wxBOTH)
+		bmx_wxtoplevelwindow_centeronscreen(wxObjectPtr, direction)
+	End Method
+
+	Rem
 	bbdoc: Enables or disables the Close button (most often in the right upper corner of a dialog) and the Close entry of the system menu (most often in the left upper corner of the dialog).
 	about: Currently only implemented for wxMSW and wxGTK. Returns true if operation was successful. This may
 	be wrong on X11 (including GTK+) where the window manager may not support this operation and there is no

@@ -211,9 +211,12 @@ Extern
 	Function bmx_wxwindow_setwindowvariant(handle:Byte Ptr, variant:Int)
 	Function bmx_wxwindow_unregisterhotkey:Int(handle:Byte Ptr, hotKeyId:Int)
 	Function bmx_wxwindow_warppointer(handle:Byte Ptr, x:Int, y:Int)
-	
+
 	Function bmx_wxwindow_getdroptarget:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxwindow_setdroptarget(handle:Byte Ptr, target:Byte Ptr)
+	Function bmx_wxwindow_gettooltip:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxwindow_scrollwindow(handle:Byte Ptr, dx:Int, dy:Int, x:Int, y:Int, w:Int, h:Int)
+	Function bmx_wxwindow_scrollwindowrect(handle:Byte Ptr, dx:Int, dy:Int, rect:Byte Ptr)
 
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)
@@ -318,7 +321,20 @@ Extern
 	Function bmx_wxsetcursorevent_setcursor(handle:Byte Ptr, cursor:Byte Ptr)
 
 	Function bmx_wxeraseevent_getdc:Byte Ptr(handle:Byte Ptr)
-	
+
+	Function bmx_wxcaret_create:Byte Ptr(window:Byte Ptr, width:Int, height:Int)
+	Function bmx_wxcaret_getblinktime:Int()
+	Function bmx_wxcaret_getposition(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxcaret_getsize(handle:Byte Ptr, width:Int Ptr, height:Int Ptr)
+	Function bmx_wxcaret_getwindow:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxcaret_hide(handle:Byte Ptr)
+	Function bmx_wxcaret_isok:Int(handle:Byte Ptr)
+	Function bmx_wxcaret_isvisible:Int(handle:Byte Ptr)
+	Function bmx_wxcaret_move(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxcaret_setblinktime(milliseconds:Int)
+	Function bmx_wxcaret_setsize(handle:Byte Ptr, width:Int, height:Int)
+	Function bmx_wxcaret_show(handle:Byte Ptr, _show:Int)
+
 End Extern
 
 

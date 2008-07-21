@@ -67,6 +67,7 @@ Extern
 	Function bmx_wxtoplevelwindow_settransparent(handle:Byte Ptr, alpha:Int)
 	Function bmx_wxtoplevelwindow_showfullscreen:Int(handle:Byte Ptr, show:Int, style:Int)
 	Function bmx_wxtoplevelwindow_centreonscreen(handle:Byte Ptr, direction:Int)
+	Function bmx_wxtoplevelwindow_centeronscreen(handle:Byte Ptr, direction:Int)
 
 	Function bmx_wxtoplevelwindow_getdefaultitem:Byte Ptr(handle:Byte Ptr)
 

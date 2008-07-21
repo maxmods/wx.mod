@@ -53,6 +53,7 @@ extern "C" {
 	void bmx_wxtoplevelwindow_settransparent(wxTopLevelWindow * window, int alpha);
 	bool bmx_wxtoplevelwindow_showfullscreen(wxTopLevelWindow * window, bool show, long style);
 	void bmx_wxtoplevelwindow_centreonscreen(wxTopLevelWindow * window, int direction);
+	void bmx_wxtoplevelwindow_centeronscreen(wxTopLevelWindow * window, int direction);
 
 	wxWindow * bmx_wxtoplevelwindow_getdefaultitem(wxTopLevelWindow * window);
 

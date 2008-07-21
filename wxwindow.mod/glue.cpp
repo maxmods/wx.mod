@@ -809,6 +809,27 @@ void bmx_wxwindow_setacceleratortable(wxWindow * window, MaxAcceleratorTable * t
 	window->SetAcceleratorTable(table->Table());
 }
 
+wxToolTip * bmx_wxwindow_gettooltip(wxWindow * window) {
+	return window->GetToolTip();
+}
+
+void bmx_wxwindow_scrollwindow(wxWindow * window, int dx, int dy, int x, int y, int w, int h) {
+	if ((x != 0) || (y != 0) || (w != 0) || (h != 0)) {
+		wxRect r(x, y, w, h);
+		window->ScrollWindow(dx, dy, &r);
+	} else {
+		window->ScrollWindow(dx, dy);
+	}
+}
+
+void bmx_wxwindow_scrollwindowrect(wxWindow * window, int dx, int dy, MaxRect * rect) {
+	if (rect) {
+		window->ScrollWindow(dx, dy, &rect->Rect());
+	} else {
+		window->ScrollWindow(dx, dy);
+	}
+}
+
 // *********************************************
 
 
@@ -1081,6 +1102,19 @@ bool bmx_wxsizer_replace(wxSizer * sizer, int oldIndex, wxSizerItem * newItem) {
 	return sizer->Replace(oldIndex, newItem);
 }
 
+BBArray * bmx_wxsizer_getchildren(wxSizer * sizer) {
+	wxSizerItemList ilist = sizer->GetChildren();
+	int size = ilist.size();
+	BBArray * array = _wx_wxwindow_wxSizer__newsizeritemsarray(size);
+
+	wxSizerItemList::iterator iter;
+	int i = 0;
+	for (iter = ilist.begin(); iter != ilist.end(); ++iter) { 
+		wxSizerItem * item = *iter;
+		_wx_wxwindow_wxSizer__setsizeritem(array, i++, item);
+	}
+	return array;
+}
 
 // *********************************************
 
@@ -1202,4 +1236,55 @@ void bmx_wxsetcursorevent_setcursor(wxSetCursorEvent & event, MaxCursor * cursor
 MaxDC * bmx_wxeraseevent_getdc(wxEraseEvent & event) {
 	return new MaxDC(event.GetDC());
 }
+
+// *********************************************
+
+wxCaret * bmx_wxcaret_create(wxWindow * window, int width, int height) {
+	return new wxCaret(window, width, height);
+}
+
+int bmx_wxcaret_getblinktime() {
+	return wxCaret::GetBlinkTime();
+}
+
+void bmx_wxcaret_getposition(wxCaret * caret, int * x, int * y) {
+	caret->GetPosition(x, y);
+}
+
+void bmx_wxcaret_getsize(wxCaret * caret, int * width, int * height) {
+	caret->GetSize(width, height);
+}
+
+wxWindow * bmx_wxcaret_getwindow(wxCaret * caret) {
+	return caret->GetWindow();
+}
+
+void bmx_wxcaret_hide(wxCaret * caret) {
+	caret->Hide();
+}
+
+bool bmx_wxcaret_isok(wxCaret * caret) {
+	return caret->IsOk();
+}
+
+bool bmx_wxcaret_isvisible(wxCaret * caret) {
+	return caret->IsVisible();
+}
+
+void bmx_wxcaret_move(wxCaret * caret, int x, int y) {
+	caret->Move(x, y);
+}
+
+void bmx_wxcaret_setblinktime(int milliseconds) {
+	wxCaret::SetBlinkTime(milliseconds);
+}
+
+void bmx_wxcaret_setsize(wxCaret * caret, int width, int height) {
+	caret->SetSize(width, height);
+}
+
+void bmx_wxcaret_show(wxCaret * caret, bool _show) {
+	caret->Show(_show);
+}
+
 

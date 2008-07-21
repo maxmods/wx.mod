@@ -52,6 +52,7 @@ Import "common.bmx"
 
 Extern
 	Function bmx_wxwindow_getchildren:wxWindow[](handle:Byte Ptr)
+	Function bmx_wxsizer_getchildren:wxSizerItem[](handle:Byte Ptr)
 End Extern
 
 
@@ -214,14 +215,6 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: Centers the window on screen.
-	about: This only works for top level windows - otherwise, the window will still be centered on its parent.
-	End Rem
-	Method CenterOnScreen(direction:Int = wxBOTH)
-		CentreOnScreen(direction)
-	End Method
-	
-	Rem
 	bbdoc: Centres the window.
 	about: If the window is a top level one (i.e. doesn't have a parent), it will be centered
 	relative to the screen anyhow.
@@ -244,13 +237,6 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: Centres the window on screen.
-	about: This only works for top level windows - otherwise, the window will still be centered on its parent.
-	End Rem
-	Method CentreOnScreen(direction:Int = wxBOTH)
-	End Method
-	
-	Rem
 	bbdoc: Clears the window by filling it with the current background colour.
 	about: Does not cause an erase background event to be generated.
 	End Rem
@@ -263,6 +249,19 @@ Type wxWindow Extends wxEvtHandler
 	End Rem
 	Method ClientToScreen(x:Int Var, y:Int Var)
 		bmx_wxwindow_clienttoscreen(wxObjectPtr, Varptr x, Varptr y)
+	End Method
+
+	Rem
+	bbdoc: Converts client area size size to corresponding window size.
+	about: In other words, the returned value is what would GetSize return if this window had client area of
+	given size. Components with wxDefaultCoord value are left unchanged.
+	<p>
+	Note that the conversion is not always exact, it assumes that non-client area doesn't change and so
+	doesn't take into account things like menu bar (un)wrapping or (dis)appearance of the scrollbars.
+	</p>
+	End Rem
+	Method ClientToWindowSize(width:Int, height:Int)
+		' TODO : new in 2.8.8
 	End Method
 
 	Rem
@@ -294,6 +293,16 @@ Type wxWindow Extends wxEvtHandler
 	
 	Rem
 	bbdoc: Converts dimensions from dialog units to pixels.
+	about: For the x dimension, the dialog units are multiplied by the average character width and then divided by 4.
+	<p>
+	For the y dimension, the dialog units are multiplied by the average character height and then divided by 8.
+	</p>
+	<p>
+	Dialog units are used for maintaining a dialog's proportions even if the font changes.
+	</p>
+	<p>
+	You can also use these functions programmatically.
+	</p>
 	End Rem
 	Method ConvertDialogToPixels(dx:Int, dy:Int, px:Int Var, py:Int Var)
 		bmx_wxwindow_convertdialogtopixels(wxObjectPtr, dx, dy, Varptr px, Varptr py)
@@ -301,6 +310,13 @@ Type wxWindow Extends wxEvtHandler
 	
 	Rem
 	bbdoc: Converts dimensions from pixels to dialog units
+	about: For the x dimension, the pixels are multiplied by 4 and then divided by the average character width.
+	<p>
+	For the y dimension, the pixels are multiplied by 8 and then divided by the average character height.
+	</p>
+	<p>
+	Dialog units are used for maintaining a dialog's proportions even if the font changes.
+	</p>
 	End Rem
 	Method ConvertPixelsToDialog(px:Int, py:Int, dx:Int Var, dy:Int Var)
 		bmx_wxwindow_convertpixelstodialog(wxObjectPtr, px, py, Varptr dx, Varptr dy)
@@ -308,6 +324,7 @@ Type wxWindow Extends wxEvtHandler
 	
 	Rem
 	bbdoc: Destroys the window safely.
+	returns: true if the window has either been successfully deleted, or it has been added to the list of windows pending real deletion.
 	about: Use this method instead of the delete operator, since different window classes can be
 	destroyed differently. Frames and dialogs are not destroyed immediately when this function
 	is called -- they are added to a list of windows to be deleted on idle time, when all the window's
@@ -327,8 +344,7 @@ Type wxWindow Extends wxEvtHandler
 	
 	Rem
 	bbdoc: Disables the window, same as Enable(false).
-	returns: True if the window has been disabled, False if it had been already disabled before the call to
-	this method.
+	returns: True if the window has been disabled, False if it had been already disabled before the call to this method.
 	End Rem
 	Method Disable:Int()
 		Return bmx_wxwindow_disable(wxObjectPtr)
@@ -342,6 +358,7 @@ Type wxWindow Extends wxEvtHandler
 	
 	Rem
 	bbdoc: Enables or disables eligibility for drop file events (OnDropFiles).
+	about: Windows only.
 	End Rem
 	Method DragAcceptFiles(accept:Int)
 		bmx_wxwindow_dragacceptfiles(wxObjectPtr, accept)
@@ -422,7 +439,7 @@ Type wxWindow Extends wxEvtHandler
 	(faster and the result is more precise as Fit adds some margin to account for fuzziness of its calculations)
 	to call :
 	<pre>
-    window.SetClientSize(child.GetSize())
+	window.SetClientSize(child.GetSize())
 	</pre>
 	instead of calling Fit.
 	End Rem
@@ -707,6 +724,13 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
+	bbdoc: Returns the previous window before this one among the parent children or NULL if this window is the first child.
+	End Rem
+	Method GetPrevSiblingWindow:wxWindow()
+		' TODO: new in 2.8.8
+	End Method
+	
+	Rem
 	bbdoc: Returns the size and position of the window.
 	End Rem
 	Method GetRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
@@ -777,7 +801,17 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the dimensions of the string as it would be drawn on the window with the currently selected font.
+	about: Parameters:
+	<ul>
+	<li><b>text</b> : String whose extent is to be measured.</li>
+	<li><b>x</b> : Return value for width.</li>
+	<li><b>y</b> : Return value for height.</li>
+	<li><b>descent</b> : Return value for descent.</li>
+	<li><b>externalLeading</b> : Return value for external leading.</li>
+	<li><b>font</b> : Font to use instead of the current window font (optional).</li>
+	<li><b>use16</b> : If true, string contains 16-bit characters. The default is false.</li>
+	</ul>
 	End Rem
 	Method GetTextExtent(text:String, x:Int Var, y:Int Var, descent:Int Var, ..
 			externalLeading:Int Var, font:wxFont = Null, use16:Int = False)
@@ -791,10 +825,10 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Get the associated tooltip or NULL if none.
 	End Rem
 	Method GetToolTip:wxToolTip()
-'		Return bmx_wxwindow_gettooltip(wxObjectPtr)
+		Return wxToolTip._create(bmx_wxwindow_gettooltip(wxObjectPtr))
 	End Method
 
 	Rem
@@ -1225,14 +1259,24 @@ Type wxWindow Extends wxEvtHandler
 		Return bmx_wxwindow_scrollpages(wxObjectPtr, pages)
 	End Method
 	
-	Method ScrollWindow(dx:Int, dy:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1)
+	Rem
+	bbdoc: Physically scrolls the pixels in the window and move child windows accordingly.
+	about: Note that you can often use wxScrolledWindow instead of using this function directly.
+	End Rem
+	Method ScrollWindow(dx:Int, dy:Int, x:Int = 0, y:Int = 0, w:Int = 0, h:Int = 0)
+		bmx_wxwindow_scrollwindow(wxObjectPtr, dx, dy, x, y, w, h)
 	End Method
 
+	Rem
+	bbdoc: Physically scrolls the pixels in the window and move child windows accordingly.
+	about: Note that you can often use wxScrolledWindow instead of using this function directly.
+	End Rem
 	Method ScrollWindowRect(dx:Int, dy:Int, rect:wxRect = Null)
+		bmx_wxwindow_scrollwindowrect(wxObjectPtr, dx, dy, rect.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the accelerator table for this window. See wxAcceleratorTable.
 	End Rem
 	Method SetAcceleratorTable(accel:wxAcceleratorTable)
 		bmx_wxwindow_setacceleratortable(wxObjectPtr, accel.wxObjectPtr)
@@ -1408,11 +1452,11 @@ Type wxWindow Extends wxEvtHandler
 	Method SetExtraStyle(style:Int)
 		bmx_wxwindow_setextrastyle(wxObjectPtr, style)
 	End Method
-	
-	' override me !!!!
+
+	' not used here	
 	Method SetFocusFromKbd()
 	End Method
-	
+
 	Rem
 	bbdoc: Sets the font for this window.
 	about: This method should not be called for the parent window if you don't want its font to be
@@ -1578,8 +1622,12 @@ Type wxWindow Extends wxEvtHandler
 	non-NULL and false otherwise.
 	</p>
 	End Rem
-	Method SetSizer(sizer:wxSizer, deleteOld:Int = True)
-		bmx_wxwindow_setsizer(wxObjectPtr, sizer.wxSizerPtr, deleteOld)
+	Method SetSizer(sizer:wxSizer = Null, deleteOld:Int = True)
+		If sizer Then
+			bmx_wxwindow_setsizer(wxObjectPtr, sizer.wxSizerPtr, deleteOld)
+		Else
+			bmx_wxwindow_setsizer(wxObjectPtr, Null, deleteOld)
+		End If
 	End Method
 
 	Rem
@@ -1614,6 +1662,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: 
 	End Rem
 	Method SetValidator()
+		' TODO
 	End Method
 	
 	Rem
@@ -1626,6 +1675,10 @@ Type wxWindow Extends wxEvtHandler
 	Rem
 	bbdoc: Allows specification of minimum and maximum virtual window sizes.
 	about: If a pair of values is not set (or set to -1), the default values will be used.
+	<p>
+	If this method is called, the user will not be able to size the virtual area of the window outside
+	the given bounds.
+	</p>
 	End Rem
 	Method SetVirtualSizeHints(minW:Int = -1, minH:Int = -1, maxW:Int = -1, maxH:Int = -1)
 		bmx_wxwindow_setvirtualsizehints(wxObjectPtr, minW, minH, maxW, maxH)
@@ -1730,6 +1783,7 @@ Type wxWindow Extends wxEvtHandler
 	
 	Rem
 	bbdoc: Unregisters a system wide hotkey.
+	returns: True if the hotkey was unregistered successfully, False if the id was invalid.
 	about: This method is currently only implemented under MSW.
 	End Rem
 	Method UnregisterHotKey:Int(hotKeyId:Int)
@@ -1799,9 +1853,26 @@ Type wxWindow Extends wxEvtHandler
 		bmx_wxwindow_warppointer(wxObjectPtr, x, y)
 	End Method	
 	
+	Rem
+	bbdoc: Converts window size size to corresponding client area size.
+	about: In other words, the returned value is what would GetClientSize return if this window had
+	given window size. Components with wxDefaultCoord value are left unchanged. 
+	<p>
+	Note that the conversion is not always exact, it assumes that non-client area doesn't change and
+	so doesn't take into account things like menu bar (un)wrapping or (dis)appearance of the scrollbars.
+	</p>
+	End Rem
+	Method WindowToClientSize:Int(width:Int, height:Int)
+		' TODO : new in 2.8.8
+	End Method
+	
 End Type
 
-
+Rem
+bbdoc: The wxSizerItem type is used to track the position, size and other attributes of each item managed by a wxSizer.
+about: It is not usually necessary to use this class because the sizer elements can also be identified by
+their positions or window or sizer pointers but sometimes it may be more convenient to use it directly.
+End Rem
 Type wxSizerItem
 
 	Field wxSizerItemPtr:Byte Ptr
@@ -1813,6 +1884,99 @@ Type wxSizerItem
 		
 		Return this
 	End Function
+	
+	Method CalcMin(w:Int Var, h:Int Var)
+	End Method
+	
+	Method DeleteWindows()
+	End Method
+	
+	Method DetachSizer()
+	End Method
+	
+	Method GetBorder:Int()
+	End Method
+	
+	Method GetFlag:Int()
+	End Method
+	
+	Method GetMinSize(w:Int Var, h:Int Var)
+	End Method
+	
+	Method GetPosition(x:Int Var, y:Int Var)
+	End Method
+	
+	Method GetProportion:Int()
+	End Method
+	
+	Method GetRatio:Float()
+	End Method
+	
+	Method GetRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+	End Method
+	
+	Method GetRectRect:wxRect()
+	End Method
+	
+	Method GetSize(w:Int Var, h:Int Var)
+	End Method
+	
+	Method GetSizer:wxSizer()
+	End Method
+	
+	Method GetSpacer(w:Int Var, h:Int Var)
+	End Method
+	
+	Method GetUserData:Object()
+	End Method
+	
+	Method GetWindow:wxWindow()
+	End Method
+	
+	Method IsSizer:Int()
+	End Method
+	
+	Method IsShown:Int()
+	End Method
+	
+	Method IsSpacer:Int()
+	End Method
+	
+	Method IsWindow:Int()
+	End Method
+	
+	Method SetBorder(border:Int)
+	End Method
+	
+	Method SetDimension(x:Int, y:Int, w:Int, h:Int)
+	End Method
+	
+	Method SetFlag(flag:Int)
+	End Method
+	
+	Method SetInitSize(x:Int, y:Int)
+	End Method
+	
+	Method SetProportion(proportion:Int)
+	End Method
+	
+	Method SetRatioSize(w:Int, h:Int)
+	End Method
+	
+	Method SetRatio(ratio:Float)
+	End Method
+	
+	Method SetSizer(sizer:wxSizer)
+	End Method
+	
+	Method SetSpacer(w:Int, h:Int)
+	End Method
+	
+	Method SetWindow(window:wxWindow)
+	End Method
+	
+	Method Show(_show:Int)
+	End Method
 	
 End Type
 
@@ -1986,9 +2150,17 @@ Type wxSizer
 	Rem
 	bbdoc: Returns the list of the items in this sizer.
 	End Rem
-	Method GetChildren()
-		' TODO
+	Method GetChildren:wxSizerItem[]()
+		Return bmx_wxsizer_getchildren(wxSizerPtr)
 	End Method
+	
+	Function _newsizeritemsarray:wxSizerItem[](size:Int)
+		Return New wxSizerItem[size]
+	End Function
+	
+	Function _setsizeritem(items:wxSizerItem[], index:Int, item:Byte Ptr)
+		items[index] = wxSizerItem._create(item)
+	End Function
 	
 	Rem
 	bbdoc: Returns the window this sizer is used in or NULL if none.
@@ -3113,12 +3285,101 @@ Type wxCaret
 		Return Null
 	End Function
 	
-	Function CreateCaret:wxCaret()
+	Rem
+	bbdoc: Create the caret of given (in pixels) width and height and associates it with the given window.
+	End Rem
+	Function CreateCaret:wxCaret(window:wxWindow, width:Int, height:Int)
+		Return New wxCaret.Create(window, width, height)
 	End Function
 	
-	Method Create:wxCaret()
+	Rem
+	bbdoc: Create the caret of given (in pixels) width and height and associates it with the given window.
+	End Rem
+	Method Create:wxCaret(window:wxWindow, width:Int, height:Int)
+		wxObjectPtr = bmx_wxcaret_create(window.wxObjectPtr, width, height)
+		Return Self
 	End Method
 
+	Rem
+	bbdoc: Returns the blink time which is measured in milliseconds and is the time elapsed between 2 inversions of the caret (blink time of the caret is the same for all carets).
+	End Rem
+	Function GetBlinkTime:Int()
+		Return bmx_wxcaret_getblinktime()
+	End Function
+	
+	Rem
+	bbdoc: Get the caret position (in pixels).
+	End Rem
+	Method GetPosition(x:Int Var, y:Int Var)
+		bmx_wxcaret_getposition(wxObjectPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Get the caret size.
+	End Rem
+	Method GetSize(width:Int Var, height:Int Var)
+		bmx_wxcaret_getsize(wxObjectPtr, Varptr width, Varptr height)
+	End Method
+	
+	Rem
+	bbdoc: Get the window the caret is associated with.
+	End Rem
+	Method GetWindow:wxWindow()
+		Return wxWindow._find(bmx_wxcaret_getwindow(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Same as wxCaret::Show(false).
+	End Rem
+	Method Hide()
+		bmx_wxcaret_hide(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the caret was created successfully.
+	End Rem
+	Method IsOk:Int()
+		Return bmx_wxcaret_isok(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the caret is visible and false if it is permanently hidden (if it is is blinking and not shown currently but will be after the next blink, this method still returns true).
+	End Rem
+	Method IsVisible:Int()
+		Return bmx_wxcaret_isvisible(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Move the caret to given position (in logical coordinates).
+	End Rem
+	Method Move(x:Int, y:Int)
+		bmx_wxcaret_move(wxObjectPtr, x, y)
+	End Method
+	
+	Rem
+	bbdoc: Sets the blink time for all the carets.
+	about: Under Windows, this function will change the blink time for <b>all</b> carets permanently
+	(until the next time it is called), even for the carets in other applications.
+	End Rem
+	Function SetBlinkTime(milliseconds:Int)
+		bmx_wxcaret_setblinktime(milliseconds)
+	End Function
+	
+	Rem
+	bbdoc: Changes the size of the caret.
+	End Rem
+	Method SetSize(width:Int, height:Int)
+		bmx_wxcaret_setsize(wxObjectPtr, width, height)
+	End Method
+	
+	Rem
+	bbdoc: Shows or hides the caret.
+	about: Notice that if the caret was hidden N times, it must be shown N times as well to reappear on the screen.
+	End Rem
+	Method Show(_show:Int = True)
+		bmx_wxcaret_show(wxObjectPtr, _show)
+	End Method
+	
 End Type
 
 Rem

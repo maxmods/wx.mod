@@ -26,6 +26,7 @@
 
 #include "wxglue.h"
 #include "wx/tooltip.h"
+#include "wx/caret.h"
 #include "../wxcursor.mod/glue.h"
 
 class MaxWindow;
@@ -40,6 +41,8 @@ extern "C" {
 
 	BBArray * _wx_wxwindow_wxWindow__newwindowarray(int size);
 	void _wx_wxwindow_wxWindow__setwindow(BBArray * array, int index, wxWindow * window);
+	BBArray * _wx_wxwindow_wxSizer__newsizeritemsarray(int size);
+	void _wx_wxwindow_wxSizer__setsizeritem(BBArray * array, int index, wxSizerItem * item);
 
 	MaxWindow * bmx_wxwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	bool bmx_wxwindow_show(wxWindow * window, bool value);
@@ -208,6 +211,9 @@ extern "C" {
 
 	wxDropTarget * bmx_wxwindow_getdroptarget(wxWindow * window);
 	void bmx_wxwindow_setdroptarget(wxWindow * window, wxDropTarget * target);
+	wxToolTip * bmx_wxwindow_gettooltip(wxWindow * window);
+	void bmx_wxwindow_scrollwindow(wxWindow * window, int dx, int dy, int x, int y, int w, int h);
+	void bmx_wxwindow_scrollwindowrect(wxWindow * window, int dx, int dy, MaxRect * rect);
 
 	MaxAcceleratorTable * bmx_wxwindow_getacceleratortable(wxWindow * window);
 	void bmx_wxwindow_setacceleratortable(wxWindow * window, MaxAcceleratorTable * table);
@@ -257,6 +263,7 @@ extern "C" {
 	bool bmx_wxsizer_isshown(wxSizer * sizer, int index);
 	void bmx_wxsizer_layout(wxSizer * sizer);
 	void bmx_wxsizer_recalcsizes(wxSizer * sizer);
+	BBArray * bmx_wxsizer_getchildren(wxSizer * sizer);
 
 	wxSizerItem * bmx_wxsizer_insertspacer(wxSizer * sizer, int index, int size);
 	wxSizerItem * bmx_wxsizer_insertstretchspacer(wxSizer * sizer, int index, int prop);
@@ -313,6 +320,19 @@ extern "C" {
 	void bmx_wxsetcursorevent_setcursor(wxSetCursorEvent & event, MaxCursor * cursor);
 
 	MaxDC * bmx_wxeraseevent_getdc(wxEraseEvent & event);
+
+	wxCaret * bmx_wxcaret_create(wxWindow * window, int width, int height);
+	int bmx_wxcaret_getblinktime();
+	void bmx_wxcaret_getposition(wxCaret * caret, int * x, int * y);
+	void bmx_wxcaret_getsize(wxCaret * caret, int * width, int * height);
+	wxWindow * bmx_wxcaret_getwindow(wxCaret * caret);
+	void bmx_wxcaret_hide(wxCaret * caret);
+	bool bmx_wxcaret_isok(wxCaret * caret);
+	bool bmx_wxcaret_isvisible(wxCaret * caret);
+	void bmx_wxcaret_move(wxCaret * caret, int x, int y);
+	void bmx_wxcaret_setblinktime(int milliseconds);
+	void bmx_wxcaret_setsize(wxCaret * caret, int width, int height);
+	void bmx_wxcaret_show(wxCaret * caret, bool _show);
 
 }
 
