@@ -1418,7 +1418,7 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method ClearFlag(flag:Int)
-		' TODO
+		bmx_wxpgproperty_clearflag(wxObjectPtr, flag)
 	End Method
 	
 	Rem
@@ -1454,23 +1454,41 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetArrIndex:Int()
-		' TODO
+		Return bmx_wxpgproperty_getarrindex(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns named attribute, as Int, if found.
+	about: Otherwise defVal is returned.
 	End Rem
 	Method GetAttributeAsInt:Int(name:String, defVal:Int)
-		' TODO
+		Return bmx_wxpgproperty_getattributeasint(wxObjectPtr, name, defVal)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns named attribute, as String, if found.
+	about: Otherwise defVal is returned.
 	End Rem
 	Method GetAttributeAsString:String(name:String, defVal:String)
-		' TODO
+		Return bmx_wxpgproperty_getattributeasstring(wxObjectPtr, name, defVal)
 	End Method
 	
+	Rem
+	bbdoc: Returns named attribute, as Double.
+	End Rem
+	Method GetAttributeAsDouble:Double(name:String)
+		Return bmx_wxpgproperty_getattributeasdouble(wxObjectPtr, name)
+	End Method
+
+	Rem
+	bbdoc: Returns named attribute, as Long.
+	End Rem
+	Method GetAttributeAsLong:Long(name:String)
+		Local value:Long
+		bmx_wxpgproperty_getattributeaslong(wxObjectPtr, name, Varptr value)
+		Return value
+	End Method
+
 	Rem
 	bbdoc: Returns property's base name (ie. parent's name is not added in any case)
 	End Rem
@@ -1804,21 +1822,21 @@ Type wxPGProperty Extends wxObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this property is enabled.
 	End Rem
 	Method IsEnabled:Int()
 		Return bmx_wxpgproperty_isenabled(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if this property is expanded.
 	End Rem
 	Method IsExpanded:Int()
 		Return bmx_wxpgproperty_isexpanded(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the specified flag is set.
 	End Rem
 	Method IsFlagSet:Int(flag:Int)
 		Return bmx_wxpgproperty_isflagset(wxObjectPtr, flag)
@@ -1859,15 +1877,17 @@ Type wxPGProperty Extends wxObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns sub-property at index i.
 	End Rem
 	Method Item:wxPGProperty(i:Int)
+		Return wxPGProperty._create(bmx_wxpgproperty_item(wxObjectPtr, i))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns last sub-property.
 	End Rem
 	Method Last:wxPGProperty()
+		Return wxPGProperty._create(bmx_wxpgproperty_last(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -1877,9 +1897,11 @@ Type wxPGProperty Extends wxObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: If property's editor is created this forces its recreation.
+	about: Useful in SetAttribute etc. Returns true if actually did anything.
 	End Rem
 	Method RecreateEditor:Int()
+		Return bmx_wxpgproperty_recreateeditor(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1887,73 +1909,143 @@ Type wxPGProperty Extends wxObject
 	about: Automatically called after value is set. 
 	End Rem
 	Method RefreshChildren()
+		bmx_wxpgproperty_refreshchildren(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: If property's editor is active, then update it's value. 
 	End Rem
 	Method RefreshEditor()
+		bmx_wxpgproperty_refresheditor(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets a string attribute of a property.
+	about: Ids and relevants values are totally specific to property classes and may affect either the given instance or all instances of that class.
+	End Rem
 	Method SetAttributeString(name:String, value:String)
 		bmx_wxpgproperty_setattributestring(wxObjectPtr, name, value)
 	End Method
 
+	Rem
+	bbdoc: Sets an int attribute of a property.
+	about: Ids and relevants values are totally specific to property classes and may affect either the given instance or all instances of that class.
+	End Rem
 	Method SetAttributeInt(name:String, value:Int)
 		bmx_wxpgproperty_setattributeint(wxObjectPtr, name, value)
 	End Method
 
+	Rem
+	bbdoc: Sets a double attribute of a property.
+	about: Ids and relevants values are totally specific to property classes and may affect either the given instance or all instances of that class.
+	End Rem
 	Method SetAttributeDouble(name:String, value:Double)
 		bmx_wxpgproperty_setattributedouble(wxObjectPtr, name, value)
 	End Method
 
+	Rem
+	bbdoc: Sets a bool attribute of a property.
+	about: Ids and relevants values are totally specific to property classes and may affect either the given instance or all instances of that class.
+	End Rem
 	Method SetAttributeBool(name:String, value:Int)
 		bmx_wxpgproperty_setattributebool(wxObjectPtr, name, value)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetAttributes(attributes:wxPGAttributeStorage)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetCell(column:Int, cellObj:wxPGCell)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetChoices:Int(labels:String[], values:Int[] = Null)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetChoiceSelection(newValue:Int, choiceInfo:wxPGChoiceInfo)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetChoicesExclusive()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetClientData(clientData:Object)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetCommonValue(commonValue:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetEditorByName(editorName:String)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetEditor(editor:wxPGEditor)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetExpanded(expanded:Int)
+		bmx_wxpgproperty_setexpanded(wxObjectPtr, expanded)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetFlag(flag:Int)
+		bmx_wxpgproperty_setflag(wxObjectPtr, flag)
 	End Method
 	
+	Rem
+	bbdoc: Sets flags from a '|' delimited string.
+	about: Note that flag names are not prepended with 'wxPG_PROP_'.
+	End Rem
 	Method SetFlagsFromString(s:String)
+		bmx_wxpgproperty_setflagsfromstring(wxObjectPtr, s)
 	End Method
 	
+	Rem
+	bbdoc: Sets the help string.
+	End Rem
 	Method SetHelpString(helpString:String)
+		bmx_wxpgproperty_sethelpstring(wxObjectPtr, helpString)
 	End Method
 	
+	Rem
+	bbdoc: Sets the property label.
+	End Rem
 	Method SetLabel(label:String)
+		bmx_wxpgproperty_setlabel(wxObjectPtr, label)
 	End Method
 	
+	Rem
+	bbdoc: Set max length of text editor.
+	End Rem
 	Method SetMaxLength:Int(maxLen:Int)
+		Return bmx_wxpgproperty_setmaxlength(wxObjectPtr, maxLen)
 	End Method
 	
 End Type

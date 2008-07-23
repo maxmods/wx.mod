@@ -1463,6 +1463,74 @@ bool bmx_wxpgproperty_isvisible(wxPGProperty * prop) {
 	return prop->IsVisible();
 }
 
+wxPGProperty * bmx_wxpgproperty_item(wxPGProperty * prop, int i) {
+	return prop->Item(i);
+}
+
+wxPGProperty * bmx_wxpgproperty_last(wxPGProperty * prop) {
+	return prop->Last();
+}
+
+bool bmx_wxpgproperty_recreateeditor(wxPGProperty * prop) {
+	return prop->RecreateEditor();
+}
+
+void bmx_wxpgproperty_refreshchildren(wxPGProperty * prop) {
+	prop->RefreshChildren();
+}
+
+void bmx_wxpgproperty_refresheditor(wxPGProperty * prop) {
+	prop->RefreshEditor();
+}
+
+void bmx_wxpgproperty_setexpanded(wxPGProperty * prop, bool expanded) {
+	prop->SetExpanded(expanded);
+}
+
+void bmx_wxpgproperty_setflag(wxPGProperty * prop, wxPGProperty::FlagType flag) {
+	prop->SetFlag(flag);
+}
+
+void bmx_wxpgproperty_setflagsfromstring(wxPGProperty * prop, BBString * s) {
+	prop->SetFlagsFromString(wxStringFromBBString(s));
+}
+
+void bmx_wxpgproperty_sethelpstring(wxPGProperty * prop, BBString * helpString) {
+	prop->SetHelpString(wxStringFromBBString(helpString));
+}
+
+void bmx_wxpgproperty_setlabel(wxPGProperty * prop, BBString * label) {
+	prop->SetLabel(wxStringFromBBString(label));
+}
+
+bool bmx_wxpgproperty_setmaxlength(wxPGProperty * prop, int maxLen) {
+	return prop->SetMaxLength(maxLen);
+}
+
+unsigned int bmx_wxpgproperty_getarrindex(wxPGProperty * prop) {
+	return prop->GetArrIndex();
+}
+
+void bmx_wxpgproperty_clearflag(wxPGProperty * prop, wxPGProperty::FlagType flag) {
+	prop->ClearFlag(flag);
+}
+
+long bmx_wxpgproperty_getattributeasint(wxPGProperty * prop, BBString * name, long defVal) {
+	return prop->GetAttributeAsLong(wxStringFromBBString(name), defVal);
+}
+
+BBString * bmx_wxpgproperty_getattributeasstring(wxPGProperty * prop, BBString * name, BBString * defVal) {
+	return bbStringFromWxString(prop->GetAttribute(wxStringFromBBString(name), wxStringFromBBString(defVal)));
+}
+
+double bmx_wxpgproperty_getattributeasdouble(wxPGProperty * prop, BBString * name) {
+	return prop->GetAttribute(wxStringFromBBString(name)).GetDouble();
+}
+
+void bmx_wxpgproperty_getattributeaslong(wxPGProperty * prop, BBString * name, BBInt64 * value) {
+	*value = wxLongLongFromVariant(prop->GetAttribute(wxStringFromBBString(name))).GetValue();
+}
+
 
 // *********************************************
 

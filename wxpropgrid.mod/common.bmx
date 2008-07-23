@@ -360,6 +360,24 @@ Extern
 	Function bmx_wxpgproperty_isvaluetype:Int(handle:Byte Ptr, s:String)
 	Function bmx_wxpgproperty_isvalueunspecified:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_isvisible:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_item:Byte Ptr(handle:Byte Ptr, i:Int)
+	Function bmx_wxpgproperty_last:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpgproperty_recreateeditor:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_refreshchildren(handle:Byte Ptr)
+	Function bmx_wxpgproperty_refresheditor(handle:Byte Ptr)
+	Function bmx_wxpgproperty_setexpanded(handle:Byte Ptr, expanded:Int)
+	Function bmx_wxpgproperty_setflag(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpgproperty_setflagsfromstring(handle:Byte Ptr, s:String)
+	Function bmx_wxpgproperty_sethelpstring(handle:Byte Ptr, helpString:String)
+	Function bmx_wxpgproperty_setlabel(handle:Byte Ptr, label:String)
+	Function bmx_wxpgproperty_setmaxlength:Int(handle:Byte Ptr, maxLen:Int)
+	Function bmx_wxpgproperty_getarrindex:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_clearflag(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpgproperty_getattributeasint:Int(handle:Byte Ptr, name:String, defVal:Int)
+	Function bmx_wxpgproperty_getattributeasstring:String(handle:Byte Ptr, name:String, defVal:String)
+	Function bmx_wxpgproperty_getattributeasdouble:Double(handle:Byte Ptr, name:String)
+	Function bmx_wxpgproperty_getattributeaslong(handle:Byte Ptr, name:String, value:Long Ptr)
+
 
 End Extern
 
@@ -425,23 +443,94 @@ Const wxPG_PROP_PARENTAL_FLAGS:Int = wxPG_PROP_AGGREGATE|wxPG_PROP_CATEGORY|wxPG
 Const wxPG_PROP_PROPERTY:Int = $1000
 Const wxPG_PROP_WAS_MODIFIED:Int = $0200
 
-
+Rem
+bbdoc: wxBoolProperty specific, int, default 0.
+about: When 1 sets bool property to use checkbox instead of choice.
+End Rem
 Const wxPG_BOOL_USE_CHECKBOX:String = "UseCheckbox"
+Rem
+bbdoc: wxBoolProperty specific, int, default 0.
+about: When 1 sets bool property value to cycle on double click (instead of showing the popup listbox).
+End Rem
 Const wxPG_BOOL_USE_DOUBLE_CLICK_CYCLING:String = "UseDClickCycling"
+Rem
+bbdoc: wxColourProperty and its kind, int, default 1.
+about: Setting this attribute to 0 hides custom colour from property's list of choices.
+End Rem
 Const wxPG_COLOUR_ALLOW_CUSTOM:String = "AllowCustom"
+Rem
+bbdoc: wxCustomProperty specific, void*.
+End Rem
 Const wxPG_CUSTOM_PAINT_CALLBACK:String = "PaintCallback"
+Rem
+bbdoc: wxCustomProperty specific, int, default 0.
+about: Setting to 1 makes children private (ie. sets wxPG_PROP_AGGREGATE flag), similar to other properties with fixed children.
+<p>
+Children must be added when this attribute has value 0. Otherwise there will be an assertion failure.
+</p>
+<p>
+Changed event occurs on the parent only.
+</p>
+End Rem
 Const wxPG_CUSTOM_PRIVATE_CHILDREN:String = "PrivateChildren"
+Rem
+bbdoc: Sets displayed date format for wxDateProperty.
+End Rem
 Const wxPG_DATE_FORMAT:String = "DateFormat"
+Rem
+bbdoc: Sets wxDatePickerCtrl window style used with wxDateProperty.
+about: Default is wxDP_DEFAULT | wxDP_SHOWCENTURY.
+End Rem
 Const wxPG_DATE_PICKER_STYLE:String = "PickerStyle"
+Rem
+bbdoc: Specific to wxDirProperty, wxString, default is empty.
+about: Sets a specific message for the dir dialog.
+End Rem
 Const wxPG_DIR_DIALOG_MESSAGE:String = "DialogMessage"
+Rem
+bbdoc: Specific to wxFileProperty and derivatives, wxString, default is empty.
+about: Sets a specific title for the dir dialog.
+End Rem
 Const wxPG_FILE_DIALOG_TITLE:String = "DialogTitle"
+Rem
+bbdoc: Specific to wxFileProperty and derived properties, wxString, default is empty.
+about: Sets the initial path of where to look for files.
+End Rem
 Const wxPG_FILE_INITIAL_PATH:String = "InitialPath"
+Rem
+bbdoc: wxFileProperty/wxImageFileProperty specific, int, default 1.
+about: When 0, only the file name is shown (i.e. drive and directory are hidden).
+End Rem
 Const wxPG_FILE_SHOW_FULL_PATH:String = "ShowFullPath"
+Rem
+bbdoc: Specific to wxFileProperty and derived properties, wxString, default empty.
+about: If set, then the filename is shown relative to the given path string.
+End Rem
 Const wxPG_FILE_SHOW_RELATIVE_PATH:String = "ShowRelativePath"
+Rem
+bbdoc: wxFileProperty/wxImageFileProperty specific, default is detected/varies.
+about: Sets the wildcard used in the triggered wxFileDialog. Format is the same.
+End Rem
 Const wxPG_FILE_WILDCARD:String = "Wildcard"
+Rem
+bbdoc: wxFloatProperty (and similar) specific, int, default -1.
+about: Sets the (max) precision used when floating point value is rendered as text. The default -1 means infinite precision.
+End Rem
 Const wxPG_FLOAT_PRECISION:String = "Precision"
+Rem
+bbdoc: The text will be echoed as asterisks (wxTE_PASSWORD will be passed to textctrl etc).
+End Rem
 Const wxPG_STRING_PASSWORD:String = "Password"
+Rem
+bbdoc: Define base used by a wxUIntProperty.
+about: Valid constants are wxPG_BASE_OCT, wxPG_BASE_DEC, wxPG_BASE_HEX and wxPG_BASE_HEXL (lowercase characters).
+End Rem
 Const wxPG_UINT_BASE:String = "Base"
+Rem
+bbdoc: Define prefix rendered to wxUIntProperty.
+about: Accepted constants wxPG_PREFIX_NONE, wxPG_PREFIX_0x, and wxPG_PREFIX_DOLLAR_SIGN.
+Note: Only wxPG_PREFIX_NONE works with Decimal and Octal numbers.
+End Rem
 Const wxPG_UINT_PREFIX:String = "Prefix"
 
 Const wxPG_BASE_OCT:Int = 8

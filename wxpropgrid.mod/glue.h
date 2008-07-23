@@ -256,6 +256,23 @@ extern "C" {
 	bool bmx_wxpgproperty_issubproperty(wxPGProperty * prop);
 	bool bmx_wxpgproperty_isvalueunspecified(wxPGProperty * prop);
 	bool bmx_wxpgproperty_isvisible(wxPGProperty * prop);
+	wxPGProperty * bmx_wxpgproperty_item(wxPGProperty * prop, int i);
+	wxPGProperty * bmx_wxpgproperty_last(wxPGProperty * prop);
+	bool bmx_wxpgproperty_recreateeditor(wxPGProperty * prop);
+	void bmx_wxpgproperty_refreshchildren(wxPGProperty * prop);
+	void bmx_wxpgproperty_refresheditor(wxPGProperty * prop);
+	void bmx_wxpgproperty_setexpanded(wxPGProperty * prop, bool expanded);
+	void bmx_wxpgproperty_setflag(wxPGProperty * prop, wxPGProperty::FlagType flag);
+	void bmx_wxpgproperty_setflagsfromstring(wxPGProperty * prop, BBString * s);
+	void bmx_wxpgproperty_sethelpstring(wxPGProperty * prop, BBString * helpString);
+	void bmx_wxpgproperty_setlabel(wxPGProperty * prop, BBString * label);
+	bool bmx_wxpgproperty_setmaxlength(wxPGProperty * prop, int maxLen);
+	unsigned int bmx_wxpgproperty_getarrindex(wxPGProperty * prop);
+	void bmx_wxpgproperty_clearflag(wxPGProperty * prop, wxPGProperty::FlagType flag);
+	long bmx_wxpgproperty_getattributeasint(wxPGProperty * prop, BBString * name, long defVal);
+	BBString * bmx_wxpgproperty_getattributeasstring(wxPGProperty * prop, BBString * name, BBString * defVal);
+	double bmx_wxpgproperty_getattributeasdouble(wxPGProperty * prop, BBString * name);
+	void bmx_wxpgproperty_getattributeaslong(wxPGProperty * prop, BBString * name, BBInt64 * value);
 
 
 	wxEnumProperty * bmx_wxenumproperty_createwitharrays(BBObject * handle, BBString * label, BBString * name, BBArray * labels, BBArray * values, int value);
