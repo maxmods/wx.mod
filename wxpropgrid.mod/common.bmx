@@ -346,6 +346,21 @@ Extern
 	Function bmx_wxpropertygrid_setpropertyvaluecolour(handle:Byte Ptr, prop:Byte Ptr, value:Byte Ptr)
 	Function bmx_wxpropertygrid_setpropertyvaluecolourbyname(handle:Byte Ptr, name:String, value:Byte Ptr)
 
+	Function bmx_wxpgproperty_getvalueascolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getvaluestring:String(handle:Byte Ptr, argFlags:Int)
+	Function bmx_wxpgproperty_gety:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_hasflag:Int(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpgproperty_hide:Int(handle:Byte Ptr, hide:Int)
+	Function bmx_wxpgproperty_iscategory:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_isenabled:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_isexpanded:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_isflagset:Int(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpgproperty_isroot:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_issubproperty:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_isvaluetype:Int(handle:Byte Ptr, s:String)
+	Function bmx_wxpgproperty_isvalueunspecified:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_isvisible:Int(handle:Byte Ptr)
+
 End Extern
 
 Const INT_MAX:Int = 2147483647

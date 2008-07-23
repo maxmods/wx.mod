@@ -1418,6 +1418,7 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method ClearFlag(flag:Int)
+		' TODO
 	End Method
 	
 	Rem
@@ -1446,24 +1447,28 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method FixIndexesOfChildren(starthere:Int = 0)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetArrIndex:Int()
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetAttributeAsInt:Int(name:String, defVal:Int)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetAttributeAsString:String(name:String, defVal:String)
+		' TODO
 	End Method
 	
 	Rem
@@ -1633,117 +1638,260 @@ Type wxPGProperty Extends wxObject
 '	Method GetId:wxPGId()
 '	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetImageSize(w:Int Var, h:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetIndexInParent:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetItemAtY:wxPGProperty(y:Int, lh:Int, nextItemY:Int Var)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetLabel:String()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetLastVisibleSubItem:wxPGProperty()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetMainParent:wxPGProperty()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetMaxLength:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetName:String()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetParent:wxPGProperty()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetParentState:wxPropertyGridState()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyByName:wxPGProperty(name:String)
 	End Method
 	
+	Rem
+	bbdoc: Returns type name of property that is compatible with CreatePropertyByType. 
+	End Rem
 	Method GetType:String()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetValueAsString:String()
+		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetValueAsDouble:Double()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetValueAsBool:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetValueAsInt:Int()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetValueAsLong:Long()
+	End Method
+
+	Rem
+	bbdoc: Returns the property value as a wxColour.
+	End Rem
+	Method GetValueAsColour:wxColour()
+		Return wxColour._create(bmx_wxpgproperty_getvalueascolour(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns text representation of property's value. 
+	about: Parameters:
+	<ul>
+	<li><b>argFlags</b> 	If wxPG_FULL_VALUE is set, returns complete, storable string value instead of
+	displayable. If wxPG_EDITABLE_VALUE is set, returns string value that must be editable in textctrl. If
+	wxPG_COMPOSITE_FRAGMENT is set, returns text that is appropriate to display as a part of composite
+	property string value.</li>
+	</ul>
+	End Rem
 	Method GetValueString:String(argFlags:Int = 0)
+		Return bmx_wxpgproperty_getvaluestring(wxObjectPtr, argFlags)
 	End Method
 	
+	Rem
+	bbdoc: Returns coordinate to the top y of the property.
+	about: Note that the position of scrollbars is not taken into account. 
+	End Rem
 	Method GetY:Int()
+		Return bmx_wxpgproperty_gety(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HasFlag:Int(flag:Int)
+		Return bmx_wxpgproperty_hasflag(wxObjectPtr, flag)
 	End Method
 	
+	Rem
+	bbdoc: Hides or reveals the property. 
+	End Rem
 	Method Hide:Int(hide:Int)
+		Return bmx_wxpgproperty_hide(wxObjectPtr, hide)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Index:Int(p:wxPGProperty)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method InsertChoice:Int(label:String, index:Int, value:Int = INT_MAX)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if this property is actually a wxPropertyCategory. 
+	End Rem
 	Method IsCategory:Int()
+		Return bmx_wxpgproperty_iscategory(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsEnabled:Int()
+		Return bmx_wxpgproperty_isenabled(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsExpanded:Int()
+		Return bmx_wxpgproperty_isexpanded(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsFlagSet:Int(flag:Int)
+		Return bmx_wxpgproperty_isflagset(wxObjectPtr, flag)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if this property is actually a wxRootProperty. 
+	End Rem
 	Method IsRoot:Int()
+		Return bmx_wxpgproperty_isroot(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsSomeParent:Int(candidateParent:wxPGProperty)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if this is a sub-property. 
+	End Rem
 	Method IsSubProperty:Int()
+		Return bmx_wxpgproperty_issubproperty(wxObjectPtr)
 	End Method
 	
-	Method IsValueType:Int(s:String)
-	End Method
-	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsValueUnspecified:Int()
+		Return bmx_wxpgproperty_isvalueunspecified(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if all parents expanded. 
+	End Rem
 	Method IsVisible:Int()
+		Return bmx_wxpgproperty_isvisible(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Item:wxPGProperty(i:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Last:wxPGProperty()
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method PrepareValueForDialogEditing:Int(propgrid:wxPropertyGrid)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method RecreateEditor:Int()
 	End Method
 	
+	Rem
+	bbdoc: Refresh values of child properties.
+	about: Automatically called after value is set. 
+	End Rem
 	Method RefreshChildren()
 	End Method
 	
+	Rem
+	bbdoc: If property's editor is active, then update it's value. 
+	End Rem
 	Method RefreshEditor()
 	End Method
 	
@@ -2060,15 +2208,19 @@ Type wxEnumProperty Extends wxBaseEnumProperty
 	End Method
 	
 	Method GetChoices:wxPGChoices()
+		' TODO
 	End Method
 	
 	Method GetEntry:String(index:Int, value:Int Var)
+		' TODO
 	End Method
 	
 	Method GetIndexForValue:Int(value:Int)
+		' TODO
 	End Method
 	
 	Method GetItemCount:Int()
+		' TODO
 	End Method
 	
 	
@@ -2076,7 +2228,7 @@ Type wxEnumProperty Extends wxBaseEnumProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Has dropdown list of wxWidgets system colours. 
 End Rem
 Type wxSystemColourProperty Extends wxEnumProperty
 
@@ -2087,6 +2239,13 @@ Type wxSystemColourProperty Extends wxEnumProperty
 			wxObjectPtr = bmx_wxsystemcolourproperty_create(Self, label, name, Null)
 		End If
 		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Default is to use wxSystemSettings::GetColour(index). 
+	End Rem
+	Method GetColour:wxColour(index:Int)	
+		' TODO
 	End Method
 	
 End Type
@@ -2104,7 +2263,7 @@ Type wxColourProperty Extends wxSystemColourProperty
 		End If
 		Return Self
 	End Method
-	
+
 End Type
 
 Rem

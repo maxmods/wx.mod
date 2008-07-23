@@ -243,6 +243,20 @@ extern "C" {
 	unsigned int bmx_wxpgproperty_getcount(wxPGProperty * prop);
 	unsigned int bmx_wxpgproperty_getdepth(wxPGProperty * prop);
 	int bmx_wxpgproperty_getdisplayedcommonvaluecount(wxPGProperty * prop);
+	MaxColour * bmx_wxpgproperty_getvalueascolour(wxPGProperty * prop);
+	BBString * bmx_wxpgproperty_getvaluestring(wxPGProperty * prop, int argFlags);
+	int bmx_wxpgproperty_gety(wxPGProperty * prop);
+	bool bmx_wxpgproperty_hasflag(wxPGProperty * prop, wxPGProperty::FlagType flag);
+	bool bmx_wxpgproperty_hide(wxPGProperty * prop, bool hide);
+	bool bmx_wxpgproperty_iscategory(wxPGProperty * prop);
+	bool bmx_wxpgproperty_isenabled(wxPGProperty * prop);
+	bool bmx_wxpgproperty_isexpanded(wxPGProperty * prop);
+	bool bmx_wxpgproperty_isflagset(wxPGProperty * prop, wxPGProperty::FlagType flag);
+	bool bmx_wxpgproperty_isroot(wxPGProperty * prop);
+	bool bmx_wxpgproperty_issubproperty(wxPGProperty * prop);
+	bool bmx_wxpgproperty_isvalueunspecified(wxPGProperty * prop);
+	bool bmx_wxpgproperty_isvisible(wxPGProperty * prop);
+
 
 	wxEnumProperty * bmx_wxenumproperty_createwitharrays(BBObject * handle, BBString * label, BBString * name, BBArray * labels, BBArray * values, int value);
 	wxEnumProperty * bmx_wxenumproperty_createwithchoices(BBObject * handle, BBString * label, BBString * name, MaxPGChoices * choices, int value);

@@ -1139,16 +1139,14 @@ void bmx_wxpropertygrid_clearmodifiedstatus(wxPropertyGrid * grid) {
 }
 
 MaxColour * bmx_wxpropertygrid_getpropertyvalueascolour(wxPropertyGrid * grid, wxPGProperty * prop) {
-	wxVariant v = grid->GetPropertyValue(prop);
 	wxColour c;
-	c << v;
+	c << grid->GetPropertyValue(prop);
 	return new MaxColour(c);
 }
 
 MaxColour * bmx_wxpropertygrid_getpropertyvalueascolourbyname(wxPropertyGrid * grid, BBString * name) {
-	wxVariant v = grid->GetPropertyValue(wxStringFromBBString(name));
 	wxColour c;
-	c << v;
+	c << grid->GetPropertyValue(wxStringFromBBString(name));
 	return new MaxColour(c);
 }
 
@@ -1411,6 +1409,60 @@ int bmx_wxpgproperty_getdisplayedcommonvaluecount(wxPGProperty * prop) {
 	return prop->GetDisplayedCommonValueCount();
 }
 
+MaxColour * bmx_wxpgproperty_getvalueascolour(wxPGProperty * prop) {
+	wxColour c;
+	c << prop->GetValue();
+	return new MaxColour(c);
+}
+
+BBString * bmx_wxpgproperty_getvaluestring(wxPGProperty * prop, int argFlags) {
+	return bbStringFromWxString(prop->GetValueString(argFlags));
+}
+
+int bmx_wxpgproperty_gety(wxPGProperty * prop) {
+	return prop->GetY();
+}
+
+bool bmx_wxpgproperty_hasflag(wxPGProperty * prop, wxPGProperty::FlagType flag) {
+	return prop->HasFlag(flag);
+}
+
+bool bmx_wxpgproperty_hide(wxPGProperty * prop, bool hide) {
+	return prop->Hide(hide);
+}
+
+bool bmx_wxpgproperty_iscategory(wxPGProperty * prop) {
+	return prop->IsCategory();
+}
+
+bool bmx_wxpgproperty_isenabled(wxPGProperty * prop) {
+	return prop->IsEnabled();
+}
+
+bool bmx_wxpgproperty_isexpanded(wxPGProperty * prop) {
+	return prop->IsExpanded();
+}
+
+bool bmx_wxpgproperty_isflagset(wxPGProperty * prop, wxPGProperty::FlagType flag) {
+	return prop->IsFlagSet(flag);
+}
+
+bool bmx_wxpgproperty_isroot(wxPGProperty * prop) {
+	return prop->IsRoot();
+}
+
+bool bmx_wxpgproperty_issubproperty(wxPGProperty * prop) {
+	return prop->IsSubProperty();
+}
+
+bool bmx_wxpgproperty_isvalueunspecified(wxPGProperty * prop) {
+	return prop->IsValueUnspecified();
+}
+
+bool bmx_wxpgproperty_isvisible(wxPGProperty * prop) {
+	return prop->IsVisible();
+}
+
 
 // *********************************************
 
@@ -1526,7 +1578,6 @@ void bmx_wxpropertygridevent_getpropertyvalueassize(wxPropertyGridEvent & event,
 BBString * bmx_wxpropertygridevent_getpropertyvalueasstring(wxPropertyGridEvent & event) {
 	return bbStringFromWxString(event.GetPropertyValue().GetString());
 }
-
 
 // *********************************************
 
