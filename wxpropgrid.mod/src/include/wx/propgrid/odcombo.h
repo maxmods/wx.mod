@@ -949,6 +949,10 @@ protected:
     void OnKey(wxKeyEvent& event);
     void OnLeftClick(wxMouseEvent& event);
 
+#if wxCHECK_VERSION(2,8,0)
+    void OnMouseCaptureLost(wxMouseCaptureLostEvent& event);
+#endif
+
     wxArrayString           m_strings;
     wxArrayPtrVoid          m_clientDatas;
     wxArrayInt              m_widths; // cached line widths

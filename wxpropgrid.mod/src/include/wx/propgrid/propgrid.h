@@ -28,14 +28,14 @@
     #endif
 #endif
 
-#if defined(SWIG)
-    #define wxDEPRECATED(A) A
-#endif
-
 //
 // In case DOXYGEN was not specified (should be, but just in case)
 #if !defined(DOXYGEN) && !defined(_WX_WINDOW_H_BASE_) && !defined(SWIG)
     #define DOXYGEN
+#endif
+
+#if defined(SWIG) || defined(DOXYGEN)
+    #define wxDEPRECATED(A) A
 #endif
 
 
@@ -84,7 +84,7 @@
 // for "configure" scripts under unix, use them.
 #define wxPROPGRID_MAJOR          1
 #define wxPROPGRID_MINOR          3
-#define wxPROPGRID_RELEASE        3
+#define wxPROPGRID_RELEASE        8
 
 // For non-Unix systems (i.e. when building without a configure script),
 // users of this component can use the following macro to check if the
@@ -476,6 +476,8 @@ class WXDLLIMPEXP_PG wxPGEditorDialogAdapter;
 
 extern WXDLLIMPEXP_PG const wxChar *wxPropertyGridNameStr;
 
+struct wxPGValidationInfo;
+
 #endif // #ifndef SWIG
 
 
@@ -715,6 +717,9 @@ typedef void (*wxPGPaintCallback)(wxPGProperty* property,
 */
 #define WX_PG_CLASSINFO(NAME) (&NAME::ms_classInfo)
 
+
+typedef wxString wxPGCachedString;
+
 /** @}
 */
 
@@ -724,59 +729,62 @@ typedef void (*wxPGPaintCallback)(wxPGProperty* property,
     SetWindowStyleFlag method can be used to modify some of these at run-time.
     @{
 */
+enum wxPG_WINDOW_STYLES
+{
+
 /** This will cause Sort() automatically after an item is added.
     When inserting a lot of items in this mode, it may make sense to
     use Freeze() before operations and Thaw() afterwards to increase
     performance.
 */
-#define wxPG_AUTO_SORT              0x00000010
+wxPG_AUTO_SORT                      = 0x00000010,
 
 /** Categories are not initially shown (even if added).
     IMPORTANT NOTE: If you do not plan to use categories, then this
     style will waste resources.
     This flag can also be changed using wxPropertyGrid::EnableCategories method.
 */
-#define wxPG_HIDE_CATEGORIES        0x00000020
+wxPG_HIDE_CATEGORIES                = 0x00000020,
 
 /* This style combines non-categoric mode and automatic sorting.
 */
-#define wxPG_ALPHABETIC_MODE        (wxPG_HIDE_CATEGORIES|wxPG_AUTO_SORT)
+wxPG_ALPHABETIC_MODE                = (wxPG_HIDE_CATEGORIES|wxPG_AUTO_SORT),
 
 /** Modified values are shown in bold font. Changing this requires Refresh()
     to show changes.
 */
-#define wxPG_BOLD_MODIFIED          0x00000040
+wxPG_BOLD_MODIFIED                  = 0x00000040,
 
 /** When wxPropertyGrid is resized, splitter moves to the center. This
-    behaviour stops once the user manually moves the splitter.
+    behavior stops once the user manually moves the splitter.
 */
-#define wxPG_SPLITTER_AUTO_CENTER   0x00000080
+wxPG_SPLITTER_AUTO_CENTER           = 0x00000080,
 
 /** Display tooltips for cell text that cannot be shown completely. If
     wxUSE_TOOLTIPS is 0, then this doesn't have any effect.
 */
-#define wxPG_TOOLTIPS               0x00000100
+wxPG_TOOLTIPS                       = 0x00000100,
 
 /** Disables margin and hides all expand/collapse buttons that would appear
     outside the margin (for sub-properties). Toggling this style automatically
     expands all collapsed items.
 */
-#define wxPG_HIDE_MARGIN            0x00000200
+wxPG_HIDE_MARGIN                    = 0x00000200,
 
 /** This style prevents user from moving the splitter.
 */
-#define wxPG_STATIC_SPLITTER        0x00000400
+wxPG_STATIC_SPLITTER                = 0x00000400,
 
 /** Combination of other styles that make it impossible for user to modify
     the layout.
 */
-#define wxPG_STATIC_LAYOUT          (wxPG_HIDE_MARGIN|wxPG_STATIC_SPLITTER)
+wxPG_STATIC_LAYOUT                  = (wxPG_HIDE_MARGIN|wxPG_STATIC_SPLITTER),
 
 /** Disables wxTextCtrl based editors for properties which
     can be edited in another way. Equals calling wxPropertyGrid::LimitPropertyEditing
     for all added properties.
 */
-#define wxPG_LIMITED_EDITING        0x00000800
+wxPG_LIMITED_EDITING                = 0x00000800,
 
 #ifdef DOXYGEN
 
@@ -784,17 +792,22 @@ typedef void (*wxPGPaintCallback)(wxPGProperty* property,
     in grid. Travelling forwards from last property will navigate to the
     next control, and backwards from first will navigate to the previous one.
 */
-    #define wxTAB_TRAVERSAL         0x00080000
+wxTAB_TRAVERSAL                     = 0x00080000,
 
 #endif
 
 /** wxPropertyGridManager only: Show toolbar for mode and page selection. */
-#define wxPG_TOOLBAR                0x00001000
+wxPG_TOOLBAR                        = 0x00001000,
 
 /** wxPropertyGridManager only: Show adjustable text box showing description
     or help text, if available, for currently selected property.
 */
-#define wxPG_DESCRIPTION            0x00002000
+wxPG_DESCRIPTION                    = 0x00002000
+
+};
+
+enum wxPG_EX_WINDOW_STYLES
+{
 
 /**
     NOTE: wxPG_EX_xxx are extra window styles and must be set using SetExtraStyle()
@@ -808,90 +821,79 @@ typedef void (*wxPGPaintCallback)(wxPGProperty* property,
     all, then using this style will result in waste of resources.
 
 */
-#define wxPG_EX_INIT_NOCAT          0x00001000
+wxPG_EX_INIT_NOCAT                  = 0x00001000,
 
 /** Extended window style that sets wxPropertyGridManager toolbar to not
     use flat style.
 */
-#define wxPG_EX_NO_FLAT_TOOLBAR     0x00002000
-
-/** This extra style allows editing more similar to some Microsoft/Mono
-    provided property sheet controls. Currently this includes (but more may be
-    added later, incase I missed something):
-    * Pressing ENTER in control, in addition to confirming changes, will
-      unfocus it.
-    * Pressing ESC doesn't cancel edit (but still unfocuses the editor).
-
-    Note that ESC and ENTER events in editor controls are relayed to the
-    wxPropertyGrid itself, so that they can be detected by the application.
-*/
-//#define wxPG_EX_ALTERNATE_KEYS      0x00004000
+wxPG_EX_NO_FLAT_TOOLBAR             = 0x00002000,
 
 /** Shows alphabetic/categoric mode buttons from toolbar.
 */
-#define wxPG_EX_MODE_BUTTONS        0x00008000
+wxPG_EX_MODE_BUTTONS                = 0x00008000,
 
 /** Show property help strings as tool tips instead as text on the status bar.
     You can set the help strings using SetPropertyHelpString member function.
 */
-#define wxPG_EX_HELP_AS_TOOLTIPS    0x00010000
+wxPG_EX_HELP_AS_TOOLTIPS            = 0x00010000,
 
-/** Prevent TAB from focusing to wxButtons. This behaviour was default
+/** Prevent TAB from focusing to wxButtons. This behavior was default
     in version 1.2.0 and earlier.
     NOTE! Tabbing to button doesn't work yet. Problem seems to be that on wxMSW
       atleast the button doesn't properly propagate key events (yes, I'm using
       wxWANTS_CHARS).
 */
-//#define wxPG_EX_NO_TAB_TO_BUTTON    0x00020000
+//wxPG_EX_NO_TAB_TO_BUTTON            = 0x00020000,
 
 #if wxPG_COMPATIBILITY_1_2_0
 /* No longer used, defined for compatibility.
 */
-    #define wxPG_EX_GREY_LABEL_WHEN_DISABLED    0x00000000
+wxPG_EX_GREY_LABEL_WHEN_DISABLED        = 0x00000000,
 #endif
 
 /** Allows relying on native double-buffering.
 */
-#define wxPG_EX_NATIVE_DOUBLE_BUFFERING     0x00080000
+wxPG_EX_NATIVE_DOUBLE_BUFFERING         = 0x00080000,
 
 #if wxPG_COMPATIBILITY_1_2_0
 /** Since all events are now automatically processed immediately, this
     flag is zero and only provided for backwards compatibility.
 */
-    #define wxPG_EX_PROCESS_EVENTS_IMMEDIATELY  0x00000000
+wxPG_EX_PROCESS_EVENTS_IMMEDIATELY      = 0x00000000,
 #endif
 
 /** Set this style to let user have ability to set values of properties to
     unspecified state. Same as setting wxPG_PROP_AUTO_UNSPECIFIED for
     all properties.
 */
-#define wxPG_EX_AUTO_UNSPECIFIED_VALUES     0x00200000
+wxPG_EX_AUTO_UNSPECIFIED_VALUES         = 0x00200000,
 
 /** If this style is used, built-in attributes (such as wxPG_FLOAT_PRECISION and wxPG_STRING_PASSWORD)
     are not stored into property's attribute storage (thus they are not readable).
 
     Note that this option is global, and applies to all wxPG property containers.
 */
-#define wxPG_EX_WRITEONLY_BUILTIN_ATTRIBUTES    0x00400000
+wxPG_EX_WRITEONLY_BUILTIN_ATTRIBUTES    = 0x00400000,
 
 #if wxPG_COMPATIBILITY_1_2_0
 /** With this tyle Validators on properties will work basicly work just they
     work in wxWidgets.
 
     \deprecated
-    Since version 1.3. This behaviour is automatic now.
+    Since version 1.3. This behavior is automatic now.
 */
-#define wxPG_EX_TRADITIONAL_VALIDATORS          0x00000000
+wxPG_EX_TRADITIONAL_VALIDATORS          = 0x00000000,
 #endif
 
 /** With this style Validators on properties will work same as in wxPropertyGrid 1.2.
 */
-#define wxPG_EX_LEGACY_VALIDATORS               0x00800000
+wxPG_EX_LEGACY_VALIDATORS               = 0x00800000,
 
 /** Hides page selection buttons from toolbar.
 */
-#define wxPG_EX_HIDE_PAGE_BUTTONS               0x01000000
+wxPG_EX_HIDE_PAGE_BUTTONS               = 0x01000000
 
+};
 
 /** Combines various styles.
 */
@@ -904,29 +906,60 @@ typedef void (*wxPGPaintCallback)(wxPGProperty* property,
 /** @}
 */
 
-/** Flags for wxPropertyGrid::GetPropertyValues and wxPropertyGridManager::GetPropertyValues. */
-#define wxPG_KEEP_STRUCTURE               0x00000010
+enum wxPG_GETPROPERTYVALUES_FLAGS
+{
 
-/** Flags for wxPropertyGrid::SetPropertyAttribute etc */
-#define wxPG_RECURSE                      0x00000020
+/** Flags for wxPropertyContainerMethods::GetPropertyValues */
+wxPG_KEEP_STRUCTURE               = 0x00000010,
+
+/** Flags for wxPropertyGrid::SetPropertyAttribute() etc */
+wxPG_RECURSE                      = 0x00000020,
 
 /** Include attributes for GetPropertyValues. */
-#define wxPG_INC_ATTRIBUTES               0x00000040
+wxPG_INC_ATTRIBUTES               = 0x00000040,
 
 /** Used when first starting recursion. */
-#define wxPG_RECURSE_STARTS               0x00000080
+wxPG_RECURSE_STARTS               = 0x00000080,
 
 /** Force value change. */
-#define wxPG_FORCE                        0x00000100
+wxPG_FORCE                        = 0x00000100
+
+};
+
+/** Flags for wxPropertyGrid::SetPropertyAttribute() etc */
+#define wxPG_DONT_RECURSE         0x00000000
 
 // -----------------------------------------------------------------------
 
 // Misc argument flags.
-#define wxPG_FULL_VALUE             0x00000001 // Get/Store full value instead of displayed value.
-#define wxPG_REPORT_ERROR           0x00000002
-#define wxPG_PROPERTY_SPECIFIC      0x00000004
-#define wxPG_EDITABLE_VALUE         0x00000008 // Get/Store editable value instead of displayed one
-                                               // (should only be different in the case of common values)
+enum wxPG_MISC_ARG_FLAGS
+{
+
+wxPG_FULL_VALUE                     = 0x00000001,  // Get/Store full value instead of displayed value.
+
+wxPG_REPORT_ERROR                   = 0x00000002,
+
+wxPG_PROPERTY_SPECIFIC              = 0x00000004,
+
+wxPG_EDITABLE_VALUE                 = 0x00000008,  // Get/Store editable value instead of displayed one
+                                              // (should only be different in the case of common values)
+
+wxPG_COMPOSITE_FRAGMENT             = 0x00000010,  // Used when dealing with fragments of composite string value
+
+wxPG_UNEDITABLE_COMPOSITE_FRAGMENT  = 0x00000020   // Means property for which final string value is for can not
+                                                   // really be edited.
+};
+
+
+// -----------------------------------------------------------------------
+
+// wxPGProperty::SetValue() flags
+enum wxPG_SETVALUE_FLAGS
+{
+wxPG_SETVAL_REFRESH_EDITOR      = 0x0001,
+wxPG_SETVAL_AGGREGATED          = 0x0002,
+wxPG_SETVAL_FROM_PARENT         = 0x0004
+};
 
 // -----------------------------------------------------------------------
 
@@ -1026,110 +1059,122 @@ WXDLLIMPEXP_PG void wxPGGetFailed( const wxPGProperty* p, const wxChar* typestr 
     @{
 */
 
-// NOTE: Do not change order of these, and if you add
-//   any, remember also to update gs_property_flag_to_string
-//   in propgrid.cpp.
+enum wxPG_PROPERTY_FLAGS
+{
 
 /** Indicates bold font.
 */
-#define wxPG_PROP_MODIFIED          0x0001
+wxPG_PROP_MODIFIED                  = 0x0001,
 
 /** Disables ('greyed' text and editor does not activate) property.
 */
-#define wxPG_PROP_DISABLED          0x0002
+wxPG_PROP_DISABLED                  = 0x0002,
 
 /** Hider button will hide this property.
 */
-#define wxPG_PROP_HIDDEN            0x0004
+wxPG_PROP_HIDDEN                    = 0x0004,
 
 /** This property has custom paint image just in front of its value.
     If property only draws custom images into a popup list, then this
     flag should not be set.
 */
-#define wxPG_PROP_CUSTOMIMAGE       0x0008
+wxPG_PROP_CUSTOMIMAGE               = 0x0008,
 
 /** Do not create text based editor for this property (but button-triggered
     dialog and choice are ok).
 */
-#define wxPG_PROP_NOEDITOR          0x0010
+wxPG_PROP_NOEDITOR                  = 0x0010,
 
-/** Property has its children collapsed.
+/** Property is collapsed, ie. it's children are hidden.
 */
-#define wxPG_PROP_COLLAPSED         0x0020
+wxPG_PROP_COLLAPSED                 = 0x0020,
 
-/** Indicates the bit useable by derived properties.
-*/
-#define wxPG_PROP_CLASS_SPECIFIC_1  0x0040
+/** If property is selected, then indicates that validation failed for pending value.
 
-/** Indicates the bit useable by derived properties.
+    If property is not selected, then indicates that the the actual property
+    value has failed validation (NB: this behavior is not currently supported,
+    but may be used in future).
 */
-#define wxPG_PROP_CLASS_SPECIFIC_2  0x0080
+wxPG_PROP_INVALID_VALUE             = 0x0040,
 
-/** A common value cannot be selected by user.
-*/
-//#define wxPG_PROP_DENY_COMMON_VALUES    0x0100
+// 0x0080,
 
 /** Switched via SetWasModified(). Temporary flag - only used when
     setting/changing property value.
 */
-#define wxPG_PROP_WAS_MODIFIED          0x0200
+wxPG_PROP_WAS_MODIFIED              = 0x0200,
 
-/** If set, then child properties (if any) should be "invisible" to the
+/** If set, then child properties (if any) are private, and should be "invisible" to the
     application.
 */
-#define wxPG_PROP_AGGREGATE             0x0400
+wxPG_PROP_AGGREGATE                 = 0x0400,
 
 /** If set, then child properties (if any) are copies and should not
     be deleted in dtor.
 */
-#define wxPG_PROP_CHILDREN_ARE_COPIES   0x0800
+wxPG_PROP_CHILDREN_ARE_COPIES       = 0x0800,
 
 /** Classifies this item as a non-category. Used for faster item type identification.
 */
-#define wxPG_PROP_PROPERTY              0x1000
+wxPG_PROP_PROPERTY                  = 0x1000,
 
 /** Classifies this item as a category. Used for faster item type identification.
 */
-#define wxPG_PROP_CATEGORY              0x2000
+wxPG_PROP_CATEGORY                  = 0x2000,
 
 /** Classifies this item as a property that has children, but is not aggregate
     (ie. children are not private).
 */
-#define wxPG_PROP_MISC_PARENT           0x4000
+wxPG_PROP_MISC_PARENT               = 0x4000,
 
 /** Property is read-only. Editor is still created.
 */
-#define wxPG_PROP_READONLY              0x8000
+wxPG_PROP_READONLY                  = 0x8000,
+
+//
+// NB: FLAGS ABOVE 0x8000 CANNOT BE USED WITH PROPERTY ITERATORS
+//
 
 /** Property's value is composed from values of child properties.
+    \remarks
+    This flag cannot be used with property iterators.
 */
-#define wxPG_PROP_COMPOSED_VALUE        0x00010000
+wxPG_PROP_COMPOSED_VALUE            = 0x00010000,
 
 /** Common value of property is selectable in editor.
+    \remarks
+    This flag cannot be used with property iterators.
 */
-#define wxPG_PROP_USES_COMMON_VALUE     0x00020000
+wxPG_PROP_USES_COMMON_VALUE         = 0x00020000,
 
 /** Property can be set to unspecified value via editor.
     Currently, this applies to following properties:
     - wxIntProperty, wxUIntProperty, wxFloatProperty, wxEditEnumProperty:
       Clear the text field
+
+    \remarks
+    This flag cannot be used with property iterators.
 */
-#define wxPG_PROP_AUTO_UNSPECIFIED      0x00040000
+wxPG_PROP_AUTO_UNSPECIFIED          = 0x00040000,
+
+/** Indicates the bit useable by derived properties.
+*/
+wxPG_PROP_CLASS_SPECIFIC_1          = 0x00080000,
+
+/** Indicates the bit useable by derived properties.
+*/
+wxPG_PROP_CLASS_SPECIFIC_2          = 0x00100000
+
+};
 
 /** Topmost flag.
 */
-#define wxPG_PROP_MAX                   wxPG_PROP_AUTO_UNSPECIFIED
+#define wxPG_PROP_MAX               wxPG_PROP_AUTO_UNSPECIFIED
 
 /** Property with children *must* have one of these set, otherwise iterators
     will not work correctly. Code should automatically take care of this, however.
 */
 #define wxPG_PROP_PARENTAL_FLAGS        (wxPG_PROP_AGGREGATE|wxPG_PROP_CATEGORY|wxPG_PROP_MISC_PARENT)
-
-//
-// NB: DO NOT USE FLAGS ABOVE 0x8000
-//     (or if do, please see the iterator flags section for
-//      why it might be dangerous)
-//
 
 /** @}
 */
@@ -1142,11 +1187,37 @@ WXDLLIMPEXP_PG void wxPGGetFailed( const wxPGProperty* p, const wxChar* typestr 
 
 // -----------------------------------------------------------------------
 
+#ifndef SWIG
+
 /** @defgroup attrids wxPropertyGrid Property Attribute Identifiers
-    wxPropertyGrid::SetPropertyAttribute accepts one of these as
-    attrid argument when used with one of the built-in property classes.
+    wxPropertyGrid::SetPropertyAttribute() accepts one of these as
+    attrname argument .
+    You can use strings instead of constants. However, some of these
+    constants are redefined to use cached strings which may reduce
+    your binary size by some amount.
+
     @{
 */
+
+
+/** Universal, int or double. Minimum value for numeric properties.
+*/
+#define wxPG_ATTR_MIN                     wxT("Min")
+
+/** Universal, int or double. Maximum value for numeric properties.
+*/
+#define wxPG_ATTR_MAX                     wxT("Max")
+
+/** Universal, string. When set, will be shown as text after the displayed
+    text value. Alternatively, if third column is enabled, text will be shown
+    there (for any type of property).
+*/
+#define wxPG_ATTR_UNITS                     wxT("Units")
+
+/** Universal, string. When set, will be shown in property's value cell
+    when displayed value string is empty, or value is unspecified.
+*/
+#define wxPG_ATTR_INLINE_HELP               wxT("InlineHelp")
 
 /** wxBoolProperty specific, int, default 0. When 1 sets bool property to
     use checkbox instead of choice.
@@ -1221,6 +1292,19 @@ WXDLLIMPEXP_PG void wxPGGetFailed( const wxPGProperty* p, const wxChar* typestr 
 */
 #define wxPG_DATE_PICKER_STYLE              wxT("PickerStyle")
 
+/** SpinCtrl editor, int or double. How much number changes when button is
+    pressed (or up/down on keybard).
+*/
+#define wxPG_ATTR_SPINCTRL_STEP             wxT("Step")
+
+/** SpinCtrl editor, bool. If true, value wraps at Min/Max.
+*/
+#define wxPG_ATTR_SPINCTRL_WRAP             wxT("Wrap")
+
+/** wxMultiChoiceProperty, int. If 0, no user strings allowed. If 1, user strings
+    appear before list strings. If 2, user strings appear after list string.
+*/
+#define wxPG_ATTR_MULTICHOICE_USERSTRINGMODE    wxT("UserStringMode")
 
 #ifdef wxPG_COMPATIBILITY_1_0_0
 
@@ -1278,6 +1362,23 @@ WXDLLIMPEXP_PG void wxPGGetFailed( const wxPGProperty* p, const wxChar* typestr 
 
 /** @}
 */
+
+#ifndef DOXYGEN
+
+// Redefine attribute macros to use cached strings
+#undef wxPG_ATTR_MIN
+#define wxPG_ATTR_MIN                     wxPGGlobalVars->m_strMin
+#undef wxPG_ATTR_MAX
+#define wxPG_ATTR_MAX                     wxPGGlobalVars->m_strMax
+#undef wxPG_ATTR_UNITS
+#define wxPG_ATTR_UNITS                   wxPGGlobalVars->m_strUnits
+#undef wxPG_ATTR_INLINE_HELP
+#define wxPG_ATTR_INLINE_HELP             wxPGGlobalVars->m_strInlineHelp
+
+#endif  // !DOXYGEN
+
+#endif  // !SWIG
+
 
 //
 // Valid constants for wxPG_UINT_BASE attribute
@@ -1803,13 +1904,16 @@ public:
         \remarks
         - Default implementation always returns true.
     */
-    virtual bool ValidateValue( wxVariant& value ) const;
+    virtual bool ValidateValue( wxVariant& value, wxPGValidationInfo& validationInfo ) const;
 
     /** Converts 'text' into proper value 'variant'. Returns true if new (different than
         m_value) value could be interpreted from the text.
         \param argFlags
         If wxPG_FULL_VALUE is set, returns complete, storable value instead of displayable
         one (they may be different).
+        If wxPG_COMPOSITE_FRAGMENT is set, text is interpreted as a part of composite
+        property string value (as generated by GetValueAsString() called with this same
+        flag).
 
         \remarks
         Default implementation converts semicolon delimited tokens into child values. Only
@@ -1821,6 +1925,7 @@ public:
         Returns true if new (different than m_value) value could be interpreted from the integer.
         \param argFlags
         If wxPG_FULL_VALUE is set, returns complete, storable value instead of displayable
+
         \remarks
         - Default implementation may work correctly if used value type is int.
         - If property is not supposed to use choice or spinctrl or other editor
@@ -1833,6 +1938,12 @@ public:
 
     /** Returns text representation of property's value.
 
+        \param argFlags
+        If wxPG_FULL_VALUE is set, returns complete, storable string value instead of displayable.
+        If wxPG_EDITABLE_VALUE is set, returns string value that must be editable in textctrl.
+        If wxPG_COMPOSITE_FRAGMENT is set, returns text that is appropriate to display
+        as a part of composite property string value.
+
         \remarks
         Default implementation returns string composed from text representations of
         child properties.
@@ -1840,7 +1951,7 @@ public:
     virtual wxString GetValueAsString( int argFlags = 0 ) const;
 
     /** Converts string to a value, and if succesfull, calls SetValue() on it.
-        Default behaviour is to do nothing.
+        Default behavior is to do nothing.
         \param text
         String to get the value from.
         \param report_error
@@ -1854,7 +1965,7 @@ public:
     bool SetValueFromString( const wxString& text, int flags = 0 );
 
     /** Converts integer to a value, and if succesfull, calls SetValue() on it.
-        Default behaviour is to do nothing.
+        Default behavior is to do nothing.
         \param value
         Int to get the value from.
         \param flags
@@ -1880,7 +1991,7 @@ public:
         \param item
         Normally -1, but can be an index to the property's list of items.
         \remarks
-        - Default behaviour is to return wxSize(0,0), which means no image.
+        - Default behavior is to return wxSize(0,0), which means no image.
         - Default image width or height is indicated with dimension -1.
         - You can also return wxPG_DEFAULT_IMAGE_SIZE which equals wxSize(-1, -1).
     */
@@ -1945,24 +2056,24 @@ public:
 #ifdef __WXPYTHON__
     // Because SWIG doesn't generate code well for writeback variables,
     // we need to declare custom versions of some functions.
-    virtual wxPGVariantAndBool PyValidateValue( const wxVariant& value ) const;
+    virtual wxPGVariantAndBool PyValidateValue( const wxVariant& value, wxPGValidationInfo& validationInfo ) const;
     virtual wxPGVariantAndBool PyStringToValue( const wxString& text, int argFlags = 0 ) const;
     virtual wxPGVariantAndBool PyIntToValue( int number, int argFlags = 0 ) const;
 #endif
 
-    bool ActualValidateValue( wxVariant& value ) const
+    bool ActualValidateValue( wxVariant& value, wxPGValidationInfo& validationInfo ) const
     {
 #ifdef __WXPYTHON__
         if ( m_scriptObject )
         {
-            wxPGVariantAndBool vab = PyValidateValue(value);
+            wxPGVariantAndBool vab = PyValidateValue(value, validationInfo);
             if ( vab.m_valueValid )
                 value = vab.m_value;
             return vab.m_result;
         }
 #endif
 
-        return ValidateValue(value);
+        return ValidateValue(value, validationInfo);
     }
 
     bool ActualStringToValue( wxVariant& variant, const wxString& text, int argFlags = 0 ) const
@@ -2136,6 +2247,30 @@ public:
         return InsertChoice(label,-1,value);
     }
 
+    /** Returns wxPGCell of given column, NULL if none. If valid
+        object is returned, caller will gain its ownership.
+    */
+    wxPGCell* AcquireCell( unsigned int column )
+    {
+        if ( column >= m_cells.size() )
+            return NULL;
+
+        wxPGCell* cell = (wxPGCell*) m_cells[column];
+        m_cells[column] = NULL;
+        return cell;
+    }
+
+    /** Returns true if children of this property are component values (for instance,
+        points size, face name, and is_underlined are component values of a font).
+    */
+    bool AreChildrenComponents() const
+    {
+        if ( m_flags & (wxPG_PROP_COMPOSED_VALUE|wxPG_PROP_AGGREGATE) )
+            return true;
+
+        return false;
+    }
+
     /** Removes entry from property's wxPGChoices and editor control (if it is active).
 
         If selected item is deleted, then the value is set to unspecified.
@@ -2208,6 +2343,9 @@ public:
 
     void UpdateControl( wxWindow* primary );
 
+    /** Returns wxPGCell of given column, NULL if none. wxPGProperty
+        will retain ownership of the cell object.
+    */
     wxPGCell* GetCell( unsigned int column ) const
     {
         if ( column >= m_cells.size() )
@@ -2261,6 +2399,15 @@ public:
     {
         return ( m_flags & flag ) ? true : false;
     }
+
+    /** Returns true if property has editable wxTextCtrl when selected.
+
+        \remarks
+        Altough disabled properties do not displayed editor, they still
+        return True here as being disabled is considered a temporary
+        condition (unlike being read-only or having limited editing enabled).
+    */
+    bool IsTextEditable() const;
 
     inline bool IsValueUnspecified() const
     {
@@ -2322,6 +2469,10 @@ public:
     {
         return m_value.GetType();
     }
+
+    /** Returns true if property has even one visible child..
+    */
+    bool HasVisibleChildren() const;
 
     /** Adds entry to property's wxPGChoices and editor control (if it is active).
         Returns index of item added.
@@ -2403,11 +2554,15 @@ public:
 
     /** Returns named attribute, as string, if found. Otherwise defVal is returned.
     */
-    wxString GetAttribute( const wxString& name, const wxString& defVal );
+    wxString GetAttribute( const wxString& name, const wxString& defVal ) const;
 
     /** Returns named attribute, as long, if found. Otherwise defVal is returned.
     */
     long GetAttributeAsLong( const wxString& name, long defVal ) const;
+
+    /** Returns named attribute, as double, if found. Otherwise defVal is returned.
+    */
+    double GetAttributeAsDouble( const wxString& name, double defVal ) const;
 
     inline unsigned int GetArrIndex() const { return m_arrIndex; }
 
@@ -2429,8 +2584,10 @@ public:
     /** Hides or reveals the property.
         \param hide
         true for hide, false for reveal.
+        \param flags
+        By default changes are applied recursively. Set this paramter wxPG_DONT_RECURSE to prevent this.
     */
-    inline bool Hide( bool hide );
+    inline bool Hide( bool hide, int flags = wxPG_RECURSE );
 
     bool IsExpanded() const { return (!(m_flags & wxPG_PROP_COLLAPSED) && GetChildCount()); }
 
@@ -2495,20 +2652,33 @@ public:
     */
     void SetFlagsFromString( const wxString& str );
 
+    /** Call in OnEvent(), OnButtonClick() etc. to change the property value
+        based on user input.
+
+        \remarks
+        This method is const since it doesn't actually modify value, but posts
+        given variant as pending value, stored in wxPropertyGrid.
+    */
+    void SetValueInEvent( wxVariant value ) const;
+
     /** Call this to set value of the property. Unlike methods in wxPropertyGrid,
         this does not automatically update the display.
-    */
-    void SetValue( wxVariant value );
 
-    /** Like SetValue, but can accept value as list of child values
+        \remarks
+        Use wxPropertyGrid::ChangePropertyValue() instead if you need to run through
+        validation process and send property change event.
+
+        If you need to change property value in event, based on user input, use
+        SetValueInEvent() instead.
+
         (only if wxPG_PROP_AGGREGATE flag is set).
         \param pList
         Pointer to list variant that contains child values. Used to indicate
         which children should be marked as modified.
-        \param refreshEditor
-        If true, then editor control is refreshed (if active).
+        \param flags
+        Various flags (for instance, wxPG_SETVAL_REFRESH_EDITOR).
     */
-    void SetValue0( wxVariant& value, wxVariant* pList = NULL, bool refreshEditor = true );
+    void SetValue( wxVariant value, wxVariant* pList = NULL, int flags = 0 );
 
     /** Set wxBitmap in front of the value. This bitmap may be ignored
         by custom cell renderers.
@@ -2540,7 +2710,7 @@ public:
     void SetValueToUnspecified()
     {
         wxVariant val;  // Create NULL variant
-        SetValue0(val);
+        SetValue(val);
     }
 
 #if wxUSE_VALIDATORS
@@ -2581,6 +2751,8 @@ public:
 #ifdef __WXPYTHON__
         if ( m_clientData )
             Py_INCREF( m_clientData );
+        else
+            Py_RETURN_NONE;
 #endif
         return m_clientData;
     }
@@ -2633,9 +2805,6 @@ public:
 
     // Use, for example, to detect if item is inside collapsed section.
     bool IsSomeParent( wxPGProperty* candidate_parent ) const;
-
-    // Shows error as a tooltip or something similar (depends on platform).
-    void ShowError( const wxString& msg ) const;
 
 #if defined(__WXPYTHON__) && !defined(SWIG)
     // This is the python object that contains and owns the C++ representation.
@@ -2692,6 +2861,10 @@ public:
 protected:
 
 #ifndef SWIG
+
+    /** Returns text for given column.
+    */
+    wxString GetColumnText( unsigned int col ) const;
 
     /** Returns (direct) child property with given label (or NULL if not found),
         with hint index.
@@ -2908,7 +3081,7 @@ protected:
 
 /** \class wxPGChoiceEntry
     \ingroup classes
-    \brief Attributes of a single choice.
+    \brief Attributes of a single wxPGChoices choice.
 */
 class WXDLLIMPEXP_PG wxPGChoiceEntry : public wxPGCell
 {
@@ -3096,6 +3269,15 @@ public:
     /** Adds single item. */
     wxPGChoiceEntry& Add( const wxString& label, int value = wxPG_INVALID_VALUE );
 
+    /** Adds a single item, with bitmap. */
+    wxPGChoiceEntry& Add( const wxString& label, const wxBitmap& bitmap, int value = wxPG_INVALID_VALUE );
+
+    /** Adds a single item with full entry information. */
+    wxPGChoiceEntry& Add( const wxPGChoiceEntry& entry )
+    {
+        return Insert(entry, -1);
+    }
+
     /** Adds single item. */
     wxPGChoiceEntry& AddAsSorted( const wxString& label, int value = wxPG_INVALID_VALUE );
 
@@ -3226,6 +3408,9 @@ public:
     /** Inserts single item. */
     wxPGChoiceEntry& Insert( const wxString& label, int index, int value = wxPG_INVALID_VALUE );
 
+    /** Inserts a single item with full entry information. */
+    wxPGChoiceEntry& Insert( const wxPGChoiceEntry& entry, int index );
+
     // Returns data, increases refcount.
     inline wxPGChoicesData* GetData()
     {
@@ -3284,8 +3469,6 @@ WXDLLIMPEXP_PG wxObject* wxPG_VariantToWxObject( const wxVariant& variant, wxCla
 //
 // Redefine wxGetVariantCast to also take propertygrid variantdata
 // classes into account.
-// TODO: Remove after persistent wxObject classes added (i.e.
-//   GetWxObjectPtr works for all).
 //
 #undef wxGetVariantCast
 #define wxGetVariantCast(var,classname) (classname*)wxPG_VariantToWxObject(var,&classname::ms_classInfo)
@@ -3304,52 +3487,57 @@ WXDLLIMPEXP_PG wxObject* wxPG_VariantToWxObject( const wxVariant& variant, wxCla
       16-bits, there are same flags, but to instead check if children will be included.
 */
 
+enum wxPG_ITERATOR_FLAGS
+{
+
 /** Iterate through 'normal' property items (does not include children of aggregate or hidden items by default).
 */
-#define wxPG_ITERATE_PROPERTIES     (wxPG_PROP_PROPERTY|wxPG_PROP_MISC_PARENT|wxPG_PROP_AGGREGATE| \
-                                     wxPG_PROP_COLLAPSED|((wxPG_PROP_MISC_PARENT|wxPG_PROP_CATEGORY)<<16))
+wxPG_ITERATE_PROPERTIES             = (wxPG_PROP_PROPERTY|wxPG_PROP_MISC_PARENT|wxPG_PROP_AGGREGATE| \
+                                       wxPG_PROP_COLLAPSED|((wxPG_PROP_MISC_PARENT|wxPG_PROP_CATEGORY)<<16)),
 
 /** Iterate children of collapsed parents, and individual items that are hidden.
 */
-#define wxPG_ITERATE_HIDDEN         (wxPG_PROP_HIDDEN|wxPG_IT_CHILDREN(wxPG_PROP_COLLAPSED))
+wxPG_ITERATE_HIDDEN                 = (wxPG_PROP_HIDDEN|wxPG_IT_CHILDREN(wxPG_PROP_COLLAPSED)),
 
 /** Iterate children of parent that is an aggregate property (ie. has fixed children).
 */
-#define wxPG_ITERATE_FIXED_CHILDREN (wxPG_IT_CHILDREN(wxPG_PROP_AGGREGATE)|wxPG_ITERATE_PROPERTIES)
+wxPG_ITERATE_FIXED_CHILDREN         = (wxPG_IT_CHILDREN(wxPG_PROP_AGGREGATE)|wxPG_ITERATE_PROPERTIES),
 
 /** Iterate categories. Note that even without this flag, children of categories
     are still iterated through.
 */
-#define wxPG_ITERATE_CATEGORIES      (wxPG_PROP_CATEGORY|wxPG_IT_CHILDREN(wxPG_PROP_CATEGORY)|wxPG_PROP_COLLAPSED)
+wxPG_ITERATE_CATEGORIES             = (wxPG_PROP_CATEGORY|wxPG_IT_CHILDREN(wxPG_PROP_CATEGORY)|wxPG_PROP_COLLAPSED),
 
-#define wxPG_ITERATE_ALL_PARENTS        (wxPG_PROP_MISC_PARENT|wxPG_PROP_AGGREGATE|wxPG_PROP_CATEGORY)
+wxPG_ITERATE_ALL_PARENTS            = (wxPG_PROP_MISC_PARENT|wxPG_PROP_AGGREGATE|wxPG_PROP_CATEGORY),
 
-#define wxPG_ITERATE_ALL_PARENTS_RECURSIVELY        (wxPG_ITERATE_ALL_PARENTS|wxPG_IT_CHILDREN(wxPG_ITERATE_ALL_PARENTS))
+wxPG_ITERATE_ALL_PARENTS_RECURSIVELY        = (wxPG_ITERATE_ALL_PARENTS|wxPG_IT_CHILDREN(wxPG_ITERATE_ALL_PARENTS)),
 
-#define wxPG_ITERATOR_FLAGS_ALL     (wxPG_PROP_PROPERTY|wxPG_PROP_MISC_PARENT|wxPG_PROP_AGGREGATE| \
-                                     wxPG_PROP_HIDDEN|wxPG_PROP_CATEGORY|wxPG_PROP_COLLAPSED)
+wxPG_ITERATOR_FLAGS_ALL             = (wxPG_PROP_PROPERTY|wxPG_PROP_MISC_PARENT|wxPG_PROP_AGGREGATE| \
+                                      wxPG_PROP_HIDDEN|wxPG_PROP_CATEGORY|wxPG_PROP_COLLAPSED),
 
-#define wxPG_ITERATOR_MASK_OP_ITEM      wxPG_ITERATOR_FLAGS_ALL
+wxPG_ITERATOR_MASK_OP_ITEM          = wxPG_ITERATOR_FLAGS_ALL,
 
-#define wxPG_ITERATOR_MASK_OP_PARENT    wxPG_ITERATOR_FLAGS_ALL // (wxPG_PROP_MISC_PARENT|wxPG_PROP_AGGREGATE|wxPG_PROP_CATEGORY)
+wxPG_ITERATOR_MASK_OP_PARENT        = wxPG_ITERATOR_FLAGS_ALL,  // (wxPG_PROP_MISC_PARENT|wxPG_PROP_AGGREGATE|wxPG_PROP_CATEGORY)
 
 /** Combines all flags needed to iterate through visible properties
     (ie. hidden properties and children of collapsed parents are skipped).
 */
-#define wxPG_ITERATE_VISIBLE        (wxPG_ITERATE_PROPERTIES|wxPG_PROP_CATEGORY|wxPG_IT_CHILDREN(wxPG_PROP_AGGREGATE))
+wxPG_ITERATE_VISIBLE                = (wxPG_ITERATE_PROPERTIES|wxPG_PROP_CATEGORY|wxPG_IT_CHILDREN(wxPG_PROP_AGGREGATE)),
 
 /** Iterate all items.
 */
-#define wxPG_ITERATE_ALL            (wxPG_ITERATE_VISIBLE|wxPG_ITERATE_HIDDEN)
+wxPG_ITERATE_ALL                    = (wxPG_ITERATE_VISIBLE|wxPG_ITERATE_HIDDEN),
 
 /** Iterate through individual properties (ie. categories and children of
     aggregate properties are skipped).
 */
-#define wxPG_ITERATE_NORMAL         (wxPG_ITERATE_PROPERTIES|wxPG_ITERATE_HIDDEN)
+wxPG_ITERATE_NORMAL                 = (wxPG_ITERATE_PROPERTIES|wxPG_ITERATE_HIDDEN),
 
 /** Default iterator flags.
 */
-#define wxPG_ITERATE_DEFAULT        wxPG_ITERATE_NORMAL
+wxPG_ITERATE_DEFAULT                = wxPG_ITERATE_NORMAL
+
+};
 
 /** @}
 */
@@ -3435,6 +3623,9 @@ private:
         : wxPropertyGridIteratorBase( ) \
     { \
         Assign(it); \
+    } \
+    ~CLASS() \
+    { \
     } \
     const CLASS& operator=( const CLASS& it ) \
     { \
@@ -3587,21 +3778,305 @@ public:
 
 // -----------------------------------------------------------------------
 
+/** @defgroup vfbflags wxPropertyGrid Validation Failure Behavior Flags
+    @{
+*/
+
+enum wxPG_VALIDATION_FAILURE_BEHAVIOR_FLAGS
+{
+
+/** Prevents user from leaving property unless value is valid. If this
+    behavior flag is not used, then value change is instead cancelled.
+*/
+wxPG_VFB_STAY_IN_PROPERTY           = 0x01,
+
+/** Calls wxBell() on validation failure.
+*/
+wxPG_VFB_BEEP                       = 0x02,
+
+/** Cell with invalid value will be marked (with red colour).
+*/
+wxPG_VFB_MARK_CELL                  = 0x04,
+
+/** Display customizable text message explaining the situation.
+*/
+wxPG_VFB_SHOW_MESSAGE               = 0x08,
+
+/** Defaults. */
+wxPG_VFB_DEFAULT                    = wxPG_VFB_STAY_IN_PROPERTY|wxPG_VFB_BEEP,
+
+/** Only used internally. */
+wxPG_VFB_UNDEFINED                  = 0x80
+
+};
+
+/** @}
+*/
+
+typedef wxByte wxPGVFBFlags;
+
+/** \class wxPGValidationInfo
+	\ingroup classes
+    \brief
+    Used to convey validation information to and from functions that
+    actually perform validation.
+*/
+struct wxPGValidationInfo
+{
+    /** Value to be validated.
+    */
+    wxVariant*      m_pValue;
+
+    /** Message displayed on validation failure.
+    */
+    wxString        m_failureMessage;
+
+    /** Validation failure behavior. Use wxPG_VFB_XXX flags.
+    */
+    wxPGVFBFlags    m_failureBehavior;
+
+    wxPGVFBFlags GetFailureBehavior() const { return m_failureBehavior; }
+
+    void SetFailureBehavior(wxPGVFBFlags failureBehavior) { m_failureBehavior = failureBehavior; }
+
+    const wxString& GetFailureMessage() const { return m_failureMessage; }
+
+    void SetFailureMessage(const wxString& message) { m_failureMessage = message; }
+};
+
+// -----------------------------------------------------------------------
+
+/** \class wxPGEditableState
+	\ingroup classes
+    \brief
+    Contains information about wxPropertyGrid's user-editable state, as
+    returned by wxPropertyGrid::SaveEditableState().
+*/
+class WXDLLIMPEXP_PG wxPGEditableState
+{
+public:
+    /** Flags to be used with wxPropertyGrid::SaveEditableState(). */
+    enum IncludeFlags
+    {
+        /** Include selected property. */
+        Selection       = 0x01,
+        /** Include expanded/collapsed property information. */
+        Expanded        = 0x02,
+        /** Include scrolled position. */
+        ScrollPos       = 0x04,
+        /** Include selected page information. Only applies to wxPropertyGridManager. */
+        Page            = 0x08,
+        /** Include splitter position. Stored for each page. */
+        SplitterPos     = 0x10,
+
+        /** Include all supported user editable state information. This is usually the default value. */
+        All             = Selection | Expanded | ScrollPos | Page | SplitterPos
+    };
+
+    /** Constructor. */
+    wxPGEditableState();
+
+    /** Constructor. */
+    wxPGEditableState( const wxPropertyGrid* pg, int includedState = All );
+
+    /** Constructor. */
+    wxPGEditableState( const wxString& str );
+
+    /** Destructor. */
+    virtual ~wxPGEditableState()
+    {
+    }
+
+    int HasFlag( int flag ) const
+    {
+        return ( m_flags & flag );
+    }
+
+    void SetSelection( const wxString& selection )
+    {
+        m_flags |= Selection;
+        m_selection = selection;
+    }
+
+    void SetExpanded( const wxPropertyContainerMethods* propIface );
+
+    void SetScrollPos( int h, int v )
+    {
+        m_flags |= ScrollPos;
+        m_hScrollPos = h;
+        m_vScrollPos = v;
+    }
+
+    void SetSplitterPos( int pos )
+    {
+        m_flags |= SplitterPos;
+        m_splitterPos.clear();
+        m_splitterPos.push_back(pos);
+    }
+
+    const wxString& GetSelection() const
+    {
+        wxASSERT( HasFlag(Selection) );
+        return m_selection;
+    }
+
+    const wxArrayString& GetExpanded() const
+    {
+        wxASSERT( HasFlag(Expanded) );
+        return m_expanded;
+    }
+
+    wxPoint GetScrollPos() const
+    {
+        wxASSERT( HasFlag(ScrollPos) );
+        return wxPoint(m_hScrollPos, m_vScrollPos);
+    }
+
+    const wxArrayInt& GetSplitterPos() const
+    {
+        wxASSERT( HasFlag(SplitterPos) );
+        return m_splitterPos;
+    }
+
+    /** Encodes state information in a string.
+        \remarks
+        String is not guaranteed to have any particular format, except one that
+        should be readable by SetFromString().
+    */
+    wxString GetAsString() const;
+
+    /** Decodes state information from a string.
+        \retval
+        Returns true if string was read properly. On false, wxPGEditableState will
+        remain in undefined state.
+    */
+    bool SetFromString( const wxString& str );
+
+#if defined(__WXPYTHON__) && !defined(SWIG)
+    // This is the python object that contains and owns the C++ representation.
+    PyObject*                   m_scriptObject;
+#endif
+
+protected:
+#ifdef SWIG
+private:
+#endif
+
+    wxString            m_selection;
+    wxArrayString       m_expanded;
+    wxArrayInt          m_splitterPos;
+    int                 m_hScrollPos;
+    int                 m_vScrollPos;
+    int                 m_page;
+    int                 m_flags;
+};
+
+// -----------------------------------------------------------------------
+
+/** @defgroup pgactions wxPropertyGrid Action Identifiers
+    These are used with wxPropertyGrid::SetActionTrigger().
+    @{
+*/
+
+enum wxPG_KEYBOARD_ACTIONS
+{
+    wxPG_ACTION_NEXT_PROPERTY = 0,
+    wxPG_ACTION_PREV_PROPERTY,
+    wxPG_ACTION_EXPAND_PROPERTY,
+    wxPG_ACTION_COLLAPSE_PROPERTY,
+    wxPG_ACTION_CANCEL_EDIT,
+    wxPG_ACTION_MAX
+};
+
+/** @}
+*/
+
+//
+// Add wxKeyEvent GetModifiers() for wx2.6
+//
+#if !wxCHECK_VERSION(2,8,0)
+
+/*
+enum wxKeyModifier
+{
+    wxMOD_NONE      = 0x0000,
+    wxMOD_ALT       = 0x0001,
+    wxMOD_CONTROL   = 0x0002,
+    wxMOD_ALTGR     = wxMOD_ALT | wxMOD_CONTROL,
+    wxMOD_SHIFT     = 0x0004,
+    wxMOD_META      = 0x0008,
+#if defined(__WXMAC__) || defined(__WXCOCOA__)
+    wxMOD_CMD       = wxMOD_META,
+#else
+    wxMOD_CMD       = wxMOD_CONTROL,
+#endif
+    wxMOD_ALL       = 0xffff
+};
+*/
+
+inline int wxPG_wxKeyEvent_GetModifiers( const wxKeyEvent& event )
+{
+    int modifiers = 0;
+    if ( event.ControlDown() ) modifiers |= wxMOD_CONTROL;
+    if ( event.AltDown() ) modifiers |= wxMOD_ALT;
+    if ( event.ShiftDown() ) modifiers |= wxMOD_SHIFT;
+    return modifiers;
+}
+
+#endif  // !wxCHECK_VERSION(2,8,0)
+
+
+#ifndef SWIG
+struct wxPGActionTrigger
+{
+    wxPGActionTrigger()
+    {
+    }
+    wxPGActionTrigger( int keycode, int modifiers, int altKeycode )
+    {
+        m_keycode = keycode;
+        m_modifiers = modifiers;
+        m_altKeycode = altKeycode;
+    }
+
+    bool Matches( int keycode, int modifiers ) const
+    {
+        if ( m_modifiers == -1 || m_modifiers == modifiers )
+        {
+            if ( keycode == m_keycode )
+                return true;
+            if ( keycode == m_altKeycode )
+                return true;
+        }
+        return false;
+    }
+
+    int m_keycode;
+    int m_altKeycode;
+    int m_modifiers;
+};
+#endif
+
+// -----------------------------------------------------------------------
+
 #ifndef SWIG
 // We won't need this class from wxPython
 
 /** \class wxPropertyGridState
 	\ingroup classes
     \brief
-    Contains information of a single wxPropertyGrid page.
+    Contains information of a single wxPropertyGrid page. Generally you should not use
+    this class directly, but instead methods in wxPropertyContainerMethods, wxPropertyGrid,
+    wxPropertyGridPage, and wxPropertyGridManager.
 */
 // BM_STATE
 class WXDLLIMPEXP_PG wxPropertyGridState
 {
     friend class wxPGProperty;
     friend class wxPropertyGrid;
-    friend class wxPropertyGridManager;
     friend class wxPGCanvas;
+    friend class wxPropertyGridPage;
+    friend class wxPropertyGridManager;
 public:
 
     /** Constructor. */
@@ -3626,33 +4101,70 @@ public:
         return DoSelectProperty(NULL);
     }
 
-    bool DoCollapse( wxPGProperty* p, int* pHeightAdd = NULL );
+    bool DoCollapse( wxPGProperty* p );
 
-    bool DoExpand( wxPGProperty* p, int* pHeightAdd = NULL );
+    bool DoExpand( wxPGProperty* p );
+
+	void CalculateFontAndBitmapStuff( int vspacing );
 
     /** Makes sure all columns have minimum width.
     */
-    void CheckColumnWidths();
+    void CheckColumnWidths( int widthChange = 0 );
 
-    /** Override this member function to add custom behaviour on property deletion.
+    /** Override this member function to add custom behavior on property deletion.
     */
     virtual void DoDelete( wxPGProperty* item );
 
+    wxSize DoFitColumns( bool allowGridResize = false );
+
     wxPGProperty* DoGetItemAtY( int y ) const;
 
-    /** Override this member function to add custom behaviour on property insertion.
+    /** Override this member function to add custom behavior on property insertion.
     */
     virtual wxPGProperty* DoInsert( wxPGProperty* parent, int index, wxPGProperty* property );
 
     /** This needs to be overridden in grid used the manager so that splitter changes
         can be propagated to other pages.
     */
-    virtual void DoSetSplitterPosition( int pos, int splitterColumn = 0, bool allPages = true );
+    virtual void DoSetSplitterPosition( int pos, int splitterColumn = 0, bool allPages = false, bool fromAutoCenter = false );
 
     bool EnableCategories( bool enable );
 
+    /** Make sure virtual height is up-to-date.
+    */
+    void EnsureVirtualHeight()
+    {
+        if ( m_vhCalcPending )
+        {
+            RecalculateVirtualHeight();
+            m_vhCalcPending = 0;
+        }
+    }
+
     /** Enables or disables given property and its subproperties. */
     bool DoEnableProperty( wxPGProperty* p, bool enable );
+
+    /** Returns (precalculated) height of contained visible properties.
+    */
+    unsigned int GetVirtualHeight() const
+    {
+        wxASSERT( !m_vhCalcPending );
+        return m_virtualHeight;
+    }
+
+    /** Returns (precalculated) height of contained visible properties.
+    */
+    unsigned int GetVirtualHeight()
+    {
+        EnsureVirtualHeight();
+        return m_virtualHeight;
+    }
+
+    /** Returns actual height of contained visible properties.
+        \remarks
+        Mostly used for internal diagnostic purposes.
+    */
+    inline unsigned int GetActualVirtualHeight() const;
 
     unsigned int GetColumnCount() const
     {
@@ -3665,6 +4177,11 @@ public:
     }
 
     int GetColumnMinWidth( int column ) const;
+
+    int GetColumnWidth( unsigned int column ) const
+    {
+        return m_colWidths[column];
+    }
 
     wxPropertyGrid* GetGrid() const { return m_pPropGrid; }
 
@@ -3684,9 +4201,9 @@ public:
 
     wxPGProperty* GetNextProperty( wxPGProperty* id );
 
-    wxPGProperty* GetNextSibling( wxPGProperty* id );
+    wxPGProperty* GetNextSiblingProperty( wxPGProperty* id );
 
-    wxPGProperty* GetPrevSibling( wxPGProperty* id );
+    wxPGProperty* GetPrevSiblingProperty( wxPGProperty* id );
 
     wxPGProperty* GetPrevProperty( wxPGProperty* id );
 #endif // wxPG_COMPATIBILITY_1_2_0
@@ -3699,16 +4216,18 @@ public:
 
     wxPGProperty* DoGetRoot() const { return m_properties; }
 
-    int GetSplitterPosition( int splitterIndex ) const;
-
     // Returns combined width of margin and all the columns
     int GetVirtualWidth() const
     {
         return m_width;
     }
 
-    /** Used by SetSplitterLeft. */
-    int GetLeftSplitterPos( wxClientDC& dc, wxPGProperty* pwc, bool subProps );
+    /** Returns minimal width for given column so that all images and texts will fit
+        entirely.
+
+        Used by SetSplitterLeft() and DoFitColumns().
+    */
+    int GetColumnFitWidth(wxClientDC& dc, wxPGProperty* pwc, unsigned int col, bool subProps) const;
 
     /** Returns information about arbitrary position in the grid.
     */
@@ -3730,13 +4249,20 @@ public:
 
     /** widthChange is non-client.
     */
-    void OnClientWidthChange( int newWidth, int widthChange );
+    void OnClientWidthChange( int newWidth, int widthChange, bool fromOnResize = false );
+
+    /** Recalculates m_virtualHeight.
+    */
+    void RecalculateVirtualHeight()
+    {
+        m_virtualHeight = GetActualVirtualHeight();
+    }
 
     void SetColumnCount( int colCount );
 
     void PropagateColSizeDec( int column, int decrease, int dir );
 
-    bool DoHideProperty( wxPGProperty* p, bool hide );
+    bool DoHideProperty( wxPGProperty* p, bool hide, int flags = wxPG_RECURSE );
 
     bool DoSetPropertyValueString( wxPGProperty* p, const wxString& value );
 
@@ -3745,10 +4271,10 @@ public:
     bool DoSetPropertyValueWxObjectPtr( wxPGProperty* p, wxObject* value );
     void DoSetPropertyValues( const wxVariantList& list, wxPGProperty* default_category );
 
-    void DoSetPropertyUnspecified( wxPGProperty* p );
+    void DoSetPropertyValueUnspecified( wxPGProperty* p );
 
-#ifdef wxPG_COMPATIBILITY_1_0_0
-    #define SetPropertyValueUnspecified SetPropertyUnspecified
+#ifdef wxPG_COMPATIBILITY_1_2_0
+    #define SetPropertyUnspecified SetPropertyValueUnspecified
 #endif
 
     void SetSplitterLeft( bool subProps = false );
@@ -3761,7 +4287,16 @@ public:
 
     void SetSelection( wxPGProperty* p ) { m_selected = p; }
 
+    /** Called after virtual height needs to be recalculated.
+    */
+    void VirtualHeightChanged()
+    {
+        m_vhCalcPending = 1;
+    }
+
 protected:
+
+    int DoGetSplitterPosition( int splitterIndex = 0 ) const;
 
     /** Returns column at x coordinate (in GetGrid()->GetPanel()).
         \param pSplitterHit
@@ -3806,19 +4341,21 @@ protected:
     int                         m_width;
 
     /** Indicates total virtual height of visible properties. */
-    unsigned int                m_bottomY;
+    unsigned int                m_virtualHeight;
 
     /** 1 if m_lastCaption is also the bottommost caption. */
     unsigned char               m_lastCaptionBottomnest;
 
     /** 1 items appended/inserted, so stuff needs to be done before drawing;
-        If m_bottomy == 0, then calcylatey's must be done.
+        If m_virtualHeight == 0, then calcylatey's must be done.
         Otherwise just sort.
     */
     unsigned char               m_itemsAdded;
 
     /** 1 if any value is modified. */
     unsigned char               m_anyModified;
+
+    unsigned char               m_vhCalcPending;
 
 #endif // #ifndef DOXYGEN
 
@@ -3874,6 +4411,8 @@ inline bool wxPGProperty::SetChoices( const wxArrayString& labels,
 class WXDLLIMPEXP_PG wxPropertyContainerMethods
 // BM_METHODS
 {
+    friend class wxPropertyGrid;
+    friend class wxPropertyGridManager;
 public:
 
     /** Destructor */
@@ -3955,6 +4494,15 @@ public:
         See AddPropertyChoice for more details.
     */
     void DeletePropertyChoice( wxPGPropArg id, int index );
+
+    /** Changes value of a property, as if from an editor. Use this instead of SetPropertyValue()
+        if you need the value to run through validation process, and also send the property
+        change event.
+
+        \retval
+        Returns true if value was succesfully changed.
+    */
+    bool ChangePropertyValue( wxPGPropArg id, wxVariant newValue );
 
     /** Resets value of a property to its default. */
     bool ClearPropertyValue( wxPGPropArg id )
@@ -4055,7 +4603,7 @@ public:
     /** Returns iterator class instance.
         \param flags
         wxPropertyGridIterator flags. If default wxPG_ITERATE_DEFAULT supplied,
-        everything except fixed subproperties are iterated.
+        everything except private child properties are iterated.
         @link iteratorflags List of iterator flags@endlink
         \param firstProp
         Property to start iteration from. If NULL, then first child of root is used.
@@ -4073,7 +4621,7 @@ public:
     /** Returns iterator class instance.
         \param flags
         wxPropertyGridIterator flags. If default wxPG_ITERATE_DEFAULT supplied,
-        everything except fixed subproperties are iterated.
+        everything except private child properties are iterated.
         @link iteratorflags List of iterator flags@endlink
         \param startPos
         Either wxTOP or wxBOTTOM. wxTOP will indicate that iterations start from
@@ -4113,10 +4661,10 @@ public:
 
 #if wxPG_COMPATIBILITY_1_2_0
     /** Returns next item under the same parent. */
-    inline wxPGId GetNextSibling( wxPGPropArg id )
+    inline wxPGId GetNextSiblingProperty( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
-        return m_pState->GetNextSibling(p);
+        return m_pState->GetNextSiblingProperty(p);
     }
 #endif
 
@@ -4424,8 +4972,10 @@ public:
     /** Hides or reveals a property.
         \param hide
         If true, hides property, otherwise reveals it.
+        \param flags
+        By default changes are applied recursively. Set this paramter wxPG_DONT_RECURSE to prevent this.
     */
-    bool HideProperty( wxPGPropArg id, bool hide = true );
+    bool HideProperty( wxPGPropArg id, bool hide = true, int flags = wxPG_RECURSE );
 
 #if wxPG_INCLUDE_ADVPROPS
     /** Initializes additional property editors (SpinCtrl etc.). Causes references
@@ -4634,7 +5184,7 @@ public:
         If wxPG_USE_STL is 1, then wxArrayPGProperty is typedef of
         std::vector<wxPGProperty*>.
     */
-    void SetExpandedProperties( wxArrayPGProperty& array, bool expand = true )
+    void SetExpandedProperties( const wxArrayPGProperty& array, bool expand = true )
     {
         SetPropertiesFlag(array, wxPG_PROP_COLLAPSED, expand);
     }
@@ -4648,7 +5198,7 @@ public:
         If wxPG_USE_STL is 1, then wxArrayPGProperty is typedef of
         std::vector<wxPGProperty*>.
     */
-    void SetPropertiesFlag( wxArrayPGProperty& srcArr, wxPGProperty::FlagType flags,
+    void SetPropertiesFlag( const wxArrayPGProperty& srcArr, wxPGProperty::FlagType flags,
                             bool inverse = false );
 
     /** Sets text, bitmap, and colours for given column's cell.
@@ -4749,18 +5299,23 @@ public:
     /** Sets property's value to unspecified. If it has children (it may be category),
         then the same thing is done to them.
     */
-    void SetPropertyUnspecified( wxPGPropArg id );
+    void SetPropertyValueUnspecified( wxPGPropArg id );
 
     /** Sets property (and, recursively, its children) to have read-only value. In other words,
         user cannot change the value in the editor, but they can still copy it.
         \remarks
         This is mainly for use with textctrl editor. Not all other editors fully
         support it.
+        \param flags
+        By default changes are applied recursively. Set this paramter wxPG_DONT_RECURSE to prevent this.
     */
-    void SetPropertyReadOnly( wxPGPropArg id, bool set = true )
+    void SetPropertyReadOnly( wxPGPropArg id, bool set = true, int flags = wxPG_RECURSE )
     {
         wxPG_PROP_ARG_CALL_PROLOG()
-        p->SetFlagRecursively(wxPG_PROP_READONLY, set);
+        if ( flags & wxPG_RECURSE )
+            p->SetFlagRecursively(wxPG_PROP_READONLY, set);
+        else
+            p->SetFlag(wxPG_PROP_READONLY);
     }
 
 #ifndef SWIG
@@ -4912,7 +5467,12 @@ public:
         SetPropVal( id, v );
     }
 
-    /** Sets value (wxVariant&) of a property. */
+    /** Sets value (wxVariant&) of a property.
+    
+        \remarks
+        Use wxPropertyGrid::ChangePropertyValue() instead if you need to run through
+        validation process and send property change event.
+    */
     void SetPropertyValue( wxPGPropArg id, wxVariant value )
     {
         SetPropVal( id, value );
@@ -4969,6 +5529,13 @@ public:
         accepts reference. */
     void SetPropVal( wxPGPropArg id, wxVariant& value );
 #endif
+
+    /** Adjusts how wxPropertyGrid behaves when invalid value is entered
+        in a property.
+        \param vfbFlags
+        See @link vfbflags list of valid flags values@endlink
+    */
+    void SetValidationFailureBehavior( int vfbFlags );
 
 #ifdef SWIG
     %pythoncode {
@@ -5103,7 +5670,7 @@ public:
                     if attrs and len(attrs):
                         dict_['@%s@attr'%(p.GetName())] = attrs
 
-                p = self.GetNextSibling(p)
+                p = self.GetNextSiblingProperty(p)
 
 
         def GetPropertyValues(self,dict_=None, as_strings=False, inc_attributes=False):
@@ -5243,7 +5810,7 @@ public:
                 p = self.GetFirstChild(parent)
                 while p:
                     self.Delete(p)
-                    p = self.GetNextSibling(p)
+                    p = self.GetNextSiblingProperty(p)
 
             if not is_manager or page == self.GetCurrentPage():
                 self.Freeze()
@@ -5287,6 +5854,10 @@ protected:
     virtual wxPGProperty* DoGetPropertyByName( wxPGPropNameStr name ) const;
 
 #ifndef SWIG
+
+    /** Used by wxPropertyGrid::RestoreEditableState() and wxPropertyGridManager::RestoreEditableState(). */
+    void DoRestoreEditableState( const wxPGEditableState& state, bool fromManager );
+
     // Deriving classes must set this (it must be only or current page).
     wxPropertyGridState*         m_pState;
 
@@ -5296,6 +5867,12 @@ protected:
     // Empty string object to return from member functions returning const wxString&.
     wxString                    m_emptyString;
 
+private:
+    // Cannot be GetGrid() due to ambiguity issues.
+    wxPropertyGrid* GetPropertyGrid()
+    {
+        return m_pState->GetGrid();
+    }
 #endif // #ifndef SWIG
 };
 
@@ -5326,7 +5903,7 @@ protected:
 #define wxPG_FL_VALUE_MODIFIED              0x0040
 #define wxPG_FL_PRIMARY_FILLS_ENTIRE        0x0080 // don't clear background of m_wndEditor
 #define wxPG_FL_CUR_USES_CUSTOM_IMAGE       0x0100 // currently active editor uses custom image
-//#define wxPG_FL_HIDE_STATE                  0x0200 // set when hideable properties should be hidden
+#define wxPG_FL_CELL_OVERRIDES_SEL          0x0200 // cell colours override selection colours for selected cell
 #define wxPG_FL_SCROLLED                    0x0400
 #define wxPG_FL_ADDING_HIDEABLES            0x0800 // set when all added/inserted properties get hideable flag
 #define wxPG_FL_NOSTATUSBARHELP             0x1000 // Disables showing help strings on statusbar.
@@ -5374,6 +5951,10 @@ protected:
     text box. wxAdvancedPropertyGrid (or something similarly named) is planned to have
     these features in some distant future.
 
+    Please note that most member functions are inherited and as such not documented on
+    this page. This means you will probably also want to read wxPropertyContainerMethods
+    class reference.
+
     <h4>Derived from</h4>
 
     wxPropertyContainerMethods\n
@@ -5399,7 +5980,7 @@ protected:
     <table>
     <tr><td>EVT_PG_SELECTED (id, func)</td><td>Property is selected.</td></tr>
     <tr><td>EVT_PG_CHANGED (id, func)</td><td>Property value is modified.</td></tr>
-    <tr><td>EVT_PG_CHANGING (id, func)</td><td>Property value is about to be changed. Use wxPropertyGridEvent::GetValue() to take a peek at the pending value.</td></tr>
+    <tr><td>EVT_PG_CHANGING (id, func)</td><td>Property value is about to be changed. Use wxPropertyGridEvent::GetValue() to take a peek at the pending value, and wxPropertyGridEvent::Veto() to prevent change from taking place, if necessary.</td></tr>
     <tr><td>EVT_PG_HIGHLIGHTED (id, func)</td><td>Mouse moves over property. Event's property is NULL if hovered on area that is not a property.</td></tr>
     <tr><td>EVT_PG_RIGHT_CLICK (id, func)</td><td>Mouse right-clicked on a property.</td></tr>
     <tr><td>EVT_PG_DOUBLE_CLICK (id, func)</td><td>Mouse double-clicked on a property.</td></tr>
@@ -5511,6 +6092,15 @@ public:
     */
     void CenterSplitter( bool enable_auto_centering = false );
 
+    /** Changes value of a property, as if from an editor. Use this instead of SetPropertyValue()
+        if you need the value to run through validation process, and also send the property
+        change event.
+
+        \retval
+        Returns true if value was succesfully changed.
+    */
+    bool ChangePropertyValue( wxPGPropArg id, wxVariant newValue );
+
     /** Two step creation. Whenever the control is created without any parameters, use Create to actually
         create it. Don't access the control's public methods before this is called
         \sa @link wndflags Additional Window Styles@endlink
@@ -5595,6 +6185,27 @@ public:
     */
     bool EnsureVisible( wxPGPropArg id );
 
+    /** Reduces column sizes to minimum possible that contents are still visibly (naturally
+        some margin space will be applied as well).
+
+        \retval
+        Minimum size for the grid to still display everything.
+
+        \remarks
+        Does not work well with wxPG_SPLITTER_AUTO_CENTER window style.
+
+        This function only works properly if grid size prior to call was already
+        fairly large.
+
+        Note that you can also get calculated column widths by calling GetState->GetColumnWidth()
+        immediately after this function returns.
+    */
+    wxSize FitColumns()
+    {
+        wxSize sz = m_pState->DoFitColumns();
+        return sz;
+    }
+
     wxFont& GetCaptionFont() { return m_captionFont; }
 
 #ifndef SWIG
@@ -5637,6 +6248,9 @@ public:
     {
         return m_pState->m_colWidths.size();
     }
+
+    /** Returns colour of empty space below properties. */
+    wxColour GetEmptySpaceColour() const { return m_colEmptySpace; }
 
 #if wxPG_COMPATIBILITY_1_2_0
     /** Returns id of first visible item, whether it is a category or property.
@@ -5800,6 +6414,22 @@ public:
         return wxPropertyGridIterator::OneStep(m_pState,wxPG_ITERATE_VISIBLE,p,1);
     }
 
+    /** Used to acquire user-editable state (selected property, expanded properties, scrolled position).
+        \param pState
+        Pointer wxPGEditableState to write.
+        \param includedStates
+        Which parts of state to include. See wxPGEditableState::IncludeFlags for possible bits to use.
+    */
+    void SaveEditableState( wxPGEditableState* pState, int includedStates = wxPGEditableState::All ) const;
+
+    /** Sets user-editable state. See also wxPropertyGrid::SaveEditableState() for more info.
+        \remarks
+        If some parts of state (such as scrolled or splitter position) fail to restore correctly,
+        please make sure that you call this function after wxPropertyGrid size has been set
+        (this may sometimes be tricky when sizers are used).
+    */
+    void RestoreEditableState( const wxPGEditableState& state );
+
     /** Returns id of previous property. Unlike GetPrevVisible, this skips categories
         and sub-properties.
         \deprecated
@@ -5814,10 +6444,10 @@ public:
         \deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
-    inline wxPGProperty* GetPrevSibling( wxPGPropArg id )
+    inline wxPGProperty* GetPrevSiblingProperty( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
-        return m_pState->GetPrevSibling(p);
+        return m_pState->GetPrevSiblingProperty(p);
     }
     /** Returns id of previous visible property.
         \deprecated
@@ -5875,11 +6505,16 @@ public:
     inline wxColour GetSelectionForegroundColour() const { return m_colSelFore; }
 
     /** Returns current splitter x position. */
-    inline int GetSplitterPosition() const { return m_pState->GetSplitterPosition(0); }
+    inline int GetSplitterPosition() const { return m_pState->DoGetSplitterPosition(0); }
 
     /** Returns index of common value that will truly change value to unspecified.
     */
     int GetUnspecifiedCommonValue() const { return m_cvUnspecified; }
+
+    wxPGValidationInfo& GetValidationInfo()
+    {
+        return m_validationInfo;
+    }
 
     /** Returns current vertical spacing. */
     inline int GetVerticalSpacing() const { return (int)m_vspacing; }
@@ -5908,6 +6543,16 @@ public:
 #endif
 
     virtual void RefreshProperty( wxPGProperty* p );
+
+    /** Sets given action to trigger on certain key event.
+        \param action
+        Which action to trigger. See @link pgactions.
+    */
+    void SetActionTrigger( int action, int keycode, int modifiers = -1, int altKeycode = 0 )
+    {
+        if ( action < wxPG_ACTION_MAX )
+            m_actionTriggers[action] = wxPGActionTrigger(keycode, modifiers, altKeycode);
+    }
 
     /** Set number of columns (2+).
     */
@@ -6014,6 +6659,9 @@ public:
     */
     void SetCellTextColour(const wxColour& col);
 
+    /** Sets colour of empty space below properties. */
+    void SetEmptySpaceColour(const wxColour& col);
+
     /** Sets colour of lines between cells. */
     void SetLineColour(const wxColour& col);
 
@@ -6026,10 +6674,15 @@ public:
     /** Sets selection foreground colour - applies to selected property name text. */
     void SetSelectionForeground(const wxColour& col);
 
-    /** Sets x coordinate of the splitter. */
+    /** Sets x coordinate of the splitter.
+        \remarks
+        Splitter position cannot exceed grid size, and therefore setting it during
+        form creation may fail as initial grid size is often smaller than desired
+        splitter position, especially when sizers are being used.
+    */
     inline void SetSplitterPosition( int newxpos, bool refresh = true )
     {
-        DoSetSplitterPosition(newxpos,refresh,0);
+        DoSetSplitterPosition_(newxpos,refresh,0);
         m_iFlags |= wxPG_FL_SPLITTER_PRE_SET;
     }
 
@@ -6096,7 +6749,7 @@ public:
     inline void ShowPropertyError( wxPGPropArg id, const wxString& msg )
     {
         wxPG_PROP_ARG_CALL_PROLOG()
-        p->ShowError(msg);
+        DoShowPropertyError(p, msg);
     }
 
     /** Sorts all items at all levels (except sub-properties). */
@@ -6111,8 +6764,6 @@ public:
     */
     virtual void SetWindowStyleFlag( long style );
 
-    /** Property editor widget helper methods. */
-    //@{
     /** Call when editor widget's contents is modified. For example, this is called
         when changes text in wxTextCtrl (used in wxStringProperty and wxIntProperty).
         \remarks
@@ -6120,6 +6771,7 @@ public:
         \sa @link wxPGProperty::OnEvent @endlink
     */
     inline void EditorsValueWasModified() { m_iFlags |= wxPG_FL_VALUE_MODIFIED; }
+
     /** Reverse of EditorsValueWasModified(). */
     inline void EditorsValueWasNotModified()
     {
@@ -6215,22 +6867,6 @@ public:
         return m_wndEditor2;
     }
 
-    inline int IsNextEventIgnored() const
-    {
-        return m_ignoredEvents;
-    }
-
-    inline void IgnoreNextEvent()
-    {
-        m_ignoredEvents++;
-    }
-
-    inline void IgnoredEventPasses()
-    {
-        wxASSERT( m_ignoredEvents > 0 );
-        m_ignoredEvents--;
-    }
-
 #ifdef __WXPYTHON__
     // Dummy method to put wxRect type info into the wrapper
     wxRect DummywxRectTypeInit() const { return wxRect(1,2,3,4); }
@@ -6250,7 +6886,6 @@ public:
     /** Pass this function to Connect calls in propertyclass::CreateEditor.
     */
     void OnCustomEditorEvent( wxCommandEvent &event );
-    //@}
 
     inline long GetInternalFlags() const { return m_iFlags; }
     inline void SetInternalFlag( long flag ) { m_iFlags |= flag; }
@@ -6291,34 +6926,76 @@ public:
         return (event.GetEventType() == wxEVT_COMMAND_BUTTON_CLICKED) && (m_wndSecId == event.GetId());
     }
 
-    /** Used by wxPGTextCtrlEditor::OnTextCtrlEvent().
-    */
-    bool ShouldHandleTextUpdated()
-    {
-        if ( m_iFlags & wxPG_FL_IN_SELECT_PROPERTY )
-            return false;
-
-        if ( m_ignoredEvents > 0 )
-        {
-            m_ignoredEvents--;
-            return false;
-        }
-        return true;
-    }
-
-    void IgnoreNextTextUpdated()
-    {
-        m_ignoredEvents++;
-    }
-
     /** Forces updating the value of property from the editor control.
         Returns true if DoPropertyChanged was actually called.
     */
-    bool CommitChangesFromEditor( wxUint32 flags = 0 );
+    virtual bool CommitChangesFromEditor( wxUint32 flags = 0 );
 
-    bool DoPropertyChanged( wxPGProperty* p, wxVariant* pPendingValue, unsigned int selFlags = 0 );
+    /** Pending value is expected to be passed in PerformValidation().
+    */
+    virtual bool DoPropertyChanged( wxPGProperty* p, unsigned int selFlags = 0 );
+
+    /** Runs all validation functionality (includes sending wxEVT_PG_CHANGING). Returns true
+        if all tests passed.
+    */
+    virtual bool PerformValidation( wxPGProperty* p, wxVariant& pendingValue );
+
+    /** Called when validation for given property fails.
+        \param invalidValue
+        Value which failed in validation.
+        \retval
+        Return true if user is allowed to change to another property even if current
+        has invalid value.
+        \remarks
+        To add your own validation failure behavior, override wxPropertyGrid::DoOnValidationFailure().
+    */
+    bool OnValidationFailure( wxPGProperty* property, wxVariant& invalidValue )
+    {
+        bool res = DoOnValidationFailure(property, invalidValue);
+        property->SetFlag(wxPG_PROP_INVALID_VALUE);
+        return res;
+    }
+
+    /** Called to indicate property and editor has valid value now.
+    */
+    void OnValidationFailureReset( wxPGProperty* property )
+    {
+        if ( property && property->HasFlag(wxPG_PROP_INVALID_VALUE) )
+        {
+            DoOnValidationFailureReset(property);
+            property->ClearFlag(wxPG_PROP_INVALID_VALUE);
+        }
+        m_validationInfo.m_failureMessage.clear();
+    }
+
+    /** Override in derived class to display error messages in custom manner
+        (these message usually only result from validation failure).
+    */
+    virtual void DoShowPropertyError( wxPGProperty* property, const wxString& msg );
+
+    /** Override to customize property validation failure behavior.
+        \param invalidValue
+        Value which failed in validation.
+        \retval
+        Return true if user is allowed to change to another property even if current
+        has invalid value.
+    */
+    virtual bool DoOnValidationFailure( wxPGProperty* property, wxVariant& invalidValue );
+
+    /** Override to customize resetting of property validation failure status.
+        \remarks
+        Property is guaranteed to have flag wxPG_PROP_INVALID_VALUE set.
+    */
+    virtual void DoOnValidationFailureReset( wxPGProperty* property );
 
     int GetSpacingY() const { return m_spacingy; }
+
+    /** Must be called in wxPGEditor::CreateControls() if primary editor window is wxTextCtrl,
+        just before textctrl is created.
+        \param text
+        Initial text value of created wxTextCtrl.
+    */
+    void SetupTextCtrlValue( const wxString text ) { m_prevTcValue = text; }
 
 protected:
 
@@ -6355,9 +7032,6 @@ public:
 
 
 protected:
-
-    /** 1 if in DoPropertyChanged. */
-    unsigned char       m_propValChanging;
 
 #ifndef wxPG_ICON_WIDTH
 	wxBitmap            *m_expandbmp, *m_collbmp;
@@ -6454,6 +7128,24 @@ protected:
     /** Index to splitter currently being dragged (0=one after the first column). */
     int                 m_draggedSplitter;
 
+    /** Changed property, calculated in PerformValidation(). */
+    wxPGProperty*       m_chgInfo_changedProperty;
+
+    /** Lowest property for which editing happened, but which does not have aggregate parent. */
+    wxPGProperty*       m_chgInfo_baseChangedProperty;
+
+    /** Changed property value, calculated in PerformValidation(). */
+    wxVariant           m_chgInfo_pendingValue;
+
+    /** Passed to SetValue. */
+    wxVariant           m_chgInfo_valueList;
+
+    /** Validation information. */
+    wxPGValidationInfo  m_validationInfo;
+
+    /** Actions and keys that trigger them. */
+    wxPGActionTrigger   m_actionTriggers[wxPG_ACTION_MAX];
+
     //
     // Temporary values
     //
@@ -6487,7 +7179,19 @@ protected:
 
     unsigned char       m_keyComboConsumed;  // Used to track when Alt/Ctrl+Key was consumed.
 
-    unsigned char       m_ignoredEvents;  // Number of EVT_TEXT-style events to ignore.
+    /** 1 if in DoPropertyChanged() */
+    unsigned char       m_inDoPropertyChanged;
+
+    /** 1 if in CommitChangesFromEditor() */
+    unsigned char       m_inCommitChangesFromEditor;
+
+    /** 1 if in DoSelectProperty() */
+    unsigned char       m_inDoSelectProperty;
+
+    /** true if repaint needed. */
+    //bool                m_isDirty;
+
+    wxPGVFBFlags        m_permanentValidationFailureBehavior;  // Set by app
 
     /** Internal flags - see wxPG_FL_XXX constants. */
     wxUint32            m_iFlags;
@@ -6526,6 +7230,7 @@ protected:
     wxColour            m_colSelFore;  // foreground for selected property
     wxColour            m_colSelBack;  // background for selected property (actually use background color when control out-of-focus)
     wxColour            m_colMargin;   // background colour for margin
+    wxColour            m_colEmptySpace;  // background colour for empty space below the grid
 
     wxArrayPtrVoid      m_visPropArray;  // temp property array used in DoDrawItems
 
@@ -6535,6 +7240,8 @@ protected:
 
     wxArrayPtrVoid      m_commonValues;  // labels when properties use common values
     int                 m_cvUnspecified;  // Which cv selection really sets value to unspecified?
+
+    wxString            m_prevTcValue;  // Used to skip excess text editor events
 
 protected:
 
@@ -6602,10 +7309,10 @@ protected:
 
     void CorrectEditorWidgetSizeX();
 
-    /** Called usually on expand/collapse to fix editor control position.
-        isBelowthis is the expanded/collapsed property.
+    /** Called in RecalculateVirtualSize() to reposition control
+        on virtual height changes.
     */
-    void CorrectEditorWidgetPosY( wxPGProperty* isBelowThis, int heightAdd );
+    void CorrectEditorWidgetPosY();
 
 #ifdef __WXDEBUG__
     void _log_items();
@@ -6615,9 +7322,10 @@ protected:
     int DoDrawItems( wxDC& dc,
                      const wxPGProperty* first_item,
                      const wxPGProperty* last_item,
-                     const wxRect* clip_rect ) const;
+                     const wxRect* clip_rect,
+                     bool isBuffered ) const;
 
-    void DoSetPropertyUnspecified( wxPGProperty* p );
+    void DoSetPropertyValueUnspecified( wxPGProperty* p );
 
     /** Draws an expand/collapse (ie. +/-) button.
     */
@@ -6629,11 +7337,6 @@ protected:
                     const wxRect* clip_rect = (const wxRect*) NULL );
 
     void DrawItems( const wxPGProperty* p1, const wxPGProperty* p2 );
-
-    // In addition to calling DoDrawItems directly, this is the
-    // only alternative for using wxClientDC - others just call
-    // RefreshRect.
-    void DrawItem( wxDC& dc, wxPGProperty* p );
 
     inline void DrawItem( wxPGProperty* p )
     {
@@ -6666,7 +7369,7 @@ protected:
 
     wxPGProperty* DoGetItemAtY( int y ) const;
 
-    void DoSetSplitterPosition( int newxpos, bool refresh = true, int splitterIndex = 0, bool allPages = true );
+    void DoSetSplitterPosition_( int newxpos, bool refresh = true, int splitterIndex = 0, bool allPages = false );
 
     void FreeEditors();
 
@@ -6698,6 +7401,8 @@ protected:
 
     virtual bool ProcessEvent(wxEvent& event);
 
+    /** Repositions scrollbar and underlying panel according to changed virtual size.
+    */
     void RecalculateVirtualSize( int forceXPos = -1 );
 
     /** When splitter is dragged to a new position, this is drawn. */
@@ -6707,7 +7412,7 @@ protected:
 
     bool SendEvent( int eventType, wxPGProperty* p, wxVariant* pValue = NULL, unsigned int selFlags = 0 );
 
-    bool DoHideProperty( wxPGProperty* p, bool hide );
+    bool DoHideProperty( wxPGProperty* p, bool hide, int flags );
 
 private:
 
@@ -6732,6 +7437,11 @@ inline bool wxPropertyGridState::IsDisplayed() const
 {
     return ( this == m_pPropGrid->GetState() );
 }
+
+inline unsigned int wxPropertyGridState::GetActualVirtualHeight() const
+{
+    return DoGetRoot()->GetChildrenHeight(GetGrid()->GetRowHeight());
+}
 #endif
 
 inline int wxPGProperty::GetDisplayedCommonValueCount() const
@@ -6750,9 +7460,9 @@ inline void wxPGProperty::SetEditor( const wxString& editorName )
     m_customEditor = wxPropertyContainerMethods::GetEditorByName(editorName);
 }
 
-inline bool wxPGProperty::Hide( bool hide )
+inline bool wxPGProperty::Hide( bool hide, int flags )
 {
-    return GetGrid()->HideProperty(wxPGIdGen(this),hide);
+    return GetGrid()->HideProperty(wxPGIdGen(this), hide, flags);
 }
 
 inline bool wxPGProperty::SetMaxLength( int maxLen )
@@ -6761,6 +7471,59 @@ inline bool wxPGProperty::SetMaxLength( int maxLen )
 }
 
 // -----------------------------------------------------------------------
+
+
+#ifndef SWIG
+
+#define wxPG_BASE_EVT_PRE_ID     1775
+
+BEGIN_DECLARE_EVENT_TYPES()
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_SELECTED,           wxPG_BASE_EVT_PRE_ID)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_CHANGING,           wxPG_BASE_EVT_PRE_ID+1)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_CHANGED,            wxPG_BASE_EVT_PRE_ID+2)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_HIGHLIGHTED,        wxPG_BASE_EVT_PRE_ID+3)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_RIGHT_CLICK,        wxPG_BASE_EVT_PRE_ID+4)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_PAGE_CHANGED,       wxPG_BASE_EVT_PRE_ID+5)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_ITEM_COLLAPSED,     wxPG_BASE_EVT_PRE_ID+6)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_ITEM_EXPANDED,      wxPG_BASE_EVT_PRE_ID+7)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_DOUBLE_CLICK,       wxPG_BASE_EVT_PRE_ID+8)
+END_DECLARE_EVENT_TYPES()
+#else
+    enum {
+        wxEVT_PG_SELECTED = wxPG_BASE_EVT_PRE_ID,
+        wxEVT_PG_CHANGING,
+        wxEVT_PG_CHANGED,
+        wxEVT_PG_HIGHLIGHTED,
+        wxEVT_PG_RIGHT_CLICK,
+        wxEVT_PG_PAGE_CHANGED,
+        wxEVT_PG_ITEM_COLLAPSED,
+        wxEVT_PG_ITEM_EXPANDED,
+        wxEVT_PG_DOUBLE_CLICK
+    };
+#endif
+
+
+#define wxPG_BASE_EVT_TYPE       wxEVT_PG_SELECTED
+#define wxPG_MAX_EVT_TYPE        (wxPG_BASE_EVT_TYPE+30)
+
+
+#ifndef SWIG
+typedef void (wxEvtHandler::*wxPropertyGridEventFunction)(wxPropertyGridEvent&);
+
+#define EVT_PG_SELECTED(id, fn)              DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_SELECTED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
+#define EVT_PG_CHANGING(id, fn)              DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_CHANGING, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
+#define EVT_PG_CHANGED(id, fn)               DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_CHANGED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
+#define EVT_PG_HIGHLIGHTED(id, fn)           DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_HIGHLIGHTED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
+#define EVT_PG_RIGHT_CLICK(id, fn)           DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_RIGHT_CLICK, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
+#define EVT_PG_DOUBLE_CLICK(id, fn)          DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_DOUBLE_CLICK, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
+#define EVT_PG_PAGE_CHANGED(id, fn)          DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_PAGE_CHANGED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
+#define EVT_PG_ITEM_COLLAPSED(id, fn)        DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_ITEM_COLLAPSED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
+#define EVT_PG_ITEM_EXPANDED(id, fn)         DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_ITEM_EXPANDED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
+
+#define wxPropertyGridEventHandler(A) ((wxObjectEventFunction)(wxEventFunction)(wxPropertyGridEventFunction)&A)
+
+#endif
+
 
 /** \class wxPropertyGridEvent
 	\ingroup classes
@@ -6912,6 +7675,12 @@ public:
     }
 #endif
 
+    wxPGValidationInfo& GetValidationInfo()
+    {
+        wxASSERT(m_validationInfo);
+        return *m_validationInfo;
+    }
+
     /** Returns true if event has associated property. */
     inline bool HasProperty() const { return ( m_property != (wxPGProperty*) NULL ); }
 
@@ -6926,6 +7695,8 @@ public:
 
     /** Call this from your event handler to veto action that the event is signaling.
         You can only veto a shutdown if wxPropertyGridEvent::CanVeto returns true.
+        \remarks
+        Currently only wxEVT_PG_CHANGING supports vetoing.
     */
     void Veto( bool veto = true ) { m_wasVetoed = veto; }
 
@@ -6933,14 +7704,36 @@ public:
     */
     const wxVariant& GetValue() const
     {
-        wxASSERT_MSG( m_value,
+        wxASSERT_MSG( m_validationInfo,
                       wxT("Only call GetValue from a handler of event type that supports it") );
-        return *m_value;
+        return *m_validationInfo->m_pValue;
+    }
+
+    /** Set override validation failure behavior. Only effective if Veto was also called,
+        and only allowed if event type is wxEVT_PG_CHANGING.
+    */
+    void SetValidationFailureBehavior( int flags )
+    {
+        wxASSERT( GetEventType() == wxEVT_PG_CHANGING );
+        m_validationInfo->m_failureBehavior = (wxPGVFBFlags) flags;
+    }
+
+    /** Sets custom failure message for this time only. Only applies if
+        wxPG_VFB_SHOW_MESSAGE is set in validation failure flags.
+    */
+    void SetValidationFailureMessage( const wxString& message )
+    {
+        wxASSERT( GetEventType() == wxEVT_PG_CHANGING );
+        m_validationInfo->m_failureMessage = message;
     }
 
 #ifndef SWIG
+    wxPGVFBFlags GetValidationFailureBehavior() const
+    {
+        wxASSERT( GetEventType() == wxEVT_PG_CHANGING );
+        return m_validationInfo->m_failureBehavior;
+    }
 
-    void SetValue( const wxVariant& value ) { m_value = &value; }
     void SetCanVeto( bool canVeto ) { m_canVeto = canVeto; }
     bool WasVetoed() const { return m_wasVetoed; }
 
@@ -6949,68 +7742,26 @@ public:
 
     void SetPropertyGrid( wxPropertyGrid* pg ) { m_pg = pg; }
 
+    void SetupValidationInfo()
+    {
+        wxASSERT(m_pg);
+        wxASSERT( GetEventType() == wxEVT_PG_CHANGING );
+        m_validationInfo = &m_pg->GetValidationInfo();
+    }
+
 private:
     void Init();
     DECLARE_DYNAMIC_CLASS(wxPropertyGridEvent)
 
     wxPGProperty*       m_property;
     wxPropertyGrid*     m_pg;
-    const wxVariant*    m_value;
+    wxPGValidationInfo* m_validationInfo;
+
     bool                m_canVeto;
     bool                m_wasVetoed;
+
 #endif
 };
-
-
-#define wxPG_BASE_EVT_PRE_ID     1775
-
-#ifndef SWIG
-BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_SELECTED,           wxPG_BASE_EVT_PRE_ID)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_CHANGING,           wxPG_BASE_EVT_PRE_ID+1)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_CHANGED,            wxPG_BASE_EVT_PRE_ID+2)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_HIGHLIGHTED,        wxPG_BASE_EVT_PRE_ID+3)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_RIGHT_CLICK,        wxPG_BASE_EVT_PRE_ID+4)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_PAGE_CHANGED,       wxPG_BASE_EVT_PRE_ID+5)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_ITEM_COLLAPSED,     wxPG_BASE_EVT_PRE_ID+6)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_ITEM_EXPANDED,      wxPG_BASE_EVT_PRE_ID+7)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_PG, wxEVT_PG_DOUBLE_CLICK,       wxPG_BASE_EVT_PRE_ID+8)
-END_DECLARE_EVENT_TYPES()
-#else
-    enum {
-        wxEVT_PG_SELECTED = wxPG_BASE_EVT_PRE_ID,
-        wxEVT_PG_CHANGING,
-        wxEVT_PG_CHANGED,
-        wxEVT_PG_HIGHLIGHTED,
-        wxEVT_PG_RIGHT_CLICK,
-        wxEVT_PG_PAGE_CHANGED,
-        wxEVT_PG_ITEM_COLLAPSED,
-        wxEVT_PG_ITEM_EXPANDED,
-        wxEVT_PG_DOUBLE_CLICK
-    };
-#endif
-
-
-#define wxPG_BASE_EVT_TYPE       wxEVT_PG_SELECTED
-#define wxPG_MAX_EVT_TYPE        (wxPG_BASE_EVT_TYPE+30)
-
-
-#ifndef SWIG
-typedef void (wxEvtHandler::*wxPropertyGridEventFunction)(wxPropertyGridEvent&);
-
-#define EVT_PG_SELECTED(id, fn)              DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_SELECTED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
-#define EVT_PG_CHANGING(id, fn)              DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_CHANGING, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
-#define EVT_PG_CHANGED(id, fn)               DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_CHANGED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
-#define EVT_PG_HIGHLIGHTED(id, fn)           DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_HIGHLIGHTED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
-#define EVT_PG_RIGHT_CLICK(id, fn)           DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_RIGHT_CLICK, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
-#define EVT_PG_DOUBLE_CLICK(id, fn)          DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_DOUBLE_CLICK, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
-#define EVT_PG_PAGE_CHANGED(id, fn)          DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_PAGE_CHANGED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
-#define EVT_PG_ITEM_COLLAPSED(id, fn)        DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_ITEM_COLLAPSED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
-#define EVT_PG_ITEM_EXPANDED(id, fn)         DECLARE_EVENT_TABLE_ENTRY( wxEVT_PG_ITEM_EXPANDED, id, -1, (wxObjectEventFunction) (wxEventFunction)  wxStaticCastEvent( wxPropertyGridEventFunction, & fn ), (wxObject *) NULL ),
-
-#define wxPropertyGridEventHandler(A) ((wxObjectEventFunction)(wxEventFunction)(wxPropertyGridEventFunction)&A)
-
-#endif
 
 
 // -----------------------------------------------------------------------

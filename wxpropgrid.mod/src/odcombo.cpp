@@ -493,6 +493,9 @@ BEGIN_EVENT_TABLE(wxPGVListBoxComboPopup, wxVListBox)
     EVT_MOTION(wxPGVListBoxComboPopup::OnMouseMove)
     EVT_KEY_DOWN(wxPGVListBoxComboPopup::OnKey)
     EVT_LEFT_UP(wxPGVListBoxComboPopup::OnLeftClick)
+#if wxCHECK_VERSION(2,8,0)
+    EVT_MOUSE_CAPTURE_LOST(wxPGVListBoxComboPopup::OnMouseCaptureLost)
+#endif
 END_EVENT_TABLE()
 
 
@@ -1012,6 +1015,13 @@ void wxPGVListBoxComboPopup::Populate( int n, const wxString choices[] )
     if ( strValue.Length() )
         m_value = m_strings.Index(strValue);
 }
+
+#if wxCHECK_VERSION(2,8,0)
+void wxPGVListBoxComboPopup::OnMouseCaptureLost(wxMouseCaptureLostEvent& event)
+{
+    event.Skip(false);  // we don't want the event processed anywhere else
+}
+#endif
 
 // ----------------------------------------------------------------------------
 // input handling
@@ -3795,20 +3805,30 @@ int wxPGOwnerDrawnComboBox::DoInsertItems(const wxArrayStringsAdapter& items,
                                           void **clientData,
                                           wxClientDataType type)
 {
-    unsigned int i;
-    for ( i=0; i<items.GetCount(); i++ )
+    const unsigned int count = items.GetCount();
+
+    if ( HasFlag(wxCB_SORT) )
     {
-        DoInsert(items[i], pos);
-        if ( clientData )
+        int n = pos;
+
+        for( unsigned int i = 0; i < count; ++i )
         {
-            if ( type == wxClientData_Object )
-                DoSetItemClientObject(pos, (wxClientData*)clientData[i]);
-            else
-                DoSetItemClientData(pos, clientData[i]);
+            int n = GetVListBoxComboPopup()->Append(items[i]);
+            AssignNewItemClientData(n, clientData, i, type);
         }
-        pos++;
+
+        return n;
     }
-    return pos - 1;
+    else
+    {
+        for( unsigned int i = 0; i < count; ++i, ++pos )
+        {
+            GetVListBoxComboPopup()->Insert(items[i], pos);
+            AssignNewItemClientData(pos, clientData, i, type);
+        }
+
+        return pos - 1;
+    }
 }
 #endif
 

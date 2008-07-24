@@ -479,10 +479,6 @@ wxPGProperty * bmx_wxpropertygrid_getfirst(wxPropertyGrid * grid, int flags) {
 	return grid->GetFirst(flags);
 }
 
-wxPGProperty * bmx_wxpropertygrid_getnextsibling(wxPropertyGrid * grid, wxPGProperty * prop) {
-	return grid->GetNextSibling(prop);
-}
-
 MaxPGChoices * bmx_wxpropertygrid_getpropertychoices(wxPropertyGrid * grid, wxPGProperty * prop) {
 	return new MaxPGChoices(grid->GetPropertyChoices(prop));
 }
@@ -907,10 +903,6 @@ void bmx_wxpropertygrid_setpropertycell(wxPropertyGrid * grid, wxPGProperty * pr
 		(bitmap)?bitmap->Bitmap():wxNullBitmap,
 		(fgCol)?fgCol->Colour():wxNullColour,
 		(bgCol)?bgCol->Colour():wxNullColour);
-}
-
-wxPGProperty * bmx_wxpropertygrid_getnextsiblingbyname(wxPropertyGrid * grid, BBString * name) {
-	return grid->GetNextSibling(wxStringFromBBString(name));
 }
 
 wxPropertyCategory * bmx_wxpropertygrid_getpropertycategorybyname(wxPropertyGrid * grid, BBString * name) {

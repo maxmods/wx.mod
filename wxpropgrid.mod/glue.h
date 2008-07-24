@@ -137,7 +137,6 @@ extern "C" {
 	bool bmx_wxpropertygrid_expand(wxPropertyGrid * grid, wxPGProperty * prop);
 	bool bmx_wxpropertygrid_expandbyname(wxPropertyGrid * grid, BBString * name);
 	wxPGProperty * bmx_wxpropertygrid_getfirst(wxPropertyGrid * grid, int flags);
-	wxPGProperty * bmx_wxpropertygrid_getnextsibling(wxPropertyGrid * grid, wxPGProperty * prop);
 	MaxPGChoices * bmx_wxpropertygrid_getpropertychoices(wxPropertyGrid * grid, wxPGProperty * prop);
 	BBString * bmx_wxpropertygrid_getpropertyclassname(wxPropertyGrid * grid, wxPGProperty * prop);
 	BBObject * bmx_wxpropertygrid_getpropertyclientdata(wxPropertyGrid * grid, wxPGProperty * prop);
@@ -356,7 +355,6 @@ extern "C" {
 	void bmx_wxpropertygrid_limitpropertyediting(wxPropertyGrid * grid, wxPGProperty * prop, bool limit);
 	wxPGProperty * bmx_wxpropertygrid_replaceproperty(wxPropertyGrid * grid, wxPGProperty * prop, wxPGProperty * property);
 	void bmx_wxpropertygrid_setpropertycell(wxPropertyGrid * grid, wxPGProperty * prop, int column, BBString * text, MaxBitmap * bitmap, MaxColour * fgCol, MaxColour * bgCol);
-	wxPGProperty * bmx_wxpropertygrid_getnextsiblingbyname(wxPropertyGrid * grid, BBString * name);
 	wxPropertyCategory * bmx_wxpropertygrid_getpropertycategorybyname(wxPropertyGrid * grid, BBString * name);
 	MaxPGChoices * bmx_wxpropertygrid_getpropertychoicesbyname(wxPropertyGrid * grid, BBString * name);
 	BBString * bmx_wxpropertygrid_getpropertyclassnamebyname(wxPropertyGrid * grid, BBString * name);

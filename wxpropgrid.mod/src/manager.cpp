@@ -161,27 +161,6 @@ static const char* gs_xpm_defpage[] = {
 "................"
 };
 
-// -----------------------------------------------------------------------
-
-/** \class wxPropertyGridPageData
-    \ingroup classes
-    \brief
-    Simple holder of propertygrid page information.
-*/
-/*
-class wxPropertyGridPageData
-{
-public:
-
-    wxPropertyGridPageData() { }
-    ~wxPropertyGridPageData() { }
-
-    wxString                m_label;
-    wxPropertyGridState     GetStatePtr();
-    int                     m_id;
-};
-*/
-
 #define GETPAGESTATE(page) ((wxPropertyGridPage*)m_arrPages.Item(page))->GetStatePtr()
 
 // -----------------------------------------------------------------------
@@ -213,6 +192,12 @@ void wxPropertyGridPage::Clear()
     GetStatePtr()->DoClear();
 }
 
+wxSize wxPropertyGridPage::FitColumns()
+{
+    wxSize sz = DoFitColumns();
+    return sz;
+}
+
 void wxPropertyGridPage::RefreshProperty( wxPGProperty* p )
 {
     if ( m_manager )
@@ -223,24 +208,18 @@ void wxPropertyGridPage::OnShow()
 {
 }
 
-/*
-bool wxPropertyGridPage::ProcessEvent( wxEvent& event )
+void wxPropertyGridPage::SetSplitterPosition( int splitterPos, int col )
 {
-    // By default, redirect unhandled events to the manager's parent
-    if ( !wxEvtHandler::ProcessEvent(event) )
-    {
-        if ( IsHandlingAllEvents() )
-            return false;
-
-        m_manager->GetParent()->GetEventHandler()->AddPendingEvent(event);
-        return true;
-    }
-    return true;
-}*/
+    wxPropertyGrid* pg = GetGrid();
+    if ( pg->GetState() == this )
+        pg->SetSplitterPosition(splitterPos);
+    else
+        DoSetSplitterPosition(splitterPos, col, false);
+}
 
 void wxPropertyGridPage::DoSetSplitterPosition( int pos, int splitterColumn, bool allPages )
 {
-    if ( allPages )
+    if ( allPages && m_manager->GetPageCount() )
         m_manager->SetSplitterPosition( pos, splitterColumn );
     else
         DoSetSplitterPositionThisPage( pos, splitterColumn );
@@ -397,6 +376,8 @@ void wxPropertyGridManager::Init2( int style )
     if ( baseId < 0 )
         baseId = wxPG_MAN_ALTERNATE_BASE_ID;
 
+    m_baseId = baseId;
+
 #ifdef __WXMAC__
    // Smaller controls on Mac
    SetWindowVariant(wxWINDOW_VARIANT_SMALL);
@@ -499,7 +480,17 @@ bool wxPropertyGridManager::SetFont( const wxFont& font )
 {
     bool res = wxWindow::SetFont(font);
     m_pPropGrid->SetFont(font);
+
     // TODO: Need to do caption recacalculations for other pages as well.
+    unsigned int i;
+    for ( i=0; i<m_arrPages.GetCount(); i++ )
+    {
+        wxPropertyGridPage* page = GetPage(i);
+
+        if ( page != m_pPropGrid->GetState() )
+            page->CalculateFontAndBitmapStuff(-1);
+    }
+
     return res;
 }
 
@@ -672,6 +663,9 @@ void wxPropertyGridManager::Clear()
     for ( i=(int)GetPageCount()-1; i>=0; i-- )
         RemovePage(i);
 
+    // Reset toolbar ids
+    m_nextTbInd = m_baseId+ID_ADVTBITEMSBASE_OFFSET + 2;
+
     m_pPropGrid->Thaw();
 }
 
@@ -819,7 +813,8 @@ int wxPropertyGridManager::InsertPage( int index, const wxString& label,
             wxASSERT( m_pToolbar );
 
             // Add separator before first page.
-            if ( GetPageCount() < 2 && (GetExtraStyle()&wxPG_EX_MODE_BUTTONS) )
+            if ( GetPageCount() < 2 && (GetExtraStyle()&wxPG_EX_MODE_BUTTONS) &&
+                 m_pToolbar->GetToolsCount() < 3 )
                 m_pToolbar->AddSeparator();
 
             if ( &bmp != &wxNullBitmap )
@@ -927,19 +922,19 @@ bool wxPropertyGridManager::RemovePage( int page )
 
     // Remove toolbar icon
 #if wxUSE_TOOLBAR
-    if ( m_windowStyle & wxPG_TOOLBAR )
+    if ( HasFlag(wxPG_TOOLBAR) )
     {
         wxASSERT( m_pToolbar );
 
         int toolPos = GetExtraStyle() & wxPG_EX_MODE_BUTTONS ? 3 : 0;
         toolPos += page;
 
-        m_pToolbar->DeleteToolByPos(toolPos);
-
         // Delete separator as well, for consistency
         if ( (GetExtraStyle() & wxPG_EX_MODE_BUTTONS) &&
              GetPageCount() == 1 )
             m_pToolbar->DeleteToolByPos(2);
+
+        m_pToolbar->DeleteToolByPos(toolPos);
     }
 #endif
 
@@ -1082,7 +1077,6 @@ void wxPropertyGridManager::RefreshHelpBox( int new_splittery, int new_width, in
 
 void wxPropertyGridManager::RecalculatePositions( int width, int height )
 {
-
     int propgridY = 0;
     int propgridBottomY = height;
 
@@ -1108,7 +1102,7 @@ void wxPropertyGridManager::RecalculatePositions( int width, int height )
     #endif
 
         m_pToolbar->SetSize(0,0,width,tbHeight);
-        propgridY = m_pToolbar->GetSize().y;
+        propgridY += m_pToolbar->GetSize().y;
     }
 #endif
 
@@ -1523,8 +1517,8 @@ void wxPropertyGridManager::SetSplitterLeft( bool subProps, bool allPages )
 
         for ( i=0; i<GetPageCount(); i++ )
         {
-            int maxW = m_pState->GetLeftSplitterPos(dc, GETPAGESTATE(i)->m_properties, subProps );
-            wxLogDebug(wxT("%i"),maxW);
+            int maxW = m_pState->GetColumnFitWidth(dc, GETPAGESTATE(i)->m_properties, 0, subProps );
+            maxW += m_pPropGrid->m_marginWidth;
             if ( maxW > highest )
                 highest = maxW;
         }
@@ -1689,12 +1683,17 @@ void wxPropertyGridManager::OnMouseUp( wxMouseEvent &event )
 
 void wxPropertyGridManager::SetSplitterPosition( int pos, int splitterColumn )
 {
+    wxASSERT_MSG( GetPageCount(),
+                  wxT("SetSplitterPosition() has no effect until pages have been added") );
+
     size_t i;
     for ( i=0; i<GetPageCount(); i++ )
     {
         wxPropertyGridPage* page = GetPage(i);
         page->DoSetSplitterPositionThisPage( pos, splitterColumn );
     }
+
+    m_pPropGrid->SetInternalFlag(wxPG_FL_SPLITTER_PRE_SET);
 }
 
 // -----------------------------------------------------------------------
@@ -1732,6 +1731,57 @@ private:
 wxPGVIterator wxPropertyGridManager::GetVIterator( int flags ) const
 {
     return wxPGVIterator( new wxPGVIteratorBase_Manager( (wxPropertyGridManager*)this, flags ) );
+}
+
+// -----------------------------------------------------------------------
+// wxPGMEditableState
+// -----------------------------------------------------------------------
+
+void wxPropertyGridManager::SaveEditableState( wxPGMEditableState* pState, int includedStates ) const
+{
+    wxASSERT(pState);
+
+    if ( includedStates & wxPGEditableState::Page )
+    {
+        pState->SetPage(m_selPage);
+    }
+    GetGrid()->SaveEditableState(pState, includedStates&~(wxPGEditableState::Expanded) );
+    if ( includedStates & wxPGEditableState::Expanded )
+    {
+        pState->SetExpanded(this);
+    }
+}
+
+void wxPropertyGridManager::RestoreEditableState( const wxPGMEditableState& state )
+{
+    //
+    // It is clearer to reimplement it entirely for manager
+    GetGrid()->Freeze();
+    if ( state.HasFlag(wxPGEditableState::Page) )
+    {
+        SelectPage(state.GetPage());
+    }
+    if ( state.HasFlag(wxPGEditableState::SplitterPos) )
+    {
+        const wxArrayInt& arr = state.GetSplitterPos();
+        for ( size_t i=0; i<arr.size(); i++ )
+        {
+            GetPage(i)->SetSplitterPosition(arr[i]);
+        }
+    }
+    DoRestoreEditableState(state, true);
+}
+
+// -----------------------------------------------------------------------
+
+wxPGMEditableState::wxPGMEditableState( const wxString& str )
+{
+    SetFromString( str );
+}
+
+wxPGMEditableState::wxPGMEditableState( const wxPropertyGridManager* pgm, int includedStates )
+{
+    pgm->SaveEditableState(this, includedStates);
 }
 
 // -----------------------------------------------------------------------

@@ -346,6 +346,27 @@ protected:
 
 // -----------------------------------------------------------------------
 
+#ifndef SWIG
+/** Constants used with DoValidation() methods.
+*/
+enum
+{
+    /** Instead of modifying the value, show an error message.
+    */
+    wxPG_PROPERTY_VALIDATION_ERROR_MESSAGE      = 0,
+
+    /** Modify value, but stick with the limitations.
+    */
+    wxPG_PROPERTY_VALIDATION_SATURATE           = 1,
+
+    /** Modify value, wrap around on overflow.
+    */
+    wxPG_PROPERTY_VALIDATION_WRAP               = 2
+};
+#endif
+
+// -----------------------------------------------------------------------
+
 /** \class wxIntProperty
 	\ingroup classes
     \brief Basic property with integer value. Seamlessly supports 64-bit integer (wxLongLong) on overflow.
@@ -395,7 +416,7 @@ public:
 
     wxIntProperty( const wxString& label, const wxString& name, const wxLongLong& value );
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
-    virtual bool ValidateValue( wxVariant& value ) const;
+    virtual bool ValidateValue( wxVariant& value, wxPGValidationInfo& validationInfo ) const;
     virtual bool IntToValue( wxVariant& variant, int number, int argFlags = 0 ) const;
     static wxValidator* GetClassValidator();
     virtual wxValidator* DoGetValidator() const;
@@ -406,7 +427,7 @@ public:
         If true, error message is shown and value is not modified, if false no error
         message is shown and value is saturated to limits.
     */
-    static bool DoValidation( const wxPGProperty* property, wxLongLong_t& value, bool showError = false );
+    static bool DoValidation( const wxPGProperty* property, wxLongLong_t& value, wxPGValidationInfo* pValidationInfo, int mode = wxPG_PROPERTY_VALIDATION_ERROR_MESSAGE );
 
 protected:
 };
@@ -438,7 +459,7 @@ public:
     wxUIntProperty( const wxString& label, const wxString& name, const wxULongLong& value );
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
-    virtual bool ValidateValue( wxVariant& value ) const;
+    virtual bool ValidateValue( wxVariant& value, wxPGValidationInfo& validationInfo ) const;
     virtual bool IntToValue( wxVariant& variant, int number, int argFlags = 0 ) const;
 protected:
     wxByte      m_base;
@@ -468,7 +489,7 @@ public:
 
     WX_PG_DECLARE_BASIC_TYPE_METHODS()
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
-    virtual bool ValidateValue( wxVariant& value ) const;
+    virtual bool ValidateValue( wxVariant& value, wxPGValidationInfo& validationInfo ) const;
 
     /** Validation helper.
 
@@ -476,7 +497,7 @@ public:
         If true, error message is shown and value is not modified, if false no error
         message is shown and value is saturated to limits.
     */
-    static bool DoValidation( const wxPGProperty* property, double& value, bool showError = false );
+    static bool DoValidation( const wxPGProperty* property, double& value, wxPGValidationInfo* pValidationInfo, int mode = wxPG_PROPERTY_VALIDATION_ERROR_MESSAGE );
 
 protected:
     int m_precision;
@@ -527,6 +548,7 @@ public:
     virtual void OnSetValue();
     virtual wxString GetValueAsString( int argFlags ) const;
     virtual bool StringToValue( wxVariant& variant, const wxString& text, int argFlags = 0 ) const;
+    virtual bool ValidateValue( wxVariant& value, wxPGValidationInfo& validationInfo ) const;
 
     // If wxPG_FULL_VALUE is not set in flags, then the value is interpreted
     // as index to choices list. Otherwise, it is actual value.
@@ -557,6 +579,8 @@ protected:
 
     bool ValueFromString_( wxVariant& value, const wxString& text, int argFlags ) const;
     bool ValueFromInt_( wxVariant& value, int intVal, int argFlags ) const;
+
+    static void ResetNextIndex() { ms_nextIndex = -2; }
 
 private:
     // This is private so that classes are guaranteed to use GetIndex
@@ -708,6 +732,9 @@ protected:
 
 // -----------------------------------------------------------------------
 
+/** \class wxPGFileDialogAdapter
+    \ingroup classes
+*/
 class WXDLLIMPEXP_PG wxPGFileDialogAdapter : public wxPGEditorDialogAdapter
 {
 public:
@@ -770,6 +797,17 @@ protected:
 
 #define wxPG_PROP_NO_ESCAPE     wxPG_PROP_CLASS_SPECIFIC_1
 
+
+/** \class wxPGLongStringDialogAdapter
+    \ingroup classes
+*/
+class WXDLLIMPEXP_PG wxPGLongStringDialogAdapter : public wxPGEditorDialogAdapter
+{
+public:
+    virtual bool DoShowDialog( wxPropertyGrid* propGrid, wxPGProperty* property );
+};
+
+
 /** \class wxLongStringProperty
     \ingroup classes
     \brief
@@ -795,6 +833,8 @@ public:
     //  if dialog is not cancelled, it should be stored back and true should be returned
     //  if that was the case.
     virtual bool OnButtonClick( wxPropertyGrid* propgrid, wxString& value );
+
+    static bool DisplayEditorDialog( wxPGProperty* prop, wxPropertyGrid* propGrid, wxString& value );
 
 protected:
 };
@@ -1122,17 +1162,12 @@ private:
 
 /** \class wxCustomProperty
     \ingroup classes
-    \brief This is a rather inefficient but very versatile property class.
+    \brief This is a somewhat inefficient but versatile property class.
 
    Base class offers the following:
-     - Add any properties as children (i.e. like wxParentProperty)
-     - Editor control can be set at run-time.
      - By default has string value type.
      - Has capacity to have choices.
      - Can have custom-paint bitmap.
-
-   Also note:
-     - Has m_parentingType of -2 (technical detail).
 */
 class WXDLLIMPEXP_PG wxCustomProperty : public wxPGProperty
 {
@@ -1165,14 +1200,11 @@ public:
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
 
 protected:
-    //wxPGChoicesData*        m_choices;
     wxPGChoices             m_choices;
 #ifdef wxPG_COMPATIBILITY_1_0_0
     wxPropertyGridCallback  m_callback;
 #endif
     wxPGPaintCallback       m_paintCallback;
-
-    //wxString                m_value;
 };
 
 // -----------------------------------------------------------------------

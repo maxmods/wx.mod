@@ -44,10 +44,14 @@ extern WXDLLIMPEXP_PG const wxChar *wxPropertyGridManagerNameStr;
     manipulation functions found in wxPropertyGridManager. Please use
     parent manager (m_manager member variable) when needed.
 
+    Please note that most member functions are inherited and as such not documented on
+    this page. This means you will probably also want to read wxPropertyContainerMethods
+    class reference.
+
     <h4>Derived from</h4>
 
-    wxPropertyGridState\n
     wxPropertyContainerMethods\n
+    wxPropertyGridState\n
     wxEvtHandler\n
     wxObject\n
 
@@ -78,9 +82,27 @@ public:
     */
     virtual void Clear();
 
+    /** Reduces column sizes to minimum possible that contents are still visibly (naturally
+        some margin space will be applied as well).
+
+        \retval
+        Minimum size for the page to still display everything.
+
+        \remarks
+        This function only works properly if size of containing grid was already fairly large.
+
+        Note that you can also get calculated column widths by calling GetColumnWidth()
+        immediately after this function returns.
+    */
+    wxSize FitColumns();
+
     /** Returns page index in manager;
     */
     int GetIndex() const;
+
+    /** Returns x-coordinate position of splitter on a page.
+    */
+    int GetSplitterPosition( int col = 0 ) const { return GetStatePtr()->DoGetSplitterPosition(col); }
 
     /** Returns "root property". It does not have name, etc. and it is not
         visible. It is only useful for accessing its children.
@@ -101,6 +123,13 @@ public:
         return this;
     }
 
+    /** Returns id of the tool bar item that represents this page on wxPropertyGridManager's wxToolBar.
+    */
+    int GetToolId() const
+    {
+        return m_id;
+    }
+
     /** Do any member initialization in this method.
         \remarks
         - Called every time the page is added into a manager.
@@ -113,14 +142,26 @@ public:
     */
     virtual bool IsHandlingAllEvents() const { return true; }
 
-    /** Propagate to other pages.
-    */
-    virtual void DoSetSplitterPosition( int pos, int splitterColumn = 0, bool allPages = true );
-
     /** Called every time page is about to be shown.
         Useful, for instance, creating properties just-in-time.
     */
     virtual void OnShow();
+
+    virtual void RefreshProperty( wxPGProperty* p );
+
+    /** Sets splitter position on page.
+        \remarks
+        Splitter position cannot exceed grid size, and therefore setting it during
+        form creation may fail as initial grid size is often smaller than desired
+        splitter position, especially when sizers are being used.
+    */
+    void SetSplitterPosition( int splitterPos, int col = 0 );
+
+protected:
+
+    /** Propagate to other pages.
+    */
+    virtual void DoSetSplitterPosition( int pos, int splitterColumn = 0, bool allPages = false );
 
     /** Propagate to other pages.
     */
@@ -128,10 +169,6 @@ public:
     {
         wxPropertyGridState::DoSetSplitterPosition( pos, splitterColumn );
     }
-
-    virtual void RefreshProperty( wxPGProperty* p );
-
-protected:
 
     /** Page label (may be referred as name in some parts of documentation).
         Can be set in constructor, or passed in wxPropertyGridManager::AddPage(),
@@ -153,6 +190,45 @@ private:
 private:
     DECLARE_EVENT_TABLE()
 #endif
+};
+
+// -----------------------------------------------------------------------
+
+/** \class wxPGMEditableState
+	\ingroup classes
+    \brief
+    Contains information about wxPropertyGridManager's user-editable state, as
+    returned by wxPropertyGridManager::SaveEditableState().
+*/
+class WXDLLIMPEXP_PG wxPGMEditableState : public wxPGEditableState
+{
+public:
+    /** Constructor. */
+    wxPGMEditableState()
+        : wxPGEditableState()
+    {
+    }
+
+    /** Constructor. */
+    wxPGMEditableState( const wxPropertyGridManager* pgm, int includedState = All );
+
+    /** Constructor. */
+    wxPGMEditableState( const wxString& str );
+
+    /** Destructor. */
+    virtual ~wxPGMEditableState() { }
+
+    void SetPage( int page )
+    {
+        m_flags |= Page;
+        m_page = page;
+    }
+
+    int GetPage() const
+    {
+        wxASSERT( HasFlag(Page) );
+        return m_page;
+    }
 };
 
 // -----------------------------------------------------------------------
@@ -296,6 +372,14 @@ public:
     */
     void ClearPage( int page );
 
+    /** Forces updating the value of property from the editor control.
+        Returns true if DoPropertyChanged was actually called.
+    */
+    bool CommitChangesFromEditor( wxUint32 flags = 0 )
+    {
+        return m_pPropGrid->CommitChangesFromEditor(flags);
+    }
+
     /** Two step creation. Whenever the control is created without any parameters,
         use Create to actually create it. Don't access the control's public methods
         before this is called.
@@ -349,14 +433,33 @@ public:
     /** Returns height of the description text box. */
     int GetDescBoxHeight() const;
 
+    /** Used to acquire user-editable state (selected property, expanded properties, scrolled position,
+        current page).
+        \param pState
+        Pointer wxPGMEditableState to write.
+        \param includedStates
+        Which parts of state to include. See wxPGEditableState::IncludeFlags for possible bits to use.
+    */
+    void SaveEditableState( wxPGMEditableState* pState, int includedStates = wxPGEditableState::All ) const;
+
+    /** Sets user-editable state. See also wxPropertyGrid::SaveEditableState() for more info.
+    */
+    void RestoreEditableState( const wxPGMEditableState& state );
+
     /** Returns pointer to the contained wxPropertyGrid. This does not change
         after wxPropertyGridManager has been created, so you can safely obtain
         pointer once and use it for the entire lifetime of the instance.
     */
-    inline wxPropertyGrid* GetGrid()
+    wxPropertyGrid* GetGrid()
     {
         wxASSERT(m_pPropGrid);
         return m_pPropGrid;
+    };
+
+    const wxPropertyGrid* GetGrid() const
+    {
+        wxASSERT(m_pPropGrid);
+        return (const wxPropertyGrid*)m_pPropGrid;
     };
 
     /** Returns iterator class instance.
@@ -651,7 +754,12 @@ public:
         GetPage(page)->DoSetSplitterPosition( pos, column );
     }
 
-    /** Sets splitter position for all pages. */
+    /** Sets splitter position for all pages.
+        \remarks
+        Splitter position cannot exceed grid size, and therefore setting it during
+        form creation may fail as initial grid size is often smaller than desired
+        splitter position, especially when sizers are being used.
+    */
     void SetSplitterPosition( int pos, int column = 0 );
 
     /** Synonyme for SelectPage(name). */
@@ -818,6 +926,8 @@ protected:
     wxCursor        m_cursorSizeNS;
 
     int             m_nextDescBoxSize;
+
+    wxWindowID      m_baseId;
 
     unsigned char   m_dragStatus;
 

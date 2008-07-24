@@ -229,11 +229,6 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetNextSibling:wxPGProperty(prop:wxPGProperty) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
 	Method GetPropertiesWithFlag:wxPGProperty[](flags:Int, inverse:Int = False, iterFlags:Int = wxPG_ITERATE_PROPERTIES | wxPG_ITERATE_HIDDEN | wxPG_ITERATE_CATEGORIES) Abstract
 	
 	Rem
@@ -497,11 +492,6 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Method SetPropertyAttribute(prop:wxPGProperty, attrName:String, value:Int, argFlags:Int = 0) Abstract
 	
 
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetNextSiblingByName:wxPGProperty(name:String) Abstract
-	
 	Rem
 	bbdoc: 
 	End Rem
@@ -1127,11 +1117,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	Method GetIterator:wxPropertyGridIterator(flags:Int, firstProp:wxPGProperty = Null)
 	End Method
 	
-	Method GetNextSibling:wxPGProperty(prop:wxPGProperty)
-		Return wxPGProperty._find(bmx_wxpropertygrid_getnextsibling(wxObjectPtr, prop.wxObjectPtr))
-	End Method
-
-
 	Method GetPropertiesWithFlag:wxPGProperty[](flags:Int, inverse:Int = False, iterFlags:Int = wxPG_ITERATE_PROPERTIES | wxPG_ITERATE_HIDDEN | wxPG_ITERATE_CATEGORIES)
 		Return bmx_wxpropertygrid_getpropertieswithflag(wxObjectPtr, flags, inverse, iterFlags)
 	End Method
@@ -1373,10 +1358,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	
 
 
-	Method GetNextSiblingByName:wxPGProperty(name:String)
-		Return wxPGProperty._find(bmx_wxpropertygrid_getnextsiblingbyname(wxObjectPtr, name))
-	End Method
-	
 	Method GetPropertyCategoryName:wxPropertyCategory(name:String)
 		Return wxPropertyCategory._find(bmx_wxpropertygrid_getpropertycategorybyname(wxObjectPtr, name))
 	End Method

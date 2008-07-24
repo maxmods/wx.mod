@@ -114,38 +114,6 @@ bool operator == (const wxArrayInt& array1, const wxArrayInt& array2)
 
 #if wxUSE_SPINBTN
 
-//
-// Implement an editor control that allows using wxSpinCtrl (actually,
-// a combination of wxTextCtrl and wxSpinButton) to edit value of
-// wxIntProperty and wxFloatProperty (and similar).
-//
-// Note that new editor classes needs to be registered before use.
-// This can be accomplished using wxPGRegisterEditorClass macro, which
-// is used for SpinCtrl in wxPropertyContainerMethods::RegisterAdditionalEditors
-// (see below). Registeration can also be performed in a constructor of a
-// property that is likely to require the editor in question.
-//
-
-
-#include <wx/spinbutt.h>
-
-
-// NOTE: Regardless that this class inherits from a working editor, it has
-//   all necessary methods to work independently. wxTextCtrl stuff is only
-//   used for event handling here.
-class wxPGSpinCtrlEditor : public wxPGTextCtrlEditor
-{
-    WX_PG_DECLARE_EDITOR_CLASS(wxPGSpinCtrlEditor)
-public:
-    virtual ~wxPGSpinCtrlEditor();
-
-    // See below for short explanations of what these are suppposed to do.
-    wxPG_DECLARE_CREATECONTROLS
-
-    virtual bool OnEvent( wxPropertyGrid* propgrid, wxPGProperty* property,
-        wxWindow* wnd, wxEvent& event ) const;
-};
-
 
 // This macro also defines global wxPGEditor_SpinCtrl for storing
 // the singleton class instance.
@@ -187,8 +155,7 @@ wxPGWindowList wxPGSpinCtrlEditor::CreateControls( wxPropertyGrid* propgrid, wxP
                        &wxPropertyGrid::OnCustomEditorEvent, NULL, propgrid );
 
     // Let's add validator to make sure only numbers can be entered
-    wxString temps;
-    wxTextValidator validator(wxFILTER_NUMERIC, &temps);
+    wxTextValidator validator(wxFILTER_NUMERIC, &m_tempString);
 
     wxTextCtrl* wnd1 = (wxTextCtrl*) wxPGTextCtrlEditor::CreateControls( propgrid, property, pos, tcSz ).m_primary;
     wnd1->SetValidator(validator);
@@ -236,10 +203,15 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
         else
             s = property->GetValueAsString(wxPG_FULL_VALUE);
 
+        int mode = wxPG_PROPERTY_VALIDATION_SATURATE;
+
+        if ( property->GetAttributeAsLong(wxT("Wrap"), 0) )
+            mode = wxPG_PROPERTY_VALIDATION_WRAP;
+
         if ( property->GetValueType() == wxT("double") )
         {
             double v_d;
-            double step = 1.0;
+            double step = property->GetAttributeAsDouble(wxT("Step"), 1.0);
 
             // Try double
             if ( s.ToDouble(&v_d) )
@@ -251,7 +223,7 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
                 else v_d -= step;
 
                 // Min/Max check
-                wxFloatProperty::DoValidation(property, v_d, false);
+                wxFloatProperty::DoValidation(property, v_d, NULL, mode);
 
                 wxPropertyGrid::DoubleToString(s, v_d, 6, true, NULL);
             }
@@ -263,7 +235,7 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
         else
         {
             wxLongLong_t v_ll;
-            wxLongLong_t step = 1;
+            wxLongLong_t step = property->GetAttributeAsLong(wxT("Step"), 1);
 
             // Try long
             if ( wxPGStringToLongLong(s, &v_ll, 10) )
@@ -275,7 +247,7 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
                 else v_ll -= step;
 
                 // Min/Max check
-                wxIntProperty::DoValidation(property, v_ll, false);
+                wxIntProperty::DoValidation(property, v_ll, NULL, mode);
 
                 s = wxLongLong(v_ll).ToString();
             }
@@ -569,7 +541,7 @@ bool wxFontProperty::OnEvent( wxPropertyGrid* propgrid, wxWindow* WXUNUSED(prima
             propgrid->EditorsValueWasModified();
 
             wxVariant variant = wxFontToVariant(dlg.GetFontData().GetChosenFont());
-            propgrid->ValueChangeInEvent( variant );
+            SetValueInEvent( variant );
             return true;
         }
     }
@@ -893,7 +865,7 @@ void wxSystemColourProperty::OnSetValue()
 #if wxCHECK_VERSION(2,8,0)
         m_value << *pCol;
 #else
-        wxPGVariantAssign(value, WXVARIANT(*pCol));
+        wxPGVariantAssign(m_value, WXVARIANT(*pCol));
 #endif
     }
 
@@ -1039,7 +1011,7 @@ bool wxSystemColourProperty::QueryColourFromUser( wxVariant& variant ) const
 
         variant = DoTranslateVal(val);
 
-        propgrid->ValueChangeInEvent(variant);
+        SetValueInEvent(variant);
 
         res = true;
     }
@@ -1152,7 +1124,7 @@ void wxSystemColourProperty::OnCustomPaint( wxDC& dc, const wxRect& rect,
         col = GetVal().m_colour;
     }
 
-    if ( col.IsOk() )
+    if ( col.Ok() )
     {
         dc.SetBrush(col);
         dc.DrawRectangle(rect);
@@ -1197,6 +1169,7 @@ bool wxSystemColourProperty::StringToValue( wxVariant& value, const wxString& te
         {
             // This really should not occurr...
             // wxASSERT(false);
+            ResetNextIndex();
             return false;
         }
 
@@ -1243,7 +1216,10 @@ bool wxSystemColourProperty::StringToValue( wxVariant& value, const wxString& te
         }
 
         if ( !done )
+        {
+            ResetNextIndex();
             return false;
+        }
 
         value = DoTranslateVal(val);
     }
@@ -1626,7 +1602,6 @@ wxMultiChoiceProperty::wxMultiChoiceProperty( const wxString& label,
     SetValue(value);
 }
 
-
 wxMultiChoiceProperty::wxMultiChoiceProperty( const wxString& label,
                                               const wxString& name,
                                               const wxArrayString& strings,
@@ -1639,9 +1614,12 @@ wxMultiChoiceProperty::wxMultiChoiceProperty( const wxString& label,
 
 wxMultiChoiceProperty::wxMultiChoiceProperty( const wxString& label,
                                               const wxString& name,
-                                              const wxArrayString& WXUNUSED(value))
+                                              const wxArrayString& value)
                                                 : wxPGProperty(label,name)
 {
+    wxArrayString strings;
+    m_choices.Set(strings);
+    SetValue(value);
 }
 
 wxMultiChoiceProperty::~wxMultiChoiceProperty()
@@ -1773,7 +1751,7 @@ bool wxMultiChoiceProperty::OnEvent( wxPropertyGrid* propgrid,
 
             variant = WXVARIANT(value);
 
-            propgrid->ValueChangeInEvent(variant);
+            SetValueInEvent(variant);
 
             return true;
         }

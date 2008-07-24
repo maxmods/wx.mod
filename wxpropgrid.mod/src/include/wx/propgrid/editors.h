@@ -425,6 +425,14 @@ public:
         m_value = value;
     }
 
+    /** This method is typically only used if deriving class from existing adapter
+        with value conversion purposes.
+    */
+    wxVariant& GetValue()
+    {
+        return m_value;
+    }
+
 #if defined(__WXPYTHON__) && !defined(SWIG)
     // This is the python object that contains and owns the C++ representation.
     PyObject*                   m_scriptObject;
@@ -553,6 +561,10 @@ public:
     /** Utility function to be used in event handlers.
     */
     int GetButtonId( unsigned int i ) const { return GetButton(i)->GetId(); }
+
+    /** Returns number of buttons.
+    */
+    int GetCount() const { return m_buttons.Count(); }
 
     void Add( const wxString& label, int id = -2 );
 #if wxUSE_BMPBUTTON

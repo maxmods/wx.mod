@@ -13,7 +13,7 @@
 #define __WX_PG_DOX_MAINPAGE_H__
 
 /**
-    \mainpage wxPropertyGrid 1.3.3 Overview
+    \mainpage wxPropertyGrid 1.3.8 Overview
 
       wxPropertyGrid is a specialized for editing properties such as strings, numbers,
     flagsets, fonts, and colours. It allows hierarchial, collapsible properties (via
@@ -39,16 +39,16 @@
     \ref whatsnew\n
     \ref basics\n
     \ref categories\n
-    \ref parentprops
+    \ref parentprops\n
     \ref enumandflags\n
     \ref advprops\n
     \ref iterating\n
     \ref operations\n
     \ref events\n
+    \ref validating\n
     \ref populating\n
     \ref cellrender\n
     \ref customizing\n
-    \ref custprop\n
     \ref usage2\n
     \ref subclassing\n
     \ref misc\n
@@ -272,11 +272,13 @@
       Instead, they can be accessed with strings like "Parent.Child". For instance, in
       the sample below, child property named "Max. Speed (mph)" can be accessed by global
       name "Car.Speeds.Max Speed (mph)".
-    - Events occur for the children, not the parent.
     - If you want to property's value to be a string composed based on the values of
       child properties, you must use wxStringProperty as parent and use value "<composed>".
+    - Events (eg. change of value) that occur in parent do not propagate to children. Events
+      that occur in children will propagate to parents, but only if they are wxStringProperties
+      with "<composed>" value.
     - Old wxParentProperty class is deprecated, and remains as a typedef of wxStringProperty.
-      If you want old value behaviour, you must specify "<composed>" as wxStringProperty's
+      If you want old value behavior, you must specify "<composed>" as wxStringProperty's
       value.
 
     Sample:
@@ -401,8 +403,9 @@
       to facilitiate reference counting, and therefore recommended way of
       adding items when multiple properties share the same set.
 
-      You can use it directly as well, filling it and then passing it to the
-      constructor.
+      You can use wxPGChoices directly as well, filling it and then passing it
+      to the constructor. Infact, if you wish to display bitmaps next to labels,
+      your best choice is to use this approach.
 
     \code
 
@@ -410,6 +413,9 @@
         chs.Add(wxT("Herbivore"),40);
         chs.Add(wxT("Carnivore"),45);
         chs.Add(wxT("Omnivore"),50);
+
+        // Let's add an item with bitmap, too
+        chs.Add(wxT("None of the above"), wxBitmap(), 60);
 
         // Note: you can add even whole arrays to wxPGChoices
 
@@ -586,6 +592,9 @@
 
 	\endcode
 
+    <b>wxPython Note:</b> Instead of ++ operator, use Next() method, and instead of
+    * operator, use GetProperty() method.
+
     GetIterator() only works with wxPropertyGrid and the individual pages
     of wxPropertyGridManager. In order to iterate through an arbitrary
     property container, you need to use wxPropertyContainerMethods::GetVIterator().
@@ -604,6 +613,7 @@
         }
 
 	\endcode
+
 
     \section operations More About Operating with Properties
 
@@ -676,12 +686,43 @@
 
 	\endcode
 
+    \subsection fromfile Loading Population from a Text-based Storage
+
+    Class wxPropertyGridPopulator may be helpful when writing code that
+    loads properties from a text-source. In fact, the supplied xrc handler
+    (src/xh_propgrid.cpp) uses it. See that code for more info.
+    NOTE: src/xh_propgrid.cpp is not included in the library by default,
+    to avoid dependency to wxXRC. You will need to add it to your application
+    separately.
+
+    \subsection editablestate Saving and Restoring User-Editable State
+
+    You can use wxPGEditableState and wxPGMEditableState classes, and
+    wxPropertyGrid::SaveEditableState() and wxPropertyGrid::RestoreEditableState()
+    to save and restore user-editable state (selected property, expanded/
+    collapsed properties, and scrolled position). For convience with
+    program configuration, wxPGEditableState has functions to save/load
+    its value in wxString. For instance:
+
+    \code
+        // Save state into config
+        wxPGEditableState edState;
+        pg->SaveEditableState(&edState);
+        programConfig->Store(wxT("PropertyGridState"), edState.GetAsString());
+
+        // Restore state from config
+        wxPGEditableState edState;
+        edState.SetFromString(programConfig->Load(wxT("PropertyGridState")));
+        pg->RestoreEditableState(edState);
+    \endcode
+
 
     \section events Event Handling
 
     Probably the most important event is the Changed event which occurs when
     value of any property is changed by the user. Use EVT_PG_CHANGED(id,func)
     in your event table to use it.
+
     For complete list of event types, see wxPropertyGrid class reference.
 
     The custom event class, wxPropertyGridEvent, has methods to directly
@@ -720,25 +761,101 @@
 
     \endcode
 
+    Another event type you might find useful is EVT_PG_CHANGING, which occurs
+    just prior property value is being changed by user. You can acquire pending
+    value using wxPropertyGridEvent::GetValue(), and if it is not acceptable,
+    call wxPropertyGridEvent::Veto() to prevent the value change from taking
+    place.
+
+    \code
+
+    // Portion of an imaginary event table
+    BEGIN_EVENT_TABLE(MyForm, wxFrame)
+
+        ...
+
+        // This occurs when a property value changes
+        EVT_PG_CHANGING( PGID, MyForm::OnPropertyGridChanging )
+
+        ...
+
+    END_EVENT_TABLE()
+
+    void MyForm::OnPropertyGridChanging( wxPropertyGridEvent& event )
+    {
+        wxPGProperty* property = event.GetProperty();
+
+        if ( property == m_pWatchThisProperty )
+        {
+            // GetValue() returns the pending value, but is only
+            // supported by wxEVT_PG_CHANGING.
+            if ( event.GetValue().GetString() == g_pThisTextIsNotAllowed )
+            {
+                event.Veto();
+                return;
+            }
+        }
+    }
+
+    \endcode
+
     \remarks On Sub-property Event Handling
     - For aggregate type properties (wxFontProperty, wxFlagsProperty, etc), events
       occur for the main parent property only. For other properties events occur
-      for the children themselves (actually, you can adjust this behaviour for wxCustomProperty
-      by adjusting wxPG_CUSTOM_PRIVATE_CHILDREN attribute).
+      for the children themselves..
 
     - When property's child gets changed, you can use wxPropertyGridEvent::GetMainParent
       to obtain its topmost non-category parent (useful, if you have deeply nested
       properties).
 
 
-    \subsection fromfile Loading Population from a Text-based Storage
+    \section validating Validating Property Values
 
-    Class wxPropertyGridPopulator may be helpful when writing code that
-    loads properties from a text-source. In fact, the supplied xrc handler
-    (src/xh_propgrid.cpp) uses it. See that code for more info.
-    NOTE: src/xh_propgrid.cpp is not included in the library by default,
-    to avoid dependency to wxXRC. You will need to add it to your application
-    separately.
+    There are various ways to make sure user enters only correct values. First, you
+    can use wxValidators similar to as you would with ordinary controls. Use
+    wxPropertyContainerMethods::SetPropertyValidator() to assign wxValidator to 
+    property.
+
+    Second, you can subclass a property and override wxPGProperty::ValidateValue(),
+    or handle wxEVT_PG_CHANGING for the same effect. Both of these methods do not
+    actually prevent user from temporarily entering invalid text, but they do give
+    you an opportunity to warn the user and block changed value from being committed
+    in a property.
+
+    Various validation failure options can be controlled globally with
+    wxPropertyGrid::SetValidationFailureBehavior(), or on an event basis by
+    calling wxEvent::SetValidationFailureBehavior(). Here's a code snippet of
+    how to handle wxEVT_PG_CHANGING, and to set custom failure behaviour and
+    message.
+
+    \code
+        void MyFrame::OnPropertyGridChanging(wxPropertyGridEvent& event)
+        {
+            wxPGProperty* property = event.GetProperty();
+
+            // You must use wxPropertyGridEvent::GetValue() to access
+            // the value to be validated.
+            wxVariant pendingValue = event.GetValue();
+
+            if ( property->GetName() == wxT("Font") )
+            {
+                // Make sure value is not unspecified
+                if ( !pendingValue.IsNull() )
+                {
+                    wxFont font << pendingValue;
+
+                    // Let's just allow Arial font
+                    if ( font.GetFaceName() != wxT("Arial") )
+                    {
+                        event.Veto();
+                        event.SetValidationFailureBehavior(wxPG_VFB_STAY_IN_PROPERTY |
+                                                           wxPG_VFB_BEEP |
+                                                           wxPG_VFB_SHOW_MESSAGE);
+                    }
+                }
+            }
+        }
+    \endcode
 
 
     \section cellrender Customizing Individual Cell Appearance
@@ -755,7 +872,7 @@
     \section customizing Customizing Properties (without sub-classing)
 
     In this section are presented miscellaneous ways to have custom appearance
-    and behaviour for your properties without all the necessary hassle
+    and behavior for your properties without all the necessary hassle
     of sub-classing a property class etc.
 
     \subsection customimage Setting Value Image
@@ -799,7 +916,7 @@
 
     \subsection editorattrs Property Attributes Recognized by Editors
 
-    <b>SpinCtrl</b> editor can make use of property's "Min" and "Max" attributes.
+    <b>SpinCtrl</b> editor can make use of property's "Min", "Max", "Step" and "Wrap" attributes.
 
     \subsection multiplebuttons Adding Multiple Buttons Next to an Editor
 
@@ -819,9 +936,11 @@
     methods.
 
     Attribute names are strings and values wxVariant. Arbitrary names are allowed
-    inorder to store user values. Constant equivalents of some string names are
-    specified (for 1.2.x compatibility, at the least) for the names of built-in property
-    attributes. For complete list, see @link attrids Property Attributes@endlink.
+    inorder to store user values. Constant equivalents of all attribute string names are
+    provided. Some of them are defined as cached strings, so using constants can provide
+    for smaller binary size.
+
+    For complete list of attributes, see @link attrids Property Attributes@endlink.
 
     \subsection boolcheckbox Setting wxBoolProperties to Use Check Box
 
@@ -831,21 +950,6 @@
     \code
         pg->SetPropertyAttributeAll(wxPG_BOOL_USE_CHECKBOX,true);
     \endcode
-
-
-
-    \section custprop wxCustomProperty
-
-    wxCustomProperty allows extra customizing.
-
-    - May have children.
-
-    For more info on attributes, see \ref attrids. In sample application,
-    there is a CustomProperty property that has children that can be
-    used to modify the property itself.
-
-    <b>Limitations:</b>
-    - Currently wxCustomProperty is limited to wxString value type.
 
 
     \section usage2 Using wxPropertyGridManager
@@ -991,6 +1095,12 @@
     wxPropertyGrid::CenterSplitter() method. <b>However, be sure to call it after
     the sizer setup and SetSize calls!</b> (ie. usually at the end of the
     frame/dialog constructor)
+
+    \subsection splittersetting Setting Splitter Position When Creating Property Grid
+
+    Splitter position cannot exceed grid size, and therefore setting it during
+    form creation may fail as initial grid size is often smaller than desired
+    splitter position, especially when sizers are being used.
 
     \subsection colourproperty wxColourProperty and wxSystemColourProperty
 
@@ -1169,11 +1279,6 @@
     Represents a wxCursor. wxChoice is used to edit the value.
     Drop-down list has cursor images under some (wxMSW) platforms.
 
-    \subsection wxCustomProperty
-
-    A customizable property class with string data type. Value image, Editor class,
-    and children can be modified.
-
     \subsection Additional Sample Properties
 
     Sample application has following additional examples of custom properties:
@@ -1267,32 +1372,67 @@
 
     #include <wx/propgrid/propdev.h>
 
+    //
     // wxLongStringProperty has wxString as value type and TextCtrlAndButton as editor.
+    // Here we will derive a new property class that will show single choice dialog
+    // on button click.
+    //
+
     class MyStringProperty : public wxLongStringProperty
     {
         DECLARE_DYNAMIC_CLASS(MyStringProperty)
     public:
 
         // Normal property constructor.
-        MyStringProperty(const wxString& name,
-                         const wxString& label = wxPG_LABEL,
+        MyStringProperty(const wxString& label,
+                         const wxString& name = wxPG_LABEL,
                          const wxString& value = wxEmptyString)
             : wxLongStringProperty(name,label,value)
         {
+            // Prepare choices
+            m_choices.Add(wxT("Cat"));
+            m_choices.Add(wxT("Dog"));
+            m_choices.Add(wxT("Gibbon"));
+            m_choices.Add(wxT("Otter"));
         }
 
         // Do something special when button is clicked.
-        virtual bool OnButtonClick(wxPropertyGrid* propGrid, wxString& value)
+        virtual wxPGEditorDialogAdapter* GetEditorDialog() const
         {
-            // Update value in case last minute changes were made.
-            PrepareValueForDialogEditing(propGrid);
+            return new wxSingleChoiceDialogAdapter(m_choices);
+        }
 
-            // TODO: Create dialog (value has current string, if needed)
+    protected:
+        wxPGChoices m_choices;
+    };
 
-            int res = dlg.ShowModal();
-            if ( res == wxID_OK && dlg.IsModified() )
+    IMPLEMENT_DYNAMIC_CLASS(MyStringProperty, wxLongStringProperty)
+
+    //
+    // Actually implement the editor dialog adapter
+    // Naturally, in real code this would have to come
+    // before wxPGProperty::GetEditorDialog()
+    // implementation.
+    //
+
+    class wxSingleChoiceDialogAdapter : public wxPGEditorDialogAdapter
+    {
+    public:
+
+        wxSingleChoiceDialogAdapter( const wxPGChoices& choices )
+            : wxPGEditorDialogAdapter(), m_choices(choices)
+        {
+        }
+
+        virtual bool DoShowDialog( wxPropertyGrid* WXUNUSED(propGrid),
+                                   wxPGProperty* WXUNUSED(property) )
+        {
+            wxString s = ::wxGetSingleChoice(wxT("Message"),
+                                             wxT("Caption"),
+                                             m_choices.GetLabels());
+            if ( s.length() )
             {
-                value = dlg.GetString();
+                SetValue(s);
                 return true;
             }
 
@@ -1300,9 +1440,8 @@
         }
 
     protected:
+        const wxPGChoices&  m_choices;
     };
-
-    IMPLEMENT_DYNAMIC_CLASS(MyStringProperty, wxLongStringProperty)
 
     \endcode
 
@@ -1368,6 +1507,7 @@
             //
             // TODO: Show dialog, read initial string from value. If changed,
             //   store new string to value and return TRUE.
+            // NB: You must use wxPGProperty::SetValueInEvent().
             //
         }
         \endcode
@@ -1388,6 +1528,7 @@
             //
             // TODO: Show dialog, read initial string from value. If changed,
             //   store new string to value and return TRUE.
+            // NB: You must use wxPGProperty::SetValueInEvent().
             //
         }
 

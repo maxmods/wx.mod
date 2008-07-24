@@ -82,6 +82,12 @@ public:
     wxVariant           m_vFalse;
 #endif
 
+    // Cached constant strings
+    wxPGCachedString    m_strMin;
+    wxPGCachedString    m_strMax;
+    wxPGCachedString    m_strUnits;
+    wxPGCachedString    m_strInlineHelp;
+
     bool                m_autoGetTranslation; // If true then some things are automatically translated
 
     int                 m_offline; // > 0 if errors cannot or should not be shown in statusbar etc.

@@ -344,12 +344,13 @@ public:
                            const wxArrayString& strings,
                            const wxArrayString& value );
 #ifndef SWIG
-    wxMultiChoiceProperty( const wxString& label = wxPG_LABEL,
-                           const wxString& name = wxPG_LABEL,
-                           const wxArrayString& value = wxArrayString() );
     wxMultiChoiceProperty( const wxString& label,
                            const wxString& name,
                            const wxPGChoices& choices,
+                           const wxArrayString& value = wxArrayString() );
+
+    wxMultiChoiceProperty( const wxString& label = wxPG_LABEL,
+                           const wxString& name = wxPG_LABEL,
                            const wxArrayString& value = wxArrayString() );
 #endif
     virtual ~wxMultiChoiceProperty();
@@ -443,6 +444,48 @@ protected:
 
     static wxString ms_defaultDateFormat;
     static wxString DetermineDefaultDateFormat( bool showCentury );
+};
+
+#endif
+
+// -----------------------------------------------------------------------
+
+#if wxUSE_SPINBTN
+
+//
+// Implement an editor control that allows using wxSpinCtrl (actually,
+// a combination of wxTextCtrl and wxSpinButton) to edit value of
+// wxIntProperty and wxFloatProperty (and similar).
+//
+// Note that new editor classes needs to be registered before use.
+// This can be accomplished using wxPGRegisterEditorClass macro, which
+// is used for SpinCtrl in wxPropertyContainerMethods::RegisterAdditionalEditors
+// (see below). Registeration can also be performed in a constructor of a
+// property that is likely to require the editor in question.
+//
+
+
+#include <wx/spinbutt.h>
+#include "editors.h"
+
+
+// NOTE: Regardless that this class inherits from a working editor, it has
+//   all necessary methods to work independently. wxTextCtrl stuff is only
+//   used for event handling here.
+class WXDLLIMPEXP_PG wxPGSpinCtrlEditor : public wxPGTextCtrlEditor
+{
+    WX_PG_DECLARE_EDITOR_CLASS(wxPGSpinCtrlEditor)
+public:
+    virtual ~wxPGSpinCtrlEditor();
+
+    // See below for short explanations of what these are suppposed to do.
+    wxPG_DECLARE_CREATECONTROLS
+
+    virtual bool OnEvent( wxPropertyGrid* propgrid, wxPGProperty* property,
+        wxWindow* wnd, wxEvent& event ) const;
+
+private:
+    mutable wxString m_tempString;
 };
 
 #endif

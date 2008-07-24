@@ -460,10 +460,10 @@ wxPGWindowList wxPGTextCtrlEditor::CreateControls( wxPropertyGrid* propGrid,
 {
     wxString text;
 
-    // If has children and limited editing, then don't create.
-    if ((property->GetFlags() & wxPG_PROP_NOEDITOR) &&
-        !property->IsCategory() &&
-        !property->IsKindOf(WX_PG_CLASSINFO(wxCustomProperty)))
+    //
+    // If has children, and limited editing is specified, then don't create.
+    if ( (property->GetFlags() & wxPG_PROP_NOEDITOR) &&
+         property->GetChildCount() )
         return (wxWindow*) NULL;
 
     if ( !property->IsValueUnspecified() )
@@ -504,8 +504,6 @@ void wxPGTextCtrlEditor::DrawValue( wxDC& dc, wxPGProperty* property, const wxRe
 void wxPGTextCtrlEditor::UpdateControl( wxPGProperty* property, wxWindow* ctrl ) const
 {
     wxTextCtrl* tc = wxStaticCast(ctrl, wxTextCtrl);
-    wxPropertyGrid* pg = property->GetGrid();
-    pg->IgnoreNextTextUpdated();
     tc->SetValue(property->GetDisplayedString());
 }
 
@@ -529,22 +527,16 @@ bool wxPGTextCtrlEditor::OnTextCtrlEvent( wxPropertyGrid* propGrid,
     }
     else if ( event.GetEventType() == wxEVT_COMMAND_TEXT_UPDATED )
     {
-        if ( propGrid->ShouldHandleTextUpdated() )
-        {
-            // If value is unspecified and character count is zero,
-            // then do not set as modified.
+        //
+        // Pass this event outside wxPropertyGrid so that,
+        // if necessary, program can tell when user is editing
+        // a textctrl.
+        // FIXME: Is it safe to change event id in the middle of event
+        //        processing (seems to work, but...)?
+        event.Skip();
+        event.SetId(propGrid->GetId());
 
-            //
-            // Pass this event outside wxPropertyGrid so that,
-            // if necessary, program can tell when user is editing
-            // a textctrl.
-            // FIXME: Is it safe to change event id in the middle of event
-            //        processing (seems to work, but...)?
-            event.Skip();
-            event.SetId(propGrid->GetId());
-
-            propGrid->EditorsValueWasModified();
-        }
+        propGrid->EditorsValueWasModified();
     }
     return false;
 }
@@ -594,8 +586,8 @@ void wxPGTextCtrlEditor::SetValueToUnspecified( wxPGProperty* property, wxWindow
 
     wxPropertyGrid* pg = property->GetGrid();
     wxASSERT(pg);  // Really, property grid should exist if editor does
-    pg->IgnoreNextTextUpdated();
-    tc->SetValue(wxT(""));
+    if ( pg )
+        tc->SetValue(wxT(""));
 }
 
 
@@ -605,8 +597,8 @@ void wxPGTextCtrlEditor::SetControlStringValue( wxPGProperty* property, wxWindow
 
     wxPropertyGrid* pg = property->GetGrid();
     wxASSERT(pg);  // Really, property grid should exist if editor does
-    pg->IgnoreNextTextUpdated();
-    tc->SetValue(txt);
+    if ( pg )
+        tc->SetValue(txt);
 }
 
 
@@ -864,9 +856,24 @@ void wxPropertyGrid::OnComboItemPaint( wxPGCustomComboControl* pCc,
          flags |= wxPGCC_PAINTING_SELECTED;
 #endif
 
+    wxSize cis;
+
+    const wxBitmap* itemBitmap = NULL;
+
+    if ( item >= 0 && pChoices && pChoices->Item(item).GetBitmap().Ok() && comValIndex == -1 )
+        itemBitmap = &pChoices->Item(item).GetBitmap();
+
     //
     // Decide what custom image size to use
-    wxSize cis = GetImageSize(p, item);
+    if ( itemBitmap )
+    {
+        cis.x = itemBitmap->GetWidth();
+        cis.y = itemBitmap->GetHeight();
+    }
+    else
+    {
+        cis = GetImageSize(p, item);
+    }
 
     if ( rect.x < 0 )
     {
@@ -911,7 +918,8 @@ void wxPropertyGrid::OnComboItemPaint( wxPGCustomComboControl* pCc,
 
         if ( cis.x > 0 && (p->HasFlag(wxPG_PROP_CUSTOMIMAGE) || !(flags & wxPGCC_PAINTING_CONTROL)) &&
              ( !p->m_valueBitmap || item == pCb->GetSelection() ) &&
-             ( item >= 0 || (flags & wxPGCC_PAINTING_CONTROL) )
+             ( item >= 0 || (flags & wxPGCC_PAINTING_CONTROL) ) &&
+             !itemBitmap
            )
         {
             pt.x += wxCC_CUSTOM_IMAGE_MARGIN1;
@@ -1655,15 +1663,8 @@ wxPGWindowList wxPGCheckBoxEditor::CreateControls( wxPropertyGrid* propGrid,
             if ( cb->m_state > 1 )
                 cb->m_state = 0;
 
-            // Makes sure wxPG_EVT_CHANGING is sent for this initial click as well
-            // (second argument, pPendingValue, of DoPropertyChanged() needs to
-            // set).
-            wxVariant variant(property->GetValueRef());
-            if ( ActualGetValueFromControl( variant, property, cb ) )
-            {
-               propGrid->EditorsValueWasModified();
-               propGrid->DoPropertyChanged(property, &variant, 0);
-            }
+            // Makes sure wxPG_EVT_CHANGING etc. is sent for this initial click 
+            propGrid->ChangePropertyValue(property, wxPGVariant_Bool(cb->m_state));
         }
     }
 
@@ -1797,7 +1798,7 @@ void wxPropertyGrid::CorrectEditorWidgetSizeX()
         return;
 
     int secWid = 0;
-    int newSplitterx = m_pState->GetSplitterPosition(m_selColumn-1);
+    int newSplitterx = m_pState->DoGetSplitterPosition(m_selColumn-1);
     int newWidth = newSplitterx + m_pState->m_colWidths[m_selColumn];
 
     if ( m_wndEditor2 )
@@ -1836,29 +1837,28 @@ void wxPropertyGrid::CorrectEditorWidgetSizeX()
 
 // -----------------------------------------------------------------------
 
-void wxPropertyGrid::CorrectEditorWidgetPosY( wxPGProperty* isBelowThis, int heightAdd )
+void wxPropertyGrid::CorrectEditorWidgetPosY()
 {
-    if ( !m_selected ) 
-        return;
-
-    int propY = m_lineHeight - 3;  // Have some space since usually propy != ctrly
-    if ( isBelowThis )
-        propY += isBelowThis->GetY2(m_lineHeight);
-
-    if ( m_wndEditor )
+    if ( m_selected && (m_wndEditor || m_wndEditor2) ) 
     {
-        wxPoint pos = m_wndEditor->GetPosition();
+        wxRect r = GetEditorWidgetRect(m_selected, m_selColumn);
 
-        if ( pos.y > propY )
-            m_wndEditor->Move(pos.x, pos.y+heightAdd);
-    }
+        if ( m_wndEditor )
+        {
+            wxPoint pos = m_wndEditor->GetPosition();
 
-    if ( m_wndEditor2 )
-    {
-        wxPoint pos = m_wndEditor2->GetPosition();
+            // Calculate y offset
+            int offset = pos.y % m_lineHeight;
 
-        if ( pos.y > propY )
-            m_wndEditor2->Move(pos.x, pos.y+heightAdd);
+            m_wndEditor->Move(pos.x, r.y + offset);
+        }
+
+        if ( m_wndEditor2 )
+        {
+            wxPoint pos = m_wndEditor2->GetPosition();
+
+            m_wndEditor2->Move(pos.x, r.y);
+        }
     }
 }
 
@@ -1982,6 +1982,7 @@ wxWindow* wxPropertyGrid::GenerateEditorTextCtrl( const wxPoint& pos,
 #if defined(__WXMSW__) && !wxPG_NAT_TEXTCTRL_BORDER_ANY
     tc->Hide();
 #endif
+    SetupTextCtrlValue(value);
     tc->Create(ctrlParent,wxPG_SUBID1,value, p, s,tcFlags);
 
 #if wxPG_NAT_TEXTCTRL_BORDER_ANY
