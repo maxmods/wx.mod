@@ -1682,6 +1682,10 @@ void bmx_wxpgproperty_getvalueassize(wxPGProperty * prop, int * w, int * h) {
 	*h = s.y;
 }
 
+void bmx_wxpgproperty_setvaluecolour(wxPGProperty * prop, MaxColour * value) {
+	wxVariant v = WXVARIANT(value->Colour());
+	prop->SetValue(v);
+}
 
 // *********************************************
 

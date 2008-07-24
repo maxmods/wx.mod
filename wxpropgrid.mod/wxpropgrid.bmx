@@ -2538,6 +2538,13 @@ Type wxPGProperty Extends wxObject
 		bmx_wxpgproperty_setvalueint(wxObjectPtr, value)
 	End Method
 
+	Rem
+	bbdoc: Sets the value (wxColour) of the property.
+	End Rem
+	Method SetValueColour(value:wxColour)
+		bmx_wxpgproperty_setvaluecolour(wxObjectPtr, value.wxObjectPtr)
+	End Method
+
 End Type
 
 Rem
