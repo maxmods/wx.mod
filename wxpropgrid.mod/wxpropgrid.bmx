@@ -2129,63 +2129,65 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetValueAsArrayInt:Int[]()
-		' TODO
+		Return bmx_wxpgproperty_getvalueasarrayint(wxObjectPtr)
 	End Method
 
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsArrayString:String[]()
-		' TODO
+		Return bmx_wxpgproperty_getvalueasarraystring(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsString:String()
-		' TODO
+		Return bmx_wxpgproperty_getvalueasstring(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsDouble:Double()
-		' TODO
+		Return bmx_wxpgproperty_getvalueasdouble(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsBool:Int()
-		' TODO
+		Return bmx_wxpgproperty_getvalueasbool(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsInt:Int()
-		' TODO
+		Return bmx_wxpgproperty_getvalueasint(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsLong:Long()
-		' TODO
+		Local value:Long
+		bmx_wxpgproperty_getvalueaslong(wxObjectPtr, Varptr value)
+		Return value
 	End Method
 
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsPoint(x:Int Var, y:Int Var)
-		' TODO
+		bmx_wxpgproperty_getvalueaspoint(wxObjectPtr, Varptr x, Varptr y)
 	End Method
 
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsSize(w:Int Var, h:Int Var)
-		' TODO
+		bmx_wxpgproperty_getvalueassize(wxObjectPtr, Varptr w, Varptr h)
 	End Method
 
 
@@ -2477,7 +2479,84 @@ Type wxPGProperty Extends wxObject
 	Method SetMaxLength:Int(maxLen:Int)
 		Return bmx_wxpgproperty_setmaxlength(wxObjectPtr, maxLen)
 	End Method
+
+	Rem
+	bbdoc: Sets the value (Int[]) of the property.
+	End Rem
+	Method SetValueIntArray(value:Int[])
+		bmx_wxpgproperty_setvalueintarray(wxObjectPtr, value)
+	End Method
 	
+	Rem
+	bbdoc: Sets the value (ULong) of the property.
+	End Rem
+	Method SetValueULong(value:Long) 
+		bmx_wxpgproperty_setvalueulong(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value (Long) of the property.
+	End Rem
+	Method SetValueLong(value:Long) 
+		bmx_wxpgproperty_setvaluelong(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value (w, y) of the property.
+	End Rem
+	Method SetValueSize(w:Int, h:Int) 
+		bmx_wxpgproperty_setvaluesize(wxObjectPtr, w, h)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value (x, y) of the property.
+	End Rem
+	Method SetValuePoint(x:Int, y:Int) 
+		bmx_wxpgproperty_setvaluepoint(wxObjectPtr, x, y)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value (Byte Ptr) of the property.
+	End Rem
+	Method SetValueBytePtr(value:Byte Ptr) 
+		bmx_wxpgproperty_setvaluebyteptr(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value (String) of the property.
+	End Rem
+	Method SetValueString(value:String) 
+		bmx_wxpgproperty_setvaluestring(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value (String[]) of the property.
+	End Rem
+	Method SetValueStringArray(value:String[]) 
+		bmx_wxpgproperty_setvaluestringarray(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value (Bool) of the property.
+	End Rem
+	Method SetValueBool(value:Int) 
+		bmx_wxpgproperty_setvaluebool(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value (Double) of the property.
+	End Rem
+	Method SetValueDouble(value:Double) 
+		bmx_wxpgproperty_setvaluedouble(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value (Int) of the property.
+	End Rem
+	Method SetValueInt(value:Int) 
+		bmx_wxpgproperty_setvalueint(wxObjectPtr, value)
+	End Method
+
 End Type
 
 Rem
@@ -3373,90 +3452,6 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 		Return bmx_wxpropertygridevent_getpropertyvalueasstring(wxEventPtr)
 	End Method
 
-	Rem
-	bbdoc: Returns value of relevant property, as wxColour.
-	End Rem
-	Method GetPropertyValueAsColour:wxColour()
-		' TODO
-	End Method
-
-	Rem
-	bbdoc: Returns value of relevant property, as wxColour.
-	End Rem
-	Method GetPropertyValueAsLong:Long()
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as array of ints.
-	End Rem
-	Method GetValueAsArrayInt:Int[]()
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as array of strings.
-	End Rem
-	Method GetValueAsArrayString:String[]()
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as bool.
-	End Rem
-	Method GetValueAsBool:Int()
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as double.
-	End Rem
-	Method GetValueAsDouble:Double()
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as int.
-	End Rem
-	Method GetValueAsInt:Int()
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as (x, y) point.
-	End Rem
-	Method GetValueAsPoint(x:Int Var, y:Int Var)
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as (x, h) size.
-	End Rem
-	Method GetValueAsSize(w:Int Var, h:Int Var)
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as string.
-	End Rem
-	Method GetValueAsString:String()
-		' TODO
-	End Method
-
-	Rem
-	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as wxColour.
-	End Rem
-	Method GetValueAsColour:wxColour()
-		' TODO
-	End Method
-
-	Rem
-	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as wxColour.
-	End Rem
-	Method GetValueAsLong:Long()
-		' TODO
-	End Method
-	
 	Rem
 	bbdoc: Returns true if event has associated property.
 	End Rem

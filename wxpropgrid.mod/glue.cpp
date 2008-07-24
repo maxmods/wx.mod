@@ -1597,6 +1597,99 @@ BBString * bmx_wxpgproperty_gettype(wxPGProperty * prop) {
 	return bbStringFromWxString(prop->GetType());
 }
 
+void bmx_wxpgproperty_setvalueulong(wxPGProperty * prop, BBInt64 value) {
+	wxVariant v = WXVARIANT(wxULongLong(value));
+	prop->SetValue(v);
+}
+
+void bmx_wxpgproperty_setvaluelong(wxPGProperty * prop, BBInt64 value) {
+	wxVariant v = WXVARIANT(wxLongLong(value));
+	prop->SetValue(v);
+}
+
+void bmx_wxpgproperty_setvaluesize(wxPGProperty * prop, int w, int h) {
+	wxVariant v = WXVARIANT(wxSize(w, h));
+	prop->SetValue(v);
+}
+
+void bmx_wxpgproperty_setvaluepoint(wxPGProperty * prop, int x, int y) {
+	wxVariant v = WXVARIANT(wxPoint(x, y));
+	prop->SetValue(v);
+}
+
+void bmx_wxpgproperty_setvaluebyteptr(wxPGProperty * prop, void * value) {
+	prop->SetValue(value);
+}
+
+void bmx_wxpgproperty_setvaluestring(wxPGProperty * prop, BBString * value) {
+	prop->SetValue(wxStringFromBBString(value));
+}
+
+void bmx_wxpgproperty_setvaluestringarray(wxPGProperty * prop, BBArray * value) {
+	wxArrayString arr = bbStringArrayTowxArrayStr(value);
+	wxVariant v = WXVARIANT(arr);
+	prop->SetValue(v);
+}
+
+void bmx_wxpgproperty_setvalueintarray(wxPGProperty * prop, BBArray * value) {
+	wxArrayInt arr = bbIntArrayTowxArrayInt(value);
+	wxVariant v = WXVARIANT(arr);
+	prop->SetValue(v);
+}
+
+void bmx_wxpgproperty_setvaluebool(wxPGProperty * prop, bool value) {
+	prop->SetValue(value);
+}
+
+void bmx_wxpgproperty_setvaluedouble(wxPGProperty * prop, double value) {
+	prop->SetValue(value);
+}
+
+void bmx_wxpgproperty_setvalueint(wxPGProperty * prop, int value) {
+	prop->SetValue(value);
+}
+
+BBArray * bmx_wxpgproperty_getvalueasarrayint(wxPGProperty * prop) {
+	return wxArrayIntToBBIntArray(wxArrayIntFromVariant(prop->GetValue()));
+}
+
+BBArray * bmx_wxpgproperty_getvalueasarraystring(wxPGProperty * prop) {
+	return wxArrayStringToBBStringArray(prop->GetValue().GetArrayString());
+}
+
+BBString * bmx_wxpgproperty_getvalueasstring(wxPGProperty * prop) {
+	return bbStringFromWxString(prop->GetValue().GetString());
+}
+
+double bmx_wxpgproperty_getvalueasdouble(wxPGProperty * prop) {
+	return prop->GetValue().GetDouble();
+}
+
+bool bmx_wxpgproperty_getvalueasbool(wxPGProperty * prop) {
+	return prop->GetValue().GetBool();
+}
+
+long bmx_wxpgproperty_getvalueasint(wxPGProperty * prop) {
+	return prop->GetValue().GetLong();
+}
+
+void bmx_wxpgproperty_getvalueaslong(wxPGProperty * prop, BBInt64 * value) {
+	wxLongLong ll(wxLongLongFromVariant(prop->GetValue()));
+	*value = ll.GetValue();
+}
+
+void bmx_wxpgproperty_getvalueaspoint(wxPGProperty * prop, int * x, int * y) {
+	wxPoint p(wxPointFromVariant(prop->GetValue()));
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxpgproperty_getvalueassize(wxPGProperty * prop, int * w, int * h) {
+	wxSize s(wxSizeFromVariant(prop->GetValue()));
+	*w = s.x;
+	*h = s.y;
+}
+
 
 // *********************************************
 

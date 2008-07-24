@@ -290,7 +290,27 @@ extern "C" {
 	wxPGProperty * bmx_wxpgproperty_getparent(wxPGProperty * prop);
 	wxPGProperty * bmx_wxpgproperty_getpropertybyname(wxPGProperty * prop, BBString * name);
 	BBString * bmx_wxpgproperty_gettype(wxPGProperty * prop);
-
+	void bmx_wxpgproperty_setvalueulong(wxPGProperty * prop, BBInt64 value);
+	void bmx_wxpgproperty_setvaluelong(wxPGProperty * prop, BBInt64 value);
+	void bmx_wxpgproperty_setvaluesize(wxPGProperty * prop, int w, int h);
+	void bmx_wxpgproperty_setvaluepoint(wxPGProperty * prop, int x, int y);
+	void bmx_wxpgproperty_setvaluebyteptr(wxPGProperty * prop, void * value);
+	void bmx_wxpgproperty_setvaluestring(wxPGProperty * prop, BBString * value);
+	void bmx_wxpgproperty_setvaluestringarray(wxPGProperty * prop, BBArray * value);
+	void bmx_wxpgproperty_setvalueintarray(wxPGProperty * prop, BBArray * value);
+	void bmx_wxpgproperty_setvaluebool(wxPGProperty * prop, bool value);
+	void bmx_wxpgproperty_setvaluedouble(wxPGProperty * prop, double value);
+	void bmx_wxpgproperty_setvalueint(wxPGProperty * prop, int value);
+	BBArray * bmx_wxpgproperty_getvalueasarrayint(wxPGProperty * prop);
+	BBArray * bmx_wxpgproperty_getvalueasarraystring(wxPGProperty * prop);
+	BBString * bmx_wxpgproperty_getvalueasstring(wxPGProperty * prop);
+	double bmx_wxpgproperty_getvalueasdouble(wxPGProperty * prop);
+	bool bmx_wxpgproperty_getvalueasbool(wxPGProperty * prop);
+	long bmx_wxpgproperty_getvalueasint(wxPGProperty * prop);
+	void bmx_wxpgproperty_getvalueaslong(wxPGProperty * prop, BBInt64 * value);
+	void bmx_wxpgproperty_getvalueaspoint(wxPGProperty * prop, int * x, int * y);
+	void bmx_wxpgproperty_getvalueassize(wxPGProperty * prop, int * w, int * h);
+	
 	long bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop);
 	MaxDateTime * bmx_wxdateproperty_getdatevalue(wxDateProperty * prop);
 	BBString * bmx_wxdateproperty_getformat(wxDateProperty * prop);
