@@ -92,6 +92,30 @@ Type wxPropertyContainerMethods Extends wxPanel
 	End Rem
 	Method BeginAddChildrenByName(name:String) Abstract
 
+	Method ChangePropertyValueIntArray:Int(prop:wxPGProperty, value:Int[]) Abstract
+	
+	Method ChangePropertyValueULong:Int(prop:wxPGProperty, value:Long) Abstract
+	
+	Method ChangePropertyValueLong:Int(prop:wxPGProperty, value:Long) Abstract
+	
+	Method ChangePropertyValueSize:Int(prop:wxPGProperty, w:Int, h:Int) Abstract
+	
+	Method ChangePropertyValuePoint:Int(prop:wxPGProperty, x:Int, y:Int) Abstract
+	
+	Method ChangePropertyValueBytePtr:Int(prop:wxPGProperty, value:Byte Ptr) Abstract
+	
+	Method ChangePropertyValueString:Int(prop:wxPGProperty, value:String) Abstract
+	
+	Method ChangePropertyValueDateTime:Int(prop:wxPGProperty, time:wxDateTime) Abstract
+	
+	Method ChangePropertyValueStringArray:Int(prop:wxPGProperty, value:String[]) Abstract
+	
+	Method ChangePropertyValueBool:Int(prop:wxPGProperty, value:Int) Abstract
+	
+	Method ChangePropertyValueDouble:Int(prop:wxPGProperty, value:Double) Abstract
+	
+	Method ChangePropertyValueInt:Int(prop:wxPGProperty, value:Int) Abstract
+
 	Rem
 	bbdoc: Resets value of a property to its default.
 	End Rem
@@ -192,210 +216,515 @@ Type wxPropertyContainerMethods Extends wxPanel
 	End Rem
 	Method ExpandByName:Int(name:String) Abstract
 	
-	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetFirst:wxPGProperty(flags:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetIterator:wxPropertyGridIterator(flags:Int, firstProp:wxPGProperty = Null) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetNextSibling:wxPGProperty(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertiesWithFlag:wxPGProperty[](flags:Int, inverse:Int = False, iterFlags:Int = wxPG_ITERATE_PROPERTIES | wxPG_ITERATE_HIDDEN | wxPG_ITERATE_CATEGORIES) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyBySubName:wxPGProperty(name:String, subName:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyByName:wxPGProperty(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyCategory:wxPropertyCategory(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyChoices:wxPGChoices(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyClassName:String(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyClientData:Object(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyEditor:wxPGEditor(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyHelpString:String(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyImage:wxBitmap(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyIndex:Int(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyLabel:String(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyName:String(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyParent:wxPGProperty(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyPtr:wxPGProperty(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyShortClassName:String(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsArrayInt:Int[](prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsArrayString:String[](prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsBool:Int(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsDateTime:wxDateTime(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsDouble:Double(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsInt:Int(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsLong:Long(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsPoint(prop:wxPGProperty, x:Int Var, y:Int Var) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsSize(prop:wxPGProperty, w:Int Var, h:Int Var) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsString:String(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsULong:Int(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsColour:wxColour(prop:wxPGProperty) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueType:String(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetSelection:wxPGProperty() Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetState:wxPropertyGridState() Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HideProperty:Int(prop:wxPGProperty, hide:Int = True) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Insert:wxPGProperty(parent:wxPGProperty, index:Int, newproperty:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method InsertCategory:wxPGProperty(prop:wxPGProperty, index:Int, label:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method InsertPropertyChoice(prop:wxPGProperty, label:String, index:Int, value:Int = INT_MAX) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyCategory:Int(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyEnabled:Int(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyExpanded:Int(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyModified:Int(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyShown:Int(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyUnspecified:Int(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method LimitPropertyEditing(prop:wxPGProperty, limit:Int = True) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method NamesToProperties:wxPGProperty[](names:String[]) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method PropertiesToNames:String[](properties:wxPGProperty[]) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method RefreshGrid(state:wxPropertyGridState = Null) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ReplaceProperty:wxPGProperty(prop:wxPGProperty, property:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyCell(prop:wxPGProperty, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyChoices(prop:wxPGProperty, choices:wxPGChoices) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyChoicesExclusive(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyClientData(prop:wxPGProperty, clientData:Object) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyEditorbyName(prop:wxPGProperty, editorName:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyEditor(prop:wxPGProperty, editor:wxPGEditor) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyAttribute(prop:wxPGProperty, attrName:String, value:Int, argFlags:Int = 0) Abstract
 	
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetNextSiblingByName:wxPGProperty(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyCategoryName:wxPropertyCategory(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyChoicesByName:wxPGChoices(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyClassNameByName:String(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyClientDataByName:Object(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyEditorByName:wxPGEditor(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyHelpStringByName:String(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyImageByName:wxBitmap(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyIndexByName:Int(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyLabelByName:String(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyNameByName:String(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyParentByName:wxPGProperty(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyPtrByName:wxPGProperty(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyShortClassNameByName:String(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsArrayIntByName:Int[](name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsArrayStringByName:String[](name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsBoolByName:Int(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsDateTimeByName:wxDateTime(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsDoubleByName:Double(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsIntByName:Int(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsLongByName:Long(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsPointByName(name:String, x:Int Var, y:Int Var) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsSizeByName(name:String, w:Int Var, h:Int Var) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsStringByName:String(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsColourByName:wxColour(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueAsULongByName:Int(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetPropertyValueTypeByName:String(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HidePropertyByName:Int(name:String, hide:Int = True) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method InsertByName:wxPGProperty(parent:String, index:Int, newproperty:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method InsertCategoryByName:wxPGProperty(name:String, index:Int, label:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method InsertPropertyChoiceByName(name:String, label:String, index:Int, value:Int = INT_MAX) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyCategoryByName:Int(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyEnabledByName:Int(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyExpandedByName:Int(name:String) Abstract
-	
+
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyModifiedByName:Int(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyShownByName:Int(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsPropertyUnspecifiedByName:Int(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method LimitPropertyEditingByName(name:String, limit:Int = True) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ReplacePropertyByName:wxPGProperty(name:String, property:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyCellByName(name:String, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyChoicesByName(name:String, choices:wxPGChoices) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyChoicesExclusiveByName(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyClientDataByName(name:String, clientData:Object) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyEditorbyPropNameAndName(name:String, editorName:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyEditorByPropName(name:String, editor:wxPGEditor) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyAttributeByName(name:String, attrName:String, value:Int, argFlags:Int = 0) Abstract
 	
 
@@ -507,7 +836,11 @@ Type wxPropertyGridManager Extends wxPropertyContainerMethods
 End Type
 
 Rem
-bbdoc: 
+bbdoc: A specialized two-column grid for editing properties such as strings, numbers, flagsets, fonts, and colours. 
+about: wxPropertyGrid is modeled after .NET propertygrid (hence the name), and thus features are similar.
+However, inorder to keep the widget lightweight, it does not (and will not) have toolbar for mode and page
+selection, nor the help text box. wxAdvancedPropertyGrid (or something similarly named) is planned to have
+these features in some distant future.
 End Rem
 Type wxPropertyGrid Extends wxPropertyContainerMethods
 
@@ -564,6 +897,54 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 
 	Method AppendIn:wxPGProperty(prop:wxPGProperty, newProperty:wxPGProperty)
 		Return wxPGProperty._create(bmx_wxpropertygrid_appendin(wxObjectPtr, prop.wxObjectPtr, newProperty.wxObjectPtr))
+	End Method
+
+	Method ChangePropertyValueIntArray:Int(prop:wxPGProperty, value:Int[])
+		' TODO
+	End Method
+	
+	Method ChangePropertyValueULong:Int(prop:wxPGProperty, value:Long) 
+		' TODO
+	End Method
+	
+	Method ChangePropertyValueLong:Int(prop:wxPGProperty, value:Long) 
+		' TODO
+	End Method
+	
+	Method ChangePropertyValueSize:Int(prop:wxPGProperty, w:Int, h:Int) 
+		' TODO
+	End Method
+	
+	Method ChangePropertyValuePoint:Int(prop:wxPGProperty, x:Int, y:Int) 
+		' TODO
+	End Method
+	
+	Method ChangePropertyValueBytePtr:Int(prop:wxPGProperty, value:Byte Ptr) 
+		' TODO
+	End Method
+	
+	Method ChangePropertyValueString:Int(prop:wxPGProperty, value:String) 
+		' TODO
+	End Method
+	
+	Method ChangePropertyValueDateTime:Int(prop:wxPGProperty, time:wxDateTime) 
+		' TODO
+	End Method
+	
+	Method ChangePropertyValueStringArray:Int(prop:wxPGProperty, value:String[]) 
+		' TODO
+	End Method
+	
+	Method ChangePropertyValueBool:Int(prop:wxPGProperty, value:Int) 
+		' TODO
+	End Method
+	
+	Method ChangePropertyValueDouble:Int(prop:wxPGProperty, value:Double) 
+		' TODO
+	End Method
+	
+	Method ChangePropertyValueInt:Int(prop:wxPGProperty, value:Int) 
+		' TODO
 	End Method
 
 	Rem
@@ -1609,6 +1990,7 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetDisplayedString:String()
+		Return bmx_wxpgproperty_getdisplayedstring(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1627,18 +2009,21 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetFlags:Int()
+		Return bmx_wxpgproperty_getflags(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetFlagsAsString:String(flagsMask:Int)
+		Return bmx_wxpgproperty_getflagsasstring(wxObjectPtr, flagsMask)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetGrid:wxPropertyGrid()
+		Return wxPropertyGrid._create(bmx_wxpgproperty_getgrid(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -1651,6 +2036,7 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetHelpString:String()
+		Return bmx_wxpgproperty_gethelpstring(wxObjectPtr)
 	End Method
 	
 '	Method GetId:wxPGId()
@@ -1660,54 +2046,63 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetImageSize(w:Int Var, h:Int Var)
+		bmx_wxpgproperty_getimagesize(wxObjectPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetIndexInParent:Int()
+		Return bmx_wxpgproperty_getindexinparent(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetItemAtY:wxPGProperty(y:Int, lh:Int, nextItemY:Int Var)
+		Return wxPGProperty._create(bmx_wxpgproperty_getitematy(wxObjectPtr, y, lh, Varptr nextItemY))
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetLabel:String()
+		Return bmx_wxpgproperty_getlabel(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetLastVisibleSubItem:wxPGProperty()
+		Return wxPGProperty._create(bmx_wxpgproperty_getlastvisiblesubitem(wxObjectPtr))
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetMainParent:wxPGProperty()
+		Return wxPGProperty._create(bmx_wxpgproperty_getmainparent(wxObjectPtr))
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetMaxLength:Int()
+		Return bmx_wxpgproperty_getmaxlength(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetName:String()
+		Return bmx_wxpgproperty_getname(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetParent:wxPGProperty()
+		Return wxPGProperty._create(bmx_wxpgproperty_getparent(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -1720,12 +2115,28 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetPropertyByName:wxPGProperty(name:String)
+		Return wxPGProperty._create(bmx_wxpgproperty_getpropertybyname(wxObjectPtr, name))
 	End Method
 	
 	Rem
 	bbdoc: Returns type name of property that is compatible with CreatePropertyByType. 
 	End Rem
 	Method GetType:String()
+		Return bmx_wxpgproperty_gettype(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetValueAsArrayInt:Int[]()
+		' TODO
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetValueAsArrayString:String[]()
+		' TODO
 	End Method
 	
 	Rem
@@ -1739,25 +2150,44 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetValueAsDouble:Double()
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsBool:Int()
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsInt:Int()
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetValueAsLong:Long()
+		' TODO
 	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetValueAsPoint(x:Int Var, y:Int Var)
+		' TODO
+	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetValueAsSize(w:Int Var, h:Int Var)
+		' TODO
+	End Method
+
 
 	Rem
 	bbdoc: Returns the property value as a wxColour.
@@ -2383,10 +2813,18 @@ Type wxImageFileProperty Extends wxFileProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Property representing wxDateTime.
+about: <b>Supported special attributes:</b>
+<ul>
+<li>"DateFormat": Determines displayed date format.</li>
+<li>"PickerStyle": Determines window style used with wxDatePickerCtrl. Default is wxDP_DEFAULT | wxDP_SHOWCENTURY. </li>
+</ul>
 End Rem
 Type wxDateProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxDateProperty(label:String = Null, name:String = Null, value:wxDateTime = Null)
 		If value Then
 			wxObjectPtr = bmx_wxdateproperty_create(Self, label, name, value.wxObjectPtr)
@@ -2396,6 +2834,41 @@ Type wxDateProperty Extends wxPGProperty
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDatePickerStyle:Int()
+		Return bmx_wxdateproperty_getdatepickerstyle(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDateValue:wxDateTime()
+		Return wxDateTime._create(bmx_wxdateproperty_getdatevalue(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetFormat:String()
+		Return bmx_wxdateproperty_getformat(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDateValue(dt:wxDateTime)
+		bmx_wxdateproperty_setdatevalue(wxObjectPtr, dt.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetFormat(format:String)
+		bmx_wxdateproperty_setformat(wxObjectPtr, format)
+	End Method
+	
 End Type
 
 Rem
@@ -2796,14 +3269,14 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Disables property. 
 	End Rem
 	Method DisableProperty()
 		bmx_wxpropertygridevent_disableproperty(wxEventPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Enables property. 
 	End Rem
 	Method EnableProperty(enable:Int = True)
 		bmx_wxpropertygridevent_enableproperty(wxEventPtr, enable)
@@ -2817,92 +3290,171 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns associated property. 
 	End Rem
 	Method GetProperty:wxPGProperty()
 		Return wxPGProperty._find(bmx_wxpropertygridevent_getproperty(wxEventPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns client data of relevant property. 
 	End Rem
 	Method GetPropertyClientData:Object()
+		' TODO
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns label of associated property. 
 	End Rem
 	Method GetPropertyLabel:String()
 		Return bmx_wxpropertygridevent_getpropertylabel(wxEventPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns global name of associated property. 
 	End Rem
 	Method GetPropertyName:String()
 		Return bmx_wxpropertygridevent_getpropertyname(wxEventPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyPtr:wxPGProperty()
-	End Method
-	
-	Rem
-	bbdoc: 
+	bbdoc: Returns value of relevant property, as array of ints.
 	End Rem
 	Method GetPropertyValueAsArrayInt:Int[]()
 		Return bmx_wxpropertygridevent_getpropertyvalueasarrayint(wxEventPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns value of relevant property, as array of strings.
 	End Rem
 	Method GetPropertyValueAsArrayString:String[]()
 		Return bmx_wxpropertygridevent_getpropertyvalueasarraystring(wxEventPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns value of relevant property, as bool.
 	End Rem
 	Method GetPropertyValueAsBool:Int()
 		Return bmx_wxpropertygridevent_getpropertyvalueasbool(wxEventPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns value of relevant property, as double.
 	End Rem
 	Method GetPropertyValueAsDouble:Double()
 		Return bmx_wxpropertygridevent_getpropertyvalueasdouble(wxEventPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns value of relevant property, as int.
 	End Rem
 	Method GetPropertyValueAsInt:Int()
 		Return bmx_wxpropertygridevent_getpropertyvalueasint(wxEventPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns value of relevant property, as (x, y) point.
 	End Rem
 	Method GetPropertyValueAsPoint(x:Int Var, y:Int Var)
 		bmx_wxpropertygridevent_getpropertyvalueaspoint(wxEventPtr, Varptr x, Varptr y)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns value of relevant property, as (x, h) size.
 	End Rem
 	Method GetPropertyValueAsSize(w:Int Var, h:Int Var)
 		bmx_wxpropertygridevent_getpropertyvalueassize(wxEventPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns value of relevant property, as string.
 	End Rem
 	Method GetPropertyValueAsString:String()
 		Return bmx_wxpropertygridevent_getpropertyvalueasstring(wxEventPtr)
+	End Method
+
+	Rem
+	bbdoc: Returns value of relevant property, as wxColour.
+	End Rem
+	Method GetPropertyValueAsColour:wxColour()
+		' TODO
+	End Method
+
+	Rem
+	bbdoc: Returns value of relevant property, as wxColour.
+	End Rem
+	Method GetPropertyValueAsLong:Long()
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as array of ints.
+	End Rem
+	Method GetValueAsArrayInt:Int[]()
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as array of strings.
+	End Rem
+	Method GetValueAsArrayString:String[]()
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as bool.
+	End Rem
+	Method GetValueAsBool:Int()
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as double.
+	End Rem
+	Method GetValueAsDouble:Double()
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as int.
+	End Rem
+	Method GetValueAsInt:Int()
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as (x, y) point.
+	End Rem
+	Method GetValueAsPoint(x:Int Var, y:Int Var)
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as (x, h) size.
+	End Rem
+	Method GetValueAsSize(w:Int Var, h:Int Var)
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as string.
+	End Rem
+	Method GetValueAsString:String()
+		' TODO
+	End Method
+
+	Rem
+	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as wxColour.
+	End Rem
+	Method GetValueAsColour:wxColour()
+		' TODO
+	End Method
+
+	Rem
+	bbdoc: Returns value that is about to be set for wxEVT_PG_CHANGING, as wxColour.
+	End Rem
+	Method GetValueAsLong:Long()
+		' TODO
 	End Method
 	
 	Rem
@@ -2923,22 +3475,41 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 	bbdoc: 
 	End Rem
 	Method SetCanVeto(canVeto:Int)
+		' TODO or not required
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetProperty(p:wxPGProperty)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: Changes the associated property.
 	End Rem
 	Method SetPropertyGrid(pg:wxPropertyGrid)
+		' TODO
 	End Method
 	
 	'method SetValue(Const wxVariant &value)
 	'end method
+	
+	Rem
+	bbdoc: Set override validation failure behavior.
+	about: Only effective if Veto was also called, and only allowed if event type is wxEVT_PG_CHANGING. 
+	End Rem
+	Method SetValidationFailureBehavior(flags:Int)
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Sets custom failure message for this time only.
+	about: Only applies if wxPG_VFB_SHOW_MESSAGE is set in validation failure flags. 
+	End Rem
+	Method SetValidationFailureMessage(message:String)
+		' TODO
+	End Method
 	
 	Rem
 	bbdoc: Call this from your event handler to veto action that the event is signaling.
@@ -2952,6 +3523,7 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 	bbdoc: 
 	End Rem
 	Method WasVetoed:Int()
+		' TODO
 	End Method
 	
 

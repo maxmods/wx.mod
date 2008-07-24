@@ -1531,6 +1531,95 @@ void bmx_wxpgproperty_getattributeaslong(wxPGProperty * prop, BBString * name, B
 	*value = wxLongLongFromVariant(prop->GetAttribute(wxStringFromBBString(name))).GetValue();
 }
 
+BBString * bmx_wxpgproperty_getdisplayedstring(wxPGProperty * prop) {
+	return bbStringFromWxString(prop->GetDisplayedString());
+}
+
+wxPGProperty::FlagType bmx_wxpgproperty_getflags(wxPGProperty * prop) {
+	return prop->GetFlags();
+}
+
+BBString * bmx_wxpgproperty_getflagsasstring(wxPGProperty * prop, wxPGProperty::FlagType flagsMask) {
+	return bbStringFromWxString(prop->GetFlagsAsString(flagsMask));
+}
+
+wxPropertyGrid * bmx_wxpgproperty_getgrid(wxPGProperty * prop) {
+	return prop->GetGrid();
+}
+
+BBString * bmx_wxpgproperty_gethelpstring(wxPGProperty * prop) {
+	return bbStringFromWxString(prop->GetHelpString());
+}
+
+void bmx_wxpgproperty_getimagesize(wxPGProperty * prop, int * w, int * h) {
+	wxSize s = prop->GetImageSize();
+	*w = s.x;
+	*h = s.y;
+}
+
+unsigned int bmx_wxpgproperty_getindexinparent(wxPGProperty * prop) {
+	return prop->GetIndexInParent();
+}
+
+wxPGProperty * bmx_wxpgproperty_getitematy(wxPGProperty * prop, unsigned int y, unsigned int lh, unsigned int *nextItemY) {
+	return prop->GetItemAtY(y, lh, nextItemY);
+}
+
+BBString * bmx_wxpgproperty_getlabel(wxPGProperty * prop) {
+	return bbStringFromWxString(prop->GetLabel());
+}
+
+const wxPGProperty * bmx_wxpgproperty_getlastvisiblesubitem(wxPGProperty * prop) {
+	return prop->GetLastVisibleSubItem();
+}
+
+wxPGProperty * bmx_wxpgproperty_getmainparent(wxPGProperty * prop) {
+	return prop->GetMainParent();
+}
+
+int bmx_wxpgproperty_getmaxlength(wxPGProperty * prop) {
+	return prop->GetMaxLength();
+}
+
+BBString * bmx_wxpgproperty_getname(wxPGProperty * prop) {
+	return bbStringFromWxString(prop->GetName());
+}
+
+wxPGProperty * bmx_wxpgproperty_getparent(wxPGProperty * prop) {
+	return prop->GetParent();
+}
+
+wxPGProperty * bmx_wxpgproperty_getpropertybyname(wxPGProperty * prop, BBString * name) {
+	return prop->GetPropertyByName(wxStringFromBBString(name));
+}
+
+BBString * bmx_wxpgproperty_gettype(wxPGProperty * prop) {
+	return bbStringFromWxString(prop->GetType());
+}
+
+
+// *********************************************
+
+long bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop) {
+	return prop->GetDatePickerStyle();
+}
+
+MaxDateTime * bmx_wxdateproperty_getdatevalue(wxDateProperty * prop) {
+	return new MaxDateTime(prop->GetDateValue());
+}
+
+BBString * bmx_wxdateproperty_getformat(wxDateProperty * prop) {
+	return bbStringFromWxString(prop->GetFormat());
+}
+
+void bmx_wxdateproperty_setdatevalue(wxDateProperty * prop, MaxDateTime * dt) {
+	prop->SetDateValue(dt->DateTime());
+}
+
+void bmx_wxdateproperty_setformat(wxDateProperty * prop, BBString * format) {
+	prop->SetFormat(wxStringFromBBString(format));
+}
+
 
 // *********************************************
 

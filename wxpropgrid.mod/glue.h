@@ -273,6 +273,29 @@ extern "C" {
 	BBString * bmx_wxpgproperty_getattributeasstring(wxPGProperty * prop, BBString * name, BBString * defVal);
 	double bmx_wxpgproperty_getattributeasdouble(wxPGProperty * prop, BBString * name);
 	void bmx_wxpgproperty_getattributeaslong(wxPGProperty * prop, BBString * name, BBInt64 * value);
+	
+	BBString * bmx_wxpgproperty_getdisplayedstring(wxPGProperty * prop);
+	wxPGProperty::FlagType bmx_wxpgproperty_getflags(wxPGProperty * prop);
+	BBString * bmx_wxpgproperty_getflagsasstring(wxPGProperty * prop, wxPGProperty::FlagType flagsMask);
+	wxPropertyGrid * bmx_wxpgproperty_getgrid(wxPGProperty * prop);
+	BBString * bmx_wxpgproperty_gethelpstring(wxPGProperty * prop);
+	void bmx_wxpgproperty_getimagesize(wxPGProperty * prop, int * w, int * h);
+	unsigned int bmx_wxpgproperty_getindexinparent(wxPGProperty * prop);
+	wxPGProperty * bmx_wxpgproperty_getitematy(wxPGProperty * prop, unsigned int y, unsigned int lh, unsigned int *nextItemY);
+	BBString * bmx_wxpgproperty_getlabel(wxPGProperty * prop);
+	const wxPGProperty * bmx_wxpgproperty_getlastvisiblesubitem(wxPGProperty * prop);
+	wxPGProperty * bmx_wxpgproperty_getmainparent(wxPGProperty * prop);
+	int bmx_wxpgproperty_getmaxlength(wxPGProperty * prop);
+	BBString * bmx_wxpgproperty_getname(wxPGProperty * prop);
+	wxPGProperty * bmx_wxpgproperty_getparent(wxPGProperty * prop);
+	wxPGProperty * bmx_wxpgproperty_getpropertybyname(wxPGProperty * prop, BBString * name);
+	BBString * bmx_wxpgproperty_gettype(wxPGProperty * prop);
+
+	long bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop);
+	MaxDateTime * bmx_wxdateproperty_getdatevalue(wxDateProperty * prop);
+	BBString * bmx_wxdateproperty_getformat(wxDateProperty * prop);
+	void bmx_wxdateproperty_setdatevalue(wxDateProperty * prop, MaxDateTime * dt);
+	void bmx_wxdateproperty_setformat(wxDateProperty * prop, BBString * format);
 
 
 	wxEnumProperty * bmx_wxenumproperty_createwitharrays(BBObject * handle, BBString * label, BBString * name, BBArray * labels, BBArray * values, int value);

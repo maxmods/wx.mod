@@ -378,6 +378,28 @@ Extern
 	Function bmx_wxpgproperty_getattributeasdouble:Double(handle:Byte Ptr, name:String)
 	Function bmx_wxpgproperty_getattributeaslong(handle:Byte Ptr, name:String, value:Long Ptr)
 
+	Function bmx_wxpgproperty_getdisplayedstring:String(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getflags:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getflagsasstring:String(handle:Byte Ptr, flagsMask:Int)
+	Function bmx_wxpgproperty_getgrid:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpgproperty_gethelpstring:String(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getimagesize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxpgproperty_getindexinparent:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getitematy:Byte Ptr(handle:Byte Ptr, y:Int, lh:Int, nextItemY:Int Ptr)
+	Function bmx_wxpgproperty_getlabel:String(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getlastvisiblesubitem:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getmainparent:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getmaxlength:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getname:String(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getparent:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getpropertybyname:Byte Ptr(handle:Byte Ptr, name:String)
+	Function bmx_wxpgproperty_gettype:String(handle:Byte Ptr)
+
+	Function bmx_wxdateproperty_getdatepickerstyle:Int(handle:Byte Ptr)
+	Function bmx_wxdateproperty_getdatevalue:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxdateproperty_getformat:String(handle:Byte Ptr)
+	Function bmx_wxdateproperty_setdatevalue(handle:Byte Ptr, dt:Byte Ptr)
+	Function bmx_wxdateproperty_setformat(handle:Byte Ptr, format:String)
 
 End Extern
 
@@ -562,4 +584,27 @@ Const wxPG_ITERATE_FIXED_CHILDREN:Int = (wxPG_PROP_AGGREGATE Shl 16) | wxPG_ITER
 Const wxPG_ITERATE_CATEGORIES:Int = wxPG_PROP_CATEGORY | (wxPG_PROP_CATEGORY Shl 6) | wxPG_PROP_COLLAPSED
 Const wxPG_ITERATE_ALL_PARENTS:Int = wxPG_PROP_MISC_PARENT|wxPG_PROP_AGGREGATE|wxPG_PROP_CATEGORY
 Const wxPG_ITERATE_ALL_PARENTS_RECURSIVELY:Int = wxPG_ITERATE_ALL_PARENTS | (wxPG_ITERATE_ALL_PARENTS Shl 16)
+
+Rem
+bbdoc: Prevents user from leaving property unless value is valid.
+about: If this behavior flag is not used, then value change is instead cancelled.
+End Rem
+Const wxPG_VFB_STAY_IN_PROPERTY:Int = $01
+Rem
+bbdoc: Calls wxBell() on validation failure.
+End Rem
+Const wxPG_VFB_BEEP:Int = $02
+Rem
+bbdoc: Cell with invalid value will be marked (with red colour).
+End Rem
+Const wxPG_VFB_MARK_CELL:Int = $04
+Rem
+bbdoc: Display customizable text message explaining the situation.
+End Rem
+Const wxPG_VFB_SHOW_MESSAGE:Int = $08
+Rem
+bbdoc: Defaults.
+End Rem
+Const wxPG_VFB_DEFAULT:Int = wxPG_VFB_STAY_IN_PROPERTY | wxPG_VFB_BEEP
+ 
 
