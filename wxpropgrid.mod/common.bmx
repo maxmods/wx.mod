@@ -413,6 +413,9 @@ Extern
 	Function bmx_wxpgproperty_getvalueaspoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
 	Function bmx_wxpgproperty_getvalueassize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
 	Function bmx_wxpgproperty_setvaluecolour(handle:Byte Ptr, value:Byte Ptr)
+	Function bmx_wxpgproperty_getchoicecount:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getchoicestring:String(handle:Byte Ptr, index:Int)
+	Function bmx_wxpgproperty_getclassname:String(handle:Byte Ptr)
 
 	Function bmx_wxdateproperty_getdatepickerstyle:Int(handle:Byte Ptr)
 	Function bmx_wxdateproperty_getdatevalue:Byte Ptr(handle:Byte Ptr)

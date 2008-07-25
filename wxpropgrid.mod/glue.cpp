@@ -1687,6 +1687,18 @@ void bmx_wxpgproperty_setvaluecolour(wxPGProperty * prop, MaxColour * value) {
 	prop->SetValue(v);
 }
 
+unsigned int bmx_wxpgproperty_getchoicecount(wxPGProperty * prop) {
+	return prop->GetChoiceCount();
+}
+
+BBString * bmx_wxpgproperty_getchoicestring(wxPGProperty * prop, int index) {
+	return bbStringFromWxString(prop->GetChoiceString(index));
+}
+
+BBString * bmx_wxpgproperty_getclassname(wxPGProperty * prop) {
+	return bbStringFromWxString(prop->GetClassName());
+}
+
 // *********************************************
 
 long bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop) {

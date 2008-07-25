@@ -310,6 +310,9 @@ extern "C" {
 	void bmx_wxpgproperty_getvalueaspoint(wxPGProperty * prop, int * x, int * y);
 	void bmx_wxpgproperty_getvalueassize(wxPGProperty * prop, int * w, int * h);
 	void bmx_wxpgproperty_setvaluecolour(wxPGProperty * prop, MaxColour * value);
+	unsigned int bmx_wxpgproperty_getchoicecount(wxPGProperty * prop);
+	BBString * bmx_wxpgproperty_getchoicestring(wxPGProperty * prop, int index);
+	BBString * bmx_wxpgproperty_getclassname(wxPGProperty * prop);
 
 	long bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop);
 	MaxDateTime * bmx_wxdateproperty_getdatevalue(wxDateProperty * prop);

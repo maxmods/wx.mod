@@ -65,8 +65,14 @@ bbdoc:
 End Rem
 Type wxPropertyContainerMethods Extends wxPanel
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method AddPropertyChoice(prop:wxPGProperty, label:String, value:Int = INT_MAX) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method AddPropertyChoiceByName(name:String, label:String, value:Int = INT_MAX) Abstract
 	
 	Rem
@@ -92,28 +98,64 @@ Type wxPropertyContainerMethods Extends wxPanel
 	End Rem
 	Method BeginAddChildrenByName(name:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueIntArray:Int(prop:wxPGProperty, value:Int[]) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueULong:Int(prop:wxPGProperty, value:Long) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueLong:Int(prop:wxPGProperty, value:Long) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueSize:Int(prop:wxPGProperty, w:Int, h:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValuePoint:Int(prop:wxPGProperty, x:Int, y:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueBytePtr:Int(prop:wxPGProperty, value:Byte Ptr) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueString:Int(prop:wxPGProperty, value:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueDateTime:Int(prop:wxPGProperty, time:wxDateTime) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueStringArray:Int(prop:wxPGProperty, value:String[]) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueBool:Int(prop:wxPGProperty, value:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueDouble:Int(prop:wxPGProperty, value:Double) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method ChangePropertyValueInt:Int(prop:wxPGProperty, value:Int) Abstract
 
 	Rem
@@ -726,83 +768,187 @@ Type wxPropertyContainerMethods Extends wxPanel
 	End Rem
 	Method SetPropertyHelpString(prop:wxPGProperty, helpString:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyHelpStringByName(name:String, helpString:String) Abstract
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyImage(prop:wxPGProperty, bmp:wxBitmap) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyLabel(prop:wxPGProperty, newproplabel:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyMaxLength:Int(prop:wxPGProperty, maxLen:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyReadOnly(prop:wxPGProperty, set:Int = True) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyUnspecified(prop:wxPGProperty) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueIntArray(prop:wxPGProperty, value:Int[]) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueULong(prop:wxPGProperty, value:Long) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueLong(prop:wxPGProperty, value:Long) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueSize(prop:wxPGProperty, w:Int, h:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValuePoint(prop:wxPGProperty, x:Int, y:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueBytePtr(prop:wxPGProperty, value:Byte Ptr) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueString(prop:wxPGProperty, value:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueDateTime(prop:wxPGProperty, time:wxDateTime) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueStringArray(prop:wxPGProperty, value:String[]) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueBool(prop:wxPGProperty, value:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueDouble(prop:wxPGProperty, value:Double) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueInt(prop:wxPGProperty, value:Int) Abstract
 
 
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyImageByName(name:String, bmp:wxBitmap) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyLabelByName(name:String, newproplabel:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyMaxLengthByName:Int(name:String, maxLen:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyReadOnlyByName(name:String, set:Int = True) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyUnspecifiedByName(name:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueIntArrayByName(name:String, value:Int[]) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueULongByName(name:String, value:Long) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueLongByName(name:String, value:Long) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueSizeByName(name:String, w:Int, h:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValuePointByName(name:String, x:Int, y:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueBytePtrByName(name:String, value:Byte Ptr) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueStringByName(name:String, value:String) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueDateTimeByName(name:String, time:wxDateTime) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueStringArrayByName(name:String, value:String[]) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueBoolByName(name:String, value:Int) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueDoubleByName(name:String, value:Double) Abstract
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetPropertyValueIntByName(name:String, value:Int) Abstract
 	
-	Function InitAllTypeHandlers()
-	End Function
-	
-	Function RegisterAdditionalEditors()
-	End Function
+'	Function InitAllTypeHandlers()
+'	End Function
+'	Function RegisterAdditionalEditors()
+'	End Function
 
 End Type
 
@@ -1115,6 +1261,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 	
 	Method GetIterator:wxPropertyGridIterator(flags:Int, firstProp:wxPGProperty = Null)
+		' TODO
 	End Method
 	
 	Method GetPropertiesWithFlag:wxPGProperty[](flags:Int, inverse:Int = False, iterFlags:Int = wxPG_ITERATE_PROPERTIES | wxPG_ITERATE_HIDDEN | wxPG_ITERATE_CATEGORIES)
@@ -1235,6 +1382,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 
 	Method GetPropertyValueAsULong:Int(prop:wxPGProperty)
+		' TODO
 	End Method
 
 	Method GetPropertyValueType:String(prop:wxPGProperty)
@@ -1246,6 +1394,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 	
 	Method GetState:wxPropertyGridState()
+		' TODO
 	End Method
 	
 	Method HideProperty:Int(prop:wxPGProperty, hide:Int = True)
@@ -1348,12 +1497,15 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 	
 	Method SetPropertyClientData(prop:wxPGProperty, clientData:Object)
+		' TODO
 	End Method
 	
 	Method SetPropertyEditorbyName(prop:wxPGProperty, editorName:String)
+		' TODO
 	End Method
 	
 	Method SetPropertyEditor(prop:wxPGProperty, editor:wxPGEditor)
+		' TODO
 	End Method
 	
 
@@ -1371,9 +1523,11 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 	
 	Method GetPropertyClientDataByName:Object(name:String)
+		' TODO
 	End Method
 
 	Method GetPropertyEditorByName:wxPGEditor(name:String)
+		' TODO
 	End Method
 
 	Method GetPropertyHelpStringByName:String(name:String)
@@ -1397,9 +1551,11 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 
 	Method GetPropertyParentByName:wxPGProperty(name:String)
+		' TODO
 	End Method
 
 	Method GetPropertyPtrByName:wxPGProperty(name:String)
+		' TODO
 	End Method
 
 	Method GetPropertyShortClassNameByName:String(name:String)
@@ -1449,6 +1605,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 
 	Method GetPropertyValueAsULongByName:Int(name:String)
+		' TODO
 	End Method
 
 	Method GetPropertyValueTypeByName:String(name:String)
@@ -1862,12 +2019,14 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetCell:wxPGCell(column:Int)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetCellRenderer:wxPGCellRenderer(column:Int)
+		' TODO
 	End Method
 	
 	Rem
@@ -1889,42 +2048,49 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetChoiceCount:Int()
+		Return bmx_wxpgproperty_getchoicecount(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetChoiceInfo:Int(choiceinfo:wxPGChoiceInfo)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetChoices:wxPGChoices()
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetChoiceString:String(index:Int)
+		Return bmx_wxpgproperty_getchoicestring(wxObjectPtr, index)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetClassName:String()
+		Return bmx_wxpgproperty_getclassname(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetClientData:Object()
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetColumnEditor:wxPGEditor(column:Int)
+		' TODO
 	End Method
 	
 	Rem
@@ -1945,12 +2111,14 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetCurrentChoice:wxPGChoiceEntry()
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetDataExt:wxPGPropertyDataExt()
+		' TODO
 	End Method
 	
 	Rem
@@ -1978,12 +2146,14 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetEditorClass:wxPGEditor()
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetEditorDialog:wxPGEditorDialogAdapter()
+		' TODO
 	End Method
 	
 	Rem
@@ -2011,6 +2181,7 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetGridIfDisplayedwxPropertyGrid()
+		' TODO
 	End Method
 	
 	Rem
@@ -2090,6 +2261,7 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetParentState:wxPropertyGridState()
+		' TODO
 	End Method
 	
 	Rem
@@ -2219,12 +2391,14 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method Index:Int(p:wxPGProperty)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method InsertChoice:Int(label:String, index:Int, value:Int = INT_MAX)
+		' TODO
 	End Method
 	
 	Rem
@@ -2266,6 +2440,7 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method IsSomeParent:Int(candidateParent:wxPGProperty)
+		' TODO
 	End Method
 	
 	Rem
@@ -2307,6 +2482,7 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method PrepareValueForDialogEditing:Int(propgrid:wxPropertyGrid)
+		' TODO
 	End Method
 	
 	Rem
@@ -2368,54 +2544,63 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method SetAttributes(attributes:wxPGAttributeStorage)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetCell(column:Int, cellObj:wxPGCell)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetChoices:Int(labels:String[], values:Int[] = Null)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetChoiceSelection(newValue:Int, choiceInfo:wxPGChoiceInfo)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetChoicesExclusive()
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetClientData(clientData:Object)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetCommonValue(commonValue:Int)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetEditorByName(editorName:String)
+		' TODO
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetEditor(editor:wxPGEditor)
+		' TODO
 	End Method
 	
 	Rem
@@ -2545,6 +2730,36 @@ Type wxPGProperty Extends wxObject
 		bmx_wxpgproperty_setvaluecolour(wxObjectPtr, value.wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: Set wxBitmap in front of the value.
+	about: This bitmap may be ignored by custom cell renderers. 
+	End Rem
+	Method SetValueImage(bmp:wxBitmap)
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Call with 'false' in OnSetValue to cancel value changes after all.
+	End Rem
+	Method SetWasModified(set:Int = True)
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Updates composed values of parent non-category properties, recursively.
+	returns: Topmost property updated.
+	End Rem
+	Method UpdateParentValues:wxPGProperty()
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Returns true if containing grid uses wxPG_EX_AUTO_UNSPECIFIED_VALUES. 
+	End Rem
+	Method UsesAutoUnspecified:Int()
+		' TODO
+	End Method
+	
 End Type
 
 Rem
@@ -2567,6 +2782,9 @@ bbdoc:
 End Rem
 Type wxStringProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxStringProperty(label:String = Null, name:String = Null, value:String = Null)
 		If label = wxPG_LABEL label = Null
 		If name = wxPG_LABEL name = Null
@@ -2577,16 +2795,21 @@ Type wxStringProperty Extends wxPGProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Basic property with integer value.
+about: Seamlessly supports 64-bit integer (Long) on overflow.
 End Rem
 Type wxIntProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxIntProperty(label:String = Null, name:String = Null, value:Int = 0)
 		If label = wxPG_LABEL label = Null
 		If name = wxPG_LABEL name = Null
 		wxObjectPtr = bmx_wxintproperty_create(Self, label, name, value)
 		Return Self
 	End Method
+	
 End Type
 
 Rem
@@ -2594,6 +2817,9 @@ bbdoc:
 End Rem
 Type wxUIntProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxUIntProperty(label:String = Null, name:String = Null, value:Int = 0)
 		If label = wxPG_LABEL label = Null
 		If name = wxPG_LABEL name = Null
@@ -2608,6 +2834,9 @@ bbdoc:
 End Rem
 Type wxDoubleProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxDoubleProperty(label:String = Null, name:String = Null, value:Double = 0)
 		If label = wxPG_LABEL label = Null
 		If name = wxPG_LABEL name = Null
@@ -2618,10 +2847,18 @@ Type wxDoubleProperty Extends wxPGProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Basic property with boolean value.
+about: Supported special attributes:
+<ul>
+<li>"UseCheckbox": Set to 1 to use check box editor instead of combo box.</li>
+<li>"UseDClickCycling": Set to 1 to cycle combo box instead showing the list.</li>
+</ul>
 End Rem
 Type wxBoolProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxBoolProperty(label:String = Null, name:String = Null, value:Int = False)
 		If label = wxPG_LABEL label = Null
 		If name = wxPG_LABEL name = Null
@@ -2632,10 +2869,17 @@ Type wxBoolProperty Extends wxPGProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Represents a bit set that fits in a long integer.
+about: wxBoolProperty sub-properties are created for editing individual bits. Textctrl is created to
+manually edit the flags as a text; a continous sequence of spaces, commas and semicolons is considered
+as a flag id separator. Note: When changing "choices" (ie. flag labels) of wxFlagsProperty, you will need
+to use SetPropertyChoices - otherwise they will not get updated properly. 
 End Rem
 Type wxFlagsProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxFlagsProperty(label:String = Null, name:String = Null, labels:String[] = Null, ..
 			values:Int[] = Null, value:Int = 0)
 		If label = wxPG_LABEL label = Null
@@ -2647,10 +2891,21 @@ Type wxFlagsProperty Extends wxPGProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Like wxLongStringProperty, but the button triggers file selector instead. 
+about: Supported special attributes:
+<ul>
+<li>"Wildcard": Sets wildcard (see wxFileDialog for format details), "All files..." is default.</li>
+<li>"ShowFullPath": Default 1. When 0, only the file name is shown (i.e. drive and directory are hidden).</li>
+<li>"ShowRelativePath": If set, then the filename is shown relative to the given path string.</li>
+<li>"InitialPath": Sets the initial path of where to look for files.</li>
+<li>"DialogTitle": Sets a specific title for the dir dialog. </li>
+</ul>
 End Rem
 Type wxFileProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxFileProperty(label:String = Null, name:String = Null, value:String = "")
 		If label = wxPG_LABEL label = Null
 		If name = wxPG_LABEL name = Null
@@ -2661,10 +2916,13 @@ Type wxFileProperty Extends wxPGProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Like wxStringProperty, but has a button that triggers a small text editor dialog. 
 End Rem
 Type wxLongStringProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxLongStringProperty(label:String = Null, name:String = Null, value:String = "")
 		If label = wxPG_LABEL label = Null
 		If name = wxPG_LABEL name = Null
@@ -2675,10 +2933,17 @@ Type wxLongStringProperty Extends wxPGProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Like wxLongStringProperty, but the button triggers dir selector instead.
+about: Supported special attributes:
+<ul>
+<li>"DialogMessage": Sets specific message in the dir selector. </li>
+</ul>
 End Rem
 Type wxDirProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxDirProperty(label:String = Null, name:String = Null, value:String = "")
 		If label = wxPG_LABEL label = Null
 		If name = wxPG_LABEL name = Null
@@ -2689,24 +2954,19 @@ Type wxDirProperty Extends wxPGProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Property that manages a list of strings. 
 End Rem
 Type wxArrayStringProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxArrayStringProperty(label:String = Null, name:String = Null, value:String[] = Null)
 		wxObjectPtr = bmx_wxarraystringproperty_create(Self, label, name, value)
 		Return Self
 	End Method
 
 End Type
-
-
-
-'Rem
-'bbdoc: 
-'End Rem
-'Type wxParentProperty Extends wxPGPropertyWithChildren
-'End Type
 
 Rem
 bbdoc: 
@@ -2719,6 +2979,9 @@ bbdoc:
 End Rem
 Type wxFontProperty Extends wxPGPropertyWithChildren
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxFontProperty(label:String, name:String = Null, font:wxFont = Null)
 		If font Then
 			wxObjectPtr = bmx_wxfontproperty_create(Self, label, name, font.wxObjectPtr)
@@ -2776,43 +3039,65 @@ bbdoc:
 End Rem
 Type wxEnumProperty Extends wxBaseEnumProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateEnumPropertyWithArrays:wxEnumProperty(label:String, name:String, labels:String[], ..
 			values:Int[] = Null, value:Int = 0)
 		Return New wxEnumProperty.CreateWithArrays(label, name, labels, values, value)
 	End Function
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method CreateWithArrays:wxEnumProperty(label:String, name:String, labels:String[], ..
 			values:Int[] = Null, value:Int = 0)
 		wxObjectPtr = bmx_wxenumproperty_createwitharrays(Self, label, name, labels, values, value)
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateEnumPropertyWithChoice:wxEnumProperty(label:String, name:String, choices:wxPGChoices, value:Int = 0)
 		Return New wxEnumProperty.CreateWithChoices(label, name, choices, value)
 	End Function
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method CreateWithChoices:wxEnumProperty(label:String, name:String, choices:wxPGChoices, value:Int = 0)
 		wxObjectPtr = bmx_wxenumproperty_createwithchoices(Self, label, name, choices.wxObjectPtr, value)
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetChoices:wxPGChoices()
 		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetEntry:String(index:Int, value:Int Var)
 		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetIndexForValue:Int(value:Int)
 		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetItemCount:Int()
 		' TODO
 	End Method
-	
-	
 	
 End Type
 
@@ -2821,6 +3106,9 @@ bbdoc: Has dropdown list of wxWidgets system colours.
 End Rem
 Type wxSystemColourProperty Extends wxEnumProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxSystemColourProperty(label:String, name:String = Null, value:wxColour = Null)
 		If value Then
 			wxObjectPtr = bmx_wxsystemcolourproperty_create(Self, label, name, value.wxObjectPtr)
@@ -2844,6 +3132,9 @@ bbdoc:
 End Rem
 Type wxColourProperty Extends wxSystemColourProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxColourProperty(label:String, name:String = Null, value:wxColour = Null)
 		If value Then
 			wxObjectPtr = bmx_wxcolourproperty_create(Self, label, name, value.wxObjectPtr)
@@ -2856,10 +3147,13 @@ Type wxColourProperty Extends wxSystemColourProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Property representing wxCursor. 
 End Rem
 Type wxCursorProperty Extends wxEnumProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxCursorProperty(label:String = Null, name:String = Null, value:Int = 0)
 		wxObjectPtr = bmx_wxcursorproperty_create(Self, label, name, value)
 		Return Self
@@ -2868,10 +3162,13 @@ Type wxCursorProperty Extends wxEnumProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Property representing image file(name). 
 End Rem
 Type wxImageFileProperty Extends wxFileProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxImageFileProperty(label:String = Null, name:String = Null, value:String = "")
 		wxObjectPtr = bmx_wximagefileproperty_create(Self, label, name, value)
 		Return Self
@@ -2939,25 +3236,47 @@ Type wxDateProperty Extends wxPGProperty
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Property that manages a value resulting from wxMultiChoiceDialog.
+about: Value is array of strings. You can get value as array of choice values/indices by calling
+wxMultiChoiceProperty::GetValueAsArrayInt().
+<p>
+Supported special attributes:
+<ul>
+<li>"UserStringMode": If > 0, allow user to manually enter strings that are not in the list of choices. If
+this value is 1, user strings are preferably placed in front of valid choices. If value is 2, then those
+strings will placed behind valid choices. </li>
+</ul>
+</p>
 End Rem
 Type wxMultiChoiceProperty Extends wxPGProperty
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateMultiChoicePropertyWithArrays:wxMultiChoiceProperty(label:String, name:String, labels:String[], ..
 			value:String[] = Null)
 		Return New wxMultiChoiceProperty.CreateWithArrays(label, name, labels, value)
 	End Function
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method CreateWithArrays:wxMultiChoiceProperty(label:String, name:String, labels:String[], ..
 			value:String[] = Null)
 		wxObjectPtr = bmx_wxmultichoiceproperty_createwitharrays(Self, label, name, labels, value)
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateMultiChoicePropertyWithChoice:wxMultiChoiceProperty(label:String, name:String, choices:wxPGChoices, value:String[] = Null)
 		Return New wxMultiChoiceProperty.CreateWithChoices(label, name, choices, value)
 	End Function
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method CreateWithChoices:wxMultiChoiceProperty(label:String, name:String, choices:wxPGChoices, value:String[] = Null)
 		wxObjectPtr = bmx_wxmultichoiceproperty_createwithchoices(Self, label, name, choices.wxObjectPtr, value)
 		Return Self
@@ -3028,75 +3347,129 @@ Type wxPGChoices
 		End If
 	End Function
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function CreateChoices:wxPGChoices()
 		Return New wxPGChoices.Create()
 	End Function
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Create:wxPGChoices()
 		wxObjectPtr = bmx_wxpgchoices_create()
 		Return Self
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Add:wxPGChoiceEntry(label:String, value:Int = INT_MAX)
 		Return wxPGChoiceEntry._create(bmx_wxpgchoices_add(wxObjectPtr, label, value))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method AddEntries(labels:String[], values:Int[])
 		bmx_wxpgchoices_addentries(wxObjectPtr, labels, values)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method AddAsSorted:wxPGChoiceEntry(label:String, value:Int = INT_MAX)
 		Return wxPGChoiceEntry._create(bmx_wxpgchoices_addassorted(wxObjectPtr, label, value))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetCount:Int()
 		Return bmx_wxpgchoices_getcount(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetLabel:String(index:Int)
 		Return bmx_wxpgchoices_getlabel(wxObjectPtr, index)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetLabels:String[]()
 		Return bmx_wxpgchoices_getlabels(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetValue:Int(index:Int)
 		Return bmx_wxpgchoices_getvalue(wxObjectPtr, index)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HasValue:Int(value:Int)
 		Return bmx_wxpgchoices_hasvalue(wxObjectPtr, value)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HasValues:Int()
 		Return bmx_wxpgchoices_hasvalues(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Index:Int(value:Int)
 		Return bmx_wxpgchoices_index(wxObjectPtr, value)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IndexForLabel:Int(label:String)
 		Return bmx_wxpgchoices_indexforlabel(wxObjectPtr, label)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Insert:wxPGChoiceEntry(label:String, index:Int, value:Int = INT_MAX)
 		Return wxPGChoiceEntry._create(bmx_wxpgchoices_insert(wxObjectPtr, label, index, value))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsOk:Int()
 		Return bmx_wxpgchoices_isok(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Item:wxPGChoiceEntry(index:Int)
 		Return wxPGChoiceEntry._create(bmx_wxpgchoices_item(wxObjectPtr, index))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method RemoveAt(index:Int, count:Int = 1)
 		bmx_wxpgchoices_removeat(wxObjectPtr, index, count)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Set(labels:String[], values:Int[] = Null)
 		bmx_wxpgchoices_set(wxObjectPtr, labels, values)
 	End Method
@@ -3123,46 +3496,79 @@ Type wxPGChoiceEntry Extends wxPGCell
 		End If
 	End Function
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetBgCol:wxColour()
 		Return wxColour._create(bmx_wxpgchoiceentry_getbgcol(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetBitmap:wxBitmap()
 		Return wxBitmap._create(bmx_wxpgchoiceentry_getbitmap(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetFgCol:wxColour()
 		Return wxColour._create(bmx_wxpgchoiceentry_getfgcol(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetText:String()
 		Return bmx_wxpgchoiceentry_gettext(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetBgCol(col:wxColour)
 		bmx_wxpgchoiceentry_setbgcol(wxObjectPtr, col.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetBitmap(bitmap:wxBitmap)
 		bmx_wxpgchoiceentry_setbitmap(wxObjectPtr, bitmap.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetFgCol(col:wxColour)
 		bmx_wxpgchoiceentry_setfgcol(wxObjectPtr, col.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetText(text:String)
 		bmx_wxpgchoiceentry_settext(wxObjectPtr, text)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetValue:Int()
 		Return bmx_wxpgchoiceentry_getvalue(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HasValue:Int()
 		Return bmx_wxpgchoiceentry_hasvalue(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetValue(value:Int)
 		bmx_wxpgchoiceentry_setvalue(wxObjectPtr, value)
 	End Method
@@ -3270,32 +3676,67 @@ Type wxPGEditor Extends wxObject
 
 End Type
 
+Rem
+bbdoc: 
+End Rem
 Type wxPGCell
 
 	Field wxObjectPtr:Byte Ptr
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetBgCol:wxColour()
+		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetBitmap:wxBitmap()
+		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetFgCol:wxColour()
+		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetText:String()
+		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetBgCol(col:wxColour)
+		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetBitmap(bitmap:wxBitmap)
+		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetFgCol(col:wxColour)
+		' TODO
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetText(text:String)
+		' TODO
 	End Method
 
 End Type
@@ -3320,6 +3761,9 @@ bbdoc: Holds information about events associated with wxPropertyGrid objects.
 End Rem
 Type wxPropertyGridEvent Extends wxCommandEvent
 
+	Rem
+	bbdoc: 
+	End Rem
 	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 		Local this:wxPropertyGridEvent = New wxPropertyGridEvent
 		
