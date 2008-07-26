@@ -415,6 +415,7 @@ Const wxBORDER_SIMPLE:Int = $02000000
 Const wxBORDER_RAISED:Int = $04000000
 Const wxBORDER_SUNKEN:Int = $08000000
 Const wxBORDER_DOUBLE:Int = $10000000
+Const wxBORDER_THEME:Int = $10000000
 
 '  a mask To extract border style from the combination of flags */
 Const wxBORDER_MASK:Int = $1f200000
