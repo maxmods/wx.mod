@@ -68,6 +68,7 @@ Extern
 	Function bmx_wxauimanager_uninit(handle:Byte Ptr)
 	Function bmx_wxauimanager_update(handle:Byte Ptr)
 	Function bmx_wxauimanager_getartprovider:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxauimanager_setartprovider(handle:Byte Ptr, artProvider:Byte Ptr)
 
 	Function bmx_wxauipanelinfo_create:Byte Ptr()
 	Function bmx_wxauipanelinfo_delete(handle:Byte Ptr)
@@ -142,6 +143,7 @@ Extern
 	Function bmx_wxauipanelinfo_top:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxauipanelinfo_topdocakable:Byte Ptr(handle:Byte Ptr, value:Int)
 	Function bmx_wxauipanelinfo_window:Byte Ptr(handle:Byte Ptr, window:Byte Ptr)
+	Function bmx_wxauipanelinfo_dockfixed:Byte Ptr(handle:Byte Ptr)
 	
 	Function bmx_wxauipanelinfo_getcaption:String(handle:Byte Ptr)
 	Function bmx_wxauipanelinfo_getname:String(handle:Byte Ptr)
@@ -152,11 +154,15 @@ Extern
 	Function bmx_wxauipanelinfo_getpos:Int(handle:Byte Ptr)
 	Function bmx_wxauipanelinfo_getfloatingpos(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
 	Function bmx_wxauipanelinfo_getfloatingsize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
-	
 
 	Function bmx_wxauimanagerevent_getpane:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxauimanagerevent_getbutton:Int(handle:Byte Ptr)
 	Function bmx_wxauimanagerevent_veto(handle:Byte Ptr, veto:Int)
+	Function bmx_wxauimanagerevent_getmanager:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxauimanagerevent_getdc:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxauimanagerevent_getveto:Int(handle:Byte Ptr)
+	Function bmx_wxauimanagerevent_canveto:Int(handle:Byte Ptr)
+	Function bmx_wxauimanagerevent_setcanveto(handle:Byte Ptr, canVeto:Int)
 
 	Function bmx_wxauidockart_getmetric:Int(handle:Byte Ptr, id:Int)
 	Function bmx_wxauidockart_getcolor:Byte Ptr(handle:Byte Ptr, id:Int)
@@ -164,6 +170,8 @@ Extern
 	Function bmx_wxauidockart_setmetric(handle:Byte Ptr, id:Int, value:Int)
 	Function bmx_wxauidockart_setcolor(handle:Byte Ptr, id:Int, colour:Byte Ptr)
 	Function bmx_wxauidockart_setcolour(handle:Byte Ptr, id:Int, colour:Byte Ptr)
+	Function bmx_wxauidockart_getfont:Byte Ptr(handle:Byte Ptr, id:Int)
+	Function bmx_wxauidockart_setfont(handle:Byte Ptr, id:Int, font:Byte Ptr)
 
 	Function bmx_wxauinotebook_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxauinotebook_addpage:Int(handle:Byte Ptr, page:Byte Ptr, caption:String, sel:Int, bitmap:Byte Ptr)

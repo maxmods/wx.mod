@@ -101,6 +101,25 @@ the wxAUI sample.
 End Rem
 Type wxAuiManager Extends wxEvtHandler
 
+	' soft linking
+	Function _create:wxAuiManager(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxAuiManager = New wxAuiManager
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _find:wxAuiManager(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local manager:wxAuiManager = wxAuiManager(wxfind(wxObjectPtr))
+			If Not manager Then
+				Return wxAuiManager._create(wxObjectPtr)
+			End If
+			Return manager
+		End If
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -145,13 +164,22 @@ Type wxAuiManager Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns an array of all panes managed by the frame manager.
 	End Rem
-	Method GetAllPanes()
+	Method GetAllPanes:wxAuiPaneInfo[]()
+		Return bmx_wxauimanager_getallpanes(wxObjectPtr)
 	End Method
 	
+	Function _createpanearray:wxAuiPaneInfo[](size:Int)
+		Return New wxAuiPaneInfo[size]
+	End Function
+	
+	Function _setpanevalue(arr:wxAuiPaneInfo[], index:Int, info:Byte Ptr)
+		arr[index] = wxAuiPaneInfo._create(info)
+	End Function
+	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the current art provider being used.
 	End Rem
 	Method GetArtProvider:wxAuiDockArt()
 		Return wxAuiDockArt._create(bmx_wxauimanager_getartprovider(wxObjectPtr))
@@ -265,10 +293,12 @@ Type wxAuiManager Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Instructs wxAuiManager to use art provider specified by parameter @artProvider for all drawing calls.
+	about: This allows plugable look-and-feel features. The previous art provider object, if any, will be deleted by
+	wxAuiManager.
 	End Rem
 	Method SetArtProvider(artProvider:wxAuiDockArt)
-		'bmx_wxauimanager_setArtProvider(wxObjectPtr, artProvider
+		bmx_wxauimanager_setartprovider(wxObjectPtr, artProvider.wxAuiDockArtPtr)
 	End Method
 	
 	Rem
@@ -339,6 +369,23 @@ rearrange tab order via drag-and-drop, split the tab window into many different 
 and toggle through different themes to customize the control's look and feel.
 <p>
 An effort has been made to try to maintain an API as similar to that of wxNotebook.
+</p>
+<p><b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td>wxAUI_NB_DEFAULT_STYLE </td><td>Defined as wxAUI_NB_TOP | wxAUI_NB_TAB_SPLIT | wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_CLOSE_ON_ACTIVE_TAB . </td></tr>
+<tr><td>wxAUI_NB_TAB_SPLIT </td><td>Allows the tab control to be split by dragging a tab.  </td></tr>
+<tr><td>wxAUI_NB_TAB_MOVE </td><td>Allows a tab to be moved horizontally by dragging.  </td></tr>
+<tr><td>wxAUI_NB_TAB_EXTERNAL_MOVE </td><td>Allows a tab to be moved to another tab control.  </td></tr>
+<tr><td>wxAUI_NB_TAB_FIXED_WIDTH </td><td>With this style, all tabs have the same width.  </td></tr>
+<tr><td>wxAUI_NB_SCROLL_BUTTONS </td><td>With this style, left and right scroll buttons are displayed.  </td></tr>
+<tr><td>wxAUI_NB_WINDOWLIST_BUTTON </td><td>With this style, a drop-down list of windows is available.  </td></tr>
+<tr><td>wxAUI_NB_CLOSE_BUTTON </td><td>With this style, a close button is available on the tab bar.  </td></tr>
+<tr><td>wxAUI_NB_CLOSE_ON_ACTIVE_TAB </td><td>With this style, the close button is visible on the active tab.  </td></tr>
+<tr><td>wxAUI_NB_CLOSE_ON_ALL_TABS </td><td>With this style, the close button is visible on all tabs.  </td></tr>
+<tr><td>wxAUI_NB_TOP </td><td>With this style, tabs are drawn along the top of the notebook.  </td></tr>
+<tr><td>wxAUI_NB_BOTTOM </td><td>With this style, tabs are drawn along the bottom of the notebook.  </td></tr>
+</table>
 </p>
 End Rem
 Type wxAuiNotebook Extends wxControl
@@ -738,6 +785,14 @@ Type wxAuiPaneInfo
 	End Method
 	
 	Rem
+	bbdoc: causes the containing dock to have no resize sash.
+	about: This is useful for creating panes that span the entire width or height of a dock, but should not be resizable in the other direction.
+	End Rem
+	Method DockFixed:wxAuiPaneInfo()
+		Return _create(bmx_wxauipanelinfo_dockfixed(wxAuiPaneInfoPtr))
+	End Method
+	
+	Rem
 	bbdoc: Specifies whether a frame can be docked or not.
 	about: It is the same as specifying TopDockable(b).BottomDockable(b).LeftDockable(b).RightDockable(b).
 	End Rem
@@ -853,329 +908,338 @@ Type wxAuiPaneInfo
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc:  Indicates that a gripper should be drawn at the top of the pane.
 	End Rem
 	Method GripperTop:wxAuiPaneInfo(attop:Int = True)
 		Return _create(bmx_wxauipanelinfo_grippertop(wxAuiPaneInfoPtr, attop))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane displays a border.
 	End Rem
 	Method HasBorder:Int()
 		Return bmx_wxauipanelinfo_hasborder(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane displays a caption.
 	End Rem
 	Method HasCaption:Int()
 		Return bmx_wxauipanelinfo_hascaption(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane displays a button to close the pane.
 	End Rem
 	Method HasCloseButton:Int()
 		Return bmx_wxauipanelinfo_hasclosebutton(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the the property specified by flag is active for the pane.
 	End Rem
 	Method HasFlag:Int(flag:Int)
 		Return bmx_wxauipanelinfo_hasflag(wxAuiPaneInfoPtr, flag)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane displays a gripper.
 	End Rem
 	Method HasGripper:Int()
 		Return bmx_wxauipanelinfo_hasgripper(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane displays a gripper at the top.
 	End Rem
 	Method HasGripperTop:Int()
 		Return bmx_wxauipanelinfo_hasgrippertop(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane displays a button to maximize the pane.
 	End Rem
 	Method HasMaximizeButton:Int()
 		Return bmx_wxauipanelinfo_hasmaximizebutton(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane displays a button to minimize the pane.
 	End Rem
 	Method HasMinimizeButton:Int()
 		Return bmx_wxauipanelinfo_hasminimizebutton(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane displays a button to float the pane.
 	End Rem
 	Method HasPinButton:Int()
 		Return bmx_wxauipanelinfo_haspinbutton(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates that a pane should be hidden.
 	End Rem
 	Method Hide:wxAuiPaneInfo()
 		Return _create(bmx_wxauipanelinfo_hide(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane can be docked at the bottom of the managed frame.
 	End Rem
 	Method IsBottomDockable:Int()
 		Return bmx_wxauipanelinfo_isbottomdockable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane is docked.
 	End Rem
 	Method IsDocked:Int()
 		Return bmx_wxauipanelinfo_isdocked(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane cannot be resized.
 	End Rem
 	Method IsFixed:Int()
 		Return bmx_wxauipanelinfo_isfixed(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane can be undocked and displayed as a floating window.
 	End Rem
 	Method IsFloatable:Int()
 		Return bmx_wxauipanelinfo_isfloatable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane is floating.
 	End Rem
 	Method IsFloating:Int()
 		Return bmx_wxauipanelinfo_isfloating(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane can be docked on the left of the managed frame.
 	End Rem
 	Method IsLeftDockable:Int()
 		Return bmx_wxauipanelinfo_isleftdockable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the docked frame can be undocked or moved to another dock position.
 	End Rem
 	Method IsMovable:Int()
 		Return bmx_wxauipanelinfo_ismovable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the wxAuiPaneInfo structure is valid. A pane structure is valid if it has an associated window.
 	End Rem
 	Method IsOk:Int()
 		Return bmx_wxauipanelinfo_isok(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane can be resized.
 	End Rem
 	Method IsResizable:Int()
 		Return bmx_wxauipanelinfo_isresizable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane can be docked on the right of the managed frame.
 	End Rem
 	Method IsRightDockable:Int()
 		Return bmx_wxauipanelinfo_isrightdockable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane is currently shown.
 	End Rem
 	Method IsShown:Int()
 		Return bmx_wxauipanelinfo_isshown(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane contains a toolbar.
 	End Rem
 	Method IsToolbar:Int()
 		Return bmx_wxauipanelinfo_istoolbar(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the pane can be docked at the top of the managed frame.
 	End Rem
 	Method IsTopDockable:Int()
 		Return bmx_wxauipanelinfo_istopdockable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Determines the layer of the docked pane.
+	about: The dock layer is similar to an onion, the inner-most layer being layer 0. Each shell moving in the outward
+	direction has a higher layer number. This allows for more complex docking layout formation.
 	End Rem
 	Method Layer:wxAuiPaneInfo(value:Int)
 		Return _create(bmx_wxauipanelinfo_layer(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the pane dock position to the left side of the frame.
+	about: This is the same thing as calling Direction(wxAUI_DOCK_LEFT).
 	End Rem
 	Method Left:wxAuiPaneInfo()
 		Return _create(bmx_wxauipanelinfo_left(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates whether a pane can be docked on the left of the frame.
 	End Rem
 	Method LeftDockable:wxAuiPaneInfo(dockable:Int = True)
 		Return _create(bmx_wxauipanelinfo_leftdockable(wxAuiPaneInfoPtr, dockable))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the maximum size of the pane.
 	End Rem
 	Method MaxSize:wxAuiPaneInfo(w:Int, h:Int)
 		Return _create(bmx_wxauipanelinfo_maxsize(wxAuiPaneInfoPtr, w, h))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates that a maximize button should be drawn for the pane.
 	End Rem
 	Method MaximizeButton:wxAuiPaneInfo(visible:Int = True)
 		Return _create(bmx_wxauipanelinfo_maximizebutton(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the minimum size of the pane.
+	about: Please note that this is only partially supported as of this writing.
 	End Rem
 	Method MinSize:wxAuiPaneInfo(w:Int, h:Int)
 		Return _create(bmx_wxauipanelinfo_minsize(wxAuiPaneInfoPtr, w, h))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates that a minimize button should be drawn for the pane.
 	End Rem
 	Method MinimizeButton:wxAuiPaneInfo(visible:Int = True)
 		Return _create(bmx_wxauipanelinfo_minimizebutton(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates whether a frame can be moved.
 	End Rem
 	Method Movable:wxAuiPaneInfo(move:Int = True)
 		Return _create(bmx_wxauipanelinfo_movable(wxAuiPaneInfoPtr, move))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the name of the pane so it can be referenced in lookup functions.
+	about: If a name is not specified by the user, a random name is assigned to the pane when it is added to the manager.
 	End Rem
 	Method Name:wxAuiPaneInfo(n:String)
 		Return _create(bmx_wxauipanelinfo_name(wxAuiPaneInfoPtr, n))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates that a border should be drawn for the pane.
 	End Rem
 	Method PaneBorder:wxAuiPaneInfo(visible:Int = True)
 		Return _create(bmx_wxauipanelinfo_paneborder(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates that a pin button should be drawn for the pane.
 	End Rem
 	Method PinButton:wxAuiPaneInfo(visible:Int = True)
 		Return _create(bmx_wxauipanelinfo_pinbutton(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Determines the position of the docked pane.
 	End Rem
 	Method Position:wxAuiPaneInfo(pos:Int)
 		Return _create(bmx_wxauipanelinfo_position(wxAuiPaneInfoPtr, pos))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Allows a pane to be resized if the parameter is true, and forces it to be a fixed size if the parameter is false.
+	about: This is simply an antonym for Fixed().
 	End Rem
 	Method Resizable:wxAuiPaneInfo(value:Int = True)
 		Return _create(bmx_wxauipanelinfo_resizable(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the pane dock position to the right side of the frame.
 	End Rem
 	Method Right:wxAuiPaneInfo()
 		Return _create(bmx_wxauipanelinfo_right(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates whether a pane can be docked on the right of the frame.
 	End Rem
 	Method RightDockable:wxAuiPaneInfo(dockable:Int = True)
 		Return _create(bmx_wxauipanelinfo_rightdockable(wxAuiPaneInfoPtr, dockable))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Determines the row of the docked pane.
 	End Rem
 	Method Row:wxAuiPaneInfo(value:Int)
 		Return _create(bmx_wxauipanelinfo_row(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Write the safe parts of a newly loaded PaneInfo structure @source into this object.
+	about: Used on loading perspectives etc.
 	End Rem
 	Method SafeSet(source:wxAuiPaneInfo)
 		bmx_wxauipanelinfo_safeset(wxAuiPaneInfoPtr, source.wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Turns the property given by flag on or off with the @optionState parameter.
 	End Rem
 	Method SetFlag:wxAuiPaneInfo(flag:Int, optionState:Int)
 		Return _create(bmx_wxauipanelinfo_setflag(wxAuiPaneInfoPtr, flag, optionState))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates that a pane should be shown.
 	End Rem
 	Method Show:wxAuiPaneInfo(value:Int = True)
 		Return _create(bmx_wxauipanelinfo_show(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Specifies that the pane should adopt the default toolbar pane settings.
 	End Rem
 	Method ToolbarPane:wxAuiPaneInfo()
 		Return _create(bmx_wxauipanelinfo_toolbarpane(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the pane dock position to the top of the frame.
 	End Rem
 	Method Top:wxAuiPaneInfo()
 		Return _create(bmx_wxauipanelinfo_top(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Indicates whether a pane can be docked at the top of the frame.
 	End Rem
 	Method TopDockable:wxAuiPaneInfo(value:Int = True)
 		Return _create(bmx_wxauipanelinfo_topdocakable(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Assigns the window pointer that the wxAuiPaneInfo should use.
+	about: This normally does not need to be specified, as the window pointer is automatically assigned to the
+	wxAuiPaneInfo structure as soon as it is added to the manager.
 	End Rem
 	Method Window:wxAuiPaneInfo(w:wxWindow)
 		Return _create(bmx_wxauipanelinfo_window(wxAuiPaneInfoPtr, w.wxObjectPtr))
@@ -1184,7 +1248,7 @@ Type wxAuiPaneInfo
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Tab art type.
 End Rem
 Type wxAuiTabArt
 
@@ -1246,6 +1310,13 @@ Type wxAuiDockArt
 	End Method
 	
 	Rem
+	bbdoc: Get a font setting.
+	End Rem
+	Method GetFont:wxFont(id:Int)
+		Return wxFont._create(bmx_wxauidockart_getfont(wxAuiDockArtPtr, id))
+	End Method
+	
+	Rem
 	bbdoc: Set a certain setting with @value.
 	End Rem
 	Method SetMetric(id:Int, value:Int)
@@ -1265,6 +1336,13 @@ Type wxAuiDockArt
 	Method SetColour(id:Int, colour:wxColour)
 		bmx_wxauidockart_setcolour(wxAuiDockArtPtr, id, colour.wxObjectPtr)
 	End Method
+	
+	Rem
+	bbdoc: Set a font setting.
+	End Rem
+	Method SetFont(id:Int, font:wxFont)
+		bmx_wxauidockart_setfont(wxAuiDockArtPtr, id, font.wxObjectPtr)
+	End Method
 
 	Method Delete()
 		If wxAuiDockArtPtr Then
@@ -1276,7 +1354,7 @@ Type wxAuiDockArt
 End Type
 
 Rem
-bbdoc: 
+bbdoc: An aui manager event.
 End Rem
 Type wxAuiManagerEvent Extends wxEvent
 
@@ -1289,55 +1367,59 @@ Type wxAuiManagerEvent Extends wxEvent
 	End Function
 
 	Rem
-	bbdoc: 
+	bbdoc: Returns the manager associated with this event.
 	End Rem
 	Method GetManager:wxAuiManager()
-		'Return wxAuiManager(bmx_wxauimanagerevent_getmanager(wxEventPtr))
+		Return wxAuiManager._find(bmx_wxauimanagerevent_getmanager(wxEventPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the pane associated with this event.
 	End Rem
 	Method GetPane:wxAuiPaneInfo()
 		Return wxAuiPaneInfo._create(bmx_wxauimanagerevent_getpane(wxEventPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the button id associated with this event.
 	End Rem
 	Method GetButton:Int()
 		Return bmx_wxauimanagerevent_getbutton(wxEventPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the DC associated with this event.
 	End Rem
 	Method GetDC:wxDC()
+		Return wxDC._create(bmx_wxauimanagerevent_getdc(wxEventPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Attempts to veto the event
 	End Rem
 	Method Veto(_veto:Int = True)
 		bmx_wxauimanagerevent_veto(wxEventPtr, _veto)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the current veto status.
 	End Rem
 	Method GetVeto:Int()
+		Return bmx_wxauimanagerevent_getveto(wxEventPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns true if the event can be vetoed.
 	End Rem
 	Method CanVeto:Int()
+		Return bmx_wxauimanagerevent_canveto(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method SetCanVeto(canVeto:Int)
+		bmx_wxauimanagerevent_setcanveto(wxEventPtr, canVeto)
 	End Method
 	
 End Type
@@ -1393,3 +1475,6 @@ End Type
 
 New TAuiEventFactory
 
+Extern
+	Function bmx_wxauimanager_getallpanes:wxAuiPaneInfo[](handle:Byte Ptr)
+End Extern

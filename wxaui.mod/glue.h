@@ -32,6 +32,9 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBArray * _wx_wxaui_wxAuiManager__createpanearray(int size);
+	void _wx_wxaui_wxAuiManager__setpanevalue(BBArray * arr, int index, MaxAuiPaneInfo * info);
+
 	MaxAuiManager * bmx_wxauimanager_create(BBObject * handle, wxWindow * window, unsigned int flags);
 	bool bmx_wxauimanager_addpane(MaxAuiManager * manager, wxWindow * window, int direction, BBString * caption);
 	bool bmx_wxauimanager_addpaneinfo(MaxAuiManager * manager, wxWindow * window, MaxAuiPaneInfo * panelinfo, int dx, int dy);
@@ -55,6 +58,8 @@ extern "C" {
 	void bmx_wxauimanager_uninit(MaxAuiManager * manager);
 	void bmx_wxauimanager_update(MaxAuiManager * manager);
 	wxAuiDockArt * bmx_wxauimanager_getartprovider(MaxAuiManager * manager);
+	BBArray * bmx_wxauimanager_getallpanes(MaxAuiManager * manager);
+	void bmx_wxauimanager_setartprovider(MaxAuiManager * manager, wxAuiDockArt * artProvider);
 
 	MaxAuiPaneInfo * bmx_wxauipanelinfo_create();
 	void bmx_wxauipanelinfo_delete(MaxAuiPaneInfo * info);
@@ -129,7 +134,8 @@ extern "C" {
 	MaxAuiPaneInfo * bmx_wxauipanelinfo_top(MaxAuiPaneInfo * info);
 	MaxAuiPaneInfo * bmx_wxauipanelinfo_topdocakable(MaxAuiPaneInfo * info, bool value);
 	MaxAuiPaneInfo * bmx_wxauipanelinfo_window(MaxAuiPaneInfo * info, wxWindow * window);
-	
+	MaxAuiPaneInfo * bmx_wxauipanelinfo_dockfixed(MaxAuiPaneInfo * info);
+
 	BBString * bmx_wxauipanelinfo_getcaption(MaxAuiPaneInfo * info);
 	BBString * bmx_wxauipanelinfo_getname(MaxAuiPaneInfo * info);
 	unsigned int bmx_wxauipanelinfo_getstate(MaxAuiPaneInfo * info);
@@ -143,6 +149,11 @@ extern "C" {
 	MaxAuiPaneInfo * bmx_wxauimanagerevent_getpane(wxAuiManagerEvent & event);
 	int bmx_wxauimanagerevent_getbutton(wxAuiManagerEvent & event);
 	void bmx_wxauimanagerevent_veto(wxAuiManagerEvent & event, bool veto);
+	wxAuiManager * bmx_wxauimanagerevent_getmanager(wxAuiManagerEvent & event);
+	MaxDC * bmx_wxauimanagerevent_getdc(wxAuiManagerEvent & event);
+	bool bmx_wxauimanagerevent_getveto(wxAuiManagerEvent & event);
+	bool bmx_wxauimanagerevent_canveto(wxAuiManagerEvent & event);
+	void bmx_wxauimanagerevent_setcanveto(wxAuiManagerEvent & event, bool canVeto);
 
 	int bmx_wxauidockart_getmetric(wxAuiDockArt * dockart, int id);
 	MaxColour * bmx_wxauidockart_getcolor(wxAuiDockArt * dockart, int id);
@@ -150,6 +161,8 @@ extern "C" {
 	void bmx_wxauidockart_setmetric(wxAuiDockArt * dockart, int id, int value);
 	void bmx_wxauidockart_setcolor(wxAuiDockArt * dockart, int id, MaxColour * colour);
 	void bmx_wxauidockart_setcolour(wxAuiDockArt * dockart, int id, MaxColour * colour);
+	MaxFont * bmx_wxauidockart_getfont(wxAuiDockArt * dockart, int id);
+	void bmx_wxauidockart_setfont(wxAuiDockArt * dockart, int id, MaxFont * font);
 
 	MaxAuiNotebook * bmx_wxauinotebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);

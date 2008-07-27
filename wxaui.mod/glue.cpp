@@ -163,6 +163,23 @@ wxAuiDockArt * bmx_wxauimanager_getartprovider(MaxAuiManager * manager) {
 	return manager->GetArtProvider();
 }
 
+BBArray * bmx_wxauimanager_getallpanes(MaxAuiManager * manager) {
+	wxAuiPaneInfoArray & infos = manager->GetAllPanes();
+	int n = infos.GetCount();
+	
+	BBArray * arr = _wx_wxaui_wxAuiManager__createpanearray(n);
+	
+	for (int i = 0; i < n; i++) {
+		_wx_wxaui_wxAuiManager__setpanevalue(arr, i, new MaxAuiPaneInfo(infos[i]));
+	}
+}
+
+void bmx_wxauimanager_setartprovider(MaxAuiManager * manager, wxAuiDockArt * artProvider) {
+	manager->SetArtProvider(artProvider);
+}
+
+// *********************************************
+
 
 MaxAuiPaneInfo * bmx_wxauipanelinfo_create() {
 	return new MaxAuiPaneInfo();
@@ -486,6 +503,11 @@ void bmx_wxauipanelinfo_getfloatingsize(MaxAuiPaneInfo * info, int * w, int * h)
 	*h = p.y;
 }
 
+MaxAuiPaneInfo * bmx_wxauipanelinfo_dockfixed(MaxAuiPaneInfo * info) {
+	return new MaxAuiPaneInfo(info->Info().DockFixed());
+}
+
+// *********************************************
 
 MaxAuiPaneInfo * bmx_wxauimanagerevent_getpane(wxAuiManagerEvent & event) {
 	return new MaxAuiPaneInfo(*event.pane);
@@ -499,6 +521,28 @@ void bmx_wxauimanagerevent_veto(wxAuiManagerEvent & event, bool veto) {
 	event.Veto(veto);
 }
 
+wxAuiManager * bmx_wxauimanagerevent_getmanager(wxAuiManagerEvent & event) {
+	return event.GetManager();
+}
+
+MaxDC * bmx_wxauimanagerevent_getdc(wxAuiManagerEvent & event) {
+	return new MaxDC(event.GetDC());
+}
+
+bool bmx_wxauimanagerevent_getveto(wxAuiManagerEvent & event) {
+	return event.GetVeto();
+}
+
+bool bmx_wxauimanagerevent_canveto(wxAuiManagerEvent & event) {
+	return event.CanVeto();
+}
+
+void bmx_wxauimanagerevent_setcanveto(wxAuiManagerEvent & event, bool canVeto) {
+	event.SetCanVeto(canVeto);
+}
+
+
+// *********************************************
 
 int bmx_wxauidockart_getmetric(wxAuiDockArt * dockart, int id) {
 	return dockart->GetMetric(id);
@@ -525,6 +569,15 @@ void bmx_wxauidockart_setcolor(wxAuiDockArt * dockart, int id, MaxColour * colou
 void bmx_wxauidockart_setcolour(wxAuiDockArt * dockart, int id, MaxColour * colour) {
 	dockart->SetColour(id, colour->Colour());
 }
+
+MaxFont * bmx_wxauidockart_getfont(wxAuiDockArt * dockart, int id) {
+	return new MaxFont(dockart->GetFont(id));
+}
+
+void bmx_wxauidockart_setfont(wxAuiDockArt * dockart, int id, MaxFont * font) {
+	dockart->SetFont(id, font->Font());
+}
+
 
 // *********************************************
 
