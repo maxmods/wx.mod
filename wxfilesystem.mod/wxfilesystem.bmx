@@ -50,33 +50,112 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
+Rem
+bbdoc: This type provides an interface for opening files on different file systems.
+about: It can handle absolute and/or local filenames. It uses a system of handlers to provide access to user-defined
+virtual file systems.
+End Rem
 Type wxFileSystem Extends wxObject
 
+	Rem
+	bbdoc: Creates a new wxFileSystem instance.
+	End Rem
+	Function CreateFileSystem:wxFileSystem()
+		Return New wxFileSystem.Create()
+	End Function
+	
+	Rem
+	bbdoc: Creates a new wxFileSystem instance.
+	End Rem
+	Method Create:wxFileSystem()
+		wxObjectPtr = bmx_wxfilesystem_create()
+		Return Self
+	End Method
+
+	Rem
+	bbdoc: Adds new handler into the list of handlers which provide access to virtual FS.
+	about: Note that if two handlers for the same protocol are added, the last one added takes precedence.
+	End Rem
 	Function AddHandler(handler:wxFileSystemHandler)
-	
 		bmx_wxfilesystem_addhandler(handler.wxObjectPtr)
-	
 	End Function
 
+	Rem
+	bbdoc: Returns true if there is a registered handler which can open the given location.
+	End Rem
 	Function HasHandlerForPath:Int(location:String)
+		Return bmx_wxfilesystem_hashandlerforpath(location)
 	End Function
 	
+	Rem
+	bbdoc: Sets the current location. location parameter passed to OpenFile is relative to this path.
+	about: Caution! Unless @isDir is true the location parameter is not the directory name but the name of the
+	file in this directory. All these commands change the path to "dir/subdir/":
+	End Rem
 	Method ChangePathTo(location:String, isDir:Int = False)
+		bmx_wxfilesystem_changepathto(wxObjectPtr, location, isDir)
 	End Method
 	
+	Rem
+	bbdoc: Returns actual path (set by ChangePathTo).
+	End Rem
 	Method GetPath:String()
+		Return bmx_wxfilesystem_getpath(wxObjectPtr)
 	End Method
 	
-	'Method FileNameToURL:String(filename:String)
-	'End Method
+	Rem
+	bbdoc: Converts filename into URL.
+	End Rem
+	Function FileNameToURL:String(filename:wxFileName)
+		Return bmx_wxfilesystem_filenametourl(filename.wxObjectPtr)
+	End Function
 	
+	Rem
+	bbdoc: Looks for the file with the given name file in a colon or semi-colon (depending on the current platform) separated list of directories in path.
+	about: If the file is found in any directory, returns the full path of the file, otherwise Null.
+	End Rem
 	Method FindFileInPath:String(path:String, file:String)
+		Return bmx_wxfilesystem_findfileinpath(wxObjectPtr, path, file)
 	End Method
 	
+	Rem
+	bbdoc: Works like wxFindFirstFile.
+	about: Returns name of the first filename (within filesystem's current path) that matches wildcard. @flags may
+	be one of wxFILE (only files), wxDIR (only directories) or 0 (both).
+	End Rem
 	Method FindFirst:String(wildcard:String, flags:Int = 0)
+		Return bmx_wxfilesystem_findfirst(wxObjectPtr, wildcard, flags)
 	End Method
 	
+	Rem
+	bbdoc: Returns the next filename that matches parameters passed to FindFirst.
+	End Rem
 	Method FindNext:String()
+		Return bmx_wxfilesystem_findnext(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Opens the file and returns a wxFSFile object or Null if failed.
+	about: It first tries to open the file in relative scope (based on value passed to ChangePathTo() method)
+	and then as an absolute path. Note that the user is responsible for Free'ing the returned wxFSFile. 
+	End Rem
+	Method OpenFile:wxFSFile(location:String, flags:Int = wxFS_READ)
+		Return wxFSFile._create(bmx_wxfilesystem_openfile(wxObjectPtr, location, flags))
+	End Method
+	
+	Rem
+	bbdoc: Converts URL into a well-formed filename.
+	about: The URL must use the file protocol.
+	End Rem
+	Function URLToFileName:wxFileName(url:String)
+		Return wxFileName._create(bmx_wxfilesystem_urltofilename(url))
+	End Function
+	
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxfilesystem_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
 	End Method
 	
 End Type

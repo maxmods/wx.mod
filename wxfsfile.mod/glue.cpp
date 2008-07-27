@@ -20,28 +20,40 @@
   THE SOFTWARE.
 */ 
 
-#include "wxglue.h"
-#include "wx/filesys.h"
-#include "../wxfilename.mod/glue.h"
+#include "glue.h"
 
-extern "C" {
+// ---------------------------------------------------------------------------------------
 
-#include <blitz.h>
 
-	wxFileSystem * bmx_wxfilesystem_create();
-	void bmx_wxfilesystem_delete(wxFileSystem * fs);
-	void bmx_wxfilesystem_addhandler(wxFileSystemHandler * handler);
-	bool bmx_wxfilesystem_hashandlerforpath(BBString * location);
-	void bmx_wxfilesystem_changepathto(wxFileSystem * fs, BBString * location, bool isDir);
-	BBString * bmx_wxfilesystem_getpath(wxFileSystem * fs);
-	BBString * bmx_wxfilesystem_filenametourl(MaxFileName * filename);
-	BBString * bmx_wxfilesystem_findfileinpath(wxFileSystem * fs, BBString * path, BBString * file);
-	BBString * bmx_wxfilesystem_findfirst(wxFileSystem * fs, BBString * wildcard, int flags);
-	BBString * bmx_wxfilesystem_findnext(wxFileSystem * fs);
-	MaxFileName * bmx_wxfilesystem_urltofilename(BBString * url);
-	wxFSFile * bmx_wxfilesystem_openfile(wxFileSystem * fs, BBString * location, int flags);
 
+// *********************************************
+
+void bmx_wxfsfile_detachstream(wxFSFile * fs) {
+	fs->DetachStream();
 }
 
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BBString * bmx_wxfsfile_getanchor(wxFSFile * fs) {
+	return bbStringFromWxString(fs->GetAnchor());
+}
+
+BBString * bmx_wxfsfile_getlocation(wxFSFile * fs) {
+	return bbStringFromWxString(fs->GetLocation());
+}
+
+BBString * bmx_wxfsfile_getmimetype(wxFSFile * fs) {
+	return bbStringFromWxString(fs->GetMimeType());
+}
+
+MaxDateTime * bmx_wxfsfile_getmodificationtime(wxFSFile * fs) {
+	return new MaxDateTime(fs->GetModificationTime());
+}
+
+wxInputStream * bmx_wxfsfile_getstream(wxFSFile * fs) {
+	return fs->GetStream();
+}
+
+
+void bmx_wxfsfile_free(wxFSFile * fs) {
+	delete fs;
+}
 

@@ -21,9 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxFileSystemHandler
-Import wx.wxFileName
-Import wx.wxFSFile
+Import wx.wxDateTime
 Import BRL.Blitz
 
 
@@ -46,21 +44,12 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxfilesystem_create:Byte Ptr()
-	Function bmx_wxfilesystem_delete(handle:Byte Ptr)
-	Function bmx_wxfilesystem_addhandler(handler:Byte Ptr)
-	Function bmx_wxfilesystem_hashandlerforpath:Int(location:String)
-	Function bmx_wxfilesystem_changepathto(handle:Byte Ptr, location:String, isDir:Int)
-	Function bmx_wxfilesystem_getpath:String(handle:Byte Ptr)
-	Function bmx_wxfilesystem_filenametourl:String(filename:Byte Ptr)
-	Function bmx_wxfilesystem_findfileinpath:String(handle:Byte Ptr, path:String, file:String)
-	Function bmx_wxfilesystem_findfirst:String(handle:Byte Ptr, wildcard:String, flags:Int)
-	Function bmx_wxfilesystem_findnext:String(handle:Byte Ptr)
-	Function bmx_wxfilesystem_urltofilename:Byte Ptr(url:String)
-	Function bmx_wxfilesystem_openfile:Byte Ptr(handle:Byte Ptr, location:String, flags:Int)
-	
+	Function bmx_wxfsfile_detachstream(handle:Byte Ptr)
+	Function bmx_wxfsfile_getanchor:String(handle:Byte Ptr)
+	Function bmx_wxfsfile_getlocation:String(handle:Byte Ptr)
+	Function bmx_wxfsfile_getmimetype:String(handle:Byte Ptr)
+	Function bmx_wxfsfile_getmodificationtime:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxfsfile_getstream:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxfsfile_free(handle:Byte Ptr)
+
 End Extern
-
-Const wxFS_READ:Int = 1       ' Open For reading
-Const wxFS_SEEKABLE:Int = 4   ' Returned stream will be seekable 
-
