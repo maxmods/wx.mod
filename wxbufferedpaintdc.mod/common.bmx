@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxBufferedDC
+Import wx.wxWindow
 Import BRL.Blitz
 
 
@@ -43,5 +44,8 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+
+	Function bmx_wxbufferedpaintdc_createforwindow:Byte Ptr(window:Byte Ptr, buffer:Byte Ptr, style:Int)
+	Function bmx_wxbufferedpaintdc_delete(handle:Byte Ptr)
 
 End Extern

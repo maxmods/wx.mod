@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxArchive
+Import wx.wxZipEntry
 Import BRL.Blitz
 
 
@@ -43,5 +44,13 @@ Import "../include/*.h"
 Import "glue.cpp"
 
 Extern
+
+	Function bmx_wxzipinputstream_create:Byte Ptr(stream:Byte Ptr)
+	Function bmx_wxzipinputstream_closeentry:Int(handle:Byte Ptr)
+	Function bmx_wxzipinputstream_getcomment:String(handle:Byte Ptr)
+	Function bmx_wxzipinputstream_getnextentry:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxzipinputstream_gettotalentries:Int(handle:Byte Ptr)
+	Function bmx_wxzipinputstream_openentry:Int(handle:Byte Ptr, entry:Byte Ptr)
+	Function bmx_wxzipinputstream_free(handle:Byte Ptr)
 
 End Extern

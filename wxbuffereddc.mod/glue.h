@@ -21,15 +21,34 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/dcbuffer.h"
+#include "../wxbitmap.mod/glue.h"
 
-//class MaxNotebook;
+class MaxBufferedDC;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxBufferedDC * bmx_wxbuffereddc_create();
+	MaxBufferedDC * bmx_wxbuffereddc_createwitharea(MaxDC * dc, int w, int h, int style);
+	MaxBufferedDC * bmx_wxbuffereddc_createwithbitmap(MaxDC * dc, MaxBitmap * buffer, int style);
+	void bmx_wxbuffereddc_initwitharea(MaxBufferedDC * buf, MaxDC * dc, int w, int h, int style);
+	void bmx_wxbuffereddc_initwithbitmap(MaxBufferedDC * buf, MaxDC * dc, MaxBitmap * buffer, int style);
+	void bmx_wxbuffereddc_delete(MaxBufferedDC * buf);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxBufferedDC : public MaxDC
+{
+public:
+	MaxBufferedDC();
+	MaxBufferedDC(wxDC * dc, int w, int h, int style);
+	MaxBufferedDC(wxDC * dc, wxBitmap& buffer, int style);
+	wxBufferedDC * BufferedDC();
+private:
+	wxBufferedDC bufferedDC;
+};
 

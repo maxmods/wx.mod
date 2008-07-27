@@ -62,7 +62,78 @@ Note that in general zip entries are not seekable, and wxZipInputStream::SeekI()
 End Rem
 Type wxZipInputStream Extends wxArchiveInputStream
 
+	Rem
+	bbdoc: Creates a new wxZipInputStream.
+	End Rem
+	Function CreateZipInputStream:wxZipInputStream(stream:wxInputStream)
+		Return New wxZipInputStream.Create(stream)
+	End Function
 	
+	Rem
+	bbdoc: Creates a new wxZipInputStream.
+	End Rem
+	Method Create:wxZipInputStream(stream:wxInputStream)
+		wxStreamPtr = bmx_wxzipinputstream_create(stream.wxStreamPtr)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Closes the current entry.
+	about: On a non-seekable stream reads to the end of the current entry first.
+	End Rem
+	Method CloseEntry:Int()
+		Return bmx_wxzipinputstream_closeentry(wxStreamPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the zip comment.
+	about: This is stored at the end of the zip, therefore when reading a zip from a non-seekable stream,
+	it returns the empty string until the end of the zip has been reached, i.e. when GetNextEntry() returns NULL.
+	End Rem
+	Method GetComment:String()
+		Return bmx_wxzipinputstream_getcomment(wxStreamPtr)
+	End Method
+	
+	Rem
+	bbdoc: Closes the current entry if one is open, then reads the meta-data for the next entry and returns it in a wxZipEntry object, giving away ownership.
+	about: The stream is then open and can be read.
+	End Rem
+	Method GetNextEntry:wxZipEntry()
+		Return wxZipEntry._create(bmx_wxzipinputstream_getnextentry(wxStreamPtr))
+	End Method
+	
+	Rem
+	bbdoc: For a zip on a seekable stream returns the total number of entries in the zip.
+	about: For zips on non-seekable streams returns the number of entries returned so far by GetNextEntry().
+	End Rem
+	Method GetTotalEntries:Int()
+		Return bmx_wxzipinputstream_gettotalentries(wxStreamPtr)
+	End Method
+	
+	Rem
+	bbdoc: Closes the current entry if one is open, then opens the entry specified by the entry object.
+	about: Parameters:
+	<ul>
+	<li><b>entry</b> should be from the same zip file, and the zip should be on a seekable stream.</li>
+	</ul>
+	End Rem
+	Method OpenEntry:Int(entry:wxArchiveEntry)
+		Return bmx_wxzipinputstream_openentry(wxStreamPtr, entry.wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Frees the stream object.
+	End Rem
+	Method Free()
+		If wxStreamPtr Then
+			bmx_wxzipinputstream_free(wxStreamPtr)
+			wxStreamPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Free()
+	End Method
 
 End Type
 

@@ -63,10 +63,16 @@ wxBufferedPaintDC.
 End Rem
 Type wxAutoBufferedPaintDC Extends wxBufferedPaintDC
 
+	Rem
+	bbdoc: Creates a new wxAutoBufferedPainDC using the provided window.
+	End Rem
 	Function CreateAutoBufferedPaintDC:wxAutoBufferedPaintDC(window:wxWindow)
 		Return New wxAutoBufferedPaintDC.CreatePaintDC(window)
 	End Function
 	
+	Rem
+	bbdoc: Creates a new wxAutoBufferedPainDC using the provided window.
+	End Rem
 	Method CreatePaintDC:wxAutoBufferedPaintDC(window:wxWindow)
 		wxObjectPtr = bmx_wxautobufferedpaintdc_create(window.wxObjectPtr)
 		Return Self

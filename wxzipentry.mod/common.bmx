@@ -44,6 +44,41 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxzipentry_getcomment:String(handle:Byte Ptr)
+	Function bmx_wxzipentry_getcompressedsize:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getcrc:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getdatetime:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxzipentry_getextra:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxzipentry_getextralen:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getexternalattributes:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getflags:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getinternalformat:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getinternalname:String(handle:Byte Ptr)
+	Function bmx_wxzipentry_getlocalextra:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxzipentry_getlocalextralen:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getmethod:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getmode:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getname:String(handle:Byte Ptr, format:Int)
+	Function bmx_wxzipentry_ismadebyunix:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_istext:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_setname(handle:Byte Ptr, name:String, format:Int)
+	Function bmx_wxzipentry_getoffset:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getsize:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_getsystemmadeby:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_setcomment(handle:Byte Ptr, comment:String)
+	Function bmx_wxzipentry_setextra(handle:Byte Ptr, extra:Byte Ptr, length:Int)
+	Function bmx_wxzipentry_setexternalattributes(handle:Byte Ptr, attr:Int)
+	Function bmx_wxzipentry_setistext(handle:Byte Ptr, text:Int)
+	Function bmx_wxzipentry_setlocalextra(handle:Byte Ptr, extra:Byte Ptr, length:Int)
+	Function bmx_wxzipentry_setmethod(handle:Byte Ptr, meth:Int)
+	Function bmx_wxzipentry_setmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxzipentry_setsize(handle:Byte Ptr, size:Int)
+	Function bmx_wxzipentry_setsystemmadeby(handle:Byte Ptr, system:Int)
+	Function bmx_wxzipentry_isdir:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_setisdir(handle:Byte Ptr, dir:Int)
+	Function bmx_wxzipentry_isreadonly:Int(handle:Byte Ptr)
+	Function bmx_wxzipentry_setisreadonly(handle:Byte Ptr, readOnly:Int)
+
 End Extern
 
 

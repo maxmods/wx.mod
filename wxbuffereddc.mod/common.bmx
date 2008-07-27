@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxMemoryDC
+Import wx.wxBitmap
 Import BRL.Blitz
 
 
@@ -44,4 +45,23 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxbuffereddc_create:Byte Ptr()
+	Function bmx_wxbuffereddc_createwitharea:Byte Ptr(dc:Byte Ptr, w:Int, h:Int, style:Int)
+	Function bmx_wxbuffereddc_createwithbitmap:Byte Ptr(dc:Byte Ptr, buffer:Byte Ptr, style:Int)
+	Function bmx_wxbuffereddc_initwitharea(handle:Byte Ptr, dc:Byte Ptr, w:Int, h:Int, style:Int)
+	Function bmx_wxbuffereddc_initwithbitmap(handle:Byte Ptr, dc:Byte Ptr, buffer:Byte Ptr, style:Int)
+	Function bmx_wxbuffereddc_delete(handle:Byte Ptr)
+
 End Extern
+
+Rem
+bbdoc: Assumes the buffer bitmap covers the entire scrolled window, and prepares the window DC accordingly
+End Rem
+Const wxBUFFER_VIRTUAL_AREA:Int = $01
+
+Rem
+bbdoc: Assumes the buffer bitmap only covers the client area; does Not prepare the window DC
+End Rem
+Const wxBUFFER_CLIENT_AREA:Int = $02
+
+

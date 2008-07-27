@@ -25,7 +25,29 @@
 // ---------------------------------------------------------------------------------------
 
 
+MaxBufferedPaintDC::MaxBufferedPaintDC(wxWindow * window, wxBitmap& buffer, int style)
+	: bufferedPaintDC(window, buffer, style)
+{
+	MaxDC::init(&bufferedPaintDC);
+}
+
+wxBufferedPaintDC * MaxBufferedPaintDC::BufferedPaintDC() {
+	return &bufferedPaintDC;
+}
 
 // *********************************************
+
+MaxBufferedPaintDC * bmx_wxbufferedpaintdc_createforwindow(wxWindow * window, MaxBitmap * buffer, int style) {
+	if (buffer) {
+		return new MaxBufferedPaintDC(window, buffer->Bitmap(), style);
+	} else {
+		return new MaxBufferedPaintDC(window, wxNullBitmap, style);
+	}
+}
+
+void bmx_wxbufferedpaintdc_delete(MaxBufferedPaintDC * dc) {
+	delete dc;
+}
+
 
 

@@ -28,4 +28,32 @@
 
 // *********************************************
 
+wxZipInputStream * bmx_wxzipinputstream_create(wxInputStream * stream) {
+	return new wxZipInputStream(*stream);
+}
+
+bool bmx_wxzipinputstream_closeentry(wxZipInputStream * stream) {
+	return stream->CloseEntry();
+}
+
+BBString * bmx_wxzipinputstream_getcomment(wxZipInputStream * stream) {
+	return bbStringFromWxString(stream->GetComment());
+}
+
+wxZipEntry * bmx_wxzipinputstream_getnextentry(wxZipInputStream * stream) {
+	return stream->GetNextEntry();
+}
+
+int bmx_wxzipinputstream_gettotalentries(wxZipInputStream * stream) {
+	return stream->GetTotalEntries();
+}
+
+bool bmx_wxzipinputstream_openentry(wxZipInputStream * stream, wxZipEntry * entry) {
+	return stream->OpenEntry(*entry);
+}
+
+void bmx_wxzipinputstream_free(wxZipInputStream * stream) {
+	delete stream;
+}
+
 
