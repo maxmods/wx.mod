@@ -74,7 +74,7 @@ Type wxListBook Extends wxBookCtrlBase
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Returns the underlying listview object.
 	End Rem
 	Method GetListView:wxListView()
 		Return wxListView._create(bmx_wxlistbook_getlistview(wxObjectPtr))
@@ -110,7 +110,7 @@ Type wxListbookEvent Extends wxBookCtrlEvent
 	
 End Type
 
-Type TListBookEventFactory Extends TEventFactory
+Type TListbookEventFactory Extends TEventFactory
 
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
@@ -133,4 +133,4 @@ Type TListBookEventFactory Extends TEventFactory
 
 End Type
 
-New TListBookEventFactory
+New TListbookEventFactory

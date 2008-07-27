@@ -21,15 +21,26 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/toolbook.h"
 
-//class MaxNotebook;
+class MaxToolbook;
 
 extern "C" {
 
 #include <blitz.h>
 
+	MaxToolbook * bmx_wxtoolbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	wxToolBarBase * bmx_wxtoolbook_gettoolbar(wxToolbook * book);
+	void bmx_wxtoolbook_realize(wxToolbook * book);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxToolbook : public wxToolbook
+{
+public:
+	MaxToolbook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	~MaxToolbook();
+};
 

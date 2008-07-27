@@ -240,6 +240,9 @@ Type wxBookCtrlBase Extends wxControl
 
 End Type
 
+Rem
+bbdoc:
+End Rem
 Type wxBookCtrlEvent Extends wxNotifyEvent
 
 	Rem

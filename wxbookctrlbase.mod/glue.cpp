@@ -132,9 +132,13 @@ int bmx_wxbookctrlbase_geteventtype(int type) {
 	switch(type) {
 		case -802:
 		case -804:
+		case -806:
+		case -808:
 		case 802: return wxEVT_COMMAND_BOOKCTRL_PAGE_CHANGED;
 		case -803:
 		case -805:
+		case -807:
+		case -809:
 		case 803: return wxEVT_COMMAND_BOOKCTRL_PAGE_CHANGING;
 	}
 	

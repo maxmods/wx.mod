@@ -21,6 +21,8 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxBookCtrlBase
+Import wx.wxToolBar
 Import BRL.Blitz
 
 
@@ -43,4 +45,14 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxtoolbook_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxtoolbook_gettoolbar:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtoolbook_realize(handle:Byte Ptr)
+
 End Extern
+
+Const wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED:Int = -806
+Const wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING:Int = -807
+
+Const wxBK_BUTTONBAR:Int = $0100
+

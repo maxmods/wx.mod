@@ -21,6 +21,8 @@
 SuperStrict
 
 Import wx.wx
+Import wx.wxBookCtrlBase
+Import wx.wxTreeCtrl
 Import BRL.Blitz
 
 
@@ -43,4 +45,24 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxtreebook_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxtreebook_addpage:Int(handle:Byte Ptr, page:Byte Ptr, text:String, selected:Int, imageId:Int)
+	Function bmx_wxtreebook_addsubpage:Int(handle:Byte Ptr, page:Byte Ptr, text:String, selected:Int, imageId:Int)
+	Function bmx_wxtreebook_insertpage:Int(handle:Byte Ptr, index:Int, page:Byte Ptr, text:String, selected:Int, imageId:Int)
+	Function bmx_wxtreebook_insertsubpage:Int(handle:Byte Ptr, index:Int, page:Byte Ptr, text:String, selected:Int, imageId:Int)
+	Function bmx_wxtreebook_collapsenode:Int(handle:Byte Ptr, pageId:Int)
+	Function bmx_wxtreebook_expandnode:Int(handle:Byte Ptr, pageId:Int, expand:Int)
+	Function bmx_wxtreebook_isnodeexpanded:Int(handle:Byte Ptr, pos:Int)
+	Function bmx_wxtreebook_getpageparent:Int(handle:Byte Ptr, pos:Int)
+	Function bmx_wxtreebook_gettreectrl:Byte Ptr(handle:Byte Ptr)
+
+	Function bmx_wxtreebook_geteventtype:Int(eventType:Int)
+	
 End Extern
+
+Const wxEVT_COMMAND_TREEBOOK_PAGE_CHANGED:Int = -808
+Const wxEVT_COMMAND_TREEBOOK_PAGE_CHANGING:Int = -809
+Const wxEVT_COMMAND_TREEBOOK_NODE_COLLAPSED:Int = -810
+Const wxEVT_COMMAND_TREEBOOK_NODE_EXPANDED:Int = -811
+
+

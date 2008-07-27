@@ -24,8 +24,65 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxTreebook::MaxTreebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
+	: wxTreebook(parent, id, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxTreebook::~MaxTreebook() {
+	wxunbind(this);
+}
 
 
 // *********************************************
 
+wxTreebook * bmx_wxtreebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+	return new MaxTreebook(handle, parent, id, x, y, w, h, style);
+}
 
+bool bmx_wxtreebook_addpage(wxTreebook * book, wxWindow * page, BBString * text, bool selected, int imageId) {
+	return book->AddPage(page, wxStringFromBBString(text), selected, imageId);
+}
+
+bool bmx_wxtreebook_addsubpage(wxTreebook * book, wxWindow * page, BBString * text, bool selected, int imageId) {
+	return book->AddSubPage(page, wxStringFromBBString(text), selected, imageId);
+}
+
+bool bmx_wxtreebook_insertpage(wxTreebook * book, int index, wxWindow * page, BBString * text, bool selected, int imageId) {
+	return book->InsertPage(static_cast<size_t>(index), page, wxStringFromBBString(text), selected, imageId);
+}
+
+bool bmx_wxtreebook_insertsubpage(wxTreebook * book, int index, wxWindow * page, BBString * text, bool selected, int imageId) {
+	return book->InsertSubPage(static_cast<size_t>(index), page, wxStringFromBBString(text), selected, imageId);
+}
+
+bool bmx_wxtreebook_collapsenode(wxTreebook * book, int pageId) {
+	return book->CollapseNode(static_cast<size_t>(pageId));
+}
+
+bool bmx_wxtreebook_expandnode(wxTreebook * book, int pageId, bool expand) {
+	return book->ExpandNode(static_cast<size_t>(pageId), expand);
+}
+
+bool bmx_wxtreebook_isnodeexpanded(wxTreebook * book, int pos) {
+	return book->IsNodeExpanded(static_cast<size_t>(pos));
+}
+
+int bmx_wxtreebook_getpageparent(wxTreebook * book, int pos) {
+	return book->GetPageParent(static_cast<size_t>(pos));
+}
+
+wxTreeCtrl * bmx_wxtreebook_gettreectrl(wxTreebook * book) {
+	return book->GetTreeCtrl();
+}
+
+
+int bmx_wxtreebook_geteventtype(int type) {
+	switch(type) {
+		case -810: return wxEVT_COMMAND_TREEBOOK_NODE_COLLAPSED;
+		case -811: return wxEVT_COMMAND_TREEBOOK_NODE_EXPANDED;
+	}
+	
+	return 0;
+}

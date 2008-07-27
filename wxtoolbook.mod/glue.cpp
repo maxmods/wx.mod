@@ -24,8 +24,22 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxToolbook::MaxToolbook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
+	: wxToolbook(parent, id, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
 
+MaxToolbook::~MaxToolbook() {
+	wxunbind(this);
+}
 
 // *********************************************
 
+MaxToolbook * bmx_wxtoolbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+	return new MaxToolbook(maxHandle, parent, id, x, y, w, h, style);
+}
 
+wxToolBarBase * bmx_wxtoolbook_gettoolbar(wxToolbook * book) {
+	return book->GetToolBar();
+}

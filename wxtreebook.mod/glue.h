@@ -21,15 +21,34 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/treebook.h"
 
-//class MaxNotebook;
+class MaxTreebook;
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxTreebook * bmx_wxtreebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	bool bmx_wxtreebook_addpage(wxTreebook * book, wxWindow * page, BBString * text, bool selected, int imageId);
+	bool bmx_wxtreebook_addsubpage(wxTreebook * book, wxWindow * page, BBString * text, bool selected, int imageId);
+	bool bmx_wxtreebook_insertpage(wxTreebook * book, int index, wxWindow * page, BBString * text, bool selected, int imageId);
+	bool bmx_wxtreebook_insertsubpage(wxTreebook * book, int index, wxWindow * page, BBString * text, bool selected, int imageId);
+	bool bmx_wxtreebook_collapsenode(wxTreebook * book, int pageId);
+	bool bmx_wxtreebook_expandnode(wxTreebook * book, int pageId, bool expand);
+	bool bmx_wxtreebook_isnodeexpanded(wxTreebook * book, int pos);
+	int bmx_wxtreebook_getpageparent(wxTreebook * book, int pos);
+	wxTreeCtrl * bmx_wxtreebook_gettreectrl(wxTreebook * book);
+
+	int bmx_wxtreebook_geteventtype(int type);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxTreebook : public wxTreebook
+{
+public:
+	MaxTreebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	~MaxTreebook();
+};
