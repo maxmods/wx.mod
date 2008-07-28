@@ -20,40 +20,36 @@
 ' 
 SuperStrict
 
-Rem
-bbdoc: wxFileSystemHandler
-End Rem
-Module wx.wxFileSystemHandler
+Import wx.wx
+Import wx.wxFileSystemHandler
+Import wx.wxBitmap
+Import BRL.Blitz
 
-ModuleInfo "Version: 1.00"
-ModuleInfo "License: MIT"
-ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2007 Bruce A Henderson"
-ModuleInfo "Modserver: BRL"
 
+' headers :-)
 ?linux
-ModuleInfo "CC_OPTS: -D__WXGTK__"
-ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
-ModuleInfo "CC_OPTS: -D_LARGE_FILES"
-ModuleInfo "CC_OPTS: -DWX_PRECOMP"
+Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
+Import "../include/*.h"
 ?win32
-ModuleInfo "CC_OPTS: -DHAVE_W32API_H"
-ModuleInfo "CC_OPTS: -D__WXMSW__"
-ModuleInfo "CC_OPTS: -D_UNICODE"
-ModuleInfo "CC_OPTS: -DUNICODE"
-?macos
-ModuleInfo "CC_OPTS: -D__WXMAC__"
-ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
-ModuleInfo "CC_OPTS: -D_LARGE_FILES"
-ModuleInfo "CC_OPTS: -DWX_PRECOMP"
+Import "../lib/win32/mswu/*.h"
+Import "../include/*.h"
+?macosppc
+Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
+Import "../include/*.h"
+?macosx86
+Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
+Import "../include/*.h"
 ?
 
-Import "common.bmx"
+Import "glue.cpp"
 
-Rem
-bbdoc: Types derived from wxFileSystemHandler are used to access virtual file systems.
-End Rem
-Type wxFileSystemHandler Extends wxObject
+Extern
 
-End Type
+	Function bmx_wxmemoryfshandler_new:Byte Ptr(handle:Object)
+	Function bmx_wxmemoryfshandler_addimagefile(filename:String, image:Byte Ptr, _type:Int)
+	Function bmx_wxmemoryfshandler_addbitmapfile(filename:String, bitmap:Byte Ptr, _type:Int)
+	Function bmx_wxmemoryfshandler_addfilewithmimetype(filename:String, textData:String, mimeType:String)
+	Function bmx_wxmemoryfshandler_addbinaryfilewithmimetype(filename:String, data:Byte Ptr, size:Int, mimeType:String)
+	Function bmx_wxmemoryfshandler_removefile(filename:String)
 
+End Extern
