@@ -151,6 +151,109 @@ Type wxLog
 			Return this
 		End If
 	End Function
+
+	Rem
+	bbdoc: Add the mask to the list of allowed masks for wxLogTrace.
+	End Rem
+	Function AddTraceMask(mask:String)
+		bmx_wxlog_addtracemask(mask)
+	End Function
+	
+	Rem
+	bbdoc: Removes all trace masks previously set with AddTraceMask.
+	End Rem
+	Function ClearTraceMasks()
+		bmx_wxlog_cleartracemasks()
+	End Function
+	
+	Rem
+	bbdoc: Instructs wxLog to not create new log targets on the fly if there is none currently.
+	about: (Almost) for internal use only: it is supposed to be called by the application shutdown code.
+	<p>
+	Note that this function also calls ClearTraceMasks.
+	</p>
+	End Rem
+	Function DontCreateOnDemand()
+		bmx_wxlog_dontcreateondemand()
+	End Function
+	
+	Rem
+	bbdoc: Flushes the current log target if any, does nothing if there is none.
+	End Rem
+	Function FlushActive()
+		bmx_wxlog_flushactive()
+	End Function
+	
+	Rem
+	bbdoc: Returns the currently allowed list of string trace masks.
+	End Rem
+	Function GetTraceMasks:String[]()
+		bmx_wxlog_gettracemasks()
+	End Function
+
+	Rem
+	bbdoc: Returns the pointer to the active log target (may be NULL).
+	End Rem
+	Function GetActiveTarget:wxLog()
+		Return wxLog._create(bmx_wxlog_getactivetarget())
+	End Function
+	
+	Rem
+	bbdoc: Returns the current log level limit.
+	End Rem
+	Function GetLogLevel:Int()
+		Return bmx_wxlog_getloglevel()
+	End Function
+	
+	Rem
+	bbdoc: Returns whether the repetition counting mode is enabled.
+	End Rem
+	Function GetRepetitionCounting:Int()
+		Return bmx_wxlog_getrepetitioncounting()
+	End Function
+	
+	Rem
+	bbdoc: Returns the current timestamp format string.
+	End Rem
+	Function GetTimestamp:String()
+		Return bmx_wxlog_gettimestamp()
+	End Function
+	
+	Rem
+	bbdoc: Returns the current trace mask.
+	End Rem
+	Function GetTraceMask:Int()
+		Return bmx_wxlog_gettracemask()
+	End Function
+	
+	Rem
+	bbdoc: Returns whether the verbose mode is currently active.
+	End Rem
+	Function GetVerbose:Int()
+		Return bmx_wxlog_getverbose()
+	End Function
+	
+	Rem
+	bbdoc: Returns true if the mask is one of allowed masks for wxLogTrace.
+	End Rem
+	Function IsAllowedTraceMask:Int(mask:String)
+		Return bmx_wxlog_isallowedtracemask(mask)
+	End Function
+	
+	Rem
+	bbdoc: Remove the mask from the list of allowed masks for wxLogTrace.
+	End Rem
+	Function RemoveTraceMask(mask:String)
+		bmx_wxlog_removetracemask(mask)
+	End Function
+
+	Rem
+	bbdoc: Resumes logging previously suspended by a call to Suspend.
+	about: All messages logged in the meanwhile will be flushed soon.
+	End Rem
+	Function Resume()
+		bmx_wxlog_resume()
+	End Function
 	
 	Rem
 	bbdoc: Sets the specified log target as the active one.
@@ -168,7 +271,43 @@ Type wxLog
 			Return logger
 		End If
 	End Function
-
+	
+	Rem
+	bbdoc: Specifies that log messages with level > logLevel should be ignored and not sent to the active log target.
+	End Rem
+	Function SetLogLevel(level:Int)
+		bmx_wxlog_setloglevel(level)
+	End Function
+	
+	Rem
+	bbdoc: Enables logging mode in which a log message is logged once, and in case exactly the same message successively repeats one or more times, only the number of repetitions is logged.
+	End Rem
+	Function SetRepetitionCounting(repetCounting:Int = True)
+		bmx_wxlog_setrepetitioncounting(repetCounting)
+	End Function
+	
+	Rem
+	bbdoc: Sets the trace mask.
+	End Rem
+	Function SetTraceMask(mask:Int)
+		bmx_wxlog_settracemask(mask)
+	End Function
+	
+	Rem
+	bbdoc: Suspends the logging until Resume is called.
+	about: Note that the latter must be called the same number of times as the former to undo it,
+	i.e. if you call Suspend() twice you must call Resume() twice as well.
+	<p>
+	Note that suspending the logging means that the log sink won't be be flushed periodically, it doesn't
+	have any effect if the current log target does the logging immediately without waiting for Flush to be
+	called (the standard GUI log target only shows the log dialog when it is flushed, so Suspend() works as
+	expected with it).
+	</p>
+	End Rem
+	Function Suspend()
+		bmx_wxlog_suspend()
+	End Function
+	
 	Rem
 	bbdoc: Sets the timestamp format prepended by the default log targets to all messages.
 	about: The string may contain any normal characters as well as % prefixed format specificators, see strftime()
@@ -180,6 +319,13 @@ Type wxLog
 		Else
 			bmx_wxlog_settimestamp(Null)
 		End If
+	End Function
+	
+	Rem
+	bbdoc: Activates or deactivates verbose mode in which the verbose messages are logged as the normal ones instead of being silently dropped.
+	End Rem
+	Function SetVerbose(verbose:Int = True)
+		bmx_wxlog_setverbose(verbose)
 	End Function
 	
 	Method Free()

@@ -62,5 +62,37 @@ Extern
 	
 	Function bmx_wxlog_setactivetarget:Byte Ptr(logger:Byte Ptr)
 	Function bmx_wxlog_settimestamp(format:String)
-	
+
+	Function bmx_wxlog_addtracemask(mask:String)
+	Function bmx_wxlog_cleartracemasks()
+	Function bmx_wxlog_dontcreateondemand()
+	Function bmx_wxlog_flushactive()
+	Function bmx_wxlog_gettracemasks:String[]()
+	Function bmx_wxlog_getactivetarget:Byte Ptr()
+	Function bmx_wxlog_getloglevel:Int()
+	Function bmx_wxlog_getrepetitioncounting:Int()
+	Function bmx_wxlog_gettimestamp:String()
+	Function bmx_wxlog_gettracemask:Int()
+	Function bmx_wxlog_getverbose:Int()
+	Function bmx_wxlog_isallowedtracemask:Int(mask:String)
+	Function bmx_wxlog_removetracemask(mask:String)
+	Function bmx_wxlog_resume()
+	Function bmx_wxlog_setloglevel(level:Int)
+	Function bmx_wxlog_setrepetitioncounting(repetCounting:Int)
+	Function bmx_wxlog_settracemask(mask:Int)
+	Function bmx_wxlog_suspend()
+	Function bmx_wxlog_setverbose(verbose:Int)
+
 End Extern
+
+
+Const wxLOG_FatalError:Int = 0 ' program can't continue, abort immediately
+Const wxLOG_Error:Int = 1      ' a serious error, user must be informed about it
+Const wxLOG_Warning:Int = 2    ' user is normally informed about it but may be ignored
+Const wxLOG_Message:Int = 3    ' normal message (i.e. normal output of a non GUI app)
+Const wxLOG_Status:Int = 4     ' informational: might go to the status line of GUI app
+Const wxLOG_Info:Int = 5       ' informational message (a.k.a. 'Verbose')
+Const wxLOG_Debug:Int = 6      ' never shown to the user, disabled in release mode
+Const wxLOG_Trace:Int = 7      ' trace messages are also only enabled in debug mode
+Const wxLOG_Progress:Int = 8   ' used for progress indicator (not yet)
+Const wxLOG_User:Int = 100     ' user defined levels start here

@@ -118,3 +118,80 @@ void bmx_wxlog_settimestamp(BBString * format) {
 		wxLog::SetTimestamp(NULL);
 	}
 }
+
+void bmx_wxlog_addtracemask(BBString * mask) {
+	wxLog::AddTraceMask(wxStringFromBBString(mask));
+}
+
+void bmx_wxlog_cleartracemasks() {
+	wxLog::ClearTraceMasks();
+}
+
+void bmx_wxlog_dontcreateondemand() {
+	wxLog::DontCreateOnDemand();
+}
+
+void bmx_wxlog_flushactive() {
+	wxLog::FlushActive();
+}
+
+BBArray * bmx_wxlog_gettracemasks() {
+	return wxArrayStringToBBStringArray(wxLog::GetTraceMasks());
+}
+
+wxLog * bmx_wxlog_getactivetarget() {
+	return wxLog::GetActiveTarget();
+}
+
+wxLogLevel bmx_wxlog_getloglevel() {
+	return wxLog::GetLogLevel();
+}
+
+bool bmx_wxlog_getrepetitioncounting() {
+	return wxLog::GetRepetitionCounting();
+}
+
+BBString * bmx_wxlog_gettimestamp() {
+	return bbStringFromWxString(wxString(wxLog::GetTimestamp()));
+}
+
+wxTraceMask bmx_wxlog_gettracemask() {
+	return wxLog::GetTraceMask();
+}
+
+bool bmx_wxlog_getverbose() {
+	return wxLog::GetVerbose();
+}
+
+bool bmx_wxlog_isallowedtracemask(BBString * mask) {
+	return wxLog::IsAllowedTraceMask(wxStringFromBBString(mask));
+}
+
+void bmx_wxlog_removetracemask(BBString * mask) {
+	wxLog::RemoveTraceMask(wxStringFromBBString(mask));
+}
+
+void bmx_wxlog_resume() {
+	wxLog::Resume();
+}
+
+void bmx_wxlog_setloglevel(wxLogLevel level) {
+	wxLog::SetLogLevel(level);
+}
+
+void bmx_wxlog_setrepetitioncounting(bool repetCounting) {
+	wxLog::SetRepetitionCounting(repetCounting);
+}
+
+void bmx_wxlog_settracemask(wxTraceMask mask) {
+	wxLog::SetTraceMask(mask);
+}
+
+void bmx_wxlog_suspend() {
+	wxLog::Suspend();
+}
+
+void bmx_wxlog_setverbose(bool verbose) {
+	wxLog::SetVerbose(verbose);
+}
+
