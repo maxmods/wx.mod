@@ -52,15 +52,72 @@ Extern
 
 	Function bmx_wxjsonvalue_create:Byte Ptr()
 	Function bmx_wxjsonvalue_createint:Byte Ptr(value:Int)
+	Function bmx_wxjsonvalue_createlong:Byte Ptr(value:Long)
+	Function bmx_wxjsonvalue_createbool:Byte Ptr(value:Int)
+	Function bmx_wxjsonvalue_createdouble:Byte Ptr(value:Double)
+	Function bmx_wxjsonvalue_createstring:Byte Ptr(value:String)
 	Function bmx_wxjsonvalue_asint:Int(handle:Byte Ptr)
 	Function bmx_wxjsonvalue_item:Byte Ptr(handle:Byte Ptr, name:String)
 	Function bmx_wxjsonvalue_itemat:Byte Ptr(handle:Byte Ptr, index:Int)
 	Function bmx_wxjsonvalue_setstring(handle:Byte Ptr, value:String)
 	Function bmx_wxjsonvalue_delete(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_cat:Int(handle:Byte Ptr, text:String)
+	Function bmx_wxjsonvalue_clear(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_clearcomments(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_getcomment:String(handle:Byte Ptr, index:Int)
+	Function bmx_wxjsonvalue_getcommentarray:String[](handle:Byte Ptr)
+	Function bmx_wxjsonvalue_getcommentcount:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_getcommentpos:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_getlineno:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_getlmembernames:String[](handle:Byte Ptr)
+	Function bmx_wxjsonvalue_gettype:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_hasmember:Int(handle:Byte Ptr, key:String)
+	Function bmx_wxjsonvalue_hasmemberindex:Int(handle:Byte Ptr, index:Int)
+	Function bmx_wxjsonvalue_isarray:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_isbool:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_isdouble:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_isint:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_islong:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_isnull:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_isobject:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_issameas:Int(handle:Byte Ptr, other:Byte Ptr)
+	Function bmx_wxjsonvalue_isstring:Int(handle:Byte Ptr)
+
+	Function bmx_wxjsonvalue_setint(handle:Byte Ptr, value:Int)
+	Function bmx_wxjsonvalue_setbool(handle:Byte Ptr, value:Int)
+	Function bmx_wxjsonvalue_setdouble(handle:Byte Ptr, value:Double)
+	Function bmx_wxjsonvalue_setlong(handle:Byte Ptr, value:Long)
+	Function bmx_wxjsonvalue_appendstring:Byte Ptr(handle:Byte Ptr, value:String)
+	Function bmx_wxjsonvalue_appenddouble:Byte Ptr(handle:Byte Ptr, value:Double)
+	Function bmx_wxjsonvalue_appendbool:Byte Ptr(handle:Byte Ptr, value:Int)
+	Function bmx_wxjsonvalue_appendlong:Byte Ptr(handle:Byte Ptr, value:Long)
+	Function bmx_wxjsonvalue_appendint:Byte Ptr(handle:Byte Ptr, value:Int)
+	Function bmx_wxjsonvalue_append:Byte Ptr(handle:Byte Ptr, value:Byte Ptr)
+	Function bmx_wxjsonvalue_asbool:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_asstring:String(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_asdouble:Double(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_aslong(handle:Byte Ptr, value:Long Ptr)
+	Function bmx_wxjsonvalue_addcomment:Int(handle:Byte Ptr, comment:String, position:Int)
+	Function bmx_wxjsonvalue_addcomments:Int(handle:Byte Ptr, comments:String[], position:Int)
+	Function bmx_wxjsonvalue_remove:Int(handle:Byte Ptr, key:String)
+	Function bmx_wxjsonvalue_removefrom:Int(handle:Byte Ptr, index:Int)
+	Function bmx_wxjsonvalue_setlineno(handle:Byte Ptr, num:Int)
+	Function bmx_wxjsonvalue_size:Int(handle:Byte Ptr)
+	Function bmx_wxjsonvalue_settype(handle:Byte Ptr, _type:Int)
 
 	Function bmx_wxjsonwriter_create:Byte Ptr(style:Int, indent:Int, _step:Int)
-	Function bmx_wxjsonwrite_writestring:String(handle:Byte Ptr, value:Byte Ptr)
+	Function bmx_wxjsonwriter_writestring:String(handle:Byte Ptr, value:Byte Ptr)
 	Function bmx_wxjsonwriter_delete(handle:Byte Ptr)
+	Function bmx_wxjsonwriter_write(handle:Byte Ptr, value:Byte Ptr, stream:Byte Ptr)
+
+	Function bmx_wxjsonreader_create:Byte Ptr(flags:Int, maxErrors:Int)
+	Function bmx_wxjsonreader_parsestring:Byte Ptr(handle:Byte Ptr, doc:String)
+	Function bmx_wxjsonreader_parse:Byte Ptr(handle:Byte Ptr, doc:Byte Ptr)
+	Function bmx_wxjsonreader_geterrorcount:Int(handle:Byte Ptr)
+	Function bmx_wxjsonreader_getwarningcount:Int(handle:Byte Ptr)
+	Function bmx_wxjsonreader_geterrors:String[](handle:Byte Ptr)
+	Function bmx_wxjsonreader_getwarnings:String[](handle:Byte Ptr)
+	Function bmx_wxjsonreader_delete(handle:Byte Ptr)
 
 End Extern
 
@@ -96,3 +153,12 @@ Const wxJSONWRITER_COMMENTS_AFTER:Int = $00000008
 Const wxJSONWRITER_SPLIT_STRING:Int = $00000010
 Const wxJSONWRITER_NO_LINEFEEDS:Int = $00000020
 
+Const wxJSONREADER_STRICT:Int = 0
+Const wxJSONREADER_ALLOW_COMMENTS:Int = 1
+Const wxJSONREADER_STORE_COMMENTS:Int = 2
+Const wxJSONREADER_CASE:Int = 4
+Const wxJSONREADER_MISSING:Int = 8
+Const wxJSONREADER_MULTISTRING:Int = 16
+Const wxJSONREADER_COMMENTS_AFTER:Int = 32
+Const wxJSONREADER_TOLERANT:Int = wxJSONREADER_ALLOW_COMMENTS | wxJSONREADER_CASE | wxJSONREADER_MISSING | wxJSONREADER_MULTISTRING
+Const wxJSONREADER_COMMENTS_BEFORE:Int = wxJSONREADER_ALLOW_COMMENTS | wxJSONREADER_STORE_COMMENTS
