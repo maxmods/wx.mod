@@ -3412,6 +3412,27 @@ Type wxEraseEvent Extends wxEvent
 	
 End Type
 
+Rem
+bbdoc: Find the deepest window at the given mouse position in screen coordinates, returning the window if found, or NULL if not.
+End Rem
+Function wxFindWindowAtPoint:wxWindow(x:Int, y:Int)
+	Return wxWindow._find(bmx_wxfindwindowatpoint(x, y))
+End Function
+
+Rem
+bbdoc: Find the deepest window at the mouse pointer position, returning the window and current pointer position in screen coordinates.
+End Rem
+Function wxFindWindowAtPointer:wxWindow(x:Int Var, y:Int Var)
+	Return wxWindow._find(bmx_wxfindwindowatpointer(Varptr x, Varptr y))
+End Function
+
+Rem
+bbdoc: Gets the currently active window.
+End Rem
+Function wxGetActiveWindow:wxWindow()
+	Return wxWindow._find(bmx_wxgetactivewindow())
+End Function
+
 Type TWindowEventFactory Extends TEventFactory
 
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)

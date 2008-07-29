@@ -1287,4 +1287,22 @@ void bmx_wxcaret_show(wxCaret * caret, bool _show) {
 	caret->Show(_show);
 }
 
+// *********************************************
+
+wxWindow * bmx_wxfindwindowatpoint(int x, int y) {
+	return wxFindWindowAtPoint(wxPoint(x, y));
+}
+
+wxWindow * bmx_wxfindwindowatpointer(int * x, int * y) {
+	wxPoint p;
+	wxWindow * win = wxFindWindowAtPointer(p);
+	*x = p.x;
+	*y = p.y;
+	return win;
+}
+
+wxWindow * bmx_wxgetactivewindow() {
+	return wxGetActiveWindow();
+}
+
 

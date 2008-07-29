@@ -335,6 +335,10 @@ Extern
 	Function bmx_wxcaret_setsize(handle:Byte Ptr, width:Int, height:Int)
 	Function bmx_wxcaret_show(handle:Byte Ptr, _show:Int)
 
+	Function bmx_wxfindwindowatpoint:Byte Ptr(x:Int, y:Int)
+	Function bmx_wxfindwindowatpointer:Byte Ptr(x:Int Ptr, y:Int Ptr)
+	Function bmx_wxgetactivewindow:Byte Ptr()
+
 End Extern
 
 

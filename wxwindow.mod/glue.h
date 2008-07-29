@@ -334,6 +334,10 @@ extern "C" {
 	void bmx_wxcaret_setsize(wxCaret * caret, int width, int height);
 	void bmx_wxcaret_show(wxCaret * caret, bool _show);
 
+	wxWindow * bmx_wxfindwindowatpoint(int x, int y);
+	wxWindow * bmx_wxfindwindowatpointer(int * x, int * y);
+	wxWindow * bmx_wxgetactivewindow();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
