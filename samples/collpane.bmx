@@ -16,7 +16,7 @@ Import wx.wxCollapsiblePane
 Import wx.wxStaticText
 Import wx.wxTextEntryDialog
 Import wx.wxButton
-Import wx.wxadv
+Import wx.wxAboutBox
 
 Const PANE_COLLAPSE:Int = 0
 Const PANE_EXPAND:Int = 1
