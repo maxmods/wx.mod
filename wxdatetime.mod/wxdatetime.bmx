@@ -555,111 +555,71 @@ Type wxDateTime
 	Rem
 	bbdoc: Returns the century of this date.
 	End Rem
-	Method GetCentury:Int(tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getcentury(wxObjectPtr, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getcentury(wxObjectPtr, Null)
-		End If
+	Method GetCentury:Int(tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getcentury(wxObjectPtr, tz)
 	End Method
 
 	Rem
 	bbdoc: Returns the year in the given timezone (local one by default).
 	End Rem
-	Method GetYear:Int(tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getyear(wxObjectPtr, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getyear(wxObjectPtr, Null)
-		End If
+	Method GetYear:Int(tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getyear(wxObjectPtr, tz)
 	End Method
 
 	Rem
 	bbdoc: Returns the month in the given timezone (local one by default).
 	End Rem
-	Method GetMonth:Int(tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getmonth(wxObjectPtr, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getmonth(wxObjectPtr, Null)
-		End If
+	Method GetMonth:Int(tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getmonth(wxObjectPtr, tz)
 	End Method
 
 	Rem
 	bbdoc: Returns the day in the given timezone (local one by default).
 	End Rem
-	Method GetDay:Int(tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getday(wxObjectPtr, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getday(wxObjectPtr, Null)
-		End If
+	Method GetDay:Int(tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getday(wxObjectPtr, tz)
 	End Method
 
 	Rem
 	bbdoc: Returns the week day in the given timezone (local one by default).
 	End Rem
-	Method GetWeekDay:Int(tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getweekday(wxObjectPtr, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getweekday(wxObjectPtr, Null)
-		End If
+	Method GetWeekDay:Int(tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getweekday(wxObjectPtr, tz)
 	End Method
 
 	Rem
 	bbdoc: Returns the hour in the given timezone (local one by default).
 	End Rem
-	Method GetHour:Int(tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_gethour(wxObjectPtr, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_gethour(wxObjectPtr, Null)
-		End If
+	Method GetHour:Int(tz:Int = TZ_Local)
+		Return bmx_wxdatetime_gethour(wxObjectPtr, tz)
 	End Method
 
 	Rem
 	bbdoc: Returns the minute in the given timezone (local one by default).
 	End Rem
-	Method GetMinute:Int(tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getminute(wxObjectPtr, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getminute(wxObjectPtr, Null)
-		End If
+	Method GetMinute:Int(tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getminute(wxObjectPtr, tz)
 	End Method
 
 	Rem
 	bbdoc: Returns the seconds in the given timezone (local one by default).
 	End Rem
-	Method GetSecond:Int(tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getsecond(wxObjectPtr, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getsecond(wxObjectPtr, Null)
-		End If
+	Method GetSecond:Int(tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getsecond(wxObjectPtr, tz)
 	End Method
 
 	Rem
 	bbdoc: Returns the milliseconds in the given timezone (local one by default).
 	End Rem
-	Method GetMillisecond:Int(tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getmillisecond(wxObjectPtr, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getmillisecond(wxObjectPtr, Null)
-		End If
+	Method GetMillisecond:Int(tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getmillisecond(wxObjectPtr, tz)
 	End Method
 
 	Rem
 	bbdoc: Returns the day of the year (in 1...366 range) in the given timezone (local one by default).
 	End Rem
-	Method GetDayOfYear:Int(tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getdayofyear(wxObjectPtr, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getdayofyear(wxObjectPtr, Null)
-		End If
+	Method GetDayOfYear:Int(tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getdayofyear(wxObjectPtr, tz)
 	End Method
 
 	Rem
@@ -673,12 +633,8 @@ Type wxDateTime
 	Sunday_First are not well-defined as the ISO definition quoted above applies to the weeks starting on Monday only.
 	</p>
 	End Rem
-	Method GetWeekOfYear:Int(flags:Int = Monday_First, tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getweekofyear(wxObjectPtr, flags, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getweekofyear(wxObjectPtr, flags, Null)
-		End If
+	Method GetWeekOfYear:Int(flags:Int = Monday_First, tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getweekofyear(wxObjectPtr, flags, tz)
 	End Method
 
 	Rem
@@ -686,12 +642,8 @@ Type wxDateTime
 	about: As GetWeekOfYear, this function supports both conventions for the week start. See the description of
 	these week start conventions.
 	End Rem
-	Method GetWeekOfMonth:Int(flags:Int = Monday_First, tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_getweekofmonth(wxObjectPtr, flags, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_getweekofmonth(wxObjectPtr, flags, Null)
-		End If
+	Method GetWeekOfMonth:Int(flags:Int = Monday_First, tz:Int = TZ_Local)
+		Return bmx_wxdatetime_getweekofmonth(wxObjectPtr, flags, tz)
 	End Method
 
 	Rem
@@ -849,12 +801,8 @@ Type wxDateTime
 	using printf(3)-like syntax and the format specification %l can be used to get the number of milliseconds.
 	</p>
 	End Rem
-	Method Format:String(format:String = wxDefaultDateTimeFormat, tz:TimeZone = Null)
-		If tz Then
-			Return bmx_wxdatetime_format(wxObjectPtr, format, tz.wxObjectPtr)
-		Else
-			Return bmx_wxdatetime_format(wxObjectPtr, format, Null)
-		End If
+	Method Format:String(format:String = wxDefaultDateTimeFormat, tz:Int = TZ_Local)
+		Return bmx_wxdatetime_format(wxObjectPtr, format, tz)
 	End Method
 	
 	Rem
@@ -1063,8 +1011,8 @@ Type wxDateTime
 	returns: The date in the local time zone.
 	about: If noDST is true, no DST adjustments will be made.
 	End Rem
-	Method FromTimezone:wxDateTime(tz:TimeZone, noDST:Int = False)
-		Return wxDateTime._create(bmx_wxdatetime_fromtimezone(wxObjectPtr, tz.wxObjectPtr, noDST))
+	Method FromTimezone:wxDateTime(tz:Int, noDST:Int = False)
+		Return wxDateTime._create(bmx_wxdatetime_fromtimezone(wxObjectPtr, tz, noDST))
 	End Method
 	
 	Rem
@@ -1072,24 +1020,24 @@ Type wxDateTime
 	returns: The date in the new time zone.
 	about: If noDST is true, no DST adjustments will be made.
 	End Rem
-	Method ToTimezone:wxDateTime(tz:TimeZone, noDST:Int = False)
-		Return wxDateTime._create(bmx_wxdatetime_totimezone(wxObjectPtr, tz.wxObjectPtr, noDST))
+	Method ToTimezone:wxDateTime(tz:Int, noDST:Int = False)
+		Return wxDateTime._create(bmx_wxdatetime_totimezone(wxObjectPtr, tz, noDST))
 	End Method
 	
 	Rem
 	bbdoc: Modifies the object in place to represent the date in another time zone.
 	about: If noDST is true, no DST adjustments will be made.
 	End Rem
-	Method MakeTimezone:wxDateTime(tz:TimeZone, noDST:Int = False)
-		bmx_wxdatetime_maketimezone(wxObjectPtr, tz.wxObjectPtr, noDST)
+	Method MakeTimezone:wxDateTime(tz:Int, noDST:Int = False)
+		bmx_wxdatetime_maketimezone(wxObjectPtr, tz, noDST)
 		Return Self
 	End Method
 	
 	Rem
 	bbdoc: Same as FromTimezone but modifies the object in place.
 	End Rem
-	Method MakeFromTimezone:wxDateTime(tz:TimeZone, noDST:Int = False)
-		bmx_wxdatetime_makefromtimezone(wxObjectPtr, tz.wxObjectPtr, noDST)
+	Method MakeFromTimezone:wxDateTime(tz:Int, noDST:Int = False)
+		bmx_wxdatetime_makefromtimezone(wxObjectPtr, tz, noDST)
 		Return Self
 	End Method
 	
@@ -1646,15 +1594,6 @@ Type wxDateSpan
 	End Method
 
 End Type
-
-Type TimeZone
-
-	Field wxObjectPtr:Byte Ptr
-
-
-
-End Type
-
 
 Rem
 bbdoc: This event type holds information about a date change and is used together with wxDatePickerCtrl.

@@ -51,7 +51,7 @@ wxDateSpan & MaxDateSpan::Span() {
 	return dateSpan;
 }
 
-
+/*
 MaxTimeZone::MaxTimeZone(const wxDateTime::TimeZone& t)
 	: timeZone(t)
 {
@@ -59,7 +59,7 @@ MaxTimeZone::MaxTimeZone(const wxDateTime::TimeZone& t)
 
 wxDateTime::TimeZone & MaxTimeZone::TimeZone() {
 	return timeZone;
-}
+}*/
 
 
 // *********************************************
@@ -260,52 +260,52 @@ time_t bmx_wxdatetime_getticks(MaxDateTime * datetime) {
 	return datetime->DateTime().GetTicks();
 }
 
-int bmx_wxdatetime_getcentury(MaxDateTime * datetime, MaxTimeZone * tz) {
-	return datetime->DateTime().GetCentury((tz)?tz->TimeZone():wxDateTime::Local);
+int bmx_wxdatetime_getcentury(MaxDateTime * datetime, wxDateTime::TZ tz) {
+	return datetime->DateTime().GetCentury(tz);
 }
 
-int bmx_wxdatetime_getyear(MaxDateTime * datetime, MaxTimeZone * tz) {
-	return datetime->DateTime().GetYear((tz)?tz->TimeZone():wxDateTime::Local);
+int bmx_wxdatetime_getyear(MaxDateTime * datetime, wxDateTime::TZ tz) {
+	return datetime->DateTime().GetYear(tz);
 }
 
-wxDateTime::Month bmx_wxdatetime_getmonth(MaxDateTime * datetime, MaxTimeZone * tz) {
-	return datetime->DateTime().GetMonth((tz)?tz->TimeZone():wxDateTime::Local);
+wxDateTime::Month bmx_wxdatetime_getmonth(MaxDateTime * datetime, wxDateTime::TZ tz) {
+	return datetime->DateTime().GetMonth(tz);
 }
 
-int bmx_wxdatetime_getday(MaxDateTime * datetime, MaxTimeZone * tz) {
-	return static_cast<int>(datetime->DateTime().GetDay((tz)?tz->TimeZone():wxDateTime::Local));
+int bmx_wxdatetime_getday(MaxDateTime * datetime, wxDateTime::TZ tz) {
+	return static_cast<int>(datetime->DateTime().GetDay(tz));
 }
 
-wxDateTime::WeekDay bmx_wxdatetime_getweekday(MaxDateTime * datetime, MaxTimeZone * tz) {
-	return datetime->DateTime().GetWeekDay((tz)?tz->TimeZone():wxDateTime::Local);
+wxDateTime::WeekDay bmx_wxdatetime_getweekday(MaxDateTime * datetime, wxDateTime::TZ tz) {
+	return datetime->DateTime().GetWeekDay(tz);
 }
 
-int bmx_wxdatetime_gethour(MaxDateTime * datetime, MaxTimeZone * tz) {
-	return static_cast<int>(datetime->DateTime().GetHour((tz)?tz->TimeZone():wxDateTime::Local));
+int bmx_wxdatetime_gethour(MaxDateTime * datetime, wxDateTime::TZ tz) {
+	return static_cast<int>(datetime->DateTime().GetHour(tz));
 }
 
-int bmx_wxdatetime_getminute(MaxDateTime * datetime, MaxTimeZone * tz) {
-	return static_cast<int>(datetime->DateTime().GetMinute((tz)?tz->TimeZone():wxDateTime::Local));
+int bmx_wxdatetime_getminute(MaxDateTime * datetime, wxDateTime::TZ tz) {
+	return static_cast<int>(datetime->DateTime().GetMinute(tz));
 }
 
-int bmx_wxdatetime_getsecond(MaxDateTime * datetime, MaxTimeZone * tz) {
-	return static_cast<int>(datetime->DateTime().GetSecond((tz)?tz->TimeZone():wxDateTime::Local));
+int bmx_wxdatetime_getsecond(MaxDateTime * datetime, wxDateTime::TZ tz) {
+	return static_cast<int>(datetime->DateTime().GetSecond(tz));
 }
 
-int bmx_wxdatetime_getmillisecond(MaxDateTime * datetime, MaxTimeZone * tz) {
-	return static_cast<int>(datetime->DateTime().GetMillisecond((tz)?tz->TimeZone():wxDateTime::Local));
+int bmx_wxdatetime_getmillisecond(MaxDateTime * datetime, wxDateTime::TZ tz) {
+	return static_cast<int>(datetime->DateTime().GetMillisecond(tz));
 }
 
-int bmx_wxdatetime_getdayofyear(MaxDateTime * datetime, MaxTimeZone * tz) {
-	return static_cast<int>(datetime->DateTime().GetDayOfYear((tz)?tz->TimeZone():wxDateTime::Local));
+int bmx_wxdatetime_getdayofyear(MaxDateTime * datetime, wxDateTime::TZ tz) {
+	return static_cast<int>(datetime->DateTime().GetDayOfYear(tz));
 }
 
-int bmx_wxdatetime_getweekofyear(MaxDateTime * datetime, wxDateTime::WeekFlags flags, MaxTimeZone * tz) {
-	return static_cast<int>(datetime->DateTime().GetWeekOfYear(flags, (tz)?tz->TimeZone():wxDateTime::Local));
+int bmx_wxdatetime_getweekofyear(MaxDateTime * datetime, wxDateTime::WeekFlags flags, wxDateTime::TZ tz) {
+	return static_cast<int>(datetime->DateTime().GetWeekOfYear(flags, tz));
 }
 
-int bmx_wxdatetime_getweekofmonth(MaxDateTime * datetime, wxDateTime::WeekFlags flags, MaxTimeZone * tz) {
-	return static_cast<int>(datetime->DateTime().GetWeekOfMonth(flags, (tz)?tz->TimeZone():wxDateTime::Local));
+int bmx_wxdatetime_getweekofmonth(MaxDateTime * datetime, wxDateTime::WeekFlags flags, wxDateTime::TZ tz) {
+	return static_cast<int>(datetime->DateTime().GetWeekOfMonth(flags, tz));
 }
 
 bool bmx_wxdatetime_isworkday(MaxDateTime * datetime, wxDateTime::Country country) {
@@ -398,12 +398,8 @@ BBString * bmx_wxdatetime_parsetime(MaxDateTime * datetime, BBString * time) {
 	return bbStringFromWxString(wxString(datetime->DateTime().ParseTime(wxStringFromBBString(time).c_str())));
 }
 
-BBString * bmx_wxdatetime_format(MaxDateTime * datetime, BBString * format, MaxTimeZone * tz) {
-	if (tz) {
-		return bbStringFromWxString(datetime->DateTime().Format(wxStringFromBBString(format).c_str(), tz->TimeZone()));
-	} else {
-		return bbStringFromWxString(datetime->DateTime().Format(wxStringFromBBString(format).c_str()));
-	}
+BBString * bmx_wxdatetime_format(MaxDateTime * datetime, BBString * format, wxDateTime::TZ tz) {
+	return bbStringFromWxString(datetime->DateTime().Format(wxStringFromBBString(format).c_str(), tz));
 }
 
 BBString * bmx_wxdatetime_formatdate(MaxDateTime * datetime) {
@@ -502,20 +498,20 @@ double bmx_wxdatetime_getratadie(MaxDateTime * datetime) {
 	return datetime->DateTime().GetRataDie();
 }
 
-MaxDateTime * bmx_wxdatetime_fromtimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST) {
-	return new MaxDateTime(datetime->DateTime().FromTimezone(tz->TimeZone(), noDST));
+MaxDateTime * bmx_wxdatetime_fromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST) {
+	return new MaxDateTime(datetime->DateTime().FromTimezone(tz, noDST));
 }
 
-MaxDateTime * bmx_wxdatetime_totimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST) {
-	return new MaxDateTime(datetime->DateTime().ToTimezone(tz->TimeZone(), noDST));
+MaxDateTime * bmx_wxdatetime_totimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST) {
+	return new MaxDateTime(datetime->DateTime().ToTimezone(tz, noDST));
 }
 
-void bmx_wxdatetime_maketimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST) {
-	datetime->DateTime().MakeTimezone(tz->TimeZone(), noDST);
+void bmx_wxdatetime_maketimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST) {
+	datetime->DateTime().MakeTimezone(tz, noDST);
 }
 
-void bmx_wxdatetime_makefromtimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST) {
-	datetime->DateTime().MakeFromTimezone(tz->TimeZone(), noDST);
+void bmx_wxdatetime_makefromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST) {
+	datetime->DateTime().MakeFromTimezone(tz, noDST);
 }
 
 MaxDateTime * bmx_wxdatetime_toutc(MaxDateTime * datetime, bool noDST) {

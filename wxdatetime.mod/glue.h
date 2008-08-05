@@ -30,7 +30,6 @@
 class MaxDateTime;
 class MaxDateSpan;
 class MaxTimeSpan;
-class MaxTimeZone;
 
 extern "C" {
 
@@ -80,18 +79,18 @@ extern "C" {
 	bool bmx_wxdatetime_isvalid(MaxDateTime * datetime);
 	MaxDateTime * bmx_wxdatetime_getdateonly(MaxDateTime * datetime);
 	time_t bmx_wxdatetime_getticks(MaxDateTime * datetime);
-	int bmx_wxdatetime_getcentury(MaxDateTime * datetime, MaxTimeZone * tz);
-	int bmx_wxdatetime_getyear(MaxDateTime * datetime, MaxTimeZone * tz);
-	wxDateTime::Month bmx_wxdatetime_getmonth(MaxDateTime * datetime, MaxTimeZone * tz);
-	int bmx_wxdatetime_getday(MaxDateTime * datetime, MaxTimeZone * tz);
-	wxDateTime::WeekDay bmx_wxdatetime_getweekday(MaxDateTime * datetime, MaxTimeZone * tz);
-	int bmx_wxdatetime_gethour(MaxDateTime * datetime, MaxTimeZone * tz);
-	int bmx_wxdatetime_getminute(MaxDateTime * datetime, MaxTimeZone * tz);
-	int bmx_wxdatetime_getsecond(MaxDateTime * datetime, MaxTimeZone * tz);
-	int bmx_wxdatetime_getmillisecond(MaxDateTime * datetime, MaxTimeZone * tz);
-	int bmx_wxdatetime_getdayofyear(MaxDateTime * datetime, MaxTimeZone * tz);
-	int bmx_wxdatetime_getweekofyear(MaxDateTime * datetime, wxDateTime::WeekFlags flags, MaxTimeZone * tz);
-	int bmx_wxdatetime_getweekofmonth(MaxDateTime * datetime, wxDateTime::WeekFlags flags, MaxTimeZone * tz);
+	int bmx_wxdatetime_getcentury(MaxDateTime * datetime, wxDateTime::TZ tz);
+	int bmx_wxdatetime_getyear(MaxDateTime * datetime, wxDateTime::TZ tz);
+	wxDateTime::Month bmx_wxdatetime_getmonth(MaxDateTime * datetime, wxDateTime::TZ tz);
+	int bmx_wxdatetime_getday(MaxDateTime * datetime, wxDateTime::TZ tz);
+	wxDateTime::WeekDay bmx_wxdatetime_getweekday(MaxDateTime * datetime, wxDateTime::TZ tz);
+	int bmx_wxdatetime_gethour(MaxDateTime * datetime, wxDateTime::TZ tz);
+	int bmx_wxdatetime_getminute(MaxDateTime * datetime, wxDateTime::TZ tz);
+	int bmx_wxdatetime_getsecond(MaxDateTime * datetime, wxDateTime::TZ tz);
+	int bmx_wxdatetime_getmillisecond(MaxDateTime * datetime, wxDateTime::TZ tz);
+	int bmx_wxdatetime_getdayofyear(MaxDateTime * datetime, wxDateTime::TZ tz);
+	int bmx_wxdatetime_getweekofyear(MaxDateTime * datetime, wxDateTime::WeekFlags flags, wxDateTime::TZ tz);
+	int bmx_wxdatetime_getweekofmonth(MaxDateTime * datetime, wxDateTime::WeekFlags flags, wxDateTime::TZ tz);
 	bool bmx_wxdatetime_isworkday(MaxDateTime * datetime, wxDateTime::Country country);
 	void bmx_wxdatetime_setfromdos(MaxDateTime * datetime, unsigned long ddt);
 	unsigned long bmx_wxdatetime_getasdos(MaxDateTime * datetime);
@@ -114,7 +113,7 @@ extern "C" {
 	BBString * bmx_wxdatetime_parsedatetime(MaxDateTime * datetime, BBString * dt);
 	BBString * bmx_wxdatetime_parsedate(MaxDateTime * datetime, BBString * date);
 	BBString * bmx_wxdatetime_parsetime(MaxDateTime * datetime, BBString * time);
-	BBString * bmx_wxdatetime_format(MaxDateTime * datetime, BBString * format, MaxTimeZone * tz);
+	BBString * bmx_wxdatetime_format(MaxDateTime * datetime, BBString * format, wxDateTime::TZ tz);
 	BBString * bmx_wxdatetime_formatdate(MaxDateTime * datetime);
 	BBString * bmx_wxdatetime_formattime(MaxDateTime * datetime);
 	BBString * bmx_wxdatetime_formatisodate(MaxDateTime * datetime);
@@ -139,10 +138,10 @@ extern "C" {
 	double bmx_wxdatetime_getmodifiedjuliandaynumber(MaxDateTime * datetime);
 	double bmx_wxdatetime_getmjd(MaxDateTime * datetime);
 	double bmx_wxdatetime_getratadie(MaxDateTime * datetime);
-	MaxDateTime * bmx_wxdatetime_fromtimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST);
-	MaxDateTime * bmx_wxdatetime_totimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST);
-	void bmx_wxdatetime_maketimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST);
-	void bmx_wxdatetime_makefromtimezone(MaxDateTime * datetime, MaxTimeZone * tz, bool noDST);
+	MaxDateTime * bmx_wxdatetime_fromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST);
+	MaxDateTime * bmx_wxdatetime_totimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST);
+	void bmx_wxdatetime_maketimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST);
+	void bmx_wxdatetime_makefromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST);
 	MaxDateTime * bmx_wxdatetime_toutc(MaxDateTime * datetime, bool noDST);
 	void bmx_wxdatetime_makeutc(MaxDateTime * datetime, bool noDST);
 	bool bmx_wxdatetime_isdst(MaxDateTime * datetime, wxDateTime::Country country);
@@ -247,7 +246,7 @@ private:
 
 };
 
-class MaxTimeZone
+/*class MaxTimeZone
 {
 public:
 	MaxTimeZone(const wxDateTime::TimeZone & t);
@@ -256,7 +255,7 @@ public:
 private:
 	wxDateTime::TimeZone timeZone;
 
-};
+};*/
 
 
 #endif // _WX_MAX_DATETIME_H_
