@@ -70,7 +70,11 @@ Type wxMessageDialog Extends wxDialog
 	End Rem
 	Method Create:wxMessageDialog(parent:wxWindow, message:String, caption:String = "Message box", ..
 			style:Int = wxOK | wxCANCEL, x:Int = -1, y:Int = -1)
-		wxObjectPtr = bmx_wxmessagedialog_create(Self, parent.wxObjectPtr, message, caption, style, x, y)
+		If parent Then
+			wxObjectPtr = bmx_wxmessagedialog_create(Self, parent.wxObjectPtr, message, caption, style, x, y)
+		Else
+			wxObjectPtr = bmx_wxmessagedialog_create(Self, Null, message, caption, style, x, y)
+		End If
 		Return Self
 	End Method
 
