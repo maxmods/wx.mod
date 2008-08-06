@@ -68,90 +68,66 @@ Figure: after resizement
 
 <br>
 
-
-
-
-<pre class="code"><div class="codehead">absolute.h</div>
-#include &lt;wx/wx.h&gt;
-
-class Absolute : public wxFrame
-{
-public:
-  Absolute(const wxString&amp; title);
-
-  wxMenuBar *menubar;
-  wxMenu *file;
-  wxMenu *edit;
-  wxMenu *help;
-  wxTextCtrl *textctrl;
-
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">absolute.cpp</div>
-#include "absolute.h"
-
-
-Absolute::Absolute(const wxString&amp; title)
-       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(250, 180))
-{
+<pre class="code"><div class="codehead">absolute.bmx</div>
+SuperStrict
  
- wxPanel *panel = new wxPanel(this, -1);
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxTextCtrl
+Import wx.wxPanel
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
- menubar = new wxMenuBar;
- file = new wxMenu;
- edit = new wxMenu;
- help = new wxMenu;
+	Method OnInit:Int()
+	
+		Local ab:Absolute = Absolute(New Absolute.Create(Null, wxID_ANY, ..
+			"Absolute", -1, -1, 250, 180))
+		ab.Show(True)
+ 
+		Return True
+	End Method
 
- menubar-&gt;Append(file, wxT("&amp;File"));
- menubar-&gt;Append(edit, wxT("&amp;Edit"));
- menubar-&gt;Append(help, wxT("&amp;Help"));
- SetMenuBar(menubar);
+End Type
 
- textctrl = new wxTextCtrl(panel, -1, wxT(""), wxPoint(-1, -1),
-     wxSize(250, 150));
-
- Centre();
-}
-
+Type Absolute Extends wxFrame
+ 
+	Field menubar:wxMenuBar
+	Field file:wxMenu
+	Field edit:wxMenu
+	Field help:wxMenu
+	Field textctrl:wxTextCtrl
+	
+	Method OnInit()
+ 
+		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
+ 
+		menubar = New wxMenuBar.Create()
+		file = New wxMenu.Create()
+		edit = New wxMenu.Create()
+		help = New wxMenu.Create()
+		
+		menubar.Append(file, "&amp;File")
+		menubar.Append(edit, "&amp;Edit")
+		menubar.Append(help, "&amp;Help")
+		SetMenuBar(menubar)
+		
+		textctrl = New wxTextCtrl.Create(panel, -1, "", -1, -1, 250, 150)
+		
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "absolute.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Absolute *absolute = new Absolute(wxT("Absolute"));
-    absolute-&gt;Show(true);
-
-    return true;
-}
-</pre>
 
 <p>
 This is an example, where we use absolute positioning. We position a <i>wxTextCtrl</i> widget on a panel widget.
 </p>
 
-<pre class="explanation"> textctrl = new wxTextCtrl(panel, -1, wxT(""), wxPoint(-1, -1),
-    wxSize(250, 150));
+<pre class="explanation"> textctrl = New wxTextCtrl.Create(panel, -1, "", -1, -1, 250, 150)
 </pre>
 
 <p>
@@ -188,78 +164,58 @@ Figure: after resizement
 <br>
 
 
-<pre class="code"><div class="codehead">sizer.h</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead">sizer.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxTextCtrl
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class Sizer : public wxFrame
-{
-public:
-  Sizer(const wxString&amp; title);
+	Method OnInit:Int()
+	
+		Local sz:Sizer = Sizer(New Sizer.Create(Null, wxID_ANY, ..
+			"Sizer", -1, -1, 250, 180))
+		sz.Show(True)
+ 
+		Return True
+	End Method
 
-  wxMenuBar *menubar;
-  wxMenu *file;
-  wxMenu *edit;
-  wxMenu *help;
-  wxTextCtrl *textctrl;
+End Type
 
-};
-
+Type Sizer Extends wxFrame
+ 
+	Field menubar:wxMenuBar
+	Field file:wxMenu
+	Field edit:wxMenu
+	Field help:wxMenu
+	Field textctrl:wxTextCtrl
+	
+	Method OnInit()
+ 
+		menubar = New wxMenuBar.Create()
+		file = New wxMenu.Create()
+		edit = New wxMenu.Create()
+		help = New wxMenu.Create()
+		
+		menubar.Append(file, "&amp;File")
+		menubar.Append(edit, "&amp;Edit")
+		menubar.Append(help, "&amp;Help")
+		SetMenuBar(menubar)
+		
+		textctrl = New wxTextCtrl.Create(Self, -1, "", -1, -1, 250, 150)
+		
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">sizer.cpp</div>
-#include "sizer.h"
 
-Sizer::Sizer(const wxString&amp; title)
-       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(250, 180))
-{
-
- menubar = new wxMenuBar;
- file = new wxMenu;
- edit = new wxMenu;
- help = new wxMenu;
-
- menubar-&gt;Append(file, wxT("&amp;File"));
- menubar-&gt;Append(edit, wxT("&amp;Edit"));
- menubar-&gt;Append(help, wxT("&amp;Help"));
- SetMenuBar(menubar);
-
- textctrl = new wxTextCtrl(this, -1, wxT(""), wxPoint(-1, -1),
-     wxSize(250, 150));
-    
- Centre();
-}
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "sizer.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Sizer *sizer = new Sizer(wxT("Sizer"));
-    sizer-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 
 <br>
 <p>Ok, so you are saying that you don't see any sizers in the example?
@@ -275,8 +231,8 @@ to the borders, menu, toolbar and the statusbar.
 
 <h3>wxBoxSizer</h3>This sizer enables us to put several widgets into a
 row or a column. We can put another sizer into an existing sizer. This
-way we can create very complex layouts. <pre class="constructor"> wxBoxSizer(int orient)
- wxSizerItem* Add(wxWindow* window, int proportion = 0, int flag = 0, int border = 0)
+way we can create very complex layouts. <pre class="constructor"> wxBoxSizer.Create(orient:Int)
+ Add:wxSizerItem(window:wxWindow, proportion:Int = 0, flag:Int = 0, border = 0)
 </pre>
 
 <p>
@@ -414,78 +370,57 @@ Lastly, we can also define the alignment of our widgets. We do it with the follo
 Say we wanted to place two buttons into the right bottom of the window. 
 </p>
 
-<pre class="code"><div class="codehead">align.h</div>
-#include &lt;wx/wx.h&gt;
 
-class Align : public wxFrame
-{
-public:
-    Align(const wxString&amp; title);
+<pre class="code"><div class="codehead">align.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxButton
+Import wx.wxPanel
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-};
+	Method OnInit:Int()
+	
+		Local ab:Align = Align(New Align.Create(Null, wxID_ANY, "Align", -1, -1, 300, 200))
+		ab.Show(True)
+ 
+		Return True
+	End Method
 
-</pre>
+End Type
 
-<pre class="code"><div class="codehead">align.cpp</div>
-#include "align.h"
-
-
-Align::Align(const wxString&amp; title)
-       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(300, 200))
-{
-
-  wxPanel *panel = new wxPanel(this, -1);
-
-  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
-  wxBoxSizer *hbox1 = new wxBoxSizer(wxHORIZONTAL);
-  wxBoxSizer *hbox2 = new wxBoxSizer(wxHORIZONTAL);
-
-  wxButton *ok = new wxButton(panel, -1, wxT("Ok"));
-  wxButton *cancel = new wxButton(panel, -1, wxT("Cancel"));
-
-  hbox1-&gt;Add(new wxPanel(panel, -1));
-  vbox-&gt;Add(hbox1, 1, wxEXPAND);
-
-
-  hbox2-&gt;Add(ok);
-  hbox2-&gt;Add(cancel);
-
-  vbox-&gt;Add(hbox2, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);
-  panel-&gt;SetSizer(vbox);
-
-  Centre();
-}
-
-</pre>
-
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "align.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Align *align = new Align(wxT("Align"));
-    align-&gt;Show(true);
-
-    return true;
-}
-
+Type Align Extends wxFrame
+ 
+	Method OnInit()
+ 
+		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
+ 
+		Local vbox:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+		Local hbox1:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		Local hbox2:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		
+		Local ok:wxButton = New wxButton.Create(panel, -1, "Ok")
+		Local cancel:wxButton = New wxButton.Create(panel, -1, "Cancel")
+		
+		hbox1.Add(New wxPanel.Create(panel, -1))
+		vbox.AddSizer(hbox1, 1, wxEXPAND)
+		
+		
+		hbox2.Add(ok)
+		hbox2.Add(cancel)
+		
+		vbox.AddSizer(hbox2, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10)
+		panel.SetSizer(vbox)
+				
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
 <br>
@@ -496,17 +431,15 @@ vertical one.
 </p>
 
 
-<pre class="explanation"> hbox1-&gt;Add(new wxPanel(panel, -1));
- vbox-&gt;Add(hbox1, 1, wxEXPAND);
-</pre>
+<pre class="explanation"> hbox1.Add(New wxPanel.Create(panel, -1))
+ vbox.AddSizer(hbox1, 1, wxEXPAND);</pre>
 
 <p>
 We put a <i>wxPanel</i> into the first horizontal sizer. We set the proportion to <i>1</i> and set a <i>wxEXPAND</i> flag.
 This way the sizer will occupy all the space except the <i>hbox2</i>.
 </p>
 
-<pre class="explanation"> vbox-&gt;Add(hbox2, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);
-</pre>
+<pre class="explanation"> vbox.AddSizer(hbox2, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10)</pre>
 
 <p>
 We have placed the buttons into the <i>hbox2</i> sizer. The hbox2 is right aligned and we also put some space to the
@@ -526,118 +459,100 @@ Figure: aligning buttons
 In the following example we introduce several important ideas. 
 </p>
 
-<pre class="code"><div class="codehead">gotoclass.h</div>
-#include &lt;wx/wx.h&gt;
-
-class GotoClass : public wxFrame
-{
-public:
-  GotoClass(const wxString&amp; title);
-
-};
-
-</pre>
-
 <pre class="code"><div class="codehead">gotoclass.cpp</div>
-#include "gotoclass.h"
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxButton
+Import wx.wxPanel
+Import wx.wxStaticText
+Import wx.wxTextCtrl
+Import wx.wxCheckBox
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
+	Method OnInit:Int()
+	
+		Local gc:GotoClass = GotoClass(New GotoClass.Create(Null, wxID_ANY, ..
+			"GotoClass", -1, -1, 450, 400))
+		gc.Show(True)
+ 
+		Return True
+	End Method
 
-GotoClass::GotoClass(const wxString&amp; title)
-       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(450, 400))
-{
+End Type
 
-  wxPanel *panel = new wxPanel(this, -1);
-
-  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
-
-  wxBoxSizer *hbox1 = new wxBoxSizer(wxHORIZONTAL);
-  wxStaticText *st1 =  new wxStaticText(panel, wxID_ANY, 
-      wxT("Class Name"));
-
-  hbox1-&gt;Add(st1, 0, wxRIGHT, 8);
-  wxTextCtrl *tc = new wxTextCtrl(panel, wxID_ANY);
-  hbox1-&gt;Add(tc, 1);
-  vbox-&gt;Add(hbox1, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, 10);
-
-  vbox-&gt;Add(-1, 10);
-
-  wxBoxSizer *hbox2 = new wxBoxSizer(wxHORIZONTAL);
-  wxStaticText *st2 = new wxStaticText(panel, wxID_ANY, 
-      wxT("Matching Classes"));
-
-  hbox2-&gt;Add(st2, 0);
-  vbox-&gt;Add(hbox2, 0, wxLEFT | wxTOP, 10);
-
-  vbox-&gt;Add(-1, 10);
-
-  wxBoxSizer *hbox3 = new wxBoxSizer(wxHORIZONTAL);
-  wxTextCtrl *tc2 = new wxTextCtrl(panel, wxID_ANY, wxT(""), 
-      wxPoint(-1, -1), wxSize(-1, -1), wxTE_MULTILINE);
-
-  hbox3-&gt;Add(tc2, 1, wxEXPAND);
-  vbox-&gt;Add(hbox3, 1, wxLEFT | wxRIGHT | wxEXPAND, 10);
-
-  vbox-&gt;Add(-1, 25);
-
-  wxBoxSizer *hbox4 = new wxBoxSizer(wxHORIZONTAL);
-  wxCheckBox *cb1 = new wxCheckBox(panel, wxID_ANY, 
-      wxT("Case Sensitive"));
-
-  hbox4-&gt;Add(cb1);
-  wxCheckBox *cb2 = new wxCheckBox(panel, wxID_ANY, 
-      wxT("Nested Classes"));
-
-  hbox4-&gt;Add(cb2, 0, wxLEFT, 10);
-  wxCheckBox *cb3 = new wxCheckBox(panel, wxID_ANY, 
-      wxT("Non-Project Classes"));
-
-  hbox4-&gt;Add(cb3, 0, wxLEFT, 10);
-  vbox-&gt;Add(hbox4, 0, wxLEFT, 10);
-
-  vbox-&gt;Add(-1, 25);
-
-  wxBoxSizer *hbox5 = new wxBoxSizer(wxHORIZONTAL);
-  wxButton *btn1 = new wxButton(panel, wxID_ANY, wxT("Ok"));
-  hbox5-&gt;Add(btn1, 0);
-  wxButton *btn2 = new wxButton(panel, wxID_ANY, wxT("Close"));
-  hbox5-&gt;Add(btn2, 0, wxLEFT | wxBOTTOM , 5);
-  vbox-&gt;Add(hbox5, 0, wxALIGN_RIGHT | wxRIGHT, 10);
-
-  panel-&gt;SetSizer(vbox);
-
-  Centre();
-}
-
-</pre>
-
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "gotoclass.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
- GotoClass *gotoclass = new GotoClass(wxT("GotoClass"));
- gotoclass-&gt;Show(true);
-
- return true;
-}
-
+Type GotoClass Extends wxFrame
+ 
+	Method OnInit()
+ 
+		Local panel:wxPanel = New wxPanel.Create(Self, -1)
+		
+		Local vbox:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+		
+		Local hbox1:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		Local st1:wxStaticText = New wxStaticText.Create(panel, wxID_ANY, ..
+			"Class Name")
+		
+		hbox1.Add(st1, 0, wxRIGHT, 8)
+		Local tc:wxTextCtrl = New wxTextCtrl.Create(panel, wxID_ANY)
+		hbox1.Add(tc, 1)
+		vbox.AddSizer(hbox1, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, 10)
+		
+		vbox.AddCustomSpacer(-1, 10)
+		
+		Local hbox2:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		Local st2:wxStaticText = New wxStaticText.Create(panel, wxID_ANY, ..
+			"Matching Classes")
+		
+		hbox2.Add(st2, 0)
+		vbox.AddSizer(hbox2, 0, wxLEFT | wxTOP, 10)
+		
+		vbox.AddCustomSpacer(-1, 10)
+		
+		Local hbox3:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		Local tc2:wxTextCtrl = New wxTextCtrl.Create(panel, wxID_ANY, "", ..
+			-1, -1, -1, -1, wxTE_MULTILINE)
+		
+		hbox3.Add(tc2, 1, wxEXPAND)
+		vbox.AddSizer(hbox3, 1, wxLEFT | wxRIGHT | wxEXPAND, 10)
+		
+		vbox.AddCustomSpacer(-1, 25)
+		
+		Local hbox4:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		Local cb1:wxCheckBox = New wxCheckBox.Create(panel, wxID_ANY, ..
+			"Case Sensitive")
+		
+		hbox4.Add(cb1)
+		Local cb2:wxCheckBox = New wxCheckBox.Create(panel, wxID_ANY, ..
+			"Nested Classes")
+		
+		hbox4.Add(cb2, 0, wxLEFT, 10)
+		Local cb3:wxCheckBox = New wxCheckBox.Create(panel, wxID_ANY, ..
+			"Non-Project Classes")
+		
+		hbox4.Add(cb3, 0, wxLEFT, 10)
+		vbox.AddSizer(hbox4, 0, wxLEFT, 10)
+		
+		vbox.AddCustomSpacer(-1, 25)
+		
+		Local hbox5:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		Local btn1:wxButton = New wxButton.Create(panel, wxID_ANY, "Ok")
+		hbox5.Add(btn1, 0)
+		Local btn2:wxButton = New wxButton.Create(panel, wxID_ANY, "Close")
+		hbox5.Add(btn2, 0, wxLEFT | wxBOTTOM , 5)
+		vbox.AddSizer(hbox5, 0, wxALIGN_RIGHT | wxRIGHT, 10)
+		
+		panel.SetSizer(vbox)
+						
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
 <br>
@@ -646,24 +561,21 @@ bool MyApp::OnInit()
 This is a complex example using <i>wxBoxSizer</i>. The layout is straitforward. We create one vertical sizer. We put then five horizontal sizers into it.
 </p>
 
-<pre class="explanation"> vbox-&gt;Add(hbox3, 1, wxLEFT | wxRIGHT | wxEXPAND, 10);
+<pre class="explanation"> vbox.AddSizer(hbox3, 1, wxLEFT | wxRIGHT | wxEXPAND, 10)
 
- vbox-&gt;Add(-1, 25);
-</pre>
+ vbox.AddCustomSpacer(-1, 25)</pre>
 
 
 <p>We already know that we can control the distance among widgets by
 combining the flag parameter with the border parameter. But there is
-one real constraint. In the Add() method we can specify only one border
+one real constraint. In the AddSizer() method we can specify only one border
 for all given sides. In our example, we give 10px to the right and to
 the left. But we cannot give 25 px to the bottom. What we can do is to
 give 10px to the bottom, or 0px. If we omit wxBOTTOM. So if we need
-different values, we can add some extra space. With the Add() method,
-we can insert widgets and space as well.
-</p>
+different values, we can add some extra space. With the AddCustomSpacer() method,
+we can insert  space as well.</p>
 
-<pre class="explanation"> vbox-&gt;Add(hbox5, 0, wxALIGN_RIGHT | wxRIGHT, 10);
-</pre>
+<pre class="explanation"> vbox.AddSizer(hbox5, 0, wxALIGN_RIGHT | wxRIGHT, 10)</pre>
 
 <p>We place the two buttons on the right side of the window. How do we
 do it? Three things are important to achieve this. The proportion, the
@@ -690,7 +602,7 @@ Figure: GotoClass
 wxGridSizer lays out widgets in two dimensional table. Each cell within the table has the same size.
 </p>
 
-<pre class="definition"> wxGridSizer(int rows, int cols, int vgap, int hgap)
+<pre class="definition"> wxGridSizer.CreateRC(rows:Int, cols:Int, vgap:Int, hgap:Int)
 </pre>
 
 <p>
@@ -702,105 +614,88 @@ space between our cells.
 In our example we create a skeleton of a calculator. It is a perfect example for a wxGridSizer. 
 </p>
 
-
-<pre class="code"><div class="codehead">gridsizer.h</div>
-#include &lt;wx/wx.h&gt;
-
-class GridSizer : public wxFrame
-{
-public:
-  GridSizer(const wxString&amp; title);
-
-  wxMenuBar *menubar;
-  wxMenu *file;
-
-  wxBoxSizer *sizer;
-  wxGridSizer *gs;
-  wxTextCtrl *display;
-
-};
-
-</pre>
-
-
-<pre class="code"><div class="codehead">gridsizer.cpp</div>
-#include "gridsizer.h"
-
-GridSizer::GridSizer(const wxString&amp; title)
-       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(270, 220))
-{
-  menubar = new wxMenuBar;
-  file = new wxMenu;
-
-  SetMenuBar(menubar);
-
-  sizer = new wxBoxSizer(wxVERTICAL);
+<pre class="code"><div class="codehead">gridsizer.bmx</div>
+SuperStrict
  
-  display = new wxTextCtrl(this, -1, wxT(""), wxPoint(-1, -1),
-     wxSize(-1, -1), wxTE_RIGHT);
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxTextCtrl
+Import wx.wxButton
+Import wx.wxStaticText
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-  sizer-&gt;Add(display, 0, wxEXPAND | wxTOP | wxBOTTOM, 4);
-  gs = new wxGridSizer(4, 4, 3, 3);
+	Method OnInit:Int()
+	
+		Local gs:GridSizer = GridSizer(New GridSizer.Create(Null, wxID_ANY, "Align", -1, -1, 270, 220))
+		gs.Show(True)
+ 
+		Return True
+	End Method
 
-  gs-&gt;Add(new wxButton(this, -1, wxT("Cls")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("Bck")), 0, wxEXPAND);
-  gs-&gt;Add(new wxStaticText(this, -1, wxT("")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("Close")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("7")), 0, wxEXPAND); 
-  gs-&gt;Add(new wxButton(this, -1, wxT("8")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("9")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("/")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("4")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("5")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("6")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("*")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("1")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("2")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("3")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("-")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("0")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT(".")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("=")), 0, wxEXPAND);
-  gs-&gt;Add(new wxButton(this, -1, wxT("+")), 0, wxEXPAND);
+End Type
 
-  sizer-&gt;Add(gs, 1, wxEXPAND);
-  SetSizer(sizer);
-  SetMinSize(wxSize(270, 220));
+Type GridSizer Extends wxFrame
 
-  Centre();
-}
+	Field menubar:wxMenuBar
+	Field file:wxMenu
+	
+	Field sizer:wxBoxSizer
+	Field gs:wxGridSizer
+	Field display:wxTextCtrl
 
+ 
+	Method OnInit()
+ 
+		menubar = New wxMenuBar.Create()
+		file = New wxMenu.Create()
+		
+		SetMenuBar(menubar)
+		
+		sizer = New wxBoxSizer.Create(wxVERTICAL)
+		
+		display = New wxTextCtrl.Create(Self, -1, "", -1, -1, -1, -1, wxTE_RIGHT)
+		
+		sizer.Add(display, 0, wxEXPAND | wxTOP | wxBOTTOM, 4)
+		gs = New wxGridSizer.CreateRC(4, 4, 3, 3)
+		
+		gs.Add(New wxButton.Create(Self, -1, "Cls"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "Bck"), 0, wxEXPAND)
+		gs.Add(New wxStaticText.Create(Self, -1, ""), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "Close"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "7"), 0, wxEXPAND) 
+		gs.Add(New wxButton.Create(Self, -1, "8"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "9"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "/"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "4"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "5"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "6"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "*"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "1"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "2"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "3"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "-"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "0"), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "."), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "="), 0, wxEXPAND)
+		gs.Add(New wxButton.Create(Self, -1, "+"), 0, wxEXPAND)
+		
+		sizer.AddSizer(gs, 1, wxEXPAND)
+		SetSizer(sizer)
+		SetMinSize(270, 220)
+			
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
 
 
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
 
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "gridsizer.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    GridSizer *gs = new GridSizer(wxT("GridSizer"));
-    gs-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 <br>
 
 <p>
@@ -813,8 +708,7 @@ Notice how we managed to put a space between the Bck and the Close buttons. We s
 Such tricks are quite common.
 </p> 
 
-<pre class="explanation"> gs-&gt;Add(new wxButton(this, -1, wxT("Cls")), 0, wxEXPAND);
-</pre>
+<pre class="explanation"> gs.Add(New wxButton.Create(Self, -1, "Cls"), 0, wxEXPAND)</pre>
 
 <p>
 We call the <i>Add()</i> method multiple times. 
@@ -837,7 +731,7 @@ But all rows and columns are not necessarily the same height or width.
 
 </p>
 
-<pre class="definition"> wxFlexGridSizer(int rows, int cols, int vgap, int hgap)
+<pre class="definition"> wxFlexGridSizer.CreateRC(rows:Int, cols:Int, vgap:Int, hgap:Int)
 </pre>
 
 <p>
@@ -850,108 +744,93 @@ suitable for such a task. A developer can easily set up a dialog window
 with this sizer. It is also possible to accomplish this with <i>wxGridSizer</i>, but it would not look nice, because of the constraint that each cell has the same size. 
 </p>
 
-<pre class="code"><div class="codehead">flexgridsizer.h</div>
-#include &lt;wx/wx.h&gt;
 
-class FlexGridSizer : public wxFrame
-{
-public:
-  FlexGridSizer(const wxString&amp; title);
+<pre class="code"><div class="codehead">flexgridsizer.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxTextCtrl
+Import wx.wxStaticText
+Import wx.wxPanel
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-};
+	Method OnInit:Int()
+	
+		Local gs:FlexGridSizer = FlexGridSizer(New FlexGridSizer.Create(Null, ..
+			wxID_ANY, "FlexGridSizer", -1, -1, 270, 220))
+		gs.Show(True)
+ 
+		Return True
+	End Method
 
+End Type
+
+Type FlexGridSizer Extends wxFrame
+
+
+	Method OnInit()
+ 
+		Local panel:wxPanel = New wxPanel.Create(Self, -1)
+		
+		Local hbox:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		
+		Local fgs:wxFlexGridSizer = New wxFlexGridSizer.CreateRC(3, 2, 9, 25)
+		
+		Local thetitle:wxStaticText = New wxStaticText.Create(panel, -1, "Title")
+		Local author:wxStaticText = New wxStaticText.Create(panel, -1, "Author")
+		Local review:wxStaticText = New wxStaticText.Create(panel, -1, "Review")
+		
+		Local tc1:wxTextCtrl = New wxTextCtrl.Create(panel, -1)
+		Local tc2:wxTextCtrl = New wxTextCtrl.Create(panel, -1)
+		Local tc3:wxTextCtrl = New wxTextCtrl.Create(panel, -1, "", ..
+			-1, -1, -1, -1, wxTE_MULTILINE)
+		
+		fgs.Add(thetitle)
+		fgs.Add(tc1, 1, wxEXPAND)
+		fgs.Add(author)
+		fgs.Add(tc2, 1, wxEXPAND)
+		fgs.Add(review, 1, wxEXPAND)
+		fgs.Add(tc3, 1, wxEXPAND)
+		
+		fgs.AddGrowableRow(2, 1)
+		fgs.AddGrowableCol(1, 1)
+		
+		hbox.AddSizer(fgs, 1, wxALL | wxEXPAND, 15)
+		panel.SetSizer(hbox)
+			
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">flexgridsizer.cpp</div>
-#include "flexgridsizer.h"
-
-FlexGridSizer::FlexGridSizer(const wxString&amp; title)
-       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(270, 220))
-{ 
-  wxPanel *panel = new wxPanel(this, -1);
-
-  wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
-
-  wxFlexGridSizer *fgs = new wxFlexGridSizer(3, 2, 9, 25);
-
-  wxStaticText *thetitle = new wxStaticText(panel, -1, wxT("Title"));
-  wxStaticText *author = new wxStaticText(panel, -1, wxT("Author"));
-  wxStaticText *review = new wxStaticText(panel, -1, wxT("Review"));
-
-  wxTextCtrl *tc1 = new wxTextCtrl(panel, -1);
-  wxTextCtrl *tc2 = new wxTextCtrl(panel, -1);
-  wxTextCtrl *tc3 = new wxTextCtrl(panel, -1, wxT(""),
-      wxPoint(-1, -1), wxSize(-1, -1), wxTE_MULTILINE);
-
-  fgs-&gt;Add(thetitle);
-  fgs-&gt;Add(tc1, 1, wxEXPAND);
-  fgs-&gt;Add(author);
-  fgs-&gt;Add(tc2, 1, wxEXPAND);
-  fgs-&gt;Add(review, 1, wxEXPAND);
-  fgs-&gt;Add(tc3, 1, wxEXPAND);
-
-  fgs-&gt;AddGrowableRow(2, 1);
-  fgs-&gt;AddGrowableCol(1, 1);
-
-  hbox-&gt;Add(fgs, 1, wxALL | wxEXPAND, 15);
-  panel-&gt;SetSizer(hbox);
-  Centre();
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "flexgridsizer.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    FlexGridSizer *fgs = new FlexGridSizer(wxT("FlexGridSizer"));
-    fgs-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 <br>
 
 <p>
 In our example we create a simple dialog. It could be used to insert data into the database.
 </p>
 
-<pre class="explanation"> wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+<pre class="explanation"> Local hbox:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
  ...
- hbox-&gt;Add(fgs, 1, wxALL | wxEXPAND, 15);
-</pre>
+ hbox.AddSizer(fgs, 1, wxALL | wxEXPAND, 15)</pre>
 
 <p>
 We create a horizontal box sizer in order to put some space (15px) around the table of widgets.
 </p>
 
-<pre class="explanation"> fgs-&gt;Add(thetitle);
-</pre>
+<pre class="explanation"> fgs.Add(thetitle)</pre>
 
 <p>
 We add widgets to the sizer exactly as with the gridsizer.
 </p>
 
-<pre class="explanation">  fgs-&gt;AddGrowableRow(2, 1);
-  fgs-&gt;AddGrowableCol(1, 1);
-</pre>
+<pre class="explanation">  fgs.AddGrowableRow(2, 1)
+  fgs.AddGrowableCol(1, 1)</pre>
 
 <p>
 We make the third row and the second column growable. This way we make

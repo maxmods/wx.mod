@@ -1,8 +1,9 @@
 body {
-	margin-bottom:30px; margin-top:10px;
-	font-family:verdana; font-size:13px;
-	line-height:1.9;
-	background: url(images/background.jpg)
+	margin-bottom:30px;
+	margin-top:10px;
+	font-family:verdana;
+	font-size:13px;
+	line-height:1.9
 }
 
 h1 {font-family: arial; font-size:25px; margin:25 0 25 0}
@@ -94,4 +95,3 @@ background:#FF830F;/*#0080F8;688bff*/
 border-bottom: 1px solid gray;
 border-right: 1px solid gray;
 }
-
