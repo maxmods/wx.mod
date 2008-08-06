@@ -1,0 +1,239 @@
+<html><head><title>Helper Classes</title>
+
+
+<link rel="stylesheet" href="../media/format.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="keywords" content="wxWidgets, tutorial, helper classes, C++, programming, GUI, multiplatform">
+<meta nam="description" content="wxWidgets helper classes">
+<meta name="language" content="en">
+<meta name="author" content="jan bodnar">
+<meta name="distribution" content="global"></head><body>
+
+
+<div class="center">
+
+<div>
+
+<a href="index.html">Contents</a>
+</div>
+
+<h1>wxWidgets helper types</h1>
+
+<p>
+wxWidgets consists of a large group of helper types, that help programmers to do their job.
+Here we will show only a tiny drop of the whole lake.</p>
+
+<h3>Utility functions</h3>
+
+<p>
+wxWidgets has several handy utility functions for executing a process, getting a home user directory or getting the OS name.
+</p>
+
+<p>
+In the following example, we execute the ls command. For this, we have the wxShell() function. Linux/MacOS only.
+</p>
+
+<pre class="code"><div class="codehead">shell.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxProcess
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
+
+	Method OnInit:Int()
+    
+		wxShell("ls -l")
+ 
+		Return False
+
+	End Method
+
+End Type
+</pre>
+
+<pre class="code"><div class="codehead">Output</div>
+total 40
+-rwxr-xr-x 1 vronskij vronskij  9028 2007-09-06 22:10 basic
+-rw-r--r-- 1 vronskij vronskij    95 2007-09-06 22:09 basic.cpp
+-rw-r--r-- 1 vronskij vronskij   430 2007-09-06 00:07 basic.cpp~
+-rwxr-xr-x 1 vronskij vronskij 11080 2007-09-05 23:17 console
+-rw-r--r-- 1 vronskij vronskij   500 2007-09-05 23:17 console.cpp
+-rw-r--r-- 1 vronskij vronskij   485 2007-09-05 23:16 console.cpp~
+</pre>
+<br>
+
+<p>
+Next we will we will get the home user directory, os name, user name, host name and total free memory.
+</p>
+
+<pre class="code"><div class="codehead">system.cpp</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import BRL.StandardIO
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
+
+	Method OnInit:Int()
+	
+		Print wxGetHomeDir()
+		Print wxGetOsDescription()
+		Print wxGetUserName()
+		Print wxGetFullHostName()
+ 
+		Print "Memory: " + wxGetFreeMemory()
+ 
+		Return False
+	End Method
+
+End Type
+</pre>
+
+<pre class="code"><div class="codehead">Output</div>
+/home/vronskij
+Linux 2.6.20-16-generic i686
+jan bodnar
+spartan
+Memory: 741244928
+</pre>
+<br>
+
+
+<h3>Time &amp; date</h3>
+
+<p>
+In wxWidgets, we have several types for working with date &amp; time.
+</p>
+
+<p>
+The example shows current date or time in various formats.
+</p>
+
+<pre class="code"><div class="codehead">datetime.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxDateTime
+Import BRL.StandardIO
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
+
+	Method OnInit:Int()
+	
+		Local now:wxDateTime = wxDateTime.Now()
+
+		Print now.Format()
+		Print now.Format("%X")
+		Print now.Format("%x")
+ 
+		Return False
+	End Method
+
+End Type
+</pre>
+
+<pre class="code"><div class="codehead">Output</div>
+Fri Sep  7 21:28:38 2007
+21:28:38
+09/07/07
+</pre>
+<br>
+
+<p>
+Next we will show current time in different cities.
+</p>
+
+<pre class="code"><div class="codehead">datetime.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxDateTime
+Import BRL.StandardIO
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
+
+	Method OnInit:Int()
+	
+		Local now:wxDateTime = wxDateTime.Now()
+ 
+		Print "   Tokyo: " + now.Format("%a %T", wxDateTime.GMT9)
+		Print "  Moscow: " + now.Format("%a %T", wxDateTime.MSD)
+		Print "Budapest: " + now.Format("%a %T", wxDateTime.CEST)
+		Print "  London: " + now.Format("%a %T", wxDateTime.WEST)
+		Print "New York: " + now.Format("%a %T", wxDateTime.EDT)
+ 
+		Return False
+	End Method
+
+End Type
+</pre>
+
+<pre class="code"><div class="codehead">Output</div>
+   Tokyo: Sat 05:42:24
+  Moscow: Sat 00:42:24
+Budapest: Fri 22:42:24
+  London: Fri 22:42:24
+New York: Fri 16:42:24
+
+</pre>
+<br>
+
+
+<p>
+The following example shows, how we can add date spans to our date/time. 
+We add one month to the current time.
+</p>
+
+<pre class="code"><div class="codehead">datespan.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxDateTime
+Import BRL.StandardIO
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
+
+	Method OnInit:Int()
+	
+		Local now:wxDateTime = wxDateTime.Now()
+		Print now.Format("%B %d %Y")
+ 
+		Local span:wxDateSpan = New wxDateSpan.Create(0, 1)
+		Local later:wxDateTime = now.AddDS(span)
+ 
+		Print later.Format("%B %d %Y")
+ 
+		Return False
+	End Method
+
+End Type
+</pre>
+
+<pre class="code"><div class="codehead">Output</div>
+September 07 2007
+October 07 2007
+
+</pre>
+<h3>&nbsp;</h3>
+
+<center>
+<div class="botNav"><span class="botNavItem"><a href="http://zetcode.com/tutorials/wxwidgetstutorial/">Contents</a></span> ‡ <span class="botNavItem"><a href="#">Top of Page</a></span></div>
+</center>
+
+<div class="footer">
+<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span></div>
+</div>
+
+</div>
+</body></html>

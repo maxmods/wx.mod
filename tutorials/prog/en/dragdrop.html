@@ -1,0 +1,261 @@
+<html><head><title>Drag &amp; Drop</title>
+
+
+<link rel="stylesheet" href="../media/format.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="keywords" content="wxWidgets, tutorial, drag &amp; drop, C++, programming, GUI, multiplatform">
+<meta nam="description" content="Introduction to winapi">
+<meta name="language" content="en">
+<meta name="author" content="jan bodnar">
+<meta name="distribution" content="global"></head><body>
+
+
+<div class="center">
+
+<div>&nbsp;
+<a href="index.html">Contents</a></div>
+
+<h1>Drag and Drop</h1>
+
+<p>
+Wikipedia: In computer graphical user interfaces, drag-and-drop is the
+action of (or support for the action of) clicking on a virtual object
+and dragging it to a different location or onto another virtual object.
+In general, it can be used to invoke many kinds of actions, or create
+various types of associations between two abstract objects. </p>
+<p>
+Drag and drop functionality is one of the most visible aspects of the graphical user interface. 
+Drag and drop operation enables you to do complex things intuitively. 
+
+</p>
+
+<p>
+In drag and drop we basically drag some data from a data source to a data target. 
+So we must have:
+
+</p><ul>
+<li>Data object</li>
+<li>Data source</li>
+<li>Data target</li>
+</ul>
+
+For drag &amp; drop of text, wxWidgets has a predefined <b>wxTextDropTarget</b> class.
+
+<p></p>
+
+
+<p>
+In the following example, we drag and drop file names from the upper list control to the bottom one.
+</p>
+
+
+<pre class="code"><div class="codehead">textdrop.h</div>
+#include &lt;wx/wx.h&gt;
+#include &lt;wx/dnd.h&gt;
+
+class TextDrop : public wxFrame
+{
+public:
+  TextDrop(const wxString&amp; title);
+    
+  void OnSelect(wxCommandEvent&amp; event);
+  void OnDragInit(wxListEvent&amp; event);
+
+  wxGenericDirCtrl *m_gdir;
+  wxListCtrl *m_lc1;
+  wxListCtrl *m_lc2;
+
+};
+
+
+class MyTextDropTarget : public wxTextDropTarget
+{
+public:
+  MyTextDropTarget(wxListCtrl *owner);
+
+  virtual bool OnDropText(wxCoord x, wxCoord y, 
+      const wxString&amp; data);
+
+  wxListCtrl *m_owner;
+ 
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">textdrop.cpp</div>
+#include "textdrop.h"
+#include &lt;wx/treectrl.h&gt;
+#include &lt;wx/dirctrl.h&gt;
+#include &lt;wx/dir.h&gt;
+#include &lt;wx/splitter.h&gt;
+
+
+TextDrop::TextDrop(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(300, 200))
+{
+ 
+  wxSplitterWindow *spl1 = new wxSplitterWindow(this, -1);
+  wxSplitterWindow *spl2 = new wxSplitterWindow(spl1, -1);
+  m_gdir = new wxGenericDirCtrl(spl1, -1, wxT("/home/"), 
+      wxPoint(-1, -1), wxSize(-1, -1), wxDIRCTRL_DIR_ONLY);
+
+  m_lc1 = new wxListCtrl(spl2, -1, wxPoint(-1, -1), 
+      wxSize(-1, -1), wxLC_LIST);
+  m_lc2 = new wxListCtrl(spl2, -1, wxPoint(-1, -1), 
+      wxSize(-1, -1), wxLC_LIST);
+
+  MyTextDropTarget *mdt = new MyTextDropTarget(m_lc2);
+  m_lc2-&gt;SetDropTarget(mdt);
+
+  Connect(m_lc1-&gt;GetId(), wxEVT_COMMAND_LIST_BEGIN_DRAG, 
+      wxListEventHandler(TextDrop::OnDragInit));
+
+  wxTreeCtrl *tree = m_gdir-&gt;GetTreeCtrl();
+
+  spl2-&gt;SplitHorizontally(m_lc1, m_lc2);
+  spl1-&gt;SplitVertically(m_gdir, spl2);
+
+  Connect(tree-&gt;GetId(), wxEVT_COMMAND_TREE_SEL_CHANGED, 
+      wxCommandEventHandler(TextDrop::OnSelect));
+
+  Center();
+}
+
+MyTextDropTarget::MyTextDropTarget(wxListCtrl *owner)
+{
+  m_owner = owner;
+}
+
+bool MyTextDropTarget::OnDropText(wxCoord x, wxCoord y, 
+    const wxString&amp; data)
+{
+
+  m_owner-&gt;InsertItem(0, data);
+  return true;
+
+}
+
+void TextDrop::OnSelect(wxCommandEvent&amp; event)
+{
+  wxString filename;
+  wxString path = m_gdir-&gt;GetPath();
+  wxDir dir(path);
+
+  bool cont = dir.GetFirst(&amp;filename, wxEmptyString, wxDIR_FILES);
+
+  int i = 0;
+
+  m_lc1-&gt;ClearAll();
+  m_lc2-&gt;ClearAll();
+
+  while ( cont )
+  {
+      m_lc1-&gt;InsertItem(i, filename);
+      cont = dir.GetNext(&amp;filename);
+      i++;
+  }
+}
+
+
+void TextDrop::OnDragInit(wxListEvent&amp; event)
+{
+
+ wxString text = m_lc1-&gt;GetItemText(event.GetIndex());
+  
+ wxTextDataObject tdo(text);
+ wxDropSource tds(tdo, m_lc1);
+ tds.DoDragDrop(wxDrag_CopyOnly);
+
+}
+
+</pre>
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "textdrop.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    TextDrop *td = new TextDrop(wxT("TextDrop"));
+    td-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+<br>
+
+
+<p>
+ In our example, we have a window separated into three parts. This is done by the <i>wxSplitterWindow</i> widget.
+In the left part of the window, we have a generic directory control. We display all directories available under our
+filesystem. In the right part there are two windows. The first displays all files under a selected directory.
+The second one is used for dragging the files. 
+</p>
+
+
+
+<pre class="explanation"> MyTextDropTarget *mdt = new MyTextDropTarget(m_lc2);
+ m_lc2-&gt;SetDropTarget(mdt);
+</pre>
+
+<p>
+Here we define a text drop target. 
+</p>
+
+<pre class="explanation"> wxString text = m_lc1-&gt;GetItemText(event.GetIndex());
+
+ wxTextDataObject tdo(text);
+ wxDropSource tds(tdo, m_lc1);
+ tds.DoDragDrop(wxDrag_CopyOnly);
+</pre>
+
+<p>
+In the <i>OnDragInit()</i> method, we define a text data object and a drop source object. We call the <i>DoDragDrop()</i> method. The <i>wxDrag_CopyOnly</i> constant allows only copying of data. 
+</p>
+
+<pre class="explanation">bool MyTextDropTarget::OnDropText(wxCoord x, wxCoord y, 
+    const wxString&amp; data)
+{
+  m_owner-&gt;InsertItem(0, data);
+  return true;
+}
+</pre>
+
+<p>
+ During the dropping operation, we insert the text data into the list control.
+</p>
+
+<br>
+<img src="../media/textdrop.jpg" alt="Drag &amp; Drop">
+<div class="figure">Figure: Drag &amp; Drop</div>
+
+<br>
+
+<br>
+
+<center>
+<div class="botNav"><span class="botNavItem"><a href="index.html">Contents</a></span> ‡ <span class="botNavItem"><a href="#">Top of Page</a></span></div>
+</center>
+
+<div class="footer">
+<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span></div>
+</div>
+
+</div>
+</body></html>

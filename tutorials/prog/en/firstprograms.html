@@ -1,0 +1,507 @@
+<html><head><title>First programs in wxWidgets</title>
+
+
+<link rel="stylesheet" href="../media/format.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="keywords" content="wxWidgets, tutorial, First programs, C++, programming, GUI, multiplatform">
+<meta nam="description" content="Introduction to winapi">
+<meta name="language" content="en">
+<meta name="author" content="jan bodnar">
+<meta name="distribution" content="global"></head><body>
+
+
+<div class="center">
+
+<div>
+<a href="index.html">Contents</a>
+</div>
+
+<h1>First programs in wxWidgets</h1>
+
+<p>
+In this chapter, we will cover the basics needed to create wxWidgets applications. 
+We will create our first simple example, show how to display an icon. Next we will create a simple example demonstrating
+usage of an event. Finally, we will see, how widgets communicate in wxWidgets applications.
+</p>
+
+
+<h3>A simple application</h3>
+
+<p>
+First we create the very basic wxWidgets program. 
+</p>
+
+
+<pre class="code"><div class="codehead">simple.h</div>
+#include &lt;wx/wx.h&gt;
+
+class Simple : public wxFrame
+{
+public:
+    Simple(const wxString&amp; title);
+
+};
+</pre>
+
+<pre class="code"><div class="codehead">simple.cpp</div>
+#include "simple.h"
+
+Simple::Simple(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 150))
+{
+  Centre();
+}
+</pre>
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "simple.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+    Simple *simple = new Simple(wxT("Simple"));
+    simple-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+<br>
+
+<p>
+This very basic example shows a small window on the screen. The window is centered.
+</p>
+
+<pre class="explanation"> Centre();
+</pre>
+
+<p>
+This method centers the window on the screen. Both horizontally and vertically. 
+</p>
+
+<pre class="explanation"> IMPLEMENT_APP(MyApp)
+</pre>
+
+<p>
+The code that implements the application is hidden behind this macro. This is copy and paste
+code, we usually don't have to care about.
+</p>
+
+<br>
+<img src="../media/simple.jpg" alt="Simple">
+<div class="figure">Figure: Simple</div>
+
+
+
+<h3>Showing an application icon</h3>
+
+<p>
+In this example, we provide an icon for our application. It became a standard to display a small icon
+in the upper left corner of the window. The icon is a graphical identity of the program. 
+</p>
+
+
+
+<pre class="code"><div class="codehead">icon.h</div>
+#include &lt;wx/wx.h&gt;
+
+class Icon : public wxFrame
+{
+public:
+    Icon(const wxString&amp; title);
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">icon.cpp</div>
+#include "icon.h"
+
+Icon::Icon(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 150))
+{
+  SetIcon(wxIcon(wxT("web.xpm")));
+  Centre();
+}
+
+</pre>
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "icon.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+    Icon *icon = new Icon(wxT("Icon"));
+    icon-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+
+<p>
+In our example we show a small web icon. 
+</p>
+
+
+<pre class="explanation">  SetIcon(wxIcon(wxT("web.xpm")));
+</pre>
+
+<p>
+To display an application icon is a matter of one code line.
+XPM (X PixMap) is an ASCII image format.
+</p>
+
+
+<br>
+<img src="../media/icon.jpg" alt="Icon">
+<div class="figure">Figure: Icon</div>
+
+
+
+<h3>A simple button</h3>
+
+<p>
+In the following example, we create a button on the frame widget. We will show, how to create a simple event
+handler.
+</p>
+
+<pre class="code"><div class="codehead">button.h</div>
+#include &lt;wx/wx.h&gt;
+
+class Button : public wxFrame
+{
+public:
+    Button(const wxString&amp; title);
+
+    void OnQuit(wxCommandEvent &amp; event);
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">button.cpp</div>
+#include "button.h"
+
+Button::Button(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(270, 150))
+{
+  wxPanel *panel = new wxPanel(this, wxID_ANY);
+
+  wxButton *button = new wxButton(panel, wxID_EXIT, wxT("Quit"), 
+      wxPoint(20, 20));
+  Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, 
+      wxCommandEventHandler(Button::OnQuit));
+  button-&gt;SetFocus();
+  Centre();
+}
+
+void Button::OnQuit(wxCommandEvent &amp; WXUNUSED(event))
+{
+    Close(true);
+}
+
+</pre>
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "button.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    Button *btnapp = new Button(wxT("Button"));
+    btnapp-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+
+
+<pre class="explanation"> wxPanel *panel = new wxPanel(this, wxID_ANY);
+</pre>
+
+<p>
+First we create a <i>wxPanel</i> widget. It will be placed inside a <i>wxFrame</i> widget.
+</p>
+
+<pre class="explanation"> wxButton *button = new wxButton(panel, wxID_EXIT, wxT("Quit"), wxPoint(20, 20));
+</pre>
+
+<p>
+We create a <i>wxButton</i> widget. It is placed on the panel. We use the predefined <i>wxID_EXIT</i> id for the button.
+It will cause to display a small exit icon on the button. The label of the button is "Quit". The button is positioned
+manually at x=20, y=20 coordinates. The beginning of the coordinate system is at the upper left hand corner.
+</p>
+
+<pre class="explanation"> Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, 
+     wxCommandEventHandler(Button::OnQuit));
+</pre>
+
+<p>
+If we click on the button, a <i>wxEVT_COMMAND_BUTTON_CLICKED</i> event is generated. We connect the event to the 
+<i>OnQuit()</i> method of the Button class. So when we click on the button, the OnQuit() method is called.
+</p>
+
+<pre class="explanation"> button-&gt;SetFocus();
+</pre>
+
+<p>
+We set the keyboard focus to the button. So if we press the enter key, the button is being clicked.
+</p>
+
+<pre class="explanation"> Close(true);
+</pre>
+
+<p>
+Inside the OnQuit() method, we call the <i>Close()</i> method. This will terminate our application.
+</p>
+
+
+<br>
+<img src="../media/button.jpg" alt="Button">
+<div class="figure">Figure: Button</div>
+
+
+<h3>Widgets communicate</h3>
+
+<p>
+It is important to know, how widgets can communicate in application. Follow the next example.
+</p>
+
+
+<pre class="code"><div class="codehead">Panels.h</div>
+#include &lt;wx/wx.h&gt;
+#include &lt;wx/panel.h&gt;
+
+class LeftPanel : public wxPanel
+{
+public:
+    LeftPanel(wxPanel *parent);
+
+    void OnPlus(wxCommandEvent &amp; event);
+    void OnMinus(wxCommandEvent &amp; event);
+
+    wxButton *m_plus;
+    wxButton *m_minus;
+    wxPanel *m_parent;
+    int count;
+
+};
+
+class RightPanel : public wxPanel
+{
+public:
+    RightPanel(wxPanel *parent);
+
+    void OnSetText(wxCommandEvent &amp; event);
+
+    wxStaticText *m_text;
+
+};
+
+const int ID_PLUS = 101;
+const int ID_MINUS = 102;
+
+</pre>
+
+<pre class="code"><div class="codehead">Panels.cpp</div>
+#include &lt;wx/stattext.h&gt;
+#include "Communicate.h"
+
+LeftPanel::LeftPanel(wxPanel * parent)
+       : wxPanel(parent, -1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_SUNKEN)
+{
+  count = 0;
+  m_parent = parent;
+  m_plus = new wxButton(this, ID_PLUS, wxT("+"), 
+      wxPoint(10, 10));
+  m_minus = new wxButton(this, ID_MINUS, wxT("-"), 
+      wxPoint(10, 60));
+  Connect(ID_PLUS, wxEVT_COMMAND_BUTTON_CLICKED, 
+      wxCommandEventHandler(LeftPanel::OnPlus));
+  Connect(ID_MINUS, wxEVT_COMMAND_BUTTON_CLICKED, 
+      wxCommandEventHandler(LeftPanel::OnMinus));
+}
+
+void LeftPanel::OnPlus(wxCommandEvent &amp; WXUNUSED(event))
+{
+  count++;
+
+  Communicate *comm = (Communicate *) m_parent-&gt;GetParent();
+  comm-&gt;m_rp-&gt;m_text-&gt;SetLabel(wxString::Format(wxT("%d"), count));
+}
+
+void LeftPanel::OnMinus(wxCommandEvent &amp; WXUNUSED(event))
+{
+  count--;
+
+  Communicate *comm = (Communicate *) m_parent-&gt;GetParent();
+  comm-&gt;m_rp-&gt;m_text-&gt;SetLabel(wxString::Format(wxT("%d"), count));
+}
+
+
+RightPanel::RightPanel(wxPanel * parent)
+       : wxPanel(parent, wxID_ANY, wxDefaultPosition, 
+         wxSize(270, 150), wxBORDER_SUNKEN)
+{
+    m_text = new wxStaticText(this, -1, wxT("0"), wxPoint(40, 60));
+}
+
+</pre>
+
+
+<pre class="code"><div class="codehead">Communicate.h</div>
+#include "Panels.h"
+#include &lt;wx/wxprec.h&gt;
+
+
+class Communicate : public wxFrame
+{
+public:
+    Communicate(const wxString&amp; title);
+
+
+    LeftPanel *m_lp;
+    RightPanel *m_rp;
+    wxPanel *m_parent;
+
+};
+
+</pre>
+
+
+<pre class="code"><div class="codehead">Communicate.cpp</div>
+#include "Communicate.h"
+
+
+Communicate::Communicate(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(290, 150))
+{
+  m_parent = new wxPanel(this, wxID_ANY);
+
+  wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+
+  m_lp = new LeftPanel(m_parent);
+  m_rp = new RightPanel(m_parent);
+
+  hbox-&gt;Add(m_lp, 1, wxEXPAND | wxALL, 5);
+  hbox-&gt;Add(m_rp, 1, wxEXPAND | wxALL, 5);
+
+  m_parent-&gt;SetSizer(hbox);
+
+  this-&gt;Centre();
+}
+
+</pre>
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "Communicate.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    Communicate *communicate = new Communicate(wxT("Widgets communicate"));
+    communicate-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+
+
+<p>
+In our example we have two panels. A left and right panel. The left
+panel has two buttons. The right panel has one static text. The buttons
+change the number displayed in the static text. The question is, how do
+we grab the pointer to the static text?
+</p>
+
+<pre class="explanation"> m_parent = parent;
+</pre>
+
+<p>
+Here we save the pointer to the parent widget of the LeftPanel. It is a wxPanel widget.
+</p>
+
+<pre class="explanation"> Communicate *comm = (Communicate *) m_parent-&gt;GetParent();
+ comm-&gt;m_rp-&gt;m_text-&gt;SetLabel(wxString::Format(wxT("%d"), count));
+</pre>
+
+<p>These two lines are the most important lines of the example. It is
+shown, how we get access to the static text widget, which
+is placed on a different panel. First we get the parent of the both
+left and right panels. This parent widget has a pointer to the right
+panel. And the right panel has a pointer to the static text. </p>
+
+<br>
+<img src="../media/widgetscommunicate.jpg" alt="Widgets communicate">
+<div class="figure">Figure: Widgets communicate</div>
+<center>
+
+</center>
+
+<center>
+<div class="botNav"><span class="botNavItem"><a href="index.html">Contents</a></span> ‡ <span class="botNavItem"><a href="#">Top of Page</a></span></div>
+</center>
+
+<div class="footer">
+<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span></div>
+</div>
+
+</div>
+</body></html>

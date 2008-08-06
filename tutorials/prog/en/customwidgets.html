@@ -1,0 +1,341 @@
+<html><head><title>Custom widgets</title>
+
+
+<link rel="stylesheet" href="../media/format.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="keywords" content="wxWidgets, tutorial, widgets, custom widgets, custom controls, C++, programming, GUI, multiplatform">
+<meta nam="description" content="Introduction to winapi">
+<meta name="language" content="en">
+<meta name="author" content="jan bodnar">
+<meta name="distribution" content="global"></head><body>
+
+
+<div class="center">
+
+<div>&nbsp;
+<a href="index.html">Contents</a></div>
+
+<h1>Custom widgets</h1>
+
+<p>
+Have you ever looked at an application and wondered, how a particular
+gui item was created? Probably every wannabe programmer has. Then you
+were looking at a list of widgets provided by your favourite gui
+library. But you couldn't find it. Toolkits usually provide only the
+most common widgets like buttons, text widgets, sliders etc. No toolkit
+can provide all possible widgets.
+</p>
+
+<p>There are actually two kinds of toolkits. Spartan toolkits and heavy
+weight toolkits. The FLTK toolkit is a kind of a spartan toolkit. It
+provides only the very basic widgets and assumes, that the programemer
+will create the more complicated ones himself. wxWidgets is a heavy
+weight one. It has lots of widgets. Yet it does not provide the more
+specialized widgets. For example a speed meter widget, a widget that
+measures the capacity of a CD to be burned (found e.g. in nero).
+Toolkits also don't have usually charts.
+</p>
+<p>Programmers must create such widgets by themselves. They do it by
+using the drawing tools provided by the toolkit. There are two
+possibilities. A programmer can modify or enhance an existing widget.
+Or he can create a custom widget from scratch.
+</p>
+<p>
+Here I assume, you have read the chapter on the <a href="gdi.html">Device Contexts.</a>
+</p>
+
+<h3>The Burning Widget</h3>
+
+<p>
+This is an example of a widget, that we create from scratch.
+This widget can be found in various media burning applications, like Nero Burning ROM. 
+</p>
+
+
+<pre class="code"><div class="codehead">widget.h</div>
+#ifndef WIDGET_H
+#define WIDGET_H
+
+#include &lt;wx/wx.h&gt;
+
+class Widget : public wxPanel
+{
+public:
+  Widget(wxPanel *parent, int id );
+
+  wxPanel *m_parent;
+
+
+  void OnSize(wxSizeEvent&amp; event);
+  void OnPaint(wxPaintEvent&amp; event);  
+
+};
+
+#endif
+
+</pre>
+
+<pre class="code"><div class="codehead">widget.cpp</div>
+#include &lt;wx/wx.h&gt;
+#include "widget.h"
+#include "burning.h"
+
+int asize = sizeof(num)/sizeof(num[1]);
+int num[] = { 75, 150, 225, 300, 375, 450, 525, 600, 675 };
+
+Widget::Widget(wxPanel *parent, int id)
+      : wxPanel(parent, id, wxDefaultPosition, wxSize(-1, 30), wxSUNKEN_BORDER)
+{
+ 
+  m_parent = parent;
+
+  Connect(wxEVT_PAINT, wxPaintEventHandler(Widget::OnPaint));
+  Connect(wxEVT_SIZE, wxSizeEventHandler(Widget::OnSize));
+
+}
+
+void Widget::OnPaint(wxPaintEvent&amp; event)
+{
+ 
+
+  wxFont font(9, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
+            wxFONTWEIGHT_NORMAL, false, wxT("Courier 10 Pitch"));
+
+  wxPaintDC dc(this);
+  dc.SetFont(font);
+  wxSize size = GetSize();
+  int width = size.GetWidth();
+
+  Burning *burn = (Burning *) m_parent-&gt;GetParent();
+
+  int cur_width = burn-&gt;GetCurWidth();
+
+  int step = (int) round(width / 10.0);
+
+
+  int till = (int) ((width / 750.0) * cur_width);
+  int full = (int) ((width / 750.0) * 700);
+
+
+  if (cur_width &gt;= 700) {
+
+      dc.SetPen(wxPen(wxColour(255, 255, 184))); 
+      dc.SetBrush(wxBrush(wxColour(255, 255, 184)));
+      dc.DrawRectangle(0, 0, full, 30);
+      dc.SetPen(wxPen(wxColour(255, 175, 175)));
+      dc.SetBrush(wxBrush(wxColour(255, 175, 175)));
+      dc.DrawRectangle(full, 0, till-full, 30);
+
+  } else { 
+
+      dc.SetPen(wxPen(wxColour(255, 255, 184)));
+      dc.SetBrush(wxBrush(wxColour(255, 255, 184)));
+      dc.DrawRectangle(0, 0, till, 30);
+
+  }
+
+  dc.SetPen(wxPen(wxColour(90, 80, 60)));
+  for ( int i=1; i &lt;= asize; i++ ) {
+
+  dc.DrawLine(i*step, 0, i*step, 6);
+  wxSize size = dc.GetTextExtent(wxString::Format(wxT("%d"), num[i-1]));
+  dc.DrawText(wxString::Format(wxT("%d"), num[i-1]), 
+      i*step-size.GetWidth()/2, 8);
+
+
+   }
+}
+
+void Widget::OnSize(wxSizeEvent&amp; event)
+{
+  Refresh();
+}
+
+
+</pre>
+
+<pre class="code"><div class="codehead">burning.h</div>
+#ifndef BURNING_H
+#define BURNING_H
+
+#include &lt;wx/wx.h&gt;
+#include "widget.h"
+
+class Burning : public wxFrame
+{
+public:
+  Burning(const wxString&amp; title);
+
+  void OnScroll(wxScrollEvent&amp; event);
+  int GetCurWidth();
+
+  
+  wxSlider *m_slider;
+  Widget *m_wid;
+
+  int cur_width;
+
+};
+
+#endif
+
+</pre>
+
+<pre class="code"><div class="codehead">burning.cpp</div>
+#include "burning.h"
+#include "widget.h"
+
+int ID_SLIDER = 1;
+
+Burning::Burning(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(350, 200))
+{
+
+  cur_width = 75;
+
+  wxPanel *panel = new wxPanel(this, wxID_ANY);
+  wxPanel *centerPanel = new wxPanel(panel, wxID_ANY);
+
+  m_slider = new wxSlider(centerPanel, ID_SLIDER, 75, 0, 750, wxPoint(-1, -1), 
+      wxSize(150, -1), wxSL_LABELS);
+
+  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
+  wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+  wxBoxSizer *hbox2 = new wxBoxSizer(wxHORIZONTAL);
+  wxBoxSizer *hbox3 = new wxBoxSizer(wxHORIZONTAL);
+
+  m_wid = new Widget(panel, wxID_ANY);
+  hbox-&gt;Add(m_wid, 1, wxEXPAND);
+
+  hbox2-&gt;Add(centerPanel, 1, wxEXPAND);
+  hbox3-&gt;Add(m_slider, 0, wxTOP | wxLEFT, 35);
+
+  centerPanel-&gt;SetSizer(hbox3);
+
+  vbox-&gt;Add(hbox2, 1, wxEXPAND);
+  vbox-&gt;Add(hbox, 0, wxEXPAND);
+
+  panel-&gt;SetSizer(vbox);
+  m_slider-&gt;SetFocus();
+
+  Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, 
+      wxScrollEventHandler(Burning::OnScroll)); 
+
+  Centre();
+
+}
+
+void Burning::OnScroll(wxScrollEvent&amp; WXUNUSED(event))
+{
+ cur_width = m_slider-&gt;GetValue();
+ m_wid-&gt;Refresh();
+}
+
+
+int Burning::GetCurWidth() 
+{
+ return cur_width;
+}
+
+</pre>
+
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "burning.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    Burning *burning = new Burning(wxT("The Burning Widget"));
+    burning-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+
+
+<p>
+We put a wxPanel on the bottom of the window and draw the entire widget manually. 
+All the important code resides in the OnPaint() method of the Widget class. This 
+widget shows graphically the total capacity of a medium and the free space available to us. 
+The widget is controlled by a slider widget. The minimum value of our custom widget is 0, the maximum is 750. 
+If we reach value 700, we began drawing in red colour. This normally indicates overburning.
+</p>
+
+
+<pre class="explanation"> wxSize size = GetSize();
+ int width = size.GetWidth();
+ ... 
+ int till = (int) ((width / 750.0) * cur_width);
+ int full = (int) ((width / 750.0) * 700);
+</pre>
+
+<p>We draw the widget dynamically. The greater the window, the greater
+the burning widget. And vice versa. That is why we must calculate the
+size of the wxPanel onto which we draw the custom widget. The till
+parameter determines the total size to be drawn. This value comes from
+the slider widget. It is a proportion of the whole area. The full
+parameter determines the point, where we begin to draw in red color.
+Notice the use of floating point arithmetics. This is to achieve
+greater precision.
+</p>
+<p>The actual drawing consists of three steps. We draw the yellow or
+red and yellow rectangle. Then we draw the vertical lines, which divide
+the widget into several parts. Finally, we draw the numbers, which
+indicate the capacity of the medium. </p>
+
+<pre class="explanation">void Widget::OnSize(wxSizeEvent&amp; event)
+{
+  Refresh();
+}
+</pre>
+
+<p>
+Every time the window is resized, we refresh the widget. This causes the widget to repaint itself.
+</p>
+
+
+<pre class="explanation">void Burning::OnScroll(wxScrollEvent&amp; WXUNUSED(event))
+{
+ cur_width = m_slider-&gt;GetValue();
+ m_wid-&gt;Refresh();
+}
+</pre>
+
+<p>
+If we scroll the thumb of the slider, we get the actual value and save it into the <i>cur_width</i> variable. This value is used, when the burning widget is drawn. Then we cause the widget to be redrawn.
+</p>
+
+<br>
+<img src="../media/burningwidget.jpg" alt="Burning Widget">
+<div class="figure">Figure: Burning Widget</div>
+
+<br>
+
+<br>
+
+<center>
+<div class="botNav"><span class="botNavItem"><a href="index.html">Contents</a></span> ‡ <span class="botNavItem"><a href="#">Top of Page</a></span></div>
+</center>
+
+<div class="footer">
+<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span></div>
+</div>
+
+</div>
+</body></html>

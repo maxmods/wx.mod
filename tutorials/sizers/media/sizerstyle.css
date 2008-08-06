@@ -1,0 +1,30 @@
+span.new {
+  color: red;
+  background-color: yellow;
+}
+
+span.comment {
+  color: red;
+}
+
+td.cod {
+	border: solid;
+	margin: 0px;
+	background-color: #cccccc;
+	font-size: 11pt;
+}
+
+td.pic {
+  border: solid;
+  margin: 0px;
+}
+
+table.example {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.std {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+}

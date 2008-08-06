@@ -1,0 +1,984 @@
+<html><head><title>Layout management in wxWidgets</title>
+
+
+<link rel="stylesheet" href="../media/format.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="keywords" content="wxWidgets, tutorial, widgets, layout C++, programming, GUI, multiplatform">
+<meta nam="description" content="Layout management in wxWidgets">
+<meta name="language" content="en">
+<meta name="author" content="jan bodnar">
+<meta name="distribution" content="global"></head><body>
+
+
+<div class="center">
+
+<div>&nbsp;
+<a href="index.html">Contents</a></div>
+
+<h1>Layout management in wxWidgets</h1>
+
+<p>
+A typical application consists of various widgets. Those widgets are
+placed inside container widgets. A programmer must manage the layout of
+the application. This is not an easy task. In wxWidgets we have two
+options.
+</p>
+<ul>
+<li>absolute positioning</li>
+<li>sizers</li>
+</ul>
+
+
+<h3>Absolute Positioning</h3>
+
+<p>
+The programmer specifies the position and the size of each widget in pixels. 
+When you use absolute positioning, you have to understand several things. 
+</p>
+
+<ul>
+<li>the size and the position of a widget do not change, if you resize a window</li>
+<li>applications look different (crappy) on various platforms</li>
+<li>changing fonts in your application might spoil the layout</li>
+<li>if you decide to change your layout, you must completely redo your layout, which is tedious and time consuming</li>
+</ul>
+
+<p>
+There might be situations, where we can possibly use absolute positioning. For example, my tutorials. I do 
+not want to make the examples too difficult, so I often use absolute positioning to explain a topic. 
+But mostly, in real world programs, programmers use sizers.
+</p>
+
+<p>
+In our example we have a simple skeleton of a text editor. If we resize the window, the size of out wxTextCtrl
+does not change as we would expect.
+</p>
+
+<br>
+<img src="../media/absolute1.jpg" alt="Before resizement"> 
+<div class="figure">
+Figure: before resizement
+</div>
+
+<br>
+<img src="../media/absolute2.jpg" alt="After resizement">
+<div class="figure">
+Figure: after resizement
+</div>
+
+<br>
+
+
+
+
+<pre class="code"><div class="codehead">absolute.h</div>
+#include &lt;wx/wx.h&gt;
+
+class Absolute : public wxFrame
+{
+public:
+  Absolute(const wxString&amp; title);
+
+  wxMenuBar *menubar;
+  wxMenu *file;
+  wxMenu *edit;
+  wxMenu *help;
+  wxTextCtrl *textctrl;
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">absolute.cpp</div>
+#include "absolute.h"
+
+
+Absolute::Absolute(const wxString&amp; title)
+       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(250, 180))
+{
+ 
+ wxPanel *panel = new wxPanel(this, -1);
+
+ menubar = new wxMenuBar;
+ file = new wxMenu;
+ edit = new wxMenu;
+ help = new wxMenu;
+
+ menubar-&gt;Append(file, wxT("&amp;File"));
+ menubar-&gt;Append(edit, wxT("&amp;Edit"));
+ menubar-&gt;Append(help, wxT("&amp;Help"));
+ SetMenuBar(menubar);
+
+ textctrl = new wxTextCtrl(panel, -1, wxT(""), wxPoint(-1, -1),
+     wxSize(250, 150));
+
+ Centre();
+}
+
+</pre>
+
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "absolute.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    Absolute *absolute = new Absolute(wxT("Absolute"));
+    absolute-&gt;Show(true);
+
+    return true;
+}
+</pre>
+
+<p>
+This is an example, where we use absolute positioning. We position a <i>wxTextCtrl</i> widget on a panel widget.
+</p>
+
+<pre class="explanation"> textctrl = new wxTextCtrl(panel, -1, wxT(""), wxPoint(-1, -1),
+    wxSize(250, 150));
+</pre>
+
+<p>
+We do the absolute positioning in the constructor of the <i>wxTextCtrl</i> widget. In our case, we provide the default position for the widget. The width is 250px and the height 150px.
+</p>
+
+
+<h3>Using sizers</h3>
+
+<p>
+Sizers in wxWidgets do address all those issues, we mentioned by absolute positioning. We can choose among these sizers.
+</p>
+
+<ul>
+<li>wxBoxSizer</li>
+<li>wxStaticBoxSizer</li>
+<li>wxGridSizer</li>
+<li>wxFlexGridSizer</li>
+<li>wxGridBagSizer</li>
+</ul>
+
+<br>
+<img src="../media/sizer1.jpg" alt="Before resizement"> 
+<div class="figure">
+Figure: before resizement
+</div>
+
+<br>
+<img src="../media/sizer2.jpg" alt="After resizement">
+<div class="figure">
+Figure: after resizement
+</div>
+
+<br>
+
+
+<pre class="code"><div class="codehead">sizer.h</div>
+#include &lt;wx/wx.h&gt;
+
+class Sizer : public wxFrame
+{
+public:
+  Sizer(const wxString&amp; title);
+
+  wxMenuBar *menubar;
+  wxMenu *file;
+  wxMenu *edit;
+  wxMenu *help;
+  wxTextCtrl *textctrl;
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">sizer.cpp</div>
+#include "sizer.h"
+
+Sizer::Sizer(const wxString&amp; title)
+       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(250, 180))
+{
+
+ menubar = new wxMenuBar;
+ file = new wxMenu;
+ edit = new wxMenu;
+ help = new wxMenu;
+
+ menubar-&gt;Append(file, wxT("&amp;File"));
+ menubar-&gt;Append(edit, wxT("&amp;Edit"));
+ menubar-&gt;Append(help, wxT("&amp;Help"));
+ SetMenuBar(menubar);
+
+ textctrl = new wxTextCtrl(this, -1, wxT(""), wxPoint(-1, -1),
+     wxSize(250, 150));
+    
+ Centre();
+}
+
+</pre>
+
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "sizer.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    Sizer *sizer = new Sizer(wxT("Sizer"));
+    sizer-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+
+<br>
+<p>Ok, so you are saying that you don't see any sizers in the example?
+Well, the code example was a bit tricky. Actually, we placed the
+wxTextCtrl inside the wxFrame widget. The wxFrame widget has a special
+built-in sizer. We can put only one widget inside the wxFrame
+container. The child widget occupies all the space, which is not given
+to the borders, menu, toolbar and the statusbar.
+</p>
+
+
+
+
+<h3>wxBoxSizer</h3>This sizer enables us to put several widgets into a
+row or a column. We can put another sizer into an existing sizer. This
+way we can create very complex layouts. <pre class="constructor"> wxBoxSizer(int orient)
+ wxSizerItem* Add(wxWindow* window, int proportion = 0, int flag = 0, int border = 0)
+</pre>
+
+<p>
+The orientation can be wxVERTICAL or wxHORIZONTAL. Adding widgets into
+the wxBoxSizer is done via the Add() method. In order to understand it,
+we need to look at its parameters.
+</p>
+<p>The proportion parameter defines the ratio of how will the widgets
+change in the defined orientation. Let's assume we have tree buttons
+with the proportions 0, 1, and 2. They are added into a horizontal
+wxBoxSizer. Button with proportion 0 will not change at all. Button
+with proportion 2 will change twice more than the one with proportion 1
+in the horizontal dimension.
+</p>
+<p>With the flag parameter you can further configure the behaviour of
+the widgets within a wxBoxSizer. We can control the border between the
+widgets. We add some space between widgets in pixels. In order to apply
+border we need to define sides, where the border will be used. We can
+combine them with the | operator. e.g wxLEFT | wxBOTTOM. We can choose
+between these flags:
+</p>
+
+<ul>
+<li>wxLEFT</li>
+<li>wxRIGHT</li>
+<li>wxBOTTOM</li>
+<li>wxTOP</li>
+<li>wxALL</li>
+</ul>
+
+<br>
+<img src="../media/border.jpg" alt="border around a panel">
+<div class="figure">
+Figure: border around a panel
+</div>
+
+<pre class="code"><div class="codehead">border.h</div>
+#include &lt;wx/wx.h&gt;
+
+class Border : public wxFrame
+{
+public:
+  Border(const wxString&amp; title);
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">border.cpp</div>
+#include "border.h"
+
+Border::Border(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 200))
+{
+
+  wxColour col1, col2;
+  col1.Set(wxT("#4f5049"));
+  col2.Set(wxT("#ededed"));
+
+  wxPanel *panel = new wxPanel(this, -1);
+  panel-&gt;SetBackgroundColour(col1);
+  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
+
+  wxPanel *midPan = new wxPanel(panel, wxID_ANY);
+  midPan-&gt;SetBackgroundColour(col2);
+
+  vbox-&gt;Add(midPan, 1, wxEXPAND | wxALL, 20);
+  panel-&gt;SetSizer(vbox);
+
+  Centre();
+}
+
+</pre>
+
+
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "border.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    Border *border = new Border(wxT("Border"));
+    border-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+
+<p>
+In this example, we create two panels. The second panel has some space around itself. 
+</p>
+
+<pre class="explanation"> vbox-&gt;Add(midPan, 1, wxEXPAND | wxALL, 20);
+</pre>
+
+<p>
+We have placed a 20 px border around a midPan panel. wxALL applies the border size to all four sides.
+If we use wxEXPAND flag, the widget will use all the space that has been allotted to it.
+</p>
+
+
+<p>
+Lastly, we can also define the alignment of our widgets. We do it with the following flags :
+</p>
+
+<ul>
+<li>wxALIGN_LEFT</li>
+<li>wxALIGN_RIGHT</li>
+<li>wxALIGN_TOP</li>
+<li>wxALIGN_BOTTOM</li>
+<li>wxALIGN_CENTER_VERTICAL</li>
+<li>wxALIGN_CENTER_HORIZONTAL</li>
+<li>wxALIGN_CENTER</li> 
+</ul>
+
+
+<p>
+Say we wanted to place two buttons into the right bottom of the window. 
+</p>
+
+<pre class="code"><div class="codehead">align.h</div>
+#include &lt;wx/wx.h&gt;
+
+class Align : public wxFrame
+{
+public:
+    Align(const wxString&amp; title);
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">align.cpp</div>
+#include "align.h"
+
+
+Align::Align(const wxString&amp; title)
+       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(300, 200))
+{
+
+  wxPanel *panel = new wxPanel(this, -1);
+
+  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
+  wxBoxSizer *hbox1 = new wxBoxSizer(wxHORIZONTAL);
+  wxBoxSizer *hbox2 = new wxBoxSizer(wxHORIZONTAL);
+
+  wxButton *ok = new wxButton(panel, -1, wxT("Ok"));
+  wxButton *cancel = new wxButton(panel, -1, wxT("Cancel"));
+
+  hbox1-&gt;Add(new wxPanel(panel, -1));
+  vbox-&gt;Add(hbox1, 1, wxEXPAND);
+
+
+  hbox2-&gt;Add(ok);
+  hbox2-&gt;Add(cancel);
+
+  vbox-&gt;Add(hbox2, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);
+  panel-&gt;SetSizer(vbox);
+
+  Centre();
+}
+
+</pre>
+
+
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "align.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    Align *align = new Align(wxT("Align"));
+    align-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+
+<br>
+
+<p>
+We create three sizers. One vertical sizer and two horizontal sizers. We put those two horizontal sizers into the 
+vertical one. 
+</p>
+
+
+<pre class="explanation"> hbox1-&gt;Add(new wxPanel(panel, -1));
+ vbox-&gt;Add(hbox1, 1, wxEXPAND);
+</pre>
+
+<p>
+We put a <i>wxPanel</i> into the first horizontal sizer. We set the proportion to <i>1</i> and set a <i>wxEXPAND</i> flag.
+This way the sizer will occupy all the space except the <i>hbox2</i>.
+</p>
+
+<pre class="explanation"> vbox-&gt;Add(hbox2, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);
+</pre>
+
+<p>
+We have placed the buttons into the <i>hbox2</i> sizer. The hbox2 is right aligned and we also put some space to the
+bottom and to the right of the buttons.
+</p>
+
+<br>
+<img src="../media/align.jpg" alt="aligning buttons">
+<div class="figure">
+Figure: aligning buttons
+</div>
+
+
+<h4>Go To Class</h4>
+
+<p>
+In the following example we introduce several important ideas. 
+</p>
+
+<pre class="code"><div class="codehead">gotoclass.h</div>
+#include &lt;wx/wx.h&gt;
+
+class GotoClass : public wxFrame
+{
+public:
+  GotoClass(const wxString&amp; title);
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">gotoclass.cpp</div>
+#include "gotoclass.h"
+
+
+GotoClass::GotoClass(const wxString&amp; title)
+       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(450, 400))
+{
+
+  wxPanel *panel = new wxPanel(this, -1);
+
+  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
+
+  wxBoxSizer *hbox1 = new wxBoxSizer(wxHORIZONTAL);
+  wxStaticText *st1 =  new wxStaticText(panel, wxID_ANY, 
+      wxT("Class Name"));
+
+  hbox1-&gt;Add(st1, 0, wxRIGHT, 8);
+  wxTextCtrl *tc = new wxTextCtrl(panel, wxID_ANY);
+  hbox1-&gt;Add(tc, 1);
+  vbox-&gt;Add(hbox1, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, 10);
+
+  vbox-&gt;Add(-1, 10);
+
+  wxBoxSizer *hbox2 = new wxBoxSizer(wxHORIZONTAL);
+  wxStaticText *st2 = new wxStaticText(panel, wxID_ANY, 
+      wxT("Matching Classes"));
+
+  hbox2-&gt;Add(st2, 0);
+  vbox-&gt;Add(hbox2, 0, wxLEFT | wxTOP, 10);
+
+  vbox-&gt;Add(-1, 10);
+
+  wxBoxSizer *hbox3 = new wxBoxSizer(wxHORIZONTAL);
+  wxTextCtrl *tc2 = new wxTextCtrl(panel, wxID_ANY, wxT(""), 
+      wxPoint(-1, -1), wxSize(-1, -1), wxTE_MULTILINE);
+
+  hbox3-&gt;Add(tc2, 1, wxEXPAND);
+  vbox-&gt;Add(hbox3, 1, wxLEFT | wxRIGHT | wxEXPAND, 10);
+
+  vbox-&gt;Add(-1, 25);
+
+  wxBoxSizer *hbox4 = new wxBoxSizer(wxHORIZONTAL);
+  wxCheckBox *cb1 = new wxCheckBox(panel, wxID_ANY, 
+      wxT("Case Sensitive"));
+
+  hbox4-&gt;Add(cb1);
+  wxCheckBox *cb2 = new wxCheckBox(panel, wxID_ANY, 
+      wxT("Nested Classes"));
+
+  hbox4-&gt;Add(cb2, 0, wxLEFT, 10);
+  wxCheckBox *cb3 = new wxCheckBox(panel, wxID_ANY, 
+      wxT("Non-Project Classes"));
+
+  hbox4-&gt;Add(cb3, 0, wxLEFT, 10);
+  vbox-&gt;Add(hbox4, 0, wxLEFT, 10);
+
+  vbox-&gt;Add(-1, 25);
+
+  wxBoxSizer *hbox5 = new wxBoxSizer(wxHORIZONTAL);
+  wxButton *btn1 = new wxButton(panel, wxID_ANY, wxT("Ok"));
+  hbox5-&gt;Add(btn1, 0);
+  wxButton *btn2 = new wxButton(panel, wxID_ANY, wxT("Close"));
+  hbox5-&gt;Add(btn2, 0, wxLEFT | wxBOTTOM , 5);
+  vbox-&gt;Add(hbox5, 0, wxALIGN_RIGHT | wxRIGHT, 10);
+
+  panel-&gt;SetSizer(vbox);
+
+  Centre();
+}
+
+</pre>
+
+
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "gotoclass.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+ GotoClass *gotoclass = new GotoClass(wxT("GotoClass"));
+ gotoclass-&gt;Show(true);
+
+ return true;
+}
+
+</pre>
+
+<br>
+
+<p>
+This is a complex example using <i>wxBoxSizer</i>. The layout is straitforward. We create one vertical sizer. We put then five horizontal sizers into it.
+</p>
+
+<pre class="explanation"> vbox-&gt;Add(hbox3, 1, wxLEFT | wxRIGHT | wxEXPAND, 10);
+
+ vbox-&gt;Add(-1, 25);
+</pre>
+
+
+<p>We already know that we can control the distance among widgets by
+combining the flag parameter with the border parameter. But there is
+one real constraint. In the Add() method we can specify only one border
+for all given sides. In our example, we give 10px to the right and to
+the left. But we cannot give 25 px to the bottom. What we can do is to
+give 10px to the bottom, or 0px. If we omit wxBOTTOM. So if we need
+different values, we can add some extra space. With the Add() method,
+we can insert widgets and space as well.
+</p>
+
+<pre class="explanation"> vbox-&gt;Add(hbox5, 0, wxALIGN_RIGHT | wxRIGHT, 10);
+</pre>
+
+<p>We place the two buttons on the right side of the window. How do we
+do it? Three things are important to achieve this. The proportion, the
+align flag and the wxEXPAND flag. The proportion must be zero. The
+buttons should not change their size, when we resize our window. We
+must not specify wxEXPAND flag. The buttons occopy only the area that
+has been alotted to it. And finally, we must specify the wxALIGN_RIGHT
+flag. The horizontal sizer spreads from the left side of the window to
+the right side. So if we specify wxALIGN_RIGHT flag, the buttons are
+placed to the right side. Exactly, as we wanted.
+</p>
+
+
+<br>
+<img src="../media/goto.jpg" alt="GotoClass">
+<div class="figure">
+Figure: GotoClass
+</div>
+
+
+<h3>wxGridSizer</h3>
+
+<p>
+wxGridSizer lays out widgets in two dimensional table. Each cell within the table has the same size.
+</p>
+
+<pre class="definition"> wxGridSizer(int rows, int cols, int vgap, int hgap)
+</pre>
+
+<p>
+In the constructor we specify the number of rows and columns in the table. And the vertical and horizontal 
+space between our cells.
+</p>
+
+<p>
+In our example we create a skeleton of a calculator. It is a perfect example for a wxGridSizer. 
+</p>
+
+
+<pre class="code"><div class="codehead">gridsizer.h</div>
+#include &lt;wx/wx.h&gt;
+
+class GridSizer : public wxFrame
+{
+public:
+  GridSizer(const wxString&amp; title);
+
+  wxMenuBar *menubar;
+  wxMenu *file;
+
+  wxBoxSizer *sizer;
+  wxGridSizer *gs;
+  wxTextCtrl *display;
+
+};
+
+</pre>
+
+
+<pre class="code"><div class="codehead">gridsizer.cpp</div>
+#include "gridsizer.h"
+
+GridSizer::GridSizer(const wxString&amp; title)
+       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(270, 220))
+{
+  menubar = new wxMenuBar;
+  file = new wxMenu;
+
+  SetMenuBar(menubar);
+
+  sizer = new wxBoxSizer(wxVERTICAL);
+ 
+  display = new wxTextCtrl(this, -1, wxT(""), wxPoint(-1, -1),
+     wxSize(-1, -1), wxTE_RIGHT);
+
+  sizer-&gt;Add(display, 0, wxEXPAND | wxTOP | wxBOTTOM, 4);
+  gs = new wxGridSizer(4, 4, 3, 3);
+
+  gs-&gt;Add(new wxButton(this, -1, wxT("Cls")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("Bck")), 0, wxEXPAND);
+  gs-&gt;Add(new wxStaticText(this, -1, wxT("")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("Close")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("7")), 0, wxEXPAND); 
+  gs-&gt;Add(new wxButton(this, -1, wxT("8")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("9")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("/")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("4")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("5")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("6")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("*")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("1")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("2")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("3")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("-")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("0")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT(".")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("=")), 0, wxEXPAND);
+  gs-&gt;Add(new wxButton(this, -1, wxT("+")), 0, wxEXPAND);
+
+  sizer-&gt;Add(gs, 1, wxEXPAND);
+  SetSizer(sizer);
+  SetMinSize(wxSize(270, 220));
+
+  Centre();
+}
+
+</pre>
+
+
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "gridsizer.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    GridSizer *gs = new GridSizer(wxT("GridSizer"));
+    gs-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+<br>
+
+<p>
+In our example, we set a vertical sizer for a wxFrame. We put a static text and a grid sizer into the 
+vertical sizer. 
+</p>
+
+<p>
+Notice how we managed to put a space between the Bck and the Close buttons. We simply put an empty wxStaticText there. 
+Such tricks are quite common.
+</p> 
+
+<pre class="explanation"> gs-&gt;Add(new wxButton(this, -1, wxT("Cls")), 0, wxEXPAND);
+</pre>
+
+<p>
+We call the <i>Add()</i> method multiple times. 
+Widgets are placed inside the table in the order, they are added. The first row is filled first, then the second row etc. 
+</p>
+
+<br>
+<img src="../media/gridsizer.jpg" alt="GridSizer">
+<div class="figure">
+Figure: GridSizer
+</div>
+
+
+
+<h3>wxFlexGridSizer</h3>
+
+<p>
+This sizer is similar to <i>wxGridSizer</i>. It does  also lay out it's widgets in a two dimensional table. It adds some flexibility to it. <i>wxGridSizer</i> cells are of the same size. All cells in <i>wxFlexGridSizer</i> have the same height in a row. All cells have the same width in a column. 
+But all rows and columns are not necessarily the same height or width. 
+
+</p>
+
+<pre class="definition"> wxFlexGridSizer(int rows, int cols, int vgap, int hgap)
+</pre>
+
+<p>
+<i>rows</i> and <i>cols</i> specify the number of rows and columns in a sizer. <i>vgap</i> and <i>hgap</i> add some space between widgets in both directions. 
+</p>
+
+<p>
+Many times developers have to develop dialogs for data input and modification. I find <i>wxFlexGridSizer</i>
+suitable for such a task. A developer can easily set up a dialog window
+with this sizer. It is also possible to accomplish this with <i>wxGridSizer</i>, but it would not look nice, because of the constraint that each cell has the same size. 
+</p>
+
+<pre class="code"><div class="codehead">flexgridsizer.h</div>
+#include &lt;wx/wx.h&gt;
+
+class FlexGridSizer : public wxFrame
+{
+public:
+  FlexGridSizer(const wxString&amp; title);
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">flexgridsizer.cpp</div>
+#include "flexgridsizer.h"
+
+FlexGridSizer::FlexGridSizer(const wxString&amp; title)
+       : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(270, 220))
+{ 
+  wxPanel *panel = new wxPanel(this, -1);
+
+  wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+
+  wxFlexGridSizer *fgs = new wxFlexGridSizer(3, 2, 9, 25);
+
+  wxStaticText *thetitle = new wxStaticText(panel, -1, wxT("Title"));
+  wxStaticText *author = new wxStaticText(panel, -1, wxT("Author"));
+  wxStaticText *review = new wxStaticText(panel, -1, wxT("Review"));
+
+  wxTextCtrl *tc1 = new wxTextCtrl(panel, -1);
+  wxTextCtrl *tc2 = new wxTextCtrl(panel, -1);
+  wxTextCtrl *tc3 = new wxTextCtrl(panel, -1, wxT(""),
+      wxPoint(-1, -1), wxSize(-1, -1), wxTE_MULTILINE);
+
+  fgs-&gt;Add(thetitle);
+  fgs-&gt;Add(tc1, 1, wxEXPAND);
+  fgs-&gt;Add(author);
+  fgs-&gt;Add(tc2, 1, wxEXPAND);
+  fgs-&gt;Add(review, 1, wxEXPAND);
+  fgs-&gt;Add(tc3, 1, wxEXPAND);
+
+  fgs-&gt;AddGrowableRow(2, 1);
+  fgs-&gt;AddGrowableCol(1, 1);
+
+  hbox-&gt;Add(fgs, 1, wxALL | wxEXPAND, 15);
+  panel-&gt;SetSizer(hbox);
+  Centre();
+}
+
+</pre>
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "flexgridsizer.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    FlexGridSizer *fgs = new FlexGridSizer(wxT("FlexGridSizer"));
+    fgs-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+<br>
+
+<p>
+In our example we create a simple dialog. It could be used to insert data into the database.
+</p>
+
+<pre class="explanation"> wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+ ...
+ hbox-&gt;Add(fgs, 1, wxALL | wxEXPAND, 15);
+</pre>
+
+<p>
+We create a horizontal box sizer in order to put some space (15px) around the table of widgets.
+</p>
+
+<pre class="explanation"> fgs-&gt;Add(thetitle);
+</pre>
+
+<p>
+We add widgets to the sizer exactly as with the gridsizer.
+</p>
+
+<pre class="explanation">  fgs-&gt;AddGrowableRow(2, 1);
+  fgs-&gt;AddGrowableCol(1, 1);
+</pre>
+
+<p>
+We make the third row and the second column growable. This way we make
+the text controls grow, when the window is resized. The first two text
+controls will grow in horizontal direction, the third one will grow in
+both direction. We must not forget to make the widgets expandable
+(wxEXPAND) in order to make it really work.
+</p>
+
+
+<br>
+<img src="../media/flexgridsizer.jpg" alt="FlexGridSizer">
+<div class="figure">
+Figure: FlexGridSizer
+</div>
+<br>
+
+<br>
+
+
+<center>
+<div class="botNav"><span class="botNavItem"><a href="index.html">Contents</a></span> ‡ <span class="botNavItem"><a href="#">Top of Page</a></span></div>
+</center>
+
+<div class="footer">
+<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span></div>
+</div>
+
+</div>
+</body></html>

@@ -1,0 +1,564 @@
+<html><head><title>Menus and Toolbars</title>
+
+
+<link rel="stylesheet" href="../media/format.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="keywords" content="wxWidgets, tutorial, widgets, menus, toolbars, C++, programming, GUI, multiplatform">
+<meta nam="description" content="Introduction to winapi">
+<meta name="language" content="en">
+<meta name="author" content="jan bodnar">
+<meta name="distribution" content="global"></head><body>
+
+
+<div class="center">
+
+<div>&nbsp;
+<a href="index.html">Contents</a></div>
+
+<h1>Menus and Toolbars</h1>
+
+<h3>Menubar</h3>
+
+<p>
+A menubar is one of the most visible parts of the GUI application. It
+is a group of commands located in various menus. While in console
+applications you had to remember all those arcane commands, here we
+have most of the commands grouped into logical parts. There are
+accepted standards that further reduce the amount of time spending to
+learn a new application. To implement a menubar in wxWidgets we need to
+have three things. A wxMenuBar, a wxMenu and a wxMenuItem.
+</p>
+
+<br>
+<img src="../media/menu.jpg" alt="Menubar">
+<div class="figure">Figure: Menubar</div>
+
+
+<h3>Simple menu example</h3>
+
+<p>
+Creating a menubar in wxWidgets is very simple. Just a few lines of code.
+</p>
+
+<pre class="code"><div class="codehead">menu.h</div>
+#include &lt;wx/wx.h&gt;
+#include &lt;wx/menu.h&gt;
+
+class SimpleMenu : public wxFrame
+{
+public:
+    SimpleMenu(const wxString&amp; title);
+
+    void OnQuit(wxCommandEvent&amp; event);
+
+    wxMenuBar *menubar;
+    wxMenu *file;
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">menu.cpp</div>
+#include "menu.h"
+
+
+SimpleMenu::SimpleMenu(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
+{
+
+  menubar = new wxMenuBar;
+  file = new wxMenu;
+  file-&gt;Append(wxID_CLOSE, wxT("&amp;Quit"));
+  menubar-&gt;Append(file, wxT("&amp;File"));
+  SetMenuBar(menubar);
+
+  Connect(wxID_CLOSE, wxEVT_COMMAND_MENU_SELECTED,
+      wxCommandEventHandler(SimpleMenu::OnQuit));
+  Centre();
+
+}
+
+void SimpleMenu::OnQuit(wxCommandEvent&amp; WXUNUSED(event))
+{
+  Close(true);
+}
+
+</pre>
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "menu.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    SimpleMenu *menu = new SimpleMenu(wxT("Simple Menu"));
+    menu-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+
+
+
+<pre class="explanation"> menubar = new wxMenuBar;
+</pre>
+
+<p>
+First we create a menubar object.
+</p>
+
+<pre class="explanation"> file = new wxMenu;
+</pre>
+
+<p>
+ Next we create a menu object.
+</p>
+
+
+<pre class="explanation"> file-&gt;Append(wxID_CLOSE, wxT("&amp;Quit"));
+</pre>
+
+<p>We append a menu item into the menu object. The first parameter is
+the id of the menu item. The second parameter is the name of the menu
+item. Here we did not create a wxMenuItem explicitely. It was created
+by the Append() method behind the scenes. Later on, we will create a
+wxMenuItem manually.
+</p>
+
+
+<pre class="explanation">  menubar-&gt;Append(file, wxT("&amp;File"));
+  SetMenuBar(menubar);
+</pre>
+
+<p>After that, we append a menu into the menubar. The &amp; character
+creates an accelerator key. The character that follows the &amp; is
+underlined. This way the menu is accessible via the alt + F shortcut.
+In the end, we call the SetMenuBar() method. This method belongs to the
+wxFrame widget. It sets up the menubar. </p>
+
+
+<br>
+<img src="../media/simplemenu.jpg" alt="Simle menu example">
+<div class="figure">Figure: Simple menu example</div>
+
+
+
+<h4>Submenus</h4>
+
+<p>
+Each menu can also have a submenu. This way we can group similar
+commnads into groups. For example we can place commands that hide/show
+various toolbars like personal bar, address bar, status bar or
+navigation bar into a submenu called toolbars. Within a menu, we can
+seperate commands with a separator. It is a simple line. It is common
+practice to separate commands like new, open, save from commands like
+print, print preview with a single separator. In our example we will
+see, how we can create submenus and menu separators. </p>
+
+
+<pre class="code"><div class="codehead">menu.h</div>
+#include &lt;wx/wx.h&gt;
+#include &lt;wx/menu.h&gt;
+
+class SubMenu : public wxFrame
+{
+public:
+  SubMenu(const wxString&amp; title);
+
+  void OnQuit(wxCommandEvent &amp; event);
+
+  wxMenuBar *menubar;
+  wxMenu *file;
+  wxMenu *imp;
+  wxMenuItem *quit;
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">menu.cpp</div>
+#include "menu.h"
+
+
+SubMenu::SubMenu(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
+{
+
+  menubar = new wxMenuBar;
+  file = new wxMenu;
+
+  file-&gt;Append(wxID_ANY, wxT("&amp;New"));
+  file-&gt;Append(wxID_ANY, wxT("&amp;Open"));
+  file-&gt;Append(wxID_ANY, wxT("&amp;Save"));
+  file-&gt;AppendSeparator();
+
+  imp = new wxMenu;
+  imp-&gt;Append(wxID_ANY, wxT("Import newsfeed list..."));
+  imp-&gt;Append(wxID_ANY, wxT("Import bookmarks..."));
+  imp-&gt;Append(wxID_ANY, wxT("Import mail..."));
+
+  file-&gt;AppendSubMenu(imp, wxT("I&amp;mport"));
+
+  quit = new wxMenuItem(file, wxID_CLOSE, wxT("&amp;Quit\tCtrl+W"));
+  file-&gt;Append(quit);
+
+  menubar-&gt;Append(file, wxT("&amp;File"));
+  SetMenuBar(menubar);
+
+  Connect(wxID_CLOSE, wxEVT_COMMAND_MENU_SELECTED, 
+      wxCommandEventHandler(SubMenu::OnQuit));
+  Centre();
+
+}
+
+void SubMenu::OnQuit(wxCommandEvent&amp; WXUNUSED(event))
+{
+  Close(true);
+}
+
+</pre>
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+
+</pre>
+
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "menu.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    SubMenu *smenu = new SubMenu(wxT("Submenu"));
+    smenu-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+<br>
+
+<p>
+We created one submenu in a file menu. It is an import submenu, which can be seen in Opera web browser.
+</p>
+
+<pre class="explanation"> file-&gt;AppendSeparator();
+</pre>
+
+<p>
+A menu separator line is created calling an <i>AppendSeparator()</i> method.
+</p>
+
+<pre class="explanation"> imp = new wxMenu;
+ imp-&gt;Append(wxID_ANY, wxT("Import newsfeed list..."));
+ imp-&gt;Append(wxID_ANY, wxT("Import bookmarks..."));
+ imp-&gt;Append(wxID_ANY, wxT("Import mail..."));
+
+ file-&gt;AppendSubMenu(imp, wxT("I&amp;mport"));
+</pre>
+
+<p>
+A submenu is created like a normal menu. It is appended with a <i>AppendSubMenu()</i> method.
+</p>
+
+
+<br>
+<img src="../media/submenu.jpg" alt="Submenu">
+<div class="figure">Figure: Submenu</div>
+
+
+<h3>Toolbars</h3>
+
+<p>
+Menus group all commands that we can use in an application. Toolbars
+provide a quick access to the most frequently used commands.
+</p>
+
+<pre class="definition"> virtual wxToolBar* CreateToolBar(long style = wxNO_BORDER | wxTB_HORIZONTAL, 
+              wxWindowID id = -1, const wxString&amp; name = "toolBar")
+</pre>
+
+<p>
+To create a toolbar, we call the CreateToolBar() method of the frame widget.
+</p>
+
+
+
+<h4>A simple toolbar</h4>
+
+<p>
+Our first example will create a simple toolbar. 
+</p>
+
+
+<pre class="code"><div class="codehead">toolbar.h</div>
+#include &lt;wx/wx.h&gt;
+
+class Toolbar : public wxFrame
+{
+public:
+    Toolbar(const wxString&amp; title);
+
+    void OnQuit(wxCommandEvent&amp; event);
+
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">toolbar.cpp</div>
+#include "toolbar.h"
+
+
+Toolbar::Toolbar(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
+{
+
+  wxBitmap exit(wxT("exit.png"));
+
+  wxToolBar *toolbar = CreateToolBar();
+  toolbar-&gt;AddTool(wxID_CLOSE, exit, wxT("Exit application"));
+  toolbar-&gt;Realize();
+
+  Connect(wxID_CLOSE, wxEVT_COMMAND_TOOL_CLICKED, 
+      wxCommandEventHandler(Toolbar::OnQuit));
+  
+  Centre();
+
+}
+
+void Toolbar::OnQuit(wxCommandEvent&amp; WXUNUSED(event))
+{
+  Close(true);
+}
+
+</pre>
+
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "toolbar.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    Toolbar *toolbar = new Toolbar(wxT("Toolbar"));
+    toolbar-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+
+<br>
+<p>
+In our example, we create a toolbar and one tool button. Clicking on the toolbar button will terminate the application.
+</p>
+
+<pre class="explanation"> wxToolBar *toolbar = CreateToolBar();
+</pre>
+
+<p>
+We create a toolbar.
+</p>
+
+<pre class="explanation"> toolbar-&gt;AddTool(wxID_CLOSE, exit, wxT("Exit application"));
+</pre>
+
+<p>
+We add a tool to the toolbar. 
+</p>
+
+<pre class="explanation"> toolbar-&gt;Realize();
+</pre>
+
+<p>
+After we have added the tools, we call the <i>Realize()</i> method.
+</p>
+
+<br>
+<img src="../media/simpletoolbar.jpg" alt="Toolbar">
+<div class="figure">Figure: Toolbar</div>
+
+
+<h4>Toolbars</h4>
+
+<p>
+If we want to have more than one toolbar, we must create them in a different way. e.g. other than calling 
+the <i>CreateToolbar()</i> method.
+</p>
+
+
+<pre class="code"><div class="codehead">toolbars.h</div>
+#include &lt;wx/wx.h&gt;
+
+class Toolbar : public wxFrame
+{
+public:
+  Toolbar(const wxString&amp; title);
+
+  void OnQuit(wxCommandEvent&amp; event);
+
+  wxToolBar *toolbar1;
+  wxToolBar *toolbar2;
+
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">toolbars.cpp</div>
+#include "toolbars.h"
+
+
+Toolbar::Toolbar(const wxString&amp; title)
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
+{
+
+  wxImage::AddHandler( new wxPNGHandler );
+
+  wxBitmap exit(wxT("exit.png"), wxBITMAP_TYPE_PNG);
+  wxBitmap newb(wxT("new.png"), wxBITMAP_TYPE_PNG);
+  wxBitmap open(wxT("open.png"), wxBITMAP_TYPE_PNG);
+  wxBitmap save(wxT("save.png"), wxBITMAP_TYPE_PNG);
+
+  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
+
+  toolbar1 = new wxToolBar(this, wxID_ANY);
+  toolbar1-&gt;AddTool(wxID_ANY, newb, wxT(""));
+  toolbar1-&gt;AddTool(wxID_ANY, open, wxT(""));
+  toolbar1-&gt;AddTool(wxID_ANY, save, wxT(""));
+  toolbar1-&gt;Realize();
+
+  toolbar2 = new wxToolBar(this, wxID_ANY);
+  toolbar2-&gt;AddTool(wxID_CLOSE, exit, wxT("Exit application"));
+  toolbar2-&gt;Realize();
+
+  vbox-&gt;Add(toolbar1, 0, wxEXPAND);
+  vbox-&gt;Add(toolbar2, 0, wxEXPAND);
+
+  SetSizer(vbox);
+
+  Connect(wxID_CLOSE, wxEVT_COMMAND_TOOL_CLICKED, 
+      wxCommandEventHandler(Toolbar::OnQuit));
+  
+  Centre();
+
+}
+
+void Toolbar::OnQuit(wxCommandEvent&amp; WXUNUSED(event))
+{
+  Close(true);
+}
+
+</pre>
+
+<pre class="code"><div class="codehead">main.h</div>
+#include &lt;wx/wx.h&gt;
+
+class MyApp : public wxApp
+{
+  public:
+    virtual bool OnInit();
+};
+
+</pre>
+
+<pre class="code"><div class="codehead">main.cpp</div>
+#include "main.h"
+#include "toolbars.h"
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit()
+{
+
+    Toolbar *toolbar = new Toolbar(wxT("Toolbar"));
+    toolbar-&gt;Show(true);
+
+    return true;
+}
+
+</pre>
+<br>
+
+<p>
+In our example, we create two horizontal toolbars. We place them in a vertical box sizer.
+</p>
+
+
+<pre class="explanation"> toolbar1 = new wxToolBar(this, wxID_ANY);
+ ...
+ toolbar2 = new wxToolBar(this, wxID_ANY);
+</pre>
+
+<p>
+Here we create two toolbars.
+</p>
+
+<pre class="explanation">  vbox-&gt;Add(toolbar1, 0, wxEXPAND);
+  vbox-&gt;Add(toolbar2, 0, wxEXPAND);
+</pre>
+
+<p>
+And here we add them to the vertical box sizer.
+</p>
+
+
+<br>
+<img src="../media/toolbars.jpg" alt="Toolbars">
+<div class="figure">Figure: Toolbars</div>
+
+<br>
+
+<br>
+
+
+<center>
+<div class="botNav"><span class="botNavItem"><a href="index.html">Contents</a></span> ‡ <span class="botNavItem"><a href="#">Top of Page</a></span></div>
+</center>
+
+<div class="footer">
+<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span></div>
+</div>
+
+</div>
+</body></html>

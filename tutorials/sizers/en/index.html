@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII"><title>What Do These Sizer Things Do?</title>
+    
+    <link rel="stylesheet" type="text/css" href="../media/sizerstyle.css"></head><body class="std">
+    <h1>What Do These Sizer Things Do?</h1>
+    <p>One
+of the most intimidating parts of wxWidgets is figuring out how sizers
+work. They are quite powerful, but sometimes unintuitive. This is
+intended as a guide to aid in understanding what all those parameters
+do.</p>
+    <p>This tutorial focuses on box sizers because they are the
+most flexible and most commonly used. However, the information here
+also applies to other sizer types. Unscoped methods like SetSizer()
+belong to wxWindow, but really make most sense in a wxFrame, wxDialog,
+wxPanel, or similar types.</p>
+<!--
+    <p>Old browsers might not be able to see the PNG images used here.  If that's the case with your browser, try the <a href="indexgif.html">GIF version</a>.</p>
+-->
+
+    <h2>A Basic Box Sizer</h2>
+    <p>This
+is the most simple type of box sizer. We create a vertical sizer
+(children will be placed on top of each other) and place two buttons in
+it. All the "extra" parameters are set to 0; we'll worry about them
+later.</p>
+    <table class="example">
+      <tbody><tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), 0, 0, 0)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss01.png" alt="Default Screenshot"></td>
+      </tr>
+    </tbody></table>
+    <p>You'll notice a couple of things about this:</p>
+    <ul>
+      <li>The
+buttons are just big enough to accommodate the text in them. In fact,
+any control placed into a sizer this way will appear at its minimum
+size unless we change the parameters.</li>
+      <li>The window size is not changed to fit the sizer.  This results in a lot of ugly empty space.</li>
+    </ul>
+    <p>Let's
+worry about the second issue first. To make the window size more
+appropriate, we can set the size hints to tell the enclosing window to
+adjust to the size of the sizer:</p>
+    <table class="example">
+      <tbody><tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), 0, 0, 0)
+<span class="new">sizer.SetSizeHints(Self)</span>
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss02.png" alt="Screenshot with size hints"></td>
+      </tr>
+    </tbody></table>
+
+    <p>This
+is particularly useful in circumstances like this one, in which the
+wxFrame's default size would otherwise be much too big or small to show
+most layouts in an aesthetically pleasing manner.</p>
+
+    <h2>Parameter 2: Proportion</h2>
+    <p>The
+first parameter to Add() is obviously the wxWindow or wxSizer (in the case of AddSizer()) that you
+are adding. The second one appears in the documentation as "option,"
+but it is probably better described as proportion. This parameter
+defines how large the sizer's children are in relation to each other.
+In a vertical sizer, this changes the height; in a horizontal sizer,
+this changes the width. Here are some examples:</p>
+
+    <table class="example">
+      <tbody><tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+<span class="comment">' Second button is three times as tall as first button</span>
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), <span class="new">1</span>, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), <span class="new">3</span>, 0, 0)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss03.png" alt="Screenshot with 3:1 proportion"></td>
+      </tr>
+      <tr>
+        <td class="cod">Same code as above, with window resized.  Notice that the bottom button is still three times as tall as the top button.</td>
+        <td class="pic"><img src="../media/ss04.png" alt="Screenshot with 3:1 proportion in bigger window"></td>
+      </tr>
+      <tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+<span class="comment">' First button is 3/2 the height of the second button</span>
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), <span class="new">3</span>, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), <span class="new">2</span>, 0, 0)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss05.png" alt="Screenshot with 3:2 proportion"></td>
+      </tr>
+      <tr>
+        <td class="cod">Same code as above, with window resized.  The buttons maintain their relative proportions.</td>
+        <td class="pic"><img src="../media/ss06.png" alt="Screenshot with 3:2 proportion in bigger window"></td>
+      </tr>
+    </tbody></table>
+    <p>If one of the proportion parameters is 0, that wxWindow will be the minimum size, and the others will resize proportionally:</p>
+    <table class="example">
+      <tbody><tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+<span class="comment">' Third button is twice the size of the second button</span>
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), <span class="new">0</span>, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), <span class="new">1</span>, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Another Button"), <span class="new">2</span>, 0, 0)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss07.png" alt="Screenshot of three proportional buttons"></td>
+      </tr>
+      <tr>
+        <td class="cod">Same
+code as above, with window resized. The top button (proportion 0) is
+still the minimum height, and the third button is still twice the
+height of the second.</td>
+        <td class="pic"><img src="../media/ss08.png" alt="Screenshot of three proportional buttons in bigger window"></td>
+      </tr>
+    </tbody></table>
+    <p>This
+is especially useful when you want, for example, a button at the bottom
+which is only as big as necessary, and some other control that occupies
+the rest of the frame. To do so, give the button proportion 0 and the
+other control a number greater than 0. Mac users in particular will
+appreciate you for not creating huge aqua-styled buttons.</p>
+    <h2>Parameters 3 and 4: Flags and Border</h2>
+    <p>Let's start with the simplest case: the alignment flags.  These are pretty self-explanatory.</p>
+    <table class="example">
+      <tbody><tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+<span class="comment">' Second button is right-aligned</span>
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), 0, <span class="new">wxALIGN_RIGHT</span>, 0)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss09.png" alt="Screenshot of right-aligned button"></td>
+      </tr>
+      <tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+<span class="comment">' Second button is centered</span>
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), 0, <span class="new">wxALIGN_CENTER</span>, 0)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss10.png" alt="Screenshot of centered button"></td>
+      </tr>
+    </tbody></table>
+    <p>Next is the wxEXPAND flag.  This is synonymous with wxGROW.</p>
+    <table class="example">
+      <tbody><tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+<span class="comment">' Second button takes the full space</span>
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), 0, <span class="new">wxEXPAND</span>, 0)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss11.png" alt="Screenshot of expanded button"></td>
+      </tr>
+    </tbody></table>
+    <p>You
+can see that the first button takes its minimum size, and the second
+one grows to match it. This affects controls in the opposite manner of
+the second parameter; wxEXPAND in a vertical sizer causes horizontal
+expansion, and in a horizontal sizer it causes vertical expansion.</p>
+    <p>Next
+is wxSHAPED. This flag ensures that the width and height of the object
+stay proportional to each other. It doesn't make much sense for
+buttons, but can be excellent for bitmaps, which would be contorted or
+clipped if not scaled proportionally.</p>
+    <table class="example">
+      <tbody><tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+<span class="comment">' Second button will scale proportionally</span>
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), 1, <span class="new">wxSHAPED</span>, 0)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss17.png" alt="Screenshot of shaped button"></td>
+      </tr>
+      <tr>
+        <td class="cod">Same
+code as above, with window resized. The width grew dramatically with
+the height. In fact, it didn't quite grow vertically the whole way
+because it couldn't maintain the correct ratio while doing so.</td>
+        <td class="pic"><img src="../media/ss18.png" alt="Screenshot of shaped button"></td>
+      </tr>
+    </tbody></table>
+    <p>Finally,
+we have the border flags. These only make sense when the "border"
+parameter is greater than 0, and describe the sides of the control on
+which the border should appear. In order to demonstrate this most
+clearly, we'll keep the wxEXPAND flag.</p>
+    <table class="example">
+      <tbody><tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), 0, wxEXPAND | <span class="new">wxLEFT</span>, <span class="new">20</span>)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss12.png" alt="Screenshot with left border"></td>
+      </tr>
+      <tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), 0, wxEXPAND | <span class="new">wxLEFT | wxRIGHT</span>, <span class="new">20</span>)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss13.png" alt="Screenshot with left and right borders"></td>
+      </tr>
+      <tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+sizer.Add(New wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(New wxButton.Create(Self, -1, "Tiny Button"), 0, wxEXPAND | <span class="new">wxLEFT | wxRIGHT | wxTOP</span>, <span class="new">20</span>)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss14.png" alt="Screenshot with left, right, and top borders"></td>
+      </tr>
+      <tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+sizer.Add(new wxButton(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(new wxButton(Self, -1, "Tiny Button"), 0, wxEXPAND | <span class="new">wxALL</span>, <span class="new">20</span>)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss15.png" alt="Screenshot with borders on all sides"></td>
+      </tr>
+      <tr>
+        <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+sizer.Add(new wxButton(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(new wxButton(Self, -1, "Tiny Button"), 0, wxEXPAND | <span class="new">wxALL</span>, <span class="new">5</span>)
+sizer.SetSizeHints(Self)
+SetSizer(sizer)</pre></td>
+        <td class="pic"><img src="../media/ss16.png" alt="Screenshot with smaller borders"></td>
+      </tr>
+    </tbody></table>
+    <p>You
+can see that the button is offset from the specified edges of the sizer
+by the number of pixels that we specified in the "border" parameter.</p>
+    <h2>Conclusion</h2>
+    <p>I
+hope this document has made it easier to understand what the various
+wxBoxSizer parameters do. Sizers are really quite powerful, and their
+use will help ensure that your applications look correct on all
+platforms.</p>
+    <h2>Author</h2>
+    <p>Comments and suggestions may be directed to Brian Victor (<a href="mailto:brianhv@users.sourceforge.net">brianhv@users.sourceforge.net</a>)<br />
+    Adapted for wxMax by Bruce A Henderson.</p>
+    </body></html>

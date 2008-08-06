@@ -1,0 +1,97 @@
+body {
+	margin-bottom:30px; margin-top:10px;
+	font-family:verdana; font-size:13px;
+	line-height:1.9;
+	background: url(images/background.jpg)
+}
+
+h1 {font-family: arial; font-size:25px; margin:25 0 25 0}
+
+h3 { color:#0099f7; margin:25 0 25 0 }
+h4 { margin:15 0 15 0 }
+a { color:#0099f7 }
+
+/*p { 
+min-width: 25em;
+max-width: 33em;
+ }
+*/
+.explanation { margin-top:25px;  padding:5px; background:#FFEEA8 }
+.definition { margin-top:25px; padding-top:10px;padding-bottom:10px;  background:#8DFF87 }
+.constructor { margin-top:25px; padding-top:10px;padding-bottom:10px;  background:#8DFF87 }
+
+.center { margin-left:15%; margin-right:15% ; padding:35 60 5 60; background:white; }
+
+.figure { font-family:Verdana; margin-top:30px; color:#7b7070 }
+.figure_right { margin-left:375px; margin-top:-25px; color:#7b7070 }
+
+
+.footer { margin-top:35px; }
+.signature { margin-top:35px; font-size:11px; color:#636363; display:inline; }
+.copyright { margin-left:15px }
+
+.botNav { margin-top:40px }
+.botNavItem {padding:0px 7px; font-size:12px; color:#610061; height:18px;}
+
+.bookmarks { position:absolute; right:17%;  display:inline} 
+
+.news { color:red; } 
+
+.code 
+{ 
+line-height:1.4; margin-top:25px; border:1px solid #6D93A1; 
+padding-bottom:15px; padding-left:15px; background:#f1f1f1;
+color:black;
+}
+.codehead { font-weight:bold; color:white; background:#6D93A1; padding:8px;  margin-left:-15px}
+
+table {
+    border-top: 1px solid #999;
+    border-left: 1px solid #999;
+    border-collapse: collapse;
+   /* float:left;*/
+    margin:15px;
+}
+
+
+td, th {
+
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
+}
+
+th {
+    padding: 8px;
+    font-family: Georia;
+    font-weight: bolder;
+    font-size: 12px;
+    letter-spacing: 1px;
+    background: url(images/stripe.jpg);
+}
+
+td {
+    font-family:helvetica,"Courier New";
+    font-size: 13px;
+    padding: 4 15 4 15;
+}
+
+.gray {
+background-color:#deedfd;
+}
+
+.section {
+margin-left:-100px;
+font-variant:small-caps;
+letter-spacing:2px;
+font-family:arial;
+text-align:center;
+padding:3px;
+font-weight:900;
+width:280px;
+color:white;
+/*background:#815C3A;*/
+background:#FF830F;/*#0080F8;688bff*/
+border-bottom: 1px solid gray;
+border-right: 1px solid gray;
+}
+
