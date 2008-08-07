@@ -119,7 +119,7 @@ public:
 
 private:
 	wxJSONValue * value;
-	bool owner;
+	wxJSONValue localValue;
 };
 
 

@@ -25,18 +25,19 @@
 // ---------------------------------------------------------------------------------------
 
 MaxJSONValue::MaxJSONValue()
+	: localValue()
 {
-	value = new wxJSONValue;
-	owner = true;
+	value = &localValue;
 }
 
 MaxJSONValue::MaxJSONValue(wxJSONValue & v)
+	: localValue(v)
 {
-	value = new wxJSONValue(v);
-	owner = true;
+	value = &localValue;
 }
 
 MaxJSONValue::MaxJSONValue(wxJSONValue * v)
+	: localValue()
 {
 	value = v;
 }
@@ -46,9 +47,6 @@ wxJSONValue & MaxJSONValue::Value() {
 }
 
 MaxJSONValue::~MaxJSONValue() {
-	if (owner) {
-		delete value;
-	}
 }
 
 
@@ -299,14 +297,16 @@ wxJSONReader * bmx_wxjsonreader_create(int flags, int maxErrors) {
 }
 
 MaxJSONValue * bmx_wxjsonreader_parsestring(wxJSONReader * reader, BBString * doc) {
-	MaxJSONValue * val = new MaxJSONValue();
-	int res = reader->Parse(wxStringFromBBString(doc), &val->Value());
+	wxJSONValue value;
+	int res = reader->Parse(wxStringFromBBString(doc), &value);
+	MaxJSONValue * val = new MaxJSONValue(value);
 	return val;
 }
 
 MaxJSONValue * bmx_wxjsonreader_parse(wxJSONReader * reader, wxInputStream * doc) {
-	MaxJSONValue * val = new MaxJSONValue();
-	int res = reader->Parse(*doc, &val->Value());
+	wxJSONValue value;
+	int res = reader->Parse(*doc, &value);
+	MaxJSONValue * val = new MaxJSONValue(value);
 	return val;
 }
 
