@@ -52,79 +52,59 @@ A move event holds information about move change events.
 A move event is generated, when we move a window to a new position. The class that represents the move event is <b>wxMoveEvent</b>. The <b>wxEVT_MOVE</b> is an event type.
 </p>
 
+<pre class="code"><div class="codehead">move.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+Import wx.wxStaticText
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
+	Method OnInit:Int()
+	
+		Local mv:Move = Move(New Move.Create(Null, wxID_ANY, ..
+			"Move event", -1, -1, 250, 130))
+		mv.Show(True)
+ 
+		Return True
+	End Method
 
-<pre class="code"><div class="codehead">move.h</div>
-#include &lt;wx/wx.h&gt;
+End Type
 
-class Move : public wxFrame
-{
-public:
-  Move(const wxString&amp; title);
+Type Move Extends wxFrame
 
-  void OnMove(wxMoveEvent &amp; event);
+	Field st1:wxStaticText
+	Field st2:wxStaticText
 
-  wxStaticText *st1;
-  wxStaticText *st2;
+	Method OnInit()
 
-};
+		Local panel:wxPanel = New wxPanel.Create(Self, -1)
+		
+		st1 = New wxStaticText.Create(panel, -1, "", 10, 10)
+		st2 = New wxStaticText.Create(panel, -1, "", 10, 30)
+		
+		ConnectAny(wxEVT_MOVE, OnMove)
+	
+		Centre()
+ 
+	End Method
 
+	Function OnMove(event:wxEvent)
+		Local m:Move = Move(event.parent)
+	
+		Local x:Int, y:Int
+		wxMoveEvent(event).GetPosition(x, y)
+		
+		m.st1.SetLabel("x: " + x)
+		m.st2.SetLabel("y: " + y)
+	End Function
+	
+End Type
 </pre>
-
-<pre class="code"><div class="codehead">move.cpp</div>
-#include "move.h"
-
-Move::Move(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 130))
-{
-  wxPanel *panel = new wxPanel(this, -1);
-
-  st1 = new wxStaticText(panel, -1, wxT(""), wxPoint(10, 10));
-  st2 = new wxStaticText(panel, -1, wxT(""), wxPoint(10, 30));
-
-  Connect(wxEVT_MOVE, wxMoveEventHandler(Move::OnMove));
-
-  Centre();
-}
-
-void Move::OnMove(wxMoveEvent&amp; event)
-{
-  wxPoint size = event.GetPosition();
-  st1-&gt;SetLabel(wxString::Format(wxT("x: %d"), size.x ));
-  st2-&gt;SetLabel(wxString::Format(wxT("y: %d"), size.y ));
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "move.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-    Move *move = new Move(wxT("Move event"));
-    move-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
-<br>
-
 <p>
 The example displays the current position of the window.
 </p>
@@ -168,123 +148,80 @@ It does not make sense for this event to propagate to parent widgets.
 By default, the event that is catched in a event handler stops propagating. To continue propagation, we must call the <i>Skip()</i> method.
 </p>
 
-<pre class="code"><div class="codehead">propagate.h</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead">propagate.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+Import wx.wxButton
+Import BRL.StandardIO
+ 
+Const ID_BUTTON:Int = 1
 
-class Propagate : public wxFrame
-{
-public:
-  Propagate(const wxString&amp; title);
-  
-  void OnClick(wxCommandEvent&amp; event);
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-};
+	Method OnInit:Int()
+	
+		Local prop:Propagate = Propagate(New Propagate.Create(Null, wxID_ANY, ..
+			"Propagate", -1, -1, 250, 130))
+		prop.Show(True)
+ 
+		Return True
+	End Method
 
+End Type
 
-class MyPanel : public wxPanel
-{
-public: 
-  MyPanel(wxFrame *frame, int id);
+Type Propagate Extends wxFrame
+ 
+	Method OnInit()
+		
+		Local panel:MyPanel = MyPanel(New MyPanel.Create(Self, -1))
+		
+		New MyButton.Create(panel, ID_BUTTON, "Ok")
+		
+		Connect(ID_BUTTON, wxEVT_COMMAND_BUTTON_CLICKED, OnClick)
+		
+		Centre()
+ 
+	End Method
 
-  void OnClick(wxCommandEvent&amp; event);
-};
+	Function OnClick(event:wxEvent)
+		Print "event reached frame type"
+		event.Skip()
+	End Function
+	
+End Type
 
+Type MyButton Extends wxButton
 
-class MyButton : wxButton
-{
-public:
-  MyButton(MyPanel *panel, int id, const wxString &amp;label);
+	Method OnInit()
+		Connect(ID_BUTTON, wxEVT_COMMAND_BUTTON_CLICKED, OnClick)
+	End Method
+	
+	Function OnClick(event:wxEvent)
+		Print "event reached button type"
+		event.Skip()
+	End Function
+	
+End Type
 
-  void OnClick(wxCommandEvent&amp; event);
+Type MyPanel Extends wxPanel
 
-};
+	Method OnInit()
+		Connect(ID_BUTTON, wxEVT_COMMAND_BUTTON_CLICKED, OnClick)
+	End Method
 
+	Function OnClick(event:wxEvent)
+		Print "event reached panel type"
+		event.Skip()
+	End Function
+
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">propagate.cpp</div>
-#include &lt;iostream&gt;
-#include "propagate.h"
-
-const int ID_BUTTON = 1;
-
-Propagate::Propagate(const wxString&amp; title)
-    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 130))
-{
-  MyPanel *panel = new MyPanel(this, -1);
-
-  new MyButton(panel, ID_BUTTON, wxT("Ok"));
-
-  Connect(ID_BUTTON, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(Propagate::OnClick));
-
-  Centre();
-}
-
-
-void Propagate::OnClick(wxCommandEvent&amp; event) 
-{
-  std::cout &lt;&lt; "event reached frame class" &lt;&lt; std::endl;
-  event.Skip();
-}
-
-
-MyPanel::MyPanel(wxFrame *frame, int id)
-    : wxPanel(frame, id)
-{
-  Connect(ID_BUTTON, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(MyPanel::OnClick));
-} 
-
-void MyPanel::OnClick(wxCommandEvent&amp; event) 
-{
-  std::cout &lt;&lt; "event reached panel class" &lt;&lt; std::endl;
-  event.Skip();
-}
-
-
-MyButton::MyButton(MyPanel *mypanel, int id, const wxString&amp; label)
-    : wxButton(mypanel, id, label, wxPoint(15, 15))
-{
-  Connect(ID_BUTTON, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(MyButton::OnClick));
-} 
-
-
-void MyButton::OnClick(wxCommandEvent&amp; event) 
-{
-  std::cout &lt;&lt; "event reached button class" &lt;&lt; std::endl;
-  event.Skip();
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "propagate.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Propagate *prop = new Propagate(wxT("Propagate"));
-    prop-&gt;Show(true);
-
-    return true;
-}
-</pre>
 <br>
 
 <p>
@@ -292,9 +229,9 @@ In our example, we have a button on a panel. The panel is placed in a frame widg
 </p>
 
 <pre class="code">
- event reached button class
- event reached panel class
- event reached frame class
+ event reached button type
+ event reached panel type
+ event reached frame type
 </pre>
 
 
@@ -314,79 +251,57 @@ Try to omit some Skip() methods and see, what hapens.
 Sometimes we need to stop processing an event. To do this, we call the method Veto(). 
 </p>
 
-<pre class="code"><div class="codehead">veto.h</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead">veto.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxMessageDialog
 
-class Veto : public wxFrame
-{
-public:
-  Veto(const wxString&amp; title);
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-  void OnClose(wxCloseEvent&amp; event);
+	Method OnInit:Int()
+	
+		Local v:Veto = Veto(New Veto.Create(Null, wxID_ANY, ..
+			"Veto", -1, -1, 250, 130))
+		v.Show(True)
+ 
+		Return True
+	End Method
 
-};
+End Type
 
+Type Veto Extends wxFrame
+ 
+	Method OnInit()
+		
+		ConnectAny(wxEVT_CLOSE_WINDOW, OnClose)
+		
+		Centre()
+ 
+	End Method
+	
+	Function OnClose(event:wxEvent)
+		Local dial:wxMessageDialog = New wxMessageDialog.Create(Null, ..
+			"Are you sure to quit?", "Question", ..
+			wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION)
+
+		Local ret:Int = dial.ShowModal()
+		dial.Free()
+
+		If ret = wxID_YES Then
+			wxWindow(event.parent).Destroy()
+		Else
+			wxCloseEvent(event).Veto()
+		End If
+
+	End Function
+
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">veto.cpp</div>
-#include "veto.h"
-
-
-Veto::Veto(const wxString&amp; title)
-    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 130))
-{
-
-  Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(Veto::OnClose));
-  Centre();
-}
-
-void Veto::OnClose(wxCloseEvent&amp; event) 
-{
-  wxMessageDialog *dial = new wxMessageDialog(NULL,
-      wxT("Are you sure to quit?"), wxT("Question"),
-      wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
-
-  int ret = dial-&gt;ShowModal();
-  dial-&gt;Destroy();
-
-  if (ret == wxID_YES) {
-      Destroy();
-  } else {
-      event.Veto();
-  }
-
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "veto.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Veto *veto = new Veto(wxT("Veto"));
-    veto-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 <br>
 
 
@@ -397,21 +312,20 @@ select close from the system menu. In many applications, we want to
 prevent from accidentally closing the window, if we made some changes.
 To do this, we must connect the wxEVT_CLOSE_WINDOW event type. </p>
 
-<pre class="explanation"> wxMessageDialog *dial = new wxMessageDialog(NULL, 
-    wxT("Are you sure to quit?"), wxT("Question"),
-    wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
+<pre class="explanation"> Local dial:wxMessageDialog = New wxMessageDialog.Create(Null, ..
+		"Are you sure to quit?", "Question", ..
+		wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION)
 </pre>
 
 <p>
 During the close event, we show a message dialog.
 </p>
 
-<pre class="explanation"> if (ret == wxID_YES) {
-     Destroy();
- } else {
-     event.Veto();
- }
-</pre>
+<pre class="explanation"> If ret = wxID_YES Then
+     wxWindow(event.parent).Destroy()
+ Else
+     wxCloseEvent(event).Veto()
+ End If</pre>
 
 <p>
 Depending on the return value, we destroy the window, or veto the event. Notice that to close the window, we must call the <i>Destroy()</i> method. By calling the <i>Close()</i> method, we would end up in an endless cycle.
@@ -437,8 +351,8 @@ system. If we work with multiple widgets, we must differantiate among
 them.
 </p>
 
-<pre class="definition"> wxButton(parent, -1)
- wxButton(parent, wxID_ANY)
+<pre class="definition"> wxButton.Create(parent, -1)
+ wxButton.Create(parent, wxID_ANY)
 </pre>
 
 <p>If we provide -1 or wxID_ANY for the id parameter, we let the
@@ -456,71 +370,52 @@ Standard identifiers should be used whenever possible. The identifiers
 can provide some standard graphics or behaviour on some platforms.
 </p>
 
+<pre class="code"><div class="codehead">ident.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+Import wx.wxButton
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-<pre class="code"><div class="codehead">ident.h</div>
-include &lt;wx/wx.h&gt;
+	Method OnInit:Int()
+	
+		Local id:Ident = Ident(New Ident.Create(Null, wxID_ANY, ..
+			"Identifiers", -1, -1, 200, 150))
+		id.Show(True)
+ 
+		Return True
+	End Method
 
-class Ident : public wxFrame
-{
-public:
-  Ident(const wxString&amp; title);
+End Type
 
-};
-
+Type Ident Extends wxFrame
+ 
+	Method OnInit()
+		
+		Local panel:wxPanel = New wxPanel.Create(Self, -1)
+		
+		Local grid:wxGridSizer = New wxGridSizer.Create(2, 3)
+		
+		grid.Add(New wxButton.Create(panel, wxID_CANCEL), 0, wxTOP | wxLEFT, 9)
+		grid.Add(New wxButton.Create(panel, wxID_DELETE), 0, wxTOP, 9)
+		grid.Add(New wxButton.Create(panel, wxID_SAVE), 0, wxLEFT, 9)
+		grid.Add(New wxButton.Create(panel, wxID_EXIT))
+		grid.Add(New wxButton.Create(panel, wxID_STOP), 0, wxLEFT, 9)
+		grid.Add(New wxButton.Create(panel, wxID_NEW))
+		
+		panel.SetSizer(grid)
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">ident.cpp</div>
-#include "ident.h"
-
-Ident::Ident(const wxString&amp; title)
-    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(200, 150))
-{
-
-  wxPanel *panel = new wxPanel(this, -1);
-
-  wxGridSizer *grid = new wxGridSizer(2, 3);
-
-  grid-&gt;Add(new wxButton(panel, wxID_CANCEL), 0, wxTOP | wxLEFT, 9);
-  grid-&gt;Add(new wxButton(panel, wxID_DELETE), 0, wxTOP, 9);
-  grid-&gt;Add(new wxButton(panel, wxID_SAVE), 0, wxLEFT, 9);
-  grid-&gt;Add(new wxButton(panel, wxID_EXIT));
-  grid-&gt;Add(new wxButton(panel, wxID_STOP), 0, wxLEFT, 9);
-  grid-&gt;Add(new wxButton(panel, wxID_NEW));
-
-  panel-&gt;SetSizer(grid);
-  Centre();
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "ident.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Ident *ident = new Ident(wxT("Identifiers"));
-    ident-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 <br>
 
 <p>

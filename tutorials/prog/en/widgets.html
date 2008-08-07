@@ -18,11 +18,11 @@
 <h1>Widgets</h1>
 
 <p>
-In this chapter, we will show small examples of several widgets, available in wxWidgets. Widgets are builing
+In this chapter, we will show small examples of several widgets, available in wxWidgets. Widgets are building
 blocks of our applications. wxWidgets consists of a large amout of useful widgets. 
 <b>Widget</b> is a basic GUI object by definition. A widget gave
 wxWidgets toolkit a name. This term is used on Linux systems. On
-windows, a widget is usually called a control. </p>
+Windows, a widget is usually called a control. </p>
 
 
 <h3>wxCheckBox</h3>
@@ -52,7 +52,8 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 	
-		Local cb:CheckBox = CheckBox(New CheckBox.Create(Null, wxID_ANY, "CheckBox", -1, -1, 270, 150))
+		Local cb:CheckBox = CheckBox(New CheckBox.Create(Null, wxID_ANY, ..
+			"CheckBox", -1, -1, 270, 150))
 		cb.Show(True)
  
 		Return True
@@ -114,7 +115,7 @@ user defined <i>OnToggle()</i> function.
 </p>
 
 
-<pre class="explanation"> If frame.m_cb-&gt;GetValue() Then
+<pre class="explanation"> If frame.m_cb.GetValue() Then
      frame.SetTitle("CheckBox")
  Else
      frame.SetTitle("")
@@ -156,7 +157,8 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 	
-		Local bb:BitmapButton = BitmapButton(New BitmapButton.Create(Null, wxID_ANY, "BitmapButton", -1, -1, 250, 130))
+		Local bb:BitmapButton = BitmapButton(New BitmapButton.Create(Null, ..
+			wxID_ANY, "BitmapButton", -1, -1, 250, 130))
 		bb.Show(True)
  
 		Return True
@@ -178,7 +180,8 @@ Type BitmapButton Extends wxFrame
 		slider = New wxSlider.Create(panel, ID_SLIDER, 0, 0, 100, 10, 30, 140, -1)
  
 		button = New wxBitmapButton.Create(panel, wxID_ANY, ..
-			wxBitmap.CreateFromFile("../media/mute.png", wxBITMAP_TYPE_PNG), 180, 20)
+			wxBitmap.CreateFromFile("../media/mute.png", ..
+			wxBITMAP_TYPE_PNG), 180, 20)
  
 		Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, OnScroll)
  
@@ -192,13 +195,17 @@ Type BitmapButton Extends wxFrame
 		frame.pos = frame.slider.GetValue()
 		
 		If frame.pos = 0 Then
-			frame.button.SetBitmapLabel(wxBitmap.CreateFromFile("../media/mute.png", wxBITMAP_TYPE_PNG))
+			frame.button.SetBitmapLabel(wxBitmap.CreateFromFile(..
+				"../media/mute.png", wxBITMAP_TYPE_PNG))
 		Else If frame.pos > 0 And frame.pos <= 30 Then
-			frame.button.SetBitmapLabel(wxBitmap.CreateFromFile("../media/min.png", wxBITMAP_TYPE_PNG))
+			frame.button.SetBitmapLabel(wxBitmap.CreateFromFile(..
+				"../media/min.png", wxBITMAP_TYPE_PNG))
 		Else If frame.pos > 30 And frame.pos < 80 Then
-			frame.button.SetBitmapLabel(wxBitmap.CreateFromFile("../media/med.png", wxBITMAP_TYPE_PNG))
+			frame.button.SetBitmapLabel(wxBitmap.CreateFromFile(..
+				"../media/med.png", wxBITMAP_TYPE_PNG))
 		Else
-			frame.button.SetBitmapLabel(wxBitmap.CreateFromFile("../media/max.png", wxBITMAP_TYPE_PNG))
+			frame.button.SetBitmapLabel(wxBitmap.CreateFromFile(..
+				"../media/max.png", wxBITMAP_TYPE_PNG))
 		End If
  
 	End Function
@@ -217,7 +224,8 @@ By dragging the handle of a slider, we change a bitmap on the button.
 We will use PNG images, so we must initialize a PNG image handler. 
 </p>
 
-<pre class="explanation"> button = New wxBitmapButton.Create(panel, wxID_ANY, wxBitmap.CreateFromFile("../media/mute.png", 
+<pre class="explanation"> button = New wxBitmapButton.Create(panel, wxID_ANY, ..
+     wxBitmap.CreateFromFile("../media/mute.png", ..
      wxBITMAP_TYPE_PNG), 180, 20))</pre>
 
 <p>

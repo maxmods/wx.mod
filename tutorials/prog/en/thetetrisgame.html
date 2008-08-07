@@ -679,7 +679,7 @@ Wend
 </pre>
 
 <p>
-The <b>Board::DropDown()</b> method drops the falling shape immediately to the bottom of the board. It happens, when 
+The <b>DropDown()</b> method drops the falling shape immediately to the bottom of the board. It happens, when 
 we press the space key.
 </p>
 
@@ -702,7 +702,7 @@ End Method
 <p>
 In the <b>PieceDropped()</b> method we set the current shape at it's final position. We call the 
 <b>RemoveFullLines()</b> method to check, if we have at least one full line. And we create a new tetris shape, if it 
-wasn't already created in the <b>Board::PieceDropped()</b> method in the meantime.
+wasn't already created in the <b>PieceDropped()</b> method in the meantime.
 </p>
 
 <pre class="explanation"> If lineIsFull Then

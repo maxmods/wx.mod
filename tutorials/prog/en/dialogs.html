@@ -382,111 +382,92 @@ In the next example we create a custom dialog. An image editing
 application can change a color depth of a picture. To provide this
 funcionality, we could create a suitable custom dialog. </p>
 
+<pre class="code"><div class="codehead">customdialog.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxDialog
+Import wx.wxPanel
+Import wx.wxStaticBox
+Import wx.wxButton
+Import wx.wxRadioButton
+Import wx.wxTextCtrl
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-<pre class="code"><div class="codehead">customdialog.h</div>
-#include &lt;wx/wx.h&gt;
+	Method OnInit:Int()
+	
+		Local sim:CustomDialog = CustomDialog(New CustomDialog.Create_(Null, ..
+			wxID_ANY, "CustomDialog", -1, -1, 250, 230))
+		sim.Show(True)
+ 
+		Return True
+	End Method
 
-class CustomDialog : public wxDialog
-{
-public:
-  CustomDialog(const wxString&amp; title);
+End Type
 
-};
-
+Type CustomDialog Extends wxDialog
+ 
+	Method OnInit()
+		
+		Local panel:wxPanel = New wxPanel.Create(Self, -1)
+		
+		Local vbox:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+		Local hbox:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		
+		Local st:wxStaticBox = New wxStaticBox.Create(panel, -1, ..
+			"Colors", 5, 5, 240, 150)
+		Local rb:wxRadioButton = New wxRadioButton.Create(panel, -1, ..
+			"256 Colors", 15, 30,,, wxRB_GROUP)
+		
+		Local rb1:wxRadioButton = New wxRadioButton.Create(panel, -1, ..
+			"16 Colors", 15, 55)
+		Local rb2:wxRadioButton = New wxRadioButton.Create(panel, -1, ..
+			"2 Colors", 15, 80)
+		Local rb3:wxRadioButton = New wxRadioButton.Create(panel, -1, ..
+			"Custom", 15, 105)
+		Local tc:wxTextCtrl = New wxTextCtrl.Create(panel, -1, "", 95, 105)
+		
+		Local okButton:wxButton = New wxButton.Create(Self, -1, ..
+			"Ok", -1 -1, 70, 30)
+		Local closeButton:wxButton = New wxButton.Create(Self, -1, ..
+			"Close", -1, -1, 70, 30)
+		
+		hbox.Add(okButton, 1)
+		hbox.Add(closeButton, 1, wxLEFT, 5)
+		
+		vbox.Add(panel, 1)
+		vbox.AddSizer(hbox, 0, wxALIGN_CENTER | wxTOP | wxBOTTOM, 10)
+		
+		SetSizer(vbox)
+		
+		Centre()
+		ShowModal()
+		
+		Destroy() 
+		 
+	End Method
+	
+End Type
 </pre>
-
-<pre class="code"><div class="codehead">customdialog.cpp</div>
-#include "customdialog.h"
-
-CustomDialog::CustomDialog(const wxString &amp; title)
-       : wxDialog(NULL, -1, title, wxDefaultPosition, wxSize(250, 230))
-{
-
-  wxPanel *panel = new wxPanel(this, -1);
-
-  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
-  wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
-
-  wxStaticBox *st = new wxStaticBox(panel, -1, wxT("Colors"), 
-      wxPoint(5, 5), wxSize(240, 150));
-  wxRadioButton *rb = new wxRadioButton(panel, -1, 
-      wxT("256 Colors"), wxPoint(15, 30), wxDefaultSize, wxRB_GROUP);
-
-  wxRadioButton *rb1 = new wxRadioButton(panel, -1, 
-      wxT("16 Colors"), wxPoint(15, 55));
-  wxRadioButton *rb2 = new wxRadioButton(panel, -1, 
-      wxT("2 Colors"), wxPoint(15, 80));
-  wxRadioButton *rb3 = new wxRadioButton(panel, -1, 
-      wxT("Custom"), wxPoint(15, 105));
-  wxTextCtrl *tc = new wxTextCtrl(panel, -1, wxT(""), 
-      wxPoint(95, 105));
-
-  wxButton *okButton = new wxButton(this, -1, wxT("Ok"), 
-      wxDefaultPosition, wxSize(70, 30));
-  wxButton *closeButton = new wxButton(this, -1, wxT("Close"), 
-      wxDefaultPosition, wxSize(70, 30));
-
-  hbox-&gt;Add(okButton, 1);
-  hbox-&gt;Add(closeButton, 1, wxLEFT, 5);
-
-  vbox-&gt;Add(panel, 1);
-  vbox-&gt;Add(hbox, 0, wxALIGN_CENTER | wxTOP | wxBOTTOM, 10);
-
-  SetSizer(vbox);
-
-  Centre();
-  ShowModal();
-
-  Destroy(); 
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "customdialog.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    CustomDialog *custom = new CustomDialog(wxT("CustomDialog"));
-    custom-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
-<br>
-
-
 <p>
 This example is a dialog based application. We illustrate, how to create a custom dialog. 
 </p>
 
-<pre class="explanation"> class CustomDialog : public wxDialog
+<pre class="explanation"> Type CustomDialog Extends wxDialog
 </pre>
 
 <p>
-A custom dialog is based on the <i>wxDialog</i> class.
+A custom dialog is based on the <i>wxDialog</i> type.
 </p>
 
 
-<pre class="explanation">  wxStaticBox *st = new wxStaticBox(panel, -1, wxT("Colors"), 
-      wxPoint(5, 5), wxSize(240, 150));
-  wxRadioButton *rb = new wxRadioButton(panel, -1, 
-      wxT("256 Colors"), wxPoint(15, 30), wxDefaultSize, wxRB_GROUP);
+<pre class="explanation">  Local st:wxStaticBox = New wxStaticBox.Create(panel, -1, ..
+		"Colors", 5, 5, 240, 150)
+  Local rb:wxRadioButton = New wxRadioButton.Create(panel, -1, ..
+		"256 Colors", 15, 30,,, wxRB_GROUP)
 </pre>
 
 <p>
@@ -495,9 +476,8 @@ widgets that it contains, and that those widgets should be siblings,
 not children, of the static box.
 </p>
 
-<pre class="explanation"> ShowModal();
- Destroy();
-</pre>
+<pre class="explanation"> ShowModal()
+ Destroy();</pre>
 
 <p>
  To show the dialog on the screen, we call the <i>ShowModal()</i> method. To clear the dialog from the memory, 

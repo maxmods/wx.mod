@@ -13,7 +13,8 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 	
-		Local cb:CheckBox = CheckBox(New CheckBox.Create(Null, wxID_ANY, "CheckBox", -1, -1, 270, 150))
+		Local cb:CheckBox = CheckBox(New CheckBox.Create(Null, ..
+			wxID_ANY, "CheckBox", -1, -1, 270, 150))
 		cb.Show(True)
  
 		Return True
