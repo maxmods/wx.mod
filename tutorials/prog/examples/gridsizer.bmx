@@ -12,7 +12,8 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 	
-		Local gs:GridSizer = GridSizer(New GridSizer.Create(Null, wxID_ANY, "Align", -1, -1, 270, 220))
+		Local gs:GridSizer = GridSizer(New GridSizer.Create(Null, wxID_ANY, ..
+			"GridSizer", -1, -1, 270, 220))
 		gs.Show(True)
  
 		Return True

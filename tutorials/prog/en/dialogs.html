@@ -51,128 +51,102 @@ dialog.
 </p>
 
 
-<pre class="code"><div class="codehead">Messages.h</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead">messages.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+Import wx.wxMessageDialog
+ 
+Const ID_INFO:Int = 1
+Const ID_ERROR:Int = 2
+Const ID_QUESTION:Int = 3
+Const ID_ALERT:Int = 4
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class Messages : public wxFrame
-{
-public:
-    Messages(const wxString&amp; title);
-    
-    void ShowMessage1(wxCommandEvent &amp; event);
-    void ShowMessage2(wxCommandEvent &amp; event);
-    void ShowMessage3(wxCommandEvent &amp; event);
-    void ShowMessage4(wxCommandEvent &amp; event);
+	Method OnInit:Int()
+	
+		Local msgs:Messages = Messages(New Messages.Create(Null, ..
+			wxID_ANY, "Messages", -1, -1, 210, 110))
+		msgs.Show(True)
+ 
+		Return True
+	End Method
 
-};
+End Type
 
-const int ID_INFO = 1;
-const int ID_ERROR = 2;
-const int ID_QUESTION = 3;
-const int ID_ALERT = 4;
+Type Messages Extends wxFrame
+ 
+	Method OnInit()
+ 
+		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
+		
+		Local hbox:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		Local gs:wxGridSizer = New wxGridSizer.CreateRC(2, 2, 2, 2)
+		
+		Local btn1:wxButton = New wxButton.Create(panel, ID_INFO, "Info")
+		Local btn2:wxButton = New wxButton.Create(panel, ID_ERROR, "Error")
+		Local btn3:wxButton = New wxButton.Create(panel, ID_QUESTION, "Question")
+		Local btn4:wxButton = New wxButton.Create(panel, ID_ALERT, "Alert")
+		
+		Connect(ID_INFO, wxEVT_COMMAND_BUTTON_CLICKED, ShowMessage1)
+		Connect(ID_ERROR, wxEVT_COMMAND_BUTTON_CLICKED, ShowMessage2)
+		Connect(ID_QUESTION, wxEVT_COMMAND_BUTTON_CLICKED, ShowMessage3)
+		Connect(ID_ALERT, wxEVT_COMMAND_BUTTON_CLICKED, ShowMessage4)
+		
+		gs.Add(btn1, 1, wxEXPAND)
+		gs.Add(btn2, 1)
+		gs.Add(btn3, 1)
+		gs.Add(btn4, 1)
+	
+		hbox.AddSizer(gs, 0, wxALL, 15)
+		panel.SetSizer(hbox)
+ 
+		Center()
+ 
+	End Method
+	
+	Function ShowMessage1(event:wxEvent)
+		Local dial:wxMessageDialog = New wxMessageDialog.Create(Null, ..
+			"Download completed", "Info", wxOK)
+		dial.ShowModal()
+ 
+		dial.Free()
+	End Function
+ 
+	Function ShowMessage2(event:wxEvent)
+		Local dial:wxMessageDialog = New wxMessageDialog.Create(Null, ..
+			"Error loading file", "Error", wxOK | wxICON_ERROR)
+		dial.ShowModal()
+ 
+		dial.Free()
+	End Function
+ 
+	Function ShowMessage3(event:wxEvent)
+		Local dial:wxMessageDialog = New wxMessageDialog.Create(Null, ..
+			"Are you sure to quit?", "Question", wxYES_NO | wxNO_DEFAULT | ..
+			wxICON_QUESTION)
+		dial.ShowModal()
+ 
+		dial.Free()
+	End Function
+ 
+	Function ShowMessage4(event:wxEvent)
+		Local dial:wxMessageDialog = New wxMessageDialog.Create(Null, ..
+			"Unallowed operation", "Exclamation", wxOK | wxICON_EXCLAMATION)
+		dial.ShowModal()
+ 
+		dial.Free()
+	End Function
 
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">Messages.cpp</div>
-#include "Messages.h"
 
-Messages::Messages(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(210, 110))
-{
-
-  wxPanel *panel = new wxPanel(this, wxID_ANY);
-
-  wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
-  wxGridSizer *gs = new wxGridSizer(2, 2, 2, 2);
-
-  wxButton *btn1 = new wxButton(panel, ID_INFO, wxT("Info"));
-  wxButton *btn2 = new wxButton(panel, ID_ERROR, wxT("Error"));
-  wxButton *btn3 = new wxButton(panel, ID_QUESTION, wxT("Question"));
-  wxButton *btn4 = new wxButton(panel, ID_ALERT, wxT("Alert"));
-
-  Connect(ID_INFO, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(Messages::ShowMessage1));
-  Connect(ID_ERROR, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(Messages::ShowMessage2));
-  Connect(ID_QUESTION, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(Messages::ShowMessage3));
-  Connect(ID_ALERT, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(Messages::ShowMessage4));
-
-  gs-&gt;Add(btn1, 1, wxEXPAND);
-  gs-&gt;Add(btn2, 1);
-  gs-&gt;Add(btn3, 1);
-  gs-&gt;Add(btn4, 1);
-
-  hbox-&gt;Add(gs, 0, wxALL, 15);
-  panel-&gt;SetSizer(hbox);
-
-  Center();
-
-}
-
-
-void Messages::ShowMessage1(wxCommandEvent&amp; event) 
-{
-  wxMessageDialog *dial = new wxMessageDialog(NULL, 
-      wxT("Download completed"), wxT("Info"), wxOK);
-  dial-&gt;ShowModal();
-
-}
-
-void Messages::ShowMessage2(wxCommandEvent&amp; event) 
-{
-   wxMessageDialog *dial = new wxMessageDialog(NULL, 
-      wxT("Error loading file"), wxT("Error"), wxOK | wxICON_ERROR);
-   dial-&gt;ShowModal();
-}
-
-void Messages::ShowMessage3(wxCommandEvent&amp; event) 
-{
-  wxMessageDialog *dial = new wxMessageDialog(NULL, 
-      wxT("Are you sure to quit?"), wxT("Question"), 
-      wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
-  dial-&gt;ShowModal();
-}
-
-void Messages::ShowMessage4(wxCommandEvent&amp; event) 
-{
-  wxMessageDialog *dial = new wxMessageDialog(NULL, 
-      wxT("Unallowed operation"), wxT("Exclamation"), 
-      wxOK | wxICON_EXCLAMATION);
-  dial-&gt;ShowModal();
-}
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "Messages.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-  Messages *msgs = new Messages(wxT("Messages"));
-  msgs-&gt;Show(true);
-
-  return true;
-}
-
-</pre>
 <br>
 
 <p>In our example, we have created four buttons and put them in a grid
@@ -180,9 +154,11 @@ sizer. These buttons will show four different dialog windows. We create
 them by specifying different style flags.
 </p>
 
-<pre class="explanation"> wxMessageDialog *dial = new wxMessageDialog(NULL, 
-    wxT("Error loading file"), wxT("Error"), wxOK | wxICON_ERROR);
- dial-&gt;ShowModal();
+<pre class="explanation"> Local dial:wxMessageDialog = New wxMessageDialog.Create(NULL, ..
+    "Error loading file", "Error", wxOK | wxICON_ERROR)
+ dial.ShowModal()
+ ..
+ dial.Free()
 </pre>
 
 <p>The creation of the message dialog is simple. We set the dialog to
@@ -190,6 +166,10 @@ be a toplevel window by providing NULL as a parent. The two strings
 provide the message text and the dialog title. We show an ok button and
 an error icon by specifying the wxOK and wxICON_ERROR flags. To show
 the dialog on screen, we call the <i>ShowModal()</i> method.
+</p>
+<p>
+Note that if you want to reclaim the memory used by the dialog more quickly, call the
+Free() method. It will be called when the GC runs, but you may want to do it yourself.
 </p>
 
 <br>
@@ -220,7 +200,8 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 	
-		Local open:FileOpen = FileOpen(New FileOpen.Create(Null, wxID_ANY, "Openfile", -1, -1, 300, 200))
+		Local open:FileOpen = FileOpen(New FileOpen.Create(Null, ..
+			wxID_ANY, "Openfile", -1, -1, 300, 200))
 		open.Show(True)
  
 		Return True
@@ -274,7 +255,7 @@ open file menu item a <i>wxFileDialog</i> is displayed. We can load some simple 
 We load text files into this text control.
 </p>
 
-<pre class="explanation"> Local openFileDialog:wxFileDialog = New wxFileDialog.Create(frame);
+<pre class="explanation"> Local openFileDialog:wxFileDialog = New wxFileDialog.Create(frame)
 </pre>
 
 <p>
@@ -321,7 +302,8 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
     
-		Local change:ChangeFont = ChangeFont(New ChangeFont.Create(Null, wxID_ANY, "Change font", -1, -1, 300, 200))
+		Local change:ChangeFont = ChangeFont(New ChangeFont.Create(Null, ..
+			wxID_ANY, "Change font", -1, -1, 300, 200))
 		change.Show(True)
  
 		Return True
@@ -537,7 +519,8 @@ we call the <i>Destroy()</i> method.
 </center>
 
 <div class="footer">
-<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span></div>
+<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span><br>
+<span class="copyright"> Adapted for BlitzMax by Bruce A Henderson</span></div>
 </div>
 
 </div>

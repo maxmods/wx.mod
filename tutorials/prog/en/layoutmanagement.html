@@ -269,80 +269,59 @@ between these flags:
 Figure: border around a panel
 </div>
 
-<pre class="code"><div class="codehead">border.h</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead">border.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class Border : public wxFrame
-{
-public:
-  Border(const wxString&amp; title);
+	Method OnInit:Int()
+	
+		Local ab:Border = Border(New Border.Create(Null, wxID_ANY, ..
+			"Border", -1, -1, 300, 200))
+		ab.Show(True)
+ 
+		Return True
+	End Method
 
-};
+End Type
 
+Type Border Extends wxFrame
+ 
+	Method OnInit()
+	
+		Local col1:wxColour = New wxColour.CreateNamedColour("#4f5049")
+		Local col2:wxColour = New wxColour.CreateNamedColour("#ededed")
+ 
+		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
+ 
+		panel.SetBackgroundColour(col1)
+		Local vbox:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+		
+		Local midPan:wxPanel = New wxPanel.Create(panel, wxID_ANY)
+		midPan.SetBackgroundColour(col2)
+		
+		vbox.Add(midPan, 1, wxEXPAND | wxALL, 20)
+		panel.SetSizer(vbox)
+				
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">border.cpp</div>
-#include "border.h"
-
-Border::Border(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 200))
-{
-
-  wxColour col1, col2;
-  col1.Set(wxT("#4f5049"));
-  col2.Set(wxT("#ededed"));
-
-  wxPanel *panel = new wxPanel(this, -1);
-  panel-&gt;SetBackgroundColour(col1);
-  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
-
-  wxPanel *midPan = new wxPanel(panel, wxID_ANY);
-  midPan-&gt;SetBackgroundColour(col2);
-
-  vbox-&gt;Add(midPan, 1, wxEXPAND | wxALL, 20);
-  panel-&gt;SetSizer(vbox);
-
-  Centre();
-}
-
-</pre>
-
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "border.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Border *border = new Border(wxT("Border"));
-    border-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 
 <p>
 In this example, we create two panels. The second panel has some space around itself. 
 </p>
 
-<pre class="explanation"> vbox-&gt;Add(midPan, 1, wxEXPAND | wxALL, 20);
+<pre class="explanation"> vbox.Add(midPan, 1, wxEXPAND | wxALL, 20)
 </pre>
 
 <p>
@@ -385,7 +364,8 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 	
-		Local ab:Align = Align(New Align.Create(Null, wxID_ANY, "Align", -1, -1, 300, 200))
+		Local ab:Align = Align(New Align.Create(Null, wxID_ANY, ..
+			"Align", -1, -1, 300, 200))
 		ab.Show(True)
  
 		Return True
@@ -432,7 +412,7 @@ vertical one.
 
 
 <pre class="explanation"> hbox1.Add(New wxPanel.Create(panel, -1))
- vbox.AddSizer(hbox1, 1, wxEXPAND);</pre>
+ vbox.AddSizer(hbox1, 1, wxEXPAND)</pre>
 
 <p>
 We put a <i>wxPanel</i> into the first horizontal sizer. We set the proportion to <i>1</i> and set a <i>wxEXPAND</i> flag.
@@ -629,7 +609,8 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 	
-		Local gs:GridSizer = GridSizer(New GridSizer.Create(Null, wxID_ANY, "Align", -1, -1, 270, 220))
+		Local gs:GridSizer = GridSizer(New GridSizer.Create(Null, wxID_ANY, ..
+			"GridSizer", -1, -1, 270, 220))
 		gs.Show(True)
  
 		Return True
@@ -856,7 +837,8 @@ Figure: FlexGridSizer
 </center>
 
 <div class="footer">
-<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span></div>
+<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span><br>
+<span class="copyright"> Adapted for BlitzMax by Bruce A Henderson</span></div>
 </div>
 
 </div>

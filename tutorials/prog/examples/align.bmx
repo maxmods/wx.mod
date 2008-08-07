@@ -11,7 +11,8 @@ Type MyApp Extends wxApp
 
 	Method OnInit:Int()
 	
-		Local ab:Align = Align(New Align.Create(Null, wxID_ANY, "Align", -1, -1, 300, 200))
+		Local ab:Align = Align(New Align.Create(Null, wxID_ANY, ..
+			"Align", -1, -1, 300, 200))
 		ab.Show(True)
  
 		Return True

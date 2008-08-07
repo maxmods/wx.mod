@@ -32,72 +32,70 @@ First we create the very basic wxWidgets program.
 </p>
 
 
-<pre class="code"><div class="codehead">simple.h</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead">simple.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class Simple : public wxFrame
-{
-public:
-    Simple(const wxString&amp; title);
+	Method OnInit:Int()
+	
+		Local sim:Simple = Simple(New Simple.Create(Null, wxID_ANY, ..
+			"Simple", -1, -1, 250, 150))
+		sim.Show(True)
+ 
+		Return True
+	End Method
 
-};
+End Type
+
+Type Simple Extends wxFrame
+ 
+	Method OnInit()
+		
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">simple.cpp</div>
-#include "simple.h"
-
-Simple::Simple(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 150))
-{
-  Centre();
-}
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "simple.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-    Simple *simple = new Simple(wxT("Simple"));
-    simple-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 <br>
 
 <p>
 This very basic example shows a small window on the screen. The window is centered.
 </p>
 
-<pre class="explanation"> Centre();
+<pre class="explanation"> Centre()
 </pre>
 
 <p>
 This method centers the window on the screen. Both horizontally and vertically. 
 </p>
 
-<pre class="explanation"> IMPLEMENT_APP(MyApp)
+<pre class="explanation">
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
+	Method OnInit:Int()
+		...
+		Return True
+	End Method
+End Type
 </pre>
 
 <p>
-The code that implements the application is hidden behind this macro. This is copy and paste
-code, we usually don't have to care about.
+The wxApp type is the basic building block of a wxWidgets application. You implement a sub-type of wxApp and
+override the OnInit() method. Here you can initialize data, create windows, and perform any other startup routines for
+your application.
+</p>
+<p>
+You return True from OnInit() to indicate that the application started successfully, in which case
+wxWidgets takes control and starts processing events. If you return False, the application will terminate.
 </p>
 
 <br>
@@ -114,71 +112,61 @@ in the upper left corner of the window. The icon is a graphical identity of the 
 </p>
 
 
+<pre class="code"><div class="codehead">icon.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxImage
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-<pre class="code"><div class="codehead">icon.h</div>
-#include &lt;wx/wx.h&gt;
+	Method OnInit:Int()
+	
+		wxImage.AddHandler( New wxPNGHandler )
+	
+		Local ic:Icon = Icon(New Icon.Create(Null, wxID_ANY, ..
+			"Icon", -1, -1, 250, 150))
+		ic.Show(True)
+ 
+		Return True
+	End Method
 
-class Icon : public wxFrame
-{
-public:
-    Icon(const wxString&amp; title);
+End Type
 
-};
+Type Icon Extends wxFrame
+ 
+	Method OnInit()
+				
+		SetIcon(wxIcon.CreateFromFile("../media/world.png", wxBITMAP_TYPE_PNG))
 
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">icon.cpp</div>
-#include "icon.h"
-
-Icon::Icon(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 150))
-{
-  SetIcon(wxIcon(wxT("web.xpm")));
-  Centre();
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "icon.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-    Icon *icon = new Icon(wxT("Icon"));
-    icon-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 
 <p>
 In our example we show a small web icon. 
 </p>
 
 
-<pre class="explanation">  SetIcon(wxIcon(wxT("web.xpm")));
+<pre class="explanation">  SetIcon(wxIcon.CreateFromFile("../media/world.png", wxBITMAP_TYPE_PNG))
 </pre>
 
 <p>
 To display an application icon is a matter of one code line.
-XPM (X PixMap) is an ASCII image format.
 </p>
 
+<pre class="explanation">wxImage.AddHandler( New wxPNGHandler )
+</pre>
+<p>
+AddHandler tells wxWidgets to enable certain kinds of image formats. In this case, PNG images.
+</p>
 
 <br>
 <img src="../media/icon.jpg" alt="Icon">
@@ -193,108 +181,92 @@ In the following example, we create a button on the frame widget. We will show, 
 handler.
 </p>
 
-<pre class="code"><div class="codehead">button.h</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead">button.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+Import wx.wxButton
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class Button : public wxFrame
-{
-public:
-    Button(const wxString&amp; title);
+	Method OnInit:Int()
+	
+		Local btn:Button = Button(New Button.Create(Null, wxID_ANY, ..
+			"Button", -1, -1, 270, 150))
+		btn.Show(True)
+ 
+		Return True
+	End Method
 
-    void OnQuit(wxCommandEvent &amp; event);
-};
+End Type
 
-</pre>
+Type Button Extends wxFrame
+ 
+	Method OnInit()
+				
+		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
+		
+		Local button:wxButton = New wxButton.Create(panel, wxID_EXIT, "Quit", 20, 20)
+		
+		Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, OnQuit)
+		button.SetFocus()
 
-<pre class="code"><div class="codehead">button.cpp</div>
-#include "button.h"
-
-Button::Button(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(270, 150))
-{
-  wxPanel *panel = new wxPanel(this, wxID_ANY);
-
-  wxButton *button = new wxButton(panel, wxID_EXIT, wxT("Quit"), 
-      wxPoint(20, 20));
-  Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(Button::OnQuit));
-  button-&gt;SetFocus();
-  Centre();
-}
-
-void Button::OnQuit(wxCommandEvent &amp; WXUNUSED(event))
-{
-    Close(true);
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "button.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Button *btnapp = new Button(wxT("Button"));
-    btnapp-&gt;Show(true);
-
-    return true;
-}
-
+		Centre()
+ 
+	End Method
+	
+	Function OnQuit(event:wxEvent)
+		wxWindow(event.parent).Close(True)
+	End Function
+	
+End Type
 </pre>
 
 
-<pre class="explanation"> wxPanel *panel = new wxPanel(this, wxID_ANY);
+<pre class="explanation"> Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
 </pre>
 
 <p>
 First we create a <i>wxPanel</i> widget. It will be placed inside a <i>wxFrame</i> widget.
 </p>
 
-<pre class="explanation"> wxButton *button = new wxButton(panel, wxID_EXIT, wxT("Quit"), wxPoint(20, 20));
+<pre class="explanation"> Local button:wxButton = New wxButton.Create(panel, wxID_EXIT, "Quit", 20, 20)
 </pre>
 
 <p>
 We create a <i>wxButton</i> widget. It is placed on the panel. We use the predefined <i>wxID_EXIT</i> id for the button.
-It will cause to display a small exit icon on the button. The label of the button is "Quit". The button is positioned
+It will cause to display a small exit icon on the button (on Linux). The label of the button is "Quit". The button is positioned
 manually at x=20, y=20 coordinates. The beginning of the coordinate system is at the upper left hand corner.
 </p>
 
-<pre class="explanation"> Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, 
-     wxCommandEventHandler(Button::OnQuit));
+<pre class="explanation"> Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, OnQuit)
 </pre>
 
 <p>
 If we click on the button, a <i>wxEVT_COMMAND_BUTTON_CLICKED</i> event is generated. We connect the event to the 
-<i>OnQuit()</i> method of the Button class. So when we click on the button, the OnQuit() method is called.
+<i>OnQuit()</i> function of the Button type. So when we click on the button, the OnQuit() function is called.
 </p>
 
-<pre class="explanation"> button-&gt;SetFocus();
+<pre class="explanation"> button.SetFocus()
 </pre>
 
 <p>
 We set the keyboard focus to the button. So if we press the enter key, the button is being clicked.
 </p>
 
-<pre class="explanation"> Close(true);
+<pre class="explanation"> wxWindow(event.parent).Close(True)
 </pre>
 
 <p>
-Inside the OnQuit() method, we call the <i>Close()</i> method. This will terminate our application.
+Inside the OnQuit() function, we call the <i>Close()</i> method. This will terminate our application.
+</p>
+<p>
+The event.parent field holds the widget reference which raised the event. This gives us access to
+the widget methods.
 </p>
 
 
@@ -309,184 +281,138 @@ Inside the OnQuit() method, we call the <i>Close()</i> method. This will termina
 It is important to know, how widgets can communicate in application. Follow the next example.
 </p>
 
+<pre class="code"><div class="codehead">communicate.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+Import wx.wxButton
+Import wx.wxStaticText
+ 
+Const ID_PLUS:Int = 101
+Const ID_MINUS:Int = 102
 
-<pre class="code"><div class="codehead">Panels.h</div>
-#include &lt;wx/wx.h&gt;
-#include &lt;wx/panel.h&gt;
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class LeftPanel : public wxPanel
-{
-public:
-    LeftPanel(wxPanel *parent);
+	Method OnInit:Int()
+	
+		Local btn:Communicate = Communicate(New Communicate.Create(Null, wxID_ANY, ..
+			"Widgets communicate", -1, -1, 290, 150))
+		btn.Show(True)
+ 
+		Return True
+	End Method
 
-    void OnPlus(wxCommandEvent &amp; event);
-    void OnMinus(wxCommandEvent &amp; event);
+End Type
 
-    wxButton *m_plus;
-    wxButton *m_minus;
-    wxPanel *m_parent;
-    int count;
+Type Communicate Extends wxFrame
+ 
+	Field m_lp:LeftPanel
+	Field m_rp:RightPanel 
+	Field m_parent:wxPanel 
 
-};
+	Method OnInit()
+				
+		m_parent = New wxPanel.Create(Self, wxID_ANY)
 
-class RightPanel : public wxPanel
-{
-public:
-    RightPanel(wxPanel *parent);
+		Local hbox:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		
+		m_lp = LeftPanel(New LeftPanel.Create(m_parent,,,,,,wxBORDER_SUNKEN))
+		m_rp = RightPanel(New RightPanel.Create(m_parent,,,,,,wxBORDER_SUNKEN))
+		
+		hbox.Add(m_lp, 1, wxEXPAND | wxALL, 5)
+		hbox.Add(m_rp, 1, wxEXPAND | wxALL, 5)
+		
+		m_parent.SetSizer(hbox)
 
-    void OnSetText(wxCommandEvent &amp; event);
+		Centre()
+ 
+	End Method
+	
+	Function OnQuit(event:wxEvent)
+		wxWindow(event.parent).Close(True)
+	End Function
+	
+End Type
 
-    wxStaticText *m_text;
+Type LeftPanel Extends wxPanel
 
-};
+	Field m_plus:wxButton
+	Field m_minus:wxButton
+	Field m_parent:wxPanel
+	Field count:Int
+	
+	Method OnInit()
+		count = 0
+		m_parent = wxPanel(GetParent())
+		
+		m_plus = New wxButton.Create(Self, ID_PLUS, "+", 10, 10)
+		m_minus = New wxButton.Create(Self, ID_MINUS, "-", 10, 60)
+		
+		Connect(ID_PLUS, wxEVT_COMMAND_BUTTON_CLICKED, OnPlus)
+		Connect(ID_MINUS, wxEVT_COMMAND_BUTTON_CLICKED, OnMinus)
+	End Method
 
-const int ID_PLUS = 101;
-const int ID_MINUS = 102;
+	Function OnPlus(event:wxEvent)
+		Local panel:LeftPanel = LeftPanel(event.parent)
+		
+		panel.count:+ 1
 
+		Local comm:Communicate = Communicate(panel.m_parent.GetParent())
+		comm.m_rp.m_text.SetLabel(panel.count)
+	End Function
+
+	Function OnMinus(event:wxEvent)
+		Local panel:LeftPanel = LeftPanel(event.parent)
+		
+		panel.count:- 1
+
+		Local comm:Communicate = Communicate(panel.m_parent.GetParent())
+		comm.m_rp.m_text.SetLabel(panel.count)
+	End Function
+	
+End Type
+	
+Type RightPanel Extends wxPanel
+
+	Field m_text:wxStaticText
+	
+	Method OnInit()
+		m_text = New wxStaticText.Create(Self, -1, "0", 40, 60)
+	End Method
+	
+	Function OnSetText(event:wxEvent)
+	End Function
+
+End Type
 </pre>
-
-<pre class="code"><div class="codehead">Panels.cpp</div>
-#include &lt;wx/stattext.h&gt;
-#include "Communicate.h"
-
-LeftPanel::LeftPanel(wxPanel * parent)
-       : wxPanel(parent, -1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_SUNKEN)
-{
-  count = 0;
-  m_parent = parent;
-  m_plus = new wxButton(this, ID_PLUS, wxT("+"), 
-      wxPoint(10, 10));
-  m_minus = new wxButton(this, ID_MINUS, wxT("-"), 
-      wxPoint(10, 60));
-  Connect(ID_PLUS, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(LeftPanel::OnPlus));
-  Connect(ID_MINUS, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(LeftPanel::OnMinus));
-}
-
-void LeftPanel::OnPlus(wxCommandEvent &amp; WXUNUSED(event))
-{
-  count++;
-
-  Communicate *comm = (Communicate *) m_parent-&gt;GetParent();
-  comm-&gt;m_rp-&gt;m_text-&gt;SetLabel(wxString::Format(wxT("%d"), count));
-}
-
-void LeftPanel::OnMinus(wxCommandEvent &amp; WXUNUSED(event))
-{
-  count--;
-
-  Communicate *comm = (Communicate *) m_parent-&gt;GetParent();
-  comm-&gt;m_rp-&gt;m_text-&gt;SetLabel(wxString::Format(wxT("%d"), count));
-}
-
-
-RightPanel::RightPanel(wxPanel * parent)
-       : wxPanel(parent, wxID_ANY, wxDefaultPosition, 
-         wxSize(270, 150), wxBORDER_SUNKEN)
-{
-    m_text = new wxStaticText(this, -1, wxT("0"), wxPoint(40, 60));
-}
-
-</pre>
-
-
-<pre class="code"><div class="codehead">Communicate.h</div>
-#include "Panels.h"
-#include &lt;wx/wxprec.h&gt;
-
-
-class Communicate : public wxFrame
-{
-public:
-    Communicate(const wxString&amp; title);
-
-
-    LeftPanel *m_lp;
-    RightPanel *m_rp;
-    wxPanel *m_parent;
-
-};
-
-</pre>
-
-
-<pre class="code"><div class="codehead">Communicate.cpp</div>
-#include "Communicate.h"
-
-
-Communicate::Communicate(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(290, 150))
-{
-  m_parent = new wxPanel(this, wxID_ANY);
-
-  wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
-
-  m_lp = new LeftPanel(m_parent);
-  m_rp = new RightPanel(m_parent);
-
-  hbox-&gt;Add(m_lp, 1, wxEXPAND | wxALL, 5);
-  hbox-&gt;Add(m_rp, 1, wxEXPAND | wxALL, 5);
-
-  m_parent-&gt;SetSizer(hbox);
-
-  this-&gt;Centre();
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "Communicate.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Communicate *communicate = new Communicate(wxT("Widgets communicate"));
-    communicate-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
-
 
 <p>
 In our example we have two panels. A left and right panel. The left
 panel has two buttons. The right panel has one static text. The buttons
 change the number displayed in the static text. The question is, how do
-we grab the pointer to the static text?
+we grab the reference to the static text?
 </p>
 
-<pre class="explanation"> m_parent = parent;
+<pre class="explanation"> m_parent = wxPanel(GetParent())
 </pre>
 
 <p>
-Here we save the pointer to the parent widget of the LeftPanel. It is a wxPanel widget.
+Here we save the reference to the parent widget of the LeftPanel. It is a wxPanel widget.
 </p>
 
-<pre class="explanation"> Communicate *comm = (Communicate *) m_parent-&gt;GetParent();
- comm-&gt;m_rp-&gt;m_text-&gt;SetLabel(wxString::Format(wxT("%d"), count));
+<pre class="explanation"> Local comm:Communicate = Communicate(panel.m_parent.GetParent())
+ comm.m_rp.m_text.SetLabel(panel.count)
 </pre>
 
 <p>These two lines are the most important lines of the example. It is
 shown, how we get access to the static text widget, which
 is placed on a different panel. First we get the parent of the both
-left and right panels. This parent widget has a pointer to the right
-panel. And the right panel has a pointer to the static text. </p>
+left and right panels. This parent widget has a reference to the right
+panel. And the right panel has a reference to the static text. </p>
 
 <br>
 <img src="../media/widgetscommunicate.jpg" alt="Widgets communicate">
@@ -500,7 +426,8 @@ panel. And the right panel has a pointer to the static text. </p>
 </center>
 
 <div class="footer">
-<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span></div>
+<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span><br>
+<span class="copyright"> Adapted for BlitzMax by Bruce A Henderson</span></div>
 </div>
 
 </div>

@@ -33,7 +33,7 @@ will create the more complicated ones himself. wxWidgets is a heavy
 weight one. It has lots of widgets. Yet it does not provide the more
 specialized widgets. For example a speed meter widget, a widget that
 measures the capacity of a CD to be burned (found e.g. in nero).
-Toolkits also don't have usually charts.
+Toolkits also don't usually have charts.
 </p>
 <p>Programmers must create such widgets by themselves. They do it by
 using the drawing tools provided by the toolkit. There are two
@@ -52,220 +52,170 @@ This widget can be found in various media burning applications, like Nero Burnin
 </p>
 
 
-<pre class="code"><div class="codehead">widget.h</div>
-#ifndef WIDGET_H
-#define WIDGET_H
-
-#include &lt;wx/wx.h&gt;
-
-class Widget : public wxPanel
-{
-public:
-  Widget(wxPanel *parent, int id );
-
-  wxPanel *m_parent;
-
-
-  void OnSize(wxSizeEvent&amp; event);
-  void OnPaint(wxPaintEvent&amp; event);  
-
-};
-
-#endif
-
-</pre>
-
-<pre class="code"><div class="codehead">widget.cpp</div>
-#include &lt;wx/wx.h&gt;
-#include "widget.h"
-#include "burning.h"
-
-int asize = sizeof(num)/sizeof(num[1]);
-int num[] = { 75, 150, 225, 300, 375, 450, 525, 600, 675 };
-
-Widget::Widget(wxPanel *parent, int id)
-      : wxPanel(parent, id, wxDefaultPosition, wxSize(-1, 30), wxSUNKEN_BORDER)
-{
+<pre class="code"><div class="codehead">widget.bmx</div>
+SuperStrict
  
-  m_parent = parent;
-
-  Connect(wxEVT_PAINT, wxPaintEventHandler(Widget::OnPaint));
-  Connect(wxEVT_SIZE, wxSizeEventHandler(Widget::OnSize));
-
-}
-
-void Widget::OnPaint(wxPaintEvent&amp; event)
-{
+Import wx.wxPanel
  
+Global num:Int[] = [75, 150, 225, 300, 375, 450, 525, 600, 675 ]
 
-  wxFont font(9, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
-            wxFONTWEIGHT_NORMAL, false, wxT("Courier 10 Pitch"));
+Type Widget Extends wxPanel
+ 
+	Field m_parent:wxPanel
+	Field cur_width:Int
 
-  wxPaintDC dc(this);
-  dc.SetFont(font);
-  wxSize size = GetSize();
-  int width = size.GetWidth();
+	Method Create:Widget(parent:wxWindow, id:Int = -1, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxTAB_TRAVERSAL)
+		Return Widget(Super.Create(parent, id, x, y, w, 30, wxSUNKEN_BORDER))
+	End Method
+ 
+	Method OnInit()
+		m_parent = wxPanel(GetParent())
+		
+		ConnectAny(wxEVT_PAINT, OnPaint)
+		ConnectAny(wxEVT_SIZE, OnSize)
+	End Method
+	
+	Method SetCurWidth(width:Int)
+		cur_width = width
+	End Method
+ 
+	Function OnSize(event:wxEvent)
+		Local panel:Widget = Widget(event.parent)
+		panel.Refresh()
+	End Function
+ 
+	Function OnPaint(event:wxEvent)
+		Local panel:Widget = Widget(event.parent)
+		
+		Local font:wxFont = New wxFont.CreateWithAttribs(9, wxFONTFAMILY_DEFAULT, ..
+			wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, False, ..
+			"Courier 10 Pitch")
+		
+		Local dc:wxPaintDC = New wxPaintDC.Create(panel)
+		dc.SetFont(font)
+		
+		Local width:Int, height:Int
+		panel.GetSize(width, height)
+		
+		Local stepSize:Int = width / 10.0
+		
+		Local till:Int = ((width / 750.0) * panel.cur_width)
+		Local full:Int = ((width / 750.0) * 700)
+		
+		
+		If panel.cur_width >= 700 Then
+		
+			dc.SetPen(New wxPen.CreateFromColour( ..
+				New wxColour.Create(255, 255, 184)))
+			dc.SetBrush(New wxBrush.CreateFromColour( ..
+				New wxColour.Create(255, 255, 184)))
+			dc.DrawRectangle(0, 0, full, 30)
+			dc.SetPen(New wxPen.CreateFromColour( ..
+				New wxColour.Create(255, 175, 175)))
+			dc.SetBrush(New wxBrush.CreateFromColour( ..
+				New wxColour.Create(255, 175, 175)))
+			dc.DrawRectangle(full, 0, till - full, 30)
 
-  Burning *burn = (Burning *) m_parent-&gt;GetParent();
+		Else
 
-  int cur_width = burn-&gt;GetCurWidth();
+			dc.SetPen(New wxPen.CreateFromColour( ..
+				New wxColour.Create(255, 255, 184)))
+			dc.SetBrush(New wxBrush.CreateFromColour( ..
+				New wxColour.Create(255, 255, 184)))
+			dc.DrawRectangle(0, 0, till, 30)
+			
+		End If
 
-  int step = (int) round(width / 10.0);
+		dc.SetPen(New wxPen.CreateFromColour(New wxColour.Create(90, 80, 60)))
+		
+		For Local i:Int = 1 To num.length
+			dc.DrawLine(i * stepSize, 0, i * stepSize, 6)
+			dc.GetTextExtent(num[i-1], width, height)
+			dc.DrawText(num[i-1], i * stepsize - width/2, 8)
+		Next
 
+		dc.Free()
 
-  int till = (int) ((width / 750.0) * cur_width);
-  int full = (int) ((width / 750.0) * 700);
-
-
-  if (cur_width &gt;= 700) {
-
-      dc.SetPen(wxPen(wxColour(255, 255, 184))); 
-      dc.SetBrush(wxBrush(wxColour(255, 255, 184)));
-      dc.DrawRectangle(0, 0, full, 30);
-      dc.SetPen(wxPen(wxColour(255, 175, 175)));
-      dc.SetBrush(wxBrush(wxColour(255, 175, 175)));
-      dc.DrawRectangle(full, 0, till-full, 30);
-
-  } else { 
-
-      dc.SetPen(wxPen(wxColour(255, 255, 184)));
-      dc.SetBrush(wxBrush(wxColour(255, 255, 184)));
-      dc.DrawRectangle(0, 0, till, 30);
-
-  }
-
-  dc.SetPen(wxPen(wxColour(90, 80, 60)));
-  for ( int i=1; i &lt;= asize; i++ ) {
-
-  dc.DrawLine(i*step, 0, i*step, 6);
-  wxSize size = dc.GetTextExtent(wxString::Format(wxT("%d"), num[i-1]));
-  dc.DrawText(wxString::Format(wxT("%d"), num[i-1]), 
-      i*step-size.GetWidth()/2, 8);
-
-
-   }
-}
-
-void Widget::OnSize(wxSizeEvent&amp; event)
-{
-  Refresh();
-}
-
-
+	End Function
+ 
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">burning.h</div>
-#ifndef BURNING_H
-#define BURNING_H
+<pre class="code"><div class="codehead">burning.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxSlider
+ 
+Import "widget.bmx"
 
-#include &lt;wx/wx.h&gt;
-#include "widget.h"
+New MyApp.Run()
+ 
+Const ID_SLIDER:Int = 1
+ 
+Type MyApp Extends wxApp
 
-class Burning : public wxFrame
-{
-public:
-  Burning(const wxString&amp; title);
+	Method OnInit:Int()
+	
+		Local open:Burning = Burning(New Burning.Create(Null, ..
+			wxID_ANY, "The Burning Widget", -1, -1, 350, 200))
+		open.Show(True)
+ 
+		Return True
+	End Method
 
-  void OnScroll(wxScrollEvent&amp; event);
-  int GetCurWidth();
+End Type
 
-  
-  wxSlider *m_slider;
-  Widget *m_wid;
+Type Burning Extends wxFrame
+ 
+	Field m_slider:wxSlider
+	Field m_wid:Widget
 
-  int cur_width;
+	Method OnInit()
+ 
+		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
+		Local centerPanel:wxPanel = New wxPanel.Create(panel, wxID_ANY)
+		
+		m_slider = New wxSlider.Create(centerPanel, ID_SLIDER, 75, 0, 750, -1, -1, ..
+			150, -1, wxSL_LABELS)
+		
+		Local vbox:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+		Local hbox:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		Local hbox2:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		Local hbox3:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		
+		m_wid = New Widget.Create(panel, wxID_ANY)
+		m_wid.SetCurWidth(75)
 
-};
+		hbox.Add(m_wid, 1, wxEXPAND)
+		
+		hbox2.Add(centerPanel, 1, wxEXPAND)
+		hbox3.Add(m_slider, 0, wxTOP | wxLEFT, 35)
+		
+		centerPanel.SetSizer(hbox3)
+		
+		vbox.AddSizer(hbox2, 1, wxEXPAND)
+		vbox.AddSizer(hbox, 0, wxEXPAND)
+		
+		panel.SetSizer(vbox)
+		m_slider.SetFocus()
+		
+		Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, OnScroll)
+		
+		Centre()
+ 
+	End Method
+	
+	Function OnScroll(event:wxEvent)
+		Local frame:Burning = Burning(event.parent)
 
-#endif
+		frame.m_wid.SetCurWidth(frame.m_slider.GetValue())
+		frame.m_wid.Refresh()
+	End Function
 
-</pre>
-
-<pre class="code"><div class="codehead">burning.cpp</div>
-#include "burning.h"
-#include "widget.h"
-
-int ID_SLIDER = 1;
-
-Burning::Burning(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(350, 200))
-{
-
-  cur_width = 75;
-
-  wxPanel *panel = new wxPanel(this, wxID_ANY);
-  wxPanel *centerPanel = new wxPanel(panel, wxID_ANY);
-
-  m_slider = new wxSlider(centerPanel, ID_SLIDER, 75, 0, 750, wxPoint(-1, -1), 
-      wxSize(150, -1), wxSL_LABELS);
-
-  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
-  wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
-  wxBoxSizer *hbox2 = new wxBoxSizer(wxHORIZONTAL);
-  wxBoxSizer *hbox3 = new wxBoxSizer(wxHORIZONTAL);
-
-  m_wid = new Widget(panel, wxID_ANY);
-  hbox-&gt;Add(m_wid, 1, wxEXPAND);
-
-  hbox2-&gt;Add(centerPanel, 1, wxEXPAND);
-  hbox3-&gt;Add(m_slider, 0, wxTOP | wxLEFT, 35);
-
-  centerPanel-&gt;SetSizer(hbox3);
-
-  vbox-&gt;Add(hbox2, 1, wxEXPAND);
-  vbox-&gt;Add(hbox, 0, wxEXPAND);
-
-  panel-&gt;SetSizer(vbox);
-  m_slider-&gt;SetFocus();
-
-  Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, 
-      wxScrollEventHandler(Burning::OnScroll)); 
-
-  Centre();
-
-}
-
-void Burning::OnScroll(wxScrollEvent&amp; WXUNUSED(event))
-{
- cur_width = m_slider-&gt;GetValue();
- m_wid-&gt;Refresh();
-}
-
-
-int Burning::GetCurWidth() 
-{
- return cur_width;
-}
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "burning.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Burning *burning = new Burning(wxT("The Burning Widget"));
-    burning-&gt;Show(true);
-
-    return true;
-}
-
+End Type
 </pre>
 
 
@@ -278,11 +228,12 @@ If we reach value 700, we began drawing in red colour. This normally indicates o
 </p>
 
 
-<pre class="explanation"> wxSize size = GetSize();
- int width = size.GetWidth();
+<pre class="explanation">
+ Local width:Int, height:Int
+ panel.GetSize(width, height)
  ... 
- int till = (int) ((width / 750.0) * cur_width);
- int full = (int) ((width / 750.0) * 700);
+ Local till:Int = ((width / 750.0) * cur_width)
+ Local full:Int = ((width / 750.0) * 700)
 </pre>
 
 <p>We draw the widget dynamically. The greater the window, the greater
@@ -299,26 +250,38 @@ red and yellow rectangle. Then we draw the vertical lines, which divide
 the widget into several parts. Finally, we draw the numbers, which
 indicate the capacity of the medium. </p>
 
-<pre class="explanation">void Widget::OnSize(wxSizeEvent&amp; event)
-{
-  Refresh();
-}
+<pre class="explanation">
+Function OnSize(event:wxEvent)
+  Local panel:Widget = Widget(event.parent)
+  panel.Refresh()
+End Function
 </pre>
 
 <p>
 Every time the window is resized, we refresh the widget. This causes the widget to repaint itself.
 </p>
 
-
-<pre class="explanation">void Burning::OnScroll(wxScrollEvent&amp; WXUNUSED(event))
-{
- cur_width = m_slider-&gt;GetValue();
- m_wid-&gt;Refresh();
-}
+<pre class="explanation">
+dc.Free()
 </pre>
 
 <p>
-If we scroll the thumb of the slider, we get the actual value and save it into the <i>cur_width</i> variable. This value is used, when the burning widget is drawn. Then we cause the widget to be redrawn.
+Don't forget to Free() the device context when you are finished with it.
+</p>
+
+
+<pre class="explanation">
+Function OnScroll(event:wxEvent)
+  Local frame:Burning = Burning(event.parent)
+
+  frame.m_wid.SetCurWidth(frame.m_slider.GetValue())
+  frame.m_wid.Refresh()
+End Function
+</pre>
+
+<p>
+If we scroll the thumb of the slider, we get the actual value and save it into the <i>cur_width</i> variable.
+This value is used, when the burning widget is drawn. Then we cause the widget to be redrawn.
 </p>
 
 <br>
@@ -334,7 +297,8 @@ If we scroll the thumb of the slider, we get the actual value and save it into t
 </center>
 
 <div class="footer">
-<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span></div>
+<div class="signature"><span class="copyright">© 2007 Jan Bodnar</span><br>
+<span class="copyright"> Adapted for BlitzMax by Bruce A Henderson</span></div>
 </div>
 
 </div>
