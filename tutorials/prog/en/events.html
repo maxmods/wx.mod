@@ -47,115 +47,6 @@ looks for events to process them. A <b>dispatcher</b> is a process which maps ev
 <h3>A simple event example</h3>
 
 <p>
-The traditional way to work with events in wxWidgets is to use <b>static event tables.</b> This was influenced by 
-the MFC. A more flexible and modern way is to use the <b>Connect()</b> method. Because this way is superior to event tables, I use it throughout the wxWidgets tutorial.
-</p>
-
-
-<h4>Event table</h4>
-
-<p>
-In the next example, we show an example, where we use event tables. 
-</p>
-
-
-<pre class="code"><div class="codehead">button.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyButton : public wxFrame
-{
-public:
-    MyButton(const wxString&amp; title);
-
-    void OnQuit(wxCommandEvent&amp; event);
-
-private:
-    DECLARE_EVENT_TABLE()
-
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">button.cpp</div>
-#include "button.h"
-
-MyButton::MyButton(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(270, 150))
-{
-
-  wxPanel *panel = new wxPanel(this, wxID_ANY);
-  wxButton *button = new wxButton(panel, wxID_EXIT, 
-      wxT("Quit"), wxPoint(20, 20));
-
-  Centre();
-}
-
-void MyButton::OnQuit(wxCommandEvent&amp; WXUNUSED(event))
-{
-    Close(true);
-}
-
-BEGIN_EVENT_TABLE(MyButton, wxFrame)
-    EVT_BUTTON(wxID_EXIT,  MyButton::OnQuit)
-END_EVENT_TABLE()
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "button.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    MyButton *button = new MyButton(wxT("Button"));
-    button-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
-<br>
-
-<p>
-In our example we create a simple button. By clicking on the button, we close the 
-application. 
-</p>
-
-
-<pre class="explanation"> private:
-     DECLARE_EVENT_TABLE()
-</pre>
-
-<p>
-In the header file, we declare an event table with the DECLARE_EVENT_TABLE() macro.
-</p>
-
-<pre class="explanation"> BEGIN_EVENT_TABLE(MyButton, wxFrame)
-     EVT_BUTTON(wxID_EXIT,  MyButton::OnQuit)
- END_EVENT_TABLE()
-</pre>
-
-<p>
-We implement an event table by mapping each event to the appropriate member function.
-</p>
-
-
-<h4>Example using Connect()</h4>
-<p>
 We will talk about a move event.
 A move event holds information about move change events.
 A move event is generated, when we move a window to a new position. The class that represents the move event is <b>wxMoveEvent</b>. The <b>wxEVT_MOVE</b> is an event type.
@@ -238,18 +129,23 @@ bool MyApp::OnInit()
 The example displays the current position of the window.
 </p>
 
-<pre class="explanation">Connect(wxEVT_MOVE, wxMoveEventHandler(Move::OnMove));
+<pre class="explanation">ConnectAny(wxEVT_MOVE, OnMove)
 </pre>
 
 <p>
-Here we connect a <i>wxEVT_MOVE</i> event type with the <i>OnMove()</i> method.
+Here we connect a <i>wxEVT_MOVE</i> event type with the <i>OnMove()</i> function.
 </p>
 
-<pre class="explanation"> wxPoint size = event.GetPosition();
+<pre class="explanation">Local width:Int, height:Int
+wxMoveEvent(event).GetPosition(width, height)
 </pre>
 
 <p>
-The event parameter in the <i>OnMove()</i> method is an object specific to a particular event. In our case it is the instance of a <i>wxMoveEvent</i> class. This object holds information about the event. We can find out the current position by calling the <i>GetPosition()</i> method of the event.
+The event parameter in the <i>OnMove()</i> function is an object specific to a particular event.
+In our case it is the instance of a <i>wxMoveEvent</i> type. Due to limitations of BlitzMax, the parameter
+must be declared as a wxEvent type, which we can cast to the correct type.
+This object holds information about the event.
+We can find out the current position by calling the <i>GetPosition()</i> method of the event.
 </p>
 
 <br>
@@ -264,7 +160,8 @@ The event parameter in the <i>OnMove()</i> method is an object specific to a par
 There are two types of events. Basic events and command events. They
 differ in propagation. Event propagation is travelling of events from
 child widgets to parent widgets and grand parent widgets etc. Basic
-events do not propagate. Command events do propagate. For example <i>wxCloseEvent</i> is a basic event. It does not make sense for this event to propagate to parent widgets. 
+events do not propagate. Command events do propagate. For example <i>wxCloseEvent</i> is a basic event.
+It does not make sense for this event to propagate to parent widgets. 
 </p>
 
 <p>

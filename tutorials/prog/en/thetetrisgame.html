@@ -69,529 +69,511 @@ Some ideas behind the game.
 
 <br>
 
-<pre class="code"><div class="codehead">Shape.h</div>
-#ifndef SHAPE_H
-#define SHAPE_H
-
-enum Tetrominoes { NoShape, ZShape, SShape, LineShape, 
-                  TShape, SquareShape, LShape, MirroredLShape };
-
-class Shape
-{
-public:
-    Shape() { SetShape(NoShape); }
-    void SetShape(Tetrominoes shape);
-    void SetRandomShape();
-
-    Tetrominoes GetShape() const { return pieceShape; }
-    int x(int index) const { return coords[index][0]; }
-    int y(int index) const { return coords[index][1]; }
-
-    int MinX() const;
-    int MaxX() const;
-    int MinY() const;
-    int MaxY() const;
-
-    Shape RotateLeft() const;
-    Shape RotateRight() const;
-
-private:
-    void SetX(int index, int x) { coords[index][0] = x; }
-    void SetY(int index, int y) { coords[index][1] = y; }
-    Tetrominoes pieceShape;
-    int coords[4][2];
-};
-
-#endif
-</pre>
-
-<pre class="code"><div class="codehead">Shape.cpp</div>
-#include &lt;stdlib.h&gt;
-#include &lt;algorithm&gt;
-#include "Shape.h"
-
-using namespace std;
-
-void Shape::SetShape(Tetrominoes shape)
-{
-    static const int coordsTable[8][4][2] = {
-        { { 0, 0 },   { 0, 0 },   { 0, 0 },   { 0, 0 } },
-        { { 0, -1 },  { 0, 0 },   { -1, 0 },  { -1, 1 } },
-        { { 0, -1 },  { 0, 0 },   { 1, 0 },   { 1, 1 } },
-        { { 0, -1 },  { 0, 0 },   { 0, 1 },   { 0, 2 } },
-        { { -1, 0 },  { 0, 0 },   { 1, 0 },   { 0, 1 } },
-        { { 0, 0 },   { 1, 0 },   { 0, 1 },   { 1, 1 } },
-        { { -1, -1 }, { 0, -1 },  { 0, 0 },   { 0, 1 } },
-        { { 1, -1 },  { 0, -1 },  { 0, 0 },   { 0, 1 } }
-    };
-
-    for (int i = 0; i &lt; 4 ; i++) {
-        for (int j = 0; j &lt; 2; ++j)
-            coords[i][j] = coordsTable[shape][i][j];
-    }
-    pieceShape = shape;
-}
-
-
-
-void Shape::SetRandomShape()
-{
-  int x = rand() % 7 + 1;
-  SetShape(Tetrominoes(x));
-}
-
-int Shape::MinX() const
-{
-  int m = coords[0][0];
-  for (int i=0; i&lt;4; i++) {
-      m = min(m, coords[i][0]);
-  }
-  return m;
-}
-
-int Shape::MaxX() const
-{
-  int m = coords[0][0];
-  for (int i=0; i&lt;4; i++) {
-      m = max(m, coords[i][0]);
-  }
-  return m;
-}
-
-int Shape::MinY() const
-{
-  int m = coords[0][1];
-  for (int i=0; i&lt;4; i++) {
-      m = min(m, coords[i][1]);
-  }
-  return m;
-}
-
-int Shape::MaxY() const
-{
-  int m = coords[0][1];
-  for (int i=0; i&lt;4; i++) {
-      m = max(m, coords[i][1]);
-  }
-  return m;
-}
-
-Shape Shape::RotateLeft() const
-{
-    if (pieceShape == SquareShape)
-        return *this;
-
-    Shape result;
-    result.pieceShape = pieceShape;
-    for (int i = 0; i &lt; 4; ++i) {
-        result.SetX(i, y(i));
-        result.SetY(i, -x(i));
-    }
-    return result;
-}
-
-Shape Shape::RotateRight() const
-{
-    if (pieceShape == SquareShape)
-        return *this;
-
-    Shape result;
-    result.pieceShape = pieceShape;
-    for (int i = 0; i &lt; 4; ++i) {
-        result.SetX(i, -y(i));
-        result.SetY(i, x(i));
-    }
-    return result;
-}
-</pre>
-
-<pre class="code"><div class="codehead">Board.h</div>
-#ifndef BOARD_H
-#define BOARD_H
-
-#include "Shape.h"
-#include &lt;wx/wx.h&gt;
-
-class Board : public wxPanel
-{
-
-public:
-    Board(wxFrame *parent);
-    void Start();
-    void Pause();
-    void linesRemovedChanged(int numLines);
-
-protected:
-    void OnPaint(wxPaintEvent&amp; event);
-    void OnKeyDown(wxKeyEvent&amp; event);
-    void OnTimer(wxCommandEvent&amp; event);
-
-private:
-    enum { BoardWidth = 10, BoardHeight = 22 };
-
-    Tetrominoes &amp; ShapeAt(int x, int y) { return board[(y * BoardWidth) + x]; }
-
-    int SquareWidth() { return GetClientSize().GetWidth() / BoardWidth; }
-    int SquareHeight() { return GetClientSize().GetHeight() / BoardHeight; }
-    void ClearBoard();
-    void DropDown();
-    void OneLineDown();
-    void PieceDropped();
-    void RemoveFullLines();
-    void NewPiece();
-    bool TryMove(const Shape&amp; newPiece, int newX, int newY);
-    void DrawSquare(wxPaintDC &amp;dc, int x, int y, Tetrominoes shape);
-
-    wxTimer *timer;
-    bool isStarted;
-    bool isPaused;
-    bool isFallingFinished;
-    Shape curPiece;
-    int curX;
-    int curY;
-    int numLinesRemoved;
-    Tetrominoes board[BoardWidth * BoardHeight];
-    wxStatusBar *m_stsbar;
-};
-
-#endif
-</pre>
-
-<pre class="code"><div class="codehead">Board.cpp</div>
-#include "Board.h"
-
-Board::Board(wxFrame *parent)
-       : wxPanel(parent, wxID_ANY, wxDefaultPosition,
-             wxDefaultSize, wxBORDER_NONE)
-{
-    timer = new wxTimer(this, 1);
-
-    m_stsbar = parent-&gt;GetStatusBar();
-    isFallingFinished = false;
-    isStarted = false;
-    isPaused = false;
-    numLinesRemoved = 0;
-    curX = 0;
-    curY = 0;
-
-    ClearBoard();  
-
-    Connect(wxEVT_PAINT, wxPaintEventHandler(Board::OnPaint));
-    Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(Board::OnKeyDown));
-    Connect(wxEVT_TIMER, wxCommandEventHandler(Board::OnTimer));
-}
-
-
-void Board::Start()
-{
-    if (isPaused)
-        return;
-
-    isStarted = true;
-    isFallingFinished = false;
-    numLinesRemoved = 0;
-    ClearBoard();
-
-    NewPiece();
-    timer-&gt;Start(300);
-}
-
-void Board::Pause()
-{
-    if (!isStarted)
-        return;
-
-    isPaused = !isPaused;
-    if (isPaused) {
-        timer-&gt;Stop();
-        m_stsbar-&gt;SetStatusText(wxT("paused"));
-    } else {
-        timer-&gt;Start(300);
-        wxString str;
-        str.Printf(wxT("%d"), numLinesRemoved);
-        m_stsbar-&gt;SetStatusText(str);
-    }
-    Refresh();
-}
-
-void Board::OnPaint(wxPaintEvent&amp; event)
-{
-    wxPaintDC dc(this);
-
-    wxSize size = GetClientSize();
-    int boardTop = size.GetHeight() - BoardHeight * SquareHeight();
-
-
-    for (int i = 0; i &lt; BoardHeight; ++i) {
-        for (int j = 0; j &lt; BoardWidth; ++j) {
-            Tetrominoes shape = ShapeAt(j, BoardHeight - i - 1);
-            if (shape != NoShape)
-                DrawSquare(dc, 0 + j * SquareWidth(),
-                           boardTop + i * SquareHeight(), shape);
-        }
-    }
-
-    if (curPiece.GetShape() != NoShape) {
-        for (int i = 0; i &lt; 4; ++i) {
-            int x = curX + curPiece.x(i);
-            int y = curY - curPiece.y(i);
-            DrawSquare(dc, 0 + x * SquareWidth(),
-                       boardTop + (BoardHeight - y - 1) * SquareHeight(),
-                       curPiece.GetShape());
-        }
-    }
-}
-
-void Board::OnKeyDown(wxKeyEvent&amp; event)
-{
-    if (!isStarted || curPiece.GetShape() == NoShape) {  
-        event.Skip();
-        return;
-    }
-
-    int keycode = event.GetKeyCode();
-
-    if (keycode == 'p' || keycode == 'P') {
-	Pause();
-        return;
-    }
-
-    if (isPaused)
-        return;
-
-    switch (keycode) {
-    case WXK_LEFT:
-        TryMove(curPiece, curX - 1, curY);
-        break;
-    case WXK_RIGHT:
-        TryMove(curPiece, curX + 1, curY);
-        break;
-    case WXK_DOWN:
-        TryMove(curPiece.RotateRight(), curX, curY);
-        break;
-    case WXK_UP:
-        TryMove(curPiece.RotateLeft(), curX, curY);
-        break;
-    case WXK_SPACE:
-        DropDown();
-        break;
-    case 'd':
-        OneLineDown();
-        break;
-    case 'D':
-        OneLineDown();
-        break;
-    default:
-        event.Skip();
-    }
-
-}
-
-void Board::OnTimer(wxCommandEvent&amp; event)
-{
-    if (isFallingFinished) {
-        isFallingFinished = false;
-        NewPiece();
-    } else {
-        OneLineDown();
-    }
-}
-
-void Board::ClearBoard()
-{
-    for (int i = 0; i &lt; BoardHeight * BoardWidth; ++i)
-        board[i] = NoShape;
-}
-
-void Board::DropDown()
-{
-    int newY = curY;
-    while (newY &gt; 0) {
-        if (!TryMove(curPiece, curX, newY - 1))
-            break;
-        --newY;
-    }
-    PieceDropped();
-}
-
-void Board::OneLineDown()
-{
-    if (!TryMove(curPiece, curX, curY - 1))
-        PieceDropped();
-}
-
-void Board::PieceDropped()
-{
-    for (int i = 0; i &lt; 4; ++i) {
-        int x = curX + curPiece.x(i);
-        int y = curY - curPiece.y(i);
-        ShapeAt(x, y) = curPiece.GetShape();
-    }
-
-    RemoveFullLines();
-
-    if (!isFallingFinished)
-        NewPiece();
-}
-
-void Board::RemoveFullLines()
-{
-     int numFullLines = 0;
-
-     for (int i = BoardHeight - 1; i &gt;= 0; --i) {
-         bool lineIsFull = true;
-
-         for (int j = 0; j &lt; BoardWidth; ++j) {
-             if (ShapeAt(j, i) == NoShape) {
-                 lineIsFull = false;
-                 break;
-             }
-         }
-
-         if (lineIsFull) {
-             ++numFullLines;
-             for (int k = i; k &lt; BoardHeight - 1; ++k) {
-                 for (int j = 0; j &lt; BoardWidth; ++j)
-                     ShapeAt(j, k) = ShapeAt(j, k + 1);
-             }
-         }
-     }
-
-     if (numFullLines &gt; 0) {
-         numLinesRemoved += numFullLines;
-         wxString str;
-	 str.Printf(wxT("%d"), numLinesRemoved);
-         m_stsbar-&gt;SetStatusText(str);
-
-         isFallingFinished = true;
-         curPiece.SetShape(NoShape);
-         Refresh();
-     }
- }
-
-void Board::NewPiece()
-{
-    curPiece.SetRandomShape();
-    curX = BoardWidth / 2 + 1;
-    curY = BoardHeight - 1 + curPiece.MinY();
-
-    if (!TryMove(curPiece, curX, curY)) {
-        curPiece.SetShape(NoShape);
-        timer-&gt;Stop();
-        isStarted = false;
-        m_stsbar-&gt;SetStatusText(wxT("game over"));
-    }
-}
-
-bool Board::TryMove(const Shape&amp; newPiece, int newX, int newY)
-{
-    for (int i = 0; i &lt; 4; ++i) {
-        int x = newX + newPiece.x(i);
-        int y = newY - newPiece.y(i);
-        if (x &lt; 0 || x &gt;= BoardWidth || y &lt; 0 || y &gt;= BoardHeight)
-            return false;
-        if (ShapeAt(x, y) != NoShape)
-            return false;
-    }
-
-    curPiece = newPiece;
-    curX = newX;
-    curY = newY;
-    Refresh();
-    return true;
-}
-
-void Board::DrawSquare(wxPaintDC&amp; dc, int x, int y, Tetrominoes shape)
-{
-    static wxColour colors[] = { wxColour(0, 0, 0), wxColour(204, 102, 102), 
-             wxColour(102, 204, 102), wxColour(102, 102, 204), wxColour(204, 204, 102), 
-             wxColour(204, 102, 204), wxColour(102, 204, 204), wxColour(218, 170, 0) };
-
-    static wxColour light[] = { wxColour(0, 0, 0), wxColour(248, 159, 171),
-             wxColour(121, 252, 121), wxColour(121, 121, 252), wxColour(252, 252, 121), 
-             wxColour(252, 121, 252), wxColour(121, 252, 252), wxColour(252, 198, 0) };
-
-    static wxColour dark[] = { wxColour(0, 0, 0), wxColour(128, 59, 59), wxColour(59, 128, 59), 
-             wxColour(59, 59, 128), wxColour(128, 128, 59), wxColour(128, 59, 128), 
-             wxColour(59, 128, 128), wxColour(128, 98, 0) };
-
-
-    wxPen pen(light[int(shape)]);
-    pen.SetCap(wxCAP_PROJECTING);
-    dc.SetPen(pen);
-
-    dc.DrawLine(x, y + SquareHeight() - 1, x, y);
-    dc.DrawLine(x, y, x + SquareWidth() - 1, y);
-
-    wxPen darkpen(dark[int(shape)]);
-    darkpen.SetCap(wxCAP_PROJECTING);
-    dc.SetPen(darkpen);
-
-    dc.DrawLine(x + 1, y + SquareHeight() - 1,
-        x + SquareWidth() - 1, y + SquareHeight() - 1);
-    dc.DrawLine(x + SquareWidth() - 1, 
-        y + SquareHeight() - 1, x + SquareWidth() - 1, y + 1);
-
-    dc.SetPen(*wxTRANSPARENT_PEN);
-    dc.SetBrush(wxBrush(colors[int(shape)])); 
-    dc.DrawRectangle(x + 1, y + 1, SquareWidth() - 2, 
-        SquareHeight() - 2);
-}
-</pre>
-
-<pre class="code"><div class="codehead">Tetris.h</div>
-#include &lt;wx/wx.h&gt;
-
-class Tetris : public wxFrame
-{
-public:
-    Tetris(const wxString&amp; title);
-
-};
-</pre>
-
-<pre class="code"><div class="codehead">Tetris.cpp</div>
-#include "Tetris.h"
-#include "Board.h"
-
-Tetris::Tetris(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(180, 380))
-{
-  wxStatusBar *sb = CreateStatusBar();
-  sb-&gt;SetStatusText(wxT("0"));
-  Board *board = new Board(this);
-  board-&gt;SetFocus();
-  board-&gt;Start();
-}
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-
-};
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "Tetris.h"
-
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-    srand(time(NULL));
-    Tetris *tetris = new Tetris(wxT("Tetris"));
-    tetris-&gt;Centre();
-    tetris-&gt;Show(true);
-
-    return true;
-}
+<pre class="code"><div class="codehead">tetris.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+Import wx.wxTimer
+Import BRL.Random
+
+Const NoShape:Int = 0
+Const ZShape:Int = 1
+Const SShape:Int = 2
+Const LineShape:Int = 3
+Const TShape:Int = 4
+Const SquareShape:Int = 5
+Const LShape:Int = 6
+Const MirroredLShape:Int = 7
+
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
+
+	Method OnInit:Int()
+	
+		SeedRnd(MilliSecs())
+	
+		Local tet:Tetris = Tetris(New Tetris.Create(Null, wxID_ANY, ..
+			"Tetris", -1, -1, 180, 380))
+		tet.Centre()
+		tet.Show(True)
+ 
+		Return True
+	End Method
+
+End Type
+
+Type Tetris Extends wxFrame
+ 
+	Method OnInit()
+		
+		Local sb:wxStatusBar = CreateStatusBar()
+		sb.SetStatusText("0")
+		
+		Local brd:Board = Board(New Board.Create(Self,,,,,,wxWANTS_CHARS))
+		brd.SetFocus()
+		brd.Start()
+ 
+	End Method
+	
+End Type
+
+
+Type Board Extends wxPanel
+
+	Field timer:wxTimer
+	
+	Field isStarted:Int
+	Field isPaused:Int
+	Field isFallingFinished:Int
+	Field curPiece:Shape = New Shape
+	Field curX:Int
+	Field curY:Int
+	Field numLinesRemoved:Int
+	Field theBoard:Int[] = New Int[BoardWidth * BoardHeight]
+	Field m_stsbar:wxStatusBar
+
+
+	Method OnInit()
+		timer = New wxTimer.Create(Self, 1)
+		
+		m_stsbar = wxFrame(GetParent()).GetStatusBar()
+		isFallingFinished = False
+		isStarted = False
+		isPaused = False
+		numLinesRemoved = 0
+		curX = 0
+		curY = 0
+		
+		ClearBoard()
+		
+		ConnectAny(wxEVT_PAINT, _OnPaint)
+		ConnectAny(wxEVT_KEY_DOWN, _OnKeyDown)
+		ConnectAny(wxEVT_TIMER, _OnTimer)
+	End Method
+	
+	Const BoardWidth:Int = 10
+	Const BoardHeight:Int = 22
+
+	Method ShapeAt:Int(x:Int, y:Int)
+		Return theBoard[(y * BoardWidth) + x]
+	End Method
+
+	Method SetShapeAt(x:Int, y:Int, shape:Int)
+		theBoard[(y * BoardWidth) + x] = shape
+	End Method
+	
+	Method SquareWidth:Int()
+		Local width:Int, height:Int
+		GetClientSize(width, height)
+		Return width / BoardWidth
+	End Method
+	
+	Method SquareHeight:Int()
+		Local width:Int, height:Int
+		GetClientSize(width, height)
+		Return height / BoardHeight
+	End Method
+	
+	Method Start()
+		If isPaused Then
+			Return
+		End If
+	
+		isStarted = True
+		isFallingFinished = False
+		numLinesRemoved = 0
+		ClearBoard()
+		
+		NewPiece()
+		timer.Start(300)
+	End Method
+	
+	Method Pause()
+		If Not isStarted Then
+			Return
+		End If
+	
+		isPaused = Not isPaused
+		If isPaused Then
+			timer.Stop()
+			m_stsbar.SetStatusText("paused")
+		Else
+			timer.Start(300)
+			m_stsbar.SetStatusText(numLinesRemoved)
+		End If
+		Refresh()
+	End Method
+	
+	Function _OnPaint(event:wxEvent)
+		Board(event.parent).OnPaint(wxPaintEvent(event))
+	End Function
+	
+	Method OnPaint(event:wxPaintEvent)
+		Local dc:wxPaintDC = New wxPaintDC.Create(Self)
+		
+		Local width:Int, height:Int
+		GetClientSize(width, height)
+		
+		Local boardTop:Int = height - BoardHeight * SquareHeight()
+		
+		
+		For Local i:Int = 0 Until BoardHeight
+			For Local j:Int = 0 Until BoardWidth
+				Local shape:Int = ShapeAt(j, BoardHeight - i - 1)
+				If shape &lt;&gt; NoShape Then
+					DrawSquare(dc, 0 + j * SquareWidth(), ..
+						boardTop + i * SquareHeight(), shape)
+				End If
+			Next
+		Next
+		
+		If curPiece.GetShape() &lt;&gt; NoShape Then
+			For Local i:Int = 0 Until 4
+				Local x:Int = curX + curPiece.x(i)
+				Local y:Int = curY - curPiece.y(i)
+				DrawSquare(dc, 0 + x * SquareWidth(), boardTop + ..
+					(BoardHeight - y - 1) * SquareHeight(), ..
+					curPiece.GetShape())
+			Next
+		End If
+		
+		dc.Free()
+	End Method
+	
+	Function _OnKeyDown(event:wxEvent)
+		Board(event.parent).OnKeyDown(wxKeyEvent(event))
+	End Function
+	
+	Method OnKeyDown(event:wxKeyEvent)
+
+		If Not isStarted Or curPiece.GetShape() = NoShape Then
+			event.Skip()
+			Return
+		End If
+		
+		Local keycode:Int = event.GetKeyCode()
+		
+		If keycode = Asc("p") Or keycode = Asc("P") Then
+			Pause()
+			Return
+		End If
+		
+		If isPaused Then
+			Return
+		End If
+		
+		Select keycode
+			Case WXK_LEFT
+				TryMove(curPiece, curX - 1, curY)
+			Case WXK_RIGHT
+				TryMove(curPiece, curX + 1, curY)
+			Case WXK_DOWN
+				TryMove(curPiece.RotateRight(), curX, curY)
+			Case WXK_UP
+				TryMove(curPiece.RotateLeft(), curX, curY)
+			Case WXK_SPACE
+				DropDown()
+			Case Asc("d"), Asc("D")
+				OneLineDown()
+			Default
+				event.Skip()
+		End Select
+	
+	End Method
+	
+	Function _OnTimer(event:wxEvent)
+		Board(event.parent).OnTimer(wxTimerEvent(event))
+	End Function
+	
+	Method OnTimer(event:wxTimerEvent)
+		If isFallingFinished Then
+			isFallingFinished = False
+			NewPiece()
+		Else
+			OneLineDown()
+		End If
+	End Method
+	
+	Method ClearBoard()
+		For Local i:Int = 0 Until BoardHeight * BoardWidth
+			theBoard[i] = NoShape
+		Next
+	End Method
+	
+	Method DropDown()
+		Local newY:Int = curY
+		While newY &gt; 0
+			If Not TryMove(curPiece, curX, newY - 1)
+				Exit
+			End If
+			newY:- 1
+		Wend
+		PieceDropped()
+	End Method
+	
+	Method OneLineDown()
+		If Not TryMove(curPiece, curX, curY - 1) Then
+			PieceDropped()
+		End If
+	End Method
+	
+	Method PieceDropped()
+		For Local i:Int = 0 Until 4
+			Local x:Int = curX + curPiece.x(i)
+			Local y:Int = curY - curPiece.y(i)
+			SetShapeAt(x, y, curPiece.GetShape())
+		Next
+		
+		RemoveFullLines()
+		
+		If Not isFallingFinished Then
+			NewPiece()
+		End If
+	End Method
+		
+	Method RemoveFullLines()
+		Local numFullLines:Int = 0
+		
+		For Local i:Int = BoardHeight - 1 To 0 Step - 1
+			Local lineIsFull:Int = True
+		
+			For Local j:Int = 0 Until BoardWidth
+				If ShapeAt(j, i) = NoShape Then
+					lineIsFull = False
+					Exit
+				End If
+			Next
+		
+			If lineIsFull Then
+				numFullLines:+ 1
+				For Local k:Int = i Until BoardHeight - 1
+					For Local j:Int = 0 Until BoardWidth
+						SetShapeAt(j, k, ShapeAt(j, k + 1))
+					Next
+				Next
+			End If
+		Next
+		
+		If numFullLines &gt; 0 Then
+			numLinesRemoved :+ numFullLines
+			m_stsbar.SetStatusText(numLinesRemoved)
+		
+			isFallingFinished = True
+			curPiece.SetShape(NoShape)
+			Refresh()
+		End If
+	End Method
+	
+	Method NewPiece()
+		curPiece.SetRandomShape()
+		curX = BoardWidth / 2 + 1
+		curY = BoardHeight - 1 + curPiece.MinY()
+		
+		If Not TryMove(curPiece, curX, curY)
+			curPiece.SetShape(NoShape)
+			timer.Stop()
+			isStarted = False
+			m_stsbar.SetStatusText("game over")
+		End If
+	End Method
+	
+	Method TryMove:Int(newPiece:Shape, newX:Int, newY:Int)
+		For Local i:Int = 0 Until 4
+			Local x:Int = newX + newPiece.x(i)
+			Local y:Int = newY - newPiece.y(i)
+			If x &lt; 0 Or x &gt;= BoardWidth Or y &lt; 0 Or y &gt;= BoardHeight Then
+				Return False
+			End If
+			If ShapeAt(x, y) &lt;&gt; NoShape Then
+				Return False
+			End If
+		Next
+		
+		curPiece = newPiece
+		curX = newX
+		curY = newY
+		Refresh()
+		Return True
+	End Method
+	
+	Method DrawSquare(dc:wxPaintDC, x:Int, y:Int, shape:Int)
+	
+		Global colors:wxColour [] = [ ..
+			New wxColour.Create(0, 0, 0), ..
+			New wxColour.Create(204, 102, 102), ..
+			New wxColour.Create(102, 204, 102), ..
+			New wxColour.Create(102, 102, 204), ..
+			New wxColour.Create(204, 204, 102), ..
+			New wxColour.Create(204, 102, 204), ..
+			New wxColour.Create(102, 204, 204), ..
+			New wxColour.Create(218, 170, 0) ]
+		
+		Global light:wxColour[] = [ ..
+			New wxColour.Create(0, 0, 0), ..
+			New wxColour.Create(248, 159, 171), ..
+			New wxColour.Create(121, 252, 121), ..
+			New wxColour.Create(121, 121, 252), ..
+			New wxColour.Create(252, 252, 121), ..
+			New wxColour.Create(252, 121, 252), ..
+			New wxColour.Create(121, 252, 252), ..
+			New wxColour.Create(252, 198, 0) ]
+		
+		Global dark:wxColour[] = [ ..
+			New wxColour.Create(0, 0, 0), ..
+			New wxColour.Create(128, 59, 59), ..
+			New wxColour.Create(59, 128, 59), ..
+			New wxColour.Create(59, 59, 128), ..
+			New wxColour.Create(128, 128, 59), ..
+			New wxColour.Create(128, 59, 128), ..
+			New wxColour.Create(59, 128, 128), ..
+			New wxColour.Create(128, 98, 0) ]
+		
+		
+		Local pen:wxPen = New wxPen.CreateFromColour(light[shape])
+		pen.SetCap(wxCAP_PROJECTING)
+		dc.SetPen(pen)
+		
+		dc.DrawLine(x, y + SquareHeight() - 1, x, y)
+		dc.DrawLine(x, y, x + SquareWidth() - 1, y)
+		
+		Local darkpen:wxPen = New wxPen.CreateFromColour(dark[Int(shape)])
+		darkpen.SetCap(wxCAP_PROJECTING)
+		dc.SetPen(darkpen)
+		
+		dc.DrawLine(x + 1, y + SquareHeight() - 1, x + SquareWidth() - 1, ..
+			y + SquareHeight() - 1)
+		dc.DrawLine(x + SquareWidth() - 1, y + SquareHeight() - 1, ..
+			x + SquareWidth() - 1, y + 1)
+		
+		dc.SetPen(wxTRANSPARENT_PEN())
+		dc.SetBrush(New wxBrush.CreateFromColour(colors[shape])) 
+		dc.DrawRectangle(x + 1, y + 1, SquareWidth() - 2, SquareHeight() - 2)
+	End Method
+	
+End Type
+
+
+
+Type Shape
+
+    Global coordsTable:Int[][][] = [ ..
+        [ [ 0, 0 ],   [ 0, 0 ],   [ 0, 0 ],   [ 0, 0 ] ], ..
+        [ [ 0, -1 ],  [ 0, 0 ],   [ -1, 0 ],  [ -1, 1 ] ], ..
+        [ [ 0, -1 ],  [ 0, 0 ],   [ 1, 0 ],   [ 1, 1 ] ], ..
+        [ [ 0, -1 ],  [ 0, 0 ],   [ 0, 1 ],   [ 0, 2 ] ], ..
+        [ [ -1, 0 ],  [ 0, 0 ],   [ 1, 0 ],   [ 0, 1 ] ], ..
+        [ [ 0, 0 ],   [ 1, 0 ],   [ 0, 1 ],   [ 1, 1 ] ], ..
+        [ [ -1, -1 ], [ 0, -1 ],  [ 0, 0 ],   [ 0, 1 ] ], ..
+        [ [ 1, -1 ],  [ 0, -1 ],  [ 0, 0 ],   [ 0, 1 ] ] ..
+    ]
+
+	Field pieceShape:Int
+	Field coords:Int[][] = [ [0,0], [0,0], [0,0], [0,0] ]
+	
+	Method New()
+		SetShape(NoShape)
+	End Method
+	
+	Method SetShape(shape:Int)
+		For Local i:Int = 0 Until 4
+			For Local j:Int = 0 Until 2
+				coords[i][j] = coordsTable[shape][i][j]
+			Next
+		Next
+		pieceShape = shape
+	End Method
+	
+	Method SetRandomShape()
+		Local x:Int = Rand(0, 21) Mod 7 + 1
+		SetShape(x)
+	End Method
+	
+	Method GetShape:Int()
+		Return pieceShape
+	End Method
+	
+	Method x:Int(index:Int)
+		Return coords[index][0]
+	End Method
+	
+	Method y:Int(index:Int)
+		Return coords[index][1]
+	End Method
+	
+	Method MinX:Int()
+		Local m:Int = coords[0][0]
+		For Local i:Int = 0 Until 4
+			m = Min(m, coords[i][0])
+		Next
+		Return m
+	End Method
+
+	Method MaxX:Int()
+		Local m:Int = coords[0][0]
+		For Local i:Int = 0 Until 4
+			m = Max(m, coords[i][0])
+		Next
+		Return m
+	End Method
+	
+	Method MinY:Int()
+		Local m:Int = coords[0][1]
+		For Local i:Int = 0 Until 4
+			m = Min(m, coords[i][1])
+		Next
+		Return m
+	End Method
+
+	Method MaxY:Int()
+		Local m:Int = coords[0][1]
+		For Local i:Int = 0 Until 4
+			m = Max(m, coords[i][1])
+		Next
+		Return m
+	End Method
+	
+	Method RotateLeft:Shape()
+		If pieceShape = SquareShape Then
+			Return Self
+		End If
+		
+		Local result:Shape = New Shape
+		result.pieceShape = pieceShape
+		
+		For Local i:Int = 0 Until 4
+			result.SetX(i, y(i))
+			result.SetY(i, -x(i))
+		Next
+		Return result
+	End Method
+	
+	Method RotateRight:Shape()
+		If pieceShape = SquareShape Then
+			Return Self
+		End If
+		
+		Local result:Shape = New Shape
+		result.pieceShape = pieceShape
+		
+		For Local i:Int = 0 Until 4
+			result.SetX(i, -y(i))
+			result.SetY(i, x(i))
+		Next
+		Return result
+	End Method
+	
+	Method SetX(index:Int, x:Int)
+		coords[index][0] = x
+	End Method
+	
+	Method SetY(index:Int, y:Int)
+		coords[index][1] = y
+	End Method
+
+End Type
 </pre>
 
 <br>
@@ -607,12 +589,12 @@ of lines, that we have removed.
 </p>
 
 <pre class="explanation"> ...
- isFallingFinished = false;
- isStarted = false;
- isPaused = false;
- numLinesRemoved = 0;
- curX = 0;
- curY = 0;
+ isFallingFinished = False
+ isStarted = False
+ isPaused = False
+ numLinesRemoved = 0
+ curX = 0
+ curY = 0
  ...
 </pre>
 
@@ -622,14 +604,15 @@ tetris shape has finished falling and we then need to create a new shape. The <b
 </p>
 
 
-<pre class="explanation"> for (int i = 0; i &lt; BoardHeight; ++i) {
-     for (int j = 0; j &lt; BoardWidth; ++j) {
-         Tetrominoes shape = ShapeAt(j, BoardHeight - i - 1);
-         if (shape != NoShape)
-             DrawSquare(dc, 0 + j * SquareWidth(),
-                        boardTop + i * SquareHeight(), shape);
-     }
- }
+<pre class="explanation"> For Local i:Int = 0 Until BoardHeight
+     For Local j:Int = 0 Until BoardWidth
+         Local shape:int = ShapeAt(j, BoardHeight - i - 1)
+         If shape <> NoShape Then
+             DrawSquare(dc, 0 + j * SquareWidth(), ..
+                        boardTop + i * SquareHeight(), shape)
+         End If
+     Next
+ Next
 </pre>
 
 <p>The painting of the game is divided into two steps. In the first
@@ -638,15 +621,15 @@ dropped to the bottom of the board. All the squares are rememberd in
 the <b>board</b> array. We access it using the <b>ShapeAt()</b> method.
 </p>
 
-<pre class="explanation"> if (curPiece.GetShape() != NoShape) {
-     for (int i = 0; i &lt; 4; ++i) {
-         int x = curX + curPiece.x(i);
-         int y = curY - curPiece.y(i);
-         DrawSquare(dc, 0 + x * SquareWidth(),
-                    boardTop + (BoardHeight - y - 1) * SquareHeight(),
-                    curPiece.GetShape());
-     }
- }
+<pre class="explanation"> If curPiece.GetShape() &lt;&gt; NoShape Then
+     For Local i:Int = 0 Until 4
+         Local x:Int = curX + curPiece.x(i)
+         Local y:Int = curY - curPiece.y(i)
+         DrawSquare(dc, 0 + x * SquareWidth(), boardTop + ..
+                 (BoardHeight - y - 1) * SquareHeight(), ..
+                 curPiece.GetShape());
+     Next
+ End If
 </pre>
 
 <p>
@@ -654,47 +637,45 @@ The next step is drawing of the actual piece, that is falling down.
 </p>
 
 <pre class="explanation"> ...
- switch (keycode) {
- case WXK_LEFT:
-     TryMove(curPiece, curX - 1, curY);
-     break;
+ Select keycode
+ Case WXK_LEFT
+     TryMove(curPiece, curX - 1, curY)
  ...
 </pre>
 
 <p>
-In the <b>Board::OnKeyDown()</b> method we check for pressed keys.
+In the <b>OnKeyDown()</b> method we check for pressed keys.
 If we press the left arrow key, we try to move the piece to the left.
 We say try, because the piece might not be able to move.
 </p>
 
 
-<pre class="explanation">void Board::OnTimer(wxCommandEvent&amp; event)
-{
-    if (isFallingFinished) {
-        isFallingFinished = false;
-        NewPiece();
-    } else {
-        OneLineDown();
-    }
-}
+<pre class="explanation">Method OnTimer(event:wxTimerEvent)
+    If isFallingFinished Then
+        isFallingFinished = False
+        NewPiece()
+    Else
+        OneLineDown()
+    End If
+End Method
 </pre>
 
 <p>
-In the <b>Board::OnTimer()</b> method we either create a new piece,
+In the <b>OnTimer()</b> method we either create a new piece,
 after the previous one was dropped to the bottom, or we move a falling
 piece one line down.
 </p>
 
-<pre class="explanation">void Board::DropDown()
-{
-    int newY = curY;
-    while (newY &gt; 0) {
-        if (!TryMove(curPiece, curX, newY - 1))
-            break;
-        --newY;
-    }
-    PieceDropped();
-}
+<pre class="explanation">Method DropDown()
+    Local newY:Int = curY
+    While newY &gt; 0 Then
+        If Not TryMove(curPiece, curX, newY - 1) Then
+            Exit
+        End If
+        newY:- 1
+    Wend
+    PieceDropped()
+Wend
 </pre>
 
 <p>
@@ -703,34 +684,35 @@ we press the space key.
 </p>
 
 
-<pre class="explanation">void Board::PieceDropped()
-{
-    for (int i = 0; i &lt; 4; ++i) {
-        int x = curX + curPiece.x(i);
-        int y = curY - curPiece.y(i);
-        ShapeAt(x, y) = curPiece.GetShape();
-    }
+<pre class="explanation">Method PieceDropped()
+    For Local i:Int = 0 Until 4
+        Local x:Int = curX + curPiece.x(i)
+        Local y:Int = curY - curPiece.y(i)
+        SetShapeAt(x, y, curPiece.GetShape())
+    Next
 
-    RemoveFullLines();
+    RemoveFullLines()
 
-    if (!isFallingFinished)
-        NewPiece();
-}
+    If Not isFallingFinished Then
+        NewPiece()
+    End IF
+End Method
 </pre>
 
 <p>
-In the <b>Board::PieceDropped()</b> method we set the current shape at it's final position. We call the 
+In the <b>PieceDropped()</b> method we set the current shape at it's final position. We call the 
 <b>RemoveFullLines()</b> method to check, if we have at least one full line. And we create a new tetris shape, if it 
 wasn't already created in the <b>Board::PieceDropped()</b> method in the meantime.
 </p>
 
-<pre class="explanation"> if (lineIsFull) {
-     ++numFullLines;
-     for (int k = i; k &lt; BoardHeight - 1; ++k) {
-         for (int j = 0; j &lt; BoardWidth; ++j)
-             ShapeAt(j, k) = ShapeAt(j, k + 1);
-     }
- }
+<pre class="explanation"> If lineIsFull Then
+     numFullLines :+ 1
+     For Local k:Int = i Until BoardHeight - 1
+         For Local j:Int = 0 Until BoardWidth
+             SetShapeAt(j, k, ShapeAt(j, k + 1))
+         Next
+     Next
+ End If
 </pre>
 
 <p>
@@ -739,78 +721,63 @@ full row one line down. This way we destroy the full line. Notice, that in our t
 <b>naive gravity</b>. This means, that the squares may be left floating above empty gaps.
 </p>
 
-<pre class="explanation">void Board::NewPiece()
-{
-    curPiece.SetRandomShape();
-    curX = BoardWidth / 2 + 1;
-    curY = BoardHeight - 1 + curPiece.MinY();
+<pre class="explanation">Method NewPiece()
+    curPiece.SetRandomShape()
+    curX = BoardWidth / 2 + 1
+    curY = BoardHeight - 1 + curPiece.MinY()
 
-    if (!TryMove(curPiece, curX, curY)) {
-        curPiece.SetShape(NoShape);
-        timer-&gt;Stop();
-        isStarted = false;
-        m_stsbar-&gt;SetStatusText(wxT("game over"));
-    }
-}
+    If Not TryMove(curPiece, curX, curY)
+        curPiece.SetShape(NoShape)
+        timer.Stop()
+        isStarted = false
+        m_stsbar.SetStatusText("game over")
+    End If
+End Method
 </pre>
 
 <p>
-The <b>Board::NewPiece()</b> method creates randomly a new tetris piece. If the piece cannot go into it's initial position, the game is over.
+The <b>NewPiece()</b> method creates randomly a new tetris piece. If the piece cannot go into it's initial position,
+the game is over.
 </p>
 
-<pre class="explanation">bool Board::TryMove(const Shape&amp; newPiece, int newX, int newY)
-{
-    for (int i = 0; i &lt; 4; ++i) {
-        int x = newX + newPiece.x(i);
-        int y = newY - newPiece.y(i);
-        if (x &lt; 0 || x &gt;= BoardWidth || y &lt; 0 || y &gt;= BoardHeight)
-            return false;
-        if (ShapeAt(x, y) != NoShape)
-            return false;
-    }
+<pre class="explanation">Method TryMove:Int(newPiece:Shape, newX:Int, newY:Int)
+    For Local i:Int = 0 Until 4
+        Local x:Int = newX + newPiece.x(i)
+        Local y:Int = newY - newPiece.y(i)
+        If x &lt; 0 Or x &gt;= BoardWidth Or y &lt; 0 Or y &gt;= BoardHeight Then
+            Return False
+        End If
+        If ShapeAt(x, y) &lt;&gt; NoShape Then
+            Return False
+        End If
+    Next
 
-    curPiece = newPiece;
-    curX = newX;
-    curY = newY;
-    Refresh();
-    return true;
-}
+    curPiece = newPiece
+    curX = newX
+    curY = newY
+    Refresh()
+    Return True
+End Method
 </pre>
 
 <p>
-In the <b>Board::TryMove()</b> method we try to move our shapes. If
+In the <b>TryMove()</b> method we try to move our shapes. If
 the shape is at the edge of the board or is adjacent to some other
 shape, we return false. Otherwise we place the current falling shape to
 a new position and return true.
 </p>
 
-<!--<pre class="explanation">
-
-</pre>
-
-<p>
-
-</p>
-
-<pre class="explanation">
-
-</pre>
-
-<p>
-
-</p>-->
-
-
-<br><br>
+<br>
 <p>
 The <b>Shape</b> class saves information about the tetris piece. 
 </p>
 
 
-<pre class="explanation"> for (int i = 0; i &lt; 4 ; i++) {
-     for (int j = 0; j &lt; 2; ++j)
-         coords[i][j] = coordsTable[shape][i][j];
- }
+<pre class="explanation"> For Local i:Int = 0 Until 4
+     For Local j:Int = 0 Until 2
+         coords[i][j] = coordsTable[shape][i][j]
+     Next
+ Next
 </pre>
 
 <p>The coords array saves the coordinates of the tetris piece.
