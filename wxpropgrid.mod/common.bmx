@@ -337,6 +337,8 @@ Extern
 	Function bmx_wxpropertygrid_insertcategorybyname:Byte Ptr(handle:Byte Ptr, name:String, index:Int, label:String)
 	Function bmx_wxpropertygrid_clear(handle:Byte Ptr)
 	Function bmx_wxpropertygrid_clearmodifiedstatus(handle:Byte Ptr)
+	Function bmx_wxpropertygrid_clearpropertymodifiedstatus(handle:Byte Ptr, prop:Byte Ptr)
+	Function bmx_wxpropertygrid_clearpropertymodifiedstatusbyname(handle:Byte Ptr, name:String)
 
 	Function bmx_wxpropertygrid_getpropertyvalueascolour:Byte Ptr(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertyvalueascolourbyname:Byte Ptr(handle:Byte Ptr, name:String)

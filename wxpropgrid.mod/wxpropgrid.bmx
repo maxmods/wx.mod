@@ -1091,12 +1091,26 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		bmx_wxpropertygrid_clear(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Resets modified status of all properties.
+	End Rem
 	Method ClearModifiedStatus()
 		bmx_wxpropertygrid_clearmodifiedstatus(wxObjectPtr)
 	End Method
 	
-'	Method ClearModifiedStatusId(id:wxPGPropArg)
-'	End Method
+	Rem
+	bbdoc: Resets modified status of a property and all sub-properties.
+	End Rem
+	Method ClearPropertyModifiedStatus(prop:wxPGProperty)
+		bmx_wxpropertygrid_clearpropertymodifiedstatus(wxObjectPtr, prop.wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Resets modified status of a property and all sub-properties.
+	End Rem
+	Method ClearPropertyModifiedStatusByName(name:String)
+		bmx_wxpropertygrid_clearpropertymodifiedstatusbyname(wxObjectPtr, name)
+	End Method
 
 	Method SetPropertyHelpString(prop:wxPGProperty, helpString:String)
 		bmx_wxpropertygrid_setpropertyhelpstring(wxObjectPtr, prop.wxObjectPtr, helpString)

@@ -1130,6 +1130,14 @@ void bmx_wxpropertygrid_clearmodifiedstatus(wxPropertyGrid * grid) {
 	grid->ClearModifiedStatus();
 }
 
+void bmx_wxpropertygrid_clearpropertymodifiedstatus(wxPropertyGrid * grid, wxPGProperty * prop) {
+	grid->ClearModifiedStatus(prop);
+}
+
+void bmx_wxpropertygrid_clearpropertymodifiedstatusbyname(wxPropertyGrid * grid, BBString * name) {
+	grid->ClearModifiedStatus(wxStringFromBBString(name));
+}
+
 MaxColour * bmx_wxpropertygrid_getpropertyvalueascolour(wxPropertyGrid * grid, wxPGProperty * prop) {
 	wxColour c;
 	c << grid->GetPropertyValue(prop);

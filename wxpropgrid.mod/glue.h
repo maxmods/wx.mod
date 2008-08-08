@@ -416,6 +416,8 @@ extern "C" {
 
 	void bmx_wxpropertygrid_clear(wxPropertyGrid * grid);
 	void bmx_wxpropertygrid_clearmodifiedstatus(wxPropertyGrid * grid);
+	void bmx_wxpropertygrid_clearpropertymodifiedstatus(wxPropertyGrid * grid, wxPGProperty * prop);
+	void bmx_wxpropertygrid_clearpropertymodifiedstatusbyname(wxPropertyGrid * grid, BBString * name);
 
 	MaxColour * bmx_wxpropertygrid_getpropertyvalueascolour(wxPropertyGrid * grid, wxPGProperty * prop);
 	MaxColour * bmx_wxpropertygrid_getpropertyvalueascolourbyname(wxPropertyGrid * grid, BBString * name);
