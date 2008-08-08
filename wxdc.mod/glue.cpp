@@ -107,6 +107,10 @@ void bmx_wxdc_setclippingregion(MaxDC * dc, int x, int y, int w, int h) {
 	dc->GetDC()->SetClippingRegion(x, y, w, h);
 }
 
+void bmx_wxdc_setclippingregionregion(MaxDC * dc, MaxRegion * region) {
+	dc->GetDC()->SetClippingRegion(region->Region());
+}
+
 void bmx_wxdc_setdeviceorigin(MaxDC * dc, int x, int y) {
 	dc->GetDC()->SetDeviceOrigin(x, y);
 }
@@ -123,8 +127,16 @@ void bmx_wxdc_drawrectangle(MaxDC * dc, int x, int y, int w, int h) {
 	dc->GetDC()->DrawRectangle(x, y, w, h);
 }
 
+void bmx_wxdc_drawrectanglerect(MaxDC * dc, MaxRect * rect) {
+	dc->GetDC()->DrawRectangle(rect->Rect());
+}
+
 void bmx_wxdc_drawroundedrectangle(MaxDC * dc, int x, int y, int w, int h, double radius) {
 	dc->GetDC()->DrawRoundedRectangle(x, y, w, h, radius);
+}
+
+void bmx_wxdc_drawroundedrectanglerect(MaxDC * dc, MaxRect * rect, double radius) {
+	dc->GetDC()->DrawRoundedRectangle(rect->Rect(), radius);
 }
 
 void wx_wxdc_calcboundingbox(MaxDC * dc, int x, int y) {

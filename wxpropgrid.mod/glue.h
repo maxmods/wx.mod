@@ -428,6 +428,11 @@ extern "C" {
 	BBArray * bmx_wxpropertygrid_propertiestonames(wxPropertyGrid * grid, BBArray * props);
 	BBArray * bmx_wxpropertygrid_namestoproperties(wxPropertyGrid * grid, BBArray * names);
 
+	void bmx_wxpropertygrid_centersplitter(wxPropertyGrid * grid, bool enableAutoCentering);
+	int bmx_wxpropertygrid_getsplitterposition(wxPropertyGrid * grid);
+	void bmx_wxpropertygrid_setsplitterleft(wxPropertyGrid * grid, bool subProps);
+	void bmx_wxpropertygrid_setsplitterposition(wxPropertyGrid * grid, int xPos, bool refresh);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

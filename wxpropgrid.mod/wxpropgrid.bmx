@@ -1035,6 +1035,38 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		Return wxPGProperty._create(bmx_wxpropertygrid_appendin(wxObjectPtr, prop.wxObjectPtr, newProperty.wxObjectPtr))
 	End Method
 
+	Rem
+	bbdoc: Centers the splitter.
+	about: If argument is true, automatic splitter centering is enabled (only applicapple if style
+	wxPG_SPLITTER_AUTO_CENTER was defined).
+	End Rem
+	Method CenterSplitter(enableAutoCentering:Int = False)
+		bmx_wxpropertygrid_centersplitter(wxObjectPtr, enableAutoCentering)
+	End Method
+	
+	Rem
+	bbdoc: Returns current splitter x position.
+	End Rem
+	Method GetSplitterPosition:Int()
+		Return bmx_wxpropertygrid_getsplitterposition(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Moves splitter as left as possible, while still allowing all labels to be shown in full.
+	about: If @subProps is False, will still allow sub-properties (ie. properties which parent
+	is not root or category) to be cropped.
+	End Rem
+	Method SetSplitterLeft(subProps:Int = False)
+		bmx_wxpropertygrid_setsplitterleft(wxObjectPtr, subProps)
+	End Method
+	
+	Rem
+	bbdoc: Sets x coordinate of the splitter.
+	End Rem
+	Method SetSplitterPosition(xPos:Int, refresh:Int = True)
+		bmx_wxpropertygrid_setsplitterposition(wxObjectPtr, xPos, refresh)
+	End Method
+	
 	Method ChangePropertyValueIntArray:Int(prop:wxPGProperty, value:Int[])
 		' TODO
 	End Method

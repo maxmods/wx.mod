@@ -346,6 +346,11 @@ Extern
 	Function bmx_wxpropertygrid_setpropertyvaluecolour(handle:Byte Ptr, prop:Byte Ptr, value:Byte Ptr)
 	Function bmx_wxpropertygrid_setpropertyvaluecolourbyname(handle:Byte Ptr, name:String, value:Byte Ptr)
 
+	Function bmx_wxpropertygrid_centersplitter(handle:Byte Ptr, enableAutoCentering:Int)
+	Function bmx_wxpropertygrid_getsplitterposition:Int(handle:Byte Ptr)
+	Function bmx_wxpropertygrid_setsplitterleft(handle:Byte Ptr, subProps:Int)
+	Function bmx_wxpropertygrid_setsplitterposition(handle:Byte Ptr, xPos:Int, refresh:Int)
+
 	Function bmx_wxpgproperty_getvalueascolour:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getvaluestring:String(handle:Byte Ptr, argFlags:Int)
 	Function bmx_wxpgproperty_gety:Int(handle:Byte Ptr)

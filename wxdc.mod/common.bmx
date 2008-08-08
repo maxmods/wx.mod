@@ -24,6 +24,7 @@ Import wx.wx
 Import wx.wxIcon
 Import wx.wxBrush
 Import wx.wxPen
+Import wx.wxRegion
 Import BRL.Blitz
 
 
@@ -62,12 +63,15 @@ Extern
 	Function bmx_wxdc_setbackgroundmode(handle:Byte Ptr, mode:Int)
 	Function bmx_wxdc_setbrush(handle:Byte Ptr, brush:Byte Ptr)
 	Function bmx_wxdc_setclippingregion(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
+	Function bmx_wxdc_setclippingregionregion(handle:Byte Ptr, region:Byte Ptr)
 	Function bmx_wxdc_setdeviceorigin(handle:Byte Ptr, x:Int, y:Int)
 	
 	Function bmx_wxdc_drawellipse(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
 	Function bmx_wxdc_drawellipserect(handle:Byte Ptr, rect:Byte Ptr)
 	Function bmx_wxdc_drawrectangle(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
+	Function bmx_wxdc_drawrectanglerect(handle:Byte Ptr, rect:Byte Ptr)
 	Function bmx_wxdc_drawroundedrectangle(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int, radius:Double)
+	Function bmx_wxdc_drawroundedrectanglerect(handle:Byte Ptr, rect:Byte Ptr, radius:Double)
 
 	Function wx_wxdc_calcboundingbox(handle:Byte Ptr, x:Int, y:Int)
 	Function wx_wxdc_computescaleandorigin(handle:Byte Ptr)

@@ -25,6 +25,7 @@
 #include "../wxicon.mod/glue.h"
 #include "../wxbrush.mod/glue.h"
 #include "../wxpen.mod/glue.h"
+#include "../wxregion.mod/glue.h"
 
 class MaxMirrorDC;
 class MaxClientDC;
@@ -51,11 +52,14 @@ extern "C" {
 	void bmx_wxdc_setbackgroundmode(MaxDC * dc, int mode);
 	void bmx_wxdc_setbrush(MaxDC * dc, MaxBrush * brush);
 	void bmx_wxdc_setclippingregion(MaxDC * dc, int x, int y, int w, int h);
+	void bmx_wxdc_setclippingregionregion(MaxDC * dc, MaxRegion * region);
 	void bmx_wxdc_setdeviceorigin(MaxDC * dc, int x, int y);
 	void bmx_wxdc_drawellipse(MaxDC * dc, int x, int y, int w, int h);
 	void bmx_wxdc_drawellipserect(MaxDC * dc, MaxRect * rect);
 	void bmx_wxdc_drawrectangle(MaxDC * dc, int x, int y, int w, int h);
+	void bmx_wxdc_drawrectanglerect(MaxDC * dc, MaxRect * rect);
 	void bmx_wxdc_drawroundedrectangle(MaxDC * dc, int x, int y, int w, int h, double radius);
+	void bmx_wxdc_drawroundedrectanglerect(MaxDC * dc, MaxRect * rect, double radius);
 
 	void wx_wxdc_calcboundingbox(MaxDC * dc, int x, int y);
 	void wx_wxdc_computescaleandorigin(MaxDC * dc);

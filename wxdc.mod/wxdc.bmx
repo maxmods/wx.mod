@@ -308,6 +308,14 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
+	bbdoc: Draws a rectangle with the given @rect.
+	about: The current pen is used for the outline and the current brush for filling the shape.
+	End Rem
+	Method DrawRectangleRect(rect:wxRect)
+		bmx_wxdc_drawrectanglerect(wxObjectPtr, rect.wxObjectPtr)
+	End Method
+	
+	Rem
 	bbdoc: Draws the text rotated by angle degrees.
 	End Rem
 	Method DrawRotatedText(text:String, x:Int, y:Int, angle:Double)
@@ -327,6 +335,21 @@ Type wxDC Extends wxObject
 	End Rem
 	Method DrawRoundedRectangle(x:Int, y:Int, width:Int, height:Int, radius:Double)
 		bmx_wxdc_drawroundedrectangle(wxObjectPtr, x, y, width, height, radius)
+	End Method
+
+	Rem
+	bbdoc: Draws a rectangle with the given @rect.
+	about: The corners are quarter-circles using the given radius. The current pen is used for the outline
+	and the current brush for filling the shape.
+	<p>
+	If radius is positive, the value is assumed to be the radius of the rounded corner. If radius is negative,
+	the absolute value is assumed to be the proportion of the smallest dimension of the rectangle. This means
+	that the corner can be a sensible size relative to the size of the rectangle, and also avoids the strange
+	effects X produces when the corners are too big for the rectangle.
+	</p>
+	End Rem
+	Method DrawRoundedRectangleRect(rect:wxRect, radius:Double)
+		bmx_wxdc_drawroundedrectanglerect(wxObjectPtr, rect.wxObjectPtr, radius)
 	End Method
 	
 	Rem
@@ -714,6 +737,19 @@ Type wxDC Extends wxObject
 	End Rem
 	Method SetClippingRegion(x:Int, y:Int, width:Int, height:Int)
 		bmx_wxdc_setclippingregion(wxObjectPtr, x, y, width, height)
+	End Method
+
+	Rem
+	bbdoc: Sets the clipping region for this device context to the intersection of the given region described by the parameters of this method and the previously set clipping region.
+	about: You should call DestroyClippingRegion if you want to set the clipping region exactly to the
+	region specified.
+	<p>
+	The clipping region is an area to which drawing is restricted. Possible uses for the clipping region
+	are for clipping text or for speeding up window redraws when only a known area of the screen is damaged.
+	</p>
+	End Rem
+	Method SetClippingRegionRegion(region:wxRegion)
+		bmx_wxdc_setclippingregionregion(wxObjectPtr, region.wxObjectPtr)
 	End Method
 	
 	Rem

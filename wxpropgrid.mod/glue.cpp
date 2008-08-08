@@ -1206,6 +1206,22 @@ BBArray * bmx_wxpropertygrid_namestoproperties(wxPropertyGrid * grid, BBArray * 
 	return properties;
 }
 
+void bmx_wxpropertygrid_centersplitter(wxPropertyGrid * grid, bool enableAutoCentering) {
+	grid->CenterSplitter(enableAutoCentering);
+}
+
+int bmx_wxpropertygrid_getsplitterposition(wxPropertyGrid * grid) {
+	return grid->GetSplitterPosition();
+}
+
+void bmx_wxpropertygrid_setsplitterleft(wxPropertyGrid * grid, bool subProps) {
+	grid->SetSplitterLeft(subProps);
+}
+
+void bmx_wxpropertygrid_setsplitterposition(wxPropertyGrid * grid, int xPos, bool refresh) {
+	grid->SetSplitterPosition(xPos, refresh);
+}
+
 // *********************************************
 
 MaxPGChoices * bmx_wxpgchoices_create() {
