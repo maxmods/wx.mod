@@ -251,148 +251,117 @@ pressed. You toggle between these two states by clicking on it. There
 are situations where this functionality fits well.
 </p>
 
-
-<pre class="code"><div class="codehead">togglebutton.h</div>
-#include &lt;wx/wx.h&gt;
-#include &lt;wx/tglbtn.h&gt;
-
-class ToggleButton : public wxFrame
-{
-public:
-  ToggleButton(const wxString&amp; title);
-
-  void OnToggleRed(wxCommandEvent&amp; event);
-  void OnToggleGreen(wxCommandEvent&amp; event);
-  void OnToggleBlue(wxCommandEvent&amp; event);
-
-protected:
-  wxToggleButton *m_tgbutton1;
-  wxToggleButton *m_tgbutton2;
-  wxToggleButton *m_tgbutton3;
+<pre class="code"><div class="codehead">togglebutton.bmx</div>
+SuperStrict
  
-  wxPanel *m_panel;
-  wxColour *colour;
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxToggleButton
+Import wx.wxPanel
+ 
+Const ID_TGBUTTON1:Int = 101
+Const ID_TGBUTTON2:Int = 102
+Const ID_TGBUTTON3:Int = 103
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-};
+	Method OnInit:Int()
+	
+		Local toggle:ToggleButton = ToggleButton(New ToggleButton.Create(Null, ..
+			wxID_ANY, "ToggleButton", -1, -1, 280, 180))
+		toggle.Centre() 
+		toggle.Show(True)
+		
+		Return True
+	End Method
 
-const int ID_TGBUTTON1 = 101;
-const int ID_TGBUTTON2 = 102;
-const int ID_TGBUTTON3 = 103;
+End Type
 
-</pre>
+Type ToggleButton Extends wxFrame
+ 
+	Field m_tgbutton1:wxToggleButton
+	Field m_tgbutton2:wxToggleButton
+	Field m_tgbutton3:wxToggleButton
 
-<pre class="code"><div class="codehead">togglebutton.cpp</div>
-#include "togglebutton.h"
+	Field m_panel:wxPanel
+	Field colour:wxColour
 
+	Method OnInit()
+		
+		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
+		
+		colour = New wxColour.Create(0, 0, 0)
+		
+		m_tgbutton1 = New wxToggleButton.Create(panel, ..
+			ID_TGBUTTON1, "Red", 20, 20)
+		m_tgbutton2 = New wxToggleButton.Create(panel, ..
+			ID_TGBUTTON2, "Green", 20, 70)
+		m_tgbutton3 = New wxToggleButton.Create(panel, ..
+			ID_TGBUTTON3, "Blue", 20, 120)
+		
+		Connect(ID_TGBUTTON1, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, ..
+			OnToggleRed)
+		Connect(ID_TGBUTTON2, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, ..
+			OnToggleGreen)
+		Connect(ID_TGBUTTON3, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, ..
+			OnToggleBlue)
+		
+		m_panel = New wxPanel.Create(panel, wxID_NEW, 150, 20, ..
+			110, 110, wxSUNKEN_BORDER)
+		m_panel.SetBackgroundColour(colour)
 
-ToggleButton::ToggleButton(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
-{
-  wxPanel *panel = new wxPanel(this, wxID_ANY);
+ 
+	End Method
 
-  colour = new wxColour(0, 0, 0);
+	Function OnToggleRed(event:wxEvent)
+		Local tog:ToggleButton = ToggleButton(event.parent)
+	
+		Local green:Int = tog.colour.Green()
+		Local blue:Int = tog.colour.Blue()
+		
+		If tog.colour.Red() Then
+			tog.colour.Set(0, green, blue)
+		Else
+			tog.colour.Set(255, green, blue)
+		End If
+		
+		tog.m_panel.SetBackgroundColour(tog.colour)
+	End Function
+	
+	Function OnToggleGreen(event:wxEvent)
+		Local tog:ToggleButton = ToggleButton(event.parent)
+	
+		Local red:Int = tog.colour.Red()
+		Local blue:Int = tog.colour.Blue()
+		
+		If tog.colour.Green() Then
+			tog.colour.Set(red, 0, blue)
+		Else
+			tog.colour.Set(red, 255, blue)
+		End If
+		
+		tog.m_panel.SetBackgroundColour(tog.colour)
+	End Function
 
-  m_tgbutton1 = new wxToggleButton(panel, ID_TGBUTTON1, 
-                                   wxT("Red"), wxPoint(20, 20));
-  m_tgbutton2 = new wxToggleButton(panel, ID_TGBUTTON2, 
-                                   wxT("Green"), wxPoint(20, 70));
-  m_tgbutton3 = new wxToggleButton(panel, ID_TGBUTTON3, 
-                                   wxT("Blue"), wxPoint(20, 120));
+	Function OnToggleBlue(event:wxEvent)
+		Local tog:ToggleButton = ToggleButton(event.parent)
+	
+		Local red:Int = tog.colour.Red()
+		Local green:Int = tog.colour.Green()
+		
+		If tog.colour.Blue() Then
+			tog.colour.Set(red, green, 0)
+		Else
+			tog.colour.Set(red, green, 255)
+		End If
+		
+		tog.m_panel.SetBackgroundColour(tog.colour)
+	End Function
 
-  Connect(ID_TGBUTTON1, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, 
-      wxCommandEventHandler(ToggleButton::OnToggleRed));
-  Connect(ID_TGBUTTON2, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, 
-      wxCommandEventHandler(ToggleButton::OnToggleGreen));
-  Connect(ID_TGBUTTON3, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,  
-      wxCommandEventHandler(ToggleButton::OnToggleBlue));
-
-  m_panel = new wxPanel(panel, wxID_NEW, wxPoint(150, 20), 
-                        wxSize(110, 110), wxSUNKEN_BORDER);
-  m_panel-&gt;SetBackgroundColour(colour-&gt;GetAsString());
-
-}
-
-void ToggleButton::OnToggleRed(wxCommandEvent&amp; WXUNUSED(event))
-{
-  unsigned char green = colour-&gt;Green(); 
-  unsigned char blue = colour-&gt;Blue(); 
-
-
-  if ( colour-&gt;Red() ) {
-      colour-&gt;Set(0, green, blue);
-
-  } else { 
-      colour-&gt;Set(255, green, blue);
-  }
-
-  m_panel-&gt;SetBackgroundColour(colour-&gt;GetAsString());
-
-}
-
-void ToggleButton::OnToggleGreen(wxCommandEvent&amp; WXUNUSED(event))
-{
-  unsigned char red = colour-&gt;Red(); 
-  unsigned char blue = colour-&gt;Blue(); 
-
-
-  if ( colour-&gt;Green() ) {
-      colour-&gt;Set(red, 0, blue);
-
-  } else { 
-      colour-&gt;Set(red, 255, blue);
-  }
-
-  m_panel-&gt;SetBackgroundColour(colour-&gt;GetAsString());
-
-}
-
-void ToggleButton::OnToggleBlue(wxCommandEvent&amp; WXUNUSED(event))
-{
-  unsigned char red = colour-&gt;Red(); 
-  unsigned char green = colour-&gt;Green(); 
-
-
-  if ( colour-&gt;Blue() ) {
-      colour-&gt;Set(red, green, 0);
-
-  } else { 
-      colour-&gt;Set(red, green, 255);
-  }
-
-  m_panel-&gt;SetBackgroundColour(colour-&gt;GetAsString());
-}
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "togglebutton.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    ToggleButton *button = new ToggleButton(wxT("ToggleButton"));
-
-    button-&gt;Centre();
-    button-&gt;Show(true);
-
-    return true;
-}
-
+	
+End Type
 </pre>
 
 <p>In our example, we show three toggle buttons and a panel. We set the
@@ -402,15 +371,15 @@ will depend on which togglebuttons we have pressed.
 </p>
 
 
-<pre class="explanation"> colour = new wxColour(0, 0, 0);
+<pre class="explanation"> colour = new wxColour.Create(0, 0, 0)
 </pre>
 
 <p>
 This is the initial color value. No red, green and blue equals to black. Theoretically speaking, black is not a color after all.
 </p>
 
-<pre class="explanation"> m_tgbutton1 = new wxToggleButton(panel, ID_TGBUTTON1, 
-                                  wxT("Red"), wxPoint(20, 20));
+<pre class="explanation"> m_tgbutton1 = new wxToggleButton.Create(panel, ID_TGBUTTON1, ..
+                                 "Red", 20, 20)
 </pre>
 
 <p>
@@ -418,8 +387,8 @@ This is the initial color value. No red, green and blue equals to black. Theoret
 </p>
 
 
-<pre class="explanation"> Connect(ID_TGBUTTON1, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, 
-     wxCommandEventHandler(ToggleButton::OnToggleRed));
+<pre class="explanation"> Connect(ID_TGBUTTON1, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, ..
+     OnToggleRed)
 </pre>
 
 <p>
@@ -432,19 +401,19 @@ event to the button, we would have to create our derived button classe,
 which would mean more work.
 </p>
 
-<pre class="explanation"> if ( colour-&gt;Blue() ) {
-     colour-&gt;Set(red, green, 0);
+<pre class="explanation"> If colour.Blue() Then
+     colour.Set(red, green, 0)
 
- } else { 
-     colour-&gt;Set(red, green, 255);
- }
+ Else 
+     colour.Set(red, green, 255)
+ End If
 </pre>
 
 <p>
 In the event handlers, we set the respective <i>wxColour</i> parameters.
 </p>
 
-<pre class="explanation"> m_panel-&gt;SetBackgroundColour(colour-&gt;GetAsString());
+<pre class="explanation"> m_panel.SetBackgroundColour(colour)
 </pre>
 
 <p>
@@ -461,113 +430,95 @@ We set the background of the panel.
 This widget displays a simple line on the window. It can be horizontal or vertical.
 </p>
 
+<pre class="code"><div class="codehead">staticline.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxDialog
+Import wx.wxStaticLine
+Import wx.wxStaticText
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-<pre class="code"><div class="codehead">staticline.h</div>
-#include &lt;wx/wx.h&gt;
+	Method OnInit:Int()
+	
+		Local sl:Staticline = Staticline(New Staticline.Create_(Null, wxID_ANY, ..
+			"The Central Europe", -1, -1, 360, 350))
+		sl.ShowModal()
+		sl.Destroy()
+ 
+		Return True
+	End Method
 
-class Staticline : public wxDialog
-{
-public:
-    Staticline(const wxString&amp; title);
+End Type
 
-};
+Type Staticline Extends wxDialog
+ 
+	Method OnInit()
+		
+		Local font:wxFont = New wxFont.CreateWithAttribs(10, ..
+			wxDEFAULT, wxNORMAL, wxBOLD)
+		Local heading:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "The Central Europe", 30, 15)
+		heading.SetFont(font)
+		
+		Local sl1:wxStaticLine = New wxStaticLine.Create(Self, ..
+			wxID_ANY, 25, 50, 300,1)
+		
+		Local st1:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "Slovakia", 25, 80)
+		Local st2:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "Hungary", 25, 100)
+		Local st3:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "Poland", 25, 120)
+		Local st4:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "Czech Republic", 25, 140)
+		Local st5:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "Germany", 25, 160)
+		Local st6:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "Slovenia", 25, 180)
+		Local st7:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "Austria", 25, 200)
+		Local st8:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "Switzerland", 25, 220)
+		
+		
+		Local st9:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "5 379 000", 220, 80, 90, -1, wxALIGN_RIGHT)
+		Local st10:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "10 084 000", 220, 100, 90, -1, wxALIGN_RIGHT)
+		Local st11:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "38 635 000", 220, 120, 90, -1, wxALIGN_RIGHT)
+		Local st12:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "10 240 000", 220, 140, 90, -1, wxALIGN_RIGHT)
+		Local st13:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "82 443 000", 220, 160, 90, -1, wxALIGN_RIGHT)
+		Local st14:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "2 001 000",  220, 180, 90, -1, wxALIGN_RIGHT)
+		Local st15:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "8 032 000",  220, 200, 90, -1, wxALIGN_RIGHT)
+		Local st16:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "7 288 000",  220, 220, 90, -1, wxALIGN_RIGHT)
+		
+		Local sl2:wxStaticLine = New wxStaticLine.Create(Self, ..
+			wxID_ANY, 25, 260, 300, 1)
+		
+		Local sum:wxStaticText = New wxStaticText.Create(Self, ..
+			wxID_ANY, "164 102 000", 220, 280)
 
+		Local sum_font:wxFont = sum.GetFont()
+		sum_font.SetWeight(wxBOLD)
+		sum.SetFont(sum_font)
+
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">staticline.cpp</div>
-#include "staticline.h"
-#include &lt;wx/stattext.h&gt;
-#include &lt;wx/statline.h&gt;
-
-Staticline::Staticline(const wxString&amp; title) : wxDialog(NULL, wxID_ANY, title, 
-    wxDefaultPosition, wxSize(360, 350))
-{
-
-  wxFont font(10, wxDEFAULT, wxNORMAL, wxBOLD);
-  wxStaticText *heading = new wxStaticText(this, wxID_ANY, wxT("The Central Europe"), 
-      wxPoint(30, 15));
-  heading-&gt;SetFont(font);
-
-  wxStaticLine *sl1 = new wxStaticLine(this, wxID_ANY, wxPoint(25, 50), 
-      wxSize(300,1));
-
-  wxStaticText *st1 = new wxStaticText(this, wxID_ANY, wxT("Slovakia"), 
-      wxPoint(25, 80));
-  wxStaticText *st2 = new wxStaticText(this, wxID_ANY, wxT("Hungary"), 
-      wxPoint(25, 100));
-  wxStaticText *st3 = new wxStaticText(this, wxID_ANY, wxT("Poland"), 
-      wxPoint(25, 120));
-  wxStaticText *st4 = new wxStaticText(this, wxID_ANY, wxT("Czech Republic"), 
-      wxPoint(25, 140));
-  wxStaticText *st5 = new wxStaticText(this, wxID_ANY, wxT("Germany"), 
-      wxPoint(25, 160));
-  wxStaticText *st6 = new wxStaticText(this, wxID_ANY, wxT("Slovenia"), 
-      wxPoint(25, 180));
-  wxStaticText *st7 = new wxStaticText(this, wxID_ANY, wxT("Austria"), 
-      wxPoint(25, 200));
-  wxStaticText *st8 = new wxStaticText(this, wxID_ANY, wxT("Switzerland"), 
-      wxPoint(25, 220));
-
-
-  wxStaticText *st9  = new wxStaticText(this, wxID_ANY, wxT("5 379 000"), 
-      wxPoint(220, 80), wxSize(90, -1), wxALIGN_RIGHT);
-  wxStaticText *st10 = new wxStaticText(this, wxID_ANY, wxT("10 084 000"), 
-      wxPoint(220, 100), wxSize(90, -1), wxALIGN_RIGHT);
-  wxStaticText *st11 = new wxStaticText(this, wxID_ANY, wxT("38 635 000"), 
-      wxPoint(220, 120), wxSize(90, -1), wxALIGN_RIGHT);
-  wxStaticText *st12 = new wxStaticText(this, wxID_ANY, wxT("10 240 000"), 
-      wxPoint(220, 140), wxSize(90, -1), wxALIGN_RIGHT);
-  wxStaticText *st13 = new wxStaticText(this, wxID_ANY, wxT("82 443 000"), 
-      wxPoint(220, 160), wxSize(90, -1), wxALIGN_RIGHT);
-  wxStaticText *st14 = new wxStaticText(this, wxID_ANY, wxT("2 001 000"),  
-      wxPoint(220, 180), wxSize(90, -1), wxALIGN_RIGHT);
-  wxStaticText *st15 = new wxStaticText(this, wxID_ANY, wxT("8 032 000"),  
-      wxPoint(220, 200), wxSize(90, -1), wxALIGN_RIGHT);
-  wxStaticText *st16 = new wxStaticText(this, wxID_ANY, wxT("7 288 000"),  
-      wxPoint(220, 220), wxSize(90, -1), wxALIGN_RIGHT);
-
-  wxStaticLine *sl2 = new wxStaticLine(this, wxID_ANY, wxPoint(25, 260), 
-      wxSize(300, 1));
-
-  wxStaticText *sum = new wxStaticText(this, wxID_ANY, wxT("164 102 000"), 
-      wxPoint(220, 280));
-  wxFont sum_font = sum-&gt;GetFont();
-  sum_font.SetWeight(wxBOLD);
-  sum-&gt;SetFont(sum_font);
-
-  this-&gt;Centre();
-
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "staticline.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-    Staticline *sl = new Staticline(wxT("The Central Europe"));
-    sl-&gt;ShowModal();
-    sl-&gt;Destroy();
-
-    return true;
-}
-
-</pre>
 <br>
 
 <p>
@@ -576,8 +527,7 @@ makes it more visually attractive.
 </p>
 
 
-<pre class="explanation"> wxStaticLine *sl1 = new wxStaticLine(this, wxID_ANY, wxPoint(25, 50), 
-    wxSize(300,1));
+<pre class="explanation"> Local sl1:wxStaticLine = New wxStaticLine.Create(Self, wxID_ANY, 25, 50, 300,1)
 </pre>
 
 <p>

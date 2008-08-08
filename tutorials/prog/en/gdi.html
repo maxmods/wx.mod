@@ -71,7 +71,7 @@ the wxPaintDC and the wxClientDC. The wxPaintDC should be used only
 from a wxPaintEvent. The wxClientDC shoud not be used from a
 wxPaintEvent. The wxMemoryDC is used to draw graphics on the bitmap.
 The wxPostScriptDC is used to write to PostScript files on any
-platform. The wxPrinterDC is used to access a printer (Windows only). </p>
+platform. The wxPrinterDC is used to access a printer. </p>
 
 
 <h4>Simple line</h4>
@@ -80,92 +80,69 @@ platform. The wxPrinterDC is used to access a printer (Windows only). </p>
 We begin with drawing a line.
 </p>
 
+<pre class="code"><div class="codehead">line.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-<pre class="code"><div class="codehead">line.h</div>
-#include &lt;wx/wx.h&gt;
+	Method OnInit:Int()
+	
+		Local ln:Line = Line(New Line.Create(Null, wxID_ANY, ..
+			"Line", -1, -1, 280, 180))
+		ln.Show(True)
+ 
+		Return True
+	End Method
 
-class Line : public wxFrame
-{
-public:
-    Line(const wxString&amp; title);
+End Type
 
-    void OnPaint(wxPaintEvent&amp; event);
+Type Line Extends wxFrame
+ 
+	Method OnInit()
+		
+		ConnectAny(wxEVT_PAINT, OnPaint)
+		Centre()
+ 
+	End Method
+	
+	Function OnPaint(event:wxEvent)
 
-};
-
+		Local dc:wxPaintDC = New wxPaintDC.Create(wxWindow(event.parent))
+		
+		Local x1:Int = 50,  y1:Int = 60
+		Local x2:Int = 190, y2:Int = 60
+		
+		dc.DrawLine(x1, y1, x2, y2)
+		
+		dc.Free()
+	End Function
+	
+End Type
 </pre>
-
-<pre class="code"><div class="codehead">line.cpp</div>
-#include "line.h"
-
-
-Line::Line(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
-{
-  this-&gt;Connect(wxEVT_PAINT, wxPaintEventHandler(Line::OnPaint));
-  this-&gt;Centre();
-}
-
-void Line::OnPaint(wxPaintEvent&amp; event)
-{
-  wxPaintDC dc(this);
-  
-  wxCoord x1 = 50, y1 = 60;
-  wxCoord x2 = 190, y2 = 60;
-
-  dc.DrawLine(x1, y1, x2, y2);
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "line.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Line *line = new Line(wxT("Line"));
-    line-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
-
 <p>
 In our example, we draw a simple line onto the client area of the window. If we resize the window, it is redrawn. 
 An <i>wxPaintEvent</i> is generated. And the line is drawn again. 
 </p>
 
-<pre class="explanation"> void OnPaint(wxPaintEvent&amp; event);
+<pre class="explanation"> Function OnPaint(event:wxEvent)
 </pre>
 
 <p>
 Here we declare a <i>OnPaint()</i> event handler function. 
 </p>
 
-<pre class="explanation"> this-&gt;Connect(wxEVT_PAINT, wxPaintEventHandler(Line::OnPaint));
-</pre>
+<pre class="explanation"> ConnectAny(wxEVT_PAINT, OnPaint)</pre>
 
 <p>
 We connect a paint event to the <i>OnPaint()</i> method. All the drawing happens inside the <i>OnPaint()</i> event handler.
 </p>
 
-<pre class="explanation"> wxPaintDC dc(this);
+<pre class="explanation"> Local dc:wxPaintDC = New wxPaintDC.Create(wxWindow(event.parent))
 </pre>
 
 <p>
@@ -173,19 +150,24 @@ We define a <i>wxPaintDC</i> device context. It is a device context, that is use
 <i>wxPaintEvent</i>
 </p>
 
-<pre class="explanation"> wxCoord x1 = 50, y1 = 60;
- wxCoord x2 = 190, y2 = 60;
-</pre>
+<pre class="explanation"> Local x1:Int = 50,  y1:Int = 60
+ Local x2:Int = 190, y2:Int = 60</pre>
 
 <p>
 We define four coordinates.
 </p>
 
-<pre class="explanation">  dc.DrawLine(x1, y1, x2, y2);
+<pre class="explanation">  dc.DrawLine(x1, y1, x2, y2)
 </pre>
 
 <p>
 We draw a simple line calling the <i>DrawLine()</i> method.
+</p>
+<pre class="explanation">  dc.Free()
+</pre>
+
+<p>
+Finally, we call the <i>Free()</i> method to close and free the device context.
 </p>
 
 <br>
@@ -200,89 +182,62 @@ We draw a simple line calling the <i>DrawLine()</i> method.
 Drawing some text on the window is easy.
 </p>
 
-<pre class="code"><div class="codehead">text.h</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead">text.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class Text : public wxFrame
-{
-public:
-    Text(const wxString &amp; title);
+	Method OnInit:Int()
+	
+		Local txt:Text = Text(New Text.Create(Null, wxID_ANY, ..
+			"Text", -1, -1, 250, 150))
+		txt.Show(True)
+ 
+		Return True
+	End Method
 
-    void OnPaint(wxPaintEvent &amp; event);
+End Type
 
-};
+Type Text Extends wxFrame
+ 
+	Method OnInit()
+		
+		ConnectAny(wxEVT_PAINT, OnPaint)
+		Centre()
+ 
+	End Method
+	
+	Function OnPaint(event:wxEvent)
 
+		Local dc:wxPaintDC = New wxPaintDC.Create(wxWindow(event.parent))
+		
+		dc.DrawText("Лев Николaевич Толстoй", 40, 60)
+		dc.DrawText("Анна Каренина", 70, 80)
+	
+		dc.Free()
+	End Function
+	
+End Type
 </pre>
-
-<pre class="code"><div class="codehead">text.cpp</div>
-#include "text.h"
-
-
-Text::Text(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 150))
-{
-  Connect(wxEVT_PAINT, wxPaintEventHandler(Text::OnPaint));
-  Centre();
-}
-
-void Text::OnPaint(wxPaintEvent&amp; event)
-{
-  wxPaintDC dc(this);
-
-  dc.DrawText(wxT("Лев Николaевич Толстoй"), 40, 60);
-  dc.DrawText(wxT("Анна Каренина"), 70, 80);
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "text.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Text *text = new Text(wxT("Text"));
-    text-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
-
 
 <p>
 In our example, we draw text Lev Nikolayevich Tolstoy, Anna Karenina in russian azbuka onto the window.
 </p>
 
 
-<pre class="explanation">  dc.DrawText(wxT("Лев Николaевич Толстoй"), 40, 60);
-  dc.DrawText(wxT("Анна Каренина"), 70, 80);
+<pre class="explanation">  dc.DrawText("Лев Николaевич Толстoй", 40, 60)
+  dc.DrawText("Анна Каренина", 70, 80)
 </pre>
 
 <p>
 The <i>DrawText()</i> method draws text on the window. It Draws a
 text string at the specified point, using the current text font, and
-the current text foreground and background colours. Thanks to the <i>wxT()</i> macro, we can use azbuka directly in the
-code. The wxT() macro is identical to <i>_T()</i>
-macro. It wraps string literals for use with or without Unicode. When
-Unicode is not enabled, wxT() is an empty macro. When Unicode is
-enabled, it adds the necessary L for the string literal to become a
-wide character string constant.
-</p>
+the current text foreground and background colours.</p>
 
 
 <br>
@@ -296,85 +251,65 @@ wide character string constant.
 <p>
 The simplest geometrical object is a point. It is a plain dot on the window.
 </p>
-<pre class="definition"> DrawPoint(int x, int y)
+<pre class="definition"> DrawPoint(x:Int, y:Int)
 </pre>
 <p>
 This method draws a point at x, y coordinates. 
 </p>
 
-<pre class="code"><div class="codehead">points.cpp</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead">points.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import BRL.Random
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class Points : public wxFrame
-{
-public:
-    Points(const wxString &amp; title);
+	Method OnInit:Int()
+	
+		Local pts:Points = Points(New Points.Create(Null, wxID_ANY, ..
+			"Points", -1, -1, 250, 150))
+		pts.Show(True)
+ 
+		Return True
+	End Method
 
-    void OnPaint(wxPaintEvent &amp; event);
+End Type
 
-};
+Type Points Extends wxFrame
+ 
+	Method OnInit()
+		
+		SeedRnd(MilliSecs())
+		ConnectAny(wxEVT_PAINT, OnPaint)
+		Centre()
+ 
+	End Method
+	
+	Function OnPaint(event:wxEvent)
+		Local this:Points = Points(event.parent)
 
-</pre>
-
-<pre class="code"><div class="codehead">points.cpp</div>
-#include "points.h"
-#include &lt;stdlib.h&gt;
-#include &lt;time.h&gt;
-
-
-Points::Points(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
-{
-
-  this-&gt;Connect(wxEVT_PAINT, wxPaintEventHandler(Points::OnPaint));
-  srand(time(NULL));
-  this-&gt;Centre();
-}
-
-void Points::OnPaint(wxPaintEvent &amp; event)
-{
-  wxPaintDC dc(this);
-  
-  wxCoord x = 0;
-  wxCoord y = 0;
-
-  wxSize size = this-&gt;GetSize();
-
-  for (int i = 0; i&lt;1000; i++) {
-      x = rand() % size.x + 1;
-      y = rand() % size.y + 1;
-      dc.DrawPoint(x, y);
-  }
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "points.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Points *points = new Points(wxT("Points"));
-    points-&gt;Show(true);
-
-    return true;
-}
-
+		Local dc:wxPaintDC = New wxPaintDC.Create(this)
+		
+		Local x:Int = 0
+		Local y:Int = 0
+		
+		Local width:Int, height:Int
+		this.GetSize(width, height)
+		
+		For Local i:Int = 0 Until 1000
+		    x = Rand(0, width) + 1
+		    y = Rand(0, height) + 1
+		    dc.DrawPoint(x, y)
+		Next
+	
+		dc.Free()
+	End Function
+	
+End Type
 </pre>
 
 <br>
@@ -412,7 +347,7 @@ curves and outlines of rectangles, ellipses, polygons or other shapes.
 </p>
 
 
-<pre class="definition"> wxPen(const wxColour&amp; colour, int width = 1, int style = wxSOLID)
+<pre class="definition"> wxPen.CreateFromColour(colour:wxColour, width:Int = 1, style:Int = wxSOLID)
 </pre>
 
 
@@ -430,91 +365,68 @@ Pen styles
 <li>wxTRANSPARENT</li>
 </ul>
 
+<pre class="code"><div class="codehead">pen.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
+	Method OnInit:Int()
+	
+		Local p:Pen = Pen(New Pen.Create(Null, wxID_ANY, ..
+			"Pen", -1, -1, 360, 200))
+		p.Show(True)
+ 
+		Return True
+	End Method
 
-<pre class="code"><div class="codehead">pen.h</div>
-#include &lt;wx/wx.h&gt;
+End Type
 
-class Pen : public wxFrame
-{
-public:
-    Pen(const wxString&amp; title);
-
-    void OnPaint(wxPaintEvent&amp; event);
-
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">pen.cpp</div>
-#include "pen.h"
-
-
-Pen::Pen(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(360, 180))
-{
-  this-&gt;Connect(wxEVT_PAINT, wxPaintEventHandler(Pen::OnPaint));
-  this-&gt;Centre();
-}
-
-void Pen::OnPaint(wxPaintEvent&amp; event)
-{
-  wxPaintDC dc(this);
-
-  wxColour col1, col2;
-
-  col1.Set(wxT("#0c0c0c"));
-  col2.Set(wxT("#000000"));
-
-  wxBrush brush(wxColour(255, 255, 255), wxTRANSPARENT);
-  dc.SetBrush(brush);
-
-  dc.SetPen(wxPen(col1, 1, wxSOLID));
-  dc.DrawRectangle(10, 15, 90, 60);
-
-  dc.SetPen(wxPen(col1, 1, wxDOT));
-  dc.DrawRectangle(130, 15, 90, 60);
-
-  dc.SetPen(wxPen(col1, 1, wxLONG_DASH));
-  dc.DrawRectangle(250, 15, 90, 60);
-
-  dc.SetPen(wxPen(col1, 1, wxSHORT_DASH));
-  dc.DrawRectangle(10, 105, 90, 60);
-
-  dc.SetPen(wxPen(col1, 1, wxDOT_DASH));
-  dc.DrawRectangle(130, 105, 90, 60);
-
-  dc.SetPen(wxPen(col1, 1, wxTRANSPARENT));
-  dc.DrawRectangle(250, 105, 90, 60);
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "pen.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-  Pen *pen = new Pen(wxT("Pen"));
-  pen-&gt;Show(true);
-
-  return true;
-}
-
+Type Pen Extends wxFrame
+ 
+	Method OnInit()
+		
+		ConnectAny(wxEVT_PAINT, OnPaint)
+		Centre()
+ 
+	End Method
+	
+	Function OnPaint(event:wxEvent)
+		Local dc:wxPaintDC = New wxPaintDC.Create(wxWindow(event.parent))
+		
+		Local col1:wxColour = New wxColour.CreateNamedColour("#0c0c0c")
+		Local col2:wxColour = New wxColour.CreateNamedColour("#000000")
+		
+		Local brush:wxBrush = New wxBrush.CreateFromColour(..
+			New wxColour.Create(255, 255, 255), wxTRANSPARENT)
+		dc.SetBrush(brush)
+		
+		dc.SetPen(New wxPen.CreateFromColour(col1, 1, wxSOLID))
+		dc.DrawRectangle(10, 15, 90, 60)
+		
+		dc.SetPen(New wxPen.CreateFromColour(col1, 1, wxDOT))
+		dc.DrawRectangle(130, 15, 90, 60)
+		
+		dc.SetPen(New wxPen.CreateFromColour(col1, 1, wxLONG_DASH))
+		dc.DrawRectangle(250, 15, 90, 60)
+		
+		dc.SetPen(New wxPen.CreateFromColour(col1, 1, wxSHORT_DASH))
+		dc.DrawRectangle(10, 105, 90, 60)
+		
+		dc.SetPen(New wxPen.CreateFromColour(col1, 1, wxDOT_DASH))
+		dc.DrawRectangle(130, 105, 90, 60)
+		
+		dc.SetPen(New wxPen.CreateFromColour(col1, 1, wxTRANSPARENT))
+		dc.DrawRectangle(250, 105, 90, 60)
+	
+		dc.Free()
+	End Function
+	
+End Type
 </pre>
 
 <br>
@@ -522,8 +434,8 @@ bool MyApp::OnInit()
 In our example, we draw 6 rectangles with different pen styles. The last one is transparent, not visible. 
 </p>
 
-<pre class="explanation"> dc.SetPen(wxPen(col1, 1, wxSOLID));
- dc.DrawRectangle(10, 15, 90, 60);
+<pre class="explanation"> dc.SetPen(New wxPen.CreateFromColour(col1, 1, wxSOLID))
+ dc.DrawRectangle(10, 15, 90, 60)
 </pre>
 
 <p>
@@ -545,142 +457,118 @@ Regions can be combined to create more complex shapes. We can use four set opera
 The following example shows all four operations in action. 
 </p>
 
-<pre class="code"><div class="codehead">Regions.h</div>
-#include &lt;wx/wx.h&gt;
-
-class Regions : public wxFrame
-{
-public:
-  Regions(const wxString &amp; title);
-
-  void OnPaint(wxPaintEvent &amp; event);
-
-};
-
-</pre>
-
-
-
-<pre class="code"><div class="codehead">Regions.cpp</div>
-#include "Regions.h"
-
-
-Regions::Regions(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(270, 220))
-{
-  this-&gt;Connect(wxEVT_PAINT, wxPaintEventHandler(Regions::OnPaint));
-  this-&gt;Centre();
-}
-
-void Regions::OnPaint(wxPaintEvent &amp; event)
-{
-  wxPaintDC dc(this);
-  wxColour gray, white, red, blue;
-  wxColour orange, green, brown;
-
-  gray.Set(wxT("#d4d4d4"));
-  white.Set(wxT("#ffffff"));
-  red.Set(wxT("#ff0000"));
-  orange.Set(wxT("#fa8e00"));
-  green.Set(wxT("#619e1b"));
-  brown.Set(wxT("#715b33"));
-  blue.Set(wxT("#0d0060"));
+<pre class="code"><div class="codehead">regions.bmx</div>
+SuperStrict
  
-  dc.SetPen(wxPen(gray));
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-  dc.DrawRectangle(20, 20, 50, 50);
-  dc.DrawRectangle(30, 40, 50, 50);
+	Method OnInit:Int()
+	
+		Local rgn:Regions = Regions(New Regions.Create(Null, wxID_ANY, ..
+			"Regions", -1, -1, 270, 220))
+		rgn.Show(True)
+ 
+		Return True
+	End Method
 
-  dc.SetBrush(wxBrush(white));
-  dc.DrawRectangle(100, 20, 50, 50);
-  dc.DrawRectangle(110, 40, 50, 50); 
-  wxRegion region1(100, 20, 50, 50);
-  wxRegion region2(110, 40, 50, 50);
-  region1.Intersect(region2);
-  wxRect rect1 = region1.GetBox();
-  dc.SetClippingRegion(region1);
-  dc.SetBrush(wxBrush(red));
-  dc.DrawRectangle(rect1);
-  dc.DestroyClippingRegion();
+End Type
 
-  dc.SetBrush(wxBrush(white));
-  dc.DrawRectangle(180, 20, 50, 50);
-  dc.DrawRectangle(190, 40, 50, 50);
-  wxRegion region3(180, 20, 50, 50);
-  wxRegion region4(190, 40, 50, 50);
-  region3.Union(region4);
-  dc.SetClippingRegion(region3);
-  wxRect rect2 = region3.GetBox();
-  dc.SetBrush(wxBrush(orange));
-  dc.DrawRectangle(rect2);
-  dc.DestroyClippingRegion();
+Type Regions Extends wxFrame
+ 
+	Method OnInit()
+		
+		ConnectAny(wxEVT_PAINT, OnPaint)
+		Centre()
+ 
+	End Method
+	
+	Function OnPaint(event:wxEvent)
 
-  dc.SetBrush(wxBrush(white));
-  dc.DrawRectangle(20, 120, 50, 50);
-  dc.DrawRectangle(30, 140, 50, 50);
-  wxRegion region5(20, 120, 50, 50);
-  wxRegion region6(30, 140, 50, 50);
-  region5.Xor(region6);
-  wxRect rect3 = region5.GetBox();
-  dc.SetClippingRegion(region5);
-  dc.SetBrush(wxBrush(green));
-  dc.DrawRectangle(rect3);
-  dc.DestroyClippingRegion();
-
-  dc.SetBrush(wxBrush(white));
-  dc.DrawRectangle(100, 120, 50, 50);
-  dc.DrawRectangle(110, 140, 50, 50);
-  wxRegion region7(100, 120, 50, 50);
-  wxRegion region8(110, 140, 50, 50);
-  region7.Subtract(region8);
-  wxRect rect4 = region7.GetBox();
-  dc.SetClippingRegion(region7);
-  dc.SetBrush(wxBrush(brown));
-  dc.DrawRectangle(rect4);
-  dc.DestroyClippingRegion();
-
-  dc.SetBrush(white);
-  dc.DrawRectangle(180, 120, 50, 50);
-  dc.DrawRectangle(190, 140, 50, 50);
-  wxRegion region9(180, 120, 50, 50);
-  wxRegion region10(190, 140, 50, 50);
-  region10.Subtract(region9);
-  wxRect rect5 = region10.GetBox();
-  dc.SetClippingRegion(region10);
-  dc.SetBrush(wxBrush(blue));
-  dc.DrawRectangle(rect5);
-  dc.DestroyClippingRegion(); 
-}
-
+		Local dc:wxPaintDC = New wxPaintDC.Create(wxWindow(event.parent))
+		
+		Local gray:wxColour = New wxColour.CreateNamedColour("#d4d4d4")
+		Local white:wxColour = New wxColour.CreateNamedColour("#ffffff")
+		Local red:wxColour = New wxColour.CreateNamedColour("#ff0000")
+		Local orange:wxColour = New wxColour.CreateNamedColour("#fa8e00")
+		Local green:wxColour = New wxColour.CreateNamedColour("#619e1b")
+		Local brown:wxColour = New wxColour.CreateNamedColour("#715b33")
+		Local blue:wxColour = New wxColour.CreateNamedColour("#0d0060")
+		
+		dc.SetPen(New wxPen.CreateFromColour(gray))
+		
+		dc.DrawRectangle(20, 20, 50, 50)
+		dc.DrawRectangle(30, 40, 50, 50)
+		
+		dc.SetBrush(New wxBrush.CreateFromColour(white))
+		dc.DrawRectangle(100, 20, 50, 50)
+		dc.DrawRectangle(110, 40, 50, 50) 
+		Local region1:wxRegion = New wxRegion.Create(100, 20, 50, 50)
+		Local region2:wxRegion = New wxRegion.Create(110, 40, 50, 50)
+		region1.IntersectRegion(region2)
+		Local rect1:wxRect = region1.GetBoxRect()
+		dc.SetClippingRegionRegion(region1)
+		dc.SetBrush(New wxBrush.CreateFromColour(red))
+		dc.DrawRectangleRect(rect1)
+		dc.DestroyClippingRegion()
+		
+		dc.SetBrush(New wxBrush.CreateFromColour(white))
+		dc.DrawRectangle(180, 20, 50, 50)
+		dc.DrawRectangle(190, 40, 50, 50)
+		Local region3:wxRegion = New wxRegion.Create(180, 20, 50, 50)
+		Local region4:wxRegion = New wxRegion.Create(190, 40, 50, 50)
+		region3.UnionRegion(region4)
+		dc.SetClippingRegionRegion(region3)
+		Local rect2:wxRect = region3.GetBoxRect()
+		dc.SetBrush(New wxBrush.CreateFromColour(orange))
+		dc.DrawRectangleRect(rect2)
+		dc.DestroyClippingRegion()
+		
+		dc.SetBrush(New wxBrush.CreateFromColour(white))
+		dc.DrawRectangle(20, 120, 50, 50)
+		dc.DrawRectangle(30, 140, 50, 50)
+		Local region5:wxRegion = New wxRegion.Create(20, 120, 50, 50)
+		Local region6:wxRegion = New wxRegion.Create(30, 140, 50, 50)
+		region5.XorRegion(region6)
+		Local rect3:wxRect = region5.GetBoxRect()
+		dc.SetClippingRegionRegion(region5)
+		dc.SetBrush(New wxBrush.CreateFromColour(green))
+		dc.DrawRectangleRect(rect3)
+		dc.DestroyClippingRegion()
+		
+		dc.SetBrush(New wxBrush.CreateFromColour(white))
+		dc.DrawRectangle(100, 120, 50, 50)
+		dc.DrawRectangle(110, 140, 50, 50)
+		Local region7:wxRegion = New wxRegion.Create(100, 120, 50, 50)
+		Local region8:wxRegion = New wxRegion.Create(110, 140, 50, 50)
+		region7.SubtractRegion(region8)
+		Local rect4:wxRect = region7.GetBoxRect()
+		dc.SetClippingRegionRegion(region7)
+		dc.SetBrush(New wxBrush.CreateFromColour(brown))
+		dc.DrawRectangleRect(rect4)
+		dc.DestroyClippingRegion()
+		
+		dc.SetBrush(New wxBrush.CreateFromColour(white))
+		dc.DrawRectangle(180, 120, 50, 50)
+		dc.DrawRectangle(190, 140, 50, 50)
+		Local region9:wxRegion = New wxRegion.Create(180, 120, 50, 50)
+		Local region10:wxRegion = New wxRegion.Create(190, 140, 50, 50)
+		region10.SubtractRegion(region9)
+		Local rect5:wxRect = region10.GetBoxRect()
+		dc.SetClippingRegionRegion(region10)
+		dc.SetBrush(New wxBrush.CreateFromColour(blue))
+		dc.DrawRectangleRect(rect5)
+		dc.DestroyClippingRegion() 
+			
+		dc.Free()
+	End Function
+	
+End Type
 </pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "Regions.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-  Regions *regions = new Regions(wxT("Regions"));
-  regions-&gt;Show(true);
-
-  return true;
-}
-
-</pre>
-
 
 <br>
 <img src="../media/regions.jpg" alt="Regions">
@@ -695,8 +583,11 @@ special effects as well as to simulate lights and shadows.
 (answers.com)
 </p>
 
-<pre class="definition">  void GradientFillLinear(const wxRect&amp; rect, const wxColour&amp; initialColour, 
-       const wxColour&amp; destColour, wxDirection nDirection = wxEAST)
+<pre class="definition">  GradientFillLinear(x:Int, y:Int, w:Int, h:Int, ..
+    initialColour:wxColour, destColour:wxColour, direction:Int = wxEAST)
+ 
+  GradientFillLinearRect(rect:wxRect, initialColour:wxColour, ..
+    destColour:wxColour, direction:Int = wxEAST)
 </pre>
 
 <p>This method fills the area specified by a rect with a linear
@@ -704,74 +595,52 @@ gradient, starting from initialColour and eventually fading to
 destColour. The nDirection parameter specifies the direction of the
 colour change, the default value is wxEAST. </p>
 
-<pre class="code"><div class="codehead">gradient.h</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead">gradient.bmx</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class Gradient : public wxFrame
-{
-public:
-  Gradient(const wxString&amp; title);
+	Method OnInit:Int()
+	
+		Local txt:Gradient = Gradient(New Gradient.Create(Null, wxID_ANY, ..
+			"Gradient", -1, -1, 220, 280))
+		txt.Show(True)
+ 
+		Return True
+	End Method
 
-  void OnPaint(wxPaintEvent&amp; event);
+End Type
 
-};
+Type Gradient Extends wxFrame
+ 
+	Method OnInit()
+		
+		ConnectAny(wxEVT_PAINT, OnPaint)
+		Centre()
+ 
+	End Method
+	
+	Function OnPaint(event:wxEvent)
 
-</pre>
-
-<pre class="code"><div class="codehead">gradient.cpp</div>
-#include "gradient.h"
-
-
-Gradient::Gradient(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(220, 260))
-{
-  this-&gt;Connect(wxEVT_PAINT, wxPaintEventHandler(Gradient::OnPaint));
-  this-&gt;Centre();
-}
-
-void Gradient::OnPaint(wxPaintEvent&amp; event)
-{
-  wxPaintDC dc(this);
-
-
-  wxColour col1, col2;
-
-  col1.Set(wxT("#e12223"));
-  col2.Set(wxT("#000000"));
-
-  dc.GradientFillLinear(wxRect(20, 20, 180, 40), col1, col2, wxNORTH);
-  dc.GradientFillLinear(wxRect(20, 80, 180, 40), col1, col2, wxSOUTH);
-  dc.GradientFillLinear(wxRect(20, 140, 180, 40), col1, col2, wxEAST);
-  dc.GradientFillLinear(wxRect(20, 200, 180, 40), col1, col2, wxWEST);  
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "gradient.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-  Gradient *grad = new Gradient(wxT("Gradient"));
-  grad-&gt;Show(true);
-
-  return true;
-}
-
+		Local dc:wxPaintDC = New wxPaintDC.Create(wxWindow(event.parent))
+		
+		Local col1:wxColour = New wxColour.CreateNamedColour("#e12223")
+		Local col2:wxColour = New wxColour.CreateNamedColour("#000000")
+		
+		dc.GradientFillLinear(20, 20, 180, 40, col1, col2, wxNORTH)
+		dc.GradientFillLinear(20, 80, 180, 40, col1, col2, wxSOUTH)
+		dc.GradientFillLinear(20, 140, 180, 40, col1, col2, wxEAST)
+		dc.GradientFillLinear(20, 200, 180, 40, col1, col2, wxWEST)  
+	
+		dc.Free()
+	End Function
+	
+End Type
 </pre>
 
 <br>
@@ -786,87 +655,64 @@ bool MyApp::OnInit()
 Shapes are more sophisticated geometrical objects. We will draw various geometrical shapes in the following example.
 </p>
 
-<pre class="code"><div class="codehead">shapes.h</div>
-#include &lt;wx/wx.h&gt;
-
-class Shapes : public wxFrame
-{
-public:
-    Shapes(const wxString &amp; title);
-
-    void OnPaint(wxPaintEvent &amp; event);
-
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">shapes.cpp</div>
-#include "shapes.h"
-
-
-Shapes::Shapes(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(350, 300))
-{
-  this-&gt;Connect(wxEVT_PAINT, wxPaintEventHandler(Shapes::OnPaint));
-  this-&gt;Centre();
-}
-
-void Shapes::OnPaint(wxPaintEvent&amp; event)
-{
-  wxPaintDC dc(this);
+<pre class="code"><div class="codehead">shapes.bmx</div>
+SuperStrict
  
-  wxPoint lines[] = { wxPoint(20, 260), wxPoint(100, 260), 
-          wxPoint(20, 210), wxPoint(100, 210) };
-  wxPoint polygon[] = { wxPoint(130, 140), wxPoint(180, 170), 
-          wxPoint(180, 140), wxPoint(220, 110), wxPoint(140, 100) };
-  wxPoint splines[] = { wxPoint(240, 170), wxPoint(280, 170), 
-          wxPoint(285, 110), wxPoint(325, 110) };
-  
-  dc.DrawEllipse(20, 20, 90, 60);
-  dc.DrawRoundedRectangle(130, 20, 90, 60, 10);
-  dc.DrawArc(240, 40, 340, 40, 290, 20);
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-  dc.DrawPolygon(4, polygon);
-  dc.DrawRectangle(20, 120, 80, 50);
-  dc.DrawSpline(4, splines);
+	Method OnInit:Int()
+	
+		Local txt:Shapes = Shapes(New Shapes.Create(Null, wxID_ANY, ..
+			"Shapes", -1, -1, 350, 300))
+		txt.Show(True)
+ 
+		Return True
+	End Method
 
-  dc.DrawLines(4, lines);
-  dc.DrawCircle(170, 230, 35);
-  dc.DrawRectangle(250, 200, 60, 60);
-  
-}
+End Type
 
+Type Shapes Extends wxFrame
+ 
+	Method OnInit()
+		
+		ConnectAny(wxEVT_PAINT, OnPaint)
+		Centre()
+ 
+	End Method
+	
+	Function OnPaint(event:wxEvent)
+
+		Local dc:wxPaintDC = New wxPaintDC.Create(wxWindow(event.parent))
+		
+		Local lines:Int[] = [ 20, 260, 100, 260, 20, 210, ..
+			100, 210 ]
+		Local polygon:Int[] = [ 130, 140, 180, 170, 180, 140, ..
+			220, 110, 140, 100 ]
+		Local splines:Int[] = [ 240, 170, 280, 170, 285, 110, ..
+			325, 110 ]
+		
+		dc.DrawEllipse(20, 20, 90, 60)
+		dc.DrawRoundedRectangle(130, 20, 90, 60, 10)
+		dc.DrawArc(240, 40, 340, 40, 290, 20)
+		
+		dc.DrawPolygon(polygon)
+		dc.DrawRectangle(20, 120, 80, 50)
+		dc.DrawSpline(splines)
+		
+		dc.DrawLines(lines)
+		dc.DrawCircle(170, 230, 35)
+		dc.DrawRectangle(250, 200, 60, 60)
+	
+		dc.Free()
+	End Function
+	
+End Type
 </pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "shapes.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Shapes *shapes = new Shapes(wxT("Shapes"));
-    shapes-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
-
 
 <br>
 <img src="../media/shapes.jpg" alt="Shapes">
