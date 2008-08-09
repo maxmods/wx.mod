@@ -43,201 +43,154 @@ it is currently around 2000 elements. The elements are numbered from
 zero. Scrollbars are displayed automatically if needed.
 </p>
 
-
-<pre class="code"><div class="codehead">Listbox.h</div>
-#include &lt;wx/wx.h&gt;
-#include &lt;wx/listbox.h&gt;
-
-class MyPanel : public wxPanel
-{
-public:
-    MyPanel(wxPanel *parent);
-
-    void OnNew(wxCommandEvent&amp; event);
-    void OnRename(wxCommandEvent&amp; event);
-    void OnClear(wxCommandEvent&amp; event);
-    void OnDelete(wxCommandEvent&amp; event);
-
-    wxListBox *m_lb;
-
-    wxButton *m_newb;
-    wxButton *m_renameb;
-    wxButton *m_clearb;
-    wxButton *m_deleteb;
-
-};
-
-class Listbox : public wxFrame
-{
-public:
-    Listbox(const wxString&amp; title);
-
-    void OnDblClick(wxCommandEvent&amp; event);
-
-    wxListBox *listbox;
-    MyPanel *btnPanel;
-
-};
-
-const int ID_RENAME = 1;
-const int ID_LISTBOX = 5;
-
-</pre>
-
-<pre class="code"><div class="codehead">Listbox.cpp</div>
-#include "Listbox.h"
-#include &lt;wx/textdlg.h&gt;
-
-
-Listbox::Listbox(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(270, 200))
-{
-
-  wxPanel * panel = new wxPanel(this, -1);
-
-  wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
-
-  listbox = new wxListBox(panel, ID_LISTBOX, 
-      wxPoint(-1, -1), wxSize(-1, -1)); 
-
-  hbox-&gt;Add(listbox, 3, wxEXPAND | wxALL, 20);
-
-  btnPanel = new MyPanel(panel);
-  hbox-&gt;Add(btnPanel, 2, wxEXPAND | wxRIGHT, 10);
-
-  Connect(wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, 
-      wxCommandEventHandler(Listbox::OnDblClick));
-
-  panel-&gt;SetSizer(hbox);
-  Center();
-  
-}
-
-
-MyPanel::MyPanel(wxPanel * parent)
-       : wxPanel(parent, wxID_ANY)
-{
-  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
-
-  Listbox *lb = (Listbox *) parent-&gt;GetParent();
-  m_lb = lb-&gt;listbox;
-
-  m_newb = new wxButton(this, wxID_NEW, wxT("New"));
-  m_renameb = new wxButton(this, ID_RENAME, wxT("Rename"));
-  m_deleteb = new wxButton(this, wxID_DELETE, wxT("Delete"));
-  m_clearb = new wxButton(this, wxID_CLEAR, wxT("Clear"));
-
-  Connect(wxID_NEW, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(MyPanel::OnNew) );
-  Connect(ID_RENAME, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(MyPanel::OnRename) );
-  Connect(wxID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(MyPanel::OnClear) );
-  Connect(wxID_DELETE, wxEVT_COMMAND_BUTTON_CLICKED, 
-      wxCommandEventHandler(MyPanel::OnDelete) );
-
-  vbox-&gt;Add(-1, 20);
-  vbox-&gt;Add(m_newb);
-  vbox-&gt;Add(m_renameb, 0, wxTOP, 5);
-  vbox-&gt;Add(m_deleteb, 0, wxTOP, 5);
-  vbox-&gt;Add(m_clearb, 0, wxTOP, 5);
-
-  SetSizer(vbox);
+<pre class="code"><div class="codehead"><a href="../examples/listbox.bmx">listbox.bmx</a> &lt;- Open source</div>
+SuperStrict
  
-}
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+Import wx.wxListBox
+Import wx.wxTextEntryDialog
+ 
+Const ID_RENAME:Int = 1
+Const ID_LISTBOX:Int = 5
 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-void MyPanel::OnNew(wxCommandEvent&amp; event) 
-{
-  wxString str = wxGetTextFromUser(wxT("Add new item"));
-  if (str.Len() &gt; 0)
-      m_lb-&gt;Append(str); 
-}
+	Method OnInit:Int()
+	
+		Local lb:TListbox = TListbox(New TListbox.Create(Null, wxID_ANY, ..
+			"Simple", -1, -1, 270, 200))
+		lb.Show(True)
+ 
+		Return True
+	End Method
 
-void MyPanel::OnClear(wxCommandEvent&amp; event) 
-{
-  m_lb-&gt;Clear();
-}
+End Type
 
-void MyPanel::OnRename(wxCommandEvent&amp; event) 
-{
-  wxString text;
-  wxString renamed;
-  
-  int sel = m_lb-&gt;GetSelection();
-  if (sel != -1) {
-      text.Printf(m_lb-&gt;GetString(sel));
-      renamed = wxGetTextFromUser(wxT("Rename item"), 
-                  wxT("Rename dialog"), text);
-  }
+Type TListbox Extends wxFrame
 
-  if (!renamed.IsEmpty()) {
-      m_lb-&gt;Delete(sel);
-      m_lb-&gt;Insert(renamed, sel);
-  }
-}
+	Field listbox:wxListBox
+	Field btnPanel:MyPanel
+ 
+	Method OnInit()
+		
+		Local panel:wxPanel = New wxPanel.Create(Self, -1)
+		
+		Local hbox:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		
+		listbox = New wxListBox.Create(panel, ID_LISTBOX, ..
+			Null, -1, -1, -1, -1)
+		
+		hbox.Add(listbox, 3, wxEXPAND | wxALL, 20)		
+		btnPanel = MyPanel(New MyPanel.Create(panel))
+		hbox.Add(btnPanel, 2, wxEXPAND | wxRIGHT, 10)
+		
+		ConnectAny(wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, OnDblClick)
+		
+		panel.SetSizer(hbox)
 
+		Centre()
+ 
+	End Method
+	
+	Function OnDblClick(event:wxEvent)
+		Local lb:TListBox = TListBox(event.parent)
+	
+		Local renamed:String
+		
+		Local sel:Int = lb.listbox.GetSelection()
+		If sel <> -1 Then
+		    renamed = wxGetTextFromUser("Rename item", ..
+				"Rename dialog", lb.listbox.GetString(sel))
+		End If
+		
+		If renamed Then
+		    lb.listbox.DeleteItem(sel)
+		    lb.listbox.Insert(renamed, sel)
+		End If
+	End Function
+	
+End Type
 
-void MyPanel::OnDelete(wxCommandEvent&amp; event) 
-{
-  int sel = m_lb-&gt;GetSelection();
-  if (sel != -1) {
-      m_lb-&gt;Delete(sel);
- }
-}
+Type MyPanel Extends wxPanel
 
+	Field m_lb:wxListBox
+	
+	Field m_newb:wxButton
+	Field m_renameb:wxButton
+	Field m_clearb:wxButton
+	Field m_deleteb:wxButton
 
-void Listbox::OnDblClick(wxCommandEvent&amp; event) 
-{
-  wxString text;
-  wxString renamed;
+	Method OnInit()
+		Local vbox:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+		
+		Local lb:TListbox = TListbox(GetParent().GetParent())
+		m_lb = lb.listbox
+		
+		m_newb = New wxButton.Create(Self, wxID_NEW, "New")
+		m_renameb = New wxButton.Create(Self, ID_RENAME, "Rename")
+		m_deleteb = New wxButton.Create(Self, wxID_DELETE, "Delete")
+		m_clearb = New wxButton.Create(Self, wxID_CLEAR, "Clear")
+		
+		Connect(wxID_NEW, wxEVT_COMMAND_BUTTON_CLICKED, OnNew)
+		Connect(ID_RENAME, wxEVT_COMMAND_BUTTON_CLICKED, OnRename)
+		Connect(wxID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED, OnClear)
+		Connect(wxID_DELETE, wxEVT_COMMAND_BUTTON_CLICKED, OnDelete)
+		
+		vbox.AddCustomSpacer(-1, 20)
+		vbox.Add(m_newb)
+		vbox.Add(m_renameb, 0, wxTOP, 5)
+		vbox.Add(m_deleteb, 0, wxTOP, 5)
+		vbox.Add(m_clearb, 0, wxTOP, 5)
+		
+		SetSizer(vbox)
+	End Method
+	
+	Function OnNew(event:wxEvent)
+		Local s:String = wxGetTextFromUser("Add new item")
+		If s Then
+			MyPanel(event.parent).m_lb.Append(s)
+		End If
+	End Function
 
-  int sel = listbox-&gt;GetSelection();
-  if (sel != -1) {
-      text.Printf(listbox-&gt;GetString(sel));
-      renamed = wxGetTextFromUser(wxT("Rename item"), 
-                  wxT("Rename dialog"), text);
-  } 
+	Function OnRename(event:wxEvent)
+		Local pnl:MyPanel = MyPanel(event.parent)
 
-  if (!renamed.IsEmpty()) {
-      listbox-&gt;Delete(sel);
-      listbox-&gt;Insert(renamed, sel);
-  }
-}
+		Local renamed:String
+		
+		Local sel:Int = pnl.m_lb.GetSelection()
+		If sel <> -1 Then
+			renamed = wxGetTextFromUser("Rename item", ..
+				"Rename dialog", pnl.m_lb.GetString(sel))
+		End If
+		
+		If renamed Then
+			pnl.m_lb.DeleteItem(sel)
+			pnl.m_lb.Insert(renamed, sel)
+		End If
+	End Function
 
-</pre>
+	Function OnClear(event:wxEvent)
+		MyPanel(event.parent).m_lb.Clear()
+	End Function
 
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "Listbox.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Listbox *listbox = new Listbox(wxT("Listbox"));
-    listbox-&gt;Show(true);
-
-    return true;
-}
-
+	Function OnDelete(event:wxEvent)
+		Local pnl:MyPanel = MyPanel(event.parent)
+	
+		Local sel:Int = pnl.m_lb.GetSelection()
+		If sel <> -1 Then
+			pnl.m_lb.DeleteItem(sel)
+		End If
+	End Function
+	
+End Type
 </pre>
 <br>
 
-<pre class="explanation"> listbox = new wxListBox(panel, ID_LISTBOX, 
-     wxPoint(-1, -1), wxSize(-1, -1));
+<pre class="explanation"> listbox = New wxListBox.Create(panel, ID_LISTBOX, Null, -1, -1, -1, -1)
 </pre>
 
 <p>
@@ -249,9 +202,10 @@ In our example, we have a list box and four buttons. The buttons are used to add
 the listbox.
 </p>
 
-<pre class="explanation"> wxString str = wxGetTextFromUser(wxT("Add new item"));
- if (str.Len() &gt; 0)
-     m_lb-&gt;Append(str); 
+<pre class="explanation"> Local s:String = wxGetTextFromUser("Add new item")
+ If s Then
+     m_lb.Append(str)
+ End If
 </pre>
 
 <p>
@@ -259,17 +213,17 @@ To add a new string to the listbox, we display a <i>wxGetTextFromUser</i> dialog
 append string to the listbox.
 </p>
 
-<pre class="explanation"> m_lb-&gt;Clear();
+<pre class="explanation"> m_lb.Clear()
 </pre>
 
 <p>
 To clear all items is the easiest action to do. We just call the <i>Clear()</i> method.
 </p>
 
-<pre class="explanation"> int sel = m_lb-&gt;GetSelection();
- if (sel != -1) {
-     m_lb-&gt;Delete(sel);
- }
+<pre class="explanation"> Local sel:Int = m_lb.GetSelection()
+ If sel &lt;&gt; -1 Then
+     m_lb.DeleteItem(sel)
+ End If
 </pre>
 
 <p>
@@ -277,33 +231,24 @@ To delete an item, we figure out the selected item. Then we call the <i>Delete()
 </p>
 
 <p>
-Renaming an item requires several steps.
-</p>
+Renaming an item requires several steps.</p>
 
-<pre class="explanation"> wxString text;
- wxString renamed;
-</pre>
-
-<p>
-We define two local variables.
-</p>
-
-<pre class="explanation"> int sel = m_lb-&gt;GetSelection();
- if (sel != -1) {
-     text.Printf(m_lb-&gt;GetString(sel));
-     renamed = wxGetTextFromUser(wxT("Rename item"), 
-                 wxT("Rename dialog"), text);
- }
+<pre class="explanation"> Local renamed:String
+ Local sel:Int = m_lb.GetSelection()
+ If sel &lt;&gt; -1 Then
+     renamed = wxGetTextFromUser("Rename item", ..
+     	"Rename dialog", m_lb.GetString(sel))
+ End If
 </pre>
 
 <p>
 We get the selected string and save it to the renamed variable.
 </p>
 
-<pre class="explanation"> if (!renamed.IsEmpty()) {
-     m_lb-&gt;Delete(sel);
-     m_lb-&gt;Insert(renamed, sel);
- }
+<pre class="explanation"> If renamed Then
+     m_lb.DeleteItem(sel)
+     m_lb.Insert(renamed, sel)
+ End If
 </pre>
 
 <p>
@@ -331,139 +276,106 @@ You can position the Notebook widget using the following style flags:
 The default position is wxNB_TOP.
 <p></p>
 
+<pre class="code"><div class="codehead"><a href="../examples/notebook.bmx">notebook.bmx</a></div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxNotebook
+Import wx.wxSheet
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
+	Method OnInit:Int()
+	
+		Local sim:Notebook = Notebook(New Notebook.Create(Null, wxID_ANY, ..
+			"Notebook", -1, -1, 400, 350))
+		sim.Show(True)
+ 
+		Return True
+	End Method
 
+End Type
 
-<pre class="code"><div class="codehead">Notebook.h</div>
-#include &lt;wx/wx.h&gt;
-#include &lt;wx/notebook.h&gt;
-#include &lt;wx/grid.h&gt;
+Type Notebook Extends wxFrame
+ 
+	Method OnInit()
+		
+		Local nb:wxNotebook = New wxNotebook.Create(Self, -1, ..
+			-1, -1, -1, -1, wxNB_BOTTOM)
+		
+		Local menubar:wxMenuBar = New wxMenuBar.Create()
+		Local file:wxMenu = New wxMenu.Create()
+		file.Append(wxID_CLOSE, "Quit", "")
+		menubar.Append(file, "&File")
+		SetMenuBar(menubar)
+		
+		ConnectAny(wxEVT_COMMAND_MENU_SELECTED, OnQuit)
+		
+		Local grid1:MySheet = MySheet(New MySheet.Create(nb, -1))
+		Local grid2:MySheet = MySheet(New MySheet.Create(nb, -1))
+		Local grid3:MySheet = MySheet(New MySheet.Create(nb, -1))
+		
+		nb.AddPage(grid1, "Sheet1")
+		nb.AddPage(grid2, "Sheet2")
+		nb.AddPage(grid3, "Sheet3")
+		
+		CreateStatusBar()
+		
+		Centre()
+ 
+	End Method
+	
+	Function OnQuit(event:wxEvent)
+		wxWindow(event.parent).Close(True)
+	End Function
+	
+End Type
 
-class Notebook : public wxFrame
-{
-public:
-    Notebook(const wxString&amp; title);
+Type MySheet Extends wxSheet
 
-    void OnQuit(wxCommandEvent&amp; event);
+	Method OnInit()
+		CreateGrid(30, 30)
+		SetRowLabelWidth(50)
+		SetColLabelHeight(25)
+		Local attr:wxSheetCellAttr = GetDefaultRowLabelAttr()
+		attr.SetAlignmentHV(wxALIGN_RIGHT, wxALIGN_CENTRE)
+		attr.SetFont(New wxFont.CreateWithAttribs(9, ..
+			wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD))
+		
+		For Local i:Int = 0 Until 30
+		    SetRowHeight(i, 25)
+		Next
+	End Method
 
-};
-
-
-class MyGrid : public wxGrid
-{
-public:
-    MyGrid(wxNotebook *parent);
-
-};
-
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">Notebook.cpp</div>
-#include "Notebook.h"
-
-Notebook::Notebook(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(400, 350))
-{
-
-  wxNotebook *nb = new wxNotebook(this, -1, wxPoint(-1, -1), 
-      wxSize(-1, -1), wxNB_BOTTOM);
-
-  wxMenuBar *menubar = new wxMenuBar;
-  wxMenu *file = new wxMenu;
-  file-&gt;Append(wxID_CLOSE, wxT("Quit"), wxT(""));
-  menubar-&gt;Append(file, wxT("&amp;File"));
-  SetMenuBar(menubar);
-
-  Connect(wxEVT_COMMAND_MENU_SELECTED, 
-      wxCommandEventHandler(Notebook::OnQuit)); 
-
-  MyGrid *grid1 = new MyGrid(nb);
-  MyGrid *grid2 = new MyGrid(nb);
-  MyGrid *grid3 = new MyGrid(nb);
-
-  nb-&gt;AddPage(grid1, wxT("Sheet1"));
-  nb-&gt;AddPage(grid2, wxT("Sheet2"));
-  nb-&gt;AddPage(grid3, wxT("Sheet3"));
-
-  CreateStatusBar();
-  Center();
-}
-
-
-void Notebook::OnQuit(wxCommandEvent&amp; event) 
-{
-  Close(true);
-}
-
-MyGrid::MyGrid(wxNotebook * parent)
-       : wxGrid(parent, wxID_ANY)
-{
-  CreateGrid(30, 30);
-  SetRowLabelSize(50);
-  SetColLabelSize(25);
-  SetRowLabelAlignment(wxALIGN_RIGHT, wxALIGN_CENTRE);
-  SetLabelFont(wxFont(9, wxFONTFAMILY_DEFAULT, 
-      wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
-
-  for (int i = 0; i &lt; 30 ; i++) {
-      this-&gt;SetRowSize(i, 25);
-  }
-
-}
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "Notebook.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Notebook *notebook = new Notebook(wxT("Notebook"));
-    notebook-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 <br>
 
 <p>
-In this example, we have created a notebook widget with three grids. The notebook widget is positioned at the 
+In this example, we have created a notebook widget with three sheets. The notebook widget is positioned at the 
 bottom.
 </p>
 
 
-<pre class="explanation"> wxNotebook *nb = new wxNotebook(this, -1, wxPoint(-1, -1), 
-      wxSize(-1, -1), wxNB_BOTTOM);
+<pre class="explanation"> Local nb:wxNotebook = New wxNotebook.Create(Self, -1, -1, -1, .. 
+      -1, -1, wxNB_BOTTOM)
 </pre>
 
 <p>
 Here we create the notebook widget. 
 </p>
 
-<pre class="explanation"> nb-&gt;AddPage(grid1, wxT("Sheet1"));
- nb-&gt;AddPage(grid2, wxT("Sheet2"));
- nb-&gt;AddPage(grid3, wxT("Sheet3"));
+<pre class="explanation"> nb.AddPage(sheet1, "Sheet1")
+ nb.AddPage(sheet2, "Sheet2")
+ nb.AddPage(sheet3, "Sheet3")
 </pre>
 
 <p>
-We add three grid objects into the notebook widget. 
+We add three sheet objects into the notebook widget. 
 </p>
 
 <br>
@@ -479,100 +391,85 @@ such a case. We place a large image into our window. When the window is
 smaller than our image, Scrollbars are displayed automatically.
 </p>
 
+<pre class="code"><div class="codehead"><a href="../examples/scrolledwindow.bmx">scrolledwindow.bmx</a></div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxScrolledWindow
+Import wx.wxStaticBitmap
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-<pre class="code"><div class="codehead">scrolledwindow.h</div>
-#include &lt;wx/wx.h&gt;
+	Method OnInit:Int()
+	
+		Local sim:ScrolledWindow = ScrolledWindow(New ScrolledWindow.Create(Null, wxID_ANY, ..
+			"ScrolledWindow", -1, -1, 300, 200))
+		sim.Show(True)
+ 
+		Return True
+	End Method
 
-class ScrWindow : public wxFrame
-{
-public:
-  ScrWindow(const wxString&amp; title);
+End Type
 
-};
+Type ScrolledWindow Extends wxFrame
+ 
+	Method OnInit()
+		
+		wxImage.AddHandler(New wxJPEGHandler)
+		
+		Local sw:wxScrolledWindow = New wxScrolledWindow.Create(Self)
+		
+		Local bmp:wxBitmap = New wxBitmap.CreateFromFile("../media/castle.jpg", wxBITMAP_TYPE_JPEG)
+		Local sb:wxStaticBitmap = New wxStaticBitmap.Create(sw, -1, bmp)
+		
+		Local width:Int = bmp.GetWidth()
+		Local height:Int = bmp.GetHeight()
+		
+		sw.SetScrollbars(10, 10, width/10, height/10)
+		sw.Scroll(20, 5)
+
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">scrolledwindow.cpp</div>
-#include "scrolledwindow.h"
 
-ScrWindow::ScrWindow(const wxString &amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(300, 200))
-{
-  wxImage::AddHandler(new wxJPEGHandler);
-  wxScrolledWindow *sw = new wxScrolledWindow(this);
-  
-  wxBitmap bmp(wxT("castle.jpg"), wxBITMAP_TYPE_JPEG);
-  wxStaticBitmap *sb = new wxStaticBitmap(sw, -1, bmp);
-
-  int width = bmp.GetWidth();
-  int height = bmp.GetHeight();
-
-  sw-&gt;SetScrollbars(10, 10, width/10, height/10);
-  sw-&gt;Scroll(50,10);
-
-  Center();
-}
-
-</pre>
-
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "scrolledwindow.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    ScrWindow *sw = new ScrWindow(wxT("ScrolledWindow"));
-    sw-&gt;Show(true);
-
-    return true;
-}
-</pre>
 <br>
 
 <p>
 In our example, we display a picture of a Spis castle. 
 </p>
 
-<pre class="explanation"> wxImage::AddHandler(new wxJPEGHandler);
+<pre class="explanation"> wxImage.AddHandler(New wxJPEGHandler)
 </pre>
 
 <p>
 To handle jpg images, we must initiate the <i>wxJPEGHandler</i>.
 </p>
 
-<pre class="explanation"> wxScrolledWindow *sw = new wxScrolledWindow(this);
+<pre class="explanation"> Local sw:wxScrolledWindow = New wxScrolledWindow.Create(Self)
 
- wxBitmap bmp(wxT("castle.jpg"), wxBITMAP_TYPE_JPEG);
- wxStaticBitmap *sb = new wxStaticBitmap(sw, -1, bmp);
+ Local bmp:wxBitmap = New wxBitmap.CreateFromFile("castle.jpg", wxBITMAP_TYPE_JPEG)
+ Local sb:wxStaticBitmap = New wxStaticBitmap.Create(sw, -1, bmp)
 </pre>
 
 <p>
 We create a scroll window and put a static bitmap into it.
 </p>
 
-<pre class="explanation"> sw-&gt;SetScrollbars(10, 10, width/10, height/10);
+<pre class="explanation"> sw.SetScrollbars(10, 10, width/10, height/10)
 </pre>
 
 <p>
 We set the scrollbars. 
 </p>
 
-<pre class="explanation"> sw-&gt;Scroll(50,10);
+<pre class="explanation"> sw.Scroll(20, 5)
 </pre>
 
 <p>
