@@ -48,156 +48,128 @@ For drag &amp; drop of text, wxWidgets has a predefined <b>wxTextDropTarget</b> 
 In the following example, we drag and drop file names from the upper list control to the bottom one.
 </p>
 
-
-<pre class="code"><div class="codehead">textdrop.h</div>
-#include &lt;wx/wx.h&gt;
-#include &lt;wx/dnd.h&gt;
-
-class TextDrop : public wxFrame
-{
-public:
-  TextDrop(const wxString&amp; title);
-    
-  void OnSelect(wxCommandEvent&amp; event);
-  void OnDragInit(wxListEvent&amp; event);
-
-  wxGenericDirCtrl *m_gdir;
-  wxListCtrl *m_lc1;
-  wxListCtrl *m_lc2;
-
-};
-
-
-class MyTextDropTarget : public wxTextDropTarget
-{
-public:
-  MyTextDropTarget(wxListCtrl *owner);
-
-  virtual bool OnDropText(wxCoord x, wxCoord y, 
-      const wxString&amp; data);
-
-  wxListCtrl *m_owner;
+<pre class="code"><div class="codehead"><a href="../examples/textdrop.bmx">textdrop.bmx</a> &lt;- Open source</div>
+SuperStrict
  
-};
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxTextDropTarget
+Import wx.wxGenericDirCtrl
+Import wx.wxListCtrl
+Import wx.wxTreeCtrl
+Import wx.wxSplitterWindow
+Import wx.wxTextDataObject
+Import wx.wxDropSource
 
-</pre>
-
-<pre class="code"><div class="codehead">textdrop.cpp</div>
-#include "textdrop.h"
-#include &lt;wx/treectrl.h&gt;
-#include &lt;wx/dirctrl.h&gt;
-#include &lt;wx/dir.h&gt;
-#include &lt;wx/splitter.h&gt;
-
-
-TextDrop::TextDrop(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(300, 200))
-{
+New MyApp.Run()
  
-  wxSplitterWindow *spl1 = new wxSplitterWindow(this, -1);
-  wxSplitterWindow *spl2 = new wxSplitterWindow(spl1, -1);
-  m_gdir = new wxGenericDirCtrl(spl1, -1, wxT("/home/"), 
-      wxPoint(-1, -1), wxSize(-1, -1), wxDIRCTRL_DIR_ONLY);
+Type MyApp Extends wxApp
 
-  m_lc1 = new wxListCtrl(spl2, -1, wxPoint(-1, -1), 
-      wxSize(-1, -1), wxLC_LIST);
-  m_lc2 = new wxListCtrl(spl2, -1, wxPoint(-1, -1), 
-      wxSize(-1, -1), wxLC_LIST);
+	Method OnInit:Int()
+	
+		Local td:TextDrop = TextDrop(New TextDrop.Create(Null, wxID_ANY, ..
+			"TextDrop", -1, -1, 300, 200))
+		td.Show(True)
+ 
+		Return True
+	End Method
 
-  MyTextDropTarget *mdt = new MyTextDropTarget(m_lc2);
-  m_lc2-&gt;SetDropTarget(mdt);
+End Type
 
-  Connect(m_lc1-&gt;GetId(), wxEVT_COMMAND_LIST_BEGIN_DRAG, 
-      wxListEventHandler(TextDrop::OnDragInit));
+Type TextDrop Extends wxFrame
+ 
+	Field m_gdir:wxGenericDirCtrl
+	Field m_lc1:wxListCtrl
+	Field m_lc2:wxListCtrl
 
-  wxTreeCtrl *tree = m_gdir-&gt;GetTreeCtrl();
+	Method OnInit()
+		
+		Local spl1:wxSplitterWindow = New wxSplitterWindow.Create(..
+			Self, -1)
+		Local spl2:wxSplitterWindow = New wxSplitterWindow.Create(..
+			spl1, -1)
+		m_gdir = New wxGenericDirCtrl.Create(spl1, -1, "../..", ..
+			-1, -1, -1, -1, wxDIRCTRL_DIR_ONLY)
 
-  spl2-&gt;SplitHorizontally(m_lc1, m_lc2);
-  spl1-&gt;SplitVertically(m_gdir, spl2);
+		m_lc1 = New wxListCtrl.Create(spl2, -1, -1, -1, -1, -1, wxLC_LIST)
+		m_lc2 = New wxListCtrl.Create(spl2, -1, -1, -1, -1, -1, wxLC_LIST)
 
-  Connect(tree-&gt;GetId(), wxEVT_COMMAND_TREE_SEL_CHANGED, 
-      wxCommandEventHandler(TextDrop::OnSelect));
+		Local mdt:MyTextDropTarget = New MyTextDropTarget.CreateTarget(m_lc2)
+		m_lc2.SetDropTarget(mdt)
 
-  Center();
-}
+		Connect(m_lc1.GetId(), wxEVT_COMMAND_LIST_BEGIN_DRAG, OnDragInit)
 
-MyTextDropTarget::MyTextDropTarget(wxListCtrl *owner)
-{
-  m_owner = owner;
-}
+		Local tree:wxTreeCtrl = m_gdir.GetTreeCtrl()
 
-bool MyTextDropTarget::OnDropText(wxCoord x, wxCoord y, 
-    const wxString&amp; data)
-{
+		spl2.SplitHorizontally(m_lc1, m_lc2)
+		spl1.SplitVertically(m_gdir, spl2)
 
-  m_owner-&gt;InsertItem(0, data);
-  return true;
+		Connect(tree.GetId(), wxEVT_COMMAND_TREE_SEL_CHANGED, OnSelect)
 
-}
+		Centre()
+ 
+	End Method
 
-void TextDrop::OnSelect(wxCommandEvent&amp; event)
-{
-  wxString filename;
-  wxString path = m_gdir-&gt;GetPath();
-  wxDir dir(path);
+	Function OnSelect(event:wxEvent)
+		Local drop:TextDrop = TextDrop(event.parent)
+	
+		Local filename:String
+		Local path:String = drop.m_gdir.GetPath()
+		Local dir:Int = ReadDir(path)
+		
+		If Not dir Then
+			Return
+		End If
+		
+		filename = NextFile(dir)
 
-  bool cont = dir.GetFirst(&amp;filename, wxEmptyString, wxDIR_FILES);
+		Local i:Int
+		
+		drop.m_lc1.ClearAll()
+		drop.m_lc2.ClearAll()
+		
+		While filename
+			If FileType(path + "/" + filename) = FILETYPE_FILE Then
+			    drop.m_lc1.InsertStringItem(i, filename)
+			End If
+		    filename = NextFile(dir)
+		    i:+ 1
+		Wend
+		
+		CloseDir(dir)
+	End Function
+	
+	Function OnDragInit(event:wxEvent)
+		Local drop:TextDrop = TextDrop(event.parent)
+	
+		Local text:String = drop.m_lc1.GetItemText(wxListEvent(event).GetIndex())
+		 
+		Local tdo:wxTextDataObject = New wxTextDataObject.Create(text)
+		Local tds:wxDropSource = New wxDropSource.Create(tdo, drop.m_lc1)
+		tds.DoDragDrop(wxDrag_CopyOnly)
 
-  int i = 0;
+	End Function
+	
+End Type
 
-  m_lc1-&gt;ClearAll();
-  m_lc2-&gt;ClearAll();
+Type MyTextDropTarget Extends wxTextDropTarget
 
-  while ( cont )
-  {
-      m_lc1-&gt;InsertItem(i, filename);
-      cont = dir.GetNext(&amp;filename);
-      i++;
-  }
-}
+	Field m_owner:wxListCtrl
+	
+	Method CreateTarget:MyTextDropTarget(owner:wxListCtrl)
+		m_owner = owner
+		Super.Create()
+		Return Self
+	End Method
 
+	Method OnDropText:Int(x:Int, y:Int, data:String)
+		m_owner.InsertStringItem(0, data)
+		Return True
+	End Method
 
-void TextDrop::OnDragInit(wxListEvent&amp; event)
-{
-
- wxString text = m_lc1-&gt;GetItemText(event.GetIndex());
-  
- wxTextDataObject tdo(text);
- wxDropSource tds(tdo, m_lc1);
- tds.DoDragDrop(wxDrag_CopyOnly);
-
-}
-
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "textdrop.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    TextDrop *td = new TextDrop(wxT("TextDrop"));
-    td-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 <br>
 
 
@@ -210,31 +182,28 @@ The second one is used for dragging the files.
 
 
 
-<pre class="explanation"> MyTextDropTarget *mdt = new MyTextDropTarget(m_lc2);
- m_lc2-&gt;SetDropTarget(mdt);
-</pre>
+<pre class="explanation"> Local mdt:MyTextDropTarget = New MyTextDropTarget.CreateTarget(m_lc2)
+ m_lc2.SetDropTarget(mdt)</pre>
 
 <p>
 Here we define a text drop target. 
 </p>
 
-<pre class="explanation"> wxString text = m_lc1-&gt;GetItemText(event.GetIndex());
+<pre class="explanation"> Local text:String = m_lc1.GetItemText(event.GetIndex())
 
- wxTextDataObject tdo(text);
- wxDropSource tds(tdo, m_lc1);
- tds.DoDragDrop(wxDrag_CopyOnly);
+ Local tdo:wxTextDataObject = New wxTextDataObject.Create(text)
+ Local tds:wxDropSource = New wxDropSource.Create(tdo, m_lc1)
+ tds.DoDragDrop(wxDrag_CopyOnly)
 </pre>
 
 <p>
 In the <i>OnDragInit()</i> method, we define a text data object and a drop source object. We call the <i>DoDragDrop()</i> method. The <i>wxDrag_CopyOnly</i> constant allows only copying of data. 
 </p>
 
-<pre class="explanation">bool MyTextDropTarget::OnDropText(wxCoord x, wxCoord y, 
-    const wxString&amp; data)
-{
-  m_owner-&gt;InsertItem(0, data);
-  return true;
-}
+<pre class="explanation">Method OnDropText:Int(x:Int, y:Int, data:String)
+  m_owner.InsertItem(0, data)
+  Return True
+End Method
 </pre>
 
 <p>

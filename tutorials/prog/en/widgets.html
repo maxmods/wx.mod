@@ -36,7 +36,7 @@ visibility of a toolbar etc.
 </p>
 
 
-<pre class="code"><div class="codehead">checkbox.bmx</div>
+<pre class="code"><div class="codehead"><a href="../examples/checkbox.bmx">checkbox.bmx</a> &lt;- Open source</div>
 SuperStrict
  
 Framework wx.wxApp
@@ -140,7 +140,7 @@ set a specific bitmap for those states.
 </p>
 
 
-<pre class="code"><div class="codehead">bitmapbutton.bmx</div>
+<pre class="code"><div class="codehead"><a href="../examples/bitmapbutton.bmx">bitmapbutton.bmx</a></div>
 SuperStrict
  
 Framework wx.wxApp
@@ -251,7 +251,7 @@ pressed. You toggle between these two states by clicking on it. There
 are situations where this functionality fits well.
 </p>
 
-<pre class="code"><div class="codehead">togglebutton.bmx</div>
+<pre class="code"><div class="codehead"><a href="../examples/togglebutton.bmx">togglebutton.bmx</a></div>
 SuperStrict
  
 Framework wx.wxApp
@@ -430,7 +430,7 @@ We set the background of the panel.
 This widget displays a simple line on the window. It can be horizontal or vertical.
 </p>
 
-<pre class="code"><div class="codehead">staticline.bmx</div>
+<pre class="code"><div class="codehead"><a href="../examples/staticline.bmx">staticline.bmx</a></div>
 SuperStrict
  
 Framework wx.wxApp
@@ -545,74 +545,52 @@ makes it more visually attractive.
 A wxStaticText widget displays one or more lines of read-only text.
 </p>
 
-<pre class="code"><div class="codehead">statictext.h</div>
-#include &lt;wx/wx.h&gt;
+<pre class="code"><div class="codehead"><a href="../examples/statictext.bmx">statictext.bmx</a></div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+Import wx.wxStaticText
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class StaticText : public wxFrame
-{
-public:
-  StaticText(const wxString&amp; title);
+	Method OnInit:Int()
+	
+		Local st:StaticText = StaticText(New StaticText.Create(Null, wxID_ANY, ..
+			"StaticText", -1, -1, 600, 130))
+		st.Show(True)
+ 
+		Return True
+	End Method
 
-};
+End Type
 
-</pre>
-
-<pre class="code"><div class="codehead">statictext.cpp</div>
-#include "statictext.h"
-
-StaticText::StaticText(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title)
-{
-
-  wxPanel *panel = new wxPanel(this, wxID_ANY);
-  wxString  text = wxT("'Cause sometimes you feel tired,\n\
-feel weak, and when you feel weak,\
-you feel like you wanna just give up.\n\
-But you gotta search within you,\
-you gotta find that inner strength\n\
-and just pull that shit out of you\
-and get that motivation to not give up\n\
-and not be a quitter,\
-no matter how bad you wanna just fall flat on your face and collapse.");
-
-
-  wxStaticText *st = new wxStaticText(panel, wxID_ANY, text, 
-      wxPoint(10, 10), wxDefaultSize, wxALIGN_CENTRE);
-
-  this-&gt;SetSize(600, 110);
-  this-&gt;Centre();
-}
-
-</pre>
-
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "statictext.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-  StaticText *st = new StaticText(wxT("StaticText"));
-  st-&gt;Show(true);
-
-  return true;
-}
-
+Type StaticText Extends wxFrame
+ 
+	Method OnInit()
+		
+		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
+		Local text:String = "'Cause sometimes you feel tired,~n" + ..
+			"feel weak, and when you feel weak, " + ..
+			"you feel like you wanna just give up.~n" + ..
+			"But you gotta search within you, " + ..
+			"you gotta find that inner strength~n" + ..
+			"and just pull that shit out of you " + ..
+			"and get that motivation to not give up~n" + ..
+			"and not be a quitter, " + ..
+			"no matter how bad you wanna just fall flat on your face and collapse."
+		
+		Local st:wxStaticText = New wxStaticText.Create(panel, ..
+			wxID_ANY, text, 10, 10, -1, -1, wxALIGN_CENTRE)
+		
+		Centre()
+ 
+	End Method
+	
+End Type
 </pre>
 
 <br>
@@ -620,8 +598,8 @@ bool MyApp::OnInit()
 In our example, we display a part of the Eminem's Till I Collapse lyrics on the window.
 </p>
 
-<pre class="explanation">   wxStaticText *st = new wxStaticText(panel, wxID_ANY, text, 
-      wxPoint(10, 10), wxDefaultSize, wxALIGN_CENTRE);
+<pre class="explanation">   Local st:wxStaticText = New wxStaticText.Create(panel, ..
+      wxID_ANY, text, 10, 10, -1, -1, wxALIGN_CENTRE)
 </pre>
 
 <p>
@@ -642,111 +620,84 @@ task. Sometimes using a slider is more natural, than simply providing a
 number or using a spin control.
 </p>
 
-<pre class="code"><div class="codehead">Slider.h</div>
-#include &lt;wx/wx.h&gt;
-#include &lt;wx/slider.h&gt;
+<pre class="code"><div class="codehead"><a href="../examples/slider.bmx">slider.bmx</a></div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+Import wx.wxPanel
+Import wx.wxSlider
+ 
+Const ID_SLIDER:Int = 100
 
-class MyPanel : public wxPanel
-{
-public:
-    MyPanel(wxFrame *parent);
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-    void OnPaint(wxPaintEvent&amp; event);
-    void OnScroll(wxScrollEvent&amp; event);
+	Method OnInit:Int()
+	
+		Local sim:Slider = Slider(New Slider.Create(Null, wxID_ANY, ..
+			"Slider", -1, -1, 270, 210))
+		sim.Show(True)
+ 
+		Return True
+	End Method
 
-    wxSlider *slider;
-    int fill;
+End Type
 
-};
+Type Slider Extends wxFrame
+ 
+	Field panel:MyPanel
+	
+	Method OnInit()
+		panel = MyPanel(New MyPanel.Create(Self))
+		
+		Centre()
+ 
+	End Method
+	
+End Type
 
-class Slider : public wxFrame
-{
-public:
-    Slider(const wxString&amp; title);
+Type MyPanel Extends wxPanel
 
-    MyPanel *panel;
+    Field slider:wxSlider
+    Field fill:Int
 
-};
+	Method OnInit()
+		fill = 0
+		slider = New wxSlider.Create(Self, ID_SLIDER, 0, 0, 140, ..
+			50, 30, -1, 140, wxSL_VERTICAL)
+		
+		Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, OnScroll)  
+		ConnectAny(wxEVT_PAINT, OnPaint)
+	End Method
 
-const int ID_SLIDER = 100;
+	Function OnScroll(event:wxEvent)
+		Local panel:MyPanel = MyPanel(event.parent)
+		
+		panel.fill = panel.slider.GetValue()
+		panel.Refresh()
+	End Function
+	
+	Function OnPaint(event:wxEvent)
+		Local panel:MyPanel = MyPanel(event.parent)
 
-</pre>
+		Local dc:wxPaintDC = New wxPaintDC.Create(panel)
+		
+		Local col1:wxColour = New wxColour.Create(212, 212, 212)
+		dc.SetPen(New wxPen.CreateFromColour(col1))
+		
+		dc.DrawRectangle(140, 30, 80, 140)
+		
+		Local col2:wxColour = New wxColour.Create(197, 108, 0)
+		dc.SetBrush(New wxBrush.CreateFromColour(col2))
+		
+		dc.DrawRectangle(140, 30, 80, panel.fill)
+		
+		dc.Free()
+	End Function
 
-<pre class="code"><div class="codehead">Slider.cpp</div>
-#include "Slider.h"
-
-Slider::Slider(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, 
-       wxSize(270, 200))
-{
-  panel = new MyPanel(this);
-  Center();
-}
-
-
-MyPanel::MyPanel(wxFrame * parent)
-       : wxPanel(parent, wxID_ANY)
-{
-  fill = 0;
-  slider = new wxSlider(this, ID_SLIDER, 0, 0, 140, wxPoint(50, 30), 
-      wxSize(-1, 140), wxSL_VERTICAL);
-
-  Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, 
-      wxScrollEventHandler(MyPanel::OnScroll));  
-  Connect(wxEVT_PAINT, wxPaintEventHandler(MyPanel::OnPaint));
-
-}
-
-void MyPanel::OnScroll(wxScrollEvent&amp; event)
-{
-  fill = slider-&gt;GetValue();
-  Refresh();
-}
-
-void MyPanel::OnPaint(wxPaintEvent&amp; event)
-{
-  wxPaintDC dc(this);
-
-  wxPen pen(wxColour(212, 212, 212));
-  dc.SetPen(pen);
-
-  dc.DrawRectangle(wxRect(140, 30, 80, 140));  
-
-  wxBrush brush1(wxColour(197, 108, 0));
-  dc.SetBrush(brush1);
-
-  dc.DrawRectangle(wxRect(140, 30, 80, fill));
-}
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "Slider.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Slider *slider = new Slider(wxT("Slider"));
-    slider-&gt;Show(true);
-
-    return true;
-}
-
+End Type
 </pre>
 
 <p>
@@ -754,24 +705,22 @@ In our example, we display a slider widget. By pulling the handle of the slider,
 color of the panel. In such an example, using slider is more natural than using e.g. a spin control. 
 </p>
 
-<pre class="explanation"> slider = new wxSlider(this, ID_SLIDER, 0, 0, 140, wxPoint(50, 30), 
-    wxSize(-1, 140), wxSL_VERTICAL);
-</pre>
+<pre class="explanation"> slider = New wxSlider.Create(Self, ID_SLIDER, 0, 0, 140, 50, 30, ..
+    -1, 140, wxSL_VERTICAL)</pre>
 
 <p>
 We create a vertical slider. The initial value is 0, minimal value is 0 and maximal value is 140.
 We display no ticks and no labels. 
 </p>
 
-<pre class="explanation"> Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, 
-    wxScrollEventHandler(MyPanel::OnScroll));  
+<pre class="explanation"> Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, OnScroll) 
 </pre>
 
 <p>
 Here we connect a <i>wxEVT_COMMAND_SLIDER_UPDATED</i> event to the <i>OnScroll()</i> user defined method.
 </p>
 
-<pre class="explanation"> Connect(wxEVT_PAINT, wxPaintEventHandler(MyPanel::OnPaint));
+<pre class="explanation"> Connect(wxEVT_PAINT, OnPaint)
 </pre>
 
 <p>
@@ -779,8 +728,8 @@ We will also do some drawing, so we connect <i>OnPaint()</i> method to the <i>wx
 </p>
 
 
-<pre class="explanation"> fill = slider-&gt;GetValue();
- Refresh();
+<pre class="explanation"> fill = slider.GetValue()
+ Refresh()
 </pre>
 
 <p>
@@ -788,9 +737,9 @@ In the <i>OnScroll()</i> method, we will get the current slider value. We call t
 generate a <i>wxEVT_PAINT</i> event.
 </p>
 
-<pre class="explanation"> dc.DrawRectangle(wxRect(140, 30, 80, 140)); 
+<pre class="explanation"> dc.DrawRectangle(140, 30, 80, 140)
  ...
- dc.DrawRectangle(wxRect(140, 30, 80, fill));
+ dc.DrawRectangle(140, 30, 80, fill)
 </pre>
 
 <p>

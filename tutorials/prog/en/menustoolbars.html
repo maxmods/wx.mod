@@ -40,89 +40,62 @@ have three things. A wxMenuBar, a wxMenu and a wxMenuItem.
 Creating a menubar in wxWidgets is very simple. Just a few lines of code.
 </p>
 
-<pre class="code"><div class="codehead">menu.h</div>
-#include &lt;wx/wx.h&gt;
-#include &lt;wx/menu.h&gt;
+<pre class="code"><div class="codehead"><a href="../examples/menu.bmx">menu.bmx</a> &lt;- Open source</div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class SimpleMenu : public wxFrame
-{
-public:
-    SimpleMenu(const wxString&amp; title);
+	Method OnInit:Int()
+	
+		Local sim:SimpleMenu = SimpleMenu(New SimpleMenu.Create(Null, ..
+			wxID_ANY, "Simple Menu", -1, -1, 280, 180))
+		sim.Show(True)
+ 
+		Return True
+	End Method
 
-    void OnQuit(wxCommandEvent&amp; event);
+End Type
 
-    wxMenuBar *menubar;
-    wxMenu *file;
+Type SimpleMenu Extends wxFrame
+ 
+    Field menubar:wxMenuBar
+    Field file:wxMenu
 
-};
+	Method OnInit()
+		
+		menubar = New wxMenuBar.Create()
+		file = New wxMenu.Create()
+		file.Append(wxID_CLOSE, "&Quit")
+		menubar.Append(file, "&File")
+		SetMenuBar(menubar)
+		
+		Connect(wxID_CLOSE, wxEVT_COMMAND_MENU_SELECTED, OnQuit)
 
-</pre>
-
-<pre class="code"><div class="codehead">menu.cpp</div>
-#include "menu.h"
-
-
-SimpleMenu::SimpleMenu(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
-{
-
-  menubar = new wxMenuBar;
-  file = new wxMenu;
-  file-&gt;Append(wxID_CLOSE, wxT("&amp;Quit"));
-  menubar-&gt;Append(file, wxT("&amp;File"));
-  SetMenuBar(menubar);
-
-  Connect(wxID_CLOSE, wxEVT_COMMAND_MENU_SELECTED,
-      wxCommandEventHandler(SimpleMenu::OnQuit));
-  Centre();
-
-}
-
-void SimpleMenu::OnQuit(wxCommandEvent&amp; WXUNUSED(event))
-{
-  Close(true);
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "menu.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    SimpleMenu *menu = new SimpleMenu(wxT("Simple Menu"));
-    menu-&gt;Show(true);
-
-    return true;
-}
-
+		Centre()
+ 
+	End Method
+	
+	Function OnQuit(event:wxEvent)
+		wxWindow(event.parent).Close(True)
+	End Function
+	
+End Type
 </pre>
 
 
-
-<pre class="explanation"> menubar = new wxMenuBar;
+<pre class="explanation"> menubar = New wxMenuBar.Create()
 </pre>
 
 <p>
 First we create a menubar object.
 </p>
 
-<pre class="explanation"> file = new wxMenu;
+<pre class="explanation"> file = New wxMenu.Create()
 </pre>
 
 <p>
@@ -130,7 +103,7 @@ First we create a menubar object.
 </p>
 
 
-<pre class="explanation"> file-&gt;Append(wxID_CLOSE, wxT("&amp;Quit"));
+<pre class="explanation"> file.Append(wxID_CLOSE, "&amp;Quit")
 </pre>
 
 <p>We append a menu item into the menu object. The first parameter is
@@ -141,8 +114,8 @@ wxMenuItem manually.
 </p>
 
 
-<pre class="explanation">  menubar-&gt;Append(file, wxT("&amp;File"));
-  SetMenuBar(menubar);
+<pre class="explanation">  menubar.Append(file, "&amp;File")
+  SetMenuBar(menubar)
 </pre>
 
 <p>After that, we append a menu into the menubar. The &amp; character
@@ -171,116 +144,89 @@ print, print preview with a single separator. In our example we will
 see, how we can create submenus and menu separators. </p>
 
 
-<pre class="code"><div class="codehead">menu.h</div>
-#include &lt;wx/wx.h&gt;
-#include &lt;wx/menu.h&gt;
+<pre class="code"><div class="codehead"><a href="../examples/submenu.bmx">submenu.bmx</a></div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-class SubMenu : public wxFrame
-{
-public:
-  SubMenu(const wxString&amp; title);
+	Method OnInit:Int()
+	
+		Local sub:SubMenu = SubMenu(New SubMenu.Create(Null, ..
+			wxID_ANY, "Submenu", -1, -1, 280, 180))
+		sub.Show(True)
+ 
+		Return True
+	End Method
 
-  void OnQuit(wxCommandEvent &amp; event);
+End Type
 
-  wxMenuBar *menubar;
-  wxMenu *file;
-  wxMenu *imp;
-  wxMenuItem *quit;
+Type SubMenu Extends wxFrame
+ 
+	Field menubar:wxMenuBar
+	Field file:wxMenu
+	Field imp:wxMenu
+	Field quit:wxMenuItem
+	
+	Method OnInit()
+		
+		menubar = New wxMenuBar.Create()
+		file = New wxMenu.Create()
+		file.Append(wxID_CLOSE, "&Quit")
+		file.Append(wxID_ANY, "&New")
+		file.Append(wxID_ANY, "&Open")
+		file.Append(wxID_ANY, "&Save")
+		file.AppendSeparator();
+		
+		imp = New wxMenu.Create()
+		imp.Append(wxID_ANY, "Import newsfeed list...")
+		imp.Append(wxID_ANY, "Import bookmarks...")
+		imp.Append(wxID_ANY, "Import mail...")
+		
+		file.AppendSubMenu(imp, "I&mport")
+		
+		quit = New wxMenuItem.Create(file, wxID_CLOSE, "&Quit~tCtrl+W")
+		file.AppendItem(quit)
+		
+		menubar.Append(file, "&File")
+		SetMenuBar(menubar)
+		
+		Connect(wxID_CLOSE, wxEVT_COMMAND_MENU_SELECTED, OnQuit)
 
-};
-
+		Centre()
+ 
+	End Method
+	
+	Function OnQuit(event:wxEvent)
+		wxWindow(event.parent).Close(True)
+	End Function
+	
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">menu.cpp</div>
-#include "menu.h"
-
-
-SubMenu::SubMenu(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
-{
-
-  menubar = new wxMenuBar;
-  file = new wxMenu;
-
-  file-&gt;Append(wxID_ANY, wxT("&amp;New"));
-  file-&gt;Append(wxID_ANY, wxT("&amp;Open"));
-  file-&gt;Append(wxID_ANY, wxT("&amp;Save"));
-  file-&gt;AppendSeparator();
-
-  imp = new wxMenu;
-  imp-&gt;Append(wxID_ANY, wxT("Import newsfeed list..."));
-  imp-&gt;Append(wxID_ANY, wxT("Import bookmarks..."));
-  imp-&gt;Append(wxID_ANY, wxT("Import mail..."));
-
-  file-&gt;AppendSubMenu(imp, wxT("I&amp;mport"));
-
-  quit = new wxMenuItem(file, wxID_CLOSE, wxT("&amp;Quit\tCtrl+W"));
-  file-&gt;Append(quit);
-
-  menubar-&gt;Append(file, wxT("&amp;File"));
-  SetMenuBar(menubar);
-
-  Connect(wxID_CLOSE, wxEVT_COMMAND_MENU_SELECTED, 
-      wxCommandEventHandler(SubMenu::OnQuit));
-  Centre();
-
-}
-
-void SubMenu::OnQuit(wxCommandEvent&amp; WXUNUSED(event))
-{
-  Close(true);
-}
-
-</pre>
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "menu.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    SubMenu *smenu = new SubMenu(wxT("Submenu"));
-    smenu-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 <br>
 
 <p>
 We created one submenu in a file menu. It is an import submenu, which can be seen in Opera web browser.
 </p>
 
-<pre class="explanation"> file-&gt;AppendSeparator();
+<pre class="explanation"> file.AppendSeparator()
 </pre>
 
 <p>
 A menu separator line is created calling an <i>AppendSeparator()</i> method.
 </p>
 
-<pre class="explanation"> imp = new wxMenu;
- imp-&gt;Append(wxID_ANY, wxT("Import newsfeed list..."));
- imp-&gt;Append(wxID_ANY, wxT("Import bookmarks..."));
- imp-&gt;Append(wxID_ANY, wxT("Import mail..."));
+<pre class="explanation"> imp = New wxMenu.Create
+ imp.Append(wxID_ANY, "Import newsfeed list...")
+ imp.Append(wxID_ANY, "Import bookmarks...")
+ imp.Append(wxID_ANY, "Import mail...")
 
- file-&gt;AppendSubMenu(imp, wxT("I&amp;mport"));
+ file.AppendSubMenu(imp, "I&amp;mport")
 </pre>
 
 <p>
@@ -316,77 +262,51 @@ To create a toolbar, we call the CreateToolBar() method of the frame widget.
 Our first example will create a simple toolbar. 
 </p>
 
+<pre class="code"><div class="codehead"><a href="../examples/toolbar.bmx">toolbar.bmx</a></div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-<pre class="code"><div class="codehead">toolbar.h</div>
-#include &lt;wx/wx.h&gt;
+	Method OnInit:Int()
+	
+		Local tb:Toolbar = Toolbar(New Toolbar.Create(Null, wxID_ANY, ..
+			"Toolbar", -1, -1, 280, 180))
+		tb.Show(True)
+ 
+		Return True
+	End Method
 
-class Toolbar : public wxFrame
-{
-public:
-    Toolbar(const wxString&amp; title);
+End Type
 
-    void OnQuit(wxCommandEvent&amp; event);
+Type Toolbar Extends wxFrame
+ 
+	Method OnInit()
+		
+		wxImage.AddHandler( New wxPNGHandler )
 
+		Local bmpExit:wxBitmap = New wxBitmap.CreateFromFile(..
+			"../media/exit.png", wxBITMAP_TYPE_PNG)
 
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">toolbar.cpp</div>
-#include "toolbar.h"
-
-
-Toolbar::Toolbar(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
-{
-
-  wxBitmap exit(wxT("exit.png"));
-
-  wxToolBar *toolbar = CreateToolBar();
-  toolbar-&gt;AddTool(wxID_CLOSE, exit, wxT("Exit application"));
-  toolbar-&gt;Realize();
-
-  Connect(wxID_CLOSE, wxEVT_COMMAND_TOOL_CLICKED, 
-      wxCommandEventHandler(Toolbar::OnQuit));
+		Local tbar:wxToolBar = CreateToolBar()
+		tbar.AddTool(wxID_CLOSE, "Exit application", bmpExit)
+		tbar.Realize()
+		
+		Connect(wxID_CLOSE, wxEVT_COMMAND_TOOL_CLICKED, OnQuit)
   
-  Centre();
-
-}
-
-void Toolbar::OnQuit(wxCommandEvent&amp; WXUNUSED(event))
-{
-  Close(true);
-}
-
-</pre>
-
-
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "toolbar.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Toolbar *toolbar = new Toolbar(wxT("Toolbar"));
-    toolbar-&gt;Show(true);
-
-    return true;
-}
-
+		Centre()
+ 
+	End Method
+	
+	Function OnQuit(event:wxEvent)
+		wxWindow(event.parent).Close(True)
+	End Function
+	
+End Type
 </pre>
 
 <br>
@@ -394,21 +314,21 @@ bool MyApp::OnInit()
 In our example, we create a toolbar and one tool button. Clicking on the toolbar button will terminate the application.
 </p>
 
-<pre class="explanation"> wxToolBar *toolbar = CreateToolBar();
+<pre class="explanation"> Local toolbar:wxToolBar = CreateToolBar()
 </pre>
 
 <p>
 We create a toolbar.
 </p>
 
-<pre class="explanation"> toolbar-&gt;AddTool(wxID_CLOSE, exit, wxT("Exit application"));
+<pre class="explanation"> toolbar.AddTool(wxID_CLOSE, "Exit application", bmpExit)
 </pre>
 
 <p>
 We add a tool to the toolbar. 
 </p>
 
-<pre class="explanation"> toolbar-&gt;Realize();
+<pre class="explanation"> toolbar.Realize()
 </pre>
 
 <p>
@@ -427,97 +347,76 @@ If we want to have more than one toolbar, we must create them in a different way
 the <i>CreateToolbar()</i> method.
 </p>
 
+<pre class="code"><div class="codehead"><a href="../examples/toolbars.bmx">toolbars.bmx</a></div>
+SuperStrict
+ 
+Framework wx.wxApp
+Import wx.wxFrame
+ 
+New MyApp.Run()
+ 
+Type MyApp Extends wxApp
 
-<pre class="code"><div class="codehead">toolbars.h</div>
-#include &lt;wx/wx.h&gt;
+	Method OnInit:Int()
+	
+		Local tb:Toolbars = Toolbars(New Toolbars.Create(Null, wxID_ANY, ..
+			"Toolbars", -1, -1, 280, 180))
+		tb.Show(True)
+ 
+		Return True
+	End Method
 
-class Toolbar : public wxFrame
-{
-public:
-  Toolbar(const wxString&amp; title);
+End Type
 
-  void OnQuit(wxCommandEvent&amp; event);
+Type Toolbars Extends wxFrame
+ 
+	Field toolbar1:wxToolBar
+	Field toolbar2:wxToolBar
 
-  wxToolBar *toolbar1;
-  wxToolBar *toolbar2;
+	Method OnInit()
+		
+		wxImage.AddHandler( New wxPNGHandler )
 
-};
+		Local bmpExit:wxBitmap = New wxBitmap.CreateFromFile(..
+			"../media/exit.png", wxBITMAP_TYPE_PNG)
+		Local bmpNew:wxBitmap = New wxBitmap.CreateFromFile(..
+			"../media/new.png", wxBITMAP_TYPE_PNG)
+		Local bmpOpen:wxBitmap = New wxBitmap.CreateFromFile(..
+			"../media/open.png", wxBITMAP_TYPE_PNG)
+		Local bmpSave:wxBitmap = New wxBitmap.CreateFromFile(..
+			"../media/save.png", wxBITMAP_TYPE_PNG)
 
-</pre>
+		Local vbox:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
+		
+		toolbar1 = New wxToolBar.Create(Self, wxID_ANY)
+		toolbar1.AddTool(wxID_ANY, "", bmpNew)
+		toolbar1.AddTool(wxID_ANY, "", bmpOpen)
+		toolbar1.AddTool(wxID_ANY, "", bmpSave)
+		toolbar1.Realize();
+		
+		toolbar2 = New wxToolBar.Create(Self, wxID_ANY)
+		toolbar2.AddTool(wxID_CLOSE, "Exit application", bmpExit)
+		toolbar2.Realize()
+		
+		vbox.Add(toolbar1, 0, wxEXPAND)
+		vbox.Add(toolbar2, 0, wxEXPAND)
+		
+		SetSizer(vbox);
 
-<pre class="code"><div class="codehead">toolbars.cpp</div>
-#include "toolbars.h"
-
-
-Toolbar::Toolbar(const wxString&amp; title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180))
-{
-
-  wxImage::AddHandler( new wxPNGHandler );
-
-  wxBitmap exit(wxT("exit.png"), wxBITMAP_TYPE_PNG);
-  wxBitmap newb(wxT("new.png"), wxBITMAP_TYPE_PNG);
-  wxBitmap open(wxT("open.png"), wxBITMAP_TYPE_PNG);
-  wxBitmap save(wxT("save.png"), wxBITMAP_TYPE_PNG);
-
-  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
-
-  toolbar1 = new wxToolBar(this, wxID_ANY);
-  toolbar1-&gt;AddTool(wxID_ANY, newb, wxT(""));
-  toolbar1-&gt;AddTool(wxID_ANY, open, wxT(""));
-  toolbar1-&gt;AddTool(wxID_ANY, save, wxT(""));
-  toolbar1-&gt;Realize();
-
-  toolbar2 = new wxToolBar(this, wxID_ANY);
-  toolbar2-&gt;AddTool(wxID_CLOSE, exit, wxT("Exit application"));
-  toolbar2-&gt;Realize();
-
-  vbox-&gt;Add(toolbar1, 0, wxEXPAND);
-  vbox-&gt;Add(toolbar2, 0, wxEXPAND);
-
-  SetSizer(vbox);
-
-  Connect(wxID_CLOSE, wxEVT_COMMAND_TOOL_CLICKED, 
-      wxCommandEventHandler(Toolbar::OnQuit));
+		
+		Connect(wxID_CLOSE, wxEVT_COMMAND_TOOL_CLICKED, OnQuit)
   
-  Centre();
-
-}
-
-void Toolbar::OnQuit(wxCommandEvent&amp; WXUNUSED(event))
-{
-  Close(true);
-}
-
+		Centre()
+ 
+	End Method
+	
+	Function OnQuit(event:wxEvent)
+		wxWindow(event.parent).Close(True)
+	End Function
+	
+End Type
 </pre>
 
-<pre class="code"><div class="codehead">main.h</div>
-#include &lt;wx/wx.h&gt;
-
-class MyApp : public wxApp
-{
-  public:
-    virtual bool OnInit();
-};
-
-</pre>
-
-<pre class="code"><div class="codehead">main.cpp</div>
-#include "main.h"
-#include "toolbars.h"
-
-IMPLEMENT_APP(MyApp)
-
-bool MyApp::OnInit()
-{
-
-    Toolbar *toolbar = new Toolbar(wxT("Toolbar"));
-    toolbar-&gt;Show(true);
-
-    return true;
-}
-
-</pre>
 <br>
 
 <p>
@@ -525,17 +424,17 @@ In our example, we create two horizontal toolbars. We place them in a vertical b
 </p>
 
 
-<pre class="explanation"> toolbar1 = new wxToolBar(this, wxID_ANY);
+<pre class="explanation"> toolbar1 = New wxToolBar.Create(Self, wxID_ANY)
  ...
- toolbar2 = new wxToolBar(this, wxID_ANY);
+ toolbar2 = New wxToolBar.Create(Self, wxID_ANY)
 </pre>
 
 <p>
 Here we create two toolbars.
 </p>
 
-<pre class="explanation">  vbox-&gt;Add(toolbar1, 0, wxEXPAND);
-  vbox-&gt;Add(toolbar2, 0, wxEXPAND);
+<pre class="explanation">  vbox.Add(toolbar1, 0, wxEXPAND)
+  vbox.Add(toolbar2, 0, wxEXPAND)
 </pre>
 
 <p>

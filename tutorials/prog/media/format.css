@@ -45,6 +45,7 @@ padding-bottom:15px; padding-left:15px; background:#f1f1f1;
 color:black;
 }
 .codehead { font-weight:bold; color:white; background:#6D93A1; padding:8px;  margin-left:-15px}
+.codehead a {color:#FFFFCC}
 
 table {
     border-top: 1px solid #999;
