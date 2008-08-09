@@ -20,30 +20,24 @@
   THE SOFTWARE.
 */ 
 
-#include "wxglue.h"
-#include "wx/dnd.h"
+#include "glue.h"
 
-class MaxTextDropTarget;
+// ---------------------------------------------------------------------------------------
 
-extern "C" {
 
-#include <blitz.h>
 
-	bool _wx_wxtextdroptarget_wxTextDropTarget__OnDropText(BBObject * handle, wxCoord x, wxCoord y, BBString * data);
+// *********************************************
 
-	wxTextDropTarget * bmx_wxtextdroptarget_create(BBObject * handle);
 
+wxDropSource * bmx_wxdropsource_create(wxDataObject * data, wxWindow * window) {
+	return new wxDropSource(*data, window);
 }
 
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+wxDragResult bmx_wxdropsource_dodragdrop(wxDropSource * source, int flags) {
+	return source->DoDragDrop(flags);
+}
 
-class MaxTextDropTarget : public wxTextDropTarget
-{
-public:
-	MaxTextDropTarget(BBObject * handle);
-	bool OnDropText(wxCoord x, wxCoord y, const wxString& data);
-	~MaxTextDropTarget();
-	
-private:
-	BBObject * maxHandle;
-};
+void bmx_wxdropsource_delete(wxDropSource * source) {
+	delete source;
+}
+

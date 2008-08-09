@@ -25,7 +25,24 @@
 // ---------------------------------------------------------------------------------------
 
 
+MaxTextDropTarget::MaxTextDropTarget(BBObject * handle)
+	: maxHandle(handle)
+{
+	BBRETAIN(handle);
+}
+
+MaxTextDropTarget::~MaxTextDropTarget() {
+	BBRELEASE(maxHandle);
+}
+
+bool MaxTextDropTarget::OnDropText(wxCoord x, wxCoord y, const wxString& data) {
+	return _wx_wxtextdroptarget_wxTextDropTarget__OnDropText(maxHandle, x, y, bbStringFromWxString(data));
+}
+
 
 // *********************************************
 
+wxTextDropTarget * bmx_wxtextdroptarget_create(BBObject * handle) {
+	return new MaxTextDropTarget(handle);
+}
 

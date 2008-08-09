@@ -21,7 +21,8 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxDropTarget
+Import wx.wxDataObject
+Import wx.wxWindow
 Import BRL.Blitz
 
 
@@ -44,6 +45,22 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxtextdroptarget_create:Byte Ptr(handle:Object)
+	Function bmx_wxdropsource_create:Byte Ptr(data:Byte Ptr, window:Byte Ptr)
+	Function bmx_wxdropsource_dodragdrop:Int(handle:Byte Ptr, flags:Int)
+	Function bmx_wxdropsource_delete(handle:Byte Ptr)
 
 End Extern
+
+Const wxDrag_CopyOnly:Int = 0     ' allow only copying
+Const wxDrag_AllowMove:Int = 1    ' allow moving (copying is always allowed)
+Const wxDrag_DefaultMove:Int = 3  ' the Default operation is move, Not copy
+
+
+Const wxDragError:Int = 0    ' error prevented the d&d operation from completing
+Const wxDragNone:Int = 1     ' drag target didn't accept the data
+Const wxDragCopy:Int = 2     ' the data was successfully copied
+Const wxDragMove:Int = 3     ' the data was successfully moved (MSW only)
+Const wxDragLink:Int = 4     ' operation is a drag-link
+Const wxDragCancel:Int = 5   ' the operation was cancelled by user (not an error)
+
+

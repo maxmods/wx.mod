@@ -51,7 +51,14 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 Import "common.bmx"
 
 Rem
-bbdoc: 
+bbdoc: This type represents a target for a drag and drop operation.
+about: A wxDataObject can be associated with it and by default, this object will be filled with the data from the drag
+source, if the data formats supported by the data object match the drag source data format.
+<p>
+There are various virtual handler functions defined in this class which may be overridden to give visual
+feedback or react in a more fine-tuned way, e.g. by not accepting data on the whole window area, but only
+a small portion of it. The normal sequence of calls is OnEnter, possibly many times OnDragOver, OnDrop and finally OnData.
+</p>
 End Rem
 Type wxDropTarget
 
@@ -65,6 +72,8 @@ Type wxDropTarget
 		End If
 	End Function
 	
+	Method OnInit()
+	End Method
 
 End Type
 

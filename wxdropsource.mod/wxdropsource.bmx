@@ -21,9 +21,9 @@
 SuperStrict
 
 Rem
-bbdoc: wxTextDropTarget
+bbdoc: wxDropSource
 End Rem
-Module wx.wxTextDropTarget
+Module wx.wxDropSource
 
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
@@ -50,29 +50,37 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
-Rem
-bbdoc: A predefined drop target for dealing with text data.
-End Rem
-Type wxTextDropTarget Extends wxDropTarget
 
-	Rem
-	bbdoc: Creates a new wxTextDropTarget.
-	End Rem
-	Method Create:wxTextDropTarget()
-		wxObjectPtr = bmx_wxtextdroptarget_create(Self)
-		OnInit()
+Rem
+bbdoc: Represents a source for a drag and drop operation.
+End Rem
+Type wxDropSource
+
+	Field wxObjectPtr:Byte Ptr
+	
+	Function CreateDropSource:wxDropSource(data:wxDataObject, window:wxWindow = Null)
+		Return New wxDropSource.Create(data, window)
+	End Function
+
+	Method Create:wxDropSource(data:wxDataObject, window:wxWindow = Null)
+		If window Then
+			wxObjectPtr = bmx_wxdropsource_create(data.wxObjectPtr, window.wxObjectPtr)
+		Else
+			wxObjectPtr = bmx_wxdropsource_create(data.wxObjectPtr, Null)
+		End If
 		Return Self
 	End Method
 	
-	Rem
-	bbdoc: Override this method to receive dropped text.
-	End Rem
-	Method OnDropText:Int(x:Int, y:Int, data:String)
+	Method DoDragDrop:Int(flags:Int = wxDrag_CopyOnly)
+		Return bmx_wxdropsource_dodragdrop(wxObjectPtr, flags)
 	End Method
 	
-	Function _OnDropText:Int(obj:wxTextDropTarget, x:Int, y:Int, data:String)
-		Return obj.OnDropText(x, y, data)
-	End Function
+	Method Delete()
+		If wxObjectPtr Then
+			bmx_wxdropsource_delete(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
 	
 End Type
 

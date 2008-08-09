@@ -23,27 +23,17 @@
 #include "wxglue.h"
 #include "wx/dnd.h"
 
-class MaxTextDropTarget;
+//class MaxNotebook;
 
 extern "C" {
 
 #include <blitz.h>
 
-	bool _wx_wxtextdroptarget_wxTextDropTarget__OnDropText(BBObject * handle, wxCoord x, wxCoord y, BBString * data);
-
-	wxTextDropTarget * bmx_wxtextdroptarget_create(BBObject * handle);
+	wxDropSource * bmx_wxdropsource_create(wxDataObject * data, wxWindow * window);
+	wxDragResult bmx_wxdropsource_dodragdrop(wxDropSource * source, int flags);
+	void bmx_wxdropsource_delete(wxDropSource * source);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class MaxTextDropTarget : public wxTextDropTarget
-{
-public:
-	MaxTextDropTarget(BBObject * handle);
-	bool OnDropText(wxCoord x, wxCoord y, const wxString& data);
-	~MaxTextDropTarget();
-	
-private:
-	BBObject * maxHandle;
-};
