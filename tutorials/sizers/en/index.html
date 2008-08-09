@@ -220,16 +220,16 @@ SetSizer(sizer)</pre></td>
       </tr>
       <tr>
         <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
-sizer.Add(new wxButton(Self, -1, "A Really Really Big Button"), 0, 0, 0)
-sizer.Add(new wxButton(Self, -1, "Tiny Button"), 0, wxEXPAND | <span class="new">wxALL</span>, <span class="new">20</span>)
+sizer.Add(new wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(new wxButton.Create(Self, -1, "Tiny Button"), 0, wxEXPAND | <span class="new">wxALL</span>, <span class="new">20</span>)
 sizer.SetSizeHints(Self)
 SetSizer(sizer)</pre></td>
         <td class="pic"><img src="../media/ss15.png" alt="Screenshot with borders on all sides"></td>
       </tr>
       <tr>
         <td class="cod"><pre>Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
-sizer.Add(new wxButton(Self, -1, "A Really Really Big Button"), 0, 0, 0)
-sizer.Add(new wxButton(Self, -1, "Tiny Button"), 0, wxEXPAND | <span class="new">wxALL</span>, <span class="new">5</span>)
+sizer.Add(new wxButton.Create(Self, -1, "A Really Really Big Button"), 0, 0, 0)
+sizer.Add(new wxButton.Create(Self, -1, "Tiny Button"), 0, wxEXPAND | <span class="new">wxALL</span>, <span class="new">5</span>)
 sizer.SetSizeHints(Self)
 SetSizer(sizer)</pre></td>
         <td class="pic"><img src="../media/ss16.png" alt="Screenshot with smaller borders"></td>
