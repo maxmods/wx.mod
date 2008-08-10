@@ -1067,6 +1067,18 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		bmx_wxpropertygrid_setsplitterposition(wxObjectPtr, xPos, refresh)
 	End Method
 	
+	Method CommitChangesFromEditor:Int(flags:Int = 0)
+		Return bmx_wxpropertygrid_commitchangesfromeditor(wxObjectPtr, flags)
+	End Method
+	
+	Method SelectProperty:Int(prop:wxPGProperty = Null, focus:Int = False)
+		If prop Then
+			Return bmx_wxpropertygrid_selectproperty(wxObjectPtr, prop.wxObjectPtr, focus)
+		Else
+			Return bmx_wxpropertygrid_selectproperty(wxObjectPtr, prop.wxObjectPtr, focus)
+		End If
+	End Method
+	
 	Method ChangePropertyValueIntArray:Int(prop:wxPGProperty, value:Int[])
 		' TODO
 	End Method

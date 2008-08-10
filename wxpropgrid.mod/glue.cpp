@@ -1222,6 +1222,14 @@ void bmx_wxpropertygrid_setsplitterposition(wxPropertyGrid * grid, int xPos, boo
 	grid->SetSplitterPosition(xPos, refresh);
 }
 
+bool bmx_wxpropertygrid_commitchangesfromeditor(wxPropertyGrid * grid, int flags) {
+	return grid->CommitChangesFromEditor(flags);
+}
+
+bool bmx_wxpropertygrid_selectproperty(wxPropertyGrid * grid, wxPGProperty * prop, bool focus) {
+	return grid->SelectProperty(prop, focus);
+}
+
 // *********************************************
 
 MaxPGChoices * bmx_wxpgchoices_create() {
