@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.06"
+Const AppVersion:String = "1.07"
 
 
 Global eventMap:TMap = New TMap
@@ -2714,7 +2714,7 @@ Type TFBDatePickerCtrl Extends TFBWidget
 
 End Type
 
-Type TFBToolBar Extends TFBWidget
+Type TFBToolBar Extends TFBContainer
 
 	Method Generate(out:TCodeOutput)
 
@@ -2757,6 +2757,7 @@ Type TFBToolBar Extends TFBWidget
 
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
+			out.Add(prop("name") + ".AddControl(" + child.prop("name") + ")", 2)
 		Next
 		
 		out.Add(prop("name") + ".Realize()",2)
