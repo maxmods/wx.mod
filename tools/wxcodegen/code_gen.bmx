@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.07"
+Const AppVersion:String = "1.08"
 
 
 Global eventMap:TMap = New TMap
@@ -858,6 +858,18 @@ Type TFBWidget
 			End If
 		End If
 		Return name
+	End Method
+	
+	Method IsInSizer:Int()
+		If Not parent Then
+			Return False
+		End If
+		
+		If TFBSizer(parent) Then
+			Return True
+		End If
+		
+		Return parent.IsInSizer()
 	End Method
 	
 End Type
@@ -2724,11 +2736,11 @@ Type TFBToolBar Extends TFBContainer
 		
 		Local text:String = prop("name") + " = "
 		
-		If GetForm()
+		If Not IsInSizer()
 			text:+ "CreateToolBar("
 			text:+ prop("style") + ", " + prop("id") + ")"
 		Else
-			text:+ " new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
+			text:+ "new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
 	
 			text:+ DoPosSizeStyle(Self)
 	
@@ -2757,7 +2769,9 @@ Type TFBToolBar Extends TFBContainer
 
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
-			out.Add(prop("name") + ".AddControl(" + child.prop("name") + ")", 2)
+			If Not TFBToolSeparator(child) Then
+				out.Add(prop("name") + ".AddControl(" + child.prop("name") + ")", 2)
+			End If
 		Next
 		
 		out.Add(prop("name") + ".Realize()",2)
@@ -3028,6 +3042,8 @@ Type TFBBoxSizer Extends TFBSizer
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
 		
+		out.Add("")
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
@@ -3061,6 +3077,8 @@ Type TFBStaticBoxSizer Extends TFBSizer
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
 	
+		out.Add("")
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
@@ -3147,6 +3165,8 @@ Type TFBFlexGridSizer Extends TFBSizer
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
 	
+		out.Add("")
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
@@ -3405,6 +3425,8 @@ Type TFBGridBagSizer Extends TFBSizer
 		If prop("minimum_size") And Not IsDefault(prop("minimum_size")) Then
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
+
+		out.Add("")
 		
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
