@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.08"
+Const AppVersion:String = "1.09"
 
 
 Global eventMap:TMap = New TMap
@@ -3435,7 +3435,7 @@ Type TFBGridBagSizer Extends TFBSizer
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxGridBagSizer"
+		Return "wx.wxWindow"
 	End Method
 
 End Type
