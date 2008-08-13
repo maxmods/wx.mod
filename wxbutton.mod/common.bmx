@@ -52,6 +52,7 @@ Extern
 	
 	Function bmx_wxbutton_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxbutton_addresourcehandler()
 End Extern
 
 

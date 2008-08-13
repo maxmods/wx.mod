@@ -33,6 +33,10 @@ extern "C" {
 	void bmx_wxxmlresource_initallhandlers(wxXmlResource * res);
 	bool bmx_wxxmlresource_load(wxXmlResource * res, BBString * filemask);
 	wxFrame * bmx_wxxmlresource_loadframe(wxXmlResource * res, wxWindow * parent, BBString * name);
+	wxWindow * bmx_wxxmlresource_xrcctrl(wxWindow * parent, BBString * id);
+	int bmx_wxxmlresource_wrcid(BBString * name);
+	wxObject * bmx_wxxmlresource_loadobject(wxXmlResource * res, BBObject * win, wxWindow * parent, 
+		BBString * name, BBString * classname);
 
 }
 

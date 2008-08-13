@@ -48,5 +48,28 @@ wxFrame * bmx_wxxmlresource_loadframe(wxXmlResource * res, wxWindow * parent, BB
 	return res->LoadFrame(parent, wxStringFromBBString(name));
 }
 
+wxWindow * bmx_wxxmlresource_xrcctrl(wxWindow * parent, BBString * id) {
+	return parent->FindWindow(bmx_wxxmlresource_wrcid(id));
+}
+
+int bmx_wxxmlresource_wrcid(BBString * name) {
+	return wxXmlResource::GetXRCID(wxStringFromBBString(name));
+}
+
+wxObject * bmx_wxxmlresource_loadobject(wxXmlResource * res, BBObject * win, wxWindow * parent, 
+		BBString * name, BBString * classname) {
+
+	wxObject * obj = res->LoadObject(parent, wxStringFromBBString(name), wxStringFromBBString(classname));
+	
+	if (obj) {
+		// unbind from automatic-newly created object
+		wxunbind(obj);
+		// bind to *our* newly created object
+		wxbind(obj, win);
+	}
+	
+	return obj;
+}
+
 
 

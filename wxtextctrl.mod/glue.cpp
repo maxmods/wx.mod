@@ -31,6 +31,9 @@ MaxTextCtrl::MaxTextCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, co
 	wxbind(this, handle);
 }
 
+MaxTextCtrl::MaxTextCtrl()
+{}
+
 MaxTextCtrl::~MaxTextCtrl() {
 	wxunbind(this);
 }
@@ -45,6 +48,40 @@ wxTextAttr & MaxTextAttr::TextAttr() {
 	return textAttr;
 }
 
+void MaxTextCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxTextCtrlXmlHandler , wxTextCtrlXmlHandler)
+
+MaxTextCtrlXmlHandler:: MaxTextCtrlXmlHandler()
+	: wxTextCtrlXmlHandler()
+{}
+
+
+wxObject * MaxTextCtrlXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(text, MaxTextCtrl)
+
+    text->Create(m_parentAsWindow,
+                 GetID(),
+                 GetText(wxT("value")),
+                 GetPosition(), GetSize(),
+                 GetStyle(),
+                 wxDefaultValidator,
+                 GetName());
+
+	text->MaxBind(_wx_wxtextctrl_wxTextCtrl__xrcNew(text));
+
+    SetupWindow(text);
+
+    if (HasParam(wxT("maxlength")))
+        text->SetMaxLength(GetLong(wxT("maxlength")));
+
+    return text;
+}
 
 // *********************************************
 
@@ -418,4 +455,9 @@ int bmx_wxtextctrl_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxtextctrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxTextCtrlXmlHandler);
+}
 

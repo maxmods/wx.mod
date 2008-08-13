@@ -85,12 +85,21 @@ Type wxXmlResource Extends wxObject
 		Return bmx_wxxmlresource_load(wxObjectPtr, filemask)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method LoadBitmap:wxBitmap(name:String)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method LoadDialog:wxDialog(parent:wxWindow, name:String)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method LoadFrame:wxFrame(parent:wxWindow, name:String)
 		If parent Then
 			Return wxFrame._find(bmx_wxxmlresource_loadframe(wxObjectPtr, parent.wxObjectPtr, name))
@@ -99,4 +108,31 @@ Type wxXmlResource Extends wxObject
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
+	Method LoadObject(this:wxObject, parent:wxWindow, name:String, classname:String)
+		If parent Then
+			this.wxObjectPtr = bmx_wxxmlresource_loadobject(wxObjectPtr, this, parent.wxObjectPtr, name, classname)
+		Else
+			this.wxObjectPtr = bmx_wxxmlresource_loadobject(wxObjectPtr, this, Null, name, classname)
+		End If
+	End Method
+
 End Type
+
+Rem
+bbdoc: Returns pointer to particular control in dialog created using XML resources.
+End Rem
+Function XRCCTRL:wxWindow(parent:wxWindow, id:String)
+	Return wxWindow._find(bmx_wxxmlresource_xrcctrl(parent.wxObjectPtr, id))
+End Function
+
+Rem
+bbdoc: Translates string identifier (as used in XML resource, e.g. &ltg;menuitem id="my_menu"&gt;...&ltg;/menuitem&gt;) to widget event id.
+End Rem
+Function XRCID:Int(name:String)
+	Return bmx_wxxmlresource_wrcid(name)
+End Function
+
+

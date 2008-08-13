@@ -32,10 +32,45 @@ MaxButton::MaxButton(BBObject * handle, wxWindow * parent, wxWindowID id, const 
 	wxbind(this, handle);
 }
 
+MaxButton::MaxButton()
+{}
+
 MaxButton::~MaxButton() {
 	wxunbind(this);
 }
 
+void MaxButton::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxButtonXmlHandler , wxButtonXmlHandler)
+
+MaxButtonXmlHandler:: MaxButtonXmlHandler()
+	: wxButtonXmlHandler()
+{}
+
+wxObject * MaxButtonXmlHandler::DoCreateResource()
+{
+   XRC_MAKE_INSTANCE(button, MaxButton)
+
+   button->Create(m_parentAsWindow,
+                    GetID(),
+                    GetText(wxT("label")),
+                    GetPosition(), GetSize(),
+                    GetStyle(),
+                    wxDefaultValidator,
+                    GetName());
+
+	button->MaxBind(_wx_wxbutton_wxButton__xrcNew(button));
+
+    if (GetBool(wxT("default"), 0))
+        button->SetDefault();
+    SetupWindow(button);
+
+    return button;
+}
 
 // *********************************************
 
@@ -74,3 +109,8 @@ int bmx_wxbutton_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxbutton_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxButtonXmlHandler);
+}

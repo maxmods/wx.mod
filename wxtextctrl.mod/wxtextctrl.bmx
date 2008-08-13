@@ -158,6 +158,10 @@ Type wxTextCtrl Extends wxControl
 		End If
 	End Function
 
+	Function _xrcNew:wxTextCtrl(wxObjectPtr:Byte Ptr)
+		Return wxTextCtrl._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a text control.
 	about: The horizontal scrollbar (wxHSCROLL style flag) will only be created for multi-line
@@ -936,4 +940,13 @@ End Type
 
 New TTextCtrlEventFactory
 
+Type TTextCtrlResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxtextctrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New TTextCtrlResourceFactory
 

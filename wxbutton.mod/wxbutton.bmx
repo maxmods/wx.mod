@@ -76,6 +76,18 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 End Rem
 Type wxButton Extends wxControl
 
+	Function _create:wxButton(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxButton = New wxButton
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxButton(wxObjectPtr:Byte Ptr)
+		Return wxButton._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a button.
 	about: The preferred way to create standard buttons is to use default value of label. If no label is supplied
@@ -160,3 +172,12 @@ End Type
 
 New TButtonEventFactory
 
+Type TButtonResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxbutton_addresourcehandler()
+	End Method
+		
+End Type
+
+New TButtonResourceFactory

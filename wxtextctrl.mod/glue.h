@@ -23,6 +23,7 @@
 #include "wxglue.h"
 #include <wx/textctrl.h>
 #include "../wxtextvalidator.mod/glue.h"
+#include "wx/xrc/xh_text.h"
 
 class MaxTextCtrl;
 class MaxTextAttr;
@@ -31,6 +32,7 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxtextctrl_wxTextCtrl__xrcNew(wxTextCtrl * text);
 
 	MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, MaxTextValidator * validator);
 	void bmx_wxtextctrl_appendtext(wxTextCtrl * ctrl, BBString * text);
@@ -123,6 +125,7 @@ extern "C" {
 
 	int bmx_wxtextctrl_emulatekeypress(wxTextCtrl * ctrl, wxKeyEvent & event);
 
+	void bmx_wxtextctrl_addresourcehandler();
 }
 
 
@@ -131,9 +134,12 @@ extern "C" {
 class MaxTextCtrl : public wxTextCtrl
 {
 public:
+	MaxTextCtrl();
 	MaxTextCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style, const wxValidator & val);
 	~MaxTextCtrl();
-	
+
+	void MaxBind(BBObject * handle);
+
 private:
 	DECLARE_EVENT_TABLE()
 };
@@ -148,4 +154,15 @@ public:
 private:
 	wxTextAttr textAttr;
 
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxTextCtrlXmlHandler : public wxTextCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxTextCtrlXmlHandler)
+
+public:
+    MaxTextCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
 };

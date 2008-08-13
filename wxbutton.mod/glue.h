@@ -21,12 +21,15 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/xrc/xh_bttn.h"
 
 class MaxButton;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxbutton_wxButton__xrcNew(wxButton * button);
 
 	MaxButton * bmx_wxbutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
@@ -36,6 +39,8 @@ extern "C" {
 	void bmx_wxbutton_setlabel(MaxButton * button, BBString * label);
 	
 	int bmx_wxbutton_geteventtype(int type);
+
+	void bmx_wxbutton_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -43,12 +48,27 @@ extern "C" {
 class MaxButton : public wxButton
 {
 public:
+	MaxButton();
 	MaxButton(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style);
 	~MaxButton();
+
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxButtonXmlHandler : public wxButtonXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxButtonXmlHandler)
+
+public:
+    MaxButtonXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+
 

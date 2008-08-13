@@ -50,5 +50,8 @@ Extern
 	Function bmx_wxxmlresource_initallhandlers(handle:Byte Ptr)
 	Function bmx_wxxmlresource_load:Int(handle:Byte Ptr, filemask:String)
 	Function bmx_wxxmlresource_loadframe:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, name:String)
+	Function bmx_wxxmlresource_xrcctrl:Byte Ptr(parent:Byte Ptr, id:String)
+	Function bmx_wxxmlresource_wrcid:Int(name:String)
+	Function bmx_wxxmlresource_loadobject:Byte Ptr(handle:Byte Ptr, win:Object, parent:Byte Ptr, name:String, classname:String)
 
 End Extern

@@ -138,6 +138,8 @@ Extern
 
 	Function bmx_wxtextctrl_emulatekeypress:Int(handle:Byte Ptr, event:Byte Ptr)
 
+	Function bmx_wxtextctrl_addresourcehandler()
+
 End Extern
 
 ' note : these are set as negative because they used to be positive but where then moved (in wxWidgets), where
