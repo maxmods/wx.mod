@@ -133,6 +133,10 @@ Type wxFrame Extends wxTopLevelWindow
 		End If
 	End Function
 	
+	Function _xrcNew:wxFrame(wxObjectPtr:Byte Ptr)
+		Return wxFrame._create(wxObjectPtr)
+	End Function
+	
 	Rem
 	bbdoc: TODO
 	End Rem
@@ -303,3 +307,12 @@ Type wxFrame Extends wxTopLevelWindow
 	
 End Type
 
+Type TFrameResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxframe_addresourcehandler()
+	End Method
+		
+End Type
+
+New TFrameResourceFactory

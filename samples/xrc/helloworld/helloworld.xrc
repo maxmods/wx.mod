@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">	<object class="wxFrame" name="MyFrame1">		<style>wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL</style>		<size>500,300</size>		<title>Hello World</title>		<centered>1</centered>	</object></resource>

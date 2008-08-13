@@ -2,6 +2,7 @@
 #include "../wxstatusbar.mod/glue.h"
 #include "../wxtoolbar.mod/glue.h"
 #include "../wxmenubar.mod/glue.h"
+#include "wx/xrc/xh_frame.h"
 
 class MaxFrame;
 
@@ -11,6 +12,7 @@ extern "C" {
 #include <blitz.h>
 
 	bool _wx_wxtoplevelwindow_wxTopLevelWindow__myShouldPreventAppExit(void * window);
+	BBObject * _wx_wxframe_wxFrame__xrcNew(wxFrame * frame);
 
 	MaxFrame * bmx_wxframe_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id, BBString * title,
 		int x, int y, int w, int h, long style);
@@ -29,6 +31,8 @@ extern "C" {
 	void bmx_wxframe_processcommand(wxFrame * frame, int id);
 	void bmx_wxframe_setstatusbarpane(wxFrame * frame, int n);
 
+	void bmx_wxframe_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -37,7 +41,8 @@ extern "C" {
 class MaxFrame : public wxFrame
 {
 public:
-    MaxFrame(BBObject * handle, wxWindow* parent, wxWindowID id, const wxString& title, int x,
+	MaxFrame();
+	MaxFrame(BBObject * handle, wxWindow* parent, wxWindowID id, const wxString& title, int x,
 		int y, int w, int h, long style);
 	~MaxFrame();
 		
@@ -52,9 +57,23 @@ public:
 		wxFrame::PositionStatusBar();
 	}
 	
+	void MaxBind(BBObject * handle);
+	
 private:
 	
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxFrameXmlHandler : public wxFrameXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxFrameXmlHandler)
+
+public:
+    MaxFrameXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+
 

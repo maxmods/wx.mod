@@ -62,7 +62,9 @@ Extern
 	Function bmx_wxframe_settoolbar(handle:Byte Ptr, toolbar:Byte Ptr)
 	Function bmx_wxframe_sendsizeevent(handle:Byte Ptr)
 	Function bmx_wxframe_processcommand(handle:Byte Ptr, id:Int)
-	Function bmx_wxframe_setstatusbarpane(handle:Byte Ptr, n:int)
+	Function bmx_wxframe_setstatusbarpane(handle:Byte Ptr, n:Int)
+
+	Function bmx_wxframe_addresourcehandler()
 
 End Extern
 

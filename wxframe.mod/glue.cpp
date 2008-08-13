@@ -6,6 +6,9 @@
 BEGIN_EVENT_TABLE(MaxFrame, wxFrame)
 END_EVENT_TABLE()
 
+MaxFrame::MaxFrame()
+{}
+
 MaxFrame::MaxFrame(BBObject * handle, wxWindow* parent, wxWindowID id, const wxString& title, int x,
 		int y, int w, int h, long style)
        : wxFrame(parent, id, title, wxPoint(x, y), wxSize(w,h), style)
@@ -28,8 +31,52 @@ MaxToolBar * MaxFrame::OnCreateToolBar(long style, wxWindowID id, const wxString
 	return new MaxToolBar(this, style, id, name);
 }
 
+void MaxFrame::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
 // ---------------------------------------------------------------------------------------
 
+IMPLEMENT_DYNAMIC_CLASS(MaxFrameXmlHandler , wxFrameXmlHandler)
+
+MaxFrameXmlHandler:: MaxFrameXmlHandler()
+	: wxFrameXmlHandler()
+{}
+
+
+wxObject * MaxFrameXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(frame, MaxFrame);
+
+    frame->Create(m_parentAsWindow,
+                  GetID(),
+                  GetText(wxT("title")),
+                  wxDefaultPosition, wxDefaultSize,
+                  GetStyle(wxT("style"), wxDEFAULT_FRAME_STYLE),
+                  GetName());
+
+	frame->MaxBind(_wx_wxframe_wxFrame__xrcNew(frame));
+
+    if (HasParam(wxT("size")))
+        frame->SetClientSize(GetSize(wxT("size"), frame));
+    if (HasParam(wxT("pos")))
+        frame->Move(GetPosition());
+    if (HasParam(wxT("icon")))
+        frame->SetIcon(GetIcon(wxT("icon"), wxART_FRAME_ICON));
+
+    SetupWindow(frame);
+
+    CreateChildren(frame);
+
+    if (GetBool(wxT("centered"), false))
+        frame->Centre();
+
+    return frame;
+}
+
+
+
+// ---------------------------------------------------------------------------------------
 
 MaxFrame * bmx_wxframe_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id, BBString * title, int x,
 		int y, int w, int h, long style) {
@@ -95,4 +142,7 @@ void bmx_wxframe_setstatusbarpane(wxFrame * frame, int n) {
 
 // *********************************************
 
+void bmx_wxframe_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxFrameXmlHandler);
+}
 
