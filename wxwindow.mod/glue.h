@@ -28,11 +28,16 @@
 #include "wx/tooltip.h"
 #include "wx/caret.h"
 #include "../wxcursor.mod/glue.h"
+#include "wx/gbsizer.h"
+#include "wx/xrc/xh_sizer.h"
+#include "wx/tokenzr.h"
+
 
 class MaxWindow;
 class MaxBoxSizer;
 class MaxGridSizer;
 class MaxFlexGridSizer;
+class MaxGridBagSizer;
 
 
 extern "C" {
@@ -43,6 +48,11 @@ extern "C" {
 	void _wx_wxwindow_wxWindow__setwindow(BBArray * array, int index, wxWindow * window);
 	BBArray * _wx_wxwindow_wxSizer__newsizeritemsarray(int size);
 	void _wx_wxwindow_wxSizer__setsizeritem(BBArray * array, int index, wxSizerItem * item);
+
+	BBObject * _wx_wxwindow_wxGridSizer__xrcNew(wxSizer * sizer);
+	BBObject * _wx_wxwindow_wxBoxSizer__xrcNew(wxSizer * sizer);
+	BBObject * _wx_wxwindow_wxFlexGridSizer__xrcNew(wxSizer * sizer);
+	BBObject * _wx_wxwindow_wxGridBagSizer__xrcNew(wxSizer * sizer);
 
 	MaxWindow * bmx_wxwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	bool bmx_wxwindow_show(wxWindow * window, bool value);
@@ -338,6 +348,35 @@ extern "C" {
 	wxWindow * bmx_wxfindwindowatpointer(int * x, int * y);
 	wxWindow * bmx_wxgetactivewindow();
 
+	wxGridBagSizer * bmx_wxgridbagsizer_create(BBObject * handle, int vgap, int hgap);
+	wxSizerItem * bmx_wxgridbagsizer_add(wxGridBagSizer * gb, wxWindow * window, int row, int col, int rowspan, int colspan, int flag, int border);
+	wxSizerItem * bmx_wxgridbagsizer_addsizer(wxGridBagSizer * gb, wxSizer * sizer, int row, int col, int rowspan, int colspan, int flag, int border);
+	wxSizerItem * bmx_wxgridbagsizer_addspacer(wxGridBagSizer * gb, int width, int height, int row, int col, int rowspan, int colspan, int flag, int border);
+	wxSizerItem * bmx_wxgridbagsizer_addgbsizeritem(wxGridBagSizer * gb, wxGBSizerItem * item);
+	bool bmx_wxgridbagsizer_checkforintersection(wxGridBagSizer * gb, wxGBSizerItem * item, wxGBSizerItem * excludeItem);
+	bool bmx_wxgridbagsizer_checkforintersectionpos(wxGridBagSizer * gb, int row, int col, int rowspan, int colspan, wxGBSizerItem * excludeItem);
+	void bmx_wxgridbagsizer_getcellsize(wxGridBagSizer * gb, int row, int col, int * width, int * height);
+	void bmx_wxgridbagsizer_getemptycellsize(wxGridBagSizer * gb, int * width, int * height);
+	void bmx_wxgridbagsizer_getitempositionwindow(wxGridBagSizer * gb, wxWindow * window, int * row, int * col);
+	void bmx_wxgridbagsizer_getitempositionsizer(wxGridBagSizer * gb, wxSizer * sizer, int * row, int * col);
+	void bmx_wxgridbagsizer_getitemposition(wxGridBagSizer * gb, int index, int * row, int * col);
+	void bmx_wxgridbagsizer_getitemspanwindow(wxGridBagSizer * gb, wxWindow * window, int * rowspan, int * colspan);
+	void bmx_wxgridbagsizer_getitemspansizer(wxGridBagSizer * gb, wxSizer * sizer, int * rowspan, int * colspan);
+	void bmx_wxgridbagsizer_getitemspan(wxGridBagSizer * gb, int index, int * rowspan, int * colspan);
+	void bmx_wxgridbagsizer_setemptycellsize(wxGridBagSizer * gb, int width, int height);
+	bool bmx_wxgridbagsizer_setitempositionwindow(wxGridBagSizer * gb, wxWindow * window, int row, int col);
+	bool bmx_wxgridbagsizer_setitempositionsizer(wxGridBagSizer * gb, wxSizer * sizer, int row, int col);
+	bool bmx_wxgridbagsizer_setitemposition(wxGridBagSizer * gb, int index, int row, int col);
+	bool bmx_wxgridbagsizer_setitemspanwindow(wxGridBagSizer * gb, wxWindow * window, int rowspan, int colspan);
+	bool bmx_wxgridbagsizer_setitemspansizer(wxGridBagSizer * gb, wxSizer * sizer, int rowspan, int colspan);
+	bool bmx_wxgridbagsizer_setitemspan(wxGridBagSizer * gb, int index, int rowspan, int colspan);
+	wxGBSizerItem * bmx_wxgridbagsizer_finditemwindow(wxGridBagSizer * gb, wxWindow * window);
+	wxGBSizerItem * bmx_wxgridbagsizer_finditemsizer(wxGridBagSizer * gb, wxSizer * sizer);
+	wxGBSizerItem * bmx_wxgridbagsizer_finditematpoint(wxGridBagSizer * gb, int x, int y);
+	wxGBSizerItem * bmx_wxgridbagsizer_finditematposition(wxGridBagSizer * gb, int row, int col);
+
+	void bmx_wxsizer_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -362,7 +401,9 @@ class MaxBoxSizer : public wxBoxSizer
 {
 public:
 	MaxBoxSizer(BBObject * handle, int orient);
+	MaxBoxSizer(int orient);
 	~MaxBoxSizer();
+	void MaxBind(BBObject * handle);
 
 private:
 	BBObject * maxHandle;
@@ -377,7 +418,9 @@ class MaxGridSizer : public wxGridSizer
 public:
 	MaxGridSizer(BBObject * handle, int cols, int vgap, int hgap);
 	MaxGridSizer(BBObject * handle, int rows, int cols, int vgap, int hgap);
+	MaxGridSizer(int rows, int cols, int vgap, int hgap);
 	~MaxGridSizer();
+	void MaxBind(BBObject * handle);
 
 private:
 	BBObject * maxHandle;
@@ -391,7 +434,9 @@ class MaxFlexGridSizer : public wxFlexGridSizer
 public:
 	MaxFlexGridSizer(BBObject * handle, int cols, int vgap, int hgap);
 	MaxFlexGridSizer(BBObject * handle, int rows, int cols, int vgap, int hgap);
+	MaxFlexGridSizer(int rows, int cols, int vgap, int hgap);
 	~MaxFlexGridSizer();
+	void MaxBind(BBObject * handle);
 
 private:
 	BBObject * maxHandle;
@@ -400,5 +445,37 @@ private:
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxGridBagSizer : public wxGridBagSizer
+{
+public:
+	MaxGridBagSizer(BBObject * handle, int vgap, int hgap);
+	MaxGridBagSizer(int vgap, int hgap);
+	~MaxGridBagSizer();
+	void MaxBind(BBObject * handle);
+
+private:
+	BBObject * maxHandle;
+
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxSizerXmlHandler : public wxSizerXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxSizerXmlHandler)
+
+public:
+    MaxSizerXmlHandler();
+    //virtual wxObject *DoCreateResource();
+    bool IsSizerNode(wxXmlNode *node);
+
+	void SetGrowables(wxFlexGridSizer* sizer, const wxChar* param, bool rows);
+
+
+    wxSizer*  Handle_wxBoxSizer();
+    wxSizer*  Handle_wxGridSizer();
+    wxSizer*  Handle_wxFlexGridSizer();
+    wxSizer*  Handle_wxGridBagSizer();
+};
 
 #endif // _WX_MAX_WINDOW_H_

@@ -43,8 +43,17 @@ MaxBoxSizer::MaxBoxSizer(BBObject * handle, int orient)
 	wxbind(this, handle);
 }
 
+MaxBoxSizer::MaxBoxSizer(int orient)
+	: wxBoxSizer(orient)
+{
+}
+
 MaxBoxSizer::~MaxBoxSizer() {
 	wxunbind(this);
+}
+
+void MaxBoxSizer::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
 }
 
 // ---------------------------------------------------------------------------------------
@@ -62,8 +71,17 @@ MaxGridSizer::MaxGridSizer(BBObject * handle, int rows, int cols, int vgap, int 
 	wxbind(this, handle);
 }
 
+MaxGridSizer::MaxGridSizer(int rows, int cols, int vgap, int hgap)
+	: wxGridSizer(rows, cols, vgap, hgap)
+{
+}
+
 MaxGridSizer::~MaxGridSizer() {
 	wxunbind(this);
+}
+
+void MaxGridSizer::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
 }
 
 // ---------------------------------------------------------------------------------------
@@ -80,9 +98,108 @@ MaxFlexGridSizer::MaxFlexGridSizer(BBObject * handle, int rows, int cols, int vg
 	wxbind(this, handle);
 }
 
+MaxFlexGridSizer::MaxFlexGridSizer(int rows, int cols, int vgap, int hgap)
+	: wxFlexGridSizer(rows, cols, vgap, hgap)
+{
+}
+
 MaxFlexGridSizer::~MaxFlexGridSizer() {
 	wxunbind(this);
 }
+
+void MaxFlexGridSizer::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+MaxGridBagSizer::MaxGridBagSizer(BBObject * handle, int vgap, int hgap)
+	: maxHandle(handle), wxGridBagSizer(vgap, hgap)
+{
+	wxbind(this, handle);
+}
+
+MaxGridBagSizer::MaxGridBagSizer(int vgap, int hgap)
+	: wxGridBagSizer(vgap, hgap)
+{
+}
+
+MaxGridBagSizer::~MaxGridBagSizer() {
+	wxunbind(this);
+}
+
+void MaxGridBagSizer::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxSizerXmlHandler , wxSizerXmlHandler)
+
+MaxSizerXmlHandler::MaxSizerXmlHandler()
+	: wxSizerXmlHandler()
+{}
+
+wxSizer*  MaxSizerXmlHandler::Handle_wxBoxSizer() {
+    MaxBoxSizer * sizer = new MaxBoxSizer(GetStyle(wxT("orient"), wxHORIZONTAL));
+	sizer->MaxBind(_wx_wxwindow_wxBoxSizer__xrcNew(sizer));
+	return sizer;
+}
+
+wxSizer*  MaxSizerXmlHandler::Handle_wxGridSizer() {
+    MaxGridSizer * sizer = new MaxGridSizer(GetLong(wxT("rows")), GetLong(wxT("cols")),
+                           GetDimension(wxT("vgap")), GetDimension(wxT("hgap")));
+
+	sizer->MaxBind(_wx_wxwindow_wxGridSizer__xrcNew(sizer));
+	return sizer;
+}
+
+wxSizer*  MaxSizerXmlHandler::Handle_wxFlexGridSizer() {
+    MaxFlexGridSizer *sizer =
+        new MaxFlexGridSizer(GetLong(wxT("rows")), GetLong(wxT("cols")),
+                            GetDimension(wxT("vgap")), GetDimension(wxT("hgap")));
+    SetGrowables(sizer, wxT("growablerows"), true);
+    SetGrowables(sizer, wxT("growablecols"), false);
+	sizer->MaxBind(_wx_wxwindow_wxFlexGridSizer__xrcNew(sizer));
+    return sizer;
+
+}
+
+wxSizer*  MaxSizerXmlHandler::Handle_wxGridBagSizer() {
+    MaxGridBagSizer *sizer =
+        new MaxGridBagSizer(GetDimension(wxT("vgap")), GetDimension(wxT("hgap")));
+    SetGrowables(sizer, wxT("growablerows"), true);
+    SetGrowables(sizer, wxT("growablecols"), false);
+	sizer->MaxBind(_wx_wxwindow_wxGridBagSizer__xrcNew(sizer));
+    return sizer;
+}
+
+bool MaxSizerXmlHandler::IsSizerNode(wxXmlNode *node)
+{
+    return (IsOfClass(node, wxT("wxBoxSizer"))) ||
+           (IsOfClass(node, wxT("wxGridSizer"))) ||
+           (IsOfClass(node, wxT("wxFlexGridSizer"))) ||
+           (IsOfClass(node, wxT("wxGridBagSizer")));
+}
+
+
+void MaxSizerXmlHandler::SetGrowables(wxFlexGridSizer* sizer, const wxChar* param, bool rows) {
+    wxStringTokenizer tkn;
+    unsigned long l;
+    tkn.SetString(GetParamValue(param), wxT(","));
+    while (tkn.HasMoreTokens())
+    {
+        if (!tkn.GetNextToken().ToULong(&l))
+            wxLogError(wxT("growable[rows|cols] must be comma-separated list of row numbers"));
+        else {
+            if (rows)
+                sizer->AddGrowableRow(l);
+            else
+                sizer->AddGrowableCol(l);
+        }
+    }
+}
+
 
 // ---------------------------------------------------------------------------------------
 
@@ -1305,4 +1422,131 @@ wxWindow * bmx_wxgetactivewindow() {
 	return wxGetActiveWindow();
 }
 
+// *********************************************
+
+wxGridBagSizer * bmx_wxgridbagsizer_create(BBObject * handle, int vgap, int hgap) {
+	return new MaxGridBagSizer(handle, vgap, hgap);
+}
+
+wxSizerItem * bmx_wxgridbagsizer_add(wxGridBagSizer * gb, wxWindow * window, int row, int col, int rowspan, int colspan, int flag, int border) {
+	return gb->Add(window, wxGBPosition(row, col), wxGBSpan(rowspan, colspan), flag, border);
+}
+
+wxSizerItem * bmx_wxgridbagsizer_addsizer(wxGridBagSizer * gb, wxSizer * sizer, int row, int col, int rowspan, int colspan, int flag, int border) {
+	return gb->Add(sizer, wxGBPosition(row, col), wxGBSpan(rowspan, colspan), flag, border);
+}
+
+wxSizerItem * bmx_wxgridbagsizer_addspacer(wxGridBagSizer * gb, int width, int height, int row, int col, int rowspan, int colspan, int flag, int border) {
+	return gb->Add(width, height, wxGBPosition(row, col), wxGBSpan(rowspan, colspan), flag, border);
+}
+
+wxSizerItem * bmx_wxgridbagsizer_addgbsizeritem(wxGridBagSizer * gb, wxGBSizerItem * item) {
+	return gb->Add(item);
+}
+
+bool bmx_wxgridbagsizer_checkforintersection(wxGridBagSizer * gb, wxGBSizerItem * item, wxGBSizerItem * excludeItem) {
+	return gb->CheckForIntersection(item, excludeItem);
+}
+
+bool bmx_wxgridbagsizer_checkforintersectionpos(wxGridBagSizer * gb, int row, int col, int rowspan, int colspan, wxGBSizerItem * excludeItem) {
+	return gb->CheckForIntersection(wxGBPosition(row, col), wxGBSpan(rowspan, colspan), excludeItem);
+}
+
+void bmx_wxgridbagsizer_getcellsize(wxGridBagSizer * gb, int row, int col, int * width, int * height) {
+	wxSize s = gb->GetCellSize(row, col);
+	*width = s.x;
+	*height = s.y;
+}
+
+void bmx_wxgridbagsizer_getemptycellsize(wxGridBagSizer * gb, int * width, int * height) {
+	wxSize s = gb->GetEmptyCellSize();
+	*width = s.x;
+	*height = s.y;
+}
+
+void bmx_wxgridbagsizer_getitempositionwindow(wxGridBagSizer * gb, wxWindow * window, int * row, int * col) {
+	wxGBPosition p = gb->GetItemPosition(window);
+	*row = p.GetRow();
+	*col = p.GetCol();
+}
+
+void bmx_wxgridbagsizer_getitempositionsizer(wxGridBagSizer * gb, wxSizer * sizer, int * row, int * col) {
+	wxGBPosition p = gb->GetItemPosition(sizer);
+	*row = p.GetRow();
+	*col = p.GetCol();
+}
+
+void bmx_wxgridbagsizer_getitemposition(wxGridBagSizer * gb, int index, int * row, int * col) {
+	wxGBPosition p = gb->GetItemPosition(index);
+	*row = p.GetRow();
+	*col = p.GetCol();
+}
+
+void bmx_wxgridbagsizer_getitemspanwindow(wxGridBagSizer * gb, wxWindow * window, int * rowspan, int * colspan) {
+	wxGBSpan s = gb->GetItemSpan(window);
+	*rowspan = s.GetRowspan();
+	*colspan = s.GetColspan();
+}
+
+void bmx_wxgridbagsizer_getitemspansizer(wxGridBagSizer * gb, wxSizer * sizer, int * rowspan, int * colspan) {
+	wxGBSpan s = gb->GetItemSpan(sizer);
+	*rowspan = s.GetRowspan();
+	*colspan = s.GetColspan();
+}
+
+void bmx_wxgridbagsizer_getitemspan(wxGridBagSizer * gb, int index, int * rowspan, int * colspan) {
+	wxGBSpan s = gb->GetItemSpan(index);
+	*rowspan = s.GetRowspan();
+	*colspan = s.GetColspan();
+}
+
+void bmx_wxgridbagsizer_setemptycellsize(wxGridBagSizer * gb, int width, int height) {
+	gb->SetEmptyCellSize(wxSize(width, height));
+}
+
+bool bmx_wxgridbagsizer_setitempositionwindow(wxGridBagSizer * gb, wxWindow * window, int row, int col) {
+	return gb->SetItemPosition(window, wxGBPosition(row, col));
+}
+
+bool bmx_wxgridbagsizer_setitempositionsizer(wxGridBagSizer * gb, wxSizer * sizer, int row, int col) {
+	return gb->SetItemPosition(sizer, wxGBPosition(row, col));
+}
+
+bool bmx_wxgridbagsizer_setitemposition(wxGridBagSizer * gb, int index, int row, int col) {
+	return gb->SetItemPosition(index, wxGBPosition(row, col));
+}
+
+bool bmx_wxgridbagsizer_setitemspanwindow(wxGridBagSizer * gb, wxWindow * window, int rowspan, int colspan) {
+	return gb->SetItemSpan(window, wxGBSpan(rowspan, colspan));
+}
+
+bool bmx_wxgridbagsizer_setitemspansizer(wxGridBagSizer * gb, wxSizer * sizer, int rowspan, int colspan) {
+	return gb->SetItemSpan(sizer, wxGBSpan(rowspan, colspan));
+}
+
+bool bmx_wxgridbagsizer_setitemspan(wxGridBagSizer * gb, int index, int rowspan, int colspan) {
+	return gb->SetItemSpan(index, wxGBSpan(rowspan, colspan));
+}
+
+wxGBSizerItem * bmx_wxgridbagsizer_finditemwindow(wxGridBagSizer * gb, wxWindow * window) {
+	return gb->FindItem(window);
+}
+
+wxGBSizerItem * bmx_wxgridbagsizer_finditemsizer(wxGridBagSizer * gb, wxSizer * sizer) {
+	return gb->FindItem(sizer);
+}
+
+wxGBSizerItem * bmx_wxgridbagsizer_finditematpoint(wxGridBagSizer * gb, int x, int y) {
+	return gb->FindItemAtPoint(wxPoint(x, y));
+}
+
+wxGBSizerItem * bmx_wxgridbagsizer_finditematposition(wxGridBagSizer * gb, int row, int col) {
+	return gb->FindItemAtPosition(wxGBPosition(row, col));
+}
+
+// *********************************************
+
+void bmx_wxsizer_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxSizerXmlHandler);
+}
 
