@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<resource version="2.3.0.1">
+    <object class="wxFrame" name="TestWnd">
+        <size>-1,-1</size>
+        <title>Test</title>
+        <object class="wxBoxSizer">
+            <orient>wxHORIZONTAL</orient>
+            <object class="sizeritem">
+                <object class="wxTextCtrl" name="A">
+                    <label>Test label</label>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <object class="wxButton" name="B">
+                    <label>Test button</label>
+                </object>
+            </object>
+        </object>
+    </object>
+</resource>
