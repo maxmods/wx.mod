@@ -55,6 +55,8 @@ Extern
 
 	Function bmx_wxcheckbox_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxcheckbox_addresourcehandler()
+
 End Extern
 
 

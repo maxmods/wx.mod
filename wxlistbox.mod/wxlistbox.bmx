@@ -85,6 +85,18 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 End Rem
 Type wxListBox Extends wxControlWithItems
 
+	Function _create:wxListBox(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxListBox = New wxListBox
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxListBox(wxObjectPtr:Byte Ptr)
+		Return wxListBox._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a list box.
 	End Rem
@@ -183,3 +195,13 @@ Type TListBoxEventFactory Extends TEventFactory
 End Type
 
 New TListBoxEventFactory
+
+Type TListBoxResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxlistbox_addresourcehandler()
+	End Method
+		
+End Type
+
+New TListBoxResourceFactory

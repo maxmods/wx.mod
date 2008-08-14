@@ -71,5 +71,17 @@ wxObject * bmx_wxxmlresource_loadobject(wxXmlResource * res, BBObject * win, wxW
 	return obj;
 }
 
+void bmx_wxxmlresource_clearhandlers(wxXmlResource * res) {
+	res->ClearHandlers();
+}
+
+long bmx_wxxmlresource_getflags(wxXmlResource * res) {
+	return res->GetFlags();
+}
+
+wxDialog * bmx_wxxmlresource_loaddialog(wxXmlResource * res, wxWindow * parent, BBString * name) {
+	return res->LoadDialog(parent, wxStringFromBBString(name));
+}
+
 
 

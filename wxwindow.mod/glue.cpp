@@ -53,6 +53,7 @@ MaxBoxSizer::~MaxBoxSizer() {
 }
 
 void MaxBoxSizer::MaxBind(BBObject * handle) {
+	maxHandle = handle;
 	wxbind(this, handle);
 }
 
@@ -81,6 +82,7 @@ MaxGridSizer::~MaxGridSizer() {
 }
 
 void MaxGridSizer::MaxBind(BBObject * handle) {
+	maxHandle = handle;
 	wxbind(this, handle);
 }
 
@@ -108,6 +110,7 @@ MaxFlexGridSizer::~MaxFlexGridSizer() {
 }
 
 void MaxFlexGridSizer::MaxBind(BBObject * handle) {
+	maxHandle = handle;
 	wxbind(this, handle);
 }
 
@@ -129,6 +132,7 @@ MaxGridBagSizer::~MaxGridBagSizer() {
 }
 
 void MaxGridBagSizer::MaxBind(BBObject * handle) {
+	maxHandle = handle;
 	wxbind(this, handle);
 }
 

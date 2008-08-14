@@ -21,12 +21,15 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/xrc/xh_listb.h"
 
 class MaxListBox;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxlistbox_wxListBox__xrcNew(wxListBox * listbox);
 
 	MaxListBox * bmx_wxlistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
 	void bmx_wxlistbox_insertitems(wxListBox * listbox, BBArray * items, int pos);
@@ -39,6 +42,8 @@ extern "C" {
 	void bmx_wxlistbox_setfirstitemstr(wxListBox * listbox, BBString * item);
 
 	int bmx_wxlistbox_geteventtype(int type);
+
+	void bmx_wxlistbox_addresourcehandler();
 }
 
 
@@ -49,7 +54,10 @@ class MaxListBox : public wxListBox
 {
 public:
 	MaxListBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxArrayString& array, int x, int y, int w, int h, long style);
+	MaxListBox();
 	~MaxListBox();
+
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
@@ -57,4 +65,17 @@ private:
 
 };
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxListBoxXmlHandler : public wxListBoxXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxListBoxXmlHandler)
+
+public:
+    MaxListBoxXmlHandler();
+    virtual wxObject *DoCreateResource();
+
+	bool m_insideBox;
+	wxArrayString strList;
+};
 

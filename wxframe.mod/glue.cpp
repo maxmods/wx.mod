@@ -59,9 +59,9 @@ void MaxFrame::MaxBind(BBObject * handle) {
 
 // ---------------------------------------------------------------------------------------
 
-IMPLEMENT_DYNAMIC_CLASS(MaxFrameXmlHandler , wxFrameXmlHandler)
+IMPLEMENT_DYNAMIC_CLASS(MaxFrameXmlHandler, wxFrameXmlHandler)
 
-MaxFrameXmlHandler:: MaxFrameXmlHandler()
+MaxFrameXmlHandler::MaxFrameXmlHandler()
 	: wxFrameXmlHandler()
 {}
 

@@ -57,6 +57,8 @@ Extern
 	
 	Function bmx_wxlistbox_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxlistbox_addresourcehandler()
+	
 End Extern
 
 

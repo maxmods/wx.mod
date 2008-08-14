@@ -76,6 +76,18 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 End Rem
 Type wxCheckBox Extends wxControl
 
+	Function _create:wxCheckBox(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxCheckBox = New wxCheckBox
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxCheckBox(wxObjectPtr:Byte Ptr)
+		Return wxCheckBox._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a checkbox.
 	End Rem
@@ -179,3 +191,12 @@ End Type
 
 New TCheckBoxEventFactory
 
+Type TCheckBoxResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxcheckbox_addresourcehandler()
+	End Method
+		
+End Type
+
+New TCheckBoxResourceFactory

@@ -23,12 +23,15 @@
 #include "wxglue.h"
 #include "wx/dialog.h"
 #include "../wxicon.mod/glue.h"
+#include "wx/xrc/xh_dlg.h"
 
 class MaxDialog;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxdialog_wxDialog__xrcNew(wxDialog * dialog);
 
 	MaxDialog * bmx_wxdialog_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y,
 		int w, int h, long style);
@@ -56,6 +59,8 @@ extern "C" {
 
 	void bmx_wxdialog_seticons(wxDialog * dialog, MaxIconBundle * icons);
 
+	void bmx_wxdialog_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -65,7 +70,21 @@ class MaxDialog : public wxDialog
 public:
 	MaxDialog(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& title, int x, int y,
 		int w, int h, long style);
+	MaxDialog();
 	~MaxDialog();
-	
+
+	void MaxBind(BBObject * handle);
+
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxDialogXmlHandler : public wxDialogXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxDialogXmlHandler)
+
+public:
+    MaxDialogXmlHandler();
+    virtual wxObject *DoCreateResource();
 };
 

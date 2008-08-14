@@ -67,6 +67,18 @@ otherwise they won't make sense any longer after a call to SetLabel)</td></tr>
 End Rem
 Type wxStaticText Extends wxControl
 
+	Function _create:wxStaticText(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxStaticText = New wxStaticText
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxStaticText(wxObjectPtr:Byte Ptr)
+		Return wxStaticText._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a text control.
 	End Rem
@@ -114,3 +126,13 @@ Type wxStaticText Extends wxControl
 	End Method
 	
 End Type
+
+Type TStaticTextResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxstatictext_addresourcehandler()
+	End Method
+		
+End Type
+
+New TStaticTextResourceFactory

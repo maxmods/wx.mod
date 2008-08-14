@@ -49,6 +49,8 @@ Extern
 	Function bmx_wxstatictext_setlabel(handle:Byte Ptr, label:String)
 	Function bmx_wxstatictext_wrap(handle:Byte Ptr, width:Int)
 
+	Function bmx_wxstatictext_addresourcehandler()
+
 End Extern
 
 

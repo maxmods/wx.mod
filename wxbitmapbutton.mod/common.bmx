@@ -59,4 +59,6 @@ Extern
 	Function bmx_wxbitmapbutton_setbitmaphover(handle:Byte Ptr, bitmap:Byte Ptr)
 	Function bmx_wxbitmapbutton_setbitmapselected(handle:Byte Ptr, bitmap:Byte Ptr)
 
+	Function bmx_wxbitmapbutton_addresourcehandler()
+
 End Extern

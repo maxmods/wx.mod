@@ -51,7 +51,8 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 Import "common.bmx"
 
 Rem
-bbdoc: 
+bbdoc: This is the main type for interacting with the XML-based resource system.
+about: It holds XML resources from one or more .xml files, binary files or zip archive files.
 End Rem
 Type wxXmlResource Extends wxObject
 
@@ -64,12 +65,26 @@ Type wxXmlResource Extends wxObject
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Removes all handlers and deletes them.
+	End Rem
+	Method ClearHandlers()
+		bmx_wxxmlresource_clearhandlers(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Gets the global resources object or creates one if none exists.
 	End Rem
 	Function Get:wxXmlResource()
 		Return wxXmlResource._create(bmx_wxxmlresource_get())
 	End Function
 
+	Rem
+	bbdoc: Returns flags, which may be a bitlist of wxXRC_USE_LOCALE and wxXRC_NO_SUBCLASSING.
+	End Rem
+	Method GetFlags:Int()
+		Return bmx_wxxmlresource_getflags(wxObjectPtr)
+	End Method
+	
 	Rem
 	bbdoc: Initializes handlers for all supported controls/windows.
 	End Rem
@@ -86,19 +101,24 @@ Type wxXmlResource Extends wxObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Loads a bitmap resource from a file.
 	End Rem
 	Method LoadBitmap:wxBitmap(name:String)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Loads a dialog.
 	End Rem
 	Method LoadDialog:wxDialog(parent:wxWindow, name:String)
+		If parent Then
+			Return wxDialog._find(bmx_wxxmlresource_loaddialog(wxObjectPtr, parent.wxObjectPtr, name))
+		Else
+			Return wxDialog._find(bmx_wxxmlresource_loaddialog(wxObjectPtr, Null, name))
+		End If
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Loads a frame.
 	End Rem
 	Method LoadFrame:wxFrame(parent:wxWindow, name:String)
 		If parent Then
@@ -106,6 +126,24 @@ Type wxXmlResource Extends wxObject
 		Else
 			Return wxFrame._find(bmx_wxxmlresource_loadframe(wxObjectPtr, Null, name))
 		End If
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method LoadIcon:wxIcon(name:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method LoadMenu:wxMenu(name:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method LoadMenuBar:wxMenuBar(parent:wxWindow, name:String)
 	End Method
 
 	Rem
@@ -119,6 +157,25 @@ Type wxXmlResource Extends wxObject
 		End If
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
+	Method LoadPanel:wxPanel(parent:wxWindow, name:String)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method LoadToolBar:wxToolBar(parent:wxWindow, name:String)
+	End Method
+	
+	Rem
+	bbdoc: Unloads a resource previously loaded by Load().
+	returns: True if the resource was successfully unloaded and false if it hasn't been found in the list of loaded resources.
+	End Rem
+	Method Unload:Int(filename:String)
+	End Method
+	
 End Type
 
 Rem

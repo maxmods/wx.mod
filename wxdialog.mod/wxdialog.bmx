@@ -83,6 +83,28 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 End Rem
 Type wxDialog Extends wxTopLevelWindow
 
+	Function _create:wxDialog(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxDialog = New wxDialog
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _find:wxDialog(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local dialog:wxDialog = wxDialog(wxfind(wxObjectPtr))
+			If Not dialog Then
+				Return wxDialog._create(wxObjectPtr)
+			End If
+			Return dialog
+		End If
+	End Function
+
+	Function _xrcNew:wxDialog(wxObjectPtr:Byte Ptr)
+		Return wxDialog._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Creates a new wxDialog.
 	End Rem
@@ -296,3 +318,12 @@ Type wxDialog Extends wxTopLevelWindow
 	
 End Type
 
+Type TDialogResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxdialog_addresourcehandler()
+	End Method
+		
+End Type
+
+New TDialogResourceFactory

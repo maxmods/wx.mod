@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/xrc/xh_panel.h"
 
 class MaxPanel;
 
@@ -28,11 +29,14 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxpanel_wxPanel__xrcNew(wxPanel * panel);
+
 	MaxPanel * bmx_wxpanel_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	void bmx_wxpanel_initdialog(wxPanel * panel);
 	void bmx_wxpanel_setfocus(wxPanel * panel);
 	void bmx_wxpanel_setfocusignoringchildren(wxPanel * panel);
 	
+	void bmx_wxpanel_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -41,8 +45,11 @@ class MaxPanel : public wxPanel
 {
 public:
 	MaxPanel(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxPanel();
 	~MaxPanel();
 	
+	void MaxBind(BBObject * handle);
+
 private:
 
     // any class wishing to process wxWidgets events must use this macro
@@ -50,4 +57,13 @@ private:
 };
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxPanelXmlHandler : public wxPanelXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxPanelXmlHandler)
+
+public:
+    MaxPanelXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
 

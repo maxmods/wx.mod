@@ -31,10 +31,55 @@ MaxDialog::MaxDialog(BBObject * handle, wxWindow * parent, wxWindowID id, const 
 	wxbind(this, handle);
 }
 
+MaxDialog::MaxDialog()
+{}
+
 MaxDialog::~MaxDialog() {
 	wxunbind(this);
 }
 
+void MaxDialog::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxDialogXmlHandler, wxDialogXmlHandler)
+
+MaxDialogXmlHandler::MaxDialogXmlHandler()
+	: wxDialogXmlHandler()
+{}
+
+
+wxObject * MaxDialogXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(dlg, MaxDialog);
+
+    dlg->Create(m_parentAsWindow,
+                GetID(),
+                GetText(wxT("title")),
+                wxDefaultPosition, wxDefaultSize,
+                GetStyle(wxT("style"), wxDEFAULT_DIALOG_STYLE),
+                GetName());
+
+	dlg->MaxBind(_wx_wxdialog_wxDialog__xrcNew(dlg));
+
+    if (HasParam(wxT("size")))
+        dlg->SetClientSize(GetSize(wxT("size"), dlg));
+    if (HasParam(wxT("pos")))
+        dlg->Move(GetPosition());
+    if (HasParam(wxT("icon")))
+        dlg->SetIcon(GetIcon(wxT("icon"), wxART_FRAME_ICON));
+
+    SetupWindow(dlg);
+
+    CreateChildren(dlg);
+
+    if (GetBool(wxT("centered"), false))
+        dlg->Centre();
+
+    return dlg;
+}
 
 // *********************************************
 
@@ -123,5 +168,11 @@ void bmx_wxdialog_setreturncode(wxDialog * dialog, int retCode) {
 
 void bmx_wxdialog_seticons(wxDialog * dialog, MaxIconBundle * icons) {
 	dialog->SetIcons(icons->Bundle());
+}
+
+// *********************************************
+
+void bmx_wxdialog_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxDialogXmlHandler);
 }
 

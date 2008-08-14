@@ -31,10 +31,44 @@ MaxCheckBox::MaxCheckBox(BBObject * handle, wxWindow * parent, wxWindowID id, co
 	wxbind(this, handle);
 }
 
+MaxCheckBox::MaxCheckBox()
+{}
+
 MaxCheckBox::~MaxCheckBox() {
 	wxunbind(this);
 }
 
+void MaxCheckBox::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxCheckBoxXmlHandler, wxCheckBoxXmlHandler)
+
+MaxCheckBoxXmlHandler::MaxCheckBoxXmlHandler()
+	: wxCheckBoxXmlHandler()
+{}
+
+wxObject * MaxCheckBoxXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(control, MaxCheckBox)
+
+    control->Create(m_parentAsWindow,
+                    GetID(),
+                    GetText(wxT("label")),
+                    GetPosition(), GetSize(),
+                    GetStyle(),
+                    wxDefaultValidator,
+                    GetName());
+
+	control->MaxBind(_wx_wxcheckbox_wxCheckBox__xrcNew(control));
+
+    control->SetValue(GetBool( wxT("checked")));
+    SetupWindow(control);
+
+    return control;
+}
 
 // *********************************************
 
@@ -81,4 +115,10 @@ int bmx_wxcheckbox_geteventtype(int type) {
 	}
 	
 	return 0;
+}
+
+// *********************************************
+
+void bmx_wxcheckbox_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxCheckBoxXmlHandler);
 }

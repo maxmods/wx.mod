@@ -31,10 +31,56 @@ MaxBitmapButton::MaxBitmapButton(BBObject * handle, wxWindow * parent, wxWindowI
 	wxbind(this, handle);
 }
 
+MaxBitmapButton::MaxBitmapButton()
+{}
+
 MaxBitmapButton::~MaxBitmapButton() {
 	wxunbind(this);
 }
 
+void MaxBitmapButton::MaxBind(BBObject * handle) {
+	maxHandle = handle;
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxBitmapButtonXmlHandler, wxBitmapButtonXmlHandler)
+
+MaxBitmapButtonXmlHandler::MaxBitmapButtonXmlHandler()
+	: wxBitmapButtonXmlHandler()
+{}
+
+
+wxObject * MaxBitmapButtonXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(button, MaxBitmapButton)
+
+    button->Create(m_parentAsWindow,
+                   GetID(),
+                   GetBitmap(wxT("bitmap"), wxART_BUTTON),
+                   GetPosition(), GetSize(),
+                   GetStyle(wxT("style"), wxBU_AUTODRAW),
+                   wxDefaultValidator,
+                   GetName());
+    if (GetBool(wxT("default"), 0))
+        button->SetDefault();
+    SetupWindow(button);
+
+	button->MaxBind(_wx_wxbitmapbutton_wxBitmapButton__xrcNew(button));
+
+
+    if (GetParamNode(wxT("selected")))
+        button->SetBitmapSelected(GetBitmap(wxT("selected")));
+    if (GetParamNode(wxT("focus")))
+        button->SetBitmapFocus(GetBitmap(wxT("focus")));
+    if (GetParamNode(wxT("disabled")))
+        button->SetBitmapDisabled(GetBitmap(wxT("disabled")));
+    if (GetParamNode(wxT("hover")))
+        button->SetBitmapHover(GetBitmap(wxT("hover")));
+
+    return button;
+}
 
 // *********************************************
 
@@ -92,4 +138,9 @@ void bmx_wxbitmapbutton_setbitmapselected(wxBitmapButton * button, MaxBitmap * b
 	button->SetBitmapSelected(bitmap->Bitmap());
 }
 
+// *********************************************
+
+void bmx_wxbitmapbutton_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxBitmapButtonXmlHandler);
+}
 

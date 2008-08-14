@@ -31,10 +31,42 @@ MaxPanel::MaxPanel(BBObject * handle, wxWindow * parent, wxWindowID id, int x, i
 	wxbind(this, handle);
 }
 
+MaxPanel::MaxPanel()
+{}
+
 MaxPanel::~MaxPanel() {
 	wxunbind(this);
 }
 
+void MaxPanel::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxPanelXmlHandler, wxPanelXmlHandler)
+
+MaxPanelXmlHandler::MaxPanelXmlHandler ()
+	: wxPanelXmlHandler()
+{}
+
+wxObject * MaxPanelXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(panel, MaxPanel)
+
+    panel->Create(m_parentAsWindow,
+                  GetID(),
+                  GetPosition(), GetSize(),
+                  GetStyle(wxT("style"), wxTAB_TRAVERSAL),
+                  GetName());
+
+	panel->MaxBind(_wx_wxpanel_wxPanel__xrcNew(panel));
+
+    SetupWindow(panel);
+    CreateChildren(panel);
+
+    return panel;
+}
 
 // *********************************************
 
@@ -58,5 +90,10 @@ void bmx_wxpanel_setfocusignoringchildren(wxPanel * panel) {
 	panel->SetFocusIgnoringChildren();
 }
 
+// *********************************************
+
+void bmx_wxpanel_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxPanelXmlHandler);
+}
 
 

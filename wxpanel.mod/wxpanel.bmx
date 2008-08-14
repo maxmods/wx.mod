@@ -92,6 +92,20 @@ Type wxPanel Extends wxWindow
 			Return this
 		End If
 	End Function
+
+	Function _find:wxPanel(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local panel:wxPanel = wxPanel(wxfind(wxObjectPtr))
+			If Not panel Then
+				Return wxPanel._create(wxObjectPtr)
+			End If
+			Return panel
+		End If
+	End Function
+	
+	Function _xrcNew:wxPanel(wxObjectPtr:Byte Ptr)
+		Return wxPanel._create(wxObjectPtr)
+	End Function
 	
 	Rem
 	bbdoc: Sends a wxInitDialogEvent, which in turn transfers data to the dialog via validators.
@@ -120,3 +134,12 @@ Type wxPanel Extends wxWindow
 	
 End Type
 
+Type TPanelResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxpanel_addresourcehandler()
+	End Method
+		
+End Type
+
+New TPanelResourceFactory

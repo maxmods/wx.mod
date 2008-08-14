@@ -37,6 +37,9 @@ extern "C" {
 	int bmx_wxxmlresource_wrcid(BBString * name);
 	wxObject * bmx_wxxmlresource_loadobject(wxXmlResource * res, BBObject * win, wxWindow * parent, 
 		BBString * name, BBString * classname);
+	void bmx_wxxmlresource_clearhandlers(wxXmlResource * res);
+	long bmx_wxxmlresource_getflags(wxXmlResource * res);
+	wxDialog * bmx_wxxmlresource_loaddialog(wxXmlResource * res, wxWindow * parent, BBString * name);
 
 }
 

@@ -31,8 +31,46 @@ MaxStaticText::MaxStaticText(BBObject * handle, wxWindow * parent, wxWindowID id
 	wxbind(this, handle);
 }
 
+MaxStaticText::MaxStaticText()
+{}
+
 MaxStaticText::~MaxStaticText() {
 	wxunbind(this);
+}
+
+void MaxStaticText::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxStaticTextXmlHandler, wxStaticTextXmlHandler)
+
+MaxStaticTextXmlHandler::MaxStaticTextXmlHandler()
+	: wxStaticTextXmlHandler()
+{}
+
+
+wxObject * MaxStaticTextXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(text, MaxStaticText)
+
+    text->Create(m_parentAsWindow,
+                 GetID(),
+                 GetText(wxT("label")),
+                 GetPosition(), GetSize(),
+                 GetStyle(),
+                 GetName());
+
+    SetupWindow(text);
+
+	text->MaxBind(_wx_wxstatictext_wxStaticText__xrcNew(text));
+
+    long wrap = GetLong(wxT("wrap"), -1);
+    if (wrap != -1)
+        text->Wrap(wrap);
+
+    return text;
 }
 
 // *********************************************
@@ -57,3 +95,10 @@ void bmx_wxstatictext_setlabel(wxStaticText * text, BBString * label) {
 void bmx_wxstatictext_wrap(wxStaticText * text, int width) {
 	text->Wrap(width);
 }
+
+// *********************************************
+
+void bmx_wxstatictext_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxStaticTextXmlHandler);
+}
+

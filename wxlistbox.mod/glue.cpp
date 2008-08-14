@@ -31,6 +31,9 @@ MaxListBox::MaxListBox(BBObject * handle, wxWindow * parent, wxWindowID id, cons
 	wxbind(this, handle);
 }
 
+MaxListBox::MaxListBox()
+{}
+
 MaxListBox::~MaxListBox() {
 	wxunbind(this);
 
@@ -42,6 +45,66 @@ MaxListBox::~MaxListBox() {
 			BBRELEASE((BBObject*)data);
 		}
 	}
+}
+
+void MaxListBox::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxListBoxXmlHandler , wxListBoxXmlHandler)
+
+MaxListBoxXmlHandler::MaxListBoxXmlHandler()
+	: wxListBoxXmlHandler()
+{}
+
+
+wxObject * MaxListBoxXmlHandler::DoCreateResource()
+{
+    if ( m_class == wxT("wxListBox"))
+    {
+        // find the selection
+        long selection = GetLong(wxT("selection"), -1);
+
+        // need to build the list of strings from children
+        m_insideBox = true;
+        CreateChildrenPrivately(NULL, GetParamNode(wxT("content")));
+        m_insideBox = false;
+
+        XRC_MAKE_INSTANCE(control, MaxListBox)
+
+        control->Create(m_parentAsWindow,
+                        GetID(),
+                        GetPosition(), GetSize(),
+                        strList,
+                        GetStyle(),
+                        wxDefaultValidator,
+                        GetName());
+
+		control->MaxBind(_wx_wxlistbox_wxListBox__xrcNew(control));
+
+        if (selection != -1)
+            control->SetSelection(selection);
+
+        SetupWindow(control);
+        strList.Clear();    // dump the strings
+
+        return control;
+    }
+    else
+    {
+        // on the inside now.
+        // handle <item>Label</item>
+
+        // add to the list
+        wxString str = GetNodeContent(m_node);
+        if (m_resource->GetFlags() & wxXRC_USE_LOCALE)
+            str = wxGetTranslation(str, m_resource->GetDomain());
+        strList.Add(str);
+
+        return NULL;
+    }
 }
 
 // *********************************************
@@ -93,3 +156,8 @@ int bmx_wxlistbox_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxlistbox_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxListBoxXmlHandler);
+}

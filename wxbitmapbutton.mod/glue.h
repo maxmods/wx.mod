@@ -22,12 +22,15 @@
 
 #include "wxglue.h"
 #include "../wxbitmap.mod/glue.h"
+#include "wx/xrc/xh_bmpbt.h"
 
 class MaxBitmapButton;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxbitmapbutton_wxBitmapButton__xrcNew(wxBitmapButton * button);
 
 	MaxBitmapButton * bmx_wxbitmapbutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, MaxBitmap * bitmap, int x, int y,
 		int w, int h, long style);
@@ -44,6 +47,8 @@ extern "C" {
 	void bmx_wxbitmapbutton_setbitmaphover(wxBitmapButton * button, MaxBitmap * bitmap);
 	void bmx_wxbitmapbutton_setbitmapselected(wxBitmapButton * button, MaxBitmap * bitmap);
 
+	void bmx_wxbitmapbutton_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -51,14 +56,28 @@ extern "C" {
 class MaxBitmapButton : public wxBitmapButton
 {
 public:
+	MaxBitmapButton();
 	MaxBitmapButton(BBObject * handle, wxWindow * parent, wxWindowID id, const wxBitmap& bitmap, int x, int y,
 		int w, int h, long style);
 	~MaxBitmapButton();
+
+	void MaxBind(BBObject * handle);
 	
 private:
 	BBObject * maxHandle;
 
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxBitmapButtonXmlHandler : public wxBitmapButtonXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxBitmapButtonXmlHandler)
+
+public:
+    MaxBitmapButtonXmlHandler();
+    virtual wxObject *DoCreateResource();
 };
 

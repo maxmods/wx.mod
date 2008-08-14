@@ -24,6 +24,7 @@ Import wx.wx
 Import wx.wxBitmap
 Import wx.wxDialog
 Import wx.wxFrame
+Import wx.wxPanel
 Import BRL.Blitz
 
 
@@ -53,5 +54,13 @@ Extern
 	Function bmx_wxxmlresource_xrcctrl:Byte Ptr(parent:Byte Ptr, id:String)
 	Function bmx_wxxmlresource_wrcid:Int(name:String)
 	Function bmx_wxxmlresource_loadobject:Byte Ptr(handle:Byte Ptr, win:Object, parent:Byte Ptr, name:String, classname:String)
+	Function bmx_wxxmlresource_clearhandlers(handle:Byte Ptr)
+	Function bmx_wxxmlresource_getflags:Int(handle:Byte Ptr)
+	Function bmx_wxxmlresource_loaddialog:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, name:String)
 
 End Extern
+
+Const wxXRC_USE_LOCALE:Int = 1
+Const wxXRC_NO_SUBCLASSING:Int = 2
+Const wxXRC_NO_RELOADING:Int = 4
+

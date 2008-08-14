@@ -103,6 +103,18 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 End Rem
 Type wxBitmapButton Extends wxButton
 
+	Function _create:wxBitmapButton(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxBitmapButton = New wxBitmapButton
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxBitmapButton(wxObjectPtr:Byte Ptr)
+		Return wxBitmapButton._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -201,3 +213,13 @@ Type wxBitmapButton Extends wxButton
 
 End Type
 
+
+Type TBitmapButtonResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxbitmapbutton_addresourcehandler()
+	End Method
+		
+End Type
+
+New TBitmapButtonResourceFactory

@@ -50,4 +50,6 @@ Extern
 	Function bmx_wxpanel_setfocus(handle:Byte Ptr)
 	Function bmx_wxpanel_setfocusignoringchildren(handle:Byte Ptr)
 	
+	Function bmx_wxpanel_addresourcehandler()
+	
 End Extern

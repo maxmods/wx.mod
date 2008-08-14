@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/xrc/xh_sttxt.h"
 
 class MaxStaticText;
 
@@ -28,11 +29,15 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxstatictext_wxStaticText__xrcNew(wxStaticText * text);
+
 	MaxStaticText * bmx_wxstatictext_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
 	BBString * bmx_wxstatictext_getlabel(wxStaticText * text);
 	void bmx_wxstatictext_setlabel(wxStaticText * text, BBString * label);
 	void bmx_wxstatictext_wrap(wxStaticText * text, int width);
+
+	void bmx_wxstatictext_addresourcehandler();
 
 }
 
@@ -41,11 +46,25 @@ extern "C" {
 class MaxStaticText : public wxStaticText
 {
 public:
+	MaxStaticText();
 	MaxStaticText(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style);
 	~MaxStaticText();
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxStaticTextXmlHandler : public wxStaticTextXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxStaticTextXmlHandler)
+
+public:
+    MaxStaticTextXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+

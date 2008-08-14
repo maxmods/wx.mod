@@ -21,12 +21,15 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/xrc/xh_chckb.h"
 
 class MaxCheckBox;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxcheckbox_wxCheckBox__xrcNew(wxCheckBox * checkbox);
 
 	MaxCheckBox * bmx_wxcheckbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
@@ -40,6 +43,8 @@ extern "C" {
 	void bmx_wxcheckbox_set3statevalue(MaxCheckBox * checkbox, int state);
 	
 	int bmx_wxcheckbox_geteventtype(int type);
+
+	void bmx_wxcheckbox_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -49,10 +54,24 @@ class MaxCheckBox : public wxCheckBox
 public:
 	MaxCheckBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style);
+	MaxCheckBox();
 	~MaxCheckBox();
+
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxCheckBoxXmlHandler : public wxCheckBoxXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxCheckBoxXmlHandler)
+
+public:
+    MaxCheckBoxXmlHandler();
+    virtual wxObject *DoCreateResource();
 };
 
