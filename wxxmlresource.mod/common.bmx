@@ -57,7 +57,10 @@ Extern
 	Function bmx_wxxmlresource_clearhandlers(handle:Byte Ptr)
 	Function bmx_wxxmlresource_getflags:Int(handle:Byte Ptr)
 	Function bmx_wxxmlresource_loaddialog:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, name:String)
-
+	Function bmx_wxxmlresource_loadmenubar:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, name:String)
+	Function bmx_wxxmlresource_loadpanel:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, name:String)
+	Function bmx_wxxmlresource_loadtoolbar:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, name:String)
+	
 End Extern
 
 Const wxXRC_USE_LOCALE:Int = 1

@@ -62,6 +62,28 @@ event.Skip() for events that you don't process in these event handlers, menu sho
 </p>
 End Rem
 Type wxMenuBar Extends wxWindow
+
+	Function _create:wxMenuBar(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxMenuBar = New wxMenuBar
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _find:wxMenuBar(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local frame:wxMenuBar = wxMenuBar(wxfind(wxObjectPtr))
+			If Not frame Then
+				Return wxMenuBar._create(wxObjectPtr)
+			End If
+			Return frame
+		End If
+	End Function
+	
+	Function _xrcNew:wxMenuBar(wxObjectPtr:Byte Ptr)
+		Return wxMenuBar._create(wxObjectPtr)
+	End Function
 	
 	Rem
 	bbdoc: Default constructor.
@@ -253,3 +275,13 @@ Type wxMenuBar Extends wxWindow
 	
 End Type
 
+
+Type TMenuBarResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxmenubar_addresourcehandler()
+	End Method
+		
+End Type
+
+New TMenuBarResourceFactory

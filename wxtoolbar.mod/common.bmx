@@ -124,6 +124,8 @@ Extern
 
 	Function bmx_wxtoolbar_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxtoolbar_addresourcehandler()
+	
 End Extern
 
 Const wxEVT_COMMAND_TOOL_CLICKED:Int = wxEVT_COMMAND_MENU_SELECTED

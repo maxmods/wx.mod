@@ -69,6 +69,8 @@ Extern
 	Function bmx_wxmenubar_setlabeltop(handle:Byte Ptr, pos:Int, label:String)
 	Function bmx_wxmenubar_finditem:Byte Ptr(handle:Byte Ptr, id:Int)
 	
+	Function bmx_wxmenubar_addresourcehandler()
+	
 End Extern
 
 

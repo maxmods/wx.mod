@@ -99,11 +99,25 @@ Type wxToolBar Extends wxControl
 	End Method
 
 	Function _create:wxToolBar(wxObjectPtr:Byte Ptr)
-		Local this:wxToolBar = New wxToolBar
-		
-		this.wxObjectPtr = wxObjectPtr
-		
-		Return this
+		If wxObjectPtr Then
+			Local this:wxToolBar = New wxToolBar
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _find:wxToolBar(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local tb:wxToolBar = wxToolBar(wxfind(wxObjectPtr))
+			If Not tb Then
+				Return wxToolBar._create(wxObjectPtr)
+			End If
+			Return tb
+		End If
+	End Function
+	
+	Function _xrcNew:wxToolBar(wxObjectPtr:Byte Ptr)
+		Return wxToolBar._create(wxObjectPtr)
 	End Function
 
 	Method injectSelf()
@@ -742,4 +756,13 @@ End Type
 
 New TToolBarEventFactory
 
+Type TToolBarResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxtoolbar_addresourcehandler()
+	End Method
+		
+End Type
+
+New TToolBarResourceFactory
 

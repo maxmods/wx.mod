@@ -143,7 +143,12 @@ Type wxXmlResource Extends wxObject
 	Rem
 	bbdoc: 
 	End Rem
-	Method LoadMenuBar:wxMenuBar(parent:wxWindow, name:String)
+	Method LoadMenuBar:wxMenuBar(parent:wxWindow = Null, name:String)
+		If parent Then
+			Return wxMenuBar._find(bmx_wxxmlresource_loadmenubar(wxObjectPtr, parent.wxObjectPtr, name))
+		Else
+			Return wxMenuBar._find(bmx_wxxmlresource_loadmenubar(wxObjectPtr, Null, name))
+		End If
 	End Method
 
 	Rem
@@ -158,15 +163,25 @@ Type wxXmlResource Extends wxObject
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Loads a toolbar.
 	End Rem
 	Method LoadPanel:wxPanel(parent:wxWindow, name:String)
+		If parent Then
+			Return wxPanel._find(bmx_wxxmlresource_loadpanel(wxObjectPtr, parent.wxObjectPtr, name))
+		Else
+			Return wxPanel._find(bmx_wxxmlresource_loadpanel(wxObjectPtr, Null, name))
+		End If
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Loads a toolbar.
 	End Rem
 	Method LoadToolBar:wxToolBar(parent:wxWindow, name:String)
+		If parent Then
+			Return wxToolBar._find(bmx_wxxmlresource_loadtoolbar(wxObjectPtr, parent.wxObjectPtr, name))
+		Else
+			Return wxToolBar._find(bmx_wxxmlresource_loadtoolbar(wxObjectPtr, Null, name))
+		End If
 	End Method
 	
 	Rem

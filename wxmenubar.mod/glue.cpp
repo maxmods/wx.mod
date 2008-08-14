@@ -30,10 +30,46 @@ MaxMenuBar::MaxMenuBar(BBObject * handle, long style)
 	wxbind(this, handle);
 }
 
+MaxMenuBar::MaxMenuBar(long style)
+	: wxMenuBar(style)
+{}
+
 MaxMenuBar::~MaxMenuBar() {
 	wxunbind(this);
 }
 
+void MaxMenuBar::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxMenuBarXmlHandler, wxMenuBarXmlHandler)
+
+MaxMenuBarXmlHandler::MaxMenuBarXmlHandler()
+	: wxMenuBarXmlHandler()
+{}
+
+
+wxObject * MaxMenuBarXmlHandler::DoCreateResource()
+{
+    MaxMenuBar *menubar = new MaxMenuBar(GetStyle());
+
+
+	menubar->MaxBind(_wx_wxmenubar_wxMenuBar__xrcNew(menubar));
+
+    CreateChildren(menubar);
+
+    if (m_parentAsWindow)
+    {
+        wxFrame *parentFrame = wxDynamicCast(m_parent, wxFrame);
+        if (parentFrame)
+            parentFrame->SetMenuBar(menubar);
+    }
+
+    return menubar;
+
+}
 
 // *********************************************
 
@@ -126,3 +162,8 @@ wxMenuItem * bmx_wxmenubar_finditem(wxMenuBar * menubar, int id) {
 	return menubar->FindItem(id);
 }
 
+// *********************************************
+
+void bmx_wxmenubar_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxMenuBarXmlHandler);
+}

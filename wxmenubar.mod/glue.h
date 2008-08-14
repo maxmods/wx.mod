@@ -22,12 +22,15 @@
 
 #include "wxglue.h"
 #include "../wxmenu.mod/glue.h"
+#include "wx/xrc/xh_menu.h"
 
 class MaxMenuBar;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxmenubar_wxMenuBar__xrcNew(wxMenuBar * menubar);
 
 	MaxMenuBar * bmx_wxmenubar_create(BBObject * maxHandle, long style);
 	bool bmx_wxmenubar_append(wxMenuBar * menubar, MaxMenu * menu, BBString * title);
@@ -51,6 +54,8 @@ extern "C" {
 	void bmx_wxmenubar_setlabel(wxMenuBar * menubar, int id, BBString * label);
 	void bmx_wxmenubar_setlabeltop(wxMenuBar * menubar, int pos, BBString * label);
 	wxMenuItem * bmx_wxmenubar_finditem(wxMenuBar * menubar, int id);
+
+	void bmx_wxmenubar_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -60,6 +65,19 @@ class MaxMenuBar : public wxMenuBar
 {
 public:
 	MaxMenuBar(BBObject * handle, long style);
+	MaxMenuBar(long style);
 	~MaxMenuBar();
+
+	void MaxBind(BBObject * handle);
 };
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxMenuBarXmlHandler : public wxMenuBarXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxMenuBarXmlHandler)
+
+public:
+    MaxMenuBarXmlHandler();
+    virtual wxObject *DoCreateResource();
+};

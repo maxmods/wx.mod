@@ -40,6 +40,9 @@ extern "C" {
 	void bmx_wxxmlresource_clearhandlers(wxXmlResource * res);
 	long bmx_wxxmlresource_getflags(wxXmlResource * res);
 	wxDialog * bmx_wxxmlresource_loaddialog(wxXmlResource * res, wxWindow * parent, BBString * name);
+	wxMenuBar * bmx_wxxmlresource_loadmenubar(wxXmlResource * res, wxWindow * parent, BBString * name);
+	wxPanel * bmx_wxxmlresource_loadpanel(wxXmlResource * res, wxWindow * parent, BBString * name);
+	wxToolBar * bmx_wxxmlresource_loadtoolbar(wxXmlResource * res, wxWindow * parent, BBString * name);
 
 }
 

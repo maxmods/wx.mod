@@ -23,12 +23,15 @@
 #include "wxglue.h"
 #include "wx/toolbar.h"
 #include "../wxbitmap.mod/glue.h"
+#include "wx/xrc/xh_toolb.h"
 
 class MaxToolBar;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxtoolbar_wxToolBar__xrcNew(wxToolBar * toolbar);
 
 	void bmx_wxtoolbar_injectSelf(MaxToolBar * toolbar, BBObject * handle);
 
@@ -111,6 +114,7 @@ extern "C" {
 
 	int bmx_wxtoolbar_geteventtype(int type);
 
+	void bmx_wxtoolbar_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -119,11 +123,27 @@ class MaxToolBar : public wxToolBar
 {
 public:
 	MaxToolBar(wxWindow * parent, long style, wxWindowID id, const wxString& name);
+	MaxToolBar();
 	MaxToolBar(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxToolBar();
 	void injectSelf(BBObject * handle);
+
+	void MaxBind(BBObject * handle);
 };
 
 
-
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxToolBarXmlHandler : public wxToolBarXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxToolBarXmlHandler)
+
+public:
+    MaxToolBarXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+
+    bool m_isInside;
+    wxToolBar *m_toolbar;
+};

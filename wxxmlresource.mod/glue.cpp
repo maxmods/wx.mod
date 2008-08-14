@@ -83,5 +83,15 @@ wxDialog * bmx_wxxmlresource_loaddialog(wxXmlResource * res, wxWindow * parent, 
 	return res->LoadDialog(parent, wxStringFromBBString(name));
 }
 
+wxMenuBar * bmx_wxxmlresource_loadmenubar(wxXmlResource * res, wxWindow * parent, BBString * name) {
+	return res->LoadMenuBar(parent, wxStringFromBBString(name));
+}
 
+wxPanel * bmx_wxxmlresource_loadpanel(wxXmlResource * res, wxWindow * parent, BBString * name) {
+	return res->LoadPanel(parent, wxStringFromBBString(name));
+}
+
+wxToolBar * bmx_wxxmlresource_loadtoolbar(wxXmlResource * res, wxWindow * parent, BBString * name) {
+	return res->LoadToolBar(parent, wxStringFromBBString(name));
+}
 
