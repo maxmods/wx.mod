@@ -51,4 +51,6 @@ Extern
 	Function bmx_wxstddialogbuttonsizer_setcancelbutton(handle:Byte Ptr, button:Byte Ptr)
 	Function bmx_wxstddialogbuttonsizer_setnegativebutton(handle:Byte Ptr, button:Byte Ptr)
 
+	Function bmx_wxstddialogbuttonsizer_addresourcehandler()
+
 End Extern

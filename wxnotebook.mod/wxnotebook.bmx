@@ -59,6 +59,18 @@ as the page. Do not explicitly delete the window for a page that is currently ma
 End Rem
 Type wxNotebook Extends wxBookCtrlBase
 
+	Function _create:wxNotebook(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxNotebook = New wxNotebook
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxNotebook(wxObjectPtr:Byte Ptr)
+		Return wxNotebook._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -129,7 +141,7 @@ Type wxNotebookEvent Extends wxBookCtrlEvent
 	
 End Type
 
-Type TNoteBookEventFactory Extends TEventFactory
+Type TNotebookEventFactory Extends TEventFactory
 
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
@@ -152,4 +164,15 @@ Type TNoteBookEventFactory Extends TEventFactory
 
 End Type
 
-New TNoteBookEventFactory
+New TNotebookEventFactory
+
+
+Type TNotebookResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxnotebook_addresourcehandler()
+	End Method
+		
+End Type
+
+New TNotebookResourceFactory

@@ -189,6 +189,7 @@ Type wxXmlResource Extends wxObject
 	returns: True if the resource was successfully unloaded and false if it hasn't been found in the list of loaded resources.
 	End Rem
 	Method Unload:Int(filename:String)
+		Return bmx_wxxmlresource_unload(wxObjectPtr, filename)
 	End Method
 	
 End Type

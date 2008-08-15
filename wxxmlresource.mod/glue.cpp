@@ -95,3 +95,7 @@ wxToolBar * bmx_wxxmlresource_loadtoolbar(wxXmlResource * res, wxWindow * parent
 	return res->LoadToolBar(parent, wxStringFromBBString(name));
 }
 
+bool bmx_wxxmlresource_unload(wxXmlResource * res, BBString * filename) {
+	return res->Unload(wxStringFromBBString(filename));
+}
+

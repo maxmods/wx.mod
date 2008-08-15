@@ -23,6 +23,7 @@
 #include "wxglue.h"
 #include "wx/menu.h"
 #include "../wxbitmap.mod/glue.h"
+#include "wx/xrc/xh_menu.h"
 
 class MaxMenu;
 
@@ -31,6 +32,7 @@ extern "C" {
 #include <blitz.h>
 
 	void _wx_wxmenu_wxMenu__setmenuitem(BBArray * items, int index, wxMenuItem * item);
+	BBObject * _wx_wxmenu_wxMenu__xrcNew(wxMenu * menu);
 
 	MaxMenu * bmx_wxmenu_create(BBObject * maxHandle, BBString * title, long style);
 	wxMenuItem * bmx_wxmenu_append(wxMenu * menu, int id, BBString * item, BBString * helpString, wxItemKind kind);
@@ -114,6 +116,8 @@ extern "C" {
 	int bmx_wxmenuevent_getmenuid(wxMenuEvent & event);
 	bool bmx_wxmenuevent_ispopup(wxMenuEvent & event);
 
+	void bmx_wxmenu_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -123,6 +127,22 @@ class MaxMenu : public wxMenu
 {
 public:
 	MaxMenu(BBObject * handle, const wxString& title, long style);
+	MaxMenu(long style);
 	~MaxMenu();
+
+	void MaxBind(BBObject * handle);
 };
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxMenuXmlHandler : public wxMenuXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxMenuXmlHandler)
+
+public:
+    MaxMenuXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+    bool m_insideMenu;
+};

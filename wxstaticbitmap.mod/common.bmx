@@ -51,4 +51,6 @@ Extern
 	Function bmx_wxstaticbitmap_setbitmap(handle:Byte Ptr, bitmap:Byte Ptr)
 	Function bmx_wxstaticbitmap_seticon(handle:Byte Ptr, icon:Byte Ptr)
 
+	Function bmx_wxstaticbitmap_addresourcehandler()
+	
 End Extern

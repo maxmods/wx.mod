@@ -30,8 +30,101 @@ MaxNotebook::MaxNotebook(BBObject * handle, wxWindow * parent, wxWindowID id, in
 	wxbind(this, handle);
 }
 
+MaxNotebook::MaxNotebook()
+{}
+
 MaxNotebook::~MaxNotebook() {
 	wxunbind(this);
+}
+
+void MaxNotebook::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxNotebookXmlHandler, wxNotebookXmlHandler)
+
+MaxNotebookXmlHandler::MaxNotebookXmlHandler()
+	: wxNotebookXmlHandler()
+{}
+
+
+wxObject * MaxNotebookXmlHandler::DoCreateResource()
+{
+    if (m_class == wxT("notebookpage"))
+    {
+        wxXmlNode *n = GetParamNode(wxT("object"));
+
+        if ( !n )
+            n = GetParamNode(wxT("object_ref"));
+
+        if (n)
+        {
+            bool old_ins = m_isInside;
+            m_isInside = false;
+            wxObject *item = CreateResFromNode(n, m_notebook, NULL);
+            m_isInside = old_ins;
+            wxWindow *wnd = wxDynamicCast(item, wxWindow);
+
+            if (wnd)
+            {
+                m_notebook->AddPage(wnd, GetText(wxT("label")),
+                                         GetBool(wxT("selected")));
+                if ( HasParam(wxT("bitmap")) )
+                {
+                    wxBitmap bmp = GetBitmap(wxT("bitmap"), wxART_OTHER);
+                    wxImageList *imgList = m_notebook->GetImageList();
+                    if ( imgList == NULL )
+                    {
+                        imgList = new wxImageList( bmp.GetWidth(), bmp.GetHeight() );
+                        m_notebook->AssignImageList( imgList );
+                    }
+                    int imgIndex = imgList->Add(bmp);
+                    m_notebook->SetPageImage(m_notebook->GetPageCount()-1, imgIndex );
+                }
+            }
+            else
+                wxLogError(wxT("Error in resource."));
+            return wnd;
+        }
+        else
+        {
+            wxLogError(wxT("Error in resource: no control within notebook's <page> tag."));
+            return NULL;
+        }
+    }
+
+    else
+    {
+        XRC_MAKE_INSTANCE(nb, MaxNotebook)
+
+        nb->Create(m_parentAsWindow,
+                   GetID(),
+                   GetPosition(), GetSize(),
+                   GetStyle(wxT("style")),
+                   GetName());
+
+		nb->MaxBind(_wx_wxnotebook_wxNotebook__xrcNew(nb));
+
+        SetupWindow(nb);
+
+        wxNotebook *old_par = m_notebook;
+        m_notebook = nb;
+        bool old_ins = m_isInside;
+        m_isInside = true;
+        CreateChildren(m_notebook, true/*only this handler*/);
+        m_isInside = old_ins;
+        m_notebook = old_par;
+
+        return nb;
+    }
+}
+
+bool MaxNotebookXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return ((!m_isInside && IsOfClass(node, wxT("wxNotebook"))) ||
+            (m_isInside && IsOfClass(node, wxT("notebookpage"))));
 }
 
 // *********************************************
@@ -51,5 +144,11 @@ MaxColour * bmx_wxnotebook_getthemebackgroundcolour(wxNotebook * notebook) {
 
 void bmx_wxnotebook_setpadding(wxNotebook * notebook, int width, int height) {
 	notebook->SetPadding(wxSize(width, height));
+}
+
+// *********************************************
+
+void bmx_wxnotebook_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxNotebookXmlHandler);
 }
 

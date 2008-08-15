@@ -123,6 +123,9 @@ Extern
 	Function bmx_wxmenuevent_ispopup:Int(handle:Byte Ptr)
 
 	Function bmx_wxmenu_geteventtype:Int(evt:Int)
+	
+	Function bmx_wxmenu_addresourcehandler()
+	
 End Extern
 
 Const wxEVT_MENU_OPEN:Int = 421

@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include <wx/notebook.h>
+#include "wx/xrc/xh_notbk.h"
 
 class MaxNotebook;
 
@@ -29,10 +30,14 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxnotebook_wxNotebook__xrcNew(wxNotebook * notebook);
+
 	MaxNotebook * bmx_wxnotebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	int bmx_wxnotebook_getrowcount(wxNotebook * notebook);
 	MaxColour * bmx_wxnotebook_getthemebackgroundcolour(wxNotebook * notebook);
 	void bmx_wxnotebook_setpadding(wxNotebook * notebook, int width, int height);
+
+	void bmx_wxnotebook_addresourcehandler();
 
 }
 
@@ -42,6 +47,24 @@ class MaxNotebook : public wxNotebook
 {
 public:
 	MaxNotebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxNotebook();
 	~MaxNotebook();
+
+	void MaxBind(BBObject * handle);
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxNotebookXmlHandler : public wxNotebookXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxNotebookXmlHandler)
+
+public:
+    MaxNotebookXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+    bool m_isInside;
+    wxNotebook *m_notebook;
 };
 

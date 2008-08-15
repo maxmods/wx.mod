@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include "wx/sizer.h"
+#include "wx/xrc/xh_sizer.h"
 
 class MaxStdDialogButtonSizer;
 
@@ -29,12 +30,16 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxstddialogbuttonsizer_wxStdDialogButtonSizer__xrcNew(wxStdDialogButtonSizer * sizer);
+
 	wxStdDialogButtonSizer * bmx_wxstddialogbuttonsizer_create(BBObject * handle);
 	void bmx_wxstddialogbuttonsizer_addbutton(wxStdDialogButtonSizer * sizer, wxButton * button);
 	void bmx_wxstddialogbuttonsizer_realize(wxStdDialogButtonSizer * sizer);
 	void bmx_wxstddialogbuttonsizer_setaffirmativebutton(wxStdDialogButtonSizer * sizer, wxButton * button);
 	void bmx_wxstddialogbuttonsizer_setcancelbutton(wxStdDialogButtonSizer * sizer, wxButton * button);
 	void bmx_wxstddialogbuttonsizer_setnegativebutton(wxStdDialogButtonSizer * sizer, wxButton * button);
+
+	void bmx_wxstddialogbuttonsizer_addresourcehandler();
 
 }
 
@@ -44,9 +49,28 @@ class MaxStdDialogButtonSizer : public wxStdDialogButtonSizer
 {
 public:
 	MaxStdDialogButtonSizer(BBObject * handle);
+	MaxStdDialogButtonSizer();
 	~ MaxStdDialogButtonSizer();
+
+	void MaxBind(BBObject * handle);
 
 private:
 	BBObject * maxHandle;
 
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxStdDialogButtonSizerXmlHandler : public wxStdDialogButtonSizerXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxStdDialogButtonSizerXmlHandler)
+
+public:
+    MaxStdDialogButtonSizerXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+    bool m_isInside;
+    MaxStdDialogButtonSizer *m_parentSizer;
+};
+

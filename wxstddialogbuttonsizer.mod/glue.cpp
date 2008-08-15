@@ -30,10 +30,83 @@ MaxStdDialogButtonSizer::MaxStdDialogButtonSizer(BBObject * handle)
 	wxbind(this, handle);
 }
 
+MaxStdDialogButtonSizer::MaxStdDialogButtonSizer()
+{}
+
 MaxStdDialogButtonSizer::~MaxStdDialogButtonSizer() {
 	wxunbind(this);
 }
 
+void MaxStdDialogButtonSizer::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxStdDialogButtonSizerXmlHandler, wxStdDialogButtonSizerXmlHandler)
+
+MaxStdDialogButtonSizerXmlHandler::MaxStdDialogButtonSizerXmlHandler()
+	: m_isInside(false)
+{}
+
+
+wxObject * MaxStdDialogButtonSizerXmlHandler::DoCreateResource()
+{
+    if (m_class == wxT("wxStdDialogButtonSizer"))
+    {
+        wxASSERT( !m_parentSizer );
+
+        MaxStdDialogButtonSizer *s = new MaxStdDialogButtonSizer;
+	   m_parentSizer = s;
+	
+        m_isInside = true;
+
+		s->MaxBind(_wx_wxstddialogbuttonsizer_wxStdDialogButtonSizer__xrcNew(s));
+
+        CreateChildren(m_parent, true/*only this handler*/);
+
+        m_parentSizer->Realize();
+
+        m_isInside = false;
+        m_parentSizer = NULL;
+
+        return s;
+    }
+    else // m_class == "button"
+    {
+        wxASSERT( m_parentSizer );
+
+        // find the item to be managed by this sizeritem
+        wxXmlNode *n = GetParamNode(wxT("object"));
+        if ( !n )
+            n = GetParamNode(wxT("object_ref"));
+
+        // did we find one?
+        if (n)
+        {
+            wxObject *item = CreateResFromNode(n, m_parent, NULL);
+            wxButton *button = wxDynamicCast(item, wxButton);
+
+            if (button)
+                m_parentSizer->AddButton(button);
+            else
+                wxLogError(wxT("Error in resource - expected button."));
+
+            return item;
+        }
+        else /*n == NULL*/
+        {
+            wxLogError(wxT("Error in resource: no button within wxStdDialogButtonSizer."));
+            return NULL;
+        }
+    }
+}
+
+bool MaxStdDialogButtonSizerXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return (!m_isInside && IsOfClass(node, wxT("wxStdDialogButtonSizer"))) ||
+           (m_isInside && IsOfClass(node, wxT("button")));
+}
 
 // *********************************************
 
@@ -59,5 +132,11 @@ void bmx_wxstddialogbuttonsizer_setcancelbutton(wxStdDialogButtonSizer * sizer, 
 
 void bmx_wxstddialogbuttonsizer_setnegativebutton(wxStdDialogButtonSizer * sizer, wxButton * button) {
 	sizer->SetNegativeButton(button);
+}
+
+// *********************************************
+
+void bmx_wxstddialogbuttonsizer_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxStdDialogButtonSizerXmlHandler);
 }
 

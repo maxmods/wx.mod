@@ -31,8 +31,118 @@ MaxMenu::MaxMenu(BBObject * handle, const wxString& title, long style)
 	wxbind(this, handle);
 }
 
+MaxMenu::MaxMenu(long style)
+	: wxMenu(style)
+{}
+
 MaxMenu::~MaxMenu() {
 	wxunbind(this);
+}
+
+void MaxMenu::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxMenuXmlHandler, wxMenuXmlHandler)
+
+MaxMenuXmlHandler::MaxMenuXmlHandler()
+	: m_insideMenu(false)
+{}
+
+
+wxObject * MaxMenuXmlHandler::DoCreateResource()
+{
+    if (m_class == wxT("wxMenu"))
+    {
+
+	     MaxMenu *menu;
+		
+		if (m_instance) {
+			menu = wxStaticCast(m_instance, MaxMenu);
+		} else {
+	          menu = new MaxMenu(GetStyle());
+			menu->MaxBind(_wx_wxmenu_wxMenu__xrcNew(menu));
+		}
+
+        wxString title = GetText(wxT("label"));
+        wxString help = GetText(wxT("help"));
+
+        bool oldins = m_insideMenu;
+        m_insideMenu = true;
+        CreateChildren(menu, true/*only this handler*/);
+        m_insideMenu = oldins;
+
+        wxMenuBar *p_bar = wxDynamicCast(m_parent, wxMenuBar);
+        if (p_bar)
+        {
+            p_bar->Append(menu, title);
+        }
+        else
+        {
+            wxMenu *p_menu = wxDynamicCast(m_parent, wxMenu);
+            if (p_menu)
+            {
+                p_menu->Append(GetID(), title, menu, help);
+                if (HasParam(wxT("enabled")))
+                    p_menu->Enable(GetID(), GetBool(wxT("enabled")));
+            }
+        }
+
+        return menu;
+    }
+
+    else
+    {
+        wxMenu *p_menu = wxDynamicCast(m_parent, wxMenu);
+
+        if (m_class == wxT("separator"))
+            p_menu->AppendSeparator();
+        else if (m_class == wxT("break"))
+            p_menu->Break();
+        else /*wxMenuItem*/
+        {
+            int id = GetID();
+            wxString label = GetText(wxT("label"));
+            wxString accel = GetText(wxT("accel"), false);
+            wxString fullLabel = label;
+            if (!accel.empty())
+                fullLabel << wxT("\t") << accel;
+
+            wxItemKind kind = wxITEM_NORMAL;
+            if (GetBool(wxT("radio")))
+                kind = wxITEM_RADIO;
+            if (GetBool(wxT("checkable")))
+            {
+                wxASSERT_MSG( kind == wxITEM_NORMAL, _T("can't have both checkable and radion button at once") );
+                kind = wxITEM_CHECK;
+            }
+
+            wxMenuItem *mitem = new wxMenuItem(p_menu, id, fullLabel,
+                                               GetText(wxT("help")), kind);
+
+#if (!defined(__WXMSW__) && !defined(__WXPM__)) || wxUSE_OWNER_DRAWN
+            if (HasParam(wxT("bitmap")))
+                mitem->SetBitmap(GetBitmap(wxT("bitmap"), wxART_MENU));
+#endif
+            p_menu->Append(mitem);
+            mitem->Enable(GetBool(wxT("enabled"), true));
+            if (kind == wxITEM_CHECK)
+                mitem->Check(GetBool(wxT("checked")));
+        }
+        return NULL;
+    }
+}
+
+bool MaxMenuXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return IsOfClass(node, wxT("wxMenu")) ||
+           (m_insideMenu &&
+               (IsOfClass(node, wxT("wxMenuItem")) ||
+                IsOfClass(node, wxT("break")) ||
+                IsOfClass(node, wxT("separator")))
+           );
 }
 
 // *********************************************
@@ -404,5 +514,11 @@ int bmx_wxmenu_geteventtype(int type) {
 	}
 	
 	return 0;
+}
+
+// *********************************************
+
+void bmx_wxmenu_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxMenuXmlHandler);
 }
 

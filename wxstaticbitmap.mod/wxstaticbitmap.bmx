@@ -57,6 +57,18 @@ purpose image display control.
 End Rem
 Type wxStaticBitmap Extends wxControl
 
+	Function _create:wxStaticBitmap(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxStaticBitmap = New wxStaticBitmap
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxStaticBitmap(wxObjectPtr:Byte Ptr)
+		Return wxStaticBitmap._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a static bitmap control.
 	End Rem
@@ -111,3 +123,13 @@ Type wxStaticBitmap Extends wxControl
 	
 End Type
 
+
+Type TStaticBitmapResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxstaticbitmap_addresourcehandler()
+	End Method
+		
+End Type
+
+New TStaticBitmapResourceFactory

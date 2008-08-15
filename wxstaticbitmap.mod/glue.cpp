@@ -31,10 +31,43 @@ MaxStaticBitmap::MaxStaticBitmap(BBObject * handle, wxWindow* parent, wxWindowID
 	wxbind(this, handle);
 }
 
+MaxStaticBitmap::MaxStaticBitmap()
+{}
+
 MaxStaticBitmap::~MaxStaticBitmap() {
 	wxunbind(this);
 }
 
+void MaxStaticBitmap::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxStaticBitmapXmlHandler, wxStaticBitmapXmlHandler)
+
+MaxStaticBitmapXmlHandler::MaxStaticBitmapXmlHandler()
+	: wxStaticBitmapXmlHandler()
+{}
+
+
+wxObject * MaxStaticBitmapXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(bmp, MaxStaticBitmap)
+
+    bmp->Create(m_parentAsWindow,
+                GetID(),
+                GetBitmap(wxT("bitmap"), wxART_OTHER, GetSize()),
+                GetPosition(), GetSize(),
+                GetStyle(),
+                GetName());
+
+	bmp->MaxBind(_wx_wxstaticbitmap_wxStaticBitmap__xrcNew(bmp));
+
+    SetupWindow(bmp);
+
+    return bmp;
+}
 
 // *********************************************
 
@@ -62,3 +95,8 @@ void bmx_wxstaticbitmap_seticon(wxStaticBitmap * sb, MaxIcon * icon) {
 	sb->SetIcon(icon->Icon());
 }
 
+// *********************************************
+
+void bmx_wxstaticbitmap_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxStaticBitmapXmlHandler);
+}

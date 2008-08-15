@@ -83,6 +83,10 @@ Type wxStdDialogButtonSizer Extends wxBoxSizer
 		Return Null
 	End Function
 
+	Function _xrcNew:wxStdDialogButtonSizer(wxObjectPtr:Byte Ptr)
+		Return wxStdDialogButtonSizer._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor for a wxStdDialogButtonSizer.
 	End Rem
@@ -149,3 +153,13 @@ Type wxStdDialogButtonSizer Extends wxBoxSizer
 	
 End Type
 
+
+Type TStdDialogButtonSizerResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxstddialogbuttonsizer_addresourcehandler()
+	End Method
+		
+End Type
+
+New TStdDialogButtonSizerResourceFactory

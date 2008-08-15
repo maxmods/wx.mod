@@ -43,6 +43,7 @@ extern "C" {
 	wxMenuBar * bmx_wxxmlresource_loadmenubar(wxXmlResource * res, wxWindow * parent, BBString * name);
 	wxPanel * bmx_wxxmlresource_loadpanel(wxXmlResource * res, wxWindow * parent, BBString * name);
 	wxToolBar * bmx_wxxmlresource_loadtoolbar(wxXmlResource * res, wxWindow * parent, BBString * name);
+	bool bmx_wxxmlresource_unload(wxXmlResource * res, BBString * filename);
 
 }
 

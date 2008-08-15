@@ -103,6 +103,10 @@ Type wxMenu Extends wxEvtHandler
 		End If
 	End Function
 
+	Function _xrcNew:wxMenu(wxObjectPtr:Byte Ptr)
+		Return wxMenu._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructs a #wxMenu object.
 	about: TODO
@@ -799,3 +803,13 @@ End Type
 
 New TMenuEventFactory
 
+
+Type TMenuResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxmenu_addresourcehandler()
+	End Method
+		
+End Type
+
+New TMenuResourceFactory

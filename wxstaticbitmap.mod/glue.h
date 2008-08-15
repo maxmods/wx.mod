@@ -23,6 +23,7 @@
 #include "wxglue.h"
 
 #include "../wxicon.mod/glue.h"
+#include "wx/xrc/xh_stbmp.h"
 
 class MaxStaticBitmap;
 
@@ -30,12 +31,16 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxstaticbitmap_wxStaticBitmap__xrcNew(wxStaticBitmap * sb);
+
 	MaxStaticBitmap * bmx_wxstaticbitmap_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, MaxBitmap * bitmap, int x, int y,
 		int w, int h, long style);
 	MaxBitmap * bmx_wxstaticbitmap_getbitmap(wxStaticBitmap * sb);
 	MaxIcon * bmx_wxstaticbitmap_geticon(wxStaticBitmap * sb);
 	void bmx_wxstaticbitmap_setbitmap(wxStaticBitmap * sb, MaxBitmap * bitmap);
 	void bmx_wxstaticbitmap_seticon(wxStaticBitmap * sb, MaxIcon * icon);
+
+	void bmx_wxstaticbitmap_addresourcehandler();
 
 }
 
@@ -46,9 +51,24 @@ class MaxStaticBitmap: public wxStaticBitmap
 public:
 	MaxStaticBitmap(BBObject * handle, wxWindow* parent, wxWindowID id, const wxBitmap& bitmap, int x, int y,
 		int w, int h, long style);
+	MaxStaticBitmap();
 	~MaxStaticBitmap();
+
+	void MaxBind(BBObject * handle);
 	
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxStaticBitmapXmlHandler : public wxStaticBitmapXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxStaticBitmapXmlHandler)
+
+public:
+    MaxStaticBitmapXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+
