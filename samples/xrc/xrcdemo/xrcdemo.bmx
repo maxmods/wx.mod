@@ -7,6 +7,9 @@ Import wx.wxHelpProvider
 Import wx.wxTextCtrl
 Import wx.wxSystemOptions
 Import wx.wxStaticText
+Import wx.wxCheckBox
+Import wx.wxNotebook
+Import wx.wxStaticBitmap
 
 New MyApp.Run()
  
@@ -31,6 +34,7 @@ Type MyApp Extends wxApp
 		' Load all of the XRC files that will be used. You can put everything
 		' into one giant XRC file if you wanted, but then they become more
 		' diffcult to manage, and harder to reuse in later projects.
+		
 		' The menubar
 		If Not wxXmlResource.Get().Load("rc/menu.xrc") Then
 			Return False
@@ -119,7 +123,7 @@ Type MyFrame Extends wxFrame
 		' With toolbars, you currently can't create one, and set it later. It
 		' needs to be all in one step.
 		wxSystemOptions.SetOption("msw.remap", 0)
-		SetToolBar(wxXmlResource.Get().LoadToolBar(self, "main_toolbar"))
+		SetToolBar(wxXmlResource.Get().LoadToolBar(Self, "main_toolbar"))
 		
 		' Give the frame an optional statusbar. The '1' just means one field.
 		' A gripsizer will automatically get put on into the corner, if that
@@ -134,17 +138,40 @@ Type MyFrame Extends wxFrame
 '		Connect(XRCID("non_derived_dialog_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnNonDerivedDialogToolOrMenuCommand)
 '		Connect(XRCID("derived_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnDerivedDialogToolOrMenuCommand)
 '		Connect(XRCID("controls_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnControlsToolOrMenuCommand)
-'		Connect(XRCID("uncentered_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnUncenteredToolOrMenuCommand)
+		Connect(XRCID("uncentered_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnUncenteredToolOrMenuCommand)
 '		Connect(XRCID("custom_class_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnCustomClassToolOrMenuCommand)
 		Connect(XRCID("platform_property_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnPlatformPropertyToolOrMenuCommand)
-'		Connect(XRCID("art_provider_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnArtProviderToolOrMenuCommand)
-'		Connect(XRCID("variable_expansion_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnVariableExpansionToolOrMenuCommand)
-'		Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, OnAboutToolOrMenuCommand) 
+		Connect(XRCID("art_provider_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnArtProviderToolOrMenuCommand)
+		Connect(XRCID("variable_expansion_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnVariableExpansionToolOrMenuCommand)
+		Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, OnAboutToolOrMenuCommand) 
 	End Method
+
+	Function OnUncenteredToolOrMenuCommand(event:wxEvent)
+		Local dlg:wxDialog = wxXmlResource.Get().LoadDialog(wxWindow(event.parent), "uncentered_dialog")
+		dlg.ShowModal()
+	End Function
+
 
 	Function OnPlatformPropertyToolOrMenuCommand(event:wxEvent)
 	    Local dlg:wxDialog = wxXmlResource.Get().LoadDialog(wxWindow(event.parent), "platform_property_dialog")
 	    dlg.ShowModal()
+	End Function
+
+	Function OnArtProviderToolOrMenuCommand(event:wxEvent)
+		Local dlg:wxDialog = wxXmlResource.Get().LoadDialog(wxWindow(event.parent), "art_provider_dialog")
+		dlg.ShowModal()
+	End Function
+
+	Function OnVariableExpansionToolOrMenuCommand(event:wxEvent)
+		Local dlg:wxDialog = wxXmlResource.Get().LoadDialog(wxWindow(event.parent), "variable_expansion_dialog")
+		dlg.ShowModal()
+	End Function
+
+	Function OnAboutToolOrMenuCommand(event:wxEvent)
+		Local msg:String =  "This is the about dialog of XML resources demo.~n" + ..
+			"Welcome to " + wxVERSION_STRING
+
+		wxMessageBox(msg, "About XML resources demo", wxOK | wxICON_INFORMATION, wxWindow(event.parent))
 	End Function
 
 
