@@ -23,6 +23,7 @@
 #include "wxglue.h"
 #include <wx/notebook.h>
 #include "wx/xrc/xh_notbk.h"
+#include "wx/imaglist.h"
 
 class MaxNotebook;
 
