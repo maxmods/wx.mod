@@ -10,6 +10,8 @@ Import wx.wxStaticText
 Import wx.wxCheckBox
 Import wx.wxNotebook
 Import wx.wxStaticBitmap
+Import wx.wxLog
+Import wx.wxStdDialogButtonSizer
 
 New MyApp.Run()
  
@@ -117,7 +119,7 @@ Type MyFrame Extends wxFrame
 	Method OnInit()
 
 		' Load the menubar from XRC and set this frame's menubar to it.
-		'SetMenuBar(wxXmlResource.Get().LoadMenuBar(,"main_menu"))
+		SetMenuBar(wxXmlResource.Get().LoadMenuBar(,"main_menu"))
 		' Load the toolbar from XRC and set this frame's toolbar to it.
 		' NOTE: For toolbars you currently should do it exactly like this.
 		' With toolbars, you currently can't create one, and set it later. It
@@ -132,10 +134,10 @@ Type MyFrame Extends wxFrame
 		' here.
 		CreateStatusBar( 1 )
 
-'		Connect(XRCID("unload_resource_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnUnloadResourceMenuCommand)
-'		Connect(XRCID("reload_resource_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnReloadResourceMenuCommand)
-'		Connect(wxID_EXIT,  wxEVT_COMMAND_MENU_SELECTED, OnExitToolOrMenuCommand)
-'		Connect(XRCID("non_derived_dialog_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnNonDerivedDialogToolOrMenuCommand)
+		Connect(XRCID("unload_resource_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnUnloadResourceMenuCommand)
+		Connect(XRCID("reload_resource_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnReloadResourceMenuCommand)
+		Connect(wxID_EXIT,  wxEVT_COMMAND_MENU_SELECTED, OnExitToolOrMenuCommand)
+		Connect(XRCID("non_derived_dialog_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnNonDerivedDialogToolOrMenuCommand)
 '		Connect(XRCID("derived_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnDerivedDialogToolOrMenuCommand)
 '		Connect(XRCID("controls_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnControlsToolOrMenuCommand)
 		Connect(XRCID("uncentered_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnUncenteredToolOrMenuCommand)
@@ -146,6 +148,36 @@ Type MyFrame Extends wxFrame
 		Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, OnAboutToolOrMenuCommand) 
 	End Method
 
+	Function OnUnloadResourceMenuCommand(event:wxEvent)
+		If wxXmlResource.Get().Unload("rc/basicdlg.xrc") Then
+			wxLogMessage("Basic dialog resource has now been unloaded, you " + ..
+				"won't be able to use it before loading it again")
+		Else
+			wxLogWarning("Failed to unload basic dialog resource")
+		End If
+	End Function
+
+	Function OnReloadResourceMenuCommand(event:wxEvent)
+		If wxXmlResource.Get().Load("rc/basicdlg.xrc") Then
+			wxLogStatus("Basic dialog resource has been loaded.")
+		Else
+			wxLogError("Failed to load basic dialog resource")
+		End If
+	End Function
+	
+	Function OnExitToolOrMenuCommand(event:wxEvent)
+		' True is To force the frame To close.
+		wxWindow(event.parent).Close(True)
+	End Function
+
+	Function OnNonDerivedDialogToolOrMenuCommand(event:wxEvent)
+		' "non_derived_dialog" is the name of the wxDialog XRC node that should be loaded.
+		Local dlg:wxDialog = wxXmlResource.Get().LoadDialog(wxWindow(event.parent), "non_derived_dialog")
+		If dlg Then
+			dlg.ShowModal()
+		End If
+	End Function
+	
 	Function OnUncenteredToolOrMenuCommand(event:wxEvent)
 		Local dlg:wxDialog = wxXmlResource.Get().LoadDialog(wxWindow(event.parent), "uncentered_dialog")
 		dlg.ShowModal()
