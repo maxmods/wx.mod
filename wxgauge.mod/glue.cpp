@@ -31,8 +31,58 @@ MaxGauge::MaxGauge(BBObject * handle, wxWindow * parent, wxWindowID id, int rang
 	wxbind(this, handle);
 }
 
+MaxGauge::MaxGauge()
+{}
+
 MaxGauge::~MaxGauge() {
 	wxunbind(this);
+}
+
+void MaxGauge::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxGaugeXmlHandler, wxGaugeXmlHandler)
+
+MaxGaugeXmlHandler::MaxGaugeXmlHandler()
+	: wxGaugeXmlHandler()
+{}
+
+
+wxObject * MaxGaugeXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(control, MaxGauge)
+
+    control->Create(m_parentAsWindow,
+                    GetID(),
+                    GetLong(wxT("range"), wxGAUGE_DEFAULT_RANGE),
+                    GetPosition(), GetSize(),
+                    GetStyle(),
+                    wxDefaultValidator,
+                    GetName());
+
+
+	control->MaxBind(_wx_wxgauge_wxGauge__xrcNew(control));
+
+    if( HasParam(wxT("value")))
+    {
+        control->SetValue(GetLong(wxT("value")));
+    }
+    if( HasParam(wxT("shadow")))
+    {
+        control->SetShadowWidth(GetDimension(wxT("shadow")));
+    }
+    if( HasParam(wxT("bezel")))
+    {
+        control->SetBezelFace(GetDimension(wxT("bezel")));
+    }
+
+    SetupWindow(control);
+
+    return control;
+
 }
 
 
@@ -83,5 +133,11 @@ void bmx_wxgauge_setvalue(wxGauge * gauge, int pos) {
 
 void bmx_wxgauge_pulse(wxGauge * gauge) {
 	gauge->Pulse();
+}
+
+// *********************************************
+
+void bmx_wxgauge_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxGaugeXmlHandler);
 }
 

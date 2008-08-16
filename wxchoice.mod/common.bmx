@@ -49,6 +49,8 @@ Extern
 	
 	Function bmx_wxchoice_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxchoice_addresourcehandler()
+	
 End Extern
 
 Const wxEVT_COMMAND_CHOICE_SELECTED:Int = 3

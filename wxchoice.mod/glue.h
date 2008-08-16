@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/xrc/xh_choic.h"
 
 class MaxChoice;
 
@@ -28,10 +29,14 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxchoice_wxChoice__xrcNew(wxChoice * choice);
+
 	MaxChoice * bmx_wxchoice_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
 	int bmx_wxchoice_getcurrentselection(MaxChoice * choice);
 
 	int bmx_wxchoice_geteventtype(int type);
+
+	void bmx_wxchoice_addresourcehandler();
 }
 
 
@@ -42,11 +47,27 @@ class MaxChoice : public wxChoice
 {
 public:
 	MaxChoice(BBObject * handle, wxWindow * parent, wxWindowID id, const wxArrayString& array, int x, int y, int w, int h, long style);
+	MaxChoice();
 	~MaxChoice();
 
+	void MaxBind(BBObject * handle);
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
 
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxChoiceXmlHandler : public wxChoiceXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxChoiceXmlHandler)
+
+public:
+    MaxChoiceXmlHandler();
+    virtual wxObject *DoCreateResource();
+	virtual bool CanHandle(wxXmlNode *node);
+	
+	bool m_insideBox;
+    wxArrayString strList;
+};

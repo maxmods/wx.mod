@@ -31,10 +31,74 @@ MaxSlider::MaxSlider(BBObject * handle, wxWindow * parent, wxWindowID id, int va
 	wxbind(this, handle);
 }
 
+MaxSlider::MaxSlider()
+{}
+
 MaxSlider::~MaxSlider() {
 	wxunbind(this);
 }
 
+void MaxSlider::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxSliderXmlHandler, wxSliderXmlHandler)
+
+MaxSliderXmlHandler:: MaxSliderXmlHandler()
+	: wxSliderXmlHandler()
+{}
+
+
+wxObject * MaxSliderXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(control, MaxSlider)
+
+    control->Create(m_parentAsWindow,
+                    GetID(),
+                    GetLong(wxT("value"), wxSL_DEFAULT_VALUE),
+                    GetLong(wxT("min"), wxSL_DEFAULT_MIN),
+                    GetLong(wxT("max"), wxSL_DEFAULT_MAX),
+                    GetPosition(), GetSize(),
+                    GetStyle(),
+                    wxDefaultValidator,
+                    GetName());
+
+
+	control->MaxBind(_wx_wxslider_wxSlider__xrcNew(control));
+
+    if( HasParam(wxT("tickfreq")))
+    {
+        control->SetTickFreq(GetLong(wxT("tickfreq")), 0);
+    }
+    if( HasParam(wxT("pagesize")))
+    {
+        control->SetPageSize(GetLong(wxT("pagesize")));
+    }
+    if( HasParam(wxT("linesize")))
+    {
+        control->SetLineSize(GetLong(wxT("linesize")));
+    }
+    if( HasParam(wxT("thumb")))
+    {
+        control->SetThumbLength(GetLong(wxT("thumb")));
+    }
+    if( HasParam(wxT("tick")))
+    {
+        control->SetTick(GetLong(wxT("tick")));
+    }
+    if( HasParam(wxT("selmin")) && HasParam(wxT("selmax")))
+    {
+        control->SetSelection(GetLong(wxT("selmin")), GetLong(wxT("selmax")));
+    }
+
+    SetupWindow(control);
+
+    return control;
+
+
+}
 
 // *********************************************
 
@@ -82,3 +146,8 @@ void bmx_wxslider_setvalue(wxSlider * slider, int value) {
 	slider->SetValue(value);
 }
 
+// *********************************************
+
+void bmx_wxslider_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxSliderXmlHandler);
+}

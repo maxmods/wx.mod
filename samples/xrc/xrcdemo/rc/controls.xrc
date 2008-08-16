@@ -19,7 +19,7 @@
         <object class="sizeritem">
             <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
             <border>5</border>
-            <object class="wxNotebook" name="controls_notebook">
+            <object class="wxFlatNotebook" name="controls_notebook">
                 <usenotebooksizer>1</usenotebooksizer>
                 <size>550,250</size>
                 <object class="notebookpage">
@@ -1200,7 +1200,7 @@ lay them out using wxSizers, absolute positioning, everything you like!
                                 <flag>wxALIGN_CENTRE|wxALL</flag>
                                 <border>5</border>
                                 <object class="wxStaticText" name="controls_notebook_statictextT">
-                                    <label>wxNotebook (This dialog uses one)</label>
+                                    <label>wxFlatNotebook (This dialog uses one)</label>
                                 </object>
                             </object>
                             <object class="sizeritem">

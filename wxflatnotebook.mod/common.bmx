@@ -116,6 +116,7 @@ Extern
 	Function bmx_wxflatnotebook_getimagelist:wxBitmap[](handle:Byte Ptr)
 	Function bmx_wxflatnotebook_deleteimagelist(handle:Byte Ptr)
 
+	Function bmx_wxflatnotebook_addresourcehandler()
 End Extern
 
 

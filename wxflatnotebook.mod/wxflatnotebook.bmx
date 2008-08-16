@@ -61,6 +61,18 @@ Type wxFlatNotebook Extends wxPanel
 
 	Field imageListPtr:Byte Ptr
 
+	Function _create:wxFlatNotebook(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxFlatNotebook = New wxFlatNotebook
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxFlatNotebook(wxObjectPtr:Byte Ptr)
+		Return wxFlatNotebook._create(wxObjectPtr)
+	End Function
+	
 	Rem
 	bbdoc: 
 	End Rem
@@ -552,3 +564,14 @@ Type TFlatNotebookEventFactory Extends TEventFactory
 End Type
 
 New TFlatNotebookEventFactory
+
+
+Type TFlatNotebookResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxflatnotebook_addresourcehandler()
+	End Method
+		
+End Type
+
+New TFlatNotebookResourceFactory

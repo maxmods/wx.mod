@@ -24,14 +24,107 @@
 
 // ---------------------------------------------------------------------------------------
 
-MaxFlatNotebook:: MaxFlatNotebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
+MaxFlatNotebook::MaxFlatNotebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
 	: wxFlatNotebook(parent, id, wxPoint(x, y), wxSize(w, h), style)
 {
 	wxbind(this, handle);
 }
 
-MaxFlatNotebook::~ MaxFlatNotebook() {
+MaxFlatNotebook::MaxFlatNotebook()
+{}
+
+MaxFlatNotebook::~MaxFlatNotebook() {
 	wxunbind(this);
+}
+
+void MaxFlatNotebook::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxFlatNotebookXmlHandler, wxFlatNotebookXmlHandler)
+
+MaxFlatNotebookXmlHandler::MaxFlatNotebookXmlHandler()
+	: wxFlatNotebookXmlHandler(), m_isInside(false), m_notebook(NULL)
+{}
+
+
+wxObject * MaxFlatNotebookXmlHandler::DoCreateResource()
+{
+    if (m_class == wxT("notebookpage"))
+    {
+        wxXmlNode *n = GetParamNode(wxT("object"));
+
+        if ( !n )
+            n = GetParamNode(wxT("object_ref"));
+
+        if (n)
+        {
+            bool old_ins = m_isInside;
+            m_isInside = false;
+            wxObject *item = CreateResFromNode(n, m_notebook, NULL);
+            m_isInside = old_ins;
+            wxWindow *wnd = wxDynamicCast(item, wxWindow);
+
+            if (wnd)
+            {
+                m_notebook->AddPage(wnd, GetText(wxT("label")),
+                                         GetBool(wxT("selected")));
+                if ( HasParam(wxT("bitmap")) )
+                {
+                    wxBitmap bmp = GetBitmap(wxT("bitmap"), wxART_OTHER);
+                    wxFlatNotebookImageList *imgList = m_notebook->GetImageList();
+                    if ( imgList == NULL )
+                    {
+                        imgList = new wxFlatNotebookImageList ( );
+                        m_notebook->SetImageList( imgList );
+                    }
+                    imgList->Add(bmp);
+                    m_notebook->SetPageImageIndex(m_notebook->GetPageCount()-1, (int)imgList->Count()-1 );
+                }
+            }
+            else
+                wxLogError(wxT("Error in resource."));
+            return wnd;
+        }
+        else
+        {
+            wxLogError(wxT("Error in resource: no control within notebook's <page> tag."));
+            return NULL;
+        }
+    }
+
+    else
+    {
+        XRC_MAKE_INSTANCE(nb, MaxFlatNotebook)
+
+        nb->Create(m_parentAsWindow,
+                   GetID(),
+                   GetPosition(), GetSize(),
+                   GetStyle(wxT("style")),
+                   GetName());
+
+		nb->MaxBind(_wx_wxflatnotebook_wxFlatNotebook__xrcNew(nb));
+
+        SetupWindow(nb);
+
+        wxFlatNotebook *old_par = m_notebook;
+        m_notebook = nb;
+        bool old_ins = m_isInside;
+        m_isInside = true;
+        CreateChildren(m_notebook, true/*only this handler*/);
+        m_isInside = old_ins;
+        m_notebook = old_par;
+
+        return nb;
+    }
+}
+
+bool MaxFlatNotebookXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return ((!m_isInside && IsOfClass(node, wxT("wxFlatNotebook"))) ||
+            (m_isInside && IsOfClass(node, wxT("notebookpage"))));
 }
 
 
@@ -312,3 +405,8 @@ int bmx_wxflatnotebook_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxflatnotebook_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxFlatNotebookXmlHandler);
+}

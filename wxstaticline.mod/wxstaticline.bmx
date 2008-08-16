@@ -63,6 +63,18 @@ about: The line may be only vertical or horizontal.
 End Rem
 Type wxStaticLine Extends wxControl
 
+	Function _create:wxStaticLine(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxStaticLine = New wxStaticLine
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxStaticLine(wxObjectPtr:Byte Ptr)
+		Return wxStaticLine._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a static line.
 	End Rem
@@ -102,3 +114,13 @@ Type wxStaticLine Extends wxControl
 	
 End Type
 
+
+Type TStaticLineResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxstaticline_addresourcehandler()
+	End Method
+		
+End Type
+
+New TStaticLineResourceFactory

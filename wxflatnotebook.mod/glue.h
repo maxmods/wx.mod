@@ -23,6 +23,7 @@
 #include "wxglue.h"
 #include "wx/wxFlatNotebook/wxFlatNotebook.h"
 #include "../wxbitmap.mod/glue.h"
+#include "wx/wxFlatNotebook/xh_fnb.h"
 
 class MaxFlatNotebook;
 
@@ -33,6 +34,7 @@ extern "C" {
 	BBArray * _wx_wxflatnotebook_wxFlatNotebook__newbitmaparray(int size);
 	void _wx_wxflatnotebook_wxFlatNotebook__setbitmap(BBArray * list, int index, MaxBitmap * bitmap);
 	MaxBitmap * _wx_wxflatnotebook_wxFlatNotebook__getbitmap(BBArray * list, int index);
+	BBObject * _wx_wxflatnotebook_wxFlatNotebook__xrcNew(wxFlatNotebook * fnb);
 
 	wxFlatNotebook * bmx_wxflatnotebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 
@@ -96,6 +98,8 @@ extern "C" {
 	int bmx_wxflatnotebookevent_getselection(wxFlatNotebookEvent & event);
 	int bmx_wxflatnotebookevent_getoldselection(wxFlatNotebookEvent & event);
 
+	void bmx_wxflatnotebook_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -104,5 +108,25 @@ class MaxFlatNotebook : public wxFlatNotebook
 {
 public:
 	MaxFlatNotebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxFlatNotebook();
 	~ MaxFlatNotebook();
+
+	void MaxBind(BBObject * handle);
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxFlatNotebookXmlHandler : public wxFlatNotebookXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxFlatNotebookXmlHandler)
+
+public:
+    MaxFlatNotebookXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+
+    bool m_isInside;
+    wxFlatNotebook *m_notebook;
+};
+

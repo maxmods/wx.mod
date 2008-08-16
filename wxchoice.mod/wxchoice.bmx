@@ -94,6 +94,10 @@ Type wxChoice Extends wxControlWithItems
 		End If
 	End Function
 	
+	Function _xrcNew:wxChoice(wxObjectPtr:Byte Ptr)
+		Return wxChoice._create(wxObjectPtr)
+	End Function
+	
 	Rem
 	bbdoc: Unlike GetSelection which only returns the accepted selection value, i.e. the selection in the control once the user closes the dropdown list, this function returns the current selection.
 	about: That is, while the dropdown list is shown, it returns the currently selected item in it.
@@ -125,3 +129,14 @@ Type TChoiceEventFactory Extends TEventFactory
 End Type
 
 New TChoiceEventFactory
+
+
+Type TChoiceResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxchoice_addresourcehandler()
+	End Method
+		
+End Type
+
+New TChoiceResourceFactory

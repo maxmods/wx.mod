@@ -68,6 +68,18 @@ There are no user commands for the gauge.
 End Rem
 Type wxGauge Extends wxControl
 
+	Function _create:wxGauge(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxGauge = New wxGauge
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxGauge(wxObjectPtr:Byte Ptr)
+		Return wxGauge._create(wxObjectPtr)
+	End Function
+	
 	Rem
 	bbdoc: Constructor, creating and showing a gauge.
 	End Rem
@@ -172,3 +184,13 @@ Type wxGauge Extends wxControl
 	
 End Type
 
+
+Type TGaugeResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxgauge_addresourcehandler()
+	End Method
+		
+End Type
+
+New TGaugeResourceFactory

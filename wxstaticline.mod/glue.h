@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include "wx/statline.h"
+#include "wx/xrc/xh_stlin.h"
 
 class MaxStaticLine;
 
@@ -29,11 +30,15 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxstaticline_wxStaticLine__xrcNew(wxStaticLine * line);
+
 	MaxStaticLine * bmx_wxstaticline_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
 
 	int bmx_wxstaticline_isvertical(wxStaticLine * line);
 	int bmx_wxstaticline_getdefaultsize();
+
+	void bmx_wxstaticline_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -42,6 +47,19 @@ class MaxStaticLine : public wxStaticLine
 {
 public:
 	MaxStaticLine(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxStaticLine();
 	~MaxStaticLine();
+
+	void MaxBind(BBObject * handle);
 };
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxStaticLineXmlHandler : public wxStaticLineXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxStaticLineXmlHandler)
+
+public:
+    MaxStaticLineXmlHandler();
+    virtual wxObject *DoCreateResource();
+};

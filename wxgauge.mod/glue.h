@@ -22,12 +22,16 @@
 
 #include "wxglue.h"
 #include "wx/gauge.h"
+#include "wx/xrc/xh_gauge.h"
+
 
 class MaxGauge;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxgauge_wxGauge__xrcNew(wxGauge * gauge);
 
 	MaxGauge * bmx_wxgauge_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int range, int x, int y,
 		int w, int h, long style);
@@ -42,6 +46,8 @@ extern "C" {
 	void bmx_wxgauge_setvalue(wxGauge * gauge, int pos);
 	void bmx_wxgauge_pulse(wxGauge * gauge);
 
+	void bmx_wxgauge_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -51,6 +57,20 @@ class MaxGauge : public wxGauge
 public:
 	MaxGauge(BBObject * handle, wxWindow * parent, wxWindowID id, int range, int x, int y,
 		int w, int h, long style);
+	MaxGauge();
 	~MaxGauge();
+
+	void MaxBind(BBObject * handle);
 	
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxGaugeXmlHandler : public wxGaugeXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxGaugeXmlHandler)
+
+public:
+    MaxGaugeXmlHandler();
+    virtual wxObject *DoCreateResource();
 };

@@ -46,7 +46,7 @@ void MaxNotebook::MaxBind(BBObject * handle) {
 IMPLEMENT_DYNAMIC_CLASS(MaxNotebookXmlHandler, wxNotebookXmlHandler)
 
 MaxNotebookXmlHandler::MaxNotebookXmlHandler()
-	: wxNotebookXmlHandler()
+	: wxNotebookXmlHandler(), m_isInside(false), m_notebook(NULL)
 {}
 
 

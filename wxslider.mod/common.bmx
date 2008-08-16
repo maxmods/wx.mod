@@ -55,6 +55,8 @@ Extern
 	Function bmx_wxslider_setrange(handle:Byte Ptr, minValue:Int, maxValue:Int)
 	Function bmx_wxslider_setvalue(handle:Byte Ptr, value:Int)
 
+	Function bmx_wxslider_addresourcehandler()
+
 End Extern
 
 

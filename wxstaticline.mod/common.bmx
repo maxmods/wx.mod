@@ -47,7 +47,9 @@ Extern
 	Function bmx_wxstaticline_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxstaticline_isvertical:Int(handle:Byte Ptr)
 	Function bmx_wxstaticline_getdefaultsize:Int()
-	
+
+	Function bmx_wxstaticline_addresourcehandler()
+
 End Extern
 
 Const wxLI_HORIZONTAL:Int = wxHORIZONTAL

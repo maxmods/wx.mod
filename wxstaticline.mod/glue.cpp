@@ -30,8 +30,42 @@ MaxStaticLine::MaxStaticLine(BBObject * handle, wxWindow * parent, wxWindowID id
 	wxbind(this, handle);
 }
 
+MaxStaticLine::MaxStaticLine()
+{}
+
 MaxStaticLine::~MaxStaticLine() {
 	wxunbind(this);
+}
+
+void MaxStaticLine::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxStaticLineXmlHandler, wxStaticLineXmlHandler)
+
+MaxStaticLineXmlHandler::MaxStaticLineXmlHandler()
+	: wxStaticLineXmlHandler()
+{}
+
+
+wxObject * MaxStaticLineXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(line, MaxStaticLine)
+
+    line->Create(m_parentAsWindow,
+                GetID(),
+                GetPosition(), GetSize(),
+                GetStyle(wxT("style"), wxLI_HORIZONTAL),
+                GetName());
+
+	line->MaxBind(_wx_wxstaticline_wxStaticLine__xrcNew(line));
+
+    SetupWindow(line);
+
+    return line;
+
 }
 
 // *********************************************
@@ -51,3 +85,8 @@ int bmx_wxstaticline_getdefaultsize() {
 	return wxStaticLine::GetDefaultSize();
 }
 
+// *********************************************
+
+void bmx_wxstaticline_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxStaticLineXmlHandler);
+}

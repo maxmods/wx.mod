@@ -31,6 +31,9 @@ MaxChoice::MaxChoice(BBObject * handle, wxWindow * parent, wxWindowID id, const 
 	wxbind(this, handle);
 }
 
+MaxChoice::MaxChoice()
+{}
+
 MaxChoice::~MaxChoice() {
 	wxunbind(this);
 
@@ -43,6 +46,74 @@ MaxChoice::~MaxChoice() {
 		}
 	}
 }
+
+void MaxChoice::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxChoiceXmlHandler, wxChoiceXmlHandler)
+
+MaxChoiceXmlHandler::MaxChoiceXmlHandler()
+	: wxChoiceXmlHandler(), m_insideBox(false)
+{}
+
+
+wxObject * MaxChoiceXmlHandler::DoCreateResource()
+{
+    if( m_class == wxT("wxChoice"))
+    {
+        // find the selection
+        long selection = GetLong(wxT("selection"), -1);
+
+        // need to build the list of strings from children
+        m_insideBox = true;
+        CreateChildrenPrivately(NULL, GetParamNode(wxT("content")));
+
+        XRC_MAKE_INSTANCE(control, MaxChoice)
+
+        control->Create(m_parentAsWindow,
+                        GetID(),
+                        GetPosition(), GetSize(),
+                        strList,
+                        GetStyle(),
+                        wxDefaultValidator,
+                        GetName());
+
+
+	control->MaxBind(_wx_wxchoice_wxChoice__xrcNew(control));
+
+        if (selection != -1)
+            control->SetSelection(selection);
+
+        SetupWindow(control);
+
+        strList.Clear();    // dump the strings
+
+        return control;
+    }
+    else
+    {
+        // on the inside now.
+        // handle <item>Label</item>
+
+        // add to the list
+        wxString str = GetNodeContent(m_node);
+        if (m_resource->GetFlags() & wxXRC_USE_LOCALE)
+            str = wxGetTranslation(str, m_resource->GetDomain());
+        strList.Add(str);
+
+        return NULL;
+    }
+}
+
+bool MaxChoiceXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return (IsOfClass(node, wxT("wxChoice")) ||
+           (m_insideBox && node->GetName() == wxT("item")));
+}
+
 
 // *********************************************
 
@@ -64,4 +135,10 @@ int bmx_wxchoice_geteventtype(int type) {
 	}
 	
 	return 0;
+}
+
+// *********************************************
+
+void bmx_wxchoice_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxChoiceXmlHandler);
 }

@@ -8,10 +8,15 @@ Import wx.wxTextCtrl
 Import wx.wxSystemOptions
 Import wx.wxStaticText
 Import wx.wxCheckBox
-Import wx.wxNotebook
+Import wx.wxFlatNotebook
 Import wx.wxStaticBitmap
 Import wx.wxLog
 Import wx.wxStdDialogButtonSizer
+Import wx.wxMessageDialog
+Import wx.wxStaticLine
+Import wx.wxSlider
+Import wx.wxChoice
+Import wx.wxGauge
 
 New MyApp.Run()
  
@@ -138,8 +143,8 @@ Type MyFrame Extends wxFrame
 		Connect(XRCID("reload_resource_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnReloadResourceMenuCommand)
 		Connect(wxID_EXIT,  wxEVT_COMMAND_MENU_SELECTED, OnExitToolOrMenuCommand)
 		Connect(XRCID("non_derived_dialog_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnNonDerivedDialogToolOrMenuCommand)
-'		Connect(XRCID("derived_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnDerivedDialogToolOrMenuCommand)
-'		Connect(XRCID("controls_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnControlsToolOrMenuCommand)
+		Connect(XRCID("derived_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnDerivedDialogToolOrMenuCommand)
+		Connect(XRCID("controls_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnControlsToolOrMenuCommand)
 		Connect(XRCID("uncentered_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnUncenteredToolOrMenuCommand)
 '		Connect(XRCID("custom_class_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnCustomClassToolOrMenuCommand)
 		Connect(XRCID("platform_property_tool_or_menuitem"), wxEVT_COMMAND_MENU_SELECTED, OnPlatformPropertyToolOrMenuCommand)
@@ -183,7 +188,24 @@ Type MyFrame Extends wxFrame
 		dlg.ShowModal()
 	End Function
 
+	Function OnDerivedDialogToolOrMenuCommand(event:wxEvent)
+		' Make an instance of our derived dialog, passing it "this" window
+		' (the main frame) as the parent of the dialog. This allows the dialog
+		' to be destructed automatically when the parent is destroyed.
+		Local prefs:PreferencesDialog = New PreferencesDialog.Create(wxWindow(event.parent))
+		' Show the instance of the dialog, modally.
+		prefs.ShowModal()
+	End Function
 
+	Function OnControlsToolOrMenuCommand(event:wxEvent)
+		Local dlg:wxDialog = wxXmlResource.Get().LoadDialog(wxWindow(event.parent), "controls_dialog")
+	
+	
+	
+		' All done. Show the dialog.
+		dlg.ShowModal()
+	End Function
+		
 	Function OnPlatformPropertyToolOrMenuCommand(event:wxEvent)
 	    Local dlg:wxDialog = wxXmlResource.Get().LoadDialog(wxWindow(event.parent), "platform_property_dialog")
 	    dlg.ShowModal()
@@ -208,3 +230,68 @@ Type MyFrame Extends wxFrame
 
 
 End Type
+
+Type PreferencesDialog Extends wxDialog
+
+	Method Create:PreferencesDialog(parent:wxWindow)
+		wxXmlResource.Get().LoadObject(Self, parent, "derived_dialog", "wxDialog")
+		OnInit()
+		Return Self
+	End Method
+	
+	Method OnInit()
+		Connect( XRCID("my_button"), wxEVT_COMMAND_BUTTON_CLICKED, OnMyButtonClicked)
+		Connect(XRCID("my_checkbox"), wxEVT_UPDATE_UI, OnUpdateUIMyCheckbox)
+		' Note that the ID here isn't a XRCID, it is one of the standard wx ID's.
+		Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED , OnOK)
+	End Method
+
+	' Stuff To do when "My Button" gets clicked
+	Function OnMyButtonClicked(event:wxEvent)
+		' Construct a message dialog.
+		Local msgDlg:wxMessageDialog = New wxMessageDialog.Create(wxWindow(event.parent), "You clicked on My Button")
+		
+		' Show it modally.
+		msgDlg.ShowModal()
+	End Function
+
+	' Stuff To do when a "My Checkbox" gets updated
+	' (drawn, Or it changes its value)
+	Function OnUpdateUIMyCheckbox(event:wxEvent)
+		' Get a boolean value of whether the checkbox is checked
+		' You could just write:
+		' myCheckBoxIsChecked = event.IsChecked()
+		' since the event that was passed into this function already has the
+		' is a pointer to the right control. However,
+		' this is the XRCCTRL way (which is more obvious as to what is going on).
+		Local myCheckBoxIsChecked:Int = wxCheckBox(XRCCTRL(wxWindow(event.parent), "my_checkbox")).IsChecked()
+		
+		' Now call either Enable(true) or Enable(false) on the textctrl, depending
+		' on the value of that boolean.
+		wxTextCtrl(XRCCTRL(wxWindow(event.parent), "my_textctrl")).Enable(myCheckBoxIsChecked)
+	End Function
+
+	' Override base class functions of a wxDialog.
+	Function OnOK(event:wxEvent)
+		' Construct a message dialog (An extra parameters to put a cancel button on).
+		Local msgDlg2:wxMessageDialog = New wxMessageDialog.Create(wxWindow(event.parent), ..
+			"Press OK to close Derived dialog, or Cancel to abort", ..
+			"Overriding base class OK button handler", ..
+			wxOK | wxCANCEL | wxCENTER )
+		
+		' Show the message dialog, and if it returns wxID_OK (ie they clicked on OK button)...
+		If msgDlg2.ShowModal() = wxID_OK Then
+			' ...then end this Preferences dialog.
+			wxDialog(event.parent).EndModal(wxID_OK)
+			' You could also have used event.Skip() which would then skip up
+			' to the wxDialog's event table and see if there was a wxEVT_COMMAND_BUTTON_CLICKED
+			' handler for wxID_OK and if there was, then execute that code.
+		End If
+		
+		' Otherwise do nothing.
+	End Function
+
+
+End Type
+
+

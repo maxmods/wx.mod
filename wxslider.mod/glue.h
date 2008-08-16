@@ -22,12 +22,15 @@
 
 #include "wxglue.h"
 #include "wx/slider.h"
+#include "wx/xrc/xh_slidr.h"
 
 class MaxSlider;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxslider_wxSlider__xrcNew(wxSlider * slider);
 
 	MaxSlider * bmx_wxslider_create(BBObject * handle, wxWindow * parent, int id, int value,
 			int minValue, int maxValue, int x, int y, int w, int h, long style);
@@ -41,6 +44,8 @@ extern "C" {
 	void bmx_wxslider_setrange(wxSlider * slider, int minValue, int maxValue);
 	void bmx_wxslider_setvalue(wxSlider * slider, int value);
 
+	void bmx_wxslider_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -50,9 +55,23 @@ class MaxSlider : public wxSlider
 public:
 	MaxSlider(BBObject * handle, wxWindow * parent, wxWindowID id, int value, int minValue, int maxValue, 
 			int x, int y, int w, int h, long style);
+	MaxSlider();
 	~MaxSlider();
+
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxSliderXmlHandler : public wxSliderXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxSliderXmlHandler)
+
+public:
+    MaxSliderXmlHandler();
+    virtual wxObject *DoCreateResource();
 };

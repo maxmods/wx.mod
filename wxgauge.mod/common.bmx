@@ -56,6 +56,7 @@ Extern
 	Function bmx_wxgauge_setvalue(handle:Byte Ptr, pos:Int)
 	Function bmx_wxgauge_pulse(handle:Byte Ptr)
 
+	Function bmx_wxgauge_addresourcehandler()
 End Extern
 
 

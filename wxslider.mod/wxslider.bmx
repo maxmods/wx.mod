@@ -59,6 +59,18 @@ Slider events are handled in the same way as a scrollbar.
 End Rem
 Type wxSlider Extends wxControl
 
+	Function _create:wxSlider(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSlider = New wxSlider
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxSlider(wxObjectPtr:Byte Ptr)
+		Return wxSlider._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a slider.
 	End Rem
@@ -144,3 +156,13 @@ Type wxSlider Extends wxControl
 	
 End Type
 
+
+Type TSliderResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxslider_addresourcehandler()
+	End Method
+		
+End Type
+
+New TSliderResourceFactory
