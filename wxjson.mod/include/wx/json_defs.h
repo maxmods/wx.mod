@@ -162,7 +162,7 @@
 //
 // define the wxJSON_ASSERT() macro to expand to wxASSERT()
 // unless the wxJSON_NOABORT_ASSERT is defined
-// #define wxJSON_NOABORT_ASSERT
+#define wxJSON_NOABORT_ASSERT
 #if defined( wxJSON_NOABORT_ASSERT )
   #define wxJSON_ASSERT( cond )	
 #else
@@ -171,11 +171,12 @@
 
 
 //
-// version 1.0 introduced some incompatibilities between previous
-// versions (0.x). If you want the 1.x library to remain compatible
-// with the past, uncomment the following line
-// #define wxJSON_COMPATIBILITY_0X
-
+// the following macros are used by the wxJSONWriter::WriteStringValues()
+// when the wxJSONWRITER_SPLIT_STRING flag is set
+#define wxJSONWRITER_LAST_COL	50
+#define wxJSONWRITER_SPLIT_COL	75
+#define wxJSONWRITER_MIN_LENGTH	15
+#define wxJSONWRITER_TAB_LENGTH  4
 
 
 

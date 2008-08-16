@@ -34,22 +34,32 @@
 
 
 // The 'style' flags for the writer
-// BIT= 9 8 7 6 5 4 3 2 1 0
-//            | | | | | | |
-//            | | | | | |  -> 1=styled (indentation), 0=not styled (other bits ignored)
-//            | | | | |  ---> 0=do not write comments, 1=write comments
-//            | | | |  -----> 1=force comments to be written before.the value
-//            | | |  -------> 1=forcecomments to be written after the value
-//            | |  ---------> 0=do not split strings, 1=split strings
-//
+// BIT= 10 9 8 7 6 5 4 3 2 1 0
+//       | | | | | | | | | | |
+//       | | | | | | | | | |  -> 1=styled (indentation), 0=not styled (other bits ignored)
+//       | | | | | | | | |  ---> 0=do not write comments, 1=write comments
+//       | | | | | | | |  -----> 1=force comments to be written before.the value
+//       | | | | | | |  -------> 1=forcecomments to be written after the value
+//       | | | | | |  ---------> 0=do not split strings, 1=split strings
+//       | | | | |  -----------> 1=do not add linefeeds between values (STYLED only)
+//       | | | |  -------------> 1=escape the solidus '/' character
+//       | | |  ---------------> 1=multiline string (LF and TAB not escaped)
+//       | |  -----------------> 1=prepend a plus (+) sign to unsigned integers
+//       |  -------------------> 1=use tabs for indentation
+//        ---------------------> 1= do not add indentation (STYLED only)
 enum {
-  wxJSONWRITER_NONE					= 0x00000000,
-  wxJSONWRITER_STYLED				= 0x00000001,
-  wxJSONWRITER_WRITE_COMMENTS		= 0x00000002,
-  wxJSONWRITER_COMMENTS_BEFORE		= 0x00000004,
-  wxJSONWRITER_COMMENTS_AFTER		= 0x00000008,
-  wxJSONWRITER_SPLIT_STRING			= 0x00000010,
-  wxJSONWRITER_NO_LINEFEEDS			= 0x00000020,
+  wxJSONWRITER_NONE            = 0,
+  wxJSONWRITER_STYLED          = 1,
+  wxJSONWRITER_WRITE_COMMENTS  = 2,
+  wxJSONWRITER_COMMENTS_BEFORE = 4,
+  wxJSONWRITER_COMMENTS_AFTER  = 8,
+  wxJSONWRITER_SPLIT_STRING    = 16,
+  wxJSONWRITER_NO_LINEFEEDS    = 32,
+  wxJSONWRITER_ESCAPE_SOLIDUS	  = 64,
+  wxJSONWRITER_MULTILINE_STRING   = 128,
+  wxJSONWRITER_RECOGNIZE_UNSIGNED = 256,
+  wxJSONWRITER_TAB_INDENT         = 512,
+  wxJSONWRITER_NO_INDENTATION     = 1024
 };
 
 // class declaration
@@ -69,17 +79,24 @@ protected:
 				bool comma );
   int  WriteIndent();
   int  WriteIndent( int num );
+  bool IsSpace( wxChar ch );
+  bool IsPunctuation( wxChar ch );
 
   int  WriteString( const wxString& str );
   int  WriteStringValue( const wxString& str );
   int  WritePrimitiveValue( const wxJSONValue& value );
-  int  WriteInt( int i );
-  int  WriteUInt( unsigned int ui );
-  int  WriteBool( bool b );
-  int  WriteDouble( double d );
-  int  WriteNull();
+  int  WriteInvalid();
+  int  WriteSeparator();
+
+  // the following functions are no more used: replaced by 'WritePrimitiveValue'
+  // int  WriteInt( int i );
+  // int  WriteUInt( unsigned int ui );
+  // int  WriteBool( bool b );
+  // int  WriteDouble( double d );
+  // int  WriteNull();
+  // int  WriteEmpty();
+
   int  WriteKey( const wxString& key );
-  int  WriteEmpty();
   int  WriteComment( const wxJSONValue& value, bool indent );
   int  WriteChar( wxChar ch );
 
@@ -111,6 +128,14 @@ private:
    If the output object is a string, the pointer is NULL.
   */
   wxMBConv*  m_conv; 
+
+  // The line number when printing JSON text output (not yet used)
+  int   m_lineNo;
+
+  // The column number when printing JSON text output
+  int   m_colNo;
+
+
 };
 
 

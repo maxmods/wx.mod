@@ -107,6 +107,18 @@ constant regardless the size of the value but the JSON value class defines
 functions in order to let the user know if an integer value fits in a
 32-bit integer or it is so large that it needs a 64-bits integer storage.
 To know more about 64-bits integer support see \ref json_internals_integer
+
+Storing values in a JSON value object of this class is very simple.
+The following is an example:
+\code
+ wxJSONValue v( _T( "A string"));   // store a string value in the object
+ wxString s = v.AsString();         // get the string value
+
+ v = 12;             // now 'v' contains an integer value
+ int i = v.AsInt();  // get the integer
+\endcode
+
+To know more about using this class see the \ref wxjson_tutorial.
 */
 
 
@@ -162,8 +174,8 @@ wxJSONValue::wxJSONValue()
  The function is called by the ctors and allocates a new instance of
  the wxJSONRefData class and sets the type of the JSON value.
  Note that only the type is set, not the value.
- Also note that the function may be called if the \c m_refData 
- data member is NULL.
+ Also note that this function may be called from other memberfunctions
+ if the \c m_refData data member is NULL.
 */
 wxJSONRefData*
 wxJSONValue::Init( wxJSONType type )
@@ -175,9 +187,16 @@ wxJSONValue::Init( wxJSONType type )
 
   // we allocate a new instance of the referenced data
   data = new wxJSONRefData();
-  data->m_type = type;
-  data->m_commentPos = wxJSONVALUE_COMMENT_BEFORE;
+  wxJSON_ASSERT( data );
+
+  // in release builds w do not have ASSERT so we check 'data' before
+  // using it
+  if ( data )  {
+    data->m_type = type;
+    data->m_commentPos = wxJSONVALUE_COMMENT_BEFORE;
+  }
   SetRefData( data );
+
 #if defined( WXJSON_USE_VALUE_COUNTER )
   m_progr = sm_progr;
   ++sm_progr;
@@ -324,7 +343,7 @@ wxJSONValue::wxJSONValue( unsigned long int ul )
 
 //! Copy constructor
 /*!
- The function makes a copies the content of \c other in this
+ The function copies the content of \c other in this
  object.
  Note that the JSON value object is not really copied;
  the function calls Ref() in order to increment
@@ -348,8 +367,6 @@ wxJSONValue::wxJSONValue( const wxJSONValue& other )
 }
 
 
-
-
 //! Dtor - calls UnRef().
 wxJSONValue::~wxJSONValue()
 {
@@ -363,10 +380,10 @@ wxJSONValue::~wxJSONValue()
 //! Return the type of the value stored in the object.
 /*!
  This function is the only one that does not ASSERT that the
- \c m_refData data member is not-NULL.
+ \c m_refData data member is not NULL.
  In fact, if the JSON value object does not contain a pointer
  to a wxJSONRefData structure, the function returns the
- wxJSONTYPE_INVALID which represent an invalid JSON value object.
+ wxJSONTYPE_INVALID constant which represent an invalid JSON value object.
  Also note that the pointer to the referenced data structure
  should NEVER be NULL.
 
@@ -384,26 +401,32 @@ wxJSONValue::~wxJSONValue()
  returned by this function is:
 
  - for signed integers:
-   - \b wxJSONTYPE_INT if the value is between INT_MIN and INT_MAX
    - \b wxJSONTYPE_SHORT if the value is between SHORT_MIN and SHORT_MAX
    - \b wxJSONTYPE_LONG if the value is between LONG_MIN and LONG_MAX
-     and greater than INT_MAX and less than INT_MIN
+     and greater than SHORT_MAX and less than SHORT_MIN
    - \b wxJSONTYPE_INT64 if the value is greater than LONG_MAX and
      less than LONG_MIN
 
  - for unsigned integers:
-   - \b wxJSONTYPE_UINT if the value is between 0 and UINT_MAX
    - \b wxJSONTYPE_USHORT if the value is between 0 and USHORT_MAX
    - \b wxJSONTYPE_ULONG if the value is between 0 and ULONG_MAX
-     and greater than UINT_MAX
+     and greater than USHORT_MAX
    - \b wxJSONTYPE_UINT64 if the value is greater than ULONG_MAX
 
- Note that on some platforms such, for example, win32 and GNU/Linux
- \b int and \b long \b int are the same size (32 bits) so the
- wxJSONTYPE_(U)LONG types are never returned and you can indifferently
- get the value as an \b int or as a \b long \b int.
+ Note that this function never returns the wxJSONTYPE_(U)INT constant
+ because the \b int data type may have the same width as SHORT or LONG
+ depending on the platform.
+ This does not mean that you cannot use \b int as the return value: if
+ you use \b wxWidgets to develop application in only one platform, you
+ can use \b int because you know the size of the data type.
+ Otherwise, if is preferable to always use \b long instead of \b int.
 
- \sa SetType
+ Also note that the class defines the \c IsInt() memberfunction which
+ works fine regardless the actual width of the \b int data type.
+ This function returns TRUE if the stored value fits in a \b int data
+ type whatever its size is on the current platform (16 or 32-bits).
+
+ \sa SetType IsInt
 */
 wxJSONType
 wxJSONValue::GetType() const
@@ -417,31 +440,29 @@ wxJSONValue::GetType() const
     // note that ints are stored as 'long' or as 'long long'
     switch ( type )  {
       case wxJSONTYPE_INT :
+        // check if the integer fits in a SHORT INT
         if ( data->m_value.VAL_INT >= SHORT_MIN && data->m_value.VAL_INT <= SHORT_MAX ) {
           type = wxJSONTYPE_SHORT;
         }
-        else if ( data->m_value.VAL_INT < INT_MIN || data->m_value.VAL_INT > INT_MAX ) {
+        // check if the value fits in LONG INT
+        else if ( data->m_value.VAL_INT >= LONG_MIN && data->m_value.VAL_INT <= LONG_MAX ) {
           type = wxJSONTYPE_LONG;
         }
-     #if defined( wxJSON_64BIT_INT )
-        else if ( data->m_value.VAL_INT < LONG_MIN || data->m_value.VAL_INT > LONG_MAX ) {
+        else {
           type = wxJSONTYPE_INT64;
         }
-     #endif
         break;
 
       case wxJSONTYPE_UINT :
         if ( data->m_value.VAL_UINT <= USHORT_MAX ) {
           type = wxJSONTYPE_USHORT;
         }
-        else if ( data->m_value.VAL_UINT > UINT_MAX ) {
+        else if ( data->m_value.VAL_UINT <= ULONG_MAX ) {
           type = wxJSONTYPE_ULONG;
         }
-     #if defined( wxJSON_64BIT_INT )
-        else if ( data->m_value.VAL_UINT > ULONG_MAX ) {
+        else  {
           type = wxJSONTYPE_UINT64;
         }
-     #endif
         break;
 
       default :
@@ -469,6 +490,7 @@ wxJSONValue::IsNull() const
 /*!
  The function returns TRUE if the wxJSONValue object was correctly
  initialized - that is it contains a valid value.
+ A JSON object is valid if its type is not equal to wxJSONTYPE_INVALID.
 */
 bool
 wxJSONValue::IsValid() const
@@ -484,7 +506,7 @@ wxJSONValue::IsValid() const
 //! Return TRUE if the type of the value stored is integer.
 /*!
  This function returns TRUE if the stored value is of
- type signed integer and the numeric value fits int a
+ type signed integer and the numeric value fits in a
  \b int data type.
  In other words, the function returns TRUE if the \c wxJSONRefData::m_type 
  data member is of type \c wxJSONTYPE_INT and:
@@ -493,6 +515,14 @@ wxJSONValue::IsValid() const
    INT_MIN <= m_value <= INT_MAX
  \endcode
 
+ Note that if you are developing cross-platform applications you should never
+ use \b int as the integer data type but \b long for 32-bits integers and
+ \b short for 16-bits integers.
+ This is because the \b int data type may have different width on different
+ platforms.
+ Regardless the widht of the data type (16 or 32 bits), the function returns
+ the correct result because it relies on the INT_MAX and INT_MIN macros.
+
  \sa \ref json_internals_integer
 */
 bool
@@ -500,8 +530,15 @@ wxJSONValue::IsInt() const
 {
   wxJSONType type = GetType();
   bool r = false;
-  if ( type == wxJSONTYPE_INT || type == wxJSONTYPE_SHORT )  {
+  // if the type is SHORT the value fits into an INT, too
+  if ( type == wxJSONTYPE_SHORT )  {
     r = true;
+  }
+  else if ( type == wxJSONTYPE_LONG )  {
+    // in case of LONG, check if the bit width is the same
+    if ( INT_MAX == LONG_MAX )  {
+      r = true;
+    }
   }
   return r;
 }
@@ -543,6 +580,15 @@ wxJSONValue::IsShort() const
    0 <= m_value <= UINT_MAX
  \endcode
 
+ Note that if you are developing cross-platform applications you should never
+ use \b unsigned \b int as the integer data type but \b unsigned \b long for
+ 32-bits integers and \b unsigned \b short for 16-bits integers.
+ This is because the \b unsigned \b int data type may have different width
+ on different platforms.
+ Regardless the widht of the data type (16 or 32 bits), the function returns
+ the correct result because it relies on the UINT_MAX macro.
+
+
  \sa \ref json_internals_integer
 */
 bool
@@ -550,8 +596,13 @@ wxJSONValue::IsUInt() const
 {
   wxJSONType type = GetType();
   bool r = false;
-  if ( type == wxJSONTYPE_UINT || type == wxJSONTYPE_USHORT )  {
+  if ( type == wxJSONTYPE_USHORT )  {
     r = true;
+  }
+  else if ( type == wxJSONTYPE_ULONG )  {
+    if ( INT_MAX == LONG_MAX )  {
+      r = true;
+    }
   }
   return r;
 }
@@ -601,7 +652,7 @@ wxJSONValue::IsLong() const
 {
   wxJSONType type = GetType();
   bool r = false;
-  if ( type == wxJSONTYPE_LONG || type == wxJSONTYPE_INT || type == wxJSONTYPE_SHORT )  {
+  if ( type == wxJSONTYPE_LONG || type == wxJSONTYPE_SHORT )  {
     r = true;
   }
   return r;
@@ -626,7 +677,7 @@ wxJSONValue::IsULong() const
 {
   wxJSONType type = GetType();
   bool r = false;
-  if ( type == wxJSONTYPE_ULONG || type == wxJSONTYPE_UINT || type == wxJSONTYPE_USHORT )  {
+  if ( type == wxJSONTYPE_ULONG || type == wxJSONTYPE_USHORT )  {
     r = true;
   }
   return r;
@@ -726,6 +777,7 @@ wxJSONValue::IsObject() const
  type of the stored value \c IsInt().
 
  \sa \ref json_internals_integer
+ \sa \ref wxjson_tutorial_get
 */
 int
 wxJSONValue::AsInt() const
@@ -746,6 +798,8 @@ wxJSONValue::AsInt() const
  of the wxJSONValueHolder union.
  However, in debug builds,  the function ASSERTs that the
  type of the stored value is wxJSONTYPE_BOOL.
+
+ \sa \ref wxjson_tutorial_get
 */
 bool
 wxJSONValue::AsBool() const
@@ -764,6 +818,8 @@ wxJSONValue::AsBool() const
  of the wxJSONValueHolder union as if it was a double.
  However, in debug builds,  the function ASSERTs that the
  type of the stored value \c IsDouble().
+
+ \sa \ref wxjson_tutorial_get
 */
 double
 wxJSONValue::AsDouble() const
@@ -786,9 +842,11 @@ wxJSONValue::AsDouble() const
  literal string \b true or \b false.
  If the value is a NULL value the \b null literal string is returned.
 
- If the value is of type wxJSONTYPE_INVALID, the literal string \b &lt;empty&gt;
+ If the value is of type wxJSONTYPE_INVALID, the literal string \b &lt;invalid&gt;
  is returned. Note that this is NOT a valid JSON text.
  If the value is an array or map, an empty string is returned.
+
+ \sa \ref wxjson_tutorial_get
 */
 wxString
 wxJSONValue::AsString() const
@@ -812,9 +870,9 @@ wxJSONValue::AsString() const
       break;
     case wxJSONTYPE_UINT :
 #if defined( wxJSON_64BIT_INT )
-      s.Printf( _T("+%") wxLongLongFmtSpec _T("u"), data->m_value.m_valUInt64 );
+      s.Printf( _T("%") wxLongLongFmtSpec _T("u"), data->m_value.m_valUInt64 );
 #else
-      s.Printf( _T("+%lu"), data->m_value.m_valULong );
+      s.Printf( _T("%lu"), data->m_value.m_valULong );
 #endif
       break;
     case wxJSONTYPE_DOUBLE :
@@ -854,7 +912,9 @@ wxJSONValue::AsString() const
  functions returned a NULL pointer also if the value is a wxString object
  (thanks to Robbie Groenewoudt).
 
- See also \ref json_internals_cstring
+ \sa \ref json_internals_cstring
+ \sa \ref wxjson_tutorial_get
+
 */
 const wxChar*
 wxJSONValue::AsCString() const
@@ -886,6 +946,7 @@ wxJSONValue::AsCString() const
  type of the stored value is wxJSONTYPE_UINT.
 
  \sa \ref json_internals_integer
+ \sa \ref wxjson_tutorial_get
 */
 unsigned int
 wxJSONValue::AsUInt() const
@@ -909,6 +970,7 @@ wxJSONValue::AsUInt() const
  type of the stored value \c IsLong().
 
  \sa \ref json_internals_integer
+ \sa \ref wxjson_tutorial_get
 */
 long int
 wxJSONValue::AsLong() const
@@ -932,6 +994,7 @@ wxJSONValue::AsLong() const
  type of the stored value \c IsLong().
 
  \sa \ref json_internals_integer
+ \sa \ref wxjson_tutorial_get
 */
 unsigned long int
 wxJSONValue::AsULong() const
@@ -955,6 +1018,7 @@ wxJSONValue::AsULong() const
  type of the stored value \c IsShort().
 
  \sa \ref json_internals_integer
+ \sa \ref wxjson_tutorial_get
 */
 short int
 wxJSONValue::AsShort() const
@@ -978,6 +1042,7 @@ wxJSONValue::AsShort() const
  type of the stored value \c IsUShort().
 
  \sa \ref json_internals_integer
+ \sa \ref wxjson_tutorial_get
 */
 unsigned short
 wxJSONValue::AsUShort() const
@@ -997,8 +1062,8 @@ wxJSONValue::AsUShort() const
 //! Return the stored value as a map object.
 /*!
  This function is for testing and debugging purposes and you shold never use it.
- To retreive values from an array or map JSON object use the \c Item()
- function or the subscript operator.
+ To retreive values from an array or map JSON object use the \c Item() or ItemAt()
+ memberfunctions or the subscript operator.
  If the stored value is not a map type, returns a NULL pointer.
 */
 const wxJSONInternalMap*
@@ -1017,8 +1082,8 @@ wxJSONValue::AsMap() const
 //! Return the stored value as an array object.
 /*!
  This function is for testing and debugging purposes and you shold never use it.
- To retreive values from an array or map JSON object use the \c Item()
- function or the subscript operator.
+ To retreive values from an array or map JSON object use the \c Item() or ItemAt()
+ memberfunctions or the subscript operator.
  If the stored value is not an array type, returns a NULL pointer.
 */
 const wxJSONInternalArray*
@@ -1063,7 +1128,7 @@ wxJSONValue::HasMember( const wxString& key ) const
   wxJSONRefData* data = GetRefData();
   wxJSON_ASSERT( data );
 
-  if ( data->m_type == wxJSONTYPE_OBJECT )  {
+  if ( data && data->m_type == wxJSONTYPE_OBJECT )  {
     wxJSONInternalMap::iterator it = data->m_valMap.find( key );
     if ( it != data->m_valMap.end() )  {
       r = true;
@@ -1133,7 +1198,8 @@ wxJSONValue::GetMemberNames() const
  The function appends the value specified in the parameter to the array
  contained in this object.
  If this object does not contain an array type, the actual content is
- deleted and a new array type is created.
+ deleted, a new array type is created and the JSON value \c value is
+ appended to the newly created array.
  Returns a reference to the appended object.
 */
 wxJSONValue&
@@ -1496,7 +1562,7 @@ wxJSONValue::operator [] ( const wxString& key )
 
 //! Assign the specified value to this object replacing the old value.
 /*!
- The function assigns to this object the value specified in the
+ The assignment operator assigns to this object the value specified in the
  right operand of the assignment operator.
  Note that the old value is deleted but not the other data members
  in the wxJSONRefData structure.
@@ -2744,6 +2810,8 @@ wxJSONValue::IsUInt64() const
  numeric value fits in a 32-bit integer.
  The function just calls AsLong() and casts the value in a wxInt32 data
  type
+
+ \sa \ref wxjson_tutorial_get
 */
 wxInt32
 wxJSONValue::AsInt32() const
@@ -2762,6 +2830,8 @@ wxJSONValue::AsInt32() const
  numeric value fits in a 32-bit integer.
  The function just calls AsULong() and casts the value in a wxUInt32 data
  type
+
+ \sa \ref wxjson_tutorial_get
 */
 wxUint32
 wxJSONValue::AsUInt32() const
@@ -2784,6 +2854,7 @@ wxJSONValue::AsUInt32() const
  type of the stored value is wxJSONTYPE_INT.
 
  \sa \ref json_internals_integer
+ \sa \ref wxjson_tutorial_get
 */
 wxInt64
 wxJSONValue::AsInt64() const
@@ -2808,6 +2879,7 @@ wxJSONValue::AsInt64() const
  type of the stored value is wxJSONTYPE_UINT.
 
  \sa \ref json_internals_integer
+ \sa \ref wxjson_tutorial_get
 */
 wxUint64
 wxJSONValue::AsUInt64() const

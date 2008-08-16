@@ -1178,7 +1178,7 @@ wxJSONReader::ReadString( wxJSONValue& val )
           s.Append( buffer[0], 1 );
         }
         else  {
-          snprintf( buffer, 10, _T("\\u%04X" ), ch );
+          ::wxSnprintf( buffer, 10, _T("\\u%04X" ), ch );
           s.Append( buffer );
         }
       #endif
@@ -1273,7 +1273,7 @@ wxJSONReader::ReadToken( int ch, wxString& s )
             s.Append( buffer[0], 1 );
           }
           else  {
-            snprintf( buffer, 10, _T("\\u%04x" ), ch );
+            ::wxSnprintf( buffer, 10, _T("\\u%04x" ), ch );
             s.Append( buffer );
           }
         #endif
@@ -1761,7 +1761,7 @@ wxJSONReader::AppendUnicodeSequence( wxString& s, int hex )
       s.append( 1, buffer[0] );
     }
     else  {
-      snprintf( buffer, 10, _T("\\u%04X"), hex );
+      ::wxSnprintf( buffer, 10, _T("\\u%04X"), hex );
       s.append( buffer );
       r = 1;
     }
