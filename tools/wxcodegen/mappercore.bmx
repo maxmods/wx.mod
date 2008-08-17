@@ -20,38 +20,45 @@
 ' 
 SuperStrict
 
-Import "fbpmapper.bmx"
-Import "pjdmapper.bmx"
-Import "wxgmapper.bmx"
+Import BaH.libxml
 
-Type TObjectFactory
+' the base object type
+Type TFBObject
 
-	Function ImportObject:TFBObject(filename:String, version:Float Var)
+	Field oType:Int
+
+	Field class:String
+	Field subclass:String
+	Field expanded:Int
+
+	Field properties:TMap = New TMap
+	Field events:TMap = New TMap
+	
+	Field objects:TList = New TList
+
+	Function ImportProject:TFBObject(filename:String, version:Float Var) Abstract
+
+	Method extractDetails(node:TxmlNode) Abstract
+	
+	Method Free()
+		properties.Clear()
+		events.Clear()
 		
-		If filename.EndsWith(".fbp") Then
-			Return TFBPObject.ImportProject(filename, version)
-		Else If filename.EndsWith(".pjd") Then
-			Return TPJDObject.ImportProject(filename, version)
-		Else If filename.EndsWith(".wxg") Then
-			Return TWXGObject.ImportProject(filename, version)
-		End If
+		For Local obj:TFBObject = EachIn objects
+			obj.Free()
+		Next
 		
-		Return Null		
-	End Function
+		objects.Clear()
+	End Method
 
 End Type
 
+Function NextProjectId:Int()
 
-Function NewObjectForType:TFBObject(oType:Int)
+	Global id:Int = 0
 
-	Select oType
-		Case PROJECT_TYPE_FBP
-			Return New TFBPObject
-		Case PROJECT_TYPE_PJD
-			Return New TPJDObject
-		Case PROJECT_TYPE_WXG
-			Return New TWXGObject
-	End Select
-
-	Return Null
+	id :+ 1
+	
+	Return id
+	
 End Function

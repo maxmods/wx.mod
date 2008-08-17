@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.09"
+Const AppVersion:String = "1.10"
 
 
 Global eventMap:TMap = New TMap
@@ -3357,7 +3357,7 @@ Type TFBStdDialogButtonSizer Extends TFBSizer
 	
 	Method makebutton:TFBButton(name:String)
 		Local but:TFBButton = New TFBButton
-		but.obj = New TFBObject
+		but.obj = NewObjectForType(obj.oType)
 		but.obj.properties.Insert("name", name)
 		Return but
 	End Method

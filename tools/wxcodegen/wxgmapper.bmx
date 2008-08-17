@@ -20,38 +20,24 @@
 ' 
 SuperStrict
 
-Import "fbpmapper.bmx"
-Import "pjdmapper.bmx"
-Import "wxgmapper.bmx"
+Import "mappercore.bmx"
 
-Type TObjectFactory
+Global PROJECT_TYPE_WXG:Int = NextProjectId()
 
-	Function ImportObject:TFBObject(filename:String, version:Float Var)
-		
-		If filename.EndsWith(".fbp") Then
-			Return TFBPObject.ImportProject(filename, version)
-		Else If filename.EndsWith(".pjd") Then
-			Return TPJDObject.ImportProject(filename, version)
-		Else If filename.EndsWith(".wxg") Then
-			Return TWXGObject.ImportProject(filename, version)
-		End If
-		
-		Return Null		
+Type TWXGObject Extends TFBObject
+
+	Method New()
+		oType = PROJECT_TYPE_WXG
+	End Method
+
+	Function ImportProject:TFBObject(filename:String, version:Float Var)
 	End Function
+
+	Method extractDetails(node:TxmlNode)
+	
+	
+	End Method
 
 End Type
 
 
-Function NewObjectForType:TFBObject(oType:Int)
-
-	Select oType
-		Case PROJECT_TYPE_FBP
-			Return New TFBPObject
-		Case PROJECT_TYPE_PJD
-			Return New TPJDObject
-		Case PROJECT_TYPE_WXG
-			Return New TWXGObject
-	End Select
-
-	Return Null
-End Function
