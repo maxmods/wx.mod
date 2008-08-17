@@ -44,6 +44,7 @@ class MaxDC;
 class MaxPaintDC;
 class MaxRect;
 class MaxAcceleratorTable;
+class MaxWindowDC;
 
 extern "C" {
 
@@ -462,7 +463,16 @@ private:
 	wxDC * dc;
 };
 
-class MaxPaintDC : public MaxDC
+class MaxWindowDC : public MaxDC
+{
+public:
+	MaxWindowDC();
+	MaxWindowDC(wxWindow * window);
+private:
+	wxWindowDC windowDC;
+};
+
+class MaxPaintDC : public MaxWindowDC
 {
 public:
 	MaxPaintDC(wxWindow * window);

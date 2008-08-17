@@ -472,6 +472,15 @@ MaxPaintDC::MaxPaintDC(wxWindow * window)
 	MaxDC::init(&paintDC);
 }
 
+MaxWindowDC::MaxWindowDC()
+{}
+
+MaxWindowDC::MaxWindowDC(wxWindow * window)
+	: windowDC(window)
+{
+	MaxDC::init(&windowDC);
+}
+
 MaxDC::MaxDC(wxDC * _dc)
 {
 	dc = _dc;
