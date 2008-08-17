@@ -9,6 +9,7 @@ Import wx.wxSystemOptions
 Import wx.wxStaticText
 Import wx.wxCheckBox
 Import wx.wxFlatNotebook
+Import wx.wxNotebook
 Import wx.wxStaticBitmap
 Import wx.wxLog
 Import wx.wxStdDialogButtonSizer
