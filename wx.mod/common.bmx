@@ -100,6 +100,7 @@ Import "-luuid"
 Import "-lrpcrt4"
 Import "-lwsock32"
 Import "-lodbc32"
+Import "-lgdiplus"
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
 Import "../include/*.h"
