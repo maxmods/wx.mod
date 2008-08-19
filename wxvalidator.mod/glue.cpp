@@ -28,4 +28,7 @@
 
 // *********************************************
 
+void bmx_wxvalidator_delete(wxValidator * validator) {
+	delete validator;
+}
 

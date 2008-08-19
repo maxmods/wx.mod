@@ -41,9 +41,9 @@ MaxSearchCtrl::~MaxSearchCtrl() {
 BEGIN_EVENT_TABLE(MaxSearchCtrl, wxSearchCtrl)
 END_EVENT_TABLE()
 
-MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, MaxTextValidator * validator) {
+MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, wxValidator * validator) {
 	if (validator) {
-		return new MaxSearchCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, validator->Validator());
+		return new MaxSearchCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, *validator);
 	} else {
 		return new MaxSearchCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, wxDefaultValidator);
 	}

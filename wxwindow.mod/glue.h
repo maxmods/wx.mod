@@ -375,6 +375,8 @@ extern "C" {
 	wxGBSizerItem * bmx_wxgridbagsizer_finditematpoint(wxGridBagSizer * gb, int x, int y);
 	wxGBSizerItem * bmx_wxgridbagsizer_finditematposition(wxGridBagSizer * gb, int row, int col);
 
+	void bmx_wxwindow_setvalidator(wxWindow * window, wxValidator * validator);
+
 	void bmx_wxsizer_addresourcehandler();
 
 }

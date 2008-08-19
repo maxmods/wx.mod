@@ -22,42 +22,26 @@
 
 #include "wxglue.h"
 #include "wx/valtext.h"
-#include "../wxvalidator.mod/glue.h"
 
 #ifndef _WX_MAX_TEXTVALIDATOR_H_
 #define _WX_MAX_TEXTVALIDATOR_H_
-
-class MaxTextValidator;
 
 extern "C" {
 
 #include <blitz.h>
 
-	MaxTextValidator * bmx_wxtextvalidator_create(long style);
-	wxWindow * bmx_wxtextvalidator_getwindow(MaxTextValidator * validator);
-	void bmx_wxtextvalidator_setwindow(MaxTextValidator * validator, wxWindow * window);
-	BBArray * bmx_wxtextvalidator_getexcludes(MaxTextValidator * validator);
-	BBArray *bmx_wxtextvalidator_getincludes(MaxTextValidator * validator);
-	long bmx_wxtextvalidator_getstyle(MaxTextValidator * validator);
-	void bmx_wxtextvalidator_setexcludes(MaxTextValidator * validator, BBArray * list);
-	void bmx_wxtextvalidator_setincludes(MaxTextValidator * validator, BBArray * list);
-	void bmx_wxtextvalidator_setstyle(MaxTextValidator * validator, long style);
-	void bmx_wxtextvalidator_delete(MaxTextValidator * validator);
+	wxTextValidator * bmx_wxtextvalidator_create(long style);
+	wxWindow * bmx_wxtextvalidator_getwindow(wxTextValidator * validator);
+	void bmx_wxtextvalidator_setwindow(wxTextValidator * validator, wxWindow * window);
+	BBArray * bmx_wxtextvalidator_getexcludes(wxTextValidator * validator);
+	BBArray *bmx_wxtextvalidator_getincludes(wxTextValidator * validator);
+	long bmx_wxtextvalidator_getstyle(wxTextValidator * validator);
+	void bmx_wxtextvalidator_setexcludes(wxTextValidator * validator, BBArray * list);
+	void bmx_wxtextvalidator_setincludes(wxTextValidator * validator, BBArray * list);
+	void bmx_wxtextvalidator_setstyle(wxTextValidator * validator, long style);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-class MaxTextValidator
-{
-public:
-	MaxTextValidator();
-	MaxTextValidator(const wxTextValidator & v);
-	wxTextValidator & Validator();
-
-protected:
-	wxTextValidator validator;
-
-};
 
 #endif // _WX_MAX_TEXTVALIDATOR_H_

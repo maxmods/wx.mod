@@ -951,6 +951,14 @@ void bmx_wxwindow_scrollwindowrect(wxWindow * window, int dx, int dy, MaxRect * 
 	}
 }
 
+void bmx_wxwindow_setvalidator(wxWindow * window, wxValidator * validator) {
+	if (validator) {
+		window->SetValidator(*validator);
+	} else {
+		window->SetValidator(wxDefaultValidator);
+	}
+}
+
 // *********************************************
 
 

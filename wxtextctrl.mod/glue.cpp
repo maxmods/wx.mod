@@ -89,9 +89,9 @@ BEGIN_EVENT_TABLE(MaxTextCtrl, wxTextCtrl)
 END_EVENT_TABLE()
 
 
-MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, MaxTextValidator * validator) {
+MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, wxValidator * validator) {
 	if (validator) {
-		return new MaxTextCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, validator->Validator());
+		return new MaxTextCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, *validator);
 	} else {
 		return new MaxTextCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, wxDefaultValidator);
 	}

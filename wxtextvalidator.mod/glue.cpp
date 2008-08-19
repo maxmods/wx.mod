@@ -24,61 +24,42 @@
 
 // ---------------------------------------------------------------------------------------
 
-MaxTextValidator::MaxTextValidator()
-{
-}
-
-MaxTextValidator::MaxTextValidator(const wxTextValidator & v)
-{
-	validator.Copy(v);
-}
-
-wxTextValidator & MaxTextValidator::Validator() {
-	return validator;
-}
-
-
 // *********************************************
 
-MaxTextValidator * bmx_wxtextvalidator_create(long style) {
-	wxTextValidator v(style);
-	return new MaxTextValidator(v);
+wxTextValidator * bmx_wxtextvalidator_create(long style) {
+	return new wxTextValidator(style);
 }
 
-wxWindow * bmx_wxtextvalidator_getwindow(MaxTextValidator * validator) {
-	return validator->Validator().GetWindow();
+wxWindow * bmx_wxtextvalidator_getwindow(wxTextValidator * validator) {
+	return validator->GetWindow();
 }
 
-void bmx_wxtextvalidator_setwindow(MaxTextValidator * validator, wxWindow * window) {
-	validator->Validator().SetWindow(window);
+void bmx_wxtextvalidator_setwindow(wxTextValidator * validator, wxWindow * window) {
+	validator->SetWindow(window);
 }
 
-BBArray * bmx_wxtextvalidator_getexcludes(MaxTextValidator * validator) {
-	return wxArrayStringToBBStringArray(validator->Validator().GetExcludes());
+BBArray * bmx_wxtextvalidator_getexcludes(wxTextValidator * validator) {
+	return wxArrayStringToBBStringArray(validator->GetExcludes());
 }
 
-BBArray *bmx_wxtextvalidator_getincludes(MaxTextValidator * validator) {
-	return wxArrayStringToBBStringArray(validator->Validator().GetIncludes());
+BBArray *bmx_wxtextvalidator_getincludes(wxTextValidator * validator) {
+	return wxArrayStringToBBStringArray(validator->GetIncludes());
 }
 
-long bmx_wxtextvalidator_getstyle(MaxTextValidator * validator) {
-	return validator->Validator().GetStyle();
+long bmx_wxtextvalidator_getstyle(wxTextValidator * validator) {
+	return validator->GetStyle();
 }
 
-void bmx_wxtextvalidator_setexcludes(MaxTextValidator * validator, BBArray * list) {
-	validator->Validator().SetExcludes(bbStringArrayTowxArrayStr(list));
+void bmx_wxtextvalidator_setexcludes(wxTextValidator * validator, BBArray * list) {
+	validator->SetExcludes(bbStringArrayTowxArrayStr(list));
 }
 
-void bmx_wxtextvalidator_setincludes(MaxTextValidator * validator, BBArray * list) {
-	validator->Validator().SetIncludes(bbStringArrayTowxArrayStr(list));
+void bmx_wxtextvalidator_setincludes(wxTextValidator * validator, BBArray * list) {
+	validator->SetIncludes(bbStringArrayTowxArrayStr(list));
 }
 
-void bmx_wxtextvalidator_setstyle(MaxTextValidator * validator, long style) {
-	validator->Validator().SetStyle(style);
-}
-
-void bmx_wxtextvalidator_delete(MaxTextValidator * validator) {
-	delete validator;
+void bmx_wxtextvalidator_setstyle(wxTextValidator * validator, long style) {
+	validator->SetStyle(style);
 }
 
 

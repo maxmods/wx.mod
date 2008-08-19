@@ -85,6 +85,7 @@ Type wxTextValidator Extends wxValidator
 	bbdoc: Creates a new text validator.
 	End Rem
 	Method Create:wxTextValidator(style:Int = wxFILTER_NONE)
+		owner = True
 		wxObjectPtr = bmx_wxtextvalidator_create(style)
 		Return Self
 	End Method
@@ -98,6 +99,7 @@ Type wxTextValidator Extends wxValidator
 
 	Rem
 	bbdoc: Associates a window with the validator.
+	about: Note, to set the validator on a window, you need to call window.SetValidator()
 	End Rem
 	Method SetWindow(window:wxWindow)
 		bmx_wxtextvalidator_setwindow(wxObjectPtr, window.wxObjectPtr)
@@ -143,13 +145,6 @@ Type wxTextValidator Extends wxValidator
 	End Rem
 	Method SetStyle(style:Int)
 		bmx_wxtextvalidator_setstyle(wxObjectPtr, style)
-	End Method
-	
-	Method Delete()
-		If wxObjectPtr Then
-			bmx_wxtextvalidator_delete(wxObjectPtr)
-			wxObjectPtr = Null
-		End If
 	End Method
 	
 End Type

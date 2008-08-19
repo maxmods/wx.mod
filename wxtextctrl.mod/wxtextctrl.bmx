@@ -179,6 +179,7 @@ Type wxTextCtrl Extends wxControl
 	End Rem
 	Method Create:wxTextCtrl(parent:wxWindow, id:Int, value:String = "", x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0, validator:wxValidator = Null)
 		If validator Then
+			_validator = validator
 			wxObjectPtr = bmx_wxtextctrl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style, validator.wxObjectPtr)
 		Else
 			wxObjectPtr = bmx_wxtextctrl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style, Null)

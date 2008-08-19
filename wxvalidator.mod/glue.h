@@ -23,25 +23,13 @@
 #include "wxglue.h"
 #include "wx/validate.h"
 
-class MaxValidator;
-
 extern "C" {
 
 #include <blitz.h>
 
+	void bmx_wxvalidator_delete(wxValidator * validator);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class MaxValidator
-{
-public:
-	MaxValidator();
-	MaxValidator(wxValidator & v);
-	wxValidator & Validator();
-
-protected:
-	wxValidator validator;
-
-};

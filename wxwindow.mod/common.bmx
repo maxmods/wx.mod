@@ -25,6 +25,7 @@ Import wx.wxDC
 Import wx.wxCursor
 Import wx.wxMenu
 Import wx.wxDropTarget
+Import wx.wxValidator
 Import BRL.Blitz
 
 
@@ -365,6 +366,8 @@ Extern
 	Function bmx_wxgridbagsizer_finditemsizer:Byte Ptr(handle:Byte Ptr, sizer:Byte Ptr)
 	Function bmx_wxgridbagsizer_finditematpoint:Byte Ptr(handle:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxgridbagsizer_finditematposition:Byte Ptr(handle:Byte Ptr, row:Int, col:Int)
+
+	Function bmx_wxwindow_setvalidator(handle:Byte Ptr, validator:Byte Ptr)
 
 	Function bmx_wxsizer_addresourcehandler()
 

@@ -131,6 +131,9 @@ End Rem
 Type wxWindow Extends wxEvtHandler
 
 	Field _data:Object
+	
+	' our reference to the validator, if any.
+	Field _validator:wxValidator
 
 	Rem
 	bbdoc: Constructs a window, which can be a child of a frame, dialog or any other non-control window.
@@ -1659,10 +1662,17 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Deletes the current validator (if any) and sets the window validator.
+	about: Pass Null to set the default validator.
 	End Rem
-	Method SetValidator()
-		' TODO
+	Method SetValidator(validator:wxValidator)
+		' keep our own reference to the validator. (so you don't have to!)
+		_validator = validator
+		If validator Then
+			bmx_wxwindow_setvalidator(wxObjectPtr, validator.wxObjectPtr)
+		Else
+			bmx_wxwindow_setvalidator(wxObjectPtr, Null)
+		End If
 	End Method
 	
 	Rem

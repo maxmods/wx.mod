@@ -44,4 +44,6 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxvalidator_delete(handle:Byte Ptr)
+
 End Extern

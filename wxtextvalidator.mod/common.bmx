@@ -53,7 +53,6 @@ Extern
 	Function bmx_wxtextvalidator_setexcludes(handle:Byte Ptr, list:String[])
 	Function bmx_wxtextvalidator_setincludes(handle:Byte Ptr, list:String[])
 	Function bmx_wxtextvalidator_setstyle(handle:Byte Ptr, style:Int)
-	Function bmx_wxtextvalidator_delete(handle:Byte Ptr)
 
 End Extern
 

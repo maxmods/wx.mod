@@ -55,8 +55,19 @@ bbdoc:
 End Rem
 Type wxValidator Extends wxEvtHandler
 
+	Field owner:Int
+
 	Function SetBellOnError(doIt:Int = True)
 	End Function
+	
+	Method Delete()
+		If wxObjectPtr Then
+			If owner Then
+				bmx_wxvalidator_delete(wxObjectPtr)
+			End If
+			wxObjectPtr = Null
+		End If
+	End Method
 	
 End Type
 
