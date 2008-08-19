@@ -51,6 +51,8 @@ Extern
 	Function bmx_wxhelpprovider_addhelpid(handle:Byte Ptr, windowId:Int, text:String)
 	Function bmx_wxhelpprovider_gethelp:String(handle:Byte Ptr, window:Byte Ptr)
 	Function bmx_wxhelpprovider_removehelp(handle:Byte Ptr, window:Byte Ptr)
+	Function bmx_wxhelpprovider_showhelp:Int(handle:Byte Ptr, window:Byte Ptr)
+	Function bmx_wxhelpprovider_showhelpatpoint:Int(handle:Byte Ptr, window:Byte Ptr, x:Int, y:Int, origin:Int)
 	
 	Function bmx_wxsimplehelpprovider_create:Byte Ptr()
 

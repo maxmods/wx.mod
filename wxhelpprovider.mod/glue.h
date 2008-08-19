@@ -34,7 +34,9 @@ extern "C" {
 	void bmx_wxhelpprovider_addhelpid(wxHelpProvider * provider, wxWindowID windowId, BBString * text);
 	BBString * bmx_wxhelpprovider_gethelp(wxHelpProvider * provider, wxWindow * window);
 	void bmx_wxhelpprovider_removehelp(wxHelpProvider * provider, wxWindow * window);
-	
+	bool bmx_wxhelpprovider_showhelp(wxHelpProvider * provider, wxWindow * window);
+	bool bmx_wxhelpprovider_showhelpatpoint(wxHelpProvider * provider, wxWindow * window, int x, int y, wxHelpEvent::Origin origin);
+
 	wxSimpleHelpProvider * bmx_wxsimplehelpprovider_create();
 
 }

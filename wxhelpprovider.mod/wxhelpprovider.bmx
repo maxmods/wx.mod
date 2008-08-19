@@ -129,6 +129,20 @@ Type wxHelpProvider
 		bmx_wxhelpprovider_removehelp(wxObjectPtr, window.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Shows help for the given window.
+	End Rem
+	Method ShowHelp:Int(window:wxWindow)
+		Return bmx_wxhelpprovider_showhelp(wxObjectPtr, window.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ShowHelpAtPoint:Int(window:wxWindow, x:Int, y:Int, origin:Int = 0)
+		Return bmx_wxhelpprovider_showhelpatpoint(wxObjectPtr, window.wxObjectPtr, x, y, origin)
+	End Method
+	
 	Method Delete()
 		If wxObjectPtr Then
 			bmx_wxhelpprovider_free(wxObjectPtr)

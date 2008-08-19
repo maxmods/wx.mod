@@ -57,6 +57,14 @@ void bmx_wxhelpprovider_removehelp(wxHelpProvider * provider, wxWindow * window)
 	provider->RemoveHelp(window);
 }
 
+bool bmx_wxhelpprovider_showhelp(wxHelpProvider * provider, wxWindow * window) {
+	return provider->ShowHelp(window);
+}
+
+bool bmx_wxhelpprovider_showhelpatpoint(wxHelpProvider * provider, wxWindow * window, int x, int y, wxHelpEvent::Origin origin) {
+	return provider->ShowHelpAtPoint(window, wxPoint(x, y), origin);
+}
+
 // *********************************************
 
 wxSimpleHelpProvider * bmx_wxsimplehelpprovider_create()  {
