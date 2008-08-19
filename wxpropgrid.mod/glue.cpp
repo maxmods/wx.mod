@@ -31,8 +31,15 @@ MaxPropertyGrid::MaxPropertyGrid(BBObject * handle, wxWindow * parent, wxWindowI
 	wxbind(this, handle);
 }
 
+MaxPropertyGrid::MaxPropertyGrid()
+{}
+
 MaxPropertyGrid::~MaxPropertyGrid() {
 	wxunbind(this);
+}
+
+void MaxPropertyGrid::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
 }
 
 MaxPGPropArg::MaxPGPropArg(wxPGPropArg p)
@@ -254,6 +261,224 @@ MaxColourProperty::MaxColourProperty(BBObject * handle, const wxString &label, c
 }
 MaxColourProperty::~MaxColourProperty() {
 	wxunbind(this);
+}
+
+// ---------------------------------------------------------------------------------------
+
+#if wxCHECK_VERSION(2,9,0)
+    #define wxXML_GetAttribute(A,B,C)   (A->GetAttribute(B,C))
+#else
+    #define wxXML_GetAttribute(A,B,C)   (A->GetPropVal(B,C))
+#endif
+
+
+IMPLEMENT_DYNAMIC_CLASS(MaxPropertyGridXmlHandler, wxPropertyGridXmlHandler)
+
+MaxPropertyGridXmlHandler:: MaxPropertyGridXmlHandler()
+	: wxPropertyGridXmlHandler(), m_populator(NULL), m_manager(NULL)
+{}
+
+
+wxObject * MaxPropertyGridXmlHandler::DoCreateResource()
+{
+    const wxXmlNode* node = m_node;
+    wxString nodeName = node->GetName();
+    wxString emptyString;
+
+    if ( nodeName == wxT("property") )
+    {
+        // property
+        wxString clas = wxXML_GetAttribute(node, wxT("class"), emptyString);
+
+        wxString label;
+        wxString sLabel(wxT("label"));
+        if ( HasParam(sLabel) )
+            label = GetText(sLabel);
+
+        wxString name;
+        wxString sName(wxT("name"));
+        if ( HasParam(sName) )
+            label = GetText(sName);
+        else
+            name = label;
+
+        wxString sValue(wxT("value"));
+        wxString value;
+        wxString* pValue = NULL;
+        if ( HasParam(sValue) )
+        {
+            value = GetText(sValue);
+            pValue = &value;
+        }
+
+        wxXmlNode* choicesNode = GetParamNode(wxT("choices"));
+        wxPGChoices choices;
+        if ( choicesNode )
+        {
+            choices = m_populator->ParseChoices( choicesNode->GetNodeContent(),
+                                                 wxXML_GetAttribute(choicesNode, wxT("id"), emptyString));
+        }
+
+        wxPGProperty* property = m_populator->Add( clas, label, name, pValue, &choices );
+
+        if ( !property )
+            return NULL;
+
+        wxString sFlags(wxT("flags"));
+        wxString flags;
+        if ( HasParam(sFlags) )
+            property->SetFlagsFromString( GetText(sFlags) );
+
+        wxString sTip(wxT("tip"));
+        if ( HasParam(sTip) )
+            property->SetHelpString(GetText(sTip));
+
+        if ( property->GetChildCount() )
+        {
+            wxPGPropertyWithChildren* pwc = (wxPGPropertyWithChildren*) property;
+
+            // FIXME
+            wxString sExpanded(wxT("expanded"));
+            if ( HasParam(sExpanded) )
+                pwc->SetExpanded(GetBool(sExpanded));
+        }
+
+        // Need to call AddChildren even for non-parent properties for attributes and such
+        m_populator->AddChildren(property);
+    }
+    else if ( nodeName == wxT("attribute") )
+    {
+        // attribute
+        wxString s1 = wxXML_GetAttribute(node, wxT("name"), emptyString);
+        if ( s1.length() )
+        {
+            m_populator->AddAttribute( s1, wxXML_GetAttribute(node, wxT("type"), emptyString),
+                                       node->GetNodeContent() );
+        }
+    }
+    else if( m_class == wxT("wxPropertyGrid"))
+    {
+        XRC_MAKE_INSTANCE(control, MaxPropertyGrid)
+
+        control->Create(m_parentAsWindow,
+                        GetID(),
+                        GetPosition(), GetSize(),
+                        GetStyle(),
+                        GetName());
+
+
+		control->MaxBind(_wx_wxpropgrid_wxPropertyGrid__xrcNew(control));
+
+        m_pg = control;
+        HandlePropertyGridParams();
+
+        InitPopulator();
+        PopulatePage(control->GetState());
+        DonePopulator();
+
+        SetupWindow(control);
+
+        return control;
+    }
+    else if ( nodeName == wxT("choices") )
+    {
+        // choices
+
+        //
+        // Add choices list outside of a property
+        m_populator->ParseChoices( node->GetNodeContent(),
+                                   wxXML_GetAttribute(node, wxT("id"), emptyString));
+    }
+    else if ( nodeName == wxT("splitterpos") )
+    {
+        // splitterpos
+        wxASSERT(m_populator);
+        wxString sIndex = wxXML_GetAttribute(node, wxT("index"), emptyString);
+
+        long index;
+        if ( !sIndex.ToLong(&index, 10) )
+            index = 0;
+
+        wxString s = node->GetNodeContent();
+        long pos;
+        if ( wxPropertyGridPopulator::ToLongPCT(s, &pos, m_pg->GetClientSize().x) )
+            m_populator->GetState()->DoSetSplitterPosition( pos, index, false );
+    }
+#if wxPG_INCLUDE_MANAGER
+    else if ( nodeName == wxT("page") )
+    {
+        // page
+        wxASSERT(m_manager);
+
+        wxString label;
+        wxString sLabel(wxT("label"));
+        if ( HasParam(sLabel) )
+            label = GetText(sLabel);
+        else
+            label = wxString::Format(_("Page %i"),(int)(m_manager->GetPageCount()+1));
+
+        m_manager->AddPage(label);
+        wxPropertyGridState* state = m_manager->GetPage(m_manager->GetPageCount()-1);
+        PopulatePage(state);
+    }
+    else if( m_class == wxT("wxPropertyGridManager"))
+    {
+        XRC_MAKE_INSTANCE(control, wxPropertyGridManager)
+
+        control->Create(m_parentAsWindow,
+                        GetID(),
+                        GetPosition(), GetSize(),
+                        GetStyle(),
+                        GetName());
+
+        wxPropertyGridManager* oldManager = m_manager;
+        m_manager = control;
+        m_pg = control->GetGrid();
+        HandlePropertyGridParams();
+
+        InitPopulator();
+        CreateChildrenPrivately(control, NULL);
+        DonePopulator();
+
+        m_manager = oldManager;
+        SetupWindow(control);
+
+        return control;
+    }
+#endif
+    else
+    {
+        wxASSERT( false );
+    }
+
+    return NULL;
+}
+
+bool MaxPropertyGridXmlHandler::CanHandle(wxXmlNode *node)
+{
+#if wxCHECK_VERSION(2,7,0)
+    #define fOurClass(A) IsOfClass(node, A)
+#else
+    #define fOurClass(A) (wxXML_GetAttribute(node, wxT("class"), wxEmptyString) == A)
+#endif
+
+    wxString name = node->GetName();
+
+    return (
+            (
+             m_populator && ( name == wxT("property") ||
+                              name == wxT("attribute") ||
+                              name == wxT("choices") ||
+                              name == wxT("splitterpos")
+                            )
+            ) ||
+            (m_manager && name == wxT("page")) ||
+            (!m_populator && fOurClass(wxT("wxPropertyGrid")))
+#if wxPG_INCLUDE_MANAGER
+            ||
+            (!m_populator && fOurClass(wxT("wxPropertyGridManager")))
+#endif
+           );
 }
 
 
@@ -1889,3 +2114,8 @@ int bmx_wxpropertygrid_geteventtype(int type) {
 
 }
 
+// *********************************************
+
+void bmx_wxpropertygrid_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxPropertyGridXmlHandler);
+}

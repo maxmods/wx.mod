@@ -22,12 +22,15 @@
 
 #include "wxglue.h"
 #include "wx/hyperlink.h"
+#include "wx/xrc/xh_hyperlink.h"
 
 class MaxHyperlinkCtrl;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxhyperlinkctrl_wxHyperlinkCtrl__xrcNew(wxHyperlinkCtrl * hlink);
 
 	MaxHyperlinkCtrl * bmx_wxhyperlinkctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id,
 		BBString * label, BBString * url, int x, int y, int w, int h, long style);
@@ -47,6 +50,8 @@ extern "C" {
 	void bmx_wxhyperlinkevent_seturl(wxHyperlinkEvent & event, BBString * url);
 
 	int bmx_wxhyperlinkctrl_geteventtype(int type);
+
+	void bmx_wxhyperlinkctrl_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -56,9 +61,23 @@ class MaxHyperlinkCtrl : public wxHyperlinkCtrl
 public:
 	MaxHyperlinkCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label,
 		const wxString& url, int x, int y, int w, int h, long style);
+	MaxHyperlinkCtrl();
 	~MaxHyperlinkCtrl();
+
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxHyperlinkCtrlXmlHandler : public wxHyperlinkCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxHyperlinkCtrlXmlHandler)
+
+public:
+    MaxHyperlinkCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
 };

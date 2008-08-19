@@ -31,11 +31,41 @@ MaxHyperlinkCtrl::MaxHyperlinkCtrl(BBObject * handle, wxWindow * parent, wxWindo
 	wxbind(this, handle);
 }
 
+MaxHyperlinkCtrl::MaxHyperlinkCtrl()
+{}
+
 MaxHyperlinkCtrl::~MaxHyperlinkCtrl() {
 	wxunbind(this);
 }
 
+void MaxHyperlinkCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
 
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxHyperlinkCtrlXmlHandler, wxHyperlinkCtrlXmlHandler)
+
+MaxHyperlinkCtrlXmlHandler::MaxHyperlinkCtrlXmlHandler()
+	: wxHyperlinkCtrlXmlHandler()
+{}
+
+wxObject * MaxHyperlinkCtrlXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(control, MaxHyperlinkCtrl)
+
+    control->Create(m_parentAsWindow, GetID(),
+        GetParamValue(wxT("label")), GetParamValue(wxT("url")),
+        GetPosition(), GetSize(),
+        GetStyle(wxT("style"), wxHL_DEFAULT_STYLE),
+        GetName());
+
+	control->MaxBind(_wx_wxhyperlinkctrl_wxHyperlinkCtrl__xrcNew(control));
+
+    SetupWindow(control);
+
+    return control;
+}
 
 // *********************************************
 
@@ -108,3 +138,8 @@ int bmx_wxhyperlinkctrl_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxhyperlinkctrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxHyperlinkCtrlXmlHandler);
+}

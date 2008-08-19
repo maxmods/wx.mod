@@ -62,6 +62,18 @@ to customize appearance of the hyperlink.
 End Rem
 Type wxHyperlinkCtrl Extends wxControl
 
+	Function _create:wxHyperlinkCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxHyperlinkCtrl = New wxHyperlinkCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxHyperlinkCtrl(wxObjectPtr:Byte Ptr)
+		Return wxHyperlinkCtrl._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor.
 	End Rem
@@ -202,3 +214,13 @@ Type THyperlinkEventFactory Extends TEventFactory
 End Type
 
 New THyperlinkEventFactory
+
+Type THyperlinkCtrlResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxhyperlinkctrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New THyperlinkCtrlResourceFactory

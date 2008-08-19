@@ -60,6 +60,7 @@ Extern
 
 	Function bmx_wxhyperlinkctrl_geteventtype:Int(evt:Int)
 
+	Function bmx_wxhyperlinkctrl_addresourcehandler()
 End Extern
 
 

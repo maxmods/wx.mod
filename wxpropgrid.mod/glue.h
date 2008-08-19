@@ -25,6 +25,7 @@
 #include "wx/propgrid/advprops.h"
 #include "../wxdatetime.mod/glue.h"
 #include "../wxbitmap.mod/glue.h"
+#include "wx/propgrid/xh_propgrid.h"
 
 class MaxPropertyGrid;
 class MaxPGPropArg;
@@ -53,6 +54,7 @@ extern "C" {
 	BBArray * _wx_wxpropgrid_wxPropertyGrid__newPropertiesArray(int size);
 	void _wx_wxpropgrid_wxPropertyGrid__addProperty(BBArray * props, int i, wxPGProperty * prop);
 	wxPGProperty * _wx_wxpropgrid_wxPropertyGrid__getProperty(BBArray * props, int i);
+	BBObject * _wx_wxpropgrid_wxPropertyGrid__xrcNew(wxPropertyGrid * grid);
 
 	wxPropertyGrid * bmx_wxpropertygrid_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	wxPGProperty * bmx_wxpropertycontainermethods_append(wxPropertyContainerMethods * prop, wxPGProperty * property);
@@ -435,6 +437,8 @@ extern "C" {
 	bool bmx_wxpropertygrid_commitchangesfromeditor(wxPropertyGrid * grid, int flags);
 	bool bmx_wxpropertygrid_selectproperty(wxPropertyGrid * grid, wxPGProperty * prop, bool focus);
 
+	void bmx_wxpropertygrid_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -455,7 +459,10 @@ class MaxPropertyGrid : public wxPropertyGrid
 {
 public:
 	MaxPropertyGrid(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxPropertyGrid();
 	~ MaxPropertyGrid();
+	
+	void MaxBind(BBObject * handle);
 	
 private:
     DECLARE_EVENT_TABLE();
@@ -629,3 +636,19 @@ public:
 	~MaxMultiChoiceProperty();
 };
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxPropertyGridXmlHandler : public wxPropertyGridXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxPropertyGridXmlHandler)
+
+public:
+    MaxPropertyGridXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+
+    wxPropertyGridManager*      m_manager;
+    wxPropertyGrid*             m_pg;
+    wxPropertyGridPopulator*    m_populator;
+};

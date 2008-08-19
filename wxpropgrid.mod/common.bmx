@@ -50,6 +50,7 @@ Import "src/manager.cpp"
 Import "src/odcombo.cpp"
 Import "src/propgrid.cpp"
 Import "src/props.cpp"
+Import "src/xh_propgrid.cpp"
 
 Import "glue.cpp"
 
@@ -432,6 +433,8 @@ Extern
 	Function bmx_wxdateproperty_setdatevalue(handle:Byte Ptr, dt:Byte Ptr)
 	Function bmx_wxdateproperty_setformat(handle:Byte Ptr, format:String)
 
+	Function bmx_wxpropertygrid_addresourcehandler()
+	
 End Extern
 
 Const INT_MAX:Int = 2147483647

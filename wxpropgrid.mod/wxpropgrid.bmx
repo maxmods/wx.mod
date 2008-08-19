@@ -999,6 +999,10 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Function
 
+	Function _xrcNew:wxPropertyGrid(wxObjectPtr:Byte Ptr)
+		Return wxPropertyGrid._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -4055,3 +4059,14 @@ Type TPropertyGridEventFactory Extends TEventFactory
 End Type
 
 New TPropertyGridEventFactory
+
+
+Type TPropertyGridResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxpropertygrid_addresourcehandler()
+	End Method
+		
+End Type
+
+New TPropertyGridResourceFactory
