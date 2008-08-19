@@ -69,15 +69,22 @@ Type wxHelpProvider
 	End Function
 
 	Rem
-	bbdoc: 
+	bbdoc: Get/set the current, application-wide help provider.
+	returns: The previous one.
 	End Rem
 	Function Set:wxHelpProvider(helpProvider:wxHelpProvider)
+		Local prov:wxHelpProvider = currentHelpProvider
 		currentHelpProvider = helpProvider
-		Return _create(bmx_wxhelpprovider_set(helpProvider.wxObjectPtr))
+		If prov Then
+			Return prov
+		Else
+			Return _create(bmx_wxhelpprovider_set(helpProvider.wxObjectPtr))
+		End If
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Unlike some other types, the help provider is not created on demand.
+	about: This must be explicitly done by the application.
 	End Rem
 	Function Get:wxHelpProvider()
 		If Not currentHelpProvider Then
@@ -88,21 +95,27 @@ Type wxHelpProvider
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Associates the text with the given window.
+	about: Although all help providers have these method to allow making wxWindow::SetHelpText work, not all of them
+	implement the methods.
 	End Rem
 	Method AddHelp(window:wxWindow, text:String)
 		bmx_wxhelpprovider_addhelp(wxObjectPtr, Window.wxObjectPtr, text)
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Associates the text with the given window id.
+	about: Although all help providers have these method to allow making wxWindow::SetHelpText work, not all of them
+	implement the methods.
 	End Rem
 	Method AddHelpId(windowId:Int, text:String)
 		bmx_wxhelpprovider_addhelpid(wxObjectPtr, windowId, text)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the help string for this window.
+	about: Its interpretation is dependent on the help provider except that empty string always means that no help
+	is associated with the window.
 	End Rem
 	Method GetHelp:String(window:wxWindow)
 		Return bmx_wxhelpprovider_gethelp(wxObjectPtr, window.wxObjectPtr)
