@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxValidator
+Import wx.wxWindow
 Import BRL.Blitz
 
 
