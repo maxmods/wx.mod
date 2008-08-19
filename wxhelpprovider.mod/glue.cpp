@@ -33,3 +33,33 @@ void bmx_wxhelpprovider_free(wxHelpProvider * provider) {
 	delete provider;
 }
 
+wxHelpProvider * bmx_wxhelpprovider_set(wxHelpProvider * helpProvider) {
+	return wxHelpProvider::Set(helpProvider);
+}
+
+wxHelpProvider * bmx_wxhelpprovider_get() {
+	return wxHelpProvider::Get();
+}
+
+void bmx_wxhelpprovider_addhelp(wxHelpProvider * provider, wxWindow * window, BBString * text) {
+	provider->AddHelp(window, wxStringFromBBString(text));
+}
+
+void bmx_wxhelpprovider_addhelpid(wxHelpProvider * provider, wxWindowID windowId, BBString * text) {
+	provider->AddHelp(windowId, wxStringFromBBString(text));
+}
+
+BBString * bmx_wxhelpprovider_gethelp(wxHelpProvider * provider, wxWindow * window) {
+	return bbStringFromWxString(provider->GetHelp(window));
+}
+
+void bmx_wxhelpprovider_removehelp(wxHelpProvider * provider, wxWindow * window) {
+	provider->RemoveHelp(window);
+}
+
+// *********************************************
+
+wxSimpleHelpProvider * bmx_wxsimplehelpprovider_create()  {
+	return new wxSimpleHelpProvider();
+}
+

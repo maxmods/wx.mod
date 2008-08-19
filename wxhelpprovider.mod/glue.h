@@ -23,13 +23,19 @@
 #include "wxglue.h"
 #include "wx/cshelp.h"
 
-//class MaxNotebook;
-
 extern "C" {
 
 #include <blitz.h>
 
 	void bmx_wxhelpprovider_free(wxHelpProvider * provider);
+	wxHelpProvider * bmx_wxhelpprovider_set(wxHelpProvider * helpProvider);
+	wxHelpProvider * bmx_wxhelpprovider_get();
+	void bmx_wxhelpprovider_addhelp(wxHelpProvider * provider, wxWindow * window, BBString * text);
+	void bmx_wxhelpprovider_addhelpid(wxHelpProvider * provider, wxWindowID windowId, BBString * text);
+	BBString * bmx_wxhelpprovider_gethelp(wxHelpProvider * provider, wxWindow * window);
+	void bmx_wxhelpprovider_removehelp(wxHelpProvider * provider, wxWindow * window);
+	
+	wxSimpleHelpProvider * bmx_wxsimplehelpprovider_create();
 
 }
 

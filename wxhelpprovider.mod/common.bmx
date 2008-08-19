@@ -45,5 +45,13 @@ Import "glue.cpp"
 Extern
 
 	Function bmx_wxhelpprovider_free(handle:Byte Ptr)
+	Function bmx_wxhelpprovider_set:Byte Ptr(helpProvider:Byte Ptr)
+	Function bmx_wxhelpprovider_get:Byte Ptr()
+	Function bmx_wxhelpprovider_addhelp(handle:Byte Ptr, window:Byte Ptr, text:String)
+	Function bmx_wxhelpprovider_addhelpid(handle:Byte Ptr, windowId:Int, text:String)
+	Function bmx_wxhelpprovider_gethelp:String(handle:Byte Ptr, window:Byte Ptr)
+	Function bmx_wxhelpprovider_removehelp(handle:Byte Ptr, window:Byte Ptr)
+	
+	Function bmx_wxsimplehelpprovider_create:Byte Ptr()
 
 End Extern
