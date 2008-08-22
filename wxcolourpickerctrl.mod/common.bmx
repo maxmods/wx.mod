@@ -54,6 +54,8 @@ Extern
 
 	Function bmx_wxcolourpickerctrl_geteventtype:Int(evt:Int)
 
+	Function bmx_wxcolourpickerctrl_addresourcehandler()
+	
 End Extern
 
 Const wxCLRP_USE_TEXTCTRL:Int = wxPB_USE_TEXTCTRL

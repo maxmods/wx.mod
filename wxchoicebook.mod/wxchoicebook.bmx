@@ -51,9 +51,30 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 Import "common.bmx"
 
 Rem
-bbdoc: 
+bbdoc: wxChoicebook is a type similar to wxNotebook but which uses a wxChoice to show the labels instead of the tabs.
+about: <b>Styles</b>
+<table width="90%" align="center">
+<tr><th>Constant</th><th>Description</th></tr>
+<tr><td> wxCHB_DEFAULT </td><td>Choose the default location for the labels depending on the current platform (left everywhere except Mac where it is top).</td></tr>
+<tr><td> wxCHB_TOP </td><td>Place labels above the page area.</td></tr>
+<tr><td> wxCHB_LEFT </td><td>Place labels on the left side.</td></tr>
+<tr><td> wxCHB_RIGHT </td><td>Place labels on the right side.</td></tr>
+<tr><td> wxCHB_BOTTOM </td><td>Place labels below the page area.</td></tr>
+</table>
 End Rem
 Type wxChoicebook Extends wxBookCtrlBase
+
+	Function _create:wxChoicebook(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxChoicebook = New wxChoicebook
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxChoicebook(wxObjectPtr:Byte Ptr)
+		Return wxChoicebook._create(wxObjectPtr)
+	End Function
 
 	Rem
 	bbdoc: 
@@ -109,7 +130,7 @@ Type wxChoicebookEvent Extends wxBookCtrlEvent
 	
 End Type
 
-Type TChoiceBookEventFactory Extends TEventFactory
+Type TChoicebookEventFactory Extends TEventFactory
 
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
@@ -132,4 +153,14 @@ Type TChoiceBookEventFactory Extends TEventFactory
 
 End Type
 
-New TChoiceBookEventFactory
+New TChoicebookEventFactory
+
+Type TChoicebookResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxchoicebook_addresourcehandler()
+	End Method
+		
+End Type
+
+New TChoicebookResourceFactory

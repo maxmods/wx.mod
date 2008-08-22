@@ -89,6 +89,18 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 End Rem
 Type wxComboBox Extends wxControlWithItems
 
+	Function _create:wxComboBox(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxComboBox = New wxComboBox
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxComboBox(wxObjectPtr:Byte Ptr)
+		Return wxComboBox._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -293,4 +305,13 @@ End Type
 
 New TComboEventFactory
 
+Type TComboBoxResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxcombobox_addresourcehandler()
+	End Method
+		
+End Type
+
+New TComboBoxResourceFactory
 

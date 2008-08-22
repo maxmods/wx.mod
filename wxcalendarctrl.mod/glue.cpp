@@ -31,11 +31,45 @@ MaxCalendarCtrl::MaxCalendarCtrl(BBObject * handle, wxWindow * parent, wxWindowI
 	wxbind(this, handle);
 }
 
+MaxCalendarCtrl::MaxCalendarCtrl()
+{}
+
 MaxCalendarCtrl::~MaxCalendarCtrl() {
 	wxunbind(this);
 }
 
+void MaxCalendarCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
 
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxCalendarCtrlXmlHandler, wxCalendarCtrlXmlHandler)
+
+MaxCalendarCtrlXmlHandler::MaxCalendarCtrlXmlHandler()
+	: wxCalendarCtrlXmlHandler()
+{}
+
+
+wxObject * MaxCalendarCtrlXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(calendar, MaxCalendarCtrl);
+
+    calendar->Create(m_parentAsWindow,
+                     GetID(),
+                     wxDefaultDateTime,
+                     /*TODO: take it from resource*/
+                     GetPosition(), GetSize(),
+                     GetStyle(),
+                     GetName());
+
+ 	calendar->MaxBind(_wx_wxcalendarctrl_wxCalendarCtrl__xrcNew(calendar));
+
+   SetupWindow(calendar);
+
+    return calendar;
+
+}
 
 // *********************************************
 
@@ -250,3 +284,8 @@ int bmx_wxcalendarctrl_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxcalendarctrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxCalendarCtrlXmlHandler);
+}

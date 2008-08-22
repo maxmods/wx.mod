@@ -22,6 +22,8 @@
 
 #include "wxglue.h"
 #include "wx/choicebk.h"
+#include "wx/xrc/xh_choicbk.h"
+#include "wx/imaglist.h"
 
 class MaxChoicebook;
 
@@ -29,9 +31,12 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxchoicebook_wxChoicebook__xrcNew(wxChoicebook * choice);
+
 	MaxChoicebook * bmx_wxchoicebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	wxChoice * bmx_wxchoicebook_getchoicectrl(wxChoicebook * book);
 
+	void bmx_wxchoicebook_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -40,5 +45,23 @@ class MaxChoicebook : public wxChoicebook
 {
 public:
 	MaxChoicebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxChoicebook();
 	~ MaxChoicebook();
+
+	void MaxBind(BBObject * handle);
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxChoicebookXmlHandler : public wxChoicebookXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxChoicebookXmlHandler)
+
+public:
+    MaxChoicebookXmlHandler();
+    virtual wxObject *DoCreateResource();
+	virtual bool CanHandle(wxXmlNode *node);
+	
+    bool m_isInside;
+    wxChoicebook *m_choicebook;
 };

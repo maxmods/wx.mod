@@ -58,6 +58,18 @@ colour-chooser dialog.
 End Rem
 Type wxColourPickerCtrl Extends wxPickerBase
 
+	Function _create:wxColourPickerCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxColourPickerCtrl = New wxColourPickerCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxColourPickerCtrl(wxObjectPtr:Byte Ptr)
+		Return wxColourPickerCtrl._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Creates a new wxColourPickerCtrl.
 	End Rem
@@ -156,3 +168,12 @@ End Type
 
 New TColourPickerEventFactory
 
+Type TColourPickerCtrlResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxcolourpickerctrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New TColourPickerCtrlResourceFactory

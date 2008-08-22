@@ -23,12 +23,16 @@
 #include "wxglue.h"
 #include "wx/calctrl.h"
 #include "../wxdatetime.mod/glue.h"
+#include "wx/xrc/xh_cald.h"
+
 
 class MaxCalendarCtrl;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxcalendarctrl_wxCalendarCtrl__xrcNew(wxCalendarCtrl * ctrl);
 
 	wxCalendarCtrl * bmx_wxcalendarctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * date, int x, int y, int w, int h, long style);
 	void bmx_wxcalendarctrl_setdate(wxCalendarCtrl * ctrl, MaxDateTime * date);
@@ -72,6 +76,7 @@ extern "C" {
 
 	int bmx_wxcalendarctrl_geteventtype(int type);
 
+	void bmx_wxcalendarctrl_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -81,9 +86,22 @@ class MaxCalendarCtrl : public wxCalendarCtrl
 public:
 	MaxCalendarCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * date, int x, int y,
 		int w, int h, long style);
+	MaxCalendarCtrl();
 	~MaxCalendarCtrl();
 
+	void MaxBind(BBObject * handle);
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxCalendarCtrlXmlHandler : public wxCalendarCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxCalendarCtrlXmlHandler)
+
+public:
+    MaxCalendarCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
 };

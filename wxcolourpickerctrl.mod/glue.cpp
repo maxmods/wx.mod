@@ -31,10 +31,45 @@ MaxColourPickerCtrl::MaxColourPickerCtrl(BBObject * handle, wxWindow * parent, w
 	wxbind(this, handle);
 }
 
+MaxColourPickerCtrl::MaxColourPickerCtrl()
+{}
+
 MaxColourPickerCtrl::~MaxColourPickerCtrl() {
 	wxunbind(this);
 }
 
+void MaxColourPickerCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxColourPickerCtrlXmlHandler, wxColourPickerCtrlXmlHandler)
+
+MaxColourPickerCtrlXmlHandler::MaxColourPickerCtrlXmlHandler()
+	: wxColourPickerCtrlXmlHandler()
+{}
+
+
+wxObject * MaxColourPickerCtrlXmlHandler::DoCreateResource()
+{
+   XRC_MAKE_INSTANCE(picker, MaxColourPickerCtrl)
+
+   picker->Create(m_parentAsWindow,
+                  GetID(),
+                  GetColour(wxT("value"), *wxBLACK),
+                  GetPosition(), GetSize(),
+                  GetStyle(_T("style"), wxCLRP_DEFAULT_STYLE),
+                  wxDefaultValidator,
+                  GetName());
+
+	picker->MaxBind(_wx_wxcolourpickerctrl_wxColourPickerCtrl__xrcNew(picker));
+
+    SetupWindow(picker);
+
+    return picker;
+
+}
 
 // *********************************************
 
@@ -78,3 +113,8 @@ int bmx_wxcolourpickerctrl_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxcolourpickerctrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxColourPickerCtrlXmlHandler);
+}

@@ -75,6 +75,18 @@ will often want to update them in wxEVT_CALENDAR_MONTH event handler.
 End Rem
 Type wxCalendarCtrl Extends wxControl
 
+	Function _create:wxCalendarCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxCalendarCtrl = New wxCalendarCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxCalendarCtrl(wxObjectPtr:Byte Ptr)
+		Return wxCalendarCtrl._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Creates a new wxCalendarCtrl.
 	End Rem
@@ -491,3 +503,12 @@ End Type
 
 New TCalendarCtrlEventFactory
 
+Type TCalendarCtrlResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxcalendarctrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New TCalendarCtrlResourceFactory

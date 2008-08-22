@@ -81,6 +81,18 @@ paneSz.SetSizeHints(win)
 End Rem
 Type wxCollapsiblePane Extends wxControl
 
+	Function _create:wxCollapsiblePane(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxCollapsiblePane = New wxCollapsiblePane
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxCollapsiblePane(wxObjectPtr:Byte Ptr)
+		Return wxCollapsiblePane._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructs a new wxCollapsiblePane.
 	End Rem
@@ -189,3 +201,12 @@ End Type
 
 New TCollapsiblePaneEventFactory
 
+Type TCollapsiblePaneResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxcollapsiblepane_addresourcehandler()
+	End Method
+		
+End Type
+
+New TCollapsiblePaneResourceFactory

@@ -22,12 +22,16 @@
 
 #include "wxglue.h"
 #include "wx/collpane.h"
+#include "wx/xrc/xh_collpane.h"
+
 
 class MaxCollapsiblePane;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxcollapsiblepane_wxCollapsiblePane__xrcNew(wxCollapsiblePane * pane);
 
 	MaxCollapsiblePane * bmx_wxcollapsiblepane_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
@@ -41,6 +45,8 @@ extern "C" {
 	void bmx_wxcollapsiblepaneevent_setcollapsed(wxCollapsiblePaneEvent & event, bool value);
 
 	int bmx_wxcollapsiblepane_geteventtype(int type);
+
+	void bmx_wxcollapsiblepane_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -50,6 +56,23 @@ class MaxCollapsiblePane : public wxCollapsiblePane
 public:
 	MaxCollapsiblePane(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style);
+	MaxCollapsiblePane();
 	~MaxCollapsiblePane();
 	
+	void MaxBind(BBObject * handle);
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxCollapsiblePaneXmlHandler : public wxCollapsiblePaneXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxCollapsiblePaneXmlHandler)
+
+public:
+    MaxCollapsiblePaneXmlHandler();
+    virtual wxObject *DoCreateResource();
+	virtual bool CanHandle(wxXmlNode *node);
+	
+    bool m_isInside;
+    wxCollapsiblePane *m_collpane;
 };

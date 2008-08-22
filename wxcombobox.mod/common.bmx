@@ -70,6 +70,8 @@ Extern
 	
 	Function bmx_wxcombobox_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxcombobox_addresourcehandler()
+	
 End Extern
 
 

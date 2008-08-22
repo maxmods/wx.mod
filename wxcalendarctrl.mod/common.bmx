@@ -86,28 +86,31 @@ Extern
 	Function bmx_wxcalendardateattr_getborder:Int(handle:Byte Ptr)
 
 	Function bmx_wxcalendarctrl_geteventtype:Int(eventType:Int)
+	
+	Function bmx_wxcalendarctrl_addresourcehandler()
+	
 End Extern
 
 ' show Sunday as the First day of the week (Default)
-Const wxCAL_SUNDAY_FIRST:int = $0000
+Const wxCAL_SUNDAY_FIRST:Int = $0000
 
 ' show Monder as the First day of the week
-Const wxCAL_MONDAY_FIRST:int = $0001
+Const wxCAL_MONDAY_FIRST:Int = $0001
 
 ' highlight holidays
-Const wxCAL_SHOW_HOLIDAYS:int = $0002
+Const wxCAL_SHOW_HOLIDAYS:Int = $0002
 
 ' disable the year change control, show only the Month change one
-Const wxCAL_NO_YEAR_CHANGE:int = $0004
+Const wxCAL_NO_YEAR_CHANGE:Int = $0004
 
 ' don't allow changing neither month nor year (implies wxCAL_NO_YEAR_CHANGE)
-Const wxCAL_NO_MONTH_CHANGE:int = $000c
+Const wxCAL_NO_MONTH_CHANGE:Int = $000c
 
 ' use MS-style month-selection instead of combo-spin combination
-Const wxCAL_SEQUENTIAL_MONTH_SELECTION:int = $0010
+Const wxCAL_SEQUENTIAL_MONTH_SELECTION:Int = $0010
 
 ' show the neighbouring weeks in the previous and next month
-Const wxCAL_SHOW_SURROUNDING_WEEKS:int = $0020
+Const wxCAL_SHOW_SURROUNDING_WEEKS:Int = $0020
 
 
 Const wxCAL_HITTEST_NOWHERE:Int = 0      ' outside of anything

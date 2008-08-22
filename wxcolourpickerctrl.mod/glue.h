@@ -22,12 +22,16 @@
 
 #include "wxglue.h"
 #include "wx/clrpicker.h"
+#include "wx/xrc/xh_clrpicker.h"
+
 
 class MaxColourPickerCtrl;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxcolourpickerctrl_wxColourPickerCtrl__xrcNew(wxColourPickerCtrl * picker);
 
 	MaxColourPickerCtrl * bmx_wxcolourpickerctrl_create(BBObject * handle, wxWindow * parent, int id,
 		MaxColour * colour, int x, int y, int w, int h, long style);
@@ -40,6 +44,8 @@ extern "C" {
 
 	int bmx_wxcolourpickerctrl_geteventtype(int type);
 
+	void bmx_wxcolourpickerctrl_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -49,6 +55,20 @@ class MaxColourPickerCtrl : public wxColourPickerCtrl
 public:
 	MaxColourPickerCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxColour& colour, int x, int y,
 		int w, int h, long style);
+	MaxColourPickerCtrl();
 	~MaxColourPickerCtrl();
 	
+	void MaxBind(BBObject * handle);
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxColourPickerCtrlXmlHandler : public wxColourPickerCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxColourPickerCtrlXmlHandler)
+
+public:
+    MaxColourPickerCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+

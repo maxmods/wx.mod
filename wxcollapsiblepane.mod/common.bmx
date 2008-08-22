@@ -56,6 +56,8 @@ Extern
 
 	Function bmx_wxcollapsiblepane_geteventtype:Int(evt:Int)
 
+	Function bmx_wxcollapsiblepane_addresourcehandler()
+	
 End Extern
 
 Const wxCP_DEFAULT_STYLE:Int = wxTAB_TRAVERSAL | wxNO_BORDER

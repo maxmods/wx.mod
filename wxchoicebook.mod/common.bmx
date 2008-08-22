@@ -48,6 +48,8 @@ Extern
 	Function bmx_wxchoicebook_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxchoicebook_getchoicectrl:Byte Ptr(handle:Byte Ptr)
 
+	Function bmx_wxchoicebook_addresourcehandler()
+	
 End Extern
 
 Const wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED:Int = -802

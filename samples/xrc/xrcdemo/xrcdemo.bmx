@@ -18,6 +18,9 @@ Import wx.wxStaticLine
 Import wx.wxSlider
 Import wx.wxChoice
 Import wx.wxGauge
+Import wx.wxComboBox
+Import wx.wxColourPickerCtrl
+Import wx.wxCalendarCtrl
 
 New MyApp.Run()
  
