@@ -1335,6 +1335,13 @@ Type TCoreEventFactory Extends TEventFactory
 				Return wxActivateEvent.Create(wxEventPtr, evt)
 			Case wxEVT_ICONIZE
 				Return wxIconizeEvent.Create(wxEventPtr, evt)
+			Case wxEVT_POWER_SUSPENDING, ..
+					wxEVT_POWER_SUSPENDED, ..
+					wxEVT_POWER_SUSPEND_CANCEL, ..
+					wxEVT_POWER_RESUME
+				Return wxPowerEvent.Create(wxEventPtr, evt)
+
+
 		End Select
 		
 		Return Null
@@ -1373,7 +1380,11 @@ Type TCoreEventFactory Extends TEventFactory
 					wxEVT_INIT_DIALOG, ..
 					wxEVT_ACTIVATE_APP, ..
 					wxEVT_ACTIVATE, ..
-					wxEVT_ICONIZE
+					wxEVT_ICONIZE, ..
+					wxEVT_POWER_SUSPENDING, ..
+					wxEVT_POWER_SUSPENDED, ..
+					wxEVT_POWER_SUSPEND_CANCEL, ..
+					wxEVT_POWER_RESUME
 				Return bmx_eventtype_value(eventType)
 		End Select
 	End Method

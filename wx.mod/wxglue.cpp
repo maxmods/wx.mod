@@ -736,6 +736,12 @@ int bmx_eventtype_value(int type) {
 		case 403: return wxEVT_END_SESSION;
 		case 404: return wxEVT_QUERY_END_SESSION;
 		case 405: return wxEVT_ACTIVATE_APP;
+#ifdef wxHAS_POWER_EVENTS
+		case 406: return wxEVT_POWER_SUSPENDING;
+		case 407: return wxEVT_POWER_SUSPENDED;
+		case 408: return wxEVT_POWER_SUSPEND_CANCEL;
+		case -444: return wxEVT_POWER_RESUME;
+#endif
 		case 409: return wxEVT_ACTIVATE;
 		case 410: return wxEVT_CREATE;
 		case 411: return wxEVT_DESTROY;
@@ -1858,3 +1864,13 @@ void bmx_wxtextoutputstream_delete(wxTextOutputStream * s) {
 }
 
 
+// *********************************************
+
+#ifdef wxHAS_POWER_EVENTS
+void bmx_wxpowerevent_veto(wxPowerEvent & event) {
+	event.Veto();
+}
+#else
+void bmx_wxpowerevent_veto(wxEvent & WXUNUSED(event)) {
+}
+#endif

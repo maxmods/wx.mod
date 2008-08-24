@@ -837,6 +837,29 @@ Type wxNavigationKeyEvent Extends wxEvent
 
 End Type
 
+Rem
+bbdoc: The power events are generated when the system power state changes, e.g. the system is suspended, hibernated, plugged into or unplugged from the wall socket and so on.
+about: Notice that currently only suspend and resume events are generated and only under MS Windows platform. 
+End Rem
+Type wxPowerEvent Extends wxEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxPowerEvent = New wxPowerEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+	Rem
+	bbdoc: Call this to prevent suspend from taking place in wxEVT_POWER_SUSPENDING handler (it is ignored for all the others).
+	End Rem
+	Method Veto()
+		bmx_wxpowerevent_veto(wxEventPtr)
+	End Method
+	
+End Type
+
 ' internal event handler.
 Type TEventHandler
 

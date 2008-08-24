@@ -32,6 +32,7 @@
 #include "wx/ptr_scpd.h"
 #include "wx/txtstrm.h"
 #include "wx/wfstream.h"
+#include "wx/power.h"
 
 #include <map>
 
@@ -367,6 +368,12 @@ extern "C" {
 	void bmx_wxtextoutputstream_writedouble(wxTextOutputStream * s, double value);
 	void bmx_wxtextoutputstream_writestring(wxTextOutputStream * s, BBString * value);
 	void bmx_wxtextoutputstream_delete(wxTextOutputStream * s);
+
+#ifdef wxHAS_POWER_EVENTS
+	void bmx_wxpowerevent_veto(wxPowerEvent & event);
+#else
+	void bmx_wxpowerevent_veto(wxEvent & event);
+#endif
 
 }
 

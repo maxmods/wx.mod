@@ -473,6 +473,8 @@ Extern
 	Function bmx_wxtextoutputstream_writestring(handle:Byte Ptr, value:String)
 	Function bmx_wxtextoutputstream_delete(handle:Byte Ptr)
 
+	Function bmx_wxpowerevent_veto(handle:Byte Ptr)
+
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()
