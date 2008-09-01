@@ -41,6 +41,9 @@ Type TObjectFactory
 
 End Type
 
+Function IsProjectSupported:Int(filename:String)
+	Return filename.EndsWith(".fbp") Or filename.EndsWith(".pjd") Or filename.EndsWith(".wxg")
+End Function
 
 Function NewObjectForType:TFBObject(oType:Int)
 

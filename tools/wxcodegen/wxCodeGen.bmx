@@ -408,7 +408,7 @@ Type MyDropTarget Extends wxFileDropTarget
 			Local file:String = filenames[i]
 			
 			' is this a gui project?
-			If file.EndsWith(".fbp") Or file.EndsWith(".pjd") Or file.EndsWith(".wxg") Then
+			If IsProjectSupported(file) Then
 			
 				Local found:Int
 				
