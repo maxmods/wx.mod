@@ -83,8 +83,8 @@
 // since some kind of tests, like those of AM_WXCODE_CHECKFOR_COMPONENT_VERSION()
 // for "configure" scripts under unix, use them.
 #define wxPROPGRID_MAJOR          1
-#define wxPROPGRID_MINOR          3
-#define wxPROPGRID_RELEASE        8
+#define wxPROPGRID_MINOR          4
+#define wxPROPGRID_RELEASE        0
 
 // For non-Unix systems (i.e. when building without a configure script),
 // users of this component can use the following macro to check if the
@@ -118,8 +118,6 @@
 
     #define wxPG_DOUBLE_BUFFER          1 // 1 to use double-buffer that guarantees flicker-free painting
 
-    #define wxPG_HEAVY_GFX              1 // 1 for prettier appearance
-
     #define wxPG_SUPPORT_TOOLTIPS       1  // Enable tooltips
 
 #elif defined(__WXGTK__)
@@ -134,8 +132,6 @@
     #define wxPG_USE_RENDERER_NATIVE    0 // 1 if wxRendererNative should be employed
 
     #define wxPG_DOUBLE_BUFFER          1 // 1 to use double-buffer that guarantees flicker-free painting
-
-    #define wxPG_HEAVY_GFX              1 // 1 for prettier appearance
 
     #define wxPG_SUPPORT_TOOLTIPS       1  // Enable tooltips
 
@@ -152,8 +148,6 @@
 
     #define wxPG_DOUBLE_BUFFER          0 // 1 to use double-buffer that guarantees flicker-free painting
 
-    #define wxPG_HEAVY_GFX              1 // 1 for prettier appearance
-
     #define wxPG_SUPPORT_TOOLTIPS       1  // Enable tooltips
 
 #else
@@ -169,8 +163,6 @@
     #define wxPG_USE_RENDERER_NATIVE    0 // 1 if wxRendererNative should be employed
 
     #define wxPG_DOUBLE_BUFFER          0 // 1 to use double-buffer that guarantees flicker-free painting
-
-    #define wxPG_HEAVY_GFX              1 // 1 for prettier appearance
 
     #define wxPG_SUPPORT_TOOLTIPS       0  // Enable tooltips
 
@@ -486,9 +478,9 @@ struct wxPGValidationInfo;
 #endif // #ifndef __WXPYTHON__
 
 
-/** \class wxPGPaintData
-    \ingroup classes
-    \brief Contains information relayed to property's OnCustomPaint.
+/** @class wxPGPaintData
+    @ingroup classes
+    @brief Contains information relayed to property's OnCustomPaint.
 */
 struct wxPGPaintData
 {
@@ -508,9 +500,9 @@ struct wxPGPaintData
 
 #ifndef SWIG
 
-/** \class wxPGCellRenderer
-    \ingroup classes
-    \brief
+/** @class wxPGCellRenderer
+    @ingroup classes
+    @brief
     Base class for wxPropertyGrid cell renderers.
 */
 class WXDLLIMPEXP_PG wxPGCellRenderer
@@ -537,7 +529,7 @@ public:
                          int flags ) const = 0;
 
     /** Returns size of the image in front of the editable area.
-        \remarks
+        @remarks
         If property is NULL, then this call is for a custom value. In that case
         the item is index to wxPropertyGrid's custom values.
     */
@@ -587,9 +579,9 @@ private:
 };
 
 
-/** \class wxPGCell
-    \ingroup classes
-    \brief
+/** @class wxPGCell
+    @ingroup classes
+    @brief
     Base class for simple wxPropertyGrid cell information.
 */
 class WXDLLIMPEXP_PG wxPGCell
@@ -621,9 +613,9 @@ protected:
 };
 
 
-/** \class wxPGDefaultRenderer
-    \ingroup classes
-    \brief
+/** @class wxPGDefaultRenderer
+    @ingroup classes
+    @brief
     Default cell renderer, that can handles the common
     scenarios.
 */
@@ -684,15 +676,15 @@ protected:
 
 /** This callback function is used by atleast wxCustomProperty
     to facilitiate easy custom action on button press.
-    \param propGrid
+    @param propGrid
     related wxPropertyGrid
-    \param property
+    @param property
     related wxPGProperty
-    \param ctrl
+    @param ctrl
     If not NULL (for example, not selected), a wxWindow* or equivalent
-    \param data
+    @param data
     Value depends on the context.
-    \retval
+    @retval
     True if changed value of the property.
 */
 typedef bool (*wxPropertyGridCallback)(wxPropertyGrid* propGrid,
@@ -711,9 +703,9 @@ typedef void (*wxPGPaintCallback)(wxPGProperty* property,
                                   wxPGPaintData& paintdata);
 
 /** Use this with wxPropertyGrid::IsPropertyKindOf. For example, as in
-    \code
+    @code
         pg->IsPropertyKindOf(WX_PG_CLASSINFO(wxStringProperty))
-    \endcode
+    @endcode
 */
 #define WX_PG_CLASSINFO(NAME) (&NAME::ms_classInfo)
 
@@ -879,7 +871,7 @@ wxPG_EX_WRITEONLY_BUILTIN_ATTRIBUTES    = 0x00400000,
 /** With this tyle Validators on properties will work basicly work just they
     work in wxWidgets.
 
-    \deprecated
+    @deprecated
     Since version 1.3. This behavior is automatic now.
 */
 wxPG_EX_TRADITIONAL_VALIDATORS          = 0x00000000,
@@ -965,17 +957,21 @@ wxPG_SETVAL_FROM_PARENT         = 0x0004
 
 
 #define wxNullProperty  ((wxPGProperty*)NULL)
-#define wxPGIdGen(PTR)  (PTR)
-#define wxPGIdToPtr(ID) ((wxPGProperty*)ID)
-#define wxPGIdIsOk(ID)  ( ID != ((wxPGProperty*)NULL) )
+
+#if wxPG_COMPATIBILITY_1_2_0
+inline bool wxPGIdIsOk(wxPGProperty* id)
+{
+    return (id != NULL) ? true : false;
+}
+#endif
 
 typedef wxPGProperty* wxPGId;
 
 #ifndef SWIG
 
-/** \class wxPGPropArgCls
-    \ingroup classes
-    \brief
+/** @class wxPGPropArgCls
+    @ingroup classes
+    @brief
     Most property grid functions have this type as their argument, as it can
     convey a property by either a pointer or name.
 */
@@ -1136,13 +1132,13 @@ wxPG_PROP_READONLY                  = 0x8000,
 //
 
 /** Property's value is composed from values of child properties.
-    \remarks
+    @remarks
     This flag cannot be used with property iterators.
 */
 wxPG_PROP_COMPOSED_VALUE            = 0x00010000,
 
 /** Common value of property is selectable in editor.
-    \remarks
+    @remarks
     This flag cannot be used with property iterators.
 */
 wxPG_PROP_USES_COMMON_VALUE         = 0x00020000,
@@ -1152,7 +1148,7 @@ wxPG_PROP_USES_COMMON_VALUE         = 0x00020000,
     - wxIntProperty, wxUIntProperty, wxFloatProperty, wxEditEnumProperty:
       Clear the text field
 
-    \remarks
+    @remarks
     This flag cannot be used with property iterators.
 */
 wxPG_PROP_AUTO_UNSPECIFIED          = 0x00040000,
@@ -1332,7 +1328,7 @@ wxPG_PROP_CLASS_SPECIFIC_2          = 0x00100000
     that is called whenever image in front of property needs to be repainted. This attribute
     takes precedence over bitmap set with wxPG_CUSTOM_IMAGE, and it is only proper way
     to draw images to wxCustomProperty's drop down choices list.
-    \remarks
+    @remarks
     Callback must handle measure calls (i.e. when rect.x < 0, set paintdata.m_drawnHeight to
     height of item in question).
 */
@@ -1341,7 +1337,7 @@ wxPG_PROP_CLASS_SPECIFIC_2          = 0x00100000
 
 /** wxCustomProperty specific, int, default 0. Setting to 1 makes children private (ie. sets
     wxPG_PROP_AGGREGATE flag), similar to other properties with fixed children.
-    \remarks
+    @remarks
     - Children must be added <b>when this attribute has value 0</b>. Otherwise
       there will be an assertion failure.
     - Changed event occurs on the parent only.
@@ -1442,14 +1438,14 @@ WX_PG_DECLARE_EDITOR_WITH_DECL(ChoiceAndButton,WXDLLIMPEXP_PG)
 
 #if !defined(SWIG)
 
-/** \class wxPGVariantData
-	\ingroup classes
-    \brief wxVariantData with additional functionality.
+/** @class wxPGVariantData
+	@ingroup classes
+    @brief wxVariantData with additional functionality.
 
     It is usually enough to use supplied to macros to automatically generate
     variant data class. Like so:
 
-    \code
+    @code
 
     // In header
     WX_PG_DECLARE_VARIANT_DATA(wxPGVariantDataMyClass,  // Name of the class
@@ -1459,7 +1455,7 @@ WX_PG_DECLARE_EDITOR_WITH_DECL(ChoiceAndButton,WXDLLIMPEXP_PG)
     // In source
     WX_PG_IMPLEMENT_VARIANT_DATA(wxPGVariantDataMyClass, MyClass)
 
-    \endcode
+    @endcode
 
     If your class is derived from wxObject, it is recommended that you use
     wxObject-versions of the macros (WX_PG_DECLARE_WXOBJECT_VARIANT_DATA and
@@ -1513,10 +1509,10 @@ protected: \
 public: \
     CLASSNAME() { CTOR_CODE; } \
     CLASSNAME(AS_ARG_CONST value) { CTOR_CODE; SET_CODE; m_value = value; } \
-    inline DATATYPE GetValue() const { return m_value; } \
-    inline AS_ARG_CONST GetValueRef() const { return m_value; } \
-    inline AS_ARG GetValueRef() { return m_value; } \
-    inline void SetValue(AS_ARG_CONST value) { SET_CODE; m_value = value; } \
+    DATATYPE GetValue() const { return m_value; } \
+    AS_ARG_CONST GetValueRef() const { return m_value; } \
+    AS_ARG GetValueRef() { return m_value; } \
+    void SetValue(AS_ARG_CONST value) { SET_CODE; m_value = value; } \
     virtual bool Eq(wxVariantData&) const { return false; } \
     virtual wxString GetType() const { return wxT(#DATATYPE); } \
     virtual wxVariantData* Clone() { return new CLASSNAME; } \
@@ -1759,9 +1755,9 @@ struct wxPGChoiceInfo
 
 // -----------------------------------------------------------------------
 
-/** \class wxPGAttributeStorage
-	\ingroup classes
-    \brief wxPGAttributeStorage is somewhat optimized storage for
+/** @class wxPGAttributeStorage
+	@ingroup classes
+    @brief wxPGAttributeStorage is somewhat optimized storage for
       key=variant pairs (ie. a map).
 */
 class WXDLLIMPEXP_PG wxPGAttributeStorage
@@ -1810,13 +1806,9 @@ protected:
 
 // -----------------------------------------------------------------------
 
-/** \class wxPGProperty
-	\ingroup classes
-    \brief wxPGProperty is base class for all wxPropertyGrid properties.
-
-    \remarks
-    - When changing name of a property, it is essential to use wxPropertyContainerMethods::SetPropertyName
-      (that's why there is no SetName method).
+/** @class wxPGProperty
+	@ingroup classes
+    @brief wxPGProperty is base class for all wxPropertyGrid properties.
 */
 class WXDLLIMPEXP_PG wxPGProperty : public wxObject
 {
@@ -1847,7 +1839,7 @@ public:
     /** Constructor.
         Real used property classes should have constructor of this style:
 
-        \code
+        @code
 
         // If T is a class, then it should be a constant reference
         // (e.g. const T& ) instead.
@@ -1864,7 +1856,7 @@ public:
             //     AddChild( new wxStringProperty( wxT("Subprop 1"), wxPG_LABEL, value.GetSubProp1() ) );
         }
 
-        \endcode
+        @endcode
 
         Of course, in this example, wxPGProperty could actually any other property class.
     */
@@ -1875,7 +1867,7 @@ public:
 
     /** This virtual function is called after m_value has been set.
 
-        \remarks
+        @remarks
         - If m_value was set to Null variant (ie. unspecified value), OnSetValue()
           will not be called.
         - m_value may be of any variant type. Typically properties internally support only
@@ -1901,21 +1893,21 @@ public:
         Return true if it is ok. Returning false prevents property change events
         from occurring.
 
-        \remarks
+        @remarks
         - Default implementation always returns true.
     */
     virtual bool ValidateValue( wxVariant& value, wxPGValidationInfo& validationInfo ) const;
 
     /** Converts 'text' into proper value 'variant'. Returns true if new (different than
         m_value) value could be interpreted from the text.
-        \param argFlags
+        @param argFlags
         If wxPG_FULL_VALUE is set, returns complete, storable value instead of displayable
         one (they may be different).
         If wxPG_COMPOSITE_FRAGMENT is set, text is interpreted as a part of composite
         property string value (as generated by GetValueAsString() called with this same
         flag).
 
-        \remarks
+        @remarks
         Default implementation converts semicolon delimited tokens into child values. Only
         works for properties with children.
     */
@@ -1923,10 +1915,10 @@ public:
 
     /** Converts 'number' (including choice selection) into proper value 'variant'.
         Returns true if new (different than m_value) value could be interpreted from the integer.
-        \param argFlags
+        @param argFlags
         If wxPG_FULL_VALUE is set, returns complete, storable value instead of displayable
 
-        \remarks
+        @remarks
         - Default implementation may work correctly if used value type is int.
         - If property is not supposed to use choice or spinctrl or other editor
           with int-based value, it is not necessary to implement this method.
@@ -1938,13 +1930,13 @@ public:
 
     /** Returns text representation of property's value.
 
-        \param argFlags
+        @param argFlags
         If wxPG_FULL_VALUE is set, returns complete, storable string value instead of displayable.
         If wxPG_EDITABLE_VALUE is set, returns string value that must be editable in textctrl.
         If wxPG_COMPOSITE_FRAGMENT is set, returns text that is appropriate to display
         as a part of composite property string value.
 
-        \remarks
+        @remarks
         Default implementation returns string composed from text representations of
         child properties.
     */
@@ -1952,11 +1944,9 @@ public:
 
     /** Converts string to a value, and if succesfull, calls SetValue() on it.
         Default behavior is to do nothing.
-        \param text
+        @param text
         String to get the value from.
-        \param report_error
-        If true, invalid string will be reported (prefer to use wxLogError).
-        \retval
+        @retval
         true if value was changed.
     */
 #if wxPG_COMPATIBILITY_1_2_0
@@ -1966,11 +1956,11 @@ public:
 
     /** Converts integer to a value, and if succesfull, calls SetValue() on it.
         Default behavior is to do nothing.
-        \param value
+        @param value
         Int to get the value from.
-        \param flags
+        @param flags
         If has wxPG_FULL_VALUE, then the value given is a actual value and not an index.
-        \retval
+        @retval
         true if value was changed.
     */
 #if wxPG_COMPATIBILITY_1_2_0
@@ -1979,7 +1969,7 @@ public:
     bool SetValueFromInt( long value, int flags = 0 );
 
 #if wxPG_COMPATIBILITY_1_2_0
-    /** \deprecated
+    /** @deprecated
         Since version 1.3. Overriding this will cause run-time assertion failure.
     */
     virtual wxSize GetImageSize() const;
@@ -1988,9 +1978,9 @@ public:
     /** Returns size of the custom painted image in front of property. This method
         must be overridden to return non-default value if OnCustomPaint is to be
         called.
-        \param item
+        @param item
         Normally -1, but can be an index to the property's list of items.
-        \remarks
+        @remarks
         - Default behavior is to return wxSize(0,0), which means no image.
         - Default image width or height is indicated with dimension -1.
         - You can also return wxPG_DEFAULT_IMAGE_SIZE which equals wxSize(-1, -1).
@@ -2006,11 +1996,11 @@ public:
         If the event causes value to be changed, wxPropertyGrid::ValueChangeInEvent(value)
         should be used.
 
-        \param event
+        @param event
         Associated wxEvent.
-        \retval
+        @retval
         Should return true if any changes in value should be reported.
-        \remarks
+        @remarks
         - If property uses choice control, and displays a dialog on some choice items,
           then it is preferred to display that dialog in IntToValue instead of OnEvent.
     */
@@ -2022,7 +2012,7 @@ public:
 
         Sample pseudo-code implementation:
 
-        \code
+        @code
         void MyProperty::ChildChanged( wxVariant& thisValue, int childIndex, wxVariant& childValue ) const
         {
             // Acquire reference to actual type of data stored in variant
@@ -2042,13 +2032,13 @@ public:
                 ...
             }
         }
-        \endcode
+        @endcode
 
-        \param thisValue
+        @param thisValue
         Value of this property, that should be altered.
-        \param childIndex
+        @param childIndex
         Index of child changed (you can use Item(childIndex) to get).
-        \param childValue
+        @param childValue
         Value of the child property.
     */
     virtual void ChildChanged( wxVariant& thisValue, int childIndex, wxVariant& childValue ) const;
@@ -2133,7 +2123,7 @@ public:
         so on the second call the function exits within the first
         macro):
 
-        \code
+        @code
 
         wxValidator* wxMyPropertyClass::DoGetValidator () const
         {
@@ -2146,9 +2136,9 @@ public:
             WX_PG_DOGETVALIDATOR_EXIT(validator)
         }
 
-        \endcode
+        @endcode
 
-        \remarks
+        @remarks
         You can get common filename validator by returning
         wxFileProperty::GetClassValidator(). wxDirProperty,
         for example, uses it.
@@ -2158,7 +2148,7 @@ public:
     /** Returns current value's index to the choice control. May also return,
         through pointer arguments, strings that should be inserted to that control.
         Irrelevant to classes which do not employ wxPG_EDITOR(Choice) or similar.
-        \remarks
+        @remarks
         - If returns NULL in choices, then this class must be
           derived from wxBaseEnumProperty.
         - Must not crash even if property's set of choices is uninitialized
@@ -2183,15 +2173,15 @@ public:
         to the height of the image of item at index paintdata.m_choiceItem. This call
         may be done even as often as once every drop-down popup show.
 
-        \param dc
+        @param dc
         wxDC to paint on.
-        \param rect
+        @param rect
         Box reserved for custom graphics. Includes surrounding rectangle, if any.
         If x is < 0, then this is a measure item call (see above).
-        \param paintdata
+        @param paintdata
         wxPGPaintData structure with much useful data.
 
-        \remarks
+        @remarks
             - You can actually exceed rect width, but if you do so then paintdata.m_drawnWidth
               must be set to the full width drawn in pixels.
             - Due to technical reasons, rect's height will be default even if custom height
@@ -2200,7 +2190,7 @@ public:
               clear the background of area being painted. It can be modified.
             - Pen is guaranteed to be 1-wide 'black' (or whatever is the proper colour) pen for
               drawing framing rectangle. It can be changed as well.
-        \sa @link GetValueAsString @endlink
+        @sa @link GetValueAsString @endlink
     */
     virtual void OnCustomPaint( wxDC& dc, const wxRect& rect, wxPGPaintData& paintdata );
 
@@ -2242,7 +2232,7 @@ public:
     /** Adds entry to property's wxPGChoices and editor control (if it is active).
         Returns index of item added.
     */
-    inline int AppendChoice( const wxString& label, int value = wxPG_INVALID_VALUE )
+    int AppendChoice( const wxString& label, int value = wxPG_INVALID_VALUE )
     {
         return InsertChoice(label,-1,value);
     }
@@ -2292,7 +2282,7 @@ public:
     void GenerateComposedValue( wxString& text, int argFlags = 0 ) const;
 
     /** Returns property's label. */
-    inline const wxString& GetLabel() const { return m_label; }
+    const wxString& GetLabel() const { return m_label; }
 
     /** Returns property's name with all (non-category, non-root) parents. */
     wxString GetName() const;
@@ -2367,14 +2357,14 @@ public:
     */
     int GetDisplayedCommonValueCount() const;
 
-    inline wxString GetDisplayedString() const
+    wxString GetDisplayedString() const
     {
         return GetValueString(0);
     }
 
 #if wxPG_COMPATIBILITY_1_2_0
     /** Returns property id. */
-    inline wxPGId GetId() { return wxPGIdGen(this); }
+    wxPGId GetId() { return this; }
 #endif
 
     /** Returns property grid where property lies. */
@@ -2386,7 +2376,7 @@ public:
 
     /** Returns highest level non-category, non-root parent. Useful when you
         have nested wxCustomProperties/wxParentProperties.
-        \remarks
+        @remarks
         Thus, if immediate parent is root or category, this will return the
         property itself.
     */
@@ -2395,26 +2385,26 @@ public:
     /** Return parent of property */
     wxPGProperty* GetParent() const { return m_parent; }
 
-    inline bool IsFlagSet( FlagType flag ) const
+    bool IsFlagSet( FlagType flag ) const
     {
         return ( m_flags & flag ) ? true : false;
     }
 
     /** Returns true if property has editable wxTextCtrl when selected.
 
-        \remarks
+        @remarks
         Altough disabled properties do not displayed editor, they still
         return True here as being disabled is considered a temporary
         condition (unlike being read-only or having limited editing enabled).
     */
     bool IsTextEditable() const;
 
-    inline bool IsValueUnspecified() const
+    bool IsValueUnspecified() const
     {
         return m_value.IsNull();
     }
 
-    inline FlagType HasFlag( FlagType flag ) const
+    FlagType HasFlag( FlagType flag ) const
     {
         return ( m_flags & flag );
     }
@@ -2470,7 +2460,7 @@ public:
         return m_value.GetType();
     }
 
-    /** Returns true if property has even one visible child..
+    /** Returns true if property has even one visible child.
     */
     bool HasVisibleChildren() const;
 
@@ -2488,7 +2478,7 @@ public:
     bool IsRoot() const { return (m_parent == NULL); }
 
     /** Returns true if this is a sub-property. */
-    inline bool IsSubProperty() const
+    bool IsSubProperty() const
     {
         wxPGProperty* parent = (wxPGProperty*)m_parent;
         if ( parent && !parent->IsCategory() )
@@ -2502,7 +2492,7 @@ public:
 
     wxVariant GetDefaultValue() const;
 
-    inline int GetMaxLength() const
+    int GetMaxLength() const
     {
         return (int) m_maxLen;
     }
@@ -2516,7 +2506,7 @@ public:
 
   #if wxPG_COMPATIBILITY_1_2_0
     /** Returns value as wxVariant.
-        \deprecated
+        @deprecated
         Since wxPropertyGrid 1.3. Use GetValue() instead.
     */
     wxVariant GetValueAsVariant() const
@@ -2533,7 +2523,7 @@ public:
     /** Updates composed values of parent non-category properties, recursively.
         Returns topmost property updated.
 
-        \remarks
+        @remarks
         - Must not call SetValue() (as can be called in it).
     */
     wxPGProperty* UpdateParentValues();
@@ -2570,21 +2560,21 @@ public:
 
     /** Gets flags as a'|' delimited string. Note that flag names are not
         prepended with 'wxPG_PROP_'.
-        \param flagsMask
+        @param flagsMask
         String will only be made to include flags combined by this parameter.
     */
     wxString GetFlagsAsString( FlagType flagsMask ) const;
 
     /** Returns position in parent's array. */
-    inline unsigned int GetIndexInParent() const
+    unsigned int GetIndexInParent() const
     {
         return (unsigned int)m_arrIndex;
     }
 
     /** Hides or reveals the property.
-        \param hide
+        @param hide
         true for hide, false for reveal.
-        \param flags
+        @param flags
         By default changes are applied recursively. Set this paramter wxPG_DONT_RECURSE to prevent this.
     */
     inline bool Hide( bool hide, int flags = wxPG_RECURSE );
@@ -2595,7 +2585,7 @@ public:
     */
     bool IsVisible() const;
 
-    inline bool IsEnabled() const
+    bool IsEnabled() const
     {
         return ( m_flags & wxPG_PROP_DISABLED ) ? false : true;
     }
@@ -2655,7 +2645,7 @@ public:
     /** Call in OnEvent(), OnButtonClick() etc. to change the property value
         based on user input.
 
-        \remarks
+        @remarks
         This method is const since it doesn't actually modify value, but posts
         given variant as pending value, stored in wxPropertyGrid.
     */
@@ -2664,7 +2654,7 @@ public:
     /** Call this to set value of the property. Unlike methods in wxPropertyGrid,
         this does not automatically update the display.
 
-        \remarks
+        @remarks
         Use wxPropertyGrid::ChangePropertyValue() instead if you need to run through
         validation process and send property change event.
 
@@ -2672,10 +2662,10 @@ public:
         SetValueInEvent() instead.
 
         (only if wxPG_PROP_AGGREGATE flag is set).
-        \param pList
+        @param pList
         Pointer to list variant that contains child values. Used to indicate
         which children should be marked as modified.
-        \param flags
+        @param flags
         Various flags (for instance, wxPG_SETVAL_REFRESH_EDITOR).
     */
     void SetValue( wxVariant value, wxVariant* pList = NULL, int flags = 0 );
@@ -2696,7 +2686,7 @@ public:
         else m_flags &= ~wxPG_PROP_COLLAPSED;
     }
 
-    inline void SetFlag( FlagType flag ) { m_flags |= flag; }
+    void SetFlag( FlagType flag ) { m_flags |= flag; }
 
     void SetFlagRecursively( FlagType flag, bool set );
 
@@ -2706,6 +2696,8 @@ public:
     }
 
     void SetLabel( const wxString& label ) { m_label = label; }
+
+    inline void SetName( const wxString& newName );
 
     void SetValueToUnspecified()
     {
@@ -2732,21 +2724,21 @@ public:
     /** Updates property value in case there were last minute
         changes. If value was unspecified, it will be set to default.
         Use only for properties that have TextCtrl-based editor.
-        \remarks
+        @remarks
         If you have code similar to
-        \code
+        @code
             // Update the value in case of last minute changes
             if ( primary && propgrid->IsEditorsValueModified() )
                  GetEditorClass()->CopyValueFromControl( this, primary );
-        \endcode
+        @endcode
         in wxPGProperty::OnEvent wxEVT_COMMAND_BUTTON_CLICKED handler,
         then replace it with call to this method.
-        \retval
+        @retval
         True if value changed.
     */
     bool PrepareValueForDialogEditing( wxPropertyGrid* propgrid );
 
-    inline ClientDataType GetClientData() const
+    ClientDataType GetClientData() const
     {
 #ifdef __WXPYTHON__
         if ( m_clientData )
@@ -2758,10 +2750,10 @@ public:
     }
 
     /** Sets client data (void*) of a property.
-        \remarks
+        @remarks
         This untyped client data has to be deleted manually.
     */
-    inline void SetClientData( ClientDataType clientData )
+    void SetClientData( ClientDataType clientData )
     {
 #ifdef __WXPYTHON__
         if ( m_clientData )
@@ -2773,7 +2765,7 @@ public:
 
     /** Sets new set of choices for property.
 
-        \remarks
+        @remarks
         This operation clears the property value.
     */
     bool SetChoices( wxPGChoices& choices );
@@ -2801,7 +2793,7 @@ public:
         return m_helpString;
     }
 
-    inline void ClearFlag( FlagType flag ) { m_flags &= ~(flag); }
+    void ClearFlag( FlagType flag ) { m_flags &= ~(flag); }
 
     // Use, for example, to detect if item is inside collapsed section.
     bool IsSomeParent( wxPGProperty* candidate_parent ) const;
@@ -2832,14 +2824,14 @@ public:
     unsigned GetCount() const { return GetChildCount(); }
 
     /** Returns sub-property at index i. */
-    inline wxPGProperty* Item( size_t i ) const { return (wxPGProperty*)m_children.Item(i); }
+    wxPGProperty* Item( size_t i ) const { return (wxPGProperty*)m_children.Item(i); }
 
     /** Returns last sub-property.
     */
     wxPGProperty* Last() const { return (wxPGProperty*)m_children.Last(); }
 
     /** Returns index of given sub-property. */
-    inline int Index( const wxPGProperty* p ) const { return m_children.Index((wxPGProperty*)p); }
+    int Index( const wxPGProperty* p ) const { return m_children.Index((wxPGProperty*)p); }
 
     /** Deletes all sub-properties. */
     void Empty();
@@ -2869,10 +2861,10 @@ protected:
     /** Returns (direct) child property with given label (or NULL if not found),
         with hint index.
 
-        \param hintIndex
+        @param hintIndex
         Start looking for the child at this index.
 
-        \remarks
+        @remarks
         Does not support scope (ie. Parent.Child notation).
     */
     wxPGProperty* GetPropertyByLabelWH( const wxString& label, unsigned int hintIndex ) const;
@@ -2969,9 +2961,24 @@ class WXDLLIMPEXP_PG wxPGHashMapP2P;
 
 #ifndef SWIG
 
-/** \class wxPGRootProperty
-    \ingroup classes
-    \brief Root parent property.
+WX_DECLARE_HASH_MAP_WITH_DECL(wxInt32,
+                              wxInt32,
+                              wxIntegerHash,
+                              wxIntegerEqual,
+                              wxPGHashMapI2I,
+                              class WXDLLIMPEXP_PG);
+
+#else
+class WXDLLIMPEXP_PG wxPGHashMapI2I;
+#endif // #ifndef SWIG
+
+// -----------------------------------------------------------------------
+
+#ifndef SWIG
+
+/** @class wxPGRootProperty
+    @ingroup classes
+    @brief Root parent property.
 */
 class WXDLLIMPEXP_PG wxPGRootProperty : public wxPGProperty
 {
@@ -2997,9 +3004,9 @@ protected:
 
 // -----------------------------------------------------------------------
 
-/** \class wxPropertyCategory
-    \ingroup classes
-    \brief Category (caption) property.
+/** @class wxPropertyCategory
+    @ingroup classes
+    @brief Category (caption) property.
 */
 class WXDLLIMPEXP_PG wxPropertyCategory : public wxPGProperty
 {
@@ -3010,9 +3017,9 @@ public:
     wxPropertyCategory();
 
     /** Construct.
-        \param label
+        @param label
         Label for the category.
-        \remarks
+        @remarks
         All non-category properties appended will have most recently
         added category.
     */
@@ -3045,9 +3052,9 @@ private:
 
 // -----------------------------------------------------------------------
 
-/** \class wxPGCommonValue
-    \ingroup classes
-    \brief wxPropertyGrid stores information about common values in these
+/** @class wxPGCommonValue
+    @ingroup classes
+    @brief wxPropertyGrid stores information about common values in these
     records.
 */
 class WXDLLIMPEXP_PG wxPGCommonValue
@@ -3079,9 +3086,9 @@ protected:
 
 #ifndef SWIG
 
-/** \class wxPGChoiceEntry
-    \ingroup classes
-    \brief Attributes of a single wxPGChoices choice.
+/** @class wxPGChoiceEntry
+    @ingroup classes
+    @brief Attributes of a single wxPGChoices choice.
 */
 class WXDLLIMPEXP_PG wxPGChoiceEntry : public wxPGCell
 {
@@ -3186,9 +3193,9 @@ private:
 #endif // SWIG
 
 
-/** \class wxPGChoices
-    \ingroup classes
-    \brief Helper class for managing choices for properties.
+/** @class wxPGChoices
+    @ingroup classes
+    @brief Helper class for managing choices for properties.
     Each entry can have label, value, bitmap, text colour, and background colour.
 */
 class WXDLLIMPEXP_PG wxPGChoices
@@ -3226,7 +3233,7 @@ public:
     }
 
     /** Simple interface constructor. */
-    inline wxPGChoices( wxPGChoicesData* data )
+    wxPGChoices( wxPGChoicesData* data )
     {
         wxASSERT(data);
         m_data = data;
@@ -3241,7 +3248,7 @@ public:
 
     void AssignData( wxPGChoicesData* data );
 
-    inline void Assign( const wxPGChoices& a )
+    void Assign( const wxPGChoices& a )
     {
         AssignData(a.m_data);
     }
@@ -3288,7 +3295,7 @@ public:
             m_data->Clear();
     }
 
-    inline void EnsureData()
+    void EnsureData()
     {
         if ( m_data == wxPGChoicesEmptyData )
             m_data = new wxPGChoicesData();
@@ -3412,7 +3419,7 @@ public:
     wxPGChoiceEntry& Insert( const wxPGChoiceEntry& entry, int index );
 
     // Returns data, increases refcount.
-    inline wxPGChoicesData* GetData()
+    wxPGChoicesData* GetData()
     {
         wxASSERT( m_data->m_refCount != 0xFFFFFFF );
         m_data->m_refCount++;
@@ -3420,10 +3427,10 @@ public:
     }
 
     // Returns plain data ptr - no refcounting stuff is done.
-    inline wxPGChoicesData* GetDataPtr() const { return m_data; }
+    wxPGChoicesData* GetDataPtr() const { return m_data; }
 
     // Changes ownership of data to you.
-    inline wxPGChoicesData* ExtractData()
+    wxPGChoicesData* ExtractData()
     {
         wxPGChoicesData* data = m_data;
         m_data = wxPGChoicesEmptyData;
@@ -3556,9 +3563,9 @@ wxPG_ITERATE_DEFAULT                = wxPG_ITERATE_NORMAL
         )
 
 
-/** \class wxPropertyGridIteratorBase
-    \ingroup classes
-    \brief Base for wxPropertyGridIterator classes.
+/** @class wxPropertyGridIteratorBase
+    @ingroup classes
+    @brief Base for wxPropertyGridIterator classes.
 */
 class WXDLLIMPEXP_PG wxPropertyGridIteratorBase
 {
@@ -3649,9 +3656,9 @@ private:
     }
 
 
-/** \class wxPropertyGridIterator
-    \ingroup classes
-    \brief Preferable way to iterate through contents of wxPropertyGrid,
+/** @class wxPropertyGridIterator
+    @ingroup classes
+    @brief Preferable way to iterate through contents of wxPropertyGrid,
     wxPropertyGridManager, and wxPropertyGridPage.
 
     See wxPropertyContainerMethods::GetIterator() for more information about usage.
@@ -3668,9 +3675,9 @@ protected:
 };
 
 
-/** \class wxPropertyGridConstIterator
-    \ingroup classes
-    \brief Const version of wxPropertyGridIterator.
+/** @class wxPropertyGridConstIterator
+    @ingroup classes
+    @brief Const version of wxPropertyGridIterator.
 */
 class WXDLLIMPEXP_PG wxPropertyGridConstIterator : public wxPropertyGridIteratorBase
 {
@@ -3710,9 +3717,9 @@ private:
     int     m_refCount;
 };
 
-/** \class wxPGVIterator
-    \ingroup classes
-    \brief Abstract implementation of a simple iterator. Can only be used
+/** @class wxPGVIterator
+    @ingroup classes
+    @brief Abstract implementation of a simple iterator. Can only be used
     to iterate in forward order, and only through the entire container.
     Used to have functions dealing with all properties work with both
     wxPropertyGrid and wxPropertyGridManager.
@@ -3726,7 +3733,6 @@ public:
     void UnRef() { if (m_pIt) m_pIt->DecRef(); }
     wxPGVIterator( const wxPGVIterator& it )
     {
-        UnRef();
         m_pIt = it.m_pIt;
         m_pIt->IncRef();
     }
@@ -3748,9 +3754,9 @@ protected:
 
 // -----------------------------------------------------------------------
 
-/** \class wxPropertyGridHitTestResult
-    \ingroup classes
-    \brief wxPropertyGridHitTestResult, a return value from wxPropertyGrid::HitTest(),
+/** @class wxPropertyGridHitTestResult
+    @ingroup classes
+    @brief wxPropertyGridHitTestResult, a return value from wxPropertyGrid::HitTest(),
     contains all you need to know about an arbitrary location on the grid.
 */
 struct WXDLLIMPEXP_PG wxPropertyGridHitTestResult
@@ -3815,9 +3821,9 @@ wxPG_VFB_UNDEFINED                  = 0x80
 
 typedef wxByte wxPGVFBFlags;
 
-/** \class wxPGValidationInfo
-	\ingroup classes
-    \brief
+/** @class wxPGValidationInfo
+	@ingroup classes
+    @brief
     Used to convey validation information to and from functions that
     actually perform validation.
 */
@@ -3846,9 +3852,9 @@ struct wxPGValidationInfo
 
 // -----------------------------------------------------------------------
 
-/** \class wxPGEditableState
-	\ingroup classes
-    \brief
+/** @class wxPGEditableState
+	@ingroup classes
+    @brief
     Contains information about wxPropertyGrid's user-editable state, as
     returned by wxPropertyGrid::SaveEditableState().
 */
@@ -3939,14 +3945,14 @@ public:
     }
 
     /** Encodes state information in a string.
-        \remarks
+        @remarks
         String is not guaranteed to have any particular format, except one that
         should be readable by SetFromString().
     */
     wxString GetAsString() const;
 
     /** Decodes state information from a string.
-        \retval
+        @retval
         Returns true if string was read properly. On false, wxPGEditableState will
         remain in undefined state.
     */
@@ -3974,97 +3980,34 @@ private:
 // -----------------------------------------------------------------------
 
 /** @defgroup pgactions wxPropertyGrid Action Identifiers
-    These are used with wxPropertyGrid::SetActionTrigger().
+    These are used with wxPropertyGrid::AddActionTrigger() and wxPropertyGrid::ClearActionTriggers().
     @{
 */
 
 enum wxPG_KEYBOARD_ACTIONS
 {
-    wxPG_ACTION_NEXT_PROPERTY = 0,
+    wxPG_ACTION_INVALID = 0,
+    wxPG_ACTION_NEXT_PROPERTY,
     wxPG_ACTION_PREV_PROPERTY,
     wxPG_ACTION_EXPAND_PROPERTY,
     wxPG_ACTION_COLLAPSE_PROPERTY,
     wxPG_ACTION_CANCEL_EDIT,
+    wxPG_ACTION_CUT,
+    wxPG_ACTION_COPY,
+    wxPG_ACTION_PASTE,
     wxPG_ACTION_MAX
 };
 
 /** @}
 */
 
-//
-// Add wxKeyEvent GetModifiers() for wx2.6
-//
-#if !wxCHECK_VERSION(2,8,0)
-
-/*
-enum wxKeyModifier
-{
-    wxMOD_NONE      = 0x0000,
-    wxMOD_ALT       = 0x0001,
-    wxMOD_CONTROL   = 0x0002,
-    wxMOD_ALTGR     = wxMOD_ALT | wxMOD_CONTROL,
-    wxMOD_SHIFT     = 0x0004,
-    wxMOD_META      = 0x0008,
-#if defined(__WXMAC__) || defined(__WXCOCOA__)
-    wxMOD_CMD       = wxMOD_META,
-#else
-    wxMOD_CMD       = wxMOD_CONTROL,
-#endif
-    wxMOD_ALL       = 0xffff
-};
-*/
-
-inline int wxPG_wxKeyEvent_GetModifiers( const wxKeyEvent& event )
-{
-    int modifiers = 0;
-    if ( event.ControlDown() ) modifiers |= wxMOD_CONTROL;
-    if ( event.AltDown() ) modifiers |= wxMOD_ALT;
-    if ( event.ShiftDown() ) modifiers |= wxMOD_SHIFT;
-    return modifiers;
-}
-
-#endif  // !wxCHECK_VERSION(2,8,0)
-
-
-#ifndef SWIG
-struct wxPGActionTrigger
-{
-    wxPGActionTrigger()
-    {
-    }
-    wxPGActionTrigger( int keycode, int modifiers, int altKeycode )
-    {
-        m_keycode = keycode;
-        m_modifiers = modifiers;
-        m_altKeycode = altKeycode;
-    }
-
-    bool Matches( int keycode, int modifiers ) const
-    {
-        if ( m_modifiers == -1 || m_modifiers == modifiers )
-        {
-            if ( keycode == m_keycode )
-                return true;
-            if ( keycode == m_altKeycode )
-                return true;
-        }
-        return false;
-    }
-
-    int m_keycode;
-    int m_altKeycode;
-    int m_modifiers;
-};
-#endif
-
-// -----------------------------------------------------------------------
 
 #ifndef SWIG
 // We won't need this class from wxPython
 
-/** \class wxPropertyGridState
-	\ingroup classes
-    \brief
+/** @class wxPropertyGridState
+	@ingroup classes
+    @brief
     Contains information of a single wxPropertyGrid page. Generally you should not use
     this class directly, but instead methods in wxPropertyContainerMethods, wxPropertyGrid,
     wxPropertyGridPage, and wxPropertyGridManager.
@@ -4096,7 +4039,7 @@ public:
 
     void ClearModifiedStatus( wxPGProperty* p );
 
-    inline bool ClearSelection()
+    bool ClearSelection()
     {
         return DoSelectProperty(NULL);
     }
@@ -4161,7 +4104,7 @@ public:
     }
 
     /** Returns actual height of contained visible properties.
-        \remarks
+        @remarks
         Mostly used for internal diagnostic purposes.
     */
     inline unsigned int GetActualVirtualHeight() const;
@@ -4186,7 +4129,7 @@ public:
     wxPropertyGrid* GetGrid() const { return m_pPropGrid; }
 
     /** Returns last item which could be iterated using given flags.
-        \param flags
+        @param flags
         @link iteratorflags List of iterator flags@endlink
     */
     wxPGProperty* GetLastItem( int flags = wxPG_ITERATE_DEFAULT );
@@ -4235,7 +4178,7 @@ public:
 
     inline bool IsDisplayed() const;
 
-    inline bool IsInNonCatMode() const { return (bool)(m_properties == m_abcArray); }
+    bool IsInNonCatMode() const { return (bool)(m_properties == m_abcArray); }
 
     /** Only inits arrays, doesn't migrate things or such. */
     void InitNonCatMode ();
@@ -4299,9 +4242,9 @@ protected:
     int DoGetSplitterPosition( int splitterIndex = 0 ) const;
 
     /** Returns column at x coordinate (in GetGrid()->GetPanel()).
-        \param pSplitterHit
+        @param pSplitterHit
         Give pointer to int that receives index to splitter that is at x.
-        \param pSplitterOffset
+        @param pSplitterHitOffset
         Distance from said splitter.
     */
     int HitTestH( int x, int* pSplitterHit, int* pSplitterHitOffset ) const;
@@ -4403,9 +4346,9 @@ inline bool wxPGProperty::SetChoices( const wxArrayString& labels,
     wxPG_PROP_ARG_CALL_PROLOG_RETVAL_0(const wxPGProperty, RVAL)
 
 
-/** \class wxPropertyContainerMethods
-    \ingroup classes
-    \brief In order to have most same base methods, both wxPropertyGrid and
+/** @class wxPropertyContainerMethods
+    @ingroup classes
+    @brief In order to have most same base methods, both wxPropertyGrid and
     wxPropertyGridManager must derive from this.
 */
 class WXDLLIMPEXP_PG wxPropertyContainerMethods
@@ -4419,7 +4362,7 @@ public:
     virtual ~wxPropertyContainerMethods() { };
 
     /** Adds choice to a property that can accept one.
-        \remarks
+        @remarks
         - If you need to make sure that you modify only the set of choices of
           a single property (and not also choices of other properties with initially
           identical set), call wxPropertyGrid::SetPropertyChoicesPrivate.
@@ -4430,7 +4373,7 @@ public:
 
     /** Appends property to the list. wxPropertyGrid assumes ownership of the object.
         Becomes child of most recently added category.
-        \remarks
+        @remarks
         - wxPropertyGrid takes the ownership of the property pointer.
         - If appending a category with name identical to a category already in the
           wxPropertyGrid, then newly created category is deleted, and most recently
@@ -4476,16 +4419,12 @@ public:
     */
     bool Collapse( wxPGPropArg id );
 
-#if wxPG_COMPATIBILITY_1_2_0
     /** Collapses all items that can be collapsed.
-        \deprecated
-        Since version 1.3. Removed due to rare use case. Please instead do a small loop
-        that iterates through the property container using GetVIterator(wxPG_ITERATE_ALL).
-        \retval
+
+        @retval
         Return false if failed (may fail if editor value cannot be validated).
     */
     bool CollapseAll() { return ExpandAll(false); }
-#endif
 
     /** Deletes choice from a property.
 
@@ -4499,7 +4438,7 @@ public:
         if you need the value to run through validation process, and also send the property
         change event.
 
-        \retval
+        @retval
         Returns true if value was succesfully changed.
     */
     bool ChangePropertyValue( wxPGPropArg id, wxVariant newValue );
@@ -4527,7 +4466,7 @@ public:
         by wxVariant::GetType fits there.
 
         Otherwise, this is similar as CreatePropertyByClass.
-        \remarks
+        @remarks
         <b>Cannot</b> generate property category.
     */
     static wxPGProperty* CreatePropertyByType(const wxString &valuetype,
@@ -4539,7 +4478,7 @@ public:
 
 #if wxPG_COMPATIBILITY_1_2_0
     /** Deletes a property by id. If category is deleted, all children are automatically deleted as well.
-        \deprecated
+        @deprecated
         Since version 1.3. Use DeleteProperty() instead.
     */
     wxDEPRECATED( void Delete( wxPGPropArg id ) );
@@ -4547,7 +4486,7 @@ public:
 
 #if wxPG_COMPATIBILITY_1_2_0
     /** Disables property.
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyGrid::Enable(property, false) instead.
     */
     wxDEPRECATED( bool Disable( wxPGPropArg id ) );
@@ -4564,17 +4503,12 @@ public:
     */
     bool Expand( wxPGPropArg id );
 
-#if wxPG_COMPATIBILITY_1_2_0
     /** Expands all items that can be expanded.
-        \deprecated
-        Since version 1.3. Removed due to rare use case. Please instead do a small loop
-        that iterates through the property container using GetVIterator(wxPG_ITERATE_ALL).
     */
     bool ExpandAll( bool expand = true );
-#endif
 
     /** Returns list of expanded properties.
-        \remarks
+        @remarks
         If wxPG_USE_STL is 1, then wxArrayPGProperty is typedef of
         std::vector<wxPGProperty*>.
     */
@@ -4587,25 +4521,25 @@ public:
     }
 
     /** Returns id of first child of given property.
-        \remarks
+        @remarks
         Does not return sub-properties!
     */
-    inline wxPGId GetFirstChild( wxPGPropArg id )
+    wxPGProperty* GetFirstChild( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
 
         if ( !p->GetChildCount() || p->IsFlagSet(wxPG_PROP_AGGREGATE) )
             return wxNullProperty;
 
-        return wxPGIdGen(p->Item(0));
+        return p->Item(0);
     }
 
     /** Returns iterator class instance.
-        \param flags
+        @param flags
         wxPropertyGridIterator flags. If default wxPG_ITERATE_DEFAULT supplied,
         everything except private child properties are iterated.
         @link iteratorflags List of iterator flags@endlink
-        \param firstProp
+        @param firstProp
         Property to start iteration from. If NULL, then first child of root is used.
     */
     wxPropertyGridIterator GetIterator( int flags = wxPG_ITERATE_DEFAULT, wxPGProperty* firstProp = NULL )
@@ -4619,11 +4553,11 @@ public:
     }
 
     /** Returns iterator class instance.
-        \param flags
+        @param flags
         wxPropertyGridIterator flags. If default wxPG_ITERATE_DEFAULT supplied,
         everything except private child properties are iterated.
         @link iteratorflags List of iterator flags@endlink
-        \param startPos
+        @param startPos
         Either wxTOP or wxBOTTOM. wxTOP will indicate that iterations start from
         the first property from the top, and wxBOTTOM means that the iteration will
         instead begin from bottommost valid item.
@@ -4645,7 +4579,7 @@ public:
     virtual wxPGVIterator GetVIterator( int flags ) const;
 
     /** Returns id of first item, whether it is a category or property.
-        \param flags
+        @param flags
         @link iteratorflags List of iterator flags@endlink
     */
     wxPGProperty* GetFirst( int flags = wxPG_ITERATE_ALL )
@@ -4661,7 +4595,7 @@ public:
 
 #if wxPG_COMPATIBILITY_1_2_0
     /** Returns next item under the same parent. */
-    inline wxPGId GetNextSiblingProperty( wxPGPropArg id )
+    wxPGProperty* GetNextSiblingProperty( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
         return m_pState->GetNextSiblingProperty(p);
@@ -4669,7 +4603,7 @@ public:
 #endif
 
     /** Returns map-like storage of property's attributes.
-        \remarks
+        @remarks
         Note that if extra style wxPG_EX_WRITEONLY_BUILTIN_ATTRIBUTES is set,
         then builtin-attributes are not included in the storage.
     */
@@ -4690,11 +4624,11 @@ public:
     /** Adds to 'targetArr' pointers to properties that have given
         flags 'flags' set. However, if 'inverse' is set to true, then
         only properties without given flags are stored.
-        \param flags
+        @param flags
         Property flags to use.
-        \param iterflags
+        @param iterFlags
         Iterator flags to use. Default is everything expect private children.
-        \remarks
+        @remarks
         If wxPG_USE_STL is 1, then wxArrayPGProperty is typedef of
         std::vector<wxPGProperty*>.
     */
@@ -4714,7 +4648,7 @@ public:
     /** Returns id of property with given name (case-sensitive). If there is no
         property with such name, returned property id is invalid ( i.e. it will return
         false with IsOk method).
-        \remarks
+        @remarks
         - Sub-properties (i.e. properties which have parent that is not category or
           root) can not be accessed globally by their name. Instead, use
           "<property>.<subproperty>" in place of "<subproperty>".
@@ -4738,54 +4672,54 @@ public:
     wxPGChoices& GetPropertyChoices( wxPGPropArg id );
 
     /** Gets name of property's constructor function. */
-    inline wxPG_CONST_WXCHAR_PTR GetPropertyClassName( wxPGPropArg id ) const
+    wxPG_CONST_WXCHAR_PTR GetPropertyClassName( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxPG_CONST_WXCHAR_DEFVAL)
         return p->GetClassName();
     }
 
     /** Returns client data (void*) of a property. */
-    inline wxPGProperty::ClientDataType GetPropertyClientData( wxPGPropArg id ) const
+    wxPGProperty::ClientDataType GetPropertyClientData( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(NULL)
         return p->GetClientData();
     }
     /** Returns property's editor. */
-    inline const wxPGEditor* GetPropertyEditor( wxPGPropArg id ) const
+    const wxPGEditor* GetPropertyEditor( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(NULL)
         return p->GetEditorClass();
     }
 
     /** Returns property's custom value image (NULL of none). */
-    inline wxBitmap* GetPropertyImage( wxPGPropArg id ) const
+    wxBitmap* GetPropertyImage( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(NULL)
         return p->GetValueImage();
     }
 
     /** Returns property's position under its parent. */
-    inline unsigned int GetPropertyIndex( wxPGPropArg id )
+    unsigned int GetPropertyIndex( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(INT_MAX)
         return p->GetIndexInParent();
     }
 
     /** Returns label of a property. */
-    inline const wxString& GetPropertyLabel( wxPGPropArg id )
+    const wxString& GetPropertyLabel( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(m_emptyString)
         return p->GetLabel();
     }
     /** Returns name of a property, by which it is globally accessible. */
-    inline wxString GetPropertyName( wxPGPropArg id )
+    wxString GetPropertyName( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(m_emptyString)
         return p->GetName();
     }
 
     /** Returns parent item of a property. */
-    inline wxPGId GetPropertyParent( wxPGPropArg id )
+    wxPGProperty* GetPropertyParent( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
         return p->GetParent();
@@ -4797,12 +4731,12 @@ public:
     wxPGProperty* GetPropertyPtr( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(NULL)
-        return wxPGIdToPtr(p);
+        return p;
     }
 #endif
 
     /** Returns help string associated with a property. */
-    inline wxString GetPropertyHelpString( wxPGPropArg id ) const
+    wxString GetPropertyHelpString( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(m_emptyString)
         return p->GetHelpString();
@@ -4818,7 +4752,7 @@ public:
     /** Returns validator of a property as a reference, which you
         can pass to any number of SetPropertyValidator.
     */
-    inline wxValidator* GetPropertyValidator( wxPGPropArg id )
+    wxValidator* GetPropertyValidator( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(NULL)
         return p->GetValidator();
@@ -4831,7 +4765,7 @@ public:
 
         If property value is unspecified, Null variant is returned.
     */
-    inline wxVariant GetPropertyValue( wxPGPropArg id )
+    wxVariant GetPropertyValue( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxVariant())
         return p->GetValue();
@@ -4845,7 +4779,7 @@ public:
         return (unsigned long) GetPropertyValueAsLong(id);
     }
 #ifndef SWIG
-    inline int GetPropertyValueAsInt( wxPGPropArg id ) const { return (int)GetPropertyValueAsLong(id); }
+    int GetPropertyValueAsInt( wxPGPropArg id ) const { return (int)GetPropertyValueAsLong(id); }
 #endif
     bool GetPropertyValueAsBool( wxPGPropArg id ) const;
     double GetPropertyValueAsDouble( wxPGPropArg id ) const;
@@ -4865,19 +4799,19 @@ public:
     if ( p->m_value.GetType() != TYPENAME ) \
         return DEFVAL; \
 
-    inline wxArrayString GetPropertyValueAsArrayString( wxPGPropArg id ) const
+    wxArrayString GetPropertyValueAsArrayString( wxPGPropArg id ) const
     {
         wxPG_PROP_ID_GETPROPVAL_CALL_PROLOG_RETVAL(wxT("arrstring"), wxArrayString())
         return p->m_value.GetArrayString();
     }
 
-    inline wxPoint GetPropertyValueAsPoint( wxPGPropArg id ) const
+    wxPoint GetPropertyValueAsPoint( wxPGPropArg id ) const
     {
         wxPG_PROP_ID_GETPROPVAL_CALL_PROLOG_RETVAL(wxT("wxPoint"), wxPoint())
         return WX_PG_VARIANT_GETVALUEREF(p->GetValue(), wxPoint);
     }
 
-    inline wxSize GetPropertyValueAsSize( wxPGPropArg id ) const
+    wxSize GetPropertyValueAsSize( wxPGPropArg id ) const
     {
         wxPG_PROP_ID_GETPROPVAL_CALL_PROLOG_RETVAL(wxT("wxSize"), wxSize())
         return WX_PG_VARIANT_GETVALUEREF(p->GetValue(), wxSize);
@@ -4895,7 +4829,7 @@ public:
         return WX_PG_VARIANT_GETVALUEREF(p->GetValue(), wxULongLong).GetValue();
     }
 
-    inline wxArrayInt GetPropertyValueAsArrayInt( wxPGPropArg id ) const
+    wxArrayInt GetPropertyValueAsArrayInt( wxPGPropArg id ) const
     {
         wxPG_PROP_ID_GETPROPVAL_CALL_PROLOG_RETVAL(wxT("wxArrayInt"), wxArrayInt())
         wxArrayInt arr = WX_PG_VARIANT_GETVALUEREF(p->GetValue(), wxArrayInt);
@@ -4903,7 +4837,7 @@ public:
     }
 
 #if wxUSE_DATETIME
-    inline wxDateTime GetPropertyValueAsDateTime( wxPGPropArg id ) const
+    wxDateTime GetPropertyValueAsDateTime( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxDateTime())
 
@@ -4926,17 +4860,17 @@ public:
 #ifndef SWIG
     /** Returns a wxVariant list containing wxVariant versions of all
         property values. Order is not guaranteed.
-        \param flags
+        @param flags
         Use wxPG_KEEP_STRUCTURE to retain category structure; each sub
         category will be its own wxVariantList of wxVariant.
         Use wxPG_INC_ATTRIBUTES to include property attributes as well.
-        Each attribute will be stored as list variant named @<propname>@attr.
-        \remarks
+        Each attribute will be stored as list variant named "@@<propname>@@attr."
+        @remarks
     */
     wxVariant GetPropertyValues( const wxString& listname = wxEmptyString,
-        wxPGId baseparent = wxPGIdGen((wxPGProperty*)NULL), long flags = 0 ) const
+        wxPGProperty* baseparent = NULL, long flags = 0 ) const
     {
-        return m_pState->DoGetPropertyValues(listname,wxPGIdToPtr(baseparent),flags);
+        return m_pState->DoGetPropertyValues(listname, baseparent, flags);
     }
 #endif
 
@@ -4966,13 +4900,13 @@ public:
     }
 
 #ifndef SWIG
-    inline wxPropertyGridState* GetState() const { return m_pState; }
+    wxPropertyGridState* GetState() const { return m_pState; }
 #endif
 
     /** Hides or reveals a property.
-        \param hide
+        @param hide
         If true, hides property, otherwise reveals it.
-        \param flags
+        @param flags
         By default changes are applied recursively. Set this paramter wxPG_DONT_RECURSE to prevent this.
     */
     bool HideProperty( wxPGPropArg id, bool hide = true, int flags = wxPG_RECURSE );
@@ -4984,7 +4918,7 @@ public:
     */
     static void RegisterAdditionalEditors();
 #else
-    static inline void RegisterAdditionalEditors() { }
+    static void RegisterAdditionalEditors() { }
 #endif
 
 #if wxPG_INCLUDE_ADVPROPS
@@ -4994,35 +4928,25 @@ public:
     */
     static void InitAllTypeHandlers();
 #else
-    static inline void InitAllTypeHandlers() { }
+    static void InitAllTypeHandlers() { }
 #endif
 
     /** Inserts property to the property container.
 
-        \param priorthis
+        @param priorThis
         New property is inserted just prior to this. Available only
         in the first variant. There are two versions of this function
         to allow this parameter to be either an id or name to
         a property.
 
-        \param parent
-        New property is inserted under this category. Available only
-        in the second variant. There are two versions of this function
-        to allow this parameter to be either an id or name to
-        a property.
-
-        \param index
-        Index under category. Available only in the second variant.
-        If index is < 0, property is appended in category.
-
-        \param newproperty
+        @param newproperty
         Pointer to the inserted property. wxPropertyGrid will take
         ownership of this object.
 
-        \return
+        @return
         Returns id for the property,
 
-        \remarks
+        @remarks
 
         - wxPropertyGrid takes the ownership of the property pointer.
 
@@ -5033,25 +4957,36 @@ public:
 
         Example of use:
 
-        \code
+        @code
 
             // append category
-            wxPGId my_cat_id = propertygrid->Append( new wxPropertyCategory (wxT("My Category")) );
+            wxPGProperty* my_cat_id = propertygrid->Append( new wxPropertyCategory (wxT("My Category")) );
 
             ...
 
             // insert into category - using second variant
-            wxPGId my_item_id_1 = propertygrid->Insert( my_cat_id, 0, new wxStringProperty(wxT("My String 1")) );
+            wxPGProperty* my_item_id_1 = propertygrid->Insert( my_cat_id, 0, new wxStringProperty(wxT("My String 1")) );
 
             // insert before to first item - using first variant
-            wxPGId my_item_id_2 = propertygrid->Insert( my_item_id, new wxStringProperty(wxT("My String 2")) );
+            wxPGProperty* my_item_id_2 = propertygrid->Insert( my_item_id, new wxStringProperty(wxT("My String 2")) );
 
-        \endcode
+        @endcode
 
     */
     wxPGProperty* Insert( wxPGPropArg priorThis, wxPGProperty* newproperty );
 
-    /** @link wxPropertyGrid::Insert Insert @endlink */
+    /** Also see documentation for @link wxPropertyGrid::Insert Insert @endlink.
+
+        @param parent
+        New property is inserted under this category. Available only
+        in the second variant. There are two versions of this function
+        to allow this parameter to be either an id or name to
+        a property.
+
+        @param index
+        Index under category. Available only in the second variant.
+        If index is < 0, property is appended in category.
+    */
     wxPGProperty* Insert( wxPGPropArg parent, int index, wxPGProperty* newproperty );
 
 #if wxPG_COMPATIBILITY_1_2_0
@@ -5062,14 +4997,14 @@ public:
 #endif
 
     /** Returns true if property is enabled. */
-    inline bool IsPropertyEnabled( wxPGPropArg id ) const
+    bool IsPropertyEnabled( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(false)
         return (!(p->GetFlags() & wxPG_PROP_DISABLED))?true:false;
     }
 
     /** Returns true if property is shown (ie. hideproperty with true not called for it). */
-    inline bool IsPropertyShown( wxPGPropArg id ) const
+    bool IsPropertyShown( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(false)
         return (!(p->GetFlags() & wxPG_PROP_HIDDEN))?true:false;
@@ -5077,7 +5012,7 @@ public:
 
 #if wxPG_COMPATIBILITY_1_2_0
     /** Returns true if property's value type has name typestr.
-        \deprecated
+        @deprecated
         Since version 1.3. Use GetPropertyValueType() and wxString comparison instead.
     */
     wxDEPRECATED( bool IsPropertyValueType( wxPGPropArg id, const wxChar* typestr ) const );
@@ -5089,11 +5024,11 @@ public:
     bool IsPropertyExpanded( wxPGPropArg id ) const;
 
     /** Returns true if property is of certain type.
-        \param info
+        @param info
         Preferably use WX_PG_CLASSINFO(PROPERTYNAME). Alternative is
         PROPERTYNAMEClassInfo.
     */
-    inline bool IsPropertyKindOf( wxPGPropArg id, wxClassInfo* info ) const
+    bool IsPropertyKindOf( wxPGPropArg id, wxClassInfo* info ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(false)
         return p->IsKindOf(info);
@@ -5103,14 +5038,14 @@ public:
     /** Returns true if property has been modified after value set or modify flag
         clear by software.
 
-        \deprecated
+        @deprecated
         Since version 1.3. Use IsPropertyModified instead.
     */
     wxDEPRECATED( bool IsModified( wxPGPropArg id ) const );
 #endif
 
     /** Returns true if property is a category. */
-    inline bool IsPropertyCategory( wxPGPropArg id ) const
+    bool IsPropertyCategory( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(false)
         return p->IsCategory();
@@ -5119,7 +5054,7 @@ public:
     /** Returns true if property has been modified after value set or modify flag
         clear by software.
     */
-    inline bool IsPropertyModified( wxPGPropArg id ) const
+    bool IsPropertyModified( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(false)
         return ( (p->GetFlags() & wxPG_PROP_MODIFIED) ? true : false );
@@ -5128,9 +5063,9 @@ public:
     /** Returns true if property value is set to unspecified.
     */
 #ifdef wxPG_COMPATIBILITY_1_0_0
-    inline bool IsPropertyValueUnspecified( wxPGPropArg id ) const
+    bool IsPropertyValueUnspecified( wxPGPropArg id ) const
 #else
-    inline bool IsPropertyUnspecified( wxPGPropArg id ) const
+    bool IsPropertyUnspecified( wxPGPropArg id ) const
 #endif
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(false)
@@ -5143,14 +5078,14 @@ public:
     void LimitPropertyEditing( wxPGPropArg id, bool limit = true );
 
     /** Converts array of properties to array of names.
-        \remarks
+        @remarks
         If wxPG_USE_STL is 1, then wxArrayPGProperty is typedef of
         std::vector<wxPGProperty*>.
     */
     void PropertiesToNames( wxArrayString* names, const wxArrayPGProperty& properties ) const;
 
     /** Converts array of names to array of property pointers.
-        \remarks
+        @remarks
         If wxPG_USE_STL is 1, then wxArrayPGProperty is typedef of
         std::vector<wxPGProperty*>.
     */
@@ -5163,13 +5098,13 @@ public:
     /** Replaces property with id with newly created property. For example,
         this code replaces existing property named "Flags" with one that
         will have different set of items:
-        \code
+        @code
             pg->ReplaceProperty(wxT("Flags"),
                 wxFlagsProperty(wxT("Flags"),wxPG_LABEL,newItems))
-        \endcode
+        @endcode
         For more info, see wxPropertyGrid::Insert.
     */
-    wxPGId ReplaceProperty( wxPGPropArg id, wxPGProperty* property );
+    wxPGProperty* ReplaceProperty( wxPGPropArg id, wxPGProperty* property );
 
     /** Lets user to set the strings listed in the choice dropdown of a wxBoolProperty.
         Defaults are "True" and "False", so changing them to, say, "Yes" and "No" may
@@ -5178,9 +5113,9 @@ public:
     static void SetBoolChoices( const wxString& true_choice, const wxString& false_choice );
 
     /** Sets all properties in given array as expanded.
-        \param expand
+        @param expand
         False if you want to collapse properties instead.
-        \remarks
+        @remarks
         If wxPG_USE_STL is 1, then wxArrayPGProperty is typedef of
         std::vector<wxPGProperty*>.
     */
@@ -5190,11 +5125,11 @@ public:
     }
 
     /** Sets or clears flag(s) of all properties in given array.
-        \param flags
+        @param flags
         Property flags to set or clear.
-        \param inverse
+        @param inverse
         Set to true if you want to clear flag instead of setting them.
-        \remarks
+        @remarks
         If wxPG_USE_STL is 1, then wxArrayPGProperty is typedef of
         std::vector<wxPGProperty*>.
     */
@@ -5203,7 +5138,7 @@ public:
 
     /** Sets text, bitmap, and colours for given column's cell.
 
-        \remarks
+        @remarks
         - You can set label cell by setting column to 0.
         - You can use wxPG_LABEL as text to use default text for column.
     */
@@ -5220,10 +5155,10 @@ public:
 
     /** Set choices of a property to specified set of labels and values.
 
-        \remarks
+        @remarks
         This operation clears the property value.
     */
-    inline void SetPropertyChoices( wxPGPropArg id, wxPGChoices& choices)
+    void SetPropertyChoices( wxPGPropArg id, wxPGChoices& choices)
     {
         wxPG_PROP_ARG_CALL_PROLOG()
         p->SetChoices(choices);
@@ -5233,7 +5168,7 @@ public:
     /** If property's set of choices is shared, then calling this method converts
         it to private.
     */
-    inline void SetPropertyChoicesExclusive( wxPGPropArg id )
+    void SetPropertyChoicesExclusive( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG()
         p->SetChoicesExclusive();
@@ -5241,16 +5176,16 @@ public:
 
     /** Sets an attribute of a property. Ids and relevants values are totally
         specific to property classes and may affect either the given instance
-        or all instances of that class. See \ref attrids for list of built-in
+        or all instances of that class. See @ref attrids for list of built-in
         attributes.
-        \param argFlags
+        @param argFlags
         Optional. Use wxPG_RECURSE to set the attribute to child properties
         as well.
-        \remarks
+        @remarks
         wxVariant doesn't have int constructor (as of 2.5.4), so <b>you will
         need to cast int values (including most numeral constants) to long</b>.
     */
-    inline void SetPropertyAttribute( wxPGPropArg id, const wxString& attrName, wxVariant value, long argFlags = 0 )
+    void SetPropertyAttribute( wxPGPropArg id, const wxString& attrName, wxVariant value, long argFlags = 0 )
     {
         DoSetPropertyAttribute(id,attrName,value,argFlags);
     }
@@ -5262,7 +5197,7 @@ public:
         include SpinCtrl and DatePickerCtrl, which also require wxPropertyGrid::RegisterAdditionalEditors()
         call prior using.
     */
-    inline void SetPropertyEditor( wxPGPropArg id, const wxPGEditor* editor )
+    void SetPropertyEditor( wxPGPropArg id, const wxPGEditor* editor )
     {
         wxPG_PROP_ARG_CALL_PROLOG()
         wxCHECK_RET( editor, wxT("unknown/NULL editor") );
@@ -5274,23 +5209,23 @@ public:
     /** Sets editor control of a property. As editor argument, use
         editor name string, such as wxT("TextCtrl") or wxT("Choice").
     */
-    inline void SetPropertyEditor( wxPGPropArg id, const wxString& editorName )
+    void SetPropertyEditor( wxPGPropArg id, const wxString& editorName )
     {
         SetPropertyEditor(id,GetEditorByName(editorName));
     }
 
     /** Sets label of a property.
-        \remarks
+        @remarks
         This is the only way to set property's name. There is not
         wxPGProperty::SetLabel() method.
     */
     void SetPropertyLabel( wxPGPropArg id, const wxString& newproplabel );
 
     /** Sets client data (void*) of a property.
-        \remarks
+        @remarks
         This untyped client data has to be deleted manually.
     */
-    inline void SetPropertyClientData( wxPGPropArg id, wxPGProperty::ClientDataType clientData )
+    void SetPropertyClientData( wxPGPropArg id, wxPGProperty::ClientDataType clientData )
     {
         wxPG_PROP_ARG_CALL_PROLOG()
         p->SetClientData(clientData);
@@ -5303,10 +5238,10 @@ public:
 
     /** Sets property (and, recursively, its children) to have read-only value. In other words,
         user cannot change the value in the editor, but they can still copy it.
-        \remarks
+        @remarks
         This is mainly for use with textctrl editor. Not all other editors fully
         support it.
-        \param flags
+        @param flags
         By default changes are applied recursively. Set this paramter wxPG_DONT_RECURSE to prevent this.
     */
     void SetPropertyReadOnly( wxPGPropArg id, bool set = true, int flags = wxPG_RECURSE )
@@ -5347,22 +5282,22 @@ public:
     }
 
     /** Associates the help string with property.
-        \remarks
+        @remarks
         By default, text is shown either in the manager's "description"
         text box or in the status bar. If extra window style wxPG_EX_HELP_AS_TOOLTIPS
         is used, then the text will appear as a tooltip.
     */
-    inline void SetPropertyHelpString( wxPGPropArg id, const wxString& helpString )
+    void SetPropertyHelpString( wxPGPropArg id, const wxString& helpString )
     {
         wxPG_PROP_ARG_CALL_PROLOG()
         p->SetHelpString(helpString);
     }
 
     /** Set wxBitmap in front of the value.
-        \remarks
+        @remarks
         - Bitmap will be scaled to a size returned by wxPropertyGrid::GetImageSize();
     */
-    inline void SetPropertyImage( wxPGPropArg id, wxBitmap& bmp )
+    void SetPropertyImage( wxPGPropArg id, wxBitmap& bmp )
     {
         wxPG_PROP_ARG_CALL_PROLOG()
         p->SetValueImage(bmp);
@@ -5376,7 +5311,7 @@ public:
 #if wxUSE_VALIDATORS
     /** Sets validator of a property.
     */
-    inline void SetPropertyValidator( wxPGPropArg id, const wxValidator& validator )
+    void SetPropertyValidator( wxPGPropArg id, const wxValidator& validator )
     {
         wxPG_PROP_ARG_CALL_PROLOG()
         p->SetValidator(validator);
@@ -5385,7 +5320,7 @@ public:
 
     /** Sets value (long integer) of a property.
     */
-    inline void SetPropertyValueLong( wxPGPropArg id, long value )
+    void SetPropertyValueLong( wxPGPropArg id, long value )
     {
         wxVariant v(value);
         SetPropVal( id, v );
@@ -5394,7 +5329,7 @@ public:
 #ifndef __WXPYTHON__
     /** Sets value (integer) of a property.
     */
-    inline void SetPropertyValue( wxPGPropArg id, int value )
+    void SetPropertyValue( wxPGPropArg id, int value )
     {
         wxVariant v((long)value);
         SetPropVal( id, v );
@@ -5402,20 +5337,20 @@ public:
 #endif
     /** Sets value (floating point) of a property.
     */
-    inline void SetPropertyValueDouble( wxPGPropArg id, double value )
+    void SetPropertyValueDouble( wxPGPropArg id, double value )
     {
         wxVariant v(value);
         SetPropVal( id, v );
     }
     /** Sets value (bool) of a property.
     */
-    inline void SetPropertyValueBool( wxPGPropArg id, bool value )
+    void SetPropertyValueBool( wxPGPropArg id, bool value )
     {
         wxVariant v(value);
         SetPropVal( id, v );
     }
 #ifndef __WXPYTHON__
-    inline void SetPropertyValue( wxPGPropArg id, const wxChar* value )
+    void SetPropertyValue( wxPGPropArg id, const wxChar* value )
     {
         SetPropertyValueString( id, wxString(value) );
     }
@@ -5423,7 +5358,7 @@ public:
 
     /** Sets value (wxArrayString) of a property.
     */
-    inline void SetPropertyValueArrstr2( wxPGPropArg id, const wxArrayString& value )
+    void SetPropertyValueArrstr2( wxPGPropArg id, const wxArrayString& value )
     {
         wxVariant v(value);
         SetPropVal( id, v );
@@ -5431,7 +5366,7 @@ public:
 
 
 #if wxUSE_DATETIME
-    inline void SetPropertyValueDatetime( wxPGPropArg id, const wxDateTime& value )
+    void SetPropertyValueDatetime( wxPGPropArg id, const wxDateTime& value )
     {
         wxVariant v(value);
         SetPropVal( id, v );
@@ -5439,7 +5374,7 @@ public:
 #endif
 
     /** Sets value (wxString) of a property.
-        \remarks
+        @remarks
         This method uses wxPGProperty::SetValueFromString, which all properties
         should implement. This means that there should not be a type error,
         and instead the string is converted to property's actual value type.
@@ -5448,7 +5383,7 @@ public:
 
     /** Sets value (wxObject*) of a property.
     */
-    inline void SetPropertyValueWxObjectPtr( wxPGPropArg id, wxObject* value )
+    void SetPropertyValueWxObjectPtr( wxPGPropArg id, wxObject* value )
     {
         wxVariant v(value);
         SetPropVal( id, v );
@@ -5456,12 +5391,12 @@ public:
 
 #ifndef __WXPYTHON__
     /** Sets value (void*) of a property. */
-    inline void SetPropertyValue( wxPGPropArg id, void* value )
+    void SetPropertyValue( wxPGPropArg id, void* value )
     {
         wxVariant v(value);
         SetPropVal( id, v );
     }
-    inline void SetPropertyValue ( wxPGPropArg id, wxObject& value )
+    void SetPropertyValue ( wxPGPropArg id, wxObject& value )
     {
         wxVariant v(&value);
         SetPropVal( id, v );
@@ -5469,7 +5404,7 @@ public:
 
     /** Sets value (wxVariant&) of a property.
     
-        \remarks
+        @remarks
         Use wxPropertyGrid::ChangePropertyValue() instead if you need to run through
         validation process and send property change event.
     */
@@ -5481,35 +5416,35 @@ public:
 
     /** Sets value (wxPoint&) of a property.
     */
-    inline void SetPropertyValuePoint( wxPGPropArg id, const wxPoint& value )
+    void SetPropertyValuePoint( wxPGPropArg id, const wxPoint& value )
     {
         wxVariant v = WXVARIANT(value);
         SetPropVal( id, v );
     }
     /** Sets value (wxSize&) of a property.
     */
-    inline void SetPropertyValueSize( wxPGPropArg id, const wxSize& value )
+    void SetPropertyValueSize( wxPGPropArg id, const wxSize& value )
     {
         wxVariant v = WXVARIANT(value);
         SetPropVal( id, v );
     }
     /** Sets value (wxLongLong&) of a property.
     */
-    inline void SetPropertyValueLongLong( wxPGPropArg id, wxLongLong_t value )
+    void SetPropertyValueLongLong( wxPGPropArg id, wxLongLong_t value )
     {
         wxVariant v = WXVARIANT(wxLongLong(value));
         SetPropVal( id, v );
     }
     /** Sets value (wxULongLong&) of a property.
     */
-    inline void SetPropertyValueULongLong( wxPGPropArg id, wxULongLong_t value )
+    void SetPropertyValueULongLong( wxPGPropArg id, wxULongLong_t value )
     {
         wxVariant v = WXVARIANT(wxULongLong(value));
         SetPropVal( id, v );
     }
     /** Sets value (wxArrayInt&) of a property.
     */
-    inline void SetPropertyValueArrint2( wxPGPropArg id, const wxArrayInt& value )
+    void SetPropertyValueArrint2( wxPGPropArg id, const wxArrayInt& value )
     {
         wxVariant v = WXVARIANT(value);
         SetPropVal( id, v );
@@ -5517,7 +5452,7 @@ public:
     /** Sets value (wxDateTime&) of a property.
     */
 #ifdef __WXPYTHON__
-    inline void SetPropertyValuePyObject( wxPGPropArg id, PyObject* value )
+    void SetPropertyValuePyObject( wxPGPropArg id, PyObject* value )
     {
         wxVariant v = WXVARIANT(value);
         SetPropVal( id, v );
@@ -5532,7 +5467,7 @@ public:
 
     /** Adjusts how wxPropertyGrid behaves when invalid value is entered
         in a property.
-        \param vfbFlags
+        @param vfbFlags
         See @link vfbflags list of valid flags values@endlink
     */
     void SetValidationFailureBehavior( int vfbFlags );
@@ -5937,19 +5872,13 @@ private:
 
 #define wxPG_USE_STATE  m_pState
 
-/** \class wxPropertyGrid
-	\ingroup classes
-    \brief
+/** @class wxPropertyGrid
+	@ingroup classes
+    @brief
     wxPropertyGrid is a specialized two-column grid for editing properties
     such as strings, numbers, flagsets, fonts, and colours. wxPropertySheet
     used to do the very same thing, but it hasn't been updated for a while
     and it is currently deprecated.
-
-    wxPropertyGrid is modeled after .NET propertygrid (hence the name),
-    and thus features are similar. However, inorder to keep the widget lightweight,
-    it does not (and will not) have toolbar for mode and page selection, nor the help
-    text box. wxAdvancedPropertyGrid (or something similarly named) is planned to have
-    these features in some distant future.
 
     Please note that most member functions are inherited and as such not documented on
     this page. This means you will probably also want to read wxPropertyContainerMethods
@@ -5990,9 +5919,9 @@ private:
     <tr><td>EVT_TEXT (id, func)</td><td>wxTextCtrl based editor was updated (but property value was not yet modified)</td></tr>
     </table>
 
-    \sa @link wxPropertyGridEvent wxPropertyGridEvent@endlink
+    @sa @link wxPropertyGridEvent wxPropertyGridEvent@endlink
 
-    \remarks
+    @remarks
 
     - Following functions do not automatically update the screen: Append. You
       probably need to explicitly call Refresh() <b>if</b> you called one of these
@@ -6001,10 +5930,6 @@ private:
     - Use Freeze() and Thaw() respectively to disable and enable drawing. This
       will also delay sorting etc. miscellaneous calculations to the last possible
       moment.
-
-    - Most methods have two versions - one which accepts property id (faster) and
-      another that accepts property name (which is a bit slower since it does a hashmap
-      lookup).
 
     For code examples, see the main page.
 
@@ -6050,7 +5975,7 @@ public:
 
     /** The default constructor. The styles to be used are styles valid for
         the wxWindow and wxScrolledWindow.
-        \sa @link wndflags Additional Window Styles@endlink
+        @sa @link wndflags Additional Window Styles@endlink
     */
     wxPropertyGrid( wxWindow *parent, wxWindowID id = wxID_ANY,
                	    const wxPoint& pos = wxDefaultPosition,
@@ -6061,6 +5986,12 @@ public:
     /** Destructor */
     virtual ~wxPropertyGrid();
 #endif
+
+    /** Adds given key combination to trigger given action.
+        @param action
+        Which action to trigger. See @link pgactions List of list of wxPropertyGrid actions@endlink.
+    */
+    void AddActionTrigger( int action, int keycode, int modifiers = 0 );
 
     /** This static function enables or disables automatic use of wxGetTranslation for
         following strings: wxEnumProperty list labels, wxFlagsProperty sub-property
@@ -6073,16 +6004,22 @@ public:
         only returns false if value in active editor has been invalidated by a
         wxValidator.
     */
-    inline bool CanClose()
+    bool CanClose()
     {
         return DoEditorValidate();
     }
+
+    /** Clears action triggers for given action.
+        @param action
+        Which action to trigger. See @link pgactions List of list of wxPropertyGrid actions@endlink.
+    */
+    void ClearActionTriggers( int action );
 
     /** Returns true if all property grid data changes have been committed. Usually
         only returns false if value in active editor has been invalidated by a
         wxValidator.
     */
-    inline bool EditorValidate()
+    bool EditorValidate()
     {
         return DoEditorValidate();
     }
@@ -6096,14 +6033,14 @@ public:
         if you need the value to run through validation process, and also send the property
         change event.
 
-        \retval
+        @retval
         Returns true if value was succesfully changed.
     */
     bool ChangePropertyValue( wxPGPropArg id, wxVariant newValue );
 
     /** Two step creation. Whenever the control is created without any parameters, use Create to actually
         create it. Don't access the control's public methods before this is called
-        \sa @link wndflags Additional Window Styles@endlink
+        @sa @link wndflags Additional Window Styles@endlink
     */
     bool Create( wxWindow *parent, wxWindowID id = wxID_ANY,
                  const wxPoint& pos = wxDefaultPosition,
@@ -6126,7 +6063,7 @@ public:
 
     /** Resets modified status of all properties.
     */
-    inline void ClearModifiedStatus()
+    void ClearModifiedStatus()
     {
         m_pState->ClearModifiedStatus(m_pState->m_properties);
         m_pState->m_anyModified = false;
@@ -6143,7 +6080,7 @@ public:
 #if wxPG_COMPATIBILITY_1_2_0
     /** Synonymous to Clear.
 
-        \deprecated
+        @deprecated
         Since version 1.3.
     */
     wxDEPRECATED( void ClearTargetPage() );
@@ -6188,10 +6125,10 @@ public:
     /** Reduces column sizes to minimum possible that contents are still visibly (naturally
         some margin space will be applied as well).
 
-        \retval
+        @retval
         Minimum size for the grid to still display everything.
 
-        \remarks
+        @remarks
         Does not work well with wxPG_SPLITTER_AUTO_CENTER window style.
 
         This function only works properly if grid size prior to call was already
@@ -6213,32 +6150,32 @@ public:
 #endif
 
     /** Returns current category caption background colour. */
-    inline wxColour GetCaptionBackgroundColour() const { return m_colCapBack; }
+    wxColour GetCaptionBackgroundColour() const { return m_colCapBack; }
 
     /** Returns current category caption text colour. */
-    inline wxColour GetCaptionForegroundColour() const { return m_colCapFore; }
+    wxColour GetCaptionForegroundColour() const { return m_colCapFore; }
 
     /** Returns current cell background colour. */
-    inline wxColour GetCellBackgroundColour() const { return m_colPropBack; }
+    wxColour GetCellBackgroundColour() const { return m_colPropBack; }
 
     /** Returns current cell text colour when disabled. */
-    inline wxColour GetCellDisabledTextColour() const { return m_colDisPropFore; }
+    wxColour GetCellDisabledTextColour() const { return m_colDisPropFore; }
 
     /** Returns current cell text colour. */
-    inline wxColour GetCellTextColour() const { return m_colPropFore; }
+    wxColour GetCellTextColour() const { return m_colPropFore; }
 
     /** Returns number of children of the root property.
     */
-    inline size_t GetChildrenCount()
+    size_t GetChildrenCount()
     {
-        return GetChildrenCount( wxPGIdGen(m_pState->m_properties) );
+        return GetChildrenCount( m_pState->m_properties );
     }
 
     /** Returns number of children for the property.
 
         NB: Cannot be in container methods class due to name hiding.
     */
-    inline size_t GetChildrenCount( wxPGPropArg id ) const
+    size_t GetChildrenCount( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(0)
         return p->GetChildCount();
@@ -6258,7 +6195,7 @@ public:
         user can see when control is scrolled properly. It does not only mean
         items that are actually painted on the screen.
 
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
     const wxPGProperty* GetFirstVisible() const
@@ -6283,7 +6220,7 @@ public:
 #if wxPG_COMPATIBILITY_1_2_0
     /** Returns id of first category (from target page).
 
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
     wxPGProperty* GetFirstCategory() const
@@ -6293,7 +6230,7 @@ public:
 
     /** Returns id of first property that is not a category.
 
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
     wxPGProperty* GetFirstProperty()
@@ -6316,10 +6253,10 @@ public:
     /** Returns property (or category) at given y coordinate (relative to control's
         top left).
     */
-    wxPGId GetItemAtY( int y ) const { return wxPGIdGen(DoGetItemAtY(y)); }
+    wxPGProperty* GetItemAtY( int y ) const { return DoGetItemAtY(y); }
 
     /** Returns last item which could be iterated using given flags.
-        \param flags
+        @param flags
         @link iteratorflags List of iterator flags@endlink
     */
     wxPGProperty* GetLastItem( int flags = wxPG_ITERATE_DEFAULT )
@@ -6335,54 +6272,54 @@ public:
 #if wxPG_COMPATIBILITY_1_2_0
     /** Returns id of last item. Ignores categories and sub-properties.
 
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
-    wxPGId GetLastProperty()
+    wxPGProperty* GetLastProperty()
     {
-        if ( !m_pState->m_properties->GetCount() ) return wxPGIdGen((wxPGProperty*)NULL);
+        if ( !m_pState->m_properties->GetCount() ) return NULL;
         wxPGProperty* p = GetLastItem(wxPG_ITERATE_DEFAULT);
         if ( p->IsCategory() )
-            return GetPrevProperty( wxPGIdGen(p) );
-        return wxPGIdGen(p);
+            return GetPrevProperty(p);
+        return p;
     }
 
     /** Returns id of last child of given property.
-        \remarks
+        @remarks
         Returns even sub-properties.
 
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
-    wxPGId GetLastChild( wxPGPropArg id )
+    wxPGProperty* GetLastChild( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
 
         if ( !p->GetChildCount() ) return wxNullProperty;
 
-        return wxPGIdGen(p->Last());
+        return p->Last();
     }
     /** Returns id of last visible item. Does <b>not</b> ignore categories sub-properties.
 
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
-    wxPGId GetLastVisible()
+    wxPGProperty* GetLastVisible()
     {
         return GetLastItem(wxPG_ITERATE_VISIBLE);
     }
 #endif // wxPG_COMPATIBILITY_1_2_0
 
     /** Returns colour of lines between cells. */
-    inline wxColour GetLineColour() const { return m_colLine; }
+    wxColour GetLineColour() const { return m_colLine; }
 
     /** Returns background colour of margin. */
-    inline wxColour GetMarginColour() const { return m_colMargin; }
+    wxColour GetMarginColour() const { return m_colMargin; }
 
 #if wxPG_COMPATIBILITY_1_2_0
     /** Returns id of next property. This does <b>not</b> iterate to sub-properties
         or categories, unlike GetNextVisible.
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
     wxPGProperty* GetNextProperty( wxPGPropArg id )
@@ -6392,7 +6329,7 @@ public:
     }
 
     /** Returns id of next category after a given property (which does not have to be category).
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
     wxPGProperty* GetNextCategory( wxPGPropArg id ) const
@@ -6405,55 +6342,57 @@ public:
         Note that visible item means category, property, or sub-property which
         user can see when control is scrolled properly. It does not only mean
         items that are actually painted on the screen.
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
-    inline wxPGProperty* GetNextVisible( wxPGPropArg id ) const
+    wxPGProperty* GetNextVisible( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
         return wxPropertyGridIterator::OneStep(m_pState,wxPG_ITERATE_VISIBLE,p,1);
     }
+#endif // wxPG_COMPATIBILITY_1_2_0
 
     /** Used to acquire user-editable state (selected property, expanded properties, scrolled position).
-        \param pState
+        @param pState
         Pointer wxPGEditableState to write.
-        \param includedStates
+        @param includedStates
         Which parts of state to include. See wxPGEditableState::IncludeFlags for possible bits to use.
     */
     void SaveEditableState( wxPGEditableState* pState, int includedStates = wxPGEditableState::All ) const;
 
     /** Sets user-editable state. See also wxPropertyGrid::SaveEditableState() for more info.
-        \remarks
+        @remarks
         If some parts of state (such as scrolled or splitter position) fail to restore correctly,
         please make sure that you call this function after wxPropertyGrid size has been set
         (this may sometimes be tricky when sizers are used).
     */
     void RestoreEditableState( const wxPGEditableState& state );
 
+#if wxPG_COMPATIBILITY_1_2_0
     /** Returns id of previous property. Unlike GetPrevVisible, this skips categories
         and sub-properties.
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
-    inline wxPGProperty* GetPrevProperty( wxPGPropArg id )
+    wxPGProperty* GetPrevProperty( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(NULL)
         return m_pState->GetPrevProperty(p);
     }
     /** Returns id of previous item under the same parent.
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
-    inline wxPGProperty* GetPrevSiblingProperty( wxPGPropArg id )
+    wxPGProperty* GetPrevSiblingProperty( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
         return m_pState->GetPrevSiblingProperty(p);
     }
     /** Returns id of previous visible property.
-        \deprecated
+        @deprecated
         Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
     */
-    inline wxPGProperty* GetPrevVisible( wxPGPropArg id )
+    wxPGProperty* GetPrevVisible( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
         return wxPropertyGridIterator::OneStep(m_pState,wxPG_ITERATE_VISIBLE,p,-1);
@@ -6464,7 +6403,7 @@ public:
     wxColour GetPropertyBackgroundColour( wxPGPropArg id ) const;
 
     /** Returns cell background colour of a property. */
-    inline wxColour GetPropertyColour( wxPGPropArg id ) const
+    wxColour GetPropertyColour( wxPGPropArg id ) const
     {
         return GetPropertyBackgroundColour( id );
     }
@@ -6477,7 +6416,7 @@ public:
         false with IsOk method). If there are multiple properties with identical name,
         most recent added is returned.
     */
-    inline wxPGId GetPropertyByLabel( const wxString& name ) const
+    wxPGProperty* GetPropertyByLabel( const wxString& name ) const
     {
         return m_pState->GetPropertyByLabel(name);
     }
@@ -6499,13 +6438,18 @@ public:
     }
 
     /** Returns current selection background colour. */
-    inline wxColour GetSelectionBackgroundColour() const { return m_colSelBack; }
+    wxColour GetSelectionBackgroundColour() const { return m_colSelBack; }
 
     /** Returns current selection text colour. */
-    inline wxColour GetSelectionForegroundColour() const { return m_colSelFore; }
+    wxColour GetSelectionForegroundColour() const { return m_colSelFore; }
 
     /** Returns current splitter x position. */
-    inline int GetSplitterPosition() const { return m_pState->DoGetSplitterPosition(0); }
+    int GetSplitterPosition() const { return m_pState->DoGetSplitterPosition(0); }
+
+    /** Returns wxTextCtrl active in currently selected property, if any. Takes
+        into account wxOwnerDrawnComboBox.
+    */
+    wxTextCtrl* GetEditorTextCtrl() const;
 
     /** Returns index of common value that will truly change value to unspecified.
     */
@@ -6517,10 +6461,10 @@ public:
     }
 
     /** Returns current vertical spacing. */
-    inline int GetVerticalSpacing() const { return (int)m_vspacing; }
+    int GetVerticalSpacing() const { return (int)m_vspacing; }
 
     /** Returns true if a property is selected. */
-    inline bool HasSelection() const { return ((m_selected!=(wxPGProperty*)NULL)?true:false); }
+    bool HasSelection() const { return ((m_selected!=(wxPGProperty*)NULL)?true:false); }
 
     bool HasVirtualWidth() const { return (m_iFlags & wxPG_FL_HAS_VIRTUAL_WIDTH)?true:false; }
 
@@ -6529,30 +6473,20 @@ public:
     wxPropertyGridHitTestResult HitTest( const wxPoint& pt ) const;
 
     /** Returns true if any property has been modified by the user. */
-    inline bool IsAnyModified() const { return (m_pState->m_anyModified>0); }
+    bool IsAnyModified() const { return (m_pState->m_anyModified>0); }
 
     /** Returns true if updating is frozen (ie. Freeze() called but not yet Thaw() ). */
-    inline bool IsFrozen() const { return (m_frozen>0)?true:false; }
+    bool IsFrozen() const { return (m_frozen>0)?true:false; }
 
 #if wxPG_COMPATIBILITY_1_2_0
     /** Returns true if given property is selected.
-        \deprecated
+        @deprecated
         Since version 1.3.
     */
     wxDEPRECATED( bool IsPropertySelected( wxPGPropArg id ) const );
 #endif
 
     virtual void RefreshProperty( wxPGProperty* p );
-
-    /** Sets given action to trigger on certain key event.
-        \param action
-        Which action to trigger. See @link pgactions.
-    */
-    void SetActionTrigger( int action, int keycode, int modifiers = -1, int altKeycode = 0 )
-    {
-        if ( action < wxPG_ACTION_MAX )
-            m_actionTriggers[action] = wxPGActionTrigger(keycode, modifiers, altKeycode);
-    }
 
     /** Set number of columns (2+).
     */
@@ -6564,7 +6498,7 @@ public:
 
     /** Moves splitter as left as possible, while still allowing all
         labels to be shown in full.
-        \param subProps
+        @param subProps
         If false, will still allow sub-properties (ie. properties which
         parent is not root or category) to be cropped.
     */
@@ -6575,7 +6509,7 @@ public:
 
 #ifndef SWIG
     /** Registers a new editor class.
-        \retval
+        @retval
         Pointer to the editor class instance that should be used.
     */
     static wxPGEditor* RegisterEditorClass( wxPGEditor* editor, const wxString& name,
@@ -6587,7 +6521,7 @@ public:
     void ResetColours();
 
     /** Changes keyboard shortcut to push the editor button.
-        \remarks
+        @remarks
         You can set default with keycode 0. Good value for the platform is guessed,
         but don't expect it to be very accurate.
     */
@@ -6599,7 +6533,7 @@ public:
 
     /** Sets the current category - Append will add non-categories under this one.
     */
-    inline void SetCurrentCategory( wxPGPropArg id )
+    void SetCurrentCategory( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG()
         wxPropertyCategory* pc = (wxPropertyCategory*)p;
@@ -6626,7 +6560,7 @@ public:
         captions are not affected. Background brush cache is optimized for often
         set colours to be set last.
 
-        \deprecated
+        @deprecated
         Since version 1.3. Use SetPropertyBackgroundColour instead.
     */
     wxDEPRECATED( void SetPropertyColour( wxPGPropArg id, const wxColour& col ) );
@@ -6675,12 +6609,12 @@ public:
     void SetSelectionForeground(const wxColour& col);
 
     /** Sets x coordinate of the splitter.
-        \remarks
+        @remarks
         Splitter position cannot exceed grid size, and therefore setting it during
         form creation may fail as initial grid size is often smaller than desired
         splitter position, especially when sizers are being used.
     */
-    inline void SetSplitterPosition( int newxpos, bool refresh = true )
+    void SetSplitterPosition( int newxpos, bool refresh = true )
     {
         DoSetSplitterPosition_(newxpos,refresh,0);
         m_iFlags |= wxPG_FL_SPLITTER_PRE_SET;
@@ -6698,14 +6632,14 @@ public:
 
     /** Selects a property. Editor widget is automatically created, but
         not focused unless focus is true. This will generate wxEVT_PG_SELECT event.
-        \param id
+        @param id
         Id to property to select.
-        \retval
+        @retval
         True if selection finished succesfully. Usually only fails if current
         value in editor is not valid.
-        \sa wxPropertyGrid::Unselect
+        @sa wxPropertyGrid::Unselect
     */
-    inline bool SelectProperty( wxPGPropArg id, bool focus = false )
+    bool SelectProperty( wxPGPropArg id, bool focus = false )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(false)
         return DoSelectProperty(p,focus?wxPG_SEL_FOCUS:0);
@@ -6718,13 +6652,10 @@ public:
 #endif
 
     /** Sets name of a property.
-        \param id
+        @param id
         Id of a property.
-        \param newname
+        @param newname
         New name.
-        \remarks
-        This is the only way to set property's name. There is not
-        wxPGProperty::SetName() method.
     */
     void SetPropertyName( wxPGPropArg id, const wxString& newname )
     {
@@ -6734,11 +6665,11 @@ public:
 
     /** Sets vertical spacing. Can be 1, 2, or 3 - a value relative to font
         height. Value of 2 should be default on most platforms.
-        \remarks
+        @remarks
         On wxMSW, wxComboBox, when used as property editor widget, will spill
         out with anything less than 3.
     */
-    inline void SetVerticalSpacing( int vspacing )
+    void SetVerticalSpacing( int vspacing )
     {
         m_vspacing = (unsigned char)vspacing;
         CalculateFontAndBitmapStuff( vspacing );
@@ -6746,7 +6677,7 @@ public:
     }
 
     /** Shows an brief error message that is related to a property. */
-    inline void ShowPropertyError( wxPGPropArg id, const wxString& msg )
+    void ShowPropertyError( wxPGPropArg id, const wxString& msg )
     {
         wxPG_PROP_ARG_CALL_PROLOG()
         DoShowPropertyError(p, msg);
@@ -6760,29 +6691,29 @@ public:
     void Sort( wxPGPropArg id );
 
     /** Overridden function.
-        \sa @link wndflags Additional Window Styles@endlink
+        @sa @link wndflags Additional Window Styles@endlink
     */
     virtual void SetWindowStyleFlag( long style );
 
     /** Call when editor widget's contents is modified. For example, this is called
         when changes text in wxTextCtrl (used in wxStringProperty and wxIntProperty).
-        \remarks
+        @remarks
         This should only be called by properties.
-        \sa @link wxPGProperty::OnEvent @endlink
+        @sa @link wxPGProperty::OnEvent @endlink
     */
-    inline void EditorsValueWasModified() { m_iFlags |= wxPG_FL_VALUE_MODIFIED; }
+    void EditorsValueWasModified() { m_iFlags |= wxPG_FL_VALUE_MODIFIED; }
 
     /** Reverse of EditorsValueWasModified(). */
-    inline void EditorsValueWasNotModified()
+    void EditorsValueWasNotModified()
     {
         m_iFlags &= ~(wxPG_FL_VALUE_MODIFIED);
     }
 
     /** Returns true if editor's value was marked modified. */
-    inline bool IsEditorsValueModified() const { return  ( m_iFlags & wxPG_FL_VALUE_MODIFIED ) ? true : false; }
+    bool IsEditorsValueModified() const { return  ( m_iFlags & wxPG_FL_VALUE_MODIFIED ) ? true : false; }
 
     /** Shortcut for creating dialog-caller button. Used, for example, by wxFontProperty.
-        \remarks
+        @remarks
         This should only be called by properties.
     */
     wxWindow* GenerateEditorButton( const wxPoint& pos, const wxSize& sz );
@@ -6794,18 +6725,18 @@ public:
     void FixPosForTextCtrl( wxWindow* ctrl, const wxPoint& offset = wxPoint(0, 0) );
 
     /** Shortcut for creating text editor widget.
-        \param pos
+        @param pos
         Same as pos given for CreateEditor.
-        \param sz
+        @param sz
         Same as sz given for CreateEditor.
-        \param value
+        @param value
         Initial text for wxTextCtrl.
-        \param secondary
+        @param secondary
         If right-side control, such as button, also created, then create it first
         and pass it as this parameter.
-        \param extraStyle
+        @param extraStyle
         Extra style flags to pass for wxTextCtrl.
-        \remarks
+        @remarks
         Note that this should generally be called only by new classes derived
         from wxPGProperty.
     */
@@ -6823,11 +6754,11 @@ public:
         wxPGProperty* property );
 
     /** Generates position for a widget editor dialog box.
-        \param p
+        @param p
         Property for which dialog is positioned.
-        \param sz
+        @param sz
         Known or over-approximated size of the dialog.
-        \retval
+        @retval
         Position for dialog.
     */
     wxPoint GetGoodEditorDialogPosition( wxPGProperty* p,
@@ -6855,14 +6786,14 @@ public:
     */
     bool AdjustPosForClipperWindow( wxWindow* topCtrlWnd, int* x, int* y );
 
-    inline wxWindow* GetPrimaryEditor() const
+    wxWindow* GetPrimaryEditor() const
     {
         return GetEditorControl();
     }
 
     /** Returns pointer to current active secondary editor control (NULL if none).
     */
-    inline wxWindow* GetEditorControlSecondary() const
+    wxWindow* GetEditorControlSecondary() const
     {
         return m_wndEditor2;
     }
@@ -6875,9 +6806,9 @@ public:
 #ifndef SWIG
 
     /** Generates contents for string dst based on the convetents of wxArrayString
-        src. Format will be <preDelim>str1<postDelim> <preDelim>str2<postDelim>
+        src. Format will be "(preDelim)str1(postDelim) (preDelim)str2(postDelim)
         and so on. Set flags to 1 inorder to convert backslashes to double-back-
-        slashes and "<preDelims>"'s to "\<preDelims>".
+        slashes and "(preDelims)"'s to "(preDelims)".
     */
     static void ArrayStringToString( wxString& dst, const wxArrayString& src,
                                      wxChar preDelim, wxChar postDelim,
@@ -6887,11 +6818,11 @@ public:
     */
     void OnCustomEditorEvent( wxCommandEvent &event );
 
-    inline long GetInternalFlags() const { return m_iFlags; }
-    inline void SetInternalFlag( long flag ) { m_iFlags |= flag; }
-    inline void ClearInternalFlag( long flag ) { m_iFlags &= ~(flag); }
-    inline void IncFrozen() { m_frozen++; }
-    inline void DecFrozen() { m_frozen--; }
+    long GetInternalFlags() const { return m_iFlags; }
+    void SetInternalFlag( long flag ) { m_iFlags |= flag; }
+    void ClearInternalFlag( long flag ) { m_iFlags &= ~(flag); }
+    void IncFrozen() { m_frozen++; }
+    void DecFrozen() { m_frozen--; }
 
     void OnComboItemPaint( wxPGCustomComboControl* pCb,int item,wxDC& dc,
                            wxRect& rect,int flags );
@@ -6927,7 +6858,11 @@ public:
     }
 
     /** Forces updating the value of property from the editor control.
-        Returns true if DoPropertyChanged was actually called.
+        Note that wxEVT_PG_CHANGING and wxEVT_PG_CHANGED are dispatched using ProcessEvent,
+        meaning your event handlers will be called immediately.
+
+        @retval
+        Returns true if anything was changed.
     */
     virtual bool CommitChangesFromEditor( wxUint32 flags = 0 );
 
@@ -6941,12 +6876,12 @@ public:
     virtual bool PerformValidation( wxPGProperty* p, wxVariant& pendingValue );
 
     /** Called when validation for given property fails.
-        \param invalidValue
+        @param invalidValue
         Value which failed in validation.
-        \retval
+        @retval
         Return true if user is allowed to change to another property even if current
         has invalid value.
-        \remarks
+        @remarks
         To add your own validation failure behavior, override wxPropertyGrid::DoOnValidationFailure().
     */
     bool OnValidationFailure( wxPGProperty* property, wxVariant& invalidValue )
@@ -6974,16 +6909,16 @@ public:
     virtual void DoShowPropertyError( wxPGProperty* property, const wxString& msg );
 
     /** Override to customize property validation failure behavior.
-        \param invalidValue
+        @param invalidValue
         Value which failed in validation.
-        \retval
+        @retval
         Return true if user is allowed to change to another property even if current
         has invalid value.
     */
     virtual bool DoOnValidationFailure( wxPGProperty* property, wxVariant& invalidValue );
 
     /** Override to customize resetting of property validation failure status.
-        \remarks
+        @remarks
         Property is guaranteed to have flag wxPG_PROP_INVALID_VALUE set.
     */
     virtual void DoOnValidationFailureReset( wxPGProperty* property );
@@ -6992,7 +6927,7 @@ public:
 
     /** Must be called in wxPGEditor::CreateControls() if primary editor window is wxTextCtrl,
         just before textctrl is created.
-        \param text
+        @param text
         Initial text value of created wxTextCtrl.
     */
     void SetupTextCtrlValue( const wxString text ) { m_prevTcValue = text; }
@@ -7110,14 +7045,6 @@ protected:
 	    is set on it when this is wanted by the user (see flags) */
 	wxFont              m_captionFont;
 
-#if !wxPG_HEAVY_GFX
-    int                 m_splitterprevdrawnx;
-
-    /** Pen used to draw splitter column when it is being dragged. */
-    wxPen               m_splitterpen;
-
-#endif
-
 	int                 m_fontHeight;  // Height of the font.
 
     int                 m_pushButKeyCode;  // Base keycode for triggering push button.
@@ -7144,7 +7071,7 @@ protected:
     wxPGValidationInfo  m_validationInfo;
 
     /** Actions and keys that trigger them. */
-    wxPGActionTrigger   m_actionTriggers[wxPG_ACTION_MAX];
+    wxPGHashMapI2I      m_actionTriggers;
 
     //
     // Temporary values
@@ -7187,9 +7114,6 @@ protected:
 
     /** 1 if in DoSelectProperty() */
     unsigned char       m_inDoSelectProperty;
-
-    /** true if repaint needed. */
-    //bool                m_isDirty;
 
     wxPGVFBFlags        m_permanentValidationFailureBehavior;  // Set by app
 
@@ -7338,7 +7262,7 @@ protected:
 
     void DrawItems( const wxPGProperty* p1, const wxPGProperty* p2 );
 
-    inline void DrawItem( wxPGProperty* p )
+    void DrawItem( wxPGProperty* p )
     {
         DrawItems(p,p);
     }
@@ -7357,6 +7281,14 @@ protected:
     }
 #endif
 
+    // Translate wxKeyEvent to wxPG_ACTION_XXX
+    int KeyEventToActions(wxKeyEvent &event, int* pSecond) const;
+
+    int KeyEventToAction(wxKeyEvent &event) const
+    {
+        return KeyEventToActions(event, NULL);
+    }
+
     void ImprovedClientToScreen( int* px, int* py );
 
     // Called by focus event handlers. newFocused is the window that becomes focused.
@@ -7373,9 +7305,9 @@ protected:
 
     void FreeEditors();
 
-    bool DoExpand( wxPGProperty* p, bool sendEvent = false );
+    virtual bool DoExpand( wxPGProperty* p, bool sendEvent = false );
 
-    bool DoCollapse( wxPGProperty* p, bool sendEvent = false );
+    virtual bool DoCollapse( wxPGProperty* p, bool sendEvent = false );
 
     // Returns nearest paint visible property (such that will be painted unless
     // window is scrolled or resized). If given property is paint visible, then
@@ -7404,9 +7336,6 @@ protected:
     /** Repositions scrollbar and underlying panel according to changed virtual size.
     */
     void RecalculateVirtualSize( int forceXPos = -1 );
-
-    /** When splitter is dragged to a new position, this is drawn. */
-    void DrawSplitterDragColumn( wxDC& dc, int x );
 
     void PrepareAfterItemsAdded();
 
@@ -7460,14 +7389,19 @@ inline void wxPGProperty::SetEditor( const wxString& editorName )
     m_customEditor = wxPropertyContainerMethods::GetEditorByName(editorName);
 }
 
+inline void wxPGProperty::SetName( const wxString& newName )
+{
+    GetGrid()->SetPropertyName(this, newName);
+}
+
 inline bool wxPGProperty::Hide( bool hide, int flags )
 {
-    return GetGrid()->HideProperty(wxPGIdGen(this), hide, flags);
+    return GetGrid()->HideProperty(this, hide, flags);
 }
 
 inline bool wxPGProperty::SetMaxLength( int maxLen )
 {
-    return GetGrid()->SetPropertyMaxLength(wxPGIdGen(this),maxLen);
+    return GetGrid()->SetPropertyMaxLength(this,maxLen);
 }
 
 // -----------------------------------------------------------------------
@@ -7525,9 +7459,9 @@ typedef void (wxEvtHandler::*wxPropertyGridEventFunction)(wxPropertyGridEvent&);
 #endif
 
 
-/** \class wxPropertyGridEvent
-	\ingroup classes
-    \brief A propertygrid event holds information about events associated with
+/** @class wxPropertyGridEvent
+	@ingroup classes
+    @brief A propertygrid event holds information about events associated with
     wxPropertyGrid objects.
 
     <h4>Derived from</h4>
@@ -7558,18 +7492,18 @@ public:
     virtual wxEvent* Clone() const;
 
     /** Enables property. */
-    inline void EnableProperty( bool enable = true )
+    void EnableProperty( bool enable = true )
     {
-        m_pg->EnableProperty(wxPGIdGen(m_property),enable);
+        m_pg->EnableProperty(m_property,enable);
     }
 
     /** Disables property. */
-    inline void DisableProperty()
+    void DisableProperty()
     {
-        m_pg->EnableProperty(wxPGIdGen(m_property),false);
+        m_pg->EnableProperty(m_property,false);
     }
 
-    inline wxPGProperty* GetMainParent() const
+    wxPGProperty* GetMainParent() const
     {
         wxASSERT(m_property);
         return m_property->GetMainParent();
@@ -7584,7 +7518,7 @@ public:
 #if wxPG_COMPATIBILITY_1_2_0
   #ifndef SWIG
     /** Returns pointer to associated property.
-        \deprecated
+        @deprecated
         Since version 1.3. Use GetProperty() instead.
     */
     wxPGProperty* GetPropertyPtr() const
@@ -7623,49 +7557,49 @@ public:
         return m_property->GetValue();
     }
 
-    inline wxString GetPropertyValueAsString() const
+    wxString GetPropertyValueAsString() const
     {
-        return m_pg->GetPropertyValueAsString( wxPGIdGen(m_property) );
+        return m_pg->GetPropertyValueAsString( m_property );
     }
-    inline long GetPropertyValueAsLong() const
+    long GetPropertyValueAsLong() const
     {
-        return m_pg->GetPropertyValueAsLong( wxPGIdGen(m_property) );
+        return m_pg->GetPropertyValueAsLong( m_property );
     }
-    inline int GetPropertyValueAsInt() const
+    int GetPropertyValueAsInt() const
     {
         return (int)GetPropertyValueAsLong();
     }
-    inline long GetPropertyValueAsBool() const
+    long GetPropertyValueAsBool() const
     {
-        return m_pg->GetPropertyValueAsBool( wxPGIdGen(m_property) );
+        return m_pg->GetPropertyValueAsBool( m_property );
     }
-    inline double GetPropertyValueAsDouble() const
+    double GetPropertyValueAsDouble() const
     {
-        return m_pg->GetPropertyValueAsDouble( wxPGIdGen(m_property) );
+        return m_pg->GetPropertyValueAsDouble( m_property );
     }
-    inline const wxObject* GetPropertyValueAsWxObjectPtr() const
+    const wxObject* GetPropertyValueAsWxObjectPtr() const
     {
-        return m_pg->GetPropertyValueAsWxObjectPtr( wxPGIdGen(m_property) );
+        return m_pg->GetPropertyValueAsWxObjectPtr( m_property );
     }
-    inline void* GetPropertyValueAsVoidPtr() const
+    void* GetPropertyValueAsVoidPtr() const
     {
-        return m_pg->GetPropertyValueAsVoidPtr( wxPGIdGen(m_property) );
+        return m_pg->GetPropertyValueAsVoidPtr( m_property );
     }
-    inline wxArrayString GetPropertyValueAsArrayString() const
+    wxArrayString GetPropertyValueAsArrayString() const
     {
-        return m_pg->GetPropertyValueAsArrayString( wxPGIdGen(m_property) );
+        return m_pg->GetPropertyValueAsArrayString( m_property );
     }
-    inline wxPoint GetPropertyValueAsPoint() const
+    wxPoint GetPropertyValueAsPoint() const
     {
-        return m_pg->GetPropertyValueAsPoint( wxPGIdGen(m_property) );
+        return m_pg->GetPropertyValueAsPoint( m_property );
     }
-    inline wxSize GetPropertyValueAsSize() const
+    wxSize GetPropertyValueAsSize() const
     {
-        return m_pg->GetPropertyValueAsSize( wxPGIdGen(m_property) );
+        return m_pg->GetPropertyValueAsSize( m_property );
     }
-    inline wxArrayInt GetPropertyValueAsArrayInt() const
+    wxArrayInt GetPropertyValueAsArrayInt() const
     {
-        return m_pg->GetPropertyValueAsArrayInt( wxPGIdGen(m_property) );
+        return m_pg->GetPropertyValueAsArrayInt( m_property );
     }
 
 #else
@@ -7682,11 +7616,11 @@ public:
     }
 
     /** Returns true if event has associated property. */
-    inline bool HasProperty() const { return ( m_property != (wxPGProperty*) NULL ); }
+    bool HasProperty() const { return ( m_property != (wxPGProperty*) NULL ); }
 
-    inline bool IsPropertyEnabled() const
+    bool IsPropertyEnabled() const
     {
-        return m_pg->IsPropertyEnabled(wxPGIdGen(m_property));
+        return m_pg->IsPropertyEnabled(m_property);
     }
 
     /** Returns true if you can veto the action that the event is signaling.
@@ -7695,7 +7629,7 @@ public:
 
     /** Call this from your event handler to veto action that the event is signaling.
         You can only veto a shutdown if wxPropertyGridEvent::CanVeto returns true.
-        \remarks
+        @remarks
         Currently only wxEVT_PG_CHANGING supports vetoing.
     */
     void Veto( bool veto = true ) { m_wasVetoed = veto; }
@@ -7766,9 +7700,9 @@ private:
 
 // -----------------------------------------------------------------------
 
-/** \class wxPropertyGridPopulator
-    \ingroup classes
-    \brief Allows populating wxPropertyGrid from arbitrary text source.
+/** @class wxPropertyGridPopulator
+    @ingroup classes
+    @brief Allows populating wxPropertyGrid from arbitrary text source.
 */
 class WXDLLIMPEXP_PG wxPropertyGridPopulator
 {
@@ -7785,7 +7719,7 @@ public:
     void SetGrid( wxPropertyGrid* pg );
 
     /** Appends a new property under bottommost parent.
-        \param propClass
+        @param propClass
         Property class as string.
     */
     wxPGProperty* Add( const wxString& propClass,
@@ -7801,7 +7735,7 @@ public:
     void AddChildren( wxPGProperty* property );
 
     /** Adds attribute to the bottommost property.
-        \param type
+        @param type
         Allowed values: "string", (same as string), "int", "bool". Empty string
           mean autodetect.
     */
@@ -7879,13 +7813,10 @@ protected:
     #undef wxPG_FL_DONT_CENTER_SPLITTER
     #undef wxPG_SUPPORT_TOOLTIPS
     #undef wxPG_DOUBLE_BUFFER
-    #undef wxPG_HEAVY_GFX
     #undef wxPG_ICON_WIDTH
     #undef wxPG_USE_RENDERER_NATIVE
 // Following are needed by the manager headers
-//    #undef wxPGIdGen
 //    #undef wxPGPropNameStr
-//    #undef wxPGIdToPtr
 #endif
 
 // Doxygen special

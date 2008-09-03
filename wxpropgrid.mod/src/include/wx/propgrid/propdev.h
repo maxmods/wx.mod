@@ -160,8 +160,6 @@ extern WXDLLIMPEXP_PG wxPGGlobalVarsClass* wxPGGlobalVars;
 
 #endif
 
-#define WX_PG_GLOBALS_LOCKER()
-
 // -----------------------------------------------------------------------
 
 
@@ -230,6 +228,22 @@ protected:
 #ifndef __wxPG_SOURCE_FILE__
     // Reduce compile time, but still include in user app
     #include "props.h"
+#endif
+
+// -----------------------------------------------------------------------
+
+#if !wxCHECK_VERSION(2,8,0)
+
+// There is no wxString::EndsWith() in wxWidgets 2.6.
+bool wxPG_String_EndsWith(const wxString& str, const wxChar *suffix, wxString *rest = NULL);
+
+#else
+
+inline bool wxPG_String_EndsWith(const wxString& str, const wxChar *suffix, wxString *rest = NULL)
+{
+    return str.EndsWith(suffix, rest);
+}
+
 #endif
 
 // -----------------------------------------------------------------------

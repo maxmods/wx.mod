@@ -20,6 +20,14 @@
     #include "wx/wx.h"
 #endif
 
+/*
+
+  NOTE: This source file is *not* included in the wxPropertyGrid library
+    (to prevent xrc-lib dependency). To use this code, you will need to
+    separately add src/xh_propgrid.cpp to your application.
+
+*/
+
 #if wxUSE_XRC && wxCHECK_VERSION(2,8,0)
 
 #include <wx/propgrid/propgrid.h>
@@ -58,7 +66,9 @@ wxPropertyGridXmlHandler::wxPropertyGridXmlHandler()
     XRC_ADD_STYLE(wxPG_EX_WRITEONLY_BUILTIN_ATTRIBUTES);
     XRC_ADD_STYLE(wxPG_EX_NO_FLAT_TOOLBAR);
     XRC_ADD_STYLE(wxPG_EX_MODE_BUTTONS);
+#if wxPG_COMPATIBILITY_1_2_0
     XRC_ADD_STYLE(wxPG_EX_TRADITIONAL_VALIDATORS);
+#endif
 
     AddWindowStyles();
 }
@@ -177,7 +187,7 @@ wxObject *wxPropertyGridXmlHandler::DoCreateResource()
 
         if ( property->GetChildCount() )
         {
-            wxPGPropertyWithChildren* pwc = (wxPGPropertyWithChildren*) property;
+            wxPGProperty* pwc = property;
 
             // FIXME
             wxString sExpanded(wxT("expanded"));

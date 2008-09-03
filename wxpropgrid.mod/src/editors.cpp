@@ -436,19 +436,12 @@ bool wxPGClipperWindow::ProcessEvent(wxEvent& event)
 
 // Clipper window support macro (depending on whether it is used
 // for this editor or not)
-/*
 #if wxPG_NAT_TEXTCTRL_BORDER_X || wxPG_NAT_TEXTCTRL_BORDER_Y
     #define wxPG_NAT_TEXTCTRL_BORDER_ANY    1
-    #define wxPGDeclareRealTextCtrl(WND) \
-        wxASSERT( WND ); \
-        wxTextCtrl* tc = (wxTextCtrl*)((wxPGClipperWindow*)WND)->GetControl()
 #else
     #define wxPG_NAT_TEXTCTRL_BORDER_ANY    0
-    #define wxPGDeclareRealTextCtrl(WND) \
-        wxASSERT( WND ); \
-        wxTextCtrl* tc = (wxTextCtrl*)WND
 #endif
-*/
+
 
 WX_PG_IMPLEMENT_EDITOR_CLASS(TextCtrl,wxPGTextCtrlEditor,wxPGEditor)
 
@@ -504,7 +497,15 @@ void wxPGTextCtrlEditor::DrawValue( wxDC& dc, wxPGProperty* property, const wxRe
 void wxPGTextCtrlEditor::UpdateControl( wxPGProperty* property, wxWindow* ctrl ) const
 {
     wxTextCtrl* tc = wxStaticCast(ctrl, wxTextCtrl);
-    tc->SetValue(property->GetDisplayedString());
+
+    wxString s;
+
+    if ( tc->HasFlag(wxTE_PASSWORD) )
+        s = property->GetValueAsString(wxPG_FULL_VALUE);
+    else
+        s = property->GetDisplayedString();
+
+    tc->SetValue(s);    
 }
 
 
@@ -2083,6 +2084,27 @@ wxWindow* wxPropertyGrid::GenerateEditorTextCtrlAndButton( const wxPoint& pos,
         text = property->GetValueString(property->HasFlag(wxPG_PROP_READONLY)?0:wxPG_EDITABLE_VALUE);
 
     return GenerateEditorTextCtrl(pos,sz,text,but,property->m_maxLen);
+}
+
+// -----------------------------------------------------------------------
+
+wxTextCtrl* wxPropertyGrid::GetEditorTextCtrl() const
+{
+    wxWindow* wnd = GetEditorControl();
+
+    if ( !wnd )
+        return NULL;
+
+    if ( wnd->IsKindOf(CLASSINFO(wxTextCtrl)) )
+        return wxStaticCast(wnd, wxTextCtrl);
+
+    if ( wnd->IsKindOf(CLASSINFO(wxPGOwnerDrawnComboBox)) )
+    {
+        wxPGOwnerDrawnComboBox* cb = wxStaticCast(wnd, wxPGOwnerDrawnComboBox);
+        return cb->GetTextCtrl();
+    }
+
+    return NULL;
 }
 
 // -----------------------------------------------------------------------

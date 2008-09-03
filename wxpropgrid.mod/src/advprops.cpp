@@ -453,8 +453,6 @@ wxFontProperty::wxFontProperty( const wxString& label, const wxString& name,
     // Initialize font family choices list
     if ( !wxPGGlobalVars->m_fontFamilyChoices )
     {
-        WX_PG_GLOBALS_LOCKER()
-
         wxFontEnumerator enumerator;
         enumerator.EnumerateFacenames();
 
@@ -1463,8 +1461,6 @@ void wxCursorProperty::OnCustomPaint( wxDC&, const wxRect&, wxPGPaintData& ) { }
 
 const wxString& wxPGGetDefaultImageWildcard()
 {
-    WX_PG_GLOBALS_LOCKER()
-
     // Form the wildcard, if not done yet
     if ( !wxPGGlobalVars->m_pDefaultImageWildcard.length() )
     {

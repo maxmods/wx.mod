@@ -30,9 +30,9 @@
 extern WXDLLIMPEXP_PG const wxChar *wxPropertyGridManagerNameStr;
 #endif
 
-/** \class wxPropertyGridPage
-    \ingroup classes
-    \brief
+/** @class wxPropertyGridPage
+    @ingroup classes
+    @brief
     Holder of property grid page information. You can subclass this and
     give instance in wxPropertyGridManager::AddPage. It inherits from
     wxEvtHandler and can be used to process events specific to this
@@ -85,10 +85,10 @@ public:
     /** Reduces column sizes to minimum possible that contents are still visibly (naturally
         some margin space will be applied as well).
 
-        \retval
+        @retval
         Minimum size for the page to still display everything.
 
-        \remarks
+        @remarks
         This function only works properly if size of containing grid was already fairly large.
 
         Note that you can also get calculated column widths by calling GetColumnWidth()
@@ -98,7 +98,7 @@ public:
 
     /** Returns page index in manager;
     */
-    int GetIndex() const;
+    inline int GetIndex() const;
 
     /** Returns x-coordinate position of splitter on a page.
     */
@@ -131,7 +131,7 @@ public:
     }
 
     /** Do any member initialization in this method.
-        \remarks
+        @remarks
         - Called every time the page is added into a manager.
         - You can add properties to the page here.
     */
@@ -150,7 +150,7 @@ public:
     virtual void RefreshProperty( wxPGProperty* p );
 
     /** Sets splitter position on page.
-        \remarks
+        @remarks
         Splitter position cannot exceed grid size, and therefore setting it during
         form creation may fail as initial grid size is often smaller than desired
         splitter position, especially when sizers are being used.
@@ -194,9 +194,9 @@ private:
 
 // -----------------------------------------------------------------------
 
-/** \class wxPGMEditableState
-	\ingroup classes
-    \brief
+/** @class wxPGMEditableState
+	@ingroup classes
+    @brief
     Contains information about wxPropertyGridManager's user-editable state, as
     returned by wxPropertyGridManager::SaveEditableState().
 */
@@ -233,9 +233,9 @@ public:
 
 // -----------------------------------------------------------------------
 
-/** \class wxPropertyGridManager
-    \ingroup classes
-    \brief
+/** @class wxPropertyGridManager
+    @ingroup classes
+    @brief
     wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid,
     which can optionally have toolbar for mode and page selection, and help text box.
     Use window flags to select components to include.
@@ -272,7 +272,7 @@ public:
     <tr><td>EVT_TEXT (id, func)</td><td>wxTextCtrl based editor was updated (but property value was not yet modified)</td></tr>
     </table>
 
-    \sa @link wxPropertyGridEvent wxPropertyGridEvent@endlink
+    @sa @link wxPropertyGridEvent wxPropertyGridEvent@endlink
 
 */
 // BM_MANAGER
@@ -311,7 +311,7 @@ public:
 
     /** The default constructor. The styles to be used are styles valid for
         the wxWindow.
-        \sa @link wndflags Additional Window Styles@endlink
+        @sa @link wndflags Additional Window Styles@endlink
     */
     wxPropertyGridManager( wxWindow *parent, wxWindowID id = wxID_ANY,
                	           const wxPoint& pos = wxDefaultPosition,
@@ -326,24 +326,24 @@ public:
 
     /** Creates new property page. Note that the first page is not created
         automatically.
-        \param label
+        @param label
         A label for the page. This may be shown as a toolbar tooltip etc.
-        \param bmp
+        @param bmp
         Bitmap image for toolbar. If wxNullBitmap is used, then a built-in
         default image is used.
-        \param pageObj
+        @param pageObj
         wxPropertyGridPage instance. Manager will take ownership of this object.
         NULL indicates that a default page instance should be created.
-        \retval
+        @retval
         Returns index to the page created.
-        \remarks
+        @remarks
         If toolbar is used, it is highly recommended that the pages are
         added when the toolbar is not turned off using window style flag
         switching.
     */
-    inline int AddPage( const wxString& label = wxEmptyString,
-                        const wxBitmap& bmp = wxPG_NULL_BITMAP,
-                        wxPropertyGridPage* pageObj = (wxPropertyGridPage*) NULL )
+    int AddPage( const wxString& label = wxEmptyString,
+                 const wxBitmap& bmp = wxPG_NULL_BITMAP,
+                 wxPropertyGridPage* pageObj = (wxPropertyGridPage*) NULL )
     {
         return InsertPage(-1,label,bmp,pageObj);
     }
@@ -352,14 +352,14 @@ public:
         only returns false if value in active editor has been invalidated by a
         wxValidator.
     */
-    inline bool CanClose()
+    bool CanClose()
     {
         return m_pPropGrid->CanClose();
     }
 
     void ClearModifiedStatus ( wxPGPropArg id );
 
-    inline void ClearModifiedStatus ()
+    void ClearModifiedStatus ()
     {
         m_pPropGrid->ClearModifiedStatus();
     }
@@ -383,7 +383,7 @@ public:
     /** Two step creation. Whenever the control is created without any parameters,
         use Create to actually create it. Don't access the control's public methods
         before this is called.
-        \sa @link wndflags Additional Window Styles@endlink
+        @sa @link wndflags Additional Window Styles@endlink
     */
     bool Create( wxWindow *parent, wxWindowID id = wxID_ANY,
                  const wxPoint& pos = wxDefaultPosition,
@@ -408,9 +408,9 @@ public:
     bool EnsureVisible( wxPGPropArg id );
 
     /** Returns number of children of the root property of the selected page. */
-    inline size_t GetChildrenCount()
+    size_t GetChildrenCount()
     {
-        return GetChildrenCount( wxPGIdGen(m_pPropGrid->m_pState->m_properties) );
+        return GetChildrenCount( m_pPropGrid->m_pState->m_properties );
     }
 
     /** Returns number of children of the root property of given page. */
@@ -420,7 +420,7 @@ public:
 
         NB: Cannot be in container methods class due to name hiding.
     */
-    inline size_t GetChildrenCount( wxPGPropArg id ) const
+    size_t GetChildrenCount( wxPGPropArg id ) const
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(0)
         return p->GetChildCount();
@@ -435,9 +435,9 @@ public:
 
     /** Used to acquire user-editable state (selected property, expanded properties, scrolled position,
         current page).
-        \param pState
+        @param pState
         Pointer wxPGMEditableState to write.
-        \param includedStates
+        @param includedStates
         Which parts of state to include. See wxPGEditableState::IncludeFlags for possible bits to use.
     */
     void SaveEditableState( wxPGMEditableState* pState, int includedStates = wxPGEditableState::All ) const;
@@ -463,7 +463,7 @@ public:
     };
 
     /** Returns iterator class instance.
-        \remarks
+        @remarks
         Calling this method in wxPropertyGridManager causes run-time assertion failure.
         Please only iterate through individual pages or use CreateVIterator().
     */
@@ -480,7 +480,7 @@ public:
     }
 
     /** Returns iterator class instance.
-        \remarks
+        @remarks
         Calling this method in wxPropertyGridManager causes run-time assertion failure.
         Please only iterate through individual pages or use CreateVIterator().
     */
@@ -505,12 +505,12 @@ public:
 #if wxPG_COMPATIBILITY_1_2_0
 
     /** Returns id of last child of given property.
-        \deprecated
+        @deprecated
         Since version 1.3. Use GetPage()->GetIterator() instead.
-        \remarks
+        @remarks
         Returns even sub-properties.
     */
-    inline wxPGProperty* GetLastChild( wxPGPropArg id )
+    wxPGProperty* GetLastChild( wxPGPropArg id )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(wxNullProperty)
         if ( !p->GetChildCount() ) return wxNullProperty;
@@ -568,7 +568,7 @@ public:
     /** Returns "root property" of the given page. It does not have name, etc.
         and it is not visible. It is only useful for accessing its children.
     */
-    wxPGId GetPageRoot( int index ) const;
+    wxPGProperty* GetPageRoot( int index ) const;
 
     /** Returns id of property with given label (case-sensitive). If there is no
         property with such label, returned property id is invalid ( i.e. it will return
@@ -579,31 +579,31 @@ public:
                                       wxPropertyGridState** ppState = (wxPropertyGridState**)NULL ) const;
 
     /** Returns cell background colour of a property. */
-    inline wxColour GetPropertyColour( wxPGPropArg id ) const
+    wxColour GetPropertyColour( wxPGPropArg id ) const
     {
         return m_pPropGrid->GetPropertyColour(id);
     }
 
     /** Returns cell text colour of a property. */
-    inline wxColour GetPropertyTextColour( wxPGPropArg id ) const
+    wxColour GetPropertyTextColour( wxPGPropArg id ) const
     {
         return m_pPropGrid->GetPropertyTextColour(id);
     }
 
     /** Returns index to currently selected page. */
-    inline int GetSelectedPage() const { return m_selPage; }
+    int GetSelectedPage() const { return m_selPage; }
 
     /** Shortcut for GetGrid()->GetSelection(). */
-    inline wxPGId GetSelectedProperty() const
+    wxPGProperty* GetSelectedProperty() const
     {
         return m_pPropGrid->GetSelection();
     }
 
     /** Synonyme for GetSelectedPage. */
-    inline int GetSelection() const { return m_selPage; }
+    int GetSelection() const { return m_selPage; }
 
 #if wxPG_COMPATIBILITY_1_2_0
-    /** \deprecated
+    /** @deprecated
         Since version 1.3. Use GetPage() and wxPropertyGridPage facilities instead.
     */
     wxDEPRECATED( int GetTargetPage() const );
@@ -611,21 +611,21 @@ public:
 
     /** Returns a pointer to the toolbar currently associated with the
         wxPropertyGridManager (if any). */
-    inline wxToolBar* GetToolBar() const { return m_pToolbar; }
+    wxToolBar* GetToolBar() const { return m_pToolbar; }
 
     /** Creates new property page. Note that the first page is not created
         automatically.
-        \param index
+        @param index
         Add to this position. -1 will add as the last item.
-        \param label
+        @param label
         A label for the page. This may be shown as a toolbar tooltip etc.
-        \param bmp
+        @param bmp
         Bitmap image for toolbar. If wxNullBitmap is used, then a built-in
         default image is used.
-        \param pageObj
+        @param pageObj
         wxPropertyGridPage instance. Manager will take ownership of this object.
         If NULL, default page object is constructed.
-        \retval
+        @retval
         Returns index to the page created.
     */
     virtual int InsertPage( int index, const wxString& label, const wxBitmap& bmp = wxNullBitmap,
@@ -635,7 +635,7 @@ public:
     bool IsAnyModified() const;
 
     /** Returns true if updating is frozen (ie. Freeze() called but not yet Thaw() ). */
-    inline bool IsFrozen() const { return (m_pPropGrid->m_frozen>0)?true:false; }
+    bool IsFrozen() const { return (m_pPropGrid->m_frozen>0)?true:false; }
 
     /** Returns true if any property on given page has been modified by the user. */
     bool IsPageModified( size_t index ) const;
@@ -648,14 +648,14 @@ public:
 #endif
 
     /** Removes a page.
-        \retval
+        @retval
         Returns false if it was not possible to remove page in question.
     */
     virtual bool RemovePage( int page );
 
     /** Select and displays a given page. Also makes it target page for
         insert operations etc.
-        \param index
+        @param index
         Index of page being seleced. Can be -1 to select nothing.
     */
     void SelectPage( int index );
@@ -675,7 +675,7 @@ public:
     }
 
     /** Select a property. */
-    inline bool SelectProperty( wxPGPropArg id, bool focus = false )
+    bool SelectProperty( wxPGPropArg id, bool focus = false )
     {
         wxPG_PROP_ARG_CALL_PROLOG_RETVAL(false)
         return p->GetParentState()->DoSelectProperty(p, focus);
@@ -691,7 +691,7 @@ public:
 
     /** Sets text colour of a category caption (but not it's children).
     */
-    inline void SetCaptionTextColour( wxPGPropArg id, const wxColour& col )
+    void SetCaptionTextColour( wxPGPropArg id, const wxColour& col )
     {
         m_pPropGrid->SetCaptionTextColour( id, col );
     }
@@ -710,7 +710,7 @@ public:
         captions are not affected. Background brush cache is optimized for often
         set colours to be set last.
 
-        \deprecated
+        @deprecated
         Since version 1.3. Use SetPropertyBackgroundColour instead.
     */
     wxDEPRECATED( void SetPropertyColour( wxPGPropArg id, const wxColour& col ) );
@@ -720,30 +720,30 @@ public:
         captions are not affected. Background brush cache is optimized for often
         set colours to be set last.
     */
-    inline void SetPropertyBackgroundColour( wxPGPropArg id, const wxColour& col )
+    void SetPropertyBackgroundColour( wxPGPropArg id, const wxColour& col )
     {
         m_pPropGrid->SetPropertyBackgroundColour( id, col );
     }
 
     /** Sets text colour of property and all its children.
     */
-    inline void SetPropertyTextColour( wxPGPropArg id, const wxColour& col )
+    void SetPropertyTextColour( wxPGPropArg id, const wxColour& col )
     {
         m_pPropGrid->SetPropertyTextColour( id, col );
     }
 
     /** Sets background and text colour of property and all its children to the default. */
-    inline void SetPropertyColourToDefault( wxPGPropArg id )
+    void SetPropertyColourToDefault( wxPGPropArg id )
     {
         m_pPropGrid->SetPropertyColourToDefault(id);
     }
 
     /** Moves splitter as left as possible, while still allowing all
         labels to be shown in full.
-        \param subProps
+        @param subProps
         If false, will still allow sub-properties (ie. properties which
         parent is not root or category) to be cropped.
-        \param allPages
+        @param allPages
         If true, takes labels on all pages into account.
     */
     void SetSplitterLeft( bool subProps = false, bool allPages = true );
@@ -755,7 +755,7 @@ public:
     }
 
     /** Sets splitter position for all pages.
-        \remarks
+        @remarks
         Splitter position cannot exceed grid size, and therefore setting it during
         form creation may fail as initial grid size is often smaller than desired
         splitter position, especially when sizers are being used.
@@ -763,13 +763,13 @@ public:
     void SetSplitterPosition( int pos, int column = 0 );
 
     /** Synonyme for SelectPage(name). */
-    inline void SetStringSelection( const wxChar* name )
+    void SetStringSelection( const wxChar* name )
     {
         SelectPage( GetPageByName(name) );
     }
 
 #if wxPG_COMPATIBILITY_1_2_0
-    /** \deprecated
+    /** @deprecated
         Since version 1.3. Use GetPage() and wxPropertyGridPage facilities instead.
     */
     wxDEPRECATED( void SetTargetPage( int ) );
@@ -777,10 +777,10 @@ public:
 #endif
 
     /** Deselect current selection, if any (from current page).
-        \retval
+        @retval
         false if editor could not be closed.
     */
-    inline bool ClearSelection()
+    bool ClearSelection()
     {
         return m_pPropGrid->ClearSelection();
     }

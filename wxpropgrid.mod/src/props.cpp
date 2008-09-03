@@ -418,8 +418,6 @@ bool wxIntProperty::StringToValue( wxVariant& variant, const wxString& text, int
     }
     else if ( argFlags & wxPG_REPORT_ERROR )
     {
-        //s.Printf( wxT("! %s: \"%s\" is not a number."), m_label.c_str(), text.c_str() );
-        //ShowError(s);
     }
     return false;
 }
@@ -567,8 +565,6 @@ wxUIntProperty::~wxUIntProperty() { }
 
 wxString wxUIntProperty::GetValueAsString( int ) const
 {
-    //return wxString::Format(wxPGGlobalVars->m_uintTemplate.c_str(),m_value);
-
     size_t index = m_base + m_prefix;
     if ( index >= wxPG_UINT_TEMPLATE_MAX )
         index = wxPG_BASE_DEC;
@@ -619,12 +615,6 @@ bool wxUIntProperty::StringToValue( wxVariant& variant, const wxString& text, in
         }
 
     }
-    /*}
-    else if ( argFlags & wxPG_REPORT_ERROR )
-    {
-        s.Printf ( wxT("! %s: \"%s\" is not a number."), m_label.c_str(), text.c_str() );
-        ShowError(s);
-    }*/
     return false;
 }
 
@@ -806,7 +796,6 @@ bool wxFloatProperty::StringToValue( wxVariant& variant, const wxString& text, i
     }
     else if ( argFlags & wxPG_REPORT_ERROR )
     {
-        //ShowError(wxString::Format( _("\"%s\" is not a floating-point number"), text.c_str() ));
     }
     return false;
 }
@@ -990,12 +979,6 @@ bool wxBoolProperty::StringToValue( wxVariant& variant, const wxString& text, in
         variant = wxPGVariant_Bool(value);
         return true;
     }
-    /*
-    else if ( argFlags & wxPG_REPORT_ERROR )
-    {
-        wxLogError ( wxT("Property %s: \"%s\" is not a boolean value (True and False are valid)."), m_label.c_str(), text.c_str() );
-    }
-    */
     return false;
 }
 
@@ -1024,7 +1007,6 @@ bool wxBoolProperty::DoSetAttribute( const wxString& name, wxVariant& value )
             m_flags &= ~(wxPG_PROP_USE_CHECKBOX);
         return true;
     }
-    //else
 #endif
     if ( name == wxPG_BOOL_USE_DOUBLE_CLICK_CYCLING )
     {
@@ -1180,14 +1162,6 @@ bool wxBaseEnumProperty::ValueFromString_( wxVariant& value, const wxString& tex
         else
             return false;
     }
-
-    /*}
-    else if ( argFlags & wxPG_REPORT_ERROR )
-    {
-        wxString s;
-        s.Printf ( wxT("\"%s\" was not among valid choices."), text.c_str() );
-        ShowError(s);
-    }*/
     return false;
 }
 
@@ -1417,8 +1391,6 @@ void wxFlagsProperty::Init()
         wxPropertyGridState* state = GetParentState();
 
         // State safety check (it may be NULL in immediate parent)
-        //wxPGProperty* parent = GetParent();
-        //while ( !state ) { wxASSERT(parent); state = parent->GetParentState(); parent = parent->GetParent(); }
         wxASSERT( state );
 
         if ( state )
@@ -1538,7 +1510,6 @@ wxFlagsProperty::wxFlagsProperty( const wxString& label, const wxString& name,
 
 wxFlagsProperty::~wxFlagsProperty()
 {
-    //wxPGUnRefChoices(m_choices);
 }
 
 void wxFlagsProperty::OnSetValue()
@@ -1657,8 +1628,6 @@ bool wxFlagsProperty::StringToValue( wxVariant& variant, const wxString& text, i
             }
             else
             {
-            // Unknown identifier
-                //ShowError(wxString::Format( wxT("! %s: Unknown flag identifier \"%s\""), m_label.c_str(), token.c_str()));
                 break;
             }
         }
@@ -2216,7 +2185,6 @@ void wxArrayEditorDialog::OnIdle(wxIdleEvent& event)
          focused != m_butAdd && focused != m_butUpdate &&
          m_lbStrings->GetSelection() >= 0 )
     {
-        //wxLogDebug(wxT("Focused: %s"),focused?focused->GetClassInfo()->GetClassName():wxT("NULL"));
         // ListBox was just focused.
         m_butAdd->Enable(false);
         m_butUpdate->Enable(false);
@@ -2227,7 +2195,6 @@ void wxArrayEditorDialog::OnIdle(wxIdleEvent& event)
     }
     else if ( (m_curFocus == 1 && focused == m_edValue) /*|| m_curFocus == 2*/ )
     {
-        //wxLogDebug(wxT("Focused: %s"),focused?focused->GetClassInfo()->GetClassName():wxT("NULL"));
         // TextCtrl was just focused.
         m_butAdd->Enable(true);
         bool upd_enable = false;
@@ -2490,23 +2457,6 @@ void wxArrayEditorDialog::OnUpdateClick(wxCommandEvent& )
         }
     }
 }
-
-// -----------------------------------------------------------------------
-
-/*void wxArrayEditorDialog::OnCustomEditClick(wxCommandEvent& )
-{
-    wxASSERT ( m_pCallingClass );
-    wxString str = m_edValue->GetValue();
-    if ( m_pCallingClass->OnCustomStringEdit(m_parent,str) )
-    {
-        //m_edValue->SetValue ( str );
-        if ( ArrayInsert(-1,str) )
-        {
-            m_lbStrings->Append ( str );
-            m_modified = true;
-        }
-    }
-}*/
 
 // -----------------------------------------------------------------------
 
@@ -2812,18 +2762,15 @@ wxCustomProperty::wxCustomProperty( const wxString& label,
                                     const wxString& name )
     : wxPGProperty(label,name)
 {
-    //m_parentingType = -2;
 #ifdef wxPG_COMPATIBILITY_1_0_0
     m_callback = (wxPropertyGridCallback) NULL;
 #endif
-    //m_choices = &wxPGGlobalVars->m_emptyChoicesData;
     m_paintCallback = (wxPGPaintCallback) NULL;
     m_value = wxPGVariant_EmptyString;  // Do this to avoid having 'unspecified' value
 }
 
 wxCustomProperty::~wxCustomProperty()
 {
-    //wxPGUnRefChoices(m_choices);
 }
 
 bool wxCustomProperty::StringToValue( wxVariant& variant, const wxString& text, int WXUNUSED(argFlags) ) const
@@ -2907,7 +2854,7 @@ bool wxCustomProperty::DoSetAttribute( const wxString& name, wxVariant& value )
     if ( name == wxPG_CUSTOM_EDITOR )
     {
         if ( grid )
-            grid->SetPropertyEditor( wxPGIdGen(this), (wxPGEditor*) value.GetVoidPtr() );
+            grid->SetPropertyEditor( this, (wxPGEditor*) value.GetVoidPtr() );
         else
             SetEditor( (wxPGEditor*) value.GetVoidPtr() );
         return true;
@@ -2916,7 +2863,7 @@ bool wxCustomProperty::DoSetAttribute( const wxString& name, wxVariant& value )
     {
         wxBitmap* bmp = (wxBitmap*) value.GetWxObjectPtr();
         if ( grid )
-            grid->SetPropertyImage(wxPGIdGen(this),*bmp);
+            grid->SetPropertyImage(this,*bmp);
         else
             SetValueImage(*bmp);
         return true;
@@ -2977,13 +2924,11 @@ bool wxPGInDialogValidator::DoValidate( wxPropertyGrid* propGrid,
         m_textCtrl = tc;
     }
 
-    //wxString oldValue = tc->GetValue();
     tc->SetValue(value);
 
     validator->SetWindow(tc);
     bool res = validator->Validate(propGrid);
 
-    //tc->SetValue(oldValue);
     return res;
 }
 #else

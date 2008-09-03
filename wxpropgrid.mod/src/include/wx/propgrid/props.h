@@ -267,7 +267,6 @@ WX_PG_IMPLEMENT_CUSTOM_COLOUR_PROPERTY_USES_WXCOLOUR2(CLASSNAME,LABELS,VALUES,CO
 //
 // These macros helps creating DoGetValidator
 #define WX_PG_DOGETVALIDATOR_ENTRY() \
-    WX_PG_GLOBALS_LOCKER() \
     static wxValidator* s_ptr = (wxValidator*) NULL; \
     if ( s_ptr ) return s_ptr;
 
@@ -281,9 +280,9 @@ WX_PG_IMPLEMENT_CUSTOM_COLOUR_PROPERTY_USES_WXCOLOUR2(CLASSNAME,LABELS,VALUES,CO
 
 #ifndef SWIG
 
-/** \class wxPGInDialogValidator
-    \ingroup classes
-    \brief Creates and manages a temporary wxTextCtrl for validation purposes.
+/** @class wxPGInDialogValidator
+    @ingroup classes
+    @brief Creates and manages a temporary wxTextCtrl for validation purposes.
     Uses wxPropertyGrid's current editor, if available.
 */
 class WXDLLIMPEXP_PG wxPGInDialogValidator
@@ -315,14 +314,14 @@ private:
 
 #define wxPG_PROP_PASSWORD  wxPG_PROP_CLASS_SPECIFIC_2
 
-/** \class wxStringProperty
-	\ingroup classes
-    \brief Basic property with string value.
+/** @class wxStringProperty
+	@ingroup classes
+    @brief Basic property with string value.
 
     <b>Supported special attributes:</b>
     - "Password": set to 1 inorder to enable wxTE_PASSWORD on the editor.
 
-    \remarks
+    @remarks
     - If value "<composed>" is set, then actual value is formed (or composed) from
       values of child properties.
 */
@@ -367,40 +366,40 @@ enum
 
 // -----------------------------------------------------------------------
 
-/** \class wxIntProperty
-	\ingroup classes
-    \brief Basic property with integer value. Seamlessly supports 64-bit integer (wxLongLong) on overflow.
+/** @class wxIntProperty
+	@ingroup classes
+    @brief Basic property with integer value. Seamlessly supports 64-bit integer (wxLongLong) on overflow.
 
     <b>Example how to use seamless 64-bit integer support</b>
 
       Getting value:
 
-      \code
+      @code
           wxLongLong_t value = pg->GetPropertyValueAsLongLong();
-      \endcode
+      @endcode
 
          or
 
-      \code
+      @code
           wxLongLong_t value;
           wxVariant variant = property->GetValue();
           if ( variant.GetType() == wxT("wxLongLong") )
               value = wxLongLongFromVariant(variant);
           else
               value = variant.GetLong();
-      \endcode
+      @endcode
 
       Setting value:
 
-       \code
+       @code
           pg->SetPropertyValue(longLongVal);
-      \endcode
+      @endcode
 
          or
 
-      \code
+      @code
           property->SetValue(WXVARIANT(longLongVal));
-      \endcode
+      @endcode
 
 
     <b>Supported special attributes:</b>
@@ -422,10 +421,6 @@ public:
     virtual wxValidator* DoGetValidator() const;
 
     /** Validation helper.
-
-        \param showError
-        If true, error message is shown and value is not modified, if false no error
-        message is shown and value is saturated to limits.
     */
     static bool DoValidation( const wxPGProperty* property, wxLongLong_t& value, wxPGValidationInfo* pValidationInfo, int mode = wxPG_PROPERTY_VALIDATION_ERROR_MESSAGE );
 
@@ -434,9 +429,9 @@ protected:
 
 // -----------------------------------------------------------------------
 
-/** \class wxUIntProperty
-	\ingroup classes
-    \brief Basic property with unsigned integer value. Seamlessly supports 64-bit integer (wxULongLong) on overflow.
+/** @class wxUIntProperty
+	@ingroup classes
+    @brief Basic property with unsigned integer value. Seamlessly supports 64-bit integer (wxULongLong) on overflow.
 
     <b>Supported special attributes:</b>
     - "Min", "Max": Specify acceptable value range.
@@ -445,7 +440,7 @@ protected:
     - "Prefix": Possible values are wxPG_PREFIX_NONE, wxPG_PREFIX_0x, and wxPG_PREFIX_DOLLAR_SIGN.
     Only wxPG_PREFIX_NONE works with Decimal and Octal numbers.
 
-    \remarks
+    @remarks
     - For example how to use seamless 64-bit integer support, see wxIntProperty documentation (just
       use wxULongLong instead of wxLongLong).
 */
@@ -471,9 +466,9 @@ private:
 
 // -----------------------------------------------------------------------
 
-/** \class wxFloatProperty
-	\ingroup classes
-    \brief Basic property with double-precision floating point value.
+/** @class wxFloatProperty
+	@ingroup classes
+    @brief Basic property with double-precision floating point value.
 
     <b>Supported special attributes:</b>
     - "Precision": Sets the (max) precision used when floating point value is rendered as text.
@@ -492,10 +487,6 @@ public:
     virtual bool ValidateValue( wxVariant& value, wxPGValidationInfo& validationInfo ) const;
 
     /** Validation helper.
-
-        \param showError
-        If true, error message is shown and value is not modified, if false no error
-        message is shown and value is saturated to limits.
     */
     static bool DoValidation( const wxPGProperty* property, double& value, wxPGValidationInfo* pValidationInfo, int mode = wxPG_PROPERTY_VALIDATION_ERROR_MESSAGE );
 
@@ -506,9 +497,9 @@ protected:
 
 // -----------------------------------------------------------------------
 
-/** \class wxBoolProperty
-	\ingroup classes
-    \brief Basic property with boolean value.
+/** @class wxBoolProperty
+	@ingroup classes
+    @brief Basic property with boolean value.
 
     <b>Supported special attributes:</b>
     - "UseCheckbox": Set to 1 to use check box editor instead of combo box.
@@ -529,12 +520,12 @@ public:
 
 // -----------------------------------------------------------------------
 
-/** \class wxBaseEnumProperty
-    \ingroup classes
-    \brief
+/** @class wxBaseEnumProperty
+    @ingroup classes
+    @brief
     Derive dynamic custom properties with choices from this class.
 
-    \remarks
+    @remarks
     - Updating private index is important. You can do this either by calling SetIndex()
       in IntToValue, and then letting wxBaseEnumProperty::OnSetValue be called (by
       not implementing it, or by calling super class function in it) -OR-
@@ -597,9 +588,9 @@ private:
 // changed (i.e. returns NULL in GetPropertyChoices).
 #define wxPG_PROP_STATIC_CHOICES    wxPG_PROP_CLASS_SPECIFIC_1
 
-/** \class wxEnumProperty
-    \ingroup classes
-    \brief
+/** @class wxEnumProperty
+    @ingroup classes
+    @brief
     You can derive custom properties with choices from this class. See wxBaseEnumProperty
     for remarks.
 */
@@ -633,7 +624,7 @@ public:
     virtual int GetIndexForValue( int value ) const;
     virtual const wxString* GetEntry( size_t index, int* pvalue ) const;
 
-    inline size_t GetItemCount() const { return m_choices.GetCount(); }
+    size_t GetItemCount() const { return m_choices.GetCount(); }
     const wxPGChoices& GetChoices() const { return m_choices; }
 
 protected:
@@ -642,12 +633,12 @@ protected:
 
 // -----------------------------------------------------------------------
 
-/** \class wxEditEnumProperty
-    \ingroup classes
-    \brief
+/** @class wxEditEnumProperty
+    @ingroup classes
+    @brief
     wxEnumProperty with wxString value and writable combo box editor.
 
-    \remarks
+    @remarks
     Uses int value, similar to wxEnumProperty, unless text entered by user is
     is not in choices (in which case string value is used).
 */
@@ -675,9 +666,9 @@ protected:
 
 // -----------------------------------------------------------------------
 
-/** \class wxFlagsProperty
-    \ingroup classes
-    \brief
+/** @class wxFlagsProperty
+    @ingroup classes
+    @brief
     Represents a bit set that fits in a long integer. wxBoolProperty sub-properties
     are created for editing individual bits. Textctrl is created to manually edit
     the flags as a text; a continous sequence of spaces, commas and semicolons
@@ -711,8 +702,8 @@ public:
     virtual int GetChoiceInfo( wxPGChoiceInfo* choiceinfo );
 
     // helpers
-    inline size_t GetItemCount() const { return m_choices.GetCount(); }
-    inline const wxString& GetLabel( size_t ind ) const { return m_choices.GetLabel(ind); }
+    size_t GetItemCount() const { return m_choices.GetCount(); }
+    const wxString& GetLabel( size_t ind ) const { return m_choices.GetLabel(ind); }
 
 protected:
     wxPGChoices             m_choices;
@@ -732,8 +723,8 @@ protected:
 
 // -----------------------------------------------------------------------
 
-/** \class wxPGFileDialogAdapter
-    \ingroup classes
+/** @class wxPGFileDialogAdapter
+    @ingroup classes
 */
 class WXDLLIMPEXP_PG wxPGFileDialogAdapter : public wxPGEditorDialogAdapter
 {
@@ -748,9 +739,9 @@ public:
 // Indicates first bit useable by derived properties.
 #define wxPG_PROP_SHOW_FULL_FILENAME  wxPG_PROP_CLASS_SPECIFIC_1
 
-/** \class wxFileProperty
-    \ingroup classes
-    \brief
+/** @class wxFileProperty
+    @ingroup classes
+    @brief
     Like wxLongStringProperty, but the button triggers file selector instead.
 
     <b>Supported special attributes:</b>
@@ -798,8 +789,8 @@ protected:
 #define wxPG_PROP_NO_ESCAPE     wxPG_PROP_CLASS_SPECIFIC_1
 
 
-/** \class wxPGLongStringDialogAdapter
-    \ingroup classes
+/** @class wxPGLongStringDialogAdapter
+    @ingroup classes
 */
 class WXDLLIMPEXP_PG wxPGLongStringDialogAdapter : public wxPGEditorDialogAdapter
 {
@@ -808,9 +799,9 @@ public:
 };
 
 
-/** \class wxLongStringProperty
-    \ingroup classes
-    \brief
+/** @class wxLongStringProperty
+    @ingroup classes
+    @brief
     Like wxStringProperty, but has a button that triggers a small text
     editor dialog.
 */
@@ -841,9 +832,9 @@ protected:
 
 // -----------------------------------------------------------------------
 
-/** \class wxDirProperty
-    \ingroup classes
-    \brief
+/** @class wxDirProperty
+    @ingroup classes
+    @brief
     Like wxLongStringProperty, but the button triggers dir selector instead.
 
     <b>Supported special attributes:</b>
@@ -879,9 +870,9 @@ protected:
 
 // -----------------------------------------------------------------------
 
-/** \class wxArrayStringProperty
-    \ingroup classes
-    \brief
+/** @class wxArrayStringProperty
+    @ingroup classes
+    @brief
     Property that manages a list of strings.
 */
 class WXDLLIMPEXP_PG wxArrayStringProperty : public wxPGProperty
@@ -1040,7 +1031,7 @@ public:
         wx way, ie. it immediately prevents user from entering invalid
         input.
 
-        \remarks
+        @remarks
         Dialog frees the validator.
     */
     virtual wxValidator* GetTextCtrlValidator() const
@@ -1124,7 +1115,7 @@ public:
         return m_array;
     }
 
-    inline void SetCustomButton( const wxChar* custBtText, wxArrayStringProperty* pcc )
+    void SetCustomButton( const wxChar* custBtText, wxArrayStringProperty* pcc )
     {
         m_custBtText = custBtText;
         m_pCallingClass = pcc;
@@ -1160,9 +1151,9 @@ private:
 
 // -----------------------------------------------------------------------
 
-/** \class wxCustomProperty
-    \ingroup classes
-    \brief This is a somewhat inefficient but versatile property class.
+/** @class wxCustomProperty
+    @ingroup classes
+    @brief This is a somewhat inefficient but versatile property class.
 
    Base class offers the following:
      - By default has string value type.

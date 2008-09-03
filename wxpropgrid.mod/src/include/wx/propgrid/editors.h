@@ -44,14 +44,14 @@ public:
 
 // -----------------------------------------------------------------------
 
-/** \class wxPGEditor
-    \ingroup classes
-    \brief Base for property editor classes.
-    \remarks
+/** @class wxPGEditor
+    @ingroup classes
+    @brief Base for property editor classes.
+    @remarks
     - Event handling:
       wxPGEditor::CreateControls should Connect all necessary events to the
       wxPropertyGrid::OnCustomEditorEvent. For Example:
-        \code
+        @code
             // Relays wxEVT_COMMAND_TEXT_UPDATED events of primary editor
             // control to the OnEvent.
             // NOTE: This event in particular is actually automatically conveyed, but
@@ -59,7 +59,7 @@ public:
             propgrid->Connect( wxPG_SUBID1, wxEVT_COMMAND_TEXT_UPDATED,
                               (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction)
                               &wxPropertyGrid::OnCustomEditorEvent );
-        \endcode
+        @endcode
       OnCustomEditorEvent will then forward events, first to wxPGEditor::OnEvent
       and then to wxPGProperty::OnEvent.
     - You need to call macro wxPGRegisterEditorClass(EditorName) before using a custom editor class.
@@ -90,16 +90,16 @@ public:
     virtual wxPG_CONST_WXCHAR_PTR GetName() const = 0;
 
     /** Instantiates editor controls.
-        \remarks
+        @remarks
         - Primary control shall use id wxPG_SUBID1, and secondary (button) control
           shall use wxPG_SUBID2.
-        \param propgrid
+        @param propgrid
         wxPropertyGrid to which the property belongs (use as parent for control).
-        \param property
+        @param property
         Property for which this method is called.
-        \param pos
+        @param pos
         Position, inside wxPropertyGrid, to create control(s) to.
-        \param size
+        @param size
         Initial size for control(s).
     */
     virtual wxPGWindowList CreateControls( wxPropertyGrid* propgrid, wxPGProperty* property,
@@ -390,9 +390,9 @@ if ( wxPGEditor_##EDITOR == (wxPGEditor*) NULL ) \
 
 // -----------------------------------------------------------------------
 
-/** \class wxPGEditorDialogAdapter
-	\ingroup classes
-    \brief
+/** @class wxPGEditorDialogAdapter
+	@ingroup classes
+    @brief
     Derive a class from this to adapt an existing editor dialog or function to
     be used when editor button of a property is pushed.
 
@@ -446,15 +446,15 @@ private:
 // -----------------------------------------------------------------------
 
 
-/** \class wxPGMultiButton
-	\ingroup classes
-    \brief
+/** @class wxPGMultiButton
+	@ingroup classes
+    @brief
     This class can be used to have multiple buttons in a property editor.
     You will need to create a new property editor class, override CreateControls,
     and have it return wxPGMultiButton instance in wxPGWindowList::SetSecondary().
     For instance, here we add three buttons to a textctrl editor:
 
-    \code
+    @code
 
     #include <wx/propgrid/editors.h>
 
@@ -530,11 +530,11 @@ private:
         return wxPGTextCtrlEditor::OnEvent(propGrid, property, ctrl, event);
     }
 
-    \endcode
+    @endcode
 
     Further to use this editor, code like this can be used:
 
-    \code
+    @code
 
         // Register editor class - needs only to be called once
         wxPGRegisterEditorClass( MultiButtonTextCtrlEditor );
@@ -545,7 +545,7 @@ private:
         // Change property to use editor created in the previous code segment
         propGrid->SetPropertyEditor( wxT("MultipleButtons"), wxPG_EDITOR(MultiButtonTextCtrlEditor) );
 
-    \endcode
+    @endcode
 */
 class WXDLLIMPEXP_PG wxPGMultiButton : public wxWindow
 {

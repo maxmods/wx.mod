@@ -62,9 +62,9 @@ WX_PG_DECLARE_EDITOR_WITH_DECL(DatePickerCtrl,WXDLLIMPEXP_PG)
 #define wxPG_COLOUR_CUSTOM      0xFFFFFF
 #define wxPG_COLOUR_UNSPECIFIED (wxPG_COLOUR_CUSTOM+1)
 
-/** \class wxColourPropertyValue
-    \ingroup classes
-    \brief Because text, background and other colours tend to differ between
+/** @class wxColourPropertyValue
+    @ingroup classes
+    @brief Because text, background and other colours tend to differ between
     platforms, wxSystemColourProperty must be able to select between system
     colour and, when necessary, to pick a custom one. wxSystemColourProperty
     value makes this possible.
@@ -104,24 +104,24 @@ public:
         m_colour = v.m_colour;
     }
 
-    inline void Init( wxUint32 type, const wxColour& colour )
+    void Init( wxUint32 type, const wxColour& colour )
     {
         m_type = type;
         m_colour = colour;
     }
 
-    inline wxColourPropertyValue( const wxColour& colour )
+    wxColourPropertyValue( const wxColour& colour )
     {
         m_type = wxPG_COLOUR_CUSTOM;
         m_colour = colour;
     }
 
-    inline wxColourPropertyValue( wxUint32 type )
+    wxColourPropertyValue( wxUint32 type )
     {
         m_type = type;
     }
 
-    inline wxColourPropertyValue( wxUint32 type, const wxColour& colour )
+    wxColourPropertyValue( wxUint32 type, const wxColour& colour )
     {
         Init( type, colour );
     }
@@ -163,9 +163,9 @@ WX_PG_DECLARE_WXOBJECT_VARIANT_DATA(wxPGVariantDataColourPropertyValue, wxColour
 
 // -----------------------------------------------------------------------
 
-/** \class wxFontProperty
-    \ingroup classes
-    \brief Property representing wxFont.
+/** @class wxFontProperty
+    @ingroup classes
+    @brief Property representing wxFont.
 */
 class WXDLLIMPEXP_PG wxFontProperty : public wxPGProperty
 {
@@ -191,9 +191,9 @@ protected:
 #define wxPG_PROP_TRANSLATE_CUSTOM      wxPG_PROP_CLASS_SPECIFIC_1
 
 
-/** \class wxSystemColourProperty
-    \ingroup classes
-    \brief Has dropdown list of wxWidgets system colours. Value used is
+/** @class wxSystemColourProperty
+    @ingroup classes
+    @brief Has dropdown list of wxWidgets system colours. Value used is
     of wxColourPropertyValue type.
 */
 class WXDLLIMPEXP_PG wxSystemColourProperty : public wxEnumProperty
@@ -270,9 +270,9 @@ WX_PG_DECLARE_CUSTOM_COLOUR_PROPERTY_USES_WXCOLOUR_WITH_DECL(wxColourProperty, c
 
 // -----------------------------------------------------------------------
 
-/** \class wxCursorProperty
-    \ingroup classes
-    \brief Property representing wxCursor.
+/** @class wxCursorProperty
+    @ingroup classes
+    @brief Property representing wxCursor.
 */
 class WXDLLIMPEXP_PG wxCursorProperty : public wxEnumProperty
 {
@@ -294,9 +294,9 @@ class WXDLLIMPEXP_PG wxCursorProperty : public wxEnumProperty
 
 WXDLLIMPEXP_PG const wxString& wxPGGetDefaultImageWildcard();
 
-/** \class wxImageFileProperty
-    \ingroup classes
-    \brief Property representing image file(name).
+/** @class wxImageFileProperty
+    @ingroup classes
+    @brief Property representing image file(name).
 */
 class WXDLLIMPEXP_PG wxImageFileProperty : public wxFileProperty
 {
@@ -321,9 +321,9 @@ protected:
 
 #if wxUSE_CHOICEDLG || defined(SWIG)
 
-/** \class wxMultiChoiceProperty
-    \ingroup classes
-    \brief
+/** @class wxMultiChoiceProperty
+    @ingroup classes
+    @brief
     Property that manages a value resulting from wxMultiChoiceDialog. Value is
     array of strings. You can get value as array of choice values/indices by
     calling wxMultiChoiceProperty::GetValueAsArrayInt().
@@ -387,9 +387,9 @@ protected:
 
 #if wxUSE_DATETIME || defined(SWIG)
 
-/** \class wxDateProperty
-    \ingroup classes
-    \brief Property representing wxDateTime.
+/** @class wxDateProperty
+    @ingroup classes
+    @brief Property representing wxDateTime.
 
     <b>Supported special attributes:</b>
     - "DateFormat": Determines displayed date format.
@@ -411,29 +411,29 @@ public:
 
     WX_PG_DECLARE_ATTRIBUTE_METHODS()
 
-    inline void SetFormat( const wxString& format )
+    void SetFormat( const wxString& format )
     {
         m_format = format;
     }
 
-    inline const wxString& GetFormat() const
+    const wxString& GetFormat() const
     {
         return m_format;
     }
     
-    inline void SetDateValue( const wxDateTime& dt )
+    void SetDateValue( const wxDateTime& dt )
     {
         //m_valueDateTime = dt;
         m_value = dt;
     }
 
-    inline wxDateTime GetDateValue() const
+    wxDateTime GetDateValue() const
     {
         //return m_valueDateTime;
         return m_value;
     }
 
-    inline long GetDatePickerStyle() const
+    long GetDatePickerStyle() const
     {
         return m_dpStyle;
     }

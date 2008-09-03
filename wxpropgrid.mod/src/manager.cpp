@@ -716,7 +716,7 @@ void wxPropertyGridManager::SetPropertyAttributeAll( const wxString& attrName, w
     {
         wxPropertyGridPage* page = (wxPropertyGridPage*)m_arrPages.Item(i);
 
-        DoSetPropertyAttribute(wxPGIdGen(page->GetStatePtr()->m_properties), attrName, value, wxPG_RECURSE);
+        DoSetPropertyAttribute(page->GetStatePtr()->m_properties, attrName, value, wxPG_RECURSE);
     }
 }
 
@@ -880,7 +880,7 @@ bool wxPropertyGridManager::IsPageModified( size_t index ) const
 
 // -----------------------------------------------------------------------
 
-wxPGId wxPropertyGridManager::GetPageRoot( int index ) const
+wxPGProperty* wxPropertyGridManager::GetPageRoot( int index ) const
 {
     wxASSERT( index >= 0 );
     wxASSERT( index < (int)m_arrPages.GetCount() );
@@ -1398,7 +1398,7 @@ void wxPropertyGridManager::ClearModifiedStatus( wxPGPropArg id )
 
 size_t wxPropertyGridManager::GetChildrenCount( int page_index )
 {
-    return GetChildrenCount( wxPGIdGen(GetPage(page_index)->GetStatePtr()->m_properties) );
+    return GetChildrenCount( GetPage(page_index)->GetStatePtr()->m_properties );
 }
 
 // -----------------------------------------------------------------------
