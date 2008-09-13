@@ -92,7 +92,7 @@ protected:
   int  ReadValue( int ch, wxJSONValue& val );
   int  ReadUnicode( long int& hex );
   int  AppendUnicodeSequence( wxString& s, int hex );
-  int  NumBytes();
+  int  NumBytes( char ch );
 
   static bool DoStrto_ll( const wxString& str, wxUint64* ui64, wxChar* sign );
 
@@ -148,7 +148,22 @@ protected:
   //! The character read by the PeekChar() function (-1 none)
   int           m_peekChar;
 
-  //! The conversion object (can only be NULL or the pointer to a UTF-8 converter)
+  //! The conversion object used in stream input
+  /*!
+   This data member is set to NULL in the ctor and it is initialized in the
+   Parse() function when the input is from a stream object.
+   The pointer points to a wxMBConvUTF8 class used by the GetChar() function
+   in order to convert a variable number of bytes in a wide character.
+   Input from strings does not need this conversion: the GetChar() function
+   can access a single character in the string input by using the subscript
+   operator or the wxString::At() function which returns a single character.
+
+   Please note that in order to support input formats other than UTF-8 in stream
+   input it is not sufficient to change the object pointed to by this data
+   member because the GetChar() function also has to know the number of bytes
+   that have to be read from the stream in order to get a character.
+   Se NumBytes() for more info.
+  */
   wxMBConv*     m_conv;
 };
 

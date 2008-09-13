@@ -278,6 +278,8 @@ WX_DECLARE_STRING_HASH_MAP( wxJSONValue, wxJSONInternalMap );
 
  This organization give us more flexibility when retrieving compatible
  types such as ints unsigned ints, long and so on.
+ To know more about the internal structure of the wxJSONValue class 
+ see \ref pg_json_internals.
 */
 union wxJSONValueHolder  {
     int             m_valInt;

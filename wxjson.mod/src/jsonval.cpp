@@ -1694,6 +1694,27 @@ wxJSONValue::operator = ( const wxJSONValue& other )
 /*!
  This function returns a copy of the value object for the specified key.
  If the key is not found, a copy of \c defaultValue is returned.
+ Note that the returned values are not real copy of the \c key or the
+ default values because \e copy-on-write is used by this class.
+ However, you have to treat them as real copies; in other words, if you
+ change the values of the returned object your changes does not reflect
+ in the otiginal value.
+ Example:
+ \code
+  wxJSONValue defaultValue( 0 );
+  wxJSONvalue v1;
+  v1["key"] = 100;   // 'v1["key"]' contains the integer 100
+
+  // 'v2' contains 100 but it is a swallow copy of 'v1["key"]'
+  wxJSONValue v2 = v1.Get( "key", defaultValue );
+
+  // 'v1["key"]' still contains 100
+  v2 = 200;
+
+  // if you want your change to be reflected in the 'v1' object
+  // you have to assign it
+  v1["key"] = v2;
+ \endcode
 */
 wxJSONValue
 wxJSONValue::Get( const wxString& key, const wxJSONValue& defaultValue ) const
@@ -2354,8 +2375,6 @@ wxJSONValue::ClearComments()
  The integer storage depends on the platform: for platforms that support 64-bits
  integers, integers are always stored as 64-bits integers.
  On platforms that do not support 64-bits integers, ints are stored as \b long \b int.
- You should never use the wxJSON_TYPE(U)INTxx types: integers are always stored
- as the generic wxJSONTYPE_(U)INT type.
  To know more about the internal representation of integers, read
  \ref json_internals_integer.
 
@@ -2376,46 +2395,7 @@ wxJSONValue::ClearComments()
    wxJSONValue value;
    value.Append( "a string" );
  \endcode
-
- The only exception is for empty (not initialized) values:
- \code
-   // construct an empty value
-   wxJSONValue v1( wxJSONTYPE_INVALID );
-
-   // this is the same but the old structure is not deleted
-   wxJSONValue v2;
-   v2.SetType( wxJSONTYPE_INVALID );
- \endcode
-
- Maybe I have to spend some words about the (subtle) difference
- between an \b empty value, a \b null value and an \b empty 
- JSON \b object or \b array.
-
- A \b empty value is a JSONvalue object that was not initialized.
- Its type is \b wxJSONTYPE_INVALID and it is used internally by the
- wxJSON library. You should never write empty values to JSON text
- because the output is not a valid JSON text.
- If you write an \e empty value to the wxJSONWriter class you 
- obtain the following text (which is not a JSON text):
- \code
-   <empty>
- \endcode
-
- A \b null value is of type \b wxJSONTYPE_NULL and it is constructed
- using the default cosntructor.
- Its text output is valid JSON text:
- \code
-   null
- \endcode
-
- An \b empty JSON \b object or an \b empty JSON \b array is a JSONvalue
- object of type wxJSONTYPE_OBJECT or wxJSONTYPE_ARRAY but they
- do not contain any element.
- Their output is valid JSON text:
- \code
-   [ ]
-   { }
- \endcode
+ \sa GetType 
 */
 wxJSONRefData*
 wxJSONValue::SetType( wxJSONType type )

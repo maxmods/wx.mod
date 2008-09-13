@@ -29,7 +29,7 @@
  much error-tolerant should the parser be and an integer which is
  the maximum number of errors and warnings that have to be reported.
 
- If the document does not contain an open/close JSON character the
+ If the JSON text document does not contain an open/close JSON character the
  function returns an \b invalid value object; in other words, the 
  wxJSONValue::IsValid() function returns FALSE.
  This is the case of a document that is empty or contains only
@@ -43,7 +43,7 @@
 
  \par JSON text
 
- Note that the wxJSON parser just skips all characters read from the
+ The wxJSON parser just skips all characters read from the
  input JSON text until the start-object '{' or start-array '[' characters
  are encontered (see the GetStart() function).
  This means that the JSON input text may contain everything
@@ -53,11 +53,11 @@
  are non ignored if the parser is constructed with the wxJSONREADER_STORE_COMMENT
  flag: they are added to the comment's array of the root JSON value.
 
- Also note that the parsing process stops when the internal DoRead() function
+ Note that the parsing process stops when the internal DoRead() function
  returns. Because that function is recursive, the top-level close-object
  '}' or close-array ']' character cause the top-level DoRead() function
  to return thus stopping the parsing process regardless the EOF condition.
- This mean that the JSON input text may contain everything \b after
+ This means that the JSON input text may contain everything \b after
  the top-level close-object/array character.
  Here are some examples:
 
@@ -135,8 +135,8 @@
  When the input is from a string object, the character represented in the
  string is platform- and mode- dependant; in other words, characters are
  represented differently: in ANSI builds they depend on the charset in use
- and in Unicode builds they depend on the platform (UCS-2 in win32, UCS-4
- in GNU/Linux).
+ and in Unicode builds they depend on the platform (UCS-2 on win32, UCS-4
+ on GNU/Linux).
 
  When the input is from a stream object, the only recognized encoding format
  is UTF-8 for both ANSI and Unicode builds.
@@ -203,7 +203,7 @@ static const wxChar* storeTraceMask = _T("StoreComment");
      comments apear \b after the value they refer to.
 
  You can also use the following shortcuts to specify some predefined
- flag's combination:
+ flag's combinations:
  
   \li wxJSONREADER_STRICT: all wxJSON extensions are reported as errors, this
       is the same as specifying a ZERO value as \c flags.
@@ -502,7 +502,7 @@ wxJSONReader::ReadChar()
  Stream input is always encoded in UTF-8 format in both ANSI ans
  Unicode builds.
  In order to return a single character, the function calls the
- UTF8NumBytes() function which returns the number of bytes that
+ NumBytes() function which returns the number of bytes that
  have to be read from the stream in order to get one character.
  The bytes read are then converted to a wide character and
  returned.
@@ -553,7 +553,7 @@ wxJSONReader::GetChar()
     //   return -1;
     // }
 
-    int numBytes = UTF8NumBytes( buffer[0] );
+    int numBytes = NumBytes( buffer[0] );
     wxJSON_ASSERT( numBytes < 10 );
     if ( numBytes > 1 )  {
       is->Read( buffer + 1, numBytes - 1);
@@ -804,10 +804,10 @@ wxJSONReader::DoRead( wxJSONValue& parent )
 //! Store a value in the parent object.
 /*!
  The function is called by \c DoRead() when a the comma
- or a close-object character is encontered and stores the current
+ or a close-object/array character is encontered and stores the current
  value read by the parser in the parent object.
- The function checks that \c value is not empty and that \c key is
- not an empty string if parent is an object.
+ The function checks that \c value is not invalid and that \c key is
+ not an empty string if \c parent is an object.
 
  \param ch	the character read: a comma or close objecty/array char
  \param key	the \b key string: may be empty if parent ss an array
@@ -1096,9 +1096,9 @@ wxJSONReader::SkipComment()
  This is because the parser class recognizes multi-line strings
  like the following one:
  \code
-   [  "line-1\n"
-      "line-2\n"
-      "line-3\n"
+   [
+      "This is a very long string value which is splitted into more"
+      "than one line because it is more human readable"
    ]
  \endcode
  Because of the lack of the value separator (,) the parser
@@ -1555,12 +1555,20 @@ wxJSONReader::ReadUnicode( long int& hex )
  \li \c m_next
  \li \c m_current
  \li \c m_lastStored
- and checks the comment flag (BEFORE or AFTER).
+
+ The value that the comment refers to is:
+
+ \li if the comment is on the same line as one of the values, the comment
+	refer to that value and it is stored as \b inline.
+ \li otherwise, if the comment flag is wxJSONREADER_COMMENTS_BEFORE, the comment lines
+	are stored in the value pointed to by \c m_next
+ \li otherwise, if the comment flag is wxJSONREADER_COMMENTS_AFTER, the comment lines
+	are stored in the value pointed to by \c m_current or m_latStored
 
  Note that the comment line is only stored if the wxJSONREADER_STORE_COMMENTS
  flag was used when the parser object was constructed; otherwise, the
  function does nothing and immediatly returns.
- Also note that if the comment line has to be stored in a value and the
+ Also note that if the comment line has to be stored but the
  function cannot find a suitable value to add the comment line to,
  an error is reported (note: not a warning but an error).
 */
@@ -1658,28 +1666,30 @@ wxJSONReader::StoreComment( const wxJSONValue* parent )
 }
 
 
-//! Return the number of bytes that contains a unicode char in various encodings
+//! Return the number of bytes that make a character in stream input
 /*!
- This function was used by the GetChar() function in Unicode builds when the
- character has to be read from a stream object and returns the number
- of bytes that has to be read from the stream in order to convert them to
- a wide character.
- For locale dependent formats, the number of bytes is always 1,
- for Unicode formats it can be 2 (UCS-2) or 4 (UCS-4) or a variable
- number of bytes if the encoding format is UTF-8.
+ This function is used by the GetChar() function when the JSON input 
+ is from a stream object and returns the number of bytes that has to
+ be read from the stream in order to get a single wide character.
+ Because the encoding format of a JSON text in streams is UTF-8 and
+ no other formats are supported by now, the function just calls
+ UTF8NumBytes() function.
 
- The function is now no more used because input streams can only be
- encoded in UTF-8 format so it was substituted by the UTF8NumBytes()
- function.
- Calling this function always cause the program to abort for an ASSERTION
- failure.
+ In order to implement new input formats from stream input, you have
+ to implement this function in order to return the correct number of
+ bytes and to set the appropriate value in the \c m_conv data member
+ which has to point to the conversion object.
+ For example, to implement UCS-4 Little Endian encoding:
+
+ \li this function must return 4
+ \li the \c m_conv data member must be set to point to an instance
+	of the wxMBConv("UCS4-LE") object
 */
 int
-wxJSONReader::NumBytes()
+wxJSONReader::NumBytes( char ch )
 {
-  // always fails
-  wxJSON_ASSERT( 0 );
-  return 0;
+  int n = UTF8NumBytes( ch );
+  return n;
 }
 
 //! Compute the number of bytes that makes a UTF-8 encoded wide character.
@@ -1770,10 +1780,10 @@ wxJSONReader::AppendUnicodeSequence( wxString& s, int hex )
 }
 
 #if defined( wxJSON_64BIT_INT )
-// Converts a decimal string to a 64-bit signed integer
+//! Converts a decimal string to a 64-bit signed integer
 /*
- This is an undcumented function which implements a simple variant
- of the 'strtoll' C-library function.
+ This function implements a simple variant
+ of the \b strtoll C-library function.
  I needed this implementation because the wxString::To(U)LongLong
  function does not work on my system:
 
@@ -1782,9 +1792,13 @@ wxJSONReader::AppendUnicodeSequence( wxString& s, int hex )
   \li libc.so.6
 
  The wxWidgets library (actually I have installed version 2.8.7)
- relies on 'strtoll' in order to do the conversion from a string
+ relies on \b strtoll in order to do the conversion from a string
  to a long long integer but, in fact, it does not work because
- the 'wxHAS_STRTOLL' macro is not defined on my system. 
+ the 'wxHAS_STRTOLL' macro is not defined on my system.
+ The problem only affects the Unicode builds while it seems 
+ that the wxString::To(U)LongLong function works in ANSI builds.
+ To know more about see the \c Test58() function in the \c samples/test13.cpp
+ source file.
 
  Note that this implementation is not a complete substitute of the
  strtoll function because it only converts decimal strings (only base
@@ -1822,6 +1836,7 @@ wxJSONReader::Strtoll( const wxString& str, wxInt64* i64 )
 }
 
 
+//! Converts a decimal string to a 64-bit unsigned integer.
 bool
 wxJSONReader::Strtoull( const wxString& str, wxUint64* ui64 )
 {
@@ -1833,7 +1848,12 @@ wxJSONReader::Strtoull( const wxString& str, wxUint64* ui64 )
   return r;
 }
 
-
+//! Perform the actual conversion from a string to a 64-bit integer
+/*!
+ This function is called internally by the Strtoll and Strtoull functions
+ and it does the actual conversion.
+ The function is also able to check numeric overflow.
+*/
 bool
 wxJSONReader::DoStrto_ll( const wxString& str, wxUint64* ui64, wxChar* sign )
 {

@@ -253,11 +253,10 @@ wxJSONWriter::Write( const wxJSONValue& value, wxOutputStream& os )
 /*!
  This is a recursive function. The function calls: 
 
- \li \c WritePrimitiveValue() the null, boolean, integer and double types
- \li \c \WriteStringValue() for string and C-string types
-
- For maps and arrays, the function calls itself for all elements
- in the array / hashmap after incrementing the \c m_level data member.
+ \li \c WritePrimitiveValue() for null, boolean, integer and double types
+ \li \c WriteStringValue() for string and C-string types
+ \li for maps and arrays, the function calls itself for all elements
+	in the array / hashmap after incrementing the \c m_level data member.
 */
 int
 wxJSONWriter::DoWrite( const wxJSONValue& value, const wxString* key,
@@ -890,7 +889,7 @@ wxJSONWriter::WriteKey( const wxString& key )
 //! Write the invalid JSON value to the output stream.
 /*!
  An invalid wxJSONValue is a value that was not initialized and it is
- an error. You should not write empty values to JSON text because
+ an error. You should never write invalid values to JSON text because
  the output is not valid JSON text.
  Note that the NULL value is a legal JSON text and it is written:
  \code
@@ -907,7 +906,7 @@ int
 wxJSONWriter::WriteInvalid()
 {
   wxFAIL_MSG( _T("wxJSONWriter::WriteEmpty() cannot be called (not a valid JSON text"));
-  wxString s( _T( "<empty>" ));
+  wxString s( _T( "<invalid>" ));
   return WriteString( s );
 }
 
