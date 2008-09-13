@@ -21,7 +21,7 @@
 SuperStrict
 
 Rem
-bbdoc: wx.wxToolbook
+bbdoc: wxToolbook
 End Rem
 Module wx.wxToolbook
 

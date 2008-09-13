@@ -21,7 +21,7 @@
 SuperStrict
 
 Rem
-bbdoc: wx.wxDataObject
+bbdoc: wxDataObject
 End Rem
 Module wx.wxDataObject
 

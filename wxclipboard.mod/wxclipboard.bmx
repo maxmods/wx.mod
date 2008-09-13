@@ -21,7 +21,7 @@
 SuperStrict
 
 Rem
-bbdoc: wx.wxClipboard
+bbdoc: wxClipboard
 End Rem
 Module wx.wxClipboard
 

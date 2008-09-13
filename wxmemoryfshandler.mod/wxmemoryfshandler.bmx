@@ -21,7 +21,7 @@
 SuperStrict
 
 Rem
-bbdoc: wx.wxMemoryFSHandler
+bbdoc: wxMemoryFSHandler
 End Rem
 Module wx.wxMemoryFSHandler
 

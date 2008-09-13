@@ -21,7 +21,7 @@
 SuperStrict
 
 Rem
-bbdoc: wx.wxJSON
+bbdoc: wxJSON
 End Rem
 Module wx.wxJSON
 

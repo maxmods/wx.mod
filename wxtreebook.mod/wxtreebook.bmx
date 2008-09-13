@@ -21,7 +21,7 @@
 SuperStrict
 
 Rem
-bbdoc: wx.wxTreebook
+bbdoc: wxTreebook
 End Rem
 Module wx.wxTreebook
 

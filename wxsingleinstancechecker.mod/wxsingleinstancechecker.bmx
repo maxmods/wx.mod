@@ -21,7 +21,7 @@
 SuperStrict
 
 Rem
-bbdoc: wx.wxSingleInstanceChecker
+bbdoc: wxSingleInstanceChecker
 End Rem
 Module wx.wxSingleInstanceChecker
 
