@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.10"
+Const AppVersion:String = "1.11"
 
 
 Global eventMap:TMap = New TMap
@@ -239,6 +239,15 @@ Type TFBGenFactory
 			
 			Case "spacer"
 				widget = New TFBSpacer
+
+			Case "wxCalendarCtrl"
+				widget = New TFBCalendarCtrl
+
+			Case "wxColourPickerCtrl"
+				widget = New TFBColourPickerCtrl
+			
+			Case "wxSpinButton"
+				widget = New TFBSpinButton
 
 		End Select
 		
@@ -3010,6 +3019,104 @@ Type TFBFontPickerCtrl Extends TFBWidget
 
 End Type
 
+Type TFBCalendarCtrl Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+		
+		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		
+		' default datetime
+		text:+ "Null"
+
+		text:+ DoPosSizeStyle(Self)
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+
+		out.Add("")
+
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxCalendarCtrl"
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxCalendarCtrl"
+	End Method
+
+End Type
+
+Type TFBColourPickerCtrl Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+		
+		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		
+		If prop("colour") Then
+			text:+ DoColour(prop("colour"))
+		Else
+			text:+ "Null"
+		End If
+
+		text:+ DoPosSizeStyle(Self)
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+
+		out.Add("")
+
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxColourPickerCtrl"
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxColourPickerCtrl"
+	End Method
+
+End Type
+
+Type TFBSpinButton Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		StandardCreate(out)
+
+		StandardSettings(out)
+
+		out.Add("")
+
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxSpinButton"
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxSpinButton"
+	End Method
+
+End Type
+
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
 Type TFBSizer Extends TFBWidget
@@ -3833,6 +3940,19 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnNotebookPageChanging", "wxNotebookEvent", "wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING"))
 
 	AddEvent(TEventType.Set("OnFontChanged", "wxFontPickerEvent", "wxEVT_COMMAND_FONTPICKER_CHANGED"))
+
+	AddEvent(TEventType.Set("OnCalendar", "wxCalendarEvent", "wxEVT_CALENDAR_DOUBLECLICKED"))
+	AddEvent(TEventType.Set("OnCalendarDay", "wxCalendarEvent", "wxEVT_CALENDAR_DAY_CHANGED"))
+	AddEvent(TEventType.Set("OnCalendarMonth", "wxCalendarEvent", "wxEVT_CALENDAR_MONTH_CHANGED"))
+	AddEvent(TEventType.Set("OnCalendarSelChanged", "wxCalendarEvent", "wxEVT_CALENDAR_SEL_CHANGED"))
+	AddEvent(TEventType.Set("OnCalendarWeekDayClicked", "wxCalendarEvent", "wxEVT_CALENDAR_WEEKDAY_CLICKED"))
+	AddEvent(TEventType.Set("OnCalendarYear", "wxCalendarEvent", "wxEVT_CALENDAR_YEAR_CHANGED"))
+
+	AddEvent(TEventType.Set("OnColourChanged", "wxColourPickerEvent", "wxEVT_COMMAND_COLOURPICKER_CHANGED"))
+
+	AddEvent(TEventType.Set("OnSpin", "wxSpinEvent", "wxEVT_SPIN"))
+	AddEvent(TEventType.Set("OnSpinDown", "wxSpinEvent", "wxEVT_SPIN_DOWN"))
+	AddEvent(TEventType.Set("OnSpinUp", "wxSpinEvent", "wxEVT_SPIN_UP"))
 
 End Function
 
