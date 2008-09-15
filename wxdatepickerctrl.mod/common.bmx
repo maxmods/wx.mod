@@ -54,6 +54,8 @@ Extern
 
 	Function bmx_wxdatepickerctrl_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxdatepickerctrl_addresourcehandler()
+	
 End Extern
 
 Const wxDP_DEFAULT:Int = 0

@@ -64,6 +64,8 @@ Extern
 	Function bmx_wxgenericdirctrl_setpath(handle:Byte Ptr, path:String)
 	Function bmx_wxgenericdirctrl_showhidden(handle:Byte Ptr, show:Int)
 
+	Function bmx_wxgenericdirctrl_addresourcehandler()
+	
 End Extern
 
 Const wxDIRCTRL_DIR_ONLY:Int = $0010

@@ -56,6 +56,8 @@ Extern
 
 	Function bmx_wxfontpickerctrl_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxfontpickerctrl_addresourcehandler()
+	
 End Extern
 
 

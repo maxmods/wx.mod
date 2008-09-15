@@ -84,6 +84,18 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 End Rem
 Type wxDatePickerCtrl Extends wxControl
 
+	Function _create:wxDatePickerCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxDatePickerCtrl = New wxDatePickerCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxDatePickerCtrl(wxObjectPtr:Byte Ptr)
+		Return wxDatePickerCtrl._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Creates a new wxDatePickerCtrl object.
 	End Rem
@@ -198,3 +210,13 @@ End Type
 
 New TDateEventFactory
 
+
+Type TDatePickerCtrlResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxdatepickerctrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New TDatePickerCtrlResourceFactory

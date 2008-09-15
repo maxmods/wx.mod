@@ -31,6 +31,9 @@ MaxCheckListBox::MaxCheckListBox(BBObject * handle, wxWindow * parent, wxWindowI
 	wxbind(this, handle);
 }
 
+MaxCheckListBox::MaxCheckListBox()
+{}
+
 MaxCheckListBox::~MaxCheckListBox() {
 	wxunbind(this);
 
@@ -44,6 +47,86 @@ MaxCheckListBox::~MaxCheckListBox() {
 	}
 }
 
+void MaxCheckListBox::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxCheckListBoxXmlHandler, wxCheckListBoxXmlHandler)
+
+MaxCheckListBoxXmlHandler::MaxCheckListBoxXmlHandler()
+	: wxCheckListBoxXmlHandler()
+{}
+
+
+wxObject * MaxCheckListBoxXmlHandler::DoCreateResource()
+{
+    if (m_class == wxT("wxCheckListBox"))
+    {
+        // need to build the list of strings from children
+        m_insideBox = true;
+        CreateChildrenPrivately(NULL, GetParamNode(wxT("content")));
+
+        XRC_MAKE_INSTANCE(control, MaxCheckListBox)
+
+        control->Create(m_parentAsWindow,
+                        GetID(),
+                        GetPosition(), GetSize(),
+                        strList,
+                        GetStyle(),
+                        wxDefaultValidator,
+                        GetName());
+
+        // step through children myself (again.)
+        wxXmlNode *n = GetParamNode(wxT("content"));
+        if (n)
+            n = n->GetChildren();
+        int i = 0;
+        while (n)
+        {
+            if (n->GetType() != wxXML_ELEMENT_NODE ||
+                n->GetName() != wxT("item"))
+               { n = n->GetNext(); continue; }
+
+            // checking boolean is a bit ugly here (see GetBool() )
+            wxString v = n->GetPropVal(wxT("checked"), wxEmptyString);
+            v.MakeLower();
+            if (v && v == wxT("1"))
+                control->Check( i, true );
+
+            i++;
+            n = n->GetNext();
+        }
+
+		control->MaxBind(_wx_wxchecklistbox_wxCheckListBox__xrcNew(control));
+
+        SetupWindow(control);
+
+        strList.Clear();    // dump the strings
+
+        return control;
+    }
+    else
+    {
+        // on the inside now.
+        // handle <item checked="boolean">Label</item>
+
+        // add to the list
+        wxString str = GetNodeContent(m_node);
+        if (m_resource->GetFlags() & wxXRC_USE_LOCALE)
+            str = wxGetTranslation(str, m_resource->GetDomain());
+        strList.Add(str);
+        return NULL;
+    }
+}
+
+bool MaxCheckListBoxXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return (IsOfClass(node, wxT("wxCheckListBox")) ||
+           (m_insideBox && node->GetName() == wxT("item")));
+}
+
 // *********************************************
 
 BEGIN_EVENT_TABLE(MaxCheckListBox, wxCheckListBox)
@@ -53,15 +136,15 @@ MaxCheckListBox * bmx_wxchecklistbox_create(BBObject * maxHandle, wxWindow * par
 	return new MaxCheckListBox(maxHandle, parent, id, bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }
 
-void bmx_wxchecklistbox_check(MaxCheckListBox * listbox, int item, bool check) {
+void bmx_wxchecklistbox_check(wxCheckListBox * listbox, int item, bool check) {
 	listbox->Check(item, check);
 }
 
-bool bmx_wxchecklistbox_ischecked(MaxCheckListBox * listbox, int item) {
+bool bmx_wxchecklistbox_ischecked(wxCheckListBox * listbox, int item) {
 	return listbox->IsChecked(item);
 }
 
-int bmx_wxchecklistbox_append(MaxCheckListBox * listbox, BBString * item) {
+int bmx_wxchecklistbox_append(wxCheckListBox * listbox, BBString * item) {
 	return listbox->Append(wxStringFromBBString(item));
 }
 
@@ -73,3 +156,8 @@ int bmx_wxchecklistbox_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxchecklistbox_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxCheckListBoxXmlHandler);
+}

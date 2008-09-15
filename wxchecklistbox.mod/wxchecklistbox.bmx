@@ -69,6 +69,18 @@ See #wxListBox.
 End Rem
 Type wxCheckListBox Extends wxListBox
 
+	Function _create:wxCheckListBox(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxCheckListBox = New wxCheckListBox
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxCheckListBox(wxObjectPtr:Byte Ptr)
+		Return wxCheckListBox._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a check list box.
 	End Rem
@@ -132,3 +144,13 @@ Type TCheckListBoxEventFactory Extends TEventFactory
 End Type
 
 New TCheckListBoxEventFactory
+
+Type TCheckListBoxResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxchecklistbox_addresourcehandler()
+	End Method
+		
+End Type
+
+New TCheckListBoxResourceFactory

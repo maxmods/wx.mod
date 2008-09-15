@@ -22,12 +22,16 @@
 
 #include "wxglue.h"
 #include "wx/splitter.h"
+#include "wx/xrc/xh_split.h"
+
 
 class MaxSplitterWindow;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxsplitterwindow_wxSplitterWindow__xrcNew(wxSplitterWindow * window);
 
 	MaxSplitterWindow * bmx_wxsplitterwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
@@ -57,7 +61,9 @@ extern "C" {
 	void bmx_wxsplitterevent_setsashposition(wxSplitterEvent & event, int pos);
 
 	int bmx_wxsplitterwindow_geteventtype(int type);
-	
+
+	void bmx_wxsplitterwindow_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -66,10 +72,25 @@ class MaxSplitterWindow : public wxSplitterWindow
 {
 public:
 	MaxSplitterWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxSplitterWindow();
 	~MaxSplitterWindow();
-	
+
+	void MaxBind(BBObject * handle);
+
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxSplitterWindowXmlHandler : public wxSplitterWindowXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxSplitterWindowXmlHandler)
+
+public:
+    MaxSplitterWindowXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+
 

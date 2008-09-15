@@ -82,6 +82,18 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 End Rem
 Type wxBitmapComboBox Extends wxComboBox
 
+	Function _create:wxBitmapComboBox(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxBitmapComboBox = New wxBitmapComboBox
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxBitmapComboBox(wxObjectPtr:Byte Ptr)
+		Return wxBitmapComboBox._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a combobox.
 	End Rem
@@ -234,3 +246,14 @@ Type wxBitmapComboBox Extends wxComboBox
 	End Method
 
 End Type
+
+Type TBitmapComboBoxResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxbitmapcombobox_addresourcehandler()
+	End Method
+		
+End Type
+
+New TBitmapComboBoxResourceFactory
+

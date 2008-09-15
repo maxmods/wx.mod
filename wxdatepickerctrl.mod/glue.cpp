@@ -30,8 +30,44 @@ MaxDatePickerCtrl::MaxDatePickerCtrl(BBObject * handle, wxWindow * parent, wxWin
 	wxbind(this, handle);
 }
 
+MaxDatePickerCtrl::MaxDatePickerCtrl()
+{}
+
 MaxDatePickerCtrl::~MaxDatePickerCtrl() {
 	wxunbind(this);
+}
+
+void MaxDatePickerCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxDatePickerCtrlXmlHandler, wxDateCtrlXmlHandler)
+
+MaxDatePickerCtrlXmlHandler::MaxDatePickerCtrlXmlHandler()
+	: wxDateCtrlXmlHandler()
+{}
+
+
+wxObject * MaxDatePickerCtrlXmlHandler::DoCreateResource()
+{
+   XRC_MAKE_INSTANCE(picker, MaxDatePickerCtrl)
+
+   picker->Create(m_parentAsWindow,
+                  GetID(),
+                  wxDefaultDateTime,
+                  GetPosition(), GetSize(),
+                  GetStyle(_T("style"), wxDP_DEFAULT | wxDP_SHOWCENTURY),
+                  wxDefaultValidator,
+                  GetName());
+
+ 	picker->MaxBind(_wx_wxdatepickerctrl_wxDatePickerCtrl__xrcNew(picker));
+
+   SetupWindow(picker);
+
+    return picker;
+
 }
 
 
@@ -72,3 +108,8 @@ int bmx_wxdatepickerctrl_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxdatepickerctrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxDatePickerCtrlXmlHandler);
+}

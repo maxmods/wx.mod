@@ -83,6 +83,18 @@ unsplit the window when this happens (unless the minimum pane size has been set 
 End Rem
 Type wxSplitterWindow Extends wxWindow
 
+	Function _create:wxSplitterWindow(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSplitterWindow = New wxSplitterWindow
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxSplitterWindow(wxObjectPtr:Byte Ptr)
+		Return wxSplitterWindow._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc:Constructor for creating the window.
 	about: After using the constructor, you must create either one or two subwindows with the splitter
@@ -110,7 +122,7 @@ Type wxSplitterWindow Extends wxWindow
 		
 		Return Self
 	End Method
-	
+
 	Rem
 	bbdoc: Returns the current minimum pane size (defaults to zero).
 	End Rem
@@ -395,4 +407,14 @@ End Type
 
 New TSplitterEventFactory
 
+
+Type TSplitterWindowResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxsplitterwindow_addresourcehandler()
+	End Method
+		
+End Type
+
+New TSplitterWindowResourceFactory
 

@@ -31,8 +31,89 @@ MaxSplitterWindow::MaxSplitterWindow(BBObject * handle, wxWindow * parent, wxWin
 	wxbind(this, handle);
 }
 
+MaxSplitterWindow::MaxSplitterWindow()
+{}
+
 MaxSplitterWindow::~MaxSplitterWindow() {
 	wxunbind(this);
+}
+
+void MaxSplitterWindow::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxSplitterWindowXmlHandler, wxSplitterWindowXmlHandler)
+
+MaxSplitterWindowXmlHandler::MaxSplitterWindowXmlHandler()
+	: wxSplitterWindowXmlHandler()
+{}
+
+
+wxObject * MaxSplitterWindowXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(splitter, MaxSplitterWindow);
+
+    splitter->Create(m_parentAsWindow,
+                     GetID(),
+                     GetPosition(), GetSize(),
+                     GetStyle(wxT("style"), wxSP_3D),
+                     GetName());
+
+	splitter->MaxBind(_wx_wxsplitterwindow_wxSplitterWindow__xrcNew(splitter));
+
+    SetupWindow(splitter);
+
+    long sashpos = GetLong(wxT("sashpos"), 0);
+    long minpanesize = GetLong(wxT("minsize"), -1);
+    float gravity = GetFloat(wxT("gravity"), 0.0);
+    if (minpanesize != -1)
+        splitter->SetMinimumPaneSize(minpanesize);
+    if (gravity != 0.0)
+        splitter->SetSashGravity(gravity);
+
+    wxWindow *win1 = NULL, *win2 = NULL;
+    wxXmlNode *n = m_node->GetChildren();
+    while (n)
+    {
+        if ((n->GetType() == wxXML_ELEMENT_NODE) &&
+            (n->GetName() == wxT("object") ||
+             n->GetName() == wxT("object_ref")))
+        {
+            wxObject *created = CreateResFromNode(n, splitter, NULL);
+            wxWindow *win = wxDynamicCast(created, wxWindow);
+            if (win1 == NULL)
+            {
+                win1 = win;
+            }
+            else
+            {
+                win2 = win;
+                break;
+            }
+        }
+        n = n->GetNext();
+    }
+
+    if (win1 == NULL)
+        wxLogError(wxT("wxSplitterWindow node must contain at least one window."));
+
+    bool horizontal = (GetParamValue(wxT("orientation")) != wxT("vertical"));
+    if (win1 && win2)
+    {
+        if (horizontal)
+            splitter->SplitHorizontally(win1, win2, sashpos);
+        else
+            splitter->SplitVertically(win1, win2, sashpos);
+    }
+    else
+    {
+        splitter->Initialize(win1);
+    }
+
+    return splitter;
+
 }
 
 
@@ -155,4 +236,10 @@ int bmx_wxsplitterwindow_geteventtype(int type) {
 	}
 	
 	return 0;
+}
+
+// *********************************************
+
+void bmx_wxsplitterwindow_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxSplitterWindowXmlHandler);
 }

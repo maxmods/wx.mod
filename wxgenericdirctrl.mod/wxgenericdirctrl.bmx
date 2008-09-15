@@ -57,6 +57,18 @@ a wxChoice window containing a list of filters.
 End Rem
 Type wxGenericDirCtrl Extends wxControl
 
+	Function _create:wxGenericDirCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxGenericDirCtrl = New wxGenericDirCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxGenericDirCtrl(wxObjectPtr:Byte Ptr)
+		Return wxGenericDirCtrl._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -203,3 +215,15 @@ Type wxGenericDirCtrl Extends wxControl
 	End Method
 	
 End Type
+
+
+
+Type TGenericDirCtrlResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxgenericdirctrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New TGenericDirCtrlResourceFactory

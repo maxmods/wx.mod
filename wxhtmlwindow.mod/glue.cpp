@@ -31,6 +31,9 @@ MaxHtmlWindow::MaxHtmlWindow(BBObject * handle, wxWindow * parent, wxWindowID id
 	wxbind(this, handle);
 }
 
+MaxHtmlWindow::MaxHtmlWindow()
+{}
+
 MaxHtmlWindow::~MaxHtmlWindow() {
 	wxunbind(this);
 }
@@ -48,6 +51,11 @@ void MaxHtmlWindow::OnSetTitle(const wxString& title) const{
 	_wx_wxhtmlwindow_wxHtmlWindow__OnSetTitle(maxHandle, bbStringFromWxString(title));
 }
 
+void MaxHtmlWindow::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
 
 MaxHtmlProcessor::MaxHtmlProcessor(BBObject * handle)
 	: maxHandle(handle)
@@ -114,6 +122,57 @@ const wxHtmlTag & MaxHtmlTag::Tag() {
 	return *tag;
 }
 
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxHtmlWindowXmlHandler, wxHtmlWindowXmlHandler)
+
+MaxHtmlWindowXmlHandler::MaxHtmlWindowXmlHandler()
+	: wxHtmlWindowXmlHandler()
+{}
+
+
+wxObject * MaxHtmlWindowXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(control, MaxHtmlWindow)
+
+    control->Create(m_parentAsWindow,
+                    GetID(),
+                    GetPosition(), GetSize(),
+                    GetStyle(wxT("style"), wxHW_SCROLLBAR_AUTO),
+                    GetName());
+
+    if (HasParam(wxT("borders")))
+    {
+        control->SetBorders(GetDimension(wxT("borders")));
+    }
+
+    if (HasParam(wxT("url")))
+    {
+        wxString url = GetParamValue(wxT("url"));
+        wxFileSystem& fsys = GetCurFileSystem();
+
+        wxFSFile *f = fsys.OpenFile(url);
+        if (f)
+        {
+            control->LoadPage(f->GetLocation());
+            delete f;
+        }
+        else
+            control->LoadPage(url);
+    }
+
+    else if (HasParam(wxT("htmlcode")))
+    {
+        control->SetPage(GetText(wxT("htmlcode")));
+    }
+
+	control->MaxBind(_wx_wxhtmlwindow_wxHtmlWindow__xrcNew(control));
+
+    SetupWindow(control);
+
+    return control;
+
+}
 
 // *********************************************
 
@@ -376,4 +435,10 @@ wxHtmlWindowInterface * bmx_wxhtmlwinparser_getwindowinterface(wxHtmlWinParser *
 	
 wxWindow * bmx_wxhtmlwindowinterface_gethtmlwindow(wxHtmlWindowInterface * win) {
 	return win->GetHTMLWindow();
+}
+
+// *********************************************
+
+void bmx_wxhtmlwindow_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxHtmlWindowXmlHandler);
 }

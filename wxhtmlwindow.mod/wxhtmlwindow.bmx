@@ -62,6 +62,18 @@ you need before loading any page! (See wxInitAllImageHandlers and wxImage::AddHa
 End Rem
 Type wxHtmlWindow Extends wxScrolledWindow
 
+	Function _create:wxHtmlWindow(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxHtmlWindow = New wxHtmlWindow
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxHtmlWindow(wxObjectPtr:Byte Ptr)
+		Return wxHtmlWindow._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor.
 	End Rem
@@ -1049,4 +1061,14 @@ End Type
 
 New THtmlEventFactory
 
+
+Type THtmlWindowResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxhtmlwindow_addresourcehandler()
+	End Method
+		
+End Type
+
+New THtmlWindowResourceFactory
 

@@ -31,11 +31,47 @@ MaxGenericDirCtrl::MaxGenericDirCtrl(BBObject * handle, wxWindow * parent, wxWin
 	wxbind(this, handle);
 }
 
+MaxGenericDirCtrl::MaxGenericDirCtrl()
+{}
+
 MaxGenericDirCtrl::~MaxGenericDirCtrl() {
 	wxunbind(this);
 }
 
 
+void MaxGenericDirCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxGenericDirCtrlXmlHandler, wxGenericDirCtrlXmlHandler)
+
+MaxGenericDirCtrlXmlHandler::MaxGenericDirCtrlXmlHandler()
+	: wxGenericDirCtrlXmlHandler()
+{}
+
+
+wxObject * MaxGenericDirCtrlXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(ctrl, MaxGenericDirCtrl)
+
+    ctrl->Create(m_parentAsWindow,
+                 GetID(),
+                 GetText(wxT("defaultfolder")),
+                 GetPosition(), GetSize(),
+                 GetStyle(),
+                 GetText(wxT("filter")),
+                 (int)GetLong(wxT("defaultfilter")),
+                 GetName());
+
+	ctrl->MaxBind(_wx_wxgenericdirctrl_wxGenericDirCtrl__xrcNew(ctrl));
+
+    SetupWindow(ctrl);
+
+    return ctrl;
+
+}
 
 // *********************************************
 
@@ -115,3 +151,8 @@ void bmx_wxgenericdirctrl_showhidden(wxGenericDirCtrl * dir, bool show) {
 	dir->ShowHidden(show);
 }
 
+// *********************************************
+
+void bmx_wxgenericdirctrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxGenericDirCtrlXmlHandler);
+}

@@ -59,6 +59,8 @@ Extern
 
 	Function bmx_wxfilepickerctrl_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxfiledir_addresourcehandler()
+	
 End Extern
 
 

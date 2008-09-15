@@ -23,12 +23,16 @@
 #include "wxglue.h"
 #include "wx/bmpcbox.h"
 #include "../wxbitmap.mod/glue.h"
+#include "wx/xrc/xh_bmpcbox.h"
+
 
 class MaxBitmapComboBox;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxbitmapcombobox_wxBitmapComboBox__xrcNew(wxBitmapComboBox * combobox);
 
 	MaxBitmapComboBox * bmx_wxbitmapcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style);
 	int bmx_wxbitmapcombobox_append(wxBitmapComboBox * combobox, BBString * item, MaxBitmap * bitmap, void * clientData);
@@ -49,6 +53,8 @@ extern "C" {
 	BBArray * bmx_wxbitmapcombobox_getstrings(wxBitmapComboBox * combobox);
 	BBString * bmx_wxbitmapcombobox_getstringselection(wxBitmapComboBox * combobox);
 
+	void bmx_wxbitmapcombobox_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -57,9 +63,31 @@ class MaxBitmapComboBox : public wxBitmapComboBox
 {
 public:
 	MaxBitmapComboBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, const wxArrayString& array, int x, int y, int w, int h, long style);
+	MaxBitmapComboBox();
 	~MaxBitmapComboBox();
+
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxBitmapComboBoxXmlHandler : public wxBitmapComboBoxXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxBitmapComboBoxXmlHandler)
+
+public:
+    MaxBitmapComboBoxXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+
+    wxBitmapComboBox*    m_combobox;
+    bool                m_isInside;
+};
+
+

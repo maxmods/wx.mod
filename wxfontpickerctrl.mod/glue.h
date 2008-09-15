@@ -22,12 +22,16 @@
 
 #include "wxglue.h"
 #include "wx/fontpicker.h"
+#include "wx/xrc/xh_fontpicker.h"
+
 
 class MaxFontPickerCtrl;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxfontpickerctrl_wxFontPickerCtrl__xrcNew(wxFontPickerCtrl * picker);
 
 	MaxFontPickerCtrl * bmx_wxfontpickerctrl_create(BBObject * handle, wxWindow * parent, int id,
 		MaxFont * font, int x, int y, int w, int h, long style);
@@ -49,6 +53,20 @@ class MaxFontPickerCtrl : public wxFontPickerCtrl
 public:
 	MaxFontPickerCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxFont& font, int x, int y,
 		int w, int h, long style);
+	MaxFontPickerCtrl();
 	~MaxFontPickerCtrl();
+
+	void MaxBind(BBObject * handle);
 	
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxFontPickerCtrlXmlHandler : public wxFontPickerCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxFontPickerCtrlXmlHandler)
+
+public:
+    MaxFontPickerCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
 };

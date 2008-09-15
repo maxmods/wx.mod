@@ -72,6 +72,8 @@ Extern
 
 	Function bmx_wxsplitterwindow_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxsplitterwindow_addresourcehandler()
+	
 End Extern
 
 Const wxSPLIT_HORIZONTAL:Int = 1

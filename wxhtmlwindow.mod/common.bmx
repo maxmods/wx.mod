@@ -118,6 +118,8 @@ Extern
 
 	Function bmx_wxhtmlwindowinterface_gethtmlwindow:Byte Ptr(handle:Byte Ptr)
 
+	Function bmx_wxhtmlwindow_addresourcehandler()
+	
 End Extern
 
 Const wxHW_SCROLLBAR_NEVER:Int = $0002

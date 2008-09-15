@@ -31,8 +31,47 @@ MaxFontPickerCtrl::MaxFontPickerCtrl(BBObject * handle, wxWindow * parent, wxWin
 	wxbind(this, handle);
 }
 
+MaxFontPickerCtrl::MaxFontPickerCtrl()
+{}
+
 MaxFontPickerCtrl::~MaxFontPickerCtrl() {
 	wxunbind(this);
+}
+
+void MaxFontPickerCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxFontPickerCtrlXmlHandler, wxFontPickerCtrlXmlHandler)
+
+MaxFontPickerCtrlXmlHandler::MaxFontPickerCtrlXmlHandler()
+	: wxFontPickerCtrlXmlHandler()
+{}
+
+wxObject * MaxFontPickerCtrlXmlHandler::DoCreateResource()
+{
+   XRC_MAKE_INSTANCE(picker, MaxFontPickerCtrl)
+
+    wxFont f = *wxNORMAL_FONT;
+    if (HasParam(wxT("value")))
+        f = GetFont(wxT("value"));
+
+   picker->Create(m_parentAsWindow,
+                  GetID(),
+                  f,
+                  GetPosition(), GetSize(),
+                  GetStyle(_T("style"), wxFNTP_DEFAULT_STYLE),
+                  wxDefaultValidator,
+                  GetName());
+
+	picker->MaxBind(_wx_wxfontpickerctrl_wxFontPickerCtrl__xrcNew(picker));
+
+    SetupWindow(picker);
+
+    return picker;
+
 }
 
 
@@ -83,3 +122,8 @@ int bmx_wxfontpickerctrl_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxfontpickerctrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxFontPickerCtrlXmlHandler);
+}

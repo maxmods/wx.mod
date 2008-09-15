@@ -30,10 +30,89 @@ MaxBitmapComboBox::MaxBitmapComboBox(BBObject * handle, wxWindow * parent, wxWin
 	wxbind(this, handle);
 }
 
+MaxBitmapComboBox::MaxBitmapComboBox()
+{}
+
 MaxBitmapComboBox::~MaxBitmapComboBox() {
 	wxunbind(this);
 }
 
+void MaxBitmapComboBox::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxBitmapComboBoxXmlHandler, wxBitmapComboBoxXmlHandler)
+
+MaxBitmapComboBoxXmlHandler::MaxBitmapComboBoxXmlHandler()
+	: wxBitmapComboBoxXmlHandler(), m_combobox(NULL) ,m_isInside(false)
+{}
+
+
+wxObject * MaxBitmapComboBoxXmlHandler::DoCreateResource()
+{
+    if (m_class == wxT("ownerdrawnitem"))
+    {
+        wxCHECK_MSG(m_combobox, NULL, wxT("Incorrect syntax of XRC resource: ownerdrawnitem not within a bitmapcombobox!"));
+
+        m_combobox->Append(GetText(wxT("text")), GetBitmap(wxT("bitmap"), wxART_MISSING_IMAGE));
+
+        return m_combobox;
+    }
+    else /*if( m_class == wxT("wxBitmapComboBox"))*/
+    {
+        // find the selection
+        long selection = GetLong( wxT("selection"), -1 );
+
+        XRC_MAKE_INSTANCE(control, MaxBitmapComboBox)
+
+        control->Create(m_parentAsWindow,
+                        GetID(),
+                        GetText(wxT("value")),
+                        GetPosition(), GetSize(),
+                        0,
+                        NULL,
+                        GetStyle(),
+                        wxDefaultValidator,
+                        GetName());
+
+		control->MaxBind(_wx_wxbitmapcombobox_wxBitmapComboBox__xrcNew(control));
+
+        m_isInside = true;
+        m_combobox = control;
+
+        wxXmlNode *children_node = GetParamNode(wxT("object"));
+
+        wxXmlNode *n = children_node;
+
+        while (n)
+        {
+            if ((n->GetType() == wxXML_ELEMENT_NODE) &&
+                (n->GetName() == wxT("object")))
+            {
+                CreateResFromNode(n, control, NULL);
+            }
+            n = n->GetNext();
+        }
+
+        m_isInside = false;
+        m_combobox = NULL;
+
+        if (selection != -1)
+            control->SetSelection(selection);
+
+        SetupWindow(control);
+
+        return control;
+    }
+}
+
+bool MaxBitmapComboBoxXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return ((!m_isInside && IsOfClass(node, wxT("wxBitmapComboBox"))) ||
+            (m_isInside && IsOfClass(node, wxT("ownerdrawnitem"))));
+}
 
 // *********************************************
 
@@ -113,5 +192,11 @@ BBArray * bmx_wxbitmapcombobox_getstrings(wxBitmapComboBox * combobox) {
 
 BBString * bmx_wxbitmapcombobox_getstringselection(wxBitmapComboBox * combobox) {
 	return bbStringFromWxString(combobox->GetStringSelection());
+}
+
+// *********************************************
+
+void bmx_wxbitmapcombobox_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxBitmapComboBoxXmlHandler);
 }
 

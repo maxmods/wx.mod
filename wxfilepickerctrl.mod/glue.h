@@ -22,6 +22,10 @@
 
 #include "wxglue.h"
 #include "wx/filepicker.h"
+#include "wx/xrc/xh_filepicker.h"
+
+#include "wx/xrc/xh_dirpicker.h"
+
 
 class MaxFilePickerCtrl;
 class MaxDirPickerCtrl;
@@ -30,6 +34,9 @@ class MaxDirPickerCtrl;
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxfilepickerctrl_wxFilePickerCtrl__xrcNew(wxFilePickerCtrl * picker);
+	BBObject * _wx_wxdirpickerctrl_wxDirPickerCtrl__xrcNew(wxDirPickerCtrl * picker);
 
 	MaxFilePickerCtrl * bmx_wxfilepickerctrl_create(BBObject * handle, wxWindow * parent, int id,
 		BBString * path, BBString * message, BBString * wildcard, int x, int y, int w, int h, long style);
@@ -46,6 +53,7 @@ extern "C" {
 
 	int bmx_wxfilepickerctrl_geteventtype(int type);
 
+	void bmx_wxfiledir_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -55,7 +63,10 @@ class MaxFilePickerCtrl : public wxFilePickerCtrl
 public:
 	MaxFilePickerCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& path,
 		const wxString& message, const wxString& wildcard, int x, int y, int w, int h, long style);
+	MaxFilePickerCtrl();
 	~MaxFilePickerCtrl();
+
+	void MaxBind(BBObject * handle);
 	
 private:
     // any class wishing to process wxWidgets events must use this macro
@@ -67,9 +78,35 @@ class MaxDirPickerCtrl : public wxDirPickerCtrl
 public:
 	MaxDirPickerCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& path,
 		const wxString& message, int x, int y, int w, int h, long style);
+	MaxDirPickerCtrl();
 	~MaxDirPickerCtrl();
+
+	void MaxBind(BBObject * handle);
 	
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxDirPickerCtrlXmlHandler : public wxDirPickerCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxDirPickerCtrlXmlHandler)
+
+public:
+    MaxDirPickerCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxFilePickerCtrlXmlHandler : public wxFilePickerCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxFilePickerCtrlXmlHandler)
+
+public:
+    MaxFilePickerCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+

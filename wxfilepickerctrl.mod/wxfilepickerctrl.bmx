@@ -57,6 +57,18 @@ implementation may differ but this is usually a (small) widget which give access
 End Rem
 Type wxFilePickerCtrl Extends wxPickerBase
 
+	Function _create:wxFilePickerCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxFilePickerCtrl = New wxFilePickerCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxFilePickerCtrl(wxObjectPtr:Byte Ptr)
+		Return wxFilePickerCtrl._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Creates a new wxFilePickerCtrl.
 	End Rem
@@ -103,6 +115,18 @@ implementation may differ but this is usually a (small) widget which give access
 dialog.
 End Rem
 Type wxDirPickerCtrl Extends wxPickerBase
+
+	Function _create:wxDirPickerCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxDirPickerCtrl = New wxDirPickerCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxDirPickerCtrl(wxObjectPtr:Byte Ptr)
+		Return wxDirPickerCtrl._create(wxObjectPtr)
+	End Function
 
 	Rem
 	bbdoc: Creates a new wxDirPickerCtrl.
@@ -193,3 +217,14 @@ Type TFileDirPickerEventFactory Extends TEventFactory
 End Type
 
 New TFileDirPickerEventFactory
+
+
+Type TFileDirResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxfiledir_addresourcehandler()
+	End Method
+		
+End Type
+
+New TFileDirResourceFactory

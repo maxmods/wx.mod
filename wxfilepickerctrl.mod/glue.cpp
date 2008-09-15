@@ -31,8 +31,15 @@ MaxFilePickerCtrl::MaxFilePickerCtrl(BBObject * handle, wxWindow * parent, wxWin
 	wxbind(this, handle);
 }
 
+MaxFilePickerCtrl::MaxFilePickerCtrl()
+{}
+
 MaxFilePickerCtrl::~MaxFilePickerCtrl() {
 	wxunbind(this);
+}
+
+void MaxFilePickerCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
 }
 
 MaxDirPickerCtrl::MaxDirPickerCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& path,
@@ -42,8 +49,75 @@ MaxDirPickerCtrl::MaxDirPickerCtrl(BBObject * handle, wxWindow * parent, wxWindo
 	wxbind(this, handle);
 }
 
+MaxDirPickerCtrl::MaxDirPickerCtrl()
+{}
+
 MaxDirPickerCtrl::~MaxDirPickerCtrl() {
 	wxunbind(this);
+}
+
+void MaxDirPickerCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxFilePickerCtrlXmlHandler, wxFilePickerCtrlXmlHandler)
+
+MaxFilePickerCtrlXmlHandler::MaxFilePickerCtrlXmlHandler()
+	: wxFilePickerCtrlXmlHandler()
+{}
+
+
+wxObject * MaxFilePickerCtrlXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(picker, MaxFilePickerCtrl)
+
+    picker->Create(m_parentAsWindow,
+                  GetID(),
+                  GetParamValue(wxT("value")),
+                  GetParamValue(wxT("message")),
+                  GetParamValue(wxT("wildcard")),
+                  GetPosition(), GetSize(),
+                  GetStyle(_T("style"), wxFLP_DEFAULT_STYLE),
+                  wxDefaultValidator,
+                  GetName());
+
+	picker->MaxBind(_wx_wxfilepickerctrl_wxFilePickerCtrl__xrcNew(picker));
+
+    SetupWindow(picker);
+    return picker;
+
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxDirPickerCtrlXmlHandler, wxDirPickerCtrlXmlHandler)
+
+MaxDirPickerCtrlXmlHandler::MaxDirPickerCtrlXmlHandler()
+	: wxDirPickerCtrlXmlHandler()
+{}
+
+
+wxObject * MaxDirPickerCtrlXmlHandler::DoCreateResource()
+{
+   XRC_MAKE_INSTANCE(picker, MaxDirPickerCtrl)
+
+   picker->Create(m_parentAsWindow,
+                  GetID(),
+                  GetParamValue(wxT("value")),
+                  GetParamValue(wxT("message")),
+                  GetPosition(), GetSize(),
+                  GetStyle(_T("style"), wxDIRP_DEFAULT_STYLE),
+                  wxDefaultValidator,
+                  GetName());
+
+	picker->MaxBind(_wx_wxdirpickerctrl_wxDirPickerCtrl__xrcNew(picker));
+
+    SetupWindow(picker);
+
+    return picker;
+
 }
 
 // *********************************************
@@ -101,3 +175,9 @@ int bmx_wxfilepickerctrl_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxfiledir_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxFilePickerCtrlXmlHandler);
+	wxXmlResource::Get()->AddHandler(new MaxDirPickerCtrlXmlHandler);
+}

@@ -57,6 +57,18 @@ implementation may differ but this is usually a (small) widget which give access
 End Rem
 Type wxFontPickerCtrl Extends wxPickerBase
 
+	Function _create:wxFontPickerCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxFontPickerCtrl = New wxFontPickerCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxFontPickerCtrl(wxObjectPtr:Byte Ptr)
+		Return wxFontPickerCtrl._create(wxObjectPtr)
+	End Function
+
 	Function CreateFontPicker:wxFontPickerCtrl(parent:wxWindow, id:Int, font:wxFont = Null, ..
 			x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxFNTP_DEFAULT_STYLE)
 		Return New wxFontPickerCtrl.Create(parent, id, font, x, y, w, h, style)
@@ -163,3 +175,13 @@ Type TFontPickerEventFactory Extends TEventFactory
 End Type
 
 New TFontPickerEventFactory
+
+Type TFontPickerCtrlResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxfontpickerctrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New TFontPickerCtrlResourceFactory

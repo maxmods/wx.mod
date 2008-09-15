@@ -21,6 +21,8 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/xrc/xh_chckl.h"
+
 
 class MaxCheckListBox;
 
@@ -28,13 +30,16 @@ extern "C" {
 
 #include <blitz.h>
 
-	MaxCheckListBox * bmx_wxchecklistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
-	void bmx_wxchecklistbox_check(MaxCheckListBox * listbox, int item, bool check);
-	bool bmx_wxchecklistbox_ischecked(MaxCheckListBox * listbox, int item);
-	int bmx_wxchecklistbox_append(MaxCheckListBox * listbox, BBString * item);
-	
+	BBObject * _wx_wxchecklistbox_wxCheckListBox__xrcNew(wxCheckListBox * listbox);
 
+	MaxCheckListBox * bmx_wxchecklistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
+	void bmx_wxchecklistbox_check(wxCheckListBox * listbox, int item, bool check);
+	bool bmx_wxchecklistbox_ischecked(wxCheckListBox * listbox, int item);
+	int bmx_wxchecklistbox_append(wxCheckListBox * listbox, BBString * item);
+	
 	int bmx_wxchecklistbox_geteventtype(int type);
+
+	void bmx_wxchecklistbox_addresourcehandler();
 }
 
 
@@ -45,11 +50,30 @@ class MaxCheckListBox : public wxCheckListBox
 {
 public:
 	MaxCheckListBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxArrayString& array, int x, int y, int w, int h, long style);
+	MaxCheckListBox();
 	~MaxCheckListBox();
+
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxCheckListBoxXmlHandler : public wxCheckListBoxXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxCheckListBoxXmlHandler)
+
+public:
+    MaxCheckListBoxXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+
+    bool m_insideBox;
+    wxArrayString strList;
 };
 
 

@@ -24,6 +24,8 @@
 #include "wx/html/htmlwin.h"
 #include "wx/html/htmlproc.h"
 #include "wx/html/htmlcell.h"
+#include "wx/xrc/xh_html.h"
+
 
 class MaxHtmlWindow;
 class MaxHtmlProcessor;
@@ -35,6 +37,8 @@ class MaxHtmlTagHandler;
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxhtmlwindow_wxHtmlWindow__xrcNew(wxHtmlWindow * window);
 
 	BBString * _wx_wxhtmlwindow_wxHtmlProcessor__Process(BBObject * handle, BBString * text);
 	BBString * _wx_wxhtmlwindow_wxHtmlWindow__OnOpeningURL(BBObject * handle, wxHtmlURLType urlType, BBString * url, wxHtmlOpeningStatus * returnStatus);
@@ -118,6 +122,8 @@ extern "C" {
 
 	wxWindow * bmx_wxhtmlwindowinterface_gethtmlwindow(wxHtmlWindowInterface * win);
 
+	void bmx_wxhtmlwindow_addresourcehandler();
+
 }
 
 
@@ -128,11 +134,14 @@ class MaxHtmlWindow : public wxHtmlWindow
 public:
 	MaxHtmlWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
+	MaxHtmlWindow();
 	~MaxHtmlWindow();
 	
 	virtual wxHtmlOpeningStatus OnOpeningURL(wxHtmlURLType type, const wxString& url, wxString *redirect) const;
 	virtual void OnSetTitle(const wxString& title) const;
-	
+
+	void MaxBind(BBObject * handle);
+
 private:
 	BBObject * maxHandle;
 	
@@ -202,3 +211,15 @@ private:
 	BBObject * maxHandle;
 	
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxHtmlWindowXmlHandler : public wxHtmlWindowXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxHtmlWindowXmlHandler)
+
+public:
+    MaxHtmlWindowXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+

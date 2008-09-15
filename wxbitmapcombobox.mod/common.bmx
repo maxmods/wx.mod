@@ -63,6 +63,8 @@ Extern
 	Function bmx_wxbitmapcombobox_getstrings:String[](handle:Byte Ptr)
 	Function bmx_wxbitmapcombobox_getstringselection:String(handle:Byte Ptr)
 
+	Function bmx_wxbitmapcombobox_addresourcehandler()
+	
 End Extern
 
 

@@ -23,12 +23,16 @@
 #include "wxglue.h"
 #include "wx/dirctrl.h"
 #include "../wxtreectrl.mod/glue.h"
+#include "wx/xrc/xh_gdctl.h"
+
 
 class MaxGenericDirCtrl;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxgenericdirctrl_wxGenericDirCtrl__xrcNew(wxGenericDirCtrl * dir);
 
 	wxGenericDirCtrl * bmx_wxgenericdirctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id,
 		BBString * dir, int x, int y, int w, int h, long style, BBString * filter, int defaultFilter);
@@ -60,9 +64,23 @@ class MaxGenericDirCtrl : public wxGenericDirCtrl
 public:
 	MaxGenericDirCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& dir,
 		int x, int y, int w, int h, long style, const wxString& filter, int defaultFilter);
+	MaxGenericDirCtrl();
 	~MaxGenericDirCtrl();
+
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxGenericDirCtrlXmlHandler : public wxGenericDirCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxGenericDirCtrlXmlHandler)
+
+public:
+    MaxGenericDirCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
 };
