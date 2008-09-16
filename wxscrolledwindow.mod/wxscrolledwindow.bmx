@@ -104,6 +104,18 @@ scrolled window. If the user insert a child window at position (10,10) and scrol
 End Rem
 Type wxScrolledWindow Extends wxPanel
 
+	Function _create:wxScrolledWindow(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxScrolledWindow = New wxScrolledWindow
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxScrolledWindow(wxObjectPtr:Byte Ptr)
+		Return wxScrolledWindow._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Default constructor.
 	End Rem
@@ -256,3 +268,13 @@ Type wxScrolledWindow Extends wxPanel
 	End Function
 	
 End Type
+
+Type TScrolledWindowResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxscrolledwindow_addresourcehandler()
+	End Method
+		
+End Type
+
+New TScrolledWindowResourceFactory

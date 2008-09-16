@@ -54,8 +54,10 @@ Extern
 	Function bmx_wxspinctrl_getmin:Int(handle:Byte Ptr)
 	Function bmx_wxspinctrl_getmax:Int(handle:Byte Ptr)
 
-
 	Function bmx_wxspinctrl_geteventtype:Int(evt:Int)
+	
+	Function bmx_wxspinctrl_addresourcehandler()
+	
 End Extern
 
 

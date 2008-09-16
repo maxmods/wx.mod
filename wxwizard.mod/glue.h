@@ -23,6 +23,7 @@
 #include "wxglue.h"
 #include "wx/wizard.h"
 #include "../wxbitmap.mod/glue.h"
+#include "wx/xrc/xh_wizrd.h"
 
 class MaxWizard;
 class MaxWizardPage;
@@ -34,6 +35,9 @@ extern "C" {
 
 	wxWizardPage * _wx_wxwizard_wxWizardPage__GetPrev(BBObject * handle);
 	wxWizardPage * _wx_wxwizard_wxWizardPage__GetNext(BBObject * handle);
+	BBObject * _wx_wxwizard_wxWizard__xrcNew(wxWizard * wizard);
+	BBObject * _wx_wxwizard_wxWizardPage__xrcNew(wxWizardPage * page);
+	BBObject * _wx_wxwizard_wxWizardPageSimple__xrcNew(wxWizardPageSimple * page);
 
 	MaxWizard * bmx_wxwizard_create(BBObject * handle, wxWindow * parent, int id, BBString * title, MaxBitmap * bitmap, int x, int y, long style);
 	wxWizardPage * bmx_wxwizard_getcurrentpage(wxWizard * wizard);
@@ -59,6 +63,8 @@ extern "C" {
 
 	int bmx_wxwizard_geteventtype(int type);
 
+	void bmx_wxwizard_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -68,7 +74,10 @@ class MaxWizard : public wxWizard
 public:
 	MaxWizard(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& title, 
 		const wxBitmap& bitmap, int x, int y, long style);
+	MaxWizard();
 	~MaxWizard();
+
+	void MaxBind(BBObject * handle);
 	
 private:
 
@@ -81,10 +90,13 @@ class MaxWizardPage : public wxWizardPage
 {
 public:
 	MaxWizardPage(BBObject * handle, wxWizard * parent, const wxBitmap& bitmap);
+	MaxWizardPage();
 	~MaxWizardPage();
 	
 	wxWizardPage* GetPrev() const;
 	wxWizardPage* GetNext() const;
+
+	void MaxBind(BBObject * handle);
 	
 private:
 
@@ -98,10 +110,28 @@ class MaxWizardPageSimple : public wxWizardPageSimple
 {
 public:
 	MaxWizardPageSimple(BBObject * handle, wxWizard * parent, wxWizardPage * prev, wxWizardPage * next, const wxBitmap& bitmap);
+	MaxWizardPageSimple();
 	~MaxWizardPageSimple();
+
+	void MaxBind(BBObject * handle);
 	
 private:
 
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxWizardXmlHandler : public wxWizardXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxWizardXmlHandler)
+
+public:
+    MaxWizardXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+    wxWizard *m_wizard;
+    wxWizardPageSimple *m_lastSimplePage;
 };

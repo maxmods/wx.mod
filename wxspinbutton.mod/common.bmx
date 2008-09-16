@@ -55,6 +55,9 @@ Extern
 	Function bmx_wxspinevent_setposition(evt:Byte Ptr, pos:Int)
 
 	Function bmx_wxspinbutton_geteventtype:Int(evt:Int)
+	
+	Function bmx_wxspinbutton_addresourcehandler()
+	
 End Extern
 
 

@@ -82,6 +82,10 @@ Type wxStaticBox Extends wxControl
 		End If
 	End Function
 
+	Function _xrcNew:wxStaticBox(wxObjectPtr:Byte Ptr)
+		Return wxStaticBox._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a static box.
 	End Rem
@@ -107,3 +111,13 @@ Type wxStaticBox Extends wxControl
 
 End Type
 
+
+Type TStaticBoxResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxstaticbox_addresourcehandler()
+	End Method
+		
+End Type
+
+New TStaticBoxResourceFactory

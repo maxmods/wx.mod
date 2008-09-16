@@ -46,4 +46,6 @@ Extern
 
 	Function bmx_wxstaticbox_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, label:String, x:Int, y:Int, w:Int, h:Int, style:Int)
 
+	Function bmx_wxstaticbox_addresourcehandler()
+
 End Extern

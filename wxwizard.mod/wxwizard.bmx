@@ -67,6 +67,18 @@ application will hang on exit due to an undestroyed window.
 End Rem
 Type wxWizard Extends wxDialog
 
+	Function _create:wxWizard(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxWizard = New wxWizard
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxWizard(wxObjectPtr:Byte Ptr)
+		Return wxWizard._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -233,7 +245,12 @@ Type wxWizardPage Extends wxPanel
 			Return this
 		End If
 	End Function
-	
+
+	Function _xrcNew:wxWizardPage(wxObjectPtr:Byte Ptr)
+		Return wxWizardPage._create(wxObjectPtr)
+	End Function
+
+
 	Rem
 	bbdoc: Get the page which should be shown when the user chooses the "Back" button.
 	about: If Null is returned, this button will be disabled. The first page of the wizard will usually
@@ -302,6 +319,18 @@ known statically - on the other hand, if this is not the case you must derive yo
 wxWizardPage instead.
 End Rem
 Type wxWizardPageSimple Extends wxWizardPage
+
+	Function _create:wxWizardPageSimple(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxWizardPageSimple = New wxWizardPageSimple
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxWizardPageSimple(wxObjectPtr:Byte Ptr)
+		Return wxWizardPageSimple._create(wxObjectPtr)
+	End Function
 
 	Rem
 	bbdoc: Constructor takes the previous and next pages.
@@ -476,3 +505,12 @@ End Type
 
 New TWizardEventFactory
 
+Type TWizardResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxwizard_addresourcehandler()
+	End Method
+		
+End Type
+
+New TWizardResourceFactory

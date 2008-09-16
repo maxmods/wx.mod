@@ -30,8 +30,48 @@ MaxScrollBar::MaxScrollBar(BBObject * handle, wxWindow * parent, wxWindowID id, 
 	wxbind(this, handle);
 }
 
+MaxScrollBar::MaxScrollBar()
+{}
+
 MaxScrollBar::~MaxScrollBar() {
 	wxunbind(this);
+}
+
+void MaxScrollBar::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxScrollBarXmlHandler, wxScrollBarXmlHandler)
+
+MaxScrollBarXmlHandler::MaxScrollBarXmlHandler()
+	: wxScrollBarXmlHandler()
+{}
+
+
+wxObject * MaxScrollBarXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(control, MaxScrollBar)
+
+    control->Create(m_parentAsWindow,
+                    GetID(),
+                    GetPosition(), GetSize(),
+                    GetStyle(),
+                    wxDefaultValidator,
+                    GetName());
+
+    control->SetScrollbar(GetLong( wxT("value"), 0),
+                          GetLong( wxT("thumbsize"),1),
+                          GetLong( wxT("range"), 10),
+                          GetLong( wxT("pagesize"),1));
+
+	control->MaxBind(_wx_wxscrollbar_wxScrollBar__xrcNew(control));
+
+    SetupWindow(control);
+    CreateChildren(control);
+
+    return control;
 }
 
 
@@ -64,5 +104,11 @@ void bmx_wxscrollbar_setthumbposition(wxScrollBar * scrollbar, int viewStart) {
 
 void bmx_wxscrollbar_setscrollbar(wxScrollBar * scrollbar, int position, int thumbSize, int range, int pageSize, int refresh) {
 	scrollbar->SetScrollbar(position, thumbSize, range, pageSize, refresh);
+}
+
+// *********************************************
+
+void bmx_wxscrollbar_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxScrollBarXmlHandler);
 }
 

@@ -63,6 +63,18 @@ to 0x7fff. Under GTK and Win32 with sufficiently new version of comctrl32.dll (a
 End Rem
 Type wxSpinButton Extends wxControl
 
+	Function _create:wxSpinButton(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSpinButton = New wxSpinButton
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxSpinButton(wxObjectPtr:Byte Ptr)
+		Return wxSpinButton._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a spin button.
 	End Rem
@@ -179,3 +191,13 @@ End Type
 
 New TSpinEventFactory
 
+
+Type TSpinButtonResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxspinbutton_addresourcehandler()
+	End Method
+		
+End Type
+
+New TSpinButtonResourceFactory

@@ -31,8 +31,45 @@ MaxSpinCtrl::MaxSpinCtrl(BBObject * handle, wxWindow* parent, wxWindowID id, con
 	wxbind(this, handle);
 }
 
+MaxSpinCtrl::MaxSpinCtrl()
+{}
+
 MaxSpinCtrl::~MaxSpinCtrl() {
 	wxunbind(this);
+}
+
+void MaxSpinCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxSpinCtrlXmlHandler, wxSpinCtrlXmlHandler)
+
+MaxSpinCtrlXmlHandler::MaxSpinCtrlXmlHandler()
+	: wxSpinCtrlXmlHandler()
+{}
+
+
+wxObject * MaxSpinCtrlXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(control, MaxSpinCtrl)
+
+    control->Create(m_parentAsWindow,
+                    GetID(),
+                    GetText(wxT("value")),
+                    GetPosition(), GetSize(),
+                    GetStyle(wxT("style"), wxSP_ARROW_KEYS),
+                    GetLong(wxT("min"), wxSP_DEFAULT_MIN),
+                    GetLong(wxT("max"), wxSP_DEFAULT_MAX),
+                    GetLong(wxT("value"), wxSP_DEFAULT_VALUE),
+                    GetName());
+
+	control->MaxBind(_wx_wxspinctrl_wxSpinCtrl__xrcNew(control));
+
+    SetupWindow(control);
+
+    return control;
 }
 
 
@@ -86,3 +123,10 @@ int bmx_wxspinctrl_geteventtype(int type) {
 	}
 	return 0;
 }
+
+// *********************************************
+
+void bmx_wxspinctrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxSpinCtrlXmlHandler);
+}
+

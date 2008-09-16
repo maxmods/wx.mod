@@ -86,6 +86,10 @@ Type wxStatusBar Extends wxWindow
 		Return this
 	End Function
 
+	Function _xrcNew:wxStatusBar(wxObjectPtr:Byte Ptr)
+		Return wxStatusBar._create(wxObjectPtr)
+	End Function
+
 	Method injectSelf()
 		bmx_wxstatusbar_injectSelf(wxObjectPtr, Self)
 	End Method
@@ -182,3 +186,13 @@ Type wxStatusBar Extends wxWindow
 		
 End Type
 
+
+Type TStatusBarResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxstatusbar_addresourcehandler()
+	End Method
+		
+End Type
+
+New TStatusBarResourceFactory

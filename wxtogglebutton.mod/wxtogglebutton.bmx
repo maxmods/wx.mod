@@ -56,6 +56,18 @@ about: In other words, it is similar to wxCheckBox in functionality but looks li
 End Rem
 Type wxToggleButton Extends wxControl
 
+	Function _create:wxToggleButton(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxToggleButton = New wxToggleButton
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxToggleButton(wxObjectPtr:Byte Ptr)
+		Return wxToggleButton._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a toggle button.
 	End Rem
@@ -118,3 +130,12 @@ End Type
 
 New TToggleButtonEventFactory
 
+Type TToggleButtonResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxtogglebutton_addresourcehandler()
+	End Method
+		
+End Type
+
+New TToggleButtonResourceFactory

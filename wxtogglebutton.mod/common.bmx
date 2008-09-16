@@ -49,6 +49,9 @@ Extern
 	Function bmx_wxtogglebutton_setvalue(handle:Byte Ptr, state:Int)
 
 	Function bmx_wxtogglebutton_geteventtype:Int(evt:Int)
+	
+	Function bmx_wxtogglebutton_addresourcehandler()
+
 End Extern
 
 

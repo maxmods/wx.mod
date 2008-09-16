@@ -69,6 +69,8 @@ Extern
 
 	Function bmx_wxwizard_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxwizard_addresourcehandler()
+
 End Extern
 
 Const wxEVT_WIZARD_PAGE_CHANGED:Int = 900

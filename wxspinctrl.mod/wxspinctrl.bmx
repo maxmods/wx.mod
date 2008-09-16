@@ -55,6 +55,18 @@ bbdoc: wxSpinCtrl combines wxTextCtrl and wxSpinButton in one control.
 End Rem
 Type wxSpinCtrl Extends wxControl
 
+	Function _create:wxSpinCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSpinCtrl = New wxSpinCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxSpinCtrl(wxObjectPtr:Byte Ptr)
+		Return wxSpinCtrl._create(wxObjectPtr)
+	End Function
+
 	Function CreateSpinCtrl:wxSpinCtrl(parent:wxWindow, id:Int, value:String = Null, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxSP_ARROW_KEYS, minimum:Int = 0, maximum:Int = 100, initial:Int = 0)
 			
@@ -152,3 +164,13 @@ End Type
 
 New TSpinCtrlEventFactory
 
+
+Type TSpinCtrlResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxspinctrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New TSpinCtrlResourceFactory

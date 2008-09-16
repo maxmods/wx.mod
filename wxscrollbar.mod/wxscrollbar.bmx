@@ -83,6 +83,18 @@ adjust the view, object and page size according to the size of the window and th
 End Rem
 Type wxScrollBar Extends wxControl
 
+	Function _create:wxScrollBar(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxScrollBar = New wxScrollBar
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxScrollBar(wxObjectPtr:Byte Ptr)
+		Return wxScrollBar._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a scrollbar.
 	End Rem
@@ -176,3 +188,13 @@ Type wxScrollBar Extends wxControl
 	
 End Type
 
+
+Type TSrcollBarResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxscrollbar_addresourcehandler()
+	End Method
+		
+End Type
+
+New TSrcollBarResourceFactory

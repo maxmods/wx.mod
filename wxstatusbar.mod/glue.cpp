@@ -35,6 +35,9 @@ MaxStatusBar::MaxStatusBar(BBObject * handle, wxWindow * parent, wxWindowID id, 
 	wxbind(this, handle);
 }
 
+MaxStatusBar::MaxStatusBar()
+{}
+
 void MaxStatusBar::injectSelf(BBObject * handle) {
 	wxbind(this, handle);
 }
@@ -42,6 +45,87 @@ void MaxStatusBar::injectSelf(BBObject * handle) {
 MaxStatusBar::~MaxStatusBar() {
 	wxunbind(this);
 }
+
+void MaxStatusBar::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxStatusBarXmlHandler, wxStatusBarXmlHandler)
+
+MaxStatusBarXmlHandler::MaxStatusBarXmlHandler()
+	: wxStatusBarXmlHandler()
+{}
+
+
+wxObject * MaxStatusBarXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(statbar, MaxStatusBar)
+
+    statbar->Create(m_parentAsWindow,
+                    GetID(),
+                    GetStyle(),
+                    GetName());
+
+	statbar->MaxBind(_wx_wxstatusbar_wxStatusBar__xrcNew(statbar));
+
+    int fields = GetLong(wxT("fields"), 1);
+    wxString widths = GetParamValue(wxT("widths"));
+    wxString styles = GetParamValue(wxT("styles"));
+
+    if (fields > 1 && !widths.IsEmpty())
+    {
+        int *width = new int[fields];
+
+        for (int i = 0; i < fields; ++i)
+        {
+            width[i] = wxAtoi(widths.BeforeFirst(wxT(',')));
+            if(widths.Find(wxT(',')))
+                widths.Remove(0, widths.Find(wxT(',')) + 1);
+        }
+        statbar->SetFieldsCount(fields, width);
+        delete[] width;
+    }
+    else
+        statbar->SetFieldsCount(fields);
+
+    if (!styles.empty())
+    {
+        int *style = new int[fields];
+        for (int i = 0; i < fields; ++i)
+        {
+            style[i] = wxSB_NORMAL;
+
+            wxString first = styles.BeforeFirst(wxT(','));
+            if (first == wxT("wxSB_NORMAL"))
+                style[i] = wxSB_NORMAL;
+            else if (first == wxT("wxSB_FLAT"))
+                style[i] = wxSB_FLAT;
+            else if (first == wxT("wxSB_RAISED"))
+                style[i] = wxSB_RAISED;
+            else if (!first.empty())
+                wxLogError(wxT("Error in resource, unknown statusbar field style: ") + first);
+
+            if(styles.Find(wxT(',')))
+                styles.Remove(0, styles.Find(wxT(',')) + 1);
+        }
+        statbar->SetStatusStyles(fields, style);
+        delete [] style;
+    }
+
+    CreateChildren(statbar);
+
+    if (m_parentAsWindow)
+    {
+        wxFrame *parentFrame = wxDynamicCast(m_parent, wxFrame);
+        if (parentFrame)
+            parentFrame->SetStatusBar(statbar);
+    }
+
+    return statbar;
+}
+
 
 // *********************************************
 
@@ -114,3 +198,8 @@ void bmx_wxstatusbar_setstatusstyles(wxStatusBar * statusbar, BBArray * styles) 
 	statusbar->SetStatusStyles(styles->scales[0], (int*)BBARRAYDATA( styles, styles->dims ));
 }
 
+// *********************************************
+
+void bmx_wxstatusbar_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxStatusBarXmlHandler);
+}

@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/xrc/xh_stbox.h"
 
 class MaxStaticBox;
 
@@ -28,9 +29,12 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxstaticbox_wxStaticBox__xrcNew(wxStaticBox * box);
+
 	MaxStaticBox * bmx_wxstaticbox_create(void * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
 
+	void bmx_wxstaticbox_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -40,9 +44,23 @@ class MaxStaticBox : public wxStaticBox
 public:
 	MaxStaticBox(void * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style);
+	MaxStaticBox();
+	
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxStaticBoxXmlHandler : public wxStaticBoxXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxStaticBoxXmlHandler)
+
+public:
+    MaxStaticBoxXmlHandler();
+    virtual wxObject *DoCreateResource();
 };
 

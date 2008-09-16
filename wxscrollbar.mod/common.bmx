@@ -52,6 +52,7 @@ Extern
 	Function bmx_wxscrollbar_setthumbposition(handle:Byte Ptr, viewStart:Int)
 	Function bmx_wxscrollbar_setscrollbar(handle:Byte Ptr, position:Int, thumbSize:Int, range:Int, pageSize:Int, refresh:Int)
 
+	Function bmx_wxscrollbar_addresourcehandler()
 
 End Extern
 

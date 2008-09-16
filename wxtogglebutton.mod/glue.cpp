@@ -31,9 +31,46 @@ MaxToggleButton::MaxToggleButton(BBObject * handle, wxWindow * parent, wxWindowI
 	wxbind(this, handle);
 }
 
+MaxToggleButton::MaxToggleButton()
+{}
+
 MaxToggleButton::~MaxToggleButton() {
 	wxunbind(this);
 }
+
+void MaxToggleButton::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxToggleButtonXmlHandler, wxToggleButtonXmlHandler)
+
+MaxToggleButtonXmlHandler::MaxToggleButtonXmlHandler()
+	: wxToggleButtonXmlHandler()
+{}
+
+
+wxObject * MaxToggleButtonXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(control, MaxToggleButton)
+
+    control->Create(m_parentAsWindow,
+                    GetID(),
+                    GetText(wxT("label")),
+                    GetPosition(), GetSize(),
+                    GetStyle(),
+                    wxDefaultValidator,
+                    GetName());
+
+	control->MaxBind(_wx_wxtogglebutton_wxToggleButton__xrcNew(control));
+
+    control->SetValue(GetBool( wxT("checked")));
+    SetupWindow(control);
+
+    return control;
+}
+
 
 // *********************************************
 
@@ -61,3 +98,10 @@ int bmx_wxtogglebutton_geteventtype(int type) {
 	
 	return 0;
 }
+
+// *********************************************
+
+void bmx_wxtogglebutton_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxToggleButtonXmlHandler);
+}
+

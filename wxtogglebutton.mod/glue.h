@@ -22,6 +22,7 @@
 
 #include "wxglue.h"
 #include <wx/tglbtn.h>
+#include "wx/xrc/xh_tglbtn.h"
 
 class MaxToggleButton;
 
@@ -29,12 +30,16 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxtogglebutton_wxToggleButton__xrcNew(wxToggleButton * button);
+
 	MaxToggleButton * bmx_wxtogglebutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
 	bool bmx_wxtogglebutton_getvalue(wxToggleButton * button);
 	void bmx_wxtogglebutton_setvalue(wxToggleButton * button, bool state);
 
 	int bmx_wxtogglebutton_geteventtype(int type);
+	
+	void bmx_wxtogglebutton_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -44,10 +49,24 @@ class MaxToggleButton : public wxToggleButton
 public:
 	MaxToggleButton(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style);
+	MaxToggleButton();
 	~MaxToggleButton();
+
+	void MaxBind(BBObject * handle);
 
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxToggleButtonXmlHandler : public wxToggleButtonXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxToggleButtonXmlHandler)
+
+public:
+    MaxToggleButtonXmlHandler();
+    virtual wxObject *DoCreateResource();
 };
 

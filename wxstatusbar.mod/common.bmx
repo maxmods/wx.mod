@@ -59,6 +59,8 @@ Extern
 	Function bmx_wxstatusbar_setstatuswidths(handle:Byte Ptr, widths:Int[])
 	Function bmx_wxstatusbar_setstatusstyles(handle:Byte Ptr, styles:Int[])
 	
+	Function bmx_wxstatusbar_addresourcehandler()
+
 End Extern
 
 Const wxST_SIZEGRIP:Int = $0010

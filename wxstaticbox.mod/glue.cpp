@@ -30,6 +30,38 @@ MaxStaticBox::MaxStaticBox(void * handle, wxWindow * parent, wxWindowID id, cons
 {
 }
 
+MaxStaticBox::MaxStaticBox()
+{}
+
+void MaxStaticBox::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxStaticBoxXmlHandler, wxStaticBoxXmlHandler)
+
+MaxStaticBoxXmlHandler::MaxStaticBoxXmlHandler()
+	: wxStaticBoxXmlHandler()
+{}
+
+
+wxObject * MaxStaticBoxXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(box, MaxStaticBox)
+
+    box->Create(m_parentAsWindow,
+                GetID(),
+                GetText(wxT("label")),
+                GetPosition(), GetSize(),
+                GetStyle(),
+                GetName());
+
+	box->MaxBind(_wx_wxstaticbox_wxStaticBox__xrcNew(box));
+    SetupWindow(box);
+
+    return box;
+}
 
 // *********************************************
 
@@ -41,3 +73,10 @@ MaxStaticBox * bmx_wxstaticbox_create(void * maxHandle, wxWindow * parent, wxWin
 
 	return new MaxStaticBox(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }
+
+// *********************************************
+
+void bmx_wxstaticbox_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxStaticBoxXmlHandler);
+}
+

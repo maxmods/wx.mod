@@ -30,6 +30,9 @@ MaxScrolledWindow::MaxScrolledWindow(BBObject * handle, wxWindow * parent, wxWin
 	wxbind(this, handle);
 }
 
+MaxScrolledWindow::MaxScrolledWindow()
+{}
+
 MaxScrolledWindow::~MaxScrolledWindow() {
 	wxunbind(this);
 }
@@ -43,6 +46,42 @@ void MaxScrolledWindow::DefaultOnDraw(MaxDC * dc) {
 	wxScrolledWindow::OnDraw(*dc->GetDC());
 }
 
+void MaxScrolledWindow::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxScrolledWindowXmlHandler, wxScrolledWindowXmlHandler)
+
+MaxScrolledWindowXmlHandler::MaxScrolledWindowXmlHandler()
+	: wxScrolledWindowXmlHandler()
+{}
+
+
+wxObject * MaxScrolledWindowXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(control, MaxScrolledWindow)
+
+    control->Create(m_parentAsWindow,
+                    GetID(),
+                    GetPosition(), GetSize(),
+                    GetStyle(wxT("style"), wxHSCROLL | wxVSCROLL),
+                    GetName());
+
+	control->MaxBind(_wx_wxscrolledwindow_wxScrolledWindow__xrcNew(control));
+
+    SetupWindow(control);
+    CreateChildren(control);
+
+    if ( HasParam(wxT("scrollrate")) )
+    {
+        wxSize rate = GetSize(wxT("scrollrate"));
+        control->SetScrollRate(rate.x, rate.y);
+    }
+
+    return control;
+}
 
 
 // *********************************************
@@ -103,3 +142,8 @@ void bmx_wxscrolledwindow_ondraw_default(MaxScrolledWindow * window, MaxDC * dc)
 	window->DefaultOnDraw(dc);
 }
 
+// *********************************************
+
+void bmx_wxscrolledwindow_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxScrolledWindowXmlHandler);
+}

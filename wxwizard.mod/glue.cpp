@@ -31,8 +31,15 @@ MaxWizard::MaxWizard(BBObject * handle, wxWindow * parent, int id, const wxStrin
 	wxbind(this, handle);
 }
 
+MaxWizard::MaxWizard()
+{}
+
 MaxWizard::~MaxWizard() {
 	wxunbind(this);
+}
+
+void MaxWizard::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
 }
 
 MaxWizardPage::MaxWizardPage(BBObject * handle, wxWizard * parent, const wxBitmap& bitmap)
@@ -40,6 +47,9 @@ MaxWizardPage::MaxWizardPage(BBObject * handle, wxWizard * parent, const wxBitma
 {
 	wxbind(this, handle);
 }
+
+MaxWizardPage::MaxWizardPage()
+{}
 
 MaxWizardPage::~MaxWizardPage() {
 	wxunbind(this);
@@ -53,6 +63,9 @@ wxWizardPage* MaxWizardPage::GetNext() const {
 	return _wx_wxwizard_wxWizardPage__GetNext(maxHandle);
 }
 
+void MaxWizardPage::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
 
 MaxWizardPageSimple::MaxWizardPageSimple(BBObject * handle, wxWizard * parent, wxWizardPage * prev, wxWizardPage * next, const wxBitmap& bitmap)
 	: wxWizardPageSimple(parent, prev, next, bitmap)
@@ -60,8 +73,94 @@ MaxWizardPageSimple::MaxWizardPageSimple(BBObject * handle, wxWizard * parent, w
 	wxbind(this, handle);
 }
 
+MaxWizardPageSimple::MaxWizardPageSimple()
+{}
+
 MaxWizardPageSimple::~MaxWizardPageSimple() {
 	wxunbind(this);
+}
+
+void MaxWizardPageSimple::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxWizardXmlHandler, wxWizardXmlHandler)
+
+MaxWizardXmlHandler::MaxWizardXmlHandler()
+	: wxWizardXmlHandler(), m_wizard(NULL), m_lastSimplePage(NULL)
+{}
+
+wxObject * MaxWizardXmlHandler::DoCreateResource()
+{
+    if (m_class == wxT("wxWizard"))
+    {
+        XRC_MAKE_INSTANCE(wiz, MaxWizard)
+
+        long style = GetStyle(wxT("exstyle"), 0);
+        if (style != 0)
+            wiz->SetExtraStyle(style);
+        wiz->Create(m_parentAsWindow,
+                    GetID(),
+                    GetText(wxT("title")),
+                    GetBitmap(),
+                    GetPosition());
+
+	wiz->MaxBind(_wx_wxwizard_wxWizard__xrcNew(wiz));
+
+        wxWizard *old = m_wizard;
+        m_wizard = wiz;
+        m_lastSimplePage = NULL;
+        CreateChildren(wiz, true /*this handler only*/);
+        m_wizard = old;
+        return wiz;
+    }
+    else
+    {
+        wxWizardPage *page;
+
+        if (m_class == wxT("wxWizardPageSimple"))
+        {
+            XRC_MAKE_INSTANCE(p, MaxWizardPageSimple)
+            p->Create(m_wizard, NULL, NULL, GetBitmap());
+            if (m_lastSimplePage)
+                wxWizardPageSimple::Chain(m_lastSimplePage, p);
+            page = p;
+            m_lastSimplePage = p;
+
+		p->MaxBind(_wx_wxwizard_wxWizardPageSimple__xrcNew(p));
+
+        }
+        else /*if (m_class == wxT("wxWizardPage"))*/
+        {
+            if ( !m_instance )
+            {
+                wxLogError(wxT("wxWizardPage is abstract class, must be subclassed"));
+                return NULL;
+            }
+
+            page = wxStaticCast(m_instance, wxWizardPage);
+            page->Create(m_wizard, GetBitmap());
+
+        }
+
+        page->SetName(GetName());
+        page->SetId(GetID());
+
+        SetupWindow(page);
+        CreateChildren(page);
+        return page;
+    }
+}
+
+bool MaxWizardXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return IsOfClass(node, wxT("wxWizard")) ||
+           (m_wizard != NULL &&
+                (IsOfClass(node, wxT("wxWizardPage")) ||
+                 IsOfClass(node, wxT("wxWizardPageSimple")))
+           );
 }
 
 // *********************************************
@@ -175,3 +274,10 @@ int bmx_wxwizard_geteventtype(int type) {
 	
 	return 0;
 }
+
+// *********************************************
+
+void bmx_wxwizard_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxWizardXmlHandler);
+}
+

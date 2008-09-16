@@ -59,4 +59,7 @@ Extern
 	Function bmx_wxscrolledwindow_settargetwindow(handle:Byte Ptr, window:Byte Ptr)
 	
 	Function bmx_wxscrolledwindow_ondraw_default(handle:Byte Ptr, dc:Byte Ptr)
+	
+	Function bmx_wxscrolledwindow_addresourcehandler()
+
 End Extern

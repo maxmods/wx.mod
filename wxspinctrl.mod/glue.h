@@ -22,12 +22,15 @@
 
 #include "wxglue.h"
 #include "wx/spinctrl.h"
+#include "wx/xrc/xh_spin.h"
 
 class MaxSpinCtrl;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxspinctrl_wxSpinCtrl__xrcNew(wxSpinCtrl * spin);
 
 	MaxSpinCtrl * bmx_wxspinctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y,
 		int w, int h, long style, int min, int max, int initial);
@@ -41,6 +44,8 @@ extern "C" {
 	int bmx_wxspinctrl_getmax(wxSpinCtrl * spin);
 
 	int bmx_wxspinctrl_geteventtype(int type);
+	
+	void bmx_wxspinctrl_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -50,10 +55,24 @@ class MaxSpinCtrl: public wxSpinCtrl
 public:
 	MaxSpinCtrl(BBObject * handle, wxWindow* parent, wxWindowID id, const wxString& value, int x, int y,
 		int w, int h, long style, int min, int max, int initial);
+	MaxSpinCtrl();
 	~MaxSpinCtrl();
-	
+
+	void MaxBind(BBObject * handle);
+
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxSpinCtrlXmlHandler : public wxSpinCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxSpinCtrlXmlHandler)
+
+public:
+    MaxSpinCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
 };
 

@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/xrc/xh_statbar.h"
 
 class MaxStatusBar;
 
@@ -28,6 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxstatusbar_wxStatusBar__xrcNew(wxStatusBar * statusbar);
 
 	void bmx_wxstatusbar_injectSelf(MaxStatusBar * statusbar, BBObject * handle);
 	
@@ -44,6 +46,8 @@ extern "C" {
 	void bmx_wxstatusbar_setstatuswidths(wxStatusBar * statusbar, BBArray * widths);
 	void bmx_wxstatusbar_setstatusstyles(wxStatusBar * statusbar, BBArray * styles);
 
+	void bmx_wxstatusbar_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -54,8 +58,11 @@ class MaxStatusBar : public wxStatusBar
 public:
 	MaxStatusBar(wxWindow * parent, long style, wxWindowID id, const wxString& name);
 	MaxStatusBar(BBObject * handle, wxWindow * parent, wxWindowID id, long style);
+	MaxStatusBar();
 	~MaxStatusBar();
 	void injectSelf(BBObject * handle);
+
+	void MaxBind(BBObject * handle);
 private:
 
     // any class wishing to process wxWidgets events must use this macro
@@ -63,4 +70,14 @@ private:
 };
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxStatusBarXmlHandler : public wxStatusBarXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxStatusBarXmlHandler)
+
+public:
+    MaxStatusBarXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+
 

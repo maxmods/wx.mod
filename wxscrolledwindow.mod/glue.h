@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/xrc/xh_scwin.h"
 
 class MaxScrolledWindow;
 
@@ -29,7 +30,8 @@ extern "C" {
 #include <blitz.h>
 
 	void _wx_wxscrolledwindow_wxScrolledWindow__OnDraw(BBObject * handle, MaxDC * dc);
-	
+	BBObject * _wx_wxscrolledwindow_wxScrolledWindow__xrcNew(wxScrolledWindow * window);
+
 	MaxScrolledWindow * bmx_wxscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 
 	void bmx_wxscrolledwindow_calcscrolledposition(wxScrolledWindow * window, int x, int y, int * xx, int * yy);
@@ -45,6 +47,8 @@ extern "C" {
 	void bmx_wxscrolledwindow_settargetwindow(wxScrolledWindow * window, wxWindow * target);
 
 	void bmx_wxscrolledwindow_ondraw_default(MaxScrolledWindow * window, MaxDC * dc);
+
+	void bmx_wxframe_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -54,9 +58,12 @@ class MaxScrolledWindow: public wxScrolledWindow
 public:
 	MaxScrolledWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);
+	MaxScrolledWindow();
 	~MaxScrolledWindow();
 	void OnDraw(wxDC & dc);
 	void DefaultOnDraw(MaxDC * dc);
+
+	void MaxBind(BBObject * handle);
 
 private:
 
@@ -64,3 +71,15 @@ private:
     DECLARE_EVENT_TABLE()
 	
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxScrolledWindowXmlHandler : public wxScrolledWindowXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxScrolledWindowXmlHandler)
+
+public:
+    MaxScrolledWindowXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+

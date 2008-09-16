@@ -22,12 +22,15 @@
 
 #include "wxglue.h"
 #include "wx/spinbutt.h"
+#include "wx/xrc/xh_spin.h"
 
 class MaxSpinButton;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxspinbutton_wxSpinButton__xrcNew(wxSpinButton * button);
 
 	MaxSpinButton * bmx_wxspinbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	int bmx_wxspinbutton_getmax(wxSpinButton * button);
@@ -40,6 +43,8 @@ extern "C" {
 	void bmx_wxspinevent_setposition(wxSpinEvent & event, int pos);
 
 	int bmx_wxspinbutton_geteventtype(int type);
+	
+	void bmx_wxspinbutton_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -48,9 +53,24 @@ class MaxSpinButton: public wxSpinButton
 {
 public:
 	MaxSpinButton(BBObject * handle, wxWindow* parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxSpinButton();
 	~MaxSpinButton();
-	
+
+	void MaxBind(BBObject * handle);
+
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxSpinButtonXmlHandler : public wxSpinButtonXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxSpinButtonXmlHandler)
+
+public:
+    MaxSpinButtonXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+
