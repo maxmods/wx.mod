@@ -50,6 +50,8 @@ Extern
 	
 	Function bmx_wxradiobutton_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxradiobutton_addresourcehandler()
+	
 End Extern
 
 Const wxEVT_COMMAND_RADIOBUTTON_SELECTED:Int = 12

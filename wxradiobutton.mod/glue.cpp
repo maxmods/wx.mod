@@ -31,10 +31,46 @@ MaxRadioButton::MaxRadioButton(BBObject * handle, wxWindow * parent, wxWindowID 
 	wxbind(this, handle);
 }
 
+MaxRadioButton::MaxRadioButton()
+{}
+
 MaxRadioButton::~MaxRadioButton() {
 	wxunbind(this);
 }
 
+void MaxRadioButton::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxRadioButtonXmlHandler, wxRadioButtonXmlHandler)
+
+MaxRadioButtonXmlHandler::MaxRadioButtonXmlHandler()
+	: wxRadioButtonXmlHandler()
+{}
+
+
+wxObject * MaxRadioButtonXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(control, MaxRadioButton)
+
+    control->Create(m_parentAsWindow,
+                    GetID(),
+                    GetText(wxT("label")),
+                    GetPosition(), GetSize(),
+                    GetStyle(),
+                    wxDefaultValidator,
+                    GetName());
+
+	control->MaxBind(_wx_wxradiobutton_wxRadioButton__xrcNew(control));
+
+    control->SetValue(GetBool(wxT("value"), 0));
+    SetupWindow(control);
+
+    return control;
+
+}
 
 // *********************************************
 
@@ -58,6 +94,12 @@ int bmx_wxradiobutton_geteventtype(int type) {
 	}
 	
 	return 0;
+}
+
+// *********************************************
+
+void bmx_wxradiobutton_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxRadioButtonXmlHandler);
 }
 
 

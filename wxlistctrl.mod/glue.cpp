@@ -51,12 +51,19 @@ MaxListCtrl::MaxListCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, in
 	wxbind(this, handle);
 }
 
+MaxListCtrl::MaxListCtrl()
+{}
+
 wxString MaxListCtrl::OnGetItemText(long item, long column) const {
 	return wxStringFromBBString(_wx_wxlistctrl_wxListCtrl__OnGetItemText(maxHandle, item, column));
 }
 
 int MaxListCtrl::OnGetItemColumnImage(long item, long column) const {
 	return _wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage(maxHandle, item, column);
+}
+
+void MaxListCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
 }
 
 wxListItemAttr * MaxListCtrl::OnGetItemAttr(long item) const {
@@ -88,6 +95,37 @@ wxListItem & MaxListItem::Item() {
 
 MaxListItem::~MaxListItem() {
 }
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxListCtrlXmlHandler, wxListCtrlXmlHandler)
+
+MaxListCtrlXmlHandler::MaxListCtrlXmlHandler()
+	: wxListCtrlXmlHandler()
+{}
+
+
+wxObject * MaxListCtrlXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(list, MaxListCtrl)
+
+    list->Create(m_parentAsWindow,
+                 GetID(),
+                 GetPosition(), GetSize(),
+                 GetStyle(),
+                 wxDefaultValidator,
+                 GetName());
+
+    // FIXME: add columns definition
+
+	list->MaxBind(_wx_wxlistctrl_wxListCtrl__xrcNew(list));
+
+    SetupWindow(list);
+
+    return list;
+
+}
+
 
 // *********************************************
 
@@ -681,4 +719,11 @@ int bmx_wxlistctrl_geteventtype(int type) {
 	}
 	
 	return 0;
+}
+
+
+// *********************************************
+
+void bmx_wxlistctrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxListCtrlXmlHandler);
 }

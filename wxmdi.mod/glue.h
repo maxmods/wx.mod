@@ -22,6 +22,8 @@
 
 #include "wxglue.h"
 #include "wx/mdi.h"
+#include "wx/xrc/xh_mdi.h"
+
 
 class MaxMDIParentFrame;
 class MaxMDIChildFrame;
@@ -29,6 +31,9 @@ class MaxMDIChildFrame;
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxmdi_wxMDIParentFrame__xrcNew(wxMDIParentFrame * frame);
+	BBObject * _wx_wxmdi_wxMDIChildFrame__xrcNew(wxMDIChildFrame * frame);
 
 	wxMDIParentFrame * bmx_wxmdiparentframe_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, long style);
 	void bmx_wxmdiparentframe_activatenext(wxMDIParentFrame * frame);
@@ -48,6 +53,8 @@ extern "C" {
 	void bmx_wxmdichildframe_activate(wxMDIChildFrame * frame);
 	void bmx_wxmdichildframe_maximize(wxMDIChildFrame * frame, bool value);
 	void bmx_wxmdichildframe_restore(wxMDIChildFrame * frame);
+
+	void bmx_wxmdi_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -56,7 +63,10 @@ class MaxMDIParentFrame : public wxMDIParentFrame
 {
 public:
 	MaxMDIParentFrame(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& title, int x, int y, int w, int h, long style);
+	MaxMDIParentFrame();
 	~MaxMDIParentFrame();
+
+	void MaxBind(BBObject * handle);
 	
 private:
 	BBObject * maxHandle;
@@ -69,7 +79,10 @@ class MaxMDIChildFrame : public wxMDIChildFrame
 {
 public:
 	MaxMDIChildFrame(BBObject * handle, wxMDIParentFrame * parent, wxWindowID id, const wxString& title, int x, int y, int w, int h, long style);
+	MaxMDIChildFrame();
 	~MaxMDIChildFrame();
+
+	void MaxBind(BBObject * handle);
 	
 private:
 	BBObject * maxHandle;
@@ -77,3 +90,16 @@ private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxMdiXmlHandler : public wxMdiXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxMdiXmlHandler)
+
+public:
+    MaxMdiXmlHandler();
+    virtual wxObject *DoCreateResource();
+    wxWindow *CreateFrame();
+};
+

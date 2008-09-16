@@ -63,4 +63,6 @@ Extern
 	Function bmx_wxmdichildframe_maximize(handle:Byte Ptr, value:Int)
 	Function bmx_wxmdichildframe_restore(handle:Byte Ptr)
 
+	Function bmx_wxmdi_addresourcehandler()
+	
 End Extern

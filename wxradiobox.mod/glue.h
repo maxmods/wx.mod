@@ -22,12 +22,16 @@
 
 #include "wxglue.h"
 #include "wx/radiobox.h"
+#include "wx/xrc/xh_radbx.h"
+
 
 class MaxRadioBox;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxradiobox_wxRadioBox__xrcNew(wxRadioBox * radiobox);
 
 	MaxRadioBox * bmx_wxradiobox_create(BBObject * handle, wxWindow * parent, int id, BBString * label,
 		int x, int y, int w, int h, BBArray * array, int majorDimension, long style);
@@ -57,6 +61,7 @@ extern "C" {
 
 	int bmx_wxradiobox_geteventtype(int type);
 
+	void bmx_wxradiobox_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -66,6 +71,34 @@ class MaxRadioBox : public wxRadioBox
 public:
 	MaxRadioBox(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, const wxArrayString& array, int majorDimension, long style);
+	MaxRadioBox();
 	~MaxRadioBox();
 	
+	void MaxBind(BBObject * handle);
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxRadioBoxXmlHandler : public wxRadioBoxXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxRadioBoxXmlHandler)
+
+public:
+    MaxRadioBoxXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+
+    bool m_insideBox;
+
+    // the items labels
+    wxArrayString labels;
+
+    // the items tooltips
+    wxArrayString tooltips;
+
+    // the item help text
+    wxArrayString helptexts;
+    wxArrayInt    helptextSpecified;
+};
+

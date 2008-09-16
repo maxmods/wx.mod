@@ -72,6 +72,8 @@ Extern
 
 	Function bmx_wxradiobox_geteventtype:Int(evt:Int)
 	
+	Function bmx_wxradiobox_addresourcehandler()
+	
 End Extern
 
 Const wxEVT_COMMAND_RADIOBOX_SELECTED:Int = 11

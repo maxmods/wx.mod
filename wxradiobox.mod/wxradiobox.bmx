@@ -56,6 +56,18 @@ about: It is displayed as a vertical column or horizontal row of labelled button
 End Rem
 Type wxRadioBox Extends wxControlWithItems
 
+	Function _create:wxRadioBox(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxRadioBox = New wxRadioBox
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxRadioBox(wxObjectPtr:Byte Ptr)
+		Return wxRadioBox._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a radiobox.
 	End Rem
@@ -264,3 +276,12 @@ End Type
 
 New TRadioBoxEventFactory
 
+Type TRadioBoxResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxradiobox_addresourcehandler()
+	End Method
+		
+End Type
+
+New TRadioBoxResourceFactory

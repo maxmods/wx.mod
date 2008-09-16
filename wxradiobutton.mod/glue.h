@@ -22,12 +22,16 @@
 
 #include "wxglue.h"
 #include "wx/radiobut.h"
+#include "wx/xrc/xh_radbt.h"
+
 
 class MaxRadioButton;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxradiobutton_wxRadioButton__xrcNew(wxRadioButton * button);
 
 	MaxRadioButton * bmx_wxradiobutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
@@ -36,6 +40,7 @@ extern "C" {
 
 	int bmx_wxradiobutton_geteventtype(int type);
 
+	void bmx_wxradiobutton_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -45,6 +50,20 @@ class MaxRadioButton : public wxRadioButton
 public:
 	MaxRadioButton(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& label, int x, int y,
 		int w, int h, long style);
+	MaxRadioButton();
 	~MaxRadioButton();
-	
+
+	void MaxBind(BBObject * handle);
+
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxRadioButtonXmlHandler : public wxRadioButtonXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxRadioButtonXmlHandler)
+
+public:
+    MaxRadioButtonXmlHandler();
+    virtual wxObject *DoCreateResource();
 };

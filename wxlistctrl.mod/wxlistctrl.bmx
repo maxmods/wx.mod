@@ -127,6 +127,18 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 End Rem
 Type wxListCtrl Extends wxControl
 
+	Function _create:wxListCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxListCtrl = New wxListCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxListCtrl(wxObjectPtr:Byte Ptr)
+		Return wxListCtrl._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a list control.
 	End Rem
@@ -1432,3 +1444,12 @@ End Type
 
 New TListEventFactory
 
+Type TListCtrlResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxlistctrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New TListCtrlResourceFactory

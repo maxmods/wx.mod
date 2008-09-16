@@ -48,7 +48,7 @@ extern "C" {
 
 	void bmx_wxscrolledwindow_ondraw_default(MaxScrolledWindow * window, MaxDC * dc);
 
-	void bmx_wxframe_addresourcehandler();
+	void bmx_wxscrolledwindow_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

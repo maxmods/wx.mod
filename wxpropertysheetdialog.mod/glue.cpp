@@ -35,6 +35,9 @@ MaxPropertySheetDialog::~MaxPropertySheetDialog() {
 	wxunbind(this);
 }
 
+MaxPropertySheetDialog::MaxPropertySheetDialog()
+{}
+
 void MaxPropertySheetDialog::AddBookCtrl(wxSizer* sizer) {
 	_wx_wxpropertysheetdialog_wxPropertySheetDialog__AddBookCtrl(maxHandle, sizer);
 }
@@ -50,6 +53,114 @@ void MaxPropertySheetDialog::AddBookCtrl_default(wxSizer* sizer) {
 wxBookCtrlBase* MaxPropertySheetDialog::CreateBookCtrl_default() {
 	return wxPropertySheetDialog::CreateBookCtrl();
 }
+
+void MaxPropertySheetDialog::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxPropertySheetDialogXmlHandler, wxPropertySheetDialogXmlHandler)
+
+MaxPropertySheetDialogXmlHandler::MaxPropertySheetDialogXmlHandler()
+	: wxPropertySheetDialogXmlHandler(), m_isInside(false), m_dialog(NULL)
+{}
+
+
+wxObject * MaxPropertySheetDialogXmlHandler::DoCreateResource()
+{
+    if (m_class == wxT("propertysheetpage"))
+    {
+        wxXmlNode *n = GetParamNode(wxT("object"));
+
+        if (!n) n = GetParamNode(wxT("object_ref"));
+
+        if (n)
+        {
+            wxBookCtrlBase *bookctrl = m_dialog->GetBookCtrl();
+            bool old_ins = m_isInside;
+            m_isInside = false;
+            wxObject *item = CreateResFromNode(n, bookctrl, NULL);
+            m_isInside = old_ins;
+            wxWindow *wnd = wxDynamicCast(item, wxWindow);
+
+            if (wnd)
+            {
+                bookctrl->AddPage(wnd, GetText(wxT("label")), GetBool(wxT("selected")));
+                if (HasParam(wxT("bitmap")))
+                {
+                    wxBitmap bmp = GetBitmap(wxT("bitmap"), wxART_OTHER);
+                    wxImageList *imgList = bookctrl->GetImageList();
+                    if (imgList == NULL)
+                    {
+                        imgList = new wxImageList(bmp.GetWidth(), bmp.GetHeight());
+                        bookctrl->AssignImageList(imgList);
+                    }
+                    int imgIndex = imgList->Add(bmp);
+                    bookctrl->SetPageImage(bookctrl->GetPageCount()-1, imgIndex);
+                }
+            }
+            else
+                wxLogError(wxT("Error in resource."));
+            return wnd;
+        }
+        else
+        {
+            wxLogError(wxT("Error in resource: no control within wxPropertySheetDialog's <page> tag."));
+            return NULL;
+        }
+    }
+
+    else
+    {
+        XRC_MAKE_INSTANCE(dlg, MaxPropertySheetDialog)
+
+        dlg->Create(m_parentAsWindow,
+                   GetID(),
+                   GetText(wxT("title")),
+                   GetPosition(),
+                   GetSize(),
+                   GetStyle(),
+                   GetName());
+
+        if (HasParam(wxT("icon"))) dlg->SetIcon(GetIcon(wxT("icon"), wxART_FRAME_ICON));
+
+ 		dlg->MaxBind(_wx_wxpropertysheetdialog_wxPropertySheetDialog__xrcNew(dlg));
+
+       SetupWindow(dlg);
+
+        wxPropertySheetDialog *old_par = m_dialog;
+        m_dialog = dlg;
+        bool old_ins = m_isInside;
+        m_isInside = true;
+        CreateChildren(m_dialog, true/*only this handler*/);
+        m_isInside = old_ins;
+        m_dialog = old_par;
+
+        if (GetBool(wxT("centered"), false)) dlg->Centre();
+        wxString buttons = GetText(wxT("buttons"));
+        if (!buttons.IsEmpty())
+        {
+            int flags = 0;
+            if (buttons.Find(wxT("wxOK"))         != wxNOT_FOUND) flags |= wxOK;
+            if (buttons.Find(wxT("wxCANCEL"))     != wxNOT_FOUND) flags |= wxCANCEL;
+            if (buttons.Find(wxT("wxYES"))        != wxNOT_FOUND) flags |= wxYES;
+            if (buttons.Find(wxT("wxNO"))         != wxNOT_FOUND) flags |= wxNO;
+            if (buttons.Find(wxT("wxHELP"))       != wxNOT_FOUND) flags |= wxHELP;
+            if (buttons.Find(wxT("wxNO_DEFAULT")) != wxNOT_FOUND) flags |= wxNO_DEFAULT;
+            dlg->CreateButtons(flags);
+        }
+
+        return dlg;
+    }
+}
+
+bool MaxPropertySheetDialogXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return ((!m_isInside && IsOfClass(node, wxT("wxPropertySheetDialog"))) ||
+            (m_isInside && IsOfClass(node, wxT("propertysheetpage"))));
+}
+
 
 // *********************************************
 
@@ -92,6 +203,12 @@ void bmx_wxpropertysheetdialog_layoutdialog(wxPropertySheetDialog * dialog, int 
 
 void bmx_wxpropertysheetdialog_setbookctrl(wxPropertySheetDialog * dialog, wxBookCtrlBase * bookCtrl) {
 	dialog->SetBookCtrl(bookCtrl);
+}
+
+// *********************************************
+
+void bmx_wxpropertysheetdialog_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxPropertySheetDialogXmlHandler);
 }
 
 

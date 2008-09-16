@@ -76,6 +76,10 @@ Type wxMDIParentFrame Extends wxFrame
 		End If
 	End Function
 
+	Function _xrcNew:wxMDIParentFrame(wxObjectPtr:Byte Ptr)
+		Return wxMDIParentFrame._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -228,6 +232,10 @@ Type wxMDIChildFrame Extends wxFrame
 		End If
 	End Function
 
+	Function _xrcNew:wxMDIChildFrame(wxObjectPtr:Byte Ptr)
+		Return wxMDIChildFrame._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -293,3 +301,12 @@ Type wxMDIClientWindow Extends wxWindow
 
 End Type
 
+Type TMDIResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxmdi_addresourcehandler()
+	End Method
+		
+End Type
+
+New TMDIResourceFactory

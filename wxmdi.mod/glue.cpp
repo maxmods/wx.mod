@@ -30,8 +30,15 @@ MaxMDIChildFrame::MaxMDIChildFrame(BBObject * handle, wxMDIParentFrame * parent,
 	wxbind(this, handle);
 }
 
+MaxMDIChildFrame::MaxMDIChildFrame()
+{}
+
 MaxMDIChildFrame::~MaxMDIChildFrame() {
 	wxunbind(this);
+}
+
+void MaxMDIChildFrame::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
 }
 
 MaxMDIParentFrame::MaxMDIParentFrame(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& title, int x, int y, int w, int h, long style)
@@ -40,9 +47,96 @@ MaxMDIParentFrame::MaxMDIParentFrame(BBObject * handle, wxWindow * parent, wxWin
 	wxbind(this, handle);
 }
 
+MaxMDIParentFrame::MaxMDIParentFrame()
+{}
+
 MaxMDIParentFrame::~MaxMDIParentFrame() {
 	wxunbind(this);
 }
+
+void MaxMDIParentFrame::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxMdiXmlHandler, wxMdiXmlHandler)
+
+MaxMdiXmlHandler::MaxMdiXmlHandler()
+	: wxMdiXmlHandler()
+{}
+
+
+wxObject * MaxMdiXmlHandler::DoCreateResource()
+{
+    wxWindow *frame = CreateFrame();
+
+    if (HasParam(wxT("size")))
+        frame->SetClientSize(GetSize());
+    if (HasParam(wxT("pos")))
+        frame->Move(GetPosition());
+    if (HasParam(wxT("icon")))
+    {
+        wxFrame* f = wxDynamicCast(frame, wxFrame);
+        if (f)
+            f->SetIcon(GetIcon(wxT("icon"), wxART_FRAME_ICON));
+    }
+
+    SetupWindow(frame);
+
+    CreateChildren(frame);
+
+    if (GetBool(wxT("centered"), false))
+        frame->Centre();
+
+    return frame;
+
+}
+
+wxWindow *MaxMdiXmlHandler::CreateFrame()
+{
+    if (m_class == wxT("wxMDIParentFrame"))
+    {
+        XRC_MAKE_INSTANCE(frame, MaxMDIParentFrame);
+
+        frame->Create(m_parentAsWindow,
+                      GetID(),
+                      GetText(wxT("title")),
+                      wxDefaultPosition, wxDefaultSize,
+                      GetStyle(wxT("style"),
+                               wxDEFAULT_FRAME_STYLE | wxVSCROLL | wxHSCROLL),
+                      GetName());
+
+
+		frame->MaxBind(_wx_wxmdi_wxMDIParentFrame__xrcNew(frame));
+
+        return frame;
+    }
+    else // wxMDIChildFrame
+    {
+        wxMDIParentFrame *mdiParent = wxDynamicCast(m_parent, wxMDIParentFrame);
+
+        if ( !mdiParent )
+        {
+            wxLogError(wxT("Parent of wxMDIParentFrame must be wxMDIParentFrame."));
+            return NULL;
+        }
+
+        XRC_MAKE_INSTANCE(frame, MaxMDIChildFrame);
+
+        frame->Create(mdiParent,
+                      GetID(),
+                      GetText(wxT("title")),
+                      wxDefaultPosition, wxDefaultSize,
+                      GetStyle(wxT("style"), wxDEFAULT_FRAME_STYLE),
+                      GetName());
+
+		frame->MaxBind(_wx_wxmdi_wxMDIChildFrame__xrcNew(frame));
+
+        return frame;
+    }
+}
+
 
 // *********************************************
 
@@ -118,3 +212,8 @@ void bmx_wxmdiparentframe_tile(wxMDIParentFrame * frame, wxOrientation orient) {
 	frame->Tile(orient);
 }
 
+// *********************************************
+
+void bmx_wxmdi_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxMdiXmlHandler);
+}

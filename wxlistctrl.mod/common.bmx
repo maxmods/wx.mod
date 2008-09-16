@@ -169,6 +169,9 @@ Extern
 	Function bmx_wxlistevent_iseditcancelled:Int(handle:Byte Ptr)
 
 	Function bmx_wxlistctrl_geteventtype:Int(evt:Int)
+	
+	Function bmx_wxlistctrl_addresourcehandler()
+	
 End Extern
 
 

@@ -23,6 +23,11 @@
 #include "wxglue.h"
 #include "wx/propdlg.h"
 #include "wx/generic/propdlg.h"
+#include "wx/xrc/xh_propdlg.h"
+
+#include "wx/bookctrl.h"
+#include "wx/imaglist.h"
+
 
 class MaxPropertySheetDialog;
 
@@ -32,7 +37,7 @@ extern "C" {
 
 	wxBookCtrlBase * _wx_wxpropertysheetdialog_wxPropertySheetDialog__CreateBookCtrl(BBObject * handle);
 	void _wx_wxpropertysheetdialog_wxPropertySheetDialog__AddBookCtrl(BBObject * handle, wxSizer * sizer);
-	
+	BBObject * _wx_wxpropertysheetdialog_wxPropertySheetDialog__xrcNew(wxPropertySheetDialog * dialog);
 
 	wxPropertySheetDialog * bmx_wxpropertysheetdialog_create(BBObject * handle, wxWindow * parent,
 		wxWindowID id, BBString * title, int x, int y, int w, int h, long style);
@@ -45,6 +50,8 @@ extern "C" {
 	void bmx_wxpropertysheetdialog_layoutdialog(wxPropertySheetDialog * dialog, int centreFlags);
 	void bmx_wxpropertysheetdialog_setbookctrl(wxPropertySheetDialog * dialog, wxBookCtrlBase * bookCtrl);
 
+	void bmx_wxpropertysheetdialog_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -54,16 +61,35 @@ class MaxPropertySheetDialog : public wxPropertySheetDialog
 public:
 	MaxPropertySheetDialog(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& title, int x, int y,
 		int w, int h, long style);
+	MaxPropertySheetDialog();
 	~MaxPropertySheetDialog();
 	void AddBookCtrl(wxSizer* sizer);
 	wxBookCtrlBase* CreateBookCtrl();
 	void AddBookCtrl_default(wxSizer* sizer);
 	wxBookCtrlBase* CreateBookCtrl_default();
 	
+	void MaxBind(BBObject * handle);
 
 private:
 	BBObject * maxHandle;
 	
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxPropertySheetDialogXmlHandler : public wxPropertySheetDialogXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxPropertySheetDialogXmlHandler)
+
+public:
+    MaxPropertySheetDialogXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+
+    bool m_isInside;
+    wxPropertySheetDialog *m_dialog;
+
 };

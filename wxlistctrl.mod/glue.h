@@ -23,6 +23,8 @@
 #include "wxglue.h"
 #include "wx/listbase.h"
 #include "wx/listctrl.h"
+#include "wx/xrc/xh_listc.h"
+
 
 class MaxListCtrl;
 class MaxListItem;
@@ -30,6 +32,8 @@ class MaxListItem;
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxlistctrl_wxListCtrl__xrcNew(wxListCtrl * list);
 
 	wxListItemAttr * _wx_wxlistctrl_wxListCtrl__OnGetItemAttr(BBObject * handle, long item);
 	BBString * _wx_wxlistctrl_wxListCtrl__OnGetItemText(BBObject * handle, long item, long column);
@@ -160,6 +164,8 @@ extern "C" {
 	bool bmx_wxlistevent_iseditcancelled(wxListEvent & event);
 
 	int bmx_wxlistctrl_geteventtype(int type);
+
+	void bmx_wxlistctrl_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -182,14 +188,28 @@ class MaxListCtrl : public wxListCtrl
 {
 public:
 	MaxListCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxListCtrl();
 	~MaxListCtrl();
 
 	virtual wxString OnGetItemText(long item, long column) const;
 	virtual int OnGetItemColumnImage(long item, long column) const;
 	virtual wxListItemAttr *OnGetItemAttr(long item) const;
 	virtual int OnGetItemImage(long item) const;
-	
+
+	void MaxBind(BBObject * handle);
+
 private:
 	BBObject * maxHandle;
 	DECLARE_EVENT_TABLE()
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxListCtrlXmlHandler : public wxListCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxListCtrlXmlHandler)
+
+public:
+    MaxListCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
 };

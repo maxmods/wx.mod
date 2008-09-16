@@ -76,6 +76,18 @@ If necessary, override CreateBookCtrl and AddBookCtrl to create and add a differ
 End Rem
 Type wxPropertySheetDialog Extends wxDialog
 
+	Function _create:wxPropertySheetDialog(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxPropertySheetDialog = New wxPropertySheetDialog
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxPropertySheetDialog(wxObjectPtr:Byte Ptr)
+		Return wxPropertySheetDialog._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Creates a new wxPropertySheetDialog.
 	End Rem
@@ -163,3 +175,14 @@ Type wxPropertySheetDialog Extends wxDialog
 	End Method
 
 End Type
+
+
+Type TPropertySheetDialogResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxpropertysheetdialog_addresourcehandler()
+	End Method
+		
+End Type
+
+New TPropertySheetDialogResourceFactory

@@ -60,6 +60,18 @@ group. The group ends when another radio button group is created, or there are n
 End Rem
 Type wxRadioButton Extends wxControl
 
+	Function _create:wxRadioButton(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxRadioButton = New wxRadioButton
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxRadioButton(wxObjectPtr:Byte Ptr)
+		Return wxRadioButton._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a radio button.
 	End Rem
@@ -120,3 +132,13 @@ Type TRadioButtonEventFactory Extends TEventFactory
 End Type
 
 New TRadioButtonEventFactory
+
+Type TRadioButtonResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxradiobutton_addresourcehandler()
+	End Method
+		
+End Type
+
+New TRadioButtonResourceFactory

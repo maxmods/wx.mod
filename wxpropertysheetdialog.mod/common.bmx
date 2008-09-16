@@ -55,4 +55,6 @@ Extern
 	Function bmx_wxpropertysheetdialog_layoutdialog(handle:Byte Ptr, centreFlags:Int)
 	Function bmx_wxpropertysheetdialog_setbookctrl(handle:Byte Ptr, bookCtrl:Byte Ptr)
 
+	Function bmx_wxpropertysheetdialog_addresourcehandler()
+	
 End Extern
