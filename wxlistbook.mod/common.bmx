@@ -48,6 +48,8 @@ Extern
 	Function bmx_wxlistbook_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxlistbook_getlistview:Byte Ptr(handle:Byte Ptr)
 
+	Function bmx_wxlistbook_addresourcehandler()
+	
 End Extern
 
 Const wxEVT_COMMAND_LISTBOOK_PAGE_CHANGED:Int = -804

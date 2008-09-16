@@ -22,12 +22,17 @@
 
 #include "wxglue.h"
 #include "wx/treebook.h"
+#include "wx/xrc/xh_treebk.h"
+#include "wx/imaglist.h"
+
 
 class MaxTreebook;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxtreebook_wxTreebook__xrcNew(wxTreebook * book);
 
 	wxTreebook * bmx_wxtreebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	bool bmx_wxtreebook_addpage(wxTreebook * book, wxWindow * page, BBString * text, bool selected, int imageId);
@@ -42,6 +47,8 @@ extern "C" {
 
 	int bmx_wxtreebook_geteventtype(int type);
 
+	void bmx_wxtreebook_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -50,5 +57,26 @@ class MaxTreebook : public wxTreebook
 {
 public:
 	MaxTreebook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxTreebook();
 	~MaxTreebook();
+
+	void MaxBind(BBObject * handle);
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxTreebookXmlHandler : public wxTreebookXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxTreebookXmlHandler)
+
+public:
+    MaxTreebookXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+
+    wxTreebook *m_tbk;
+    wxArrayTbkPageIndexes m_treeContext;
+    bool m_isInside;
+};
+

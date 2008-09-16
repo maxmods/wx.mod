@@ -58,6 +58,8 @@ Extern
 
 	Function bmx_wxtreebook_geteventtype:Int(eventType:Int)
 	
+	Function bmx_wxtreebook_addresourcehandler()
+	
 End Extern
 
 Const wxEVT_COMMAND_TREEBOOK_PAGE_CHANGED:Int = -808

@@ -55,6 +55,18 @@ bbdoc: wxListbook is a type similar to wxNotebook but which uses a wxListCtrl to
 End Rem
 Type wxListBook Extends wxBookCtrlBase
 
+	Function _create:wxListBook(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxListBook = New wxListBook
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxListBook(wxObjectPtr:Byte Ptr)
+		Return wxListBook._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -134,3 +146,13 @@ Type TListbookEventFactory Extends TEventFactory
 End Type
 
 New TListbookEventFactory
+
+Type TListbookResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxlistbook_addresourcehandler()
+	End Method
+		
+End Type
+
+New TListbookResourceFactory

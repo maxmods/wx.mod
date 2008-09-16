@@ -22,6 +22,10 @@
 
 #include "wxglue.h"
 #include "wx/listbook.h"
+#include "wx/xrc/xh_listbk.h"
+
+#include "wx/imaglist.h"
+
 
 class MaxListbook;
 
@@ -29,8 +33,12 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxlistbook_wxListbook__xrcNew(wxListbook * book);
+
 	MaxListbook * bmx_wxlistbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	wxListView * bmx_wxlistbook_getlistview(wxListbook * book);
+
+	void bmx_wxlistbook_addresourcehandler();
 
 }
 
@@ -40,6 +48,25 @@ class MaxListbook : public wxListbook
 {
 public:
 	MaxListbook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxListbook();
 	~ MaxListbook();
+
+	void MaxBind(BBObject * handle);
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxListbookXmlHandler : public wxListbookXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxListbookXmlHandler)
+
+public:
+    MaxListbookXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+
+    bool m_isInside;
+    wxListbook *m_listbook;
 };
 

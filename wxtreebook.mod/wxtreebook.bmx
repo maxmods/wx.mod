@@ -64,6 +64,18 @@ populate your tree by adding at every step a page or a subpage to the end of the
 End Rem
 Type wxTreebook Extends wxBookCtrlBase
 
+	Function _create:wxTreebook(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxTreebook = New wxTreebook
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+	
+	Function _xrcNew:wxTreebook(wxObjectPtr:Byte Ptr)
+		Return wxTreebook._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -222,4 +234,13 @@ End Type
 New TTreebookEventFactory
 
 
+Type TTreebookResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxtreebook_addresourcehandler()
+	End Method
+		
+End Type
+
+New TTreebookResourceFactory
 
