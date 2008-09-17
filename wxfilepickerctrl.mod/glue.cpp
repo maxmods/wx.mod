@@ -112,7 +112,7 @@ wxObject * MaxDirPickerCtrlXmlHandler::DoCreateResource()
                   wxDefaultValidator,
                   GetName());
 
-	picker->MaxBind(_wx_wxdirpickerctrl_wxDirPickerCtrl__xrcNew(picker));
+	picker->MaxBind(_wx_wxfilepickerctrl_wxDirPickerCtrl__xrcNew(picker));
 
     SetupWindow(picker);
 

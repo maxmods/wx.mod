@@ -36,7 +36,7 @@ extern "C" {
 #include <blitz.h>
 
 	BBObject * _wx_wxfilepickerctrl_wxFilePickerCtrl__xrcNew(wxFilePickerCtrl * picker);
-	BBObject * _wx_wxdirpickerctrl_wxDirPickerCtrl__xrcNew(wxDirPickerCtrl * picker);
+	BBObject * _wx_wxfilepickerctrl_wxDirPickerCtrl__xrcNew(wxDirPickerCtrl * picker);
 
 	MaxFilePickerCtrl * bmx_wxfilepickerctrl_create(BBObject * handle, wxWindow * parent, int id,
 		BBString * path, BBString * message, BBString * wildcard, int x, int y, int w, int h, long style);
