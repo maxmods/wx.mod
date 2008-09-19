@@ -15,18 +15,31 @@ Linux :
     Static .a files are built to the "lib" folder.
 
     The build-specific headers are located in "lib/wx"
+
+    After copying the libs, you need to change a folder name, as it contains a -2.x suffix which we don't need.
+    Go into wx.mod/lib/<build>/wx/include/
+    You'll see something like mac-unicode-release-static-2.8
+    Remove the -2.8, so that it becomes mac-unicode-release-static
+
 MacOS :
 
     wxMac 2.8.x
     ./configure --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-expat=builtin
+	--with-libjpeg=builtin --with-libpng=builtin
 
-    add "--disable-shared" for static libraries
+    use "--disable-shared" for static libraries, otherwise you get .dylibs
     
     make
-    sudo make install  (requires admin password) (not required for static libraries)
+    for a shared install use
+        sudo make install  (requires admin password)
 
     Static .a files are built to the "lib" folder.
     The build-specific headers are located in "lib/wx"
+
+    After copying the libs, you need to change a folder name, as it contains a -2.x suffix which we don't need.
+    Go into wx.mod/lib/<build>/wx/include/
+    You'll see something like mac-unicode-release-static-2.8
+    Remove the -2.8, so that it becomes mac-unicode-release-static
 
 Win32 :
 
@@ -44,6 +57,9 @@ Win32 :
     make -f makefile.gcc
 
     creates static .a files in lib\gcc_lib
+
+	Also need to include libwinspool.a, librpcrt4.a and libodbc32.a in the lib folder for distribution. (these come from
+	the MinGW distribution)
     
 
 ------------------------------------------------------------
