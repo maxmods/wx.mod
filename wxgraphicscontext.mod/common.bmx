@@ -46,4 +46,48 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxgraphicscontext_createpen:Byte Ptr(handle:Byte Ptr, pen:Byte Ptr)
+	Function bmx_wxgraphicscontext_createbrush:Byte Ptr(handle:Byte Ptr, brush:Byte Ptr)
+	Function bmx_wxgraphicscontext_createradialgradientbrush:Byte Ptr(handle:Byte Ptr, xo:Double, yo:Double, xc:Double, yc:Double, radius:Double, oColour:Byte Ptr, cColour:Byte Ptr)
+	Function bmx_wxgraphicscontext_createlineargradientbrush:Byte Ptr(handle:Byte Ptr, x1:Double, y1:Double, x2:Double, y2:Double, c1:Byte Ptr, c2:Byte Ptr)
+	Function bmx_wxgraphicscontext_createfont:Byte Ptr(handle:Byte Ptr, font:Byte Ptr, col:Byte Ptr)
+	Function bmx_wxgraphicscontext_creatematrix:Byte Ptr(handle:Byte Ptr, a:Double, b:Double, c:Double, d:Double, tx:Double, ty:Double)
+	Function bmx_wxgraphicscontext_createpath:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxgraphicscontext_resetclip(handle:Byte Ptr)
+	Function bmx_wxgraphicscontext_drawbitmap(handle:Byte Ptr, bmp:Byte Ptr, x:Double, y:Double, w:Double, h:Double)
+	Function bmx_wxgraphicscontext_drawellipse(handle:Byte Ptr, x:Double, y:Double, w:Double, h:Double)
+	Function bmx_wxgraphicscontext_drawicon(handle:Byte Ptr, icon:Byte Ptr, x:Double, y:Double, w:Double, h:Double)
+	Function bmx_wxgraphicscontext_drawlines(handle:Byte Ptr, points:Double[], fillStyle:Int)
+	Function bmx_wxgraphicscontext_drawpath(handle:Byte Ptr, path:Byte Ptr, fillStyle:Int)
+	Function bmx_wxgraphicscontext_drawrectangle(handle:Byte Ptr, x:Double, y:Double, w:Double, h:Double)
+	Function bmx_wxgraphicscontext_drawroundedrectangle(handle:Byte Ptr, x:Double, y:Double, w:Double, h:Double, radius:Double)
+	Function bmx_wxgraphicscontext_drawtext(handle:Byte Ptr, text:String, x:Double, y:Double, angle:Double)
+	Function bmx_wxgraphicscontext_fillpath(handle:Byte Ptr, path:Byte Ptr, fillStyle:Int)
+	Function bmx_wxgraphicscontext_strokepath(handle:Byte Ptr, path:Byte Ptr)
+	Function bmx_wxgraphicscontext_getnativecontext:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxgraphicscontext_getpartialtextextents:Double[](handle:Byte Ptr, text:String)
+	Function bmx_wxgraphicscontext_gettextextent(handle:Byte Ptr, text:String, width:Double Ptr, height:Double Ptr, descent:Double Ptr, externalLeading:Double Ptr)
+	Function bmx_wxgraphicscontext_rotate(handle:Byte Ptr, angle:Double)
+	Function bmx_wxgraphicscontext_scale(handle:Byte Ptr, xScale:Double, yScale:Double)
+	Function bmx_wxgraphicscontext_translate(handle:Byte Ptr, dx:Double, dy:Double)
+	Function bmx_wxgraphicscontext_gettransform:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxgraphicscontext_settransform(handle:Byte Ptr, matrix:Byte Ptr)
+	Function bmx_wxgraphicscontext_concattransform(handle:Byte Ptr, matrix:Byte Ptr)
+	Function bmx_wxgraphicscontext_setbrush(handle:Byte Ptr, brush:Byte Ptr)
+	Function bmx_wxgraphicscontext_setbrushnative(handle:Byte Ptr, brush:Byte Ptr)
+	Function bmx_wxgraphicscontext_setfont(handle:Byte Ptr, font:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxgraphicscontext_setfontnative(handle:Byte Ptr, font:Byte Ptr)
+	Function bmx_wxgraphicscontext_setpen(handle:Byte Ptr, pen:Byte Ptr)
+	Function bmx_wxgraphicscontext_setpennative(handle:Byte Ptr, pen:Byte Ptr)
+	Function bmx_wxgraphicscontext_strokeline(handle:Byte Ptr, x1:Double, y1:Double, x2:Double, y2:Double)
+	Function bmx_wxgraphicscontext_strokelines(handle:Byte Ptr, points:Double[])
+
+	
+	Function bmx_wxgraphicsfont_delete(handle:Byte Ptr)
+	Function bmx_wxgraphicspen_delete(handle:Byte Ptr)
+	Function bmx_wxgraphicsbrush_delete(handle:Byte Ptr)
+	Function bmx_wxgraphicspath_delete(handle:Byte Ptr)
+	Function bmx_wxgraphicsmatrix_delete(handle:Byte Ptr)
+
+	
 End Extern
