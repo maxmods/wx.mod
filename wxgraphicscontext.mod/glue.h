@@ -21,15 +21,121 @@
 */ 
 
 #include "wxglue.h"
+#include "../wxpen.mod/glue.h"
+#include "../wxbrush.mod/glue.h"
+#include "../wxicon.mod/glue.h"
+#include "../wxregion.mod/glue.h"
 
-//class MaxNotebook;
+class MaxGraphicsPen;
+class MaxGraphicsBrush;
+class MaxGraphicsFont;
+class MaxGraphicsMatrix;
+class MaxGraphicsPath;
 
 extern "C" {
 
 #include <blitz.h>
+
+	MaxGraphicsPen * bmx_wxgraphicscontext_createpen(wxGraphicsContext * context, MaxPen * pen);
+	MaxGraphicsBrush * bmx_wxgraphicscontext_createbrush(wxGraphicsContext * context, MaxBrush * brush);
+	MaxGraphicsBrush * bmx_wxgraphicscontext_createradialgradientbrush(wxGraphicsContext * context, double xo, double yo, double xc, double yc, double radius, MaxColour * oColour, MaxColour * cColour);
+	MaxGraphicsBrush * bmx_wxgraphicscontext_createlineargradientbrush(wxGraphicsContext * context, double x1, double y1, double x2, double y2, MaxColour * c1, MaxColour * c2);
+	MaxGraphicsFont * bmx_wxgraphicscontext_createfont(wxGraphicsContext * context, MaxFont * font, MaxColour * col);
+	MaxGraphicsMatrix * bmx_wxgraphicscontext_creatematrix(wxGraphicsContext * context, double a, double b, double c, double d, double tx, double ty);
+	MaxGraphicsPath * bmx_wxgraphicscontext_createpath(wxGraphicsContext * context);
+	void bmx_wxgraphicscontext_clip(wxGraphicsContext * context, MaxRegion * region);
+	void bmx_wxgraphicscontext_resetclip(wxGraphicsContext * context);
+	void bmx_wxgraphicscontext_drawbitmap(wxGraphicsContext * context, MaxBitmap * bmp, double x, double y, double w, double h);
+	void bmx_wxgraphicscontext_drawellipse(wxGraphicsContext * context, double x, double y, double w, double h);
+	void bmx_wxgraphicscontext_drawicon(wxGraphicsContext * context, MaxIcon * icon, double x, double y, double w, double h);
+	void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * points, int fillStyle);
+	void bmx_wxgraphicscontext_drawpath(wxGraphicsContext * context, MaxGraphicsPath * path, int fillStyle);
+	void bmx_wxgraphicscontext_drawrectangle(wxGraphicsContext * context, double x, double y, double w, double h);
+	void bmx_wxgraphicscontext_drawroundedrectangle(wxGraphicsContext * context, double x, double y, double w, double h, double radius);
+	void bmx_wxgraphicscontext_drawtext(wxGraphicsContext * context, BBString * text, double x, double y, double angle);
+	void bmx_wxgraphicscontext_fillpath(wxGraphicsContext * context, MaxGraphicsPath * path, int fillStyle);
+	void bmx_wxgraphicscontext_strokepath(wxGraphicsContext * context, MaxGraphicsPath * path);
+	void * bmx_wxgraphicscontext_getnativecontext(wxGraphicsContext * context);
+	BBArray * bmx_wxgraphicscontext_getpartialtextextents(wxGraphicsContext * context, BBString * text);
+	void bmx_wxgraphicscontext_gettextextent(wxGraphicsContext * context, BBString * text, double * width, double * height, double * descent, double * externalLeading);
+	void bmx_wxgraphicscontext_rotate(wxGraphicsContext * context, double angle);
+	void bmx_wxgraphicscontext_scale(wxGraphicsContext * context, double xScale, double yScale);
+	void bmx_wxgraphicscontext_translate(wxGraphicsContext * context, double dx, double dy);
+	MaxGraphicsMatrix * bmx_wxgraphicscontext_gettransform(wxGraphicsContext * context);
+	void bmx_wxgraphicscontext_settransform(wxGraphicsContext * context, MaxGraphicsMatrix * matrix);
+	void bmx_wxgraphicscontext_concattransform(wxGraphicsContext * context, MaxGraphicsMatrix * matrix);
+	void bmx_wxgraphicscontext_setbrush(wxGraphicsContext * context, MaxBrush * brush);
+	void bmx_wxgraphicscontext_setbrushnative(wxGraphicsContext * context, MaxGraphicsBrush * brush);
+	void bmx_wxgraphicscontext_setfont(wxGraphicsContext * context, MaxFont * font, MaxColour * colour);
+	void bmx_wxgraphicscontext_setfontnative(wxGraphicsContext * context, MaxGraphicsFont * font);
+	void bmx_wxgraphicscontext_setpen(wxGraphicsContext * context, MaxPen * pen);
+	void bmx_wxgraphicscontext_setpennative(wxGraphicsContext * context, MaxGraphicsPen * pen);
+	void bmx_wxgraphicscontext_strokeline(wxGraphicsContext * context, double x1, double y1, double x2, double y2);
+	void bmx_wxgraphicscontext_strokelines(wxGraphicsContext * context, BBArray * points);
+	void bmx_wxgraphicscontext_strokedisconnectedlines(wxGraphicsContext * context, BBArray * startPoints, BBArray * endPoints);
+	
+	void bmx_wxgraphicsfont_delete(MaxGraphicsFont * font);
+	void bmx_wxgraphicspen_delete(MaxGraphicsPen * pen);
+	void bmx_wxgraphicsbrush_delete(MaxGraphicsBrush * brush);
+	void bmx_wxgraphicspath_delete(MaxGraphicsPath * path);
+	void bmx_wxgraphicsmatrix_delete(MaxGraphicsMatrix * matrix);
 
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxGraphicsPen
+{
+public:
+	MaxGraphicsPen(wxGraphicsPen pen);
+	
+	wxGraphicsPen Pen();
+	
+private:
+	wxGraphicsPen pen;
+};
+
+class MaxGraphicsBrush
+{
+public:
+	MaxGraphicsBrush(wxGraphicsBrush brush);
+	
+	wxGraphicsBrush Brush();
+	
+private:
+	wxGraphicsBrush brush;
+};
+
+class MaxGraphicsFont
+{
+public:
+	MaxGraphicsFont(wxGraphicsFont font);
+	
+	wxGraphicsFont Font();
+	
+private:
+	wxGraphicsFont font;
+};
+
+class MaxGraphicsPath
+{
+public:
+	MaxGraphicsPath(wxGraphicsPath path);
+	
+	wxGraphicsPath Path();
+	
+private:
+	wxGraphicsPath path;
+};
+
+class MaxGraphicsMatrix
+{
+public:
+	MaxGraphicsMatrix(wxGraphicsMatrix matrix);
+	
+	wxGraphicsMatrix Matrix();
+	
+private:
+	wxGraphicsMatrix matrix;
+};

@@ -116,6 +116,15 @@ wxArrayDouble bbDoubleArrayTowxArrayDouble( BBArray *p ){
 	return arr;
 }
 
+BBArray *wxArrayDoubleToBBDoubleArray( wxArrayDouble t ){
+	int n=t.GetCount();
+	BBArray *p=bbArrayNew1D( "d",n );
+	double *s=(double*)BBARRAYDATA( p,p->dims );
+	for( int i=0;i<n;++i ){
+		s[i]=t.Item(i);
+	}
+	return p;
+}
 
 IMPLEMENT_APP_NO_MAIN(MaxApp)
 /*

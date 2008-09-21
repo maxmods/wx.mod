@@ -24,6 +24,7 @@ Import wx.wx
 Import wx.wxIcon
 Import wx.wxPen
 Import wx.wxBrush
+Import wx.wxRegion
 Import BRL.Blitz
 
 
@@ -53,6 +54,7 @@ Extern
 	Function bmx_wxgraphicscontext_createfont:Byte Ptr(handle:Byte Ptr, font:Byte Ptr, col:Byte Ptr)
 	Function bmx_wxgraphicscontext_creatematrix:Byte Ptr(handle:Byte Ptr, a:Double, b:Double, c:Double, d:Double, tx:Double, ty:Double)
 	Function bmx_wxgraphicscontext_createpath:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxgraphicscontext_clip(handle:Byte Ptr, region:Byte Ptr)
 	Function bmx_wxgraphicscontext_resetclip(handle:Byte Ptr)
 	Function bmx_wxgraphicscontext_drawbitmap(handle:Byte Ptr, bmp:Byte Ptr, x:Double, y:Double, w:Double, h:Double)
 	Function bmx_wxgraphicscontext_drawellipse(handle:Byte Ptr, x:Double, y:Double, w:Double, h:Double)
@@ -81,6 +83,7 @@ Extern
 	Function bmx_wxgraphicscontext_setpennative(handle:Byte Ptr, pen:Byte Ptr)
 	Function bmx_wxgraphicscontext_strokeline(handle:Byte Ptr, x1:Double, y1:Double, x2:Double, y2:Double)
 	Function bmx_wxgraphicscontext_strokelines(handle:Byte Ptr, points:Double[])
+	Function bmx_wxgraphicscontext_strokedisconnectedlines(handle:Byte Ptr, startPoints:Double[], endPoints:Double[])
 
 	
 	Function bmx_wxgraphicsfont_delete(handle:Byte Ptr)

@@ -64,6 +64,7 @@ extern "C" {
 	BBArray *wxArrayStringToBBStringArray( wxArrayString t );
 	wxArrayInt bbIntArrayTowxArrayInt( BBArray *p );
 	BBArray *wxArrayIntToBBIntArray( wxArrayInt t );
+	BBArray *wxArrayDoubleToBBDoubleArray( wxArrayDouble t );
 	wxArrayDouble bbDoubleArrayTowxArrayDouble( BBArray *p );
 	void wxbind( wxObject *obj, BBObject *peer );
 	void wxunbind(wxObject *obj);
