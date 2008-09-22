@@ -101,7 +101,11 @@ MaxGraphicsPath * bmx_wxgraphicscontext_createpath(wxGraphicsContext * context) 
 	return new MaxGraphicsPath(context->CreatePath());
 }
 
-void bmx_wxgraphicscontext_clip(wxGraphicsContext * context, MaxRegion * region) {
+void bmx_wxgraphicscontext_clip(wxGraphicsContext * context, double x, double y, double w, double h) {
+	context->Clip(x, y, w, h);
+}
+
+void bmx_wxgraphicscontext_clipregion(wxGraphicsContext * context, MaxRegion * region) {
 	context->Clip(region->Region());
 }
 

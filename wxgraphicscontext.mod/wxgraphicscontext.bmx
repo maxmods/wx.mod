@@ -79,21 +79,21 @@ Type wxGraphicsContext Extends wxGraphicsObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a native pen from a wxPen.
 	End Rem
 	Method CreatePen:wxGraphicsPen(pen:wxPen)
 		Return wxGraphicsPen._create(bmx_wxgraphicscontext_createpen(wxObjectPtr, pen.wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a native brush from a wxBrush.
 	End Rem
 	Method CreateBrush:wxGraphicsBrush(brush:wxBrush)
 		Return wxGraphicsBrush._create(bmx_wxgraphicscontext_createbrush(wxObjectPtr, brush.wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a native brush, having a radial gradient originating at (xo,yc) with color oColour and ends on a circle around (xc,yc) with radius and color cColour.
 	End Rem
 	Method CreateRadialGradientBrush:wxGraphicsBrush(xo:Double, yo:Double, xc:Double, yc:Double, radius:Double, ..
 			oColour:wxColour, cColour:wxColour)
@@ -101,7 +101,7 @@ Type wxGraphicsContext Extends wxGraphicsObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a native brush, having a linear gradient, starting at (x1,y1) with color c1 to (x2,y2) with color c2
 	End Rem
 	Method CreateLinearGradientBrush:wxGraphicsBrush(x1:Double, y1:Double, x2:Double, y2:Double, ..
 			c1:wxColour, c2:wxColour)
@@ -109,7 +109,7 @@ Type wxGraphicsContext Extends wxGraphicsObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a native graphics font from a wxFont and a text colour.
 	End Rem
 	Method CreateFont:wxGraphicsFont(font:wxFont, col:wxColour = Null)
 		If col Then
@@ -120,7 +120,8 @@ Type wxGraphicsContext Extends wxGraphicsObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a native affine transformation matrix from the passed in values.
+	about: The defaults result in an identity matrix.
 	End Rem
 	Method CreateMatrix:wxGraphicsMatrix(a:Double = 1.0, b:Double = 0, c:Double = 0, d:Double = 1.0, ..
 			tx:Double = 0, ty:Double = 0)
@@ -128,112 +129,124 @@ Type wxGraphicsContext Extends wxGraphicsObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a native graphics path which is initially empty.
 	End Rem
 	Method CreatePath:wxGraphicsPath()
 		Return wxGraphicsPath._create(bmx_wxgraphicscontext_createpath(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Clips drawings to the rectangle.
 	End Rem
-	Method Clip(region:wxRegion)
-		bmx_wxgraphicscontext_clip(wxObjectPtr, region.wxObjectPtr)
+	Method Clip(x:Double, y:Double, w:Double, h:Double)
+		bmx_wxgraphicscontext_clip(wxObjectPtr, x, y, w, h)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Clips drawings to the region, combined to current clipping region
+	End Rem
+	Method ClipRegion(region:wxRegion)
+		bmx_wxgraphicscontext_clipregion(wxObjectPtr, region.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Resets the clipping to original shape.
 	End Rem
 	Method ResetClip()
 		bmx_wxgraphicscontext_resetclip(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Draws the bitmap.
+	about: In case of a mono bitmap, this is treated as a mask and the current brushed is used for filling.
 	End Rem
 	Method DrawBitmap(bmp:wxBitmap, x:Double, y:Double, w:Double, h:Double)
 		bmx_wxgraphicscontext_drawbitmap(wxObjectPtr, bmp.wxObjectPtr, x, y, w, h)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Draws an ellipse.
 	End Rem
 	Method DrawEllipse(x:Double, y:Double, w:Double, h:Double)
 		bmx_wxgraphicscontext_drawellipse(wxObjectPtr, x, y, w, h)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Draws the icon.
 	End Rem
 	Method DrawIcon(icon:wxIcon, x:Double, y:Double, w:Double, h:Double)
 		bmx_wxgraphicscontext_drawicon(wxObjectPtr, icon.wxObjectPtr, x, y, w, h)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Draws a polygon.
 	End Rem
 	Method DrawLines(points:Double[], fillStyle:Int = wxODDEVEN_RULE)
 		bmx_wxgraphicscontext_drawlines(wxObjectPtr, points, fillStyle)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Draws the path by first filling and then stroking.
 	End Rem
 	Method DrawPath(path:wxGraphicsPath, fillStyle:Int = wxODDEVEN_RULE)
 		bmx_wxgraphicscontext_drawpath(wxObjectPtr, path.wxObjectPtr, fillStyle)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Draws a rectangle.
 	End Rem
 	Method DrawRectangle(x:Double, y:Double, w:Double, h:Double)
 		bmx_wxgraphicscontext_drawrectangle(wxObjectPtr, x, y, w, h)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Draws a rounded rectangle.
 	End Rem
 	Method DrawRoundedRectangle(x:Double, y:Double, w:Double, h:Double, radius:Double)
 		bmx_wxgraphicscontext_drawroundedrectangle(wxObjectPtr, x, y, w, h, radius)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Draws a text at the defined position, at the given angle, in degrees.
 	End Rem
 	Method DrawText(text:String, x:Double, y:Double, angle:Double = 0)
 		bmx_wxgraphicscontext_drawtext(wxObjectPtr, text, x, y, angle)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Fills the path with the current brush.
 	End Rem
 	Method FillPath(path:wxGraphicsPath, fillStyle:Int = wxODDEVEN_RULE)
 		bmx_wxgraphicscontext_fillpath(wxObjectPtr, path.wxObjectPtr, fillStyle)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Strokes along a path with the current pen.
 	End Rem
 	Method StrokePath(path:wxGraphicsPath)
 		bmx_wxgraphicscontext_strokepath(wxObjectPtr, path.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the native context (CGContextRef for Core Graphics, Graphics pointer for GDIPlus and cairo_t pointer for cairo).
 	End Rem
 	Method GetNativeContext:Byte Ptr()
 		Return bmx_wxgraphicscontext_getnativecontext(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the widths from the beginning of text to the corresponding character of text.
 	End Rem
 	Method GetPartialTextExtents:Double[](text:String)
 		Return bmx_wxgraphicscontext_getpartialtextextents(wxObjectPtr, text)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the dimensions of the string using the currently selected font.
+	about: @text is the string to measure, @width and @height are the total width and height
+	respectively, @descent is the dimension from the baseline of the font to the bottom of the
+	descender, and @externalLeading is any extra vertical space added to the font by the font
+	designer (usually is zero).
 	End Rem
 	Method GetTextExtent(text:String, width:Double Var, height:Double Var, descent:Double Var, ..
 			externalLeading:Double Var)
@@ -241,105 +254,105 @@ Type wxGraphicsContext Extends wxGraphicsObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Rotates the current transformation matrix (degrees).
 	End Rem
 	Method Rotate(angle:Double)
 		bmx_wxgraphicscontext_rotate(wxObjectPtr, angle)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Scales the current transformation matrix.
 	End Rem
 	Method Scale(xScale:Double, yScale:Double)
 		bmx_wxgraphicscontext_scale(wxObjectPtr, xScale, yScale)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Translates the current transformation matrix.
 	End Rem
 	Method Translate(dx:Double, dy:Double)
 		bmx_wxgraphicscontext_translate(wxObjectPtr, dx, dy)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the current transformation matrix of this context.
 	End Rem
 	Method GetTransform:wxGraphicsMatrix()
 		Return wxGraphicsMatrix._create(bmx_wxgraphicscontext_gettransform(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the current transformation matrix of this context.
 	End Rem
 	Method SetTransform(matrix:wxGraphicsMatrix)
 		bmx_wxgraphicscontext_settransform(wxObjectPtr, matrix.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Concatenates the passed in transform with the current transform of this context.
 	End Rem
 	Method ConcatTransform(matrix:wxGraphicsMatrix)
 		bmx_wxgraphicscontext_concattransform(wxObjectPtr, matrix.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the brush for filling paths.
 	End Rem
 	Method SetBrush(brush:wxBrush)
 		bmx_wxgraphicscontext_setbrush(wxObjectPtr, brush.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the brush for filling paths.
 	End Rem
 	Method SetBrushNative(brush:wxGraphicsBrush)
 		bmx_wxgraphicscontext_setbrushnative(wxObjectPtr, brush.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the font for drawing text.
 	End Rem
 	Method SetFont(font:wxFont, colour:wxColour)
 		bmx_wxgraphicscontext_setfont(wxObjectPtr, font.wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the font for drawing text.
 	End Rem
 	Method SetFontNative(font:wxGraphicsFont)
 		bmx_wxgraphicscontext_setfontnative(wxObjectPtr, font.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the pen used for stroking.
 	End Rem
 	Method SetPen(pen:wxPen)
 		bmx_wxgraphicscontext_setpen(wxObjectPtr, pen.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets the pen used for stroking.
 	End Rem
 	Method SetPenNative(pen:wxGraphicsPen)
 		bmx_wxgraphicscontext_setpennative(wxObjectPtr, pen.wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Strokes a single line.
 	End Rem
 	Method StrokeLine(x1:Double, y1:Double, x2:Double, y2:Double)
 		bmx_wxgraphicscontext_strokeline(wxObjectPtr, x1, y1, x2, y2)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Strokes a set of connected lines.
 	End Rem
 	Method StrokeLines(points:Double[])
 		bmx_wxgraphicscontext_strokelines(wxObjectPtr, points)
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Stroke disconnected lines from begin to end points, fastest method available for this purpose.
 	End Rem
 	Method StrokeDisconnectedLines(startPoints:Double[], endPoints:Double[])
 		bmx_wxgraphicscontext_strokedisconnectedlines(wxObjectPtr, startPoints, endPoints)

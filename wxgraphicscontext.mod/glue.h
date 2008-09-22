@@ -43,7 +43,8 @@ extern "C" {
 	MaxGraphicsFont * bmx_wxgraphicscontext_createfont(wxGraphicsContext * context, MaxFont * font, MaxColour * col);
 	MaxGraphicsMatrix * bmx_wxgraphicscontext_creatematrix(wxGraphicsContext * context, double a, double b, double c, double d, double tx, double ty);
 	MaxGraphicsPath * bmx_wxgraphicscontext_createpath(wxGraphicsContext * context);
-	void bmx_wxgraphicscontext_clip(wxGraphicsContext * context, MaxRegion * region);
+	void bmx_wxgraphicscontext_clip(wxGraphicsContext * context, double x, double y, double w, double h);
+	void bmx_wxgraphicscontext_clipregion(wxGraphicsContext * context, MaxRegion * region);
 	void bmx_wxgraphicscontext_resetclip(wxGraphicsContext * context);
 	void bmx_wxgraphicscontext_drawbitmap(wxGraphicsContext * context, MaxBitmap * bmp, double x, double y, double w, double h);
 	void bmx_wxgraphicscontext_drawellipse(wxGraphicsContext * context, double x, double y, double w, double h);
