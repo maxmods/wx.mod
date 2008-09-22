@@ -36,6 +36,8 @@ extern "C" {
 
 #include <blitz.h>
 
+	wxGraphicsContext * bmx_wxgraphicscontext_create(MaxWindowDC * dc);
+	wxGraphicsContext * bmx_wxgraphicscontext_createfromwindow(wxWindow * window);
 	MaxGraphicsPen * bmx_wxgraphicscontext_createpen(wxGraphicsContext * context, MaxPen * pen);
 	MaxGraphicsBrush * bmx_wxgraphicscontext_createbrush(wxGraphicsContext * context, MaxBrush * brush);
 	MaxGraphicsBrush * bmx_wxgraphicscontext_createradialgradientbrush(wxGraphicsContext * context, double xo, double yo, double xc, double yc, double radius, MaxColour * oColour, MaxColour * cColour);
@@ -81,6 +83,37 @@ extern "C" {
 	void bmx_wxgraphicspath_delete(MaxGraphicsPath * path);
 	void bmx_wxgraphicsmatrix_delete(MaxGraphicsMatrix * matrix);
 
+	void bmx_wxgraphicsmatrix_concat(MaxGraphicsMatrix * matrix, MaxGraphicsMatrix * t);
+	void bmx_wxgraphicsmatrix_get(MaxGraphicsMatrix * matrix, double * a, double * b, double * c, double * d, double * tx, double * ty);
+	void * bmx_wxgraphicsmatrix_getnativematrix(MaxGraphicsMatrix * matrix);
+	void bmx_wxgraphicsmatrix_invert(MaxGraphicsMatrix * matrix);
+	bool bmx_wxgraphicsmatrix_isequal(MaxGraphicsMatrix * matrix, MaxGraphicsMatrix * t);
+	bool bmx_wxgraphicsmatrix_isidentity(MaxGraphicsMatrix * matrix);
+	void bmx_wxgraphicsmatrix_rotate(MaxGraphicsMatrix * matrix, double angle);
+	void bmx_wxgraphicsmatrix_scale(MaxGraphicsMatrix * matrix, double xScale, double yScale);
+	void bmx_wxgraphicsmatrix_translate(MaxGraphicsMatrix * matrix, double dx, double dy);
+	void bmx_wxgraphicsmatrix_set(MaxGraphicsMatrix * matrix, double a, double b, double c, double d, double tx, double ty);
+	void bmx_wxgraphicsmatrix_transformpoint(MaxGraphicsMatrix * matrix, double * x, double * y);
+	void bmx_wxgraphicsmatrix_transformdistance(MaxGraphicsMatrix * matrix, double * dx, double * dy);
+	
+	void bmx_wxgraphicspath_movetopoint(MaxGraphicsPath * path, double x, double y);
+	void bmx_wxgraphicspath_addarc(MaxGraphicsPath * path, double x, double y, double r, double startAngle, double endAngle, bool clockwise);
+	void bmx_wxgraphicspath_addarctopoint(MaxGraphicsPath * path, double x1, double y1, double x2, double y2, double radius);
+	void bmx_wxgraphicspath_addcircle(MaxGraphicsPath * path, double x, double y, double radius);
+	void bmx_wxgraphicspath_addcurvetopoint(MaxGraphicsPath * path, double cx1, double cy1, double cx2, double cy2, double x, double y);
+	void bmx_wxgraphicspath_addellipse(MaxGraphicsPath * path, double x, double y, double w, double h);
+	void bmx_wxgraphicspath_addlinetopoint(MaxGraphicsPath * path, double x, double y);
+	void bmx_wxgraphicspath_addpath(MaxGraphicsPath * path, MaxGraphicsPath * p);
+	void bmx_wxgraphicspath_addquadcurvetopoint(MaxGraphicsPath * path, double cx, double cy, double x, double y);
+	void bmx_wxgraphicspath_addrectangle(MaxGraphicsPath * path, double x, double y, double w, double h);
+	void bmx_wxgraphicspath_addroundedrectangle(MaxGraphicsPath * path, double x, double y, double w, double h, double radius);
+	void bmx_wxgraphicspath_closesubpath(MaxGraphicsPath * path);
+	bool bmx_wxgraphicspath_contains(MaxGraphicsPath * path, double x, double y, int fillStyle);
+	void bmx_wxgraphicspath_getbox(MaxGraphicsPath * path, double * x, double * y, double * w, double * h);
+	void bmx_wxgraphicspath_getcurrentpoint(MaxGraphicsPath * path, double * x, double * y);
+	void bmx_wxgraphicspath_transform(MaxGraphicsPath * path, MaxGraphicsMatrix * matrix);
+	void * bmx_wxgraphicspath_getnativepath(MaxGraphicsPath * path);
+	void bmx_wxgraphicspath_ungetnativepath(MaxGraphicsPath * path, void * nativePath);
 
 }
 

@@ -67,15 +67,33 @@ End Rem
 Type wxGraphicsContext Extends wxGraphicsObject
 
 	Rem
-	bbdoc: 
+	bbdoc: Creates a wxGraphicsContext from a wxWindowDC (eg a wxPaintDC).
 	End Rem
-	Function CreateGraphicsContext:wxGraphicsContext()
+	Function CreateGraphicsContext:wxGraphicsContext(dc:wxWindowDC)
+		Return New wxGraphicsContext.Create(dc)
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a wxGraphicsContext from a wxWindowDC (eg a wxPaintDC).
 	End Rem
-	Method Create:wxGraphicsContext()
+	Method Create:wxGraphicsContext(dc:wxWindowDC)
+		wxObjectPtr = bmx_wxgraphicscontext_create(dc.wxObjectPtr)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Creates a wxGraphicsContext from a wxWindow.
+	End Rem
+	Function CreateGraphicsContextFromWindow:wxGraphicsContext(window:wxWindow)
+		Return New wxGraphicsContext.CreateFromWindow(window)
+	End Function
+	
+	Rem
+	bbdoc: Creates a wxGraphicsContext from a wxWindow.
+	End Rem
+	Method CreateFromWindow:wxGraphicsContext(window:wxWindow)
+		wxObjectPtr = bmx_wxgraphicscontext_createfromwindow(window.wxObjectPtr)
+		Return Self
 	End Method
 	
 	Rem
@@ -373,41 +391,91 @@ Type wxGraphicsMatrix Extends wxGraphicsObject
 		End If
 	End Function
 
+	Rem
+	bbdoc: Concatenates the matrix passed with the current matrix.
+	End Rem
 	Method Concat(t:wxGraphicsMatrix)
+		bmx_wxgraphicsmatrix_concat(wxObjectPtr, t.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the component values of the matrix via the argument pointers.
+	End Rem
 	Method Get(a:Double Var, b:Double Var, c:Double Var, d:Double Var, tx:Double Var, ty:Double Var)
+		bmx_wxgraphicsmatrix_get(wxObjectPtr, Varptr a, Varptr b, Varptr c, Varptr d, Varptr tx, Varptr ty)
 	End Method
 	
+	Rem
+	bbdoc: Returns the native representation of the matrix.
+	about: For CoreGraphics this is a CFAffineMatrix pointer.
+	For GDIPlus a Matrix Pointer and for Cairo a cairo_matrix_t pointer.
+	End Rem
 	Method GetNativeMatrix:Byte Ptr()
+		Return bmx_wxgraphicsmatrix_getnativematrix(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Inverts the matrix.
+	End Rem
 	Method Invert()
+		bmx_wxgraphicsmatrix_invert(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if the elements of the transformation matrix are equal.
+	End Rem
 	Method IsEqual:Int(t:wxGraphicsMatrix)
+		Return bmx_wxgraphicsmatrix_isequal(wxObjectPtr, t.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Return true if this is the identity matrix.
+	End Rem
 	Method IsIdentity:Int()
+		Return bmx_wxgraphicsmatrix_isidentity(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Rotates this matrix (degrees).
+	End Rem
 	Method Rotate(angle:Double)
+		bmx_wxgraphicsmatrix_rotate(wxObjectPtr, angle)
 	End Method
 	
+	Rem
+	bbdoc: Scales this matrix.
+	End Rem
 	Method Scale(xScale:Double, yScale:Double)
+		bmx_wxgraphicsmatrix_scale(wxObjectPtr, xScale, yScale)
 	End Method
 	
+	Rem
+	bbdoc: Translates this matrix.
+	End Rem
 	Method Translate(dx:Double, dy:Double)
+		bmx_wxgraphicsmatrix_translate(wxObjectPtr, dx, dy)
 	End Method
 	
+	Rem
+	bbdoc: Sets the matrix to the respective values (default values are the identity matrix)
+	End Rem
 	Method Set(a:Double = 1.0, b:Double = 0, c:Double = 0, d:Double = 1.0, ..
 			tx:Double = 0, ty:Double = 0)
+		bmx_wxgraphicsmatrix_set(wxObjectPtr, a, b, c, d, tx, ty)
 	End Method
 	
+	Rem
+	bbdoc: Applies this matrix to a point.
+	End Rem
 	Method TransformPoint(x:Double Var, y:Double Var)
+		bmx_wxgraphicsmatrix_transformpoint(wxObjectPtr, Varptr x, Varptr y)
 	End Method
 	
+	Rem
+	bbdoc: Applies this matrix to a distance (ie. performs all transforms except translations)
+	End Rem
 	Method TransformDistance(dx:Double Var, dy:Double Var)
+		bmx_wxgraphicsmatrix_transformdistance(wxObjectPtr, Varptr dx, Varptr dy)
 	End Method
 	
 	Method Delete()
@@ -432,58 +500,130 @@ Type wxGraphicsPath Extends wxGraphicsObject
 		End If
 	End Function
 
+	Rem
+	bbdoc: Begins a new subpath at (x,y)
+	End Rem
 	Method MoveToPoint(x:Double, y:Double)
+		bmx_wxgraphicspath_movetopoint(wxObjectPtr, x, y)
 	End Method
 	
+	Rem
+	bbdoc: Adds an arc of a circle centering at (x,y) with radius (r) from startAngle to endAngle.
+	End Rem
 	Method AddArc(x:Double, y:Double, r:Double, startAngle:Double, endAngle:Double, clockwise:Int)
+		bmx_wxgraphicspath_addarc(wxObjectPtr, x, y, r, startAngle, endAngle, clockwise)
 	End Method
 	
+	Rem
+	bbdoc: Appends a an arc to two tangents connecting (current) to (x1,y1) and (x1,y1) to (x2,y2), also a straight line from (current) to (x1,y1).
+	End Rem
 	Method AddArcToPoint(x1:Double, y1:Double, x2:Double, y2:Double, radius:Double)
+		bmx_wxgraphicspath_addarctopoint(wxObjectPtr, x1, y1, x2, y2, radius)
 	End Method
 	
+	Rem
+	bbdoc: Appends a circle around (x,y) with radius r as a new closed subpath.
+	End Rem
 	Method AddCircle(x:Double, y:Double, radius:Double)
+		bmx_wxgraphicspath_addcircle(wxObjectPtr, x, y, radius)
 	End Method
 	
+	Rem
+	bbdoc: Adds a cubic Bezier curve from the current point, using two control points and an end point.
+	End Rem
 	Method AddCurveToPoint(cx1:Double, cy1:Double, cx2:Double, cy2:Double, x:Double, y:Double)
+		bmx_wxgraphicspath_addcurvetopoint(wxObjectPtr, cx1, cy1, cx2, cy2, x, y)
 	End Method
 	
+	Rem
+	bbdoc: Appends an ellipse fitting into the passed in rectangle.
+	End Rem
 	Method AddEllipse(x:Double, y:Double, w:Double, h:Double)
+		bmx_wxgraphicspath_addellipse(wxObjectPtr, x, y, w, h)
 	End Method
 	
+	Rem
+	bbdoc: Adds a straight line from the current point to (x,y).
+	End Rem
 	Method AddLineToPoint(x:Double, y:Double)
+		bmx_wxgraphicspath_addlinetopoint(wxObjectPtr, x, y)
 	End Method
 	
+	Rem
+	bbdoc: Adds another path.
+	End Rem
 	Method AddPath(path:wxGraphicsPath)
+		bmx_wxgraphicspath_addpath(wxObjectPtr, path.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Adds a quadratic Bezier curve from the current point, using a control point and an end point.
+	End Rem
 	Method AddQuadCurveToPoint(cx:Double, cy:Double, x:Double, y:Double)
+		bmx_wxgraphicspath_addquadcurvetopoint(wxObjectPtr, cx, cy, x, y)
 	End Method
 	
+	Rem
+	bbdoc: Appends a rectangle as a new closed subpath.
+	End Rem
 	Method AddRectangle(x:Double, y:Double, w:Double, h:Double)
+		bmx_wxgraphicspath_addrectangle(wxObjectPtr, x, y, w, h)
 	End Method
 	
+	Rem
+	bbdoc: Appends a rounded rectangle as a new closed subpath.
+	End Rem
 	Method AddRoundedRectangle(x:Double, y:Double, w:Double, h:Double, radius:Double)
+		bmx_wxgraphicspath_addroundedrectangle(wxObjectPtr, x, y, w, h, radius)
 	End Method
 	
+	Rem
+	bbdoc: Closes the current sub-path.
+	End Rem
 	Method CloseSubpath()
+		bmx_wxgraphicspath_closesubpath(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns true if the point is within the path.
+	End Rem
 	Method Contains:Int(x:Double, y:Double, fillStyle:Int = wxODDEVEN_RULE)
+		Return bmx_wxgraphicspath_contains(wxObjectPtr, x, y, fillStyle)
 	End Method
 	
+	Rem
+	bbdoc: Gets the bounding box enclosing all points (possibly including control points).
+	End Rem
 	Method GetBox(x:Double Var, y:Double Var, w:Double Var, h:Double Var)
+		bmx_wxgraphicspath_getbox(wxObjectPtr, Varptr x, Varptr y, Varptr w, Varptr h)
 	End Method
 	
+	Rem
+	bbdoc: Gets the last point of the current path, (0,0) if not yet set.
+	End Rem
 	Method GetCurrentPoint(x:Double Var, y:Double Var)
+		bmx_wxgraphicspath_getcurrentpoint(wxObjectPtr, Varptr x, Varptr y)
 	End Method
 	
+	Rem
+	bbdoc: Transforms each point of this path by the matrix.
+	End Rem
 	Method Transform(matrix:wxGraphicsMatrix)
+		bmx_wxgraphicspath_transform(wxObjectPtr, matrix.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the native path (CGPathRef for Core Graphics, Path pointer for GDIPlus and a cairo_path_t pointer for cairo).
+	End Rem
 	Method GetNativePath:Byte Ptr()
+		Return bmx_wxgraphicspath_getnativepath(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Gives back the native path returned by GetNativePath() because there might be some deallocations necessary (eg on cairo the native path returned by GetNativePath is newly allocated each time).
+	End Rem
 	Method UnGetNativePath(path:Byte Ptr)
+		bmx_wxgraphicspath_ungetnativepath(wxObjectPtr, path)
 	End Method
 	
 	Method Delete()

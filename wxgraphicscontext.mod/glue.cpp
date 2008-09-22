@@ -72,6 +72,14 @@ wxGraphicsMatrix MaxGraphicsMatrix::Matrix() {
 
 // *********************************************
 
+wxGraphicsContext * bmx_wxgraphicscontext_create(MaxWindowDC * dc) {
+	return wxGraphicsContext::Create(*(wxWindowDC*)dc->GetDC());
+}
+
+wxGraphicsContext * bmx_wxgraphicscontext_createfromwindow(wxWindow * window) {
+	return wxGraphicsContext::Create(window);
+}
+
 MaxGraphicsPen * bmx_wxgraphicscontext_createpen(wxGraphicsContext * context, MaxPen * pen) {
 	return new MaxGraphicsPen(context->CreatePen(pen->Pen()));
 }
@@ -283,3 +291,127 @@ void bmx_wxgraphicspath_delete(MaxGraphicsPath * path) {
 void bmx_wxgraphicsmatrix_delete(MaxGraphicsMatrix * matrix) {
 	delete matrix;
 }
+
+void bmx_wxgraphicsmatrix_concat(MaxGraphicsMatrix * matrix, MaxGraphicsMatrix * t) {
+	matrix->Matrix().Concat(t->Matrix());
+}
+
+void bmx_wxgraphicsmatrix_get(MaxGraphicsMatrix * matrix, double * a, double * b, double * c, double * d, double * tx, double * ty) {
+	matrix->Matrix().Get(a, b, c, d, tx, ty);
+}
+
+void * bmx_wxgraphicsmatrix_getnativematrix(MaxGraphicsMatrix * matrix) {
+	return matrix->Matrix().GetNativeMatrix();
+}
+
+void bmx_wxgraphicsmatrix_invert(MaxGraphicsMatrix * matrix) {
+	matrix->Matrix().Invert();
+}
+
+bool bmx_wxgraphicsmatrix_isequal(MaxGraphicsMatrix * matrix, MaxGraphicsMatrix * t) {
+	return matrix->Matrix().IsEqual(t->Matrix());
+}
+
+bool bmx_wxgraphicsmatrix_isidentity(MaxGraphicsMatrix * matrix) {
+	return matrix->Matrix().IsIdentity();
+}
+
+void bmx_wxgraphicsmatrix_rotate(MaxGraphicsMatrix * matrix, double angle) {
+	matrix->Matrix().Rotate(angle * 0.0174533f);
+}
+
+void bmx_wxgraphicsmatrix_scale(MaxGraphicsMatrix * matrix, double xScale, double yScale) {
+	matrix->Matrix().Scale(xScale, yScale);
+}
+
+void bmx_wxgraphicsmatrix_translate(MaxGraphicsMatrix * matrix, double dx, double dy) {
+	matrix->Matrix().Translate(dx, dy);
+}
+
+void bmx_wxgraphicsmatrix_set(MaxGraphicsMatrix * matrix, double a, double b, double c, double d, double tx, double ty) {
+	matrix->Matrix().Set(a, b, c, d, tx, ty);
+}
+
+void bmx_wxgraphicsmatrix_transformpoint(MaxGraphicsMatrix * matrix, double * x, double * y) {
+	matrix->Matrix().TransformPoint(x, y);
+}
+
+void bmx_wxgraphicsmatrix_transformdistance(MaxGraphicsMatrix * matrix, double * dx, double * dy) {
+	matrix->Matrix().TransformDistance(dx, dy);
+}
+
+// *********************************************
+
+
+void bmx_wxgraphicspath_movetopoint(MaxGraphicsPath * path, double x, double y) {
+	path->Path().MoveToPoint(x, y);
+}
+
+void bmx_wxgraphicspath_addarc(MaxGraphicsPath * path, double x, double y, double r, double startAngle, double endAngle, bool clockwise) {
+	path->Path().AddArc(x, y, r, startAngle * 0.0174533f, endAngle * 0.0174533f, clockwise);
+}
+
+void bmx_wxgraphicspath_addarctopoint(MaxGraphicsPath * path, double x1, double y1, double x2, double y2, double radius) {
+	path->Path().AddArcToPoint(x1, y1, x2, y2, radius);
+}
+
+void bmx_wxgraphicspath_addcircle(MaxGraphicsPath * path, double x, double y, double radius) {
+	path->Path().AddCircle(x, y, radius);
+}
+
+void bmx_wxgraphicspath_addcurvetopoint(MaxGraphicsPath * path, double cx1, double cy1, double cx2, double cy2, double x, double y) {
+	path->Path().AddCurveToPoint(cx1, cy1, cx2, cy2, x, y);
+}
+
+void bmx_wxgraphicspath_addellipse(MaxGraphicsPath * path, double x, double y, double w, double h) {
+	path->Path().AddEllipse(x, y, w, h);
+}
+
+void bmx_wxgraphicspath_addlinetopoint(MaxGraphicsPath * path, double x, double y) {
+	path->Path().AddLineToPoint(x, y);
+}
+
+void bmx_wxgraphicspath_addpath(MaxGraphicsPath * path, MaxGraphicsPath * p) {
+	path->Path().AddPath(p->Path());
+}
+
+void bmx_wxgraphicspath_addquadcurvetopoint(MaxGraphicsPath * path, double cx, double cy, double x, double y) {
+	path->Path().AddQuadCurveToPoint(cx, cy, x, y);
+}
+
+void bmx_wxgraphicspath_addrectangle(MaxGraphicsPath * path, double x, double y, double w, double h) {
+	path->Path().AddRectangle(x, y, w, h);
+}
+
+void bmx_wxgraphicspath_addroundedrectangle(MaxGraphicsPath * path, double x, double y, double w, double h, double radius) {
+	path->Path().AddRoundedRectangle(x, y, w, h, radius);
+}
+
+void bmx_wxgraphicspath_closesubpath(MaxGraphicsPath * path) {
+	path->Path().CloseSubpath();
+}
+
+bool bmx_wxgraphicspath_contains(MaxGraphicsPath * path, double x, double y, int fillStyle) {
+	return path->Path().Contains(x, y, fillStyle);
+}
+
+void bmx_wxgraphicspath_getbox(MaxGraphicsPath * path, double * x, double * y, double * w, double * h) {
+	path->Path().GetBox(x, y, w, h);
+}
+
+void bmx_wxgraphicspath_getcurrentpoint(MaxGraphicsPath * path, double * x, double * y) {
+	path->Path().GetCurrentPoint(x, y);
+}
+
+void bmx_wxgraphicspath_transform(MaxGraphicsPath * path, MaxGraphicsMatrix * matrix) {
+	path->Path().Transform(matrix->Matrix());
+}
+
+void * bmx_wxgraphicspath_getnativepath(MaxGraphicsPath * path) {
+	return path->Path().GetNativePath();
+}
+
+void bmx_wxgraphicspath_ungetnativepath(MaxGraphicsPath * path, void * nativePath) {
+	path->Path().UnGetNativePath(nativePath);
+}
+
