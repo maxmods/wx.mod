@@ -45,12 +45,12 @@ extern WXDLLIMPEXP_PG const wxChar *wxPropertyGridManagerNameStr;
     parent manager (m_manager member variable) when needed.
 
     Please note that most member functions are inherited and as such not documented on
-    this page. This means you will probably also want to read wxPropertyContainerMethods
+    this page. This means you will probably also want to read wxPropertyGridInterface
     class reference.
 
     <h4>Derived from</h4>
 
-    wxPropertyContainerMethods\n
+    wxPropertyGridInterface\n
     wxPropertyGridState\n
     wxEvtHandler\n
     wxObject\n
@@ -66,7 +66,7 @@ extern WXDLLIMPEXP_PG const wxChar *wxPropertyGridManagerNameStr;
     returns false, then unhandled events are sent to the manager's parent, as usual.
 */
 class WXDLLIMPEXP_PG wxPropertyGridPage : public wxEvtHandler,
-                                          public wxPropertyContainerMethods,
+                                          public wxPropertyGridInterface,
                                           public wxPropertyGridState
 {
     friend class wxPropertyGridManager;
@@ -194,45 +194,6 @@ private:
 
 // -----------------------------------------------------------------------
 
-/** @class wxPGMEditableState
-	@ingroup classes
-    @brief
-    Contains information about wxPropertyGridManager's user-editable state, as
-    returned by wxPropertyGridManager::SaveEditableState().
-*/
-class WXDLLIMPEXP_PG wxPGMEditableState : public wxPGEditableState
-{
-public:
-    /** Constructor. */
-    wxPGMEditableState()
-        : wxPGEditableState()
-    {
-    }
-
-    /** Constructor. */
-    wxPGMEditableState( const wxPropertyGridManager* pgm, int includedState = All );
-
-    /** Constructor. */
-    wxPGMEditableState( const wxString& str );
-
-    /** Destructor. */
-    virtual ~wxPGMEditableState() { }
-
-    void SetPage( int page )
-    {
-        m_flags |= Page;
-        m_page = page;
-    }
-
-    int GetPage() const
-    {
-        wxASSERT( HasFlag(Page) );
-        return m_page;
-    }
-};
-
-// -----------------------------------------------------------------------
-
 /** @class wxPropertyGridManager
     @ingroup classes
     @brief
@@ -242,7 +203,7 @@ public:
 
     <h4>Derived from</h4>
 
-    wxPropertyContainerMethods\n
+    wxPropertyGridInterface\n
     wxWindow\n
     wxEvtHandler\n
     wxObject\n
@@ -276,7 +237,7 @@ public:
 
 */
 // BM_MANAGER
-class WXDLLIMPEXP_PG wxPropertyGridManager : public wxPanel, public wxPropertyContainerMethods
+class WXDLLIMPEXP_PG wxPropertyGridManager : public wxPanel, public wxPropertyGridInterface
 {
 #ifndef SWIG
 	DECLARE_CLASS(wxPropertyGridManager)
@@ -433,19 +394,6 @@ public:
     /** Returns height of the description text box. */
     int GetDescBoxHeight() const;
 
-    /** Used to acquire user-editable state (selected property, expanded properties, scrolled position,
-        current page).
-        @param pState
-        Pointer wxPGMEditableState to write.
-        @param includedStates
-        Which parts of state to include. See wxPGEditableState::IncludeFlags for possible bits to use.
-    */
-    void SaveEditableState( wxPGMEditableState* pState, int includedStates = wxPGEditableState::All ) const;
-
-    /** Sets user-editable state. See also wxPropertyGrid::SaveEditableState() for more info.
-    */
-    void RestoreEditableState( const wxPGMEditableState& state );
-
     /** Returns pointer to the contained wxPropertyGrid. This does not change
         after wxPropertyGridManager has been created, so you can safely obtain
         pointer once and use it for the entire lifetime of the instance.
@@ -470,13 +418,13 @@ public:
     wxPropertyGridIterator GetIterator( int flags = wxPG_ITERATE_DEFAULT, wxPGProperty* firstProp = NULL )
     {
         wxFAIL_MSG(wxT("Please only iterate through individual pages or use CreateVIterator()"));
-        return wxPropertyContainerMethods::GetIterator( flags, firstProp );
+        return wxPropertyGridInterface::GetIterator( flags, firstProp );
     }
 
     wxPropertyGridConstIterator GetIterator( int flags = wxPG_ITERATE_DEFAULT, wxPGProperty* firstProp = NULL ) const
     {
         wxFAIL_MSG(wxT("Please only iterate through individual pages or use CreateVIterator()"));
-        return wxPropertyContainerMethods::GetIterator( flags, firstProp );
+        return wxPropertyGridInterface::GetIterator( flags, firstProp );
     }
 
     /** Returns iterator class instance.
@@ -487,13 +435,13 @@ public:
     wxPropertyGridIterator GetIterator( int flags, int startPos )
     {
         wxFAIL_MSG(wxT("Please only iterate through individual pages or use CreateVIterator()"));
-        return wxPropertyContainerMethods::GetIterator( flags, startPos );
+        return wxPropertyGridInterface::GetIterator( flags, startPos );
     }
 
     wxPropertyGridConstIterator GetIterator( int flags, int startPos ) const
     {
         wxFAIL_MSG(wxT("Please only iterate through individual pages or use CreateVIterator()"));
-        return wxPropertyContainerMethods::GetIterator( flags, startPos );
+        return wxPropertyGridInterface::GetIterator( flags, startPos );
     }
 
     /** Similar to GetIterator, but instead returns wxPGVIterator instance,
@@ -557,7 +505,7 @@ public:
 
     /** Returns wxPropertyGridState of given page, current page's for -1.
     */
-    wxPropertyGridState* GetPageState( int page ) const;
+    virtual wxPropertyGridState* GetPageState( int page ) const;
 
     /** Returns number of managed pages. */
     size_t GetPageCount() const;
@@ -653,8 +601,8 @@ public:
     */
     virtual bool RemovePage( int page );
 
-    /** Select and displays a given page. Also makes it target page for
-        insert operations etc.
+    /** Select and displays a given page.
+
         @param index
         Index of page being seleced. Can be -1 to select nothing.
     */

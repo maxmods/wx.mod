@@ -23,7 +23,7 @@
 
 // NB: Do *NOT * remove this.
 #if defined(SWIG) || defined(SWIG_TYPE_TABLE)
-    #ifndef __WXPYTHON__
+    #if !defined(__WXPYTHON__) && !defined(__NOTWXPYTHON__)
         #define __WXPYTHON__
     #endif
 #endif
@@ -458,7 +458,7 @@ class WXDLLIMPEXP_PG wxPGChoices;
 class WXDLLIMPEXP_PG wxPropertyGridState;
 class WXDLLIMPEXP_PG wxPGCell;
 class WXDLLIMPEXP_PG wxPGChoiceEntry;
-class WXDLLIMPEXP_PG wxPropertyContainerMethods;
+class WXDLLIMPEXP_PG wxPropertyGridInterface;
 class WXDLLIMPEXP_PG wxPropertyGrid;
 class WXDLLIMPEXP_PG wxPropertyGridEvent;
 class WXDLLIMPEXP_PG wxPropertyGridManager;
@@ -780,7 +780,9 @@ wxPG_LIMITED_EDITING                = 0x00000800,
 
 #ifdef DOXYGEN
 
-/** wxTAB_TRAVERSAL allows using Tab/Shift-Tab to travel between properties
+/** <b>NOTE:</b> This feature works very poorly and should be avoided.
+
+    wxTAB_TRAVERSAL allows using Tab/Shift-Tab to travel between properties
     in grid. Travelling forwards from last property will navigate to the
     next control, and backwards from first will navigate to the previous one.
 */
@@ -883,7 +885,11 @@ wxPG_EX_LEGACY_VALIDATORS               = 0x00800000,
 
 /** Hides page selection buttons from toolbar.
 */
-wxPG_EX_HIDE_PAGE_BUTTONS               = 0x01000000
+wxPG_EX_HIDE_PAGE_BUTTONS               = 0x01000000,
+
+/** Unfocuses text editor after enter has been pressed.
+*/
+wxPG_EX_UNFOCUS_ON_ENTER                = 0x02000000
 
 };
 
@@ -901,7 +907,7 @@ wxPG_EX_HIDE_PAGE_BUTTONS               = 0x01000000
 enum wxPG_GETPROPERTYVALUES_FLAGS
 {
 
-/** Flags for wxPropertyContainerMethods::GetPropertyValues */
+/** Flags for wxPropertyGridInterface::GetPropertyValues */
 wxPG_KEEP_STRUCTURE               = 0x00000010,
 
 /** Flags for wxPropertyGrid::SetPropertyAttribute() etc */
@@ -950,7 +956,8 @@ enum wxPG_SETVALUE_FLAGS
 {
 wxPG_SETVAL_REFRESH_EDITOR      = 0x0001,
 wxPG_SETVAL_AGGREGATED          = 0x0002,
-wxPG_SETVAL_FROM_PARENT         = 0x0004
+wxPG_SETVAL_FROM_PARENT         = 0x0004,
+wxPG_SETVAL_BY_USER             = 0x0008  // Set if value changed by user
 };
 
 // -----------------------------------------------------------------------
@@ -1018,10 +1025,10 @@ public:
         m_ptr.property = (wxPGProperty*) NULL;
         m_isName = false;
     }
-    wxPGProperty* GetPtr( wxPropertyContainerMethods* methods ) const;
-    wxPGProperty* GetPtr( const wxPropertyContainerMethods* methods ) const
+    wxPGProperty* GetPtr( wxPropertyGridInterface* methods ) const;
+    wxPGProperty* GetPtr( const wxPropertyGridInterface* methods ) const
     {
-        return GetPtr((wxPropertyContainerMethods*)methods);
+        return GetPtr((wxPropertyGridInterface*)methods);
     }
     wxPGProperty* GetPtr0() const { return m_ptr.property; }
     unsigned char HasName() const { return m_isName; }
@@ -1484,14 +1491,14 @@ protected:
     #define WX_PG_IMPLEMENT_DYNAMIC_CLASS_VARIANTDATA(A, B)
     typedef const std::type_info* wxPGVariantDataClassInfo;
     #define wxPGVariantDataGetClassInfo(A) (&typeid(*A))
-    #define wxPG_VARIANT_EQ(A, B) ( ((A).GetData() && (B).GetData() && typeid(*(A).GetData()) == typeid(*(B).GetData()) && (A == B)) || !((A).GetData() && (B).GetData()) )
+    #define wxPG_VARIANT_EQ(A, B) ( ((A).GetData() && (B).GetData() && typeid(*(A).GetData()) == typeid(*(B).GetData()) && (A == B)) || (!(A).GetData() && !(B).GetData()) )
 #else
     #define WX_PG_DECLARE_DYNAMIC_CLASS_VARIANTDATA DECLARE_DYNAMIC_CLASS
     #define WX_PG_IMPLEMENT_DYNAMIC_CLASS_VARIANTDATA IMPLEMENT_DYNAMIC_CLASS
     typedef wxList wxVariantList;
     typedef wxClassInfo* wxPGVariantDataClassInfo;
     #define wxPGVariantDataGetClassInfo(A) (A->GetClassInfo())
-    #define wxPG_VARIANT_EQ(A, B) ( ((A).GetData() && (B).GetData() && (A).GetData()->GetClassInfo() == (B).GetData()->GetClassInfo() && (A == B)) || !((A).GetData() && (B).GetData()) )
+    #define wxPG_VARIANT_EQ(A, B) ( ((A).GetData() && (B).GetData() && (A).GetData()->GetClassInfo() == (B).GetData()->GetClassInfo() && (A == B)) || (!(A).GetData() && !(B).GetData()) )
 #endif
 
 #ifndef wxDynamicCastVariantData
@@ -1682,11 +1689,11 @@ WXDLLIMPEXP_PG bool wxPGVariantToDouble( const wxVariant& variant, double* pResu
 #if !defined(SWIG)
 
 #if wxPG_USE_STL
-typedef WXDLLIMPEXP_PG std::vector<wxPGProperty*>  wxArrayPGProperty;
+typedef std::vector<wxPGProperty*>  wxArrayPGProperty;
 #else
-WX_DEFINE_ARRAY_PTR(wxPGProperty*, wxArrayPGProperty);
+WX_DEFINE_TYPEARRAY_WITH_DECL_PTR(wxPGProperty*, wxArrayPGProperty,
+                                  wxBaseArrayPtrVoid, class WXDLLIMPEXP_PG);
 #endif
-
 
 // Always use wxString based hashmap with unicode, stl, swig and GCC 4.0+
 WX_DECLARE_STRING_HASH_MAP_WITH_DECL(void*,
@@ -1814,7 +1821,7 @@ class WXDLLIMPEXP_PG wxPGProperty : public wxObject
 {
 #ifndef SWIG
     friend class wxPropertyGrid;
-    friend class wxPropertyContainerMethods;
+    friend class wxPropertyGridInterface;
     friend class wxPropertyGridState;
     friend class wxPropertyGridPopulator;
     friend class wxStringProperty;  // Proper "<composed>" support requires this
@@ -1908,8 +1915,11 @@ public:
         flag).
 
         @remarks
-        Default implementation converts semicolon delimited tokens into child values. Only
-        works for properties with children.
+        - Default implementation converts semicolon delimited tokens into child values. Only
+          works for properties with children.
+        - You might want to take into account that m_value is Null variant if property
+          value is unspecified (which is usually only case if you explicitly enabled that
+          sort behavior).
     */
     virtual bool StringToValue( wxVariant& variant, const wxString& text, int argFlags = 0 ) const;
 
@@ -1924,6 +1934,9 @@ public:
           with int-based value, it is not necessary to implement this method.
         - If property uses choice control, and displays a dialog on some choice items,
           then it is preferred to display that dialog in IntToValue instead of OnEvent.
+        - You might want to take into account that m_value is Null variant if property
+          value is unspecified (which is usually only case if you explicitly enabled that
+          sort behavior).
     */
     virtual bool IntToValue( wxVariant& value, int number, int argFlags = 0 ) const;
 public:
@@ -2601,7 +2614,10 @@ public:
 
     /** Sets an attribute for this property.  There are both common attributes and
         property class specific ones. For list of common attributes, see
-        wxPropertyContainerMethods::SetPropertyAttribute().
+        wxPropertyGridInterface::SetPropertyAttribute().
+
+        @remarks Settings attribute's value to Null variant will simply remove it
+                 from property's set of attributes.
     */
     void SetAttribute( const wxString& name, wxVariant value );
 
@@ -2695,6 +2711,12 @@ public:
         m_helpString = helpString;
     }
 
+    /** Sets property's label.
+
+        @remarks
+        - Properties under same parent may have same labels. However,
+        property names must still remain unique.
+    */
     void SetLabel( const wxString& label ) { m_label = label; }
 
     inline void SetName( const wxString& newName );
@@ -2858,7 +2880,7 @@ protected:
     */
     wxString GetColumnText( unsigned int col ) const;
 
-    /** Returns (direct) child property with given label (or NULL if not found),
+    /** Returns (direct) child property with given name (or NULL if not found),
         with hint index.
 
         @param hintIndex
@@ -2867,7 +2889,7 @@ protected:
         @remarks
         Does not support scope (ie. Parent.Child notation).
     */
-    wxPGProperty* GetPropertyByLabelWH( const wxString& label, unsigned int hintIndex ) const;
+    wxPGProperty* GetPropertyByNameWH( const wxString& name, unsigned int hintIndex ) const;
 
     /** This is used by Insert etc. */
     void AddChild2( wxPGProperty* prop, int index = -1, bool correct_mode = true );
@@ -3661,7 +3683,7 @@ private:
     @brief Preferable way to iterate through contents of wxPropertyGrid,
     wxPropertyGridManager, and wxPropertyGridPage.
 
-    See wxPropertyContainerMethods::GetIterator() for more information about usage.
+    See wxPropertyGridInterface::GetIterator() for more information about usage.
 */
 class WXDLLIMPEXP_PG wxPropertyGridIterator : public wxPropertyGridIteratorBase
 {
@@ -3852,133 +3874,6 @@ struct wxPGValidationInfo
 
 // -----------------------------------------------------------------------
 
-/** @class wxPGEditableState
-	@ingroup classes
-    @brief
-    Contains information about wxPropertyGrid's user-editable state, as
-    returned by wxPropertyGrid::SaveEditableState().
-*/
-class WXDLLIMPEXP_PG wxPGEditableState
-{
-public:
-    /** Flags to be used with wxPropertyGrid::SaveEditableState(). */
-    enum IncludeFlags
-    {
-        /** Include selected property. */
-        Selection       = 0x01,
-        /** Include expanded/collapsed property information. */
-        Expanded        = 0x02,
-        /** Include scrolled position. */
-        ScrollPos       = 0x04,
-        /** Include selected page information. Only applies to wxPropertyGridManager. */
-        Page            = 0x08,
-        /** Include splitter position. Stored for each page. */
-        SplitterPos     = 0x10,
-
-        /** Include all supported user editable state information. This is usually the default value. */
-        All             = Selection | Expanded | ScrollPos | Page | SplitterPos
-    };
-
-    /** Constructor. */
-    wxPGEditableState();
-
-    /** Constructor. */
-    wxPGEditableState( const wxPropertyGrid* pg, int includedState = All );
-
-    /** Constructor. */
-    wxPGEditableState( const wxString& str );
-
-    /** Destructor. */
-    virtual ~wxPGEditableState()
-    {
-    }
-
-    int HasFlag( int flag ) const
-    {
-        return ( m_flags & flag );
-    }
-
-    void SetSelection( const wxString& selection )
-    {
-        m_flags |= Selection;
-        m_selection = selection;
-    }
-
-    void SetExpanded( const wxPropertyContainerMethods* propIface );
-
-    void SetScrollPos( int h, int v )
-    {
-        m_flags |= ScrollPos;
-        m_hScrollPos = h;
-        m_vScrollPos = v;
-    }
-
-    void SetSplitterPos( int pos )
-    {
-        m_flags |= SplitterPos;
-        m_splitterPos.clear();
-        m_splitterPos.push_back(pos);
-    }
-
-    const wxString& GetSelection() const
-    {
-        wxASSERT( HasFlag(Selection) );
-        return m_selection;
-    }
-
-    const wxArrayString& GetExpanded() const
-    {
-        wxASSERT( HasFlag(Expanded) );
-        return m_expanded;
-    }
-
-    wxPoint GetScrollPos() const
-    {
-        wxASSERT( HasFlag(ScrollPos) );
-        return wxPoint(m_hScrollPos, m_vScrollPos);
-    }
-
-    const wxArrayInt& GetSplitterPos() const
-    {
-        wxASSERT( HasFlag(SplitterPos) );
-        return m_splitterPos;
-    }
-
-    /** Encodes state information in a string.
-        @remarks
-        String is not guaranteed to have any particular format, except one that
-        should be readable by SetFromString().
-    */
-    wxString GetAsString() const;
-
-    /** Decodes state information from a string.
-        @retval
-        Returns true if string was read properly. On false, wxPGEditableState will
-        remain in undefined state.
-    */
-    bool SetFromString( const wxString& str );
-
-#if defined(__WXPYTHON__) && !defined(SWIG)
-    // This is the python object that contains and owns the C++ representation.
-    PyObject*                   m_scriptObject;
-#endif
-
-protected:
-#ifdef SWIG
-private:
-#endif
-
-    wxString            m_selection;
-    wxArrayString       m_expanded;
-    wxArrayInt          m_splitterPos;
-    int                 m_hScrollPos;
-    int                 m_vScrollPos;
-    int                 m_page;
-    int                 m_flags;
-};
-
-// -----------------------------------------------------------------------
-
 /** @defgroup pgactions wxPropertyGrid Action Identifiers
     These are used with wxPropertyGrid::AddActionTrigger() and wxPropertyGrid::ClearActionTriggers().
     @{
@@ -3995,6 +3890,7 @@ enum wxPG_KEYBOARD_ACTIONS
     wxPG_ACTION_CUT,
     wxPG_ACTION_COPY,
     wxPG_ACTION_PASTE,
+    wxPG_ACTION_SELECT_ALL,
     wxPG_ACTION_MAX
 };
 
@@ -4009,7 +3905,7 @@ enum wxPG_KEYBOARD_ACTIONS
 	@ingroup classes
     @brief
     Contains information of a single wxPropertyGrid page. Generally you should not use
-    this class directly, but instead methods in wxPropertyContainerMethods, wxPropertyGrid,
+    this class directly, but instead methods in wxPropertyGridInterface, wxPropertyGrid,
     wxPropertyGridPage, and wxPropertyGridManager.
 */
 // BM_STATE
@@ -4020,6 +3916,7 @@ class WXDLLIMPEXP_PG wxPropertyGridState
     friend class wxPGCanvas;
     friend class wxPropertyGridPage;
     friend class wxPropertyGridManager;
+    friend class wxPropertyGridInterface;
 public:
 
     /** Constructor. */
@@ -4040,6 +3937,11 @@ public:
     void ClearModifiedStatus( wxPGProperty* p );
 
     bool ClearSelection()
+    {
+        return DoSelectProperty(NULL);
+    }
+
+    bool DoClearSelection()
     {
         return DoSelectProperty(NULL);
     }
@@ -4346,12 +4248,12 @@ inline bool wxPGProperty::SetChoices( const wxArrayString& labels,
     wxPG_PROP_ARG_CALL_PROLOG_RETVAL_0(const wxPGProperty, RVAL)
 
 
-/** @class wxPropertyContainerMethods
+/** @class wxPropertyGridInterface
     @ingroup classes
     @brief In order to have most same base methods, both wxPropertyGrid and
     wxPropertyGridManager must derive from this.
 */
-class WXDLLIMPEXP_PG wxPropertyContainerMethods
+class WXDLLIMPEXP_PG wxPropertyGridInterface
 // BM_METHODS
 {
     friend class wxPropertyGrid;
@@ -4359,7 +4261,7 @@ class WXDLLIMPEXP_PG wxPropertyContainerMethods
 public:
 
     /** Destructor */
-    virtual ~wxPropertyContainerMethods() { };
+    virtual ~wxPropertyGridInterface() { };
 
     /** Adds choice to a property that can accept one.
         @remarks
@@ -4590,7 +4492,7 @@ public:
 
     const wxPGProperty* GetFirst( int flags = wxPG_ITERATE_ALL ) const
     {
-        return ((wxPropertyContainerMethods*)this)->GetFirst(flags);
+        return ((wxPropertyGridInterface*)this)->GetFirst(flags);
     }
 
 #if wxPG_COMPATIBILITY_1_2_0
@@ -5106,6 +5008,70 @@ public:
     */
     wxPGProperty* ReplaceProperty( wxPGPropArg id, wxPGProperty* property );
 
+    /** @anchor propgridinterface_editablestate_flags
+
+        Flags for wxPropertyGridInterface::SaveEditableState() and
+        wxPropertyGridInterface::RestoreEditableState().
+    */
+    enum EditableStateFlags
+    {
+        /** Include selected property. */
+        SelectionState   = 0x01,
+        /** Include expanded/collapsed property information. */
+        ExpandedState    = 0x02,
+        /** Include scrolled position. */
+        ScrollPosState   = 0x04,
+        /** Include selected page information.
+            Only applies to wxPropertyGridManager. */
+        PageState        = 0x08,
+        /** Include splitter position. Stored for each page. */
+        SplitterPosState = 0x10,
+
+        /**
+            Include all supported user editable state information.
+            This is usually the default value. */
+        AllStates        = SelectionState |
+                           ExpandedState |
+                           ScrollPosState |
+                           PageState |
+                           SplitterPosState
+    };
+
+    /**
+        Restores user-editable state.
+
+        See also wxPropertyGridInterface::SaveEditableState().
+
+        @param src
+            String generated by SaveEditableState.
+
+        @param restoreStates
+            Which parts to restore from source string. See @ref
+            propgridinterface_editablestate_flags "list of editable state
+            flags".
+
+        @return
+            False if there was problem reading the string.
+
+        @remarks
+        If some parts of state (such as scrolled or splitter position) fail to
+        restore correctly, please make sure that you call this function after
+        wxPropertyGrid size has been set (this may sometimes be tricky when
+        sizers are used).
+    */
+    bool RestoreEditableState( const wxString& src,
+                               int restoreStates = AllStates );
+
+    /**
+        Used to acquire user-editable state (selected property, expanded
+        properties, scrolled position, splitter positions).
+
+        @param includedStates
+        Which parts of state to include. See @ref
+        propgridinterface_editablestate_flags "list of editable state flags".
+    */
+    wxString SaveEditableState( int includedStates = AllStates ) const;
+
     /** Lets user to set the strings listed in the choice dropdown of a wxBoolProperty.
         Defaults are "True" and "False", so changing them to, say, "Yes" and "No" may
         be useful in some less technical applications.
@@ -5182,8 +5148,10 @@ public:
         Optional. Use wxPG_RECURSE to set the attribute to child properties
         as well.
         @remarks
-        wxVariant doesn't have int constructor (as of 2.5.4), so <b>you will
-        need to cast int values (including most numeral constants) to long</b>.
+        - Settings attribute's value to Null variant will simply remove it
+          from property's set of attributes.
+        - wxVariant doesn't have int constructor (as of 2.5.4), so <b>you will
+          need to cast int values (including most numeral constants) to long</b>.
     */
     void SetPropertyAttribute( wxPGPropArg id, const wxString& attrName, wxVariant value, long argFlags = 0 )
     {
@@ -5215,9 +5183,10 @@ public:
     }
 
     /** Sets label of a property.
+
         @remarks
-        This is the only way to set property's name. There is not
-        wxPGProperty::SetLabel() method.
+        - Properties under same parent may have same labels. However,
+        property names must still remain unique.
     */
     void SetPropertyLabel( wxPGPropArg id, const wxString& newproplabel );
 
@@ -5522,7 +5491,7 @@ public:
                 getter = _vt2getter[vtid]
             except KeyError:
 
-                cls = PropertyContainerMethods
+                cls = PropertyGridInterface
                 vtn = self.GetPropertyValueType(p)
 
                 if vtn == 'long':
@@ -5785,14 +5754,20 @@ public:
 
 protected:
 
+    // Returns page state data for given (sub) page (-1 means current page).
+    virtual wxPropertyGridState* GetPageState( int pageIndex ) const
+    {
+        if ( pageIndex <= 0 )
+            return m_pState;
+        return NULL;
+    }
+
+    virtual bool DoSelectPage( int WXUNUSED(index) ) { return true; }
+
     // Default call's m_pState's BaseGetPropertyByName
     virtual wxPGProperty* DoGetPropertyByName( wxPGPropNameStr name ) const;
 
 #ifndef SWIG
-
-    /** Used by wxPropertyGrid::RestoreEditableState() and wxPropertyGridManager::RestoreEditableState(). */
-    void DoRestoreEditableState( const wxPGEditableState& state, bool fromManager );
-
     // Deriving classes must set this (it must be only or current page).
     wxPropertyGridState*         m_pState;
 
@@ -5808,8 +5783,15 @@ private:
     {
         return m_pState->GetGrid();
     }
+    const wxPropertyGrid* GetPropertyGrid() const
+    {
+        return (const wxPropertyGrid*) m_pState->GetGrid();
+    }
 #endif // #ifndef SWIG
 };
+
+// For backwards compatibility
+typedef wxPropertyGridInterface wxPropertyContainerMethods;
 
 // -----------------------------------------------------------------------
 
@@ -5881,12 +5863,12 @@ private:
     and it is currently deprecated.
 
     Please note that most member functions are inherited and as such not documented on
-    this page. This means you will probably also want to read wxPropertyContainerMethods
+    this page. This means you will probably also want to read wxPropertyGridInterface
     class reference.
 
     <h4>Derived from</h4>
 
-    wxPropertyContainerMethods\n
+    wxPropertyGridInterface\n
     wxScrolledWindow\n
     wxPanel\n
     wxWindow\n
@@ -5935,11 +5917,11 @@ private:
 
 */
 // BM_GRID
-class WXDLLIMPEXP_PG wxPropertyGrid : public wxScrolledWindow, public wxPropertyContainerMethods
+class WXDLLIMPEXP_PG wxPropertyGrid : public wxScrolledWindow, public wxPropertyGridInterface
 {
 #ifndef SWIG
     friend class wxPropertyGridState;
-    friend class wxPropertyContainerMethods;
+    friend class wxPropertyGridInterface;
     friend class wxPropertyGridManager;
     friend class wxPGCanvas;
 
@@ -6196,16 +6178,16 @@ public:
         items that are actually painted on the screen.
 
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     const wxPGProperty* GetFirstVisible() const
     {
-        return wxPropertyContainerMethods::GetFirst( wxPG_ITERATE_VISIBLE );
+        return wxPropertyGridInterface::GetFirst( wxPG_ITERATE_VISIBLE );
     }
 
     wxPGProperty* GetFirstVisible()
     {
-        return wxPropertyContainerMethods::GetFirst( wxPG_ITERATE_VISIBLE );
+        return wxPropertyGridInterface::GetFirst( wxPG_ITERATE_VISIBLE );
     }
 #endif
 
@@ -6221,21 +6203,21 @@ public:
     /** Returns id of first category (from target page).
 
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetFirstCategory() const
     {
-        return (wxPGProperty*) wxPropertyContainerMethods::GetFirst( wxPG_ITERATE_CATEGORIES );
+        return (wxPGProperty*) wxPropertyGridInterface::GetFirst( wxPG_ITERATE_CATEGORIES );
     }
 
     /** Returns id of first property that is not a category.
 
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetFirstProperty()
     {
-        return (wxPGProperty*) wxPropertyContainerMethods::GetFirst( wxPG_ITERATE_DEFAULT );
+        return (wxPGProperty*) wxPropertyGridInterface::GetFirst( wxPG_ITERATE_DEFAULT );
     }
 #endif
 
@@ -6273,7 +6255,7 @@ public:
     /** Returns id of last item. Ignores categories and sub-properties.
 
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetLastProperty()
     {
@@ -6289,7 +6271,7 @@ public:
         Returns even sub-properties.
 
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetLastChild( wxPGPropArg id )
     {
@@ -6302,7 +6284,7 @@ public:
     /** Returns id of last visible item. Does <b>not</b> ignore categories sub-properties.
 
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetLastVisible()
     {
@@ -6320,7 +6302,7 @@ public:
     /** Returns id of next property. This does <b>not</b> iterate to sub-properties
         or categories, unlike GetNextVisible.
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetNextProperty( wxPGPropArg id )
     {
@@ -6330,7 +6312,7 @@ public:
 
     /** Returns id of next category after a given property (which does not have to be category).
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetNextCategory( wxPGPropArg id ) const
     {
@@ -6343,7 +6325,7 @@ public:
         user can see when control is scrolled properly. It does not only mean
         items that are actually painted on the screen.
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetNextVisible( wxPGPropArg id ) const
     {
@@ -6352,27 +6334,11 @@ public:
     }
 #endif // wxPG_COMPATIBILITY_1_2_0
 
-    /** Used to acquire user-editable state (selected property, expanded properties, scrolled position).
-        @param pState
-        Pointer wxPGEditableState to write.
-        @param includedStates
-        Which parts of state to include. See wxPGEditableState::IncludeFlags for possible bits to use.
-    */
-    void SaveEditableState( wxPGEditableState* pState, int includedStates = wxPGEditableState::All ) const;
-
-    /** Sets user-editable state. See also wxPropertyGrid::SaveEditableState() for more info.
-        @remarks
-        If some parts of state (such as scrolled or splitter position) fail to restore correctly,
-        please make sure that you call this function after wxPropertyGrid size has been set
-        (this may sometimes be tricky when sizers are used).
-    */
-    void RestoreEditableState( const wxPGEditableState& state );
-
 #if wxPG_COMPATIBILITY_1_2_0
     /** Returns id of previous property. Unlike GetPrevVisible, this skips categories
         and sub-properties.
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetPrevProperty( wxPGPropArg id )
     {
@@ -6381,7 +6347,7 @@ public:
     }
     /** Returns id of previous item under the same parent.
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetPrevSiblingProperty( wxPGPropArg id )
     {
@@ -6390,7 +6356,7 @@ public:
     }
     /** Returns id of previous visible property.
         @deprecated
-        Since version 1.3. Use wxPropertyContainerMethods::GetIterator() instead.
+        Since version 1.3. Use wxPropertyGridInterface::GetIterator() instead.
     */
     wxPGProperty* GetPrevVisible( wxPGPropArg id )
     {
@@ -7341,6 +7307,12 @@ protected:
 
     bool SendEvent( int eventType, wxPGProperty* p, wxVariant* pValue = NULL, unsigned int selFlags = 0 );
 
+    void SetFocusOnCanvas()
+    {
+        m_canvas->SetFocusIgnoringChildren();
+        m_editorFocused = 0;
+    }
+
     bool DoHideProperty( wxPGProperty* p, bool hide, int flags );
 
 private:
@@ -7386,7 +7358,7 @@ inline int wxPGProperty::GetDisplayedCommonValueCount() const
 
 inline void wxPGProperty::SetEditor( const wxString& editorName )
 {
-    m_customEditor = wxPropertyContainerMethods::GetEditorByName(editorName);
+    m_customEditor = wxPropertyGridInterface::GetEditorByName(editorName);
 }
 
 inline void wxPGProperty::SetName( const wxString& newName )

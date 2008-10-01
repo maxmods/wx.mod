@@ -104,6 +104,10 @@ public:
         m_colour = v.m_colour;
     }
 
+    virtual ~wxColourPropertyValue()
+    {
+    }
+
     void Init( wxUint32 type, const wxColour& colour )
     {
         m_type = type;
@@ -459,7 +463,7 @@ protected:
 //
 // Note that new editor classes needs to be registered before use.
 // This can be accomplished using wxPGRegisterEditorClass macro, which
-// is used for SpinCtrl in wxPropertyContainerMethods::RegisterAdditionalEditors
+// is used for SpinCtrl in wxPropertyGridInterface::RegisterAdditionalEditors
 // (see below). Registeration can also be performed in a constructor of a
 // property that is likely to require the editor in question.
 //

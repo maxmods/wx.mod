@@ -176,9 +176,9 @@ END_EVENT_TABLE()
 
 
 wxPropertyGridPage::wxPropertyGridPage()
-    : wxEvtHandler(), wxPropertyContainerMethods(), wxPropertyGridState()
+    : wxEvtHandler(), wxPropertyGridInterface(), wxPropertyGridState()
 {
-    m_pState = this; // wxPropertyContainerMethods to point to State
+    m_pState = this; // wxPropertyGridInterface to point to State
     m_manager = NULL;
     m_isDefault = false;
 }
@@ -648,10 +648,14 @@ const wxString& wxPropertyGridManager::GetPageName( int index ) const
 
 wxPropertyGridState* wxPropertyGridManager::GetPageState( int page ) const
 {
+    // Do not change this into wxCHECK because returning NULL is important
+    // for wxPropertyGridInterface page enumeration mechanics.
+    if ( page >= (int)GetPageCount() )
+        return NULL;
+
     if ( page == -1 )
         return m_pState;
-    return GETPAGESTATE(page);
-}
+    return GETPAGESTATE(page);}
 
 // -----------------------------------------------------------------------
 
@@ -1700,7 +1704,7 @@ void wxPropertyGridManager::SetSplitterPosition( int pos, int splitterColumn )
 // wxPGVIterator_Manager
 // -----------------------------------------------------------------------
 
-// Default returned by wxPropertyContainerMethods::CreateVIterator().
+// Default returned by wxPropertyGridInterface::CreateVIterator().
 class wxPGVIteratorBase_Manager : public wxPGVIteratorBase
 {
 public:
@@ -1731,57 +1735,6 @@ private:
 wxPGVIterator wxPropertyGridManager::GetVIterator( int flags ) const
 {
     return wxPGVIterator( new wxPGVIteratorBase_Manager( (wxPropertyGridManager*)this, flags ) );
-}
-
-// -----------------------------------------------------------------------
-// wxPGMEditableState
-// -----------------------------------------------------------------------
-
-void wxPropertyGridManager::SaveEditableState( wxPGMEditableState* pState, int includedStates ) const
-{
-    wxASSERT(pState);
-
-    if ( includedStates & wxPGEditableState::Page )
-    {
-        pState->SetPage(m_selPage);
-    }
-    GetGrid()->SaveEditableState(pState, includedStates&~(wxPGEditableState::Expanded) );
-    if ( includedStates & wxPGEditableState::Expanded )
-    {
-        pState->SetExpanded(this);
-    }
-}
-
-void wxPropertyGridManager::RestoreEditableState( const wxPGMEditableState& state )
-{
-    //
-    // It is clearer to reimplement it entirely for manager
-    GetGrid()->Freeze();
-    if ( state.HasFlag(wxPGEditableState::Page) )
-    {
-        SelectPage(state.GetPage());
-    }
-    if ( state.HasFlag(wxPGEditableState::SplitterPos) )
-    {
-        const wxArrayInt& arr = state.GetSplitterPos();
-        for ( size_t i=0; i<arr.size(); i++ )
-        {
-            GetPage(i)->SetSplitterPosition(arr[i]);
-        }
-    }
-    DoRestoreEditableState(state, true);
-}
-
-// -----------------------------------------------------------------------
-
-wxPGMEditableState::wxPGMEditableState( const wxString& str )
-{
-    SetFromString( str );
-}
-
-wxPGMEditableState::wxPGMEditableState( const wxPropertyGridManager* pgm, int includedStates )
-{
-    pgm->SaveEditableState(this, includedStates);
 }
 
 // -----------------------------------------------------------------------

@@ -471,9 +471,9 @@ wxFontProperty::wxFontProperty( const wxString& label, const wxString& name,
 
     wxFont& font = wxFontFromVariant(m_value);
 
-    AddChild( new wxIntProperty( _("Point Size"),emptyString,(long)font.GetPointSize() ) );
+    AddChild( new wxIntProperty( _("Point Size"), wxT("Point Size"), (long)font.GetPointSize() ) );
 
-    AddChild( new wxEnumProperty(_("Family"), emptyString,
+    AddChild( new wxEnumProperty(_("Family"), wxT("Family"),
               gs_fp_es_family_labels,gs_fp_es_family_values,
               font.GetFamily()) );
 
@@ -483,20 +483,20 @@ wxFontProperty::wxFontProperty( const wxString& label, const wxString& name,
          wxPGGlobalVars->m_fontFamilyChoices->Index(faceName) == wxNOT_FOUND )
         wxPGGlobalVars->m_fontFamilyChoices->AddAsSorted(faceName);
 
-    wxPGProperty* p = new wxEnumProperty(_("Face Name"),emptyString,
+    wxPGProperty* p = new wxEnumProperty(_("Face Name"), wxT("Face Name"),
                                          *wxPGGlobalVars->m_fontFamilyChoices);
 
     p->SetValueFromString(faceName, wxPG_FULL_VALUE);
 
     AddChild( p );
 
-    AddChild( new wxEnumProperty(_("Style"),emptyString,
+    AddChild( new wxEnumProperty(_("Style"), wxT("Style"),
               gs_fp_es_style_labels,gs_fp_es_style_values,font.GetStyle()) );
 
-    AddChild( new wxEnumProperty(_("Weight"),emptyString,
+    AddChild( new wxEnumProperty(_("Weight"), wxT("Weight"),
               gs_fp_es_weight_labels,gs_fp_es_weight_values,font.GetWeight()) );
 
-    AddChild( new wxBoolProperty(_("Underlined"),emptyString,
+    AddChild( new wxBoolProperty(_("Underlined"), wxT("Underlined"),
               font.GetUnderlined()) );
 }
 
@@ -1943,10 +1943,10 @@ bool wxDateProperty::DoSetAttribute( const wxString& name, wxVariant& value )
 
 
 // -----------------------------------------------------------------------
-// wxPropertyContainerMethods
+// wxPropertyGridInterface
 // -----------------------------------------------------------------------
 
-void wxPropertyContainerMethods::InitAllTypeHandlers()
+void wxPropertyGridInterface::InitAllTypeHandlers()
 {
     //wxPG_INIT_REQUIRED_TYPE(wxColour)
     //wxPG_INIT_REQUIRED_TYPE(wxFont)
@@ -1959,7 +1959,7 @@ void wxPropertyContainerMethods::InitAllTypeHandlers()
 
 // -----------------------------------------------------------------------
 
-void wxPropertyContainerMethods::RegisterAdditionalEditors()
+void wxPropertyGridInterface::RegisterAdditionalEditors()
 {
 #if wxUSE_SPINBTN
     wxPGRegisterEditorClass(SpinCtrl);

@@ -113,9 +113,9 @@
     is mandatory. Second one, name, defaults to label and, third, the initial value, to
     default value. If constant wxPG_LABEL is used as the name argument, then the label is
     automatically used as a name as well (this is more efficient than manually
-    defining both as the same). Empty name is also allowed, but in this case the
-    property cannot be accessed by its name. Note that all property class constructors have
-    pretty much similar constructor argument list.
+    defining both as the same). Use of empty name is discouraged and will sometimes result in
+    run-time error. Note that all property class constructors have quite similar
+    constructor argument list.
 
     To demonstrate other common property classes, here's another code snippet:
 
@@ -183,7 +183,7 @@
     GetPropertyByName.
 
       Below are samples for using some of the more commong operations. See 
-    wxPropertyContainerMethods and wxPropertyGrid class references for complete list.
+    wxPropertyGridInterface and wxPropertyGrid class references for complete list.
 
     @code
 
@@ -573,7 +573,7 @@
     You can give some arguments to GetIterator to determine which properties
     get automatically filtered out. For complete list of options, see
     @link iteratorflags List of Property Iterator Flags@endlink. GetIterator()
-    also accepts other arguments. See wxPropertyContainerMethods::GetIterator()
+    also accepts other arguments. See wxPropertyGridInterface::GetIterator()
     for details.
     
     This example reverse-iterates through all visible items:
@@ -597,7 +597,7 @@
 
     GetIterator() only works with wxPropertyGrid and the individual pages
     of wxPropertyGridManager. In order to iterate through an arbitrary
-    property container, you need to use wxPropertyContainerMethods::GetVIterator().
+    property container, you need to use wxPropertyGridInterface::GetVIterator().
     Note however that this virtual iterater is limited to forward iteration.
 
     @code
@@ -697,25 +697,10 @@
 
     @subsection editablestate Saving and Restoring User-Editable State
 
-    You can use wxPGEditableState and wxPGMEditableState classes, and
-    wxPropertyGrid::SaveEditableState() and wxPropertyGrid::RestoreEditableState()
-    to save and restore user-editable state (selected property, expanded/
-    collapsed properties, and scrolled position). For convience with
-    program configuration, wxPGEditableState has functions to save/load
-    its value in wxString. For instance:
-
-    @code
-        // Save state into config
-        wxPGEditableState edState;
-        pg->SaveEditableState(&edState);
-        programConfig->Store(wxT("PropertyGridState"), edState.GetAsString());
-
-        // Restore state from config
-        wxPGEditableState edState;
-        edState.SetFromString(programConfig->Load(wxT("PropertyGridState")));
-        pg->RestoreEditableState(edState);
-    @endcode
-
+    You can use wxPropertyGridInterface::SaveEditableState() and
+    wxPropertyGridInterface::RestoreEditableState() to save and restore
+    user-editable state (selected property, expanded/collapsed properties,
+    selected page, scrolled position, and splitter positions).
 
     @section events Event Handling
 
@@ -813,7 +798,7 @@
 
     There are various ways to make sure user enters only correct values. First, you
     can use wxValidators similar to as you would with ordinary controls. Use
-    wxPropertyContainerMethods::SetPropertyValidator() to assign wxValidator to 
+    wxPropertyGridInterface::SetPropertyValidator() to assign wxValidator to 
     property.
 
     Second, you can subclass a property and override wxPGProperty::ValidateValue(),
@@ -861,7 +846,7 @@
     @section cellrender Customizing Individual Cell Appearance
 
     You can control text colour, background colour, and attached image of
-    each cell in the property grid. Use wxPropertyContainerMethods::SetPropertyCell() or
+    each cell in the property grid. Use wxPropertyGridInterface::SetPropertyCell() or
     wxPGProperty::SetCell() for this purpose.
 
     In addition, it is possible to control these characteristics for
@@ -958,7 +943,7 @@
     which can optionally have toolbar for mode and page selection, and a help text
     box.
 
-    wxPropertyGridManager inherits from wxPropertyContainerMethods, and as such
+    wxPropertyGridManager inherits from wxPropertyGridInterface, and as such
     it has most property manipulation functions. However, only some of them affect
     properties on all pages (eg. GetPropertyByName() and ExpandAll()), while some
     (eg. Append()) only apply to the currently selected page.
@@ -998,9 +983,6 @@
 
         wxPropertyGridPage* page;
 
-        // Adding a page sets target page to the one added, so
-        // we don't have to call SetTargetPage if we are filling
-        // it right after adding.
         pgMan->AddPage(wxT("First Page"));
         page = pgMan->GetLastPage();
 
@@ -1053,12 +1035,16 @@
 
     @subsection namescope Property Name Scope
 
-    - All properties which parent is category or root have their names
-      globally accessible.
+      All properties which parent is category or root can be accessed
+    directly by their base name (ie. name given for property in its constructor).
+    Other properties can be accessed via "ParentsName.BaseName" notation,
+    Naturally, all property names should be unique.
 
-    - Sub-properties (i.e. private child properties which have parent that is not category or
-      root or non-aggregate property) can not be accessed globally by their name. Instead, use
-      "<property>.<subproperty>".
+    @subsection nonuniquelabels Non-unique Labels
+
+      It is possible to have properties with identical label under same parent.
+    However, care must be taken to ensure that each property still has
+    unique (base) name.
 
     @subsection boolproperty wxBoolProperty
 
@@ -1308,7 +1294,9 @@
       - cursor down - moves to next visible property\n
       - cursor left - if collapsible, collapses, otherwise moves to previous property\n
       - cursor right - if expandable, expands, otherwise moves to next property\n
-      - tab (if enabled) - focuses keyboard to the editor control of selected property\n
+      - tab (if enabled) - focuses keyboard to the editor control of selected property
+        NOTE: This doesn't work at the moment (and is unlikely to be fixed). Same applies
+              to other tab key combos described below.\n
       Only when editor control is focused:\n
       - return/enter - confirms changes made to a wxTextCtrl based editor\n
       - tab - moves to next visible property (or, if in last one, moves out of grid)\n

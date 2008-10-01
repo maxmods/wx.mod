@@ -114,7 +114,7 @@ bool wxStringProperty::StringToValue( wxVariant& variant, const wxString& text, 
     if ( GetChildCount() && HasFlag(wxPG_PROP_COMPOSED_VALUE) )
         return wxPGProperty::StringToValue(variant, text, argFlags);
 
-    if ( m_value.GetString() != text )
+    if ( m_value.IsNull() || m_value.GetString() != text )
     {
         variant = text;
         return true;
@@ -409,7 +409,7 @@ bool wxIntProperty::StringToValue( wxVariant& variant, const wxString& text, int
 
         if ( useText.ToLong( &value32, 0 ) )
         {
-            if ( !isPrevLong || m_value.GetLong() != value32 )
+            if ( !isPrevLong || m_value.IsNull() || m_value.GetLong() != value32 )
             {
                 variant = value32;
                 return true;
@@ -620,7 +620,7 @@ bool wxUIntProperty::StringToValue( wxVariant& variant, const wxString& text, in
 
 bool wxUIntProperty::IntToValue( wxVariant& variant, int number, int WXUNUSED(argFlags) ) const
 {
-    if ( m_value != (long)number )
+    if ( m_value.IsNull() || m_value != (long)number )
     {
         variant = (long)number;
         return true;
@@ -788,7 +788,7 @@ bool wxFloatProperty::StringToValue( wxVariant& variant, const wxString& text, i
     bool res = text.ToDouble(&value);
     if ( res )
     {
-        if ( m_value != value )
+        if ( m_value.IsNull() || m_value != value )
         {
             variant = value;
             return true;
@@ -950,11 +950,12 @@ wxString wxBoolProperty::GetValueAsString( int argFlags ) const
 
 int wxBoolProperty::GetChoiceInfo( wxPGChoiceInfo* choiceinfo )
 {
+    if ( choiceinfo )
+        choiceinfo->m_choices = &wxPGGlobalVars->m_boolChoices;
+
     if ( IsValueUnspecified() )
         return -1;
 
-    if ( choiceinfo )
-        choiceinfo->m_choices = &wxPGGlobalVars->m_boolChoices;
     return m_value.GetBool()?1:0;
 }
 
@@ -972,9 +973,7 @@ bool wxBoolProperty::StringToValue( wxVariant& variant, const wxString& text, in
         return true;
     }
 
-    bool oldValue = m_value.GetBool();
-
-    if ( (oldValue && !value) || (!oldValue && value) )
+    if ( m_value.IsNull() || (m_value.GetBool() && !value) || (!m_value.GetBool() && value) )
     {
         variant = wxPGVariant_Bool(value);
         return true;
@@ -985,9 +984,8 @@ bool wxBoolProperty::StringToValue( wxVariant& variant, const wxString& text, in
 bool wxBoolProperty::IntToValue( wxVariant& variant, int value, int ) const
 {
     bool boolValue = value ? true : false;
-    bool oldValue = m_value.GetBool();
 
-    if ( oldValue != boolValue )
+    if ( m_value.IsNull() || boolValue != m_value.GetBool() )
     {
         variant = wxPGVariant_Bool(boolValue);
         return true;
@@ -1430,12 +1428,12 @@ void wxFlagsProperty::Init()
         #if wxUSE_INTL
             if ( wxPGGlobalVars->m_autoGetTranslation )
             {
-                boolProp = new wxBoolProperty( ::wxGetTranslation( GetLabel(i) ), wxEmptyString, child_val );
+                boolProp = new wxBoolProperty( ::wxGetTranslation( GetLabel(i) ), wxPG_LABEL, child_val );
             }
             else
         #endif
             {
-                boolProp = new wxBoolProperty( GetLabel(i), wxEmptyString, child_val );
+                boolProp = new wxBoolProperty( GetLabel(i), wxPG_LABEL, child_val );
             }
             AddChild(boolProp);
         }
@@ -1611,7 +1609,6 @@ bool wxFlagsProperty::StringToValue( wxVariant& variant, const wxString& text, i
         return false;
 
     long newFlags = 0;
-    long oldValue = m_value;
 
     // semicolons are no longer valid delimeters
     WX_PG_TOKENIZER1_BEGIN(text,wxT(','))
@@ -1636,7 +1633,7 @@ bool wxFlagsProperty::StringToValue( wxVariant& variant, const wxString& text, i
 
     variant = newFlags;
 
-    if ( newFlags != oldValue )
+    if ( m_value.IsNull() || newFlags != m_value.GetLong() )
         return true;
 
     return false;
@@ -2141,7 +2138,7 @@ bool wxLongStringProperty::DisplayEditorDialog( wxPGProperty* prop, wxPropertyGr
 
 bool wxLongStringProperty::StringToValue( wxVariant& variant, const wxString& text, int ) const
 {
-    if ( m_value != text )
+    if ( m_value.IsNull() || m_value != text )
     {
         variant = text;
         return true;
