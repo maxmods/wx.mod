@@ -82,3 +82,15 @@ Extern
 	Function bmx_wxdocument_updateallviews(handle:Byte Ptr, sender:Byte Ptr)
 
 End Extern
+
+Const wxDOC_SDI:Int = 1
+Const wxDOC_MDI:Int = 2
+Const wxDOC_NEW:Int = 3
+Const wxDOC_SILENT:Int = 4
+Const wxDEFAULT_DOCMAN_FLAGS:Int = wxDOC_SDI
+
+Const wxTEMPLATE_VISIBLE:Int = 1
+Const wxTEMPLATE_INVISIBLE:Int = 2
+Const wxDEFAULT_TEMPLATE_FLAGS:Int = wxTEMPLATE_VISIBLE
+
+

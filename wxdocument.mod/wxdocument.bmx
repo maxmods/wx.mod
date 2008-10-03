@@ -57,17 +57,36 @@ wxView, wxDocTemplate and wxDocManager types.
 End Rem
 Type wxDocument Extends wxEvtHandler
 
+	' soft linking
+	Function _create:wxDocument(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxDocument = New wxDocument
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _find:wxDocument(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local window:wxDocument = wxDocument(wxfind(wxObjectPtr))
+			If Not window Then
+				Return wxDocument._create(wxObjectPtr)
+			End If
+			Return window
+		End If
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
 	Function CreateDocument:wxDocument()
-		Return New wxDocument.create()
+		Return New wxDocument.Create()
 	End Function
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method create:wxDocument()
+	Method Create:wxDocument()
 		wxObjectPtr = bmx_wxdocument_create(Self)
 		OnInit()
 	End Method
@@ -413,6 +432,16 @@ Type wxView Extends wxEvtHandler
 			Return window
 		End If
 	End Function
+	
+	Function CreateView:wxView()
+		Return New wxView.Create()
+	End Function
+	
+	Method Create:wxView()
+'		wxObjectPtr = bmx_wxview_create(Self)
+		OnInit()
+		Return Self
+	End Method
 
 	Method Activate(doActivate:Int)
 '		bmx_wxview_activate(wxObjectPtr, doActivate)
@@ -547,5 +576,109 @@ Type wxDocTemplate Extends wxObject
 		End If
 	End Function
 
+	Rem
+	bbdoc: 
+	End Rem
+	Function CreateDocTemplate:wxDocTemplate(manager:wxDocManager, desc:String, filter:String, dir:String, ..
+			ext:String, docTypeName:String, viewTypeName:String, flags:Int = wxDEFAULT_TEMPLATE_FLAGS)
+		Return New wxDocTemplate.Create(manager, desc, filter, dir, ext, docTypeName, viewTypeName, flags)
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxDocTemplate(manager:wxDocManager, desc:String, filter:String, dir:String, ..
+			ext:String, docTypeName:String, viewTypeName:String, flags:Int = wxDEFAULT_TEMPLATE_FLAGS)
+'		wxObjectPtr = bmx_wxdoctemplate_create(Self, manager.wxObjectPtr, desc, filter, dir, ext, ..
+'			docTypeName, viewTypeName, flags)
+		OnInit()
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Called during template creation.
+	about: Override this method to provide your own initialization.
+	End Rem
+	Method OnInit()
+	End Method
+	
+	Rem
+	bbdoc: Creates a new instance of the associated document type.
+	about: You will need to override this method to return an appropriate document instance.
+	End Rem
+	Method CreateDocument:wxDocument(path:String, flags:Int = 0)
+		Local doc:wxDocument = New wxDocument.Create()
+		doc.SetFilename(path)
+		Return doc
+	End Method
+	
+	Function _CreateDocument:Byte Ptr(templ:wxDocTemplate, path:String, flags:Int = 0)
+		Return templ.CreateDocument(path, flags).wxObjectPtr
+	End Function
+	
+	Rem
+	bbdoc: Creates a new instance of the associated view type.
+	about: You will need to override this method to return an appropriate view instance.
+	End Rem
+	Method CreateView:wxView(doc:wxDocument, flags:Int = 0)
+		Local view:wxView = New wxView.Create()
+		view.SetDocument(doc)
+		Return view
+	End Method
+	
+	Function _CreateView:Byte Ptr(templ:wxDocTemplate, doc:Byte Ptr, flags:Int)
+		Return templ.CreateView(wxDocument._find(doc), flags).wxObjectPtr
+	End Function
+	
+	Method GetDefaultExtension:String()
+	End Method
+	
+	Method GetDescription:String()
+	End Method
+	
+	Method GetDirectory:String()
+	End Method
+	
+	Method GetDocumentManager:wxDocManager()
+	End Method
+	
+	Method GetDocumentName:String()
+	End Method
+	
+	Method GetFileFilter:String()
+	End Method
+	
+	Method GetFlags:Int()
+	End Method
+	
+	Method GetViewName:String()
+	End Method
+	
+	Method InitDocument:Int(doc:wxDocument, path:String, flags:Int = 0)
+	End Method
+	
+	Function _InitDocument:Int(templ:wxDocTemplate, doc:Byte Ptr, path:String, flags:Int)
+		Return templ.InitDocument(wxDocument._find(doc), path, flags)
+	End Function
+	
+	Method IsVisible:Int()
+	End Method
+	
+	Method SetDefaultExtension(ext:String)
+	End Method
+	
+	Method SetDescription(desc:String)
+	End Method
+	
+	Method SetDirectory(dir:String)
+	End Method
+	
+	Method SetFileFilter(filter:String)
+	End Method
+	
+	Method SetFlags(flags:Int)
+	End Method
+	
 End Type
+
 
