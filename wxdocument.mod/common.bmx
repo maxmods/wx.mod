@@ -23,6 +23,7 @@ SuperStrict
 Import wx.wx
 Import wx.wxCommandProcessor
 Import wx.wxWindow
+Import wx.wxPrintout
 Import BRL.Blitz
 
 
@@ -69,7 +70,7 @@ Extern
 	Function bmx_wxdocument_onopendocument:Int(handle:Byte Ptr, filename:String)
 	Function bmx_wxdocument_onsavedocument:Int(handle:Byte Ptr, filename:String)
 	Function bmx_wxdocument_onsavemodified:Int(handle:Byte Ptr)
-	Function bmx_wxdocument_removeview:int(handle:Byte Ptr, view:Byte Ptr)
+	Function bmx_wxdocument_removeview:Int(handle:Byte Ptr, view:Byte Ptr)
 	Function bmx_wxdocument_save:Int(handle:Byte Ptr)
 	Function bmx_wxdocument_saveas:Int(handle:Byte Ptr)
 	Function bmx_wxdocument_saveobject:Byte Ptr(handle:Byte Ptr, stream:Byte Ptr)

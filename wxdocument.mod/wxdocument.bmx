@@ -388,7 +388,11 @@ Type wxDocument Extends wxEvtHandler
 	
 End Type
 
-
+Rem
+bbdoc: The view type can be used to model the viewing and editing component of an application's file-based data.
+about: It is part of the document/view framework supported by wxWidgets, and cooperates with the
+wxDocument, wxDocTemplate and wxDocManager types.
+End Rem
 Type wxView Extends wxEvtHandler
 
 	' soft linking
@@ -410,8 +414,92 @@ Type wxView Extends wxEvtHandler
 		End If
 	End Function
 
+	Method Activate(doActivate:Int)
+'		bmx_wxview_activate(wxObjectPtr, doActivate)
+	End Method
+	
+	Method Close:Int(deleteWindow:Int = True)
+'		Return bmx_wxview_close(wxObjectPtr, deleteWindow)
+	End Method
+	
+	Method GetDocument:wxDocument()
+'		Return wxDocument._find(bmx_wxview_getdocument(wxObjectPtr))
+	End Method
+	
+	Method GetDocumentManager:wxDocManager()
+'		Return wxDocManager._find(bmx_wxview_getdocumentmanager(wxObjectPtr))
+	End Method
+	
+	Method GetFrame:wxWindow()
+'		Return wxWindow._find(bmx_wxview_getframe(wxObjectPtr))
+	End Method
+	
+	Method GetViewName:String()
+'		Return bmx_wxview_getviewname(wxObjectPtr)
+	End Method
+	
+	Method OnActivateView(activate:Int, activeView:wxView, deactiveView:wxView)
+	End Method
+	
+	Function _OnActivateView(view:wxView, activate:Int, activeView:Byte Ptr, deactiveView:Byte Ptr)
+	End Function
+	
+	Method OnChangeFilename()
+	End Method
+	
+	Function _OnChangeFilename(view:wxView)
+	End Function
+	
+	Method OnClose:Int(deleteWindow:Int)
+	End Method
+	
+	Function _OnClose:Int(view:wxView, deletewindow:Int)
+	End Function
+	
+	Method OnClosingDocument()
+	End Method
+	
+	Function _OnClosingDocument(view:wxView)
+	End Function
+	
+	Method OnCreate:Int(doc:wxDocument, flags:Int)
+	End Method
+	
+	Function _OnCreate:Int(view:wxView, doc:Byte Ptr, flags:Int)
+	End Function
+	
+	Method OnCreatePrintout:wxPrintout()
+	End Method
+	
+	Function _OnCreatePrintout:Byte Ptr(view:wxView)
+	End Function
+	
+	Method OnDraw(dc:wxDC)
+	End Method
+	
+	Function _OnDraw(view:wxView, dc:Byte Ptr)
+	End Function
+	
+	Method OnUpdate(sender:wxView)
+	End Method
+	
+	Function _OnUpdate(view:wxView, sender:wxView)
+	End Function
+	
+	Method SetDocument(doc:wxDocument)
+	End Method
+	
+	Method SetFrame(frame:wxWindow)
+	End Method
+	
+	Method SetViewName(name:String)
+	End Method
+	
 End Type
 
+Rem
+bbdoc: The wxDocManager type is part of the document/view framework supported by wxWidgets, and cooperates with the wxView, wxDocument and wxDocTemplate types.
+End Rem
 Type wxDocManager Extends wxEvtHandler
 
 	' soft linking
@@ -435,6 +523,9 @@ Type wxDocManager Extends wxEvtHandler
 
 End Type
 
+Rem
+bbdoc: The wxDocTemplate type is used to model the relationship between a document type and a view type.
+End Rem
 Type wxDocTemplate Extends wxObject
 
 	' soft linking

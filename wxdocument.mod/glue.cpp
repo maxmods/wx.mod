@@ -26,8 +26,12 @@
 
 IMPLEMENT_DYNAMIC_CLASS(MaxDocument , wxDocument)
 
+// called when the framework creates an instance of wxDocument
 MaxDocument::MaxDocument()
 {
+	// create a bmx object and bind to self
+	maxHandle = _wx_wxdocument_wxDocument__create(this);
+	wxbind(this, maxHandle);
 }
 
 MaxDocument::MaxDocument(BBObject * handle)
@@ -119,6 +123,27 @@ bool MaxDocument::IsModified_default() {
 
 void MaxDocument::Modify_default(bool doModify) {
 	wxDocument::Modify(doModify);
+}
+
+// +++++++++++++++++++++++++++++++++++++++++++++
+
+IMPLEMENT_DYNAMIC_CLASS(MaxView , wxView)
+
+// called when the framework creates an instance of wxView
+MaxView::MaxView() {
+	// create a bmx object and bind to self
+	maxHandle = _wx_wxdocument_wxView__create(this);
+	wxbind(this, maxHandle);
+}
+
+MaxView::MaxView(BBObject * handle)
+	: maxHandle(handle)
+{
+	wxbind(this, handle);
+}
+
+MaxView::~MaxView() {
+	wxunbind(this);
 }
 
 // *********************************************

@@ -24,11 +24,13 @@
 #include "wx/docview.h"
 
 class MaxDocument;
+class MaxView;
 
 extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxdocument_wxDocument__create(wxDocument * doc);
 	void _wx_wxdocument_wxDocument__OnChangedViewList(BBObject * handle);
 	bool _wx_wxdocument_wxDocument__OnCloseDocument(BBObject * handle);
 	bool _wx_wxdocument_wxDocument__OnCreate(BBObject * handle, BBString * path, long flags);
@@ -39,6 +41,8 @@ extern "C" {
 	bool _wx_wxdocument_wxDocument__OnSaveModified(BBObject * handle);
 	bool _wx_wxdocument_wxDocument__IsModified(BBObject * handle);
 	void _wx_wxdocument_wxDocument__Modify(BBObject * handle, bool doModify);
+
+	BBObject * _wx_wxdocument_wxView__create(wxView * view);
 
 	wxDocument * bmx_wxdocument_create(BBObject * handle);
 	bool bmx_wxdocument_addview(wxDocument * doc, wxView * view);
@@ -115,3 +119,21 @@ public:
 private:
 	BBObject * maxHandle;
 };
+
+class MaxView : public wxView
+{
+
+	DECLARE_DYNAMIC_CLASS(MaxView)
+
+public:
+	MaxView();
+	MaxView(BBObject * handle);
+	~MaxView();
+
+	void OnDraw(wxDC* dc);
+
+private:
+	BBObject * maxHandle;
+};
+
+
