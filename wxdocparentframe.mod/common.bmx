@@ -45,4 +45,7 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxdocparentframe_create:Byte Ptr(handle:Object, manager:Byte Ptr, parent:Byte Ptr, id:Int, title:String, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxdocparentframe_getdocumentmanager:Byte Ptr(handle:Byte Ptr)
+
 End Extern

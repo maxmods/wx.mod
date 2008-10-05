@@ -21,15 +21,32 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/docview.h"
 
-//class MaxNotebook;
+class MaxDocParentFrame;
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxDocParentFrame * bmx_wxdocparentframe_create(BBObject * handle, wxDocManager * manager, wxFrame * parent, 
+			wxWindowID id, BBString * title, int x, int y, int w, int h, long style);
+	wxDocManager * bmx_wxdocparentframe_getdocumentmanager(wxDocParentFrame * frame);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxDocParentFrame : public wxDocParentFrame
+{
+public:
+	MaxDocParentFrame(BBObject * handle, wxDocManager * manager, wxFrame * parent, wxWindowID id, const wxString& title, int x,
+		int y, int w, int h, long style);
+	~MaxDocParentFrame();
+
+private:
+	
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};
 

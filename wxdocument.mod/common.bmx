@@ -24,6 +24,8 @@ Import wx.wx
 Import wx.wxCommandProcessor
 Import wx.wxWindow
 Import wx.wxPrintout
+Import wx.wxConfig
+Import wx.wxFileHistory
 Import BRL.Blitz
 
 
@@ -80,6 +82,69 @@ Extern
 	Function bmx_wxdocument_setfilename(handle:Byte Ptr, filename:String, notifyViews:Int)
 	Function bmx_wxdocument_settitle(handle:Byte Ptr, title:String)
 	Function bmx_wxdocument_updateallviews(handle:Byte Ptr, sender:Byte Ptr)
+
+	Function bmx_wxdoctemplate_create:Byte Ptr(handle:Object, manager:Byte Ptr, desc:String, filter:String, dir:String, ext:String, ..
+			docTypeName:String, viewTypeName:String, flags:Int)
+	Function bmx_wxdoctemplate_getdefaultextension:String(handle:Byte Ptr)
+	Function bmx_wxdoctemplate_getdescription:String(handle:Byte Ptr)
+	Function bmx_wxdoctemplate_getdirectory:String(handle:Byte Ptr)
+	Function bmx_wxdoctemplate_getdocumentmanager:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxdoctemplate_getdocumentname:String(handle:Byte Ptr)
+	Function bmx_wxdoctemplate_getfilefilter:String(handle:Byte Ptr)
+	Function bmx_wxdoctemplate_getflags:Int(handle:Byte Ptr)
+	Function bmx_wxdoctemplate_getviewname:String(handle:Byte Ptr)
+	Function bmx_wxdoctemplate_initdocument:Int(handle:Byte Ptr, doc:Byte Ptr, path:String, flags:Int)
+	Function bmx_wxdoctemplate_isvisible:Int(handle:Byte Ptr)
+	Function bmx_wxdoctemplate_setdefaultextension(handle:Byte Ptr, ext:String)
+	Function bmx_wxdoctemplate_setdescription(handle:Byte Ptr, desc:String)
+	Function bmx_wxdoctemplate_setdirectory(handle:Byte Ptr, dir:String)
+	Function bmx_wxdoctemplate_setfilefilter(handle:Byte Ptr, filter:String)
+	Function bmx_wxdoctemplate_setflags(handle:Byte Ptr, flags:Int)
+
+	Function bmx_wxdocmanager_create:Byte Ptr(handle:Object)
+	Function bmx_wxdocmanager_activateview(handle:Byte Ptr, doc:Byte Ptr, activate:Int)
+	Function bmx_wxdocmanager_adddocument(handle:Byte Ptr, doc:Byte Ptr)
+	Function bmx_wxdocmanager_addfiletohistory(handle:Byte Ptr, filename:String)
+	Function bmx_wxdocmanager_associatetemplate(handle:Byte Ptr, temp:Byte Ptr)
+	Function bmx_wxdocmanager_closedocuments:Int(handle:Byte Ptr, force:Int)
+	Function bmx_wxdocmanager_createdocument:Byte Ptr(handle:Byte Ptr, path:String, flags:Int)
+	Function bmx_wxdocmanager_createview:Byte Ptr(handle:Byte Ptr, doc:Byte Ptr, flags:Int)
+	Function bmx_wxdocmanager_disassociatetemplate(handle:Byte Ptr, temp:Byte Ptr)
+	Function bmx_wxdocmanager_filehistoryaddfilestomenu(handle:Byte Ptr)
+	Function bmx_wxdocmanager_filehistoryload(handle:Byte Ptr, config:Byte Ptr)
+	Function bmx_wxdocmanager_filehistoryremovemenu(handle:Byte Ptr, menu:Byte Ptr)
+	Function bmx_wxdocmanager_filehistorysave(handle:Byte Ptr, resourceFile:Byte Ptr)
+	Function bmx_wxdocmanager_filehistoryusemenu(handle:Byte Ptr, menu:Byte Ptr)
+	Function bmx_wxdocmanager_findtemplateforpath:Byte Ptr(handle:Byte Ptr, path:String)
+	Function bmx_wxdocmanager_getcurrentdocument:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxdocmanager_getcurrentview:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxdocmanager_getfilehistory:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxdocmanager_getlastdirectory:String(handle:Byte Ptr)
+	Function bmx_wxdocmanager_getmaxdocsopen:Int(handle:Byte Ptr)
+	Function bmx_wxdocmanager_gethistoryfilescount:Int(handle:Byte Ptr)
+	Function bmx_wxdocmanager_makedefaultname:String(handle:Byte Ptr)
+	Function bmx_wxdocmanager_removedocument(handle:Byte Ptr, doc:Byte Ptr)
+	Function bmx_wxdocmanager_setlastdirectory(handle:Byte Ptr, dir:String)
+	Function bmx_wxdocmanager_setmaxdocsopen(handle:Byte Ptr, num:Int)
+
+	Function bmx_wxview_create:Byte Ptr(handle:Object)
+	Function bmx_wxview_activate(handle:Byte Ptr, doActivate:Int)
+	Function bmx_wxview_close(handle:Byte Ptr, deleteWindow:Int)
+	Function bmx_wxview_getdocument:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxview_getdocumentmanager:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxview_getframe:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxview_getviewname:String(handle:Byte Ptr)
+	Function bmx_wxview_onactivateview(handle:Byte Ptr, activate:Int, activeView:Byte Ptr, deactiveView:Byte Ptr)
+	Function bmx_wxview_onchangefilename(handle:Byte Ptr)
+	Function bmx_wxview_onclose:Int(handle:Byte Ptr, deleteWindow:Int)
+	Function bmx_wxview_onclosingdocument(handle:Byte Ptr)
+	Function bmx_wxView_oncreate:Int(handle:Byte Ptr, doc:Byte Ptr, flags:Int)
+	Function bmx_wxview_oncreateprintout:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxview_ondraw(handle:Byte Ptr, dc:Byte Ptr)
+	Function bmx_wxview_onupdate(handle:Byte Ptr, sender:Byte Ptr)
+	Function bmx_wxview_setdocument(handle:Byte Ptr, doc:Byte Ptr)
+	Function bmx_wxview_setframe(handle:Byte Ptr, frame:Byte Ptr)
+	Function bmx_wxview_setviewname(handle:Byte Ptr, name:String)
 
 End Extern
 

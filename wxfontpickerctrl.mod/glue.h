@@ -44,6 +44,8 @@ extern "C" {
 	void bmx_wxfontpickerevent_setfont(wxFontPickerEvent & event, MaxFont * font);
 
 	int bmx_wxfontpickerctrl_geteventtype(int type);
+	
+	void bmx_wxfontpickerctrl_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

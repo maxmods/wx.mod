@@ -63,12 +63,17 @@ Type wxDocParentFrame Extends wxFrame
 	
 	Method CreateDP:wxDocParentFrame(manager:wxDocManager, parent:wxFrame, id:Int, title:String, ..
 			x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_FRAME_STYLE)
-'		wxObjectPtr = bmx_wxdocparentframe_create(...
+		If parent Then
+			wxObjectPtr = bmx_wxdocparentframe_create(Self, manager.wxObjectPtr, parent.wxObjectPtr, id, title, x, y, w, h, style)
+		Else
+			wxObjectPtr = bmx_wxdocparentframe_create(Self, manager.wxObjectPtr, Null, id, title, x, y, w, h, style)
+		End If
 		OnInit()
 		Return Self
 	End Method
 
 	Method GetDocumentManager:wxDocManager()
+		Return wxDocManager._find(bmx_wxdocparentframe_getdocumentmanager(wxObjectPtr))
 	End Method
 	
 End Type

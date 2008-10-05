@@ -24,8 +24,28 @@
 
 // ---------------------------------------------------------------------------------------
 
+BEGIN_EVENT_TABLE(MaxDocParentFrame, wxDocParentFrame)
+END_EVENT_TABLE()
 
+MaxDocParentFrame::MaxDocParentFrame(BBObject * handle, wxDocManager * manager, wxFrame * parent, wxWindowID id, const wxString& title, int x,
+		int y, int w, int h, long style)
+       : wxDocParentFrame(manager, parent, id, title, wxPoint(x, y), wxSize(w,h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxDocParentFrame::~MaxDocParentFrame() {
+	wxunbind(this);
+}
 
 // *********************************************
 
 
+wxDocParentFrame * bmx_wxdocparentframe_create(BBObject * handle, wxDocManager * manager, wxFrame * parent, 
+		wxWindowID id, BBString * title, int x, int y, int w, int h, long style) {
+	return new MaxDocParentFrame(handle, manager, parent, id, wxStringFromBBString(title), x, y, w, h, style);
+}
+
+wxDocManager * bmx_wxdocparentframe_getdocumentmanager(wxDocParentFrame * frame) {
+	return frame->GetDocumentManager();
+}

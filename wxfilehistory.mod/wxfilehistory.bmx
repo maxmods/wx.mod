@@ -58,6 +58,25 @@ application, where the file history should appear on each MDI child menu as well
 End Rem
 Type wxFileHistory Extends wxObject
 
+	' soft linking
+	Function _create:wxFileHistory(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxFileHistory = New wxFileHistory
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _find:wxFileHistory(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local window:wxFileHistory = wxFileHistory(wxfind(wxObjectPtr))
+			If Not window Then
+				Return wxFileHistory._create(wxObjectPtr)
+			End If
+			Return window
+		End If
+	End Function
+
 	Rem
 	bbdoc: Constructor.
 	about: Pass the maximum number of files that should be stored and displayed.

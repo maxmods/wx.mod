@@ -433,95 +433,231 @@ Type wxView Extends wxEvtHandler
 		End If
 	End Function
 	
+	Rem
+	bbdoc: Creates a new wxView Object.
+	End Rem
 	Function CreateView:wxView()
 		Return New wxView.Create()
 	End Function
 	
+	Rem
+	bbdoc: Creates a new wxView Object.
+	about: You should call this method as part of your own implementation's instantiation. For example :
+	<pre>
+	Local myView:TMyView = New TMyView.Create()
+	</pre>
+	This method also calls OnInit().
+	End Rem
 	Method Create:wxView()
-'		wxObjectPtr = bmx_wxview_create(Self)
+		wxObjectPtr = bmx_wxview_create(Self)
 		OnInit()
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: Call this from your view frame's OnActivate method to tell the framework which view is currently active.
+	about: If your windowing system doesn't call OnActivate, you may need to call this method from any place
+	where you know the view must be active, and the framework will need to get the current view.
+	<p>
+	The prepackaged view frame wxDocChildFrame calls wxView::Activate from its OnActivate member.
+	</p>
+	<p>
+	This method calls wxView::OnActivateView.
+	</p>
+	End Rem
 	Method Activate(doActivate:Int)
-'		bmx_wxview_activate(wxObjectPtr, doActivate)
+		bmx_wxview_activate(wxObjectPtr, doActivate)
 	End Method
 	
+	Rem
+	bbdoc: Closes the view by calling OnClose.
+	about: If @deleteWindow is true, this function should delete the window associated with the view.
+	End Rem
 	Method Close:Int(deleteWindow:Int = True)
-'		Return bmx_wxview_close(wxObjectPtr, deleteWindow)
+		Return bmx_wxview_close(wxObjectPtr, deleteWindow)
 	End Method
 	
+	Rem
+	bbdoc: Returns the document associated with the view.
+	End Rem
 	Method GetDocument:wxDocument()
-'		Return wxDocument._find(bmx_wxview_getdocument(wxObjectPtr))
+		Return wxDocument._find(bmx_wxview_getdocument(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns the document manager instance associated with this view.
+	End Rem
 	Method GetDocumentManager:wxDocManager()
-'		Return wxDocManager._find(bmx_wxview_getdocumentmanager(wxObjectPtr))
+		Return wxDocManager._find(bmx_wxview_getdocumentmanager(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Gets the frame associated with the view (if any).
+	about: Note that this 'frame' is not a wxFrame at all in the generic MDI implementation which uses
+	the notebook pages instead of the frames and this is why this method returns a wxWindow and
+	not a wxFrame.
+	End Rem
 	Method GetFrame:wxWindow()
-'		Return wxWindow._find(bmx_wxview_getframe(wxObjectPtr))
+		Return wxWindow._find(bmx_wxview_getframe(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Gets the name associated with the view (passed to the wxDocTemplate constructor). Not currently used by the framework.
+	End Rem
 	Method GetViewName:String()
-'		Return bmx_wxview_getviewname(wxObjectPtr)
+		Return bmx_wxview_getviewname(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Called when a view is activated by means of wxView::Activate.
+	about: The default implementation does nothing.
+	<p>
+	Override this method to provide your own functionality.
+	</p>
+	End Rem
 	Method OnActivateView(activate:Int, activeView:wxView, deactiveView:wxView)
+		bmx_wxview_onactivateview(wxObjectPtr, activate, activeView.wxObjectPtr, deactiveView.wxObjectPtr)
 	End Method
 	
 	Function _OnActivateView(view:wxView, activate:Int, activeView:Byte Ptr, deactiveView:Byte Ptr)
+		view.OnActivateView(activate, wxView._find(activeView), wxView._find(deactiveView))
 	End Function
 	
+	Rem
+	bbdoc: Called when the filename has changed.
+	about: The default implementation constructs a suitable title and sets the title of the view frame (if any).
+	<p>
+	Override this method to provide your own functionality.
+	</p>
+	End Rem
 	Method OnChangeFilename()
+		bmx_wxview_onchangefilename(wxObjectPtr)
 	End Method
 	
 	Function _OnChangeFilename(view:wxView)
+		view.OnChangeFilename()
 	End Function
 	
+	Rem
+	bbdoc: Implements closing behaviour.
+	about: The default implementation calls wxDocument::Close to close the associated document. Does
+	not delete the view. The application may wish to do some cleaning up operations in this method, if
+	a call to wxDocument::Close succeeded. For example, if your views all share the same window, you
+	need to disassociate the window from the view and perhaps clear the window. If deleteWindow is true,
+	delete the frame associated with the view.
+	<p>
+	Override this method to provide your own functionality.
+	</p>
+	End Rem
 	Method OnClose:Int(deleteWindow:Int)
+		Return bmx_wxview_onclose(wxObjectPtr, deleteWindow)
 	End Method
 	
-	Function _OnClose:Int(view:wxView, deletewindow:Int)
+	Function _OnClose:Int(view:wxView, deleteWindow:Int)
+		Return view.OnClose(deleteWindow)
 	End Function
 	
+	Rem
+	bbdoc: Override this to clean up the view when the document is being closed.
+	End Rem
 	Method OnClosingDocument()
+		bmx_wxview_onclosingdocument(wxObjectPtr)
 	End Method
 	
 	Function _OnClosingDocument(view:wxView)
+		view.OnClosingDocument()
 	End Function
 	
+	Rem
+	bbdoc: wxDocManager or wxDocument creates a wxView via a wxDocTemplate.
+	about: Just after the wxDocTemplate creates the wxView, it calls wxView::OnCreate. In its OnCreate
+	member function, the wxView can create a wxDocChildFrame or a derived class. This wxDocChildFrame
+	provides user interface elements to view and/or edit the contents of the wxDocument.
+	<p>
+	By default, simply returns true. If the method returns false, the view will be deleted.
+	</p>
+	<p>
+	Override this method to provide your own functionality.
+	</p>
+	End Rem
 	Method OnCreate:Int(doc:wxDocument, flags:Int)
+		Return bmx_wxView_oncreate(wxObjectPtr, doc.wxObjectPtr, flags)
 	End Method
 	
 	Function _OnCreate:Int(view:wxView, doc:Byte Ptr, flags:Int)
+		Return view.OnCreate(wxDocument._find(doc), flags)
 	End Function
 	
+	Rem
+	bbdoc: If the printing framework is enabled in the library, this method returns a wxPrintout object for the purposes of printing.
+	about: It should create a new object every time it is called; the framework will delete objects it
+	creates.
+	<p>
+	By default, this function returns an instance of wxDocPrintout, which prints and previews one page by calling wxView::OnDraw.
+	</p>
+	<p>
+	Override to return an instance of a class other than wxDocPrintout.
+	</p>
+	End Rem
 	Method OnCreatePrintout:wxPrintout()
+		Return wxPrintout._create(bmx_wxview_oncreateprintout(wxObjectPtr))
 	End Method
 	
 	Function _OnCreatePrintout:Byte Ptr(view:wxView)
+		Return View.OnCreatePrintout().wxObjectPtr
 	End Function
 	
+	Rem
+	bbdoc: Override this function to render the view on the given device context.
+	End Rem
 	Method OnDraw(dc:wxDC)
+		bmx_wxview_ondraw(wxObjectPtr, dc.wxObjectPtr)
 	End Method
 	
 	Function _OnDraw(view:wxView, dc:Byte Ptr)
+		view.OnDraw(wxDC._create(dc))
 	End Function
 	
+	Rem
+	bbdoc: Called when the view should be updated.
+	about: @sender is a pointer to the view that sent the update request, or NULL if no single view
+	requested the update (for instance, when the document is opened).
+	<p>
+	Override this method to provide your own functionality.
+	</p>
+	End Rem
 	Method OnUpdate(sender:wxView)
+		bmx_wxview_onupdate(wxObjectPtr, sender.wxObjectPtr)
 	End Method
 	
-	Function _OnUpdate(view:wxView, sender:wxView)
+	Function _OnUpdate(view:wxView, sender:Byte Ptr)
+		view.OnUpdate(wxView._find(sender))
 	End Function
 	
+	Rem
+	bbdoc: Associates the given document with the view. Normally called by the framework.
+	End Rem
 	Method SetDocument(doc:wxDocument)
+		bmx_wxview_setdocument(wxObjectPtr, doc.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the frame associated with this view.
+	about: The application should call this if possible, to tell the view about the frame.
+	<p>
+	See GetFrame for the explanation about the mismatch between the "Frame'' in the method name
+	and the type of its parameter.
+	</p>
+	End Rem
 	Method SetFrame(frame:wxWindow)
+		bmx_wxview_setframe(wxObjectPtr, frame.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the view type name. Should only be called by the framework.
+	End Rem
 	Method SetViewName(name:String)
+		bmx_wxview_setviewname(wxObjectPtr, name)
 	End Method
 	
 End Type
@@ -550,6 +686,225 @@ Type wxDocManager Extends wxEvtHandler
 		End If
 	End Function
 
+	Rem
+	bbdoc: Creates a new wxDocManager object.
+	End Rem
+	Function CreateDocManager:wxDocManager()
+		Return New wxDocManager.Create()
+	End Function
+	
+	Rem
+	bbdoc: Creates a new wxDocManager object.
+	End Rem
+	Method Create:wxDocManager()
+		wxObjectPtr = bmx_wxdocmanager_create(Self)
+		OnInit()
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Sets the current view.
+	End Rem
+	Method ActivateView(doc:wxView, activate:Int = True)
+		bmx_wxdocmanager_activateview(wxObjectPtr, doc.wxObjectPtr, activate)
+	End Method
+	
+	Rem
+	bbdoc: Adds the document to the list of documents.
+	End Rem
+	Method AddDocument(doc:wxDocument)
+		bmx_wxdocmanager_adddocument(wxObjectPtr, doc.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Adds a file to the file history list, if we have a reference to an appropriate file menu.
+	End Rem
+	Method AddFileToHistory(filename:String)
+		bmx_wxdocmanager_addfiletohistory(wxObjectPtr, filename)
+	End Method
+	
+	Rem
+	bbdoc: Adds the template to the document manager's template list.
+	End Rem
+	Method AssociateTemplate(temp:wxDocTemplate)
+		bmx_wxdocmanager_associatetemplate(wxObjectPtr, temp.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Closes all currently opened documents.
+	End Rem
+	Method CloseDocuments:Int(force:Int = True)
+		Return bmx_wxdocmanager_closedocuments(wxObjectPtr, force)
+	End Method
+	
+	Rem
+	bbdoc: Creates a new document in a manner determined by the flags parameter.
+	about: @flags can be:
+	<ul>
+	<li>wxDOC_NEW Creates a fresh document.</li>
+	<li>wxDOC_SILENT Silently loads the given document file. </li>
+	</ul>
+	If wxDOC_NEW is present, a new document will be created and returned, possibly after asking the
+	user for a template to use if there is more than one document template. If wxDOC_SILENT is present,
+	a new document will be created and the given file loaded into it. If neither of these flags is
+	present, the user will be presented with a file selector for the file to load, and the template
+	to use will be determined by the extension (Windows) or by popping up a template choice list (other
+	platforms).
+	<p>
+	If the maximum number of documents has been reached, this function will delete the oldest currently
+	loaded document before creating a new one.
+	</p>
+	End Rem
+	Method CreateDocument:wxDocument(path:String, flags:Int)
+		Return wxDocument._find(bmx_wxdocmanager_createdocument(wxObjectPtr, path, flags))
+	End Method
+	
+	Rem
+	bbdoc: Creates a new view for the given document.
+	about: If more than one view is allowed for the document (by virtue of multiple templates mentioning
+	the same document type), a choice of view is presented to the user.
+	End Rem
+	Method CreateView:wxView(doc:wxDocument, flags:Int)
+		Return wxView._find(bmx_wxdocmanager_createview(wxObjectPtr, doc.wxObjectPtr, flags))
+	End Method
+	
+	Rem
+	bbdoc: Removes the template from the list of templates.
+	End Rem
+	Method DisassociateTemplate(temp:wxDocTemplate)
+		bmx_wxdocmanager_disassociatetemplate(wxObjectPtr, temp.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Appends the files in the history list, to all menus managed by the file history object.
+	End Rem
+	Method FileHistoryAddFilesToMenu()
+		bmx_wxdocmanager_filehistoryaddfilestomenu(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Loads the file history from a config object.
+	End Rem
+	Method FileHistoryLoad(config:wxConfigBase)
+		bmx_wxdocmanager_filehistoryload(wxObjectPtr, config.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Removes the given menu from the list of menus managed by the file history object.
+	End Rem
+	Method FileHistoryRemoveMenu(menu:wxMenu)
+		bmx_wxdocmanager_filehistoryremovemenu(wxObjectPtr, menu.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Saves the file history into a config object.
+	about: This must be called explicitly by the application.
+	End Rem
+	Method FileHistorySave(resourceFile:wxConfigBase)
+		bmx_wxdocmanager_filehistorysave(wxObjectPtr, resourceFile.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Use this menu for appending recently-visited document filenames, for convenient access.
+	about: Calling this method with a valid menu enables the history list functionality.
+	<p>
+	Note that you can add multiple menus using this method, to be managed by the file history object.
+	</p>
+	End Rem
+	Method FileHistoryUseMenu(menu:wxMenu)
+		bmx_wxdocmanager_filehistoryusemenu(wxObjectPtr, menu.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Given a path, try to find template that matches the extension.
+	about: This is only an approximate method of finding a template for creating a document.
+	End Rem
+	Method FindTemplateForPath:wxDocTemplate(path:String)
+		Return wxDocTemplate._find(bmx_wxdocmanager_findtemplateforpath(wxObjectPtr, path))
+	End Method
+	
+	Rem
+	bbdoc: Returns the document associated with the currently active view (if any).
+	End Rem
+	Method GetCurrentDocument:wxDocument()
+		Return wxDocument._find(bmx_wxdocmanager_getcurrentdocument(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the currently active view 
+	End Rem
+	Method GetCurrentView:wxView()
+		Return wxView._find(bmx_wxdocmanager_getcurrentview(wxObjectPtr))
+	End Method
+	
+	Method GetDocuments:wxDocument[]()
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: Returns the file history.
+	End Rem
+	Method GetFileHistory:wxFileHistory()
+		Return wxFileHistory._find(bmx_wxdocmanager_getfilehistory(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Returns the directory last selected by the user when opening a file. Initially empty.
+	End Rem
+	Method GetLastDirectory:String()
+		Return bmx_wxdocmanager_getlastdirectory(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the number of documents that can be open simultaneously.
+	End Rem
+	Method GetMaxDocsOpen:Int()
+		Return bmx_wxdocmanager_getmaxdocsopen(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Returns the number of files currently stored in the file history.
+	End Rem
+	Method GetHistoryFilesCount:Int()
+		Return bmx_wxdocmanager_gethistoryfilescount(wxObjectPtr)
+	End Method
+	
+	Method GetTemplates:wxDocTemplate[]()
+		' TODO
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method MakeDefaultName:String()
+		Return bmx_wxdocmanager_makedefaultname(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Removes the document from the list of documents.
+	End Rem
+	Method RemoveDocument(doc:wxDocument)
+		bmx_wxdocmanager_removedocument(wxObjectPtr, doc.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets the directory to be displayed to the user when opening a file. Initially this is empty.
+	End Rem
+	Method SetLastDirectory(dir:String)
+		bmx_wxdocmanager_setlastdirectory(wxObjectPtr, dir)
+	End Method
+	
+	Rem
+	bbdoc: Sets the maximum number of documents that can be open at a time.
+	about: By default, this is 10,000. If you set it to 1, existing documents will be saved and deleted
+	when the user tries to open or create a new one (similar to the behaviour of Windows Write, for
+	example). Allowing multiple documents gives behaviour more akin to MS Word and other Multiple
+	Document Interface applications.
+	End Rem
+	Method SetMaxDocsOpen(num:Int)
+		bmx_wxdocmanager_setmaxdocsopen(wxObjectPtr, num)
+	End Method
+	
 End Type
 
 Rem
@@ -577,7 +932,7 @@ Type wxDocTemplate Extends wxObject
 	End Function
 
 	Rem
-	bbdoc: 
+	bbdoc: Creates a new wxDocTemplate object.
 	End Rem
 	Function CreateDocTemplate:wxDocTemplate(manager:wxDocManager, desc:String, filter:String, dir:String, ..
 			ext:String, docTypeName:String, viewTypeName:String, flags:Int = wxDEFAULT_TEMPLATE_FLAGS)
@@ -585,12 +940,12 @@ Type wxDocTemplate Extends wxObject
 	End Function
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates a new wxDocTemplate object.
 	End Rem
 	Method Create:wxDocTemplate(manager:wxDocManager, desc:String, filter:String, dir:String, ..
 			ext:String, docTypeName:String, viewTypeName:String, flags:Int = wxDEFAULT_TEMPLATE_FLAGS)
-'		wxObjectPtr = bmx_wxdoctemplate_create(Self, manager.wxObjectPtr, desc, filter, dir, ext, ..
-'			docTypeName, viewTypeName, flags)
+		wxObjectPtr = bmx_wxdoctemplate_create(Self, manager.wxObjectPtr, desc, filter, dir, ext, ..
+			docTypeName, viewTypeName, flags)
 		OnInit()
 		Return Self
 	End Method
@@ -630,53 +985,117 @@ Type wxDocTemplate Extends wxObject
 		Return templ.CreateView(wxDocument._find(doc), flags).wxObjectPtr
 	End Function
 	
+	Rem
+	bbdoc: Returns the default file extension for the document data, as passed to the document template constructor.
+	End Rem
 	Method GetDefaultExtension:String()
+		Return bmx_wxdoctemplate_getdefaultextension(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the text description of this template, as passed to the document template constructor.
+	End Rem
 	Method GetDescription:String()
+		Return bmx_wxdoctemplate_getdescription(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the default directory, as passed to the document template constructor.
+	End Rem
 	Method GetDirectory:String()
+		Return bmx_wxdoctemplate_getdirectory(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns a pointer to the document manager instance for which this template was created.
+	End Rem
 	Method GetDocumentManager:wxDocManager()
+		Return wxDocManager._find(bmx_wxdoctemplate_getdocumentmanager(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns the document type name, as passed to the document template constructor.
+	End Rem
 	Method GetDocumentName:String()
+		Return bmx_wxdoctemplate_getdocumentname(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the file filter, as passed to the document template constructor.
+	End Rem
 	Method GetFileFilter:String()
+		Return bmx_wxdoctemplate_getfilefilter(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the flags, as passed to the document template constructor.
+	End Rem
 	Method GetFlags:Int()
+		Return bmx_wxdoctemplate_getflags(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Returns the view type name, as passed to the document template constructor.
+	End Rem
 	Method GetViewName:String()
+		Return bmx_wxdoctemplate_getviewname(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Initialises the document, calling wxDocument::OnCreate.
+	about: This is called from wxDocTemplate::CreateDocument.
+	<p>
+	Override this method to add your own functionality.
+	</p>
+	End Rem
 	Method InitDocument:Int(doc:wxDocument, path:String, flags:Int = 0)
+		Return bmx_wxdoctemplate_initdocument(wxObjectPtr, doc.wxObjectPtr, path, flags)
 	End Method
 	
 	Function _InitDocument:Int(templ:wxDocTemplate, doc:Byte Ptr, path:String, flags:Int)
 		Return templ.InitDocument(wxDocument._find(doc), path, flags)
 	End Function
 	
+	Rem
+	bbdoc: Returns true if the document template can be shown in user dialogs, false otherwise.
+	End Rem
 	Method IsVisible:Int()
+		Return bmx_wxdoctemplate_isvisible(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the default file extension.
+	End Rem
 	Method SetDefaultExtension(ext:String)
+		bmx_wxdoctemplate_setdefaultextension(wxObjectPtr, ext)
 	End Method
 	
+	Rem
+	bbdoc: Sets the template description.
+	End Rem
 	Method SetDescription(desc:String)
+		bmx_wxdoctemplate_setdescription(wxObjectPtr, desc)
 	End Method
 	
+	Rem
+	bbdoc: Sets the default directory.
+	End Rem
 	Method SetDirectory(dir:String)
+		bmx_wxdoctemplate_setdirectory(wxObjectPtr, dir)
 	End Method
 	
+	Rem
+	bbdoc: Sets the file filter.
+	End Rem
 	Method SetFileFilter(filter:String)
+		bmx_wxdoctemplate_setfilefilter(wxObjectPtr, filter)
 	End Method
 	
+	Rem
+	bbdoc: Sets the internal document template flags.
+	End Rem
 	Method SetFlags(flags:Int)
+		bmx_wxdoctemplate_setflags(wxObjectPtr, flags)
 	End Method
 	
 End Type
