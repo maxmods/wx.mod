@@ -234,6 +234,8 @@ Type wxWizardPage Extends wxPanel
 		Else
 			wxObjectPtr = bmx_wxwizardpage_create(Self, parent.wxObjectPtr, Null)
 		End If
+		
+		OnInit()
 		Return Self
 	End Method
 
@@ -249,7 +251,6 @@ Type wxWizardPage Extends wxPanel
 	Function _xrcNew:wxWizardPage(wxObjectPtr:Byte Ptr)
 		Return wxWizardPage._create(wxObjectPtr)
 	End Function
-
 
 	Rem
 	bbdoc: Get the page which should be shown when the user chooses the "Back" button.
@@ -345,7 +346,7 @@ Type wxWizardPageSimple Extends wxWizardPage
 	bbdoc: 
 	End Rem
 	Method CreateSimple:wxWizardPageSimple(parent:wxWizard = Null, prev:wxWizardPage = Null, ..
-			nxt:wxWizardPage, bitmap:wxBitmap = Null)
+			nxt:wxWizardPage = Null, bitmap:wxBitmap = Null)
 		If parent Then
 			If prev Then
 				If nxt Then
@@ -407,6 +408,8 @@ Type wxWizardPageSimple Extends wxWizardPage
 				End If
 			End If
 		End If
+		
+		OnInit()
 		Return Self
 	End Method
 
