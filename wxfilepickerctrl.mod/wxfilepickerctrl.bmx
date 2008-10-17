@@ -21,7 +21,7 @@
 SuperStrict
 
 Rem
-bbdoc: wxFilePickerCtrl
+bbdoc: wxFilePickerCtrl and wxDirPickerCtrl
 End Rem
 Module wx.wxFilePickerCtrl
 
