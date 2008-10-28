@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.12"
+Const AppVersion:String = "1.13"
 
 
 Global eventMap:TMap = New TMap
@@ -3124,15 +3124,33 @@ Type TFBScrolledWindow Extends TFBContainer
 
 	Method Generate(out:TCodeOutput)
 
+
+		Local topSizer:TFBWidget
+	
 		StandardCreate(out)
 
 		out.Add(prop("name") + ".SetScrollRate(" + prop("scroll_rate_x") + ", " + prop("scroll_rate_y") + ")", 2) 
 
 		StandardSettings(out)
 
+		' child wigdets
 		For Local child:TFBWidget = EachIn kids
+	
+			If Not topSizer Then
+				If TFBSizer(child) Then
+					topSizer = child
+				End If
+			End If
+	
 			child.Generate(out)
 		Next
+
+		' the main sizer
+		If topSizer Then
+			out.Add(prop("name") + ".SetSizer(" + topSizer.prop("name") + ")", 2)
+			out.Add(prop("name") + ".Layout()", 2)
+			out.Add(topSizer.prop("name") + ".Fit(" + prop("name") + ")", 2)
+		End If
 
 		out.Add("")
 
