@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.11"
+Const AppVersion:String = "1.12"
 
 
 Global eventMap:TMap = New TMap
@@ -248,6 +248,9 @@ Type TFBGenFactory
 			
 			Case "wxSpinButton"
 				widget = New TFBSpinButton
+				
+			Case "wxScrolledWindow"
+				widget = New TFBScrolledWindow
 
 		End Select
 		
@@ -3113,6 +3116,34 @@ Type TFBSpinButton Extends TFBWidget
 	
 	Method GetImport:String()
 		Return "wx.wxSpinButton"
+	End Method
+
+End Type
+
+Type TFBScrolledWindow Extends TFBContainer
+
+	Method Generate(out:TCodeOutput)
+
+		StandardCreate(out)
+
+		out.Add(prop("name") + ".SetScrollRate(" + prop("scroll_rate_x") + ", " + prop("scroll_rate_y") + ")", 2) 
+
+		StandardSettings(out)
+
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+		Next
+
+		out.Add("")
+
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxScrolledWindow"
+	End Method
+
+	Method GetImport:String()
+		Return "wx.wxScrolledWindow"
 	End Method
 
 End Type
