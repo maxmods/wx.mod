@@ -46,6 +46,7 @@ extern "C" {
 	MaxGLCanvas * bmx_wxglcanvas_create(BBObject * handle, wxWindow* parent, wxWindowID id,
 		int flags, int x, int y, int w, int h, long style);
 	void bmx_wxglcanvas_swapbuffers(wxGLCanvas * canvas);
+	void bmx_wxglcanvas_setcurrent(wxGLCanvas * canvas);
 
 	void bmx_wxglcanvas_onpainthook(MaxGLCanvas * canvas, BBObject * event);
 

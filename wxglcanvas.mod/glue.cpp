@@ -116,5 +116,8 @@ void bmx_wxglcanvas_swapbuffers(wxGLCanvas * canvas) {
 	canvas->SwapBuffers();
 }
 
+void bmx_wxglcanvas_setcurrent(wxGLCanvas * canvas) {
+	canvas->SetCurrent();
+}
 
 #endif

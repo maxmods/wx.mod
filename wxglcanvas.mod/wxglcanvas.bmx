@@ -79,7 +79,7 @@ Type wxGLCanvas Extends wxWindow
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Override this to implemented your own canvas drawing.
 	End Rem
 	Method OnPaint(event:wxPaintEvent)
 	End Method
@@ -91,6 +91,14 @@ Type wxGLCanvas Extends wxWindow
 	Function _OnPaint(event:wxPaintEvent)
 		wxGLCanvas(event.parent).OnPaint(event)
 	End Function
+	
+	Rem
+	bbdoc: Makes the implicit rendering context of this canvas current with this canvas, so that subsequent OpenGL calls modify the OpenGL state of the implicit rendering context.
+	about: Note that this method may only be called after the window has been shown.
+	End Rem
+	Method SetCurrent()
+		bmx_wxglcanvas_setcurrent(wxObjectPtr)
+	End Method
 	
 End Type
 

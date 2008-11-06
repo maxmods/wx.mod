@@ -48,6 +48,7 @@ Extern
 		flags:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 
 	Function bmx_wxglcanvas_swapbuffers(handle:Byte Ptr)
+	Function bmx_wxglcanvas_setcurrent(handle:Byte Ptr)
 
 	Function bmx_wxglcanvas_onpainthook(handle:Byte Ptr, event:wxEvent)
 
