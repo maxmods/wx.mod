@@ -142,10 +142,25 @@ Type wxApp Extends wxEvtHandler Abstract
 	End Method
 	
 	Rem
+	bbdoc: Returns the application name.
+	about: wxWidgets sets this to a reasonable default before calling wxApp::OnInit, but the application can reset it at will.
+	End Rem
+	Method getAppName:String()
+		Return bmx_wxapp_getappname()
+	End Method
+	
+	Rem
 	bbdoc: Returns the application's vendor name.
 	End Rem
 	Method SetVendorName(name:String)
 		bmx_wxapp_setvendorname(name)
+	End Method
+	
+	Rem
+	bbdoc: Returns the application's vendor name.
+	End Rem
+	Method GetVendorName:String()
+		Return bmx_wxapp_getvendorname()
 	End Method
 	
 	Rem

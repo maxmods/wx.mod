@@ -49,6 +49,13 @@ wxApp * bmx_app_getapp() {
 	return wxTheApp;
 }
 
+BBString * bmx_wxapp_getappname() {
+	return bbStringFromWxString(wxGetApp().GetAppName());
+}
+
+BBString * bmx_wxapp_getvendorname() {
+	return bbStringFromWxString(wxGetApp().GetVendorName());
+}
 
 // *********************************************
 
