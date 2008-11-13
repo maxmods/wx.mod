@@ -309,9 +309,11 @@ bool bmx_wxdocument_ismodified(MaxDocument * doc) {
 	return doc->IsModified_default();
 }
 
+#if !defined(__WXGTK__)
 wxInputStream * bmx_wxdocument_loadobject(wxDocument * doc, wxInputStream * stream) {
 	return &doc->LoadObject(*stream);
 }
+#endif
 
 void bmx_wxdocument_modify(MaxDocument * doc, bool doModify) {
 	doc->Modify_default(doModify);
@@ -361,9 +363,11 @@ bool bmx_wxdocument_saveas(wxDocument * doc) {
 	return doc->SaveAs();
 }
 
+#if !defined(__WXGTK__)
 wxOutputStream * bmx_wxdocument_saveobject(wxDocument * doc, wxOutputStream * stream) {
 	return &doc->SaveObject(*stream);
 }
+#endif
 
 void bmx_wxdocument_setcommandprocessor(wxDocument * doc, wxCommandProcessor * processor) {
 	doc->SetCommandProcessor(processor);

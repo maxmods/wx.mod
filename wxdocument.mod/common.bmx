@@ -62,7 +62,9 @@ Extern
 	Function bmx_wxdocument_getprintablename:String(handle:Byte Ptr)
 	Function bmx_wxdocument_gettitle:String(handle:Byte Ptr)
 	Function bmx_wxdocument_ismodified:Int(handle:Byte Ptr)
+?Not linux
 	Function bmx_wxdocument_loadobject:Byte Ptr(handle:Byte Ptr, stream:Byte Ptr)
+?
 	Function bmx_wxdocument_modify(handle:Byte Ptr, doModify:Int)
 	Function bmx_wxdocument_onchangedviewlist(handle:Byte Ptr)
 	Function bmx_wxdocument_onclosedocument:Int(handle:Byte Ptr)
@@ -75,7 +77,9 @@ Extern
 	Function bmx_wxdocument_removeview:Int(handle:Byte Ptr, view:Byte Ptr)
 	Function bmx_wxdocument_save:Int(handle:Byte Ptr)
 	Function bmx_wxdocument_saveas:Int(handle:Byte Ptr)
+?Not linux
 	Function bmx_wxdocument_saveobject:Byte Ptr(handle:Byte Ptr, stream:Byte Ptr)
+?
 	Function bmx_wxdocument_setcommandprocessor(handle:Byte Ptr, processor:Byte Ptr)
 	Function bmx_wxdocument_setdocumentname(handle:Byte Ptr, name:String)
 	Function bmx_wxdocument_setdocumenttemplate(handle:Byte Ptr, templ:Byte Ptr)

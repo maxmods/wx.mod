@@ -71,7 +71,9 @@ extern "C" {
 	BBString * bmx_wxdocument_getprintablename(wxDocument * doc);
 	BBString * bmx_wxdocument_gettitle(wxDocument * doc);
 	bool bmx_wxdocument_ismodified(MaxDocument * doc);
+#if !defined(__WXGTK__)
 	wxInputStream * bmx_wxdocument_loadobject(wxDocument * doc, wxInputStream * stream);
+#endif
 	void bmx_wxdocument_modify(MaxDocument * doc, bool doModify);
 	void bmx_wxdocument_onchangedviewlist(MaxDocument * doc);
 	bool bmx_wxdocument_onclosedocument(MaxDocument * doc);
@@ -84,7 +86,9 @@ extern "C" {
 	bool bmx_wxdocument_removeview(wxDocument * doc, wxView * view);
 	bool bmx_wxdocument_save(wxDocument * doc);
 	bool bmx_wxdocument_saveas(wxDocument * doc);
+#if !defined(__WXGTK__)
 	wxOutputStream * bmx_wxdocument_saveobject(wxDocument * doc, wxOutputStream * stream);
+#endif
 	void bmx_wxdocument_setcommandprocessor(wxDocument * doc, wxCommandProcessor * processor);
 	void bmx_wxdocument_setdocumentname(wxDocument * doc, BBString * name);
 	void bmx_wxdocument_setdocumenttemplate(wxDocument * doc, wxDocTemplate * templ);

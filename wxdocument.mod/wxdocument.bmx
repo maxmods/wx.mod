@@ -205,14 +205,14 @@ Type wxDocument Extends wxEvtHandler
 	Function _IsModified:Int(doc:wxDocument)
 		Return doc.IsModified()
 	End Function
-	
+?Not linux
 	Rem
 	bbdoc: 
 	End Rem
 	Method LoadObject:wxInputStream(stream:wxInputStream)
 		Return wxInputStream._create(bmx_wxdocument_loadobject(wxObjectPtr, stream.wxStreamPtr))
 	End Method
-	
+?
 	Rem
 	bbdoc: Call with true to mark the document as modified since the last save, false otherwise.
 	about: You may need to override this if your document view maintains its own record of being modified
@@ -347,13 +347,14 @@ Type wxDocument Extends wxEvtHandler
 	Method SaveAs:Int()
 		Return bmx_wxdocument_saveas(wxObjectPtr)
 	End Method
-	
+?Not linux
 	Rem
 	bbdoc: 
 	End Rem
 	Method SaveObject:wxOutputStream(stream:wxOutputStream)
 		Return wxOutputStream._create(bmx_wxdocument_saveobject(wxObjectPtr, stream.wxStreamPtr))
 	End Method
+?
 	
 	Rem
 	bbdoc: Sets the command processor to be used for this document.
