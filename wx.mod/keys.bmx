@@ -288,7 +288,7 @@ Function MapWxKeyCodeToBlitz:Int(key:Int)
 
 	' if we haven't covered the key already, we really need to protect ourselves from returning an out-of-range
 	' value.
-	Assert False, "Unmapped key : " + key
+	DebugLog "Unmapped key : " + key
 	' if we don't assert during testing, we'll just return 0 now... just to be sure :-)
 	Return 0
 End Function
