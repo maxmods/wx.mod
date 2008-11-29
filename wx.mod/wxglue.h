@@ -376,6 +376,9 @@ extern "C" {
 	void bmx_wxpowerevent_veto(wxEvent & event);
 #endif
 
+	bool bmx_wxactivateevent_getactive(wxActivateEvent & event);
+	bool bmx_wxiconizeevent_iconized(wxIconizeEvent & event);
+
 }
 
 /*

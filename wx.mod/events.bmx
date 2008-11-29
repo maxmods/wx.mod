@@ -527,6 +527,17 @@ End Type
 
 Rem
 bbdoc: An activate event is sent when a window or application is being activated or deactivated.
+about: A top-level window (a dialog or frame) receives an activate event when it is being activated or
+deactivated. This is indicated visually by the title bar changing colour, and a subwindow gaining the
+keyboard focus.
+<p>
+An application is activated or deactivated when one of its frames becomes activated, or a frame becomes
+inactivated resulting in all application frames being inactive.
+</p>
+<p>
+Please note that usually you should call event.Skip() in your handlers for these events as not doing so can
+result in strange effects.
+</p>
 End Rem
 Type wxActivateEvent Extends wxEvent
 
@@ -542,7 +553,7 @@ Type wxActivateEvent Extends wxEvent
 	bbdoc: Returns true if the application or window is being activated, false otherwise.
 	End Rem
 	Method GetActive:Int()
-		DebugLog "GetActive TODO"
+		Return bmx_wxactivateevent_getactive(wxEventPtr)
 	End Method
 
 End Type
@@ -561,8 +572,11 @@ Type wxIconizeEvent Extends wxEvent
 		Return this
 	End Function
 
+	Rem
+	bbdoc: Returns true if the frame has been iconized, false if it has been restored.
+	End Rem
 	Method Iconized:Int()
-		DebugLog "Iconized TODO"
+		Return bmx_wxiconizeevent_iconized(wxEventPtr)
 	End Method
 	
 End Type

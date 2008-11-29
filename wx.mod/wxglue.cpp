@@ -1883,3 +1883,14 @@ void bmx_wxpowerevent_veto(wxPowerEvent & event) {
 void bmx_wxpowerevent_veto(wxEvent & WXUNUSED(event)) {
 }
 #endif
+
+// *********************************************
+
+bool bmx_wxactivateevent_getactive(wxActivateEvent & event) {
+	return event.GetActive();
+}
+
+bool bmx_wxiconizeevent_iconized(wxIconizeEvent & event) {
+	return event.Iconized();
+}
+
