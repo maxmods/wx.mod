@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.13"
+Const AppVersion:String = "1.14"
 
 
 Global eventMap:TMap = New TMap
@@ -611,17 +611,22 @@ Type TFBWidget
 		Local text:String = ""
 		
 		Local bitmap:String[] = bm.Split(";")
-		text:+ "wxBitmap.CreateFromFile(~q" + bitmap[0] + "~q, "
 		
-		Local kind:String = bitmap[0].Split(".")[1].ToUpper()
-		Select kind
-			Case "PNG"
-				text:+ "wxBITMAP_TYPE_PNG"
-			Default
-				text:+ "wxBITMAP_TYPE_ANY"
-		End Select
-		
-		text:+ ")"
+		If bitmap[0] Then
+			text:+ "wxBitmap.CreateFromFile(~q" + bitmap[0] + "~q, "
+			
+			Local kind:String = bitmap[0].Split(".")[1].ToUpper()
+			Select kind
+				Case "PNG"
+					text:+ "wxBITMAP_TYPE_PNG"
+				Default
+					text:+ "wxBITMAP_TYPE_ANY"
+			End Select
+			
+			text:+ ")"
+		Else
+			text = "Null"
+		End If
 		
 		Return text
 	
