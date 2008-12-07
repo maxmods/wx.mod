@@ -394,6 +394,7 @@ End Rem
 Type wxLanguageInfo
 
 	Field wxObjectPtr:Byte Ptr
+	Field owner:Int
 
 	Function _create:wxLanguageInfo(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
@@ -415,6 +416,7 @@ Type wxLanguageInfo
 	End Rem
 	Method Create:wxLanguageInfo()
 		wxObjectPtr = bmx_wxlanguageinfo_create()
+		owner = True
 		Return Self
 	End Method
 	
@@ -492,7 +494,9 @@ Type wxLanguageInfo
 
 	Method Delete()
 		If wxObjectPtr Then
-			bmx_wxlanguageinfo_delete(wxObjectPtr)
+			If owner Then
+				bmx_wxlanguageinfo_delete(wxObjectPtr)
+			End If
 			wxObjectPtr = Null
 		End If
 	End Method
