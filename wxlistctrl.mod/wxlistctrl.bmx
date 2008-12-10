@@ -127,6 +127,9 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 End Rem
 Type wxListCtrl Extends wxControl
 
+	Field callback:Int(item1:Object, item2:Object, data:Object)
+	Field callbackData:Object
+
 	Function _create:wxListCtrl(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
 			Local this:wxListCtrl = New wxListCtrl
@@ -810,8 +813,18 @@ Type wxListCtrl Extends wxControl
 		bmx_wxlistctrl_setwindowstyleflag(wxObjectPtr, style)
 	End Method
 	
-	Method SortItems:Int() ' todo
+	Rem
+	bbdoc: 
+	End Rem
+	Method SortItems:Int(compare:Int(item1:Object, item2:Object, data:Object), data:Object)
+		callback = compare
+		callbackData = data
+		Return bmx_wxlistctrl_sortitems(wxObjectPtr)
 	End Method
+	
+	Function _sortCallback:Int(item1:Object, item2:Object, data:Object)
+		Return wxListCtrl(data).callback(item1, item2, wxListCtrl(data).callbackData)
+	End Function
 	
 	Rem
 	bbdoc: This method may be overloaded in the derived type for a control with wxLC_VIRTUAL style.

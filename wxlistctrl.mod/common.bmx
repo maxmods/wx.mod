@@ -110,6 +110,7 @@ Extern
 	Function bmx_wxlistctrl_setsinglestyle(handle:Byte Ptr, style:Int, add:Int)
 	Function bmx_wxlistctrl_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxlistctrl_setwindowstyleflag(handle:Byte Ptr, style:Int)
+	Function bmx_wxlistctrl_sortitems:Int(handle:Byte Ptr)
 
 	Function bmx_wxlistitem_create:Byte Ptr()
 	Function bmx_wxlistitem_delete(handle:Byte Ptr)

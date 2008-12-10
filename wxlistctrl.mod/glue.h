@@ -39,6 +39,7 @@ extern "C" {
 	BBString * _wx_wxlistctrl_wxListCtrl__OnGetItemText(BBObject * handle, long item, long column);
 	int _wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage(BBObject * handle, long item, long column);
 	int _wx_wxlistctrl_wxListCtrl__OnGetItemImage(BBObject * handle, long item);
+	int _wx_wxlistctrl_wxListCtrl__sortCallback(BBObject * item1, BBObject * item2, BBObject * data);
 
 	MaxListCtrl * bmx_wxlistctrl_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, long style);
 	bool bmx_wxlistctrl_arrange(wxListCtrl * list, int flag);
@@ -104,6 +105,7 @@ extern "C" {
 	void bmx_wxlistctrl_setsinglestyle(wxListCtrl * list, long style, bool add);
 	void bmx_wxlistctrl_settextcolour(wxListCtrl * list, MaxColour * colour);
 	void bmx_wxlistctrl_setwindowstyleflag(wxListCtrl * list, long style);
+	int bmx_wxlistctrl_sortitems(MaxListCtrl * list);
 
 	MaxListItem * bmx_wxlistitem_create();
 	void bmx_wxlistitem_delete(MaxListItem * item);
@@ -198,6 +200,9 @@ public:
 
 	void MaxBind(BBObject * handle);
 
+	bool SetSortCallback();
+//	int wxCALLBACK compare(long item1, long item2, long sortData);
+	
 private:
 	BBObject * maxHandle;
 	DECLARE_EVENT_TABLE()

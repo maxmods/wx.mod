@@ -79,6 +79,18 @@ MaxListCtrl::~MaxListCtrl() {
 	wxunbind(this);
 }
 
+int wxCALLBACK compare(long item1, long item2, long sortData) {
+	void * data1 = wxUIntToPtr(item1);
+	void * data2 = wxUIntToPtr(item2);
+	void * data3 = wxUIntToPtr(sortData);
+	return _wx_wxlistctrl_wxListCtrl__sortCallback((BBObject*)data1,
+			(BBObject*)data2, (BBObject*)data3);
+}
+
+
+bool MaxListCtrl::SetSortCallback() {
+	return SortItems(compare, wxPtrToUInt((void*)maxHandle));
+}
 
 MaxListItem::MaxListItem()
 {
@@ -95,6 +107,7 @@ wxListItem & MaxListItem::Item() {
 
 MaxListItem::~MaxListItem() {
 }
+
 
 // ---------------------------------------------------------------------------------------
 
@@ -437,6 +450,9 @@ void bmx_wxlistctrl_setwindowstyleflag(wxListCtrl * list, long style) {
 	list->SetWindowStyleFlag(style);
 }
 
+int bmx_wxlistctrl_sortitems(MaxListCtrl * list) {
+	return list->SetSortCallback();
+}
 
 
 // *********************************************
