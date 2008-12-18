@@ -106,15 +106,19 @@ Type wxRegion Extends wxGDIObject
 	Rem
 	bbdoc: Constructs a region using the non-transparent pixels of a bitmap.
 	End Rem
-	Function CreateRegionWithBitmap:wxRegion(bmp:wxBitmap)
-		Return New wxRegion.CreateWithBitmap(bmp)
+	Function CreateRegionWithBitmap:wxRegion(bmp:wxBitmap, transColour:wxColour = Null, tolerance:Int = 0)
+		Return New wxRegion.CreateWithBitmap(bmp, transColour, tolerance)
 	End Function
 
 	Rem
 	bbdoc: Constructs a region using the non-transparent pixels of a bitmap.
 	End Rem
-	Method CreateWithBitmap:wxRegion(bmp:wxBitmap)
-		wxObjectPtr = bmx_wxregion_createwithbitmap(bmp.wxObjectPtr)
+	Method CreateWithBitmap:wxRegion(bmp:wxBitmap, transColour:wxColour = Null, tolerance:Int = 0)
+		If transColour Then
+			wxObjectPtr = bmx_wxregion_createwithbitmap(bmp.wxObjectPtr, transColour.wxObjectPTr, tolerance)
+		Else
+			wxObjectPtr = bmx_wxregion_createwithbitmap(bmp.wxObjectPtr, Null, 0)
+		End If
 		Return Self
 	End Method
 	

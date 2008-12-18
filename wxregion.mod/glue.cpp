@@ -51,8 +51,13 @@ MaxRegion * bmx_wxregion_createwithpoints(BBArray * points, int fillStyle) {
 	return new MaxRegion(r);
 }
 
-MaxRegion * bmx_wxregion_createwithbitmap(MaxBitmap * bmp) {
-	wxRegion r(bmp->Bitmap());
+MaxRegion * bmx_wxregion_createwithbitmap(MaxBitmap * bmp, MaxColour * colour, int tolerance) {
+	wxRegion r;
+	if (colour) {
+		r = wxRegion(bmp->Bitmap(), colour->Colour(), tolerance);
+	} else {
+		r = wxRegion(bmp->Bitmap());
+	}
 	return new MaxRegion(r);
 }
 

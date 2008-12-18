@@ -47,7 +47,7 @@ Extern
 	Function bmx_wxregion_create:Byte Ptr(x:Int, y:Int, w:Int, h:Int)
 	Function bmx_wxregion_createwithrect:Byte Ptr(rect:Byte Ptr)
 	Function bmx_wxregion_createwithpoints:Byte Ptr(points:Int[], fillStyle:Int)
-	Function bmx_wxregion_createwithbitmap:Byte Ptr(bmp:Byte Ptr)
+	Function bmx_wxregion_createwithbitmap:Byte Ptr(bmp:Byte Ptr, colour:Byte Ptr, tolerance:Int)
 	Function bmx_wxregion_clear(handle:Byte Ptr)
 	Function bmx_wxregion_contains:Int(handle:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxregion_containsrect:Int(handle:Byte Ptr, rect:Byte Ptr)
