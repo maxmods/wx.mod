@@ -885,7 +885,7 @@ Type TEventHandler
 	Field eventType:Int
 	Field id:Int
 	Field lastId:Int = -1
-
+	
 	Function eventCallback(evt:Byte Ptr, data:Object)
 
 		Local handler:TEventHandler = TEventHandler(data)
@@ -1259,6 +1259,12 @@ Type wxEvtHandler Extends wxObject
 		clientData = Null
 		' cleanup time!
 		If events Then
+
+			For Local event:TEventHandler = EachIn events.Values()
+				event.parent = Null
+				event.eventSink = Null
+			Next
+
 			events.Clear()
 			events = Null
 		End If

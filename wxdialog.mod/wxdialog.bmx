@@ -306,6 +306,8 @@ Type wxDialog Extends wxTopLevelWindow
 	bbdoc: Frees the Dialog object from memory.
 	End Rem
 	Method Free()
+		Super.Free()
+		
 		If wxObjectPtr Then
 			bmx_wxdialog_free(wxObjectPtr)
 			wxObjectPtr = Null
