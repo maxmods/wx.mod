@@ -168,6 +168,8 @@ extern "C" {
 	int bmx_wxlistctrl_geteventtype(int type);
 
 	void bmx_wxlistctrl_addresourcehandler();
+	
+	void bmx_releaseallclientdata(wxListCtrl * list);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

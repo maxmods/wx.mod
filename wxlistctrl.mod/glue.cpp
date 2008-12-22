@@ -39,6 +39,7 @@ void bmx_releaseindexedclientdata(wxListCtrl * list, long index) {
 	if (data) {
 		if ((BBObject*)data != &bbNullObject) {
 			BBRELEASE((BBObject*)data);
+			list->SetItemData(index, 0);
 		}
 	}
 }
@@ -536,19 +537,29 @@ void bmx_wxlistitem_setbackgroundcolour(MaxListItem * item, MaxColour * colour) 
 
 void bmx_wxlistitem_setcolumn(MaxListItem * item, int col) {
 	item->Item().SetColumn(col);
+	
+	// check that we haven't set any data on a non-zero column...
+	BBObject * data = (BBObject *)wxUIntToPtr(item->Item().GetData());
+	if (data && (data != &bbNullObject)) {
+			BBRELEASE(data);
+			item->Item().SetData((void*)NULL);
+	}
 }
 
 void bmx_wxlistitem_setdata(MaxListItem * item, BBObject * data) {
-	// is there any data here already?
-	BBObject * oldData = (BBObject *)wxUIntToPtr(item->Item().GetData());
-	if (oldData && (oldData != &bbNullObject)) {
-		BBRELEASE(oldData);
+	if (item->Item().GetColumn() == 0) {
+		// is there any data here already?
+		BBObject * oldData = (BBObject *)wxUIntToPtr(item->Item().GetData());
+		if (oldData && (oldData != &bbNullObject)) {
+			BBRELEASE(oldData);
+			item->Item().SetData((void*)NULL);
+		}
+	
+		if (data != &bbNullObject) {
+			BBRETAIN( data );
+		}
+		item->Item().SetData(wxPtrToUInt((void*)data));
 	}
-
-	if (data != &bbNullObject) {
-		BBRETAIN( data );
-	}
-	item->Item().SetData(wxPtrToUInt((void*)data));
 }
 
 void bmx_wxlistitem_setfont(MaxListItem * item, MaxFont * font) {

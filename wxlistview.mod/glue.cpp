@@ -47,6 +47,7 @@ int MaxListView::OnGetItemImage(long item) const {
 }
 
 MaxListView::~MaxListView() {
+	bmx_releaseallclientdata(this);
 	wxunbind(this);
 }
 
