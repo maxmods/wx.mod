@@ -345,6 +345,8 @@ extern "C" {
 	bool bmx_wxfileinputstream_isok(wxFileInputStream * stream);
 	void bmx_wxfileinputstream_free(wxFileInputStream * stream);
 
+	void bmx_wxfilterinputstream_free(wxFilterInputStream * stream);
+
 	long bmx_wxnewid();
 	void bmx_wxregisterid(long id);
 	void bmx_wxenabletoplevelwindows(bool enable);

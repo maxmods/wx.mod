@@ -1774,6 +1774,11 @@ void bmx_wxfileinputstream_free(wxFileInputStream * stream) {
 	delete stream;
 }
 
+// *********************************************
+
+void bmx_wxfilterinputstream_free(wxFilterInputStream * stream) {
+	delete stream;
+}
 
 // *********************************************
 

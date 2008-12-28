@@ -21,9 +21,9 @@
 SuperStrict
 
 Rem
-bbdoc: wxFilterClassFactory
+bbdoc: wxArchiveClassFactory
 End Rem
-Module wx.wxFilterClassFactory
+Module wx.wxArchiveClassFactory
 
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
@@ -53,38 +53,38 @@ Import "common.bmx"
 Rem
 bbdoc: 
 End Rem
-Type wxFilterClassFactory Extends wxObject
+Type wxArchiveClassFactory Extends wxObject
 
-	Function _create:wxFilterClassFactory(wxObjectPtr:Byte Ptr)
+	Function _create:wxArchiveClassFactory(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local this:wxFilterClassFactory = New wxFilterClassFactory
+			Local this:wxArchiveClassFactory = New wxArchiveClassFactory
 			this.wxObjectPtr = wxObjectPtr
 			Return this
 		End If
 	End Function
 
 	Method CanHandle:Int(protocol:String, protocolType:Int = wxSTREAM_PROTOCOL)
-		Return bmx_wxfilterclassfactory_canhandle(wxObjectPtr, protocol, protocolType)
+		Return bmx_wxarchiveclassfactory_canhandle(wxObjectPtr, protocol, protocolType)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Function Find:wxFilterClassFactory(protocol:String, protocolType:Int = wxSTREAM_PROTOCOL)
-		Return wxFilterClassFactory._create(bmx_wxfilterclassfactory_find(protocol, protocolType))
+	Function Find:wxArchiveClassFactory(protocol:String, protocolType:Int = wxSTREAM_PROTOCOL)
+		Return wxArchiveClassFactory._create(bmx_wxarchiveclassfactory_find(protocol, protocolType))
 	End Function
 	
-	Function GetFirst:wxFilterClassFactory()
+	Function GetFirst:wxArchiveClassFactory()
 	End Function
 	
-	Method GetNext:wxFilterClassFactory()
+	Method GetNext:wxArchiveClassFactory()
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetProtocol:String()
-		Return bmx_wxfilterclassfactory_getprotocol(wxObjectPtr)
+		Return bmx_wxarchiveclassfactory_getprotocol(wxObjectPtr)
 	End Method
 	
 	Method GetProtocols:String[]()
@@ -93,32 +93,32 @@ Type wxFilterClassFactory Extends wxObject
 	Rem
 	bbdoc: 
 	End Rem
-	Method NewInputStream:wxFilterInputStream(stream:wxInputStream)
-		Return wxFilterInputStream._create(bmx_wxfilterclassfactory_newinputstream(wxObjectPtr, stream.wxStreamPtr))
+	Method NewInputStream:wxArchiveInputStream(stream:wxInputStream)
+		Return wxArchiveInputStream._create(bmx_wxarchiveclassfactory_newinputstream(wxObjectPtr, stream.wxStreamPtr))
 	End Method
 	
-	Method NewOutputStream:wxFilterOutputStream(stream:wxOutputStream)
+	Method NewOutputStream:wxArchiveOutputStream(stream:wxOutputStream)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method PopExtension:String(location:String)
-		Return bmx_wxfilterclassfactory_popextension(wxObjectPtr, location)
+		Return bmx_wxarchiveclassfactory_popextension(wxObjectPtr, location)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method PushFront()
-		bmx_wxfilterclassfactory_pushfront(wxObjectPtr)
+		bmx_wxarchiveclassfactory_pushfront(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method Remove()
-		bmx_wxfilterclassfactory_remove(wxObjectPtr)
+		bmx_wxarchiveclassfactory_remove(wxObjectPtr)
 	End Method
 
 End Type

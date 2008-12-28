@@ -56,37 +56,74 @@ about: These hold the meta-data (filename, timestamp, etc.), for entries in arch
 End Rem
 Type wxArchiveEntry Extends wxObject
 
+	Function _create:wxArchiveEntry(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxArchiveEntry = New wxArchiveEntry
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
 	Method GetDateTime:wxDateTime()
+'		Return bmx_wxarchiveentry_getformat(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetInternalFormat:Int()
+		Return bmx_wxarchiveentry_getinternalformat(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetInternalName:String()
+		Return bmx_wxarchiveentry_getinternalname(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetName:String(format:Int = wxPATH_NATIVE)
+		Return bmx_wxarchiveentry_getname(wxObjectPtr, format)
 	End Method
 	
 	Method SetName(name:String, format:Int = wxPATH_NATIVE)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetOffset:Int()
+		Return bmx_wxarchiveentry_getoffset(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetSize:Int()
+		Return bmx_wxarchiveentry_getsize(wxObjectPtr)
 	End Method
 	
 	Method SetSize(size:Int)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsDir:Int()
+		Return bmx_wxarchiveentry_isdir(wxObjectPtr)
 	End Method
 	
 	Method SetIsDir(dir:Int = True)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsReadOnly:Int()
+		Return bmx_wxarchiveentry_isreadonly(wxObjectPtr)
 	End Method
 	
 	Method SetIsReadOnly(readOnly:Int = True)
@@ -94,20 +131,54 @@ Type wxArchiveEntry Extends wxObject
 	
 End Type
 
+Rem
+bbdoc: 
+End Rem
 Type wxArchiveInputStream Extends wxFilterInputStream
 
+	Function _create:wxArchiveInputStream(wxStreamPtr:Byte Ptr)
+		If wxStreamPtr Then
+			Local this:wxArchiveInputStream = New wxArchiveInputStream
+			this.wxStreamPtr = wxStreamPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: 
+	End Rem
 	Method CloseEntry:Int()
+		Return bmx_wxarchiveinputstream_closeentry(wxStreamPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetNextEntry:wxArchiveEntry()
+		Return wxArchiveEntry._create(bmx_wxarchiveinputstream_getnextentry(wxStreamPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method OpenEntry:Int(entry:wxArchiveEntry)
+		Return bmx_wxarchiveinputstream_openentry(wxStreamPtr, entry.wxObjectPtr)
 	End Method
 	
 End Type
 
+Rem
+bbdoc: 
+End Rem
 Type wxArchiveOutputStream Extends wxFilterOutputStream
+
+	Function _create:wxArchiveOutputStream(wxStreamPtr:Byte Ptr)
+		If wxStreamPtr Then
+			Local this:wxArchiveOutputStream = New wxArchiveOutputStream
+			this.wxStreamPtr = wxStreamPtr
+			Return this
+		End If
+	End Function
 
 	Method Close:Int()
 	End Method

@@ -691,3 +691,20 @@ Const wxEOL_UNIX:Int = 1
 Const wxEOL_MAC:Int = 2
 Const wxEOL_DOS:Int = 3
 
+Rem
+bbdoc: xFileSystem protocol (should be only one)
+End Rem
+Const wxSTREAM_PROTOCOL:Int = 0
+Rem
+bbdoc: MIME types the stream handles
+End Rem
+Const wxSTREAM_MIMETYPE:Int = 1
+Rem
+bbdoc: The HTTP Content-Encodings the stream handles.
+about: Not used for archives
+End Rem
+Const wxSTREAM_ENCODING:Int = 2
+Rem
+bbdoc: File extensions the stream handles
+End Rem
+Const wxSTREAM_FILEEXT:Int = 3

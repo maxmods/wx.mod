@@ -43,10 +43,13 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxfilterclassfactory_find:Byte Ptr(protocol:String, protocolType:Int)
+	Function bmx_wxfilterclassfactory_canhandle:Int(handle:Byte Ptr, protocol:String, protocolType:Int)
+	Function bmx_wxfilterclassfactory_getprotocol:Int(handle:Byte Ptr)
+	Function bmx_wxfilterclassfactory_newinputstream:Byte Ptr(handle:Byte Ptr, stream:Byte Ptr)
+	Function bmx_wxfilterclassfactory_popextension:String(handle:Byte Ptr, location:String)
+	Function bmx_wxfilterclassfactory_pushfront(handle:Byte Ptr)
+	Function bmx_wxfilterclassfactory_remove(handle:Byte Ptr)
+
 End Extern
 
-
-Const wxSTREAM_PROTOCOL:Int = 0
-Const wxSTREAM_MIMETYPE:Int = 1
-Const wxSTREAM_ENCODING:Int = 2
-Const wxSTREAM_FILEEXT:Int = 3

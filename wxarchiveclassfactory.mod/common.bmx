@@ -21,7 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxDateTime
+Import wx.wxArchive
 Import BRL.Blitz
 
 
@@ -44,16 +44,13 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxarchiveentry_getinternalformat:Int(handle:Byte Ptr)
-	Function bmx_wxarchiveentry_getinternalname:String(handle:Byte Ptr)
-	Function bmx_wxarchiveentry_getname:String(handle:Byte Ptr, format:Int)
-	Function bmx_wxarchiveentry_getoffset:Int(handle:Byte Ptr)
-	Function bmx_wxarchiveentry_getsize:Int(handle:Byte Ptr)
-	Function bmx_wxarchiveentry_isdir:Int(handle:Byte Ptr)
-	Function bmx_wxarchiveentry_isreadonly:Int(handle:Byte Ptr)
-
-	Function bmx_wxarchiveinputstream_closeentry:Int(handle:Byte Ptr)
-	Function bmx_wxarchiveinputstream_getnextentry:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxarchiveinputstream_openentry:Int(handle:Byte Ptr, entry:Byte Ptr)
+	Function bmx_wxarchiveclassfactory_find:Byte Ptr(protocol:String, protocolType:Int)
+	Function bmx_wxarchiveclassfactory_canhandle:Int(handle:Byte Ptr, protocol:String, protocolType:Int)
+	Function bmx_wxarchiveclassfactory_getprotocol:Int(handle:Byte Ptr)
+	Function bmx_wxarchiveclassfactory_newinputstream:Byte Ptr(handle:Byte Ptr, stream:Byte Ptr)
+	Function bmx_wxarchiveclassfactory_popextension:String(handle:Byte Ptr, location:String)
+	Function bmx_wxarchiveclassfactory_pushfront(handle:Byte Ptr)
+	Function bmx_wxarchiveclassfactory_remove(handle:Byte Ptr)
 
 End Extern
+

@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/stream.h"
 
 //class MaxNotebook;
 
@@ -28,6 +29,13 @@ extern "C" {
 
 #include <blitz.h>
 
+	const wxFilterClassFactory * bmx_wxfilterclassfactory_find(BBString * protocol, wxStreamProtocolType protocolType);
+	bool bmx_wxfilterclassfactory_canhandle(wxFilterClassFactory * factory, BBString * protocol, wxStreamProtocolType protocolType);
+	BBString * bmx_wxfilterclassfactory_getprotocol(wxFilterClassFactory * factory);
+	wxFilterInputStream * bmx_wxfilterclassfactory_newinputstream(wxFilterClassFactory * factory, wxInputStream * stream);
+	BBString * bmx_wxfilterclassfactory_popextension(wxFilterClassFactory * factory, BBString * location);
+	void bmx_wxfilterclassfactory_pushfront(wxFilterClassFactory * factory);
+	void bmx_wxfilterclassfactory_remove(wxFilterClassFactory * factory);
 
 }
 

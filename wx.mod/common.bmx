@@ -448,6 +448,8 @@ Extern
 	Function bmx_wxfileinputstream_isok:Int(handle:Byte Ptr)
 	Function bmx_wxfileinputstream_free(handle:Byte Ptr)
 
+	Function bmx_wxfilterinputstream_free(handle:Byte Ptr)
+
 	Function bmx_wxnewid:Int()
 	Function bmx_wxregisterid(id:Int)
 	Function bmx_wxenabletoplevelwindows(enable:Int)

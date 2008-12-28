@@ -335,6 +335,28 @@ bbdoc:
 End Rem
 Type wxFilterInputStream Extends wxInputStream
 
+	Function _create:wxFilterInputStream(wxStreamPtr:Byte Ptr)
+		If wxStreamPtr Then
+			Local this:wxFilterInputStream = New wxFilterInputStream
+			this.wxStreamPtr = wxStreamPtr
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: Frees the stream object.
+	End Rem
+	Method Free()
+		If wxStreamPtr Then
+			bmx_wxfilterinputstream_free(wxStreamPtr)
+			wxStreamPtr = Null
+		End If
+	End Method
+	
+	Method Delete()
+		Free()
+	End Method
+
 End Type
 
 Rem

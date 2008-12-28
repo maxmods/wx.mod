@@ -28,47 +28,32 @@
 
 // *********************************************
 
-
-wxPathFormat bmx_wxarchiveentry_getinternalformat(wxArchiveEntry * entry) {
-	return entry->GetInternalFormat();
+const wxArchiveClassFactory * bmx_wxarchiveclassfactory_find(BBString * protocol, wxStreamProtocolType protocolType) {
+	return wxArchiveClassFactory::Find(wxStringFromBBString(protocol), protocolType);
 }
 
-BBString * bmx_wxarchiveentry_getinternalname(wxArchiveEntry * entry) {
-	return bbStringFromWxString(entry->GetInternalName());
+bool bmx_wxarchiveclassfactory_canhandle(wxArchiveClassFactory * factory, BBString * protocol, wxStreamProtocolType protocolType) {
+	return factory->CanHandle(wxStringFromBBString(protocol), protocolType);
 }
 
-BBString * bmx_wxarchiveentry_getname(wxArchiveEntry * entry, wxPathFormat format) {
-	return bbStringFromWxString(entry->GetName(format));
+BBString * bmx_wxarchiveclassfactory_getprotocol(wxArchiveClassFactory * factory) {
+	return bbStringFromWxString(factory->GetProtocol());
 }
 
-int bmx_wxarchiveentry_getoffset(wxArchiveEntry * entry) {
-	return static_cast<int>(entry->GetOffset());
+wxFilterInputStream * bmx_wxarchiveclassfactory_newinputstream(wxArchiveClassFactory * factory, wxInputStream * stream) {
+	return factory->NewStream(stream);
 }
 
-int bmx_wxarchiveentry_getsize(wxArchiveEntry * entry) {
-	return static_cast<int>(entry->GetSize());
+BBString * bmx_wxarchiveclassfactory_popextension(wxArchiveClassFactory * factory, BBString * location) {
+	return bbStringFromWxString(factory->PopExtension(wxStringFromBBString(location)));
 }
 
-bool bmx_wxarchiveentry_isdir(wxArchiveEntry * entry) {
-	return entry->IsDir();
+void bmx_wxarchiveclassfactory_pushfront(wxArchiveClassFactory * factory) {
+	factory->PushFront();
 }
 
-bool bmx_wxarchiveentry_isreadonly(wxArchiveEntry * entry) {
-	return entry->IsReadOnly();
-}
-
-// **************************
-
-bool bmx_wxarchiveinputstream_closeentry(wxArchiveInputStream * stream) {
-	return stream->CloseEntry();
-}
-
-wxArchiveEntry * bmx_wxarchiveinputstream_getnextentry(wxArchiveInputStream * stream) {
-	return stream->GetNextEntry();
-}
-
-bool bmx_wxarchiveinputstream_openentry(wxArchiveInputStream * stream, wxArchiveEntry * entry) {
-	return stream->OpenEntry(*entry);
+void bmx_wxarchiveclassfactory_remove(wxArchiveClassFactory * factory) {
+	factory->Remove();
 }
 
 

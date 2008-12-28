@@ -28,4 +28,32 @@
 
 // *********************************************
 
+const wxFilterClassFactory * bmx_wxfilterclassfactory_find(BBString * protocol, wxStreamProtocolType protocolType) {
+	return wxFilterClassFactory::Find(wxStringFromBBString(protocol), protocolType);
+}
+
+bool bmx_wxfilterclassfactory_canhandle(wxFilterClassFactory * factory, BBString * protocol, wxStreamProtocolType protocolType) {
+	return factory->CanHandle(wxStringFromBBString(protocol), protocolType);
+}
+
+BBString * bmx_wxfilterclassfactory_getprotocol(wxFilterClassFactory * factory) {
+	return bbStringFromWxString(factory->GetProtocol());
+}
+
+wxFilterInputStream * bmx_wxfilterclassfactory_newinputstream(wxFilterClassFactory * factory, wxInputStream * stream) {
+	return factory->NewStream(stream);
+}
+
+BBString * bmx_wxfilterclassfactory_popextension(wxFilterClassFactory * factory, BBString * location) {
+	return bbStringFromWxString(factory->PopExtension(wxStringFromBBString(location)));
+}
+
+void bmx_wxfilterclassfactory_pushfront(wxFilterClassFactory * factory) {
+	factory->PushFront();
+}
+
+void bmx_wxfilterclassfactory_remove(wxFilterClassFactory * factory) {
+	factory->Remove();
+}
+
 
