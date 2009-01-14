@@ -68,12 +68,12 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Rem
 	bbdoc: 
 	End Rem
-	Method AddPropertyChoice(prop:wxPGProperty, label:String, value:Int = INT_MAX) Abstract
+	Method AddPropertyChoice(prop:Object, label:String, value:Int = INT_MAX) Abstract
 
-	Rem
-	bbdoc: 
-	End Rem
-	Method AddPropertyChoiceByName(name:String, label:String, value:Int = INT_MAX) Abstract
+'	Rem
+'	bbdoc: 
+'	End Rem
+'	Method AddPropertyChoiceByName(name:String, label:String, value:Int = INT_MAX) Abstract
 	
 	Rem
 	bbdoc: Appends property to the list.
@@ -90,87 +90,81 @@ Type wxPropertyContainerMethods Extends wxPanel
 	bbdoc: Inorder to add new items into a property with fixed children (for instance, wxFlagsProperty), you need to call this method.
 	about: After populating has been finished, you need to call EndAddChildren/Name.	
 	End Rem
-	Method BeginAddChildren(prop:wxPGProperty) Abstract
+	Method BeginAddChildren(prop:Object) Abstract
 	
 	Rem
-	bbdoc: Inorder to add new items into a property with fixed children (for instance, wxFlagsProperty), you need to call this method.
-	about: After populating has been finished, you need to call EndAddChildren/Name.	
+	bbdoc: 
 	End Rem
-	Method BeginAddChildrenByName(name:String) Abstract
+	Method ChangePropertyValueIntArray:Int(prop:Object, value:Int[]) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ChangePropertyValueULong:Int(prop:Object, value:Long) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ChangePropertyValueLong:Int(prop:Object, value:Long) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ChangePropertyValueSize:Int(prop:Object, w:Int, h:Int) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ChangePropertyValuePoint:Int(prop:Object, x:Int, y:Int) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ChangePropertyValueBytePtr:Int(prop:Object, value:Byte Ptr) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ChangePropertyValueString:Int(prop:Object, value:String) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ChangePropertyValueDateTime:Int(prop:Object, time:wxDateTime) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ChangePropertyValueStringArray:Int(prop:Object, value:String[]) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ChangePropertyValueBool:Int(prop:Object, value:Int) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ChangePropertyValueDouble:Int(prop:Object, value:Double) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method ChangePropertyValueIntArray:Int(prop:wxPGProperty, value:Int[]) Abstract
+	Method ChangePropertyValueFloat:Int(prop:Object, value:Float) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method ChangePropertyValueULong:Int(prop:wxPGProperty, value:Long) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ChangePropertyValueLong:Int(prop:wxPGProperty, value:Long) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ChangePropertyValueSize:Int(prop:wxPGProperty, w:Int, h:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ChangePropertyValuePoint:Int(prop:wxPGProperty, x:Int, y:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ChangePropertyValueBytePtr:Int(prop:wxPGProperty, value:Byte Ptr) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ChangePropertyValueString:Int(prop:wxPGProperty, value:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ChangePropertyValueDateTime:Int(prop:wxPGProperty, time:wxDateTime) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ChangePropertyValueStringArray:Int(prop:wxPGProperty, value:String[]) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ChangePropertyValueBool:Int(prop:wxPGProperty, value:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ChangePropertyValueDouble:Int(prop:wxPGProperty, value:Double) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ChangePropertyValueInt:Int(prop:wxPGProperty, value:Int) Abstract
+	Method ChangePropertyValueInt:Int(prop:Object, value:Int) Abstract
 
 	Rem
 	bbdoc: Resets value of a property to its default.
 	End Rem
-	Method ClearPropertyValue:Int(prop:wxPGProperty) Abstract
+	Method ClearPropertyValue:Int(prop:Object) Abstract
 	
 	Rem
-	bbdoc: Resets value of a property to its default.
-	End Rem
-	Method ClearPropertyValueByName:Int(name:String) Abstract
-
-	Rem
-	bbdoc: Deselect current selection, if any.
-	returns: True if success (ie. validator did not intercept).
+	bbdoc: Deselect current selection, If any.
+	returns: True If success (ie. validator did Not intercept).
 	End Rem
 	Method ClearSelection:Int() Abstract
 
@@ -178,25 +172,13 @@ Type wxPropertyContainerMethods Extends wxPanel
 	bbdoc: Collapses given category or property with children.
 	returns: True if actually collapses.
 	End Rem
-	Method Collapse:Int(prop:wxPGProperty) Abstract
+	Method Collapse:Int(prop:Object) Abstract
 	
-	Rem
-	bbdoc: Collapses given category or property with children.
-	returns: True if actually collapses.
-	End Rem
-	Method CollapseByName:Int(name:String) Abstract
-
 	Rem
 	bbdoc: Deletes a property.
 	about: If category is deleted, all children are automatically deleted as well.
 	End Rem
-	Method DeleteProperty(prop:wxPGProperty) Abstract
-	
-	Rem
-	bbdoc: Deletes a property by name.
-	about: If category is deleted, all children are automatically deleted as well.
-	End Rem
-	Method DeletePropertyByName(name:String) Abstract
+	Method DeleteProperty(prop:Object) Abstract
 
 	Rem
 	bbdoc: Deletes choice from a property.
@@ -205,59 +187,29 @@ Type wxPropertyContainerMethods Extends wxPanel
 	See AddPropertyChoice for more details.
 	</p>
 	End Rem
-	Method DeletePropertyChoice(prop:wxPGProperty, index:Int) Abstract
-	
-	Rem
-	bbdoc: Deletes choice from a property.
-	about: If selected item is deleted, then the value is set to unspecified.
-	<p>
-	See AddPropertyChoice for more details.
-	</p>
-	End Rem
-	Method DeletePropertyChoiceByName(name:String, index:Int) Abstract
-
-	Rem
-	bbdoc: Disables property.
-	End Rem
-	Method DisableProperty:Int(prop:wxPGProperty) Abstract
+	Method DeletePropertyChoice(prop:Object, index:Int) Abstract
 	
 	Rem
 	bbdoc: Disables property.
 	End Rem
-	Method DisablePropertyByName:Int(name:String) Abstract
-
-	Rem
-	bbdoc: Enables or disables property, depending on whether enable is true or false.
-	End Rem
-	Method EnableProperty:Int(prop:wxPGProperty, enable:Int = True) Abstract
+	Method DisableProperty:Int(prop:Object) Abstract
 	
 	Rem
 	bbdoc: Enables or disables property, depending on whether enable is true or false.
 	End Rem
-	Method EnablePropertyByName:Int(name:String, enable:Int = True) Abstract
-
-	Rem
-	bbdoc: Called after population of property with fixed children has finished.
-	End Rem
-	Method EndAddChildren(prop:wxPGProperty) Abstract
+	Method EnableProperty:Int(prop:Object, enable:Int = True) Abstract
 	
 	Rem
 	bbdoc: Called after population of property with fixed children has finished.
 	End Rem
-	Method EndAddChildrenByName(name:String) Abstract
+	Method EndAddChildren(prop:Object) Abstract
 	
 	Rem
 	bbdoc: Expands given category or property with children.
 	returns: True if actually expands.
 	End Rem
-	Method Expand:Int(prop:wxPGProperty) Abstract
+	Method Expand:Int(prop:Object) Abstract
 
-	Rem
-	bbdoc: Expands given category or property with children.
-	returns: True if actually expands.
-	End Rem
-	Method ExpandByName:Int(name:String) Abstract
-	
 	Rem
 	bbdoc: 
 	End Rem
@@ -286,132 +238,137 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyCategory:wxPropertyCategory(prop:wxPGProperty) Abstract
+	Method GetPropertyCategory:wxPropertyCategory(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyChoices:wxPGChoices(prop:wxPGProperty) Abstract
+	Method GetPropertyChoices:wxPGChoices(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyClassName:String(prop:wxPGProperty) Abstract
+	Method GetPropertyClassName:String(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyClientData:Object(prop:wxPGProperty) Abstract
+	Method GetPropertyClientData:Object(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyEditor:wxPGEditor(prop:wxPGProperty) Abstract
+	Method GetPropertyEditor:wxPGEditor(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyHelpString:String(prop:wxPGProperty) Abstract
+	Method GetPropertyHelpString:String(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyImage:wxBitmap(prop:wxPGProperty) Abstract
+	Method GetPropertyImage:wxBitmap(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyIndex:Int(prop:wxPGProperty) Abstract
+	Method GetPropertyIndex:Int(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyLabel:String(prop:wxPGProperty) Abstract
+	Method GetPropertyLabel:String(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyName:String(prop:wxPGProperty) Abstract
+	Method GetPropertyName:String(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyParent:wxPGProperty(prop:wxPGProperty) Abstract
+	Method GetPropertyParent:wxPGProperty(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyPtr:wxPGProperty(prop:wxPGProperty) Abstract
+	Method GetPropertyPtr:wxPGProperty(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyShortClassName:String(prop:wxPGProperty) Abstract
+	Method GetPropertyShortClassName:String(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsArrayInt:Int[](prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsArrayInt:Int[](prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsArrayString:String[](prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsArrayString:String[](prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsBool:Int(prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsBool:Int(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsDateTime:wxDateTime(prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsDateTime:wxDateTime(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsDouble:Double(prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsDouble:Double(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsInt:Int(prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsFloat:Float(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsLong:Long(prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsInt:Int(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsPoint(prop:wxPGProperty, x:Int Var, y:Int Var) Abstract
+	Method GetPropertyValueAsLong:Long(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsSize(prop:wxPGProperty, w:Int Var, h:Int Var) Abstract
+	Method GetPropertyValueAsPoint(prop:Object, x:Int Var, y:Int Var) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsString:String(prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsSize(prop:Object, w:Int Var, h:Int Var) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsULong:Int(prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsString:String(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueAsColour:wxColour(prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsULong:Int(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyValueType:String(prop:wxPGProperty) Abstract
+	Method GetPropertyValueAsColour:wxColour(prop:Object) Abstract
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetPropertyValueType:String(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
@@ -426,57 +383,57 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Rem
 	bbdoc: 
 	End Rem
-	Method HideProperty:Int(prop:wxPGProperty, hide:Int = True) Abstract
+	Method HideProperty:Int(prop:Object, hide:Int = True) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method Insert:wxPGProperty(parent:wxPGProperty, index:Int, newproperty:wxPGProperty) Abstract
+	Method Insert:wxPGProperty(parent:Object, index:Int, newproperty:wxPGProperty) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method InsertCategory:wxPGProperty(prop:wxPGProperty, index:Int, label:String) Abstract
+	Method InsertCategory:wxPGProperty(prop:Object, index:Int, label:String) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method InsertPropertyChoice(prop:wxPGProperty, label:String, index:Int, value:Int = INT_MAX) Abstract
+	Method InsertPropertyChoice(prop:Object, label:String, index:Int, value:Int = INT_MAX) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method IsPropertyCategory:Int(prop:wxPGProperty) Abstract
+	Method IsPropertyCategory:Int(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method IsPropertyEnabled:Int(prop:wxPGProperty) Abstract
+	Method IsPropertyEnabled:Int(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method IsPropertyExpanded:Int(prop:wxPGProperty) Abstract
+	Method IsPropertyExpanded:Int(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method IsPropertyModified:Int(prop:wxPGProperty) Abstract
+	Method IsPropertyModified:Int(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method IsPropertyShown:Int(prop:wxPGProperty) Abstract
+	Method IsPropertyShown:Int(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method IsPropertyUnspecified:Int(prop:wxPGProperty) Abstract
+	Method IsPropertyUnspecified:Int(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method LimitPropertyEditing(prop:wxPGProperty, limit:Int = True) Abstract
+	Method LimitPropertyEditing(prop:Object, limit:Int = True) Abstract
 	
 	Rem
 	bbdoc: 
@@ -496,454 +453,141 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Rem
 	bbdoc: 
 	End Rem
-	Method ReplaceProperty:wxPGProperty(prop:wxPGProperty, property:wxPGProperty) Abstract
+	Method ReplaceProperty:wxPGProperty(prop:Object, property:wxPGProperty) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyCell(prop:wxPGProperty, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null) Abstract
+	Method SetPropertyCell(prop:Object, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyChoices(prop:wxPGProperty, choices:wxPGChoices) Abstract
+	Method SetPropertyChoices(prop:Object, choices:wxPGChoices) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyChoicesExclusive(prop:wxPGProperty) Abstract
+	Method SetPropertyChoicesExclusive(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyClientData(prop:wxPGProperty, clientData:Object) Abstract
+	Method SetPropertyClientData(prop:Object, clientData:Object) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyEditorbyName(prop:wxPGProperty, editorName:String) Abstract
+	Method SetPropertyEditorbyName(prop:Object, editorName:String) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyEditor(prop:wxPGProperty, editor:wxPGEditor) Abstract
+	Method SetPropertyEditor(prop:Object, editor:wxPGEditor) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyAttribute(prop:wxPGProperty, attrName:String, value:Int, argFlags:Int = 0) Abstract
+	Method SetPropertyAttribute(prop:Object, attrName:String, value:Int, argFlags:Int = 0) Abstract
 	
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyCategoryName:wxPropertyCategory(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyChoicesByName:wxPGChoices(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyClassNameByName:String(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyClientDataByName:Object(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyEditorByName:wxPGEditor(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyHelpStringByName:String(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyImageByName:wxBitmap(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyIndexByName:Int(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyLabelByName:String(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyNameByName:String(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyParentByName:wxPGProperty(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyPtrByName:wxPGProperty(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyShortClassNameByName:String(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsArrayIntByName:Int[](name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsArrayStringByName:String[](name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsBoolByName:Int(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsDateTimeByName:wxDateTime(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsDoubleByName:Double(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsIntByName:Int(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsLongByName:Long(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsPointByName(name:String, x:Int Var, y:Int Var) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsSizeByName(name:String, w:Int Var, h:Int Var) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsStringByName:String(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsColourByName:wxColour(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueAsULongByName:Int(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyValueTypeByName:String(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method HidePropertyByName:Int(name:String, hide:Int = True) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method InsertByName:wxPGProperty(parent:String, index:Int, newproperty:wxPGProperty) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method InsertCategoryByName:wxPGProperty(name:String, index:Int, label:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method InsertPropertyChoiceByName(name:String, label:String, index:Int, value:Int = INT_MAX) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method IsPropertyCategoryByName:Int(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method IsPropertyEnabledByName:Int(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method IsPropertyExpandedByName:Int(name:String) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method IsPropertyModifiedByName:Int(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method IsPropertyShownByName:Int(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method IsPropertyUnspecifiedByName:Int(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method LimitPropertyEditingByName(name:String, limit:Int = True) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method ReplacePropertyByName:wxPGProperty(name:String, property:wxPGProperty) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyCellByName(name:String, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyChoicesByName(name:String, choices:wxPGChoices) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyChoicesExclusiveByName(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyClientDataByName(name:String, clientData:Object) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyEditorbyPropNameAndName(name:String, editorName:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyEditorByPropName(name:String, editor:wxPGEditor) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyAttributeByName(name:String, attrName:String, value:Int, argFlags:Int = 0) Abstract
-	
-
 	Rem
 	bbdoc: Associates the help string with property.
 	about: By default, text is shown either in the manager's "description" text box or in the
 	status bar. If extra window style wxPG_EX_HELP_AS_TOOLTIPS is used, then the text will appear
 	as a tooltip.
 	End Rem
-	Method SetPropertyHelpString(prop:wxPGProperty, helpString:String) Abstract
+	Method SetPropertyHelpString(prop:Object, helpString:String) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyHelpStringByName(name:String, helpString:String) Abstract
+	Method SetPropertyImage(prop:Object, bmp:wxBitmap) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyLabel(prop:Object, newproplabel:String) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyMaxLength:Int(prop:Object, maxLen:Int) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyReadOnly(prop:Object, set:Int = True) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyUnspecified(prop:Object) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValueIntArray(prop:Object, value:Int[]) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValueULong(prop:Object, value:Long) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValueLong(prop:Object, value:Long) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValueSize(prop:Object, w:Int, h:Int) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValuePoint(prop:Object, x:Int, y:Int) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValueBytePtr(prop:Object, value:Byte Ptr) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValueString(prop:Object, value:String) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValueDateTime(prop:Object, time:wxDateTime) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValueStringArray(prop:Object, value:String[]) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValueBool(prop:Object, value:Int) Abstract
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetPropertyValueDouble(prop:Object, value:Double) Abstract
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyImage(prop:wxPGProperty, bmp:wxBitmap) Abstract
+	Method SetPropertyValueFloat(prop:Object, value:Float) Abstract
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyLabel(prop:wxPGProperty, newproplabel:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyMaxLength:Int(prop:wxPGProperty, maxLen:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyReadOnly(prop:wxPGProperty, set:Int = True) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyUnspecified(prop:wxPGProperty) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueIntArray(prop:wxPGProperty, value:Int[]) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueULong(prop:wxPGProperty, value:Long) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueLong(prop:wxPGProperty, value:Long) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueSize(prop:wxPGProperty, w:Int, h:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValuePoint(prop:wxPGProperty, x:Int, y:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueBytePtr(prop:wxPGProperty, value:Byte Ptr) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueString(prop:wxPGProperty, value:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueDateTime(prop:wxPGProperty, time:wxDateTime) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueStringArray(prop:wxPGProperty, value:String[]) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueBool(prop:wxPGProperty, value:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueDouble(prop:wxPGProperty, value:Double) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueInt(prop:wxPGProperty, value:Int) Abstract
+	Method SetPropertyValueInt(prop:Object, value:Int) Abstract
 
-
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyImageByName(name:String, bmp:wxBitmap) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyLabelByName(name:String, newproplabel:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyMaxLengthByName:Int(name:String, maxLen:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyReadOnlyByName(name:String, set:Int = True) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyUnspecifiedByName(name:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueIntArrayByName(name:String, value:Int[]) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueULongByName(name:String, value:Long) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueLongByName(name:String, value:Long) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueSizeByName(name:String, w:Int, h:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValuePointByName(name:String, x:Int, y:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueBytePtrByName(name:String, value:Byte Ptr) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueStringByName(name:String, value:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueDateTimeByName(name:String, time:wxDateTime) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueStringArrayByName(name:String, value:String[]) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueBoolByName(name:String, value:Int) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueDoubleByName(name:String, value:Double) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyValueIntByName(name:String, value:Int) Abstract
 	
 '	Function InitAllTypeHandlers()
 '	End Function
@@ -1023,12 +667,12 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		Return Self
 	End Method
 
-	Method AddPropertyChoice(prop:wxPGProperty, label:String, value:Int = INT_MAX)
-		bmx_wxpropertygrid_addpropertychoice(wxObjectPtr, prop.wxObjectPtr, label, value)
-	End Method
-
-	Method AddPropertyChoiceByName(name:String, label:String, value:Int = INT_MAX)
-		bmx_wxpropertygrid_addpropertychoicebyname(wxObjectPtr, name, label, value)
+	Method AddPropertyChoice(prop:Object, label:String, value:Int = INT_MAX)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_addpropertychoice(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, label, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_addpropertychoicebyname(wxObjectPtr, String(prop), label, value)
+		End If
 	End Method
 
 	Method Append:wxPGProperty(property:wxPGProperty)
@@ -1083,52 +727,92 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
-	Method ChangePropertyValueIntArray:Int(prop:wxPGProperty, value:Int[])
+	Method ChangePropertyValueIntArray:Int(prop:Object, value:Int[])
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValueULong:Int(prop:wxPGProperty, value:Long) 
+	Method ChangePropertyValueULong:Int(prop:Object, value:Long) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValueLong:Int(prop:wxPGProperty, value:Long) 
+	Method ChangePropertyValueLong:Int(prop:Object, value:Long) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValueSize:Int(prop:wxPGProperty, w:Int, h:Int) 
+	Method ChangePropertyValueSize:Int(prop:Object, w:Int, h:Int) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValuePoint:Int(prop:wxPGProperty, x:Int, y:Int) 
+	Method ChangePropertyValuePoint:Int(prop:Object, x:Int, y:Int) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValueBytePtr:Int(prop:wxPGProperty, value:Byte Ptr) 
+	Method ChangePropertyValueBytePtr:Int(prop:Object, value:Byte Ptr) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValueString:Int(prop:wxPGProperty, value:String) 
+	Method ChangePropertyValueString:Int(prop:Object, value:String) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValueDateTime:Int(prop:wxPGProperty, time:wxDateTime) 
+	Method ChangePropertyValueDateTime:Int(prop:Object, time:wxDateTime) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValueStringArray:Int(prop:wxPGProperty, value:String[]) 
+	Method ChangePropertyValueStringArray:Int(prop:Object, value:String[]) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValueBool:Int(prop:wxPGProperty, value:Int) 
+	Method ChangePropertyValueBool:Int(prop:Object, value:Int) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValueDouble:Int(prop:wxPGProperty, value:Double) 
+	Method ChangePropertyValueDouble:Int(prop:Object, value:Double) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method ChangePropertyValueInt:Int(prop:wxPGProperty, value:Int) 
+	Method ChangePropertyValueFloat:Int(prop:Object, value:Float)
+		Return ChangePropertyValueDouble(prop, value)
+	End Method
+	
+	Method ChangePropertyValueInt:Int(prop:Object, value:Int) 
 		' TODO
+		If wxPGProperty(prop) Then
+		Else If String(prop) Then
+		End If
 	End Method
 
 	Rem
@@ -1149,25 +833,23 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	Rem
 	bbdoc: Resets modified status of a property and all sub-properties.
 	End Rem
-	Method ClearPropertyModifiedStatus(prop:wxPGProperty)
-		bmx_wxpropertygrid_clearpropertymodifiedstatus(wxObjectPtr, prop.wxObjectPtr)
+	Method ClearPropertyModifiedStatus(prop:Object)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_clearpropertymodifiedstatus(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_clearpropertymodifiedstatusbyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 
-	Rem
-	bbdoc: Resets modified status of a property and all sub-properties.
-	End Rem
-	Method ClearPropertyModifiedStatusByName(name:String)
-		bmx_wxpropertygrid_clearpropertymodifiedstatusbyname(wxObjectPtr, name)
+	Method SetPropertyHelpString(prop:Object, helpString:String)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyhelpstring(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, helpString)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyhelpstringbyname(wxObjectPtr, String(prop), helpString)
+		End If
 	End Method
 
-	Method SetPropertyHelpString(prop:wxPGProperty, helpString:String)
-		bmx_wxpropertygrid_setpropertyhelpstring(wxObjectPtr, prop.wxObjectPtr, helpString)
-	End Method
 
-	Method SetPropertyHelpStringByName(name:String, helpString:String)
-		bmx_wxpropertygrid_setpropertyhelpstringbyname(wxObjectPtr, name, helpString)
-	End Method
-	
 '	Method ClearPropertyValue(name:String)
 '	End Method
 	
@@ -1217,106 +899,106 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		Return wxColour._create(bmx_wxpropertygrid_getmargincolour(wxObjectPtr))
 	End Method
 	
-	Method GetPropertyBackgroundColour:wxColour(prop:wxPGProperty)
-		Return wxColour._create(bmx_wxpropertygrid_getpropertybackgroundcolour(wxObjectPtr, prop.wxObjectPtr))
+	Method GetPropertyBackgroundColour:wxColour(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxColour._create(bmx_wxpropertygrid_getpropertybackgroundcolour(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+			Return wxColour._create(bmx_wxpropertygrid_getpropertybackgroundcolourbyname(wxObjectPtr, String(prop)))
+		End If
 	End Method
 	
-	Method GetPropertyColour:wxColour(prop:wxPGProperty)
-		Return wxColour._create(bmx_wxpropertygrid_getpropertycolour(wxObjectPtr, prop.wxObjectPtr))
+	Method GetPropertyColour:wxColour(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxColour._create(bmx_wxpropertygrid_getpropertycolour(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+			Return wxColour._create(bmx_wxpropertygrid_getpropertycolourbyname(wxObjectPtr, String(prop)))
+		End If
 	End Method
 	
-	Method GetPropertyTextColour:wxColour(prop:wxPGProperty)
-		Return wxColour._create(bmx_wxpropertygrid_getpropertytextcolour(wxObjectPtr, prop.wxObjectPtr))
+	Method GetPropertyTextColour:wxColour(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxColour._create(bmx_wxpropertygrid_getpropertytextcolour(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+			Return wxColour._create(bmx_wxpropertygrid_getpropertytextcolourbyname(wxObjectPtr, String(prop)))
+		End If
 	End Method
 
-	Method GetPropertyBackgroundColourByName:wxColour(name:String)
-		Return wxColour._create(bmx_wxpropertygrid_getpropertybackgroundcolourbyname(wxObjectPtr, name))
+	Method BeginAddChildren(prop:Object)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_beginaddchildren(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_beginaddchildrenbyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method GetPropertyColourByName:wxColour(name:String)
-		Return wxColour._create(bmx_wxpropertygrid_getpropertycolourbyname(wxObjectPtr, name))
+	Method ClearPropertyValue:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_clearpropertyvalue(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_clearpropertyvaluebyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method GetPropertyTextColourByName:wxColour(name:String)
-		Return wxColour._create(bmx_wxpropertygrid_getpropertytextcolourbyname(wxObjectPtr, name))
-	End Method
-
-	Method BeginAddChildren(prop:wxPGProperty)
-		bmx_wxpropertygrid_beginaddchildren(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-	
-	Method BeginAddChildrenByName(name:String)
-		bmx_wxpropertygrid_beginaddchildrenbyname(wxObjectPtr, name)
-	End Method
-
-	Method ClearPropertyValue:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_clearpropertyvalue(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-	
-	Method ClearPropertyValueByName:Int(name:String)
-		Return bmx_wxpropertygrid_clearpropertyvaluebyname(wxObjectPtr, name)
-	End Method
-
 	Method ClearSelection:Int()
 		Return bmx_wxpropertygrid_clearselection(wxObjectPtr)
 	End Method
 
-	Method Collapse:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_collapse(wxObjectPtr, prop.wxObjectPtr)
+	Method Collapse:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_collapse(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_collapsebyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method CollapseByName:Int(name:String)
-		Return bmx_wxpropertygrid_collapsebyname(wxObjectPtr, name)
+	Method DeleteProperty(prop:Object)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_deleteproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_deletepropertybyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+	
+	Method DeletePropertyChoice(prop:Object, index:Int)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_deletepropertychoice(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, index)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_deletepropertychoicebyname(wxObjectPtr, String(prop), index)
+		End If
+	End Method
+	
+	Method DisableProperty:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_disableproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_disablepropertybyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+	
+	Method EnableProperty:Int(prop:Object, enable:Int = True)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_enableproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, enable)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_enablepropertybyname(wxObjectPtr, String(prop), enable)
+		End If
+	End Method
+	
+	Method EndAddChildren(prop:Object)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_endaddchildren(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_endaddchildrenbyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+	
+	Method Expand:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_expand(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_expandbyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 
-	Method DeleteProperty(prop:wxPGProperty)
-		bmx_wxpropertygrid_deleteproperty(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-	
-	Method DeletePropertyByName(name:String)
-		bmx_wxpropertygrid_deletepropertybyname(wxObjectPtr, name)
-	End Method
-
-	Method DeletePropertyChoice(prop:wxPGProperty, index:Int)
-		bmx_wxpropertygrid_deletepropertychoice(wxObjectPtr, prop.wxObjectPtr, index)
-	End Method
-	
-	Method DeletePropertyChoiceByName(name:String, index:Int)
-		bmx_wxpropertygrid_deletepropertychoicebyname(wxObjectPtr, name, index)
-	End Method
-
-	Method DisableProperty:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_disableproperty(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-	
-	Method DisablePropertyByName:Int(name:String)
-		Return bmx_wxpropertygrid_disablepropertybyname(wxObjectPtr, name)
-	End Method
-
-	Method EnableProperty:Int(prop:wxPGProperty, enable:Int = True)
-		Return bmx_wxpropertygrid_enableproperty(wxObjectPtr, prop.wxObjectPtr, enable)
-	End Method
-	
-	Method EnablePropertyByName:Int(name:String, enable:Int = True)
-		Return bmx_wxpropertygrid_enablepropertybyname(wxObjectPtr, name, enable)
-	End Method
-
-	Method EndAddChildren(prop:wxPGProperty)
-		bmx_wxpropertygrid_endaddchildren(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-	
-	Method EndAddChildrenByName(name:String)
-		bmx_wxpropertygrid_endaddchildrenbyname(wxObjectPtr, name)
-	End Method
-	
-	Method Expand:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_expand(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method ExpandByName:Int(name:String)
-		Return bmx_wxpropertygrid_expandbyname(wxObjectPtr, name)
-	End Method
-	
 	
 	Method GetFirst:wxPGProperty(flags:Int)
 		Return wxPGProperty._find(bmx_wxpropertygrid_getfirst(wxObjectPtr, flags))
@@ -1350,105 +1032,209 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		Return wxPGProperty._find(bmx_wxpropertygrid_getpropertybyname(wxObjectPtr, name))
 	End Method
 	
-	Method GetPropertyCategory:wxPropertyCategory(prop:wxPGProperty)
-		Return wxPropertyCategory._find(bmx_wxpropertygrid_getpropertycategory(wxObjectPtr, prop.wxObjectPtr))
+	Method GetPropertyCategory:wxPropertyCategory(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxPropertyCategory._find(bmx_wxpropertygrid_getpropertycategory(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+			Return wxPropertyCategory._find(bmx_wxpropertygrid_getpropertycategorybyname(wxObjectPtr, String(prop)))
+		End If
 	End Method
 	
-	Method GetPropertyChoices:wxPGChoices(prop:wxPGProperty)
-		Return wxPGChoices._create(bmx_wxpropertygrid_getpropertychoices(wxObjectPtr, prop.wxObjectPtr))
+	Method GetPropertyChoices:wxPGChoices(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxPGChoices._create(bmx_wxpropertygrid_getpropertychoices(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+			Return wxPGChoices._create(bmx_wxpropertygrid_getpropertychoicesbyname(wxObjectPtr, String(prop)))
+		End If
 	End Method
 	
-	Method GetPropertyClassName:String(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyclassname(wxObjectPtr, prop.wxObjectPtr)
+	Method GetPropertyClassName:String(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyclassname(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyclassnamebyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method GetPropertyClientData:Object(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyclientdata(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyEditor:wxPGEditor(prop:wxPGProperty)
-		Return wxPGEditor._find(bmx_wxpropertygrid_getpropertyeditor(wxObjectPtr, prop.wxObjectPtr))
-	End Method
-
-	Method GetPropertyHelpString:String(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyhelpstring(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyImage:wxBitmap(prop:wxPGProperty)
-		Return wxBitmap._create(bmx_wxpropertygrid_getpropertyimage(wxObjectPtr, prop.wxObjectPtr))
-	End Method
-
-	Method GetPropertyIndex:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyindex(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyLabel:String(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertylabel(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyName:String(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyname(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyParent:wxPGProperty(prop:wxPGProperty)
-		Return wxPGProperty._find(bmx_wxpropertygrid_getpropertyparent(wxObjectPtr, prop.wxObjectPtr))
-	End Method
-
-	Method GetPropertyPtr:wxPGProperty(prop:wxPGProperty)
-		Return wxPGProperty._find(bmx_wxpropertygrid_getpropertyptr(wxObjectPtr, prop.wxObjectPtr))
-	End Method
-
-	Method GetPropertyShortClassName:String(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyshortclassname(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyValueAsArrayInt:Int[](prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyvalueasarrayint(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyValueAsArrayString:String[](prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyvalueasarraystring(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyValueAsBool:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyvalueasbool(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyValueAsDateTime:wxDateTime(prop:wxPGProperty)
-		Return wxDateTime._create(bmx_wxpropertygrid_getpropertyvalueasdatetime(wxObjectPtr, prop.wxObjectPtr))
-	End Method
-
-	Method GetPropertyValueAsDouble:Double(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyvalueasdouble(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyValueAsInt:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyvalueasint(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyValueAsLong:Long(prop:wxPGProperty)
-		Local value:Long
-		bmx_wxpropertygrid_getpropertyvalueaslong(wxObjectPtr, prop.wxObjectPtr, Varptr value)
-	End Method
-
-	Method GetPropertyValueAsPoint(prop:wxPGProperty, x:Int Var, y:Int Var)
-		bmx_wxpropertygrid_getpropertyvalueaspoint(wxObjectPtr, prop.wxObjectPtr, Varptr x, Varptr y)
-	End Method
-
-	Method GetPropertyValueAsSize(prop:wxPGProperty, w:Int Var, h:Int Var)
-		bmx_wxpropertygrid_getpropertyvalueassize(wxObjectPtr, prop.wxObjectPtr, Varptr w, Varptr h)
-	End Method
-
-	Method GetPropertyValueAsString:String(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyvalueasstring(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-
-	Method GetPropertyValueAsULong:Int(prop:wxPGProperty)
+	Method GetPropertyClientData:Object(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyclientdata(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
 		' TODO
+		End If
 	End Method
 
-	Method GetPropertyValueType:String(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_getpropertyvaluetype(wxObjectPtr, prop.wxObjectPtr)
+	Method GetPropertyEditor:wxPGEditor(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxPGEditor._find(bmx_wxpropertygrid_getpropertyeditor(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+		' TODO
+		End If
+	End Method
+
+	Method GetPropertyHelpString:String(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyhelpstring(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyhelpstringbyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyImage:wxBitmap(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxBitmap._create(bmx_wxpropertygrid_getpropertyimage(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+			Return wxBitmap._create(bmx_wxpropertygrid_getpropertyimagebyname(wxObjectPtr, String(prop)))
+		End If
+	End Method
+
+	Method GetPropertyIndex:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyindex(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyindexbyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyLabel:String(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertylabel(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertylabelbyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyName:String(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyname(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertynamebyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyParent:wxPGProperty(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxPGProperty._find(bmx_wxpropertygrid_getpropertyparent(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+		' TODO
+		End If
+	End Method
+
+	Method GetPropertyPtr:wxPGProperty(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxPGProperty._find(bmx_wxpropertygrid_getpropertyptr(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+		' TODO
+		End If
+	End Method
+
+	Method GetPropertyShortClassName:String(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyshortclassname(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyshortclassnamebyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyValueAsArrayInt:Int[](prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasarrayint(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasarrayintbyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyValueAsArrayString:String[](prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasarraystring(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasarraystringbyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyValueAsBool:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasbool(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasboolbyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyValueAsDateTime:wxDateTime(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxDateTime._create(bmx_wxpropertygrid_getpropertyvalueasdatetime(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+			Return wxDateTime._create(bmx_wxpropertygrid_getpropertyvalueasdatetimebyname(wxObjectPtr, String(prop)))
+		End If
+	End Method
+
+	Method GetPropertyValueAsDouble:Double(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasdouble(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasdoublebyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyValueAsFloat:Float(prop:Object)
+		Return GetPropertyValueAsDouble(prop)
+	End Method
+
+	Method GetPropertyValueAsInt:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasint(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasintbyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyValueAsLong:Long(prop:Object)
+		Local value:Long
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_getpropertyvalueaslong(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, Varptr value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_getpropertyvalueaslongbyname(wxObjectPtr, String(prop), Varptr value)
+		End If
+		Return value
+	End Method
+
+	Method GetPropertyValueAsPoint(prop:Object, x:Int Var, y:Int Var)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_getpropertyvalueaspoint(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, Varptr x, Varptr y)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_getpropertyvalueaspointbyname(wxObjectPtr, String(prop), Varptr x, Varptr y)
+		End If
+	End Method
+
+	Method GetPropertyValueAsSize(prop:Object, w:Int Var, h:Int Var)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_getpropertyvalueassize(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, Varptr w, Varptr h)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_getpropertyvalueassizebyname(wxObjectPtr, String(prop), Varptr w, Varptr h)
+		End If
+	End Method
+
+	Method GetPropertyValueAsString:String(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasstring(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvalueasstringbyname(wxObjectPtr, String(prop))
+		End If
+	End Method
+
+	Method GetPropertyValueAsULong:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			' TODO
+		Else If String(prop) Then
+		End If
+	End Method
+
+	Method GetPropertyValueType:String(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvaluetype(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_getpropertyvaluetypebyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
 	Method GetSelection:wxPGProperty()
@@ -1459,48 +1245,92 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		' TODO
 	End Method
 	
-	Method HideProperty:Int(prop:wxPGProperty, hide:Int = True)
-		Return bmx_wxpropertygrid_hideproperty(wxObjectPtr, prop.wxObjectPtr, hide)
+	Method HideProperty:Int(prop:Object, hide:Int = True)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_hideproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, hide)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_hidepropertybyname(wxObjectPtr, String(prop), hide)
+		End If
 	End Method
 	
-	Method Insert:wxPGProperty(parent:wxPGProperty, index:Int, newproperty:wxPGProperty)
-		Return wxPGProperty._find(bmx_wxpropertygrid_insert(wxObjectPtr, parent.wxObjectPtr, index, newproperty.wxObjectPtr))
+	Method Insert:wxPGProperty(parent:Object, index:Int, newproperty:wxPGProperty)
+		If wxPGProperty(parent) Then
+			Return wxPGProperty._find(bmx_wxpropertygrid_insert(wxObjectPtr, wxPGProperty(parent).wxObjectPtr, index, newproperty.wxObjectPtr))
+		Else If String(parent) Then
+			Return wxPGProperty._find(bmx_wxpropertygrid_insertbyname(wxObjectPtr, String(parent), index, newproperty.wxObjectPtr))
+		End If
 	End Method
 	
-	Method InsertCategory:wxPGProperty(prop:wxPGProperty, index:Int, label:String)
-		Return wxPGProperty._find(bmx_wxpropertygrid_insertcategory(wxObjectPtr, prop.wxObjectPtr, index, label))
+	Method InsertCategory:wxPGProperty(prop:Object, index:Int, label:String)
+		If wxPGProperty(prop) Then
+			Return wxPGProperty._find(bmx_wxpropertygrid_insertcategory(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, index, label))
+		Else If String(prop) Then
+			Return wxPGProperty._find(bmx_wxpropertygrid_insertcategorybyname(wxObjectPtr, String(prop), index, label))
+		End If
 	End Method
 	
-	Method InsertPropertyChoice(prop:wxPGProperty, label:String, index:Int, value:Int = INT_MAX)
-		bmx_wxpropertygrid_insertpropertychoice(wxObjectPtr, prop.wxObjectPtr, label, index, value)
+	Method InsertPropertyChoice(prop:Object, label:String, index:Int, value:Int = INT_MAX)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_insertpropertychoice(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, label, index, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_insertpropertychoicebyname(wxObjectPtr, String(prop), label, index, value)
+		End If
 	End Method
 	
-	Method IsPropertyCategory:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_ispropertcategory(wxObjectPtr, prop.wxObjectPtr)
+	Method IsPropertyCategory:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_ispropertcategory(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_ispropertycategorybyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method IsPropertyEnabled:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_ispropertyenabled(wxObjectPtr, prop.wxObjectPtr)
+	Method IsPropertyEnabled:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_ispropertyenabled(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_ispropertyenabledbyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method IsPropertyExpanded:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_ispropertyexpanded(wxObjectPtr, prop.wxObjectPtr)
+	Method IsPropertyExpanded:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_ispropertyexpanded(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_ispropertyexpandedbyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method IsPropertyModified:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_ispropertymodified(wxObjectPtr, prop.wxObjectPtr)
+	Method IsPropertyModified:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_ispropertymodified(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_ispropertymodifiedbyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method IsPropertyShown:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_ispropertyshown(wxObjectPtr, prop.wxObjectPtr)
+	Method IsPropertyShown:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_ispropertyshown(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_ispropertyshownbyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method IsPropertyUnspecified:Int(prop:wxPGProperty)
-		Return bmx_wxpropertygrid_ispropertyunspecified(wxObjectPtr, prop.wxObjectPtr)
+	Method IsPropertyUnspecified:Int(prop:Object)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_ispropertyunspecified(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_ispropertyunspecifiedbyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method LimitPropertyEditing(prop:wxPGProperty, limit:Int = True)
-		bmx_wxpropertygrid_limitpropertyediting(wxObjectPtr, prop.wxObjectPtr, limit)
+	Method LimitPropertyEditing(prop:Object, limit:Int = True)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_limitpropertyediting(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, limit)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_limitpropertyeditingbyname(wxObjectPtr, String(prop), limit)
+		End If
 	End Method
 	
 	Method NamesToProperties:wxPGProperty[](names:String[])
@@ -1514,432 +1344,286 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	Method RefreshGrid(state:wxPropertyGridState = Null)
 	End Method
 	
-	Method ReplaceProperty:wxPGProperty(prop:wxPGProperty, property:wxPGProperty)
-		Return wxPGProperty._find(bmx_wxpropertygrid_replaceproperty(wxObjectPtr, prop.wxObjectPtr, property.wxObjectPtr))
+	Method ReplaceProperty:wxPGProperty(prop:Object, property:wxPGProperty)
+		If wxPGProperty(prop) Then
+			Return wxPGProperty._find(bmx_wxpropertygrid_replaceproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, property.wxObjectPtr))
+		Else If String(prop) Then
+			Return wxPGProperty._find(bmx_wxpropertygrid_replacepropertybyname(wxObjectPtr, String(prop), property.wxObjectPtr))
+		End If
 	End Method
 	
-	Method SetPropertyCell(prop:wxPGProperty, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null)
-		If bitmap Then
-			If fgCol Then
-				If bgCol Then
-					bmx_wxpropertygrid_setpropertycell(wxObjectPtr, prop.wxObjectPtr, column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
+	Method SetPropertyCell(prop:Object, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null)
+		If wxPGProperty(prop) Then
+			If bitmap Then
+				If fgCol Then
+					If bgCol Then
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
+					Else
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, Null)
+					End If
 				Else
-					bmx_wxpropertygrid_setpropertycell(wxObjectPtr, prop.wxObjectPtr, column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, Null)
+					If bgCol Then
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, bitmap.wxObjectPtr, Null, bgCol.wxObjectPtr)
+					Else
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, bitmap.wxObjectPtr, Null, Null)
+					End If
 				End If
 			Else
-				If bgCol Then
-					bmx_wxpropertygrid_setpropertycell(wxObjectPtr, prop.wxObjectPtr, column, text, bitmap.wxObjectPtr, Null, bgCol.wxObjectPtr)
+				If fgCol Then
+					If bgCol Then
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, Null, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
+					Else
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, Null, fgCol.wxObjectPtr, Null)
+					End If
 				Else
-					bmx_wxpropertygrid_setpropertycell(wxObjectPtr, prop.wxObjectPtr, column, text, bitmap.wxObjectPtr, Null, Null)
+					If bgCol Then
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, Null, Null, bgCol.wxObjectPtr)
+					Else
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, Null, Null, Null)
+					End If
 				End If
 			End If
-		Else
-			If fgCol Then
-				If bgCol Then
-					bmx_wxpropertygrid_setpropertycell(wxObjectPtr, prop.wxObjectPtr, column, text, Null, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
+		Else If String(prop) Then
+			If bitmap Then
+				If fgCol Then
+					If bgCol Then
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
+					Else
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, Null)
+					End If
 				Else
-					bmx_wxpropertygrid_setpropertycell(wxObjectPtr, prop.wxObjectPtr, column, text, Null, fgCol.wxObjectPtr, Null)
+					If bgCol Then
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, bitmap.wxObjectPtr, Null, bgCol.wxObjectPtr)
+					Else
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, bitmap.wxObjectPtr, Null, Null)
+					End If
 				End If
 			Else
-				If bgCol Then
-					bmx_wxpropertygrid_setpropertycell(wxObjectPtr, prop.wxObjectPtr, column, text, Null, Null, bgCol.wxObjectPtr)
+				If fgCol Then
+					If bgCol Then
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, Null, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
+					Else
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, Null, fgCol.wxObjectPtr, Null)
+					End If
 				Else
-					bmx_wxpropertygrid_setpropertycell(wxObjectPtr, prop.wxObjectPtr, column, text, Null, Null, Null)
+					If bgCol Then
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, Null, Null, bgCol.wxObjectPtr)
+					Else
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, Null, Null, Null)
+					End If
 				End If
 			End If
 		End If
 	End Method
 	
-	Method SetPropertyChoices(prop:wxPGProperty, choices:wxPGChoices)
-		bmx_wxpropertygrid_setpropertychoices(wxObjectPtr, prop.wxObjectPtr, choices.wxObjectPtr)
-	End Method
-	
-	Method SetPropertyChoicesExclusive(prop:wxPGProperty)
-		bmx_wxpropertygrid_setpropertychoicesexclusive(wxObjectPtr, prop.wxObjectPtr)
-	End Method
-	
-	Method SetPropertyClientData(prop:wxPGProperty, clientData:Object)
-		' TODO
-	End Method
-	
-	Method SetPropertyEditorbyName(prop:wxPGProperty, editorName:String)
-		' TODO
-	End Method
-	
-	Method SetPropertyEditor(prop:wxPGProperty, editor:wxPGEditor)
-		' TODO
-	End Method
-	
-
-
-	Method GetPropertyCategoryName:wxPropertyCategory(name:String)
-		Return wxPropertyCategory._find(bmx_wxpropertygrid_getpropertycategorybyname(wxObjectPtr, name))
-	End Method
-	
-	Method GetPropertyChoicesByName:wxPGChoices(name:String)
-		Return wxPGChoices._create(bmx_wxpropertygrid_getpropertychoicesbyname(wxObjectPtr, name))
-	End Method
-	
-	Method GetPropertyClassNameByName:String(name:String)
-		Return bmx_wxpropertygrid_getpropertyclassnamebyname(wxObjectPtr, name)
-	End Method
-	
-	Method GetPropertyClientDataByName:Object(name:String)
-		' TODO
-	End Method
-
-	Method GetPropertyEditorByName:wxPGEditor(name:String)
-		' TODO
-	End Method
-
-	Method GetPropertyHelpStringByName:String(name:String)
-		Return bmx_wxpropertygrid_getpropertyhelpstringbyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyImageByName:wxBitmap(name:String)
-		Return wxBitmap._create(bmx_wxpropertygrid_getpropertyimagebyname(wxObjectPtr, name))
-	End Method
-
-	Method GetPropertyIndexByName:Int(name:String)
-		Return bmx_wxpropertygrid_getpropertyindexbyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyLabelByName:String(name:String)
-		Return bmx_wxpropertygrid_getpropertylabelbyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyNameByName:String(name:String)
-		Return bmx_wxpropertygrid_getpropertynamebyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyParentByName:wxPGProperty(name:String)
-		' TODO
-	End Method
-
-	Method GetPropertyPtrByName:wxPGProperty(name:String)
-		' TODO
-	End Method
-
-	Method GetPropertyShortClassNameByName:String(name:String)
-		Return bmx_wxpropertygrid_getpropertyshortclassnamebyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyValueAsArrayIntByName:Int[](name:String)
-		Return bmx_wxpropertygrid_getpropertyvalueasarrayintbyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyValueAsArrayStringByName:String[](name:String)
-		Return bmx_wxpropertygrid_getpropertyvalueasarraystringbyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyValueAsBoolByName:Int(name:String)
-		Return bmx_wxpropertygrid_getpropertyvalueasboolbyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyValueAsDateTimeByName:wxDateTime(name:String)
-		Return wxDateTime._create(bmx_wxpropertygrid_getpropertyvalueasdatetimebyname(wxObjectPtr, name))
-	End Method
-
-	Method GetPropertyValueAsDoubleByName:Double(name:String)
-		Return bmx_wxpropertygrid_getpropertyvalueasdoublebyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyValueAsIntByName:Int(name:String)
-		Return bmx_wxpropertygrid_getpropertyvalueasintbyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyValueAsLongByName:Long(name:String)
-		Local value:Long
-		bmx_wxpropertygrid_getpropertyvalueaslongbyname(wxObjectPtr, name, Varptr value)
-		Return value
-	End Method
-
-	Method GetPropertyValueAsPointByName(name:String, x:Int Var, y:Int Var)
-		bmx_wxpropertygrid_getpropertyvalueaspointbyname(wxObjectPtr, name, Varptr x, Varptr y)
-	End Method
-
-	Method GetPropertyValueAsSizeByName(name:String, w:Int Var, h:Int Var)
-		bmx_wxpropertygrid_getpropertyvalueassizebyname(wxObjectPtr, name, Varptr w, Varptr h)
-	End Method
-
-	Method GetPropertyValueAsStringByName:String(name:String)
-		Return bmx_wxpropertygrid_getpropertyvalueasstringbyname(wxObjectPtr, name)
-	End Method
-
-	Method GetPropertyValueAsULongByName:Int(name:String)
-		' TODO
-	End Method
-
-	Method GetPropertyValueTypeByName:String(name:String)
-		Return bmx_wxpropertygrid_getpropertyvaluetypebyname(wxObjectPtr, name)
-	End Method
-
-	Method HidePropertyByName:Int(name:String, hide:Int = True)
-		Return bmx_wxpropertygrid_hidepropertybyname(wxObjectPtr, name, hide)
-	End Method
-	
-	Method InsertByName:wxPGProperty(parent:String, index:Int, newproperty:wxPGProperty)
-		Return wxPGProperty._find(bmx_wxpropertygrid_insertbyname(wxObjectPtr, parent, index, newproperty.wxObjectPtr))
-	End Method
-	
-	Method InsertCategoryByName:wxPGProperty(name:String, index:Int, label:String)
-		Return wxPGProperty._find(bmx_wxpropertygrid_insertcategorybyname(wxObjectPtr, name, index, label))
-	End Method
-	
-	Method InsertPropertyChoiceByName(name:String, label:String, index:Int, value:Int = INT_MAX)
-		bmx_wxpropertygrid_insertpropertychoicebyname(wxObjectPtr, name, label, index, value)
-	End Method
-	
-	Method IsPropertyCategoryByName:Int(name:String)
-		Return bmx_wxpropertygrid_ispropertycategorybyname(wxObjectPtr, name)
-	End Method
-	
-	Method IsPropertyEnabledByName:Int(name:String)
-		Return bmx_wxpropertygrid_ispropertyenabledbyname(wxObjectPtr, name)
-	End Method
-	
-	Method IsPropertyExpandedByName:Int(name:String)
-		Return bmx_wxpropertygrid_ispropertyexpandedbyname(wxObjectPtr, name)
-	End Method
-	
-	Method IsPropertyModifiedByName:Int(name:String)
-		Return bmx_wxpropertygrid_ispropertymodifiedbyname(wxObjectPtr, name)
-	End Method
-	
-	Method IsPropertyShownByName:Int(name:String)
-		Return bmx_wxpropertygrid_ispropertyshownbyname(wxObjectPtr, name)
-	End Method
-	
-	Method IsPropertyUnspecifiedByName:Int(name:String)
-		Return bmx_wxpropertygrid_ispropertyunspecifiedbyname(wxObjectPtr, name)
-	End Method
-	
-	Method LimitPropertyEditingByName(name:String, limit:Int = True)
-		bmx_wxpropertygrid_limitpropertyeditingbyname(wxObjectPtr, name, limit)
-	End Method
-	
-	Method ReplacePropertyByName:wxPGProperty(name:String, property:wxPGProperty)
-		Return wxPGProperty._find(bmx_wxpropertygrid_replacepropertybyname(wxObjectPtr, name, property.wxObjectPtr))
-	End Method
-	
-	Method SetPropertyCellByName(name:String, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null)
-		If bitmap Then
-			If fgCol Then
-				If bgCol Then
-					bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, name, column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
-				Else
-					bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, name, column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, Null)
-				End If
-			Else
-				If bgCol Then
-					bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, name, column, text, bitmap.wxObjectPtr, Null, bgCol.wxObjectPtr)
-				Else
-					bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, name, column, text, bitmap.wxObjectPtr, Null, Null)
-				End If
-			End If
-		Else
-			If fgCol Then
-				If bgCol Then
-					bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, name, column, text, Null, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
-				Else
-					bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, name, column, text, Null, fgCol.wxObjectPtr, Null)
-				End If
-			Else
-				If bgCol Then
-					bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, name, column, text, Null, Null, bgCol.wxObjectPtr)
-				Else
-					bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, name, column, text, Null, Null, Null)
-				End If
-			End If
+	Method SetPropertyChoices(prop:Object, choices:wxPGChoices)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertychoices(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, choices.wxObjectPtr)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertychoicesbyname(wxObjectPtr, String(prop), choices.wxObjectPtr)
 		End If
 	End Method
 	
-	Method SetPropertyChoicesByName(name:String, choices:wxPGChoices)
-		bmx_wxpropertygrid_setpropertychoicesbyname(wxObjectPtr, name, choices.wxObjectPtr)
+	Method SetPropertyChoicesExclusive(prop:Object)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertychoicesexclusive(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertychoicesexclusivebyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method SetPropertyChoicesExclusiveByName(name:String)
-		bmx_wxpropertygrid_setpropertychoicesexclusivebyname(wxObjectPtr, name)
+	Method SetPropertyClientData(prop:Object, clientData:Object)
+		If wxPGProperty(prop) Then
+		' TODO
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method SetPropertyClientDataByName(name:String, clientData:Object)
-		' todo
+	Method SetPropertyEditorByName(prop:Object, editorName:String)
+		If wxPGProperty(prop) Then
+		' TODO
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method SetPropertyEditorbyPropNameAndName(name:String, editorName:String)
-		' todo
+	Method SetPropertyEditor(prop:Object, editor:wxPGEditor)
+		If wxPGProperty(prop) Then
+		' TODO
+		Else If String(prop) Then
+		End If
 	End Method
 	
-	Method SetPropertyEditorByPropName(name:String, editor:wxPGEditor)
-		' todo
+	
+	Method SetPropertyImage(prop:Object, bmp:wxBitmap)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyimage(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, bmp.wxObjectPtr)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyimagebyname(wxObjectPtr, String(prop), bmp.wxObjectPtr)
+		End If
 	End Method
 	
-	Method SetPropertyImage(prop:wxPGProperty, bmp:wxBitmap)
-		bmx_wxpropertygrid_setpropertyimage(wxObjectPtr, prop.wxObjectPtr, bmp.wxObjectPtr)
+	Method SetPropertyLabel(prop:Object, label:String)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertylabel(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, label)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertylabelbyname(wxObjectPtr, String(prop), label)
+		End If
 	End Method
 	
-	Method SetPropertyLabel(prop:wxPGProperty, label:String)
-		bmx_wxpropertygrid_setpropertylabel(wxObjectPtr, prop.wxObjectPtr, label)
-	End Method
-	
-	Method SetPropertyMaxLength:Int(prop:wxPGProperty, maxLen:Int)
-		Return bmx_wxpropertygrid_setpropertymaxlength(wxObjectPtr, prop.wxObjectPtr, maxLen)
+	Method SetPropertyMaxLength:Int(prop:Object, maxLen:Int)
+		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_setpropertymaxlength(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, maxLen)
+		Else If String(prop) Then
+			Return bmx_wxpropertygrid_setpropertymaxlengthbyname(wxObjectPtr, String(prop), maxLen)
+		End If
 	End Method
 
-	Method SetPropertyReadOnly(prop:wxPGProperty, set:Int = True)
-		bmx_wxpropertygrid_setpropertyreadonly(wxObjectPtr, prop.wxObjectPtr, set)
+	Method SetPropertyReadOnly(prop:Object, set:Int = True)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyreadonly(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, set)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyreadonlybyname(wxObjectPtr, String(prop), set)
+		End If
 	End Method
 	
-	Method SetPropertyUnspecified(prop:wxPGProperty)
-		bmx_wxpropertygrid_setpropertyunspecified(wxObjectPtr, prop.wxObjectPtr)
+	Method SetPropertyUnspecified(prop:Object)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyunspecified(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyunspecifiedbyname(wxObjectPtr, String(prop))
+		End If
 	End Method
 	
-	Method SetPropertyValueIntArray(prop:wxPGProperty, value:Int[])
-		bmx_wxpropertygrid_setpropertyvalueintarray(wxObjectPtr, prop.wxObjectPtr, value)
+	Method SetPropertyValueIntArray(prop:Object, value:Int[])
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvalueintarray(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvalueintarraybyname(wxObjectPtr, String(prop), value)
+		End If
 	End Method
 	
-	Method SetPropertyValueULong(prop:wxPGProperty, value:Long)
-		bmx_wxpropertygrid_setpropertyvalueulong(wxObjectPtr, prop.wxObjectPtr, value)
+	Method SetPropertyValueULong(prop:Object, value:Long)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvalueulong(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvalueulongbyname(wxObjectPtr, String(prop), value)
+		End If
 	End Method
 	
-	Method SetPropertyValueLong(prop:wxPGProperty, value:Long)
-		bmx_wxpropertygrid_setpropertyvaluelong(wxObjectPtr, prop.wxObjectPtr, value)
+	Method SetPropertyValueLong(prop:Object, value:Long)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluelong(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluelongbyname(wxObjectPtr, String(prop), value)
+		End If
 	End Method
 	
-	Method SetPropertyValueSize(prop:wxPGProperty, w:Int, h:Int)
-		bmx_wxpropertygrid_setpropertyvaluesize(wxObjectPtr, prop.wxObjectPtr, w, h)
+	Method SetPropertyValueSize(prop:Object, w:Int, h:Int)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluesize(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, w, h)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluesizebyname(wxObjectPtr, String(prop), w, h)
+		End If
 	End Method
 	
-	Method SetPropertyValuePoint(prop:wxPGProperty, x:Int, y:Int)
-		bmx_wxpropertygrid_setpropertyvaluepoint(wxObjectPtr, prop.wxObjectPtr, x, y)
+	Method SetPropertyValuePoint(prop:Object, x:Int, y:Int)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluepoint(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, x, y)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluepointbyname(wxObjectPtr, String(prop), x, y)
+		End If
 	End Method
 	
-	Method SetPropertyValueBytePtr(prop:wxPGProperty, value:Byte Ptr)
-		bmx_wxpropertygrid_setpropertyvaluebyteptr(wxObjectPtr, prop.wxObjectPtr, value)
+	Method SetPropertyValueBytePtr(prop:Object, value:Byte Ptr)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluebyteptr(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluebyteptrbyname(wxObjectPtr, String(prop), value)
+		End If
 	End Method
 	
-	Method SetPropertyValueString(prop:wxPGProperty, value:String)
-		bmx_wxpropertygrid_setpropertyvaluestring(wxObjectPtr, prop.wxObjectPtr, value)
+	Method SetPropertyValueString(prop:Object, value:String)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluestring(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluestringbyname(wxObjectPtr, String(prop), value)
+		End If
 	End Method
 	
-	Method SetPropertyValueDateTime(prop:wxPGProperty, time:wxDateTime)
-		bmx_wxpropertygrid_setpropertyvaluedatetime(wxObjectPtr, prop.wxObjectPtr, time.wxObjectPtr)
+	Method SetPropertyValueDateTime(prop:Object, time:wxDateTime)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluedatetime(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, time.wxObjectPtr)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluedatetimebyname(wxObjectPtr, String(prop), time)
+		End If
 	End Method
 	
-	Method SetPropertyValueStringArray(prop:wxPGProperty, value:String[])
-		bmx_wxpropertygrid_setpropertyvaluestringarray(wxObjectPtr, prop.wxObjectPtr, value)
+	Method SetPropertyValueStringArray(prop:Object, value:String[])
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluestringarray(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluestringarraybyname(wxObjectPtr, String(prop), value)
+		End If
 	End Method
 	
-	Method SetPropertyValueBool(prop:wxPGProperty, value:Int)
-		bmx_wxpropertygrid_setpropertyvaluebool(wxObjectPtr, prop.wxObjectPtr, value)
+	Method SetPropertyValueBool(prop:Object, value:Int)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluebool(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvalueboolbyname(wxObjectPtr, String(prop), value)
+		End If
 	End Method
 	
-	Method SetPropertyValueDouble(prop:wxPGProperty, value:Double)
-		bmx_wxpropertygrid_setpropertyvaluedouble(wxObjectPtr, prop.wxObjectPtr, value)
+	Method SetPropertyValueDouble(prop:Object, value:Double)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluedouble(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluedoublebyname(wxObjectPtr, String(prop), value)
+		End If
 	End Method
 	
-	Method SetPropertyValueInt(prop:wxPGProperty, value:Int)
-		bmx_wxpropertygrid_setpropertyvalueint(wxObjectPtr, prop.wxObjectPtr, value)
+	Method SetPropertyValueFloat(prop:Object, value:Float)
+		SetPropertyValueDouble(prop, value)
 	End Method
 
-	Method SetPropertyImageByName(name:String, bmp:wxBitmap)
-		bmx_wxpropertygrid_setpropertyimagebyname(wxObjectPtr, name, bmp.wxObjectPtr)
-	End Method
-	
-	Method SetPropertyLabelByName(name:String, newproplabel:String)
-		bmx_wxpropertygrid_setpropertylabelbyname(wxObjectPtr, name, newproplabel)
-	End Method
-	
-	Method SetPropertyMaxLengthByName:Int(name:String, maxLen:Int)
-		Return bmx_wxpropertygrid_setpropertymaxlengthbyname(wxObjectPtr, name, maxLen)
+	Method SetPropertyValueInt(prop:Object, value:Int)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvalueint(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvalueintbyname(wxObjectPtr, String(prop), value)
+		End If
 	End Method
 
-	Method SetPropertyReadOnlyByName(name:String, set:Int = True)
-		bmx_wxpropertygrid_setpropertyreadonlybyname(wxObjectPtr, name, set)
-	End Method
-	
-	Method SetPropertyUnspecifiedByName(name:String)
-		bmx_wxpropertygrid_setpropertyunspecifiedbyname(wxObjectPtr, name)
-	End Method
-	
-	Method SetPropertyValueIntArrayByName(name:String, value:Int[])
-		bmx_wxpropertygrid_setpropertyvalueintarraybyname(wxObjectPtr, name, value)
-	End Method
-	
-	Method SetPropertyValueULongByName(name:String, value:Long)
-		bmx_wxpropertygrid_setpropertyvalueulongbyname(wxObjectPtr, name, value)
-	End Method
-	
-	Method SetPropertyValueLongByName(name:String, value:Long)
-		bmx_wxpropertygrid_setpropertyvaluelongbyname(wxObjectPtr, name, value)
-	End Method
-	
-	Method SetPropertyValueSizeByName(name:String, w:Int, h:Int)
-		bmx_wxpropertygrid_setpropertyvaluesizebyname(wxObjectPtr, name, w, h)
-	End Method
-	
-	Method SetPropertyValuePointByName(name:String, x:Int, y:Int)
-		bmx_wxpropertygrid_setpropertyvaluepointbyname(wxObjectPtr, name, x, y)
-	End Method
-	
-	Method SetPropertyValueBytePtrByName(name:String, value:Byte Ptr)
-		bmx_wxpropertygrid_setpropertyvaluebyteptrbyname(wxObjectPtr, name, value)
-	End Method
-	
-	Method SetPropertyValueStringByName(name:String, value:String)
-		bmx_wxpropertygrid_setpropertyvaluestringbyname(wxObjectPtr, name, value)
-	End Method
-	
-	Method SetPropertyValueDateTimeByName(name:String, time:wxDateTime)
-		bmx_wxpropertygrid_setpropertyvaluedatetimebyname(wxObjectPtr, name, time)
-	End Method
-	
-	Method SetPropertyValueStringArrayByName(name:String, value:String[])
-		bmx_wxpropertygrid_setpropertyvaluestringarraybyname(wxObjectPtr, name, value)
-	End Method
-	
-	Method SetPropertyValueBoolByName(name:String, value:Int)
-		bmx_wxpropertygrid_setpropertyvalueboolbyname(wxObjectPtr, name, value)
-	End Method
-	
-	Method SetPropertyValueDoubleByName(name:String, value:Double)
-		bmx_wxpropertygrid_setpropertyvaluedoublebyname(wxObjectPtr, name, value)
-	End Method
-	
-	Method SetPropertyValueIntByName(name:String, value:Int)
-		bmx_wxpropertygrid_setpropertyvalueintbyname(wxObjectPtr, name, value)
+	Method SetPropertyAttribute(prop:Object, attrName:String, value:Int, argFlags:Int = 0)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyattribute(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, attrName, value, argFlags)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyattributebyname(wxObjectPtr, String(prop), attrName, value, argFlags)
+		End If
 	End Method
 
-	Method SetPropertyAttributeByName(name:String, attrName:String, value:Int, argFlags:Int = 0)
-		bmx_wxpropertygrid_setpropertyattributebyname(wxObjectPtr, name, attrName, value, argFlags)
+	Method SetPropertyAttributeString(prop:Object, attrName:String, value:String, argFlags:Int = 0)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyattributestring(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, attrName, value, argFlags)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyattributestringbyname(wxObjectPtr, String(prop), attrName, value, argFlags)
+		End If
 	End Method
 
-	Method SetPropertyAttribute(prop:wxPGProperty, attrName:String, value:Int, argFlags:Int = 0)
-		bmx_wxpropertygrid_setpropertyattribute(wxObjectPtr, prop.wxObjectPtr, attrName, value, argFlags)
+	Method GetPropertyValueAsColour:wxColour(prop:Object)
+		If wxPGProperty(prop) Then
+			Return wxColour._create(bmx_wxpropertygrid_getpropertyvalueascolour(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+		Else If String(prop) Then
+			Return wxColour._create(bmx_wxpropertygrid_getpropertyvalueascolourbyname(wxObjectPtr, String(prop)))
+		End If
 	End Method
 
-	Method SetPropertyAttributeStringByName(name:String, attrName:String, value:String, argFlags:Int = 0)
-		bmx_wxpropertygrid_setpropertyattributestringbyname(wxObjectPtr, name, attrName, value, argFlags)
-	End Method
-
-	Method SetPropertyAttributeString(prop:wxPGProperty, attrName:String, value:String, argFlags:Int = 0)
-		bmx_wxpropertygrid_setpropertyattributestring(wxObjectPtr, prop.wxObjectPtr, attrName, value, argFlags)
-	End Method
-
-	Method GetPropertyValueAsColour:wxColour(prop:wxPGProperty)
-		Return wxColour._create(bmx_wxpropertygrid_getpropertyvalueascolour(wxObjectPtr, prop.wxObjectPtr))
-	End Method
-
-	Method GetPropertyValueAsColourByName:wxColour(name:String)
-		Return wxColour._create(bmx_wxpropertygrid_getpropertyvalueascolourbyname(wxObjectPtr, name))
-	End Method
-
-	Method SetPropertyValueColour(prop:wxPGProperty, value:wxColour)
-		bmx_wxpropertygrid_setpropertyvaluecolour(wxObjectPtr, prop.wxObjectPtr, value.wxObjectPtr)
-	End Method
-
-	Method SetPropertyValueColourByName(name:String, value:wxColour)
-		bmx_wxpropertygrid_setpropertyvaluecolourbyname(wxObjectPtr, name, value.wxObjectPtr)
+	Method SetPropertyValueColour(prop:Object, value:wxColour)
+		If wxPGProperty(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluecolour(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value.wxObjectPtr)
+		Else If String(prop) Then
+			bmx_wxpropertygrid_setpropertyvaluecolourbyname(wxObjectPtr, String(prop), value.wxObjectPtr)
+		End If
 	End Method
 
 End Type
@@ -2059,6 +1743,13 @@ Type wxPGProperty Extends wxObject
 	End Rem
 	Method GetAttributeAsDouble:Double(name:String)
 		Return bmx_wxpgproperty_getattributeasdouble(wxObjectPtr, name)
+	End Method
+
+	Rem
+	bbdoc: Returns named attribute, as Float.
+	End Rem
+	Method GetAttributeAsFloat:Float(name:String)
+		Return GetAttributeAsDouble(name)
 	End Method
 
 	Rem
@@ -2367,6 +2058,13 @@ Type wxPGProperty Extends wxObject
 	Method GetValueAsDouble:Double()
 		Return bmx_wxpgproperty_getvalueasdouble(wxObjectPtr)
 	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetValueAsFloat:Float()
+		Return GetValueAsDouble()
+	End Method
 	
 	Rem
 	bbdoc: 
@@ -2595,6 +2293,14 @@ Type wxPGProperty Extends wxObject
 	End Method
 
 	Rem
+	bbdoc: Sets a float attribute of a property.
+	about: Ids and relevants values are totally specific to property classes and may affect either the given instance or all instances of that class.
+	End Rem
+	Method SetAttributeFloat(name:String, value:Float)
+		SetAttributeDouble(name, value)
+	End Method
+
+	Rem
 	bbdoc: Sets a bool attribute of a property.
 	about: Ids and relevants values are totally specific to property classes and may affect either the given instance or all instances of that class.
 	End Rem
@@ -2776,6 +2482,13 @@ Type wxPGProperty Extends wxObject
 	End Rem
 	Method SetValueDouble(value:Double) 
 		bmx_wxpgproperty_setvaluedouble(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Sets the value (Float) of the property.
+	End Rem
+	Method SetValueFloat(value:Float) 
+		SetValueDouble(value)
 	End Method
 	
 	Rem
@@ -3917,7 +3630,14 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 	Method GetPropertyValueAsDouble:Double()
 		Return bmx_wxpropertygridevent_getpropertyvalueasdouble(wxEventPtr)
 	End Method
-	
+
+	Rem
+	bbdoc: Returns value of relevant property, as float.
+	End Rem
+	Method GetPropertyValueAsFloat:Float()
+		Return GetPropertyValueAsDouble()
+	End Method
+
 	Rem
 	bbdoc: Returns value of relevant property, as int.
 	End Rem

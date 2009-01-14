@@ -376,7 +376,7 @@ Type MyFrame Extends wxFrame
 		pg.Append( New wxStringProperty.Create("Label", wxPG_LABEL, GetTitle()) )
 		
 		pg.Append( New wxFontProperty.Create("Font", wxPG_LABEL) )
-		pg.SetPropertyHelpStringByName("Font", "Editing this will change font used in the property grid.")
+		pg.SetPropertyHelpString("Font", "Editing this will change font used in the property grid.")
 
 		pg.Append( New wxSystemColourProperty.Create("Margin Colour", wxPG_LABEL, pg.GetGrid().GetMarginColour()) )
 
@@ -411,7 +411,7 @@ Type MyFrame Extends wxFrame
 		pg.Append( New wxCursorProperty.Create("Cursor", wxPG_LABEL) )
 
 		pg.Append( New wxPropertyCategory.Create("Position", "PositionCategory") )
-		pg.SetPropertyHelpStringByName( "PositionCategory", "Change in items in this category will cause respective changes in frame." )
+		pg.SetPropertyHelpString( "PositionCategory", "Change in items in this category will cause respective changes in frame." )
 		pg.Append( New wxIntProperty.Create("Height", wxPG_LABEL, 480) )
 		pg.Append( New wxIntProperty.Create("Width", wxPG_LABEL, 640) )
 		pg.Append( New wxIntProperty.Create("X", wxPG_LABEL, 10) )
@@ -429,13 +429,13 @@ Type MyFrame Extends wxFrame
 		pg.Append( New wxStringProperty.Create("User Name", wxPG_LABEL, wxGetUserName()) )
 
 		' Disable some of them
-		pg.DisablePropertyByName( "Operating System" )
-		pg.DisablePropertyByName( "User Id" )
-		pg.DisablePropertyByName( "User Name" )
+		pg.DisableProperty( "Operating System" )
+		pg.DisableProperty( "User Id" )
+		pg.DisableProperty( "User Name" )
 		
-		pg.SetPropertyHelpStringByName( "Operating System", disabledHelpString )
-		pg.SetPropertyHelpStringByName( "User Id", disabledHelpString )
-		pg.SetPropertyHelpStringByName( "User Name", disabledHelpString )
+		pg.SetPropertyHelpString( "Operating System", disabledHelpString )
+		pg.SetPropertyHelpString( "User Id", disabledHelpString )
+		pg.SetPropertyHelpString( "User Name", disabledHelpString )
 
  '		pg.Append( New wxPropertyCategory.Create("More Examples", wxPG_LABEL) )
 '		
@@ -468,9 +468,9 @@ Type MyFrame Extends wxFrame
 	
 	    ' Add bool property with check box
 	    pg.Append( New wxBoolProperty.Create( "BoolProperty with CheckBox", wxPG_LABEL, False ) )
-	    pg.SetPropertyAttributeByName( "BoolProperty with CheckBox", wxPG_BOOL_USE_CHECKBOX, 1 )
+	    pg.SetPropertyAttribute( "BoolProperty with CheckBox", wxPG_BOOL_USE_CHECKBOX, 1 )
 	
-	    pg.SetPropertyHelpStringByName( "BoolProperty with CheckBox", ..
+	    pg.SetPropertyHelpString( "BoolProperty with CheckBox", ..
 	        "Property attribute wxPG_BOOL_USE_CHECKBOX has been set to 1." )
 
 	    pg.Append( New wxDoubleProperty.Create( "DoubleProperty", wxPG_LABEL, 1234500.23 ) )
@@ -558,40 +558,40 @@ Type MyFrame Extends wxFrame
 
 		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty 2", wxPG_LABEL, soc, 240) )
  
-		pg.AddPropertyChoiceByName("EnumProperty 2", "Testing Extra", 360)
+		pg.AddPropertyChoice("EnumProperty 2", "Testing Extra", 360)
 
 		' Add a second time to test that the caching works
 		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty 3", wxPG_LABEL, soc , 360 ) )
 
-		pg.SetPropertyHelpStringByName("EnumProperty 3", "Should have same choices as EnumProperty 2")
+		pg.SetPropertyHelpString("EnumProperty 3", "Should have same choices as EnumProperty 2")
 
 
 		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty 4",wxPG_LABEL, soc, 240 ) )
-		pg.SetPropertyHelpStringByName("EnumProperty 4", "Should have same choices as EnumProperty 2")
+		pg.SetPropertyHelpString("EnumProperty 4", "Should have same choices as EnumProperty 2")
 		
 		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty 5",wxPG_LABEL, soc, 240 ) )
-		pg.SetPropertyChoicesExclusiveByName("EnumProperty 5")
-		pg.AddPropertyChoiceByName("EnumProperty 5", "5th only", 360)
-		pg.SetPropertyHelpStringByName("EnumProperty 5", "Should have one extra item when compared to EnumProperty 4")
+		pg.SetPropertyChoicesExclusive("EnumProperty 5")
+		pg.AddPropertyChoice("EnumProperty 5", "5th only", 360)
+		pg.SetPropertyHelpString("EnumProperty 5", "Should have one extra item when compared to EnumProperty 4")
 		
 		' Password property example.
 		pg.Append( New wxStringProperty.Create("Password", wxPG_LABEL, "password") )
-		pg.SetPropertyAttributeByName( "Password", wxPG_STRING_PASSWORD, 1 )
-		pg.SetPropertyHelpStringByName( "Password", "Has attribute wxPG_STRING_PASSWORD set to 1" )
+		pg.SetPropertyAttribute( "Password", wxPG_STRING_PASSWORD, 1 )
+		pg.SetPropertyHelpString( "Password", "Has attribute wxPG_STRING_PASSWORD set to 1" )
 		
 		' String editor with dir selector button. Uses wxEmptyString as name, which
 		' is allowed (naturally, in this case property cannot be accessed by name).
 		pg.Append( New wxDirProperty.Create( "DirProperty", wxPG_LABEL, wxGetUserHome()) )
-		pg.SetPropertyAttributeStringByName( "DirProperty", wxPG_DIR_DIALOG_MESSAGE, "This is a custom dir dialog message" )
+		pg.SetPropertyAttributeString( "DirProperty", wxPG_DIR_DIALOG_MESSAGE, "This is a custom dir dialog message" )
 		
 		' Add string property - first arg is label, second name, and third initial value
 		pg.Append( New wxStringProperty.Create( "StringProperty", wxPG_LABEL ) )
-		pg.SetPropertyMaxLengthByName( "StringProperty", 6 )
-		pg.SetPropertyHelpStringByName( "StringProperty", ..
+		pg.SetPropertyMaxLength( "StringProperty", 6 )
+		pg.SetPropertyHelpString( "StringProperty", ..
 			"Max length of this text has been limited to 6, using wxPropertyGrid::SetPropertyMaxLength." )
 		
 		' Set value after limiting so that it will be applied
-		pg.SetPropertyValueStringByName( "StringProperty", "some text" )
+		pg.SetPropertyValueString( "StringProperty", "some text" )
 
 			' Multi choice dialog.
 		Local tchoices:String[]
@@ -607,7 +607,7 @@ Type MyFrame Extends wxFrame
 		pg.Append( New wxEnumProperty.CreateWithArrays("EnumProperty X", wxPG_LABEL, tchoices ) )
 	
 		pg.Append( New wxMultiChoiceProperty.CreateWithArrays( "MultiChoiceProperty", wxPG_LABEL, tchoices, tchoicesValues ) )
-		pg.SetPropertyAttributeByName( "MultiChoiceProperty", "UserStringMode", True )
+		pg.SetPropertyAttribute( "MultiChoiceProperty", "UserStringMode", True )
 		
 		'pg.Append( new wxTestCustomFlagsProperty("Custom FlagsProperty", wxPG_LABEL ) )
 		'pg.SetPropertyEditor( "Custom FlagsProperty", wxPG_EDITOR(TextCtrlAndButton) )
@@ -620,8 +620,8 @@ Type MyFrame Extends wxFrame
 	
 		' UInt samples
 		pg.Append( New wxUIntProperty.Create( "UIntProperty", wxPG_LABEL, $FEEEFEEE))
-		pg.SetPropertyAttributeByName( "UIntProperty", wxPG_UINT_PREFIX, wxPG_PREFIX_NONE )
-		pg.SetPropertyAttributeByName( "UIntProperty", wxPG_UINT_BASE, wxPG_BASE_HEX )
+		pg.SetPropertyAttribute( "UIntProperty", wxPG_UINT_PREFIX, wxPG_PREFIX_NONE )
+		pg.SetPropertyAttribute( "UIntProperty", wxPG_UINT_BASE, wxPG_BASE_HEX )
 		'pg.SetPropertyAttribute( "UIntProperty", wxPG_UINT_PREFIX, wxPG_PREFIX_NONE )
 		'pg.SetPropertyAttribute( "UIntProperty", wxPG_UINT_BASE, wxPG_BASE_OCT )
 	
@@ -641,9 +641,9 @@ Type MyFrame Extends wxFrame
 		' wxDateTimeProperty
 		pg.Append( New wxDateProperty.Create("DateProperty", wxPG_LABEL, wxDateTime.Now() ) )
 	
-		pg.SetPropertyAttributeByName( "DateProperty", wxPG_DATE_PICKER_STYLE, wxDP_DROPDOWN | wxDP_SHOWCENTURY )
+		pg.SetPropertyAttribute( "DateProperty", wxPG_DATE_PICKER_STYLE, wxDP_DROPDOWN | wxDP_SHOWCENTURY )
 	
-		pg.SetPropertyHelpStringByName( "DateProperty", ..
+		pg.SetPropertyHelpString( "DateProperty", ..
 			"Attribute wxPG_DATE_PICKER_STYLE has been set to wxDP_DROPDOWN | wxDP_SHOWCENTURY." + ..
 			"Also note that wxPG_ALLOW_WXADV needs to be defined inorder to use wxDatePickerCtrl." )
 'End Rem
@@ -662,7 +662,22 @@ Next
 			DebugLog s
 		Next
 
+
+		pg.Append( New wxColourProperty.Create("Cell Colour", wxPG_LABEL, New wxColour.Create(255, 0, 0)) )
+		Local pcol:wxPGProperty = pg.GetPropertyByName("Cell Colour")
+		Local col:wxColour = pcol.GetValueAsColour()
+		If col Then
+			DebugLog "..." + col.IsOk()
+			DebugLog col.Red() + ", " + col.Green() + ", " + col.Blue()
+		End If
 		
+		col = pg.GetPropertyValueAsColour("Cell Colour")
+		If col Then
+			DebugLog "..." + col.IsOk()
+			DebugLog col.Red() + ", " + col.Green() + ", " + col.Blue()
+		End If
+
+
 		' nested categories
 		
 		Local cat_gadget:wxPropertyCategory = New wxPropertyCategory.Create("category", wxPG_LABEL)
@@ -677,7 +692,7 @@ Next
 
 		'add the category to the propgrid
 		pg.Append(cat_gadget)
-		
+
 	End Method
 	
 	Method PopulateWithLibraryConfig()
