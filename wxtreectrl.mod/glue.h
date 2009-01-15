@@ -31,6 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxtreectrl_wxTreeCtrl__xrcNew(wxTreeCtrl * tree);
 	int _wx_wxtreectrl_wxTreeCtrl__OnCompareItems(BBObject * maxHandle, MaxTreeItem * item1, MaxTreeItem * item2);
 
 	BBArray * _wx_wxtreectrl_wxTreeCtrl__newSelections(int size);
@@ -147,10 +148,12 @@ DECLARE_DYNAMIC_CLASS(MaxTreeCtrl)
 public:
 	MaxTreeCtrl();
 	MaxTreeCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxTreeCtrl(wxWindow * parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long treeStyle);
 	~MaxTreeCtrl();
 	
 	int OnCompareItems(const wxTreeItemId& item1, const wxTreeItemId& item2);
 
+	void MaxBind(BBObject * handle);
 private:
 	BBObject * maxHandle;
 

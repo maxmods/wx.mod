@@ -35,12 +35,22 @@ MaxTreeCtrl::MaxTreeCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, in
 	wxbind(this, handle);
 }
 
+MaxTreeCtrl::MaxTreeCtrl(wxWindow * parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
+	: wxTreeCtrl(parent, id, pos, size, style)
+{
+}
+
 MaxTreeCtrl::~MaxTreeCtrl() {
 	wxunbind(this);
 }
 
 int MaxTreeCtrl::OnCompareItems(const wxTreeItemId& item1, const wxTreeItemId& item2) {
 	return _wx_wxtreectrl_wxTreeCtrl__OnCompareItems(maxHandle, new MaxTreeItem(item1), new MaxTreeItem(item2));
+}
+
+void MaxTreeCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+	maxHandle = handle;
 }
 
 MaxTreeItem::MaxTreeItem(wxTreeItemId treeItem)

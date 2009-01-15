@@ -24,6 +24,9 @@
 
 // ---------------------------------------------------------------------------------------
 
+IMPLEMENT_DYNAMIC_CLASS(MaxGenericDirCtrl, wxGenericDirCtrl)
+
+
 MaxGenericDirCtrl::MaxGenericDirCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& dir,
 		int x, int y, int w, int h, long style, const wxString& filter, int defaultFilter)
 	: wxGenericDirCtrl(parent, id, dir, wxPoint(x, y), wxSize(w, h), style, filter, defaultFilter)
@@ -38,9 +41,14 @@ MaxGenericDirCtrl::~MaxGenericDirCtrl() {
 	wxunbind(this);
 }
 
-
 void MaxGenericDirCtrl::MaxBind(BBObject * handle) {
 	wxbind(this, handle);
+}
+
+wxTreeCtrl* MaxGenericDirCtrl::CreateTreeCtrl(wxWindow *parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long treeStyle) {
+	MaxTreeCtrl * tree = new MaxTreeCtrl(parent, id, pos, size, treeStyle);
+	tree->MaxBind(_wx_wxtreectrl_wxTreeCtrl__xrcNew(tree));
+	return tree;
 }
 
 // ---------------------------------------------------------------------------------------
@@ -80,7 +88,10 @@ END_EVENT_TABLE()
 
 wxGenericDirCtrl * bmx_wxgenericdirctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id,
 		BBString * dir, int x, int y, int w, int h, long style, BBString * filter, int defaultFilter) {
-	return new MaxGenericDirCtrl(handle, parent, id, wxStringFromBBString(dir), x, y, w, h, style, wxStringFromBBString(filter), defaultFilter);
+	MaxGenericDirCtrl * ctrl = new MaxGenericDirCtrl();
+	ctrl->MaxBind(handle);
+	ctrl->Create(parent, id, wxStringFromBBString(dir), wxPoint(x, y), wxSize(w, h), style, wxStringFromBBString(filter), defaultFilter);
+	return ctrl;
 }
 
 void bmx_wxgenericdirctrl_init(wxGenericDirCtrl * dir) {

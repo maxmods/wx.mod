@@ -54,6 +54,7 @@ extern "C" {
 	void bmx_wxgenericdirctrl_setpath(wxGenericDirCtrl * dir, BBString * path);
 	void bmx_wxgenericdirctrl_showhidden(wxGenericDirCtrl * dir, bool show);
 
+	void bmx_wxgenericdirctrl_addresourcehandler();
 	
 }
 
@@ -69,9 +70,14 @@ public:
 
 	void MaxBind(BBObject * handle);
 
+protected:	
+    virtual wxTreeCtrl* CreateTreeCtrl(wxWindow *parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long treeStyle);
+
+
 private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
+    DECLARE_DYNAMIC_CLASS(MaxGenericDirCtrl)
 };
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

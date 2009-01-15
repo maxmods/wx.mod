@@ -90,6 +90,20 @@ Type wxTreeCtrl Extends wxControl
 		End If
 	End Function
 
+	Function _find:wxTreeCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local window:wxTreeCtrl = wxTreeCtrl(wxfind(wxObjectPtr))
+			If Not window Then
+				Return wxTreeCtrl._create(wxObjectPtr)
+			End If
+			Return window
+		End If
+	End Function
+
+	Function _xrcNew:wxTreeCtrl(wxObjectPtr:Byte Ptr)
+		Return wxTreeCtrl._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Adds the root node to the tree, returning the new item.
 	about: The image and selImage parameters are an index within the normal image list specifying
@@ -837,8 +851,6 @@ Type wxTreeItemId
 End Type
 
 Rem
-bbdoc: 
-
 Type wxTreeItemData
 
 	Field wxTreeItemDataPtr:Byte Ptr

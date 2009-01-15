@@ -65,6 +65,16 @@ Type wxGenericDirCtrl Extends wxControl
 		End If
 	End Function
 
+	Function _find:wxGenericDirCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local window:wxGenericDirCtrl = wxGenericDirCtrl(wxfind(wxObjectPtr))
+			If Not window Then
+				Return wxGenericDirCtrl._create(wxObjectPtr)
+			End If
+			Return window
+		End If
+	End Function
+
 	Function _xrcNew:wxGenericDirCtrl(wxObjectPtr:Byte Ptr)
 		Return wxGenericDirCtrl._create(wxObjectPtr)
 	End Function
@@ -167,7 +177,7 @@ Type wxGenericDirCtrl Extends wxControl
 	bbdoc: Returns a pointer to the tree control.
 	End Rem
 	Method GetTreeCtrl:wxTreeCtrl()
-		Return wxTreeCtrl._create(bmx_wxgenericdirctrl_gettreectrl(wxObjectPtr))
+		Return wxTreeCtrl._find(bmx_wxgenericdirctrl_gettreectrl(wxObjectPtr))
 	End Method
 	
 	Rem
