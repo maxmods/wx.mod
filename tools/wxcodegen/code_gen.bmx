@@ -1,4 +1,4 @@
-' Copyright (c) 2008 Bruce A Henderson
+' Copyright (c) 2008-2009 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.14"
+Const AppVersion:String = "1.15"
 
 
 Global eventMap:TMap = New TMap
@@ -2869,6 +2869,10 @@ Type TFBSplitterWindow Extends TFBContainer
 		StandardCreate(out)
 
 		StandardSettings(out)
+		
+		If prop("sashgravity") Then
+			out.Add(prop("name") + ".SetSashGravity(" + prop("sashgravity") + ")", 2)
+		End If
 
 		If kids.count() < 2 Then 
 			For Local child:TFBWidget = EachIn kids
