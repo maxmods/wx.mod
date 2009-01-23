@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.15"
+Const AppVersion:String = "1.16"
 
 
 Global eventMap:TMap = New TMap
@@ -251,6 +251,12 @@ Type TFBGenFactory
 				
 			Case "wxScrolledWindow"
 				widget = New TFBScrolledWindow
+
+			Case "wxAuiNotebook"
+				widget = New TFBAuiNotebook
+
+			Case "auinotebookpage"
+				widget = New TFBAuiNotebookPage
 
 		End Select
 		
@@ -3175,6 +3181,84 @@ Type TFBScrolledWindow Extends TFBContainer
 
 End Type
 
+Type TFBAuiNotebook Extends TFBContainer
+
+	Method Generate(out:TCodeOutput)
+
+		StandardCreate(out)
+
+		StandardSettings(out)
+		
+		If prop("tab_ctrl_height") And prop("tab_ctrl_height") <> -1 Then
+			out.Add(prop("name") + ".SetTabCtrlHeight(" + prop("tab_ctrl_height") + ")", 2)
+		End If
+		
+		If prop("uniform_bitmap_size") And Not IsDefault(prop("uniform_bitmap_size")) Then
+			out.Add(prop("name") + ".SetUniformBitmapSize(" + prop("uniform_bitmap_size") + ")", 2)
+		End If
+ 
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+		Next
+
+		out.Add("")
+
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return GetFullType("wxAuiNotebook")
+	End Method
+
+	
+	Method GetImport:String()
+		Return GetFullImport("wx.wxAUI")
+	End Method
+
+End Type
+
+Type TFBAuiNotebookPage Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+
+
+			Local text:String = parent.prop("name")
+			text:+ ".AddPage(" + child.prop("name") + ", "
+			
+			text:+ GetString("~q" + prop("label") + "~q") + ", "
+			
+			If prop("select") = "1" Then
+				text:+ "True"
+			Else
+				text:+ "False"
+			End If
+			
+			If prop("bitmap") Then
+				text:+ ", " + DoBitmap(prop("bitmap"))
+			End If
+			
+			text:+ ")"
+			
+			out.Add(text, 2)
+		Next
+
+		out.Add("")
+
+	End Method
+
+	Method GetType:String(def:Int = False)
+	End Method
+
+	
+	Method GetImport:String()
+		Return "wx.wxAUI"
+	End Method
+
+End Type
+
+
 ' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
 
 Type TFBSizer Extends TFBWidget
@@ -4011,6 +4095,15 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnSpin", "wxSpinEvent", "wxEVT_SPIN"))
 	AddEvent(TEventType.Set("OnSpinDown", "wxSpinEvent", "wxEVT_SPIN_DOWN"))
 	AddEvent(TEventType.Set("OnSpinUp", "wxSpinEvent", "wxEVT_SPIN_UP"))
+
+	AddEvent(TEventType.Set("OnAuiNotebookAllowDND", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_ALLOW_DND"))
+	AddEvent(TEventType.Set("OnAuiNotebookBeginDrag", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_BEGIN_DRAG"))
+	AddEvent(TEventType.Set("OnAuiNotebookButton", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_BUTTON"))
+	AddEvent(TEventType.Set("OnAuiNotebookDragMotion", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_DRAG_MOTION"))
+	AddEvent(TEventType.Set("OnAuiNotebookEndDrag", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_END_DRAG"))
+	AddEvent(TEventType.Set("OnAuiNotebookPageChanged", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED"))
+	AddEvent(TEventType.Set("OnAuiNotebookPageChanging", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGING"))
+	AddEvent(TEventType.Set("OnAuiNotebookPageClose", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_PAGE_CLOSE"))
 
 End Function
 
