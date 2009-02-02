@@ -793,6 +793,15 @@ wxFloatProperty * bmx_wxdoubleproperty_create(BBObject * handle, BBString * labe
 
 // *********************************************
 
+wxFloatProperty * bmx_wxfloatproperty_create(BBObject * handle, BBString * label, BBString * name, double value) {
+	return new MaxFloatProperty(handle, 
+		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		value);
+}
+
+// *********************************************
+
 wxBoolProperty * bmx_wxboolproperty_create(BBObject * handle, BBString * label, BBString * name, bool value) {
 	return new MaxBoolProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
@@ -1958,6 +1967,10 @@ BBString * bmx_wxpgproperty_getchoicestring(wxPGProperty * prop, int index) {
 
 BBString * bmx_wxpgproperty_getclassname(wxPGProperty * prop) {
 	return bbStringFromWxString(prop->GetClassName());
+}
+
+MaxPGChoiceEntry * bmx_wxpgproperty_getcurrentchoice(wxPGProperty * prop) {
+	return new MaxPGChoiceEntry(*prop->GetCurrentChoice());
 }
 
 // *********************************************

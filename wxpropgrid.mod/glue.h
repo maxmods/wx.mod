@@ -104,6 +104,7 @@ extern "C" {
 	wxImageFileProperty * bmx_wximagefileproperty_create(BBObject * handle, BBString * label, BBString * name, BBString * value);
 	wxDateProperty * bmx_wxdateproperty_create(BBObject * handle, BBString * label, BBString * name, MaxDateTime * value);
 	wxColourProperty * bmx_wxcolourproperty_create(BBObject * handle, BBString * label, BBString * name, MaxColour * colour);
+	wxFloatProperty * bmx_wxfloatproperty_create(BBObject * handle, BBString * label, BBString * name, double value);
 
 	MaxColour * bmx_wxpropertygrid_getpropertybackgroundcolour(wxPropertyGrid * grid, wxPGProperty * prop);
 	MaxColour * bmx_wxpropertygrid_getpropertycolour(wxPropertyGrid * grid, wxPGProperty * prop);
@@ -316,6 +317,7 @@ extern "C" {
 	unsigned int bmx_wxpgproperty_getchoicecount(wxPGProperty * prop);
 	BBString * bmx_wxpgproperty_getchoicestring(wxPGProperty * prop, int index);
 	BBString * bmx_wxpgproperty_getclassname(wxPGProperty * prop);
+	MaxPGChoiceEntry * bmx_wxpgproperty_getcurrentchoice(wxPGProperty * prop);
 
 	long bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop);
 	MaxDateTime * bmx_wxdateproperty_getdatevalue(wxDateProperty * prop);

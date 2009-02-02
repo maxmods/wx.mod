@@ -83,6 +83,7 @@ Extern
 	Function bmx_wxcursorproperty_create:Byte Ptr(handle:Object, label:String, name:String, value:Int)
 	Function bmx_wximagefileproperty_create:Byte Ptr(handle:Object, label:String, name:String, value:String)
 	Function bmx_wxdateproperty_create:Byte Ptr(handle:Object, label:String, name:String, value:Byte Ptr)
+	Function bmx_wxfloatproperty_create:Byte Ptr(handle:Object, label:String, name:String, value:Double)
 
 	Function bmx_wxpropertycategory_create:Byte Ptr(handle:Object, label:String, name:String)
 
@@ -243,6 +244,7 @@ Extern
 	Function bmx_wxpgproperty_getcount:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getdepth:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getdisplayedcommonvaluecount:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getcurrentchoice:Byte Ptr(handle:Byte Ptr)
 
 	Function bmx_wxenumproperty_createwitharrays:Byte Ptr(handle:Object, label:String, name:String, labels:String[], values:Int[], value:Int)
 	Function bmx_wxenumproperty_createwithchoices:Byte Ptr(handle:Object, label:String, name:String, choices:Byte Ptr, value:Int)

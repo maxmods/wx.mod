@@ -1864,7 +1864,7 @@ Type wxPGProperty Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetCurrentChoice:wxPGChoiceEntry()
-		' TODO
+		Return wxPGChoiceEntry._create(bmx_wxpgproperty_getcurrentchoice(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -2622,6 +2622,23 @@ Type wxDoubleProperty Extends wxPGProperty
 End Type
 
 Rem
+bbdoc: 
+End Rem
+Type wxFloatProperty Extends wxPGProperty
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxFloatProperty(label:String = Null, name:String = Null, value:Float = 0)
+		If label = wxPG_LABEL label = Null
+		If name = wxPG_LABEL name = Null
+		wxObjectPtr = bmx_wxfloatproperty_create(Self, label, name, value)
+		Return Self
+	End Method
+
+End Type
+
+Rem
 bbdoc: Basic property with boolean value.
 about: Supported special attributes:
 <ul>
@@ -3243,7 +3260,7 @@ Type wxPGChoices
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Removes @count items starting at position @index.
 	End Rem
 	Method RemoveAt(index:Int, count:Int = 1)
 		bmx_wxpgchoices_removeat(wxObjectPtr, index, count)
