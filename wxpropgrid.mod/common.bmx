@@ -210,6 +210,7 @@ Extern
 	Function bmx_wxpgchoices_item:Byte Ptr(handle:Byte Ptr, index:Int)
 	Function bmx_wxpgchoices_removeat(handle:Byte Ptr, index:Int, count:Int)
 	Function bmx_wxpgchoices_set(handle:Byte Ptr, labels:String[], values:Int[])
+	Function bmx_wxpgchoices_clear(handle:Byte Ptr)
 
 	Function bmx_wxpgchoiceentry_getbgcol:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxpgchoiceentry_getbitmap:Byte Ptr(handle:Byte Ptr)

@@ -210,6 +210,7 @@ extern "C" {
 	MaxPGChoiceEntry * bmx_wxpgchoices_item(MaxPGChoices * choices, int index);
 	void bmx_wxpgchoices_removeat(MaxPGChoices * choices, int index, int count);
 	void bmx_wxpgchoices_set(MaxPGChoices * choices, BBArray * labels, BBArray * values);
+	void bmx_wxpgchoices_clear(MaxPGChoices * choices);
 
 
 	MaxColour * bmx_wxpgchoiceentry_getbgcol(MaxPGChoiceEntry * entry);

@@ -3152,21 +3152,28 @@ Type wxPGChoices
 	End Method
 
 	Rem
-	bbdoc: 
+	bbdoc: Adds single item, sorted. 
 	End Rem
 	Method AddAsSorted:wxPGChoiceEntry(label:String, value:Int = INT_MAX)
 		Return wxPGChoiceEntry._create(bmx_wxpgchoices_addassorted(wxObjectPtr, label, value))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Deletes all items.
+	End Rem
+	Method Clear()
+		bmx_wxpgchoices_clear(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns number of items. 
 	End Rem
 	Method GetCount:Int()
 		Return bmx_wxpgchoices_getcount(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns label of item.
 	End Rem
 	Method GetLabel:String(index:Int)
 		Return bmx_wxpgchoices_getlabel(wxObjectPtr, index)

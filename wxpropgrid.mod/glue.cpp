@@ -1535,6 +1535,10 @@ void bmx_wxpgchoices_set(MaxPGChoices * choices, BBArray * labels, BBArray * val
 		(values != &bbEmptyArray) ? bbIntArrayTowxArrayInt(values) : wxPG_EMPTY_ARRAYINT);
 }
 
+void bmx_wxpgchoices_clear(MaxPGChoices * choices) {
+	choices->Choices().Clear();
+}
+
 // *********************************************
 
 MaxColour * bmx_wxpgchoiceentry_getbgcol(MaxPGChoiceEntry * entry) {
