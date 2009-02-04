@@ -251,6 +251,7 @@ Extern
 
 	Function bmx_wxmultichoiceproperty_createwitharrays:Byte Ptr(handle:Object, label:String, name:String, labels:String[], value:String[])
 	Function bmx_wxmultichoiceproperty_createwithchoices:Byte Ptr(handle:Object, label:String, name:String, choices:Byte Ptr, value:String[])
+	Function bmx_wxmultichoiceproperty_getvalueasarrayint:Int[](handle:Byte Ptr)
 
 	Function bmx_wxpropertygrid_geteventtype:Int(evt:Int)
 

@@ -2033,6 +2033,10 @@ wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwithchoices(BBObject * h
 		(value) ? bbStringArrayTowxArrayStr(value) : wxArrayString() );
 }
 
+BBArray * bmx_wxmultichoiceproperty_getvalueasarrayint(wxMultiChoiceProperty * prop) {
+	return wxArrayIntToBBIntArray(prop->GetValueAsArrayInt());
+}
+
 // *********************************************
 
 wxPGProperty * bmx_wxpropertygridevent_getmainparent(wxPropertyGridEvent & event) {

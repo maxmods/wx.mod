@@ -331,6 +331,7 @@ extern "C" {
 
 	wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwitharrays(BBObject * handle, BBString * label, BBString * name, BBArray * labels, BBArray * value);
 	wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwithchoices(BBObject * handle, BBString * label, BBString * name, MaxPGChoices * choices, BBArray * value);
+	BBArray * bmx_wxmultichoiceproperty_getvalueasarrayint(wxMultiChoiceProperty * prop);
 
 	int bmx_wxpropertygrid_geteventtype(int type);
 
