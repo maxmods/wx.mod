@@ -1260,7 +1260,7 @@ void bmx_wxpropertygrid_setpropertyvaluestring(wxPropertyGrid * grid, wxPGProper
 	grid->SetPropertyValue(prop, wxStringFromBBString(value));
 }
 
-void bmx_wxpropertygrid_setpropertyvaluedatetime(wxPropertyGrid * grid, wxPGProperty * prop, wxDateTime * time) {
+void bmx_wxpropertygrid_setpropertyvaluedatetime(wxPropertyGrid * grid, wxPGProperty * prop, MaxDateTime * time) {
 	grid->SetPropertyValue(prop, time);
 }
 
@@ -1316,7 +1316,7 @@ void bmx_wxpropertygrid_setpropertyvaluestringbyname(wxPropertyGrid * grid, BBSt
 	grid->SetPropertyValue(wxStringFromBBString(name), wxStringFromBBString(value));
 }
 
-void bmx_wxpropertygrid_setpropertyvaluedatetimebyname(wxPropertyGrid * grid, BBString * name, wxDateTime * time) {
+void bmx_wxpropertygrid_setpropertyvaluedatetimebyname(wxPropertyGrid * grid, BBString * name, MaxDateTime * time) {
 	grid->SetPropertyValue(wxStringFromBBString(name), time);
 }
 
@@ -1463,6 +1463,120 @@ bool bmx_wxpropertygrid_commitchangesfromeditor(wxPropertyGrid * grid, int flags
 bool bmx_wxpropertygrid_selectproperty(wxPropertyGrid * grid, wxPGProperty * prop, bool focus) {
 	return grid->SelectProperty(prop, focus);
 }
+
+
+bool bmx_wxpropertygrid_changepropertyvalueintarray(wxPropertyGrid * grid, wxPGProperty * prop, BBArray * value) {
+	wxArrayInt arr = bbIntArrayTowxArrayInt(value);
+	wxVariant v = WXVARIANT(arr);
+	return grid->ChangePropertyValue(prop, v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvalueintarraybyname(wxPropertyGrid * grid, BBString * name, BBArray * value) {
+	wxArrayInt arr = bbIntArrayTowxArrayInt(value);
+	wxVariant v = WXVARIANT(arr);
+	return grid->ChangePropertyValue(wxStringFromBBString(name), v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvalueulong(wxPropertyGrid * grid, wxPGProperty * prop, BBInt64 value) {
+	wxVariant v = WXVARIANT(wxULongLong(value));
+	return grid->ChangePropertyValue(prop, v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvalueulongbyname(wxPropertyGrid * grid, BBString * name, BBInt64 value) {
+	wxVariant v = WXVARIANT(wxULongLong(value));
+	return grid->ChangePropertyValue(wxStringFromBBString(name), v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluelong(wxPropertyGrid * grid, wxPGProperty * prop, BBInt64 value) {
+	wxVariant v = WXVARIANT(wxLongLong(value));
+	return grid->ChangePropertyValue(prop, v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluelongbyname(wxPropertyGrid * grid, BBString * name, BBInt64 value) {
+	wxVariant v = WXVARIANT(wxLongLong(value));
+	return grid->ChangePropertyValue(wxStringFromBBString(name), v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluesize(wxPropertyGrid * grid, wxPGProperty * prop, int w, int h) {
+	wxVariant v = WXVARIANT(wxSize(w, h));
+	return grid->ChangePropertyValue(prop, v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluesizebyname(wxPropertyGrid * grid, BBString * name, int w, int h) {
+	wxVariant v = WXVARIANT(wxSize(w, h));
+	return grid->ChangePropertyValue(wxStringFromBBString(name), v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluepoint(wxPropertyGrid * grid, wxPGProperty * prop, int x, int y) {
+	wxVariant v = WXVARIANT(wxPoint(x, y));
+	return grid->ChangePropertyValue(prop, v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluepointbyname(wxPropertyGrid * grid, BBString * name, int x, int y) {
+	wxVariant v = WXVARIANT(wxPoint(x, y));
+	return grid->ChangePropertyValue(wxStringFromBBString(name), v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluebyteptr(wxPropertyGrid * grid, wxPGProperty * prop, void * value) {
+	return grid->ChangePropertyValue(prop, value);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluebyteptrbyname(wxPropertyGrid * grid, BBString * name, void * value) {
+	return grid->ChangePropertyValue(wxStringFromBBString(name), value);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluestring(wxPropertyGrid * grid, wxPGProperty * prop, BBString * value) {
+	return grid->ChangePropertyValue(prop, wxStringFromBBString(value));
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluestringbyname(wxPropertyGrid * grid, BBString * name, BBString * value) {
+	return grid->ChangePropertyValue(wxStringFromBBString(name), wxStringFromBBString(value));
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluedatetime(wxPropertyGrid * grid, wxPGProperty * prop, MaxDateTime * time) {
+	return grid->ChangePropertyValue(prop, time->DateTime());
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluedatetimebyname(wxPropertyGrid * grid, BBString * name, MaxDateTime * time) {
+	return grid->ChangePropertyValue(wxStringFromBBString(name), time->DateTime());
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluestringarray(wxPropertyGrid * grid, wxPGProperty * prop, BBArray * value) {
+	wxArrayString arr = bbStringArrayTowxArrayStr(value);
+	wxVariant v = WXVARIANT(arr);
+	return grid->ChangePropertyValue(prop, v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluestringarraybyname(wxPropertyGrid * grid, BBString * name, BBArray * value) {
+	wxArrayString arr = bbStringArrayTowxArrayStr(value);
+	wxVariant v = WXVARIANT(arr);
+	return grid->ChangePropertyValue(wxStringFromBBString(name), v);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluebool(wxPropertyGrid * grid, wxPGProperty * prop, bool value) {
+	return grid->ChangePropertyValue(prop, value);
+}
+
+bool bmx_wxpropertygrid_changepropertyvalueboolbyname(wxPropertyGrid * grid, BBString * name, bool value) {
+	return grid->ChangePropertyValue(wxStringFromBBString(name), value);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluedouble(wxPropertyGrid * grid, wxPGProperty * prop, double value) {
+	return grid->ChangePropertyValue(prop, value);
+}
+
+bool bmx_wxpropertygrid_changepropertyvaluedoublebyname(wxPropertyGrid * grid, BBString * name, double value) {
+	return grid->ChangePropertyValue(wxStringFromBBString(name), value);
+}
+
+bool bmx_wxpropertygrid_changepropertyvalueint(wxPropertyGrid * grid, wxPGProperty * prop, int value) {
+	return grid->ChangePropertyValue(prop, value);
+}
+
+bool bmx_wxpropertygrid_changepropertyvalueintbyname(wxPropertyGrid * grid, BBString * name, int value) {
+	return grid->ChangePropertyValue(wxStringFromBBString(name), value);
+}
+
 
 // *********************************************
 

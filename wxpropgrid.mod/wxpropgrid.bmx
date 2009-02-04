@@ -728,79 +728,90 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 	
 	Method ChangePropertyValueIntArray:Int(prop:Object, value:Int[])
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvalueintarray(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvalueintarraybyname(wxObjectPtr, String(prop), value)
 		End If
 	End Method
 	
 	Method ChangePropertyValueULong:Int(prop:Object, value:Long) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvalueulong(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvalueulongbyname(wxObjectPtr, String(prop), value)
 		End If
 	End Method
 	
 	Method ChangePropertyValueLong:Int(prop:Object, value:Long) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluelong(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluelongbyname(wxObjectPtr, String(prop), value)
 		End If
 	End Method
 	
 	Method ChangePropertyValueSize:Int(prop:Object, w:Int, h:Int) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluesize(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, w, h)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluesizebyname(wxObjectPtr, String(prop), w, h)
 		End If
 	End Method
 	
 	Method ChangePropertyValuePoint:Int(prop:Object, x:Int, y:Int) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluepoint(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, x, y)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluepointbyname(wxObjectPtr, String(prop), x, y)
 		End If
 	End Method
 	
 	Method ChangePropertyValueBytePtr:Int(prop:Object, value:Byte Ptr) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluebyteptr(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluebyteptrbyname(wxObjectPtr, String(prop), value)
 		End If
 	End Method
 	
 	Method ChangePropertyValueString:Int(prop:Object, value:String) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluestring(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluestringbyname(wxObjectPtr, String(prop), value)
 		End If
 	End Method
 	
 	Method ChangePropertyValueDateTime:Int(prop:Object, time:wxDateTime) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluedatetime(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, time.wxObjectPtr)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluedatetimebyname(wxObjectPtr, String(prop), time.wxObjectPtr)
 		End If
 	End Method
 	
 	Method ChangePropertyValueStringArray:Int(prop:Object, value:String[]) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluestringarray(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluestringarraybyname(wxObjectPtr, String(prop), value)
 		End If
 	End Method
 	
 	Method ChangePropertyValueBool:Int(prop:Object, value:Int) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluebool(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvalueboolbyname(wxObjectPtr, String(prop), value)
 		End If
 	End Method
 	
 	Method ChangePropertyValueDouble:Int(prop:Object, value:Double) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluedouble(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvaluedoublebyname(wxObjectPtr, String(prop), value)
 		End If
 	End Method
 	
@@ -809,9 +820,10 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 	
 	Method ChangePropertyValueInt:Int(prop:Object, value:Int) 
-		' TODO
 		If wxPGProperty(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvalueint(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, value)
 		Else If String(prop) Then
+			Return bmx_wxpropertygrid_changepropertyvalueintbyname(wxObjectPtr, String(prop), value)
 		End If
 	End Method
 
