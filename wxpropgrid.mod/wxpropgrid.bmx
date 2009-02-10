@@ -3093,6 +3093,13 @@ Type wxMultiChoiceProperty Extends wxPGProperty
 		Return bmx_wxmultichoiceproperty_getvalueasarrayint(wxObjectPtr)
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetValueIntArray(value:Int[])
+		bmx_wxmultichoiceproperty_setvalueintarray(wxObjectPtr, value)
+	End Method
+	
 End Type
 
 Rem

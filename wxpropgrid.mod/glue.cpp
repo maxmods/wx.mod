@@ -254,6 +254,21 @@ MaxMultiChoiceProperty::~MaxMultiChoiceProperty() {
 	wxunbind(this);
 }
 
+void MaxMultiChoiceProperty::SetValueIntArray(wxArrayInt array) {
+	wxVariant variant;
+	wxArrayString value;
+	
+	unsigned int i;
+	for (i = 0; i < array.GetCount(); i++ ) {
+		if (m_choices.Index(array.Item(i)) != -1) {
+			value.Add(m_choices.GetLabel(m_choices.Index(array.Item(i))));
+		}
+	}
+	
+	variant = WXVARIANT(value);
+	SetValue(variant);
+}
+
 MaxColourProperty::MaxColourProperty(BBObject * handle, const wxString &label, const wxString &name, const wxColour &value)
 	: wxColourProperty(label, name, value)
 {
@@ -2145,6 +2160,10 @@ wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwithchoices(BBObject * h
 
 BBArray * bmx_wxmultichoiceproperty_getvalueasarrayint(wxMultiChoiceProperty * prop) {
 	return wxArrayIntToBBIntArray(prop->GetValueAsArrayInt());
+}
+
+void bmx_wxmultichoiceproperty_setvalueintarray(MaxMultiChoiceProperty * prop, BBArray * value) {
+	prop->SetValueIntArray(bbIntArrayTowxArrayInt(value));
 }
 
 // *********************************************
