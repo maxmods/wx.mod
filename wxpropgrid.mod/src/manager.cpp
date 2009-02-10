@@ -217,12 +217,18 @@ void wxPropertyGridPage::SetSplitterPosition( int splitterPos, int col )
         DoSetSplitterPosition(splitterPos, col, false);
 }
 
-void wxPropertyGridPage::DoSetSplitterPosition( int pos, int splitterColumn, bool allPages )
+void wxPropertyGridPage::DoSetSplitterPosition( int pos,
+                                                int splitterColumn,
+                                                bool allPages,
+                                                bool fromAutoCenter )
 {
     if ( allPages && m_manager->GetPageCount() )
         m_manager->SetSplitterPosition( pos, splitterColumn );
     else
-        DoSetSplitterPositionThisPage( pos, splitterColumn );
+        wxPropertyGridState::DoSetSplitterPosition(pos,
+                                                   splitterColumn,
+                                                   allPages,
+                                                   fromAutoCenter);
 }
 
 // -----------------------------------------------------------------------
@@ -285,6 +291,8 @@ bool wxPropertyGridManager::Create( wxWindow *parent,
                                     long style,
                                     const wxChar* name )
 {
+    if ( !m_pPropGrid )
+        m_pPropGrid = CreatePropertyGrid();
 
     bool res = wxPanel::Create( parent, id, pos, size,
                                 (style&0xFFFF0000)|wxWANTS_CHARS,
@@ -301,9 +309,7 @@ bool wxPropertyGridManager::Create( wxWindow *parent,
 //
 void wxPropertyGridManager::Init1()
 {
-
-    //m_pPropGrid = (wxPropertyGrid*) NULL;
-    m_pPropGrid = CreatePropertyGrid();
+    m_pPropGrid = NULL;
 
 #if wxUSE_TOOLBAR
     m_pToolbar = (wxToolBar*) NULL;
@@ -526,9 +532,18 @@ void wxPropertyGridManager::Thaw()
 
 void wxPropertyGridManager::SetWindowStyleFlag( long style )
 {
+    int oldWindowStyle = GetWindowStyleFlag();
+
     wxWindow::SetWindowStyleFlag( style );
     m_pPropGrid->SetWindowStyleFlag( (m_pPropGrid->GetWindowStyleFlag()&~(wxPG_MAN_PASS_FLAGS_MASK)) |
                                    (style&wxPG_MAN_PASS_FLAGS_MASK) );
+
+    // Need to re-position windows?
+    if ( (oldWindowStyle & (wxPG_TOOLBAR|wxPG_DESCRIPTION)) != 
+         (style & (wxPG_TOOLBAR|wxPG_DESCRIPTION)) )
+    {
+        RecreateControls();
+    }
 }
 
 // -----------------------------------------------------------------------
@@ -655,7 +670,8 @@ wxPropertyGridState* wxPropertyGridManager::GetPageState( int page ) const
 
     if ( page == -1 )
         return m_pState;
-    return GETPAGESTATE(page);}
+    return GETPAGESTATE(page);
+}
 
 // -----------------------------------------------------------------------
 
@@ -1021,19 +1037,11 @@ void wxPropertyGridManager::RepaintSplitter( wxDC& dc, int new_splittery, int ne
 
 // -----------------------------------------------------------------------
 
-void wxPropertyGridManager::RefreshHelpBox( int new_splittery, int new_width, int new_height )
+void wxPropertyGridManager::UpdateDescriptionBox( int new_splittery, int new_width, int new_height )
 {
-    //if ( new_splittery == m_splitterY && new_width == m_width )
-    //    return;
 
     int use_hei = new_height;
     use_hei--;
-
-    //wxRendererNative::Get().DrawSplitterSash(this,dc,
-        //wxSize(width,m_splitterHeight),new_splittery,wxHORIZONTAL);
-
-    //wxRendererNative::Get().DrawSplitterBorder(this,dc,
-    //    wxRect(0,new_splittery,new_width,m_splitterHeight));
 
     // Fix help control positions.
     int cap_hei = m_pPropGrid->m_fontHeight;
@@ -1069,8 +1077,8 @@ void wxPropertyGridManager::RefreshHelpBox( int new_splittery, int new_width, in
         }
     }
 
-    wxClientDC dc(this);
-    RepaintSplitter( dc, new_splittery, new_width, new_height, true );
+    wxRect r(0, new_splittery, new_width, new_height-new_splittery);
+    RefreshRect(r);
 
     m_splitterY = new_splittery;
 
@@ -1088,22 +1096,9 @@ void wxPropertyGridManager::RecalculatePositions( int width, int height )
 #if wxUSE_TOOLBAR
     if ( m_pToolbar )
     {
-        int tbHeight;
-
-    #if ( wxMINOR_VERSION < 6 || (wxMINOR_VERSION == 6 && wxRELEASE_NUMBER < 2) )
-        tbHeight = -1;
-    #else
-        // In wxWidgets 2.6.2+, Toolbar default height may be broken
-        #if defined(__WXMSW__)
-            tbHeight = 24;
-        #elif defined(__WXGTK__)
-            tbHeight = -1; // 22;
-        #elif defined(__WXMAC__)
-            tbHeight = 22;
-        #else
-            tbHeight = 22;
-        #endif
-    #endif
+        // Use default tool bar height instead and let the control decide the
+        // most appropriate height by itself, based on tool bitmap size etc.
+        int tbHeight = -1;
 
         m_pToolbar->SetSize(0,0,width,tbHeight);
         propgridY += m_pToolbar->GetSize().y;
@@ -1139,12 +1134,14 @@ void wxPropertyGridManager::RecalculatePositions( int width, int height )
 
         propgridBottomY = new_splittery;
 
-        RefreshHelpBox( new_splittery, width, height );
+        UpdateDescriptionBox( new_splittery, width, height );
     }
 
     if ( m_iFlags & wxPG_FL_INITIALIZED )
     {
         int pgh = propgridBottomY - propgridY;
+        if ( pgh < 0 )
+            pgh = 0;
         m_pPropGrid->SetSize( 0, propgridY, width, pgh );
 
         m_extraHeight = height - pgh;
@@ -1160,9 +1157,13 @@ void wxPropertyGridManager::SetDescBoxHeight( int ht, bool refresh )
 {
     if ( m_windowStyle & wxPG_DESCRIPTION )
     {
-        m_nextDescBoxSize = ht;
-        if ( refresh )
-            RecalculatePositions(m_width, m_height);
+        int oldHeight = GetDescBoxHeight();
+        if ( oldHeight != ht )
+        {
+            m_nextDescBoxSize = ht;
+            if ( refresh )
+                RecalculatePositions(m_width, m_height);
+        }
     }
 }
 
@@ -1170,7 +1171,7 @@ void wxPropertyGridManager::SetDescBoxHeight( int ht, bool refresh )
 
 int wxPropertyGridManager::GetDescBoxHeight() const
 {
-    return GetClientSize().y - m_splitterY;
+    return GetClientSize().y - m_splitterY - m_splitterHeight;
 }
 
 // -----------------------------------------------------------------------
@@ -1183,9 +1184,7 @@ void wxPropertyGridManager::OnPaint( wxPaintEvent& WXUNUSED(event) )
     wxRect r = GetUpdateRegion().GetBox();
 
     // Repaint splitter?
-    int r_bottom = r.y + r.height;
-    int splitter_bottom = m_splitterY + m_splitterHeight;
-    if ( r.y < splitter_bottom && r_bottom >= m_splitterY )
+    if ( (r.y + r.height) >= m_splitterY )
         RepaintSplitter( dc, m_splitterY, m_width, m_height, false );
 }
 
@@ -1230,6 +1229,7 @@ void wxPropertyGridManager::RecreateControls()
                                        wxDefaultPosition,wxDefaultSize,
                                        ((GetExtraStyle()&wxPG_EX_NO_FLAT_TOOLBAR)?0:wxTB_FLAT)
                                         /*| wxTB_HORIZONTAL | wxNO_BORDER*/ );
+            m_pToolbar->SetToolBitmapSize(wxSize(16, 15));
 
         #if defined(__WXMSW__)
             // Eliminate toolbar flicker on XP
@@ -1299,16 +1299,27 @@ void wxPropertyGridManager::RecreateControls()
 
         if ( !m_pTxtHelpCaption )
         {
-            m_pTxtHelpCaption = new wxStaticText (this,baseId+ID_ADVHELPCAPTION_OFFSET,wxT(""));
+            m_pTxtHelpCaption = new wxStaticText(this,
+                                                 baseId+ID_ADVHELPCAPTION_OFFSET,
+                                                 wxT(""),
+                                                 wxDefaultPosition,
+                                                 wxDefaultSize,
+                                                 wxALIGN_LEFT|wxST_NO_AUTORESIZE);
             m_pTxtHelpCaption->SetFont( m_pPropGrid->m_captionFont );
-            m_pTxtHelpCaption->SetCursor ( *wxSTANDARD_CURSOR );
+            m_pTxtHelpCaption->SetCursor( *wxSTANDARD_CURSOR );
         }
         if ( !m_pTxtHelpContent )
         {
-            m_pTxtHelpContent = new wxStaticText (this,baseId+ID_ADVHELPCONTENT_OFFSET,
-                wxT(""),wxDefaultPosition,wxDefaultSize,wxALIGN_LEFT|wxST_NO_AUTORESIZE);
-            m_pTxtHelpContent->SetCursor ( *wxSTANDARD_CURSOR );
+            m_pTxtHelpContent = new wxStaticText(this,
+                                                 baseId+ID_ADVHELPCONTENT_OFFSET,
+                                                 wxT(""),
+                                                 wxDefaultPosition,
+                                                 wxDefaultSize,
+                                                 wxALIGN_LEFT|wxST_NO_AUTORESIZE);
+            m_pTxtHelpContent->SetCursor( *wxSTANDARD_CURSOR );
         }
+
+        SetDescribedProperty(GetSelectedProperty());
     }
     else
     {
@@ -1420,13 +1431,25 @@ void wxPropertyGridManager::OnToolbarClick( wxCommandEvent &event )
         {
             // Categorized mode.
             if ( m_pPropGrid->m_windowStyle & wxPG_HIDE_CATEGORIES )
+            {
+                if ( !m_pPropGrid->HasInternalFlag(wxPG_FL_CATMODE_AUTO_SORT) )
+                    m_pPropGrid->m_windowStyle &= ~wxPG_AUTO_SORT;
                 m_pPropGrid->EnableCategories( true );
+            }
         }
         else if ( id == ( baseId + ID_ADVTBITEMSBASE_OFFSET + 1 ) )
         {
             // Alphabetic mode.
             if ( !(m_pPropGrid->m_windowStyle & wxPG_HIDE_CATEGORIES) )
+            {
+                if ( m_pPropGrid->HasFlag(wxPG_AUTO_SORT) )
+                    m_pPropGrid->SetInternalFlag(wxPG_FL_CATMODE_AUTO_SORT);
+                else
+                    m_pPropGrid->ClearInternalFlag(wxPG_FL_CATMODE_AUTO_SORT);
+
+                m_pPropGrid->m_windowStyle |= wxPG_AUTO_SORT;
                 m_pPropGrid->EnableCategories( false );
+            }
         }
         else
         {
@@ -1467,6 +1490,29 @@ void wxPropertyGridManager::OnToolbarClick( wxCommandEvent &event )
 
 // -----------------------------------------------------------------------
 
+bool wxPropertyGridManager::SetEditableStateItem( const wxString& name, wxVariant value )
+{
+    if ( name == wxT("descboxheight") )
+    {
+        SetDescBoxHeight(value.GetLong(), true);
+        return true;
+    }
+    return false;
+}
+
+// -----------------------------------------------------------------------
+
+wxVariant wxPropertyGridManager::GetEditableStateItem( const wxString& name ) const
+{
+    if ( name == wxT("descboxheight") )
+    {
+        return (long) GetDescBoxHeight();
+    }
+    return wxNullVariant;
+}
+
+// -----------------------------------------------------------------------
+
 void wxPropertyGridManager::SetDescription( const wxString& label, const wxString& content )
 {
     if ( m_pTxtHelpCaption )
@@ -1480,8 +1526,7 @@ void wxPropertyGridManager::SetDescription( const wxString& label, const wxStrin
         m_pTxtHelpCaption->SetSize(-1,osz1.y);
         m_pTxtHelpContent->SetSize(-1,osz2.y);
 
-        if ( (m_iFlags & wxPG_FL_DESC_REFRESH_REQUIRED) || (osz2.x<(m_width-10)) )
-            RefreshHelpBox( m_splitterY, m_width, m_height );
+        UpdateDescriptionBox( m_splitterY, m_width, m_height );
     }
 }
 
@@ -1497,8 +1542,7 @@ void wxPropertyGridManager::SetDescribedProperty( wxPGProperty* p )
         }
         else
         {
-            m_pTxtHelpCaption->SetLabel(wxT(""));
-            m_pTxtHelpContent->SetLabel(wxT(""));
+            SetDescription( wxEmptyString, wxEmptyString );
         }
     }
 }
@@ -1599,7 +1643,7 @@ void wxPropertyGridManager::OnMouseMove( wxMouseEvent &event )
                 m_splitterY = sy;
 
                 m_pPropGrid->SetSize( m_width, m_splitterY - m_pPropGrid->GetPosition().y );
-                RefreshHelpBox( m_splitterY, m_width, m_height );
+                UpdateDescriptionBox( m_splitterY, m_width, m_height );
 
                 m_extraHeight -= change;
                 InvalidateBestSize();
@@ -1694,7 +1738,7 @@ void wxPropertyGridManager::SetSplitterPosition( int pos, int splitterColumn )
     for ( i=0; i<GetPageCount(); i++ )
     {
         wxPropertyGridPage* page = GetPage(i);
-        page->DoSetSplitterPositionThisPage( pos, splitterColumn );
+        page->DoSetSplitterPosition( pos, splitterColumn, false );
     }
 
     m_pPropGrid->SetInternalFlag(wxPG_FL_SPLITTER_PRE_SET);

@@ -1023,6 +1023,7 @@ bool wxBoolProperty::DoSetAttribute( const wxString& name, wxVariant& value )
 // -----------------------------------------------------------------------
 
 int wxBaseEnumProperty::ms_nextIndex = -2;
+int wxBaseEnumProperty::ms_prevIndex = -1;
 
 wxBaseEnumProperty::wxBaseEnumProperty( const wxString& label, const wxString& name )
     : wxPGProperty(label,name)
@@ -1128,13 +1129,14 @@ bool wxBaseEnumProperty::ValueFromString_( wxVariant& value, const wxString& tex
     }
 
     int setAsNextIndex = -2;
+    int curIndex = GetIndex();
 
     if ( asText )
     {
         setAsNextIndex = -1;
         value = text;
     }
-    else if ( m_index != useIndex )
+    else if ( curIndex != useIndex )
     {
         if ( useIndex != -1 )
         {
@@ -1167,6 +1169,7 @@ bool wxBaseEnumProperty::ValueFromInt_( wxVariant& variant, int intVal, int argF
 {
     // If wxPG_FULL_VALUE is *not* in argFlags, then intVal is index from combo box.
     //
+    int curIndex = GetIndex();
     ms_nextIndex = -2;
 
     if ( argFlags & wxPG_FULL_VALUE )
@@ -1175,7 +1178,7 @@ bool wxBaseEnumProperty::ValueFromInt_( wxVariant& variant, int intVal, int argF
     }
     else
     {
-        if ( m_index != intVal )
+        if ( curIndex != intVal )
         {
             ms_nextIndex = intVal;
         }
@@ -1194,16 +1197,29 @@ bool wxBaseEnumProperty::ValueFromInt_( wxVariant& variant, int intVal, int argF
     return false;
 }
 
+void
+wxBaseEnumProperty::OnValidationFailure( wxVariant& WXUNUSED(pendingValue) )
+{
+    // Revert index
+    m_index = ms_prevIndex;
+    ResetNextIndex();
+}
+
 void wxBaseEnumProperty::SetIndex( int index )
 {
+    ms_prevIndex = m_index;
     ms_nextIndex = -2;
     m_index = index;
 }
 
 int wxBaseEnumProperty::GetIndex() const
 {
+    if ( m_value.IsNull() )
+        return -1;
+
     if ( ms_nextIndex != -2 )
         return ms_nextIndex;
+
     return m_index;
 }
 
@@ -1280,12 +1296,9 @@ int wxEnumProperty::GetIndexForValue( int value ) const
     if ( !m_choices.IsOk() )
         return -1;
 
-    if ( m_choices.HasValues() )
-    {
-        int intVal = m_choices.Index(value);
-        if ( intVal >= 0 )
-            return intVal;
-    }
+    int intVal = m_choices.Index(value);
+    if ( intVal >= 0 )
+        return intVal;
 
     return value;
 }
@@ -1298,9 +1311,7 @@ const wxString* wxEnumProperty::GetEntry( size_t index, int* pvalue ) const
 {
     if ( m_choices.IsOk() && index < m_choices.GetCount() )
     {
-        int value = (int)index;
-        if ( m_choices.HasValue(index) )
-            value = m_choices.GetValue(index);
+        int value = m_choices.GetValue(index);
 
         if ( pvalue )
             *pvalue = value;
@@ -1402,7 +1413,7 @@ void wxFlagsProperty::Init()
                     oldSel = -2;
             }
         }
-        state->ClearSelection();
+        state->DoClearSelection();
     }
 
     // Delete old children
@@ -1417,11 +1428,7 @@ void wxFlagsProperty::Init()
 
         for ( i=0; i<GetItemCount(); i++ )
         {
-            bool child_val;
-            if ( choices.HasValue(i) )
-                child_val = ( value & choices.GetValue(i) )?true:false;
-            else
-                child_val = ( value & (1<<i) )?true:false;
+            bool child_val = ( value & choices.GetValue(i) )?true:false;
 
             wxPGProperty* boolProp;
 
@@ -1527,10 +1534,7 @@ void wxFlagsProperty::OnSetValue()
         const wxPGChoices& choices = m_choices;
         for ( i = 0; i < GetItemCount(); i++ )
         {
-            if ( choices.HasValue(i) )
-                fullFlags |= choices.GetValue(i);
-            else
-                fullFlags |= (1<<i);
+            fullFlags |= choices.GetValue(i);
         }
 
         val &= fullFlags;
@@ -1556,10 +1560,7 @@ void wxFlagsProperty::OnSetValue()
         {
             int flag;
 
-            if ( choices.HasValue(i) )
-                flag = choices.GetValue(i);
-            else
-                flag = (1<<i);
+            flag = choices.GetValue(i);
 
             if ( (newFlags & flag) != (m_oldValue & flag) )
                 Item(i)->SetFlag( wxPG_PROP_MODIFIED );
@@ -1583,10 +1584,7 @@ wxString wxFlagsProperty::GetValueAsString( int ) const
     for ( i = 0; i < GetItemCount(); i++ )
     {
         int doAdd;
-        if ( choices.HasValue(i) )
-            doAdd = ( flags & choices.GetValue(i) );
-        else
-            doAdd = ( flags & (1<<i) );
+        doAdd = ( flags & choices.GetValue(i) );
 
         if ( doAdd )
         {
@@ -1647,9 +1645,7 @@ long wxFlagsProperty::IdToBit( const wxString& id ) const
     {
         if ( id == GetLabel(i) )
         {
-            if ( m_choices.HasValue(i) )
-                return m_choices.GetValue(i);
-            return (1<<i);
+            return m_choices.GetValue(i);
         }
     }
     return -1;
@@ -1667,10 +1663,7 @@ void wxFlagsProperty::RefreshChildren()
     {
         long flag;
 
-        if ( choices.HasValue(i) )
-            flag = choices.GetValue(i);
-        else
-            flag = (1<<i);
+        flag = choices.GetValue(i);
 
         long subVal = flags & flag;
         wxPGProperty* p = Item(i);
@@ -1688,8 +1681,7 @@ void wxFlagsProperty::ChildChanged( wxVariant& thisValue, int childIndex, wxVari
 {
     long oldValue = thisValue.GetLong();
     long val = childValue.GetLong();
-    unsigned long vi = (1<<childIndex);
-    if ( m_choices.HasValue(childIndex) ) vi = m_choices.GetValue(childIndex);
+    unsigned long vi = m_choices.GetValue(childIndex);
     if ( val )
         thisValue = (long)(oldValue | vi);
     else

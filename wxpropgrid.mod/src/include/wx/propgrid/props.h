@@ -18,6 +18,11 @@ class WXDLLIMPEXP_PG wxArrayEditorDialog;
 
 #include "editors.h"
 
+#include <wx/dialog.h>
+#include <wx/textctrl.h>
+#include <wx/button.h>
+#include <wx/listbox.h>
+
 // -----------------------------------------------------------------------
 
 //
@@ -181,11 +186,6 @@ CLASSNAME::CLASSNAME( const wxString& label, const wxString& name, \
 CLASSNAME::~CLASSNAME () { } \
 wxColour CLASSNAME::GetColour ( int index ) const \
 { \
-    if ( !m_choices.HasValue(index) ) \
-    { \
-        wxASSERT( index < (int)m_choices.GetCount() ); \
-        return COLOURS[index]; \
-    } \
     return COLOURS[m_choices.GetValue(index)]; \
 }
 
@@ -244,11 +244,6 @@ wxString CLASSNAME::GetValueAsString( int argFlags ) const \
 } \
 wxColour CLASSNAME::GetColour( int index ) const \
 { \
-    if ( !m_choices.HasValue(index) ) \
-    { \
-        wxASSERT( index < (int)GetItemCount() ); \
-        return COLOURS[index]; \
-    } \
     return COLOURS[m_choices.GetValue(index)]; \
 } \
 wxVariant CLASSNAME::DoTranslateVal( wxColourPropertyValue& v ) const \
@@ -563,6 +558,8 @@ public:
         return v;
     }
 
+    virtual void OnValidationFailure( wxVariant& pendingValue );
+
 protected:
 
     int GetIndex() const;
@@ -580,6 +577,7 @@ private:
 
     // Relies on ValidateValue being called always before OnSetValue
     static int              ms_nextIndex;
+    static int              ms_prevIndex;
 };
 
 // -----------------------------------------------------------------------
@@ -981,10 +979,6 @@ wxValidator* wxPG_PROPCLASS(PROPNAME)::DoGetValidator () const \
 // -----------------------------------------------------------------------
 // wxArrayEditorDialog
 // -----------------------------------------------------------------------
-
-#include <wx/textctrl.h>
-#include <wx/button.h>
-#include <wx/listbox.h>
 
 #define wxAEDIALOG_STYLE \
     (wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxOK | wxCANCEL | wxCENTRE)

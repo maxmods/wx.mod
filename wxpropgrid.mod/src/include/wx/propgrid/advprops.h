@@ -34,8 +34,6 @@
 // Additional Value Type Handlers
 //
 #ifndef SWIG
-bool WXDLLIMPEXP_PG operator == (const wxFont&, const wxFont&);
-
 bool WXDLLIMPEXP_PG operator == (const wxArrayInt& array1, const wxArrayInt& array2);
 #endif
 
@@ -94,11 +92,13 @@ public:
     wxColour    m_colour;
 
     wxColourPropertyValue()
+        : wxObject()
     {
         m_type = 0;
     }
 
     wxColourPropertyValue( const wxColourPropertyValue& v )
+        : wxObject()
     {
         m_type = v.m_type;
         m_colour = v.m_colour;
@@ -115,17 +115,20 @@ public:
     }
 
     wxColourPropertyValue( const wxColour& colour )
+        : wxObject()
     {
         m_type = wxPG_COLOUR_CUSTOM;
         m_colour = colour;
     }
 
     wxColourPropertyValue( wxUint32 type )
+        : wxObject()
     {
         m_type = type;
     }
 
     wxColourPropertyValue( wxUint32 type, const wxColour& colour )
+        : wxObject()
     {
         Init( type, colour );
     }
@@ -398,7 +401,8 @@ protected:
     <b>Supported special attributes:</b>
     - "DateFormat": Determines displayed date format.
     - "PickerStyle": Determines window style used with wxDatePickerCtrl.
-       Default is wxDP_DEFAULT | wxDP_SHOWCENTURY.
+       Default is wxDP_DEFAULT | wxDP_SHOWCENTURY. Using wxDP_ALLOWNONE 
+       enables additional support for unspecified property value.
 */
 class WXDLLIMPEXP_PG wxDateProperty : public wxPGProperty
 {
@@ -410,6 +414,7 @@ public:
                     const wxDateTime& value = wxDateTime() );
     virtual ~wxDateProperty();
 
+    virtual void OnSetValue();
     virtual wxString GetValueAsString( int flags = 0 ) const;
     virtual bool StringToValue( wxVariant& variant, const wxString& text, int argFlags = 0 ) const;
 

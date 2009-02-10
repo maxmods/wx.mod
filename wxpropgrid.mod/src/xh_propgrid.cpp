@@ -47,7 +47,7 @@
 IMPLEMENT_DYNAMIC_CLASS(wxPropertyGridXmlHandler, wxXmlResourceHandler)
 
 wxPropertyGridXmlHandler::wxPropertyGridXmlHandler()
-                     :wxXmlResourceHandler(), m_populator(NULL), m_manager(NULL)
+                     :wxXmlResourceHandler(), m_manager(NULL), m_populator(NULL)
 {
     XRC_ADD_STYLE(wxTAB_TRAVERSAL);
     XRC_ADD_STYLE(wxPG_AUTO_SORT);

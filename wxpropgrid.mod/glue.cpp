@@ -1707,10 +1707,6 @@ int bmx_wxpgchoiceentry_getvalue(MaxPGChoiceEntry * entry) {
 	return entry->Entry().GetValue();
 }
 
-bool bmx_wxpgchoiceentry_hasvalue(MaxPGChoiceEntry * entry) {
-	return entry->Entry().HasValue();
-}
-
 void bmx_wxpgchoiceentry_setvalue(MaxPGChoiceEntry * entry, int value) {
 	entry->Entry().SetValue(value);
 }

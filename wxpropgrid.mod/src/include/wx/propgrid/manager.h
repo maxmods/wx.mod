@@ -161,14 +161,10 @@ protected:
 
     /** Propagate to other pages.
     */
-    virtual void DoSetSplitterPosition( int pos, int splitterColumn = 0, bool allPages = false );
-
-    /** Propagate to other pages.
-    */
-    void DoSetSplitterPositionThisPage( int pos, int splitterColumn = 0 )
-    {
-        wxPropertyGridState::DoSetSplitterPosition( pos, splitterColumn );
-    }
+    virtual void DoSetSplitterPosition( int pos,
+                                        int splitterColumn = 0,
+                                        bool allPages = false,
+                                        bool fromAutoCenter = false );
 
     /** Page label (may be referred as name in some parts of documentation).
         Can be set in constructor, or passed in wxPropertyGridManager::AddPage(),
@@ -478,7 +474,7 @@ public:
     */
     wxPropertyGridPage* GetLastPage() const
     {
-        return GetPage(m_arrPages.size()-1);
+        return GetPage((unsigned int)m_arrPages.size()-1);
     }
 
     /** Returns page object for given page index.
@@ -794,8 +790,11 @@ protected:
     // Subclassing helpers
     //
 
-    /** Creates property grid for the manager. Override to use subclassed
-        wxPropertyGrid.
+    /**
+        Creates property grid for the manager. Reimplement in derived class to
+        use subclassed wxPropertyGrid. However, if you you do this, then you must
+        also use two-step construction (ie. default constructor and Create()
+        instead of just constructor with arguments) when creating the manager.
     */
     virtual wxPropertyGrid* CreatePropertyGrid() const;
 
@@ -906,11 +905,15 @@ protected:
     /** (Re)creates/destroys controls, according to the window style bits. */
     void RecreateControls();
 
-    void RefreshHelpBox( int new_splittery, int new_width, int new_height );
+    void UpdateDescriptionBox( int new_splittery, int new_width, int new_height );
 
     void RepaintSplitter( wxDC& dc, int new_splittery, int new_width, int new_height, bool desc_too );
 
     void SetDescribedProperty( wxPGProperty* p );
+
+    // Reimplement these to handle "descboxheight" state item
+    virtual bool SetEditableStateItem( const wxString& name, wxVariant value );
+    virtual wxVariant GetEditableStateItem( const wxString& name ) const;
 
     virtual bool ProcessEvent( wxEvent& event );
 

@@ -82,11 +82,6 @@
 // -----------------------------------------------------------------------
 
 
-bool operator == (const wxFont&, const wxFont&)
-{
-    return false;
-}
-
 // Implement dynamic class for type value.
 IMPLEMENT_DYNAMIC_CLASS(wxColourPropertyValue, wxObject)
 
@@ -114,6 +109,138 @@ bool operator == (const wxArrayInt& array1, const wxArrayInt& array2)
 
 #if wxUSE_SPINBTN
 
+#ifdef __WXMSW__
+  #define IS_MOTION_SPIN_SUPPORTED  1
+#else
+  #define IS_MOTION_SPIN_SUPPORTED  0
+#endif
+
+#if IS_MOTION_SPIN_SUPPORTED
+//
+// This class implements ability to rapidly change "spin" value
+// by moving mouse when one of the spin buttons is depressed.
+class wxPGSpinButton : public wxSpinButton
+{
+public:
+    wxPGSpinButton() : wxSpinButton()
+    {
+        m_bLeftDown = false;
+        m_hasCapture = false;
+        m_spins = 1;
+
+        Connect( wxEVT_LEFT_DOWN,
+                 (wxObjectEventFunction) (wxEventFunction)
+                 (wxMouseEventFunction)&wxPGSpinButton::OnMouseEvent );
+        Connect( wxEVT_LEFT_UP,
+                 (wxObjectEventFunction) (wxEventFunction)
+                 (wxMouseEventFunction)&wxPGSpinButton::OnMouseEvent );
+        Connect( wxEVT_MOTION,
+                 (wxObjectEventFunction) (wxEventFunction)
+                 (wxMouseEventFunction)&wxPGSpinButton::OnMouseEvent );
+#if wxCHECK_VERSION(2,8,0)
+        Connect( wxEVT_MOUSE_CAPTURE_LOST,
+                 (wxObjectEventFunction) (wxEventFunction)
+                 (wxMouseCaptureLostEventFunction)&wxPGSpinButton::OnMouseCaptureLost );
+#endif
+    }
+
+
+    int GetSpins() const
+    {
+        return m_spins;
+    }
+
+private:
+    wxPoint m_ptPosition;
+
+    // Having a separate spins variable allows us to handle validation etc. for
+    // multiple spin events at once (with quick mouse movements there could be
+    // hundreds of 'spins' being done at once). Technically things like this
+    // should be stored in event (wxSpinEvent in this case), but there probably
+    // isn't anything there that can be reliably reused.
+    int     m_spins;
+
+    bool    m_bLeftDown;
+
+    // SpinButton seems to be a special for mouse capture, so we may need track
+    // privately whether mouse is actually captured.
+    bool    m_hasCapture;
+
+    void Capture()
+    {
+        if ( !m_hasCapture )
+        {
+            CaptureMouse();
+            m_hasCapture = true;
+        }
+
+        SetCursor(wxCURSOR_SIZENS);
+    }
+    void Release()
+    {
+        m_bLeftDown = false;
+
+        if ( m_hasCapture )
+        {
+            ReleaseMouse();
+            m_hasCapture = false;
+        }
+
+        wxWindow *parent = GetParent();
+        if ( parent )
+            SetCursor(parent->GetCursor());
+        else
+            SetCursor(wxNullCursor);
+    }
+
+    void OnMouseEvent(wxMouseEvent& event)
+    {
+        if ( event.GetEventType() == wxEVT_LEFT_DOWN )
+        {
+            m_bLeftDown = true;
+            m_ptPosition = event.GetPosition();
+        }
+        else if ( event.GetEventType() == wxEVT_LEFT_UP )
+        {
+            Release();
+            m_bLeftDown = false;
+        }
+        else if ( event.GetEventType() == wxEVT_MOTION )
+        {
+            if ( m_bLeftDown )
+            {
+                int dy = m_ptPosition.y - event.GetPosition().y;
+                if ( dy )
+                {
+                    Capture();
+                    m_ptPosition = event.GetPosition();
+
+                    wxSpinEvent evtscroll( (dy >= 0) ? wxEVT_SCROLL_LINEUP :
+                                                       wxEVT_SCROLL_LINEDOWN,
+                                           GetId() );
+                    evtscroll.SetEventObject(this);
+
+                    wxASSERT( m_spins == 1 );
+
+                    m_spins = abs(dy);
+                    GetEventHandler()->ProcessEvent(evtscroll);
+                    m_spins = 1;
+                }
+            }
+        }
+
+        event.Skip();
+    }
+#if wxCHECK_VERSION(2,8,0)
+    void OnMouseCaptureLost(wxMouseCaptureLostEvent& WXUNUSED(event))
+    {
+        Release();
+    }
+#endif
+};
+
+#endif // IS_MOTION_SPIN_SUPPORTED
+
 
 // This macro also defines global wxPGEditor_SpinCtrl for storing
 // the singleton class instance.
@@ -135,7 +262,19 @@ wxPGWindowList wxPGSpinCtrlEditor::CreateControls( wxPropertyGrid* propgrid, wxP
     wxSize tcSz(sz.x - butSz.x - margin, sz.y);
     wxPoint butPos(pos.x + tcSz.x + margin, pos.y);
 
-    wxSpinButton* wnd2 = new wxSpinButton();
+    wxSpinButton* wnd2;
+
+#if IS_MOTION_SPIN_SUPPORTED
+    if ( property->GetAttributeAsLong(wxT("MotionSpin"), 0) )
+    {
+        wnd2 = new wxPGSpinButton();
+    }
+    else
+#endif
+    {
+        wnd2 = new wxSpinButton();
+    }
+
 #ifdef __WXMSW__
     wnd2->Hide();
 #endif
@@ -169,6 +308,7 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
 {
     int evtType = event.GetEventType();
     int keycode = -1;
+    int spins = 1;
     bool bigStep = false;
 
     if ( evtType == wxEVT_KEY_DOWN )
@@ -194,6 +334,17 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
 
     if ( evtType == wxEVT_SCROLL_LINEUP || evtType == wxEVT_SCROLL_LINEDOWN )
     {
+    #if IS_MOTION_SPIN_SUPPORTED
+        if ( property->GetAttributeAsLong(wxT("MotionSpin"), 0) )
+        {
+            wxPGSpinButton* spinButton =
+                (wxPGSpinButton*) propgrid->GetEditorControlSecondary();
+
+            if ( spinButton )
+                spins = spinButton->GetSpins();
+        }
+    #endif
+
         wxString s;
         // Can't use wnd since it might be clipper window
         wxTextCtrl* tc = wxDynamicCast(propgrid->GetEditorControl(), wxTextCtrl);
@@ -219,6 +370,8 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
                 if ( bigStep )
                     step *= 10.0;
 
+                step *= (double) spins;
+
                 if ( evtType == wxEVT_SCROLL_LINEUP ) v_d += step;
                 else v_d -= step;
 
@@ -242,6 +395,8 @@ bool wxPGSpinCtrlEditor::OnEvent( wxPropertyGrid* propgrid, wxPGProperty* proper
             {
                 if ( bigStep )
                     step *= 10;
+
+                step *= spins;
 
                 if ( evtType == wxEVT_SCROLL_LINEUP ) v_ll += step;
                 else v_ll -= step;
@@ -316,7 +471,7 @@ wxPGWindowList wxPGDatePickerCtrlEditor::CreateControls( wxPropertyGrid* propgri
                  NULL,
                  wxT("DatePickerCtrl editor can only be used with wxDateProperty or derivative.") );
 
-    wxDateProperty* prop = (wxDateProperty*) property;
+    wxDateProperty* prop = wxDynamicCast(property, wxDateProperty);
 
     // Use two stage creation to allow cleaner display on wxMSW
     wxDatePickerCtrl* ctrl = new wxDatePickerCtrl();
@@ -327,12 +482,18 @@ wxPGWindowList wxPGDatePickerCtrlEditor::CreateControls( wxPropertyGrid* propgri
 #else
     wxSize useSz = sz;
 #endif
+
+    wxDateTime dateValue(wxInvalidDateTime);
+    if ( prop->GetType() == wxT("datetime") )
+        dateValue = prop->GetDateValue();
+
     ctrl->Create(propgrid->GetPanel(),
                  wxPG_SUBID1,
-                 prop->GetDateValue(),
+                 dateValue,
                  pos,
                  useSz,
-                 prop->GetDatePickerStyle() | wxNO_BORDER);
+                 prop->GetDatePickerStyle() | 
+                 wxNO_BORDER);
 
     // Connect all required events to grid's OnCustomEditorEvent
     // (all relevenat wxTextCtrl, wxComboBox and wxButton events are
@@ -354,9 +515,13 @@ void wxPGDatePickerCtrlEditor::UpdateControl( wxPGProperty* property, wxWindow* 
     wxDatePickerCtrl* ctrl = (wxDatePickerCtrl*) wnd;
     wxASSERT( ctrl && ctrl->IsKindOf(CLASSINFO(wxDatePickerCtrl)) );
 
+    wxDateTime dateValue(wxInvalidDateTime);
+    if ( property->GetType() == wxT("datetime") )
+        dateValue = property->GetValue().GetDateTime();
+
     // We assume that property's data type is 'int' (or something similar),
     // thus allowing us to get raw, unchecked value via DoGetValue.
-    ctrl->SetValue( property->GetValue().GetDateTime() );
+    ctrl->SetValue( dateValue );
 }
 
 // Control's events are redirected here
@@ -381,11 +546,20 @@ bool wxPGDatePickerCtrlEditor::GetValueFromControl( wxVariant& variant, wxPGProp
     return true;
 }
 
-void wxPGDatePickerCtrlEditor::SetValueToUnspecified( wxPGProperty* WXUNUSED(property), wxWindow* WXUNUSED(wnd) ) const
+void wxPGDatePickerCtrlEditor::SetValueToUnspecified( wxPGProperty* property,
+                                                      wxWindow* wnd ) const
 {
-    // TODO?
-    //wxDateProperty* prop = (wxDateProperty*) property;
-    //ctrl->SetValue(?);
+    wxDatePickerCtrl* ctrl = (wxDatePickerCtrl*) wnd;
+    wxASSERT( ctrl && ctrl->IsKindOf(CLASSINFO(wxDatePickerCtrl)) );
+
+    wxDateProperty* prop = wxDynamicCast(property, wxDateProperty);
+
+    if ( prop )
+    {
+        int datePickerStyle = prop->GetDatePickerStyle();
+        if ( datePickerStyle & wxDP_ALLOWNONE )
+            ctrl->SetValue(wxInvalidDateTime);
+    }
 }
 
 #endif // wxUSE_DATEPICKCTRL
@@ -720,7 +894,8 @@ static long gs_cp_es_syscolour_values[] = {
 };
 
 
-WX_PG_IMPLEMENT_WXOBJECT_VARIANT_DATA(wxPGVariantDataColourPropertyValue, wxColourPropertyValue)
+WX_PG_IMPLEMENT_WXOBJECT_VARIANT_DATA_WITH_PROPER_EQ(wxPGVariantDataColourPropertyValue,
+                                                     wxColourPropertyValue)
 
 
 // Class body is in advprops.h
@@ -903,10 +1078,7 @@ void wxSystemColourProperty::OnSetValue()
     {
         if ( pCpv->m_type < wxPG_COLOUR_WEB_BASE )
         {
-            if ( m_choices.HasValues() )
-                ind = GetIndexForValue(pCpv->m_type);
-            else
-                ind = ColToInd(col);
+            ind = GetIndexForValue(pCpv->m_type);
         }
         else
         {
@@ -1022,13 +1194,8 @@ bool wxSystemColourProperty::IntToValue( wxVariant& variant, int number, int WXU
 {
     int index = number;
     int type = GetValueForIndex(index);
-    bool hasValue = m_choices[index].HasValue();
 
-    if ( ( hasValue && type == wxPG_COLOUR_CUSTOM ) ||
-         ( !hasValue && (index == (int)GetCustomColourIndex() &&
-                                      !(m_flags & wxPG_PROP_HIDE_CUSTOM_COLOUR))
-         )
-       )
+    if ( type == wxPG_COLOUR_CUSTOM )
     {
         QueryColourFromUser(variant);
     }
@@ -1186,7 +1353,7 @@ bool wxSystemColourProperty::StringToValue( wxVariant& value, const wxString& te
             if ( res && GetIndex() >= 0 )
             {
                 val.m_type = GetIndex();
-                if ( val.m_type >= 0 && val.m_type < m_choices.GetCount() && m_choices[val.m_type].HasValue() )
+                if ( val.m_type >= 0 && val.m_type < m_choices.GetCount() )
                     val.m_type = m_choices[val.m_type].GetValue();
 
                 // Get proper colour for type.
@@ -1437,7 +1604,10 @@ void wxCursorProperty::OnCustomPaint( wxDC& dc,
                               0,
                               0,
                               NULL,
-                              DI_COMPAT | DI_DEFAULTSIZE | DI_NORMAL
+            #if !defined(__WXWINCE__)
+                              DI_COMPAT | DI_DEFAULTSIZE |
+            #endif
+                              DI_NORMAL
                             );
             #endif
             }
@@ -1825,6 +1995,17 @@ wxDateProperty::wxDateProperty( const wxString& label,
 
 wxDateProperty::~wxDateProperty()
 {
+}
+
+void wxDateProperty::OnSetValue()
+{
+    //
+    // Convert invalid dates to unspecified value
+    if ( m_value.GetType() == wxT("datetime") )
+    {
+        if ( !m_value.GetDateTime().IsValid() )
+            m_value.MakeNull();
+    }
 }
 
 bool wxDateProperty::StringToValue( wxVariant& variant, const wxString& text,

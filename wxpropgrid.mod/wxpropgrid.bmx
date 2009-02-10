@@ -3380,13 +3380,6 @@ Type wxPGChoiceEntry Extends wxPGCell
 	Rem
 	bbdoc: 
 	End Rem
-	Method HasValue:Int()
-		Return bmx_wxpgchoiceentry_hasvalue(wxObjectPtr)
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
 	Method SetValue(value:Int)
 		bmx_wxpgchoiceentry_setvalue(wxObjectPtr, value)
 	End Method

@@ -13,7 +13,7 @@
 #define __WX_PG_DOX_MAINPAGE_H__
 
 /**
-    @mainpage wxPropertyGrid 1.4.0 Overview
+    @mainpage wxPropertyGrid 1.4.5 Overview
 
       wxPropertyGrid is a specialized for editing properties such as strings, numbers,
     flagsets, fonts, and colours. It allows hierarchial, collapsible properties (via
@@ -901,7 +901,8 @@
 
     @subsection editorattrs Property Attributes Recognized by Editors
 
-    <b>SpinCtrl</b> editor can make use of property's "Min", "Max", "Step" and "Wrap" attributes.
+    <b>SpinCtrl</b> editor can make use of property's "Min", "Max", "Step",
+    "Wrap" and "MotionSpin" attributes.
 
     @subsection multiplebuttons Adding Multiple Buttons Next to an Editor
 
@@ -1027,9 +1028,11 @@
       is derived from wxPropertyGridState), and hand over instances in wxPropertyGridManager::AddPage
       calls.
 
-    - You can use a derivate wxPropertyGrid with manager by overriding wxPropertyGridManager::CreatePropertyGrid
-      member function.
-
+    - You can use a derivate wxPropertyGrid with manager by overriding
+      wxPropertyGridManager::CreatePropertyGrid member function. However, if
+      you you do this, then you must also use two-step construction (ie.
+      default constructor and Create() instead of just constructor with
+      arguments) when creating the manager.
 
     @section misc Miscellaneous Topics
 
@@ -1225,7 +1228,9 @@
     should work as well. wxPG_DATE_FORMAT attribute can be used to change
     string wxDateTime::Format uses (altough default is recommended as it is
     locale-dependant), and wxPG_DATE_PICKER_STYLE allows changing window
-    style given to DatePickerCtrl (default is wxDP_DEFAULT|wxDP_SHOWCENTURY).
+    style given to DatePickerCtrl (default is wxDP_DEFAULT|wxDP_SHOWCENTURY;
+    specifying wxDP_ALLOWNONE enables better support for unspecified
+    property value).
 
     @subsection wxEditEnumProperty
 

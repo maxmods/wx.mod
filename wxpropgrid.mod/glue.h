@@ -225,7 +225,6 @@ extern "C" {
 	void bmx_wxpgchoiceentry_delete(MaxPGChoiceEntry * entry);
 
 	int bmx_wxpgchoiceentry_getvalue(MaxPGChoiceEntry * entry);
-	bool bmx_wxpgchoiceentry_hasvalue(MaxPGChoiceEntry * entry);
 	void bmx_wxpgchoiceentry_setvalue(MaxPGChoiceEntry * entry, int value);
 
 	void bmx_wxpgproperty_setattributestring(wxPGProperty * prop, BBString * name, BBString * value);

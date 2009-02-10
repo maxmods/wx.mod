@@ -247,7 +247,6 @@ Extern
 	Function bmx_wxpgchoiceentry_settext(handle:Byte Ptr, text:String)
 	Function bmx_wxpgchoiceentry_delete(handle:Byte Ptr)
 	Function bmx_wxpgchoiceentry_getvalue:Int(handle:Byte Ptr)
-	Function bmx_wxpgchoiceentry_hasvalue:Int(handle:Byte Ptr)
 	Function bmx_wxpgchoiceentry_setvalue(handle:Byte Ptr, value:Int)
 
 	Function bmx_wxpgproperty_setattributestring(handle:Byte Ptr, name:String, value:String)
