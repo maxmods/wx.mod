@@ -3164,14 +3164,8 @@ void wxPropertyGrid::Init2()
 	// adjust bitmap icon y position so they are centered
     m_vspacing = wxPG_DEFAULT_VSPACING;
 
-    if ( !m_font.Ok() )
-    {
-        wxFont useFont = wxScrolledWindow::GetFont();
-        wxScrolledWindow::SetOwnFont( useFont );
-    }
-    else
-        // This should be otherwise called by SetOwnFont
-	    CalculateFontAndBitmapStuff( wxPG_DEFAULT_VSPACING );
+    //SetFont(*wxNORMAL_FONT);
+    CalculateFontAndBitmapStuff(m_vspacing);
 
     // Add base brush item
     m_arrBgBrushes.Add((void*)new wxPGBrush());
@@ -3453,7 +3447,7 @@ void wxPropertyGrid::CalculateFontAndBitmapStuff( int vspacing )
 {
 	int x = 0, y = 0;
 
-    m_captionFont = wxScrolledWindow::GetFont();
+    m_captionFont = GetFont();
 
 	GetTextExtent(wxT("jG"), &x, &y, 0, 0, &m_captionFont);
     m_subgroup_extramargin = x + (x/2);
@@ -3655,7 +3649,6 @@ bool wxPropertyGrid::SetFont( const wxFont& font )
     // TODO: Following code is disabled with wxMac because
     //   it is reported to fail. I (JMS) cannot debug it
     //   personally right now.
-#if !defined(__WXMAC__)
     bool res = wxScrolledWindow::SetFont( font );
     if ( res )
     {
@@ -3668,15 +3661,6 @@ bool wxPropertyGrid::SetFont( const wxFont& font )
     }
 
     return res;
-#else
-    // ** wxMAC Only **
-    // TODO: Remove after SetFont crash fixed.
-    if ( m_iFlags & wxPG_FL_INITIALIZED )
-    {
-        wxLogDebug(wxT("WARNING: propGrid.cpp: wxPropertyGrid::SetFont has been disabled on wxMac since there has been crash reported in it. If you are willing to debug the cause, replace line '#if !defined(__WXMAC__)' with line '#if 1' in wxPropertyGrid::SetFont."));
-}
-    return false;
-#endif
 }
 
 // -----------------------------------------------------------------------
@@ -4833,7 +4817,7 @@ int wxPropertyGrid::DoDrawItems( wxDC& dc,
 
     int x = m_marginWidth - xRelMod;
 
-    const wxFont& normalfont = m_font;
+    wxFont normalfont = GetFont();
 
     bool reallyFocused = (m_iFlags & wxPG_FL_FOCUSED) ? true : false;
 
