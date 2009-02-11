@@ -52,6 +52,25 @@ extern "C" {
 	wxSFShapeCanvas * bmx_wxsfshapecanvas_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	void bmx_wxsfshapecanvas_addstyle(wxSFShapeCanvas * canvas, wxSFShapeCanvas::STYLE style);
 	void bmx_wxsfshapecanvas_setdiagrammanager(wxSFShapeCanvas * canvas, wxSFDiagramManager * 	manager	);
+	void bmx_wxsfshapecanvas_selectall(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_deselectall(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_hideallhandles(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_copy(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_cut(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_paste(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_undo(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_redo(wxSFShapeCanvas * canvas);
+	bool bmx_wxsfshapecanvas_cancopy(wxSFShapeCanvas * canvas);
+	bool bmx_wxsfshapecanvas_cancut(wxSFShapeCanvas * canvas);
+	bool bmx_wxsfshapecanvas_canpaste(wxSFShapeCanvas * canvas);
+	bool bmx_wxsfshapecanvas_canundo(wxSFShapeCanvas * canvas);
+	bool bmx_wxsfshapecanvas_canredo(wxSFShapeCanvas * canvas);
+	bool bmx_wxsfshapecanvas_canalignselected(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_savecanvasstate(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_clearcanvashistory(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_printpreview(wxSFShapeCanvas * canvas);
+	void bmx_wxsfshapecanvas_pagesetup(wxSFShapeCanvas * canvas);
+
 
 	wxSFDiagramManager * bmx_wxsfdiagrammanager_create(BBObject * handle);
 	BBObject * bmx_wxsfdiagrammanager_addshape(wxSFDiagramManager * manager, BBString * shapeInfo, int xPos, int yPos, bool saveState);

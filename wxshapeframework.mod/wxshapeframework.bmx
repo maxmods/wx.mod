@@ -52,6 +52,13 @@ ModuleInfo "CC_OPTS: -fexceptions"
 
 Import "common.bmx"
 
+'
+' Build notes :
+' ScaledDC.cpp - on Mac, wxSFScaledDC::GetSelectedBitmap() needs to return a wxNullBitmap.
+' ShapeCanvas.cpp - Various changes for Mac.
+' ShapeCanvas.h   - Various changes for Mac.
+'
+
 Rem
 bbdoc: 
 End Rem
@@ -317,12 +324,15 @@ Type wxSFShapeCanvas Extends wxScrolledWindow
 	End Method
 	
 	Method SelectAll()
+		bmx_wxsfshapecanvas_selectall(wxObjectPtr)
 	End Method
 	
 	Method DeselectAll()
+		bmx_wxsfshapecanvas_deselectall(wxObjectPtr)
 	End Method
 	
 	Method HideAllHandles()
+		bmx_wxsfshapecanvas_hideallhandles(wxObjectPtr)
 	End Method
 	
 	Method RefreshCanvas(erase:Int, x:Int, y:Int, w:Int, h:Int)
@@ -339,51 +349,66 @@ Type wxSFShapeCanvas Extends wxScrolledWindow
 	End Method
 	
 	Method Copy()
+		bmx_wxsfshapecanvas_copy(wxObjectPtr)
 	End Method
 
 	Method Cut()
+		bmx_wxsfshapecanvas_cut(wxObjectPtr)
 	End Method
 
 	Method Paste()
+		bmx_wxsfshapecanvas_paste(wxObjectPtr)
 	End Method
 
 	Method Undo()
+		bmx_wxsfshapecanvas_undo(wxObjectPtr)
 	End Method
 
 	Method Redo()
+		bmx_wxsfshapecanvas_redo(wxObjectPtr)
 	End Method
 
 	Method CanCopy:Int()
+		Return bmx_wxsfshapecanvas_cancopy(wxObjectPtr)
 	End Method
 
 	Method CanCut:Int()
+		Return bmx_wxsfshapecanvas_cancut(wxObjectPtr)
 	End Method
 
 	Method CanPaste:Int()
+		Return bmx_wxsfshapecanvas_canpaste(wxObjectPtr)
 	End Method
 
 	Method CanUndo:Int()
+		Return bmx_wxsfshapecanvas_canundo(wxObjectPtr)
 	End Method
 
 	Method CanRedo:Int()
+		Return bmx_wxsfshapecanvas_canredo(wxObjectPtr)
 	End Method
 
 	Method CanAlignSelected:Int()
+		Return bmx_wxsfshapecanvas_canalignselected(wxObjectPtr)
 	End Method
 
 	Method SaveCanvasState()
+		bmx_wxsfshapecanvas_savecanvasstate(wxObjectPtr)
 	End Method
 
 	Method ClearCanvasHistory()
+		bmx_wxsfshapecanvas_clearcanvashistory(wxObjectPtr)
 	End Method
 
 	Method Print(prompt:Int = True)
 	End Method
 
 	Method PrintPreview()
+		bmx_wxsfshapecanvas_printpreview(wxObjectPtr)
 	End Method
 	
 	Method PageSetup()
+		bmx_wxsfshapecanvas_pagesetup(wxObjectPtr)
 	End Method
 	
 	Method DP2LP(x:Int, y:Int, lx:Int Var, ly:Int Var)

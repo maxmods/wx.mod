@@ -91,6 +91,24 @@ Extern
 	Function bmx_wxsfshapecanvas_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxsfshapecanvas_addstyle(handle:Byte Ptr, style:Int)
 	Function bmx_wxsfshapecanvas_setdiagrammanager(handle:Byte Ptr, manager:Byte Ptr)
+	Function bmx_wxsfshapecanvas_selectall(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_deselectall(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_hideallhandles(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_copy(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_cut(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_paste(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_undo(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_redo(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_cancopy:Int(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_cancut:Int(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_canpaste:Int(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_canundo:Int(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_canredo:Int(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_canalignselected:Int(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_savecanvasstate(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_clearcanvashistory(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_printpreview(handle:Byte Ptr)
+	Function bmx_wxsfshapecanvas_pagesetup(handle:Byte Ptr)
 
 	Function bmx_wxsfdiagrammanager_create:Byte Ptr(handle:Object)
 	Function bmx_wxsfdiagrammanager_addshape:Object(handle:Byte Ptr, shapeInfo:String, xPos:Int, yPos:Int, saveState:Int)
@@ -104,6 +122,7 @@ Extern
 	Function bmx_wxsfcontrolshape_getcontroloffset:Int(handle:Byte Ptr)
 
 	Function bmx_wxsfshapebase_clearacceptedchilds(handle:Byte Ptr)
+
 
 End Extern
 

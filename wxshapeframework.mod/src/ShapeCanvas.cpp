@@ -225,6 +225,8 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
 wxSFShapeCanvas::~wxSFShapeCanvas(void)
 {
     if( --m_nRefCounter == 0) DeinitializePrinting();
+	
+	//DeleteAllTextCtrls();
 	//Clear();
 }
 bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
@@ -2360,7 +2362,7 @@ void wxSFShapeCanvas::DeleteAllTextCtrls()
 	while(node)
 	{
 		pTextCtrl = ((wxSFEditTextShape*)node->GetData())->GetTextCtrl();
-		if(pTextCtrl)pTextCtrl->Quit();
+		if(pTextCtrl)pTextCtrl->Quit( sfAPPLY_TEXT_CHANGES );
 		node = node->GetNext();
 	}
 }
@@ -2805,7 +2807,7 @@ void wxSFShapeCanvas::OnDrop(wxCoord x, wxCoord y, wxDragResult def, const Shape
 	if( !ContainsStyle(sfsDND) )return;
 
 	// create the drop event and process it
-    wxSFShapeDropEvent event( wxEVT_SF_ON_DROP, x, y, def, wxID_ANY);
+    wxSFShapeDropEvent event( wxEVT_SF_ON_DROP, x, y, this, def, wxID_ANY);
     event.SetDroppedShapes( dropped );
     ProcessEvent( event );
 }

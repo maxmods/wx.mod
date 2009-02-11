@@ -148,6 +148,79 @@ void bmx_wxsfshapecanvas_setdiagrammanager(wxSFShapeCanvas * canvas, wxSFDiagram
 	canvas->SetDiagramManager(manager);
 }
 
+void bmx_wxsfshapecanvas_selectall(wxSFShapeCanvas * canvas) {
+	canvas->SelectAll();
+}
+
+void bmx_wxsfshapecanvas_deselectall(wxSFShapeCanvas * canvas) {
+	canvas->DeselectAll();
+}
+
+void bmx_wxsfshapecanvas_hideallhandles(wxSFShapeCanvas * canvas) {
+	canvas->HideAllHandles();
+}
+
+void bmx_wxsfshapecanvas_copy(wxSFShapeCanvas * canvas) {
+	canvas->Copy();
+}
+
+void bmx_wxsfshapecanvas_cut(wxSFShapeCanvas * canvas) {
+	canvas->Cut();
+}
+
+void bmx_wxsfshapecanvas_paste(wxSFShapeCanvas * canvas) {
+	canvas->Paste();
+}
+
+void bmx_wxsfshapecanvas_undo(wxSFShapeCanvas * canvas) {
+	canvas->Undo();
+}
+
+void bmx_wxsfshapecanvas_redo(wxSFShapeCanvas * canvas) {
+	canvas->Redo();
+}
+
+bool bmx_wxsfshapecanvas_cancopy(wxSFShapeCanvas * canvas) {
+	return canvas->CanCopy();
+}
+
+bool bmx_wxsfshapecanvas_cancut(wxSFShapeCanvas * canvas) {
+	return canvas->CanCut();
+}
+
+bool bmx_wxsfshapecanvas_canpaste(wxSFShapeCanvas * canvas) {
+	return canvas->CanPaste();
+}
+
+bool bmx_wxsfshapecanvas_canundo(wxSFShapeCanvas * canvas) {
+	return canvas->CanUndo();
+}
+
+bool bmx_wxsfshapecanvas_canredo(wxSFShapeCanvas * canvas) {
+	return canvas->CanRedo();
+}
+
+bool bmx_wxsfshapecanvas_canalignselected(wxSFShapeCanvas * canvas) {
+	return canvas->CanAlignSelected();
+}
+
+void bmx_wxsfshapecanvas_savecanvasstate(wxSFShapeCanvas * canvas) {
+	canvas->SaveCanvasState();
+}
+
+void bmx_wxsfshapecanvas_clearcanvashistory(wxSFShapeCanvas * canvas) {
+	canvas->ClearCanvasHistory();
+}
+
+void bmx_wxsfshapecanvas_printpreview(wxSFShapeCanvas * canvas) {
+	canvas->PrintPreview();
+}
+
+void bmx_wxsfshapecanvas_pagesetup(wxSFShapeCanvas * canvas) {
+	canvas->PageSetup();
+}
+
+
 // *********************************************
 
 wxSFDiagramManager * bmx_wxsfdiagrammanager_create(BBObject * handle) {
