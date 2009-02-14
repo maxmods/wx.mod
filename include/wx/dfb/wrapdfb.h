@@ -3,7 +3,7 @@
 // Purpose:     wx wrappers for DirectFB interfaces
 // Author:      Vaclav Slavik
 // Created:     2006-08-23
-// RCS-ID:      $Id: wrapdfb.h 53110 2008-04-10 17:58:44Z VS $
+// RCS-ID:      $Id: wrapdfb.h 54748 2008-07-21 17:01:35Z VZ $
 // Copyright:   (c) 2006 REA Elektronik GmbH
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -11,6 +11,8 @@
 #ifndef _WX_DFB_WRAPDFB_H_
 #define _WX_DFB_WRAPDFB_H_
 
+#include "wx/gdicmn.h"
+#include "wx/vidmode.h"
 #include "wx/dfb/dfbptr.h"
 
 #include <directfb.h>

@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by: 
 // Created:     29.04.04
-// RCS-ID:      $Id: config_xcode.h 53812 2008-05-29 07:06:45Z SC $
+// RCS-ID:      $Id: config_xcode.h 55281 2008-08-26 10:02:42Z CE $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -117,9 +117,9 @@
 // #define WXWIN_OS_DESCRIPTION "Darwin 7.9.0 Power Macintosh"
 // #define PACKAGE_BUGREPORT "wx-dev@lists.wxwidgets.org"
 // #define PACKAGE_NAME "wxWidgets"
-// #define PACKAGE_STRING "wxWidgets 2.8.8"
+// #define PACKAGE_STRING "wxWidgets 2.8.9"
 // #define PACKAGE_TARNAME "wxwidgets"
-// #define PACKAGE_VERSION "2.8.8"
+// #define PACKAGE_VERSION "2.8.9"
 
 // for regex
 #define WX_NO_REGEX_ADVANCED 1

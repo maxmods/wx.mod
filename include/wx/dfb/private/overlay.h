@@ -3,7 +3,7 @@
 // Purpose:     wxOverlayImpl declaration
 // Author:      Vaclav Slavik
 // Created:     2006-10-20
-// RCS-ID:      $Id: overlay.h 42340 2006-10-24 12:29:14Z VS $
+// RCS-ID:      $Id: overlay.h 54748 2008-07-21 17:01:35Z VZ $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -11,6 +11,7 @@
 #ifndef _WX_DFB_PRIVATE_OVERLAY_H_
 #define _WX_DFB_PRIVATE_OVERLAY_H_
 
+#include "wx/gdicmn.h"
 #include "wx/dfb/dfbptr.h"
 
 wxDFB_DECLARE_INTERFACE(IDirectFBSurface);

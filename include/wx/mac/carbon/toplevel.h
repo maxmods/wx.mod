@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     20.09.01
-// RCS-ID:      $Id: toplevel.h 48801 2007-09-19 14:38:55Z SC $
+// RCS-ID:      $Id: toplevel.h 55172 2008-08-22 13:08:41Z SC $
 // Copyright:   (c) 2001 Stefan Csomor
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -92,6 +92,7 @@ public:
 
     virtual void SetTitle( const wxString& title);
     virtual wxString GetTitle() const;
+    virtual void SetLabel( const wxString& title);
 
     virtual void Raise();
     virtual void Lower();

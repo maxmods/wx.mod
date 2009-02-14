@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id: listctrl.h 53275 2008-04-20 22:10:04Z VS $
+// RCS-ID:      $Id: listctrl.h 55309 2008-08-27 08:21:09Z SC $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -324,7 +324,7 @@ class WXDLLEXPORT wxListCtrl: public wxControl
   virtual bool SetFont(const wxFont& font);
   virtual bool SetForegroundColour(const wxColour& colour);
   virtual bool SetBackgroundColour(const wxColour& colour);
-  virtual wxColour GetBackgroundColour();
+  virtual wxColour GetBackgroundColour() const;
   
   // functions for editing/timer
   void OnRenameTimer();
