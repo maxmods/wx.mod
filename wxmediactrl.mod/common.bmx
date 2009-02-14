@@ -1,4 +1,4 @@
-' Copyright (c) 2007,2008 Bruce A Henderson
+' Copyright (c) 2007-2009 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxURI
+Import wx.wxControl
 Import BRL.Blitz
 
 
@@ -49,19 +50,21 @@ Extern
 	Function bmx_wxmediactrl_getplaybackrate:Double(handle:Byte Ptr)
 	Function bmx_wxmediactrl_getvolume:Double(handle:Byte Ptr)
 	Function bmx_wxmediactrl_getstate:Int(handle:Byte Ptr)
-	Function bmx_wxmediactrl_length:Int(handle:Byte Ptr)
+	Function bmx_wxmediactrl_length(handle:Byte Ptr, value:Long Ptr)
 	Function bmx_wxmediactrl_load:Int(handle:Byte Ptr, filename:String)
-	Function bmx_wxmediactrl_loaduri:Int(handle:Byte Ptr, uri:Byte Ptr)
-	Function bmx_wxmediactrl_loaduriwithproxy:Int(handle:Byte Ptr, uri:Byte Ptr, proxy:Byte Ptr)
+	Function bmx_wxmediactrl_loaduri:Int(handle:Byte Ptr, uri:String)
+	Function bmx_wxmediactrl_loaduriwithproxy:Int(handle:Byte Ptr, uri:String, proxy:String)
 	Function bmx_wxmediactrl_pause:Int(handle:Byte Ptr)
 	Function bmx_wxmediactrl_play:Int(handle:Byte Ptr)
-	Function bmx_wxmediactrl_seek:Int(handle:Byte Ptr, where:Int, mode:Int)
+	Function bmx_wxmediactrl_seek(handle:Byte Ptr, where:Long, mode:Int, value:Long Ptr)
 	Function bmx_wxmediactrl_setplaybackrate:Int(handle:Byte Ptr, rate:Double)
 	Function bmx_wxmediactrl_setvolume:Int(handle:Byte Ptr, volume:Double)
 	Function bmx_wxmediactrl_showplayercontrols:Int(handle:Byte Ptr, flags:Int)
 	Function bmx_wxmediactrl_stop:Int(handle:Byte Ptr)
-	Function bmx_wxmediactrl_tell:Int(handle:Byte Ptr)
+	Function bmx_wxmediactrl_tell(handle:Byte Ptr, value:Long Ptr)
 
+	Function bmx_wxmediactrl_geteventtype:Int(eventType:Int)
+	
 End Extern
 
 
@@ -79,3 +82,7 @@ Const wxMEDIABACKEND_GSTREAMER:String = "wxGStreamerMediaBackend"
 Const wxMEDIABACKEND_REALPLAYER:String = "wxRealPlayerMediaBackend"
 Const wxMEDIABACKEND_WMP10:String = "wxWMP10MediaBackend"
 
+Const wxMEDIACTRLPLAYERCONTROLS_NONE:Int = 0
+Const wxMEDIACTRLPLAYERCONTROLS_STEP:Int = 1 Shl 0
+Const wxMEDIACTRLPLAYERCONTROLS_VOLUME:Int = 1 Shl 1
+Const wxMEDIACTRLPLAYERCONTROLS_DEFAULT:Int = wxMEDIACTRLPLAYERCONTROLS_STEP | wxMEDIACTRLPLAYERCONTROLS_VOLUME

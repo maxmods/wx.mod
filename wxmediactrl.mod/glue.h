@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007,2008 Bruce A Henderson
+  Copyright (c) 2007-2009 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +21,53 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/mediactrl.h"
 
-//class MaxNotebook;
+class MaxMediaCtrl;
 
 extern "C" {
 
 #include <blitz.h>
 
+	wxMediaCtrl * bmx_wxmediactrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * filename, int x, int y, int w, int h, long style, BBString * backend);
+	void bmx_wxmediactrl_getbestsize(wxMediaCtrl * ctrl, int * w, int * h);
+	double bmx_wxmediactrl_getplaybackrate(wxMediaCtrl * ctrl);
+	double bmx_wxmediactrl_getvolume(wxMediaCtrl * ctrl);
+	wxMediaState bmx_wxmediactrl_getstate(wxMediaCtrl * ctrl);
+	void bmx_wxmediactrl_length(wxMediaCtrl * ctrl, BBInt64 * value);
+	bool bmx_wxmediactrl_load(wxMediaCtrl * ctrl, BBString * filename);
+	bool bmx_wxmediactrl_loaduri(wxMediaCtrl * ctrl, BBString * uri);
+	bool bmx_wxmediactrl_loaduriwithproxy(wxMediaCtrl * ctrl, BBString * uri, BBString * proxy);
+	bool bmx_wxmediactrl_pause(wxMediaCtrl * ctrl);
+	bool bmx_wxmediactrl_play(wxMediaCtrl * ctrl);
+	void bmx_wxmediactrl_seek(wxMediaCtrl * ctrl, BBInt64 where, wxSeekMode mode, BBInt64 * value);
+	bool bmx_wxmediactrl_setplaybackrate(wxMediaCtrl * ctrl, double rate);
+	bool bmx_wxmediactrl_setvolume(wxMediaCtrl * ctrl, double volume);
+	bool bmx_wxmediactrl_showplayercontrols(wxMediaCtrl * ctrl, wxMediaCtrlPlayerControls flags);
+	bool bmx_wxmediactrl_stop(wxMediaCtrl * ctrl);
+	void bmx_wxmediactrl_tell(wxMediaCtrl * ctrl, BBInt64 * value);
 
+
+	int bmx_wxmediactrl_geteventtype(int type);
 }
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxMediaCtrl : public wxMediaCtrl
+{
+public:
+	MaxMediaCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, wxString filename, int x, int y, int w, int h, long style, wxString backend);
+	MaxMediaCtrl();
+	~ MaxMediaCtrl();
+
+	void MaxBind(BBObject * handle);
+	
+private:
+	BBObject * maxHandle;
+
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

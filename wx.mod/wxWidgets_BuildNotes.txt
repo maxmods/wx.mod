@@ -4,7 +4,7 @@ Build Notes
 Linux :
 
     wxGTK 2.8.x
-    ./configure --enable-unicode --with-opengl --enable-graphics_ctx --disable-shared
+    ./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared
 
     add "--disable-shared" for static libraries
     using "--enable-mediactrl" requires gstreamer installation
@@ -49,11 +49,15 @@ Win32 :
             BUILD := release
             UNICODE = 1
             USE_OPENGL = 1
+            USE_GDIPLUS := 1
 
-    Also, edit wx/msw/setup.h and enable wxUSE_GLCANVAS :
+    Also, edit wx/msw/setup0.h and enable wxUSE_GLCANVAS :
             #define wxUSE_GLCANVAS       1
+            #define wxUSE_GRAPHICS_CONTEXT 1
 
-            
+    NOTE : These two definitions will appear in the setup.h inside the lib folder. If you failed to set them initially when building, you should
+    apply the changes to setup.h also.
+
     make -f makefile.gcc
 
     creates static .a files in lib\gcc_lib
@@ -61,6 +65,12 @@ Win32 :
 	Also need to include libwinspool.a, librpcrt4.a and libodbc32.a in the lib folder for distribution. (these come from
 	the MinGW distribution)
     
+	NOTE : if you get an error building, which mentions an invalid abs( &double) call in graphics.cpp, you can change the
+	errored call to use fabs instead :
+
+          if( fabs(sweepAngle) >= 2*M_PI)
+
+
 
 ------------------------------------------------------------
 
