@@ -890,7 +890,7 @@ Type TEventHandler
 
 		Local handler:TEventHandler = TEventHandler(data)
 		
-		If handler Then
+		If handler And handler.parent Then
 			Local event:wxEvent
 			
 			Local factory:TEventFactory = event_factories

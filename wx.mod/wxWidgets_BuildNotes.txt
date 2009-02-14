@@ -4,7 +4,7 @@ Build Notes
 Linux :
 
     wxGTK 2.8.x
-    ./configure --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx
+    ./configure --enable-unicode --with-opengl --enable-graphics_ctx --disable-shared
 
     add "--disable-shared" for static libraries
     using "--enable-mediactrl" requires gstreamer installation
