@@ -16,7 +16,7 @@
 #endif /* __cplusplus */
 
 /* fill in with the string wxGetOsDescription() will return */
-#define WXWIN_OS_DESCRIPTION "Darwin 9.4.0 i386"
+#define WXWIN_OS_DESCRIPTION "Darwin 9.5.0 i386"
 
 /* the installation location prefix from configure */
 #define wxINSTALL_PREFIX "/usr/local"
@@ -549,8 +549,8 @@
 #define wxUSE_RICHEDIT 1
 #define wxUSE_RICHEDIT2 1
 #else
-#define wxUSE_RICHEDIT 0
-#define wxUSE_RICHEDIT2 0
+#define wxUSE_RICHEDIT 1
+#define wxUSE_RICHEDIT2 1
 #endif
 
 #define wxUSE_INKEDIT 0
@@ -625,6 +625,26 @@
  * Define if your compiler has __gnu_cxx::hash_map/hash_set
  */
 /* #undef HAVE_GNU_CXX_HASH_MAP */
+
+/*
+ * Define if your compiler has std::unordered_map
+ */
+/* #undef HAVE_STD_UNORDERED_MAP */
+
+/*
+ * Define if your compiler has std::unordered_set
+ */
+/* #undef HAVE_STD_UNORDERED_SET */
+
+/*
+ * Define if your compiler has std::tr1::unordered_map
+ */
+/* #undef HAVE_TR1_UNORDERED_MAP */
+
+/*
+ * Define if your compiler has std::tr1::unordered_set
+ */
+/* #undef HAVE_TR1_UNORDERED_SET */
 
 /*
  * The built-in regex supports advanced REs in additional to POSIX's basic
@@ -887,7 +907,7 @@
 #define HAVE_STRPTIME_DECL 1
 
 /* Define if you have strtoull() and strtoll() */
-#define HAVE_STRTOULL 1
+/* #undef HAVE_STRTOULL */
 
 /* Define if you have all functions to set thread priority */
 #define HAVE_THREAD_PRIORITY_FUNCTIONS 1
@@ -912,7 +932,7 @@
 #define HAVE_WCSLEN 1
 
 /* Define if you have wcstoull() and wcstoll() */
-/* #undef HAVE_WCSTOULL */
+#define HAVE_WCSTOULL 1
 
 /* define if you have vsscanf function */
 /* #undef HAVE_VSSCANF */

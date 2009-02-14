@@ -867,8 +867,8 @@ bindir="${exec_prefix}/bin"
 [ -z "$output_option_prefix"        ] || echo $prefix
 [ -z "$output_option_exec_prefix"   ] || echo $exec_prefix
 [ -z "$output_option_release"       ] || echo "2.8"
-[ -z "$output_option_version"       ] || echo "2.8.8"
-[ -z "$output_option_version_full"  ] || echo "2.8.8.0"
+[ -z "$output_option_version"       ] || echo "2.8.9"
+[ -z "$output_option_version_full"  ] || echo "2.8.9.0"
 [ -z "$output_option_basename"      ] || echo "wx_macu"
 [ -z "$output_option_cc"            ] || echo "gcc"
 [ -z "$output_option_cxx"           ] || echo "g++"
@@ -944,8 +944,8 @@ fi
 # Additional configuration for individual library components.
 ldflags_gl=""
 
-ldlibs_base="-lwxregexu-2.8 -lwxexpat-2.8 -lwxtiff-2.8 -lz -lpthread -liconv"
-ldlibs_core="-lpng -lz -ljpeg -framework WebKit"
+ldlibs_base="-lwxregexu-2.8 -lwxexpat-2.8 -lwxtiff-2.8 -lwxjpeg-2.8 -lwxpng-2.8 -lz -lpthread -liconv"
+ldlibs_core="-framework WebKit"
 ldlibs_gl=""
 ldlibs_html=""
 ldlibs_xml=""
