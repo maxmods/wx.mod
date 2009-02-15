@@ -21,6 +21,8 @@ Linux :
     You'll see something like mac-unicode-release-static-2.8
     Remove the -2.8, so that it becomes mac-unicode-release-static
 
+	Note : to build with wxMediaCtrl you will need the gstreamer dev packages. something like libgstreamer-0.10-dev.
+
 MacOS :
 
     wxMac 2.8.x
