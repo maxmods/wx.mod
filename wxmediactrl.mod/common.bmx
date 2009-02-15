@@ -25,6 +25,10 @@ Import wx.wxURI
 Import wx.wxControl
 Import BRL.Blitz
 
+?linux
+Import "-lgstreamer-0.10"
+Import "-lgstinterfaces-0.10"
+?
 
 ' headers :-)
 ?linux

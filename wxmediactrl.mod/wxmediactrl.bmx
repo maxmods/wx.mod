@@ -48,7 +48,6 @@ ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
 
-?Not linux
 Import "common.bmx"
 
 Rem
@@ -289,5 +288,5 @@ Type TMediaEventFactory Extends TEventFactory
 End Type
 
 New TMediaEventFactory
-?
+
 

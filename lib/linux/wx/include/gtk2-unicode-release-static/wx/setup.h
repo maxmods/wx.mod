@@ -16,7 +16,7 @@
 #endif /* __cplusplus */
 
 /* fill in with the string wxGetOsDescription() will return */
-#define WXWIN_OS_DESCRIPTION "Linux 2.6.27-9-generic i686"
+#define WXWIN_OS_DESCRIPTION "Linux 2.6.27-11-generic i686"
 
 /* the installation location prefix from configure */
 #define wxINSTALL_PREFIX "/usr/local"
@@ -286,9 +286,9 @@
 
 #define wxUSE_SOUND 1
 
-#define wxUSE_MEDIACTRL     0
+#define wxUSE_MEDIACTRL 1
 
-#define wxUSE_GSTREAMER    0
+#define wxUSE_GSTREAMER 1
 
 #define wxUSE_XRC 1
 
