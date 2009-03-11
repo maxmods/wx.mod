@@ -284,6 +284,10 @@ Function MapWxKeyCodeToBlitz:Int(key:Int)
 			Return KEY_NUMDIVIDE
 		Case WXK_COMMAND
 			Return KEY_LSYS
+		Case WXK_ADD
+			Return KEY_EQUALS
+		Case WXK_SUBTRACT
+			Return KEY_MINUS
 	End Select
 
 	' if we haven't covered the key already, we really need to protect ourselves from returning an out-of-range
