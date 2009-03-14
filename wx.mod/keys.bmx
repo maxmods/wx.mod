@@ -186,11 +186,21 @@ Function MapWxKeyCodeToBlitz:Int(key:Int)
 	End If
 	
 	Select key
+		Case 39 ' quotes ' "
+			Return KEY_QUOTES
+		Case 44 ' comma
+			Return KEY_COMMA
+		Case 46 ' period
+			Return KEY_PERIOD
+		Case 47 ' slash
+			Return KEY_SLASH
+		Case 59 ' semi-colon
+			Return KEY_SEMICOLON
 		Case WXK_BACK
 			Return KEY_BACKSPACE
 		Case WXK_TAB
 			Return KEY_TAB
-		Case WXK_RETURN
+		Case WXK_RETURN, WXK_NUMPAD_ENTER
 			Return KEY_RETURN
 		Case WXK_ESCAPE
 			Return KEY_ESCAPE
@@ -282,11 +292,13 @@ Function MapWxKeyCodeToBlitz:Int(key:Int)
 			Return KEY_NUMDECIMAL
 		Case WXK_NUMPAD_DIVIDE
 			Return KEY_NUMDIVIDE
+		Case WXK_NUMPAD_EQUAL
+			Return KEY_EQUALS ' not very good... looks like BlitzMax is missing (=)
 		Case WXK_COMMAND
 			Return KEY_LSYS
-		Case WXK_ADD
+		Case WXK_ADD, 61
 			Return KEY_EQUALS
-		Case WXK_SUBTRACT
+		Case WXK_SUBTRACT, 45
 			Return KEY_MINUS
 	End Select
 
