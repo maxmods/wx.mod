@@ -208,7 +208,7 @@ Function MapWxKeyCodeToBlitz:Int(key:Int)
 			Return KEY_SPACE
 		Case WXK_DELETE
 			Return KEY_DELETE
-		Case 96 ' TILDE
+		Case 96, 126 ' TILDE - 96 on Mac, 126 on Windows
 			Return KEY_TILDE
 		Case 91 ' openbracket
 			Return KEY_OPENBRACKET
@@ -296,7 +296,7 @@ Function MapWxKeyCodeToBlitz:Int(key:Int)
 			Return KEY_EQUALS ' not very good... looks like BlitzMax is missing (=)
 		Case WXK_COMMAND
 			Return KEY_LSYS
-		Case WXK_ADD, 61
+		Case WXK_ADD, 61, 43 ' 61 on Mac (numpad =), 43 on Windows (numpad =)
 			Return KEY_EQUALS
 		Case WXK_SUBTRACT, 45
 			Return KEY_MINUS
