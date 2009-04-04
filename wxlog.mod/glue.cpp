@@ -48,10 +48,23 @@ void wxlogunbind(wxLog *obj) {
 	}
 }
 
+static wxString __timestamp;
 
 // ---------------------------------------------------------------------------------------
 
 
+MaxLogStream::MaxLogStream(BBObject * handle)
+	: maxHandle(handle)
+{}
+
+void MaxLogStream::DoLogString(const wxChar *szString, time_t t) {
+    wxString str;
+    TimeStamp(&str);
+    str << szString;
+
+
+	_wx_wxlog_wxLogStream__DoLogString(maxHandle, bbStringFromWxString(str));
+}
 
 
 // *********************************************
@@ -112,8 +125,9 @@ wxLog * bmx_wxlog_setactivetarget(wxLog * log) {
 }
 
 void bmx_wxlog_settimestamp(BBString * format) {
-	if (!format) {
-		wxLog::SetTimestamp(wxStringFromBBString(format).c_str());
+	if (format) {
+		__timestamp = wxStringFromBBString(format);
+		wxLog::SetTimestamp(__timestamp);
 	} else {
 		wxLog::SetTimestamp(NULL);
 	}
@@ -194,4 +208,29 @@ void bmx_wxlog_suspend() {
 void bmx_wxlog_setverbose(bool verbose) {
 	wxLog::SetVerbose(verbose);
 }
+
+// *********************************************
+
+wxLogBuffer * bmx_wxlogbuffer_create(BBObject * handle) {
+	wxLogBuffer * logger = new wxLogBuffer();
+	wxlogbind(logger, handle);
+	return logger;
+}
+
+void bmx_wxlogbuffer_flush(wxLogBuffer * log) {
+	log->Flush();
+}
+
+BBString * bmx_wxlogbuffer_getbuffer(wxLogBuffer * log) {
+	return bbStringFromWxString(log->GetBuffer());
+}
+
+// *********************************************
+
+MaxLogStream * bmx_wxlogstream_create(BBObject * handle) {
+	MaxLogStream * logger = new MaxLogStream(handle);
+	wxlogbind(logger, handle);
+	return logger;
+}
+
 

@@ -380,3 +380,80 @@ Type wxLogTextCtrl Extends wxLog
 	End Method
 
 End Type
+
+Rem
+bbdoc: A very simple implementation of log sink which simply collects all the logged messages in a string (except the debug messages which are output in the usual way immediately as we're presumably not interested in collecting them for later).
+about: The messages from different log function calls are separated by the new lines.
+<p>
+All the messages collected so far can be shown to the user (and the current buffer cleared) by calling the overloaded Flush() method.
+</p>
+End Rem
+Type wxLogBuffer Extends wxLog
+
+	Rem
+	bbdoc: Creates a new wxLogBuffer.
+	End Rem
+	Function CreateLogBuffer:wxLogBuffer()
+		Return New wxLogBuffer.Create()
+	End Function
+	
+	Rem
+	bbdoc: Creates a new wxLogBuffer.
+	End Rem
+	Method Create:wxLogBuffer()
+		wxLogPtr = bmx_wxlogbuffer_create(Self)
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Shows all the messages collected so far to the user (using a message box in the GUI applications or by printing them out to the console in text mode) and clears the internal buffer.
+	End Rem
+	Method Flush()
+		bmx_wxlogbuffer_flush(wxLogPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the current buffer contains.
+	about: Messages from different log function calls are separated with the new lines in the buffer. The buffer can be cleared by
+	Flush() which will also show the current contents to the user.
+	End Rem
+	Method GetBuffer:String()
+		Return bmx_wxlogbuffer_getbuffer(wxLogPtr)
+	End Method
+
+End Type
+
+Rem
+bbdoc: Allows the use of any writeable TStream for logging.
+about: The stream is assumed to be opened and closed by the user.
+End Rem
+Type wxLogStream Extends wxLog
+
+	Field _stream:TStream
+	
+	Rem
+	bbdoc: Creates a new wxLogStream.
+	End Rem
+	Function CreateLogStream:wxLogStream(stream:TStream)
+		Return New wxLogStream.Create(stream)
+	End Function
+	
+	Rem
+	bbdoc: Creates a new wxLogStream.
+	End Rem
+	Method Create:wxLogStream(stream:TStream)
+		_stream = stream
+		wxLogPtr = bmx_wxlogstream_create(Self)
+		Return Self
+	End Method
+
+	Function _DoLogString(logger:wxLogStream, text:String)
+		logger.DoLogString(text)
+	End Function
+	
+	Method DoLogString(text:String)
+		_stream.WriteLine(text)
+	End Method
+	
+End Type
+

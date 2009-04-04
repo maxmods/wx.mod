@@ -24,6 +24,7 @@ Import wx.wx
 Import wx.wxFrame
 Import wx.wxTextCtrl
 Import BRL.Blitz
+Import BRL.Stream
 
 
 ' headers :-)
@@ -82,6 +83,12 @@ Extern
 	Function bmx_wxlog_settracemask(mask:Int)
 	Function bmx_wxlog_suspend()
 	Function bmx_wxlog_setverbose(verbose:Int)
+
+	Function bmx_wxlogbuffer_create:Byte Ptr(handle:Object)
+	Function bmx_wxlogbuffer_flush(handle:Byte Ptr)
+	Function bmx_wxlogbuffer_getbuffer:String(handle:Byte Ptr)
+
+	Function bmx_wxlogstream_create:Byte Ptr(handle:Object)
 
 End Extern
 

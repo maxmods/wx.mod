@@ -23,9 +23,13 @@
 #include "wxglue.h"
 #include "wx/log.h"
 
+class MaxLogStream;
+
 extern "C" {
 
 #include <blitz.h>
+
+	void _wx_wxlog_wxLogStream__DoLogString(BBObject * maxHandle, BBString * str);
 
 	BBObject *wxlogfind( wxLog *obj );
 
@@ -64,8 +68,25 @@ extern "C" {
 	void bmx_wxlog_suspend();
 	void bmx_wxlog_setverbose(bool verbose);
 
+	wxLogBuffer * bmx_wxlogbuffer_create(BBObject * handle);
+	void bmx_wxlogbuffer_flush(wxLogBuffer * log);
+	BBString * bmx_wxlogbuffer_getbuffer(wxLogBuffer * log);
+
+	MaxLogStream * bmx_wxlogstream_create(BBObject * handle);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxLogStream : public wxLog
+{
+public:
+	MaxLogStream(BBObject * handle);
+
+protected:
+	virtual void DoLogString(const wxChar *szString, time_t t);
+
+private:
+	BBObject * maxHandle;
+};
 
