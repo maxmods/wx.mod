@@ -724,7 +724,7 @@ public:
 
 	// public virtual event handlers
     /*!
-     * \brief Event handler call when the canvas is clicked by
+     * \brief Event handler called when the canvas is clicked by
 	 * the left mouse button. The function can be overrided if necessary.
      *
      * The function is called by the framework and provides basic functionality
@@ -736,7 +736,7 @@ public:
      */
 	virtual void OnLeftDown(wxMouseEvent& event);
     /*!
-     * \brief Event handler call when the canvas is double-clicked by
+     * \brief Event handler called when the canvas is double-clicked by
 	 * the left mouse button. The function can be overrided if necessary.
      *
      * The function is called by the framework and provides basic functionality
@@ -748,7 +748,7 @@ public:
      */
 	virtual void OnLeftDoubleClick(wxMouseEvent& event);
     /*!
-     * \brief Event handler call when the left mouse button is released.
+     * \brief Event handler called when the left mouse button is released.
      * The function can be overrided if necessary.
      *
      * The function is called by the framework and provides basic functionality
@@ -760,7 +760,7 @@ public:
      */
 	virtual void OnLeftUp(wxMouseEvent& event);
     /*!
-     * \brief Event handler call when the canvas is clicked by
+     * \brief Event handler called when the canvas is clicked by
 	 * the right mouse button. The function can be overrided if necessary.
      *
      * The function is called by the framework and provides basic functionality
@@ -772,7 +772,7 @@ public:
      */
 	virtual void OnRightDown(wxMouseEvent& event);
     /*!
-     * \brief Event handler call when the canvas is double-clicked by
+     * \brief Event handler called when the canvas is double-clicked by
 	 * the right mouse button. The function can be overrided if necessary.
      *
      * The function is called by the framework and provides basic functionality
@@ -784,7 +784,7 @@ public:
      */
 	virtual void OnRightDoubleClick(wxMouseEvent& event);
     /*!
-     * \brief Event handler call when the right mouse button is released.
+     * \brief Event handler called when the right mouse button is released.
      * The function can be overrided if necessary.
      *
      * The function is called by the framework and provides basic functionality
@@ -796,7 +796,7 @@ public:
      */
 	virtual void OnRightUp(wxMouseEvent& event);
     /*!
-     * \brief Event handler call when the mouse pointer is moved.
+     * \brief Event handler called when the mouse pointer is moved.
      * The function can be overrided if necessary.
      *
      * The function is called by the framework and provides basic functionality
@@ -808,7 +808,7 @@ public:
      */
 	virtual void OnMouseMove(wxMouseEvent& event);
     /*!
-     * \brief Event handler call when any key is pressed.
+     * \brief Event handler called when any key is pressed.
      * The function can be overrided if necessary.
      *
      * The function is called by the framework and provides basic functionality
@@ -821,7 +821,7 @@ public:
 	virtual void OnKeyDown(wxKeyEvent& event);
 
     /*!
-     * \brief Event handler call when any editable text shape is changed.
+     * \brief Event handler called when any editable text shape is changed.
      * The function can be overrided if necessary.
 	 * The function is called by the framework and its default implementation
      * generates wxEVT_SF_TEXT_CHANGE event.
