@@ -1144,7 +1144,7 @@ wxJSONReader::ReadString( wxJSONValue& val )
         case '/' :
           s.append( 1, '/' );
           break;
-        case '\f' :
+        case 'f' :
           s.append( 1, '\f' );
           break;
         case 'u' :
@@ -1760,11 +1760,11 @@ int
 wxJSONReader::AppendUnicodeSequence( wxString& s, int hex )
 {
   int r = 0;
-  wchar_t ch = hex;
 
   #if defined( wxJSON_USE_UNICODE )
     s.append( 1, (wxChar) hex );
   #else
+    wchar_t ch = hex;
     char buffer[10];
     size_t len = wxConvLibc.FromWChar( buffer, 10, &ch, 1 ); 
     if ( len != wxCONV_FAILED )  {

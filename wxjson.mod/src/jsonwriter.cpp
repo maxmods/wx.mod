@@ -629,9 +629,11 @@ wxJSONWriter::WriteStringValue( const wxString& str )
         break;
       case '\b' :     // backspace
         shouldEscape = true;
+		ch = 'b';
         break;
       case '\f' :     // formfeed
         shouldEscape = true;
+		ch = 'f';
         break;
       case '\n' :     // newline
         if ( m_style & wxJSONWRITER_MULTILINE_STRING )  {
@@ -639,10 +641,12 @@ wxJSONWriter::WriteStringValue( const wxString& str )
         }
         else {
           shouldEscape = true;
+  		  ch = 'n';
         }
         break;
       case '\r' :     // carriage-return
         shouldEscape = true;
+		ch = 'r';
         break;
       case '\t' :      // horizontal tab
         if ( m_style & wxJSONWRITER_MULTILINE_STRING )  {
@@ -650,6 +654,7 @@ wxJSONWriter::WriteStringValue( const wxString& str )
         }
         else {
           shouldEscape = true;
+		  ch = 't';
         }
         break;
       default :
