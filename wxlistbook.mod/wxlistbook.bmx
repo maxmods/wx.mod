@@ -21,9 +21,9 @@
 SuperStrict
 
 Rem
-bbdoc: wxListBook
+bbdoc: wxListbook
 End Rem
-Module wx.wxListBook
+Module wx.wxListbook
 
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
@@ -53,31 +53,31 @@ Import "common.bmx"
 Rem
 bbdoc: wxListbook is a type similar to wxNotebook but which uses a wxListCtrl to show the labels instead of the tabs.
 End Rem
-Type wxListBook Extends wxBookCtrlBase
+Type wxListbook Extends wxBookCtrlBase
 
-	Function _create:wxListBook(wxObjectPtr:Byte Ptr)
+	Function _create:wxListbook(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local this:wxListBook = New wxListBook
+			Local this:wxListbook = New wxListbook
 			this.wxObjectPtr = wxObjectPtr
 			Return this
 		End If
 	End Function
 	
-	Function _xrcNew:wxListBook(wxObjectPtr:Byte Ptr)
-		Return wxListBook._create(wxObjectPtr)
+	Function _xrcNew:wxListbook(wxObjectPtr:Byte Ptr)
+		Return wxListbook._create(wxObjectPtr)
 	End Function
 
 	Rem
 	bbdoc: 
 	End Rem
-	Function CreateListbook:wxListBook(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
-		Return New wxListBook.Create(parent, id, x, y, w, h, style)
+	Function CreateListbook:wxListbook(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+		Return New wxListbook.Create(parent, id, x, y, w, h, style)
 	End Function
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method Create:wxListBook(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
+	Method Create:wxListbook(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
 		wxObjectPtr = bmx_wxlistbook_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
 		
 		OnInit()
