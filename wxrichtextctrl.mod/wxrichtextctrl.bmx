@@ -380,13 +380,374 @@ Type wxRichTextCtrl Extends wxTextCtrl
 	Method EndBold:Int()
 	End Method
 
-
+	Rem
+	bbdoc: Ends application of a named character style.
+	end rem
+	Method EndCharacterStyle:Int()
+	End Method
+	
+	Rem
+	bbdoc: Ends using a font.
+	end rem
+	Method EndFont:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends using a point size.
+	end rem
+	Method EndFontSize:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends using italic.
+	end rem
+	Method EndItalic:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends left indent.
+	end rem
+	Method EndLeftIndent:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends line spacing.
+	end rem
+	Method EndLineSpacing:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends using a specified list style.
+	end rem
+	Method EndListStyle:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends application of a numbered bullet.
+	end rem
+	Method EndNumberedBullet:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends paragraph spacing.
+	end rem
+	Method EndParagraphSpacing:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends application of a named character style.
+	end rem
+	Method EndParagraphStyle:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends right indent.
+	end rem
+	Method EndRightIndent:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends the current style.
+	end rem
+	Method EndStyle:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends suppressing undo command history.
+	end rem
+	Method EndSuppressUndo:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends applying a symbol bullet.
+	end rem
+	Method EndSymbolBullet:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends applying a text colour.
+	end rem
+	Method EndTextColour:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: End applying underlining.
+	end rem
+	Method EndUnderline:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Ends applying a URL.
+	end rem
+	Method EndURL:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Helper function for extending the selection, returning true if the selection was changed. Selections are in caret positions.
+	end rem
+	Method ExtendSelection:Int(oldPosition:Int, newPosition:Int, flags:Int)
+	End Method
+	
+	
+	Rem
+	bbdoc: Helper function for finding the caret position for the next word. Direction is 1 (forward) or -1 (backwards).
+	end rem
+	Method FindNextWordPosition:Int(direction:Int = 1)
+	End Method
+	
+	
+	Rem
+	bbdoc: Call this function to prevent refresh and allow fast updates, and then Thaw to refresh the control.
+	end rem
+	Method Freeze()
+	End Method
+	
+	
+	Rem
+	bbdoc: Gets the basic (overall) style. This is the style of the whole buffer before further styles are applied, unlike the default style, which only affects the style currently being applied (for example, setting the default style to bold will cause subsequently inserted text to be bold).
+	end rem
+	Method GetBasicStyle:wxTextAttrEx()
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the buffer associated with the control.
+	end rem
+	Method GetBuffer:wxRichTextBuffer()
+	End Method
+	
+	Rem
+	bbdoc: Returns the current caret position.
+	end rem
+	Method GetCaretPosition:Int()
+	End Method
+	
+	Rem
+	bbdoc: Returns the caret height and position for the given character position
+	end rem
+	Method GetCaretPositionForIndex:Int(position:Int, x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+	End Method
+	
+	Rem
+	bbdoc: Gets the command processor associated with the control's buffer.
+	end rem
+'	Method GetCommandProcessor:wxCommandProcessor()
+'	End Method
+	
+	
+	Rem
+	bbdoc: Returns the current default style, which can be used to change how subsequently inserted text is displayed. When wxTextAttrEx is merged with wxTextAttr, this function will become GetDefaultStyle.
+	end rem
+	Method GetDefaultStyleEx:wxTextAttrEx()
+	End Method
+	
+	
+	Rem
+	bbdoc: Gets the size of the buffer beyond which layout is delayed during resizing. This optimizes sizing for large buffers. The default is 20000.
+	end rem
+	Method GetDelayedLayoutThreshold:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Gets the current filename associated with the control.
+	end rem
+	Method GetFilename:String()
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the first visible position in the current view.
+	end rem
+	Method GetFirstVisiblePosition:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns flags that change the behaviour of loading or saving. See the documentation for each handler class to see what flags are relevant for each handler.
+	end rem
+	Method GetHandlerFlags:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the current insertion point.
+	end rem
+	Method GetInsertionPoint:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the last position in the buffer.
+	end rem
+	Method GetLastPosition:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the length of the specified line in characters.
+	end rem
+	Method GetLineLength:Int(lineNo:Int)
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the text for the given line.
+	end rem
+	Method GetLineText:String(lineNo:Int)
+	End Method
+	
+	
+	Rem
+	bbdoc: Transforms physical window position to logical (unscrolled) position.
+	end rem
+	Method GetLogicalPoint(ptPhysicalX:Int, ptPhysicalY:Int, logicalX:Int Var, logicalY:Int Var)
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the number of lines in the buffer.
+	end rem
+	Method GetNumberOfLines:Int()
+	End Method
+	
+	
+	Rem
+	bbdoc: Transforms logical (unscrolled) position to physical window position.
+	end rem
+	Method GetPhysicalPoint(ptLogicalX:Int, ptLogicalY:Int, physicalX:Int Var, physicalY:Int Var)
+	End Method
+	
+	
+	Rem
+	bbdoc: Gets the text for the given range.
+	The end point of range is specified as the last character position of the span of text, plus one.
+	end rem
+	Method GetRange:String(fromPos:Int, toPos:Int)
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the range of the current selection.
+	The end point of range is specified as the last character position of the span of text, plus one.
+	If the return values from and to are the same, there is no selection.
+	end rem
+	Method GetSelection(fromPos:Int Var, toPos:Int Var)
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the selection range in character positions. -1, -1 means no selection.
+	end rem
+	Method GetSelectionRange:wxRichTextRange()
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the text within the current selection range, if any.
+	end rem
+	Method GetStringSelection:String()
+	End Method
+	
+	
+	Rem
+	bbdoc: Gets the attributes at the given position. The wxRichTextAttr version is generally more efficient because it does not use wxFont objects.
+	This function gets the combined style - that is, the style you see on the screen as a result of combining base style, paragraph style and character style attributes. To get the character or paragraph style alone, use GetUncombinedStyle.
+	end rem
+	Method GetStyleRichTextAttr:wxRichTextAttr(position:Int)
+	End Method
+	
+	Rem
+	bbdoc: Gets the attributes at the given position. The wxRichTextAttr version is generally more efficient because it does not use wxFont objects.
+	This function gets the combined style - that is, the style you see on the screen as a result of combining base style, paragraph style and character style attributes. To get the character or paragraph style alone, use GetUncombinedStyle.
+	end rem
+	Method GetStyleTextAttrEx:wxTextAttrEx(position:Int)
+	End Method
+	
+	Rem
+	bbdoc: Gets the attributes at the given position. The wxRichTextAttr version is generally more efficient because it does not use wxFont objects.
+	This function gets the combined style - that is, the style you see on the screen as a result of combining base style, paragraph style and character style attributes. To get the character or paragraph style alone, use GetUncombinedStyle.
+	end rem
+	Method GetStyletextAttr:wxTextAttr(position:Int)
+	End Method
+	
+	
+	Rem
+	bbdoc: Gets the attributes common to the specified range. Attributes that differ in value within the range will not be included in style's flags.
+	end rem
+	Method GetStyleForRangeRichTextAttr:wxRichTextAttr(range:wxRichTextRange)
+	End Method
+	
+	Rem
+	bbdoc: Gets the attributes common to the specified range. Attributes that differ in value within the range will not be included in style's flags.
+	end rem
+	Method GetStyleForRangeTextAttrEx:wxTextAttrEx(range:wxRichTextRange)
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the style sheet associated with the control, if any. A style sheet allows named character and paragraph styles to be applied.
+	end rem
+	Method GetStyleSheet:wxRichTextStyleSheet()
+	End Method
+	
+	
+	Rem
+	bbdoc: Gets the attributes at the given position. The wxRichTextAttr version is generally more efficient because it does not use wxFont objects.
+	This function gets the uncombined style - that is, the attributes associated with the paragraph or character content, and not necessarily the combined attributes you see on the screen. To get the combined attributes, use GetStyle.
+	If you specify (any) paragraph attribute in style's flags, this function will fetch the paragraph attributes. Otherwise, it will return the character attributes.
+	end rem
+	Method GetUncombinedStyleRichTextAttr:wxRichTextAttr(position:Int)
+	End Method
+	
+	Rem
+	bbdoc: Gets the attributes at the given position. The wxRichTextAttr version is generally more efficient because it does not use wxFont objects.
+	This function gets the uncombined style - that is, the attributes associated with the paragraph or character content, and not necessarily the combined attributes you see on the screen. To get the combined attributes, use GetStyle.
+	If you specify (any) paragraph attribute in style's flags, this function will fetch the paragraph attributes. Otherwise, it will return the character attributes.
+	end rem
+	Method GetUncombinedStyleTextAttrEx:wxTextAttrEx(position:Int)
+	End Method
+	
+	Rem
+	bbdoc: Gets the attributes at the given position. The wxRichTextAttr version is generally more efficient because it does not use wxFont objects.
+	This function gets the uncombined style - that is, the attributes associated with the paragraph or character content, and not necessarily the combined attributes you see on the screen. To get the combined attributes, use GetStyle.
+	If you specify (any) paragraph attribute in style's flags, this function will fetch the paragraph attributes. Otherwise, it will return the character attributes.
+	end rem
+	Method GetUncombinedStyleTextAttr:wxTextAttr(position:Int)
+	End Method
+	
+	
+	Rem
+	bbdoc: Returns the content of the entire control as a string.
+	end rem
+	Method GetValue:String()
+	End Method
+	
+	
+	Rem
+	bbdoc: Internal helper function returning the line for the visible caret position. If the caret is shown at the very end of the line, it means the next character is actually on the following line. So this function gets the line we're expecting to find if this is the case.
+	end rem
+	Method GetVisibleLineForCaretPosition:Int(caretPosition:Int)
+	End Method
+	
 End Type
-
-Type wxTextAttrEx Extends wxTextAttr
-
-End Type
-
+	
 Rem
 bbdoc: This type represents the whole buffer associated with a wxRichTextCtrl.
 End Rem
@@ -471,5 +832,8 @@ Type wxRichTextHeaderFooterData Extends wxObject
 
 End Type
 
+Type wxTextAttrEx
+End Type
 
-
+Type wxRichTextAttr
+End Type
