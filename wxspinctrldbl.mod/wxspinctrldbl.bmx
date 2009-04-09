@@ -55,6 +55,80 @@ bbdoc: A double valued wxSpinCtrl
 End Rem
 Type wxSpinCtrlDbl Extends wxControl
 
+	Function CreateSpinCtrl:wxSpinCtrlDbl(parent:wxWindow, id:Int, value:String = Null, x:Int = -1, y:Int = -1, ..
+			w:Int = 95, h:Int = -1, style:Int = 0, minimum:Int = 0, maximum:Int = 100, initial:Int = 0)
+			
+		Return New wxSpinCtrlDbl.Create(parent, id, value, x, y, w, h, style, minimum, maximum, initial)
+
+	End Function
+	
+	Rem
+	bbdoc: Creation method, for two-step construction. For details see CreateButton.
+	End Rem
+	Method Create:wxSpinCtrlDbl(parent:wxWindow, id:Int, value:String = Null, x:Int = -1, y:Int = -1, ..
+			w:Int = 95, h:Int = -1, style:Int = 0, minimum:Int = 0, maximum:Int = 100, initial:Int = 0)
+			
+		'wxObjectPtr = bmx_wxspinctrldbl_create(Self, parent.wxObjectPtr, id, value, x, y, w, h, style, minimum, maximum, initial)
+		
+		Return Self
+	End Method
+
+	Method SetValue(value:Double)
+	End Method
+	
+	Method SetTextValue(value:String, force:Int)
+	End Method
+	
+	Method SetRange( minVal:Double, maxVal:Double)
+	End Method
+	
+	Method SetIncrement(increment:Double, digits:Int = wxSPINCTRLDBL_AUTODIGITS, format:Int = FORMAT_LG)
+	End Method
+	
+	Method SetDigits(digits:Int = wxSPINCTRLDBL_AUTODIGITS, format:Int = FORMAT_LG ) 
+	End Method
+	
+	Method SetFormat(format:String)
+	End Method
+	
+	Method ResetValue()
+	End Method
+	
+	Method SetDefaultValue(value:Double)
+	End Method
+	
+	Method GetValue:Double()
+	End Method
+	
+	Method GetMin:Double()
+	End Method
+	
+	Method GetMax:Double()
+	End Method
+	
+	Method HasRange:Int()
+	End Method
+	
+	Method InRange:Int(value:Double)
+	End Method
+	
+	Method GetIncrement:Double()
+	End Method
+	
+	Method GetDigits:Int()
+	End Method
+	
+	Method GetFormat:String()
+	End Method
+	
+	Method GetDefaultValue:Double()
+	End Method
+	
+	Method GetSnapToTicks:Int()
+	End Method
+	
+	Method IsDefaultValue:Int()
+	End Method
 	
 
 End Type

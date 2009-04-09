@@ -40,8 +40,19 @@ Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
 Import "../include/*.h"
 ?
 
+Import "include/*.h"
+Import "src/spinctld.cpp"
+
 Import "glue.cpp"
 
 Extern
 
 End Extern
+
+
+Const wxSPINCTRLDBL_AUTODIGITS:Int = -1
+
+Const FORMAT_LF:Int = 0
+Const FORMAT_LE:Int = 1
+Const FORMAT_LG:Int = 2
+
