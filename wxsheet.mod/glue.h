@@ -484,6 +484,7 @@ class MaxSheetCellAttr
 {
 public:
 	MaxSheetCellAttr(const wxSheetCellAttr & a);
+	MaxSheetCellAttr(bool a);
 	wxSheetCellAttr & Attr();
 
 private:

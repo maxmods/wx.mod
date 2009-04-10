@@ -83,6 +83,11 @@ MaxSheetCellAttr::MaxSheetCellAttr(const wxSheetCellAttr& a)
 	attr = a;
 }
 
+MaxSheetCellAttr::MaxSheetCellAttr(bool a)
+	: attr(a)
+{
+}
+
 wxSheetCellAttr & MaxSheetCellAttr::Attr() {
 	return attr;
 }
@@ -1338,8 +1343,7 @@ wxSheetCellBitmapRendererRefData * bmx_wxsheetcellbitmaprendererrefdata_create(M
 // *********************************************
 
 MaxSheetCellAttr * bmx_wxsheetcellattr_create(bool createData) {
-	wxSheetCellAttr s(createData);
-	return new MaxSheetCellAttr(s);
+	return new MaxSheetCellAttr(createData);
 }
 
 void bmx_wxsheetcellattr_setforegroundcolour(MaxSheetCellAttr * attr, MaxColour * colour) {

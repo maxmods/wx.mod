@@ -1215,22 +1215,22 @@ Type wxSheet Extends wxWindow
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetScrollBarMode(mode:Int)
-		bmx_wxsheet_setscrollbarmode(wxObjectPtr, mode)
+	Method SetScrollBarMode(Mode:Int)
+		bmx_wxsheet_setscrollbarmode(wxObjectPtr, Mode)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetHorizontalScrollBarMode(mode:Int)
-		bmx_wxsheet_sethorizontalscrollbarmode(wxObjectPtr, mode)
+	Method SetHorizontalScrollBarMode(Mode:Int)
+		bmx_wxsheet_sethorizontalscrollbarmode(wxObjectPtr, Mode)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetVerticalScrollBarMode(mode:Int)
-		bmx_wxsheet_setverticalscrollbarmode(wxObjectPtr, mode)
+	Method SetVerticalScrollBarMode(Mode:Int)
+		bmx_wxsheet_setverticalscrollbarmode(wxObjectPtr, Mode)
 	End Method
 	
 	Rem
@@ -1359,8 +1359,8 @@ Type wxSheet Extends wxWindow
 	Rem
 	bbdoc: 
 	End Rem
-	Method HasSelectionMode:Int(mode:Int)
-		Return bmx_wxsheet_hasselectionmode(wxObjectPtr, mode)
+	Method HasSelectionMode:Int(Mode:Int)
+		Return bmx_wxsheet_hasselectionmode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -2019,14 +2019,14 @@ Type wxSheetCellAttr Extends wxObject
 	Rem
 	bbdoc: 
 	End Rem
-	Function CreateSheeCellAttr:wxSheetCellAttr(createData:Int = False)
+	Function CreateSheeCellAttr:wxSheetCellAttr(createData:Int = True)
 		Return New wxSheetCellAttr.Create(createData)
 	End Function
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method Create:wxSheetCellAttr(createData:Int = False)
+	Method Create:wxSheetCellAttr(createData:Int = True)
 		wxObjectPtr = bmx_wxsheetcellattr_create(createData)
 		Return Self
 	End Method
