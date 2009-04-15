@@ -417,7 +417,7 @@ Type wxSFShapeCanvas Extends wxScrolledWindow
 	Method LP2DP(x:Int, y:Int, px:Int Var, py:Int Var)
 	End Method
 	
-	Method GetShapeUnderCursor:wxSFShapeBase(mode:Int = searchBOTH)
+	Method GetShapeUnderCursor:wxSFShapeBase(Mode:Int = searchBOTH)
 	End Method
 	
 	
@@ -461,10 +461,18 @@ Type wxSFArrowBase Extends xsSerializable
 		End If
 	End Function
 
+	Method SetParentShape(parent:wxSFShapeBase)
+	' TODO
+	End Method
+	
+	Method GetParentShape:wxSFShapeBase()
+	' TODO
+	End Method
+	
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Encapsulates an arrow shape consisting of single two lines leading from the end of the parent line shape.
 End Rem
 Type wxSFOpenArrow Extends wxSFArrowBase
 
@@ -490,7 +498,7 @@ Type wxSFOpenArrow Extends wxSFArrowBase
 End Type
 
 Rem
-bbdoc: 
+bbdoc: Encapsulates an arrow shape consisting of a solid triangle pointing to the end of the parent line shape.
 End Rem
 Type wxSFSolidArrow Extends wxSFOpenArrow
 
@@ -512,6 +520,14 @@ Type wxSFSolidArrow Extends wxSFOpenArrow
 			Return window
 		End If
 	End Function
+
+	Method SetArrowFill(brush:wxBrush)
+	' TODO
+	End Method
+	
+	Method GetArrowFill:wxBrush()
+	' TODO
+	End Method
 
 End Type
 
@@ -605,6 +621,58 @@ Type wxSFLineShape Extends wxSFShapeBase
 			Return window
 		End If
 	End Function
+
+	Method SetSrcShapeId(id:Int)
+	End Method
+	 
+	Method GetSrcShapeId:Int()
+	End Method
+	 
+	Method SetTrgShapeId(id:Int)
+	End Method
+	 
+	Method GetTrgShapeId:Int()
+	End Method
+	 
+	Method GetSrcPoint(x:Double Var, y:Double Var)
+	End Method
+	 
+	Method GetTrgPoint(x:Double Var, y:Double Var)
+	End Method
+	 
+	Method GetDirectLine(x0:Double Var, y0:Double Var, x1:Double Var, y1:Double Var)
+	End Method
+	 
+	Method SetTrgArrow:wxSFArrowBase(arrow:Object)
+	End Method
+	
+	Method SetSrcArrow:wxSFArrowBase(arrow:Object)
+	End Method
+	
+	Method GetSrcArrow:wxSFArrowBase()
+	End Method
+	 
+	Method GetTrgArrow:wxSFArrowBase()
+	End Method
+	 
+	Method SetLinePen(pen:wxPen)
+	End Method
+	
+	Method GetLinePen:wxPen()
+	End Method
+	 
+	Method SetDockPoint(index:Int)
+	End Method
+	 
+	Method GetDockPoint:Int()
+	End Method
+	 
+	Method GetControlPoints:Double[]()
+	End Method
+	 
+	Method GetDockPointPosition(x:Double Var, y:Double Var)
+	End Method
+
 
 End Type
 
@@ -748,10 +816,25 @@ bbdoc:
 End Rem
 Type wxSFControlShape Extends wxSFRectShape
 
+	Rem
+	bbdoc: Event isn't processed.
+	End Rem
 	Const evtNONE:Int = 0
+	Rem
+	bbdoc: Keyboard events are processed by the GUI control.
+	End Rem
 	Const evtKEY2GUI:Int = 1
+	Rem
+	bbdoc: Keyboard events are send to a shape canvas.
+	End Rem
 	Const evtKEY2CANVAS:Int = 2
+	Rem
+	bbdoc: Mouse events are processed by the GUI control.
+	End Rem
 	Const evtMOUSE2GUI:Int = 4 
+	Rem
+	bbdoc: Mouse events are send to a shape canvas.
+	End Rem
 	Const evtMOUSE2CANVAS:Int = 8 
 
 
@@ -778,48 +861,65 @@ Type wxSFControlShape Extends wxSFRectShape
 	End Function
 
 	Rem
-	bbdoc: 
+	bbdoc: Set managed GUI control.
 	End Rem
 	Method SetControl(ctrl:wxWindow, fit:Int = True)
 		bmx_wxsfcontrolshape_setcontrol(wxObjectPtr, ctrl.wxObjectPtr, fit)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns reference to managed GUI control.
 	End Rem
 	Method GetControl:wxWindow()
 		Return wxWindow._find(bmx_wxsfcontrolshape_getcontrol(wxObjectPtr))
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Set a way how GUI control's events are processed.
+	about: One of evtNONE, evtKEY2GUI, evtKEY2CANVAS, evtMOUSE2GUI or evtMOUSE2CANVAS.
 	End Rem
 	Method SetEventProcessing(mask:Int)
 		bmx_wxsfcontrolshape_seteventprocessing(wxObjectPtr, mask)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Get a way how GUI control's events are processed.
+	about: Returns one of evtNONE, evtKEY2GUI, evtKEY2CANVAS, evtMOUSE2GUI or evtMOUSE2CANVAS.
 	End Rem
 	Method GetEventProcessing:Int()
 		Return bmx_wxsfcontrolshape_geteventprocessing(wxObjectPtr)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Set control shape's offset (a gap between the shape's border and managed GUI control).
 	End Rem
 	Method SetControlOffset(offset:Int)
 		bmx_wxsfcontrolshape_setcontroloffset(wxObjectPtr, offset)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Get control shape's offset (a gap between the shape's border and managed GUI control).
 	End Rem
 	Method GetControlOffset:Int()
 		Return bmx_wxsfcontrolshape_getcontroloffset(wxObjectPtr)
 	End Method
 	
+	Method SetModFill(brush:wxBrush)
+	' TODO
+	End Method
 	
+	Method GetModFill:wxBrush()
+	' TODO
+	End Method
+
+	Method SetModBorder(pen:wxPen)
+	' TODO
+	End Method
+	
+	Method GetModBorder:wxPen()
+	' TODO
+	End Method
+
 End Type
 
 Rem
