@@ -706,19 +706,26 @@ bool bmx_wxauinotebook_showwindowmenu(wxAuiNotebook * notebook) {
 int bmx_wxaui_geteventtype(int type) {
 	switch(type) {
 		case -20: return wxEVT_COMMAND_AUINOTEBOOK_PAGE_CLOSE;
-		case -21: return wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED;
-		case -22: return wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGING;
-		case -23: return wxEVT_COMMAND_AUINOTEBOOK_BUTTON;
-		case -24: return wxEVT_COMMAND_AUINOTEBOOK_BEGIN_DRAG;
-		case -25: return wxEVT_COMMAND_AUINOTEBOOK_END_DRAG;
-		case -26: return wxEVT_COMMAND_AUINOTEBOOK_DRAG_MOTION;
-		case -27: return wxEVT_COMMAND_AUINOTEBOOK_ALLOW_DND;
-		case -28: return wxEVT_AUI_PANE_BUTTON;
-		case -29: return wxEVT_AUI_PANE_CLOSE;
-		case -30: return wxEVT_AUI_PANE_MAXIMIZE;
-		case -31: return wxEVT_AUI_PANE_RESTORE;
-		case -32: return wxEVT_AUI_RENDER;
-		case -33: return wxEVT_AUI_FIND_MANAGER;
+		case -21: return wxEVT_COMMAND_AUINOTEBOOK_PAGE_CLOSED;
+		case -22: return wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED;
+		case -23: return wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGING;
+		case -24: return wxEVT_COMMAND_AUINOTEBOOK_BUTTON;
+		case -25: return wxEVT_COMMAND_AUINOTEBOOK_BEGIN_DRAG;
+		case -26: return wxEVT_COMMAND_AUINOTEBOOK_END_DRAG;
+		case -27: return wxEVT_COMMAND_AUINOTEBOOK_DRAG_MOTION;
+		case -28: return wxEVT_COMMAND_AUINOTEBOOK_ALLOW_DND;
+		case -29: return wxEVT_AUI_PANE_BUTTON;
+		case -30: return wxEVT_AUI_PANE_CLOSE;
+		case -31: return wxEVT_AUI_PANE_MAXIMIZE;
+		case -32: return wxEVT_AUI_PANE_RESTORE;
+		case -33: return wxEVT_AUI_RENDER;
+		case -34: return wxEVT_AUI_FIND_MANAGER;
+		case -35: return wxEVT_COMMAND_AUINOTEBOOK_TAB_MIDDLE_DOWN;
+		case -36: return wxEVT_COMMAND_AUINOTEBOOK_TAB_MIDDLE_UP;
+		case -37: return wxEVT_COMMAND_AUINOTEBOOK_TAB_RIGHT_DOWN;
+		case -38: return wxEVT_COMMAND_AUINOTEBOOK_TAB_RIGHT_UP;
+		case -39: return wxEVT_COMMAND_AUINOTEBOOK_DRAG_DONE;
+		case -40: return wxEVT_COMMAND_AUINOTEBOOK_BG_DCLICK;
 	}
 	
 	return 0;
