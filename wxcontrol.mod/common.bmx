@@ -48,4 +48,6 @@ Extern
 	Function bmx_wxcontrol_getlabeltext:String(handle:Byte Ptr)
 	Function bmx_wxcontrol_setlabel(handle:Byte Ptr, label:String)
 	
+	Function bmx_wxcontrol_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+
 End Extern

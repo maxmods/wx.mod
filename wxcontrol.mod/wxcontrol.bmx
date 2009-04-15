@@ -64,6 +64,16 @@ Type wxControl Extends wxWindow
 			Return this
 		End If
 	End Function
+	
+	Rem
+	bbdoc: Creates a new generic control
+	End Rem
+	Method CreateControl:wxControl(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = 0)
+		wxObjectPtr = bmx_wxcontrol_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		OnInit()
+		Return Self
+	End Method
 
 	Rem
 	bbdoc: Returns the control's text.

@@ -214,6 +214,31 @@ Type wxCommandEvent Extends wxEvent
 		
 		Return this
 	End Function
+	
+	Rem
+	bbdoc: Creates a new command event.
+	End Rem
+	Function CreateEvent:wxCommandEvent(evtType:Int, winId:Int = 0)
+
+		' find the "real" event id
+		Local factory:TEventFactory = event_factories
+		Local evt:Int
+
+		While factory
+			evt = factory.GetEventType(evtType)
+			If evt Exit
+			factory = factory._succ
+		Wend
+		
+		' if we have a real id... create the event and return a valid object
+		If evt Then
+			Local this:wxCommandEvent = New wxCommandEvent
+			this.customEventPtr = bmx_wxcommandevent_create(evt, winId)
+			this.wxEventPtr = bmx_wxevent_getcustref(this.customEventPtr)
+			Return this
+		End If
+		
+	End Function
 
 	Rem
 	bbdoc: 
@@ -1296,7 +1321,6 @@ Type TEventFactory
 	Method GetEventType:Int(eventType:Int) Abstract
 	
 End Type
-
 
 ' Controls the relationship between custom user ids and wxIds.
 Function _GetCustomEventType:Int(eventType:Int)

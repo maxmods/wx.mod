@@ -24,9 +24,24 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxControl::MaxControl(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
+	: wxControl(parent, id, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
 
+MaxControl::~MaxControl() {
+	wxunbind(this);
+}
 
 // *********************************************
+
+BEGIN_EVENT_TABLE(MaxControl, wxControl)
+END_EVENT_TABLE()
+
+MaxControl * bmx_wxcontrol_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+	return new MaxControl(maxHandle, parent, id, x, y, w, h, style);
+}
 
 BBString * bmx_wxcontrol_getlabel(wxControl * control) {
 	return bbStringFromWxString(control->GetLabel());

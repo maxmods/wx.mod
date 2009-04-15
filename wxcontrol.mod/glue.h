@@ -22,7 +22,7 @@
 
 #include "wxglue.h"
 
-//class MaxNotebook;
+class MaxControl;
 
 extern "C" {
 
@@ -31,8 +31,21 @@ extern "C" {
 	BBString * bmx_wxcontrol_getlabel(wxControl * control);
 	BBString * bmx_wxcontrol_getlabeltext(wxControl * control);
 	void bmx_wxcontrol_setlabel(wxControl * control, BBString * label);
-	
+
+	MaxControl * bmx_wxcontrol_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxControl : public wxControl
+{
+public:
+	MaxControl(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	~MaxControl();
+
+private:
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
+};
 
