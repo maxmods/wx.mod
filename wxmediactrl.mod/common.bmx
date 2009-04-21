@@ -60,7 +60,7 @@ Extern
 	Function bmx_wxmediactrl_loaduriwithproxy:Int(handle:Byte Ptr, uri:String, proxy:String)
 	Function bmx_wxmediactrl_pause:Int(handle:Byte Ptr)
 	Function bmx_wxmediactrl_play:Int(handle:Byte Ptr)
-	Function bmx_wxmediactrl_seek(handle:Byte Ptr, where:Long, mode:Int, value:Long Ptr)
+	Function bmx_wxmediactrl_seek(handle:Byte Ptr, where:Long, Mode:Int, value:Long Ptr)
 	Function bmx_wxmediactrl_setplaybackrate:Int(handle:Byte Ptr, rate:Double)
 	Function bmx_wxmediactrl_setvolume:Int(handle:Byte Ptr, volume:Double)
 	Function bmx_wxmediactrl_showplayercontrols:Int(handle:Byte Ptr, flags:Int)
@@ -90,3 +90,17 @@ Const wxMEDIACTRLPLAYERCONTROLS_NONE:Int = 0
 Const wxMEDIACTRLPLAYERCONTROLS_STEP:Int = 1 Shl 0
 Const wxMEDIACTRLPLAYERCONTROLS_VOLUME:Int = 1 Shl 1
 Const wxMEDIACTRLPLAYERCONTROLS_DEFAULT:Int = wxMEDIACTRLPLAYERCONTROLS_STEP | wxMEDIACTRLPLAYERCONTROLS_VOLUME
+
+Rem
+bbdoc: The movie has stopped.
+End Rem
+Const wxMEDIASTATE_STOPPED:Int = 0
+Rem
+bbdoc: The movie is paused.
+End Rem
+Const wxMEDIASTATE_PAUSED:Int = 1
+Rem
+bbdoc: The movie is currently playing.
+End Rem
+Const wxMEDIASTATE_PLAYING:Int = 2
+
