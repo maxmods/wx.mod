@@ -54,6 +54,9 @@ Import "common.bmx"
 Rem
 bbdoc: The wxTimer type allows you to execute code at specified intervals.
 about: Its precision is platform-dependent, but in general will not be better than 1ms nor worse than 1s.
+<p>
+If you want to completely remove a wxTimer instance, call Free().
+</p>
 End Rem
 Type wxTimer Extends wxEvtHandler
 
@@ -146,6 +149,17 @@ Type wxTimer Extends wxEvtHandler
 	Function _notify(obj:Object)
 		wxTimer(obj).Notify()
 	End Function
+	
+	Rem
+	bbdoc: Frees a wxTimer and its resources.
+	End Rem
+	Method Free()
+		Super.Free()
+		If wxObjectPtr Then
+			bmx_wxtimer_free(wxObjectPtr)
+			wxObjectPtr = Null
+		End If
+	End Method
 
 End Type
 

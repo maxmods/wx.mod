@@ -43,6 +43,7 @@ Import "glue.cpp"
 
 Extern
 	Function bmx_wxtimer_create:Byte Ptr(handle:Object, owner:Byte Ptr, id:Int)
+	Function bmx_wxtimer_free(handle:Byte Ptr)
 	Function bmx_wxtimer_getinterval:Int(handle:Byte Ptr)
 	Function bmx_wxtimer_isoneshot:Int(handle:Byte Ptr)
 	Function bmx_wxtimer_isrunning:Int(handle:Byte Ptr)

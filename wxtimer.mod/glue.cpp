@@ -65,6 +65,10 @@ MaxTimer * bmx_wxtimer_create(BBObject * maxHandle, wxEvtHandler * owner, int id
 	return timer;
 }
 
+void bmx_wxtimer_free(wxTimer * timer) {
+	delete timer;
+}
+
 int bmx_wxtimerevent_getinterval(wxTimerEvent & event) {
 	return event.GetInterval();
 }
