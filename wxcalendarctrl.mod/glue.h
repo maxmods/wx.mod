@@ -37,7 +37,6 @@ extern "C" {
 	wxCalendarCtrl * bmx_wxcalendarctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * date, int x, int y, int w, int h, long style);
 	void bmx_wxcalendarctrl_setdate(wxCalendarCtrl * ctrl, MaxDateTime * date);
 	MaxDateTime * bmx_wxcalendarctrl_getdate(wxCalendarCtrl * ctrl);
-	void bmx_wxcalendarctrl_enableyearchange(wxCalendarCtrl * ctrl, bool enable);
 	void bmx_wxcalendarctrl_enablemonthchange(wxCalendarCtrl * ctrl, bool enable);
 	void bmx_wxcalendarctrl_enableholidaydisplay(wxCalendarCtrl * ctrl, bool display);
 	void bmx_wxcalendarctrl_setheadercolours(wxCalendarCtrl * ctrl, MaxColour * colFG, MaxColour * colBG);

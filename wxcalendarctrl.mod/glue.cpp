@@ -89,10 +89,6 @@ MaxDateTime * bmx_wxcalendarctrl_getdate(wxCalendarCtrl * ctrl) {
 	return new MaxDateTime(d);
 }
 
-void bmx_wxcalendarctrl_enableyearchange(wxCalendarCtrl * ctrl, bool enable) {
-	ctrl->EnableYearChange(enable);
-}
-
 void bmx_wxcalendarctrl_enablemonthchange(wxCalendarCtrl * ctrl, bool enable) {
 	ctrl->EnableMonthChange(enable);
 }

@@ -48,7 +48,6 @@ Extern
 	Function bmx_wxcalendarctrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, date:Byte Ptr, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxcalendarctrl_setdate(handle:Byte Ptr, date:Byte Ptr)
 	Function bmx_wxcalendarctrl_getdate:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxcalendarctrl_enableyearchange(handle:Byte Ptr, enable:Int)
 	Function bmx_wxcalendarctrl_enablemonthchange(handle:Byte Ptr, enable:Int)
 	Function bmx_wxcalendarctrl_enableholidaydisplay(handle:Byte Ptr, display:Int)
 	Function bmx_wxcalendarctrl_setheadercolours(handle:Byte Ptr, colFG:Byte Ptr, colBG:Byte Ptr)
@@ -91,27 +90,40 @@ Extern
 	
 End Extern
 
-' show Sunday as the First day of the week (Default)
+Rem
+bbdoc: Show Sunday as the First day of the week (Default)
+End Rem
 Const wxCAL_SUNDAY_FIRST:Int = $0000
 
-' show Monder as the First day of the week
+Rem
+bbdoc: Show Monder as the First day of the week
+End Rem
 Const wxCAL_MONDAY_FIRST:Int = $0001
 
-' highlight holidays
+Rem
+bbdoc: Highlight holidays
+End Rem
 Const wxCAL_SHOW_HOLIDAYS:Int = $0002
 
-' disable the year change control, show only the Month change one
-Const wxCAL_NO_YEAR_CHANGE:Int = $0004
-
-' don't allow changing neither month nor year (implies wxCAL_NO_YEAR_CHANGE)
+Rem
+bbdoc: Don't allow changing neither month nor year (implies wxCAL_NO_YEAR_CHANGE)
+End Rem
 Const wxCAL_NO_MONTH_CHANGE:Int = $000c
 
-' use MS-style month-selection instead of combo-spin combination
+Rem
+bbdoc: Use MS-style Month-selection instead of combo-spin combination. (only generic)
+End Rem
 Const wxCAL_SEQUENTIAL_MONTH_SELECTION:Int = $0010
 
-' show the neighbouring weeks in the previous and next month
+Rem
+bbdoc: Show the neighbouring weeks in the previous and next month. (only generic, always on for the native controls)
+End Rem
 Const wxCAL_SHOW_SURROUNDING_WEEKS:Int = $0020
 
+Rem
+bbdoc: Show week numbers on the left side of the calendar. (not in generic)
+End Rem
+Const wxCAL_SHOW_WEEK_NUMBERS:Int = $0040
 
 Const wxCAL_HITTEST_NOWHERE:Int = 0      ' outside of anything
 Const wxCAL_HITTEST_HEADER:Int = 1       ' on the header (weekdays) 

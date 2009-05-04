@@ -126,14 +126,6 @@ Type wxCalendarCtrl Extends wxControl
 	End Method
 	
 	Rem
-	bbdoc: This method should be used instead of changing wxCAL_NO_YEAR_CHANGE style bit directly.
-	about: It allows or disallows the user to change the year interactively.
-	End Rem
-	Method EnableYearChange(enable:Int = True)
-		bmx_wxcalendarctrl_enableyearchange(wxObjectPtr, enable)
-	End Method
-	
-	Rem
 	bbdoc: This method should be used instead of changing wxCAL_NO_MONTH_CHANGE style bit.
 	about: It allows or disallows the user to change the month interactively. Note that if the month can not be
 	changed, the year can not be changed either.
