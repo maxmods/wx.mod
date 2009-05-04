@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by: 
 // Created:     2004/03/28
-// RCS-ID:      $Id: ObjcRef.h 51591 2008-02-08 08:06:26Z DE $
+// RCS-ID:      $Id: ObjcRef.h 54125 2008-06-11 19:17:41Z SC $
 // Copyright:   (c) 2004 David Elliott <dfe@cox.net>
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 #define _WX_COCOA_OBJCREF_H__
 
 // Reuse wxCFRef-related code (e.g. wxCFRetain/wxCFRelease)
-#include "wx/mac/corefoundation/cfref.h"
+#include "wx/osx/core/cfref.h"
 
 // NOTE WELL: We can only know whether or not GC can be used when compiling Objective-C.
 // Therefore we cannot implement these functions except when compiling Objective-C.

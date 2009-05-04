@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: combobox.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: combobox.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@
 // Combobox control
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxComboBox: public wxChoice
+class WXDLLIMPEXP_CORE wxComboBox: public wxChoice
 {
 public:
     wxComboBox() { }

@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/13/99
-// RCS-ID:      $Id: accel.h 42752 2006-10-30 19:26:48Z VZ $
+// RCS-ID:      $Id: accel.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 #include "wx/object.h"
 
-class WXDLLEXPORT wxAcceleratorTable;
+class WXDLLIMPEXP_FWD_CORE wxAcceleratorTable;
 
 // Hold Ctrl key down
 #define wxACCEL_ALT     0x01
@@ -28,7 +28,7 @@ class WXDLLEXPORT wxAcceleratorTable;
  // Hold no key down
 #define wxACCEL_NORMAL  0x00
 
-class WXDLLEXPORT wxAcceleratorTable: public wxObject
+class WXDLLIMPEXP_CORE wxAcceleratorTable: public wxObject
 {
 DECLARE_DYNAMIC_CLASS(wxAcceleratorTable)
 public:
@@ -51,8 +51,8 @@ public:
                   ) const;
 };
 
-WXDLLEXPORT_DATA(extern wxAcceleratorTable) wxNullAcceleratorTable;
+WXDLLIMPEXP_DATA_CORE(extern wxAcceleratorTable) wxNullAcceleratorTable;
 
-WXDLLEXPORT wxString wxPMTextToLabel(const wxString& rsTitle);
+WXDLLIMPEXP_CORE wxString wxPMTextToLabel(const wxString& rsTitle);
 #endif
     // _WX_ACCEL_H_

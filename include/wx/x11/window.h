@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: window.h 36150 2005-11-10 12:03:39Z ABX $
+// RCS-ID:      $Id: window.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,8 +20,8 @@
 
 class WXDLLIMPEXP_CORE wxWindowX11 : public wxWindowBase
 {
-    friend class WXDLLEXPORT wxDC;
-    friend class WXDLLEXPORT wxWindowDC;
+    friend class WXDLLIMPEXP_FWD_CORE wxDC;
+    friend class WXDLLIMPEXP_FWD_CORE wxWindowDC;
 
 public:
     wxWindowX11() { Init(); }
@@ -73,17 +73,13 @@ public:
     virtual int GetCharWidth() const;
     virtual void GetTextExtent(const wxString& string,
         int *x, int *y,
-        int *descent = (int *) NULL,
-        int *externalLeading = (int *) NULL,
+        int *descent = NULL,
+        int *externalLeading = NULL,
         const wxFont *theFont = (const wxFont *) NULL)
         const;
 
     virtual void ScrollWindow( int dx, int dy,
-        const wxRect* rect = (wxRect *) NULL );
-
-    virtual void DoSetSizeHints(int minW, int minH,
-        int maxW = wxDefaultCoord, int maxH = wxDefaultCoord,
-        int incW = wxDefaultCoord, int incH = wxDefaultCoord);
+        const wxRect* rect = NULL );
 
 #if wxUSE_DRAG_AND_DROP
     virtual void SetDropTarget( wxDropTarget *dropTarget );
@@ -179,6 +175,9 @@ protected:
         int sizeFlags = wxSIZE_AUTO);
     virtual void DoSetClientSize(int width, int height);
     virtual void DoMoveWindow(int x, int y, int width, int height);
+    virtual void DoSetSizeHints(int minW, int minH,
+        int maxW, int maxH,
+        int incW, int incH);
     virtual void DoCaptureMouse();
     virtual void DoReleaseMouse();
 
@@ -191,7 +190,7 @@ private:
     void Init();
 
     DECLARE_DYNAMIC_CLASS(wxWindowX11)
-    DECLARE_NO_COPY_CLASS(wxWindowX11)
+    wxDECLARE_NO_COPY_CLASS(wxWindowX11);
     DECLARE_EVENT_TABLE()
 };
 
@@ -206,7 +205,7 @@ private:
 // optimisation, it will be reenabled as soon as the object goes out from scope.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxNoOptimize
+class WXDLLIMPEXP_CORE wxNoOptimize
 {
 public:
     wxNoOptimize() { ms_count++; }

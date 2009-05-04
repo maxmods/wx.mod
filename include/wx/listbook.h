@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     19.08.03
-// RCS-ID:      $Id: listbook.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: listbook.h 58718 2009-02-07 18:59:25Z VZ $
 // Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -21,8 +21,8 @@
 class WXDLLIMPEXP_FWD_CORE wxListView;
 class WXDLLIMPEXP_FWD_CORE wxListEvent;
 
-extern WXDLLIMPEXP_CORE const wxEventType wxEVT_COMMAND_LISTBOOK_PAGE_CHANGED;
-extern WXDLLIMPEXP_CORE const wxEventType wxEVT_COMMAND_LISTBOOK_PAGE_CHANGING;
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_LISTBOOK_PAGE_CHANGED,  wxBookCtrlEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_LISTBOOK_PAGE_CHANGING, wxBookCtrlEvent );
 
 // wxListbook flags
 #define wxLB_DEFAULT          wxBK_DEFAULT
@@ -36,7 +36,7 @@ extern WXDLLIMPEXP_CORE const wxEventType wxEVT_COMMAND_LISTBOOK_PAGE_CHANGING;
 // wxListbook
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxListbook : public wxBookCtrlBase
+class WXDLLIMPEXP_CORE wxListbook : public wxBookCtrlBase
 {
 public:
     wxListbook()
@@ -94,8 +94,12 @@ protected:
 
     void UpdateSelectedPage(size_t newsel);
 
-    wxBookCtrlBaseEvent* CreatePageChangingEvent() const;
-    void MakeChangedEvent(wxBookCtrlBaseEvent &event);
+    wxBookCtrlEvent* CreatePageChangingEvent() const;
+    void MakeChangedEvent(wxBookCtrlEvent &event);
+
+    // get flags for different list control modes
+    long GetListCtrlIconViewFlags() const;
+    long GetListCtrlReportViewFlags() const;
 
     // event handlers
     void OnListSelected(wxListEvent& event);
@@ -108,6 +112,10 @@ private:
     // common part of all constructors
     void Init();
 
+    // this should be called when we need to be relaid out
+    void UpdateSize();
+
+
     DECLARE_EVENT_TABLE()
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxListbook)
 };
@@ -116,36 +124,18 @@ private:
 // listbook event class and related stuff
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxListbookEvent : public wxBookCtrlBaseEvent
-{
-public:
-    wxListbookEvent(wxEventType commandType = wxEVT_NULL, int id = 0,
-                    int nSel = wxNOT_FOUND, int nOldSel = wxNOT_FOUND)
-        : wxBookCtrlBaseEvent(commandType, id, nSel, nOldSel)
-    {
-    }
-
-    wxListbookEvent(const wxListbookEvent& event)
-        : wxBookCtrlBaseEvent(event)
-    {
-    }
-
-    virtual wxEvent *Clone() const { return new wxListbookEvent(*this); }
-
-private:
-    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxListbookEvent)
-};
-
-typedef void (wxEvtHandler::*wxListbookEventFunction)(wxListbookEvent&);
-
-#define wxListbookEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxListbookEventFunction, &func)
+// wxListbookEvent is obsolete and defined for compatibility only (notice that
+// we use #define and not typedef to also keep compatibility with the existing
+// code which forward declares it)
+#define wxListbookEvent wxBookCtrlEvent
+typedef wxBookCtrlEventFunction wxListbookEventFunction;
+#define wxListbookEventHandler(func) wxBookCtrlEventHandler(func)
 
 #define EVT_LISTBOOK_PAGE_CHANGED(winid, fn) \
-    wx__DECLARE_EVT1(wxEVT_COMMAND_LISTBOOK_PAGE_CHANGED, winid, wxListbookEventHandler(fn))
+    wx__DECLARE_EVT1(wxEVT_COMMAND_LISTBOOK_PAGE_CHANGED, winid, wxBookCtrlEventHandler(fn))
 
 #define EVT_LISTBOOK_PAGE_CHANGING(winid, fn) \
-    wx__DECLARE_EVT1(wxEVT_COMMAND_LISTBOOK_PAGE_CHANGING, winid, wxListbookEventHandler(fn))
+    wx__DECLARE_EVT1(wxEVT_COMMAND_LISTBOOK_PAGE_CHANGING, winid, wxBookCtrlEventHandler(fn))
 
 #endif // wxUSE_LISTBOOK
 

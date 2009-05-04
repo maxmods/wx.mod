@@ -389,4 +389,3 @@ static const char * const blitzmaxWordListDesc[] = {
 
 LexerModule lmBlitzMax(SCLEX_BLITZBASIC, ColouriseBlitzMaxDoc, "blitzmax",
 	FoldBlitzMaxDoc, blitzmaxWordListDesc);
-

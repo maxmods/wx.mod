@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     10/4/2006 8:03:20 AM
-// RCS-ID:      $Id: richtexttabspage.h 42678 2006-10-29 22:01:06Z JS $
+// RCS-ID:      $Id: richtexttabspage.h 59816 2009-03-24 19:09:52Z JS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -32,7 +32,7 @@
 
 ////@begin control identifiers
 #define SYMBOL_WXRICHTEXTTABSPAGE_STYLE wxRESIZE_BORDER|wxTAB_TRAVERSAL
-#define SYMBOL_WXRICHTEXTTABSPAGE_TITLE _("wxRichTextFontPage")
+#define SYMBOL_WXRICHTEXTTABSPAGE_TITLE _T("")
 #define SYMBOL_WXRICHTEXTTABSPAGE_IDNAME ID_RICHTEXTTABSPAGE
 #define SYMBOL_WXRICHTEXTTABSPAGE_SIZE wxSize(400, 300)
 #define SYMBOL_WXRICHTEXTTABSPAGE_POSITION wxDefaultPosition
@@ -69,7 +69,7 @@ public:
     virtual void SortTabs();
 
     /// Gets the attributes associated with the main formatting dialog
-    wxTextAttrEx* GetAttributes();
+    wxTextAttr* GetAttributes();
 
 ////@begin wxRichTextTabsPage event handler declarations
 

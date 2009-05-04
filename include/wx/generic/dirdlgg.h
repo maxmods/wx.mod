@@ -7,7 +7,7 @@
 // Author:      Robert Roebling, Harm van der Heijden, Julian Smart et al
 // Modified by:
 // Created:     21/3/2000
-// RCS-ID:      $Id: dirdlgg.h 39402 2006-05-28 23:32:12Z VZ $
+// RCS-ID:      $Id: dirdlgg.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Robert Roebling, Harm van der Heijden, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,13 +15,13 @@
 #ifndef _WX_DIRDLGG_H_
 #define _WX_DIRDLGG_H_
 
-class WXDLLEXPORT wxGenericDirCtrl;
-class WXDLLEXPORT wxTextCtrl;
-class WXDLLEXPORT wxTreeEvent;
+class WXDLLIMPEXP_FWD_CORE wxGenericDirCtrl;
+class WXDLLIMPEXP_FWD_CORE wxTextCtrl;
+class WXDLLIMPEXP_FWD_CORE wxTreeEvent;
 
 // we may be included directly as well as from wx/dirdlg.h (FIXME)
-extern WXDLLEXPORT_DATA(const wxChar) wxDirDialogNameStr[];
-extern WXDLLEXPORT_DATA(const wxChar) wxDirSelectorPromptStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxDirDialogNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxDirSelectorPromptStr[];
 
 #ifndef wxDD_DEFAULT_STYLE
 #ifdef __WXWINCE__
@@ -37,7 +37,7 @@ extern WXDLLEXPORT_DATA(const wxChar) wxDirSelectorPromptStr[];
 // wxGenericDirDialog
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxGenericDirDialog : public wxDirDialogBase
+class WXDLLIMPEXP_CORE wxGenericDirDialog : public wxDirDialogBase
 {
 public:
     wxGenericDirDialog() : wxDirDialogBase() { }

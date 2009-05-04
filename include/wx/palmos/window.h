@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by: Wlodzimierz ABX Skiba - more than minimal functionality
 // Created:     10/13/04
-// RCS-ID:      $Id: window.h 36196 2005-11-18 18:34:15Z ABX $
+// RCS-ID:      $Id: window.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne, Wlodzimierz Skiba
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@
 // wxWindow declaration for Palm
 // ---------------------------------------------------------------------------
 
-class WXDLLEXPORT wxWindowPalm : public wxWindowBase
+class WXDLLIMPEXP_CORE wxWindowPalm : public wxWindowBase
 {
 public:
     wxWindowPalm() { Init(); }
@@ -73,8 +73,6 @@ public:
     virtual void Refresh( bool eraseBackground = true,
                           const wxRect *rect = NULL );
     virtual void Update();
-    virtual void Freeze();
-    virtual void Thaw();
 
     virtual bool SetCursor( const wxCursor &cursor );
     virtual bool SetFont( const wxFont &font );
@@ -83,8 +81,8 @@ public:
     virtual int GetCharWidth() const;
     virtual void GetTextExtent(const wxString& string,
                                int *x, int *y,
-                               int *descent = (int *) NULL,
-                               int *externalLeading = (int *) NULL,
+                               int *descent = NULL,
+                               int *externalLeading = NULL,
                                const wxFont *theFont = (const wxFont *) NULL)
                                const;
 
@@ -99,7 +97,7 @@ public:
     virtual int GetScrollThumb( int orient ) const;
     virtual int GetScrollRange( int orient ) const;
     virtual void ScrollWindow( int dx, int dy,
-                               const wxRect* rect = (wxRect *) NULL );
+                               const wxRect* rect = NULL );
 
     virtual bool ScrollLines(int lines);
     virtual bool ScrollPages(int pages);
@@ -132,8 +130,9 @@ public:
     // simple accessors
     // ----------------
 
-    virtual WXWINHANDLE GetWinHandle() const { return m_handle; }
-    virtual WXWidget GetHandle() const { return GetWinHandle(); }
+    WXHWND GetHWND() const { return m_hWnd; }
+    void SetHWND(WXHWND hWnd) { m_hWnd = hWnd; }
+    virtual WXWidget GetHandle() const { return GetHWND(); }
 
     // event handlers
     // --------------
@@ -208,7 +207,7 @@ public:
 
 protected:
     // the window handle
-    WXWINHANDLE m_handle;
+    WXHWND                m_hWnd;
     WXFORMPTR FrameForm;
 
     WXFORMPTR GetFormPtr();
@@ -270,14 +269,8 @@ private:
     bool HandleMoving(wxRect& rect);
     bool HandleJoystickEvent(WXUINT msg, int x, int y, WXUINT flags);
 
-    // list of disabled children before last call to our Disable()
-    wxWindowList *m_childrenDisabled;
-
-    // number of calls to Freeze() minus number of calls to Thaw()
-    unsigned int m_frozenness;
-
     DECLARE_DYNAMIC_CLASS(wxWindowPalm)
-    DECLARE_NO_COPY_CLASS(wxWindowPalm)
+    wxDECLARE_NO_COPY_CLASS(wxWindowPalm);
     DECLARE_EVENT_TABLE()
 };
 

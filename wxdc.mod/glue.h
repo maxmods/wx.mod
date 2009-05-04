@@ -42,7 +42,7 @@ extern "C" {
 	void bmx_wxdc_settextbackground(MaxDC * dc, MaxColour * colour);
 	void bmx_wxdc_settextforeground(MaxDC * dc, MaxColour * colour);
 	void bmx_wxdc_gettextextent(MaxDC * dc, BBString * text, int * w, int * h);
-	void bmx_wxdc_setmapmode(MaxDC * dc, int mode);
+	void bmx_wxdc_setmapmode(MaxDC * dc, wxMappingMode mode);
 	void bmx_wxdc_setpen(MaxDC * dc, MaxPen * pen);
 	void bmx_wxdc_setuserscale(MaxDC * dc, double xscale, double yscale);
 	void bmx_wxdc_drawline(MaxDC * dc, int x1, int y1, int x2, int y2);
@@ -62,7 +62,7 @@ extern "C" {
 	void bmx_wxdc_drawroundedrectanglerect(MaxDC * dc, MaxRect * rect, double radius);
 
 	void wx_wxdc_calcboundingbox(MaxDC * dc, int x, int y);
-	void wx_wxdc_computescaleandorigin(MaxDC * dc);
+	//void wx_wxdc_computescaleandorigin(MaxDC * dc);
 	void wx_wxdc_crosshair(MaxDC * dc, int x, int y);
 	void wx_wxdc_destroyclippingregion(MaxDC * dc);
 	int wx_wxdc_devicetologicalx(MaxDC * dc, int x);
@@ -80,13 +80,13 @@ extern "C" {
 	void bmx_wxdc_drawlabel(MaxDC * dc, BBString * text, int x, int y, int w, int h, MaxBitmap * image, int alignment, int indexAccel);
 	void bmx_wxdc_drawlabelrect(MaxDC * dc, BBString * text, MaxRect * rect, MaxBitmap * image, int alignment, int indexAccel);
 	void bmx_wxdc_drawlines(MaxDC * dc, BBArray * points, int xOffset, int yOffset);
-	void bmx_wxdc_drawpolygon(MaxDC * dc, BBArray * points, int xOffset, int yOffset, int fillStyle);
+	void bmx_wxdc_drawpolygon(MaxDC * dc, BBArray * points, int xOffset, int yOffset, wxPolygonFillMode fillStyle);
 	void bmx_wxdc_drawpoint(MaxDC * dc, int x, int y);
 	void bmx_wxdc_drawrotatedtext(MaxDC * dc, BBString * text, int x, int y, double angle);
 	void bmx_wxdc_drawspline(MaxDC * dc, BBArray * points);
 	void bmx_wxdc_enddoc(MaxDC * dc);
 	void bmx_wxdc_endpage(MaxDC * dc);
-	bool bmx_wxdc_floodfill(MaxDC * dc, int x, int y, MaxColour * colour, int style);
+	bool bmx_wxdc_floodfill(MaxDC * dc, int x, int y, MaxColour * colour, wxFloodFillStyle style);
 	MaxBrush * bmx_wxdc_getbackground(MaxDC * dc);
 	int bmx_wxdc_getbackgroundmode(MaxDC * dc);
 	MaxBrush * bmx_wxdc_getbrush(MaxDC * dc);
@@ -95,7 +95,7 @@ extern "C" {
 	MaxFont * bmx_wxdc_getfont(MaxDC * dc);
 	int bmx_wxdc_getlayoutdirection(MaxDC * dc);
 	int bmx_wxdc_getlogicalfunction(MaxDC * dc);
-	int bmx_wxdc_getmapmode(MaxDC * dc);
+	wxMappingMode bmx_wxdc_getmapmode(MaxDC * dc);
 
 	void bmx_wxdc_getmultilinetextextent(MaxDC * dc, BBString * text, int * width, int * height, int * heightline);
 	BBArray * bmx_wxdc_getpartialtextextents(MaxDC * dc, BBString * text);
@@ -125,7 +125,7 @@ extern "C" {
 	void bmx_wxdc_resetboundingbox(MaxDC * dc);
 	void bmx_wxdc_setaxisorientation(MaxDC * dc, bool leftRight, bool topBottom);
 	void bmx_wxdc_setlayoutdirection(MaxDC * dc, wxLayoutDirection dir);
-	void bmx_wxdc_setlogicalfunction(MaxDC * dc, int func);
+	void bmx_wxdc_setlogicalfunction(MaxDC * dc, wxRasterOperationMode func);
 	void bmx_wxdc_setpalette(MaxDC * dc, MaxPalette * palette);
 	void bmx_wxdc_startdoc(MaxDC * dc, BBString * message);
 	void bmx_wxdc_startpage(MaxDC * dc);

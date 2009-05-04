@@ -4,7 +4,7 @@
 // Author:      Ryan Norton
 // Modified by: Hiroyuki Nakamura(maloninc)
 // Created:     2006-01-10
-// RCS-ID:      $Id: dirdlg.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: dirdlg.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Ryan Norton
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,10 +19,10 @@ DECLARE_WXCOCOA_OBJC_CLASS(NSSavePanel);
 // wxDirDialog
 //-------------------------------------------------------------------------
 
-class WXDLLEXPORT wxDirDialog: public wxDirDialogBase
+class WXDLLIMPEXP_CORE wxDirDialog: public wxDirDialogBase
 {
     DECLARE_DYNAMIC_CLASS(wxDirDialog)
-    DECLARE_NO_COPY_CLASS(wxDirDialog)
+    wxDECLARE_NO_COPY_CLASS(wxDirDialog);
 public:
     wxDirDialog(wxWindow *parent,
                 const wxString& message = wxDirSelectorPromptStr,

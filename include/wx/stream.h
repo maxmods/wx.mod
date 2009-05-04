@@ -4,7 +4,7 @@
 // Author:      Guilhem Lavaux, Guillermo Rodriguez Garcia, Vadim Zeitlin
 // Modified by:
 // Created:     11/07/98
-// RCS-ID:      $Id: stream.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: stream.h 59761 2009-03-23 10:59:40Z VZ $
 // Copyright:   (c) Guilhem Lavaux
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ const int wxEOF = -1;
 // wxStreamBase: common (but non virtual!) base for all stream classes
 // ---------------------------------------------------------------------------
 
-class WXDLLIMPEXP_BASE wxStreamBase
+class WXDLLIMPEXP_BASE wxStreamBase : public wxObject
 {
 public:
     wxStreamBase();
@@ -82,7 +82,8 @@ protected:
 
     friend class wxStreamBuffer;
 
-    DECLARE_NO_COPY_CLASS(wxStreamBase)
+    DECLARE_ABSTRACT_CLASS(wxStreamBase)
+    wxDECLARE_NO_COPY_CLASS(wxStreamBase);
 };
 
 // ----------------------------------------------------------------------------
@@ -216,7 +217,8 @@ protected:
 
     friend class wxStreamBuffer;
 
-    DECLARE_NO_COPY_CLASS(wxInputStream)
+    DECLARE_ABSTRACT_CLASS(wxInputStream)
+    wxDECLARE_NO_COPY_CLASS(wxInputStream);
 };
 
 // ----------------------------------------------------------------------------
@@ -251,7 +253,8 @@ protected:
 
     friend class wxStreamBuffer;
 
-    DECLARE_NO_COPY_CLASS(wxOutputStream)
+    DECLARE_ABSTRACT_CLASS(wxOutputStream)
+    wxDECLARE_NO_COPY_CLASS(wxOutputStream);
 };
 
 // ============================================================================
@@ -278,7 +281,8 @@ protected:
 
     size_t m_currentPos;
 
-    DECLARE_NO_COPY_CLASS(wxCountingOutputStream)
+    DECLARE_DYNAMIC_CLASS(wxCountingOutputStream)
+    wxDECLARE_NO_COPY_CLASS(wxCountingOutputStream);
 };
 
 // ---------------------------------------------------------------------------
@@ -303,7 +307,8 @@ protected:
     wxInputStream *m_parent_i_stream;
     bool m_owns;
 
-    DECLARE_NO_COPY_CLASS(wxFilterInputStream)
+    DECLARE_ABSTRACT_CLASS(wxFilterInputStream)
+    wxDECLARE_NO_COPY_CLASS(wxFilterInputStream);
 };
 
 class WXDLLIMPEXP_BASE wxFilterOutputStream : public wxOutputStream
@@ -324,7 +329,8 @@ protected:
     wxOutputStream *m_parent_o_stream;
     bool m_owns;
 
-    DECLARE_NO_COPY_CLASS(wxFilterOutputStream)
+    DECLARE_ABSTRACT_CLASS(wxFilterOutputStream)
+    wxDECLARE_NO_COPY_CLASS(wxFilterOutputStream);
 };
 
 enum wxStreamProtocolType
@@ -348,12 +354,12 @@ public:
     virtual const wxChar * const *GetProtocols(wxStreamProtocolType type
                                                = wxSTREAM_PROTOCOL) const = 0;
 
-    bool CanHandle(const wxChar *protocol,
+    bool CanHandle(const wxString& protocol,
                    wxStreamProtocolType type
                    = wxSTREAM_PROTOCOL) const;
 
 protected:
-    wxString::size_type FindExtension(const wxChar *location) const;
+    wxString::size_type FindExtension(const wxString& location) const;
 
     DECLARE_ABSTRACT_CLASS(wxFilterClassFactoryBase)
 };
@@ -368,7 +374,7 @@ public:
     virtual wxFilterInputStream  *NewStream(wxInputStream *stream)  const = 0;
     virtual wxFilterOutputStream *NewStream(wxOutputStream *stream) const = 0;
 
-    static const wxFilterClassFactory *Find(const wxChar *protocol,
+    static const wxFilterClassFactory *Find(const wxString& protocol,
                                             wxStreamProtocolType type
                                             = wxSTREAM_PROTOCOL);
 
@@ -410,7 +416,23 @@ public:
         read_write
     };
 
-    wxStreamBuffer(wxStreamBase& stream, BufMode mode);
+    wxStreamBuffer(wxStreamBase& stream, BufMode mode)
+    {
+        InitWithStream(stream, mode);
+    }
+
+    wxStreamBuffer(size_t bufsize, wxInputStream& stream)
+    {
+        InitWithStream(stream, read);
+        SetBufferIO(bufsize);
+    }
+
+    wxStreamBuffer(size_t bufsize, wxOutputStream& stream)
+    {
+        InitWithStream(stream, write);
+        SetBufferIO(bufsize);
+    }
+
     wxStreamBuffer(const wxStreamBuffer& buf);
     virtual ~wxStreamBuffer();
 
@@ -428,6 +450,7 @@ public:
 
     // Buffer control
     void ResetBuffer();
+    void Truncate();
 
     // NB: the buffer must always be allocated with malloc() if takeOwn is
     //     true as it will be deallocated by free()
@@ -437,7 +460,7 @@ public:
     void *GetBufferStart() const { return m_buffer_start; }
     void *GetBufferEnd() const { return m_buffer_end; }
     void *GetBufferPos() const { return m_buffer_pos; }
-    size_t GetBufferSize() const { return m_buffer_size; }
+    size_t GetBufferSize() const { return m_buffer_end - m_buffer_start; }
     size_t GetIntPosition() const { return m_buffer_pos - m_buffer_start; }
     void SetIntPosition(size_t pos) { m_buffer_pos = m_buffer_start + pos; }
     size_t GetLastAccess() const { return m_buffer_end - m_buffer_start; }
@@ -452,7 +475,7 @@ public:
 
     // misc accessors
     wxStreamBase *GetStream() const { return m_stream; }
-    bool HasBuffer() const { return m_buffer_size != 0; }
+    bool HasBuffer() const { return m_buffer_start != m_buffer_end; }
 
     bool IsFixed() const { return m_fixed; }
     bool IsFlushable() const { return m_flushable; }
@@ -480,6 +503,9 @@ protected:
     // common part of several ctors
     void Init();
 
+    // common part of ctors taking wxStreamBase parameter
+    void InitWithStream(wxStreamBase& stream, BufMode mode);
+
     // init buffer variables to be empty
     void InitBuffer();
 
@@ -492,10 +518,6 @@ protected:
          *m_buffer_end,
          *m_buffer_pos;
 
-    // the buffer size
-    // FIXME: isn't it the same as m_buffer_end - m_buffer_start? (VZ)
-    size_t m_buffer_size;
-
     // the stream we're associated with
     wxStreamBase *m_stream;
 
@@ -507,13 +529,8 @@ protected:
          m_fixed,
          m_flushable;
 
-private:
-// Cannot use
-//  DECLARE_NO_COPY_CLASS(wxStreamBuffer)
-// because copy constructor is explicitly declared above;
-// but no copy assignment operator is defined, so declare
-// it private to prevent the compiler from defining it:
-    wxStreamBuffer& operator=(const wxStreamBuffer&);
+
+    wxDECLARE_NO_ASSIGN_CLASS(wxStreamBuffer);
 };
 
 // ---------------------------------------------------------------------------
@@ -523,9 +540,19 @@ private:
 class WXDLLIMPEXP_BASE wxBufferedInputStream : public wxFilterInputStream
 {
 public:
-    // if a non NULL buffer is given to the stream, it will be deleted by it
+    // create a buffered stream on top of the specified low-level stream
+    //
+    // if a non NULL buffer is given to the stream, it will be deleted by it,
+    // otherwise a default 1KB buffer will be used
     wxBufferedInputStream(wxInputStream& stream,
                           wxStreamBuffer *buffer = NULL);
+
+    // ctor allowing to specify the buffer size, it's just a more convenient
+    // alternative to creating wxStreamBuffer, calling its SetBufferIO(bufsize)
+    // and using the ctor above
+    wxBufferedInputStream(wxInputStream& stream, size_t bufsize);
+
+
     virtual ~wxBufferedInputStream();
 
     char Peek();
@@ -552,7 +579,7 @@ protected:
 
     wxStreamBuffer *m_i_streambuf;
 
-    DECLARE_NO_COPY_CLASS(wxBufferedInputStream)
+    wxDECLARE_NO_COPY_CLASS(wxBufferedInputStream);
 };
 
 // ----------------------------------------------------------------------------
@@ -562,9 +589,18 @@ protected:
 class WXDLLIMPEXP_BASE wxBufferedOutputStream : public wxFilterOutputStream
 {
 public:
-    // if a non NULL buffer is given to the stream, it will be deleted by it
+    // create a buffered stream on top of the specified low-level stream
+    //
+    // if a non NULL buffer is given to the stream, it will be deleted by it,
+    // otherwise a default 1KB buffer will be used
     wxBufferedOutputStream(wxOutputStream& stream,
                            wxStreamBuffer *buffer = NULL);
+
+    // ctor allowing to specify the buffer size, it's just a more convenient
+    // alternative to creating wxStreamBuffer, calling its SetBufferIO(bufsize)
+    // and using the ctor above
+    wxBufferedOutputStream(wxOutputStream& stream, size_t bufsize);
+
     virtual ~wxBufferedOutputStream();
 
     wxOutputStream& Write(const void *buffer, size_t size);
@@ -595,7 +631,7 @@ protected:
 
     wxStreamBuffer *m_o_streambuf;
 
-    DECLARE_NO_COPY_CLASS(wxBufferedOutputStream)
+    wxDECLARE_NO_COPY_CLASS(wxBufferedOutputStream);
 };
 
 #if WXWIN_COMPATIBILITY_2_6

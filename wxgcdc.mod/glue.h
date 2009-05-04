@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/dcgraph.h"
 
 class MaxGCDC;
 

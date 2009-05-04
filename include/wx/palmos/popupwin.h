@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: popupwin.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: popupwin.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 // wxPopupWindow
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxPopupWindow : public wxPopupWindowBase
+class WXDLLIMPEXP_CORE wxPopupWindow : public wxPopupWindowBase
 {
 public:
     wxPopupWindow() { }

@@ -62,9 +62,9 @@ wxObject * MaxSpinButtonXmlHandler::DoCreateResource()
 
 	control->MaxBind(_wx_wxspinbutton_wxSpinButton__xrcNew(control));
 
-    control->SetValue(GetLong( wxT("value"), wxSP_DEFAULT_VALUE));
-    control->SetRange(GetLong( wxT("min"), wxSP_DEFAULT_MIN),
-                      GetLong(wxT("max"), wxSP_DEFAULT_MAX));
+    control->SetValue(GetLong( wxT("value"), 0));
+    control->SetRange(GetLong( wxT("min"), 0),
+                      GetLong(wxT("max"), 100));
     SetupWindow(control);
 
     return control;

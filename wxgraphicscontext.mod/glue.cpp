@@ -133,7 +133,7 @@ void bmx_wxgraphicscontext_drawicon(wxGraphicsContext * context, MaxIcon * icon,
 	context->DrawIcon(icon->Icon(), x, y, w, h);
 }
 
-void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * p, int fillStyle) {
+void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * p, wxPolygonFillMode fillStyle) {
 	int n = p->scales[0] / 2;
 	double *s=(double*)BBARRAYDATA( p,p->dims );
 	
@@ -146,7 +146,7 @@ void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * p, i
 	context->DrawLines(n, points, fillStyle);
 }
 
-void bmx_wxgraphicscontext_drawpath(wxGraphicsContext * context, MaxGraphicsPath * path, int fillStyle) {
+void bmx_wxgraphicscontext_drawpath(wxGraphicsContext * context, MaxGraphicsPath * path, wxPolygonFillMode fillStyle) {
 	context->DrawPath(path->Path(), fillStyle);
 }
 
@@ -162,7 +162,7 @@ void bmx_wxgraphicscontext_drawtext(wxGraphicsContext * context, BBString * text
 	context->DrawText(wxStringFromBBString(text), x, y, angle * 0.0174533f);
 }
 
-void bmx_wxgraphicscontext_fillpath(wxGraphicsContext * context, MaxGraphicsPath * path, int fillStyle) {
+void bmx_wxgraphicscontext_fillpath(wxGraphicsContext * context, MaxGraphicsPath * path, wxPolygonFillMode fillStyle) {
 	context->FillPath(path->Path(), fillStyle);
 }
 
@@ -391,7 +391,7 @@ void bmx_wxgraphicspath_closesubpath(MaxGraphicsPath * path) {
 	path->Path().CloseSubpath();
 }
 
-bool bmx_wxgraphicspath_contains(MaxGraphicsPath * path, double x, double y, int fillStyle) {
+bool bmx_wxgraphicspath_contains(MaxGraphicsPath * path, double x, double y, wxPolygonFillMode fillStyle) {
 	return path->Path().Contains(x, y, fillStyle);
 }
 

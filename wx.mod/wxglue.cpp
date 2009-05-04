@@ -54,7 +54,7 @@ BBString *bbStringFromWxString(const wxString &s ) {
 #ifdef WIN32
 	return bbStringFromShorts((const BBChar*)s.wc_str(wxConvISO8859_1), s.Length());
 #else
-	return bbStringFromInts((const int*)s.wc_str(wxConvISO8859_1), s.Length());
+	return bbStringFromInts((const int*)s.wc_str(wxConvISO8859_1).data(), s.Length());
 #endif
 }
 
@@ -164,14 +164,14 @@ int MaxApp::MainLoop() {
 	}
 	
 	SetExitOnFrameDelete(true);
-	eventLoop = m_mainLoop = new wxEventLoop;
-	wxEventLoop::SetActive(m_mainLoop);
+	eventLoop = m_mainLoop = GetTraits()->CreateEventLoop();
+	wxEventLoopBase::SetActive(m_mainLoop);
 	
 	return _wx_wxapp_wxAppMain__MainLoop();
 }
 
 #ifdef __WXMAC__
-#include "wx/mac/private.h"
+#include "wx/osx/private.h"
 #endif
 
 void doEmitEvent(wxEvent& event) {
@@ -481,8 +481,9 @@ MaxPaintDC::MaxPaintDC(wxWindow * window)
 	MaxDC::init(&paintDC);
 }
 
-MaxWindowDC::MaxWindowDC()
-{}
+//MaxWindowDC::MaxWindowDC()
+//	: windowDC(NULL)
+//{}
 
 MaxWindowDC::MaxWindowDC(wxWindow * window)
 	: windowDC(window)
@@ -703,7 +704,7 @@ int bmx_eventtype_value(int type) {
 		case 113: return wxEVT_KILL_FOCUS;
 		case 114: return wxEVT_CHILD_FOCUS;
 		case 115: return wxEVT_MOUSEWHEEL;
-		case 200: return wxEVT_NC_LEFT_DOWN;
+/*		case 200: return wxEVT_NC_LEFT_DOWN;
 		case 201: return wxEVT_NC_LEFT_UP;
 		case 202: return wxEVT_NC_MIDDLE_DOWN;
 		case 203: return wxEVT_NC_MIDDLE_UP;
@@ -714,7 +715,7 @@ int bmx_eventtype_value(int type) {
 		case 208: return wxEVT_NC_LEAVE_WINDOW;
 		case 209: return wxEVT_NC_LEFT_DCLICK;
 		case 210: return wxEVT_NC_MIDDLE_DCLICK;
-		case 211: return wxEVT_NC_RIGHT_DCLICK;
+		case 211: return wxEVT_NC_RIGHT_DCLICK; */
 		case 212: return wxEVT_CHAR;
 		case 213: return wxEVT_CHAR_HOOK;
 		case 214: return wxEVT_NAVIGATION_KEY;
@@ -762,14 +763,14 @@ int bmx_eventtype_value(int type) {
 		case 417: return wxEVT_PAINT;
 		case 418: return wxEVT_ERASE_BACKGROUND;
 		case 419: return wxEVT_NC_PAINT;
-		case 420: return wxEVT_PAINT_ICON;
+//		case 420: return wxEVT_PAINT_ICON;
 		//case 421: return wxEVT_MENU_OPEN;
 		//case 422: return wxEVT_MENU_CLOSE;
 		//case 423: return wxEVT_MENU_HIGHLIGHT;
 		case 424: return wxEVT_CONTEXT_MENU;
 		case 425: return wxEVT_SYS_COLOUR_CHANGED;
 		case 426: return wxEVT_DISPLAY_CHANGED;
-		case 427: return wxEVT_SETTING_CHANGED;
+//		case 427: return wxEVT_SETTING_CHANGED;
 		case 428: return wxEVT_QUERY_NEW_PALETTE;
 		case 429: return wxEVT_PALETTE_CHANGED;
 		case 430: return wxEVT_JOY_BUTTON_DOWN;
@@ -777,9 +778,9 @@ int bmx_eventtype_value(int type) {
 		case 432: return wxEVT_JOY_MOVE;
 		case 433: return wxEVT_JOY_ZMOVE;
 		case 434: return wxEVT_DROP_FILES;
-		case 435: return wxEVT_DRAW_ITEM;
-		case 436: return wxEVT_MEASURE_ITEM;
-		case 437: return wxEVT_COMPARE_ITEM;
+//		case 435: return wxEVT_DRAW_ITEM;
+//		case 436: return wxEVT_MEASURE_ITEM;
+//		case 437: return wxEVT_COMPARE_ITEM;
 		case 438: return wxEVT_INIT_DIALOG;
 		case 439: return wxEVT_IDLE;
 		case 440: return wxEVT_UPDATE_UI;
@@ -1802,9 +1803,9 @@ void bmx_wxgetmouseposition(int * x, int * y) {
 
 // *********************************************
 
-long bmx_wxgetelapsedtime(bool resetTimer) {
-	return wxGetElapsedTime(resetTimer);
-}
+//long bmx_wxgetelapsedtime(bool resetTimer) {
+//	return wxGetElapsedTime(resetTimer);
+//}
 
 long bmx_wxgetlocaltime() {
 	return wxGetLocalTime();
@@ -1835,9 +1836,9 @@ void bmx_wxsleep(int secs) {
 	wxSleep(secs);
 }
 
-void bmx_wxstarttimer() {
-	wxStartTimer();
-}
+//void bmx_wxstarttimer() {
+//	wxStartTimer();
+//}
 
 // *********************************************
 

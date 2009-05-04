@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2002/12/29
-// RCS-ID:      $Id: button.h 48529 2007-09-03 17:17:35Z DE $
+// RCS-ID:      $Id: button.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2002 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 // ========================================================================
 // wxButton
 // ========================================================================
-class WXDLLEXPORT wxButton : public wxButtonBase, protected wxCocoaNSButton
+class WXDLLIMPEXP_CORE wxButton : public wxButtonBase, protected wxCocoaNSButton
 {
     DECLARE_DYNAMIC_CLASS(wxButton)
     DECLARE_EVENT_TABLE()
@@ -59,7 +59,6 @@ public:
     wxString GetLabel() const;
     void SetLabel(const wxString& label);
     wxSize DoGetBestSize() const;
-    virtual void SetDefault();
 };
 
 #endif

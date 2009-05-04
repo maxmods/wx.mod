@@ -2,7 +2,7 @@
 // Name:        wx/mgl/app.h
 // Purpose:
 // Author:      Vaclav Slavik
-// Id:          $Id: app.h 41221 2006-09-14 16:51:13Z ABX $
+// Id:          $Id: app.h 58911 2009-02-15 14:25:08Z FM $
 // Copyright:   (c) 2001-2002 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,15 +18,15 @@
 // classes
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxApp;
-class WXDLLEXPORT wxLog;
-class WXDLLEXPORT wxEventLoop;
+class WXDLLIMPEXP_FWD_CORE wxApp;
+class WXDLLIMPEXP_FWD_BASE wxLog;
+class WXDLLIMPEXP_FWD_CORE wxEventLoop;
 
 //-----------------------------------------------------------------------------
 // wxApp
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxApp: public wxAppBase
+class WXDLLIMPEXP_CORE wxApp: public wxAppBase
 {
 public:
     wxApp();
@@ -44,14 +44,12 @@ public:
 
     virtual void Exit();
     virtual void WakeUpIdle();
-    virtual bool Yield(bool onlyIfNeeded = FALSE);
 
     virtual wxVideoMode GetDisplayMode() const { return m_displayMode; }
     virtual bool SetDisplayMode(const wxVideoMode& mode);
 
 private:
     DECLARE_DYNAMIC_CLASS(wxApp)
-    DECLARE_EVENT_TABLE()
 
     wxVideoMode m_displayMode;
 };

@@ -5,7 +5,7 @@
 //              Mark Oxenham
 // Modified by:
 // Created:     2003/06/19
-// RCS-ID:      $Id: slider.h 48080 2007-08-15 04:42:44Z DE $
+// RCS-ID:      $Id: slider.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2003 David Elliott
 //              (c) 2007 Software 2000 Ltd.
 // Licence:     wxWindows licence
@@ -19,7 +19,7 @@
 // ========================================================================
 // wxSlider
 // ========================================================================
-class WXDLLEXPORT wxSlider: public wxSliderBase// , protected wxCocoaNSSlider
+class WXDLLIMPEXP_CORE wxSlider: public wxSliderBase, protected wxCocoaNSSlider
 {
     DECLARE_DYNAMIC_CLASS(wxSlider)
     DECLARE_EVENT_TABLE()
@@ -56,18 +56,17 @@ public:
 protected:
     // Override this so we can use wxCocoaNSControl's target
     void AssociateNSSlider(WX_NSSlider theSlider);
-    void DisassociateNSSlider(WX_NSSlider theSlider);
 
     // Helper method to do the real work
-    void ProcessEventType(wxEventType commandType);
+    virtual void ProcessEventType(wxEventType commandType);
 
     // from wxCocoaNSControl:
     virtual void CocoaTarget_action();
 
     // from wxCocoaNSSlider:
-    /*virtual*/ void CocoaNotification_startTracking(WX_NSNotification notification);
-    /*virtual*/ void CocoaNotification_continueTracking(WX_NSNotification notification);
-    /*virtual*/ void CocoaNotification_stopTracking(WX_NSNotification notification);
+    virtual void CocoaNotification_startTracking(WX_NSNotification notification);
+    virtual void CocoaNotification_continueTracking(WX_NSNotification notification);
+    virtual void CocoaNotification_stopTracking(WX_NSNotification notification);
 
 // ------------------------------------------------------------------------
 // Implementation

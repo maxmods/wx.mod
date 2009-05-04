@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     25.08.00
-// RCS-ID:      $Id: bmpbuttn.h 45498 2007-04-16 13:03:05Z VZ $
+// RCS-ID:      $Id: bmpbuttn.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2000 Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,14 +19,14 @@
 #include "wx/bitmap.h"
 #include "wx/button.h"
 
-extern WXDLLEXPORT_DATA(const wxChar) wxButtonNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxButtonNameStr[];
 
 // ----------------------------------------------------------------------------
 // wxBitmapButton: a button which shows bitmaps instead of the usual string.
 // It has different bitmaps for different states (focused/disabled/pressed)
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxBitmapButtonBase : public wxButton
+class WXDLLIMPEXP_CORE wxBitmapButtonBase : public wxButton
 {
 public:
     wxBitmapButtonBase()
@@ -36,15 +36,15 @@ public:
     }
 
     // set the bitmaps
-    void SetBitmapLabel(const wxBitmap& bitmap)
+    virtual void SetBitmapLabel(const wxBitmap& bitmap)
         { m_bmpNormal = bitmap; OnSetBitmap(); }
-    void SetBitmapSelected(const wxBitmap& sel)
+    virtual void SetBitmapSelected(const wxBitmap& sel)
         { m_bmpSelected = sel; OnSetBitmap(); }
-    void SetBitmapFocus(const wxBitmap& focus)
+    virtual void SetBitmapFocus(const wxBitmap& focus)
         { m_bmpFocus = focus; OnSetBitmap(); }
-    void SetBitmapDisabled(const wxBitmap& disabled)
+    virtual void SetBitmapDisabled(const wxBitmap& disabled)
         { m_bmpDisabled = disabled; OnSetBitmap(); }
-    void SetBitmapHover(const wxBitmap& hover)
+    virtual void SetBitmapHover(const wxBitmap& hover)
         { m_bmpHover = hover; OnSetBitmap(); }
 
     // retrieve the bitmaps
@@ -89,7 +89,7 @@ protected:
         m_marginY;
 
 
-    DECLARE_NO_COPY_CLASS(wxBitmapButtonBase)
+    wxDECLARE_NO_COPY_CLASS(wxBitmapButtonBase);
 };
 
 #if WXWIN_COMPATIBILITY_2_6
@@ -110,11 +110,13 @@ inline void wxBitmapButtonBase::SetLabel(const wxBitmap& bitmap)
 #elif defined(__WXGTK__)
     #include "wx/gtk1/bmpbuttn.h"
 #elif defined(__WXMAC__)
-    #include "wx/mac/bmpbuttn.h"
+    #include "wx/osx/bmpbuttn.h"
 #elif defined(__WXCOCOA__)
     #include "wx/cocoa/bmpbuttn.h"
 #elif defined(__WXPM__)
     #include "wx/os2/bmpbuttn.h"
+#elif defined(__WXPALMOS__)
+    #include "wx/palmos/bmpbuttn.h"
 #endif
 
 #endif // wxUSE_BMPBUTTON

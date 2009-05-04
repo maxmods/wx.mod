@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: gauge.h 40325 2006-07-25 14:31:55Z ABX $
+// RCS-ID:      $Id: gauge.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 #define _WX_GAUGE_H_
 
 // Group box
-class WXDLLEXPORT wxGauge : public wxGaugeBase
+class WXDLLIMPEXP_CORE wxGauge : public wxGaugeBase
 {
     DECLARE_DYNAMIC_CLASS(wxGauge)
 

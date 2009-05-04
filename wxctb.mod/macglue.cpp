@@ -24,7 +24,7 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 
-#include "wx/mac/carbon/private.h"
+#include "wx/osx/carbon/private.h"
 
 #include	<IOKit/IOKitLib.h>
 #include	<IOKit/serial/IOSerialKeys.h>
@@ -63,14 +63,14 @@ createSerialIterator(io_iterator_t *serialIterator)
     return kernResult;
 }
 
-wxMacCFStringHolder * getRegistryString(io_object_t sObj, char *propName) {
+wxCFStringRef * getRegistryString(io_object_t sObj, char *propName) {
 
     CFStringRef nameCFstring = (CFStringRef)IORegistryEntryCreateCFProperty(sObj,
             CFStringCreateWithCString(kCFAllocatorDefault, propName, kCFStringEncodingASCII),
                                                    kCFAllocatorDefault, 0);
 
     if (nameCFstring) {
-		return new wxMacCFStringHolder(nameCFstring);
+		return new wxCFStringRef(nameCFstring);
     }
     return NULL;
 }
@@ -88,7 +88,7 @@ BBArray * bmx_wxctb_listserialports() {
 
     while (theObject = IOIteratorNext(theSerialIterator)) {
 
-        wxMacCFStringHolder * dev = getRegistryString(theObject, kIODialinDeviceKey);
+        wxCFStringRef * dev = getRegistryString(theObject, kIODialinDeviceKey);
 
 		if (dev) {
 			ports.Add(dev->AsString());	

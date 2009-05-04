@@ -292,11 +292,11 @@ Type wxTopLevelWindow Extends wxWindow
 	Method ShowFullScreen:Int(show:Int, style:Int = wxFULLSCREEN_ALL)
 		Return bmx_wxtoplevelwindow_showfullscreen(wxObjectPtr, show, style)
 	End Method
-?macos
-	Method MacGetWindowRef:Byte Ptr()
-		Return bmx_wxtoplevelwindow_macgetwindowref(wxObjectPtr)
-	End Method
-?
+'?macos
+'	Method MacGetWindowRef:Byte Ptr()
+'		Return bmx_wxtoplevelwindow_macgetwindowref(wxObjectPtr)
+'	End Method
+'?
 
 End Type
 

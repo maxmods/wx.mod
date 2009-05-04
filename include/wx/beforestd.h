@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     07/07/03
-// RCS-ID:      $Id: beforestd.h 42906 2006-11-01 14:16:42Z VZ $
+// RCS-ID:      $Id: beforestd.h 47644 2007-07-22 09:20:42Z VS $
 // Copyright:   (c) 2003 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -63,3 +63,13 @@
     #pragma warning(disable:4786)
 #endif // VC++ < 7
 
+/**
+    GCC's visibility support is broken for libstdc++ in some older versions
+    (namely Debian/Ubuntu's GCC 4.1, see
+    https://bugs.launchpad.net/ubuntu/+source/gcc-4.1/+bug/109262). We fix it
+    here by mimicking newer versions' behaviour of using default visibility
+    for libstdc++ code.
+ */
+#if defined(HAVE_VISIBILITY) && defined(HAVE_BROKEN_LIBSTDCXX_VISIBILITY)
+    #pragma GCC visibility push(default)
+#endif

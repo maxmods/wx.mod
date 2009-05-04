@@ -5,7 +5,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     08/04/99
-// RCS-ID:      $Id: dragimag.h 45845 2007-05-05 19:00:35Z PC $
+// RCS-ID:      $Id: dragimag.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -99,7 +99,7 @@
  * wxDragImage
  */
 
-class WXDLLEXPORT wxDragImage: public wxObject
+class WXDLLIMPEXP_CORE wxDragImage: public wxObject
 {
 public:
 
@@ -214,7 +214,7 @@ public:
 
     // Begin drag. hotspot is the location of the drag position relative to the upper-left
     // corner of the image.
-    bool BeginDrag(const wxPoint& hotspot, wxWindow* window, bool fullScreen = false, wxRect* rect = (wxRect*) NULL);
+    bool BeginDrag(const wxPoint& hotspot, wxWindow* window, bool fullScreen = false, wxRect* rect = NULL);
 
     // Begin drag. hotspot is the location of the drag position relative to the upper-left
     // corner of the image. This is full screen only. fullScreenRect gives the
@@ -266,7 +266,7 @@ protected:
 
 private:
     DECLARE_DYNAMIC_CLASS(wxDragImage)
-    DECLARE_NO_COPY_CLASS(wxDragImage)
+    wxDECLARE_NO_COPY_CLASS(wxDragImage);
 };
 
 #endif // wxUSE_DRAGIMAGE

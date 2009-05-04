@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by: Wlodzimierz ABX Skiba - native implementation
 // Created:     10/13/04
-// RCS-ID:      $Id: control.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: control.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne, Wlodzimierz Skiba
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 #include "wx/dynarray.h"
 
 // General item class
-class WXDLLEXPORT wxControl : public wxControlBase
+class WXDLLIMPEXP_CORE wxControl : public wxControlBase
 {
 public:
     wxControl() { Init(); }
@@ -48,7 +48,7 @@ public:
     virtual bool IsShown() const;
 
     virtual void SetLabel(const wxString& label);
-    virtual wxString GetLabel();
+    //virtual wxString GetLabel();
 
     // implementation from now on
     // --------------------------

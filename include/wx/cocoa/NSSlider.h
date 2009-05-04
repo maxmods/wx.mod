@@ -4,7 +4,7 @@
 // Author:      Mark Oxenham
 // Modified by: David Elliott
 // Created:     2007/08/10
-// RCS-ID:      $Id: NSSlider.h 48080 2007-08-15 04:42:44Z DE $
+// RCS-ID:      $Id: NSSlider.h 60399 2009-04-26 19:41:08Z VZ $
 // Copyright:   (c) 2007 Software 2000 Ltd. All rights reserved.
 // Licence:     wxWidgets licence
 /////////////////////////////////////////////////////////////////////////////

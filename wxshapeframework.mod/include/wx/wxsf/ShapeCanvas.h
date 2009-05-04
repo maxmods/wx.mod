@@ -15,7 +15,7 @@
 #include <wx/dnd.h>
 // BaH
 #ifdef __WXMAC__
-#include <wx/mac/carbon/printdlg.h>
+#include <wx/osx/printdlg.h>
 #endif
 
 #include "ShapeBase.h"

@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     27/07/03
-// RCS-ID:      $Id: xtistrm.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: xtistrm.h 47254 2007-07-09 10:09:52Z VS $
 // Copyright:   (c) 2003 Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -39,12 +39,14 @@ Main interfaces for streaming out objects.
 // or modify the value before it is streamed-out.
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_BASE wxWriter ;
-class WXDLLIMPEXP_BASE wxReader ;
+class WXDLLIMPEXP_FWD_BASE wxWriter ;
+class WXDLLIMPEXP_FWD_BASE wxReader ;
 
 class WXDLLIMPEXP_BASE wxPersister
 {
 public :
+    virtual ~wxPersister() {}
+
     // will be called before an object is written, may veto by returning false
     virtual bool BeforeWriteObject( wxWriter *WXUNUSED(writer) , const wxObject *WXUNUSED(object) , const wxClassInfo *WXUNUSED(classInfo) , wxxVariantArray &WXUNUSED(metadata)) { return true ; }
 
@@ -148,7 +150,7 @@ private :
 Streaming callbacks for depersisting XML to code, or running objects
 */
 
-class WXDLLIMPEXP_BASE wxDepersister ;
+class WXDLLIMPEXP_FWD_BASE wxDepersister ;
 
 /*
 wxReader handles streaming in a class from a arbitrary format. While walking through
@@ -186,6 +188,8 @@ private :
 class WXDLLIMPEXP_BASE wxDepersister
 {
 public :
+    virtual ~wxDepersister() {}
+
     // allocate the new object on the heap, that object will have the passed in ID
     virtual void AllocateObject(int objectID, wxClassInfo *classInfo, wxxVariantArray &metadata) = 0;
 
@@ -343,7 +347,7 @@ an object into a C++ initialization function. this will move to
 a utility lib soon
 */
 
-class WXDLLIMPEXP_BASE wxTextOutputStream ;
+class WXDLLIMPEXP_FWD_BASE wxTextOutputStream ;
 
 class WXDLLIMPEXP_BASE wxCodeDepersister : public wxDepersister
 {

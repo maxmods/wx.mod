@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     30.08.00
-// RCS-ID:      $Id: choice.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: choice.h 58227 2009-01-19 13:55:27Z VZ $
 // Copyright:   (c) 2000 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 
 // VS: This is only a *temporary* implementation, real wxChoice should not
 //     derive from wxComboBox and may have different l&f 
-class WXDLLEXPORT wxChoice : public wxComboBox
+class WXDLLIMPEXP_CORE wxChoice : public wxComboBox
 {
 public:
     wxChoice() {}
@@ -41,7 +41,7 @@ public:
     bool Create(wxWindow *parent, wxWindowID id,
                 const wxPoint& pos = wxDefaultPosition,
                 const wxSize& size = wxDefaultSize,
-                int n = 0, const wxString choices[] = (wxString *) NULL,
+                int n = 0, const wxString choices[] = NULL,
                 long style = 0,
                 const wxValidator& validator = wxDefaultValidator,
                 const wxString& name = wxChoiceNameStr);

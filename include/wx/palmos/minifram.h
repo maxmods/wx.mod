@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: minifram.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: minifram.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 #include "wx/frame.h"
 
-class WXDLLEXPORT wxMiniFrame : public wxFrame
+class WXDLLIMPEXP_CORE wxMiniFrame : public wxFrame
 {
 public:
   wxMiniFrame() { }

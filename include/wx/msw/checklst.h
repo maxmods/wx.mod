@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     16.11.97
-// RCS-ID:      $Id: checklst.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: checklst.h 58406 2009-01-25 18:10:24Z VZ $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@
 class WXDLLIMPEXP_FWD_CORE wxOwnerDrawn;
 class WXDLLIMPEXP_FWD_CORE wxCheckListBoxItem; // fwd decl, defined in checklst.cpp
 
-class WXDLLEXPORT wxCheckListBox : public wxCheckListBoxBase
+class WXDLLIMPEXP_CORE wxCheckListBox : public wxCheckListBoxBase
 {
 public:
   // ctors
@@ -64,10 +64,6 @@ public:
   virtual bool IsChecked(unsigned int uiIndex) const;
   virtual void Check(unsigned int uiIndex, bool bCheck = true);
 
-  // return the index of the item at this position or wxNOT_FOUND
-  int HitTest(const wxPoint& pt) const { return DoHitTestItem(pt.x, pt.y); }
-  int HitTest(wxCoord x, wxCoord y) const { return DoHitTestItem(x, y); }
-
   // accessors
   size_t GetItemHeight() const { return m_nItemHeight; }
 
@@ -77,9 +73,6 @@ public:
   virtual bool          MSWOnMeasure(WXMEASUREITEMSTRUCT *item);
 
 protected:
-  // this can't be called DoHitTest() because wxWindow already has this method
-  int DoHitTestItem(wxCoord x, wxCoord y) const;
-
   // pressing space or clicking the check box toggles the item
   void OnKeyDown(wxKeyEvent& event);
   void OnLeftClick(wxMouseEvent& event);

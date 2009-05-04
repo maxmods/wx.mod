@@ -60,9 +60,9 @@ wxObject * MaxSpinCtrlXmlHandler::DoCreateResource()
                     GetText(wxT("value")),
                     GetPosition(), GetSize(),
                     GetStyle(wxT("style"), wxSP_ARROW_KEYS),
-                    GetLong(wxT("min"), wxSP_DEFAULT_MIN),
-                    GetLong(wxT("max"), wxSP_DEFAULT_MAX),
-                    GetLong(wxT("value"), wxSP_DEFAULT_VALUE),
+                    GetLong(wxT("min"), 0),
+                    GetLong(wxT("max"), 100),
+                    GetLong(wxT("value"), 0),
                     GetName());
 
 	control->MaxBind(_wx_wxspinctrl_wxSpinCtrl__xrcNew(control));

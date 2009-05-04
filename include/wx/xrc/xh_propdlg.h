@@ -3,7 +3,7 @@
 // Purpose:     XML resource handler for wxPropertySheetDialog
 // Author:      Sander Berents
 // Created:     2007/07/12
-// RCS-ID:      $Id: xh_propdlg.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: xh_propdlg.h 48091 2007-08-15 12:45:41Z VZ $
 // Copyright:   (c) 2007 Sander Berents
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,6 @@
 
 #if wxUSE_XRC
 
-#if wxABI_VERSION >= 20805
 class WXDLLIMPEXP_FWD_ADV wxPropertySheetDialog;
 
 class WXDLLIMPEXP_XRC wxPropertySheetDialogXmlHandler : public wxXmlResourceHandler
@@ -31,7 +30,6 @@ private:
     bool m_isInside;
     wxPropertySheetDialog *m_dialog;
 };
-#endif // wxABI_VERSION >= 20805
 
 #endif // wxUSE_XRC
 

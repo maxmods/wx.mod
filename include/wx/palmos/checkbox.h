@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by: Wlodzimierz ABX Skiba - native implementation
 // Created:     10/13/04
-// RCS-ID:      $Id: checkbox.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: checkbox.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne, Wlodzimierz Skiba
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 #define _WX_CHECKBOX_H_
 
 // Checkbox item (single checkbox)
-class WXDLLEXPORT wxCheckBox : public wxCheckBoxBase
+class WXDLLIMPEXP_CORE wxCheckBox : public wxCheckBoxBase
 {
 public:
     wxCheckBox() { }
@@ -55,6 +55,8 @@ protected:
 
 private:
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxCheckBox)
+    // current state of the checkbox
+    wxCheckBoxState m_state;
 };
 
 #endif

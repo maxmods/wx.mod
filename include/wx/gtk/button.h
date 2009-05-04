@@ -2,7 +2,7 @@
 // Name:        wx/gtk/button.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: button.h 40923 2006-08-30 05:55:56Z PC $
+// Id:          $Id: button.h 54895 2008-08-01 13:46:46Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -37,17 +37,13 @@ public:
            const wxValidator& validator = wxDefaultValidator,
            const wxString& name = wxButtonNameStr);
 
-    virtual void SetDefault();
+    virtual wxWindow *SetDefault();
     virtual void SetLabel( const wxString &label );
     virtual bool Enable( bool enable = TRUE );
 
     // implementation
     // --------------
 
-    // Since this wxButton doesn't derive from wxButtonBase (why?) we need
-    // to override this here too...
-    virtual bool ShouldInheritColours() const { return false; }
-    
     static wxVisualAttributes
     GetClassDefaultAttributes(wxWindowVariant variant = wxWINDOW_VARIANT_NORMAL);
 

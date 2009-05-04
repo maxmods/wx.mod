@@ -3,7 +3,7 @@
 // Purpose:     Rich text printing classes
 // Author:      Julian Smart
 // Created:     2006-10-23
-// RCS-ID:      $Id: richtextprint.h 55146 2008-08-21 16:07:54Z JS $
+// RCS-ID:      $Id: richtextprint.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -149,7 +149,7 @@ private:
 
     wxRichTextHeaderFooterData  m_headerFooterData;
 
-    DECLARE_NO_COPY_CLASS(wxRichTextPrintout)
+    wxDECLARE_NO_COPY_CLASS(wxRichTextPrintout);
 };
 
 /*
@@ -238,7 +238,7 @@ private:
     wxRichTextBuffer*           m_richTextBufferPrinting;
     wxRect                      m_previewRect;
 
-    DECLARE_NO_COPY_CLASS(wxRichTextPrinting)
+    wxDECLARE_NO_COPY_CLASS(wxRichTextPrinting);
 };
 
 #endif  // wxUSE_RICHTEXT & wxUSE_PRINTING_ARCHITECTURE

@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     18.02.01
-// RCS-ID:      $Id: scrtimer.h 39633 2006-06-08 11:25:30Z ABX $
+// RCS-ID:      $Id: scrtimer.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2001 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@
 // pressed
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxScrollTimer : public wxTimer
+class WXDLLIMPEXP_CORE wxScrollTimer : public wxTimer
 {
 public:
     // default ctor

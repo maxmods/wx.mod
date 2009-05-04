@@ -5,7 +5,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     21.10.99
-// RCS-ID:      $Id: dataobj2.h 40772 2006-08-23 13:38:45Z VZ $
+// RCS-ID:      $Id: dataobj2.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 1999 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@
 //     rarely used). This is ugly, but I haven't found a solution for it yet.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxBitmapDataObject : public wxBitmapDataObjectBase
+class WXDLLIMPEXP_CORE wxBitmapDataObject : public wxBitmapDataObjectBase
 {
 public:
     // ctors
@@ -51,7 +51,7 @@ private:
     // the DIB data
     void /* BITMAPINFO */ *m_data;
 
-    DECLARE_NO_COPY_CLASS(wxBitmapDataObject)
+    wxDECLARE_NO_COPY_CLASS(wxBitmapDataObject);
 };
 
 // ----------------------------------------------------------------------------
@@ -60,7 +60,7 @@ private:
 // FIXME did I already mention it was ugly?
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxBitmapDataObject2 : public wxBitmapDataObjectBase
+class WXDLLIMPEXP_CORE wxBitmapDataObject2 : public wxBitmapDataObjectBase
 {
 public:
     // ctors
@@ -84,14 +84,14 @@ public:
         { return SetData(len, buf); }
 
 private:
-    DECLARE_NO_COPY_CLASS(wxBitmapDataObject2)
+    wxDECLARE_NO_COPY_CLASS(wxBitmapDataObject2);
 };
 
 // ----------------------------------------------------------------------------
 // wxFileDataObject - data object for CF_HDROP
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxFileDataObject : public wxFileDataObjectBase
+class WXDLLIMPEXP_CORE wxFileDataObject : public wxFileDataObjectBase
 {
 public:
     wxFileDataObject() { }
@@ -112,14 +112,14 @@ public:
         { return SetData(len, buf); }
 
 private:
-    DECLARE_NO_COPY_CLASS(wxFileDataObject)
+    wxDECLARE_NO_COPY_CLASS(wxFileDataObject);
 };
 
 // ----------------------------------------------------------------------------
 // wxURLDataObject: data object for URLs
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxURLDataObject : public wxDataObjectComposite
+class WXDLLIMPEXP_CORE wxURLDataObject : public wxDataObjectComposite
 {
 public:
     // initialize with URL in ctor or use SetURL later
@@ -140,7 +140,7 @@ private:
     // last data object we got data in
     wxDataObjectSimple *m_dataObjectLast;
 
-    DECLARE_NO_COPY_CLASS(wxURLDataObject)
+    wxDECLARE_NO_COPY_CLASS(wxURLDataObject);
 };
 
 #endif // _WX_MSW_OLE_DATAOBJ2_H

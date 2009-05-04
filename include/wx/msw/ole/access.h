@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     2003-02-12
-// RCS-ID:      $Id: access.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: access.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2003 Julian Smart
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@
 // ----------------------------------------------------------------------------
 
 class wxIAccessible;
-class WXDLLEXPORT wxWindow;
+class WXDLLIMPEXP_FWD_CORE wxWindow;
 
 // ----------------------------------------------------------------------------
 // macros
@@ -29,7 +29,7 @@ class WXDLLEXPORT wxWindow;
 // wxAccessible implements accessibility behaviour.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxAccessible : public wxAccessibleBase
+class WXDLLIMPEXP_CORE wxAccessible : public wxAccessibleBase
 {
 public:
     wxAccessible(wxWindow *win = NULL);
@@ -59,7 +59,7 @@ private:
     void*           m_pIAccessibleStd;  // the pointer to the standard COM interface,
                                         // for default processing
 
-    DECLARE_NO_COPY_CLASS(wxAccessible)
+    wxDECLARE_NO_COPY_CLASS(wxAccessible);
 };
 
 #endif  //wxUSE_ACCESSIBILITY

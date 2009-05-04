@@ -79,7 +79,7 @@ void bmx_wxdc_gettextextent(MaxDC * dc, BBString * text, int * w, int * h) {
 	*h = s.y;
 }
 
-void bmx_wxdc_setmapmode(MaxDC * dc, int mode) {
+void bmx_wxdc_setmapmode(MaxDC * dc, wxMappingMode mode) {
 	dc->GetDC()->SetMapMode(mode);
 }
 
@@ -143,9 +143,9 @@ void wx_wxdc_calcboundingbox(MaxDC * dc, int x, int y) {
 	dc->GetDC()->CalcBoundingBox(x, y);
 }
 
-void wx_wxdc_computescaleandorigin(MaxDC * dc) {
-	dc->GetDC()->ComputeScaleAndOrigin();
-}
+//void wx_wxdc_computescaleandorigin(MaxDC * dc) {
+//	dc->GetDC()->ComputeScaleAndOrigin();
+//}
 
 void wx_wxdc_crosshair(MaxDC * dc, int x, int y) {
 	dc->GetDC()->CrossHair(x, y);
@@ -228,7 +228,7 @@ void bmx_wxdc_drawlines(MaxDC * dc, BBArray * p, int xOffset, int yOffset) {
 	dc->GetDC()->DrawLines(n, points, xOffset, yOffset);
 }
 
-void bmx_wxdc_drawpolygon(MaxDC * dc, BBArray * p, int xOffset, int yOffset, int fillStyle) {
+void bmx_wxdc_drawpolygon(MaxDC * dc, BBArray * p, int xOffset, int yOffset, wxPolygonFillMode fillStyle) {
 	int n= p->scales[0] / 2;
 	int *s=(int*)BBARRAYDATA( p,p->dims );
 	wxPoint points[n];
@@ -266,8 +266,8 @@ void bmx_wxdc_endpage(MaxDC * dc) {
 	dc->GetDC()->EndPage();
 }
 
-bool bmx_wxdc_floodfill(MaxDC * dc, int x, int y, MaxColour * colour, int style) {
-	return dc->GetDC()->FloodFill(x, y, colour->Colour(), style);
+bool bmx_wxdc_floodfill(MaxDC * dc, int x, int y, MaxColour * colour, wxFloodFillStyle style) {
+	return dc->GetDC()->FloodFill(wxPoint(x, y), colour->Colour(), style);
 }
 
 MaxBrush * bmx_wxdc_getbackground(MaxDC * dc) {
@@ -305,7 +305,7 @@ int bmx_wxdc_getlogicalfunction(MaxDC * dc) {
 	return dc->GetDC()->GetLogicalFunction();
 }
 
-int bmx_wxdc_getmapmode(MaxDC * dc) {
+wxMappingMode bmx_wxdc_getmapmode(MaxDC * dc) {
 	return dc->GetDC()->GetMapMode();
 }
 
@@ -434,7 +434,7 @@ void bmx_wxdc_setlayoutdirection(MaxDC * dc, wxLayoutDirection dir) {
 	dc->GetDC()->SetLayoutDirection(dir);
 }
 
-void bmx_wxdc_setlogicalfunction(MaxDC * dc, int func) {
+void bmx_wxdc_setlogicalfunction(MaxDC * dc, wxRasterOperationMode func) {
 	dc->GetDC()->SetLogicalFunction(func);
 }
 

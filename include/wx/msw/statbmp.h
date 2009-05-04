@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: statbmp.h 51824 2008-02-16 01:59:21Z SN $
+// RCS-ID:      $Id: statbmp.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,10 +16,10 @@
 #include "wx/icon.h"
 #include "wx/bitmap.h"
 
-extern WXDLLEXPORT_DATA(const wxChar) wxStaticBitmapNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxStaticBitmapNameStr[];
 
 // a control showing an icon or a bitmap
-class WXDLLEXPORT wxStaticBitmap : public wxStaticBitmapBase
+class WXDLLIMPEXP_CORE wxStaticBitmap : public wxStaticBitmapBase
 {
 public:
     wxStaticBitmap() { Init(); }
@@ -54,8 +54,10 @@ public:
 
     virtual WXDWORD MSWGetStyle(long style, WXDWORD *exstyle) const;
 
+    // returns true if the platform should explicitly apply a theme border
+    virtual bool CanApplyThemeBorder() const { return false; }
+
 protected:
-    virtual wxBorder GetDefaultBorder() const;
     virtual wxSize DoGetBestSize() const;
 
     // ctor/dtor helpers
@@ -68,11 +70,12 @@ protected:
     void SetImage(const wxGDIImage* image);
     void SetImageNoCopy( wxGDIImage* image );
 
-#if wxABI_VERSION >= 20808
+#ifndef __WXWINCE__
     // draw the bitmap ourselves here if the OS can't do it correctly (if it
     // can we leave it to it)
     void DoPaintManually(wxPaintEvent& event);
-#endif
+#endif // !__WXWINCE__
+
 
     // we can have either an icon or a bitmap
     bool m_isIcon;
@@ -83,7 +86,7 @@ protected:
 
 private:
     DECLARE_DYNAMIC_CLASS(wxStaticBitmap)
-    DECLARE_NO_COPY_CLASS(wxStaticBitmap)
+    wxDECLARE_NO_COPY_CLASS(wxStaticBitmap);
 };
 
 #endif

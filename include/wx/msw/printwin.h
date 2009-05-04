@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: printwin.h 42522 2006-10-27 13:07:40Z JS $
+// RCS-ID:      $Id: printwin.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@
 // Represents the printer: manages printing a wxPrintout object
 // ---------------------------------------------------------------------------
 
-class WXDLLEXPORT wxWindowsPrinter : public wxPrinterBase
+class WXDLLIMPEXP_CORE wxWindowsPrinter : public wxPrinterBase
 {
     DECLARE_DYNAMIC_CLASS(wxWindowsPrinter)
 
@@ -36,7 +36,7 @@ public:
 private:
     WXFARPROC     m_lpAbortProc;
 
-    DECLARE_NO_COPY_CLASS(wxWindowsPrinter)
+    wxDECLARE_NO_COPY_CLASS(wxWindowsPrinter);
 };
 
 // ---------------------------------------------------------------------------
@@ -44,7 +44,9 @@ private:
 // wxPrintout.
 // ---------------------------------------------------------------------------
 
-class WXDLLEXPORT wxWindowsPrintPreview : public wxPrintPreviewBase
+#define wxUSE_HIGH_QUALITY_PREVIEW (wxUSE_IMAGE && wxUSE_WXDIB)
+
+class WXDLLIMPEXP_CORE wxWindowsPrintPreview : public wxPrintPreviewBase
 {
 public:
     wxWindowsPrintPreview(wxPrintout *printout,
@@ -58,7 +60,22 @@ public:
     virtual bool Print(bool interactive);
     virtual void DetermineScaling();
 
+#if wxUSE_HIGH_QUALITY_PREVIEW
+protected:
+    bool RenderPageIntoBitmapHQ(wxBitmap& bmp, int pageNum);
+    virtual bool RenderPageIntoBitmap(wxBitmap& bmp, int pageNum);
+
 private:
+    bool RenderPageFragment(float scaleX, float scaleY,
+                            int *nextFinalLine,
+                            wxPrinterDC& printer,
+                            wxMemoryDC& finalDC,
+                            const wxRect& rect,
+                            int pageNum);
+
+    bool m_hqPreviewFailed;
+#endif // wxUSE_HIGH_QUALITY_PREVIEW
+
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxWindowsPrintPreview)
 };
 

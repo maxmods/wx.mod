@@ -34,12 +34,12 @@ MaxVScrolledWindow::~MaxVScrolledWindow() {
 	wxunbind(this);
 }
 
-wxCoord MaxVScrolledWindow::OnGetLineHeight(size_t n) const {
-	return _wx_wxvscrolledwindow_wxVScrolledWindow__OnGetLineHeight(this, n);
+wxCoord MaxVScrolledWindow::OnGetRowHeight(size_t n) const {
+	return _wx_wxvscrolledwindow_wxVScrolledWindow__OnGetRowHeight(this, n);
 }
 
-void MaxVScrolledWindow::OnGetLinesHint(size_t lineMin, size_t lineMax) const {
-	_wx_wxvscrolledwindow_wxVScrolledWindow__OnGetLinesHint(this, lineMin, lineMax);
+void MaxVScrolledWindow::OnGetRowsHeightHint(size_t lineMin, size_t lineMax) const {
+	_wx_wxvscrolledwindow_wxVScrolledWindow__OnGetRowsHeightHint(this, lineMin, lineMax);
 }
 
 
@@ -52,16 +52,16 @@ MaxVScrolledWindow * bmx_wxvscrolledwindow_create(BBObject * maxHandle, wxWindow
 	return new MaxVScrolledWindow(maxHandle, parent, id, x, y, w, h, style);
 }
 
-int bmx_wxvscrolledwindow_getfirstvisibleline(wxVScrolledWindow * window) {
-	return window->GetFirstVisibleLine();
+int bmx_wxvscrolledwindow_getvisiblerowsbegin(wxVScrolledWindow * window) {
+	return window->GetVisibleRowsBegin();
 }
 
-int bmx_wxvscrolledwindow_getlastvisibleline(wxVScrolledWindow * window) {
-	return window->GetLastVisibleLine();
+int bmx_wxvscrolledwindow_getvisiblerowsend(wxVScrolledWindow * window) {
+	return window->GetVisibleRowsEnd();
 }
 
-int bmx_wxvscrolledwindow_getlinecount(wxVScrolledWindow * window) {
-	return window->GetLineCount();
+int bmx_wxvscrolledwindow_getrowcount(wxVScrolledWindow * window) {
+	return window->GetRowCount();
 }
 
 int bmx_wxvscrolledwindow_getvisiblebegin(wxVScrolledWindow * window) {
@@ -80,32 +80,32 @@ bool bmx_wxvscrolledwindow_isvisible(wxVScrolledWindow * window, int line) {
 	return window->IsVisible(line);
 }
 
-void bmx_wxvscrolledwindow_refreshline(wxVScrolledWindow * window, int line) {
-	window->RefreshLine(line);
+void bmx_wxvscrolledwindow_refreshrow(wxVScrolledWindow * window, int line) {
+	window->RefreshRow(line);
 }
 
-void bmx_wxvscrolledwindow_refreshlines(wxVScrolledWindow * window, int fromLine, int toLine) {
-	window->RefreshLines(fromLine, toLine);
+void bmx_wxvscrolledwindow_refreshrows(wxVScrolledWindow * window, int fromLine, int toLine) {
+	window->RefreshRows(fromLine, toLine);
 }
 
 void bmx_wxvscrolledwindow_refreshall(wxVScrolledWindow * window) {
 	window->RefreshAll();
 }
 
-bool bmx_wxvscrolledwindow_scrolllines(wxVScrolledWindow * window, int lines) {
-	return window->ScrollLines(lines);
+bool bmx_wxvscrolledwindow_scrollrows(wxVScrolledWindow * window, int lines) {
+	return window->ScrollRows(lines);
 }
 
-bool bmx_wxvscrolledwindow_scrollpages(wxVScrolledWindow * window, int pages) {
-	return window->ScrollPages(pages);
+bool bmx_wxvscrolledwindow_scrollrowpages(wxVScrolledWindow * window, int pages) {
+	return window->ScrollRowPages(pages);
 }
 
-bool bmx_wxvscrolledwindow_scrolltoline(wxVScrolledWindow * window, int line) {
-	return window->ScrollToLine(line);
+bool bmx_wxvscrolledwindow_scrolltorow(wxVScrolledWindow * window, int line) {
+	return window->ScrollToRow(line);
 }
 
-void bmx_wxvscrolledwindow_setlinecount(wxVScrolledWindow * window, int count) {
-	window->SetLineCount(count);
+void bmx_wxvscrolledwindow_setrowcount(wxVScrolledWindow * window, int count) {
+	window->SetRowCount(count);
 }
 
 

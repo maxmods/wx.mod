@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: caret.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: caret.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_CARET_H_
 #define _WX_CARET_H_
 
-class WXDLLEXPORT wxCaret : public wxCaretBase
+class WXDLLIMPEXP_CORE wxCaret : public wxCaretBase
 {
 public:
     wxCaret() { Init(); }
@@ -56,7 +56,7 @@ protected:
 private:
     bool m_hasCaret;
 
-    DECLARE_NO_COPY_CLASS(wxCaret)
+    wxDECLARE_NO_COPY_CLASS(wxCaret);
 };
 
 #endif // _WX_CARET_H_

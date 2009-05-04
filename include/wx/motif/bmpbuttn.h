@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: bmpbuttn.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: bmpbuttn.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 
 #define wxDEFAULT_BUTTON_MARGIN 4
 
-class WXDLLEXPORT wxBitmapButton: public wxBitmapButtonBase
+class WXDLLIMPEXP_CORE wxBitmapButton: public wxBitmapButtonBase
 {
     DECLARE_DYNAMIC_CLASS(wxBitmapButton)
 public:

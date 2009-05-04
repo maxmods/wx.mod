@@ -2,7 +2,7 @@
 // Name:        tbargtk.h
 // Purpose:     GTK toolbar
 // Author:      Robert Roebling
-// RCS-ID:      $Id: tbargtk.h 44317 2007-01-25 23:35:07Z RD $
+// RCS-ID:      $Id: tbargtk.h 55354 2008-08-29 15:46:48Z PC $
 // Copyright:   (c) Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -37,14 +37,10 @@ public:
                  wxWindowID id,
                  const wxPoint& pos = wxDefaultPosition,
                  const wxSize& size = wxDefaultSize,
-                 long style = 0,
+                 long style = wxTB_HORIZONTAL,
                  const wxString& name = wxToolBarNameStr );
 
     virtual ~wxToolBar();
-
-    // override base class virtuals
-    virtual void SetMargins(int x, int y);
-    virtual void SetToolSeparation(int separation);
 
     virtual wxToolBarToolBase *FindToolForPosition(wxCoord x, wxCoord y) const;
 
@@ -52,33 +48,21 @@ public:
 
     virtual void SetWindowStyleFlag( long style );
 
-#if wxABI_VERSION >= 20802
-    // TODO: In 2.9 these should probably be virtual, and declared in the base class...
-    void SetToolNormalBitmap(int id, const wxBitmap& bitmap);
-    void SetToolDisabledBitmap(int id, const wxBitmap& bitmap);
-#endif
-    
+    virtual void SetToolNormalBitmap(int id, const wxBitmap& bitmap);
+    virtual void SetToolDisabledBitmap(int id, const wxBitmap& bitmap);
+
     static wxVisualAttributes
     GetClassDefaultAttributes(wxWindowVariant variant = wxWINDOW_VARIANT_NORMAL);
-    
+
     // implementation from now on
     // --------------------------
-
-    GtkToolbar   *m_toolbar;
-
-    bool          m_blockEvent;
 
     void OnInternalIdle();
 
 protected:
-    // common part of all ctors
-    void Init();
-
-    // set the GTK toolbar style and orientation
-    void GtkSetStyle();
-
+    virtual wxSize DoGetBestSize() const;
     virtual GdkWindow *GTKGetWindow(wxArrayGdkWindows& windows) const;
-    
+
     // implement base class pure virtuals
     virtual bool DoInsertTool(size_t pos, wxToolBarToolBase *tool);
     virtual bool DoDeleteTool(size_t pos, wxToolBarToolBase *tool);
@@ -95,9 +79,18 @@ protected:
                                           wxObject *clientData,
                                           const wxString& shortHelpString,
                                           const wxString& longHelpString);
-    virtual wxToolBarToolBase *CreateTool(wxControl *control);
+    virtual wxToolBarToolBase *CreateTool(wxControl *control,
+                                          const wxString& label);
 
 private:
+    void Init();
+    void GtkSetStyle();
+    GSList* GetRadioGroup(size_t pos);
+    virtual void AddChildGTK(wxWindowGTK* child);
+
+    GtkToolbar* m_toolbar;
+    GtkTooltips* m_tooltips;
+
     DECLARE_DYNAMIC_CLASS(wxToolBar)
 };
 

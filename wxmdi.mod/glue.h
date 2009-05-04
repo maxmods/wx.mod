@@ -42,7 +42,7 @@ extern "C" {
 	void bmx_wxmdiparentframe_cascade(wxMDIParentFrame * frame);
 	void bmx_wxmdiparentframe_getclientsize(wxMDIParentFrame * frame, int * width, int * height);
 	wxMDIChildFrame * bmx_wxmdiparentframe_getactivechild(wxMDIParentFrame * frame);
-	wxMDIClientWindow * bmx_wxmdiparentframe_getclientwindow(wxMDIParentFrame * frame);
+	wxMDIClientWindowBase * bmx_wxmdiparentframe_getclientwindow(wxMDIParentFrame * frame);
 #ifdef WIN32
 	wxMenu * bmx_wxmdiparentframe_getwindowmenu(wxMDIParentFrame * frame);
 	void bmx_wxmdiparentframe_setwindowmenu(wxMDIParentFrame * frame, wxMenu * menu);

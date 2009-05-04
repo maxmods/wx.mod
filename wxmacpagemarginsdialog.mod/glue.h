@@ -21,7 +21,7 @@
 */ 
 
 #include "wxglue.h"
-#include "wx/mac/carbon/printdlg.h"
+#include "wx/osx/printdlg.h"
 #include "../wxpagesetupdialogdata.mod/glue.h"
 
 class MaxMacPageMarginsDialog;

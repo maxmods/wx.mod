@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/27/99
-// RCS-ID:      $Id: frame.h 27408 2004-05-23 20:53:33Z JS $
+// RCS-ID:      $Id: frame.h 56456 2008-10-20 06:55:10Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 //
 #include "wx/os2/wxrsc.h"
 
-class WXDLLEXPORT wxFrame : public wxFrameBase
+class WXDLLIMPEXP_CORE wxFrame : public wxFrameBase
 {
 public:
     // construction
@@ -125,8 +125,6 @@ public:
     void   SetToolTipCtrl(WXHWND hHwndTT) { m_hWndToolTip = hHwndTT; }
 #endif // tooltips
 
-    virtual void SendSizeEvent(void);
-
     void      SetClient(WXHWND    c_Hwnd);
     void      SetClient(wxWindow* c_Window);
     wxWindow *GetClient();
@@ -217,6 +215,8 @@ private:
     DECLARE_DYNAMIC_CLASS(wxFrame)
 };
 
+MRESULT EXPENTRY wxFrameWndProc(HWND  hWnd,ULONG ulMsg, MPARAM wParam, MPARAM lParam);
+MRESULT EXPENTRY wxFrameMainWndProc(HWND  hWnd,ULONG ulMsg, MPARAM wParam, MPARAM lParam);
 #endif
     // _WX_FRAME_H_
 

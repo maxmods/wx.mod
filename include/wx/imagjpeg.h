@@ -2,7 +2,7 @@
 // Name:        imagjpeg.h
 // Purpose:     wxImage JPEG handler
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id: imagjpeg.h 37393 2006-02-08 21:47:09Z VZ $
+// RCS-ID:      $Id: imagjpeg.h 59461 2009-03-09 23:13:34Z VZ $
 // Copyright:   (c) Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,13 +20,15 @@
 
 #include "wx/image.h"
 
-class WXDLLEXPORT wxJPEGHandler: public wxImageHandler
+class WXDLLIMPEXP_CORE wxJPEGHandler: public wxImageHandler
 {
 public:
     inline wxJPEGHandler()
     {
         m_name = wxT("JPEG file");
         m_extension = wxT("jpg");
+        m_altExtensions.Add(wxT("jpeg"));
+        m_altExtensions.Add(wxT("jpe"));
         m_type = wxBITMAP_TYPE_JPEG;
         m_mime = wxT("image/jpeg");
     }

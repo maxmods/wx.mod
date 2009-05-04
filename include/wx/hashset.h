@@ -4,7 +4,7 @@
 // Author:      Mattia Barbon
 // Modified by:
 // Created:     11/08/2003
-// RCS-ID:      $Id: hashset.h 55215 2008-08-23 18:54:04Z VZ $
+// RCS-ID:      $Id: hashset.h 54169 2008-06-12 18:43:41Z VZ $
 // Copyright:   (c) Mattia Barbon
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -116,7 +116,7 @@ public:                                                                      \
 
 #define WX_DECLARE_EXPORTED_HASH_SET( KEY_T, HASH_T, KEY_EQ_T, CLASSNAME) \
     WX_DECLARE_HASH_SET_WITH_DECL( KEY_T, HASH_T, KEY_EQ_T, \
-                                   CLASSNAME, class WXDLLEXPORT )
+                                   CLASSNAME, class WXDLLIMPEXP_CORE )
 
 // delete all hash elements
 //

@@ -3,7 +3,7 @@
 // Author:      Vaclav Slavik
 // Purpose:     wxFont declaration
 // Created:     2006-08-08
-// RCS-ID:      $Id: font.h 43550 2006-11-20 20:45:57Z VS $
+// RCS-ID:      $Id: font.h 59564 2009-03-15 16:28:33Z FM $
 // Copyright:   (c) 2006 REA Elektronik GmbH
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -24,6 +24,7 @@ class WXDLLIMPEXP_CORE wxFont : public wxFontBase
 public:
     wxFont() {}
     wxFont(const wxNativeFontInfo& info) { Create(info); }
+#if FUTURE_WXWIN_COMPATIBILITY_3_0
     wxFont(int size,
            int family,
            int style,
@@ -32,13 +33,37 @@ public:
            const wxString& face = wxEmptyString,
            wxFontEncoding encoding = wxFONTENCODING_DEFAULT)
     {
+        (void)Create(size, (wxFontFamily)family, (wxFontStyle)style, (wxFontWeight)weight, underlined, face, encoding);
+    }
+#endif
+
+    wxFont(int size,
+           wxFontFamily family,
+           wxFontStyle style,
+           wxFontWeight weight,
+           bool underlined = false,
+           const wxString& face = wxEmptyString,
+           wxFontEncoding encoding = wxFONTENCODING_DEFAULT)
+    {
         Create(size, family, style, weight, underlined, face, encoding);
     }
-
+    
+    wxFont(const wxSize& pixelSize,
+           wxFontFamily family,
+           wxFontStyle style,
+           wxFontWeight weight,
+           bool underlined = false,
+           const wxString& face = wxEmptyString,
+           wxFontEncoding encoding = wxFONTENCODING_DEFAULT)
+    {
+        Create(10, family, style, weight, underlined, face, encoding);
+        SetPixelSize(pixelSize);
+    }
+    
     bool Create(int size,
-                int family,
-                int style,
-                int weight,
+                wxFontFamily family,
+                wxFontStyle style,
+                wxFontWeight weight,
                 bool underlined = false,
                 const wxString& face = wxEmptyString,
                 wxFontEncoding encoding = wxFONTENCODING_DEFAULT);
@@ -46,9 +71,9 @@ public:
 
     // implement base class pure virtuals
     virtual int GetPointSize() const;
-    virtual int GetFamily() const;
-    virtual int GetStyle() const;
-    virtual int GetWeight() const;
+    virtual wxFontFamily GetFamily() const;
+    virtual wxFontStyle GetStyle() const;
+    virtual wxFontWeight GetWeight() const;
     virtual wxString GetFaceName() const;
     virtual bool GetUnderlined() const;
     virtual wxFontEncoding GetEncoding() const;
@@ -56,12 +81,14 @@ public:
     virtual const wxNativeFontInfo *GetNativeFontInfo() const;
 
     virtual void SetPointSize(int pointSize);
-    virtual void SetFamily(int family);
-    virtual void SetStyle(int style);
-    virtual void SetWeight(int weight);
+    virtual void SetFamily(wxFontFamily family);
+    virtual void SetStyle(wxFontStyle style);
+    virtual void SetWeight(wxFontWeight weight);
     virtual bool SetFaceName(const wxString& faceName);
     virtual void SetUnderlined(bool underlined);
     virtual void SetEncoding(wxFontEncoding encoding);
+
+    WXDECLARE_COMPAT_SETTERS
 
     // Unofficial API, don't use
     virtual void SetNoAntiAliasing(bool no = true);
@@ -71,9 +98,8 @@ public:
     wxIDirectFBFontPtr GetDirectFBFont(bool antialiased) const;
 
 protected:
-    // ref counting code
-    virtual wxObjectRefData *CreateRefData() const;
-    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
+    virtual wxGDIRefData *CreateGDIRefData() const;
+    virtual wxGDIRefData *CloneGDIRefData(const wxGDIRefData *data) const;
 
 private:
     DECLARE_DYNAMIC_CLASS(wxFont)

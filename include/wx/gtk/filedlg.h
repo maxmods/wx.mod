@@ -2,21 +2,21 @@
 // Name:        filedlg.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: filedlg.h 39402 2006-05-28 23:32:12Z VZ $
+// Id:          $Id: filedlg.h 55354 2008-08-29 15:46:48Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GTKFILEDLGH__
-#define __GTKFILEDLGH__
+#ifndef _WX_GTKFILEDLG_H_
+#define _WX_GTKFILEDLG_H_
 
-#include "wx/generic/filedlgg.h"
+#include "wx/gtk/filectrl.h"    // for wxGtkFileChooser
 
 //-------------------------------------------------------------------------
 // wxFileDialog
 //-------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxFileDialog: public wxGenericFileDialog
+class WXDLLIMPEXP_CORE wxFileDialog: public wxFileDialogBase
 {
 public:
     wxFileDialog() { }
@@ -30,8 +30,7 @@ public:
                  const wxPoint& pos = wxDefaultPosition,
                  const wxSize& sz = wxDefaultSize,
                  const wxString& name = wxFileDialogNameStr);
-
-    virtual ~wxFileDialog() {}
+    virtual ~wxFileDialog();
 
     virtual wxString GetPath() const;
     virtual void GetPaths(wxArrayString& paths) const;
@@ -48,8 +47,8 @@ public:
     virtual void SetFilterIndex(int filterIndex);
 
     virtual int ShowModal();
-    virtual bool Show( bool show = true );
 
+    virtual bool SupportsExtraControl() const { return true; }
 
 
 protected:
@@ -61,9 +60,14 @@ protected:
 
 
 private:
+    void OnFakeOk( wxCommandEvent &event );
+    void OnSize(wxSizeEvent&);
+    virtual void AddChildGTK(wxWindowGTK* child);
+
+    wxGtkFileChooser    m_fc;
+
     DECLARE_DYNAMIC_CLASS(wxFileDialog)
     DECLARE_EVENT_TABLE()
-    void OnFakeOk( wxCommandEvent &event );
 };
 
-#endif // __GTKFILEDLGH__
+#endif // _WX_GTKFILEDLG_H_

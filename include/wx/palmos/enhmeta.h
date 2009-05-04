@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: enhmeta.h 41751 2006-10-08 21:56:55Z VZ $
+// RCS-ID:      $Id: enhmeta.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -13,6 +13,7 @@
 #define _WX_PALMOS_ENHMETA_H_
 
 #include "wx/dc.h"
+#include "wx/gdiobj.h"
 
 #if wxUSE_DRAG_AND_DROP
     #include "wx/dataobj.h"
@@ -22,7 +23,7 @@
 // wxEnhMetaFile: encapsulation of Win32 HENHMETAFILE
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxEnhMetaFile : public wxObject
+class WXDLLIMPEXP_CORE wxEnhMetaFile : public wxGDIObject
 {
 public:
     wxEnhMetaFile(const wxString& file = wxEmptyString) : m_filename(file)
@@ -36,11 +37,10 @@ public:
         { Free(); }
 
     // display the picture stored in the metafile on the given DC
-    bool Play(wxDC *dc, wxRect *rectBound = (wxRect *)NULL);
+    bool Play(wxDC *dc, wxRect *rectBound = NULL);
 
     // accessors
-    bool Ok() const { return IsOk(); }
-    bool IsOk() const { return m_hMF != 0; }
+    virtual bool IsOk() const { return m_hMF != 0; }
 
     wxSize GetSize() const;
     int GetWidth() const { return GetSize().x; }
@@ -73,7 +73,7 @@ private:
 // wxEnhMetaFileDC: allows to create a wxEnhMetaFile
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxEnhMetaFileDC : public wxDC
+class WXDLLIMPEXP_CORE wxEnhMetaFileDC : public wxDC
 {
 public:
     // the ctor parameters specify the filename (empty for memory metafiles),
@@ -99,7 +99,7 @@ private:
 
 // notice that we want to support both CF_METAFILEPICT and CF_ENHMETAFILE and
 // so we derive from wxDataObject and not from wxDataObjectSimple
-class WXDLLEXPORT wxEnhMetaFileDataObject : public wxDataObject
+class WXDLLIMPEXP_CORE wxEnhMetaFileDataObject : public wxDataObject
 {
 public:
     // ctors
@@ -126,7 +126,7 @@ public:
 protected:
     wxEnhMetaFile m_metafile;
 
-    DECLARE_NO_COPY_CLASS(wxEnhMetaFileDataObject)
+    wxDECLARE_NO_COPY_CLASS(wxEnhMetaFileDataObject);
 };
 
 
@@ -137,7 +137,7 @@ protected:
 // CF_ENHMETAFILE
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxEnhMetaFileSimpleDataObject : public wxDataObjectSimple
+class WXDLLIMPEXP_CORE wxEnhMetaFileSimpleDataObject : public wxDataObjectSimple
 {
 public:
     // ctors
@@ -169,7 +169,7 @@ public:
 protected:
     wxEnhMetaFile m_metafile;
 
-    DECLARE_NO_COPY_CLASS(wxEnhMetaFileSimpleDataObject)
+    wxDECLARE_NO_COPY_CLASS(wxEnhMetaFileSimpleDataObject);
 };
 
 #endif // wxUSE_DRAG_AND_DROP

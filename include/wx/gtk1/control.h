@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/control.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: control.h 37341 2006-02-05 22:58:41Z VZ $
+// Id:          $Id: control.h 47254 2007-07-09 10:09:52Z VS $
 // Copyright:   (c) 1998 Robert Roebling, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@
 // classes
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxControl;
+class WXDLLIMPEXP_FWD_CORE wxControl;
 
 typedef struct _GtkLabel GtkLabel;
 typedef struct _GtkFrame GtkFrame;

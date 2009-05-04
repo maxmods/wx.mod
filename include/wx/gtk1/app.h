@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/app.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: app.h 37065 2006-01-23 02:28:01Z MR $
+// Id:          $Id: app.h 59711 2009-03-21 23:36:37Z VZ $
 // Copyright:   (c) 1998 Robert Roebling, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,8 +18,8 @@
 // classes
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxApp;
-class WXDLLIMPEXP_BASE wxLog;
+class WXDLLIMPEXP_FWD_CORE wxApp;
+class WXDLLIMPEXP_FWD_BASE wxLog;
 
 //-----------------------------------------------------------------------------
 // wxApp
@@ -38,7 +38,6 @@ public:
     virtual bool OnInitGui();
 
     // override base class (pure) virtuals
-    virtual bool Yield(bool onlyIfNeeded = FALSE);
     virtual void WakeUpIdle();
 
     virtual bool Initialize(int& argc, wxChar **argv);
@@ -46,11 +45,13 @@ public:
 
     static bool InitialzeVisual();
 
-#ifdef __WXDEBUG__
-    virtual void OnAssert(const wxChar *file, int line, const wxChar *cond, const wxChar *msg);
+    virtual void OnAssertFailure(const wxChar *file,
+                                 int line,
+                                 const wxChar *func,
+                                 const wxChar *cond,
+                                 const wxChar *msg);
 
     bool IsInAssert() const { return m_isInAssert; }
-#endif // __WXDEBUG__
 
     gint            m_idleTag;
     void RemoveIdleTag();
@@ -67,12 +68,9 @@ public:
 
 private:
     // true if we're inside an assert modal dialog
-#ifdef __WXDEBUG__
     bool m_isInAssert;
-#endif // __WXDEBUG__
 
     DECLARE_DYNAMIC_CLASS(wxApp)
-    DECLARE_EVENT_TABLE()
 };
 
 #endif // __GTKAPPH__

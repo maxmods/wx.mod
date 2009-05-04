@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2003/08/11
-// RCS-ID:      $Id: icon.h 42077 2006-10-17 14:44:52Z ABX $
+// RCS-ID:      $Id: icon.h 55779 2008-09-21 21:09:36Z FM $
 // Copyright:   (c) 2003 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,27 +18,23 @@
 // ========================================================================
 // wxIcon
 // ========================================================================
-class WXDLLEXPORT wxIcon: public wxGDIObject
+class WXDLLIMPEXP_CORE wxIcon : public wxGDIObject
 {
-    DECLARE_DYNAMIC_CLASS(wxIcon)
 public:
     wxIcon();
 
-    wxIcon(const char **data) { CreateFromXpm(data); }
-    wxIcon(char **data) { CreateFromXpm((const char**)data); }
+    wxIcon(const char* const* data) { CreateFromXpm(data); }
     wxIcon(const char bits[], int width , int height );
-    wxIcon(const wxString& name, int flags = wxBITMAP_TYPE_ICON_RESOURCE,
-        int desiredWidth = -1, int desiredHeight = -1);
+    wxIcon(const wxString& name, int flags = wxICON_DEFAULT_TYPE,
+           int desiredWidth = -1, int desiredHeight = -1);
     wxIcon(const wxIconLocation& loc)
     {
         LoadFile(loc.GetFileName(), wxBITMAP_TYPE_ICON);
     }
     virtual ~wxIcon();
 
-    bool LoadFile(const wxString& name, wxBitmapType flags /* = wxBITMAP_TYPE_ICON_RESOURCE */ ,
-        int desiredWidth /* = -1 */ , int desiredHeight = -1);
-    bool LoadFile(const wxString& name, wxBitmapType flags = wxBITMAP_TYPE_ICON_RESOURCE )
-    {   return LoadFile( name , flags , -1 , -1 ) ; }
+    bool LoadFile(const wxString& name, wxBitmapType flags = wxICON_DEFAULT_TYPE,
+                  int desiredWidth=-1, int desiredHeight=-1);
 
     bool operator==(const wxIcon& icon) const
     {   return m_refData == icon.m_refData; }
@@ -49,14 +45,18 @@ public:
     // ctors, assignment operators...), but it's ok to have such function
     void CopyFromBitmap(const wxBitmap& bmp);
 
-    bool Ok() const { return IsOk(); }
-    bool IsOk() const;
     int GetWidth() const;
     int GetHeight() const;
 
     WX_NSImage GetNSImage() const;
-    bool CreateFromXpm(const char **bits);
+    bool CreateFromXpm(const char* const* bits);
+
+protected:
+    virtual wxGDIRefData *CreateGDIRefData() const;
+    virtual wxGDIRefData *CloneGDIRefData(const wxGDIRefData *data) const;
+
+private:
+    DECLARE_DYNAMIC_CLASS(wxIcon)
 };
 
-#endif
-    // _WX_COCOA_ICON_H__
+#endif // _WX_COCOA_ICON_H__

@@ -70,9 +70,9 @@
 //-----------------------------------------------------------------------------
 // wxWidgets 2.6 compatibility with code from >= 2.6
 
-#ifndef wxEVT_SCROLL_CHANGED
-    #define wxEVT_SCROLL_CHANGED wxEVT_SCROLL_ENDSCROLL
-#endif
+//#ifndef wxEVT_SCROLL_CHANGED
+  //  #define wxEVT_SCROLL_CHANGED wxEVT_SCROLL_ENDSCROLL
+//#endif
 
 #if wxCHECK_VERSION(2,7,0)
     #define wxRECT_CONTAINS(rect, pt) rect.Contains(pt)

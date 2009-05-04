@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2003/03/16
-// RCS-ID:      $Id: checklst.h 38319 2006-03-23 22:05:23Z VZ $
+// RCS-ID:      $Id: checklst.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2003 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 // ========================================================================
 // wxCheckListBox
 // ========================================================================
-class WXDLLEXPORT wxCheckListBox: public wxCheckListBoxBase //, protected wxCocoaNSTableView
+class WXDLLIMPEXP_CORE wxCheckListBox: public wxCheckListBoxBase //, protected wxCocoaNSTableView
 {
     DECLARE_DYNAMIC_CLASS(wxCheckListBox)
     DECLARE_EVENT_TABLE()

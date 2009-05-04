@@ -4,7 +4,7 @@
 // Author:      Marco Cavallini
 // Modified by:
 // Created:     16/11/2002
-// RCS-ID:
+// RCS-ID:      $Id: missing.h 58022 2009-01-11 12:00:51Z FM $
 // Copyright:   (c) KOAN SAS ( www.koansoftware.com )
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

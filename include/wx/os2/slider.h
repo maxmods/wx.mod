@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/15/99
-// RCS-ID:      $Id: slider.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: slider.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 #include "wx/control.h"
 
 // Slider
-class WXDLLEXPORT wxSlider: public wxSliderBase
+class WXDLLIMPEXP_CORE wxSlider: public wxSliderBase
 {
 public:
   wxSlider();

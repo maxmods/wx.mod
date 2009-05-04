@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     2006-10-01
-// RCS-ID:      $Id: richtextformatdlg.h 49946 2007-11-14 14:22:56Z JS $
+// RCS-ID:      $Id: richtextformatdlg.h 49947 2007-11-14 14:42:31Z JS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -138,7 +138,7 @@ public:
     virtual bool GetStyle(wxRichTextCtrl* ctrl, const wxRichTextRange& range);
 
     /// Set the attributes and optionally update the display
-    virtual bool SetStyle(const wxTextAttrEx& style, bool update = true);
+    virtual bool SetStyle(const wxTextAttr& style, bool update = true);
 
     /// Set the style definition and optionally update the display
     virtual bool SetStyleDefinition(const wxRichTextStyleDefinition& styleDef, wxRichTextStyleSheet* sheet, bool update = true);
@@ -156,9 +156,9 @@ public:
     virtual bool ApplyStyle(wxRichTextCtrl* ctrl, const wxRichTextRange& range, int flags = wxRICHTEXT_SETSTYLE_WITH_UNDO|wxRICHTEXT_SETSTYLE_OPTIMIZE);
 
     /// Gets and sets the attributes
-    const wxTextAttrEx& GetAttributes() const { return m_attributes; }
-    wxTextAttrEx& GetAttributes() { return m_attributes; }
-    void SetAttributes(const wxTextAttrEx& attr) { m_attributes = attr; }
+    const wxTextAttr& GetAttributes() const { return m_attributes; }
+    wxTextAttr& GetAttributes() { return m_attributes; }
+    void SetAttributes(const wxTextAttr& attr) { m_attributes = attr; }
 
     /// Transfers the data and from to the window
     virtual bool TransferDataToWindow();
@@ -183,7 +183,7 @@ public:
     static wxRichTextFormattingDialog* GetDialog(wxWindow* win);
 
     /// Helper for pages to get the attributes
-    static wxTextAttrEx* GetDialogAttributes(wxWindow* win);
+    static wxTextAttr* GetDialogAttributes(wxWindow* win);
 
     /// Helper for pages to get the style
     static wxRichTextStyleDefinition* GetDialogStyleDefinition(wxWindow* win);
@@ -200,7 +200,7 @@ public:
 protected:
 
     wxImageList*                                m_imageList;
-    wxTextAttrEx                                m_attributes;
+    wxTextAttr                              m_attributes;
     wxRichTextStyleDefinition*                  m_styleDefinition;
     wxRichTextStyleSheet*                       m_styleSheet;
     wxArrayInt                                  m_pageIds; // mapping of book control indexes to page ids
@@ -218,19 +218,7 @@ DECLARE_EVENT_TABLE()
 class WXDLLIMPEXP_RICHTEXT wxRichTextFontPreviewCtrl : public wxWindow
 {
 public:
-    wxRichTextFontPreviewCtrl(wxWindow *parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& sz = wxDefaultSize, long style = 0)
-    {
-        if ((style & wxBORDER_MASK) == wxBORDER_DEFAULT)
-#ifdef __WXMSW__
-            style |= GetThemedBorderStyle();
-#else
-            style |= wxBORDER_SUNKEN;
-#endif
-        wxWindow::Create(parent, id, pos, sz, style);
-
-        SetBackgroundColour(*wxWHITE);
-        m_textEffects = 0;
-    }
+    wxRichTextFontPreviewCtrl(wxWindow *parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& sz = wxDefaultSize, long style = 0);
 
     void SetTextEffects(int effects) { m_textEffects = effects; }
     int GetTextEffects() const { return m_textEffects; }

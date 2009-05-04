@@ -4,7 +4,7 @@
  * Author:      Julian Smart
  * Modified by:
  * Created:     01/02/97
- * RCS-ID:      $Id: chkconf.h 40410 2006-08-01 09:01:01Z VS $
+ * RCS-ID:      $Id: chkconf.h 47465 2007-07-14 19:06:18Z VZ $
  * Copyright:   (c) Julian Smart
  * Licence:     wxWindows licence
  */
@@ -14,10 +14,18 @@
 #ifndef _WX_X11_CHKCONF_H_
 #define _WX_X11_CHKCONF_H_
 
-
 /* wxPalette is always needed */
 #if !wxUSE_PALETTE
 #   error "wxX11 requires wxUSE_PALETTE=1"
+#endif
+
+#if wxUSE_SOCKETS && !wxUSE_SELECT_DISPATCHER
+#   ifdef wxABORT_ON_CONFIG_ERROR
+#       error "wxSocket requires wxSelectDispatcher in wxX11"
+#   else
+#       undef wxUSE_SELECT_DISPATCHER
+#       define wxUSE_SELECT_DISPATCHER 1
+#   endif
 #endif
 
 #endif /* _WX_X11_CHKCONF_H_ */

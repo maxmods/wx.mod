@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     06.03.98
-// RCS-ID:      $Id: dropsrc.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: dropsrc.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ class WXDLLIMPEXP_FWD_CORE wxWindow;
 // wxDataObject object. It's responsible for giving UI feedback while dragging.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxDropSource : public wxDropSourceBase
+class WXDLLIMPEXP_CORE wxDropSource : public wxDropSourceBase
 {
 public:
     // ctors: if you use default ctor you must call SetData() later!
@@ -71,7 +71,7 @@ protected:
 private:
     wxIDropSource *m_pIDropSource;  // the pointer to COM interface
 
-    DECLARE_NO_COPY_CLASS(wxDropSource)
+    wxDECLARE_NO_COPY_CLASS(wxDropSource);
 };
 
 #endif  //wxUSE_DRAG_AND_DROP

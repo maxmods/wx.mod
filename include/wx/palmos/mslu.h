@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: mslu.h 31469 2005-01-18 21:14:27Z ABX $
+// RCS-ID:      $Id: mslu.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 #include "wx/defs.h"
 #include "wx/utils.h"
-#include "wx/wxchar.h"
+#include "wx/chartype.h"
 
 #if !wxUSE_UNICODE_MSLU
 inline bool wxUsingUnicowsDll() { return false; }
@@ -33,7 +33,7 @@ inline bool wxUsingUnicowsDll()
 
 #if wxUSE_GUI
 
-WXDLLEXPORT int wxMSLU_DrawStateW(WXHDC dc, WXHBRUSH br, WXFARPROC outputFunc,
+WXDLLIMPEXP_CORE int wxMSLU_DrawStateW(WXHDC dc, WXHBRUSH br, WXFARPROC outputFunc,
                                   WXLPARAM lData, WXWPARAM wData,
                                   int x, int y, int cx, int cy,
                                   unsigned int flags);
@@ -41,10 +41,10 @@ WXDLLEXPORT int wxMSLU_DrawStateW(WXHDC dc, WXHBRUSH br, WXFARPROC outputFunc,
     wxMSLU_DrawStateW((WXHDC)dc,(WXHBRUSH)br,(WXFARPROC)func, \
                       ld, wd, x, y, cx, cy, flags)
 
-WXDLLEXPORT int wxMSLU_GetOpenFileNameW(void *ofn);
+WXDLLIMPEXP_CORE int wxMSLU_GetOpenFileNameW(void *ofn);
 #define GetOpenFileNameW(ofn) wxMSLU_GetOpenFileNameW((void*)ofn)
 
-WXDLLEXPORT int wxMSLU_GetSaveFileNameW(void *ofn);
+WXDLLIMPEXP_CORE int wxMSLU_GetSaveFileNameW(void *ofn);
 #define GetSaveFileNameW(ofn) wxMSLU_GetSaveFileNameW((void*)ofn)
 
 #endif
@@ -53,8 +53,8 @@ WXDLLEXPORT int wxMSLU_GetSaveFileNameW(void *ofn);
 // Missing libc file manipulation functions in Win9x
 //------------------------------------------------------------------------
 
-WXDLLEXPORT int wxMSLU__trename(const wxChar *oldname, const wxChar *newname);
-WXDLLEXPORT int wxMSLU__tremove(const wxChar *name);
+WXDLLIMPEXP_CORE int wxMSLU__trename(const wxChar *oldname, const wxChar *newname);
+WXDLLIMPEXP_CORE int wxMSLU__tremove(const wxChar *name);
 
 #endif // wxUSE_UNICODE_MSLU
 

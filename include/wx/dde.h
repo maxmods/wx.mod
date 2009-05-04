@@ -5,7 +5,7 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Julian Smart
-// RCS-ID:      $Id: dde.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: dde.h 47254 2007-07-09 10:09:52Z VS $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 

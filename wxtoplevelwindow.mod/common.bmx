@@ -74,7 +74,7 @@ Extern
 	Function bmx_wxtoplevelwindow_seticons(handle:Byte Ptr, icons:Byte Ptr)
 	Function bmx_wxtoplevelwindow_geticons:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxtoplevelwindow_setshape:Int(handle:Byte Ptr, region:Byte Ptr)
-?macos
-	Function bmx_wxtoplevelwindow_macgetwindowref:Byte Ptr(handle:Byte Ptr)
-?
+'?macos
+'	Function bmx_wxtoplevelwindow_macgetwindowref:Byte Ptr(handle:Byte Ptr)
+'?
 End Extern

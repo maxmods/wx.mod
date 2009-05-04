@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: taskbar.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: taskbar.h 47254 2007-07-09 10:09:52Z VS $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 #include "wx/icon.h"
 
 // private helper class:
-class WXDLLIMPEXP_ADV wxTaskBarIconWindow;
+class WXDLLIMPEXP_FWD_ADV wxTaskBarIconWindow;
 
 class WXDLLIMPEXP_ADV wxTaskBarIcon: public wxTaskBarIconBase
 {

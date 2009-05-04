@@ -1574,8 +1574,8 @@ Type wxWindow Extends wxEvtHandler
 	called initially and also from your wxSizeEvent handler function.
 	</p>
 	End Rem
-	Method SetScrollbar(orientation:Int, position:Int, thumbsize:Int, range:Int, refresh:Int = True)
-		bmx_wxwindow_setscrollbar(wxObjectPtr, orientation, position, thumbsize, range, refresh)
+	Method SetScrollbar(orientation:Int, position:Int, thumbsize:Int, Range:Int, refresh:Int = True)
+		bmx_wxwindow_setscrollbar(wxObjectPtr, orientation, position, thumbsize, Range, refresh)
 	End Method
 	
 	Rem
@@ -2814,8 +2814,8 @@ Type wxFlexGridSizer Extends wxGridSizer
 	Note that this method does not trigger relayout.
 	</p>
 	End Rem
-	Method SetNonFlexibleGrowMode(mode:Int)
-		bmx_wxflexgridsizer_setnonflexiblegrowmode(wxSizerPtr, mode)
+	Method SetNonFlexibleGrowMode(Mode:Int)
+		bmx_wxflexgridsizer_setnonflexiblegrowmode(wxSizerPtr, Mode)
 	End Method
 		
 End Type
@@ -3211,8 +3211,8 @@ Type wxUpdateUIEvent Extends wxCommandEvent
 	Rem
 	bbdoc: Specify how wxWidgets will send update events: to all windows, or only to those which specify that they will process the events.
 	End Rem
-	Function SetMode(mode:Int)
-		bmx_wxupdateeventui_setmode(mode)
+	Function SetMode(Mode:Int)
+		bmx_wxupdateeventui_setmode(Mode)
 	End Function
 	
 	Rem
@@ -3334,9 +3334,9 @@ Type wxIdleEvent Extends wxEvent
 	will always return true because the update mode is initially wxIDLE_PROCESS_ALL. You can change the
 	mode to only send idle events to windows with the wxWS_EX_PROCESS_IDLE extra window style set.
 	End Rem
-	Function CanSend:Int(window:wxWindow)
-		Return bmx_wxidleevent_cansend(window.wxObjectPtr)
-	End Function
+	'Function CanSend:Int(window:wxWindow)
+	'	Return bmx_wxidleevent_cansend()
+	'End Function
 	
 	Rem
 	bbdoc: Returns a value specifying how wxWidgets will send idle events: to all windows, or only to those which specify that they will process the events.
@@ -3366,8 +3366,8 @@ Type wxIdleEvent Extends wxEvent
 	Rem
 	bbdoc: Function for specifying how wxWidgets will send idle events: to all windows, or only to those which specify that they will process the events.
 	End Rem
-	Function SetMode(mode:Int)
-		bmx_wxidleevent_setmode(mode)
+	Function SetMode(Mode:Int)
+		bmx_wxidleevent_setmode(Mode)
 	End Function
 	
 End Type

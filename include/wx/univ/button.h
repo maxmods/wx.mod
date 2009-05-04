@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     15.08.00
-// RCS-ID:      $Id: button.h 41227 2006-09-14 19:36:47Z VZ $
+// RCS-ID:      $Id: button.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2000 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_UNIV_BUTTON_H_
 #define _WX_UNIV_BUTTON_H_
 
-class WXDLLEXPORT wxInputHandler;
+class WXDLLIMPEXP_FWD_CORE wxInputHandler;
 
 #include "wx/bitmap.h"
 
@@ -29,7 +29,7 @@ class WXDLLEXPORT wxInputHandler;
 // wxButton: a push button
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxButton : public wxButtonBase
+class WXDLLIMPEXP_CORE wxButton : public wxButtonBase
 {
 public:
     wxButton() { Init(); }
@@ -89,7 +89,7 @@ public:
 
     virtual void SetImageLabel(const wxBitmap& bitmap);
     virtual void SetImageMargins(wxCoord x, wxCoord y);
-    virtual void SetDefault();
+    virtual wxWindow *SetDefault();
 
     virtual bool IsPressed() const { return m_isPressed; }
     virtual bool IsDefault() const { return m_isDefault; }

@@ -5,7 +5,7 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Julian Smart
-// RCS-ID:      $Id: stattext.h 37066 2006-01-23 03:27:34Z MR $
+// RCS-ID:      $Id: stattext.h 58757 2009-02-08 11:45:59Z VZ $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -18,30 +18,87 @@
 
 #include "wx/control.h"
 
-extern WXDLLEXPORT_DATA(const wxChar) wxStaticTextNameStr[];
+/*
+ * wxStaticText flags
+ */
+#define wxST_NO_AUTORESIZE         0x0001
+#define wxST_MARKUP                0x0002
+#define wxST_ELLIPSIZE_START       0x0004
+#define wxST_ELLIPSIZE_MIDDLE      0x0008
+#define wxST_ELLIPSIZE_END         0x0010
 
-class WXDLLEXPORT wxStaticTextBase : public wxControl
+extern WXDLLIMPEXP_DATA_CORE(const char) wxStaticTextNameStr[];
+
+class WXDLLIMPEXP_CORE wxStaticTextBase : public wxControl
 {
 public:
     wxStaticTextBase() { }
 
-    // in wxGTK wxStaticText doesn't derive from wxStaticTextBase so we have to
-    // declare this function directly in gtk header
-#if !defined(__WXGTK__) || defined(__WXUNIVERSAL__)
     // wrap the text of the control so that no line is longer than the given
     // width (if possible: this function won't break words)
-    //
-    // NB: implemented in dlgcmn.cpp for now
+    // This function will modify the value returned by GetLabel()!
     void Wrap(int width);
-#endif // ! native __WXGTK__
 
     // overriden base virtuals
     virtual bool AcceptsFocus() const { return false; }
     virtual bool HasTransparentBackground() { return true; }
 
+    bool IsEllipsized() const
+    {
+        return HasFlag(wxST_ELLIPSIZE_START) ||
+               HasFlag(wxST_ELLIPSIZE_MIDDLE) ||
+               HasFlag(wxST_ELLIPSIZE_END);
+    }
+
+    // get the string without mnemonic characters ('&') and without markup
+    // (if wxST_MARKUP is being used)
+    virtual wxString GetLabelText() const;
+
+    // public utilities (symmetric to those in wxControl about mnemonics):
+
+    // get the string without mnemonic characters ('&') and without markup
+    static wxString GetLabelText(const wxString& label);
+
+    // removes the markup accepted by wxStaticText when wxST_MARKUP is used,
+    // and then returns the cleaned string
+    static wxString RemoveMarkup(const wxString& str);
+
+    // escapes all special symbols (<>"'&) present in the given string
+    // using the corresponding entities (&lt; &gt; &quot; &apos; &amp;)
+    static wxString EscapeMarkup(const wxString& str);
+
+protected:      // functions required for wxST_ELLIPSIZE_* support
+
+    // choose the default border for this window
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
+
+    // just calls RemoveMarkup & Ellipsize on the original label.
+    virtual wxString GetEllipsizedLabelWithoutMarkup() const;
+
+    // replaces parts of the string with ellipsis if needed
+    wxString Ellipsize(const wxString& label) const;
+
+    // to be called when updating the size of the static text:
+    // updates the label redoing ellipsization calculations
+    void UpdateLabel();
+
+    // These functions are platform-specific and must be overridden in ports
+    // which do not natively support ellipsization and they must be implemented
+    // in a way so that the m_label member of wxControl is not touched:
+
+    // returns the real label currently displayed inside the control.
+    virtual wxString DoGetLabel() const { return wxEmptyString; }
+
+    // sets the real label currently displayed inside the control,
+    // _without_ invalidating the size. The text passed is always markup-free.
+    virtual void DoSetLabel(const wxString& WXUNUSED(str)) { }
+
 private:
-    DECLARE_NO_COPY_CLASS(wxStaticTextBase)
+    wxDECLARE_NO_COPY_CLASS(wxStaticTextBase);
 };
+
+// see wx/generic/stattextg.h for the explanation
+#ifndef wxNO_PORT_STATTEXT_INCLUDE
 
 #if defined(__WXUNIVERSAL__)
     #include "wx/univ/stattext.h"
@@ -54,7 +111,7 @@ private:
 #elif defined(__WXGTK__)
     #include "wx/gtk1/stattext.h"
 #elif defined(__WXMAC__)
-    #include "wx/mac/stattext.h"
+    #include "wx/osx/stattext.h"
 #elif defined(__WXCOCOA__)
     #include "wx/cocoa/stattext.h"
 #elif defined(__WXPM__)
@@ -63,7 +120,8 @@ private:
     #include "wx/palmos/stattext.h"
 #endif
 
+#endif // !wxNO_PORT_STATTEXT_INCLUDE
+
 #endif // wxUSE_STATTEXT
 
-#endif
-    // _WX_STATTEXT_H_BASE_
+#endif // _WX_STATTEXT_H_BASE_

@@ -115,14 +115,14 @@ void wxKnob::OnPaint(wxPaintEvent& WXUNUSED(event))
     r = irnd (((s.x < s.y) ? s.x : s.y) * .48);
     r2 = irnd (r * .6);
    
-    dc.BeginDrawing();
+//    dc.BeginDrawing();
 
     dc.SetPen (*wxBLACK_PEN);
     dc.DrawCircle (cx, cy, r);
     dc.DrawLine (cx + irnd (r * dx), cy + irnd (r * dy),
                  cx + irnd (r2 * dx), cy + irnd (r2 * dy));
    
-    dc.EndDrawing();
+//    dc.EndDrawing();
 
 }
 

@@ -2,7 +2,7 @@
 // Name:        scrolbar.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: scrolbar.h 41020 2006-09-05 20:47:48Z VZ $
+// Id:          $Id: scrolbar.h 47254 2007-07-09 10:09:52Z VS $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 // classes
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxScrollBar;
+class WXDLLIMPEXP_FWD_CORE wxScrollBar;
 
 //-----------------------------------------------------------------------------
 // wxScrollBar

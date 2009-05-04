@@ -46,20 +46,20 @@ Import "glue.cpp"
 Extern
 
 	Function bmx_wxvscrolledwindow_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxvscrolledwindow_getfirstvisibleline:Int(handle:Byte Ptr)
-	Function bmx_wxvscrolledwindow_getlastvisibleline:Int(handle:Byte Ptr)
-	Function bmx_wxvscrolledwindow_getlinecount:Int(handle:Byte Ptr)
+	Function bmx_wxvscrolledwindow_getvisiblerowsbegin:Int(handle:Byte Ptr)
+	Function bmx_wxvscrolledwindow_getvisiblerowsend:Int(handle:Byte Ptr)
+	Function bmx_wxvscrolledwindow_getrowcount:Int(handle:Byte Ptr)
 	Function bmx_wxvscrolledwindow_getvisiblebegin:Int(handle:Byte Ptr)
 	Function bmx_wxvscrolledwindow_getvisibleend:Int(handle:Byte Ptr)
 	Function bmx_wxvscrolledwindow_hittest:Int(handle:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxvscrolledwindow_isvisible:Int(handle:Byte Ptr, line:Int)
-	Function bmx_wxvscrolledwindow_refreshline(handle:Byte Ptr, line:Int)
-	Function bmx_wxvscrolledwindow_refreshlines(handle:Byte Ptr, fromline:Int, toLint:Int)
+	Function bmx_wxvscrolledwindow_refreshrow(handle:Byte Ptr, line:Int)
+	Function bmx_wxvscrolledwindow_refreshrows(handle:Byte Ptr, fromline:Int, toLint:Int)
 	Function bmx_wxvscrolledwindow_refreshall(handle:Byte Ptr)
-	Function bmx_wxvscrolledwindow_scrolllines:Int(handle:Byte Ptr, lines:Int)
-	Function bmx_wxvscrolledwindow_scrollpages:Int(handle:Byte Ptr, pages:Int)
-	Function bmx_wxvscrolledwindow_scrolltoline:Int(handle:Byte Ptr, line:Int)
-	Function bmx_wxvscrolledwindow_setlinecount(handle:Byte Ptr, count:Int)
+	Function bmx_wxvscrolledwindow_scrollrows:Int(handle:Byte Ptr, lines:Int)
+	Function bmx_wxvscrolledwindow_scrollrowpages:Int(handle:Byte Ptr, pages:Int)
+	Function bmx_wxvscrolledwindow_scrolltorow:Int(handle:Byte Ptr, line:Int)
+	Function bmx_wxvscrolledwindow_setrowcount(handle:Byte Ptr, count:Int)
 
 End Extern
 

@@ -47,7 +47,7 @@ ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
-
+?fixme
 Import "common.bmx"
 
 
@@ -158,11 +158,6 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Method ChangePropertyValueInt:Int(prop:Object, value:Int) Abstract
 
 	Rem
-	bbdoc: Resets value of a property to its default.
-	End Rem
-	Method ClearPropertyValue:Int(prop:Object) Abstract
-	
-	Rem
 	bbdoc: Deselect current selection, If any.
 	returns: True If success (ie. validator did Not intercept).
 	End Rem
@@ -180,15 +175,6 @@ Type wxPropertyContainerMethods Extends wxPanel
 	End Rem
 	Method DeleteProperty(prop:Object) Abstract
 
-	Rem
-	bbdoc: Deletes choice from a property.
-	about: If selected item is deleted, then the value is set to unspecified.
-	<p>
-	See AddPropertyChoice for more details.
-	</p>
-	End Rem
-	Method DeletePropertyChoice(prop:Object, index:Int) Abstract
-	
 	Rem
 	bbdoc: Disables property.
 	End Rem
@@ -248,11 +234,6 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyClassName:String(prop:Object) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
 	Method GetPropertyClientData:Object(prop:Object) Abstract
 
 	Rem
@@ -294,11 +275,6 @@ Type wxPropertyContainerMethods Extends wxPanel
 	bbdoc: 
 	End Rem
 	Method GetPropertyPtr:wxPGProperty(prop:Object) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetPropertyShortClassName:String(prop:Object) Abstract
 
 	Rem
 	bbdoc: 
@@ -919,14 +895,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
-	Method GetPropertyColour:wxColour(prop:Object)
-		If wxPGProperty(prop) Then
-			Return wxColour._create(bmx_wxpropertygrid_getpropertycolour(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
-		Else If String(prop) Then
-			Return wxColour._create(bmx_wxpropertygrid_getpropertycolourbyname(wxObjectPtr, String(prop)))
-		End If
-	End Method
-	
 	Method GetPropertyTextColour:wxColour(prop:Object)
 		If wxPGProperty(prop) Then
 			Return wxColour._create(bmx_wxpropertygrid_getpropertytextcolour(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
@@ -1060,14 +1028,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
-	Method GetPropertyClassName:String(prop:Object)
-		If wxPGProperty(prop) Then
-			Return bmx_wxpropertygrid_getpropertyclassname(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
-		Else If String(prop) Then
-			Return bmx_wxpropertygrid_getpropertyclassnamebyname(wxObjectPtr, String(prop))
-		End If
-	End Method
-	
 	Method GetPropertyClientData:Object(prop:Object)
 		If wxPGProperty(prop) Then
 			Return bmx_wxpropertygrid_getpropertyclientdata(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
@@ -1137,14 +1097,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 			Return wxPGProperty._find(bmx_wxpropertygrid_getpropertyptr(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
 		Else If String(prop) Then
 		' TODO
-		End If
-	End Method
-
-	Method GetPropertyShortClassName:String(prop:Object)
-		If wxPGProperty(prop) Then
-			Return bmx_wxpropertygrid_getpropertyshortclassname(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
-		Else If String(prop) Then
-			Return bmx_wxpropertygrid_getpropertyshortclassnamebyname(wxObjectPtr, String(prop))
 		End If
 	End Method
 
@@ -1428,22 +1380,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
-	Method SetPropertyChoices(prop:Object, choices:wxPGChoices)
-		If wxPGProperty(prop) Then
-			bmx_wxpropertygrid_setpropertychoices(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, choices.wxObjectPtr)
-		Else If String(prop) Then
-			bmx_wxpropertygrid_setpropertychoicesbyname(wxObjectPtr, String(prop), choices.wxObjectPtr)
-		End If
-	End Method
-	
-	Method SetPropertyChoicesExclusive(prop:Object)
-		If wxPGProperty(prop) Then
-			bmx_wxpropertygrid_setpropertychoicesexclusive(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
-		Else If String(prop) Then
-			bmx_wxpropertygrid_setpropertychoicesexclusivebyname(wxObjectPtr, String(prop))
-		End If
-	End Method
-	
 	Method SetPropertyClientData(prop:Object, clientData:Object)
 		If wxPGProperty(prop) Then
 		' TODO
@@ -1680,8 +1616,8 @@ Type wxPGProperty Extends wxObject
 	bbdoc: Adds entry to property's wxPGChoices and editor control (if it is active).
 	returns: Index of item added.
 	End Rem
-	Method AppendChoice:Int(label:String, value:Int = INT_MAX)
-		Return bmx_wxpgproperty_appendchoice(wxObjectPtr, label, value)
+	Method AddChoice:Int(label:String, value:Int = INT_MAX)
+		Return bmx_wxpgproperty_addchoice(wxObjectPtr, label, value)
 	End Method
 	
 	Rem
@@ -1840,13 +1776,6 @@ Type wxPGProperty Extends wxObject
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetClassName:String()
-		Return bmx_wxpgproperty_getclassname(wxObjectPtr)
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
 	Method GetClientData:Object()
 		' TODO
 	End Method
@@ -1863,13 +1792,6 @@ Type wxPGProperty Extends wxObject
 	End Rem
 	Method GetCommonValue:Int()
 		Return bmx_wxpgproperty_getcommonvalue(wxObjectPtr)
-	End Method
-	
-	Rem
-	bbdoc: Returns number of child properties.
-	End Rem
-	Method GetCount:Int()
-		Return bmx_wxpgproperty_getcount(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -2039,8 +1961,8 @@ Type wxPGProperty Extends wxObject
 	Rem
 	bbdoc: Returns type name of property that is compatible with CreatePropertyByType. 
 	End Rem
-	Method GetType:String()
-		Return bmx_wxpgproperty_gettype(wxObjectPtr)
+	Method GetValueType:String()
+		Return bmx_wxpgproperty_getvaluetype(wxObjectPtr)
 	End Method
 
 	Rem
@@ -3597,19 +3519,19 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 		Return bmx_wxpropertygridevent_canveto(wxEventPtr)
 	End Method
 	
-	Rem
-	bbdoc: Disables property. 
-	End Rem
-	Method DisableProperty()
-		bmx_wxpropertygridevent_disableproperty(wxEventPtr)
-	End Method
+'	Rem
+'	bbdoc: Disables property. 
+'	End Rem
+'	Method DisableProperty()
+'		bmx_wxpropertygridevent_disableproperty(wxEventPtr)
+'	End Method
 	
-	Rem
-	bbdoc: Enables property. 
-	End Rem
-	Method EnableProperty(enable:Int = True)
-		bmx_wxpropertygridevent_enableproperty(wxEventPtr, enable)
-	End Method
+'	Rem
+'	bbdoc: Enables property. 
+'	End Rem
+'	Method EnableProperty(enable:Int = True)
+'		bmx_wxpropertygridevent_enableproperty(wxEventPtr, enable)
+'	End Method
 	
 	Rem
 	bbdoc: 
@@ -3625,103 +3547,103 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 		Return wxPGProperty._find(bmx_wxpropertygridevent_getproperty(wxEventPtr))
 	End Method
 	
-	Rem
-	bbdoc: Returns client data of relevant property. 
-	End Rem
-	Method GetPropertyClientData:Object()
-		' TODO
-	End Method
+'	Rem
+'	bbdoc: Returns client data of relevant property. 
+'	End Rem
+'	Method GetPropertyClientData:Object()
+'		' TODO
+'	End Method
 	
-	Rem
-	bbdoc: Returns label of associated property. 
-	End Rem
-	Method GetPropertyLabel:String()
-		Return bmx_wxpropertygridevent_getpropertylabel(wxEventPtr)
-	End Method
+'	Rem
+'	bbdoc: Returns label of associated property. 
+'	End Rem
+'	Method GetPropertyLabel:String()
+'		Return bmx_wxpropertygridevent_getpropertylabel(wxEventPtr)
+'	End Method
 	
-	Rem
-	bbdoc: Returns global name of associated property. 
-	End Rem
-	Method GetPropertyName:String()
-		Return bmx_wxpropertygridevent_getpropertyname(wxEventPtr)
-	End Method
+'	Rem
+'	bbdoc: Returns Global name of associated property. 
+'	End Rem
+'	Method GetPropertyName:String()
+'		Return bmx_wxpropertygridevent_getpropertyname(wxEventPtr)
+'	End Method
 	
 	Rem
 	bbdoc: Returns value of relevant property, as array of ints.
 	End Rem
-	Method GetPropertyValueAsArrayInt:Int[]()
-		Return bmx_wxpropertygridevent_getpropertyvalueasarrayint(wxEventPtr)
+	Method GetValueAsArrayInt:Int[]()
+		Return bmx_wxpropertygridevent_getvalueasarrayint(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns value of relevant property, as array of strings.
 	End Rem
-	Method GetPropertyValueAsArrayString:String[]()
-		Return bmx_wxpropertygridevent_getpropertyvalueasarraystring(wxEventPtr)
+	Method GetValueAsArrayString:String[]()
+		Return bmx_wxpropertygridevent_getvalueasarraystring(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns value of relevant property, as bool.
 	End Rem
-	Method GetPropertyValueAsBool:Int()
-		Return bmx_wxpropertygridevent_getpropertyvalueasbool(wxEventPtr)
+	Method GetValueAsBool:Int()
+		Return bmx_wxpropertygridevent_getvalueasbool(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns value of relevant property, as double.
 	End Rem
-	Method GetPropertyValueAsDouble:Double()
-		Return bmx_wxpropertygridevent_getpropertyvalueasdouble(wxEventPtr)
+	Method GetValueAsDouble:Double()
+		Return bmx_wxpropertygridevent_getvalueasdouble(wxEventPtr)
 	End Method
 
 	Rem
 	bbdoc: Returns value of relevant property, as float.
 	End Rem
-	Method GetPropertyValueAsFloat:Float()
-		Return GetPropertyValueAsDouble()
+	Method GetValueAsFloat:Float()
+		Return GetValueAsDouble()
 	End Method
 
 	Rem
 	bbdoc: Returns value of relevant property, as int.
 	End Rem
-	Method GetPropertyValueAsInt:Int()
-		Return bmx_wxpropertygridevent_getpropertyvalueasint(wxEventPtr)
+	Method GetValueAsInt:Int()
+		Return bmx_wxpropertygridevent_getvalueasint(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns value of relevant property, as (x, y) point.
 	End Rem
-	Method GetPropertyValueAsPoint(x:Int Var, y:Int Var)
-		bmx_wxpropertygridevent_getpropertyvalueaspoint(wxEventPtr, Varptr x, Varptr y)
+	Method GetValueAsPoint(x:Int Var, y:Int Var)
+		bmx_wxpropertygridevent_getvalueaspoint(wxEventPtr, Varptr x, Varptr y)
 	End Method
 	
 	Rem
 	bbdoc: Returns value of relevant property, as (x, h) size.
 	End Rem
-	Method GetPropertyValueAsSize(w:Int Var, h:Int Var)
-		bmx_wxpropertygridevent_getpropertyvalueassize(wxEventPtr, Varptr w, Varptr h)
+	Method GetValueAsSize(w:Int Var, h:Int Var)
+		bmx_wxpropertygridevent_getvalueassize(wxEventPtr, Varptr w, Varptr h)
 	End Method
 	
 	Rem
 	bbdoc: Returns value of relevant property, as string.
 	End Rem
-	Method GetPropertyValueAsString:String()
-		Return bmx_wxpropertygridevent_getpropertyvalueasstring(wxEventPtr)
+	Method GetValueAsString:String()
+		Return bmx_wxpropertygridevent_getvalueasstring(wxEventPtr)
 	End Method
 
-	Rem
-	bbdoc: Returns true if event has associated property.
-	End Rem
-	Method HasProperty:Int()
-		Return bmx_wxpropertygridevent_hasproperty(wxEventPtr)
-	End Method
+'	Rem
+'	bbdoc: Returns True If event has associated property.
+'	End Rem
+''	Method HasProperty:Int()
+'		Return bmx_wxpropertygridevent_hasproperty(wxEventPtr)
+'	End Method
 	
-	Rem
-	bbdoc: 
-	End Rem
-	Method IsPropertyEnabled:Int()
-		Return bmx_wxpropertygridevent_ispropertyenabled(wxEventPtr)
-	End Method
+'	Rem
+'	bbdoc: 
+'	End Rem
+'	Method IsPropertyEnabled:Int()
+'		Return bmx_wxpropertygridevent_ispropertyenabled(wxEventPtr)
+'	End Method
 	
 	Rem
 	bbdoc: 
@@ -3737,12 +3659,12 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 		' TODO
 	End Method
 	
-	Rem
-	bbdoc: Changes the associated property.
-	End Rem
-	Method SetPropertyGrid(pg:wxPropertyGrid)
-		' TODO
-	End Method
+'	Rem
+'	bbdoc: Changes the associated property.
+'	End Rem
+'	Method SetPropertyGrid(pg:wxPropertyGrid)
+'		' TODO
+'	End Method
 	
 	'method SetValue(Const wxVariant &value)
 	'end method
@@ -3833,3 +3755,5 @@ Type TPropertyGridResourceFactory Extends TXMLResourceFactory
 End Type
 
 New TPropertyGridResourceFactory
+
+?

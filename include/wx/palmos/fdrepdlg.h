@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: fdrepdlg.h 35698 2005-09-25 20:49:40Z MW $
+// RCS-ID:      $Id: fdrepdlg.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 // wxFindReplaceDialog: dialog for searching / replacing text
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxFindReplaceDialog : public wxFindReplaceDialogBase
+class WXDLLIMPEXP_CORE wxFindReplaceDialog : public wxFindReplaceDialogBase
 {
 public:
     // ctors and such
@@ -56,7 +56,7 @@ protected:
     wxFindReplaceDialogImpl *m_impl;
 
     DECLARE_DYNAMIC_CLASS(wxFindReplaceDialog)
-    DECLARE_NO_COPY_CLASS(wxFindReplaceDialog)
+    wxDECLARE_NO_COPY_CLASS(wxFindReplaceDialog);
 };
 
 #endif // _WX_PALMOS_FDREPDLG_H_

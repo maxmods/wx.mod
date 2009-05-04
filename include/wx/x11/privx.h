@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: privx.h 41640 2006-10-05 19:34:25Z MBN $
+// RCS-ID:      $Id: privx.h 59711 2009-03-21 23:36:37Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -26,10 +26,10 @@
 #pragma message enable nosimpint
 #endif
 
-class WXDLLIMPEXP_CORE wxMouseEvent;
-class WXDLLIMPEXP_CORE wxKeyEvent;
-class WXDLLIMPEXP_CORE wxWindow;
-class WXDLLIMPEXP_CORE wxRegion;
+class WXDLLIMPEXP_FWD_CORE wxMouseEvent;
+class WXDLLIMPEXP_FWD_CORE wxKeyEvent;
+class WXDLLIMPEXP_FWD_CORE wxWindow;
+class WXDLLIMPEXP_FWD_CORE wxRegion;
 
 // ----------------------------------------------------------------------------
 // key events related functions
@@ -67,9 +67,7 @@ void wxAllocNearestColor(Display *display,Colormap colormap,XColor *xcolor);
 void wxAllocColor(Display *display,Colormap colormap,XColor *xcolor);
 
 // For debugging
-#ifdef __WXDEBUG__
 wxString wxGetXEventName(XEvent& event);
-#endif
 
 // Is the window visible?
 bool wxWindowIsVisible(Window win);
@@ -148,7 +146,7 @@ bool wxWindowIsVisible(Window win);
 
 bool wxDoSetShape( Display* xdisplay, Window xwindow, const wxRegion& region );
 
-class WXDLLEXPORT wxXVisualInfo
+class WXDLLIMPEXP_CORE wxXVisualInfo
 {
 public:
     wxXVisualInfo();

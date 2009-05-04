@@ -94,7 +94,7 @@ Extern
 	Function bmx_wxwindow_sethelptext(handle:Byte Ptr, helpText:String)
 	Function bmx_wxwindow_setid(handle:Byte Ptr, id:Int)
 	Function bmx_wxwindow_setlabel(handle:Byte Ptr, label:String)
-	Function bmx_wxwindow_setscrollbar(handle:Byte Ptr, orientation:Int, position:Int, thumbsize:Int, range:Int, refresh:Int)
+	Function bmx_wxwindow_setscrollbar(handle:Byte Ptr, orientation:Int, position:Int, thumbsize:Int, Range:Int, refresh:Int)
 	Function bmx_wxwindow_setscrollpos(handle:Byte Ptr, orientation:Int, pos:Int, refresh:Int)
 	
 	Function bmx_wxwindow_setcursor(handle:Byte Ptr, cursor:Byte Ptr)
@@ -285,7 +285,7 @@ Extern
 	Function bmx_wxflexgridsizer_removegrowablecol(handle:Byte Ptr, idx:Int)
 	Function bmx_wxflexgridsizer_removegrowablerow(handle:Byte Ptr, idx:Int)
 	Function bmx_wxflexgridsizer_setflexibledirection(handle:Byte Ptr, direction:Int)
-	Function bmx_wxflexgridsizer_setnonflexiblegrowmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxflexgridsizer_setnonflexiblegrowmode(handle:Byte Ptr, Mode:Int)
 
 	Function bmx_wxtooltip_enable(flag:Int)
 	Function bmx_wxtooltip_setdelay(msecs:Int)
@@ -300,15 +300,14 @@ Extern
 	Function bmx_wxupdateeventui_gettext:String(handle:Byte Ptr)
 	Function bmx_wxupdateeventui_getmode:Int()
 	Function bmx_wxupdateeventui_getupdateinterval:Int()
-	Function bmx_wxupdateeventui_setmode(mode:Int)
+	Function bmx_wxupdateeventui_setmode(Mode:Int)
 	Function bmx_wxupdateeventui_settext(handle:Byte Ptr, text:String)
 	Function bmx_wxupdateeventui_setupdateinterval(interval:Int)
 
-	Function bmx_wxidleevent_cansend:Int(window:Byte Ptr)
 	Function bmx_wxidleevent_getmode:Int()
 	Function bmx_wxidleevent_requestmore(handle:Byte Ptr, needMore:Int)
 	Function bmx_wxidleevent_morerequested:Int(handle:Byte Ptr)
-	Function bmx_wxidleevent_setmode(mode:Int)
+	Function bmx_wxidleevent_setmode(Mode:Int)
 
 	Function bmx_wxfocusevent_getwindow:Byte Ptr(handle:Byte Ptr)
 

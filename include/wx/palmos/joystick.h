@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: joystick.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: joystick.h 44843 2007-03-16 00:51:43Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -28,6 +28,8 @@ class WXDLLIMPEXP_ADV wxJoystick: public wxObject
   ////////////////////////////////////////////////////////////////////////////
 
   wxPoint GetPosition(void) const;
+  int GetPosition(unsigned axis) const;
+  bool GetButtonState(unsigned button) const;
   int GetZPosition(void) const;
   int GetButtonState(void) const;
   int GetPOVPosition(void) const;

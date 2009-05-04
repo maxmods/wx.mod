@@ -4,7 +4,7 @@
 // Author:      Guilhem Lavaux
 // Modified by:
 // Created:     1997
-// RCS-ID:      $Id: file.h 43836 2006-12-06 19:20:40Z VZ $
+// RCS-ID:      $Id: file.h 58137 2009-01-16 15:08:13Z FM $
 // Copyright:   (c) 1997, 1998 Guilhem Lavaux
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,18 +18,20 @@
 
 #include "wx/protocol/protocol.h"
 
-class WXDLLIMPEXP_NET wxFileProto: public wxProtocol {
-  DECLARE_DYNAMIC_CLASS_NO_COPY(wxFileProto)
-  DECLARE_PROTOCOL(wxFileProto)
-protected:
-  wxProtocolError m_error;
+class WXDLLIMPEXP_NET wxFileProto: public wxProtocol
+{
 public:
-  wxFileProto();
-  virtual ~wxFileProto();
+    wxFileProto();
+    virtual ~wxFileProto();
 
-  wxProtocolError GetError() { return m_error; }
-  bool Abort() { return TRUE; }
-  wxInputStream *GetInputStream(const wxString& path);
+    bool Abort() { return true; }
+    wxString GetContentType() const { return wxEmptyString; }
+
+    wxInputStream *GetInputStream(const wxString& path);
+
+protected:
+    DECLARE_DYNAMIC_CLASS_NO_COPY(wxFileProto)
+    DECLARE_PROTOCOL(wxFileProto)
 };
 
 #endif // wxUSE_PROTOCOL_FILE

@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2003/03/16
-// RCS-ID:      $Id: NSWindow.h 42046 2006-10-16 09:30:01Z ABX $
+// RCS-ID:      $Id: NSWindow.h 49523 2007-10-29 16:18:59Z DE $
 // Copyright:   (c) 2003 David Elliott
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,22 +17,22 @@
 
 WX_DECLARE_OBJC_HASHMAP(NSWindow);
 
-class WXDLLEXPORT wxMenuBar;
-class WXDLLEXPORT wxTopLevelWindowCocoa;
+class WXDLLIMPEXP_FWD_CORE wxMenuBar;
+class WXDLLIMPEXP_FWD_CORE wxTopLevelWindowCocoa;
 
 DECLARE_WXCOCOA_OBJC_CLASS(NSMenuItem);
 DECLARE_WXCOCOA_OBJC_CLASS(wxNSWindowDelegate);
 
-class wxCocoaNSWindow
+class WXDLLIMPEXP_CORE wxCocoaNSWindow
 {
 /* NSWindow is a rather special case and requires some extra attention */
     WX_DECLARE_OBJC_INTERFACE_HASHMAP(NSWindow)
 public:
     void AssociateNSWindow(WX_NSWindow cocoaNSWindow);
     void DisassociateNSWindow(WX_NSWindow cocoaNSWindow);
-    virtual bool Cocoa_canBecomeKeyWindow(bool &canBecome)
+    virtual bool Cocoa_canBecomeKeyWindow(bool &WXUNUSED(canBecome))
     {   return false; }
-    virtual bool Cocoa_canBecomeMainWindow(bool &canBecome)
+    virtual bool Cocoa_canBecomeMainWindow(bool &WXUNUSED(canBecome))
     {   return false; }
     virtual bool CocoaDelegate_windowShouldClose(void) = 0;
     virtual void CocoaDelegate_windowWillClose(void) = 0;

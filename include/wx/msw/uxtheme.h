@@ -4,7 +4,7 @@
 // Author:      John Platts, Vadim Zeitlin
 // Modified by:
 // Created:     2003
-// RCS-ID:      $Id: uxtheme.h 42725 2006-10-30 15:37:42Z VZ $
+// RCS-ID:      $Id: uxtheme.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2003 John Platts, Vadim Zeitlin
 // License:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@ typedef HRESULT (__stdcall *PFNWXUENABLETHEMING)(BOOL);
     #define wxUX_THEME_DECLARE(type, func) type func(...) { return 0; }
 #endif
 
-class WXDLLEXPORT wxUxThemeEngine
+class WXDLLIMPEXP_CORE wxUxThemeEngine
 {
 public:
     // get the theme engine or NULL if themes are not available
@@ -168,7 +168,7 @@ private:
     friend class wxUxThemeModule;
 #endif // wxUSE_UXTHEME
 
-    DECLARE_NO_COPY_CLASS(wxUxThemeEngine)
+    wxDECLARE_NO_COPY_CLASS(wxUxThemeEngine);
 };
 
 #if wxUSE_UXTHEME
@@ -223,7 +223,7 @@ public:
 private:
     HTHEME m_hTheme;
 
-    DECLARE_NO_COPY_CLASS(wxUxThemeHandle)
+    wxDECLARE_NO_COPY_CLASS(wxUxThemeHandle);
 };
 
 #endif // _WX_UXTHEME_H_

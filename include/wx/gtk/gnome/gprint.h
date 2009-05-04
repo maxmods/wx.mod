@@ -3,7 +3,7 @@
 // Author:      Robert Roebling
 // Purpose:     GNOME printing support
 // Created:     09/20/04
-// RCS-ID:      $Id: gprint.h 46088 2007-05-17 10:51:34Z RR $
+// RCS-ID:      $Id: gprint.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   Robert Roebling
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,10 +18,26 @@
 #include "wx/print.h"
 #include "wx/printdlg.h"
 #include "wx/dc.h"
+#include "wx/module.h"
 
 typedef struct _GnomePrintJob GnomePrintJob;
 typedef struct _GnomePrintContext GnomePrintContext;
 typedef struct _GnomePrintConfig GnomePrintConfig;
+
+// ----------------------------------------------------------------------------
+// wxGnomePrintModule
+// ----------------------------------------------------------------------------
+
+class wxGnomePrintModule: public wxModule
+{
+public:
+    wxGnomePrintModule() {}
+    bool OnInit();
+    void OnExit();
+
+private:
+    DECLARE_DYNAMIC_CLASS(wxGnomePrintModule)
+};
 
 //----------------------------------------------------------------------------
 // wxGnomePrintNativeData
@@ -75,7 +91,11 @@ public:
     virtual wxPageSetupDialogBase *CreatePageSetupDialog( wxWindow *parent,
                                                           wxPageSetupDialogData * data = NULL );
 
+#if wxUSE_NEW_DC
+    virtual wxDCImpl* CreatePrinterDCImpl( wxPrinterDC *owner, const wxPrintData& data );
+#else
     virtual wxDC* CreatePrinterDC( const wxPrintData& data );
+#endif
 
     virtual bool HasPrintSetupDialog();
     virtual wxDialog *CreatePrintSetupDialog( wxWindow *parent, wxPrintData *data );
@@ -184,18 +204,27 @@ private:
 
 private:
     DECLARE_DYNAMIC_CLASS(wxGnomePrinter)
-    DECLARE_NO_COPY_CLASS(wxGnomePrinter)
+    wxDECLARE_NO_COPY_CLASS(wxGnomePrinter);
 };
 
 //-----------------------------------------------------------------------------
-// wxGnomePrintDC
+// wxGnomePrinterDC
 //-----------------------------------------------------------------------------
 
-class wxGnomePrintDC: public wxDC
+#if wxUSE_NEW_DC
+class wxGnomePrinterDCImpl : public wxDCImpl
+#else
+#define wxGnomePrinterDCImpl wxGnomePrinterDC
+class wxGnomePrinterDC : public wxDC
+#endif
 {
 public:
-    wxGnomePrintDC( const wxPrintData& data );
-    virtual ~wxGnomePrintDC();
+#if wxUSE_NEW_DC
+    wxGnomePrinterDCImpl( wxPrinterDC *owner, const wxPrintData& data );
+#else
+    wxGnomePrinterDC( const wxPrintData& data );
+#endif
+    virtual ~wxGnomePrinterDCImpl();
 
     bool Ok() const { return IsOk(); }
     bool IsOk() const;
@@ -205,7 +234,7 @@ public:
     void SetFont( const wxFont& font );
     void SetPen( const wxPen& pen );
     void SetBrush( const wxBrush& brush );
-    void SetLogicalFunction( int function );
+    void SetLogicalFunction( wxRasterOperationMode function );
     void SetBackground( const wxBrush& brush );
     void DestroyClippingRegion();
     bool StartDoc(const wxString& message);
@@ -216,17 +245,13 @@ public:
     wxCoord GetCharWidth() const;
     bool CanGetTextExtent() const { return true; }
     wxSize GetPPI() const;
-    void SetAxisOrientation( bool xLeftRight, bool yBottomUp );
-    void SetLogicalOrigin( wxCoord x, wxCoord y );
-    void SetDeviceOrigin( wxCoord x, wxCoord y );
     virtual int GetDepth() const { return 24; }
     void SetBackgroundMode(int WXUNUSED(mode)) { }
     void SetPalette(const wxPalette& WXUNUSED(palette)) { }
-    static void SetResolution(int ppi);
-    static int GetResolution();
 
 protected:
-    bool DoFloodFill(wxCoord x1, wxCoord y1, const wxColour &col, int style=wxFLOOD_SURFACE );
+    bool DoFloodFill(wxCoord x1, wxCoord y1, const wxColour &col, 
+                    wxFloodFillStyle style=wxFLOOD_SURFACE );
     bool DoGetPixel(wxCoord x1, wxCoord y1, wxColour *col) const;
     void DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2);
     void DoCrossHair(wxCoord x, wxCoord y);
@@ -234,35 +259,40 @@ protected:
     void DoDrawEllipticArc(wxCoord x,wxCoord y,wxCoord w,wxCoord h,double sa,double ea);
     void DoDrawPoint(wxCoord x, wxCoord y);
     void DoDrawLines(int n, wxPoint points[], wxCoord xoffset = 0, wxCoord yoffset = 0);
-    void DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset = 0, wxCoord yoffset = 0, int fillStyle=wxODDEVEN_RULE);
-    void DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoord xoffset = 0, wxCoord yoffset = 0, int fillStyle=wxODDEVEN_RULE);
+    void DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset = 0, wxCoord yoffset = 0, wxPolygonFillMode fillStyle=wxODDEVEN_RULE);
+    void DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoord xoffset = 0, wxCoord yoffset = 0, wxPolygonFillMode fillStyle=wxODDEVEN_RULE);
     void DoDrawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
     void DoDrawRoundedRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height, double radius = 20.0);
     void DoDrawEllipse(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
 #if wxUSE_SPLINES
-    void DoDrawSpline(wxList *points);
-#endif // wxUSE_SPLINES
+    void DoDrawSpline(const wxPointList *points);
+#endif
     bool DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height,
-            wxDC *source, wxCoord xsrc, wxCoord ysrc, int rop = wxCOPY, bool useMask = false,
+            wxDC *source, wxCoord xsrc, wxCoord ysrc, 
+            wxRasterOperationMode = wxCOPY, bool useMask = false,
             wxCoord xsrcMask = wxDefaultCoord, wxCoord ysrcMask = wxDefaultCoord);
     void DoDrawIcon( const wxIcon& icon, wxCoord x, wxCoord y );
     void DoDrawBitmap( const wxBitmap& bitmap, wxCoord x, wxCoord y, bool useMask = false  );
     void DoDrawText(const wxString& text, wxCoord x, wxCoord y );
     void DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, double angle);
     void DoSetClippingRegion(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
-    void DoSetClippingRegionAsRegion( const wxRegion &WXUNUSED(clip) ) { }
+    void DoSetDeviceClippingRegion( const wxRegion &WXUNUSED(clip) )
+    {
+        wxFAIL_MSG( "not implemented" );
+    }
     void DoGetTextExtent(const wxString& string, wxCoord *x, wxCoord *y,
-                     wxCoord *descent = (wxCoord *) NULL,
-                     wxCoord *externalLeading = (wxCoord *) NULL,
-                     wxFont *theFont = (wxFont *) NULL ) const;
+                     wxCoord *descent = NULL,
+                     wxCoord *externalLeading = NULL,
+                     const wxFont *theFont = NULL ) const;
     void DoGetSize(int* width, int* height) const;
     void DoGetSizeMM(int *width, int *height) const;
 
     void SetPrintData(const wxPrintData& data);
     wxPrintData& GetPrintData() { return m_printData; }
 
-private:
-    static float ms_PSScaleFactor;
+    // overriden for wxPrinterDC Impl
+    virtual wxRect GetPaperRect() const;
+    virtual int GetResolution() const;
 
 private:
     wxPrintData             m_printData;
@@ -273,50 +303,17 @@ private:
     unsigned char           m_currentRed;
     unsigned char           m_currentGreen;
     unsigned char           m_currentBlue;
-    
-    int                     m_deviceOffsetY;
+
+    double                  m_pageHeight;
 
     GnomePrintContext      *m_gpc;
-    GnomePrintJob*          m_job; // only used and destroyed when created with wxPrintData
+    GnomePrintJob*          m_job;
 
     void makeEllipticalPath(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
-    
+
 private:
-    wxCoord XDEV2LOG(wxCoord x) const
-    {
-        return wxRound((double)(x - m_deviceOriginX) / m_scaleX) * m_signX + m_logicalOriginX;
-    }
-    wxCoord XDEV2LOGREL(wxCoord x) const
-    {
-        return wxRound((double)(x) / m_scaleX);
-    }
-    wxCoord YDEV2LOG(wxCoord y) const
-    {
-        return wxRound((double)(y + m_deviceOriginY - m_deviceOffsetY) / m_scaleY) * m_signY + m_logicalOriginY;
-    }
-    wxCoord YDEV2LOGREL(wxCoord y) const
-    {
-        return wxRound((double)(y) / m_scaleY);
-    }
-    wxCoord XLOG2DEV(wxCoord x) const
-    {
-        return wxRound((double)(x - m_logicalOriginX) * m_scaleX) * m_signX + m_deviceOriginX;
-    }
-    wxCoord XLOG2DEVREL(wxCoord x) const
-    {
-        return wxRound((double)(x) * m_scaleX);
-    }
-    wxCoord YLOG2DEV(wxCoord y) const
-    {
-        return wxRound((double)(y - m_logicalOriginY) * m_scaleY) * m_signY - m_deviceOriginY + m_deviceOffsetY;
-    }
-    wxCoord YLOG2DEVREL(wxCoord y) const
-    {
-        return wxRound((double)(y) * m_scaleY);
-    }
-private:
-    DECLARE_DYNAMIC_CLASS(wxGnomePrintDC)
-    DECLARE_NO_COPY_CLASS(wxGnomePrintDC)
+    DECLARE_DYNAMIC_CLASS(wxGnomePrinterDCImpl)
+    wxDECLARE_NO_COPY_CLASS(wxGnomePrinterDCImpl);
 };
 
 // ----------------------------------------------------------------------------
@@ -328,8 +325,8 @@ class wxGnomePrintPreview : public wxPrintPreviewBase
 {
 public:
     wxGnomePrintPreview(wxPrintout *printout,
-                             wxPrintout *printoutForPrinting = (wxPrintout *) NULL,
-                             wxPrintDialogData *data = (wxPrintDialogData *) NULL);
+                             wxPrintout *printoutForPrinting = NULL,
+                             wxPrintDialogData *data = NULL);
     wxGnomePrintPreview(wxPrintout *printout,
                              wxPrintout *printoutForPrinting,
                              wxPrintData *data);

@@ -6,7 +6,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: private.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: private.h 59711 2009-03-21 23:36:37Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,6 +22,10 @@
 #endif
 
 #include "wx/log.h"
+
+#if wxUSE_GUI
+    #include "wx/window.h"
+#endif // wxUSE_GUI
 
 class WXDLLIMPEXP_FWD_CORE wxFont;
 class WXDLLIMPEXP_FWD_CORE wxWindow;
@@ -42,13 +46,13 @@ class WXDLLIMPEXP_FWD_CORE wxWindowBase;
 
 #if wxUSE_GUI
 
-extern WXDLLEXPORT_DATA(HICON) wxSTD_FRAME_ICON;
-extern WXDLLEXPORT_DATA(HICON) wxSTD_MDIPARENTFRAME_ICON;
-extern WXDLLEXPORT_DATA(HICON) wxSTD_MDICHILDFRAME_ICON;
-extern WXDLLEXPORT_DATA(HICON) wxDEFAULT_FRAME_ICON;
-extern WXDLLEXPORT_DATA(HICON) wxDEFAULT_MDIPARENTFRAME_ICON;
-extern WXDLLEXPORT_DATA(HICON) wxDEFAULT_MDICHILDFRAME_ICON;
-extern WXDLLEXPORT_DATA(HFONT) wxSTATUS_LINE_FONT;
+extern WXDLLIMPEXP_DATA_CORE(HICON) wxSTD_FRAME_ICON;
+extern WXDLLIMPEXP_DATA_CORE(HICON) wxSTD_MDIPARENTFRAME_ICON;
+extern WXDLLIMPEXP_DATA_CORE(HICON) wxSTD_MDICHILDFRAME_ICON;
+extern WXDLLIMPEXP_DATA_CORE(HICON) wxDEFAULT_FRAME_ICON;
+extern WXDLLIMPEXP_DATA_CORE(HICON) wxDEFAULT_MDIPARENTFRAME_ICON;
+extern WXDLLIMPEXP_DATA_CORE(HICON) wxDEFAULT_MDICHILDFRAME_ICON;
+extern WXDLLIMPEXP_DATA_CORE(HFONT) wxSTATUS_LINE_FONT;
 
 #endif // wxUSE_GUI
 
@@ -251,7 +255,7 @@ enum wxSTD_COLOUR
     wxSTD_COL_MAX
 };
 
-struct WXDLLEXPORT wxCOLORMAP
+struct WXDLLIMPEXP_CORE wxCOLORMAP
 {
     COLORREF from, to;
 };
@@ -302,6 +306,22 @@ extern HICON wxBitmapToHICON(const wxBitmap& bmp);
 extern
 HCURSOR wxBitmapToHCURSOR(const wxBitmap& bmp, int hotSpotX, int hotSpotY);
 
+
+#if wxUSE_OWNER_DRAWN
+
+// Draw the bitmap in specified state (this is used by owner drawn controls)
+enum wxDSBStates
+{
+    wxDSB_NORMAL = 0,
+    wxDSB_SELECTED,
+    wxDSB_DISABLED
+};
+
+extern
+BOOL wxDrawStateBitmap(HDC hDC, HBITMAP hBitmap, int x, int y, UINT uState);
+
+#endif // wxUSE_OWNER_DRAWN
+
 // get (x, y) from DWORD - notice that HI/LOWORD can *not* be used because they
 // will fail on system with multiple monitors where the coords may be negative
 //
@@ -311,21 +331,32 @@ HCURSOR wxBitmapToHCURSOR(const wxBitmap& bmp, int hotSpotX, int hotSpotY);
     #define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 #endif // GET_X_LPARAM
 
-// get the current state of SHIFT/CTRL keys
+// get the current state of SHIFT/CTRL/ALT keys
+inline bool wxIsModifierDown(int vk)
+{
+    // GetKeyState() returns different negative values on WinME and WinNT,
+    // so simply test for negative value.
+    return ::GetKeyState(vk) < 0;
+}
+
 inline bool wxIsShiftDown()
 {
-//    return (::GetKeyState(VK_SHIFT) & 0x100) != 0;
-    // Returns different negative values on WinME and WinNT,
-    // so simply test for negative value.
-    return ::GetKeyState(VK_SHIFT) < 0;
+    return wxIsModifierDown(VK_SHIFT);
 }
 
 inline bool wxIsCtrlDown()
 {
-//    return (::GetKeyState(VK_CONTROL) & 0x100) != 0;
-    // Returns different negative values on WinME and WinNT,
-    // so simply test for negative value.
-    return ::GetKeyState(VK_CONTROL) < 0;
+    return wxIsModifierDown(VK_CONTROL);
+}
+
+inline bool wxIsAltDown()
+{
+    return wxIsModifierDown(VK_MENU);
+}
+
+inline bool wxIsAnyModifierDown()
+{
+    return wxIsShiftDown() || wxIsCtrlDown() || wxIsAltDown();
 }
 
 // wrapper around GetWindowRect() and GetClientRect() APIs doing error checking
@@ -367,7 +398,7 @@ public:
 private:
     HDC m_hdc;
 
-    DECLARE_NO_COPY_CLASS(ScreenHDC)
+    wxDECLARE_NO_COPY_CLASS(ScreenHDC);
 };
 
 // the same as ScreenHDC but for window DCs
@@ -383,7 +414,7 @@ private:
    HWND m_hwnd;
    HDC m_hdc;
 
-   DECLARE_NO_COPY_CLASS(WindowHDC)
+   wxDECLARE_NO_COPY_CLASS(WindowHDC);
 };
 
 // the same as ScreenHDC but for memory DCs: creates the HDC compatible with
@@ -399,7 +430,7 @@ public:
 private:
     HDC m_hdc;
 
-    DECLARE_NO_COPY_CLASS(MemoryHDC)
+    wxDECLARE_NO_COPY_CLASS(MemoryHDC);
 };
 
 // a class which selects a GDI object into a DC in its ctor and deselects in
@@ -431,7 +462,7 @@ private:
     HDC m_hdc;
     HGDIOBJ m_hgdiobj;
 
-    DECLARE_NO_COPY_CLASS(SelectInHDC)
+    wxDECLARE_NO_COPY_CLASS(SelectInHDC);
 };
 
 // a class which cleans up any GDI object
@@ -548,7 +579,7 @@ public:
 private:
     HDC m_hdc;
 
-    DECLARE_NO_COPY_CLASS(HDCClipper)
+    wxDECLARE_NO_COPY_CLASS(HDCClipper);
 };
 
 // set the given map mode for the life time of this object
@@ -579,23 +610,34 @@ private:
         HDC m_hdc;
         int m_modeOld;
 
-        DECLARE_NO_COPY_CLASS(HDCMapModeChanger)
+        wxDECLARE_NO_COPY_CLASS(HDCMapModeChanger);
     };
 
     #define wxCHANGE_HDC_MAP_MODE(hdc, mm) \
         HDCMapModeChanger wxMAKE_UNIQUE_NAME(wxHDCMapModeChanger)(hdc, mm)
 #endif // __WXWINCE__/!__WXWINCE__
 
-// smart buffeer using GlobalAlloc/GlobalFree()
+// smart pointer using GlobalAlloc/GlobalFree()
 class GlobalPtr
 {
 public:
+    // default ctor, call Init() later
+    GlobalPtr()
+    {
+        m_hGlobal = NULL;
+    }
+
     // allocates a block of given size
-    GlobalPtr(size_t size, unsigned flags = GMEM_MOVEABLE)
+    void Init(size_t size, unsigned flags = GMEM_MOVEABLE)
     {
         m_hGlobal = ::GlobalAlloc(flags, size);
         if ( !m_hGlobal )
             wxLogLastError(_T("GlobalAlloc"));
+    }
+
+    GlobalPtr(size_t size, unsigned flags = GMEM_MOVEABLE)
+    {
+        Init(size, flags);
     }
 
     ~GlobalPtr()
@@ -610,7 +652,7 @@ public:
 private:
     HGLOBAL m_hGlobal;
 
-    DECLARE_NO_COPY_CLASS(GlobalPtr)
+    wxDECLARE_NO_COPY_CLASS(GlobalPtr);
 };
 
 // when working with global pointers (which is unfortunately still necessary
@@ -619,35 +661,54 @@ private:
 class GlobalPtrLock
 {
 public:
-    GlobalPtrLock(HGLOBAL hGlobal) : m_hGlobal(hGlobal)
+    // default ctor, use Init() later -- should only be used if the HGLOBAL can
+    // be NULL (in which case Init() shouldn't be called)
+    GlobalPtrLock()
     {
+        m_hGlobal = NULL;
+        m_ptr = NULL;
+    }
+
+    // initialize the object, may be only called if we were created using the
+    // default ctor; HGLOBAL must not be NULL
+    void Init(HGLOBAL hGlobal)
+    {
+        m_hGlobal = hGlobal;
+
+        // NB: GlobalLock() is a macro, not a function, hence don't use the
+        //     global scope operator with it (and neither with GlobalUnlock())
         m_ptr = GlobalLock(hGlobal);
         if ( !m_ptr )
             wxLogLastError(_T("GlobalLock"));
     }
 
+    // initialize the object, HGLOBAL must not be NULL
+    GlobalPtrLock(HGLOBAL hGlobal)
+    {
+        Init(hGlobal);
+    }
+
     ~GlobalPtrLock()
     {
-        if ( !GlobalUnlock(m_hGlobal) )
+        if ( m_hGlobal && !GlobalUnlock(m_hGlobal) )
         {
-#ifdef __WXDEBUG__
             // this might happen simply because the block became unlocked
             DWORD dwLastError = ::GetLastError();
             if ( dwLastError != NO_ERROR )
             {
                 wxLogApiError(_T("GlobalUnlock"), dwLastError);
             }
-#endif // __WXDEBUG__
         }
     }
 
+    void *Get() const { return m_ptr; }
     operator void *() const { return m_ptr; }
 
 private:
     HGLOBAL m_hGlobal;
     void *m_ptr;
 
-    DECLARE_NO_COPY_CLASS(GlobalPtrLock)
+    wxDECLARE_NO_COPY_CLASS(GlobalPtrLock);
 };
 
 // register the class when it is first needed and unregister it in dtor
@@ -692,7 +753,7 @@ public:
     {
         if ( IsRegistered() )
         {
-            if ( !::UnregisterClass(m_clsname, wxhInstance) )
+            if ( !::UnregisterClass(m_clsname.wx_str(), wxhInstance) )
             {
                 wxLogLastError(_T("UnregisterClass"));
             }
@@ -824,7 +885,8 @@ enum wxWinVersion
     wxWinVersion_2003 = 0x0502,
 
     wxWinVersion_6 = 0x0600,
-    wxWinVersion_NT6 = 0x0600
+    wxWinVersion_Vista = wxWinVersion_6,
+    wxWinVersion_NT6 = wxWinVersion_6
 };
 
 WXDLLIMPEXP_BASE wxWinVersion wxGetWinVersion();
@@ -835,30 +897,30 @@ WXDLLIMPEXP_BASE wxWinVersion wxGetWinVersion();
 extern HCURSOR wxGetCurrentBusyCursor();    // from msw/utils.cpp
 extern const wxCursor *wxGetGlobalCursor(); // from msw/cursor.cpp
 
-WXDLLEXPORT void wxGetCharSize(WXHWND wnd, int *x, int *y, const wxFont& the_font);
-WXDLLEXPORT void wxFillLogFont(LOGFONT *logFont, const wxFont *font);
-WXDLLEXPORT wxFont wxCreateFontFromLogFont(const LOGFONT *logFont);
-WXDLLEXPORT wxFontEncoding wxGetFontEncFromCharSet(int charset);
+WXDLLIMPEXP_CORE void wxGetCharSize(WXHWND wnd, int *x, int *y, const wxFont& the_font);
+WXDLLIMPEXP_CORE void wxFillLogFont(LOGFONT *logFont, const wxFont *font);
+WXDLLIMPEXP_CORE wxFont wxCreateFontFromLogFont(const LOGFONT *logFont);
+WXDLLIMPEXP_CORE wxFontEncoding wxGetFontEncFromCharSet(int charset);
 
-WXDLLEXPORT void wxSliderEvent(WXHWND control, WXWORD wParam, WXWORD pos);
-WXDLLEXPORT void wxScrollBarEvent(WXHWND hbar, WXWORD wParam, WXWORD pos);
+WXDLLIMPEXP_CORE void wxSliderEvent(WXHWND control, WXWORD wParam, WXWORD pos);
+WXDLLIMPEXP_CORE void wxScrollBarEvent(WXHWND hbar, WXWORD wParam, WXWORD pos);
 
 // Find maximum size of window/rectangle
-extern WXDLLEXPORT void wxFindMaxSize(WXHWND hwnd, RECT *rect);
+extern WXDLLIMPEXP_CORE void wxFindMaxSize(WXHWND hwnd, RECT *rect);
 
 // Safely get the window text (i.e. without using fixed size buffer)
-extern WXDLLEXPORT wxString wxGetWindowText(WXHWND hWnd);
+extern WXDLLIMPEXP_CORE wxString wxGetWindowText(WXHWND hWnd);
 
 // get the window class name
-extern WXDLLEXPORT wxString wxGetWindowClass(WXHWND hWnd);
+extern WXDLLIMPEXP_CORE wxString wxGetWindowClass(WXHWND hWnd);
 
 // get the window id (should be unsigned, hence this is not wxWindowID which
 // is, for mainly historical reasons, signed)
-extern WXDLLEXPORT WXWORD wxGetWindowId(WXHWND hWnd);
+extern WXDLLIMPEXP_CORE int wxGetWindowId(WXHWND hWnd);
 
 // check if hWnd's WNDPROC is wndProc. Return true if yes, false if they are
 // different
-extern WXDLLEXPORT bool wxCheckWindowWndProc(WXHWND hWnd, WXFARPROC wndProc);
+extern WXDLLIMPEXP_CORE bool wxCheckWindowWndProc(WXHWND hWnd, WXFARPROC wndProc);
 
 // Does this window style specify any border?
 inline bool wxStyleHasBorder(long style)
@@ -867,26 +929,47 @@ inline bool wxStyleHasBorder(long style)
                      wxSUNKEN_BORDER | wxDOUBLE_BORDER)) != 0;
 }
 
+inline long wxGetWindowExStyle(const wxWindowMSW *win)
+{
+    return ::GetWindowLong(GetHwndOf(win), GWL_EXSTYLE);
+}
+
+inline bool wxHasWindowExStyle(const wxWindowMSW *win, long style)
+{
+    return (wxGetWindowExStyle(win) & style) != 0;
+}
+
+inline long wxSetWindowExStyle(const wxWindowMSW *win, long style)
+{
+    return ::SetWindowLong(GetHwndOf(win), GWL_EXSTYLE, style);
+}
+
 // ----------------------------------------------------------------------------
 // functions mapping HWND to wxWindow
 // ----------------------------------------------------------------------------
 
-// this function simply checks whether the given hWnd corresponds to a wxWindow
+// this function simply checks whether the given hwnd corresponds to a wxWindow
 // and returns either that window if it does or NULL otherwise
-extern WXDLLEXPORT wxWindow* wxFindWinFromHandle(WXHWND hWnd);
+extern WXDLLIMPEXP_CORE wxWindow* wxFindWinFromHandle(HWND hwnd);
+
+// without STRICT WXHWND is the same as HWND anyhow
+inline wxWindow* wxFindWinFromHandle(WXHWND hWnd)
+{
+    return wxFindWinFromHandle(static_cast<HWND>(hWnd));
+}
 
 // find the window for HWND which is part of some wxWindow, i.e. unlike
 // wxFindWinFromHandle() above it will also work for "sub controls" of a
 // wxWindow.
 //
 // returns the wxWindow corresponding to the given HWND or NULL.
-extern WXDLLEXPORT wxWindow *wxGetWindowFromHWND(WXHWND hwnd);
+extern WXDLLIMPEXP_CORE wxWindow *wxGetWindowFromHWND(WXHWND hwnd);
 
 // Get the size of an icon
-extern WXDLLEXPORT wxSize wxGetHiconSize(HICON hicon);
+extern WXDLLIMPEXP_CORE wxSize wxGetHiconSize(HICON hicon);
 
 // Lines are drawn differently for WinCE and regular WIN32
-WXDLLEXPORT void wxDrawLine(HDC hdc, int x1, int y1, int x2, int y2);
+WXDLLIMPEXP_CORE void wxDrawLine(HDC hdc, int x1, int y1, int x2, int y2);
 
 // fill the client rect of the given window on the provided dc using this brush
 inline void wxFillRect(HWND hwnd, HDC hdc, HBRUSH hbr)

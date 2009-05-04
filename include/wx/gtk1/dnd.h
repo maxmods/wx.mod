@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/dnd.h
 // Purpose:     declaration of the wxDropTarget class
 // Author:      Robert Roebling
-// RCS-ID:      $Id: dnd.h 37065 2006-01-23 02:28:01Z MR $
+// RCS-ID:      $Id: dnd.h 59736 2009-03-22 17:18:07Z VZ $
 // Copyright:   (c) 1998 Vadim Zeitlin, Robert Roebling
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -23,13 +23,13 @@
 // classes
 //-------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxWindow;
+class WXDLLIMPEXP_FWD_CORE wxWindow;
 
-class WXDLLIMPEXP_CORE wxDropTarget;
-class WXDLLIMPEXP_CORE wxTextDropTarget;
-class WXDLLIMPEXP_CORE wxFileDropTarget;
+class WXDLLIMPEXP_FWD_CORE wxDropTarget;
+class WXDLLIMPEXP_FWD_CORE wxTextDropTarget;
+class WXDLLIMPEXP_FWD_CORE wxFileDropTarget;
 
-class WXDLLIMPEXP_CORE wxDropSource;
+class WXDLLIMPEXP_FWD_CORE wxDropSource;
 
 // ----------------------------------------------------------------------------
 // macros
@@ -48,7 +48,7 @@ class WXDLLIMPEXP_CORE wxDropSource;
 class WXDLLIMPEXP_CORE wxDropTarget: public wxDropTargetBase
 {
 public:
-    wxDropTarget(wxDataObject *dataObject = (wxDataObject*) NULL );
+    wxDropTarget(wxDataObject *dataObject = NULL );
 
     virtual wxDragResult OnDragOver(wxCoord x, wxCoord y, wxDragResult def);
     virtual bool OnDrop(wxCoord x, wxCoord y);
@@ -57,7 +57,7 @@ public:
 
   // implementation
 
-    GdkAtom GetMatchingPair();
+    GdkAtom GetMatchingPair(bool quiet = false);
 
     void RegisterWidget( GtkWidget *widget );
     void UnregisterWidget( GtkWidget *widget );
@@ -82,7 +82,7 @@ class WXDLLIMPEXP_CORE wxDropSource: public wxDropSourceBase
 {
 public:
     // constructor. set data later with SetData()
-    wxDropSource( wxWindow *win = (wxWindow *)NULL,
+    wxDropSource( wxWindow *win = NULL,
                   const wxIcon &copy = wxNullIcon,
                   const wxIcon &move = wxNullIcon,
                   const wxIcon &none = wxNullIcon);

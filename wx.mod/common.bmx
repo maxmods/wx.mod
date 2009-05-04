@@ -138,23 +138,26 @@ Import "-liconv"
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
 Import "../include/*.h"
 
-Import "-lwx_macu_aui-2.8"
-Import "-lwx_macu_xrc-2.8"
-Import "-lwx_macu_qa-2.8"
-Import "-lwx_macu_html-2.8"
-Import "-lwx_macu_adv-2.8"
-Import "-lwx_macu_core-2.8"
-Import "-lwx_base_carbonu_xml-2.8"
-Import "-lwx_base_carbonu_net-2.8"
-Import "-lwx_base_carbonu-2.8"
-Import "-lwx_macu_gl-2.8"
-Import "-lwx_macu_media-2.8"
-Import "-lwx_macu_richtext-2.8"
-Import "-lwxtiff-2.8"
-Import "-lwxjpeg-2.8"
-Import "-lwxpng-2.8"
-Import "-lwxregexu-2.8"
-Import "-lwxexpat-2.8"
+Import "-lwx_osx_carbonu_aui-2.9"
+Import "-lwx_osx_carbonu_xrc-2.9"
+Import "-lwx_osx_carbonu_qa-2.9"
+Import "-lwx_osx_carbonu_html-2.9"
+Import "-lwx_osx_carbonu_adv-2.9"
+Import "-lwx_osx_carbonu_core-2.9"
+Import "-lwx_baseu_xml-2.9"
+Import "-lwx_baseu_net-2.9"
+Import "-lwx_baseu-2.9"
+Import "-lwx_osx_carbonu_propgrid-2.9"
+Import "-lwx_osx_carbonu_stc-2.9"
+Import "-lwx_osx_carbonu_gl-2.9"
+Import "-lwx_osx_carbonu_media-2.9"
+Import "-lwx_osx_carbonu_richtext-2.9"
+Import "-lwxscintilla-2.9"
+Import "-lwxtiff-2.9"
+Import "-lwxjpeg-2.9"
+Import "-lwxpng-2.9"
+Import "-lwxregexu-2.9"
+Import "-lwxexpat-2.9"
 
 Import "-framework QuickTime"
 Import "-framework IOKit"
@@ -164,6 +167,7 @@ Import "-framework System"
 Import "-framework WebKit"
 Import "-framework OpenGL"
 Import "-framework AGL"
+Import "-framework AudioToolbox"
 Import "-lz"
 Import "-liconv"
 ?
@@ -468,9 +472,9 @@ Extern
 	Function bmx_wxsleep(secs:Int)
 	Function bmx_wxstarttimer()
 
-	Function bmx_wxtextoutputstream_create:Byte Ptr(stream:Byte Ptr, mode:Int)
+	Function bmx_wxtextoutputstream_create:Byte Ptr(stream:Byte Ptr, Mode:Int)
 	Function bmx_wxtextoutputstream_getmode:Int(handle:Byte Ptr)
-	Function bmx_wxtextoutputstream_setmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxtextoutputstream_setmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxtextoutputstream_write8(handle:Byte Ptr, value:Int)
 	Function bmx_wxtextoutputstream_write16(handle:Byte Ptr, value:Int)
 	Function bmx_wxtextoutputstream_write32(handle:Byte Ptr, value:Int)

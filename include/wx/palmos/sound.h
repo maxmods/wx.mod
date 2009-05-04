@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: sound.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: sound.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -44,7 +44,7 @@ private:
   int   m_waveLength;
   bool  m_isResource;
 
-    DECLARE_NO_COPY_CLASS(wxSound)
+    wxDECLARE_NO_COPY_CLASS(wxSound);
 };
 #endif
 #endif

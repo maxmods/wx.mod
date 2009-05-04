@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     2006-01-29
-// RCS-ID:      $Id: toolbook.h 49804 2007-11-10 01:09:42Z VZ $
+// RCS-ID:      $Id: toolbook.h 58718 2009-02-07 18:59:25Z VZ $
 // Copyright:   (c) 2006 Julian Smart
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -21,18 +21,26 @@
 class WXDLLIMPEXP_FWD_CORE wxToolBarBase;
 class WXDLLIMPEXP_FWD_CORE wxCommandEvent;
 
-extern WXDLLIMPEXP_CORE const wxEventType wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED;
-extern WXDLLIMPEXP_CORE const wxEventType wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING;
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED,  wxBookCtrlEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING, wxBookCtrlEvent );
 
 
 // Use wxButtonToolBar
-#define wxBK_BUTTONBAR            0x0100
+#define wxTBK_BUTTONBAR            0x0100
+
+// Use wxTB_HORZ_LAYOUT style for the controlling toolbar
+#define wxTBK_HORZ_LAYOUT          0x8000
+
+// deprecated synonym, don't use
+#if WXWIN_COMPATIBILITY_2_8
+    #define wxBK_BUTTONBAR wxTBK_BUTTONBAR
+#endif
 
 // ----------------------------------------------------------------------------
 // wxToolbook
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxToolbook : public wxBookCtrlBase
+class WXDLLIMPEXP_CORE wxToolbook : public wxBookCtrlBase
 {
 public:
     wxToolbook()
@@ -103,8 +111,8 @@ protected:
 
     void UpdateSelectedPage(size_t newsel);
 
-    wxBookCtrlBaseEvent* CreatePageChangingEvent() const;
-    void MakeChangedEvent(wxBookCtrlBaseEvent &event);
+    wxBookCtrlEvent* CreatePageChangingEvent() const;
+    void MakeChangedEvent(wxBookCtrlEvent &event);
 
     // the currently selected page or wxNOT_FOUND if none
     int m_selection;
@@ -127,36 +135,17 @@ private:
 // listbook event class and related stuff
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxToolbookEvent : public wxBookCtrlBaseEvent
-{
-public:
-    wxToolbookEvent(wxEventType commandType = wxEVT_NULL, int id = 0,
-                    int nSel = wxNOT_FOUND, int nOldSel = wxNOT_FOUND)
-        : wxBookCtrlBaseEvent(commandType, id, nSel, nOldSel)
-    {
-    }
+// wxToolbookEvent is obsolete and defined for compatibility only
+typedef wxBookCtrlEvent wxToolbookEvent;
+typedef wxBookCtrlEventFunction wxToolbookEventFunction;
+#define wxToolbookEventHandler(func) wxBookCtrlEventHandler(func)
 
-    wxToolbookEvent(const wxToolbookEvent& event)
-        : wxBookCtrlBaseEvent(event)
-    {
-    }
-
-    virtual wxEvent *Clone() const { return new wxToolbookEvent(*this); }
-
-private:
-    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxToolbookEvent)
-};
-
-typedef void (wxEvtHandler::*wxToolbookEventFunction)(wxToolbookEvent&);
-
-#define wxToolbookEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxToolbookEventFunction, &func)
 
 #define EVT_TOOLBOOK_PAGE_CHANGED(winid, fn) \
-    wx__DECLARE_EVT1(wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED, winid, wxToolbookEventHandler(fn))
+    wx__DECLARE_EVT1(wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED, winid, wxBookCtrlEventHandler(fn))
 
 #define EVT_TOOLBOOK_PAGE_CHANGING(winid, fn) \
-    wx__DECLARE_EVT1(wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING, winid, wxToolbookEventHandler(fn))
+    wx__DECLARE_EVT1(wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING, winid, wxBookCtrlEventHandler(fn))
 
 #endif // wxUSE_TOOLBOOK
 

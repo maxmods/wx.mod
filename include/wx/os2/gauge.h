@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/06/99
-// RCS-ID:      $Id: gauge.h 41193 2006-09-13 16:14:26Z ABX $
+// RCS-ID:      $Id: gauge.h 56439 2008-10-19 12:34:13Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_GAUGE_H_
 #define _WX_GAUGE_H_
 
-class WXDLLEXPORT wxGauge: public wxGaugeBase
+class WXDLLIMPEXP_CORE wxGauge: public wxGaugeBase
 {
 public:
     inline wxGauge() { m_nRangeMax = 0; m_nGaugePos = 0; }
@@ -69,7 +69,7 @@ protected:
     int                             m_nWidth;
     int                             m_nHeight;
 
-    wxSize wxGauge::DoGetBestSize(void) const;
+    wxSize DoGetBestSize(void) const;
 
 private:
     DECLARE_DYNAMIC_CLASS(wxGauge)

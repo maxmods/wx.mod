@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: imaglist.h 41271 2006-09-18 04:41:09Z KO $
+// RCS-ID:      $Id: imaglist.h 59036 2009-02-19 20:26:00Z RR $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@
 // now, the app must take care of ownership issues. That is, the
 // image lists must be explicitly deleted after the control(s) that uses them
 // is (are) deleted, or when the app exits.
-class WXDLLEXPORT wxImageList : public wxObject
+class WXDLLIMPEXP_CORE wxImageList : public wxObject
 {
 public:
   /*
@@ -199,7 +199,7 @@ public:
 protected:
   WXHIMAGELIST m_hImageList;
 
-  DECLARE_DYNAMIC_CLASS(wxImageList)
+  DECLARE_DYNAMIC_CLASS_NO_COPY(wxImageList)
 };
 
 #endif

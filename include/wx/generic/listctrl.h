@@ -3,7 +3,7 @@
 // Purpose:     Generic list control
 // Author:      Robert Roebling
 // Created:     01/02/97
-// RCS-ID:      $Id: listctrl.h 46432 2007-06-13 03:46:20Z SC $
+// RCS-ID:      $Id: listctrl.h 58645 2009-02-04 10:07:58Z VZ $
 // Copyright:   (c) 1998 Robert Roebling and Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -11,35 +11,36 @@
 #ifndef _WX_GENERIC_LISTCTRL_H_
 #define _WX_GENERIC_LISTCTRL_H_
 
+#include "wx/scrolwin.h"
 #include "wx/textctrl.h"
 
-class WXDLLIMPEXP_CORE wxImageList;
+class WXDLLIMPEXP_FWD_CORE wxImageList;
 
 #if wxUSE_DRAG_AND_DROP
-class WXDLLEXPORT wxDropTarget;
+class WXDLLIMPEXP_FWD_CORE wxDropTarget;
 #endif
-
-// ----------------------------------------------------------------------------
-// constants
-// ----------------------------------------------------------------------------
-
 
 //-----------------------------------------------------------------------------
 // internal classes
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxListHeaderWindow;
-class WXDLLEXPORT wxListMainWindow;
+class WXDLLIMPEXP_FWD_CORE wxListHeaderWindow;
+class WXDLLIMPEXP_FWD_CORE wxListMainWindow;
 
 //-----------------------------------------------------------------------------
 // wxListCtrl
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxGenericListCtrl: public wxControl
+class WXDLLIMPEXP_CORE wxGenericListCtrl: public wxControl,
+                                          public wxScrollHelper
 {
 public:
 
-    wxGenericListCtrl();
+    wxGenericListCtrl() : wxScrollHelper(this)
+    {
+        Init();
+    }
+
     wxGenericListCtrl( wxWindow *parent,
                 wxWindowID winid = wxID_ANY,
                 const wxPoint &pos = wxDefaultPosition,
@@ -47,10 +48,14 @@ public:
                 long style = wxLC_ICON,
                 const wxValidator& validator = wxDefaultValidator,
                 const wxString &name = wxListCtrlNameStr)
+            : wxScrollHelper(this)
     {
         Create(parent, winid, pos, size, style, validator, name);
     }
+
     virtual ~wxGenericListCtrl();
+
+    void Init();
 
     bool Create( wxWindow *parent,
                  wxWindowID winid = wxID_ANY,
@@ -77,11 +82,10 @@ public:
     wxString GetItemText( long item ) const;
     void SetItemText( long item, const wxString& str );
     wxUIntPtr GetItemData( long item ) const;
-#if wxABI_VERSION >= 20804
     bool SetItemPtrData(long item, wxUIntPtr data);
-#endif // wxABI 2.8.4+
-    bool SetItemData(long item, long data);
+    bool SetItemData(long item, long data) { return SetItemPtrData(item, data); }
     bool GetItemRect( long item, wxRect& rect, int code = wxLIST_RECT_BOUNDS ) const;
+    bool GetSubItemRect( long item, long subItem, wxRect& rect, int code = wxLIST_RECT_BOUNDS ) const;
     bool GetItemPosition( long item, wxPoint& pos ) const;
     bool SetItemPosition( long item, const wxPoint& pos ); // not supported in wxGLC
     int GetItemCount() const;
@@ -170,14 +174,10 @@ public:
     // -------------------------------
 
     void OnInternalIdle( );
-    void OnSize( wxSizeEvent &event );
 
     // We have to hand down a few functions
     virtual void Refresh(bool eraseBackground = true,
                          const wxRect *rect = NULL);
-
-    virtual void Freeze();
-    virtual void Thaw();
 
     virtual bool SetBackgroundColour( const wxColour &colour );
     virtual bool SetForegroundColour( const wxColour &colour );
@@ -185,9 +185,6 @@ public:
     virtual wxColour GetForegroundColour() const;
     virtual bool SetFont( const wxFont &font );
     virtual bool SetCursor( const wxCursor &cursor );
-
-    virtual int GetScrollPos(int orient) const;
-    virtual void SetScrollPos(int orient, int pos, bool refresh = true); 
 
 #if wxUSE_DRAG_AND_DROP
     virtual void SetDropTarget( wxDropTarget *dropTarget );
@@ -235,30 +232,36 @@ protected:
     virtual wxListItemAttr *OnGetItemAttr(long item) const;
 
     // it calls our OnGetXXX() functions
-    friend class WXDLLEXPORT wxListMainWindow;
+    friend class WXDLLIMPEXP_FWD_CORE wxListMainWindow;
+
+    virtual wxBorder GetDefaultBorder() const;
 
 private:
-    // create the header window
-    void CreateHeaderWindow();
+    void CreateOrDestroyHeaderWindowAsNeeded();
+    void OnScroll( wxScrollWinEvent& event );
+    void OnSize( wxSizeEvent &event );
+    virtual wxSize GetSizeAvailableForScrollTarget(const wxSize& size);
 
-    // calculate and set height of the header
-    void CalculateAndSetHeaderHeight();
+    // we need to return a special WM_GETDLGCODE value to process just the
+    // arrows but let the other navigation characters through
+#if defined(__WXMSW__) && !defined(__WXWINCE__) && !defined(__WXUNIVERSAL__)
+    virtual WXLRESULT
+    MSWWindowProc(WXUINT nMsg, WXWPARAM wParam, WXLPARAM lParam);
+#endif // __WXMSW__
 
-    // reposition the header and the main window in the report view depending
-    // on whether it should be shown or not
-    void ResizeReportView(bool showHeader);
+    WX_FORWARD_TO_SCROLL_HELPER()
 
     DECLARE_EVENT_TABLE()
     DECLARE_DYNAMIC_CLASS(wxGenericListCtrl)
 };
 
-#if (!defined(__WXMSW__) || defined(__WXUNIVERSAL__)) && (!defined(__WXMAC__) || defined(__WXUNIVERSAL__))
+#if (!defined(__WXMSW__) || defined(__WXUNIVERSAL__)) && (!(defined(__WXMAC__) && wxOSX_USE_CARBON) || defined(__WXUNIVERSAL__ ))
 /*
  * wxListCtrl has to be a real class or we have problems with
  * the run-time information.
  */
 
-class WXDLLEXPORT wxListCtrl: public wxGenericListCtrl
+class WXDLLIMPEXP_CORE wxListCtrl: public wxGenericListCtrl
 {
     DECLARE_DYNAMIC_CLASS(wxListCtrl)
 
@@ -274,7 +277,7 @@ public:
     : wxGenericListCtrl(parent, winid, pos, size, style, validator, name)
     {
     }
-    
+
 };
 #endif // !__WXMSW__ || __WXUNIVERSAL__
 

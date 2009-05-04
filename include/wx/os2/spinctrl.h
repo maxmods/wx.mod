@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/15/99
-// RCS-ID:      $Id: spinctrl.h 34903 2005-07-21 17:18:43Z ABX $
+// RCS-ID:      $Id: spinctrl.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 #include "wx/spinbutt.h"    // the base class
 #include "wx/dynarray.h"
-class WXDLLEXPORT wxSpinCtrl;
+class WXDLLIMPEXP_FWD_CORE wxSpinCtrl;
 WX_DEFINE_EXPORTED_ARRAY_PTR(wxSpinCtrl *, wxArraySpins);
 
 // ----------------------------------------------------------------------------
@@ -23,7 +23,7 @@ WX_DEFINE_EXPORTED_ARRAY_PTR(wxSpinCtrl *, wxArraySpins);
 // control is clicked.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxSpinCtrl : public wxSpinButton
+class WXDLLIMPEXP_CORE wxSpinCtrl : public wxSpinButton
 {
 public:
     wxSpinCtrl() { }

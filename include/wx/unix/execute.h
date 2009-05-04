@@ -2,7 +2,7 @@
 // Name:        unix/execute.h
 // Purpose:     private details of wxExecute() implementation
 // Author:      Vadim Zeitlin
-// Id:          $Id: execute.h 35055 2005-08-02 22:58:06Z MW $
+// Id:          $Id: execute.h 52701 2008-03-22 15:37:16Z VZ $
 // Copyright:   (c) 1998 Robert Roebling, Julian Smart, Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,18 +12,25 @@
 
 #include "wx/unix/pipe.h"
 
-class WXDLLIMPEXP_BASE wxProcess;
+class WXDLLIMPEXP_FWD_BASE wxProcess;
 class wxStreamTempInputBuffer;
 
-// if pid > 0, the execution is async and the data is freed in the callback
-// executed when the process terminates, if pid < 0, the execution is
-// synchronous and the caller (wxExecute) frees the data
 struct wxEndProcessData
 {
-    int pid,                // pid of the process
-        tag;                // port dependent value
+    wxEndProcessData()
+    {
+        pid =
+        tag =
+        exitcode = -1;
+        process = NULL;
+        async = false;
+    }
+
+    int pid;                // pid of the process
+    int tag;                // port dependent value
     wxProcess *process;     // if !NULL: notified on process termination
-    int  exitcode;          // the exit code
+    int exitcode;           // the exit code
+    bool async;             // if true, delete us on process termination
 };
 
 // struct in which information is passed from wxExecute() to wxAppTraits
@@ -40,8 +47,21 @@ struct wxExecuteData
 #if wxUSE_STREAMS
         bufOut =
         bufErr = NULL;
+
+        fdOut =
+        fdErr = wxPipe::INVALID_FD;
 #endif // wxUSE_STREAMS
     }
+
+    // get the FD corresponding to the read end of the process end detection
+    // pipe and close the write one
+    int GetEndProcReadFD()
+    {
+        const int fd = pipeEndProcDetect.Detach(wxPipe::Read);
+        pipeEndProcDetect.Close();
+        return fd;
+    }
+
 
     // wxExecute() flags
     int flags;
@@ -60,20 +80,15 @@ struct wxExecuteData
     // called bufOut and not bufIn
     wxStreamTempInputBuffer *bufOut,
                             *bufErr;
+
+    // the corresponding FDs, -1 if not redirected
+    int fdOut,
+        fdErr;
 #endif // wxUSE_STREAMS
 };
 
 // this function is called when the process terminates from port specific
 // callback function and is common to all ports (src/unix/utilsunx.cpp)
 extern WXDLLIMPEXP_BASE void wxHandleProcessTermination(wxEndProcessData *proc_data);
-
-// this function is called to associate the port-specific callback with the
-// child process. The return valus is port-specific.
-extern WXDLLIMPEXP_CORE int wxAddProcessCallback(wxEndProcessData *proc_data, int fd);
-
-#if defined(__DARWIN__) && (defined(__WXMAC__) || defined(__WXCOCOA__))
-// For ports (e.g. DARWIN) which can add callbacks based on the pid
-extern int wxAddProcessCallbackForPid(wxEndProcessData *proc_data, int pid);
-#endif
 
 #endif // _WX_UNIX_EXECUTE_H

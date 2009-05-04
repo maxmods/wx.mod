@@ -28,7 +28,7 @@ extern "C" {
 #include <mach/mach.h>
 }
 #include <CoreFoundation/CFMachPort.h>
-#include "wx/mac/private.h"
+#include "wx/osx/private.h"
 #endif
 
 class MaxProcess;

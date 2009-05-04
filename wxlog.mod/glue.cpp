@@ -129,7 +129,7 @@ void bmx_wxlog_settimestamp(BBString * format) {
 		__timestamp = wxStringFromBBString(format);
 		wxLog::SetTimestamp(__timestamp);
 	} else {
-		wxLog::SetTimestamp(NULL);
+		wxLog::SetTimestamp(wxT(""));
 	}
 }
 

@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     29/01/98
-// RCS-ID:      $Id: validate.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: validate.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 1998 Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ class WXDLLIMPEXP_FWD_CORE wxWindowBase;
  Note that wxValidator and derived classes use reference counting.
 */
 
-class WXDLLEXPORT wxValidator : public wxEvtHandler
+class WXDLLIMPEXP_CORE wxValidator : public wxEvtHandler
 {
 public:
     wxValidator();
@@ -44,7 +44,7 @@ public:
     // Another possibility is to always pass a pointer to a new validator
     // (so the calling code can use a copy constructor of the relevant class).
     virtual wxObject *Clone() const
-        { return (wxValidator *)NULL; }
+        { return NULL; }
     bool Copy(const wxValidator& val)
         { m_validatorWindow = val.m_validatorWindow; return true; }
 
@@ -74,10 +74,10 @@ private:
     static bool ms_isSilent;
 
     DECLARE_DYNAMIC_CLASS(wxValidator)
-    DECLARE_NO_COPY_CLASS(wxValidator)
+    wxDECLARE_NO_COPY_CLASS(wxValidator);
 };
 
-extern WXDLLEXPORT_DATA(const wxValidator) wxDefaultValidator;
+extern WXDLLIMPEXP_DATA_CORE(const wxValidator) wxDefaultValidator;
 
 #define wxVALIDATOR_PARAM(val) val
 
@@ -86,8 +86,8 @@ extern WXDLLEXPORT_DATA(const wxValidator) wxDefaultValidator;
     // want to be able to pass wxDefaultValidator to the functions which take
     // a wxValidator parameter to avoid using "#if wxUSE_VALIDATORS"
     // everywhere
-    class WXDLLEXPORT wxValidator;
-    #define wxDefaultValidator (*((wxValidator *)NULL))
+    class WXDLLIMPEXP_FWD_CORE wxValidator;
+    #define wxDefaultValidator (*(NULL))
 
     // this macro allows to avoid warnings about unused parameters when
     // wxUSE_VALIDATORS == 0

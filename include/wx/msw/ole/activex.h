@@ -4,7 +4,7 @@
 // Author:      Ryan Norton <wxprojects@comcast.net>
 // Modified by:
 // Created:     8/18/05
-// RCS-ID:      $Id: activex.h 41793 2006-10-09 09:32:08Z ABX $
+// RCS-ID:      $Id: activex.h 58718 2009-02-07 18:59:25Z VZ $
 // Copyright:   (c) Ryan Norton
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,6 +26,8 @@
 #include "wx/msw/ole/uuid.h"
 #include "wx/window.h"
 #include "wx/variant.h"
+
+class FrameSite;
 
 //---------------------------------------------------------------------------
 // MSW COM includes
@@ -140,7 +142,7 @@ WX_DECLARE_AUTOOLE(wxAutoIOleInPlaceActiveObject, IOleInPlaceActiveObject)
 WX_DECLARE_AUTOOLE(wxAutoIOleDocumentView, IOleDocumentView)
 WX_DECLARE_AUTOOLE(wxAutoIViewObject, IViewObject)
 
-class wxActiveXContainer : public wxWindow
+class WXDLLIMPEXP_CORE wxActiveXContainer : public wxWindow
 {
 public:
     wxActiveXContainer(wxWindow * parent, REFIID iid, IUnknown* pUnk);
@@ -155,6 +157,7 @@ protected:
     friend class FrameSite;
     friend class wxActiveXEvents;
 
+    FrameSite *m_frameSite;
     wxAutoIDispatch            m_Dispatch;
     wxAutoIOleClientSite      m_clientSite;
     wxAutoIUnknown         m_ActiveX;
@@ -171,9 +174,30 @@ protected:
     void CreateActiveX(REFIID, IUnknown*);
 };
 
+///\brief Store native event parameters.
+///\detail Store OLE 'Invoke' parameters for event handlers that need to access them.
+/// These are the exact values for the event as they are passed to the wxActiveXContainer.
+struct wxActiveXEventNativeMSW
+{
+    DISPID  dispIdMember;
+    REFIID  riid;
+    LCID    lcid;
+    WORD    wFlags;
+    DISPPARAMS  *pDispParams;
+    VARIANT     *pVarResult;
+    EXCEPINFO   *pExcepInfo;
+    unsigned int *puArgErr;
+
+    wxActiveXEventNativeMSW
+        (DISPID a_dispIdMember, REFIID a_riid, LCID a_lcid, WORD a_wFlags, DISPPARAMS  *a_pDispParams,
+        VARIANT *a_pVarResult, EXCEPINFO *a_pExcepInfo, unsigned int *a_puArgErr)
+        :dispIdMember(a_dispIdMember), riid(a_riid), lcid(a_lcid), wFlags(a_wFlags), pDispParams(a_pDispParams),
+        pVarResult(a_pVarResult), pExcepInfo(a_pExcepInfo), puArgErr(a_puArgErr)
+    { }
+};
 
 // Events
-class wxActiveXEvent : public wxCommandEvent
+class WXDLLIMPEXP_CORE wxActiveXEvent : public wxCommandEvent
 {
 private:
     friend class wxActiveXEvents;
@@ -184,37 +208,38 @@ public:
     virtual wxEvent *Clone() const
     { return new wxActiveXEvent(*this); }
 
-    size_t ParamCount() const
-    {   return m_params.GetCount();  }
+    size_t ParamCount() const;
 
     wxString ParamType(size_t idx) const
     {
-        wxASSERT(idx < m_params.GetCount());
+        wxASSERT(idx < ParamCount());
         return m_params[idx].GetType();
     }
 
     wxString ParamName(size_t idx) const
     {
-        wxASSERT(idx < m_params.GetCount());
+        wxASSERT(idx < ParamCount());
         return m_params[idx].GetName();
     }
 
-    wxVariant& operator[] (size_t idx)
-    {
-        wxASSERT(idx < ParamCount());
-        return m_params[idx];
-    }
+    wxVariant& operator[] (size_t idx);
 
     DISPID GetDispatchId() const
     {   return m_dispid;    }
+
+    wxActiveXEventNativeMSW *GetNativeParameters() const
+    {   return (wxActiveXEventNativeMSW*)GetClientData(); }
 };
 
-#define wxACTIVEX_ID    14001
-DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_MEDIA, wxEVT_ACTIVEX, wxACTIVEX_ID)
+// #define wxACTIVEX_ID    14001
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_ACTIVEX, wxActiveXEvent );
+
 typedef void (wxEvtHandler::*wxActiveXEventFunction)(wxActiveXEvent&);
-#define EVT_ACTIVEX(id, fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_ACTIVEX, id, -1, (wxObjectEventFunction) (wxEventFunction) (wxActiveXEventFunction) & fn, (wxObject *) NULL ),
+
 #define wxActiveXEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxActiveXEventFunction, &func)
+    wxEVENT_HANDLER_CAST( wxActiveXEventFunction, func )
+
+#define EVT_ACTIVEX(id, fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_ACTIVEX, id, -1, wxActiveXEventHandler( fn ), NULL ),
 
 #endif // wxUSE_ACTIVEX
 

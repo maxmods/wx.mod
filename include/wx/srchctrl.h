@@ -3,7 +3,7 @@
 // Purpose:     wxSearchCtrlBase class
 // Author:      Vince Harron
 // Created:     2006-02-18
-// RCS-ID:      $Id: srchctrl.h 45828 2007-05-05 14:51:51Z VZ $
+// RCS-ID:      $Id: srchctrl.h 59263 2009-03-02 12:25:01Z VZ $
 // Copyright:   (c) Vince Harron
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,8 +17,7 @@
 
 #include "wx/textctrl.h"
 
-#if !defined(__WXUNIVERSAL__) && defined(__WXMAC__) && defined(__WXMAC_OSX__) \
-        && (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_3)
+#if !defined(__WXUNIVERSAL__) && defined(__WXMAC__) 
     // search control was introduced in Mac OS X 10.3 Panther
     #define wxUSE_NATIVE_SEARCH_CONTROL 1
 
@@ -27,26 +26,27 @@
     // no native version, use the generic one
     #define wxUSE_NATIVE_SEARCH_CONTROL 0
 
-    #define wxSearchCtrlBaseBaseClass wxTextCtrlBase
+    class WXDLLIMPEXP_CORE wxSearchCtrlBaseBaseClass : public wxControl,
+                                                       public wxTextCtrlIface
+    {
+    };
 #endif
 
 // ----------------------------------------------------------------------------
 // constants
 // ----------------------------------------------------------------------------
 
-extern WXDLLEXPORT_DATA(const wxChar) wxSearchCtrlNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxSearchCtrlNameStr[];
 
-BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EVENT_TYPE(wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN, 1119)
-    DECLARE_EVENT_TYPE(wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, 1120)
-END_DECLARE_EVENT_TYPES()
+wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_CORE, wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN, wxCommandEvent);
+wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_CORE, wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, wxCommandEvent);
 
 // ----------------------------------------------------------------------------
 // a search ctrl is a text control with a search button and a cancel button
 // it is based on the MacOSX 10.3 control HISearchFieldCreate
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxSearchCtrlBase : public wxSearchCtrlBaseBaseClass
+class WXDLLIMPEXP_CORE wxSearchCtrlBase : public wxSearchCtrlBaseBaseClass
 {
 public:
     wxSearchCtrlBase() { }
@@ -64,13 +64,17 @@ public:
 
     virtual void ShowCancelButton( bool show ) = 0;
     virtual bool IsCancelButtonVisible() const = 0;
+
+private:
+    // implement wxTextEntry pure virtual method
+    virtual wxWindow *GetEditableWindow() { return this; }
 };
 
 
 // include the platform-dependent class implementation
 #if wxUSE_NATIVE_SEARCH_CONTROL
     #if defined(__WXMAC__)
-        #include "wx/mac/srchctrl.h"
+        #include "wx/osx/srchctrl.h"
     #endif
 #else
     #include "wx/generic/srchctlg.h"

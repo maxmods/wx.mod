@@ -45,18 +45,18 @@ extern "C" {
 	MaxPen * bmx_wxstockgdi_pen_transparent();
 	MaxPen * bmx_wxstockgdi_pen_white();
 
-	int bmx_wxpen_getcap(MaxPen * pen);
+	wxPenCap bmx_wxpen_getcap(MaxPen * pen);
 	MaxColour * bmx_wxpen_getcolour(MaxPen * pen);
-	int bmx_wxpen_getjoin(MaxPen * pen);
+	wxPenJoin bmx_wxpen_getjoin(MaxPen * pen);
 	MaxBitmap * bmx_wxpen_getstipple(MaxPen * pen);
 	int bmx_wxpen_getstyle(MaxPen * pen);
 	int bmx_wxpen_getwidth(MaxPen * pen);
 	bool bmx_wxpen_isok(MaxPen * pen);
-	void bmx_wxpen_setcap(MaxPen * pen, int style);
+	void bmx_wxpen_setcap(MaxPen * pen, wxPenCap style);
 	void bmx_wxpen_setcolour(MaxPen * pen, BBString * name);
 	void bmx_wxpen_setfromcolour(MaxPen * pen, MaxColour * colour);
 	void bmx_wxpen_setfromrgb(MaxPen * pen, int red, int green, int blue);
-	void bmx_wxpen_setjoin(MaxPen * pen, int style);
+	void bmx_wxpen_setjoin(MaxPen * pen, wxPenJoin style);
 	void bmx_wxpen_setstipple(MaxPen * pen, MaxBitmap * stipple);
 	void bmx_wxpen_setstyle(MaxPen * pen, int style);
 	void bmx_wxpen_setwidth(MaxPen * pen, int width);

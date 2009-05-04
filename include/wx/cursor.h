@@ -5,7 +5,7 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Julian Smart
-// RCS-ID:      $Id: cursor.h 40865 2006-08-27 09:42:42Z VS $
+// RCS-ID:      $Id: cursor.h 55884 2008-09-25 17:56:07Z FM $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -15,26 +15,37 @@
 #include "wx/defs.h"
 
 #if defined(__WXPALMOS__)
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
     #include "wx/palmos/cursor.h"
 #elif defined(__WXMSW__)
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
     #include "wx/msw/cursor.h"
 #elif defined(__WXMOTIF__)
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XBM
     #include "wx/motif/cursor.h"
 #elif defined(__WXGTK20__)
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
     #include "wx/gtk/cursor.h"
 #elif defined(__WXGTK__)
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
     #include "wx/gtk1/cursor.h"
 #elif defined(__WXX11__)
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
     #include "wx/x11/cursor.h"
 #elif defined(__WXMGL__)
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
     #include "wx/mgl/cursor.h"
 #elif defined(__WXDFB__)
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
     #include "wx/dfb/cursor.h"
 #elif defined(__WXMAC__)
-    #include "wx/mac/cursor.h"
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_MACCURSOR_RESOURCE
+    #include "wx/osx/cursor.h"
 #elif defined(__WXCOCOA__)
+    #define wxCURSOR_DEFAULT_TYPE   0
     #include "wx/cocoa/cursor.h"
 #elif defined(__WXPM__)
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
     #include "wx/os2/cursor.h"
 #endif
 

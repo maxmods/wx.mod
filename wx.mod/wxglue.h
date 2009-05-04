@@ -24,6 +24,7 @@
 #define _WX_MAX_H_
 
 #include "wx/wx.h"
+#include "wx/apptrait.h"
 #include "wx/evtloop.h"
 #include <wx/aboutdlg.h>
 #include "wx/artprov.h"
@@ -33,6 +34,10 @@
 #include "wx/txtstrm.h"
 #include "wx/wfstream.h"
 #include "wx/power.h"
+
+#include "wx/event.h"
+#include "wx/socket.h"
+#include "wx/stopwatch.h"
 
 #include <map>
 
@@ -352,7 +357,7 @@ extern "C" {
 	void bmx_wxenabletoplevelwindows(bool enable);
 	void bmx_wxgetmouseposition(int * x, int * y);
 
-	long bmx_wxgetelapsedtime(bool resetTimer);
+//	long bmx_wxgetelapsedtime(bool resetTimer);
 	long bmx_wxgetlocaltime();
 	void bmx_wxgetlocaltimemillis(BBInt64 * time);
 	long bmx_wxgetutctime();
@@ -360,7 +365,7 @@ extern "C" {
 	void bmx_wxmillisleep(unsigned long milliseconds);
 	BBString * bmx_wxnow();
 	void bmx_wxsleep(int secs);
-	void bmx_wxstarttimer();
+//	void bmx_wxstarttimer();
 
 	wxTextOutputStream * bmx_wxtextoutputstream_create(wxOutputStream * out, wxEOL mode);
 	wxEOL bmx_wxtextoutputstream_getmode(wxTextOutputStream * s);
@@ -384,7 +389,7 @@ extern "C" {
 }
 
 /*
-class wxMainEventLoop : public wxEventLoop
+class wxMainEventLoop : public wxEventLoopBase
 {
 	public:
 
@@ -412,7 +417,7 @@ private:
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 
-	wxEventLoop * eventLoop;
+	wxEventLoopBase * eventLoop;
 };
 
 DECLARE_APP(MaxApp)
@@ -479,13 +484,13 @@ private:
 class MaxWindowDC : public MaxDC
 {
 public:
-	MaxWindowDC();
+	//MaxWindowDC();
 	MaxWindowDC(wxWindow * window);
 private:
 	wxWindowDC windowDC;
 };
 
-class MaxPaintDC : public MaxWindowDC
+class MaxPaintDC : public MaxDC
 {
 public:
 	MaxPaintDC(wxWindow * window);

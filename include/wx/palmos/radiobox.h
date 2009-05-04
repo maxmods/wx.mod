@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by: Wlodzimierz ABX Skiba - native wxRadioBox implementation
 // Created:     10/13/04
-// RCS-ID:      $Id: radiobox.h 42816 2006-10-31 08:50:17Z RD $
+// RCS-ID:      $Id: radiobox.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne, Wlodzimierz Skiba
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,14 +12,14 @@
 #ifndef _WX_RADIOBOX_H_
 #define _WX_RADIOBOX_H_
 
-class WXDLLEXPORT wxBitmap;
-class WXDLLEXPORT wxRadioButton;
+class WXDLLIMPEXP_FWD_CORE wxBitmap;
+class WXDLLIMPEXP_FWD_CORE wxRadioButton;
 
 // ----------------------------------------------------------------------------
 // wxRadioBox
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxRadioBox : public wxControl, public wxRadioBoxBase
+class WXDLLIMPEXP_CORE wxRadioBox : public wxControl, public wxRadioBoxBase
 {
 public:
     wxRadioBox():m_radios(wxKEY_INTEGER,32)
@@ -163,7 +163,7 @@ private:
     wxHashTable m_radios;
 
     DECLARE_DYNAMIC_CLASS(wxRadioBox)
-    DECLARE_NO_COPY_CLASS(wxRadioBox)
+    wxDECLARE_NO_COPY_CLASS(wxRadioBox);
 };
 
 #endif

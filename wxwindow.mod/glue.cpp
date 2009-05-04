@@ -1311,9 +1311,9 @@ void bmx_wxupdateeventui_setupdateinterval(long interval) {
 }
 
 
-bool bmx_wxidleevent_cansend(wxWindow * window) {
-	return wxIdleEvent::CanSend(window);
-}
+//bool bmx_wxidleevent_cansend(wxWindow * window) {
+//	return wxIdleEvent::CanSend(window);
+//}
 
 wxIdleMode bmx_wxidleevent_getmode() {
 	return wxIdleEvent::GetMode();

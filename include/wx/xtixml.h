@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     27/07/03
-// RCS-ID:      $Id: xtixml.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: xtixml.h 47254 2007-07-09 10:09:52Z VS $
 // Copyright:   (c) 2003 Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@
 
 #include "wx/xtistrm.h"
 
-class WXDLLIMPEXP_XML wxXmlNode ;
+class WXDLLIMPEXP_FWD_XML wxXmlNode ;
 
 class WXDLLIMPEXP_XML wxXmlWriter : public wxWriter
 {

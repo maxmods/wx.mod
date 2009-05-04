@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: dialog.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: dialog.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,10 +12,10 @@
 #ifndef _WX_DIALOG_H_
 #define _WX_DIALOG_H_
 
-class WXDLLEXPORT wxEventLoop;
+class WXDLLIMPEXP_FWD_CORE wxEventLoop;
 
 // Dialog boxes
-class WXDLLEXPORT wxDialog : public wxDialogBase
+class WXDLLIMPEXP_CORE wxDialog : public wxDialogBase
 {
 public:
     wxDialog();

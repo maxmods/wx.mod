@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2003/04/01
-// RCS-ID:      $Id: dc.h 47599 2007-07-20 19:47:02Z DE $
+// RCS-ID:      $Id: dc.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2003 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,22 +14,24 @@
 
 DECLARE_WXCOCOA_OBJC_CLASS(NSAffineTransform);
 
-class WXDLLEXPORT wxDC;
-WX_DECLARE_LIST(wxDC, wxCocoaDCStack);
+#include "wx/dc.h"
+
+class WXDLLIMPEXP_FWD_CORE wxCocoaDCImpl;
+WX_DECLARE_LIST(wxCocoaDCImpl, wxCocoaDCStack);
 
 //=========================================================================
 // wxDC
 //=========================================================================
-class WXDLLEXPORT wxDC: public wxDCBase
+class WXDLLIMPEXP_CORE wxCocoaDCImpl: public wxDCImpl
 {
-    DECLARE_DYNAMIC_CLASS(wxDC)
-    DECLARE_NO_COPY_CLASS(wxDC)
+    DECLARE_ABSTRACT_CLASS(wxCocoaDCImpl)
+    wxDECLARE_NO_COPY_CLASS(wxCocoaDCImpl);
 //-------------------------------------------------------------------------
 // Initialization
 //-------------------------------------------------------------------------
 public:
-    wxDC();
-    virtual ~wxDC();
+    wxCocoaDCImpl(wxDC *owner);
+    virtual ~wxCocoaDCImpl();
 
 //-------------------------------------------------------------------------
 // wxCocoa specifics
@@ -67,7 +69,7 @@ protected:
 // Blitting
     virtual bool CocoaDoBlitOnFocusedDC(wxCoord xdest, wxCoord ydest,
         wxCoord width, wxCoord height, wxCoord xsrc, wxCoord ysrc,
-        int logicalFunc, bool useMask, wxCoord xsrcMask, wxCoord ysrcMask);
+        wxRasterOperationMode logicalFunc, bool useMask, wxCoord xsrcMask, wxCoord ysrcMask);
 //-------------------------------------------------------------------------
 // Implementation
 //-------------------------------------------------------------------------
@@ -98,21 +100,21 @@ public:
                                  wxCoord *x, wxCoord *y,
                                  wxCoord *descent = NULL,
                                  wxCoord *externalLeading = NULL,
-                                 wxFont *theFont = NULL) const;
+                                 const wxFont *theFont = NULL) const;
 
     virtual bool CanDrawBitmap() const;
     virtual bool CanGetTextExtent() const;
     virtual int GetDepth() const;
     virtual wxSize GetPPI() const;
 
-    virtual void SetMapMode(int mode);
+    virtual void SetMapMode(wxMappingMode mode);
     virtual void SetUserScale(double x, double y);
 
     virtual void SetLogicalScale(double x, double y);
     virtual void SetLogicalOrigin(wxCoord x, wxCoord y);
     virtual void SetDeviceOrigin(wxCoord x, wxCoord y);
     virtual void SetAxisOrientation(bool xLeftRight, bool yBottomUp);
-    virtual void SetLogicalFunction(int function);
+    virtual void SetLogicalFunction(wxRasterOperationMode function);
 
     virtual void SetTextForeground(const wxColour& colour) ;
     virtual void SetTextBackground(const wxColour& colour) ;
@@ -120,7 +122,7 @@ public:
     virtual void ComputeScaleAndOrigin();
 protected:
     virtual bool DoFloodFill(wxCoord x, wxCoord y, const wxColour& col,
-                             int style = wxFLOOD_SURFACE);
+                             wxFloodFillStyle style = wxFLOOD_SURFACE);
 
     virtual bool DoGetPixel(wxCoord x, wxCoord y, wxColour *col) const;
 
@@ -156,7 +158,7 @@ protected:
 
     // this is gnarly - we can't even call this function DoSetClippingRegion()
     // because of virtual function hiding
-    virtual void DoSetClippingRegionAsRegion(const wxRegion& region);
+    virtual void DoSetDeviceClippingRegion(const wxRegion& region);
     virtual void DoSetClippingRegion(wxCoord x, wxCoord y,
                                      wxCoord width, wxCoord height);
 
@@ -167,7 +169,7 @@ protected:
                              wxCoord xoffset, wxCoord yoffset);
     virtual void DoDrawPolygon(int n, wxPoint points[],
                                wxCoord xoffset, wxCoord yoffset,
-                               int fillStyle = wxODDEVEN_RULE);
+                               wxPolygonFillMode fillStyle = wxODDEVEN_RULE);
 };
 
 #endif // __WX_COCOA_DC_H__

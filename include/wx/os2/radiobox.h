@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/12/99
-// RCS-ID:      $Id: radiobox.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: radiobox.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,9 +13,9 @@
 #define _WX_RADIOBOX_H_
 
 // List box item
-class WXDLLEXPORT wxBitmap ;
+class WXDLLIMPEXP_FWD_CORE wxBitmap ;
 
-class WXDLLEXPORT wxRadioBox: public wxControl, public wxRadioBoxBase
+class WXDLLIMPEXP_CORE wxRadioBox: public wxControl, public wxRadioBoxBase
 {
 public:
     wxRadioBox();
@@ -165,6 +165,7 @@ public:
     wxString GetLabel(int nItem) const;
 
 protected:
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
     virtual wxSize DoGetBestSize(void) const;
     virtual void   DoSetSize( int nX
                              ,int nY

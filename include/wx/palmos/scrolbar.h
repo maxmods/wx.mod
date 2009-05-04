@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: scrolbar.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: scrolbar.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 #define _WX_SCROLBAR_H_
 
 // Scrollbar item
-class WXDLLEXPORT wxScrollBar: public wxScrollBarBase
+class WXDLLIMPEXP_CORE wxScrollBar: public wxScrollBarBase
 {
 public:
     wxScrollBar() { m_pageSize = 0; m_viewSize = 0; m_objectSize = 0; }

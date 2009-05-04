@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2003/03/16
-// RCS-ID:      $Id: textctrl.h 50334 2007-11-30 05:08:21Z DE $
+// RCS-ID:      $Id: textctrl.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2003 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 // ========================================================================
 // wxTextCtrl
 // ========================================================================
-class WXDLLEXPORT wxTextCtrl : public wxTextCtrlBase, protected wxCocoaNSTextField
+class WXDLLIMPEXP_CORE wxTextCtrl : public wxTextCtrlBase, protected wxCocoaNSTextField
 {
     DECLARE_DYNAMIC_CLASS(wxTextCtrl)
     DECLARE_EVENT_TABLE()
@@ -51,11 +51,6 @@ public:
 protected:
     virtual void Cocoa_didChangeText(void);
     virtual void CocoaTarget_action(void);
-public: // We can't make an Objective-C class or method a friend
-    // These are the new (non-virtual for ABI compatibility) messages:
-    void CocoaNotification_controlTextDidChange(WX_NSNotification notification);
-    void CocoaNotification_controlTextDidEndEditing(WX_NSNotification notification);
-    void CocoaNotification_controlTextDidBeginEditing(WX_NSNotification notification);
 // ------------------------------------------------------------------------
 // Implementation
 // ------------------------------------------------------------------------

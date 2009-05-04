@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     Apr-30-2006
-// RCS-ID:      $Id: combo.h 41835 2006-10-09 20:12:19Z RR $
+// RCS-ID:      $Id: combo.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -31,9 +31,9 @@
 
 #endif
 
-extern WXDLLIMPEXP_DATA_CORE(const wxChar) wxComboBoxNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxComboBoxNameStr[];
 
-class WXDLLEXPORT wxGenericComboCtrl : public wxComboCtrlBase
+class WXDLLIMPEXP_CORE wxGenericComboCtrl : public wxComboCtrlBase
 {
 public:
     // ctors and such
@@ -101,7 +101,7 @@ private:
 // If native wxComboCtrl was not defined, then prepare a simple
 // front-end so that wxRTTI works as expected.
 
-class WXDLLEXPORT wxComboCtrl : public wxGenericComboCtrl
+class WXDLLIMPEXP_CORE wxComboCtrl : public wxGenericComboCtrl
 {
 public:
     wxComboCtrl() : wxGenericComboCtrl() {}

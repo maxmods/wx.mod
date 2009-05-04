@@ -5,7 +5,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     08.06.01
-// RCS-ID:      $Id: snglinst.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: snglinst.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2001 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ private:
     // the implementation details (platform specific)
     class WXDLLIMPEXP_FWD_BASE wxSingleInstanceCheckerImpl *m_impl;
 
-    DECLARE_NO_COPY_CLASS(wxSingleInstanceChecker)
+    wxDECLARE_NO_COPY_CLASS(wxSingleInstanceChecker);
 };
 
 #endif // wxUSE_SNGLINST_CHECKER

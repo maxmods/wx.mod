@@ -90,9 +90,9 @@ Type wxDC Extends wxObject
 	bbdoc: Performs all necessary computations for given platform and context type after each change of scale and origin parameters.
 	about: Usually called automatically internally after such changes.
 	End Rem
-	Method ComputeScaleAndOrigin()
-		wx_wxdc_computescaleandorigin(wxObjectPtr)
-	End Method
+	'Method ComputeScaleAndOrigin()
+	'	wx_wxdc_computescaleandorigin(wxObjectPtr)
+	'End Method
 	
 	Rem
 	bbdoc: Displays a cross hair using the current pen.
@@ -713,8 +713,8 @@ Type wxDC Extends wxObject
 	bbdoc: This setting determines whether text will be drawn with a background colour or not.
 	about: @mode may be one of wxSOLID and wxTRANSPARENT.
 	End Rem
-	Method SetBackgroundMode(mode:Int)
-		bmx_wxdc_setbackgroundmode(wxObjectPtr, mode)
+	Method SetBackgroundMode(Mode:Int)
+		bmx_wxdc_setbackgroundmode(wxObjectPtr, Mode)
 	End Method
 	
 	Rem
@@ -821,8 +821,8 @@ Type wxDC Extends wxObject
 	currently ignored for PostScript output.
 	</p>
 	End Rem
-	Method SetMapMode(mode:Int)
-		bmx_wxdc_setmapmode(wxObjectPtr, mode)
+	Method SetMapMode(Mode:Int)
+		bmx_wxdc_setmapmode(wxObjectPtr, Mode)
 	End Method
 	
 	Rem

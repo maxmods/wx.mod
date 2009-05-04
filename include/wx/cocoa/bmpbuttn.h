@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2003/03/16
-// RCS-ID:      $Id: bmpbuttn.h 42046 2006-10-16 09:30:01Z ABX $
+// RCS-ID:      $Id: bmpbuttn.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2003 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 // ========================================================================
 // wxBitmapButton
 // ========================================================================
-class WXDLLEXPORT wxBitmapButton : public wxBitmapButtonBase
+class WXDLLIMPEXP_CORE wxBitmapButton : public wxBitmapButtonBase
 {
     DECLARE_DYNAMIC_CLASS(wxBitmapButton)
     DECLARE_EVENT_TABLE()

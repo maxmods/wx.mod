@@ -2,7 +2,7 @@
 // Name:        dcclient.h
 // Purpose:
 // Author:      Vaclav Slavik
-// Id:          $Id: dcclient.h 35650 2005-09-23 12:56:45Z MR $
+// Id:          $Id: dcclient.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2001-2002 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,16 +16,16 @@
 // classes
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxWindowDC;
-class WXDLLEXPORT wxPaintDC;
-class WXDLLEXPORT wxClientDC;
-class WXDLLEXPORT wxWindowMGL;
+class WXDLLIMPEXP_FWD_CORE wxWindowDC;
+class WXDLLIMPEXP_FWD_CORE wxPaintDC;
+class WXDLLIMPEXP_FWD_CORE wxClientDC;
+class WXDLLIMPEXP_FWD_CORE wxWindowMGL;
 
 //-----------------------------------------------------------------------------
 // wxWindowDC
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxWindowDC : public wxDC
+class WXDLLIMPEXP_CORE wxWindowDC : public wxDC
 {
 public:
     wxWindowDC() {}
@@ -44,7 +44,7 @@ private:
 // wxClientDC
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxClientDC : public wxWindowDC
+class WXDLLIMPEXP_CORE wxClientDC : public wxWindowDC
 {
 public:
     wxClientDC() : wxWindowDC() {}
@@ -58,7 +58,7 @@ private:
 // wxPaintDC
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxPaintDC : public wxClientDC
+class WXDLLIMPEXP_CORE wxPaintDC : public wxClientDC
 {
 public:
     wxPaintDC() : wxClientDC() {}

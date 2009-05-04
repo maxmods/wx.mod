@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id: pnghand.h 42077 2006-10-17 14:44:52Z ABX $
+// RCS-ID:      $Id: pnghand.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Microsoft, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_PNGHAND_H_
 #define _WX_PNGHAND_H_
 
-class WXDLLEXPORT wxPNGFileHandler: public wxBitmapHandler
+class WXDLLIMPEXP_CORE wxPNGFileHandler: public wxBitmapHandler
 {
     DECLARE_DYNAMIC_CLASS(wxPNGFileHandler)
 public:

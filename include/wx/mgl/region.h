@@ -3,7 +3,7 @@
 // Purpose:     wxRegion class
 // Author:      Vaclav Slavik
 // Created:     2001/03/12
-// RCS-ID:      $Id: region.h 43286 2006-11-10 19:58:43Z ABX $
+// RCS-ID:      $Id: region.h 57915 2009-01-08 16:43:56Z FM $
 // Copyright:   (c) 2001-2002 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 
 class MGLRegion;
 
-class WXDLLEXPORT wxRegion : public wxRegionBase
+class WXDLLIMPEXP_CORE wxRegion : public wxRegionBase
 {
 public:
     wxRegion();
@@ -23,7 +23,7 @@ public:
     wxRegion(const wxPoint& topLeft, const wxPoint& bottomRight);
     wxRegion(const wxRect& rect);
     wxRegion(const MGLRegion& region);
-    wxRegion(size_t n, const wxPoint *points, int fillStyle = wxODDEVEN_RULE );
+    wxRegion(size_t n, const wxPoint *points, wxPolygonFillMode fillStyle = wxODDEVEN_RULE );
     wxRegion(const wxBitmap& bmp)
     {
         Union(bmp);
@@ -44,9 +44,8 @@ public:
     const MGLRegion& GetMGLRegion() const;
 
 protected:
-    // ref counting code
-    virtual wxObjectRefData *CreateRefData() const;
-    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
+    virtual wxGDIRefData *CreateGDIRefData() const;
+    virtual wxGDIRefData *CloneGDIRefData(const wxGDIRefData *data) const;
 
     // wxRegionBase pure virtuals
     virtual bool DoIsEqual(const wxRegion& region) const;
@@ -63,13 +62,13 @@ protected:
 
 private:
     DECLARE_DYNAMIC_CLASS(wxRegion);
-    friend class WXDLLEXPORT wxRegionIterator;
+    friend class WXDLLIMPEXP_FWD_CORE wxRegionIterator;
 };
 
 
 WX_DECLARE_EXPORTED_LIST(wxRect, wxRegionRectList);
 
-class WXDLLEXPORT wxRegionIterator : public wxObject
+class WXDLLIMPEXP_CORE wxRegionIterator : public wxObject
 {
 public:
     wxRegionIterator(void);

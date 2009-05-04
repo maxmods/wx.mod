@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     2006-05-27
-// RCS-ID:      $Id: power.h 48811 2007-09-19 23:11:28Z RD $
+// RCS-ID:      $Id: power.h 58718 2009-02-07 18:59:25Z VZ $
 // Copyright:   (c) 2006 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -49,6 +49,9 @@ enum wxBatteryState
 class WXDLLIMPEXP_BASE wxPowerEvent : public wxEvent
 {
 public:
+    wxPowerEvent()            // just for use by wxRTTI
+        : m_veto(false) { }
+
     wxPowerEvent(wxEventType evtType) : wxEvent(wxID_NONE, evtType)
     {
         m_veto = false;
@@ -67,23 +70,18 @@ public:
 private:
     bool m_veto;
 
-#if wxABI_VERSION >= 20806
-    DECLARE_ABSTRACT_CLASS(wxPowerEvent)
-#endif
+    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxPowerEvent)
 };
 
-BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_BASE, wxEVT_POWER_SUSPENDING, 406)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_BASE, wxEVT_POWER_SUSPENDED, 407)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_BASE, wxEVT_POWER_SUSPEND_CANCEL, 408)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_BASE, wxEVT_POWER_RESUME, 444)
-END_DECLARE_EVENT_TYPES()
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_BASE, wxEVT_POWER_SUSPENDING, wxPowerEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_BASE, wxEVT_POWER_SUSPENDED, wxPowerEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_BASE, wxEVT_POWER_SUSPEND_CANCEL, wxPowerEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_BASE, wxEVT_POWER_RESUME, wxPowerEvent );
 
 typedef void (wxEvtHandler::*wxPowerEventFunction)(wxPowerEvent&);
 
 #define wxPowerEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction) \
-        wxStaticCastEvent(wxPowerEventFunction, &func)
+    wxEVENT_HANDLER_CAST(wxPowerEventFunction, func)
 
 #define EVT_POWER_SUSPENDING(func) \
     wx__DECLARE_EVT0(wxEVT_POWER_SUSPENDING, wxPowerEventHandler(func))

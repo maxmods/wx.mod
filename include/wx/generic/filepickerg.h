@@ -5,7 +5,7 @@
 // Modified by:
 // Created:     14/4/2006
 // Copyright:   (c) Francesco Montorsi
-// RCS-ID:      $Id: filepickerg.h 40100 2006-07-15 15:13:04Z VS $
+// RCS-ID:      $Id: filepickerg.h 58718 2009-02-07 18:59:25Z VZ $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -17,8 +17,8 @@
 #include "wx/dirdlg.h"
 
 
-extern WXDLLEXPORT_DATA(const wxEventType) wxEVT_COMMAND_DIRPICKER_CHANGED;
-extern WXDLLEXPORT_DATA(const wxEventType) wxEVT_COMMAND_FILEPICKER_CHANGED;
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_DIRPICKER_CHANGED, wxFileDirPickerEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEvent );
 
 
 //-----------------------------------------------------------------------------

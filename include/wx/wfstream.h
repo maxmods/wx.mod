@@ -4,7 +4,7 @@
 // Author:      Guilhem Lavaux
 // Modified by:
 // Created:     11/07/98
-// RCS-ID:      $Id: wfstream.h 44013 2006-12-19 13:49:26Z SC $
+// RCS-ID:      $Id: wfstream.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Guilhem Lavaux
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ protected:
     wxFile *m_file;
     bool m_file_destroy;
 
-    DECLARE_NO_COPY_CLASS(wxFileInputStream)
+    wxDECLARE_NO_COPY_CLASS(wxFileInputStream);
 };
 
 class WXDLLIMPEXP_BASE wxFileOutputStream : public wxOutputStream
@@ -83,7 +83,7 @@ protected:
     wxFile *m_file;
     bool m_file_destroy;
 
-    DECLARE_NO_COPY_CLASS(wxFileOutputStream)
+    wxDECLARE_NO_COPY_CLASS(wxFileOutputStream);
 };
 
 class WXDLLIMPEXP_BASE wxTempFileOutputStream : public wxOutputStream
@@ -93,8 +93,8 @@ public:
     virtual ~wxTempFileOutputStream();
 
     bool Close() { return Commit(); }
-    virtual bool Commit() { return m_file->Commit(); }
-    virtual void Discard() { m_file->Discard(); }
+    WXDLLIMPEXP_INLINE_BASE virtual bool Commit() { return m_file->Commit(); }
+    WXDLLIMPEXP_INLINE_BASE virtual void Discard() { m_file->Discard(); }
 
     wxFileOffset GetLength() const { return m_file->Length(); }
     bool IsSeekable() const { return true; }
@@ -108,7 +108,7 @@ protected:
 private:
     wxTempFile *m_file;
 
-    DECLARE_NO_COPY_CLASS(wxTempFileOutputStream)
+    wxDECLARE_NO_COPY_CLASS(wxTempFileOutputStream);
 };
 
 class WXDLLIMPEXP_BASE wxFileStream : public wxFileInputStream,
@@ -116,9 +116,10 @@ class WXDLLIMPEXP_BASE wxFileStream : public wxFileInputStream,
 {
 public:
     wxFileStream(const wxString& fileName);
+    virtual bool IsOk() const;
 
 private:
-    DECLARE_NO_COPY_CLASS(wxFileStream)
+    wxDECLARE_NO_COPY_CLASS(wxFileStream);
 };
 
 #endif //wxUSE_FILE
@@ -132,7 +133,7 @@ private:
 class WXDLLIMPEXP_BASE wxFFileInputStream : public wxInputStream
 {
 public:
-    wxFFileInputStream(const wxString& fileName, const wxChar *mode = _T("rb"));
+    wxFFileInputStream(const wxString& fileName, const wxString& mode = "rb");
     wxFFileInputStream(wxFFile& file);
     wxFFileInputStream(FILE *file);
     virtual ~wxFFileInputStream();
@@ -154,13 +155,13 @@ protected:
     wxFFile *m_file;
     bool m_file_destroy;
 
-    DECLARE_NO_COPY_CLASS(wxFFileInputStream)
+    wxDECLARE_NO_COPY_CLASS(wxFFileInputStream);
 };
 
 class WXDLLIMPEXP_BASE wxFFileOutputStream : public wxOutputStream
 {
 public:
-    wxFFileOutputStream(const wxString& fileName, const wxChar *mode = _T("w+b"));
+    wxFFileOutputStream(const wxString& fileName, const wxString& mode = "wb");
     wxFFileOutputStream(wxFFile& file);
     wxFFileOutputStream(FILE *file);
     virtual ~wxFFileOutputStream();
@@ -170,7 +171,7 @@ public:
     wxFileOffset GetLength() const;
 
     bool Ok() const { return IsOk(); }
-    virtual bool IsOk() const ;
+    virtual bool IsOk() const;
     bool IsSeekable() const { return m_file->GetKind() == wxFILE_KIND_DISK; }
 
 protected:
@@ -184,17 +185,18 @@ protected:
     wxFFile *m_file;
     bool m_file_destroy;
 
-    DECLARE_NO_COPY_CLASS(wxFFileOutputStream)
+    wxDECLARE_NO_COPY_CLASS(wxFFileOutputStream);
 };
 
 class WXDLLIMPEXP_BASE wxFFileStream : public wxFFileInputStream,
                                        public wxFFileOutputStream
 {
 public:
-    wxFFileStream(const wxString& fileName);
+    wxFFileStream(const wxString& fileName, const wxString& mode = "w+b");
+    virtual bool IsOk() const;
 
 private:
-    DECLARE_NO_COPY_CLASS(wxFFileStream)
+    wxDECLARE_NO_COPY_CLASS(wxFFileStream);
 };
 
 #endif //wxUSE_FFILE

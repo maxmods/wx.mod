@@ -5,7 +5,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: app.h 51592 2008-02-08 08:17:41Z VZ $
+// RCS-ID:      $Id: app.h 59711 2009-03-21 23:36:37Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,18 +19,20 @@
 
 #include "wx/event.h"       // for the base class
 #include "wx/build.h"
+#include "wx/cmdargs.h"     // for wxCmdLineArgsArray used by wxApp::argv
 #include "wx/init.h"        // we must declare wxEntry()
 #include "wx/intl.h"        // for wxLayoutDirection
 
 class WXDLLIMPEXP_FWD_BASE wxAppConsole;
 class WXDLLIMPEXP_FWD_BASE wxAppTraits;
 class WXDLLIMPEXP_FWD_BASE wxCmdLineParser;
+class WXDLLIMPEXP_FWD_BASE wxEventLoopBase;
 class WXDLLIMPEXP_FWD_BASE wxLog;
 class WXDLLIMPEXP_FWD_BASE wxMessageOutput;
 
 #if wxUSE_GUI
-    class WXDLLIMPEXP_FWD_BASE wxEventLoop;
     struct WXDLLIMPEXP_FWD_CORE wxVideoMode;
+    class WXDLLIMPEXP_FWD_CORE wxWindow;
 #endif
 
 // ----------------------------------------------------------------------------
@@ -51,15 +53,15 @@ enum
 };
 
 // ----------------------------------------------------------------------------
-// wxAppConsole: wxApp for non-GUI applications
+// wxAppConsoleBase: wxApp for non-GUI applications
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_BASE wxAppConsole : public wxEvtHandler
+class WXDLLIMPEXP_BASE wxAppConsoleBase : public wxEvtHandler
 {
 public:
     // ctor and dtor
-    wxAppConsole();
-    virtual ~wxAppConsole();
+    wxAppConsoleBase();
+    virtual ~wxAppConsoleBase();
 
 
     // the virtual functions which may/must be overridden in the derived class
@@ -81,16 +83,24 @@ public:
     // class OnInit() to do it.
     virtual bool OnInit();
 
-    // this is here only temporary hopefully (FIXME)
-    virtual bool OnInitGui() { return true; }
-
     // This is the replacement for the normal main(): all program work should
     // be done here. When OnRun() returns, the programs starts shutting down.
-    virtual int OnRun() = 0;
+    virtual int OnRun();
+
+    // This is called by wxEventLoopBase::SetActive(): you should put the code
+    // which needs an active event loop here.
+    // Note that this function is called whenever an event loop is activated;
+    // you may want to use wxEventLoopBase::IsMain() to perform initialization
+    // specific for the app's main event loop.
+    virtual void OnEventLoopEnter(wxEventLoopBase* WXUNUSED(loop)) {}
 
     // This is only called if OnInit() returned true so it's a good place to do
     // any cleanup matching the initializations done there.
     virtual int OnExit();
+
+    // This is called by wxEventLoopBase::OnExit() for each event loop which
+    // is exited.
+    virtual void OnEventLoopExit(wxEventLoopBase* WXUNUSED(loop)) {}
 
     // This is the very last function called on wxApp object before it is
     // destroyed. If you override it (instead of overriding OnExit() as usual)
@@ -123,6 +133,19 @@ public:
     }
     void SetAppName(const wxString& name) { m_appName = name; }
 
+        // set/get the application display name: the display name is the name
+        // shown to the user in titles, reports, etc while the app name is
+        // used for paths, config, and other places the user doesn't see
+        //
+        // so the app name could be myapp while display name could be "My App"
+    wxString GetAppDisplayName() const
+    {
+        return m_appDisplayName.empty() ? GetAppName().Capitalize()
+                                        : m_appDisplayName;
+    }
+
+    void SetAppDisplayName(const wxString& name) { m_appDisplayName = name; }
+
         // set/get the app class name
     wxString GetClassName() const { return m_className; }
     void SetClassName(const wxString& name) { m_className = name; }
@@ -130,6 +153,19 @@ public:
         // set/get the vendor name
     const wxString& GetVendorName() const { return m_vendorName; }
     void SetVendorName(const wxString& name) { m_vendorName = name; }
+
+        // set/get the vendor display name:  the display name is shown
+        // in titles/reports/dialogs to the user, while the vendor name
+        // is used in some areas such as wxConfig, wxStandardPaths, etc
+    const wxString& GetVendorDisplayName() const
+    {
+        return m_vendorDisplayName.empty() ? GetVendorName()
+                                           : m_vendorDisplayName;
+    }
+    void SetVendorDisplayName(const wxString& name)
+    {
+        m_vendorDisplayName = name;
+    }
 
 
     // cmd line parsing stuff
@@ -170,25 +206,24 @@ public:
     // either should be configurable by the user (then he can change the
     // default behaviour simply by overriding CreateTraits() and returning his
     // own traits object) or which is GUI/console dependent as then wxAppTraits
-    // allows us to abstract the differences behind the common façade
+    // allows us to abstract the differences behind the common facade
     wxAppTraits *GetTraits();
 
-    // the functions below shouldn't be used now that we have wxAppTraits
-#if WXWIN_COMPATIBILITY_2_4
+    // this function provides safer access to traits object than
+    // wxTheApp->GetTraits() during startup or termination when the global
+    // application object itself may be unavailable
+    //
+    // of course, it still returns NULL in this case and the caller must check
+    // for it
+    static wxAppTraits *GetTraitsIfExists();
 
-#if wxUSE_LOG
-        // override this function to create default log target of arbitrary
-        // user-defined class (default implementation creates a wxLogGui
-        // object) -- this log object is used by default by all wxLogXXX()
-        // functions.
-    wxDEPRECATED( virtual wxLog *CreateLogTarget() );
-#endif // wxUSE_LOG
-
-        // similar to CreateLogTarget() but for the global wxMessageOutput
-        // object
-    wxDEPRECATED( virtual wxMessageOutput *CreateMessageOutput() );
-
-#endif // WXWIN_COMPATIBILITY_2_4
+    // returns the main event loop instance, i.e. the event loop which is started
+    // by OnRun() and which dispatches all events sent from the native toolkit
+    // to the application (except when new event loops are temporarily set-up).
+    // The returned value maybe NULL. Put initialization code which needs a
+    // non-NULL main event loop into OnEventLoopEnter().
+    wxEventLoopBase* GetMainLoop() const
+        { return m_mainLoop; }
 
 
     // event processing functions
@@ -203,7 +238,21 @@ public:
     // had been already processed or won't be processed at all, respectively
     virtual int FilterEvent(wxEvent& event);
 
+    // return true if we're running event loop, i.e. if the events can
+    // (already) be dispatched
+    static bool IsMainLoopRunning();
+
 #if wxUSE_EXCEPTIONS
+    // execute the functor to handle the given event
+    //
+    // this is a generalization of HandleEvent() below and the base class
+    // implementation of CallEventHandler() still calls HandleEvent() for
+    // compatibility for functors which are just wxEventFunctions (i.e. methods
+    // of wxEvtHandler)
+    virtual void CallEventHandler(wxEvtHandler *handler,
+                                  wxEventFunctor& functor,
+                                  wxEvent& event) const;
+
     // call the specified handler on the given object with the given event
     //
     // this method only exists to allow catching the exceptions thrown by any
@@ -214,33 +263,78 @@ public:
                              wxEvent& event) const;
 
     // Called when an unhandled C++ exception occurs inside OnRun(): note that
-    // the exception type is lost by now, so if you really want to handle the
-    // exception you should override OnRun() and put a try/catch around
-    // MainLoop() call there or use OnExceptionInMainLoop()
-    virtual void OnUnhandledException() { }
+    // the main event loop has already terminated by now and the program will
+    // exit, if you need to really handle the exceptions you need to override
+    // OnExceptionInMainLoop()
+    virtual void OnUnhandledException();
+
+    // Function called if an uncaught exception is caught inside the main
+    // event loop: it may return true to continue running the event loop or
+    // false to stop it (in the latter case it may rethrow the exception as
+    // well)
+    virtual bool OnExceptionInMainLoop();
+
 #endif // wxUSE_EXCEPTIONS
 
-    // process all events in the wxPendingEvents list -- it is necessary to
-    // call this function to process posted events. This happens during each
+
+    // pending events
+    // --------------
+
+    // IMPORTANT: all these methods conceptually belong to wxEventLoopBase
+    //            but for many reasons we need to allow queuing of events
+    //            even when there's no event loop (e.g. in wxApp::OnInit);
+    //            this feature is used e.g. to queue events on secondary threads
+    //            or in wxPython to use wx.CallAfter before the GUI is initialized
+
+    // process all events in the m_handlersWithPendingEvents list -- it is necessary
+    // to call this function to process posted events. This happens during each
     // event loop iteration in GUI mode but if there is no main loop, it may be
     // also called directly.
     virtual void ProcessPendingEvents();
 
-    // doesn't do anything in this class, just a hook for GUI wxApp
-    virtual bool Yield(bool WXUNUSED(onlyIfNeeded) = false) { return true; }
+    // check if there are pending events on global pending event list
+    bool HasPendingEvents() const;
 
-    // make sure that idle events are sent again
-    virtual void WakeUpIdle() { }
+    // temporary suspends processing of the pending events
+    void SuspendProcessingOfPendingEvents();
 
-    // this is just a convenience: by providing its implementation here we
-    // avoid #ifdefs in the code using it
-    static bool IsMainLoopRunning() { return false; }
+    // resume processing of the pending events previously stopped because of a
+    // call to SuspendProcessingOfPendingEvents()
+    void ResumeProcessingOfPendingEvents();
+
+    // called by ~wxEvtHandler to (eventually) remove the handler from the list of
+    // the handlers with pending events
+    void RemovePendingEventHandler(wxEvtHandler* toRemove);
+
+    // adds an event handler to the list of the handlers with pending events
+    void AppendPendingEventHandler(wxEvtHandler* toAppend);
+
+    // moves the event handler from the list of the handlers with pending events
+    //to the list of the handlers with _delayed_ pending events
+    void DelayPendingEventHandler(wxEvtHandler* toDelay);
+
+    // deletes the current pending events
+    void DeletePendingEvents();
+
+
+    // wxEventLoop redirections
+    // ------------------------
+
+    virtual bool Pending();
+    virtual bool Dispatch();
+
+    virtual int MainLoop();
+    virtual void ExitMainLoop();
+
+    bool Yield(bool onlyIfNeeded = false);
+
+    virtual void WakeUpIdle();
+    virtual bool ProcessIdle();
 
 
     // debugging support
     // -----------------
 
-#ifdef __WXDEBUG__
     // this function is called when an assert failure occurs, the base class
     // version does the normal processing (i.e. shows the usual assert failure
     // dialog box)
@@ -260,16 +354,12 @@ public:
                           int line,
                           const wxChar *cond,
                           const wxChar *msg);
-#endif // __WXDEBUG__
 
     // check that the wxBuildOptions object (constructed in the application
     // itself, usually the one from IMPLEMENT_APP() macro) matches the build
     // options of the library and abort if it doesn't
     static bool CheckBuildOptions(const char *optionsSignature,
                                   const char *componentName);
-#if WXWIN_COMPATIBILITY_2_4
-    wxDEPRECATED( static bool CheckBuildOptions(const wxBuildOptions& buildOptions) );
-#endif
 
     // implementation only from now on
     // -------------------------------
@@ -289,14 +379,22 @@ public:
 
 
     // command line arguments (public for backwards compatibility)
-    int      argc;
-    wxChar **argv;
+    int argc;
+
+    // this object is implicitly convertible to either "char**" (traditional
+    // type of argv parameter of main()) or to "wchar_t **" (for compatibility
+    // with Unicode build in previous wx versions and because the command line
+    // can, in pr
+#if wxUSE_UNICODE
+    wxCmdLineArgsArray argv;
+#else
+    char **argv;
+#endif
 
 protected:
     // the function which creates the traits object when GetTraits() needs it
     // for the first time
     virtual wxAppTraits *CreateTraits();
-
 
     // function used for dynamic wxApp creation
     static wxAppInitializerFunction ms_appInitFn;
@@ -304,21 +402,59 @@ protected:
     // the one and only global application object
     static wxAppConsole *ms_appInstance;
 
+    // create main loop from AppTraits or return NULL if
+    // there is no main loop implementation
+    wxEventLoopBase *CreateMainLoop();
 
     // application info (must be set from the user code)
-    wxString m_vendorName,      // vendor name (ACME Inc)
-             m_appName,         // app name
-             m_className;       // class name
+    wxString m_vendorName,        // vendor name ("acme")
+             m_vendorDisplayName, // vendor display name (e.g. "ACME Inc")
+             m_appName,           // app name ("myapp")
+             m_appDisplayName,    // app display name ("My Application")
+             m_className;         // class name
 
     // the class defining the application behaviour, NULL initially and created
     // by GetTraits() when first needed
     wxAppTraits *m_traits;
 
+    // the main event loop of the application (may be NULL if the loop hasn't
+    // been started yet or has already terminated)
+    wxEventLoopBase *m_mainLoop;
+
+
+    // pending events management vars:
+
+    // the array of the handlers with pending events which needs to be processed
+    // inside ProcessPendingEvents()
+    wxEvtHandlerArray m_handlersWithPendingEvents;
+
+    // helper array used by ProcessPendingEvents() to store the event handlers
+    // which have pending events but of these events none can be processed right now
+    // (because of a call to wxEventLoop::YieldFor() which asked to selectively process
+    // pending events)
+    wxEvtHandlerArray m_handlersWithPendingDelayedEvents;
+
+#if wxUSE_THREADS
+    // this critical section protects both the lists above
+    wxCriticalSection m_handlersWithPendingEventsLocker;
+#endif
+
+    // flag modified by Suspend/ResumeProcessingOfPendingEvents()
+    bool m_bDoPendingEventProcessing;
+
+    friend class WXDLLIMPEXP_FWD_BASE wxEvtHandler;
 
     // the application object is a singleton anyhow, there is no sense in
     // copying it
-    DECLARE_NO_COPY_CLASS(wxAppConsole)
+    wxDECLARE_NO_COPY_CLASS(wxAppConsoleBase);
 };
+
+#if defined(__UNIX__)
+    #include "wx/unix/app.h"
+#else
+    // this has to be a class and not a typedef as we forward declare it
+    class wxAppConsole : public wxAppConsoleBase { };
+#endif
 
 // ----------------------------------------------------------------------------
 // wxAppBase: the common part of wxApp implementations for all platforms
@@ -367,43 +503,9 @@ public:
     // the worker functions - usually not used directly by the user code
     // -----------------------------------------------------------------
 
-        // return true if we're running main loop, i.e. if the events can
-        // (already) be dispatched
-    static bool IsMainLoopRunning()
-    {
-        wxAppBase *app = wx_static_cast(wxAppBase *, GetInstance());
-        return app && app->m_mainLoop != NULL;
-    }
-
-        // execute the main GUI loop, the function returns when the loop ends
-    virtual int MainLoop();
-
-        // exit the main loop thus terminating the application
-    virtual void Exit();
-
-        // exit the main GUI loop during the next iteration (i.e. it does not
-        // stop the program immediately!)
-    virtual void ExitMainLoop();
-
-        // returns true if there are unprocessed events in the event queue
-    virtual bool Pending();
-
-        // process the first event in the event queue (blocks until an event
-        // appears if there are none currently, use Pending() if this is not
-        // wanted), returns false if the event loop should stop and true
-        // otherwise
-    virtual bool Dispatch();
-
-        // process all currently pending events right now
-        //
-        // it is an error to call Yield() recursively unless the value of
-        // onlyIfNeeded is true
-        //
-        // WARNING: this function is dangerous as it can lead to unexpected
-        //          reentrancies (i.e. when called from an event handler it
-        //          may result in calling the same event handler again), use
-        //          with _extreme_ care or, better, don't use at all!
-    virtual bool Yield(bool onlyIfNeeded = false) = 0;
+        // safer alternatives to Yield(), using wxWindowDisabler
+    virtual bool SafeYield(wxWindow *win, bool onlyIfNeeded);
+    virtual bool SafeYieldFor(wxWindow *win, long eventsToProcess);
 
         // this virtual function is called in the GUI mode when the application
         // becomes idle and normally just sends wxIdleEvent to all interested
@@ -415,15 +517,6 @@ public:
         // Send idle event to window and all subwindows
         // Returns true if more idle time is requested.
     virtual bool SendIdleEvents(wxWindow* win, wxIdleEvent& event);
-
-
-#if wxUSE_EXCEPTIONS
-    // Function called if an uncaught exception is caught inside the main
-    // event loop: it may return true to continue running the event loop or
-    // false to stop it (in the latter case it may rethrow the exception as
-    // well)
-    virtual bool OnExceptionInMainLoop();
-#endif // wxUSE_EXCEPTIONS
 
 
     // top level window functions
@@ -463,7 +556,7 @@ public:
     virtual bool SetDisplayMode(const wxVideoMode& WXUNUSED(info)) { return true; }
 
         // set use of best visual flag (see below)
-    void SetUseBestVisual( bool flag, bool forceTrueColour = false ) 
+    void SetUseBestVisual( bool flag, bool forceTrueColour = false )
         { m_useBestVisual = flag; m_forceTrueColour = forceTrueColour; }
     bool GetUseBestVisual() const { return m_useBestVisual; }
 
@@ -477,6 +570,9 @@ public:
     // Return the layout direction for the current locale or wxLayout_Default
     // if it's unknown
     virtual wxLayoutDirection GetLayoutDirection() const;
+
+    // Change the theme used by the application, return true on success.
+    virtual bool SetNativeTheme(const wxString& WXUNUSED(theme)) { return false; }
 
 
     // command line parsing (GUI-specific)
@@ -502,10 +598,6 @@ public:
     wxDEPRECATED( bool Initialized() );
 #endif // WXWIN_COMPATIBILITY_2_6
 
-    // perform standard OnIdle behaviour, ensure that this is always called
-    void OnIdle(wxIdleEvent& event);
-
-
 protected:
     // delete all objects in wxPendingDelete list
     void DeletePendingObjects();
@@ -513,10 +605,6 @@ protected:
     // override base class method to use GUI traits
     virtual wxAppTraits *CreateTraits();
 
-
-    // the main event loop of the application (may be NULL if the loop hasn't
-    // been started yet or has already terminated)
-    wxEventLoop *m_mainLoop;
 
     // the main top level window (may be NULL)
     wxWindow *m_topWindow;
@@ -541,47 +629,47 @@ protected:
     // does any of our windows have focus?
     bool m_isActive;
 
-
-    DECLARE_NO_COPY_CLASS(wxAppBase)
+    wxDECLARE_NO_COPY_CLASS(wxAppBase);
 };
 
 #if WXWIN_COMPATIBILITY_2_6
     inline bool wxAppBase::Initialized() { return true; }
 #endif // WXWIN_COMPATIBILITY_2_6
 
-#endif // wxUSE_GUI
-
 // ----------------------------------------------------------------------------
 // now include the declaration of the real class
 // ----------------------------------------------------------------------------
 
-#if wxUSE_GUI
-    #if defined(__WXPALMOS__)
-        #include "wx/palmos/app.h"
-    #elif defined(__WXMSW__)
-        #include "wx/msw/app.h"
-    #elif defined(__WXMOTIF__)
-        #include "wx/motif/app.h"
-    #elif defined(__WXMGL__)
-        #include "wx/mgl/app.h"
-    #elif defined(__WXDFB__)
-        #include "wx/dfb/app.h"
-    #elif defined(__WXGTK20__)
-        #include "wx/gtk/app.h"
-    #elif defined(__WXGTK__)
-        #include "wx/gtk1/app.h"
-    #elif defined(__WXX11__)
-        #include "wx/x11/app.h"
-    #elif defined(__WXMAC__)
-        #include "wx/mac/app.h"
-    #elif defined(__WXCOCOA__)
-        #include "wx/cocoa/app.h"
-    #elif defined(__WXPM__)
-        #include "wx/os2/app.h"
-    #endif
+#if defined(__WXPALMOS__)
+    #include "wx/palmos/app.h"
+#elif defined(__WXMSW__)
+    #include "wx/msw/app.h"
+#elif defined(__WXMOTIF__)
+    #include "wx/motif/app.h"
+#elif defined(__WXMGL__)
+    #include "wx/mgl/app.h"
+#elif defined(__WXDFB__)
+    #include "wx/dfb/app.h"
+#elif defined(__WXGTK20__)
+    #include "wx/gtk/app.h"
+#elif defined(__WXGTK__)
+    #include "wx/gtk1/app.h"
+#elif defined(__WXX11__)
+    #include "wx/x11/app.h"
+#elif defined(__WXMAC__)
+    #include "wx/osx/app.h"
+#elif defined(__WXCOCOA__)
+    #include "wx/cocoa/app.h"
+#elif defined(__WXPM__)
+    #include "wx/os2/app.h"
+#endif
+
 #else // !GUI
-    // allow using just wxApp (instead of wxAppConsole) in console programs
-    typedef wxAppConsole wxApp;
+
+// wxApp is defined in core and we cannot define another one in wxBase,
+// so use the preprocessor to allow using wxApp in console programs too
+#define wxApp wxAppConsole
+
 #endif // GUI/!GUI
 
 // ----------------------------------------------------------------------------
@@ -597,7 +685,7 @@ protected:
 //
 // the cast is safe as in GUI build we only use wxApp, not wxAppConsole, and in
 // console mode it does nothing at all
-#define wxTheApp wx_static_cast(wxApp*, wxApp::GetInstance())
+#define wxTheApp static_cast<wxApp*>(wxApp::GetInstance())
 
 // ----------------------------------------------------------------------------
 // global functions
@@ -607,20 +695,20 @@ protected:
 // ------------------------------------------------------
 
 // Force an exit from main loop
-extern void WXDLLIMPEXP_BASE wxExit();
+WXDLLIMPEXP_BASE void wxExit();
 
-// avoid redeclaring this function here if it had been already declated by
+// avoid redeclaring this function here if it had been already declared by
 // wx/utils.h, this results in warnings from g++ with -Wredundant-decls
 #ifndef wx_YIELD_DECLARED
 #define wx_YIELD_DECLARED
 
 // Yield to other apps/messages
-extern bool WXDLLIMPEXP_BASE wxYield();
+WXDLLIMPEXP_CORE bool wxYield();
 
 #endif // wx_YIELD_DECLARED
 
 // Yield to other apps/messages
-extern void WXDLLIMPEXP_BASE wxWakeUpIdle();
+WXDLLIMPEXP_BASE void wxWakeUpIdle();
 
 // ----------------------------------------------------------------------------
 // macros for dynamic creation of the application object
@@ -674,7 +762,7 @@ public:
     wxAppInitializer                                                        \
         wxTheAppInitializer((wxAppInitializerFunction) wxCreateApp);        \
     DECLARE_APP(appname)                                                    \
-    appname& wxGetApp() { return *wx_static_cast(appname*, wxApp::GetInstance()); }
+    appname& wxGetApp() { return *static_cast<appname*>(wxApp::GetInstance()); }
 
 // Same as IMPLEMENT_APP() normally but doesn't include themes support in
 // wxUniversal builds

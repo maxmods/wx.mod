@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     26.10.99
-// RCS-ID:      $Id: menu.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: menu.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ WX_DECLARE_EXPORTED_LIST(wxMenuItem, wxMenuItemList);
 // wxMenu
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxMenuBase : public wxEvtHandler
+class WXDLLIMPEXP_CORE wxMenuBase : public wxEvtHandler
 {
 public:
     // create a menu
@@ -68,7 +68,7 @@ public:
     }
 
     // append a separator to the menu
-    wxMenuItem* AppendSeparator() { return Append(wxID_SEPARATOR, wxEmptyString); }
+    wxMenuItem* AppendSeparator() { return Append(wxID_SEPARATOR); }
 
     // append a check item
     wxMenuItem* AppendCheckItem(int itemid,
@@ -237,6 +237,9 @@ public:
     void SetLabel(int itemid, const wxString& label);
     wxString GetLabel(int itemid) const;
 
+    //  Returns the stripped label
+    wxString GetLabelText(int itemid) const { return wxMenuItem::GetLabelText(GetLabel(itemid)); }
+
     virtual void SetHelpString(int itemid, const wxString& helpString);
     virtual wxString GetHelpString(int itemid) const;
 
@@ -245,7 +248,7 @@ public:
 
     // the title
     virtual void SetTitle(const wxString& title) { m_title = title; }
-    const wxString GetTitle() const { return m_title; }
+    const wxString& GetTitle() const { return m_title; }
 
     // event handler
     void SetEventHandler(wxEvtHandler *handler) { m_eventHandler = handler; }
@@ -264,7 +267,7 @@ public:
     // Updates the UI for a menu and all submenus recursively. source is the
     // object that has the update event handlers defined for it. If NULL, the
     // menu or associated window will be used.
-    void UpdateUI(wxEvtHandler* source = (wxEvtHandler*)NULL);
+    void UpdateUI(wxEvtHandler* source = NULL);
 
     // get the menu bar this menu is attached to (may be NULL, always NULL for
     // popup menus).  Traverse up the menu hierarchy to find it.
@@ -374,22 +377,14 @@ protected:
 
     static bool      ms_locked;
 
-    DECLARE_NO_COPY_CLASS(wxMenuBase)
-
-public:
-
-#if wxABI_VERSION >= 20805
-    //  Returns the stripped label
-    wxString GetLabelText(int itemid) const { return wxMenuItem::GetLabelFromText(GetLabel(itemid)); }
-#endif
-
+    wxDECLARE_NO_COPY_CLASS(wxMenuBase);
 };
 
 // ----------------------------------------------------------------------------
 // wxMenuBar
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxMenuBarBase : public wxWindow
+class WXDLLIMPEXP_CORE wxMenuBarBase : public wxWindow
 {
 public:
     // default ctor
@@ -432,8 +427,11 @@ public:
     virtual bool IsEnabledTop(size_t WXUNUSED(pos)) const { return true; }
 
     // get or change the label of the menu at given position
-    virtual void SetLabelTop(size_t pos, const wxString& label) = 0;
-    virtual wxString GetLabelTop(size_t pos) const = 0;
+    virtual void SetMenuLabel(size_t pos, const wxString& label) = 0;
+    virtual wxString GetMenuLabel(size_t pos) const = 0;
+
+    // get the stripped label of the menu at given position
+    virtual wxString GetMenuLabelText(size_t pos) const { return wxMenuItem::GetLabelText(GetMenuLabel(pos)); }
 
     // item search
     // -----------
@@ -496,6 +494,14 @@ public:
     // update all menu item states in all menus
     virtual void UpdateMenus();
 
+    virtual bool CanBeOutsideClientArea() const { return true; }
+
+#if WXWIN_COMPATIBILITY_2_8
+    // get or change the label of the menu at given position
+    wxDEPRECATED( void SetLabelTop(size_t pos, const wxString& label) );
+    wxDEPRECATED( wxString GetLabelTop(size_t pos) const );
+#endif
+
 protected:
     // the list of all our menus
     wxMenuList m_menus;
@@ -503,22 +509,7 @@ protected:
     // the frame we are attached to (may be NULL)
     wxFrame *m_menuBarFrame;
 
-    DECLARE_NO_COPY_CLASS(wxMenuBarBase)
-
-public:
-
-#if wxABI_VERSION >= 20805
-    // Replacement for SetLabelTop
-    void SetMenuLabel(size_t pos, const wxString& label) { SetLabelTop(pos, label); }
-
-    // Gets the original label at the top-level of the menubar
-    // Implemented per port, since we can't have virtual functions in the stable branch.
-    // wxString GetMenuLabel(size_t pos) const;
-
-    // Get the text only, from the label at the top-level of the menubar
-    wxString GetMenuLabelText(size_t pos) const;
-#endif
-
+    wxDECLARE_NO_COPY_CLASS(wxMenuBarBase);
 };
 
 // ----------------------------------------------------------------------------
@@ -541,7 +532,7 @@ public:
 #elif defined(__WXGTK__)
     #include "wx/gtk1/menu.h"
 #elif defined(__WXMAC__)
-    #include "wx/mac/menu.h"
+    #include "wx/osx/menu.h"
 #elif defined(__WXCOCOA__)
     #include "wx/cocoa/menu.h"
 #elif defined(__WXPM__)

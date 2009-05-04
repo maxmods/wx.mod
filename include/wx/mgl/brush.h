@@ -2,7 +2,7 @@
 // Name:        wx/mgl/brush.h
 // Purpose:
 // Author:      Vaclav Slavik
-// Id:          $Id: brush.h 41751 2006-10-08 21:56:55Z VZ $
+// Id:          $Id: brush.h 54273 2008-06-17 17:28:26Z VZ $
 // Copyright:   (c) 2001-2002 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,33 +20,39 @@
 // classes
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxBitmap;
-class WXDLLEXPORT wxBrush;
+class WXDLLIMPEXP_FWD_CORE wxBitmap;
+class WXDLLIMPEXP_FWD_CORE wxBrush;
 
 //-----------------------------------------------------------------------------
 // wxBrush
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxBrush: public wxBrushBase
+class WXDLLIMPEXP_CORE wxBrush : public wxBrushBase
 {
 public:
     wxBrush() {}
-    wxBrush(const wxColour &colour, int style = wxSOLID);
+    wxBrush(const wxColour &colour, wxBrushStyle style = wxBRUSHSTYLE_SOLID);
+#if FUTURE_WXWIN_COMPATIBILITY_3_0
+    wxDEPRECATED_FUTURE( wxBrush(const wxColour& col, int style) );
+#endif
     wxBrush(const wxBitmap &stippleBitmap);
-    virtual ~wxBrush() {}
-    bool operator == (const wxBrush& brush) const;
-    bool operator != (const wxBrush& brush) const;
-    bool Ok() const { return IsOk(); }
-    bool IsOk() const;
 
-    virtual int GetStyle() const;
-    wxColour &GetColour() const;
+    bool operator==(const wxBrush& brush) const;
+    bool operator!=(const wxBrush& brush) const;
+
+    wxBrushStyle GetStyle() const;
+    wxColour GetColour() const;
     wxBitmap *GetStipple() const;
 
     void SetColour(const wxColour& col);
     void SetColour(unsigned char r, unsigned char g, unsigned char b);
-    void SetStyle(int style);
+    void SetStyle(wxBrushStyle style);
     void SetStipple(const wxBitmap& stipple);
+
+#if FUTURE_WXWIN_COMPATIBILITY_3_0
+    wxDEPRECATED_FUTURE( void SetStyle(int style) )
+        { SetStyle((wxBrushStyle)style); }
+#endif
 
     // implementation:
 
@@ -54,9 +60,8 @@ public:
     void* GetPixPattern() const;
 
 protected:
-    // ref counting code
-    virtual wxObjectRefData *CreateRefData() const;
-    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
+    virtual wxGDIRefData *CreateGDIRefData() const;
+    virtual wxGDIRefData *CloneGDIRefData(const wxGDIRefData *data) const;
 
 private:
     DECLARE_DYNAMIC_CLASS(wxBrush)

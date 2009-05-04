@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/12/99
-// RCS-ID:      $Id: palette.h 42752 2006-10-30 19:26:48Z VZ $
+// RCS-ID:      $Id: palette.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,11 +15,11 @@
 #include "wx/gdiobj.h"
 #include "wx/os2/private.h"
 
-class WXDLLEXPORT wxPalette;
+class WXDLLIMPEXP_FWD_CORE wxPalette;
 
-class WXDLLEXPORT wxPaletteRefData: public wxGDIRefData
+class WXDLLIMPEXP_CORE wxPaletteRefData: public wxGDIRefData
 {
-    friend class WXDLLEXPORT wxPalette;
+    friend class WXDLLIMPEXP_FWD_CORE wxPalette;
 public:
     wxPaletteRefData();
     virtual ~wxPaletteRefData();
@@ -30,10 +30,8 @@ public:
 
 #define M_PALETTEDATA ((wxPaletteRefData *)m_refData)
 
-class WXDLLEXPORT wxPalette: public wxPaletteBase
+class WXDLLIMPEXP_CORE wxPalette: public wxPaletteBase
 {
-    DECLARE_DYNAMIC_CLASS(wxPalette)
-
 public:
     wxPalette();
 
@@ -59,14 +57,18 @@ public:
                 ,unsigned char* pBlue
                ) const;
 
-    virtual bool Ok() const { return IsOk(); }
-    virtual bool IsOk(void) const { return (m_refData != NULL) ; }
-
     virtual bool FreeResource(bool bForce = false);
 
     inline WXHPALETTE GetHPALETTE(void) const { return (M_PALETTEDATA ? M_PALETTEDATA->m_hPalette : 0); }
     void              SetHPALETTE(WXHPALETTE hPalette);
     void              SetPS(HPS hPS);
+
+protected:
+    virtual wxGDIRefData *CreateGDIRefData() const;
+    virtual wxGDIRefData *CloneGDIRefData(const wxGDIRefData *data) const;
+
+private:
+    DECLARE_DYNAMIC_CLASS(wxPalette)
 }; // end of CLASS wxPalette
 
 #endif

@@ -6,7 +6,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: minifram.h 42077 2006-10-17 14:44:52Z ABX $
+// RCS-ID:      $Id: minifram.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 
 #include "wx/frame.h"
 
-class WXDLLEXPORT wxMiniFrame: public wxFrame {
+class WXDLLIMPEXP_CORE wxMiniFrame: public wxFrame {
 
     DECLARE_DYNAMIC_CLASS(wxMiniFrame)
 

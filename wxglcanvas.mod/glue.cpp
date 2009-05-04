@@ -61,9 +61,6 @@ void MaxGLCanvas::Render(BBObject * event) {
 
 void MaxGLCanvas::Refresh(bool eraseBackground, const wxRect* rect) {
 	wxGLCanvas::Refresh(eraseBackground, rect);
-#ifdef __APPLE__
-	MacUpdateView();
-#endif
 }
 
 

@@ -3,7 +3,7 @@
 // Purpose:     Filter file system handler
 // Author:      Mike Wetherell
 // Copyright:   (c) 2006 Mike Wetherell
-// CVS-ID:      $Id: fs_filter.h 42713 2006-10-30 11:56:12Z ABX $
+// CVS-ID:      $Id: fs_filter.h 58757 2009-02-08 11:45:59Z VZ $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -33,7 +33,7 @@ public:
     virtual wxString FindNext();
 
 private:
-    DECLARE_NO_COPY_CLASS(wxFilterFSHandler)
+    wxDECLARE_NO_COPY_CLASS(wxFilterFSHandler);
 };
 
 #endif // wxUSE_FILESYSTEM

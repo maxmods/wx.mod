@@ -3,7 +3,7 @@
 // Purpose:     XML resource handler for wxBoxSizer
 // Author:      Vaclav Slavik
 // Created:     2000/04/24
-// RCS-ID:      $Id: xh_sizer.h 49804 2007-11-10 01:09:42Z VZ $
+// RCS-ID:      $Id: xh_sizer.h 59572 2009-03-16 13:33:39Z VS $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,8 +17,6 @@
 
 #include "wx/sizer.h"
 #include "wx/gbsizer.h"
-
-class WXDLLIMPEXP_FWD_CORE wxSizer;
 
 class WXDLLIMPEXP_XRC wxSizerXmlHandler : public wxXmlResourceHandler
 {
@@ -45,9 +43,11 @@ private:
     wxSizer*  Handle_wxStaticBoxSizer();
 #endif
     wxSizer*  Handle_wxGridSizer();
-    wxSizer*  Handle_wxFlexGridSizer();
-    wxSizer*  Handle_wxGridBagSizer();
+    wxFlexGridSizer* Handle_wxFlexGridSizer();
+    wxGridBagSizer* Handle_wxGridBagSizer();
+    wxSizer*  Handle_wxWrapSizer();
 
+    bool ValidateGridSizerChildren();
     void SetGrowables(wxFlexGridSizer* fsizer, const wxChar* param, bool rows);
     wxGBPosition GetGBPos(const wxString& param);
     wxGBSpan GetGBSpan(const wxString& param);

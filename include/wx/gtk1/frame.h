@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/frame.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: frame.h 37065 2006-01-23 02:28:01Z MR $
+// Id:          $Id: frame.h 47254 2007-07-09 10:09:52Z VS $
 // Copyright:   (c) 1998 Robert Roebling, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,12 +14,12 @@
 // classes
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxMDIChildFrame;
-class WXDLLIMPEXP_CORE wxMDIClientWindow;
-class WXDLLIMPEXP_CORE wxMenu;
-class WXDLLIMPEXP_CORE wxMenuBar;
-class WXDLLIMPEXP_CORE wxToolBar;
-class WXDLLIMPEXP_CORE wxStatusBar;
+class WXDLLIMPEXP_FWD_CORE wxMDIChildFrame;
+class WXDLLIMPEXP_FWD_CORE wxMDIClientWindow;
+class WXDLLIMPEXP_FWD_CORE wxMenu;
+class WXDLLIMPEXP_FWD_CORE wxMenuBar;
+class WXDLLIMPEXP_FWD_CORE wxToolBar;
+class WXDLLIMPEXP_FWD_CORE wxStatusBar;
 
 //-----------------------------------------------------------------------------
 // wxFrame

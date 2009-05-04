@@ -3,7 +3,7 @@
 // Purpose:     XML resources
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: xmlres.h 55504 2008-09-07 09:15:46Z VS $
+// RCS-ID:      $Id: xmlres.h 59931 2009-03-29 21:25:23Z VS $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,6 +17,7 @@
 
 #include "wx/string.h"
 #include "wx/dynarray.h"
+#include "wx/arrstr.h"
 #include "wx/datetime.h"
 #include "wx/list.h"
 #include "wx/gdicmn.h"
@@ -26,9 +27,13 @@
 #include "wx/artprov.h"
 #include "wx/colour.h"
 #include "wx/animate.h"
+#include "wx/vector.h"
 
 #include "wx/xml/xml.h"
 
+class WXDLLIMPEXP_FWD_BASE wxFileName;
+
+class WXDLLIMPEXP_FWD_CORE wxIconBundle;
 class WXDLLIMPEXP_FWD_CORE wxMenu;
 class WXDLLIMPEXP_FWD_CORE wxMenuBar;
 class WXDLLIMPEXP_FWD_CORE wxDialog;
@@ -39,9 +44,9 @@ class WXDLLIMPEXP_FWD_CORE wxToolBar;
 
 class WXDLLIMPEXP_FWD_XRC wxXmlResourceHandler;
 class WXDLLIMPEXP_FWD_XRC wxXmlSubclassFactory;
-class WXDLLIMPEXP_FWD_XRC wxXmlSubclassFactoriesList;
+class wxXmlSubclassFactories;
 class wxXmlResourceModule;
-
+class wxXmlResourceDataRecords;
 
 // These macros indicate current version of XML resources (this information is
 // encoded in root node of XRC file as "version" property).
@@ -67,28 +72,6 @@ class wxXmlResourceModule;
                  WX_XMLRES_CURRENT_VERSION_RELEASE * 256 + \
                  WX_XMLRES_CURRENT_VERSION_REVISION)
 
-class WXDLLIMPEXP_XRC wxXmlResourceDataRecord
-{
-public:
-    wxXmlResourceDataRecord() : Doc(NULL) {
-#if wxUSE_DATETIME
-        Time = wxDateTime::Now();
-#endif
-    }
-    ~wxXmlResourceDataRecord() {delete Doc;}
-
-    wxString File;
-    wxXmlDocument *Doc;
-#if wxUSE_DATETIME
-    wxDateTime Time;
-#endif
-};
-
-
-WX_DECLARE_USER_EXPORTED_OBJARRAY(wxXmlResourceDataRecord,
-                                  wxXmlResourceDataRecords,
-                                  WXDLLIMPEXP_XRC);
-
 enum wxXmlResourceFlags
 {
     wxXRC_USE_LOCALE     = 1,
@@ -113,7 +96,7 @@ public:
     //              don't check the modification time of the XRC files and
     //              reload them if they have changed on disk
     wxXmlResource(int flags = wxXRC_USE_LOCALE,
-                  const wxString& domain=wxEmptyString);
+                  const wxString& domain = wxEmptyString);
 
     // Constructor.
     // Flags: wxXRC_USE_LOCALE
@@ -123,14 +106,20 @@ public:
     //              subclass property of object nodes will be ignored
     //              (useful for previews in XRC editors)
     wxXmlResource(const wxString& filemask, int flags = wxXRC_USE_LOCALE,
-                  const wxString& domain=wxEmptyString);
+                  const wxString& domain = wxEmptyString);
 
     // Destructor.
     virtual ~wxXmlResource();
 
     // Loads resources from XML files that match given filemask.
-    // This method understands VFS (see filesys.h).
+    // This method understands wxFileSystem URLs if wxUSE_FILESYS.
     bool Load(const wxString& filemask);
+
+    // Loads resources from single XRC file.
+    bool LoadFile(const wxFileName& file);
+
+    // Loads all XRC files from a directory.
+    bool LoadAllFiles(const wxString& dirname);
 
     // Unload resource from the given XML file (wildcards not allowed)
     bool Unload(const wxString& filename);
@@ -223,7 +212,20 @@ public:
     // with a number. If value_if_not_found == wxID_NONE, the number is obtained via
     // wxWindow::NewControlId(). Otherwise value_if_not_found is used.
     // Macro XRCID(name) is provided for convenient use in event tables.
-    static int GetXRCID(const wxChar *str_id, int value_if_not_found = wxID_NONE);
+    static int GetXRCID(const wxString& str_id, int value_if_not_found = wxID_NONE)
+        { return DoGetXRCID(str_id.mb_str(), value_if_not_found); }
+
+    // version for internal use only
+    static int DoGetXRCID(const char *str_id, int value_if_not_found = wxID_NONE);
+
+
+    // Find the string ID with the given numeric value, returns an empty string
+    // if no such ID is found.
+    //
+    // Notice that unlike GetXRCID(), which is fast, this operation is slow as
+    // it checks all the IDs used in XRC.
+    static wxString FindXRCIDById(int numId);
+
 
     // Returns version information (a.b.c.d = d+ 256*c + 256^2*b + 256^3*a).
     long GetVersion() const { return m_version; }
@@ -234,7 +236,7 @@ public:
         { return GetVersion() -
                  (major*256*256*256 + minor*256*256 + release*256 + revision); }
 
-//// Singleton accessors.
+    //// Singleton accessors.
 
     // Gets the global resources object or creates one if none exists.
     static wxXmlResource *Get();
@@ -247,20 +249,60 @@ public:
     // Set flags after construction.
     void SetFlags(int flags) { m_flags = flags; }
 
-    // Get/Set the domain to be passed to the translation functions, defaults to NULL.
-    wxChar* GetDomain() const { return m_domain; }
-    void SetDomain(const wxChar* domain);
-    
+    // Get/Set the domain to be passed to the translation functions, defaults
+    // to empty string (no domain).
+    const wxString& GetDomain() const { return m_domain; }
+    void SetDomain(const wxString& domain);
+
+
+    // This function returns the wxXmlNode containing the definition of the
+    // object with the given name or NULL.
+    //
+    // It can be used to access additional information defined in the XRC file
+    // and not used by wxXmlResource itself.
+    const wxXmlNode *GetResourceNode(const wxString& name) const
+        { return GetResourceNodeAndLocation(name, wxString(), true); }
+
 protected:
+    // reports input error at position 'context'
+    void ReportError(wxXmlNode *context, const wxString& message);
+
+    // override this in derived class to customize errors reporting
+    virtual void DoReportError(const wxString& xrcFile, wxXmlNode *position,
+                               const wxString& message);
+
     // Scans the resources list for unloaded files and loads them. Also reloads
     // files that have been modified since last loading.
     bool UpdateResources();
 
-    // Finds a resource (calls UpdateResources) and returns a node containing it.
-    wxXmlNode *FindResource(const wxString& name, const wxString& classname, bool recursive = false);
 
-    // Helper function: finds a resource (calls UpdateResources) and returns a node containing it.
-    wxXmlNode *DoFindResource(wxXmlNode *parent, const wxString& name, const wxString& classname, bool recursive);
+    // Common implementation of GetResourceNode() and FindResource(): searches
+    // all top-level or all (if recursive == true) nodes if all loaded XRC
+    // files and returns the node, if found, as well as the path of the file it
+    // was found in if path is non-NULL
+    wxXmlNode *GetResourceNodeAndLocation(const wxString& name,
+                                          const wxString& classname,
+                                          bool recursive = false,
+                                          wxString *path = NULL) const;
+
+
+    // Note that these functions are used outside of wxWidgets itself, e.g.
+    // there are several known cases of inheriting from wxXmlResource just to
+    // be able to call FindResource() so we keep them for compatibility even if
+    // their names are not really consistent with GetResourceNode() public
+    // function and FindResource() is also non-const because it changes the
+    // current path of m_curFileSystem to ensure that relative paths work
+    // correctly when CreateResFromNode() is called immediately afterwards
+    // (something const public function intentionally does not do)
+
+    // Returns the node containing the resource with the given name and class
+    // name unless it's empty (then any class matches) or NULL if not found.
+    wxXmlNode *FindResource(const wxString& name, const wxString& classname,
+                            bool recursive = false);
+
+    // Helper function used by FindResource() to look under the given node.
+    wxXmlNode *DoFindResource(wxXmlNode *parent, const wxString& name,
+                              const wxString& classname, bool recursive) const;
 
     // Creates a resource from information in the given node
     // (Uses only 'handlerToUse' if != NULL)
@@ -280,23 +322,27 @@ protected:
 #endif // wxUSE_FILESYSTEM
 
 private:
+    wxXmlResourceDataRecords& Data() { return *m_data; }
+    const wxXmlResourceDataRecords& Data() const { return *m_data; }
+
+private:
     long m_version;
 
     int m_flags;
-    wxList m_handlers;
-    wxXmlResourceDataRecords m_data;
+    wxVector<wxXmlResourceHandler*> m_handlers;
+    wxXmlResourceDataRecords *m_data;
 #if wxUSE_FILESYSTEM
     wxFileSystem m_curFileSystem;
     wxFileSystem& GetCurFileSystem() { return m_curFileSystem; }
 #endif
 
     // domain to pass to translation functions, if any.
-    wxChar* m_domain;
-    
+    wxString m_domain;
+
     friend class wxXmlResourceHandler;
     friend class wxXmlResourceModule;
 
-    static wxXmlSubclassFactoriesList *ms_subclassFactories;
+    static wxXmlSubclassFactories *ms_subclassFactories;
 
     // singleton instance:
     static wxXmlResource *ms_instance;
@@ -315,7 +361,7 @@ private:
 //    END_EVENT_TABLE()
 
 #define XRCID(str_id) \
-    wxXmlResource::GetXRCID(wxT(str_id))
+    wxXmlResource::DoGetXRCID(str_id)
 
 
 // This macro returns pointer to particular control in dialog
@@ -328,6 +374,18 @@ private:
 
 #define XRCCTRL(window, id, type) \
     (wxStaticCast((window).FindWindow(XRCID(id)), type))
+
+// This macro returns pointer to sizer item
+// Example:
+//
+// <object class="spacer" name="area">
+//   <size>400, 300</size>
+// </object>
+//
+// wxSizerItem* item = XRCSIZERITEM(*this, "area")
+
+#define XRCSIZERITEM(window, id) \
+    ((window).GetSizer() ? (window).GetSizer()->GetItemById(XRCID(id)) : NULL)
 
 // wxXmlResourceHandler is an abstract base class for resource handlers
 // capable of creating a control from an XML node.
@@ -451,6 +509,10 @@ protected:
                    const wxArtClient& defaultArtClient = wxART_OTHER,
                    wxSize size = wxDefaultSize);
 
+    // Gets an icon bundle.
+    wxIconBundle GetIconBundle(const wxString& param,
+                               const wxArtClient& defaultArtClient = wxART_OTHER);
+
 #if wxUSE_ANIMATIONCTRL
     // Gets an animation.
     wxAnimation GetAnimation(const wxString& param = wxT("animation"));
@@ -458,6 +520,10 @@ protected:
 
     // Gets a font.
     wxFont GetFont(const wxString& param = wxT("font"));
+
+    // Gets the value of a boolean attribute (only "0" and "1" are valid values)
+    bool GetBoolAttr(const wxString& attr, bool defaultv);
+
 
     // Sets common window options.
     void SetupWindow(wxWindow *wnd);
@@ -477,6 +543,13 @@ protected:
 #if wxUSE_FILESYSTEM
     wxFileSystem& GetCurFileSystem() { return m_resource->GetCurFileSystem(); }
 #endif
+
+    // reports input error at position 'context'
+    void ReportError(wxXmlNode *context, const wxString& message);
+    // reports input error at m_node
+    void ReportError(const wxString& message);
+    // reports input error when parsing parameter with given name
+    void ReportParamError(const wxString& param, const wxString& message);
 };
 
 
@@ -515,13 +588,6 @@ public:
    Backward compatibility macros. Do *NOT* use, they may disappear in future
    versions of the XRC library!
    ------------------------------------------------------------------------- */
-#if WXWIN_COMPATIBILITY_2_4
-    #define ADD_STYLE         XRC_ADD_STYLE
-    #define wxTheXmlResource  wxXmlResource::Get()
-    #define XMLID             XRCID
-    #define XMLCTRL           XRCCTRL
-    #define GetXMLID          GetXRCID
-#endif
 
 #endif // wxUSE_XRC
 

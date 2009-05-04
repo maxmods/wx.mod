@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: button.h 37393 2006-02-08 21:47:09Z VZ $
+// RCS-ID:      $Id: button.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 // Pushbutton
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxButton : public wxButtonBase
+class WXDLLIMPEXP_CORE wxButton : public wxButtonBase
 {
 public:
     wxButton() { }
@@ -43,19 +43,23 @@ public:
 
     virtual ~wxButton();
 
-    virtual void SetDefault();
+    virtual wxWindow *SetDefault();
+
+    // overridden base class methods
+    virtual void SetLabel(const wxString& label);
+    virtual bool SetBackgroundColour(const wxColour &colour);
+    virtual bool SetForegroundColour(const wxColour &colour);
 
     // implementation from now on
     virtual void Command(wxCommandEvent& event);
     virtual WXLRESULT MSWWindowProc(WXUINT nMsg, WXWPARAM wParam, WXLPARAM lParam);
     virtual bool MSWCommand(WXUINT param, WXWORD id);
 
-    // coloured buttons support
-    virtual bool SetBackgroundColour(const wxColour &colour);
-    virtual bool SetForegroundColour(const wxColour &colour);
-
     virtual bool MSWOnDraw(WXDRAWITEMSTRUCT *item);
     virtual WXDWORD MSWGetStyle(long style, WXDWORD *exstyle) const;
+
+    // returns true if the platform should explicitly apply a theme border
+    virtual bool CanApplyThemeBorder() const { return false; }
 
 private:
     void MakeOwnerDrawn();
@@ -78,5 +82,4 @@ private:
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxButton)
 };
 
-#endif
-    // _WX_BUTTON_H_
+#endif // _WX_BUTTON_H_

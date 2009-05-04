@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     08.12.99
-// RCS-ID:      $Id: dir.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: dir.h 59243 2009-03-01 15:47:49Z FM $
 // Copyright:   (c) 1999 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@ class WXDLLIMPEXP_FWD_BASE wxArrayString;
 
 // these flags define what kind of filenames is included in the list of files
 // enumerated by GetFirst/GetNext
-enum
+enum wxDirFlags
 {
     wxDIR_FILES     = 0x0001,       // include files
     wxDIR_DIRS      = 0x0002,       // include directories
@@ -63,7 +63,7 @@ public:
     virtual wxDirTraverseResult OnDir(const wxString& dirname) = 0;
 
     // called for each directory which we couldn't open during our traversal
-    // of the directory tyree
+    // of the directory tree
     //
     // this method can also return either wxDIR_STOP, wxDIR_IGNORE or
     // wxDIR_CONTINUE but the latter is treated specially: it means to retry
@@ -95,7 +95,7 @@ public:
     // opens the directory for enumeration, use IsOpened() to test success
     wxDir(const wxString& dir);
 
-    // dtor cleans up the associated ressources
+    // dtor cleans up the associated resources
     ~wxDir();
 
     // open the directory for enumerating
@@ -120,10 +120,10 @@ public:
     bool GetNext(wxString *filename) const;
 
     // return true if this directory has any files in it
-    bool HasFiles(const wxString& spec = wxEmptyString);
+    bool HasFiles(const wxString& spec = wxEmptyString) const;
 
     // return true if this directory has any subdirectories
-    bool HasSubDirs(const wxString& spec = wxEmptyString);
+    bool HasSubDirs(const wxString& spec = wxEmptyString) const;
 
     // enumerate all files in this directory and its subdirectories
     //
@@ -146,15 +146,17 @@ public:
                               const wxString& filespec,
                               int flags = wxDIR_DEFAULT);
 
+#if wxUSE_LONGLONG
     // returns the size of all directories recursively found in given path
     static wxULongLong GetTotalSize(const wxString &dir, wxArrayString *filesSkipped = NULL);
+#endif // wxUSE_LONGLONG
 
 private:
     friend class wxDirData;
 
     wxDirData *m_data;
 
-    DECLARE_NO_COPY_CLASS(wxDir)
+    wxDECLARE_NO_COPY_CLASS(wxDir);
 };
 
 #endif // _WX_DIR_H_

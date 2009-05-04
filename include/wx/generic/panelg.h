@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: panelg.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: panelg.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -21,13 +21,13 @@
 
 class WXDLLIMPEXP_FWD_CORE wxControlContainer;
 
-extern WXDLLEXPORT_DATA(const wxChar) wxPanelNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxPanelNameStr[];
 
 // ----------------------------------------------------------------------------
 // wxPanel contains other controls and implements TAB traversal between them
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxPanel : public wxWindow
+class WXDLLIMPEXP_CORE wxPanel : public wxWindow
 {
 public:
     wxPanel() { Init(); }
@@ -79,14 +79,15 @@ public:
     virtual bool IsCanvasWindow() const { return true; }
 #endif
 
-
     WX_DECLARE_CONTROL_CONTAINER();
 
 protected:
     // common part of all ctors
     void Init();
 
-private:
+    // choose the default border for this window
+    virtual wxBorder GetDefaultBorder() const { return wxWindowBase::GetDefaultBorder(); }
+
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxPanel)
     DECLARE_EVENT_TABLE()
 };

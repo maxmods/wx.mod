@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2003/09/04
-// RCS-ID:      $Id: mbarman.h 27408 2004-05-23 20:53:33Z JS $
+// RCS-ID:      $Id: mbarman.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2003 David Elliott
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@ DECLARE_WXCOCOA_OBJC_CLASS(wxMenuBarManagerObserver);
 // ========================================================================
 // wxMenuBarManager
 // ========================================================================
-class WXDLLEXPORT wxMenuBarManager : public wxObject
+class WXDLLIMPEXP_CORE wxMenuBarManager : public wxObject
 {
 // ------------------------------------------------------------------------
 // initialization/destruction

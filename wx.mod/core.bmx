@@ -272,7 +272,7 @@ Type wxInputStream Extends wxStreamBase
 		Return Self
 	End Method
 	
-	Method SeekI:Int(pos:Int, mode:Int = wxFromStart)
+	Method SeekI:Int(pos:Int, Mode:Int = wxFromStart)
 	End Method
 	
 	Method TellI:Int()
@@ -314,7 +314,7 @@ Type wxOutputStream Extends wxStreamBase
 	Method PutC(c:Int)
 	End Method
 	
-	Method SeekO:Int(pos:Int, mode:Int = wxFromStart)
+	Method SeekO:Int(pos:Int, Mode:Int = wxFromStart)
 	End Method
 	
 	Method TellO:Int()
@@ -593,15 +593,15 @@ Type wxTextOutputStream
 	Rem
 	bbdoc: Constructs a text stream object associated to the given output stream.
 	End Rem
-	Function CreateTextOutputStream:wxTextOutputStream(stream:wxOutputStream, mode:Int = wxEOL_NATIVE)
-		Return New wxTextOutputStream.Create(stream, mode)
+	Function CreateTextOutputStream:wxTextOutputStream(stream:wxOutputStream, Mode:Int = wxEOL_NATIVE)
+		Return New wxTextOutputStream.Create(stream, Mode)
 	End Function
 	
 	Rem
 	bbdoc: Constructs a text stream object associated to the given output stream.
 	End Rem
-	Method Create:wxTextOutputStream(stream:wxOutputStream, mode:Int = wxEOL_NATIVE)
-		wxStreamPtr = bmx_wxtextoutputstream_create(stream.wxStreamPtr, mode)
+	Method Create:wxTextOutputStream(stream:wxOutputStream, Mode:Int = wxEOL_NATIVE)
+		wxStreamPtr = bmx_wxtextoutputstream_create(stream.wxStreamPtr, Mode)
 		Return Self
 	End Method
 	
@@ -617,8 +617,8 @@ Type wxTextOutputStream
 	bbdoc: Set the end-of-line mode.
 	about: One of wxEOL_NATIVE, wxEOL_DOS, wxEOL_MAC and wxEOL_UNIX.
 	End Rem
-	Method SetMode(mode:Int = wxEOL_NATIVE)
-		bmx_wxtextoutputstream_setmode(wxStreamPtr, mode)
+	Method SetMode(Mode:Int = wxEOL_NATIVE)
+		bmx_wxtextoutputstream_setmode(wxStreamPtr, Mode)
 	End Method
 	
 	Rem
@@ -1227,9 +1227,9 @@ about: If resetTimer is true (the default), the timer is reset to zero by this c
 See also wxTimer.
 </p>
 End Rem
-Function wxGetElapsedTime:Int(resetTimer:Int = True)
-	Return bmx_wxgetelapsedtime(resetTimer)
-End Function
+'Function wxGetElapsedTime:Int(resetTimer:Int = True)
+'	Return bmx_wxgetelapsedtime(resetTimer)
+'End Function
 
 Rem
 bbdoc: Returns the number of seconds since local time 00:00:00 Jan 1st 1970.
@@ -1293,9 +1293,9 @@ about: Use ::wxGetElapsedTime to get the elapsed time.
 See also wxTimer.
 </p>
 End Rem
-Function wxStartTimer()
-	bmx_wxstarttimer()
-End Function
+'Function wxStartTimer()
+'	bmx_wxstarttimer()
+'End Function
 
 Rem
 bbdoc: 

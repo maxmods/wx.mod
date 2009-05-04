@@ -5,7 +5,7 @@
 // Author:      John Norris, minor changes by Axel Schlueter
 // Modified by:
 // Created:     08.02.01
-// RCS-ID:      $Id: tglbtn.h 39293 2006-05-23 17:53:50Z JS $
+// RCS-ID:      $Id: tglbtn.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2000 Johnny C. Norris II
 // License:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,9 +20,54 @@
 #include "wx/event.h"
 #include "wx/control.h"     // base class
 
-BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EVENT_TYPE(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, 19)
-END_DECLARE_EVENT_TYPES()
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEvent );
+
+// ----------------------------------------------------------------------------
+// wxToggleButtonBase
+// ----------------------------------------------------------------------------
+
+class WXDLLIMPEXP_CORE wxToggleButtonBase : public wxControl
+{
+public:
+    wxToggleButtonBase() { }
+
+    // Get/set the value
+    virtual void SetValue(bool state) = 0;
+    virtual bool GetValue() const = 0;
+
+    void UpdateWindowUI(long flags)
+    {
+        wxControl::UpdateWindowUI(flags);
+
+        if ( !IsShown() )
+            return;
+
+        wxWindow *tlw = wxGetTopLevelParent( this );
+        if (tlw && wxPendingDelete.Member( tlw ))
+           return;
+
+        wxUpdateUIEvent event( GetId() );
+        event.SetEventObject(this);
+
+        if (GetEventHandler()->ProcessEvent(event) )
+        {
+            if ( event.GetSetChecked() )
+                SetValue( event.GetChecked() );
+        }
+    }
+
+    // Buttons on MSW can look bad if they are not native colours, because
+    // then they become owner-drawn and not theme-drawn.  Disable it here
+    // in wxToggleButtonBase to make it consistent.
+    virtual bool ShouldInheritColours() const { return false; }
+
+protected:
+    // choose the default border for this window
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
+
+    wxDECLARE_NO_COPY_CLASS(wxToggleButtonBase);
+};
+
 
 #define EVT_TOGGLEBUTTON(id, fn) \
     wx__DECLARE_EVT1(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, id, wxCommandEventHandler(fn))
@@ -38,7 +83,7 @@ END_DECLARE_EVENT_TYPES()
 # elif defined(__WXMOTIF__)
     #include "wx/motif/tglbtn.h"
 #elif defined(__WXMAC__)
-    #include "wx/mac/tglbtn.h"
+    #include "wx/osx/tglbtn.h"
 #elif defined(__WXPALMOS__)
     #include "wx/palmos/tglbtn.h"
 #elif defined(__WXPM__)

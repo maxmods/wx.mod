@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: statline.h 43874 2006-12-09 14:52:59Z VZ $
+// RCS-ID:      $Id: statline.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 // wxStaticLine
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxStaticLine : public wxStaticLineBase
+class WXDLLIMPEXP_CORE wxStaticLine : public wxStaticLineBase
 {
 public:
     // constructors and pseudo-constructors

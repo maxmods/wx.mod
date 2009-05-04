@@ -4,7 +4,7 @@
 // Author:      Guilhem Lavaux
 // Modified by: Vadim Zeitlin to check error codes, added Detach() method
 // Created:     24/06/98
-// RCS-ID:      $Id: process.h 42713 2006-10-30 11:56:12Z ABX $
+// RCS-ID:      $Id: process.h 59784 2009-03-23 16:23:44Z FM $
 // Copyright:   (c) 1998 Guilhem Lavaux
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ public:
 
 
     // ctors
-    wxProcess(wxEvtHandler *parent = (wxEvtHandler *) NULL, int nId = wxID_ANY)
+    wxProcess(wxEvtHandler *parent = NULL, int nId = wxID_ANY)
         { Init(parent, nId, wxPROCESS_DEFAULT); }
 
     wxProcess(int flags) { Init(NULL, wxID_ANY, flags); }
@@ -104,9 +104,14 @@ public:
                         wxInputStream *errStream);
 #endif // wxUSE_STREAMS
 
+    // implementation only - don't use!
+    // --------------------------------
+    
+    // needs to be public since it needs to be used from wxExecute() global func
+    void SetPid(long pid) { m_pid = pid; }
+
 protected:
     void Init(wxEvtHandler *parent, int id, int flags);
-    void SetPid(long pid) { m_pid = pid; }
 
     int m_id;
     long m_pid;
@@ -123,16 +128,16 @@ protected:
     bool m_redirect;
 
     DECLARE_DYNAMIC_CLASS(wxProcess)
-    DECLARE_NO_COPY_CLASS(wxProcess)
+    wxDECLARE_NO_COPY_CLASS(wxProcess);
 };
 
 // ----------------------------------------------------------------------------
 // wxProcess events
 // ----------------------------------------------------------------------------
 
-BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_BASE, wxEVT_END_PROCESS, 440)
-END_DECLARE_EVENT_TYPES()
+class WXDLLIMPEXP_FWD_BASE wxProcessEvent;
+
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_BASE, wxEVT_END_PROCESS, wxProcessEvent );
 
 class WXDLLIMPEXP_BASE wxProcessEvent : public wxEvent
 {
@@ -164,7 +169,7 @@ public:
 typedef void (wxEvtHandler::*wxProcessEventFunction)(wxProcessEvent&);
 
 #define wxProcessEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxProcessEventFunction, &func)
+    wxEVENT_HANDLER_CAST(wxProcessEventFunction, func)
 
 #define EVT_END_PROCESS(id, func) \
    wx__DECLARE_EVT1(wxEVT_END_PROCESS, id, wxProcessEventHandler(func))

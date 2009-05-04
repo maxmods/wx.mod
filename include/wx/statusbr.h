@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     05.02.00
-// RCS-ID:      $Id: statusbr.h 41035 2006-09-06 17:36:22Z PC $
+// RCS-ID:      $Id: statusbr.h 59568 2009-03-15 19:45:34Z FM $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,9 +20,7 @@
 #include "wx/list.h"
 #include "wx/dynarray.h"
 
-extern WXDLLIMPEXP_DATA_CORE(const wxChar) wxStatusBarNameStr[];
-
-WX_DECLARE_LIST(wxString, wxListString);
+extern WXDLLIMPEXP_DATA_CORE(const char) wxStatusBarNameStr[];
 
 // ----------------------------------------------------------------------------
 // wxStatusBar constants
@@ -34,10 +32,47 @@ WX_DECLARE_LIST(wxString, wxListString);
 #define wxSB_RAISED    0x0002
 
 // ----------------------------------------------------------------------------
+// wxStatusBarPane: an helper for wxStatusBar
+// ----------------------------------------------------------------------------
+
+class WXDLLIMPEXP_CORE wxStatusBarPane
+{
+    // only wxStatusBarBase can access our internal members and modify them:
+    friend class WXDLLIMPEXP_FWD_CORE wxStatusBarBase;
+
+public:
+    wxStatusBarPane(int style = wxSB_NORMAL, size_t width = 0)
+        : m_nStyle(style), m_nWidth(width) { m_arrStack.Add(wxEmptyString); }
+        
+    int GetWidth() const
+        { return m_nWidth; }
+    int GetStyle() const
+        { return m_nStyle; }
+        
+    const wxArrayString& GetStack() const
+        { return m_arrStack; }
+
+    // use wxStatusBar setter functions to modify a wxStatusBarPane
+
+protected:
+    int m_nStyle;
+    int m_nWidth;     // the width maybe negative, indicating a variable-width field
+
+    // this is the array of the stacked strings of this pane; note that this
+    // stack does include also the string currently displayed in this pane
+    // as the version stored in the native status bar control is possibly
+    // ellipsized; note that arrStack.Last() is the top of the stack
+    // (i.e. the string shown in the status bar)
+    wxArrayString m_arrStack;
+};
+
+WX_DECLARE_OBJARRAY(wxStatusBarPane, wxStatusBarPaneArray);
+
+// ----------------------------------------------------------------------------
 // wxStatusBar: a window near the bottom of the frame used for status info
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxStatusBarBase : public wxWindow
+class WXDLLIMPEXP_CORE wxStatusBarBase : public wxWindow
 {
 public:
     wxStatusBarBase();
@@ -50,13 +85,17 @@ public:
     // set the number of fields and call SetStatusWidths(widths) if widths are
     // given
     virtual void SetFieldsCount(int number = 1, const int *widths = NULL);
-    int GetFieldsCount() const { return m_nFields; }
+    int GetFieldsCount() const { return m_panes.GetCount(); }
 
     // field text
     // ----------
 
-    virtual void SetStatusText(const wxString& text, int number = 0) = 0;
-    virtual wxString GetStatusText(int number = 0) const = 0;
+    virtual void SetStatusText(const wxString& text, int number = 0)
+        { m_panes[number].GetStack().Last() = text; }
+    virtual wxString GetStatusText(int number = 0) const
+        { return m_panes[number].GetStack().Last(); }
+    const wxArrayString& GetStatusStack(int n) const
+        { return m_panes[n].GetStack(); }
 
     void PushStatusText(const wxString& text, int number = 0);
     void PopStatusText(int number = 0);
@@ -71,6 +110,9 @@ public:
     // negative width according to the abs value of the width (field with width
     // -2 grows twice as much as one with width -1 &c)
     virtual void SetStatusWidths(int n, const int widths[]);
+    
+    int GetStatusWidth(int n) const
+        { return m_panes[n].GetWidth(); }
 
     // field styles
     // ------------
@@ -80,6 +122,9 @@ public:
     // appears flat or wxSB_POPOUT to make the field appear raised.
     // Setting field styles only works on wxMSW
     virtual void SetStatusStyles(int n, const int styles[]);
+    
+    int GetStatusStyle(int n) const
+        { return m_panes[n].GetStyle(); }
 
     // geometry
     // --------
@@ -94,51 +139,33 @@ public:
     virtual int GetBorderX() const = 0;
     virtual int GetBorderY() const = 0;
 
+    // miscellaneous
+    // -------------
+    
+    const wxStatusBarPane& GetField(int n) const
+        { return m_panes[n]; }
+    
+    // wxWindow overrides:
+    
     // don't want status bars to accept the focus at all
     virtual bool AcceptsFocus() const { return false; }
 
+    // the client size of a toplevel window doesn't include the status bar
+    virtual bool CanBeOutsideClientArea() const { return true; }
+
 protected:
-    // set the widths array to NULL
-    void InitWidths();
-
-    // free the status widths arrays
-    void FreeWidths();
-
-    // reset the widths
-    void ReinitWidths() { FreeWidths(); InitWidths(); }
-
-    // same, for field styles
-    void InitStyles();
-    void FreeStyles();
-    void ReinitStyles() { FreeStyles(); InitStyles(); }
-
-    // same, for text stacks
-    void InitStacks();
-    void FreeStacks();
-    void ReinitStacks() { FreeStacks(); InitStacks(); }
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
 
     // calculate the real field widths for the given total available size
     wxArrayInt CalculateAbsWidths(wxCoord widthTotal) const;
 
-    // use these functions to access the stacks of field strings
-    wxListString *GetStatusStack(int i) const;
-    wxListString *GetOrCreateStatusStack(int i);
+    // the array with the pane infos:
+    wxStatusBarPaneArray m_panes;
 
-    // the current number of fields
-    int        m_nFields;
+    // if true overrides the width info of the wxStatusBarPanes
+    bool m_bSameWidthForAllPanes;
 
-    // the widths of the fields in pixels if !NULL, all fields have the same
-    // width otherwise
-    int       *m_statusWidths;
-
-    // the styles of the fields
-    int       *m_statusStyles;
-
-    // stacks of previous values for PushStatusText/PopStatusText
-    // this is created on demand, use GetStatusStack/GetOrCreateStatusStack
-    wxListString **m_statusTextStacks;
-
-    DECLARE_NO_COPY_CLASS(wxStatusBarBase)
+    wxDECLARE_NO_COPY_CLASS(wxStatusBarBase);
 };
 
 // ----------------------------------------------------------------------------
@@ -147,24 +174,18 @@ protected:
 
 #if defined(__WXUNIVERSAL__)
     #define wxStatusBarUniv wxStatusBar
-
     #include "wx/univ/statusbr.h"
 #elif defined(__WXPALMOS__)
     #define wxStatusBarPalm wxStatusBar
-
     #include "wx/palmos/statusbr.h"
 #elif defined(__WIN32__) && wxUSE_NATIVE_STATUSBAR
-    #define wxStatusBar95 wxStatusBar
-
-    #include "wx/msw/statbr95.h"
+    #include "wx/msw/statusbar.h"
 #elif defined(__WXMAC__)
     #define wxStatusBarMac wxStatusBar
-
     #include "wx/generic/statusbr.h"
-    #include "wx/mac/statusbr.h"
+    #include "wx/osx/statusbr.h"
 #else
     #define wxStatusBarGeneric wxStatusBar
-
     #include "wx/generic/statusbr.h"
 #endif
 

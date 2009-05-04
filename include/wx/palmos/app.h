@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/17/04
-// RCS-ID:      $Id: app.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: app.h 58911 2009-02-15 14:25:08Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,15 +15,15 @@
 #include "wx/event.h"
 #include "wx/icon.h"
 
-class WXDLLIMPEXP_CORE wxFrame;
-class WXDLLIMPEXP_CORE wxWindow;
-class WXDLLIMPEXP_CORE wxApp;
-class WXDLLIMPEXP_CORE wxKeyEvent;
-class WXDLLIMPEXP_BASE wxLog;
+class WXDLLIMPEXP_FWD_CORE wxFrame;
+class WXDLLIMPEXP_FWD_CORE wxWindow;
+class WXDLLIMPEXP_FWD_CORE wxApp;
+class WXDLLIMPEXP_FWD_CORE wxKeyEvent;
+class WXDLLIMPEXP_FWD_BASE wxLog;
 
 // Represents the application. Derive OnInit and declare
 // a new App object to start application
-class WXDLLEXPORT wxApp : public wxAppBase
+class WXDLLIMPEXP_CORE wxApp : public wxAppBase
 {
     DECLARE_DYNAMIC_CLASS(wxApp)
 
@@ -35,14 +35,12 @@ public:
     virtual bool Initialize(int& argc, wxChar **argv);
     virtual void CleanUp();
 
-    virtual bool Yield(bool onlyIfNeeded = false);
     virtual void WakeUpIdle();
 
     virtual void SetPrintMode(int mode) { m_printMode = mode; }
     virtual int GetPrintMode() const { return m_printMode; }
 
     // implementation only
-    void OnIdle(wxIdleEvent& event);
     void OnEndSession(wxCloseEvent& event);
     void OnQueryEndSession(wxCloseEvent& event);
 
@@ -74,7 +72,7 @@ public:
 
 protected:
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxApp)
+    wxDECLARE_NO_COPY_CLASS(wxApp);
 };
 
 // ----------------------------------------------------------------------------
@@ -85,8 +83,7 @@ protected:
     #define SW_SHOWNORMAL 1
 #endif
 
-extern int WXDLLEXPORT
-wxEntry();
+extern WXDLLIMPEXP_CORE int wxEntry();
 
 #define IMPLEMENT_WXWIN_MAIN                                              \
                                                                           \

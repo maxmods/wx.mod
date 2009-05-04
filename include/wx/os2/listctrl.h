@@ -4,7 +4,7 @@
 // Author:      
 // Modified by:
 // Created:     
-// RCS-ID:      $Id: listctrl.h 37982 2006-03-10 21:26:59Z RD $
+// RCS-ID:      $Id: listctrl.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -20,11 +20,11 @@
 #include "wx/textctrl.h"
 
 
-class WXDLLEXPORT wxImageList;
+class WXDLLIMPEXP_FWD_CORE wxImageList;
 
 typedef int (wxCALLBACK *wxListCtrlCompare)(long lItem1, long lItem2, long lSortData);
 
-class WXDLLEXPORT wxListCtrl: public wxControl
+class WXDLLIMPEXP_CORE wxListCtrl: public wxControl
 {
 public:
     wxListCtrl() { Init(); }
@@ -150,9 +150,8 @@ public:
     // Item data
     //
     long GetItemData(long lItem) const;
-    bool SetItemData( long lItem
-                     ,long lData
-                    );
+    bool SetItemPtrData(long item, wxUIntPtr data);
+    bool SetItemData(long item, long data) { return SetItemPtrData(item, data); }
 
     //
     // Gets the item rectangle
@@ -532,7 +531,7 @@ private:
 
     DECLARE_DYNAMIC_CLASS(wxListCtrl)
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxListCtrl)
+    wxDECLARE_NO_COPY_CLASS(wxListCtrl);
 }; // end of CLASS wxListCtrl
 
 #endif // wxUSE_LISTCTRL

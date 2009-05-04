@@ -522,12 +522,12 @@ Type wxScintilla Extends wxControl
 		bmx_wxscintilla_stylesetsize(wxObjectPtr, style, sizePoints)
 	End Method
 
-	Rem
-	bbdoc: Set the font of a style.
-	End Rem
-	Method StyleSetFont(style:Int, FontName:String)
-		bmx_wxscintilla_stylesetfont(wxObjectPtr, style, FontName)
-	End Method
+'	Rem
+'	bbdoc: Set the font of a style.
+'	End Rem
+'	Method StyleSetFont(style:Int, FontName:String)
+'		bmx_wxscintilla_stylesetfont(wxObjectPtr, style, FontName)
+'	End Method
 
 	Rem
 	bbdoc: Set a style to have its end of line filled or not.
@@ -1165,8 +1165,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Modify colours when printing for clearer printed text.
 	End Rem
-	Method SetPrintColourMode(mode:Int)
-		bmx_wxscintilla_setprintcolourmode(wxObjectPtr, mode)
+	Method SetPrintColourMode(Mode:Int)
+		bmx_wxscintilla_setprintcolourmode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -1736,8 +1736,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Sets whether text is word wrapped.
 	End Rem
-	Method SetWrapMode(mode:Int)
-		bmx_wxscintilla_setwrapmode(wxObjectPtr, mode)
+	Method SetWrapMode(Mode:Int)
+		bmx_wxscintilla_setwrapmode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -1792,8 +1792,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Sets the degree of caching of layout information.
 	End Rem
-	Method SetLayoutCache(mode:Int)
-		bmx_wxscintilla_setlayoutcache(wxObjectPtr, mode)
+	Method SetLayoutCache(Mode:Int)
+		bmx_wxscintilla_setlayoutcache(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -2446,8 +2446,8 @@ Type wxScintilla Extends wxControl
 	bbdoc: The edge may be displayed by a line (EDGE_LINE) or by highlighting text that
 	about: goes beyond it (EDGE_BACKGROUND) or not displayed at all (EDGE_NONE).
 	End Rem
-	Method SetEdgeMode(mode:Int)
-		bmx_wxscintilla_setedgemode(wxObjectPtr, mode)
+	Method SetEdgeMode(Mode:Int)
+		bmx_wxscintilla_setedgemode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -2702,8 +2702,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Set printing to line wrapped (SC_WRAP_WORD) or not line wrapped (SC_WRAP_NONE).
 	End Rem
-	Method SetPrintWrapMode(mode:Int)
-		bmx_wxscintilla_setprintwrapmode(wxObjectPtr, mode)
+	Method SetPrintWrapMode(Mode:Int)
+		bmx_wxscintilla_setprintwrapmode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -2796,8 +2796,8 @@ Type wxScintilla Extends wxControl
 	bbdoc: Set the selection mode to stream (SC_SEL_STREAM) or rectangular (SC_SEL_RECTANGLE) or
 	about: by lines (SC_SEL_LINES).
 	End Rem
-	Method SetSelectionMode(mode:Int)
-		bmx_wxscintilla_setselectionmode(wxObjectPtr, mode)
+	Method SetSelectionMode(Mode:Int)
+		bmx_wxscintilla_setselectionmode(wxObjectPtr, Mode)
 	End Method
 
 	Rem

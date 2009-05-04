@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: statusbr.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: statusbr.h 57686 2008-12-31 12:28:05Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 #if wxUSE_NATIVE_STATUSBAR
 
-class WXDLLEXPORT wxStatusBarPalm : public wxStatusBarBase
+class WXDLLIMPEXP_CORE wxStatusBarPalm : public wxStatusBarBase
 {
 public:
     // ctors and such
@@ -63,7 +63,7 @@ public:
 protected:
     void CopyFieldsWidth(const int widths[]);
     void SetFieldsWidth();
-
+/*
     // store the text in the status bar
     wxListString **StatusTextBuffer;
     void SetStatusBufferText(const wxString& text, int number);
@@ -71,6 +71,9 @@ protected:
     wxListString *GetOrCreateStatusBuffer(int i);
     wxListString *GetStatusBufferStack(int i) const;
     void DeleteStatusBuffer();
+
+    TODO: reuse wxStatusBarBase's stack routines instead of reimplementing them here
+*/
 
     // override base class virtual
     void DoMoveWindow(int x, int y, int width, int height);

@@ -3,7 +3,7 @@
 // Purpose:     MSW/GTK compatible notebook (a.k.a. property sheet)
 // Author:      David Webster
 // Modified by:
-// RCS-ID:      $Id: notebook.h 41738 2006-10-08 17:37:23Z VZ $
+// RCS-ID:      $Id: notebook.h 54895 2008-08-01 13:46:46Z VZ $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@
 // wxNotebook
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxNotebook : public wxNotebookBase
+class WXDLLIMPEXP_CORE wxNotebook : public wxNotebookBase
 {
 public:
     //
@@ -155,7 +155,7 @@ public:
     // ---------
     //
     void OnSize(wxSizeEvent& rEvent);
-    void OnSelChange(wxNotebookEvent& rEvent);
+    void OnSelChange(wxBookCtrlEvent& rEvent);
     void OnSetFocus(wxFocusEvent& rEvent);
     void OnNavigationKey(wxNavigationKeyEvent& rEvent);
 

@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: statbmp.h 36891 2006-01-16 14:59:55Z MR $
+// RCS-ID:      $Id: statbmp.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,10 +16,10 @@
 #include "wx/icon.h"
 #include "wx/bitmap.h"
 
-WXDLLEXPORT_DATA(extern const wxChar) wxStaticBitmapNameStr[];
+WXDLLIMPEXP_DATA_CORE(extern const wxChar) wxStaticBitmapNameStr[];
 
 // a control showing an icon or a bitmap
-class WXDLLEXPORT wxStaticBitmap : public wxStaticBitmapBase
+class WXDLLIMPEXP_CORE wxStaticBitmap : public wxStaticBitmapBase
 {
 public:
     wxStaticBitmap() { Init(); }
@@ -93,7 +93,7 @@ protected:
 
 private:
     DECLARE_DYNAMIC_CLASS(wxStaticBitmap)
-    DECLARE_NO_COPY_CLASS(wxStaticBitmap)
+    wxDECLARE_NO_COPY_CLASS(wxStaticBitmap);
 };
 
 #endif

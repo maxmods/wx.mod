@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: radiobox.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: radiobox.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@
 
 #include "wx/arrstr.h"
 
-class WXDLLEXPORT wxRadioBox : public wxControl, public wxRadioBoxBase
+class WXDLLIMPEXP_CORE wxRadioBox : public wxControl, public wxRadioBoxBase
 {
 public:
     wxRadioBox() { Init(); }
@@ -113,6 +113,7 @@ public:
     virtual WXWidget GetLabelWidget() const { return m_labelWidget; }
 
 protected:
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
     virtual void DoSetSize(int x, int y,
                            int width, int height,
                            int sizeFlags = wxSIZE_AUTO);

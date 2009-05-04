@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: dcclient.h 42802 2006-10-31 00:59:06Z VZ $
+// RCS-ID:      $Id: dcclient.h 57907 2009-01-08 14:21:53Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,36 +13,35 @@
 #define _WX_DCCLIENT_H_
 
 #include "wx/dc.h"
+#include "wx/dcclient.h"
+#include "wx/x11/dc.h"
 #include "wx/region.h"
 
 // -----------------------------------------------------------------------------
 // fwd declarations
 // -----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxWindow;
-
-class WXDLLIMPEXP_CORE wxWindowDC;
-class WXDLLIMPEXP_CORE wxPaintDC;
-class WXDLLIMPEXP_CORE wxClientDC;
+class WXDLLIMPEXP_FWD_CORE wxWindow;
 
 //-----------------------------------------------------------------------------
-// wxWindowDC
+// wxWindowDCImpl
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxWindowDC : public wxDC
+class WXDLLIMPEXP_CORE wxWindowDCImpl : public wxX11DCImpl
 {
 public:
-    wxWindowDC() { Init(); }
-    wxWindowDC( wxWindow *win );
-
-    virtual ~wxWindowDC();
+    wxWindowDCImpl( wxDC *owner );
+    wxWindowDCImpl( wxDC *owner, wxWindow *win );
+        
+    virtual ~wxWindowDCImpl();
 
     virtual bool CanDrawBitmap() const { return true; }
     virtual bool CanGetTextExtent() const { return true; }
 
 protected:
     virtual void DoGetSize(int *width, int *height) const;
-    virtual bool DoFloodFill( wxCoord x, wxCoord y, const wxColour& col, int style = wxFLOOD_SURFACE );
+    virtual bool DoFloodFill( wxCoord x, wxCoord y, const wxColour& col, 
+                              wxFloodFillStyle style = wxFLOOD_SURFACE );
     virtual bool DoGetPixel( wxCoord x, wxCoord y, wxColour *col ) const;
 
     virtual void DoDrawPoint(wxCoord x, wxCoord y);
@@ -71,17 +70,18 @@ protected:
 
     virtual bool DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height,
         wxDC *source, wxCoord xsrc, wxCoord ysrc,
-        int rop = wxCOPY, bool useMask = false, wxCoord xsrcMask = -1, wxCoord ysrcMask = -1);
+        wxRasterOperationMode rop = wxCOPY, bool useMask = false, 
+        wxCoord xsrcMask = -1, wxCoord ysrcMask = -1);
 
-    virtual void DoSetClippingRegionAsRegion(const wxRegion& region);
     virtual void DoSetClippingRegion(wxCoord x, wxCoord y,
         wxCoord width, wxCoord height);
+    virtual void DoSetDeviceClippingRegion(const wxRegion& region);
 
     virtual void DoDrawLines(int n, wxPoint points[],
         wxCoord xoffset, wxCoord yoffset);
     virtual void DoDrawPolygon(int n, wxPoint points[],
         wxCoord xoffset, wxCoord yoffset,
-        int fillStyle = wxODDEVEN_RULE);
+        wxPolygonFillMode fillStyle = wxODDEVEN_RULE);
 
 
 public:
@@ -93,7 +93,7 @@ public:
     virtual void SetBackground(const wxBrush& brush);
     virtual void SetBackgroundMode(int mode);
     virtual void SetPalette(const wxPalette& palette);
-    virtual void SetLogicalFunction( int function );
+    virtual void SetLogicalFunction( wxRasterOperationMode function );
 
     virtual void SetTextForeground(const wxColour& colour);
     virtual void SetTextBackground(const wxColour& colour);
@@ -105,7 +105,7 @@ public:
     virtual wxSize GetPPI() const;
 
     virtual void DestroyClippingRegion();
-    WXWindow GetWindow() const { return m_window; }
+    WXWindow GetX11Window() const { return m_x11window; }
 
     virtual void ComputeScaleAndOrigin();
 
@@ -116,12 +116,12 @@ protected:
         wxCoord *x, wxCoord *y,
         wxCoord *descent = NULL,
         wxCoord *externalLeading = NULL,
-        wxFont *theFont = NULL) const;
+        const wxFont *theFont = NULL) const;
 
     void Init();
 
     WXDisplay    *m_display;
-    WXWindow      m_window;
+    WXWindow      m_x11window;
     WXGC          m_penGC;
     WXGC          m_brushGC;
     WXGC          m_textGC;
@@ -129,7 +129,6 @@ protected:
     WXColormap    m_cmap;
     bool          m_isMemDC;
     bool          m_isScreenDC;
-    wxWindow     *m_owner;
     wxRegion      m_currentClippingRegion;
     wxRegion      m_paintClippingRegion;
 
@@ -142,38 +141,38 @@ protected:
     void Destroy();
 
 private:
-    DECLARE_DYNAMIC_CLASS(wxWindowDC)
+    DECLARE_CLASS(wxWindowDCImpl)
 };
 
 //-----------------------------------------------------------------------------
 // wxClientDC
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxClientDC : public wxWindowDC
+class WXDLLIMPEXP_CORE wxClientDCImpl : public wxWindowDCImpl
 {
 public:
-    wxClientDC() { }
-    wxClientDC( wxWindow *win );
+    wxClientDCImpl( wxDC *owner ) : wxWindowDCImpl( owner ) { }
+    wxClientDCImpl( wxDC *owner, wxWindow *win );
 
 protected:
     virtual void DoGetSize(int *width, int *height) const;
 
 private:
-    DECLARE_DYNAMIC_CLASS(wxClientDC)
+    DECLARE_CLASS(wxClientDCImpl)
 };
 
 //-----------------------------------------------------------------------------
 // wxPaintDC
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxPaintDC : public wxClientDC
+class WXDLLIMPEXP_CORE wxPaintDCImpl : public wxClientDCImpl
 {
 public:
-    wxPaintDC() { }
-    wxPaintDC( wxWindow *win );
+    wxPaintDCImpl( wxDC *owner ) : wxClientDCImpl( owner ) { }
+    wxPaintDCImpl( wxDC *owner, wxWindow *win );
 
 private:
-    DECLARE_DYNAMIC_CLASS(wxPaintDC)
+    DECLARE_CLASS(wxPaintDCImpl)
 };
 
 #endif

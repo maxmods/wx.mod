@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: checkbox.h 40325 2006-07-25 14:31:55Z ABX $
+// RCS-ID:      $Id: checkbox.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 #define _WX_CHECKBOX_H_
 
 // Checkbox item (single checkbox)
-class WXDLLEXPORT wxCheckBox: public wxCheckBoxBase
+class WXDLLIMPEXP_CORE wxCheckBox: public wxCheckBoxBase
 {
     DECLARE_DYNAMIC_CLASS(wxCheckBox)
 

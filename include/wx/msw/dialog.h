@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: dialog.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: dialog.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,17 +14,17 @@
 
 #include "wx/panel.h"
 
-extern WXDLLEXPORT_DATA(const wxChar) wxDialogNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxDialogNameStr[];
 
 class WXDLLIMPEXP_FWD_CORE wxDialogModalData;
 
 #if wxUSE_TOOLBAR && (defined(__SMARTPHONE__) || defined(__POCKETPC__))
 class WXDLLIMPEXP_FWD_CORE wxToolBar;
-extern WXDLLEXPORT_DATA(const wxChar) wxToolBarNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxToolBarNameStr[];
 #endif
 
 // Dialog boxes
-class WXDLLEXPORT wxDialog : public wxDialogBase
+class WXDLLIMPEXP_CORE wxDialog : public wxDialogBase
 {
 public:
     wxDialog() { Init(); }
@@ -85,6 +85,8 @@ public:
 
     virtual void Raise();
 
+    virtual void SetWindowStyleFlag(long style);
+
 #ifdef __POCKETPC__
     // Responds to the OK button in a PocketPC titlebar. This
     // can be overridden, or you can change the id used for
@@ -96,21 +98,6 @@ public:
     // Windows callbacks
     WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
 
-#if WXWIN_COMPATIBILITY_2_6
-    // use the other ctor
-    wxDEPRECATED( wxDialog(wxWindow *parent,
-             const wxString& title, bool modal,
-             int x = wxDefaultCoord, int y = wxDefaultCoord, int width = 500, int height = 500,
-             long style = wxDEFAULT_DIALOG_STYLE,
-             const wxString& name = wxDialogNameStr) );
-
-    // just call Show() or ShowModal()
-    wxDEPRECATED( void SetModal(bool flag) );
-
-    // use IsModal()
-    wxDEPRECATED( bool IsModalShowing() const );
-#endif // WXWIN_COMPATIBILITY_2_6
-
 protected:
     // find the window to use as parent for this dialog if none has been
     // specified explicitly by the user
@@ -121,9 +108,17 @@ protected:
     // common part of all ctors
     void Init();
 
+    // these functions deal with the gripper window shown in the corner of
+    // resizeable dialogs
+    void CreateGripper();
+    void DestroyGripper();
+    void ShowGripper(bool show);
+    void ResizeGripper();
+
 private:
-    wxWindow*   m_oldFocus;
-    bool        m_endModalCalled; // allow for closing within InitDialog
+    // this function is used to adjust Z-order of new children relative to the
+    // gripper if we have one
+    void OnWindowCreate(wxWindowCreateEvent& event);
 
 #if wxUSE_TOOLBAR && defined(__POCKETPC__)
     wxToolBar*  m_dialogToolBar;
@@ -132,8 +127,11 @@ private:
     // this pointer is non-NULL only while the modal event loop is running
     wxDialogModalData *m_modalData;
 
+    // gripper window for a resizable dialog, NULL if we're not resizable
+    WXHWND m_hGripper;
+
     DECLARE_DYNAMIC_CLASS(wxDialog)
-    DECLARE_NO_COPY_CLASS(wxDialog)
+    wxDECLARE_NO_COPY_CLASS(wxDialog);
 };
 
 #endif

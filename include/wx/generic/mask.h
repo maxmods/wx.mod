@@ -3,7 +3,7 @@
 // Purpose:     generic implementation of wxMask
 // Author:      Vadim Zeitlin
 // Created:     2006-09-28
-// RCS-ID:      $Id: mask.h 41495 2006-09-28 23:02:39Z VZ $
+// RCS-ID:      $Id: mask.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2006 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 // generic wxMask implementation
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxMask : public wxMaskBase
+class WXDLLIMPEXP_CORE wxMask : public wxMaskBase
 {
 public:
     wxMask() { }

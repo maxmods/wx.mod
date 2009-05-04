@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     Apr-30-2006
-// RCS-ID:      $Id: combo.h 43881 2006-12-09 19:48:21Z PC $
+// RCS-ID:      $Id: combo.h 58229 2009-01-19 14:40:13Z VZ $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -33,9 +33,9 @@
 // Define this only if native implementation includes all features
 #define wxCOMBOCONTROL_FULLY_FEATURED
 
-extern WXDLLIMPEXP_DATA_CORE(const wxChar) wxComboBoxNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxComboBoxNameStr[];
 
-class WXDLLEXPORT wxComboCtrl : public wxComboCtrlBase
+class WXDLLIMPEXP_CORE wxComboCtrl : public wxComboCtrlBase
 {
 public:
     // ctors and such
@@ -73,10 +73,13 @@ public:
     static int GetFeatures() { return wxComboCtrlFeatures::All; }
 
 #if wxUSE_COMBOCTRL_POPUP_ANIMATION
-    void OnTimerEvent( wxTimerEvent& event );
+    void OnTimerEvent(wxTimerEvent& WXUNUSED(event)) { DoTimerEvent(); }
+
 protected:
+    void DoTimerEvent();
+
     virtual bool AnimateShow( const wxRect& rect, int flags );
-#endif
+#endif // wxUSE_COMBOCTRL_POPUP_ANIMATION
 
 protected:
 

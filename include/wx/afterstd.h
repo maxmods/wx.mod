@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     07/07/03
-// RCS-ID:      $Id: afterstd.h 42906 2006-11-01 14:16:42Z VZ $
+// RCS-ID:      $Id: afterstd.h 47644 2007-07-22 09:20:42Z VS $
 // Copyright:   (c) 2003 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -46,3 +46,7 @@
     #endif
 #endif
 
+// see beforestd.h for explanation
+#if defined(HAVE_VISIBILITY) && defined(HAVE_BROKEN_LIBSTDCXX_VISIBILITY)
+    #pragma GCC visibility pop
+#endif

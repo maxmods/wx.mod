@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: gauge.h 36891 2006-01-16 14:59:55Z MR $
+// RCS-ID:      $Id: gauge.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,10 +14,10 @@
 
 #if wxUSE_GAUGE
 
-WXDLLEXPORT_DATA(extern const wxChar) wxGaugeNameStr[];
+WXDLLIMPEXP_DATA_CORE(extern const wxChar) wxGaugeNameStr[];
 
 // Group box
-class WXDLLEXPORT wxGauge : public wxGaugeBase
+class WXDLLIMPEXP_CORE wxGauge : public wxGaugeBase
 {
 public:
     wxGauge() { }

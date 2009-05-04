@@ -29,25 +29,25 @@ extern "C" {
 
 #include <blitz.h>
 
-	int _wx_wxvscrolledwindow_wxVScrolledWindow__OnGetLineHeight(const wxVScrolledWindow * window, int n);
-	void _wx_wxvscrolledwindow_wxVScrolledWindow__OnGetLinesHint(const wxVScrolledWindow * window, int lineMin, int lineMax);
+	int _wx_wxvscrolledwindow_wxVScrolledWindow__OnGetRowHeight(const wxVScrolledWindow * window, int n);
+	void _wx_wxvscrolledwindow_wxVScrolledWindow__OnGetRowsHeightHint(const wxVScrolledWindow * window, int lineMin, int lineMax);
 
 	MaxVScrolledWindow * bmx_wxvscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 
-	int bmx_wxvscrolledwindow_getfirstvisibleline(wxVScrolledWindow * window);
-	int bmx_wxvscrolledwindow_getlastvisibleline(wxVScrolledWindow * window);
-	int bmx_wxvscrolledwindow_getlinecount(wxVScrolledWindow * window);
+	int bmx_wxvscrolledwindow_getvisiblerowsbegin(wxVScrolledWindow * window);
+	int bmx_wxvscrolledwindow_getvisiblerowsend(wxVScrolledWindow * window);
+	int bmx_wxvscrolledwindow_getrowcount(wxVScrolledWindow * window);
 	int bmx_wxvscrolledwindow_getvisiblebegin(wxVScrolledWindow * window);
 	int bmx_wxvscrolledwindow_getvisibleend(wxVScrolledWindow * window);
 	int bmx_wxvscrolledwindow_hittest(wxVScrolledWindow * window, int x, int y);
 	bool bmx_wxvscrolledwindow_isvisible(wxVScrolledWindow * window, int line);
-	void bmx_wxvscrolledwindow_refreshline(wxVScrolledWindow * window, int line);
-	void bmx_wxvscrolledwindow_refreshlines(wxVScrolledWindow * window, int fromline, int toLine);
+	void bmx_wxvscrolledwindow_refreshrow(wxVScrolledWindow * window, int line);
+	void bmx_wxvscrolledwindow_refreshrows(wxVScrolledWindow * window, int fromline, int toLine);
 	void bmx_wxvscrolledwindow_refreshall(wxVScrolledWindow * window);
-	bool bmx_wxvscrolledwindow_scrolllines(wxVScrolledWindow * window, int lines);
-	bool bmx_wxvscrolledwindow_scrollpages(wxVScrolledWindow * window, int pages);
-	bool bmx_wxvscrolledwindow_scrolltoline(wxVScrolledWindow * window, int line);
-	void bmx_wxvscrolledwindow_setlinecount(wxVScrolledWindow * window, int count);
+	bool bmx_wxvscrolledwindow_scrollrows(wxVScrolledWindow * window, int lines);
+	bool bmx_wxvscrolledwindow_scrollrowpages(wxVScrolledWindow * window, int pages);
+	bool bmx_wxvscrolledwindow_scrolltorow(wxVScrolledWindow * window, int line);
+	void bmx_wxvscrolledwindow_setrowcount(wxVScrolledWindow * window, int count);
 
 }
 
@@ -58,8 +58,8 @@ class MaxVScrolledWindow : public wxVScrolledWindow
 public:
 	MaxVScrolledWindow(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxVScrolledWindow();
-	virtual wxCoord OnGetLineHeight(size_t n) const;
-	virtual void OnGetLinesHint(size_t lineMin, size_t lineMax) const;
+	virtual wxCoord OnGetRowHeight(size_t n) const;
+	virtual void OnGetRowsHeightHint(size_t lineMin, size_t lineMax) const;
 	
 private:
 

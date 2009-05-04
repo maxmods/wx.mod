@@ -4,7 +4,7 @@
 // Author:      Ryan Norton
 // Modified by:
 // Created:     2004-10-02
-// RCS-ID:      $Id: filedlg.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: filedlg.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Ryan Norton
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,10 +19,10 @@ DECLARE_WXCOCOA_OBJC_CLASS(NSSavePanel);
 // wxFileDialog
 //-------------------------------------------------------------------------
 
-class WXDLLEXPORT wxFileDialog: public wxFileDialogBase
+class WXDLLIMPEXP_CORE wxFileDialog: public wxFileDialogBase
 {
     DECLARE_DYNAMIC_CLASS(wxFileDialog)
-    DECLARE_NO_COPY_CLASS(wxFileDialog)
+    wxDECLARE_NO_COPY_CLASS(wxFileDialog);
 public:
     wxFileDialog(wxWindow *parent,
                  const wxString& message = wxFileSelectorPromptStr,

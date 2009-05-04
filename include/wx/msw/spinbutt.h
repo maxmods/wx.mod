@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: spinbutt.h 41316 2006-09-20 14:15:14Z RR $
+// RCS-ID:      $Id: spinbutt.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 
 #if wxUSE_SPINBTN
 
-class WXDLLEXPORT wxSpinButton : public wxSpinButtonBase
+class WXDLLIMPEXP_CORE wxSpinButton : public wxSpinButtonBase
 {
 public:
     // construction
@@ -56,6 +56,9 @@ public:
 
     // a wxSpinButton can't do anything useful with focus, only wxSpinCtrl can
     virtual bool AcceptsFocus() const { return false; }
+
+    // returns true if the platform should explicitly apply a theme border
+    virtual bool CanApplyThemeBorder() const { return false; }
 
 protected:
    virtual wxSize DoGetBestSize() const;

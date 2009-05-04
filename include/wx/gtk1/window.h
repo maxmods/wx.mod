@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/window.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: window.h 41810 2006-10-09 16:39:34Z VZ $
+// Id:          $Id: window.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ struct wxGtkIMData;
 // callback definition for inserting a window (internal)
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxWindowGTK;
+class WXDLLIMPEXP_FWD_CORE wxWindowGTK;
 typedef void (*wxInsertChildFunction)( wxWindowGTK*, wxWindowGTK* );
 
 //-----------------------------------------------------------------------------
@@ -57,7 +57,7 @@ public:
     virtual void Lower();
 
     virtual bool Show( bool show = true );
-    virtual bool Enable( bool enable = true );
+    virtual void DoEnable( bool enable );
 
     virtual void SetWindowStyleFlag( long style );
 
@@ -86,8 +86,8 @@ public:
     virtual int GetCharWidth() const;
     virtual void GetTextExtent(const wxString& string,
                                int *x, int *y,
-                               int *descent = (int *) NULL,
-                               int *externalLeading = (int *) NULL,
+                               int *descent = NULL,
+                               int *externalLeading = NULL,
                                const wxFont *theFont = (const wxFont *) NULL)
                                const;
 
@@ -102,13 +102,15 @@ public:
     virtual int GetScrollThumb( int orient ) const;
     virtual int GetScrollRange( int orient ) const;
     virtual void ScrollWindow( int dx, int dy,
-                               const wxRect* rect = (wxRect *) NULL );
+                               const wxRect* rect = NULL );
 
 #if wxUSE_DRAG_AND_DROP
     virtual void SetDropTarget( wxDropTarget *dropTarget );
 #endif // wxUSE_DRAG_AND_DROP
 
     virtual bool IsDoubleBuffered() const { return false; }
+
+    GdkWindow* GTKGetDrawingWindow() const;
 
     // implementation
     // --------------
@@ -125,11 +127,6 @@ public:
 
     // For compatibility across platforms (not in event table)
     void OnIdle(wxIdleEvent& WXUNUSED(event)) {}
-
-    // wxGTK-specific: called recursively by Enable,
-    // to give widgets an opportunity to correct their colours after they
-    // have been changed by Enable
-    virtual void OnParentEnable( bool WXUNUSED(enable) ) {}
 
     // Used by all window classes in the widget creation process.
     bool PreCreation( wxWindowGTK *parent, const wxPoint &pos, const wxSize &size );
@@ -267,7 +264,7 @@ protected:
 
 private:
     DECLARE_DYNAMIC_CLASS(wxWindowGTK)
-    DECLARE_NO_COPY_CLASS(wxWindowGTK)
+    wxDECLARE_NO_COPY_CLASS(wxWindowGTK);
 };
 
 extern WXDLLIMPEXP_CORE wxWindow *wxFindFocusedChild(wxWindowGTK *win);

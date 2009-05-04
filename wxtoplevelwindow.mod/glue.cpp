@@ -133,8 +133,8 @@ bool bmx_wxtoplevelwindow_setshape(wxTopLevelWindow * window, MaxRegion * region
 	return window->SetShape(region->Region());
 }
 
-#ifdef __WXMAC__
-WXWindow bmx_wxtoplevelwindow_macgetwindowref(wxTopLevelWindow * window) {
-	return window->MacGetWindowRef();
-}
-#endif
+//#ifdef __WXMAC__
+//WXWindow bmx_wxtoplevelwindow_macgetwindowref(wxTopLevelWindow * window) {
+//	return window->MacGetWindowRef();
+//}
+//#endif

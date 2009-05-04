@@ -4,7 +4,7 @@
 // Author:      Julian Smart and Guillermo Rodriguez Garcia
 // Modified by: Francesco Montorsi
 // Created:     13/8/99
-// RCS-ID:      $Id: animate.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: animate.h 56651 2008-11-02 22:16:14Z FM $
 // Copyright:   (c) Julian Smart and Guillermo Rodriguez Garcia
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -24,14 +24,14 @@
 class WXDLLIMPEXP_FWD_ADV wxAnimation;
 
 extern WXDLLIMPEXP_DATA_ADV(wxAnimation) wxNullAnimation;
-extern WXDLLIMPEXP_DATA_ADV(const wxChar) wxAnimationCtrlNameStr[];
+extern WXDLLIMPEXP_DATA_ADV(const char) wxAnimationCtrlNameStr[];
 
 
 // ----------------------------------------------------------------------------
 // wxAnimationBase
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_ADV wxAnimationBase : public wxGDIObject
+class WXDLLIMPEXP_ADV wxAnimationBase : public wxObject
 {
 public:
     wxAnimationBase() {}
@@ -65,7 +65,7 @@ protected:
 
 // default style does not include wxAC_NO_AUTORESIZE, that is, the control
 // auto-resizes by default to fit the new animation when SetAnimation() is called
-#define wxAC_DEFAULT_STYLE       (wxNO_BORDER)
+#define wxAC_DEFAULT_STYLE       (wxBORDER_NONE)
 
 class WXDLLIMPEXP_ADV wxAnimationCtrlBase : public wxControl
 {
@@ -75,6 +75,8 @@ public:
     // public API
     virtual bool LoadFile(const wxString& filename,
                           wxAnimationType type = wxANIMATION_TYPE_ANY) = 0;
+    virtual bool Load(wxInputStream& stream,
+                      wxAnimationType type = wxANIMATION_TYPE_ANY) = 0;
 
     virtual void SetAnimation(const wxAnimation &anim) = 0;
     virtual wxAnimation GetAnimation() const = 0;

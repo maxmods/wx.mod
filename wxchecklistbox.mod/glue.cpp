@@ -115,7 +115,7 @@ wxObject * MaxCheckListBoxXmlHandler::DoCreateResource()
             // checking boolean is a bit ugly here (see GetBool() )
             wxString v = n->GetPropVal(wxT("checked"), wxEmptyString);
             v.MakeLower();
-            if (v && v == wxT("1"))
+            if (v == wxT("1"))
                 control->Check( i, true );
 
             i++;

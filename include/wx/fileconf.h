@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     07.04.98 (adapted from appconf.cpp)
-// RCS-ID:      $Id: fileconf.h 50711 2007-12-15 02:57:58Z VZ $
+// RCS-ID:      $Id: fileconf.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 1997 Karsten Ballueder   &  Vadim Zeitlin
 //                       Ballueder@usa.net     <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
@@ -20,6 +20,7 @@
 #include "wx/textfile.h"
 #include "wx/string.h"
 #include "wx/confbase.h"
+#include "wx/filename.h"
 
 // ----------------------------------------------------------------------------
 // wxFileConfig
@@ -111,8 +112,18 @@ public:
   //
   // where file is the basename of szFile, ext is its extension
   // or .conf (Unix) or .ini (Win) if it has none
-  static wxString GetGlobalFileName(const wxChar *szFile);
-  static wxString GetLocalFileName(const wxChar *szFile);
+  static wxFileName GetGlobalFile(const wxString& szFile);
+  static wxFileName GetLocalFile(const wxString& szFile, int style = 0);
+
+  static wxString GetGlobalFileName(const wxString& szFile)
+  {
+      return GetGlobalFile(szFile).GetFullPath();
+  }
+
+  static wxString GetLocalFileName(const wxString& szFile, int style = 0)
+  {
+      return GetLocalFile(szFile, style).GetFullPath();
+  }
 
   // ctor & dtor
     // New constructor: one size fits all. Specify wxCONFIG_USE_LOCAL_FILE or
@@ -183,14 +194,20 @@ public:
 protected:
   virtual bool DoReadString(const wxString& key, wxString *pStr) const;
   virtual bool DoReadLong(const wxString& key, long *pl) const;
+#if wxUSE_BASE64
+  virtual bool DoReadBinary(const wxString& key, wxMemoryBuffer* buf) const;
+#endif // wxUSE_BASE64
 
   virtual bool DoWriteString(const wxString& key, const wxString& szValue);
   virtual bool DoWriteLong(const wxString& key, long lValue);
+#if wxUSE_BASE64
+  virtual bool DoWriteBinary(const wxString& key, const wxMemoryBuffer& buf);
+#endif // wxUSE_BASE64
 
 private:
   // GetXXXFileName helpers: return ('/' terminated) directory names
   static wxString GetGlobalDir();
-  static wxString GetLocalDir();
+  static wxString GetLocalDir(int style = 0);
 
   // common part of all ctors (assumes that m_str{Local|Global}File are already
   // initialized
@@ -220,8 +237,8 @@ private:
   wxFileConfigLineList *m_linesHead,    // head of the linked list
                        *m_linesTail;    // tail
 
-  wxString    m_strLocalFile,           // local  file name passed to ctor
-              m_strGlobalFile;          // global
+  wxFileName  m_fnLocalFile,            // local  file name passed to ctor
+              m_fnGlobalFile;           // global
   wxString    m_strPath;                // current path (not '/' terminated)
 
   wxFileConfigGroup *m_pRootGroup,      // the top (unnamed) group
@@ -235,7 +252,8 @@ private:
 
   bool m_isDirty;                       // if true, we have unsaved changes
 
-  DECLARE_NO_COPY_CLASS(wxFileConfig)
+  wxDECLARE_NO_COPY_CLASS(wxFileConfig);
+  DECLARE_ABSTRACT_CLASS(wxFileConfig)
 };
 
 #endif

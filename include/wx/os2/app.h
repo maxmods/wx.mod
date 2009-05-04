@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/13/99
-// RCS-ID:      $Id: app.h 34903 2005-07-21 17:18:43Z ABX $
+// RCS-ID:      $Id: app.h 58911 2009-02-15 14:25:08Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -37,20 +37,20 @@
 #include "wx/event.h"
 #include "wx/icon.h"
 
-class WXDLLEXPORT wxFrame;
-class WXDLLEXPORT wxWindow;
-class WXDLLEXPORT wxApp;
-class WXDLLEXPORT wxKeyEvent;
-class WXDLLEXPORT wxLog;
+class WXDLLIMPEXP_FWD_CORE wxFrame;
+class WXDLLIMPEXP_FWD_CORE wxWindow;
+class WXDLLIMPEXP_FWD_CORE wxApp;
+class WXDLLIMPEXP_FWD_CORE wxKeyEvent;
+class WXDLLIMPEXP_FWD_BASE wxLog;
 
-WXDLLEXPORT_DATA(extern wxApp*) wxTheApp;
-WXDLLEXPORT_DATA(extern HAB)    vHabmain;
+WXDLLIMPEXP_DATA_CORE(extern wxApp*) wxTheApp;
+WXDLLIMPEXP_DATA_CORE(extern HAB)    vHabmain;
 
 // Force an exit from main loop
-void WXDLLEXPORT wxExit(void);
+void WXDLLIMPEXP_CORE wxExit(void);
 
 // Yield to other apps/messages
-bool WXDLLEXPORT wxYield(void);
+bool WXDLLIMPEXP_CORE wxYield(void);
 
 extern MRESULT EXPENTRY wxWndProc( HWND
                                   ,ULONG
@@ -61,7 +61,7 @@ extern MRESULT EXPENTRY wxWndProc( HWND
 
 // Represents the application. Derive OnInit and declare
 // a new App object to start application
-class WXDLLEXPORT wxApp : public wxAppBase
+class WXDLLIMPEXP_CORE wxApp : public wxAppBase
 {
     DECLARE_DYNAMIC_CLASS(wxApp)
 
@@ -75,7 +75,6 @@ public:
 
     virtual bool OnInitGui(void);
 
-    virtual bool Yield(bool onlyIfNeeded = false);
     virtual void WakeUpIdle(void);
 
     virtual void SetPrintMode(int mode) { m_nPrintMode = mode; }
@@ -117,7 +116,7 @@ public:
 
 protected:
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxApp)
+    wxDECLARE_NO_COPY_CLASS(wxApp);
 };
 #endif
     // _WX_APP_H_

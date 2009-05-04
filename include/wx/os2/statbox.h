@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/15/99
-// RCS-ID:      $Id: statbox.h 27408 2004-05-23 20:53:33Z JS $
+// RCS-ID:      $Id: statbox.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 #include "wx/control.h"
 
 // Group box
-class WXDLLEXPORT wxStaticBox : public wxStaticBoxBase
+class WXDLLIMPEXP_CORE wxStaticBox : public wxStaticBoxBase
 {
 public:
     inline wxStaticBox() {}

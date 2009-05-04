@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/17/99
-// RCS-ID:      $Id: tooltip.h 35698 2005-09-25 20:49:40Z MW $
+// RCS-ID:      $Id: tooltip.h 48093 2007-08-15 12:57:36Z VZ $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,6 +33,10 @@ public:
     static void Enable(bool WXUNUSED(flag)) {}
         // set the delay after which the tooltip appears
     static void SetDelay(long WXUNUSED(milliseconds)) {}
+        // set the delay after which the tooltip disappears or how long the tooltip remains visible
+    static void SetAutoPop(long WXUNUSED(milliseconds)) {}
+        // set the delay between subsequent tooltips to appear
+    static void SetReshow(long WXUNUSED(milliseconds)) {}
 
     //
     // Implementation

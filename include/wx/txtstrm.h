@@ -4,7 +4,7 @@
 // Author:      Guilhem Lavaux
 // Modified by:
 // Created:     28/06/1998
-// RCS-ID:      $Id: txtstrm.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: txtstrm.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Guilhem Lavaux
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ protected:
     wxChar NextChar();   // this should be used instead of GetC() because of Unicode issues
     wxChar NextNonSeparators();
 
-    DECLARE_NO_COPY_CLASS(wxTextInputStream)
+    wxDECLARE_NO_COPY_CLASS(wxTextInputStream);
 };
 
 typedef enum
@@ -127,7 +127,8 @@ public:
 
     wxTextOutputStream& PutChar(wxChar c);
 
-    wxTextOutputStream& operator<<(const wxChar *string);
+    void Flush();
+
     wxTextOutputStream& operator<<(const wxString& string);
     wxTextOutputStream& operator<<(char c);
 #if wxUSE_UNICODE && wxWCHAR_T_IS_REAL_TYPE
@@ -150,7 +151,7 @@ protected:
     wxMBConv *m_conv;
 #endif
 
-    DECLARE_NO_COPY_CLASS(wxTextOutputStream)
+    wxDECLARE_NO_COPY_CLASS(wxTextOutputStream);
 };
 
 #endif

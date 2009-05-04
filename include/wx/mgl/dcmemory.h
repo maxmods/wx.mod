@@ -2,7 +2,7 @@
 // Name:        dcmemory.h
 // Purpose:
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id: dcmemory.h 42755 2006-10-30 19:41:46Z VZ $
+// RCS-ID:      $Id: dcmemory.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2001-2002 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,13 +17,13 @@
 // classes
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxMemoryDC;
+class WXDLLIMPEXP_FWD_CORE wxMemoryDC;
 
 //-----------------------------------------------------------------------------
 // wxMemoryDC
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxMemoryDC : public wxDC, public wxMemoryDCBase
+class WXDLLIMPEXP_CORE wxMemoryDC : public wxDC, public wxMemoryDCBase
 {
 public:
     wxMemoryDC() { Init(); }

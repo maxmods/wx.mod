@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     14.10.01
-// RCS-ID:      $Id: statusbr.h 37393 2006-02-08 21:47:09Z VZ $
+// RCS-ID:      $Id: statusbr.h 58786 2009-02-09 00:33:19Z FM $
 // Copyright:   (c) 2001 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,10 +16,10 @@
 #include "wx/arrstr.h"
 
 // ----------------------------------------------------------------------------
-// wxStatusBar: a window near the bottom of the frame used for status info
+// wxStatusBarUniv: a window near the bottom of the frame used for status info
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxStatusBarUniv : public wxStatusBarBase,
+class WXDLLIMPEXP_CORE wxStatusBarUniv : public wxStatusBarBase,
                                     public wxInputConsumer
 {
 public:
@@ -46,7 +46,6 @@ public:
 
     // get/set the text of the given field
     virtual void SetStatusText(const wxString& text, int number = 0);
-    virtual wxString GetStatusText(int number = 0) const;
 
     // Get the position and size of the field's internal bounding rectangle
     virtual bool GetFieldRect(int i, wxRect& rect) const;
@@ -60,7 +59,7 @@ public:
 
     // wxInputConsumer pure virtual
     virtual wxWindow *GetInputWindow() const
-        { return wx_const_cast(wxStatusBar*, this); }
+        { return const_cast<wxStatusBar*>(this); }
 
 protected:
     // recalculate the field widths
@@ -95,8 +94,8 @@ protected:
     void Init();
 
 private:
-    // the status fields strings
-    wxArrayString m_statusText;
+    // the current status fields strings
+    //wxArrayString m_statusText;
 
     // the absolute status fields widths
     wxArrayInt m_widthsAbs;

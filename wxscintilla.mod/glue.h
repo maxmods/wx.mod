@@ -21,14 +21,29 @@
 */ 
 
 #include "wxglue.h"
-#include "wx/wxscintilla.h"
+#include "wx/stc/stc.h"
 #include "../wxbitmap.mod/glue.h"
 
+#include "Platform.h"
+
+#include "PropSet.h"
+#include "Accessor.h"
+#include "StyleContext.h"
+#include "KeyWords.h"
+
+
 class MaxScintilla;
+
+#define wxScintilla wxStyledTextCtrl
+#define wxScintillaEvent wxStyledTextEvent
+
+extern LexerModule lmBlitzMax;
 
 extern "C" {
 
 #include <blitz.h>
+
+	void init_scintilla_modules();
 
 	MaxScintilla * bmx_wxscintilla_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 
@@ -115,7 +130,7 @@ extern "C" {
 	void bmx_wxscintilla_stylesetbold(wxScintilla * sc, int style, bool bold);
 	void bmx_wxscintilla_stylesetitalic(wxScintilla * sc, int style, bool italic);
 	void bmx_wxscintilla_stylesetsize(wxScintilla * sc, int style, int sizePoints);
-	void bmx_wxscintilla_stylesetfont(wxScintilla * sc, int style, BBString * fontName);
+	//void bmx_wxscintilla_stylesetfont(wxScintilla * sc, int style, BBString * fontName);
 	void bmx_wxscintilla_styleseteolfilled(wxScintilla * sc, int style, bool filled);
 	void bmx_wxscintilla_styleresetdefault(wxScintilla * sc);
 	void bmx_wxscintilla_stylesetunderline(wxScintilla * sc, int style, bool underline);

@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     2004-10-14
-// RCS-ID:      $Id: evtloop.h 31469 2005-01-18 21:14:27Z ABX $
+// RCS-ID:      $Id: evtloop.h 58911 2009-02-15 14:25:08Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,17 +16,19 @@
 // wxEventLoop
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxEventLoop : public wxEventLoopBase
+class WXDLLIMPEXP_CORE wxGUIEventLoop : public wxEventLoopBase
 {
 public:
-    wxEventLoop();
+    wxGUIEventLoop();
 
     // implement base class pure virtuals
     virtual int Run();
     virtual void Exit(int rc = 0);
     virtual bool Pending() const;
     virtual bool Dispatch();
+    virtual int DispatchTimeout(unsigned long timeout);
     virtual bool IsRunning() const;
+    virtual bool YieldFor(long eventsToProcess);
 
     // MSW-specific methods
     // --------------------
@@ -37,6 +39,7 @@ public:
 
     // process a single message
     virtual void ProcessMessage(WXMSG *msg);
+    virtual void WakeUp();
 
 protected:
     // should we exit the loop?

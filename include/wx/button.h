@@ -4,7 +4,7 @@
 // Author:      Vadim Zetlin
 // Modified by:
 // Created:     15.08.00
-// RCS-ID:      $Id: button.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: button.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Vadim Zetlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -47,13 +47,13 @@
 
 class WXDLLIMPEXP_FWD_CORE wxBitmap;
 
-extern WXDLLEXPORT_DATA(const wxChar) wxButtonNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxButtonNameStr[];
 
 // ----------------------------------------------------------------------------
 // wxButton: a push button
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxButtonBase : public wxControl
+class WXDLLIMPEXP_CORE wxButtonBase : public wxControl
 {
 public:
     wxButtonBase() { }
@@ -64,9 +64,10 @@ public:
     // set the margins around the image
     virtual void SetImageMargins(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y)) { }
 
-    // this wxButton method is called when the button becomes the default one
-    // on its panel
-    virtual void SetDefault() { }
+    // make this button the default button in its top level window
+    //
+    // returns the old default item (possibly NULL)
+    virtual wxWindow *SetDefault();
 
     // Buttons on MSW can look bad if they are not native colours, because
     // then they become owner-drawn and not theme-drawn.  Disable it here
@@ -77,7 +78,10 @@ public:
     static wxSize GetDefaultSize();
 
 protected:
-    DECLARE_NO_COPY_CLASS(wxButtonBase)
+    // choose the default border for this window
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
+
+    wxDECLARE_NO_COPY_CLASS(wxButtonBase);
 };
 
 #if defined(__WXUNIVERSAL__)
@@ -91,7 +95,7 @@ protected:
 #elif defined(__WXGTK__)
     #include "wx/gtk1/button.h"
 #elif defined(__WXMAC__)
-    #include "wx/mac/button.h"
+    #include "wx/osx/button.h"
 #elif defined(__WXCOCOA__)
     #include "wx/cocoa/button.h"
 #elif defined(__WXPM__)

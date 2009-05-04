@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: dirdlg.h 38956 2006-04-30 09:44:29Z RR $
+// RCS-ID:      $Id: dirdlg.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_DIRDLG_H_
 #define _WX_DIRDLG_H_
 
-class WXDLLEXPORT wxDirDialog : public wxDirDialogBase
+class WXDLLIMPEXP_CORE wxDirDialog : public wxDirDialogBase
 {
 public:
     wxDirDialog(wxWindow *parent,

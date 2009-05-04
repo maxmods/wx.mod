@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     05.05.01
-// RCS-ID:      $Id: menuitem.h 48053 2007-08-13 17:07:01Z JS $
+// RCS-ID:      $Id: menuitem.h 58227 2009-01-19 13:55:27Z VZ $
 // Copyright:   (c) 2001 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,20 +16,20 @@
 // wxMenuItem implements wxMenuItemBase
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxMenuItem : public wxMenuItemBase
+class WXDLLIMPEXP_CORE wxMenuItem : public wxMenuItemBase
 {
 public:
     // ctor & dtor
-    wxMenuItem(wxMenu *parentMenu = (wxMenu *)NULL,
+    wxMenuItem(wxMenu *parentMenu = NULL,
                int id = wxID_SEPARATOR,
                const wxString& name = wxEmptyString,
                const wxString& help = wxEmptyString,
                wxItemKind kind = wxITEM_NORMAL,
-               wxMenu *subMenu = (wxMenu *)NULL);
+               wxMenu *subMenu = NULL);
     virtual ~wxMenuItem();
 
     // override base class virtuals to update the item appearance on screen
-    virtual void SetText(const wxString& text);
+    virtual void SetItemLabel(const wxString& text);
     virtual void SetCheckable(bool checkable);
 
     virtual void Enable(bool enable = true);
@@ -121,14 +121,6 @@ protected:
 
 private:
     DECLARE_DYNAMIC_CLASS(wxMenuItem)
-
-public:
-
-#if wxABI_VERSION >= 20805
-    // return the item label including any mnemonics and accelerators.
-    // This used to be called GetText.
-    wxString GetItemLabel() const { return GetText(); }
-#endif
 };
 
 #endif // _WX_UNIV_MENUITEM_H_

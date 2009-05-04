@@ -4,7 +4,7 @@
 // Notes:       Based on htmlhelp.cpp, implementing a monolithic
 //              HTML Help controller class,  by Vaclav Slavik
 // Author:      Harm van der Heijden and Vaclav Slavik
-// RCS-ID:      $Id: helpwnd.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: helpwnd.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Harm van der Heijden and Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -28,6 +28,7 @@
 #include "wx/combobox.h"
 #include "wx/checkbox.h"
 #include "wx/stattext.h"
+#include "wx/hash.h"
 #include "wx/html/htmlwin.h"
 #include "wx/html/htmprint.h"
 
@@ -258,7 +259,7 @@ private:
     wxHtmlHelpMergedIndex *m_mergedIndex;
 
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxHtmlHelpWindow)
+    wxDECLARE_NO_COPY_CLASS(wxHtmlHelpWindow);
 };
 
 /*!

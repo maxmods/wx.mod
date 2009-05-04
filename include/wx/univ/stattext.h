@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     14.08.00
-// RCS-ID:      $Id: stattext.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: stattext.h 56242 2008-10-12 13:04:00Z VZ $
 // Copyright:   (c) 2000 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,9 @@
 #ifndef _WX_UNIV_STATTEXT_H_
 #define _WX_UNIV_STATTEXT_H_
 
-class WXDLLEXPORT wxStaticText : public wxStaticTextBase
+#include "wx/generic/stattextg.h"
+
+class WXDLLIMPEXP_CORE wxStaticText : public wxGenericStaticText
 {
 public:
     wxStaticText() { }
@@ -54,11 +56,11 @@ public:
     virtual bool IsFocused() const { return false; }
 
 protected:
-    // calculate the optimal size for the label
-    virtual wxSize DoGetBestClientSize() const;
-
     // draw the control
     virtual void DoDraw(wxControlRenderer *renderer);
+
+    virtual void DoSetLabel(const wxString& str);
+    virtual wxString DoGetLabel() const;
 
     DECLARE_ABSTRACT_CLASS(wxStaticText)
 };

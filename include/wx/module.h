@@ -4,7 +4,7 @@
 // Author:      Wolfram Gloger/adapted by Guilhem Lavaux
 // Modified by:
 // Created:     04/11/98
-// RCS-ID:      $Id: module.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: module.h 50021 2007-11-17 14:04:44Z VZ $
 // Copyright:   (c) Wolfram Gloger and Guilhem Lavaux
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,6 +14,7 @@
 
 #include "wx/object.h"
 #include "wx/list.h"
+#include "wx/arrstr.h"
 #include "wx/dynarray.h"
 
 // declare a linked list of modules
@@ -73,6 +74,14 @@ protected:
         m_dependencies.Add(dep);
     }
 
+    // same as the version above except it will look up wxClassInfo by name on
+    // its own
+    void AddDependency(const char *className)
+    {
+        m_namedDependencies.Add(className);
+    }
+
+
 private:
     // initialize module and Append it to initializedModules list recursively
     // calling itself to satisfy module dependencies if needed
@@ -84,11 +93,19 @@ private:
     // could be initialized) and also empty m_modules itself
     static void DoCleanUpModules(const wxModuleList& modules);
 
+    // resolve all named dependencies and add them to the normal m_dependencies
+    bool ResolveNamedDependencies();
 
-    // module dependencies: contains
+
+    // module dependencies: contains wxClassInfo pointers for all modules which
+    // must be initialized before this one
     wxArrayClassInfo m_dependencies;
 
-    // used internally while initiliazing/cleaning up modules
+    // and the named dependencies: those will be resolved during run-time and
+    // added to m_dependencies
+    wxArrayString m_namedDependencies;
+
+    // used internally while initializing/cleaning up modules
     enum
     {
         State_Registered,   // module registered but not initialized yet

@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/clipboard.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: clipbrd.h 41020 2006-09-05 20:47:48Z VZ $
+// Id:          $Id: clipbrd.h 45183 2007-03-31 02:57:55Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -53,11 +53,6 @@ public:
     // clears wxTheClipboard and the system's clipboard if possible
     virtual void Clear();
 
-    // If primary == TRUE, use primary selection in all further ops,
-    // primary == FALSE resets it.
-    virtual void UsePrimarySelection(bool primary = TRUE)
-        { m_usePrimary = primary; }
-
     // implementation from now on
     bool              m_open;
     bool              m_ownsClipboard;
@@ -70,7 +65,6 @@ public:
 
     bool              m_formatSupported;
     GdkAtom           m_targetRequested;
-    bool              m_usePrimary;
     wxDataObject     *m_receivedData;
 
 private:

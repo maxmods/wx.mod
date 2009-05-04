@@ -1037,7 +1037,7 @@ wxJSONReader::SkipComment()
     m_comment.append( _T("//") );
     while ( ch != '\n' && ch >= 0 )  {
       ch = ReadChar();
-      m_comment.append( 1, ch );
+      m_comment.append( 1, (wchar_t)ch );
     }
     // now ch contains the '\n' character;
   }
@@ -1047,9 +1047,9 @@ wxJSONReader::SkipComment()
     m_comment.append( _T("/*") );
     while ( ch >= 0 ) {
       ch = ReadChar();
-      m_comment.append( 1, ch );
+      m_comment.append( 1, (wchar_t)ch );
       if ( ch == '*' && PeekChar() == '/' )  {
-        m_comment.append( 1, '/' );
+        m_comment.append( 1, (char)'/' );
         break;
       }
     }

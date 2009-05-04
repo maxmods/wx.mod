@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     08/05/99
-// RCS-ID:      $Id: geometry.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: geometry.h 59019 2009-02-19 07:36:27Z PC $
 // Copyright:   (c) 1999 Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ enum wxOutCode
     wxOutBottom = 0x04
 };
 
-class WXDLLEXPORT wxPoint2DInt
+class WXDLLIMPEXP_CORE wxPoint2DInt
 {
 public :
     inline wxPoint2DInt();
@@ -157,7 +157,7 @@ inline wxDouble wxPoint2DInt::GetDistance( const wxPoint2DInt &pt ) const
 
 inline wxDouble wxPoint2DInt::GetDistanceSquare( const wxPoint2DInt &pt ) const
 {
-    return ( (wxDouble)(pt.m_x-m_x)*(pt.m_x-m_x) + (wxDouble)(pt.m_y-m_y)*(pt.m_y-m_y) );
+    return ( (pt.m_x-m_x)*(pt.m_x-m_x) + (pt.m_y-m_y)*(pt.m_y-m_y) );
 }
 
 inline wxInt32 wxPoint2DInt::GetDotProduct( const wxPoint2DInt &vec ) const
@@ -182,8 +182,11 @@ inline wxPoint2DInt wxPoint2DInt::operator-()
 
 inline wxPoint2DInt& wxPoint2DInt::operator=(const wxPoint2DInt& pt)
 {
-    m_x = pt.m_x;
-    m_y = pt.m_y;
+    if (this != &pt)
+    {
+        m_x = pt.m_x;
+        m_y = pt.m_y;
+    }
     return *this;
 }
 
@@ -278,7 +281,7 @@ inline wxPoint2DInt operator/(const wxPoint2DInt& pt , wxDouble n)
 
 // wxPoint2Ds represent a point or a vector in a 2d coordinate system
 
-class WXDLLEXPORT wxPoint2DDouble
+class WXDLLIMPEXP_CORE wxPoint2DDouble
 {
 public :
     inline wxPoint2DDouble();
@@ -411,8 +414,11 @@ inline wxPoint2DDouble wxPoint2DDouble::operator-()
 
 inline wxPoint2DDouble& wxPoint2DDouble::operator=(const wxPoint2DDouble& pt)
 {
-    m_x = pt.m_x;
-    m_y = pt.m_y;
+    if (this != &pt)
+    {
+        m_x = pt.m_x;
+        m_y = pt.m_y;
+    }
     return *this;
 }
 
@@ -509,7 +515,7 @@ inline wxPoint2DDouble operator/(const wxPoint2DDouble& pt , wxInt32 n)
 // top left and bottom right corner, or by the top left corner and size. A point is contained within the rectangle if
 // left <= x < right  and top <= m_y < bottom , thus it is a half open interval.
 
-class WXDLLEXPORT wxRect2DDouble
+class WXDLLIMPEXP_CORE wxRect2DDouble
 {
 public:
     wxRect2DDouble()
@@ -640,7 +646,7 @@ public:
 // top left and bottom right corner, or by the top left corner and size. A point is contained within the rectangle if
 // left <= x < right  and top <= m_y < bottom , thus it is a half open interval.
 
-class WXDLLEXPORT wxRect2DInt
+class WXDLLIMPEXP_CORE wxRect2DInt
 {
 public:
        wxRect2DInt() { m_x = m_y = m_width = m_height = 0; }

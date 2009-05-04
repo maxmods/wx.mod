@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: bmpbuttn.h 36078 2005-11-03 19:38:20Z VZ $
+// RCS-ID:      $Id: bmpbuttn.h 54650 2008-07-16 01:08:52Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,10 +16,10 @@
 #include "wx/bitmap.h"
 #include "wx/brush.h"
 
-class WXDLLEXPORT wxBitmapButton : public wxBitmapButtonBase
+class WXDLLIMPEXP_CORE wxBitmapButton : public wxBitmapButtonBase
 {
 public:
-    wxBitmapButton() { }
+    wxBitmapButton() { Init(); }
 
     wxBitmapButton(wxWindow *parent,
                    wxWindowID id,
@@ -30,6 +30,8 @@ public:
                    const wxValidator& validator = wxDefaultValidator,
                    const wxString& name = wxButtonNameStr)
     {
+        Init();
+
         Create(parent, id, bitmap, pos, size, style, validator, name);
     }
 
@@ -42,18 +44,32 @@ public:
                 const wxValidator& validator = wxDefaultValidator,
                 const wxString& name = wxButtonNameStr);
 
+    // override some base class methods to automatically synthesize the
+    // disabled bitmap if it wasn't set by the user
+    virtual void SetBitmapLabel(const wxBitmap& bitmap);
+    virtual void SetBitmapFocus(const wxBitmap& focus);
+    virtual void SetBitmapDisabled(const wxBitmap& disabled);
+    virtual void SetBitmapHover(const wxBitmap& hover);
+
     // Implementation
     virtual bool SetBackgroundColour(const wxColour& colour);
-    virtual void SetDefault();
     virtual bool MSWOnDraw(WXDRAWITEMSTRUCT *item);
     virtual void DrawFace( WXHDC dc, int left, int top, int right, int bottom, bool sel );
     virtual void DrawButtonFocus( WXHDC dc, int left, int top, int right, int bottom, bool sel );
     virtual void DrawButtonDisable( WXHDC dc, int left, int top, int right, int bottom, bool with_marg );
 
 protected:
+    // common part of all ctors
+    void Init()
+    {
+        m_disabledSetByUser =
+        m_hoverSetByUser = false;
+    }
+
     // reimplement some base class virtuals
     virtual wxSize DoGetBestSize() const;
-    virtual void OnSetBitmap();
+    virtual WXDWORD MSWGetStyle(long style, WXDWORD *exstyle) const;
+
 
     // invalidate m_brushDisabled when system colours change
     void OnSysColourChanged(wxSysColourChangedEvent& event);
@@ -64,6 +80,13 @@ protected:
 
     // the brush we use to draw disabled buttons
     wxBrush m_brushDisabled;
+
+    // true if m_bmpDisabled was set by user, false if we created it ourselves
+    // from m_bmpNormal
+    bool m_disabledSetByUser;
+
+    // true if m_bmpHover was set by user, false if it was set from m_bmpFocus
+    bool m_hoverSetByUser;
 
 
     DECLARE_EVENT_TABLE()

@@ -488,7 +488,7 @@ void wxFlatNotebook::OnNavigationKey(wxNavigationKeyEvent& event)
 		if ( GetParent() )
 		{
 			event.SetCurrentFocus(this);
-			GetParent()->ProcessEvent(event);
+			GetParent()->GetEventHandler()->ProcessEvent(event);
 		}
 	}
 }

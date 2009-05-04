@@ -2,9 +2,9 @@
  * Name:        wx/palmos/chkconf.h
  * Purpose:     Compiler-specific configuration checking
  * Author:      William Osborne - minimal working wxPalmOS port
- * Modified by:
+ * Modified by: Yunhui Fu
  * Created:     10/13/04
- * RCS-ID:      $Id: chkconf.h 42717 2006-10-30 12:45:02Z ABX $
+ * RCS-ID:      $Id: chkconf.h 52227 2008-03-02 00:53:32Z VZ $
  * Copyright:   (c) William Osborne
  * Licence:     wxWindows licence
  */
@@ -13,10 +13,6 @@
 
 #ifndef _WX_PALMOS_CHKCONF_H_
 #define _WX_PALMOS_CHKCONF_H_
-
-#if WXWIN_COMPATIBILITY_2_4
-    #error "wxPalmOS port was introduced after 2.4.X"
-#endif
 
 /*
  * disable the settings which are not implemented yet
@@ -59,7 +55,7 @@
 #define wxUSE_DATAOBJ 0
 
 #undef wxUSE_DIRDLG
-#define wxUSE_DIRDLG 0
+#define wxUSE_DIRDLG 1
 
 #undef wxUSE_DISPLAY
 #define wxUSE_DISPLAY 0
@@ -86,13 +82,13 @@
 #define wxUSE_FFILE 0
 
 #undef wxUSE_FILE
-#define wxUSE_FILE 0
+#define wxUSE_FILE 1
 
 #undef wxUSE_FILECONFIG
 #define wxUSE_FILECONFIG 0
 
 #undef wxUSE_FILEDLG
-#define wxUSE_FILEDLG 0
+#define wxUSE_FILEDLG 1
 
 #undef wxUSE_FILESYSTEM
 #define wxUSE_FILESYSTEM 0
@@ -153,6 +149,9 @@
 
 #undef wxUSE_ICO_CUR
 #define wxUSE_ICO_CUR 0
+
+#undef wxUSE_SVG
+#define wxUSE_SVG 0
 
 #undef wxUSE_INTL
 #define wxUSE_INTL 0
@@ -307,8 +306,8 @@
 #undef wxUSE_URL
 #define wxUSE_URL 0
 
-#undef wxUSE_WCHAR_T
-#define wxUSE_WCHAR_T 0
+//#undef wxUSE_WCHAR_T
+//#define wxUSE_WCHAR_T 1
 
 #undef wxUSE_WIZARDDLG
 #define wxUSE_WIZARDDLG 0
@@ -327,6 +326,15 @@
 
 #undef wxUSE_ZLIB
 #define wxUSE_ZLIB 0
+
+#undef wxUSE_COLLPANE
+#define wxUSE_COLLPANE 0
+
+#undef wxUSE_TOOLBOOK
+#define wxUSE_TOOLBOOK 0
+
+#undef wxUSE_SELECT_DISPATCHER
+#define wxUSE_SELECT_DISPATCHER 1
 
 #endif
     /* _WX_PALMOS_CHKCONF_H_ */

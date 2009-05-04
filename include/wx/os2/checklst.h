@@ -5,7 +5,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/13/99
-// RCS-ID:      $Id: checklst.h 38319 2006-03-23 22:05:23Z VZ $
+// RCS-ID:      $Id: checklst.h 57543 2008-12-25 13:10:55Z VZ $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@
 
 class wxOwnerDrawn; // so the compiler knows, it is a class.
 
-class WXDLLEXPORT wxCheckListBox : public wxCheckListBoxBase
+class WXDLLIMPEXP_CORE wxCheckListBox : public wxCheckListBoxBase
 {
 public:
     //
@@ -71,8 +71,6 @@ protected:
     //
     virtual wxOwnerDrawn* CreateItem(size_t n);
     virtual long          OS2OnMeasure(WXMEASUREITEMSTRUCT* pItem);
-
-    virtual void DoInsertItems(const wxArrayString& items, unsigned int pos);
 
     //
     // Pressing space or clicking the check box toggles the item

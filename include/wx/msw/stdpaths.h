@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     2004-10-19
-// RCS-ID:      $Id: stdpaths.h 43340 2006-11-12 12:58:10Z RR $
+// RCS-ID:      $Id: stdpaths.h 50025 2007-11-17 14:59:13Z VZ $
 // Copyright:   (c) 2004 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,6 +19,13 @@
 class WXDLLIMPEXP_BASE wxStandardPaths : public wxStandardPathsBase
 {
 public:
+    wxStandardPaths()
+    {
+        UseAppInfo(AppInfo_AppName | AppInfo_VendorName);
+    }
+
+    ~wxStandardPaths() { }
+
     // implement base class pure virtuals
     virtual wxString GetExecutablePath() const;
     virtual wxString GetConfigDir() const;

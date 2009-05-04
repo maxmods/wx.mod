@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: checklst.h 38319 2006-03-23 22:05:23Z VZ $
+// RCS-ID:      $Id: checklst.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,10 +16,10 @@
   #error  "wxCheckListBox class requires owner-drawn functionality."
 #endif
 
-class WXDLLEXPORT wxOwnerDrawn;
-class WXDLLEXPORT wxCheckListBoxItem; // fwd decl, defined in checklst.cpp
+class WXDLLIMPEXP_FWD_CORE wxOwnerDrawn;
+class WXDLLIMPEXP_FWD_CORE wxCheckListBoxItem; // fwd decl, defined in checklst.cpp
 
-class WXDLLEXPORT wxCheckListBox : public wxCheckListBoxBase
+class WXDLLIMPEXP_CORE wxCheckListBox : public wxCheckListBoxBase
 {
 public:
   // ctors

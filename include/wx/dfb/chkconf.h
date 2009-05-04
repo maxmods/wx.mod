@@ -3,7 +3,7 @@
  * Author:      Vaclav Slavik
  * Purpose:     Compiler-specific configuration checking
  * Created:     2006-08-10
- * RCS-ID:      $Id: chkconf.h 43550 2006-11-20 20:45:57Z VS $
+ * RCS-ID:      $Id: chkconf.h 58520 2009-01-30 15:21:47Z VS $
  * Copyright:   (c) 2006 REA Elektronik GmbH
  * Licence:     wxWindows licence
  */
@@ -19,6 +19,15 @@
 
 #if !wxUSE_CONFIG
 #   error "wxFileConfig is required by wxDFB port"
+#endif
+
+#if wxUSE_SOCKETS && !wxUSE_CONSOLE_EVENTLOOP
+#   ifdef wxABORT_ON_CONFIG_ERROR
+#       error "wxSocket requires wxSelectDispatcher in wxDFB"
+#   else
+#       undef wxUSE_CONSOLE_EVENTLOOP
+#       define wxUSE_CONSOLE_EVENTLOOP 1
+#   endif
 #endif
 
 #endif /* _WX_DFB_CHKCONF_H_ */

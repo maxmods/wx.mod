@@ -2,7 +2,7 @@
 // Name:        wx/imagbmp.h
 // Purpose:     wxImage BMP, ICO, CUR and ANI handlers
 // Author:      Robert Roebling, Chris Elliott
-// RCS-ID:      $Id: imagbmp.h 45498 2007-04-16 13:03:05Z VZ $
+// RCS-ID:      $Id: imagbmp.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Robert Roebling, Chris Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,13 +20,6 @@
 // specified when saving a CUR file - they define the hotspot of the cursor:
 #define wxIMAGE_OPTION_CUR_HOTSPOT_X  wxT("HotSpotX")
 #define wxIMAGE_OPTION_CUR_HOTSPOT_Y  wxT("HotSpotY")
-
-#if WXWIN_COMPATIBILITY_2_4
-    // Do not use these macros, they are deprecated
-    #define wxBMP_FORMAT    wxIMAGE_OPTION_BMP_FORMAT
-    #define wxCUR_HOTSPOT_X wxIMAGE_OPTION_CUR_HOTSPOT_X
-    #define wxCUR_HOTSPOT_Y wxIMAGE_OPTION_CUR_HOTSPOT_Y
-#endif
 
 
 enum
@@ -47,7 +40,7 @@ enum
 // wxBMPHandler
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxBMPHandler : public wxImageHandler
+class WXDLLIMPEXP_CORE wxBMPHandler : public wxImageHandler
 {
 public:
     wxBMPHandler()
@@ -81,7 +74,7 @@ private:
 // wxICOHandler
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxICOHandler : public wxBMPHandler
+class WXDLLIMPEXP_CORE wxICOHandler : public wxBMPHandler
 {
 public:
     wxICOHandler()
@@ -110,7 +103,7 @@ private:
 // wxCURHandler
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxCURHandler : public wxICOHandler
+class WXDLLIMPEXP_CORE wxCURHandler : public wxICOHandler
 {
 public:
     wxCURHandler()
@@ -137,7 +130,7 @@ private:
 // wxANIHandler
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxANIHandler : public wxCURHandler
+class WXDLLIMPEXP_CORE wxANIHandler : public wxCURHandler
 {
 public:
     wxANIHandler()

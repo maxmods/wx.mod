@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: listbox.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: listbox.h 53743 2008-05-25 20:54:30Z RR $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ class WXDLLIMPEXP_FWD_BASE wxArrayInt;
 // List box control
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxListBox : public wxListBoxBase
+class WXDLLIMPEXP_CORE wxListBox : public wxListBoxBase
 {
 public:
     // ctors and such
@@ -76,10 +76,6 @@ public:
                 const wxString& name = wxListBoxNameStr);
 
     virtual ~wxListBox();
-
-    // implement base class pure virtuals
-    virtual void Clear();
-    virtual void Delete(unsigned int n);
 
     virtual unsigned int GetCount() const;
     virtual wxString GetString(unsigned int n) const;
@@ -133,23 +129,31 @@ public:
         return GetCompositeControlsDefaultAttributes(variant);
     }
 
+    // returns true if the platform should explicitly apply a theme border
+    virtual bool CanApplyThemeBorder() const { return false; }
+
 protected:
+    virtual void DoClear();
+    virtual void DoDeleteOneItem(unsigned int n);
+
     virtual void DoSetSelection(int n, bool select);
-    virtual int DoAppend(const wxString& item);
-    virtual void DoInsertItems(const wxArrayString& items, unsigned int pos);
-    virtual void DoSetItems(const wxArrayString& items, void **clientData);
+
+    virtual int DoInsertItems(const wxArrayStringsAdapter& items,
+                              unsigned int pos,
+                              void **clientData, wxClientDataType type);
+
     virtual void DoSetFirstItem(int n);
     virtual void DoSetItemClientData(unsigned int n, void* clientData);
     virtual void* DoGetItemClientData(unsigned int n) const;
-    virtual void DoSetItemClientObject(unsigned int n, wxClientData* clientData);
-    virtual wxClientData* DoGetItemClientObject(unsigned int n) const;
     virtual int DoListHitTest(const wxPoint& point) const;
+
+    bool m_updateHorizontalExtent;
+    virtual void OnInternalIdle();
 
     // free memory (common part of Clear() and dtor)
     void Free();
 
     unsigned int m_noItems;
-    int m_selected;
 
     virtual wxSize DoGetBestSize() const;
 

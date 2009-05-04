@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     22.07.99
-// RCS-ID:      $Id: spinctrl.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: spinctrl.h 59722 2009-03-22 10:55:55Z VZ $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ WX_DEFINE_EXPORTED_ARRAY_PTR(wxSpinCtrl *, wxArraySpins);
 // control is clicked.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxSpinCtrl : public wxSpinButton
+class WXDLLIMPEXP_CORE wxSpinCtrl : public wxSpinButton
 {
 public:
     wxSpinCtrl() { }
@@ -37,7 +37,7 @@ public:
                const wxString& value = wxEmptyString,
                const wxPoint& pos = wxDefaultPosition,
                const wxSize& size = wxDefaultSize,
-               long style = wxSP_ARROW_KEYS,
+               long style = wxSP_ARROW_KEYS | wxALIGN_RIGHT,
                int min = 0, int max = 100, int initial = 0,
                const wxString& name = _T("wxSpinCtrl"))
     {
@@ -49,7 +49,7 @@ public:
                 const wxString& value = wxEmptyString,
                 const wxPoint& pos = wxDefaultPosition,
                 const wxSize& size = wxDefaultSize,
-                long style = wxSP_ARROW_KEYS,
+                long style = wxSP_ARROW_KEYS | wxALIGN_RIGHT,
                 int min = 0, int max = 100, int initial = 0,
                 const wxString& name = _T("wxSpinCtrl"));
 
@@ -94,16 +94,14 @@ protected:
     virtual void DoMoveWindow(int x, int y, int width, int height);
     virtual wxSize DoGetBestSize() const;
     virtual void DoGetSize(int *width, int *height) const;
-#if wxABI_VERSION >= 20808
     virtual void DoGetClientSize(int *x, int *y) const;
-#endif
-
 #if wxUSE_TOOLTIPS
     virtual void DoSetToolTip( wxToolTip *tip );
 #endif // wxUSE_TOOLTIPS
 
-    // the handler for wxSpinButton events
-    void OnSpinChange(wxSpinEvent& event);
+    virtual bool MSWOnNotify(int idCtrl, WXLPARAM lParam, WXLPARAM *result);
+    virtual bool MSWOnScroll(int orientation, WXWORD wParam,
+                             WXWORD pos, WXHWND control);
 
     // handle processing of special keys
     void OnChar(wxKeyEvent& event);
@@ -125,6 +123,9 @@ protected:
     WXHWND     m_hwndBuddy;
     WXFARPROC  m_wndProcBuddy;
 
+    // Block text update event after SetValue()    
+    bool m_blockEvent;
+
     // all existing wxSpinCtrls - this allows to find the one corresponding to
     // the given buddy window in GetSpinForTextCtrl()
     static wxArraySpins ms_allSpins;
@@ -132,7 +133,7 @@ protected:
 private:
     DECLARE_DYNAMIC_CLASS(wxSpinCtrl)
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxSpinCtrl)
+    wxDECLARE_NO_COPY_CLASS(wxSpinCtrl);
 };
 
 #endif // wxUSE_SPINCTRL

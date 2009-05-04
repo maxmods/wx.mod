@@ -5,23 +5,21 @@
 // Modified by:
 // Created:     14/4/2006
 // Copyright:   (c) Francesco Montorsi
-// RCS-ID:      $Id: fontpicker.h 42999 2006-11-03 21:54:13Z VZ $
+// RCS-ID:      $Id: fontpicker.h 49668 2007-11-06 00:32:34Z MR $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef _WX_GTK_FONTPICKER_H_
 #define _WX_GTK_FONTPICKER_H_
 
-// since GtkFontButton is available only for GTK+ >= 2.4,
-// we need to use generic version if we detect (at runtime)
-// that GTK+ < 2.4
-#include "wx/generic/fontpickerg.h"
+#include "wx/button.h"
 
 //-----------------------------------------------------------------------------
 // wxFontButton
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxFontButton : public wxGenericFontButton
+class WXDLLIMPEXP_CORE wxFontButton : public wxButton,
+                                      public wxFontPickerWidgetBase
 {
 public:
     wxFontButton() {}
@@ -37,11 +35,6 @@ public:
        Create(parent, id, initial, pos, size, style, validator, name);
     }
 
-    virtual ~wxFontButton();
-
-
-public:     // overrides
-
     bool Create(wxWindow *parent,
                 wxWindowID id,
                 const wxFont& initial = wxNullFont,
@@ -50,6 +43,8 @@ public:     // overrides
                 long style = wxFONTBTN_DEFAULT_STYLE,
                 const wxValidator& validator = wxDefaultValidator,
                 const wxString& name = wxFontPickerWidgetNameStr);
+
+    virtual ~wxFontButton();
 
 protected:
     void UpdateFont();

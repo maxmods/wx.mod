@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: dcprint.h 42522 2006-10-27 13:07:40Z JS $
+// RCS-ID:      $Id: dcprint.h 56783 2008-11-15 11:10:34Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,20 +12,21 @@
 #ifndef _WX_DCPRINT_H_
 #define _WX_DCPRINT_H_
 
-#include "wx/dc.h"
+#include "wx/motif/dc.h"
 
-class WXDLLEXPORT wxPrinterDC: public wxDC
+class WXDLLIMPEXP_CORE wxPrinterDC : public wxMotifDCImpl
 {
 public:
-    DECLARE_CLASS(wxPrinterDC)
-
     // Create a printer DC
-    wxPrinterDC(const wxString& driver, const wxString& device, const wxString& output, bool interactive = true, int orientation = wxPORTRAIT);
-
-    wxRect GetPaperRect();
-
+    wxPrinterDCImpl(const wxString& driver, const wxString& device,
+                    const wxString& output,
+                    bool interactive = true,
+                    int orientation = wxPORTRAIT);
     virtual ~wxPrinterDC();
+
+    wxRect GetPaperRect() const;
+
+    DECLARE_CLASS(wxPrinterDCImpl)
 };
 
-#endif
-// _WX_DCPRINT_H_
+#endif // _WX_DCPRINT_H_

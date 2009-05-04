@@ -57,7 +57,7 @@ wxObject * MaxGaugeXmlHandler::DoCreateResource()
 
     control->Create(m_parentAsWindow,
                     GetID(),
-                    GetLong(wxT("range"), wxGAUGE_DEFAULT_RANGE),
+                    GetLong(wxT("range"), 100),
                     GetPosition(), GetSize(),
                     GetStyle(),
                     wxDefaultValidator,

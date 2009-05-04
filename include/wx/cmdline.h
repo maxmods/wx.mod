@@ -5,7 +5,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     04.01.00
-// RCS-ID:      $Id: cmdline.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: cmdline.h 59751 2009-03-22 23:29:14Z FM $
 // Copyright:   (c) 2000 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,6 +17,14 @@
 
 #include "wx/string.h"
 #include "wx/arrstr.h"
+#include "wx/cmdargs.h"
+
+// determines ConvertStringToArgs() behaviour
+enum wxCmdLineSplitType
+{
+    wxCMD_LINE_SPLIT_DOS,
+    wxCMD_LINE_SPLIT_UNIX
+};
 
 #if wxUSE_CMDLINE_PARSER
 
@@ -28,7 +36,7 @@ class WXDLLIMPEXP_FWD_BASE wxDateTime;
 
 // by default, options are optional (sic) and each call to AddParam() allows
 // one more parameter - this may be changed by giving non-default flags to it
-enum
+enum wxCmdLineEntryFlags
 {
     wxCMD_LINE_OPTION_MANDATORY = 0x01, // this option must be given
     wxCMD_LINE_PARAM_OPTIONAL   = 0x02, // the parameter may be omitted
@@ -44,6 +52,7 @@ enum wxCmdLineParamType
     wxCMD_LINE_VAL_STRING,  // should be 0 (default)
     wxCMD_LINE_VAL_NUMBER,
     wxCMD_LINE_VAL_DATE,
+    wxCMD_LINE_VAL_DOUBLE,
     wxCMD_LINE_VAL_NONE
 };
 
@@ -53,6 +62,7 @@ enum wxCmdLineEntryType
     wxCMD_LINE_SWITCH,
     wxCMD_LINE_OPTION,
     wxCMD_LINE_PARAM,
+    wxCMD_LINE_USAGE_TEXT,
     wxCMD_LINE_NONE         // to terminate the list
 };
 
@@ -64,12 +74,16 @@ enum wxCmdLineEntryType
 struct wxCmdLineEntryDesc
 {
     wxCmdLineEntryType kind;
-    const wxChar *shortName;
-    const wxChar *longName;
-    const wxChar *description;
+    const char *shortName;
+    const char *longName;
+    const char *description;
     wxCmdLineParamType type;
     int flags;
 };
+
+// the list of wxCmdLineEntryDesc objects should be terminated with this one
+#define wxCMD_LINE_DESC_END \
+        { wxCMD_LINE_NONE, NULL, NULL, NULL, wxCMD_LINE_VAL_NONE, 0x0 }
 
 // ----------------------------------------------------------------------------
 // wxCmdLineParser is a class for parsing command line.
@@ -100,6 +114,8 @@ public:
     wxCmdLineParser(int argc, char **argv) { Init(); SetCmdLine(argc, argv); }
 #if wxUSE_UNICODE
     wxCmdLineParser(int argc, wxChar **argv) { Init(); SetCmdLine(argc, argv); }
+    wxCmdLineParser(int argc, const wxCmdLineArgsArray& argv)
+        { Init(); SetCmdLine(argc, argv); }
 #endif // wxUSE_UNICODE
     wxCmdLineParser(const wxString& cmdline) { Init(); SetCmdLine(cmdline); }
 
@@ -112,6 +128,10 @@ public:
 #if wxUSE_UNICODE
     wxCmdLineParser(const wxCmdLineEntryDesc *desc, int argc, wxChar **argv)
         { Init(); SetCmdLine(argc, argv); SetDesc(desc); }
+    wxCmdLineParser(const wxCmdLineEntryDesc *desc,
+                    int argc,
+                    const wxCmdLineArgsArray& argv)
+        { Init(); SetCmdLine(argc, argv); SetDesc(desc); }
 #endif // wxUSE_UNICODE
     wxCmdLineParser(const wxCmdLineEntryDesc *desc, const wxString& cmdline)
         { Init(); SetCmdLine(cmdline); SetDesc(desc); }
@@ -120,6 +140,7 @@ public:
     void SetCmdLine(int argc, char **argv);
 #if wxUSE_UNICODE
     void SetCmdLine(int argc, wxChar **argv);
+    void SetCmdLine(int argc, const wxCmdLineArgsArray& argv);
 #endif // wxUSE_UNICODE
     void SetCmdLine(const wxString& cmdline);
 
@@ -138,7 +159,7 @@ public:
     void EnableLongOptions(bool enable = true);
     void DisableLongOptions() { EnableLongOptions(false); }
 
-    bool AreLongOptionsEnabled();
+    bool AreLongOptionsEnabled() const;
 
     // extra text may be shown by Usage() method if set by this function
     void SetLogo(const wxString& logo);
@@ -165,6 +186,9 @@ public:
                   wxCmdLineParamType type = wxCMD_LINE_VAL_STRING,
                   int flags = 0);
 
+    // add an explanatory text to be shown to the user in help
+    void AddUsageText(const wxString& text);
+
     // actions
     // -------
 
@@ -177,7 +201,10 @@ public:
     int Parse(bool showUsage = true);
 
     // give the usage message describing all program options
-    void Usage();
+    void Usage() const;
+
+    // return the usage string, call Usage() to directly show it to the user
+    wxString GetUsageString() const;
 
     // get the command line arguments
     // ------------------------------
@@ -192,6 +219,10 @@ public:
     // returns true if an option taking an integer value was found and stores
     // the value in the provided pointer
     bool Found(const wxString& name, long *value) const;
+
+    // returns true if an option taking a double value was found and stores
+    // the value in the provided pointer
+    bool Found(const wxString& name, double *value) const;
 
 #if wxUSE_DATETIME
     // returns true if an option taking a date value was found and stores the
@@ -209,18 +240,17 @@ public:
     void Reset();
 
     // break down the command line in arguments
-    static wxArrayString ConvertStringToArgs(const wxChar *cmdline);
+    static wxArrayString
+    ConvertStringToArgs(const wxString& cmdline,
+                        wxCmdLineSplitType type = wxCMD_LINE_SPLIT_DOS);
 
 private:
-    // get usage string
-    wxString GetUsageString();
-
     // common part of all ctors
     void Init();
 
     struct wxCmdLineParserData *m_data;
 
-    DECLARE_NO_COPY_CLASS(wxCmdLineParser)
+    wxDECLARE_NO_COPY_CLASS(wxCmdLineParser);
 };
 
 #else // !wxUSE_CMDLINE_PARSER
@@ -230,10 +260,11 @@ private:
 class WXDLLIMPEXP_BASE wxCmdLineParser
 {
 public:
-    static wxArrayString ConvertStringToArgs(const wxChar *cmdline);
+    static wxArrayString
+    ConvertStringToArgs(const wxString& cmdline,
+                        wxCmdLineSplitType type = wxCMD_LINE_SPLIT_DOS);
 };
 
 #endif // wxUSE_CMDLINE_PARSER/!wxUSE_CMDLINE_PARSER
 
 #endif // _WX_CMDLINE_H_
-

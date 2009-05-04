@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     27/07/03
-// RCS-ID:      $Id: flags.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: flags.h 50646 2007-12-12 01:35:53Z VZ $
 // Copyright:   (c) 2003 Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -154,7 +154,7 @@ private :
 };
 
 #define WX_DEFINE_FLAGS( flags ) \
-    class WXDLLEXPORT flags \
+    class WXDLLIMPEXP_BASE flags \
     {\
     public : \
         flags(long data=0) :m_data(data) {} \

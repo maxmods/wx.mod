@@ -5,7 +5,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: dragimag.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: dragimag.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -88,7 +88,7 @@
  * wxDragImage
  */
 
-class WXDLLEXPORT wxDragImage: public wxObject
+class WXDLLIMPEXP_CORE wxDragImage: public wxObject
 {
 public:
 
@@ -203,7 +203,7 @@ public:
 
     // Begin drag. hotspot is the location of the drag position relative to the upper-left
     // corner of the image.
-    bool BeginDrag(const wxPoint& hotspot, wxWindow* window, bool fullScreen = false, wxRect* rect = (wxRect*) NULL);
+    bool BeginDrag(const wxPoint& hotspot, wxWindow* window, bool fullScreen = false, wxRect* rect = NULL);
 
     // Begin drag. hotspot is the location of the drag position relative to the upper-left
     // corner of the image. This is full screen only. fullScreenRect gives the
@@ -255,7 +255,7 @@ protected:
 
 private:
     DECLARE_DYNAMIC_CLASS(wxDragImage)
-    DECLARE_NO_COPY_CLASS(wxDragImage)
+    wxDECLARE_NO_COPY_CLASS(wxDragImage);
 };
 
 #endif

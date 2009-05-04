@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: dcprint.h 42077 2006-10-17 14:44:52Z ABX $
+// RCS-ID:      $Id: dcprint.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 #include "wx/dc.h"
 
-class WXDLLEXPORT wxPrinterDC: public wxDC
+class WXDLLIMPEXP_CORE wxPrinterDC: public wxDC
 {
 public:
     DECLARE_CLASS(wxPrinterDC)

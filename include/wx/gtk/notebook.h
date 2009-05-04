@@ -3,19 +3,19 @@
 // Purpose:     wxNotebook class
 // Author:      Robert Roebling
 // Modified by:
-// RCS-ID:      $Id: notebook.h 43051 2006-11-04 18:29:28Z RR $
+// RCS-ID:      $Id: notebook.h 55354 2008-08-29 15:46:48Z PC $
 // Copyright:   (c) Julian Smart and Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GTKNOTEBOOKH__
-#define __GTKNOTEBOOKH__
+#ifndef _WX_GTKNOTEBOOK_H_
+#define _WX_GTKNOTEBOOK_H_
 
 //-----------------------------------------------------------------------------
 // internal class
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxGtkNotebookPage;
+class WXDLLIMPEXP_FWD_CORE wxGtkNotebookPage;
 
 #include "wx/list.h"
 WX_DECLARE_LIST(wxGtkNotebookPage, wxGtkNotebookPagesList);
@@ -135,9 +135,10 @@ private:
     // the padding set by SetPadding()
     int m_padding;
 
+    virtual void AddChildGTK(wxWindowGTK* child);
+
     DECLARE_DYNAMIC_CLASS(wxNotebook)
     DECLARE_EVENT_TABLE()
 };
 
-#endif
-    // __GTKNOTEBOOKH__
+#endif // _WX_GTKNOTEBOOK_H_

@@ -4,7 +4,7 @@
 // Notes:       Based on htmlhelp.cpp, implementing a monolithic
 //              HTML Help controller class,  by Vaclav Slavik
 // Author:      Harm van der Heijden and Vaclav Slavik
-// RCS-ID:      $Id: helpfrm.h 50202 2007-11-23 21:29:29Z VZ $
+// RCS-ID:      $Id: helpfrm.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Harm van der Heijden and Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -88,7 +88,7 @@ public:
     wxHtmlHelpController* GetController() const { return m_helpController; }
 
     /// Sets the help controller associated with the window.
-    void SetController(wxHtmlHelpController* controller) { m_helpController = controller; }
+    void SetController(wxHtmlHelpController* controller);
 
     /// Returns the help window.
     wxHtmlHelpWindow* GetHelpWindow() const { return m_HtmlHelpWin; }
@@ -139,7 +139,7 @@ protected:
 private:
 
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxHtmlHelpFrame)
+    wxDECLARE_NO_COPY_CLASS(wxHtmlHelpFrame);
 };
 
 #endif // wxUSE_WXHTML_HELP

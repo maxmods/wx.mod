@@ -4,7 +4,7 @@
 // Notes:       Based on htmlhelp.cpp, implementing a monolithic
 //              HTML Help controller class,  by Vaclav Slavik
 // Author:      Harm van der Heijden and Vaclav Slavik
-// RCS-ID:      $Id: helpctrl.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: helpctrl.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Harm van der Heijden and Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -125,7 +125,7 @@ protected:
     wxHtmlHelpFrame*    m_helpFrame;
     wxHtmlHelpDialog*   m_helpDialog;
 
-    DECLARE_NO_COPY_CLASS(wxHtmlHelpController)
+    wxDECLARE_NO_COPY_CLASS(wxHtmlHelpController);
 };
 
 /*

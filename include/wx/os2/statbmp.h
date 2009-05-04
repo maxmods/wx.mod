@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     11/27/99
-// RCS-ID:      $Id: statbmp.h 36567 2005-12-25 14:37:51Z SN $
+// RCS-ID:      $Id: statbmp.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 #include "wx/control.h"
 #include "wx/icon.h"
 
-class WXDLLEXPORT wxStaticBitmap : public wxStaticBitmapBase
+class WXDLLIMPEXP_CORE wxStaticBitmap : public wxStaticBitmapBase
 {
  public:
     inline wxStaticBitmap() { Init(); }

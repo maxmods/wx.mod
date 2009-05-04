@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: timer.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: timer.h 50646 2007-12-12 01:35:53Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_TIMER_H_
 #define _WX_TIMER_H_
 
-class WXDLLEXPORT wxTimer : public wxTimerBase
+class WXDLLIMPEXP_BASE wxTimer : public wxTimerBase
 {
 friend void wxProcessTimer(wxTimer& timer);
 

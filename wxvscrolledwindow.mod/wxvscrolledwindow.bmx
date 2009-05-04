@@ -99,24 +99,22 @@ Type wxVScrolledWindow Extends wxPanel
 	bbdoc: Returns the index of the first currently visible line.
 	about: This is same as GetVisibleBegin and exists only for symmetry with GetLastVisibleLine.
 	End Rem
-	Method GetFirstVisibleLine:Int()
-		Return bmx_wxvscrolledwindow_getfirstvisibleline(wxObjectPtr)
+	Method GetVisibleRowsBegin:Int()
+		Return bmx_wxvscrolledwindow_getvisiblerowsbegin(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns the index of the last currently visible line.
-	about: Note that this method returns (size_t)-1 (i.e. a huge positive number) if the control is empty so if this
-	is possible you should use GetVisibleEnd instead.
 	End Rem
-	Method GetLastVisibleLine:Int()
-		Return bmx_wxvscrolledwindow_getlastvisibleline(wxObjectPtr)
+	Method GetVisibleRowsEnd:Int()
+		Return bmx_wxvscrolledwindow_getvisiblerowsend(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Get the number of lines this window contains (previously set by SetLineCount())
 	End Rem
-	Method GetLineCount:Int()
-		Return bmx_wxvscrolledwindow_getlinecount(wxObjectPtr)
+	Method GetRowCount:Int()
+		Return bmx_wxvscrolledwindow_getrowcount(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -153,7 +151,7 @@ Type wxVScrolledWindow Extends wxPanel
 	Rem
 	bbdoc: This method must be overridden in the derived type and it should return the height of the given line in pixels.
 	End Rem
-	Method OnGetLineHeight:Int(n:Int)
+	Method OnGetRowHeight:Int(n:Int)
 		Assert Null, "OnGetLineHeight() should be overriden!"
 	End Method
 	
@@ -166,22 +164,22 @@ Type wxVScrolledWindow Extends wxPanel
 	Finally note that lineMin is inclusive, while lineMax is exclusive, as usual.
 	</p>
 	End Rem
-	Method OnGetLinesHint(lineMin:Int, lineMax:Int)
+	Method OnGetRowsHeightHint(lineMin:Int, lineMax:Int)
 	End Method
 	
 	Rem
 	bbdoc: Refreshes the specified line -- it will be redrawn during the next main loop iteration.
 	End Rem
-	Method RefreshLine(line:Int)
-		bmx_wxvscrolledwindow_refreshline(wxObjectPtr, line)
+	Method RefreshRow(line:Int)
+		bmx_wxvscrolledwindow_refreshrow(wxObjectPtr, line)
 	End Method
 	
 	Rem
 	bbdoc: Refreshes all lines between @fromLine and @toLine, inclusive.
 	about: @fromLine should be less than or equal to @toLine.
 	End Rem
-	Method RefreshLines(fromLine:Int, toLine:Int)
-		bmx_wxvscrolledwindow_refreshlines(wxObjectPtr, fromLine, toLine)
+	Method RefreshRows(fromLine:Int, toLine:Int)
+		bmx_wxvscrolledwindow_refreshrows(wxObjectPtr, fromLine, toLine)
 	End Method
 	
 	Rem
@@ -198,23 +196,23 @@ Type wxVScrolledWindow Extends wxPanel
 	about: Returns true if the window was scrolled, false otherwise (for example if we're trying to scroll down
 	but we are already showing the last line).
 	End Rem
-	Method ScrollLines:Int(lines:Int)
-		Return bmx_wxvscrolledwindow_scrolllines(wxObjectPtr, lines)
+	Method ScrollRows:Int(lines:Int)
+		Return bmx_wxvscrolledwindow_scrollrows(wxObjectPtr, lines)
 	End Method
 	
 	Rem
 	bbdoc: Scroll by the specified number of pages which may be positive (to scroll down) or negative (to scroll up).
 	End Rem
-	Method ScrollPages:Int(pages:Int)
-		Return bmx_wxvscrolledwindow_scrollpages(wxObjectPtr, pages)
+	Method ScrollRowPages:Int(pages:Int)
+		Return bmx_wxvscrolledwindow_scrollrowpages(wxObjectPtr, pages)
 	End Method
 	
 	Rem
 	bbdoc: Scroll to the specified line: it will become the first visible line in the window.
 	about: Returns true if we scrolled the window, false if nothing was done.
 	End Rem
-	Method ScrollToLine:Int(line:Int)
-		Return bmx_wxvscrolledwindow_scrolltoline(wxObjectPtr, line)
+	Method ScrollToRow:Int(line:Int)
+		Return bmx_wxvscrolledwindow_scrolltorow(wxObjectPtr, line)
 	End Method
 	
 	Rem
@@ -222,28 +220,28 @@ Type wxVScrolledWindow Extends wxPanel
 	about: The derived type must provide the heights for all lines with indices up to the one given here
 	in its OnGetLineHeight().
 	End Rem
-	Method SetLineCount(count:Int)
-		bmx_wxvscrolledwindow_setlinecount(wxObjectPtr, count)
+	Method SetRowCount(count:Int)
+		bmx_wxvscrolledwindow_setrowcount(wxObjectPtr, count)
 	End Method
 	
 	' callback handler
-	Function _OnGetLineHeight:Int(win:Byte Ptr, n:Int)
+	Function _OnGetRowHeight:Int(win:Byte Ptr, n:Int)
 		Local scrolled:wxVScrolledWindow = wxVScrolledWindow(wxfind(win))
 		If Not scrolled Then
 			Assert Null, "Error! Could not find derived wxVScrolledWindow object!"
 			Return 10
 		Else
-			Return scrolled.OnGetLineHeight(n)
+			Return scrolled.OnGetRowHeight(n)
 		End If
 	End Function
 	
 	' callback handler
-	Function _OnGetLinesHint(win:Byte Ptr, lineMin:Int, lineMax:Int)
+	Function _OnGetRowsHeightHint(win:Byte Ptr, lineMin:Int, lineMax:Int)
 		Local scrolled:wxVScrolledWindow = wxVScrolledWindow(wxfind(win))
 		If Not scrolled Then
 			Assert Null, "Error! Could not find derived wxVScrolledWindow object!"
 		Else
-			scrolled.OnGetLinesHint(lineMin, lineMax)
+			scrolled.OnGetRowsHeightHint(lineMin, lineMax)
 		End If
 	End Function
 

@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: palette.h 42752 2006-10-30 19:26:48Z VZ $
+// RCS-ID:      $Id: palette.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,11 +14,11 @@
 
 #include "wx/gdiobj.h"
 
-class WXDLLEXPORT wxPalette;
+class WXDLLIMPEXP_FWD_CORE wxPalette;
 
-class WXDLLEXPORT wxPaletteRefData: public wxGDIRefData
+class WXDLLIMPEXP_CORE wxPaletteRefData: public wxGDIRefData
 {
-    friend class WXDLLEXPORT wxPalette;
+    friend class WXDLLIMPEXP_FWD_CORE wxPalette;
 public:
     wxPaletteRefData(void);
     virtual ~wxPaletteRefData(void);
@@ -28,7 +28,7 @@ protected:
 
 #define M_PALETTEDATA ((wxPaletteRefData *)m_refData)
 
-class WXDLLEXPORT wxPalette: public wxPaletteBase
+class WXDLLIMPEXP_CORE wxPalette: public wxPaletteBase
 {
   DECLARE_DYNAMIC_CLASS(wxPalette)
 
@@ -40,9 +40,6 @@ public:
   bool Create(int n, const unsigned char *red, const unsigned char *green, const unsigned char *blue);
   int GetPixel(unsigned char red, unsigned char green, unsigned char blue) const;
   bool GetRGB(int pixel, unsigned char *red, unsigned char *green, unsigned char *blue) const;
-
-  virtual bool Ok() const { return IsOk(); }
-  virtual bool IsOk(void) const { return (m_refData != NULL) ; }
 
   virtual bool FreeResource(bool force = false);
 

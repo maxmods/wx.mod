@@ -3,7 +3,7 @@
 // Purpose:     declaration of standard wxDataObjectSimple-derived classes
 // Author:      Robert Roebling
 // Created:     19.10.99 (extracted from gtk/dataobj.h)
-// RCS-ID:      $Id: dataobj2.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: dataobj2.h 58227 2009-01-19 13:55:27Z VZ $
 // Copyright:   (c) 1998, 1999 Vadim Zeitlin, Robert Roebling
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ public:
     }
 
 protected:
-    void Init() { m_pngData = (void *)NULL; m_pngSize = 0; }
+    void Init() { m_pngData = NULL; m_pngSize = 0; }
     void Clear() { free(m_pngData); }
     void ClearAll() { Clear(); Init(); }
 
@@ -88,6 +88,41 @@ public:
         return SetData(len, buf);
     }
 };
+
+// ----------------------------------------------------------------------------
+// wxURLDataObject is a specialization of wxDataObject for URLs
+// ----------------------------------------------------------------------------
+
+class WXDLLIMPEXP_CORE wxURLDataObject : public wxDataObjectSimple
+{
+public:
+    wxURLDataObject(const wxString& url = wxEmptyString);
+
+    wxString GetURL() const { return m_url; }
+    void SetURL(const wxString& url) { m_url = url; }
+
+    virtual size_t GetDataSize() const;
+    virtual bool GetDataHere(void *buf) const;
+    virtual bool SetData(size_t len, const void *buf);
+
+    // Must provide overloads to avoid hiding them (and warnings about it)
+    virtual size_t GetDataSize(const wxDataFormat&) const
+    {
+        return GetDataSize();
+    }
+    virtual bool GetDataHere(const wxDataFormat&, void *buf) const
+    {
+        return GetDataHere(buf);
+    }
+    virtual bool SetData(const wxDataFormat&, size_t len, const void *buf)
+    {
+        return SetData(len, buf);
+    }
+
+private:
+    wxString m_url;
+};
+
 
 #endif // _WX_GTK_DATAOBJ2_H_
 

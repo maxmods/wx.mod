@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     29.03.00
-// RCS-ID:      $Id: fontenc.h 29139 2004-09-14 12:08:28Z ABX $
+// RCS-ID:      $Id: fontenc.h 48347 2007-08-22 21:46:01Z VZ $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -115,6 +115,10 @@ enum wxFontEncoding
     wxFONTENCODING_MACCELTIC,
     wxFONTENCODING_MACGAELIC,
     wxFONTENCODING_MACKEYBOARD,
+
+    // more CJK encodings (for historical reasons some are already declared
+    // above)
+    wxFONTENCODING_ISO2022_JP,      // ISO-2022-JP JIS encoding
 
     wxFONTENCODING_MAX,             // highest enumerated encoding value
 

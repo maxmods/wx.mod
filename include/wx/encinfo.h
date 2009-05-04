@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     19.09.2003 (extracted from wx/fontenc.h)
-// RCS-ID:      $Id: encinfo.h 40865 2006-08-27 09:42:42Z VS $
+// RCS-ID:      $Id: encinfo.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -32,7 +32,7 @@
 // to create a font of non-standard encoding (like KOI8) under Windows - the
 // facename specifies the encoding then)
 
-struct WXDLLEXPORT wxNativeEncodingInfo
+struct WXDLLIMPEXP_CORE wxNativeEncodingInfo
 {
     wxString facename;          // may be empty meaning "any"
 #ifndef __WXPALMOS__
@@ -53,13 +53,10 @@ struct WXDLLEXPORT wxNativeEncodingInfo
 #elif defined(_WX_X_FONTLIKE)
     wxString xregistry,
              xencoding;
-#elif defined(__WXGTK20__)
-    // No way to specify this in Pango as this
-    // seems to be handled internally.
+#elif defined(wxHAS_UTF8_FONTS)
+    // ports using UTF-8 for text don't need encoding information for fonts
 #elif defined(__WXMGL__)
     int      mglEncoding;
-#elif defined(__WXDFB__)
-    // DirectFB uses UTF-8 internally, doesn't use font encodings
 #else
     #error "Unsupported toolkit"
 #endif

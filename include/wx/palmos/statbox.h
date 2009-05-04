@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: statbox.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: statbox.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 #define _WX_STATBOX_H_
 
 // Group box
-class WXDLLEXPORT wxStaticBox : public wxStaticBoxBase
+class WXDLLIMPEXP_CORE wxStaticBox : public wxStaticBoxBase
 {
 public:
     wxStaticBox() { }

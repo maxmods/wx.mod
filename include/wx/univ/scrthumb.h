@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     12.02.01
-// RCS-ID:      $Id: scrthumb.h 37168 2006-01-26 19:35:32Z ABX $
+// RCS-ID:      $Id: scrthumb.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2001 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -20,10 +20,10 @@
 // This class is similar to wxScrollThumb.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxControlWithThumb;
-class WXDLLEXPORT wxMouseEvent;
-class WXDLLEXPORT wxRect;
-class WXDLLEXPORT wxScrollTimer;
+class WXDLLIMPEXP_FWD_CORE wxControlWithThumb;
+class WXDLLIMPEXP_FWD_CORE wxMouseEvent;
+class WXDLLIMPEXP_FWD_CORE wxRect;
+class WXDLLIMPEXP_FWD_CORE wxScrollTimer;
 
 #include "wx/timer.h"
 
@@ -31,7 +31,7 @@ class WXDLLEXPORT wxScrollTimer;
 // wxScrollThumb: an abstraction of scrollbar thumb
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxScrollThumb
+class WXDLLIMPEXP_CORE wxScrollThumb
 {
 public:
     enum Shaft
@@ -76,14 +76,14 @@ private:
     Shaft m_shaftPart;
 
     // the data for the mouse capture
-    struct WXDLLEXPORT wxScrollThumbCaptureData *m_captureData;
+    struct WXDLLIMPEXP_FWD_CORE wxScrollThumbCaptureData *m_captureData;
 };
 
 // ----------------------------------------------------------------------------
 // wxControlWithThumb: interface implemented by controls using wxScrollThumb
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxControlWithThumb
+class WXDLLIMPEXP_CORE wxControlWithThumb
 {
 public:
     virtual ~wxControlWithThumb() {}

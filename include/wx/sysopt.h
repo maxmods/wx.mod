@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     2001-07-10
-// RCS-ID:      $Id: sysopt.h 33004 2005-03-23 20:48:50Z VZ $
+// RCS-ID:      $Id: sysopt.h 47608 2007-07-21 02:05:03Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,11 @@
 // Enables an application to influence the wxWidgets implementation
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_BASE wxSystemOptions : public wxObject
+class
+#if wxUSE_SYSTEM_OPTIONS
+WXDLLIMPEXP_BASE
+#endif
+wxSystemOptions : public wxObject
 {
 public:
     wxSystemOptions() { }

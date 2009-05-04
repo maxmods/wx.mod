@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     10.05.98
-// RCS-ID:      $Id: dataobj.h 37406 2006-02-09 03:45:14Z VZ $
+// RCS-ID:      $Id: dataobj.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ struct IDataObject;
 // wxDataObject is a "smart" and polymorphic piece of data.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxDataObject : public wxDataObjectBase
+class WXDLLIMPEXP_CORE wxDataObject : public wxDataObjectBase
 {
 public:
     // ctor & dtor
@@ -73,7 +73,7 @@ public:
 private:
     IDataObject *m_pIDataObject; // pointer to the COM interface
 
-    DECLARE_NO_COPY_CLASS(wxDataObject)
+    wxDECLARE_NO_COPY_CLASS(wxDataObject);
 };
 
 #endif  //_WX_MSW_OLE_DATAOBJ_H

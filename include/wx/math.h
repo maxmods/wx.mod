@@ -4,7 +4,7 @@
 * Author:      John Labenski and others
 * Modified by:
 * Created:     02/02/03
-* RCS-ID:      $Id: math.h 44690 2007-03-08 04:31:24Z PC $
+* RCS-ID:      $Id: math.h 55800 2008-09-22 16:20:43Z VZ $
 * Copyright:   (c) John Labenski
 * Licence:     wxWindows licence
 */
@@ -22,9 +22,9 @@
     #define M_PI 3.1415926535897932384626433832795
 #endif
 
-/* Scaling factors for various unit conversions */
+/* Scaling factors for various unit conversions: 1 inch = 2.54 cm */
 #ifndef METRIC_CONVERSION_CONSTANT
-    #define METRIC_CONVERSION_CONSTANT 0.0393700787
+    #define METRIC_CONVERSION_CONSTANT (1/25.4)
 #endif
 
 #ifndef mm2inches
@@ -57,9 +57,16 @@
 #if defined(__VISUALC__) || defined(__BORLANDC__) || defined(__WATCOMC__)
     #include <float.h>
     #define wxFinite(x) _finite(x)
-#elif defined(__GNUG__)||defined(__GNUWIN32__)||defined(__DJGPP__)|| \
+#elif defined(__MINGW64__)
+    // add more compilers with C99 support here: using C99 isfinite() is
+    // preferable to using BSD-ish finite()
+    #define wxFinite(x) isfinite(x)
+#elif ( defined(__GNUG__)||defined(__GNUWIN32__)||defined(__DJGPP__)|| \
       defined(__SGI_CC__)||defined(__SUNCC__)||defined(__XLC__)|| \
-      defined(__HPUX__)||defined(__MWERKS__)
+      defined(__HPUX__)||defined(__MWERKS__) ) && ( !defined(wxOSX_USE_IPHONE) || wxOSX_USE_IPHONE == 0 )
+#ifdef __SOLARIS__
+#include <ieeefp.h>
+#endif
     #define wxFinite(x) finite(x)
 #else
     #define wxFinite(x) ((x) == (x))
@@ -86,7 +93,7 @@
             //     shouldn't be used with doubles, but we get too many of them and
             //     removing these operators is probably not a good idea
             //
-            //     Maybe we should alway compare doubles up to some "epsilon" precision
+            //     Maybe we should always compare doubles up to some "epsilon" precision
             #pragma warning(push)
 
             // floating-point equality and inequality comparisons are unreliable
@@ -107,6 +114,9 @@
 
     inline int wxRound(double x)
     {
+        wxASSERT_MSG( x > INT_MIN - 0.5 && x < INT_MAX + 0.5,
+                      _T("argument out of supported range") );
+
         #if defined(HAVE_ROUND)
             return int(round(x));
         #else
@@ -129,8 +139,15 @@
     extern "C" {
 #endif
     /* functions from common/extended.c */
-    extern wxFloat64 ConvertFromIeeeExtended(const wxInt8 *bytes);
-    extern void ConvertToIeeeExtended(wxFloat64 num, wxInt8 *bytes);
+    WXDLLIMPEXP_BASE wxFloat64 wxConvertFromIeeeExtended(const wxInt8 *bytes);
+    WXDLLIMPEXP_BASE void wxConvertToIeeeExtended(wxFloat64 num, wxInt8 *bytes);
+
+    /* use wxConvertFromIeeeExtended() and wxConvertToIeeeExtended() instead */
+#if WXWIN_COMPATIBILITY_2_8
+    wxDEPRECATED( WXDLLIMPEXP_BASE wxFloat64 ConvertFromIeeeExtended(const wxInt8 *bytes) );
+    wxDEPRECATED( WXDLLIMPEXP_BASE void ConvertToIeeeExtended(wxFloat64 num, wxInt8 *bytes) );
+#endif // WXWIN_COMPATIBILITY_2_8
+
 #ifdef __cplusplus
     }
 #endif

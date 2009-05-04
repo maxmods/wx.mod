@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     11.11.97
-// RCS-ID:      $Id: ownerdrw.h 35695 2005-09-25 20:43:35Z VZ $
+// RCS-ID:      $Id: ownerdrw.h 59763 2009-03-23 12:07:42Z VZ $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@
 // element or one unchangeable bitmap otherwise.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxOwnerDrawn
+class WXDLLIMPEXP_CORE wxOwnerDrawn
 {
 public:
   // ctor & dtor
@@ -61,9 +61,14 @@ public:
         m_bmpUnchecked = bmpUnchecked;
         m_bOwnerDrawn = true; }
 
-  void SetBitmap(const wxBitmap& bmpChecked)
-      { m_bmpChecked = bmpChecked;
-        m_bOwnerDrawn = true; }
+  void SetBitmap(const wxBitmap& bmp, bool bChecked = true)
+  {
+      if ( bChecked )
+          m_bmpChecked = bmp;
+      else
+          m_bmpUnchecked = bmp;
+      m_bOwnerDrawn = true;
+  }
 
   void SetDisabledBitmap( const wxBitmap& bmpDisabled )
       { m_bmpDisabled = bmpDisabled;
@@ -164,7 +169,6 @@ private:
             m_bmpDisabled;
 
   size_t    m_nHeight,      // font height
-            m_nMinHeight,   // minimum height, as determined by user's system settings
             m_nMarginWidth; // space occupied by bitmap to the left of the item
 };
 

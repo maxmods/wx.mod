@@ -22,6 +22,10 @@
 
 #include "glue.h"
 
+void init_scintilla_modules() {
+	lmBlitzMax.GetLanguage();
+}
+
 // ---------------------------------------------------------------------------------------
 
 MaxScintilla::MaxScintilla(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
@@ -381,9 +385,9 @@ void bmx_wxscintilla_stylesetsize(wxScintilla * sc, int style, int sizePoints) {
 	sc->StyleSetSize(style, sizePoints);
 }
 
-void bmx_wxscintilla_stylesetfont(wxScintilla * sc, int style, BBString * fontName) {
-	sc->StyleSetFont(style, wxStringFromBBString(fontName));
-}
+//void bmx_wxscintilla_stylesetfont(wxScintilla * sc, int style, BBString * fontName) {
+//	sc->StyleSetFont(style, wxStringFromBBString(fontName));
+//}
 
 void bmx_wxscintilla_styleseteolfilled(wxScintilla * sc, int style, bool filled) {
 	sc->StyleSetEOLFilled(style, filled);
@@ -1502,11 +1506,11 @@ int bmx_wxscintilla_getmodeventmask(wxScintilla * sc) {
 }
 
 void bmx_wxscintilla_setscifocus(wxScintilla * sc, bool focus) {
-	sc->SetSCIFocus(focus);
+	sc->SetSTCFocus(focus);
 }
 
 bool bmx_wxscintilla_getscifocus(wxScintilla * sc) {
-	return sc->GetSCIFocus();
+	return sc->GetSTCFocus();
 }
 
 void bmx_wxscintilla_setstatus(wxScintilla * sc, int statusCode) {
@@ -1762,11 +1766,11 @@ void bmx_wxscintilla_selectionduplicate(wxScintilla * sc) {
 }
 
 void bmx_wxscintilla_setcaretlinebackgroundalpha(wxScintilla * sc, int alpha) {
-	sc->SetCaretLineBackgroundAlpha(alpha);
+	sc->SetCaretLineBackAlpha(alpha);
 }
 
 int bmx_wxscintilla_getcaretlinebackgroundalpha(wxScintilla * sc) {
-	return sc->GetCaretLineBackgroundAlpha();
+	return sc->GetCaretLineBackAlpha();
 }
 
 void bmx_wxscintilla_startrecord(wxScintilla * sc) {
@@ -1910,32 +1914,32 @@ bool bmx_wxscintillaevent_getalt(wxScintillaEvent & event) {
 
 int bmx_wxscintilla_geteventtype(int type) {
 	switch(type) {
-		case 1650: return wxEVT_SCI_CHANGE;
-		case 1651: return wxEVT_SCI_STYLENEEDED;
-		case 1652: return wxEVT_SCI_CHARADDED;
-		case 1653: return wxEVT_SCI_SAVEPOINTREACHED;
-		case 1654: return wxEVT_SCI_SAVEPOINTLEFT;
-		case 1655: return wxEVT_SCI_ROMODIFYATTEMPT;
-		case 1656: return wxEVT_SCI_KEY;
-		case 1657: return wxEVT_SCI_DOUBLECLICK;
-		case 1658: return wxEVT_SCI_UPDATEUI;
-		case 1659: return wxEVT_SCI_MODIFIED;
-		case 1660: return wxEVT_SCI_MACRORECORD;
-		case 1661: return wxEVT_SCI_MARGINCLICK;
-		case 1662: return wxEVT_SCI_NEEDSHOWN;
-		case 1664: return wxEVT_SCI_PAINTED;
-		case 1665: return wxEVT_SCI_USERLISTSELECTION;
-		case 1666: return wxEVT_SCI_URIDROPPED;
-		case 1667: return wxEVT_SCI_DWELLSTART;
-		case 1668: return wxEVT_SCI_DWELLEND;
-		case 1669: return wxEVT_SCI_START_DRAG;
-		case 1670: return wxEVT_SCI_DRAG_OVER;
-		case 1671: return wxEVT_SCI_DO_DROP;
-		case 1672: return wxEVT_SCI_ZOOM;
-		case 1673: return wxEVT_SCI_HOTSPOT_CLICK;
-		case 1674: return wxEVT_SCI_HOTSPOT_DCLICK;
-		case 1675: return wxEVT_SCI_CALLTIP_CLICK;
-		case 1676: return wxEVT_SCI_AUTOCOMP_SELECTION;
+		case 1650: return wxEVT_STC_CHANGE;
+		case 1651: return wxEVT_STC_STYLENEEDED;
+		case 1652: return wxEVT_STC_CHARADDED;
+		case 1653: return wxEVT_STC_SAVEPOINTREACHED;
+		case 1654: return wxEVT_STC_SAVEPOINTLEFT;
+		case 1655: return wxEVT_STC_ROMODIFYATTEMPT;
+		case 1656: return wxEVT_STC_KEY;
+		case 1657: return wxEVT_STC_DOUBLECLICK;
+		case 1658: return wxEVT_STC_UPDATEUI;
+		case 1659: return wxEVT_STC_MODIFIED;
+		case 1660: return wxEVT_STC_MACRORECORD;
+		case 1661: return wxEVT_STC_MARGINCLICK;
+		case 1662: return wxEVT_STC_NEEDSHOWN;
+		case 1664: return wxEVT_STC_PAINTED;
+		case 1665: return wxEVT_STC_USERLISTSELECTION;
+		case 1666: return wxEVT_STC_URIDROPPED;
+		case 1667: return wxEVT_STC_DWELLSTART;
+		case 1668: return wxEVT_STC_DWELLEND;
+		case 1669: return wxEVT_STC_START_DRAG;
+		case 1670: return wxEVT_STC_DRAG_OVER;
+		case 1671: return wxEVT_STC_DO_DROP;
+		case 1672: return wxEVT_STC_ZOOM;
+		case 1673: return wxEVT_STC_HOTSPOT_CLICK;
+		case 1674: return wxEVT_STC_HOTSPOT_DCLICK;
+		case 1675: return wxEVT_STC_CALLTIP_CLICK;
+		case 1676: return wxEVT_STC_AUTOCOMP_SELECTION;
 	}
 	
 	return 0;

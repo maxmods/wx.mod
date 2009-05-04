@@ -41,14 +41,14 @@ MaxTimer::~MaxTimer() {
 }
 
 void MaxTimer::Notify() {
-	if (m_owner == this) {
+	if (GetOwner() == this) {
 		// call our own Notify()
 		_wx_wxtimer_wxTimer__notify(maxHandle);
 	} else {
 		// pass the event to the current owner!
-		wxTimerEvent event(m_idTimer, m_milli);
-		event.SetEventObject(this);
-		(void)m_owner->ProcessEvent(event);
+		wxTimerEvent event(*this);
+		//event.SetEventObject(this);
+		GetOwner()->ProcessEvent(event);
 	}
 }
 

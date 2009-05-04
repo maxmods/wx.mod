@@ -4,7 +4,7 @@
 // Author:      Julian Smart, Robert Roebling, Vadim Zeitlin
 // Modified by:
 // Created:     31.05.01 (extracted from other files)
-// RCS-ID:      $Id: accel.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: accel.h 54125 2008-06-11 19:17:41Z SC $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ class WXDLLIMPEXP_FWD_CORE wxKeyEvent;
 // ----------------------------------------------------------------------------
 
 // wxAcceleratorEntry flags
-enum
+enum wxAcceleratorEntryFlags
 {
     wxACCEL_NORMAL  = 0x0000,   // no modifiers
     wxACCEL_ALT     = 0x0001,   // hold Alt key down
@@ -44,7 +44,7 @@ enum
 // an entry in wxAcceleratorTable corresponds to one accelerator
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxAcceleratorEntry
+class WXDLLIMPEXP_CORE wxAcceleratorEntry
 {
 public:
     wxAcceleratorEntry(int flags = 0, int keyCode = 0, int cmd = 0,
@@ -68,7 +68,8 @@ public:
 
     wxAcceleratorEntry& operator=(const wxAcceleratorEntry& entry)
     {
-        Set(entry.m_flags, entry.m_keyCode, entry.m_command, entry.m_item);
+        if (&entry != this)
+            Set(entry.m_flags, entry.m_keyCode, entry.m_command, entry.m_item);
         return *this;
     }
 
@@ -156,14 +157,14 @@ private:
 #elif defined(__WXGTK__)
     #include "wx/gtk1/accel.h"
 #elif defined(__WXMAC__)
-    #include "wx/mac/accel.h"
+    #include "wx/osx/accel.h"
 #elif defined(__WXCOCOA__)
     #include "wx/generic/accel.h"
 #elif defined(__WXPM__)
     #include "wx/os2/accel.h"
 #endif
 
-extern WXDLLEXPORT_DATA(wxAcceleratorTable) wxNullAcceleratorTable;
+extern WXDLLIMPEXP_DATA_CORE(wxAcceleratorTable) wxNullAcceleratorTable;
 
 #endif // wxUSE_ACCEL
 

@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     16.10.97
-// RCS-ID:      $Id: arrimpl.cpp 34241 2005-05-22 12:10:55Z JS $
+// RCS-ID:      $Id: arrimpl.cpp 56644 2008-11-02 02:39:52Z VZ $
 // Copyright:   (c) 1997 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows license
 ///////////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,7 @@ int name::Index(const T& Item, bool bFromEnd) const                           \
       size_t ui = size() - 1;                                                 \
       do {                                                                    \
         if ( (T*)base_array::operator[](ui) == &Item )                        \
-          return wx_static_cast(int, ui);                                     \
+          return static_cast<int>(ui);                                     \
         ui--;                                                                 \
       }                                                                       \
       while ( ui != 0 );                                                      \
@@ -107,7 +107,7 @@ int name::Index(const T& Item, bool bFromEnd) const                           \
   else {                                                                      \
     for( size_t ui = 0; ui < size(); ui++ ) {                                 \
       if( (T*)base_array::operator[](ui) == &Item )                           \
-        return wx_static_cast(int, ui);                                       \
+        return static_cast<int>(ui);                                       \
     }                                                                         \
   }                                                                           \
                                                                               \

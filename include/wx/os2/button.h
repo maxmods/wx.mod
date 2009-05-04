@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/13/99
-// RCS-ID:      $Id: button.h 28967 2004-08-30 14:42:51Z VS $
+// RCS-ID:      $Id: button.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,9 +15,9 @@
 #include "wx/control.h"
 
 // Pushbutton
-class WXDLLEXPORT wxButton: public wxButtonBase
+class WXDLLIMPEXP_CORE wxButton: public wxButtonBase
 {
- public:
+public:
     inline wxButton() {}
     inline wxButton( wxWindow*          pParent
                     ,wxWindowID         vId
@@ -49,10 +49,11 @@ class WXDLLEXPORT wxButton: public wxButtonBase
                 ,const wxValidator& rValidator = wxDefaultValidator
                 ,const wxString&    rsName = wxButtonNameStr
                );
-    
+
     virtual ~wxButton();
 
-    virtual void     SetDefault(void);
+    virtual wxWindow *SetDefault();
+
     static wxSize    GetDefaultSize(void);
     virtual void     Command(wxCommandEvent& rEvent);
     virtual bool     OS2Command( WXUINT uParam

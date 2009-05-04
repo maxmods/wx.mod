@@ -3,7 +3,7 @@
 // Purpose:     XML resource handler for wxToolBar
 // Author:      Vaclav Slavik
 // Created:     2000/08/11
-// RCS-ID:      $Id: xh_toolb.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: xh_toolb.h 47254 2007-07-09 10:09:52Z VS $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

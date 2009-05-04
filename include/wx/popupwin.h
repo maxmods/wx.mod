@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     06.01.01
-// RCS-ID:      $Id: popupwin.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: popupwin.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2001 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // License:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,14 +16,14 @@
 
 #if wxUSE_POPUPWIN
 
-#include "wx/window.h"
+#include "wx/nonownedwnd.h"
 
 // ----------------------------------------------------------------------------
 // wxPopupWindow: a special kind of top level window used for popup menus,
 // combobox popups and such.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxPopupWindowBase : public wxWindow
+class WXDLLIMPEXP_CORE wxPopupWindowBase : public wxNonOwnedWindow
 {
 public:
     wxPopupWindowBase() { }
@@ -47,7 +47,7 @@ public:
 
     virtual bool IsTopLevel() const { return true; }
 
-    DECLARE_NO_COPY_CLASS(wxPopupWindowBase)
+    wxDECLARE_NO_COPY_CLASS(wxPopupWindowBase);
 };
 
 
@@ -64,10 +64,12 @@ public:
     #include "wx/x11/popupwin.h"
 #elif defined(__WXMOTIF__)
     #include "wx/motif/popupwin.h"
+#elif defined(__WXDFB__)
+    #include "wx/dfb/popupwin.h"
 #elif defined(__WXMGL__)
     #include "wx/mgl/popupwin.h"
 #elif defined(__WXMAC__)
-    #include "wx/mac/popupwin.h"
+    #include "wx/osx/popupwin.h"
 #else
     #error "wxPopupWindow is not supported under this platform."
 #endif
@@ -80,7 +82,7 @@ public:
 class WXDLLIMPEXP_FWD_CORE wxPopupWindowHandler;
 class WXDLLIMPEXP_FWD_CORE wxPopupFocusHandler;
 
-class WXDLLEXPORT wxPopupTransientWindow : public wxPopupWindow
+class WXDLLIMPEXP_CORE wxPopupTransientWindow : public wxPopupWindow
 {
 public:
     // ctors
@@ -127,7 +129,7 @@ protected:
     // get alerted when child gets deleted from under us
     void OnDestroy(wxWindowDestroyEvent& event);
 
-#if defined( __WXMSW__ ) || defined( __WXMAC__ )
+#if defined( __WXMSW__ ) || defined( __WXMAC__)
     // check if the mouse needs captured or released
     void OnIdle(wxIdleEvent& event);
 #endif
@@ -148,7 +150,7 @@ protected:
 
     DECLARE_EVENT_TABLE()
     DECLARE_DYNAMIC_CLASS(wxPopupTransientWindow)
-    DECLARE_NO_COPY_CLASS(wxPopupTransientWindow)
+    wxDECLARE_NO_COPY_CLASS(wxPopupTransientWindow);
 };
 
 #if wxUSE_COMBOBOX && defined(__WXUNIVERSAL__)
@@ -157,10 +159,10 @@ protected:
 // wxPopupComboWindow: wxPopupTransientWindow used by wxComboBox
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxComboBox;
-class WXDLLEXPORT wxComboCtrl;
+class WXDLLIMPEXP_FWD_CORE wxComboBox;
+class WXDLLIMPEXP_FWD_CORE wxComboCtrl;
 
-class WXDLLEXPORT wxPopupComboWindow : public wxPopupTransientWindow
+class WXDLLIMPEXP_CORE wxPopupComboWindow : public wxPopupTransientWindow
 {
 public:
     wxPopupComboWindow() { m_combo = NULL; }

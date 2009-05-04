@@ -3,7 +3,7 @@
 // Purpose:     wxNotebook class
 // Author:      Robert Roebling
 // Modified by:
-// RCS-ID:      $Id: notebook.h 41738 2006-10-08 17:37:23Z VZ $
+// RCS-ID:      $Id: notebook.h 47254 2007-07-09 10:09:52Z VS $
 // Copyright:   (c) Julian Smart and Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 // internal class
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxGtkNotebookPage;
+class WXDLLIMPEXP_FWD_CORE wxGtkNotebookPage;
 
 #include "wx/list.h"
 WX_DECLARE_LIST(wxGtkNotebookPage, wxGtkNotebookPagesList);

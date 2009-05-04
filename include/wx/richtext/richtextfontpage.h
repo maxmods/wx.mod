@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     2006-10-02
-// RCS-ID:      $Id: richtextfontpage.h 53105 2008-04-10 14:05:25Z JS $
+// RCS-ID:      $Id: richtextfontpage.h 59816 2009-03-24 19:09:52Z JS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -34,10 +34,10 @@ class wxRichTextFontPreviewCtrl;
  */
 
 ////@begin control identifiers
-#define SYMBOL_WXRICHTEXTFONTPAGE_STYLE wxRESIZE_BORDER|wxTAB_TRAVERSAL
-#define SYMBOL_WXRICHTEXTFONTPAGE_TITLE _("wxRichTextFontPage")
+#define SYMBOL_WXRICHTEXTFONTPAGE_STYLE wxTAB_TRAVERSAL
+#define SYMBOL_WXRICHTEXTFONTPAGE_TITLE _T("")
 #define SYMBOL_WXRICHTEXTFONTPAGE_IDNAME ID_RICHTEXTFONTPAGE
-#define SYMBOL_WXRICHTEXTFONTPAGE_SIZE wxSize(400, 300)
+#define SYMBOL_WXRICHTEXTFONTPAGE_SIZE wxSize(200, 100)
 #define SYMBOL_WXRICHTEXTFONTPAGE_POSITION wxDefaultPosition
 ////@end control identifiers
 
@@ -75,7 +75,7 @@ public:
     void OnColourClicked( wxCommandEvent& event );
 
     /// Gets the attributes associated with the main formatting dialog
-    wxTextAttrEx* GetAttributes();
+    wxTextAttr* GetAttributes();
 
 ////@begin wxRichTextFontPage event handler declarations
 

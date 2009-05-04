@@ -5,7 +5,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     10.02.99
-// RCS-ID:      $Id: datetime.h 54669 2008-07-17 20:03:11Z VZ $
+// RCS-ID:      $Id: datetime.h 60103 2009-04-12 04:03:18Z RD $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,19 +17,23 @@
 
 #if wxUSE_DATETIME
 
-#ifndef __WXWINCE__
-#include <time.h>
-#else
-#include "wx/msw/wince/time.h"
-#endif
+#ifdef __WXWINCE__
+    #include "wx/msw/wince/time.h"
+#elif !defined(__WXPALMOS5__)
+    #include <time.h>
+#endif // OS
 
 #include <limits.h>             // for INT_MIN
 
 #include "wx/longlong.h"
+#include "wx/anystr.h"
 
 class WXDLLIMPEXP_FWD_BASE wxDateTime;
 class WXDLLIMPEXP_FWD_BASE wxTimeSpan;
 class WXDLLIMPEXP_FWD_BASE wxDateSpan;
+#ifdef __WXMSW__
+struct _SYSTEMTIME;
+#endif
 
 #include "wx/dynarray.h"
 
@@ -37,11 +41,8 @@ class WXDLLIMPEXP_FWD_BASE wxDateSpan;
 // set this to the corresponding value in seconds 1/1/1970 has on your
 // systems c-runtime
 
-#if defined(__WXMAC__) && !defined(__DARWIN__) && __MSL__ < 0x6000
-    #define WX_TIME_BASE_OFFSET ( 2082844800L + 126144000L )
-#else
-    #define WX_TIME_BASE_OFFSET 0
-#endif
+#define WX_TIME_BASE_OFFSET 0
+
 /*
  * TODO
  *
@@ -127,11 +128,23 @@ WXDLLIMPEXP_BASE struct tm *wxGmtime_r(const time_t*, struct tm*);
 // wxInvalidDateTime)
 class WXDLLIMPEXP_FWD_BASE wxDateTime;
 
-extern WXDLLIMPEXP_DATA_BASE(const wxChar*) wxDefaultDateTimeFormat;
-extern WXDLLIMPEXP_DATA_BASE(const wxChar*) wxDefaultTimeSpanFormat;
+extern WXDLLIMPEXP_DATA_BASE(const char *) wxDefaultDateTimeFormat;
+extern WXDLLIMPEXP_DATA_BASE(const char *) wxDefaultTimeSpanFormat;
 extern WXDLLIMPEXP_DATA_BASE(const wxDateTime) wxDefaultDateTime;
 
 #define wxInvalidDateTime wxDefaultDateTime
+
+
+// ----------------------------------------------------------------------------
+// conditional compilation
+// ----------------------------------------------------------------------------
+
+// everyone has strftime except Win CE unless VC8 is used
+#if !defined(__WXWINCE__) || defined(__VISUALC8__)
+    #ifndef HAVE_STRFTIME
+        #define HAVE_STRFTIME
+    #endif
+#endif
 
 // ----------------------------------------------------------------------------
 // wxDateTime represents an absolute moment in the time
@@ -233,7 +246,7 @@ public:
         // adoption of the Gregorian calendar (see IsGregorian())
         //
         // All data and comments taken verbatim from "The Calendar FAQ (v 2.0)"
-        // by Claus Tøndering, http://www.pip.dknet.dk/~c-t/calendar.html
+        // by Claus Tï¿½ndering, http://www.pip.dknet.dk/~c-t/calendar.html
         // except for the comments "we take".
         //
         // Symbol "->" should be read as "was followed by" in the comments
@@ -422,19 +435,15 @@ public:
     public:
         TimeZone(TZ tz);
 
-        // don't use this ctor, it doesn't work for negative offsets (but can't
-        // be removed or changed to avoid breaking ABI in 2.8)
-        TimeZone(wxDateTime_t offset = 0) { m_offset = offset; }
-
-#if wxABI_VERSION >= 20808
         // create time zone object with the given offset
+        TimeZone(long offset = 0) { m_offset = offset; }
+
         static TimeZone Make(long offset)
         {
             TimeZone tz;
             tz.m_offset = offset;
             return tz;
         }
-#endif // wxABI 2.8.8+
 
         long GetOffset() const { return m_offset; }
 
@@ -532,15 +541,24 @@ public:
                                         int year = Inv_Year,
                                         Calendar cal = Gregorian);
 
+
         // get the full (default) or abbreviated month name in the current
         // locale, returns empty string on error
     static wxString GetMonthName(Month month,
                                  NameFlags flags = Name_Full);
 
+        // get the standard English full (default) or abbreviated month name
+    static wxString GetEnglishMonthName(Month month,
+                                        NameFlags flags = Name_Full);
+
         // get the full (default) or abbreviated weekday name in the current
         // locale, returns empty string on error
     static wxString GetWeekDayName(WeekDay weekday,
                                    NameFlags flags = Name_Full);
+
+        // get the standard English full (default) or abbreviated weekday name
+    static wxString GetEnglishWeekDayName(WeekDay weekday,
+                                          NameFlags flags = Name_Full);
 
         // get the AM and PM strings in the current locale (may be empty)
     static void GetAmPmStrings(wxString *am, wxString *pm);
@@ -577,7 +595,7 @@ public:
     // ------------------------------------------------------------------------
 
         // default ctor does not initialize the object, use Set()!
-    wxDateTime() { m_time = wxLongLong((wxInt32)UINT_MAX, UINT_MAX); }
+    wxDateTime() { m_time = wxLongLong(wxINT32_MIN, 0); }
 
         // from time_t: seconds since the Epoch 00:00:00 UTC, Jan 1, 1970)
 #if (!(defined(__VISAGECPP__) && __IBMCPP__ >= 400))
@@ -605,6 +623,12 @@ public:
                       wxDateTime_t minute = 0,
                       wxDateTime_t second = 0,
                       wxDateTime_t millisec = 0);
+#ifdef __WXMSW__
+    wxDateTime(const struct _SYSTEMTIME& st)
+    {
+        SetFromMSWSysTime(st);
+    }
+#endif
 
         // default copy ctor ok
 
@@ -652,11 +676,9 @@ public:
         // resets time to 00:00:00, doesn't change the date
     wxDateTime& ResetTime();
 
-#if wxABI_VERSION >= 20802
         // get the date part of this object only, i.e. the object which has the
         // same date as this one but time of 00:00:00
     wxDateTime GetDateOnly() const;
-#endif // wxABI 2.8.1+
 
         // the following functions don't change the values of the other
         // fields, i.e. SetMinute() won't change either hour or seconds value
@@ -706,7 +728,7 @@ public:
     wxDateTime& SetToPrevWeekDay(WeekDay weekday);
     inline wxDateTime GetPrevWeekDay(WeekDay weekday) const;
 
-        // set to Nth occurence of given weekday in the given month of the
+        // set to Nth occurrence of given weekday in the given month of the
         // given year (time is set to 0), return true on success and false on
         // failure. n may be positive (1..5) or negative to count from the end
         // of the month (see helper function SetToLastWeekDay())
@@ -921,6 +943,17 @@ public:
         // pack the date in DOS format
     unsigned long GetAsDOS() const;
 
+    // SYSTEMTIME format
+    // ------------------------------------------------------------------------
+#ifdef __WXMSW__
+
+    // convert SYSTEMTIME to wxDateTime
+    wxDateTime& SetFromMSWSysTime(const struct _SYSTEMTIME&);
+
+    // convert wxDateTime to SYSTEMTIME
+    void GetAsMSWSysTime(struct _SYSTEMTIME*) const;
+#endif // __WXMSW__
+
     // comparison (see also functions below for operator versions)
     // ------------------------------------------------------------------------
 
@@ -1044,46 +1077,147 @@ public:
     inline wxTimeSpan Subtract(const wxDateTime& dt) const;
     inline wxTimeSpan operator-(const wxDateTime& dt2) const;
 
-    // conversion to/from text: all conversions from text return the pointer to
-    // the next character following the date specification (i.e. the one where
-    // the scan had to stop) or NULL on failure.
+    // conversion to/from text
     // ------------------------------------------------------------------------
+
+    // all conversions functions return true to indicate whether parsing
+    // succeeded or failed and fill in the provided end iterator, which must
+    // not be NULL, with the location of the character where the parsing
+    // stopped (this will be end() of the passed string if everything was
+    // parsed)
 
         // parse a string in RFC 822 format (found e.g. in mail headers and
         // having the form "Wed, 10 Feb 1999 19:07:07 +0100")
-    const wxChar *ParseRfc822Date(const wxChar* date);
+    bool ParseRfc822Date(const wxString& date,
+                         wxString::const_iterator *end);
+
         // parse a date/time in the given format (see strptime(3)), fill in
         // the missing (in the string) fields with the values of dateDef (by
         // default, they will not change if they had valid values or will
         // default to Today() otherwise)
-    const wxChar *ParseFormat(const wxChar *date,
-                              const wxChar *format = wxDefaultDateTimeFormat,
-                              const wxDateTime& dateDef = wxDefaultDateTime);
+    bool ParseFormat(const wxString& date,
+                     const wxString& format,
+                     const wxDateTime& dateDef,
+                     wxString::const_iterator *end);
+
+    bool ParseFormat(const wxString& date,
+                     const wxString& format,
+                     wxString::const_iterator *end)
+    {
+        return ParseFormat(date, format, wxDefaultDateTime, end);
+    }
+
+    bool ParseFormat(const wxString& date,
+                     wxString::const_iterator *end)
+    {
+        return ParseFormat(date, wxDefaultDateTimeFormat, wxDefaultDateTime, end);
+    }
+
+        // parse a string containing date, time or both in ISO 8601 format
+        //
+        // notice that these functions are new in wx 3.0 and so we don't
+        // provide compatibility overloads for them
+    bool ParseISODate(const wxString& date)
+    {
+        wxString::const_iterator end;
+        return ParseFormat(date, wxS("%Y-%m-%d"), &end) && end == date.end();
+    }
+
+    bool ParseISOTime(const wxString& time)
+    {
+        wxString::const_iterator end;
+        return ParseFormat(time, wxS("%H:%M:%S"), &end) && end == time.end();
+    }
+
+    bool ParseISOCombined(const wxString& datetime, char sep = 'T')
+    {
+        wxString::const_iterator end;
+        const wxString fmt = wxS("%Y-%m-%d") + wxString(sep) + wxS("%H:%M:%S");
+        return ParseFormat(datetime, fmt, &end) && end == datetime.end();
+    }
+
         // parse a string containing the date/time in "free" format, this
         // function will try to make an educated guess at the string contents
-    const wxChar *ParseDateTime(const wxChar *datetime);
+    bool ParseDateTime(const wxString& datetime,
+                       wxString::const_iterator *end);
+
         // parse a string containing the date only in "free" format (less
         // flexible than ParseDateTime)
-    const wxChar *ParseDate(const wxChar *date);
+    bool ParseDate(const wxString& date,
+                   wxString::const_iterator *end);
+
         // parse a string containing the time only in "free" format
-    const wxChar *ParseTime(const wxChar *time);
+    bool ParseTime(const wxString& time,
+                   wxString::const_iterator *end);
+
 
         // this function accepts strftime()-like format string (default
         // argument corresponds to the preferred date and time representation
         // for the current locale) and returns the string containing the
         // resulting text representation
-    wxString Format(const wxChar *format = wxDefaultDateTimeFormat,
+    wxString Format(const wxString& format = wxDefaultDateTimeFormat,
                     const TimeZone& tz = Local) const;
         // preferred date representation for the current locale
-    wxString FormatDate() const { return Format(_T("%x")); }
+    wxString FormatDate() const { return Format(wxS("%x")); }
         // preferred time representation for the current locale
-    wxString FormatTime() const { return Format(_T("%X")); }
+    wxString FormatTime() const { return Format(wxS("%X")); }
         // returns the string representing the date in ISO 8601 format
         // (YYYY-MM-DD)
-    wxString FormatISODate() const { return Format(_T("%Y-%m-%d")); }
+    wxString FormatISODate() const { return Format(wxS("%Y-%m-%d")); }
         // returns the string representing the time in ISO 8601 format
         // (HH:MM:SS)
-    wxString FormatISOTime() const { return Format(_T("%H:%M:%S")); }
+    wxString FormatISOTime() const { return Format(wxS("%H:%M:%S")); }
+        // return the combined date time representation in ISO 8601 format; the
+        // separator character should be 'T' according to the standard but it
+        // can also be useful to set it to ' '
+    wxString FormatISOCombined(char sep = 'T') const
+        { return FormatISODate() + sep + FormatISOTime(); }
+
+
+    // backwards compatible versions of the parsing functions: they return an
+    // object representing the next character following the date specification
+    // (i.e. the one where the scan had to stop) or a special NULL-like object
+    // on failure
+    //
+    // they're not deprecated because a lot of existing code uses them and
+    // there is no particular harm in keeping them but you should still prefer
+    // the versions above in the new code
+    wxAnyStrPtr ParseRfc822Date(const wxString& date)
+    {
+        wxString::const_iterator end;
+        return ParseRfc822Date(date, &end) ? wxAnyStrPtr(date, end)
+                                           : wxAnyStrPtr();
+    }
+
+    wxAnyStrPtr ParseFormat(const wxString& date,
+                            const wxString& format = wxDefaultDateTimeFormat,
+                            const wxDateTime& dateDef = wxDefaultDateTime)
+    {
+        wxString::const_iterator end;
+        return ParseFormat(date, format, dateDef, &end) ? wxAnyStrPtr(date, end)
+                                                        : wxAnyStrPtr();
+    }
+
+    wxAnyStrPtr ParseDateTime(const wxString& datetime)
+    {
+        wxString::const_iterator end;
+        return ParseDateTime(datetime, &end) ? wxAnyStrPtr(datetime, end)
+                                             : wxAnyStrPtr();
+    }
+
+    wxAnyStrPtr ParseDate(const wxString& date)
+    {
+        wxString::const_iterator end;
+        return ParseDate(date, &end) ? wxAnyStrPtr(date, end)
+                                     : wxAnyStrPtr();
+    }
+
+    wxAnyStrPtr ParseTime(const wxString& time)
+    {
+        wxString::const_iterator end;
+        return ParseTime(time, &end) ? wxAnyStrPtr(time, end)
+                                     : wxAnyStrPtr();
+    }
 
     // implementation
     // ------------------------------------------------------------------------
@@ -1095,18 +1229,13 @@ public:
     inline wxLongLong GetValue() const;
 
     // a helper function to get the current time_t
-    static time_t GetTimeNow() { return time((time_t *)NULL); }
+    static time_t GetTimeNow() { return time(NULL); }
 
     // another one to get the current time broken down
     static struct tm *GetTmNow()
     {
-#ifdef __WXWINCE__
         static struct tm l_CurrentTime;
         return GetTmNow(&l_CurrentTime);
-#else
-        time_t t = GetTimeNow();
-        return localtime(&t);
-#endif
     }
 
     // get current time using thread-safe function
@@ -1257,7 +1386,7 @@ public:
         // compare two timestamps: works with the absolute values, i.e. 1
         // hour is shorter than -2 hours. Also, it will return false if the
         // timespans are equal in absolute value.
-    bool IsShorterThan(const wxTimeSpan& t) const { return !IsLongerThan(t); }
+    bool IsShorterThan(const wxTimeSpan& t) const;
 
     inline bool operator<(const wxTimeSpan &ts) const
     {
@@ -1314,7 +1443,7 @@ public:
         // resulting text representation. Notice that only some of format
         // specifiers valid for wxDateTime are valid for wxTimeSpan: hours,
         // minutes and seconds make sense, but not "PM/AM" string for example.
-    wxString Format(const wxChar *format = wxDefaultTimeSpanFormat) const;
+    wxString Format(const wxString& format = wxDefaultTimeSpanFormat) const;
 
     // implementation
     // ------------------------------------------------------------------------
@@ -2025,6 +2154,11 @@ inline bool wxTimeSpan::IsEqualTo(const wxTimeSpan& ts) const
 inline bool wxTimeSpan::IsLongerThan(const wxTimeSpan& ts) const
 {
     return GetValue().Abs() > ts.GetValue().Abs();
+}
+
+inline bool wxTimeSpan::IsShorterThan(const wxTimeSpan& ts) const
+{
+    return GetValue().Abs() < ts.GetValue().Abs();
 }
 
 // ----------------------------------------------------------------------------

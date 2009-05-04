@@ -115,7 +115,7 @@ MaxPen * bmx_wxstockgdi_pen_white() {
 
 // *********************************************
 
-int bmx_wxpen_getcap(MaxPen * pen) {
+wxPenCap bmx_wxpen_getcap(MaxPen * pen) {
 	return pen->Pen().GetCap();
 }
 
@@ -124,7 +124,7 @@ MaxColour * bmx_wxpen_getcolour(MaxPen * pen) {
 	return new MaxColour(c);
 }
 
-int bmx_wxpen_getjoin(MaxPen * pen) {
+wxPenJoin bmx_wxpen_getjoin(MaxPen * pen) {
 	return pen->Pen().GetJoin();
 }
 
@@ -148,7 +148,7 @@ bool bmx_wxpen_isok(MaxPen * pen) {
 	return pen->Pen().IsOk();
 }
 
-void bmx_wxpen_setcap(MaxPen * pen, int style) {
+void bmx_wxpen_setcap(MaxPen * pen, wxPenCap style) {
 	pen->Pen().SetCap(style);
 }
 
@@ -164,7 +164,7 @@ void bmx_wxpen_setfromrgb(MaxPen * pen, int red, int green, int blue) {
 	pen->Pen().SetColour( static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
 }
 
-void bmx_wxpen_setjoin(MaxPen * pen, int style) {
+void bmx_wxpen_setjoin(MaxPen * pen, wxPenJoin style) {
 	pen->Pen().SetJoin(style);
 }
 

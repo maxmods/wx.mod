@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: control.h 40325 2006-07-25 14:31:55Z ABX $
+// RCS-ID:      $Id: control.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 #include "wx/validate.h"
 
 // General item class
-class WXDLLEXPORT wxControl: public wxControlBase
+class WXDLLIMPEXP_CORE wxControl: public wxControlBase
 {
     DECLARE_ABSTRACT_CLASS(wxControl)
 

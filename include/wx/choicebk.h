@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by: Wlodzimierz ABX Skiba from wx/listbook.h
 // Created:     15.09.04
-// RCS-ID:      $Id: choicebk.h 49804 2007-11-10 01:09:42Z VZ $
+// RCS-ID:      $Id: choicebk.h 59616 2009-03-18 21:58:15Z VZ $
 // Copyright:   (c) Vadim Zeitlin, Wlodzimierz Skiba
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -21,8 +21,8 @@
 
 class WXDLLIMPEXP_FWD_CORE wxChoice;
 
-extern WXDLLIMPEXP_CORE const wxEventType wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED;
-extern WXDLLIMPEXP_CORE const wxEventType wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING;
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED,  wxBookCtrlEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING, wxBookCtrlEvent );
 
 // wxChoicebook flags
 #define wxCHB_DEFAULT          wxBK_DEFAULT
@@ -36,7 +36,7 @@ extern WXDLLIMPEXP_CORE const wxEventType wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING
 // wxChoicebook
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxChoicebook : public wxBookCtrlBase
+class WXDLLIMPEXP_CORE wxChoicebook : public wxBookCtrlBase
 {
 public:
     wxChoicebook()
@@ -76,7 +76,8 @@ public:
                             const wxString& text,
                             bool bSelect = false,
                             int imageId = -1);
-    virtual int SetSelection(size_t n) { return DoSetSelection(n, SetSelection_SendEvent); }
+    virtual int SetSelection(size_t n)
+        { return DoSetSelection(n, SetSelection_SendEvent); }
     virtual int ChangeSelection(size_t n) { return DoSetSelection(n); }
     virtual void SetImageList(wxImageList *imageList);
 
@@ -86,6 +87,8 @@ public:
     wxChoice* GetChoiceCtrl() const { return (wxChoice*)m_bookctrl; }
 
 protected:
+    virtual void DoSetWindowVariant(wxWindowVariant variant);
+
     virtual wxWindow *DoRemovePage(size_t page);
 
     // get the size which the choice control should have
@@ -93,12 +96,12 @@ protected:
 
     void UpdateSelectedPage(size_t newsel)
     {
-        m_selection = newsel;
-        GetChoiceCtrl()->Select(newsel);
+        m_selection = static_cast<int>(newsel);
+        GetChoiceCtrl()->Select(m_selection);
     }
 
-    wxBookCtrlBaseEvent* CreatePageChangingEvent() const;
-    void MakeChangedEvent(wxBookCtrlBaseEvent &event);
+    wxBookCtrlEvent* CreatePageChangingEvent() const;
+    void MakeChangedEvent(wxBookCtrlEvent &event);
 
     // event handlers
     void OnChoiceSelected(wxCommandEvent& event);
@@ -118,36 +121,16 @@ private:
 // choicebook event class and related stuff
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxChoicebookEvent : public wxBookCtrlBaseEvent
-{
-public:
-    wxChoicebookEvent(wxEventType commandType = wxEVT_NULL, int id = 0,
-                      int nSel = -1, int nOldSel = -1)
-        : wxBookCtrlBaseEvent(commandType, id, nSel, nOldSel)
-    {
-    }
-
-    wxChoicebookEvent(const wxChoicebookEvent& event)
-        : wxBookCtrlBaseEvent(event)
-    {
-    }
-
-    virtual wxEvent *Clone() const { return new wxChoicebookEvent(*this); }
-
-private:
-    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxChoicebookEvent)
-};
-
-typedef void (wxEvtHandler::*wxChoicebookEventFunction)(wxChoicebookEvent&);
-
-#define wxChoicebookEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxChoicebookEventFunction, &func)
+// wxChoicebookEvent is obsolete and defined for compatibility only
+typedef wxBookCtrlEvent wxChoicebookEvent;
+typedef wxBookCtrlEventFunction wxChoicebookEventFunction;
+#define wxChoicebookEventHandler(func) wxBookCtrlEventHandler(func)
 
 #define EVT_CHOICEBOOK_PAGE_CHANGED(winid, fn) \
-    wx__DECLARE_EVT1(wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED, winid, wxChoicebookEventHandler(fn))
+    wx__DECLARE_EVT1(wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED, winid, wxBookCtrlEventHandler(fn))
 
 #define EVT_CHOICEBOOK_PAGE_CHANGING(winid, fn) \
-    wx__DECLARE_EVT1(wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING, winid, wxChoicebookEventHandler(fn))
+    wx__DECLARE_EVT1(wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING, winid, wxBookCtrlEventHandler(fn))
 
 #endif // wxUSE_CHOICEBOOK
 

@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     23.05.99
-// RCS-ID:      $Id: caret.h 49804 2007-11-10 01:09:42Z VZ $
+// RCS-ID:      $Id: caret.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ class WXDLLIMPEXP_FWD_CORE wxWindowBase;
 // appear. It can be either a solid block or a custom bitmap (TODO)
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxCaretBase
+class WXDLLIMPEXP_CORE wxCaretBase
 {
 public:
     // ctors
@@ -167,7 +167,7 @@ protected:
     // the common initialization
     void Init()
     {
-        m_window = (wxWindowBase *)NULL;
+        m_window = NULL;
         m_x = m_y = 0;
         m_width = m_height = 0;
         m_countVisible = 0;
@@ -186,7 +186,7 @@ protected:
     int m_countVisible;
 
 private:
-    DECLARE_NO_COPY_CLASS(wxCaretBase)
+    wxDECLARE_NO_COPY_CLASS(wxCaretBase);
 };
 
 // ---------------------------------------------------------------------------
@@ -208,17 +208,17 @@ private:
 #ifdef wxHAS_CARET_USING_OVERLAYS
 
 // we don't need to hide the caret if it's rendered using overlays
-class WXDLLEXPORT wxCaretSuspend
+class WXDLLIMPEXP_CORE wxCaretSuspend
 {
 public:
     wxCaretSuspend(wxWindow *WXUNUSED(win)) {}
 
-    DECLARE_NO_COPY_CLASS(wxCaretSuspend)
+    wxDECLARE_NO_COPY_CLASS(wxCaretSuspend);
 };
 
 #else // !wxHAS_CARET_USING_OVERLAYS
 
-class WXDLLEXPORT wxCaretSuspend
+class WXDLLIMPEXP_CORE wxCaretSuspend
 {
 public:
     wxCaretSuspend(wxWindow *win)
@@ -242,7 +242,7 @@ private:
     wxCaret *m_caret;
     bool     m_show;
 
-    DECLARE_NO_COPY_CLASS(wxCaretSuspend)
+    wxDECLARE_NO_COPY_CLASS(wxCaretSuspend);
 };
 
 #endif // wxHAS_CARET_USING_OVERLAYS/!wxHAS_CARET_USING_OVERLAYS

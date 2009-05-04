@@ -56,11 +56,11 @@ Extern
 	Function bmx_wxdc_settextbackground(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxdc_settextforeground(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxdc_gettextextent(handle:Byte Ptr, text:String, w:Int Ptr, h:Int Ptr)
-	Function bmx_wxdc_setmapmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxdc_setmapmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxdc_setpen(handle:Byte Ptr, pen:Byte Ptr)
 	Function bmx_wxdc_setuserscale(handle:Byte Ptr, xscale:Double, yscale:Double)
 	Function bmx_wxdc_drawline(handle:Byte Ptr, x1:Int, y1:Int, x2:Int, y2:Int)
-	Function bmx_wxdc_setbackgroundmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxdc_setbackgroundmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxdc_setbrush(handle:Byte Ptr, brush:Byte Ptr)
 	Function bmx_wxdc_setclippingregion(handle:Byte Ptr, x:Int, y:Int, w:Int, h:Int)
 	Function bmx_wxdc_setclippingregionregion(handle:Byte Ptr, region:Byte Ptr)
@@ -74,7 +74,7 @@ Extern
 	Function bmx_wxdc_drawroundedrectanglerect(handle:Byte Ptr, rect:Byte Ptr, radius:Double)
 
 	Function wx_wxdc_calcboundingbox(handle:Byte Ptr, x:Int, y:Int)
-	Function wx_wxdc_computescaleandorigin(handle:Byte Ptr)
+	'Function wx_wxdc_computescaleandorigin(handle:Byte Ptr)
 	Function wx_wxdc_crosshair(handle:Byte Ptr, x:Int, y:Int)
 	Function wx_wxdc_destroyclippingregion(handle:Byte Ptr)
 	Function wx_wxdc_devicetologicalx:Int(handle:Byte Ptr, x:Int)
@@ -173,4 +173,10 @@ Const wxSET:Int = 15
 
 Const wxFLOOD_SURFACE:Int = 1
 Const wxFLOOD_BORDER:Int = 2
+
+Const wxMM_TEXT:Int = 1
+Const wxMM_METRIC:Int = 2
+Const wxMM_LOMETRIC:Int = 3
+Const wxMM_TWIPS:Int = 4
+Const wxMM_POINTS:Int = 5
 

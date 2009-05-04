@@ -2,7 +2,7 @@
 // Name:        winpars.h
 // Purpose:     wxHtmlWinParser class (parser to be used with wxHtmlWindow)
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id: winpars.h 53457 2008-05-05 10:53:58Z VS $
+// RCS-ID:      $Id: winpars.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 1999 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -145,7 +145,6 @@ public:
     // creates font depending on m_Font* members.
     virtual wxFont* CreateCurrentFont();
 
-#if wxABI_VERSION >= 20808
     enum WhitespaceMode
     {
         Whitespace_Normal,  // normal mode, collapse whitespace
@@ -153,17 +152,17 @@ public:
     };
 
     // change the current whitespace handling mode
-    void SetWhitespaceMode(WhitespaceMode mode);
-    WhitespaceMode GetWhitespaceMode() const;
-#endif // wxABI_VERSION >= 20808
+    void SetWhitespaceMode(WhitespaceMode mode) { m_whitespaceMode = mode; }
+    WhitespaceMode GetWhitespaceMode() const { return m_whitespaceMode; }
 
 protected:
-    virtual void AddText(const wxChar* txt);
+    virtual void AddText(const wxString& txt);
 
 private:
-    void FlushWordBuf(wxChar *temp, int& templen, wxChar nbsp);
-    void AddWord(wxHtmlWordCell *c);
-    void AddWord(const wxString& word);
+    void FlushWordBuf(wxChar *temp, int& len);
+    void AddWord(wxHtmlWordCell *word);
+    void AddWord(const wxString& word)
+        { AddWord(new wxHtmlWordCell(word, *(GetDC()))); }
     void AddPreBlock(const wxString& text);
 
     bool m_tmpLastWasSpace;
@@ -216,29 +215,22 @@ private:
             // html font sizes and faces of fixed and proportional fonts
 
 #if !wxUSE_UNICODE
+    wxChar m_nbsp;
     wxFontEncoding m_InputEnc, m_OutputEnc;
             // I/O font encodings
     wxEncodingConverter *m_EncConv;
 #endif
 
-    struct TextParsingState
-    {
-        // current whitespace handling mode
-        WhitespaceMode m_whitespaceMode;
+    // current whitespace handling mode
+    WhitespaceMode m_whitespaceMode;
 
-        wxHtmlWordCell *m_lastWordCell;
+    wxHtmlWordCell *m_lastWordCell;
 
-        // current position on line, in num. of characters; used to properly
-        // expand TABs; only updated while inside <pre>
-        int m_posColumn;
-    };
+    // current position on line, in num. of characters; used to properly
+    // expand TABs; only updated while inside <pre>
+    int m_posColumn;
 
-    // NB: this pointer replaces m_lastWordCell pointer in wx<=2.8.7; this
-    //     way, wxHtmlWinParser remains ABI compatible with older versions
-    //     despite addition of two fields in TextParsingState
-    TextParsingState *m_textParsingState;
-
-    DECLARE_NO_COPY_CLASS(wxHtmlWinParser)
+    wxDECLARE_NO_COPY_CLASS(wxHtmlWinParser);
 };
 
 
@@ -265,7 +257,7 @@ public:
 protected:
     wxHtmlWinParser *m_WParser; // same as m_Parser, but overcasted
 
-    DECLARE_NO_COPY_CLASS(wxHtmlWinTagHandler)
+    wxDECLARE_NO_COPY_CLASS(wxHtmlWinTagHandler);
 };
 
 

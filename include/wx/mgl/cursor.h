@@ -2,7 +2,7 @@
 // Name:        cursor.h
 // Purpose:
 // Author:      Vaclav Slavik
-// Id:          $Id: cursor.h 42752 2006-10-30 19:26:48Z VZ $
+// Id:          $Id: cursor.h 55884 2008-09-25 17:56:07Z FM $
 // Copyright:   (c) 2001-2002 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -10,8 +10,7 @@
 #ifndef __WX_CURSOR_H__
 #define __WX_CURSOR_H__
 
-#include "wx/defs.h"
-#include "wx/object.h"
+#include "wx/gdiobj.h"
 #include "wx/gdicmn.h"
 
 class MGLCursor;
@@ -20,26 +19,26 @@ class MGLCursor;
 // wxCursor
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxCursor: public wxObject
+class WXDLLIMPEXP_CORE wxCursor : public wxGDIObject
 {
 public:
 
     wxCursor();
-    wxCursor(int cursorId);
-    wxCursor(const char bits[], int width, int  height,
-              int hotSpotX=-1, int hotSpotY=-1,
-              const char maskBits[]=0, wxColour *fg=0, wxColour *bg=0);
+    wxCursor(wxStockCursor id) { InitFromStock(id); }
+#if WXWIN_COMPATIBILITY_2_8
+    wxCursor(int id) { InitFromStock((wxStockCursor)id); }
+#endif
     wxCursor(const wxString& name,
-             long flags = wxBITMAP_TYPE_CUR_RESOURCE,
+             wxBitmapType type = wxCURSOR_DEFAULT_TYPE,
              int hotSpotX = 0, int hotSpotY = 0);
     virtual ~wxCursor();
-    bool Ok() const { return IsOk(); }
-    bool IsOk() const;
 
     // implementation
     MGLCursor *GetMGLCursor() const;
 
 private:
+    void InitFromStock(wxStockCursor);
+
     DECLARE_DYNAMIC_CLASS(wxCursor)
 };
 

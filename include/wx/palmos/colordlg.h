@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by: Wlodzimierz ABX Skiba - real native implementation
 // Created:     10/13/04
-// RCS-ID:      $Id: colordlg.h 37164 2006-01-26 17:20:50Z ABX $
+// RCS-ID:      $Id: colordlg.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne, Wlodzimierz Skiba
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@
 // wxColourDialog: dialog for choosing a colours
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxColourDialog : public wxDialog
+class WXDLLIMPEXP_CORE wxColourDialog : public wxDialog
 {
 public:
     wxColourDialog();

@@ -4,41 +4,38 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: msgdlgg.h 49765 2007-11-09 18:32:38Z DE $
+// RCS-ID:      $Id: msgdlgg.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef __MSGDLGH_G__
-#define __MSGDLGH_G__
+#ifndef _WX_GENERIC_MSGDLGG_H_
+#define _WX_GENERIC_MSGDLGG_H_
 
-#include "wx/defs.h"
-#include "wx/dialog.h"
-
-// type is an 'or' (|) of wxOK, wxCANCEL, wxYES_NO
-// Returns wxYES/NO/OK/CANCEL
-
-extern WXDLLEXPORT_DATA(const wxChar) wxMessageBoxCaptionStr[];
-
-class WXDLLEXPORT wxGenericMessageDialog: public wxDialog, public wxMessageDialogBase
+class WXDLLIMPEXP_CORE wxGenericMessageDialog : public wxMessageDialogBase
 {
-DECLARE_DYNAMIC_CLASS(wxGenericMessageDialog)
-
 public:
-    wxGenericMessageDialog(wxWindow *parent, const wxString& message,
-        const wxString& caption = wxMessageBoxCaptionStr,
-        long style = wxOK|wxCENTRE, const wxPoint& pos = wxDefaultPosition);
+    wxGenericMessageDialog(wxWindow *parent,
+                           const wxString& message,
+                           const wxString& caption = wxMessageBoxCaptionStr,
+                           long style = wxOK|wxCENTRE,
+                           const wxPoint& pos = wxDefaultPosition);
 
+    virtual int ShowModal();
+
+protected:
     void OnYes(wxCommandEvent& event);
     void OnNo(wxCommandEvent& event);
     void OnCancel(wxCommandEvent& event);
 
 private:
+    void DoCreateMsgdialog();
+
+    wxPoint m_pos;
+    bool m_created;
+
     DECLARE_EVENT_TABLE()
+    DECLARE_DYNAMIC_CLASS(wxGenericMessageDialog)
 };
 
-#if (!defined( __WXMSW__ ) && !defined( __WXMAC__) && !defined(__WXPM__) && !defined(__WXCOCOA__)) || defined(__WXUNIVERSAL__)
-#define wxMessageDialog wxGenericMessageDialog
-#endif
-
-#endif // __MSGDLGH_G__
+#endif // _WX_GENERIC_MSGDLGG_H_

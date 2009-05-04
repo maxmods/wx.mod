@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     20.11.99
-// RCS-ID:      $Id: toolbar.h 42645 2006-10-29 19:12:52Z VZ $
+// RCS-ID:      $Id: toolbar.h 54125 2008-06-11 19:17:41Z SC $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ enum
     #elif defined(__WXPALMOS__)
        #include "wx/palmos/toolbar.h"
     #elif defined(__WXMSW__) && (!defined(_WIN32_WCE) || (_WIN32_WCE >= 400 && !defined(__POCKETPC__) && !defined(__SMARTPHONE__)))
-       #include "wx/msw/tbar95.h"
+       #include "wx/msw/toolbar.h"
     #elif defined(__WXWINCE__)
        #include "wx/msw/wince/tbarwce.h"
     #elif defined(__WXMOTIF__)
@@ -81,7 +81,7 @@ enum
     #elif defined(__WXGTK__)
         #include "wx/gtk1/tbargtk.h"
     #elif defined(__WXMAC__)
-       #include "wx/mac/toolbar.h"
+       #include "wx/osx/toolbar.h"
     #elif defined(__WXCOCOA__)
        #include "wx/cocoa/toolbar.h"
     #elif defined(__WXPM__)

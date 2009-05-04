@@ -2,7 +2,7 @@
 // Name:        dcscreen.h
 // Purpose:
 // Author:      Vaclav Slavik
-// Id:          $Id: dcscreen.h 41020 2006-09-05 20:47:48Z VZ $
+// Id:          $Id: dcscreen.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2001-2002 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,13 +16,13 @@
 // classes
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxScreenDC;
+class WXDLLIMPEXP_FWD_CORE wxScreenDC;
 
 //-----------------------------------------------------------------------------
 // wxScreenDC
 //-----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxScreenDC: public wxDC
+class WXDLLIMPEXP_CORE wxScreenDC: public wxDC
 {
 public:
     wxScreenDC();

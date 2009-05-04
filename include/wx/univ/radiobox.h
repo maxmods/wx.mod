@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     11.09.00
-// RCS-ID:      $Id: radiobox.h 38319 2006-03-23 22:05:23Z VZ $
+// RCS-ID:      $Id: radiobox.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2000 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_UNIV_RADIOBOX_H_
 #define _WX_UNIV_RADIOBOX_H_
 
-class WXDLLEXPORT wxRadioButton;
+class WXDLLIMPEXP_FWD_CORE wxRadioButton;
 
 #include "wx/statbox.h"
 #include "wx/dynarray.h"
@@ -23,7 +23,7 @@ WX_DEFINE_EXPORTED_ARRAY_PTR(wxRadioButton *, wxArrayRadioButtons);
 // wxRadioBox: a box full of radio buttons
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxRadioBox : public wxStaticBox,
+class WXDLLIMPEXP_CORE wxRadioBox : public wxStaticBox,
                                public wxRadioBoxBase
 {
 public:
@@ -120,6 +120,8 @@ public:
     bool OnKeyDown(wxKeyEvent& event);
 
 protected:
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
+
     // override the base class methods dealing with window positioning/sizing
     // as we must move/size the buttons as well
     virtual void DoMoveWindow(int x, int y, int width, int height);

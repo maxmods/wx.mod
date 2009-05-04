@@ -2,7 +2,7 @@
 // Name:        dirdlg.h
 // Purpose:     wxDirDialog
 // Author:      Francesco Montorsi
-// Id:          $Id: dirdlg.h 39402 2006-05-28 23:32:12Z VZ $
+// Id:          $Id: dirdlg.h 49660 2007-11-05 22:31:24Z VZ $
 // Copyright:   (c) 2006 Francesco Montorsi
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -10,13 +10,11 @@
 #ifndef __GTKDIRDLGH__
 #define __GTKDIRDLGH__
 
-#include "wx/generic/dirdlgg.h"
-
 //-------------------------------------------------------------------------
 // wxDirDialog
 //-------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxDirDialog : public wxGenericDirDialog
+class WXDLLIMPEXP_CORE wxDirDialog : public wxDirDialogBase
 {
 public:
     wxDirDialog() { }
@@ -37,9 +35,6 @@ public:     // overrides from wxGenericDirDialog
     wxString GetPath() const;
     void SetPath(const wxString& path);
 
-    virtual int ShowModal();
-    virtual bool Show( bool show = true );
-
 
 protected:
     // override this from wxTLW since the native
@@ -50,9 +45,10 @@ protected:
 
 
 private:
+    void OnFakeOk( wxCommandEvent &event );
+
     DECLARE_DYNAMIC_CLASS(wxDirDialog)
     DECLARE_EVENT_TABLE()
-    void OnFakeOk( wxCommandEvent &event );
 };
 
 #endif // __GTKDIRDLGH__

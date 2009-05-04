@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/tooltip.h
 // Purpose:     wxToolTip class
 // Author:      Robert Roebling
-// Id:          $Id: tooltip.h 37065 2006-01-23 02:28:01Z MR $
+// Id:          $Id: tooltip.h 48093 2007-08-15 12:57:36Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,8 +18,8 @@
 // forward declarations
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxToolTip;
-class WXDLLIMPEXP_CORE wxWindow;
+class WXDLLIMPEXP_FWD_CORE wxToolTip;
+class WXDLLIMPEXP_FWD_CORE wxWindow;
 
 //-----------------------------------------------------------------------------
 // wxToolTip
@@ -31,6 +31,10 @@ public:
     // globally change the tooltip parameters
     static void Enable( bool flag );
     static void SetDelay( long msecs );
+        // set the delay after which the tooltip disappears or how long the tooltip remains visible
+    static void SetAutoPop(long msecs);
+        // set the delay between subsequent tooltips to appear
+    static void SetReshow(long msecs);
 
     wxToolTip( const wxString &tip );
 

@@ -3,7 +3,7 @@
 // Purpose:     wxGtkString class declaration
 // Author:      Vadim Zeitlin
 // Created:     2006-10-19
-// RCS-ID:      $Id: string.h 42120 2006-10-19 14:42:01Z VZ $
+// RCS-ID:      $Id: string.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2006 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ public:
 private:
     gchar *m_str;
 
-    DECLARE_NO_COPY_CLASS(wxGtkString)
+    wxDECLARE_NO_COPY_CLASS(wxGtkString);
 };
 
 #endif // _WX_GTK_PRIVATE_STRING_H_

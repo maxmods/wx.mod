@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     2002-03-09
-// RCS-ID:      $Id: reparent.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: reparent.h 47254 2007-07-09 10:09:52Z VS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@
  * This class helps to reparent a specific window
  */
 
-class WXDLLIMPEXP_CORE wxAdoptedWindow;
+class WXDLLIMPEXP_FWD_CORE wxAdoptedWindow;
 class WXDLLIMPEXP_CORE wxReparenter: public wxObject
 {
 public:

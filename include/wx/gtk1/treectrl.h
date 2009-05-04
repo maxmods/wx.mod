@@ -4,7 +4,7 @@
 // Author:      Denis Pershin
 // Modified by:
 // Created:     08/08/98
-// RCS-ID:      $Id: treectrl.h 38416 2006-03-28 13:11:20Z ABX $
+// RCS-ID:      $Id: treectrl.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Denis Pershin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ struct wxTreeViewItem;
 // a callback function used for sorting tree items, it should return -1 if the
 // first item precedes the second, +1 if the second precedes the first or 0 if
 // they're equivalent
-class WXDLLIMPEXP_CORE wxTreeItemData;
+class WXDLLIMPEXP_FWD_CORE wxTreeItemData;
 typedef int (*wxTreeItemCmpFunc)(wxTreeItemData *item1, wxTreeItemData *item2);
 
 // ----------------------------------------------------------------------------
@@ -76,7 +76,7 @@ static const int wxTREE_HITTEST_ONITEM  = wxTREE_HITTEST_ONITEMICON |
 // just a trivial wrapper around GTK GtkTreeItem *. It's opaque for the
 // application.
 // ----------------------------------------------------------------------------
-class WXDLLEXPORT wxTreeItemId {
+class WXDLLIMPEXP_CORE wxTreeItemId {
 public:
   // ctors
   wxTreeItemId() { m_itemId = NULL; }
@@ -113,7 +113,7 @@ protected:
 // Because the objects of this class are deleted by the tree, they should
 // always be allocated on the heap!
 // ----------------------------------------------------------------------------
-class WXDLLEXPORT wxTreeItemData : private wxTreeItemId {
+class WXDLLIMPEXP_CORE wxTreeItemData : private wxTreeItemId {
 public:
     // default ctor/copy ctor/assignment operator are ok
 
@@ -127,7 +127,7 @@ public:
     const wxTreeItemId& GetId() const { return (wxTreeItemId&) m_itemId; }
 };
 
-class WXDLLEXPORT wxTreeCtrl: public wxControl {
+class WXDLLIMPEXP_CORE wxTreeCtrl: public wxControl {
 public:
   // creation
   // --------

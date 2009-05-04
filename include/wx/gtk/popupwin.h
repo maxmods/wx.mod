@@ -3,7 +3,7 @@
 // Purpose:
 // Author:      Robert Roebling
 // Created:
-// Id:          $Id: popupwin.h 41045 2006-09-07 16:06:47Z PC $
+// Id:          $Id: popupwin.h 56141 2008-10-07 08:01:34Z RR $
 // Copyright:   (c) 2001 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -25,20 +25,17 @@ public:
         { (void)Create(parent, flags); }
     bool Create(wxWindow *parent, int flags = wxBORDER_NONE);
 
-    virtual bool Show( bool show = TRUE );
+    virtual bool Show(bool show = true);
+    
+    virtual void SetFocus();
 
     // implementation
     // --------------
 
-    virtual void OnInternalIdle();
-    
     // GTK time when connecting to button_press signal
     wxUint32  m_time;
 
-
 protected:
-    void GtkOnSize();
-
     virtual void DoSetSize(int x, int y,
                            int width, int height,
                            int sizeFlags = wxSIZE_AUTO);
@@ -46,7 +43,11 @@ protected:
     virtual void DoMoveWindow(int x, int y, int width, int height);
 
 private:
+    virtual void AddChildGTK(wxWindowGTK* child);
+
+#ifdef __WXUNIVERSAL__
     DECLARE_EVENT_TABLE()
+#endif
     DECLARE_DYNAMIC_CLASS(wxPopupWindow)
 };
 

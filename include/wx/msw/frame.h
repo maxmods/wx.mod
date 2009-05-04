@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: frame.h 45498 2007-04-16 13:03:05Z VZ $
+// RCS-ID:      $Id: frame.h 58478 2009-01-28 09:14:07Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_FRAME_H_
 #define _WX_FRAME_H_
 
-class WXDLLEXPORT wxFrame : public wxFrameBase
+class WXDLLIMPEXP_CORE wxFrame : public wxFrameBase
 {
 public:
     // construction
@@ -75,12 +75,7 @@ public:
         { return m_useNativeStatusBar; }
 #endif // wxUSE_STATUSBAR
 
-#if wxUSE_MENUS
-    WXHMENU GetWinMenu() const { return m_hMenu; }
-#endif // wxUSE_MENUS
-
     // event handlers
-    bool HandlePaint();
     bool HandleSize(int x, int y, WXUINT flag);
     bool HandleCommand(WXWORD id, WXWORD cmd, WXHWND control);
     bool HandleMenuSelect(WXWORD nItem, WXWORD nFlags, WXHMENU hMenu);
@@ -92,9 +87,8 @@ public:
     void SetToolTipCtrl(WXHWND hwndTT) { m_hwndToolTip = hwndTT; }
 #endif // tooltips
 
-    // a MSW only function which sends a size event to the window using its
-    // current size - this has an effect of refreshing the window layout
-    virtual void SendSizeEvent();
+    // override the base class function to handle iconized/maximized frames
+    virtual void SendSizeEvent(int flags = 0);
 
     virtual wxPoint GetClientAreaOrigin() const;
 
@@ -108,6 +102,12 @@ public:
     virtual WXLRESULT MSWWindowProc(WXUINT message,
                                     WXWPARAM wParam,
                                     WXLPARAM lParam);
+
+#if wxUSE_MENUS
+    // get the currently active menu: this is the same as the frame menu for
+    // normal frames but is overridden by wxMDIParentFrame
+    virtual WXHMENU MSWGetActiveMenu() const { return m_hMenu; }
+#endif // wxUSE_MENUS
 
 protected:
     // common part of all ctors

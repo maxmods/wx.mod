@@ -116,7 +116,7 @@ private:
 
     //Helpers
     void AdjustScrollbars();
-    void DrawDelimiter(wxDC* dc, wxCoord x, int modeFunc);
+    void DrawDelimiter(wxDC* dc, wxCoord x, wxRasterOperationMode modeFunc);
     //Replace TABs with needed spaces returning a 'tabulated' string
     wxString TabsToSpaces(const wxString& str) const;
 

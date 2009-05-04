@@ -2,7 +2,7 @@
 // Name:        wx/gtk/radiobox.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: radiobox.h 40815 2006-08-25 12:59:28Z VZ $
+// Id:          $Id: radiobox.h 58876 2009-02-13 10:10:36Z RR $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 
 #include "wx/bitmap.h"
 
-class WXDLLIMPEXP_CORE wxGTKRadioButtonInfo;
+class WXDLLIMPEXP_FWD_CORE wxGTKRadioButtonInfo;
 
 #include "wx/list.h"
 
@@ -128,20 +128,17 @@ public:
     // implementation
     // --------------
 
-    void SetFocus();
     void GtkDisableEvents();
     void GtkEnableEvents();
 #if wxUSE_TOOLTIPS
-    void ApplyToolTip( GtkTooltips *tips, const wxChar *tip );
+    void GTKApplyToolTip( GtkTooltips *tips, const gchar *tip );
 #endif // wxUSE_TOOLTIPS
 
-    virtual void OnInternalIdle();
-
-    bool                        m_hasFocus,
-                                m_lostFocus;
     wxRadioBoxButtonsInfoList   m_buttonsInfo;
 
 protected:
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
+
 #if wxUSE_TOOLTIPS
     virtual void DoSetItemToolTip(unsigned int n, wxToolTip *tooltip);
 #endif
@@ -149,11 +146,10 @@ protected:
     virtual void DoApplyWidgetStyle(GtkRcStyle *style);
     virtual GdkWindow *GTKGetWindow(wxArrayGdkWindows& windows) const;
 
+    virtual bool GTKNeedsToFilterSameWindowFocus() const { return true; }
+
     virtual bool GTKWidgetNeedsMnemonic() const;
     virtual void GTKWidgetDoSetMnemonic(GtkWidget* w);
-
-    // common part of all ctors
-    void Init();
 
 private:
     DECLARE_DYNAMIC_CLASS(wxRadioBox)

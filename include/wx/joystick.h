@@ -5,7 +5,7 @@
 // Modified by:
 // Created:
 // Copyright:   (c) wxWidgets Team
-// RCS-ID:      $Id: joystick.h 32852 2005-03-16 16:18:31Z ABX $
+// RCS-ID:      $Id: joystick.h 54125 2008-06-11 19:17:41Z SC $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -25,9 +25,9 @@
 #elif defined(__WXX11__)
 #include "wx/unix/joystick.h"
 #elif defined(__DARWIN__)
-#include "wx/mac/corefoundation/joystick.h"
+#include "wx/osx/core/joystick.h"
 #elif defined(__WXMAC__)
-#include "wx/mac/joystick.h"
+#include "wx/osx/joystick.h"
 #elif defined(__WXPM__)
 #include "wx/os2/joystick.h"
 #endif

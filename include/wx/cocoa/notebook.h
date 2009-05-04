@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2004/04/08
-// RCS-ID:      $Id: notebook.h 41764 2006-10-08 23:41:52Z VZ $
+// RCS-ID:      $Id: notebook.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2004 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 // ========================================================================
 // wxNotebook
 // ========================================================================
-class WXDLLEXPORT wxNotebook: public wxNotebookBase, protected wxCocoaNSTabView
+class WXDLLIMPEXP_CORE wxNotebook: public wxNotebookBase, protected wxCocoaNSTabView
 {
     DECLARE_DYNAMIC_CLASS(wxNotebook)
     DECLARE_EVENT_TABLE()
@@ -48,7 +48,7 @@ public:
 // ------------------------------------------------------------------------
 protected:
     // Notebooks cannot be enabled/disabled
-    virtual void CocoaSetEnabled(bool enable) { }
+    virtual void CocoaSetEnabled(bool WXUNUSED(enable)) { }
     virtual void CocoaDelegate_tabView_didSelectTabViewItem(WX_NSTabViewItem tabviewItem);
     virtual bool CocoaDelegate_tabView_shouldSelectTabViewItem(WX_NSTabViewItem tabviewItem);
 // ------------------------------------------------------------------------

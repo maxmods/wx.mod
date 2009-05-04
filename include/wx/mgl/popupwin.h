@@ -3,7 +3,7 @@
 // Purpose:     wxPopupWindow class for wxMGL
 // Author:      Vadim Zeitlin
 // Created:     06.01.01
-// RCS-ID:      $Id: popupwin.h 27408 2004-05-23 20:53:33Z JS $
+// RCS-ID:      $Id: popupwin.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2001-2002 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 // wxPopupWindow
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxPopupWindow : public wxPopupWindowBase
+class WXDLLIMPEXP_CORE wxPopupWindow : public wxPopupWindowBase
 {
 public:
     wxPopupWindow() { }

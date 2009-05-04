@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by: Wlodzimierz ABX Skiba - native implementation
 // Created:     10/13/04
-// RCS-ID:      $Id: slider.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: slider.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne, Wlodzimierz Skiba
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 #define _SLIDERPALM_H_
 
 // Slider
-class WXDLLEXPORT wxSlider : public wxSliderBase
+class WXDLLIMPEXP_CORE wxSlider : public wxSliderBase
 {
 public:
     wxSlider()

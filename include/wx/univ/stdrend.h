@@ -3,7 +3,7 @@
 // Purpose:     wxStdRenderer class declaration
 // Author:      Vadim Zeitlin
 // Created:     2006-09-18
-// RCS-ID:      $Id: stdrend.h 42716 2006-10-30 12:33:25Z VS $
+// RCS-ID:      $Id: stdrend.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2006 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 #include "wx/univ/renderer.h"
 #include "wx/pen.h"
 
-class WXDLLEXPORT wxColourScheme;
+class WXDLLIMPEXP_FWD_CORE wxColourScheme;
 
 // ----------------------------------------------------------------------------
 // wxStdRenderer: implements as much of wxRenderer API as possible generically
@@ -38,7 +38,8 @@ public:
                                    int flags);
 
 
-    virtual void DrawFocusRect(wxDC& dc, const wxRect& rect, int flags = 0);
+    virtual void DrawFocusRect(wxWindow* win, wxDC& dc, const wxRect& rect, int flags = 0);
+
     virtual void DrawLabel(wxDC& dc,
                            const wxString& label,
                            const wxRect& rect,
@@ -346,7 +347,7 @@ protected:
     // update m_penXXX objects above
     const wxColourScheme * const m_scheme;
 
-    DECLARE_NO_COPY_CLASS(wxStdRenderer)
+    wxDECLARE_NO_COPY_CLASS(wxStdRenderer);
 };
 
 #endif // _WX_UNIV_STDREND_H_

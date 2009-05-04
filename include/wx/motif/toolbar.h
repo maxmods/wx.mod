@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by: 13.12.99 by VZ during toolbar classes reorganization
 // Created:     17/09/98
-// RCS-ID:      $Id: toolbar.h 42077 2006-10-17 14:44:52Z ABX $
+// RCS-ID:      $Id: toolbar.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_TOOLBAR_H_
 #define _WX_TOOLBAR_H_
 
-class WXDLLEXPORT wxToolBar : public wxToolBarBase
+class WXDLLIMPEXP_CORE wxToolBar : public wxToolBarBase
 {
 public:
     // ctors and dtor
@@ -69,7 +69,8 @@ private:
                                           wxObject *clientData,
                                           const wxString& shortHelp,
                                           const wxString& longHelp);
-    virtual wxToolBarToolBase *CreateTool(wxControl *control);
+    virtual wxToolBarToolBase *CreateTool(wxControl *control,
+                                          const wxString& label);
 
     virtual void DoSetSize(int x, int y,
                            int width, int height,

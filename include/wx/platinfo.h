@@ -4,7 +4,7 @@
 // Author:      Francesco Montorsi
 // Modified by:
 // Created:     07.07.2006 (based on wxToolkitInfo)
-// RCS-ID:      $Id: platinfo.h 41807 2006-10-09 15:58:56Z VZ $
+// RCS-ID:      $Id: platinfo.h 54824 2008-07-29 20:22:57Z SC $
 // Copyright:   (c) 2006 Francesco Montorsi
 // License:     wxWindows license
 ///////////////////////////////////////////////////////////////////////////////
@@ -58,7 +58,11 @@ enum wxOperatingSystemId
     // 1<<13 and 1<<14 available for other Unix flavours
 
     wxOS_DOS            = 1 << 15,      // Microsoft DOS
-    wxOS_OS2            = 1 << 16       // OS/2
+    wxOS_OS2            = 1 << 16,       // OS/2
+
+    wxOS_PALM_OS        = 1 << 17,       // Pure Palm OS
+    wxOS_PALM_LINUX     = 1 << 18,       // Palm over linux
+    wxOS_PALM = wxOS_PALM_OS | wxOS_PALM_LINUX
 };
 
 // list of wxWidgets ports - some of them can be used with more than
@@ -76,7 +80,8 @@ enum wxPortId
     wxPORT_X11      = 1 << 5,       // wxX11, using wxUniversal
     wxPORT_PM       = 1 << 6,       // wxOS2, using OS/2 Presentation Manager
     wxPORT_OS2      = wxPORT_PM,    // wxOS2, using OS/2 Presentation Manager
-    wxPORT_MAC      = 1 << 7,       // wxMac, using Carbon or Classic Mac API
+    wxPORT_MAC      = 1 << 7,       // wxOSX (former wxMac), using Cocoa, Carbon or iPhone API
+    wxPORT_OSX      = wxPORT_MAC,   // wxOSX, using Cocoa, Carbon or iPhone API
     wxPORT_COCOA    = 1 << 8,       // wxCocoa, using Cocoa NextStep/Mac API
     wxPORT_WINCE    = 1 << 9,       // wxWinCE, toolkit is WinCE SDK API
     wxPORT_PALMOS   = 1 << 10,      // wxPalmOS, toolkit is PalmOS API

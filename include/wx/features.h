@@ -5,7 +5,7 @@
 *  Author:      Vadim Zeitlin
 *  Modified by: Ryan Norton (Converted to C)
 *  Created:     18.03.02
-*  RCS-ID:      $Id: features.h 40865 2006-08-27 09:42:42Z VS $
+*  RCS-ID:      $Id: features.h 59031 2009-02-19 17:28:37Z PC $
 *  Copyright:   (c) 2002 Vadim Zeitlin <vadim@wxwidgets.org>
 *  Licence:     wxWindows licence
 */
@@ -35,9 +35,11 @@
 /*  taskbar is implemented in the major ports */
 #if defined(__WXMSW__) || defined(__WXCOCOA__) \
     || defined(__WXGTK__) || defined(__WXMOTIF__) || defined(__WXX11__) \
-    || defined(__WXMAC_OSX__) || defined(__WXCOCOA__)
+    || defined(__WXOSX_MAC__) || defined(__WXCOCOA__)
     #define wxHAS_TASK_BAR_ICON
 #else
+    #undef wxUSE_TASKBARICON
+    #define wxUSE_TASKBARICON 0
     #undef wxHAS_TASK_BAR_ICON
 #endif
 
@@ -58,6 +60,43 @@
     #define wxHAS_REGEX_ADVANCED
 #else
     #undef wxHAS_REGEX_ADVANCED
+#endif
+
+/* Pango-based ports and wxDFB use UTF-8 for text and font encodings
+ * internally and so their fonts can handle any encodings: */
+#if wxUSE_PANGO || defined(__WXDFB__)
+    #define wxHAS_UTF8_FONTS
+#endif
+
+/* This is defined when the underlying toolkit handles tab traversal natively.
+   Otherwise we implement it ourselves in wxControlContainer. */
+#ifdef __WXGTK20__
+    #define wxHAS_NATIVE_TAB_TRAVERSAL
+#endif
+
+/* This is defined when the compiler provides some type of extended locale
+   functions.  Otherwise, we implement them ourselves to only support the
+   'C' locale */
+#if defined(HAVE_LOCALE_T) || \
+    (wxCHECK_VISUALC_VERSION(8) && !defined(__WXWINCE__))
+    #define wxHAS_XLOCALE_SUPPORT
+#else
+    #undef wxHAS_XLOCALE_SUPPORT
+#endif
+
+/* Direct access to bitmap data is not implemented in all ports yet */
+#if defined(__WXGTK20__) || defined(__WXMAC__) || defined(__WXDFB__) || \
+        (defined(__WXMSW__) && !defined(__WATCOMC__))
+
+    // HP aCC for PA-RISC can't compile rawbmp.h
+    #if !defined(__HP_aCC) || !defined(__hppa)
+        #define wxHAS_RAW_BITMAP
+    #endif
+#endif
+
+/* also define deprecated synonym which exists for compatibility only */
+#ifdef wxHAS_RAW_BITMAP
+    #define wxHAVE_RAW_BITMAP
 #endif
 
 #endif /*  _WX_FEATURES_H_ */

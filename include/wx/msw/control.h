@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: control.h 45498 2007-04-16 13:03:05Z VZ $
+// RCS-ID:      $Id: control.h 58246 2009-01-20 18:33:33Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 #include "wx/dynarray.h"
 
 // General item class
-class WXDLLEXPORT wxControl : public wxControlBase
+class WXDLLIMPEXP_CORE wxControl : public wxControlBase
 {
 public:
     wxControl() { }
@@ -35,7 +35,6 @@ public:
             const wxValidator& validator = wxDefaultValidator,
             const wxString& name = wxControlNameStr);
 
-    virtual ~wxControl();
 
     // Simulates an event
     virtual void Command(wxCommandEvent& event) { ProcessCommand(event); }

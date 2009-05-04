@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     01.02.01
-// RCS-ID:      $Id: notebook.h 41738 2006-10-08 17:37:23Z VZ $
+// RCS-ID:      $Id: notebook.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2001 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 #include "wx/arrstr.h"
 
-class WXDLLEXPORT wxSpinButton;
+class WXDLLIMPEXP_FWD_CORE wxSpinButton;
 
 // ----------------------------------------------------------------------------
 // the actions supported by this control
@@ -29,7 +29,7 @@ class WXDLLEXPORT wxSpinButton;
 // wxNotebook
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxNotebook : public wxNotebookBase
+class WXDLLIMPEXP_CORE wxNotebook : public wxNotebookBase
 {
 public:
     // ctors and such

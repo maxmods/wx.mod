@@ -4,7 +4,7 @@
 // Author:      Andreas Pflug
 // Modified by:
 // Created:     2005-01-19
-// RCS-ID:      $Id: datectrl.h 42539 2006-10-27 18:02:21Z RR $
+// RCS-ID:      $Id: datectrl.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2005 Andreas Pflug <pgadmin@pse-consulting.de>
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,11 +12,10 @@
 #ifndef _WX_GENERIC_DATECTRL_H_
 #define _WX_GENERIC_DATECTRL_H_
 
-class WXDLLIMPEXP_ADV wxCalendarDateAttr;
-class WXDLLIMPEXP_ADV wxCalendarCtrl;
-class WXDLLIMPEXP_ADV wxCalendarEvent;
-class WXDLLIMPEXP_ADV wxComboCtrl;
-class WXDLLIMPEXP_ADV wxCalendarComboPopup;
+#include "wx/calctrl.h"
+#include "wx/combo.h"
+
+class WXDLLIMPEXP_FWD_ADV wxCalendarComboPopup;
 
 class WXDLLIMPEXP_ADV wxDatePickerCtrlGeneric : public wxDatePickerCtrlBase
 {
@@ -58,8 +57,8 @@ public:
                       const wxDateTime& upperdate = wxDefaultDateTime);
 
     // extra methods available only in this (generic) implementation
-    bool SetFormat(const wxChar *fmt);
-    wxCalendarCtrl *GetCalendar() const { return m_cal; }
+    bool SetFormat(const wxString& fmt);
+    wxCalendarCtrl *GetCalendar() const;
 
 
     // implementation only from now on
@@ -78,13 +77,11 @@ private:
     void OnSize(wxSizeEvent& event);
     void OnFocus(wxFocusEvent& event);
 
-    wxCalendarCtrl *m_cal;
     wxComboCtrl* m_combo;
     wxCalendarComboPopup* m_popup;
 
-
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxDatePickerCtrlGeneric)
+    wxDECLARE_NO_COPY_CLASS(wxDatePickerCtrlGeneric);
 };
 
 #endif // _WX_GENERIC_DATECTRL_H_

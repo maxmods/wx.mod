@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: bmpbuttn.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: bmpbuttn.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 
 #define wxDEFAULT_BUTTON_MARGIN 4
 
-class WXDLLEXPORT wxBitmapButton: public wxBitmapButtonBase
+class WXDLLIMPEXP_CORE wxBitmapButton: public wxBitmapButtonBase
 {
 public:
     wxBitmapButton()
@@ -44,7 +44,6 @@ public:
                 const wxString& name = wxButtonNameStr);
 
     // Implementation
-    virtual void SetDefault();
     virtual void DrawFace( WXHDC dc, int left, int top, int right, int bottom, bool sel );
     virtual void DrawButtonFocus( WXHDC dc, int left, int top, int right, int bottom, bool sel );
     virtual void DrawButtonDisable( WXHDC dc, int left, int top, int right, int bottom, bool with_marg );

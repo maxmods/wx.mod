@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/17/99
-// RCS-ID:      $Id: stattext.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: stattext.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 #include "wx/control.h"
 
-class WXDLLEXPORT wxStaticText : public wxStaticTextBase
+class WXDLLIMPEXP_CORE wxStaticText : public wxStaticTextBase
 {
 public:
     inline wxStaticText() { }
@@ -66,6 +66,9 @@ protected:
                              ,int nSizeFlags = wxSIZE_AUTO
                             );
     virtual wxSize DoGetBestSize(void) const;
+
+    virtual void DoSetLabel(const wxString& str);
+    virtual wxString DoGetLabel() const;
 
 private:
     DECLARE_DYNAMIC_CLASS(wxStaticText)

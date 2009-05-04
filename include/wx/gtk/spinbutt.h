@@ -3,7 +3,7 @@
 // Purpose:     wxSpinButton class
 // Author:      Robert Roebling
 // Modified by:
-// RCS-ID:      $Id: spinbutt.h 40815 2006-08-25 12:59:28Z VZ $
+// RCS-ID:      $Id: spinbutt.h 58194 2009-01-18 12:34:23Z JS $
 // Copyright:   (c) Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -45,12 +45,17 @@ public:
     static wxVisualAttributes
     GetClassDefaultAttributes(wxWindowVariant variant = wxWINDOW_VARIANT_NORMAL);
     
+    virtual bool Enable( bool enable = true );
+
     // implementation
     void OnSize( wxSizeEvent &event );
 
     int m_pos;
 
 protected:
+    void GtkDisableEvents() const;
+    void GtkEnableEvents() const;
+    
     virtual wxSize DoGetBestSize() const;
     virtual GdkWindow *GTKGetWindow(wxArrayGdkWindows& windows) const;
 

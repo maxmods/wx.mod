@@ -28,6 +28,8 @@ class WXDLLIMPEXP_SF wxSFScaledDC : public wxDC {
 public:
 	wxSFScaledDC( wxWindowDC* target, double scale );
 	virtual ~wxSFScaledDC();
+
+    wxDCImpl *GetImpl();
 	
 	// public member data accessors
 	/*!
@@ -51,7 +53,7 @@ public:
 	virtual bool CanDrawBitmap() const;
 	virtual bool CanGetTextExtent() const;
 	virtual void Clear();
-	virtual void ComputeScaleAndOrigin();
+//	virtual void ComputeScaleAndOrigin();
 	virtual void DrawObject(wxDrawObject* drawobject);
 	virtual void EndDoc();
 	virtual void EndPage();
@@ -66,9 +68,9 @@ public:
 	virtual GdkWindow* GetGDKWindow() const;
 #endif
 	virtual wxLayoutDirection GetLayoutDirection() const;
-	virtual int GetLogicalFunction() const;
+	virtual wxRasterOperationMode GetLogicalFunction() const;
 	virtual void GetLogicalScale(double *x, double *y);
-	virtual int GetMapMode() const;
+	virtual wxMappingMode GetMapMode() const;
 	virtual void GetMultiLineTextExtent(const wxString& string, wxCoord *width, wxCoord *height, wxCoord *heightLine = NULL, wxFont *font = NULL) const;
 	virtual wxSize GetPPI() const;
 	virtual const wxPen& GetPen() const;
@@ -85,10 +87,10 @@ public:
 	virtual void SetDeviceOrigin(wxCoord x, wxCoord y);
 	virtual void SetFont(const wxFont& font);
 	virtual void SetLayoutDirection(wxLayoutDirection dir);
-	virtual void SetLogicalFunction(int function);
+	virtual void SetLogicalFunction(wxRasterOperationMode function);
 	virtual void SetLogicalOrigin( wxCoord x, wxCoord y );
 	virtual void SetLogicalScale(double x, double y);
-	virtual void SetMapMode( int mode );
+	virtual void SetMapMode( wxMappingMode mode );
 	virtual void SetPalette(const wxPalette& palette);
 	virtual void SetPen(const wxPen& pen);
 	virtual void SetTextBackground(const wxColour& colour);
@@ -128,7 +130,7 @@ protected:
 	 */
     //void UninitGC();
 
-	virtual bool DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc, int rop = wxCOPY, bool useMask = false, wxCoord xsrcMask = wxDefaultCoord, wxCoord ysrcMask = wxDefaultCoord);
+	virtual bool DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc, wxRasterOperationMode rop = wxCOPY, bool useMask = false, wxCoord xsrcMask = wxDefaultCoord, wxCoord ysrcMask = wxDefaultCoord);
 	virtual void DoCrossHair(wxCoord x, wxCoord y);
 	virtual void DoDrawArc(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, wxCoord xc, wxCoord yc);
 	virtual void DoDrawBitmap(const wxBitmap &bmp, wxCoord x, wxCoord y, bool useMask = false);
@@ -139,14 +141,14 @@ protected:
 	virtual void DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2);
 	virtual void DoDrawLines(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset);
 	virtual void DoDrawPoint(wxCoord x, wxCoord y);
-	virtual void DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoord xoffset, wxCoord yoffset, int fillStyle);
-	virtual void DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset, int fillStyle = wxODDEVEN_RULE);
+	virtual void DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoord xoffset, wxCoord yoffset, wxPolygonFillMode fillStyle);
+	virtual void DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset, wxPolygonFillMode fillStyle = wxODDEVEN_RULE);
 	virtual void DoDrawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
 	virtual void DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, double angle);
 	virtual void DoDrawRoundedRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height, double radius);
-	virtual void DoDrawSpline(wxList *points);
+	virtual void DoDrawSpline(wxPointList *points);
 	virtual void DoDrawText(const wxString& text, wxCoord x, wxCoord y);
-	virtual bool DoFloodFill(wxCoord x, wxCoord y, const wxColour& col, int style = wxFLOOD_SURFACE);
+	virtual bool DoFloodFill(wxCoord x, wxCoord y, const wxColour& col, wxFloodFillStyle style = wxFLOOD_SURFACE);
 	virtual wxBitmap DoGetAsBitmap(const wxRect *subrect) const;
 	virtual void DoGetClippingBox(wxCoord *x, wxCoord *y, wxCoord *w, wxCoord *h) const;
 	virtual void DoGetClippingRegion(wxCoord *x, wxCoord *y, wxCoord *w, wxCoord *h);

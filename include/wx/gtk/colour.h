@@ -2,7 +2,7 @@
 // Name:        wx/gtk/colour.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: colour.h 41751 2006-10-08 21:56:55Z VZ $
+// Id:          $Id: colour.h 50897 2007-12-22 15:03:58Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,19 +19,13 @@ class WXDLLIMPEXP_CORE wxColour : public wxColourBase
 public:
     // constructors
     // ------------
-
-    // default
-    wxColour() {}
     DEFINE_STD_WXCOLOUR_CONSTRUCTORS
     wxColour(const GdkColor& gdkColor);
 
     virtual ~wxColour();
 
-    bool Ok() const { return IsOk(); }
-    bool IsOk() const { return m_refData != NULL; }
-
-    bool operator == ( const wxColour& col ) const;
-    bool operator != ( const wxColour& col ) const { return !(*this == col); }
+    bool operator==(const wxColour& col) const;
+    bool operator!=(const wxColour& col) const { return !(*this == col); }
 
     unsigned char Red() const;
     unsigned char Green() const;
@@ -41,19 +35,13 @@ public:
     // Implementation part
     void CalcPixel( GdkColormap *cmap );
     int GetPixel() const;
-#ifdef __WXGTK24__
     const GdkColor *GetColor() const;
-#else
-    // GDK functions from old gtk2 versions take non-const color parameters,
-    // too many uses to deal with individually
-    GdkColor *GetColor() const;
-#endif
 
 protected:
     virtual void
     InitRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 
-    virtual bool FromString(const wxChar *str);
+    virtual bool FromString(const wxString& str);
 
 private:
     DECLARE_DYNAMIC_CLASS(wxColour)

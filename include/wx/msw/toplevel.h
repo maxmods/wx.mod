@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     20.09.01
-// RCS-ID:      $Id: toplevel.h 50999 2008-01-03 01:13:44Z VZ $
+// RCS-ID:      $Id: toplevel.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2001 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 // wxTopLevelWindowMSW
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxTopLevelWindowMSW : public wxTopLevelWindowBase
+class WXDLLIMPEXP_CORE wxTopLevelWindowMSW : public wxTopLevelWindowBase
 {
 public:
     // constructors and such
@@ -52,10 +52,9 @@ public:
     virtual bool IsMaximized() const;
     virtual void Iconize(bool iconize = true);
     virtual bool IsIconized() const;
-    virtual void SetIcon(const wxIcon& icon);
     virtual void SetIcons(const wxIconBundle& icons );
     virtual void Restore();
-    
+
     virtual void SetLayoutDirection(wxLayoutDirection dir);
 
 #ifndef __WXWINCE__
@@ -76,7 +75,7 @@ public:
     virtual bool SetTransparent(wxByte alpha);
     virtual bool CanSetTransparent();
 
-    
+
     // implementation from now on
     // --------------------------
 
@@ -108,6 +107,9 @@ public:
     // window proc for the frames
     WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
 
+    // returns true if the platform should explicitly apply a theme border
+    virtual bool CanApplyThemeBorder() const { return false; }
+
 protected:
     // common part of all ctors
     void Init();
@@ -126,6 +128,24 @@ protected:
 
     // common part of Iconize(), Maximize() and Restore()
     void DoShowWindow(int nShowCmd);
+
+    // override those to return the normal window coordinates even when the
+    // window is minimized
+#ifndef __WXWINCE__
+    virtual void DoGetPosition(int *x, int *y) const;
+    virtual void DoGetSize(int *width, int *height) const;
+#endif // __WXWINCE__
+
+    // Top level windows have different freeze semantics on Windows
+    virtual void DoFreeze();
+    virtual void DoThaw();
+
+    // helper of SetIcons(): calls gets the icon with the size specified by the
+    // given system metrics (SM_C{X|Y}[SM]ICON) from the bundle and sets it
+    // using WM_SETICON with the specified wParam (ICOM_SMALL or ICON_BIG);
+    // returns true if the icon was set
+    bool DoSelectAndSetIcon(const wxIconBundle& icons, int smX, int smY, int i);
+
 
     // is the window currently iconized?
     bool m_iconized;
@@ -180,18 +200,13 @@ protected:
 #endif // __SMARTPHONE__ && __WXWINCE__
 
 private:
-    // helper of SetIcons(): calls gets the icon with the size specified by the
-    // given system metrics (SM_C{X|Y}[SM]ICON) from the bundle and sets it
-    // using WM_SETICON with the specified wParam (ICOM_SMALL or ICON_BIG)
-    void DoSelectAndSetIcon(const wxIconBundle& icons, int smX, int smY, int i);
-
 
 #if defined(__SMARTPHONE__) || defined(__POCKETPC__)
     void* m_activateInfo;
 #endif
 
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxTopLevelWindowMSW)
+    wxDECLARE_NO_COPY_CLASS(wxTopLevelWindowMSW);
 };
 
 #endif // _WX_MSW_TOPLEVEL_H_

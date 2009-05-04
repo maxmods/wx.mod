@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     05.11.99
-// RCS-ID:      $Id: fontutil.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: fontutil.h 59804 2009-03-24 07:56:17Z SC $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,8 @@ enum wxXLFDField
 // functions, the user code can only get the objects of this type from
 // somewhere and pass it somewhere else (possibly save them somewhere using
 // ToString() and restore them using FromString())
-class WXDLLEXPORT wxNativeFontInfo
+
+class WXDLLIMPEXP_CORE wxNativeFontInfo
 {
 public:
 #if wxUSE_PANGO
@@ -105,12 +106,85 @@ public:
     // set the XFLD
     void SetXFontName(const wxString& xFontName);
 #elif defined(__WXMSW__)
+    wxNativeFontInfo(const LOGFONT& lf_) : lf(lf_) { }
+
     LOGFONT      lf;
 #elif defined(__WXPM__)
     // OS/2 native structures that define a font
     FATTRS       fa;
     FONTMETRICS  fm;
     FACENAMEDESC fn;
+#elif defined(__WXOSX__)
+public:
+    wxNativeFontInfo(const wxNativeFontInfo& info) { Init(info); }
+    wxNativeFontInfo( int size,
+                  wxFontFamily family,
+                  wxFontStyle style,
+                  wxFontWeight weight,
+                  bool underlined,
+                  const wxString& faceName,
+                  wxFontEncoding encoding)
+    { Init(size,family,style,weight,underlined,faceName,encoding); }
+
+    ~wxNativeFontInfo() { Free(); }
+
+    wxNativeFontInfo& operator=(const wxNativeFontInfo& info)
+    {
+        if (this != &info)
+        {
+            Free();
+            Init(info);
+        }
+        return *this;
+    }
+
+#if wxOSX_USE_CORE_TEXT
+    void Init(CTFontDescriptorRef descr);
+#endif
+    void Init(const wxNativeFontInfo& info);
+    void Init(int size,
+                  wxFontFamily family,
+                  wxFontStyle style,
+                  wxFontWeight weight,
+                  bool underlined,
+                  const wxString& faceName ,
+                  wxFontEncoding encoding);
+
+    void Free();
+    void EnsureValid();
+    
+    bool m_descriptorValid;
+#if wxOSX_USE_CORE_TEXT
+    CTFontDescriptorRef m_ctFontDescriptor;
+#endif
+
+#if wxOSX_USE_ATSU_TEXT
+    bool            m_atsuFontValid;
+    // the atsu font ID
+    wxUint32        m_atsuFontID;
+    // the qd styles that are not intrinsic to the font above
+    wxInt16         m_atsuAdditionalQDStyles;
+#if wxOSX_USE_CARBON
+    wxInt16         m_qdFontFamily;
+    wxInt16         m_qdFontStyle;
+#endif
+#endif
+
+#if wxOSX_USE_COCOA
+    WX_NSFontDescriptor m_nsFontDescriptor;
+    void            OSXValidateNSFontDescriptor();
+#endif
+#if wxOSX_USE_IPHONE
+#endif
+
+    int           m_pointSize;
+    wxFontFamily  m_family;
+    wxFontStyle   m_style;
+    wxFontWeight  m_weight;
+    bool          m_underlined;
+    wxString      m_faceName;
+    wxFontEncoding m_encoding;
+public :
 #else // other platforms
     //
     //  This is a generic implementation that should work on all ports
@@ -141,8 +215,11 @@ public:
 
     wxNativeFontInfo& operator=(const wxNativeFontInfo& info)
     {
-        Free();
-        Init(info);
+        if (this != &info)
+        {
+            Free();
+            Init(info);
+        }
         return *this;
     }
 #endif // wxUSE_PANGO
@@ -224,12 +301,12 @@ public:
 // translate a wxFontEncoding into native encoding parameter (defined above),
 // returning true if an (exact) macth could be found, false otherwise (without
 // attempting any substitutions)
-extern bool wxGetNativeFontEncoding(wxFontEncoding encoding,
-                                    wxNativeEncodingInfo *info);
+WXDLLIMPEXP_CORE bool wxGetNativeFontEncoding(wxFontEncoding encoding,
+                                              wxNativeEncodingInfo *info);
 
 // test for the existence of the font described by this facename/encoding,
 // return true if such font(s) exist, false otherwise
-extern bool wxTestFontEncoding(const wxNativeEncodingInfo& info);
+WXDLLIMPEXP_CORE bool wxTestFontEncoding(const wxNativeEncodingInfo& info);
 
 // ----------------------------------------------------------------------------
 // font-related functions (X and GTK)

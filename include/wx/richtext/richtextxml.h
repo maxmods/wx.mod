@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     2005-09-30
-// RCS-ID:      $Id: richtextxml.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: richtextxml.h 49108 2007-10-09 11:20:36Z JS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -45,10 +45,10 @@ public:
     bool ImportStyleDefinition(wxRichTextStyleSheet* sheet, wxXmlNode* node);
 
     /// Create style parameters
-    wxString CreateStyle(const wxTextAttrEx& attr, bool isPara = false);
+    wxString CreateStyle(const wxTextAttr& attr, bool isPara = false);
 
     /// Get style parameters
-    bool GetStyle(wxTextAttrEx& attr, wxXmlNode* node, bool isPara = false);
+    bool GetStyle(wxTextAttr& attr, wxXmlNode* node, bool isPara = false);
 #endif
 
     /// Can we save using this handler?

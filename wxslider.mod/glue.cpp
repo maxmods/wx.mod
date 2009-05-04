@@ -57,9 +57,9 @@ wxObject * MaxSliderXmlHandler::DoCreateResource()
 
     control->Create(m_parentAsWindow,
                     GetID(),
-                    GetLong(wxT("value"), wxSL_DEFAULT_VALUE),
-                    GetLong(wxT("min"), wxSL_DEFAULT_MIN),
-                    GetLong(wxT("max"), wxSL_DEFAULT_MAX),
+                    GetLong(wxT("value"), 0),
+                    GetLong(wxT("min"), 0),
+                    GetLong(wxT("max"), 100),
                     GetPosition(), GetSize(),
                     GetStyle(),
                     wxDefaultValidator,

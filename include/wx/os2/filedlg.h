@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/05/99
-// RCS-ID:      $Id: filedlg.h 39402 2006-05-28 23:32:12Z VZ $
+// RCS-ID:      $Id: filedlg.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 // wxFileDialog
 //-------------------------------------------------------------------------
 
-class WXDLLEXPORT wxFileDialog: public wxFileDialogBase
+class WXDLLIMPEXP_CORE wxFileDialog: public wxFileDialogBase
 {
 DECLARE_DYNAMIC_CLASS(wxFileDialog)
 public:

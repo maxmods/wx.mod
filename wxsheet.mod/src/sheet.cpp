@@ -2639,7 +2639,7 @@ bool wxSheetDataObject::SetData(size_t len, const void *buf)
     if (len < 2u)
         return false; // I guess?
 
-    wxString strBuf(wxConvertMB2WX((const char *)buf), len); // probably not Unicode safe
+    wxString strBuf(wxConvertMB2WX((const char *)buf).data(), len); // probably not Unicode safe
     m_data = strBuf;
 
     //wxPrintf(wxT("Data len %d %d\n"), m_data.Len(), len);
@@ -4299,7 +4299,7 @@ void wxSheet::DrawRowColResizingMarker( int newDragPos )
         }
     }
 
-    int log_fn = dc.GetLogicalFunction();
+    wxRasterOperationMode log_fn = dc.GetLogicalFunction();
     dc.SetLogicalFunction(wxINVERT);
 
     if (m_dragLastPos >= 0)
@@ -6507,12 +6507,12 @@ void wxSheet::OnChar( wxKeyEvent& event )
 
             break;
         }
-        case WXK_PRIOR:
+        case WXK_PAGEUP:
         {
             MoveCursorUpPage( event.ShiftDown() );
             break;
         }
-        case WXK_NEXT:
+        case WXK_PAGEDOWN:
         {
             MoveCursorDownPage( event.ShiftDown() );
             break;
@@ -6668,7 +6668,7 @@ void wxSheet::OnMouseTimer( wxTimerEvent &WXUNUSED(event) )
     mEvt.m_x = m_mousePos.x;
     mEvt.m_y = m_mousePos.y;
 
-    win->ProcessEvent(mEvt);
+    win->GetEventHandler()->ProcessEvent(mEvt);
     StartMouseTimer();
 }
 

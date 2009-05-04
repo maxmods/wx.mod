@@ -3,7 +3,7 @@
 // Purpose:     wxNotebook class (a.k.a. property sheet, tabbed dialog)
 // Author:      Julian Smart
 // Modified by:
-// RCS-ID:      $Id: notebook.h 41738 2006-10-08 17:37:23Z VZ $
+// RCS-ID:      $Id: notebook.h 54895 2008-08-01 13:46:46Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,9 +22,9 @@
 // ----------------------------------------------------------------------------
 
 // fwd declarations
-class WXDLLEXPORT wxImageList;
-class WXDLLEXPORT wxWindow;
-class WXDLLEXPORT wxTabView;
+class WXDLLIMPEXP_FWD_CORE wxImageList;
+class WXDLLIMPEXP_FWD_CORE wxWindow;
+class WXDLLIMPEXP_FWD_CORE wxTabView;
 
 // ----------------------------------------------------------------------------
 // wxNotebook
@@ -115,7 +115,7 @@ public:
   // ---------
   void OnSize(wxSizeEvent& event);
   void OnInternalIdle();
-  void OnSelChange(wxNotebookEvent& event);
+  void OnSelChange(wxBookCtrlEvent& event);
   void OnSetFocus(wxFocusEvent& event);
   void OnNavigationKey(wxNavigationKeyEvent& event);
 

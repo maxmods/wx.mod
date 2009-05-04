@@ -370,32 +370,75 @@ MaxDateTime * bmx_wxdatetime_subtractds(MaxDateTime * datetime, MaxDateSpan * di
 }
 
 BBString * bmx_wxdatetime_parserfc822date(MaxDateTime * datetime, BBString * date) {
-	return bbStringFromWxString(wxString(datetime->DateTime().ParseRfc822Date(wxStringFromBBString(date).c_str())));
+	wxString::const_iterator end;
+	wxString str = wxStringFromBBString(date);
+	if (!datetime->DateTime().ParseRfc822Date(str, &end)) {
+		return &bbEmptyString;
+	} else  if (end == str.end()) {
+		return date;
+	} else {
+		return bbStringFromWxString(wxString(end, str.end()));
+	}
 }
 
 BBString * bmx_wxdatetime_parseformat(MaxDateTime * datetime, BBString * date, BBString * format, MaxDateTime * dateDef) {
-	const wxChar * c = wxDefaultDateTimeFormat;
+	wxString::const_iterator end;
+	wxString str = wxStringFromBBString(date);
+	wxString c = wxDefaultDateTimeFormat;
 	if (format!=&bbEmptyString) {
-		c = wxStringFromBBString(format).c_str(); 
+		c = wxStringFromBBString(format); 
 	}
 
+	bool res;
 	if (dateDef) {
-		return bbStringFromWxString(wxString(datetime->DateTime().ParseFormat(wxStringFromBBString(date).c_str(), c, dateDef->DateTime())));
+		res = datetime->DateTime().ParseFormat(str, c, dateDef->DateTime(), &end);
 	} else {
-		return bbStringFromWxString(wxString(datetime->DateTime().ParseFormat(wxStringFromBBString(date).c_str(), c)));
+		res = datetime->DateTime().ParseFormat(str, c, wxDefaultDateTime, &end);
 	}
+	
+	if (!res) {
+		return &bbEmptyString;
+	} else  if (end == str.end()) {
+		return date;
+	} else {
+		return bbStringFromWxString(wxString(end, str.end()));
+	}	
 }
 
 BBString * bmx_wxdatetime_parsedatetime(MaxDateTime * datetime, BBString * dt) {
-	return bbStringFromWxString(wxString(datetime->DateTime().ParseDateTime(wxStringFromBBString(dt).c_str())));
+	wxString::const_iterator end;
+	wxString str = wxStringFromBBString(dt);
+	if (!datetime->DateTime().ParseDateTime(str, &end)) {
+		return &bbEmptyString;
+	} else  if (end == str.end()) {
+		return dt;
+	} else {
+		return bbStringFromWxString(wxString(end, str.end()));
+	}
 }
 
 BBString * bmx_wxdatetime_parsedate(MaxDateTime * datetime, BBString * date) {
-	return bbStringFromWxString(wxString(datetime->DateTime().ParseDate(wxStringFromBBString(date).c_str())));
+	wxString::const_iterator end;
+	wxString str = wxStringFromBBString(date);
+	if (!datetime->DateTime().ParseDate(str, &end)) {
+		return &bbEmptyString;
+	} else  if (end == str.end()) {
+		return date;
+	} else {
+		return bbStringFromWxString(wxString(end, str.end()));
+	}
 }
 
 BBString * bmx_wxdatetime_parsetime(MaxDateTime * datetime, BBString * time) {
-	return bbStringFromWxString(wxString(datetime->DateTime().ParseTime(wxStringFromBBString(time).c_str())));
+	wxString::const_iterator end;
+	wxString str = wxStringFromBBString(time);
+	if (!datetime->DateTime().ParseTime(str, &end)) {
+		return &bbEmptyString;
+	} else  if (end == str.end()) {
+		return time;
+	} else {
+		return bbStringFromWxString(wxString(end, str.end()));
+	}
 }
 
 BBString * bmx_wxdatetime_format(MaxDateTime * datetime, BBString * format, wxDateTime::TZ tz) {

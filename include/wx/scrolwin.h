@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     30.08.00
-// RCS-ID:      $Id: scrolwin.h 50864 2007-12-20 18:36:19Z VS $
+// RCS-ID:      $Id: scrolwin.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2000 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,10 +15,18 @@
 #include "wx/panel.h"
 
 class WXDLLIMPEXP_FWD_CORE wxScrollHelperEvtHandler;
-class WXDLLIMPEXP_FWD_CORE wxTimer;
+class WXDLLIMPEXP_FWD_BASE wxTimer;
 
 // default scrolled window style: scroll in both directions
 #define wxScrolledWindowStyle (wxHSCROLL | wxVSCROLL)
+
+// values for the second argument of wxScrollHelper::ShowScrollbars()
+enum wxScrollbarVisibility
+{
+    wxSHOW_SB_NEVER = -1,   // never show the scrollbar at all
+    wxSHOW_SB_DEFAULT,      // show scrollbar only if it is needed
+    wxSHOW_SB_ALWAYS        // always show scrollbar, even if not needed
+};
 
 // ----------------------------------------------------------------------------
 // The hierarchy of scrolling classes is a bit complicated because we want to
@@ -29,11 +37,11 @@ class WXDLLIMPEXP_FWD_CORE wxTimer;
 //
 // So we have
 //
-//                             wxScrollHelper
+//                           wxScrollHelperBase
 //                                   |
 //                                   |
 //                                  \|/
-//      wxWindow            wxScrollHelperNative
+//      wxWindow               wxScrollHelper
 //       |  \                   /        /
 //       |   \                 /        /
 //       |    _|             |_        /
@@ -48,12 +56,12 @@ class WXDLLIMPEXP_FWD_CORE wxTimer;
 //
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxScrollHelper
+class WXDLLIMPEXP_CORE wxScrollHelperBase
 {
 public:
     // ctor must be given the associated window
-    wxScrollHelper(wxWindow *winToScroll);
-    virtual ~wxScrollHelper();
+    wxScrollHelperBase(wxWindow *winToScroll);
+    virtual ~wxScrollHelperBase();
 
     // configure the scrolling
     virtual void SetScrollbars(int pixelsPerUnitX, int pixelsPerUnitY,
@@ -62,13 +70,18 @@ public:
                                bool noRefresh = false );
 
     // scroll to the given (in logical coords) position
-    virtual void Scroll(int x, int y);
+    //
+    // notice that for backwards compatibility reasons Scroll() is virtual as
+    // the existing code could override it but new code should override
+    // DoScroll() instead
+    virtual void Scroll(int x, int y) { DoScroll(x, y); }
+    virtual void Scroll(const wxPoint& pt) { DoScroll(pt.x, pt.y); }
 
     // get/set the page size for this orientation (wxVERTICAL/wxHORIZONTAL)
     int GetScrollPageSize(int orient) const;
     void SetScrollPageSize(int orient, int pageSize);
 
-    // get the number of lines the window can scroll, 
+    // get the number of lines the window can scroll,
     // returns 0 if no scrollbars are there.
     int GetScrollLines( int orient ) const;
 
@@ -76,8 +89,17 @@ public:
     void SetScrollRate( int xstep, int ystep );
 
     // get the size of one logical unit in physical ones
-    virtual void GetScrollPixelsPerUnit(int *pixelsPerUnitX,
-                                        int *pixelsPerUnitY) const;
+    void GetScrollPixelsPerUnit(int *pixelsPerUnitX, int *pixelsPerUnitY) const;
+
+    // Set scrollbar visibility: it is possible to show scrollbar only if it is
+    // needed (i.e. if our virtual size is greater than the current size of the
+    // associated window), always (as wxALWAYS_SHOW_SB style does) or never (in
+    // which case you should provide some other way to scroll the window as the
+    // user wouldn't be able to do it at all)
+    void ShowScrollbars(wxScrollbarVisibility horz, wxScrollbarVisibility vert)
+    {
+        DoShowScrollbars(horz, vert);
+    }
 
     // Enable/disable Windows scrolling in either direction. If true, wxWidgets
     // scrolls the canvas and only a bit of the canvas is invalidated; no
@@ -87,7 +109,14 @@ public:
     virtual void EnableScrolling(bool x_scrolling, bool y_scrolling);
 
     // Get the view start
-    virtual void GetViewStart(int *x, int *y) const;
+    void GetViewStart(int *x, int *y) const { DoGetViewStart(x, y); }
+
+    wxPoint GetViewStart() const
+    {
+        wxPoint pt;
+        DoGetViewStart(&pt.x, &pt.y);
+        return pt;
+    }
 
     // Set the scale factor, used in PrepareDC
     void SetScale(double xs, double ys) { m_scaleX = xs; m_scaleY = ys; }
@@ -113,21 +142,21 @@ public:
         return p2;
     }
 
-    virtual void DoCalcScrolledPosition(int x, int y, int *xx, int *yy) const;
-    virtual void DoCalcUnscrolledPosition(int x, int y, int *xx, int *yy) const;
+    void DoCalcScrolledPosition(int x, int y, int *xx, int *yy) const;
+    void DoCalcUnscrolledPosition(int x, int y, int *xx, int *yy) const;
 
     // Adjust the scrollbars
-    virtual void AdjustScrollbars(void);
+    virtual void AdjustScrollbars() = 0;
 
     // Calculate scroll increment
-    virtual int CalcScrollInc(wxScrollWinEvent& event);
+    int CalcScrollInc(wxScrollWinEvent& event);
 
     // Normally the wxScrolledWindow will scroll itself, but in some rare
     // occasions you might want it to scroll [part of] another window (e.g. a
     // child of it in order to scroll only a portion the area between the
     // scrollbars (spreadsheet: only cell area will move).
-    virtual void SetTargetWindow(wxWindow *target);
-    virtual wxWindow *GetTargetWindow() const;
+    void SetTargetWindow(wxWindow *target);
+    wxWindow *GetTargetWindow() const;
 
     void SetTargetRect(const wxRect& rect) { m_rectToScroll = rect; }
     wxRect GetTargetRect() const { return m_rectToScroll; }
@@ -162,14 +191,13 @@ public:
 #if wxUSE_MOUSEWHEEL
     void HandleOnMouseWheel(wxMouseEvent& event);
 #endif // wxUSE_MOUSEWHEEL
-
-#if wxABI_VERSION >= 20808
     void HandleOnChildFocus(wxChildFocusEvent& event);
-#endif
 
-    // FIXME: this is needed for now for wxPlot compilation, should be removed
-    //        once it is fixed!
-    void OnScroll(wxScrollWinEvent& event) { HandleOnScroll(event); }
+#if WXWIN_COMPATIBILITY_2_8
+    wxDEPRECATED(
+        void OnScroll(wxScrollWinEvent& event) { HandleOnScroll(event); }
+    )
+#endif // WXWIN_COMPATIBILITY_2_8
 
 protected:
     // get pointer to our scroll rect if we use it or NULL
@@ -194,12 +222,17 @@ protected:
             *h = size.y;
     }
 
+    // implementation of public methods with the same name
+    virtual void DoGetViewStart(int *x, int *y) const;
+    virtual void DoScroll(int x, int y) = 0;
+    virtual void DoShowScrollbars(wxScrollbarVisibility horz,
+                                  wxScrollbarVisibility vert) = 0;
+
     // implementations of various wxWindow virtual methods which should be
     // forwarded to us (this can be done by WX_FORWARD_TO_SCROLL_HELPER())
     bool ScrollLayout();
     void ScrollDoSetVirtualSize(int x, int y);
     wxSize ScrollGetBestVirtualSize() const;
-    wxSize ScrollGetWindowSizeForVirtualSize(const wxSize& size) const;
 
     // change just the target window (unlike SetWindow which changes m_win as
     // well)
@@ -207,6 +240,26 @@ protected:
 
     // delete the event handler we installed
     void DeleteEvtHandler();
+
+    // calls wxScrollHelperEvtHandler::ResetDrawnFlag(), see explanation
+    // in wxScrollHelperEvtHandler::ProcessEvent()
+    void ResetDrawnFlag();
+
+    // this function should be overridden to return the size available for
+    // m_targetWindow inside m_win of the given size
+    //
+    // the default implementation is only good for m_targetWindow == m_win
+    // case, if we're scrolling a subwindow you must override this method
+    virtual wxSize GetSizeAvailableForScrollTarget(const wxSize& size)
+    {
+        // returning just size from here is wrong but it was decided that it is
+        // not wrong enough to break the existing code (which doesn't override
+        // this recently added function at all) by adding this assert
+        //
+        // wxASSERT_MSG( m_targetWindow == m_win, "must be overridden" );
+
+        return size;
+    }
 
 
     double                m_scaleX;
@@ -237,7 +290,7 @@ protected:
 
     wxScrollHelperEvtHandler *m_handler;
 
-    DECLARE_NO_COPY_CLASS(wxScrollHelper)
+    wxDECLARE_NO_COPY_CLASS(wxScrollHelperBase);
 };
 
 // this macro can be used in a wxScrollHelper-derived class to forward wxWindow
@@ -249,66 +302,138 @@ public:                                                                       \
     virtual void DoSetVirtualSize(int x, int y)                               \
         { ScrollDoSetVirtualSize(x, y); }                                     \
     virtual wxSize GetBestVirtualSize() const                                 \
-        { return ScrollGetBestVirtualSize(); }                                \
-protected:                                                                    \
-    virtual wxSize GetWindowSizeForVirtualSize(const wxSize& size) const      \
-        { return ScrollGetWindowSizeForVirtualSize(size); }
+        { return ScrollGetBestVirtualSize(); }
 
-// include the declaration of wxScrollHelperNative if needed
+// include the declaration of the real wxScrollHelper
 #if defined(__WXGTK20__) && !defined(__WXUNIVERSAL__)
     #include "wx/gtk/scrolwin.h"
 #elif defined(__WXGTK__) && !defined(__WXUNIVERSAL__)
     #include "wx/gtk1/scrolwin.h"
 #else
-    typedef wxScrollHelper wxScrollHelperNative;
+    #define wxHAS_GENERIC_SCROLLWIN
+    #include "wx/generic/scrolwin.h"
 #endif
 
 // ----------------------------------------------------------------------------
-// wxScrolledWindow: a wxWindow which knows how to scroll
+// wxScrolled<T>: a wxWindow which knows how to scroll
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxScrolledWindow : public wxPanel,
-                                     public wxScrollHelperNative
+// helper class for wxScrolled<T> below
+struct WXDLLIMPEXP_CORE wxScrolledT_Helper
+{
+    static wxSize FilterBestSize(const wxWindow *win,
+                                 const wxScrollHelper *helper,
+                                 const wxSize& origBest);
+#ifdef __WXMSW__
+    static WXLRESULT FilterMSWWindowProc(WXUINT nMsg, WXLRESULT origResult);
+#endif
+};
+
+// Scrollable window base on window type T. This used to be wxScrolledWindow,
+// but wxScrolledWindow includes wxControlContainer functionality and that's
+// not always desirable.
+template<class T>
+class WXDLLIMPEXP_CORE wxScrolled : public T,
+                                    public wxScrollHelper,
+                                    private wxScrolledT_Helper
 {
 public:
-    wxScrolledWindow() : wxScrollHelperNative(this) { }
-    wxScrolledWindow(wxWindow *parent,
-                     wxWindowID winid = wxID_ANY,
-                     const wxPoint& pos = wxDefaultPosition,
-                     const wxSize& size = wxDefaultSize,
-                     long style = wxScrolledWindowStyle,
-                     const wxString& name = wxPanelNameStr)
-        : wxScrollHelperNative(this)
+    wxScrolled() : wxScrollHelper(this) { }
+    wxScrolled(wxWindow *parent,
+               wxWindowID winid = wxID_ANY,
+               const wxPoint& pos = wxDefaultPosition,
+               const wxSize& size = wxDefaultSize,
+               long style = wxScrolledWindowStyle,
+               const wxString& name = wxPanelNameStr)
+        : wxScrollHelper(this)
     {
         Create(parent, winid, pos, size, style, name);
     }
-
-    virtual ~wxScrolledWindow();
 
     bool Create(wxWindow *parent,
                 wxWindowID winid,
                 const wxPoint& pos = wxDefaultPosition,
                 const wxSize& size = wxDefaultSize,
                 long style = wxScrolledWindowStyle,
-                const wxString& name = wxPanelNameStr);
+                const wxString& name = wxPanelNameStr)
+    {
+        m_targetWindow = this;
+
+#ifdef __WXMAC__
+        this->MacSetClipChildren(true);
+#endif
+
+        this->Connect(wxEVT_PAINT, wxPaintEventHandler(wxScrolled::OnPaint));
+
+        // by default, we're scrollable in both directions (but if one of the
+        // styles is specified explicitly, we shouldn't add the other one
+        // automatically)
+        if ( !(style & (wxHSCROLL | wxVSCROLL)) )
+            style |= wxHSCROLL | wxVSCROLL;
+
+        return T::Create(parent, winid, pos, size, style, name);
+    }
 
     // we need to return a special WM_GETDLGCODE value to process just the
     // arrows but let the other navigation characters through
 #ifdef __WXMSW__
-    virtual WXLRESULT MSWWindowProc(WXUINT nMsg, WXWPARAM wParam, WXLPARAM lParam);
+    virtual WXLRESULT MSWWindowProc(WXUINT nMsg, WXWPARAM wParam, WXLPARAM lParam)
+    {
+        return FilterMSWWindowProc(nMsg, T::MSWWindowProc(nMsg, wParam, lParam));
+    }
 #endif // __WXMSW__
 
     WX_FORWARD_TO_SCROLL_HELPER()
 
 protected:
-    // this is needed for wxEVT_PAINT processing hack described in
-    // wxScrollHelperEvtHandler::ProcessEvent()
-    void OnPaint(wxPaintEvent& event);
+    virtual wxSize DoGetBestSize() const
+    {
+        return FilterBestSize(this, this, T::DoGetBestSize());
+    }
 
 private:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxScrolledWindow)
-    DECLARE_EVENT_TABLE()
+    // this is needed for wxEVT_PAINT processing hack described in
+    // wxScrollHelperEvtHandler::ProcessEvent()
+    void OnPaint(wxPaintEvent& event)
+    {
+        // the user code didn't really draw the window if we got here, so set
+        // this flag to try to call OnDraw() later
+        ResetDrawnFlag();
+        event.Skip();
+    }
+
+    // VC++ 6 gives warning for the declaration of template member function
+    // without definition
+#if !defined(__VISUALC__) || wxCHECK_VISUALC_VERSION(7)
+    wxDECLARE_NO_COPY_CLASS(wxScrolled);
+#endif
 };
 
-#endif // _WX_SCROLWIN_H_BASE_
+// VC++ <= 6 requires this; it's unlikely any other specializations would
+// be needed by user code _and_ they were using VC6, so we list only wxWindow
+// (typical use) and wxPanel (wxScrolledWindow use) specializations here
+WXDLLIMPEXP_TEMPLATE_INSTANCE_CORE( wxScrolled<wxPanel> )
+WXDLLIMPEXP_TEMPLATE_INSTANCE_CORE( wxScrolled<wxWindow> )
 
+// for compatibility with existing code, we provide wxScrolledWindow
+// "typedef" for wxScrolled<wxPanel>. It's not a real typedef because we
+// want wxScrolledWindow to show in wxRTTI information (the class is widely
+// used and likelihood of its wxRTTI information being used too is high):
+class WXDLLIMPEXP_CORE wxScrolledWindow : public wxScrolled<wxPanel>
+{
+public:
+    wxScrolledWindow() : wxScrolled<wxPanel>() {}
+    wxScrolledWindow(wxWindow *parent,
+                     wxWindowID winid = wxID_ANY,
+                     const wxPoint& pos = wxDefaultPosition,
+                     const wxSize& size = wxDefaultSize,
+                     long style = wxScrolledWindowStyle,
+                     const wxString& name = wxPanelNameStr)
+        : wxScrolled<wxPanel>(parent, winid, pos, size, style, name) {}
+
+    DECLARE_DYNAMIC_CLASS_NO_COPY(wxScrolledWindow)
+};
+
+typedef wxScrolled<wxWindow> wxScrolledCanvas;
+
+#endif // _WX_SCROLWIN_H_BASE_

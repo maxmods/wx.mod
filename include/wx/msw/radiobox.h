@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: radiobox.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: radiobox.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@ class WXDLLIMPEXP_FWD_CORE wxSubwindows;
 // wxRadioBox
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxRadioBox : public wxStaticBox, public wxRadioBoxBase
+class WXDLLIMPEXP_CORE wxRadioBox : public wxStaticBox, public wxRadioBoxBase
 {
 public:
     wxRadioBox() { Init(); }
@@ -117,6 +117,9 @@ public:
     // it to behave normally
     virtual bool AcceptsFocus() const { return wxControl::AcceptsFocus(); }
 
+    // returns true if the platform should explicitly apply a theme border
+    virtual bool CanApplyThemeBorder() const { return false; }
+
     void SetLabelFont(const wxFont& WXUNUSED(font)) {}
     void SetButtonFont(const wxFont& font) { SetFont(font); }
 
@@ -158,6 +161,10 @@ protected:
     // the buttons we contain
     wxSubwindows *m_radioButtons;
 
+    // and the special dummy button used only as a tab group boundary
+    WXHWND m_dummyHwnd;
+    wxWindowIDRef m_dummyId;
+
     // array of widths and heights of the buttons, may be wxDefaultCoord if the
     // corresponding quantity should be computed
     int *m_radioWidth;
@@ -168,7 +175,7 @@ protected:
 
 private:
     DECLARE_DYNAMIC_CLASS(wxRadioBox)
-    DECLARE_NO_COPY_CLASS(wxRadioBox)
+    wxDECLARE_NO_COPY_CLASS(wxRadioBox);
 };
 
 #endif

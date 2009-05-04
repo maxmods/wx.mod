@@ -40,7 +40,7 @@ Import "../include/*.h"
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
 Import "../include/*.h"
 ?
-
+Rem
 Import "src/include/*.h"
 
 Import "src/advprops.cpp"
@@ -51,7 +51,7 @@ Import "src/odcombo.cpp"
 Import "src/propgrid.cpp"
 Import "src/props.cpp"
 Import "src/xh_propgrid.cpp"
-
+End Rem
 Import "glue.cpp"
 
 Extern
@@ -107,23 +107,17 @@ Extern
 	Function bmx_wxpropertygriditeratorbase_setbaseparent(handle:Byte Ptr, baseParent:Byte Ptr)
 
 	Function bmx_wxpropertygrid_getpropertybackgroundcolour:Byte Ptr(handle:Byte Ptr, prop:Byte Ptr)
-	Function bmx_wxpropertygrid_getpropertycolour:Byte Ptr(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertytextcolour:Byte Ptr(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertybackgroundcolourbyname:Byte Ptr(handle:Byte Ptr, name:String)
-	Function bmx_wxpropertygrid_getpropertycolourbyname:Byte Ptr(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_getpropertytextcolourbyname:Byte Ptr(handle:Byte Ptr, name:String)
 
 	Function bmx_wxpropertygrid_beginaddchildren(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_beginaddchildrenbyname(handle:Byte Ptr, name:String)
-	Function bmx_wxpropertygrid_clearpropertyvalue:Int(handle:Byte Ptr, prop:Byte Ptr)
-	Function bmx_wxpropertygrid_clearpropertyvaluebyname:Int(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_clearselection:Int(handle:Byte Ptr)
 	Function bmx_wxpropertygrid_collapse:Int(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_collapsebyname:Int(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_deleteproperty(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_deletepropertybyname(handle:Byte Ptr, name:String)
-	Function bmx_wxpropertygrid_deletepropertychoice(handle:Byte Ptr, prop:Byte Ptr, index:Int)
-	Function bmx_wxpropertygrid_deletepropertychoicebyname(handle:Byte Ptr, name:String, index:Int)
 	Function bmx_wxpropertygrid_disableproperty:Int(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_disablepropertybyname:Int(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_enableproperty:Int(handle:Byte Ptr, prop:Byte Ptr, enable:Int)
@@ -141,7 +135,6 @@ Extern
 	Function bmx_wxpropertygrid_expandbyname:Int(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_getfirst:Byte Ptr(handle:Byte Ptr, flags:Int)
 	Function bmx_wxpropertygrid_getpropertychoices:Byte Ptr(handle:Byte Ptr, prop:Byte Ptr)
-	Function bmx_wxpropertygrid_getpropertyclassname:String(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertyclientdata:Object(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertyeditor:Byte Ptr(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertyhelpstring:String(handle:Byte Ptr, prop:Byte Ptr)
@@ -154,13 +147,8 @@ Extern
 	Function bmx_wxpropertygrid_addpropertychoicebyname(handle:Byte Ptr, name:String, label:String, value:Int)
 	Function bmx_wxpropertygrid_setpropertymaxlength:Int(handle:Byte Ptr, prop:Byte Ptr, maxLen:Int)
 	Function bmx_wxpropertygrid_setpropertymaxlengthbyname:Int(handle:Byte Ptr, name:String, maxLen:Int)
-	Function bmx_wxpropertygrid_setpropertychoices(handle:Byte Ptr, prop:Byte Ptr, choices:Byte Ptr)
-	Function bmx_wxpropertygrid_setpropertychoicesexclusive(handle:Byte Ptr, prop:Byte Ptr)
-	Function bmx_wxpropertygrid_setpropertychoicesbyname(handle:Byte Ptr, name:String, choices:Byte Ptr)
-	Function bmx_wxpropertygrid_setpropertychoicesexclusivebyname(handle:Byte Ptr, name:String)
 
 	Function bmx_wxpropertygrid_getpropertyptr:Byte Ptr(handle:Byte Ptr, prop:Byte Ptr)
-	Function bmx_wxpropertygrid_getpropertyshortclassname:String(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertyvalueasarrayint:Int[](handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertyvalueasarraystring:String[](handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertyvalueasbool:Int(handle:Byte Ptr, prop:Byte Ptr)
@@ -173,7 +161,6 @@ Extern
 	Function bmx_wxpropertygrid_getpropertyvalueasstring:String(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertyvaluetype:String(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_getselection:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxpropertygrid_getpropertyshortclassnamebyname:String(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_getpropertyvalueasarrayintbyname:Int[](handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_getpropertyvalueasarraystringbyname:String[](handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_getpropertyvalueasboolbyname:Int(handle:Byte Ptr, name:String)
@@ -255,7 +242,7 @@ Extern
 	Function bmx_wxpgproperty_setattributebool(handle:Byte Ptr, name:String, value:Int)
 
 	Function bmx_wxpgproperty_addchild(handle:Byte Ptr, child:Byte Ptr)
-	Function bmx_wxpgproperty_appendchoice:Int(handle:Byte Ptr, label:String, value:Int)
+	Function bmx_wxpgproperty_addchoice:Int(handle:Byte Ptr, label:String, value:Int)
 	Function bmx_wxpgproperty_canhaveextrachildren:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_deletechoice(handle:Byte Ptr, index:Int)
 	Function bmx_wxpgproperty_empty(handle:Byte Ptr)
@@ -264,7 +251,6 @@ Extern
 	Function bmx_wxpgproperty_getchildcount:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getchildrenheight:Int(handle:Byte Ptr, lh:Int, iMax:Int)
 	Function bmx_wxpgproperty_getcommonvalue:Int(handle:Byte Ptr)
-	Function bmx_wxpgproperty_getcount:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getdepth:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getdisplayedcommonvaluecount:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getcurrentchoice:Byte Ptr(handle:Byte Ptr)
@@ -281,23 +267,17 @@ Extern
 
 	Function bmx_wxpropertygridevent_getmainparent:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxpropertygridevent_getproperty:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxpropertygridevent_hasproperty:Int(handle:Byte Ptr)
-	Function bmx_wxpropertygridevent_ispropertyenabled:Int(handle:Byte Ptr)
 	Function bmx_wxpropertygridevent_canveto:Int(handle:Byte Ptr)
-	Function bmx_wxpropertygridevent_disableproperty(handle:Byte Ptr)
-	Function bmx_wxpropertygridevent_enableproperty(handle:Byte Ptr, enable:Int)
-	Function bmx_wxpropertygridevent_getpropertylabel:String(handle:Byte Ptr)
-	Function bmx_wxpropertygridevent_getpropertyname:String(handle:Byte Ptr)
 	Function bmx_wxpropertygridevent_veto(handle:Byte Ptr, value:Int)
 
-	Function bmx_wxpropertygridevent_getpropertyvalueasarrayint:Int[](handle:Byte Ptr)
-	Function bmx_wxpropertygridevent_getpropertyvalueasarraystring:String[](handle:Byte Ptr)
-	Function bmx_wxpropertygridevent_getpropertyvalueasbool:Int(handle:Byte Ptr)
-	Function bmx_wxpropertygridevent_getpropertyvalueasdouble:Double(handle:Byte Ptr)
-	Function bmx_wxpropertygridevent_getpropertyvalueasint:Int(handle:Byte Ptr)
-	Function bmx_wxpropertygridevent_getpropertyvalueaspoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
-	Function bmx_wxpropertygridevent_getpropertyvalueassize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
-	Function bmx_wxpropertygridevent_getpropertyvalueasstring:String(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getvalueasarrayint:Int[](handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getvalueasarraystring:String[](handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getvalueasbool:Int(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getvalueasdouble:Double(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getvalueasint:Int(handle:Byte Ptr)
+	Function bmx_wxpropertygridevent_getvalueaspoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxpropertygridevent_getvalueassize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxpropertygridevent_getvalueasstring:String(handle:Byte Ptr)
 
 	Function bmx_wxpropertygrid_getpropertybysubname:Byte Ptr(handle:Byte Ptr, name:String, subName:String)
 	Function bmx_wxpropertygrid_getpropertybyname:Byte Ptr(handle:Byte Ptr, name:String)
@@ -312,7 +292,6 @@ Extern
 	Function bmx_wxpropertygrid_setpropertycell(handle:Byte Ptr, prop:Byte Ptr, column:Int, text:String, bitmap:Byte Ptr, fgCol:Byte Ptr, bgCol:Byte Ptr)
 	Function bmx_wxpropertygrid_getpropertycategorybyname:Byte Ptr(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_getpropertychoicesbyname:Byte Ptr(handle:Byte Ptr, name:String)
-	Function bmx_wxpropertygrid_getpropertyclassnamebyname:String(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_getpropertyhelpstringbyname:String(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_getpropertyimagebyname:Byte Ptr(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_getpropertyindexbyname:Int(handle:Byte Ptr, name:String)
@@ -429,7 +408,7 @@ Extern
 	Function bmx_wxpgproperty_getname:String(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getparent:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getpropertybyname:Byte Ptr(handle:Byte Ptr, name:String)
-	Function bmx_wxpgproperty_gettype:String(handle:Byte Ptr)
+	Function bmx_wxpgproperty_getvaluetype:String(handle:Byte Ptr)
 	Function bmx_wxpgproperty_setvalueulong(handle:Byte Ptr, value:Long)
 	Function bmx_wxpgproperty_setvaluelong(handle:Byte Ptr, value:Long)
 	Function bmx_wxpgproperty_setvaluesize(handle:Byte Ptr, w:Int, h:Int)
@@ -453,7 +432,6 @@ Extern
 	Function bmx_wxpgproperty_setvaluecolour(handle:Byte Ptr, value:Byte Ptr)
 	Function bmx_wxpgproperty_getchoicecount:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getchoicestring:String(handle:Byte Ptr, index:Int)
-	Function bmx_wxpgproperty_getclassname:String(handle:Byte Ptr)
 
 	Function bmx_wxdateproperty_getdatepickerstyle:Int(handle:Byte Ptr)
 	Function bmx_wxdateproperty_getdatevalue:Byte Ptr(handle:Byte Ptr)

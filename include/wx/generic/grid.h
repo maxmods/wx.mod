@@ -4,7 +4,7 @@
 // Author:      Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: Santiago Palacios
 // Created:     1/08/1999
-// RCS-ID:      $Id: grid.h 55568 2008-09-12 12:49:11Z VZ $
+// RCS-ID:      $Id: grid.h 59365 2009-03-06 10:38:45Z VZ $
 // Copyright:   (c) Michael Bedward
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@
 // constants
 // ----------------------------------------------------------------------------
 
-extern WXDLLIMPEXP_DATA_ADV(const wxChar) wxGridNameStr[];
+extern WXDLLIMPEXP_DATA_ADV(const char) wxGridNameStr[];
 
 // Default parameters for wxGrid
 //
@@ -51,11 +51,17 @@ extern WXDLLIMPEXP_DATA_ADV(const wxChar) wxGridNameStr[];
 #define wxGRID_VALUE_TEXT wxGRID_VALUE_STRING
 #define wxGRID_VALUE_LONG wxGRID_VALUE_NUMBER
 
-#if wxABI_VERSION >= 20808
-    // magic constant which tells (to some functions) to automatically
-    // calculate the appropriate size
-    #define wxGRID_AUTOSIZE (-1)
-#endif // wxABI_VERSION >= 20808
+// magic constant which tells (to some functions) to automatically calculate
+// the appropriate size
+#define wxGRID_AUTOSIZE (-1)
+
+// many wxGrid methods work either with columns or rows, this enum is used for
+// the parameter indicating which one should it be
+enum wxGridDirection
+{
+    wxGRID_COLUMN,
+    wxGRID_ROW
+};
 
 // ----------------------------------------------------------------------------
 // forward declarations
@@ -71,12 +77,19 @@ class WXDLLIMPEXP_FWD_ADV wxGridWindow;
 class WXDLLIMPEXP_FWD_ADV wxGridTypeRegistry;
 class WXDLLIMPEXP_FWD_ADV wxGridSelection;
 
+class WXDLLIMPEXP_FWD_CORE wxHeaderCtrl;
 class WXDLLIMPEXP_FWD_CORE wxCheckBox;
 class WXDLLIMPEXP_FWD_CORE wxComboBox;
 class WXDLLIMPEXP_FWD_CORE wxTextCtrl;
 #if wxUSE_SPINCTRL
 class WXDLLIMPEXP_FWD_CORE wxSpinCtrl;
 #endif
+
+class wxGridOperations;
+class wxGridRowOperations;
+class wxGridColumnOperations;
+class wxGridDirectionOperations;
+
 
 // ----------------------------------------------------------------------------
 // macros
@@ -156,129 +169,6 @@ public:
     virtual wxGridCellRenderer *Clone() const = 0;
 };
 
-// the default renderer for the cells containing string data
-class WXDLLIMPEXP_ADV wxGridCellStringRenderer : public wxGridCellRenderer
-{
-public:
-    // draw the string
-    virtual void Draw(wxGrid& grid,
-                      wxGridCellAttr& attr,
-                      wxDC& dc,
-                      const wxRect& rect,
-                      int row, int col,
-                      bool isSelected);
-
-    // return the string extent
-    virtual wxSize GetBestSize(wxGrid& grid,
-                               wxGridCellAttr& attr,
-                               wxDC& dc,
-                               int row, int col);
-
-    virtual wxGridCellRenderer *Clone() const
-        { return new wxGridCellStringRenderer; }
-
-protected:
-    // set the text colours before drawing
-    void SetTextColoursAndFont(const wxGrid& grid,
-                               const wxGridCellAttr& attr,
-                               wxDC& dc,
-                               bool isSelected);
-
-    // calc the string extent for given string/font
-    wxSize DoGetBestSize(const wxGridCellAttr& attr,
-                         wxDC& dc,
-                         const wxString& text);
-};
-
-// the default renderer for the cells containing numeric (long) data
-class WXDLLIMPEXP_ADV wxGridCellNumberRenderer : public wxGridCellStringRenderer
-{
-public:
-    // draw the string right aligned
-    virtual void Draw(wxGrid& grid,
-                      wxGridCellAttr& attr,
-                      wxDC& dc,
-                      const wxRect& rect,
-                      int row, int col,
-                      bool isSelected);
-
-    virtual wxSize GetBestSize(wxGrid& grid,
-                               wxGridCellAttr& attr,
-                               wxDC& dc,
-                               int row, int col);
-
-    virtual wxGridCellRenderer *Clone() const
-        { return new wxGridCellNumberRenderer; }
-
-protected:
-    wxString GetString(const wxGrid& grid, int row, int col);
-};
-
-class WXDLLIMPEXP_ADV wxGridCellFloatRenderer : public wxGridCellStringRenderer
-{
-public:
-    wxGridCellFloatRenderer(int width = -1, int precision = -1);
-
-    // get/change formatting parameters
-    int GetWidth() const { return m_width; }
-    void SetWidth(int width) { m_width = width; m_format.clear(); }
-    int GetPrecision() const { return m_precision; }
-    void SetPrecision(int precision) { m_precision = precision; m_format.clear(); }
-
-    // draw the string right aligned with given width/precision
-    virtual void Draw(wxGrid& grid,
-                      wxGridCellAttr& attr,
-                      wxDC& dc,
-                      const wxRect& rect,
-                      int row, int col,
-                      bool isSelected);
-
-    virtual wxSize GetBestSize(wxGrid& grid,
-                               wxGridCellAttr& attr,
-                               wxDC& dc,
-                               int row, int col);
-
-    // parameters string format is "width[,precision]"
-    virtual void SetParameters(const wxString& params);
-
-    virtual wxGridCellRenderer *Clone() const;
-
-protected:
-    wxString GetString(const wxGrid& grid, int row, int col);
-
-private:
-    // formatting parameters
-    int m_width,
-        m_precision;
-
-    wxString m_format;
-};
-
-// renderer for boolean fields
-class WXDLLIMPEXP_ADV wxGridCellBoolRenderer : public wxGridCellRenderer
-{
-public:
-    // draw a check mark or nothing
-    virtual void Draw(wxGrid& grid,
-                      wxGridCellAttr& attr,
-                      wxDC& dc,
-                      const wxRect& rect,
-                      int row, int col,
-                      bool isSelected);
-
-    // return the checkmark size
-    virtual wxSize GetBestSize(wxGrid& grid,
-                               wxGridCellAttr& attr,
-                               wxDC& dc,
-                               int row, int col);
-
-    virtual wxGridCellRenderer *Clone() const
-        { return new wxGridCellBoolRenderer; }
-
-private:
-    static wxSize ms_sizeCheckMark;
-};
-
 // ----------------------------------------------------------------------------
 // wxGridCellEditor:  This class is responsible for providing and manipulating
 // the in-place edit controls for the grid.  Instances of wxGridCellEditor
@@ -309,19 +199,34 @@ public:
 
     // Show or hide the edit control, use the specified attributes to set
     // colours/fonts for it
-    virtual void Show(bool show, wxGridCellAttr *attr = (wxGridCellAttr *)NULL);
+    virtual void Show(bool show, wxGridCellAttr *attr = NULL);
 
     // Draws the part of the cell not occupied by the control: the base class
     // version just fills it with background colour from the attribute
     virtual void PaintBackground(const wxRect& rectCell, wxGridCellAttr *attr);
 
+
+    // The methods called by wxGrid when a cell is edited: first BeginEdit() is
+    // called, then EndEdit() is and if it returns true and if the change is
+    // not vetoed by a user-defined event handler, finally ApplyEdit() is called
+
     // Fetch the value from the table and prepare the edit control
     // to begin editing.  Set the focus to the edit control.
     virtual void BeginEdit(int row, int col, wxGrid* grid) = 0;
 
-    // Complete the editing of the current cell. Returns true if the value has
-    // changed.  If necessary, the control may be destroyed.
-    virtual bool EndEdit(int row, int col, wxGrid* grid) = 0;
+    // Returns false if nothing changed, otherwise returns true and return the
+    // new value in its string form in the newval output parameter.
+    //
+    // This should also store the new value in its real type internally so that
+    // it could be used by ApplyEdit() but it must not modify the grid as the
+    // change could still be vetoed.
+    virtual bool EndEdit(int row, int col, const wxGrid *grid,
+                         const wxString& oldval, wxString *newval) = 0;
+
+    // Complete the editing of the current cell by storing the value saved by
+    // the previous call to EndEdit() in the grid
+    virtual void ApplyEdit(int row, int col, wxGrid* grid) = 0;
+
 
     // Reset the value in the control back to its starting value
     virtual void Reset() = 0;
@@ -378,246 +283,9 @@ protected:
     // no friends
     friend class wxGridCellEditorDummyFriend;
 
-    DECLARE_NO_COPY_CLASS(wxGridCellEditor)
+    wxDECLARE_NO_COPY_CLASS(wxGridCellEditor);
 };
 
-#if wxUSE_TEXTCTRL
-
-// the editor for string/text data
-class WXDLLIMPEXP_ADV wxGridCellTextEditor : public wxGridCellEditor
-{
-public:
-    wxGridCellTextEditor();
-
-    virtual void Create(wxWindow* parent,
-                        wxWindowID id,
-                        wxEvtHandler* evtHandler);
-    virtual void SetSize(const wxRect& rect);
-
-    virtual void PaintBackground(const wxRect& rectCell, wxGridCellAttr *attr);
-
-    virtual bool IsAcceptedKey(wxKeyEvent& event);
-    virtual void BeginEdit(int row, int col, wxGrid* grid);
-    virtual bool EndEdit(int row, int col, wxGrid* grid);
-
-    virtual void Reset();
-    virtual void StartingKey(wxKeyEvent& event);
-    virtual void HandleReturn(wxKeyEvent& event);
-
-    // parameters string format is "max_width"
-    virtual void SetParameters(const wxString& params);
-
-    virtual wxGridCellEditor *Clone() const
-        { return new wxGridCellTextEditor; }
-
-    // added GetValue so we can get the value which is in the control
-    virtual wxString GetValue() const;
-
-protected:
-    wxTextCtrl *Text() const { return (wxTextCtrl *)m_control; }
-
-    // parts of our virtual functions reused by the derived classes
-    void DoBeginEdit(const wxString& startValue);
-    void DoReset(const wxString& startValue);
-
-private:
-    size_t   m_maxChars;        // max number of chars allowed
-    wxString m_startValue;
-
-    DECLARE_NO_COPY_CLASS(wxGridCellTextEditor)
-};
-
-// the editor for numeric (long) data
-class WXDLLIMPEXP_ADV wxGridCellNumberEditor : public wxGridCellTextEditor
-{
-public:
-    // allows to specify the range - if min == max == -1, no range checking is
-    // done
-    wxGridCellNumberEditor(int min = -1, int max = -1);
-
-    virtual void Create(wxWindow* parent,
-                        wxWindowID id,
-                        wxEvtHandler* evtHandler);
-
-    virtual bool IsAcceptedKey(wxKeyEvent& event);
-    virtual void BeginEdit(int row, int col, wxGrid* grid);
-    virtual bool EndEdit(int row, int col, wxGrid* grid);
-
-    virtual void Reset();
-    virtual void StartingKey(wxKeyEvent& event);
-
-    // parameters string format is "min,max"
-    virtual void SetParameters(const wxString& params);
-
-    virtual wxGridCellEditor *Clone() const
-        { return new wxGridCellNumberEditor(m_min, m_max); }
-
-    // added GetValue so we can get the value which is in the control
-    virtual wxString GetValue() const;
-
-protected:
-#if wxUSE_SPINCTRL
-    wxSpinCtrl *Spin() const { return (wxSpinCtrl *)m_control; }
-#endif
-
-    // if HasRange(), we use wxSpinCtrl - otherwise wxTextCtrl
-    bool HasRange() const
-    {
-#if wxUSE_SPINCTRL
-        return m_min != m_max;
-#else
-        return false;
-#endif
-    }
-
-    // string representation of m_valueOld
-    wxString GetString() const
-        { return wxString::Format(_T("%ld"), m_valueOld); }
-
-private:
-    int m_min,
-        m_max;
-
-    long m_valueOld;
-
-    DECLARE_NO_COPY_CLASS(wxGridCellNumberEditor)
-};
-
-// the editor for floating point numbers (double) data
-class WXDLLIMPEXP_ADV wxGridCellFloatEditor : public wxGridCellTextEditor
-{
-public:
-    wxGridCellFloatEditor(int width = -1, int precision = -1);
-
-    virtual void Create(wxWindow* parent,
-                        wxWindowID id,
-                        wxEvtHandler* evtHandler);
-
-    virtual bool IsAcceptedKey(wxKeyEvent& event);
-    virtual void BeginEdit(int row, int col, wxGrid* grid);
-    virtual bool EndEdit(int row, int col, wxGrid* grid);
-
-    virtual void Reset();
-    virtual void StartingKey(wxKeyEvent& event);
-
-    virtual wxGridCellEditor *Clone() const
-        { return new wxGridCellFloatEditor(m_width, m_precision); }
-
-    // parameters string format is "width,precision"
-    virtual void SetParameters(const wxString& params);
-
-protected:
-    // string representation of m_valueOld
-    wxString GetString() const;
-
-private:
-    int m_width,
-        m_precision;
-    double m_valueOld;
-
-    DECLARE_NO_COPY_CLASS(wxGridCellFloatEditor)
-};
-
-#endif // wxUSE_TEXTCTRL
-
-#if wxUSE_CHECKBOX
-
-// the editor for boolean data
-class WXDLLIMPEXP_ADV wxGridCellBoolEditor : public wxGridCellEditor
-{
-public:
-    wxGridCellBoolEditor() { }
-
-    virtual void Create(wxWindow* parent,
-                        wxWindowID id,
-                        wxEvtHandler* evtHandler);
-
-    virtual void SetSize(const wxRect& rect);
-    virtual void Show(bool show, wxGridCellAttr *attr = NULL);
-
-    virtual bool IsAcceptedKey(wxKeyEvent& event);
-    virtual void BeginEdit(int row, int col, wxGrid* grid);
-    virtual bool EndEdit(int row, int col, wxGrid* grid);
-
-    virtual void Reset();
-    virtual void StartingClick();
-    virtual void StartingKey(wxKeyEvent& event);
-
-    virtual wxGridCellEditor *Clone() const
-        { return new wxGridCellBoolEditor; }
-
-    // added GetValue so we can get the value which is in the control, see
-    // also UseStringValues()
-    virtual wxString GetValue() const;
-
-    // set the string values returned by GetValue() for the true and false
-    // states, respectively
-    static void UseStringValues(const wxString& valueTrue = _T("1"),
-                                const wxString& valueFalse = wxEmptyString);
-
-    // return true if the given string is equal to the string representation of
-    // true value which we currently use
-    static bool IsTrueValue(const wxString& value);
-
-protected:
-    wxCheckBox *CBox() const { return (wxCheckBox *)m_control; }
-
-private:
-    bool m_startValue;
-
-    static wxString ms_stringValues[2];
-
-    DECLARE_NO_COPY_CLASS(wxGridCellBoolEditor)
-};
-
-#endif // wxUSE_CHECKBOX
-
-#if wxUSE_COMBOBOX
-
-// the editor for string data allowing to choose from the list of strings
-class WXDLLIMPEXP_ADV wxGridCellChoiceEditor : public wxGridCellEditor
-{
-public:
-    // if !allowOthers, user can't type a string not in choices array
-    wxGridCellChoiceEditor(size_t count = 0,
-                           const wxString choices[] = NULL,
-                           bool allowOthers = false);
-    wxGridCellChoiceEditor(const wxArrayString& choices,
-                           bool allowOthers = false);
-
-    virtual void Create(wxWindow* parent,
-                        wxWindowID id,
-                        wxEvtHandler* evtHandler);
-
-    virtual void PaintBackground(const wxRect& rectCell, wxGridCellAttr *attr);
-
-    virtual void BeginEdit(int row, int col, wxGrid* grid);
-    virtual bool EndEdit(int row, int col, wxGrid* grid);
-
-    virtual void Reset();
-
-    // parameters string format is "item1[,item2[...,itemN]]"
-    virtual void SetParameters(const wxString& params);
-
-    virtual wxGridCellEditor *Clone() const;
-
-    // added GetValue so we can get the value which is in the control
-    virtual wxString GetValue() const;
-
-protected:
-    wxComboBox *Combo() const { return (wxComboBox *)m_control; }
-
-// DJC - (MAPTEK) you at least need access to m_choices if you
-//                wish to override this class
-protected:
-    wxString        m_startValue;
-    wxArrayString   m_choices;
-    bool            m_allowOthers;
-
-    DECLARE_NO_COPY_CLASS(wxGridCellChoiceEditor)
-};
-
-#endif // wxUSE_COMBOBOX
 
 // ----------------------------------------------------------------------------
 // wxGridCellAttr: this class can be used to alter the cells appearance in
@@ -711,8 +379,8 @@ public:
     void GetSize(int *num_rows, int *num_cols) const;
     bool GetOverflow() const
         { return m_overflow != SingleCell; }
-    wxGridCellRenderer *GetRenderer(wxGrid* grid, int row, int col) const;
-    wxGridCellEditor *GetEditor(wxGrid* grid, int row, int col) const;
+    wxGridCellRenderer *GetRenderer(const wxGrid* grid, int row, int col) const;
+    wxGridCellEditor *GetEditor(const wxGrid* grid, int row, int col) const;
 
     bool IsReadOnly() const { return m_isReadOnly == wxGridCellAttr::ReadOnly; }
 
@@ -769,7 +437,7 @@ private:
     wxAttrKind m_attrkind;
 
     // use Clone() instead
-    DECLARE_NO_COPY_CLASS(wxGridCellAttr)
+    wxDECLARE_NO_COPY_CLASS(wxGridCellAttr);
 
     // suppress the stupid gcc warning about the class having private dtor and
     // no friends
@@ -814,17 +482,75 @@ private:
 
     wxGridCellAttrProviderData *m_data;
 
-    DECLARE_NO_COPY_CLASS(wxGridCellAttrProvider)
+    wxDECLARE_NO_COPY_CLASS(wxGridCellAttrProvider);
 };
 
-//////////////////////////////////////////////////////////////////////
-//
-//  Grid table classes
-//
-//////////////////////////////////////////////////////////////////////
+// ----------------------------------------------------------------------------
+// wxGridCellCoords: location of a cell in the grid
+// ----------------------------------------------------------------------------
+
+class WXDLLIMPEXP_ADV wxGridCellCoords
+{
+public:
+    wxGridCellCoords() { m_row = m_col = -1; }
+    wxGridCellCoords( int r, int c ) { m_row = r; m_col = c; }
+
+    // default copy ctor is ok
+
+    int GetRow() const { return m_row; }
+    void SetRow( int n ) { m_row = n; }
+    int GetCol() const { return m_col; }
+    void SetCol( int n ) { m_col = n; }
+    void Set( int row, int col ) { m_row = row; m_col = col; }
+
+    wxGridCellCoords& operator=( const wxGridCellCoords& other )
+    {
+        if ( &other != this )
+        {
+            m_row=other.m_row;
+            m_col=other.m_col;
+        }
+        return *this;
+    }
+
+    bool operator==( const wxGridCellCoords& other ) const
+    {
+        return (m_row == other.m_row  &&  m_col == other.m_col);
+    }
+
+    bool operator!=( const wxGridCellCoords& other ) const
+    {
+        return (m_row != other.m_row  ||  m_col != other.m_col);
+    }
+
+    bool operator!() const
+    {
+        return (m_row == -1 && m_col == -1 );
+    }
+
+private:
+    int m_row;
+    int m_col;
+};
 
 
-class WXDLLIMPEXP_ADV wxGridTableBase : public wxObject, public wxClientDataContainer
+// For comparisons...
+//
+extern WXDLLIMPEXP_ADV wxGridCellCoords wxGridNoCellCoords;
+extern WXDLLIMPEXP_ADV wxRect           wxGridNoCellRect;
+
+// An array of cell coords...
+//
+WX_DECLARE_OBJARRAY_WITH_DECL(wxGridCellCoords, wxGridCellCoordsArray,
+                              class WXDLLIMPEXP_ADV);
+
+// ----------------------------------------------------------------------------
+// Grid table classes
+// ----------------------------------------------------------------------------
+
+// the abstract base class
+class WXDLLIMPEXP_ADV wxGridTableBase : public wxObject,
+                                        public wxClientDataContainer
 {
 public:
     wxGridTableBase();
@@ -832,9 +558,31 @@ public:
 
     // You must override these functions in a derived table class
     //
+
+    // return the number of rows and columns in this table
     virtual int GetNumberRows() = 0;
     virtual int GetNumberCols() = 0;
-    virtual bool IsEmptyCell( int row, int col ) = 0;
+
+    // the methods above are unfortunately non-const even though they should
+    // have been const -- but changing it now is not possible any longer as it
+    // would break the existing code overriding them, so instead we provide
+    // these const synonyms which can be used from const-correct code
+    int GetRowsCount() const
+        { return const_cast<wxGridTableBase *>(this)->GetNumberRows(); }
+    int GetColsCount() const
+        { return const_cast<wxGridTableBase *>(this)->GetNumberCols(); }
+
+
+    virtual bool IsEmptyCell( int row, int col )
+    {
+        return GetValue(row, col).empty();
+    }
+
+    bool IsEmpty(const wxGridCellCoords& coord)
+    {
+        return IsEmptyCell(coord.GetRow(), coord.GetCol());
+    }
+
     virtual wxString GetValue( int row, int col ) = 0;
     virtual void SetValue( int row, int col, const wxString& value ) = 0;
 
@@ -903,7 +651,7 @@ private:
     wxGridCellAttrProvider *m_attrProvider;
 
     DECLARE_ABSTRACT_CLASS(wxGridTableBase)
-    DECLARE_NO_COPY_CLASS(wxGridTableBase)
+    wxDECLARE_NO_COPY_CLASS(wxGridTableBase);
 };
 
 
@@ -948,7 +696,7 @@ private:
     int m_comInt1;
     int m_comInt2;
 
-    DECLARE_NO_COPY_CLASS(wxGridTableMessage)
+    wxDECLARE_NO_COPY_CLASS(wxGridTableMessage);
 };
 
 
@@ -981,7 +729,6 @@ public:
     int GetNumberCols();
     wxString GetValue( int row, int col );
     void SetValue( int row, int col, const wxString& s );
-    bool IsEmptyCell( int row, int col );
 
     // overridden functions from wxGridTableBase
     //
@@ -1017,63 +764,37 @@ private:
 // ============================================================================
 
 // ----------------------------------------------------------------------------
-// wxGridCellCoords: location of a cell in the grid
+// wxGridSizesInfo stores information about sizes of the rows or columns.
+//
+// It assumes that most of the columns or rows have default size and so stores
+// the default size separately and uses a hash to map column or row numbers to
+// their non default size for those which don't have the default size.
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_ADV wxGridCellCoords
+// Hashmap to store postions as the keys and sizes as the values
+WX_DECLARE_HASH_MAP_WITH_DECL( unsigned, int, wxIntegerHash, wxIntegerEqual,
+                               wxUnsignedToIntHashMap, class WXDLLIMPEXP_ADV );
+
+struct WXDLLIMPEXP_ADV wxGridSizesInfo
 {
-public:
-    wxGridCellCoords() { m_row = m_col = -1; }
-    wxGridCellCoords( int r, int c ) { m_row = r; m_col = c; }
+    // default ctor, initialize m_sizeDefault and m_customSizes later
+    wxGridSizesInfo() { }
 
-    // default copy ctor is ok
+    // ctor used by wxGrid::Get{Col,Row}Sizes()
+    wxGridSizesInfo(int defSize, const wxArrayInt& allSizes);
 
-    int GetRow() const { return m_row; }
-    void SetRow( int n ) { m_row = n; }
-    int GetCol() const { return m_col; }
-    void SetCol( int n ) { m_col = n; }
-    void Set( int row, int col ) { m_row = row; m_col = col; }
+    // default copy ctor, assignment operator and dtor are ok
 
-    wxGridCellCoords& operator=( const wxGridCellCoords& other )
-    {
-        if ( &other != this )
-        {
-            m_row=other.m_row;
-            m_col=other.m_col;
-        }
-        return *this;
-    }
+    // Get the size of the element with the given index
+    int GetSize(unsigned pos) const;
 
-    bool operator==( const wxGridCellCoords& other ) const
-    {
-        return (m_row == other.m_row  &&  m_col == other.m_col);
-    }
 
-    bool operator!=( const wxGridCellCoords& other ) const
-    {
-        return (m_row != other.m_row  ||  m_col != other.m_col);
-    }
+    // default size
+    int m_sizeDefault;
 
-    bool operator!() const
-    {
-        return (m_row == -1 && m_col == -1 );
-    }
-
-private:
-    int m_row;
-    int m_col;
+    // position -> size map containing all elements with non-default size
+    wxUnsignedToIntHashMap m_customSizes;
 };
-
-
-// For comparisons...
-//
-extern WXDLLIMPEXP_ADV wxGridCellCoords wxGridNoCellCoords;
-extern WXDLLIMPEXP_ADV wxRect           wxGridNoCellRect;
-
-// An array of cell coords...
-//
-WX_DECLARE_OBJARRAY_WITH_DECL(wxGridCellCoords, wxGridCellCoordsArray,
-                              class WXDLLIMPEXP_ADV);
 
 // ----------------------------------------------------------------------------
 // wxGrid
@@ -1082,73 +803,109 @@ WX_DECLARE_OBJARRAY_WITH_DECL(wxGridCellCoords, wxGridCellCoordsArray,
 class WXDLLIMPEXP_ADV wxGrid : public wxScrolledWindow
 {
 public:
-    wxGrid() ;
+    // possible selection modes
+    enum wxGridSelectionModes
+    {
+        wxGridSelectCells         = 0,  // allow selecting anything
+        wxGridSelectRows          = 1,  // allow selecting only entire rows
+        wxGridSelectColumns       = 2,  // allow selecting only entire columns
+        wxGridSelectRowsOrColumns = wxGridSelectRows | wxGridSelectColumns
+    };
 
-        wxGrid( wxWindow *parent,
+    // creation and destruction
+    // ------------------------
+
+    // ctor and Create() create the grid window, as with the other controls
+    wxGrid() { Init(); }
+
+    wxGrid(wxWindow *parent,
             wxWindowID id,
             const wxPoint& pos = wxDefaultPosition,
             const wxSize& size = wxDefaultSize,
             long style = wxWANTS_CHARS,
-            const wxString& name = wxGridNameStr );
+            const wxString& name = wxGridNameStr)
+    {
+        Init();
 
-    bool Create( wxWindow *parent,
-            wxWindowID id,
-            const wxPoint& pos = wxDefaultPosition,
-            const wxSize& size = wxDefaultSize,
-            long style = wxWANTS_CHARS,
-            const wxString& name = wxGridNameStr );
+        Create(parent, id, pos, size, style, name);
+    }
+
+    bool Create(wxWindow *parent,
+                wxWindowID id,
+                const wxPoint& pos = wxDefaultPosition,
+                const wxSize& size = wxDefaultSize,
+                long style = wxWANTS_CHARS,
+                const wxString& name = wxGridNameStr);
 
     virtual ~wxGrid();
 
-    enum wxGridSelectionModes {wxGridSelectCells,
-                               wxGridSelectRows,
-                               wxGridSelectColumns};
+    // however to initialize grid data either CreateGrid() or SetTable() must
+    // be also called
 
+    // this is basically equivalent to
+    //
+    //   SetTable(new wxGridStringTable(numRows, numCols), true, selmode)
+    //
     bool CreateGrid( int numRows, int numCols,
-                     wxGrid::wxGridSelectionModes selmode =
-                     wxGrid::wxGridSelectCells );
+                     wxGridSelectionModes selmode = wxGridSelectCells );
 
-    void SetSelectionMode(wxGrid::wxGridSelectionModes selmode);
-    wxGrid::wxGridSelectionModes GetSelectionMode() const;
+    bool SetTable( wxGridTableBase *table,
+                   bool takeOwnership = false,
+                   wxGridSelectionModes selmode = wxGridSelectCells );
+
+    bool ProcessTableMessage(wxGridTableMessage&);
+
+    wxGridTableBase *GetTable() const { return m_table; }
+
+
+    void SetSelectionMode(wxGridSelectionModes selmode);
+    wxGridSelectionModes GetSelectionMode() const;
 
     // ------ grid dimensions
     //
-    int      GetNumberRows() { return  m_numRows; }
-    int      GetNumberCols() { return  m_numCols; }
+    int      GetNumberRows() const { return  m_numRows; }
+    int      GetNumberCols() const { return  m_numCols; }
 
 
     // ------ display update functions
     //
-    wxArrayInt CalcRowLabelsExposed( const wxRegion& reg );
+    wxArrayInt CalcRowLabelsExposed( const wxRegion& reg ) const;
 
-    wxArrayInt CalcColLabelsExposed( const wxRegion& reg );
-    wxGridCellCoordsArray CalcCellsExposed( const wxRegion& reg );
+    wxArrayInt CalcColLabelsExposed( const wxRegion& reg ) const;
+    wxGridCellCoordsArray CalcCellsExposed( const wxRegion& reg ) const;
 
-
-    // ------ event handlers
-    //
-    void ProcessRowLabelMouseEvent( wxMouseEvent& event );
-    void ProcessColLabelMouseEvent( wxMouseEvent& event );
-    void ProcessCornerLabelMouseEvent( wxMouseEvent& event );
-    void ProcessGridCellMouseEvent( wxMouseEvent& event );
-    bool ProcessTableMessage( wxGridTableMessage& );
-
-    void DoEndDragResizeRow();
-    void DoEndDragResizeCol();
-    void DoEndDragMoveCol();
-
-    wxGridTableBase * GetTable() const { return m_table; }
-    bool SetTable( wxGridTableBase *table, bool takeOwnership = false,
-                   wxGrid::wxGridSelectionModes selmode =
-                   wxGrid::wxGridSelectCells );
 
     void ClearGrid();
-    bool InsertRows( int pos = 0, int numRows = 1, bool updateLabels = true );
-    bool AppendRows( int numRows = 1, bool updateLabels = true );
-    bool DeleteRows( int pos = 0, int numRows = 1, bool updateLabels = true );
-    bool InsertCols( int pos = 0, int numCols = 1, bool updateLabels = true );
-    bool AppendCols( int numCols = 1, bool updateLabels = true );
-    bool DeleteCols( int pos = 0, int numCols = 1, bool updateLabels = true );
+    bool InsertRows(int pos = 0, int numRows = 1, bool updateLabels = true)
+    {
+        return DoModifyLines(&wxGridTableBase::InsertRows,
+                             pos, numRows, updateLabels);
+    }
+    bool InsertCols(int pos = 0, int numCols = 1, bool updateLabels = true)
+    {
+        return DoModifyLines(&wxGridTableBase::InsertCols,
+                             pos, numCols, updateLabels);
+    }
+
+    bool AppendRows(int numRows = 1, bool updateLabels = true)
+    {
+        return DoAppendLines(&wxGridTableBase::AppendRows, numRows, updateLabels);
+    }
+    bool AppendCols(int numCols = 1, bool updateLabels = true)
+    {
+        return DoAppendLines(&wxGridTableBase::AppendCols, numCols, updateLabels);
+    }
+
+    bool DeleteRows(int pos = 0, int numRows = 1, bool updateLabels = true)
+    {
+        return DoModifyLines(&wxGridTableBase::DeleteRows,
+                             pos, numRows, updateLabels);
+    }
+    bool DeleteCols(int pos = 0, int numCols = 1, bool updateLabels = true)
+    {
+        return DoModifyLines(&wxGridTableBase::DeleteCols,
+                             pos, numCols, updateLabels);
+    }
 
     void DrawGridCellArea( wxDC& dc , const wxGridCellCoordsArray& cells );
     void DrawGridSpace( wxDC& dc );
@@ -1167,6 +924,7 @@ public:
     virtual void DrawColLabels( wxDC& dc, const wxArrayInt& cols );
     virtual void DrawColLabel( wxDC& dc, int col );
 
+    virtual void DrawCornerLabel(wxDC& dc);
 
     // ------ Cell text drawing functions
     //
@@ -1181,14 +939,14 @@ public:
                             int textOrientation = wxHORIZONTAL );
 
 
-    // Split a string containing newline chararcters into an array of
+    // Split a string containing newline characters into an array of
     // strings and return the number of lines
     //
-    void StringToLines( const wxString& value, wxArrayString& lines );
+    void StringToLines( const wxString& value, wxArrayString& lines ) const;
 
     void GetTextBoxSize( const wxDC& dc,
                          const wxArrayString& lines,
-                         long *width, long *height );
+                         long *width, long *height ) const;
 
 
     // ------
@@ -1201,8 +959,7 @@ public:
 
     int      GetBatchCount() { return m_batchCount; }
 
-    virtual void Refresh(bool eraseb = true,
-                         const wxRect* rect = (const wxRect *)  NULL);
+    virtual void Refresh(bool eraseb = true, const wxRect* rect = NULL);
 
     // Use this, rather than wxWindow::Refresh(), to force an
     // immediate repainting of the grid. Has no effect if you are
@@ -1237,25 +994,36 @@ public:
     //  grid cells and labels so you will need to convert from device
     //  coordinates for mouse events etc.
     //
-    void XYToCell( int x, int y, wxGridCellCoords& );
-    int  YToRow( int y );
-    int  XToCol( int x, bool clipToMinMax = false );
+    wxGridCellCoords XYToCell(int x, int y) const;
+    void XYToCell(int x, int y, wxGridCellCoords& coords) const
+        { coords = XYToCell(x, y); }
+    wxGridCellCoords XYToCell(const wxPoint& pos) const
+        { return XYToCell(pos.x, pos.y); }
 
-    int  YToEdgeOfRow( int y );
-    int  XToEdgeOfCol( int x );
+    // these functions return the index of the row/columns corresponding to the
+    // given logical position in pixels
+    //
+    // if clipToMinMax is false (default, wxNOT_FOUND is returned if the
+    // position is outside any row/column, otherwise the first/last element is
+    // returned in this case
+    int  YToRow( int y, bool clipToMinMax = false ) const;
+    int  XToCol( int x, bool clipToMinMax = false ) const;
 
-    wxRect CellToRect( int row, int col );
-    wxRect CellToRect( const wxGridCellCoords& coords )
+    int  YToEdgeOfRow( int y ) const;
+    int  XToEdgeOfCol( int x ) const;
+
+    wxRect CellToRect( int row, int col ) const;
+    wxRect CellToRect( const wxGridCellCoords& coords ) const
         { return CellToRect( coords.GetRow(), coords.GetCol() ); }
 
-    int  GetGridCursorRow() { return m_currentCellCoords.GetRow(); }
-    int  GetGridCursorCol() { return m_currentCellCoords.GetCol(); }
+    int  GetGridCursorRow() const { return m_currentCellCoords.GetRow(); }
+    int  GetGridCursorCol() const { return m_currentCellCoords.GetCol(); }
 
     // check to see if a cell is either wholly visible (the default arg) or
     // at least partially visible in the grid window
     //
-    bool IsVisible( int row, int col, bool wholeCellVisible = true );
-    bool IsVisible( const wxGridCellCoords& coords, bool wholeCellVisible = true )
+    bool IsVisible( int row, int col, bool wholeCellVisible = true ) const;
+    bool IsVisible( const wxGridCellCoords& coords, bool wholeCellVisible = true ) const
         { return IsVisible( coords.GetRow(), coords.GetCol(), wholeCellVisible ); }
     void MakeCellVisible( int row, int col );
     void MakeCellVisible( const wxGridCellCoords& coords )
@@ -1264,8 +1032,20 @@ public:
 
     // ------ grid cursor movement functions
     //
-    void SetGridCursor( int row, int col )
-        { SetCurrentCell( wxGridCellCoords(row, col) ); }
+    void SetGridCursor(int row, int col) { SetCurrentCell(row, col); }
+    void SetGridCursor(const wxGridCellCoords& c) { SetCurrentCell(c); }
+
+    void GoToCell(int row, int col)
+    {
+        if ( SetCurrentCell(row, col) )
+            MakeCellVisible(row, col);
+    }
+
+    void GoToCell(const wxGridCellCoords& coords)
+    {
+        if ( SetCurrentCell(coords) )
+            MakeCellVisible(coords);
+    }
 
     bool MoveCursorUp( bool expandSelection );
     bool MoveCursorDown( bool expandSelection );
@@ -1281,31 +1061,34 @@ public:
 
     // ------ label and gridline formatting
     //
-    int      GetDefaultRowLabelSize() { return WXGRID_DEFAULT_ROW_LABEL_WIDTH; }
-    int      GetRowLabelSize() { return m_rowLabelWidth; }
-    int      GetDefaultColLabelSize() { return WXGRID_DEFAULT_COL_LABEL_HEIGHT; }
-    int      GetColLabelSize() { return m_colLabelHeight; }
-    wxColour GetLabelBackgroundColour() { return m_labelBackgroundColour; }
-    wxColour GetLabelTextColour() { return m_labelTextColour; }
-    wxFont   GetLabelFont() { return m_labelFont; }
-    void     GetRowLabelAlignment( int *horiz, int *vert );
-    void     GetColLabelAlignment( int *horiz, int *vert );
-    int      GetColLabelTextOrientation();
-    wxString GetRowLabelValue( int row );
-    wxString GetColLabelValue( int col );
-    wxColour GetGridLineColour() { return m_gridLineColour; }
+    int      GetDefaultRowLabelSize() const { return WXGRID_DEFAULT_ROW_LABEL_WIDTH; }
+    int      GetRowLabelSize() const { return m_rowLabelWidth; }
+    int      GetDefaultColLabelSize() const { return WXGRID_DEFAULT_COL_LABEL_HEIGHT; }
+    int      GetColLabelSize() const { return m_colLabelHeight; }
+    wxColour GetLabelBackgroundColour() const { return m_labelBackgroundColour; }
+    wxColour GetLabelTextColour() const { return m_labelTextColour; }
+    wxFont   GetLabelFont() const { return m_labelFont; }
+    void     GetRowLabelAlignment( int *horiz, int *vert ) const;
+    void     GetColLabelAlignment( int *horiz, int *vert ) const;
+    int      GetColLabelTextOrientation() const;
+    wxString GetRowLabelValue( int row ) const;
+    wxString GetColLabelValue( int col ) const;
 
-    // these methods may be overridden to customize individual grid lines
-    // appearance
-    virtual wxPen GetDefaultGridLinePen();
-    virtual wxPen GetRowGridLinePen(int row);
-    virtual wxPen GetColGridLinePen(int col);
-    wxColour GetCellHighlightColour() { return m_cellHighlightColour; }
-    int      GetCellHighlightPenWidth() { return m_cellHighlightPenWidth; }
-    int      GetCellHighlightROPenWidth() { return m_cellHighlightROPenWidth; }
+    wxColour GetCellHighlightColour() const { return m_cellHighlightColour; }
+    int      GetCellHighlightPenWidth() const { return m_cellHighlightPenWidth; }
+    int      GetCellHighlightROPenWidth() const { return m_cellHighlightROPenWidth; }
+
+    // this one will use wxHeaderCtrl for the column labels
+    void UseNativeColHeader(bool native = true);
+
+    // this one will still draw them manually but using the native renderer
+    // instead of using the same appearance as for the row labels
+    void SetUseNativeColLabels( bool native = true );
 
     void     SetRowLabelSize( int width );
     void     SetColLabelSize( int height );
+    void     HideRowLabels() { SetRowLabelSize( 0 ); }
+    void     HideColLabels() { SetColLabelSize( 0 ); }
     void     SetLabelBackgroundColour( const wxColour& );
     void     SetLabelTextColour( const wxColour& );
     void     SetLabelFont( const wxFont& );
@@ -1314,27 +1097,56 @@ public:
     void     SetColLabelTextOrientation( int textOrientation );
     void     SetRowLabelValue( int row, const wxString& );
     void     SetColLabelValue( int col, const wxString& );
-    void     SetGridLineColour( const wxColour& );
     void     SetCellHighlightColour( const wxColour& );
     void     SetCellHighlightPenWidth(int width);
     void     SetCellHighlightROPenWidth(int width);
 
     void     EnableDragRowSize( bool enable = true );
     void     DisableDragRowSize() { EnableDragRowSize( false ); }
-    bool     CanDragRowSize() { return m_canDragRowSize; }
+    bool     CanDragRowSize() const { return m_canDragRowSize; }
     void     EnableDragColSize( bool enable = true );
     void     DisableDragColSize() { EnableDragColSize( false ); }
-    bool     CanDragColSize() { return m_canDragColSize; }
+    bool     CanDragColSize() const { return m_canDragColSize; }
     void     EnableDragColMove( bool enable = true );
     void     DisableDragColMove() { EnableDragColMove( false ); }
-    bool     CanDragColMove() { return m_canDragColMove; }
+    bool     CanDragColMove() const { return m_canDragColMove; }
     void     EnableDragGridSize(bool enable = true);
     void     DisableDragGridSize() { EnableDragGridSize(false); }
-    bool     CanDragGridSize() { return m_canDragGridSize; }
+    bool     CanDragGridSize() const { return m_canDragGridSize; }
 
     void     EnableDragCell( bool enable = true );
     void     DisableDragCell() { EnableDragCell( false ); }
-    bool     CanDragCell() { return m_canDragCell; }
+    bool     CanDragCell() const { return m_canDragCell; }
+
+
+    // grid lines
+    // ----------
+
+    // enable or disable drawing of the lines
+    void EnableGridLines(bool enable = true);
+    bool GridLinesEnabled() const { return m_gridLinesEnabled; }
+
+    // by default grid lines stop at last column/row, but this may be changed
+    void ClipHorzGridLines(bool clip)
+        { DoClipGridLines(m_gridLinesClipHorz, clip); }
+    void ClipVertGridLines(bool clip)
+        { DoClipGridLines(m_gridLinesClipVert, clip); }
+    bool AreHorzGridLinesClipped() const { return m_gridLinesClipHorz; }
+    bool AreVertGridLinesClipped() const { return m_gridLinesClipVert; }
+
+    // this can be used to change the global grid lines colour
+    void SetGridLineColour(const wxColour& col);
+    wxColour GetGridLineColour() const { return m_gridLineColour; }
+
+    // these methods may be overridden to customize individual grid lines
+    // appearance
+    virtual wxPen GetDefaultGridLinePen();
+    virtual wxPen GetRowGridLinePen(int row);
+    virtual wxPen GetColGridLinePen(int col);
+
+
+    // attributes
+    // ----------
 
     // this sets the specified attribute for this cell or in this row/col
     void     SetAttr(int row, int col, wxGridCellAttr *attr);
@@ -1356,67 +1168,112 @@ public:
     void     SetColFormatFloat(int col, int width = -1, int precision = -1);
     void     SetColFormatCustom(int col, const wxString& typeName);
 
-    void     EnableGridLines( bool enable = true );
-    bool     GridLinesEnabled() { return m_gridLinesEnabled; }
-
     // ------ row and col formatting
     //
-    int      GetDefaultRowSize();
-    int      GetRowSize( int row );
-    int      GetDefaultColSize();
-    int      GetColSize( int col );
-    wxColour GetDefaultCellBackgroundColour();
-    wxColour GetCellBackgroundColour( int row, int col );
-    wxColour GetDefaultCellTextColour();
-    wxColour GetCellTextColour( int row, int col );
-    wxFont   GetDefaultCellFont();
-    wxFont   GetCellFont( int row, int col );
-    void     GetDefaultCellAlignment( int *horiz, int *vert );
-    void     GetCellAlignment( int row, int col, int *horiz, int *vert );
-    bool     GetDefaultCellOverflow();
-    bool     GetCellOverflow( int row, int col );
-    void     GetCellSize( int row, int col, int *num_rows, int *num_cols );
+    int      GetDefaultRowSize() const;
+    int      GetRowSize( int row ) const;
+    bool     IsRowShown(int row) const { return GetRowSize(row) != 0; }
+    int      GetDefaultColSize() const;
+    int      GetColSize( int col ) const;
+    bool     IsColShown(int col) const { return GetColSize(col) != 0; }
+    wxColour GetDefaultCellBackgroundColour() const;
+    wxColour GetCellBackgroundColour( int row, int col ) const;
+    wxColour GetDefaultCellTextColour() const;
+    wxColour GetCellTextColour( int row, int col ) const;
+    wxFont   GetDefaultCellFont() const;
+    wxFont   GetCellFont( int row, int col ) const;
+    void     GetDefaultCellAlignment( int *horiz, int *vert ) const;
+    void     GetCellAlignment( int row, int col, int *horiz, int *vert ) const;
+    bool     GetDefaultCellOverflow() const;
+    bool     GetCellOverflow( int row, int col ) const;
+    void     GetCellSize( int row, int col, int *num_rows, int *num_cols ) const;
+    wxSize GetCellSize(const wxGridCellCoords& coords)
+    {
+        wxSize s;
+        GetCellSize(coords.GetRow(), coords.GetCol(), &s.x, &s.y);
+        return s;
+    }
 
+    // ------ row and col sizes
     void     SetDefaultRowSize( int height, bool resizeExistingRows = false );
     void     SetRowSize( int row, int height );
+    void     HideRow(int row) { SetRowSize(row, 0); }
+    void     ShowRow(int row) { SetRowSize(row, -1); }
+
     void     SetDefaultColSize( int width, bool resizeExistingCols = false );
-
     void     SetColSize( int col, int width );
+    void     HideCol(int col) { SetColSize(col, 0); }
+    void     ShowCol(int col) { SetColSize(col, -1); }
 
-    //Column positions
-    int GetColAt( int colPos ) const
+    // the row and column sizes can be also set all at once using
+    // wxGridSizesInfo which holds all of them at once
+
+    wxGridSizesInfo GetColSizes() const
+        { return wxGridSizesInfo(GetDefaultColSize(), m_colWidths); }
+    wxGridSizesInfo GetRowSizes() const
+        { return wxGridSizesInfo(GetDefaultRowSize(), m_rowHeights); }
+
+    void SetColSizes(const wxGridSizesInfo& sizeInfo);
+    void SetRowSizes(const wxGridSizesInfo& sizeInfo);
+
+
+    // ------- columns (only, for now) reordering
+
+    // columns index <-> positions mapping: by default, the position of the
+    // column is the same as its index, but the columns can also be reordered
+    // (either by calling SetColPos() explicitly or by the user dragging the
+    // columns around) in which case their indices don't correspond to their
+    // positions on display any longer
+    //
+    // internally we always work with indices except for the functions which
+    // have "Pos" in their names (and which work with columns, not pixels) and
+    // only the display and hit testing code really cares about display
+    // positions at all
+
+    // set the positions of all columns at once (this method uses the same
+    // conventions as wxHeaderCtrl::SetColumnsOrder() for the order array)
+    void SetColumnsOrder(const wxArrayInt& order);
+
+    // return the column index corresponding to the given (valid) position
+    int GetColAt(int pos) const
     {
-        if ( m_colAt.IsEmpty() )
-            return colPos;
-        else
-            return m_colAt[colPos];
+        return m_colAt.empty() ? pos : m_colAt[pos];
     }
 
-    void SetColPos( int colID, int newPos );
+    // reorder the columns so that the column with the given index is now shown
+    // as the position pos
+    void SetColPos(int idx, int pos);
 
-    int GetColPos( int colID ) const
+    // return the position at which the column with the given index is
+    // displayed: notice that this is a slow operation as we don't maintain the
+    // reverse mapping currently
+    int GetColPos(int idx) const
     {
         if ( m_colAt.IsEmpty() )
-            return colID;
-        else
+            return idx;
+
+        for ( int i = 0; i < m_numCols; i++ )
         {
-            for ( int i = 0; i < m_numCols; i++ )
-            {
-                if ( m_colAt[i] == colID )
-                    return i;
-            }
+            if ( m_colAt[i] == idx )
+                return i;
         }
 
-        return -1;
+        wxFAIL_MSG( "invalid column index" );
+
+        return wxNOT_FOUND;
     }
+
+    // reset the columns positions to the default order
+    void ResetColPos();
+
 
     // automatically size the column or row to fit to its contents, if
     // setAsMin is true, this optimal width will also be set as minimal width
     // for this column
     void     AutoSizeColumn( int col, bool setAsMin = true )
-        { AutoSizeColOrRow(col, setAsMin, true); }
+        { AutoSizeColOrRow(col, setAsMin, wxGRID_COLUMN); }
     void     AutoSizeRow( int row, bool setAsMin = true )
-        { AutoSizeColOrRow(row, setAsMin, false); }
+        { AutoSizeColOrRow(row, setAsMin, wxGRID_ROW); }
 
     // auto size all columns (very ineffective for big grids!)
     void     AutoSizeColumns( bool setAsMin = true )
@@ -1429,6 +1286,10 @@ public:
     // and also set the grid size to just fit its contents
     void     AutoSize();
 
+    // Note for both AutoSizeRowLabelSize and AutoSizeColLabelSize:
+    // If col equals to wxGRID_AUTOSIZE value then function autosizes labels column
+    // instead of data column. Note that this operation may be slow for large
+    // tables.
     // autosize row height depending on label text
     void     AutoSizeRowLabelSize( int row );
 
@@ -1470,19 +1331,19 @@ public:
     void SetDefaultRenderer(wxGridCellRenderer *renderer);
     void SetCellRenderer(int row, int col, wxGridCellRenderer *renderer);
     wxGridCellRenderer *GetDefaultRenderer() const;
-    wxGridCellRenderer* GetCellRenderer(int row, int col);
+    wxGridCellRenderer* GetCellRenderer(int row, int col) const;
 
     // takes ownership of the pointer
     void SetDefaultEditor(wxGridCellEditor *editor);
     void SetCellEditor(int row, int col, wxGridCellEditor *editor);
     wxGridCellEditor *GetDefaultEditor() const;
-    wxGridCellEditor* GetCellEditor(int row, int col);
+    wxGridCellEditor* GetCellEditor(int row, int col) const;
 
 
 
     // ------ cell value accessors
     //
-    wxString GetCellValue( int row, int col )
+    wxString GetCellValue( int row, int col ) const
     {
         if ( m_table )
         {
@@ -1494,7 +1355,7 @@ public:
         }
     }
 
-    wxString GetCellValue( const wxGridCellCoords& coords )
+    wxString GetCellValue( const wxGridCellCoords& coords ) const
         { return GetCellValue( coords.GetRow(), coords.GetCol() ); }
 
     void SetCellValue( int row, int col, const wxString& s );
@@ -1524,7 +1385,7 @@ public:
 
     void SelectAll();
 
-    bool IsSelection();
+    bool IsSelection() const;
 
     // ------ deselect blocks or cells
     //
@@ -1550,7 +1411,7 @@ public:
     //  to the client size of the grid window.
     //
     wxRect BlockToDeviceRect( const wxGridCellCoords & topLeft,
-                              const wxGridCellCoords & bottomRight );
+                              const wxGridCellCoords & bottomRight ) const;
 
     // Access or update the selection fore/back colours
     wxColour GetSelectionBackground() const
@@ -1585,10 +1446,21 @@ public:
     }
 
     // Accessors for component windows
-    wxWindow* GetGridWindow()            { return (wxWindow*)m_gridWin; }
-    wxWindow* GetGridRowLabelWindow()    { return (wxWindow*)m_rowLabelWin; }
-    wxWindow* GetGridColLabelWindow()    { return (wxWindow*)m_colLabelWin; }
-    wxWindow* GetGridCornerLabelWindow() { return (wxWindow*)m_cornerLabelWin; }
+    wxWindow* GetGridWindow() const            { return (wxWindow*)m_gridWin; }
+    wxWindow* GetGridRowLabelWindow() const    { return (wxWindow*)m_rowLabelWin; }
+    wxWindow* GetGridColLabelWindow() const    { return m_colWindow; }
+    wxWindow* GetGridCornerLabelWindow() const { return (wxWindow*)m_cornerLabelWin; }
+
+    // This one can only be called if we are using the native header window
+    wxHeaderCtrl *GetGridColHeader() const
+    {
+        wxASSERT_MSG( m_useNativeHeader, "no column header window" );
+
+        // static_cast<> doesn't work without the full class declaration in
+        // view and we prefer to avoid adding more compile-time dependencies
+        // even at the cost of using reinterpret_cast<>
+        return reinterpret_cast<wxHeaderCtrl *>(m_colWindow);
+    }
 
     // Allow adjustment of scroll increment. The default is (15, 15).
     void SetScrollLineX(int x) { m_scrollLineX = x; }
@@ -1596,22 +1468,38 @@ public:
     int GetScrollLineX() const { return m_scrollLineX; }
     int GetScrollLineY() const { return m_scrollLineY; }
 
-    // Implementation
-    int GetScrollX(int x) const
-    {
-        return (x + GetScrollLineX() - 1) / GetScrollLineX();
-    }
-
-    int GetScrollY(int y) const
-    {
-        return (y + GetScrollLineY() - 1) / GetScrollLineY();
-    }
+    // ------- drag and drop
+#if wxUSE_DRAG_AND_DROP
+    virtual void SetDropTarget(wxDropTarget *dropTarget);
+#endif // wxUSE_DRAG_AND_DROP
 
 
-    // override some base class functions
-    virtual bool Enable(bool enable = true);
+    // ------- sorting support
 
+    // wxGrid doesn't support sorting on its own but it can indicate the sort
+    // order in the column header (currently only if native header control is
+    // used though)
 
+    // return the column currently displaying the sort indicator or wxNOT_FOUND
+    // if none
+    int GetSortingColumn() const { return m_sortCol; }
+
+    // return true if this column is currently used for sorting
+    bool IsSortingBy(int col) const { return GetSortingColumn() == col; }
+
+    // return the current sorting order (on GetSortingColumn()): true for
+    // ascending sort and false for descending; it doesn't make sense to call
+    // it if GetSortingColumn() returns wxNOT_FOUND
+    bool IsSortOrderAscending() const { return m_sortIsAscending; }
+
+    // set the sorting column (or unsets any existing one if wxNOT_FOUND) and
+    // the order in which to sort
+    void SetSortingColumn(int col, bool ascending = true);
+
+    // unset any existing sorting column
+    void UnsetSortingColumn() { SetSortingColumn(wxNOT_FOUND); }
+
+#ifdef WXWIN_COMPATIBILITY_2_8
     // ------ For compatibility with previous wxGrid only...
     //
     //  ************************************************
@@ -1625,11 +1513,10 @@ public:
             int x, int y, int w = wxDefaultCoord, int h = wxDefaultCoord,
             long style = wxWANTS_CHARS,
             const wxString& name = wxPanelNameStr )
-        : wxScrolledWindow( parent, wxID_ANY, wxPoint(x,y), wxSize(w,h),
-                            (style|wxWANTS_CHARS), name )
-        {
-            Create();
-        }
+    {
+        Init();
+        Create(parent, wxID_ANY, wxPoint(x, y), wxSize(w, h), style, name);
+    }
 
     void SetCellValue( const wxString& val, int row, int col )
         { SetCellValue( row, col, val ); }
@@ -1637,13 +1524,13 @@ public:
     void UpdateDimensions()
         { CalcDimensions(); }
 
-    int GetRows() { return GetNumberRows(); }
-    int GetCols() { return GetNumberCols(); }
-    int GetCursorRow() { return GetGridCursorRow(); }
-    int GetCursorColumn() { return GetGridCursorCol(); }
+    int GetRows() const { return GetNumberRows(); }
+    int GetCols() const { return GetNumberCols(); }
+    int GetCursorRow() const { return GetGridCursorRow(); }
+    int GetCursorColumn() const { return GetGridCursorCol(); }
 
-    int GetScrollPosX() { return 0; }
-    int GetScrollPosY() { return 0; }
+    int GetScrollPosX() const { return 0; }
+    int GetScrollPosY() const { return 0; }
 
     void SetScrollX( int WXUNUSED(x) ) { }
     void SetScrollY( int WXUNUSED(y) ) { }
@@ -1651,7 +1538,7 @@ public:
     void SetColumnWidth( int col, int width )
         { SetColSize( col, width ); }
 
-    int GetColumnWidth( int col )
+    int GetColumnWidth( int col ) const
         { return GetColSize( col ); }
 
     void SetRowHeight( int row, int height )
@@ -1659,10 +1546,10 @@ public:
 
     // GetRowHeight() is below
 
-    int GetViewHeight() // returned num whole rows visible
+    int GetViewHeight() const // returned num whole rows visible
         { return 0; }
 
-    int GetViewWidth() // returned num whole cols visible
+    int GetViewWidth() const // returned num whole cols visible
         { return 0; }
 
     void SetLabelSize( int orientation, int sz )
@@ -1673,7 +1560,7 @@ public:
                 SetRowLabelSize( sz );
         }
 
-    int GetLabelSize( int orientation )
+    int GetLabelSize( int orientation ) const
         {
             if ( orientation == wxHORIZONTAL )
                 return GetColLabelSize();
@@ -1689,7 +1576,7 @@ public:
                 SetRowLabelAlignment( align, -1 );
         }
 
-    int GetLabelAlignment( int orientation, int WXUNUSED(align) )
+    int GetLabelAlignment( int orientation, int WXUNUSED(align) ) const
         {
             int h, v;
             if ( orientation == wxHORIZONTAL )
@@ -1712,7 +1599,7 @@ public:
                 SetRowLabelValue( pos, val );
         }
 
-    wxString GetLabelValue( int orientation, int pos)
+    wxString GetLabelValue( int orientation, int pos) const
         {
             if ( orientation == wxHORIZONTAL )
                 return GetColLabelValue( pos );
@@ -1744,9 +1631,9 @@ public:
     void SetCellBackgroundColour(const wxColour& colour, int row, int col)
         { SetCellBackgroundColour( row, col, colour ); }
 
-    bool GetEditable() { return IsEditable(); }
+    bool GetEditable() const { return IsEditable(); }
     void SetEditable( bool edit = true ) { EnableEditing( edit ); }
-    bool GetEditInPlace() { return IsCellEditControlEnabled(); }
+    bool GetEditInPlace() const { return IsCellEditControlEnabled(); }
 
     void SetEditInPlace(bool WXUNUSED(edit) = true) { }
 
@@ -1772,9 +1659,17 @@ public:
            wxGRID_CHECKBOX,
            wxGRID_CHOICE,
            wxGRID_COMBOBOX };
+#endif // WXWIN_COMPATIBILITY_2_8
 
-    // overridden wxWindow methods
+
+    // override some base class functions
+    virtual bool Enable(bool enable = true);
+    virtual wxWindow *GetMainWindowOfCompositeControl()
+        { return (wxWindow*)m_gridWin; }
     virtual void Fit();
+
+    // implementation only
+    void CancelMouseCapture();
 
 protected:
     virtual wxSize DoGetBestSize() const;
@@ -1782,9 +1677,20 @@ protected:
     bool m_created;
 
     wxGridWindow             *m_gridWin;
-    wxGridRowLabelWindow     *m_rowLabelWin;
-    wxGridColLabelWindow     *m_colLabelWin;
     wxGridCornerLabelWindow  *m_cornerLabelWin;
+    wxGridRowLabelWindow     *m_rowLabelWin;
+
+    // the real type of the column window depends on m_useNativeHeader value:
+    // if it is true, its dynamic type is wxHeaderCtrl, otherwise it is
+    // wxGridColLabelWindow, use accessors below when the real type matters
+    wxWindow *m_colWindow;
+
+    wxGridColLabelWindow *GetColLabelWindow() const
+    {
+        wxASSERT_MSG( !m_useNativeHeader, "no column label window" );
+
+        return reinterpret_cast<wxGridColLabelWindow *>(m_colWindow);
+    }
 
     wxGridTableBase          *m_table;
     bool                      m_ownTable;
@@ -1794,10 +1700,22 @@ protected:
 
     wxGridCellCoords m_currentCellCoords;
 
-    wxGridCellCoords m_selectingTopLeft;
-    wxGridCellCoords m_selectingBottomRight;
-    wxGridCellCoords m_selectingKeyboard;
+    // the corners of the block being currently selected or wxGridNoCellCoords
+    wxGridCellCoords m_selectedBlockTopLeft;
+    wxGridCellCoords m_selectedBlockBottomRight;
+
+    // when selecting blocks of cells (either from the keyboard using Shift
+    // with cursor keys, or by dragging the mouse), the selection is anchored
+    // at m_currentCellCoords which defines one of the corners of the rectangle
+    // being selected -- and this variable defines the other corner, i.e. it's
+    // either m_selectedBlockTopLeft or m_selectedBlockBottomRight depending on
+    // which of them is not m_currentCellCoords
+    //
+    // if no block selection is in process, it is set to wxGridNoCellCoords
+    wxGridCellCoords m_selectedBlockCorner;
+
     wxGridSelection  *m_selection;
+
     wxColour    m_selectionBackground;
     wxColour    m_selectionForeground;
 
@@ -1819,6 +1737,12 @@ protected:
     int        m_minAcceptableColWidth;
     wxArrayInt m_colWidths;
     wxArrayInt m_colRights;
+
+    int m_sortCol;
+    bool m_sortIsAscending;
+
+    bool m_useNativeHeader,
+         m_nativeColumnLabels;
 
     // get the col/row coords
     int GetColWidth(int col) const;
@@ -1855,6 +1779,8 @@ protected:
 
     wxColour   m_gridLineColour;
     bool       m_gridLinesEnabled;
+    bool       m_gridLinesClipHorz,
+               m_gridLinesClipVert;
     wxColour   m_cellHighlightColour;
     int        m_cellHighlightPenWidth;
     int        m_cellHighlightROPenWidth;
@@ -1865,7 +1791,10 @@ protected:
     int SetOrCalcRowSizes(bool calcOnly, bool setAsMin = true);
 
     // common part of AutoSizeColumn/Row()
-    void AutoSizeColOrRow(int n, bool setAsMin, bool column /* or row? */);
+    void AutoSizeColOrRow(int n, bool setAsMin, wxGridDirection direction);
+
+    // Calculate the minimum acceptable size for labels area
+    wxCoord CalcColOrRowLabelAreaMinSize(wxGridDirection direction);
 
     // if a column has a minimal width, it will be the value for it in this
     // hash table
@@ -1877,7 +1806,7 @@ protected:
     int GetRowMinimalHeight(int col) const;
 
     // do we have some place to store attributes in?
-    bool CanHaveAttributes();
+    bool CanHaveAttributes() const;
 
     // cell attribute cache (currently we only cache 1, may be will do
     // more/better later)
@@ -1899,7 +1828,7 @@ protected:
     // looks for the attr in cache, if not found asks the table and caches the
     // result
     wxGridCellAttr *GetCellAttr(int row, int col) const;
-    wxGridCellAttr *GetCellAttr(const wxGridCellCoords& coords )
+    wxGridCellAttr *GetCellAttr(const wxGridCellCoords& coords ) const
         { return GetCellAttr( coords.GetRow(), coords.GetCol() ); }
 
     // the default cell attr object for cells that don't have their own
@@ -1929,24 +1858,47 @@ protected:
     // for this to work, you should always use it and not set m_cursorMode
     // directly!
     void ChangeCursorMode(CursorMode mode,
-                          wxWindow *win = (wxWindow *)NULL,
+                          wxWindow *win = NULL,
                           bool captureMouse = true);
 
     wxWindow *m_winCapture;     // the window which captured the mouse
+
+    // this variable is used not for finding the correct current cursor but
+    // mainly for finding out what is going to happen if the mouse starts being
+    // dragged right now
+    //
+    // by default it is WXGRID_CURSOR_SELECT_CELL meaning that nothing else is
+    // going on, and it is set to one of RESIZE/SELECT/MOVE values while the
+    // corresponding operation will be started if the user starts dragging the
+    // mouse from the current position
     CursorMode m_cursorMode;
+
 
     //Column positions
     wxArrayInt m_colAt;
-    int m_moveToCol;
 
     bool    m_canDragRowSize;
     bool    m_canDragColSize;
     bool    m_canDragColMove;
     bool    m_canDragGridSize;
     bool    m_canDragCell;
+
+    // the last position (horizontal or vertical depending on whether the user
+    // is resizing a column or a row) where a row or column separator line was
+    // dragged by the user or -1 of there is no drag operation in progress
     int     m_dragLastPos;
     int     m_dragRowOrCol;
+
+    // true if a drag operation is in progress; when this is true,
+    // m_startDragPos is valid, i.e. not wxDefaultPosition
     bool    m_isDragging;
+
+    // the position (in physical coordinates) where the user started dragging
+    // the mouse or wxDefaultPosition if mouse isn't being dragged
+    //
+    // notice that this can be != wxDefaultPosition while m_isDragging is still
+    // false because we wait until the mouse is moved some distance away before
+    // setting m_isDragging to true
     wxPoint m_startDragPos;
 
     bool    m_waitForSlowClick;
@@ -1962,21 +1914,32 @@ protected:
     int m_scrollLineX; // X scroll increment
     int m_scrollLineY; // Y scroll increment
 
+    void Init();        // common part of all ctors
     void Create();
-    void Init();
+    void CreateColumnWindow();
     void CalcDimensions();
     void CalcWindowSizes();
     bool Redimension( wxGridTableMessage& );
 
 
-    int SendEvent( const wxEventType, int row, int col, wxMouseEvent& );
-    int SendEvent( const wxEventType, int row, int col );
-    int SendEvent( const wxEventType type)
-    {
-        return SendEvent(type,
-                         m_currentCellCoords.GetRow(),
-                         m_currentCellCoords.GetCol());
-    }
+    // generate the appropriate grid event and return -1 if it was vetoed, 1 if
+    // it was processed (but not vetoed) and 0 if it wasn't processed
+    int SendEvent(const wxEventType evtType,
+                  int row, int col,
+                  wxMouseEvent& e);
+    int SendEvent(const wxEventType evtType,
+                  const wxGridCellCoords& coords,
+                  wxMouseEvent& e)
+        { return SendEvent(evtType, coords.GetRow(), coords.GetCol(), e); }
+    int SendEvent(const wxEventType evtType,
+                  int row, int col,
+                  const wxString& s = wxString());
+    int SendEvent(const wxEventType evtType,
+                  const wxGridCellCoords& coords,
+                  const wxString& s = wxString())
+        { return SendEvent(evtType, coords.GetRow(), coords.GetCol(), s); }
+    int SendEvent(const wxEventType evtType, const wxString& s = wxString())
+        { return SendEvent(evtType, m_currentCellCoords, s); }
 
     void OnPaint( wxPaintEvent& );
     void OnSize( wxSizeEvent& );
@@ -1986,67 +1949,234 @@ protected:
     void OnEraseBackground( wxEraseEvent& );
 
 
-    void SetCurrentCell( const wxGridCellCoords& coords );
-    void SetCurrentCell( int row, int col )
-        { SetCurrentCell( wxGridCellCoords(row, col) ); }
+    bool SetCurrentCell( const wxGridCellCoords& coords );
+    bool SetCurrentCell( int row, int col )
+        { return SetCurrentCell( wxGridCellCoords(row, col) ); }
 
-    void HighlightBlock( int topRow, int leftCol, int bottomRow, int rightCol );
 
-    void HighlightBlock( const wxGridCellCoords& topLeft,
-                         const wxGridCellCoords& bottomRight )
-        { HighlightBlock( topLeft.GetRow(), topLeft.GetCol(),
-                       bottomRight.GetRow(), bottomRight.GetCol() ); }
+    // this function is called to extend the block being currently selected
+    // from mouse and keyboard event handlers
+    void UpdateBlockBeingSelected(int topRow, int leftCol,
+                                  int bottomRow, int rightCol);
+
+    void UpdateBlockBeingSelected(const wxGridCellCoords& topLeft,
+                        const wxGridCellCoords& bottomRight)
+        { UpdateBlockBeingSelected(topLeft.GetRow(), topLeft.GetCol(),
+                         bottomRight.GetRow(), bottomRight.GetCol()); }
 
     // ------ functions to get/send data (see also public functions)
     //
     bool GetModelValues();
     bool SetModelValues();
 
-private:
-    // Calculate the minimum acceptable size for labels area
-    wxCoord CalcColOrRowLabelAreaMinSize(bool column /* or row? */);
-
     friend class WXDLLIMPEXP_FWD_ADV wxGridSelection;
+    friend class wxGridRowOperations;
+    friend class wxGridColumnOperations;
+
+    // they call our private Process{{Corner,Col,Row}Label,GridCell}MouseEvent()
+    friend class wxGridCornerLabelWindow;
+    friend class wxGridColLabelWindow;
+    friend class wxGridRowLabelWindow;
+    friend class wxGridWindow;
+
+    friend class wxGridHeaderCtrl;
+
+private:
+    // implement wxScrolledWindow method to return m_gridWin size
+    virtual wxSize GetSizeAvailableForScrollTarget(const wxSize& size);
+
+    // redraw the grid lines, should be called after changing their attributes
+    void RedrawGridLines();
+
+    // common part of Clip{Horz,Vert}GridLines
+    void DoClipGridLines(bool& var, bool clip);
+
+    // update the sorting indicator shown in the specified column (whose index
+    // must be valid)
+    //
+    // this will use GetSortingColumn() and IsSortOrderAscending() to determine
+    // the sorting indicator to effectively show
+    void UpdateColumnSortingIndicator(int col);
+
+    // update the grid after changing the columns order (common part of
+    // SetColPos() and ResetColPos())
+    void RefreshAfterColPosChange();
+
+
+    // return the position (not index) of the column at the given logical pixel
+    // position
+    //
+    // this always returns a valid position, even if the coordinate is out of
+    // bounds (in which case first/last column is returned)
+    int XToPos(int x) const;
+
+
+    // event handlers and their helpers
+    // --------------------------------
+
+    // process mouse drag event in WXGRID_CURSOR_SELECT_CELL mode
+    void DoGridCellDrag(wxMouseEvent& event,
+                        const wxGridCellCoords& coords,
+                        bool isFirstDrag);
+
+    // process row/column resizing drag event
+    void DoGridLineDrag(wxMouseEvent& event, const wxGridOperations& oper);
+
+    // process mouse drag event in the grid window
+    void DoGridDragEvent(wxMouseEvent& event, const wxGridCellCoords& coords);
+
+    // process different clicks on grid cells
+    void DoGridCellLeftDown(wxMouseEvent& event,
+                            const wxGridCellCoords& coords,
+                            const wxPoint& pos);
+    void DoGridCellLeftDClick(wxMouseEvent& event,
+                             const wxGridCellCoords& coords,
+                             const wxPoint& pos);
+    void DoGridCellLeftUp(wxMouseEvent& event, const wxGridCellCoords& coords);
+
+    // process movement (but not dragging) event in the grid cell area
+    void DoGridMouseMoveEvent(wxMouseEvent& event,
+                              const wxGridCellCoords& coords,
+                              const wxPoint& pos);
+
+    // process mouse events in the grid window
+    void ProcessGridCellMouseEvent(wxMouseEvent& event);
+
+    // process mouse events in the row/column labels/corner windows
+    void ProcessRowLabelMouseEvent(wxMouseEvent& event);
+    void ProcessColLabelMouseEvent(wxMouseEvent& event);
+    void ProcessCornerLabelMouseEvent(wxMouseEvent& event);
+
+    void DoColHeaderClick(int col);
+
+    void DoStartResizeCol(int col);
+    void DoUpdateResizeCol(int x);
+    void DoUpdateResizeColWidth(int w);
+    void DoStartMoveCol(int col);
+
+    void DoEndDragResizeRow();
+    void DoEndDragResizeCol(wxMouseEvent *event = NULL);
+    void DoEndMoveCol(int pos);
+
+
+    // common implementations of methods defined for both rows and columns
+    void DeselectLine(int line, const wxGridOperations& oper);
+    void DoEndDragResizeLine(const wxGridOperations& oper);
+    int PosToLinePos(int pos, bool clipToMinMax,
+                     const wxGridOperations& oper) const;
+    int PosToLine(int pos, bool clipToMinMax,
+                  const wxGridOperations& oper) const;
+    int PosToEdgeOfLine(int pos, const wxGridOperations& oper) const;
+
+    bool DoMoveCursor(bool expandSelection,
+                      const wxGridDirectionOperations& diroper);
+    bool DoMoveCursorByPage(const wxGridDirectionOperations& diroper);
+    bool DoMoveCursorByBlock(bool expandSelection,
+                             const wxGridDirectionOperations& diroper);
+    void AdvanceToNextNonEmpty(wxGridCellCoords& coords,
+                               const wxGridDirectionOperations& diroper);
+
+    // common part of {Insert,Delete}{Rows,Cols}
+    bool DoModifyLines(bool (wxGridTableBase::*funcModify)(size_t, size_t),
+                       int pos, int num, bool updateLabels);
+    // Append{Rows,Cols} is a bit different because of one less parameter
+    bool DoAppendLines(bool (wxGridTableBase::*funcAppend)(size_t),
+                       int num, bool updateLabels);
+
+    // Common part of Set{Col,Row}Sizes
+    void DoSetSizes(const wxGridSizesInfo& sizeInfo,
+                    const wxGridOperations& oper);
 
     DECLARE_DYNAMIC_CLASS( wxGrid )
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxGrid)
+    wxDECLARE_NO_COPY_CLASS(wxGrid);
 };
 
+// ----------------------------------------------------------------------------
+// wxGridUpdateLocker prevents updates to a grid during its lifetime
+// ----------------------------------------------------------------------------
+
+class WXDLLIMPEXP_ADV wxGridUpdateLocker
+{
+public:
+    // if the pointer is NULL, Create() can be called later
+    wxGridUpdateLocker(wxGrid *grid = NULL)
+    {
+        Init(grid);
+    }
+
+    // can be called if ctor was used with a NULL pointer, must not be called
+    // more than once
+    void Create(wxGrid *grid)
+    {
+        wxASSERT_MSG( !m_grid, _T("shouldn't be called more than once") );
+
+        Init(grid);
+    }
+
+    ~wxGridUpdateLocker()
+    {
+        if ( m_grid )
+            m_grid->EndBatch();
+    }
+
+private:
+    void Init(wxGrid *grid)
+    {
+        m_grid = grid;
+        if ( m_grid )
+            m_grid->BeginBatch();
+    }
+
+    wxGrid *m_grid;
+
+    wxDECLARE_NO_COPY_CLASS(wxGridUpdateLocker);
+};
 
 // ----------------------------------------------------------------------------
 // Grid event class and event types
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_ADV wxGridEvent : public wxNotifyEvent
+class WXDLLIMPEXP_ADV wxGridEvent : public wxNotifyEvent,
+                                    public wxKeyboardState
 {
 public:
     wxGridEvent()
-        : wxNotifyEvent(), m_row(-1), m_col(-1), m_x(-1), m_y(-1),
-        m_selecting(0), m_control(0), m_meta(0), m_shift(0), m_alt(0)
-        {
-        }
+        : wxNotifyEvent()
+    {
+        Init(-1, -1, -1, -1, false);
+    }
 
-    wxGridEvent(int id, wxEventType type, wxObject* obj,
-                int row=-1, int col=-1, int x=-1, int y=-1, bool sel = true,
-                bool control = false, bool shift = false, bool alt = false, bool meta = false);
+    wxGridEvent(int id,
+                wxEventType type,
+                wxObject* obj,
+                int row = -1, int col = -1,
+                int x = -1, int y = -1,
+                bool sel = true,
+                const wxKeyboardState& kbd = wxKeyboardState())
+        : wxNotifyEvent(type, id),
+          wxKeyboardState(kbd)
+    {
+        Init(row, col, x, y, sel);
+        SetEventObject(obj);
+    }
+
+    // explicitly specifying inline allows gcc < 3.4 to
+    // handle the deprecation attribute even in the constructor.
+    wxDEPRECATED_CONSTRUCTOR(
+    wxGridEvent(int id,
+                wxEventType type,
+                wxObject* obj,
+                int row, int col,
+                int x, int y,
+                bool sel,
+                bool control,
+                bool shift = false, bool alt = false, bool meta = false));
 
     virtual int GetRow() { return m_row; }
     virtual int GetCol() { return m_col; }
     wxPoint     GetPosition() { return wxPoint( m_x, m_y ); }
     bool        Selecting() { return m_selecting; }
-    bool        ControlDown() { return m_control; }
-    bool        MetaDown() { return m_meta; }
-    bool        ShiftDown() { return m_shift; }
-    bool        AltDown() { return m_alt; }
-    bool        CmdDown()
-    {
-#if defined(__WXMAC__) || defined(__WXCOCOA__)
-        return MetaDown();
-#else
-        return ControlDown();
-#endif
-    }
 
     virtual wxEvent *Clone() const { return new wxGridEvent(*this); }
 
@@ -2056,78 +2186,113 @@ protected:
     int         m_x;
     int         m_y;
     bool        m_selecting;
-    bool        m_control;
-    bool        m_meta;
-    bool        m_shift;
-    bool        m_alt;
+
+private:
+    void Init(int row, int col, int x, int y, bool sel)
+    {
+        m_row = row;
+        m_col = col;
+        m_x = x;
+        m_y = y;
+        m_selecting = sel;
+    }
 
     DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxGridEvent)
 };
 
-class WXDLLIMPEXP_ADV wxGridSizeEvent : public wxNotifyEvent
+class WXDLLIMPEXP_ADV wxGridSizeEvent : public wxNotifyEvent,
+                                        public wxKeyboardState
 {
 public:
     wxGridSizeEvent()
-        : wxNotifyEvent(), m_rowOrCol(-1), m_x(-1), m_y(-1),
-        m_control(0), m_meta(0), m_shift(0), m_alt(0)
-        {
-        }
+        : wxNotifyEvent()
+    {
+        Init(-1, -1, -1);
+    }
 
-    wxGridSizeEvent(int id, wxEventType type, wxObject* obj,
-                int rowOrCol=-1, int x=-1, int y=-1,
-                bool control = false, bool shift = false, bool alt = false, bool meta = false);
+    wxGridSizeEvent(int id,
+                    wxEventType type,
+                    wxObject* obj,
+                    int rowOrCol = -1,
+                    int x = -1, int y = -1,
+                    const wxKeyboardState& kbd = wxKeyboardState())
+        : wxNotifyEvent(type, id),
+          wxKeyboardState(kbd)
+    {
+        Init(rowOrCol, x, y);
+
+        SetEventObject(obj);
+    }
+
+    wxDEPRECATED_CONSTRUCTOR(
+    wxGridSizeEvent(int id,
+                    wxEventType type,
+                    wxObject* obj,
+                    int rowOrCol,
+                    int x, int y,
+                    bool control,
+                    bool shift = false,
+                    bool alt = false,
+                    bool meta = false) );
 
     int         GetRowOrCol() { return m_rowOrCol; }
     wxPoint     GetPosition() { return wxPoint( m_x, m_y ); }
-    bool        ControlDown() { return m_control; }
-    bool        MetaDown() { return m_meta; }
-    bool        ShiftDown() { return m_shift; }
-    bool        AltDown() { return m_alt; }
-    bool        CmdDown()
-    {
-#if defined(__WXMAC__) || defined(__WXCOCOA__)
-        return MetaDown();
-#else
-        return ControlDown();
-#endif
-    }
-    
+
     virtual wxEvent *Clone() const { return new wxGridSizeEvent(*this); }
 
 protected:
     int         m_rowOrCol;
     int         m_x;
     int         m_y;
-    bool        m_control;
-    bool        m_meta;
-    bool        m_shift;
-    bool        m_alt;
+
+private:
+    void Init(int rowOrCol, int x, int y)
+    {
+        m_rowOrCol = rowOrCol;
+        m_x = x;
+        m_y = y;
+    }
 
     DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxGridSizeEvent)
 };
 
 
-class WXDLLIMPEXP_ADV wxGridRangeSelectEvent : public wxNotifyEvent
+class WXDLLIMPEXP_ADV wxGridRangeSelectEvent : public wxNotifyEvent,
+                                               public wxKeyboardState
 {
 public:
     wxGridRangeSelectEvent()
         : wxNotifyEvent()
-        {
-            m_topLeft     = wxGridNoCellCoords;
-            m_bottomRight = wxGridNoCellCoords;
-            m_selecting   = false;
-            m_control     = false;
-            m_meta        = false;
-            m_shift       = false;
-            m_alt         = false;
-        }
+    {
+        Init(wxGridNoCellCoords, wxGridNoCellCoords, false);
+    }
 
-    wxGridRangeSelectEvent(int id, wxEventType type, wxObject* obj,
+    wxGridRangeSelectEvent(int id,
+                           wxEventType type,
+                           wxObject* obj,
                            const wxGridCellCoords& topLeft,
                            const wxGridCellCoords& bottomRight,
                            bool sel = true,
-                           bool control = false, bool shift = false,
-                           bool alt = false, bool meta = false);
+                           const wxKeyboardState& kbd = wxKeyboardState())
+        : wxNotifyEvent(type, id),
+          wxKeyboardState(kbd)
+    {
+        Init(topLeft, bottomRight, sel);
+
+        SetEventObject(obj);
+    }
+
+    wxDEPRECATED_CONSTRUCTOR(
+    wxGridRangeSelectEvent(int id,
+                           wxEventType type,
+                           wxObject* obj,
+                           const wxGridCellCoords& topLeft,
+                           const wxGridCellCoords& bottomRight,
+                           bool sel,
+                           bool control,
+                           bool shift = false,
+                           bool alt = false,
+                           bool meta = false) );
 
     wxGridCellCoords GetTopLeftCoords() { return m_topLeft; }
     wxGridCellCoords GetBottomRightCoords() { return m_bottomRight; }
@@ -2136,35 +2301,29 @@ public:
     int         GetLeftCol()   { return m_topLeft.GetCol(); }
     int         GetRightCol()  { return m_bottomRight.GetCol(); }
     bool        Selecting() { return m_selecting; }
-    bool        ControlDown()  { return m_control; }
-    bool        MetaDown()     { return m_meta; }
-    bool        ShiftDown()    { return m_shift; }
-    bool        AltDown()      { return m_alt; }
-    bool        CmdDown()
-    {
-#if defined(__WXMAC__) || defined(__WXCOCOA__)
-        return MetaDown();
-#else
-        return ControlDown();
-#endif
-    }
-    
+
     virtual wxEvent *Clone() const { return new wxGridRangeSelectEvent(*this); }
 
 protected:
+    void Init(const wxGridCellCoords& topLeft,
+              const wxGridCellCoords& bottomRight,
+              bool selecting)
+    {
+        m_topLeft = topLeft;
+        m_bottomRight = bottomRight;
+        m_selecting = selecting;
+    }
+
     wxGridCellCoords  m_topLeft;
     wxGridCellCoords  m_bottomRight;
     bool              m_selecting;
-    bool              m_control;
-    bool              m_meta;
-    bool              m_shift;
-    bool              m_alt;
 
     DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxGridRangeSelectEvent)
 };
 
 
-class WXDLLIMPEXP_ADV wxGridEditorCreatedEvent : public wxCommandEvent {
+class WXDLLIMPEXP_ADV wxGridEditorCreatedEvent : public wxCommandEvent
+{
 public:
     wxGridEditorCreatedEvent()
         : wxCommandEvent()
@@ -2183,7 +2342,7 @@ public:
     void SetRow(int row)                { m_row = row; }
     void SetCol(int col)                { m_col = col; }
     void SetControl(wxControl* ctrl)    { m_ctrl = ctrl; }
-    
+
     virtual wxEvent *Clone() const { return new wxGridEditorCreatedEvent(*this); }
 
 private:
@@ -2195,27 +2354,26 @@ private:
 };
 
 
-BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_LEFT_CLICK, 1580)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_RIGHT_CLICK, 1581)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_LEFT_DCLICK, 1582)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_RIGHT_DCLICK, 1583)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_LABEL_LEFT_CLICK, 1584)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_LABEL_RIGHT_CLICK, 1585)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_LABEL_LEFT_DCLICK, 1586)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_LABEL_RIGHT_DCLICK, 1587)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_ROW_SIZE, 1588)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_COL_SIZE, 1589)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_RANGE_SELECT, 1590)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_CHANGE, 1591)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_SELECT_CELL, 1592)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_EDITOR_SHOWN, 1593)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_EDITOR_HIDDEN, 1594)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_EDITOR_CREATED, 1595)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_BEGIN_DRAG, 1596)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_ADV, wxEVT_GRID_COL_MOVE, 1597)
-END_DECLARE_EVENT_TYPES()
-
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_LEFT_CLICK, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_RIGHT_CLICK, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_LEFT_DCLICK, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_RIGHT_DCLICK, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_LABEL_LEFT_CLICK, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_LABEL_RIGHT_CLICK, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_LABEL_LEFT_DCLICK, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_LABEL_RIGHT_DCLICK, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_ROW_SIZE, wxGridSizeEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_COL_SIZE, wxGridSizeEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_RANGE_SELECT, wxGridRangeSelectEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_CHANGING, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_CHANGED, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_SELECT_CELL, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_EDITOR_SHOWN, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_EDITOR_HIDDEN, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_EDITOR_CREATED, wxGridEditorCreatedEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_CELL_BEGIN_DRAG, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_COL_MOVE, wxGridEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_ADV, wxEVT_GRID_COL_SORT, wxGridEvent );
 
 typedef void (wxEvtHandler::*wxGridEventFunction)(wxGridEvent&);
 typedef void (wxEvtHandler::*wxGridSizeEventFunction)(wxGridSizeEvent&);
@@ -2223,16 +2381,16 @@ typedef void (wxEvtHandler::*wxGridRangeSelectEventFunction)(wxGridRangeSelectEv
 typedef void (wxEvtHandler::*wxGridEditorCreatedEventFunction)(wxGridEditorCreatedEvent&);
 
 #define wxGridEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxGridEventFunction, &func)
+    wxEVENT_HANDLER_CAST(wxGridEventFunction, func)
 
 #define wxGridSizeEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxGridSizeEventFunction, &func)
+    wxEVENT_HANDLER_CAST(wxGridSizeEventFunction, func)
 
 #define wxGridRangeSelectEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxGridRangeSelectEventFunction, &func)
+    wxEVENT_HANDLER_CAST(wxGridRangeSelectEventFunction, func)
 
 #define wxGridEditorCreatedEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxGridEditorCreatedEventFunction, &func)
+    wxEVENT_HANDLER_CAST(wxGridEditorCreatedEventFunction, func)
 
 #define wx__DECLARE_GRIDEVT(evt, id, fn) \
     wx__DECLARE_EVT1(wxEVT_GRID_ ## evt, id, wxGridEventHandler(fn))
@@ -2257,8 +2415,10 @@ typedef void (wxEvtHandler::*wxGridEditorCreatedEventFunction)(wxGridEditorCreat
 #define EVT_GRID_CMD_ROW_SIZE(id, fn)            wx__DECLARE_GRIDSIZEEVT(ROW_SIZE, id, fn)
 #define EVT_GRID_CMD_COL_SIZE(id, fn)            wx__DECLARE_GRIDSIZEEVT(COL_SIZE, id, fn)
 #define EVT_GRID_CMD_COL_MOVE(id, fn)            wx__DECLARE_GRIDEVT(COL_MOVE, id, fn)
+#define EVT_GRID_CMD_COL_SORT(id, fn)            wx__DECLARE_GRIDEVT(COL_SORT, id, fn)
 #define EVT_GRID_CMD_RANGE_SELECT(id, fn)        wx__DECLARE_GRIDRANGESELEVT(RANGE_SELECT, id, fn)
-#define EVT_GRID_CMD_CELL_CHANGE(id, fn)         wx__DECLARE_GRIDEVT(CELL_CHANGE, id, fn)
+#define EVT_GRID_CMD_CELL_CHANGING(id, fn)       wx__DECLARE_GRIDEVT(CELL_CHANGING, id, fn)
+#define EVT_GRID_CMD_CELL_CHANGED(id, fn)        wx__DECLARE_GRIDEVT(CELL_CHANGED, id, fn)
 #define EVT_GRID_CMD_SELECT_CELL(id, fn)         wx__DECLARE_GRIDEVT(SELECT_CELL, id, fn)
 #define EVT_GRID_CMD_EDITOR_SHOWN(id, fn)        wx__DECLARE_GRIDEVT(EDITOR_SHOWN, id, fn)
 #define EVT_GRID_CMD_EDITOR_HIDDEN(id, fn)       wx__DECLARE_GRIDEVT(EDITOR_HIDDEN, id, fn)
@@ -2278,13 +2438,26 @@ typedef void (wxEvtHandler::*wxGridEditorCreatedEventFunction)(wxGridEditorCreat
 #define EVT_GRID_ROW_SIZE(fn)            EVT_GRID_CMD_ROW_SIZE(wxID_ANY, fn)
 #define EVT_GRID_COL_SIZE(fn)            EVT_GRID_CMD_COL_SIZE(wxID_ANY, fn)
 #define EVT_GRID_COL_MOVE(fn)            EVT_GRID_CMD_COL_MOVE(wxID_ANY, fn)
+#define EVT_GRID_COL_SORT(fn)            EVT_GRID_CMD_COL_SORT(wxID_ANY, fn)
 #define EVT_GRID_RANGE_SELECT(fn)        EVT_GRID_CMD_RANGE_SELECT(wxID_ANY, fn)
-#define EVT_GRID_CELL_CHANGE(fn)         EVT_GRID_CMD_CELL_CHANGE(wxID_ANY, fn)
+#define EVT_GRID_CELL_CHANGING(fn)       EVT_GRID_CMD_CELL_CHANGING(wxID_ANY, fn)
+#define EVT_GRID_CELL_CHANGED(fn)        EVT_GRID_CMD_CELL_CHANGED(wxID_ANY, fn)
 #define EVT_GRID_SELECT_CELL(fn)         EVT_GRID_CMD_SELECT_CELL(wxID_ANY, fn)
 #define EVT_GRID_EDITOR_SHOWN(fn)        EVT_GRID_CMD_EDITOR_SHOWN(wxID_ANY, fn)
 #define EVT_GRID_EDITOR_HIDDEN(fn)       EVT_GRID_CMD_EDITOR_HIDDEN(wxID_ANY, fn)
 #define EVT_GRID_EDITOR_CREATED(fn)      EVT_GRID_CMD_EDITOR_CREATED(wxID_ANY, fn)
 #define EVT_GRID_CELL_BEGIN_DRAG(fn)     EVT_GRID_CMD_CELL_BEGIN_DRAG(wxID_ANY, fn)
+
+// we used to have a single wxEVT_GRID_CELL_CHANGE event but it was split into
+// wxEVT_GRID_CELL_CHANGING and CHANGED ones in wx 2.9.0, however the CHANGED
+// is basically the same as the old CHANGE event so we keep the name for
+// compatibility
+#if WXWIN_COMPATIBILITY_2_8
+    #define wxEVT_GRID_CELL_CHANGE wxEVT_GRID_CELL_CHANGED
+
+    #define EVT_GRID_CMD_CELL_CHANGE EVT_GRID_CMD_CELL_CHANGED
+    #define EVT_GRID_CELL_CHANGE EVT_GRID_CELL_CHANGED
+#endif // WXWIN_COMPATIBILITY_2_8
 
 #if 0  // TODO: implement these ?  others ?
 

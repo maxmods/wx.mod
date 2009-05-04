@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: printdlg.h 49804 2007-11-10 01:09:42Z VZ $
+// RCS-ID:      $Id: printdlg.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ class WXDLLIMPEXP_FWD_CORE wxDC;
 // wxWindowsPrintNativeData
 //----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxWindowsPrintNativeData: public wxPrintNativeDataBase
+class WXDLLIMPEXP_CORE wxWindowsPrintNativeData: public wxPrintNativeDataBase
 {
 public:
     wxWindowsPrintNativeData();
@@ -56,7 +56,7 @@ private:
 // wxWindowsPrintDialog: the MSW dialog for printing
 // ---------------------------------------------------------------------------
 
-class WXDLLEXPORT wxWindowsPrintDialog : public wxPrintDialogBase
+class WXDLLIMPEXP_CORE wxWindowsPrintDialog : public wxPrintDialogBase
 {
 public:
     wxWindowsPrintDialog(wxWindow *parent, wxPrintDialogData* data = NULL);
@@ -85,7 +85,7 @@ private:
     void*             m_printDlg;
 
 private:
-    DECLARE_NO_COPY_CLASS(wxWindowsPrintDialog)
+    wxDECLARE_NO_COPY_CLASS(wxWindowsPrintDialog);
     DECLARE_CLASS(wxWindowsPrintDialog)
 };
 
@@ -93,7 +93,7 @@ private:
 // wxWindowsPageSetupDialog: the MSW page setup dialog 
 // ---------------------------------------------------------------------------
 
-class WXDLLEXPORT wxWindowsPageSetupDialog: public wxPageSetupDialogBase
+class WXDLLIMPEXP_CORE wxWindowsPageSetupDialog: public wxPageSetupDialogBase
 {
 public:
     wxWindowsPageSetupDialog();

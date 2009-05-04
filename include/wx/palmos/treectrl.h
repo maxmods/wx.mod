@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: treectrl.h 38416 2006-03-28 13:11:20Z ABX $
+// RCS-ID:      $Id: treectrl.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -24,9 +24,9 @@
 #include "wx/hashmap.h"
 
 // fwd decl
-class  WXDLLEXPORT wxImageList;
-class  WXDLLEXPORT wxDragImage;
-struct WXDLLEXPORT wxTreeViewItem;
+class  WXDLLIMPEXP_CORE wxImageList;
+class  WXDLLIMPEXP_CORE wxDragImage;
+struct WXDLLIMPEXP_FWD_CORE wxTreeViewItem;
 
 // hash storing attributes for our items
 WX_DECLARE_EXPORTED_VOIDPTR_HASH_MAP(wxTreeItemAttr *, wxMapTreeAttr);
@@ -35,7 +35,7 @@ WX_DECLARE_EXPORTED_VOIDPTR_HASH_MAP(wxTreeItemAttr *, wxMapTreeAttr);
 // wxTreeCtrl
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxTreeCtrl : public wxControl
+class WXDLLIMPEXP_CORE wxTreeCtrl : public wxControl
 {
 public:
     // creation
@@ -425,7 +425,7 @@ private:
     friend class wxTreeSortHelper;
 
     DECLARE_DYNAMIC_CLASS(wxTreeCtrl)
-    DECLARE_NO_COPY_CLASS(wxTreeCtrl)
+    wxDECLARE_NO_COPY_CLASS(wxTreeCtrl);
 };
 
 #endif // wxUSE_TREECTRL

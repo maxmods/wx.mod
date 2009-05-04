@@ -2,9 +2,9 @@
 // Name:        wx/palmos/pen.h
 // Purpose:     wxPen class
 // Author:      William Osborne - minimal working wxPalmOS port
-// Modified by:
+// Modified by: Yunhui Fu
 // Created:     10/13/04
-// RCS-ID:      $Id: pen.h 42776 2006-10-30 22:03:53Z VZ $
+// RCS-ID:      $Id: pen.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,10 +18,10 @@
 
 typedef WXDWORD wxMSWDash;
 
-class WXDLLEXPORT wxPen;
+class WXDLLIMPEXP_FWD_CORE wxPen;
 
 // VZ: this class should be made private
-class WXDLLEXPORT wxPenRefData : public wxGDIRefData
+class WXDLLIMPEXP_CORE wxPenRefData : public wxGDIRefData
 {
 public:
     wxPenRefData();
@@ -44,7 +44,7 @@ public:
 
 protected:
     int           m_width;
-    int           m_style;
+    wxPenStyle    m_style;
     int           m_join;
     int           m_cap;
     wxBitmap      m_stipple;
@@ -54,10 +54,10 @@ protected:
     WXHPEN        m_hPen;
 
 private:
-    friend class WXDLLEXPORT wxPen;
+    friend class WXDLLIMPEXP_FWD_CORE wxPen;
 
     // Cannot use
-    //  DECLARE_NO_COPY_CLASS(wxPenRefData)
+    //  wxDECLARE_NO_COPY_CLASS(wxPenRefData);
     // because copy constructor is explicitly declared above;
     // but no copy assignment operator is defined, so declare
     // it private to prevent the compiler from defining it:
@@ -71,11 +71,15 @@ private:
 // Pen
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxPen : public wxGDIObject
+class WXDLLIMPEXP_CORE wxPen : public wxPenBase
 {
 public:
     wxPen();
-    wxPen(const wxColour& col, int width = 1, int style = wxSOLID);
+    wxPen(const wxColour& col, int width = 1, wxPenStyle style = wxPENSTYLE_SOLID);
+#if FUTURE_WXWIN_COMPATIBILITY_3_0
+    wxDEPRECATED_FUTURE( wxPen(const wxColour& col, int width, int style) );
+#endif
+
     wxPen(const wxBitmap& stipple, int width);
     virtual ~wxPen();
 
@@ -89,41 +93,48 @@ public:
 
     bool operator!=(const wxPen& pen) const { return !(*this == pen); }
 
-    virtual bool Ok() const { return IsOk(); }
-    virtual bool IsOk() const { return (m_refData != NULL); }
-
     // Override in order to recreate the pen
     void SetColour(const wxColour& col);
     void SetColour(unsigned char r, unsigned char g, unsigned char b);
 
     void SetWidth(int width);
-    void SetStyle(int style);
+    void SetStyle(wxPenStyle style);
     void SetStipple(const wxBitmap& stipple);
     void SetDashes(int nb_dashes, const wxDash *dash);
-    void SetJoin(int join);
-    void SetCap(int cap);
+    void SetJoin(wxPenJoin join);
+    void SetCap(wxPenCap cap);
 
     wxColour& GetColour() const { return (M_PENDATA ? M_PENDATA->m_colour : wxNullColour); };
     int GetWidth() const { return (M_PENDATA ? M_PENDATA->m_width : 0); };
-    int GetStyle() const { return (M_PENDATA ? M_PENDATA->m_style : 0); };
-    int GetJoin() const { return (M_PENDATA ? M_PENDATA->m_join : 0); };
-    int GetCap() const { return (M_PENDATA ? M_PENDATA->m_cap : 0); };
+    wxPenStyle GetStyle() const { return (M_PENDATA ? M_PENDATA->m_style : 0); };
+    wxPenJoin GetJoin() const { return (M_PENDATA ? M_PENDATA->m_join : 0); };
+    wxPenCap GetCap() const { return (M_PENDATA ? M_PENDATA->m_cap : 0); };
     int GetDashes(wxDash **ptr) const
     {
-        *ptr = (M_PENDATA ? (wxDash*)M_PENDATA->m_dash : (wxDash*) NULL);
+        *ptr = (M_PENDATA ? (wxDash*)M_PENDATA->m_dash : NULL);
         return (M_PENDATA ? M_PENDATA->m_nbDash : 0);
     }
-    wxDash* GetDash() const { return (M_PENDATA ? (wxDash*)M_PENDATA->m_dash : (wxDash*)NULL); };
+    wxDash* GetDash() const { return (M_PENDATA ? (wxDash*)M_PENDATA->m_dash : NULL); };
     inline int GetDashCount() const { return (M_PENDATA ? M_PENDATA->m_nbDash : 0); };
 
-    inline wxBitmap *GetStipple() const { return (M_PENDATA ? (& M_PENDATA->m_stipple) : (wxBitmap*) NULL); };
+    inline wxBitmap *GetStipple() const { return (M_PENDATA ? (& M_PENDATA->m_stipple) : NULL); };
 
     // Internal
     bool RealizeResource();
     bool FreeResource(bool force = false);
     WXHANDLE GetResourceHandle() const;
     bool IsFree() const;
-    void Unshare();
+
+#if FUTURE_WXWIN_COMPATIBILITY_3_0
+    wxDEPRECATED_FUTURE( void SetStyle(int style) )
+        { SetStyle((wxPenStyle)style); }
+#endif
+
+protected:
+    virtual wxGDIRefData* CreateGDIRefData() const;
+    virtual wxGDIRefData* CloneGDIRefData(const wxGDIRefData* data) const;
+    // same as FreeResource() + RealizeResource()
+    bool Recreate();
 
 private:
     DECLARE_DYNAMIC_CLASS(wxPen)

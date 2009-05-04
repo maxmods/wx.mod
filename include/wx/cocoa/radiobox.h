@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2003/03/18
-// RCS-ID:      $Id: radiobox.h 47573 2007-07-19 19:48:55Z DE $
+// RCS-ID:      $Id: radiobox.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2003 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ DECLARE_WXCOCOA_OBJC_CLASS(NSMatrix);
 // ========================================================================
 // wxRadioBox
 // ========================================================================
-class WXDLLEXPORT wxRadioBox: public wxControl, public wxRadioBoxBase// , protected wxCocoaNSButton
+class WXDLLIMPEXP_CORE wxRadioBox: public wxControl, public wxRadioBoxBase// , protected wxCocoaNSButton
 {
     DECLARE_DYNAMIC_CLASS(wxRadioBox)
     DECLARE_EVENT_TABLE()
@@ -93,8 +93,8 @@ public:
 // Cocoa callbacks
 // ------------------------------------------------------------------------
 protected:
-    // Static boxes cannot be enabled/disabled
-    virtual void CocoaSetEnabled(bool enable) { }
+    // Radio boxes cannot be enabled/disabled
+    virtual void CocoaSetEnabled(bool WXUNUSED(enable)) { }
     virtual void CocoaTarget_action(void);
 // ------------------------------------------------------------------------
 // Implementation

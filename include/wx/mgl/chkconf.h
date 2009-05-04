@@ -4,7 +4,7 @@
  * Author:      Julian Smart
  * Modified by:
  * Created:     01/02/97
- * RCS-ID:      $Id: chkconf.h 40545 2006-08-10 10:09:34Z VS $
+ * RCS-ID:      $Id: chkconf.h 49352 2007-10-23 13:40:27Z VZ $
  * Copyright:   (c) Julian Smart
  * Licence:     wxWindows licence
  */
@@ -57,11 +57,6 @@
 #   undef wxUSE_DYNAMIC_LOADER
 #   define wxUSE_DYNAMIC_LOADER 0
 #endif /* wxUSE_DYNAMIC_LOADER */
-
-#if wxUSE_ODBC
-#   undef wxUSE_ODBC
-#   define wxUSE_ODBC 0
-#endif /* wxUSE_ODBC */
 
 #if wxUSE_DATAOBJ
 #   undef wxUSE_DATAOBJ

@@ -5,7 +5,7 @@
 // Author:      John Norris, minor changes by Axel Schlueter
 // Modified by:
 // Created:     08.02.01
-// RCS-ID:      $Id: tglbtn.h 37393 2006-02-08 21:47:09Z VZ $
+// RCS-ID:      $Id: tglbtn.h 57437 2008-12-19 16:04:31Z RR $
 // Copyright:   (c) 2000 Johnny C. Norris II
 // License:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,10 +13,72 @@
 #ifndef _WX_TOGGLEBUTTON_H_
 #define _WX_TOGGLEBUTTON_H_
 
-extern WXDLLEXPORT_DATA(const wxChar) wxCheckBoxNameStr[];
+#include "wx/bitmap.h"
+
+extern WXDLLIMPEXP_DATA_CORE(const char) wxCheckBoxNameStr[];
+
+//-----------------------------------------------------------------------------
+// wxBitmapToggleButton
+//-----------------------------------------------------------------------------
+
+
+class WXDLLIMPEXP_CORE wxBitmapToggleButton: public wxToggleButtonBase
+{
+public:
+    // construction/destruction
+    wxBitmapToggleButton() { Init(); }
+    wxBitmapToggleButton(wxWindow *parent,
+                   wxWindowID id,
+                   const wxBitmap& label,
+                   const wxPoint& pos = wxDefaultPosition,
+                   const wxSize& size = wxDefaultSize,
+                   long style = 0,
+                   const wxValidator& validator = wxDefaultValidator,
+                   const wxString& name = wxCheckBoxNameStr)
+    {
+        Create(parent, id, label, pos, size, style, validator, name);
+    }
+
+    // Create the control
+    bool Create(wxWindow *parent,
+                wxWindowID id,
+                const wxBitmap& label,
+                const wxPoint& pos = wxDefaultPosition,
+                const wxSize& size = wxDefaultSize, long style = 0,
+                const wxValidator& validator = wxDefaultValidator,
+                const wxString& name = wxCheckBoxNameStr);
+
+    // Get/set the value
+    void SetValue(bool state);
+    bool GetValue() const;
+
+    // Set the label
+    virtual void SetLabel(const wxString& label) { wxControl::SetLabel(label); }
+    virtual void SetLabel(const wxBitmap& label);
+    bool Enable(bool enable = TRUE);
+
+protected:
+    void Init();
+    
+    wxBitmap  m_bitmap;
+    wxBitmap  m_disabledBitmap;
+    bool      m_capturing;
+    bool      m_depressed,m_oldValue;
+    
+    void OnPaint(wxPaintEvent &event);
+    void OnMouse(wxMouseEvent &event);
+    void OnChar(wxKeyEvent &event);
+    void OnSize(wxSizeEvent &event);
+
+    virtual wxSize DoGetBestSize() const;
+
+private:
+    DECLARE_EVENT_TABLE()
+    DECLARE_DYNAMIC_CLASS(wxBitmapToggleButton)
+};
 
 // Checkbox item (single checkbox)
-class WXDLLEXPORT wxToggleButton : public wxControl
+class WXDLLIMPEXP_CORE wxToggleButton : public wxToggleButtonBase
 {
 public:
     wxToggleButton() {}
@@ -44,13 +106,19 @@ public:
     virtual void SetValue(bool value);
     virtual bool GetValue() const ;
 
+    virtual void SetLabel(const wxString& label);
+
     virtual bool MSWCommand(WXUINT param, WXWORD id);
     virtual void Command(wxCommandEvent& event);
-    virtual WXDWORD MSWGetStyle(long flags, WXDWORD *exstyle = NULL) const;
+
+    // returns true if the platform should explicitly apply a theme border
+    virtual bool CanApplyThemeBorder() const { return false; }
 
 protected:
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
     virtual wxSize DoGetBestSize() const;
-    virtual wxBorder GetDefaultBorder() const;
+
+    virtual WXDWORD MSWGetStyle(long flags, WXDWORD *exstyle = NULL) const;
 
 private:
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxToggleButton)

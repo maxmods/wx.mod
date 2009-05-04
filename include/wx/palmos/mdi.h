@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: mdi.h 41223 2006-09-14 17:36:18Z PC $
+// RCS-ID:      $Id: mdi.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,16 +14,16 @@
 
 #include "wx/frame.h"
 
-WXDLLEXPORT_DATA(extern const wxChar) wxStatusLineNameStr[];
+WXDLLIMPEXP_DATA_CORE(extern const wxChar) wxStatusLineNameStr[];
 
-class WXDLLEXPORT wxMDIClientWindow;
-class WXDLLEXPORT wxMDIChildFrame;
+class WXDLLIMPEXP_FWD_CORE wxMDIClientWindow;
+class WXDLLIMPEXP_FWD_CORE wxMDIChildFrame;
 
 // ---------------------------------------------------------------------------
 // wxMDIParentFrame
 // ---------------------------------------------------------------------------
 
-class WXDLLEXPORT wxMDIParentFrame : public wxFrame
+class WXDLLIMPEXP_CORE wxMDIParentFrame : public wxFrame
 {
 public:
     wxMDIParentFrame();
@@ -99,18 +99,18 @@ protected:
     bool m_parentFrameActive;
 
 private:
-    friend class WXDLLEXPORT wxMDIChildFrame;
+    friend class WXDLLIMPEXP_FWD_CORE wxMDIChildFrame;
 
     DECLARE_EVENT_TABLE()
     DECLARE_DYNAMIC_CLASS(wxMDIParentFrame)
-    DECLARE_NO_COPY_CLASS(wxMDIParentFrame)
+    wxDECLARE_NO_COPY_CLASS(wxMDIParentFrame);
 };
 
 // ---------------------------------------------------------------------------
 // wxMDIChildFrame
 // ---------------------------------------------------------------------------
 
-class WXDLLEXPORT wxMDIChildFrame : public wxFrame
+class WXDLLIMPEXP_CORE wxMDIChildFrame : public wxFrame
 {
 public:
     wxMDIChildFrame() { Init(); }
@@ -183,7 +183,7 @@ private:
 // wxMDIClientWindow
 // ---------------------------------------------------------------------------
 
-class WXDLLEXPORT wxMDIClientWindow : public wxWindow
+class WXDLLIMPEXP_CORE wxMDIClientWindow : public wxWindow
 {
 public:
     wxMDIClientWindow() { Init(); }

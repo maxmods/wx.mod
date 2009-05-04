@@ -2,7 +2,7 @@
 // Name:        imagtiff.h
 // Purpose:     wxImage TIFF handler
 // Author:      Robert Roebling
-// RCS-ID:      $Id: imagtiff.h 37393 2006-02-08 21:47:09Z VZ $
+// RCS-ID:      $Id: imagtiff.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@
 #define wxIMAGE_OPTION_COMPRESSION                 wxString(_T("Compression"))
 #define wxIMAGE_OPTION_IMAGEDESCRIPTOR             wxString(_T("ImageDescriptor"))
 
-class WXDLLEXPORT wxTIFFHandler: public wxImageHandler
+class WXDLLIMPEXP_CORE wxTIFFHandler: public wxImageHandler
 {
 public:
     wxTIFFHandler();

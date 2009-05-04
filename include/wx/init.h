@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     29.06.2003
-// RCS-ID:      $Id: init.h 42109 2006-10-19 07:43:24Z MR $
+// RCS-ID:      $Id: init.h 44927 2007-03-19 14:45:38Z VS $
 // Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 #define _WX_INIT_H_
 
 #include "wx/defs.h"
-#include "wx/wxchar.h"
+#include "wx/chartype.h"
 
 // ----------------------------------------------------------------------------
 // wxEntry helper functions which allow to have more fine grained control

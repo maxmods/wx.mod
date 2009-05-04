@@ -21,6 +21,7 @@
 */ 
 
 #include "wxglue.h"
+#include "wx/graphics.h"
 #include "../wxpen.mod/glue.h"
 #include "../wxbrush.mod/glue.h"
 #include "../wxicon.mod/glue.h"
@@ -51,12 +52,12 @@ extern "C" {
 	void bmx_wxgraphicscontext_drawbitmap(wxGraphicsContext * context, MaxBitmap * bmp, double x, double y, double w, double h);
 	void bmx_wxgraphicscontext_drawellipse(wxGraphicsContext * context, double x, double y, double w, double h);
 	void bmx_wxgraphicscontext_drawicon(wxGraphicsContext * context, MaxIcon * icon, double x, double y, double w, double h);
-	void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * points, int fillStyle);
-	void bmx_wxgraphicscontext_drawpath(wxGraphicsContext * context, MaxGraphicsPath * path, int fillStyle);
+	void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * points, wxPolygonFillMode fillStyle);
+	void bmx_wxgraphicscontext_drawpath(wxGraphicsContext * context, MaxGraphicsPath * path, wxPolygonFillMode fillStyle);
 	void bmx_wxgraphicscontext_drawrectangle(wxGraphicsContext * context, double x, double y, double w, double h);
 	void bmx_wxgraphicscontext_drawroundedrectangle(wxGraphicsContext * context, double x, double y, double w, double h, double radius);
 	void bmx_wxgraphicscontext_drawtext(wxGraphicsContext * context, BBString * text, double x, double y, double angle);
-	void bmx_wxgraphicscontext_fillpath(wxGraphicsContext * context, MaxGraphicsPath * path, int fillStyle);
+	void bmx_wxgraphicscontext_fillpath(wxGraphicsContext * context, MaxGraphicsPath * path, wxPolygonFillMode fillStyle);
 	void bmx_wxgraphicscontext_strokepath(wxGraphicsContext * context, MaxGraphicsPath * path);
 	void * bmx_wxgraphicscontext_getnativecontext(wxGraphicsContext * context);
 	BBArray * bmx_wxgraphicscontext_getpartialtextextents(wxGraphicsContext * context, BBString * text);
@@ -108,7 +109,7 @@ extern "C" {
 	void bmx_wxgraphicspath_addrectangle(MaxGraphicsPath * path, double x, double y, double w, double h);
 	void bmx_wxgraphicspath_addroundedrectangle(MaxGraphicsPath * path, double x, double y, double w, double h, double radius);
 	void bmx_wxgraphicspath_closesubpath(MaxGraphicsPath * path);
-	bool bmx_wxgraphicspath_contains(MaxGraphicsPath * path, double x, double y, int fillStyle);
+	bool bmx_wxgraphicspath_contains(MaxGraphicsPath * path, double x, double y, wxPolygonFillMode fillStyle);
 	void bmx_wxgraphicspath_getbox(MaxGraphicsPath * path, double * x, double * y, double * w, double * h);
 	void bmx_wxgraphicspath_getcurrentpoint(MaxGraphicsPath * path, double * x, double * y);
 	void bmx_wxgraphicspath_transform(MaxGraphicsPath * path, MaxGraphicsMatrix * matrix);

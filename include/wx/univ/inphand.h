@@ -5,7 +5,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     18.08.00
-// RCS-ID:      $Id: inphand.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: inphand.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2000 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@
 // wxInputHandler: maps the events to the actions
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxInputHandler : public wxObject
+class WXDLLIMPEXP_CORE wxInputHandler : public wxObject
 {
 public:
     // map a keyboard event to one or more actions (pressed == true if the key
@@ -80,7 +80,7 @@ public:
 // and also provides the way to chain input handlers together
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxStdInputHandler : public wxInputHandler
+class WXDLLIMPEXP_CORE wxStdInputHandler : public wxInputHandler
 {
 public:
     wxStdInputHandler(wxInputHandler *handler) : m_handler(handler) { }

@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     09.02.01
-// RCS-ID:      $Id: slider.h 38717 2006-04-14 17:01:16Z ABX $
+// RCS-ID:      $Id: slider.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 1996-2001 Vadim Zeitlin
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -45,13 +45,13 @@
     #define wxSL_NOTIFY_DRAG     0x0000
 #endif // WXWIN_COMPATIBILITY_2_6
 
-extern WXDLLEXPORT_DATA(const wxChar) wxSliderNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxSliderNameStr[];
 
 // ----------------------------------------------------------------------------
 // wxSliderBase: define wxSlider interface
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxSliderBase : public wxControl
+class WXDLLIMPEXP_CORE wxSliderBase : public wxControl
 {
 public:
     /* the ctor of the derived class should have the following form:
@@ -105,6 +105,9 @@ public:
 
 protected:
 
+    // choose the default border for this window
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
+
     // adjust value according to wxSL_INVERSE style
     virtual int ValueInvertOrNot(int value) const
     {
@@ -115,7 +118,7 @@ protected:
     }
 
 private:
-    DECLARE_NO_COPY_CLASS(wxSliderBase)
+    wxDECLARE_NO_COPY_CLASS(wxSliderBase);
 };
 
 // ----------------------------------------------------------------------------
@@ -125,10 +128,7 @@ private:
 #if defined(__WXUNIVERSAL__)
     #include "wx/univ/slider.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/slider95.h"
-    #if WXWIN_COMPATIBILITY_2_4
-         #define wxSlider95 wxSlider
-    #endif
+    #include "wx/msw/slider.h"
 #elif defined(__WXMOTIF__)
     #include "wx/motif/slider.h"
 #elif defined(__WXGTK20__)
@@ -136,7 +136,7 @@ private:
 #elif defined(__WXGTK__)
     #include "wx/gtk1/slider.h"
 #elif defined(__WXMAC__)
-    #include "wx/mac/slider.h"
+    #include "wx/osx/slider.h"
 #elif defined(__WXCOCOA__)
     #include "wx/cocoa/slider.h"
 #elif defined(__WXPM__)

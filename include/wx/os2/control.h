@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     09/17/99
-// RCS-ID:      $Id: control.h 36684 2006-01-04 22:46:06Z SN $
+// RCS-ID:      $Id: control.h 58246 2009-01-20 18:33:33Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 #include "wx/dynarray.h"
 
 // General item class
-class WXDLLEXPORT wxControl : public wxControlBase
+class WXDLLIMPEXP_CORE wxControl : public wxControlBase
 {
     DECLARE_ABSTRACT_CLASS(wxControl)
 
@@ -32,7 +32,6 @@ public:
     {
         Create( pParent, vId, rPos, rSize, lStyle, rValidator, rsName );
     }
-    virtual ~wxControl();
 
     bool Create( wxWindow*          pParent
                 ,wxWindowID         vId

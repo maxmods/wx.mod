@@ -4,7 +4,7 @@
 // Author:      Julian Smart, Vaclav Slavik
 // Modified by:
 // Created:     25/10/98
-// RCS-ID:      $Id: sound.h 42115 2006-10-19 13:09:48Z VZ $
+// RCS-ID:      $Id: sound.h 47254 2007-07-09 10:09:52Z VS $
 // Copyright:   (c) Julian Smart, Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,9 +22,9 @@
 // wxSound: simple audio playback class
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_ADV wxSoundBackend;
-class WXDLLIMPEXP_ADV wxSound;
-class WXDLLIMPEXP_BASE wxDynamicLibrary;
+class WXDLLIMPEXP_FWD_ADV wxSoundBackend;
+class WXDLLIMPEXP_FWD_ADV wxSound;
+class WXDLLIMPEXP_FWD_BASE wxDynamicLibrary;
 
 /// Sound data, as loaded from .wav file:
 class WXDLLIMPEXP_ADV wxSoundData

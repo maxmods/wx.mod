@@ -3,7 +3,7 @@
 // Purpose:     generic wxSearchCtrl class
 // Author:      Vince Harron
 // Created:     2006-02-19
-// RCS-ID:      $Id: srchctlg.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: srchctlg.h 59269 2009-03-02 14:49:55Z VZ $
 // Copyright:   Vince Harron
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ class WXDLLIMPEXP_FWD_CORE wxSearchTextCtrl;
 // wxSearchCtrl is a combination of wxTextCtrl and wxSearchButton
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxSearchCtrl : public wxSearchCtrlBase
+class WXDLLIMPEXP_CORE wxSearchCtrl : public wxSearchCtrlBase
 {
 public:
     // creation
@@ -62,17 +62,12 @@ public:
     virtual void ShowCancelButton( bool show );
     virtual bool IsCancelButtonVisible() const;
 
-#if wxABI_VERSION >= 20802
     // TODO: In 2.9 these should probably be virtual, and declared in the base class...
     void SetDescriptiveText(const wxString& text);
     wxString GetDescriptiveText() const;
-#endif
 
     // accessors
     // ---------
-
-    virtual wxString GetValue() const;
-    virtual void SetValue(const wxString& value);
 
     virtual wxString GetRange(long from, long to) const;
 
@@ -205,7 +200,11 @@ public:
 #endif // wxUSE_MENUS
 
 protected:
-    virtual void DoSetValue(const wxString& value, int flags = 0);
+    virtual void DoSetValue(const wxString& value, int flags);
+    virtual wxString DoGetValue() const;
+
+    virtual bool DoLoadFile(const wxString& file, int fileType);
+    virtual bool DoSaveFile(const wxString& file, int fileType);
 
     // override the base class virtuals involved into geometry calculations
     virtual wxSize DoGetBestSize() const;

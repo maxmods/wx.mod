@@ -2,14 +2,13 @@
 // Name:        wx/gtk/bmpbutton.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: bmpbuttn.h 52007 2008-02-22 19:57:54Z VS $
+// Id:          $Id: bmpbuttn.h 52616 2008-03-18 16:25:48Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
-
-#ifndef __BMPBUTTONH__
-#define __BMPBUTTONH__
+#ifndef _WX_GTK_BMPBUTTON_H_
+#define _WX_GTK_BMPBUTTON_H_
 
 // ----------------------------------------------------------------------------
 // wxBitmapButton
@@ -46,19 +45,15 @@ public:
     void SetLabel( const wxString &label );
     virtual void SetLabel( const wxBitmap& bitmap ) { SetBitmapLabel(bitmap); }
 
-    virtual void SetDefault();
-    virtual bool Enable(bool enable = TRUE);
+    virtual bool Enable(bool enable = true);
 
     // implementation
     // --------------
 
-    void HasFocus();
-    void NotFocus();
-    void StartSelect();
-    void EndSelect();
-
-    bool         m_hasFocus:1;
-    bool         m_isSelected:1;
+    void GTKMouseEnters();
+    void GTKMouseLeaves();
+    void GTKPressed();
+    void GTKReleased();
 
 protected:
     virtual void OnSetBitmap();
@@ -70,7 +65,13 @@ protected:
 private:
     void OnFocusChange(wxFocusEvent& event);
 
+    // true iff mouse hovers over the button
+    bool         m_mouseHovers;
+    // true iff the button is in pressed state
+    bool         m_isPressed;
+
     DECLARE_DYNAMIC_CLASS(wxBitmapButton)
+    DECLARE_EVENT_TABLE()
 };
 
-#endif // __BMPBUTTONH__
+#endif // _WX_GTK_BMPBUTTON_H_

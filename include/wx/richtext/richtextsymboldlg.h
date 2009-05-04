@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     10/5/2006 3:11:58 PM
-// RCS-ID:      $Id: richtextsymboldlg.h 50950 2007-12-30 16:11:12Z JS $
+// RCS-ID:      $Id: richtextsymboldlg.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@ class wxSymbolListCtrl;
  */
 
 #define SYMBOL_WXSYMBOLPICKERDIALOG_STYLE (wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxCLOSE_BOX)
-#define SYMBOL_WXSYMBOLPICKERDIALOG_TITLE _("Symbols")
+#define SYMBOL_WXSYMBOLPICKERDIALOG_TITLE wxGetTranslation("Symbols")
 #define SYMBOL_WXSYMBOLPICKERDIALOG_IDNAME ID_SYMBOLPICKERDIALOG
 #define SYMBOL_WXSYMBOLPICKERDIALOG_SIZE wxSize(400, 300)
 #define SYMBOL_WXSYMBOLPICKERDIALOG_POSITION wxDefaultPosition
@@ -118,16 +118,9 @@ public:
     void OnFromUnicodeSelected( wxCommandEvent& event );
 
 #endif
-#if defined(__WXMSW__) || defined(__WXGTK__) || defined(__WXPM__) || defined(__WXMGL__) || defined(__WXMOTIF__) || defined(__WXCOCOA__) || defined(__WXX11__) || defined(__WXPALMOS__)
     /// wxEVT_UPDATE_UI event handler for wxID_OK
     void OnOkUpdate( wxUpdateUIEvent& event );
 
-#endif
-#if defined(__WXMAC__)
-    /// wxEVT_UPDATE_UI event handler for wxID_OK
-    void OnOkUpdate( wxUpdateUIEvent& event );
-
-#endif
 ////@end wxSymbolPickerDialog event handler declarations
 
 ////@begin wxSymbolPickerDialog member function declarations
@@ -292,7 +285,7 @@ protected:
     virtual void OnDrawItem(wxDC& dc, const wxRect& rect, size_t n) const;
 
     // gets the line height
-    virtual wxCoord OnGetLineHeight(size_t line) const;
+    virtual wxCoord OnGetRowHeight(size_t line) const;
 
     // event handlers
     void OnPaint(wxPaintEvent& event);
@@ -362,7 +355,7 @@ private:
     bool        m_unicodeMode;
 
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxSymbolListCtrl)
+    wxDECLARE_NO_COPY_CLASS(wxSymbolListCtrl);
     DECLARE_ABSTRACT_CLASS(wxSymbolListCtrl)
 };
 

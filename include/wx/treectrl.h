@@ -5,7 +5,7 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Karsten Ballueder
-// RCS-ID:      $Id: treectrl.h 49563 2007-10-31 20:46:21Z VZ $
+// RCS-ID:      $Id: treectrl.h 58757 2009-02-08 11:45:59Z VZ $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -30,7 +30,7 @@ class WXDLLIMPEXP_FWD_CORE wxImageList;
 // wxTreeCtrlBase
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxTreeCtrlBase : public wxControl
+class WXDLLIMPEXP_CORE wxTreeCtrlBase : public wxControl
 {
 public:
     wxTreeCtrlBase()
@@ -118,12 +118,18 @@ public:
         // get the item's font
     virtual wxFont GetItemFont(const wxTreeItemId& item) const = 0;
 
+        // get the items state
+    int GetItemState(const wxTreeItemId& item) const
+    {
+        return DoGetItemState(item);
+    }
+
     // modifiers
     // ---------
 
         // set items label
     virtual void SetItemText(const wxTreeItemId& item, const wxString& text) = 0;
-        // get one of the images associated with the item (normal by default)
+        // set one of the images associated with the item (normal by default)
     virtual void SetItemImage(const wxTreeItemId& item,
                               int image,
                               wxTreeItemIcon which = wxTreeItemIcon_Normal) = 0;
@@ -156,6 +162,9 @@ public:
     virtual void SetItemFont(const wxTreeItemId& item,
                              const wxFont& font) = 0;
 
+        // set the items state (special state values: wxTREE_ITEMSTATE_NONE/NEXT/PREV)
+    void SetItemState(const wxTreeItemId& item, int state);
+
     // item status inquiries
     // ---------------------
 
@@ -172,10 +181,8 @@ public:
     virtual bool IsSelected(const wxTreeItemId& item) const = 0;
         // is item text in bold font?
     virtual bool IsBold(const wxTreeItemId& item) const = 0;
-#if wxABI_VERSION >= 20801
         // is the control empty?
     bool IsEmpty() const;
-#endif // wxABI 2.8.1+
 
 
     // number of children
@@ -292,18 +299,16 @@ public:
 
         // expand this item
     virtual void Expand(const wxTreeItemId& item) = 0;
-        // expand the item and all its childs and thats childs
+        // expand the item and all its children recursively
     void ExpandAllChildren(const wxTreeItemId& item);
         // expand all items
     void ExpandAll();
         // collapse the item without removing its children
     virtual void Collapse(const wxTreeItemId& item) = 0;
-#if wxABI_VERSION >= 20801
-        // collapse the item and all its childs and thats childs
+        // collapse the item and all its children
     void CollapseAllChildren(const wxTreeItemId& item);
         // collapse all items
     void CollapseAll();
-#endif // wxABI 2.8.1+
         // collapse the item and remove all children
     virtual void CollapseAndReset(const wxTreeItemId& item) = 0;
         // toggles the current state
@@ -391,6 +396,10 @@ public:
 protected:
     virtual wxSize DoGetBestSize() const;
 
+    // comon part of Get/SetItemState()
+    virtual int DoGetItemState(const wxTreeItemId& item) const = 0;
+    virtual void DoSetItemState(const wxTreeItemId& item, int state) = 0;
+
     // common part of Append/Prepend/InsertItem()
     //
     // pos is the position at which to insert the item or (size_t)-1 to append
@@ -429,7 +438,7 @@ protected:
     bool        m_quickBestSize;
 
 
-    DECLARE_NO_COPY_CLASS(wxTreeCtrlBase)
+    wxDECLARE_NO_COPY_CLASS(wxTreeCtrlBase);
 };
 
 // ----------------------------------------------------------------------------
@@ -439,7 +448,7 @@ protected:
 #if defined(__WXUNIVERSAL__)
     #include "wx/generic/treectlg.h"
 #elif defined(__WXPALMOS__)
-    #include "wx/palmos/treectrl.h"
+    #include "wx/generic/treectlg.h"
 #elif defined(__WXMSW__)
     #include "wx/msw/treectrl.h"
 #elif defined(__WXMOTIF__)

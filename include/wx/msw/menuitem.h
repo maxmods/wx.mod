@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     11.11.97
-// RCS-ID:      $Id: menuitem.h 48053 2007-08-13 17:07:01Z JS $
+// RCS-ID:      $Id: menuitem.h 58227 2009-01-19 13:55:27Z VZ $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -24,23 +24,23 @@
 // wxMenuItem: an item in the menu, optionally implements owner-drawn behaviour
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxMenuItem : public wxMenuItemBase
+class WXDLLIMPEXP_CORE wxMenuItem : public wxMenuItemBase
 #if wxUSE_OWNER_DRAWN
                              , public wxOwnerDrawn
 #endif
 {
 public:
     // ctor & dtor
-    wxMenuItem(wxMenu *parentMenu = (wxMenu *)NULL,
+    wxMenuItem(wxMenu *parentMenu = NULL,
                int id = wxID_SEPARATOR,
                const wxString& name = wxEmptyString,
                const wxString& help = wxEmptyString,
                wxItemKind kind = wxITEM_NORMAL,
-               wxMenu *subMenu = (wxMenu *)NULL);
+               wxMenu *subMenu = NULL);
     virtual ~wxMenuItem();
 
     // override base class virtuals
-    virtual void SetText(const wxString& strName);
+    virtual void SetItemLabel(const wxString& strName);
     virtual void SetCheckable(bool checkable);
 
     virtual void Enable(bool bDoEnable = true);
@@ -53,21 +53,28 @@ public:
 
     // the id for a popup menu is really its menu handle (as required by
     // ::AppendMenu() API), so this function will return either the id or the
-    // menu handle depending on what we're
-    int GetRealId() const;
+    // menu handle depending on what we are
+    //
+    // notice that it also returns the id as an unsigned int, as required by
+    // Win32 API
+    WXWPARAM GetMSWId() const;
 
     // mark item as belonging to the given radio group
     void SetAsRadioGroupStart();
     void SetRadioGroupStart(int start);
     void SetRadioGroupEnd(int end);
 
+#if WXWIN_COMPATIBILITY_2_8
     // compatibility only, don't use in new code
+    wxDEPRECATED(
     wxMenuItem(wxMenu *parentMenu,
                int id,
                const wxString& text,
                const wxString& help,
                bool isCheckable,
-               wxMenu *subMenu = (wxMenu *)NULL);
+               wxMenu *subMenu = NULL)
+    );
+#endif
 
 private:
     // common part of all ctors
@@ -87,14 +94,6 @@ private:
     bool m_isRadioGroupStart;
 
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxMenuItem)
-
-public:
-
-#if wxABI_VERSION >= 20805
-    // return the item label including any mnemonics and accelerators.
-    // This used to be called GetText.
-    wxString GetItemLabel() const { return GetText(); }
-#endif
 };
 
 #endif  //_MENUITEM_H

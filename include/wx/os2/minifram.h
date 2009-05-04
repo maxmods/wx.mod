@@ -6,7 +6,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/10/99
-// RCS-ID:      $Id: minifram.h 27408 2004-05-23 20:53:33Z JS $
+// RCS-ID:      $Id: minifram.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 
 #include "wx/frame.h"
 
-class WXDLLEXPORT wxMiniFrame: public wxFrame {
+class WXDLLIMPEXP_CORE wxMiniFrame: public wxFrame {
 
   DECLARE_DYNAMIC_CLASS(wxMiniFrame)
 

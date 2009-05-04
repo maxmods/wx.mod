@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2003/06/17
-// RCS-ID:      $Id: colour.h 41848 2006-10-09 23:44:00Z VZ $
+// RCS-ID:      $Id: colour.h 54125 2008-06-11 19:17:41Z SC $
 // Copyright:   (c) 2003 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,28 +19,15 @@
 // wxColour
 // ========================================================================
 
-class WXDLLEXPORT wxColour : public wxColourBase
+class WXDLLIMPEXP_CORE wxColour : public wxColourBase
 {
 public:
     // constructors
     // ------------
-
-    // default
-    wxColour() { Init(); }
-
-    // the other standard ones: notice that we can't use
-    // DEFINE_STD_WXCOLOUR_CONSTRUCTORS here because we need to call Init() to
-    // initialize m_cocoaNSColor and the macro doesn't do it
-    wxColour( ChannelType red, ChannelType green, ChannelType blue,
-              ChannelType alpha = wxALPHA_OPAQUE )
-        { Init(); Set(red, green, blue, alpha); }
-    wxColour(unsigned long colRGB) { Init(); Set(colRGB); }
-    wxColour(const wxString &colourName) { Init(); Set(colourName); }
-    wxColour(const wxChar *colourName) { Init(); Set(colourName); }
+    DEFINE_STD_WXCOLOUR_CONSTRUCTORS
 
     // initialization using existing NSColor
     wxColour( WX_NSColor aColor );
-
 
     // copy ctors and assignment operators
     wxColour( const wxColour& col );
@@ -49,9 +36,9 @@ public:
     virtual ~wxColour();
 
     // accessors
-    bool Ok() const { return IsOk(); }
-    bool IsOk() const { return m_cocoaNSColor; }
+    virtual bool IsOk() const { return m_cocoaNSColor; }
     WX_NSColor GetNSColor() { return m_cocoaNSColor; }
+    WX_NSColor GetNSColor() const { return m_cocoaNSColor; }
 
     unsigned char Red() const { return m_red; }
     unsigned char Green() const { return m_green; }
@@ -79,9 +66,6 @@ public:
              unsigned char blue,
              unsigned char alpha = wxALPHA_OPAQUE)
         { wxColourBase::Set(red, green, blue, alpha); }
-
-    bool Set(const wxChar *str)
-        { return wxColourBase::Set(str); }
 
     bool Set(const wxString &str)
         { return wxColourBase::Set(str); }

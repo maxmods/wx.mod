@@ -2,9 +2,9 @@
 // Name:        wx/palmos/choice.h
 // Purpose:     wxChoice class
 // Author:      William Osborne - minimal working wxPalmOS port
-// Modified by:
+// Modified by: Yunhui Fu
 // Created:     10/13/04
-// RCS-ID:      $Id: choice.h 38319 2006-03-23 22:05:23Z VZ $
+// RCS-ID:      $Id: choice.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 // Choice item
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxChoice : public wxChoiceBase
+class WXDLLIMPEXP_CORE wxChoice : public wxChoiceBase
 {
 public:
     // ctors
@@ -64,10 +64,11 @@ public:
                 const wxString& name = wxChoiceNameStr);
 
     // implement base class pure virtuals
-    virtual int DoAppend(const wxString& item);
-    virtual int DoInsert(const wxString& item, unsigned int pos);
-    virtual void Delete(unsigned int n);
-    virtual void Clear();
+    virtual int DoInsertItems(const wxArrayStringsAdapter& items,
+                              unsigned int pos,
+                              void **clientData, wxClientDataType type);
+    virtual void DoDeleteOneItem(unsigned int n);
+    virtual void DoClear();
 
     virtual unsigned int GetCount() const;
     virtual int GetSelection() const;
@@ -76,16 +77,10 @@ public:
     virtual wxString GetString(unsigned int n) const;
     virtual void SetString(unsigned int n, const wxString& s);
 
-    // MSW only
-    virtual bool MSWCommand(WXUINT param, WXWORD id);
-    WXLRESULT MSWWindowProc(WXUINT nMsg, WXWPARAM wParam, WXLPARAM lParam);
-
 protected:
     virtual void DoMoveWindow(int x, int y, int width, int height);
     virtual void DoSetItemClientData(unsigned int n, void* clientData);
     virtual void* DoGetItemClientData(unsigned int n) const;
-    virtual void DoSetItemClientObject(unsigned int n, wxClientData* clientData);
-    virtual wxClientData* DoGetItemClientObject(unsigned int n) const;
 
     // MSW implementation
     virtual wxSize DoGetBestSize() const;
@@ -94,9 +89,6 @@ protected:
                            int width, int height,
                            int sizeFlags = wxSIZE_AUTO);
 
-    virtual bool MSWShouldPreProcessMessage(WXMSG *pMsg);
-
-    virtual WXDWORD MSWGetStyle(long style, WXDWORD *exstyle) const;
 
     // update the height of the drop down list to fit the number of items we
     // have (without changing the visible height)

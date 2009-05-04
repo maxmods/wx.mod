@@ -37,11 +37,11 @@ wxMemoryFSHandler * bmx_wxmemoryfshandler_new(BBObject * handle) {
 }
 
 
-void bmx_wxmemoryfshandler_addimagefile(BBString * filename, MaxImage * image, long type) {
+void bmx_wxmemoryfshandler_addimagefile(BBString * filename, MaxImage * image, wxBitmapType type) {
 	wxMemoryFSHandler::AddFile(wxStringFromBBString(filename), image->Image(), type);
 }
 
-void bmx_wxmemoryfshandler_addbitmapfile(BBString * filename, MaxBitmap * bitmap, long type) {
+void bmx_wxmemoryfshandler_addbitmapfile(BBString * filename, MaxBitmap * bitmap, wxBitmapType type) {
 	wxMemoryFSHandler::AddFile(wxStringFromBBString(filename), bitmap->Bitmap(), type);
 }
 

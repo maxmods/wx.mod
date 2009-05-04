@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     25.08.00
-// RCS-ID:      $Id: bmpbuttn.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: bmpbuttn.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_UNIV_BMPBUTTN_H_
 #define _WX_UNIV_BMPBUTTN_H_
 
-class WXDLLEXPORT wxBitmapButton : public wxBitmapButtonBase
+class WXDLLIMPEXP_CORE wxBitmapButton : public wxBitmapButtonBase
 {
 public:
     wxBitmapButton() { }

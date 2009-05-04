@@ -4,7 +4,7 @@
 // Author:      Benjamin I. Williams
 // Modified by:
 // Created:     2005-05-17
-// RCS-ID:      $Id: floatpane.h 43467 2006-11-17 13:07:01Z BIW $
+// RCS-ID:      $Id: floatpane.h 53774 2008-05-27 09:17:56Z RR $
 // Copyright:   (C) Copyright 2005, Kirix Corporation, All Rights Reserved.
 // Licence:     wxWindows Library Licence, Version 3.1
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,16 +17,16 @@
 // ----------------------------------------------------------------------------
 
 #include "wx/defs.h"
+#include "wx/weakref.h"
 
 #if wxUSE_AUI
 
-#include "wx/frame.h"
-
-#if defined( __WXMSW__ ) || defined( __WXMAC__ ) ||  defined( __WXGTK__ )
-#include "wx/minifram.h"
-#define wxAuiFloatingFrameBaseClass wxMiniFrame
+#if wxUSE_MINIFRAME
+    #include "wx/minifram.h"
+    #define wxAuiFloatingFrameBaseClass wxMiniFrame
 #else
-#define wxAuiFloatingFrameBaseClass wxFrame
+    #include "wx/frame.h"
+    #define wxAuiFloatingFrameBaseClass wxFrame
 #endif
 
 class WXDLLIMPEXP_AUI wxAuiFloatingFrame : public wxAuiFloatingFrameBaseClass
@@ -67,7 +67,7 @@ private:
     wxSize m_last_size;
     wxDirection m_lastDirection;
 
-    wxAuiManager* m_owner_mgr;
+    wxWeakRef<wxAuiManager> m_owner_mgr;
     wxAuiManager m_mgr;
 
 #ifndef SWIG

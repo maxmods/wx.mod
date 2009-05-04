@@ -194,7 +194,7 @@ wxMDIChildFrame * bmx_wxmdiparentframe_getactivechild(wxMDIParentFrame * frame) 
 	return frame->GetActiveChild();
 }
 
-wxMDIClientWindow * bmx_wxmdiparentframe_getclientwindow(wxMDIParentFrame * frame) {
+wxMDIClientWindowBase * bmx_wxmdiparentframe_getclientwindow(wxMDIParentFrame * frame) {
 	return frame->GetClientWindow();
 }
 

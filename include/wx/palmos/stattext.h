@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by: Wlodzimierz ABX Skiba - native wxStaticText implementation
 // Created:     10/13/04
-// RCS-ID:      $Id: stattext.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: stattext.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne, Wlodzimierz Skiba
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_STATTEXT_H_
 #define _WX_STATTEXT_H_
 
-class WXDLLEXPORT wxStaticText : public wxStaticTextBase
+class WXDLLIMPEXP_CORE wxStaticText : public wxStaticTextBase
 {
 public:
     wxStaticText() { }

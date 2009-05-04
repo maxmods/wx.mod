@@ -2,9 +2,9 @@
 // Name:        wx/palmos/listctrl.h
 // Purpose:     wxListCtrl class
 // Author:      William Osborne - minimal working wxPalmOS port
-// Modified by:
+// Modified by: Yunhui Fu
 // Created:     10/13/04
-// RCS-ID:      $Id: listctrl.h 37982 2006-03-10 21:26:59Z RD $
+// RCS-ID:      $Id: listctrl.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@
 #include "wx/textctrl.h"
 
 
-class WXDLLEXPORT wxImageList;
+class WXDLLIMPEXP_FWD_CORE wxImageList;
 
 /*
     The wxListCtrl can show lists of items in four different modes:
@@ -73,7 +73,7 @@ class WXDLLEXPORT wxImageList;
 
  */
 
-class WXDLLEXPORT wxListCtrl: public wxControl
+class WXDLLIMPEXP_CORE wxListCtrl: public wxControl
 {
 public:
     /*
@@ -166,7 +166,8 @@ public:
     long GetItemData(long item) const ;
 
     // Sets the item data
-    bool SetItemData(long item, long data) ;
+    bool SetItemPtrData(long item, wxUIntPtr data);
+    bool SetItemData(long item, long data) { return SetItemPtrData(item, data); }
 
     // Gets the item rectangle
     bool GetItemRect(long item, wxRect& rect, int code = wxLIST_RECT_BOUNDS) const ;
@@ -375,9 +376,6 @@ protected:
     // return the text for the given column of the given item
     virtual wxString OnGetItemText(long item, long column) const;
 
-    // return the text for the given column of the given item
-    virtual wxString OnGetItemText(long item, long column) const;
-
     // return the icon for the given item. In report view, OnGetItemImage will
     // only be called for the first column. See OnGetItemColumnImage for 
     // details.
@@ -390,7 +388,7 @@ private:
 
     DECLARE_DYNAMIC_CLASS(wxListCtrl)
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxListCtrl)
+    wxDECLARE_NO_COPY_CLASS(wxListCtrl);
 };
 
 #endif // wxUSE_LISTCTRL

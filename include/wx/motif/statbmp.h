@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: statbmp.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: statbmp.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 #include "wx/motif/bmpmotif.h"
 #include "wx/icon.h"
 
-class WXDLLEXPORT wxStaticBitmap : public wxStaticBitmapBase
+class WXDLLIMPEXP_CORE wxStaticBitmap : public wxStaticBitmapBase
 {
     DECLARE_DYNAMIC_CLASS(wxStaticBitmap)
 

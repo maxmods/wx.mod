@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: dcclient.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: dcclient.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,6 +17,8 @@
 // ----------------------------------------------------------------------------
 
 #include "wx/dc.h"
+#include "wx/palmos/dc.h"
+#include "wx/dcclient.h"
 #include "wx/dynarray.h"
 
 // ----------------------------------------------------------------------------
@@ -32,56 +34,54 @@ WX_DECLARE_EXPORTED_OBJARRAY(wxPaintDCInfo, wxArrayDCInfo);
 // DC classes
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxWindowDC : public wxDC
+class WXDLLIMPEXP_CORE wxWindowDCImpl : public wxPalmDCImpl
 {
 public:
     // default ctor
-    wxWindowDC();
+    wxWindowDCImpl( wxDC *owner );
 
     // Create a DC corresponding to the whole window
-    wxWindowDC(wxWindow *win);
+    wxWindowDCImpl( wxDC *owner, wxWindow *win );
+
+    virtual void DoGetSize(int *width, int *height) const;
 
 protected:
     // initialize the newly created DC
     void InitDC();
 
-    // override some base class virtuals
-    virtual void DoGetSize(int *width, int *height) const;
-
-private:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxWindowDC)
+    DECLARE_CLASS(wxWindowDCImpl)
+    wxDECLARE_NO_COPY_CLASS(wxWindowDCImpl);
 };
 
-class WXDLLEXPORT wxClientDC : public wxWindowDC
+class WXDLLIMPEXP_CORE wxClientDCImpl : public wxWindowDCImpl
 {
 public:
     // default ctor
-    wxClientDC();
+    wxClientDCImpl( wxDC *owner );
 
     // Create a DC corresponding to the client area of the window
-    wxClientDC(wxWindow *win);
+    wxClientDCImpl( wxDC *owner, wxWindow *win );
 
-    virtual ~wxClientDC();
+    virtual ~wxClientDCImpl();
+
+    virtual void DoGetSize(int *width, int *height) const;
 
 protected:
     void InitDC();
 
-    // override some base class virtuals
-    virtual void DoGetSize(int *width, int *height) const;
-
-private:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxClientDC)
+    DECLARE_CLASS(wxClientDCImpl)
+    wxDECLARE_NO_COPY_CLASS(wxClientDCImpl);
 };
 
-class WXDLLEXPORT wxPaintDC : public wxClientDC
+class WXDLLIMPEXP_CORE wxPaintDCImpl : public wxClientDCImpl
 {
 public:
-    wxPaintDC();
+    wxPaintDCImpl( wxDC *owner );
 
     // Create a DC corresponding for painting the window in OnPaint()
-    wxPaintDC(wxWindow *win);
+    wxPaintDCImpl( wxDC *owner, wxWindow *win );
 
-    virtual ~wxPaintDC();
+    virtual ~wxPaintDCImpl();
 
     // find the entry for this DC in the cache (keyed by the window)
     static WXHDC FindDCInCache(wxWindow* win);
@@ -92,26 +92,8 @@ protected:
     // find the entry for this DC in the cache (keyed by the window)
     wxPaintDCInfo *FindInCache(size_t *index = NULL) const;
 
-private:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxPaintDC)
-};
-
-/*
- * wxPaintDCEx
- * This class is used when an application sends an HDC with the WM_PAINT
- * message. It is used in HandlePaint and need not be used by an application.
- */
-
-class WXDLLEXPORT wxPaintDCEx : public wxPaintDC
-{
-public:
-    wxPaintDCEx(wxWindow *canvas, WXHDC dc);
-    virtual ~wxPaintDCEx();
-private:
-    int saveState;
-
-    DECLARE_CLASS(wxPaintDCEx)
-    DECLARE_NO_COPY_CLASS(wxPaintDCEx)
+    DECLARE_CLASS(wxPaintDCImpl)
+    wxDECLARE_NO_COPY_CLASS(wxPaintDCImpl);
 };
 
 #endif

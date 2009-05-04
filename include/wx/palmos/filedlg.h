@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: filedlg.h 39402 2006-05-28 23:32:12Z VZ $
+// RCS-ID:      $Id: filedlg.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 // wxFileDialog
 //-------------------------------------------------------------------------
 
-class WXDLLEXPORT wxFileDialog: public wxFileDialogBase
+class WXDLLIMPEXP_CORE wxFileDialog: public wxFileDialogBase
 {
 public:
     wxFileDialog(wxWindow *parent,
@@ -39,7 +39,7 @@ private:
     wxArrayString m_fileNames;
 
     DECLARE_DYNAMIC_CLASS(wxFileDialog)
-    DECLARE_NO_COPY_CLASS(wxFileDialog)
+    wxDECLARE_NO_COPY_CLASS(wxFileDialog);
 };
 
 #endif // _WX_FILEDLG_H_

@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: spinbutt.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: spinbutt.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 #include "wx/control.h"
 #include "wx/event.h"
 
-class WXDLLEXPORT wxSpinButton : public wxSpinButtonBase
+class WXDLLIMPEXP_CORE wxSpinButton : public wxSpinButtonBase
 {
 public:
     // construction

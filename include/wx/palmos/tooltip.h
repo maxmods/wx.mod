@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: tooltip.h 35698 2005-09-25 20:49:40Z MW $
+// RCS-ID:      $Id: tooltip.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #ifndef _WX_PALMOS_TOOLTIP_H_
 #define _WX_PALMOS_TOOLTIP_H_
 
-class WXDLLEXPORT wxToolTip : public wxObject
+class WXDLLIMPEXP_CORE wxToolTip : public wxObject
 {
 public:
     // ctor & dtor
@@ -33,6 +33,10 @@ public:
     static void Enable(bool flag);
         // set the delay after which the tooltip appears
     static void SetDelay(long milliseconds);
+        // set the delay after which the tooltip disappears or how long the tooltip remains visible
+    static void SetAutoPop(long milliseconds);
+        // set the delay between subsequent tooltips to appear
+    static void SetReshow(long milliseconds);
 
     // implementation only from now on
     // -------------------------------
@@ -58,7 +62,7 @@ private:
     wxWindow *m_window;         // window we're associated with
 
     DECLARE_ABSTRACT_CLASS(wxToolTip)
-    DECLARE_NO_COPY_CLASS(wxToolTip)
+    wxDECLARE_NO_COPY_CLASS(wxToolTip);
 };
 
 #endif // _WX_PALMOS_TOOLTIP_H_

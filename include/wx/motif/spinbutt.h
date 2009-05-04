@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: spinbutt.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: spinbutt.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,9 +12,9 @@
 #ifndef _WX_SPINBUTT_H_
 #define _WX_SPINBUTT_H_
 
-class WXDLLEXPORT wxArrowButton; // internal
+class WXDLLIMPEXP_FWD_CORE wxArrowButton; // internal
 
-class WXDLLEXPORT wxSpinButton : public wxSpinButtonBase
+class WXDLLIMPEXP_CORE wxSpinButton : public wxSpinButtonBase
 {
     DECLARE_DYNAMIC_CLASS(wxSpinButton)
 

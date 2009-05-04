@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: font.h 42077 2006-10-17 14:44:52Z ABX $
+// RCS-ID:      $Id: font.h 59564 2009-03-15 16:28:33Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -21,26 +21,51 @@ public:
     // ctors and such
     wxFont() { }
 
+#if FUTURE_WXWIN_COMPATIBILITY_3_0
     wxFont(int size,
-        int family,
-        int style,
-        int weight,
-        bool underlined = FALSE,
-        const wxString& face = wxEmptyString,
-        wxFontEncoding encoding = wxFONTENCODING_DEFAULT)
+           int family,
+           int style,
+           int weight,
+           bool underlined = false,
+           const wxString& face = wxEmptyString,
+           wxFontEncoding encoding = wxFONTENCODING_DEFAULT)
     {
-        (void)Create(size, family, style, weight, underlined, face, encoding);
+        (void)Create(size, (wxFontFamily)family, (wxFontStyle)style, (wxFontWeight)weight, underlined, face, encoding);
     }
+#endif
+
+    wxFont(int size,
+           wxFontFamily family,
+           wxFontStyle style,
+           wxFontWeight weight,
+           bool underlined = false,
+           const wxString& face = wxEmptyString,
+           wxFontEncoding encoding = wxFONTENCODING_DEFAULT)
+    {
+        Create(size, family, style, weight, underlined, face, encoding);
+    }
+    
+    wxFont(const wxSize& pixelSize,
+           wxFontFamily family,
+           wxFontStyle style,
+           wxFontWeight weight,
+           bool underlined = false,
+           const wxString& face = wxEmptyString,
+           wxFontEncoding encoding = wxFONTENCODING_DEFAULT)
+    {
+        Create(10, family, style, weight, underlined, face, encoding);
+        SetPixelSize(pixelSize);
+    }
+    
+    bool Create(int size,
+                wxFontFamily family,
+                wxFontStyle style,
+                wxFontWeight weight,
+                bool underlined = false,
+                const wxString& face = wxEmptyString,
+                wxFontEncoding encoding = wxFONTENCODING_DEFAULT);
 
     wxFont(const wxNativeFontInfo& info);
-
-    bool Create(int size,
-        int family,
-        int style,
-        int weight,
-        bool underlined = FALSE,
-        const wxString& face = wxEmptyString,
-        wxFontEncoding encoding = wxFONTENCODING_DEFAULT);
 
     // FIXME: I added the ! to make it compile;
     // is this right? - JACS
@@ -55,9 +80,9 @@ public:
 
     // implement base class pure virtuals
     virtual int GetPointSize() const;
-    virtual int GetFamily() const;
-    virtual int GetStyle() const;
-    virtual int GetWeight() const;
+    virtual wxFontFamily GetFamily() const;
+    virtual wxFontStyle GetStyle() const;
+    virtual wxFontWeight GetWeight() const;
     virtual bool GetUnderlined() const;
     virtual wxString GetFaceName() const;
     virtual wxFontEncoding GetEncoding() const;
@@ -66,12 +91,14 @@ public:
     virtual bool IsFixedWidth() const;
 
     virtual void SetPointSize(int pointSize);
-    virtual void SetFamily(int family);
-    virtual void SetStyle(int style);
-    virtual void SetWeight(int weight);
+    virtual void SetFamily(wxFontFamily family);
+    virtual void SetStyle(wxFontStyle style);
+    virtual void SetWeight(wxFontWeight weight);
     virtual bool SetFaceName(const wxString& faceName);
     virtual void SetUnderlined(bool underlined);
     virtual void SetEncoding(wxFontEncoding encoding);
+
+    WXDECLARE_COMPAT_SETTERS
 
     virtual void SetNoAntiAliasing( bool no = TRUE );
     virtual bool GetNoAntiAliasing() const ;
@@ -101,6 +128,9 @@ public:
 #endif
 
 protected:
+    virtual wxGDIRefData *CreateGDIRefData() const;
+    virtual wxGDIRefData *CloneGDIRefData(const wxGDIRefData *data) const;
+
     virtual void DoSetNativeFontInfo( const wxNativeFontInfo& info );
 
     void Unshare();

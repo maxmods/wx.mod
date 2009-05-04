@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     03.03.03 (replaces the old file with the same name)
-// RCS-ID:      $Id: dib.h 49804 2007-11-10 01:09:42Z VZ $
+// RCS-ID:      $Id: dib.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 1997-2003 wxWidgets team
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@ class WXDLLIMPEXP_FWD_CORE wxPalette;
 // wxDIB: represents a DIB section
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxDIB
+class WXDLLIMPEXP_CORE wxDIB
 {
 public:
     // ctors and such

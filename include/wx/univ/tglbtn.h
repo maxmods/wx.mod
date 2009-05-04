@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by: David Bjorkevik
 // Created:     16.05.06
-// RCS-ID:      $Id: tglbtn.h 39320 2006-05-24 17:17:27Z PC $
+// RCS-ID:      $Id: tglbtn.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2000 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 #include "wx/button.h"
 
-extern WXDLLEXPORT_DATA(const wxChar) wxCheckBoxNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxCheckBoxNameStr[];
 
 // ----------------------------------------------------------------------------
 // wxToggleButton: a push button
@@ -57,6 +57,8 @@ public:
     bool GetValue() const { return m_value; }
 
 protected:
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
+
     // the current value
     bool m_value;
 

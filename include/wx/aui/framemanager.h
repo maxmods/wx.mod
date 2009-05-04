@@ -4,7 +4,7 @@
 // Author:      Benjamin I. Williams
 // Modified by:
 // Created:     2005-05-17
-// RCS-ID:      $Id: framemanager.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: framemanager.h 58718 2009-02-07 18:59:25Z VZ $
 // Copyright:   (C) Copyright 2005, Kirix Corporation, All Rights Reserved.
 // Licence:     wxWindows Library Licence, Version 3.1
 ///////////////////////////////////////////////////////////////////////////////
@@ -47,6 +47,7 @@ enum wxAuiManagerOption
     wxAUI_MGR_RECTANGLE_HINT           = 1 << 5,
     wxAUI_MGR_HINT_FADE                = 1 << 6,
     wxAUI_MGR_NO_VENETIAN_BLINDS_FADE  = 1 << 7,
+    wxAUI_MGR_LIVE_RESIZE              = 1 << 8,
 
     wxAUI_MGR_DEFAULT = wxAUI_MGR_ALLOW_FLOATING |
                         wxAUI_MGR_TRANSPARENT_HINT |
@@ -166,7 +167,7 @@ public:
     }
 
     ~wxAuiPaneInfo() {}
-    
+
 #ifndef SWIG
     wxAuiPaneInfo(const wxAuiPaneInfo& c)
     {
@@ -225,7 +226,7 @@ public:
         *this = source;
     }
 
-    bool IsOk() const { return (window != NULL) ? true : false; }
+    bool IsOk() const { return window != NULL; }
     bool IsFixed() const { return !HasFlag(optionResizable); }
     bool IsResizable() const { return HasFlag(optionResizable); }
     bool IsShown() const { return !HasFlag(optionHidden); }
@@ -298,9 +299,7 @@ public:
     wxAuiPaneInfo& RightDockable(bool b = true) { return SetFlag(optionRightDockable, b); }
     wxAuiPaneInfo& Floatable(bool b = true) { return SetFlag(optionFloatable, b); }
     wxAuiPaneInfo& Movable(bool b = true) { return SetFlag(optionMovable, b); }
-#if wxABI_VERSION >= 20807
     wxAuiPaneInfo& DockFixed(bool b = true) { return SetFlag(optionDockFixed, b); }
-#endif
 
     wxAuiPaneInfo& Dockable(bool b = true)
     {
@@ -333,29 +332,29 @@ public:
         return *this;
     }
 
-    wxAuiPaneInfo& SetFlag(unsigned int flag, bool option_state)
+    wxAuiPaneInfo& SetFlag(int flag, bool option_state)
     {
         if (option_state)
             state |= flag;
-             else
+        else
             state &= ~flag;
         return *this;
     }
 
-    bool HasFlag(unsigned int flag) const
+    bool HasFlag(int flag) const
     {
-        return (state & flag) ? true:false;
+        return (state & flag) != 0;
     }
 
 #ifdef SWIG
     %typemap(out) wxAuiPaneInfo& ;
 #endif
-    
+
 public:
 
     // NOTE: You can add and subtract flags from this list,
     // but do not change the values of the flags, because
-    // they are stored in a binary integer format in the 
+    // they are stored in a binary integer format in the
     // perspective string.  If you really need to change the
     // values around, you'll have to ensure backwards-compatibility
     // in the perspective loading code.
@@ -384,11 +383,11 @@ public:
         buttonMaximize        = 1 << 22,
         buttonMinimize        = 1 << 23,
         buttonPin             = 1 << 24,
-        
+
         buttonCustom1         = 1 << 26,
         buttonCustom2         = 1 << 27,
         buttonCustom3         = 1 << 28,
-        
+
         savedHiddenState      = 1 << 30, // used internally
         actionPane            = 1 << 31  // used internally
     };
@@ -425,7 +424,7 @@ class WXDLLIMPEXP_FWD_AUI wxAuiFloatingFrame;
 
 class WXDLLIMPEXP_AUI wxAuiManager : public wxEvtHandler
 {
-friend class wxAuiFloatingFrame;
+    friend class wxAuiFloatingFrame;
 
 public:
 
@@ -451,7 +450,7 @@ public:
 
     bool AddPane(wxWindow* window,
                  const wxAuiPaneInfo& pane_info);
-                 
+
     bool AddPane(wxWindow* window,
                  const wxAuiPaneInfo& pane_info,
                  const wxPoint& drop_pos);
@@ -465,7 +464,7 @@ public:
                  int insert_level = wxAUI_INSERT_PANE);
 
     bool DetachPane(wxWindow* window);
-    
+
     void Update();
 
     wxString SavePaneInfo(wxAuiPaneInfo& pane);
@@ -475,7 +474,7 @@ public:
 
     void SetDockSizeConstraint(double width_pct, double height_pct);
     void GetDockSizeConstraint(double* width_pct, double* height_pct) const;
-    
+
     void ClosePane(wxAuiPaneInfo& pane_info);
     void MaximizePane(wxAuiPaneInfo& pane_info);
     void RestorePane(wxAuiPaneInfo& pane_info);
@@ -484,6 +483,7 @@ public:
 public:
 
     virtual wxAuiFloatingFrame* CreateFloatingFrame(wxWindow* parent, const wxAuiPaneInfo& p);
+    virtual bool CanDockPanel(const wxAuiPaneInfo & p);
 
     void StartPaneDrag(
                  wxWindow* pane_window,
@@ -493,27 +493,29 @@ public:
                  wxWindow* pane_window,
                  const wxPoint& pt,
                  const wxPoint& offset);
-                      
+
     void DrawHintRect(
                  wxWindow* pane_window,
                  const wxPoint& pt,
                  const wxPoint& offset);
-                      
+
     virtual void ShowHint(const wxRect& rect);
     virtual void HideHint();
+
+    void OnHintActivate(wxActivateEvent& event);
 
 public:
 
     // deprecated -- please use SetManagedWindow() and
     // and GetManagedWindow() instead
-    
+
     wxDEPRECATED( void SetFrame(wxFrame* frame) );
     wxDEPRECATED( wxFrame* GetFrame() const );
-    
+
 protected:
 
     void UpdateHintWindowConfig();
-    
+
     void DoFrameLayout();
 
     void LayoutAddPane(wxSizer* container,
@@ -559,6 +561,8 @@ protected:
                               wxArrayInt& positions,
                               wxArrayInt& sizes);
 
+    /// Ends a resize action, or for live update, resizes the sash
+    bool DoEndResizeAction(wxMouseEvent& event);
 
 public:
 
@@ -576,6 +580,7 @@ protected:
     void OnLeftDown(wxMouseEvent& evt);
     void OnLeftUp(wxMouseEvent& evt);
     void OnMotion(wxMouseEvent& evt);
+    void OnCaptureLost(wxMouseCaptureLostEvent& evt);
     void OnLeaveWindow(wxMouseEvent& evt);
     void OnChildFocus(wxChildFocusEvent& evt);
     void OnHintFadeTimer(wxTimerEvent& evt);
@@ -613,6 +618,7 @@ protected:
     wxAuiDockUIPart* m_hover_button;// button uipart being hovered over
     wxRect m_last_hint;          // last hint rectangle
     wxPoint m_last_mouse_move;   // last mouse move position (see OnMotion)
+    int  m_currentDragItem;
     bool m_skipping;
     bool m_has_maximized;
 
@@ -623,7 +629,7 @@ protected:
     wxTimer m_hint_fadetimer;    // transparent fade timer
     wxByte m_hint_fadeamt;       // transparent fade amount
     wxByte m_hint_fademax;       // maximum value of hint fade
-    
+
     void* m_reserved;
 
 #ifndef SWIG
@@ -665,17 +671,17 @@ public:
     void SetPane(wxAuiPaneInfo* p) { pane = p; }
     void SetButton(int b) { button = b; }
     void SetDC(wxDC* pdc) { dc = pdc; }
- 
+
     wxAuiManager* GetManager() const { return manager; }
     wxAuiPaneInfo* GetPane() const { return pane; }
     int GetButton() const { return button; }
     wxDC* GetDC() const { return dc; }
-    
+
     void Veto(bool veto = true) { veto_flag = veto; }
     bool GetVeto() const { return veto_flag; }
     void SetCanVeto(bool can_veto) { canveto_flag = can_veto; }
     bool CanVeto() const { return  canveto_flag && veto_flag; }
-    
+
 public:
     wxAuiManager* manager;
     wxAuiPaneInfo* pane;
@@ -740,12 +746,12 @@ public:
     }
 #endif // SWIG
 
-    bool IsOk() const { return (dock_direction != 0) ? true : false; }
-    bool IsHorizontal() const { return (dock_direction == wxAUI_DOCK_TOP ||
-                             dock_direction == wxAUI_DOCK_BOTTOM) ? true:false; }
-    bool IsVertical() const { return (dock_direction == wxAUI_DOCK_LEFT ||
+    bool IsOk() const { return dock_direction != 0; }
+    bool IsHorizontal() const { return dock_direction == wxAUI_DOCK_TOP ||
+                             dock_direction == wxAUI_DOCK_BOTTOM; }
+    bool IsVertical() const { return dock_direction == wxAUI_DOCK_LEFT ||
                              dock_direction == wxAUI_DOCK_RIGHT ||
-                             dock_direction == wxAUI_DOCK_CENTER) ? true:false; }
+                             dock_direction == wxAUI_DOCK_CENTER; }
 public:
     wxAuiPaneInfoPtrArray panes; // array of panes
     wxRect rect;              // current rectangle
@@ -798,21 +804,18 @@ public:
 
 
 #ifndef SWIG
-// wx event machinery
 
-BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_AUI, wxEVT_AUI_PANE_BUTTON, 0)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_AUI, wxEVT_AUI_PANE_CLOSE, 0)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_AUI, wxEVT_AUI_PANE_MAXIMIZE, 0)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_AUI, wxEVT_AUI_PANE_RESTORE, 0)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_AUI, wxEVT_AUI_RENDER, 0)
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_AUI, wxEVT_AUI_FIND_MANAGER, 0)
-END_DECLARE_EVENT_TYPES()
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_AUI, wxEVT_AUI_PANE_BUTTON, wxAuiManagerEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_AUI, wxEVT_AUI_PANE_CLOSE, wxAuiManagerEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_AUI, wxEVT_AUI_PANE_MAXIMIZE, wxAuiManagerEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_AUI, wxEVT_AUI_PANE_RESTORE, wxAuiManagerEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_AUI, wxEVT_AUI_RENDER, wxAuiManagerEvent );
+wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_AUI, wxEVT_AUI_FIND_MANAGER, wxAuiManagerEvent );
 
 typedef void (wxEvtHandler::*wxAuiManagerEventFunction)(wxAuiManagerEvent&);
 
 #define wxAuiManagerEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxAuiManagerEventFunction, &func)
+    wxEVENT_HANDLER_CAST(wxAuiManagerEventFunction, func)
 
 #define EVT_AUI_PANE_BUTTON(func) \
    wx__DECLARE_EVT0(wxEVT_AUI_PANE_BUTTON, wxAuiManagerEventHandler(func))

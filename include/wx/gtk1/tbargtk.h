@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/tbargtk.h
 // Purpose:     GTK toolbar
 // Author:      Robert Roebling
-// RCS-ID:      $Id: tbargtk.h 37065 2006-01-23 02:28:01Z MR $
+// RCS-ID:      $Id: tbargtk.h 44906 2007-03-18 23:57:20Z VZ $
 // Copyright:   (c) Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -87,7 +87,8 @@ protected:
                                           wxObject *clientData,
                                           const wxString& shortHelpString,
                                           const wxString& longHelpString);
-    virtual wxToolBarToolBase *CreateTool(wxControl *control);
+    virtual wxToolBarToolBase *CreateTool(wxControl *control,
+                                          const wxString& label);
 
 private:
     DECLARE_DYNAMIC_CLASS(wxToolBar)

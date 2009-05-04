@@ -2,7 +2,7 @@
 // Name:        wx/gtk/stattext.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: stattext.h 42077 2006-10-17 14:44:52Z ABX $
+// Id:          $Id: stattext.h 51507 2008-02-02 21:33:51Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 // wxStaticText
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxStaticText : public wxControl
+class WXDLLIMPEXP_CORE wxStaticText : public wxStaticTextBase
 {
 public:
     wxStaticText();
@@ -34,17 +34,12 @@ public:
                 long style = 0,
                 const wxString &name = wxStaticTextNameStr );
 
-    wxString GetLabel() const;
     void SetLabel( const wxString &label );
 
     bool SetFont( const wxFont &font );
-    bool SetForegroundColour( const wxColour& colour );
 
     static wxVisualAttributes
     GetClassDefaultAttributes(wxWindowVariant variant = wxWINDOW_VARIANT_NORMAL);
-
-    // see wx/stattext.h
-    void Wrap(int width);
 
     // implementation
     // --------------
@@ -58,6 +53,9 @@ protected:
                            int sizeFlags = wxSIZE_AUTO);
 
     virtual wxSize DoGetBestSize() const;
+
+    virtual wxString DoGetLabel() const;
+    virtual void DoSetLabel(const wxString& str);
 
     DECLARE_DYNAMIC_CLASS(wxStaticText)
 };

@@ -3,7 +3,7 @@
 // Purpose:     html printing classes
 // Author:      Vaclav Slavik
 // Created:     25/09/99
-// RCS-ID:      $Id: htmprint.h 47862 2007-08-03 08:50:49Z JS $
+// RCS-ID:      $Id: htmprint.h 59862 2009-03-26 13:37:37Z VZ $
 // Copyright:   (c) Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -78,11 +78,14 @@ public:
     //
     // CAUTION! Render() changes DC's user scale and does NOT restore it!
     int Render(int x, int y, wxArrayInt& known_pagebreaks, int from = 0,
-               int dont_render = FALSE, int to = INT_MAX);
+               int dont_render = false, int to = INT_MAX);
+
+    // returns total width of the html document
+    int GetTotalWidth() const;
 
     // returns total height of the html document
     // (compare Render's return value with this)
-    int GetTotalHeight();
+    int GetTotalHeight() const;
 
 private:
     wxDC *m_DC;
@@ -91,7 +94,7 @@ private:
     wxHtmlContainerCell *m_Cells;
     int m_MaxWidth, m_Width, m_Height;
 
-    DECLARE_NO_COPY_CLASS(wxHtmlDCRenderer)
+    wxDECLARE_NO_COPY_CLASS(wxHtmlDCRenderer);
 };
 
 
@@ -169,6 +172,18 @@ public:
     static void CleanUpStatics();
 
 private:
+    // this function is called by the base class OnPreparePrinting()
+    // implementation and by default checks whether the document fits into
+    // pageArea horizontally and warns the user if it does not, giving him
+    // the possibility to cancel printing in this case
+    //
+    // you may override it to either suppress this check if truncation of the
+    // HTML being printed is acceptable or, on the contrary, add more checks to
+    // it, e.g. for the fit in the vertical direction if the document should
+    // always appear on a single page
+    //
+    // return true if printing should go ahead or false to cancel it
+    virtual bool CheckFit(const wxSize& pageArea, const wxSize& docArea) const;
 
     void RenderPage(wxDC *dc, int page);
             // renders one page into dc
@@ -194,7 +209,7 @@ private:
     // list of HTML filters
     static wxList m_Filters;
 
-    DECLARE_NO_COPY_CLASS(wxHtmlPrintout)
+    wxDECLARE_NO_COPY_CLASS(wxHtmlPrintout);
 };
 
 
@@ -256,12 +271,10 @@ public:
             // return page setting data objects.
             // (You can set their parameters.)
 
-#if wxABI_VERSION >= 20805
     wxWindow* GetParentWindow() const { return m_ParentWindow; }
             // get the parent window
     void SetParentWindow(wxWindow* window) { m_ParentWindow = window; }
             // set the parent window
-#endif
 
 protected:
     virtual wxHtmlPrintout *CreatePrintout();
@@ -286,7 +299,7 @@ private:
     wxString m_Headers[2], m_Footers[2];
     wxWindow *m_ParentWindow;
 
-    DECLARE_NO_COPY_CLASS(wxHtmlEasyPrinting)
+    wxDECLARE_NO_COPY_CLASS(wxHtmlEasyPrinting);
 };
 
 

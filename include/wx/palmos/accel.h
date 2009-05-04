@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: accel.h 42752 2006-10-30 19:26:48Z VZ $
+// RCS-ID:      $Id: accel.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 // the accel table has all accelerators for a given window or menu
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxAcceleratorTable : public wxObject
+class WXDLLIMPEXP_CORE wxAcceleratorTable : public wxObject
 {
 public:
     // default ctor

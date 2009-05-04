@@ -5,7 +5,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     29/01/98
-// RCS-ID:      $Id: file.h 46331 2007-06-05 13:16:11Z JS $
+// RCS-ID:      $Id: file.h 55909 2008-09-27 10:28:43Z FM $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -27,21 +27,48 @@
 
 // we redefine these constants here because S_IREAD &c are _not_ standard
 // however, we do assume that the values correspond to the Unix umask bits
-#define wxS_IRUSR 00400
-#define wxS_IWUSR 00200
-#define wxS_IXUSR 00100
+enum wxPosixPermissions
+{
+    // standard Posix names for these permission flags:
+    wxS_IRUSR = 00400,
+    wxS_IWUSR = 00200,
+    wxS_IXUSR = 00100,
 
-#define wxS_IRGRP 00040
-#define wxS_IWGRP 00020
-#define wxS_IXGRP 00010
+    wxS_IRGRP = 00040,
+    wxS_IWGRP = 00020,
+    wxS_IXGRP = 00010,
 
-#define wxS_IROTH 00004
-#define wxS_IWOTH 00002
-#define wxS_IXOTH 00001
+    wxS_IROTH = 00004,
+    wxS_IWOTH = 00002,
+    wxS_IXOTH = 00001,
 
-// default mode for the new files: corresponds to umask 022
-#define wxS_DEFAULT   (wxS_IRUSR | wxS_IWUSR | wxS_IRGRP | wxS_IWGRP |\
-                       wxS_IROTH | wxS_IWOTH)
+    // longer but more readable synonims for the constants above:
+    wxPOSIX_USER_READ = wxS_IRUSR,
+    wxPOSIX_USER_WRITE = wxS_IWUSR,
+    wxPOSIX_USER_EXECUTE = wxS_IXUSR,
+
+    wxPOSIX_GROUP_READ = wxS_IRGRP,
+    wxPOSIX_GROUP_WRITE = wxS_IWGRP,
+    wxPOSIX_GROUP_EXECUTE = wxS_IXGRP,
+
+    wxPOSIX_OTHERS_READ = wxS_IROTH,
+    wxPOSIX_OTHERS_WRITE = wxS_IWOTH,
+    wxPOSIX_OTHERS_EXECUTE = wxS_IXOTH,
+
+    // default mode for the new files: allow reading/writing them to everybody but
+    // the effective file mode will be set after anding this value with umask and
+    // so won't include wxS_IW{GRP,OTH} for the default 022 umask value
+    wxS_DEFAULT = (wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | \
+                   wxPOSIX_GROUP_READ | wxPOSIX_GROUP_WRITE | \
+                   wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_WRITE),
+
+    // default mode for the new directories (see wxFileName::Mkdir): allow
+    // reading/writing/executing them to everybody, but just like wxS_DEFAULT
+    // the effective directory mode will be set after anding this value with umask
+    wxS_DIR_DEFAULT = (wxPOSIX_USER_READ | wxPOSIX_USER_WRITE | wxPOSIX_USER_EXECUTE | \
+                       wxPOSIX_GROUP_READ | wxPOSIX_GROUP_WRITE | wxPOSIX_GROUP_EXECUTE | \
+                       wxPOSIX_OTHERS_READ | wxPOSIX_OTHERS_WRITE | wxPOSIX_OTHERS_EXECUTE)
+};
 
 // ----------------------------------------------------------------------------
 // class wxFile: raw file IO
@@ -63,26 +90,26 @@ public:
   // static functions
   // ----------------
     // check whether a regular file by this name exists
-  static bool Exists(const wxChar *name);
+  static bool Exists(const wxString& name);
     // check whether we can access the given file in given mode
     // (only read and write make sense here)
-  static bool Access(const wxChar *name, OpenMode mode);
+  static bool Access(const wxString& name, OpenMode mode);
 
   // ctors
   // -----
     // def ctor
   wxFile() { m_fd = fd_invalid; m_error = false; }
     // open specified file (may fail, use IsOpened())
-  wxFile(const wxChar *szFileName, OpenMode mode = read);
+  wxFile(const wxString& fileName, OpenMode mode = read);
     // attach to (already opened) file
   wxFile(int lfd) { m_fd = lfd; m_error = false; }
 
   // open/close
     // create a new file (with the default value of bOverwrite, it will fail if
     // the file already exists, otherwise it will overwrite it and succeed)
-  bool Create(const wxChar *szFileName, bool bOverwrite = false,
+  bool Create(const wxString& fileName, bool bOverwrite = false,
               int access = wxS_DEFAULT);
-  bool Open(const wxChar *szFileName, OpenMode mode = read,
+  bool Open(const wxString& fileName, OpenMode mode = read,
             int access = wxS_DEFAULT);
   bool Close();  // Close is a NOP if not opened
 
@@ -97,14 +124,7 @@ public:
     // returns the number of bytes written
   size_t Write(const void *pBuf, size_t nCount);
     // returns true on success
-  bool Write(const wxString& s, const wxMBConv& conv = wxConvUTF8)
-  {
-      const wxWX2MBbuf buf = s.mb_str(conv);
-      if (!buf)
-          return false;
-      size_t size = strlen(buf);
-      return Write((const char *) buf, size) == size;
-  }
+  bool Write(const wxString& s, const wxMBConv& conv = wxMBConvUTF8());
     // flush data not yet written
   bool Flush();
 
@@ -174,7 +194,7 @@ public:
 
   // I/O (both functions return true on success, false on failure)
   bool Write(const void *p, size_t n) { return m_file.Write(p, n) == n; }
-  bool Write(const wxString& str, const wxMBConv& conv = wxConvUTF8)
+  bool Write(const wxString& str, const wxMBConv& conv = wxMBConvUTF8())
     { return m_file.Write(str, conv); }
 
   // different ways to close the file

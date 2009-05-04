@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: splitter.h 53135 2008-04-12 02:31:04Z VZ $
+// RCS-ID:      $Id: splitter.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ enum
 //    to prevent flickering. (WS_CLIPCHILDREN doesn't work in all cases so can't be
 //    standard).
 
-class WXDLLEXPORT wxSplitterWindow: public wxWindow
+class WXDLLIMPEXP_CORE wxSplitterWindow: public wxWindow
 {
 public:
 
@@ -119,7 +119,7 @@ public:
 
     // Removes the specified (or second) window from the view
     // Doesn't actually delete the window.
-    bool Unsplit(wxWindow *toRemove = (wxWindow *) NULL);
+    bool Unsplit(wxWindow *toRemove = NULL);
 
     // Replaces one of the windows with another one (neither old nor new
     // parameter should be NULL)
@@ -301,7 +301,7 @@ private:
 
     DECLARE_DYNAMIC_CLASS(wxSplitterWindow)
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxSplitterWindow)
+    wxDECLARE_NO_COPY_CLASS(wxSplitterWindow);
 };
 
 // ----------------------------------------------------------------------------
@@ -312,16 +312,18 @@ private:
 // usual wxWin convention, but the three event types have different kind of
 // data associated with them, so the accessors can be only used if the real
 // event type matches with the one for which the accessors make sense
-class WXDLLEXPORT wxSplitterEvent : public wxNotifyEvent
+class WXDLLIMPEXP_CORE wxSplitterEvent : public wxNotifyEvent
 {
 public:
     wxSplitterEvent(wxEventType type = wxEVT_NULL,
-                    wxSplitterWindow *splitter = (wxSplitterWindow *)NULL)
+                    wxSplitterWindow *splitter = NULL)
         : wxNotifyEvent(type)
     {
         SetEventObject(splitter);
         if (splitter) m_id = splitter->GetId();
     }
+    wxSplitterEvent(const wxSplitterEvent& event)
+        : wxNotifyEvent(event), m_data(event.m_data) { }
 
     // SASH_POS_CHANGED methods
 
@@ -366,6 +368,8 @@ public:
         return m_data.pt.y;
     }
 
+    virtual wxEvent *Clone() const { return new wxSplitterEvent(*this); }
+
 private:
     friend class WXDLLIMPEXP_FWD_CORE wxSplitterWindow;
 
@@ -380,13 +384,13 @@ private:
         } pt;               // position of double click for DCLICK event
     } m_data;
 
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxSplitterEvent)
+    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxSplitterEvent)
 };
 
 typedef void (wxEvtHandler::*wxSplitterEventFunction)(wxSplitterEvent&);
 
 #define wxSplitterEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSplitterEventFunction, &func)
+    wxEVENT_HANDLER_CAST(wxSplitterEventFunction, func)
 
 #define wx__DECLARE_SPLITTEREVT(evt, id, fn) \
     wx__DECLARE_EVT1(wxEVT_COMMAND_SPLITTER_ ## evt, id, wxSplitterEventHandler(fn))

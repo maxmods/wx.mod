@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     09.02.01
-// RCS-ID:      $Id: slider.h 41227 2006-09-14 19:36:47Z VZ $
+// RCS-ID:      $Id: slider.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 2001 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@
 // wxSlider
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxSlider : public wxSliderBase,
+class WXDLLIMPEXP_CORE wxSlider : public wxSliderBase,
                              public wxControlWithThumb
 {
 public:

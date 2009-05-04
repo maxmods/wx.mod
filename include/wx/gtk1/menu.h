@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/menu.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: menu.h 48053 2007-08-13 17:07:01Z JS $
+// Id:          $Id: menu.h 48023 2007-08-11 17:54:59Z JS $
 // Copyright:   (c) 1998 Robert Roebling, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -34,8 +34,8 @@ public:
     virtual wxMenuItem* FindItem( int id, wxMenu **menu = NULL ) const;
 
     virtual void EnableTop( size_t pos, bool flag );
-    virtual void SetLabelTop( size_t pos, const wxString& label );
-    virtual wxString GetLabelTop( size_t pos ) const;
+    virtual void SetMenuLabel( size_t pos, const wxString& label );
+    virtual wxString GetMenuLabel( size_t pos ) const;
 
     // implementation only from now on
     void SetInvokingWindow( wxWindow *win );
@@ -53,13 +53,6 @@ private:
     void Init(size_t n, wxMenu *menus[], const wxString titles[], long style);
 
     DECLARE_DYNAMIC_CLASS(wxMenuBar)
-
-public:
-
-#if wxABI_VERSION >= 20805
-    // Gets the original label at the top-level of the menubar
-    wxString GetMenuLabel(size_t pos) const;
-#endif
 };
 
 //-----------------------------------------------------------------------------

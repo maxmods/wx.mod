@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: toolbar.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: toolbar.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 
 #include "wx/dynarray.h"
 
-class WXDLLEXPORT wxToolBar : public wxToolBarBase
+class WXDLLIMPEXP_CORE wxToolBar : public wxToolBarBase
 {
 public:
     // ctors and dtor
@@ -83,7 +83,8 @@ protected:
                                           wxObject *clientData,
                                           const wxString& shortHelp,
                                           const wxString& longHelp);
-    virtual wxToolBarToolBase *CreateTool(wxControl *control);
+    virtual wxToolBarToolBase *CreateTool(wxControl *control,
+                                          const wxString& label);
 
     // return the appropriate size and flags for the toolbar control
     virtual wxSize DoGetBestSize() const;
@@ -103,7 +104,7 @@ protected:
 private:
     DECLARE_EVENT_TABLE()
     DECLARE_DYNAMIC_CLASS(wxToolBar)
-    DECLARE_NO_COPY_CLASS(wxToolBar)
+    wxDECLARE_NO_COPY_CLASS(wxToolBar);
 };
 
 #endif // wxUSE_TOOLBAR

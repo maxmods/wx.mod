@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: window.h 36079 2005-11-03 20:58:02Z ABX $
+// RCS-ID:      $Id: window.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,8 +20,8 @@
 
 class WXDLLIMPEXP_CORE wxWindow : public wxWindowBase
 {
-    friend class WXDLLEXPORT wxDC;
-    friend class WXDLLEXPORT wxWindowDC;
+    friend class WXDLLIMPEXP_FWD_CORE wxDC;
+    friend class WXDLLIMPEXP_FWD_CORE wxWindowDC;
 
 public:
     wxWindow() { Init(); }
@@ -73,8 +73,8 @@ public:
     virtual int GetCharWidth() const;
     virtual void GetTextExtent(const wxString& string,
         int *x, int *y,
-        int *descent = (int *) NULL,
-        int *externalLeading = (int *) NULL,
+        int *descent = NULL,
+        int *externalLeading = NULL,
         const wxFont *theFont = (const wxFont *) NULL)
         const;
 
@@ -85,7 +85,7 @@ public:
     virtual int GetScrollThumb( int orient ) const;
     virtual int GetScrollRange( int orient ) const;
     virtual void ScrollWindow( int dx, int dy,
-        const wxRect* rect = (wxRect *) NULL );
+        const wxRect* rect = NULL );
 
 #if wxUSE_DRAG_AND_DROP
     virtual void SetDropTarget( wxDropTarget *dropTarget );
@@ -146,6 +146,12 @@ public:
 
     // Process idle (send update events)
     void OnInternalIdle();
+
+    // post-creation activities
+    void PostCreation();
+
+    // pre-creation activities
+    void PreCreation();
 
 protected:
     // Responds to colour changes: passes event on to children.
@@ -297,7 +303,7 @@ private:
     void Init();
 
     DECLARE_DYNAMIC_CLASS(wxWindow)
-    DECLARE_NO_COPY_CLASS(wxWindow)
+    wxDECLARE_NO_COPY_CLASS(wxWindow);
     DECLARE_EVENT_TABLE()
 };
 
@@ -313,7 +319,7 @@ private:
 // from scope.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxNoOptimize
+class WXDLLIMPEXP_CORE wxNoOptimize
 {
 public:
     wxNoOptimize() { ms_count++; }

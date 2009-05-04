@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/13/99
-// RCS-ID:      $Id: bmpbuttn.h 36891 2006-01-16 14:59:55Z MR $
+// RCS-ID:      $Id: bmpbuttn.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,11 +15,11 @@
 #include "wx/button.h"
 #include "wx/dcclient.h"
 
-WXDLLEXPORT_DATA(extern const wxChar) wxButtonNameStr[];
+WXDLLIMPEXP_DATA_CORE(extern const char) wxButtonNameStr[];
 
 #define wxDEFAULT_BUTTON_MARGIN 4
 
-class WXDLLEXPORT wxBitmapButton: public wxBitmapButtonBase
+class WXDLLIMPEXP_CORE wxBitmapButton: public wxBitmapButtonBase
 {
 public:
     inline wxBitmapButton()
@@ -66,7 +66,6 @@ public:
     //
     // Implementation
     //
-    virtual void SetDefault();
     virtual bool OS2OnDraw(WXDRAWITEMSTRUCT* pItem);
 
 private:

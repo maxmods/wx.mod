@@ -368,7 +368,7 @@ void wxFixWidthImportCtrl::OnPaint(wxPaintEvent& event)
     m_captured = false;
 }
 
-void wxFixWidthImportCtrl::DrawDelimiter(wxDC* dc, wxCoord x, int modeFunc)
+void wxFixWidthImportCtrl::DrawDelimiter(wxDC* dc, wxCoord x, wxRasterOperationMode modeFunc)
 {
     //Select the appropriate dc
     wxDC *pDC = (wxDC*) NULL;
@@ -381,7 +381,7 @@ void wxFixWidthImportCtrl::DrawDelimiter(wxDC* dc, wxCoord x, int modeFunc)
     pDC->SetPen(delimColor);
     pDC->SetBackgroundMode(wxTRANSPARENT);
 
-    int modeOld = pDC->GetLogicalFunction();
+    wxRasterOperationMode modeOld = pDC->GetLogicalFunction();
     pDC->SetLogicalFunction(modeFunc);
 
     //Draw the delimiter: a line and a circle on top

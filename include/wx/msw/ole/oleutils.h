@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     19.02.1998
-// RCS-ID:      $Id: oleutils.h 49804 2007-11-10 01:09:42Z VZ $
+// RCS-ID:      $Id: oleutils.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -204,43 +204,40 @@ void wxLogRelease(const wxChar *szInterface, ULONG cRef);
 
 // wrapper around BSTR type (by Vadim Zeitlin)
 
-class WXDLLEXPORT wxBasicString
+class WXDLLIMPEXP_CORE wxBasicString
 {
 public:
     // ctors & dtor
-    wxBasicString(const char *sz);
     wxBasicString(const wxString& str);
+    wxBasicString(const wxBasicString& bstr);
     ~wxBasicString();
 
-    void Init(const char* sz);
+    wxBasicString& operator=(const wxBasicString& bstr);
 
     // accessors
-    // just get the string
-    operator BSTR() const { return m_wzBuf; }
-    // retrieve a copy of our string - caller must SysFreeString() it later!
-    BSTR Get() const { return SysAllocString(m_wzBuf); }
+        // just get the string
+    operator BSTR() const { return m_bstrBuf; }
+        // retrieve a copy of our string - caller must SysFreeString() it later!
+    BSTR Get() const { return SysAllocString(m_bstrBuf); }
 
 private:
-    // @@@ not implemented (but should be)
-    wxBasicString(const wxBasicString&);
-    wxBasicString& operator=(const wxBasicString&);
-
-    OLECHAR *m_wzBuf;     // actual string
+    // actual string
+    BSTR m_bstrBuf;
 };
 
 #if wxUSE_VARIANT
 // Convert variants
 class WXDLLIMPEXP_FWD_BASE wxVariant;
 
-WXDLLEXPORT bool wxConvertVariantToOle(const wxVariant& variant, VARIANTARG& oleVariant);
-WXDLLEXPORT bool wxConvertOleToVariant(const VARIANTARG& oleVariant, wxVariant& variant);
+WXDLLIMPEXP_CORE bool wxConvertVariantToOle(const wxVariant& variant, VARIANTARG& oleVariant);
+WXDLLIMPEXP_CORE bool wxConvertOleToVariant(const VARIANTARG& oleVariant, wxVariant& variant);
 #endif // wxUSE_VARIANT
 
 // Convert string to Unicode
-WXDLLEXPORT BSTR wxConvertStringToOle(const wxString& str);
+WXDLLIMPEXP_CORE BSTR wxConvertStringToOle(const wxString& str);
 
 // Convert string from BSTR to wxString
-WXDLLEXPORT wxString wxConvertStringFromOle(BSTR bStr);
+WXDLLIMPEXP_CORE wxString wxConvertStringFromOle(BSTR bStr);
 
 #else // !wxUSE_OLE
 

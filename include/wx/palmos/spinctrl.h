@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: spinctrl.h 35650 2005-09-23 12:56:45Z MR $
+// RCS-ID:      $Id: spinctrl.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 
 #include "wx/dynarray.h"
 
-class WXDLLEXPORT wxSpinCtrl;
+class WXDLLIMPEXP_FWD_CORE wxSpinCtrl;
 WX_DEFINE_EXPORTED_ARRAY_PTR(wxSpinCtrl *, wxArraySpins);
 
 // ----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ WX_DEFINE_EXPORTED_ARRAY_PTR(wxSpinCtrl *, wxArraySpins);
 // control is clicked.
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxSpinCtrl : public wxSpinButton
+class WXDLLIMPEXP_CORE wxSpinCtrl : public wxSpinButton
 {
 public:
     wxSpinCtrl() { }
@@ -109,7 +109,7 @@ protected:
 private:
     DECLARE_DYNAMIC_CLASS(wxSpinCtrl)
     DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxSpinCtrl)
+    wxDECLARE_NO_COPY_CLASS(wxSpinCtrl);
 };
 
 #endif // _WX_PALMOS_SPINCTRL_H_

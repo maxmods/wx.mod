@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     07.09.00
-// RCS-ID:      $Id: checkbox.h 39901 2006-06-30 10:51:44Z VS $
+// RCS-ID:      $Id: checkbox.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -49,13 +49,13 @@ enum wxCheckBoxState
 };
 
 
-extern WXDLLEXPORT_DATA(const wxChar) wxCheckBoxNameStr[];
+extern WXDLLIMPEXP_DATA_CORE(const char) wxCheckBoxNameStr[];
 
 // ----------------------------------------------------------------------------
 // wxCheckBox: a control which shows a label and a box which may be checked
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxCheckBoxBase : public wxControl
+class WXDLLIMPEXP_CORE wxCheckBoxBase : public wxControl
 {
 public:
     wxCheckBoxBase() { }
@@ -118,6 +118,9 @@ public:
     }
 
 protected:
+    // choose the default border for this window
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
+
     virtual void DoSet3StateValue(wxCheckBoxState WXUNUSED(state)) { wxFAIL; }
 
     virtual wxCheckBoxState DoGet3StateValue() const
@@ -127,7 +130,7 @@ protected:
     }
 
 private:
-    DECLARE_NO_COPY_CLASS(wxCheckBoxBase)
+    wxDECLARE_NO_COPY_CLASS(wxCheckBoxBase);
 };
 
 #if defined(__WXUNIVERSAL__)
@@ -141,7 +144,7 @@ private:
 #elif defined(__WXGTK__)
     #include "wx/gtk1/checkbox.h"
 #elif defined(__WXMAC__)
-    #include "wx/mac/checkbox.h"
+    #include "wx/osx/checkbox.h"
 #elif defined(__WXCOCOA__)
     #include "wx/cocoa/checkbox.h"
 #elif defined(__WXPM__)

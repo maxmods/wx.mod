@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2002/12/26
-// RCS-ID:      $Id: window.h 48114 2007-08-15 17:58:46Z DE $
+// RCS-ID:      $Id: window.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2002 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -43,10 +43,10 @@ class wxCocoaTrackingRectManager;
 // ========================================================================
 // wxWindowCocoa
 // ========================================================================
-class WXDLLEXPORT wxWindowCocoa: public wxWindowBase, protected wxCocoaNSView
+class WXDLLIMPEXP_CORE wxWindowCocoa: public wxWindowBase, protected wxCocoaNSView
 {
     DECLARE_DYNAMIC_CLASS(wxWindowCocoa)
-    DECLARE_NO_COPY_CLASS(wxWindowCocoa)
+    wxDECLARE_NO_COPY_CLASS(wxWindowCocoa);
     DECLARE_EVENT_TABLE()
     friend wxWindow *wxWindowBase::GetCapture();
     friend class wxWindowCocoaScrollView;
@@ -99,23 +99,14 @@ public:
     WX_NSAffineTransform CocoaGetWxToBoundsTransform();
 #endif //def __OBJC__
 protected:
-    // enable==false: disables the control
-    // enable==true: enables the control IF it should be enabled
-    bool EnableSelfAndChildren(bool enable);
     // actually enable/disable the cocoa control, overridden by subclasses
-    virtual void CocoaSetEnabled(bool enable) { }
-    // Reflects the state for THIS window (ignoring disables by parents)
-    bool m_shouldBeEnabled;
+    virtual void CocoaSetEnabled(bool WXUNUSED(enable)) { }
 
     void CocoaCreateNSScrollView();
     void InitMouseEvent(wxMouseEvent &event, WX_NSEvent cocoaEvent);
     virtual wxWindow* GetWxWindow() const;
     virtual void Cocoa_FrameChanged(void);
-#if wxUSE_ABI_INCOMPATIBLE_FEATURES
     virtual void Cocoa_synthesizeMouseMoved(void);
-#else
-    void Cocoa_synthesizeMouseMoved(void);
-#endif
     virtual bool Cocoa_drawRect(const NSRect &rect);
     virtual bool Cocoa_mouseDown(WX_NSEvent theEvent);
     virtual bool Cocoa_mouseDragged(WX_NSEvent theEvent);
@@ -130,18 +121,14 @@ protected:
     virtual bool Cocoa_otherMouseDragged(WX_NSEvent theEvent);
     virtual bool Cocoa_otherMouseUp(WX_NSEvent theEvent);
     virtual bool Cocoa_resetCursorRects();
-#if wxUSE_ABI_INCOMPATIBLE_FEATURES
     virtual bool Cocoa_viewDidMoveToWindow();
     virtual bool Cocoa_viewWillMoveToWindow(WX_NSWindow newWindow);
-#endif
     void SetNSView(WX_NSView cocoaNSView);
     WX_NSView m_cocoaNSView;
     wxWindowCocoaHider *m_cocoaHider;
     wxWindowCocoaScrollView *m_wxCocoaScrollView;
     bool m_isInPaint;
-#if wxUSE_ABI_INCOMPATIBLE_FEATURES
     wxCocoaTrackingRectManager *m_visibleTrackingRectManager;
-#endif
     static wxWindow *sm_capturedWindow;
     virtual void CocoaReplaceView(WX_NSView oldView, WX_NSView newView);
     void SetInitialFrameRect(const wxPoint& pos, const wxSize& size);
@@ -232,7 +219,7 @@ public:
     // NOTE: typically Close() is not virtual, but we want this for Cocoa
     virtual bool Close( bool force = false );
     virtual bool Show( bool show = true );
-    virtual bool Enable( bool enable = true );
+    virtual void DoEnable( bool enable );
 
     virtual bool IsDoubleBuffered() const { return true; }
 };

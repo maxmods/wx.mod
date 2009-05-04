@@ -3,7 +3,7 @@
 // Purpose:     a generic wxStaticLine class
 // Author:      Vadim Zeitlin
 // Created:     28.06.99
-// Version:     $Id: statline.h 43874 2006-12-09 14:52:59Z VZ $
+// Version:     $Id: statline.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) 1998 Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@ class wxStaticBox;
 // wxStaticLine
 // ----------------------------------------------------------------------------
 
-class WXDLLEXPORT wxStaticLine : public wxStaticLineBase
+class WXDLLIMPEXP_CORE wxStaticLine : public wxStaticLineBase
 {
     DECLARE_DYNAMIC_CLASS(wxStaticLine)
 

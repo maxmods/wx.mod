@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id: print.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: print.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@
 * Represents the printer: manages printing a wxPrintout object
 */
 
-class WXDLLEXPORT wxPrinter: public wxPrinterBase
+class WXDLLIMPEXP_CORE wxPrinter: public wxPrinterBase
 {
     DECLARE_DYNAMIC_CLASS(wxPrinter)
 
@@ -36,7 +36,7 @@ public:
 * Programmer creates an object of this class to preview a wxPrintout.
 */
 
-class WXDLLEXPORT wxPrintPreview: public wxPrintPreviewBase
+class WXDLLIMPEXP_CORE wxPrintPreview: public wxPrintPreviewBase
 {
     DECLARE_CLASS(wxPrintPreview)
 

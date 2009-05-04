@@ -4,7 +4,7 @@
 // Author:      William Osborne - minimal working wxPalmOS port
 // Modified by:
 // Created:     10/13/04
-// RCS-ID:      $Id: help.h 41020 2006-09-05 20:47:48Z VZ $
+// RCS-ID:      $Id: help.h 52834 2008-03-26 15:06:00Z FM $
 // Copyright:   (c) William Osborne
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@
 
 #include "wx/helpbase.h"
 
-class WXDLLEXPORT wxPalmHelpController: public wxHelpControllerBase
+class WXDLLIMPEXP_CORE wxPalmHelpController: public wxHelpControllerBase
 {
     DECLARE_CLASS(wxPalmHelpController)
 
