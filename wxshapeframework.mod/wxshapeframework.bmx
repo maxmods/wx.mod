@@ -49,7 +49,7 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
 
 ModuleInfo "CC_OPTS: -fexceptions"
-
+?fixme
 Import "common.bmx"
 
 '
@@ -1241,4 +1241,4 @@ Type wxSFEditTextShape Extends wxSFTextShape
 
 End Type
 
-
+?
