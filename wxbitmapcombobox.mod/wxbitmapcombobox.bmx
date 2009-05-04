@@ -239,7 +239,7 @@ Type wxBitmapComboBox Extends wxComboBox
 	End Method
 
 	Rem
-	bbdoc: Returns True if the control is empty or Talse if it has some items.
+	bbdoc: Returns True if the control is empty or False if it has some items.
 	End Rem
 	Method IsEmpty:Int()
 		Return bmx_wxbitmapcombobox_isempty(wxObjectPtr)
