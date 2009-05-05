@@ -52,6 +52,7 @@ Extern
 	Function bmx_wxtaskbaricon_removeicon:Int(handle:Byte Ptr)
 	Function bmx_wxtaskbaricon_seticon:Int(handle:Byte Ptr, icon:Byte Ptr, tooltip:String)
 	Function bmx_wxtaskbaricon_free(handle:Byte Ptr)
+	Function bmx_wxtaskbaricon_isavailable:Int()
 
 	Function bmx_wxtaskbariconevent_geteventtype:Int(evt:Int)
 

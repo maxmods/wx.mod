@@ -39,6 +39,7 @@ extern "C" {
 	bool bmx_wxtaskbaricon_removeicon(wxTaskBarIcon * taskBarIcon);
 	bool bmx_wxtaskbaricon_seticon(wxTaskBarIcon * taskBarIcon, MaxIcon * icon, BBString * tooltip);
 	void bmx_wxtaskbaricon_free(wxTaskBarIcon * taskBarIcon);
+	bool bmx_wxtaskbaricon_isavailable();
 	
 	int bmx_wxtaskbariconevent_geteventtype(int type);
 }

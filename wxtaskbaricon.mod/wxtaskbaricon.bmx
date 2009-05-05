@@ -183,6 +183,19 @@ Type wxTaskBarIcon Extends wxEvtHandler
 		End If
 	End Method
 	
+	Rem
+	bbdoc: Returns true if system tray is available in the desktop environment the app runs under.
+	about: On Windows and Mac OS X, the tray is always available and this function simply returns true.
+	<p>
+	On Unix, X11 environment may or may not provide the tray, depending on user's desktop environment.
+	Most modern desktops support the tray via the System Tray Protocol by
+	freedesktop.org (<a href="http://freedesktop.org/wiki/Specifications/systemtray-spec">http://freedesktop.org/wiki/Specifications/systemtray-spec</a>).
+	</p>
+	End Rem
+	Function IsAvailable:Int()
+		Return bmx_wxtaskbaricon_isavailable()
+	End Function
+	
 End Type
 
 

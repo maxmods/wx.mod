@@ -66,6 +66,10 @@ void bmx_wxtaskbaricon_free(wxTaskBarIcon * taskBarIcon) {
 	delete taskBarIcon;
 }
 
+bool bmx_wxtaskbaricon_isavailable() {
+	return wxTaskBarIcon::IsAvailable();
+}
+
 int bmx_wxtaskbariconevent_geteventtype(int type) {
 	switch(type) {
 		case 1550: return wxEVT_TASKBAR_MOVE;
