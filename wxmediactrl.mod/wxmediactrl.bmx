@@ -29,7 +29,7 @@ ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
 ModuleInfo "Copyright: (c) 2007-2009 Bruce A Henderson"
-ModuleInfo "Modserver: BRL"
+
 
 ?linux
 ModuleInfo "CC_OPTS: -D__WXGTK__"

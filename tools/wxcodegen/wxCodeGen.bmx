@@ -328,7 +328,7 @@ Type CodeGenFrame Extends CodeGenFrameBase
 	Method OnAbout(event:wxCommandEvent)
 
 		wxMessageBox("A wxMax BlitzMax Code Generator~n" + ..
-			"(c) 2008 Bruce A Henderson", ..
+			"(c) 2008-2009 Bruce A Henderson", ..
 			"About wxCodeGen v"+ AppVersion, wxOK, Self)
 	End Method
 
