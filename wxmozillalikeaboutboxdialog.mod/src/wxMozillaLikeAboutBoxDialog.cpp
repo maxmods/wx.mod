@@ -260,7 +260,13 @@ void wxMozillaLikeAboutBoxDialog::ApplyInfo()
 		buildInfo = m_CustomBuildInfo;
 	}
 	m_BuildInfoStaticText->SetLabel(buildInfo);
-	int labelWidth = m_HeaderStaticBitmap->GetSize().GetWidth() - 20;
+	int labelWidth = m_HeaderStaticBitmap->GetSize().GetWidth() - 
+#if defined(__UNIX__)
+	30;
+#else
+	20;
+#endif
+
 	m_VersionStaticText->Wrap(labelWidth);
 	m_CopyrightStaticText->Wrap(labelWidth);
 	m_BuildInfoStaticText->Wrap(labelWidth);
