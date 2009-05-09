@@ -31,6 +31,8 @@ using namespace Scintilla;
 // for rem block
 #define SCE_B_COMMENTREM 19
 
+#define wxSCI_LEX_BLITZMAX 222
+
 /* Bits:
  * 1  - whitespace
  * 2  - operator
@@ -82,7 +84,7 @@ static int LowerCase(int c)
 	return c;
 }
 
-static bool CheckBlitzEndRem(char const *token) {
+static bool CheckBMEndRem(char const *token) {
 	const char * k;
 	const char * n;
 	int i = 0;
@@ -109,7 +111,7 @@ static bool CheckBlitzEndRem(char const *token) {
 	return false;
 }
 
-static void ColouriseBasicDoc(unsigned int startPos, int length, int initStyle,
+static void ColouriseBMDoc(unsigned int startPos, int length, int initStyle,
                            WordList *keywordlists[], Accessor &styler, char comment_char) {
 	bool wasfirst = true, isfirst = true; // true if first token in a line
 	int endPos = startPos + length;
@@ -172,7 +174,7 @@ static void ColouriseBasicDoc(unsigned int startPos, int length, int initStyle,
 							break;
 						}
 						word[wordlen] = '\0';
-						go = CheckBlitzEndRem(word);
+						go = CheckBMEndRem(word);
 						if (!go) {
 						    // skip linebreaks..
 						    if (c == '\n' || c == '\r') {
@@ -285,7 +287,7 @@ static void ColouriseBasicDoc(unsigned int startPos, int length, int initStyle,
 	sc.Complete();
 }
 
-static int CheckBlitzFoldPoint(char const *token, int &level) {
+static int CheckBMFoldPoint(char const *token, int &level) {
 	if (!strcmp(token, "function") ||
 		!strcmp(token, "type") ||
 		!strcmp(token, "method")) {
@@ -303,7 +305,7 @@ static int CheckBlitzFoldPoint(char const *token, int &level) {
 	return 0;
 }
 
-static void FoldBasicDoc(unsigned int startPos, int length,
+static void FoldBMDoc(unsigned int startPos, int length,
 	Accessor &styler, int (*CheckFoldPoint)(char const *, int &)) {
 	int line = styler.GetLine(startPos);
 	int level = styler.LevelAt(line);
@@ -366,12 +368,12 @@ static void FoldBasicDoc(unsigned int startPos, int length,
 
 static void ColouriseBlitzMaxDoc(unsigned int startPos, int length, int initStyle,
                            WordList *keywordlists[], Accessor &styler) {
-	ColouriseBasicDoc(startPos, length, initStyle, keywordlists, styler, '\'');
+	ColouriseBMDoc(startPos, length, initStyle, keywordlists, styler, '\'');
 }
 
 static void FoldBlitzMaxDoc(unsigned int startPos, int length, int,
 	WordList *[], Accessor &styler) {
-	FoldBasicDoc(startPos, length, styler, CheckBlitzFoldPoint);
+	FoldBMDoc(startPos, length, styler, CheckBMFoldPoint);
 }
 
 static const char * const blitzmaxWordListDesc[] = {
@@ -386,6 +388,4 @@ static const char * const blitzmaxWordListDesc[] = {
 	0
 };
 
-
-LexerModule lmBlitzMax(SCLEX_BLITZBASIC, ColouriseBlitzMaxDoc, "blitzmax",
-	FoldBlitzMaxDoc, blitzmaxWordListDesc);
+LexerModule lmBlitzMax(wxSCI_LEX_BLITZMAX, ColouriseBlitzMaxDoc, "blitzmax", FoldBlitzMaxDoc, blitzmaxWordListDesc);

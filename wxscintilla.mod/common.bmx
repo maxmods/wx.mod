@@ -164,6 +164,7 @@ Import "glue.cpp"
 Import "consts.bmx"
 
 Extern
+	Function init_scintilla_modules()
 	Function bmx_wxscintilla_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 
 	Function bmx_wxscintilla_getcurrentline:Int(handle:Byte Ptr)

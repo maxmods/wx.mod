@@ -23,7 +23,9 @@
 #include "glue.h"
 
 void init_scintilla_modules() {
-	lmBlitzMax.GetLanguage();
+	static int f = 0;
+	extern LexerModule lmBlitzMax;
+	f += lmBlitzMax.GetLanguage();
 }
 
 // ---------------------------------------------------------------------------------------

@@ -37,8 +37,6 @@ class MaxScintilla;
 #define wxScintilla wxStyledTextCtrl
 #define wxScintillaEvent wxStyledTextEvent
 
-extern LexerModule lmBlitzMax;
-
 extern "C" {
 
 #include <blitz.h>
