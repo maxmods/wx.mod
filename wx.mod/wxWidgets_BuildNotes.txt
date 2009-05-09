@@ -3,7 +3,7 @@ Build Notes
 
 Linux :
 
-    wxGTK 2.8.x
+    wxGTK 2.9.x
     ./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared
 
     add "--disable-shared" for static libraries
@@ -25,9 +25,8 @@ Linux :
 
 MacOS :
 
-    wxMac 2.8.x
-    ./configure --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-expat=builtin
-	--with-libjpeg=builtin --with-libpng=builtin
+    wxMac 2.9.x
+    ./configure --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin
 
     use "--disable-shared" for static libraries, otherwise you get .dylibs
     
@@ -45,7 +44,7 @@ MacOS :
 
 Win32 :
 
-    wxMSW 2.8.x
+    wxMSW 2.9.x
     
     edit build/msw/config.gcc, and change the following entries :
             BUILD := release
@@ -56,6 +55,7 @@ Win32 :
     Also, edit wx/msw/setup0.h and enable wxUSE_GLCANVAS :
             #define wxUSE_GLCANVAS       1
             #define wxUSE_GRAPHICS_CONTEXT 1
+            #define wxUSE_STD_IOSTREAM  0
 
     NOTE : These two definitions will appear in the setup.h inside the lib folder. If you failed to set them initially when building, you should
     apply the changes to setup.h also.
@@ -71,6 +71,9 @@ Win32 :
 	errored call to use fabs instead :
 
           if( fabs(sweepAngle) >= 2*M_PI)
+
+    NOTES on wxUSE_STD_IOSTREAM : 2.9.0 appears to set this to 1 by default on Win32 now. Except that it breaks (at least) wxDocument SaveObject()
+    so, I'm building with this disabled in order to use wx streams instead of c++ iostreams - which is better for BlitzMax.
 
 
 
