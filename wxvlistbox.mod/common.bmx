@@ -46,4 +46,28 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxvlistbox_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxvlistbox_clear(handle:Byte Ptr)
+	Function bmx_wxvlistbox_deselectall:Int(handle:Byte Ptr)
+	Function bmx_wxvlistbox_getfirstselected:Int(handle:Byte Ptr, cookie:Int Ptr)
+	Function bmx_wxvlistbox_getitemcount:Int(handle:Byte Ptr)
+	Function bmx_wxvlistbox_getmargins(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxvlistbox_getitemrect(handle:Byte Ptr, item:Int, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxvlistbox_getitemrectrect:Byte Ptr(handle:Byte Ptr, item:Int)
+	Function bmx_wxvlistbox_getnextselected:Int(handle:Byte Ptr, cookie:Int Ptr)
+	Function bmx_wxvlistbox_getselectedcount:Int(handle:Byte Ptr)
+	Function bmx_wxvlistbox_getselection:Int(handle:Byte Ptr)
+	Function bmx_wxvlistbox_getselectionbackground:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxvlistbox_hasmultipleselection:Int(handle:Byte Ptr)
+	Function bmx_wxvlistbox_iscurrent:Int(handle:Byte Ptr, item:Int)
+	Function bmx_wxvlistbox_isselected:Int(handle:Byte Ptr, item:Int)
+	Function bmx_wxvlistbox_selectitem:Int(handle:Byte Ptr, item:Int)
+	Function bmx_wxvlistbox_selectall:Int(handle:Byte Ptr)
+	Function bmx_wxvlistbox_selectrange:Int(handle:Byte Ptr, rangeFrom:Int, rangeTo:Int)
+	Function bmx_wxvlistbox_setitemcount(handle:Byte Ptr, count:Int)
+	Function bmx_wxvlistbox_setselection(handle:Byte Ptr, selection:Int)
+	Function bmx_wxvlistbox_setselectionbackground(handle:Byte Ptr, col:Byte Ptr)
+	Function bmx_wxvlistbox_toggle(handle:Byte Ptr, item:Int)
+	Function bmx_wxvlistbox_setmargins(handle:Byte Ptr, x:Int, y:Int)
+
 End Extern

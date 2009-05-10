@@ -74,77 +74,165 @@ Type wxVListBox Extends wxVScrolledWindow
 	bbdoc: 
 	End Rem
 	Method Create:wxVListBox(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
-		'wxObjectPtr = bmx_wxvlistbox_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		wxObjectPtr = bmx_wxvlistbox_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
 		
 		OnInit()
 		
 		Return Self
 	End Method
 
+	Rem
+	bbdoc: 
+	End Rem
 	Method Clear()
+		bmx_wxvlistbox_clear(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method DeselectAll:Int()
+		Return bmx_wxvlistbox_deselectall(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetFirstSelected:Int(cookie:Int Var)
+		Return bmx_wxvlistbox_getfirstselected(wxObjectPtr, Varptr cookie)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetItemCount:Int()
+		Return bmx_wxvlistbox_getitemcount(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetMargins(x:Int Var, y:Int Var)
+		bmx_wxvlistbox_getmargins(wxObjectPtr, Varptr x, Varptr y)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetItemRect(item:Int, x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+		bmx_wxvlistbox_getitemrect(wxObjectPtr, item, Varptr x, Varptr y, Varptr w, Varptr h)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetItemRectRect:wxRect(item:Int)
+		Return wxRect._create(bmx_wxvlistbox_getitemrectrect(wxObjectPtr, item))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetNextSelected:Int(cookie:Int Var)
+		Return bmx_wxvlistbox_getnextselected(wxObjectPtr, Varptr cookie)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetSelectedCount:Int()
+		Return bmx_wxvlistbox_getselectedcount(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetSelection:Int()
+		Return bmx_wxvlistbox_getselection(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method GetSelectionBackground:wxColour()
+		Return wxColour._create(bmx_wxvlistbox_getselectionbackground(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method HasMultipleSelection:Int()
+		Return bmx_wxvlistbox_hasmultipleselection(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsCurrent:Int(item:Int)
+		Return bmx_wxvlistbox_iscurrent(wxObjectPtr, item)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method IsSelected:Int(item:Int)
+		Return bmx_wxvlistbox_isselected(wxObjectPtr, item)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SelectItem:Int(item:Int)
+		Return bmx_wxvlistbox_selectitem(wxObjectPtr, item)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SelectAll:Int()
+		Return bmx_wxvlistbox_selectall(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SelectRange:Int(rangeFrom:Int, rangeTo:Int)
+		Return bmx_wxvlistbox_selectrange(wxObjectPtr, rangeFrom, rangeTo)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetItemCount(count:Int)
+		bmx_wxvlistbox_setitemcount(wxObjectPtr, count)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetSelection(selection:Int)
+		bmx_wxvlistbox_setselection(wxObjectPtr, selection)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetSelectionBackground(col:wxColour)
+		bmx_wxvlistbox_setselectionbackground(wxObjectPtr, col.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method Toggle(item:Int)
+		bmx_wxvlistbox_toggle(wxObjectPtr, item)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
 	Method SetMargins(x:Int, y:Int)
+		bmx_wxvlistbox_setmargins(wxObjectPtr, x, y)
 	End Method
 
 	
