@@ -1,8 +1,8 @@
 #include "wxGoogleTranslate.h"
-#include <wx/url.h>
 #include <wx/sstream.h>
 #include <wx/jsonval.h>
 #include <wx/jsonreader.h>
+#include <wx/fs_inet.h>
 
 wxString HexFromInt(const int &value)
 {
@@ -42,13 +42,13 @@ wxString URLEncode(const wxString &value)
         default:
         {
           if (cChar <= 127) {
-            szToReturn.Append(wxT("%"));
-            szToReturn += HexFromInt( cChar );
+          szToReturn.Append(wxT("%"));
+          szToReturn += HexFromInt( cChar );
           } else {
             szToReturn.Append( cChar );
-          }
         }
       }
+    }
     }
     nPos++;
   }
@@ -204,6 +204,9 @@ bool wxGoogleTranslate::Translate(const wxString & source,
 		wxString & translationDetails,
 		int & errorCode)
 {
+
+
+
 	do
 	{
 		wxString urlEncodedSource = 
@@ -214,14 +217,27 @@ bool wxGoogleTranslate::Translate(const wxString & source,
 			urlEncodedSource.GetData(),
 			sourceLanguageCode.GetData(),
 			resultLanguageCode.GetData());
-		wxURL url = srcURL;
-		if(url.GetError() != wxURL_NOERR) break;
-		wxInputStream * in = url.GetInputStream();
+			
+		if (!wxFileSystem::HasHandlerForPath(srcURL)) {
+			wxFileSystem::AddHandler(new wxInternetFSHandler);			
+		}
+			
+		wxFileSystem fs;
+		wxFSFile * f = fs.OpenFile(srcURL);
+		
+		if (!f) {
+			break;
+		}
+			
+		wxInputStream * in = f->GetStream();
 		if(!in) break;
+
 		wxString response;
 		wxStringOutputStream out(&response);
+
 		in->Read(out);
-		wxDELETE(in);
+		wxDELETE(f);
+
 		if(response.IsEmpty()) break;
 		if(!wxGoogleTranslate::ParseJSONResponse(response, result, 
 			translationDetails, errorCode)) break;
