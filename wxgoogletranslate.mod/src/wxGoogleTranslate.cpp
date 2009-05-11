@@ -41,14 +41,18 @@ wxString URLEncode(const wxString &value)
         case wxT('\n'): szToReturn.Append(wxT("%0D%0A")); break;
         default:
         {
+#ifndef __WXMSW__
           if (cChar <= 127) {
-          szToReturn.Append(wxT("%"));
-          szToReturn += HexFromInt( cChar );
+#endif
+            szToReturn.Append(wxT("%"));
+            szToReturn += HexFromInt( cChar );
+#ifndef __WXMSW__
           } else {
             szToReturn.Append( cChar );
+          }
+#endif
         }
       }
-    }
     }
     nPos++;
   }
