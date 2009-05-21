@@ -60,6 +60,8 @@ End Rem
 Type wxGLCanvas Extends wxWindow
 
 	Field _graphics:TGraphics
+	
+	Field _sync:Int = -999
 
 	Function CreateGLCanvas:wxGLCanvas(parent:wxWindow, id:Int = wxID_ANY, flags:Int, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = 0)
@@ -76,6 +78,10 @@ Type wxGLCanvas Extends wxWindow
 	
 	Method SwapBuffers()
 		bmx_wxglcanvas_swapbuffers(wxObjectPtr)
+	End Method
+	
+	Method SetSwapInterval(sync:Int)
+		bmx_wxglcanvas_setswapinterval(wxObjectPtr, sync)
 	End Method
 	
 	Rem
@@ -208,6 +214,10 @@ Type TwxGLGraphicsDriver Extends TGraphicsDriver
 	
 	Method Flip( sync:Int )
 		' SwapBuffers
+		If currentContext._sync <> sync Then
+			currentContext.SetSwapInterval(sync)
+			currentContext._sync = sync
+		End If
 		currentContext.SwapBuffers()
 	End Method
 	

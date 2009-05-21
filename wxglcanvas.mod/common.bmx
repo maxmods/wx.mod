@@ -49,6 +49,7 @@ Extern
 
 	Function bmx_wxglcanvas_swapbuffers(handle:Byte Ptr)
 	Function bmx_wxglcanvas_setcurrent(handle:Byte Ptr)
+	Function bmx_wxglcanvas_setswapinterval(handle:Byte Ptr, sync:Int)
 
 	Function bmx_wxglcanvas_onpainthook(handle:Byte Ptr, event:wxEvent)
 

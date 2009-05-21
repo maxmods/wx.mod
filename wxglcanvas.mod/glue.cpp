@@ -63,6 +63,20 @@ void MaxGLCanvas::Refresh(bool eraseBackground, const wxRect* rect) {
 	wxGLCanvas::Refresh(eraseBackground, rect);
 }
 
+void MaxGLCanvas::SetSwapInterval(int sync) {
+#ifdef __WXMAC__
+	WXGLContext context = WXGLGetCurrentContext();
+	aglSetInteger(context, AGL_SWAP_INTERVAL, &sync);
+#elif __WXMSW__
+	WGLSWAPINTERVALEXT wglSwapIntervalEXT=(WGLSWAPINTERVALEXT)wglGetProcAddress("wglSwapIntervalEXT");
+	if( wglSwapIntervalEXT ) wglSwapIntervalEXT( sync );
+#elif __WXGTK__
+	if ( glXSwapIntervalEXT ) {
+		 glXSwapIntervalEXT( sync );
+	}
+#endif
+}
+
 
 // *********************************************
 
@@ -116,5 +130,10 @@ void bmx_wxglcanvas_swapbuffers(wxGLCanvas * canvas) {
 void bmx_wxglcanvas_setcurrent(wxGLCanvas * canvas) {
 	canvas->SetCurrent();
 }
+
+void bmx_wxglcanvas_setswapinterval(MaxGLCanvas * canvas, int sync) {
+	canvas->SetSwapInterval(sync);
+}
+
 
 #endif

@@ -25,6 +25,15 @@
 
 #if wxUSE_GLCANVAS
 
+#ifdef __WXMAC__
+#include <AGL/agl.h>
+#elif __WXMSW__
+#include <gl/gl.h>
+typedef BOOL (APIENTRY * WGLSWAPINTERVALEXT) (int);
+#elif __WXGTK__
+#include <GL/glx.h>
+#endif
+
 
 class MaxGLCanvas;
 
@@ -47,6 +56,7 @@ extern "C" {
 		int flags, int x, int y, int w, int h, long style);
 	void bmx_wxglcanvas_swapbuffers(wxGLCanvas * canvas);
 	void bmx_wxglcanvas_setcurrent(wxGLCanvas * canvas);
+	void bmx_wxglcanvas_setswapinterval(MaxGLCanvas * canvas, int sync);
 
 	void bmx_wxglcanvas_onpainthook(MaxGLCanvas * canvas, BBObject * event);
 
@@ -65,6 +75,7 @@ public:
 	~MaxGLCanvas();
 	void Render(BBObject * event);
 	void Refresh(bool eraseBackground, const wxRect* rect);
+	void SetSwapInterval(int sync);
 
 protected:
     void OnEraseBackground(wxEraseEvent& event);
