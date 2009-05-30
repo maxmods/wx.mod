@@ -29,7 +29,7 @@ MacOS :
     ./configure --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin
 
     use "--disable-shared" for static libraries, otherwise you get .dylibs
-    
+
     make
     for a shared install use
         sudo make install  (requires admin password)
@@ -41,6 +41,16 @@ MacOS :
     Go into wx.mod/lib/<build>/wx/include/
     You'll see something like mac-unicode-release-static-2.8
     Remove the -2.8, so that it becomes mac-unicode-release-static
+
+
+    For PPC build on Intel
+
+        export CPPFLAGS="-arch ppc"
+        export LDFLAGS="-arch ppc"
+        ./configure --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --with-macosx-sdk=/Developer/SDKs/MacOSX10.4u.sdk --with-macosx-version-min=10.4
+
+        make
+
 
 Win32 :
 
