@@ -71,8 +71,10 @@ void MaxGLCanvas::SetSwapInterval(int sync) {
 	WGLSWAPINTERVALEXT wglSwapIntervalEXT=(WGLSWAPINTERVALEXT)wglGetProcAddress("wglSwapIntervalEXT");
 	if( wglSwapIntervalEXT ) wglSwapIntervalEXT( sync );
 #elif __WXGTK__
-	if ( glXSwapIntervalEXT ) {
-		 glXSwapIntervalEXT( sync );
+	typedef int (*GLXSWAPINTERVALEXT)(int); 
+	GLXSWAPINTERVALEXT glXSwapIntervalSGI=(GLXSWAPINTERVALEXT)glXGetProcAddress((const GLubyte*)"glXSwapIntervalSGI");
+	if ( glXSwapIntervalSGI ) {
+		 glXSwapIntervalSGI	( sync );
 	}
 #endif
 }
