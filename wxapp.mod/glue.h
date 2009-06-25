@@ -29,15 +29,15 @@ extern "C" {
 #include <blitz.h>
 
 	void bmx_wxapp_setvendorname(BBString * name);
-	void bmx_wxapp_setexitonframedelete(bool flag);
-	bool bmx_wxapp_isactive();
+	void bmx_wxapp_setexitonframedelete(int flag);
+	int bmx_wxapp_isactive();
 	wxWindow * bmx_wxapp_gettopwindow();
 	BBString * bmx_wxapp_getappname();
 	BBString * bmx_wxapp_getvendorname();
 
 	wxApp * bmx_app_getapp();
 
-	bool bmx_wxsafeyield(wxWindow * win, bool onlyIfNeeded);
+	int bmx_wxsafeyield(wxWindow * win, int onlyIfNeeded);
 	void bmx_wxwakeupidle();
 
 }

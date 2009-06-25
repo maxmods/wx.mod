@@ -32,12 +32,12 @@ void bmx_wxapp_setvendorname(BBString * name) {
 	wxGetApp().SetVendorName(wxStringFromBBString(name));
 }
 
-void bmx_wxapp_setexitonframedelete(bool flag) {
-	wxGetApp().SetExitOnFrameDelete(flag);
+void bmx_wxapp_setexitonframedelete(int flag) {
+	wxGetApp().SetExitOnFrameDelete(static_cast<bool>(flag));
 }
 
-bool bmx_wxapp_isactive() {
-	return wxGetApp().IsActive();
+int bmx_wxapp_isactive() {
+	return static_cast<int>(wxGetApp().IsActive());
 }
 
 wxWindow * bmx_wxapp_gettopwindow() {
@@ -59,8 +59,8 @@ BBString * bmx_wxapp_getvendorname() {
 
 // *********************************************
 
-bool bmx_wxsafeyield(wxWindow * win, bool onlyIfNeeded) {
-	return wxSafeYield(win, onlyIfNeeded);
+int bmx_wxsafeyield(wxWindow * win, int onlyIfNeeded) {
+	return static_cast<int>(wxSafeYield(win, static_cast<bool>(onlyIfNeeded)));
 }
 
 void bmx_wxwakeupidle() {
