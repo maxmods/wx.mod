@@ -120,12 +120,12 @@ int bmx_wxbrush_getstyle(MaxBrush * brush) {
 	return brush->Brush().GetStyle();
 }
 
-bool bmx_wxbrush_ishatch(MaxBrush * brush) {
-	return brush->Brush().IsHatch();
+int bmx_wxbrush_ishatch(MaxBrush * brush) {
+	return static_cast<int>(brush->Brush().IsHatch());
 }
 
-bool bmx_wxbrush_isok(MaxBrush * brush) {
-	return brush->Brush().IsOk();
+int bmx_wxbrush_isok(MaxBrush * brush) {
+	return static_cast<int>(brush->Brush().IsOk());
 }
 
 void bmx_wxbrush_setcolour(MaxBrush * brush, BBString * colour) {

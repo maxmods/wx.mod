@@ -89,12 +89,12 @@ MaxDateTime * bmx_wxcalendarctrl_getdate(wxCalendarCtrl * ctrl) {
 	return new MaxDateTime(d);
 }
 
-void bmx_wxcalendarctrl_enablemonthchange(wxCalendarCtrl * ctrl, bool enable) {
-	ctrl->EnableMonthChange(enable);
+void bmx_wxcalendarctrl_enablemonthchange(wxCalendarCtrl * ctrl, int enable) {
+	ctrl->EnableMonthChange(static_cast<bool>(enable));
 }
 
-void bmx_wxcalendarctrl_enableholidaydisplay(wxCalendarCtrl * ctrl, bool display) {
-	ctrl->EnableHolidayDisplay(display);
+void bmx_wxcalendarctrl_enableholidaydisplay(wxCalendarCtrl * ctrl, int display) {
+	ctrl->EnableHolidayDisplay(static_cast<bool>(display));
 }
 
 void bmx_wxcalendarctrl_setheadercolours(wxCalendarCtrl * ctrl, MaxColour * colFG, MaxColour * colBG) {
@@ -214,32 +214,32 @@ void bmx_wxcalendardateattr_setborder(wxCalendarDateAttr * attr, wxCalendarDateB
 	attr->SetBorder(border);
 }
 
-void bmx_wxcalendardateattr_setholidy(wxCalendarDateAttr * attr, bool holiday) {
-	attr->SetHoliday(holiday);
+void bmx_wxcalendardateattr_setholidy(wxCalendarDateAttr * attr, int holiday) {
+	attr->SetHoliday(static_cast<bool>(holiday));
 }
 
-bool bmx_wxcalendardateattr_hastextcolour(wxCalendarDateAttr * attr) {
-	return attr->HasTextColour();
+int bmx_wxcalendardateattr_hastextcolour(wxCalendarDateAttr * attr) {
+	return static_cast<int>(attr->HasTextColour());
 }
 
-bool bmx_wxcalendardateattr_hasbackgroundcolour(wxCalendarDateAttr * attr) {
-	return attr->HasBackgroundColour();
+int bmx_wxcalendardateattr_hasbackgroundcolour(wxCalendarDateAttr * attr) {
+	return static_cast<int>(attr->HasBackgroundColour());
 }
 
-bool bmx_wxcalendardateattr_hasbordercolour(wxCalendarDateAttr * attr) {
-	return attr->HasBorderColour();
+int bmx_wxcalendardateattr_hasbordercolour(wxCalendarDateAttr * attr) {
+	return static_cast<int>(attr->HasBorderColour());
 }
 
-bool bmx_wxcalendardateattr_hasfont(wxCalendarDateAttr * attr) {
-	return attr->HasFont();
+int bmx_wxcalendardateattr_hasfont(wxCalendarDateAttr * attr) {
+	return static_cast<int>(attr->HasFont());
 }
 
-bool bmx_wxcalendardateattr_hasborder(wxCalendarDateAttr * attr) {
-	return attr->HasBorder();
+int bmx_wxcalendardateattr_hasborder(wxCalendarDateAttr * attr) {
+	return static_cast<int>(attr->HasBorder());
 }
 
-bool bmx_wxcalendardateattr_isholiday(wxCalendarDateAttr * attr) {
-	return attr->IsHoliday();
+int bmx_wxcalendardateattr_isholiday(wxCalendarDateAttr * attr) {
+	return static_cast<int>(attr->IsHoliday());
 }
 
 MaxColour * bmx_wxcalendardateattr_gettextcolour(wxCalendarDateAttr * attr) {

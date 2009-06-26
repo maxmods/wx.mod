@@ -31,15 +31,15 @@ extern "C" {
 	wxClipboard * bmx_wxclipboard_get();
 	void bmx_wxclipboard_clear(wxClipboard * clip);
 	void bmx_wxclipboard_close(wxClipboard * clip);
-	bool bmx_wxclipboard_flush(wxClipboard * clip);
-	bool bmx_wxclipboard_open(wxClipboard * clip);
-	bool bmx_wxclipboard_adddata(wxClipboard * clip, wxDataObject * data);
-	bool bmx_wxclipboard_getdata(wxClipboard * clip, wxDataObject * data);
-	bool bmx_wxclipboard_setdata(wxClipboard * clip, wxDataObject * data);
-	bool bmx_wxclipboard_isopened(wxClipboard * clip);
+	int bmx_wxclipboard_flush(wxClipboard * clip);
+	int bmx_wxclipboard_open(wxClipboard * clip);
+	int bmx_wxclipboard_adddata(wxClipboard * clip, wxDataObject * data);
+	int bmx_wxclipboard_getdata(wxClipboard * clip, wxDataObject * data);
+	int bmx_wxclipboard_setdata(wxClipboard * clip, wxDataObject * data);
+	int bmx_wxclipboard_isopened(wxClipboard * clip);
 
 #ifdef __WXGTK__
-	void bmx_wxclipboard_useprimaryselection(wxClipboard * clip, bool primary);
+	void bmx_wxclipboard_useprimaryselection(wxClipboard * clip, int primary);
 #endif
 
 }

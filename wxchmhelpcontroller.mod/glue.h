@@ -33,7 +33,7 @@ extern "C" {
 
 	wxCHMHelpController * bmx_wxchmhelpcontroller_create(BBObject * handle, wxWindow * parentWindow);
 	void bmx_wxchmhelpcontroller_displaycontents(wxCHMHelpController * cont);
-	bool bmx_wxchmhelpcontroller_keywordsearch(wxCHMHelpController * cont, BBString * keyword, wxHelpSearchMode mode);
+	int bmx_wxchmhelpcontroller_keywordsearch(wxCHMHelpController * cont, BBString * keyword, wxHelpSearchMode mode);
 
 }
 

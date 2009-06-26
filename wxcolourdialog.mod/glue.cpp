@@ -85,8 +85,8 @@ MaxColourData * bmx_wxcolourdata_create() {
 	return new MaxColourData();
 }
 
-bool bmx_wxcolourdata_getchoosefull(MaxColourData * data) {
-	return data->Data().GetChooseFull();
+int bmx_wxcolourdata_getchoosefull(MaxColourData * data) {
+	return static_cast<int>(data->Data().GetChooseFull());
 }
 
 MaxColour * bmx_wxcolourdata_getcolour(MaxColourData * data) {
@@ -99,8 +99,8 @@ MaxColour * bmx_wxcolourdata_getcustomcolour(MaxColourData * data, int i) {
 	return new MaxColour(c);
 }
 
-void bmx_wxcolourdata_setchoosefull(MaxColourData * data, bool flag) {
-	data->Data().SetChooseFull(flag);
+void bmx_wxcolourdata_setchoosefull(MaxColourData * data, int flag) {
+	data->Data().SetChooseFull(static_cast<bool>(flag));
 }
 
 void bmx_wxcolourdata_setcolour(MaxColourData * data, MaxColour * colour) {

@@ -40,33 +40,33 @@ void bmx_wxclipboard_close(wxClipboard * clip) {
 	clip->Close();
 }
 
-bool bmx_wxclipboard_flush(wxClipboard * clip) {
-	return clip->Flush();
+int bmx_wxclipboard_flush(wxClipboard * clip) {
+	return static_cast<int>(clip->Flush());
 }
 
-bool bmx_wxclipboard_open(wxClipboard * clip) {
-	return clip->Open();
+int bmx_wxclipboard_open(wxClipboard * clip) {
+	return static_cast<int>(clip->Open());
 }
 
-bool bmx_wxclipboard_adddata(wxClipboard * clip, wxDataObject * data) {
-	return clip->AddData(data);
+int bmx_wxclipboard_adddata(wxClipboard * clip, wxDataObject * data) {
+	return static_cast<int>(clip->AddData(data));
 }
 
-bool bmx_wxclipboard_getdata(wxClipboard * clip, wxDataObject * data) {
-	return clip->GetData(*data);
+int bmx_wxclipboard_getdata(wxClipboard * clip, wxDataObject * data) {
+	return static_cast<int>(clip->GetData(*data));
 }
 
-bool bmx_wxclipboard_setdata(wxClipboard * clip, wxDataObject * data) {
-	return clip->SetData(data);
+int bmx_wxclipboard_setdata(wxClipboard * clip, wxDataObject * data) {
+	return static_cast<int>(clip->SetData(data));
 }
 
-bool bmx_wxclipboard_isopened(wxClipboard * clip) {
-	return clip->IsOpened();
+int bmx_wxclipboard_isopened(wxClipboard * clip) {
+	return static_cast<int>(clip->IsOpened());
 }
 
 #ifdef __WXGTK__
-void bmx_wxclipboard_useprimaryselection(wxClipboard * clip, bool primary) {
-	clip->UsePrimarySelection(primary); 
+void bmx_wxclipboard_useprimaryselection(wxClipboard * clip, int primary) {
+	clip->UsePrimarySelection(static_cast<bool>(primary);) 
 }
 #endif
 

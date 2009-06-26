@@ -51,27 +51,27 @@ MaxMultiChoiceDialog::~MaxMultiChoiceDialog() {
 
 
 BBString * bmx_wxgetsinglechoice(BBString * message, BBString * caption, BBArray * choices, wxWindow * parent,
-		int x, int y, bool centre, int width, int height) {
+		int x, int y, int centre, int width, int height) {
 
 	if (parent) {
 		return bbStringFromWxString(wxGetSingleChoice(wxStringFromBBString(message), wxStringFromBBString(caption), bbStringArrayTowxArrayStr(choices), 
-			parent, x, y, centre, width, height));
+			parent, x, y, static_cast<bool>(centre), width, height));
 	} else {
 		return bbStringFromWxString(wxGetSingleChoice(wxStringFromBBString(message), wxStringFromBBString(caption), bbStringArrayTowxArrayStr(choices), 
-			NULL, x, y, centre, width, height));
+			NULL, x, y, static_cast<bool>(centre), width, height));
 	}
 
 }
 
 int bmx_wxgetsinglechoiceindex(BBString * message, BBString * caption, BBArray * choices, wxWindow * parent,
-		int x, int y, bool centre, int width, int height) {
+		int x, int y, int centre, int width, int height) {
 
 	if (parent) {
 		return wxGetSingleChoiceIndex(wxStringFromBBString(message), wxStringFromBBString(caption), bbStringArrayTowxArrayStr(choices), 
-			parent, x, y, centre, width, height);
+			parent, x, y, static_cast<bool>(centre), width, height);
 	} else {
 		return wxGetSingleChoiceIndex(wxStringFromBBString(message), wxStringFromBBString(caption), bbStringArrayTowxArrayStr(choices), 
-			NULL, x, y, centre, width, height);
+			NULL, x, y, static_cast<bool>(centre), width, height);
 	}
 
 }

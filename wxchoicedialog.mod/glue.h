@@ -31,9 +31,9 @@ extern "C" {
 #include <blitz.h>
 
 	BBString * bmx_wxgetsinglechoice(BBString * message, BBString * caption, BBArray * choices, wxWindow * parent,
-		int x, int y, bool centre, int width, int height);
+		int x, int y, int centre, int width, int height);
 	int bmx_wxgetsinglechoiceindex(BBString * message, BBString * caption, BBArray * choices, wxWindow * parent,
-		int x, int y, bool centre, int width, int height);
+		int x, int y, int centre, int width, int height);
 
 	MaxSingleChoiceDialog * bmx_wxsinglechoicedialog_create(BBObject * handle, wxWindow * parent,
 			BBString * message, BBString * caption, BBArray * choices, long style, int x, int y);

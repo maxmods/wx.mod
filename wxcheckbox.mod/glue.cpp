@@ -81,28 +81,28 @@ MaxCheckBox * bmx_wxcheckbox_create(BBObject * maxHandle, wxWindow * parent, wxW
 	return new MaxCheckBox(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }
 
-bool bmx_wxcheckbox_getvalue(MaxCheckBox * checkbox) {
-	return checkbox->GetValue();
+int bmx_wxcheckbox_getvalue(MaxCheckBox * checkbox) {
+	return static_cast<int>(checkbox->GetValue());
 }
 
 int bmx_wxcheckbox_get3statevalue(MaxCheckBox * checkbox) {
 	return checkbox->Get3StateValue();
 }
 
-bool bmx_wxcheckbox_is3rdstateallowedforuser(MaxCheckBox * checkbox) {
-	return checkbox->Is3rdStateAllowedForUser();
+int bmx_wxcheckbox_is3rdstateallowedforuser(MaxCheckBox * checkbox) {
+	return static_cast<int>(checkbox->Is3rdStateAllowedForUser());
 }
 
-bool bmx_wxcheckbox_is3state(MaxCheckBox * checkbox) {
-	return checkbox->Is3State();
+int bmx_wxcheckbox_is3state(MaxCheckBox * checkbox) {
+	return static_cast<int>(checkbox->Is3State());
 }
 
-bool bmx_wxcheckbox_ischecked(MaxCheckBox * checkbox) {
-	return checkbox->IsChecked();
+int bmx_wxcheckbox_ischecked(MaxCheckBox * checkbox) {
+	return static_cast<int>(checkbox->IsChecked());
 }
 
-void bmx_wxcheckbox_setvalue(MaxCheckBox * checkbox, bool state) {
-	checkbox->SetValue(state);
+void bmx_wxcheckbox_setvalue(MaxCheckBox * checkbox, int state) {
+	checkbox->SetValue(static_cast<bool>(state));
 }
 
 void bmx_wxcheckbox_set3statevalue(MaxCheckBox * checkbox, int state) {

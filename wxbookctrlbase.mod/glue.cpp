@@ -28,16 +28,16 @@
 
 // *********************************************
 
-bool bmx_wxbookctrlbase_addpage(wxBookCtrlBase * book, wxWindow * page, BBString * text, bool selected, int imageId) {
-	return book->AddPage(page, wxStringFromBBString(text), selected, imageId);
+int bmx_wxbookctrlbase_addpage(wxBookCtrlBase * book, wxWindow * page, BBString * text, int selected, int imageId) {
+	return static_cast<int>(book->AddPage(page, wxStringFromBBString(text), static_cast<bool>(selected), imageId));
 }
 
-bool bmx_wxbookctrlbase_insertpage(wxBookCtrlBase * book, int index, wxWindow * page, BBString * text, bool selected, int imageId) {
-	return book->InsertPage(index, page, wxStringFromBBString(text), selected, imageId);
+int bmx_wxbookctrlbase_insertpage(wxBookCtrlBase * book, int index, wxWindow * page, BBString * text, int selected, int imageId) {
+	return static_cast<int>(book->InsertPage(index, page, wxStringFromBBString(text), static_cast<bool>(selected), imageId));
 }
 
-void bmx_wxbookctrlbase_advanceselection(wxBookCtrlBase * book, bool forward) {
-	book->AdvanceSelection(forward);
+void bmx_wxbookctrlbase_advanceselection(wxBookCtrlBase * book, int forward) {
+	book->AdvanceSelection(static_cast<bool>(forward));
 }
 
 void bmx_wxbookctrlbase_assignimagelist(wxBookCtrlBase * book, wxImageList * list) {
@@ -50,12 +50,12 @@ void bmx_wxbookctrlbase_setimagelist(wxBookCtrlBase * book, wxImageList * list) 
 	book->SetImageList(list);
 }
 
-bool bmx_wxbookctrlbase_deleteallpages(wxBookCtrlBase * book) {
-	return book->DeleteAllPages();
+int bmx_wxbookctrlbase_deleteallpages(wxBookCtrlBase * book) {
+	return static_cast<int>(book->DeleteAllPages());
 }
 
-bool bmx_wxbookctrlbase_deletepage(wxBookCtrlBase * book, int page) {
-	return book->DeletePage(page);
+int bmx_wxbookctrlbase_deletepage(wxBookCtrlBase * book, int page) {
+	return static_cast<int>(book->DeletePage(page));
 }
 
 wxWindow *  bmx_wxbookctrlbase_getcurrentpage(wxBookCtrlBase * book) {
@@ -86,20 +86,20 @@ int bmx_wxbookctrlbase_hittest(wxBookCtrlBase * book, int x, int y, long * flags
 	return book->HitTest(wxPoint(x, y), flags);
 }
 
-bool bmx_wxbookctrlbase_removepage(wxBookCtrlBase * book, int page) {
-	return book->RemovePage(page);
+int bmx_wxbookctrlbase_removepage(wxBookCtrlBase * book, int page) {
+	return static_cast<int>(book->RemovePage(page));
 }
 
 void bmx_wxbookctrlbase_setpagesize(wxBookCtrlBase * book, int width, int height) {
 	book->SetPageSize(wxSize(width, height));
 }
 
-bool bmx_wxbookctrlbase_setpageimage(wxBookCtrlBase * book, int page, int image) {
-	return book->SetPageImage(page, image);
+int bmx_wxbookctrlbase_setpageimage(wxBookCtrlBase * book, int page, int image) {
+	return static_cast<int>(book->SetPageImage(page, image));
 }
 
-bool bmx_wxbookctrlbase_setpagetext(wxBookCtrlBase * book, int page, BBString * text) {
-	return book->SetPageText(page, wxStringFromBBString(text));
+int bmx_wxbookctrlbase_setpagetext(wxBookCtrlBase * book, int page, BBString * text) {
+	return static_cast<int>(book->SetPageText(page, wxStringFromBBString(text)));
 }
 
 int bmx_wxbookctrlbase_setselection(wxBookCtrlBase * book, int page) {

@@ -47,8 +47,8 @@ extern "C" {
 	MaxColour * bmx_wxbrush_getcolour(MaxBrush * brush);
 	MaxBitmap * bmx_wxbrush_getstipple(MaxBrush * brush);
 	int bmx_wxbrush_getstyle(MaxBrush * brush);
-	bool bmx_wxbrush_ishatch(MaxBrush * brush);
-	bool bmx_wxbrush_isok(MaxBrush * brush);
+	int bmx_wxbrush_ishatch(MaxBrush * brush);
+	int bmx_wxbrush_isok(MaxBrush * brush);
 	void bmx_wxbrush_setcolour(MaxBrush * brush, BBString * colour);
 	void bmx_wxbrush_setfromcolour(MaxBrush * brush, MaxColour * colour);
 	void bmx_wxbrush_setfromrgb(MaxBrush * brush, int red, int green, int blue);

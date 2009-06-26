@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxBZipInputStream * bmx_wxbzipinputstream_create(wxInputStream * stream, bool lessMemory);
+	wxBZipInputStream * bmx_wxbzipinputstream_create(wxInputStream * stream, int lessMemory);
 	void bmx_wxbzipinputstream_free(wxBZipInputStream * stream);
 
 	wxBZipOutputStream * bmx_wxbzipoutputstream_create(wxOutputStream * stream, wxInt32 compressionFactor);

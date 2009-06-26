@@ -159,12 +159,12 @@ MaxCheckListBox * bmx_wxchecklistbox_create(BBObject * maxHandle, wxWindow * par
 	return new MaxCheckListBox(maxHandle, parent, id, bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }
 
-void bmx_wxchecklistbox_check(wxCheckListBox * listbox, int item, bool check) {
-	listbox->Check(item, check);
+void bmx_wxchecklistbox_check(wxCheckListBox * listbox, int item, int check) {
+	listbox->Check(item, static_cast<bool>(check));
 }
 
-bool bmx_wxchecklistbox_ischecked(wxCheckListBox * listbox, int item) {
-	return listbox->IsChecked(item);
+int bmx_wxchecklistbox_ischecked(wxCheckListBox * listbox, int item) {
+	return static_cast<int>(listbox->IsChecked(item));
 }
 
 int bmx_wxchecklistbox_append(wxCheckListBox * listbox, BBString * item) {

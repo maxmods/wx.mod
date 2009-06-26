@@ -170,8 +170,8 @@ int bmx_wxbitmapcombobox_getcount(wxBitmapComboBox * combobox) {
 	return combobox->GetCount();
 }
 
-bool bmx_wxbitmapcombobox_isempty(wxItemContainerImmutable* combobox) {
-	return combobox->IsEmpty();
+int bmx_wxbitmapcombobox_isempty(wxItemContainerImmutable* combobox) {
+	return static_cast<int>(combobox->IsEmpty());
 }
 
 void bmx_wxbitmapcombobox_clear(wxBitmapComboBox * combobox) {

@@ -32,8 +32,8 @@ const wxArchiveClassFactory * bmx_wxarchiveclassfactory_find(BBString * protocol
 	return wxArchiveClassFactory::Find(wxStringFromBBString(protocol), protocolType);
 }
 
-bool bmx_wxarchiveclassfactory_canhandle(wxArchiveClassFactory * factory, BBString * protocol, wxStreamProtocolType protocolType) {
-	return factory->CanHandle(wxStringFromBBString(protocol), protocolType);
+int bmx_wxarchiveclassfactory_canhandle(wxArchiveClassFactory * factory, BBString * protocol, wxStreamProtocolType protocolType) {
+	return static_cast<int>(factory->CanHandle(wxStringFromBBString(protocol), protocolType));
 }
 
 BBString * bmx_wxarchiveclassfactory_getprotocol(wxArchiveClassFactory * factory) {

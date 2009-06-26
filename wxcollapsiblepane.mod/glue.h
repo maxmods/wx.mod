@@ -35,14 +35,14 @@ extern "C" {
 
 	MaxCollapsiblePane * bmx_wxcollapsiblepane_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
-	bool bmx_wxcollapsiblepane_iscollapsed(wxCollapsiblePane * pane);
-	bool bmx_wxcollapsiblepane_isexpanded(wxCollapsiblePane * pane);
-	void bmx_wxcollapsiblepane_collapse(wxCollapsiblePane * pane, bool value);
+	int bmx_wxcollapsiblepane_iscollapsed(wxCollapsiblePane * pane);
+	int bmx_wxcollapsiblepane_isexpanded(wxCollapsiblePane * pane);
+	void bmx_wxcollapsiblepane_collapse(wxCollapsiblePane * pane, int value);
 	void bmx_wxcollapsiblepane_expand(wxCollapsiblePane * pane);
 	wxWindow * bmx_wxcollapsiblepane_getpane(wxCollapsiblePane * pane);
 
-	bool bmx_wxcollapsiblepaneevent_getcollapsed(wxCollapsiblePaneEvent & event);
-	void bmx_wxcollapsiblepaneevent_setcollapsed(wxCollapsiblePaneEvent & event, bool value);
+	int bmx_wxcollapsiblepaneevent_getcollapsed(wxCollapsiblePaneEvent & event);
+	void bmx_wxcollapsiblepaneevent_setcollapsed(wxCollapsiblePaneEvent & event, int value);
 
 	int bmx_wxcollapsiblepane_geteventtype(int type);
 

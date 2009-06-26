@@ -34,12 +34,12 @@ extern "C" {
 	BBString * bmx_wxarchiveentry_getname(wxArchiveEntry * entry, wxPathFormat format);
 	int bmx_wxarchiveentry_getoffset(wxArchiveEntry * entry);
 	int bmx_wxarchiveentry_getsize(wxArchiveEntry * entry);
-	bool bmx_wxarchiveentry_isdir(wxArchiveEntry * entry);
-	bool bmx_wxarchiveentry_isreadonly(wxArchiveEntry * entry);
+	int bmx_wxarchiveentry_isdir(wxArchiveEntry * entry);
+	int bmx_wxarchiveentry_isreadonly(wxArchiveEntry * entry);
 	
-	bool bmx_wxarchiveinputstream_closeentry(wxArchiveInputStream * stream);
+	int bmx_wxarchiveinputstream_closeentry(wxArchiveInputStream * stream);
 	wxArchiveEntry * bmx_wxarchiveinputstream_getnextentry(wxArchiveInputStream * stream);
-	bool bmx_wxarchiveinputstream_openentry(wxArchiveInputStream * stream, wxArchiveEntry * entry);
+	int bmx_wxarchiveinputstream_openentry(wxArchiveInputStream * stream, wxArchiveEntry * entry);
 
 }
 

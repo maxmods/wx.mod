@@ -34,12 +34,12 @@ extern "C" {
 	MaxCheckBox * bmx_wxcheckbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
 
-	bool bmx_wxcheckbox_getvalue(MaxCheckBox * checkbox);
+	int bmx_wxcheckbox_getvalue(MaxCheckBox * checkbox);
 	int bmx_wxcheckbox_get3statevalue(MaxCheckBox * checkbox);
-	bool bmx_wxcheckbox_is3rdstateallowedforuser(MaxCheckBox * checkbox);
-	bool bmx_wxcheckbox_is3state(MaxCheckBox * checkbox);
-	bool bmx_wxcheckbox_ischecked(MaxCheckBox * checkbox);
-	void bmx_wxcheckbox_setvalue(MaxCheckBox * checkbox, bool state);
+	int bmx_wxcheckbox_is3rdstateallowedforuser(MaxCheckBox * checkbox);
+	int bmx_wxcheckbox_is3state(MaxCheckBox * checkbox);
+	int bmx_wxcheckbox_ischecked(MaxCheckBox * checkbox);
+	void bmx_wxcheckbox_setvalue(MaxCheckBox * checkbox, int state);
 	void bmx_wxcheckbox_set3statevalue(MaxCheckBox * checkbox, int state);
 	
 	int bmx_wxcheckbox_geteventtype(int type);

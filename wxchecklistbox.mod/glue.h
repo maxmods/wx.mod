@@ -33,8 +33,8 @@ extern "C" {
 	BBObject * _wx_wxchecklistbox_wxCheckListBox__xrcNew(wxCheckListBox * listbox);
 
 	MaxCheckListBox * bmx_wxchecklistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
-	void bmx_wxchecklistbox_check(wxCheckListBox * listbox, int item, bool check);
-	bool bmx_wxchecklistbox_ischecked(wxCheckListBox * listbox, int item);
+	void bmx_wxchecklistbox_check(wxCheckListBox * listbox, int item, int check);
+	int bmx_wxchecklistbox_ischecked(wxCheckListBox * listbox, int item);
 	int bmx_wxchecklistbox_append(wxCheckListBox * listbox, BBString * item);
 	
 	int bmx_wxchecklistbox_geteventtype(int type);

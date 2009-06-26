@@ -30,7 +30,7 @@ extern "C" {
 #include <blitz.h>
 
 	const wxArchiveClassFactory * bmx_wxarchiveclassfactory_find(BBString * protocol, wxStreamProtocolType protocolType);
-	bool bmx_wxarchiveclassfactory_canhandle(wxArchiveClassFactory * factory, BBString * protocol, wxStreamProtocolType protocolType);
+	int bmx_wxarchiveclassfactory_canhandle(wxArchiveClassFactory * factory, BBString * protocol, wxStreamProtocolType protocolType);
 	BBString * bmx_wxarchiveclassfactory_getprotocol(wxArchiveClassFactory * factory);
 	wxFilterInputStream * bmx_wxarchiveclassfactory_newinputstream(wxArchiveClassFactory * factory, wxInputStream * stream);
 	BBString * bmx_wxarchiveclassfactory_popextension(wxArchiveClassFactory * factory, BBString * location);

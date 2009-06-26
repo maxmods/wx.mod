@@ -35,10 +35,10 @@ extern "C" {
 	int bmx_wxcolourdialog_showmodal(wxColourDialog * dialog);
 
 	MaxColourData * bmx_wxcolourdata_create();
-	bool bmx_wxcolourdata_getchoosefull(MaxColourData * data);
+	int bmx_wxcolourdata_getchoosefull(MaxColourData * data);
 	MaxColour * bmx_wxcolourdata_getcolour(MaxColourData * data);
 	MaxColour * bmx_wxcolourdata_getcustomcolour(MaxColourData * data, int i);
-	void bmx_wxcolourdata_setchoosefull(MaxColourData * data, bool flag);
+	void bmx_wxcolourdata_setchoosefull(MaxColourData * data, int flag);
 	void bmx_wxcolourdata_setcolour(MaxColourData * data, MaxColour * colour);
 	void bmx_wxcolourdata_setcustomcolour(MaxColourData * data, int i, MaxColour * colour);
 	void bmx_wxcolourdata_delete(MaxColourData * data);

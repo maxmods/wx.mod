@@ -44,7 +44,7 @@ void MaxBitmap::SetBitmap(const wxBitmap & b) {
 
 // *********************************************
 
-MaxBitmap * bmx_wxbitmap_create(bool makeNull) {
+MaxBitmap * bmx_wxbitmap_create(int makeNull) {
 	if (!makeNull) {
 		wxBitmap b;
 		return new MaxBitmap(b);
@@ -72,8 +72,8 @@ MaxBitmap * bmx_wxbitmap_createfromfile(BBString * name, wxBitmapType flag) {
 	return new MaxBitmap(b);
 }
 
-bool bmx_wxbitmap_loadfile(MaxBitmap * bitmap, BBString * name, wxBitmapType type) {
-	return bitmap->Bitmap().LoadFile(wxStringFromBBString(name), type);
+int bmx_wxbitmap_loadfile(MaxBitmap * bitmap, BBString * name, wxBitmapType type) {
+	return static_cast<int>(bitmap->Bitmap().LoadFile(wxStringFromBBString(name), type));
 }
 
 MaxImage * bmx_wxbitmap_converttoimage(MaxBitmap * bitmap) {
@@ -144,8 +144,8 @@ void bmx_wxbitmap_setmask(MaxBitmap * bitmap, wxMask * mask) {
 	bitmap->Bitmap().SetMask(mask);
 }
 
-bool bmx_wxbitmap_isok(MaxBitmap * bitmap) {
-	return bitmap->Bitmap().IsOk();
+int bmx_wxbitmap_isok(MaxBitmap * bitmap) {
+	return static_cast<int>(bitmap->Bitmap().IsOk());
 }
 
 MaxBitmap * bmx_wxbitmap_createfrompixmap(void * pixels, int width, int height, int pitch, int bytesPerPixel, int bitsPerPixel) {

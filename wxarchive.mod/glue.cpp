@@ -49,26 +49,26 @@ int bmx_wxarchiveentry_getsize(wxArchiveEntry * entry) {
 	return static_cast<int>(entry->GetSize());
 }
 
-bool bmx_wxarchiveentry_isdir(wxArchiveEntry * entry) {
-	return entry->IsDir();
+int bmx_wxarchiveentry_isdir(wxArchiveEntry * entry) {
+	return static_cast<int>(entry->IsDir());
 }
 
-bool bmx_wxarchiveentry_isreadonly(wxArchiveEntry * entry) {
-	return entry->IsReadOnly();
+int bmx_wxarchiveentry_isreadonly(wxArchiveEntry * entry) {
+	return static_cast<int>(entry->IsReadOnly());
 }
 
 // **************************
 
-bool bmx_wxarchiveinputstream_closeentry(wxArchiveInputStream * stream) {
-	return stream->CloseEntry();
+int bmx_wxarchiveinputstream_closeentry(wxArchiveInputStream * stream) {
+	return static_cast<int>(stream->CloseEntry());
 }
 
 wxArchiveEntry * bmx_wxarchiveinputstream_getnextentry(wxArchiveInputStream * stream) {
 	return stream->GetNextEntry();
 }
 
-bool bmx_wxarchiveinputstream_openentry(wxArchiveInputStream * stream, wxArchiveEntry * entry) {
-	return stream->OpenEntry(*entry);
+int bmx_wxarchiveinputstream_openentry(wxArchiveInputStream * stream, wxArchiveEntry * entry) {
+	return static_cast<int>(stream->OpenEntry(*entry));
 }
 
 

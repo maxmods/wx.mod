@@ -34,13 +34,13 @@ extern "C" {
 
 #include <blitz.h>
 
-	MaxBitmap * bmx_wxbitmap_create(bool makeNull);
+	MaxBitmap * bmx_wxbitmap_create(int makeNull);
 	void bmx_wxbitmap_delete(MaxBitmap * bitmap);
 	MaxBitmap * bmx_wxbitmap_createfromimage(MaxImage * image, int depth);
 	MaxBitmap * bmx_wxbitmap_createempty(int width, int height, int depth);
 	MaxBitmap * bmx_wxbitmap_createfromfile(BBString * name, wxBitmapType flag);
 
-	bool bmx_wxbitmap_loadfile(MaxBitmap * bitmap, BBString * name, wxBitmapType type);
+	int bmx_wxbitmap_loadfile(MaxBitmap * bitmap, BBString * name, wxBitmapType type);
 	MaxImage * bmx_wxbitmap_converttoimage(MaxBitmap * bitmap);
 	int bmx_wxbitmap_getdepth(MaxBitmap * bitmap);
 	int bmx_wxbitmap_getheight(MaxBitmap * bitmap);
@@ -52,7 +52,7 @@ extern "C" {
 	MaxPalette * bmx_wxbitmap_getpalette(MaxBitmap * bitmap);
 	void bmx_wxbitmap_setpalette(MaxBitmap * bitmap, MaxPalette * palette);
 	
-	bool bmx_wxbitmap_isok(MaxBitmap * bitmap);
+	int bmx_wxbitmap_isok(MaxBitmap * bitmap);
 
 	MaxBitmap * bmx_wxbitmap_getsubbitmap(MaxBitmap * bitmap, int x, int y, int w, int h);
 	MaxBitmap * bmx_wxbitmap_getsubbitmaprect(MaxBitmap * bitmap, MaxRect * rect);

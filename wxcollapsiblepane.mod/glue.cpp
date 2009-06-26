@@ -127,16 +127,16 @@ MaxCollapsiblePane * bmx_wxcollapsiblepane_create(BBObject * maxHandle, wxWindow
 	return new MaxCollapsiblePane(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }
 
-bool bmx_wxcollapsiblepane_iscollapsed(wxCollapsiblePane * pane) {
-	return pane->IsCollapsed();
+int bmx_wxcollapsiblepane_iscollapsed(wxCollapsiblePane * pane) {
+	return static_cast<int>(pane->IsCollapsed());
 }
 
-bool bmx_wxcollapsiblepane_isexpanded(wxCollapsiblePane * pane) {
-	return pane->IsExpanded();
+int bmx_wxcollapsiblepane_isexpanded(wxCollapsiblePane * pane) {
+	return static_cast<int>(pane->IsExpanded());
 }
 
-void bmx_wxcollapsiblepane_collapse(wxCollapsiblePane * pane, bool value) {
-	pane->Collapse(value);
+void bmx_wxcollapsiblepane_collapse(wxCollapsiblePane * pane, int value) {
+	pane->Collapse(static_cast<bool>(value));
 }
 
 void bmx_wxcollapsiblepane_expand(wxCollapsiblePane * pane) {
@@ -148,12 +148,12 @@ wxWindow * bmx_wxcollapsiblepane_getpane(wxCollapsiblePane * pane) {
 }
 
 
-bool bmx_wxcollapsiblepaneevent_getcollapsed(wxCollapsiblePaneEvent & event) {
-	return event.GetCollapsed();
+int bmx_wxcollapsiblepaneevent_getcollapsed(wxCollapsiblePaneEvent & event) {
+	return static_cast<int>(event.GetCollapsed());
 }
 
-void bmx_wxcollapsiblepaneevent_setcollapsed(wxCollapsiblePaneEvent & event, bool value) {
-	event.SetCollapsed(value);
+void bmx_wxcollapsiblepaneevent_setcollapsed(wxCollapsiblePaneEvent & event, int value) {
+	event.SetCollapsed(static_cast<bool>(value));
 }
 
 

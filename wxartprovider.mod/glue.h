@@ -35,13 +35,13 @@ extern "C" {
 	MaxArtProvider * bmx_wxartprovider_create(BBObject * handle);
 	MaxBitmap * bmx_wxartprovider_getbitmap(BBString * id, BBString * client, int w, int h);
 	MaxIcon * bmx_wxartprovider_geticon(BBString * id, BBString * client, int w, int h);
-	void bmx_wxartprovider_getsizehint(BBString * client, bool platformDefault, int * width, int * height);
+	void bmx_wxartprovider_getsizehint(BBString * client, int platformDefault, int * width, int * height);
 
-	bool bmx_wxartprovider_deleteprovider(wxArtProvider * provider);
+	int bmx_wxartprovider_deleteprovider(wxArtProvider * provider);
 	void bmx_wxartprovider_insert(wxArtProvider * provider);
-	bool bmx_wxartprovider_pop();
+	int bmx_wxartprovider_pop();
 	void bmx_wxartprovider_push(wxArtProvider * provider);
-	bool bmx_wxartprovider_remove(wxArtProvider * provider);
+	int bmx_wxartprovider_remove(wxArtProvider * provider);
 
 }
 

@@ -29,8 +29,8 @@
 // *********************************************
 
 
-wxBZipInputStream * bmx_wxbzipinputstream_create(wxInputStream * stream, bool lessMemory) {
-	return new wxBZipInputStream(*stream, lessMemory);
+wxBZipInputStream * bmx_wxbzipinputstream_create(wxInputStream * stream, int lessMemory) {
+	return new wxBZipInputStream(*stream, static_cast<bool>(lessMemory));
 }
 
 void bmx_wxbzipinputstream_free(wxBZipInputStream * stream) {
