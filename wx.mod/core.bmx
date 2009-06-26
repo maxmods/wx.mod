@@ -1287,6 +1287,13 @@ Function wxSleep(secs:Int)
 End Function
 
 Rem
+bbdoc: Ring the system bell.
+End Rem
+Function wxBell()
+	bmx_wxbell()
+End Function
+
+Rem
 bbdoc: Starts a stopwatch
 about: Use ::wxGetElapsedTime to get the elapsed time.
 <p>

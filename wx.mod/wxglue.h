@@ -38,6 +38,7 @@
 #include "wx/event.h"
 #include "wx/socket.h"
 #include "wx/stopwatch.h"
+#include "wx/utils.h"
 
 #include <map>
 
@@ -386,6 +387,7 @@ extern "C" {
 	bool bmx_wxactivateevent_getactive(wxActivateEvent & event);
 	bool bmx_wxiconizeevent_iconized(wxIconizeEvent & event);
 
+	void bmx_wxbell();
 }
 
 /*

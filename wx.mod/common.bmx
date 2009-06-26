@@ -497,6 +497,8 @@ Extern
 	Function bmx_wxactivateevent_getactive:Int(handle:Byte Ptr)
 	Function bmx_wxiconizeevent_iconized:Int(handle:Byte Ptr)
 
+	Function bmx_wxbell()
+
 End Extern
 
 Global wxVERSION_STRING:String = bmx_wxversion_string()

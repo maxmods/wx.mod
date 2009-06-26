@@ -1900,3 +1900,9 @@ bool bmx_wxiconizeevent_iconized(wxIconizeEvent & event) {
 	return event.Iconized();
 }
 
+// *********************************************
+
+void bmx_wxbell() {
+	wxBell();
+}
+
