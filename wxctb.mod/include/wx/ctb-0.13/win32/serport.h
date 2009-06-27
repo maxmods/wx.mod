@@ -47,7 +47,7 @@ protected:
       \brief a very special struct in the win32 api for controling
       an asynchronous serial communication through the com ports.
     */
-    OVERLAPPED ov;
+    OVERLAPPED m_ov;
 
     /*!
       \brief The win32 API only allows to test for an existing

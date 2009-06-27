@@ -231,7 +231,7 @@ int wxSerialPort::OpenDevice(const char* devname, void* dcs)
 	   t.c_cc[VMIN] = 0;
 	   // timeout in 1/10 secs
 	   // no timeout for non blocked transfer
-	   t.c_cc[VMIN] = 0;
+	   t.c_cc[VTIME] = 0;
 	   // write the settings
 	   tcsetattr(fd,TCSANOW,&t);
 	   // it's careless, but in the moment we don't test

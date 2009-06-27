@@ -14,7 +14,7 @@
 
 wxSerialPort::wxSerialPort()
 {
-    memset(&ov,0,sizeof(ov));
+    memset( &m_ov, 0, sizeof( OVERLAPPED ) );
     fd = INVALID_HANDLE_VALUE;
     m_rtsdtr_state = wxSERIAL_LINESTATE_NULL;
 };
@@ -27,7 +27,7 @@ wxSerialPort::~wxSerialPort()
 int wxSerialPort::CloseDevice()
 {
     if(fd != INVALID_HANDLE_VALUE) {
-	   CloseHandle(ov.hEvent);
+	   CloseHandle(m_ov.hEvent);
 	   CloseHandle(fd);
 	   fd = INVALID_HANDLE_VALUE;
     }
@@ -188,7 +188,7 @@ int wxSerialPort::OpenDevice(const char* devname, void* dcs)
 				FILE_FLAG_OVERLAPPED,	// asynchron handling
 				NULL); // no more handle flags
 #else
-
+	
 	LPWSTR devnameW = NULL;
 	
 	if (devname != NULL) {
@@ -314,11 +314,11 @@ int wxSerialPort::OpenDevice(const char* devname, void* dcs)
     // create event for overlapped I/O
     // we need a event object, which inform us about the
     // end of an operation (here reading device)
-    ov.hEvent = CreateEvent(NULL,// LPSECURITY_ATTRIBUTES lpsa
+    m_ov.hEvent = CreateEvent(NULL,// LPSECURITY_ATTRIBUTES lpsa
 					   TRUE, // BOOL fManualReset 
 					   TRUE, // BOOL fInitialState
 					   NULL); // LPTSTR lpszEventName
-    if(ov.hEvent == INVALID_HANDLE_VALUE) {
+    if(m_ov.hEvent == INVALID_HANDLE_VALUE) {
 	   return -3;
     }
 
@@ -356,7 +356,7 @@ int wxSerialPort::Read(char* buf,size_t len)
 		  break;
 	   }
     }
-    if(!ReadFile(fd,buf,len,&read,&ov)) {
+    if(!ReadFile(fd,buf,len,&read,&m_ov)) {
 	   // if we use a asynchrone reading, ReadFile gives always
 	   // FALSE
 	   // ERROR_IO_PENDING means ok, other values show an error
@@ -457,7 +457,7 @@ int wxSerialPort::SetLineState(wxSerialLineState flags)
 int wxSerialPort::Write(char* buf,size_t len)
 {
     DWORD write;
-    if(!WriteFile(fd,buf,len,&write,&ov)) {
+    if(!WriteFile(fd,buf,len,&write,&m_ov)) {
 	   if(GetLastError() != ERROR_IO_PENDING) {
 		  return -1;
 	   }
@@ -467,7 +467,7 @@ int wxSerialPort::Write(char* buf,size_t len)
 		  FlushFileBuffers(fd);
 		  // first you must call GetOverlappedResult, then you
 		  // get the REALLY transmitted count of bytes
-		  if(!GetOverlappedResult(fd,&ov,&write,TRUE)) {
+		  if(!GetOverlappedResult(fd,&m_ov,&write,TRUE)) {
 			 // ooops... something is going wrong
 			 return (int)write;
 		  }
