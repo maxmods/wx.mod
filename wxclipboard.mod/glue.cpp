@@ -66,7 +66,7 @@ int bmx_wxclipboard_isopened(wxClipboard * clip) {
 
 #ifdef __WXGTK__
 void bmx_wxclipboard_useprimaryselection(wxClipboard * clip, int primary) {
-	clip->UsePrimarySelection(static_cast<bool>(primary);) 
+	clip->UsePrimarySelection(static_cast<bool>(primary));
 }
 #endif
 
