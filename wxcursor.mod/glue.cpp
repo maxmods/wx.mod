@@ -51,8 +51,8 @@ MaxCursor * bmx_wxcursor_createfromimage(MaxImage * image) {
 	return new MaxCursor(c);
 }
 
-bool bmx_wxcursor_isok(MaxCursor * cursor) {
-	return cursor->Cursor().IsOk();
+int bmx_wxcursor_isok(MaxCursor * cursor) {
+	return static_cast<int>(cursor->Cursor().IsOk());
 }
 
 MaxCursor * bmx_wxstockgdi_cursor_cross() {

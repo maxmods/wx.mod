@@ -41,12 +41,12 @@ void bmx_wxfilesystem_delete(wxFileSystem * fs) {
 	delete fs;
 }
 
-bool bmx_wxfilesystem_hashandlerforpath(BBString * location) {
-	return wxFileSystem::HasHandlerForPath(wxStringFromBBString(location));
+int bmx_wxfilesystem_hashandlerforpath(BBString * location) {
+	return static_cast<int>(wxFileSystem::HasHandlerForPath(wxStringFromBBString(location)));
 }
 
-void bmx_wxfilesystem_changepathto(wxFileSystem * fs, BBString * location, bool isDir) {
-	fs->ChangePathTo(wxStringFromBBString(location), isDir);
+void bmx_wxfilesystem_changepathto(wxFileSystem * fs, BBString * location, int isDir) {
+	fs->ChangePathTo(wxStringFromBBString(location), static_cast<bool>(isDir));
 }
 
 BBString * bmx_wxfilesystem_getpath(wxFileSystem * fs) {

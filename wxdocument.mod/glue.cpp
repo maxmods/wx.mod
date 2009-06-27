@@ -50,11 +50,11 @@ void MaxDocument::OnChangedViewList() {
 }
 
 bool MaxDocument::OnCloseDocument() {
-	return _wx_wxdocument_wxDocument__OnCloseDocument(maxHandle);
+	return static_cast<bool>(_wx_wxdocument_wxDocument__OnCloseDocument(maxHandle));
 }
 
 bool MaxDocument::OnCreate(const wxString& path, long flags) {
-	return _wx_wxdocument_wxDocument__OnCreate(maxHandle, bbStringFromWxString(path), flags);
+	return static_cast<bool>(_wx_wxdocument_wxDocument__OnCreate(maxHandle, bbStringFromWxString(path), flags));
 }
 
 wxCommandProcessor* MaxDocument::OnCreateCommandProcessor() {
@@ -62,27 +62,27 @@ wxCommandProcessor* MaxDocument::OnCreateCommandProcessor() {
 }
 
 bool MaxDocument::OnNewDocument() {
-	return _wx_wxdocument_wxDocument__OnNewDocument(maxHandle);
+	return static_cast<bool>(_wx_wxdocument_wxDocument__OnNewDocument(maxHandle));
 }
 
 bool MaxDocument::OnOpenDocument(const wxString& filename) {
-	return _wx_wxdocument_wxDocument__OnOpenDocument(maxHandle, bbStringFromWxString(filename));
+	return static_cast<bool>(_wx_wxdocument_wxDocument__OnOpenDocument(maxHandle, bbStringFromWxString(filename)));
 }
 
 bool MaxDocument::OnSaveDocument(const wxString& filename) {
-	return _wx_wxdocument_wxDocument__OnSaveDocument(maxHandle, bbStringFromWxString(filename));
+	return static_cast<bool>(_wx_wxdocument_wxDocument__OnSaveDocument(maxHandle, bbStringFromWxString(filename)));
 }
 
 bool MaxDocument::OnSaveModified() {
-	return _wx_wxdocument_wxDocument__OnSaveModified(maxHandle);
+	return static_cast<bool>(_wx_wxdocument_wxDocument__OnSaveModified(maxHandle));
 }
 
 bool MaxDocument::IsModified() {
-	return _wx_wxdocument_wxDocument__IsModified(maxHandle);
+	return static_cast<bool>(_wx_wxdocument_wxDocument__IsModified(maxHandle));
 }
 
 void MaxDocument::Modify(bool doModify) {
-	_wx_wxdocument_wxDocument__Modify(maxHandle, doModify);
+	_wx_wxdocument_wxDocument__Modify(maxHandle, static_cast<int>(doModify));
 }
 
 void MaxDocument::OnChangedViewList_default() {
@@ -147,7 +147,7 @@ MaxView::~MaxView() {
 }
 
 void MaxView::OnActivateView(bool activate, wxView *activeView, wxView *deactiveView) {
-	_wx_wxdocument_wxView__OnActivateView(maxHandle, activate, activeView, deactiveView);
+	_wx_wxdocument_wxView__OnActivateView(maxHandle, static_cast<int>(activate), activeView, deactiveView);
 }
 
 void MaxView::OnChangeFilename() {
@@ -155,7 +155,7 @@ void MaxView::OnChangeFilename() {
 }
 
 bool MaxView::OnClose(bool deleteWindow) {
-	return _wx_wxdocument_wxView_OnClose(maxHandle, deleteWindow);
+	return static_cast<bool>(_wx_wxdocument_wxView_OnClose(maxHandle, deleteWindow));
 }
 
 void MaxView::OnClosingDocument() {
@@ -163,7 +163,7 @@ void MaxView::OnClosingDocument() {
 }
 
 bool MaxView::OnCreate(wxDocument* doc, long flags) {
-	return _wx_wxdocument_wxView_OnCreate(maxHandle, doc, flags);
+	return static_cast<bool>(_wx_wxdocument_wxView_OnCreate(maxHandle, doc, flags));
 }
 
 wxPrintout* MaxView::OnCreatePrintout() {
@@ -180,7 +180,7 @@ void MaxView::OnUpdate(wxView* sender, wxObject* hint) {
 
 
 void MaxView::OnActivateView_default(bool activate, wxView *activeView, wxView *deactiveView) {
-	wxView::OnActivateView(activate, activeView, deactiveView);
+	wxView::OnActivateView(static_cast<int>(activate), activeView, deactiveView);
 }
 
 void MaxView::OnChangeFilename_default() {
@@ -228,7 +228,7 @@ MaxDocTemplate::~MaxDocTemplate()
 }
 
 bool MaxDocTemplate::InitDocument(wxDocument* doc, const wxString& path, long flags) {
-	return _wx_wxdocument_wxDocTemplate_InitDocument(maxHandle, doc, bbStringFromWxString(path), flags);
+	return static_cast<bool>(_wx_wxdocument_wxDocTemplate_InitDocument(maxHandle, doc, bbStringFromWxString(path), flags));
 }
 
 bool MaxDocTemplate::InitDocument_default(wxDocument* doc, const wxString& path, long flags) {
@@ -255,16 +255,16 @@ wxDocument * bmx_wxdocument_create(BBObject * handle) {
 	return new MaxDocument(handle);
 }
 
-bool bmx_wxdocument_addview(wxDocument * doc, wxView * view) {
-	return doc->AddView(view);
+int bmx_wxdocument_addview(wxDocument * doc, wxView * view) {
+	return static_cast<int>(doc->AddView(view));
 }
 
-bool bmx_wxdocument_close(wxDocument * doc) {
-	return doc->Close();
+int bmx_wxdocument_close(wxDocument * doc) {
+	return static_cast<int>(doc->Close());
 }
 
-bool bmx_wxdocument_deleteallviews(wxDocument * doc) {
-	return doc->DeleteAllViews();
+int bmx_wxdocument_deleteallviews(wxDocument * doc) {
+	return static_cast<int>(doc->DeleteAllViews());
 }
 
 wxCommandProcessor * bmx_wxdocument_getcommandprocessor(wxDocument * doc) {
@@ -305,8 +305,8 @@ BBString * bmx_wxdocument_gettitle(wxDocument * doc) {
 	return bbStringFromWxString(doc->GetTitle());
 }
 
-bool bmx_wxdocument_ismodified(MaxDocument * doc) {
-	return doc->IsModified_default();
+int bmx_wxdocument_ismodified(MaxDocument * doc) {
+	return static_cast<int>(doc->IsModified_default());
 }
 
 #if !defined(__WXGTK__)
@@ -315,52 +315,52 @@ wxInputStream * bmx_wxdocument_loadobject(wxDocument * doc, wxInputStream * stre
 }
 #endif
 
-void bmx_wxdocument_modify(MaxDocument * doc, bool doModify) {
-	doc->Modify_default(doModify);
+void bmx_wxdocument_modify(MaxDocument * doc, int doModify) {
+	doc->Modify_default(static_cast<bool>(doModify));
 }
 
 void bmx_wxdocument_onchangedviewlist(MaxDocument * doc) {
 	doc->OnChangedViewList_default();
 }
 
-bool bmx_wxdocument_onclosedocument(MaxDocument * doc) {
-	return doc->OnCloseDocument_default();
+int bmx_wxdocument_onclosedocument(MaxDocument * doc) {
+	return static_cast<int>(doc->OnCloseDocument_default());
 }
 
-bool bmx_wxdocument_oncreate(MaxDocument * doc, BBString * path, long flags) {
-	return doc->OnCreate_default(wxStringFromBBString(path), flags);
+int bmx_wxdocument_oncreate(MaxDocument * doc, BBString * path, long flags) {
+	return static_cast<int>(doc->OnCreate_default(wxStringFromBBString(path), flags));
 }
 
 wxCommandProcessor * bmx_wxdocument_oncreatecommandprocessor(MaxDocument * doc) {
 	return doc->OnCreateCommandProcessor_default();
 }
 
-bool bmx_wxdocument_onnewdocument(MaxDocument * doc) {
-	return doc->OnNewDocument_default();
+int bmx_wxdocument_onnewdocument(MaxDocument * doc) {
+	return static_cast<int>(doc->OnNewDocument_default());
 }
 
-bool bmx_wxdocument_onopendocument(MaxDocument * doc, BBString * filename) {
-	return doc->OnOpenDocument_default(wxStringFromBBString(filename));
+int bmx_wxdocument_onopendocument(MaxDocument * doc, BBString * filename) {
+	return static_cast<int>(doc->OnOpenDocument_default(wxStringFromBBString(filename)));
 }
 
-bool bmx_wxdocument_onsavedocument(MaxDocument * doc, BBString * filename) {
-	return doc->OnSaveDocument_default(wxStringFromBBString(filename));
+int bmx_wxdocument_onsavedocument(MaxDocument * doc, BBString * filename) {
+	return static_cast<int>(doc->OnSaveDocument_default(wxStringFromBBString(filename)));
 }
 
-bool bmx_wxdocument_onsavemodified(MaxDocument * doc) {
-	return doc->OnSaveModified_default();
+int bmx_wxdocument_onsavemodified(MaxDocument * doc) {
+	return static_cast<int>(doc->OnSaveModified_default());
 }
 
-bool bmx_wxdocument_removeview(wxDocument * doc, wxView * view) {
-	return doc->RemoveView(view);
+int bmx_wxdocument_removeview(wxDocument * doc, wxView * view) {
+	return static_cast<int>(doc->RemoveView(view));
 }
 
-bool bmx_wxdocument_save(wxDocument * doc) {
-	return doc->Save();
+int bmx_wxdocument_save(wxDocument * doc) {
+	return static_cast<int>(doc->Save());
 }
 
-bool bmx_wxdocument_saveas(wxDocument * doc) {
-	return doc->SaveAs();
+int bmx_wxdocument_saveas(wxDocument * doc) {
+	return static_cast<int>(doc->SaveAs());
 }
 
 #if !defined(__WXGTK__)
@@ -381,8 +381,8 @@ void bmx_wxdocument_setdocumenttemplate(wxDocument * doc, wxDocTemplate * templ)
 	doc->SetDocumentTemplate(templ);
 }
 
-void bmx_wxdocument_setfilename(wxDocument * doc, BBString * filename, bool notifyViews) {
-	doc->SetFilename(wxStringFromBBString(filename), notifyViews);
+void bmx_wxdocument_setfilename(wxDocument * doc, BBString * filename, int notifyViews) {
+	doc->SetFilename(wxStringFromBBString(filename), static_cast<bool>(notifyViews));
 }
 
 void bmx_wxdocument_settitle(wxDocument * doc, BBString * title) {
@@ -435,12 +435,12 @@ BBString * bmx_wxdoctemplate_getviewname(wxDocTemplate * templ) {
 	return bbStringFromWxString(templ->GetViewName());
 }
 
-bool bmx_wxdoctemplate_initdocument(MaxDocTemplate * templ, wxDocument * doc, BBString * path, long flags) {
-	return templ->InitDocument_default(doc, wxStringFromBBString(path), flags);
+int bmx_wxdoctemplate_initdocument(MaxDocTemplate * templ, wxDocument * doc, BBString * path, long flags) {
+	return static_cast<int>(templ->InitDocument_default(doc, wxStringFromBBString(path), flags));
 }
 
-bool bmx_wxdoctemplate_isvisible(wxDocTemplate * templ) {
-	return templ->IsVisible();
+int bmx_wxdoctemplate_isvisible(wxDocTemplate * templ) {
+	return static_cast<int>(templ->IsVisible());
 }
 
 void bmx_wxdoctemplate_setdefaultextension(wxDocTemplate * templ, BBString * ext) {
@@ -470,8 +470,8 @@ wxDocManager * bmx_wxdocmanager_create(BBObject * handle) {
 	return new MaxDocManager(handle);
 }
 
-void bmx_wxdocmanager_activateview(wxDocManager * mgr, wxView * doc, bool activate) {
-	mgr->ActivateView(doc, activate);
+void bmx_wxdocmanager_activateview(wxDocManager * mgr, wxView * doc, int activate) {
+	mgr->ActivateView(doc, static_cast<bool>(activate));
 }
 
 void bmx_wxdocmanager_adddocument(wxDocManager * mgr, wxDocument * doc) {
@@ -486,8 +486,8 @@ void bmx_wxdocmanager_associatetemplate(wxDocManager * mgr, wxDocTemplate * temp
 	mgr->AssociateTemplate(temp);
 }
 
-bool bmx_wxdocmanager_closedocuments(wxDocManager * mgr, bool force) {
-	return mgr->CloseDocuments(force);
+int bmx_wxdocmanager_closedocuments(wxDocManager * mgr, int force) {
+	return static_cast<int>(mgr->CloseDocuments(static_cast<bool>(force)));
 }
 
 wxDocument * bmx_wxdocmanager_createdocument(wxDocManager * mgr, BBString * path, long flags) {
@@ -575,12 +575,12 @@ wxView * bmx_wxview_create(BBObject * handle) {
 	return new MaxView(handle);
 }
 
-void bmx_wxview_activate(wxView * view, bool doActivate) {
-	view->Activate(doActivate);
+void bmx_wxview_activate(wxView * view, int doActivate) {
+	view->Activate(static_cast<bool>(doActivate));
 }
 
-void bmx_wxview_close(wxView * view, bool deleteWindow) {
-	view->Close(deleteWindow);
+void bmx_wxview_close(wxView * view, int deleteWindow) {
+	view->Close(static_cast<bool>(deleteWindow));
 }
 
 wxDocument * bmx_wxview_getdocument(wxView * view) {
@@ -599,24 +599,24 @@ BBString * bmx_wxview_getviewname(wxView * view) {
 	return bbStringFromWxString(view->GetViewName());
 }
 
-void bmx_wxview_onactivateview(MaxView * view, bool activate, wxView * activeView, wxView * deactiveView) {
-	view->OnActivateView_default(activate, activeView, deactiveView);
+void bmx_wxview_onactivateview(MaxView * view, int activate, wxView * activeView, wxView * deactiveView) {
+	view->OnActivateView_default(static_cast<bool>(activate), activeView, deactiveView);
 }
 
 void bmx_wxview_onchangefilename(MaxView * view) {
 	view->OnChangeFilename_default();
 }
 
-bool bmx_wxview_onclose(MaxView * view, bool deleteWindow) {
-	return view->OnClose_default(deleteWindow);
+int bmx_wxview_onclose(MaxView * view, int deleteWindow) {
+	return static_cast<int>(view->OnClose_default(static_cast<bool>(deleteWindow)));
 }
 
 void bmx_wxview_onclosingdocument(MaxView * view) {
 	view->OnClosingDocument_default();
 }
 
-bool bmx_wxView_oncreate(MaxView * view, wxDocument * doc, long flags) {
-	return view->OnCreate_default(doc, flags);
+int bmx_wxView_oncreate(MaxView * view, wxDocument * doc, long flags) {
+	return static_cast<int>(view->OnCreate_default(doc, flags));
 }
 
 wxPrintout * bmx_wxview_oncreateprintout(MaxView * view) {

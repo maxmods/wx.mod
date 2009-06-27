@@ -47,7 +47,7 @@ extern "C" {
 	void bmx_wxfixwidthimportctrl_settabsize(wxFixWidthImportCtrl * ctrl, int tabSize);
 	int bmx_wxfixwidthimportctrl_gettabsize(wxFixWidthImportCtrl * ctrl);
 	void bmx_wxfixwidthimportctrl_converttabstospaces(wxFixWidthImportCtrl * ctrl);
-	void bmx_wxfixwidthimportctrl_enabledelim(wxFixWidthImportCtrl * ctrl, bool enable);
+	void bmx_wxfixwidthimportctrl_enabledelim(wxFixWidthImportCtrl * ctrl, int enable);
 
 
 

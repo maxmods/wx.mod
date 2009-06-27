@@ -29,12 +29,12 @@ extern "C" {
 
 #include <blitz.h>
 
-	bool _wx_wxcommand_wxCommand__CanUndo(BBObject * handle);
-	bool _wx_wxcommand_wxCommand__Do(BBObject * handle);
-	bool _wx_wxcommand_wxCommand__Undo(BBObject * handle);
+	int _wx_wxcommand_wxCommand__CanUndo(BBObject * handle);
+	int _wx_wxcommand_wxCommand__Do(BBObject * handle);
+	int _wx_wxcommand_wxCommand__Undo(BBObject * handle);
 
-	MaxCommand * bmx_wxcommand_create(BBObject * handle, bool canUndo, BBString * name);
-	bool bmx_wxcommand_canundo(MaxCommand * command);
+	MaxCommand * bmx_wxcommand_create(BBObject * handle, int canUndo, BBString * name);
+	int bmx_wxcommand_canundo(MaxCommand * command);
 	BBString * bmx_wxcommand_getname(wxCommand * command);
 	void bmx_wxcommand_delete(wxCommand * command);
 

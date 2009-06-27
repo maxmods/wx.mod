@@ -63,20 +63,20 @@ void bmx_wxfilename_clearext(MaxFileName * fname) {
 	fname->Filename().ClearExt();
 }
 
-bool bmx_wxfilename_direxists(BBString * dir) {
-	return wxFileName::DirExists(wxStringFromBBString(dir));
+int bmx_wxfilename_direxists(BBString * dir) {
+	return static_cast<int>(wxFileName::DirExists(wxStringFromBBString(dir)));
 }
 
 MaxFileName * bmx_wxfilename_dirname(BBString * dir, wxPathFormat format) {
 	return new MaxFileName(wxFileName::DirName(wxStringFromBBString(dir), format));
 }
 
-bool bmx_wxfilename_fileexists(MaxFileName * fname) {
-	return fname->Filename().FileExists();
+int bmx_wxfilename_fileexists(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().FileExists());
 }
 
-bool bmx_wxfilename_ffileexists(BBString * filename) {
-	return wxFileName::FileExists(wxStringFromBBString(filename));
+int bmx_wxfilename_ffileexists(BBString * filename) {
+	return static_cast<int>(wxFileName::FileExists(wxStringFromBBString(filename)));
 }
 
 MaxFileName * bmx_wxfilename_filename(BBString * file, wxPathFormat format) {
@@ -184,118 +184,118 @@ BBString * bmx_wxfilename_getvolumeseparator(wxPathFormat format) {
 	return bbStringFromWxString(wxFileName::GetVolumeSeparator(format));
 }
 
-bool bmx_wxfilename_hasext(MaxFileName * fname) {
-	return fname->Filename().HasExt();
+int bmx_wxfilename_hasext(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().HasExt());
 }
 
-bool bmx_wxfilename_hasname(MaxFileName * fname) {
-	return fname->Filename().HasName();
+int bmx_wxfilename_hasname(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().HasName());
 }
 
-bool bmx_wxfilename_hasvolume(MaxFileName * fname) {
-	return fname->Filename().HasVolume();
+int bmx_wxfilename_hasvolume(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().HasVolume());
 }
 
 void bmx_wxfilename_insertdir(MaxFileName * fname, int before, BBString * dir) {
 	fname->Filename().InsertDir(before, wxStringFromBBString(dir));
 }
 
-bool bmx_wxfilename_isabsolute(MaxFileName * fname, wxPathFormat format) {
-	return fname->Filename().IsAbsolute(format);
+int bmx_wxfilename_isabsolute(MaxFileName * fname, wxPathFormat format) {
+	return static_cast<int>(fname->Filename().IsAbsolute(format));
 }
 
-bool bmx_wxfilename_iscasesensitive(wxPathFormat format) {
-	return wxFileName::IsCaseSensitive(format);
+int bmx_wxfilename_iscasesensitive(wxPathFormat format) {
+	return static_cast<int>(wxFileName::IsCaseSensitive(format));
 }
 
-bool bmx_wxfilename_isdirreadable(MaxFileName * fname) {
-	return fname->Filename().IsDirReadable();
+int bmx_wxfilename_isdirreadable(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().IsDirReadable());
 }
 
-bool bmx_wxfilename_fisdirreadable(BBString * dir) {
-	return wxFileName::IsDirReadable(wxStringFromBBString(dir));
+int bmx_wxfilename_fisdirreadable(BBString * dir) {
+	return static_cast<int>(wxFileName::IsDirReadable(wxStringFromBBString(dir)));
 }
 
-bool bmx_wxfilename_isdirwritable(MaxFileName * fname) {
-	return fname->Filename().IsDirWritable();
+int bmx_wxfilename_isdirwritable(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().IsDirWritable());
 }
 
-bool bmx_wxfilename_fisdirwritable(BBString * dir) {
-	return wxFileName::IsDirWritable(wxStringFromBBString(dir));
+int bmx_wxfilename_fisdirwritable(BBString * dir) {
+	return static_cast<int>(wxFileName::IsDirWritable(wxStringFromBBString(dir)));
 }
 
-bool bmx_wxfilename_isfileexecutable(MaxFileName * fname) {
-	return fname->Filename().IsFileExecutable();
+int bmx_wxfilename_isfileexecutable(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().IsFileExecutable());
 }
 
-bool bmx_wxfilename_fisfileexecutable(BBString * file) {
-	return wxFileName::IsFileExecutable(wxStringFromBBString(file));
+int bmx_wxfilename_fisfileexecutable(BBString * file) {
+	return static_cast<int>(wxFileName::IsFileExecutable(wxStringFromBBString(file)));
 }
 
-bool bmx_wxfilename_isfilereadable(MaxFileName * fname) {
-	return fname->Filename().IsFileReadable();
+int bmx_wxfilename_isfilereadable(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().IsFileReadable());
 }
 
-bool bmx_wxfilename_fisfilereadable(BBString * file) {
-	return wxFileName::IsFileReadable(wxStringFromBBString(file));
+int bmx_wxfilename_fisfilereadable(BBString * file) {
+	return static_cast<int>(wxFileName::IsFileReadable(wxStringFromBBString(file)));
 }
 
-bool bmx_wxfilename_isfilewritable(MaxFileName * fname) {
-	return fname->Filename().IsFileWritable();
+int bmx_wxfilename_isfilewritable(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().IsFileWritable());
 }
 
-bool bmx_wxfilename_fisfilewritable(BBString * file) {
-	return wxFileName::IsFileWritable(wxStringFromBBString(file));
+int bmx_wxfilename_fisfilewritable(BBString * file) {
+	return static_cast<int>(wxFileName::IsFileWritable(wxStringFromBBString(file)));
 }
 
-bool bmx_wxfilename_isok(MaxFileName * fname) {
-	return fname->Filename().IsOk();
+int bmx_wxfilename_isok(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().IsOk());
 }
 
-bool bmx_wxfilename_ispathseparator(BBString * chr, wxPathFormat format) {
-	return wxFileName::IsPathSeparator(wxStringFromBBString(chr).GetChar(0), format);
+int bmx_wxfilename_ispathseparator(BBString * chr, wxPathFormat format) {
+	return static_cast<int>(wxFileName::IsPathSeparator(wxStringFromBBString(chr).GetChar(0), format));
 }
 
-bool bmx_wxfilename_isrelative(MaxFileName * fname, wxPathFormat format) {
-	return fname->Filename().IsRelative(format);
+int bmx_wxfilename_isrelative(MaxFileName * fname, wxPathFormat format) {
+	return static_cast<int>(fname->Filename().IsRelative(format));
 }
 
-bool bmx_wxfilename_isdir(MaxFileName * fname) {
-	return fname->Filename().IsDir();
+int bmx_wxfilename_isdir(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().IsDir());
 }
 
 #ifdef __APPLE__
-bool bmx_wxfilename_macfinddefaulttypeandcreator(BBString * ext, wxUint32 * ftype, wxUint32 * creator) {
-	return wxFileName::MacFindDefaultTypeAndCreator(wxStringFromBBString(ext), ftype, creator);
+int bmx_wxfilename_macfinddefaulttypeandcreator(BBString * ext, wxUint32 * ftype, wxUint32 * creator) {
+	return static_cast<int>(wxFileName::MacFindDefaultTypeAndCreator(wxStringFromBBString(ext), ftype, creator));
 }
 
 void bmx_wxfilename_macregisterdefaulttypeandcreator(BBString * ext, wxUint32 ftype, wxUint32 creator) {
 	wxFileName::MacRegisterDefaultTypeAndCreator(wxStringFromBBString(ext), ftype, creator);
 }
 
-bool bmx_wxfilename_macsetdefaulttypeandcreator(MaxFileName * fname) {
-	return fname->Filename().MacSetDefaultTypeAndCreator();
+int bmx_wxfilename_macsetdefaulttypeandcreator(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().MacSetDefaultTypeAndCreator());
 }
 #endif
 
-bool bmx_wxfilename_makeabsolute(MaxFileName * fname, BBString * cwd, wxPathFormat format) {
-	return fname->Filename().MakeAbsolute(wxStringFromBBString(cwd), format);
+int bmx_wxfilename_makeabsolute(MaxFileName * fname, BBString * cwd, wxPathFormat format) {
+	return static_cast<int>(fname->Filename().MakeAbsolute(wxStringFromBBString(cwd), format));
 }
 
-bool bmx_wxfilename_makerelativeto(MaxFileName * fname, BBString * pathBase, wxPathFormat format) {
-	return fname->Filename().MakeRelativeTo(wxStringFromBBString(pathBase), format);
+int bmx_wxfilename_makerelativeto(MaxFileName * fname, BBString * pathBase, wxPathFormat format) {
+	return static_cast<int>(fname->Filename().MakeRelativeTo(wxStringFromBBString(pathBase), format));
 }
 
-bool bmx_wxfilename_mkdir(MaxFileName * fname, int perm, int flags) {
-	return fname->Filename().Mkdir(perm, flags);
+int bmx_wxfilename_mkdir(MaxFileName * fname, int perm, int flags) {
+	return static_cast<int>(fname->Filename().Mkdir(perm, flags));
 }
 
-bool bmx_wxfilename_fmkdir(BBString * dir, int perm, int flags) {
-	return wxFileName::Mkdir(wxStringFromBBString(dir), perm, flags);
+int bmx_wxfilename_fmkdir(BBString * dir, int perm, int flags) {
+	return static_cast<int>(wxFileName::Mkdir(wxStringFromBBString(dir), perm, flags));
 }
 
-bool bmx_wxfilename_normalize(MaxFileName * fname, int flags, BBString * cwd, wxPathFormat format) {
-	return fname->Filename().Normalize(flags, wxStringFromBBString(cwd), format);
+int bmx_wxfilename_normalize(MaxFileName * fname, int flags, BBString * cwd, wxPathFormat format) {
+	return static_cast<int>(fname->Filename().Normalize(flags, wxStringFromBBString(cwd), format));
 }
 
 void bmx_wxfilename_prependdir(MaxFileName * fname, BBString * dir) {
@@ -310,24 +310,24 @@ void bmx_wxfilename_removelastdir(MaxFileName * fname) {
 	fname->Filename().RemoveLastDir();
 }
 
-bool bmx_wxfilename_rmdir(MaxFileName * fname) {
-	return fname->Filename().Rmdir();
+int bmx_wxfilename_rmdir(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().Rmdir());
 }
 
-bool bmx_wxfilename_frmdir(BBString * dir) {
-	return wxFileName::Rmdir(wxStringFromBBString(dir));
+int bmx_wxfilename_frmdir(BBString * dir) {
+	return static_cast<int>(wxFileName::Rmdir(wxStringFromBBString(dir)));
 }
 
-bool bmx_wxfilename_sameas(MaxFileName * fname, MaxFileName * filename, wxPathFormat format) {
-	return fname->Filename().SameAs(filename->Filename(), format);
+int bmx_wxfilename_sameas(MaxFileName * fname, MaxFileName * filename, wxPathFormat format) {
+	return static_cast<int>(fname->Filename().SameAs(filename->Filename(), format));
 }
 
-bool bmx_wxfilename_setcwd(MaxFileName * fname) {
-	return fname->Filename().SetCwd();
+int bmx_wxfilename_setcwd(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().SetCwd());
 }
 
-bool bmx_wxfilename_fsetcwd(BBString * dir) {
-	return wxFileName::SetCwd(wxStringFromBBString(dir));
+int bmx_wxfilename_fsetcwd(BBString * dir) {
+	return static_cast<int>(wxFileName::SetCwd(wxStringFromBBString(dir)));
 }
 
 void bmx_wxfilename_setext(MaxFileName * fname, BBString * ext) {
@@ -350,8 +350,8 @@ void bmx_wxfilename_setvolume(MaxFileName * fname, BBString * volume) {
 	fname->Filename().SetVolume(wxStringFromBBString(volume));
 }
 
-bool bmx_wxfilename_touch(MaxFileName * fname) {
-	return fname->Filename().Touch();
+int bmx_wxfilename_touch(MaxFileName * fname) {
+	return static_cast<int>(fname->Filename().Touch());
 }
 
 void bmx_wxfilename_delete(MaxFileName * fname) {

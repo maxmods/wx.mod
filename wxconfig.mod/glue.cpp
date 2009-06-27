@@ -36,8 +36,8 @@ wxConfigBase * bmx_wxconfigbase_set(wxConfigBase * config) {
 	}
 }
 
-wxConfigBase * bmx_wxconfigbase_get(bool onDemand) {
-	return wxConfigBase::Get(onDemand);
+wxConfigBase * bmx_wxconfigbase_get(int onDemand) {
+	return wxConfigBase::Get(static_cast<bool>(onDemand));
 }
 
 
@@ -45,24 +45,24 @@ void bmx_wxconfigbase_dontcreateondemand(wxConfigBase * config) {
 	config->DontCreateOnDemand();
 }
 
-bool bmx_wxconfigbase_deleteall(wxConfigBase * config) {
-	return config->DeleteAll();
+int bmx_wxconfigbase_deleteall(wxConfigBase * config) {
+	return static_cast<int>(config->DeleteAll());
 }
 
-bool bmx_wxconfigbase_deleteentry(wxConfigBase * config, BBString * key, bool deleteGroupIfEmpty) {
-	return config->DeleteEntry(wxStringFromBBString(key), deleteGroupIfEmpty);
+int bmx_wxconfigbase_deleteentry(wxConfigBase * config, BBString * key, int deleteGroupIfEmpty) {
+	return static_cast<int>(config->DeleteEntry(wxStringFromBBString(key), static_cast<bool>(deleteGroupIfEmpty)));
 }
 
-bool bmx_wxconfigbase_deletegroup(wxConfigBase * config, BBString * key) {
-	return config->DeleteGroup(wxStringFromBBString(key));
+int bmx_wxconfigbase_deletegroup(wxConfigBase * config, BBString * key) {
+	return static_cast<int>(config->DeleteGroup(wxStringFromBBString(key)));
 }
 
-bool bmx_wxconfigbase_exists(wxConfigBase * config, BBString * name) {
-	return config->Exists(wxStringFromBBString(name));
+int bmx_wxconfigbase_exists(wxConfigBase * config, BBString * name) {
+	return static_cast<int>(config->Exists(wxStringFromBBString(name)));
 }
 
-bool bmx_wxconfigbase_flush(wxConfigBase * config, bool currentOnly) {
-	return config->Flush(currentOnly);
+int bmx_wxconfigbase_flush(wxConfigBase * config, int currentOnly) {
+	return static_cast<int>(config->Flush(static_cast<bool>(currentOnly)));
 }
 
 BBString * bmx_wxconfigbase_getappname(wxConfigBase * config) {
@@ -73,34 +73,34 @@ wxConfigBase::EntryType bmx_wxconfigbase_getentrytype(wxConfigBase * config, BBS
 	return config->GetEntryType(wxStringFromBBString(name));
 }
 
-BBString * bmx_wxconfigbase_getfirstgroup(wxConfigBase * config, long * index, bool * cont) {
+BBString * bmx_wxconfigbase_getfirstgroup(wxConfigBase * config, long * index, int * cont) {
 	wxString n;
-	*cont = config->GetFirstGroup(n, *index);
+	*cont = static_cast<int>(config->GetFirstGroup(n, *index));
 	return bbStringFromWxString(n);
 }
 
-bool bmx_wxconfigbase_getfirstentry(wxConfigBase * config, BBString * name, long * index) {
+int bmx_wxconfigbase_getfirstentry(wxConfigBase * config, BBString * name, long * index) {
 	wxString n(wxStringFromBBString(name));
-	return config->GetFirstEntry(n, *index);
+	return static_cast<int>(config->GetFirstEntry(n, *index));
 }
 
-BBString * bmx_wxconfigbase_getnextgroup(wxConfigBase * config, long * index, bool * cont) {
+BBString * bmx_wxconfigbase_getnextgroup(wxConfigBase * config, long * index, int * cont) {
 	wxString n;
-	*cont =  config->GetNextGroup(n, *index);
+	*cont =  static_cast<int>(config->GetNextGroup(n, *index));
 	return bbStringFromWxString(n);
 }
 
-bool bmx_wxconfigbase_getnextentry(wxConfigBase * config, BBString * name, long * index) {
+int bmx_wxconfigbase_getnextentry(wxConfigBase * config, BBString * name, long * index) {
 	wxString n(wxStringFromBBString(name));
-	return config->GetNextEntry(n, *index);
+	return static_cast<int>(config->GetNextEntry(n, *index));
 }
 
-unsigned int bmx_wxconfigbase_getnumberofentries(wxConfigBase * config, bool recursive) {
-	return config->GetNumberOfEntries(recursive);
+unsigned int bmx_wxconfigbase_getnumberofentries(wxConfigBase * config, int recursive) {
+	return config->GetNumberOfEntries(static_cast<bool>(recursive));
 }
 
-unsigned int bmx_wxconfigbase_getnumberofgroups(wxConfigBase * config, bool recursive) {
-	return config->GetNumberOfGroups(recursive);
+unsigned int bmx_wxconfigbase_getnumberofgroups(wxConfigBase * config, int recursive) {
+	return config->GetNumberOfGroups(static_cast<bool>(recursive));
 }
 
 BBString * bmx_wxconfigbase_getpath(wxConfigBase * config) {
@@ -111,20 +111,20 @@ BBString * bmx_wxconfigbase_getvendorname(wxConfigBase * config) {
 	return bbStringFromWxString(config->GetVendorName());
 }
 
-bool bmx_wxconfigbase_hasentry(wxConfigBase * config, BBString * name) {
-	return config->HasEntry(wxStringFromBBString(name));
+int bmx_wxconfigbase_hasentry(wxConfigBase * config, BBString * name) {
+	return static_cast<int>(config->HasEntry(wxStringFromBBString(name)));
 }
 
-bool bmx_wxconfigbase_hasgroup(wxConfigBase * config, BBString * name) {
-	return config->HasGroup(wxStringFromBBString(name));
+int bmx_wxconfigbase_hasgroup(wxConfigBase * config, BBString * name) {
+	return static_cast<int>(config->HasGroup(wxStringFromBBString(name)));
 }
 
-bool bmx_wxconfigbase_isexpandingenvvars(wxConfigBase * config) {
-	return config->IsExpandingEnvVars();
+int bmx_wxconfigbase_isexpandingenvvars(wxConfigBase * config) {
+	return static_cast<int>(config->IsExpandingEnvVars());
 }
 
-bool bmx_wxconfigbase_isrecordingdefaults(wxConfigBase * config) {
-	return config->IsRecordingDefaults();
+int bmx_wxconfigbase_isrecordingdefaults(wxConfigBase * config) {
+	return static_cast<int>(config->IsRecordingDefaults());
 }
 
 BBString * bmx_wxconfigbase_readstring(wxConfigBase * config, BBString * key, BBString * defaultValue) {
@@ -135,48 +135,48 @@ int bmx_wxconfigbase_readint(wxConfigBase * config, BBString * key, int defaultV
 	return config->Read(wxStringFromBBString(key), defaultValue);
 }
 
-bool bmx_wxconfigbase_readbool(wxConfigBase * config, BBString * key, bool defaultValue) {
-	return config->Read(wxStringFromBBString(key), defaultValue);
+int bmx_wxconfigbase_readbool(wxConfigBase * config, BBString * key, int defaultValue) {
+	return static_cast<int>(config->Read(wxStringFromBBString(key), static_cast<bool>(defaultValue)));
 }
 
 double bmx_wxconfigbase_readdouble(wxConfigBase * config, BBString * key, double defaultValue) {
 	return config->Read(wxStringFromBBString(key), defaultValue);
 }
 
-bool bmx_wxconfigbase_renameentry(wxConfigBase * config, BBString * oldname, BBString * newname) {
-	return config-> RenameEntry(wxStringFromBBString(oldname), wxStringFromBBString(newname));
+int bmx_wxconfigbase_renameentry(wxConfigBase * config, BBString * oldname, BBString * newname) {
+	return static_cast<int>(config->RenameEntry(wxStringFromBBString(oldname), wxStringFromBBString(newname)));
 }
 
-bool bmx_wxconfigbase_renamegroup(wxConfigBase * config, BBString * oldname, BBString * newname) {
-	return config->RenameGroup(wxStringFromBBString(oldname), wxStringFromBBString(newname));
+int bmx_wxconfigbase_renamegroup(wxConfigBase * config, BBString * oldname, BBString * newname) {
+	return static_cast<int>(config->RenameGroup(wxStringFromBBString(oldname), wxStringFromBBString(newname)));
 }
 
-void bmx_wxconfigbase_setexpandenvvars(wxConfigBase * config, bool doIt) {
-	config->SetExpandEnvVars(doIt);
+void bmx_wxconfigbase_setexpandenvvars(wxConfigBase * config, int doIt) {
+	config->SetExpandEnvVars(static_cast<bool>(doIt));
 }
 
 void bmx_wxconfigbase_setpath(wxConfigBase * config, BBString * path) {
 	config->SetPath(wxStringFromBBString(path));
 }
 
-void bmx_wxconfigbase_setrecorddefaults(wxConfigBase * config, bool doIt) {
-	config->SetRecordDefaults(doIt);
+void bmx_wxconfigbase_setrecorddefaults(wxConfigBase * config, int doIt) {
+	config->SetRecordDefaults(static_cast<bool>(doIt));
 }
 
-bool bmx_wxconfigbase_writestring(wxConfigBase * config, BBString * key, BBString * value) {
-	return config->Write(wxStringFromBBString(key), wxStringFromBBString(value));
+int bmx_wxconfigbase_writestring(wxConfigBase * config, BBString * key, BBString * value) {
+	return static_cast<int>(config->Write(wxStringFromBBString(key), wxStringFromBBString(value)));
 }
 
-bool bmx_wxconfigbase_writeint(wxConfigBase * config, BBString * key, int value) {
-	return config->Write(wxStringFromBBString(key), value);
+int bmx_wxconfigbase_writeint(wxConfigBase * config, BBString * key, int value) {
+	return static_cast<int>(config->Write(wxStringFromBBString(key), value));
 }
 
-bool bmx_wxconfigbase_writebool(wxConfigBase * config, BBString * key, bool value) {
-	return config->Write(wxStringFromBBString(key), value);
+int bmx_wxconfigbase_writebool(wxConfigBase * config, BBString * key, int value) {
+	return static_cast<int>(config->Write(wxStringFromBBString(key), static_cast<bool>(value)));
 }
 
-bool bmx_wxconfigbase_writedouble(wxConfigBase * config, BBString * key, double value) {
-	return config->Write(wxStringFromBBString(key), value);
+int bmx_wxconfigbase_writedouble(wxConfigBase * config, BBString * key, double value) {
+	return static_cast<int>(config->Write(wxStringFromBBString(key), value));
 }
 
 void bmx_wxconfigbase_free(wxConfigBase * config) {

@@ -31,8 +31,8 @@ extern "C" {
 	wxFileSystem * bmx_wxfilesystem_create();
 	void bmx_wxfilesystem_delete(wxFileSystem * fs);
 	void bmx_wxfilesystem_addhandler(wxFileSystemHandler * handler);
-	bool bmx_wxfilesystem_hashandlerforpath(BBString * location);
-	void bmx_wxfilesystem_changepathto(wxFileSystem * fs, BBString * location, bool isDir);
+	int bmx_wxfilesystem_hashandlerforpath(BBString * location);
+	void bmx_wxfilesystem_changepathto(wxFileSystem * fs, BBString * location, int isDir);
 	BBString * bmx_wxfilesystem_getpath(wxFileSystem * fs);
 	BBString * bmx_wxfilesystem_filenametourl(MaxFileName * filename);
 	BBString * bmx_wxfilesystem_findfileinpath(wxFileSystem * fs, BBString * path, BBString * file);

@@ -31,7 +31,7 @@ extern "C" {
 #include <blitz.h>
 
 	MaxCursor * bmx_wxcursor_stockcreate(int id);
-	bool bmx_wxcursor_isok(MaxCursor * cursor);
+	int bmx_wxcursor_isok(MaxCursor * cursor);
 	MaxCursor * bmx_wxcursor_createfromimage(MaxImage * image);
 
 	MaxCursor * bmx_wxstockgdi_cursor_cross();

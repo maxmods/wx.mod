@@ -35,8 +35,8 @@ MaxFileDropTarget::~MaxFileDropTarget() {
 }
 
 bool MaxFileDropTarget::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& filenames) {
-	return _wx_wxfiledroptarget_wxFileDropTarget__OnDropFiles(maxHandle, x, y,
-		wxArrayStringToBBStringArray(filenames));
+	return static_cast<bool>(_wx_wxfiledroptarget_wxFileDropTarget__OnDropFiles(maxHandle, x, y,
+		wxArrayStringToBBStringArray(filenames)));
 }
 
 

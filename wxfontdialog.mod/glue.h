@@ -38,19 +38,19 @@ extern "C" {
 	
 	MaxFontData * bmx_wxfontdata_create();
 
-	void bmx_wxfontdata_enableeffects(MaxFontData * data, bool enable);
-	bool bmx_wxfontdata_getallowsymbols(MaxFontData * data);
+	void bmx_wxfontdata_enableeffects(MaxFontData * data, int enable);
+	int bmx_wxfontdata_getallowsymbols(MaxFontData * data);
 	MaxColour * bmx_wxfontdata_getcolour(MaxFontData * data);
 	MaxFont * bmx_wxfontdata_getchosenfont(MaxFontData * data);
-	bool bmx_wxfontdata_getenableeffects(MaxFontData * data);
+	int bmx_wxfontdata_getenableeffects(MaxFontData * data);
 	MaxFont * bmx_wxfontdata_getinitialfont(MaxFontData * data);
-	bool bmx_wxfontdata_getshowhelp(MaxFontData * data);
-	void bmx_wxfontdata_setallowsymbols(MaxFontData * data, bool allowSymbols);
+	int bmx_wxfontdata_getshowhelp(MaxFontData * data);
+	void bmx_wxfontdata_setallowsymbols(MaxFontData * data, int allowSymbols);
 	void bmx_wxfontdata_setchosenfont(MaxFontData * data, MaxFont * font);
 	void bmx_wxfontdata_setcolour(MaxFontData * data, MaxColour * colour);
 	void bmx_wxfontdata_setinitialfont(MaxFontData * data, MaxFont * font);
 	void bmx_wxfontdata_setrange(MaxFontData * data, int minSize, int maxSize);
-	void bmx_wxfontdata_setshowhelp(MaxFontData * data, bool showhelp);
+	void bmx_wxfontdata_setshowhelp(MaxFontData * data, int showhelp);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

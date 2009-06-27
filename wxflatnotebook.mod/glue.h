@@ -38,24 +38,24 @@ extern "C" {
 
 	wxFlatNotebook * bmx_wxflatnotebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 
-    void bmx_wxflatnotebook_advanceselection(wxFlatNotebook * fnb, bool forward);
-    bool bmx_wxflatnotebook_addpage(wxFlatNotebook * fnb, wxWindow * window, BBString * caption, bool selected, int imgIndex);
-    bool bmx_wxflatnotebook_insertpage(wxFlatNotebook * fnb, int index, wxWindow * page, BBString * text, bool selected, int imgIndex);
+    void bmx_wxflatnotebook_advanceselection(wxFlatNotebook * fnb, int forward);
+    int bmx_wxflatnotebook_addpage(wxFlatNotebook * fnb, wxWindow * window, BBString * caption, int selected, int imgIndex);
+    int bmx_wxflatnotebook_insertpage(wxFlatNotebook * fnb, int index, wxWindow * page, BBString * text, int selected, int imgIndex);
     void bmx_wxflatnotebook_setselection(wxFlatNotebook * fnb, int page);
-    void bmx_wxflatnotebook_deletepage(wxFlatNotebook * fnb, int page, bool _notify);
-    bool bmx_wxflatnotebook_deleteallpages(wxFlatNotebook * fnb);
+    void bmx_wxflatnotebook_deletepage(wxFlatNotebook * fnb, int page, int _notify);
+    int bmx_wxflatnotebook_deleteallpages(wxFlatNotebook * fnb);
     int bmx_wxflatnotebook_getpagecount(wxFlatNotebook * fnb);
     wxWindow * bmx_wxflatnotebook_getcurrentpage(wxFlatNotebook * fnb);
     wxWindow * bmx_wxflatnotebook_getpage(wxFlatNotebook * fnb, int page);
     int bmx_wxflatnotebook_getpageindex(wxFlatNotebook * fnb, wxWindow * win);
     int bmx_wxflatnotebook_getselection(wxFlatNotebook * fnb);
     int bmx_wxflatnotebook_getpreviousselection(wxFlatNotebook * fnb);
-    bool bmx_wxflatnotebook_getpageshapeangle(wxFlatNotebook * fnb, int page, unsigned int * result);
+    int bmx_wxflatnotebook_getpageshapeangle(wxFlatNotebook * fnb, int page, unsigned int * result);
     void bmx_wxflatnotebook_setpageshapeangle(wxFlatNotebook * fnb, int page, unsigned int angle);
     void bmx_wxflatnotebook_setallpagesshapeangle(wxFlatNotebook * fnb, unsigned int angle);
     void bmx_wxflatnotebook_getpagebestsize(wxFlatNotebook * fnb, int * w, int * h);
-    bool bmx_wxflatnotebook_setpagetext(wxFlatNotebook * fnb, int page, BBString * text);
-    bool bmx_wxflatnotebook_removepage(wxFlatNotebook * fnb, int page, bool _notify);
+    int bmx_wxflatnotebook_setpagetext(wxFlatNotebook * fnb, int page, BBString * text);
+    int bmx_wxflatnotebook_removepage(wxFlatNotebook * fnb, int page, int _notify);
     void bmx_wxflatnotebook_setpadding(wxFlatNotebook * fnb, int padW, int padH);
     void bmx_wxflatnotebook_setwindowstyleflag(wxFlatNotebook * fnb, long style);
     void bmx_wxflatnotebook_setrightclickmenu(wxFlatNotebook * fnb, wxMenu * menu);
@@ -66,8 +66,8 @@ extern "C" {
     void bmx_wxflatnotebook_setgradientcolorfrom(wxFlatNotebook * fnb, MaxColour * colour);
     void bmx_wxflatnotebook_setgradientcolorto(wxFlatNotebook * fnb, MaxColour * colour);
     void bmx_wxflatnotebook_setgradientcolorborder(wxFlatNotebook * fnb, MaxColour * colour);
-    void bmx_wxflatnotebook_enablepage(wxFlatNotebook * fnb, int page, bool enabled);
-    bool bmx_wxflatnotebook_getpageenabled(wxFlatNotebook * fnb, int page);
+    void bmx_wxflatnotebook_enablepage(wxFlatNotebook * fnb, int page, int enabled);
+    int bmx_wxflatnotebook_getpageenabled(wxFlatNotebook * fnb, int page);
     void bmx_wxflatnotebook_setactivetabtextcolour(wxFlatNotebook * fnb, MaxColour * colour);
     MaxColour * bmx_wxflatnotebook_getgradientcolorfrom(wxFlatNotebook * fnb);
     MaxColour * bmx_wxflatnotebook_getgradientcolorto(wxFlatNotebook * fnb);
@@ -83,8 +83,8 @@ extern "C" {
     int bmx_wxflatnotebook_getpadding(wxFlatNotebook * fnb);
     void bmx_wxflatnotebook_setcustomizeoptions(wxFlatNotebook * fnb, long options);
     long bmx_wxflatnotebook_getcustomizeoptions(wxFlatNotebook * fnb);
-    void bmx_wxflatnotebook_setforceselection(wxFlatNotebook * fnb, bool force);
-    bool bmx_wxflatnotebook_getforceselection(wxFlatNotebook * fnb);
+    void bmx_wxflatnotebook_setforceselection(wxFlatNotebook * fnb, int force);
+    int bmx_wxflatnotebook_getforceselection(wxFlatNotebook * fnb);
     wxBoxSizer * bmx_wxflatnotebook_getmainsizer(wxFlatNotebook * fnb);
 
 	wxFlatNotebookImageList * bmx_wxflatnotebook_setimagelist(wxFlatNotebook * fnb, BBArray * bits);

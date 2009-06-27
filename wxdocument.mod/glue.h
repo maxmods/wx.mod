@@ -34,33 +34,33 @@ extern "C" {
 
 	BBObject * _wx_wxdocument_wxDocument__create(wxDocument * doc);
 	void _wx_wxdocument_wxDocument__OnChangedViewList(BBObject * handle);
-	bool _wx_wxdocument_wxDocument__OnCloseDocument(BBObject * handle);
-	bool _wx_wxdocument_wxDocument__OnCreate(BBObject * handle, BBString * path, long flags);
+	int _wx_wxdocument_wxDocument__OnCloseDocument(BBObject * handle);
+	int _wx_wxdocument_wxDocument__OnCreate(BBObject * handle, BBString * path, long flags);
 	wxCommandProcessor * _wx_wxdocument_wxDocument__OnCreateCommandProcessor(BBObject * handle);
-	bool _wx_wxdocument_wxDocument__OnNewDocument(BBObject * handle);
-	bool _wx_wxdocument_wxDocument__OnOpenDocument(BBObject * handle, BBString * filename);
-	bool _wx_wxdocument_wxDocument__OnSaveDocument(BBObject * handle, BBString * filename);
-	bool _wx_wxdocument_wxDocument__OnSaveModified(BBObject * handle);
-	bool _wx_wxdocument_wxDocument__IsModified(BBObject * handle);
-	void _wx_wxdocument_wxDocument__Modify(BBObject * handle, bool doModify);
+	int _wx_wxdocument_wxDocument__OnNewDocument(BBObject * handle);
+	int _wx_wxdocument_wxDocument__OnOpenDocument(BBObject * handle, BBString * filename);
+	int _wx_wxdocument_wxDocument__OnSaveDocument(BBObject * handle, BBString * filename);
+	int _wx_wxdocument_wxDocument__OnSaveModified(BBObject * handle);
+	int _wx_wxdocument_wxDocument__IsModified(BBObject * handle);
+	void _wx_wxdocument_wxDocument__Modify(BBObject * handle, int doModify);
 
-	void _wx_wxdocument_wxView__OnActivateView(BBObject * handle, bool activate, wxView *activeView, wxView *deactiveView);
+	void _wx_wxdocument_wxView__OnActivateView(BBObject * handle, int activate, wxView *activeView, wxView *deactiveView);
 	void _wx_wxdocument_wxView_OnChangeFilename(BBObject * handle);
-	bool _wx_wxdocument_wxView_OnClose(BBObject * handle, bool deleteWindow);
+	int _wx_wxdocument_wxView_OnClose(BBObject * handle, int deleteWindow);
 	void _wx_wxdocument_wxView_OnClosingDocument(BBObject * handle);
-	bool _wx_wxdocument_wxView_OnCreate(BBObject * handle, wxDocument* doc, long flags);
+	int _wx_wxdocument_wxView_OnCreate(BBObject * handle, wxDocument* doc, long flags);
 	wxPrintout * _wx_wxdocument_wxView_OnCreatePrintout(BBObject * handle);
 	void _wx_wxdocument_wxView_OnDraw(BBObject * handle, MaxDC * dc);
 	void _wx_wxdocument_wxView_OnUpdate(BBObject * handle, wxView* sender);
 
-	bool _wx_wxdocument_wxDocTemplate_InitDocument(BBObject * handle, wxDocument * doc, BBString * path, long flags);
+	int _wx_wxdocument_wxDocTemplate_InitDocument(BBObject * handle, wxDocument * doc, BBString * path, long flags);
 
 	BBObject * _wx_wxdocument_wxView__create(wxView * view);
 
 	wxDocument * bmx_wxdocument_create(BBObject * handle);
-	bool bmx_wxdocument_addview(wxDocument * doc, wxView * view);
-	bool bmx_wxdocument_close(wxDocument * doc);
-	bool bmx_wxdocument_deleteallviews(wxDocument * doc);
+	int bmx_wxdocument_addview(wxDocument * doc, wxView * view);
+	int bmx_wxdocument_close(wxDocument * doc);
+	int bmx_wxdocument_deleteallviews(wxDocument * doc);
 	wxCommandProcessor * bmx_wxdocument_getcommandprocessor(wxDocument * doc);
 	wxDocTemplate * bmx_wxdocument_getdocumenttemplate(wxDocument * doc);
 	wxDocManager * bmx_wxdocument_getdocumentmanager(wxDocument * doc);
@@ -70,29 +70,29 @@ extern "C" {
 	wxView * bmx_wxdocument_getfirstview(wxDocument * doc);
 	BBString * bmx_wxdocument_getprintablename(wxDocument * doc);
 	BBString * bmx_wxdocument_gettitle(wxDocument * doc);
-	bool bmx_wxdocument_ismodified(MaxDocument * doc);
+	int bmx_wxdocument_ismodified(MaxDocument * doc);
 #if !defined(__WXGTK__)
 	wxInputStream * bmx_wxdocument_loadobject(wxDocument * doc, wxInputStream * stream);
 #endif
-	void bmx_wxdocument_modify(MaxDocument * doc, bool doModify);
+	void bmx_wxdocument_modify(MaxDocument * doc, int doModify);
 	void bmx_wxdocument_onchangedviewlist(MaxDocument * doc);
-	bool bmx_wxdocument_onclosedocument(MaxDocument * doc);
-	bool bmx_wxdocument_oncreate(MaxDocument * doc, BBString * path, long flags);
+	int bmx_wxdocument_onclosedocument(MaxDocument * doc);
+	int bmx_wxdocument_oncreate(MaxDocument * doc, BBString * path, long flags);
 	wxCommandProcessor * bmx_wxdocument_oncreatecommandprocessor(MaxDocument * doc);
-	bool bmx_wxdocument_onnewdocument(MaxDocument * doc);
-	bool bmx_wxdocument_onopendocument(MaxDocument * doc, BBString * filename);
-	bool bmx_wxdocument_onsavedocument(MaxDocument * doc, BBString * filename);
-	bool bmx_wxdocument_onsavemodified(MaxDocument * doc);
-	bool bmx_wxdocument_removeview(wxDocument * doc, wxView * view);
-	bool bmx_wxdocument_save(wxDocument * doc);
-	bool bmx_wxdocument_saveas(wxDocument * doc);
+	int bmx_wxdocument_onnewdocument(MaxDocument * doc);
+	int bmx_wxdocument_onopendocument(MaxDocument * doc, BBString * filename);
+	int bmx_wxdocument_onsavedocument(MaxDocument * doc, BBString * filename);
+	int bmx_wxdocument_onsavemodified(MaxDocument * doc);
+	int bmx_wxdocument_removeview(wxDocument * doc, wxView * view);
+	int bmx_wxdocument_save(wxDocument * doc);
+	int bmx_wxdocument_saveas(wxDocument * doc);
 #if !defined(__WXGTK__)
 	wxOutputStream * bmx_wxdocument_saveobject(wxDocument * doc, wxOutputStream * stream);
 #endif
 	void bmx_wxdocument_setcommandprocessor(wxDocument * doc, wxCommandProcessor * processor);
 	void bmx_wxdocument_setdocumentname(wxDocument * doc, BBString * name);
 	void bmx_wxdocument_setdocumenttemplate(wxDocument * doc, wxDocTemplate * templ);
-	void bmx_wxdocument_setfilename(wxDocument * doc, BBString * filename, bool notifyViews);
+	void bmx_wxdocument_setfilename(wxDocument * doc, BBString * filename, int notifyViews);
 	void bmx_wxdocument_settitle(wxDocument * doc, BBString * title);
 	void bmx_wxdocument_updateallviews(wxDocument * doc, wxView * sender);
 
@@ -106,8 +106,8 @@ extern "C" {
 	BBString * bmx_wxdoctemplate_getfilefilter(wxDocTemplate * templ);
 	long bmx_wxdoctemplate_getflags(wxDocTemplate * templ);
 	BBString * bmx_wxdoctemplate_getviewname(wxDocTemplate * templ);
-	bool bmx_wxdoctemplate_initdocument(MaxDocTemplate * templ, wxDocument * doc, BBString * path, long flags);
-	bool bmx_wxdoctemplate_isvisible(wxDocTemplate * templ);
+	int bmx_wxdoctemplate_initdocument(MaxDocTemplate * templ, wxDocument * doc, BBString * path, long flags);
+	int bmx_wxdoctemplate_isvisible(wxDocTemplate * templ);
 	void bmx_wxdoctemplate_setdefaultextension(wxDocTemplate * templ, BBString * ext);
 	void bmx_wxdoctemplate_setdescription(wxDocTemplate * templ, BBString * desc);
 	void bmx_wxdoctemplate_setdirectory(wxDocTemplate * templ, BBString * dir);
@@ -116,11 +116,11 @@ extern "C" {
 
 
 	wxDocManager * bmx_wxdocmanager_create(BBObject * handle);
-	void bmx_wxdocmanager_activateview(wxDocManager * mgr, wxView * doc, bool activate);
+	void bmx_wxdocmanager_activateview(wxDocManager * mgr, wxView * doc, int activate);
 	void bmx_wxdocmanager_adddocument(wxDocManager * mgr, wxDocument * doc);
 	void bmx_wxdocmanager_addfiletohistory(wxDocManager * mgr, BBString * filename);
 	void bmx_wxdocmanager_associatetemplate(wxDocManager * mgr, wxDocTemplate * temp);
-	bool bmx_wxdocmanager_closedocuments(wxDocManager * mgr, bool force);
+	int bmx_wxdocmanager_closedocuments(wxDocManager * mgr, int force);
 	wxDocument * bmx_wxdocmanager_createdocument(wxDocManager * mgr, BBString * path, long flags);
 	wxView * bmx_wxdocmanager_createview(wxDocManager * mgr, wxDocument * doc, long flags);
 	void bmx_wxdocmanager_disassociatetemplate(wxDocManager * mgr, wxDocTemplate * temp);
@@ -143,17 +143,17 @@ extern "C" {
 
 
 	wxView * bmx_wxview_create(BBObject * handle);
-	void bmx_wxview_activate(wxView * view, bool doActivate);
-	void bmx_wxview_close(wxView * view, bool deleteWindow);
+	void bmx_wxview_activate(wxView * view, int doActivate);
+	void bmx_wxview_close(wxView * view, int deleteWindow);
 	wxDocument * bmx_wxview_getdocument(wxView * view);
 	wxDocManager * bmx_wxview_getdocumentmanager(wxView * view);
 	wxWindow * bmx_wxview_getframe(wxView * view);
 	BBString * bmx_wxview_getviewname(wxView * view);
-	void bmx_wxview_onactivateview(MaxView * view, bool activate, wxView * activeView, wxView * deactiveView);
+	void bmx_wxview_onactivateview(MaxView * view, int activate, wxView * activeView, wxView * deactiveView);
 	void bmx_wxview_onchangefilename(MaxView * view);
-	bool bmx_wxview_onclose(MaxView * view, bool deleteWindow);
+	int bmx_wxview_onclose(MaxView * view, int deleteWindow);
 	void bmx_wxview_onclosingdocument(MaxView * view);
-	bool bmx_wxView_oncreate(MaxView * view, wxDocument * doc, long flags);
+	int bmx_wxView_oncreate(MaxView * view, wxDocument * doc, long flags);
 	wxPrintout * bmx_wxview_oncreateprintout(MaxView * view);
 	void bmx_wxview_ondraw(MaxView * view, MaxDC * dc);
 	void bmx_wxview_onupdate(MaxView * view, wxView * sender);

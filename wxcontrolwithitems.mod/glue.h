@@ -33,7 +33,7 @@ extern "C" {
 	void bmx_wxcontrolwithitems_deleteitem(wxControlWithItems * control, int item);
 	int bmx_wxcontrolwithitems_getselection(wxControlWithItems * control);
 	int bmx_wxcontrolwithitems_getcount(wxControlWithItems * control);
-	bool bmx_wxcontrolwithitems_isempty(wxControlWithItems * control);
+	int bmx_wxcontrolwithitems_isempty(wxControlWithItems * control);
 	void bmx_wxcontrolwithitems_selectitem(wxControlWithItems * control, int item);
 	int bmx_wxcontrolwithitems_insert(wxControlWithItems * control, BBString * item, int pos, BBObject * clientData);
 	BBString * bmx_wxcontrolwithitems_getstring(wxControlWithItems * control, int item);

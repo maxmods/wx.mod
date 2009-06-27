@@ -44,24 +44,24 @@ void bmx_wxfontenumerator_delete(wxFontEnumerator * enumerator) {
 	delete enumerator;
 }
 
-bool bmx_wxfontenumerator_enumeratefacenames(wxFontEnumerator * enumerator, wxFontEncoding encoding, bool fixedWidthOnly) {
-	return enumerator->EnumerateFacenames(encoding, fixedWidthOnly);
+int bmx_wxfontenumerator_enumeratefacenames(wxFontEnumerator * enumerator, wxFontEncoding encoding, int fixedWidthOnly) {
+	return static_cast<int>(enumerator->EnumerateFacenames(encoding, static_cast<bool>(fixedWidthOnly)));
 }
 
-bool bmx_wxfontenumerator_enumerateencodings(wxFontEnumerator * enumerator, BBString * font) {
-	return enumerator->EnumerateEncodings(wxStringFromBBString(font));
+int bmx_wxfontenumerator_enumerateencodings(wxFontEnumerator * enumerator, BBString * font) {
+	return static_cast<int>(enumerator->EnumerateEncodings(wxStringFromBBString(font)));
 }
 
 BBArray * bmx_wxfontenumerator_getencodings(BBString * facename) {
 	return wxArrayStringToBBStringArray(wxFontEnumerator::GetEncodings(wxStringFromBBString(facename)));
 }
 
-BBArray * bmx_wxfontenumerator_getfacenames(wxFontEncoding encoding, bool fixedWidthOnly) {
-	return wxArrayStringToBBStringArray(wxFontEnumerator::GetFacenames(encoding, fixedWidthOnly));
+BBArray * bmx_wxfontenumerator_getfacenames(wxFontEncoding encoding, int fixedWidthOnly) {
+	return wxArrayStringToBBStringArray(wxFontEnumerator::GetFacenames(encoding, static_cast<bool>(fixedWidthOnly)));
 }
 
-bool bmx_wxfontenumerator_isvalidfacename(BBString * facename) {
-	return wxFontEnumerator::IsValidFacename(wxStringFromBBString(facename));
+int bmx_wxfontenumerator_isvalidfacename(BBString * facename) {
+	return static_cast<int>(wxFontEnumerator::IsValidFacename(wxStringFromBBString(facename)));
 }
 
 

@@ -29,16 +29,16 @@ extern "C" {
 
 #include <blitz.h>
 
-	bool _wx_wxfontenumerator_wxFontEnumerator__OnFacename(BBObject * handle, BBString * font);
-	bool _wx_wxfontenumerator_wxFontEnumerator__OnFontEncoding(BBObject * handle, BBString * font, BBString * encoding);
+	int _wx_wxfontenumerator_wxFontEnumerator__OnFacename(BBObject * handle, BBString * font);
+	int _wx_wxfontenumerator_wxFontEnumerator__OnFontEncoding(BBObject * handle, BBString * font, BBString * encoding);
 
 	MaxFontEnumerator * bmx_wxfontenumerator_create(BBObject * handle);
 	void bmx_wxfontenumerator_delete(wxFontEnumerator * enumerator);
-	bool bmx_wxfontenumerator_enumeratefacenames(wxFontEnumerator * enumerator, wxFontEncoding encoding, bool fixedWidthOnly);
-	bool bmx_wxfontenumerator_enumerateencodings(wxFontEnumerator * enumerator, BBString * font);
+	int bmx_wxfontenumerator_enumeratefacenames(wxFontEnumerator * enumerator, wxFontEncoding encoding, int fixedWidthOnly);
+	int bmx_wxfontenumerator_enumerateencodings(wxFontEnumerator * enumerator, BBString * font);
 	BBArray * bmx_wxfontenumerator_getencodings(BBString * facename);
-	BBArray * bmx_wxfontenumerator_getfacenames(wxFontEncoding encoding, bool fixedWidthOnly);
-	bool bmx_wxfontenumerator_isvalidfacename(BBString * facename);
+	BBArray * bmx_wxfontenumerator_getfacenames(wxFontEncoding encoding, int fixedWidthOnly);
+	int bmx_wxfontenumerator_isvalidfacename(BBString * facename);
 
 }
 
@@ -53,12 +53,12 @@ public:
 protected:
 
 	virtual bool OnFacename(const wxString& font) {
-		return _wx_wxfontenumerator_wxFontEnumerator__OnFacename(maxHandle, bbStringFromWxString(font));
+		return static_cast<bool>(_wx_wxfontenumerator_wxFontEnumerator__OnFacename(maxHandle, bbStringFromWxString(font)));
 	}
 
 	virtual bool OnFontEncoding(const wxString& font, const wxString& encoding) {
-		return _wx_wxfontenumerator_wxFontEnumerator__OnFontEncoding(maxHandle, bbStringFromWxString(font), 
-			bbStringFromWxString(encoding));
+		return static_cast<bool>(_wx_wxfontenumerator_wxFontEnumerator__OnFontEncoding(maxHandle, bbStringFromWxString(font), 
+			bbStringFromWxString(encoding)));
 	}
 	
 private:

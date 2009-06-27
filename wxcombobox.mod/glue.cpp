@@ -125,24 +125,24 @@ MaxComboBox * bmx_wxcombobox_create(BBObject * maxHandle, wxWindow * parent, wxW
 	return new MaxComboBox(maxHandle, parent, id, wxStringFromBBString(value), bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }
 
-bool bmx_wxcombobox_cancopy(wxComboBox * combo) {
-	return combo->CanCopy();
+int bmx_wxcombobox_cancopy(wxComboBox * combo) {
+	return static_cast<int>(combo->CanCopy());
 }
 
-bool bmx_wxcombobox_cancut(wxComboBox * combo) {
-	return combo->CanCut();
+int bmx_wxcombobox_cancut(wxComboBox * combo) {
+	return static_cast<int>(combo->CanCut());
 }
 
-bool bmx_wxcombobox_canpaste(wxComboBox * combo) {
-	return combo->CanPaste();
+int bmx_wxcombobox_canpaste(wxComboBox * combo) {
+	return static_cast<int>(combo->CanPaste());
 }
 
-bool bmx_wxcombobox_canredo(wxComboBox * combo) {
-	return combo->CanRedo();
+int bmx_wxcombobox_canredo(wxComboBox * combo) {
+	return static_cast<int>(combo->CanRedo());
 }
 
-bool bmx_wxcombobox_canundo(wxComboBox * combo) {
-	return combo->CanUndo();
+int bmx_wxcombobox_canundo(wxComboBox * combo) {
+	return static_cast<int>(combo->CanUndo());
 }
 
 void bmx_wxcombobox_copy(wxComboBox * combo) {

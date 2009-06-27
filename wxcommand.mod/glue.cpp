@@ -36,15 +36,15 @@ MaxCommand::~MaxCommand()
 }
 
 bool MaxCommand::Do() {
-	return _wx_wxcommand_wxCommand__Do(maxHandle);
+	return static_cast<bool>(_wx_wxcommand_wxCommand__Do(maxHandle));
 }
 
 bool MaxCommand::Undo() {
-	return _wx_wxcommand_wxCommand__Undo(maxHandle);
+	return static_cast<bool>(_wx_wxcommand_wxCommand__Undo(maxHandle));
 }
 
 bool MaxCommand::CanUndo() {
-	return _wx_wxcommand_wxCommand__CanUndo(maxHandle);
+	return static_cast<bool>(_wx_wxcommand_wxCommand__CanUndo(maxHandle));
 }
 
 bool MaxCommand::CanUndo_default() {
@@ -55,12 +55,12 @@ bool MaxCommand::CanUndo_default() {
 // *********************************************
 
 
-MaxCommand * bmx_wxcommand_create(BBObject * handle, bool canUndo, BBString * name) {
-	return new MaxCommand(handle, canUndo, wxStringFromBBString(name));
+MaxCommand * bmx_wxcommand_create(BBObject * handle, int canUndo, BBString * name) {
+	return new MaxCommand(handle, static_cast<bool>(canUndo), wxStringFromBBString(name));
 }
 
-bool bmx_wxcommand_canundo(MaxCommand * command) {
-	return command->CanUndo();
+int bmx_wxcommand_canundo(MaxCommand * command) {
+	return static_cast<int>(command->CanUndo());
 }
 
 BBString * bmx_wxcommand_getname(wxCommand * command) {

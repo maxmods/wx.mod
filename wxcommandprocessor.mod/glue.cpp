@@ -42,16 +42,16 @@ wxCommandProcessor * bmx_wxcommandprocessor_create(BBObject * handle, int maxCom
 	return new MaxCommandProcessor(handle, maxCommands);
 }
 
-bool bmx_wxcommandprocessor_canundo(wxCommandProcessor * proc) {
-	return proc->CanUndo();
+int bmx_wxcommandprocessor_canundo(wxCommandProcessor * proc) {
+	return static_cast<int>(proc->CanUndo());
 }
 
 void bmx_wxcommandprocessor_clearcommands(wxCommandProcessor * proc) {
 	proc->ClearCommands();
 }
 
-bool bmx_wxcommandprocessor_redo(wxCommandProcessor * proc) {
-	return proc->Redo();
+int bmx_wxcommandprocessor_redo(wxCommandProcessor * proc) {
+	return static_cast<int>(proc->Redo());
 }
 
 int bmx_wxcommandprocessor_getmaxcommands(wxCommandProcessor * proc) {
@@ -82,8 +82,8 @@ void bmx_wxcommandprocessor_initialize(wxCommandProcessor * proc) {
 	proc->Initialize();
 }
 
-bool bmx_wxcommandprocessor_isdirty(wxCommandProcessor * proc) {
-	return proc->IsDirty();
+int bmx_wxcommandprocessor_isdirty(wxCommandProcessor * proc) {
+	return static_cast<int>(proc->IsDirty());
 }
 
 void bmx_wxcommandprocessor_markassaved(wxCommandProcessor * proc) {
@@ -106,12 +106,12 @@ void bmx_wxcommandprocessor_setundoaccelerator(wxCommandProcessor * proc, BBStri
 	proc->SetUndoAccelerator(wxStringFromBBString(accel));
 }
 
-void bmx_wxcommandprocessor_submit(wxCommandProcessor * proc, wxCommand * command, bool storeIt) {
-	proc->Submit(command, storeIt);
+void bmx_wxcommandprocessor_submit(wxCommandProcessor * proc, wxCommand * command, int storeIt) {
+	proc->Submit(command, static_cast<bool>(storeIt));
 }
 
-bool bmx_wxcommandprocessor_undo(wxCommandProcessor * proc) {
-	return proc->Undo();
+int bmx_wxcommandprocessor_undo(wxCommandProcessor * proc) {
+	return static_cast<int>(proc->Undo());
 }
 
 

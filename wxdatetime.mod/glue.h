@@ -37,11 +37,11 @@ extern "C" {
 
 	void bmx_wxdatetime_setcountry(wxDateTime::Country country);
 	wxDateTime::Country bmx_wxdatetime_getcountry();
-	bool bmx_wxdatetime_iswesteuropeancountry(wxDateTime::Country country);
+	int bmx_wxdatetime_iswesteuropeancountry(wxDateTime::Country country);
 	int bmx_wxdatetime_getcurrentyear(wxDateTime::Calendar cal);
 	int bmx_wxdatetime_convertyeartobc(int year);
 	wxDateTime::Month bmx_wxdatetime_getcurrentmonth(wxDateTime::Calendar cal);
-	bool bmx_wxdatetime_isleapyear(int year, wxDateTime::Calendar cal);
+	int bmx_wxdatetime_isleapyear(int year, wxDateTime::Calendar cal);
 	int bmx_wxdatetime_getcenturyforyear(int year);
 	int bmx_wxdatetime_getnumberofdaysforyear(int year, wxDateTime::Calendar cal);
 	int bmx_wxdatetime_getnumberofdays(wxDateTime::Month month, int year, wxDateTime::Calendar cal);
@@ -49,7 +49,7 @@ extern "C" {
 	BBString * bmx_wxdatetime_getweekdayname(wxDateTime::WeekDay weekday, wxDateTime::NameFlags flags);
 	BBString * bmx_wxdatetime_getamstring();
 	BBString * bmx_wxdatetime_getpmstring();
-	bool bmx_wxdatetime_isdstapplicable(int year, wxDateTime::Country country);
+	int bmx_wxdatetime_isdstapplicable(int year, wxDateTime::Country country);
 	MaxDateTime * bmx_wxdatetime_getbegindst(int year, wxDateTime::Country country);
 	MaxDateTime * bmx_wxdatetime_getenddst(int year, wxDateTime::Country country);
 	MaxDateTime * bmx_wxdatetime_now();
@@ -76,7 +76,7 @@ extern "C" {
 	void bmx_wxdatetime_setminute(MaxDateTime * datetime, int minute);
 	void bmx_wxdatetime_setsecond(MaxDateTime * datetime, int second);
 	void bmx_wxdatetime_setmillisecond(MaxDateTime * datetime, int millisec);
-	bool bmx_wxdatetime_isvalid(MaxDateTime * datetime);
+	int bmx_wxdatetime_isvalid(MaxDateTime * datetime);
 	MaxDateTime * bmx_wxdatetime_getdateonly(MaxDateTime * datetime);
 	time_t bmx_wxdatetime_getticks(MaxDateTime * datetime);
 	int bmx_wxdatetime_getcentury(MaxDateTime * datetime, wxDateTime::TZ tz);
@@ -91,19 +91,19 @@ extern "C" {
 	int bmx_wxdatetime_getdayofyear(MaxDateTime * datetime, wxDateTime::TZ tz);
 	int bmx_wxdatetime_getweekofyear(MaxDateTime * datetime, wxDateTime::WeekFlags flags, wxDateTime::TZ tz);
 	int bmx_wxdatetime_getweekofmonth(MaxDateTime * datetime, wxDateTime::WeekFlags flags, wxDateTime::TZ tz);
-	bool bmx_wxdatetime_isworkday(MaxDateTime * datetime, wxDateTime::Country country);
+	int bmx_wxdatetime_isworkday(MaxDateTime * datetime, wxDateTime::Country country);
 	void bmx_wxdatetime_setfromdos(MaxDateTime * datetime, unsigned long ddt);
 	unsigned long bmx_wxdatetime_getasdos(MaxDateTime * datetime);
-	bool bmx_wxdatetime_isequalto(MaxDateTime * datetime, MaxDateTime * dt);
-	bool bmx_wxdatetime_isearlierthan(MaxDateTime * datetime, MaxDateTime * dt);
-	bool bmx_wxdatetime_islaterthan(MaxDateTime * datetime, MaxDateTime * dt);
-	bool bmx_wxdatetime_isstrictlybetween(MaxDateTime * datetime, MaxDateTime * t1, MaxDateTime * t2);
-	bool bmx_wxdatetime_isbetween(MaxDateTime * datetime, MaxDateTime * t1, MaxDateTime * t2);
-	bool bmx_wxdatetime_issamedate(MaxDateTime * datetime, MaxDateTime * dt);
-	bool bmx_wxdatetime_issametime(MaxDateTime * datetime, MaxDateTime * dt);
+	int bmx_wxdatetime_isequalto(MaxDateTime * datetime, MaxDateTime * dt);
+	int bmx_wxdatetime_isearlierthan(MaxDateTime * datetime, MaxDateTime * dt);
+	int bmx_wxdatetime_islaterthan(MaxDateTime * datetime, MaxDateTime * dt);
+	int bmx_wxdatetime_isstrictlybetween(MaxDateTime * datetime, MaxDateTime * t1, MaxDateTime * t2);
+	int bmx_wxdatetime_isbetween(MaxDateTime * datetime, MaxDateTime * t1, MaxDateTime * t2);
+	int bmx_wxdatetime_issamedate(MaxDateTime * datetime, MaxDateTime * dt);
+	int bmx_wxdatetime_issametime(MaxDateTime * datetime, MaxDateTime * dt);
 
 
-	bool bmx_wxdatetime_isequalupto(MaxDateTime * datetime, MaxDateTime * dt, MaxTimeSpan * ts);
+	int bmx_wxdatetime_isequalupto(MaxDateTime * datetime, MaxDateTime * dt, MaxTimeSpan * ts);
 	MaxDateTime * bmx_wxdatetime_addts(MaxDateTime * datetime, MaxTimeSpan * diff);
 	MaxDateTime * bmx_wxdatetime_subtractts(MaxDateTime * datetime, MaxTimeSpan *diff);
 	MaxDateTime * bmx_wxdatetime_addds(MaxDateTime * datetime, MaxDateSpan * diff);
@@ -124,9 +124,9 @@ extern "C" {
 	MaxDateTime * bmx_wxdatetime_getnextweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekday);
 	void bmx_wxdatetime_settoprevweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay);
 	MaxDateTime * bmx_wxdatetime_getprevweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay);
-	bool bmx_wxdatetime_settoweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, int n, wxDateTime::Month month, int year);
+	int bmx_wxdatetime_settoweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, int n, wxDateTime::Month month, int year);
 	MaxDateTime * bmx_wxdatetime_gettoweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, int n, wxDateTime::Month month, int year);
-	bool bmx_wxdatetime_settolastweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, wxDateTime::Month month, int year);
+	int bmx_wxdatetime_settolastweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, wxDateTime::Month month, int year);
 	MaxDateTime * bmx_wxdatetime_getlastweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, wxDateTime::Month month, int year);
 	MaxDateTime * bmx_wxdatetime_settoweekofyear(int year, int numWeek, wxDateTime::WeekDay weekDay);
 	void bmx_wxdatetime_settolastdayofmonth(MaxDateTime * datetime, wxDateTime::Month month, int year);
@@ -138,13 +138,13 @@ extern "C" {
 	double bmx_wxdatetime_getmodifiedjuliandaynumber(MaxDateTime * datetime);
 	double bmx_wxdatetime_getmjd(MaxDateTime * datetime);
 	double bmx_wxdatetime_getratadie(MaxDateTime * datetime);
-	MaxDateTime * bmx_wxdatetime_fromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST);
-	MaxDateTime * bmx_wxdatetime_totimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST);
-	void bmx_wxdatetime_maketimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST);
-	void bmx_wxdatetime_makefromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST);
-	MaxDateTime * bmx_wxdatetime_toutc(MaxDateTime * datetime, bool noDST);
-	void bmx_wxdatetime_makeutc(MaxDateTime * datetime, bool noDST);
-	bool bmx_wxdatetime_isdst(MaxDateTime * datetime, wxDateTime::Country country);
+	MaxDateTime * bmx_wxdatetime_fromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, int noDST);
+	MaxDateTime * bmx_wxdatetime_totimezone(MaxDateTime * datetime, wxDateTime::TZ tz, int noDST);
+	void bmx_wxdatetime_maketimezone(MaxDateTime * datetime, wxDateTime::TZ tz, int noDST);
+	void bmx_wxdatetime_makefromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, int noDST);
+	MaxDateTime * bmx_wxdatetime_toutc(MaxDateTime * datetime, int noDST);
+	void bmx_wxdatetime_makeutc(MaxDateTime * datetime, int noDST);
+	int bmx_wxdatetime_isdst(MaxDateTime * datetime, wxDateTime::Country country);
 
 	MaxDateSpan * bmx_wxdatespan_create(int years, int months, int weeks, int days);
 	void bmx_wxdatespan_delete(MaxDateSpan * span);
@@ -169,7 +169,7 @@ extern "C" {
 	MaxDateSpan * bmx_wxdatespan_weeks(int weeks);
 	MaxDateSpan * bmx_wxdatespan_year();
 	MaxDateSpan * bmx_wxdatespan_years(int years);
-	bool bmx_wxdatespan_equals(MaxDateSpan * datespan, MaxDateSpan * other);
+	int bmx_wxdatespan_equals(MaxDateSpan * datespan, MaxDateSpan * other);
 	
 	void bmx_wxtimespan_delete(MaxTimeSpan * span);
 	MaxTimeSpan * bmx_wxtimespan_create(long hours, long minutes, long seconds, long msec);
@@ -187,12 +187,12 @@ extern "C" {
 	int bmx_wxtimespan_getweeks(MaxTimeSpan * timespan);
 	MaxTimeSpan * bmx_wxtimespan_hours(long hours);
 	MaxTimeSpan * bmx_wxtimespan_hour();
-	bool bmx_wxtimespan_isequalto(MaxTimeSpan * timespan, MaxTimeSpan * ts);
-	bool bmx_wxtimespan_islongerthan(MaxTimeSpan * timespan, MaxTimeSpan * ts);
-	bool bmx_wxtimespan_isnegative(MaxTimeSpan * timespan);
-	bool bmx_wxtimespan_isnull(MaxTimeSpan * timespan);
-	bool bmx_wxtimespan_ispositive(MaxTimeSpan * timespan);
-	bool bmx_wxtimespan_isshorterthan(MaxTimeSpan * timespan, MaxTimeSpan * ts);
+	int bmx_wxtimespan_isequalto(MaxTimeSpan * timespan, MaxTimeSpan * ts);
+	int bmx_wxtimespan_islongerthan(MaxTimeSpan * timespan, MaxTimeSpan * ts);
+	int bmx_wxtimespan_isnegative(MaxTimeSpan * timespan);
+	int bmx_wxtimespan_isnull(MaxTimeSpan * timespan);
+	int bmx_wxtimespan_ispositive(MaxTimeSpan * timespan);
+	int bmx_wxtimespan_isshorterthan(MaxTimeSpan * timespan, MaxTimeSpan * ts);
 	MaxTimeSpan * bmx_wxtimespan_minutes(long mins);
 	MaxTimeSpan * bmx_wxtimespan_minute();
 	MaxTimeSpan * bmx_wxtimespan_multiply(MaxTimeSpan * timespan, int n);

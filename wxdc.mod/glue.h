@@ -47,7 +47,7 @@ extern "C" {
 	void bmx_wxdc_setuserscale(MaxDC * dc, double xscale, double yscale);
 	void bmx_wxdc_drawline(MaxDC * dc, int x1, int y1, int x2, int y2);
 
-	MaxMirrorDC * bmx_wxmirrordc_create(MaxDC * dc, bool mirror);
+	MaxMirrorDC * bmx_wxmirrordc_create(MaxDC * dc, int mirror);
 
 	void bmx_wxdc_setbackgroundmode(MaxDC * dc, int mode);
 	void bmx_wxdc_setbrush(MaxDC * dc, MaxBrush * brush);
@@ -70,7 +70,7 @@ extern "C" {
 	int wx_wxdc_devicetologicaly(MaxDC * dc, int y);
 	int wx_wxdc_devicetologicalyrel(MaxDC * dc, int y);
 	void wx_wxdc_drawarc(MaxDC * dc, int x1, int y1, int x2, int y2, int xc, int yc);
-	void wx_wxdc_drawbitmap(MaxDC * dc, MaxBitmap * bitmap, int x, int y, bool transparent);
+	void wx_wxdc_drawbitmap(MaxDC * dc, MaxBitmap * bitmap, int x, int y, int transparent);
 	void wx_wxdc_drawcheckmark(MaxDC * dc, int x, int y, int w, int h);
 	void wx_wxdc_drawcheckmarkrect(MaxDC * dc, MaxRect * rect);
 	void wx_wxdc_drawcircle(MaxDC * dc, int x, int y, int radius);
@@ -86,7 +86,7 @@ extern "C" {
 	void bmx_wxdc_drawspline(MaxDC * dc, BBArray * points);
 	void bmx_wxdc_enddoc(MaxDC * dc);
 	void bmx_wxdc_endpage(MaxDC * dc);
-	bool bmx_wxdc_floodfill(MaxDC * dc, int x, int y, MaxColour * colour, wxFloodFillStyle style);
+	int bmx_wxdc_floodfill(MaxDC * dc, int x, int y, MaxColour * colour, wxFloodFillStyle style);
 	MaxBrush * bmx_wxdc_getbackground(MaxDC * dc);
 	int bmx_wxdc_getbackgroundmode(MaxDC * dc);
 	MaxBrush * bmx_wxdc_getbrush(MaxDC * dc);
@@ -121,9 +121,9 @@ extern "C" {
 	int bmx_wxdc_maxy(MaxDC * dc);
 	int bmx_wxdc_minx(MaxDC * dc);
 	int bmx_wxdc_miny(MaxDC * dc);
-	bool bmx_wxdc_isok(MaxDC * dc);
+	int bmx_wxdc_isok(MaxDC * dc);
 	void bmx_wxdc_resetboundingbox(MaxDC * dc);
-	void bmx_wxdc_setaxisorientation(MaxDC * dc, bool leftRight, bool topBottom);
+	void bmx_wxdc_setaxisorientation(MaxDC * dc, int leftRight, int topBottom);
 	void bmx_wxdc_setlayoutdirection(MaxDC * dc, wxLayoutDirection dir);
 	void bmx_wxdc_setlogicalfunction(MaxDC * dc, wxRasterOperationMode func);
 	void bmx_wxdc_setpalette(MaxDC * dc, MaxPalette * palette);

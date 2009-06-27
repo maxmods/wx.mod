@@ -117,8 +117,8 @@ void bmx_wxfixwidthimportctrl_converttabstospaces(wxFixWidthImportCtrl * ctrl) {
 	ctrl->ConvertTabsToSpaces();
 }
 
-void bmx_wxfixwidthimportctrl_enabledelim(wxFixWidthImportCtrl * ctrl, bool enable) {
-	ctrl->EnableDelim(enable);
+void bmx_wxfixwidthimportctrl_enabledelim(wxFixWidthImportCtrl * ctrl, int enable) {
+	ctrl->EnableDelim(static_cast<bool>(enable));
 }
 
 

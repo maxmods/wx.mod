@@ -101,8 +101,8 @@ void bmx_wxdialog_centre(wxDialog * dialog, int direction) {
 	dialog->Centre(direction);
 }
 
-bool bmx_wxdialog_show(wxDialog * dialog, bool show) {
-	return dialog->Show(show);
+int bmx_wxdialog_show(wxDialog * dialog, int show) {
+	return static_cast<int>(dialog->Show(static_cast<bool>(show)));
 }
 
 int bmx_wxdialog_showmodal(wxDialog * dialog) {
@@ -138,16 +138,16 @@ int bmx_wxdialog_getreturncode(wxDialog * dialog) {
 	return dialog->GetReturnCode();
 }
 
-void bmx_wxdialog_iconize(wxDialog * dialog, bool value) {
-	dialog->Iconize(value);
+void bmx_wxdialog_iconize(wxDialog * dialog, int value) {
+	dialog->Iconize(static_cast<bool>(value));
 }
 
-bool bmx_wxdialog_isiconized(wxDialog * dialog) {
-	return dialog->IsIconized();
+int bmx_wxdialog_isiconized(wxDialog * dialog) {
+	return static_cast<int>(dialog->IsIconized());
 }
 
-bool bmx_wxdialog_ismodal(wxDialog * dialog) {
-	return dialog->IsModal();
+int bmx_wxdialog_ismodal(wxDialog * dialog) {
+	return static_cast<int>(dialog->IsModal());
 }
 
 void bmx_wxdialog_setaffirmativeid(wxDialog * dialog, int id) {

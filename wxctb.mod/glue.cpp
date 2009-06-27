@@ -113,12 +113,12 @@ int bmx_wxiobase_readuntileos(wxIOBase * base, char * buffer, int * bytesRead, B
 	return ret;
 }
 
-int bmx_wxiobase_readv(wxIOBase * base, char * buffer, int size, int * timeoutFlag, bool nice) {
-	return base->Readv(buffer, size, timeoutFlag, nice);
+int bmx_wxiobase_readv(wxIOBase * base, char * buffer, int size, int * timeoutFlag, int nice) {
+	return base->Readv(buffer, size, timeoutFlag, static_cast<bool>(nice));
 }
 
-int bmx_wxiobase_writev(wxIOBase * base, char * buffer, int size, int * timeoutFlag, bool nice) {
-	return base->Writev(buffer, size, timeoutFlag, nice);
+int bmx_wxiobase_writev(wxIOBase * base, char * buffer, int size, int * timeoutFlag, int nice) {
+	return base->Writev(buffer, size, timeoutFlag, static_cast<bool>(nice));
 }
 
 // *********************************************
@@ -147,12 +147,12 @@ void bmx_wxserialportdcs_setstopbits(wxSerialPort_DCS * dcs, int stopBits) {
 	dcs->stopbits = static_cast<unsigned char>(stopBits);
 }
 
-void bmx_wxserialportdcs_enablertscts(wxSerialPort_DCS * dcs, bool value) {
-	dcs->rtscts = value;
+void bmx_wxserialportdcs_enablertscts(wxSerialPort_DCS * dcs, int value) {
+	dcs->rtscts = static_cast<bool>(value);
 }
 
-void bmx_wxserialportdcs_enablexonxoff(wxSerialPort_DCS * dcs, bool value) {
-	dcs->xonxoff = value;
+void bmx_wxserialportdcs_enablexonxoff(wxSerialPort_DCS * dcs, int value) {
+	dcs->xonxoff = static_cast<bool>(value);
 }
 
 void bmx_wxserialportdcs_delete(wxSerialPort_DCS * dcs) {

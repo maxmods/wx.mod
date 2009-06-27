@@ -134,28 +134,28 @@ wxFlatNotebook * bmx_wxflatnotebook_create(BBObject * handle, wxWindow * parent,
 	return new MaxFlatNotebook(handle, parent, id, x, y, w, h, style);
 }
 
-void bmx_wxflatnotebook_advanceselection(wxFlatNotebook * fnb, bool forward) {
-    fnb->AdvanceSelection(forward);
+void bmx_wxflatnotebook_advanceselection(wxFlatNotebook * fnb, int forward) {
+    fnb->AdvanceSelection(static_cast<bool>(forward));
 }
 
-bool bmx_wxflatnotebook_addpage(wxFlatNotebook * fnb, wxWindow * window, BBString * caption, bool selected, int imgIndex) {
-    return fnb->AddPage(window, wxStringFromBBString(caption), selected, imgIndex);
+int bmx_wxflatnotebook_addpage(wxFlatNotebook * fnb, wxWindow * window, BBString * caption, int selected, int imgIndex) {
+    return static_cast<int>(fnb->AddPage(window, wxStringFromBBString(caption), static_cast<bool>(selected), imgIndex));
 }
 
-bool bmx_wxflatnotebook_insertpage(wxFlatNotebook * fnb, int index, wxWindow * page, BBString * text, bool selected, int imgIndex) {
-	return fnb->InsertPage(index, page, wxStringFromBBString(text), selected, imgIndex);
+int bmx_wxflatnotebook_insertpage(wxFlatNotebook * fnb, int index, wxWindow * page, BBString * text, int selected, int imgIndex) {
+	return static_cast<int>(fnb->InsertPage(index, page, wxStringFromBBString(text), static_cast<bool>(selected), imgIndex));
 }
 
 void bmx_wxflatnotebook_setselection(wxFlatNotebook * fnb, int page) {
     fnb->SetSelection(page);
 }
 
-void bmx_wxflatnotebook_deletepage(wxFlatNotebook * fnb, int page, bool _notify) {
-    fnb->DeletePage(page, _notify);
+void bmx_wxflatnotebook_deletepage(wxFlatNotebook * fnb, int page, int _notify) {
+    fnb->DeletePage(page, static_cast<bool>(_notify));
 }
 
-bool bmx_wxflatnotebook_deleteallpages(wxFlatNotebook * fnb) {
-    return fnb->DeleteAllPages();
+int bmx_wxflatnotebook_deleteallpages(wxFlatNotebook * fnb) {
+    return static_cast<int>(fnb->DeleteAllPages());
 }
 
 int bmx_wxflatnotebook_getpagecount(wxFlatNotebook * fnb) {
@@ -182,8 +182,8 @@ int bmx_wxflatnotebook_getpreviousselection(wxFlatNotebook * fnb) {
     return fnb->GetPreviousSelection();
 }
 
-bool bmx_wxflatnotebook_getpageshapeangle(wxFlatNotebook * fnb, int page, unsigned int * result) {
-    return fnb->GetPageShapeAngle(page, result);
+int bmx_wxflatnotebook_getpageshapeangle(wxFlatNotebook * fnb, int page, unsigned int * result) {
+    return static_cast<int>(fnb->GetPageShapeAngle(page, result));
 }
 
 void bmx_wxflatnotebook_setpageshapeangle(wxFlatNotebook * fnb, int page, unsigned int angle) {
@@ -200,12 +200,12 @@ void bmx_wxflatnotebook_getpagebestsize(wxFlatNotebook * fnb, int * w, int * h) 
     *h = s.y;
 }
 
-bool bmx_wxflatnotebook_setpagetext(wxFlatNotebook * fnb, int page, BBString * text) {
-    return fnb->SetPageText(page, wxStringFromBBString(text));
+int bmx_wxflatnotebook_setpagetext(wxFlatNotebook * fnb, int page, BBString * text) {
+    return static_cast<int>(fnb->SetPageText(page, wxStringFromBBString(text)));
 }
 
-bool bmx_wxflatnotebook_removepage(wxFlatNotebook * fnb, int page, bool _notify) {
-    return fnb->RemovePage(page, _notify);
+int bmx_wxflatnotebook_removepage(wxFlatNotebook * fnb, int page, int _notify) {
+    return static_cast<int>(fnb->RemovePage(page, static_cast<bool>(_notify)));
 }
 
 void bmx_wxflatnotebook_setpadding(wxFlatNotebook * fnb, int padW, int padH) {
@@ -248,12 +248,12 @@ void bmx_wxflatnotebook_setgradientcolorborder(wxFlatNotebook * fnb, MaxColour *
     fnb->SetGradientColorBorder(colour->Colour());
 }
 
-void bmx_wxflatnotebook_enablepage(wxFlatNotebook * fnb, int page, bool enabled) {
-    fnb->Enable(page, enabled);
+void bmx_wxflatnotebook_enablepage(wxFlatNotebook * fnb, int page, int enabled) {
+    fnb->Enable(page, static_cast<bool>(enabled));
 }
 
-bool bmx_wxflatnotebook_getpageenabled(wxFlatNotebook * fnb, int page) {
-    return fnb->GetEnabled(page);
+int bmx_wxflatnotebook_getpageenabled(wxFlatNotebook * fnb, int page) {
+    return static_cast<int>(fnb->GetEnabled(page));
 }
 
 void bmx_wxflatnotebook_setactivetabtextcolour(wxFlatNotebook * fnb, MaxColour * colour) {
@@ -323,12 +323,12 @@ long bmx_wxflatnotebook_getcustomizeoptions(wxFlatNotebook * fnb) {
     return fnb->GetCustomizeOptions();
 }
 
-void bmx_wxflatnotebook_setforceselection(wxFlatNotebook * fnb, bool force) {
-    fnb->SetForceSelection(force);
+void bmx_wxflatnotebook_setforceselection(wxFlatNotebook * fnb, int force) {
+    fnb->SetForceSelection(static_cast<bool>(force));
 }
 
-bool bmx_wxflatnotebook_getforceselection(wxFlatNotebook * fnb) {
-    return fnb->GetForceSelection();
+int bmx_wxflatnotebook_getforceselection(wxFlatNotebook * fnb) {
+    return static_cast<int>(fnb->GetForceSelection());
 }
 
 wxBoxSizer * bmx_wxflatnotebook_getmainsizer(wxFlatNotebook * fnb) {

@@ -36,8 +36,8 @@ int bmx_wxcontrolwithitems_getcount(wxControlWithItems * control) {
 	return control->GetCount();
 }
 
-bool bmx_wxcontrolwithitems_isempty(wxControlWithItems * control) {
-	return control->IsEmpty();
+int bmx_wxcontrolwithitems_isempty(wxControlWithItems * control) {
+	return static_cast<int>(control->IsEmpty());
 }
 
 void bmx_wxcontrolwithitems_selectitem(wxControlWithItems * control, int item) {

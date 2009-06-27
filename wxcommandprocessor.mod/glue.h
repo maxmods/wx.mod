@@ -30,9 +30,9 @@ extern "C" {
 #include <blitz.h>
 
 	wxCommandProcessor * bmx_wxcommandprocessor_create(BBObject * handle, int maxCommands);
-	bool bmx_wxcommandprocessor_canundo(wxCommandProcessor * proc);
+	int bmx_wxcommandprocessor_canundo(wxCommandProcessor * proc);
 	void bmx_wxcommandprocessor_clearcommands(wxCommandProcessor * proc);
-	bool bmx_wxcommandprocessor_redo(wxCommandProcessor * proc);
+	int bmx_wxcommandprocessor_redo(wxCommandProcessor * proc);
 	int bmx_wxcommandprocessor_getmaxcommands(wxCommandProcessor * proc);
 	wxMenu * bmx_wxcommandprocessor_geteditmenu(wxCommandProcessor * proc);
 	BBString * bmx_wxcommandprocessor_getredoaccelerator(wxCommandProcessor * proc);
@@ -40,14 +40,14 @@ extern "C" {
 	BBString * bmx_wxcommandprocessor_getundoaccelerator(wxCommandProcessor * proc);
 	BBString * bmx_wxcommandprocessor_getundomenulabel(wxCommandProcessor * proc);
 	void bmx_wxcommandprocessor_initialize(wxCommandProcessor * proc);
-	bool bmx_wxcommandprocessor_isdirty(wxCommandProcessor * proc);
+	int bmx_wxcommandprocessor_isdirty(wxCommandProcessor * proc);
 	void bmx_wxcommandprocessor_markassaved(wxCommandProcessor * proc);
 	void bmx_wxcommandprocessor_seteditmenu(wxCommandProcessor * proc, wxMenu * menu);
 	void bmx_wxcommandprocessor_setmenustrings(wxCommandProcessor * proc);
 	void bmx_wxcommandprocessor_setredoaccelerator(wxCommandProcessor * proc, BBString * accel);
 	void bmx_wxcommandprocessor_setundoaccelerator(wxCommandProcessor * proc, BBString * accel);
-	void bmx_wxcommandprocessor_submit(wxCommandProcessor * proc, wxCommand * command, bool storeIt);
-	bool bmx_wxcommandprocessor_undo(wxCommandProcessor * proc);
+	void bmx_wxcommandprocessor_submit(wxCommandProcessor * proc, wxCommand * command, int storeIt);
+	int bmx_wxcommandprocessor_undo(wxCommandProcessor * proc);
 
 }
 

@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	bool _wx_wxfiledroptarget_wxFileDropTarget__OnDropFiles(BBObject * handle, wxCoord x,
+	int _wx_wxfiledroptarget_wxFileDropTarget__OnDropFiles(BBObject * handle, wxCoord x,
 		wxCoord y, BBArray * names);
 
 	wxFileDropTarget * bmx_wxfiledroptarget_create(BBObject * handle);

@@ -35,11 +35,11 @@ extern "C" {
 
 	MaxComboBox * bmx_wxcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style);
 
-	bool bmx_wxcombobox_cancopy(wxComboBox * combo);
-	bool bmx_wxcombobox_cancut(wxComboBox * combo);
-	bool bmx_wxcombobox_canpaste(wxComboBox * combo);
-	bool bmx_wxcombobox_canredo(wxComboBox * combo);
-	bool bmx_wxcombobox_canundo(wxComboBox * combo);
+	int bmx_wxcombobox_cancopy(wxComboBox * combo);
+	int bmx_wxcombobox_cancut(wxComboBox * combo);
+	int bmx_wxcombobox_canpaste(wxComboBox * combo);
+	int bmx_wxcombobox_canredo(wxComboBox * combo);
+	int bmx_wxcombobox_canundo(wxComboBox * combo);
 	void bmx_wxcombobox_copy(wxComboBox * combo);
 	void bmx_wxcombobox_cut(wxComboBox * combo);
 	int bmx_wxcombobox_getcurrentselection(wxComboBox * combo);

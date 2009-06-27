@@ -84,12 +84,12 @@ MaxFontData * bmx_wxfontdata_create() {
 	return new MaxFontData();
 }
 
-void bmx_wxfontdata_enableeffects(MaxFontData * data, bool enable) {
-	data->FontData().EnableEffects(enable);
+void bmx_wxfontdata_enableeffects(MaxFontData * data, int enable) {
+	data->FontData().EnableEffects(static_cast<bool>(enable));
 }
 
-bool bmx_wxfontdata_getallowsymbols(MaxFontData * data) {
-	return data->FontData().GetAllowSymbols();
+int bmx_wxfontdata_getallowsymbols(MaxFontData * data) {
+	return static_cast<int>(data->FontData().GetAllowSymbols());
 }
 
 MaxColour * bmx_wxfontdata_getcolour(MaxFontData * data) {
@@ -102,8 +102,8 @@ MaxFont * bmx_wxfontdata_getchosenfont(MaxFontData * data) {
 	return new MaxFont(f);
 }
 
-bool bmx_wxfontdata_getenableeffects(MaxFontData * data) {
-	return data->FontData().GetEnableEffects();
+int bmx_wxfontdata_getenableeffects(MaxFontData * data) {
+	return static_cast<int>(data->FontData().GetEnableEffects());
 }
 
 MaxFont * bmx_wxfontdata_getinitialfont(MaxFontData * data) {
@@ -111,12 +111,12 @@ MaxFont * bmx_wxfontdata_getinitialfont(MaxFontData * data) {
 	return new MaxFont(f);
 }
 
-bool bmx_wxfontdata_getshowhelp(MaxFontData * data) {
-	return data->FontData().GetShowHelp();
+int bmx_wxfontdata_getshowhelp(MaxFontData * data) {
+	return static_cast<int>(data->FontData().GetShowHelp());
 }
 
-void bmx_wxfontdata_setallowsymbols(MaxFontData * data, bool allowSymbols) {
-	data->FontData().SetAllowSymbols(allowSymbols);
+void bmx_wxfontdata_setallowsymbols(MaxFontData * data, int allowSymbols) {
+	data->FontData().SetAllowSymbols(static_cast<bool>(allowSymbols));
 }
 
 void bmx_wxfontdata_setchosenfont(MaxFontData * data, MaxFont * font) {
@@ -135,8 +135,8 @@ void bmx_wxfontdata_setrange(MaxFontData * data, int minSize, int maxSize) {
 	data->FontData().SetRange(minSize, maxSize);
 }
 
-void bmx_wxfontdata_setshowhelp(MaxFontData * data, bool showhelp) {
-	data->FontData().SetShowHelp(showhelp);
+void bmx_wxfontdata_setshowhelp(MaxFontData * data, int showhelp) {
+	data->FontData().SetShowHelp(static_cast<bool>(showhelp));
 }
 
 

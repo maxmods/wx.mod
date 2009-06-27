@@ -41,8 +41,8 @@ MaxClientDC::MaxClientDC(wxWindow * window)
 
 
 
-MaxMirrorDC * bmx_wxmirrordc_create(MaxDC * dc, bool mirror) {
-	return new MaxMirrorDC(dc->GetDC(), mirror);
+MaxMirrorDC * bmx_wxmirrordc_create(MaxDC * dc, int mirror) {
+	return new MaxMirrorDC(dc->GetDC(), static_cast<bool>(mirror));
 }
 
 void bmx_wxdc_clear(MaxDC * dc) {
@@ -175,8 +175,8 @@ void wx_wxdc_drawarc(MaxDC * dc, int x1, int y1, int x2, int y2, int xc, int yc)
 	dc->GetDC()->DrawArc(x1, y1, x2, y2, xc, yc);
 }
 
-void wx_wxdc_drawbitmap(MaxDC * dc, MaxBitmap * bitmap, int x, int y, bool transparent) {
-	dc->GetDC()->DrawBitmap(bitmap->Bitmap(), x, y, transparent);
+void wx_wxdc_drawbitmap(MaxDC * dc, MaxBitmap * bitmap, int x, int y, int transparent) {
+	dc->GetDC()->DrawBitmap(bitmap->Bitmap(), x, y, static_cast<bool>(transparent));
 }
 
 void wx_wxdc_drawcheckmark(MaxDC * dc, int x, int y, int w, int h) {
@@ -266,8 +266,8 @@ void bmx_wxdc_endpage(MaxDC * dc) {
 	dc->GetDC()->EndPage();
 }
 
-bool bmx_wxdc_floodfill(MaxDC * dc, int x, int y, MaxColour * colour, wxFloodFillStyle style) {
-	return dc->GetDC()->FloodFill(wxPoint(x, y), colour->Colour(), style);
+int bmx_wxdc_floodfill(MaxDC * dc, int x, int y, MaxColour * colour, wxFloodFillStyle style) {
+	return static_cast<int>(dc->GetDC()->FloodFill(wxPoint(x, y), colour->Colour(), style));
 }
 
 MaxBrush * bmx_wxdc_getbackground(MaxDC * dc) {
@@ -418,16 +418,16 @@ int bmx_wxdc_miny(MaxDC * dc) {
 	return dc->GetDC()->MinY();
 }
 
-bool bmx_wxdc_isok(MaxDC * dc) {
-	return dc->GetDC()->IsOk();
+int bmx_wxdc_isok(MaxDC * dc) {
+	return static_cast<int>(dc->GetDC()->IsOk());
 }
 
 void bmx_wxdc_resetboundingbox(MaxDC * dc) {
 	dc->GetDC()->ResetBoundingBox();
 }
 
-void bmx_wxdc_setaxisorientation(MaxDC * dc, bool leftRight, bool topBottom) {
-	dc->GetDC()->SetAxisOrientation(leftRight, topBottom);
+void bmx_wxdc_setaxisorientation(MaxDC * dc, int leftRight, int topBottom) {
+	dc->GetDC()->SetAxisOrientation(static_cast<bool>(leftRight), static_cast<bool>(topBottom));
 }
 
 void bmx_wxdc_setlayoutdirection(MaxDC * dc, wxLayoutDirection dir) {

@@ -72,8 +72,8 @@ wxDateTime::Country bmx_wxdatetime_getcountry() {
 	return wxDateTime::GetCountry();
 }
 
-bool bmx_wxdatetime_iswesteuropeancountry(wxDateTime::Country country) {
-	return wxDateTime::IsWestEuropeanCountry(country);
+int bmx_wxdatetime_iswesteuropeancountry(wxDateTime::Country country) {
+	return static_cast<int>(wxDateTime::IsWestEuropeanCountry(country));
 }
 
 int bmx_wxdatetime_getcurrentyear(wxDateTime::Calendar cal) {
@@ -88,8 +88,8 @@ wxDateTime::Month bmx_wxdatetime_getcurrentmonth(wxDateTime::Calendar cal) {
 	return wxDateTime::GetCurrentMonth(cal);
 }
 
-bool bmx_wxdatetime_isleapyear(int year, wxDateTime::Calendar cal) {
-	return wxDateTime::IsLeapYear(year, cal);
+int bmx_wxdatetime_isleapyear(int year, wxDateTime::Calendar cal) {
+	return static_cast<int>(wxDateTime::IsLeapYear(year, cal));
 }
 
 int bmx_wxdatetime_getcenturyforyear(int year) {
@@ -124,8 +124,8 @@ BBString * bmx_wxdatetime_getpmstring() {
 	return bbStringFromWxString(s);
 }
 
-bool bmx_wxdatetime_isdstapplicable(int year, wxDateTime::Country country) {
-	return wxDateTime::IsDSTApplicable(year, country);
+int bmx_wxdatetime_isdstapplicable(int year, wxDateTime::Country country) {
+	return static_cast<int>(wxDateTime::IsDSTApplicable(year, country));
 }
 
 MaxDateTime * bmx_wxdatetime_getbegindst(int year, wxDateTime::Country country) {
@@ -248,8 +248,8 @@ void bmx_wxdatetime_setmillisecond(MaxDateTime * datetime, int millisec) {
 	datetime->DateTime().SetMillisecond(static_cast<wxDateTime::wxDateTime_t>(millisec));
 }
 
-bool bmx_wxdatetime_isvalid(MaxDateTime * datetime) {
-	return datetime->DateTime().IsValid();
+int bmx_wxdatetime_isvalid(MaxDateTime * datetime) {
+	return static_cast<int>(datetime->DateTime().IsValid());
 }
 
 MaxDateTime * bmx_wxdatetime_getdateonly(MaxDateTime * datetime) {
@@ -308,8 +308,8 @@ int bmx_wxdatetime_getweekofmonth(MaxDateTime * datetime, wxDateTime::WeekFlags 
 	return static_cast<int>(datetime->DateTime().GetWeekOfMonth(flags, tz));
 }
 
-bool bmx_wxdatetime_isworkday(MaxDateTime * datetime, wxDateTime::Country country) {
-	return datetime->DateTime().IsWorkDay(country);
+int bmx_wxdatetime_isworkday(MaxDateTime * datetime, wxDateTime::Country country) {
+	return static_cast<int>(datetime->DateTime().IsWorkDay(country));
 }
 
 void bmx_wxdatetime_setfromdos(MaxDateTime * datetime, unsigned long ddt) {
@@ -320,37 +320,37 @@ unsigned long bmx_wxdatetime_getasdos(MaxDateTime * datetime) {
 	return datetime->DateTime().GetAsDOS();
 }
 
-bool bmx_wxdatetime_isequalto(MaxDateTime * datetime, MaxDateTime * dt) {
-	return datetime->DateTime().IsEqualTo(dt->DateTime());
+int bmx_wxdatetime_isequalto(MaxDateTime * datetime, MaxDateTime * dt) {
+	return static_cast<int>(datetime->DateTime().IsEqualTo(dt->DateTime()));
 }
 
-bool bmx_wxdatetime_isearlierthan(MaxDateTime * datetime, MaxDateTime * dt) {
-	return datetime->DateTime().IsEarlierThan(dt->DateTime());
+int bmx_wxdatetime_isearlierthan(MaxDateTime * datetime, MaxDateTime * dt) {
+	return static_cast<int>(datetime->DateTime().IsEarlierThan(dt->DateTime()));
 }
 
-bool bmx_wxdatetime_islaterthan(MaxDateTime * datetime, MaxDateTime * dt) {
-	return datetime->DateTime().IsLaterThan(dt->DateTime());
+int bmx_wxdatetime_islaterthan(MaxDateTime * datetime, MaxDateTime * dt) {
+	return static_cast<int>(datetime->DateTime().IsLaterThan(dt->DateTime()));
 }
 
-bool bmx_wxdatetime_isstrictlybetween(MaxDateTime * datetime, MaxDateTime * t1, MaxDateTime * t2) {
-	return datetime->DateTime().IsStrictlyBetween(t1->DateTime(), t2->DateTime());
+int bmx_wxdatetime_isstrictlybetween(MaxDateTime * datetime, MaxDateTime * t1, MaxDateTime * t2) {
+	return static_cast<int>(datetime->DateTime().IsStrictlyBetween(t1->DateTime(), t2->DateTime()));
 }
 
-bool bmx_wxdatetime_isbetween(MaxDateTime * datetime, MaxDateTime * t1, MaxDateTime * t2) {
-	return datetime->DateTime().IsBetween(t1->DateTime(), t2->DateTime());
+int bmx_wxdatetime_isbetween(MaxDateTime * datetime, MaxDateTime * t1, MaxDateTime * t2) {
+	return static_cast<int>(datetime->DateTime().IsBetween(t1->DateTime(), t2->DateTime()));
 }
 
-bool bmx_wxdatetime_issamedate(MaxDateTime * datetime, MaxDateTime * dt) {
-	return datetime->DateTime().IsSameDate(dt->DateTime());
+int bmx_wxdatetime_issamedate(MaxDateTime * datetime, MaxDateTime * dt) {
+	return static_cast<int>(datetime->DateTime().IsSameDate(dt->DateTime()));
 }
 
-bool bmx_wxdatetime_issametime(MaxDateTime * datetime, MaxDateTime * dt) {
-	return datetime->DateTime().IsSameTime(dt->DateTime());
+int bmx_wxdatetime_issametime(MaxDateTime * datetime, MaxDateTime * dt) {
+	return static_cast<int>(datetime->DateTime().IsSameTime(dt->DateTime()));
 }
 
 
-bool bmx_wxdatetime_isequalupto(MaxDateTime * datetime, MaxDateTime * dt, MaxTimeSpan * ts) {
-	return datetime->DateTime().IsEqualUpTo(dt->DateTime(), ts->Span());
+int bmx_wxdatetime_isequalupto(MaxDateTime * datetime, MaxDateTime * dt, MaxTimeSpan * ts) {
+	return static_cast<int>(datetime->DateTime().IsEqualUpTo(dt->DateTime(), ts->Span()));
 }
 
 MaxDateTime * bmx_wxdatetime_addts(MaxDateTime * datetime, MaxTimeSpan * diff) {
@@ -485,16 +485,16 @@ MaxDateTime * bmx_wxdatetime_getprevweekday(MaxDateTime * datetime, wxDateTime::
 	return new MaxDateTime(datetime->DateTime().GetPrevWeekDay(weekDay));
 }
 
-bool bmx_wxdatetime_settoweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, int n, wxDateTime::Month month, int year) {
-	return datetime->DateTime().SetToWeekDay(weekDay, n, month, year);
+int bmx_wxdatetime_settoweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, int n, wxDateTime::Month month, int year) {
+	return static_cast<int>(datetime->DateTime().SetToWeekDay(weekDay, n, month, year));
 }
 
 MaxDateTime * bmx_wxdatetime_gettoweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, int n, wxDateTime::Month month, int year) {
 	return new MaxDateTime(datetime->DateTime().GetWeekDay(weekDay, n, month, year));
 }
 
-bool bmx_wxdatetime_settolastweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, wxDateTime::Month month, int year) {
-	return datetime->DateTime().SetToLastWeekDay(weekDay, month, year);
+int bmx_wxdatetime_settolastweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, wxDateTime::Month month, int year) {
+	return static_cast<int>(datetime->DateTime().SetToLastWeekDay(weekDay, month, year));
 }
 
 MaxDateTime * bmx_wxdatetime_getlastweekday(MaxDateTime * datetime, wxDateTime::WeekDay weekDay, wxDateTime::Month month, int year) {
@@ -541,32 +541,32 @@ double bmx_wxdatetime_getratadie(MaxDateTime * datetime) {
 	return datetime->DateTime().GetRataDie();
 }
 
-MaxDateTime * bmx_wxdatetime_fromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST) {
-	return new MaxDateTime(datetime->DateTime().FromTimezone(tz, noDST));
+MaxDateTime * bmx_wxdatetime_fromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, int noDST) {
+	return new MaxDateTime(datetime->DateTime().FromTimezone(tz, static_cast<bool>(noDST)));
 }
 
-MaxDateTime * bmx_wxdatetime_totimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST) {
-	return new MaxDateTime(datetime->DateTime().ToTimezone(tz, noDST));
+MaxDateTime * bmx_wxdatetime_totimezone(MaxDateTime * datetime, wxDateTime::TZ tz, int noDST) {
+	return new MaxDateTime(datetime->DateTime().ToTimezone(tz, static_cast<bool>(noDST)));
 }
 
-void bmx_wxdatetime_maketimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST) {
-	datetime->DateTime().MakeTimezone(tz, noDST);
+void bmx_wxdatetime_maketimezone(MaxDateTime * datetime, wxDateTime::TZ tz, int noDST) {
+	datetime->DateTime().MakeTimezone(tz, static_cast<bool>(noDST));
 }
 
-void bmx_wxdatetime_makefromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, bool noDST) {
-	datetime->DateTime().MakeFromTimezone(tz, noDST);
+void bmx_wxdatetime_makefromtimezone(MaxDateTime * datetime, wxDateTime::TZ tz, int noDST) {
+	datetime->DateTime().MakeFromTimezone(tz, static_cast<bool>(noDST));
 }
 
-MaxDateTime * bmx_wxdatetime_toutc(MaxDateTime * datetime, bool noDST) {
-	return new MaxDateTime(datetime->DateTime().ToUTC(noDST));
+MaxDateTime * bmx_wxdatetime_toutc(MaxDateTime * datetime, int noDST) {
+	return new MaxDateTime(datetime->DateTime().ToUTC(static_cast<bool>(noDST)));
 }
 
-void bmx_wxdatetime_makeutc(MaxDateTime * datetime, bool noDST) {
-	datetime->DateTime().MakeUTC(noDST);
+void bmx_wxdatetime_makeutc(MaxDateTime * datetime, int noDST) {
+	datetime->DateTime().MakeUTC(static_cast<bool>(noDST));
 }
 
-bool bmx_wxdatetime_isdst(MaxDateTime * datetime, wxDateTime::Country country) {
-	return datetime->DateTime().IsDST(country);
+int bmx_wxdatetime_isdst(MaxDateTime * datetime, wxDateTime::Country country) {
+	return static_cast<int>(datetime->DateTime().IsDST(country));
 }
 
 // *********************************************
@@ -664,8 +664,8 @@ MaxDateSpan * bmx_wxdatespan_years(int years) {
 	return new MaxDateSpan(wxDateSpan::Years(years));
 }
 
-bool bmx_wxdatespan_equals(MaxDateSpan * datespan, MaxDateSpan * other) {
-	return datespan->Span() == other->Span();
+int bmx_wxdatespan_equals(MaxDateSpan * datespan, MaxDateSpan * other) {
+	return static_cast<int>(datespan->Span() == other->Span());
 }
 
 
@@ -736,28 +736,28 @@ MaxTimeSpan * bmx_wxtimespan_hour() {
 	return new MaxTimeSpan(wxTimeSpan::Hour());
 }
 
-bool bmx_wxtimespan_isequalto(MaxTimeSpan * timespan, MaxTimeSpan * ts) {
-	return timespan->Span().IsEqualTo(ts->Span());
+int bmx_wxtimespan_isequalto(MaxTimeSpan * timespan, MaxTimeSpan * ts) {
+	return static_cast<int>(timespan->Span().IsEqualTo(ts->Span()));
 }
 
-bool bmx_wxtimespan_islongerthan(MaxTimeSpan * timespan, MaxTimeSpan * ts) {
-	return timespan->Span().IsLongerThan(ts->Span());
+int bmx_wxtimespan_islongerthan(MaxTimeSpan * timespan, MaxTimeSpan * ts) {
+	return static_cast<int>(timespan->Span().IsLongerThan(ts->Span()));
 }
 
-bool bmx_wxtimespan_isnegative(MaxTimeSpan * timespan) {
-	return timespan->Span().IsNegative();
+int bmx_wxtimespan_isnegative(MaxTimeSpan * timespan) {
+	return static_cast<int>(timespan->Span().IsNegative());
 }
 
-bool bmx_wxtimespan_isnull(MaxTimeSpan * timespan) {
-	return timespan->Span().IsNull();
+int bmx_wxtimespan_isnull(MaxTimeSpan * timespan) {
+	return static_cast<int>(timespan->Span().IsNull());
 }
 
-bool bmx_wxtimespan_ispositive(MaxTimeSpan * timespan) {
-	return timespan->Span().IsPositive();
+int bmx_wxtimespan_ispositive(MaxTimeSpan * timespan) {
+	return static_cast<int>(timespan->Span().IsPositive());
 }
 
-bool bmx_wxtimespan_isshorterthan(MaxTimeSpan * timespan, MaxTimeSpan * ts) {
-	return timespan->Span().IsShorterThan(ts->Span());
+int bmx_wxtimespan_isshorterthan(MaxTimeSpan * timespan, MaxTimeSpan * ts) {
+	return static_cast<int>(timespan->Span().IsShorterThan(ts->Span()));
 }
 
 MaxTimeSpan * bmx_wxtimespan_minutes(long mins) {
