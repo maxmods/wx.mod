@@ -67,6 +67,17 @@ static const wxChar* writerTraceMask = _T("traceWriter");
  When writing to a stream object, the JSON text output is always
  encoded in UTF-8 in both ANSI and Unicode builds.
 
+ \par efficiency
+
+ In versions up to 1.0 the JSON writer wrote every character to the
+ output object (the string or the stream).
+ This is very inefficient becuase the writer converted each char to
+ UTF-8 when writing to streams but we have to note that only string values
+ have to be actually converted.
+ Special JSON characters, numbers and literals do not need the conversion
+ because for characters in the US-ASCII plane (0x00-0x7F)
+ no conversion is needed as they only take one byte.
+
  For more info about the unicode topic see \ref wxjson_tutorial_unicode.
 */
 
@@ -595,114 +606,143 @@ wxJSONWriter::WriteIndent( int num )
 int
 wxJSONWriter::WriteStringValue( const wxString& str )
 {
-  int lastChar = WriteChar( '\"' );  // open quotes
-  if ( lastChar < 0 )   {
-    return lastChar;
-  }
+	int lastChar = WriteChar( '\"' );  // open quotes
+	if ( lastChar < 0 )   {
+		return lastChar;
+	}
 
-  // store the column at which the string starts
-  // splitting strings only happen if the string starts within
-  // column wxJSONWRITER_LAST_COL (default 50)
-  // see 'include/wx/json_defs.h' for the defines
-  int tempCol = m_colNo;
+	// store the column at which the string starts
+	// splitting strings only happen if the string starts within
+	// column wxJSONWRITER_LAST_COL (default 50)
+	// see 'include/wx/json_defs.h' for the defines
+	int tempCol = m_colNo;
 
-  // every character is written using the WriteChar() function
-  size_t len = str.length();
-  size_t i;
-  for ( i = 0; i < len; i++ ) {
-    bool shouldEscape = false;
-    wxChar ch = str.at(i );
-    // for every character we have to check if it is a character that
-    // needs to be escaped: note that characters that should be escaped
-    // may be not if some writer's flags are specified
-    switch ( ch )  {
-      case '\"' :     // quotes
-        shouldEscape = true;
-        break;
-      case '\\' :     // reverse solidus
-        shouldEscape = true;
-        break;
-      case '/'  :     // solidus
-        if ( m_style & wxJSONWRITER_ESCAPE_SOLIDUS )  {
-          shouldEscape = true;
-        }
-        break;
-      case '\b' :     // backspace
-        shouldEscape = true;
-		ch = 'b';
-        break;
-      case '\f' :     // formfeed
-        shouldEscape = true;
-		ch = 'f';
-        break;
-      case '\n' :     // newline
-        if ( m_style & wxJSONWRITER_MULTILINE_STRING )  {
-          shouldEscape = false;
-        }
-        else {
-          shouldEscape = true;
-  		  ch = 'n';
-        }
-        break;
-      case '\r' :     // carriage-return
-        shouldEscape = true;
-		ch = 'r';
-        break;
-      case '\t' :      // horizontal tab
-        if ( m_style & wxJSONWRITER_MULTILINE_STRING )  {
-          shouldEscape = false;
-        }
-        else {
-          shouldEscape = true;
-		  ch = 't';
-        }
-        break;
-      default :
-          shouldEscape = false;
-        break;
-    }
+	// every character is written using the WriteChar() function
+	size_t len = str.length();
+	size_t i;
+	for ( i = 0; i < len; i++ ) {
+		bool shouldEscape = false;
+		wxChar ch = str.at(i );
+		// the escaped character
+		wxChar escChar;
+		// for every character we have to check if it is a character that
+		// needs to be escaped: note that characters that should be escaped
+		// may be not if some writer's flags are specified
 
-    // before writing the character, write the ESC if it should be escaped
-    if ( shouldEscape )  {
-      lastChar = WriteChar( '\\' );
-      if ( lastChar < 0 )  {
-        return lastChar;
-      }
-    }
+		switch ( ch )  {
+		case '\"' :     // quotes
+			shouldEscape = true;
+			escChar = '\"';
+			break;
+		case '\\' :     // reverse solidus
+			shouldEscape = true;
+			escChar = '\\';
+			break;
+		case '/'  :     // solidus
+			shouldEscape = true;
+			escChar = '/';
+			break;
+		case '\b' :     // backspace
+			shouldEscape = true;
+			escChar = 'b';
+			break;
+		case '\f' :     // formfeed
+			shouldEscape = true;
+			escChar = 'f';
+			break;
+		case '\n' :     // newline
+			shouldEscape = true;
+			escChar = 'n';
+			break;
+		case '\r' :     // carriage-return
+			shouldEscape = true;
+			escChar = 'r';
+			break;
+		case '\t' :      // horizontal tab
+			shouldEscape = true;
+			escChar = 't';
+			break;
+		default :
+			shouldEscape = false;
+			break;
+		}		// end switch
+		
 
-    // now write the character
-    lastChar = WriteChar( ch );
-    if ( lastChar < 0 )  {
-      return lastChar;
-    }
+		// if the character is a control character that is not identified by a
+		// lowercase letter, we should escape it
+		if ( !shouldEscape && ch < 32 )  {
+			wxString s;
+			s.Printf( _T("\\u%04X"), (int) ch );
+			lastChar = WriteString( s );
+		}
 
-    // check if SPLIT_STRING flag is set and if the string has to
-    // be splitted
-    if ( (m_style & wxJSONWRITER_STYLED) && (m_style & wxJSONWRITER_SPLIT_STRING))   {
-      if ( m_colNo >= wxJSONWRITER_SPLIT_COL && tempCol <= wxJSONWRITER_LAST_COL ) {
-        // split the string only if there is at least wxJSONWRITER_MIN_LENGTH
-        // character to write and the character written is a punctuation or space
-        if ( IsSpace( ch ) || IsPunctuation( ch ))  {
-          if ( len - i > wxJSONWRITER_MIN_LENGTH )  {
-            lastChar = WriteString( _T("\"\n" ));       // close quotes and CR
-            if ( lastChar < 0 )  {
-              return lastChar;
-            }
-            lastChar = WriteIndent( m_level + 2 ); 	// write indentation
-            if ( lastChar < 0 )  {
-              return lastChar;
-            }
-            lastChar = WriteChar( '\"' );              // reopen quotes
-            if ( lastChar < 0 )  {
-              return lastChar;
-            }
-          }
-        }
-      }
-    }
-  }
-  lastChar = WriteChar( '\"' );  // close quotes
-  return lastChar;
+		// the char is not a control character
+		else {
+			// some characters that shold be escaped are not escaped
+			// if the writer was constructed with some flags
+			if ( shouldEscape && !( m_style & wxJSONWRITER_ESCAPE_SOLIDUS) )  {
+				if ( ch == '/' )  {
+					shouldEscape = false;
+				}
+			}
+			if ( shouldEscape && (m_style & wxJSONWRITER_MULTILINE_STRING))  {
+				if ( ch == '\n' || ch == '\t' )  {
+					shouldEscape = false;
+				}
+			}
+
+
+			// now write the character prepended by ESC if it should be escaped
+			if ( shouldEscape )  {
+				lastChar = WriteChar( '\\' );
+				lastChar = WriteChar( escChar );
+				if ( lastChar < 0 )  {
+					return lastChar;
+				}
+			}
+			else {
+			  //  write the character
+			  lastChar = WriteChar( ch );
+			  if ( lastChar < 0 )  {
+				return lastChar;
+			  }
+			}
+		}
+
+
+		// check if SPLIT_STRING flag is set and if the string has to
+		// be splitted
+		if ( (m_style & wxJSONWRITER_STYLED) && (m_style & wxJSONWRITER_SPLIT_STRING))   {
+			// split the string if the character written is LF
+			if ( ch == '\n' ) {
+				// close quotes and CR
+				lastChar = WriteString( _T("\"\n" )); 
+				lastChar = WriteIndent( m_level + 2 ); 	// write indentation
+				lastChar = WriteChar( '\"' );           // reopen quotes
+				if ( lastChar < 0 )  {
+					return lastChar;
+				}
+			}
+			// split the string only if there is at least wxJSONWRITER_MIN_LENGTH
+			// character to write and the character written is a punctuation or space
+			else if ( (m_colNo >= wxJSONWRITER_SPLIT_COL)
+					 && (tempCol <= wxJSONWRITER_LAST_COL )) {
+				if ( IsSpace( ch ) || IsPunctuation( ch ))  {
+					if ( len - i > wxJSONWRITER_MIN_LENGTH )  {
+						// close quotes and CR
+						lastChar = WriteString( _T("\"\n" )); 
+						lastChar = WriteIndent( m_level + 2 ); 	// write indentation
+						lastChar = WriteChar( '\"' );           // reopen quotes
+						if ( lastChar < 0 )  {
+							return lastChar;
+						}
+					}
+				}
+			}
+		}
+	}				// end for
+	lastChar = WriteChar( '\"' );	// close quotes
+	return lastChar;
 }
 
 //! Write a character to the output object
@@ -823,6 +863,7 @@ wxJSONWriter::WriteChar( wxChar ch )
   }
   return r;
 }
+
 
 //! Write a generic string
 /*!
