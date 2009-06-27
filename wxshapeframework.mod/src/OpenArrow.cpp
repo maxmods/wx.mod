@@ -18,7 +18,7 @@
 #include "wx/wxsf/CommonFcn.h"
 
 // arrow shape
-const wxRealPoint arrow[3]={wxRealPoint(0,0), wxRealPoint(10,4), wxRealPoint(10,-4)};
+static const wxRealPoint arrow[3]={wxRealPoint(0,0), wxRealPoint(10,4), wxRealPoint(10,-4)};
 
 using namespace wxSFCommonFcn;
 
@@ -27,16 +27,25 @@ XS_IMPLEMENT_CLONABLE_CLASS(wxSFOpenArrow, wxSFArrowBase);
 wxSFOpenArrow::wxSFOpenArrow(void)
 : wxSFArrowBase()
 {
+	m_Pen = sfdvARROW_BORDER;
+	
+	XS_SERIALIZE_EX(m_Pen, wxT("arrow_style"), sfdvARROW_BORDER);
 }
 
 wxSFOpenArrow::wxSFOpenArrow(wxSFShapeBase* parent)
 : wxSFArrowBase(parent)
 {
+	m_Pen = sfdvARROW_BORDER;
+	
+	XS_SERIALIZE_EX(m_Pen, wxT("arrow_style"), sfdvARROW_BORDER);
 }
 
 wxSFOpenArrow::wxSFOpenArrow(const wxSFOpenArrow& obj)
 : wxSFArrowBase(obj)
 {
+	m_Pen = obj.m_Pen;
+	
+	XS_SERIALIZE_EX(m_Pen, wxT("arrow_style"), sfdvARROW_BORDER);
 }
 
 wxSFOpenArrow::~wxSFOpenArrow(void)
@@ -50,31 +59,11 @@ wxSFOpenArrow::~wxSFOpenArrow(void)
 void wxSFOpenArrow::Draw(const wxRealPoint &from, const wxRealPoint &to, wxDC& dc)
 {
 	wxPoint rarrow[3];
-	double cosa, sina, dist;
+	
+	TranslateArrow( rarrow, arrow, 3, from, to );
 
-	// calculate distance between line points
-	dist = Distance(from, to);
-
-	// calculate sin and cos of given line segment
-	sina = (from.y - to.y)/dist;
-	cosa = (from.x - to.x)/dist;
-
-    // rotate arrow
-	for(int i = 0; i<3; i++)
-	{
-		rarrow[i].x = (int)((arrow[i].x*cosa-arrow[i].y*sina)+to.x);
-		rarrow[i].y = (int)((arrow[i].x*sina+arrow[i].y*cosa)+to.y);
-	}
-
-	DrawArrowShape(3, rarrow, dc);
-}
-
-//----------------------------------------------------------------------------------//
-// protected virtual functions
-//----------------------------------------------------------------------------------//
-
-void wxSFOpenArrow::DrawArrowShape(int WXUNUSED(n), wxPoint pts[], wxDC& dc)
-{
-	dc.DrawLine(pts[0], pts[1]);
-    dc.DrawLine(pts[0], pts[2]);
+	dc.SetPen( m_Pen );
+	dc.DrawLine(rarrow[0], rarrow[1]);
+    dc.DrawLine(rarrow[0], rarrow[2]);
+	dc.SetPen( wxNullPen );
 }

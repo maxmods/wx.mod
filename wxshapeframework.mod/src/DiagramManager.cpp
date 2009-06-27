@@ -20,6 +20,7 @@
 
 #include "wx/wxsf/DiagramManager.h"
 #include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/ControlShape.h"
 
 #include "wx/wxsf/CommonFcn.h"
 
@@ -34,7 +35,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.7.2 beta");
+    m_sSFVersion =  wxT("1.8.0 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
@@ -77,7 +78,9 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, bool saveSta
 
 wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState)
 {
-    if( IsShapeAccepted(shapeInfo->GetClassName()) )
+	wxASSERT( shapeInfo );
+	
+    if( shapeInfo && IsShapeAccepted(shapeInfo->GetClassName()) )
     {
         // create shape object from class info
         wxSFShapeBase *pShape = (wxSFShapeBase*)shapeInfo->CreateObject();
@@ -161,6 +164,12 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                 }
 			}
 
+			// reset scale of assigned shape canvas (if exists and it is necessary...)
+			if( m_pShapeCanvas && shape->IsKindOf( CLASSINFO(wxSFControlShape) ) )
+			{
+				m_pShapeCanvas->SetScale( 1 );
+			}
+			
             if( m_pShapeCanvas )
             {
                 if( saveState )
@@ -472,7 +481,7 @@ wxSFShapeBase* wxSFDiagramManager::GetShapeAtPosition(const wxPoint& pos, int zo
 	while(node)
 	{
 		pShape = (wxSFShapeBase*)node->GetData();
-		if(pShape->IsVisible() && pShape->IsActive() && pShape->IsInside(pos))
+		if(pShape->IsVisible() && pShape->IsActive() && pShape->Contains(pos))
 		{
 			switch(mode)
 			{
@@ -519,7 +528,7 @@ void wxSFDiagramManager::GetShapesAtPosition(const wxPoint& pos, ShapeList& shap
 	while(node)
 	{
 		pShape = node->GetData();
-		if(pShape->IsVisible() && pShape->IsActive() && pShape->IsInside(pos))shapes.Append(pShape);
+		if(pShape->IsVisible() && pShape->IsActive() && pShape->Contains(pos))shapes.Append(pShape);
 		node = node->GetNext();
 	}
 }

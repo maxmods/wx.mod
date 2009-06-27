@@ -126,9 +126,13 @@ void wxSFControlShape::SetControl(wxWindow *ctrl, bool fit)
 //----------------------------------------------------------------------------------//
 
 void wxSFControlShape::FitToChildren()
-{
-    wxRect ctrlRct = wxRect(m_pControl->GetPosition(), m_pControl->GetSize());
+{	
+    wxRect ctrlRct;
     wxRect bbRct = GetBoundingBox();
+	
+	if( m_pControl ) ctrlRct = wxRect(m_pControl->GetPosition(), m_pControl->GetSize());
+	else
+		ctrlRct = bbRct;
 
     wxSFRectShape::FitToChildren();
 
@@ -153,8 +157,10 @@ void wxSFControlShape::MoveBy(double x, double y)
     UpdateControl();
 }
 
-void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
+void wxSFControlShape::OnBeginDrag(const wxPoint& pos)
 {
+	wxUnusedVar( pos );
+	
     m_PrevFill = m_Fill;
     m_Fill = m_ModFill;
 
@@ -176,19 +182,10 @@ void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
     }
 }
 
-void wxSFControlShape::OnDragging(const wxPoint& WXUNUSED(pos) )
+void wxSFControlShape::OnEndDrag(const wxPoint& pos)
 {
-    /*if( m_pControl )
-    {
-        wxRealPoint absPos = GetAbsolutePosition();
-
-        // set the control's position according to the parent control shape
-        m_pControl->Move((int)absPos.x + m_nControlOffset, (int)absPos.y + m_nControlOffset);
-    }*/
-}
-
-void wxSFControlShape::OnEndDrag(const wxPoint& WXUNUSED(pos) )
-{
+	wxUnusedVar( pos );
+	
     m_Fill = m_PrevFill;
 
     if( m_pParentManager )
@@ -253,6 +250,13 @@ void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
     }
 }
 
+void wxSFControlShape::Update()
+{
+	wxSFShapeBase::Update();
+	UpdateControl();
+}
+
+
 //----------------------------------------------------------------------------------//
 // protected functions
 //----------------------------------------------------------------------------------//
@@ -262,6 +266,7 @@ void wxSFControlShape::UpdateControl()
     if( m_pControl )
     {
         int x = 0, y = 0;
+		
         wxRect minBB = m_pControl->GetMinSize();
         wxRect rctBB = GetBoundingBox().Deflate(m_nControlOffset, m_nControlOffset);
 
@@ -287,13 +292,16 @@ void wxSFControlShape::UpdateControl()
 
 void wxSFControlShape::UpdateShape()
 {
-    wxSize nCtrlSize = m_pControl->GetSize();
-    wxPoint nCtrlPos = m_pControl->GetPosition();
+	if( m_pControl )
+	{
+		wxSize nCtrlSize = m_pControl->GetSize();
+		wxPoint nCtrlPos = m_pControl->GetPosition();
 
-    m_nRectSize.x = nCtrlSize.x + 2*m_nControlOffset;
-    m_nRectSize.y = nCtrlSize.y + 2*m_nControlOffset;
+		m_nRectSize.x = nCtrlSize.x + 2*m_nControlOffset;
+		m_nRectSize.y = nCtrlSize.y + 2*m_nControlOffset;
 
-    GetShapeManager()->GetShapeCanvas()->Refresh(false);
+		GetShapeManager()->GetShapeCanvas()->Refresh(false);
+	}
 }
 
 //----------------------------------------------------------------------------------//
@@ -380,7 +388,7 @@ void EventSink::SendEvent(wxEvent &event)
         wxSFShapeCanvas *pCanvas = ((wxSFDiagramManager*)m_pParentShape->GetParentManager())->GetShapeCanvas();
 
         // send copy of the event to the shape canvas
-        if( pCanvas ) pCanvas->GetEventHandler()->AddPendingEvent(event);
+        if( pCanvas ) pCanvas->AddPendingEvent(event);
     }
 }
 

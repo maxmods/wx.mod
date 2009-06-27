@@ -23,14 +23,12 @@ bool wxSFScaledDC::m_fEnableGC = false;
 //----------------------------------------------------------------------------------//
 
 wxSFScaledDC::wxSFScaledDC( wxWindowDC *target, double scale)
-	: wxDC(target->GetImpl())
 {
 	m_nScale = scale;
 	m_pTargetDC = target;
-
+	
 #if wxUSE_GRAPHICS_CONTEXT
     m_pGC = wxGraphicsContext::Create( *m_pTargetDC );
-if (m_pGC)
 	m_pGC->Scale( scale, scale );
 #endif
 }
@@ -41,10 +39,6 @@ wxSFScaledDC::~wxSFScaledDC()
     if( m_pGC ) delete m_pGC;
 #endif
 }
-
-wxDCImpl * wxSFScaledDC::GetImpl()
-{ return m_pTargetDC->GetImpl(); }
-
 
 //----------------------------------------------------------------------------------//
 // wxGraphicContext related functions
@@ -105,11 +99,11 @@ void wxSFScaledDC::Clear()
 {
 	m_pTargetDC->Clear();
 }
-//void wxSFScaledDC::ComputeScaleAndOrigin()
-//{
-//	m_pTargetDC->ComputeScaleAndOrigin();
-//}
-bool wxSFScaledDC::DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC* source, wxCoord xsrc, wxCoord ysrc, wxRasterOperationMode rop, bool useMask, wxCoord xsrcMask, wxCoord ysrcMask)
+void wxSFScaledDC::ComputeScaleAndOrigin()
+{
+	m_pTargetDC->ComputeScaleAndOrigin();
+}
+bool wxSFScaledDC::DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC* source, wxCoord xsrc, wxCoord ysrc, int rop, bool useMask, wxCoord xsrcMask, wxCoord ysrcMask)
 {
 	return m_pTargetDC->Blit( Scale(xdest), Scale(ydest), width, height, source, xsrc, ysrc, rop, useMask, xsrcMask, ysrcMask);
 }
@@ -222,7 +216,7 @@ void wxSFScaledDC::DoDrawPoint(wxCoord x, wxCoord y)
     else
         m_pTargetDC->DrawPoint(Scale(x), Scale(y));
 }
-void wxSFScaledDC::DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoord xoffset, wxCoord yoffset, wxPolygonFillMode fillStyle)
+void wxSFScaledDC::DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoord xoffset, wxCoord yoffset, int fillStyle)
 {
     if( m_fEnableGC )
     {
@@ -269,7 +263,7 @@ void wxSFScaledDC::DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoo
         delete [] updPoints;
     }
 }
-void wxSFScaledDC::DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset, wxPolygonFillMode fillStyle)
+void wxSFScaledDC::DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset, int fillStyle)
 {
     if( m_fEnableGC )
     {
@@ -355,7 +349,7 @@ void wxSFScaledDC::DoDrawRoundedRectangle(wxCoord x, wxCoord y, wxCoord width, w
     else
 		m_pTargetDC->DrawRoundedRectangle(Scale(x), Scale(y), Scale(width), Scale(height), radius*m_nScale);
 }
-void wxSFScaledDC::DoDrawSpline(wxPointList* points)
+void wxSFScaledDC::DoDrawSpline(wxList* points)
 {
 	m_pTargetDC->DrawSpline( points );
 }
@@ -384,7 +378,7 @@ void wxSFScaledDC::DoDrawText(const wxString& text, wxCoord x, wxCoord y)
         SetFont(prevfont);
     }
 }
-bool wxSFScaledDC::DoFloodFill(wxCoord x, wxCoord y, const wxColour& col, wxFloodFillStyle style)
+bool wxSFScaledDC::DoFloodFill(wxCoord x, wxCoord y, const wxColour& col, int style)
 {
 	return m_pTargetDC->FloodFill( Scale(x), Scale(y), col, style );
 }
@@ -505,7 +499,7 @@ wxLayoutDirection wxSFScaledDC::GetLayoutDirection() const
 {
 	return m_pTargetDC->GetLayoutDirection();
 }
-wxRasterOperationMode wxSFScaledDC::GetLogicalFunction() const
+int wxSFScaledDC::GetLogicalFunction() const
 {
 	return m_pTargetDC->GetLogicalFunction();
 }
@@ -513,7 +507,7 @@ void wxSFScaledDC::GetLogicalScale(double* x, double* y)
 {
 	m_pTargetDC->GetLogicalScale( x, y );
 }
-wxMappingMode wxSFScaledDC::GetMapMode() const
+int wxSFScaledDC::GetMapMode() const
 {
 	return m_pTargetDC->GetMapMode();
 }
@@ -531,12 +525,7 @@ const wxPen& wxSFScaledDC::GetPen() const
 }
 wxBitmap wxSFScaledDC::GetSelectedBitmap() const
 {
-// BaH
-#ifndef __WXMAC__
 	return m_pTargetDC->GetSelectedBitmap();
-#else
-	return wxNullBitmap;
-#endif
 }
 const wxColour& wxSFScaledDC::GetTextBackground() const
 {
@@ -556,7 +545,7 @@ bool wxSFScaledDC::IsOk() const
 }
 bool wxSFScaledDC::Ok() const
 {
-	return m_pTargetDC->IsOk();
+	return m_pTargetDC->Ok();
 }
 void wxSFScaledDC::SetAxisOrientation(bool xLeftRight, bool yBottomUp)
 {
@@ -598,7 +587,7 @@ void wxSFScaledDC::SetLayoutDirection(wxLayoutDirection dir)
 {
 	m_pTargetDC->SetLayoutDirection( dir );
 }
-void wxSFScaledDC::SetLogicalFunction(wxRasterOperationMode function)
+void wxSFScaledDC::SetLogicalFunction(int function)
 {
 	m_pTargetDC->SetLogicalFunction( function );
 }
@@ -610,7 +599,7 @@ void wxSFScaledDC::SetLogicalScale(double x, double y)
 {
 	m_pTargetDC->SetLogicalScale( x, y );
 }
-void wxSFScaledDC::SetMapMode(wxMappingMode mode)
+void wxSFScaledDC::SetMapMode(int mode)
 {
 	m_pTargetDC->SetMapMode( mode );
 }

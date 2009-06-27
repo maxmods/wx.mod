@@ -654,6 +654,11 @@ public:
 	 * \brief Set the canvas scale so a whole diagram is visible.
 	 */
 	void SetScaleToViewAll();
+	/**
+	 * \brief Scroll the shape canvas so the given shape will be located in its center.
+	 * \param shape Pointer to focused shape
+	 */
+	void ScrollToShape(wxSFShapeBase* shape);
 	/*!
 	 * \brief Enable usage of wxGraphicsContext for drawing (if supported).
 	 * \param enab If TRUE then the wxGraphicsContext will be used
@@ -928,27 +933,27 @@ private:
 	 * \brief Event handler called when the canvas should be repainted.
 	 * \param event Paint event
 	 */
-	void OnPaint(wxPaintEvent& event);
+	void _OnPaint(wxPaintEvent& event);
 	/*!
 	 * \brief Event handler called when the canvas should be erased.
 	 * \param event Erase event
 	 */
-	void OnEraseBackground(wxEraseEvent& event);
+	void _OnEraseBackground(wxEraseEvent& event);
 	/*!
 	 * \brief Event handler called when the mouse pointer leaves the canvas window.
 	 * \param event Mouse event
 	 */
-	void OnLeaveWindow(wxMouseEvent& event);
+	void _OnLeaveWindow(wxMouseEvent& event);
 	/*!
 	 * \brief Event handler called when the mouse pointer enters the canvas window.
 	 * \param event Mouse event
 	 */
-	void OnEnterWindow(wxMouseEvent& event);
+	void _OnEnterWindow(wxMouseEvent& event);
 	/*!
 	 * \brief Event handler called when the canvas size has changed.
 	 * \param event Size event
 	 */
-	void OnResize(wxSizeEvent& event);
+	void _OnResize(wxSizeEvent& event);
 
 	// original private event handlers
 	/*!
@@ -1026,6 +1031,7 @@ private:
 	 * \sa wxSFCanvasDropTarget
 	 */
 	void _OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObject *data);
+	
 
 	DECLARE_EVENT_TABLE();
 };

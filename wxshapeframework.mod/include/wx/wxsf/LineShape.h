@@ -21,29 +21,12 @@
 #define sfdvLINESHAPE_PEN *wxBLACK_PEN
 /*! \brief Default value of wxSFLineShape::m_nDockPoint data member. */
 #define sfdvLINESHAPE_DOCKPOINT 0
+/*! \brief Default value of wxSFLineShape::m_nDockPoint data member (start line point). */
+#define sfdvLINESHAPE_DOCKPOINT_START -1
+/*! \brief Default value of wxSFLineShape::m_nDockPoint data member (end line point). */
+#define sfdvLINESHAPE_DOCKPOINT_END -2
 /*! \brief Default value of wxSFLineShape::m_nSrcOffset and wxSFLineShape::m_nTrgOffset data members. */
 #define sfdvLINESHAPE_OFFSET wxRealPoint(-1, -1)
-
-///*!
-// * \brief Auxiliary class encapsulating the line segment.
-// * \sa wxSFLineShape
-// */
-//class LineSegment : public wxObject
-//{
-//public:
-//    /*!
-//	 * \brief Default constructor.
-//     * \param src Starting point of the line segment
-//     * \param trg Ending point of the line segmetn
-//     */
-//    LineSegment(wxRealPoint src, wxRealPoint trg){m_nSrc = src; m_nTrg = trg;}
-//    /*! \brief Starting segment position. */
-//    wxRealPoint m_nSrc;
-//    /*! \brief Ending segment position. */
-//    wxRealPoint m_nTrg;
-//};
-//
-//WX_DECLARE_OBJARRAY(LineSegment, LineSegmentArray);
 
 /*!
  * \brief Basic class encapsulating the multiline consisting of several line segments.
@@ -167,10 +150,19 @@ friend class wxSFShapeCanvas;
 	 */
 	RealPointList& GetControlPoints() {return m_lstPoints;}
 	/*!
-	 * \brief Get a position of the line dock point.
-	 * \return The dock point's position
+	 * \brief Get a position of given line dock point.
+	 * \param dp Dock point
+	 * \return The dock point's position if exists, otherwise the line center
 	 */
-	wxRealPoint GetDockPointPosition();
+	wxRealPoint GetDockPointPosition(int dp);
+	/*!
+     * \brief Get starting and ending point of line segment defined by its index.
+	 * \param index Index of desired line segment
+	 * \param src Reference to variable where starting point will be stored
+	 * \param trg Reference to variable where ending point will be stored 
+	 * \return TRUE if a line segment of given index exists, otherwise FALSE
+	 */
+	bool GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& trg);
 
 	// public virtual functions
     /*!
@@ -197,7 +189,7 @@ friend class wxSFShapeCanvas;
      * \param pos Examined point
      * \return TRUE if the point is inside the shape area, otherwise FALSE
      */
-	virtual bool IsInside(const wxPoint& pos);
+	virtual bool Contains(const wxPoint& pos);
 	/*!
 	 * \brief Move the shape to the given absolute position. The function
      * can be overrided if neccessary.
@@ -261,15 +253,6 @@ friend class wxSFShapeCanvas;
      */
 	virtual void Scale(double x, double y, bool children = sfWITHCHILDREN);
 
-//	// public functions
-//	/*!
-//	 * \brief Get a list of the line segments.
-//	 * \param segments Reference to the list which will contain the line segments
-//	 * \sa LineSegment
-//	 */
-//    void GetLineSegments(LineSegmentArray& segments);
-
-
 protected:
 
     /*! \brief The modes in which the line shape can stay. */
@@ -319,16 +302,6 @@ protected:
 
     /*! \brief Draw completed line. */
 	virtual void DrawCompleteLine(wxDC& dc);
-
-	// protected functions
-	/*!
-     * \brief Get starting and ending point of line segment defined by its index.
-	 * \param index Index of desired line segment
-	 * \param src Reference to variable where starting point will be stored
-	 * \param trg Reference to variable where ending point will be stored 
-	 * \return TRUE if a line segment of given index exists, otherwise FALSE
-	 */
-	bool GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& trg);
 	/*!
      * \brief Get index of the line segment intersecting the given point.
 	 * \param pos Examined point
@@ -336,6 +309,7 @@ protected:
 	 */
 	virtual int GetHitLinesegment(const wxPoint& pos);
 
+	// protected functions
     /*!
      * \brief Set line shape's working mode.
      * \param mode Working mode
