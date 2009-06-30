@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.16"
+Const AppVersion:String = "1.17"
 
 
 Global eventMap:TMap = New TMap
@@ -4104,6 +4104,11 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnAuiNotebookPageChanged", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED"))
 	AddEvent(TEventType.Set("OnAuiNotebookPageChanging", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGING"))
 	AddEvent(TEventType.Set("OnAuiNotebookPageClose", "wxAuiNotebookEvent", "wxEVT_COMMAND_AUINOTEBOOK_PAGE_CLOSE"))
+
+	AddEvent(TEventType.Set("OnSplitterSashPosChanged", "wxSplitterEvent", "wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGED"))
+	AddEvent(TEventType.Set("OnSplitterSashPosChanging", "wxSplitterEvent", "wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING"))
+	AddEvent(TEventType.Set("OnSplitterDClick", "wxSplitterEvent", "wxEVT_COMMAND_SPLITTER_DOUBLECLICKED"))
+	AddEvent(TEventType.Set("OnSplitterUnsplit", "wxSplitterEvent", "wxEVT_COMMAND_SPLITTER_UNSPLIT"))
 
 End Function
 
