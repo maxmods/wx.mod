@@ -86,14 +86,6 @@ Function DisableTex()
 	state_texenabled=False
 End Function
 
-Function Pow2Size:Int( n:Int )
-	Local t:Int=1
-	While t<n
-		t:*2
-	Wend
-	Return t
-End Function
-
 Function CreateTex:Int( width:Int,height:Int,flags:Int )
 
 	Local name:Int
@@ -154,19 +146,26 @@ Function UploadTex( pixmap:TPixmap,flags:Int )
 	glPixelStorei GL_UNPACK_ROW_LENGTH,0
 End Function
 
-Function AdjustTexSize( width:Int Var,height:Int Var )
-	'calc texture size
-	width=Pow2Size( width )
-	height=Pow2Size( height )
-	Repeat
-		Local t:Int
-		glTexImage2D GL_PROXY_TEXTURE_2D,0,4,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,Null
-		glGetTexLevelParameteriv GL_PROXY_TEXTURE_2D,0,GL_TEXTURE_WIDTH,Varptr t
-		If t Return
-		If width=1 And height=1 RuntimeError "Unable to calculate tex size"
-		If width>1 width:/2
-		If height>1 height:/2
-	Forever
+Function AdjustTexSize( width:Int Var, height:Int Var )
+	Global maxTexSize:Int
+
+	If maxTexSize = 0 Then
+		glGetIntegerv GL_MAX_TEXTURE_SIZE, Varptr maxTexSize
+	End If
+		
+	width = Min(Max(1, Pow2Size(width)), maxTexSize)
+	height = Min(Max(1, Pow2Size(height)), maxTexSize)
+
+	Function Pow2Size:Int(n:Int)
+		Local size:Int = 1
+		
+		While size < N
+			size :Shl 1
+		Wend
+
+		Return size
+	End Function
+
 End Function
 
 Public
