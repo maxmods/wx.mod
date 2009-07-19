@@ -68,8 +68,13 @@ Type wxNumberEntryDialog Extends wxDialog
 	End Rem
 	Method Create:wxNumberEntryDialog(parent:wxWindow, message:String, prompt:String, ..
 			caption:String, value:Int, minimum:Int, maximum:Int, x:Int = -1, y:Int = -1)
-		wxObjectPtr = bmx_wxnumberentrydialog_create(Self, parent.wxObjectPtr, message, prompt, caption, ..
-			value, minimum, maximum, x, y)
+		If parent Then
+			wxObjectPtr = bmx_wxnumberentrydialog_create(Self, parent.wxObjectPtr, message, prompt, caption, ..
+				value, minimum, maximum, x, y)
+		Else
+			wxObjectPtr = bmx_wxnumberentrydialog_create(Self, Null, message, prompt, caption, ..
+				value, minimum, maximum, x, y)
+		End If
 		Return Self
 	End Method
 	

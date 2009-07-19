@@ -71,7 +71,11 @@ Type wxPasswordEntryDialog Extends wxTextEntryDialog
 	End Rem
 	Method Create:wxPasswordEntryDialog(parent:wxWindow, message:String, caption:String = "Enter password", ..
 			defaultValue:String = "", style:Int = wxOK | wxCANCEL | wxCENTRE, x:Int = -1, y:Int = -1)
-		wxObjectPtr = bmx_wxpasswordentrydialog_create(Self, parent.wxObjectPtr, message, caption, defaultValue, style, x, y)
+		If parent Then
+			wxObjectPtr = bmx_wxpasswordentrydialog_create(Self, parent.wxObjectPtr, message, caption, defaultValue, style, x, y)
+		Else
+			wxObjectPtr = bmx_wxpasswordentrydialog_create(Self, Null, message, caption, defaultValue, style, x, y)
+		End If
 		Return Self
 	End Method
 

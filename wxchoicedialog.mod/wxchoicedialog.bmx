@@ -69,7 +69,11 @@ Type wxSingleChoiceDialog Extends wxDialog
 	End Rem
 	Method Create:wxSingleChoiceDialog(parent:wxWindow, message:String, ..
 			caption:String, choices:String[], style:Int = wxCHOICEDLG_STYLE, x:Int = -1, y:Int = -1)
-		wxObjectPtr = bmx_wxsinglechoicedialog_create(Self, parent.wxObjectPtr, message, caption, choices, style, x, y)
+		If parent Then
+			wxObjectPtr = bmx_wxsinglechoicedialog_create(Self, parent.wxObjectPtr, message, caption, choices, style, x, y)
+		Else
+			wxObjectPtr = bmx_wxsinglechoicedialog_create(Self, Null, message, caption, choices, style, x, y)
+		End If
 		Return Self
 	End Method
 

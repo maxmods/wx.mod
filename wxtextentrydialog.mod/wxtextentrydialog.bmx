@@ -71,7 +71,11 @@ Type wxTextEntryDialog Extends wxDialog
 	End Rem
 	Method Create:wxTextEntryDialog(parent:wxWindow, message:String, caption:String = "Please enter text", ..
 			defaultValue:String = "", style:Int = wxOK | wxCANCEL | wxCENTRE, x:Int = -1, y:Int = -1)
-		wxObjectPtr = bmx_wxtextentrydialog_create(Self, parent.wxObjectPtr, message, caption, defaultValue, style, x, y)
+		If parent Then
+			wxObjectPtr = bmx_wxtextentrydialog_create(Self, parent.wxObjectPtr, message, caption, defaultValue, style, x, y)
+		Else
+			wxObjectPtr = bmx_wxtextentrydialog_create(Self, Null, message, caption, defaultValue, style, x, y)
+		End If
 		Return Self
 	End Method
 	

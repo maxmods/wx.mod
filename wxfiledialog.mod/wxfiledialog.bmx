@@ -112,7 +112,11 @@ Type wxFileDialog Extends wxDialog
 	Method Create:wxFileDialog(parent:wxWindow, message:String = "Choose a file", defaultDir:String = "", ..
 			defaultFile:String = "", wildcard:String = "*.*", style:Int = wxFD_DEFAULT_STYLE, ..
 			x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1)
-		wxObjectPtr = bmx_wxfiledialog_create(Self, parent, message, defaultDir, defaultFile, wildcard, style, x, y, w, h)
+		If parent Then
+			wxObjectPtr = bmx_wxfiledialog_create(Self, parent.wxObjectPtr, message, defaultDir, defaultFile, wildcard, style, x, y, w, h)
+		Else
+			wxObjectPtr = bmx_wxfiledialog_create(Self, Null, message, defaultDir, defaultFile, wildcard, style, x, y, w, h)
+		End If
 		Return Self
 	End Method
 	

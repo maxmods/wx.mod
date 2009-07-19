@@ -89,7 +89,11 @@ Type wxDirDialog Extends wxDialog
 	End Rem
 	Method Create:wxDirDialog(parent:wxWindow, message:String = "Choose a directory", defaultPath:String = "", ..
 			style:Int = wxDD_DEFAULT_STYLE, x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1)
-		wxObjectPtr = bmx_wxdirdialog_create(Self, parent.wxObjectPtr, message, defaultPath, style, x, y, w, h)
+		If parent Then
+			wxObjectPtr = bmx_wxdirdialog_create(Self, parent.wxObjectPtr, message, defaultPath, style, x, y, w, h)
+		Else
+			wxObjectPtr = bmx_wxdirdialog_create(Self, Null, message, defaultPath, style, x, y, w, h)
+		End If
 		Return Self
 	End Method
 	

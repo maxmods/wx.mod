@@ -71,10 +71,18 @@ Type wxColourDialog Extends wxDialog
 	bbdoc: 
 	End Rem
 	Method Create:wxColourDialog(parent:wxWindow, data:wxColourData = Null)
-		If data Then
-			wxObjectPtr = bmx_wxcolourdialog_create(Self, parent.wxObjectPtr, data.wxObjectPtr)
+		If parent Then
+			If data Then
+				wxObjectPtr = bmx_wxcolourdialog_create(Self, parent.wxObjectPtr, data.wxObjectPtr)
+			Else
+				wxObjectPtr = bmx_wxcolourdialog_create(Self, parent.wxObjectPtr, Null)
+			End If
 		Else
-			wxObjectPtr = bmx_wxcolourdialog_create(Self, parent.wxObjectPtr, Null)
+			If data Then
+				wxObjectPtr = bmx_wxcolourdialog_create(Self, Null, data.wxObjectPtr)
+			Else
+				wxObjectPtr = bmx_wxcolourdialog_create(Self, Null, Null)
+			End If
 		End If
 		Return Self
 	End Method
