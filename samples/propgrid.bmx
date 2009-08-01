@@ -570,7 +570,7 @@ Type MyFrame Extends wxFrame
 		pg.SetPropertyHelpString("EnumProperty 4", "Should have same choices as EnumProperty 2")
 		
 		pg.Append( New wxEnumProperty.CreateWithChoices("EnumProperty 5",wxPG_LABEL, soc, 240 ) )
-		pg.SetPropertyChoicesExclusive("EnumProperty 5")
+		'pg.SetPropertyChoicesExclusive("EnumProperty 5")
 		pg.AddPropertyChoice("EnumProperty 5", "5th only", 360)
 		pg.SetPropertyHelpString("EnumProperty 5", "Should have one extra item when compared to EnumProperty 4")
 		
@@ -594,7 +594,7 @@ Type MyFrame Extends wxFrame
 		pg.SetPropertyValueString( "StringProperty", "some text" )
 
 			' Multi choice dialog.
-		Local tchoices:String[]
+		Local tchoices:String[] = ["Carrot", "Potato"]
 		'Local tchoices:wxPGChoices = New wxPGChoices.Create()
 		'tchoices.Add("Cabbage",10)
 		'tchoices.Add("Carrot",15)
@@ -602,7 +602,7 @@ Type MyFrame Extends wxFrame
 		'tchoices.Add("Potato",25)
 		'tchoices.Add("Strawberry",30)
 		
-		Local tchoicesValues:String[] = ["Carrot", "Potato"]
+		Local tchoicesValues:String[] '= ["0", "1"]
 	
 		pg.Append( New wxEnumProperty.CreateWithArrays("EnumProperty X", wxPG_LABEL, tchoices ) )
 	
@@ -661,7 +661,6 @@ Next
 		For Local s:String = EachIn names
 			DebugLog s
 		Next
-
 
 		pg.Append( New wxColourProperty.Create("Cell Colour", wxPG_LABEL, New wxColour.Create(255, 0, 0)) )
 		Local pcol:wxPGProperty = pg.GetPropertyByName("Cell Colour")
@@ -847,18 +846,14 @@ Next
 		Local evt:wxPropertyGridEvent = wxPropertyGridEvent(event)
 		Local property:wxPGProperty = evt.GetProperty()
 
-		
 		frame.m_itemEnable.Enable(True)
-		If evt.IsPropertyEnabled() Then
-			frame.m_itemEnable.SetText( "Disable" )
-		Else
-			frame.m_itemEnable.SetText( "Enable" )
+		If property Then
+			If property.IsEnabled() Then
+				frame.m_itemEnable.SetText( "Disable" )
+			Else
+				frame.m_itemEnable.SetText( "Enable" )
+			End If
 		End If
-    '}
-    'Else
-    '{
-    '    m_itemEnable->Enable( False );
-    '}
 
 	End Function
 	

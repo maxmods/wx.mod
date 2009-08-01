@@ -47,7 +47,7 @@ ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
-?fixme
+
 Import "common.bmx"
 
 
@@ -254,11 +254,6 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetPropertyIndex:Int(prop:Object) Abstract
-
-	Rem
-	bbdoc: 
-	End Rem
 	Method GetPropertyLabel:String(prop:Object) Abstract
 
 	Rem
@@ -369,11 +364,6 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Rem
 	bbdoc: 
 	End Rem
-	Method InsertCategory:wxPGProperty(prop:Object, index:Int, label:String) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
 	Method InsertPropertyChoice(prop:Object, label:String, index:Int, value:Int = INT_MAX) Abstract
 	
 	Rem
@@ -435,16 +425,6 @@ Type wxPropertyContainerMethods Extends wxPanel
 	bbdoc: 
 	End Rem
 	Method SetPropertyCell(prop:Object, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyChoices(prop:Object, choices:wxPGChoices) Abstract
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetPropertyChoicesExclusive(prop:Object) Abstract
 	
 	Rem
 	bbdoc: 
@@ -911,14 +891,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
-	Method ClearPropertyValue:Int(prop:Object)
-		If wxPGProperty(prop) Then
-			Return bmx_wxpropertygrid_clearpropertyvalue(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
-		Else If String(prop) Then
-			Return bmx_wxpropertygrid_clearpropertyvaluebyname(wxObjectPtr, String(prop))
-		End If
-	End Method
-	
 	Method ClearSelection:Int()
 		Return bmx_wxpropertygrid_clearselection(wxObjectPtr)
 	End Method
@@ -936,14 +908,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 			bmx_wxpropertygrid_deleteproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
 		Else If String(prop) Then
 			bmx_wxpropertygrid_deletepropertybyname(wxObjectPtr, String(prop))
-		End If
-	End Method
-	
-	Method DeletePropertyChoice(prop:Object, index:Int)
-		If wxPGProperty(prop) Then
-			bmx_wxpropertygrid_deletepropertychoice(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, index)
-		Else If String(prop) Then
-			bmx_wxpropertygrid_deletepropertychoicebyname(wxObjectPtr, String(prop), index)
 		End If
 	End Method
 	
@@ -1060,14 +1024,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 
-	Method GetPropertyIndex:Int(prop:Object)
-		If wxPGProperty(prop) Then
-			Return bmx_wxpropertygrid_getpropertyindex(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
-		Else If String(prop) Then
-			Return bmx_wxpropertygrid_getpropertyindexbyname(wxObjectPtr, String(prop))
-		End If
-	End Method
-
 	Method GetPropertyLabel:String(prop:Object)
 		If wxPGProperty(prop) Then
 			Return bmx_wxpropertygrid_getpropertylabel(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
@@ -1079,8 +1035,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	Method GetPropertyName:String(prop:Object)
 		If wxPGProperty(prop) Then
 			Return bmx_wxpropertygrid_getpropertyname(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
-		Else If String(prop) Then
-			Return bmx_wxpropertygrid_getpropertynamebyname(wxObjectPtr, String(prop))
 		End If
 	End Method
 
@@ -1222,14 +1176,6 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 			Return wxPGProperty._find(bmx_wxpropertygrid_insert(wxObjectPtr, wxPGProperty(parent).wxObjectPtr, index, newproperty.wxObjectPtr))
 		Else If String(parent) Then
 			Return wxPGProperty._find(bmx_wxpropertygrid_insertbyname(wxObjectPtr, String(parent), index, newproperty.wxObjectPtr))
-		End If
-	End Method
-	
-	Method InsertCategory:wxPGProperty(prop:Object, index:Int, label:String)
-		If wxPGProperty(prop) Then
-			Return wxPGProperty._find(bmx_wxpropertygrid_insertcategory(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, index, label))
-		Else If String(prop) Then
-			Return wxPGProperty._find(bmx_wxpropertygrid_insertcategorybyname(wxObjectPtr, String(prop), index, label))
 		End If
 	End Method
 	
@@ -1621,13 +1567,6 @@ Type wxPGProperty Extends wxObject
 	End Method
 	
 	Rem
-	bbdoc: Returns true if extra children can be added for this property (i.e. it is wxPropertyCategory or wxCustomProperty)
-	End Rem
-	Method CanHaveExtraChildren:Int()
-		Return bmx_wxpgproperty_canhaveextrachildren(wxObjectPtr)
-	End Method
-	
-	Rem
 	bbdoc: 
 	End Rem
 	Method ClearFlag(flag:Int)
@@ -1645,8 +1584,8 @@ Type wxPGProperty Extends wxObject
 	Rem
 	bbdoc: Deletes all sub-properties.
 	End Rem
-	Method Empty()
-		bmx_wxpgproperty_empty(wxObjectPtr)
+	Method DeleteChildren()
+		bmx_wxpgproperty_deletechildren(wxObjectPtr)
 	End Method
 	
 	'Rem
@@ -1661,13 +1600,6 @@ Type wxPGProperty Extends wxObject
 	End Rem
 	Method FixIndexesOfChildren(starthere:Int = 0)
 		' TODO
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetArrIndex:Int()
-		Return bmx_wxpgproperty_getarrindex(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1769,13 +1701,6 @@ Type wxPGProperty Extends wxObject
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetChoiceString:String(index:Int)
-		Return bmx_wxpgproperty_getchoicestring(wxObjectPtr, index)
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
 	Method GetClientData:Object()
 		' TODO
 	End Method
@@ -1792,13 +1717,6 @@ Type wxPGProperty Extends wxObject
 	End Rem
 	Method GetCommonValue:Int()
 		Return bmx_wxpgproperty_getcommonvalue(wxObjectPtr)
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetCurrentChoice:wxPGChoiceEntry()
-		Return wxPGChoiceEntry._create(bmx_wxpgproperty_getcurrentchoice(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -2114,13 +2032,6 @@ Type wxPGProperty Extends wxObject
 	End Rem
 	Method IsExpanded:Int()
 		Return bmx_wxpgproperty_isexpanded(wxObjectPtr)
-	End Method
-	
-	Rem
-	bbdoc: Returns true if the specified flag is set.
-	End Rem
-	Method IsFlagSet:Int(flag:Int)
-		Return bmx_wxpgproperty_isflagset(wxObjectPtr, flag)
 	End Method
 	
 	Rem
@@ -2496,8 +2407,11 @@ Type wxStringProperty Extends wxPGProperty
 	End Rem
 	Method Create:wxStringProperty(label:String = Null, name:String = Null, value:String = Null)
 		If label = wxPG_LABEL label = Null
-		If name = wxPG_LABEL name = Null
-		wxObjectPtr = bmx_wxstringproperty_create(Self, label, name, value)
+		If name Then
+			wxObjectPtr = bmx_wxstringproperty_create(Self, label, name, value)
+		Else
+			wxObjectPtr = bmx_wxstringproperty_create(Self, label, Null, value)
+		End If
 		Return Self
 	End Method
 	
@@ -2688,6 +2602,8 @@ Type wxArrayStringProperty Extends wxPGProperty
 	bbdoc: 
 	End Rem
 	Method Create:wxArrayStringProperty(label:String = Null, name:String = Null, value:String[] = Null)
+		If label = wxPG_LABEL label = Null
+		If name = wxPG_LABEL name = Null
 		wxObjectPtr = bmx_wxarraystringproperty_create(Self, label, name, value)
 		Return Self
 	End Method
@@ -2778,6 +2694,8 @@ Type wxEnumProperty Extends wxBaseEnumProperty
 	End Rem
 	Method CreateWithArrays:wxEnumProperty(label:String, name:String, labels:String[], ..
 			values:Int[] = Null, value:Int = 0)
+		If label = wxPG_LABEL label = Null
+		If name = wxPG_LABEL name = Null
 		wxObjectPtr = bmx_wxenumproperty_createwitharrays(Self, label, name, labels, values, value)
 		Return Self
 	End Method
@@ -2793,6 +2711,8 @@ Type wxEnumProperty Extends wxBaseEnumProperty
 	bbdoc: 
 	End Rem
 	Method CreateWithChoices:wxEnumProperty(label:String, name:String, choices:wxPGChoices, value:Int = 0)
+		If label = wxPG_LABEL label = Null
+		If name = wxPG_LABEL name = Null
 		wxObjectPtr = bmx_wxenumproperty_createwithchoices(Self, label, name, choices.wxObjectPtr, value)
 		Return Self
 	End Method
@@ -2836,6 +2756,8 @@ Type wxSystemColourProperty Extends wxEnumProperty
 	bbdoc: 
 	End Rem
 	Method Create:wxSystemColourProperty(label:String, name:String = Null, value:wxColour = Null)
+		If label = wxPG_LABEL label = Null
+		If name = wxPG_LABEL name = Null
 		If value Then
 			wxObjectPtr = bmx_wxsystemcolourproperty_create(Self, label, name, value.wxObjectPtr)
 		Else
@@ -2863,9 +2785,17 @@ Type wxColourProperty Extends wxSystemColourProperty
 	End Rem
 	Method Create:wxColourProperty(label:String, name:String = Null, value:wxColour = Null)
 		If value Then
-			wxObjectPtr = bmx_wxcolourproperty_create(Self, label, name, value.wxObjectPtr)
+			If name Then
+				wxObjectPtr = bmx_wxcolourproperty_create(Self, label, name, value.wxObjectPtr)
+			Else
+				wxObjectPtr = bmx_wxcolourproperty_create(Self, label, Null, value.wxObjectPtr)
+			End If
 		Else
-			wxObjectPtr = bmx_wxcolourproperty_create(Self, label, name, Null)
+			If name Then
+				wxObjectPtr = bmx_wxcolourproperty_create(Self, label, name, Null)
+			Else
+				wxObjectPtr = bmx_wxcolourproperty_create(Self, label, Null, Null)
+			End If
 		End If
 		Return Self
 	End Method
@@ -2881,7 +2811,11 @@ Type wxCursorProperty Extends wxEnumProperty
 	bbdoc: 
 	End Rem
 	Method Create:wxCursorProperty(label:String = Null, name:String = Null, value:Int = 0)
-		wxObjectPtr = bmx_wxcursorproperty_create(Self, label, name, value)
+		If name Then
+			wxObjectPtr = bmx_wxcursorproperty_create(Self, label, name, value)
+		Else
+			wxObjectPtr = bmx_wxcursorproperty_create(Self, label, Null, value)
+		End If
 		Return Self
 	End Method
 
@@ -2896,7 +2830,11 @@ Type wxImageFileProperty Extends wxFileProperty
 	bbdoc: 
 	End Rem
 	Method Create:wxImageFileProperty(label:String = Null, name:String = Null, value:String = "")
-		wxObjectPtr = bmx_wximagefileproperty_create(Self, label, name, value)
+		If name Then
+			wxObjectPtr = bmx_wximagefileproperty_create(Self, label, name, value)
+		Else
+			wxObjectPtr = bmx_wximagefileproperty_create(Self, label, Null, value)
+		End If
 		Return Self
 	End Method
 
@@ -2917,9 +2855,17 @@ Type wxDateProperty Extends wxPGProperty
 	End Rem
 	Method Create:wxDateProperty(label:String = Null, name:String = Null, value:wxDateTime = Null)
 		If value Then
-			wxObjectPtr = bmx_wxdateproperty_create(Self, label, name, value.wxObjectPtr)
+			If name Then
+				wxObjectPtr = bmx_wxdateproperty_create(Self, label, name, value.wxObjectPtr)
+			Else
+				wxObjectPtr = bmx_wxdateproperty_create(Self, label, Null, value.wxObjectPtr)
+			End If
 		Else
-			wxObjectPtr = bmx_wxdateproperty_create(Self, label, name, Null)
+			If name Then
+				wxObjectPtr = bmx_wxdateproperty_create(Self, label, name, Null)
+			Else
+				wxObjectPtr = bmx_wxdateproperty_create(Self, label, Null, Null)
+			End If
 		End If
 		Return Self
 	End Method
@@ -2989,7 +2935,11 @@ Type wxMultiChoiceProperty Extends wxPGProperty
 	End Rem
 	Method CreateWithArrays:wxMultiChoiceProperty(label:String, name:String, labels:String[], ..
 			value:String[] = Null)
-		wxObjectPtr = bmx_wxmultichoiceproperty_createwitharrays(Self, label, name, labels, value)
+		If name Then
+			wxObjectPtr = bmx_wxmultichoiceproperty_createwitharrays(Self, label, name, labels, value)
+		Else
+			wxObjectPtr = bmx_wxmultichoiceproperty_createwitharrays(Self, label, Null, labels, value)
+		End If
 		Return Self
 	End Method
 
@@ -3004,7 +2954,11 @@ Type wxMultiChoiceProperty Extends wxPGProperty
 	bbdoc: 
 	End Rem
 	Method CreateWithChoices:wxMultiChoiceProperty(label:String, name:String, choices:wxPGChoices, value:String[] = Null)
-		wxObjectPtr = bmx_wxmultichoiceproperty_createwithchoices(Self, label, name, choices.wxObjectPtr, value)
+		If name Then
+			wxObjectPtr = bmx_wxmultichoiceproperty_createwithchoices(Self, label, name, choices.wxObjectPtr, value)
+		Else
+			wxObjectPtr = bmx_wxmultichoiceproperty_createwithchoices(Self, label, Null, choices.wxObjectPtr, value)
+		End If
 		Return Self
 	End Method
 
@@ -3156,20 +3110,6 @@ Type wxPGChoices
 	End Rem
 	Method GetValue:Int(index:Int)
 		Return bmx_wxpgchoices_getvalue(wxObjectPtr, index)
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method HasValue:Int(value:Int)
-		Return bmx_wxpgchoices_hasvalue(wxObjectPtr, value)
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method HasValues:Int()
-		Return bmx_wxpgchoices_hasvalues(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -3377,7 +3317,7 @@ Type wxPropertyGridIteratorBase
 	bbdoc: Set base parent, ie. a property when, in which iteration returns, it ends.
 	about: Default base parent is the root of the used wxPropertyGridState.
 	End Rem
-	Method SetBaseParent(baseParent:wxPGPropertyWithChildren)
+	Method SetBaseParent(baseParent:wxPGProperty)
 		bmx_wxpropertygriditeratorbase_setbaseparent(wxObjectPtr, baseParent.wxObjectPtr)
 	End Method
 
@@ -3745,7 +3685,7 @@ End Type
 
 New TPropertyGridEventFactory
 
-
+Rem
 Type TPropertyGridResourceFactory Extends TXMLResourceFactory
 
 	Method AddHandler()
@@ -3755,5 +3695,4 @@ Type TPropertyGridResourceFactory Extends TXMLResourceFactory
 End Type
 
 New TPropertyGridResourceFactory
-
-?
+End Rem

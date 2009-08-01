@@ -562,7 +562,7 @@ MaxColour * bmx_wxpropertygrid_getmargincolour(wxPropertyGrid * grid) {
 wxPGProperty * bmx_wxstringproperty_create(BBObject * handle, BBString * label, BBString * name, BBString * value) {
 	return new MaxStringProperty( handle,
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(value != &bbEmptyString) ? wxStringFromBBString(value) : wxString());
 }
 	
@@ -571,14 +571,14 @@ wxPGProperty * bmx_wxstringproperty_create(BBObject * handle, BBString * label, 
 wxPGProperty * bmx_wxpropertycategory_create(BBObject * handle, BBString * label, BBString * name) {
 	return new MaxPropertyCategory( handle,
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME") );
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label) );
 }
 
 // *********************************************
 
 wxPGProperty * bmx_wxfontproperty_create(BBObject * handle, BBString * label, BBString * name, MaxFont * font) {
 	return new MaxFontProperty(handle, wxStringFromBBString(label), 
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(font) ? font->Font() : wxFont());
 }
 
@@ -690,11 +690,11 @@ bool bmx_wxpropertygrid_expandbyname(wxPropertyGrid * grid, BBString * name) {
 }
 
 wxPGProperty * bmx_wxpropertygrid_getfirst(wxPropertyGrid * grid, int flags) {
-	return grid->GetFirst(flags);
+	return ((wxPropertyGridInterface*)grid)->GetFirst(flags);
 }
 
 MaxPGChoices * bmx_wxpropertygrid_getpropertychoices(wxPropertyGrid * grid, wxPGProperty * prop) {
-	return new MaxPGChoices(grid->GetPropertyChoices(prop));
+	return new MaxPGChoices(prop->GetChoices());
 }
 
 BBObject * bmx_wxpropertygrid_getpropertyclientdata(wxPropertyGrid * grid, wxPGProperty * prop) {
@@ -716,10 +716,6 @@ BBString * bmx_wxpropertygrid_getpropertyhelpstring(wxPropertyGrid * grid, wxPGP
 
 MaxBitmap * bmx_wxpropertygrid_getpropertyimage(wxPropertyGrid * grid, wxPGProperty * prop) {
 	return new MaxBitmap(*grid->GetPropertyImage(prop));
-}
-
-unsigned int bmx_wxpropertygrid_getpropertyindex(wxPropertyGrid * grid, wxPGProperty * prop) {
-	return grid->GetPropertyIndex(prop);
 }
 
 BBString * bmx_wxpropertygrid_getpropertylabel(wxPropertyGrid * grid, wxPGProperty * prop) {
@@ -746,7 +742,7 @@ bool bmx_wxpropertygrid_setpropertymaxlengthbyname(wxPropertyGrid * grid, BBStri
 
 wxSystemColourProperty * bmx_wxsystemcolourproperty_create(BBObject * handle, BBString * label, BBString * name, MaxColour * value) {
 	return new MaxSystemColourProperty(handle, wxStringFromBBString(label), 
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(value) ? value->Colour() : wxColour());
 }
 
@@ -754,7 +750,7 @@ wxSystemColourProperty * bmx_wxsystemcolourproperty_create(BBObject * handle, BB
 
 wxIntProperty * bmx_wxintproperty_create(BBObject * handle, BBString * label, BBString * name, int value) {
 	return new MaxIntProperty(handle, wxStringFromBBString(label), 
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		value);
 }
 
@@ -763,7 +759,7 @@ wxIntProperty * bmx_wxintproperty_create(BBObject * handle, BBString * label, BB
 wxUIntProperty * bmx_wxuintproperty_create(BBObject * handle, BBString * label, BBString * name, unsigned long value) {
 	return new MaxUIntProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		value);
 }
 
@@ -772,7 +768,7 @@ wxUIntProperty * bmx_wxuintproperty_create(BBObject * handle, BBString * label, 
 wxFloatProperty * bmx_wxdoubleproperty_create(BBObject * handle, BBString * label, BBString * name, double value) {
 	return new MaxFloatProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		value);
 }
 
@@ -781,7 +777,7 @@ wxFloatProperty * bmx_wxdoubleproperty_create(BBObject * handle, BBString * labe
 wxFloatProperty * bmx_wxfloatproperty_create(BBObject * handle, BBString * label, BBString * name, double value) {
 	return new MaxFloatProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		value);
 }
 
@@ -790,7 +786,7 @@ wxFloatProperty * bmx_wxfloatproperty_create(BBObject * handle, BBString * label
 wxBoolProperty * bmx_wxboolproperty_create(BBObject * handle, BBString * label, BBString * name, bool value) {
 	return new MaxBoolProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		value);
 }
 
@@ -799,7 +795,7 @@ wxBoolProperty * bmx_wxboolproperty_create(BBObject * handle, BBString * label, 
 wxCursorProperty * bmx_wxcursorproperty_create(BBObject * handle, BBString * label, BBString * name, int value) {
 	return new MaxCursorProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		value);
 }
 
@@ -808,7 +804,7 @@ wxCursorProperty * bmx_wxcursorproperty_create(BBObject * handle, BBString * lab
 wxImageFileProperty * bmx_wximagefileproperty_create(BBObject * handle, BBString * label, BBString * name, BBString * value) {
 	return new MaxImageFileProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(value != &bbEmptyString) ? wxStringFromBBString(value) : wxString());
 }
 
@@ -817,7 +813,7 @@ wxImageFileProperty * bmx_wximagefileproperty_create(BBObject * handle, BBString
 wxDateProperty * bmx_wxdateproperty_create(BBObject * handle, BBString * label, BBString * name, MaxDateTime * value) {
 	return new MaxDateProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(value) ? value->DateTime(): wxDateTime());
 }
 
@@ -827,7 +823,7 @@ wxFlagsProperty * bmx_wxflagsproperty_create(BBObject * handle, BBString * label
 		BBArray * labels, BBArray * values, int value) {
 	return new MaxFlagsProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(labels) ? bbStringArrayTowxArrayStr(labels) : wxArrayString(),
 		(values) ? bbIntArrayTowxArrayInt(values) : wxArrayInt(),
 		value);
@@ -838,7 +834,7 @@ wxFlagsProperty * bmx_wxflagsproperty_create(BBObject * handle, BBString * label
 wxFileProperty * bmx_wxfileproperty_create(BBObject * handle, BBString * label, BBString * name, BBString * value) {
 	return new MaxFileProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(value != &bbEmptyString) ? wxStringFromBBString(value) : wxString());
 }
 
@@ -847,7 +843,7 @@ wxFileProperty * bmx_wxfileproperty_create(BBObject * handle, BBString * label, 
 wxLongStringProperty * bmx_wxlongstringproperty_create(BBObject * handle, BBString * label, BBString * name, BBString * value) {
 	return new MaxLongStringProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(value != &bbEmptyString) ? wxStringFromBBString(value) : wxString());
 }
 
@@ -856,7 +852,7 @@ wxLongStringProperty * bmx_wxlongstringproperty_create(BBObject * handle, BBStri
 wxDirProperty * bmx_wxdirproperty_create(BBObject * handle, BBString * label, BBString * name, BBString * value) {
 	return new MaxDirProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(value != &bbEmptyString) ? wxStringFromBBString(value) : wxString());
 }
 
@@ -865,7 +861,7 @@ wxDirProperty * bmx_wxdirproperty_create(BBObject * handle, BBString * label, BB
 wxArrayStringProperty * bmx_wxarraystringproperty_create(BBObject * handle, BBString * label, BBString * name, BBArray * value) {
 	return new MaxArrayStringProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		bbStringArrayTowxArrayStr(value));
 }
 
@@ -873,7 +869,7 @@ wxArrayStringProperty * bmx_wxarraystringproperty_create(BBObject * handle, BBSt
 
 wxColourProperty * bmx_wxcolourproperty_create(BBObject * handle, BBString * label, BBString * name, MaxColour * value) {
 	return new MaxColourProperty(handle, wxStringFromBBString(label), 
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(value) ? value->Colour() : wxColour());
 }
 
@@ -912,20 +908,23 @@ void bmx_wxpropertygriditeratorbase_prevproperty(wxPropertyGridIteratorBase * it
 	iter->Prev();
 }
 
-void bmx_wxpropertygriditeratorbase_setbaseparent(wxPropertyGridIteratorBase * iter, wxPGPropertyWithChildren * baseParent) {
+void bmx_wxpropertygriditeratorbase_setbaseparent(wxPropertyGridIteratorBase * iter, wxPGProperty * baseParent) {
 	iter->SetBaseParent(baseParent);
 }
 
 void bmx_wxpropertygrid_addpropertychoice(wxPropertyGrid * grid, wxPGProperty * prop, BBString * label, int value) {
-	grid->AddPropertyChoice(prop, wxStringFromBBString(label), value);
+	prop->AddChoice(wxStringFromBBString(label), value);
 }
 
 void bmx_wxpropertygrid_addpropertychoicebyname(wxPropertyGrid * grid, BBString * name, BBString * label, int value) {
-	grid->AddPropertyChoice(wxStringFromBBString(name), wxStringFromBBString(label), value);
+	wxPGProperty * prop = grid->GetPropertyByLabel(wxStringFromBBString(name));
+	if (prop) {
+		prop->AddChoice(wxStringFromBBString(label), value);
+	}
 }
 
 wxPGProperty * bmx_wxpropertygrid_getpropertyptr(wxPropertyGrid * grid, wxPGProperty * prop) {
-	return grid->GetPropertyPtr(prop);
+	return prop;
 }
 
 BBArray * bmx_wxpropertygrid_getpropertyvalueasarrayint(wxPropertyGrid * grid, wxPGProperty * prop) {
@@ -1040,11 +1039,15 @@ BBString * bmx_wxpropertygrid_getpropertyvalueasstringbyname(wxPropertyGrid * gr
 }
 
 BBString * bmx_wxpropertygrid_getpropertyvaluetype(wxPropertyGrid * grid, wxPGProperty * prop) {
-	return bbStringFromWxString(grid->GetPropertyValueType(prop));
+	return bbStringFromWxString(prop->GetValueType());
 }
 
 BBString * bmx_wxpropertygrid_getpropertyvaluetypebyname(wxPropertyGrid * grid, BBString * name) {
-	return bbStringFromWxString(grid->GetPropertyValueType(wxStringFromBBString(name)));
+	wxPGProperty * prop = grid->GetPropertyByLabel(wxStringFromBBString(name));
+	if (prop) {
+		return bbStringFromWxString(prop->GetValueType());
+	}
+	return &bbEmptyString;
 }
 
 wxPGProperty * bmx_wxpropertygrid_getselection(wxPropertyGrid * grid) {
@@ -1091,16 +1094,12 @@ wxPGProperty * bmx_wxpropertygrid_insert(wxPropertyGrid * grid, wxPGProperty * p
 	return grid->Insert(parent, index, newproperty);
 }
 
-wxPGProperty * bmx_wxpropertygrid_insertcategory(wxPropertyGrid * grid, wxPGProperty * prop, int index, BBString * label) {
-	return grid->InsertCategory(prop, index, wxStringFromBBString(label));
-}
-
 void bmx_wxpropertygrid_insertpropertychoice(wxPropertyGrid * grid, wxPGProperty * prop, BBString * label, int index, int value) {
-	grid->InsertPropertyChoice(prop, wxStringFromBBString(label), index, value);
+	prop->InsertChoice(wxStringFromBBString(label), index, value);
 }
 
 bool bmx_wxpropertygrid_ispropertyunspecified(wxPropertyGrid * grid, wxPGProperty * prop) {
-	return grid->IsPropertyUnspecified(prop);
+	return grid->IsPropertyValueUnspecified(prop);
 }
 
 void bmx_wxpropertygrid_limitpropertyediting(wxPropertyGrid * grid, wxPGProperty * prop, bool limit) {
@@ -1123,8 +1122,11 @@ wxPropertyCategory * bmx_wxpropertygrid_getpropertycategorybyname(wxPropertyGrid
 }
 
 MaxPGChoices * bmx_wxpropertygrid_getpropertychoicesbyname(wxPropertyGrid * grid, BBString * name) {
-	wxPGChoices p(grid->GetPropertyChoices(wxStringFromBBString(name)));
-	return new MaxPGChoices(p);
+	wxPGProperty * prop = grid->GetPropertyByLabel(wxStringFromBBString(name));
+	if (prop) {
+		wxPGChoices p(prop->GetChoices());
+		return new MaxPGChoices(p);
+	}
 }
 
 BBString * bmx_wxpropertygrid_getpropertyhelpstringbyname(wxPropertyGrid * grid, BBString * name) {
@@ -1136,20 +1138,15 @@ MaxBitmap * bmx_wxpropertygrid_getpropertyimagebyname(wxPropertyGrid * grid, BBS
 	return new MaxBitmap((b) ? *b : wxNullBitmap);
 }
 
-unsigned int bmx_wxpropertygrid_getpropertyindexbyname(wxPropertyGrid * grid, BBString * name) {
-	return grid->GetPropertyIndex(wxStringFromBBString(name));
-}
-
 BBString * bmx_wxpropertygrid_getpropertylabelbyname(wxPropertyGrid * grid, BBString * name) {
 	return bbStringFromWxString(grid->GetPropertyLabel(wxStringFromBBString(name)));
 }
 
-BBString * bmx_wxpropertygrid_getpropertynamebyname(wxPropertyGrid * grid, BBString * name) {
-	return bbStringFromWxString(grid->GetPropertyName(wxStringFromBBString(name)));
-}
-
 void bmx_wxpropertygrid_insertpropertychoicebyname(wxPropertyGrid * grid, BBString * name, BBString * label, int index, int value) {
-	grid->InsertPropertyChoice(wxStringFromBBString(name), wxStringFromBBString(label), index, value);
+	wxPGProperty * prop = grid->GetPropertyByLabel(wxStringFromBBString(name));
+	if (prop) {
+		prop->InsertChoice(wxStringFromBBString(label), index, value);
+	}
 }
 
 bool bmx_wxpropertygrid_ispropertycategorybyname(wxPropertyGrid * grid, BBString * name) {
@@ -1173,7 +1170,7 @@ bool bmx_wxpropertygrid_ispropertyshownbyname(wxPropertyGrid * grid, BBString * 
 }
 
 bool bmx_wxpropertygrid_ispropertyunspecifiedbyname(wxPropertyGrid * grid, BBString * name) {
-	return grid->IsPropertyUnspecified(wxStringFromBBString(name));
+	return grid->IsPropertyValueUnspecified(wxStringFromBBString(name));
 }
 
 void bmx_wxpropertygrid_limitpropertyeditingbyname(wxPropertyGrid * grid, BBString * name, bool limit) {
@@ -1204,7 +1201,7 @@ void bmx_wxpropertygrid_setpropertyreadonly(wxPropertyGrid * grid, wxPGProperty 
 }
 
 void bmx_wxpropertygrid_setpropertyunspecified(wxPropertyGrid * grid, wxPGProperty * prop) {
-	grid->SetPropertyUnspecified(prop);
+	grid->SetPropertyValueUnspecified(prop);
 }
 
 void bmx_wxpropertygrid_setpropertyvalueintarray(wxPropertyGrid * grid, wxPGProperty * prop, BBArray * value) {
@@ -1268,7 +1265,7 @@ void bmx_wxpropertygrid_setpropertyreadonlybyname(wxPropertyGrid * grid, BBStrin
 }
 
 void bmx_wxpropertygrid_setpropertyunspecifiedbyname(wxPropertyGrid * grid, BBString * name) {
-	grid->SetPropertyUnspecified(wxStringFromBBString(name));
+	grid->SetPropertyValueUnspecified(wxStringFromBBString(name));
 }
 
 void bmx_wxpropertygrid_setpropertyvalueintarraybyname(wxPropertyGrid * grid, BBString * name, BBArray * value) {
@@ -1344,10 +1341,6 @@ wxPGProperty * bmx_wxpropertygrid_insertbyname(wxPropertyGrid * grid, BBString *
 	return grid->Insert(wxStringFromBBString(parent), index, newproperty);
 }
 
-wxPGProperty * bmx_wxpropertygrid_insertcategorybyname(wxPropertyGrid * grid, BBString * name, int index, BBString * label) {
-	return grid->InsertCategory(wxStringFromBBString(name), index, wxStringFromBBString(label));
-}
-
 void bmx_wxpropertygrid_clear(wxPropertyGrid * grid) {
 	grid->Clear();
 }
@@ -1357,11 +1350,14 @@ void bmx_wxpropertygrid_clearmodifiedstatus(wxPropertyGrid * grid) {
 }
 
 void bmx_wxpropertygrid_clearpropertymodifiedstatus(wxPropertyGrid * grid, wxPGProperty * prop) {
-	grid->ClearModifiedStatus(prop);
+	prop->SetModifiedStatus(false);
 }
 
 void bmx_wxpropertygrid_clearpropertymodifiedstatusbyname(wxPropertyGrid * grid, BBString * name) {
-	grid->ClearModifiedStatus(wxStringFromBBString(name));
+	wxPGProperty * prop = grid->GetPropertyByLabel(wxStringFromBBString(name));
+	if (prop) {
+		prop->SetModifiedStatus(false);
+	}
 }
 
 MaxColour * bmx_wxpropertygrid_getpropertyvalueascolour(wxPropertyGrid * grid, wxPGProperty * prop) {
@@ -1410,7 +1406,10 @@ BBArray * bmx_wxpropertygrid_propertiestonames(wxPropertyGrid * grid, BBArray * 
 
 	wxArrayString names;
 	
-	grid->PropertiesToNames(&names, arr);
+    for (int i=0; i< arr.size(); i++ ) {
+        names.Add( arr[i]->GetName() );
+	}
+
 	
 	return wxArrayStringToBBStringArray(names);
 }
@@ -1421,7 +1420,12 @@ BBArray * bmx_wxpropertygrid_namestoproperties(wxPropertyGrid * grid, BBArray * 
 
 	wxArrayPGProperty props;
 	
-	grid->NamesToProperties(&props, arr);
+	for ( int i=0; i<arr.size(); i++ ) {
+		wxPGProperty* p = grid->GetPropertyByName(arr[i]);
+		if ( p ) {
+			props.push_back(p);
+		}
+	}
 	
 	int n = props.GetCount();
 	BBArray * properties = _wx_wxpropgrid_wxPropertyGrid__newPropertiesArray(n);
@@ -1615,14 +1619,6 @@ int bmx_wxpgchoices_getvalue(MaxPGChoices * choices, int index) {
 	return choices->Choices().GetValue(static_cast<size_t>(index));
 }
 
-bool bmx_wxpgchoices_hasvalue(MaxPGChoices * choices, int value) {
-	return choices->Choices().HasValue(value);
-}
-
-bool bmx_wxpgchoices_hasvalues(MaxPGChoices * choices) {
-	return choices->Choices().HasValues();
-}
-
 int bmx_wxpgchoices_index(MaxPGChoices * choices, int value) {
 	return static_cast<int>(choices->Choices().Index(value));
 }
@@ -1651,7 +1647,7 @@ void bmx_wxpgchoices_removeat(MaxPGChoices * choices, int index, int count) {
 
 void bmx_wxpgchoices_set(MaxPGChoices * choices, BBArray * labels, BBArray * values) {
 	choices->Choices().Set(bbStringArrayTowxArrayStr(labels),
-		(values != &bbEmptyArray) ? bbIntArrayTowxArrayInt(values) : wxPG_EMPTY_ARRAYINT);
+		(values != &bbEmptyArray) ? bbIntArrayTowxArrayInt(values) : wxArrayInt());
 }
 
 void bmx_wxpgchoices_clear(MaxPGChoices * choices) {
@@ -1733,16 +1729,12 @@ int bmx_wxpgproperty_addchoice(wxPGProperty * prop, BBString * label, int value)
 	return prop->AddChoice(wxStringFromBBString(label), value);
 }
 
-bool bmx_wxpgproperty_canhaveextrachildren(wxPGProperty * prop) {
-	return prop->CanHaveExtraChildren();
-}
-
 void bmx_wxpgproperty_deletechoice(wxPGProperty * prop, int index) {
 	prop->DeleteChoice(index);
 }
 
-void bmx_wxpgproperty_empty(wxPGProperty * prop) {
-	prop->Empty();
+void bmx_wxpgproperty_deletechildren(wxPGProperty * prop) {
+	prop->DeleteChildren();
 }
 
 //bool bmx_wxpgproperty_ensuredataext(wxPGProperty * prop) {
@@ -1807,10 +1799,6 @@ bool bmx_wxpgproperty_isexpanded(wxPGProperty * prop) {
 	return prop->IsExpanded();
 }
 
-bool bmx_wxpgproperty_isflagset(wxPGProperty * prop, wxPGProperty::FlagType flag) {
-	return prop->IsFlagSet(flag);
-}
-
 bool bmx_wxpgproperty_isroot(wxPGProperty * prop) {
 	return prop->IsRoot();
 }
@@ -1871,10 +1859,6 @@ bool bmx_wxpgproperty_setmaxlength(wxPGProperty * prop, int maxLen) {
 	return prop->SetMaxLength(maxLen);
 }
 
-unsigned int bmx_wxpgproperty_getarrindex(wxPGProperty * prop) {
-	return prop->GetArrIndex();
-}
-
 void bmx_wxpgproperty_clearflag(wxPGProperty * prop, wxPGProperty::FlagType flag) {
 	prop->ClearFlag(flag);
 }
@@ -1892,7 +1876,7 @@ double bmx_wxpgproperty_getattributeasdouble(wxPGProperty * prop, BBString * nam
 }
 
 void bmx_wxpgproperty_getattributeaslong(wxPGProperty * prop, BBString * name, BBInt64 * value) {
-	wxVariant v = prop->GetAttribute(wxStringFromBBString(name))).GetValue();
+	wxVariant v = prop->GetAttribute(wxStringFromBBString(name));
 	wxLongLong a;
 	a << v;
 	*value = a.GetValue();
@@ -1919,7 +1903,7 @@ BBString * bmx_wxpgproperty_gethelpstring(wxPGProperty * prop) {
 }
 
 void bmx_wxpgproperty_getimagesize(wxPGProperty * prop, int * w, int * h) {
-	wxSize s = prop->GetImageSize();
+	wxSize s = prop->GetGrid()->GetImageSize(prop);
 	*w = s.x;
 	*h = s.y;
 }
@@ -2072,15 +2056,11 @@ void bmx_wxpgproperty_setvaluecolour(wxPGProperty * prop, MaxColour * value) {
 }
 
 unsigned int bmx_wxpgproperty_getchoicecount(wxPGProperty * prop) {
-	return prop->GetChoiceCount();
-}
-
-BBString * bmx_wxpgproperty_getchoicestring(wxPGProperty * prop, int index) {
-	return bbStringFromWxString(prop->GetChoiceString(index));
-}
-
-MaxPGChoiceEntry * bmx_wxpgproperty_getcurrentchoice(wxPGProperty * prop) {
-	return new MaxPGChoiceEntry(*prop->GetCurrentChoice());
+	const wxPGChoices& choices = prop->GetChoices();
+	if ( &choices && choices.IsOk() ) {
+		return choices.GetCount();
+	}
+	return 0;
 }
 
 // *********************************************
@@ -2111,7 +2091,7 @@ void bmx_wxdateproperty_setformat(wxDateProperty * prop, BBString * format) {
 wxEnumProperty * bmx_wxenumproperty_createwitharrays(BBObject * handle, BBString * label, BBString * name, BBArray * labels, BBArray * values, int value) {
 	return new MaxEnumProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(labels) ? bbStringArrayTowxArrayStr(labels) : wxArrayString(),
 		(values) ? bbIntArrayTowxArrayInt(values) : wxArrayInt(),
 		value);
@@ -2120,7 +2100,7 @@ wxEnumProperty * bmx_wxenumproperty_createwitharrays(BBObject * handle, BBString
 wxEnumProperty * bmx_wxenumproperty_createwithchoices(BBObject * handle, BBString * label, BBString * name, MaxPGChoices * choices, int value) {
 	return new MaxEnumProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		choices->Choices(),
 		value);
 }
@@ -2130,7 +2110,7 @@ wxEnumProperty * bmx_wxenumproperty_createwithchoices(BBObject * handle, BBStrin
 wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwitharrays(BBObject * handle, BBString * label, BBString * name, BBArray * labels, BBArray * value) {
 	return new MaxMultiChoiceProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		(labels) ? bbStringArrayTowxArrayStr(labels) : wxArrayString(),
 		(value) ? bbStringArrayTowxArrayStr(value) : wxArrayString() );
 }
@@ -2138,7 +2118,7 @@ wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwitharrays(BBObject * ha
 wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwithchoices(BBObject * handle, BBString * label, BBString * name, MaxPGChoices * choices, BBArray * value) {
 	return new MaxMultiChoiceProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
-		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxT("_LABEL_AS_NAME"),
+		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		choices->Choices(),
 		(value) ? bbStringArrayTowxArrayStr(value) : wxArrayString() );
 }
@@ -2233,7 +2213,8 @@ int bmx_wxpropertygrid_geteventtype(int type) {
 }
 
 // *********************************************
-
+/*
 void bmx_wxpropertygrid_addresourcehandler() {
 	wxXmlResource::Get()->AddHandler(new MaxPropertyGridXmlHandler);
 }
+*/
