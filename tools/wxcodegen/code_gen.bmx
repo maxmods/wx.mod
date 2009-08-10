@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.17"
+Const AppVersion:String = "1.18"
 
 
 Global eventMap:TMap = New TMap
@@ -2792,7 +2792,7 @@ Type TFBToolBar Extends TFBContainer
 
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
-			If Not TFBToolSeparator(child) Then
+			If Not TFBToolSeparator(child) And Not TFBToolItem(child) Then
 				out.Add(prop("name") + ".AddControl(" + child.prop("name") + ")", 2)
 			End If
 		Next
