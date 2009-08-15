@@ -432,6 +432,23 @@ Type wxMoveEvent Extends wxEvent
 End Type
 
 Rem
+bbdoc: An event being sent when a top level window is maximized.
+about: Notice that it is not sent when the window is restored to its original size after it had been maximized, only a
+normal wxSizeEvent is generated in this case.
+End Rem
+Type wxMaximizeEvent Extends wxEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxMaximizeEvent = New wxMaximizeEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
+End Type
+
+Rem
 bbdoc: This type is not used by the event handlers by itself, but is a base class for other event classes (such as wxNotebookEvent).
 about: It (or an object of a derived type) is sent when the controls state is being changed and allows
 the program to Veto() this change if it wants to prevent it from happening.

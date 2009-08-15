@@ -77,4 +77,7 @@ Extern
 '?macos
 '	Function bmx_wxtoplevelwindow_macgetwindowref:Byte Ptr(handle:Byte Ptr)
 '?
+
+	Function bmx_wxtoplevelwindow_geteventtype:Int(eventType:Int)
+	
 End Extern

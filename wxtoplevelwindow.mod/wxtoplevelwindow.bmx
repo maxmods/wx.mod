@@ -300,4 +300,25 @@ Type wxTopLevelWindow Extends wxWindow
 
 End Type
 
+Type TTopLevelWindowEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Select evt.eventType
+			Case wxEVT_MAXIMIZE
+				Return wxMaximizeEvent.Create(wxEventPtr, evt)
+		End Select
+		
+		Return Null
+	End Method
+
+	Method GetEventType:Int(eventType:Int)
+		Select eventType
+			Case wxEVT_MAXIMIZE
+				Return bmx_wxtoplevelwindow_geteventtype(eventType)
+		End Select
+	End Method
+
+End Type
+
+New TTopLevelWindowEventFactory
 

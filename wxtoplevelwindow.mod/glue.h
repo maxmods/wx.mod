@@ -64,6 +64,8 @@ extern "C" {
 //#ifdef __WXMAC__
 //	WXWindow bmx_wxtoplevelwindow_macgetwindowref(wxTopLevelWindow * window);
 //#endif
+
+	int bmx_wxtoplevelwindow_geteventtype(int type);
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

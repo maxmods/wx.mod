@@ -138,3 +138,11 @@ bool bmx_wxtoplevelwindow_setshape(wxTopLevelWindow * window, MaxRegion * region
 //	return window->MacGetWindowRef();
 //}
 //#endif
+
+int bmx_wxtoplevelwindow_geteventtype(int type) {
+	switch(type) {
+		case 414: return wxEVT_MAXIMIZE;
+	}
+	
+	return 0;
+}

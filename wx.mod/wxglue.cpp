@@ -757,7 +757,6 @@ int bmx_eventtype_value(int type) {
 		case 411: return wxEVT_DESTROY;
 		case 412: return wxEVT_SHOW;
 		case 413: return wxEVT_ICONIZE;
-		case 414: return wxEVT_MAXIMIZE;
 		case 415: return wxEVT_MOUSE_CAPTURE_CHANGED;
 		case 416: return wxEVT_MOUSE_CAPTURE_LOST;
 		case 417: return wxEVT_PAINT;
