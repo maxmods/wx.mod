@@ -1410,10 +1410,12 @@ void wxFNBRendererVC8::DrawTabs(wxWindow *pageContainer, wxDC &dc, wxEvent &even
 		//---------------------------------------
 		// X button
 		//---------------------------------------
+if (!pc->HasFlag(wxFNB_NO_X_BUTTON)) { // BaH - not using X button?
 		rect = wxRect(GetXPos( pc ), 6, 16, 14);
 		mem_dc.SelectObject(m_xBgBmp);
 		mem_dc.Blit(0, 0, rect.width, rect.height, &dc, rect.x, rect.y);
 		mem_dc.SelectObject(wxNullBitmap);
+}
 
 		//---------------------------------------
 		// Right button

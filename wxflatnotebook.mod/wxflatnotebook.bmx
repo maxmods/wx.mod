@@ -53,6 +53,9 @@ Import "common.bmx"
 ' Changed wxFlatNotebook.cpp
 '     Fixed SetFont() to skip m_pages-> bit if it is NULL. (for OS X)
 '
+' Changed renderer.cpp
+'     wxFNBRendererVC8::DrawTabs() should draw background x bitmap if not in use.
+'
 
 Rem
 bbdoc: Nice cross-platform flat notebook with X-button, navigation arrows and much more
