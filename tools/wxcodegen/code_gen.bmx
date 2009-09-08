@@ -26,7 +26,7 @@ Import BRL.System
 
 Import "gen_factory.bmx"
 
-Const AppVersion:String = "1.18"
+Const AppVersion:String = "1.19"
 
 
 Global eventMap:TMap = New TMap
@@ -767,7 +767,7 @@ Type TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(True), 2)
 		End If
 
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 
 		text:+ DoPosSizeStyle(Self)
 		
@@ -783,7 +783,7 @@ Type TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(True), 2)
 		End If
 
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 
 		text:+ GetString("~q" + prop("label") + "~q")
 		
@@ -1298,7 +1298,7 @@ Type TFBListCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new wxListCtrl.Create(" + ContainerReference() + ", " + prop("id")
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 
 		text:+ DoPosSizeStyle(Self)
 
@@ -1315,7 +1315,7 @@ Type TFBListCtrl Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxListCtrl"
+		Return GetFullImport("wx.wxListCtrl")
 	End Method
 
 End Type
@@ -1512,7 +1512,7 @@ Type TFBButton Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxButton"
+		Return GetFullImport("wx.wxButton")
 	End Method
 
 End Type
@@ -1525,7 +1525,7 @@ Type TFBTextCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 
-		Local text:String = prop("name") + " = new wxTextCtrl.Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		text:+ GetString("~q" + prop("value") + "~q")
 
@@ -1548,7 +1548,7 @@ Type TFBTextCtrl Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxTextCtrl"
+		Return GetFullImport("wx.wxTextCtrl")
 	End Method
 
 End Type
@@ -1561,7 +1561,7 @@ Type TFBStaticBitmap Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 
-		Local text:String = prop("name") + " = new wxStaticBitmap.Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		If prop("bitmap") Then
 			text:+ DoBitmap(prop("bitmap"))
@@ -1584,7 +1584,7 @@ Type TFBStaticBitmap Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxStaticBitmap"
+		Return GetFullImport("wx.wxStaticBitmap")
 	End Method
 
 End Type
@@ -1609,7 +1609,7 @@ Type TFBStaticText Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxStaticText"
+		Return GetFullImport("wx.wxStaticText")
 	End Method
 	
 End Type
@@ -1626,7 +1626,7 @@ Type TFBComboBox Extends TFBWidget
 			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
 		End If
 
-		Local text:String = prop("name") + " = new wxComboBox.Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 
 		text:+ GetString("~q" + prop("value") + "~q")
 		
@@ -1652,7 +1652,7 @@ Type TFBComboBox Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxComboBox"
+		Return GetFullImport("wx.wxComboBox")
 	End Method
 
 End Type
@@ -1665,7 +1665,7 @@ Type TFBTreeCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new wxTreeCtrl.Create(" + ContainerReference() + ", " + prop("id")
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 
 		text:+ DoPosSizeStyle(Self)
 
@@ -1682,7 +1682,7 @@ Type TFBTreeCtrl Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxTreeCtrl"
+		Return GetFullImport("wx.wxTreeCtrl")
 	End Method
 
 End Type
@@ -1695,7 +1695,7 @@ Type TFBGauge Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		text:+ prop("range")
 
@@ -1718,7 +1718,7 @@ Type TFBGauge Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxGauge"
+		Return GetFullImport("wx.wxGauge")
 	End Method
 
 End Type
@@ -1731,7 +1731,7 @@ Type TFBSlider Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 
-		Local text:String = prop("name") + " = new wxSlider.Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		text:+ prop("value") + ", " + prop("minValue") + ", " + prop("maxValue")
 
@@ -1750,7 +1750,7 @@ Type TFBSlider Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxSlider"
+		Return GetFullImport("wx.wxSlider")
 	End Method
 
 End Type
@@ -1770,7 +1770,7 @@ Type TFBStaticLine Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxStaticLine"
+		Return GetFullImport("wx.wxStaticLine")
 	End Method
 
 End Type
@@ -1794,7 +1794,7 @@ Type TFBRadioButton Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxRadioButton"
+		Return GetFullImport("wx.wxRadioButton")
 	End Method
 
 End Type
@@ -1811,7 +1811,7 @@ Type TFBRadioBox Extends TFBWidget
 			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
 		End If
 
-		Local text:String = prop("name") + " = new wxRadioBox.Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		text:+ GetString("~q" + prop("label") + "~q")
 
@@ -1838,7 +1838,7 @@ Type TFBRadioBox Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxRadioBox"
+		Return GetFullImport("wx.wxRadioBox")
 	End Method
 
 End Type
@@ -1862,7 +1862,7 @@ Type TFBCheckBox Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxCheckBox"
+		Return GetFullImport("wx.wxCheckBox")
 	End Method
 
 End Type
@@ -1883,7 +1883,7 @@ Type TFBHTMLWindow Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxHtmlWindow"
+		Return GetFullImport("wx.wxHtmlWindow")
 	End Method
 
 End Type
@@ -1900,7 +1900,7 @@ Type TFBCheckListBox Extends TFBWidget
 			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
 		End If
 
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 
 		' choices
 		If prop("choices") Then
@@ -1927,7 +1927,7 @@ Type TFBCheckListBox Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxCheckListBox"
+		Return GetFullImport("wx.wxCheckListBox")
 	End Method
 
 End Type
@@ -1954,7 +1954,7 @@ Type TFBToggleButton Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxToggleButton"
+		Return GetFullImport("wx.wxToggleButton")
 	End Method
 
 End Type
@@ -1977,7 +1977,7 @@ Type TFBScrollBar Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxScrollBar"
+		Return GetFullImport("wx.wxScrollBar")
 	End Method
 
 End Type
@@ -1990,7 +1990,7 @@ Type TFBSpinCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 
 		text:+ GetString("~q" + prop("value") + "~q")
 		
@@ -2017,7 +2017,7 @@ Type TFBSpinCtrl Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxSpinCtrl"
+		Return GetFullImport("wx.wxSpinCtrl")
 	End Method
 
 End Type
@@ -2056,7 +2056,7 @@ Type TFBListBook Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxListBook"
+		Return GetFullImport("wx.wxListBook")
 	End Method
 
 End Type
@@ -2106,7 +2106,7 @@ Type TFBListBookPage Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxListBook"
+		Return GetFullImport("wx.wxListBook")
 	End Method
 
 End Type
@@ -2133,7 +2133,7 @@ Type TFBChoicebook Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxChoicebook"
+		Return GetFullImport("wx.wxChoicebook")
 	End Method
 
 End Type
@@ -2171,7 +2171,7 @@ Type TFBChoicebookPage Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxChoicebook"
+		Return GetFullImport("wx.wxChoicebook")
 	End Method
 
 End Type
@@ -2192,7 +2192,7 @@ Type TFBRichTextCtrl Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxRichTextCtrl"
+		Return GetFullImport("wx.wxRichTextCtrl")
 	End Method
 
 End Type
@@ -2258,7 +2258,7 @@ Type TFBNotebookPage Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxNotebook"
+		Return GetFullImport("wx.wxNotebook")
 	End Method
 
 End Type
@@ -2271,7 +2271,7 @@ Type TFBFilePickerCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		text:+ GetString("~q" + prop("value") + "~q") + ", "
 		text:+ GetString("~q" + prop("message") + "~q") + ", "
@@ -2295,7 +2295,7 @@ Type TFBFilePickerCtrl Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxFilePickerCtrl"
+		Return GetFullImport("wx.wxFilePickerCtrl")
 	End Method
 
 End Type
@@ -2308,7 +2308,7 @@ Type TFBDirPickerCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		text:+ GetString("~q" + prop("value") + "~q") + ", "
 		text:+ GetString("~q" + prop("message") + "~q")
@@ -2331,7 +2331,7 @@ Type TFBDirPickerCtrl Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxFilePickerCtrl"
+		Return GetFullImport("wx.wxFilePickerCtrl")
 	End Method
 
 End Type
@@ -2361,7 +2361,7 @@ Type TFBStatusBar Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxStatusBar"
+		Return GetFullImport("wx.wxStatusBar")
 	End Method
 
 End Type
@@ -2378,7 +2378,7 @@ Type TFBListBox Extends TFBWidget
 			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
 		End If
 
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 
 		' choices
 		If prop("choices") Then
@@ -2405,7 +2405,7 @@ Type TFBListBox Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxListBox"
+		Return GetFullImport("wx.wxListBox")
 	End Method
 
 End Type
@@ -2418,7 +2418,7 @@ Type TFBGenericDirCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		text:+ GetString("~q" + prop("defaultfolder") + "~q")
 		
@@ -2454,7 +2454,7 @@ Type TFBGenericDirCtrl Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxGenericDirCtrl"
+		Return GetFullImport("wx.wxGenericDirCtrl")
 	End Method
 
 End Type
@@ -2562,7 +2562,7 @@ Type TFBScintilla Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxScintilla"
+		Return GetFullImport("wx.wxScintilla")
 	End Method
 
 End Type
@@ -2575,7 +2575,7 @@ Type TFBHyperlinkCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		text:+ GetString("~q" + prop("label") + "~q") + ", "
 		text:+ GetString("~q" + prop("url") + "~q", True)
@@ -2607,7 +2607,7 @@ Type TFBHyperlinkCtrl Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxHyperlinkCtrl"
+		Return GetFullImport("wx.wxHyperlinkCtrl")
 	End Method
 
 End Type
@@ -2620,7 +2620,7 @@ Type TFBBitmapButton Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		If prop("bitmap") Then
 			text:+ DoBitmap(prop("bitmap"))
@@ -2659,7 +2659,7 @@ Type TFBBitmapButton Extends TFBWidget
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxBitmapButton"
+		Return GetFullImport("wx.wxBitmapButton")
 	End Method
 
 End Type
@@ -2676,7 +2676,7 @@ Type TFBChoice Extends TFBWidget
 			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
 		End If
 
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 
 		' choices
 		If prop("choices") Then
@@ -2708,7 +2708,7 @@ Type TFBChoice Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxChoice"
+		Return GetFullImport("wx.wxChoice")
 	End Method
 
 End Type
@@ -2721,7 +2721,7 @@ Type TFBDatePickerCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		' default datetime
 		text:+ "Null"
@@ -2744,7 +2744,7 @@ Type TFBDatePickerCtrl Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxDatePickerCtrl"
+		Return GetFullImport("wx.wxDatePickerCtrl")
 	End Method
 
 End Type
@@ -2763,7 +2763,7 @@ Type TFBToolBar Extends TFBContainer
 			text:+ "CreateToolBar("
 			text:+ prop("style") + ", " + prop("id") + ")"
 		Else
-			text:+ "new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id")
+			text:+ "new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 	
 			text:+ DoPosSizeStyle(Self)
 	
@@ -2808,7 +2808,7 @@ Type TFBToolBar Extends TFBContainer
 	End Method
 	
 	Method GetImport:String()
-		Return "wx.wxToolBar"
+		Return GetFullImport("wx.wxToolBar")
 	End Method
 
 End Type
@@ -2927,7 +2927,7 @@ Type TFBSplitterWindow Extends TFBContainer
 
 	
 	Method GetImport:String()
-		Return "wx.wxSplitterWindow"
+		Return GetFullImport("wx.wxSplitterWindow")
 	End Method
 
 End Type
@@ -2963,7 +2963,7 @@ Type TFBSplitterItem Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxSplitterWindow"
+		Return GetFullImport("wx.wxSplitterWindow")
 	End Method
 
 End Type
@@ -2976,7 +2976,7 @@ Type TFBFontPickerCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 
 		If prop("value") Then
 			Local font:String = prop("value")
@@ -3032,7 +3032,7 @@ Type TFBFontPickerCtrl Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxFontPickerCtrl"
+		Return GetFullImport("wx.wxFontPickerCtrl")
 	End Method
 
 End Type
@@ -3045,7 +3045,7 @@ Type TFBCalendarCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		' default datetime
 		text:+ "Null"
@@ -3068,7 +3068,7 @@ Type TFBCalendarCtrl Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxCalendarCtrl"
+		Return GetFullImport("wx.wxCalendarCtrl")
 	End Method
 
 End Type
@@ -3081,7 +3081,7 @@ Type TFBColourPickerCtrl Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 		
 		If prop("colour") Then
 			text:+ DoColour(prop("colour"))
@@ -3107,7 +3107,7 @@ Type TFBColourPickerCtrl Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxColourPickerCtrl"
+		Return GetFullImport("wx.wxColourPickerCtrl")
 	End Method
 
 End Type
@@ -3130,7 +3130,7 @@ Type TFBSpinButton Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxSpinButton"
+		Return GetFullImport("wx.wxSpinButton")
 	End Method
 
 End Type
@@ -3176,7 +3176,7 @@ Type TFBScrolledWindow Extends TFBContainer
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxScrolledWindow"
+		Return GetFullImport("wx.wxScrolledWindow")
 	End Method
 
 End Type
@@ -3285,7 +3285,7 @@ Type TFBBoxSizer Extends TFBSizer
 	
 		Super.Generate(out)
 	
-		out.Add(prop("name") + " = new " + GetType() + ".Create(" + prop("orient") + ")", 2)
+		out.Add(prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + prop("orient") + ")", 2)
 	
 		If prop("minimum_size") Then
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
@@ -3300,7 +3300,7 @@ Type TFBBoxSizer Extends TFBSizer
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxWindow"
+		Return GetFullImport("wx.wxWindow")
 	End Method
 
 End Type
@@ -3315,7 +3315,7 @@ Type TFBStaticBoxSizer Extends TFBSizer
 	
 		Super.Generate(out)
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".CreateSizerWithBox( "
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateSizerWithBox( "
 		text:+ "new wxStaticBox.Create(" + ContainerReference() + ", wxID_ANY, " + ..
 			GetString("~q" + prop("label") + "~q") + ")"
 		text:+ ", " + prop("orient") + ")"
@@ -3335,7 +3335,7 @@ Type TFBStaticBoxSizer Extends TFBSizer
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxStaticBoxSizer"
+		Return GetFullImport("wx.wxStaticBoxSizer")
 	End Method
 
 End Type
@@ -3346,7 +3346,7 @@ Type TFBGridSizer Extends TFBSizer
 	
 		Super.Generate(out)
 	
-		Local text:String = prop("name") + " = new " + GetType() + ".CreateRC("
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateRC("
 	
 		text:+ prop("rows") + ", " + prop("cols") + ", "
 		text:+ prop("vgap") + ", " + prop("hgap")
@@ -3369,7 +3369,7 @@ Type TFBGridSizer Extends TFBSizer
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxWindow"
+		Return GetFullImport("wx.wxWindow")
 	End Method
 
 End Type
@@ -3380,7 +3380,7 @@ Type TFBFlexGridSizer Extends TFBSizer
 	
 		Super.Generate(out)
 	
-		Local text:String = prop("name") + " = new " + GetType() + ".CreateRC("
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateRC("
 	
 		text:+ prop("rows") + ", " + prop("cols") + ", "
 		text:+ prop("vgap") + ", " + prop("hgap")
@@ -3427,7 +3427,7 @@ Type TFBFlexGridSizer Extends TFBSizer
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxWindow"
+		Return GetFullImport("wx.wxWindow")
 	End Method
 
 End Type
@@ -3508,7 +3508,7 @@ Type TFBStdDialogButtonSizer Extends TFBSizer
 			End If
 		End If
 		
-		Local text:String = prop("name") + " = new " + GetType() + ".CreateSizer()"
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateSizer()"
 		
 		out.Add(text, 2)
 
@@ -3556,7 +3556,7 @@ Type TFBStdDialogButtonSizer Extends TFBSizer
 
 	
 	Method GetImport:String()
-		Return "wx.wxStdDialogButtonSizer"
+		Return GetFullImport("wx.wxStdDialogButtonSizer")
 	End Method
 
 	Method Configure:Int(lastId:Int)
@@ -3641,7 +3641,7 @@ Type TFBGridBagSizer Extends TFBSizer
 	
 		Super.Generate(out)
 	
-		out.Add(prop("name") + " = new " + GetType() + ".CreateGB(" + prop("vgap") + ", " + prop("hgap") + ")", 2)
+		out.Add(prop("name") + " = new " + GetFullType(GetType()) + ".CreateGB(" + prop("vgap") + ", " + prop("hgap") + ")", 2)
 
 		If prop("growablecols") Then
 			Local cols:String[] = prop("growablecols").Split(",")
@@ -3684,7 +3684,7 @@ Type TFBGridBagSizer Extends TFBSizer
 	End Method
 
 	Method GetImport:String()
-		Return "wx.wxWindow"
+		Return GetFullImport("wx.wxWindow")
 	End Method
 
 End Type
@@ -3755,7 +3755,7 @@ Type TFBMenuBar Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 
-		Local text:String = prop("name") + " = new wxMenuBar.Create("
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create("
 
 		text:+ WindowStyle()
 		
@@ -3782,7 +3782,7 @@ Type TFBMenuBar Extends TFBWidget
 	End Method
 	
 	Method GetImport:String()
-		Return "wx.wxMenuBar"
+		Return GetFullImport("wx.wxMenuBar")
 	End Method
 
 End Type
@@ -3797,7 +3797,7 @@ Type TFBMenu Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 
-		Local text:String = prop("name") + " = new wxMenu.Create()"
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create()"
 		
 		out.Add(text, 2)
 	
@@ -3826,7 +3826,7 @@ Type TFBMenu Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxMenu"
+		Return GetFullImport("wx.wxMenu")
 	End Method
 
 End Type
@@ -3841,7 +3841,7 @@ Type TFBMenuItem Extends TFBWidget
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 
-		Local text:String = prop("name") + " = new wxMenuItem.Create("
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create("
 		
 		text:+ parent.prop("name") + ", "
 		text:+ prop("id") + ", "
@@ -3878,7 +3878,7 @@ Type TFBMenuItem Extends TFBWidget
 
 	
 	Method GetImport:String()
-		Return "wx.wxMenu"
+		Return GetFullImport("wx.wxMenu")
 	End Method
 
 End Type
