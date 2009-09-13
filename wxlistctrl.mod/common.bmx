@@ -81,7 +81,7 @@ Extern
 	Function bmx_wxlistctrl_gettextcolour:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxlistctrl_gettopitem:Int(handle:Byte Ptr)
 	Function bmx_wxlistctrl_getviewrect(handle:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
-	Function bmx_wxlistctrl_hittest:Int(handle:Byte Ptr, x:Int, y:Int, flags:Int, subitem:Int Ptr)
+	Function bmx_wxlistctrl_hittest:Int(handle:Byte Ptr, x:Int, y:Int, flags:Int Ptr, subitem:Int Ptr)
 	Function bmx_wxlistctrl_insertcolumn:Int(handle:Byte Ptr, col:Int, heading:String, format:Int, width:Int)
 	Function bmx_wxlistctrl_insertcolumnitem:Int(handle:Byte Ptr, col:Int, info:Byte Ptr)
 	Function bmx_wxlistctrl_insertitem:Int(handle:Byte Ptr, item:Byte Ptr)

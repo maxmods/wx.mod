@@ -76,7 +76,7 @@ extern "C" {
 	MaxColour * bmx_wxlistctrl_gettextcolour(wxListCtrl * list);
 	long bmx_wxlistctrl_gettopitem(wxListCtrl * list);
 	void bmx_wxlistctrl_getviewrect(wxListCtrl * list, int * x, int * y, int * w, int * h);
-	long bmx_wxlistctrl_hittest(wxListCtrl * list, int x, int y, int flags, long * subitem);
+	long bmx_wxlistctrl_hittest(wxListCtrl * list, int x, int y, int * flags, long * subitem);
 	long bmx_wxlistctrl_insertcolumn(wxListCtrl * list, long col, BBString * heading, int format, int width);
 	long bmx_wxlistctrl_insertcolumnitem(wxListCtrl * list, long col, MaxListItem * info);
 	long bmx_wxlistctrl_insertitem(wxListCtrl * list, MaxListItem * item);

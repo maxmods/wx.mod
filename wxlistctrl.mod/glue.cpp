@@ -329,8 +329,8 @@ void bmx_wxlistctrl_getviewrect(wxListCtrl * list, int * x, int * y, int * w, in
 	*h = r.height;
 }
 
-long bmx_wxlistctrl_hittest(wxListCtrl * list, int x, int y, int flags, long * subitem) {
-	return list->HitTest(wxPoint(x, y), flags, subitem);
+long bmx_wxlistctrl_hittest(wxListCtrl * list, int x, int y, int * flags, long * subitem) {
+	return list->HitTest(wxPoint(x, y), *flags, subitem);
 }
 
 long bmx_wxlistctrl_insertcolumn(wxListCtrl * list, long col, BBString * heading, int format, int width) {

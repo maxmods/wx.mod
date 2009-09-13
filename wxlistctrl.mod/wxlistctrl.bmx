@@ -521,7 +521,7 @@ Type wxListCtrl Extends wxControl
 	<tr><td>wxLIST_HITTEST_ONITEM </td><td>Combination of wxLIST_HITTEST_ONITEMICON, wxLIST_HITTEST_ONITEMLABEL, wxLIST_HITTEST_ONITEMSTATEICON. </td></tr>
 	</table>
 	End Rem
-	Method HitTest:Int(x:Int, y:Int, flags:Int)
+	Method HitTest:Int(x:Int, y:Int, flags:Int Var)
 		Local subItem:Int
 		Return HitTestSub(x, y, flags, subItem)
 	End Method
@@ -529,8 +529,8 @@ Type wxListCtrl Extends wxControl
 	Rem
 	bbdoc: See HitTest.
 	End Rem
-	Method HitTestSub:Int(x:Int, y:Int, flags:Int, subItem:Int Var)
-		Return bmx_wxlistctrl_hittest(wxObjectPtr, x, y, flags, Varptr subItem)
+	Method HitTestSub:Int(x:Int, y:Int, flags:Int Var, subItem:Int Var)
+		Return bmx_wxlistctrl_hittest(wxObjectPtr, x, y, Varptr flags, Varptr subItem)
 	End Method
 	
 	Rem
