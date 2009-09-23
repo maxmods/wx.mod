@@ -614,7 +614,7 @@ Type wxTextCtrl Extends wxControl
 	bbdoc: Converts the given zero based column and line number to a position.
 	End Rem
 	Method XYToPosition:Int(x:Int, y:Int)
-		bmx_wxtextctrl_xytoposition(wxObjectPtr, x, y)
+		Return bmx_wxtextctrl_xytoposition(wxObjectPtr, x, y)
 	End Method
 	
 End Type
