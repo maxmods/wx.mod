@@ -48,7 +48,7 @@ extern "C" {
 	void bmx_wxbitmapcombobox_deleteitem(wxBitmapComboBox * combobox, int item);
 	int bmx_wxbitmapcombobox_getselection(wxBitmapComboBox * combobox);
 	int bmx_wxbitmapcombobox_getcount(wxBitmapComboBox * combobox);
-	int bmx_wxbitmapcombobox_isempty(wxBitmapComboBox * combobox);
+	int bmx_wxbitmapcombobox_isempty(wxItemContainerImmutable* combobox);
 	BBString * bmx_wxbitmapcombobox_getstring(wxBitmapComboBox * combobox, int item);
 	BBArray * bmx_wxbitmapcombobox_getstrings(wxBitmapComboBox * combobox);
 	BBString * bmx_wxbitmapcombobox_getstringselection(wxBitmapComboBox * combobox);
