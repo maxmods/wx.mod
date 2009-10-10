@@ -895,9 +895,9 @@ bindir="${exec_prefix}/bin"
 [ -z "$output_option_version"       ] || echo "2.9.0"
 [ -z "$output_option_version_full"  ] || echo "2.9.0.0"
 [ -z "$output_option_basename"      ] || echo "wx_osx_carbonu"
-[ -z "$output_option_cc"            ] || echo "gcc -mmacosx-version-min=10.4"
-[ -z "$output_option_cxx"           ] || echo "g++ -mmacosx-version-min=10.4"
-[ -z "$output_option_ld"            ] || echo "g++ -mmacosx-version-min=10.4 -o"
+[ -z "$output_option_cc"            ] || echo "gcc-4.0 -mmacosx-version-min=10.4"
+[ -z "$output_option_cxx"           ] || echo "g++-4.0 -mmacosx-version-min=10.4"
+[ -z "$output_option_ld"            ] || echo "g++-4.0 -mmacosx-version-min=10.4 -o"
 [ -z "$flag_option_selected_config" ] || echo "$this_config"
 
 

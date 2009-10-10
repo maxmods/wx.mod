@@ -26,11 +26,11 @@ check_dirname()
 
 # set the variables which allow the real wx-config to check if we're using it
 # in place or after installation
-this_prefix=`check_dirname "/Users/brucey/Documents/programming/c/wxWidgets_2.9.0_branch_svn"`
+this_prefix=`check_dirname "/Users/brucey/Documents/programming/c/wxWidgets-2.9.0"`
 if [ "x$this_prefix" = "x" ]; then
     exit 1
 fi
-this_exec_prefix=`check_dirname "/Users/brucey/Documents/programming/c/wxWidgets_2.9.0_branch_svn"`
+this_exec_prefix=`check_dirname "/Users/brucey/Documents/programming/c/wxWidgets-2.9.0"`
 if [ "x$this_exec_prefix" = "x" ]; then
     exit 1
 fi
