@@ -370,6 +370,8 @@ Extern
 
 	Function bmx_wxsizer_addresourcehandler()
 
+	Function bmx_wxwindowdestroyevent_getwindow:Byte Ptr(handle:Byte Ptr)
+
 End Extern
 
 

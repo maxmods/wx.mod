@@ -1562,3 +1562,8 @@ void bmx_wxsizer_addresourcehandler() {
 	wxXmlResource::Get()->AddHandler(new MaxSizerXmlHandler);
 }
 
+// *********************************************
+
+wxWindow * bmx_wxwindowdestroyevent_getwindow(wxWindowDestroyEvent & event) {
+	return event.GetWindow();
+}

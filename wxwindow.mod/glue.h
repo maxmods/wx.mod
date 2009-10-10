@@ -378,6 +378,8 @@ extern "C" {
 
 	void bmx_wxsizer_addresourcehandler();
 
+	wxWindow * bmx_wxwindowdestroyevent_getwindow(wxWindowDestroyEvent & event);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -3719,6 +3719,40 @@ Type wxEraseEvent Extends wxEvent
 End Type
 
 Rem
+bbdoc: This event is sent as early as possible during the window destruction process.
+about: For the top level windows, as early as possible means that this is done by wxFrame or wxDialog destructor, i.e. after the destructor
+of the derived class was executed and so any methods specific to the derived class can't be called any more from this event handler.
+If you need to do this, you must call wxWindow::SendDestroyEvent() from your derived class destructor.
+<p>
+For the child windows, this event is generated just before deleting the window from wxWindow::Destroy() (which is also called when the parent window is deleted) or
+from the window destructor if operator delete was used directly (which is not recommended for this very reason).
+</p>
+<p>
+It is usually pointless to handle this event in the window itself but it ca be very useful to receive notifications about the window destruction in the parent
+window or in any other object interested in this window.
+</p>
+End Rem
+Type wxWindowDestroyEvent Extends wxCommandEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxWindowDestroyEvent = New wxWindowDestroyEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+	
+	Rem
+	bbdoc: Returns the window being destroyed.
+	End Rem
+	Method GetWindow:wxWindow()
+		Return wxWindow._find(bmx_wxwindowdestroyevent_getwindow(wxEventPtr))
+	End Method
+	
+End Type
+
+
+Rem
 bbdoc: Find the deepest window at the given mouse position in screen coordinates, returning the window if found, or NULL if not.
 End Rem
 Function wxFindWindowAtPoint:wxWindow(x:Int, y:Int)
@@ -3763,6 +3797,8 @@ Type TWindowEventFactory Extends TEventFactory
 				Return wxSetCursorEvent.Create(wxEventPtr, evt)
 			Case wxEVT_ERASE_BACKGROUND
 				Return wxEraseEvent.Create(wxEventPtr, evt)
+			Case wxEVT_DESTROY
+				Return wxWindowDestroyEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -3781,7 +3817,8 @@ Type TWindowEventFactory Extends TEventFactory
 					wxEVT_COMMAND_TEXT_CUT, ..
 					wxEVT_COMMAND_TEXT_PASTE, ..
 					wxEVT_SET_CURSOR, ..
-					wxEVT_ERASE_BACKGROUND
+					wxEVT_ERASE_BACKGROUND, ..
+					wxEVT_DESTROY
 			Return bmx_eventtype_value(eventType)
 		End Select
 	End Method
