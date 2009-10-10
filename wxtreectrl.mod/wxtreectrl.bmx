@@ -231,7 +231,7 @@ Type wxTreeCtrl Extends wxControl
 	</p>
 	End Rem
 	Method EndEditLabel(item:wxTreeItemId, cancelEdit:Int)
-		bmx_wxtreectrl_endeditlabel(wxObjectPtr, item, cancelEdit)
+		bmx_wxtreectrl_endeditlabel(wxObjectPtr, item.wxTreeItemIdPtr, cancelEdit)
 	End Method
 
 	Rem
