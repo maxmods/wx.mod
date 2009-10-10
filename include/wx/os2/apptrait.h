@@ -4,7 +4,7 @@
 // Author:      Stefan Neis
 // Modified by:
 // Created:     22.09.2003
-// RCS-ID:      $Id: apptrait.h 56994 2008-11-28 12:47:07Z VZ $
+// RCS-ID:      $Id: apptrait.h 61734 2009-08-22 17:40:08Z VZ $
 // Copyright:   (c) 2003 Stefan Neis <Stefan.Neis@t-online.de>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -50,7 +50,7 @@ public:
     virtual wxString GetDesktopEnvironment() const;
 #endif
 #if wxUSE_SOCKETS
-    virtual wxSocketManager *GetSocketManager();
+    virtual wxFDIOManager *GetFDIOManager();
 #endif
 };
 

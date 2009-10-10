@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     2004-09-25
-// RCS-ID:      $Id: propgrid.h 59711 2009-03-21 23:36:37Z VZ $
+// RCS-ID:      $Id: propgrid.h 61014 2009-06-12 13:39:36Z JMS $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -101,6 +101,10 @@ extern WXDLLIMPEXP_PROPGRID wxPGGlobalVarsClass* wxPGGlobalVars;
 #define wxPGVariant_False           (wxPGGlobalVars->m_vFalse)
 
 #define wxPGVariant_Bool(A)     (A?wxPGVariant_True:wxPGVariant_False)
+
+// When wxPG is loaded dynamically after the application is already running
+// then the built-in module system won't pick this one up.  Add it manually.
+WXDLLIMPEXP_PROPGRID void wxPGInitResourceModule();
 
 #endif // !SWIG
 
@@ -579,30 +583,10 @@ class WXDLLIMPEXP_PROPGRID
     friend class wxPropertyGridManager;
     friend class wxPGCanvas;
 
-#ifndef SWIG
     DECLARE_DYNAMIC_CLASS(wxPropertyGrid)
-#endif
 public:
 
-#ifdef SWIG
-    %pythonAppend wxPropertyGrid {
-        self._setOORInfo(self)
-        self.DoDefaultTypeMappings()
-        self.edited_objects = {}
-        self.DoDefaultValueTypeMappings()
-        if not hasattr(self.__class__,'_vt2setter'):
-            self.__class__._vt2setter = {}
-    }
-    %pythonAppend wxPropertyGrid() ""
-
-    wxPropertyGrid( wxWindow *parent, wxWindowID id = wxID_ANY,
-                    const wxPoint& pos = wxDefaultPosition,
-                    const wxSize& size = wxDefaultSize,
-                    long style = wxPG_DEFAULT_STYLE,
-                    const wxChar* name = wxPyPropertyGridNameStr );
-    %RenameCtor(PrePropertyGrid,  wxPropertyGrid());
-#else
-
+#ifndef SWIG
     /**
         Two step constructor.
 
@@ -610,6 +594,7 @@ public:
         wxPropertyGrid
     */
     wxPropertyGrid();
+#endif
 
     /** The default constructor. The styles to be used are styles valid for
         the wxWindow and wxScrolledWindow.
@@ -624,7 +609,6 @@ public:
 
     /** Destructor */
     virtual ~wxPropertyGrid();
-#endif
 
     /** Adds given key combination to trigger given action.
 
@@ -918,7 +902,14 @@ public:
         Pointer to the editor class instance that should be used.
     */
     static wxPGEditor* RegisterEditorClass( wxPGEditor* editor,
-                                            bool noDefCheck = false );
+                                            bool noDefCheck = false )
+    {
+        return DoRegisterEditorClass(editor, wxEmptyString, noDefCheck);
+    }
+
+    static wxPGEditor* DoRegisterEditorClass( wxPGEditor* editorClass,
+                                              const wxString& editorName,
+                                              bool noDefCheck = false );
 #endif
 
     /** Resets all colours to the original system values.

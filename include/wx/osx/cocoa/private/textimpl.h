@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     03/02/99
-// RCS-ID:      $Id: textimpl.h 60399 2009-04-26 19:41:08Z VZ $
+// RCS-ID:      $Id: textimpl.h 60760 2009-05-27 09:58:37Z SC $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -56,6 +56,7 @@ public:
     virtual void GetSelection( long* from, long* to) const ;
     virtual void SetSelection( long from , long to );
     virtual void WriteText(const wxString& str) ;
+    virtual void SetFont( const wxFont & font , const wxColour& foreground , long windowStyle, bool ignoreBlack = true );
 
 protected:
     NSScrollView* m_scrollView;

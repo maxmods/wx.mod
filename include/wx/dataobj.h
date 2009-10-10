@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin, Robert Roebling
 // Modified by:
 // Created:     26.05.99
-// RCS-ID:      $Id: dataobj.h 59412 2009-03-07 14:54:01Z RR $
+// RCS-ID:      $Id: dataobj.h 61110 2009-06-18 06:15:28Z RD $
 // Copyright:   (c) wxWidgets Team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -328,7 +328,7 @@ private:
     #if defined(__WXGTK20__)
         #define wxNEEDS_UTF8_FOR_TEXT_DATAOBJ
     #elif defined(__WXMAC__)
-        #define wxNEEDS_UTF8_FOR_TEXT_DATAOBJ
+        #define wxNEEDS_UTF16_FOR_TEXT_DATAOBJ
     #endif
 #endif // wxUSE_UNICODE
 

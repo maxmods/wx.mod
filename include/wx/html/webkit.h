@@ -4,7 +4,7 @@
 // Author:      Jethro Grassie / Kevin Ollivier
 // Modified by:
 // Created:     2004-4-16
-// RCS-ID:      $Id: webkit.h 58718 2009-02-07 18:59:25Z VZ $
+// RCS-ID:      $Id: webkit.h 60543 2009-05-07 08:52:08Z SC $
 // Copyright:   (c) Jethro Grassie / Kevin Ollivier
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -24,7 +24,7 @@
 // Web Kit Control
 // ----------------------------------------------------------------------------
 
-class wxWebKitCtrl : public wxControl
+class WXDLLIMPEXP_CORE wxWebKitCtrl : public wxControl
 {
 public:
     DECLARE_DYNAMIC_CLASS(wxWebKitCtrl)
@@ -133,7 +133,7 @@ enum {
 
 
 
-class wxWebKitBeforeLoadEvent : public wxCommandEvent
+class WXDLLIMPEXP_CORE wxWebKitBeforeLoadEvent : public wxCommandEvent
 {
     DECLARE_DYNAMIC_CLASS( wxWebKitBeforeLoadEvent )
 
@@ -154,7 +154,7 @@ protected:
     int m_navType;
 };
 
-class wxWebKitStateChangedEvent : public wxCommandEvent
+class WXDLLIMPEXP_CORE wxWebKitStateChangedEvent : public wxCommandEvent
 {
     DECLARE_DYNAMIC_CLASS( wxWebKitStateChangedEvent )
 
@@ -173,7 +173,7 @@ protected:
 };
 
 
-class wxWebKitNewWindowEvent : public wxCommandEvent
+class WXDLLIMPEXP_CORE wxWebKitNewWindowEvent : public wxCommandEvent
 {
     DECLARE_DYNAMIC_CLASS( wxWebViewNewWindowEvent )
 public:

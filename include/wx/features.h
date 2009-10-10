@@ -5,7 +5,7 @@
 *  Author:      Vadim Zeitlin
 *  Modified by: Ryan Norton (Converted to C)
 *  Created:     18.03.02
-*  RCS-ID:      $Id: features.h 59031 2009-02-19 17:28:37Z PC $
+*  RCS-ID:      $Id: features.h 60526 2009-05-06 11:42:16Z VZ $
 *  Copyright:   (c) 2002 Vadim Zeitlin <vadim@wxwidgets.org>
 *  Licence:     wxWindows licence
 */
@@ -86,10 +86,15 @@
 
 /* Direct access to bitmap data is not implemented in all ports yet */
 #if defined(__WXGTK20__) || defined(__WXMAC__) || defined(__WXDFB__) || \
-        (defined(__WXMSW__) && !defined(__WATCOMC__))
+        defined(__WXMSW__)
 
-    // HP aCC for PA-RISC can't compile rawbmp.h
-    #if !defined(__HP_aCC) || !defined(__hppa)
+    /*
+       These compilers can't deal with templates in wx/rawbmp.h:
+        - HP aCC for PA-RISC
+        - Watcom < 1.8
+     */
+    #if !wxONLY_WATCOM_EARLIER_THAN(1, 8) && \
+        !(defined(__HP_aCC) && defined(__hppa))
         #define wxHAS_RAW_BITMAP
     #endif
 #endif

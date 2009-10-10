@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     2007-04-14
-// RCS-ID:      $Id: editors.h 59450 2009-03-09 18:32:43Z JMS $
+// RCS-ID:      $Id: editors.h 61018 2009-06-12 14:01:51Z JMS $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -75,9 +75,7 @@ public:
 */
 class WXDLLIMPEXP_PROPGRID wxPGEditor : public wxObject
 {
-#ifndef SWIG
     DECLARE_ABSTRACT_CLASS(wxPGEditor)
-#endif
 public:
 
     /** Constructor. */
@@ -223,9 +221,7 @@ wxPGEditor* wxPGEditor_##EDITOR = NULL;
 
 class WXDLLIMPEXP_PROPGRID wxPGTextCtrlEditor : public wxPGEditor
 {
-#ifndef SWIG
     DECLARE_DYNAMIC_CLASS(wxPGTextCtrlEditor)
-#endif
 public:
     wxPGTextCtrlEditor() {}
     virtual ~wxPGTextCtrlEditor();
@@ -270,9 +266,7 @@ public:
 
 class WXDLLIMPEXP_PROPGRID wxPGChoiceEditor : public wxPGEditor
 {
-#ifndef SWIG
     DECLARE_DYNAMIC_CLASS(wxPGChoiceEditor)
-#endif
 public:
     wxPGChoiceEditor() {}
     virtual ~wxPGChoiceEditor();
@@ -319,9 +313,7 @@ public:
 
 class WXDLLIMPEXP_PROPGRID wxPGComboBoxEditor : public wxPGChoiceEditor
 {
-#ifndef SWIG
     DECLARE_DYNAMIC_CLASS(wxPGComboBoxEditor)
-#endif
 public:
     wxPGComboBoxEditor() {}
     virtual ~wxPGComboBoxEditor();
@@ -392,9 +384,7 @@ public:
 //
 class WXDLLIMPEXP_PROPGRID wxPGCheckBoxEditor : public wxPGEditor
 {
-#ifndef SWIG
     DECLARE_DYNAMIC_CLASS(wxPGCheckBoxEditor)
-#endif
 public:
     wxPGCheckBoxEditor() {}
     virtual ~wxPGCheckBoxEditor();
@@ -456,9 +446,7 @@ public:
 */
 class WXDLLIMPEXP_PROPGRID wxPGEditorDialogAdapter : public wxObject
 {
-#ifndef SWIG
     DECLARE_ABSTRACT_CLASS(wxPGEditorDialogAdapter)
-#endif
 public:
     wxPGEditorDialogAdapter()
         : wxObject()
@@ -507,6 +495,7 @@ class WXDLLIMPEXP_PROPGRID wxPGMultiButton : public wxWindow
 {
 public:
     wxPGMultiButton( wxPropertyGrid* pg, const wxSize& sz );
+    virtual ~wxPGMultiButton() {}
 
     wxWindow* GetButton( unsigned int i ) { return (wxWindow*) m_buttons[i]; }
     const wxWindow* GetButton( unsigned int i ) const

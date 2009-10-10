@@ -3,7 +3,7 @@
 // Purpose:     wxSockAddressImpl
 // Author:      Vadim Zeitlin
 // Created:     2008-12-28
-// RCS-ID:      $Id: sckaddr.h 57898 2009-01-07 20:37:16Z JJ $
+// RCS-ID:      $Id: sckaddr.h 60571 2009-05-09 16:04:00Z VZ $
 // Copyright:   (c) 2008 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -166,6 +166,30 @@ public:
 #ifdef wxHAS_UNIX_DOMAIN_SOCKETS
     void CreateUnix();
 #endif // wxHAS_UNIX_DOMAIN_SOCKETS
+    void Create(Family family)
+    {
+        switch ( family )
+        {
+            case FAMILY_INET:
+                CreateINET();
+                break;
+
+#if wxUSE_IPV6
+            case FAMILY_INET6:
+                CreateINET6();
+                break;
+#endif // wxUSE_IPV6
+
+#ifdef wxHAS_UNIX_DOMAIN_SOCKETS
+            case FAMILY_UNIX:
+                CreateUnix();
+                break;
+#endif // wxHAS_UNIX_DOMAIN_SOCKETS
+
+            default:
+                wxFAIL_MSG( "unsupported socket address family" );
+        }
+    }
 
     // simple accessors
     Family GetFamily() const { return m_family; }

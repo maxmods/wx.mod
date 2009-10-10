@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     2005-09-30
-// RCS-ID:      $Id: richtextbuffer.h 58842 2009-02-12 10:17:44Z JS $
+// RCS-ID:      $Id: richtextbuffer.h 61097 2009-06-17 21:10:29Z JS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -74,10 +74,14 @@
 #define wxRichTextAttr wxTextAttr
 #define wxTextAttrEx wxTextAttr
 
-// Setting wxRICHTEXT_USE_OWN_CARET to 1 implements a non-flashing
+// Setting wxRICHTEXT_USE_OWN_CARET to 1 implements a
 // cursor reliably without using wxClientDC in case there
 // are platform-specific problems with the generic caret.
+#ifdef __WXMAC__
+#define wxRICHTEXT_USE_OWN_CARET 1
+#else
 #define wxRICHTEXT_USE_OWN_CARET 0
+#endif
 
 // Switch off for binary compatibility, on for faster drawing
 // Note: this seems to be buggy (overzealous use of extents) so

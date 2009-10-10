@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     2008-08-23
-// RCS-ID:      $Id: property.h 59497 2009-03-12 18:17:55Z JMS $
+// RCS-ID:      $Id: property.h 60911 2009-06-06 15:24:51Z JMS $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -1530,7 +1530,6 @@ public:
         return DoGetValue();
     }
 
-#ifndef SWIG
     /** Returns reference to the internal stored value. GetValue is preferred
         way to get the actual value, since GetValueRef ignores DoGetValue,
         which may override stored value.
@@ -1544,7 +1543,13 @@ public:
     {
         return m_value;
     }
-#endif
+
+    // Helper function (for wxPython bindings and such) for settings protected
+    // m_value.
+    wxVariant GetValuePlain() const
+    {
+        return m_value;
+    }
 
     /** Returns text representation of property's value.
 
@@ -1977,6 +1982,13 @@ public:
         SetValue(val);
     }
 
+    // Helper function (for wxPython bindings and such) for settings protected
+    // m_value.
+    void SetValuePlain( wxVariant value )
+    {
+        m_value = value;
+    }
+
 #if wxUSE_VALIDATORS
     /** Sets wxValidator for a property*/
     void SetValidator( const wxValidator& validator )
@@ -2124,41 +2136,17 @@ public:
     wxPropertyGridPageState* GetParentState() const { return m_parentState; }
 #endif
 
+#ifndef SWIG
     wxPGProperty* GetItemAtY( unsigned int y,
                               unsigned int lh,
                               unsigned int* nextItemY ) const;
+#endif
+
+    wxPGProperty* GetItemAtY( unsigned int y ) const;
 
     /** Returns (direct) child property with given name (or NULL if not found).
     */
     wxPGProperty* GetPropertyByName( const wxString& name ) const;
-
-#ifdef SWIG
-     %extend {
-        DocStr(GetClientData,
-               "Returns the client data object for a property", "");
-        PyObject* GetClientData() {
-            wxPyClientData* data = (wxPyClientData*)self->GetClientObject();
-            if (data) {
-                Py_INCREF(data->m_obj);
-                return data->m_obj;
-            } else {
-                Py_INCREF(Py_None);
-                return Py_None;
-            }
-        }
-
-        DocStr(SetClientData,
-               "Associate the given client data.", "");
-        void SetClientData(PyObject* clientData) {
-            wxPyClientData* data = new wxPyClientData(clientData);
-            self->SetClientObject(data);
-        }
-    }
-    %pythoncode {
-         GetClientObject = GetClientData
-         SetClientObject = SetClientData
-    }
-#endif
 
 #ifndef SWIG
 

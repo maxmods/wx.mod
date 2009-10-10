@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     07.04.98 (adapted from appconf.cpp)
-// RCS-ID:      $Id: fileconf.h 58757 2009-02-08 11:45:59Z VZ $
+// RCS-ID:      $Id: fileconf.h 60643 2009-05-15 18:02:41Z VZ $
 // Copyright:   (c) 1997 Karsten Ballueder   &  Vadim Zeitlin
 //                       Ballueder@usa.net     <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
@@ -153,7 +153,7 @@ public:
 
   // implement inherited pure virtual functions
   virtual void SetPath(const wxString& strPath);
-  virtual const wxString& GetPath() const { return m_strPath; }
+  virtual const wxString& GetPath() const;
 
   virtual bool GetFirstGroup(wxString& str, long& lIndex) const;
   virtual bool GetNextGroup (wxString& str, long& lIndex) const;

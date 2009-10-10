@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     2007-03-28
-// RCS-ID:      $Id: props.h 59301 2009-03-03 21:04:08Z JMS $
+// RCS-ID:      $Id: props.h 60793 2009-05-29 16:04:22Z JMS $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -695,9 +695,7 @@ protected:
 */
 class WXDLLIMPEXP_PROPGRID wxDirProperty : public wxLongStringProperty
 {
-#ifndef SWIG
     DECLARE_DYNAMIC_CLASS(wxDirProperty)
-#endif
 public:
     wxDirProperty( const wxString& name = wxPG_LABEL,
                    const wxString& label = wxPG_LABEL,
@@ -953,10 +951,8 @@ protected:
     virtual void ArraySwap( size_t first, size_t second ) = 0;
 
 private:
-#ifndef SWIG
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxArrayEditorDialog)
     DECLARE_EVENT_TABLE()
-#endif
 };
 
 // -----------------------------------------------------------------------
@@ -1003,10 +999,8 @@ protected:
     virtual void ArraySwap( size_t first, size_t second );
 
 private:
-#ifndef SWIG
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxPGArrayStringEditorDialog)
     DECLARE_EVENT_TABLE()
-#endif
 };
 
 // -----------------------------------------------------------------------

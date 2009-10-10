@@ -6,7 +6,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id: private.h 59835 2009-03-25 10:24:51Z SC $
+// RCS-ID:      $Id: private.h 61359 2009-07-09 16:21:13Z SC $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -859,9 +859,10 @@ public :
     wxMacDataBrowserCellValue(DataBrowserItemDataRef data) : m_data(data) {}
     virtual ~wxMacDataBrowserCellValue() {}
     
-   virtual void Set( CFStringRef value );
+    virtual void Set( CFStringRef value );
     virtual void Set( const wxString& value );
     virtual void Set( int value ) ;
+    virtual void Check( bool check );
     
     virtual int GetIntValue() const ;
     virtual wxString GetStringValue() const ;
