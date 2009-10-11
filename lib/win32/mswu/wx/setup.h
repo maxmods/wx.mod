@@ -286,7 +286,7 @@
 // Recommended setting: 1 if you use the standard streams anyhow and so
 //                      dependency on the standard streams library is not a
 //                      problem
-#define wxUSE_STD_IOSTREAM  wxUSE_STD_DEFAULT
+#define wxUSE_STD_IOSTREAM  0
 
 // Enable conversion to standard C++ string if 1.
 //
