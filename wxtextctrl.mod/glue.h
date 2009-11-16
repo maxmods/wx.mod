@@ -140,6 +140,40 @@ public:
 
 	void MaxBind(BBObject * handle);
 
+#ifdef __WXMSW__
+	int GetLineLength(long lineNo) const;
+	wxString GetLineText(long lineNo) const;
+	int GetNumberOfLines() const;
+	bool IsModified() const;
+	void MarkDirty();
+	void DiscardEdits();
+	bool SetStyle(long start, long end, const wxTextAttr& style);
+	bool SetDefaultStyle(const wxTextAttr& style);
+	bool GetStyle(long position, wxTextAttr& style);
+	long XYToPosition(long x, long y) const;
+	bool PositionToXY(long pos, long *x, long *y) const;
+	void ShowPosition(long pos);
+	wxTextCtrlHitTestResult HitTest(const wxPoint& pt, long *pos) const;
+	wxTextCtrlHitTestResult HitTest(const wxPoint& pt, wxTextCoord *col, wxTextCoord *row) const;
+	bool DoLoadFile(const wxString& file, int fileType);
+	wxString GetValue() const;
+	wxString GetRange(long from, long to) const;
+	bool IsEmpty() const;
+	void WriteText(const wxString& text);
+	void AppendText(const wxString& text);
+	void Clear();
+	void Redo();
+	bool CanRedo() const;
+	void SetInsertionPointEnd();
+	long GetInsertionPoint() const;
+	wxTextPos GetLastPosition() const;
+	void DoSetValue(const wxString &value, int flags = 0);
+	void SetMaxLength(unsigned long len);
+	void GetSelection(long *from, long *to) const;
+	bool DoSaveFile(const wxString& file, int fileType);
+	void DoSetSelection(long from, long to, int flags = SetSel_Scroll);
+#endif
+
 private:
 	DECLARE_EVENT_TABLE()
 };
