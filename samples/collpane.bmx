@@ -120,7 +120,7 @@ Type MyFrame Extends wxFrame
 		info.SetName("wxCollapsiblePane sample")
 		info.SetDescription("This sample program demonstrates usage of wxCollapsiblePane")
 		info.SetCopyright("(C) 2006 Francesco Montorsi <frm@users.sourceforge.net>~n" + ..
-			"BlitzMax port (c) 2007 Bruce A Henderson")
+			"BlitzMax port (c) 2007-2009 Bruce A Henderson")
 		
 		wxAboutBox(info)
 	End Function

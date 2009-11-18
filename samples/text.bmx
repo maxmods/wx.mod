@@ -856,7 +856,7 @@ Type MyFrame Extends wxFrame
 			"tooltips and intercepting key and char events.~n" + ..
 			"~n" + ..
 			"Copyright (c) 1999, Robert Roebling, Julian Smart, Vadim Zeitlin~n" + ..
-			"BlitzMax port (c) 2007 Bruce A Henderson", ..
+			"BlitzMax port (c) 2007-2009 Bruce A Henderson", ..
 			"About wxTextCtrl Sample", ..
 			wxOK | wxICON_INFORMATION)
 		

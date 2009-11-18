@@ -426,7 +426,7 @@ Type MyAboutDialog Extends wxDialog
 	
 	Method OnInit()
 		Local text:wxStaticText = New wxStaticText.Create(Self, wxID_ANY, "wxStatusBar sample~n" + ..
-			"(c) 2000 Vadim Zeitlin~nBlitzmax port (c) 2007 Bruce A Henderson")
+			"(c) 2000 Vadim Zeitlin~nBlitzmax port (c) 2007-2009 Bruce A Henderson")
 
 		Local btn:wxButton = New wxButton.Create(Self, wxID_OK, "&Close")
 		
