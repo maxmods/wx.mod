@@ -152,7 +152,7 @@ Type wxVScrolledWindow Extends wxPanel
 	bbdoc: This method must be overridden in the derived type and it should return the height of the given line in pixels.
 	End Rem
 	Method OnGetRowHeight:Int(n:Int)
-		Assert Null, "OnGetLineHeight() should be overriden!"
+		Assert Null, "OnGetRowHeight() should be overriden!"
 	End Method
 	
 	Rem

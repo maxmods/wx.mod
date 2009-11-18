@@ -2,7 +2,7 @@ SuperStrict
 
 Framework wx.wxApp
 Import wx.wxFrame
-Import wx.wxdc
+Import wx.wxDC
 Import wx.wxVScrolledWindow
 
 Type VScrollApp Extends wxApp
@@ -81,7 +81,7 @@ Type VScrollFrame Extends wxFrame
 		wxMessageBox("VScroll shows how to implement scrolling with~n" + ..
 			"variable line heights.~n" + ..
 			"(c) 2003 Vadim Zeitlin~n" + ..
-			"BlitzMax port (c) 2007 Bruce A Henderson", "About VScroll", ..
+			"BlitzMax port (c) 2007-2009 Bruce A Henderson", "About VScroll", ..
 			wxOK | wxICON_INFORMATION, wxWindow(event.parent))
 	End Function
 	
@@ -101,7 +101,7 @@ Type VScrollWindow Extends wxVScrolledWindow
 		ConnectNoId(wxEVT_SCROLLWIN, OnScroll)
 		
 	
-		SetLineCount(200)
+		SetRowCount(200)
 		changed = True
 	End Method
 	
@@ -123,8 +123,8 @@ Type VScrollWindow Extends wxVScrolledWindow
 
 		dc.SetPen(wxBLACK_DASHED_PEN())
 		
-		Local lineFirst:Int = win.GetFirstVisibleLine()
-		Local lineLast:Int = win.GetLastVisibleLine()
+		Local lineFirst:Int = win.GetVisibleBegin()
+		Local lineLast:Int = win.GetVisibleEnd()
 		
 		Local hText:Int = dc.GetCharHeight()
 		
@@ -133,7 +133,7 @@ Type VScrollWindow Extends wxVScrolledWindow
 		
 			dc.DrawLine(0, y, 1000, y)
 			
-			Local hLine:Int = win.OnGetLineHeight(line)
+			Local hLine:Int = win.OnGetRowHeight(line)
 			dc.DrawText("Line " + line, 0, y + (hLine - hText) / 2)
 			
 			y:+ hLine
@@ -150,7 +150,7 @@ Type VScrollWindow Extends wxVScrolledWindow
 		event.Skip()
 	End Function
 	
-	Method OnGetLineHeight:Int(n:Int)
+	Method OnGetRowHeight:Int(n:Int)
 		If n Mod 2 Then
 			Return 15
 		Else
