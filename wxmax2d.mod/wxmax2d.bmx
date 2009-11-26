@@ -449,6 +449,9 @@ Rem
 		Return p
 End Rem
 	End Method
+
+	Method SetResolution(width:Float, height:Float)
+	End Method
 	
 End Type
 

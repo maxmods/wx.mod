@@ -325,9 +325,7 @@ Type TGLMax2DDriver Extends TMax2DDriver
 
 	Method CreateFrameFromPixmap:TGLImageFrame( pixmap:TPixmap,flags:Int )
 		Local frame:TGLImageFrame
-		wxGLGraphicsDriver().SwapSharedContext
 		frame=TGLImageFrame.CreateFromPixmap( pixmap,flags )
-		wxGLGraphicsDriver().SwapSharedContext
 		Return frame
 	End Method
 
@@ -490,6 +488,13 @@ Type TGLMax2DDriver Extends TMax2DDriver
 
 		SetBlend blend
 		Return p
+	End Method
+
+	Method SetResolution( width#,height# )
+		glMatrixMode GL_PROJECTION
+		glLoadIdentity
+		glOrtho 0,width,height,0,-1,1
+		glMatrixMode GL_MODELVIEW
 	End Method
 	
 End Type
