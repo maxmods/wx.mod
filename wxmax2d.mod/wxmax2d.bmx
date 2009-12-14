@@ -78,7 +78,7 @@ Type TwxImageFrame Extends TImageFrame
 		'seq=0
 	End Method
 	
-	Method Draw( x0#,y0#,x1#,y1#,tx#,ty# )
+	Method Draw( x0#,y0#,x1#,y1#,tx#,ty#,sx#,sy#,sw#,sh# )
 		Assert seq=GraphicsSeq Else "Image does not exist"
 
 		If Not lastColour Or Not lastColour.Equals(driver.pen.GetColour()) Then

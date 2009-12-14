@@ -179,7 +179,7 @@ End Function
 
 Type TGLImageFrame Extends TImageFrame
 
-	Field u0#,v0#,u1#,v1#
+	Field u0#,v0#,u1#,v1#,uscale#,vscale#
 
 	Field name:Int,seq:Int
 	
@@ -196,8 +196,14 @@ Type TGLImageFrame Extends TImageFrame
 		seq=0
 	End Method
 	
-	Method Draw( x0#,y0#,x1#,y1#,tx#,ty# )
+	Method Draw( x0#,y0#,x1#,y1#,tx#,ty#,sx#,sy#,sw#,sh# )
 		Assert seq=GraphicsSeq Else "Image does not exist"
+
+		Local u0#=sx * uscale
+		Local v0#=sy * vscale
+		Local u1#=(sx+sw) * uscale
+		Local v1#=(sy+sh) * vscale
+		
 		EnableTex name
 		glBegin GL_QUADS
 		glTexCoord2f u0,v0
