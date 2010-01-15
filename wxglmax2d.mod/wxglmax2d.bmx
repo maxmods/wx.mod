@@ -258,8 +258,10 @@ Type TGLImageFrame Extends TImageFrame
 		'done!
 		Local frame:TGLImageFrame=New TGLImageFrame
 		frame.name=name
-		frame.u1=Float(width)/Float(tex_w)
-		frame.v1=Float(height)/Float(tex_h)
+		frame.uscale=1.0/tex_w
+		frame.vscale=1.0/tex_h
+		frame.u1=width * frame.uscale
+		frame.v1=height * frame.vscale
 		Return frame
 
 	End Function
