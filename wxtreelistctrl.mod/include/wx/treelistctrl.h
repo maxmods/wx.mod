@@ -18,6 +18,8 @@
     #pragma interface "treelistctrl.h"
 #endif
 
+#include "wx/wx.h"
+
 #include <wx/treectrl.h>
 #include <wx/control.h>
 #include <wx/pen.h>
