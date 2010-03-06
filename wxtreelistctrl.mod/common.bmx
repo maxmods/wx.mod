@@ -137,8 +137,13 @@ Extern
 	Function bmx_wxtreelistctrl_setcolumntext(handle:Byte Ptr, column:Int, text:String)
 	Function bmx_wxtreelistctrl_setcolumnwidth(handle:Byte Ptr, column:Int, width:Int)
 	Function bmx_wxtreelistctrl_setmaincolumn(handle:Byte Ptr, column:Int)
+	Function bmx_wxtreelistctrl_setcolumneditable(handle:Byte Ptr, column:Int, shown:Int)
 
 End Extern
+
+Const wxTR_COLUMN_LINES:Int = $1000 ' put border around items
+const wxTR_VIRTUAL:Int = $4000 ' The application provides items text on demand.
+
 
 ' modes for navigation
 Const wxTL_MODE_NAV_FULLTREE:Int = $0000

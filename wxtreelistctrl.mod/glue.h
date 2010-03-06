@@ -130,6 +130,7 @@ extern "C" {
 	void bmx_wxtreelistctrl_setcolumntext(wxTreeListCtrl * tree, int column, BBString * text);
 	void bmx_wxtreelistctrl_setcolumnwidth(wxTreeListCtrl * tree, int column, int width);
 	void bmx_wxtreelistctrl_setmaincolumn(wxTreeListCtrl * tree, int column);
+	void bmx_wxtreelistctrl_setcolumneditable(wxTreeListCtrl * tree, int column, int shown);
 
 }
 

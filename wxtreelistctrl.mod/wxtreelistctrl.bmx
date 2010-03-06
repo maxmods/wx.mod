@@ -782,6 +782,10 @@ Type wxTreeListCtrl Extends wxControl
 		bmx_wxtreelistctrl_setmaincolumn(wxObjectPtr, column)
 	End Method
 	
+	Method SetColumnEditable(column:Int, shown:Int)
+		bmx_wxtreelistctrl_setcolumneditable(wxObjectPtr, column, shown)
+	End Method
+	
 	Method Delete()
 		If wxTreeItemIdValuePtr Then
 			bmx_wxtreeitemidvalue_delete(wxTreeItemIdValuePtr)

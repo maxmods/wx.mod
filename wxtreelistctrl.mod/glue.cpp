@@ -476,6 +476,9 @@ void bmx_wxtreelistctrl_setmaincolumn(wxTreeListCtrl * tree, int column) {
 	tree->SetMainColumn(column);
 }
 
+void bmx_wxtreelistctrl_setcolumneditable(wxTreeListCtrl * tree, int column, int shown) {
+	tree->SetColumnEditable(column, static_cast<bool>(shown));
+}
 
 
 
