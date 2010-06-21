@@ -272,6 +272,18 @@ Type wxBitmap Extends wxGDIObject
 	End Method
 	
 	Rem
+	bbdoc: Saves a bitmap in the named file.
+	about: Depending on how wxWidgets has been configured, not all formats may be available.
+	End Rem
+	Method SaveFile:Int(name:String, kind:Int, palette:wxPalette = Null)
+		If palette Then
+			Return bmx_wxbitmap_savefile(wxObjectPtr, name, kind, palette.wxObjectPtr)
+		Else
+			Return bmx_wxbitmap_savefile(wxObjectPtr, name, kind, Null)
+		End If
+	End Method
+	
+	Rem
 	bbdoc: Sets the depth member (does not affect the bitmap data).
 	End Rem
 	Method SetDepth(depth:Int)

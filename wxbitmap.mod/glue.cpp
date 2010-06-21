@@ -198,3 +198,12 @@ void bmx_wxbitmap_colourize(MaxBitmap * bitmap, MaxColour * colour) {
 
 }
 
+int bmx_wxbitmap_savefile(MaxBitmap * bitmap, BBString * name, int kind, MaxPalette * palette) {
+	if (palette) {
+		return bitmap->Bitmap().SaveFile(wxStringFromBBString(name), static_cast<wxBitmapType>(kind), &palette->Palette());
+	} else {
+		return bitmap->Bitmap().SaveFile(wxStringFromBBString(name), static_cast<wxBitmapType>(kind));
+	}
+}
+
+

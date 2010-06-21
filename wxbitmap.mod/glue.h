@@ -66,6 +66,8 @@ extern "C" {
 
 	void bmx_wxbitmap_colourize(MaxBitmap * bitmap, MaxColour * colour);
 
+	int bmx_wxbitmap_savefile(MaxBitmap * bitmap, BBString * name, int kind, MaxPalette * palette);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
