@@ -71,6 +71,23 @@ Type wxDC Extends wxObject
 			Return this
 		End If
 	End Function
+	
+	Rem
+	bbdoc: Copy from a source DC to this DC, specifying the destination coordinates, size of area to copy, source DC, source coordinates, logical function, whether to use a bitmap mask, and mask source position.
+	End Rem
+	Method Blit:Int(xdest:Int, ydest:Int, width:Int, height:Int, source:wxDC, xsrc:Int, ysrc:Int, logicalFunc:Int = wxCOPY, ..
+			useMask:Int = False, xsrcMask:Int = -1, ysrcMask:Int = -1)
+		Return wx_wxdc_blit(wxObjectPtr, xdest, ydest, width, height, source.wxObjectPtr, xsrc, ysrc, logicalFunc, useMask, xsrcMask, ysrcMask)
+	End Method
+
+	Rem
+	bbdoc: Copy from a source DC to this DC, specifying the destination coordinates, destination size, source DC, source coordinates, size of source area to copy, logical function, whether to use a bitmap mask, and mask source position.
+	about: StretchBlit() is only implemented under wxMAC and wxMSW.
+	End Rem
+	Method StretchBlit:Int(xdest:Int, ydest:Int, dstWidth:Int, dstHeight:Int, source:wxDC, xsrc:Int, ysrc:Int, srcWidth:Int, srcHeight:Int, ..
+			logicalFunc:Int = wxCOPY, useMask:Int = False, xsrcMask:Int = -1, ysrcMask:Int = -1)
+		Return wx_wxdc_stretchblit(wxObjectPtr, xdest, ydest, dstWidth, dstHeight, source.wxObjectPtr, xsrc, ysrc, srcWidth, srcHeight, logicalFunc, useMask, xsrcMask, ysrcMask)
+	End Method
 
 	Rem
 	bbdoc: Adds the specified point to the bounding box which can be retrieved with MinX, MaxX and MinY, MaxY methods.

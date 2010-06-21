@@ -150,6 +150,11 @@ Extern
 	Function bmx_wxclientdc_create:Byte Ptr(window:Byte Ptr)
 	Function bmx_wxclientdc_delete(handle:Byte Ptr)
 
+	Function wx_wxdc_blit:Int(handle:Byte Ptr, xdest:Int, ydest:Int, width:Int, height:Int, source:Byte Ptr, xsrc:Int, ysrc:Int, logicalFunc:Int, ..
+		useMask:Int, xsrcMask:Int, ysrcMask:Int)
+	Function wx_wxdc_stretchblit:Int(handle:Byte Ptr, xdest:Int, ydest:Int, dstWidth:Int, dstHeight:Int, source:Byte Ptr, xsrc:Int, ysrc:Int, srcWidth:Int, srcHeight:Int, ..
+		logicalFunc:Int, useMask:Int, xsrcMask:Int, ysrcMask:Int)
+
 End Extern
 
 

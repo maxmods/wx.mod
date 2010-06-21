@@ -458,6 +458,20 @@ void bmx_wxdc_free(MaxDC * dc) {
 	delete dc;
 }
 
+int wx_wxdc_blit(MaxDC * dc, int xdest, int ydest, int width, int height, MaxDC * source, int xsrc, int ysrc, int logicalFunc,
+		int useMask, int xsrcMask, int ysrcMask) {
+	return static_cast<int>(dc->GetDC()->Blit(xdest, ydest, width, height, source->GetDC(), xsrc, ysrc, static_cast<wxRasterOperationMode>(logicalFunc), useMask, xsrcMask, ysrcMask));
+}
+
+int wx_wxdc_stretchblit(MaxDC * dc, int xdest, int ydest, int dstWidth, int dstHeight, MaxDC * source, int xsrc, int ysrc, int srcWidth, int srcHeight,
+		int logicalFunc, int useMask, int xsrcMask, int ysrcMask) {
+#ifndef __WXGTK__
+	return static_cast<int>(dc->GetDC()->StretchBlit(xdest, ydest, dstWidth, dstHeight, source->GetDC(), xsrc, ysrc, srcWidth, srcHeight,
+		static_cast<wxRasterOperationMode>(logicalFunc), useMask, xsrcMask, ysrcMask));
+#else
+	return 0;
+#endif
+}
 
 // *********************************************
 

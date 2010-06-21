@@ -136,6 +136,11 @@ extern "C" {
 	MaxClientDC * bmx_wxclientdc_create(wxWindow * window);
 	void bmx_wxclientdc_delete(MaxClientDC * dc);
 
+	int wx_wxdc_blit(MaxDC * dc, int xdest, int ydest, int width, int height, MaxDC * source, int xsrc, int ysrc, int logicalFunc,
+		int useMask, int xsrcMask, int ysrcMask);
+	int wx_wxdc_stretchblit(MaxDC * dc, int xdest, int ydest, int dstWidth, int dstHeight, MaxDC * source, int xsrc, int ysrc, int srcWidth, int srcHeight,
+		int logicalFunc, int useMask, int xsrcMask, int ysrcMask);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
