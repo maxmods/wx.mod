@@ -178,9 +178,10 @@ void doEmitEvent(wxEvent& event) {
 	bool checkEvent = false;
 
 #ifdef __APPLE__
-	if (CGDisplayIsCaptured( kCGDirectMainDisplay )) {
-		checkEvent = true;
-	}
+
+//	if (CGDisplayIsCaptured( kCGDirectMainDisplay )) {
+//		checkEvent = true;
+//	}
 #endif
 
 	if (checkEvent) {
@@ -558,7 +559,7 @@ int bmx_app_wxentry() {
 
 int bmx_wxapp_macexitmenuitemid() {
 #ifdef __APPLE__
-	return wxApp::s_macExitMenuItemId;
+	return wxID_EXIT;
 #else
 	return 0;
 #endif

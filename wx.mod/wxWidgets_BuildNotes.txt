@@ -26,7 +26,7 @@ Linux :
 MacOS :
 
     wxMac 2.9.x
-    ./configure --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin CC=gcc-4.0 CXX=g++-4.0 LD=g++-4.0
+    ./configure --with-osx_carbon --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin CC=gcc-4.0 CXX=g++-4.0 LD=g++-4.0 --with-macosx-version-min=10.4
 
     use "--disable-shared" for static libraries, otherwise you get .dylibs
 
