@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2009 Bruce A Henderson
+  Copyright (c) 2007-2011 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -70,17 +70,17 @@ class MaxGLCanvas : public wxGLCanvas
 public:
 	MaxGLCanvas(BBObject * handle, wxWindow* parent, wxWindowID id,
 		int x, int y, int w, int h, long style, const wxString& name, int* attribList);
-	MaxGLCanvas(BBObject * handle, wxWindow* parent, wxGLContext* sharedContext, wxWindowID id,
-		int x, int y, int w, int h, long style, const wxString& name, int* attribList);
 	~MaxGLCanvas();
 	void Render(BBObject * event);
 	void Refresh(bool eraseBackground, const wxRect* rect);
 	void SetSwapInterval(int sync);
 
+	wxGLContext * context;
 protected:
     void OnEraseBackground(wxEraseEvent& event);
 
 private:
+
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };

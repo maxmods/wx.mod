@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2009 Bruce A Henderson
+  Copyright (c) 2007-2011 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,20 +32,24 @@ static wxGLContext * sharedContext;
 
 MaxGLCanvas::MaxGLCanvas(BBObject * handle, wxWindow* parent, wxWindowID id,
 		int x, int y, int w, int h, long style, const wxString& name, int* attribList)
-	: wxGLCanvas(parent, id, wxPoint(x, y), wxSize(w, h), style, name, attribList)
+	: wxGLCanvas(parent, id, attribList, wxPoint(x, y), wxSize(w, h), style, name)
 {
 	wxbind(this, handle);
-}
-
-MaxGLCanvas::MaxGLCanvas(BBObject * handle, wxWindow* parent, wxGLContext * sharedContext, wxWindowID id,
-		int x, int y, int w, int h, long style, const wxString& name, int* attribList)
-	: wxGLCanvas(parent, sharedContext, id, wxPoint(x, y), wxSize(w, h), style, name, attribList)
-{
-	wxbind(this, handle);
+	if (!sharedContext) {
+		sharedContext = new wxGLContext(this);
+		//context = sharedContext;
+	} else {
+		//context = new wxGLContext(this, sharedContext);
+		//SetCurrent(*sharedContext);
+	}
 }
 
 MaxGLCanvas::~MaxGLCanvas() {
 	wxunbind(this);
+	
+	if (context && context != sharedContext) {
+		delete context;
+	}
 }
 
 void MaxGLCanvas::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
@@ -54,8 +58,7 @@ void MaxGLCanvas::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 }
 
 void MaxGLCanvas::Render(BBObject * event) {
-	wxGLCanvas::SetCurrent();
-	wxPaintDC(this);
+	wxPaintDC dc(this);
 	_wx_wxglcanvas_wxGLCanvas__OnPaint(event);
 }
 
@@ -86,7 +89,7 @@ BEGIN_EVENT_TABLE(MaxGLCanvas, wxGLCanvas)
     EVT_ERASE_BACKGROUND(MaxGLCanvas::OnEraseBackground)
 END_EVENT_TABLE()
 
-static int _initAttrs( int attrs[16],int flags ){
+static int _initAttrs( int * attrs,int flags ){
 	int n=0;
 	attrs[n++] = WX_GL_RGBA;
 	if( flags & FLAGS_BACKBUFFER ) attrs[n++]=WX_GL_DOUBLEBUFFER;
@@ -94,13 +97,6 @@ static int _initAttrs( int attrs[16],int flags ){
 	if( flags & FLAGS_DEPTHBUFFER ){ attrs[n++]=WX_GL_DEPTH_SIZE;attrs[n++]=16; }
 	if( flags & FLAGS_STENCILBUFFER ){ attrs[n++]=WX_GL_STENCIL_SIZE;attrs[n++]=1; }
 	if( flags & FLAGS_ACCUMBUFFER ){ attrs[n++]=WX_GL_MIN_ACCUM_RED;attrs[n++]=1; }
-//	if( flags & FLAGS_FULLSCREEN ){
-//		attrs[n++]=kCGLPFAFullScreen;
-////		attrs[n++]=kCGLPFADisplayMask;
-//		attrs[n++]=CGDisplayIDToOpenGLDisplayMask( kCGDirectMainDisplay );
-//	}else{
-//		attrs[n++]=kCGLPFANoRecovery;
-//	}
 	attrs[n]=0;
 	return n;
 }
@@ -112,13 +108,16 @@ MaxGLCanvas * bmx_wxglcanvas_create(BBObject * handle, wxWindow* parent, wxWindo
 	
 	_initAttrs(attribList, flags);
 	
-	if (sharedContext) {
-		return new MaxGLCanvas(handle, parent, sharedContext, id, x, y, w, h, style, wxT("GLCanvas"), attribList);
-	} else {
-		MaxGLCanvas * canvas = new MaxGLCanvas(handle, parent, id, x, y, w, h, style, wxT("GLCanvas"), attribList);
-		sharedContext = canvas->GetContext();
+	//if (sharedContext) {
+	MaxGLCanvas * canvas = new MaxGLCanvas(handle, parent, id, x, y, w, h, style, wxT("GLCanvas"), attribList);
+	//	sharedContext->SetCurrent(*canvas);
 		return canvas;
-	}
+	//} else {
+	//	MaxGLCanvas * canvas = new MaxGLCanvas(handle, parent, id, x, y, w, h, style, wxT("GLCanvas"), attribList);
+	//	sharedContext = new wxGLContext(canvas);
+	//	sharedContext->SetCurrent(*canvas);
+	//	return canvas;
+	//}
 }
 
 void bmx_wxglcanvas_onpainthook(MaxGLCanvas * canvas, BBObject * event) {
@@ -130,7 +129,7 @@ void bmx_wxglcanvas_swapbuffers(wxGLCanvas * canvas) {
 }
 
 void bmx_wxglcanvas_setcurrent(wxGLCanvas * canvas) {
-	canvas->SetCurrent();
+	sharedContext->SetCurrent(*canvas);
 }
 
 void bmx_wxglcanvas_setswapinterval(MaxGLCanvas * canvas, int sync) {

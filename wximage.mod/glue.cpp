@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2009 Bruce A Henderson
+  Copyright (c) 2007-2011 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -71,7 +71,7 @@ void bmx_wximage_setrgb(MaxImage * image, int x, int y, int r, int g, int b) {
 }
 
 void bmx_wximage_rescale(MaxImage * image, int width, int height, int quality) {
-	image->Image().Rescale(width, height, quality);
+	image->Image().Rescale(width, height, (wxImageResizeQuality)quality);
 }
 
 int bmx_wximage_getwidth(MaxImage * image) {
@@ -281,7 +281,7 @@ bool bmx_wximage_setmaskfromimage(MaxImage * image, MaxImage * mask, int mr, int
 }
 
 MaxImage * bmx_wximage_scale(MaxImage * image, int width, int height, int quality) {
-	wxImage i(image->Image().Scale(width, height, quality));
+	wxImage i(image->Image().Scale(width, height, (wxImageResizeQuality)quality));
 	return new MaxImage(i);
 }
 

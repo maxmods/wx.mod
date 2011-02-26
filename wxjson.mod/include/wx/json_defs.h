@@ -17,8 +17,8 @@
 // since some kind of tests, like those of AM_WXCODE_CHECKFOR_COMPONENT_VERSION()
 // for "configure" scripts under unix, use them.
 #define wxJSON_MAJOR          1
-#define wxJSON_MINOR          0
-#define wxJSON_RELEASE        2
+#define wxJSON_MINOR          2
+#define wxJSON_RELEASE        1
 
 // For non-Unix systems (i.e. when building without a configure script),
 // users of this component can use the following macro to check if the
@@ -68,7 +68,6 @@
 #if defined( wxJSON_USE_UNICODE )
   #undef wxJSON_USE_UNICODE
 #endif
-
 // do not modify the following lines
 #if wxUSE_UNICODE == 1
   #define wxJSON_USE_UNICODE
@@ -123,7 +122,7 @@
 #endif
 
 #if !defined( LLONG_MIN )
-  #define LLONG_MIN     -9223372036854775808    
+  #define LLONG_MIN     -9223372036854775808
 #endif
 
 
@@ -139,13 +138,13 @@
   #define UINT_MAX       65535
 #endif
 #if !defined( LONG_MIN )
-  #define LONG_MIN       -2.147.483.648
+  #define LONG_MIN       -2147483648
 #endif
 #if !defined( LONG_MAX )
-  #define LONG_MAX       2.147.483.647
+  #define LONG_MAX       2147483647
 #endif
 #if !defined( ULONG_MAX )
-  #define ULONG_MAX       4.294.967.295
+  #define ULONG_MAX       4294967295
 #endif
 #if !defined( SHORT_MAX )
   #define SHORT_MAX	32767
@@ -162,9 +161,9 @@
 //
 // define the wxJSON_ASSERT() macro to expand to wxASSERT()
 // unless the wxJSON_NOABORT_ASSERT is defined
-#define wxJSON_NOABORT_ASSERT
+// #define wxJSON_NOABORT_ASSERT
 #if defined( wxJSON_NOABORT_ASSERT )
-  #define wxJSON_ASSERT( cond )	
+  #define wxJSON_ASSERT( cond )
 #else
   #define wxJSON_ASSERT( cond )		wxASSERT( cond );
 #endif
@@ -178,6 +177,31 @@
 #define wxJSONWRITER_MIN_LENGTH	15
 #define wxJSONWRITER_TAB_LENGTH  4
 
+
+//
+// some compilers (i.e. MSVC++) defines their own 'snprintf' function
+// so if it is not defined, define it in the following lines
+// please note that we cannot use the wxWidget's counterpart 'wxSnprintf'
+// because the latter uses 'wxChar' but wxJSON only use 'char'
+#if !defined(snprintf) && defined(_MSC_VER)
+#define snprintf _snprintf
+#endif
+
+
+//
+// check if wxWidgets is compiled using --enable-stl in which case
+// we have to use different aproaches when declaring the array and
+// key/value containers (see the docs: wxJSON internals: array and hash_map
+#undef wxJSON_USE_STL
+#if defined( wxUSE_STL ) && wxUSE_STL == 1
+#define wxJSON_USE_STL
+#endif
+
+//
+// defines the MIN and MAX macro for numeric arguments
+// note that the safest way to define such functions is using templates
+#define MIN(a,b)    a < b ? a : b
+#define MAX(a,b)    a > b ? a : b
 
 
 #endif // _WX_JSON_DEFS_H_
