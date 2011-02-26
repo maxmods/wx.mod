@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2009 Bruce A Henderson
+' Copyright (c) 2007-2011 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ Module wx.wxStream
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2007-2009 Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2007-2011 Bruce A Henderson"
 
 
 ?linux
@@ -42,7 +42,7 @@ ModuleInfo "CC_OPTS: -D__WXMSW__"
 ModuleInfo "CC_OPTS: -D_UNICODE"
 ModuleInfo "CC_OPTS: -DUNICODE"
 ?macos
-ModuleInfo "CC_OPTS: -D__WXMAC__"
+ModuleInfo "CC_OPTS: -D__WXOSX_CARBON__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
@@ -121,8 +121,8 @@ Type wxMaxInputStream Extends wxInputStream
 	Rem
 	bbdoc: 
 	End Rem
-	Method SeekI:Int(pos:Int, mode:Int = wxFromStart)
-		Select mode
+	Method SeekI:Int(pos:Int, Mode:Int = wxFromStart)
+		Select Mode
 			Case wxFromStart
 				_stream.Seek(0)
 				Return _stream.Seek(pos)
@@ -165,12 +165,12 @@ Type wxMaxInputStream Extends wxInputStream
 		Return wxMaxInputStream(obj)._lastread
 	End Function
 
-	Function _seeki:Int(obj:Object, pos:Int, mode:Int)
-		Return wxMaxInputStream(obj).SeekI(pos, mode)
+	Function _seeki:Int(obj:Object, pos:Int, Mode:Int)
+		Return wxMaxInputStream(obj).SeekI(pos, Mode)
 	End Function
 
-	Function _sysseek:Int(obj:Object, pos:Int, mode:Int)
-		Return wxMaxInputStream(obj).SeekI(pos, mode)
+	Function _sysseek:Int(obj:Object, pos:Int, Mode:Int)
+		Return wxMaxInputStream(obj).SeekI(pos, Mode)
 	End Function
 	
 	Function _systell:Int(obj:Object)

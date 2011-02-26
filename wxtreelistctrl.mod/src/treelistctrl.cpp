@@ -1017,7 +1017,7 @@ void wxEditTextCtrl::EndEdit(bool isCancelled) {
 
 bool wxEditTextCtrl::Destroy() {
     Hide();
-    wxTheApp->GetTraits()->ScheduleForDestroy(this);
+    wxTheApp->ScheduleForDestruction(this);
     return true;
 }
 
