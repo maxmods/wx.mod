@@ -5,7 +5,7 @@
 # Author:      Ron <ron@debian.org>
 # Modified by: VZ on 2005-09-20 to make it work with Bourne shell
 # Created:     14/9/2004
-# RCS-ID:      $Id: wx-config-inplace.in 35634 2005-09-20 23:09:36Z VZ $
+# RCS-ID:      $Id$
 # Copyright:   (c) 2004 Ron <ron@debian.org>
 # Licence:     wxWindows licence
 ############################################################################
@@ -26,14 +26,14 @@ check_dirname()
 
 # set the variables which allow the real wx-config to check if we're using it
 # in place or after installation
-this_prefix=`check_dirname "/Users/brucey/Documents/programming/c/wxWidgets-2.9.0"`
+this_prefix=`check_dirname "/Volumes/MiscData/Downloads/wxWidgets-2.9.1"`
 if [ "x$this_prefix" = "x" ]; then
     exit 1
 fi
-this_exec_prefix=`check_dirname "/Users/brucey/Documents/programming/c/wxWidgets-2.9.0"`
+this_exec_prefix=`check_dirname "/Volumes/MiscData/Downloads/wxWidgets-2.9.1"`
 if [ "x$this_exec_prefix" = "x" ]; then
     exit 1
 fi
 
-. "$this_exec_prefix/lib/wx/config/osx_carbon-unicode-release-static-2.9"
+. "$this_exec_prefix/lib/wx/config/osx_carbon-unicode-static-2.9"
 

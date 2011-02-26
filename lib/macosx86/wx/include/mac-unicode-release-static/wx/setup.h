@@ -1,4 +1,4 @@
-/* lib/wx/include/osx_carbon-unicode-release-static-2.9/wx/setup.h.  Generated from setup.h.in by configure.  */
+/* lib/wx/include/osx_carbon-unicode-static-2.9/wx/setup.h.  Generated from setup.h.in by configure.  */
 /* This define (__WX_SETUP_H__) is used both to ensure setup.h is included
  * only once and to indicate that we are building using configure. */
 #ifndef __WX_SETUP_H__
@@ -16,7 +16,7 @@
 #endif /* __cplusplus */
 
 /* fill in with the string wxGetOsDescription() will return */
-#define WXWIN_OS_DESCRIPTION "Darwin 10.0.0 i386"
+#define WXWIN_OS_DESCRIPTION "Darwin 10.5.0 i386"
 
 /* the installation location prefix from configure */
 #define wxINSTALL_PREFIX "/usr/local"
@@ -69,6 +69,9 @@
 /* Define this if your version of GTK+ is greater than 2.10 */
 /* #undef __WXGTK210__ */
 
+/* Define this if your version of GTK+ is greater than 2.18 */
+/* #undef __WXGTK218__ */
+
 /* Define this if you want to use GPE features */
 /* #undef __WXGPE__ */
 
@@ -95,6 +98,7 @@
 /* #undef __NETBSD__ */
 /* #undef __OPENBSD__ */
 /* #undef __OSF__ */
+/* #undef __QNX__ */
 /* #undef __SGI__ */
 /* #undef __SOLARIS__ */
 /* #undef __SUN__ */
@@ -153,9 +157,15 @@
 
 #define WXWIN_COMPATIBILITY_2_8 1
 
-#define wxEVENTS_COMPATIBILITY_2_8 0
-
 #define wxDIALOG_UNIT_COMPATIBILITY   0
+
+
+
+#define wxUSE_ON_FATAL_EXCEPTION 1
+
+#define wxUSE_STACKWALKER 1
+
+#define wxUSE_DEBUGREPORT 1
 
 
 
@@ -167,11 +177,6 @@
 
 #define wxUSE_DEBUG_NEW_ALWAYS 0
 
-#define wxUSE_ON_FATAL_EXCEPTION 1
-
-#define wxUSE_STACKWALKER 1
-
-#define wxUSE_DEBUGREPORT 1
 
 
 #ifndef wxUSE_UNICODE
@@ -208,9 +213,9 @@
     #define wxUSE_STD_DEFAULT  0
 #endif
 
-#define wxUSE_STD_IOSTREAM  wxUSE_STD_DEFAULT
+#define wxUSE_STD_IOSTREAM 0
 
-#define wxUSE_STD_STRING  wxUSE_STD_DEFAULT
+#define wxUSE_STD_STRING 1
 
 #define wxUSE_PRINTF_POS_PARAMS 1
 
@@ -241,6 +246,8 @@
 #define wxUSE_TIMER 1
 
 #define wxUSE_STOPWATCH 1
+
+#define wxUSE_FSWATCHER 1
 
 #define wxUSE_CONFIG 1
 
@@ -294,6 +301,8 @@
 
 #define wxUSE_VARIANT 1
 
+#define wxUSE_ANY 1
+
 #define wxUSE_REGEX 1
 
 #define wxUSE_SYSTEM_OPTIONS 1
@@ -302,21 +311,37 @@
 
 #define wxUSE_MEDIACTRL 1
 
-#define wxUSE_GSTREAMER    0
-
 #define wxUSE_XRC 1
 
 #define wxUSE_XML 1
 
 #define wxUSE_AUI 1
 
+#define wxUSE_RIBBON 1
+
 #define wxUSE_PROPGRID 1
 
 #define wxUSE_STC 1
 
 
-#ifndef wxUSE_GRAPHICS_CONTEXT
+
+#ifdef _MSC_VER
+#   if _MSC_VER >= 1310
+
+
 #define wxUSE_GRAPHICS_CONTEXT 1
+#   else
+
+
+#       define wxUSE_GRAPHICS_CONTEXT 1
+#   endif
+#else
+
+
+
+
+
+#   define wxUSE_GRAPHICS_CONTEXT 1
 #endif
 
 
@@ -407,6 +432,8 @@
 
 #define wxUSE_IMAGLIST 1
 
+#define wxUSE_INFOBAR 1
+
 #define wxUSE_MENUS 1
 
 #define wxUSE_NOTIFICATION_MESSAGE 1
@@ -458,6 +485,8 @@
 #define wxUSE_WIZARDDLG 1
 
 #define wxUSE_ABOUTDLG 1
+
+#define wxUSE_FILE_HISTORY 1
 
 
 #define wxUSE_METAFILE 1
@@ -511,6 +540,8 @@
 
 #define wxUSE_MOUSEWHEEL 1
 
+
+#define wxUSE_UIACTIONSIMULATOR 0
 
 
 #define wxUSE_POSTSCRIPT 1
@@ -569,6 +600,16 @@
 
 #define wxUSE_UNICODE_UTF8 1
 #define wxUSE_UTF8_LOCALE_ONLY 0
+
+/*
+   Use GStreamer for Unix.
+
+   Default is 0 as this requires a lot of dependencies which might not be
+   available.
+
+   Recommended setting: 1 (wxMediaCtrl won't work by default without it).
+ */
+#define wxUSE_GSTREAMER 0
 
 /* --- start MSW options --- */
 
@@ -636,7 +677,7 @@
 /*
  * Define if your compiler has std::wstring
  */
-/* #undef HAVE_STD_WSTRING */
+#define HAVE_STD_WSTRING 1
 /*
  * Define if your compiler has compliant std::string::compare
  */
@@ -677,6 +718,16 @@
  * Define if your compiler has std::tr1::unordered_set
  */
 /* #undef HAVE_TR1_UNORDERED_SET */
+
+/*
+ * Define if your compiler has <tr1/type_traits>
+ */
+#define HAVE_TR1_TYPE_TRAITS 1
+
+/*
+ * Define if your compiler has <type_traits>
+ */
+/* #undef HAVE_TYPE_TRAITS */
 
 /*
  * Define if the compiler supports simple visibility declarations.
@@ -731,6 +782,10 @@
  */
 #define wxUSE_LIBHILDON 0
 /*
+ * Use the Hildon 2.0 framework
+ */
+#define wxUSE_LIBHILDON2 0
+/*
  * Have glibc2
  */
 #define wxHAVE_GLIBC2 0
@@ -746,8 +801,11 @@
  * Define if compiler has __thread keyword.
  */
 /* #undef HAVE___THREAD_KEYWORD */
+/*
+ * Define if large (64 bit file offsets) files are supported.
+ */
+#define HAVE_LARGEFILE_SUPPORT 1
 
-/* compatibility */
 /*
  * Use OpenGL
  */
@@ -1134,6 +1192,12 @@
 
 /* Define if locale_t is available */
 #define HAVE_LOCALE_T 1
+
+/* Define if you have inotify_xxx() functions. */
+/* #undef wxHAS_INOTIFY */
+
+/* Define if you have kqueu_xxx() functions. */
+#define wxHAS_KQUEUE 1
 
 /* -------------------------------------------------------------------------
    Win32 adjustments section
