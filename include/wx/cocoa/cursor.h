@@ -4,7 +4,7 @@
 // Author:      David Elliott <dfe@cox.net>
 // Modified by:
 // Created:     2002/11/27
-// RCS-ID:      $Id: cursor.h 58757 2009-02-08 11:45:59Z VZ $
+// RCS-ID:      $Id$
 // Copyright:   (c) David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -39,7 +39,7 @@ class WXDLLIMPEXP_CORE wxCursor: public wxBitmap
 public:
     wxCursor();
 
-    wxCursor(const wxString& name, wxBitmapType type = wxCURSOR_DEFAULT_TYPE,
+    wxCursor(const wxString& name, wxBitmapType type = (wxBitmapType)wxCURSOR_DEFAULT_TYPE,
              int hotSpotX = 0, int hotSpotY = 0);
 
     wxCursor(wxStockCursor id) { InitFromStock(id); }
