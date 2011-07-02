@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2009 Bruce A Henderson
+' Copyright (c) 2007-2011 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -44,6 +44,7 @@ Import "include/*.h"
 Import "src/*.h"
 
 Import "src/ArrowBase.cpp"
+Import "src/AutoLayout.cpp"
 Import "src/wx_pch.cpp"
 Import "src/BitmapShape.cpp"
 Import "src/BitmapShapeXml.cpp"
@@ -70,6 +71,7 @@ Import "src/PolygonShape.cpp"
 Import "src/PolygonShapeXml.cpp"
 Import "src/Printout.cpp"
 Import "src/RectShape.cpp"
+Import "src/RoundOrthoShape.cpp"
 Import "src/RoundRectShape.cpp"
 Import "src/ScaledDC.cpp"
 Import "src/SFEvents.cpp"
@@ -77,6 +79,7 @@ Import "src/ShapeBase.cpp"
 Import "src/ShapeBaseXml.cpp"
 Import "src/ShapeCanvas.cpp"
 Import "src/ShapeDataObject.cpp"
+Import "src/ShapeDockpoint.cpp"
 Import "src/ShapeHandle.cpp"
 Import "src/SolidArrow.cpp"
 Import "src/TextShape.cpp"

@@ -22,6 +22,7 @@
 #include <limits>
 
 using namespace std;
+using namespace wxXS;
 
 WX_DEFINE_EXPORTED_OBJARRAY(RealPointArray);
 WX_DEFINE_EXPORTED_LIST(RealPointList);
@@ -46,8 +47,8 @@ wxXmlNode* xsPropertyIO::AddPropertyNode(wxXmlNode* parent, const wxString& name
 
 void xsPropertyIO::AppendPropertyType(xsProperty *source, wxXmlNode *target)
 {
-    target->AddProperty(wxT("name"), source->m_sFieldName);
-    target->AddProperty(wxT("type"), source->m_sDataType);
+    target->AddAttribute(wxT("name"), source->m_sFieldName);
+    target->AddAttribute(wxT("type"), source->m_sDataType);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -809,8 +810,6 @@ CharArray xsArrayCharPropIO::FromString(const wxString& value)
 	return arrData;
 }
 
-
-
 /////////////////////////////////////////////////////////////////////////////////////
 // xsArrayRealPointPropIO class /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -975,6 +974,83 @@ RealPointList xsListRealPointPropIO::FromString(const wxString& value)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
+// xsListSerializablePropIO class ///////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_DYNAMIC_CLASS(xsListSerializablePropIO, xsPropertyIO);
+
+void xsListSerializablePropIO::Read(xsProperty *property, wxXmlNode *source)
+{
+	SerializableList& list = *(SerializableList*)property->m_pSourceVariable;
+
+	// clear previous list content
+	bool fDelState = list.GetDeleteContents();
+
+	list.DeleteContents(true);
+    list.Clear();
+	list.DeleteContents(fDelState);
+
+	wxXmlNode *listNode = source->GetChildren();
+    while(listNode)
+    {
+		if( listNode->GetName() == wxT("object") )
+		{
+			xsSerializable* object = (xsSerializable*)wxCreateDynamicObject(listNode->GetAttribute(wxT("type"), wxT("")));
+			if(object)
+			{
+				object->DeserializeObject(listNode);
+				list.Append( object );
+			}
+		}
+		
+		listNode = listNode->GetNext();
+	}
+}
+
+void xsListSerializablePropIO::Write(xsProperty *property, wxXmlNode *target)
+{
+    SerializableList& list = *(SerializableList*)property->m_pSourceVariable;
+
+    if( !list.IsEmpty() )
+    {
+        wxXmlNode *newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
+		SerializableList::compatibility_iterator listNode = list.GetFirst();
+        while(listNode)
+        {
+			xsSerializable *object = listNode->GetData();
+			newNode->AddChild(object->SerializeObject(NULL));			
+			
+            listNode = listNode->GetNext();
+        }
+
+        target->AddChild(newNode);
+        AppendPropertyType(property, newNode);
+    }
+}
+
+wxString xsListSerializablePropIO::GetValueStr(xsProperty *property)
+{
+	return ToString(*((SerializableList*)property->m_pSourceVariable));
+}
+
+void xsListSerializablePropIO::SetValueStr(xsProperty *property, const wxString& valstr)
+{
+	*((SerializableList*)property->m_pSourceVariable) = FromString(valstr);
+}
+
+wxString xsListSerializablePropIO::ToString(const SerializableList& value)
+{
+	return wxString::Format(wxT("Serializable list at address 0x%x"), &value);
+}
+
+SerializableList xsListSerializablePropIO::FromString(const wxString& value)
+{
+	wxUnusedVar( value );
+	
+	return SerializableList();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
 // xsDynObjPropIO class /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -986,7 +1062,7 @@ void xsDynObjPropIO::Read(xsProperty *property, wxXmlNode *source)
 
     if( objectNode && (objectNode->GetName() == wxT("object")) )
     {
-        *(xsSerializable**)(property->m_pSourceVariable) = (xsSerializable*)wxCreateDynamicObject(objectNode->GetPropVal(wxT("type"), wxT("")));
+        *(xsSerializable**)(property->m_pSourceVariable) = (xsSerializable*)wxCreateDynamicObject(objectNode->GetAttribute(wxT("type"), wxT("")));
 
         xsSerializable* object = *(xsSerializable**)(property->m_pSourceVariable);
         if(object)
@@ -1150,7 +1226,7 @@ void xsMapStringPropIO::Read(xsProperty *property, wxXmlNode *source)
     {
         if(listNode->GetName() == wxT("item"))
         {
-            (*(StringMap*)property->m_pSourceVariable)[listNode->GetPropVal( wxT("key"), wxT("undef_key") )] = listNode->GetNodeContent();
+            (*(StringMap*)property->m_pSourceVariable)[listNode->GetAttribute( wxT("key"), wxT("undef_key") )] = listNode->GetNodeContent();
         }
 
         listNode = listNode->GetNext();
@@ -1170,7 +1246,7 @@ void xsMapStringPropIO::Write(xsProperty *property, wxXmlNode *target)
 		{
 			wxString key = it->first, value = it->second;
 			pXmlNode = AddPropertyNode(newNode, wxT("item"), it->second);
-			pXmlNode->AddProperty(wxT("key"), it->first);
+			pXmlNode->AddAttribute(wxT("key"), it->first);
 		}
 
 		target->AddChild(newNode);

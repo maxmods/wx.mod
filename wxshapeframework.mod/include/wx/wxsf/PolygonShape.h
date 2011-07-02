@@ -11,7 +11,7 @@
 #ifndef _WXSFPOLYGONSHAPE_H
 #define _WXSFPOLYGONSHAPE_H
 
-#include "RectShape.h"
+#include <wx/wxsf/RectShape.h>
 
 // default values
 /*! \brief Default value of wxSFPolygonShape::m_fConnextToVertex data member. */
@@ -100,7 +100,7 @@ public:
 protected:
 	// protected data members
 	bool m_fConnectToVertex;
-	RealPointArray m_arrVertices;
+	wxXS::RealPointArray m_arrVertices;
 
 	// protected functions
 	/*!

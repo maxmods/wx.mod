@@ -11,16 +11,15 @@
 #ifndef _WXSFRECTSHAPE_H
 #define _WXSFRECTSHAPE_H
 
-#include "ShapeBase.h"
+#include <wx/wxsf/ShapeBase.h>
 
 // default values
 /*! \brief Default value of wxSFRectShape::m_nRectSize data member. */
 #define sfdvRECTSHAPE_SIZE wxRealPoint(100, 50)
 /*! \brief Default value of wxSFRectShape::m_Fill data member. */
-#define sfdvRECTSHAPE_FILL *wxWHITE_BRUSH
+#define sfdvRECTSHAPE_FILL wxBrush(*wxWHITE)
 /*! \brief Default value of wxSFRectShape::m_Border data member. */
-#define sfdvRECTSHAPE_BORDER *wxBLACK_PEN
-
+#define sfdvRECTSHAPE_BORDER wxPen(*wxBLACK)
 /*!
  * \brief Class encapsulates basic rectangle shape which is used as a base class
  * for many other shapes that can be bounded by a simple rectangle. The class

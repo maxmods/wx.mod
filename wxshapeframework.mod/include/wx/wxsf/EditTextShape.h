@@ -11,7 +11,7 @@
 #ifndef _WXSFEDITTEXTSHAPE_H
 #define _WXSFEDITTEXTSHAPE_H
 
-#include "TextShape.h"
+#include <wx/wxsf/TextShape.h>
 
 #define sfCANCEL_TEXT_CHANGES false
 #define sfAPPLY_TEXT_CHANGES true
@@ -48,6 +48,51 @@ public:
 	 * \param apply If TRUE then changes made in eddited text will be applied on text shape, otherwise it will be canceled 
 	 */
 	void Quit( bool apply = sfAPPLY_TEXT_CHANGES );
+
+// BaH
+	int GetLineLength(long lineNo) const;
+
+	wxString GetLineText(long lineNo) const;
+
+	int GetNumberOfLines() const;
+
+	bool IsModified() const;
+
+	void MarkDirty();
+
+	void DiscardEdits();
+
+	bool SetStyle(long start, long end, const wxTextAttr& style);
+
+	bool GetStyle(long position, wxTextAttr& style);
+
+	bool SetDefaultStyle(const wxTextAttr& style);
+
+	long XYToPosition(long x, long y) const;
+
+	bool PositionToXY(long pos, long *x, long *y) const;
+
+	void ShowPosition(long pos);
+
+
+
+	bool DoLoadFile(const wxString& file, int fileType);
+
+	bool DoSaveFile(const wxString& file, int fileType);
+
+
+
+	void SetMaxLength(unsigned long len);
+
+	void Copy();
+
+	void Cut();
+
+	void Paste();
+
+
+
+
 
 protected:
 
@@ -124,7 +169,8 @@ public:
 	enum EDITTYPE
 	{
 		editINPLACE = 0,
-		editDIALOG
+		editDIALOG,
+		editDISABLED
 	};
 
     /*! \brief Default constructor. */

@@ -11,7 +11,8 @@
 #ifndef _WXSFDIAGRAMMANAGER_H
 #define _WXSFDIAGRAMMANAGER_H
 
-#include "ShapeBase.h"
+#include <wx/wxsf/ShapeBase.h>
+#include <wx/wxsf/CommonFcn.h>
 
 #define serINCLUDE_PARENTS true
 #define serWITHOUT_PARENTS false
@@ -19,6 +20,7 @@
 #define sfDONT_INITIALIZE false
 
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
+class WXDLLIMPEXP_SF wxSFLineShape;
 
 /*! \brief Auxiliary class encapsulation two variables suitable for shape IDs. It is
  * used for storing infomation about various relevant shape IDs */
@@ -77,26 +79,57 @@ public:
      * \param srcId ID of a source shape
      * \param trgId ID of target shape
      * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
      * \sa StartInteractiveConnection
      */
-    wxSFShapeBase* CreateConnection(long srcId, long trgId, bool saveState = true);
+    wxSFShapeBase* CreateConnection(long srcId, long trgId, bool saveState = true, wxSF::ERRCODE *err = NULL);
+    /*!
+     * \brief Create new direct connection of given type between two shapes.
+     *
+     * This function creates new simple connection line (without arrows) between gived
+     * shapes.
+     * \param srcId ID of a source shape
+     * \param trgId ID of target shape
+	 * \param lineInfo Connection type (any class inherited from wxSFLineShape)
+     * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
+     * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
+     * \sa StartInteractiveConnection
+     */
+    wxSFShapeBase* CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState = true, wxSF::ERRCODE *err = NULL);
+	/*!
+     * \brief Create new direct connection of given type between two shapes.
+     *
+     * This function creates new simple connection line (without arrows) between gived
+     * shapes.
+     * \param srcId ID of a source shape
+     * \param trgId ID of target shape
+	 * \param line Pointer to line shape
+     * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
+     * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
+     * \sa StartInteractiveConnection
+     */
+    wxSFShapeBase* CreateConnection(long srcId, long trgId, wxSFLineShape *line, bool saveState = true, wxSF::ERRCODE *err = NULL);
     /*!
      * \brief Create new shape and add it to the shape canvas.
      * \param shapeInfo Shape type
      * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \return Pointer to new shape object. The object is added to the shape canvas automaticaly.
      */
-	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, bool saveState = true);
+	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, bool saveState = true, wxSF::ERRCODE *err = NULL);
 	/*!
 	 * \brief Create new shape and add it to the shape canvas.
 	 * \param shapeInfo Shape type
 	 * \param pos Shape position
 	 * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
 	 * \return Description
 	 * \sa Seealso
 	 */
-	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState = true);
+	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState = true, wxSF::ERRCODE *err = NULL);
     /*!
      * \brief Add an existing shape to the canvas.
      * \param shape Pointer to the shape
@@ -104,9 +137,10 @@ public:
      * \param pos Position
      * \param initialize TRUE if the shape should be reinitilialized, otherwise FALSE
      * \param saveState TRUE if the canvas state should be saved
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \return Pointer to the shape
      */
-	wxSFShapeBase* AddShape(wxSFShapeBase* shape, xsSerializable* parent,  const wxPoint& pos, bool initialize, bool saveState = true);
+	wxSFShapeBase* AddShape(wxSFShapeBase* shape, xsSerializable* parent,  const wxPoint& pos, bool initialize, bool saveState = true, wxSF::ERRCODE *err = NULL);
 
 	/*!
 	 * \brief Remove given shape from the shape canvas. The shape object will be deleted as well.
@@ -122,29 +156,38 @@ public:
 	/*! \brief Remove all shapes from canvas */
 	void Clear();
 	
+	/*! \brief Move all shapes so none of it will be located in negative position */
+	void MoveShapesFromNegatives();
+	
 	/*! \brief Update all shapes in the diagram manager */
 	void UpdateAll();
 
     /*!
      * \brief Serialize complete shape canvas to given file
      * \param file Output file
+	 * \param withroot If TRUE then the root item's properties are serialized as well
+	 * \return TRUE on success, otherwise FALSE
      */
-	virtual void SerializeToXml(const wxString& file);
+	virtual bool SerializeToXml(const wxString& file, bool withroot = false);
     /*!
      * \brief Deserialize complete shape canvas from given file
      * \param file Input file
+	 * \return TRUE on success, otherwise FALSE
      */
-	virtual void DeserializeFromXml(const wxString& file);
+	virtual bool DeserializeFromXml(const wxString& file);
     /*!
      * \brief Serialize complete shape canvas to given output stream
      * \param outstream Output stream
+	 * \param withroot If TRUE then the root item's properties are serialized as well
+	 * \return TRUE on success, otherwise FALSE
      */
-	virtual void SerializeToXml(wxOutputStream& outstream);
+	virtual bool SerializeToXml(wxOutputStream& outstream, bool withroot = false);
     /*!
      * \brief Deserialize complete shape canvas from given input stream
      * \param instream Input stream
+	 * \return TRUE on success, otherwise FALSE
      */
-	virtual void DeserializeFromXml(wxInputStream& instream);
+	virtual bool DeserializeFromXml(wxInputStream& instream);
 	/*!
 	 * \brief Deserialize shapes from XML and assign them to given parent.
 	 *
@@ -228,6 +271,11 @@ public:
 	 */
 	void GetShapesInside(const wxRect& rct, ShapeList& shapes);
 
+	/*!
+	 * \brief Determines whether the diagram manager contains some shapes.
+	 * \return TRUE if there are no shapes in the manager, otherwise FALSE
+	 */
+	inline bool IsEmpty() const { return ! GetRootItem()->HasChildren(); }
     /*!
      * \brief Function finds out whether given shape has some children.
      * \param parent Pointer to potential parent shape
@@ -274,12 +322,16 @@ private:
     IDList m_lstIDPairs;
     /*! \brief Auxiliary list */
 	ShapeList m_lstLinesForUpdate;
+	/*! \brief Auxiliary list */
+	ShapeList m_lstGridsForUpdate;
 
 	/*! \brief wxSF version number */
 	wxString m_sSFVersion;
 
 	/*! \brief Update connection shapes after importing/dropping of new shapes */
 	void UpdateConnections();
+	/*! \brief Update grid shapes after importing/dropping of new shapes */
+	void UpdateGrids();
 
 	/*!
 	 * \brief Deserialize shapes from XML and assign them to given parent.

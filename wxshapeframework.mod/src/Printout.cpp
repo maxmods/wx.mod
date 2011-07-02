@@ -13,6 +13,8 @@
 #define new DEBUG_NEW
 #endif
 
+#include <wx/dcgraph.h>
+
 #include "wx/wxsf/Printout.h"
 #include "wx/wxsf/ScaledDC.h"
 #include "wx/wxsf/ShapeCanvas.h"
@@ -63,7 +65,7 @@ bool wxSFPrintout::OnPrintPage(int page)
         wxRect fitRect, totalBB = m_pCanvas->GetTotalBoundingBox();
         wxCoord maxX = totalBB.GetRight();
         wxCoord maxY = totalBB.GetBottom();
-
+		
         // set printing mode
         switch( m_pCanvas->GetPrintMode() )
         {
@@ -106,8 +108,8 @@ bool wxSFPrintout::OnPrintPage(int page)
         // This offsets the image so that it is centered within the reference
         // rectangle defined above.
 
-        wxCoord xoff = (fitRect.width - maxX - totalBB.GetLeft()) / 2;
-        wxCoord yoff = (fitRect.height - maxY - totalBB.GetTop()) / 2;
+        wxCoord xoff = ((fitRect.width - maxX - totalBB.GetLeft()) / 2) - fitRect.x;
+        wxCoord yoff = ((fitRect.height - maxY - totalBB.GetTop()) / 2) - fitRect.y;
 
         switch( m_pCanvas->GetPrintHAlign() )
         {
@@ -149,23 +151,27 @@ bool wxSFPrintout::OnPrintPage(int page)
         {
             m_pCanvas->RemoveStyle( wxSFShapeCanvas::sfsGRADIENT_BACKGROUND );
             m_pCanvas->RemoveStyle( wxSFShapeCanvas::sfsGRID_SHOW );
-            m_pCanvas->SetCanvasColour( *wxWHITE );
+            m_pCanvas->SetCanvasColour( *wxWHITE);
         }
 
         // draw the canvas content without any scale (dc is scaled by the printing framework)
-		double nScale = 1;
-		if( wxSFShapeCanvas::IsGCEnabled() ) dc->GetUserScale( &nScale, &nScale );
-        m_pCanvas->SetScale(1);
-
-		#ifdef __WXMSW__
-		wxSFScaledDC sdc( (wxWindowDC*)dc, nScale );
-		sdc.PrepareGC();
-        m_pCanvas->DrawContent(sdc, sfNOT_FROM_PAINT);
-        #else
+		m_pCanvas->SetScale(1);
+		
+		/*#if wxUSE_GRAPHICS_CONTEXT
+		if( wxSFShapeCanvas::IsGCEnabled() )
+		{
+			wxGCDC gdc( dc );
+			m_pCanvas->DrawContent(gdc, sfNOT_FROM_PAINT);
+		}
+		else
+			m_pCanvas->DrawContent(*dc, sfNOT_FROM_PAINT);
+		#else
 		m_pCanvas->DrawContent(*dc, sfNOT_FROM_PAINT);
-		#endif
-
-        m_pCanvas->SetScale(prevScale);
+		#endif*/
+		
+		m_pCanvas->DrawContent(*dc, sfNOT_FROM_PAINT);
+		
+		m_pCanvas->SetScale(prevScale);
 
         // restore previous canvas properties if needed
         if( !m_pCanvas->ContainsStyle( wxSFShapeCanvas::sfsPRINT_BACKGROUND ) )

@@ -13,18 +13,20 @@
 
 #include <wx/dataobj.h>
 #include <wx/dnd.h>
-// BaH
-#ifdef __WXMAC__
-#include <wx/osx/printdlg.h>
-#endif
 
-#include "ShapeBase.h"
-#include "DiagramManager.h"
-#include "MultiSelRect.h"
-#include "CanvasHistory.h"
-#include "LineShape.h"
-#include "EditTextShape.h"
-#include "Printout.h"
+#include <wx/wxsf/ShapeBase.h>
+#include <wx/wxsf/DiagramManager.h>
+#include <wx/wxsf/MultiSelRect.h>
+#include <wx/wxsf/CanvasHistory.h>
+#include <wx/wxsf/LineShape.h>
+#include <wx/wxsf/EditTextShape.h>
+#include <wx/wxsf/Printout.h>
+#include <wx/wxsf/CommonFcn.h>
+
+#ifdef __WXMAC__ 
+// BaH
+#include <wx/osx/printdlg.h> 
+#endif 
 
 /*! \brief XPM (mono-)bitmap which can be used in shape's shadow brush */
 extern const char* wxSFShadowBrush_xpm[];
@@ -50,8 +52,12 @@ extern wxPrintData *g_printData;
 #define sfdvSHAPECANVAS_BACKGROUNDCOLOR wxColour(240, 240, 240)
 /*! \brief Default value of wxSFCanvasSettings::m_nGridSize data member */
 #define sfdvSHAPECANVAS_GRIDSIZE wxSize(10, 10)
+/*! \brief Default value of wxSFCanvasSettings::m_nGridLineMult data member */
+#define sfdvSHAPECANVAS_GRIDLINEMULT 1
 /*! \brief Default value of wxSFCanvasSettings::m_nGridColor data member */
 #define sfdvSHAPECANVAS_GRIDCOLOR wxColour(200, 200, 200)
+/*! \brief Default value of wxSFCanvasSettings::m_nGridStyle data member */
+#define sfdvSHAPECANVAS_GRIDSTYLE wxSOLID
 /*! \brief Default value of wxSFCanvasSettings::m_CommnonHoverColor data member */
 #define sfdvSHAPECANVAS_HOVERCOLOR wxColor(120, 120, 255)
 /*! \brief Default value of wxSFCanvasSettings::m_nGradientFrom data member */
@@ -72,6 +78,11 @@ extern wxPrintData *g_printData;
 #define sfdvSHAPECANVAS_PRINT_VALIGN wxSFShapeCanvas::valignMIDDLE
 /*! \brief Default value of wxSFCanvasSettings::m_nPrintMode data member */
 #define sfdvSHAPECANVAS_PRINT_MODE wxSFShapeCanvas::prnFIT_TO_MARGINS
+/*! \brief Default value of wxSFCanvasSettings::m_nMinScale data member */
+#define sfdvSHAPECANVAS_SCALE_MIN 0.1
+/*! \brief Default value of wxSFCanvasSettings::m_nMaxScale data member */
+#define sfdvSHAPECANVAS_SCALE_MAX 5
+
 
 class wxSFCanvasDropTarget;
 
@@ -108,7 +119,9 @@ public:
 	wxColour m_nGradientTo;
 
     wxSize m_nGridSize;
+	int m_nGridLineMult;
     wxColour m_nGridColor;
+	int m_nGridStyle;
 
     wxRealPoint m_nShadowOffset;
     wxBrush m_ShadowFill;
@@ -116,6 +129,8 @@ public:
     wxArrayString m_arrAcceptedShapes;
 
     double m_nScale;
+	double m_nMinScale;
+	double m_nMaxScale;
 
 	long m_nStyle;
 
@@ -246,6 +261,8 @@ public:
 		sfsGRADIENT_BACKGROUND = 512,
 		/*! \brief Print also canvas background. */
 		sfsPRINT_BACKGROUND = 1024,
+		/*! \brief Process mouse wheel by the canvas (canvas scale will be changed). */
+		sfsPROCESS_MOUSEWHEEL = 2048,
 		/*! \brief Default canvas style. */
 		sfsDEFAULT_CANVAS_STYLE = sfsMULTI_SELECTION | sfsMULTI_SIZE_CHANGE | sfsDND | sfsUNDOREDO | sfsCLIPBOARD | sfsHOVERING | sfsHIGHLIGHTING
 	};
@@ -328,7 +345,7 @@ public:
     /*!
      * \brief Start interactive connection creation.
      *
-     * This function switch the cavas to a mode in which a new shape connection
+     * This function switch the canvas to a mode in which a new shape connection
      * can be created interactively (by mouse operations). Every connection must
      * start and finish in some shape object or another connection. At the end of the
      * process the OnConnectionFinished event handler is invoked so the user can
@@ -338,9 +355,28 @@ public:
      * to the function.
      * \param shapeInfo Connection type
      * \param pos Position where to start
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \sa CreateConnection
      */
-    void StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos);
+    void StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos, wxSF::ERRCODE *err = NULL);
+	 /*!
+     * \brief Start interactive connection creation from existing line object.
+     *
+     * This function switch the canvas to a mode in which a new shape connection
+     * can be created interactively (by mouse operations). Every connection must
+     * start and finish in some shape object or another connection. At the end of the
+     * process the OnConnectionFinished event handler is invoked so the user can
+     * set needed connection properties immediately.
+     *
+     * Function must be called from mouse event handler and the event must be passed
+     * to the function.
+     * \param shape Pointer to existing line shape object which will be used as a connection.
+     * \param pos Position where to start
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
+     * \sa CreateConnection
+     */
+	void StartInteractiveConnection(wxSFLineShape* shape, const wxPoint& pos, wxSF::ERRCODE *err = NULL);
+	
     /*! \brief Abort interactive connection creation process */
 	void AbortInteractiveConnection();
 
@@ -575,6 +611,19 @@ public:
 	 */
 	inline void SetGrid(wxSize grid) { m_Settings.m_nGridSize = grid; }
 	/*!
+	 * \brief Set grid line multiple.
+	 * 
+	 * Grid lines will be drawn in a distance calculated as grid size multiplicated by this value.
+	 * Default value is 1.
+	 * \param multiple Multiple value
+	 */
+	inline void SetGridLineMult(int multiple) { m_Settings.m_nGridLineMult = multiple; }
+	/**
+	 * \brief Get grid line multiple.
+	 * \return Value by which a grid size will be multiplicated to determine grid lines distance
+	 */
+	inline int GetGrigLineMult() const { return m_Settings.m_nGridLineMult; }
+	/*!
 	 * \brief Set grid color.
 	 * \param col Grid color
 	 */
@@ -584,6 +633,16 @@ public:
 	 * \return Grid color
 	 */
 	inline wxColour GetGridColour() const { return m_Settings.m_nGridColor; }
+	/*!
+	 * \brief Set grid line style.
+	 * \param style Line style
+	 */
+	inline void SetGridStyle(int style) { m_Settings.m_nGridStyle = style; }
+	/*!
+	 * \brief Get grid line style.
+	 * \return Line style
+	 */
+	inline int GetGridStyle() const {return m_Settings.m_nGridStyle; }
 	/*!
 	 * \brief Set shadow offset.
 	 * \param offset Shadow offset
@@ -646,6 +705,26 @@ public:
 	 */
 	void SetScale(double scale);
 	/*!
+	 * \brief Set minimal allowed scale (for mouse wheel scale change).
+	 * \param scale Minimal scale
+	 */
+	void SetMinScale(double scale) { m_Settings.m_nMinScale = scale; }
+	/*!
+	 * \brief Get minimal allowed scale (for mouse wheel scale change).
+	 * \return Minimal scale
+	 */
+	double GetMinScale() { return m_Settings.m_nMinScale; }
+	/*!
+	 * \brief Set maximal allowed scale (for mouse wheel scale change).
+	 * \param scale Maximal scale
+	 */
+	void SetMaxScale(double scale) { m_Settings.m_nMaxScale = scale; }
+	/*!
+	 * \brief Set maximal allowed scale (for mouse wheel scale change).
+	 * \return Maximal scale
+	 */
+	double GetMaxScale() { return m_Settings.m_nMaxScale; }
+	/*!
 	 * \brief Get the canvas scale.
 	 * \return Canvas scale
 	 */
@@ -705,6 +784,8 @@ public:
 	void UpdateVirtualSize();
 	/*! \brief Move all shapes so none of it will be located in negative position */
 	void MoveShapesFromNegatives();
+	/*! \brief Center diagram in accordance to the shape canvas extent. */
+	void CenterShapes();
     /*!
      * \brief Validate selection (remove redundantly selected shapes etc...).
      * \param selection List of selected shapes that should be validated
@@ -812,6 +893,18 @@ public:
      * \sa _OnMouseMove()
      */
 	virtual void OnMouseMove(wxMouseEvent& event);
+	/*!
+     * \brief Event handler called when the mouse wheel position is changed.
+     * The function can be overrided if necessary.
+     *
+     * The function is called by the framework and provides basic functionality
+     * needed for proper management of displayed shape. It is necessary to call
+     * this function from overrided methods if the default canvas behaviour
+     * should be preserved.
+     * \param event Mouse event
+     * \sa _OnMouseWheel()
+     */
+	virtual void OnMouseWheel(wxMouseEvent& event);
     /*!
      * \brief Event handler called when any key is pressed.
      * The function can be overrided if necessary.
@@ -842,6 +935,19 @@ public:
 	 * \sa StartInteractiveConnection(), wxSFShapeEvent
 	 */
 	virtual void OnConnectionFinished(wxSFLineShape* connection);
+	
+	/*!
+	 * \brief Event handler called after successfull conection creation in
+	 * order to alow developper to perform some kind of checks
+	 * before the connection is really added to the diagram. The function
+	 * can be overrided if necessary. The default implementation
+     * generates wxEVT_SF_LINE_DONE event.
+	 * \param connection Pointer to new connection object
+	 * \sa StartInteractiveConnection(), wxSFShapeEvent
+	 * \return false if the generated event has been vetoed in this case,
+	 * the connection creation is cancelled
+	 */
+	virtual bool OnPreConnectionFinished(wxSFLineShape* connection);
 
 	/*!
 	 * \brief Event handler called by the framework after any dragged shapes
@@ -863,6 +969,14 @@ public:
 	 * \sa wxSFShapeCanvas::Paste(), wxSFShapePasteEvent
 	 */
 	virtual void OnPaste(const ShapeList& pasted);
+	
+	/*!
+	 * \brief Event handler called if canvas virtual size is going to be updated.
+	 * The default implementation does nothing but the function can be overrided by
+	 * a user to modify calculated virtual canvas size.
+	 * \param virtrct Calculated canvas virtual size
+	 */
+	virtual void OnUpdateVirtualSize(wxRect &virtrct);
 
 
 protected:
@@ -923,8 +1037,10 @@ private:
 	void InitializePrinting();
 	/*! \brief Deinitialize prnting framework */
 	void DeinitializePrinting();
-	/*! \brief Remove given shape for temporary conatiners */
+	/*! \brief Remove given shape for temporary containers */
 	void RemoveFromTemporaries(wxSFShapeBase *shape);
+	/*! \brief Clear all temporary containers */
+	void ClearTemporaries();
 	/*! \brief Assign give shape to parent at given location (if exists) */
 	void ReparentShape(wxSFShapeBase *shape, const wxPoint& parentpos);
 
@@ -954,7 +1070,7 @@ private:
 	 * \param event Size event
 	 */
 	void _OnResize(wxSizeEvent& event);
-
+	
 	// original private event handlers
 	/*!
 	 * \brief Original private event handler called when the canvas is clicked by
@@ -1012,6 +1128,14 @@ private:
 	 * \sa wxSFShapeCanvas::OnMouseMove
 	 */
 	void _OnMouseMove(wxMouseEvent& event);
+	/*!
+	 * \brief Original private event handler called when the mouse wheel pocition is changed.
+	 * The handler calls user-overridable event handler function and skips the event
+	 * for next possible processing.
+	 * \param event Mouse event
+	 * \sa wxSFShapeCanvas::OnMouseWheel
+	 */
+	void _OnMouseWheel(wxMouseEvent& event);
 	/*!
 	 * \brief Original private event handler called when any key is pressed.
 	 * The handler calls user-overridable event handler function

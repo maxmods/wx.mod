@@ -187,6 +187,8 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
     default:
         break;
 	}
+	
+	wxSFShapeBase::OnHandle( handle );
 }
 
 //----------------------------------------------------------------------------------//
@@ -319,6 +321,7 @@ void wxSFTextShape::OnLeftHandle(wxSFShapeHandle& handle)
 	// HINT: overload it for custom actions...
 
     m_nRectSize.x -= ((double)handle.GetPosition().x - GetAbsolutePosition().x);
+	//m_nRectSize.x -= (double)handle.GetDelta().x;
 }
 
 void wxSFTextShape::OnTopHandle(wxSFShapeHandle& handle)
@@ -326,20 +329,36 @@ void wxSFTextShape::OnTopHandle(wxSFShapeHandle& handle)
 	// HINT: overload it for custom actions...
 
 	m_nRectSize.y -= ((double)handle.GetPosition().y - GetAbsolutePosition().y);
+	//m_nRectSize.y -= (double)handle.GetDelta().y;
+}
+
+void wxSFTextShape::OnBottomHandle(wxSFShapeHandle& handle)
+{
+	// HINT: overload it for custom actions...
+	
+	m_nRectSize.y = handle.GetPosition().y - GetAbsolutePosition().y;
+	
+}
+
+void wxSFTextShape::OnRightHandle(wxSFShapeHandle& handle)
+{
+	// HINT: overload it for custom actions...
+	
+	m_nRectSize.x =handle.GetPosition().x - GetAbsolutePosition().x;
 }
 
 //----------------------------------------------------------------------------------//
 // protected functions
 //----------------------------------------------------------------------------------//
-
 void wxSFTextShape::DrawTextContent(wxDC& dc)
 {
 	wxString line;
 	int i = 0;
 
 	dc.SetBrush(m_Fill);
+	dc.SetBackgroundMode(wxTRANSPARENT);
 
-    #ifdef __WXMSW__
+    /*#ifdef __WXMSW__
     if(m_Fill.GetStyle() == wxTRANSPARENT)
     {
         dc.SetBackgroundMode(wxTRANSPARENT);
@@ -349,7 +368,7 @@ void wxSFTextShape::DrawTextContent(wxDC& dc)
         dc.SetBackgroundMode(wxSOLID);
         dc.SetTextBackground(m_Fill.GetColour());
     }
-    #endif
+    #endif*/
 
     dc.SetTextForeground(m_TextColor);
 	dc.SetFont(m_Font);

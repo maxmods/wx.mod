@@ -17,6 +17,7 @@
 #include <wx/dcbuffer.h>
 
 #include "wx/wxsf/Thumbnail.h"
+#include "wx/wxsf/BitmapShape.h"
 
 BEGIN_EVENT_TABLE(wxSFThumbnail, wxPanel)
 	EVT_PAINT( wxSFThumbnail::_OnPaint )
@@ -64,7 +65,10 @@ void wxSFThumbnail::SetCanvas(wxSFShapeCanvas* canvas)
 	
 	if( m_pCanvas )	m_UpdateTimer.Start(100);
 	else
+	{
 		m_UpdateTimer.Stop();
+		Refresh(false);
+	}		
 }
 
 void wxSFThumbnail::DrawContent(wxDC& dc)
@@ -77,10 +81,26 @@ void wxSFThumbnail::DrawContent(wxDC& dc)
 	while( node )
 	{
 		pShape = wxDynamicCast( node->GetData(), wxSFShapeBase );
-			
-		if( pShape && ( (pShape->IsKindOf(CLASSINFO(wxSFLineShape)) && (m_nThumbStyle & tsSHOW_CONNECTIONS)) ||
-						(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)) && (m_nThumbStyle & tsSHOW_ELEMENTS)) ) ) pShape->Draw( dc, sfWITHOUTCHILDREN );
-				
+		
+		if( pShape )
+		{
+			if( (m_nThumbStyle & tsSHOW_CONNECTIONS) && pShape->IsKindOf(CLASSINFO(wxSFLineShape)) ) pShape->Draw( dc, sfWITHOUTCHILDREN );
+			else if( m_nThumbStyle & tsSHOW_ELEMENTS )
+			{
+				if( pShape->IsKindOf(CLASSINFO(wxSFBitmapShape)) ) 
+				{
+					dc.SetPen( wxPen( *wxBLACK, 1, wxDOT) );
+					dc.SetBrush( *wxWHITE_BRUSH );
+					
+					dc.DrawRectangle( pShape->GetBoundingBox() );
+					
+					dc.SetBrush( wxNullBrush );
+					dc.SetPen( wxNullPen );
+				}
+				else if( !pShape->IsKindOf(CLASSINFO(wxSFLineShape)) ) pShape->Draw( dc, sfWITHOUTCHILDREN );
+			}
+		}
+						
 		node = node->GetNext();
 	}
 }
@@ -132,11 +152,6 @@ void wxSFThumbnail::_OnPaint(wxPaintEvent& event)
 {
 	wxUnusedVar( event );
 	
-	#if wxUSE_GRAPHICS_CONTEXT
-	bool fGCEnabled = wxSFShapeCanvas::IsGCEnabled();
-    wxSFScaledDC::EnableGC( false );
-    #endif
-	
 	wxBufferedPaintDC dc(this);
 	
 	// clear background
@@ -176,10 +191,6 @@ void wxSFThumbnail::_OnPaint(wxPaintEvent& event)
 	} 
 	
 	dc.SetBackground( wxNullBrush );
-	
-    #if wxUSE_GRAPHICS_CONTEXT
-    wxSFScaledDC::EnableGC( fGCEnabled );
-    #endif
 }
 
 void wxSFThumbnail::_OnTimer(wxTimerEvent& event)

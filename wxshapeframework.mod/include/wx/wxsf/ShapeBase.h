@@ -18,9 +18,10 @@
 #include <wx/arrstr.h>
 #include <wx/list.h>
 
-#include "ShapeHandle.h"
-#include "Defs.h"
-#include "../wxxmlserializer/XmlSerializer.h"
+#include <wx/wxsf/ShapeHandle.h>
+#include <wx/wxsf/ShapeDockpoint.h>
+#include <wx/wxsf/Defs.h>
+#include <wx/wxxmlserializer/XmlSerializer.h>
 
 #define sfRECURSIVE true
 #define sfNORECURSIVE false
@@ -31,30 +32,40 @@
 #define sfANY NULL
 
 // default values
-/*! \brief Default value of wxSFShapeObject::m_fVisible data member */
+/*! \brief Default value of wxSFShapeBase::m_fVisible data member */
 #define sfdvBASESHAPE_VISIBILITY true
-/*! \brief Default value of wxSFShapeObject::m_fActive data member */
+/*! \brief Default value of wxSFShapeBase::m_fActive data member */
 #define sfdvBASESHAPE_ACTIVITY true
-/*! \brief Default value of wxSFShapeObject::m_nHoverColor data member */
+/*! \brief Default value of wxSFShapeBase::m_nHoverColor data member */
 #define sfdvBASESHAPE_HOVERCOLOUR wxColor(120, 120, 255)
-/*! \brief Default value of wxSFShapeObject::m_nRelativePosition data member */
+/*! \brief Default value of wxSFShapeBase::m_nRelativePosition data member */
 #define sfdvBASESHAPE_POSITION wxRealPoint(0, 0)
-/*! \brief Default value of wxSFShapeObject::m_nVAlign data member */
+/*! \brief Default value of wxSFShapeBase::m_nVAlign data member */
 #define sfdvBASESHAPE_VALIGN valignNONE
-/*! \brief Default value of wxSFShapeObject::m_nHAlign data member */
+/*! \brief Default value of wxSFShapeBase::m_nHAlign data member */
 #define sfdvBASESHAPE_HALIGN halignNONE
-/*! \brief Default value of wxSFShapeObject::m_nVBorder data member */
+/*! \brief Default value of wxSFShapeBase::m_nVBorder data member */
 #define sfdvBASESHAPE_VBORDER 0
-/*! \brief Default value of wxSFShapeObject::m_nHBorder data member */
+/*! \brief Default value of wxSFShapeBase::m_nHBorder data member */
 #define sfdvBASESHAPE_HBORDER 0
-/*! \brief Default value of wxSFShapeObject::m_nStyle data member */
+/*! \brief Default value of wxSFShapeBase::m_nStyle data member */
 #define sfdvBASESHAPE_DEFAULT_STYLE sfsDEFAULT_SHAPE_STYLE
-/*! \brief Default value of wxSFShapeObject::m_nSCustomDockPoint data member */
-#define sfdvBASESHAPE_DOCK_POINT 0
+/*! \brief Default value of wxSFShapeBase::m_nCustomDockPoint data member */
+#define sfdvBASESHAPE_DOCK_POINT -3
+
+typedef SerializableList ConnectionPointList;
 
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
 class WXDLLIMPEXP_SF wxSFDiagramManager;
 class WXDLLIMPEXP_SF wxSFShapeBase;
+
+/*! \brief Add child shape component created by the parent shape (not by the serializer) to this parent shape.
+ * Serializable properties of added component will be serialized as the parent shape's properties.
+ */ 
+#define SF_ADD_COMPONENT(comp, name) \
+	comp->EnableSerialization( false );	\
+	this->AddProperty( new xsProperty( &comp, wxT("serializabledynamicnocreate"), name ) );	\
+	this->AddChild( comp );	\
 
 WX_DECLARE_LIST_WITH_DECL(wxSFShapeBase, ShapeList, class WXDLLIMPEXP_SF);
 
@@ -77,6 +88,7 @@ class WXDLLIMPEXP_SF wxSFShapeBase : public xsSerializable
 public:
 
     friend class wxSFShapeCanvas;
+    friend class wxSFDiagramManager;
     friend class wxSFShapeHandle;
 
 	XS_DECLARE_CLONABLE_CLASS(wxSFShapeBase);
@@ -149,24 +161,32 @@ public:
 	    sfsSHOW_HANDLES = 256,
 	    /*! \brief Show shadow under the shape */
 	    sfsSHOW_SHADOW = 512,
-		/*! \brief Default shape style. */
+		/*! \brief Lock children relative position if the parent is resized */
+		sfsLOCK_CHILDREN = 1024,
+		/*! \brief Emit events (catchable in shape canvas) */
+		sfsEMIT_EVENTS = 2048,
+		/*! \brief Propagate mouse dragging event to parent shape */
+		sfsPROPAGATE_DRAGGING = 4096,
+		/*! \brief Propagate selection to parent shape (it means this shape cannot be selected because its focus is redirected to its parent shape) */
+		sfsPROPAGATE_SELECTION = 8192,
+		/*! \brief Default shape style */
 		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};
 
-    /*! \brief constructor */
+    /*! \brief Basic constructor. */
 	wxSFShapeBase(void);
 	/*!
-	 * \brief User constructor
+	 * \brief Enhanced constructor.
 	 * \param pos Initial relative position
 	 * \param manager Pointer to parent diagram manager
      */
 	wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager);
 	/*!
-	 * \brief Copy constructor
+	 * \brief Copy constructor.
 	 * \param obj Reference to the source object
      */
 	wxSFShapeBase(const wxSFShapeBase& obj);
-	/*! \brief Destructor */
+	/*! \brief Destructor. */
 	virtual ~wxSFShapeBase(void);
 
 	// public functions
@@ -442,6 +462,18 @@ public:
 	wxSFShapeBase* GetParentShape();
     /*! \brief Get pointer to the topmost parent shape */
 	wxSFShapeBase* GetGrandParentShape();
+	/**
+	 * \brief Determine whether this shape is ancestor of given child shape.
+	 * \param child Pointer to child shape.
+	 * \return TRUE if this shape is parent of given child shape, otherwise FALSE
+	 */
+	bool IsAncestor(wxSFShapeBase *child);
+	/**
+	 * \brief Determine whether this shape is descendant of given parent shape.
+	 * \param parent Pointer to parent shape
+	 * \return TRUE if this shape is a child of given parent shape, otherwise FALSE
+	 */
+	bool IsDescendant(wxSFShapeBase *parent);
 
     /*!
      * \brief Associate user data with the shape.
@@ -658,6 +690,52 @@ public:
 	 * \sa wxSFShapeHandle
 	 */
 	void RemoveHandle(wxSFShapeHandle::HANDLETYPE type, long id = -1);
+	
+	/*!
+	 * \brief Get reference to connection points list.
+	 * \return Constant reference to connection points list
+	 */
+	inline ConnectionPointList& GetConnectionPoints() { return m_lstConnectionPts; }
+	/*!
+	 * \brief Get connection point of given type assigned to the shape.
+	 * \param type Connection point type
+	 * \param id Optional connection point ID
+	 * \return Pointer to connection point if exists, otherwise NULL
+	 * \sa wxSFConnectionPoint::CPTYPE
+	 */
+	wxSFConnectionPoint* GetConnectionPoint(wxSFConnectionPoint::CPTYPE type, long id = -1);
+	/*!
+	 * \brief Get connection point closest to the diven position.
+	 * \param pos Position
+	 * \return Pointer to closest connection point if exists, otherwise NULL
+	 */
+	wxSFConnectionPoint* GetNearestConnectionPoint(const wxRealPoint& pos);
+	/*!
+	 * \brief Assign connection point of given type to the shape.
+	 * \param type Connection point type
+	 * \param persistent TRUE if the connection point should be serialized
+	 * \sa wxSFConnectionPoint::CPTYPE
+	 */
+	void AddConnectionPoint(wxSFConnectionPoint::CPTYPE type, bool persistent = true);
+	/*!
+	 * \brief Assigned given connection point to the shape.
+	 * \param cp Pointer to connection point (shape will take the ownership)
+	 * \param persistent TRUE if the connection point should be serialized
+	 */
+	void AddConnectionPoint(wxSFConnectionPoint *cp, bool persistent = true);
+	/*!
+	 * \brief Assign custom connection point to the shape.
+	 * \param relpos Relative position in percentages
+	 * \param id Optional connection point ID
+	 * \param persistent TRUE if the connection point should be serialized
+	 */
+	void AddConnectionPoint(const wxRealPoint& relpos, long id = -1, bool persistent = true);
+	/*!
+	 * \brief Remove connection point of given type from the shape (if pressent).
+	 * \param type Connection point type
+	 * \sa wxSFConnectionPoint::CPTYPE
+	 */
+	void RemoveConnectionPoint(wxSFConnectionPoint::CPTYPE type);
 
 	// public event handlers
 	/*!
@@ -665,7 +743,7 @@ public:
 	 * the left mouse button. The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_LEFT_DOWN event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -675,7 +753,7 @@ public:
 	 * the right mouse button. The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_RIGHT_DOWN event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -685,7 +763,7 @@ public:
 	 * the left mouse button. The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_LEFT_DCLICK event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -695,7 +773,7 @@ public:
 	 * the right mouse button. The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_RIGHT_DCLICK event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -706,7 +784,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_DRAG_BEGIN event.
 	 * \sa wxSFShapeCanvas
 	 */
 	virtual void OnBeginDrag(const wxPoint& pos);
@@ -715,7 +793,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_DRAG event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -725,7 +803,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_DRAG_END event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -736,7 +814,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_HANDLE_BEGIN event.
 	 * \param handle Reference to dragged handle
 	 */
 	virtual void OnBeginHandle(wxSFShapeHandle& handle);
@@ -745,7 +823,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_HANDLE event.
 	 * \param handle Reference to dragged handle
 	 */
 	virtual void OnHandle(wxSFShapeHandle& handle);
@@ -754,7 +832,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_HANDLE_END event.
 	 * \param handle Reference to dragged handle
 	 */
 	virtual void OnEndHandle(wxSFShapeHandle& handle);
@@ -763,7 +841,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_MOUSE_ENTER event.
 	 * \param pos Current mouse position
 	 */
 	virtual void OnMouseEnter(const wxPoint& pos);
@@ -772,7 +850,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_MOUSE_OVER event.
 	 * \param pos Current mouse position
 	 */
 	virtual void OnMouseOver(const wxPoint& pos);
@@ -781,7 +859,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_MOUSE_LEAVE event.
 	 * \param pos Current mouse position
 	 */
 	virtual void OnMouseLeave(const wxPoint& pos);
@@ -790,6 +868,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation emmits wxEVT_SF_SHAPE_KEYDOWN event.
 	 * \param key The key code
 	 * \return The function must return TRUE if the default event routine should be called
 	 * as well, otherwise FALSE
@@ -801,6 +880,7 @@ public:
 	 * shape is accepted as a child of this shape). The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation emmits wxEVT_SF_SHAPE_CHILD_DROP event.
 	 * \param pos Relative position of dropped shape
 	 * \param child Pointer to dropped shape
 	 */
@@ -841,6 +921,7 @@ protected:
 
 	/*! \brief Handle list */
 	HandleList m_lstHandles;
+	ConnectionPointList m_lstConnectionPts;
 
 	/*! \brief Container for serializable user data associated with the shape */
 	xsSerializable *m_pUserData;
@@ -925,8 +1006,9 @@ private:
 
     // private functions
 
-	 /*! \brief Initialize serializable properties. */
+	/*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
+	
 	/*!
 	 * \brief Auxiliary function called by GetNeighbours function.
 	 * \param neighbours List of neighbour shapes

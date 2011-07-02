@@ -86,6 +86,8 @@ void wxSFContentCtrl::OnKeyDown(wxKeyEvent& event)
 
 void wxSFContentCtrl::Quit(bool apply)
 {
+	Hide();
+	
 	if(m_pParentShape)
 	{
 		m_pParentShape->m_pTextCtrl = NULL;
@@ -247,6 +249,9 @@ void wxSFEditTextShape::EditLabel()
 				}
 			}
 			break;
+			
+			default:
+				break;
 		}
 	}
 }
@@ -283,3 +288,150 @@ bool wxSFEditTextShape::OnKey(int key)
 
     return wxSFShapeBase::OnKey(key);
 }
+
+
+
+
+// BaH
+int wxSFContentCtrl::GetLineLength(long lineNo) const {
+
+	return wxTextCtrl::GetLineLength(lineNo);
+
+}
+
+
+
+wxString wxSFContentCtrl::GetLineText(long lineNo) const {
+
+	return wxTextCtrl::GetLineText(lineNo);
+
+}
+
+
+
+int wxSFContentCtrl::GetNumberOfLines() const {
+
+	return wxTextCtrl::GetNumberOfLines();
+
+}
+
+
+
+bool wxSFContentCtrl::IsModified() const {
+
+	return wxTextCtrl::IsModified();
+
+}
+
+
+
+void wxSFContentCtrl::MarkDirty() {
+
+	wxTextCtrl::MarkDirty();
+
+}
+
+
+
+void wxSFContentCtrl::DiscardEdits() {
+
+	wxTextCtrl::DiscardEdits();
+
+}
+
+
+
+bool wxSFContentCtrl::SetStyle(long start, long end, const wxTextAttr& style) {
+
+	return wxTextCtrl::SetStyle(start, end, style);
+
+}
+
+
+
+bool wxSFContentCtrl::GetStyle(long position, wxTextAttr& style) {
+
+	return wxTextCtrl::GetStyle(position, style);
+
+}
+
+
+
+bool wxSFContentCtrl::SetDefaultStyle(const wxTextAttr& style) {
+
+	return wxTextCtrl::SetDefaultStyle(style);
+
+}
+
+
+
+long wxSFContentCtrl::XYToPosition(long x, long y) const {
+
+	return wxTextCtrl::XYToPosition(x, y);
+
+}
+
+
+
+bool wxSFContentCtrl::PositionToXY(long pos, long *x, long *y) const {
+
+	return wxTextCtrl::PositionToXY(pos, x, y);
+
+}
+
+
+
+void wxSFContentCtrl::ShowPosition(long pos) {
+
+	wxTextCtrl::ShowPosition(pos);
+
+}
+
+
+
+bool wxSFContentCtrl::DoLoadFile(const wxString& file, int fileType) {
+
+	return wxTextCtrl::DoLoadFile(file, fileType);
+
+}
+
+
+
+bool wxSFContentCtrl::DoSaveFile(const wxString& file, int fileType) {
+
+	return wxTextCtrl::DoSaveFile(file, fileType);
+
+}
+
+
+
+void wxSFContentCtrl::SetMaxLength(unsigned long len) {
+
+	wxTextCtrl::SetMaxLength(len);
+
+}
+
+
+
+void wxSFContentCtrl::Copy() {
+
+	wxTextCtrl::Copy();
+
+}
+
+
+
+void wxSFContentCtrl::Cut() {
+
+	wxTextCtrl::Cut();
+
+}
+
+
+
+void wxSFContentCtrl::Paste() {
+
+	wxTextCtrl::Paste();
+
+}
+

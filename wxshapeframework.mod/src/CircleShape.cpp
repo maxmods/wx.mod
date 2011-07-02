@@ -52,17 +52,17 @@ wxSFCircleShape::~wxSFCircleShape()
 wxRealPoint wxSFCircleShape::GetBorderPoint(const wxRealPoint& start, const wxRealPoint& end)
 {
 	double dist = Distance(start, end);
+	wxRealPoint nCenter = GetAbsolutePosition() + wxRealPoint(m_nRectSize.x/2, m_nRectSize.y/2);
 
 	if(dist)
 	{
-		double srcDx = m_nRectSize.x/2*(end.x-start.x)/dist;
-		double srcDy = m_nRectSize.y/2*(end.y-start.y)/dist;
+		double srcDx = m_nRectSize.x/2*(end.x-start.x)/dist - (start.x-nCenter.x);
+		double srcDy = m_nRectSize.y/2*(end.y-start.y)/dist - (start.y-nCenter.y);
 
 		return wxRealPoint(start.x + srcDx, start.y + srcDy);
 	}
 	else
-		return GetAbsolutePosition() + wxRealPoint(m_nRectSize.x/2, m_nRectSize.y/2); // center
-
+		return nCenter;
 }
 
 bool wxSFCircleShape::Contains(const wxPoint& pos)
@@ -122,7 +122,7 @@ void wxSFCircleShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
-    if( m_Fill != *wxTRANSPARENT_BRUSH )
+    if( m_Fill.GetStyle() != wxTRANSPARENT )
     {
         wxRealPoint pos = GetAbsolutePosition();
 

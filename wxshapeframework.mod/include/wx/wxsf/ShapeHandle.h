@@ -13,7 +13,7 @@
 
 #include <wx/list.h>
 
-#include "ScaledDC.h"
+#include <wx/wxsf/ScaledDC.h>
 
 class WXDLLIMPEXP_SF wxSFShapeBase;
 
@@ -116,7 +116,7 @@ public:
     long GetId(){return m_nId;}
 
 	// public functions
-	/*! \brief Refreash (repaint) the handle */
+	/*! \brief Refresh (repaint) the handle */
 	void Refresh();
 	/*!
 	 * \brief Find out whether given point is inside the handle.

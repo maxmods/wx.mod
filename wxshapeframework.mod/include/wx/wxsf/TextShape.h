@@ -11,7 +11,7 @@
 #ifndef _WXSFTEXTSHAPE_H
 #define _WXSFTEXTSHAPE_H
 
-#include "RectShape.h"
+#include <wx/wxsf/RectShape.h>
 
 // default values
 /*! \brief Default value of wxSFTextShape::m_Font data member. */
@@ -163,6 +163,18 @@ protected:
 	 * \param handle Reference to dragged shape handle
 	 */
 	virtual void OnTopHandle(wxSFShapeHandle& handle);
+	/*!
+     * \brief Event handler called during dragging of the right shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
+	virtual void OnRightHandle(wxSFShapeHandle& handle);
+	/*!
+     * \brief Event handler called during dragging of the bottom shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */	
+	virtual void OnBottomHandle(wxSFShapeHandle& handle);
 
 	// protected functions
 	/*!

@@ -11,7 +11,7 @@
 #ifndef _WXSFFLEXGRIDSHAPE_H
 #define _WXSFFLEXGRIDSHAPE_H
 
-#include "GridShape.h"
+#include <wx/wxsf/GridShape.h>
 
 // default values
 
@@ -55,8 +55,8 @@ class WXDLLIMPEXP_SF wxSFFlexGridShape : public wxSFGridShape
     private:
 
         // private data members
-        IntArray m_arrRowSizes;
-        IntArray m_arrColSizes;
+        wxXS::IntArray m_arrRowSizes;
+        wxXS::IntArray m_arrColSizes;
 
         ShapePtrArray m_arrChildShapes;
 };

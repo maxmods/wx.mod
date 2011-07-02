@@ -11,7 +11,7 @@
 #ifndef _WXSFCURVESHAPE_H
 #define _WXSFCURVESHAPE_H
 
-#include "LineShape.h"
+#include <wx/wxsf/LineShape.h>
 
 /*!
  * \brief Interpolation line shape. The class extends wxSFLineShape class and allows
@@ -31,7 +31,7 @@ public:
      * \param path Array of line's control points
      * \param manager Parent parent diagram manager
      */
-	wxSFCurveShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
+	wxSFCurveShape(long src, long trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager);
 	/*!
      * \brief Copy constructor.
 	 * \param obj Reference to the source object

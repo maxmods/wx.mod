@@ -28,7 +28,7 @@ wxSFCurveShape::wxSFCurveShape() : wxSFLineShape()
 {
 }
 
-wxSFCurveShape::wxSFCurveShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
+wxSFCurveShape::wxSFCurveShape(long src, long trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager)
 : wxSFLineShape(src, trg, path, manager)
 {
 }
@@ -42,7 +42,6 @@ wxSFCurveShape::~wxSFCurveShape()
 {
 
 }
-
 
 //----------------------------------------------------------------------------------//
 // public virtual functions
@@ -130,7 +129,15 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
 				dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
 				
 				wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
-				if( pSrcShape ) dc.DrawLine(Conv2Point(pSrcShape->GetBorderPoint(pSrcShape->GetCenter(), wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y))), m_nUnfinishedPoint);
+				if( pSrcShape )
+				{
+					if( pSrcShape->GetConnectionPoints().IsEmpty() )
+					{
+						dc.DrawLine( Conv2Point(pSrcShape->GetBorderPoint(pSrcShape->GetCenter(), Conv2RealPoint(m_nUnfinishedPoint))), m_nUnfinishedPoint );
+					}
+					else
+						dc.DrawLine( Conv2Point( GetModSrcPoint() ), m_nUnfinishedPoint );
+				}				
 				
 				dc.SetPen(wxNullPen);
 			}
@@ -190,7 +197,7 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
 void wxSFCurveShape::GetSegmentQuaternion(size_t segment, wxRealPoint& A, wxRealPoint& B, wxRealPoint& C, wxRealPoint& D)
 {
 	static wxRealPoint quart[4];
-	RealPointList::compatibility_iterator node;
+	wxXS::RealPointList::compatibility_iterator node;
 	
 	int nIndex = 2 - segment;
 	

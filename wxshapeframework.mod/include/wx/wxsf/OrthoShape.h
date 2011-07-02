@@ -11,7 +11,7 @@
 #ifndef _WXSFORTHOSHAPE_H
 #define _WXSFORTHOSHAPE_H
 
-#include "LineShape.h"
+#include <wx/wxsf/LineShape.h>
 
 /*!
  * \brief Orthogonal line shape. The class extends wxSFLineShape class and allows
@@ -31,7 +31,7 @@ public:
      * \param path Array of line's control points
      * \param manager Parent parent diagram manager
      */
-	wxSFOrthoLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
+	wxSFOrthoLineShape(long src, long trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager);
 	/*!
      * \brief Copy constructor.
 	 * \param obj Reference to the source object
@@ -54,16 +54,15 @@ protected:
 	 * \return Zero-based index of line segment located under the given point
 	 */
 	virtual int GetHitLinesegment(const wxPoint& pos);
-
-	// protected functions
 	/**
 	 * \brief Draw one orthogonal line segment.
 	 * \param dc Device context
 	 * \param src Starting point of the ortho line segment.
 	 * \param trg Ending point of the ortho line segment.
 	 */
-	void DrawLineSegment(wxDC& dc, const wxRealPoint& src, const wxRealPoint& trg);
-	
+	virtual void DrawLineSegment(wxDC& dc, const wxRealPoint& src, const wxRealPoint& trg);
+
+	// protected functions
 	/**
 	 * \brief Get first part of orthogonal line segment.
 	 * \param src Staring point of the ortho line segment
