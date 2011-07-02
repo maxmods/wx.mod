@@ -38,6 +38,78 @@ MaxTextCtrl::~MaxTextCtrl() {
 	wxunbind(this);
 }
 
+int MaxTextCtrl::GetLineLength(long lineNo) const {
+	return wxTextCtrl::GetLineLength(lineNo);
+}
+
+wxString MaxTextCtrl::GetLineText(long lineNo) const {
+	return wxTextCtrl::GetLineText(lineNo);
+}
+
+int MaxTextCtrl::GetNumberOfLines() const {
+	return wxTextCtrl::GetNumberOfLines();
+}
+
+bool MaxTextCtrl::IsModified() const {
+	return wxTextCtrl::IsModified();
+}
+
+void MaxTextCtrl::MarkDirty() {
+	wxTextCtrl::MarkDirty();
+}
+
+void MaxTextCtrl::DiscardEdits() {
+	wxTextCtrl::DiscardEdits();
+}
+
+bool MaxTextCtrl::SetStyle(long start, long end, const wxTextAttr& style) {
+	return wxTextCtrl::SetStyle(start, end, style);
+}
+
+bool MaxTextCtrl::GetStyle(long position, wxTextAttr& style) {
+	return wxTextCtrl::GetStyle(position, style);
+}
+
+bool MaxTextCtrl::SetDefaultStyle(const wxTextAttr& style) {
+	return wxTextCtrl::SetDefaultStyle(style);
+}
+
+long MaxTextCtrl::XYToPosition(long x, long y) const {
+	return wxTextCtrl::XYToPosition(x, y);
+}
+
+bool MaxTextCtrl::PositionToXY(long pos, long *x, long *y) const {
+	return wxTextCtrl::PositionToXY(pos, x, y);
+}
+
+void MaxTextCtrl::ShowPosition(long pos) {
+	wxTextCtrl::ShowPosition(pos);
+}
+
+bool MaxTextCtrl::DoLoadFile(const wxString& file, int fileType) {
+	return wxTextCtrl::DoLoadFile(file, fileType);
+}
+
+bool MaxTextCtrl::DoSaveFile(const wxString& file, int fileType) {
+	return wxTextCtrl::DoSaveFile(file, fileType);
+}
+
+void MaxTextCtrl::SetMaxLength(unsigned long len) {
+	wxTextCtrl::SetMaxLength(len);
+}
+
+void MaxTextCtrl::Copy() {
+	wxTextCtrl::Copy();
+}
+
+void MaxTextCtrl::Cut() {
+	wxTextCtrl::Cut();
+}
+
+void MaxTextCtrl::Paste() {
+	wxTextCtrl::Paste();
+}
+
 
 MaxTextAttr::MaxTextAttr(const wxTextAttr& b)
 	: textAttr(b)
