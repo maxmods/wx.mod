@@ -11,10 +11,6 @@
 #ifndef _WXSF_H_
 #define _WXSF_H_
 
-#if ! wxCHECK_VERSION(2, 9, 0)
-	#error This wxShapeFramework library version if suitable for wxWidgets 2.9.0 and higher.
-#endif
-
 // main library classes
 #include <wx/wxsf/DiagramManager.h>
 #include <wx/wxsf/ShapeCanvas.h>

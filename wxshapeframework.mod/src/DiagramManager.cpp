@@ -38,7 +38,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.11.1 beta for wxWidgets 2.9.x");
+    m_sSFVersion =  wxT("1.11.2 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
@@ -411,7 +411,11 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 	{
 		if(shapeNode->GetName() == wxT("object"))
 		{
+#if wxVERSION_NUMBER < 2900
+			pShape = AddShape((wxSFShapeBase*)wxCreateDynamicObject(shapeNode->GetPropVal(wxT("type"), wxT(""))), parent, wxPoint(0, 0), true, sfDONT_SAVE_STATE);
+#else
 			pShape = AddShape((wxSFShapeBase*)wxCreateDynamicObject(shapeNode->GetAttribute(wxT("type"), wxT(""))), parent, wxPoint(0, 0), true, sfDONT_SAVE_STATE);
+#endif
 			if(pShape)
 			{
 				// store new assigned ID
