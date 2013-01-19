@@ -1,4 +1,4 @@
-/* lib/wx/include/osx_carbon-unicode-static-2.9/wx/setup.h.  Generated from setup.h.in by configure.  */
+/* lib/wx/include/osx_cocoa-unicode-static-2.9/wx/setup.h.  Generated from setup.h.in by configure.  */
 /* This define (__WX_SETUP_H__) is used both to ensure setup.h is included
  * only once and to indicate that we are building using configure. */
 #ifndef __WX_SETUP_H__
@@ -16,7 +16,7 @@
 #endif /* __cplusplus */
 
 /* fill in with the string wxGetOsDescription() will return */
-#define WXWIN_OS_DESCRIPTION "Darwin 10.5.0 i386"
+#define WXWIN_OS_DESCRIPTION "Darwin 11.4.2 x86_64"
 
 /* the installation location prefix from configure */
 #define wxINSTALL_PREFIX "/usr/local"
@@ -54,9 +54,6 @@
    byte first (like Motorola and SPARC, unlike Intel and VAX).  */
 /* #undef WORDS_BIGENDIAN */
 
-/* Define this if your version of GTK+ is greater than 1.2 */
-/* #undef __WXGTK12__ */
-
 /* Define this if your version of GTK+ is greater than 1.2.7 */
 /* #undef __WXGTK127__ */
 
@@ -71,6 +68,9 @@
 
 /* Define this if your version of GTK+ is greater than 2.18 */
 /* #undef __WXGTK218__ */
+
+/* Define this if your version of GTK+ is >= 3.0 */
+/* #undef __WXGTK3__ */
 
 /* Define this if you want to use GPE features */
 /* #undef __WXGPE__ */
@@ -190,8 +190,6 @@
 
 #define wxUSE_EXTENDED_RTTI 0
 
-#define wxUSE_STL 0
-
 #define wxUSE_LOG 1
 
 #define wxUSE_LOGWINDOW 1
@@ -206,6 +204,13 @@
 
 #define wxUSE_STREAMS 1
 
+#define wxUSE_PRINTF_POS_PARAMS 1
+
+#define wxUSE_COMPILER_TLS 1
+
+
+#define wxUSE_STL 0
+
 #if defined(__DMC__) || defined(__WATCOMC__) \
         || (defined(_MSC_VER) && _MSC_VER < 1200)
     #define wxUSE_STD_DEFAULT  0
@@ -213,11 +218,16 @@
     #define wxUSE_STD_DEFAULT  0
 #endif
 
-#define wxUSE_STD_IOSTREAM 0
+#define wxUSE_STD_CONTAINERS 0
+
+#define wxUSE_STD_IOSTREAM  wxUSE_STD_DEFAULT
 
 #define wxUSE_STD_STRING 1
 
-#define wxUSE_PRINTF_POS_PARAMS 1
+#define wxUSE_STD_STRING_CONV_IN_WXSTRING wxUSE_STL
+
+#define wxUSE_IOSTREAMH     0
+
 
 
 #define wxUSE_LONGLONG 1
@@ -323,6 +333,19 @@
 
 #define wxUSE_STC 1
 
+#define wxUSE_WEBVIEW 1
+
+#ifdef __WXMSW__
+#define wxUSE_WEBVIEW_IE 0
+#else
+#define wxUSE_WEBVIEW_IE 0
+#endif
+
+#if defined(__WXGTK__) || defined(__WXOSX__)
+#define wxUSE_WEBVIEW_WEBKIT 1
+#else
+#define wxUSE_WEBVIEW_WEBKIT 1
+#endif
 
 
 #ifdef _MSC_VER
@@ -344,14 +367,20 @@
 #   define wxUSE_GRAPHICS_CONTEXT 1
 #endif
 
+#define wxUSE_CAIRO 0
+
+
 
 #define wxUSE_CONTROLS 1
+
+#define wxUSE_MARKUP 1
 
 #define wxUSE_POPUPWIN 1
 
 #define wxUSE_TIPWINDOW 1
 
 #define wxUSE_ANIMATIONCTRL 1
+#define wxUSE_BANNERWINDOW 1
 #define wxUSE_BUTTON 1
 #define wxUSE_BMPBUTTON 1
 #define wxUSE_CALENDARCTRL 1
@@ -361,6 +390,7 @@
 #define wxUSE_COLLPANE 1
 #define wxUSE_COLOURPICKERCTRL 1
 #define wxUSE_COMBOBOX 1
+#define wxUSE_COMMANDLINKBUTTON 1
 #define wxUSE_DATAVIEWCTRL 1
 #define wxUSE_DATEPICKCTRL 1
 #define wxUSE_DIRPICKERCTRL 1
@@ -375,6 +405,7 @@
 #define wxUSE_LISTCTRL 1
 #define wxUSE_RADIOBOX 1
 #define wxUSE_RADIOBTN 1
+#define wxUSE_RICHMSGDLG 1
 #define wxUSE_SCROLLBAR 1
 #define wxUSE_SEARCHCTRL 1
 #define wxUSE_SLIDER 1
@@ -385,8 +416,10 @@
 #define wxUSE_STATTEXT 1
 #define wxUSE_STATBMP 1
 #define wxUSE_TEXTCTRL 1
+#define wxUSE_TIMEPICKCTRL 1
 #define wxUSE_TOGGLEBTN 1
 #define wxUSE_TREECTRL 1
+#define wxUSE_TREELISTCTRL 1
 
 #define wxUSE_STATUSBAR 1
 
@@ -422,7 +455,11 @@
 
 #define wxUSE_ACCEL 1
 
-#define wxUSE_HOTKEY 0
+#define wxUSE_ARTPROVIDER_STD 1
+
+#define wxUSE_ARTPROVIDER_TANGO 1
+
+#define wxUSE_HOTKEY 1
 
 #define wxUSE_CARET 1
 
@@ -437,6 +474,8 @@
 #define wxUSE_MENUS 1
 
 #define wxUSE_NOTIFICATION_MESSAGE 1
+
+#define wxUSE_RICHTOOLTIP 1
 
 #define wxUSE_SASH 1
 
@@ -541,7 +580,7 @@
 #define wxUSE_MOUSEWHEEL 1
 
 
-#define wxUSE_UIACTIONSIMULATOR 0
+#define wxUSE_UIACTIONSIMULATOR 1
 
 
 #define wxUSE_POSTSCRIPT 1
@@ -550,10 +589,7 @@
 
 #define wxUSE_SVG 1
 
-
-#define REMOVE_UNUSED_ARG   0
-
-#define wxUSE_IOSTREAMH     0
+#define wxUSE_DC_TRANSFORM_MATRIX 1
 
 
 
@@ -563,7 +599,7 @@
 
 #define wxUSE_LIBJPEG 1
 
-#define wxUSE_LIBTIFF 1
+#define wxUSE_LIBTIFF       0
 
 #define wxUSE_TGA 1
 
@@ -598,7 +634,7 @@
 #define wxUSE_SELECT_DISPATCHER 1
 #define wxUSE_EPOLL_DISPATCHER 0
 
-#define wxUSE_UNICODE_UTF8 1
+#define wxUSE_UNICODE_UTF8 0
 #define wxUSE_UTF8_LOCALE_ONLY 0
 
 /*
@@ -639,7 +675,7 @@
 
 #define wxUSE_OWNER_DRAWN 0
 
-#define wxUSE_TASKBARICON_BALLOONS 0
+#define wxUSE_TASKBARICON_BALLOONS 1
 
 #define wxUSE_UXTHEME           0
 
@@ -649,6 +685,8 @@
 
 
 #define wxUSE_DATEPICKCTRL_GENERIC 0
+
+#define wxUSE_TIMEPICKCTRL_GENERIC 0
 
 
 #define wxUSE_CRASHREPORT 0
@@ -737,7 +775,7 @@
 /*
  * Define if the compiler supports GCC's atomic memory access builtins
  */
-/* #undef HAVE_GCC_ATOMIC_BUILTINS */
+#define HAVE_GCC_ATOMIC_BUILTINS 1
 
 /*
  * Define if compiler's visibility support in libstdc++ is broken
@@ -786,9 +824,13 @@
  */
 #define wxUSE_LIBHILDON2 0
 /*
- * Have glibc2
+ * Use libnotify library.
  */
-#define wxHAVE_GLIBC2 0
+#define wxUSE_LIBNOTIFY 0
+/*
+ * Use libnotify 0.7+ API.
+ */
+#define wxUSE_LIBNOTIFY_0_7 0
 /*
  * Use libXpm
  */
@@ -849,7 +891,7 @@
 
 
 /* define with the name of timezone variable */
-/* #undef WX_TIMEZONE */
+#define WX_TIMEZONE timezone
 
 /* The type of 3rd argument to getsockname() - usually size_t or int */
 #define WX_SOCKLEN_T socklen_t
@@ -977,6 +1019,9 @@
 /* Define if you have wcsdup function  */
 /* #undef HAVE_WCSDUP */
 
+/* Define if you have wcsftime() function  */
+#define HAVE_WCSFTIME 1
+
 /* Define if you have strnlen() function */
 /* #undef HAVE_STRNLEN */
 
@@ -1085,6 +1130,9 @@
 /* Define if you have thr_setconcurrency function */
 /* #undef HAVE_THR_SETCONCURRENCY */
 
+/* Define if you have pthread_setconcurrency function */
+#define HAVE_PTHREAD_SET_CONCURRENCY 1
+
 /* Define if you have the uname function.  */
 #define HAVE_UNAME 1
 
@@ -1177,6 +1225,9 @@
 
 /* Define if you have the <sys/select.h> header file.  */
 #define HAVE_SYS_SELECT_H 1
+
+/* Define if you have abi::__forced_unwind in your <cxxabi.h>. */
+/* #undef HAVE_ABI_FORCEDUNWIND */
 
 /* Define if fdopen is available.  */
 #define HAVE_FDOPEN 1
