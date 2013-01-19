@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/app.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: app.h 69020 2011-09-07 16:56:50Z PC $
 // Copyright:   (c) 1998 Robert Roebling, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,6 +13,8 @@
 #include "wx/frame.h"
 #include "wx/icon.h"
 #include "wx/strconv.h"
+
+typedef struct _GdkVisual GdkVisual;
 
 //-----------------------------------------------------------------------------
 // classes
@@ -53,12 +55,12 @@ public:
 
     bool IsInAssert() const { return m_isInAssert; }
 
-    gint            m_idleTag;
+    int             m_idleTag;
     void RemoveIdleTag();
 
     unsigned char  *m_colorCube;
 
-    // Used by the the wxGLApp and wxGLCanvas class for GL-based X visual
+    // Used by the wxGLApp and wxGLCanvas class for GL-based X visual
     // selection.
     void           *m_glVisualInfo; // this is actually an XVisualInfo*
     void           *m_glFBCInfo; // this is actually an GLXFBConfig*

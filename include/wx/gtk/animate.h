@@ -4,7 +4,7 @@
 // Author:      Julian Smart and Guillermo Rodriguez Garcia
 // Modified by: Francesco Montorsi
 // Created:     13/8/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: animate.h 72604 2012-10-02 15:57:03Z PC $
 // Copyright:   (c) Julian Smart and Guillermo Rodriguez Garcia
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -95,8 +95,6 @@ public:
         Create(parent, id, anim, pos, size, style, name);
     }
 
-    void Init();
-
     bool Create(wxWindow *parent, wxWindowID id,
                 const wxAnimation& anim = wxNullAnimation,
                 const wxPoint& pos = wxDefaultPosition,
@@ -146,6 +144,9 @@ protected:      // internal vars
 
 private:
     typedef wxAnimationCtrlBase base_type;
+
+    void Init();
+
     DECLARE_DYNAMIC_CLASS(wxAnimationCtrl)
     DECLARE_EVENT_TABLE()
 };

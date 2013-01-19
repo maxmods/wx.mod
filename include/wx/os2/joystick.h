@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        joystick.h
+// Name:        wx/os2/joystick.h
 // Purpose:     wxJoystick class
 // Author:      David Webster
 // Modified by:
 // Created:     10/09/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: joystick.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ class WXDLLIMPEXP_ADV wxJoystick: public wxObject
    * Public interface
    */
 
-  wxJoystick(int joystick = wxJOYSTICK1) { m_joystick = joystick; };
+  wxJoystick(int joystick = wxJOYSTICK1) { m_joystick = joystick; }
 
   // Attributes
   ////////////////////////////////////////////////////////////////////////////

@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     19.08.03
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: listbook.h 72340 2012-08-15 11:34:46Z VZ $
 // Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,6 +17,7 @@
 #if wxUSE_LISTBOOK
 
 #include "wx/bookctrl.h"
+#include "wx/containr.h"
 
 class WXDLLIMPEXP_FWD_CORE wxListView;
 class WXDLLIMPEXP_FWD_CORE wxListEvent;
@@ -36,13 +37,10 @@ wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_LISTBOOK_PAGE_CHANGING
 // wxListbook
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxListbook : public wxBookCtrlBase
+class WXDLLIMPEXP_CORE wxListbook : public wxNavigationEnabled<wxBookCtrlBase>
 {
 public:
-    wxListbook()
-    {
-        Init();
-    }
+    wxListbook() { }
 
     wxListbook(wxWindow *parent,
                wxWindowID id,
@@ -51,8 +49,6 @@ public:
                long style = 0,
                const wxString& name = wxEmptyString)
     {
-        Init();
-
         (void)Create(parent, id, pos, size, style, name);
     }
 
@@ -66,7 +62,6 @@ public:
 
 
     // overridden base class methods
-    virtual int GetSelection() const;
     virtual bool SetPageText(size_t n, const wxString& strText);
     virtual wxString GetPageText(size_t n) const;
     virtual int GetPageImage(size_t n) const;
@@ -75,7 +70,7 @@ public:
                             wxWindow *page,
                             const wxString& text,
                             bool bSelect = false,
-                            int imageId = -1);
+                            int imageId = NO_IMAGE);
     virtual int SetSelection(size_t n) { return DoSetSelection(n, SetSelection_SendEvent); }
     virtual int ChangeSelection(size_t n) { return DoSetSelection(n); }
     virtual int HitTest(const wxPoint& pt, long *flags = NULL) const;
@@ -93,21 +88,14 @@ protected:
     wxBookCtrlEvent* CreatePageChangingEvent() const;
     void MakeChangedEvent(wxBookCtrlEvent &event);
 
-    // get flags for different list control modes
-    long GetListCtrlIconViewFlags() const;
-    long GetListCtrlReportViewFlags() const;
+    // Get the correct wxListCtrl flags to use depending on our own flags.
+    long GetListCtrlFlags() const;
 
     // event handlers
     void OnListSelected(wxListEvent& event);
     void OnSize(wxSizeEvent& event);
 
-    // the currently selected page or wxNOT_FOUND if none
-    int m_selection;
-
 private:
-    // common part of all constructors
-    void Init();
-
     // this should be called when we need to be relaid out
     void UpdateSize();
 

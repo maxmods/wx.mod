@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wx/gtk/clipboard.h
+// Name:        wx/gtk/clipbrd.h
 // Purpose:     wxClipboard for wxGTK
 // Author:      Robert Roebling, Vadim Zeitlin
-// Id:          $Id$
+// Id:          $Id: clipbrd.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) 1998 Robert Roebling
 //              (c) 2007 Vadim Zeitlin
 // Licence:     wxWindows licence
@@ -65,8 +65,8 @@ public:
     // get our clipboard item (depending on m_usePrimary value)
     GdkAtom GTKGetClipboardAtom() const;
 
-    // get the data object currently being used
-    wxDataObject *GTKGetDataObject() { return Data(); }
+    // get the data object currently being requested
+    wxDataObject *GTKGetDataObject( GdkAtom atom );
 
     // clear the data for the given clipboard kind
     void GTKClearData(Kind kind);

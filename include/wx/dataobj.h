@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin, Robert Roebling
 // Modified by:
 // Created:     26.05.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dataobj.h 71610 2012-05-30 19:21:42Z RD $
 // Copyright:   (c) wxWidgets Team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -333,6 +333,45 @@ private:
         #define wxNEEDS_UTF16_FOR_TEXT_DATAOBJ
     #endif
 #endif // wxUSE_UNICODE
+
+class WXDLLIMPEXP_CORE wxHTMLDataObject : public wxDataObjectSimple
+{
+public:
+    // ctor: you can specify the text here or in SetText(), or override
+    // GetText()
+    wxHTMLDataObject(const wxString& html = wxEmptyString)
+        : wxDataObjectSimple(wxDF_HTML),
+          m_html(html)
+        {
+        }
+
+    // virtual functions which you may override if you want to provide text on
+    // demand only - otherwise, the trivial default versions will be used
+    virtual size_t GetLength() const { return m_html.Len() + 1; }
+    virtual wxString GetHTML() const { return m_html; }
+    virtual void SetHTML(const wxString& html) { m_html = html; }
+    
+    virtual size_t GetDataSize() const;
+    virtual bool GetDataHere(void *buf) const;
+    virtual bool SetData(size_t len, const void *buf);
+    
+    // Must provide overloads to avoid hiding them (and warnings about it)
+    virtual size_t GetDataSize(const wxDataFormat&) const
+    {
+        return GetDataSize();
+    }
+    virtual bool GetDataHere(const wxDataFormat&, void *buf) const
+    {
+        return GetDataHere(buf);
+    }
+    virtual bool SetData(const wxDataFormat&, size_t len, const void *buf)
+    {
+        return SetData(len, buf);
+    }
+
+private:
+    wxString m_html;
+};
 
 class WXDLLIMPEXP_CORE wxTextDataObject : public wxDataObjectSimple
 {

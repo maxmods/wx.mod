@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        textdlgg.h
+// Name:        wx/generic/textdlgg.h
 // Purpose:     wxTextEntryDialog class
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: textdlgg.h 72567 2012-09-27 22:41:33Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -37,12 +37,27 @@ extern WXDLLIMPEXP_DATA_CORE(const char) wxGetPasswordFromUserPromptStr[];
 class WXDLLIMPEXP_CORE wxTextEntryDialog : public wxDialog
 {
 public:
+    wxTextEntryDialog()
+    {
+        m_textctrl = NULL;
+    }
+
     wxTextEntryDialog(wxWindow *parent,
                       const wxString& message,
                       const wxString& caption = wxGetTextFromUserPromptStr,
                       const wxString& value = wxEmptyString,
                       long style = wxTextEntryDialogStyle,
-                      const wxPoint& pos = wxDefaultPosition);
+                      const wxPoint& pos = wxDefaultPosition)
+    {
+        Create(parent, message, caption, value, style, pos);
+    }
+
+    bool Create(wxWindow *parent,
+                const wxString& message,
+                const wxString& caption = wxGetTextFromUserPromptStr,
+                const wxString& value = wxEmptyString,
+                long style = wxTextEntryDialogStyle,
+                const wxPoint& pos = wxDefaultPosition);
 
     void SetValue(const wxString& val);
     wxString GetValue() const { return m_value; }

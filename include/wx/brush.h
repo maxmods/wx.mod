@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: brush.h 71905 2012-06-30 23:41:15Z VZ $
 // Copyright:   Julian Smart
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
@@ -27,14 +27,14 @@ enum wxBrushStyle
     wxBRUSHSTYLE_STIPPLE_MASK_OPAQUE = wxSTIPPLE_MASK_OPAQUE,
     wxBRUSHSTYLE_STIPPLE_MASK = wxSTIPPLE_MASK,
     wxBRUSHSTYLE_STIPPLE = wxSTIPPLE,
-    wxBRUSHSTYLE_BDIAGONAL_HATCH = wxBDIAGONAL_HATCH,
-    wxBRUSHSTYLE_CROSSDIAG_HATCH = wxCROSSDIAG_HATCH,
-    wxBRUSHSTYLE_FDIAGONAL_HATCH = wxFDIAGONAL_HATCH,
-    wxBRUSHSTYLE_CROSS_HATCH = wxCROSS_HATCH,
-    wxBRUSHSTYLE_HORIZONTAL_HATCH = wxHORIZONTAL_HATCH,
-    wxBRUSHSTYLE_VERTICAL_HATCH = wxVERTICAL_HATCH,
-    wxBRUSHSTYLE_FIRST_HATCH = wxFIRST_HATCH,
-    wxBRUSHSTYLE_LAST_HATCH = wxLAST_HATCH
+    wxBRUSHSTYLE_BDIAGONAL_HATCH = wxHATCHSTYLE_BDIAGONAL,
+    wxBRUSHSTYLE_CROSSDIAG_HATCH = wxHATCHSTYLE_CROSSDIAG,
+    wxBRUSHSTYLE_FDIAGONAL_HATCH = wxHATCHSTYLE_FDIAGONAL,
+    wxBRUSHSTYLE_CROSS_HATCH = wxHATCHSTYLE_CROSS,
+    wxBRUSHSTYLE_HORIZONTAL_HATCH = wxHATCHSTYLE_HORIZONTAL,
+    wxBRUSHSTYLE_VERTICAL_HATCH = wxHATCHSTYLE_VERTICAL,
+    wxBRUSHSTYLE_FIRST_HATCH = wxHATCHSTYLE_FIRST,
+    wxBRUSHSTYLE_LAST_HATCH = wxHATCHSTYLE_LAST
 };
 
 
@@ -55,11 +55,22 @@ public:
 
     virtual bool IsHatch() const
         { return (GetStyle()>=wxBRUSHSTYLE_FIRST_HATCH) && (GetStyle()<=wxBRUSHSTYLE_LAST_HATCH); }
+
+    // Convenient helpers for testing whether the brush is a transparent one:
+    // unlike GetStyle() == wxBRUSHSTYLE_TRANSPARENT, they work correctly even
+    // if the brush is invalid (they both return false in this case).
+    bool IsTransparent() const
+    {
+        return IsOk() && GetStyle() == wxBRUSHSTYLE_TRANSPARENT;
+    }
+
+    bool IsNonTransparent() const
+    {
+        return IsOk() && GetStyle() != wxBRUSHSTYLE_TRANSPARENT;
+    }
 };
 
-#if defined(__WXPALMOS__)
-    #include "wx/palmos/brush.h"
-#elif defined(__WXMSW__)
+#if defined(__WXMSW__)
     #include "wx/msw/brush.h"
 #elif defined(__WXMOTIF__) || defined(__WXX11__)
     #include "wx/x11/brush.h"
@@ -67,8 +78,6 @@ public:
     #include "wx/gtk/brush.h"
 #elif defined(__WXGTK__)
     #include "wx/gtk1/brush.h"
-#elif defined(__WXMGL__)
-    #include "wx/mgl/brush.h"
 #elif defined(__WXDFB__)
     #include "wx/dfb/brush.h"
 #elif defined(__WXMAC__)
@@ -106,6 +115,11 @@ extern WXDLLIMPEXP_DATA_CORE(wxBrushList*)   wxTheBrushList;
 // compilers as it compares elements of different enums
 #if FUTURE_WXWIN_COMPATIBILITY_3_0
 
+// Unfortunately some compilers have ambiguity issues when enum comparisons are
+// overloaded so we have to disable the overloads in this case, see
+// wxCOMPILER_NO_OVERLOAD_ON_ENUM definition in wx/platform.h for more details.
+#ifndef wxCOMPILER_NO_OVERLOAD_ON_ENUM
+
 inline bool operator==(wxBrushStyle s, wxDeprecatedGUIConstants t)
 {
     return static_cast<int>(s) == static_cast<int>(t);
@@ -115,6 +129,8 @@ inline bool operator!=(wxBrushStyle s, wxDeprecatedGUIConstants t)
 {
     return !(s == t);
 }
+
+#endif // wxCOMPILER_NO_OVERLOAD_ON_ENUM
 
 #endif // FUTURE_WXWIN_COMPATIBILITY_3_0
 

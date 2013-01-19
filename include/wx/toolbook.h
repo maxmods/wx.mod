@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     2006-01-29
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: toolbook.h 71435 2012-05-15 10:03:57Z VZ $
 // Copyright:   (c) 2006 Julian Smart
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,6 +17,7 @@
 #if wxUSE_TOOLBOOK
 
 #include "wx/bookctrl.h"
+#include "wx/containr.h"
 
 class WXDLLIMPEXP_FWD_CORE wxToolBarBase;
 class WXDLLIMPEXP_FWD_CORE wxCommandEvent;
@@ -40,7 +41,7 @@ wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING
 // wxToolbook
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxToolbook : public wxBookCtrlBase
+class WXDLLIMPEXP_CORE wxToolbook : public wxNavigationEnabled<wxBookCtrlBase>
 {
 public:
     wxToolbook()
@@ -70,7 +71,6 @@ public:
 
 
     // implement base class virtuals
-    virtual int GetSelection() const;
     virtual bool SetPageText(size_t n, const wxString& strText);
     virtual wxString GetPageText(size_t n) const;
     virtual int GetPageImage(size_t n) const;
@@ -79,7 +79,7 @@ public:
                             wxWindow *page,
                             const wxString& text,
                             bool bSelect = false,
-                            int imageId = -1);
+                            int imageId = NO_IMAGE);
     virtual int SetSelection(size_t n) { return DoSetSelection(n, SetSelection_SendEvent); }
     virtual int ChangeSelection(size_t n) { return DoSetSelection(n); }
     virtual void SetImageList(wxImageList *imageList);
@@ -110,9 +110,6 @@ protected:
     wxBookCtrlEvent* CreatePageChangingEvent() const;
     void MakeChangedEvent(wxBookCtrlEvent &event);
 
-    // the currently selected page or wxNOT_FOUND if none
-    int m_selection;
-
     // whether the toolbar needs to be realized
     bool m_needsRealizing;
 
@@ -132,7 +129,7 @@ private:
 // ----------------------------------------------------------------------------
 
 // wxToolbookEvent is obsolete and defined for compatibility only
-typedef wxBookCtrlEvent wxToolbookEvent;
+#define wxToolbookEvent wxBookCtrlEvent
 typedef wxBookCtrlEventFunction wxToolbookEventFunction;
 #define wxToolbookEventHandler(func) wxBookCtrlEventHandler(func)
 

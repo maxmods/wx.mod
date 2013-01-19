@@ -6,7 +6,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id: private.h 53819 2008-05-29 14:11:45Z SC $
+// RCS-ID:      $Id: private.h 73264 2012-12-23 11:50:33Z SC $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,19 +14,7 @@
 #ifndef _WX_PRIVATE_COCOA_H_
 #define _WX_PRIVATE_COCOA_H_
 
-#include "wx/osx/core/private.h"
-
-#include "wx/defs.h"
-
 #include <ApplicationServices/ApplicationServices.h>
-
-#if wxOSX_USE_ATSU_TEXT
-    // we need theming and atsu
-    #include <Carbon/Carbon.h>
-#else
-    // we only need theming, if we find a better include replace the following
-    #include <Carbon/Carbon.h>
-#endif
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
@@ -53,26 +41,15 @@ OSStatus WXDLLIMPEXP_CORE wxMacDrawCGImage(
                                CGImageRef      inImage) ;
 WX_NSImage WXDLLIMPEXP_CORE wxOSXGetNSImageFromCGImage( CGImageRef image );
 CGImageRef WXDLLIMPEXP_CORE wxOSXCreateCGImageFromNSImage( WX_NSImage nsimage );
-#endif
-
-long UMAGetSystemVersion() ;
-WXDLLIMPEXP_BASE void wxMacStringToPascal( const wxString&from , StringPtr to );
-WXDLLIMPEXP_BASE wxString wxMacFSRefToPath( const FSRef *fsRef , CFStringRef additionalPathComponent = NULL );
-WXDLLIMPEXP_BASE OSStatus wxMacPathToFSRef( const wxString&path , FSRef *fsRef );
-WXDLLIMPEXP_BASE wxString wxMacHFSUniStrToString( ConstHFSUniStr255Param uniname );
+wxBitmap WXDLLIMPEXP_CORE wxOSXCreateSystemBitmap(const wxString& id, const wxString &client, const wxSize& size);
+WXWindow WXDLLIMPEXP_CORE wxOSXGetMainWindow();
 
 class WXDLLIMPEXP_FWD_CORE wxDialog;
-
-//
-//
-//
-
-#if wxUSE_GUI
 
 class WXDLLIMPEXP_CORE wxWidgetCocoaImpl : public wxWidgetImpl
 {
 public :
-    wxWidgetCocoaImpl( wxWindowMac* peer , WXWidget w, bool isRootControl = false ) ;
+    wxWidgetCocoaImpl( wxWindowMac* peer , WXWidget w, bool isRootControl = false, bool isUserPane = false ) ;
     wxWidgetCocoaImpl() ;
     ~wxWidgetCocoaImpl();
 
@@ -112,6 +89,8 @@ public :
     virtual void        SetNeedsDisplay( const wxRect* where = NULL );
     virtual bool        GetNeedsDisplay() const;
 
+    virtual void        SetDrawingEnabled(bool enabled);
+
     virtual bool        CanFocus() const;
     // return true if successful
     virtual bool        SetFocus();
@@ -128,6 +107,8 @@ public :
     void                CaptureMouse();
     void                ReleaseMouse();
 
+    void                SetDropTarget(wxDropTarget* target);
+    
     wxInt32             GetValue() const;
     void                SetValue( wxInt32 v );
     wxBitmap            GetBitmap() const;
@@ -159,8 +140,10 @@ public :
     virtual void        SetupMouseEvent(wxMouseEvent &wxevent, NSEvent * nsEvent);
 
 
+#if !wxOSX_USE_NATIVE_FLIPPED
     void                SetFlipped(bool flipped);
     virtual bool        IsFlipped() const { return m_isFlipped; }
+#endif
 
     // cocoa thunk connected calls
 
@@ -169,19 +152,21 @@ public :
     virtual unsigned int        draggingUpdated(void* sender, WXWidget slf, void* _cmd);
     virtual bool                performDragOperation(void* sender, WXWidget slf, void* _cmd);
     virtual void                mouseEvent(WX_NSEvent event, WXWidget slf, void* _cmd);
+    virtual void                cursorUpdate(WX_NSEvent event, WXWidget slf, void* _cmd);
     virtual void                keyEvent(WX_NSEvent event, WXWidget slf, void* _cmd);
     virtual void                insertText(NSString* text, WXWidget slf, void* _cmd);
     virtual bool                performKeyEquivalent(WX_NSEvent event, WXWidget slf, void* _cmd);
     virtual bool                acceptsFirstResponder(WXWidget slf, void* _cmd);
     virtual bool                becomeFirstResponder(WXWidget slf, void* _cmd);
     virtual bool                resignFirstResponder(WXWidget slf, void* _cmd);
-    virtual void                resetCursorRects(WXWidget slf, void* _cmd);
+#if !wxOSX_USE_NATIVE_FLIPPED
     virtual bool                isFlipped(WXWidget slf, void* _cmd);
+#endif
     virtual void                drawRect(void* rect, WXWidget slf, void* _cmd);
 
     virtual void                controlAction(WXWidget slf, void* _cmd, void* sender);
     virtual void                controlDoubleAction(WXWidget slf, void* _cmd, void *sender);
-    
+
     // for wxTextCtrl-derived classes, put here since they don't all derive
     // from the same pimpl class.
     virtual void                controlTextDidChange();
@@ -189,7 +174,9 @@ public :
 protected:
     WXWidget m_osxView;
     NSEvent* m_lastKeyDownEvent;
+#if !wxOSX_USE_NATIVE_FLIPPED
     bool m_isFlipped;
+#endif
     // if it the control has an editor, that editor will already send some
     // events, don't resend them
     bool m_hasEditor;
@@ -259,19 +246,44 @@ public :
     virtual void WindowToScreen( int *x, int *y );
 
     virtual bool IsActive();
-    
+
     virtual void SetModified(bool modified);
     virtual bool IsModified() const;
 
+    virtual void SetRepresentedFilename(const wxString& filename);
+
     wxNonOwnedWindow*   GetWXPeer() { return m_wxPeer; }
+    
+    CGWindowLevel   GetWindowLevel() const { return m_macWindowLevel; }
+    void            RestoreWindowLevel();
 protected :
+    CGWindowLevel   m_macWindowLevel;
     WXWindow        m_macWindow;
     void *          m_macFullScreenData ;
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxNonOwnedWindowCocoaImpl)
 };
 
+DECLARE_WXCOCOA_OBJC_CLASS( wxNSButton );
+
+class wxButtonCocoaImpl : public wxWidgetCocoaImpl, public wxButtonImpl
+{
+public:
+    wxButtonCocoaImpl(wxWindowMac *wxpeer, wxNSButton *v);
+    virtual void SetBitmap(const wxBitmap& bitmap);
+#if wxUSE_MARKUP
+    virtual void SetLabelMarkup(const wxString& markup);
+#endif // wxUSE_MARKUP
+    
+    void SetPressedBitmap( const wxBitmap& bitmap );
+    void GetLayoutInset(int &left , int &top , int &right, int &bottom) const;
+    void SetAcceleratorFromLabel(const wxString& label);
+
+    NSButton *GetNSButton() const;
+};
+
 #ifdef __OBJC__
 
+    WXDLLIMPEXP_CORE NSScreen* wxOSXGetMenuScreen();
     WXDLLIMPEXP_CORE NSRect wxToNSRect( NSView* parent, const wxRect& r );
     WXDLLIMPEXP_CORE wxRect wxFromNSRect( NSView* parent, const NSRect& rect );
     WXDLLIMPEXP_CORE NSPoint wxToNSPoint( NSView* parent, const wxPoint& p );
@@ -371,6 +383,26 @@ protected :
     - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
     @end
 
+    // This interface must be exported in shared 64 bit multilib build but
+    // using WXEXPORT with Objective C interfaces doesn't work with old (4.0.1)
+    // gcc when using 10.4 SDK. It does work with newer gcc even in 32 bit
+    // builds but seems to be unnecessary there so to avoid the expense of a
+    // configure check verifying if this does work or not with the current
+    // compiler we just only use it for 64 bit builds where this is always
+    // supported.
+    //
+    // NB: Currently this is the only place where we need to export an
+    //     interface but if we need to do it elsewhere we should define a
+    //     WXEXPORT_OBJC macro once and reuse it in all places it's needed
+    //     instead of duplicating this preprocessor check.
+#ifdef __LP64__
+    WXEXPORT
+#endif // 64 bit builds
+    @interface wxNSAppController : NSObject wxOSX_10_6_AND_LATER(<NSApplicationDelegate>)
+    {
+    }
+
+    @end
 
 #endif // __OBJC__
 
@@ -404,11 +436,14 @@ const short kwxCursorSize = 11;
 const short kwxCursorSizeNESW = 12;
 const short kwxCursorSizeNWSE = 13;
 const short kwxCursorRoller = 14;
-const short kwxCursorLast = kwxCursorRoller;
+const short kwxCursorWatch = 15;
+const short kwxCursorLast = kwxCursorWatch;
 
 // exposing our fallback cursor map
 
 extern ClassicCursor gMacCursors[];
+
+extern NSLayoutManager* gNSLayoutManager;
 
 #endif
 

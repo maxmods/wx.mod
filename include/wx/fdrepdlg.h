@@ -4,7 +4,7 @@
 // Author:      Markus Greither and Vadim Zeitlin
 // Modified by:
 // Created:     23/03/2001
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: fdrepdlg.h 72695 2012-10-17 15:45:20Z VZ $
 // Copyright:   (c) Markus Greither
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -67,8 +67,8 @@ public:
     wxFindReplaceData(wxUint32 flags) { Init(); SetFlags(flags); }
 
     // accessors
-    const wxString& GetFindString() { return m_FindWhat; }
-    const wxString& GetReplaceString() { return m_ReplaceWith; }
+    const wxString& GetFindString() const { return m_FindWhat; }
+    const wxString& GetReplaceString() const { return m_ReplaceWith; }
 
     int GetFlags() const { return m_Flags; }
 

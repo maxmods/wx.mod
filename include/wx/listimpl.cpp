@@ -1,15 +1,15 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        listimpl.cpp
+// Name:        wx/listimpl.cpp
 // Purpose:     second-part of macro based implementation of template lists
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     16/11/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: listimpl.cpp 72940 2012-11-10 00:53:42Z VZ $
 // Copyright:   (c) 1998 Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
-#if wxUSE_STL
+#if wxUSE_STD_CONTAINERS
 
 #undef  WX_DEFINE_LIST
 #define WX_DEFINE_LIST(name)                                                  \
@@ -17,9 +17,9 @@
     {                                                                         \
         delete X;                                                             \
     }                                                                         \
-    name::BaseListType name::EmptyList;
+    _WX_LIST_HELPER_##name::BaseListType _WX_LIST_HELPER_##name::EmptyList;
 
-#else // !wxUSE_STL
+#else // !wxUSE_STD_CONTAINERS
     #undef WX_DEFINE_LIST_2
     #define WX_DEFINE_LIST_2(T, name)     \
         void wx##name##Node::DeleteData() \
@@ -32,5 +32,5 @@
     #undef  WX_DEFINE_LIST
     #define WX_DEFINE_LIST(name) WX_DEFINE_LIST_2(_WX_LIST_ITEM_TYPE_##name, name)
 
-#endif // wxUSE_STL/!wxUSE_STL
+#endif // wxUSE_STD_CONTAINERS/!wxUSE_STD_CONTAINERS
 

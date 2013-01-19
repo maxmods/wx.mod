@@ -3,7 +3,7 @@
 // Purpose:     Generic list control
 // Author:      Robert Roebling
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: listctrl.h 73239 2012-12-22 02:33:23Z VZ $
 // Copyright:   (c) 1998 Robert Roebling and Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -11,10 +11,9 @@
 #ifndef _WX_GENERIC_LISTCTRL_H_
 #define _WX_GENERIC_LISTCTRL_H_
 
+#include "wx/containr.h"
 #include "wx/scrolwin.h"
 #include "wx/textctrl.h"
-
-class WXDLLIMPEXP_FWD_CORE wxImageList;
 
 #if wxUSE_DRAG_AND_DROP
 class WXDLLIMPEXP_FWD_CORE wxDropTarget;
@@ -31,7 +30,7 @@ class WXDLLIMPEXP_FWD_CORE wxListMainWindow;
 // wxListCtrl
 //-----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxGenericListCtrl: public wxControl,
+class WXDLLIMPEXP_CORE wxGenericListCtrl: public wxNavigationEnabled<wxListCtrlBase>,
                                           public wxScrollHelper
 {
 public:
@@ -66,7 +65,7 @@ public:
                  const wxString &name = wxListCtrlNameStr);
 
     bool GetColumn( int col, wxListItem& item ) const;
-    bool SetColumn( int col, wxListItem& item );
+    bool SetColumn( int col, const wxListItem& item );
     int GetColumnWidth( int col ) const;
     bool SetColumnWidth( int col, int width);
     int GetCountPerPage() const; // not the same in wxGLC as in Windows, I think
@@ -134,17 +133,8 @@ public:
     long InsertItem( long index, const wxString& label );
     long InsertItem( long index, int imageIndex );
     long InsertItem( long index, const wxString& label, int imageIndex );
-    long InsertColumn( long col, wxListItem& info );
-    long InsertColumn( long col, const wxString& heading,
-                       int format = wxLIST_FORMAT_LEFT, int width = -1 );
     bool ScrollList( int dx, int dy );
     bool SortItems( wxListCtrlCompare fn, wxIntPtr data );
-
-    // are we in report mode?
-    bool InReportView() const { return HasFlag(wxLC_REPORT); }
-
-    // are we in virtual report mode?
-    bool IsVirtual() const { return HasFlag(wxLC_VIRTUAL); }
 
     // do we have a header window?
     bool HasHeader() const
@@ -153,6 +143,8 @@ public:
     // refresh items selectively (only useful for virtual list controls)
     void RefreshItem(long item);
     void RefreshItems(long itemFrom, long itemTo);
+
+    virtual void EnableBellOnNoMatch(bool on = true);
 
 #if WXWIN_COMPATIBILITY_2_6
     // obsolete, don't use
@@ -199,7 +191,6 @@ public:
 #endif
 
     virtual bool ShouldInheritColours() const { return false; }
-    virtual void SetFocus();
 
     // implementation
     // --------------
@@ -214,6 +205,10 @@ public:
     wxListMainWindow    *m_mainWin;
 
 protected:
+    // Implement base class pure virtual methods.
+    long DoInsertColumn(long col, const wxListItem& info);
+
+
     virtual bool DoPopupMenu( wxMenu *menu, int x, int y );
 
     // take into account the coordinates difference between the container
@@ -233,9 +228,6 @@ protected:
 
     // return the icon for the given item and column.
     virtual int OnGetItemColumnImage(long item, long column) const;
-
-    // return the attribute for the item (may return NULL if none)
-    virtual wxListItemAttr *OnGetItemAttr(long item) const;
 
     // it calls our OnGetXXX() functions
     friend class WXDLLIMPEXP_FWD_CORE wxListMainWindow;

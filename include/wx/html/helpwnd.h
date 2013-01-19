@@ -4,7 +4,7 @@
 // Notes:       Based on htmlhelp.cpp, implementing a monolithic
 //              HTML Help controller class,  by Vaclav Slavik
 // Author:      Harm van der Heijden and Vaclav Slavik
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: helpwnd.h 70892 2012-03-13 17:22:58Z JS $
 // Copyright:   (c) Harm van der Heijden and Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -273,7 +273,7 @@ private:
 enum
 {
     //wxID_HTML_HELPFRAME = wxID_HIGHEST + 1,
-    wxID_HTML_PANEL = wxID_HIGHEST + 2,
+    wxID_HTML_PANEL = wxID_HIGHEST + 10,
     wxID_HTML_BACK,
     wxID_HTML_FORWARD,
     wxID_HTML_UPNODE,

@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        generic/datectrl.h
+// Name:        wx/generic/datectrl.h
 // Purpose:     generic wxDatePickerCtrl implementation
 // Author:      Andreas Pflug
 // Modified by:
 // Created:     2005-01-19
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: datectrl.h 70736 2012-02-28 14:41:30Z VZ $
 // Copyright:   (c) 2005 Andreas Pflug <pgadmin@pse-consulting.de>
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,12 +12,15 @@
 #ifndef _WX_GENERIC_DATECTRL_H_
 #define _WX_GENERIC_DATECTRL_H_
 
-#include "wx/calctrl.h"
-#include "wx/combo.h"
+#include "wx/compositewin.h"
 
+class WXDLLIMPEXP_FWD_CORE wxComboCtrl;
+
+class WXDLLIMPEXP_FWD_ADV wxCalendarCtrl;
 class WXDLLIMPEXP_FWD_ADV wxCalendarComboPopup;
 
-class WXDLLIMPEXP_ADV wxDatePickerCtrlGeneric : public wxDatePickerCtrlBase
+class WXDLLIMPEXP_ADV wxDatePickerCtrlGeneric
+    : public wxCompositeWindow<wxDatePickerCtrlBase>
 {
 public:
     // creating the control
@@ -72,9 +75,16 @@ protected:
 private:
     void Init();
 
+    // return the list of the windows composing this one
+    virtual wxWindowList GetCompositeWindowParts() const;
+
     void OnText(wxCommandEvent &event);
     void OnSize(wxSizeEvent& event);
     void OnFocus(wxFocusEvent& event);
+
+#ifdef __WXOSX_COCOA__
+    virtual void OSXGenerateEvent(const wxDateTime& WXUNUSED(dt)) { }
+#endif
 
     wxComboCtrl* m_combo;
     wxCalendarComboPopup* m_popup;

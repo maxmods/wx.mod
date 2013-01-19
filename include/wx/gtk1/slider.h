@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/slider.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: slider.h 37065 2006-01-23 02:28:01Z MR $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

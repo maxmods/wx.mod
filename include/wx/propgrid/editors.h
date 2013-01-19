@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     2007-04-14
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: editors.h 70610 2012-02-15 15:40:22Z VZ $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,13 @@
 #ifndef _WX_PROPGRID_EDITORS_H_
 #define _WX_PROPGRID_EDITORS_H_
 
+#include "wx/defs.h"
+
 #if wxUSE_PROPGRID
+
+class WXDLLIMPEXP_FWD_PROPGRID wxPGCell;
+class WXDLLIMPEXP_FWD_PROPGRID wxPGProperty;
+class WXDLLIMPEXP_FWD_PROPGRID wxPropertyGrid;
 
 // -----------------------------------------------------------------------
 // wxPGWindowList contains list of editor windows returned by CreateControls.
@@ -145,7 +151,7 @@ public:
         @remarks wxPropertyGrid will automatically unfocus the editor when
                 wxEVT_COMMAND_TEXT_ENTER is received and when it results in
                 property value being modified. This happens regardless of
-                editor type (ie. behavior is same for any wxTextCtrl and
+                editor type (ie. behaviour is same for any wxTextCtrl and
                 wxComboBox based editor).
     */
     virtual bool OnEvent( wxPropertyGrid* propgrid, wxPGProperty* property,

@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/minifram.h
 // Purpose:     wxMiniFrame class
 // Author:      Robert Roebling
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: minifram.h 64279 2010-05-10 21:09:57Z VZ $
 // Copyright:   (c) Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

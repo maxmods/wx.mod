@@ -4,7 +4,7 @@
 // Author:      David Norris <danorris@gmail.com>, Otto Wyss
 // Modified by: Ryan Norton, Francesco Montorsi
 // Created:     04/02/2005
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: hyperlink.h 66696 2011-01-16 23:24:21Z VZ $
 // Copyright:   (c) 2005 David Norris
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -67,6 +67,8 @@ public:
 
     // NOTE: also wxWindow::Set/GetLabel, wxWindow::Set/GetBackgroundColour,
     //       wxWindow::Get/SetFont, wxWindow::Get/SetCursor are important !
+
+    virtual bool HasTransparentBackground() { return true; }
 
 protected:
     virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
@@ -135,9 +137,33 @@ typedef void (wxEvtHandler::*wxHyperlinkEventFunction)(wxHyperlinkEvent&);
 
 #if defined(__WXGTK210__) && !defined(__WXUNIVERSAL__)
     #include "wx/gtk/hyperlink.h"
+// Note that the native control is only available in Unicode version under MSW.
+#elif defined(__WXMSW__) && wxUSE_UNICODE && !defined(__WXUNIVERSAL__)
+    #include "wx/msw/hyperlink.h"
 #else
     #include "wx/generic/hyperlink.h"
-    #define wxHyperlinkCtrl     wxGenericHyperlinkCtrl
+
+    class WXDLLIMPEXP_ADV wxHyperlinkCtrl : public wxGenericHyperlinkCtrl
+    {
+    public:
+        wxHyperlinkCtrl() { }
+
+        wxHyperlinkCtrl(wxWindow *parent,
+                        wxWindowID id,
+                        const wxString& label,
+                        const wxString& url,
+                        const wxPoint& pos = wxDefaultPosition,
+                        const wxSize& size = wxDefaultSize,
+                        long style = wxHL_DEFAULT_STYLE,
+                        const wxString& name = wxHyperlinkCtrlNameStr)
+            : wxGenericHyperlinkCtrl(parent, id, label, url, pos, size,
+                                     style, name)
+        {
+        }
+
+    private:
+        wxDECLARE_DYNAMIC_CLASS_NO_COPY( wxHyperlinkCtrl );
+    };
 #endif
 
 

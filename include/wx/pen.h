@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: pen.h 71905 2012-06-30 23:41:15Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
@@ -32,15 +32,14 @@ enum wxPenStyle
     wxPENSTYLE_STIPPLE_MASK = wxSTIPPLE_MASK,
     wxPENSTYLE_STIPPLE = wxSTIPPLE,
 
-    wxPENSTYLE_BDIAGONAL_HATCH = wxBDIAGONAL_HATCH,
-    wxPENSTYLE_CROSSDIAG_HATCH = wxCROSSDIAG_HATCH,
-    wxPENSTYLE_FDIAGONAL_HATCH = wxFDIAGONAL_HATCH,
-    wxPENSTYLE_CROSS_HATCH = wxCROSS_HATCH,
-    wxPENSTYLE_HORIZONTAL_HATCH = wxHORIZONTAL_HATCH,
-    wxPENSTYLE_VERTICAL_HATCH = wxVERTICAL_HATCH,
-
-    wxPENSTYLE_FIRST_HATCH = wxFIRST_HATCH,
-    wxPENSTYLE_LAST_HATCH = wxLAST_HATCH
+    wxPENSTYLE_BDIAGONAL_HATCH = wxHATCHSTYLE_BDIAGONAL,
+    wxPENSTYLE_CROSSDIAG_HATCH = wxHATCHSTYLE_CROSSDIAG,
+    wxPENSTYLE_FDIAGONAL_HATCH = wxHATCHSTYLE_FDIAGONAL,
+    wxPENSTYLE_CROSS_HATCH = wxHATCHSTYLE_CROSS,
+    wxPENSTYLE_HORIZONTAL_HATCH = wxHATCHSTYLE_HORIZONTAL,
+    wxPENSTYLE_VERTICAL_HATCH = wxHATCHSTYLE_VERTICAL,
+    wxPENSTYLE_FIRST_HATCH = wxHATCHSTYLE_FIRST,
+    wxPENSTYLE_LAST_HATCH = wxHATCHSTYLE_LAST
 };
 
 enum wxPenJoin
@@ -84,11 +83,22 @@ public:
     virtual wxPenCap GetCap() const = 0;
     virtual int GetWidth() const = 0;
     virtual int GetDashes(wxDash **ptr) const = 0;
+
+    // Convenient helpers for testing whether the pen is a transparent one:
+    // unlike GetStyle() == wxPENSTYLE_TRANSPARENT, they work correctly even if
+    // the pen is invalid (they both return false in this case).
+    bool IsTransparent() const
+    {
+        return IsOk() && GetStyle() == wxPENSTYLE_TRANSPARENT;
+    }
+
+    bool IsNonTransparent() const
+    {
+        return IsOk() && GetStyle() != wxPENSTYLE_TRANSPARENT;
+    }
 };
 
-#if defined(__WXPALMOS__)
-    #include "wx/palmos/pen.h"
-#elif defined(__WXMSW__)
+#if defined(__WXMSW__)
     #include "wx/msw/pen.h"
 #elif defined(__WXMOTIF__) || defined(__WXX11__)
     #include "wx/x11/pen.h"
@@ -96,8 +106,6 @@ public:
     #include "wx/gtk/pen.h"
 #elif defined(__WXGTK__)
     #include "wx/gtk1/pen.h"
-#elif defined(__WXMGL__)
-    #include "wx/mgl/pen.h"
 #elif defined(__WXDFB__)
     #include "wx/dfb/pen.h"
 #elif defined(__WXMAC__)
@@ -135,6 +143,11 @@ extern WXDLLIMPEXP_DATA_CORE(wxPenList*)   wxThePenList;
 // compilers as it compares elements of different enums
 #if FUTURE_WXWIN_COMPATIBILITY_3_0
 
+// Unfortunately some compilers have ambiguity issues when enum comparisons are
+// overloaded so we have to disable the overloads in this case, see
+// wxCOMPILER_NO_OVERLOAD_ON_ENUM definition in wx/platform.h for more details.
+#ifndef wxCOMPILER_NO_OVERLOAD_ON_ENUM
+
 inline bool operator==(wxPenStyle s, wxDeprecatedGUIConstants t)
 {
     return static_cast<int>(s) == static_cast<int>(t);
@@ -144,6 +157,8 @@ inline bool operator!=(wxPenStyle s, wxDeprecatedGUIConstants t)
 {
     return !(s == t);
 }
+
+#endif // wxCOMPILER_NO_OVERLOAD_ON_ENUM
 
 #endif // FUTURE_WXWIN_COMPATIBILITY_3_0
 

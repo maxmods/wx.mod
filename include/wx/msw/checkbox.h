@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: checkbox.h 72539 2012-09-23 22:48:16Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -52,14 +52,17 @@ public:
     // returns true if the platform should explicitly apply a theme border
     virtual bool CanApplyThemeBorder() const { return false; }
 
+    // make the checkbox owner drawn or reset it to normal style
+    void MSWMakeOwnerDrawn(bool ownerDrawn);
+
+    // implementation only from now on
+    virtual WXDWORD MSWGetStyle(long flags, WXDWORD *exstyle = NULL) const;
+
 protected:
-    virtual wxSize DoGetBestSize() const;
+    virtual wxSize DoGetBestClientSize() const;
 
     virtual void DoSet3StateValue(wxCheckBoxState value);
     virtual wxCheckBoxState DoGet3StateValue() const;
-
-    // make the checkbox owner drawn or reset it to normal style
-    void MakeOwnerDrawn(bool ownerDrawn);
 
     // return true if this checkbox is owner drawn
     bool IsOwnerDrawn() const;

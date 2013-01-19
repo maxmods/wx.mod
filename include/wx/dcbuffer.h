@@ -4,7 +4,7 @@
 // Author:      Ron Lee <ron@debian.org>
 // Modified by: Vadim Zeitlin (refactored, added bg preservation)
 // Created:     16/03/02
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dcbuffer.h 71704 2012-06-08 19:26:19Z RD $
 // Copyright:   (c) Ron Lee
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -134,6 +134,8 @@ private:
     // the buffering style
     int m_style;
 
+    wxSize m_area;
+    
     DECLARE_DYNAMIC_CLASS(wxBufferedDC)
     wxDECLARE_NO_COPY_CLASS(wxBufferedDC);
 };

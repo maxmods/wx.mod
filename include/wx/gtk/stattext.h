@@ -2,7 +2,7 @@
 // Name:        wx/gtk/stattext.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: stattext.h 72004 2012-07-10 17:27:41Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -48,14 +48,20 @@ protected:
     virtual bool GTKWidgetNeedsMnemonic() const;
     virtual void GTKWidgetDoSetMnemonic(GtkWidget* w);
 
-    virtual void DoSetSize(int x, int y,
-                           int width, int height,
-                           int sizeFlags = wxSIZE_AUTO);
-
     virtual wxSize DoGetBestSize() const;
 
     virtual wxString DoGetLabel() const;
     virtual void DoSetLabel(const wxString& str);
+#if wxUSE_MARKUP
+    virtual bool DoSetLabelMarkup(const wxString& markup);
+#endif // wxUSE_MARKUP
+
+private:
+    // Common part of SetLabel() and DoSetLabelMarkup().
+    typedef void (wxStaticText::*GTKLabelSetter)(GtkLabel *, const wxString&);
+
+    void GTKDoSetLabel(GTKLabelSetter setter, const wxString& label);
+
 
     DECLARE_DYNAMIC_CLASS(wxStaticText)
 };

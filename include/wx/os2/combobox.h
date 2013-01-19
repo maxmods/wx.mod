@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        combobox.h
+// Name:        wx/os2/combobox.h
 // Purpose:     wxComboBox class
 // Author:      David Webster
 // Modified by:
 // Created:     10/13/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: combobox.h 68808 2011-08-21 12:06:16Z VZ $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -95,6 +95,10 @@ class WXDLLIMPEXP_CORE wxComboBox : public wxChoice,
                 ,const wxValidator&   rValidator = wxDefaultValidator
                 ,const wxString&      rsName = wxComboBoxNameStr
                );
+
+    // See wxComboBoxBase discussion of IsEmpty().
+    bool IsListEmpty() const { return wxItemContainer::IsEmpty(); }
+    bool IsTextEmpty() const { return wxTextEntry::IsEmpty(); }
 
     // resolve ambiguities among virtual functions inherited from both base
     // classes

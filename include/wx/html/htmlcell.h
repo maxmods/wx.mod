@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        htmlcell.h
+// Name:        wx/html/htmlcell.h
 // Purpose:     wxHtmlCell class is used by wxHtmlWindow/wxHtmlWinParser
 //              as a basic visual element of HTML page
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: htmlcell.h 72589 2012-09-30 22:20:58Z VZ $
 // Copyright:   (c) 1999-2003 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -34,9 +34,10 @@ class WXDLLIMPEXP_HTML wxHtmlSelection
 public:
     wxHtmlSelection()
         : m_fromPos(wxDefaultPosition), m_toPos(wxDefaultPosition),
-          m_fromPrivPos(wxDefaultPosition), m_toPrivPos(wxDefaultPosition),
+          m_fromCharacterPos(-1), m_toCharacterPos(-1),
           m_fromCell(NULL), m_toCell(NULL) {}
 
+    // this version is used for the user selection defined with the mouse
     void Set(const wxPoint& fromPos, const wxHtmlCell *fromCell,
              const wxPoint& toPos, const wxHtmlCell *toCell);
     void Set(const wxHtmlCell *fromCell, const wxHtmlCell *toCell);
@@ -49,11 +50,13 @@ public:
     const wxPoint& GetToPos() const { return m_toPos; }
 
     // these are From/ToCell's private data
-    const wxPoint& GetFromPrivPos() const { return m_fromPrivPos; }
-    const wxPoint& GetToPrivPos() const { return m_toPrivPos; }
-    void SetFromPrivPos(const wxPoint& pos) { m_fromPrivPos = pos; }
-    void SetToPrivPos(const wxPoint& pos) { m_toPrivPos = pos; }
-    void ClearPrivPos() { m_toPrivPos = m_fromPrivPos = wxDefaultPosition; }
+    void ClearFromToCharacterPos() { m_toCharacterPos = m_fromCharacterPos = -1; }
+    bool AreFromToCharacterPosSet() const { return m_toCharacterPos != -1 && m_fromCharacterPos != -1; }
+
+    void SetFromCharacterPos (wxCoord pos) { m_fromCharacterPos = pos; }
+    void SetToCharacterPos (wxCoord pos) { m_toCharacterPos = pos; }
+    wxCoord GetFromCharacterPos () const { return m_fromCharacterPos; }
+    wxCoord GetToCharacterPos () const { return m_toCharacterPos; }
 
     bool IsEmpty() const
         { return m_fromPos == wxDefaultPosition &&
@@ -61,7 +64,7 @@ public:
 
 private:
     wxPoint m_fromPos, m_toPos;
-    wxPoint m_fromPrivPos, m_toPrivPos;
+    wxCoord m_fromCharacterPos, m_toCharacterPos;
     const wxHtmlCell *m_fromCell, *m_toCell;
 };
 
@@ -88,10 +91,13 @@ public:
     const wxColour& GetFgColour() const { return m_fgColour; }
     void SetBgColour(const wxColour& c) { m_bgColour = c; }
     const wxColour& GetBgColour() const { return m_bgColour; }
+    void SetBgMode(int m) { m_bgMode = m; }
+    int GetBgMode() const { return m_bgMode; }
 
 private:
     wxHtmlSelectionState  m_selState;
     wxColour              m_fgColour, m_bgColour;
+    int                   m_bgMode;
 };
 
 
@@ -277,10 +283,13 @@ public:
     // Returned value : true if pagebreak was modified, false otherwise
     // Usage : while (container->AdjustPagebreak(&p)) {}
     virtual bool AdjustPagebreak(int *pagebreak,
-                                 wxArrayInt& known_pagebreaks) const;
+                                 const wxArrayInt& known_pagebreaks,
+                                 int pageHeight) const;
 
     // Sets cell's behaviour on pagebreaks (see AdjustPagebreak). Default
     // is true - the cell can be split on two pages
+    // If there is no way to fit a cell in the current page size, the cell
+    // is always split, ignoring this setting.
     void SetCanLiveOnPagebreak(bool can) { m_CanLiveOnPagebreak = can; }
 
     // Can the line be broken before this cell?
@@ -436,8 +445,10 @@ public:
                       wxHtmlRenderingInfo& info);
     virtual void DrawInvisible(wxDC& dc, int x, int y,
                                wxHtmlRenderingInfo& info);
-/*    virtual bool AdjustPagebreak(int *pagebreak, int *known_pagebreaks = NULL, int number_of_pages = 0) const;*/
-    virtual bool AdjustPagebreak(int *pagebreak, wxArrayInt& known_pagebreaks) const;
+
+    virtual bool AdjustPagebreak(int *pagebreak,
+                                 const wxArrayInt& known_pagebreaks,
+                                 int pageHeight) const;
 
     // insert cell at the end of m_Cells list
     void InsertCell(wxHtmlCell *cell);

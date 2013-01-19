@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        dcclient.h
+// Name:        wx/gtk/dcclient.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: dcclient.h 71008 2012-03-25 23:34:42Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -11,10 +11,6 @@
 #define _WX_GTKDCCLIENT_H_
 
 #include "wx/gtk/dc.h"
-#include "wx/dcclient.h"
-#include "wx/region.h"
-
-class WXDLLIMPEXP_FWD_CORE wxWindow;
 
 //-----------------------------------------------------------------------------
 // wxWindowDCImpl

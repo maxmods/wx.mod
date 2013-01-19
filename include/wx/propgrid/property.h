@@ -4,13 +4,15 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     2008-08-23
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: property.h 70449 2012-01-23 13:59:52Z VZ $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef _WX_PROPGRID_PROPERTY_H_
 #define _WX_PROPGRID_PROPERTY_H_
+
+#include "wx/defs.h"
 
 #if wxUSE_PROPGRID
 
@@ -304,6 +306,13 @@ public:
         return *this;
     }
 
+    // Used mostly internally to figure out if this cell is supposed
+    // to have default values when attached to a grid.
+    bool IsInvalid() const
+    {
+        return ( m_refData == NULL );
+    }
+
 private:
     virtual wxObjectRefData *CreateRefData() const
         { return new wxPGCellData(); }
@@ -401,8 +410,8 @@ wxPG_PROP_COLLAPSED                 = 0x0020,
     If property is selected, then indicates that validation failed for pending
     value.
 
-    If property is not selected, then indicates that the the actual property
-    value has failed validation (NB: this behavior is not currently supported,
+    If property is not selected, that indicates that the actual property
+    value has failed validation (NB: this behaviour is not currently supported,
     but may be used in future).
 */
 wxPG_PROP_INVALID_VALUE             = 0x0040,
@@ -473,6 +482,8 @@ wxPG_PROP_USES_COMMON_VALUE         = 0x00020000,
 
     @remarks
     This flag cannot be used with property iterators.
+
+    @see wxPGProperty::SetAutoUnspecified()
 */
 wxPG_PROP_AUTO_UNSPECIFIED          = 0x00040000,
 
@@ -639,13 +650,18 @@ wxPG_PROP_BEING_DELETED             = 0x00200000
 */
 #define wxPG_FILE_DIALOG_TITLE              wxS("DialogTitle")
 
+/** Specific to wxFileProperty and derivatives, long, default is 0.
+    Sets a specific wxFileDialog style for the file dialog.
+*/
+#define wxPG_FILE_DIALOG_STYLE              wxS("DialogStyle")
+
 /** Specific to wxDirProperty, wxString, default is empty.
     Sets a specific message for the dir dialog.
 */
 #define wxPG_DIR_DIALOG_MESSAGE             wxS("DialogMessage")
 
 /**
-    wxArrayStringProperty's string delimiter character. If this is aquotation
+    wxArrayStringProperty's string delimiter character. If this is a quotation
     mark or hyphen, then strings will be quoted instead (with given
     character).
 
@@ -663,7 +679,7 @@ wxPG_PROP_BEING_DELETED             = 0x00200000
 #define wxPG_DATE_PICKER_STYLE              wxS("PickerStyle")
 
 /** SpinCtrl editor, int or double. How much number changes when button is
-    pressed (or up/down on keybard).
+    pressed (or up/down on keyboard).
 */
 #define wxPG_ATTR_SPINCTRL_STEP             wxS("Step")
 
@@ -685,6 +701,12 @@ wxPG_PROP_BEING_DELETED             = 0x00200000
     choices.
 */
 #define wxPG_COLOUR_ALLOW_CUSTOM            wxS("AllowCustom")
+
+/**
+    wxColourProperty and its kind: Set to True in order to support editing
+    alpha colour component.
+*/
+#define wxPG_COLOUR_HAS_ALPHA               wxS("HasAlpha")
 
 /** @}
 */
@@ -949,7 +971,7 @@ public:
     }
 
     /** Gets a unsigned number identifying this list. */
-    wxPGChoicesId GetId() const { return (wxPGChoicesId) m_data; };
+    wxPGChoicesId GetId() const { return (wxPGChoicesId) m_data; }
 
     const wxString& GetLabel( unsigned int ind ) const
     {
@@ -1172,7 +1194,7 @@ public:
 
                 You might want to take into account that m_value is Null variant
                 if property value is unspecified (which is usually only case if
-                you explicitly enabled that sort behavior).
+                you explicitly enabled that sort behaviour).
     */
     virtual bool StringToValue( wxVariant& variant,
                                 const wxString& text,
@@ -1204,7 +1226,7 @@ public:
           instead of OnEvent.
         - You might want to take into account that m_value is Null variant if
           property value is unspecified (which is usually only case if you
-          explicitly enabled that sort behavior).
+          explicitly enabled that sort behaviour).
     */
     virtual bool IntToValue( wxVariant& value,
                              int number,
@@ -1230,7 +1252,7 @@ public:
     virtual wxString ValueToString( wxVariant& value, int argFlags = 0 ) const;
 
     /** Converts string to a value, and if successful, calls SetValue() on it.
-        Default behavior is to do nothing.
+        Default behaviour is to do nothing.
         @param text
         String to get the value from.
         @return
@@ -1238,8 +1260,8 @@ public:
     */
     bool SetValueFromString( const wxString& text, int flags = wxPG_PROGRAMMATIC_VALUE );
 
-    /** Converts integer to a value, and if succesful, calls SetValue() on it.
-        Default behavior is to do nothing.
+    /** Converts integer to a value, and if successful, calls SetValue() on it.
+        Default behaviour is to do nothing.
         @param value
             Int to get the value from.
         @param flags
@@ -1258,7 +1280,7 @@ public:
         @param item
             Normally -1, but can be an index to the property's list of items.
         @remarks
-        - Default behavior is to return wxSize(0,0), which means no image.
+        - Default behaviour is to return wxSize(0,0), which means no image.
         - Default image width or height is indicated with dimension -1.
         - You can also return wxPG_DEFAULT_IMAGE_SIZE, i.e. wxSize(-1, -1).
     */
@@ -1292,7 +1314,7 @@ public:
 
     /**
         Called after value of a child property has been altered. Must return
-        new value of the whole property (after any alterations warrented by
+        new value of the whole property (after any alterations warranted by
         child's new value).
 
         Note that this function is usually called at the time that value of
@@ -1524,6 +1546,17 @@ public:
     void DeleteChoice( int index );
 
     /**
+        Enables or disables the property. Disabled property usually appears
+        as having grey text.
+
+        @param enable
+            If @false, property is disabled instead.
+
+        @see wxPropertyGridInterface::EnableProperty()
+    */
+    void Enable( bool enable = true );
+
+    /**
         Call to enable or disable usage of common value (integer value that can
         be selected for properties instead of their normal values) for this
         property.
@@ -1679,7 +1712,7 @@ public:
     /** Returns true if property has editable wxTextCtrl when selected.
 
         @remarks
-        Altough disabled properties do not displayed editor, they still
+        Although disabled properties do not displayed editor, they still
         return True here as being disabled is considered a temporary
         condition (unlike being read-only or having limited editing enabled).
     */
@@ -1898,6 +1931,21 @@ public:
     void SetAttributes( const wxPGAttributeStorage& attributes );
 
     /**
+        Set if user can change the property's value to unspecified by
+        modifying the value of the editor control (usually by clearing
+        it).  Currently, this can work with following properties:
+        wxIntProperty, wxUIntProperty, wxFloatProperty, wxEditEnumProperty.
+
+        @param enable
+            Whether to enable or disable this behaviour (it is disabled by
+            default).
+    */
+    void SetAutoUnspecified( bool enable = true )
+    {
+        ChangeFlag(wxPG_PROP_AUTO_UNSPECIFIED, enable);
+    }
+
+    /**
         Sets property's background colour.
 
         @param colour
@@ -2028,23 +2076,14 @@ public:
     }
 
     /**
-        Sets given property flag.
+        Sets or clears given property flag. Mainly for internal use.
 
-        @see propgrid_propflags
-    */
-    void SetFlag( wxPGPropertyFlags flag )
-    {
-        //
-        // NB: While using wxPGPropertyFlags here makes it difficult to
-        //     combine different flags, it usefully prevents user from
-        //     using incorrect flags (say, wxWindow styles).
-        m_flags |= flag;
-    }
+        @remarks Setting a property flag never has any side-effect, and is
+                 intended almost exclusively for internal use. So, for
+                 example, if you want to disable a property, call
+                 Enable(false) instead of setting wxPG_PROP_DISABLED flag.
 
-    /**
-        Sets or clears given property flag.
-
-        @see propgrid_propflags
+        @see HasFlag(), GetFlags()
     */
     void ChangeFlag( wxPGPropertyFlags flag, bool set )
     {
@@ -2055,9 +2094,10 @@ public:
     }
 
     /**
-        Sets or clears given property flag, recursively.
+        Sets or clears given property flag, recursively. This function is
+        primarily intended for internal use.
 
-        @see propgrid_propflags
+        @see ChangeFlag()
     */
     void SetFlagRecursively( wxPGPropertyFlags flag, bool set );
 
@@ -2169,8 +2209,6 @@ public:
     {
         return m_helpString;
     }
-
-    void ClearFlag( FlagType flag ) { m_flags &= ~(flag); }
 
     // Use, for example, to detect if item is inside collapsed section.
     bool IsSomeParent( wxPGProperty* candidate_parent ) const;
@@ -2354,13 +2392,36 @@ protected:
     void InitAfterAdded( wxPropertyGridPageState* pageState,
                          wxPropertyGrid* propgrid );
 
+    /**
+        Returns true if child property is selected.
+    */
+    bool IsChildSelected( bool recursive = false ) const;
+
     // Removes child property with given pointer. Does not delete it.
     void RemoveChild( wxPGProperty* p );
+
+    void DoEnable( bool enable );
 
     void DoPreAddChild( int index, wxPGProperty* prop );
 
     void SetParentState( wxPropertyGridPageState* pstate )
         { m_parentState = pstate; }
+
+    void SetFlag( wxPGPropertyFlags flag )
+    {
+        //
+        // NB: While using wxPGPropertyFlags here makes it difficult to
+        //     combine different flags, it usefully prevents user from
+        //     using incorrect flags (say, wxWindow styles).
+        m_flags |= flag;
+    }
+
+    void ClearFlag( FlagType flag ) { m_flags &= ~(flag); }
+
+    // Called when the property is being removed from the grid and/or
+    // page state (but *not* when it is also deleted).
+    void OnDetached(wxPropertyGridPageState* state,
+                    wxPropertyGrid* propgrid);
 
     // Call after fixed sub-properties added/removed after creation.
     // if oldSelInd >= 0 and < new max items, then selection is

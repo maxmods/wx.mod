@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        stattext.h
+// Name:        wx/osx/stattext.h
 // Purpose:     wxStaticText class
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: stattext.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -46,6 +46,10 @@ protected :
     virtual void DoSetLabel(const wxString& str);
 
   virtual wxSize DoGetBestSize() const ;
+
+#if wxUSE_MARKUP && wxOSX_USE_COCOA
+    virtual bool DoSetLabelMarkup(const wxString& markup);
+#endif // wxUSE_MARKUP && wxOSX_USE_COCOA
 
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxStaticText)
 };

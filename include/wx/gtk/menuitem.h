@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        menuitem.h
+// Name:        wx/gtk/menuitem.h
 // Purpose:     wxMenuItem class
 // Author:      Robert Roebling
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: menuitem.h 73311 2012-12-29 07:07:29Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -36,14 +36,13 @@ public:
     virtual const wxBitmap& GetBitmap() const { return m_bitmap; }
 
     // implementation
-    void SetMenuItem(GtkWidget *menuItem) { m_menuItem = menuItem; }
+    void SetMenuItem(GtkWidget *menuItem);
     GtkWidget *GetMenuItem() const { return m_menuItem; }
     void SetGtkLabel();
 
 #if WXWIN_COMPATIBILITY_2_8
     // compatibility only, don't use in new code
-    wxDEPRECATED(
-    inline
+    wxDEPRECATED_CONSTRUCTOR(
     wxMenuItem(wxMenu *parentMenu,
                int id,
                const wxString& text,

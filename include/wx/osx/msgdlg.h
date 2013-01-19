@@ -5,7 +5,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: msgdlg.h 68537 2011-08-04 22:53:42Z VZ $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 #ifndef _WX_MSGBOXDLG_H_
 #define _WX_MSGBOXDLG_H_
 
-class WXDLLIMPEXP_CORE wxMessageDialog : public wxMessageDialogWithCustomLabels
+class WXDLLIMPEXP_CORE wxMessageDialog : public wxMessageDialogBase
 {
 public:
     wxMessageDialog(wxWindow *parent,
@@ -22,8 +22,12 @@ public:
                     long style = wxOK|wxCENTRE,
                     const wxPoint& pos = wxDefaultPosition);
 
-    virtual int ShowModal();
+#if wxOSX_USE_COCOA
+    ~wxMessageDialog();
+#endif
     
+    virtual int ShowModal();
+
 #if wxOSX_USE_COCOA
     virtual void ShowWindowModal();
     virtual void ModalFinishedCallback(void* panel, int resultCode);
@@ -39,9 +43,12 @@ protected:
     void* ConstructNSAlert();
 #endif
 
-    int m_buttonId[3];
+    int m_buttonId[4];
     int m_buttonCount;
 
+#if wxOSX_USE_COCOA
+    WX_NSObject m_sheetDelegate;
+#endif
     DECLARE_DYNAMIC_CLASS(wxMessageDialog)
 };
 

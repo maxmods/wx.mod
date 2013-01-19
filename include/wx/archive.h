@@ -2,7 +2,7 @@
 // Name:        wx/archive.h
 // Purpose:     Streams for archive formats
 // Author:      Mike Wetherell
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: archive.h 66780 2011-01-27 11:00:26Z SC $
 // Copyright:   (c) 2004 Mike Wetherell
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -225,7 +225,7 @@ public:
         if (it.m_rep)
             it.m_rep.AddRef();
         if (m_rep)
-            m_rep.UnRef();
+            this->m_rep.UnRef();
         m_rep = it.m_rep;
         return *this;
     }

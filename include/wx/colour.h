@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by: Francesco Montorsi
 // Created:
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: colour.h 72618 2012-10-04 23:23:18Z VZ $
 // Copyright:   Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -35,10 +35,11 @@ class WXDLLIMPEXP_FWD_CORE wxColour;
 
 
 // flags for wxColour -> wxString conversion (see wxColour::GetAsString)
-#define wxC2S_NAME              1   // return colour name, when possible
-#define wxC2S_CSS_SYNTAX        2   // return colour in rgb(r,g,b) syntax
-#define wxC2S_HTML_SYNTAX       4   // return colour in #rrggbb syntax
-
+enum {
+    wxC2S_NAME             = 1,   // return colour name, when possible
+    wxC2S_CSS_SYNTAX       = 2,   // return colour in rgb(r,g,b) syntax
+    wxC2S_HTML_SYNTAX      = 4    // return colour in #rrggbb syntax
+};
 
 const unsigned char wxALPHA_TRANSPARENT = 0;
 const unsigned char wxALPHA_OPAQUE = 0xff;
@@ -166,12 +167,13 @@ public:
     static void          ChangeLightness(unsigned char* r, unsigned char* g, unsigned char* b, int ialpha);
 
     wxColour ChangeLightness(int ialpha) const;
+    wxColour& MakeDisabled(unsigned char brightness = 255);
 
     // old, deprecated
     // ---------------
 
 #if WXWIN_COMPATIBILITY_2_6
-    wxDEPRECATED( static wxColour CreateByName(const wxString& name) );
+    static wxDEPRECATED( wxColour CreateByName(const wxString& name) );
     wxDEPRECATED( void InitFromName(const wxString& col) );
 #endif
 
@@ -212,9 +214,7 @@ WXDLLIMPEXP_CORE bool wxFromString(const wxString& str, wxColourBase* col);
 
 
 
-#if defined(__WXPALMOS__)
-    #include "wx/generic/colour.h"
-#elif defined(__WXMSW__)
+#if defined(__WXMSW__)
     #include "wx/msw/colour.h"
 #elif defined(__WXMOTIF__)
     #include "wx/motif/colour.h"
@@ -222,8 +222,6 @@ WXDLLIMPEXP_CORE bool wxFromString(const wxString& str, wxColourBase* col);
     #include "wx/gtk/colour.h"
 #elif defined(__WXGTK__)
     #include "wx/gtk1/colour.h"
-#elif defined(__WXMGL__)
-    #include "wx/generic/colour.h"
 #elif defined(__WXDFB__)
     #include "wx/generic/colour.h"
 #elif defined(__WXX11__)

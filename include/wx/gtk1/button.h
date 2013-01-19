@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/button.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: button.h 49873 2007-11-12 21:37:46Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

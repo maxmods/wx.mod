@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     Apr-30-2006
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: combo.h 67255 2011-03-20 10:59:22Z JMS $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -30,6 +30,8 @@
 #define wxACTION_COMBOBOX_DISMISS   wxT("dismiss")
 
 #endif
+
+#include "wx/dcbuffer.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxComboBoxNameStr[];
 
@@ -79,6 +81,37 @@ public:
 #endif
 
 protected:
+
+    // Dummies for platform-specific wxTextEntry implementations
+#if defined(__WXUNIVERSAL__)
+    // Looks like there's nothing we need to override here
+#elif defined(__WXMOTIF__)
+    virtual WXWidget GetTextWidget() const { return NULL; }
+#elif defined(__WXGTK__)
+#if defined(__WXGTK20__)
+    virtual GtkEditable *GetEditable() const { return NULL; }
+    virtual GtkEntry *GetEntry() const { return NULL; }
+#endif
+#elif defined(__WXMAC__)
+    // Looks like there's nothing we need to override here
+#elif defined(__WXPM__)
+    virtual WXHWND GetEditHWND() const { return NULL; }
+#endif
+
+    // For better transparent background rendering
+    virtual bool HasTransparentBackground()
+    {
+        #if wxALWAYS_NATIVE_DOUBLE_BUFFER
+          #ifdef __WXGTK__
+            // Sanity check for GTK+
+            return IsDoubleBuffered();
+          #else
+            return true;
+          #endif
+        #else
+            return false;
+        #endif
+    }
 
     // Mandatory virtuals
     virtual void OnResize();

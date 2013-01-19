@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: colour.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -38,8 +38,8 @@ public:
     unsigned char Green() const { return m_green; }
     unsigned char Blue() const { return m_blue; }
 
-    WXPixel GetPixel() const { return m_pixel; };
-    void SetPixel(WXPixel pixel) { m_pixel = pixel; m_isInit = true; };
+    WXPixel GetPixel() const { return m_pixel; }
+    void SetPixel(WXPixel pixel) { m_pixel = pixel; m_isInit = true; }
 
     inline bool operator == (const wxColour& colour) const { return (m_red == colour.m_red && m_green == colour.m_green && m_blue == colour.m_blue); }
 

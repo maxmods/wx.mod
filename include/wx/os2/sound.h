@@ -1,11 +1,11 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        sound.h
+// Name:        wx/os2/sound.h
 // Purpose:     wxSound class (loads and plays short Windows .wav files).
 //              Optional on non-Windows platforms.
 // Author:      David Webster
 // Modified by:
 // Created:     10/17/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: sound.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,16 +20,16 @@ class wxSound : public wxSoundBase
 public:
   wxSound();
   wxSound(const wxString& fileName, bool isResource = FALSE);
-  wxSound(int size, const wxByte* data);
+  wxSound(size_t size, const void* data);
   virtual ~wxSound();
 
 public:
   // Create from resource or file
   bool  Create(const wxString& fileName, bool isResource = FALSE);
   // Create from data
-  bool Create(int size, const wxByte* data);
+  bool Create(size_t size, const void* data);
 
-  bool  IsOk() const { return (m_waveData ? TRUE : FALSE); };
+  bool  IsOk() const { return (m_waveData ? TRUE : FALSE); }
 
 protected:
   bool  Free();

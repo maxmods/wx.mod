@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: colordlg.h 66615 2011-01-07 05:26:57Z PC $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,9 +12,7 @@
 #ifndef _WX_COLORDLG_H_
 #define _WX_COLORDLG_H_
 
-#include "wx/defs.h"
 #include "wx/dialog.h"
-#include "wx/cmndata.h"
 
 // ----------------------------------------------------------------------------
 // wxColourDialog: dialog for choosing a colours

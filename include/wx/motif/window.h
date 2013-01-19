@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: window.h 66633 2011-01-07 18:15:21Z PC $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -137,9 +137,6 @@ public:
 
     void ClearUpdateRegion() { m_updateRegion.Clear(); }
     void SetUpdateRegion(const wxRegion& region) { m_updateRegion = region; }
-
-    // Process idle (send update events)
-    void OnInternalIdle();
 
     // post-creation activities
     void PostCreation();

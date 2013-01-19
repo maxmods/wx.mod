@@ -1,12 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        mdi.h
+// Name:        wx/os2/mdi.h
 // Purpose:     MDI (Multiple Document Interface) classes.
 //              This doesn't have to be implemented just like Windows,
 //              it could be a tabbed design as in wxGTK.
 // Author:      David Webster
 // Modified by:
 // Created:     10/10/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: mdi.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

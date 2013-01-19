@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     10/09/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: variant.h 72262 2012-07-30 19:16:30Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -362,6 +362,24 @@ public:
 #if wxUSE_LONGLONG
     bool Convert(wxLongLong* value) const;
     bool Convert(wxULongLong* value) const;
+  #ifdef wxLongLong_t
+    bool Convert(wxLongLong_t* value) const
+    {
+        wxLongLong temp;
+        if ( !Convert(&temp) )
+            return false;
+        *value = temp.GetValue();
+        return true;
+    }
+    bool Convert(wxULongLong_t* value) const
+    {
+        wxULongLong temp;
+        if ( !Convert(&temp) )
+            return false;
+        *value = temp.GetValue();
+        return true;
+    }
+  #endif // wxLongLong_t
 #endif // wxUSE_LONGLONG
 
 // Attributes
@@ -443,9 +461,6 @@ wxVariantData* CLASSNAME::VariantDataFactory(const wxAny& any) \
     return new CLASSNAME(wxANY_AS(any, T)); \
 } \
 REGISTER_WXANY_CONVERSION(T, CLASSNAME)
-
-// This is needed for wxVariantList conversion
-WX_DECLARE_LIST_WITH_DECL(wxAny, wxAnyList, class WXDLLIMPEXP_BASE);
 
 #else // if !wxUSE_ANY
 
@@ -555,7 +570,11 @@ bool classname##VariantData::Eq(wxVariantData& data) const \
                   var.GetWxObjectPtr() : NULL));
 
 // Replacement for using wxDynamicCast on a wxVariantData object
-#define wxDynamicCastVariantData(data, classname) dynamic_cast<classname*>(data)
+#ifndef wxNO_RTTI
+    #define wxDynamicCastVariantData(data, classname) dynamic_cast<classname*>(data)
+#endif
+
+#define wxStaticCastVariantData(data, classname) static_cast<classname*>(data)
 
 extern wxVariant WXDLLIMPEXP_BASE wxNullVariant;
 

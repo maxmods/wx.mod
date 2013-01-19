@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        motif/dataform.h
+// Name:        wx/x11/dataform.h
 // Purpose:     declaration of the wxDataFormat class
 // Author:      Robert Roebling
 // Modified by:
 // Created:     19.10.99 (extracted from motif/dataobj.h)
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dataform.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) 1999 Robert Roebling
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

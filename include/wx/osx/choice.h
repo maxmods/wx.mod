@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: choice.h 72847 2012-11-01 17:15:25Z VZ $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,8 +16,6 @@
 
 #include  "wx/dynarray.h"
 #include  "wx/arrstr.h"
-
-WXDLLIMPEXP_DATA_CORE(extern const char) wxChoiceNameStr[];
 
 WX_DEFINE_ARRAY( char * , wxChoiceDataArray ) ;
 
@@ -95,6 +93,10 @@ protected:
     wxArrayString m_strings;
     wxChoiceDataArray m_datas ;
     wxMenu*    m_popUpMenu ;
+
+private:
+    // This should be called when the number of items in the control changes.
+    void DoAfterItemCountChange();
 };
 
 #endif

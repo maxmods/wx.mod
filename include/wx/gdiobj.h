@@ -5,7 +5,7 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Julian Smart
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: gdiobj.h 70345 2012-01-15 01:05:28Z VZ $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -23,9 +23,16 @@
 class WXDLLIMPEXP_CORE wxGDIRefData : public wxObjectRefData
 {
 public:
+    // Default ctor which needs to be defined just because we use
+    // wxDECLARE_NO_COPY_CLASS() below.
+    wxGDIRefData() { }
+
     // override this in the derived classes to check if this data object is
     // really fully initialized
     virtual bool IsOk() const { return true; }
+
+private:
+    wxDECLARE_NO_COPY_CLASS(wxGDIRefData);
 };
 
 // ----------------------------------------------------------------------------
@@ -50,7 +57,7 @@ public:
     // because it's still widely used)
     bool Ok() const { return IsOk(); }
 
-#if defined(__WXMSW__) || defined(__WXPM__) || defined(__WXPALMOS__)
+#if defined(__WXMSW__) || defined(__WXPM__)
     // Creates the resource
     virtual bool RealizeResource() { return false; }
 

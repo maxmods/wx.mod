@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     21.07.2003
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dcmirror.h 72224 2012-07-28 19:31:03Z RD $
 // Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -65,6 +65,9 @@ public:
                                   GetY(xLeftRight, yBottomUp)); }
     virtual void SetLogicalFunction(wxRasterOperationMode function)
         { m_dc.SetLogicalFunction(function); }
+
+    virtual void* GetHandle() const
+        { return m_dc.GetHandle(); }
 
 protected:
     // returns x and y if not mirroring or y and x if mirroring

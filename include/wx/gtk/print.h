@@ -3,7 +3,7 @@
 // Author:      Anthony Bretaudeau
 // Purpose:     GTK printing support
 // Created:     2007-08-25
-// RCS-ID:      $Id: print.h,v 1 2007-08-25 05:44:44 PC Exp $
+// RCS-ID:      $Id: print.h 73097 2012-12-02 03:35:37Z PC $
 // Copyright:   (c) Anthony Bretaudeau
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,8 +19,6 @@
 #include "wx/printdlg.h"
 #include "wx/prntbase.h"
 #include "wx/dc.h"
-#include "wx/cairo.h"
-
 
 typedef struct _GtkPrintOperation GtkPrintOperation;
 typedef struct _GtkPrintContext GtkPrintContext;
@@ -196,8 +194,8 @@ public:
     GtkPrintSettings* GetPrintConfig() { return m_config; }
     void SetPrintConfig( GtkPrintSettings * config );
 
-    void SetPrintJob( GtkPrintOperation *job ) { m_job = job; }
     GtkPrintOperation* GetPrintJob() { return m_job; }
+    void SetPrintJob(GtkPrintOperation *job) { m_job = job; }
 
     GtkPrintContext *GetPrintContext() { return m_context; }
     void SetPrintContext(GtkPrintContext *context) {m_context = context; }
@@ -207,6 +205,8 @@ public:
     void SetPageSetupToSettings(GtkPrintSettings* settings, GtkPageSetup* page_setup);
 
 private:
+    // NB: m_config is created and owned by us, but the other objects are not
+    //     and their accessors don't change their ref count.
     GtkPrintSettings    *m_config;
     GtkPrintOperation   *m_job;
     GtkPrintContext     *m_context;
@@ -228,7 +228,8 @@ public:
     bool IsOk() const;
 
     virtual void* GetCairoContext() const;
-
+    virtual void* GetHandle() const;
+    
     bool CanDrawBitmap() const { return true; }
     void Clear();
     void SetFont( const wxFont& font );
@@ -250,7 +251,7 @@ public:
     void SetPalette(const wxPalette& WXUNUSED(palette)) { }
     void SetResolution(int ppi);
 
-    // overriden for wxPrinterDC Impl
+    // overridden for wxPrinterDC Impl
     virtual int GetResolution() const;
     virtual wxRect GetPaperRect() const;
 

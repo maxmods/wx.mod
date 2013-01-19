@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wx/generic/dcps.h
+// Name:        wx/generic/dcpsg.h
 // Purpose:     wxPostScriptDC class
 // Author:      Julian Smart and others
 // Modified by:
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dcpsg.h 72224 2012-07-28 19:31:03Z RD $
 // Copyright:   (c) Julian Smart and Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -94,6 +94,8 @@ public:
     virtual int GetResolution() const;
     virtual wxRect GetPaperRect() const;
 
+    virtual void* GetHandle() const { return NULL; }
+    
 protected:
     bool DoFloodFill(wxCoord x1, wxCoord y1, const wxColour &col,
                      wxFloodFillStyle style = wxFLOOD_SURFACE);

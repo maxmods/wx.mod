@@ -4,13 +4,15 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     2004-09-25
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: advprops.h 66520 2011-01-02 10:14:29Z JMS $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef _WX_PROPGRID_ADVPROPS_H_
 #define _WX_PROPGRID_ADVPROPS_H_
+
+#include "wx/defs.h"
 
 #if wxUSE_PROPGRID
 
@@ -201,7 +203,8 @@ public:
         Override in derived class to customize how colours are printed as
         strings.
     */
-    virtual wxString ColourToString( const wxColour& col, int index ) const;
+    virtual wxString ColourToString( const wxColour& col, int index,
+                                     int argFlags = 0 ) const;
 
     /** Returns index of entry that triggers colour picker dialog
         (default is last).

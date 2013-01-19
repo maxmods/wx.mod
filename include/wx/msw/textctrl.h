@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: textctrl.h 72993 2012-11-20 12:49:03Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -198,6 +198,8 @@ protected:
 
     virtual void DoSetValue(const wxString &value, int flags = 0);
 
+    virtual wxPoint DoPositionToCoords(long pos) const;
+
     // return true if this control has a user-set limit on amount of text (i.e.
     // the limit is due to a previous call to SetMaxLength() and not built in)
     bool HasSpaceLimit(unsigned int *len) const;
@@ -234,11 +236,26 @@ protected:
     bool SendUpdateEvent();
 
     virtual wxSize DoGetBestSize() const;
+    virtual wxSize DoGetSizeFromTextSize(int xlen, int ylen = -1) const;
 
 #if wxUSE_RICHEDIT
+    // Apply the character-related parts of wxTextAttr to the given selection
+    // or the entire control if start == end == -1.
+    //
+    // This function is private and should only be called for rich edit
+    // controls and with (from, to) already in correct order, i.e. from <= to.
+    bool MSWSetCharFormat(const wxTextAttr& attr, long from = -1, long to = -1);
+
+    // Same as above for paragraph-related parts of wxTextAttr. Note that this
+    // can only be applied to the selection as RichEdit doesn't support setting
+    // the paragraph styles globally.
+    bool MSWSetParaFormat(const wxTextAttr& attr, long from, long to);
+
+
     // we're using RICHEDIT (and not simple EDIT) control if this field is not
-    // 0, it also gives the version of the RICHEDIT control being used (1, 2 or
-    // 3 so far)
+    // 0, it also gives the version of the RICHEDIT control being used
+    // (although not directly: 1 is for 1.0, 2 is for either 2.0 or 3.0 as we
+    // can't nor really need to distinguish between them and 4 is for 4.1)
     int m_verRichEdit;
 #endif // wxUSE_RICHEDIT
 

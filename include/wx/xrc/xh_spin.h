@@ -3,7 +3,7 @@
 // Purpose:     XML resource handler for wxSpinButton and wxSpinCtrl
 // Author:      Bob Mitchell
 // Created:     2000/03/21
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: xh_spin.h 61724 2009-08-21 10:41:26Z VZ $
 // Copyright:   (c) 2000 Bob Mitchell and Verant Interactive
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by: Ron Lee
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: window.h 73139 2012-12-08 00:37:10Z VZ $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -379,6 +379,13 @@ public:
             *h = s.y;
     }
 
+        // Determine the best size in the other direction if one of them is
+        // fixed. This is used with windows that can wrap their contents and
+        // returns input-independent best size for the others.
+    int GetBestHeight(int width) const;
+    int GetBestWidth(int height) const;
+
+
     void SetScrollHelper( wxScrollHelper *sh )   { m_scrollHelper = sh; }
     wxScrollHelper *GetScrollHelper()            { return m_scrollHelper; }
 
@@ -408,7 +415,7 @@ public:
     void Centre(int dir = wxBOTH) { DoCentre(dir); }
     void Center(int dir = wxBOTH) { DoCentre(dir); }
 
-        // centre with respect to the the parent window
+        // centre with respect to the parent window
     void CentreOnParent(int dir = wxBOTH) { DoCentre(dir); }
     void CenterOnParent(int dir = wxBOTH) { CentreOnParent(dir); }
 
@@ -446,7 +453,7 @@ public:
 
 
         // Call these to override what GetBestSize() returns. This
-        // method is only virtual because it is overriden in wxTLW
+        // method is only virtual because it is overridden in wxTLW
         // as a different API for SetSizeHints().
     virtual void SetMinSize(const wxSize& minSize);
     virtual void SetMaxSize(const wxSize& maxSize);
@@ -480,7 +487,7 @@ public:
         // windows this is just the client area of the window, but for
         // some like scrolled windows it is more or less independent of
         // the screen window size.  You may override the DoXXXVirtual
-        // methods below for classes where that is is the case.
+        // methods below for classes where that is the case.
 
     void SetVirtualSize( const wxSize &size ) { DoSetVirtualSize( size.x, size.y ); }
     void SetVirtualSize( int x, int y ) { DoSetVirtualSize( x, y ); }
@@ -525,12 +532,7 @@ public:
     // tells the item how much more space there is available in the opposite
     // direction (-1 if unknown).
     virtual bool
-    InformFirstDirection(int WXUNUSED(direction),
-                         int WXUNUSED(size),
-                         int WXUNUSED(availableOtherDir))
-    {
-        return false;
-    }
+    InformFirstDirection(int direction, int size, int availableOtherDir);
 
     // sends a size event to the window using its current size -- this has an
     // effect of refreshing the window layout
@@ -628,9 +630,10 @@ public:
 
     bool HasExtraStyle(int exFlag) const { return (m_exStyle & exFlag) != 0; }
 
+#if WXWIN_COMPATIBILITY_2_8
         // make the window modal (all other windows unresponsive)
-    virtual void MakeModal(bool modal = true);
-
+    wxDEPRECATED( virtual void MakeModal(bool modal = true) );
+#endif
 
     // (primitive) theming support
     // ---------------------------
@@ -744,8 +747,12 @@ public:
         // is this window a top level one?
     virtual bool IsTopLevel() const;
 
+        // is this window a child or grand child of this one (inside the same
+        // TLW)?
+    bool IsDescendant(wxWindowBase* win) const;
+
         // it doesn't really change parent, use Reparent() instead
-    void SetParent( wxWindowBase *parent ) { m_parent = (wxWindow *)parent; }
+    void SetParent( wxWindowBase *parent );
         // change the real parent of this window, return true if the parent
         // was changed, false otherwise (error or newParent == oldParent)
     virtual bool Reparent( wxWindowBase *newParent );
@@ -1034,8 +1041,7 @@ public:
     wxColour GetForegroundColour() const;
 
         // Set/get the background style.
-    virtual bool SetBackgroundStyle(wxBackgroundStyle style)
-        { m_backgroundStyle = style; return true; }
+    virtual bool SetBackgroundStyle(wxBackgroundStyle style);
     wxBackgroundStyle GetBackgroundStyle() const
         { return m_backgroundStyle; }
 
@@ -1043,6 +1049,13 @@ public:
         // wxStaticText and wxCheckBox and the background should be adapted
         // from a parent window
     virtual bool HasTransparentBackground() { return false; }
+
+        // Returns true if background transparency is supported for this
+        // window, i.e. if calling SetBackgroundStyle(wxBG_STYLE_TRANSPARENT)
+        // has a chance of succeeding. If reason argument is non-NULL, returns a
+        // user-readable explanation of why it isn't supported if the return
+        // value is false.
+    virtual bool IsTransparentBackgroundSupported(wxString* reason = NULL) const;
 
         // set/retrieve the font for the window (SetFont() returns true if the
         // font really changed)
@@ -1147,7 +1160,8 @@ public:
 
     // simply return the id of the selected item or wxID_NONE without
     // generating any events
-    int GetPopupMenuSelectionFromUser(wxMenu& menu, const wxPoint& pos)
+    int GetPopupMenuSelectionFromUser(wxMenu& menu,
+                                      const wxPoint& pos = wxDefaultPosition)
         { return DoGetPopupMenuSelectionFromUser(menu, pos.x, pos.y); }
     int GetPopupMenuSelectionFromUser(wxMenu& menu, int x, int y)
         { return DoGetPopupMenuSelectionFromUser(menu, x, y); }
@@ -1258,6 +1272,15 @@ public:
         // get the associated tooltip or NULL if none
     wxToolTip* GetToolTip() const { return m_tooltip; }
     wxString GetToolTipText() const;
+
+    // Use the same tool tip as the given one (which can be NULL to indicate
+    // that no tooltip should be used) for this window. This is currently only
+    // used by wxCompositeWindow::DoSetToolTip() implementation and is not part
+    // of the public wx API.
+    //
+    // Returns true if tip was valid and we copied it or false if it was NULL
+    // and we reset our own tooltip too.
+    bool CopyToolTip(wxToolTip *tip);
 #else // !wxUSE_TOOLTIPS
         // make it much easier to compile apps in an environment
         // that doesn't support tooltips, such as PocketPC
@@ -1369,10 +1392,11 @@ public:
 
         // virtual function for implementing internal idle
         // behaviour
-        virtual void OnInternalIdle() {}
+        virtual void OnInternalIdle();
 
-        // call internal idle recursively
-//        void ProcessInternalIdle() ;
+    // Send idle event to window and all subwindows
+    // Returns true if more idle time is requested.
+    virtual bool SendIdleEvents(wxIdleEvent& event);
 
         // get the handle of the window for the underlying window system: this
         // is only used for wxWin itself or for user code which wants to call
@@ -1424,6 +1448,15 @@ public:
     // windows
     virtual wxWindow *GetMainWindowOfCompositeControl()
         { return (wxWindow*)this; }
+
+    // If this function returns true, keyboard navigation events shouldn't
+    // escape from it. A typical example of such "navigation domain" is a top
+    // level window because pressing TAB in one of them must not transfer focus
+    // to a different top level window. But it's not limited to them, e.g. MDI
+    // children frames are not top level windows (and their IsTopLevel()
+    // returns false) but still are self-contained navigation domains as well.
+    virtual bool IsTopNavigationDomain() const { return false; }
+
 
 protected:
     // helper for the derived class Create() methods: the first overload, with
@@ -1661,7 +1694,15 @@ protected:
     // (GetBorderSize() will be used to add them)
     virtual wxSize DoGetBestClientSize() const { return wxDefaultSize; }
 
-    // this is the virtual function to be overriden in any derived class which
+    // These two methods can be overridden to implement intelligent
+    // width-for-height and/or height-for-width best size determination for the
+    // window. By default the fixed best size is used.
+    virtual int DoGetBestClientHeight(int WXUNUSED(width)) const
+        { return wxDefaultCoord; }
+    virtual int DoGetBestClientWidth(int WXUNUSED(height)) const
+        { return wxDefaultCoord; }
+
+    // this is the virtual function to be overridden in any derived class which
     // wants to change how SetSize() or Move() works - it is called by all
     // versions of these functions in the base class
     virtual void DoSetSize(int x, int y,
@@ -1797,14 +1838,7 @@ inline void wxWindowBase::SetInitialBestSize(const wxSize& size)
 // ----------------------------------------------------------------------------
 
 // include the declaration of the platform-specific class
-#if defined(__WXPALMOS__)
-    #ifdef __WXUNIVERSAL__
-        #define wxWindowNative wxWindowPalm
-    #else // !wxUniv
-        #define wxWindowPalm wxWindow
-    #endif // wxUniv/!wxUniv
-    #include "wx/palmos/window.h"
-#elif defined(__WXMSW__)
+#if defined(__WXMSW__)
     #ifdef __WXUNIVERSAL__
         #define wxWindowNative wxWindowMSW
     #else // !wxUniv
@@ -1834,9 +1868,6 @@ inline void wxWindowBase::SetInitialBestSize(const wxSize& size)
         #define wxWindowX11 wxWindow
     #endif // wxUniv
     #include "wx/x11/window.h"
-#elif defined(__WXMGL__)
-    #define wxWindowNative wxWindowMGL
-    #include "wx/mgl/window.h"
 #elif defined(__WXDFB__)
     #define wxWindowNative wxWindowDFB
     #include "wx/dfb/window.h"

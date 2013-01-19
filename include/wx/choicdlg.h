@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wx/choicdgg.h
+// Name:        wx/choicdlg.h
 // Purpose:     Includes generic choice dialog file
 // Author:      Julian Smart
 // Modified by:
 // Created:
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: choicdlg.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

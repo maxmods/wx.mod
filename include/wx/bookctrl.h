@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     19.08.03
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: bookctrl.h 72406 2012-08-30 20:21:29Z VZ $
 // Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -22,6 +22,7 @@
 
 #include "wx/control.h"
 #include "wx/dynarray.h"
+#include "wx/withimages.h"
 
 WX_DEFINE_EXPORTED_ARRAY_PTR(wxWindow *, wxArrayPages);
 
@@ -54,7 +55,8 @@ enum
 // wxBookCtrlBase
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxBookCtrlBase : public wxControl
+class WXDLLIMPEXP_CORE wxBookCtrlBase : public wxControl,
+                                        public wxWithImages
 {
 public:
     // construction
@@ -85,9 +87,6 @@ public:
                 long style = 0,
                 const wxString& name = wxEmptyString);
 
-    // dtor
-    virtual ~wxBookCtrlBase();
-
 
     // accessors
     // ---------
@@ -96,7 +95,7 @@ public:
     virtual size_t GetPageCount() const { return m_pages.size(); }
 
     // get the panel which represents the given page
-    wxWindow *GetPage(size_t n) const { return m_pages[n]; }
+    virtual wxWindow *GetPage(size_t n) const { return m_pages[n]; }
 
     // get the current page or NULL if none
     wxWindow *GetCurrentPage() const
@@ -106,7 +105,7 @@ public:
     }
 
     // get the currently selected page or wxNOT_FOUND if none
-    virtual int GetSelection() const = 0;
+    virtual int GetSelection() const { return m_selection; }
 
     // set/get the title of a page
     virtual bool SetPageText(size_t n, const wxString& strText) = 0;
@@ -116,15 +115,6 @@ public:
     // image list stuff: each page may have an image associated with it (all
     // images belong to the same image list)
     // ---------------------------------------------------------------------
-
-    // sets the image list to use, it is *not* deleted by the control
-    virtual void SetImageList(wxImageList *imageList);
-
-    // as SetImageList() but we will delete the image list ourselves
-    void AssignImageList(wxImageList *imageList);
-
-    // get pointer (may be NULL) to the associated image list
-    wxImageList* GetImageList() const { return m_imageList; }
 
     // sets/returns item's image index in the current image list
     virtual int GetPageImage(size_t n) const = 0;
@@ -181,6 +171,7 @@ public:
     // remove all pages and delete them
     virtual bool DeleteAllPages()
     {
+        m_selection = wxNOT_FOUND;
         DoInvalidateBestSize();
         WX_CLEAR_ARRAY(m_pages);
         return true;
@@ -190,7 +181,7 @@ public:
     virtual bool AddPage(wxWindow *page,
                          const wxString& text,
                          bool bSelect = false,
-                         int imageId = -1)
+                         int imageId = NO_IMAGE)
     {
         DoInvalidateBestSize();
         return InsertPage(GetPageCount(), page, text, bSelect, imageId);
@@ -201,10 +192,10 @@ public:
                             wxWindow *page,
                             const wxString& text,
                             bool bSelect = false,
-                            int imageId = -1) = 0;
+                            int imageId = NO_IMAGE) = 0;
 
     // set the currently selected page, return the index of the previously
-    // selected one (or -1 on error)
+    // selected one (or wxNOT_FOUND on error)
     //
     // NB: this function will generate PAGE_CHANGING/ED events
     virtual int SetSelection(size_t n) = 0;
@@ -217,7 +208,7 @@ public:
     void AdvanceSelection(bool forward = true)
     {
         int nPage = GetNextPage(forward);
-        if ( nPage != -1 )
+        if ( nPage != wxNOT_FOUND )
         {
             // cast is safe because of the check above
             SetSelection((size_t)nPage);
@@ -251,6 +242,17 @@ protected:
     // choose the default border for this window
     virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
 
+    // After the insertion of the page in the method InsertPage, calling this
+    // method sets the selection to the given page or the first one if there is
+    // still no selection. The "selection changed" event is sent only if
+    // bSelect is true, so when it is false, no event is sent even if the
+    // selection changed from wxNOT_FOUND to 0 when inserting the first page.
+    //
+    // Returns true if the selection was set to the specified page (explicitly
+    // because of bSelect == true or implicitly because it's the first page) or
+    // false otherwise.
+    bool DoSetSelectionAfterInsertion(size_t n, bool bSelect);
+
     // set the selection to the given page, sending the events (which can
     // possibly prevent the page change from taking place) if SendEvent flag is
     // included
@@ -273,6 +275,11 @@ protected:
     // event, usually by just calling SetEventType() on it
     virtual void MakeChangedEvent(wxBookCtrlEvent& WXUNUSED(event))
         { wxFAIL_MSG(wxT("Override this function!")); }
+
+
+    // The derived class also may override the following method, also called
+    // from DoSetSelection(), to show/hide pages differently.
+    virtual void DoShowPage(wxWindow* page, bool show) { page->Show(show); }
 
 
     // Should we accept NULL page pointers in Add/InsertPage()?
@@ -308,12 +315,6 @@ protected:
     // the array of all pages of this control
     wxArrayPages m_pages;
 
-    // the associated image list or NULL
-    wxImageList *m_imageList;
-
-    // true if we must delete m_imageList
-    bool m_ownsImageList;
-
     // get the page area
     virtual wxRect GetPageRect() const;
 
@@ -332,6 +333,11 @@ protected:
     // the margin around the choice control
     int m_controlMargin;
 
+    // The currently selected page (in range 0..m_pages.size()-1 inclusive) or
+    // wxNOT_FOUND if none (this can normally only be the case for an empty
+    // control without any pages).
+    int m_selection;
+
 private:
 
     // common part of all ctors
@@ -342,6 +348,7 @@ private:
 
     DECLARE_ABSTRACT_CLASS(wxBookCtrlBase)
     wxDECLARE_NO_COPY_CLASS(wxBookCtrlBase);
+
     DECLARE_EVENT_TABLE()
 };
 
@@ -353,7 +360,7 @@ class WXDLLIMPEXP_CORE wxBookCtrlEvent : public wxNotifyEvent
 {
 public:
     wxBookCtrlEvent(wxEventType commandType = wxEVT_NULL, int winid = 0,
-                        int nSel = -1, int nOldSel = -1)
+                        int nSel = wxNOT_FOUND, int nOldSel = wxNOT_FOUND)
         : wxNotifyEvent(commandType, winid)
     {
         m_nSel = nSel;
@@ -370,10 +377,10 @@ public:
     virtual wxEvent *Clone() const { return new wxBookCtrlEvent(*this); }
 
     // accessors
-        // the currently selected page (-1 if none)
+        // the currently selected page (wxNOT_FOUND if none)
     int GetSelection() const { return m_nSel; }
     void SetSelection(int nSel) { m_nSel = nSel; }
-        // the page that was selected before the change (-1 if none)
+        // the page that was selected before the change (wxNOT_FOUND if none)
     int GetOldSelection() const { return m_nOldSel; }
     void SetOldSelection(int nOldSel) { m_nOldSel = nOldSel; }
 

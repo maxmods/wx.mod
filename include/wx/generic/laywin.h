@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        laywin.h
+// Name:        wx/generic/laywin.h
 // Purpose:     Implements a simple layout algorithm, plus
 //              wxSashLayoutWindow which is an example of a window with
 //              layout-awareness (via event handlers). This is suited to
@@ -7,7 +7,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: laywin.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

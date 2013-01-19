@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     30.08.00
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: combobox.h 68808 2011-08-21 12:06:16Z VZ $
 // Copyright:   (c) 2000 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -31,7 +31,11 @@ class WXDLLIMPEXP_FWD_CORE wxListBox;
 // wxComboBox: a combination of text control and a listbox
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxComboBox : public wxComboCtrl, public wxComboBoxBase
+// NB: Normally we'd like wxComboBox to inherit from wxComboBoxBase, but here
+//     we can't really do that since both wxComboBoxBase and wxComboCtrl inherit
+//     from wxTextCtrl.
+class WXDLLIMPEXP_CORE wxComboBox :
+    public wxWindowWithItems<wxComboCtrl, wxItemContainer>
 {
 public:
     // ctors and such
@@ -118,6 +122,17 @@ public:
     virtual bool CanUndo() const;
     virtual bool CanRedo() const;
 
+    // override these methods to disambiguate between two base classes versions
+    virtual void Clear()
+    {
+        wxComboCtrl::Clear();
+        wxItemContainer::Clear();
+    }
+
+    // See wxComboBoxBase discussion of IsEmpty().
+    bool IsListEmpty() const { return wxItemContainer::IsEmpty(); }
+    bool IsTextEmpty() const { return wxTextEntry::IsEmpty(); }
+
     // wxControlWithItems methods
     virtual void DoClear();
     virtual void DoDeleteOneItem(unsigned int n);
@@ -128,8 +143,6 @@ public:
     virtual void SetSelection(int n);
     virtual int GetSelection() const;
     virtual wxString GetStringSelection() const;
-
-    wxCONTROL_ITEMCONTAINER_CLIENTDATAOBJECT_RECAST
 
     // we have our own input handler and our own actions
     // (but wxComboCtrl already handled Popup/Dismiss)

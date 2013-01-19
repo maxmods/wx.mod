@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        ole/droptgt.h
+// Name:        wx/msw/ole/droptgt.h
 // Purpose:     declaration of the wxDropTarget class
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     06.03.98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: droptgt.h 72673 2012-10-14 14:42:58Z VZ $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,6 +19,7 @@
 // ----------------------------------------------------------------------------
 
 class  wxIDropTarget;
+struct wxIDropTargetHelper;
 struct IDataObject;
 
 // ----------------------------------------------------------------------------
@@ -60,12 +61,26 @@ public:
     // GetData() when it's called from inside OnData()
     void MSWSetDataSource(IDataObject *pIDataSource);
 
+    // These functions take care of all things necessary to support native drag
+    // images.
+    //
+    // {Init,End}DragImageSupport() are called during Register/Revoke,
+    // UpdateDragImageOnXXX() functions are called on the corresponding drop
+    // target events.
+    void MSWInitDragImageSupport();
+    void MSWEndDragImageSupport();
+    void MSWUpdateDragImageOnData(wxCoord x, wxCoord y, wxDragResult res);
+    void MSWUpdateDragImageOnDragOver(wxCoord x, wxCoord y, wxDragResult res);
+    void MSWUpdateDragImageOnEnter(wxCoord x, wxCoord y, wxDragResult res);
+    void MSWUpdateDragImageOnLeave();
+
 private:
     // helper used by IsAcceptedData() and GetData()
     wxDataFormat MSWGetSupportedFormat(IDataObject *pIDataSource) const;
 
-    wxIDropTarget *m_pIDropTarget; // the pointer to our COM interface
-    IDataObject   *m_pIDataSource; // the pointer to the source data object
+    wxIDropTarget     *m_pIDropTarget; // the pointer to our COM interface
+    IDataObject       *m_pIDataSource; // the pointer to the source data object
+    wxIDropTargetHelper *m_dropTargetHelper; // the drop target helper
 
     wxDECLARE_NO_COPY_CLASS(wxDropTarget);
 };

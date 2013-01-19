@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: font.h 70446 2012-01-23 11:28:28Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -91,6 +91,12 @@ public:
         Create(info, hFont);
     }
 
+    wxFont(int pointSize,
+           wxFontFamily family,
+           int flags = wxFONTFLAG_DEFAULT,
+           const wxString& face = wxEmptyString,
+           wxFontEncoding encoding = wxFONTENCODING_DEFAULT);
+
     wxFont(const wxString& fontDesc);
 
 
@@ -114,10 +120,10 @@ public:
     virtual int GetPointSize() const;
     virtual wxSize GetPixelSize() const;
     virtual bool IsUsingSizeInPixels() const;
-    virtual wxFontFamily GetFamily() const;
     virtual wxFontStyle GetStyle() const;
     virtual wxFontWeight GetWeight() const;
     virtual bool GetUnderlined() const;
+    virtual bool GetStrikethrough() const;
     virtual wxString GetFaceName() const;
     virtual wxFontEncoding GetEncoding() const;
     virtual const wxNativeFontInfo *GetNativeFontInfo() const;
@@ -129,6 +135,7 @@ public:
     virtual void SetWeight(wxFontWeight weight);
     virtual bool SetFaceName(const wxString& faceName);
     virtual void SetUnderlined(bool underlined);
+    virtual void SetStrikethrough(bool strikethrough);
     virtual void SetEncoding(wxFontEncoding encoding);
 
     wxDECLARE_COMMON_FONT_METHODS();
@@ -159,6 +166,7 @@ protected:
                   wxFontEncoding encoding = wxFONTENCODING_DEFAULT);
 
     virtual void DoSetNativeFontInfo(const wxNativeFontInfo& info);
+    virtual wxFontFamily DoGetFamily() const;
 
     // implement wxObject virtuals which are used by AllocExclusive()
     virtual wxGDIRefData *CreateGDIRefData() const;

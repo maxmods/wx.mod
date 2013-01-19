@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        dcclient.h
+// Name:        wx/os2/dcclient.h
 // Purpose:     wxClientDC class
 // Author:      David Webster
 // Modified by:
 // Created:     09/12/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dcclient.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

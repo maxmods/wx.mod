@@ -4,18 +4,16 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: colrdlgg.h 66615 2011-01-07 05:26:57Z PC $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef __COLORDLGH_G__
-#define __COLORDLGH_G__
+#ifndef _WX_COLORDLGG_H_
+#define _WX_COLORDLGG_H_
 
-#include "wx/defs.h"
 #include "wx/gdicmn.h"
 #include "wx/dialog.h"
-#include "wx/cmndata.h"
 
 #define wxID_ADD_CUSTOM     3000
 
@@ -116,4 +114,4 @@ protected:
     DECLARE_DYNAMIC_CLASS(wxGenericColourDialog)
 };
 
-#endif
+#endif // _WX_COLORDLGG_H_

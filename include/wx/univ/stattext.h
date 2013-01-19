@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     14.08.00
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: stattext.h 66578 2011-01-04 16:21:29Z VZ $
 // Copyright:   (c) 2000 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ protected:
     virtual void DoSetLabel(const wxString& str);
     virtual wxString DoGetLabel() const;
 
-    DECLARE_ABSTRACT_CLASS(wxStaticText)
+    DECLARE_DYNAMIC_CLASS(wxStaticText)
 };
 
 #endif // _WX_UNIV_STATTEXT_H_

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wx/msw/iniconf.h
+// Name:        wx/os2/iniconf.h
 // Purpose:     INI-file based wxConfigBase implementation
 // Author:      David Webster
 // Modified by:
@@ -107,15 +107,15 @@ private:
            m_strPath;     // the rest of the path (no trailing '_'!)
   // Virtual function hiding
   virtual bool Read(const wxString& key, bool* val) const
-  { return(wxConfigBase::Read(key, val));};
+  { return(wxConfigBase::Read(key, val));}
   virtual bool Read(const wxString& key, bool* val, bool defVal) const
-  { return(wxConfigBase::Read(key, val, defVal));};
+  { return(wxConfigBase::Read(key, val, defVal));}
   virtual bool Write(const wxString& key, double value)
-  { return(wxConfigBase::Write(key, value));};
+  { return(wxConfigBase::Write(key, value));}
   virtual bool Write(const wxString& key, bool value)
-  { return(wxConfigBase::Write(key, value));};
+  { return(wxConfigBase::Write(key, value));}
   virtual bool Write(const wxString& key, const char* value)
-  { return(wxConfigBase::Write(key, value));};
+  { return(wxConfigBase::Write(key, value));}
 };
 
 #endif  //_INICONF_H

@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        control.h
+// Name:        wx/gtk/control.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: control.h 73010 2012-11-25 02:23:34Z PC $
 // Copyright:   (c) 1998 Robert Roebling, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,20 +12,15 @@
 
 typedef struct _GtkLabel GtkLabel;
 typedef struct _GtkFrame GtkFrame;
+typedef struct _GtkEntry GtkEntry;
 
 //-----------------------------------------------------------------------------
 // wxControl
 //-----------------------------------------------------------------------------
 
-// C-linkage function pointer types for GetDefaultAttributesFromGTKWidget
-extern "C" {
-    typedef GtkWidget* (*wxGtkWidgetNew_t)(void);
-    typedef GtkWidget* (*wxGtkWidgetNewFromStr_t)(const gchar*);
-    typedef GtkWidget* (*wxGtkWidgetNewFromAdj_t)(GtkAdjustment*);
-}
-
 class WXDLLIMPEXP_CORE wxControl : public wxControlBase
 {
+    typedef wxControlBase base_type;
 public:
     wxControl();
     wxControl(wxWindow *parent, wxWindowID id,
@@ -43,10 +38,10 @@ public:
             const wxValidator& validator = wxDefaultValidator,
             const wxString& name = wxControlNameStr);
 
-
     virtual wxVisualAttributes GetDefaultAttributes() const;
-
-    virtual void OnInternalIdle();
+#ifdef __WXGTK3__
+    virtual bool SetFont(const wxFont& font);
+#endif
 
 protected:
     virtual wxSize DoGetBestSize() const;
@@ -54,7 +49,9 @@ protected:
 
     // sets the label to the given string and also sets it for the given widget
     void GTKSetLabelForLabel(GtkLabel *w, const wxString& label);
+#if wxUSE_MARKUP
     void GTKSetLabelWithMarkupForLabel(GtkLabel *w, const wxString& label);
+#endif // wxUSE_MARKUP
 
     // GtkFrame helpers
     GtkWidget* GTKCreateFrame(const wxString& label);
@@ -75,20 +72,7 @@ protected:
     static wxVisualAttributes
         GetDefaultAttributesFromGTKWidget(GtkWidget* widget,
                                           bool useBase = false,
-                                          int state = -1);
-    static wxVisualAttributes
-        GetDefaultAttributesFromGTKWidget(wxGtkWidgetNew_t,
-                                          bool useBase = false,
-                                          int state = -1);
-    static wxVisualAttributes
-        GetDefaultAttributesFromGTKWidget(wxGtkWidgetNewFromStr_t,
-                                          bool useBase = false,
-                                          int state = -1);
-
-    static wxVisualAttributes
-        GetDefaultAttributesFromGTKWidget(wxGtkWidgetNewFromAdj_t,
-                                          bool useBase = false,
-                                          int state = -1);
+                                          int state = 0);
 
     // Widgets that use the style->base colour for the BG colour should
     // override this and return true.
@@ -96,6 +80,12 @@ protected:
 
     // Fix sensitivity due to bug in GTK+ < 2.14
     void GTKFixSensitivity(bool onlyIfUnderMouse = true);
+
+    // Ask GTK+ for preferred size. Use it after setting the font.
+    wxSize GTKGetPreferredSize(GtkWidget* widget) const;
+
+    // Inner margins in a GtkEntry
+    wxPoint GTKGetEntryMargins(GtkEntry* entry) const;
 
 private:
     DECLARE_DYNAMIC_CLASS(wxControl)

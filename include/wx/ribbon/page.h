@@ -4,7 +4,7 @@
 // Author:      Peter Cawley
 // Modified by:
 // Created:     2009-05-25
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: page.h 72495 2012-09-15 23:19:59Z VZ $
 // Copyright:   (C) Peter Cawley
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -60,6 +60,8 @@ public:
     wxOrientation GetMajorAxis() const;
 
     virtual void RemoveChild(wxWindowBase *child);
+
+    void HideIfExpanded();
 
 protected:
     virtual wxSize DoGetBestSize() const;

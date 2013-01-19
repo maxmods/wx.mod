@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: bitmap.h 72476 2012-09-13 17:15:00Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,6 @@ class WXDLLIMPEXP_FWD_CORE wxDC;
 class WXDLLIMPEXP_FWD_CORE wxDIB;
 #endif
 class WXDLLIMPEXP_FWD_CORE wxIcon;
-class WXDLLIMPEXP_FWD_CORE wxImage;
 class WXDLLIMPEXP_FWD_CORE wxMask;
 class WXDLLIMPEXP_FWD_CORE wxPalette;
 class WXDLLIMPEXP_FWD_CORE wxPixelDataBase;
@@ -44,7 +43,8 @@ enum wxBitmapTransparency
 // NOTE: for wxMSW we don't use the wxBitmapBase base class declared in bitmap.h!
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxBitmap : public wxGDIImage
+class WXDLLIMPEXP_CORE wxBitmap : public wxGDIImage,
+                                  public wxBitmapHelpers
 {
 public:
     // default ctor creates an invalid bitmap, you must Create() it later
@@ -115,6 +115,7 @@ public:
 
 #if wxUSE_IMAGE
     wxImage ConvertToImage() const;
+    wxBitmap ConvertToDisabled(unsigned char brightness = 255) const;
 #endif // wxUSE_IMAGE
 
     // get the given part of bitmap

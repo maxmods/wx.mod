@@ -5,7 +5,7 @@
 // Modified by:
 // Created:     14/4/2006
 // Copyright:   (c) Francesco Montorsi
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: fontpickerg.h 66615 2011-01-07 05:26:57Z PC $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -13,7 +13,7 @@
 #define _WX_FONTPICKER_H_
 
 #include "wx/button.h"
-#include "wx/cmndata.h"
+#include "wx/fontdata.h"
 
 //-----------------------------------------------------------------------------
 // wxGenericFontButton: a button which brings up a wxFontDialog

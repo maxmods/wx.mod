@@ -3,7 +3,7 @@
 // Purpose:     wxFileSystemWatcherBase
 // Author:      Bartosz Bekier
 // Created:     2009-05-23
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: fswatcher.h 72987 2012-11-19 12:52:18Z VZ $
 // Copyright:   (c) 2009 Bartosz Bekier <bartosz.bekier@gmail.com>
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -44,16 +44,29 @@ enum
     wxFSW_EVENT_RENAME = 0x04,
     wxFSW_EVENT_MODIFY = 0x08,
     wxFSW_EVENT_ACCESS = 0x10,
+    wxFSW_EVENT_ATTRIB = 0x20, // Currently this is wxGTK-only
 
     // error events
-    wxFSW_EVENT_WARNING = 0x20,
-    wxFSW_EVENT_ERROR = 0x40,
-
+    wxFSW_EVENT_WARNING = 0x40,
+    wxFSW_EVENT_ERROR = 0x80,
     wxFSW_EVENT_ALL = wxFSW_EVENT_CREATE | wxFSW_EVENT_DELETE |
                          wxFSW_EVENT_RENAME | wxFSW_EVENT_MODIFY |
-                         wxFSW_EVENT_ACCESS |
+                         wxFSW_EVENT_ACCESS | wxFSW_EVENT_ATTRIB |
                          wxFSW_EVENT_WARNING | wxFSW_EVENT_ERROR
+#ifdef wxHAS_INOTIFY
+    ,wxFSW_EVENT_UNMOUNT = 0x2000
+#endif
 };
+
+// Type of the path watched, used only internally for now.
+enum wxFSWPathType
+{
+    wxFSWPath_None,     // Invalid value for an initialized watch.
+    wxFSWPath_File,     // Plain file.
+    wxFSWPath_Dir,      // Watch a directory and the files in it.
+    wxFSWPath_Tree      // Watch a directory and all its children recursively.
+};
+
 
 /**
  * Event containing information about file system change.
@@ -174,24 +187,28 @@ typedef void (wxEvtHandler::*wxFileSystemWatcherEventFunction)
 #define wxFileSystemWatcherEventHandler(func) \
     wxEVENT_HANDLER_CAST(wxFileSystemWatcherEventFunction, func)
 
+#define EVT_FSWATCHER(winid, func) \
+    wx__DECLARE_EVT1(wxEVT_FSWATCHER, winid, wxFileSystemWatcherEventHandler(func))
 
 // ----------------------------------------------------------------------------
 // wxFileSystemWatcherBase: interface for wxFileSystemWatcher
 // ----------------------------------------------------------------------------
 
-/**
- * Simple container to store information about one watched file
- */
+// Simple container to store information about one watched path.
 class wxFSWatchInfo
 {
 public:
     wxFSWatchInfo() :
-        m_path(wxEmptyString), m_events(-1)
+        m_events(-1), m_type(wxFSWPath_None), m_refcount(-1)
     {
     }
 
-    wxFSWatchInfo(const wxString& path, int events) :
-        m_path(path), m_events(events)
+    wxFSWatchInfo(const wxString& path,
+                  int events,
+                  wxFSWPathType type,
+                  const wxString& filespec = wxString()) :
+        m_path(path), m_filespec(filespec), m_events(events), m_type(type),
+        m_refcount(1)
     {
     }
 
@@ -200,14 +217,39 @@ public:
         return m_path;
     }
 
+    const wxString& GetFilespec() const { return m_filespec; }
+
     int GetFlags() const
     {
         return m_events;
     }
 
+    wxFSWPathType GetType() const
+    {
+        return m_type;
+    }
+
+    // Reference counting of watch entries is used to avoid watching the same
+    // file system path multiple times (this can happen even accidentally, e.g.
+    // when you have a recursive watch and then decide to watch some file or
+    // directory under it separately).
+    int IncRef()
+    {
+        return ++m_refcount;
+    }
+
+    int DecRef()
+    {
+        wxASSERT_MSG( m_refcount > 0, wxS("Trying to decrement a zero count") );
+        return --m_refcount;
+    }
+
 protected:
     wxString m_path;
+    wxString m_filespec;      // For tree watches, holds any filespec to apply
     int m_events;
+    wxFSWPathType m_type;
+    int m_refcount;
 };
 
 WX_DECLARE_STRING_HASH_MAP(wxFSWatchInfo, wxFSWatchInfoMap);
@@ -244,7 +286,7 @@ public:
      * of particular type.
      */
     virtual bool AddTree(const wxFileName& path, int events = wxFSW_EVENT_ALL,
-                         const wxString& filter = wxEmptyString);
+                         const wxString& filespec = wxEmptyString);
 
     /**
      * Removes path from the list of watched paths.
@@ -289,6 +331,14 @@ public:
             m_owner = handler;
     }
 
+
+    // This is a semi-private function used by wxWidgets itself only.
+    //
+    // Delegates the real work of adding the path to wxFSWatcherImpl::Add() and
+    // updates m_watches if the new path was successfully added.
+    bool AddAny(const wxFileName& path, int events, wxFSWPathType type,
+                const wxString& filespec = wxString());
+
 protected:
 
     static wxString GetCanonicalPath(const wxFileName& path)
@@ -303,6 +353,7 @@ protected:
 
         return path_copy.GetFullPath();
     }
+
 
     wxFSWatchInfoMap m_watches;        // path=>wxFSWatchInfo map
     wxFSWatcherImpl* m_service;     // file system events service
@@ -320,7 +371,7 @@ protected:
 #elif defined(wxHAS_KQUEUE)
     #include "wx/unix/fswatcher_kqueue.h"
     #define wxFileSystemWatcher wxKqueueFileSystemWatcher
-#elif defined(__WXMSW__)
+#elif defined(__WINDOWS__)
     #include "wx/msw/fswatcher.h"
     #define wxFileSystemWatcher wxMSWFileSystemWatcher
 #else

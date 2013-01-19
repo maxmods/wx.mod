@@ -4,13 +4,15 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     12.09.00
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: checklst.h 65210 2010-08-08 11:35:55Z VZ $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef _WX_CHECKLST_H_BASE_
 #define _WX_CHECKLST_H_BASE_
+
+#include "wx/defs.h"
 
 #if wxUSE_CHECKLISTBOX
 

@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        dc.h
+// Name:        wx/os2/dc.h
 // Purpose:     wxDC class
 // Author:      David Webster
 // Modified by:
 // Created:     08/26/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dc.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

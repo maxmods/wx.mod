@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/13/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: colour.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ public:
 
     bool operator != (const wxColour& rColour) const { return !(*this == rColour); }
 
-    WXCOLORREF GetPixel(void) const { return m_vPixel; };
+    WXCOLORREF GetPixel(void) const { return m_vPixel; }
 
 
 private:

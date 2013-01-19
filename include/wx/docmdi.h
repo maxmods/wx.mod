@@ -3,7 +3,7 @@
 // Purpose:     Frame classes for MDI document/view applications
 // Author:      Julian Smart
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: docmdi.h 64295 2010-05-12 14:34:18Z VZ $
 // Copyright:   (c) 1997 Julian Smart
 //              (c) 2010 Vadim Zeitlin
 // Licence:     wxWindows licence

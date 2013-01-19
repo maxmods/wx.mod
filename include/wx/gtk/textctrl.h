@@ -3,7 +3,7 @@
 // Purpose:
 // Author:      Robert Roebling
 // Created:     01/02/97
-// Id:          $Id$
+// Id:          $Id: textctrl.h 72993 2012-11-20 12:49:03Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -155,17 +155,18 @@ protected:
     virtual void DoApplyWidgetStyle(GtkRcStyle *style);
     virtual GdkWindow *GTKGetWindow(wxArrayGdkWindows& windows) const;
 
+    virtual wxSize DoGetSizeFromTextSize(int xlen, int ylen = -1) const;
+
     virtual void DoFreeze();
     virtual void DoThaw();
-
-    // common part of all ctors
-    void Init();
 
     // Widgets that use the style->base colour for the BG colour should
     // override this and return true.
     virtual bool UseGTKStyleBase() const { return true; }
 
     virtual void DoSetValue(const wxString &value, int flags = 0);
+
+    virtual wxPoint DoPositionToCoords(long pos) const;
 
     // wrappers hiding the differences between functions doing the same thing
     // for GtkTextView and GtkEntry (all of them use current window style to
@@ -177,6 +178,8 @@ protected:
     void GTKSetJustification();
 
 private:
+    void Init();
+
     // overridden wxTextEntry virtual methods
     virtual GtkEditable *GetEditable() const;
     virtual GtkEntry *GetEntry() const;
@@ -214,6 +217,7 @@ private:
     GtkTextBuffer *m_buffer;
 
     GtkTextMark* m_showPositionOnThaw;
+    GSList* m_anonymousMarkList;
 
     // For wxTE_AUTO_URL
     void OnUrlMouseEvent(wxMouseEvent&);

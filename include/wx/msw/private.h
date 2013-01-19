@@ -6,7 +6,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: private.h 73290 2012-12-28 16:03:03Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -169,9 +169,9 @@ extern LONG APIENTRY _EXPORT
 
 // This one is a macro so that it can be tested with #ifdef, it will be
 // undefined if it cannot be implemented for a given compiler.
-// Vc++, bcc, dmc, ow, mingw, codewarrior (and rsxnt) have _get_osfhandle.
-// Cygwin has get_osfhandle. Others are currently unknown, e.g. Salford,
-// Intel, Visual Age.
+// Vc++, bcc, dmc, ow, mingw akk have _get_osfhandle() and Cygwin has
+// get_osfhandle. Others are currently unknown, e.g. Salford, Intel, Visual
+// Age.
 #if defined(__WXWINCE__)
     #define wxGetOSFHandle(fd) ((HANDLE)fd)
     #define wxOpenOSFHandle(h, flags) ((int)wxPtrToUInt(h))
@@ -181,8 +181,7 @@ extern LONG APIENTRY _EXPORT
    || defined(__BORLANDC__) \
    || defined(__DMC__) \
    || defined(__WATCOMC__) \
-   || defined(__MINGW32__) \
-   || (defined(__MWERKS__) && defined(__MSL__))
+   || defined(__MINGW32__)
     #define wxGetOSFHandle(fd) ((HANDLE)_get_osfhandle(fd))
     #define wxOpenOSFHandle(h, flags) (_open_osfhandle(wxPtrToUInt(h), flags))
     #define wx_fdopen _fdopen
@@ -217,6 +216,21 @@ struct WinStruct : public T
         this->cbSize = sizeof(T);
     }
 };
+
+
+// Macros for converting wxString to the type expected by API functions.
+//
+// Normally it is enough to just use wxString::t_str() which is implicitly
+// convertible to LPCTSTR, but in some cases an explicit conversion is required.
+//
+// In such cases wxMSW_CONV_LPCTSTR() should be used. But if an API function
+// takes a non-const pointer, wxMSW_CONV_LPTSTR() which casts away the
+// constness (but doesn't make it possible to really modify the returned
+// pointer, of course) should be used. And if a string is passed as LPARAM, use
+// wxMSW_CONV_LPARAM() which does the required ugly reinterpret_cast<> too.
+#define wxMSW_CONV_LPCTSTR(s) static_cast<const wxChar *>((s).t_str())
+#define wxMSW_CONV_LPTSTR(s) const_cast<wxChar *>(wxMSW_CONV_LPCTSTR(s))
+#define wxMSW_CONV_LPARAM(s) reinterpret_cast<LPARAM>(wxMSW_CONV_LPCTSTR(s))
 
 
 #if wxUSE_GUI
@@ -418,8 +432,9 @@ private:
 class WindowHDC
 {
 public:
+    WindowHDC() : m_hwnd(NULL), m_hdc(NULL) { }
     WindowHDC(HWND hwnd) { m_hdc = ::GetDC(m_hwnd = hwnd); }
-   ~WindowHDC() { ::ReleaseDC(m_hwnd, m_hdc); }
+   ~WindowHDC() { if ( m_hwnd && m_hdc ) { ::ReleaseDC(m_hwnd, m_hdc); } }
 
     operator HDC() const { return m_hdc; }
 
@@ -454,7 +469,7 @@ private:
     void DoInit(HGDIOBJ hgdiobj) { m_hgdiobj = ::SelectObject(m_hdc, hgdiobj); }
 
 public:
-    SelectInHDC() : m_hdc(NULL) { }
+    SelectInHDC() : m_hdc(NULL), m_hgdiobj(NULL) { }
     SelectInHDC(HDC hdc, HGDIOBJ hgdiobj) : m_hdc(hdc) { DoInit(hgdiobj); }
 
     void Init(HDC hdc, HGDIOBJ hgdiobj)
@@ -541,7 +556,12 @@ public:
 class AutoHBITMAP : private AutoGDIObject
 {
 public:
+    AutoHBITMAP()
+        : AutoGDIObject() { }
+
     AutoHBITMAP(HBITMAP hbmp) : AutoGDIObject(hbmp) { }
+
+    void Init(HBITMAP hbmp) { InitGdiobj(hbmp); }
 
     operator HBITMAP() const { return (HBITMAP)GetObject(); }
 };
@@ -776,7 +796,7 @@ public:
     {
         if ( IsRegistered() )
         {
-            if ( !::UnregisterClass(m_clsname.wx_str(), wxGetInstance()) )
+            if ( !::UnregisterClass(m_clsname.t_str(), wxGetInstance()) )
             {
                 wxLogLastError(wxT("UnregisterClass"));
             }
@@ -912,11 +932,14 @@ enum wxWinVersion
 
 WXDLLIMPEXP_BASE wxWinVersion wxGetWinVersion();
 
-#if wxUSE_GUI
+#if wxUSE_GUI && defined(__WXMSW__)
 
 // cursor stuff
 extern HCURSOR wxGetCurrentBusyCursor();    // from msw/utils.cpp
 extern const wxCursor *wxGetGlobalCursor(); // from msw/cursor.cpp
+
+// GetCursorPos can fail without populating the POINT. This falls back to GetMessagePos.
+WXDLLIMPEXP_CORE void wxGetCursorPosMSW(POINT* pt);
 
 WXDLLIMPEXP_CORE void wxGetCharSize(WXHWND wnd, int *x, int *y, const wxFont& the_font);
 WXDLLIMPEXP_CORE void wxFillLogFont(LOGFONT *logFont, const wxFont *font);
@@ -1046,6 +1069,6 @@ inline void *wxSetWindowUserData(HWND hwnd, void *data)
 
 #endif // __WIN64__/__WIN32__
 
-#endif // wxUSE_GUI
+#endif // wxUSE_GUI && __WXMSW__
 
 #endif // _WX_PRIVATE_H_

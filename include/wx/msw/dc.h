@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dc.h 72225 2012-07-28 19:31:09Z RD $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -87,6 +87,13 @@ public:
     virtual void SetDeviceOrigin(wxCoord x, wxCoord y);
     virtual void SetAxisOrientation(bool xLeftRight, bool yBottomUp);
 
+#if wxUSE_DC_TRANSFORM_MATRIX
+    virtual bool CanUseTransformMatrix() const;
+    virtual bool SetTransformMatrix(const wxAffineMatrix2D& matrix);
+    virtual wxAffineMatrix2D GetTransformMatrix() const;
+    virtual void ResetTransformMatrix();
+#endif // wxUSE_DC_TRANSFORM_MATRIX
+
     virtual void SetLogicalFunction(wxRasterOperationMode function);
 
     // implementation from now on
@@ -119,6 +126,8 @@ public:
         m_clipX2 = 0;
     }
 
+    void* GetHandle() const { return (void*)GetHDC(); }
+    
     const wxBitmap& GetSelectedBitmap() const { return m_selectedBitmap; }
     wxBitmap& GetSelectedBitmap() { return m_selectedBitmap; }
 
@@ -165,6 +174,12 @@ protected:
     void RealizeScaleAndOrigin();
 
 public:
+    virtual void DoGetFontMetrics(int *height,
+                                  int *ascent,
+                                  int *descent,
+                                  int *internalLeading,
+                                  int *externalLeading,
+                                  int *averageWidth) const;
     virtual void DoGetTextExtent(const wxString& string,
                                  wxCoord *x, wxCoord *y,
                                  wxCoord *descent = NULL,

@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     25.10.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: menuitem.h 70345 2012-01-15 01:05:28Z VZ $
 // Copyright:   (c) 1999 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ public:
     wxDEPRECATED( const wxString& GetText() const );
 
     // Now use GetLabelText to strip the accelerators
-    wxDEPRECATED( static wxString GetLabelFromText(const wxString& text) );
+    static wxDEPRECATED( wxString GetLabelFromText(const wxString& text) );
 
     // Now use SetItemLabel
     wxDEPRECATED( virtual void SetText(const wxString& str) );
@@ -189,8 +189,6 @@ inline void wxMenuItemBase::SetText(const wxString& text) { SetItemLabel(text); 
 #else // !wxUSE_BASE_CLASSES_ONLY
 #if defined(__WXUNIVERSAL__)
     #include "wx/univ/menuitem.h"
-#elif defined(__WXPALMOS__)
-    #include "wx/palmos/menuitem.h"
 #elif defined(__WXMSW__)
     #include "wx/msw/menuitem.h"
 #elif defined(__WXMOTIF__)

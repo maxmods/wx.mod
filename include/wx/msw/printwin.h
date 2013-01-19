@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        printwin.h
+// Name:        wx/msw/printwin.h
 // Purpose:     wxWindowsPrinter, wxWindowsPrintPreview classes
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: printwin.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,9 @@ public:
     virtual void DetermineScaling();
 
 protected:
+#if wxUSE_ENH_METAFILE
     virtual bool RenderPageIntoBitmap(wxBitmap& bmp, int pageNum);
+#endif
 
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxWindowsPrintPreview)
 };

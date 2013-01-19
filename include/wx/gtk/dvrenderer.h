@@ -3,7 +3,7 @@
 // Purpose:     wxDataViewRenderer for GTK wxDataViewCtrl implementation
 // Author:      Robert Roebling, Vadim Zeitlin
 // Created:     2009-11-07 (extracted from wx/gtk/dataview.h)
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dvrenderer.h 69020 2011-09-07 16:56:50Z PC $
 // Copyright:   (c) 2006 Robert Roebling
 //              (c) 2009 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
@@ -48,11 +48,11 @@ public:
     //
     // it validates the new value and notifies the model about the change by
     // calling GtkOnCellChanged() if it was accepted
-    virtual void GtkOnTextEdited(const gchar *itempath, const wxString& value);
+    virtual void GtkOnTextEdited(const char *itempath, const wxString& value);
 
     GtkCellRenderer* GetGtkHandle() { return m_renderer; }
     void GtkInitHandlers();
-    void GtkUpdateAlignment();
+    void GtkUpdateAlignment() { GtkApplyAlignment(m_renderer); }
 
     // should be overridden to return true if the renderer supports properties
     // corresponding to wxDataViewItemAttr field, see wxGtkTreeCellDataFunc()
@@ -77,15 +77,21 @@ public:
     // specific attributes: can return NULL if this renderer doesn't render any
     // text
     virtual GtkCellRendererText *GtkGetTextRenderer() const { return NULL; }
+    
+    wxDataViewCellMode GtkGetMode() { return m_mode; }
 
 protected:
     virtual void GtkOnCellChanged(const wxVariant& value,
                                   const wxDataViewItem& item,
                                   unsigned col);
 
+    // Apply our effective alignment (i.e. m_alignment if specified or the
+    // associated column alignment by default) to the given renderer.
+    void GtkApplyAlignment(GtkCellRenderer *renderer);
 
-    GtkCellRenderer   *m_renderer;
-    int                m_alignment;
+    GtkCellRenderer    *m_renderer;
+    int                 m_alignment;
+    wxDataViewCellMode  m_mode;
 
     // true if we hadn't changed any visual attributes or restored them since
     // doing this

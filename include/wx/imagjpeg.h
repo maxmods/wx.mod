@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        imagjpeg.h
+// Name:        wx/imagjpeg.h
 // Purpose:     wxImage JPEG handler
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: imagjpeg.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,6 +19,7 @@
 #if wxUSE_LIBJPEG
 
 #include "wx/image.h"
+#include "wx/versioninfo.h"
 
 class WXDLLIMPEXP_CORE wxJPEGHandler: public wxImageHandler
 {
@@ -32,6 +33,8 @@ public:
         m_type = wxBITMAP_TYPE_JPEG;
         m_mime = wxT("image/jpeg");
     }
+
+    static wxVersionInfo GetLibraryVersionInfo();
 
 #if wxUSE_STREAMS
     virtual bool LoadFile( wxImage *image, wxInputStream& stream, bool verbose=true, int index=-1 );

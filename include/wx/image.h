@@ -2,7 +2,7 @@
 // Name:        wx/image.h
 // Purpose:     wxImage class
 // Author:      Robert Roebling
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: image.h 69760 2011-11-14 13:35:52Z VZ $
 // Copyright:   (c) Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -28,17 +28,20 @@
 // which breaks the compilation below
 #undef index
 
-#define wxIMAGE_OPTION_QUALITY  wxString(wxT("quality"))
-#define wxIMAGE_OPTION_FILENAME wxString(wxT("FileName"))
+#define wxIMAGE_OPTION_QUALITY               wxString(wxS("quality"))
+#define wxIMAGE_OPTION_FILENAME              wxString(wxS("FileName"))
 
-#define wxIMAGE_OPTION_RESOLUTION            wxString(wxT("Resolution"))
-#define wxIMAGE_OPTION_RESOLUTIONX           wxString(wxT("ResolutionX"))
-#define wxIMAGE_OPTION_RESOLUTIONY           wxString(wxT("ResolutionY"))
+#define wxIMAGE_OPTION_RESOLUTION            wxString(wxS("Resolution"))
+#define wxIMAGE_OPTION_RESOLUTIONX           wxString(wxS("ResolutionX"))
+#define wxIMAGE_OPTION_RESOLUTIONY           wxString(wxS("ResolutionY"))
 
-#define wxIMAGE_OPTION_RESOLUTIONUNIT        wxString(wxT("ResolutionUnit"))
+#define wxIMAGE_OPTION_RESOLUTIONUNIT        wxString(wxS("ResolutionUnit"))
 
-#define wxIMAGE_OPTION_MAX_WIDTH             wxString(wxT("MaxWidth"))
-#define wxIMAGE_OPTION_MAX_HEIGHT            wxString(wxT("MaxHeight"))
+#define wxIMAGE_OPTION_MAX_WIDTH             wxString(wxS("MaxWidth"))
+#define wxIMAGE_OPTION_MAX_HEIGHT            wxString(wxS("MaxHeight"))
+
+#define wxIMAGE_OPTION_ORIGINAL_WIDTH        wxString(wxS("OriginalWidth"))
+#define wxIMAGE_OPTION_ORIGINAL_HEIGHT       wxString(wxS("OriginalHeight"))
 
 // constants used with wxIMAGE_OPTION_RESOLUTIONUNIT
 //
@@ -62,12 +65,13 @@ enum wxImageResizeQuality
     wxIMAGE_QUALITY_NEAREST = 0,
     wxIMAGE_QUALITY_BILINEAR = 1,
     wxIMAGE_QUALITY_BICUBIC = 2,
+    wxIMAGE_QUALITY_BOX_AVERAGE = 3,
 
     // default quality is low (but fast)
     wxIMAGE_QUALITY_NORMAL = wxIMAGE_QUALITY_NEAREST,
 
     // highest (but best) quality
-    wxIMAGE_QUALITY_HIGH = wxIMAGE_QUALITY_BICUBIC
+    wxIMAGE_QUALITY_HIGH
 };
 
 // alpha channel values: fully transparent, default threshold separating
@@ -347,6 +351,7 @@ public:
                    bool interpolating = true, wxPoint * offset_after_rotation = NULL) const;
 
     wxImage Rotate90( bool clockwise = true ) const;
+    wxImage Rotate180() const;
     wxImage Mirror( bool horizontally = true ) const;
 
     // replace one colour with another
@@ -388,7 +393,7 @@ public:
     // automatically or using the specified colour for the mask), if it has
     // any, does nothing otherwise:
     bool ConvertAlphaToMask(unsigned char threshold = wxIMAGE_ALPHA_THRESHOLD);
-    void ConvertAlphaToMask(unsigned char mr, unsigned char mg, unsigned char mb,
+    bool ConvertAlphaToMask(unsigned char mr, unsigned char mg, unsigned char mb,
                             unsigned char threshold = wxIMAGE_ALPHA_THRESHOLD);
 
 
@@ -560,15 +565,15 @@ public:
         }
     )
 
-    wxDEPRECATED(
-        static wxImageHandler *FindHandler(const wxString& ext, long type)
+    static wxDEPRECATED(
+        wxImageHandler *FindHandler(const wxString& ext, long type)
         {
             return FindHandler(ext, (wxBitmapType)type);
         }
     )
 
-    wxDEPRECATED(
-        static wxImageHandler *FindHandler(long imageType)
+    static wxDEPRECATED(
+        wxImageHandler *FindHandler(long imageType)
         {
             return FindHandler((wxBitmapType)imageType);
         }
@@ -589,6 +594,24 @@ protected:
 
 private:
     friend class WXDLLIMPEXP_FWD_CORE wxImageHandler;
+
+    // Possible values for MakeEmptyClone() flags.
+    enum
+    {
+        // Create an image with the same orientation as this one. This is the
+        // default and only exists for symmetry with SwapOrientation.
+        Clone_SameOrientation = 0,
+
+        // Create an image with the same height as this image width and the
+        // same width as this image height.
+        Clone_SwapOrientation = 1
+    };
+
+    // Returns a new blank image with the same dimensions (or with width and
+    // height swapped if Clone_SwapOrientation flag is given), alpha, and mask
+    // as this image itself. This is used by several functions creating
+    // modified versions of this image.
+    wxImage MakeEmptyClone(int flags = Clone_SameOrientation) const;
 
 #if wxUSE_STREAMS
     // read the image from the specified stream updating image type if

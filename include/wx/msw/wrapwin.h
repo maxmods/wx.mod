@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        msw/wrapwin.h
+// Name:        wx/msw/wrapwin.h
 // Purpose:     Wrapper around <windows.h>, to be included instead of it
 // Author:      Vaclav Slavik
 // Created:     2003/07/22
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: wrapwin.h 69784 2011-11-17 16:43:34Z VZ $
 // Copyright:   (c) 2003 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -80,6 +80,7 @@
 #if (!defined(_MSC_VER) || (_MSC_VER < 1300)) && !defined(__WIN64__)
     #define UINT_PTR unsigned int
     #define INT_PTR int
+    #define HANDLE_PTR unsigned long
     #define LONG_PTR long
     #define ULONG_PTR unsigned long
     #define DWORD_PTR unsigned long

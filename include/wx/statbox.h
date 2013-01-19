@@ -1,11 +1,11 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        statbox.h
+// Name:        wx/statbox.h
 // Purpose:     wxStaticBox base header
 // Author:      Julian Smart
 // Modified by:
 // Created:
 // Copyright:   (c) Julian Smart
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: statbox.h 72663 2012-10-13 22:51:50Z VZ $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -17,6 +17,7 @@
 #if wxUSE_STATBOX
 
 #include "wx/control.h"
+#include "wx/containr.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxStaticBoxNameStr[];
 
@@ -24,13 +25,12 @@ extern WXDLLIMPEXP_DATA_CORE(const char) wxStaticBoxNameStr[];
 // wxStaticBox: a grouping box with a label
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxStaticBoxBase : public wxControl
+class WXDLLIMPEXP_CORE wxStaticBoxBase : public wxNavigationEnabled<wxControl>
 {
 public:
-    wxStaticBoxBase() { }
+    wxStaticBoxBase() { m_container.DisableSelfFocus(); }
 
-    // overriden base class virtuals
-    virtual bool AcceptsFocus() const { return false; }
+    // overridden base class virtuals
     virtual bool HasTransparentBackground() { return true; }
 
     // implementation only: this is used by wxStaticBoxSizer to account for the

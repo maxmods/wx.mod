@@ -3,7 +3,7 @@
 // Purpose:     declares wxEventLoop class
 // Author:      Lukasz Michalski (lm@zork.pl)
 // Created:     2007-05-07
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: evtloop.h 65680 2010-09-30 11:44:45Z VZ $
 // Copyright:   (c) 2007 Lukasz Michalski
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ namespace wxPrivate
     class PipeIOHandler;
 }
 
-class WXDLLIMPEXP_BASE wxConsoleEventLoop 
+class WXDLLIMPEXP_BASE wxConsoleEventLoop
 #ifdef __WXOSX__
 : public wxCFEventLoop
 #else

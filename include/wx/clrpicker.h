@@ -5,7 +5,7 @@
 // Modified by:
 // Created:     14/4/2006
 // Copyright:   (c) Vadim Zeitlin, Francesco Montorsi
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: clrpicker.h 72454 2012-09-09 13:35:57Z VZ $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -98,7 +98,7 @@ protected:
 class WXDLLIMPEXP_CORE wxColourPickerCtrl : public wxPickerBase
 {
 public:
-    wxColourPickerCtrl() : m_bIgnoreNextTextCtrlUpdate(false) {}
+    wxColourPickerCtrl() {}
     virtual ~wxColourPickerCtrl() {}
 
 
@@ -107,7 +107,6 @@ public:
         const wxSize& size = wxDefaultSize, long style = wxCLRP_DEFAULT_STYLE,
         const wxValidator& validator = wxDefaultValidator,
         const wxString& name = wxColourPickerCtrlNameStr)
-        : m_bIgnoreNextTextCtrlUpdate(false)
         { Create(parent, id, col, pos, size, style, validator, name); }
 
     bool Create(wxWindow *parent, wxWindowID id,
@@ -147,9 +146,6 @@ public:        // internal functions
 protected:
     virtual long GetPickerStyle(long style) const
         { return (style & wxCLRP_SHOW_LABEL); }
-
-    // true if the next UpdateTextCtrl() call is to ignore
-    bool m_bIgnoreNextTextCtrlUpdate;
 
 private:
     DECLARE_DYNAMIC_CLASS(wxColourPickerCtrl)

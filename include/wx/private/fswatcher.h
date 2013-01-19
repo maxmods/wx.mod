@@ -3,7 +3,7 @@
 // Purpose:     File system watcher impl classes
 // Author:      Bartosz Bekier
 // Created:     2009-05-26
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: fswatcher.h 72681 2012-10-15 01:09:25Z VZ $
 // Copyright:   (c) 2009 Bartosz Bekier <bartosz.bekier@gmail.com>
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@
     #define wxFSWatchEntry wxFSWatchEntryKq
     WX_DECLARE_STRING_HASH_MAP(wxSharedPtr<wxFSWatchEntry>,wxFSWatchEntries);
     #include "wx/unix/private/fswatcher_kqueue.h"
-#elif defined(__WXMSW__)
+#elif defined(__WINDOWS__)
     class wxFSWatchEntryMSW;
     #define wxFSWatchEntry wxFSWatchEntryMSW
     WX_DECLARE_STRING_HASH_MAP(wxSharedPtr<wxFSWatchEntry>,wxFSWatchEntries);
@@ -49,8 +49,13 @@ public:
 
     virtual bool Add(const wxFSWatchInfo& winfo)
     {
-        wxCHECK_MSG( m_watches.find(winfo.GetPath()) == m_watches.end(), false,
-                     "Path '%s' is already watched");
+        if ( m_watches.find(winfo.GetPath()) != m_watches.end() )
+        {
+            wxLogTrace(wxTRACE_FSWATCHER,
+                       "Path '%s' is already watched", winfo.GetPath());
+            // This can happen if a dir is watched, then a parent tree added
+            return true;
+        }
 
         // construct watch entry
         wxSharedPtr<wxFSWatchEntry> watch(new wxFSWatchEntry(winfo));
@@ -66,8 +71,13 @@ public:
     virtual bool Remove(const wxFSWatchInfo& winfo)
     {
         wxFSWatchEntries::iterator it = m_watches.find(winfo.GetPath());
-        wxCHECK_MSG( it != m_watches.end(), false, "Path '%s' is not watched");
-
+        if ( it == m_watches.end() )
+        {
+            wxLogTrace(wxTRACE_FSWATCHER,
+                       "Path '%s' is not watched", winfo.GetPath());
+            // This can happen if a dir is watched, then a parent tree added
+            return true;
+        }
         wxSharedPtr<wxFSWatchEntry> watch = it->second;
         m_watches.erase(it);
         return DoRemove(watch);
@@ -77,6 +87,12 @@ public:
     {
         m_watches.clear();
         return true;
+    }
+
+    // Check whether any filespec matches the file's ext (if present)
+    bool MatchesFilespec(const wxFileName& fn, const wxString& filespec) const
+    {
+        return filespec.empty() || wxMatchWild(filespec, fn.GetFullName());
     }
 
 protected:

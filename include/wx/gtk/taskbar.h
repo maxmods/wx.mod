@@ -3,7 +3,7 @@
 // Purpose:     wxTaskBarIcon class for GTK2
 // Author:      Paul Cornett
 // Created:     2009-02-08
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: taskbar.h 71242 2012-04-20 05:41:54Z RD $
 // Copyright:   (c) 2009 Paul Cornett
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 class WXDLLIMPEXP_ADV wxTaskBarIcon: public wxTaskBarIconBase
 {
 public:
-    wxTaskBarIcon();
+    wxTaskBarIcon(wxTaskBarIconType iconType = wxTBI_DEFAULT_TYPE);
     ~wxTaskBarIcon();
     virtual bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxString());
     virtual bool RemoveIcon();

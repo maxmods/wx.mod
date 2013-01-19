@@ -3,7 +3,7 @@
  * Author:      Vaclav Slavik
  * Purpose:     Compiler-specific configuration checking
  * Created:     2006-08-10
- * RCS-ID:      $Id$
+ * RCS-ID:      $Id: chkconf.h 70565 2012-02-10 23:34:49Z VZ $
  * Copyright:   (c) 2006 REA Elektronik GmbH
  * Licence:     wxWindows licence
  */
@@ -27,6 +27,15 @@
 #   else
 #       undef wxUSE_CONSOLE_EVENTLOOP
 #       define wxUSE_CONSOLE_EVENTLOOP 1
+#   endif
+#endif
+
+#if wxUSE_DATAOBJ
+#   ifdef wxABORT_ON_CONFIG_ERROR
+#       error "wxDataObject not supported in wxDFB"
+#   else
+#       undef wxUSE_DATAOBJ
+#       define wxUSE_DATAOBJ 0
 #   endif
 #endif
 

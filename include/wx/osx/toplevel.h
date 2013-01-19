@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     20.09.01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: toplevel.h 72323 2012-08-11 13:16:56Z SC $
 // Copyright:   (c) 2001 Stefan Csomor
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -44,15 +44,12 @@ public:
                 const wxSize& size = wxDefaultSize,
                 long style = wxDEFAULT_FRAME_STYLE,
                 const wxString& name = wxFrameNameStr);
-    
+
     bool Create(wxWindow *parent, WXWindow nativeWindow);
-    
+
     virtual bool Destroy();
 
     virtual wxPoint GetClientAreaOrigin() const;
-
-    virtual bool SetShape(const wxRegion& region)
-        { return DoSetShape(region); }
 
     // Attracts the users attention to this window if the application is
     // inactive (should be called when a background event occurs)
@@ -64,7 +61,7 @@ public:
     virtual void Iconize(bool iconize = true);
     virtual bool IsIconized() const;
     virtual void Restore();
-    
+
     virtual bool IsActive();
 
     virtual void ShowWithoutActivating();
@@ -77,8 +74,13 @@ public:
     virtual void SetTitle( const wxString& title);
     virtual wxString GetTitle() const;
 
+    virtual void SetLabel(const wxString& label) { SetTitle( label ); }
+    virtual wxString GetLabel() const            { return GetTitle(); }
+    
     virtual void OSXSetModified(bool modified);
     virtual bool OSXIsModified() const;
+
+    virtual void SetRepresentedFilename(const wxString& filename);
 
 protected:
     // common part of all ctors

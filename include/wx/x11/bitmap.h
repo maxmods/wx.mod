@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        x11/bitmap.h
+// Name:        wx/x11/bitmap.h
 // Purpose:     wxBitmap class
 // Author:      Julian Smart, Robert Roebling
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: bitmap.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) Julian Smart, Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -34,6 +34,7 @@ class WXDLLIMPEXP_CORE wxMask: public wxObject
 {
 public:
     wxMask();
+    wxMask(const wxMask& mask);
     wxMask( const wxBitmap& bitmap, const wxColour& colour );
     wxMask( const wxBitmap& bitmap, int paletteIndex );
     wxMask( const wxBitmap& bitmap );
@@ -53,6 +54,7 @@ public:
 private:
     WXPixmap    m_bitmap;
     WXDisplay  *m_display;
+    wxSize m_size;
 
 private:
     DECLARE_DYNAMIC_CLASS(wxMask)
@@ -115,7 +117,7 @@ public:
 
     wxPalette *GetPalette() const;
     wxPalette *GetColourMap() const
-        { return GetPalette(); };
+        { return GetPalette(); }
     virtual void SetPalette(const wxPalette& palette);
 
     // implementation

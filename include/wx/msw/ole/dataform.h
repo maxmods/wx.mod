@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        msw/ole/dataform.h
+// Name:        wx/msw/ole/dataform.h
 // Purpose:     declaration of the wxDataFormat class
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     19.10.99 (extracted from msw/ole/dataobj.h)
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dataform.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

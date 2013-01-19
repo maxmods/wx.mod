@@ -4,7 +4,7 @@
 // Author:      David Elliott, Ryan Norton
 // Modified by:
 // Created:     2007-07-06
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: strconv_cf.h 67215 2011-03-16 10:55:30Z SC $
 // Copyright:   (c) 2004 Ryan Norton
 //              (c) 2007 David Elliott
 // Licence:     wxWindows licence
@@ -295,7 +295,7 @@ public:
         Init(CFStringGetSystemEncoding()) ;
     }
 
-    wxMBConv_cf(const wxMBConv_cf& conv)
+    wxMBConv_cf(const wxMBConv_cf& conv) : wxMBConv()
     {
         m_encoding = conv.m_encoding;
     }

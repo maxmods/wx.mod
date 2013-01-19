@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     23.06.2003
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: apptrait.h 72951 2012-11-14 13:46:50Z VZ $
 // Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -66,10 +66,6 @@ public:
     virtual wxStandardPaths& GetStandardPaths();
 #endif
     virtual wxPortId GetToolkitVersion(int *majVer = NULL, int *minVer = NULL) const;
-
-#if defined(__WXGTK__) && wxUSE_INTL
-    virtual void SetLocale();
-#endif // __WXGTK__
 
 #ifdef __WXGTK20__
     virtual wxString GetDesktopEnvironment() const;

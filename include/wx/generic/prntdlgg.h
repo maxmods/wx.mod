@@ -1,11 +1,11 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        prntdlgg.h
+// Name:        wx/generic/prntdlgg.h
 // Purpose:     wxGenericPrintDialog, wxGenericPrintSetupDialog,
 //              wxGenericPageSetupDialog
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: prntdlgg.h 70636 2012-02-20 21:55:55Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ class WXDLLIMPEXP_FWD_CORE wxCheckBox;
 class WXDLLIMPEXP_FWD_CORE wxComboBox;
 class WXDLLIMPEXP_FWD_CORE wxStaticText;
 class WXDLLIMPEXP_FWD_CORE wxRadioBox;
-class WXDLLIMPEXP_FWD_CORE wxPageSetupData;
+class WXDLLIMPEXP_FWD_CORE wxPageSetupDialogData;
 
 // ----------------------------------------------------------------------------
 // constants

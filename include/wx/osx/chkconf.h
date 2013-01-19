@@ -4,7 +4,7 @@
  * Author:      Vadim Zeitlin
  * Modified by:
  * Created:     2005-04-05 (extracted from wx/chkconf.h)
- * RCS-ID:      $Id$
+ * RCS-ID:      $Id: chkconf.h 71513 2012-05-20 20:29:22Z VZ $
  * Copyright:   (c) 2005 Vadim Zeitlin <vadim@wxwidgets.org>
  * Licence:     wxWindows licence
  */
@@ -14,34 +14,14 @@
 #ifndef _WX_OSX_CHKCONF_H_
 #define _WX_OSX_CHKCONF_H_
 
-
-#if wxUSE_STACKWALKER
-    /* not supported under Mac */
-#   undef wxUSE_STACKWALKER
-#   define wxUSE_STACKWALKER 0
-#endif /* wxUSE_STACKWALKER */
-
-/*
- * disable the settings which don't work for some compilers
- */
-
-#if defined(__MWERKS__)
-    #undef wxUSE_DEBUG_NEW_ALWAYS
-    #define wxUSE_DEBUG_NEW_ALWAYS      0
-
-    /* DS: Fixes compilation when wxUSE_ON_FATAL_EXCEPTION is 1 */
-    #ifndef wxTYPE_SA_HANDLER
-        #define wxTYPE_SA_HANDLER int
-    #endif
-#endif
-
 /*
  * check graphics context option, must be on for every os x platform
  * we only use core graphics now on all builds, try to catch attempts
  * to configure the build otherwise and give error messages
  */
 
-#if !wxUSE_GRAPHICS_CONTEXT || ( defined( wxMAC_USE_CORE_GRAPHICS ) && !wxMAC_USE_CORE_GRAPHICS )
+#if wxUSE_GUI && (!wxUSE_GRAPHICS_CONTEXT || \
+    ( defined( wxMAC_USE_CORE_GRAPHICS ) && !wxMAC_USE_CORE_GRAPHICS ))
 #   error "OS X builds use CoreGraphics in this wx version, you cannot turn back to QuickDraw completely"
 #endif
 
@@ -70,7 +50,9 @@
         #undef wxOSX_USE_COCOA
         #define wxOSX_USE_COCOA 1
     #endif
-    #define wxOSX_USE_CARBON 0
+    #if wxOSX_USE_CARBON
+        #error "Carbon does not support 64bit"
+    #endif
     #define wxOSX_USE_IPHONE 0
 #else
     #ifdef __WXOSX_IPHONE__
@@ -104,4 +86,4 @@
     #include "wx/osx/cocoa/chkconf.h"
 #endif
 
-#endif // _WX_OSX_CHKCONF_H_
+#endif /* _WX_OSX_CHKCONF_H_ */

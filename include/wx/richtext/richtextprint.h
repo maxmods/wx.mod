@@ -3,7 +3,7 @@
 // Purpose:     Rich text printing classes
 // Author:      Julian Smart
 // Created:     2006-10-23
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: richtextprint.h 70939 2012-03-18 23:25:39Z JS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ private:
 class WXDLLIMPEXP_RICHTEXT wxRichTextPrintout : public wxPrintout
 {
 public:
-    wxRichTextPrintout(const wxString& title = wxT("Printout"));
+    wxRichTextPrintout(const wxString& title = _("Printout"));
     virtual ~wxRichTextPrintout();
 
     /// The buffer to print
@@ -145,6 +145,7 @@ private:
     int                         m_numPages;
     wxArrayInt                  m_pageBreaksStart;
     wxArrayInt                  m_pageBreaksEnd;
+    wxArrayInt                  m_pageYOffsets;
     int                         m_marginLeft, m_marginTop, m_marginRight, m_marginBottom;
 
     wxRichTextHeaderFooterData  m_headerFooterData;
@@ -160,7 +161,7 @@ private:
 class WXDLLIMPEXP_RICHTEXT wxRichTextPrinting : public wxObject
 {
 public:
-    wxRichTextPrinting(const wxString& name = wxT("Printing"), wxWindow *parentWindow = NULL);
+    wxRichTextPrinting(const wxString& name = _("Printing"), wxWindow *parentWindow = NULL);
     virtual ~wxRichTextPrinting();
 
     /// Preview the file or buffer
@@ -168,8 +169,8 @@ public:
     bool PreviewBuffer(const wxRichTextBuffer& buffer);
 
     /// Print the file or buffer
-    bool PrintFile(const wxString& richTextFile);
-    bool PrintBuffer(const wxRichTextBuffer& buffer);
+    bool PrintFile(const wxString& richTextFile, bool showPrintDialog = true);
+    bool PrintBuffer(const wxRichTextBuffer& buffer, bool showPrintDialog = true);
 
     /// Shows page setup dialog
     void PageSetup();
@@ -201,7 +202,7 @@ public:
 
     /// Set print and page setup data
     void SetPrintData(const wxPrintData& printData);
-    void SetPageSetupData(const wxPageSetupData& pageSetupData);
+    void SetPageSetupData(const wxPageSetupDialogData& pageSetupData);
 
     /// Set the rich text buffer pointer, deleting the existing object if present
     void SetRichTextBufferPreview(wxRichTextBuffer* buf);
@@ -225,7 +226,7 @@ public:
 protected:
     virtual wxRichTextPrintout *CreatePrintout();
     virtual bool DoPreview(wxRichTextPrintout *printout1, wxRichTextPrintout *printout2);
-    virtual bool DoPrint(wxRichTextPrintout *printout);
+    virtual bool DoPrint(wxRichTextPrintout *printout, bool showPrintDialog);
 
 private:
     wxPrintData*                m_printData;

@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by: Wlodzimierz ABX Skiba from wx/listbook.h
 // Created:     15.09.04
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: choicebk.h 71435 2012-05-15 10:03:57Z VZ $
 // Copyright:   (c) Vadim Zeitlin, Wlodzimierz Skiba
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -18,6 +18,7 @@
 
 #include "wx/bookctrl.h"
 #include "wx/choice.h"
+#include "wx/containr.h"
 
 class WXDLLIMPEXP_FWD_CORE wxChoice;
 
@@ -36,13 +37,10 @@ wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGI
 // wxChoicebook
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxChoicebook : public wxBookCtrlBase
+class WXDLLIMPEXP_CORE wxChoicebook : public wxNavigationEnabled<wxBookCtrlBase>
 {
 public:
-    wxChoicebook()
-    {
-        Init();
-    }
+    wxChoicebook() { }
 
     wxChoicebook(wxWindow *parent,
                  wxWindowID id,
@@ -51,8 +49,6 @@ public:
                  long style = 0,
                  const wxString& name = wxEmptyString)
     {
-        Init();
-
         (void)Create(parent, id, pos, size, style, name);
     }
 
@@ -65,7 +61,6 @@ public:
                 const wxString& name = wxEmptyString);
 
 
-    virtual int GetSelection() const;
     virtual bool SetPageText(size_t n, const wxString& strText);
     virtual wxString GetPageText(size_t n) const;
     virtual int GetPageImage(size_t n) const;
@@ -74,7 +69,7 @@ public:
                             wxWindow *page,
                             const wxString& text,
                             bool bSelect = false,
-                            int imageId = -1);
+                            int imageId = NO_IMAGE);
     virtual int SetSelection(size_t n)
         { return DoSetSelection(n, SetSelection_SendEvent); }
     virtual int ChangeSelection(size_t n) { return DoSetSelection(n); }
@@ -84,6 +79,11 @@ public:
 
     // returns the choice control
     wxChoice* GetChoiceCtrl() const { return (wxChoice*)m_bookctrl; }
+
+    // Override this to return true because the part of parent window
+    // background between our controlling wxChoice and the page area should
+    // show through.
+    virtual bool HasTransparentBackground() { return true; }
 
 protected:
     virtual void DoSetWindowVariant(wxWindowVariant variant);
@@ -102,13 +102,7 @@ protected:
     // event handlers
     void OnChoiceSelected(wxCommandEvent& event);
 
-    // the currently selected page or wxNOT_FOUND if none
-    int m_selection;
-
 private:
-    // common part of all constructors
-    void Init();
-
     DECLARE_EVENT_TABLE()
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxChoicebook)
 };
@@ -118,7 +112,7 @@ private:
 // ----------------------------------------------------------------------------
 
 // wxChoicebookEvent is obsolete and defined for compatibility only
-typedef wxBookCtrlEvent wxChoicebookEvent;
+#define wxChoicebookEvent wxBookCtrlEvent
 typedef wxBookCtrlEventFunction wxChoicebookEventFunction;
 #define wxChoicebookEventHandler(func) wxBookCtrlEventHandler(func)
 

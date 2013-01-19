@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        msw/statline.h
+// Name:        wx/msw/statline.h
 // Purpose:     MSW version of wxStaticLine class
 // Author:      Vadim Zeitlin
 // Created:     28.06.99
-// Version:     $Id$
+// Version:     $Id: statline.h 67280 2011-03-22 14:17:38Z DS $
 // Copyright:   (c) 1998 Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ public:
                  long style = wxLI_HORIZONTAL,
                  const wxString &name = wxStaticLineNameStr );
 
-    // overriden base class virtuals
+    // overridden base class virtuals
     virtual bool AcceptsFocus() const { return false; }
 
     // usually overridden base class virtuals

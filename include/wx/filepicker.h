@@ -5,7 +5,7 @@
 // Modified by:
 // Created:     14/4/2006
 // Copyright:   (c) Francesco Montorsi
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: filepicker.h 72475 2012-09-13 17:14:37Z VZ $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -87,8 +87,12 @@ public:
     wxFileDirPickerWidgetBase() {  }
     virtual ~wxFileDirPickerWidgetBase() {  }
 
+    // Path here is the name of the selected file or directory.
     wxString GetPath() const { return m_path; }
     virtual void SetPath(const wxString &str) { m_path=str; }
+
+    // Set the directory to open the file browse dialog at initially.
+    virtual void SetInitialDirectory(const wxString& dir) = 0;
 
     // returns the picker widget cast to wxControl
     virtual wxControl *AsControl() = 0;
@@ -109,12 +113,14 @@ protected:
 #define wxFLP_OVERWRITE_PROMPT        0x1000
 #define wxFLP_FILE_MUST_EXIST         0x2000
 #define wxFLP_CHANGE_DIR              0x4000
+#define wxFLP_SMALL                   wxPB_SMALL
 
 // NOTE: wxMULTIPLE is not supported !
 
 
 #define wxDIRP_DIR_MUST_EXIST         0x0008
 #define wxDIRP_CHANGE_DIR             0x0010
+#define wxDIRP_SMALL                  wxPB_SMALL
 
 
 // map platform-dependent controls which implement the wxFileDirPickerWidgetBase
@@ -123,7 +129,7 @@ protected:
 //       requires that all classes being mapped as wx{File|Dir}PickerWidget have the
 //       same prototype for the contructor...
 // since GTK >= 2.6, there is GtkFileButton
-#if defined(__WXGTK26__) && !defined(__WXUNIVERSAL__)
+#if defined(__WXGTK20__) && !defined(__WXUNIVERSAL__)
     #include "wx/gtk/filepicker.h"
     #define wxFilePickerWidget      wxFileButton
     #define wxDirPickerWidget       wxDirButton
@@ -142,7 +148,7 @@ protected:
 class WXDLLIMPEXP_CORE wxFileDirPickerCtrlBase : public wxPickerBase
 {
 public:
-    wxFileDirPickerCtrlBase() : m_bIgnoreNextTextCtrlUpdate(false) {}
+    wxFileDirPickerCtrlBase() {}
 
 protected:
     // NB: no default values since this function will never be used
@@ -163,6 +169,12 @@ public:         // public API
     wxString GetPath() const;
     void SetPath(const wxString &str);
 
+    // Set the directory to open the file browse dialog at initially.
+    void SetInitialDirectory(const wxString& dir)
+    {
+        m_pickerIface->SetInitialDirectory(dir);
+    }
+
 public:        // internal functions
 
     void UpdatePickerFromTextCtrl();
@@ -170,11 +182,6 @@ public:        // internal functions
 
     // event handler for our picker
     void OnFileDirChange(wxFileDirPickerEvent &);
-
-    // Returns TRUE if the current path is a valid one
-    // (i.e. a valid file for a wxFilePickerWidget or a valid
-    //  folder for a wxDirPickerWidget).
-    virtual bool CheckPath(const wxString &str) const = 0;
 
     // TRUE if any textctrl change should update the current working directory
     virtual bool IsCwdToUpdate() const = 0;
@@ -196,9 +203,6 @@ protected:
                                             const wxString& wildcard) = 0;
 
 protected:
-
-    // true if the next UpdateTextCtrl() call is to ignore
-    bool m_bIgnoreNextTextCtrlUpdate;
 
     // m_picker object as wxFileDirPickerWidgetBase interface
     wxFileDirPickerWidgetBase *m_pickerIface;
@@ -253,13 +257,7 @@ public:
                 const wxSize& size = wxDefaultSize,
                 long style = wxFLP_DEFAULT_STYLE,
                 const wxValidator& validator = wxDefaultValidator,
-                const wxString& name = wxFilePickerCtrlNameStr)
-    {
-        return wxFileDirPickerCtrlBase::CreateBase(parent, id, path,
-                                                   message, wildcard,
-                                                   pos, size, style,
-                                                   validator, name);
-    }
+                const wxString& name = wxFilePickerCtrlNameStr);
 
     void SetFileName(const wxFileName &filename)
         { SetPath(filename.GetFullPath()); }
@@ -306,8 +304,13 @@ protected:
     // extracts the style for our picker from wxFileDirPickerCtrlBase's style
     long GetPickerStyle(long style) const
     {
-        return (style & (wxFLP_OPEN|wxFLP_SAVE|wxFLP_OVERWRITE_PROMPT|
-                            wxFLP_FILE_MUST_EXIST|wxFLP_CHANGE_DIR|wxFLP_USE_TEXTCTRL));
+        return style & (wxFLP_OPEN |
+                        wxFLP_SAVE |
+                        wxFLP_OVERWRITE_PROMPT |
+                        wxFLP_FILE_MUST_EXIST |
+                        wxFLP_CHANGE_DIR |
+                        wxFLP_USE_TEXTCTRL |
+                        wxFLP_SMALL);
     }
 
 private:
@@ -358,14 +361,7 @@ public:
                 const wxSize& size = wxDefaultSize,
                 long style = wxDIRP_DEFAULT_STYLE,
                 const wxValidator& validator = wxDefaultValidator,
-                const wxString& name = wxDirPickerCtrlNameStr)
-    {
-        return wxFileDirPickerCtrlBase::CreateBase
-               (
-                    parent, id, path, message, wxEmptyString,
-                    pos, size, style, validator, name
-               );
-    }
+                const wxString& name = wxDirPickerCtrlNameStr);
 
     void SetDirName(const wxFileName &dirname)
         { SetPath(dirname.GetPath()); }
@@ -409,7 +405,12 @@ protected:
 
     // extracts the style for our picker from wxFileDirPickerCtrlBase's style
     long GetPickerStyle(long style) const
-        { return (style & (wxDIRP_DIR_MUST_EXIST|wxDIRP_CHANGE_DIR|wxDIRP_USE_TEXTCTRL)); }
+    {
+        return style & (wxDIRP_DIR_MUST_EXIST |
+                        wxDIRP_CHANGE_DIR |
+                        wxDIRP_USE_TEXTCTRL |
+                        wxDIRP_SMALL);
+    }
 
 private:
     DECLARE_DYNAMIC_CLASS(wxDirPickerCtrl)

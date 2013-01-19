@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     29/01/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: utils.h 72940 2012-11-10 00:53:42Z VZ $
 // Copyright:   (c) 1998 Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,6 +19,9 @@
 #include "wx/object.h"
 #include "wx/list.h"
 #include "wx/filefn.h"
+#include "wx/hashmap.h"
+#include "wx/versioninfo.h"
+#include "wx/meta/implicitconversion.h"
 
 #if wxUSE_GUI
     #include "wx/gdicmn.h"
@@ -51,15 +54,51 @@ class WXDLLIMPEXP_FWD_BASE wxArrayInt;
 class WXDLLIMPEXP_FWD_BASE wxProcess;
 class WXDLLIMPEXP_FWD_CORE wxFrame;
 class WXDLLIMPEXP_FWD_CORE wxWindow;
-class WXDLLIMPEXP_FWD_CORE wxWindowList;
+class wxWindowList;
+class WXDLLIMPEXP_FWD_CORE wxEventLoop;
 
 // ----------------------------------------------------------------------------
-// Macros
+// Arithmetic functions
 // ----------------------------------------------------------------------------
 
-#define wxMax(a,b)            (((a) > (b)) ? (a) : (b))
-#define wxMin(a,b)            (((a) < (b)) ? (a) : (b))
-#define wxClip(a,b,c)         (((a) < (b)) ? (b) : (((a) > (c)) ? (c) : (a)))
+template<typename T1, typename T2>
+inline typename wxImplicitConversionType<T1,T2>::value
+wxMax(T1 a, T2 b)
+{
+    typedef typename wxImplicitConversionType<T1,T2>::value ResultType;
+
+    // Cast both operands to the same type before comparing them to avoid
+    // warnings about signed/unsigned comparisons from some compilers:
+    return static_cast<ResultType>(a) > static_cast<ResultType>(b) ? a : b;
+}
+
+template<typename T1, typename T2>
+inline typename wxImplicitConversionType<T1,T2>::value
+wxMin(T1 a, T2 b)
+{
+    typedef typename wxImplicitConversionType<T1,T2>::value ResultType;
+
+    return static_cast<ResultType>(a) < static_cast<ResultType>(b) ? a : b;
+}
+
+template<typename T1, typename T2, typename T3>
+inline typename wxImplicitConversionType3<T1,T2,T3>::value
+wxClip(T1 a, T2 b, T3 c)
+{
+    typedef typename wxImplicitConversionType3<T1,T2,T3>::value ResultType;
+
+    if ( static_cast<ResultType>(a) < static_cast<ResultType>(b) )
+        return b;
+
+    if ( static_cast<ResultType>(a) > static_cast<ResultType>(c) )
+        return c;
+
+    return a;
+}
+
+// ----------------------------------------------------------------------------
+// wxMemorySize
+// ----------------------------------------------------------------------------
 
 // wxGetFreeMemory can return huge amount of memory on 32-bit platforms as well
 // so to always use long long for its result type on all platforms which
@@ -74,7 +113,7 @@ class WXDLLIMPEXP_FWD_CORE wxWindowList;
 // String functions (deprecated, use wxString)
 // ----------------------------------------------------------------------------
 
-#ifdef WXWIN_COMPATIBILITY_2_8
+#if WXWIN_COMPATIBILITY_2_8
 // A shorter way of using strcmp
 wxDEPRECATED_INLINE(inline bool wxStringEq(const char *s1, const char *s2),
     return wxCRT_StrcmpA(s1, s2) == 0; )
@@ -91,17 +130,14 @@ wxDEPRECATED_INLINE(inline bool wxStringEq(const wchar_t *s1, const wchar_t *s2)
 // ----------------------------------------------------------------------------
 
 // Sound the bell
-#if !defined __EMX__ && \
-    (defined __WXMOTIF__ || defined __WXGTK__ || defined __WXX11__)
 WXDLLIMPEXP_CORE void wxBell();
-#else
-WXDLLIMPEXP_BASE void wxBell();
-#endif
 
 #if wxUSE_MSGDLG
 // Show wxWidgets information
 WXDLLIMPEXP_CORE void wxInfoMessageBox(wxWindow* parent);
 #endif // wxUSE_MSGDLG
+
+WXDLLIMPEXP_CORE wxVersionInfo wxGetLibraryVersionInfo();
 
 // Get OS description as a user-readable string
 WXDLLIMPEXP_BASE wxString wxGetOsDescription();
@@ -252,6 +288,25 @@ WXDLLIMPEXP_BASE long wxNewId();
 // Convert 2-digit hex number to decimal
 WXDLLIMPEXP_BASE int wxHexToDec(const wxString& buf);
 
+// Convert 2-digit hex number to decimal
+inline int wxHexToDec(const char* buf)
+{
+    int firstDigit, secondDigit;
+
+    if (buf[0] >= 'A')
+        firstDigit = buf[0] - 'A' + 10;
+    else
+        firstDigit = buf[0] - '0';
+
+    if (buf[1] >= 'A')
+        secondDigit = buf[1] - 'A' + 10;
+    else
+        secondDigit = buf[1] - '0';
+
+    return (firstDigit & 0xF) * 16 + (secondDigit & 0xF );
+}
+
+
 // Convert decimal integer to 2-character hex string
 WXDLLIMPEXP_BASE void wxDecToHex(int dec, wxChar *buf);
 WXDLLIMPEXP_BASE void wxDecToHex(int dec, char* ch1, char* ch2);
@@ -274,10 +329,17 @@ enum
 
     // under Windows, don't hide the child even if it's IO is redirected (this
     // is done by default)
-    wxEXEC_NOHIDE   = 2,
+    wxEXEC_SHOW_CONSOLE   = 2,
+
+    // deprecated synonym for wxEXEC_SHOW_CONSOLE, use the new name as it's
+    // more clear
+    wxEXEC_NOHIDE = wxEXEC_SHOW_CONSOLE,
 
     // under Unix, if the process is the group leader then passing wxKILL_CHILDREN to wxKill
     // kills all children as well as pid
+    // under Windows (NT family only), sets the CREATE_NEW_PROCESS_GROUP flag,
+    // which allows to target Ctrl-Break signal to the spawned process.
+    // applies to console processes only.
     wxEXEC_MAKE_GROUP_LEADER = 4,
 
     // by default synchronous execution disables all program windows to avoid
@@ -290,8 +352,23 @@ enum
     // until the child process finishes
     wxEXEC_NOEVENTS = 16,
 
+    // under Windows, hide the console of the child process if it has one, even
+    // if its IO is not redirected
+    wxEXEC_HIDE_CONSOLE = 32,
+
     // convenient synonym for flags given system()-like behaviour
     wxEXEC_BLOCK = wxEXEC_SYNC | wxEXEC_NOEVENTS
+};
+
+// Map storing environment variables.
+typedef wxStringToStringHashMap wxEnvVariableHashMap;
+
+// Used to pass additional parameters for child process to wxExecute(). Could
+// be extended with other fields later.
+struct wxExecuteEnv
+{
+    wxString cwd;               // If empty, CWD is not changed.
+    wxEnvVariableHashMap env;   // If empty, environment is unchanged.
 };
 
 // Execute another program.
@@ -301,34 +378,39 @@ enum
 // failure and the PID of the launched process if ok.
 WXDLLIMPEXP_BASE long wxExecute(const wxString& command,
                                 int flags = wxEXEC_ASYNC,
-                                wxProcess *process = NULL);
+                                wxProcess *process = NULL,
+                                const wxExecuteEnv *env = NULL);
 WXDLLIMPEXP_BASE long wxExecute(char **argv,
                                 int flags = wxEXEC_ASYNC,
-                                wxProcess *process = NULL);
+                                wxProcess *process = NULL,
+                                const wxExecuteEnv *env = NULL);
 #if wxUSE_UNICODE
 WXDLLIMPEXP_BASE long wxExecute(wchar_t **argv,
                                 int flags = wxEXEC_ASYNC,
-                                wxProcess *process = NULL);
+                                wxProcess *process = NULL,
+                                const wxExecuteEnv *env = NULL);
 #endif // wxUSE_UNICODE
 
 // execute the command capturing its output into an array line by line, this is
 // always synchronous
 WXDLLIMPEXP_BASE long wxExecute(const wxString& command,
                                 wxArrayString& output,
-                                int flags = 0);
+                                int flags = 0,
+                                const wxExecuteEnv *env = NULL);
 
 // also capture stderr (also synchronous)
 WXDLLIMPEXP_BASE long wxExecute(const wxString& command,
                                 wxArrayString& output,
                                 wxArrayString& error,
-                                int flags = 0);
+                                int flags = 0,
+                                const wxExecuteEnv *env = NULL);
 
-#if defined(__WXMSW__) && wxUSE_IPC
+#if defined(__WINDOWS__) && wxUSE_IPC
 // ask a DDE server to execute the DDE request with given parameters
 WXDLLIMPEXP_BASE bool wxExecuteDDE(const wxString& ddeServer,
                                    const wxString& ddeTopic,
                                    const wxString& ddeCommand);
-#endif // __WXMSW__ && wxUSE_IPC
+#endif // __WINDOWS__ && wxUSE_IPC
 
 enum wxSignal
 {
@@ -460,6 +542,10 @@ inline bool wxSetEnv(const wxString& var, int value)
 }
 #endif // WXWIN_COMPATIBILITY_2_8
 
+// Retrieve the complete environment by filling specified map.
+// Returns true on success or false if an error occurred.
+WXDLLIMPEXP_BASE bool wxGetEnvMap(wxEnvVariableHashMap *map);
+
 // ----------------------------------------------------------------------------
 // Network and username functions.
 // ----------------------------------------------------------------------------
@@ -508,14 +594,14 @@ WXDLLIMPEXP_BASE bool wxGetDiskSpace(const wxString& path,
 
 
 
-extern "C"
-{
-typedef int (wxCMPFUNC_CONV *CMPFUNCDATA)(const void* pItem1, const void* pItem2, const void* user_data);
-}
+typedef int (*wxSortCallback)(const void* pItem1,
+                              const void* pItem2,
+                              const void* user_data);
 
 
-WXDLLIMPEXP_BASE void wxQsort(void *const pbase, size_t total_elems,
-                              size_t size, CMPFUNCDATA cmp, const void* user_data);
+WXDLLIMPEXP_BASE void wxQsort(void* pbase, size_t total_elems,
+                              size_t size, wxSortCallback cmp,
+                              const void* user_data);
 
 
 #if wxUSE_GUI // GUI only things from now on
@@ -635,7 +721,9 @@ private:
     // disable all windows except the given one (used by both ctors)
     void DoDisable(wxWindow *winToSkip = NULL);
 
-
+#if defined(__WXOSX__) && wxOSX_USE_COCOA
+    wxEventLoop* m_modalEventLoop;
+#endif
     wxWindowList *m_winDisabled;
     bool m_disabled;
 
@@ -722,13 +810,17 @@ WXDLLIMPEXP_CORE bool wxYieldIfNeeded();
 // Windows resources access
 // ----------------------------------------------------------------------------
 
-// MSW only: get user-defined resource from the .res file.
-#ifdef __WXMSW__
+// Windows only: get user-defined resource from the .res file.
+#ifdef __WINDOWS__
     // default resource type for wxLoadUserResource()
     extern WXDLLIMPEXP_DATA_BASE(const wxChar*) wxUserResourceStr;
 
     // Return the pointer to the resource data. This pointer is read-only, use
     // the overload below if you need to modify the data.
+    //
+    // Notice that the resource type can be either a real string or an integer
+    // produced by MAKEINTRESOURCE(). In particular, any standard resource type,
+    // i.e any RT_XXX constant, could be passed here.
     //
     // Returns true on success, false on failure. Doesn't log an error message
     // if the resource is not found (because this could be expected) but does
@@ -737,7 +829,7 @@ WXDLLIMPEXP_CORE bool wxYieldIfNeeded();
     wxLoadUserResource(const void **outData,
                        size_t *outLen,
                        const wxString& resourceName,
-                       const wxString& resourceType = wxUserResourceStr,
+                       const wxChar* resourceType = wxUserResourceStr,
                        WXHINSTANCE module = 0);
 
     // This function allocates a new buffer and makes a copy of the resource
@@ -747,10 +839,10 @@ WXDLLIMPEXP_CORE bool wxYieldIfNeeded();
     // Returns NULL on failure.
     WXDLLIMPEXP_BASE char*
     wxLoadUserResource(const wxString& resourceName,
-                       const wxString& resourceType = wxUserResourceStr,
+                       const wxChar* resourceType = wxUserResourceStr,
                        int* pLen = NULL,
                        WXHINSTANCE module = 0);
-#endif // MSW
+#endif // __WINDOWS__
 
 #endif
     // _WX_UTILSH__

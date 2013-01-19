@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/12/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: radiobox.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ public:
     inline         void     SetButtonFont(const wxFont& rFont) { SetFont(rFont); }
                    void     SetFocus(void);
            virtual bool     SetFont(const wxFont& rFont);
-    inline         void     SetLabelFont(const wxFont& WXUNUSED(font)) {};
+    inline         void     SetLabelFont(const wxFont& WXUNUSED(font)) {}
            virtual void     SetSelection(int nIndex);
            virtual void     SetString(unsigned int nNum, const wxString& rsLabel);
     virtual bool SetStringSelection(const wxString& rsStr);

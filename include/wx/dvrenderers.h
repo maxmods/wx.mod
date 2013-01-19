@@ -3,7 +3,7 @@
 // Purpose:     Declare all wxDataViewCtrl classes
 // Author:      Robert Roebling, Vadim Zeitlin
 // Created:     2009-11-08 (extracted from wx/dataview.h)
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dvrenderers.h 70050 2011-12-19 12:54:38Z VZ $
 // Copyright:   (c) 2006 Robert Roebling
 //              (c) 2009 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
@@ -54,25 +54,27 @@ public:
     void SetIcon( const wxIcon &icon )   { m_icon = icon; }
     const wxIcon &GetIcon() const        { return m_icon; }
 
+    bool IsSameAs(const wxDataViewIconText& other) const
+    {
+        return m_text == other.m_text && m_icon.IsSameAs(other.m_icon);
+    }
+
+    bool operator==(const wxDataViewIconText& other) const
+    {
+        return IsSameAs(other);
+    }
+
+    bool operator!=(const wxDataViewIconText& other) const
+    {
+        return !IsSameAs(other);
+    }
+
 private:
     wxString    m_text;
     wxIcon      m_icon;
 
     DECLARE_DYNAMIC_CLASS(wxDataViewIconText)
 };
-
-inline
-bool operator==(const wxDataViewIconText& left, const wxDataViewIconText& right)
-{
-    return left.GetText() == right.GetText() &&
-             left.GetIcon().IsSameAs(right.GetIcon());
-}
-
-inline
-bool operator!=(const wxDataViewIconText& left, const wxDataViewIconText& right)
-{
-    return !(left == right);
-}
 
 DECLARE_VARIANT_OBJECT_EXPORTED(wxDataViewIconText, WXDLLIMPEXP_ADV)
 
@@ -116,7 +118,13 @@ public:
 
     virtual void SetAttr(const wxDataViewItemAttr& WXUNUSED(attr)) { }
 
+    virtual void SetEnabled(bool WXUNUSED(enabled)) { }
+
     wxString GetVariantType() const             { return m_variantType; }
+
+    // helper that calls SetValue and SetAttr:
+    void PrepareForItem(const wxDataViewModel *model,
+                        const wxDataViewItem& item, unsigned column);
 
     // renderer properties:
     virtual void SetMode( wxDataViewCellMode mode ) = 0;
@@ -139,11 +147,11 @@ public:
     // in-place editing
     virtual bool HasEditorCtrl() const
         { return false; }
-    virtual wxControl* CreateEditorCtrl(wxWindow * WXUNUSED(parent),
-                                        wxRect WXUNUSED(labelRect),
-                                        const wxVariant& WXUNUSED(value))
+    virtual wxWindow* CreateEditorCtrl(wxWindow * WXUNUSED(parent),
+                                       wxRect WXUNUSED(labelRect),
+                                       const wxVariant& WXUNUSED(value))
         { return NULL; }
-    virtual bool GetValueFromEditorCtrl(wxControl * WXUNUSED(editor),
+    virtual bool GetValueFromEditorCtrl(wxWindow * WXUNUSED(editor),
                                         wxVariant& WXUNUSED(value))
         { return false; }
 
@@ -151,7 +159,10 @@ public:
     virtual void CancelEditing();
     virtual bool FinishEditing();
 
-    wxControl *GetEditorCtrl() { return m_editorCtrl; }
+    wxWindow *GetEditorCtrl() { return m_editorCtrl; }
+
+    virtual bool IsCustomRenderer() const { return false; }
+
 
 protected:
     // Called from {Cancel,Finish}Editing() to cleanup m_editorCtrl
@@ -159,11 +170,12 @@ protected:
 
     wxString                m_variantType;
     wxDataViewColumn       *m_owner;
-    wxWeakRef<wxControl>    m_editorCtrl;
+    wxWeakRef<wxWindow>     m_editorCtrl;
     wxDataViewItem          m_item; // for m_editorCtrl
 
-    // internal utility:
-    const wxDataViewCtrl* GetView() const;
+    // internal utility, may be used anywhere the window associated with the
+    // renderer is required
+    wxDataViewCtrl* GetView() const;
 
 protected:
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewRendererBase)
@@ -216,26 +228,35 @@ public:
     // Return the size of the item appropriate to its current value.
     virtual wxSize GetSize() const = 0;
 
-    // Define virtual function which are called when the item is activated
-    // (double-clicked or Enter is pressed on it), clicked or the user starts
-    // to drag it: by default they all simply return false indicating that the
-    // events are not handled
+    // Define virtual function which are called when a key is pressed on the
+    // item, clicked or the user starts to drag it: by default they all simply
+    // return false indicating that the events are not handled
 
-    virtual bool Activate(wxRect WXUNUSED(cell),
-                          wxDataViewModel *WXUNUSED(model),
-                          const wxDataViewItem & WXUNUSED(item),
-                          unsigned int WXUNUSED(col))
-        { return false; }
+    virtual bool ActivateCell(const wxRect& cell,
+                              wxDataViewModel *model,
+                              const wxDataViewItem & item,
+                              unsigned int col,
+                              const wxMouseEvent* mouseEvent);
 
-    virtual bool LeftClick(wxPoint WXUNUSED(cursor),
-                           wxRect WXUNUSED(cell),
-                           wxDataViewModel *WXUNUSED(model),
-                           const wxDataViewItem & WXUNUSED(item),
-                           unsigned int WXUNUSED(col) )
-        { return false; }
+    // Deprecated, use (and override) ActivateCell() instead
+    wxDEPRECATED_BUT_USED_INTERNALLY_INLINE(
+        virtual bool Activate(wxRect WXUNUSED(cell),
+                              wxDataViewModel *WXUNUSED(model),
+                              const wxDataViewItem & WXUNUSED(item),
+                              unsigned int WXUNUSED(col)),
+                          return false; )
 
-    virtual bool StartDrag(wxPoint WXUNUSED(cursor),
-                           wxRect WXUNUSED(cell),
+    // Deprecated, use (and override) ActivateCell() instead
+    wxDEPRECATED_BUT_USED_INTERNALLY_INLINE(
+        virtual bool LeftClick(wxPoint WXUNUSED(cursor),
+                               wxRect WXUNUSED(cell),
+                               wxDataViewModel *WXUNUSED(model),
+                               const wxDataViewItem & WXUNUSED(item),
+                               unsigned int WXUNUSED(col)),
+                          return false; )
+
+    virtual bool StartDrag(const wxPoint& WXUNUSED(cursor),
+                           const wxRect& WXUNUSED(cell),
                            wxDataViewModel *WXUNUSED(model),
                            const wxDataViewItem & WXUNUSED(item),
                            unsigned int WXUNUSED(col) )
@@ -257,6 +278,11 @@ public:
     virtual void SetAttr(const wxDataViewItemAttr& attr) { m_attr = attr; }
     const wxDataViewItemAttr& GetAttr() const { return m_attr; }
 
+    // Store the enabled state of the item so that it can be accessed from
+    // Render() via GetEnabled() if needed.
+    virtual void SetEnabled(bool enabled) { m_enabled = enabled; }
+    bool GetEnabled() const { return m_enabled; }
+
 
     // Implementation only from now on
 
@@ -264,11 +290,21 @@ public:
     // platform-specific classes.
     virtual wxDC *GetDC() = 0;
 
+    // To draw background use the background colour in wxDataViewItemAttr
+    virtual void RenderBackground(wxDC* dc, const wxRect& rect);
+
     // Prepare DC to use attributes and call Render().
     void WXCallRender(wxRect rect, wxDC *dc, int state);
 
+    virtual bool IsCustomRenderer() const { return true; }
+
+protected:
+    // helper for GetSize() implementations, respects attributes
+    wxSize GetTextExtent(const wxString& str) const;
+
 private:
     wxDataViewItemAttr m_attr;
+    bool m_enabled;
 
     wxDECLARE_NO_COPY_CLASS(wxDataViewCustomRendererBase);
 };
@@ -301,8 +337,8 @@ public:
                             wxDataViewCellMode mode = wxDATAVIEW_CELL_EDITABLE,
                             int alignment = wxDVR_DEFAULT_ALIGNMENT );
     virtual bool HasEditorCtrl() const { return true; }
-    virtual wxControl* CreateEditorCtrl( wxWindow *parent, wxRect labelRect, const wxVariant &value );
-    virtual bool GetValueFromEditorCtrl( wxControl* editor, wxVariant &value );
+    virtual wxWindow* CreateEditorCtrl( wxWindow *parent, wxRect labelRect, const wxVariant &value );
+    virtual bool GetValueFromEditorCtrl( wxWindow* editor, wxVariant &value );
     virtual bool Render( wxRect rect, wxDC *dc, int state );
     virtual wxSize GetSize() const;
     virtual bool SetValue( const wxVariant &value );
@@ -326,8 +362,8 @@ public:
                             wxDataViewCellMode mode = wxDATAVIEW_CELL_EDITABLE,
                             int alignment = wxDVR_DEFAULT_ALIGNMENT );
     virtual bool HasEditorCtrl() const { return true; }
-    virtual wxControl* CreateEditorCtrl( wxWindow *parent, wxRect labelRect, const wxVariant &value );
-    virtual bool GetValueFromEditorCtrl( wxControl* editor, wxVariant &value );
+    virtual wxWindow* CreateEditorCtrl( wxWindow *parent, wxRect labelRect, const wxVariant &value );
+    virtual bool GetValueFromEditorCtrl( wxWindow* editor, wxVariant &value );
     virtual bool Render( wxRect rect, wxDC *dc, int state );
     virtual wxSize GetSize() const;
     virtual bool SetValue( const wxVariant &value );
@@ -351,16 +387,47 @@ public:
     wxDataViewChoiceByIndexRenderer( const wxArrayString &choices,
                               wxDataViewCellMode mode = wxDATAVIEW_CELL_EDITABLE,
                               int alignment = wxDVR_DEFAULT_ALIGNMENT );
-                            
-    virtual wxControl* CreateEditorCtrl( wxWindow *parent, wxRect labelRect, const wxVariant &value );
-    virtual bool GetValueFromEditorCtrl( wxControl* editor, wxVariant &value );
-    
+
+    virtual wxWindow* CreateEditorCtrl( wxWindow *parent, wxRect labelRect, const wxVariant &value );
+    virtual bool GetValueFromEditorCtrl( wxWindow* editor, wxVariant &value );
+
     virtual bool SetValue( const wxVariant &value );
     virtual bool GetValue( wxVariant &value ) const;
 };
 
 
 #endif // generic or Carbon versions
+
+#if defined(wxHAS_GENERIC_DATAVIEWCTRL) || defined(__WXGTK__)
+
+// ----------------------------------------------------------------------------
+// wxDataViewDateRenderer
+// ----------------------------------------------------------------------------
+
+#if wxUSE_DATEPICKCTRL
+class WXDLLIMPEXP_ADV wxDataViewDateRenderer: public wxDataViewCustomRenderer
+{
+public:
+    wxDataViewDateRenderer(const wxString &varianttype = wxT("datetime"),
+                           wxDataViewCellMode mode = wxDATAVIEW_CELL_EDITABLE,
+                           int align = wxDVR_DEFAULT_ALIGNMENT);
+
+    virtual bool HasEditorCtrl() const { return true; }
+    virtual wxWindow *CreateEditorCtrl(wxWindow *parent, wxRect labelRect, const wxVariant &value);
+    virtual bool GetValueFromEditorCtrl(wxWindow* editor, wxVariant &value);
+    virtual bool SetValue(const wxVariant &value);
+    virtual bool GetValue(wxVariant& value) const;
+    virtual bool Render( wxRect cell, wxDC *dc, int state );
+    virtual wxSize GetSize() const;
+
+private:
+    wxDateTime    m_date;
+};
+#else // !wxUSE_DATEPICKCTRL
+typedef wxDataViewTextRenderer wxDataViewDateRenderer;
+#endif
+
+#endif // generic or GTK+ versions
 
 // this class is obsolete, its functionality was merged in
 // wxDataViewTextRenderer itself now, don't use it any more

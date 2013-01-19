@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        htmprint.h
+// Name:        wx/html/htmprint.h
 // Purpose:     html printing classes
 // Author:      Vaclav Slavik
 // Created:     25/09/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: htmprint.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -199,7 +199,6 @@ private:
 
 private:
     int m_NumPages;
-    //int m_PageBreaks[wxHTML_PRINT_MAX_PAGES];
     wxArrayInt m_PageBreaks;
 
     wxString m_Document, m_BasePath;

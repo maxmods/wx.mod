@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        checkbox.h
+// Name:        wx/os2/checkbox.h
 // Purpose:     wxCheckBox class
 // Author:      David Webster
 // Modified by:
 // Created:     10/13/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: checkbox.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -110,7 +110,7 @@ class WXDLLIMPEXP_CORE wxBitmapCheckBox: public wxCheckBox
 private:
 
     virtual void SetLabel(const wxString& rsString)
-    { wxCheckBox::SetLabel(rsString); };
+    { wxCheckBox::SetLabel(rsString); }
     DECLARE_DYNAMIC_CLASS(wxBitmapCheckBox)
 };
 #endif

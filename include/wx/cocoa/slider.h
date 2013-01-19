@@ -5,7 +5,7 @@
 //              Mark Oxenham
 // Modified by:
 // Created:     2003/06/19
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: slider.h 66844 2011-02-05 16:36:30Z VZ $
 // Copyright:   (c) 2003 David Elliott
 //              (c) 2007 Software 2000 Ltd.
 // Licence:     wxWindows licence
@@ -94,12 +94,14 @@ public:
     virtual int GetThumbLength() const;
 
     // copied from (wxSliderCocoa.h)
-    virtual void SetTickFreq(int n, int pos);
     virtual int GetTickFreq() const;
-    virtual void ClearTicks() { SetTickFreq(0, 0); }
+    virtual void ClearTicks() { SetTickFreq(0); }
 
     virtual void SetTickPos(int pos);
 
+protected:
+    // Platform-specific implementation of SetTickFreq
+    virtual void DoSetTickFreq(int freq);
 };
 
 #endif

@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        msw/statline.h
+// Name:        wx/os2/statline.h
 // Purpose:     MSW version of wxStaticLine class
 // Author:      Vadim Zeitlin
 // Created:     28.06.99
-// Version:     $Id$
+// Version:     $Id: statline.h 67280 2011-03-22 14:17:38Z DS $
 // Copyright:   (c) 1998 Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -44,7 +44,7 @@ public:
     inline static int    GetDefaultSize(void) { return 2; }
 
     //
-    // Overriden base class virtuals
+    // Overridden base class virtuals
     //
     inline virtual bool AcceptsFocus(void) const {return FALSE;}
 

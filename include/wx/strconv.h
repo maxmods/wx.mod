@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        strconv.h
+// Name:        wx/strconv.h
 // Purpose:     conversion routines for char sets any Unicode
 // Author:      Ove Kaaven, Robert Roebling, Vadim Zeitlin
 // Modified by:
 // Created:     29/01/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: strconv.h 70345 2012-01-15 01:05:28Z VZ $
 // Copyright:   (c) 1998 Ove Kaaven, Robert Roebling
 //              (c) 1998-2006 Vadim Zeitlin
 // Licence:     wxWindows licence
@@ -25,9 +25,7 @@
 #  undef __BSEXCPT__
 #endif
 
-#ifndef __WXPALMOS5__
 #include <stdlib.h>
-#endif // ! __WXPALMOS5__
 
 class WXDLLIMPEXP_FWD_BASE wxString;
 
@@ -522,31 +520,36 @@ private:
     // common part of all ctors
     void Init();
 
-    // creates m_convReal if necessary
-    void CreateConvIfNeeded() const;
-
-    // do create m_convReal (unconditionally)
+    // Creates the conversion to use, called from all ctors to initialize
+    // m_convReal.
     wxMBConv *DoCreate() const;
 
-    // set the name (may be only called when m_name == NULL), makes copy of
-    // the charset string
+    // Set the name (may be only called when m_name == NULL), makes copy of
+    // the charset string.
     void SetName(const char *charset);
 
-
-    // m_name may be NULL in which case m_encoding should be used
+    // Set m_encoding field respecting the rules below, i.e. making sure it has
+    // a valid value if m_name == NULL (thus this should be always called after
+    // SetName()).
     //
-    // note that we can't use wxString here because of compilation
-    // dependencies: we're included from wx/string.h
+    // Input encoding may be valid or not.
+    void SetEncoding(wxFontEncoding encoding);
+
+
+    // The encoding we use is specified by the two fields below:
+    //
+    //  1. If m_name != NULL, m_encoding corresponds to it if it's one of
+    //     encodings we know about (i.e. member of wxFontEncoding) or is
+    //     wxFONTENCODING_SYSTEM otherwise.
+    //
+    //  2. If m_name == NULL, m_encoding is always valid, i.e. not one of
+    //     wxFONTENCODING_{SYSTEM,DEFAULT,MAX}.
     char *m_name;
-
-    // may be wxFONTENCODING_SYSTEM in which case m_name is used
-    //
-    // if m_name is NULL, then we should use the default system encoding
     wxFontEncoding m_encoding;
 
-    // use CreateConvIfNeeded() before accessing m_convReal!
+    // The conversion object for our encoding or NULL if we failed to create it
+    // in which case we fall back to hard-coded ISO8859-1 conversion.
     wxMBConv *m_convReal;
-    bool m_deferred;
 };
 
 

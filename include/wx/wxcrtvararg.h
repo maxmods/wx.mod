@@ -5,7 +5,7 @@
 // Author:      Joel Farley, Ove Kåven
 // Modified by: Vadim Zeitlin, Robert Roebling, Ron Lee
 // Created:     2007-02-19
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: wxcrtvararg.h 71102 2012-04-05 18:40:11Z VZ $
 // Copyright:   (c) 2007 REA Elektronik GmbH
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -150,12 +150,8 @@
             #define wxCRT_VsnprintfW    _vsnwprintf
         #endif
 
-        /*
-           All versions of CodeWarrior supported by wxWidgets apparently
-           have both snprintf() and vsnprintf()
-         */
         #if defined(HAVE_VSNPRINTF) \
-            || defined(__MWERKS__) || defined(__WATCOMC__)
+            || defined(__WATCOMC__)
             #ifdef HAVE_BROKEN_VSNPRINTF_DECL
                 #define wxCRT_VsnprintfA    wx_fixed_vsnprintf
             #else

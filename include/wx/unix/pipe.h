@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     24.06.2003 (extracted from src/unix/utilsunx.cpp)
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: pipe.h 66152 2010-11-14 14:04:37Z VZ $
 // Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,16 @@ public:
         }
 
         return true;
+    }
+
+    // switch the given end of the pipe to non-blocking IO
+    bool MakeNonBlocking(Direction which)
+    {
+        const int flags = fcntl(m_fds[which], F_GETFL, 0);
+        if ( flags == -1 )
+            return false;
+
+        return fcntl(m_fds[which], F_SETFL, flags | O_NONBLOCK) == 0;
     }
 
     // return TRUE if we were created successfully
@@ -106,6 +116,20 @@ public:
 
     // return TRUE if we have anything to read, don't block
     virtual bool CanRead() const;
+};
+
+// ----------------------------------------------------------------------------
+// wxPipeOutputStream: stream for writing to a pipe
+// ----------------------------------------------------------------------------
+
+class wxPipeOutputStream : public wxFileOutputStream
+{
+public:
+    wxPipeOutputStream(int fd) : wxFileOutputStream(fd) { }
+
+    // Override the base class version to ignore "pipe full" errors: this is
+    // not an error for this class.
+    size_t OnSysWrite(const void *buffer, size_t size);
 };
 
 #endif // wxUSE_STREAMS && wxUSE_FILE

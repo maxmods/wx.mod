@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     05/25/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dc.h 72674 2012-10-14 14:55:32Z VZ $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,8 @@
 #include "wx/dynarray.h"
 #include "wx/math.h"
 #include "wx/image.h"
-#include "wx/cmndata.h"
+#include "wx/region.h"
+#include "wx/affinematrix2d.h"
 
 #define wxUSE_NEW_DC 1
 
@@ -41,6 +42,10 @@ class WXDLLIMPEXP_FWD_CORE wxScreenDC;
 class WXDLLIMPEXP_FWD_CORE wxMemoryDC;
 class WXDLLIMPEXP_FWD_CORE wxPrinterDC;
 class WXDLLIMPEXP_FWD_CORE wxPrintData;
+
+#if wxUSE_GRAPHICS_CONTEXT
+class WXDLLIMPEXP_FWD_CORE wxGraphicsContext;
+#endif
 
 //  Logical ops
 enum wxRasterOperationMode
@@ -112,6 +117,27 @@ enum wxMappingMode
     wxMM_LOMETRIC,
     wxMM_TWIPS,
     wxMM_POINTS
+};
+
+// Description of text characteristics.
+struct wxFontMetrics
+{
+    wxFontMetrics()
+    {
+        height =
+        ascent =
+        descent =
+        internalLeading =
+        externalLeading =
+        averageWidth = 0;
+    }
+
+    int height,             // Total character height.
+        ascent,             // Part of the height above the baseline.
+        descent,            // Part of the height below the baseline.
+        internalLeading,    // Intra-line spacing.
+        externalLeading,    // Inter-line spacing.
+        averageWidth;       // Average font width, a.k.a. "x-width".
 };
 
 #if WXWIN_COMPATIBILITY_2_8
@@ -257,6 +283,8 @@ public:
         return NULL;
     }
 
+    virtual void* GetHandle() const { return NULL; }
+    
     // query dimension, colour deps, resolution
 
     virtual void DoGetSize(int *width, int *height) const = 0;
@@ -375,6 +403,18 @@ public:
 
     virtual wxCoord GetCharHeight() const = 0;
     virtual wxCoord GetCharWidth() const = 0;
+
+    // The derived classes should really override DoGetFontMetrics() to return
+    // the correct values in the future but for now provide a default
+    // implementation in terms of DoGetTextExtent() to avoid breaking the
+    // compilation of all other ports as wxMSW is the only one to implement it.
+    virtual void DoGetFontMetrics(int *height,
+                                  int *ascent,
+                                  int *descent,
+                                  int *internalLeading,
+                                  int *externalLeading,
+                                  int *averageWidth) const;
+
     virtual void DoGetTextExtent(const wxString& string,
                                  wxCoord *x, wxCoord *y,
                                  wxCoord *descent = NULL,
@@ -393,8 +433,12 @@ public:
 
     // clipping
 
+    // Note that this pure virtual method has an implementation that updates
+    // the values returned by DoGetClippingBox() and so can be called from the
+    // derived class overridden version if it makes sense (i.e. if the clipping
+    // box coordinates are not already updated in some other way).
     virtual void DoSetClippingRegion(wxCoord x, wxCoord y,
-                                     wxCoord width, wxCoord height) = 0;
+                                     wxCoord w, wxCoord h) = 0;
 
     // NB: this function works with device coordinates, not the logical ones!
     virtual void DoSetDeviceClippingRegion(const wxRegion& region) = 0;
@@ -437,7 +481,7 @@ public:
     }
 
     virtual void SetLogicalScale(double x, double y);
-    virtual void GetLogicalScale(double *x, double *y)
+    virtual void GetLogicalScale(double *x, double *y) const
     {
         if ( x ) *x = m_logicalScaleX;
         if ( y ) *y = m_logicalScaleY;
@@ -457,12 +501,39 @@ public:
         if ( y ) *y = m_deviceOriginY;
     }
 
+#if wxUSE_DC_TRANSFORM_MATRIX
+    // Transform matrix support is not available in most ports right now
+    // (currently only wxMSW provides it) so do nothing in these methods by
+    // default.
+    virtual bool CanUseTransformMatrix() const
+        { return false; }
+    virtual bool SetTransformMatrix(const wxAffineMatrix2D& WXUNUSED(matrix))
+        { return false; }
+    virtual wxAffineMatrix2D GetTransformMatrix() const
+        { return wxAffineMatrix2D(); }
+    virtual void ResetTransformMatrix()
+        { }
+#endif // wxUSE_DC_TRANSFORM_MATRIX
+
     virtual void SetDeviceLocalOrigin( wxCoord x, wxCoord y );
 
     virtual void ComputeScaleAndOrigin();
 
     // this needs to overidden if the axis is inverted
     virtual void SetAxisOrientation(bool xLeftRight, bool yBottomUp);
+
+#ifdef __WXMSW__
+    // Native Windows functions using the underlying HDC don't honour GDI+
+    // transformations which may be applied to it. Using this function we can
+    // transform the coordinates manually before passing them to such functions
+    // (as in e.g. wxRendererMSW code). It doesn't do anything if this is not a
+    // wxGCDC.
+    virtual wxRect MSWApplyGDIPlusTransform(const wxRect& r) const
+    {
+        return r;
+    }
+#endif // __WXMSW__
+
 
     // ---------------------------------------------------------
     // the actual drawing API
@@ -578,6 +649,13 @@ public:
 
     virtual int GetResolution() const
         { return -1; }
+
+#if wxUSE_GRAPHICS_CONTEXT
+    virtual wxGraphicsContext* GetGraphicsContext() const
+        { return NULL; }
+    virtual void SetGraphicsContext( wxGraphicsContext* WXUNUSED(ctx) )
+        {}
+#endif
 
 private:
     wxDC       *m_owner;
@@ -715,6 +793,9 @@ public:
     wxWindow *GetWindow() const
         { return m_pimpl->GetWindow(); }
 
+    void *GetHandle() const
+        { return m_pimpl->GetHandle(); }
+
     bool IsOk() const
         { return m_pimpl && m_pimpl->IsOk(); }
 
@@ -840,6 +921,15 @@ public:
     wxCoord GetCharWidth() const
         { return m_pimpl->GetCharWidth(); }
 
+    wxFontMetrics GetFontMetrics() const
+    {
+        wxFontMetrics fm;
+        m_pimpl->DoGetFontMetrics(&fm.height, &fm.ascent, &fm.descent,
+                                  &fm.internalLeading, &fm.externalLeading,
+                                  &fm.averageWidth);
+        return fm;
+    }
+
     void GetTextExtent(const wxString& string,
                        wxCoord *x, wxCoord *y,
                        wxCoord *descent = NULL,
@@ -939,7 +1029,7 @@ public:
 
     void SetLogicalScale(double x, double y)
         { m_pimpl->SetLogicalScale( x, y ); }
-    void GetLogicalScale(double *x, double *y)
+    void GetLogicalScale(double *x, double *y) const
         { m_pimpl->GetLogicalScale( x, y ); }
 
     void SetLogicalOrigin(wxCoord x, wxCoord y)
@@ -958,6 +1048,20 @@ public:
 
     void SetAxisOrientation(bool xLeftRight, bool yBottomUp)
         { m_pimpl->SetAxisOrientation(xLeftRight, yBottomUp); }
+
+#if wxUSE_DC_TRANSFORM_MATRIX
+    bool CanUseTransformMatrix() const
+        { return m_pimpl->CanUseTransformMatrix(); }
+
+    bool SetTransformMatrix(const wxAffineMatrix2D &matrix)
+        { return m_pimpl->SetTransformMatrix(matrix); }
+
+    wxAffineMatrix2D GetTransformMatrix() const
+        { return m_pimpl->GetTransformMatrix(); }
+
+    void ResetTransformMatrix()
+        { m_pimpl->ResetTransformMatrix(); }
+#endif // wxUSE_DC_TRANSFORM_MATRIX
 
     // mostly internal
     void SetDeviceLocalOrigin( wxCoord x, wxCoord y )
@@ -1245,6 +1349,17 @@ public:
     TempHDC GetTempHDC() { return TempHDC(*this); }
 #endif // __WXMSW__
 
+#if wxUSE_GRAPHICS_CONTEXT
+    virtual wxGraphicsContext* GetGraphicsContext() const
+    {
+        return m_pimpl->GetGraphicsContext();
+    }
+    virtual void SetGraphicsContext( wxGraphicsContext* ctx )
+    {
+        m_pimpl->SetGraphicsContext(ctx);
+    }
+#endif
+
 protected:
     // ctor takes ownership of the pointer
     wxDC(wxDCImpl *pimpl) : m_pimpl(pimpl) { }
@@ -1273,13 +1388,13 @@ public:
 
     ~wxDCTextColourChanger()
     {
-        if ( m_colFgOld.Ok() )
+        if ( m_colFgOld.IsOk() )
             m_dc.SetTextForeground(m_colFgOld);
     }
 
     void Set(const wxColour& col)
     {
-        if ( !m_colFgOld.Ok() )
+        if ( !m_colFgOld.IsOk() )
             m_colFgOld = m_dc.GetTextForeground();
         m_dc.SetTextForeground(col);
     }
@@ -1307,7 +1422,7 @@ public:
 
     ~wxDCPenChanger()
     {
-        if ( m_penOld.Ok() )
+        if ( m_penOld.IsOk() )
             m_dc.SetPen(m_penOld);
     }
 
@@ -1334,7 +1449,7 @@ public:
 
     ~wxDCBrushChanger()
     {
-        if ( m_brushOld.Ok() )
+        if ( m_brushOld.IsOk() )
             m_dc.SetBrush(m_brushOld);
     }
 
@@ -1390,14 +1505,14 @@ public:
 
     void Set(const wxFont& font)
     {
-        if ( !m_fontOld.Ok() )
+        if ( !m_fontOld.IsOk() )
             m_fontOld = m_dc.GetFont();
         m_dc.SetFont(font);
     }
 
     ~wxDCFontChanger()
     {
-        if ( m_fontOld.Ok() )
+        if ( m_fontOld.IsOk() )
             m_dc.SetFont(m_fontOld);
     }
 

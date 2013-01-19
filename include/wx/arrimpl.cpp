@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     16.10.97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: arrimpl.cpp 72611 2012-10-04 15:55:06Z PC $
 // Copyright:   (c) 1997 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -91,13 +91,13 @@ void name::Insert(const T& item, size_t uiIndex, size_t nInsert)              \
     base_array::operator[](uiIndex + i) = new T(item);                        \
 }                                                                             \
                                                                               \
-int name::Index(const T& Item, bool bFromEnd) const                           \
+int name::Index(const T& item, bool bFromEnd) const                           \
 {                                                                             \
   if ( bFromEnd ) {                                                           \
     if ( size() > 0 ) {                                                       \
       size_t ui = size() - 1;                                                 \
       do {                                                                    \
-        if ( (T*)base_array::operator[](ui) == &Item )                        \
+        if ( (T*)base_array::operator[](ui) == &item )                        \
           return static_cast<int>(ui);                                     \
         ui--;                                                                 \
       }                                                                       \
@@ -106,7 +106,7 @@ int name::Index(const T& Item, bool bFromEnd) const                           \
   }                                                                           \
   else {                                                                      \
     for( size_t ui = 0; ui < size(); ui++ ) {                                 \
-      if( (T*)base_array::operator[](ui) == &Item )                           \
+      if( (T*)base_array::operator[](ui) == &item )                           \
         return static_cast<int>(ui);                                       \
     }                                                                         \
   }                                                                           \

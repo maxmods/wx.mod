@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by: 2008-10-31 Vadim Zeitlin: derive from the base classes
 // Created:     2003/09/08
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: mdi.h 56674 2008-11-04 02:46:19Z VZ $
 // Copyright:   (c) 2003 David Elliott
 //              (c) 2008 Vadim Zeitlin
 // Licence:     wxWindows licence
@@ -157,10 +157,6 @@ public:
 
     virtual bool CreateClient(wxMDIParentFrame *parent,
                               long style = wxHSCROLL | wxVSCROLL);
-
-#if wxUSE_DRAG_AND_DROP
-    virtual void SetDropTarget( wxDropTarget *dropTarget ); // BaH
-#endif
 
     DECLARE_DYNAMIC_CLASS(wxMDIClientWindow)
 };

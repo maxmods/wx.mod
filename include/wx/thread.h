@@ -5,7 +5,7 @@
 // Modified by: Vadim Zeitlin (modifications partly inspired by omnithreads
 //              package from Olivetti & Oracle Research Laboratory)
 // Created:     04/13/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: thread.h 72180 2012-07-23 15:03:42Z VZ $
 // Copyright:   (c) Guilhem Lavaux
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -69,6 +69,21 @@ enum wxThreadKind
 {
     wxTHREAD_DETACHED,
     wxTHREAD_JOINABLE
+};
+
+enum wxThreadWait
+{
+    wxTHREAD_WAIT_BLOCK,
+    wxTHREAD_WAIT_YIELD,       // process events while waiting; MSW only
+
+    // For compatibility reasons we use wxTHREAD_WAIT_YIELD by default as this
+    // was the default behaviour of wxMSW 2.8 but it should be avoided as it's
+    // dangerous and not portable.
+#if WXWIN_COMPATIBILITY_2_8
+    wxTHREAD_WAIT_DEFAULT = wxTHREAD_WAIT_YIELD
+#else
+    wxTHREAD_WAIT_DEFAULT = wxTHREAD_WAIT_BLOCK
+#endif
 };
 
 // defines the interval of priority
@@ -204,7 +219,7 @@ private:
 
 // in order to avoid any overhead under platforms where critical sections are
 // just mutexes make all wxCriticalSection class functions inline
-#if !defined(__WXMSW__)
+#if !defined(__WINDOWS__)
     #define wxCRITSECT_IS_MUTEX 1
 
     #define wxCRITSECT_INLINE WXEXPORT inline
@@ -234,13 +249,16 @@ public:
     // enter the section (the same as locking a mutex)
     wxCRITSECT_INLINE void Enter();
 
+    // try to enter the section (the same as trying to lock a mutex)
+    wxCRITSECT_INLINE bool TryEnter();
+
     // leave the critical section (same as unlocking a mutex)
     wxCRITSECT_INLINE void Leave();
 
 private:
 #if wxCRITSECT_IS_MUTEX
     wxMutex m_mutex;
-#elif defined(__WXMSW__)
+#elif defined(__WINDOWS__)
     // we can't allocate any memory in the ctor, so use placement new -
     // unfortunately, we have to hardcode the sizeof() here because we can't
     // include windows.h from this public header and we also have to use the
@@ -248,10 +266,6 @@ private:
     //
     // if CRITICAL_SECTION size changes in Windows, you'll get an assert from
     // thread.cpp and will need to increase the buffer size
-    //
-    // finally, we need this typedef instead of declaring m_buffer directly
-    // because otherwise the assert mentioned above wouldn't compile with some
-    // compilers (notably CodeWarrior 8)
 #ifdef __WIN64__
     typedef char wxCritSectBuffer[40];
 #else // __WIN32__
@@ -276,6 +290,7 @@ private:
     inline wxCriticalSection::~wxCriticalSection() { }
 
     inline void wxCriticalSection::Enter() { (void)m_mutex.Lock(); }
+    inline bool wxCriticalSection::TryEnter() { return m_mutex.TryLock() == wxMUTEX_NO_ERROR; }
     inline void wxCriticalSection::Leave() { (void)m_mutex.Unlock(); }
 #endif // wxCRITSECT_IS_MUTEX
 
@@ -516,13 +531,14 @@ public:
         // does it!
         //
         // will fill the rc pointer with the thread exit code if it's !NULL
-    wxThreadError Delete(ExitCode *rc = NULL);
+    wxThreadError Delete(ExitCode *rc = NULL,
+                         wxThreadWait waitMode = wxTHREAD_WAIT_DEFAULT);
 
         // waits for a joinable thread to finish and returns its exit code
         //
         // Returns (ExitCode)-1 on error (for example, if the thread is not
         // joinable)
-    ExitCode Wait();
+    ExitCode Wait(wxThreadWait waitMode = wxTHREAD_WAIT_DEFAULT);
 
         // kills the thread without giving it any chance to clean up - should
         // not be used under normal circumstances, use Delete() instead.
@@ -584,6 +600,19 @@ protected:
     // entry point for the thread - called by Run() and executes in the context
     // of this thread.
     virtual void *Entry() = 0;
+
+
+    // Callbacks which may be overridden by the derived class to perform some
+    // specific actions when the thread is deleted or killed. By default they
+    // do nothing.
+
+    // This one is called by Delete() before actually deleting the thread and
+    // is executed in the context of the thread that called Delete().
+    virtual void OnDelete() {}
+
+    // This one is called by Kill() before killing the thread and is executed
+    // in the context of the thread that called Kill().
+    virtual void OnKill() {}
 
 private:
     // no copy ctor/assignment operator
@@ -811,7 +840,7 @@ public:
 
 #if wxUSE_THREADS
 
-#if defined(__WXMSW__) || defined(__OS2__) || defined(__EMX__)
+#if defined(__WINDOWS__) || defined(__OS2__) || defined(__EMX__) || defined(__DARWIN__)
     // unlock GUI if there are threads waiting for and lock it back when
     // there are no more of them - should be called periodically by the main
     // thread
@@ -823,9 +852,11 @@ public:
     // wakes up the main thread if it's sleeping inside ::GetMessage()
     extern void WXDLLIMPEXP_BASE wxWakeUpMainThread();
 
+#ifndef __DARWIN__
     // return true if the main thread is waiting for some other to terminate:
     // wxApp then should block all "dangerous" messages
     extern bool WXDLLIMPEXP_BASE wxIsWaitingForThread();
+#endif
 #endif // MSW, OS/2
 
 #endif // wxUSE_THREADS

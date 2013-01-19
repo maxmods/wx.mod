@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     2004-10-17
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: stdpaths.h 70796 2012-03-04 00:29:31Z VZ $
 // Copyright:   (c) 2004 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ class WXDLLIMPEXP_FWD_BASE wxStandardPaths;
 class WXDLLIMPEXP_BASE wxStandardPathsBase
 {
 public:
-    // possible resources categorires
+    // possible resources categories
     enum ResourceCat
     {
         // no special category
@@ -171,7 +171,7 @@ protected:
 };
 
 #if wxUSE_STDPATHS
-    #if defined(__WXMSW__)
+    #if defined(__WINDOWS__)
         #include "wx/msw/stdpaths.h"
         #define wxHAS_NATIVE_STDPATHS
     // We want CoreFoundation paths on both CarbonLib and Darwin (for all ports)
@@ -183,9 +183,6 @@ protected:
         #define wxHAS_NATIVE_STDPATHS
     #elif defined(__UNIX__)
         #include "wx/unix/stdpaths.h"
-        #define wxHAS_NATIVE_STDPATHS
-    #elif defined(__PALMOS__)
-        #include "wx/palmos/stdpaths.h"
         #define wxHAS_NATIVE_STDPATHS
     #endif
 #endif

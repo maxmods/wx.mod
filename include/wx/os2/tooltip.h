@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        msw/tooltip.h
+// Name:        wx/os2/tooltip.h
 // Purpose:     wxToolTip class - tooltip control
 // Author:      David Webster
 // Modified by:
 // Created:     10/17/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: tooltip.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

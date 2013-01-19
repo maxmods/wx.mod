@@ -4,7 +4,7 @@
  * Author:      Joel Farley, Ove Kåven
  * Modified by: Vadim Zeitlin, Robert Roebling, Ron Lee
  * Created:     1998/06/12
- * RCS-ID:      $Id$
+ * RCS-ID:      $Id: chartype.h 71102 2012-04-05 18:40:11Z VZ $
  * Copyright:   (c) 1998-2006 wxWidgets dev team
  * Licence:     wxWindows licence
  */
@@ -48,14 +48,9 @@
 
    Actually MinGW has tchar.h, but it does not include wchar.h
  */
-#if defined(__MWERKS__) || defined(__VISAGECPP__) || defined(__MINGW32__) || defined(__WATCOMC__)
+#if defined(__VISAGECPP__) || defined(__MINGW32__) || defined(__WATCOMC__)
     #ifndef HAVE_WCHAR_H
         #define HAVE_WCHAR_H
-    #endif
-#endif
-#if defined(__MWERKS__) && !defined(__MACH__)
-    #ifndef HAVE_WCSLEN
-        #define HAVE_WCSLEN
     #endif
 #endif
 
@@ -105,8 +100,6 @@
     #define wxHAVE_TCHAR_SUPPORT
 #elif defined(__DMC__)
     #define wxHAVE_TCHAR_SUPPORT
-#elif defined(__WXPALMOS__)
-    #include <stddef.h>
 #elif defined(__MINGW32__) && wxCHECK_W32API_VERSION( 1, 0 )
     #define wxHAVE_TCHAR_SUPPORT
     #include <stddef.h>
@@ -238,10 +231,23 @@
     #if !wxUSE_UNICODE
         #define wxT(x) x
     #else /* Unicode */
-        /* use wxCONCAT_HELPER so that x could be expanded if it's a macro */
-        #define wxT(x) wxCONCAT_HELPER(L, x)
+        /*
+            Notice that we use an intermediate macro to allow x to be expanded
+            if it's a macro itself.
+         */
+        #ifndef wxCOMPILER_BROKEN_CONCAT_OPER
+            #define wxT(x) wxCONCAT_HELPER(L, x)
+        #else
+            #define wxT(x) wxPREPEND_L(x)
+        #endif
     #endif /* ASCII/Unicode */
 #endif /* !defined(wxT) */
+
+/*
+    wxT_2 exists only for compatibility with wx 2.x and is the same as wxT() in
+    that version but nothing in the newer ones.
+ */
+#define wxT_2(x) x
 
 /*
    wxS ("wx string") macro can be used to create literals using the same
@@ -250,7 +256,14 @@
    builds everywhere (see wxStringCharType definition above).
  */
 #if wxUSE_UNICODE_WCHAR
-    #define wxS(x) wxCONCAT_HELPER(L, x)
+    /*
+        As above with wxT(), wxS() argument is expanded if it's a macro.
+     */
+    #ifndef wxCOMPILER_BROKEN_CONCAT_OPER
+        #define wxS(x) wxCONCAT_HELPER(L, x)
+    #else
+        #define wxS(x) wxPREPEND_L(x)
+    #endif
 #else /* wxUSE_UNICODE_UTF8 || ANSI */
     #define wxS(x) x
 #endif

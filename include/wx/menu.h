@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     26.10.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: menu.h 70345 2012-01-15 01:05:28Z VZ $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -392,6 +392,39 @@ protected:
     wxDECLARE_NO_COPY_CLASS(wxMenuBase);
 };
 
+#if wxUSE_EXTENDED_RTTI    
+
+// ----------------------------------------------------------------------------
+// XTI accessor
+// ----------------------------------------------------------------------------
+
+class WXDLLEXPORT wxMenuInfoHelper : public wxObject
+{
+public:
+    wxMenuInfoHelper() { m_menu = NULL; }
+    virtual ~wxMenuInfoHelper() { }
+    
+    bool Create( wxMenu *menu, const wxString &title )
+    { 
+        m_menu = menu; 
+        m_title = title; 
+        return true;
+    }
+    
+    wxMenu* GetMenu() const { return m_menu; }
+    wxString GetTitle() const { return m_title; }
+    
+private:
+    wxMenu *m_menu;
+    wxString m_title;
+    
+    DECLARE_DYNAMIC_CLASS(wxMenuInfoHelper)
+};
+
+WX_DECLARE_EXPORTED_LIST(wxMenuInfoHelper, wxMenuInfoHelperList );
+
+#endif
+
 // ----------------------------------------------------------------------------
 // wxMenuBar
 // ----------------------------------------------------------------------------
@@ -508,6 +541,13 @@ public:
 
     virtual bool CanBeOutsideClientArea() const { return true; }
 
+#if wxUSE_EXTENDED_RTTI    
+    // XTI helpers:
+    bool AppendMenuInfo( const wxMenuInfoHelper *info )
+    { return Append( info->GetMenu(), info->GetTitle() ); }
+    const wxMenuInfoHelperList& GetMenuInfos() const;
+#endif
+    
 #if WXWIN_COMPATIBILITY_2_8
     // get or change the label of the menu at given position
     // Deprecated in favour of SetMenuLabel
@@ -520,6 +560,11 @@ protected:
     // the list of all our menus
     wxMenuList m_menus;
 
+#if wxUSE_EXTENDED_RTTI    
+    // used by XTI
+    wxMenuInfoHelperList m_menuInfos;
+#endif
+    
     // the frame we are attached to (may be NULL)
     wxFrame *m_menuBarFrame;
 
@@ -535,8 +580,6 @@ protected:
 #else // !wxUSE_BASE_CLASSES_ONLY
 #if defined(__WXUNIVERSAL__)
     #include "wx/univ/menu.h"
-#elif defined(__WXPALMOS__)
-    #include "wx/palmos/menu.h"
 #elif defined(__WXMSW__)
     #include "wx/msw/menu.h"
 #elif defined(__WXMOTIF__)

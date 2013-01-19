@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: radiobox.h 70498 2012-02-02 14:26:06Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -123,8 +123,13 @@ public:
     void SetLabelFont(const wxFont& WXUNUSED(font)) {}
     void SetButtonFont(const wxFont& font) { SetFont(font); }
 
+
     // implementation only from now on
     // -------------------------------
+
+    // This function can be used to check if the given radio button HWND
+    // belongs to one of our radio boxes. If it doesn't, NULL is returned.
+    static wxRadioBox *GetFromRadioButtonHWND(WXHWND hwnd);
 
     virtual bool MSWCommand(WXUINT param, WXWORD id);
     void Command(wxCommandEvent& event);
@@ -144,6 +149,9 @@ protected:
     // get the total size occupied by the radio box buttons
     wxSize GetTotalButtonSize(const wxSize& sizeBtn) const;
 
+    // Adjust all the buttons to the new window size.
+    void PositionAllButtons(int x, int y, int width, int height);
+
     virtual void DoSetSize(int x, int y,
                            int width, int height,
                            int sizeFlags = wxSIZE_AUTO);
@@ -158,6 +166,8 @@ protected:
     virtual WXHRGN MSWGetRegionWithoutChildren();
 #endif // __WXWINCE__
 
+    // resolve ambiguity in base classes
+    virtual wxBorder GetDefaultBorder() const { return wxRadioBoxBase::GetDefaultBorder(); }
 
     // the buttons we contain
     wxSubwindows *m_radioButtons;

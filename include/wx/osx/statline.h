@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        mac/statline.h
+// Name:        wx/osx/statline.h
 // Purpose:     a generic wxStaticLine class used for mac before adaptation
 // Author:      Vadim Zeitlin
 // Created:     28.06.99
-// Version:     $Id$
+// Version:     $Id: statline.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) 1998 Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

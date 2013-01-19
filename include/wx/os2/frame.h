@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        frame.h
+// Name:        wx/os2/frame.h
 // Purpose:     wxFrame class
 // Author:      David Webster
 // Modified by:
 // Created:     10/27/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: frame.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -93,9 +93,9 @@ public:
 
     // TODO: should this go into a wxFrameworkSettings class perhaps?
     static void UseNativeStatusBar(bool bUseNative)
-        { m_bUseNativeStatusBar = bUseNative; };
+        { m_bUseNativeStatusBar = bUseNative; }
     static bool UsesNativeStatusBar()
-        { return m_bUseNativeStatusBar; };
+        { return m_bUseNativeStatusBar; }
 #endif // wxUSE_STATUSBAR
 
     WXHMENU GetWinMenu() const { return m_hMenu; }

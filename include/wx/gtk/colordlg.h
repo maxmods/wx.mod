@@ -4,7 +4,7 @@
 // Author:      Vaclav Slavik
 // Modified by:
 // Created:     2004/06/04
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: colordlg.h 66615 2011-01-07 05:26:57Z PC $
 // Copyright:   (c) Vaclav Slavik, 2004
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,6 @@
 #define _WX_GTK_COLORDLG_H_
 
 #include "wx/dialog.h"
-#include "wx/cmndata.h"
 
 class WXDLLIMPEXP_CORE wxColourDialog : public wxDialog
 {

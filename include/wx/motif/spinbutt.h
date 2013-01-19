@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     17/09/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: spinbutt.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ public:
 
     // Implementation
     virtual void Command(wxCommandEvent& event)
-        { (void)ProcessCommand(event); };
+        { (void)ProcessCommand(event); }
     virtual void ChangeFont(bool keepOriginalSize = true);
     virtual void ChangeBackgroundColour();
     virtual void ChangeForegroundColour();

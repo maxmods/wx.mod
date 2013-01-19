@@ -3,7 +3,7 @@
 // Purpose:     XML resources
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: xmlres.h 72782 2012-10-27 00:46:58Z VZ $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -26,10 +26,9 @@
 #include "wx/icon.h"
 #include "wx/artprov.h"
 #include "wx/colour.h"
-#include "wx/animate.h"
 #include "wx/vector.h"
 
-#include "wx/xml/xml.h"
+#include "wx/xrc/xmlreshandler.h"
 
 class WXDLLIMPEXP_FWD_BASE wxFileName;
 
@@ -43,7 +42,8 @@ class WXDLLIMPEXP_FWD_CORE wxWindow;
 class WXDLLIMPEXP_FWD_CORE wxFrame;
 class WXDLLIMPEXP_FWD_CORE wxToolBar;
 
-class WXDLLIMPEXP_FWD_XRC wxXmlResourceHandler;
+class WXDLLIMPEXP_FWD_XML wxXmlDocument;
+class WXDLLIMPEXP_FWD_XML wxXmlNode;
 class WXDLLIMPEXP_FWD_XRC wxXmlSubclassFactory;
 class wxXmlSubclassFactories;
 class wxXmlResourceModule;
@@ -137,7 +137,7 @@ public:
     // code for all controls used within the resource.
     void AddHandler(wxXmlResourceHandler *handler);
 
-    // Add a new handler at the begining of the handler list
+    // Add a new handler at the beginning of the handler list
     void InsertHandler(wxXmlResourceHandler *handler);
 
     // Removes all handlers
@@ -293,11 +293,15 @@ public:
 
 protected:
     // reports input error at position 'context'
-    void ReportError(wxXmlNode *context, const wxString& message);
+    void ReportError(const wxXmlNode *context, const wxString& message);
 
     // override this in derived class to customize errors reporting
-    virtual void DoReportError(const wxString& xrcFile, wxXmlNode *position,
+    virtual void DoReportError(const wxString& xrcFile, const wxXmlNode *position,
                                const wxString& message);
+
+    // Load the contents of a single file and returns its contents as a new
+    // wxXmlDocument (which will be owned by caller) on success or NULL.
+    wxXmlDocument *DoLoadFile(const wxString& file);
 
     // Scans the resources list for unloaded files and loads them. Also reloads
     // files that have been modified since last loading.
@@ -389,8 +393,10 @@ private:
     // domain to pass to translation functions, if any.
     wxString m_domain;
 
-    friend class wxXmlResourceHandler;
+    friend class wxXmlResourceHandlerImpl;
     friend class wxXmlResourceModule;
+    friend class wxIdRangeManager;
+    friend class wxIdRange;
 
     static wxXmlSubclassFactories *ms_subclassFactories;
 
@@ -437,18 +443,20 @@ private:
 #define XRCSIZERITEM(window, id) \
     ((window).GetSizer() ? (window).GetSizer()->GetItemById(XRCID(id)) : NULL)
 
-// wxXmlResourceHandler is an abstract base class for resource handlers
-// capable of creating a control from an XML node.
 
-class WXDLLIMPEXP_XRC wxXmlResourceHandler : public wxObject
+// wxXmlResourceHandlerImpl is the back-end of the wxXmlResourceHander class to
+// really implementing all its functionality. It is defined in the "xrc"
+// library unlike wxXmlResourceHandler itself which is defined in "core" to
+// allow inheriting from it in the code from the other libraries too.
+
+class WXDLLIMPEXP_XRC wxXmlResourceHandlerImpl : public wxXmlResourceHandlerImplBase
 {
-DECLARE_ABSTRACT_CLASS(wxXmlResourceHandler)
 public:
     // Constructor.
-    wxXmlResourceHandler();
+    wxXmlResourceHandlerImpl(wxXmlResourceHandler *handler);
 
     // Destructor.
-    virtual ~wxXmlResourceHandler() {}
+    virtual ~wxXmlResourceHandlerImpl() {}
 
     // Creates an object (menu, dialog, control, ...) from an XML node.
     // Should check for validity.
@@ -459,33 +467,12 @@ public:
     wxObject *CreateResource(wxXmlNode *node, wxObject *parent,
                              wxObject *instance);
 
-    // This one is called from CreateResource after variables
-    // were filled.
-    virtual wxObject *DoCreateResource() = 0;
-
-    // Returns true if it understands this node and can create
-    // a resource from it, false otherwise.
-    virtual bool CanHandle(wxXmlNode *node) = 0;
-
-    // Sets the parent resource.
-    void SetParentResource(wxXmlResource *res) { m_resource = res; }
-
-protected:
-    wxXmlResource *m_resource;
-    wxArrayString m_styleNames;
-    wxArrayInt m_styleValues;
-
-    // Variables (filled by CreateResource)
-    wxXmlNode *m_node;
-    wxString m_class;
-    wxObject *m_parent, *m_instance;
-    wxWindow *m_parentAsWindow;
 
     // --- Handy methods:
 
     // Returns true if the node has a property class equal to classname,
     // e.g. <object class="wxDialog">.
-    bool IsOfClass(wxXmlNode *node, const wxString& classname);
+    bool IsOfClass(wxXmlNode *node, const wxString& classname) const;
 
     // Gets node content from wxXML_ENTITY_NODE
     // The problem is, <tag>content<tag> is represented as
@@ -505,13 +492,6 @@ protected:
 
     // Returns the parameter value from given node.
     wxString GetParamValue(const wxXmlNode* node);
-
-    // Add a style flag (e.g. wxMB_DOCKABLE) to the list of flags
-    // understood by this handler.
-    void AddStyle(const wxString& name, int value);
-
-    // Add styles common to all wxWindow-derived classes.
-    void AddWindowStyles();
 
     // Gets style flags from text in form "flag | flag2| flag3 |..."
     // Only understands flags added with AddStyle
@@ -552,6 +532,9 @@ protected:
     wxCoord GetDimension(const wxString& param, wxCoord defaultv = 0,
                          wxWindow *windowToUse = NULL);
 
+    // Gets a direction, complains if the value is invalid.
+    wxDirection GetDirection(const wxString& param, wxDirection dir = wxLEFT);
+
     // Gets a bitmap.
     wxBitmap GetBitmap(const wxString& param = wxT("bitmap"),
                        const wxArtClient& defaultArtClient = wxART_OTHER,
@@ -581,11 +564,11 @@ protected:
 
 #if wxUSE_ANIMATIONCTRL
     // Gets an animation.
-    wxAnimation GetAnimation(const wxString& param = wxT("animation"));
+    wxAnimation* GetAnimation(const wxString& param = wxT("animation"));
 #endif
 
     // Gets a font.
-    wxFont GetFont(const wxString& param = wxT("font"));
+    wxFont GetFont(const wxString& param = wxT("font"), wxWindow* parent = NULL);
 
     // Gets the value of a boolean attribute (only "0" and "1" are valid values)
     bool GetBoolAttr(const wxString& attr, bool defaultv);
@@ -602,12 +585,11 @@ protected:
 
     // Creates a resource from a node.
     wxObject *CreateResFromNode(wxXmlNode *node,
-                                wxObject *parent, wxObject *instance = NULL)
-        { return m_resource->CreateResFromNode(node, parent, instance); }
+                                wxObject *parent, wxObject *instance = NULL);
 
     // helper
 #if wxUSE_FILESYSTEM
-    wxFileSystem& GetCurFileSystem() { return m_resource->GetCurFileSystem(); }
+    wxFileSystem& GetCurFileSystem();
 #endif
 
     // reports input error at position 'context'
@@ -620,8 +602,6 @@ protected:
 
 
 // Programmer-friendly macros for writing XRC handlers:
-
-#define XRC_ADD_STYLE(style) AddStyle(wxT(#style), style)
 
 #define XRC_MAKE_INSTANCE(variable, classname) \
    classname *variable = NULL; \

@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     09.02.01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: slider.h 70345 2012-01-15 01:05:28Z VZ $
 // Copyright:   (c) 1996-2001 Vadim Zeitlin
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -95,7 +95,7 @@ public:
     // warning: most of subsequent methods are currently only implemented in
     //          wxMSW under Win95 and are silently ignored on other platforms
 
-    virtual void SetTickFreq(int WXUNUSED(n), int WXUNUSED(pos)) { }
+    void SetTickFreq(int freq) { DoSetTickFreq(freq); }
     virtual int GetTickFreq() const { return 0; }
     virtual void ClearTicks() { }
     virtual void SetTick(int WXUNUSED(tickPos)) { }
@@ -105,7 +105,13 @@ public:
     virtual int GetSelStart() const { return GetMax(); }
     virtual void SetSelection(int WXUNUSED(min), int WXUNUSED(max)) { }
 
+#if WXWIN_COMPATIBILITY_2_8
+    wxDEPRECATED_INLINE( void SetTickFreq(int freq, int), DoSetTickFreq(freq); )
+#endif
+
 protected:
+    // Platform-specific implementation of SetTickFreq
+    virtual void DoSetTickFreq(int WXUNUSED(freq)) { /* unsupported by default */ }
 
     // choose the default border for this window
     virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
@@ -143,8 +149,6 @@ private:
     #include "wx/cocoa/slider.h"
 #elif defined(__WXPM__)
     #include "wx/os2/slider.h"
-#elif defined(__WXPALMOS__)
-    #include "wx/palmos/slider.h"
 #endif
 
 #endif // wxUSE_SLIDER

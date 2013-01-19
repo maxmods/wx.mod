@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////
-// Name:        msw/spinctrl.h
+// Name:        wx/msw/spinctrl.h
 // Purpose:     wxSpinCtrl class declaration for Win32
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     22.07.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: spinctrl.h 72995 2012-11-20 12:49:53Z VZ $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -30,7 +30,7 @@ WX_DEFINE_EXPORTED_ARRAY_PTR(wxSpinCtrl *, wxArraySpins);
 class WXDLLIMPEXP_CORE wxSpinCtrl : public wxSpinButton
 {
 public:
-    wxSpinCtrl() { }
+    wxSpinCtrl() { Init(); }
 
     wxSpinCtrl(wxWindow *parent,
                wxWindowID id = wxID_ANY,
@@ -41,6 +41,8 @@ public:
                int min = 0, int max = 100, int initial = 0,
                const wxString& name = wxT("wxSpinCtrl"))
     {
+        Init();
+
         Create(parent, id, value, pos, size, style, min, max, initial, name);
     }
 
@@ -59,6 +61,11 @@ public:
 
     // another wxTextCtrl-like method
     void SetSelection(long from, long to);
+
+    // wxSpinCtrlBase methods
+    virtual int GetBase() const;
+    virtual bool SetBase(int base);
+
 
     // implementation only from now on
     // -------------------------------
@@ -109,6 +116,7 @@ protected:
     virtual void DoGetPosition(int *x, int *y) const;
     virtual void DoMoveWindow(int x, int y, int width, int height);
     virtual wxSize DoGetBestSize() const;
+    virtual wxSize DoGetSizeFromTextSize(int xlen, int ylen = -1) const;
     virtual void DoGetSize(int *width, int *height) const;
     virtual void DoGetClientSize(int *x, int *y) const;
 #if wxUSE_TOOLTIPS
@@ -142,11 +150,16 @@ protected:
     // Block text update event after SetValue()
     bool m_blockEvent;
 
-    // all existing wxSpinCtrls - this allows to find the one corresponding to
-    // the given buddy window in GetSpinForTextCtrl()
-    static wxArraySpins ms_allSpins;
-
 private:
+    // Common part of all ctors.
+    void Init();
+
+    // Adjust the text control style depending on whether we need to enter only
+    // digits or may need to enter something else (e.g. "-" sign, "x"
+    // hexadecimal prefix, ...) in it.
+    void UpdateBuddyStyle();
+
+
     DECLARE_DYNAMIC_CLASS(wxSpinCtrl)
     DECLARE_EVENT_TABLE()
     wxDECLARE_NO_COPY_CLASS(wxSpinCtrl);

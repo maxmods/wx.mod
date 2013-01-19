@@ -5,7 +5,7 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Julian Smart
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: taskbar.h 71245 2012-04-20 15:34:24Z PC $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -21,6 +21,21 @@
 class WXDLLIMPEXP_FWD_ADV wxTaskBarIconEvent;
 
 // ----------------------------------------------------------------------------
+
+// type of taskbar item to create.  Only applicable in wxOSX_COCOA
+enum wxTaskBarIconType
+{
+    wxTBI_DOCK,
+    wxTBI_CUSTOM_STATUSITEM,
+#if defined(wxOSX_USE_COCOA) && wxOSX_USE_COCOA
+    wxTBI_DEFAULT_TYPE = wxTBI_CUSTOM_STATUSITEM
+#else
+    wxTBI_DEFAULT_TYPE = wxTBI_DOCK
+#endif
+};
+
+
+// ----------------------------------------------------------------------------
 // wxTaskBarIconBase: define wxTaskBarIcon interface
 // ----------------------------------------------------------------------------
 
@@ -32,7 +47,7 @@ public:
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__)
     static bool IsAvailable();
 #else
-    static bool IsAvailable() { return true; };
+    static bool IsAvailable() { return true; }
 #endif
 
     // Operations:
@@ -61,9 +76,7 @@ private:
 // now include the actual class declaration
 // ----------------------------------------------------------------------------
 
-#if defined(__WXPALMOS__)
-    #include "wx/palmos/taskbar.h"
-#elif defined(__WXMSW__)
+#if defined(__WXMSW__)
     #include "wx/msw/taskbar.h"
 #elif defined(__WXGTK20__)
     #include "wx/gtk/taskbar.h"

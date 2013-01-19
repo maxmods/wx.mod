@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        valtext.h
+// Name:        wx/valtext.h
 // Purpose:     wxTextValidator class
 // Author:      Julian Smart
 // Modified by: Francesco Montorsi
 // Created:     29/01/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: valtext.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) 1998 Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     29/01/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: validate.h 66966 2011-02-19 12:32:59Z VZ $
 // Copyright:   (c) 1998 Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -74,8 +74,8 @@ public:
     // unnaturally: it disabled the bell when it was true, not false as could
     // be expected; use SuppressBellOnError() instead
 #if WXWIN_COMPATIBILITY_2_8
-    wxDEPRECATED_INLINE(
-        static void SetBellOnError(bool doIt = true),
+    static wxDEPRECATED_INLINE(
+        void SetBellOnError(bool doIt = true),
         ms_isSilent = doIt;
     )
 #endif

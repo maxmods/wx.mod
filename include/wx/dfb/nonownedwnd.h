@@ -4,7 +4,7 @@
 // Author:      Vaclav Slavik
 // Modified by:
 // Created:     2006-12-24
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: nonownedwnd.h 69364 2011-10-10 10:53:23Z VZ $
 // Copyright:   (c) 2006 TT-Solutions
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ class wxDFBEventsHandler;
 // wxFrame is non-owned, because even though it can have a parent, it's
 // location is independent of it.  This class is for internal use only, it's
 // the base class for wxTopLevelWindow and wxPopupWindow.
-class WXDLLIMPEXP_CORE wxNonOwnedWindow : public wxWindow
+class WXDLLIMPEXP_CORE wxNonOwnedWindow : public wxNonOwnedWindowBase
 {
 public:
     // construction
@@ -80,7 +80,7 @@ protected:
 
     virtual wxIDirectFBSurfacePtr ObtainDfbSurface() const;
 
-    // overriden wxWindow methods
+    // overridden wxWindow methods
     virtual void DoGetPosition(int *x, int *y) const;
     virtual void DoGetSize(int *width, int *height) const;
     virtual void DoMoveWindow(int x, int y, int width, int height);
@@ -92,7 +92,7 @@ protected:
     // wxWindows as in wx
     void SetDfbFocus();
 
-    // overriden in wxTopLevelWindowDFB, there's no common handling for wxTLW
+    // overridden in wxTopLevelWindowDFB, there's no common handling for wxTLW
     // and wxPopupWindow to be done here
     virtual void HandleFocusEvent(const wxDFBWindowEvent& WXUNUSED(event_)) {}
 

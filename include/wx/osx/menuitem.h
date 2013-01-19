@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     11.11.97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: menuitem.h 66904 2011-02-16 16:37:24Z SC $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,6 @@ private:
     bool m_isRadioGroupStart;
 
     wxBitmap  m_bitmap; // Bitmap for menuitem, if any
-    void* m_menu ; // the appropriate menu , may also be a system menu
 
     wxMenuItemImpl* m_peer;
 

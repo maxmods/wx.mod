@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     01.06.01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: evtloop.h 72206 2012-07-24 20:45:43Z VZ $
 // Copyright:   (c) 2001 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 
 // TODO: implement wxEventLoopSource for MSW (it should wrap a HANDLE and be
 //       monitored using MsgWaitForMultipleObjects())
-#if defined(__WXOSX__) || defined(__UNIX__)
+#if defined(__WXOSX__) || (defined(__UNIX__) && !defined(__WXMSW__))
     #define wxUSE_EVENTLOOP_SOURCE 1
 #else
     #define wxUSE_EVENTLOOP_SOURCE 0
@@ -184,7 +184,7 @@ protected:
     wxDECLARE_NO_COPY_CLASS(wxEventLoopBase);
 };
 
-#if defined(__WXMSW__) || defined(__WXMAC__) || defined(__WXDFB__) || (defined(__UNIX__) && !defined(__WXOSX__))
+#if defined(__WINDOWS__) || defined(__WXMAC__) || defined(__WXDFB__) || (defined(__UNIX__) && !defined(__WXOSX__))
 
 // this class can be used to implement a standard event loop logic using
 // Pending() and Dispatch()
@@ -233,21 +233,29 @@ private:
 // integration with MFC) but currently this is not done for all ports yet (e.g.
 // wxX11) so fall back to the old wxGUIEventLoop definition below for them
 
-#if defined(__WXPALMOS__)
-    #include "wx/palmos/evtloop.h"
-#elif defined(__WXMSW__)
-    // this header defines both console and GUI loops for MSW
-    #include "wx/msw/evtloop.h"
-#elif defined(__WXOSX__)
+#if defined(__DARWIN__)
     // CoreFoundation-based event loop is currently in wxBase so include it in
     // any case too (although maybe it actually shouldn't be there at all)
-    #include "wx/osx/evtloop.h"
-#elif wxUSE_GUI
+    #include "wx/osx/core/evtloop.h"
+#endif
+
+// include the header defining wxConsoleEventLoop
+#if defined(__UNIX__) && !defined(__WXMSW__)
+    #include "wx/unix/evtloop.h"
+#elif defined(__WINDOWS__)
+    #include "wx/msw/evtloopconsole.h"
+#endif
+
+#if wxUSE_GUI
 
 // include the appropriate header defining wxGUIEventLoop
 
-#if defined(__WXCOCOA__)
+#if defined(__WXMSW__)
+    #include "wx/msw/evtloop.h"
+#elif defined(__WXCOCOA__)
     #include "wx/cocoa/evtloop.h"
+#elif defined(__WXOSX__)
+    #include "wx/osx/evtloop.h"
 #elif defined(__WXDFB__)
     #include "wx/dfb/evtloop.h"
 #elif defined(__WXGTK20__)
@@ -309,35 +317,14 @@ protected:
 
 #endif // wxUSE_GUI
 
-// include the header defining wxConsoleEventLoop for Unix systems
-#if defined(__UNIX__)
-#include "wx/unix/evtloop.h"
-#endif
-
 #if wxUSE_GUI
     // we use a class rather than a typedef because wxEventLoop is
     // forward-declared in many places
-    class wxEventLoop : public wxGUIEventLoop { 
-    
-  #if wxUSE_EVENTLOOP_SOURCE // BaH
-    // We need to define a base class pure virtual method but we can't provide
-    // a generic implementation for it so simply fail.
-    virtual wxEventLoopSource *
-    AddSourceForFD(int WXUNUSED(fd),
-                   wxEventLoopSourceHandler * WXUNUSED(handler),
-                   int WXUNUSED(flags))
-    {
-        wxFAIL_MSG( "support for event loop sources not implemented" );
-        return NULL;
-    }
-#endif // wxUSE_EVENTLOOP_SOURCE
-  
-    
-    };
+    class wxEventLoop : public wxGUIEventLoop { };
 #else // !wxUSE_GUI
     // we can't define wxEventLoop differently in GUI and base libraries so use
     // a #define to still allow writing wxEventLoop in the user code
-    #if wxUSE_CONSOLE_EVENTLOOP && (defined(__WXMSW__) || defined(__UNIX__))
+    #if wxUSE_CONSOLE_EVENTLOOP && (defined(__WINDOWS__) || defined(__UNIX__))
         #define wxEventLoop wxConsoleEventLoop
     #else // we still must define it somehow for the code below...
         #define wxEventLoop wxEventLoopBase

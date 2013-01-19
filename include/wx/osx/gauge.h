@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        gauge.h
+// Name:        wx/osx/gauge.h
 // Purpose:     wxGauge class
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: gauge.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,8 +13,6 @@
 #define _WX_GAUGE_H_
 
 #include "wx/control.h"
-
-WXDLLIMPEXP_DATA_CORE(extern const char) wxGaugeNameStr[];
 
 // Group box
 class WXDLLIMPEXP_CORE wxGauge: public wxGaugeBase

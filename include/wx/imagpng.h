@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        imagpng.h
+// Name:        wx/imagpng.h
 // Purpose:     wxImage PNG handler
 // Author:      Robert Roebling
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: imagpng.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,6 +19,7 @@
 #if wxUSE_LIBPNG
 
 #include "wx/image.h"
+#include "wx/versioninfo.h"
 
 #define wxIMAGE_OPTION_PNG_FORMAT    wxT("PngFormat")
 #define wxIMAGE_OPTION_PNG_BITDEPTH  wxT("PngBitDepth")
@@ -32,7 +33,8 @@ enum
 {
     wxPNG_TYPE_COLOUR = 0,
     wxPNG_TYPE_GREY = 2,
-    wxPNG_TYPE_GREY_RED = 3
+    wxPNG_TYPE_GREY_RED = 3,
+    wxPNG_TYPE_PALETTE = 4
 };
 
 class WXDLLIMPEXP_CORE wxPNGHandler: public wxImageHandler
@@ -45,6 +47,8 @@ public:
         m_type = wxBITMAP_TYPE_PNG;
         m_mime = wxT("image/png");
     }
+
+    static wxVersionInfo GetLibraryVersionInfo();
 
 #if wxUSE_STREAMS
     virtual bool LoadFile( wxImage *image, wxInputStream& stream, bool verbose=true, int index=-1 );

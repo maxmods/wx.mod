@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        spinctrl.h
+// Name:        wx/spinctrl.h
 // Purpose:     wxSpinCtrlBase class
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     22.07.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: spinctrl.h 72414 2012-08-30 20:24:38Z VZ $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,10 @@ public:
     // void SetIncrement(T inc)
     virtual void SetSnapToTicks(bool snap_to_ticks) = 0;
     // void SetDigits(unsigned digits)              - wxSpinCtrlDouble only
+
+    // The base for numbers display, e.g. 10 or 16.
+    virtual int GetBase() const = 0;
+    virtual bool SetBase(int base) = 0;
 
     // Select text in the textctrl
     virtual void SetSelection(long from, long to) = 0;
@@ -113,9 +117,7 @@ typedef void (wxEvtHandler::*wxSpinDoubleEventFunction)(wxSpinDoubleEvent&);
 // wxSpinCtrlDouble implementations or neither, define the appropriate symbols
 // and include the generic version if necessary to provide the missing class(es)
 
-#if defined(__WXUNIVERSAL__) || \
-    defined(__WXMOTIF__) || \
-    defined(__WXCOCOA__)
+#if defined(__WXUNIVERSAL__)
     // nothing, use generic controls
 #elif defined(__WXMSW__)
     #define wxHAS_NATIVE_SPINCTRL
@@ -130,14 +132,20 @@ typedef void (wxEvtHandler::*wxSpinDoubleEventFunction)(wxSpinDoubleEvent&);
 #elif defined(__WXGTK__)
     #define wxHAS_NATIVE_SPINCTRL
     #include "wx/gtk1/spinctrl.h"
-#elif defined(__WXMAC__)
-    #define wxHAS_NATIVE_SPINCTRL
-    #include "wx/osx/spinctrl.h"
 #endif // platform
 
 #if !defined(wxHAS_NATIVE_SPINCTRL) || !defined(wxHAS_NATIVE_SPINCTRLDOUBLE)
     #include "wx/generic/spinctlg.h"
 #endif
+
+namespace wxPrivate
+{
+
+// This is an internal helper function currently used by all ports: return the
+// string containing hexadecimal representation of the given number.
+extern wxString wxSpinCtrlFormatAsHex(long val, long maxVal);
+
+} // namespace wxPrivate
 
 #endif // wxUSE_SPINCTRL
 

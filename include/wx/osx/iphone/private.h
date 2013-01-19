@@ -6,7 +6,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id: private.h 53819 2008-05-29 14:11:45Z SC $
+// RCS-ID:      $Id: private.h 71768 2012-06-14 21:53:06Z SC $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,11 +14,14 @@
 #ifndef _WX_PRIVATE_IPHONE_H_
 #define _WX_PRIVATE_IPHONE_H_
 
-#include "wx/osx/core/private.h"
-
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
 #endif
+
+#include <CoreText/CTFont.h>
+#include <CoreText/CTStringAttributes.h>
+#include <CoreText/CTLine.h>
+
 
 #if wxUSE_GUI
 
@@ -28,11 +31,12 @@ OSStatus WXDLLIMPEXP_CORE wxMacDrawCGImage(
                                CGImageRef      inImage) ;
 
 WX_UIImage WXDLLIMPEXP_CORE wxOSXGetUIImageFromCGImage( CGImageRef image );
+wxBitmap WXDLLIMPEXP_CORE wxOSXCreateSystemBitmap(const wxString& id, const wxString &client, const wxSize& size);
 
 class WXDLLIMPEXP_CORE wxWidgetIPhoneImpl : public wxWidgetImpl
 {
 public :
-    wxWidgetIPhoneImpl( wxWindowMac* peer , WXWidget w, bool isRootControl = false ) ;
+    wxWidgetIPhoneImpl( wxWindowMac* peer , WXWidget w, bool isRootControl = false, bool isUserPane = false ) ;
     wxWidgetIPhoneImpl() ;
     ~wxWidgetIPhoneImpl();
 
@@ -57,7 +61,8 @@ public :
     virtual void        GetPosition( int &x, int &y ) const;
     virtual void        GetSize( int &width, int &height ) const;
     virtual void        SetControlSize( wxWindowVariant variant );
-
+    virtual float       GetContentScaleFactor() const ;
+    
     virtual void        SetNeedsDisplay( const wxRect* where = NULL );
     virtual bool        GetNeedsDisplay() const;
 
@@ -173,7 +178,7 @@ public :
 
     // FIXME: Does iPhone have a concept of inactive windows?
     virtual bool IsActive() { return true; }
-    
+
     wxNonOwnedWindow*   GetWXPeer() { return m_wxPeer; }
 
     virtual bool InitialShowEventSent() { return m_initialShowSent; }

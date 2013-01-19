@@ -3,7 +3,7 @@
 // Purpose:     wxGTK event loop implementation
 // Author:      Vadim Zeitlin
 // Created:     2008-12-27
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: evtloop.h 62475 2009-10-22 11:36:35Z VZ $
 // Copyright:   (c) 2008 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

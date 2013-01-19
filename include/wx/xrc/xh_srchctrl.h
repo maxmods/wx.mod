@@ -3,7 +3,7 @@
 // Purpose:     XRC resource handler for wxSearchCtrl
 // Author:      Sander Berents
 // Created:     2007/07/12
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: xh_srchctrl.h 48140 2007-08-16 21:10:14Z VZ $
 // Copyright:   (c) 2007 Sander Berents
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

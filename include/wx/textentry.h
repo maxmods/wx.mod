@@ -3,7 +3,7 @@
 // Purpose:     declares wxTextEntry interface defining a simple text entry
 // Author:      Vadim Zeitlin
 // Created:     2007-09-24
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: textentry.h 72491 2012-09-15 23:18:23Z VZ $
 // Copyright:   (c) 2007 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,9 +16,11 @@
 typedef long wxTextPos;
 
 class WXDLLIMPEXP_FWD_BASE wxArrayString;
+class WXDLLIMPEXP_FWD_CORE wxTextCompleter;
 class WXDLLIMPEXP_FWD_CORE wxTextEntryHintData;
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 
+#include "wx/filefn.h"              // for wxFILE and wxDIR only
 #include "wx/gdicmn.h"              // for wxPoint
 
 // ----------------------------------------------------------------------------
@@ -38,8 +40,7 @@ public:
     // SetValue() generates a text change event, ChangeValue() doesn't
     virtual void SetValue(const wxString& value)
         { DoSetValue(value, SetValue_SendEvent); }
-    virtual void ChangeValue(const wxString& value)
-        { DoSetValue(value, SetValue_NoEvent); }
+    virtual void ChangeValue(const wxString& value);
 
     // writing text inserts it at the current position replacing any current
     // selection, appending always inserts it at the end and doesn't remove any
@@ -97,6 +98,8 @@ public:
 
     virtual void SetSelection(long from, long to) = 0;
     virtual void SelectAll() { SetSelection(-1, -1); }
+    virtual void SelectNone()
+        { const long pos = GetInsertionPoint(); SetSelection(pos, pos); }
     virtual void GetSelection(long *from, long *to) const = 0;
     bool HasSelection() const;
     virtual wxString GetStringSelection() const;
@@ -107,18 +110,26 @@ public:
 
     // these functions allow to auto-complete the text already entered into the
     // control using either the given fixed list of strings, the paths from the
-    // file system or, in the future, an arbitrary user-defined completer
+    // file system or an arbitrary user-defined completer
     //
     // they all return true if completion was enabled or false on error (most
     // commonly meaning that this functionality is not available under the
     // current platform)
 
-    virtual bool AutoComplete(const wxArrayString& WXUNUSED(choices))
-    {
-        return false;
-    }
+    bool AutoComplete(const wxArrayString& choices)
+        { return DoAutoCompleteStrings(choices); }
 
-    virtual bool AutoCompleteFileNames() { return false; }
+    bool AutoCompleteFileNames()
+        { return DoAutoCompleteFileNames(wxFILE); }
+
+    bool AutoCompleteDirectories()
+        { return DoAutoCompleteFileNames(wxDIR); }
+
+    // notice that we take ownership of the pointer and will delete it
+    //
+    // if the pointer is NULL auto-completion is disabled
+    bool AutoComplete(wxTextCompleter *completer)
+        { return DoAutoCompleteCustom(completer); }
 
 
     // status
@@ -219,6 +230,16 @@ protected:
     virtual bool DoSetMargins(const wxPoint& pt);
     virtual wxPoint DoGetMargins() const;
 
+    // the derived classes should override these virtual methods to implement
+    // auto-completion, they do the same thing as their public counterparts but
+    // have different names to allow overriding just one of them without hiding
+    // the other one(s)
+    virtual bool DoAutoCompleteStrings(const wxArrayString& WXUNUSED(choices))
+        { return false; }
+    virtual bool DoAutoCompleteFileNames(int WXUNUSED(flags)) // wxFILE | wxDIR
+        { return false; }
+    virtual bool DoAutoCompleteCustom(wxTextCompleter *completer);
+
 
     // class which should be used to temporarily disable text change events
     //
@@ -279,6 +300,10 @@ private:
 
     // hint-related stuff, only allocated if/when SetHint() is used
     wxTextEntryHintData *m_hintData;
+
+    // It needs to call our Do{Get,Set}Value() to work with the real control
+    // contents.
+    friend class wxTextEntryHintData;
 };
 
 #ifdef __WXUNIVERSAL__

@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        region.h
+// Name:        wx/osx/carbon/region.h
 // Purpose:     wxRegion class
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: region.h 73230 2012-12-20 13:00:42Z SC $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -17,12 +17,13 @@
 class WXDLLIMPEXP_CORE wxRegion : public wxRegionWithCombine
 {
 public:
+    wxRegion() { }
     wxRegion(long x, long y, long w, long h);
     wxRegion(const wxPoint& topLeft, const wxPoint& bottomRight);
     wxRegion(const wxRect& rect);
     wxRegion( WXHRGN hRegion );
     wxRegion(size_t n, const wxPoint *points, wxPolygonFillMode fillStyle = wxODDEVEN_RULE );
-    wxRegion();
+#if wxUSE_IMAGE
     wxRegion(const wxBitmap& bmp)
     {
         Union(bmp);
@@ -32,6 +33,7 @@ public:
     {
         Union(bmp, transColour, tolerance);
     }
+#endif
 
     virtual ~wxRegion();
 
@@ -40,7 +42,7 @@ public:
     virtual bool IsEmpty() const;
 
     // Internal
-    const WXHRGN GetWXHRGN() const ;
+    WXHRGN GetWXHRGN() const ;
 
 protected:
     virtual wxGDIRefData *CreateGDIRefData() const;
@@ -53,6 +55,7 @@ protected:
 
     virtual bool DoOffset(wxCoord x, wxCoord y);
     virtual bool DoCombine(const wxRegion& region, wxRegionOp op);
+    virtual bool DoUnionWithRect(const wxRect& rect);
 
 private:
     DECLARE_DYNAMIC_CLASS(wxRegion)

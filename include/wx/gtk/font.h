@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        font.h
+// Name:        wx/gtk/font.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: font.h 72604 2012-10-02 15:57:03Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -63,6 +63,12 @@ public:
         SetPixelSize(pixelSize);
     }
 
+    wxFont(int pointSize,
+           wxFontFamily family,
+           int flags = wxFONTFLAG_DEFAULT,
+           const wxString& face = wxEmptyString,
+           wxFontEncoding encoding = wxFONTENCODING_DEFAULT);
+
     bool Create(int size,
                 wxFontFamily family,
                 wxFontStyle style,
@@ -78,11 +84,11 @@ public:
 
     // implement base class pure virtuals
     virtual int GetPointSize() const;
-    virtual wxFontFamily GetFamily() const;
     virtual wxFontStyle GetStyle() const;
     virtual wxFontWeight GetWeight() const;
     virtual wxString GetFaceName() const;
     virtual bool GetUnderlined() const;
+    virtual bool GetStrikethrough() const;
     virtual wxFontEncoding GetEncoding() const;
     virtual const wxNativeFontInfo *GetNativeFontInfo() const;
     virtual bool IsFixedWidth() const;
@@ -93,9 +99,17 @@ public:
     virtual void SetWeight(wxFontWeight weight);
     virtual bool SetFaceName( const wxString& faceName );
     virtual void SetUnderlined( bool underlined );
+    virtual void SetStrikethrough(bool strikethrough);
     virtual void SetEncoding(wxFontEncoding encoding);
 
     wxDECLARE_COMMON_FONT_METHODS();
+
+    // Set Pango attributes in the specified layout. Currently only
+    // underlined and strike-through attributes are handled by this function.
+    //
+    // If neither of them is specified, returns false, otherwise sets up the
+    // attributes and returns true.
+    bool GTKSetPangoAttrs(PangoLayout* layout) const;
 
     // implementation from now on
     void Unshare();
@@ -105,13 +119,14 @@ public:
 protected:
     virtual void DoSetNativeFontInfo( const wxNativeFontInfo& info );
 
-    // common part of all ctors
-    void Init();
-
     virtual wxGDIRefData* CreateGDIRefData() const;
     virtual wxGDIRefData* CloneGDIRefData(const wxGDIRefData* data) const;
 
+    virtual wxFontFamily DoGetFamily() const;
+
 private:
+    void Init();
+
     DECLARE_DYNAMIC_CLASS(wxFont)
 };
 

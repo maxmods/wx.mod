@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        accel.h
+// Name:        wx/osx/accel.h
 // Purpose:     wxAcceleratorTable class
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: accel.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -29,8 +29,6 @@ public:
 
     int GetCommand( wxKeyEvent &event );
 };
-
-// WXDLLIMPEXP_DATA_CORE(extern wxAcceleratorTable) wxNullAcceleratorTable;
 
 #endif
     // _WX_ACCEL_H_

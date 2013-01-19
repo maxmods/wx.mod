@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/06/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: font.h 70445 2012-01-23 11:28:21Z VZ $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -63,6 +63,19 @@ public:
         SetPixelSize(pixelSize);
     }
 
+    wxFont(int pointSize,
+           wxFontFamily family,
+           int flags = wxFONTFLAG_DEFAULT,
+           const wxString& face = wxEmptyString,
+           wxFontEncoding encoding = wxFONTENCODING_DEFAULT)
+    {
+        Create(pointSize, family,
+               GetStyleFromFlags(flags),
+               GetWeightFromFlags(flags),
+               GetUnderlinedFromFlags(flags),
+               face, encoding);
+    }
+
     bool Create(int size,
                 wxFontFamily family,
                 wxFontStyle style,
@@ -93,7 +106,6 @@ public:
     // Implement base class pure virtuals
     //
     virtual int               GetPointSize(void) const;
-    virtual wxFontFamily GetFamily() const;
     virtual wxFontStyle GetStyle() const;
     virtual wxFontWeight GetWeight() const;
     virtual bool              GetUnderlined(void) const;
@@ -131,6 +143,7 @@ public:
 
 protected:
     virtual void DoSetNativeFontInfo(const wxNativeFontInfo& rInfo);
+    virtual wxFontFamily DoGetFamily() const;
 
     // implement wxObject virtuals which are used by AllocExclusive()
     virtual wxGDIRefData *CreateGDIRefData() const;

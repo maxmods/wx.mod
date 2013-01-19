@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        htmlpars.h
+// Name:        wx/html/htmlpars.h
 // Purpose:     wxHtmlParser class (generic parser)
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: htmlpars.h 72297 2012-08-06 11:06:45Z VZ $
 // Copyright:   (c) 1999 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -28,10 +28,10 @@ class WXDLLIMPEXP_FWD_HTML wxHtmlEntitiesParser;
 class wxHtmlTextPieces;
 class wxHtmlParserState;
 
-WX_DECLARE_HASH_SET_WITH_DECL(wxHtmlTagHandler*,
-                              wxPointerHash, wxPointerEqual,
-                              wxHtmlTagHandlersSet,
-                              class WXDLLIMPEXP_HTML);
+WX_DECLARE_HASH_SET_WITH_DECL_PTR(wxHtmlTagHandler*,
+                                  wxPointerHash, wxPointerEqual,
+                                  wxHtmlTagHandlersSet,
+                                  class WXDLLIMPEXP_HTML);
 WX_DECLARE_STRING_HASH_MAP_WITH_DECL(wxHtmlTagHandler*,
                                      wxHtmlTagHandlersHash,
                                      class WXDLLIMPEXP_HTML);
@@ -156,14 +156,14 @@ protected:
                           wxHtmlTagsCache *cache);
 
     // Adds text to the output.
-    // This is called from Parse() and must be overriden in derived classes.
+    // This is called from Parse() and must be overridden in derived classes.
     // txt is not guaranteed to be only one word. It is largest continuous part
     // of text (= not broken by tags)
     virtual void AddText(const wxString& txt) = 0;
 
     // Adds tag and proceeds it. Parse() may (and usually is) called from this method.
-    // This is called from Parse() and may be overriden.
-    // Default behavior is that it looks for proper handler in m_Handlers. The tag is
+    // This is called from Parse() and may be overridden.
+    // Default behaviour is that it looks for proper handler in m_Handlers. The tag is
     // ignored if no hander is found.
     // Derived class is *responsible* for filling in m_Handlers table.
     virtual void AddTag(const wxHtmlTag& tag);

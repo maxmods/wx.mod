@@ -4,7 +4,7 @@
 // Author:      Ryan Norton
 // Modified by:
 // Created:     04/04/2003
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: taskbarosx.h 71242 2012-04-20 05:41:54Z RD $
 // Copyright:   (c) Ryan Norton, 2003
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////
@@ -19,21 +19,15 @@ class WXDLLIMPEXP_ADV wxTaskBarIcon : public wxTaskBarIconBase
 {
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxTaskBarIcon)
 public:
-        // type of taskbar item to create (currently only DOCK is implemented)
-        enum wxTaskBarIconType
-        {
-            DOCK
-#if wxOSX_USE_COCOA
-        ,   CUSTOM_STATUSITEM
-#endif
-//    ,   STATUSITEM
-//    ,   MENUEXTRA
-        ,   DEFAULT_TYPE = DOCK
-        };
-
-    wxTaskBarIcon(wxTaskBarIconType iconType = DEFAULT_TYPE);
+    wxTaskBarIcon(wxTaskBarIconType iconType = wxTBI_DEFAULT_TYPE);
     virtual ~wxTaskBarIcon();
 
+    // returns true if the taskbaricon is in the global menubar
+#if wxOSX_USE_COCOA
+    bool OSXIsStatusItem();
+#else
+    bool OSXIsStatusItem() { return false; }
+#endif
     bool IsOk() const { return true; }
 
     bool IsIconInstalled() const;
@@ -42,6 +36,7 @@ public:
     bool PopupMenu(wxMenu *menu);
 
 protected:
+    wxTaskBarIconType m_type;
     class wxTaskBarIconImpl* m_impl;
     friend class wxTaskBarIconImpl;
 };

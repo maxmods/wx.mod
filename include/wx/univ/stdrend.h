@@ -3,7 +3,7 @@
 // Purpose:     wxStdRenderer class declaration
 // Author:      Vadim Zeitlin
 // Created:     2006-09-18
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: stdrend.h 67384 2011-04-03 20:31:32Z DS $
 // Copyright:   (c) 2006 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -322,7 +322,7 @@ protected:
     // return the frame icon bitmap
     virtual wxBitmap GetFrameButtonBitmap(FrameButtonType type) = 0;
 
-    // get the width of either normal or resizeable frame border depending on
+    // get the width of either normal or resizable frame border depending on
     // whether flags contains wxTOPLEVEL_RESIZEABLE bit
     //
     // notice that these methods only make sense with standard border drawing

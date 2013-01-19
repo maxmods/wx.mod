@@ -3,7 +3,7 @@
 // Purpose:     wxGTK-specific wxTextEntry implementation
 // Author:      Vadim Zeitlin
 // Created:     2007-09-24
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: textentry.h 72252 2012-07-29 22:08:15Z VZ $
 // Copyright:   (c) 2007 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -43,8 +43,6 @@ public:
     virtual void SetSelection(long from, long to);
     virtual void GetSelection(long *from, long *to) const;
 
-    virtual bool AutoComplete(const wxArrayString& choices);
-
     virtual bool IsEditable() const;
     virtual void SetEditable(bool editable);
 
@@ -54,11 +52,18 @@ public:
     void SendMaxLenEvent();
 
 protected:
+    // This method must be called from the derived class Create() to connect
+    // the handlers for the clipboard (cut/copy/paste) events.
+    void GTKConnectClipboardSignals(GtkWidget* entry);
+
+    virtual void DoSetValue(const wxString& value, int flags);
     virtual wxString DoGetValue() const;
 
     // margins functions
     virtual bool DoSetMargins(const wxPoint& pt);
     virtual wxPoint DoGetMargins() const;
+
+    virtual bool DoAutoCompleteStrings(const wxArrayString& choices);
 
 private:
     // implement this to return the associated GtkEntry or another widget

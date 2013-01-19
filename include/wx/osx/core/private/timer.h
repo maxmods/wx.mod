@@ -3,7 +3,7 @@
 // Purpose:     wxTimer class based on core foundation
 // Author:      Stefan Csomor
 // Created:     2008-07-16
-// RCS-ID:      $Id: timer.h 54117 2008-06-11 16:30:48Z SC $
+// RCS-ID:      $Id: timer.h 67232 2011-03-18 15:10:15Z DS $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

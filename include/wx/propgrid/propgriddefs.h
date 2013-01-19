@@ -4,13 +4,15 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     2008-08-31
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: propgriddefs.h 70509 2012-02-05 01:20:00Z VZ $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef _WX_PROPGRID_PROPGRIDDEFS_H_
 #define _WX_PROPGRID_PROPGRIDDEFS_H_
+
+#include "wx/defs.h"
 
 #if wxUSE_PROPGRID
 
@@ -41,9 +43,6 @@
     // 1 if wxRendererNative should be employed
     #define wxPG_USE_RENDERER_NATIVE    0
 
-    // 1 to use double-buffer that guarantees flicker-free painting
-    #define wxPG_DOUBLE_BUFFER          1
-
     // Enable tooltips
     #define wxPG_SUPPORT_TOOLTIPS       1
 
@@ -53,15 +52,12 @@
     // 1 if splitter drag detect margin and control cannot overlap
     #define wxPG_NO_CHILD_EVT_MOTION    0
 
-    // If 1, then setting empty tooltip actually hides it
-    #define wxPG_ALLOW_EMPTY_TOOLTIPS   1
-
     #define wxPG_NAT_BUTTON_BORDER_ANY          1
     #define wxPG_NAT_BUTTON_BORDER_X            1
     #define wxPG_NAT_BUTTON_BORDER_Y            1
 
-    // If 1 then controls are refreshed after selected was drawn.
-    #define wxPG_REFRESH_CONTROLS_AFTER_REPAINT 0
+    // If 1 then controls are refreshed explicitly in a few places
+    #define wxPG_REFRESH_CONTROLS 0
 
 #elif defined(__WXGTK__)
 
@@ -80,9 +76,6 @@
     // 1 if wxRendererNative should be employed
     #define wxPG_USE_RENDERER_NATIVE    1
 
-    // 1 to use double-buffer that guarantees flicker-free painting
-    #define wxPG_DOUBLE_BUFFER          1
-
     // Enable tooltips
     #define wxPG_SUPPORT_TOOLTIPS       1
 
@@ -92,15 +85,12 @@
     // 1 if splitter drag detect margin and control cannot overlap
     #define wxPG_NO_CHILD_EVT_MOTION    1
 
-    // If 1, then setting empty tooltip actually hides it
-    #define wxPG_ALLOW_EMPTY_TOOLTIPS   0
-
     #define wxPG_NAT_BUTTON_BORDER_ANY      1
     #define wxPG_NAT_BUTTON_BORDER_X        1
     #define wxPG_NAT_BUTTON_BORDER_Y        1
 
     // If 1 then controls are refreshed after selected was drawn.
-    #define wxPG_REFRESH_CONTROLS_AFTER_REPAINT 1
+    #define wxPG_REFRESH_CONTROLS 1
 
 #elif defined(__WXMAC__)
 
@@ -117,9 +107,6 @@
     // 1 if wxRendererNative should be employed
     #define wxPG_USE_RENDERER_NATIVE    1
 
-    // 1 to use double-buffer that guarantees flicker-free painting
-    #define wxPG_DOUBLE_BUFFER          0
-
     // Enable tooltips
     #define wxPG_SUPPORT_TOOLTIPS       1
 
@@ -129,15 +116,12 @@
     // 1 if splitter drag detect margin and control cannot overlap
     #define wxPG_NO_CHILD_EVT_MOTION    0
 
-    // If 1, then setting empty tooltip actually hides it
-    #define wxPG_ALLOW_EMPTY_TOOLTIPS   1
-
     #define wxPG_NAT_BUTTON_BORDER_ANY      0
     #define wxPG_NAT_BUTTON_BORDER_X        0
     #define wxPG_NAT_BUTTON_BORDER_Y        0
 
     // If 1 then controls are refreshed after selected was drawn.
-    #define wxPG_REFRESH_CONTROLS_AFTER_REPAINT 0
+    #define wxPG_REFRESH_CONTROLS 0
 
 #else // defaults
 
@@ -154,9 +138,6 @@
     // 1 if wxRendererNative should be employed
     #define wxPG_USE_RENDERER_NATIVE    0
 
-    // 1 to use double-buffer that guarantees flicker-free painting
-    #define wxPG_DOUBLE_BUFFER          0
-
     // Enable tooltips
     #define wxPG_SUPPORT_TOOLTIPS       0
 
@@ -166,15 +147,12 @@
     // 1 if splitter drag detect margin and control cannot overlap
     #define wxPG_NO_CHILD_EVT_MOTION    1
 
-    // If 1, then setting empty tooltip actually hides it
-    #define wxPG_ALLOW_EMPTY_TOOLTIPS   0
-
     #define wxPG_NAT_BUTTON_BORDER_ANY      0
     #define wxPG_NAT_BUTTON_BORDER_X        0
     #define wxPG_NAT_BUTTON_BORDER_Y        0
 
     // If 1 then controls are refreshed after selected was drawn.
-    #define wxPG_REFRESH_CONTROLS_AFTER_REPAINT 1
+    #define wxPG_REFRESH_CONTROLS 0
 #endif // platform
 
 
@@ -202,8 +180,6 @@
 
 #if defined(__WXWINCE__)
     #define wxPG_SMALL_SCREEN       1
-    #undef wxPG_DOUBLE_BUFFER
-    #define wxPG_DOUBLE_BUFFER      0
 #else
     #define wxPG_SMALL_SCREEN       0
 #endif
@@ -402,7 +378,7 @@ enum wxPG_MISC_ARG_FLAGS
     // Used when dealing with fragments of composite string value
     wxPG_COMPOSITE_FRAGMENT             = 0x00000010,
 
-    // Means property for which final string value is for can not really be
+    // Means property for which final string value is for cannot really be
     // edited.
     wxPG_UNEDITABLE_COMPOSITE_FRAGMENT  = 0x00000020,
 

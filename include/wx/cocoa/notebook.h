@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2004/04/08
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: notebook.h 68810 2011-08-21 14:08:49Z VZ $
 // Copyright:   (c) 2004 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ protected:
 // ------------------------------------------------------------------------
 public:
     // set the currently selected page, return the index of the previously
-    // selected one (or -1 on error)
+    // selected one (or wxNOT_FOUND on error)
     int SetSelection(size_t nPage);
     // get the currently selected page
     int GetSelection() const;
@@ -97,7 +97,7 @@ public:
                      wxNotebookPage *win,
                      const wxString& strText,
                      bool bSelect = false,
-                     int imageId = -1 );
+                     int imageId = NO_IMAGE );
 
 protected:
 };

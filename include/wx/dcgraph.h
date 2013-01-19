@@ -1,11 +1,11 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wx/graphdc.h
+// Name:        wx/dcgraph.h
 // Purpose:     graphics context device bridge header
 // Author:      Stefan Csomor
 // Modified by:
 // Created:
 // Copyright:   (c) Stefan Csomor
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dcgraph.h 72224 2012-07-28 19:31:03Z RD $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -29,10 +29,15 @@ public:
 #if wxUSE_PRINTING_ARCHITECTURE
     wxGCDC( const wxPrinterDC& dc );
 #endif
+#if defined(__WXMSW__) && wxUSE_ENH_METAFILE
+    wxGCDC( const wxEnhMetaFileDC& dc );
+#endif
+    wxGCDC(wxGraphicsContext* context);
+    
     wxGCDC();
     virtual ~wxGCDC();
 
-    wxGraphicsContext* GetGraphicsContext();
+    wxGraphicsContext* GetGraphicsContext() const;
     void SetGraphicsContext( wxGraphicsContext* ctx );
 
 #ifdef __WXMSW__
@@ -56,12 +61,12 @@ public:
 #if wxUSE_PRINTING_ARCHITECTURE
     wxGCDCImpl( wxDC *owner, const wxPrinterDC& dc );
 #endif
+#if defined(__WXMSW__) && wxUSE_ENH_METAFILE
+    wxGCDCImpl( wxDC *owner, const wxEnhMetaFileDC& dc );
+#endif
     wxGCDCImpl( wxDC *owner );
 
     virtual ~wxGCDCImpl();
-
-    void Init();
-
 
     // implement base class pure virtuals
     // ----------------------------------
@@ -94,8 +99,6 @@ public:
     virtual int GetDepth() const;
     virtual wxSize GetPPI() const;
 
-    virtual void SetMapMode(wxMappingMode mode);
-
     virtual void SetLogicalFunction(wxRasterOperationMode function);
 
     virtual void SetTextForeground(const wxColour& colour);
@@ -103,8 +106,10 @@ public:
 
     virtual void ComputeScaleAndOrigin();
 
-    wxGraphicsContext* GetGraphicsContext() { return m_graphicContext; }
+    wxGraphicsContext* GetGraphicsContext() const { return m_graphicContext; }
     virtual void SetGraphicsContext( wxGraphicsContext* ctx );
+
+    virtual void* GetHandle() const;
 
     // the true implementations
     virtual bool DoFloodFill(wxCoord x, wxCoord y, const wxColour& col,
@@ -193,16 +198,26 @@ public:
 
     virtual bool DoGetPartialTextExtents(const wxString& text, wxArrayInt& widths) const;
 
+#ifdef __WXMSW__
+    virtual wxRect MSWApplyGDIPlusTransform(const wxRect& r) const;
+#endif // __WXMSW__
+
 protected:
+    // unused int parameter distinguishes this version, which does not create a
+    // wxGraphicsContext, in the expectation that the derived class will do it
+    wxGCDCImpl(wxDC* owner, int);
+
     // scaling variables
     bool m_logicalFunctionSupported;
-    double       m_mm_to_pix_x, m_mm_to_pix_y;
     wxGraphicsMatrix m_matrixOriginal;
     wxGraphicsMatrix m_matrixCurrent;
 
     double m_formerScaleX, m_formerScaleY;
 
     wxGraphicsContext* m_graphicContext;
+
+private:
+    void Init(wxGraphicsContext*);
 
     DECLARE_CLASS(wxGCDCImpl)
     wxDECLARE_NO_COPY_CLASS(wxGCDCImpl);

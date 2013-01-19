@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     01.21.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: mimetype.h 64507 2010-06-06 11:37:10Z FM $
 // Copyright:   adopted from msw port -- (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence (part of wxExtra library)
 /////////////////////////////////////////////////////////////////////////////

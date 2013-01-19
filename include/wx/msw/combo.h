@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     Apr-30-2006
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: combo.h 67276 2011-03-22 09:56:40Z JMS $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -83,6 +83,9 @@ protected:
 
 protected:
 
+    // Dummy method - we override all functions that call this
+    virtual WXHWND GetEditHWND() const { return NULL; }
+
     // customization
     virtual void OnResize();
     virtual wxCoord GetNativeTextIndent() const;
@@ -90,6 +93,8 @@ protected:
     // event handlers
     void OnPaintEvent( wxPaintEvent& event );
     void OnMouseEvent( wxMouseEvent& event );
+
+    virtual bool HasTransparentBackground() { return IsDoubleBuffered(); }
 
 private:
     void Init();

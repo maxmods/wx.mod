@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        print.h
+// Name:        wx/os2/print.h
 // Purpose:     wxPrinter, wxPrintPreview classes
 // Author:      David Webster
 // Modified by:
 // Created:     10/14/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: print.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

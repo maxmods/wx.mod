@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        dialog.h
+// Name:        wx/gtk/dialog.h
 // Purpose:
 // Author:      Robert Roebling
 // Created:
-// Id:          $Id$
+// Id:          $Id: dialog.h 73334 2013-01-03 05:09:20Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:           wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -39,7 +39,6 @@ public:
     virtual int ShowModal();
     virtual void EndModal( int retCode );
     virtual bool IsModal() const;
-    void SetModal( bool modal );
 
     // implementation
     // --------------

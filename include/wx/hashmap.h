@@ -4,7 +4,7 @@
 // Author:      Mattia Barbon
 // Modified by:
 // Created:     29/01/2002
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: hashmap.h 71628 2012-06-01 11:01:34Z VZ $
 // Copyright:   (c) Mattia Barbon
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,9 +15,9 @@
 #include "wx/string.h"
 #include "wx/wxcrt.h"
 
-// In wxUSE_STL build we prefer to use the standard hash map class but it can
-// be either in non-standard hash_map header (old g++ and some other STL
-// implementations) or in C++0x standard unordered_map which can in turn be
+// In wxUSE_STD_CONTAINERS build we prefer to use the standard hash map class
+// but it can be either in non-standard hash_map header (old g++ and some other
+// STL implementations) or in C++0x standard unordered_map which can in turn be
 // available either in std::tr1 or std namespace itself
 //
 // To summarize: if std::unordered_map is available use it, otherwise use tr1
@@ -28,7 +28,7 @@
     #define HAVE_STL_HASH_MAP
 #endif
 
-#if wxUSE_STL && \
+#if wxUSE_STD_CONTAINERS && \
     (defined(HAVE_STD_UNORDERED_MAP) || defined(HAVE_TR1_UNORDERED_MAP))
 
 #if defined(HAVE_STD_UNORDERED_MAP)
@@ -42,7 +42,7 @@
 #define _WX_DECLARE_HASH_MAP( KEY_T, VALUE_T, HASH_T, KEY_EQ_T, CLASSNAME, CLASSEXP ) \
     typedef WX_HASH_MAP_NAMESPACE::unordered_map< KEY_T, VALUE_T, HASH_T, KEY_EQ_T > CLASSNAME
 
-#elif wxUSE_STL && defined(HAVE_STL_HASH_MAP)
+#elif wxUSE_STD_CONTAINERS && defined(HAVE_STL_HASH_MAP)
 
 #if defined(HAVE_EXT_HASH_MAP)
     #include <ext/hash_map>
@@ -59,7 +59,7 @@
 #define _WX_DECLARE_HASH_MAP( KEY_T, VALUE_T, HASH_T, KEY_EQ_T, CLASSNAME, CLASSEXP ) \
     typedef WX_HASH_MAP_NAMESPACE::hash_map< KEY_T, VALUE_T, HASH_T, KEY_EQ_T > CLASSNAME
 
-#else // !wxUSE_STL || no std::{hash,unordered}_map class available
+#else // !wxUSE_STD_CONTAINERS || no std::{hash,unordered}_map class available
 
 #define wxNEEDS_WX_HASH_MAP
 
@@ -127,7 +127,9 @@ protected:
     }
 };
 
-#define _WX_DECLARE_HASHTABLE( VALUE_T, KEY_T, HASH_T, KEY_EX_T, KEY_EQ_T, CLASSNAME, CLASSEXP, SHOULD_GROW, SHOULD_SHRINK ) \
+#define _WX_DECLARE_HASHTABLE( VALUE_T, KEY_T, HASH_T, KEY_EX_T, KEY_EQ_T,\
+                               PTROPERATOR, CLASSNAME, CLASSEXP, \
+                               SHOULD_GROW, SHOULD_SHRINK ) \
 CLASSEXP CLASSNAME : protected _wxHashTableBase2 \
 { \
 public: \
@@ -217,7 +219,7 @@ public: \
         iterator& operator++() { PlusPlus(); return *this; } \
         iterator operator++(int) { iterator it=*this;PlusPlus();return it; } \
         reference operator *() const { return m_node->m_value; } \
-        pointer operator ->() const { return &(m_node->m_value); } \
+        PTROPERATOR(pointer) \
     }; \
  \
     CLASSEXP const_iterator : public Iterator \
@@ -230,7 +232,7 @@ public: \
         const_iterator& operator++() { PlusPlus();return *this; } \
         const_iterator operator++(int) { const_iterator it=*this;PlusPlus();return it; } \
         const_reference operator *() const { return m_node->m_value; } \
-        const_pointer operator ->() const { return &(m_node->m_value); } \
+        PTROPERATOR(const_pointer) \
     }; \
  \
     CLASSNAME( size_type sz = 10, const hasher& hfun = hasher(), \
@@ -465,7 +467,7 @@ inline bool never_grow( size_t, size_t ) { return false; }
 inline bool never_shrink( size_t, size_t ) { return false; }
 inline bool grow_lf70( size_t buckets, size_t items )
 {
-    return float(items)/float(buckets) >= 0.85;
+    return float(items)/float(buckets) >= 0.85f;
 }
 
 #endif // various hash map implementations
@@ -490,7 +492,7 @@ class WXDLLIMPEXP_BASE wxIntegerHash
     WX_HASH_MAP_NAMESPACE::hash<short> shortHash;
     WX_HASH_MAP_NAMESPACE::hash<unsigned short> ushortHash;
 
-#if defined wxLongLong_t && !defined wxLongLongIsLong
+#ifdef wxHAS_LONG_LONG_T_DIFFERENT_FROM_LONG
     // hash<wxLongLong_t> ought to work but doesn't on some compilers
     #if (!defined SIZEOF_LONG_LONG && SIZEOF_LONG == 4) \
         || (defined SIZEOF_LONG_LONG && SIZEOF_LONG_LONG == SIZEOF_LONG * 2)
@@ -504,7 +506,7 @@ class WXDLLIMPEXP_BASE wxIntegerHash
     #else
     WX_HASH_MAP_NAMESPACE::hash<wxLongLong_t> longlongHash;
     #endif
-#endif
+#endif // wxHAS_LONG_LONG_T_DIFFERENT_FROM_LONG
 
 public:
     wxIntegerHash() { }
@@ -514,10 +516,10 @@ public:
     size_t operator()( unsigned int x ) const { return uintHash( x ); }
     size_t operator()( short x ) const { return shortHash( x ); }
     size_t operator()( unsigned short x ) const { return ushortHash( x ); }
-#if defined wxLongLong_t && !defined wxLongLongIsLong
+#ifdef wxHAS_LONG_LONG_T_DIFFERENT_FROM_LONG
     size_t operator()( wxLongLong_t x ) const { return longlongHash(x); }
     size_t operator()( wxULongLong_t x ) const { return longlongHash(x); }
-#endif
+#endif // wxHAS_LONG_LONG_T_DIFFERENT_FROM_LONG
 
     wxIntegerHash& operator=(const wxIntegerHash&) { return *this; }
 };
@@ -535,10 +537,10 @@ public:
     unsigned long operator()( unsigned int x ) const { return x; }
     unsigned long operator()( short x ) const { return (unsigned long)x; }
     unsigned long operator()( unsigned short x ) const { return x; }
-#if defined wxLongLong_t && !defined wxLongLongIsLong
+#ifdef wxHAS_LONG_LONG_T_DIFFERENT_FROM_LONG
     wxULongLong_t operator()( wxLongLong_t x ) const { return static_cast<wxULongLong_t>(x); }
     wxULongLong_t operator()( wxULongLong_t x ) const { return x; }
-#endif
+#endif // wxHAS_LONG_LONG_T_DIFFERENT_FROM_LONG
 
     wxIntegerHash& operator=(const wxIntegerHash&) { return *this; }
 };
@@ -555,10 +557,10 @@ public:
     bool operator()( unsigned int a, unsigned int b ) const { return a == b; }
     bool operator()( short a, short b ) const { return a == b; }
     bool operator()( unsigned short a, unsigned short b ) const { return a == b; }
-#if defined wxLongLong_t && !defined wxLongLongIsLong
+#ifdef wxHAS_LONG_LONG_T_DIFFERENT_FROM_LONG
     bool operator()( wxLongLong_t a, wxLongLong_t b ) const { return a == b; }
     bool operator()( wxULongLong_t a, wxULongLong_t b ) const { return a == b; }
-#endif
+#endif // wxHAS_LONG_LONG_T_DIFFERENT_FROM_LONG
 
     wxIntegerEqual& operator=(const wxIntegerEqual&) { return *this; }
 };
@@ -632,10 +634,16 @@ public:
 
 #ifdef wxNEEDS_WX_HASH_MAP
 
+#define wxPTROP_NORMAL(pointer) \
+    pointer operator ->() const { return &(m_node->m_value); }
+#define wxPTROP_NOP(pointer)
+
 #define _WX_DECLARE_HASH_MAP( KEY_T, VALUE_T, HASH_T, KEY_EQ_T, CLASSNAME, CLASSEXP ) \
 _WX_DECLARE_PAIR( KEY_T, VALUE_T, CLASSNAME##_wxImplementation_Pair, CLASSEXP ) \
 _WX_DECLARE_HASH_MAP_KEY_EX( KEY_T, CLASSNAME##_wxImplementation_Pair, CLASSNAME##_wxImplementation_KeyEx, CLASSEXP ) \
-_WX_DECLARE_HASHTABLE( CLASSNAME##_wxImplementation_Pair, KEY_T, HASH_T, CLASSNAME##_wxImplementation_KeyEx, KEY_EQ_T, CLASSNAME##_wxImplementation_HashTable, CLASSEXP, grow_lf70, never_shrink ) \
+_WX_DECLARE_HASHTABLE( CLASSNAME##_wxImplementation_Pair, KEY_T, HASH_T, \
+    CLASSNAME##_wxImplementation_KeyEx, KEY_EQ_T, wxPTROP_NORMAL, \
+    CLASSNAME##_wxImplementation_HashTable, CLASSEXP, grow_lf70, never_shrink ) \
 CLASSEXP CLASSNAME:public CLASSNAME##_wxImplementation_HashTable \
 { \
 public: \
@@ -676,13 +684,12 @@ public: \
  \
     size_type erase( const key_type& k ) \
         { return CLASSNAME##_wxImplementation_HashTable::erase( k ); } \
-    void erase( const iterator& it ) { erase( it->first ); } \
+    void erase( const iterator& it ) { erase( (*it).first ); } \
  \
     /* count() == 0 | 1 */ \
     size_type count( const const_key_type& key ) \
     { \
-        /* explicit cast needed to suppress CodeWarrior warnings */ \
-        return (size_type)(GetNode( key ) ? 1 : 0); \
+        return GetNode( key ) ? 1u : 0u; \
     } \
 }
 

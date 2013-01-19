@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        app.h
+// Name:        wx/osx/app.h
 // Purpose:     wxApp class
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: app.h 72999 2012-11-23 19:02:01Z SC $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -83,14 +83,21 @@ public:
     // TODO change semantics to be in line with cocoa (make autrelease NOT increase the count)
     void                  MacAddToAutorelease( void* cfrefobj );
     void                  MacReleaseAutoreleasePool();
+    
 public:
     static wxWindow*      s_captureWindow ;
     static long           s_lastModifiers ;
 
     int                   m_nCmdShow;
 
-private:
     // mac specifics
+protected:
+#if wxOSX_USE_COCOA
+    // override for support of custom app controllers
+    virtual WX_NSObject   OSXCreateAppController();
+#endif
+    
+private:
     virtual bool        DoInitGui();
     virtual void        DoCleanUp();
 
@@ -109,10 +116,10 @@ public:
     // For embedded use. By default does nothing.
     virtual void          MacHandleUnhandledEvent( WXEVENTREF ev );
 
-    bool    MacSendKeyDownEvent( wxWindow* focus , long keyval , long modifiers , long when , short wherex , short wherey , wxChar uniChar ) ;
-    bool    MacSendKeyUpEvent( wxWindow* focus , long keyval , long modifiers , long when , short wherex , short wherey , wxChar uniChar ) ;
-    bool    MacSendCharEvent( wxWindow* focus , long keymessage , long modifiers , long when , short wherex , short wherey , wxChar uniChar ) ;
-    void    MacCreateKeyEvent( wxKeyEvent& event, wxWindow* focus , long keymessage , long modifiers , long when , short wherex , short wherey , wxChar uniChar ) ;
+    bool    MacSendKeyDownEvent( wxWindow* focus , long keyval , long modifiers , long when , wxChar uniChar ) ;
+    bool    MacSendKeyUpEvent( wxWindow* focus , long keyval , long modifiers , long when , wxChar uniChar ) ;
+    bool    MacSendCharEvent( wxWindow* focus , long keymessage , long modifiers , long when , wxChar uniChar ) ;
+    void    MacCreateKeyEvent( wxKeyEvent& event, wxWindow* focus , long keymessage , long modifiers , long when , wxChar uniChar ) ;
 #if wxOSX_USE_CARBON
     // we only have applescript on these
     virtual short         MacHandleAEODoc(const WXAPPLEEVENTREF event , WXAPPLEEVENTREF reply) ;
@@ -122,7 +129,10 @@ public:
     virtual short         MacHandleAEQuit(const WXAPPLEEVENTREF event , WXAPPLEEVENTREF reply) ;
     virtual short         MacHandleAERApp(const WXAPPLEEVENTREF event , WXAPPLEEVENTREF reply) ;
 #endif
-    // in response of an open-document apple event
+    // in response of an openFiles message with Cocoa and an
+    // open-document apple event with Carbon
+    virtual void         MacOpenFiles(const wxArrayString &fileNames) ;
+    // called by MacOpenFiles for each file.
     virtual void         MacOpenFile(const wxString &fileName) ;
     // in response of a get-url apple event
     virtual void         MacOpenURL(const wxString &url) ;

@@ -1,11 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        confbase.h
+// Name:        wx/confbase.h
 // Purpose:     declaration of the base class of all config implementations
 //              (see also: fileconf.h and msw/regconf.h and iniconf.h)
 // Author:      Karsten Ballueder & Vadim Zeitlin
 // Modified by:
 // Created:     07.04.98 (adapted from appconf.h)
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: confbase.h 72163 2012-07-20 11:55:18Z VZ $
 // Copyright:   (c) 1997 Karsten Ballueder   Ballueder@usa.net
 //                       Vadim Zeitlin      <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
@@ -73,7 +73,7 @@ enum
 // abstract base class wxConfigBase which defines the interface for derived
 // classes
 //
-// wxConfig organizes the items in a tree-like structure (modeled after the
+// wxConfig organizes the items in a tree-like structure (modelled after the
 // Unix/Dos filesystem). There are groups (directories) and keys (files).
 // There is always one current group given by the current path.
 //

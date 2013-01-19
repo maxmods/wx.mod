@@ -3,7 +3,7 @@
 // Purpose:     wxBitmapComboBox
 // Author:      Jaakko Salli
 // Created:     2008-04-06
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: bmpcbox.h 65091 2010-07-25 07:39:17Z JMS $
 // Copyright:   (c) 2008 Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -85,6 +85,8 @@ public:
     // Sets the image for the given item.
     virtual void SetItemBitmap(unsigned int n, const wxBitmap& bitmap);
 
+    virtual bool SetFont(const wxFont& font);
+
     // Adds item with image to the end of the combo box.
     int Append(const wxString& item, const wxBitmap& bitmap = wxNullBitmap);
     int Append(const wxString& item, const wxBitmap& bitmap, void *clientData);
@@ -106,8 +108,6 @@ protected:
 
     // Event handlers
     void OnSize(wxSizeEvent& event);
-
-    virtual bool SetFont(const wxFont& font);
 
     virtual wxItemContainer* GetItemContainer() { return this; }
     virtual wxWindow* GetControl() { return this; }

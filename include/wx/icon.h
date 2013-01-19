@@ -5,7 +5,7 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Julian Smart
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: icon.h 71889 2012-06-30 16:33:23Z VZ $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -23,26 +23,24 @@
 // constant defines the default argument value for wxIcon ctor and wxIcon::LoadFile()
 // functions.
 
-#if defined(__WXPALMOS__)
-  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
-  #include "wx/generic/icon.h"
-#elif defined(__WXMSW__)
+#if defined(__WXMSW__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICO_RESOURCE
   #include "wx/msw/icon.h"
 #elif defined(__WXMOTIF__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
   #include "wx/motif/icon.h"
 #elif defined(__WXGTK20__)
-  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
+  #ifdef __WINDOWS__
+    #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICO_RESOURCE
+  #else
+    #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
+  #endif
   #include "wx/generic/icon.h"
 #elif defined(__WXGTK__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
   #include "wx/generic/icon.h"
 #elif defined(__WXX11__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
-  #include "wx/generic/icon.h"
-#elif defined(__WXMGL__)
-  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICO_RESOURCE
   #include "wx/generic/icon.h"
 #elif defined(__WXDFB__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
@@ -52,7 +50,7 @@
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICON_RESOURCE
   #include "wx/osx/icon.h"
 #else
-  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
+  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_PNG_RESOURCE
   #include "wx/generic/icon.h"
 #endif
 #elif defined(__WXCOCOA__)

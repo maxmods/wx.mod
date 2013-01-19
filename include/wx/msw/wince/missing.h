@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wince/missing.h
+// Name:        wx/msw/wince/missing.h
 // Purpose:     Missing things in WinCE
 // Author:      Marco Cavallini
 // Modified by:
 // Created:     16/11/2002
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: missing.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) KOAN SAS ( www.koansoftware.com )
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

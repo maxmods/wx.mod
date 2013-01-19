@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     01/23/03
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: treectrl.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -586,7 +586,7 @@ private:
                          ,int                 nImage
                          ,int                 nImageSel
                         );
-    void DeleteTextCtrl() { };
+    void DeleteTextCtrl() { }
 
     //
     // support for additional item images which we implement using

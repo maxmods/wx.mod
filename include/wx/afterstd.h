@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     07/07/03
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: afterstd.h 71823 2012-06-20 17:54:53Z VZ $
 // Copyright:   (c) 2003 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
     See the comments in beforestd.h.
  */
 
-#if defined(__WXMSW__)
+#if defined(__WINDOWS__)
     #include "wx/msw/winundef.h"
 #endif
 

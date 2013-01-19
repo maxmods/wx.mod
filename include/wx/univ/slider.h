@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     09.02.01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: slider.h 66844 2011-02-05 16:36:30Z VZ $
 // Copyright:   (c) 2001 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,6 @@ public:
     virtual void SetThumbLength(int lenPixels);
     virtual int GetThumbLength() const;
 
-    virtual void SetTickFreq(int n, int WXUNUSED(dummy) = 0);
     virtual int GetTickFreq() const { return m_tickFreq; }
 
     // wxUniv-specific methods
@@ -136,6 +135,9 @@ protected:
     {
         INVALID_THUMB_VALUE = -0xffff
     };
+
+    // Platform-specific implementation of SetTickFreq
+    virtual void DoSetTickFreq(int freq);
 
     // overridden base class virtuals
     virtual wxSize DoGetBestClientSize() const;

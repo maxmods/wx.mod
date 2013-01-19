@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        statbmp.h
+// Name:        wx/os2/statbmp.h
 // Purpose:     wxStaticBitmap class
 // Author:      David Webster
 // Modified by:
 // Created:     11/27/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: statbmp.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@ class WXDLLIMPEXP_CORE wxStaticBitmap : public wxStaticBitmapBase
     inline virtual ~wxStaticBitmap() { Free(); }
 
     virtual void SetIcon(const wxIcon& rIcon) { SetImage(rIcon); }
-    virtual void SetBitmap(const wxBitmap& rBitmap) { SetImage(rBitmap); };
+    virtual void SetBitmap(const wxBitmap& rBitmap) { SetImage(rBitmap); }
 
     // assert failure is provoked by an attempt to get an icon from bitmap or
     // vice versa
@@ -52,7 +52,7 @@ class WXDLLIMPEXP_CORE wxStaticBitmap : public wxStaticBitmapBase
     wxBitmap GetBitmap() const
       { wxASSERT( !m_bIsIcon ); return *(wxBitmap *)m_pImage; }
 
-    // overriden base class virtuals
+    // overridden base class virtuals
     virtual bool AcceptsFocus() const { return FALSE; }
     virtual MRESULT OS2WindowProc( WXUINT   uMsg
                                   ,WXWPARAM wParam

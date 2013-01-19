@@ -4,7 +4,7 @@
  * Author:      Stefan Csomor
  * Modified by:
  * Created:     2008-07-30
- * RCS-ID:      $Id: chkconf.h 54833 2008-07-29 21:03:18Z SC $
+ * RCS-ID:      $Id: chkconf.h 71768 2012-06-14 21:53:06Z SC $
  * Copyright:   (c) Stefan Csomor
  * Licence:     wxWindows licence
  */
@@ -20,7 +20,7 @@
  * under a certain platform
  */
 
-#define wxOSX_USE_CORE_TEXT 0
+#define wxOSX_USE_CORE_TEXT 1
 #define wxOSX_USE_ATSU_TEXT 0
 #define wxHAS_OPENGL_ES
 
@@ -66,6 +66,11 @@
 #define wxUSE_DATAVIEWCTRL 0
 #endif
 
+#if wxUSE_TREELISTCTRL
+#undef wxUSE_TREELISTCTRL
+#define wxUSE_TREELISTCTRL 0
+#endif
+
 #if wxUSE_DRAG_AND_DROP
 #undef wxUSE_DRAG_AND_DROP
 #define wxUSE_DRAG_AND_DROP 0
@@ -94,7 +99,7 @@
 #endif
 
 #ifndef __WXUNIVERSAL__
-#undef wxUSE_SCROLLBAR 
+#undef wxUSE_SCROLLBAR
 #define wxUSE_SCROLLBAR 0
 #endif
 
@@ -331,6 +336,31 @@
 #if wxUSE_DATAOBJ
 #undef wxUSE_DATAOBJ
 #define wxUSE_DATAOBJ 0
+#endif
+
+#if wxUSE_UIACTIONSIMULATOR
+#undef wxUSE_UIACTIONSIMULATOR
+#define wxUSE_UIACTIONSIMULATOR 0
+#endif
+
+#if wxUSE_RICHMSGDLG
+#undef wxUSE_RICHMSGDLG
+#define wxUSE_RICHMSGDLG 0
+#endif
+
+#if wxUSE_RICHTEXT
+#undef wxUSE_RICHTEXT
+#define wxUSE_RICHTEXT 0
+#endif
+
+#if wxUSE_TIMEPICKCTRL
+#undef wxUSE_TIMEPICKCTRL
+#define wxUSE_TIMEPICKCTRL 0
+#endif
+
+#if wxUSE_RICHTOOLTIP
+#undef wxUSE_RICHTOOLTIP
+#define wxUSE_RICHTOOLTIP 0
 #endif
 
 #endif

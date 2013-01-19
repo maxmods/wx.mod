@@ -3,7 +3,7 @@
 // Purpose:     Shared pointer based on the counted_ptr<> template, which
 //              is in the public domain
 // Author:      Robert Roebling, Yonat Sharon
-// RCS-ID:      $Id: object.h 47254 2007-07-09 10:09:52Z VS $
+// RCS-ID:      $Id: sharedptr.h 67232 2011-03-18 15:10:15Z DS $
 // Copyright:   Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

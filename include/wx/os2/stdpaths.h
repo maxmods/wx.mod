@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wx/msw/stdpaths.h
+// Name:        wx/os2/stdpaths.h
 // Purpose:     wxStandardPaths for OS/2
 // Author:      Stefan Neis
 // Modified by:
 // Created:     2004-11-06
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: stdpaths.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) 2004 Stefan Neis <Stefan.Neis@t-online.de>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

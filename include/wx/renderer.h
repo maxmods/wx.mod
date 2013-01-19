@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     20.07.2003
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: renderer.h 65947 2010-10-30 15:57:32Z VS $
 // Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -199,6 +199,9 @@ public:
     // Returns the default height of a header button, either a fixed platform
     // height if available, or a generic height based on the window's font.
     virtual int GetHeaderButtonHeight(wxWindow *win) = 0;
+
+    // Returns the margin on left and right sides of header button's label
+    virtual int GetHeaderButtonMargin(wxWindow *win) = 0;
 
 
     // draw the expanded/collapsed icon for a tree control item
@@ -400,6 +403,9 @@ public:
 
     virtual int GetHeaderButtonHeight(wxWindow *win)
         { return m_rendererNative.GetHeaderButtonHeight(win); }
+
+    virtual int GetHeaderButtonMargin(wxWindow *win)
+        { return m_rendererNative.GetHeaderButtonMargin(win); }
 
     virtual void DrawTreeItemButton(wxWindow *win,
                                     wxDC& dc,

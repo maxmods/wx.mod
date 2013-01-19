@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        dnd.h
+// Name:        wx/gtk/dnd.h
 // Purpose:     declaration of the wxDropTarget class
 // Author:      Robert Roebling
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dnd.h 71349 2012-05-03 23:30:40Z RD $
 // Copyright:   (c) 1998 Vadim Zeitlin, Robert Roebling
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -50,13 +50,13 @@ public:
     GdkDragContext     *m_dragContext;
     GtkWidget          *m_dragWidget;
     GtkSelectionData   *m_dragData;
-    guint               m_dragTime;
+    unsigned            m_dragTime;
     bool                m_firstMotion;     // gdk has no "gdk_drag_enter" event
 
     void GTKSetDragContext( GdkDragContext *dc ) { m_dragContext = dc; }
     void GTKSetDragWidget( GtkWidget *w ) { m_dragWidget = w; }
     void GTKSetDragData( GtkSelectionData *sd ) { m_dragData = sd; }
-    void GTKSetDragTime( guint time ) { m_dragTime = time; }
+    void GTKSetDragTime(unsigned time) { m_dragTime = time; }
 };
 
 //-------------------------------------------------------------------------
@@ -80,6 +80,17 @@ public:
                   const wxIcon &none = wxNullIcon);
 
     virtual ~wxDropSource();
+
+    // set the icon corresponding to given drag result
+    void SetIcon(wxDragResult res, const wxIcon& icon)
+    {
+        if ( res == wxDragCopy )
+            m_iconCopy = icon;
+        else if ( res == wxDragMove )
+            m_iconMove = icon;
+        else
+            m_iconNone = icon;
+    }
 
     // start drag action
     virtual wxDragResult DoDragDrop(int flags = wxDrag_CopyOnly);

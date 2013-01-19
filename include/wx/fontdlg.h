@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     12.05.02
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: fontdlg.h 70953 2012-03-20 23:31:25Z VZ $
 // Copyright:   (c) 1997-2002 wxWidgets team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@
 #if wxUSE_FONTDLG
 
 #include "wx/dialog.h"          // the base class
-#include "wx/cmndata.h"         // wxFontData
+#include "wx/fontdata.h"
 
 // ----------------------------------------------------------------------------
 // wxFontDialog interface
@@ -36,8 +36,6 @@ public:
         { return DoCreate(parent); }
     bool Create(wxWindow *parent, const wxFontData& data)
         { InitFontData(&data); return Create(parent); }
-
-    virtual ~wxFontDialogBase();
 
     // retrieve the font data
     const wxFontData& GetFontData() const { return m_fontData; }

@@ -3,7 +3,7 @@
 // Purpose:     macros for implementing type-safe vararg passing of strings
 // Author:      Vaclav Slavik
 // Created:     2007-02-19
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: strvararg.h 73101 2012-12-02 23:48:36Z VZ $
 // Copyright:   (c) 2007 REA Elektronik GmbH
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -207,7 +207,7 @@ public:
         { return const_cast<wxFormatString*>(this)->AsChar(); }
 private:
     // InputAsChar() returns the value passed to ctor, only converted
-    // to char, while AsChar() takes the the string returned by InputAsChar()
+    // to char, while AsChar() takes the string returned by InputAsChar()
     // and does format string conversion on it as well (and similarly for
     // ..AsWChar() below)
     const char* InputAsChar();
@@ -309,16 +309,19 @@ struct wxFormatStringArgumentFinder<wxWCharBuffer>
     // the correct type (one of wxFormatString::Arg_XXX or-combination in
     // 'expected_mask').
     #define wxASSERT_ARG_TYPE(fmt, index, expected_mask)                    \
-        do                                                                  \
-        {                                                                   \
+        wxSTATEMENT_MACRO_BEGIN                                             \
             if ( !fmt )                                                     \
                 break;                                                      \
             const int argtype = fmt->GetArgumentType(index);                \
             wxASSERT_MSG( (argtype & (expected_mask)) == argtype,           \
                           "format specifier doesn't match argument type" ); \
-        } while ( wxFalse )
+        wxSTATEMENT_MACRO_END
 #else
-    #define wxASSERT_ARG_TYPE(fmt, index, expected_mask)
+    // Just define it to suppress "unused parameter" warnings for the
+    // parameters which we don't use otherwise
+    #define wxASSERT_ARG_TYPE(fmt, index, expected_mask)                      \
+        wxUnusedVar(fmt);                                                     \
+        wxUnusedVar(index)
 #endif // wxDEBUG_LEVEL/!wxDEBUG_LEVEL
 
 
@@ -821,7 +824,7 @@ WX_ARG_NORMALIZER_FORWARD(const signed char&, signed char);
 #undef WX_ARG_NORMALIZER_FORWARD
 #undef _WX_ARG_NORMALIZER_FORWARD_IMPL
 
-#undef wxASSERT_ARG_TYPE
+// NB: Don't #undef wxASSERT_ARG_TYPE here as it's also used in wx/longlong.h.
 
 // ----------------------------------------------------------------------------
 // WX_VA_ARG_STRING

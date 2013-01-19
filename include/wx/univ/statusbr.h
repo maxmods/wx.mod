@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     14.10.01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: statusbr.h 66239 2010-11-22 12:51:05Z VZ $
 // Copyright:   (c) 2001 SciTech Software, Inc. (www.scitechsoft.com)
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,8 +19,7 @@
 // wxStatusBarUniv: a window near the bottom of the frame used for status info
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxStatusBarUniv : public wxStatusBarBase,
-                                         public wxInputConsumer
+class WXDLLIMPEXP_CORE wxStatusBarUniv : public wxStatusBarBase
 {
 public:
     wxStatusBarUniv() { Init(); }

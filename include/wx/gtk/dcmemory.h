@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        dcmemory.h
+// Name:        wx/gtk/dcmemory.h
 // Purpose:
 // Author:      Robert Roebling
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dcmemory.h 72226 2012-07-28 19:31:18Z RD $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -39,7 +39,8 @@ public:
     // overridden from wxDCImpl
     virtual void DoGetSize( int *width, int *height ) const;
     virtual wxBitmap DoGetAsBitmap(const wxRect *subrect) const;
-
+    virtual void* GetHandle() const;
+    
     // overridden for wxMemoryDC Impl
     virtual void DoSelect(const wxBitmap& bitmap);
 

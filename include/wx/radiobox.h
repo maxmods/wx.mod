@@ -4,13 +4,15 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     10.09.00
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: radiobox.h 70345 2012-01-15 01:05:28Z VZ $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef _WX_RADIOBOX_H_BASE_
 #define _WX_RADIOBOX_H_BASE_
+
+#include "wx/defs.h"
 
 #if wxUSE_RADIOBOX
 
@@ -166,8 +168,6 @@ private:
     #include "wx/cocoa/radiobox.h"
 #elif defined(__WXPM__)
     #include "wx/os2/radiobox.h"
-#elif defined(__WXPALMOS__)
-    #include "wx/palmos/radiobox.h"
 #endif
 
 #endif // wxUSE_RADIOBOX

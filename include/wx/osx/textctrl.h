@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: textctrl.h 72993 2012-11-20 12:49:03Z VZ $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -75,9 +75,9 @@ public:
     virtual void MarkDirty();
     virtual void DiscardEdits();
 
-    // set the max number of characters which may be entered
-    // in a single line text control
-    virtual void SetMaxLength(unsigned long len);
+    // set the grayed out hint text
+    virtual bool SetHint(const wxString& hint);
+    virtual wxString GetHint() const;
 
     // text control under some platforms supports the text styles: these
     // methods apply the given text style to the given selection or to
@@ -99,7 +99,7 @@ public:
     virtual void Copy();
     virtual void Cut();
     virtual void Paste();
-    
+
     // Implementation
     // --------------
     virtual void Command(wxCommandEvent& event);
@@ -152,6 +152,7 @@ protected:
 
 private :
     wxMenu  *m_privateContextMenu;
+    wxString m_hintString;
 
     DECLARE_EVENT_TABLE()
 };

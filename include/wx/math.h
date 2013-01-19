@@ -4,7 +4,7 @@
 * Author:      John Labenski and others
 * Modified by:
 * Created:     02/02/03
-* RCS-ID:      $Id$
+* RCS-ID:      $Id: math.h 73280 2012-12-28 00:44:01Z VZ $
 * Copyright:   (c) John Labenski
 * Licence:     wxWindows licence
 */
@@ -57,13 +57,15 @@
 #if defined(__VISUALC__) || defined(__BORLANDC__) || defined(__WATCOMC__)
     #include <float.h>
     #define wxFinite(x) _finite(x)
-#elif defined(__MINGW64__)
-    // add more compilers with C99 support here: using C99 isfinite() is
-    // preferable to using BSD-ish finite()
+#elif defined(__MINGW64__) || defined(__clang__)
+    /*
+        add more compilers with C99 support here: using C99 isfinite() is
+        preferable to using BSD-ish finite()
+     */
     #define wxFinite(x) isfinite(x)
 #elif ( defined(__GNUG__)||defined(__GNUWIN32__)||defined(__DJGPP__)|| \
       defined(__SGI_CC__)||defined(__SUNCC__)||defined(__XLC__)|| \
-      defined(__HPUX__)||defined(__MWERKS__) ) && ( !defined(wxOSX_USE_IPHONE) || wxOSX_USE_IPHONE == 0 )
+      defined(__HPUX__) ) && ( !defined(wxOSX_USE_IPHONE) || wxOSX_USE_IPHONE == 0 )
 #ifdef __SOLARIS__
 #include <ieeefp.h>
 #endif
@@ -77,7 +79,7 @@
     #define wxIsNaN(x) _isnan(x)
 #elif defined(__GNUG__)||defined(__GNUWIN32__)||defined(__DJGPP__)|| \
       defined(__SGI_CC__)||defined(__SUNCC__)||defined(__XLC__)|| \
-      defined(__HPUX__)||defined(__MWERKS__)
+      defined(__HPUX__)
     #define wxIsNaN(x) isnan(x)
 #else
     #define wxIsNaN(x) ((x) != (x))
@@ -105,8 +107,9 @@
         }
 
     #else /* !__INTELC__ */
-
+        wxGCC_WARNING_SUPPRESS(float-equal)
         inline bool wxIsSameDouble(double x, double y) { return x == y; }
+        wxGCC_WARNING_RESTORE(float-equal)
 
     #endif /* __INTELC__/!__INTELC__ */
 
@@ -126,7 +129,7 @@
 #endif /* __cplusplus */
 
 
-#if defined(__WXMSW__) && !defined(__WXWINCE__)
+#if defined(__WINDOWS__) && !defined(__WXWINCE__)
     #define wxMulDivInt32( a , b , c ) ::MulDiv( a , b , c )
 #else
     #define wxMulDivInt32( a , b , c ) (wxRound((a)*(((wxDouble)b)/((wxDouble)c))))
@@ -144,7 +147,7 @@
 #if WXWIN_COMPATIBILITY_2_8
     wxDEPRECATED( WXDLLIMPEXP_BASE wxFloat64 ConvertFromIeeeExtended(const wxInt8 *bytes) );
     wxDEPRECATED( WXDLLIMPEXP_BASE void ConvertToIeeeExtended(wxFloat64 num, wxInt8 *bytes) );
-#endif // WXWIN_COMPATIBILITY_2_8
+#endif
 
 #ifdef __cplusplus
     }

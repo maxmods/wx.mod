@@ -1,12 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:       wx/msw/gsockmsw.h
+// Name:       wx/msw/private/gsockmsw.h
 // Purpose:    MSW-specific socket implementation
 // Authors:    Guilhem Lavaux, Guillermo Rodriguez Garcia, Vadim Zeitlin
 // Created:    April 1997
 // Copyright:  (C) 1999-1997, Guilhem Lavaux
 //             (C) 1999-2000, Guillermo Rodriguez Garcia
 //             (C) 2008 Vadim Zeitlin
-// RCS_ID:     $Id$
+// RCS_ID:     $Id: sockmsw.h 67254 2011-03-20 00:14:35Z DS $
 // Licence:    wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 

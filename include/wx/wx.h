@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: wx.h 66615 2011-01-07 05:26:57Z PC $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -64,7 +64,6 @@
 #include "wx/dialog.h"
 #include "wx/settings.h"
 #include "wx/msgdlg.h"
-#include "wx/cmndata.h"
 #include "wx/dataobj.h"
 
 #include "wx/control.h"

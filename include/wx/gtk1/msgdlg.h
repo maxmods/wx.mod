@@ -4,7 +4,7 @@
 // Author:      Vaclav Slavik
 // Modified by:
 // Created:     2003/02/28
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: msgdlg.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) Vaclav Slavik, 2003
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@
 // type is an 'or' (|) of wxOK, wxCANCEL, wxYES_NO
 // Returns wxYES/NO/OK/CANCEL
 
-WXDLLIMPEXP_DATA_CORE(extern const wxChar) wxMessageBoxCaptionStr[];
+extern WXDLLIMPEXP_DATA_CORE(const wxChar) wxMessageBoxCaptionStr[];
 
 class WXDLLIMPEXP_CORE wxMessageDialog: public wxDialog, public wxMessageDialogBase
 {
@@ -30,7 +30,7 @@ public:
     virtual ~wxMessageDialog();
 
     int ShowModal();
-    virtual bool Show( bool WXUNUSED(show) = true ) { return false; };
+    virtual bool Show( bool WXUNUSED(show) = true ) { return false; }
 
 protected:
     // implement some base class methods to do nothing to avoid asserts and

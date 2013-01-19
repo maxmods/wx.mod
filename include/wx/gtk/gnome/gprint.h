@@ -3,7 +3,7 @@
 // Author:      Robert Roebling
 // Purpose:     GNOME printing support
 // Created:     09/20/04
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: gprint.h 72246 2012-07-28 21:52:37Z RD $
 // Copyright:   Robert Roebling
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
@@ -290,10 +290,12 @@ protected:
     void SetPrintData(const wxPrintData& data);
     wxPrintData& GetPrintData() { return m_printData; }
 
-    // overriden for wxPrinterDC Impl
+    // overridden for wxPrinterDC Impl
     virtual wxRect GetPaperRect() const;
     virtual int GetResolution() const;
 
+    virtual void* GetHandle() const { return (void*)m_gpc; }
+    
 private:
     wxPrintData             m_printData;
     PangoContext           *m_context;

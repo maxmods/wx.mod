@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        forcelnk.h
+// Name:        wx/html/forcelnk.h
 // Purpose:     macros which force the linker to link apparently unused code
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: forcelnk.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

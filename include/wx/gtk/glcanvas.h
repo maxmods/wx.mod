@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        glcanvas.h
+// Name:        wx/gtk/glcanvas.h
 // Purpose:     wxGLCanvas, for using OpenGL/Mesa with wxWidgets and GTK
 // Author:      Robert Roebling
 // Modified by:
 // Created:     17/8/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: glcanvas.h 71894 2012-06-30 20:39:06Z PC $
 // Copyright:   (c) Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -39,6 +39,7 @@ public:
                 const int *attribList = NULL,
                 const wxPalette& palette = wxNullPalette);
 
+    virtual bool SetBackgroundStyle(wxBackgroundStyle style);
 
     // implement wxGLCanvasX11 methods
     // --------------------------------
@@ -93,6 +94,9 @@ public:
     void OnInternalIdle();
 
     bool              m_exposed;
+#ifdef __WXGTK3__
+    cairo_t* m_cairoPaintContext;
+#endif
 
 #if WXWIN_COMPATIBILITY_2_8
     wxGLContext      *m_sharedContext;

@@ -2,7 +2,7 @@
 // Name:        wx/gtk/toplevel.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: toplevel.h 72604 2012-10-02 15:57:03Z PC $
 // Copyright:   (c) 1998 Robert Roebling, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -55,9 +55,7 @@ public:
 
     virtual void ShowWithoutActivating();
     virtual bool ShowFullScreen(bool show, long style = wxFULLSCREEN_ALL);
-    virtual bool IsFullScreen() const { return m_fsIsShowing; };
-
-    virtual bool SetShape(const wxRegion& region);
+    virtual bool IsFullScreen() const { return m_fsIsShowing; }
 
     virtual void RequestUserAttention(int flags = wxUSER_ATTENTION_INFO);
 
@@ -71,6 +69,10 @@ public:
 
     virtual void SetTitle( const wxString &title );
     virtual wxString GetTitle() const { return m_title; }
+
+    virtual void SetLabel(const wxString& label) { SetTitle( label ); }
+    virtual wxString GetLabel() const            { return GetTitle(); }
+
 
     virtual bool SetTransparent(wxByte alpha);
     virtual bool CanSetTransparent();
@@ -91,6 +93,8 @@ public:
     // GTK callbacks
     virtual void OnInternalIdle();
 
+    virtual void GTKHandleRealized();
+
     // do *not* call this to iconize the frame, this is a private function!
     void SetIconizeState(bool iconic);
 
@@ -107,12 +111,11 @@ public:
     // size of WM decorations
     wxSize m_decorSize;
 
-    // shape of the frame
-    wxRegion m_shape;
-
     // private gtk_timeout_add result for mimicing wxUSER_ATTENTION_INFO and
     // wxUSER_ATTENTION_ERROR difference, -2 for no hint, -1 for ERROR hint, rest for GtkTimeout handle.
     int m_urgency_hint;
+    // timer for detecting WM with broken _NET_REQUEST_FRAME_EXTENTS handling
+    unsigned m_netFrameExtentsTimerId;
 
     // return the size of the window without WM decorations
     void GTKDoGetSize(int *width, int *height) const;
@@ -125,9 +128,6 @@ protected:
     virtual void DoSetSizeHints( int minW, int minH,
                                  int maxW, int maxH,
                                  int incW, int incH);
-    // common part of all ctors
-    void Init();
-
     // move the window to the specified location and resize it
     virtual void DoMoveWindow(int x, int y, int width, int height);
 
@@ -145,7 +145,11 @@ protected:
     bool m_deferShow;
 
 private:
+    void Init();
     wxSize& GetCachedDecorSize();
+
+    // size hint increments
+    int m_incWidth, m_incHeight;
 
     // is the frame currently iconized?
     bool m_isIconized;

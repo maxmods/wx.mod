@@ -1,12 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        minifram.h
+// Name:        wx/osx/minifram.h
 // Purpose:     wxMiniFrame class. A small frame for e.g. floating toolbars.
 //              If there is no equivalent on your platform, just make it a
 //              normal frame.
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: minifram.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

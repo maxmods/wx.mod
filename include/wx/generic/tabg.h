@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        tabg.h
+// Name:        wx/generic/tabg.h
 // Purpose:     Generic tabbed dialogs; used by wxMotif's wxNotebook
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: tabg.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -130,7 +130,7 @@ public:
   // Called when a tab is activated
   virtual void OnTabActivate(int activateId, int deactivateId);
   // Allows vetoing
-  virtual bool OnTabPreActivate(int WXUNUSED(activateId), int WXUNUSED(deactivateId) ) { return true; };
+  virtual bool OnTabPreActivate(int WXUNUSED(activateId), int WXUNUSED(deactivateId) ) { return true; }
 
   // Allows use of application-supplied wxTabControl classes.
   virtual wxTabControl *OnCreateTabControl(void) { return new wxTabControl(this); }

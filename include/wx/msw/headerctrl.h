@@ -3,7 +3,7 @@
 // Purpose:     wxMSW native wxHeaderCtrl
 // Author:      Vadim Zeitlin
 // Created:     2008-12-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: headerctrl.h 71998 2012-07-10 06:42:15Z RD $
 // Copyright:   (c) 2008 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -46,7 +46,14 @@ public:
 
     virtual ~wxHeaderCtrl();
 
-
+    
+protected:
+    // override wxWindow methods which must be implemented by a new control
+    virtual wxSize DoGetBestSize() const;
+    virtual void DoSetSize(int x, int y,
+                           int width, int height,
+                           int sizeFlags = wxSIZE_AUTO);
+    
 private:
     // implement base class pure virtuals
     virtual void DoSetCount(unsigned int count);
@@ -57,12 +64,6 @@ private:
 
     virtual void DoSetColumnsOrder(const wxArrayInt& order);
     virtual wxArrayInt DoGetColumnsOrder() const;
-
-    // override wxWindow methods which must be implemented by a new control
-    virtual wxSize DoGetBestSize() const;
-    virtual void DoSetSize(int x, int y,
-                           int width, int height,
-                           int sizeFlags = wxSIZE_AUTO);
 
     // override MSW-specific methods needed for new control
     virtual WXDWORD MSWGetStyle(long style, WXDWORD *exstyle) const;

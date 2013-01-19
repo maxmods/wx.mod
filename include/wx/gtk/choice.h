@@ -2,7 +2,7 @@
 // Name:        wx/gtk/choice.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: choice.h 73107 2012-12-03 00:34:28Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,6 +16,8 @@ class WXDLLIMPEXP_FWD_BASE wxArrayString;
 //-----------------------------------------------------------------------------
 // wxChoice
 //-----------------------------------------------------------------------------
+
+class wxGtkCollatedArrayString;
 
 class WXDLLIMPEXP_CORE wxChoice : public wxChoiceBase
 {
@@ -62,8 +64,6 @@ public:
             const wxValidator& validator = wxDefaultValidator,
             const wxString& name = wxChoiceNameStr );
 
-    void SendSelectionChangedEvent(wxEventType evt_type);
-
     int GetSelection() const;
     void SetSelection(int n);
 
@@ -75,8 +75,8 @@ public:
     virtual void SetColumns(int n=1);
     virtual int GetColumns() const;
 
-    virtual void DisableEvents();
-    virtual void EnableEvents();
+    virtual void GTKDisableEvents();
+    virtual void GTKEnableEvents();
 
     static wxVisualAttributes
     GetClassDefaultAttributes(wxWindowVariant variant = wxWINDOW_VARIANT_NORMAL);
@@ -84,7 +84,7 @@ public:
 protected:
     // this array is only used for controls with wxCB_SORT style, so only
     // allocate it if it's needed (hence using pointer)
-    wxSortedArrayString *m_strings;
+    wxGtkCollatedArrayString *m_strings;
 
     // contains the client data for the items
     wxArrayPtrVoid m_clientData;
@@ -93,6 +93,7 @@ protected:
     int m_stringCellIndex;
 
     virtual wxSize DoGetBestSize() const;
+    virtual wxSize DoGetSizeFromTextSize(int xlen, int ylen = -1) const;
     virtual int DoInsertItems(const wxArrayStringsAdapter& items,
                               unsigned int pos,
                               void **clientData, wxClientDataType type);

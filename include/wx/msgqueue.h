@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wx/thread.h
+// Name:        wx/msqqueue.h
 // Purpose:     Message queues for inter-thread communication
 // Author:      Evgeniy Tarassov
 // Created:     2007-10-31
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: msgqueue.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (C) 2007 TT-Solutions SARL
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

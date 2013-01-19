@@ -5,7 +5,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     10.02.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: datetime.h 72750 2012-10-24 14:02:30Z VZ $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@
 
 #ifdef __WXWINCE__
     #include "wx/msw/wince/time.h"
-#elif !defined(__WXPALMOS5__)
+#else
     #include <time.h>
 #endif // OS
 
@@ -31,7 +31,7 @@
 class WXDLLIMPEXP_FWD_BASE wxDateTime;
 class WXDLLIMPEXP_FWD_BASE wxTimeSpan;
 class WXDLLIMPEXP_FWD_BASE wxDateSpan;
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
 struct _SYSTEMTIME;
 #endif
 
@@ -52,27 +52,6 @@ struct _SYSTEMTIME;
  * + 4. pluggable modules for the workdays calculations
  *   5. wxDateTimeHolidayAuthority for Easter and other christian feasts
  */
-
-/* Two wrapper functions for thread safety */
-#ifdef HAVE_LOCALTIME_R
-#define wxLocaltime_r localtime_r
-#else
-WXDLLIMPEXP_BASE struct tm *wxLocaltime_r(const time_t*, struct tm*);
-#if wxUSE_THREADS && !defined(__WINDOWS__) && !defined(__WATCOMC__)
-     // On Windows, localtime _is_ threadsafe!
-#warning using pseudo thread-safe wrapper for localtime to emulate localtime_r
-#endif
-#endif
-
-#ifdef HAVE_GMTIME_R
-#define wxGmtime_r gmtime_r
-#else
-WXDLLIMPEXP_BASE struct tm *wxGmtime_r(const time_t*, struct tm*);
-#if wxUSE_THREADS && !defined(__WINDOWS__) && !defined(__WATCOMC__)
-     // On Windows, gmtime _is_ threadsafe!
-#warning using pseudo thread-safe wrapper for gmtime to emulate gmtime_r
-#endif
-#endif
 
 /*
   The three (main) classes declared in this header represent:
@@ -173,7 +152,7 @@ public:
         // the time in the current time zone
         Local,
 
-        // zones from GMT (= Greenwhich Mean Time): they're guaranteed to be
+        // zones from GMT (= Greenwich Mean Time): they're guaranteed to be
         // consequent numbers, so writing something like `GMT0 + offset' is
         // safe if abs(offset) <= 12
 
@@ -429,7 +408,7 @@ public:
     // helper classes
     // ------------------------------------------------------------------------
 
-        // a class representing a time zone: basicly, this is just an offset
+        // a class representing a time zone: basically, this is just an offset
         // (in seconds) from GMT
     class WXDLLIMPEXP_BASE TimeZone
     {
@@ -462,7 +441,9 @@ public:
         //     instead of modifying the member fields directly!
     struct WXDLLIMPEXP_BASE Tm
     {
-        wxDateTime_t msec, sec, min, hour, mday;
+        wxDateTime_t msec, sec, min, hour,
+                     mday,  // Day of the month in 1..31 range.
+                     yday;  // Day of the year in 0..365 range.
         Month mon;
         int year;
 
@@ -497,9 +478,10 @@ public:
         // the timezone we correspond to
         TimeZone m_tz;
 
-        // these values can't be accessed directly because they're not always
-        // computed and we calculate them on demand
-        wxDateTime_t wday, yday;
+        // This value can only be accessed via GetWeekDay() and not directly
+        // because it's not always computed when creating this object and may
+        // need to be calculated on demand.
+        wxDateTime_t wday;
     };
 
     // static methods
@@ -624,7 +606,7 @@ public:
                       wxDateTime_t minute = 0,
                       wxDateTime_t second = 0,
                       wxDateTime_t millisec = 0);
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
     wxDateTime(const struct _SYSTEMTIME& st)
     {
         SetFromMSWSysTime(st);
@@ -711,7 +693,7 @@ public:
         // default assignment operator is ok
 
     // calendar calculations (functions which set the date only leave the time
-    // unchanged, e.g. don't explictly zero it): SetXXX() functions modify the
+    // unchanged, e.g. don't explicitly zero it): SetXXX() functions modify the
     // object itself, GetXXX() ones return a new object.
     // ------------------------------------------------------------------------
 
@@ -946,7 +928,7 @@ public:
 
     // SYSTEMTIME format
     // ------------------------------------------------------------------------
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
     // convert SYSTEMTIME to wxDateTime
     wxDateTime& SetFromMSWSysTime(const struct _SYSTEMTIME& st);
 
@@ -956,7 +938,7 @@ public:
     // same as above but only take date part into account, time is always zero
     wxDateTime& SetFromMSWSysDate(const struct _SYSTEMTIME& st);
     void GetAsMSWSysDate(struct _SYSTEMTIME* st) const;
-#endif // __WXMSW__
+#endif // __WINDOWS__
 
     // comparison (see also functions below for operator versions)
     // ------------------------------------------------------------------------
@@ -1080,6 +1062,8 @@ public:
         // return the difference between two dates
     inline wxTimeSpan Subtract(const wxDateTime& dt) const;
     inline wxTimeSpan operator-(const wxDateTime& dt2) const;
+
+    wxDateSpan DiffAsDateSpan(const wxDateTime& dt) const;
 
     // conversion to/from text
     // ------------------------------------------------------------------------
@@ -1222,6 +1206,52 @@ public:
         return ParseTime(time, &end) ? wxAnyStrPtr(time, end)
                                      : wxAnyStrPtr();
     }
+
+    // In addition to wxAnyStrPtr versions above we also must provide the
+    // overloads for C strings as we must return a pointer into the original
+    // string and not inside a temporary wxString which would have been created
+    // if the overloads above were used.
+    //
+    // And then we also have to provide the overloads for wxCStrData, as usual.
+    // Unfortunately those ones can't return anything as we don't have any
+    // sufficiently long-lived wxAnyStrPtr to return from them: any temporary
+    // strings it would point to would be destroyed when this function returns
+    // making it impossible to dereference the return value. So we just don't
+    // return anything from here which at least allows to keep compatibility
+    // with the code not testing the return value. Other uses of this method
+    // need to be converted to use one of the new bool-returning overloads
+    // above.
+    void ParseRfc822Date(const wxCStrData& date)
+        { ParseRfc822Date(wxString(date)); }
+    const char* ParseRfc822Date(const char* date);
+    const wchar_t* ParseRfc822Date(const wchar_t* date);
+
+    void ParseFormat(const wxCStrData& date,
+                     const wxString& format = wxDefaultDateTimeFormat,
+                     const wxDateTime& dateDef = wxDefaultDateTime)
+        { ParseFormat(wxString(date), format, dateDef); }
+    const char* ParseFormat(const char* date,
+                            const wxString& format = wxDefaultDateTimeFormat,
+                            const wxDateTime& dateDef = wxDefaultDateTime);
+    const wchar_t* ParseFormat(const wchar_t* date,
+                               const wxString& format = wxDefaultDateTimeFormat,
+                               const wxDateTime& dateDef = wxDefaultDateTime);
+
+    void ParseDateTime(const wxCStrData& datetime)
+        { ParseDateTime(wxString(datetime)); }
+    const char* ParseDateTime(const char* datetime);
+    const wchar_t* ParseDateTime(const wchar_t* datetime);
+
+    void ParseDate(const wxCStrData& date)
+        { ParseDate(wxString(date)); }
+    const char* ParseDate(const char* date);
+    const wchar_t* ParseDate(const wchar_t* date);
+
+    void ParseTime(const wxCStrData& time)
+        { ParseTime(wxString(time)); }
+    const char* ParseTime(const char* time);
+    const wchar_t* ParseTime(const wchar_t* time);
+
 
     // implementation
     // ------------------------------------------------------------------------
@@ -1549,6 +1579,8 @@ public:
     int GetYears() const { return m_years; }
         // get number of months
     int GetMonths() const { return m_months; }
+        // returns 12*GetYears() + GetMonths()
+    int GetTotalMonths() const { return 12*m_years + m_months; }
         // get number of weeks
     int GetWeeks() const { return m_weeks; }
         // get number of days
@@ -1749,9 +1781,16 @@ inline wxDateTime wxDateTime::Today()
 #if (!(defined(__VISAGECPP__) && __IBMCPP__ >= 400))
 inline wxDateTime& wxDateTime::Set(time_t timet)
 {
-    // assign first to avoid long multiplication overflow!
-    m_time = timet - WX_TIME_BASE_OFFSET ;
-    m_time *= TIME_T_FACTOR;
+    if ( timet == (time_t)-1 )
+    {
+        m_time = wxInvalidDateTime.m_time;
+    }
+    else
+    {
+        // assign first to avoid long multiplication overflow!
+        m_time = timet - WX_TIME_BASE_OFFSET;
+        m_time *= TIME_T_FACTOR;
+    }
 
     return *this;
 }
@@ -2087,9 +2126,9 @@ inline wxLongLong wxTimeSpan::GetSeconds() const
 
 inline int wxTimeSpan::GetMinutes() const
 {
-    // explicit cast to int suppresses a warning with CodeWarrior and possibly
-    // others (changing the return type to long from int is impossible in 2.8)
-    return (int)((GetSeconds() / 60l).GetLo());
+    // For compatibility, this method (and the other accessors) return int,
+    // even though GetLo() actually returns unsigned long with greater range.
+    return static_cast<int>((GetSeconds() / 60l).GetLo());
 }
 
 inline int wxTimeSpan::GetHours() const

@@ -4,7 +4,7 @@
 // Author:      Robert Roebling
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: treectlg.h 72638 2012-10-07 22:42:02Z VZ $
 // Copyright:   (c) 1997,1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -64,7 +64,6 @@ public:
                 long style = wxTR_DEFAULT_STYLE,
                 const wxValidator &validator = wxDefaultValidator,
                 const wxString& name = wxTreeCtrlNameStr);
-
 
     // implement base class pure virtuals
     // ----------------------------------
@@ -169,6 +168,8 @@ public:
     virtual void EndEditLabel(const wxTreeItemId& item,
                               bool discardChanges = false);
 
+    virtual void EnableBellOnNoMatch(bool on = true);
+
     virtual void SortChildren(const wxTreeItemId& item);
 
     // items geometry
@@ -211,6 +212,7 @@ public:
     void OnPaint( wxPaintEvent &event );
     void OnSetFocus( wxFocusEvent &event );
     void OnKillFocus( wxFocusEvent &event );
+    void OnKeyDown( wxKeyEvent &event );
     void OnChar( wxKeyEvent &event );
     void OnMouse( wxMouseEvent &event );
     void OnGetToolTip( wxTreeEvent &event );
@@ -274,6 +276,10 @@ protected:
     // incremental search data
     wxString             m_findPrefix;
     wxTimer             *m_findTimer;
+    // This flag is set to 0 if the bell is disabled, 1 if it is enabled and -1
+    // if it is globally enabled but has been temporarily disabled because we
+    // had already beeped for this particular search.
+    int                  m_findBell;
 
     bool                 m_dropEffectAboveItem;
 
@@ -351,6 +357,10 @@ protected:
     virtual wxSize DoGetBestSize() const;
 
 private:
+    // Reset the state of the last find (i.e. keyboard incremental search)
+    // operation.
+    void ResetFindState();
+
     DECLARE_EVENT_TABLE()
     DECLARE_DYNAMIC_CLASS(wxGenericTreeCtrl)
     wxDECLARE_NO_COPY_CLASS(wxGenericTreeCtrl);

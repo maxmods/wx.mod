@@ -3,7 +3,7 @@
 // Purpose:     Test if types are convertible
 // Author:      Arne Steinarson
 // Created:     2008-01-10
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: convertible.h 61724 2009-08-21 10:41:26Z VZ $
 // Copyright:   (c) 2008 Arne Steinarson
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

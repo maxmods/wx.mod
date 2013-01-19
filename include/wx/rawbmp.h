@@ -4,7 +4,7 @@
 // Author:      Eric Kidd, Vadim Zeitlin
 // Modified by:
 // Created:     10.03.03
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: rawbmp.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) 2002 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -173,6 +173,11 @@ typedef wxPixelFormat<unsigned char, 24, 0, 1, 2> wxImagePixelFormat;
     typedef wxPixelFormat<unsigned char, 24, 0, 1, 2> wxNativePixelFormat;
 
     #define wxPIXEL_FORMAT_ALPHA 3
+#elif defined(__WXPM__)
+    // Under PM, we can use standard RGB or RGBA
+    typedef wxPixelFormat<unsigned char, 24, 0, 1, 2> wxNativePixelFormat;
+
+    #define wxPIXEL_FORMAT_ALPHA 3
 #elif defined(__WXDFB__)
     // Under DirectFB, RGB components are reversed, they're in BGR order
     typedef wxPixelFormat<unsigned char, 24, 2, 1, 0> wxNativePixelFormat;
@@ -313,9 +318,6 @@ struct wxPixelDataOut<wxImage>
             // the pixel format we use
             typedef wxImagePixelFormat PixelFormat;
 
-            // the type of the pixel components
-            typedef typename PixelFormat::ChannelType ChannelType;
-
             // the pixel data we're working with
             typedef
                 wxPixelDataOut<wxImage>::wxPixelDataIn<PixelFormat> PixelData;
@@ -411,10 +413,10 @@ struct wxPixelDataOut<wxImage>
             // -----------
 
             // access to individual colour components
-            ChannelType& Red() { return m_pRGB[PixelFormat::RED]; }
-            ChannelType& Green() { return m_pRGB[PixelFormat::GREEN]; }
-            ChannelType& Blue() { return m_pRGB[PixelFormat::BLUE]; }
-            ChannelType& Alpha() { return *m_pAlpha; }
+            PixelFormat::ChannelType& Red() { return m_pRGB[PixelFormat::RED]; }
+            PixelFormat::ChannelType& Green() { return m_pRGB[PixelFormat::GREEN]; }
+            PixelFormat::ChannelType& Blue() { return m_pRGB[PixelFormat::BLUE]; }
+            PixelFormat::ChannelType& Alpha() { return *m_pAlpha; }
 
             // address the pixel contents directly (always RGB, without alpha)
             //
@@ -599,7 +601,7 @@ struct wxPixelDataOut<wxBitmap>
             // data access
             // -----------
 
-            // access to invidividual colour components
+            // access to individual colour components
             ChannelType& Red() { return m_ptr[PixelFormat::RED]; }
             ChannelType& Green() { return m_ptr[PixelFormat::GREEN]; }
             ChannelType& Blue() { return m_ptr[PixelFormat::BLUE]; }

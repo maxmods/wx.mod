@@ -4,7 +4,7 @@
 // Author:      Evgeniy Tarassov, Vadim Zeitlin
 // Modified by:
 // Created:     2005-09-15
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: treebook.h 71435 2012-05-15 10:03:57Z VZ $
 // Copyright:   (c) 2005 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,6 +17,7 @@
 #if wxUSE_TREEBOOK
 
 #include "wx/bookctrl.h"
+#include "wx/containr.h"
 #include "wx/treectrl.h"        // for wxArrayTreeItemIds
 
 typedef wxWindow wxTreebookPage;
@@ -27,7 +28,7 @@ class WXDLLIMPEXP_FWD_CORE wxTreeEvent;
 // wxTreebook
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxTreebook : public wxBookCtrlBase
+class WXDLLIMPEXP_CORE wxTreebook : public wxNavigationEnabled<wxBookCtrlBase>
 {
 public:
     // Constructors and such
@@ -74,27 +75,27 @@ public:
                             wxWindow *page,
                             const wxString& text,
                             bool bSelect = false,
-                            int imageId = wxNOT_FOUND);
+                            int imageId = NO_IMAGE);
 
     // Inserts a new sub-page to the end of children of the page at given pos.
     virtual bool InsertSubPage(size_t pos,
                                wxWindow *page,
                                const wxString& text,
                                bool bSelect = false,
-                               int imageId = wxNOT_FOUND);
+                               int imageId = NO_IMAGE);
 
     // Adds a new page at top level after all other pages.
     virtual bool AddPage(wxWindow *page,
                          const wxString& text,
                          bool bSelect = false,
-                         int imageId = wxNOT_FOUND);
+                         int imageId = NO_IMAGE);
 
     // Adds a new child-page to the last top-level page inserted.
     // Useful when constructing 1 level tree structure.
     virtual bool AddSubPage(wxWindow *page,
                             const wxString& text,
                             bool bSelect = false,
-                            int imageId = wxNOT_FOUND);
+                            int imageId = NO_IMAGE);
 
     // Deletes the page and ALL its children. Could trigger page selection
     // change in a case when selected page is removed. In that case its parent
@@ -126,7 +127,6 @@ public:
     // Standard operations inherited from wxBookCtrlBase
     // -------------------------------------------------
 
-    virtual int GetSelection() const;
     virtual bool SetPageText(size_t n, const wxString& strText);
     virtual wxString GetPageText(size_t n) const;
     virtual int GetPageImage(size_t n) const;
@@ -152,9 +152,6 @@ protected:
     // array of page ids and page windows
     wxArrayTreeItemIds m_treeIds;
 
-    // the currently selected page or wxNOT_FOUND if none
-    int m_selection;
-
     // in the situation when m_selection page is not wxNOT_FOUND but page is
     // NULL this is the first (sub)child that has a non-NULL page
     int m_actualSelection;
@@ -173,16 +170,16 @@ private:
                       wxWindow *page,
                       const wxString& text,
                       bool bSelect = false,
-                      int imageId = wxNOT_FOUND);
+                      int imageId = NO_IMAGE);
     bool DoInsertSubPage(size_t pos,
                          wxWindow *page,
                          const wxString& text,
                          bool bSelect = false,
-                         int imageId = wxNOT_FOUND);
+                         int imageId = NO_IMAGE);
     bool DoAddSubPage(wxWindow *page,
                          const wxString& text,
                          bool bSelect = false,
-                         int imageId = wxNOT_FOUND);
+                         int imageId = NO_IMAGE);
 
     // Sets selection in the tree control and updates the page being shown.
     int DoSetSelection(size_t pos, int flags = 0);
@@ -233,7 +230,7 @@ private:
 // ----------------------------------------------------------------------------
 
 // wxTreebookEvent is obsolete and defined for compatibility only
-typedef wxBookCtrlEvent wxTreebookEvent;
+#define wxTreebookEvent wxBookCtrlEvent
 typedef wxBookCtrlEventFunction wxTreebookEventFunction;
 #define wxTreebookEventHandler(func) wxBookCtrlEventHandler(func)
 

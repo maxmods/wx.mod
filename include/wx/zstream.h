@@ -4,7 +4,7 @@
 // Author:      Guilhem Lavaux
 // Modified by: Mike Wetherell
 // Created:     11/07/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: zstream.h 66259 2010-11-25 00:53:44Z VZ $
 // Copyright:   (c) Guilhem Lavaux
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,6 +16,7 @@
 #if wxUSE_ZLIB && wxUSE_STREAMS
 
 #include "wx/stream.h"
+#include "wx/versioninfo.h"
 
 // Compression level
 enum wxZlibCompressionLevels {
@@ -137,6 +138,8 @@ public:
 private:
     DECLARE_DYNAMIC_CLASS(wxGzipClassFactory)
 };
+
+WXDLLIMPEXP_BASE wxVersionInfo wxGetZlibVersionInfo();
 
 #endif
   // wxUSE_ZLIB && wxUSE_STREAMS

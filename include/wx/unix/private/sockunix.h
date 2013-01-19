@@ -3,7 +3,7 @@
 // Purpose:     wxSocketImpl implementation for Unix systems
 // Authors:     Guilhem Lavaux, Vadim Zeitlin
 // Created:     April 1997
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: sockunix.h 65581 2010-09-21 11:56:53Z VZ $
 // Copyright:   (c) 1997 Guilhem Lavaux
 //              (c) 2008 Vadim Zeitlin
 // Licence:     wxWindows licence
@@ -14,6 +14,14 @@
 
 #include <unistd.h>
 #include <sys/ioctl.h>
+
+// Under older (Open)Solaris versions FIONBIO is declared in this header only.
+// In the newer versions it's included by sys/ioctl.h but it's simpler to just
+// include it always instead of testing for whether it is or not.
+#ifdef __SOLARIS__
+    #include <sys/filio.h>
+#endif
+
 #include "wx/private/fdiomanager.h"
 
 class wxSocketImplUnix : public wxSocketImpl,

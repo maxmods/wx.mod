@@ -3,7 +3,7 @@
 // Purpose:     wxHeaderCtrlBase class: interface of wxHeaderCtrl
 // Author:      Vadim Zeitlin
 // Created:     2008-12-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: headerctrl.h 71896 2012-06-30 20:59:46Z RD $
 // Copyright:   (c) 2008 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -154,6 +154,8 @@ public:
     // specified) and if the control has wxHD_ALLOW_REORDER style as well
     bool ShowCustomizeDialog();
 
+    // compute column title width
+    int GetColumnTitleWidth(const wxHeaderColumn& col);
 
     // implementation only from now on
     // -------------------------------
@@ -208,6 +210,10 @@ protected:
     // indices after the number of columns changed
     void DoResizeColumnIndices(wxArrayInt& colIndices, unsigned int count);
 
+protected:
+    // this window doesn't look nice with the border so don't use it by default
+    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
+
 private:
     // methods implementing our public API and defined in platform-specific
     // implementations
@@ -220,8 +226,6 @@ private:
     virtual void DoSetColumnsOrder(const wxArrayInt& order) = 0;
     virtual wxArrayInt DoGetColumnsOrder() const = 0;
 
-    // this window doesn't look nice with the border so don't use it by default
-    virtual wxBorder GetDefaultBorder() const { return wxBORDER_NONE; }
 
     // event handlers
     void OnSeparatorDClick(wxHeaderCtrlEvent& event);
@@ -350,7 +354,10 @@ private:
     void Init();
 
     // bring the column count in sync with the number of columns we store
-    void UpdateColumnCount() { SetColumnCount(m_cols.size()); }
+    void UpdateColumnCount()
+    {
+        SetColumnCount(static_cast<int>(m_cols.size()));
+    }
 
 
     // all our current columns

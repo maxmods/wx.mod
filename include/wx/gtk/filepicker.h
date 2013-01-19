@@ -5,7 +5,7 @@
 // Modified by:
 // Created:     14/4/2006
 // Copyright:   (c) Francesco Montorsi
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: filepicker.h 72604 2012-10-02 15:57:03Z PC $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -101,13 +101,12 @@ public:     // overrides
     void OnDialogOK(wxCommandEvent &);
 
     virtual void SetPath(const wxString &str);
+    virtual void SetInitialDirectory(const wxString& dir);
 
     // see macro defined above
     FILEDIRBTN_OVERRIDES
 
 protected:
-    virtual bool GTKShouldConnectSizeRequest() const { return false; }
-
     wxDialog *m_dialog;
 
 private:
@@ -171,18 +170,12 @@ public:     // overrides
     }
 
     virtual void SetPath(const wxString &str);
+    virtual void SetInitialDirectory(const wxString& dir);
 
     // see macro defined above
     FILEDIRBTN_OVERRIDES
 
 protected:
-    // common part of all ctors
-    void Init()
-    {
-        m_dialog = NULL;
-        m_bIgnoreNextChange = false;
-    }
-
     wxDialog *m_dialog;
 
 public:    // used by the GTK callback only
@@ -192,6 +185,12 @@ public:    // used by the GTK callback only
     void GTKUpdatePath(const char *gtkpath);
 
 private:
+    void Init()
+    {
+        m_dialog = NULL;
+        m_bIgnoreNextChange = false;
+    }
+
     DECLARE_DYNAMIC_CLASS(wxDirButton)
 };
 

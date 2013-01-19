@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: fontdlgg.h 66615 2011-01-07 05:26:57Z PC $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,11 +12,8 @@
 #ifndef _WX_GENERIC_FONTDLGG_H
 #define _WX_GENERIC_FONTDLGG_H
 
-#include "wx/defs.h"
 #include "wx/gdicmn.h"
 #include "wx/font.h"
-#include "wx/dialog.h"
-#include "wx/cmndata.h"
 
 #ifdef __WXWINCE__
 #define USE_SPINCTRL_FOR_POINT_SIZE 1

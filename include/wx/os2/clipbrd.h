@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        clipbrd.h
+// Name:        wx/os2/clipbrd.h
 // Purpose:     Clipboard functionality.
 //              Note: this functionality is under review, and
 //              is derived from wxWidgets 1.xx code. Please contact
@@ -7,7 +7,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     10/13/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: clipbrd.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

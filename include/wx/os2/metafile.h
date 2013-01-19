@@ -1,12 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        metafile.h
+// Name:        wx/os2/metafile.h
 // Purpose:     wxMetaFile, wxMetaFileDC classes.
 //              This probably should be restricted to Windows platforms,
 //              but if there is an equivalent on your platform, great.
 // Author:      David Webster
 // Modified by:
 // Created:     10/10/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: metafile.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -172,7 +172,7 @@ class WXDLLIMPEXP_CORE wxMetafileDataObject : public wxDataObject
 {
 public:
     // ctors
-    wxMetafileDataObject() { m_width = 0; m_height = 0; };
+    wxMetafileDataObject() { m_width = 0; m_height = 0; }
     wxMetafileDataObject(const wxMetafile& metafile, int width = 0,int height = 0)
                         :m_metafile(metafile)
                         ,m_width(width)

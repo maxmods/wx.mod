@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        menu.h
+// Name:        wx/osx/menu.h
 // Purpose:     wxMenu, wxMenuBar classes
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: menu.h 70350 2012-01-15 13:41:17Z VZ $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -83,6 +83,10 @@ private:
     // terminate the current radio group, if any
     void EndRadioGroup();
 
+    // Common part of HandleMenu{Opened,Closed}().
+    void DoHandleMenuOpenedOrClosed(wxEventType evtType);
+
+
     // if TRUE, insert a breal before appending the next item
     bool m_doBreak;
 
@@ -126,11 +130,8 @@ public:
     virtual wxMenu *Replace(size_t pos, wxMenu *menu, const wxString& title);
     virtual wxMenu *Remove(size_t pos);
 
-    virtual int FindMenuItem(const wxString& menuString,
-                             const wxString& itemString) const;
-    virtual wxMenuItem* FindItem( int id, wxMenu **menu = NULL ) const;
-
     virtual void EnableTop( size_t pos, bool flag );
+    virtual bool IsEnabledTop(size_t pos) const;
     virtual void SetMenuLabel( size_t pos, const wxString& label );
     virtual wxString GetMenuLabel( size_t pos ) const;
     virtual bool Enable( bool enable = true );
@@ -141,7 +142,6 @@ public:
     }
 
     // implementation from now on
-    int  FindMenu(const wxString& title);
     void Detach();
 
         // returns TRUE if we're attached to a frame
@@ -169,7 +169,6 @@ protected:
     // common part of all ctors
     void Init();
 
-    wxArrayString   m_titles;
     static bool     s_macAutoWindowMenu ;
     static WXHMENU  s_macWindowMenuHandle ;
 

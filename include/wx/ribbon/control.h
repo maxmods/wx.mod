@@ -4,7 +4,7 @@
 // Author:      Peter Cawley
 // Modified by:
 // Created:     2009-06-05
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: control.h 71641 2012-06-03 19:17:03Z VZ $
 // Copyright:   (C) Peter Cawley
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,6 +19,7 @@
 #include "wx/control.h"
 #include "wx/dynarray.h"
 
+class wxRibbonBar;
 class wxRibbonArtProvider;
 
 class WXDLLIMPEXP_RIBBON wxRibbonControl : public wxControl
@@ -55,6 +56,11 @@ public:
     virtual bool Realize();
     bool Realise() {return Realize();}
 
+    virtual wxRibbonBar* GetAncestorRibbonBar()const;
+
+    // Finds the best width and height given the parent's width and height
+    virtual wxSize GetBestSizeForParentSize(const wxSize& WXUNUSED(parentSize)) const { return GetBestSize(); }
+
 protected:
     wxRibbonArtProvider* m_art;
 
@@ -71,7 +77,7 @@ private:
 #endif
 };
 
-WX_DEFINE_USER_EXPORTED_ARRAY(wxRibbonControl*, wxArrayRibbonControl, class WXDLLIMPEXP_RIBBON);
+WX_DEFINE_USER_EXPORTED_ARRAY_PTR(wxRibbonControl*, wxArrayRibbonControl, class WXDLLIMPEXP_RIBBON);
 
 #endif // wxUSE_RIBBON
 

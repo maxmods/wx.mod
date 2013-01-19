@@ -3,7 +3,7 @@
 // Purpose:     class for opening files - virtual file system
 // Author:      Vaclav Slavik
 // Copyright:   (c) 1999 Vaclav Slavik
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: filesys.h 71206 2012-04-16 13:53:49Z VZ $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -293,7 +293,20 @@ protected:
     static wxString ms_root;
 };
 
+// Stream reading data from wxFSFile: this allows to use virtual files with any
+// wx functions accepting streams.
+class WXDLLIMPEXP_BASE wxFSInputStream : public wxWrapperInputStream
+{
+public:
+    // Notice that wxFS_READ is implied in flags.
+    wxFSInputStream(const wxString& filename, int flags = 0);
+    virtual ~wxFSInputStream();
 
+private:
+    wxFSFile* m_file;
+
+    wxDECLARE_NO_COPY_CLASS(wxFSInputStream);
+};
 
 #endif
   // wxUSE_FILESYSTEM

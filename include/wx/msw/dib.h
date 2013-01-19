@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     03.03.03 (replaces the old file with the same name)
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dib.h 71925 2012-07-01 22:39:41Z VZ $
 // Copyright:   (c) 1997-2003 wxWidgets team
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,12 +12,15 @@
 #ifndef _WX_MSW_DIB_H_
 #define _WX_MSW_DIB_H_
 
-class WXDLLIMPEXP_FWD_CORE wxBitmap;
 class WXDLLIMPEXP_FWD_CORE wxPalette;
 
 #include "wx/msw/private.h"
 
 #if wxUSE_WXDIB
+
+#ifdef __WXMSW__
+    #include "wx/bitmap.h"
+#endif // __WXMSW__
 
 // ----------------------------------------------------------------------------
 // wxDIB: represents a DIB section
@@ -37,9 +40,11 @@ public:
     wxDIB(int width, int height, int depth)
         { Init(); (void)Create(width, height, depth); }
 
+#ifdef __WXMSW__
     // create a DIB from the DDB
     wxDIB(const wxBitmap& bmp)
         { Init(); (void)Create(bmp); }
+#endif // __WXMSW__
 
     // create a DIB from the Windows DDB
     wxDIB(HBITMAP hbmp)
@@ -53,7 +58,9 @@ public:
 
     // same as the corresponding ctors but with return value
     bool Create(int width, int height, int depth);
-    bool Create(const wxBitmap& bmp);
+#ifdef __WXMSW__
+    bool Create(const wxBitmap& bmp) { return Create(GetHbitmapOf(bmp)); }
+#endif
     bool Create(HBITMAP hbmp);
     bool Load(const wxString& filename);
 
@@ -138,12 +145,28 @@ public:
     // ------------------
 
 #if wxUSE_IMAGE
-    // create a DIB from the given image, the DIB will be either 24 or 32 (if
-    // the image has alpha channel) bpp
-    wxDIB(const wxImage& image) { Init(); (void)Create(image); }
+    // Possible formats for DIBs created by the functions below.
+    enum PixelFormat
+    {
+        PixelFormat_PreMultiplied = 0,
+        PixelFormat_NotPreMultiplied = 1
+    };
+
+    // Create a DIB from the given image, the DIB will be either 24 or 32 (if
+    // the image has alpha channel) bpp.
+    //
+    // By default the DIB stores pixel data in pre-multiplied format so that it
+    // can be used with ::AlphaBlend() but it is also possible to disable
+    // pre-multiplication for the DIB to be usable with ImageList_Draw() which
+    // does pre-multiplication internally.
+    wxDIB(const wxImage& image, PixelFormat pf = PixelFormat_PreMultiplied)
+    {
+        Init();
+        (void)Create(image, pf);
+    }
 
     // same as the above ctor but with the return code
-    bool Create(const wxImage& image);
+    bool Create(const wxImage& image, PixelFormat pf = PixelFormat_PreMultiplied);
 
     // create wxImage having the same data as this DIB
     wxImage ConvertToImage() const;
@@ -200,11 +223,6 @@ private:
     // the case
     bool m_ownsHandle;
 
-    // if true, we have alpha, if false we don't (note that we can still have
-    // m_depth == 32 but the last component is then simply padding and not
-    // alpha)
-    bool m_hasAlpha;
-
 
     // DIBs can't be copied
     wxDIB(const wxDIB&);
@@ -220,7 +238,6 @@ void wxDIB::Init()
 {
     m_handle = 0;
     m_ownsHandle = true;
-    m_hasAlpha = false;
 
     m_data = NULL;
 

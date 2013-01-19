@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        listctrl.h
+// Name:        wx/generic/private/listctrl.h
 // Purpose:     private definitions of wxListCtrl helpers
 // Author:      Robert Roebling
 //              Vadim Zeitlin (virtual list control support)
-// Id:          $Id$
+// Id:          $Id: listctrl.h 72671 2012-10-13 22:54:55Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -275,9 +275,10 @@ public:
     }
 
     // draw the line on the given DC in icon/list mode
-    void Draw( wxDC *dc );
+    void Draw( wxDC *dc, bool current );
 
-    // the same in report mode
+    // the same in report mode: it needs more parameters as we don't store
+    // everything in the item in report mode
     void DrawInReportMode( wxDC *dc,
                            const wxRect& rect,
                            const wxRect& rectHL,
@@ -291,11 +292,12 @@ private:
     // get the mode (i.e. style)  of the list control
     inline int GetMode() const;
 
-    // prepare the DC for drawing with these item's attributes, return true if
-    // we need to draw the items background to highlight it, false otherwise
-    bool SetAttributes(wxDC *dc,
-                       const wxListItemAttr *attr,
-                       bool highlight);
+    // Apply this item attributes to the given DC: set the text font and colour
+    // and also erase the background appropriately.
+    void ApplyAttributes(wxDC *dc,
+                         const wxRect& rectHL,
+                         bool highlighted,
+                         bool current);
 
     // draw the text on the DC with the correct justification; also add an
     // ellipsis if the text is too large to fit in the current width
@@ -344,12 +346,14 @@ public:
 
     virtual ~wxListHeaderWindow();
 
+    // We never need focus as we don't have any keyboard interface.
+    virtual bool AcceptsFocus() const { return false; }
+
     void DrawCurrent();
     void AdjustDC( wxDC& dc );
 
     void OnPaint( wxPaintEvent &event );
     void OnMouse( wxMouseEvent &event );
-    void OnSetFocus( wxFocusEvent &event );
 
     // needs refresh
     bool m_dirty;
@@ -387,6 +391,27 @@ public:
 };
 
 //-----------------------------------------------------------------------------
+// wxListFindTimer (internal)
+//-----------------------------------------------------------------------------
+
+class wxListFindTimer: public wxTimer
+{
+public:
+    // reset the current prefix after half a second of inactivity
+    enum { DELAY = 500 };
+
+    wxListFindTimer( wxListMainWindow *owner )
+        : m_owner(owner)
+    {
+    }
+
+    virtual void Notify();
+
+private:
+    wxListMainWindow *m_owner;
+};
+
+//-----------------------------------------------------------------------------
 // wxListTextCtrlWrapper: wraps a wxTextCtrl to make it work for inline editing
 //-----------------------------------------------------------------------------
 
@@ -400,7 +425,21 @@ public:
 
     wxTextCtrl *GetText() const { return m_text; }
 
-    void EndEdit( bool discardChanges );
+    // Check if the given key event should stop editing and return true if it
+    // does or false otherwise.
+    bool CheckForEndEditKey(const wxKeyEvent& event);
+
+    // Different reasons for calling EndEdit():
+    //
+    // It was called because:
+    enum EndReason
+    {
+        End_Accept,     // user has accepted the changes.
+        End_Discard,    // user has cancelled editing.
+        End_Destroy     // the entire control is being destroyed.
+    };
+
+    void EndEdit(EndReason reason);
 
 protected:
     void OnChar( wxKeyEvent &event );
@@ -432,10 +471,8 @@ public:
     wxListMainWindow();
     wxListMainWindow( wxWindow *parent,
                       wxWindowID id,
-                      const wxPoint& pos = wxDefaultPosition,
-                      const wxSize& size = wxDefaultSize,
-                      long style = 0,
-                      const wxString &name = wxT("listctrlmainwindow") );
+                      const wxPoint& pos,
+                      const wxSize& size );
 
     virtual ~wxListMainWindow();
 
@@ -540,11 +577,17 @@ public:
     bool OnRenameAccept(size_t itemEdit, const wxString& value);
     void OnRenameCancelled(size_t itemEdit);
 
+    void OnFindTimer();
+    // set whether or not to ring the find bell
+    // (does nothing on MSW - bell is always rung)
+    void EnableBellOnNoMatch( bool on );
+
     void OnMouse( wxMouseEvent &event );
 
     // called to switch the selection from the current item to newCurrent,
     void OnArrowChar( size_t newCurrent, const wxKeyEvent& event );
 
+    void OnCharHook( wxKeyEvent &event );
     void OnChar( wxKeyEvent &event );
     void OnKeyDown( wxKeyEvent &event );
     void OnKeyUp( wxKeyEvent &event );
@@ -558,13 +601,12 @@ public:
 
     void DrawImage( int index, wxDC *dc, int x, int y );
     void GetImageSize( int index, int &width, int &height ) const;
-    int GetTextLength( const wxString &s ) const;
 
     void SetImageList( wxImageList *imageList, int which );
     void SetItemSpacing( int spacing, bool isSmall = false );
     int GetItemSpacing( bool isSmall = false );
 
-    void SetColumn( int col, wxListItem &item );
+    void SetColumn( int col, const wxListItem &item );
     void SetColumnWidth( int col, int width );
     void GetColumn( int col, wxListItem &item ) const;
     int GetColumnWidth( int col ) const;
@@ -628,7 +670,7 @@ public:
     long FindItem( const wxPoint& pt );
     long HitTest( int x, int y, int &flags ) const;
     void InsertItem( wxListItem &item );
-    void InsertColumn( long col, wxListItem &item );
+    long InsertColumn( long col, const wxListItem &item );
     int GetItemWidthWithImage(wxListItem * item);
     void SortItems( wxListCtrlCompare fn, wxIntPtr data );
 
@@ -713,6 +755,15 @@ protected:
 
     bool                 m_lastOnSame;
     wxTimer             *m_renameTimer;
+
+    // incremental search data
+    wxString             m_findPrefix;
+    wxTimer             *m_findTimer;
+    // This flag is set to 0 if the bell is disabled, 1 if it is enabled and -1
+    // if it is globally enabled but has been temporarily disabled because we
+    // had already beeped for this particular search.
+    int                  m_findBell;
+
     bool                 m_isCreated;
     int                  m_dragCount;
     wxPoint              m_dragStart;
@@ -763,6 +814,9 @@ protected:
     // force us to recalculate the range of visible lines
     void ResetVisibleLinesRange() { m_lineFrom = (size_t)-1; }
 
+    // find the first item starting with the given prefix after the given item
+    size_t PrefixFindItem(size_t item, const wxString& prefix) const;
+
     // get the colour to be used for drawing the rules
     wxColour GetRuleColour() const
     {
@@ -775,6 +829,10 @@ private:
 
     // delete all items but don't refresh: called from dtor
     void DoDeleteAllItems();
+
+    // Compute the minimal width needed to fully display the column header.
+    int ComputeMinHeaderWidth(const wxListHeaderData* header) const;
+
 
     // the height of one line using the current font
     wxCoord m_lineHeight;

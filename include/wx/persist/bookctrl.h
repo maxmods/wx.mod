@@ -3,7 +3,7 @@
 // Purpose:     persistence support for wxBookCtrl
 // Author:      Vadim Zeitlin
 // Created:     2009-01-19
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: bookctrl.h 58529 2009-01-30 21:38:29Z VZ $
 // Copyright:   (c) 2009 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

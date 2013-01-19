@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        filedlg.h
+// Name:        wx/gtk/filedlg.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: filedlg.h 72979 2012-11-17 23:56:47Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,6 +22,15 @@ public:
     wxFileDialog() { }
 
     wxFileDialog(wxWindow *parent,
+                 const wxString& message = wxFileSelectorPromptStr,
+                 const wxString& defaultDir = wxEmptyString,
+                 const wxString& defaultFile = wxEmptyString,
+                 const wxString& wildCard = wxFileSelectorDefaultWildcardStr,
+                 long style = wxFD_DEFAULT_STYLE,
+                 const wxPoint& pos = wxDefaultPosition,
+                 const wxSize& sz = wxDefaultSize,
+                 const wxString& name = wxFileDialogNameStr);
+    bool Create(wxWindow *parent,
                  const wxString& message = wxFileSelectorPromptStr,
                  const wxString& defaultDir = wxEmptyString,
                  const wxString& defaultFile = wxEmptyString,
@@ -50,6 +59,9 @@ public:
 
     virtual bool SupportsExtraControl() const { return true; }
 
+    // Implementation only.
+    void GTKOnAccept();
+    void GTKOnCancel();
 
 protected:
     // override this from wxTLW since the native
@@ -60,10 +72,10 @@ protected:
 
 
 private:
-    void OnFakeOk( wxCommandEvent &event );
     void OnSize(wxSizeEvent&);
     virtual void AddChildGTK(wxWindowGTK* child);
 
+    wxString m_selectedDirectory;
     wxGtkFileChooser    m_fc;
 
     DECLARE_DYNAMIC_CLASS(wxFileDialog)

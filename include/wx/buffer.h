@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     12.04.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: buffer.h 72496 2012-09-15 23:20:23Z VZ $
 // Copyright:   (c) 1998 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -15,9 +15,7 @@
 #include "wx/chartype.h"
 #include "wx/wxcrtbase.h"
 
-#ifndef __WXPALMOS5__
 #include <stdlib.h>             // malloc() and free()
-#endif // ! __WXPALMOS5__
 
 class WXDLLIMPEXP_FWD_BASE wxCStrData;
 
@@ -232,7 +230,8 @@ protected:
     static CharType *StrCopy(const CharType *src, size_t len)
     {
         CharType *dst = (CharType*)malloc(sizeof(CharType) * (len + 1));
-        memcpy(dst, src, sizeof(CharType) * (len + 1));
+        if ( dst )
+            memcpy(dst, src, sizeof(CharType) * (len + 1));
         return dst;
     }
 
@@ -260,7 +259,7 @@ public:
         {
             if ( len == wxNO_LEN )
                 len = wxStrlen(str);
-            this->m_data = new Data(StrCopy(str, len), len);
+            this->m_data = new Data(this->StrCopy(str, len), len);
         }
         else
         {
@@ -295,7 +294,7 @@ public:
 
     wxCharTypeBuffer(const wxScopedCharTypeBuffer<T>& src)
     {
-        MakeOwnedCopyOf(src);
+        this->MakeOwnedCopyOf(src);
     }
 
     wxCharTypeBuffer& operator=(const wxScopedCharTypeBuffer<T>& src)
@@ -313,6 +312,10 @@ public:
             (CharType *)realloc(this->data(), (len + 1) * sizeof(CharType));
         if ( !str )
             return false;
+
+        // For consistency with the ctor taking just the length, NUL-terminate
+        // the buffer.
+        str[len] = (CharType)0;
 
         if ( this->m_data == this->GetNullData() )
         {
@@ -436,7 +439,7 @@ public:
 
     friend class wxMemoryBuffer;
 
-    // everyting is private as it can only be used by wxMemoryBuffer
+    // everything is private as it can only be used by wxMemoryBuffer
 private:
     wxMemoryBufferData(size_t size = wxMemoryBufferData::DefBufSize)
         : m_data(size ? malloc(size) : NULL), m_size(size), m_len(0), m_ref(0)
@@ -537,12 +540,16 @@ public:
     size_t GetBufSize() const { return m_bufdata->m_size; }
     size_t GetDataLen() const { return m_bufdata->m_len; }
 
+    bool IsEmpty() const { return GetDataLen() == 0; }
+
     void   SetBufSize(size_t size) { m_bufdata->ResizeIfNeeded(size); }
     void   SetDataLen(size_t len)
     {
         wxASSERT(len <= m_bufdata->m_size);
         m_bufdata->m_len = len;
     }
+
+    void Clear() { SetDataLen(0); }
 
     // Ensure the buffer is big enough and return a pointer to it
     void *GetWriteBuf(size_t sizeNeeded)

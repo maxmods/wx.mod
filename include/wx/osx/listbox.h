@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: listbox.h 65940 2010-10-28 10:27:32Z VZ $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -168,6 +168,11 @@ protected:
     wxArrayPtrVoid m_itemsClientData;
 
 private:
+#ifdef __WXOSX_CARBON__
+    // It needs to call our CalcAndSendEvent().
+    friend class wxMacDataBrowserListControl;
+#endif // Carbon
+
     DECLARE_DYNAMIC_CLASS(wxListBox)
     DECLARE_EVENT_TABLE()
 };

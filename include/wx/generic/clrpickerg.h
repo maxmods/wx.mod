@@ -5,7 +5,7 @@
 // Modified by:
 // Created:     14/4/2006
 // Copyright:   (c) Vadim Zeitlin, Francesco Montorsi
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: clrpickerg.h 66615 2011-01-07 05:26:57Z PC $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -14,7 +14,7 @@
 
 #include "wx/button.h"
 #include "wx/bmpbuttn.h"
-#include "wx/cmndata.h"
+#include "wx/colourdata.h"
 
 //-----------------------------------------------------------------------------
 // wxGenericColourButton: a button which brings up a wxColourDialog

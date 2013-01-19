@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        filedlg.h
+// Name:        wx/os2/filedlg.h
 // Purpose:     wxFileDialog class
 // Author:      David Webster
 // Modified by:
 // Created:     10/05/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: filedlg.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

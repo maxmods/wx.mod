@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        button.h
+// Name:        wx/osx/button.h
 // Purpose:     wxButton class
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: button.h 72885 2012-11-04 23:50:28Z VZ $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -41,8 +41,6 @@ public:
                 const wxValidator& validator = wxDefaultValidator,
                 const wxString& name = wxButtonNameStr);
 
-    static wxSize GetDefaultSize();
-
     virtual void SetLabel(const wxString& label);
     virtual wxWindow *SetDefault();
     virtual void Command(wxCommandEvent& event);
@@ -51,34 +49,12 @@ public:
 
     virtual bool        OSXHandleClicked( double timestampsec );
 
+#if wxOSX_USE_COCOA
+    void OSXUpdateAfterLabelChange(const wxString& label);
+#endif
+
 protected:
-    virtual wxSize DoGetBestSize() const ;
-
-    void OnEnterWindow( wxMouseEvent& event);
-    void OnLeaveWindow( wxMouseEvent& event);
-    
-    virtual wxBitmap DoGetBitmap(State which) const;
-    virtual void DoSetBitmap(const wxBitmap& bitmap, State which);
-    virtual void DoSetBitmapPosition(wxDirection dir);
-
-    virtual void DoSetBitmapMargins(int x, int y)
-    {
-        m_marginX = x;
-        m_marginY = y;
-        InvalidateBestSize();
-    }
-    
-    // the margins around the bitmap
-    int m_marginX;
-    int m_marginY;
-
-    // the bitmaps for the different state of the buttons, all of them may be
-    // invalid and the button only shows a bitmap at all if State_Normal bitmap
-    // is valid
-    wxBitmap m_bitmaps[State_Max];    
-    
     DECLARE_DYNAMIC_CLASS(wxButton)
-    DECLARE_EVENT_TABLE()
 };
 
 // OS X specific class, not part of public wx API

@@ -3,7 +3,7 @@
 // Purpose:     XML resource handler for wxRadioBox
 // Author:      Bob Mitchell
 // Created:     2000/03/21
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: xh_radbx.h 54929 2008-08-02 18:21:38Z VZ $
 // Copyright:   (c) 2000 Bob Mitchell and Verant Interactive
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

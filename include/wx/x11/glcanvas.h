@@ -5,7 +5,7 @@
 // Author:      Julian Smart and Wolfram Gloger
 // Modified by:
 // Created:     1995, 1999
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: glcanvas.h 50646 2007-12-12 01:35:53Z VZ $
 // Copyright:   (c) Julian Smart, Wolfram Gloger
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

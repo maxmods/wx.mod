@@ -5,7 +5,7 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Julian Smart
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: cursor.h 71889 2012-06-30 16:33:23Z VZ $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -34,17 +34,18 @@ public:
 
 */
 
-#if defined(__WXPALMOS__)
-    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
-    #include "wx/palmos/cursor.h"
-#elif defined(__WXMSW__)
+#if defined(__WXMSW__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
     #include "wx/msw/cursor.h"
 #elif defined(__WXMOTIF__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XBM
     #include "wx/motif/cursor.h"
 #elif defined(__WXGTK20__)
-    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
+    #ifdef __WINDOWS__
+        #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
+    #else
+        #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
+    #endif
     #include "wx/gtk/cursor.h"
 #elif defined(__WXGTK__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
@@ -52,9 +53,6 @@ public:
 #elif defined(__WXX11__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
     #include "wx/x11/cursor.h"
-#elif defined(__WXMGL__)
-    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
-    #include "wx/mgl/cursor.h"
 #elif defined(__WXDFB__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
     #include "wx/dfb/cursor.h"
@@ -62,7 +60,7 @@ public:
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_MACCURSOR_RESOURCE
     #include "wx/osx/cursor.h"
 #elif defined(__WXCOCOA__)
-    #define wxCURSOR_DEFAULT_TYPE   0
+    #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_MACCURSOR_RESOURCE
     #include "wx/cocoa/cursor.h"
 #elif defined(__WXPM__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE

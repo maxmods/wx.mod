@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        automtn.h
+// Name:        wx/msw/ole/automtn.h
 // Purpose:     OLE automation utilities
 // Author:      Julian Smart
 // Modified by:
 // Created:     11/6/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: automtn.h 72296 2012-08-05 22:44:31Z VZ $
 // Copyright:   (c) 1998, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -21,10 +21,25 @@
 
 typedef void            WXIDISPATCH;
 typedef unsigned short* WXBSTR;
+typedef unsigned long   WXLCID;
 
 #ifdef GetObject
 #undef GetObject
 #endif
+
+// Flags used with wxAutomationObject::GetInstance()
+enum wxAutomationInstanceFlags
+{
+    // Only use the existing instance, never create a new one.
+    wxAutomationInstance_UseExistingOnly = 0,
+
+    // Create a new instance if there are no existing ones.
+    wxAutomationInstance_CreateIfNeeded = 1,
+
+    // Do not log errors if we failed to get the existing instance because none
+    // is available.
+    wxAutomationInstance_SilentIfNone = 2
+};
 
 /*
  * wxAutomationObject
@@ -43,11 +58,12 @@ public:
     bool IsOk() const { return m_dispatchPtr != NULL; }
 
     // Get a dispatch pointer from the current object associated
-    // with a class id, such as "Excel.Application"
-    bool GetInstance(const wxString& classId) const;
+    // with a ProgID, such as "Excel.Application"
+    bool GetInstance(const wxString& progId,
+                     int flags = wxAutomationInstance_CreateIfNeeded) const;
 
-    // Get a dispatch pointer from a new instance of the the class
-    bool CreateInstance(const wxString& classId) const;
+    // Get a dispatch pointer from a new instance of the class
+    bool CreateInstance(const wxString& progId) const;
 
     // Low-level invocation function. Pass either an array of variants,
     // or an array of pointers to variants.
@@ -91,8 +107,20 @@ public:
     bool GetObject(wxAutomationObject& obj, const wxString& property, int noArgs = 0, wxVariant args[] = NULL) const;
     bool GetObject(wxAutomationObject& obj, const wxString& property, int noArgs, const wxVariant **args) const;
 
-public:
+    // Returns the locale identifier used in automation calls. The default is
+    // LOCALE_SYSTEM_DEFAULT. Objects obtained by GetObject() inherit the
+    // locale identifier from the one that created them.
+    WXLCID GetLCID() const;
+
+    // Sets the locale identifier to be used in automation calls performed by
+    // this object. The default is LOCALE_SYSTEM_DEFAULT.
+    void SetLCID(WXLCID lcid);
+
+public: // public for compatibility only, don't use m_dispatchPtr directly.
     WXIDISPATCH*  m_dispatchPtr;
+
+private:
+    WXLCID m_lcid;
 
     wxDECLARE_NO_COPY_CLASS(wxAutomationObject);
 };

@@ -4,7 +4,7 @@
 // Author:      Ryan Norton
 // Modified by:
 // Created:     2004-09-25
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: fontdlg.h 70497 2012-02-02 14:19:34Z VZ $
 // Copyright:   (c) Ryan Norton
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,6 @@
 #define _WX_FONTDLG_H_
 
 #include "wx/dialog.h"
-#include "wx/cmndata.h"
 
 /*
  * Font dialog
@@ -36,9 +35,11 @@ class WXDLLIMPEXP_CORE wxFontDialog : public wxDialog
 {
 public:
     wxFontDialog();
+    wxFontDialog(wxWindow *parent);
     wxFontDialog(wxWindow *parent, const wxFontData& data);
     virtual ~wxFontDialog();
 
+    bool Create(wxWindow *parent);
     bool Create(wxWindow *parent, const wxFontData& data);
 
     int ShowModal();

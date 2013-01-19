@@ -3,7 +3,7 @@
 // Purpose:     XML resource handler for wxToggleButton
 // Author:      Julian Smart
 // Created:     2004-08-30
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: xh_tglbtn.h 70345 2012-01-15 01:05:28Z VZ $
 // Copyright:   (c) 2004 Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ public:
 
 protected:
     virtual void DoCreateToggleButton(wxObject *control);
-#if !defined(__WXUNIVERSAL__) && !defined(__WXMOTIF__) && !defined(__WXPALMOS__) && !defined(__WXPM__) && !(defined(__WXGTK__) && !defined(__WXGTK20__))
+#if !defined(__WXUNIVERSAL__) && !defined(__WXMOTIF__) && !defined(__WXPM__) && !(defined(__WXGTK__) && !defined(__WXGTK20__))
     virtual void DoCreateBitmapToggleButton(wxObject *control);
 #endif
 };

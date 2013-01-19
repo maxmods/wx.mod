@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by: Vadim Zeitlin to be less MSW-specific on 10/10/98
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: treectrl.h 72665 2012-10-13 22:52:35Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -212,6 +212,10 @@ public:
     virtual bool CanApplyThemeBorder() const { return false; }
 
 protected:
+    // Implement "update locking" in a custom way for this control.
+    virtual void DoFreeze();
+    virtual void DoThaw();
+
     // SetImageList helper
     void SetAnyImageList(wxImageList *imageList, int which);
 

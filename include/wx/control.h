@@ -4,7 +4,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     26.07.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: control.h 72935 2012-11-09 21:11:37Z VZ $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -94,6 +94,29 @@ public:
     // get just the text of the label, without mnemonic characters ('&')
     virtual wxString GetLabelText() const { return GetLabelText(GetLabel()); }
 
+
+#if wxUSE_MARKUP
+    // Set the label with markup (and mnemonics). Markup is a simple subset of
+    // HTML with tags such as <b>, <i> and <span>. By default it is not
+    // supported i.e. all the markup is simply stripped and SetLabel() is
+    // called but some controls in some ports do support this already and in
+    // the future most of them should.
+    //
+    // Notice that, being HTML-like, markup also supports XML entities so '<'
+    // should be encoded as "&lt;" and so on, a bare '<' in the input will
+    // likely result in an error. As an exception, a bare '&' is allowed and
+    // indicates that the next character is a mnemonic. To insert a literal '&'
+    // in the control you need to use "&amp;" in the input string.
+    //
+    // Returns true if the label was set, even if the markup in it was ignored.
+    // False is only returned if we failed to parse the label.
+    bool SetLabelMarkup(const wxString& markup)
+    {
+        return DoSetLabelMarkup(markup);
+    }
+#endif // wxUSE_MARKUP
+
+
     // controls by default inherit the colours of their parents, if a
     // particular control class doesn't want to do it, it can override
     // ShouldInheritColours() to return false
@@ -111,6 +134,10 @@ public:
     // wxControl-specific processing after processing the update event
     virtual void DoUpdateWindowUI(wxUpdateUIEvent& event);
 
+    wxSize GetSizeFromTextSize(int xlen, int ylen = -1) const
+        { return DoGetSizeFromTextSize(xlen, ylen); }
+    wxSize GetSizeFromTextSize(const wxSize& tsize) const
+        { return DoGetSizeFromTextSize(tsize.x, tsize.y); }
 
 
     // static utilities for mnemonics char (&) handling
@@ -162,13 +189,30 @@ protected:
                        const wxValidator& validator,
                        const wxString& name);
 
+#if wxUSE_MARKUP
+    // This function may be overridden in the derived classes to implement
+    // support for labels with markup. The base class version simply strips the
+    // markup and calls SetLabel() with the remaining text.
+    virtual bool DoSetLabelMarkup(const wxString& markup);
+#endif // wxUSE_MARKUP
+
+    // override this to return the total control's size from a string size
+    virtual wxSize DoGetSizeFromTextSize(int xlen, int ylen = -1) const;
+
     // initialize the common fields of wxCommandEvent
     void InitCommandEvent(wxCommandEvent& event) const;
 
     // Ellipsize() helper:
     static wxString DoEllipsizeSingleLine(const wxString& label, const wxDC& dc,
                                           wxEllipsizeMode mode, int maxWidth,
-                                          int replacementWidth, int marginWidth);
+                                          int replacementWidth);
+
+#if wxUSE_MARKUP
+    // Remove markup from the given string, returns empty string on error i.e.
+    // if markup was syntactically invalid.
+    static wxString RemoveMarkup(const wxString& markup);
+#endif // wxUSE_MARKUP
+
 
     // this field contains the label in wx format, i.e. with '&' mnemonics,
     // as it was passed to the last SetLabel() call
@@ -183,8 +227,6 @@ protected:
 
 #if defined(__WXUNIVERSAL__)
     #include "wx/univ/control.h"
-#elif defined(__WXPALMOS__)
-    #include "wx/palmos/control.h"
 #elif defined(__WXMSW__)
     #include "wx/msw/control.h"
 #elif defined(__WXMOTIF__)

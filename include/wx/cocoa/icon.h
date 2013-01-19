@@ -4,7 +4,7 @@
 // Author:      David Elliott
 // Modified by:
 // Created:     2003/08/11
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: icon.h 65887 2010-10-23 21:47:22Z VZ $
 // Copyright:   (c) 2003 David Elliott
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -47,6 +47,8 @@ public:
 
     int GetWidth() const;
     int GetHeight() const;
+
+    wxSize GetSize() const { return wxSize(GetWidth(), GetHeight()); }
 
     WX_NSImage GetNSImage() const;
     bool CreateFromXpm(const char* const* bits);

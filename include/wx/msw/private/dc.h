@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        msw/private/dc.h
+// Name:        wx/msw/private/dc.h
 // Purpose:     private wxMSW helpers for working with HDCs
 // Author:      Vadim Zeitlin
 // Created:     2009-06-16 (extracted from src/msw/dc.cpp)
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dc.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) 2009 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

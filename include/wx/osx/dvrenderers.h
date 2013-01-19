@@ -3,7 +3,7 @@
 // Purpose:     All OS X wxDataViewCtrl renderer classes
 // Author:      Vadim Zeitlin
 // Created:     2009-11-07 (extracted from wx/osx/dataview.h)
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dvrenderers.h 71939 2012-07-02 14:36:56Z VZ $
 // Copyright:   (c) 2009 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -102,6 +102,12 @@ public:
 
     wxString GetChoice(size_t index) const { return m_choices[index]; }
     const wxArrayString& GetChoices() const { return m_choices; }
+
+#if wxOSX_USE_COCOA
+    virtual void OSXOnCellChanged(NSObject *value,
+                                  const wxDataViewItem& item,
+                                  unsigned col);
+#endif // Cocoa
 
 private:
     wxArrayString m_choices;

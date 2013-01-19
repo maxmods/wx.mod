@@ -5,7 +5,7 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Karsten Ballueder
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: treectrl.h 72638 2012-10-07 22:42:02Z VZ $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -33,20 +33,7 @@ class WXDLLIMPEXP_FWD_CORE wxImageList;
 class WXDLLIMPEXP_CORE wxTreeCtrlBase : public wxControl
 {
 public:
-    wxTreeCtrlBase()
-    {
-        m_imageListNormal =
-        m_imageListState = NULL;
-        m_ownsImageListNormal =
-        m_ownsImageListState = false;
-
-        // arbitrary default
-        m_spacing = 18;
-
-        // quick DoGetBestSize calculation
-        m_quickBestSize = true;
-    }
-
+    wxTreeCtrlBase();
     virtual ~wxTreeCtrlBase();
 
     // accessors
@@ -362,6 +349,10 @@ public:
     virtual void EndEditLabel(const wxTreeItemId& item,
                               bool discardChanges = false) = 0;
 
+        // Enable or disable beep when incremental match doesn't find any item.
+        // Only implemented in the generic version currently.
+    virtual void EnableBellOnNoMatch(bool WXUNUSED(on) = true) { }
+
     // sorting
     // -------
 
@@ -452,6 +443,13 @@ protected:
     bool        m_quickBestSize;
 
 
+private:
+    // Intercept Escape and Return keys to ensure that our in-place edit
+    // control always gets them before they're used for dialog navigation or
+    // anything else.
+    void OnCharHook(wxKeyEvent& event);
+
+
     wxDECLARE_NO_COPY_CLASS(wxTreeCtrlBase);
 };
 
@@ -460,8 +458,6 @@ protected:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXUNIVERSAL__)
-    #include "wx/generic/treectlg.h"
-#elif defined(__WXPALMOS__)
     #include "wx/generic/treectlg.h"
 #elif defined(__WXMSW__)
     #include "wx/msw/treectrl.h"

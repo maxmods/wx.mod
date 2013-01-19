@@ -2,7 +2,7 @@
 // Name:        wx/motif/dnd.h
 // Purpose:     declaration of wxDropTarget, wxDropSource classes
 // Author:      Julian Smart
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dnd.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) 1998 Vadim Zeitlin, Robert Roebling, Julian Smart
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -63,7 +63,7 @@ class WXDLLIMPEXP_CORE wxTextDropTarget: public wxDropTarget
 {
 public:
 
-    wxTextDropTarget() {};
+    wxTextDropTarget() {}
     virtual bool OnDrop( long x, long y, const void *data, size_t size );
     virtual bool OnDropText( long x, long y, const char *psz );
 
@@ -111,7 +111,7 @@ class WXDLLIMPEXP_CORE wxFileDropTarget: public wxDropTarget
 {
 public:
 
-    wxFileDropTarget() {};
+    wxFileDropTarget() {}
 
     virtual bool OnDrop( long x, long y, const void *data, size_t size );
     virtual bool OnDropFiles( long x, long y,
@@ -148,7 +148,7 @@ public:
     void SetData( wxDataObject &data  );
     wxDragResult DoDragDrop(int flags = wxDrag_CopyOnly);
 
-    virtual bool GiveFeedback( wxDragResult WXUNUSED(effect), bool WXUNUSED(bScrolling) ) { return true; };
+    virtual bool GiveFeedback( wxDragResult WXUNUSED(effect), bool WXUNUSED(bScrolling) ) { return true; }
 
     // implementation
 #if 0

@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        notebook.h
+// Name:        wx/osx/notebook.h
 // Purpose:     MSW/GTK compatible notebook (a.k.a. property sheet)
 // Author:      Stefan Csomor
 // Modified by:
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: notebook.h 68810 2011-08-21 14:08:49Z VZ $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -34,14 +34,15 @@ public:
   // ctors
   // -----
     // default for dynamic class
-  wxNotebook();
+  wxNotebook() { }
     // the same arguments as for wxControl (@@@ any special styles?)
   wxNotebook(wxWindow *parent,
              wxWindowID id,
              const wxPoint& pos = wxDefaultPosition,
              const wxSize& size = wxDefaultSize,
              long style = 0,
-             const wxString& name = wxNotebookNameStr);
+             const wxString& name = wxNotebookNameStr)
+    { Create( parent, id, pos, size, style, name ); }
     // Create() function
   bool Create(wxWindow *parent,
               wxWindowID id,
@@ -55,11 +56,9 @@ public:
   // accessors
   // ---------
     // set the currently selected page, return the index of the previously
-    // selected one (or -1 on error)
+    // selected one (or wxNOT_FOUND on error)
     // NB: this function will _not_ generate wxEVT_NOTEBOOK_PAGE_xxx events
   int SetSelection(size_t nPage) { return DoSetSelection(nPage, SetSelection_SendEvent); }
-    // get the currently selected page
-  int GetSelection() const { return m_nSelection; }
 
     // changes selected page without sending events
   int ChangeSelection(size_t nPage) { return DoSetSelection(nPage); }
@@ -96,7 +95,7 @@ public:
                   wxNotebookPage *pPage,
                   const wxString& strText,
                   bool bSelect = false,
-                  int imageId = -1);
+                  int imageId = NO_IMAGE);
 
   // callbacks
   // ---------
@@ -134,8 +133,6 @@ protected:
 
   // the icon indices
   wxArrayInt m_images;
-
-  int m_nSelection;           // the current selection (-1 if none)
 
   DECLARE_DYNAMIC_CLASS(wxNotebook)
   DECLARE_EVENT_TABLE()

@@ -3,7 +3,7 @@
 // Purpose:     wxDataViewRenderer for OS X wxDataViewCtrl implementations
 // Author:      Vadim Zeitlin
 // Created:     2009-11-07 (extracted from wx/osx/dataview.h)
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dvrenderer.h 66403 2010-12-19 15:02:56Z VZ $
 // Copyright:   (c) 2009 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -87,6 +87,9 @@ public:
     // called to ensure that the given attribute will be used for rendering the
     // next cell (which had been already associated with this renderer before)
     virtual void OSXApplyAttr(const wxDataViewItemAttr& attr);
+
+    // called to set the state of the next cell to be rendered
+    virtual void OSXApplyEnabled(bool enabled);
 #endif // Cocoa
 
 private:

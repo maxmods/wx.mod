@@ -1,8 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        dcscreen.h
+// Name:        wx/gtk/dcscreen.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: dcscreen.h 72604 2012-10-02 15:57:03Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ public:
 
     virtual void DoGetSize(int *width, int *height) const;
 
-protected:
+private:
     void Init();
 
     DECLARE_ABSTRACT_CLASS(wxScreenDCImpl)

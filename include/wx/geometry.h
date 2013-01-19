@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     08/05/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: geometry.h 72289 2012-08-03 12:50:03Z VZ $
 // Copyright:   (c) 1999 Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -88,11 +88,8 @@ inline wxPoint2DInt operator+(const wxPoint2DInt& pt1 , const wxPoint2DInt& pt2)
 inline wxPoint2DInt operator-(const wxPoint2DInt& pt1 , const wxPoint2DInt& pt2);
 inline wxPoint2DInt operator*(const wxPoint2DInt& pt1 , const wxPoint2DInt& pt2);
 inline wxPoint2DInt operator*(wxInt32 n , const wxPoint2DInt& pt);
-inline wxPoint2DInt operator*(wxInt32 n , const wxPoint2DInt& pt);
-inline wxPoint2DInt operator*(const wxPoint2DInt& pt , wxInt32 n);
 inline wxPoint2DInt operator*(const wxPoint2DInt& pt , wxInt32 n);
 inline wxPoint2DInt operator/(const wxPoint2DInt& pt1 , const wxPoint2DInt& pt2);
-inline wxPoint2DInt operator/(const wxPoint2DInt& pt , wxInt32 n);
 inline wxPoint2DInt operator/(const wxPoint2DInt& pt , wxInt32 n);
 
 inline wxPoint2DInt::wxPoint2DInt()
@@ -529,13 +526,13 @@ public:
 */
         // single attribute accessors
 
-    inline wxPoint2DDouble GetPosition()
+    wxPoint2DDouble GetPosition() const
         { return wxPoint2DDouble(m_x, m_y); }
-    inline wxSize GetSize()
+    wxSize GetSize() const
         { return wxSize((int) m_width, (int) m_height); }
 
-    // for the edge and corner accessors there are two setters conterparts, the Set.. functions keep the other corners at their
-        // position whenever sensible, the Move.. functions keep the size of the rect and move the other corners apropriately
+    // for the edge and corner accessors there are two setters counterparts, the Set.. functions keep the other corners at their
+        // position whenever sensible, the Move.. functions keep the size of the rect and move the other corners appropriately
 
     inline wxDouble GetLeft() const { return m_x; }
     inline void SetLeft( wxDouble n ) { m_width += m_x - n; m_x = n; }
@@ -658,11 +655,11 @@ public:
 
         // single attribute accessors
 
-      inline wxPoint2DInt GetPosition() { return wxPoint2DInt(m_x, m_y); }
-       inline wxSize GetSize() { return wxSize(m_width, m_height); }
+       wxPoint2DInt GetPosition() const { return wxPoint2DInt(m_x, m_y); }
+       wxSize GetSize() const { return wxSize(m_width, m_height); }
 
-        // for the edge and corner accessors there are two setters conterparts, the Set.. functions keep the other corners at their
-        // position whenever sensible, the Move.. functions keep the size of the rect and move the other corners apropriately
+        // for the edge and corner accessors there are two setters counterparts, the Set.. functions keep the other corners at their
+        // position whenever sensible, the Move.. functions keep the size of the rect and move the other corners appropriately
 
       inline wxInt32 GetLeft() const { return m_x; }
        inline void SetLeft( wxInt32 n ) { m_width += m_x - n; m_x = n; }

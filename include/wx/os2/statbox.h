@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        statbox.h
+// Name:        wx/os2/statbox.h
 // Purpose:     wxStaticBox class
 // Author:      David Webster
 // Modified by:
 // Created:     10/15/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: statbox.h 67280 2011-03-22 14:17:38Z DS $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -50,7 +50,7 @@ public:
                                  );
 
     //
-    // overriden base class virtuals
+    // overridden base class virtuals
     //
     inline virtual bool AcceptsFocus(void) const { return FALSE; }
 

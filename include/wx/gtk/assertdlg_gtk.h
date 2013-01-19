@@ -1,21 +1,14 @@
 /* ///////////////////////////////////////////////////////////////////////////
-// Name:        assertdlg_gtk.h
+// Name:        wx/gtk/assertdlg_gtk.h
 // Purpose:     GtkAssertDialog
 // Author:      Francesco Montorsi
-// Id:          $Id$
+// Id:          $Id: assertdlg_gtk.h 70954 2012-03-21 00:11:12Z VZ $
 // Copyright:   (c) 2006 Francesco Montorsi
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////// */
 
-#ifndef __GTK_ASSERTDLG_H__
-#define __GTK_ASSERTDLG_H__
-
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
-#include <gtk/gtkdialog.h>
-#include <gtk/gtklabel.h>
+#ifndef _WX_GTK_ASSERTDLG_H_
+#define _WX_GTK_ASSERTDLG_H_
 
 #define GTK_TYPE_ASSERT_DIALOG            (gtk_assert_dialog_get_type ())
 #define GTK_ASSERT_DIALOG(object)         (G_TYPE_CHECK_INSTANCE_CAST ((object), GTK_TYPE_ASSERT_DIALOG, GtkAssertDialog))
@@ -79,14 +72,7 @@ void gtk_assert_dialog_set_backtrace_callback(GtkAssertDialog *assertdlg,
 /* appends a stack frame to the dialog */
 void gtk_assert_dialog_append_stack_frame(GtkAssertDialog *dlg,
                                           const gchar *function,
-                                          const gchar *arguments,
                                           const gchar *sourcefile,
                                           guint line_number);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
-#endif /* __GTK_ASSERTDLG_H__ */
-
-
+#endif /* _WX_GTK_ASSERTDLG_H_ */

@@ -5,7 +5,7 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     20.11.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: gdiimage.h 66374 2010-12-14 18:43:49Z VZ $
 // Copyright:   (c) 1999 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ public:
         m_handle = 0;
     }
 
-    wxGDIImageRefData(const wxGDIImageRefData& data) : wxGDIRefData(data)
+    wxGDIImageRefData(const wxGDIImageRefData& data) : wxGDIRefData()
     {
         m_width = data.m_width;
         m_height = data.m_height;

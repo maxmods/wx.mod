@@ -3,7 +3,7 @@
 // Purpose:     wxWindowDCImpl, wxClientDCImpl and wxPaintDCImpl
 // Author:      Vaclav Slavik
 // Created:     2006-08-10
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dcclient.h 58757 2009-02-08 11:45:59Z VZ $
 // Copyright:   (c) 2006 REA Elektronik GmbH
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

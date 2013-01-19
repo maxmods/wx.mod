@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wx/gtk1/fontdlgg.h
+// Name:        wx/gtk1/fontdlg.h
 // Purpose:     wxFontDialog
 // Author:      Robert Roebling
 // Created:
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: fontdlg.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

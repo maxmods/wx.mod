@@ -4,7 +4,7 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     03/02/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: print.h 65680 2010-09-30 11:44:45Z VZ $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ protected :
     virtual void            TransferPaperInfoTo( wxPrintData &data );
     virtual void            TransferResolutionTo( wxPrintData &data );
 
-    
+
     virtual void            UpdateFromPMState();
     virtual void            UpdateToPMState();
 

@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        dcmemory.h
+// Name:        wx/os2/dcmemory.h
 // Purpose:     wxMemoryDC class
 // Author:      David Webster
 // Modified by:
 // Created:     09/09/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: dcmemory.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

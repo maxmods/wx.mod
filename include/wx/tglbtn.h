@@ -5,7 +5,7 @@
 // Author:      John Norris, minor changes by Axel Schlueter
 // Modified by:
 // Created:     08.02.01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: tglbtn.h 70345 2012-01-15 01:05:28Z VZ $
 // Copyright:   (c) 2000 Johnny C. Norris II
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,9 @@
 #if wxUSE_TOGGLEBTN
 
 #include "wx/event.h"
-#include "wx/control.h"     // base class
+#include "wx/anybutton.h"     // base class
+
+extern WXDLLIMPEXP_DATA_CORE(const char) wxCheckBoxNameStr[];
 
 wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEvent );
 
@@ -26,7 +28,7 @@ wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, 
 // wxToggleButtonBase
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxToggleButtonBase : public wxControl
+class WXDLLIMPEXP_CORE wxToggleButtonBase : public wxAnyButton
 {
 public:
     wxToggleButtonBase() { }
@@ -76,16 +78,17 @@ protected:
     #include "wx/univ/tglbtn.h"
 #elif defined(__WXMSW__)
     #include "wx/msw/tglbtn.h"
+    #define wxHAS_BITMAPTOGGLEBUTTON
 #elif defined(__WXGTK20__)
     #include "wx/gtk/tglbtn.h"
+    #define wxHAS_BITMAPTOGGLEBUTTON
 #elif defined(__WXGTK__)
     #include "wx/gtk1/tglbtn.h"
 # elif defined(__WXMOTIF__)
     #include "wx/motif/tglbtn.h"
 #elif defined(__WXMAC__)
     #include "wx/osx/tglbtn.h"
-#elif defined(__WXPALMOS__)
-    #include "wx/palmos/tglbtn.h"
+    #define wxHAS_BITMAPTOGGLEBUTTON
 #elif defined(__WXPM__)
     #include "wx/os2/tglbtn.h"
 #endif

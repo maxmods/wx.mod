@@ -4,7 +4,7 @@
 // Author:      David Webster
 // Modified by:
 // Created:     11/28/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: bitmap.h 72476 2012-09-13 17:15:00Z VZ $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,6 @@ class WXDLLIMPEXP_FWD_CORE wxIcon;
 class WXDLLIMPEXP_FWD_CORE wxMask;
 class WXDLLIMPEXP_FWD_CORE wxCursor;
 class WXDLLIMPEXP_FWD_CORE wxControl;
-class WXDLLIMPEXP_FWD_CORE wxImage;
 class WXDLLIMPEXP_FWD_CORE wxPixelDataBase;
 
 // ----------------------------------------------------------------------------
@@ -64,7 +63,8 @@ public:
 // wxBitmap: a mono or colour bitmap
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxBitmap : public wxGDIImage
+class WXDLLIMPEXP_CORE wxBitmap : public wxGDIImage,
+                                  public wxBitmapHelpers
 {
 public:
     // default ctor creates an invalid bitmap, you must Create() it later
@@ -149,6 +149,7 @@ public:
     virtual ~wxBitmap();
 
     wxImage ConvertToImage() const;
+    wxBitmap ConvertToDisabled(unsigned char brightness = 255) const;
 
     // get the given part of bitmap
     wxBitmap GetSubBitmap(const wxRect& rRect) const;

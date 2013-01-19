@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     Apr-30-2006
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: odcombo.h 72955 2012-11-14 13:48:23Z VZ $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -93,6 +93,7 @@ public:
     virtual void OnComboCharEvent( wxKeyEvent& event );
     virtual void OnComboDoubleClick();
     virtual bool LazyCreate();
+    virtual bool FindItem(const wxString& item, wxString* trueItem);
 
     // Item management
     void SetSelection( int item );
@@ -164,7 +165,6 @@ protected:
     // filter mouse move events happening outside the list box
     // move selection with cursor
     void OnMouseMove(wxMouseEvent& event);
-    void OnMouseWheel(wxMouseEvent& event);
     void OnKey(wxKeyEvent& event);
     void OnChar(wxKeyEvent& event);
     void OnLeftClick(wxMouseEvent& event);
@@ -233,15 +233,15 @@ private:
 // the wxComboCtrl.
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_ADV wxOwnerDrawnComboBox : public wxComboCtrl,
-                                             public wxItemContainer
+class WXDLLIMPEXP_ADV wxOwnerDrawnComboBox :
+    public wxWindowWithItems<wxComboCtrl, wxItemContainer>
 {
     //friend class wxComboPopupWindow;
     friend class wxVListBoxComboPopup;
 public:
 
     // ctors and such
-    wxOwnerDrawnComboBox() : wxComboCtrl() { Init(); }
+    wxOwnerDrawnComboBox() { Init(); }
 
     wxOwnerDrawnComboBox(wxWindow *parent,
                          wxWindowID id,
@@ -253,7 +253,6 @@ public:
                          long style = 0,
                          const wxValidator& validator = wxDefaultValidator,
                          const wxString& name = wxComboBoxNameStr)
-        : wxComboCtrl()
     {
         Init();
 
@@ -272,11 +271,11 @@ public:
 
     wxOwnerDrawnComboBox(wxWindow *parent,
                          wxWindowID id,
-                         const wxString& value,
-                         const wxPoint& pos,
-                         const wxSize& size,
-                         const wxArrayString& choices,
-                         long style,
+                         const wxString& value = wxEmptyString,
+                         const wxPoint& pos = wxDefaultPosition,
+                         const wxSize& size = wxDefaultSize,
+                         const wxArrayString& choices = wxArrayString(),
+                         long style = 0,
                          const wxValidator& validator = wxDefaultValidator,
                          const wxString& name = wxComboBoxNameStr);
 
@@ -316,6 +315,12 @@ public:
     virtual int FindString(const wxString& s, bool bCase = false) const;
     virtual void Select(int n);
     virtual int GetSelection() const;
+
+    // Override these just to maintain consistency with virtual methods
+    // between classes.
+    virtual void Clear();
+    virtual void GetSelection(long *from, long *to) const;
+
     virtual void SetSelection(int n) { Select(n); }
 
 
@@ -333,8 +338,6 @@ public:
 
     virtual bool IsSorted() const { return HasFlag(wxCB_SORT); }
 
-    wxCONTROL_ITEMCONTAINER_CLIENTDATAOBJECT_RECAST
-
 protected:
     virtual void DoClear();
     virtual void DoDeleteOneItem(unsigned int n);
@@ -351,6 +354,10 @@ protected:
 
     // Callback for item width, or -1 for default/undetermined
     virtual wxCoord OnMeasureItemWidth( size_t item ) const;
+
+    // override base implementation so we can return the size for the
+    // largest item
+    virtual wxSize DoGetBestSize() const;
 
     // Callback for background drawing. Flags are same as with
     // OnDrawItem.

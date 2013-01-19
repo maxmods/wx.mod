@@ -2,7 +2,7 @@
 // Name:        wx/gtk1/bitmap.h
 // Purpose:
 // Author:      Robert Roebling
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: bitmap.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -105,7 +105,7 @@ public:
 #if wxUSE_PALETTE
     wxPalette *GetPalette() const;
     void SetPalette(const wxPalette& palette);
-    wxPalette *GetColourMap() const { return GetPalette(); };
+    wxPalette *GetColourMap() const { return GetPalette(); }
 #endif // wxUSE_PALETTE
 
     static void InitStandardHandlers();

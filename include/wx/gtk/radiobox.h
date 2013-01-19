@@ -2,7 +2,7 @@
 // Name:        wx/gtk/radiobox.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: radiobox.h 72579 2012-09-30 16:55:40Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ class WXDLLIMPEXP_CORE wxRadioBox : public wxControl,
 {
 public:
     // ctors and dtor
-    wxRadioBox() { Init(); }
+    wxRadioBox() { }
     wxRadioBox(wxWindow *parent,
                wxWindowID id,
                const wxString& title,
@@ -41,8 +41,6 @@ public:
                const wxValidator& val = wxDefaultValidator,
                const wxString& name = wxRadioBoxNameStr)
     {
-        Init();
-
         Create( parent, id, title, pos, size, n, choices, majorDim, style, val, name );
     }
 
@@ -57,8 +55,6 @@ public:
                const wxValidator& val = wxDefaultValidator,
                const wxString& name = wxRadioBoxNameStr)
     {
-        Init();
-
         Create( parent, id, title, pos, size, choices, majorDim, style, val, name );
     }
 
@@ -131,7 +127,7 @@ public:
     void GtkDisableEvents();
     void GtkEnableEvents();
 #if wxUSE_TOOLTIPS
-    void GTKApplyToolTip( GtkTooltips *tips, const gchar *tip );
+    virtual void GTKApplyToolTip(const char* tip);
 #endif // wxUSE_TOOLTIPS
 
     wxRadioBoxButtonsInfoList   m_buttonsInfo;

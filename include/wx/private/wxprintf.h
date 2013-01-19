@@ -4,7 +4,7 @@
 // Author:      Ove Kaven
 // Modified by: Ron Lee, Francesco Montorsi
 // Created:     09/04/99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: wxprintf.h 71102 2012-04-05 18:40:11Z VZ $
 // Copyright:   (c) wxWidgets copyright
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -21,11 +21,6 @@
 #include "wx/utils.h"
 
 #include <string.h>
-
-#if defined(__MWERKS__) && __MSL__ >= 0x6000
-namespace std {}
-using namespace std ;
-#endif
 
 // prefer snprintf over sprintf
 #if defined(__VISUALC__) || \
@@ -289,7 +284,7 @@ bool wxPrintfConvSpec<CharType>::Parse(const CharType *format)
                 CHECK_PREC
                 m_szFlags[flagofs++] = char(ch);
                 break;
-#ifdef __WXMSW__
+#ifdef __WINDOWS__
             // under Windows we support the special '%I64' notation as longlong
             // integer conversion specifier for MSVC compatibility
             // (it behaves exactly as '%lli' or '%Li' or '%qi')
@@ -308,7 +303,7 @@ bool wxPrintfConvSpec<CharType>::Parse(const CharType *format)
                     break;
                 }
                 // else: fall-through, 'I' is MSVC equivalent of C99 'z'
-#endif      // __WXMSW__
+#endif      // __WINDOWS__
 
             case wxT('z'):
             case wxT('Z'):
@@ -700,11 +695,16 @@ int wxPrintfConvSpec<CharType>::Process(CharType *buf, size_t lenMax, wxPrintfAr
         case wxPAT_PCHAR:
         case wxPAT_PWCHAR:
             {
-                wxArgNormalizedString arg(p->pad_str);
-                wxString s = arg;
-
-                if ( !arg.IsValid() && m_nMaxWidth >= 6 )
-                    s = wxT("(null)");
+                wxString s;
+                if ( !p->pad_str )
+                {
+                    if ( m_nMaxWidth >= 6 )
+                        s = wxT("(null)");
+                }
+                else if (m_type == wxPAT_PCHAR)
+                    s.assign(static_cast<const char *>(p->pad_str));
+                else // m_type == wxPAT_PWCHAR
+                    s.assign(static_cast<const wchar_t *>(p->pad_str));
 
                 typename wxPrintfStringHelper<CharType>::ConvertedType strbuf(
                         wxPrintfStringHelper<CharType>::Convert(s));
@@ -831,42 +831,48 @@ struct wxPrintfConvSpecParser
             // special handling for specifications including asterisks: we need
             // to reserve an extra slot (or two if asterisks were used for both
             // width and precision) in specs array in this case
-            for ( const char *f = strchr(spec->m_szFlags, '*');
-                  f;
-                  f = strchr(f + 1, '*') )
+            if ( const char *f = strchr(spec->m_szFlags, '*') )
             {
-                if ( nargs++ == wxMAX_SVNPRINTF_ARGUMENTS )
-                    break;
+                unsigned numAsterisks = 1;
+                if ( strchr(++f, '*') )
+                    numAsterisks++;
 
-                // TODO: we need to support specifiers of the form "%2$*1$s"
-                // (this is the same as "%*s") as if any positional arguments
-                // are used all asterisks must be positional as well but this
-                // requires a lot of changes in this code (basically we'd need
-                // to rewrite Parse() to return "*" and conversion itself as
-                // separate entries)
-                if ( posarg_present )
+                for ( unsigned n = 0; n < numAsterisks; n++ )
                 {
-                    wxFAIL_MSG
-                    (
-                        wxString::Format
+                    if ( nargs++ == wxMAX_SVNPRINTF_ARGUMENTS )
+                        break;
+
+                    // TODO: we need to support specifiers of the form "%2$*1$s"
+                    // (this is the same as "%*s") as if any positional arguments
+                    // are used all asterisks must be positional as well but this
+                    // requires a lot of changes in this code (basically we'd need
+                    // to rewrite Parse() to return "*" and conversion itself as
+                    // separate entries)
+                    if ( posarg_present )
+                    {
+                        wxFAIL_MSG
                         (
-                            "Format string \"%s\" uses both positional "
-                            "parameters and '*' but this is not currently "
-                            "supported by this implementation, sorry.",
-                            fmt
-                        )
-                    );
+                            wxString::Format
+                            (
+                                "Format string \"%s\" uses both positional "
+                                "parameters and '*' but this is not currently "
+                                "supported by this implementation, sorry.",
+                                fmt
+                            )
+                        );
+                    }
+
+                    specs[nargs] = *spec;
+
+                    // make an entry for '*' and point to it from pspec
+                    spec->Init();
+                    spec->m_type = wxPAT_STAR;
+                    pspec[nargs - 1] = spec;
+
+                    spec = &specs[nargs];
                 }
-
-                specs[nargs] = *spec;
-
-                // make an entry for '*' and point to it from pspec
-                spec->Init();
-                spec->m_type = wxPAT_STAR;
-                pspec[nargs - 1] = spec;
-
-                spec = &specs[nargs];
             }
+
 
             // check if this is a positional or normal argument
             if ( spec->m_pos > 0 )

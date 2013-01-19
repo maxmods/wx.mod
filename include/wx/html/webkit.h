@@ -4,7 +4,7 @@
 // Author:      Jethro Grassie / Kevin Ollivier
 // Modified by:
 // Created:     2004-4-16
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: webkit.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) Jethro Grassie / Kevin Ollivier
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,6 +19,7 @@
 #endif
 
 #include "wx/control.h"
+DECLARE_WXCOCOA_OBJC_CLASS(WebView); 
 
 // ----------------------------------------------------------------------------
 // Web Kit Control
@@ -31,7 +32,7 @@ class WXDLLIMPEXP_CORE wxWebKitCtrl : public wxControl
 public:
     DECLARE_DYNAMIC_CLASS(wxWebKitCtrl)
 
-    wxWebKitCtrl() {};
+    wxWebKitCtrl() {}
     wxWebKitCtrl(wxWindow *parent,
                     wxWindowID winID,
                     const wxString& strURL,
@@ -41,7 +42,7 @@ public:
                     const wxString& name = wxWebKitCtrlNameStr)
     {
         Create(parent, winID, strURL, pos, size, style, validator, name);
-    };
+    }
     bool Create(wxWindow *parent,
                 wxWindowID winID,
                 const wxString& strURL,
@@ -107,13 +108,11 @@ private:
     wxString m_currentURL;
     wxString m_pageTitle;
 
-    struct objc_object *m_webView;
+    WX_WebView m_webView;
 
     // we may use this later to setup our own mouse events,
     // so leave it in for now.
     void* m_webKitCtrlEventHandler;
-    //It should be WebView*, but WebView is an Objective-C class
-    //TODO: look into using DECLARE_WXCOCOA_OBJC_CLASS rather than this.
 };
 
 // ----------------------------------------------------------------------------
@@ -183,7 +182,7 @@ protected:
 
 class WXDLLIMPEXP_CORE wxWebKitNewWindowEvent : public wxCommandEvent
 {
-    DECLARE_DYNAMIC_CLASS( wxWebViewNewWindowEvent )
+    DECLARE_DYNAMIC_CLASS( wxWebKitNewWindowEvent )
 public:
     wxString GetURL() const { return m_url; }
     void SetURL(const wxString& url) { m_url = url; }
@@ -233,7 +232,7 @@ wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_WEBKIT_NEW_WINDOW, wxWebKitNew
             wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_WEBKIT_NEW_WINDOW, \
                             wxID_ANY, \
                             wxID_ANY, \
-                            wxWebKitNewWindowEventFunction( func ), \
+                            wxWebKitNewWindowEventHandler( func ), \
                             NULL ),
 #endif // wxUSE_WEBKIT
 

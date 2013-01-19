@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        helpchm.h
+// Name:        wx/msw/helpchm.h
 // Purpose:     Help system: MS HTML Help implementation
 // Author:      Julian Smart
 // Modified by:
 // Created:     16/04/2000
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: helpchm.h 71640 2012-06-03 19:16:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -63,7 +63,7 @@ protected:
     // the first 2 HtmlHelp() parameters
     bool CallHtmlHelp(unsigned cmd, WXWPARAM param)
     {
-        return CallHtmlHelp(GetParentWindow(), GetValidFilename().wx_str(),
+        return CallHtmlHelp(GetParentWindow(), GetValidFilename().t_str(),
                             cmd, param);
     }
 
@@ -82,7 +82,7 @@ protected:
 
     wxString m_helpFile;
 
-    DECLARE_CLASS(wxCHMHelpController)
+    DECLARE_DYNAMIC_CLASS(wxCHMHelpController)
 };
 
 #endif // wxUSE_MS_HTML_HELP

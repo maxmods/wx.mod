@@ -1,12 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        sckipc.h
+// Name:        wx/sckipc.h
 // Purpose:     Interprocess communication implementation (wxSocket version)
 // Author:      Julian Smart
 // Modified by: Guilhem Lavaux (big rewrite) May 1997, 1998
 //              Guillermo Rodriguez (updated for wxSocket v2) Jan 2000
 //                                  (callbacks deprecated)    Mar 2000
 // Created:     1993
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: sckipc.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Julian Smart 1993
 //              (c) Guilhem Lavaux 1997, 1998
 //              (c) 2000 Guillermo Rodriguez <guille@iies.es>

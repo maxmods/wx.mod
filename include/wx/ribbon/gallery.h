@@ -4,7 +4,7 @@
 // Author:      Peter Cawley
 // Modified by:
 // Created:     2009-07-22
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: gallery.h 69567 2011-10-27 21:10:51Z VZ $
 // Copyright:   (C) Peter Cawley
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@
 
 class wxRibbonGalleryItem;
 
-WX_DEFINE_USER_EXPORTED_ARRAY(wxRibbonGalleryItem*, wxArrayRibbonGalleryItem, class WXDLLIMPEXP_RIBBON);
+WX_DEFINE_USER_EXPORTED_ARRAY_PTR(wxRibbonGalleryItem*, wxArrayRibbonGalleryItem, class WXDLLIMPEXP_RIBBON);
 
 class WXDLLIMPEXP_RIBBON wxRibbonGallery : public wxRibbonControl
 {
@@ -69,6 +69,7 @@ public:
     virtual bool Layout();
 
     virtual bool ScrollLines(int lines);
+    bool ScrollPixels(int pixels);
     void EnsureVisible(const wxRibbonGalleryItem* item);
 
 protected:
@@ -84,8 +85,10 @@ protected:
     void OnMouseLeave(wxMouseEvent& evt);
     void OnMouseDown(wxMouseEvent& evt);
     void OnMouseUp(wxMouseEvent& evt);
+    void OnMouseDClick(wxMouseEvent& evt);
     void OnPaint(wxPaintEvent& evt);
     void OnSize(wxSizeEvent& evt);
+    int GetScrollLineSize() const;
 
     virtual wxSize DoGetBestSize() const;
     virtual wxSize DoGetNextSmallerSize(wxOrientation direction,
@@ -159,6 +162,7 @@ private:
 
 wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_RIBBON, wxEVT_COMMAND_RIBBONGALLERY_HOVER_CHANGED, wxRibbonGalleryEvent);
 wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_RIBBON, wxEVT_COMMAND_RIBBONGALLERY_SELECTED, wxRibbonGalleryEvent);
+wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_RIBBON, wxEVT_COMMAND_RIBBONGALLERY_CLICKED, wxRibbonGalleryEvent);
 
 typedef void (wxEvtHandler::*wxRibbonGalleryEventFunction)(wxRibbonGalleryEvent&);
 
@@ -169,6 +173,8 @@ typedef void (wxEvtHandler::*wxRibbonGalleryEventFunction)(wxRibbonGalleryEvent&
     wx__DECLARE_EVT1(wxEVT_COMMAND_RIBBONGALLERY_HOVER_CHANGED, winid, wxRibbonGalleryEventHandler(fn))
 #define EVT_RIBBONGALLERY_SELECTED(winid, fn) \
     wx__DECLARE_EVT1(wxEVT_COMMAND_RIBBONGALLERY_SELECTED, winid, wxRibbonGalleryEventHandler(fn))
+#define EVT_RIBBONGALLERY_CLICKED(winid, fn) \
+    wx__DECLARE_EVT1(wxEVT_COMMAND_RIBBONGALLERY_CLICKED, winid, wxRibbonGalleryEventHandler(fn))
 #else
 
 // wxpython/swig event work
@@ -179,7 +185,7 @@ typedef void (wxEvtHandler::*wxRibbonGalleryEventFunction)(wxRibbonGalleryEvent&
     EVT_RIBBONGALLERY_HOVER_CHANGED = wx.PyEventBinder( wxEVT_COMMAND_RIBBONGALLERY_HOVER_CHANGED, 1 )
     EVT_RIBBONGALLERY_SELECTED = wx.PyEventBinder( wxEVT_COMMAND_RIBBONGALLERY_SELECTED, 1 )
 }
-#endif
+#endif // SWIG
 
 #endif // wxUSE_RIBBON
 

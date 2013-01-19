@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        statbmp.h
+// Name:        wx/osx/carbon/statbmp.h
 // Purpose:     wxStaticBitmap class
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: statbmp.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -39,8 +39,8 @@ class WXDLLIMPEXP_CORE wxStaticBitmap: public wxStaticBitmapBase
 
   virtual void SetBitmap(const wxBitmap& bitmap);
 
-  virtual void Command(wxCommandEvent& WXUNUSED(event)) {};
-  virtual void ProcessCommand(wxCommandEvent& WXUNUSED(event)) {};
+  virtual void Command(wxCommandEvent& WXUNUSED(event)) {}
+  virtual void ProcessCommand(wxCommandEvent& WXUNUSED(event)) {}
   void         OnPaint( wxPaintEvent &event ) ;
 
   wxBitmap GetBitmap() const { return m_bitmap; }
@@ -51,7 +51,7 @@ class WXDLLIMPEXP_CORE wxStaticBitmap: public wxStaticBitmapBase
       }
   void  SetIcon(const wxIcon& icon) { SetBitmap( (const wxBitmap &)icon ) ; }
 
-  // overriden base class virtuals
+  // overridden base class virtuals
   virtual bool AcceptsFocus() const { return false; }
 
  protected:

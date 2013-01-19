@@ -2,7 +2,7 @@
 // Name:        wx/gtk/gauge.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id$
+// Id:          $Id: gauge.h 72604 2012-10-02 15:57:03Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -43,8 +43,8 @@ public:
 
     void SetShadowWidth( int WXUNUSED(w) ) { }
     void SetBezelFace( int WXUNUSED(w) ) { }
-    int GetShadowWidth() const { return 0; };
-    int GetBezelFace() const { return 0; };
+    int GetShadowWidth() const { return 0; }
+    int GetBezelFace() const { return 0; }
 
     // determinate mode API
     void SetRange( int r );
@@ -71,15 +71,14 @@ public:
         m_gaugePos;
 
 protected:
-    // common part of all ctors
-    void Init() { m_rangeMax = m_gaugePos = 0; }
-
     // set the gauge value to the value of m_gaugePos
     void DoSetGauge();
 
     virtual wxSize DoGetBestSize() const;
 
 private:
+    void Init() { m_rangeMax = m_gaugePos = 0; }
+
     DECLARE_DYNAMIC_CLASS(wxGauge)
 };
 

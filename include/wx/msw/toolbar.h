@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wx/msw/tbar95.h
+// Name:        wx/msw/toolbar.h
 // Purpose:     wxToolBar (Windows 95 toolbar) class
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: toolbar.h 71341 2012-05-02 14:44:45Z DS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -67,6 +67,7 @@ public:
 
     void OnMouseEvent(wxMouseEvent& event);
     void OnSysColourChanged(wxSysColourChangedEvent& event);
+    void OnEraseBackground(wxEraseEvent& event);
 
     void SetFocus() {}
 
@@ -85,6 +86,17 @@ public:
     virtual WXHBRUSH MSWGetBgBrushForChild(WXHDC hDC, wxWindowMSW *child);
 #endif // wxHAS_MSW_BACKGROUND_ERASE_HOOK
 
+    virtual wxToolBarToolBase *CreateTool(int id,
+                                          const wxString& label,
+                                          const wxBitmap& bmpNormal,
+                                          const wxBitmap& bmpDisabled = wxNullBitmap,
+                                          wxItemKind kind = wxITEM_NORMAL,
+                                          wxObject *clientData = NULL,
+                                          const wxString& shortHelp = wxEmptyString,
+                                          const wxString& longHelp = wxEmptyString);
+
+    virtual wxToolBarToolBase *CreateTool(wxControl *control,
+                                          const wxString& label);
 protected:
     // common part of all ctors
     void Init();
@@ -102,18 +114,6 @@ protected:
     virtual void DoEnableTool(wxToolBarToolBase *tool, bool enable);
     virtual void DoToggleTool(wxToolBarToolBase *tool, bool toggle);
     virtual void DoSetToggle(wxToolBarToolBase *tool, bool toggle);
-
-    virtual wxToolBarToolBase *CreateTool(int id,
-                                          const wxString& label,
-                                          const wxBitmap& bmpNormal,
-                                          const wxBitmap& bmpDisabled,
-                                          wxItemKind kind,
-                                          wxObject *clientData,
-                                          const wxString& shortHelp,
-                                          const wxString& longHelp);
-
-    virtual wxToolBarToolBase *CreateTool(wxControl *control,
-                                          const wxString& label);
 
     // return the appropriate size and flags for the toolbar control
     virtual wxSize DoGetBestSize() const;

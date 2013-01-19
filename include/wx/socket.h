@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        socket.h
+// Name:        wx/socket.h
 // Purpose:     Socket handling classes
 // Authors:     Guilhem Lavaux, Guillermo Rodriguez Garcia
 // Modified by:
 // Created:     April 1997
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: socket.h 72828 2012-10-31 00:17:17Z VZ $
 // Copyright:   (c) Guilhem Lavaux
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -71,13 +71,17 @@ enum wxSocketError
 // socket options/flags bit masks
 enum
 {
-    wxSOCKET_NONE = 0,
-    wxSOCKET_NOWAIT = 1,
-    wxSOCKET_WAITALL = 2,
-    wxSOCKET_BLOCK = 4,
-    wxSOCKET_REUSEADDR = 8,
-    wxSOCKET_BROADCAST = 16,
-    wxSOCKET_NOBIND = 32
+    wxSOCKET_NONE           = 0x0000,
+    wxSOCKET_NOWAIT_READ    = 0x0001,
+    wxSOCKET_NOWAIT_WRITE   = 0x0002,
+    wxSOCKET_NOWAIT         = wxSOCKET_NOWAIT_READ | wxSOCKET_NOWAIT_WRITE,
+    wxSOCKET_WAITALL_READ   = 0x0004,
+    wxSOCKET_WAITALL_WRITE  = 0x0008,
+    wxSOCKET_WAITALL        = wxSOCKET_WAITALL_READ | wxSOCKET_WAITALL_WRITE,
+    wxSOCKET_BLOCK          = 0x0010,
+    wxSOCKET_REUSEADDR      = 0x0020,
+    wxSOCKET_BROADCAST      = 0x0040,
+    wxSOCKET_NOBIND         = 0x0080
 };
 
 typedef int wxSocketFlags;
@@ -123,6 +127,8 @@ public:
     bool IsData() { return WaitForRead(0, 0); }
     bool IsDisconnected() const { return !IsConnected(); }
     wxUint32 LastCount() const { return m_lcount; }
+    wxUint32 LastReadCount() const { return m_lcount_read; }
+    wxUint32 LastWriteCount() const { return m_lcount_write; }
     wxSocketError LastError() const;
     void SaveState();
     void RestoreState();
@@ -171,6 +177,8 @@ public:
     bool GetOption(int level, int optname, void *optval, int *optlen);
     bool SetOption(int level, int optname, const void *optval, int optlen);
     wxUint32 GetLastIOSize() const { return m_lcount; }
+    wxUint32 GetLastIOReadSize() const { return m_lcount_read; }
+    wxUint32 GetLastIOWriteSize() const { return m_lcount_write; }
 
     // event handling
     void *GetClientData() const { return m_clientData; }
@@ -254,6 +262,8 @@ private:
     bool          m_writing;          // busy writing?
     bool          m_closed;           // was the other end closed?
     wxUint32      m_lcount;           // last IO transaction size
+    wxUint32      m_lcount_read;      // last IO transaction size of Read() direction.
+    wxUint32      m_lcount_write;     // last IO transaction size of Write() direction.
     unsigned long m_timeout;          // IO timeout value in seconds
                                       // (TODO: remove, wxSocketImpl has it too)
     wxList        m_states;           // stack of states (TODO: remove!)

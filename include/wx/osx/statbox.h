@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        statbox.h
+// Name:        wx/osx/statbox.h
 // Purpose:     wxStaticBox class
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     1998-01-01
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: statbox.h 70165 2011-12-29 14:42:13Z SN $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,8 +13,6 @@
 #define _WX_STATBOX_H_
 
 #include "wx/control.h"
-
-WXDLLIMPEXP_DATA_CORE(extern const char) wxStaticBoxNameStr[];
 
 // Group box
 class WXDLLIMPEXP_CORE wxStaticBox: public wxControl
@@ -40,8 +38,8 @@ class WXDLLIMPEXP_CORE wxStaticBox: public wxControl
            long style = 0,
            const wxString& name = wxStaticBoxNameStr);
 
-    virtual void Command(wxCommandEvent& WXUNUSED(event)) {};
-    virtual void ProcessCommand(wxCommandEvent& WXUNUSED(event)) {};
+    virtual void Command(wxCommandEvent& WXUNUSED(event)) {}
+    virtual void ProcessCommand(wxCommandEvent& WXUNUSED(event)) {}
 
     virtual void GetBordersForSizer(int *borderTop, int *borderOther) const;
 
