@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +47,6 @@ Extern
 	Function bmx_wxmenu_create:Byte Ptr(handle:Object, title:String, style:Int)
 	Function bmx_wxmenu_append:Byte Ptr(handle:Byte Ptr, id:Int, item:String, helpString:String, kind:Int)
 	Function bmx_wxmenu_appenditem:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
-	Function bmx_wxmenu_appendMenu:Byte Ptr(handle:Byte Ptr, id:Int, item:String, submenu:Byte Ptr, helpString:String)
 	Function bmx_wxmenu_appendseparator:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxmenu_appendcheckitem:Byte Ptr(handle:Byte Ptr, id:Int, item:String, helpString:String)
 	Function bmx_wxmenu_appendradioitem:Byte Ptr(handle:Byte Ptr, id:Int, item:String, helpString:String)
@@ -93,11 +92,11 @@ Extern
 	Function bmx_wxmenuitem_gethelp:String(handle:Byte Ptr)
 	Function bmx_wxmenuitem_getid:Int(handle:Byte Ptr)
 	Function bmx_wxmenuitem_getkind:Int(handle:Byte Ptr)
-	Function bmx_wxmenuitem_getlabel:String(handle:Byte Ptr)
-	Function bmx_wxmenuitem_getlabelfromtext:String(text:String)
+	Function bmx_wxmenuitem_getitemlabeltext:String(handle:Byte Ptr)
+	Function bmx_wxmenuitem_getlabeltext:String(text:String)
 	Function bmx_wxmenuitem_getmarginwidth:Int(handle:Byte Ptr)
 	Function bmx_wxmenuitem_getmenu:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxmenuitem_gettext:String(handle:Byte Ptr)
+	Function bmx_wxmenuitem_getitemlabel:String(handle:Byte Ptr)
 	Function bmx_wxmenuitem_getsubmenu:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxmenuitem_gettextcolour:Byte Ptr(handle:Byte Ptr)	
 	Function bmx_wxmenuitem_ischeckable:Int(handle:Byte Ptr)
@@ -113,7 +112,7 @@ Extern
 	Function bmx_wxmenuitem_setmarginwidth(handle:Byte Ptr, width:Int)
 	Function bmx_wxmenuitem_setmenu(handle:Byte Ptr, menu:Byte Ptr)
 	Function bmx_wxmenuitem_setsubmenu(handle:Byte Ptr, submenu:Byte Ptr)
-	Function bmx_wxmenuitem_settext(handle:Byte Ptr, text:String)
+	Function bmx_wxmenuitem_setitemlabel(handle:Byte Ptr, text:String)
 	Function bmx_wxmenuitem_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxmenuitem_toggle(handle:Byte Ptr)
 	Function bmx_wxmenuitem_getaccel:Byte Ptr(handle:Byte Ptr)

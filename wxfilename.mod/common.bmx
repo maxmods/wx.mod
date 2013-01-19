@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -100,9 +100,6 @@ Extern
 	Function bmx_wxfilename_ispathseparator:Int(char:String, format:Int)
 	Function bmx_wxfilename_isrelative:Int(handle:Byte Ptr, format:Int)
 	Function bmx_wxfilename_isdir:Int(handle:Byte Ptr)
-	Function bmx_wxfilename_macfinddefaulttypeandcreator:Int(ext:String, ftype:Int Ptr, creator:Int Ptr)
-	Function bmx_wxfilename_macregisterdefaulttypeandcreator(ext:String, ftype:Int, creator:Int)
-	Function bmx_wxfilename_macsetdefaulttypeandcreator:Int(handle:Byte Ptr)
 	Function bmx_wxfilename_makeabsolute:Int(handle:Byte Ptr, cwd:String, format:Int)
 	Function bmx_wxfilename_makerelativeto:Int(handle:Byte Ptr, pathBase:String, format:Int)
 	Function bmx_wxfilename_mkdir:Int(handle:Byte Ptr, perm:Int, flags:Int)

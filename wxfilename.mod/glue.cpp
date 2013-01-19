@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -263,20 +263,6 @@ int bmx_wxfilename_isrelative(MaxFileName * fname, wxPathFormat format) {
 int bmx_wxfilename_isdir(MaxFileName * fname) {
 	return static_cast<int>(fname->Filename().IsDir());
 }
-
-#ifdef __APPLE__
-int bmx_wxfilename_macfinddefaulttypeandcreator(BBString * ext, wxUint32 * ftype, wxUint32 * creator) {
-	return static_cast<int>(wxFileName::MacFindDefaultTypeAndCreator(wxStringFromBBString(ext), ftype, creator));
-}
-
-void bmx_wxfilename_macregisterdefaulttypeandcreator(BBString * ext, wxUint32 ftype, wxUint32 creator) {
-	wxFileName::MacRegisterDefaultTypeAndCreator(wxStringFromBBString(ext), ftype, creator);
-}
-
-int bmx_wxfilename_macsetdefaulttypeandcreator(MaxFileName * fname) {
-	return static_cast<int>(fname->Filename().MacSetDefaultTypeAndCreator());
-}
-#endif
 
 int bmx_wxfilename_makeabsolute(MaxFileName * fname, BBString * cwd, wxPathFormat format) {
 	return static_cast<int>(fname->Filename().MakeAbsolute(wxStringFromBBString(cwd), format));

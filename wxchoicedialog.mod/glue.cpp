@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 
 MaxSingleChoiceDialog::MaxSingleChoiceDialog(BBObject * handle, wxWindow * parent,
 		const wxString& message, const wxString& caption, const wxArrayString& choices, long style, int x, int y)
-	: wxSingleChoiceDialog(parent, message, caption, choices, NULL, style, wxPoint(x, y))
+	: wxSingleChoiceDialog(parent, message, caption, choices, (void**)NULL, style, wxPoint(x, y))
 {
 	wxbind(this, handle);
 }

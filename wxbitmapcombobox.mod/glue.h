@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,14 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_BITMAPCOMBOBOX_H_
+#define _WX_MAX_BITMAPCOMBOBOX_H_
+
 #include "wxglue.h"
 #include "wx/bmpcbox.h"
 #include "../wxbitmap.mod/glue.h"
 #include "wx/xrc/xh_bmpcbox.h"
-
+#include "wx/xml/xml.h"
 
 class MaxBitmapComboBox;
 
@@ -90,4 +93,4 @@ public:
     bool                m_isInside;
 };
 
-
+#endif

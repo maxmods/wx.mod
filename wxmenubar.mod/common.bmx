@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,7 @@ Extern
 	Function bmx_wxmenubar_findmenuitem:Int(handle:Byte Ptr, menuString:String, itemString:String)
 	Function bmx_wxmenubar_gethelpstring:String(handle:Byte Ptr, id:Int)
 	Function bmx_wxmenubar_getlabel:String(handle:Byte Ptr, id:Int)
-	Function bmx_wxmenubar_getlabeltop:String(handle:Byte Ptr, pos:Int)
+	Function bmx_wxmenubar_getmenulabel:String(handle:Byte Ptr, pos:Int)
 	Function bmx_wxmenubar_getmenu:Byte Ptr(handle:Byte Ptr, index:Int)
 	Function bmx_wxmenubar_getmenucount:Int(handle:Byte Ptr)
 	Function bmx_wxmenubar_insert:Int(handle:Byte Ptr, pos:Int, menu:Byte Ptr, title:String)
@@ -66,7 +66,7 @@ Extern
 	Function bmx_wxmenubar_replace:Byte Ptr(handle:Byte Ptr, pos:Int, menu:Byte Ptr, title:String)
 	Function bmx_wxmenubar_sethelpstring(handle:Byte Ptr, id:Int, helpString:String)
 	Function bmx_wxmenubar_setlabel(handle:Byte Ptr, id:Int, label:String)
-	Function bmx_wxmenubar_setlabeltop(handle:Byte Ptr, pos:Int, label:String)
+	Function bmx_wxmenubar_setmenulabel(handle:Byte Ptr, pos:Int, label:String)
 	Function bmx_wxmenubar_finditem:Byte Ptr(handle:Byte Ptr, id:Int)
 	
 	Function bmx_wxmenubar_addresourcehandler()

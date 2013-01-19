@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ Module wx.wxFileName
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2007-2011 Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2007-2013 Bruce A Henderson"
 
 
 ?linux
@@ -42,7 +42,7 @@ ModuleInfo "CC_OPTS: -D__WXMSW__"
 ModuleInfo "CC_OPTS: -D_UNICODE"
 ModuleInfo "CC_OPTS: -DUNICODE"
 ?macos
-ModuleInfo "CC_OPTS: -D__WXOSX_CARBON__"
+ModuleInfo "CC_OPTS: -D__WXOSX_COCOA__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
@@ -555,29 +555,6 @@ Type wxFileName
 		Return bmx_wxfilename_isdir(wxObjectPtr)
 	End Method
 	
-?macos
-	Rem
-	bbdoc: On Mac OS, gets the common type and creator for the given extension.
-	End Rem
-	Function MacFindDefaultTypeAndCreator:Int(ext:String, ftype:Int Var, creator:Int Var)
-		Return bmx_wxfilename_macfinddefaulttypeandcreator(ext, Varptr ftype, Varptr creator)
-	End Function
-	
-	Rem
-	bbdoc: On Mac OS, registers application defined extensions and their default type and creator.
-	End Rem
-	Function MacRegisterDefaultTypeAndCreator(ext:String, ftype:Int, creator:Int)
-		bmx_wxfilename_macregisterdefaulttypeandcreator(ext, ftype, creator)
-	End Function
-	
-	Rem
-	bbdoc: On Mac OS, looks up the appropriate type and creator from the registration and then sets it.
-	End Rem
-	Method MacSetDefaultTypeAndCreator:Int()
-		Return bmx_wxfilename_macsetdefaulttypeandcreator(wxObjectPtr)
-	End Method
-?
-
 	Rem
 	bbdoc: Make the file name absolute.
 	about: This is a shortcut for <tt>Normalize(wxPATH_NORM_DOTS | wxPATH_NORM_ABSOLUTE | wxPATH_NORM_TILDE, cwd, format)</tt>.

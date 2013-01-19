@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ Module wx.wxMenu
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2007-2011 Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2007-2013 Bruce A Henderson"
 
 
 ?linux
@@ -42,7 +42,7 @@ ModuleInfo "CC_OPTS: -D__WXMSW__"
 ModuleInfo "CC_OPTS: -D_UNICODE"
 ModuleInfo "CC_OPTS: -DUNICODE"
 ?macos
-ModuleInfo "CC_OPTS: -D__WXOSX_CARBON__"
+ModuleInfo "CC_OPTS: -D__WXOSX_COCOA__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
@@ -154,14 +154,6 @@ Type wxMenu Extends wxEvtHandler
 		Return wxMenuItem._create(bmx_wxmenu_appenditem(wxObjectPtr, item.wxObjectPtr))
 	End Method
 	
-	Rem
-	bbdoc: 
-	about: TODO
-	End Rem
-	Method AppendMenu:wxMenuItem(id:Int, item:String = "", subMenu:wxMenu, helpString:String = "")
-		Return wxMenuItem._create(bmx_wxmenu_appendmenu(wxObjectPtr, id, item, subMenu.wxObjectPtr, helpString))
-	End Method
-
 	Rem
 	bbdoc: Adds a checkable item to the end of the menu.
 	End Rem
@@ -562,20 +554,20 @@ Type wxMenuItem Extends wxObject
 	Rem
 	bbdoc: Returns the text associated with the menu item without any accelerator characters it might contain.
 	End Rem
-	Method GetLabel:String()
-		Return bmx_wxmenuitem_getlabel(wxObjectPtr)
+	Method GetItemLabelText:String()
+		Return bmx_wxmenuitem_getitemlabeltext(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Strips all accelerator characters and mnemonics from the given text.
 	about: For example,
 	<pre>
-	wxMenuItem.GetLabelFromText("&Hello~tCtrl-H") 
+	wxMenuItem.GetLabelText("&Hello~tCtrl-H") 
 	</pre>
 	will return just "Hello".
 	End Rem
-	Function GetLabelFromText:String(text:String)
-		Return bmx_wxmenuitem_getlabelfromtext(text)
+	Function GetLabelText:String(text:String)
+		Return bmx_wxmenuitem_getlabeltext(text)
 	End Function
 	
 	Rem
@@ -593,10 +585,10 @@ Type wxMenuItem Extends wxObject
 	End Method
 	
 	Rem
-	bbdoc: Returns the text associated with the menu item, such as it was passed to the wxMenuItem constructor, i.e. with any accelerator characters it may contain.
+	bbdoc: Returns the text associated with the menu item including any accelerator characters that were passed to the constructor or SetItemLabel().
 	End Rem
-	Method GetText:String()
-		Return bmx_wxmenuitem_gettext(wxObjectPtr)
+	Method GetItemLabel:String()
+		Return bmx_wxmenuitem_getitemlabel(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -713,8 +705,8 @@ Type wxMenuItem Extends wxObject
 	Rem
 	bbdoc: Sets the text associated with the menu item.
 	End Rem
-	Method SetText(text:String)
-		bmx_wxmenuitem_settext(wxObjectPtr, text)
+	Method SetItemLabel(text:String)
+		bmx_wxmenuitem_setitemlabel(wxObjectPtr, text)
 	End Method
 	
 	Rem

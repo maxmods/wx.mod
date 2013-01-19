@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -101,7 +101,7 @@ extern "C" {
 	wxJPEGHandler * bmx_wxjpeghandler_create();
 	wxPCXHandler * bmx_wxpcxhandler_create();
 	wxPNMHandler * bmx_wxpnmhandler_create();
-	wxTIFFHandler * bmx_wxtiffhandler_create();
+	//wxTIFFHandler * bmx_wxtiffhandler_create();
 	wxTGAHandler * bmx_wxtgahandler_create();
 	wxICOHandler * bmx_wxicohandler_create();
 	wxCURHandler * bmx_wxcurhandler_create();

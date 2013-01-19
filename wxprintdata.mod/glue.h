@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 #ifndef _WX_MAX_PRINTDATA_H_
 #define _WX_MAX_PRINTDATA_H_
 
+#include "wx/cmndata.h"
 #include "wxglue.h"
 
 class MaxPrintData;

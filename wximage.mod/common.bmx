@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -113,7 +113,7 @@ Extern
 	Function bmx_wxjpeghandler_create:Byte Ptr()
 	Function bmx_wxpcxhandler_create:Byte Ptr()
 	Function bmx_wxpnmhandler_create:Byte Ptr()
-	Function bmx_wxtiffhandler_create:Byte Ptr()
+	'Function bmx_wxtiffhandler_create:Byte Ptr()
 	Function bmx_wxtgahandler_create:Byte Ptr()
 	Function bmx_wxicohandler_create:Byte Ptr()
 	Function bmx_wxcurhandler_create:Byte Ptr()

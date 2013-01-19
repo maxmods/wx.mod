@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -68,8 +68,8 @@ void MaxGLCanvas::Refresh(bool eraseBackground, const wxRect* rect) {
 
 void MaxGLCanvas::SetSwapInterval(int sync) {
 #ifdef __WXMAC__
-	WXGLContext context = WXGLGetCurrentContext();
-	aglSetInteger(context, AGL_SWAP_INTERVAL, &sync);
+//	WXGLContext context = WXGLGetCurrentContext();
+//	aglSetInteger(context, AGL_SWAP_INTERVAL, &sync);
 #elif __WXMSW__
 	WGLSWAPINTERVALEXT wglSwapIntervalEXT=(WGLSWAPINTERVALEXT)wglGetProcAddress("wglSwapIntervalEXT");
 	if( wglSwapIntervalEXT ) wglSwapIntervalEXT( sync );

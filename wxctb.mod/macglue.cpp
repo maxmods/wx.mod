@@ -24,7 +24,8 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 
-#include "wx/osx/carbon/private.h"
+#include "wx/wx.h"
+#include "wx/osx/core/cfstring.h"
 
 #include	<IOKit/IOKitLib.h>
 #include	<IOKit/serial/IOSerialKeys.h>

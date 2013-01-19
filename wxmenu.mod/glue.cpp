@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -158,11 +158,6 @@ wxMenuItem * bmx_wxmenu_append(wxMenu * menu, int id, BBString * item, BBString 
 
 wxMenuItem * bmx_wxmenu_appenditem(wxMenu * menu, wxMenuItem * item) {
 	return menu->Append(item);
-}
-
-
-wxMenuItem * bmx_wxmenu_appendMenu(wxMenu * menu, int id, BBString * item, MaxMenu * subMenu, BBString * helpString) {
-	return menu->Append(id, wxStringFromBBString(item), subMenu, wxStringFromBBString(helpString));
 }
 
 wxMenuItem * bmx_wxmenu_appendseparator(wxMenu * menu) {
@@ -368,12 +363,12 @@ int bmx_wxmenuitem_getkind(wxMenuItem * item) {
 	return item->GetKind();
 }
 
-BBString * bmx_wxmenuitem_getlabel(wxMenuItem * item) {
-	return bbStringFromWxString(item->GetLabel());
+BBString * bmx_wxmenuitem_getitemlabeltext(wxMenuItem * item) {
+	return bbStringFromWxString(item-> GetItemLabelText());
 }
 
-BBString * bmx_wxmenuitem_getlabelfromtext(BBString * text) {
-	return bbStringFromWxString(wxMenuItem::GetLabelFromText(wxStringFromBBString(text)));
+BBString * bmx_wxmenuitem_getlabeltext(BBString * text) {
+	return bbStringFromWxString(wxMenuItem::GetLabelText(wxStringFromBBString(text)));
 }
 
 int bmx_wxmenuitem_getmarginwidth(wxMenuItem * item) {
@@ -388,8 +383,8 @@ wxMenu * bmx_wxmenuitem_getmenu(wxMenuItem * item) {
 	return item->GetMenu();
 }
 
-BBString * bmx_wxmenuitem_gettext(wxMenuItem * item) {
-	return bbStringFromWxString(item->GetText());
+BBString * bmx_wxmenuitem_getitemlabel(wxMenuItem * item) {
+	return bbStringFromWxString(item-> GetItemLabel());
 }
 
 wxMenu * bmx_wxmenuitem_getsubmenu(wxMenuItem * item) {
@@ -471,8 +466,8 @@ void bmx_wxmenuitem_setsubmenu(wxMenuItem * item, wxMenu * submenu) {
 	item->SetSubMenu(submenu);
 }
 
-void bmx_wxmenuitem_settext(wxMenuItem * item, BBString * text) {
-	item->SetText(wxStringFromBBString(text));
+void bmx_wxmenuitem_setitemlabel(wxMenuItem * item, BBString * text) {
+	item->SetItemLabel(wxStringFromBBString(text));
 }
 
 void bmx_wxmenuitem_settextcolour(wxMenuItem * item, MaxColour * colour) {

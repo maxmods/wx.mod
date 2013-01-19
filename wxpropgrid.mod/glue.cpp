@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -1839,8 +1839,8 @@ void bmx_wxpgproperty_setexpanded(wxPGProperty * prop, int expanded) {
 	prop->SetExpanded(static_cast<bool>(expanded));
 }
 
-void bmx_wxpgproperty_setflag(wxPGProperty * prop, int flag) {
-	prop->SetFlag((wxPGPropertyFlags)flag);
+void bmx_wxpgproperty_changeflag(wxPGProperty * prop, int flag, int set) {
+	prop->ChangeFlag((wxPGPropertyFlags)flag, set);
 }
 
 void bmx_wxpgproperty_setflagsfromstring(wxPGProperty * prop, BBString * s) {
@@ -1857,10 +1857,6 @@ void bmx_wxpgproperty_setlabel(wxPGProperty * prop, BBString * label) {
 
 int bmx_wxpgproperty_setmaxlength(wxPGProperty * prop, int maxLen) {
 	return static_cast<int>(prop->SetMaxLength(maxLen));
-}
-
-void bmx_wxpgproperty_clearflag(wxPGProperty * prop, int flag) {
-	prop->ClearFlag(flag);
 }
 
 long bmx_wxpgproperty_getattributeasint(wxPGProperty * prop, BBString * name, long defVal) {

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -89,11 +89,6 @@ extern "C" {
 	int bmx_wxfilename_ispathseparator(BBString * chr, wxPathFormat format);
 	int bmx_wxfilename_isrelative(MaxFileName * fname, wxPathFormat format);
 	int bmx_wxfilename_isdir(MaxFileName * fname);
-#ifdef __APPLE__
-	int bmx_wxfilename_macfinddefaulttypeandcreator(BBString * ext, wxUint32 * ftype, wxUint32 * creator);
-	void bmx_wxfilename_macregisterdefaulttypeandcreator(BBString * ext, wxUint32 ftype, wxUint32 creator);
-	int bmx_wxfilename_macsetdefaulttypeandcreator(MaxFileName * fname);
-#endif
 	int bmx_wxfilename_makeabsolute(MaxFileName * fname, BBString * cwd, wxPathFormat format);
 	int bmx_wxfilename_makerelativeto(MaxFileName * fname, BBString * pathBase, wxPathFormat format);
 	int bmx_wxfilename_mkdir(MaxFileName * fname, int perm, int flags);

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 #include "wxglue.h"
 #include "../wxmenu.mod/glue.h"
 #include "wx/xrc/xh_menu.h"
+#include "wx/xml/xml.h"
 
 class MaxMenuBar;
 
@@ -41,7 +42,7 @@ extern "C" {
 	int bmx_wxmenubar_findmenuitem(wxMenuBar * menubar, BBString * menuString, BBString * itemString);
 	BBString * bmx_wxmenubar_gethelpstring(wxMenuBar * menubar, int id);
 	BBString * bmx_wxmenubar_getlabel(wxMenuBar * menubar, int id);
-	BBString * bmx_wxmenubar_getlabeltop(wxMenuBar * menubar, int pos);
+	BBString * bmx_wxmenubar_getmenulabel(wxMenuBar * menubar, int pos);
 	wxMenu * bmx_wxmenubar_getmenu(wxMenuBar * menubar, int index);
 	int bmx_wxmenubar_getmenucount(wxMenuBar * menubar);
 	bool bmx_wxmenubar_insert(wxMenuBar * menubar, int pos, MaxMenu * menu, BBString * title);
@@ -52,7 +53,7 @@ extern "C" {
 	wxMenu * bmx_wxmenubar_replace(wxMenuBar * menubar, int pos, MaxMenu * menu, BBString * title);
 	void bmx_wxmenubar_sethelpstring(wxMenuBar * menubar, int id, BBString * helpString);
 	void bmx_wxmenubar_setlabel(wxMenuBar * menubar, int id, BBString * label);
-	void bmx_wxmenubar_setlabeltop(wxMenuBar * menubar, int pos, BBString * label);
+	void bmx_wxmenubar_setmenulabel(wxMenuBar * menubar, int pos, BBString * label);
 	wxMenuItem * bmx_wxmenubar_finditem(wxMenuBar * menubar, int id);
 
 	void bmx_wxmenubar_addresourcehandler();

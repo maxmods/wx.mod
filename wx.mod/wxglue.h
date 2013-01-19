@@ -412,6 +412,9 @@ public:
 	virtual int MainLoop();
 	virtual int OnExit();
 	int FilterEvent(wxEvent& event);
+#ifdef __WXOSX__
+	void MacOpenFiles(const wxArrayString & fileNames);
+#endif
 
 	static bool ownMain;
 private:

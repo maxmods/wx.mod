@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,8 @@
 #include "wx/propgrid/advprops.h"
 #include "../wxdatetime.mod/glue.h"
 #include "../wxbitmap.mod/glue.h"
-//#include "wx/xrc/xh_propgrid.h"
+#include "wx/xml/xml.h"
+
 
 class MaxPropertyGrid;
 class MaxPGPropArg;
@@ -244,12 +245,11 @@ extern "C" {
 	void bmx_wxpgproperty_refreshchildren(wxPGProperty * prop);
 	void bmx_wxpgproperty_refresheditor(wxPGProperty * prop);
 	void bmx_wxpgproperty_setexpanded(wxPGProperty * prop, int expanded);
-	void bmx_wxpgproperty_setflag(wxPGProperty * prop, int flag);
+	void bmx_wxpgproperty_changeflag(wxPGProperty * prop, int flag, int set);
 	void bmx_wxpgproperty_setflagsfromstring(wxPGProperty * prop, BBString * s);
 	void bmx_wxpgproperty_sethelpstring(wxPGProperty * prop, BBString * helpString);
 	void bmx_wxpgproperty_setlabel(wxPGProperty * prop, BBString * label);
 	int bmx_wxpgproperty_setmaxlength(wxPGProperty * prop, int maxLen);
-	void bmx_wxpgproperty_clearflag(wxPGProperty * prop, int flag);
 	long bmx_wxpgproperty_getattributeasint(wxPGProperty * prop, BBString * name, long defVal);
 	BBString * bmx_wxpgproperty_getattributeasstring(wxPGProperty * prop, BBString * name, BBString * defVal);
 	double bmx_wxpgproperty_getattributeasdouble(wxPGProperty * prop, BBString * name);

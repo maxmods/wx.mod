@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
 #include "wx/menu.h"
 #include "../wxbitmap.mod/glue.h"
 #include "wx/xrc/xh_menu.h"
+#include "wx/xml/xml.h"
 
 class MaxMenu;
 
@@ -37,7 +38,6 @@ extern "C" {
 	MaxMenu * bmx_wxmenu_create(BBObject * maxHandle, BBString * title, long style);
 	wxMenuItem * bmx_wxmenu_append(wxMenu * menu, int id, BBString * item, BBString * helpString, wxItemKind kind);
 	wxMenuItem * bmx_wxmenu_appenditem(wxMenu * menu, wxMenuItem * item);
-	wxMenuItem * bmx_wxmenu_appendMenu(wxMenu * menu, int id, BBString * item, MaxMenu * subMenu, BBString * helpString);
 	wxMenuItem * bmx_wxmenu_appendseparator(wxMenu * menu);
 	wxMenuItem * bmx_wxmenu_appendcheckitem(wxMenu * menu, int id, BBString * item, BBString * helpString);
 	wxMenuItem * bmx_wxmenu_appendradioitem(wxMenu * menu, int id, BBString * item, BBString * helpString);
@@ -87,11 +87,11 @@ extern "C" {
 	BBString * bmx_wxmenuitem_gethelp(wxMenuItem * item);
 	int bmx_wxmenuitem_getid(wxMenuItem * item);
 	int bmx_wxmenuitem_getkind(wxMenuItem * item);
-	BBString * bmx_wxmenuitem_getlabel(wxMenuItem * item);
-	BBString * bmx_wxmenuitem_getlabelfromtext(BBString * text);
+	BBString * bmx_wxmenuitem_getitemlabeltext(wxMenuItem * item);
+	BBString * bmx_wxmenuitem_getlabeltext(BBString * text);
 	int bmx_wxmenuitem_getmarginwidth(wxMenuItem * item);
 	wxMenu * bmx_wxmenuitem_getmenu(wxMenuItem * item);
-	BBString * bmx_wxmenuitem_gettext(wxMenuItem * item);
+	BBString * bmx_wxmenuitem_getitemlabel(wxMenuItem * item);
 	wxMenu * bmx_wxmenuitem_getsubmenu(wxMenuItem * item);
 	MaxColour * bmx_wxmenuitem_gettextcolour(wxMenuItem * item);
 	bool bmx_wxmenuitem_ischeckable(wxMenuItem * item);
@@ -107,7 +107,7 @@ extern "C" {
 	void bmx_wxmenuitem_setmarginwidth(wxMenuItem * item, int width);
 	void bmx_wxmenuitem_setmenu(wxMenuItem * item, wxMenu * menu);
 	void bmx_wxmenuitem_setsubmenu(wxMenuItem * item, wxMenu * submenu);
-	void bmx_wxmenuitem_settext(wxMenuItem * item, BBString * text);
+	void bmx_wxmenuitem_setitemlabel(wxMenuItem * item, BBString * text);
 	void bmx_wxmenuitem_settextcolour(wxMenuItem * item, MaxColour * colour);
 	void bmx_wxmenuitem_toggle(wxMenuItem * item);
 	wxAcceleratorEntry * bmx_wxmenuitem_getaccel(wxMenuItem * item);

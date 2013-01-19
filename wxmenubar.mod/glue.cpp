@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -110,8 +110,8 @@ BBString * bmx_wxmenubar_getlabel(wxMenuBar * menubar, int id) {
 	return bbStringFromWxString(menubar->GetLabel(id));
 }
 
-BBString * bmx_wxmenubar_getlabeltop(wxMenuBar * menubar, int pos) {
-	return bbStringFromWxString(menubar->GetLabelTop(pos));
+BBString * bmx_wxmenubar_getmenulabel(wxMenuBar * menubar, int pos) {
+	return bbStringFromWxString(menubar->GetMenuLabel(pos));
 }
 
 wxMenu * bmx_wxmenubar_getmenu(wxMenuBar * menubar, int index) {
@@ -154,8 +154,8 @@ void bmx_wxmenubar_setlabel(wxMenuBar * menubar, int id, BBString * label) {
 	menubar->SetLabel(id, wxStringFromBBString(label));
 }
 
-void bmx_wxmenubar_setlabeltop(wxMenuBar * menubar, int pos, BBString * label) {
-	menubar->SetLabelTop(pos, wxStringFromBBString(label));
+void bmx_wxmenubar_setmenulabel(wxMenuBar * menubar, int pos, BBString * label) {
+	menubar->SetMenuLabel(pos, wxStringFromBBString(label));
 }
 
 wxMenuItem * bmx_wxmenubar_finditem(wxMenuBar * menubar, int id) {

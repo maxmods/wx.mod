@@ -54,7 +54,11 @@ BBString *bbStringFromWxString(const wxString &s ) {
 #ifdef WIN32
 	return bbStringFromShorts((const BBChar*)s.wc_str(wxConvISO8859_1), s.Length());
 #else
+#ifdef wxUSE_UNICODE_UTF8
+	return bbStringFromInts((const int*)s.wc_str(wxConvISO8859_1), s.Length());
+#else
 	return bbStringFromInts((const int*)s.wc_str(wxConvISO8859_1).data(), s.Length());
+#endif
 #endif
 }
 
@@ -170,7 +174,13 @@ int MaxApp::MainLoop() {
 	return _wx_wxapp_wxAppMain__MainLoop();
 }
 
-#ifdef __WXMAC__
+#ifdef __WXOSX__
+void MaxApp::MacOpenFiles(const wxArrayString & fileNames) {
+	
+}
+#endif
+
+#ifdef __WXOSX__
 #include "wx/osx/private.h"
 #endif
 

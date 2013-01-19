@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ Module wx.wxPropGrid
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2007-2011 Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2007-2013 Bruce A Henderson"
 
 
 ?linux
@@ -42,7 +42,7 @@ ModuleInfo "CC_OPTS: -D__WXMSW__"
 ModuleInfo "CC_OPTS: -D_UNICODE"
 ModuleInfo "CC_OPTS: -DUNICODE"
 ?macos
-ModuleInfo "CC_OPTS: -D__WXOSX_CARBON__"
+ModuleInfo "CC_OPTS: -D__WXOSX_COCOA__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
@@ -1567,13 +1567,6 @@ Type wxPGProperty Extends wxObject
 	End Method
 	
 	Rem
-	bbdoc: 
-	End Rem
-	Method ClearFlag(flag:Int)
-		bmx_wxpgproperty_clearflag(wxObjectPtr, flag)
-	End Method
-	
-	Rem
 	bbdoc: Removes entry from property's wxPGChoices and editor control (if it is active).
 	about: If selected item is deleted, then the value is set to unspecified.
 	End Rem
@@ -2224,10 +2217,12 @@ Type wxPGProperty Extends wxObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets or clears given property flag.
+	about: Setting a property flag never has any side-effect, and is intended almost exclusively for internal use.
+	So, for example, if you want to disable a property, call Enable(false) instead of setting wxPG_PROP_DISABLED flag.
 	End Rem
-	Method SetFlag(flag:Int)
-		bmx_wxpgproperty_setflag(wxObjectPtr, flag)
+	Method ChangeFlag(flag:Int, set:Int)
+		bmx_wxpgproperty_changeflag(wxObjectPtr, flag, set)
 	End Method
 	
 	Rem

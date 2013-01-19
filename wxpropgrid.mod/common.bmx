@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -371,12 +371,11 @@ Extern
 	Function bmx_wxpgproperty_refreshchildren(handle:Byte Ptr)
 	Function bmx_wxpgproperty_refresheditor(handle:Byte Ptr)
 	Function bmx_wxpgproperty_setexpanded(handle:Byte Ptr, expanded:Int)
-	Function bmx_wxpgproperty_setflag(handle:Byte Ptr, flag:Int)
+	Function bmx_wxpgproperty_changeflag(handle:Byte Ptr, flag:Int, set:Int)
 	Function bmx_wxpgproperty_setflagsfromstring(handle:Byte Ptr, s:String)
 	Function bmx_wxpgproperty_sethelpstring(handle:Byte Ptr, helpString:String)
 	Function bmx_wxpgproperty_setlabel(handle:Byte Ptr, label:String)
 	Function bmx_wxpgproperty_setmaxlength:Int(handle:Byte Ptr, maxLen:Int)
-	Function bmx_wxpgproperty_clearflag(handle:Byte Ptr, flag:Int)
 	Function bmx_wxpgproperty_getattributeasint:Int(handle:Byte Ptr, name:String, defVal:Int)
 	Function bmx_wxpgproperty_getattributeasstring:String(handle:Byte Ptr, name:String, defVal:String)
 	Function bmx_wxpgproperty_getattributeasdouble:Double(handle:Byte Ptr, name:String)

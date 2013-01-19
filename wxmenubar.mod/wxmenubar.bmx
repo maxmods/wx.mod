@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ Module wx.wxMenuBar
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2007-2011 Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2007-2013 Bruce A Henderson"
 
 
 ?linux
@@ -42,7 +42,7 @@ ModuleInfo "CC_OPTS: -D__WXMSW__"
 ModuleInfo "CC_OPTS: -D_UNICODE"
 ModuleInfo "CC_OPTS: -DUNICODE"
 ?macos
-ModuleInfo "CC_OPTS: -D__WXOSX_CARBON__"
+ModuleInfo "CC_OPTS: -D__WXOSX_COCOA__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
@@ -177,14 +177,14 @@ Type wxMenuBar Extends wxWindow
 	Rem
 	bbdoc: Returns the label of a top-level menu.
 	returns: The menu label, or the empty string if the menu was not found.
-	about: Note that the returned string does not include the accelerator characters which could have
-	been specified in the menu title string during its construction.
+	about: Note that the returned string includes the accelerator characters that have been
+	specified in the menu title string during its construction.
 	<p>
 	Use only after the menubar has been associated with a frame.
 	</p>
 	End Rem
-	Method GetLabelTop:String(pos:Int)
-		Return bmx_wxmenubar_getlabeltop(wxObjectPtr, pos)
+	Method GetMenuLabel:String(pos:Int)
+		Return bmx_wxmenubar_getmenulabel(wxObjectPtr, pos)
 	End Method
 	
 	Rem
@@ -269,8 +269,8 @@ Type wxMenuBar Extends wxWindow
 	bbdoc: Sets the label of a top-level menu.
 	about: Use only after the menubar has been associated with a frame.
 	End Rem
-	Method SetLabelTop(pos:Int, label:String)
-		bmx_wxmenubar_setlabeltop(wxObjectPtr, pos, label)
+	Method SetMenuLabel(pos:Int, label:String)
+		bmx_wxmenubar_setmenulabel(wxObjectPtr, pos, label)
 	End Method
 	
 End Type
