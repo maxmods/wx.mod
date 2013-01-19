@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2011 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -175,8 +175,8 @@ void bmx_wxpdfdocument_saveasfile(wxPdfDocument * doc, BBString * name) {
 	doc->SaveAsFile(wxStringFromBBString(name));
 }
 
-void bmx_wxpdfdocument_addspotcolor(wxPdfDocument * doc, BBString * name, double cyan, double magenta, double yellow, double black) {
-	doc->AddSpotColor(wxStringFromBBString(name), cyan, magenta, yellow, black);
+void bmx_wxpdfdocument_addspotcolour(wxPdfDocument * doc, BBString * name, double cyan, double magenta, double yellow, double black) {
+	doc->AddSpotColour(wxStringFromBBString(name), cyan, magenta, yellow, black);
 }
 
 void bmx_wxpdfdocument_aliasnbpages(wxPdfDocument * doc, BBString * _alias) {
@@ -227,16 +227,16 @@ void bmx_wxpdfdocument_settitle(wxPdfDocument * doc, BBString * title) {
 	doc->SetTitle(wxStringFromBBString(title));
 }
 
-void bmx_wxpdfdocument_setdrawcolor(wxPdfDocument * doc, MaxColour * colour) {
-	doc->SetDrawColor(colour->Colour());
+void bmx_wxpdfdocument_setdrawcolour(wxPdfDocument * doc, MaxColour * colour) {
+	doc->SetDrawColour(colour->Colour());
 }
 
-void bmx_wxpdfdocument_setfillcolor(wxPdfDocument * doc, MaxColour * colour) {
-	doc->SetFillColor(colour->Colour());
+void bmx_wxpdfdocument_setfillcolour(wxPdfDocument * doc, MaxColour * colour) {
+	doc->SetFillColour(colour->Colour());
 }
 
-void bmx_wxpdfdocument_settextcolor(wxPdfDocument * doc, MaxColour * colour) {
-	doc->SetTextColor(colour->Colour());
+void bmx_wxpdfdocument_settextcolour(wxPdfDocument * doc, MaxColour * colour) {
+	doc->SetTextColour(colour->Colour());
 }
 
 double bmx_wxpdfdocument_getstringwidth(wxPdfDocument * doc, BBString * text) {
@@ -251,8 +251,8 @@ void bmx_wxpdfdocument_setauthor(wxPdfDocument * doc, BBString * author) {
 	doc->SetAuthor(wxStringFromBBString(author));
 }
 
-void bmx_wxpdfdocument_settextcolorgrayscale(wxPdfDocument * doc, int grayscale) {
-	doc->SetTextColor(static_cast<unsigned char>(grayscale));
+void bmx_wxpdfdocument_settextcolourgrayscale(wxPdfDocument * doc, int grayscale) {
+	doc->SetTextColour(static_cast<unsigned char>(grayscale));
 }
 
 int bmx_wxpdfdocument_multicell(wxPdfDocument * doc, double w, double h, BBString * txt, int border, int align, int fill, int maxline) {
@@ -337,10 +337,6 @@ double bmx_wxpdfdocument_getcellmargin(wxPdfDocument * doc) {
 
 BBString * bmx_wxpdfdocument_getfontfamily(wxPdfDocument * doc) {
 	return bbStringFromWxString(doc->GetFontFamily());
-}
-
-BBString * bmx_wxpdfdocument_getfontpath(wxPdfDocument * doc) {
-	return bbStringFromWxString(doc->GetFontPath());
 }
 
 double bmx_wxpdfdocument_getfontsize(wxPdfDocument * doc) {
@@ -524,16 +520,16 @@ bool bmx_wxpdfdocument_skewy(wxPdfDocument * doc, double yAngle, double x, doubl
 }
 
 void bmx_wxpdfdocument_starpolygon(wxPdfDocument * doc, double x0, double y0, double r,
-		int nv, int nr, double angle, bool circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStype, MaxPdfColour * circleFillColor) {
+		int nv, int nr, double angle, bool circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStype, MaxPdfColour * circleFillColour) {
 	if (circleLineStype) {
-		if (circleFillColor) {
-			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStype->Style(), circleFillColor->Colour());
+		if (circleFillColour) {
+			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStype->Style(), circleFillColour->Colour());
 		} else {
 			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStype->Style(), wxPdfColour());
 		}
 	} else {
-		if (circleFillColor) {
-			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, wxPdfLineStyle(), circleFillColor->Colour());
+		if (circleFillColour) {
+			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, wxPdfLineStyle(), circleFillColour->Colour());
 		} else {
 			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, wxPdfLineStyle(), wxPdfColour());
 		}
@@ -584,13 +580,13 @@ int bmx_wxpdfdocument_endtemplate(wxPdfDocument * doc) {
 	return doc->EndTemplate();
 }
 
-MaxPdfColour * bmx_wxpdfdocument_getdrawcolor(wxPdfDocument * doc) {
-	return new MaxPdfColour(doc->GetDrawColor());
+MaxPdfColour * bmx_wxpdfdocument_getdrawcolour(wxPdfDocument * doc) {
+	return new MaxPdfColour(doc->GetDrawColour());
 }
 
 
-MaxPdfColour * bmx_wxpdfdocument_getfillcolor(wxPdfDocument * doc) {
-	return new MaxPdfColour(doc->GetFillColor());
+MaxPdfColour * bmx_wxpdfdocument_getfillcolour(wxPdfDocument * doc) {
+	return new MaxPdfColour(doc->GetFillColour());
 }
 
 MaxPdfFontDescription * bmx_wxpdfdocument_getfontdescription(wxPdfDocument * doc) {
@@ -609,8 +605,8 @@ void bmx_wxpdfdocument_gettemplatessize(wxPdfDocument * doc, int templateId, dou
 	doc->GetTemplateSize(templateId, *width, *height);
 }
 
-MaxPdfColour * bmx_wxpdfdocument_gettextcolor(wxPdfDocument * doc) {
-	return new MaxPdfColour(doc->GetTextColor());
+MaxPdfColour * bmx_wxpdfdocument_gettextcolour(wxPdfDocument * doc) {
+	return new MaxPdfColour(doc->GetTextColour());
 }
 
 bool bmx_wxpdfdocument_imageimage(wxPdfDocument * doc, BBString * name, MaxImage * image, double x, double y, double w, double h, MaxPdfLink * link, int maskImage) {
@@ -697,52 +693,52 @@ void bmx_wxpdfdocument_radiobuttonxy(wxPdfDocument * doc, BBString * group, BBSt
 	doc->RadioButton(wxStringFromBBString(group), wxStringFromBBString(name), x, y, width);
 }
 
-void bmx_wxpdfdocument_settextcolorpdf(wxPdfDocument * doc, MaxPdfColour * pdfColour) {
-	doc->SetTextColor(pdfColour->Colour());
+void bmx_wxpdfdocument_settextcolourpdf(wxPdfDocument * doc, MaxPdfColour * pdfColour) {
+	doc->SetTextColour(pdfColour->Colour());
 }
 
-void bmx_wxpdfdocument_settextcolorrgb(wxPdfDocument * doc, int red, int green, int blue) {
-	doc->SetTextColor(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
+void bmx_wxpdfdocument_settextcolourrgb(wxPdfDocument * doc, int red, int green, int blue) {
+	doc->SetTextColour(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
 }
 
-void bmx_wxpdfdocument_settextcolorcmyk(wxPdfDocument * doc, double cyan, double magenta, double yellow, double black) {
-	doc->SetTextColor(cyan, magenta, yellow, black);
+void bmx_wxpdfdocument_settextcolourcmyk(wxPdfDocument * doc, double cyan, double magenta, double yellow, double black) {
+	doc->SetTextColour(cyan, magenta, yellow, black);
 }
 
-void bmx_wxpdfdocument_settextcolorname(wxPdfDocument * doc, BBString * name, double tint) {
-	doc->SetTextColor(wxStringFromBBString(name), tint);
+void bmx_wxpdfdocument_settextcolourname(wxPdfDocument * doc, BBString * name, double tint) {
+	doc->SetTextColour(wxStringFromBBString(name), tint);
 }
 
-void bmx_wxpdfdocument_setdrawcolorpdf(wxPdfDocument * doc, MaxPdfColour * pdfColour) {
-	doc->SetDrawColor(pdfColour->Colour());
+void bmx_wxpdfdocument_setdrawcolourpdf(wxPdfDocument * doc, MaxPdfColour * pdfColour) {
+	doc->SetDrawColour(pdfColour->Colour());
 }
 
-void bmx_wxpdfdocument_setdrawcolorrgb(wxPdfDocument * doc, int red, int green, int blue) {
-	doc->SetDrawColor(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
+void bmx_wxpdfdocument_setdrawcolourrgb(wxPdfDocument * doc, int red, int green, int blue) {
+	doc->SetDrawColour(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
 }
 
-void bmx_wxpdfdocument_setdrawcolorcmyk(wxPdfDocument * doc, double cyan, double magenta, double yellow, double black) {
-	doc->SetDrawColor(cyan, magenta, yellow, black);
+void bmx_wxpdfdocument_setdrawcolourcmyk(wxPdfDocument * doc, double cyan, double magenta, double yellow, double black) {
+	doc->SetDrawColour(cyan, magenta, yellow, black);
 }
 
-void bmx_wxpdfdocument_setdrawcolorname(wxPdfDocument * doc, BBString * name, double tint) {
-	doc->SetDrawColor(wxStringFromBBString(name), tint);
+void bmx_wxpdfdocument_setdrawcolourname(wxPdfDocument * doc, BBString * name, double tint) {
+	doc->SetDrawColour(wxStringFromBBString(name), tint);
 }
 
-void bmx_wxpdfdocument_setfillcolorpdf(wxPdfDocument * doc, MaxPdfColour * pdfColour) {
-	doc->SetFillColor(pdfColour->Colour());
+void bmx_wxpdfdocument_setfillcolourpdf(wxPdfDocument * doc, MaxPdfColour * pdfColour) {
+	doc->SetFillColour(pdfColour->Colour());
 }
 
-void bmx_wxpdfdocument_setfillcolorrgb(wxPdfDocument * doc, int red, int green, int blue) {
-	doc->SetFillColor(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
+void bmx_wxpdfdocument_setfillcolourrgb(wxPdfDocument * doc, int red, int green, int blue) {
+	doc->SetFillColour(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
 }
 
-void bmx_wxpdfdocument_setfillcolorcmyk(wxPdfDocument * doc, double cyan, double magenta, double yellow, double black) {
-	doc->SetFillColor(cyan, magenta, yellow, black);
+void bmx_wxpdfdocument_setfillcolourcmyk(wxPdfDocument * doc, double cyan, double magenta, double yellow, double black) {
+	doc->SetFillColour(cyan, magenta, yellow, black);
 }
 
-void bmx_wxpdfdocument_setfillcolorname(wxPdfDocument * doc, BBString * name, double tint) {
-	doc->SetFillColor(wxStringFromBBString(name), tint);
+void bmx_wxpdfdocument_setfillcolourname(wxPdfDocument * doc, BBString * name, double tint) {
+	doc->SetFillColour(wxStringFromBBString(name), tint);
 }
 
 void bmx_wxpdfdocument_rotate(wxPdfDocument * doc, double angle, double x, double y) {
@@ -773,12 +769,12 @@ bool bmx_wxpdfdocument_scalexy(wxPdfDocument * doc, double s, double x, double y
 	return doc->ScaleXY(s, x, y);
 }
 
-void bmx_wxpdfdocument_setdrawcolorgrayscale(wxPdfDocument * doc, int grayscale) {
-	doc->SetDrawColor(static_cast<unsigned char>(grayscale));
+void bmx_wxpdfdocument_setdrawcolourgrayscale(wxPdfDocument * doc, int grayscale) {
+	doc->SetDrawColour(static_cast<unsigned char>(grayscale));
 }
 
-void bmx_wxpdfdocument_setfillcolorgrayscale(wxPdfDocument * doc, int grayscale) {
-	doc->SetFillColor(static_cast<unsigned char>(grayscale));
+void bmx_wxpdfdocument_setfillcolourgrayscale(wxPdfDocument * doc, int grayscale) {
+	doc->SetFillColour(static_cast<unsigned char>(grayscale));
 }
 
 int bmx_wxpdfdocument_setsourcefile(wxPdfDocument * doc, BBString * filename, BBString * password) {
@@ -805,10 +801,6 @@ void bmx_wxpdfdocument_setrightmargin(wxPdfDocument * doc, double margin) {
 	doc->SetRightMargin(margin);
 }
 
-void bmx_wxpdfdocument_setfontpath(wxPdfDocument * doc, BBString * fontPath) {
-	doc->SetFontPath(wxStringFromBBString(fontPath));
-}
-
 void bmx_wxpdfdocument_setfontsize(wxPdfDocument * doc, double size) {
 	doc->SetFontSize(size);
 }
@@ -821,8 +813,8 @@ void bmx_wxpdfdocument_setformborderstyle(wxPdfDocument * doc, wxPdfBorderStyle 
 	doc->SetFormBorderStyle(borderStyle, borderWidth);
 }
 
-void bmx_wxpdfdocument_setformcolors(wxPdfDocument * doc, MaxPdfColour * borderColor, MaxPdfColour * backgroundColor, MaxPdfColour * textColor) {
-	doc->SetFormColors((borderColor)?borderColor->Colour():wxPdfColour(), (backgroundColor)?backgroundColor->Colour():wxPdfColour(250), (textColor)?textColor->Colour():wxPdfColour());
+void bmx_wxpdfdocument_setformcolours(wxPdfDocument * doc, MaxPdfColour * borderColour, MaxPdfColour * backgroundColour, MaxPdfColour * textColour) {
+	doc->SetFormColours((borderColour)?borderColour->Colour():wxPdfColour(), (backgroundColour)?backgroundColour->Colour():wxPdfColour(250), (textColour)?textColour->Colour():wxPdfColour());
 }
 
 void bmx_wxpdfdocument_setfillgradient(wxPdfDocument * doc, double x, double y, double w, double h, int gradient) {
@@ -857,8 +849,8 @@ void bmx_wxpdfdocument_sector(wxPdfDocument * doc, double x0, double y0, double 
 	doc->Sector(x0, y0, r, astart, afinish, style, clockwise, origin);
 }
 
-void bmx_wxpdfdocument_regularpolygon(wxPdfDocument * doc, double x0, double y0, double r, int ns, double angle, bool circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStyle, MaxPdfColour * circleFillColor) {
-	doc->RegularPolygon(x0, y0, r, ns, angle, circle, style, circleStyle, (circleLineStyle)?circleLineStyle->Style():wxPdfLineStyle(), (circleFillColor)?circleFillColor->Colour():wxPdfColour());
+void bmx_wxpdfdocument_regularpolygon(wxPdfDocument * doc, double x0, double y0, double r, int ns, double angle, bool circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStyle, MaxPdfColour * circleFillColour) {
+	doc->RegularPolygon(x0, y0, r, ns, angle, circle, style, circleStyle, (circleLineStyle)?circleLineStyle->Style():wxPdfLineStyle(), (circleFillColour)?circleFillColour->Colour():wxPdfColour());
 }
 
 void bmx_wxpdfdocument_rotatedimage(wxPdfDocument * doc, BBString * file, double x, double y, double w, double h, double angle, BBString * imgType, MaxPdfLink * link, int maskImage) {
@@ -897,8 +889,8 @@ MaxPdfColour * bmx_wxpdfcolour_createcmykcolour(double cyan, double magenta, dou
 	return new MaxPdfColour(c);
 }
 
-wxPdfColourType bmx_wxpdfcolour_getcolortype(MaxPdfColour * colour) {
-	return colour->Colour().GetColorType();
+wxPdfColourType bmx_wxpdfcolour_getcolourtype(MaxPdfColour * colour) {
+	return colour->Colour().GetColourType();
 }
 
 // *********************************************

@@ -1,4 +1,4 @@
-/// \file pdfcolordata.inc Definition of named RGB colors.
+/// \file pdfcolourdata.inc Definition of named RGB colours.
 
 static const struct wxColourDesc
 {

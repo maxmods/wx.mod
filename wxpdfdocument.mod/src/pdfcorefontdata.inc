@@ -1,4 +1,6 @@
-/// \file pdffontdata.inc Definition of the 14 Adobe core fonts.
+/// \file pdfcorefontdata.inc Definition of the 14 Adobe core fonts.
+
+#include "wx/pdfcorefontdata.h"
 
 /*
 
@@ -350,43 +352,26 @@ static short cwZapfDingbats[] =
     /* 250 */     831,  873,  927,  970,  918,    0
   };
 
-static const struct wxCoreFontDesc
-{
-  const wxChar* id;
-  const wxChar* name;
-  short*        cwArray;
-  const wxChar* bbox;
-  int           ascent;
-  int           descent;
-  int           capHeight;
-  int           flags;
-  int           italicAngle;
-  int           stemV;
-  int           missingWidth;
-  int           xHeight;
-  int           underlinePosition;
-  int           underlineThickness;
-}
-
+#include "pdfcorefontkerning.inc"
+ 
 //ascent, descent, int capHeight, flags, const wxString &fontBBox, italicAngle, stemV, missingWidth)
 
-wxCoreFontTable[] =
+static const wxPdfCoreFontDesc gs_coreFontTable[] =
 {
-  { wxT("courier"),      wxT("Courier"),               cwCourier,              wxT("[-166 -225 1000 931]"),  629, -157, 562, 0, 0,   0, 600, 426, -100, 50},
-  { wxT("courierB"),     wxT("Courier-Bold"),          cwCourier,              wxT("[-170 -228 1003 962]"),  629, -157, 562, 0, 0,   0, 600, 439, -100, 50},
-  { wxT("courierI"),     wxT("Courier-Oblique"),       cwCourier,              wxT("[-170 -225 1116 931]"),  629, -157, 562, 0, -12, 0, 600, 426, -100, 50},
-  { wxT("courierBI"),    wxT("Courier-BoldOblique"),   cwCourier,              wxT("[-174 -228 1114 962]"),  629, -157, 562, 0, -12, 0, 600, 439, -100, 50},
-  { wxT("helvetica"),    wxT("Helvetica"),             cwHelvetica,            wxT("[-168 -218 1000 898]"),  718, -207, 718, 0, 0,   0, 278, 523, -100, 50},
-  { wxT("helveticaB"),   wxT("Helvetica-Bold"),        cwHelveticaBold,        wxT("[-168 -218 1000 935]"),  718, -207, 718, 0, 0,   0, 278, 532, -100, 50},
-  { wxT("helveticaI"),   wxT("Helvetica-Oblique"),     cwHelveticaOblique,     wxT("[-169 -217 1010 883]"),  718, -207, 718, 0, -12, 0, 278, 523, -100, 50},
-  { wxT("helveticaBI"),  wxT("Helvetica-BoldOblique"), cwHelveticaBoldOblique, wxT("[-200 -218 996 921]"),   718, -207, 718, 0, -12, 0, 278, 532, -100, 50},
-  { wxT("times"),        wxT("Times-Roman"),           cwTimesRoman,           wxT("[-168 -218 1000 898]"),  683, -217, 662, 0, 0,   0, 250, 450, -100, 50},
-  { wxT("timesB"),       wxT("Times-Bold"),            cwTimesBold,            wxT("[-113 -250 749 801]"),   683, -217, 676, 0, 0,   0, 250, 461, -100, 50},
-  { wxT("timesI"),       wxT("Times-Italic"),          cwTimesItalic,          wxT("[-28 -250 742 805]"),    683, -217, 653, 0, -16, 0, 250, 441, -100, 50},
-  { wxT("timesBI"),      wxT("Times-BoldItalic"),      cwTimesBoldItalic,      wxT("[-56 -250 868 801]"),    683, -217, 669, 0, -15, 0, 250, 462, -100, 50},
-  { wxT("symbol"),       wxT("Symbol"),                cwSymbol,               wxT("[-180 -293 1090 1010]"), 600, -200, 600, 0, 0,   0, 0,   450, -100, 50},
-  { wxT("zapfdingbats"), wxT("ZapfDingbats"),          cwZapfDingbats,         wxT("[-1 -143 981 820]"),     806, -198, 705, 0, 0,   0, 278, 705, -205, 123},
+  { wxT("Courier"),      wxEmptyString, wxT("Courier"),               cwCourier,              NULL,                        wxT("[-166 -225 1000 931]"),  629, -157, 562, 0,   0, 0, 600, 426, -100,  50 },
+  { wxT("Courier"),      wxEmptyString, wxT("Courier-Bold"),          cwCourier,              NULL,                        wxT("[-170 -228 1003 962]"),  629, -157, 562, 0,   0, 0, 600, 439, -100,  50 },
+  { wxT("Courier"),      wxEmptyString, wxT("Courier-Oblique"),       cwCourier,              NULL,                        wxT("[-170 -225 1116 931]"),  629, -157, 562, 0, -12, 0, 600, 426, -100,  50 },
+  { wxT("Courier"),      wxEmptyString, wxT("Courier-BoldOblique"),   cwCourier,              NULL,                        wxT("[-174 -228 1114 962]"),  629, -157, 562, 0, -12, 0, 600, 439, -100,  50 },
+  { wxT("Helvetica"),    wxT("Arial"),  wxT("Helvetica"),             cwHelvetica,            kpTableHelvetica,            wxT("[-168 -218 1000 898]"),  718, -207, 718, 0,   0, 0, 278, 523, -100,  50 },
+  { wxT("Helvetica"),    wxT("Arial"),  wxT("Helvetica-Bold"),        cwHelveticaBold,        kpTableHelveticaBold,        wxT("[-168 -218 1000 935]"),  718, -207, 718, 0,   0, 0, 278, 532, -100,  50 },
+  { wxT("Helvetica"),    wxT("Arial"),  wxT("Helvetica-Oblique"),     cwHelveticaOblique,     kpTableHelveticaOblique,     wxT("[-169 -217 1010 883]"),  718, -207, 718, 0, -12, 0, 278, 523, -100,  50 },
+  { wxT("Helvetica"),    wxT("Arial"),  wxT("Helvetica-BoldOblique"), cwHelveticaBoldOblique, kpTableHelveticaBoldOblique, wxT("[-200 -218 996 921]"),   718, -207, 718, 0, -12, 0, 278, 532, -100,  50 },
+  { wxT("Times"),        wxEmptyString, wxT("Times-Roman"),           cwTimesRoman,           kpTableTimes,                wxT("[-168 -218 1000 898]"),  683, -217, 662, 0,   0, 0, 250, 450, -100,  50 },
+  { wxT("Times"),        wxEmptyString, wxT("Times-Bold"),            cwTimesBold,            kpTableTimesBold,            wxT("[-113 -250 749 801]"),   683, -217, 676, 0,   0, 0, 250, 461, -100,  50 },
+  { wxT("Times"),        wxEmptyString, wxT("Times-Italic"),          cwTimesItalic,          kpTableTimesItalic,          wxT("[-28 -250 742 805]"),    683, -217, 653, 0, -16, 0, 250, 441, -100,  50 },
+  { wxT("Times"),        wxEmptyString, wxT("Times-BoldItalic"),      cwTimesBoldItalic,      kpTableTimesBoldItalic,      wxT("[-56 -250 868 801]"),    683, -217, 669, 0, -15, 0, 250, 462, -100,  50 },
+  { wxT("Symbol"),       wxEmptyString, wxT("Symbol"),                cwSymbol,               NULL,                        wxT("[-180 -293 1090 1010]"), 600, -200, 600, 0,   0, 0,   0, 450, -100,  50 },
+  { wxT("ZapfDingbats"), wxEmptyString, wxT("ZapfDingbats"),          cwZapfDingbats,         NULL,                        wxT("[-1 -143 981 820]"),     806, -198, 705, 0,   0, 0, 278, 705, -205, 123 },
 // Last dummy entry
-  { wxEmptyString,       wxEmptyString,                NULL,                   wxEmptyString,                0,   0,    0,   0, 0,   0,      0,   0   }
+  { wxEmptyString,       wxEmptyString, wxEmptyString,                NULL,                   NULL,                        wxEmptyString,                0,   0,    0,   0,   0, 0,   0,   0,    0,   0 }
 };
-

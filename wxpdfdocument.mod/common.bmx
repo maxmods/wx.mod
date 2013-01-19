@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -45,22 +45,46 @@ Import "include/*.h"
 
 Import "src/pdfannotation.cpp"
 Import "src/pdfbarcode.cpp"
-Import "src/pdfcolor.cpp"
+Import "src/pdfcffdecoder.cpp"
+Import "src/pdfcffindex.cpp"
+Import "src/pdfcolour.cpp"
+Import "src/pdfdc.cpp"
 Import "src/pdfdecode.cpp"
-Import "src/pdfdoc.cpp"
+Import "src/pdfdocument.cpp"
+Import "src/pdfencoding.cpp"
 Import "src/pdfencrypt.cpp"
 Import "src/pdffont.cpp"
+Import "src/pdffontdata.cpp"
+Import "src/pdffontdatacore.cpp"
+Import "src/pdffontdataopentype.cpp"
+Import "src/pdffontdatatruetype.cpp"
+Import "src/pdffontdatatype0.cpp"
+Import "src/pdffontdatatype1.cpp"
+Import "src/pdffontdescription.cpp"
+Import "src/pdffontdetails.cpp"
+Import "src/pdffontextended.cpp"
+Import "src/pdffontmanager.cpp"
+Import "src/pdffontparser.cpp"
+Import "src/pdffontparsertruetype.cpp"
+Import "src/pdffontparsertype1.cpp"
+Import "src/pdffontsubsetcff.cpp"
+Import "src/pdffontsubsettruetype.cpp"
+Import "src/pdffontvolt.cpp"
 Import "src/pdfform.cpp"
+Import "src/pdfgradient.cpp"
 Import "src/pdfgraphics.cpp"
 Import "src/pdfimage.cpp"
 Import "src/pdfkernel.cpp"
+Import "src/pdflayer.cpp"
 Import "src/pdfobjects.cpp"
+Import "src/pdfocg.cpp"
 Import "src/pdfparser.cpp"
+Import "src/pdfpattern.cpp"
+Import "src/pdfprint.cpp"
 Import "src/pdfrijndael.cpp"
 Import "src/pdftemplate.cpp"
-Import "src/pdftruetype.cpp"
+Import "src/pdfutility.cpp"
 Import "src/pdfxml.cpp"
-
 
 Import "glue.cpp"
 
@@ -75,7 +99,7 @@ Extern
 	Function bmx_wxpdfdocument_cell(handle:Byte Ptr, w:Double, h:Double, txt:String, border:Int, ln:Int, align:Int, fill:Int, link:Byte Ptr)
 	Function bmx_wxpdfdocument_saveasfile(handle:Byte Ptr, name:String)
 
-	Function bmx_wxpdfdocument_addspotcolor(handle:Byte Ptr, name:String, cyan:Double, magenta:Double, yellow:Double, black:Double)
+	Function bmx_wxpdfdocument_addspotcolour(handle:Byte Ptr, name:String, cyan:Double, magenta:Double, yellow:Double, black:Double)
 	Function bmx_wxpdfdocument_aliasnbpages(handle:Byte Ptr, _alias:String)
 	Function bmx_wxpdfdocument_arrow(handle:Byte Ptr, x1:Double, y1:Double, x2:Double, y2:Double, lineWidth:Double, height:Double, width:Double)
 	Function bmx_wxpdfdocument_circle(handle:Byte Ptr, x0:Double, y0:Double, r:Double, astart:Double, afinish:Double, style:Int, nSeg:Int)
@@ -88,13 +112,13 @@ Extern
 
 	Function bmx_wxpdfdocument_setx(handle:Byte Ptr, x:Double)
 	Function bmx_wxpdfdocument_settitle(handle:Byte Ptr, title:String)
-	Function bmx_wxpdfdocument_setdrawcolor(handle:Byte Ptr, colour:Byte Ptr)
-	Function bmx_wxpdfdocument_setfillcolor(handle:Byte Ptr, colour:Byte Ptr)
-	Function bmx_wxpdfdocument_settextcolor(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxpdfdocument_setdrawcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxpdfdocument_setfillcolour(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxpdfdocument_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxpdfdocument_getstringwidth:Double(handle:Byte Ptr, text:String)
 	Function bmx_wxpdfdocument_setlinewidth(handle:Byte Ptr, width:Double)
 	Function bmx_wxpdfdocument_setauthor(handle:Byte Ptr, author:String)
-	Function bmx_wxpdfdocument_settextcolorgrayscale(handle:Byte Ptr, grayscale:Int)
+	Function bmx_wxpdfdocument_settextcolourgrayscale(handle:Byte Ptr, grayscale:Int)
 	Function bmx_wxpdfdocument_multicell:Int(handle:Byte Ptr, w:Double, h:Double, txt:String, border:Int, align:Int, fill:Int, maxline:Int)
 
 	Function bmx_wxpdfdocument_acceptpagebreak:Int(handle:Byte Ptr)
@@ -118,7 +142,6 @@ Extern
 	Function bmx_wxpdfdocument_getbreakmargin:Double(handle:Byte Ptr)
 	Function bmx_wxpdfdocument_getcellmargin:Double(handle:Byte Ptr)
 	Function bmx_wxpdfdocument_getfontfamily:String(handle:Byte Ptr)
-	Function bmx_wxpdfdocument_getfontpath:String(handle:Byte Ptr)
 	Function bmx_wxpdfdocument_getfontsize:Double(handle:Byte Ptr)
 	Function bmx_wxpdfdocument_getfontstyle:String(handle:Byte Ptr)
 	Function bmx_wxpdfdocument_getfontsubsetting:Int(handle:Byte Ptr)
@@ -165,9 +188,9 @@ Extern
 	Function bmx_wxpdfdocument_skewx:Int(handle:Byte Ptr, xAngle:Double, x:Double, y:Double)
 	Function bmx_wxpdfdocument_skewy:Int(handle:Byte Ptr, yAngle:Double, x:Double, y:Double)
 	Function bmx_wxpdfdocument_starpolygon(handle:Byte Ptr, x0:Double, y0:Double, r:Double, ..
-			nv:Int, nr:Int, angle:Double, circle:Int, style:Int, circleStyle:Int, circleLineStype:Byte Ptr, circleFillColor:Byte Ptr)
+			nv:Int, nr:Int, angle:Double, circle:Int, style:Int, circleStyle:Int, circleLineStype:Byte Ptr, circleFillColour:Byte Ptr)
 	Function bmx_wxpdfdocument_shape(handle:Byte Ptr, shape:Byte Ptr, style:Int)
-	Function bmx_wxpdfdocument_shapedtext(handle:Byte Ptr, shape:Byte Ptr, text:String, mode:Int)
+	Function bmx_wxpdfdocument_shapedtext(handle:Byte Ptr, shape:Byte Ptr, text:String, Mode:Int)
 	Function bmx_wxpdfdocument_setlink:Int(handle:Byte Ptr, link:Int, y:Double, page:Int)
 	Function bmx_wxpdfdocument_getpageheight:Double(handle:Byte Ptr)
 	Function bmx_wxpdfdocument_getpagewidth:Double(handle:Byte Ptr)
@@ -178,13 +201,13 @@ Extern
 	Function bmx_wxpdfdocument_curveto(handle:Byte Ptr, x1:Double, y1:Double, x2:Double, y2:Double, x3:Double, y3:Double)
 	Function bmx_wxpdfdocument_endtemplate:Int(handle:Byte Ptr)
 
-	Function bmx_wxpdfdocument_getdrawcolor:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxpdfdocument_getfillcolor:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getdrawcolour:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_getfillcolour:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxpdfdocument_getfontdescription:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxpdfdocument_getlinestyle:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxpdfdocument_gettemplatebbox(handle:Byte Ptr, templateId:Int, x:Double Ptr, y:Double Ptr, width:Double Ptr, height:Double Ptr)
 	Function bmx_wxpdfdocument_gettemplatessize(handle:Byte Ptr, templateId:Int, width:Double Ptr, height:Double Ptr)
-	Function bmx_wxpdfdocument_gettextcolor:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxpdfdocument_gettextcolour:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxpdfdocument_imageimage:Int(handle:Byte Ptr, name:String, _image:Byte Ptr, x:Double, y:Double, w:Double, h:Double, link:Byte Ptr, maskImage:Int)
 	Function bmx_wxpdfdocument_imagemaskimage:Int(handle:Byte Ptr, name:String, _image:Byte Ptr)
 	Function bmx_wxpdfdocument_importpage:Int(handle:Byte Ptr, page:Int)
@@ -205,18 +228,18 @@ Extern
 	Function bmx_wxpdfdocument_radialgradient:Int(handle:Byte Ptr, col1:Byte Ptr, col2:Byte Ptr, x1:Double, y1:Double, r1:Double, x2:Double, y2:Double, r2:Double, intexp:Double)
 	Function bmx_wxpdfdocument_radiobutton(handle:Byte Ptr, group:String, name:String, width:Double)
 	Function bmx_wxpdfdocument_radiobuttonxy(handle:Byte Ptr, group:String, name:String, x:Double, y:Double, width:Double)
-	Function bmx_wxpdfdocument_settextcolorpdf(handle:Byte Ptr, pdfColour:Byte Ptr)
-	Function bmx_wxpdfdocument_settextcolorrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
-	Function bmx_wxpdfdocument_settextcolorcmyk(handle:Byte Ptr, cyan:Double, magenta:Double, yellow:Double, black:Double)
-	Function bmx_wxpdfdocument_settextcolorname(handle:Byte Ptr, name:String, tint:Double)
-	Function bmx_wxpdfdocument_setdrawcolorpdf(handle:Byte Ptr, pdfColour:Byte Ptr)
-	Function bmx_wxpdfdocument_setdrawcolorrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
-	Function bmx_wxpdfdocument_setdrawcolorcmyk(handle:Byte Ptr, cyan:Double, magenta:Double, yellow:Double, black:Double)
-	Function bmx_wxpdfdocument_setdrawcolorname(handle:Byte Ptr, name:String, tint:Double)
-	Function bmx_wxpdfdocument_setfillcolorpdf(handle:Byte Ptr, pdfColour:Byte Ptr)
-	Function bmx_wxpdfdocument_setfillcolorrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
-	Function bmx_wxpdfdocument_setfillcolorcmyk(handle:Byte Ptr, cyan:Double, magenta:Double, yellow:Double, black:Double)
-	Function bmx_wxpdfdocument_setfillcolorname(handle:Byte Ptr, name:String, tint:Double)
+	Function bmx_wxpdfdocument_settextcolourpdf(handle:Byte Ptr, pdfColour:Byte Ptr)
+	Function bmx_wxpdfdocument_settextcolourrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
+	Function bmx_wxpdfdocument_settextcolourcmyk(handle:Byte Ptr, cyan:Double, magenta:Double, yellow:Double, black:Double)
+	Function bmx_wxpdfdocument_settextcolourname(handle:Byte Ptr, name:String, tint:Double)
+	Function bmx_wxpdfdocument_setdrawcolourpdf(handle:Byte Ptr, pdfColour:Byte Ptr)
+	Function bmx_wxpdfdocument_setdrawcolourrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
+	Function bmx_wxpdfdocument_setdrawcolourcmyk(handle:Byte Ptr, cyan:Double, magenta:Double, yellow:Double, black:Double)
+	Function bmx_wxpdfdocument_setdrawcolourname(handle:Byte Ptr, name:String, tint:Double)
+	Function bmx_wxpdfdocument_setfillcolourpdf(handle:Byte Ptr, pdfColour:Byte Ptr)
+	Function bmx_wxpdfdocument_setfillcolourrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
+	Function bmx_wxpdfdocument_setfillcolourcmyk(handle:Byte Ptr, cyan:Double, magenta:Double, yellow:Double, black:Double)
+	Function bmx_wxpdfdocument_setfillcolourname(handle:Byte Ptr, name:String, tint:Double)
 
 	Function bmx_wxpdfdocument_rotate(handle:Byte Ptr, angle:Double, x:Double, y:Double)
 	Function bmx_wxpdfdocument_rotatedtext(handle:Byte Ptr, x:Double, y:Double, txt:String, angle:Double)
@@ -225,8 +248,8 @@ Extern
 	Function bmx_wxpdfdocument_scalex:Int(handle:Byte Ptr, sx:Double, x:Double, y:Double)
 	Function bmx_wxpdfdocument_scaley:Int(handle:Byte Ptr, sy:Double, x:Double, y:Double)
 	Function bmx_wxpdfdocument_scalexy:Int(handle:Byte Ptr, s:Double, x:Double, y:Double)
-	Function bmx_wxpdfdocument_setdrawcolorgrayscale(handle:Byte Ptr, grayscale:Int)
-	Function bmx_wxpdfdocument_setfillcolorgrayscale(handle:Byte Ptr, grayscale:Int)
+	Function bmx_wxpdfdocument_setdrawcolourgrayscale(handle:Byte Ptr, grayscale:Int)
+	Function bmx_wxpdfdocument_setfillcolourgrayscale(handle:Byte Ptr, grayscale:Int)
 	Function bmx_wxpdfdocument_setsourcefile:Int(handle:Byte Ptr, filename:String, password:String)
 
 	Function bmx_wxpdfdocument_setsubject(handle:Byte Ptr, subject:String)
@@ -234,11 +257,10 @@ Extern
 	Function bmx_wxpdfdocument_setmargins(handle:Byte Ptr, marginLeft:Double, marginTop:Double, marginRight:Double)
 	Function bmx_wxpdfdocument_setprotection(handle:Byte Ptr, permissions:Int, userPassword:String, ownerPassword:String, encryptionMethod:Int, keyLength:Int)
 	Function bmx_wxpdfdocument_setrightmargin(handle:Byte Ptr, margin:Double)
-	Function bmx_wxpdfdocument_setfontpath(handle:Byte Ptr, fontPath:String)
 	Function bmx_wxpdfdocument_setfontsize(handle:Byte Ptr, size:Double)
 	Function bmx_wxpdfdocument_setfontsubsetting(handle:Byte Ptr, fontSubsetting:Int)
 	Function bmx_wxpdfdocument_setformborderstyle(handle:Byte Ptr, borderStyle:Int, borderWidth:Int)
-	Function bmx_wxpdfdocument_setformcolors(handle:Byte Ptr, borderColor:Byte Ptr, backgroundColor:Byte Ptr, textColor:Byte Ptr)
+	Function bmx_wxpdfdocument_setformcolours(handle:Byte Ptr, borderColour:Byte Ptr, backgroundColour:Byte Ptr, textColour:Byte Ptr)
 	Function bmx_wxpdfdocument_setfillgradient(handle:Byte Ptr, x:Double, y:Double, w:Double, h:Double, gradient:Int)
 	Function bmx_wxpdfdocument_setautopagebreak(handle:Byte Ptr, autoPageBreak:Int, margin:Double)
 	Function bmx_wxpdfdocument_setcellmargin(handle:Byte Ptr, margin:Double)
@@ -247,7 +269,7 @@ Extern
 	Function bmx_wxpdfdocument_setdisplaymode(handle:Byte Ptr, zoom:Int, layout:Int, zooomFactor:Double)
 	Function bmx_wxpdfdocument_setalphastate(handle:Byte Ptr, state:Int)
 	Function bmx_wxpdfdocument_sector(handle:Byte Ptr, x0:Double, y0:Double, r:Double, astart:Double, afinish:Double, style:Int, clockwise:Int, origin:Double)
-	Function bmx_wxpdfdocument_regularpolygon(handle:Byte Ptr, x0:Double, y0:Double, r:Double, ns:Int, angle:Double, circle:Int, style:Int, circleStyle:Int, circleLineStyle:Byte Ptr, circleFillColor:Byte Ptr)
+	Function bmx_wxpdfdocument_regularpolygon(handle:Byte Ptr, x0:Double, y0:Double, r:Double, ns:Int, angle:Double, circle:Int, style:Int, circleStyle:Int, circleLineStyle:Byte Ptr, circleFillColour:Byte Ptr)
 	Function bmx_wxpdfdocument_rotatedimage(handle:Byte Ptr, file:String, x:Double, y:Double, w:Double, h:Double, angle:Double, imgType:String, link:Byte Ptr, maskImage:Int)
 
 	Function bmx_wxpdfcolour_createforname:Byte Ptr(name:String)
@@ -256,7 +278,7 @@ Extern
 	Function bmx_wxpdfcolour_creategrayscalecolour:Byte Ptr(grayscale:Int)
 	Function bmx_wxpdfcolour_createfromcolour:Byte Ptr(colour:Byte Ptr)
 	Function bmx_wxpdfcolour_createcmykcolour:Byte Ptr(cyan:Double, magenta:Double, yellow:Double, black:Double)
-	Function bmx_wxpdfcolour_getcolortype:Int(handle:Byte Ptr)
+	Function bmx_wxpdfcolour_getcolourtype:Int(handle:Byte Ptr)
 
 	Function bmx_wxpdfinfo_create:Byte Ptr()
 	Function bmx_wxpdfinfo_gettitle:String(handle:Byte Ptr)
@@ -338,7 +360,7 @@ Const wxPDF_ENCRYPTION_RC4V1:Int = 0
 Const wxPDF_ENCRYPTION_RC4V2:Int = 1
 Const wxPDF_ENCRYPTION_AESV2:Int = 2
 
-' Color types
+' Colour types
 Const wxPDF_COLOURTYPE_UNKNOWN:Int = 0
 Const wxPDF_COLOURTYPE_GRAY:Int = 1
 Const wxPDF_COLOURTYPE_RGB:Int = 2
@@ -431,15 +453,15 @@ Const wxPDF_BLENDMODE_SCREEN:Int = 2
 Const wxPDF_BLENDMODE_OVERLAY:Int = 3
 Const wxPDF_BLENDMODE_DARKEN:Int = 4
 Const wxPDF_BLENDMODE_LIGHTEN:Int = 5
-Const wxPDF_BLENDMODE_COLORDODGE:Int = 6
-Const wxPDF_BLENDMODE_COLORBURN:Int = 7
+Const wxPDF_BLENDMODE_ColourDODGE:Int = 6
+Const wxPDF_BLENDMODE_ColourBURN:Int = 7
 Const wxPDF_BLENDMODE_HARDLIGHT:Int = 8
 Const wxPDF_BLENDMODE_SOFTLIGHT:Int = 9
 Const wxPDF_BLENDMODE_DIFFERENCE:Int = 10
 Const wxPDF_BLENDMODE_EXCLUSION:Int = 11
 Const wxPDF_BLENDMODE_HUE:Int = 12
 Const wxPDF_BLENDMODE_SATURATION:Int = 12
-Const wxPDF_BLENDMODE_COLOR:Int = 13
+Const wxPDF_BLENDMODE_Colour:Int = 13
 Const wxPDF_BLENDMODE_LUMINOSITY:Int = 14
 
 

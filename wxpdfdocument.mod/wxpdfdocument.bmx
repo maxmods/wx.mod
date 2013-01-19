@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2011 Bruce A Henderson
+' Copyright (c) 2007-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ Module wx.wxPdfDocument
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2007-2011 Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2007-2013 Bruce A Henderson"
 
 
 ?linux
@@ -42,7 +42,7 @@ ModuleInfo "CC_OPTS: -D__WXMSW__"
 ModuleInfo "CC_OPTS: -D_UNICODE"
 ModuleInfo "CC_OPTS: -DUNICODE"
 ?macos
-ModuleInfo "CC_OPTS: -D__WXOSX_CARBON__"
+ModuleInfo "CC_OPTS: -D__WXOSX_COCOA__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
@@ -59,7 +59,7 @@ about: The main features are:
 <li>Automatic page break</li>
 <li>Automatic line break and text justification</li>
 <li>Image support (GIF, JPEG, PNG and WMF)</li>
-<li>Colors (Grayscale, RGB, CMYK, Spot colors)</li>
+<li>Colours (Grayscale, RGB, CMYK, Spot colours)</li>
 <li>Links (internal and external)</li>
 <li>14 Adobe standard fonts</li>
 <li>TrueType and Type1 fonts (with or without embedding) and encoding support</li>
@@ -168,7 +168,7 @@ Type wxPdfDocument
 	according to the left and top margins, and Header() is called to display the header.
 	The font which was set before calling is automatically restored. There is no need to
 	call #SetFont() again if you want to continue with the same font. The same is true for
-	colors and line width. The origin of the coordinate system is at the top-left corner
+	colours and line width. The origin of the coordinate system is at the top-left corner
 	and increasing ordinates go downwards.
 	<p>Parameters:
 	<ul>
@@ -181,11 +181,11 @@ Type wxPdfDocument
 	End Method
 	
 	Rem
-	bbdoc: Add spot color.
-	about: Add a spot color which can be referenced in color setting methods
+	bbdoc: Add spot colour.
+	about: Add a spot colour which can be referenced in colour setting methods
 	<p>Parameters :
 	<ul>
-	<li>@name - the name of the spot color (case sensitive)</li>
+	<li>@name - the name of the spot colour (case sensitive)</li>
 	<li>@cyan - indicates the cyan level. Value between 0 and 100 </li>
 	<li>@magenta - indicates the magenta level. Value between 0 and 100 </li>
 	<li>@yellow - indicates the yellow level. Value between 0 and 100 </li>
@@ -193,8 +193,8 @@ Type wxPdfDocument
 	</ul>
 	</p>
 	End Rem
-	Method AddSpotColor(name:String, cyan:Double, magenta:Double, yellow:Double, black:Double)
-		bmx_wxpdfdocument_addspotcolor(wxObjectPtr, name, cyan, magenta, yellow, black)
+	Method AddSpotColour(name:String, cyan:Double, magenta:Double, yellow:Double, black:Double)
+		bmx_wxpdfdocument_addspotcolour(wxObjectPtr, name, cyan, magenta, yellow, black)
 	End Method
 	
 	Rem
@@ -530,15 +530,15 @@ Type wxPdfDocument
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetDrawColor:wxPdfColour()
-		Return wxPdfColour._create(bmx_wxpdfdocument_getdrawcolor(wxObjectPtr))
+	Method GetDrawColour:wxPdfColour()
+		Return wxPdfColour._create(bmx_wxpdfdocument_getdrawcolour(wxObjectPtr))
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetFillColor:wxPdfColour()
-		Return wxPdfColour._create(bmx_wxpdfdocument_getfillcolor(wxObjectPtr))
+	Method GetFillColour:wxPdfColour()
+		Return wxPdfColour._create(bmx_wxpdfdocument_getfillcolour(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -553,13 +553,6 @@ Type wxPdfDocument
 	End Rem
 	Method GetFontFamily:String()
 		Return bmx_wxpdfdocument_getfontfamily(wxObjectPtr)
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetFontPath:String()
-		Return bmx_wxpdfdocument_getfontpath(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -693,8 +686,8 @@ Type wxPdfDocument
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetTextColor:wxPdfColour()
-		Return wxPdfColour._create(bmx_wxpdfdocument_gettextcolor(wxObjectPtr))
+	Method GetTextColour:wxPdfColour()
+		Return wxPdfColour._create(bmx_wxpdfdocument_gettextcolour(wxObjectPtr))
 	End Method
 
 	Rem
@@ -1032,16 +1025,16 @@ Type wxPdfDocument
 	End Rem
 	Method RegularPolygon(x0:Double, y0:Double, r:Double, ns:Int, angle:Double = 0, circle:Int = False, ..
 			style:Int = wxPDF_STYLE_DRAW, circleStyle:Int = wxPDF_STYLE_DRAW, ..
-			circleLineStyle:wxPdfLineStyle = Null, circleFillColor:wxPdfColour = Null)
+			circleLineStyle:wxPdfLineStyle = Null, circleFillColour:wxPdfColour = Null)
 		If circleLineStyle Then
-			If circleFillColor Then
-				bmx_wxpdfdocument_regularpolygon(wxObjectPtr, x0, y0, r, ns, angle, circle, style, circleStyle, circleLineStyle.wxObjectPtr, circleFillColor.wxObjectPtr)
+			If circleFillColour Then
+				bmx_wxpdfdocument_regularpolygon(wxObjectPtr, x0, y0, r, ns, angle, circle, style, circleStyle, circleLineStyle.wxObjectPtr, circleFillColour.wxObjectPtr)
 			Else
 				bmx_wxpdfdocument_regularpolygon(wxObjectPtr, x0, y0, r, ns, angle, circle, style, circleStyle, circleLineStyle.wxObjectPtr, Null)
 			End If
 		Else
-			If circleFillColor Then
-				bmx_wxpdfdocument_regularpolygon(wxObjectPtr, x0, y0, r, ns, angle, circle, style, circleStyle, Null, circleFillColor.wxObjectPtr)
+			If circleFillColour Then
+				bmx_wxpdfdocument_regularpolygon(wxObjectPtr, x0, y0, r, ns, angle, circle, style, circleStyle, Null, circleFillColour.wxObjectPtr)
 			Else
 				bmx_wxpdfdocument_regularpolygon(wxObjectPtr, x0, y0, r, ns, angle, circle, style, circleStyle, Null, Null)
 			End If
@@ -1273,85 +1266,85 @@ Type wxPdfDocument
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetDrawColorGrayScale(grayscale:Int)
-		bmx_wxpdfdocument_setdrawcolorgrayscale(wxObjectPtr, grayscale)
+	Method SetDrawColourGrayScale(grayscale:Int)
+		bmx_wxpdfdocument_setdrawcolourgrayscale(wxObjectPtr, grayscale)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetDrawColor(colour:wxColour)
-		bmx_wxpdfdocument_setdrawcolor(wxObjectPtr, colour.wxObjectPtr)
+	Method SetDrawColour(colour:wxColour)
+		bmx_wxpdfdocument_setdrawcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetDrawColorPdf(pdfColour:wxPdfColour)
-		bmx_wxpdfdocument_setdrawcolorpdf(wxObjectPtr, pdfColour.wxObjectPtr)
+	Method SetDrawColourPdf(pdfColour:wxPdfColour)
+		bmx_wxpdfdocument_setdrawcolourpdf(wxObjectPtr, pdfColour.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetDrawColorRGB(red:Int, green:Int, blue:Int)
-		bmx_wxpdfdocument_setdrawcolorrgb(wxObjectPtr, red, green, blue)
+	Method SetDrawColourRGB(red:Int, green:Int, blue:Int)
+		bmx_wxpdfdocument_setdrawcolourrgb(wxObjectPtr, red, green, blue)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetDrawColorCMYK(cyan:Double, magenta:Double, yellow:Double, black:Double)
-		bmx_wxpdfdocument_setdrawcolorcmyk(wxObjectPtr, cyan, magenta, yellow, black)
+	Method SetDrawColourCMYK(cyan:Double, magenta:Double, yellow:Double, black:Double)
+		bmx_wxpdfdocument_setdrawcolourcmyk(wxObjectPtr, cyan, magenta, yellow, black)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetDrawColorName(name:String, tint:Double = 100)
-		bmx_wxpdfdocument_setdrawcolorname(wxObjectPtr, name, tint)
+	Method SetDrawColourName(name:String, tint:Double = 100)
+		bmx_wxpdfdocument_setdrawcolourname(wxObjectPtr, name, tint)
 	End Method
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetFillColorGrayScale(grayscale:Int)
-		bmx_wxpdfdocument_setfillcolorgrayscale(wxObjectPtr, grayscale)
+	Method SetFillColourGrayScale(grayscale:Int)
+		bmx_wxpdfdocument_setfillcolourgrayscale(wxObjectPtr, grayscale)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetFillColor(colour:wxColour)
-		bmx_wxpdfdocument_setfillcolor(wxObjectPtr, colour.wxObjectPtr)
+	Method SetFillColour(colour:wxColour)
+		bmx_wxpdfdocument_setfillcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetFillColorPdf(pdfColour:wxPdfColour)
-		bmx_wxpdfdocument_setfillcolorpdf(wxObjectPtr, pdfColour.wxObjectPtr)
+	Method SetFillColourPdf(pdfColour:wxPdfColour)
+		bmx_wxpdfdocument_setfillcolourpdf(wxObjectPtr, pdfColour.wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetFillColorRGB(red:Int, green:Int, blue:Int)
-		bmx_wxpdfdocument_setfillcolorrgb(wxObjectPtr, red, green, blue)
+	Method SetFillColourRGB(red:Int, green:Int, blue:Int)
+		bmx_wxpdfdocument_setfillcolourrgb(wxObjectPtr, red, green, blue)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetFillColorCMYK(cyan:Double, magenta:Double, yellow:Double, black:Double)
-		bmx_wxpdfdocument_setfillcolorcmyk(wxObjectPtr, cyan, magenta, yellow, black)
+	Method SetFillColourCMYK(cyan:Double, magenta:Double, yellow:Double, black:Double)
+		bmx_wxpdfdocument_setfillcolourcmyk(wxObjectPtr, cyan, magenta, yellow, black)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetFillColorName(name:String, tint:Double = 100)
-		bmx_wxpdfdocument_setfillcolorname(wxObjectPtr, name, tint)
+	Method SetFillColourName(name:String, tint:Double = 100)
+		bmx_wxpdfdocument_setfillcolourname(wxObjectPtr, name, tint)
 	End Method
 	
 	Method SetFillGradient(x:Double, y:Double, w:Double, h:Double, gradient:Int)
@@ -1363,17 +1356,6 @@ Type wxPdfDocument
 	End Rem
 	Method SetFont(family:String, style:String = "", size:Double = 0)
 		bmx_wxpdfdocument_setfont(wxObjectPtr, family, style, size)
-	End Method
-	
-	Rem
-	bbdoc: 
-	about: Parameters :
-	<ul>
-	<li>xxxxxxxxxxxxxx</li>
-	</ul>
-	End Rem
-	Method SetFontPath(fontPath:String = "")
-		bmx_wxpdfdocument_setfontpath(wxObjectPtr, fontPath)
 	End Method
 	
 	Rem
@@ -1416,34 +1398,34 @@ Type wxPdfDocument
 	<li>xxxxxxxxxxxxxx</li>
 	</ul>
 	End Rem
-	Method SetFormColors(borderColor:wxPdfColour = Null, backgroundColor:wxPdfColour = Null, ..
-			textColor:wxPdfColour = Null)
-		If borderColor Then
-			If backgroundColor Then
-				If textColor Then
-					bmx_wxpdfdocument_setformcolors(wxObjectPtr, borderColor.wxObjectPtr, backgroundColor.wxObjectPtr, textColor.wxObjectPtr)
+	Method SetFormColours(borderColour:wxPdfColour = Null, backgroundColour:wxPdfColour = Null, ..
+			textColour:wxPdfColour = Null)
+		If borderColour Then
+			If backgroundColour Then
+				If textColour Then
+					bmx_wxpdfdocument_setformcolours(wxObjectPtr, borderColour.wxObjectPtr, backgroundColour.wxObjectPtr, textColour.wxObjectPtr)
 				Else
-					bmx_wxpdfdocument_setformcolors(wxObjectPtr, borderColor.wxObjectPtr, backgroundColor.wxObjectPtr, Null)
+					bmx_wxpdfdocument_setformcolours(wxObjectPtr, borderColour.wxObjectPtr, backgroundColour.wxObjectPtr, Null)
 				End If
 			Else
-				If textColor Then
-					bmx_wxpdfdocument_setformcolors(wxObjectPtr, borderColor.wxObjectPtr, Null, textColor.wxObjectPtr)
+				If textColour Then
+					bmx_wxpdfdocument_setformcolours(wxObjectPtr, borderColour.wxObjectPtr, Null, textColour.wxObjectPtr)
 				Else
-					bmx_wxpdfdocument_setformcolors(wxObjectPtr, borderColor.wxObjectPtr, Null, Null)
+					bmx_wxpdfdocument_setformcolours(wxObjectPtr, borderColour.wxObjectPtr, Null, Null)
 				End If
 			End If
 		Else
-			If backgroundColor Then
-				If textColor Then
-					bmx_wxpdfdocument_setformcolors(wxObjectPtr, Null, backgroundColor.wxObjectPtr, textColor.wxObjectPtr)
+			If backgroundColour Then
+				If textColour Then
+					bmx_wxpdfdocument_setformcolours(wxObjectPtr, Null, backgroundColour.wxObjectPtr, textColour.wxObjectPtr)
 				Else
-					bmx_wxpdfdocument_setformcolors(wxObjectPtr, Null, backgroundColor.wxObjectPtr, Null)
+					bmx_wxpdfdocument_setformcolours(wxObjectPtr, Null, backgroundColour.wxObjectPtr, Null)
 				End If
 			Else
-				If textColor Then
-					bmx_wxpdfdocument_setformcolors(wxObjectPtr, Null, Null, textColor.wxObjectPtr)
+				If textColour Then
+					bmx_wxpdfdocument_setformcolours(wxObjectPtr, Null, Null, textColour.wxObjectPtr)
 				Else
-					bmx_wxpdfdocument_setformcolors(wxObjectPtr, Null, Null, Null)
+					bmx_wxpdfdocument_setformcolours(wxObjectPtr, Null, Null, Null)
 				End If
 			End If
 		End If
@@ -1564,8 +1546,8 @@ Type wxPdfDocument
 	<li>xxxxxxxxxxxxxx</li>
 	</ul>
 	End Rem
-	Method SetTextColorGrayScale(grayscale:Int)
-		bmx_wxpdfdocument_settextcolorgrayscale(wxObjectPtr, grayscale)
+	Method SetTextColourGrayScale(grayscale:Int)
+		bmx_wxpdfdocument_settextcolourgrayscale(wxObjectPtr, grayscale)
 	End Method
 	
 	Rem
@@ -1575,8 +1557,8 @@ Type wxPdfDocument
 	<li>xxxxxxxxxxxxxx</li>
 	</ul>
 	End Rem
-	Method SetTextColor(colour:wxColour)
-		bmx_wxpdfdocument_settextcolor(wxObjectPtr, colour.wxObjectPtr)
+	Method SetTextColour(colour:wxColour)
+		bmx_wxpdfdocument_settextcolour(wxObjectPtr, colour.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1586,8 +1568,8 @@ Type wxPdfDocument
 	<li>xxxxxxxxxxxxxx</li>
 	</ul>
 	End Rem
-	Method SetTextColorPdf(pdfColour:wxPdfColour)
-		bmx_wxpdfdocument_settextcolorpdf(wxObjectPtr, pdfColour.wxObjectPtr)
+	Method SetTextColourPdf(pdfColour:wxPdfColour)
+		bmx_wxpdfdocument_settextcolourpdf(wxObjectPtr, pdfColour.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1597,8 +1579,8 @@ Type wxPdfDocument
 	<li>xxxxxxxxxxxxxx</li>
 	</ul>
 	End Rem
-	Method SetTextColorRGB(red:Int, green:Int, blue:Int)
-		bmx_wxpdfdocument_settextcolorrgb(wxObjectPtr, red, green, blue)
+	Method SetTextColourRGB(red:Int, green:Int, blue:Int)
+		bmx_wxpdfdocument_settextcolourrgb(wxObjectPtr, red, green, blue)
 	End Method
 	
 	Rem
@@ -1608,8 +1590,8 @@ Type wxPdfDocument
 	<li>xxxxxxxxxxxxxx</li>
 	</ul>
 	End Rem
-	Method SetTextColorCMYK(cyan:Double, magenta:Double, yellow:Double, black:Double)
-		bmx_wxpdfdocument_settextcolorcmyk(wxObjectPtr, cyan, magenta, yellow, black)
+	Method SetTextColourCMYK(cyan:Double, magenta:Double, yellow:Double, black:Double)
+		bmx_wxpdfdocument_settextcolourcmyk(wxObjectPtr, cyan, magenta, yellow, black)
 	End Method
 	
 	Rem
@@ -1619,8 +1601,8 @@ Type wxPdfDocument
 	<li>xxxxxxxxxxxxxx</li>
 	</ul>
 	End Rem
-	Method SetTextColorName(name:String, tint:Double = 100)
-		bmx_wxpdfdocument_settextcolorname(wxObjectPtr, name, tint)
+	Method SetTextColourName(name:String, tint:Double = 100)
+		bmx_wxpdfdocument_settextcolourname(wxObjectPtr, name, tint)
 	End Method
 	
 	Rem
@@ -1707,8 +1689,8 @@ Type wxPdfDocument
 	<li>xxxxxxxxxxxxxx</li>
 	</ul>
 	End Rem
-	Method ShapedText(shape:wxPdfShape, text:String, mode:Int = wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT)
-		bmx_wxpdfdocument_shapedtext(wxObjectPtr, shape.wxObjectPtr, text, mode)
+	Method ShapedText(shape:wxPdfShape, text:String, Mode:Int = wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT)
+		bmx_wxpdfdocument_shapedtext(wxObjectPtr, shape.wxObjectPtr, text, Mode)
 	End Method
 
 	Rem
@@ -1753,16 +1735,16 @@ Type wxPdfDocument
 	End Rem
 	Method StarPolygon(x0:Double, y0:Double, r:Double, nv:Int, nr:Int, angle:Double = 0, circle:Int = False, ..
 			style:Int = wxPDF_STYLE_DRAW, circleStyle:Int = wxPDF_STYLE_DRAW, ..
-			circleLineStyle:wxPdfLineStyle = Null, circleFillColor:wxPdfColour = Null)
+			circleLineStyle:wxPdfLineStyle = Null, circleFillColour:wxPdfColour = Null)
 		If circleLineStyle Then
-			If circleFillColor Then
-				bmx_wxpdfdocument_starpolygon(wxObjectPtr, x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStyle.wxObjectPtr, circleFillColor.wxObjectPtr)
+			If circleFillColour Then
+				bmx_wxpdfdocument_starpolygon(wxObjectPtr, x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStyle.wxObjectPtr, circleFillColour.wxObjectPtr)
 			Else
 				bmx_wxpdfdocument_starpolygon(wxObjectPtr, x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStyle.wxObjectPtr, Null)
 			End If
 		Else
-			If circleFillColor Then
-				bmx_wxpdfdocument_starpolygon(wxObjectPtr, x0, y0, r, nv, nr, angle, circle, style, circleStyle, Null, circleFillColor.wxObjectPtr)
+			If circleFillColour Then
+				bmx_wxpdfdocument_starpolygon(wxObjectPtr, x0, y0, r, nv, nr, angle, circle, style, circleStyle, Null, circleFillColour.wxObjectPtr)
 			Else
 				bmx_wxpdfdocument_starpolygon(wxObjectPtr, x0, y0, r, nv, nr, angle, circle, style, circleStyle, Null, Null)
 			End If
@@ -2073,8 +2055,8 @@ Type wxPdfColour
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetColorType:Int()
-		Return bmx_wxpdfcolour_getcolortype(wxObjectPtr)
+	Method GetColourType:Int()
+		Return bmx_wxpdfcolour_getcolourtype(wxObjectPtr)
 	End Method
 
 
