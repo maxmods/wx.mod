@@ -22,10 +22,12 @@
 
 #include "glue.h"
 
-void init_scintilla_modules() {
-	static int f = 0;
-	extern LexerModule lmBlitzMax;
-	f += lmBlitzMax.GetLanguage();
+#define LINK_LEXER(lexer) extern LexerModule lexer; Catalogue::AddLexerModule(&lexer);
+
+void bmx_init_scintilla_modules() {
+
+	LINK_LEXER(lmBlitzMax);
+
 }
 
 // ---------------------------------------------------------------------------------------
@@ -39,14 +41,6 @@ MaxScintilla::MaxScintilla(BBObject * handle, wxWindow * parent, wxWindowID id, 
 MaxScintilla::~MaxScintilla() {
 	wxunbind(this);
 }
-
-#ifdef __APPLE__
-#include "Platform.h"
-bool Platform ::WaitMouseMoved(Point pt) {
-	return true;
-}
-#endif
-
 
 // *********************************************
 

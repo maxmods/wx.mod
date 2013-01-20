@@ -24,12 +24,12 @@
 #include "wx/stc/stc.h"
 #include "../wxbitmap.mod/glue.h"
 
-#include "Platform.h"
+#include "ILexer.h"
+#include "Scintilla.h"
+#include "SciLexer.h"
 
-#include "PropSet.h"
-#include "Accessor.h"
-#include "StyleContext.h"
-#include "KeyWords.h"
+#include "LexerModule.h"
+#include "Catalogue.h"
 
 
 class MaxScintilla;
@@ -41,7 +41,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	void init_scintilla_modules();
+	void bmx_init_scintilla_modules();
 
 	MaxScintilla * bmx_wxscintilla_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 

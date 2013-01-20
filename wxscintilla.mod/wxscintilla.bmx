@@ -53,7 +53,7 @@ ModuleInfo "CC_OPTS: -DMACOSX -D__WX__ -DSCI_LEXER"
 
 Import "common.bmx"
 
-init_scintilla_modules()
+bmx_init_scintilla_modules()
 
 Rem
 bbdoc: 
