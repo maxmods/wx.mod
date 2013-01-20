@@ -108,6 +108,11 @@ Import "-lrpcrt4"
 Import "-lwsock32"
 Import "-lodbc32"
 Import "-lgdiplus"
+
+' NOTE : this is the file wx.rc from include/wx/msw/wx.rc
+' Compiled with windres and given the name wx_rc.o
+Import "../lib/win32/wx_rc.o"
+
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
 Import "../include/*.h"
