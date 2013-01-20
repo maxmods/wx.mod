@@ -196,7 +196,7 @@ Type MyFrame Extends wxFrame
 		subMenu.AppendRadioItem(Menu_SubMenu_Radio2, "Radio item &2", "Radio item")
 		subMenu.AppendRadioItem(Menu_SubMenu_Radio3, "Radio item &3", "Radio item")
 		
-		menubarMenu.AppendMenu(Menu_SubMenu, "Submenu", subMenu)
+		menubarMenu.AppendSubMenu(subMenu, "Submenu")
 		
 		Local menuMenu:wxMenu = New wxMenu.Create()
 		menuMenu.Append(Menu_Menu_Append, "&Append menu item~tAlt-A", "Append a menu item to the last menu")
@@ -344,7 +344,7 @@ Type MyFrame Extends wxFrame
 	
 	Function OnAbout(event:wxEvent)
 		wxMessageBox("wxWidgets menu sample~n(c) 1999-2001 Vadim Zeitlin" + ..
-			"~nBlitzmax port (c) 2007 Bruce A Henderson", ..
+			"~nBlitzmax port (c) 2007-2013 Bruce A Henderson", ..
 			"About wxWidgets menu sample", wxICON_INFORMATION)
 	End Function
 	
@@ -365,7 +365,7 @@ Type MyFrame Extends wxFrame
 		
 		Local menu:wxMenu = menubar.GetMenu(menubar.GetMenuCount() - 2)
 		
-		menu.AppendMenu(Menu_Dummy_Last, "&Dummy sub menu", MyFrame(event.parent).CreateDummyMenu(), ..
+		menu.AppendSubMenu(MyFrame(event.parent).CreateDummyMenu(), "&Dummy sub menu", ..
 			"Dummy sub menu help")
 	End Function
 	
@@ -407,7 +407,7 @@ Type MyFrame Extends wxFrame
 		Local item:wxMenuItem = MyFrame(event.parent).GetLastMenuItem()
 		
 		If item Then
-			wxLogMessage("The label of the last menu item is '" + item.GetLabel() + "'")
+			wxLogMessage("The label of the last menu item is '" + item.GetItemLabelText() + "'")
 		End If
 	End Function
 	
@@ -417,10 +417,10 @@ Type MyFrame Extends wxFrame
 		If item Then
 		
 			Local label:String = wxGetTextFromUser("Enter new label: ", "Change last menu item text", ..
-			item.GetLabel(), MyFrame(event.parent))
+			item.GetItemLabelText(), MyFrame(event.parent))
 			
 			If label Then
-				item.SetText(label)
+				item.SetItemLabel(label)
 			End If
 		End If
 	End Function
@@ -558,7 +558,7 @@ Type MyFrame Extends wxFrame
 		
 		Assert count, "no last menu?"
 		
-		wxLogMessage("The label of the last menu item is '" + mbar.GetLabelTop(count - 1) + "'")
+		wxLogMessage("The label of the last menu item is '" + mbar.GetMenuLabel(count - 1) + "'")
 	End Function
 	
 	Function OnSetLabelMenu(event:wxEvent)
@@ -568,10 +568,10 @@ Type MyFrame Extends wxFrame
 		Assert count, "no last menu?"
 		
 		Local label:String = wxGetTextFromUser("Enter new label: ", "Change last menu text", ..
-			mbar.GetLabelTop(count - 1), MyFrame(event.parent))
+			mbar.GetMenuLabel(count - 1), MyFrame(event.parent))
 		
 		If label Then
-			mbar.SetLabelTop(count - 1, label)
+			mbar.SetMenuLabel(count - 1, label)
 		End If
 	End Function
 	
@@ -696,7 +696,7 @@ Type MyFrame Extends wxFrame
 		Local menu:wxMenu = New wxMenu.Create()
 		
 		menu.Append(Menu_Help_About, "&About")
-		menu.AppendMenu(Menu_Popup_Submenu, "&Submenu", CreateDummyMenu())
+		menu.AppendSubMenu(CreateDummyMenu(), "&Submenu")
 		menu.Append(Menu_Popup_ToBeDeleted, "To be &deleted")
 		menu.AppendCheckItem(Menu_Popup_ToBeChecked, "To be &checked")
 		menu.Append(Menu_Popup_ToBeGreyed, "To be &greyed", "This menu item should be initially greyed out")
@@ -728,7 +728,7 @@ Type MyFrame Extends wxFrame
 	
 	Method GetLastMenuItem:wxMenuItem()
 		Local menubar:wxMenuBar = GetMenuBar()
-		Local menu:wxMenu = menubar.GetMenu(menubar.GetMenuCount() - 1)
+		Local menu:wxMenu = menubar.GetMenu(menubar.GetMenuCount() - 2)
 		
 		Local items:wxMenuItem[] = menu.GetMenuItems()
 		If items.length = 0

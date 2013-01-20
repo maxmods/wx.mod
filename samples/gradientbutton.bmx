@@ -60,9 +60,7 @@ Type MyFrame Extends wxFrame
 		itemBoxSizer5.Add(itemTextCtrl6, 0, wxGROW|wxLEFT|wxRIGHT|wxTOP, 5)
 		
 		Local itemGridBagSizer7:wxGridBagSizer = New wxGridBagSizer.CreateGB(5, 3)
-		itemGridBagSizer7.AddGrowableCol(0)
-		itemGridBagSizer7.AddGrowableCol(1)
-		itemGridBagSizer7.AddGrowableCol(2)
+
 		itemGridBagSizer7.SetEmptyCellSize(10, 20)
 		itemBoxSizer5.AddSizer(itemGridBagSizer7, 0, wxGROW|wxLEFT|wxRIGHT|wxTOP, 5)
 		
@@ -104,7 +102,12 @@ Type MyFrame Extends wxFrame
 		
 		Local itemButton20:wxGradientButton = New wxGradientButton.Create(Self, ID_GRADIENTBUTTON12, "Dial", -1, -1, -1, -1, 0 )
 		itemGridBagSizer7.AddGB(itemButton20, 4, 0, 1, 3, wxGROW, 2)
-		
+	
+		' set columns to growable
+		itemGridBagSizer7.AddGrowableCol(0)
+		itemGridBagSizer7.AddGrowableCol(1)
+		itemGridBagSizer7.AddGrowableCol(2)
+	
 		Local itemStaticText21:wxStaticText = New wxStaticText.Create(Self, wxID_STATIC, "Recent calls:", -1, -1, -1, -1, 0 )
 		itemStaticText21.SetForegroundColour(New wxColour.Create(255, 255, 255))
 		'itemStaticText21.SetFont(New wxFont.CreateWithAttribs(8, wxSWISS, wxNORMAL, wxBOLD, False, "Tahoma"))

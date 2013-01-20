@@ -213,7 +213,7 @@ Type MyFrame Extends wxFrame
 		statbarStyleMenu.Append(StatusBar_SetStyleNormal, "&Normal", "Sets the style of the first field to normal (sunken) look", True)
 		statbarStyleMenu.Append(StatusBar_SetStyleFlat, "&Flat", "Sets the style of the first field to flat look", True)
 		statbarStyleMenu.Append(StatusBar_SetStyleRaised, "&Raised", "Sets the style of the first field to raised look", True)
-		statbarMenu.AppendMenu(StatusBar_SetStyle, "Field style", statbarStyleMenu)
+		statbarMenu.AppendSubMenu(statbarStyleMenu, "Field style")
 		
 		Local helpMenu:wxMenu = New wxMenu.Create()
 		helpMenu.Append(StatusBar_About, "&About...~tCtrl-A", "Show about dialog")
@@ -420,13 +420,13 @@ Type MyAboutDialog Extends wxDialog
 	Method Create:MyAboutDialog(parent:wxWindow, id:Int = -1, title:String = "About statbar", x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	
-		super.Create_(parent, id, title, x, y, w, h, style)
+		Super.Create_(parent, id, title, x, y, w, h, style)
 		Return Self
 	End Method
 	
 	Method OnInit()
 		Local text:wxStaticText = New wxStaticText.Create(Self, wxID_ANY, "wxStatusBar sample~n" + ..
-			"(c) 2000 Vadim Zeitlin~nBlitzmax port (c) 2007-2009 Bruce A Henderson")
+			"(c) 2000 Vadim Zeitlin~nBlitzmax port (c) 2007-2013 Bruce A Henderson")
 
 		Local btn:wxButton = New wxButton.Create(Self, wxID_OK, "&Close")
 		
