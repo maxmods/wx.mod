@@ -42,9 +42,9 @@ Type PdfTuto3 Extends wxPdfDocument
 		Local w:Double = GetStringWidth(m_myTitle) + 6
 		SetX((210 - w) / 2)
 		' Colors of frame, background And text
-		SetDrawColor(New wxColour.Create(0,80,180))
-		SetFillColor(New wxColour.Create(230,230,0))
-		SetTextColor(New wxColour.Create(220,50,50))
+		SetDrawColour(New wxColour.Create(0,80,180))
+		SetFillColour(New wxColour.Create(230,230,0))
+		SetTextColour(New wxColour.Create(220,50,50))
 		' Thickness of frame (1 mm)
 		SetLineWidth(1)
 		' Title
@@ -59,7 +59,7 @@ Type PdfTuto3 Extends wxPdfDocument
 		' Arial italic 8
 		SetFont("Arial", "I", 8)
 		' Text color in gray
-		SetTextColorGrayScale(128)
+		SetTextColourGrayScale(128)
 		' Page number
 		Cell(0, 10, "Page " + PageNo(), 0, 0, wxPDF_ALIGN_CENTER)
 	End Method
@@ -68,7 +68,7 @@ Type PdfTuto3 Extends wxPdfDocument
 		' Arial 12
 		SetFont("Arial", "", 12)
 		' Background color
-		SetFillColor(New wxColour.Create(200,220,255))
+		SetFillColour(New wxColour.Create(200,220,255))
 		' Title
 		Cell(0, 6, "Chapter " + num + " : " + label, 0, 1, wxPDF_ALIGN_LEFT,1)
 		' Line break
@@ -99,11 +99,11 @@ End Type
 
 
 Function tutorial3()
-  Local pdf:PdfTuto3 = PdfTuto3(New PdfTuto3.Create())
-  pdf.SetMyTitle("20000 Leagues Under the Seas")
-  pdf.SetAuthor("Jules Verne")
-  pdf.PrintChapter(1, "A RUNAWAY REEF", "20k_c1.txt")
-  pdf.PrintChapter(2, "THE PROS AND CONS", "20k_c2.txt")
-  pdf.SaveAsFile("tutorial3.pdf")
+  Local Pdf:PdfTuto3 = PdfTuto3(New PdfTuto3.Create())
+  Pdf.SetMyTitle("20000 Leagues Under the Seas")
+  Pdf.SetAuthor("Jules Verne")
+  Pdf.PrintChapter(1, "A RUNAWAY REEF", "20k_c1.txt")
+  Pdf.PrintChapter(2, "THE PROS AND CONS", "20k_c2.txt")
+  Pdf.SaveAsFile("tutorial3.pdf")
 End Function
 

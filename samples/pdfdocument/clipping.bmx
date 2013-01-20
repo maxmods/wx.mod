@@ -12,36 +12,36 @@ Import wx.wxPdfDocument
 '
 '
 Function clipping()
-	Local pdf:wxPdfDocument = New wxPdfDocument.Create()
-	pdf.AddPage()
+	Local Pdf:wxPdfDocument = New wxPdfDocument.Create()
+	Pdf.AddPage()
 	
 	' example of clipped cell
-	pdf.SetFont("Arial" ,"", 14)
-	pdf.SetX(72)
-	pdf.ClippedCell(60,6,"These are clipping examples", wxPDF_BORDER_FRAME)
+	Pdf.SetFont("Arial" ,"", 14)
+	Pdf.SetX(72)
+	Pdf.ClippedCell(60,6,"These are clipping examples", wxPDF_BORDER_FRAME)
 	
 	' example of clipping text
-	pdf.SetFont("Arial", "B", 120)
-	'set the outline color
-	pdf.SetDrawColorGrayScale(0)
+	Pdf.SetFont("Arial", "B", 120)
+	'set the outline colour
+	Pdf.SetDrawColourGrayScale(0)
 	' set the outline width (note that only its outer half will be shown)
-	pdf.SetLineWidth(2)
+	Pdf.SetLineWidth(2)
 	' draw the clipping text
-	pdf.ClippingText(40,55, "CLIPS", True)
+	Pdf.ClippingText(40,55, "CLIPS", True)
 	'fill it with the image
-	pdf.Image("../media/pdfdocument/clips.jpg",40,10,130)
+	Pdf.Image("../media/pdfdocument/clips.jpg",40,10,130)
 	' remove the clipping
-	pdf.UnsetClipping()
+	Pdf.UnsetClipping()
 	
 	' example of clipping rectangle
-	pdf.ClippingRect(45,65,116,20,True)
-	pdf.Image("../media/pdfdocument/clips.jpg",40,10,130)
-	pdf.UnsetClipping()
+	Pdf.ClippingRect(45,65,116,20,True)
+	Pdf.Image("../media/pdfdocument/clips.jpg",40,10,130)
+	Pdf.UnsetClipping()
 	
 	' example of clipping ellipse
-	pdf.ClippingEllipse(102,104,16,10,True)
-	pdf.Image("../media/pdfdocument/clips.jpg", 40, 10, 130)
-	pdf.UnsetClipping()
+	Pdf.ClippingEllipse(102,104,16,10,True)
+	Pdf.Image("../media/pdfdocument/clips.jpg", 40, 10, 130)
+	Pdf.UnsetClipping()
 	
 	' example of clipping polygon
 	Local x:Double[5], y:Double[5]
@@ -51,9 +51,9 @@ Function clipping()
 	x[3] = 70; y[3] = 160
 	x[4] = 30; y[4] = 165
 	
-	pdf.ClippingPolygon(x, y, True)
-	pdf.Image("../media/pdfdocument/clips.jpg",20,100,130)
-	pdf.UnsetClipping()
+	Pdf.ClippingPolygon(x, y, True)
+	Pdf.Image("../media/pdfdocument/clips.jpg",20,100,130)
+	Pdf.UnsetClipping()
 	
 	' example of clipping using a shape
 	Local shape:wxPdfShape = New wxPdfShape.Create()
@@ -65,12 +65,12 @@ Function clipping()
 	shape.CurveTo(190,162.5,190,125,160,125)
 	shape.CurveTo(145,125,135,137,135,140)
 	
-	pdf.SetLineWidth(1)
-	pdf.SetFillColorPdf(New wxPdfColour.CreateNamedColour("red"))
-	pdf.ClippingPathShape(shape, wxPDF_STYLE_FILLDRAW)
-	pdf.UnsetClipping()
+	Pdf.SetLineWidth(1)
+	Pdf.SetFillColourPdf(New wxPdfColour.CreateNamedColour("red"))
+	Pdf.ClippingPathShape(shape, wxPDF_STYLE_FILLDRAW)
+	Pdf.UnsetClipping()
 
-	pdf.SaveAsFile("clipping.pdf")
+	Pdf.SaveAsFile("clipping.pdf")
 End Function
 
 
