@@ -48,6 +48,7 @@ Import "../include/*.h"
 ' Headers
 Import "src/scintilla/src/*.h"
 Import "src/scintilla/include/*.h"
+Import "src/scintilla/lexlib/*.h"
 Rem
 '?win32
 'Import "src/scintilla/win32/*.h"
