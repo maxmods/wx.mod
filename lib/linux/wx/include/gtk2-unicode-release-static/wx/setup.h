@@ -1,4 +1,4 @@
-/* lib/wx/include/gtk2-unicode-release-static-2.9/wx/setup.h.  Generated from setup.h.in by configure.  */
+/* lib/wx/include/gtk2-unicode-static-2.9/wx/setup.h.  Generated from setup.h.in by configure.  */
 /* This define (__WX_SETUP_H__) is used both to ensure setup.h is included
  * only once and to indicate that we are building using configure. */
 #ifndef __WX_SETUP_H__
@@ -16,7 +16,7 @@
 #endif /* __cplusplus */
 
 /* fill in with the string wxGetOsDescription() will return */
-#define WXWIN_OS_DESCRIPTION "Linux 2.6.28-11-generic i686"
+#define WXWIN_OS_DESCRIPTION "Linux 3.5.0-21-generic x86_64"
 
 /* the installation location prefix from configure */
 #define wxINSTALL_PREFIX "/usr/local"
@@ -54,9 +54,6 @@
    byte first (like Motorola and SPARC, unlike Intel and VAX).  */
 /* #undef WORDS_BIGENDIAN */
 
-/* Define this if your version of GTK+ is greater than 1.2 */
-#define __WXGTK12__ 1
-
 /* Define this if your version of GTK+ is greater than 1.2.7 */
 /* #undef __WXGTK127__ */
 
@@ -64,10 +61,16 @@
 #define __WXGTK20__ 1
 
 /* Define this if your version of GTK+ is greater than 2.6 */
-#define __WXGTK26__ 1
+/* #undef __WXGTK26__ */
 
 /* Define this if your version of GTK+ is greater than 2.10 */
 #define __WXGTK210__ 1
+
+/* Define this if your version of GTK+ is greater than 2.18 */
+#define __WXGTK218__ 1
+
+/* Define this if your version of GTK+ is >= 3.0 */
+/* #undef __WXGTK3__ */
 
 /* Define this if you want to use GPE features */
 /* #undef __WXGPE__ */
@@ -95,6 +98,7 @@
 /* #undef __NETBSD__ */
 /* #undef __OPENBSD__ */
 /* #undef __OSF__ */
+/* #undef __QNX__ */
 /* #undef __SGI__ */
 /* #undef __SOLARIS__ */
 /* #undef __SUN__ */
@@ -153,9 +157,15 @@
 
 #define WXWIN_COMPATIBILITY_2_8 1
 
-#define wxEVENTS_COMPATIBILITY_2_8 0
-
 #define wxDIALOG_UNIT_COMPATIBILITY   0
+
+
+
+#define wxUSE_ON_FATAL_EXCEPTION 1
+
+#define wxUSE_STACKWALKER 1
+
+#define wxUSE_DEBUGREPORT 1
 
 
 
@@ -167,11 +177,6 @@
 
 #define wxUSE_DEBUG_NEW_ALWAYS 0
 
-#define wxUSE_ON_FATAL_EXCEPTION 1
-
-#define wxUSE_STACKWALKER 1
-
-#define wxUSE_DEBUGREPORT 1
 
 
 #ifndef wxUSE_UNICODE
@@ -184,8 +189,6 @@
 #define wxUSE_EXCEPTIONS 1
 
 #define wxUSE_EXTENDED_RTTI 0
-
-#define wxUSE_STL 0
 
 #define wxUSE_LOG 1
 
@@ -201,6 +204,13 @@
 
 #define wxUSE_STREAMS 1
 
+#define wxUSE_PRINTF_POS_PARAMS 1
+
+#define wxUSE_COMPILER_TLS 1
+
+
+#define wxUSE_STL 0
+
 #if defined(__DMC__) || defined(__WATCOMC__) \
         || (defined(_MSC_VER) && _MSC_VER < 1200)
     #define wxUSE_STD_DEFAULT  0
@@ -208,11 +218,16 @@
     #define wxUSE_STD_DEFAULT  0
 #endif
 
+#define wxUSE_STD_CONTAINERS 0
+
 #define wxUSE_STD_IOSTREAM 1
 
 #define wxUSE_STD_STRING 1
 
-#define wxUSE_PRINTF_POS_PARAMS 1
+#define wxUSE_STD_STRING_CONV_IN_WXSTRING wxUSE_STL
+
+#define wxUSE_IOSTREAMH     0
+
 
 
 #define wxUSE_LONGLONG 1
@@ -241,6 +256,8 @@
 #define wxUSE_TIMER 1
 
 #define wxUSE_STOPWATCH 1
+
+#define wxUSE_FSWATCHER 1
 
 #define wxUSE_CONFIG 1
 
@@ -294,6 +311,8 @@
 
 #define wxUSE_VARIANT 1
 
+#define wxUSE_ANY 1
+
 #define wxUSE_REGEX 1
 
 #define wxUSE_SYSTEM_OPTIONS 1
@@ -302,31 +321,66 @@
 
 #define wxUSE_MEDIACTRL 1
 
-#define wxUSE_GSTREAMER 1
-
 #define wxUSE_XRC 1
 
 #define wxUSE_XML 1
 
 #define wxUSE_AUI 1
 
+#define wxUSE_RIBBON 1
+
 #define wxUSE_PROPGRID 1
 
 #define wxUSE_STC 1
 
+#define wxUSE_WEBVIEW 1
 
-#ifndef wxUSE_GRAPHICS_CONTEXT
-#define wxUSE_GRAPHICS_CONTEXT 1
+#ifdef __WXMSW__
+#define wxUSE_WEBVIEW_IE 0
+#else
+#define wxUSE_WEBVIEW_IE 0
+#endif
+
+#if defined(__WXGTK__) || defined(__WXOSX__)
+#define wxUSE_WEBVIEW_WEBKIT 1
+#else
+#define wxUSE_WEBVIEW_WEBKIT 1
 #endif
 
 
+#ifdef _MSC_VER
+#   if _MSC_VER >= 1310
+
+
+#define wxUSE_GRAPHICS_CONTEXT 1
+#   else
+
+
+#       define wxUSE_GRAPHICS_CONTEXT 1
+#   endif
+#else
+
+
+
+
+
+#   define wxUSE_GRAPHICS_CONTEXT 1
+#endif
+
+#define wxUSE_CAIRO 1
+
+
+
 #define wxUSE_CONTROLS 1
+
+#define wxUSE_MARKUP 1
 
 #define wxUSE_POPUPWIN 1
 
 #define wxUSE_TIPWINDOW 1
 
 #define wxUSE_ANIMATIONCTRL 1
+#define wxUSE_BANNERWINDOW 1
 #define wxUSE_BUTTON 1
 #define wxUSE_BMPBUTTON 1
 #define wxUSE_CALENDARCTRL 1
@@ -336,6 +390,7 @@
 #define wxUSE_COLLPANE 1
 #define wxUSE_COLOURPICKERCTRL 1
 #define wxUSE_COMBOBOX 1
+#define wxUSE_COMMANDLINKBUTTON 1
 #define wxUSE_DATAVIEWCTRL 1
 #define wxUSE_DATEPICKCTRL 1
 #define wxUSE_DIRPICKERCTRL 1
@@ -350,6 +405,7 @@
 #define wxUSE_LISTCTRL 1
 #define wxUSE_RADIOBOX 1
 #define wxUSE_RADIOBTN 1
+#define wxUSE_RICHMSGDLG 1
 #define wxUSE_SCROLLBAR 1
 #define wxUSE_SEARCHCTRL 1
 #define wxUSE_SLIDER 1
@@ -360,8 +416,10 @@
 #define wxUSE_STATTEXT 1
 #define wxUSE_STATBMP 1
 #define wxUSE_TEXTCTRL 1
+#define wxUSE_TIMEPICKCTRL 1
 #define wxUSE_TOGGLEBTN 1
 #define wxUSE_TREECTRL 1
+#define wxUSE_TREELISTCTRL 1
 
 #define wxUSE_STATUSBAR 1
 
@@ -397,6 +455,10 @@
 
 #define wxUSE_ACCEL 1
 
+#define wxUSE_ARTPROVIDER_STD 1
+
+#define wxUSE_ARTPROVIDER_TANGO 0
+
 #define wxUSE_HOTKEY 0
 
 #define wxUSE_CARET 1
@@ -407,9 +469,13 @@
 
 #define wxUSE_IMAGLIST 1
 
+#define wxUSE_INFOBAR 1
+
 #define wxUSE_MENUS 1
 
 #define wxUSE_NOTIFICATION_MESSAGE 1
+
+#define wxUSE_RICHTOOLTIP 1
 
 #define wxUSE_SASH 1
 
@@ -458,6 +524,8 @@
 #define wxUSE_WIZARDDLG 1
 
 #define wxUSE_ABOUTDLG 1
+
+#define wxUSE_FILE_HISTORY 1
 
 
 #define wxUSE_METAFILE              0
@@ -512,6 +580,8 @@
 #define wxUSE_MOUSEWHEEL 1
 
 
+#define wxUSE_UIACTIONSIMULATOR 1
+
 
 #define wxUSE_POSTSCRIPT 1
 
@@ -519,10 +589,7 @@
 
 #define wxUSE_SVG 1
 
-
-#define REMOVE_UNUSED_ARG   0
-
-#define wxUSE_IOSTREAMH     0
+#define wxUSE_DC_TRANSFORM_MATRIX 1
 
 
 
@@ -567,8 +634,18 @@
 #define wxUSE_SELECT_DISPATCHER 1
 #define wxUSE_EPOLL_DISPATCHER 1
 
-#define wxUSE_UNICODE_UTF8 1
+#define wxUSE_UNICODE_UTF8 0
 #define wxUSE_UTF8_LOCALE_ONLY 0
+
+/*
+   Use GStreamer for Unix.
+
+   Default is 0 as this requires a lot of dependencies which might not be
+   available.
+
+   Recommended setting: 1 (wxMediaCtrl won't work by default without it).
+ */
+#define wxUSE_GSTREAMER 1
 
 /* --- start MSW options --- */
 
@@ -598,7 +675,7 @@
 
 #define wxUSE_OWNER_DRAWN 0
 
-#define wxUSE_TASKBARICON_BALLOONS 0
+#define wxUSE_TASKBARICON_BALLOONS 1
 
 #define wxUSE_UXTHEME           0
 
@@ -608,6 +685,8 @@
 
 
 #define wxUSE_DATEPICKCTRL_GENERIC 0
+
+#define wxUSE_TIMEPICKCTRL_GENERIC 0
 
 
 #define wxUSE_CRASHREPORT 0
@@ -679,6 +758,16 @@
 /* #undef HAVE_TR1_UNORDERED_SET */
 
 /*
+ * Define if your compiler has <tr1/type_traits>
+ */
+#define HAVE_TR1_TYPE_TRAITS 1
+
+/*
+ * Define if your compiler has <type_traits>
+ */
+/* #undef HAVE_TYPE_TRAITS */
+
+/*
  * Define if the compiler supports simple visibility declarations.
  */
 /* #undef HAVE_VISIBILITY */
@@ -721,7 +810,7 @@
 /*
  * Use GNOME print for printing under GTK+ 2.0
  */
-#define wxUSE_LIBGNOMEPRINT 1
+#define wxUSE_LIBGNOMEPRINT 0
 /*
  * Use GNOME VFS for MIME types
  */
@@ -731,9 +820,17 @@
  */
 #define wxUSE_LIBHILDON 0
 /*
- * Have glibc2
+ * Use the Hildon 2.0 framework
  */
-#define wxHAVE_GLIBC2 1
+#define wxUSE_LIBHILDON2 0
+/*
+ * Use libnotify library.
+ */
+#define wxUSE_LIBNOTIFY 0
+/*
+ * Use libnotify 0.7+ API.
+ */
+#define wxUSE_LIBNOTIFY_0_7 0
 /*
  * Use libXpm
  */
@@ -746,8 +843,11 @@
  * Define if compiler has __thread keyword.
  */
 #define HAVE___THREAD_KEYWORD 1
+/*
+ * Define if large (64 bit file offsets) files are supported.
+ */
+#define HAVE_LARGEFILE_SUPPORT 1
 
-/* compatibility */
 /*
  * Use OpenGL
  */
@@ -919,6 +1019,9 @@
 /* Define if you have wcsdup function  */
 #define HAVE_WCSDUP 1
 
+/* Define if you have wcsftime() function  */
+#define HAVE_WCSFTIME 1
+
 /* Define if you have strnlen() function */
 #define HAVE_STRNLEN 1
 
@@ -1027,6 +1130,9 @@
 /* Define if you have thr_setconcurrency function */
 /* #undef HAVE_THR_SETCONCURRENCY */
 
+/* Define if you have pthread_setconcurrency function */
+#define HAVE_PTHREAD_SET_CONCURRENCY 1
+
 /* Define if you have the uname function.  */
 #define HAVE_UNAME 1
 
@@ -1120,6 +1226,9 @@
 /* Define if you have the <sys/select.h> header file.  */
 #define HAVE_SYS_SELECT_H 1
 
+/* Define if you have abi::__forced_unwind in your <cxxabi.h>. */
+#define HAVE_ABI_FORCEDUNWIND 1
+
 /* Define if fdopen is available.  */
 #define HAVE_FDOPEN 1
 
@@ -1134,6 +1243,12 @@
 
 /* Define if locale_t is available */
 #define HAVE_LOCALE_T 1
+
+/* Define if you have inotify_xxx() functions. */
+#define wxHAS_INOTIFY 1
+
+/* Define if you have kqueu_xxx() functions. */
+/* #undef wxHAS_KQUEUE */
 
 /* -------------------------------------------------------------------------
    Win32 adjustments section
