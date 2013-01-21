@@ -48,13 +48,6 @@ Import "-lwx_gtk2u_gl-2.9"
 Import "-lwx_gtk2u_propgrid-2.9"
 Import "-lwx_gtk2u_richtext-2.9"
 Import "-lwxregexu-2.9"
-'Import "-lwxtiff-2.9"
-'Import "-lwxjpeg-2.9"
-'Import "-lwxpng-2.9"
-'Import "-lwxexpat-2.9"
-'Import "-lwxzlib-2.9"
-Import "-ltiff"
-Import "-ljpeg"
 
 ' other libs
 Import "-lgdk-x11-2.0"
@@ -70,9 +63,19 @@ Import "-lrt"
 Import "-lglib-2.0"
 'Import "-lXinerama"
 Import "-lSM"
-'Import "-ltiff"
 Import "-lgtk-x11-2.0"
 Import "-lXxf86vm"
+
+Import "-ltiff"
+Import "-ljpeg"
+Import "-lpangocairo-1.0"
+Import "-lcairo"
+Import "-lexpat"
+
+
+' You may need this depending on your platform (eg. Fedora 17 has this dependency, but Ubuntu 12.10 does not)
+'Import "-lpng15"
+
 
 ?win32
 Import "../lib/win32/mswu/*.h"
