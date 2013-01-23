@@ -26,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.6 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.7 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -233,7 +233,7 @@ xsSerializable* xsSerializable::GetSibbling(wxClassInfo *type)
 xsSerializable* xsSerializable::GetChild(long id, bool recursive)
 {
     SerializableList lstChildren;
-    SerializableList::compatibility_iterator node = NULL;
+    SerializableList::compatibility_iterator node;
 
     if( recursive )
     {
