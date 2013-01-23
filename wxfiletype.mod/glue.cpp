@@ -82,4 +82,13 @@ BBString * bmx_wxfiletype_getopencommand(wxFileType * type, BBString * filename)
 	}
 }
 
+MaxIconLocation * bmx_wxfiletype_geticon(wxFileType * type) {
+	wxIconLocation loc;
+	if (type->GetIcon(&loc)) {
+		return new MaxIconLocation(loc);
+	} else {
+		return 0;
+	}
+}
+
 

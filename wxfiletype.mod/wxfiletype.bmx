@@ -89,9 +89,19 @@ Type wxFileType Extends wxObject
 		Return bmx_wxfiletype_getextensions(wxObjectPtr)
 	End Method
 	
-	'Method GetIcon()
-	' TODO
-	'End Method
+	Rem
+	bbdoc: Returns the location of the icon for this MIME type, or Null.
+	about: <b>Windows:</b> The method returns the icon shown by Explorer for the files of the specified type.
+	<p>
+	<b>Mac</b>: This method is not implemented and always returns Null.
+	</p>
+	<p>
+	<b>Unix</b>: MIME manager gathers information about icons from GNOME and KDE settings and thus GetIcon's success depends on availability of these desktop environments.
+	</p>
+	End Rem
+	Method GetIcon:wxIconLocation()
+		Return wxIconLocation._create(bmx_wxfiletype_geticon(wxObjectPtr))
+	End Method
 	
 	Rem
 	bbdoc: Returns the full MIME type specification for this file type: for example, "text/plain", or Null if the value is not set.

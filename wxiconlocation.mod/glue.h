@@ -20,29 +20,36 @@
   THE SOFTWARE.
 */ 
 
-#ifndef _WX_MAX_FILEETYPE_H_
-#define _WX_MAX_FILEETYPE_H_
+#ifndef _WX_MAX_ICONLOCATION_H_
+#define _WX_MAX_ICONLOCATION_H_
 
 #include "wxglue.h"
-#include <wx/mimetype.h>
-#include "../wxiconlocation.mod/glue.h"
+#include <wx/iconloc.h>
+
+class MaxIconLocation;
 
 extern "C" {
 
 #include <blitz.h>
 
-	void bmx_wxfiletype_delete(wxFileType * type);
-	BBString * bmx_wxfiletype_getdescription(wxFileType * type);
-	BBArray * bmx_wxfiletype_getextensions(wxFileType * type);
-	BBString * bmx_wxfiletype_getmimtype(wxFileType * type);
-	BBArray * bmx_wxfiletype_getmimetypes(wxFileType * type);
-	BBString * bmx_wxfiletype_getopencommand(wxFileType * type, BBString * filename);
-	MaxIconLocation * bmx_wxfiletype_geticon(wxFileType * type);
+	int bmx_wxiconlocation_isok(MaxIconLocation * loc);
+	BBString * bmx_wxiconlocation_getfilename(MaxIconLocation * loc);
+	void bmx_wxiconlocation_delete(MaxIconLocation * loc);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+class MaxIconLocation
+{
+public:
+	MaxIconLocation();
+	MaxIconLocation(wxIconLocation & iconLocation);
+	wxIconLocation & IconLocation();
 
+private:
+	wxIconLocation iconLocation;
+
+};
 
 #endif

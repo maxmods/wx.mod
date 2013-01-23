@@ -21,8 +21,6 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxFileTypeInfo
-Import wx.wxIconLocation
 Import BRL.Blitz
 
 
@@ -45,12 +43,8 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxfiletype_delete(handle:Byte Ptr)
-	Function bmx_wxfiletype_getdescription:String(handle:Byte Ptr)
-	Function bmx_wxfiletype_getextensions:String[](handle:Byte Ptr)
-	Function bmx_wxfiletype_getmimtype:String(handle:Byte Ptr)
-	Function bmx_wxfiletype_getmimetypes:String[](handle:Byte Ptr)
-	Function bmx_wxfiletype_getopencommand:String(handle:Byte Ptr, filename:String)
-	Function bmx_wxfiletype_geticon:Byte Ptr(handle:Byte Ptr)
-	
+	Function bmx_wxiconlocation_isok:Int(handle:Byte Ptr)
+	Function bmx_wxiconlocation_getfilename:String(handle:Byte Ptr)
+	Function bmx_wxiconlocation_delete(handle:Byte Ptr)
+
 End Extern
