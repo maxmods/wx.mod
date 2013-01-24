@@ -907,6 +907,8 @@ def checkNameChange(name):
 		name = name.replace("ForeHlt", "ForegroundHighlight")
 	elif Contains(name, "Hlt"):
 		name = name.replace("Hlt", "Highlight")
+	elif Contains(name, "PositionCache"):
+		name = name.replace("PositionCache", "PositionCacheSize")
 	
 	if Contains(name, "Indic") and not Contains(name, "Indicator"):
 		name = name.replace("Indic", "Indicator")
@@ -914,7 +916,7 @@ def checkNameChange(name):
 	return name
 
 def includeName(name):
-	if name in ["EncodedFromUTF8", "TargetAsUTF8", "SetUsePalette", "StyleGetCharacterSet", "PointXFromPosition", "PointYFromPosition", "SetCaretStyle", "GetCaretStyle", "SetIndicatorCurrent", "GetIndicatorCurrent", "SetIndicatorValue", "GetIndicatorValue", "IndicatorFillRange", "IndicatorClearRange", "IndicatorAllOnFor", "IndicatorValueAt", "IndicatorStart", "IndicatorEnd", "GetPositionCache", "SetPositionCache", "LoadLexerLibrary", "SetLengthForEncode", "GetSelEOLFilled", "SetSelEOLFilled", "GetUsePalette", "GetDirectFunction", "GetDirectPointer", "IndicSetUnder", "IndicGetUnder", "Null", "GrabFocus", "CopyText", "GetCursor", "SetStylingEx", "SetCursor", "SetSelection", "GetFontQuality", "SetFontQuality", "GetLexerLanguage", "AutoCGetCurrentText"]:
+	if name in ["EncodedFromUTF8", "TargetAsUTF8", "SetUsePalette", "StyleGetCharacterSet", "PointXFromPosition", "PointYFromPosition", "LoadLexerLibrary", "SetLengthForEncode", "GetSelEOLFilled", "SetSelEOLFilled", "GetUsePalette", "GetDirectFunction", "GetDirectPointer", "IndicSetUnder", "IndicGetUnder", "Null", "GrabFocus", "CopyText", "GetCursor", "SetStylingEx", "SetCursor", "SetSelection", "GetFontQuality", "SetFontQuality", "GetLexerLanguage", "AutoCGetCurrentText"]:
 		return False
 	if Contains(name, "GetHotspot"):
 		return False

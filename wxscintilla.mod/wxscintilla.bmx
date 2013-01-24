@@ -3337,6 +3337,104 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Set the style of the caret to be drawn.
+	End Rem
+	Method SetCaretStyle(caretStyle:Int)
+		bmx_wxscintilla_setcaretstyle(wxObjectPtr, caretStyle)
+	End Method
+
+	Rem
+	bbdoc: Returns the current style of the caret.
+	End Rem
+	Method GetCaretStyle:Int()
+		Return bmx_wxscintilla_getcaretstyle(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the indicator used for IndicatorFillRange and IndicatorClearRange
+	End Rem
+	Method SetIndicatorCurrent(indicator:Int)
+		bmx_wxscintilla_setindicatorcurrent(wxObjectPtr, indicator)
+	End Method
+
+	Rem
+	bbdoc: Get the current indicator
+	End Rem
+	Method GetIndicatorCurrent:Int()
+		Return bmx_wxscintilla_getindicatorcurrent(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the value used for IndicatorFillRange
+	End Rem
+	Method SetIndicatorValue(value:Int)
+		bmx_wxscintilla_setindicatorvalue(wxObjectPtr, value)
+	End Method
+
+	Rem
+	bbdoc: Get the current indicator value
+	End Rem
+	Method GetIndicatorValue:Int()
+		Return bmx_wxscintilla_getindicatorvalue(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Turn a indicator on over a range.
+	End Rem
+	Method IndicatorFillRange(position:Int, fillLength:Int)
+		bmx_wxscintilla_indicatorfillrange(wxObjectPtr, position, fillLength)
+	End Method
+
+	Rem
+	bbdoc: Turn a indicator off over a range.
+	End Rem
+	Method IndicatorClearRange(position:Int, clearLength:Int)
+		bmx_wxscintilla_indicatorclearrange(wxObjectPtr, position, clearLength)
+	End Method
+
+	Rem
+	bbdoc: Are any indicators present at position?
+	End Rem
+	Method IndicatorAllOnFor:Int(position:Int)
+		Return bmx_wxscintilla_indicatorallonfor(wxObjectPtr, position)
+	End Method
+
+	Rem
+	bbdoc: What value does a particular indicator have at at a position?
+	End Rem
+	Method IndicatorValueAt:Int(indicator:Int, position:Int)
+		Return bmx_wxscintilla_indicatorvalueat(wxObjectPtr, indicator, position)
+	End Method
+
+	Rem
+	bbdoc: Where does a particular indicator start?
+	End Rem
+	Method IndicatorStart:Int(indicator:Int, position:Int)
+		Return bmx_wxscintilla_indicatorstart(wxObjectPtr, indicator, position)
+	End Method
+
+	Rem
+	bbdoc: Where does a particular indicator end?
+	End Rem
+	Method IndicatorEnd:Int(indicator:Int, position:Int)
+		Return bmx_wxscintilla_indicatorend(wxObjectPtr, indicator, position)
+	End Method
+
+	Rem
+	bbdoc: Set number of entries in position cache
+	End Rem
+	Method SetPositionCacheSize(size:Int)
+		bmx_wxscintilla_setpositioncachesize(wxObjectPtr, size)
+	End Method
+
+	Rem
+	bbdoc: How many entries are allocated to the position cache?
+	End Rem
+	Method GetPositionCacheSize:Int()
+		Return bmx_wxscintilla_getpositioncachesize(wxObjectPtr)
+	End Method
+
+	Rem
 	bbdoc: Copy the selection, if selection empty copy the line with the caret
 	End Rem
 	Method CopyAllowLine()

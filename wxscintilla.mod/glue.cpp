@@ -1939,6 +1939,62 @@ void bmx_wxscintilla_selectionduplicate(wxScintilla * sc) {
 	sc->SelectionDuplicate();
 }
 
+void bmx_wxscintilla_setcaretstyle(wxScintilla * sc, int caretStyle) {
+	sc->SetCaretStyle(caretStyle);
+}
+
+int bmx_wxscintilla_getcaretstyle(wxScintilla * sc) {
+	return sc->GetCaretStyle();
+}
+
+void bmx_wxscintilla_setindicatorcurrent(wxScintilla * sc, int indicator) {
+	sc->SetIndicatorCurrent(indicator);
+}
+
+int bmx_wxscintilla_getindicatorcurrent(wxScintilla * sc) {
+	return sc->GetIndicatorCurrent();
+}
+
+void bmx_wxscintilla_setindicatorvalue(wxScintilla * sc, int value) {
+	sc->SetIndicatorValue(value);
+}
+
+int bmx_wxscintilla_getindicatorvalue(wxScintilla * sc) {
+	return sc->GetIndicatorValue();
+}
+
+void bmx_wxscintilla_indicatorfillrange(wxScintilla * sc, int position, int fillLength) {
+	sc->IndicatorFillRange(position, fillLength);
+}
+
+void bmx_wxscintilla_indicatorclearrange(wxScintilla * sc, int position, int clearLength) {
+	sc->IndicatorClearRange(position, clearLength);
+}
+
+int bmx_wxscintilla_indicatorallonfor(wxScintilla * sc, int position) {
+	return sc->IndicatorAllOnFor(position);
+}
+
+int bmx_wxscintilla_indicatorvalueat(wxScintilla * sc, int indicator, int position) {
+	return sc->IndicatorValueAt(indicator, position);
+}
+
+int bmx_wxscintilla_indicatorstart(wxScintilla * sc, int indicator, int position) {
+	return sc->IndicatorStart(indicator, position);
+}
+
+int bmx_wxscintilla_indicatorend(wxScintilla * sc, int indicator, int position) {
+	return sc->IndicatorEnd(indicator, position);
+}
+
+void bmx_wxscintilla_setpositioncachesize(wxScintilla * sc, int size) {
+	sc->SetPositionCacheSize(size);
+}
+
+int bmx_wxscintilla_getpositioncachesize(wxScintilla * sc) {
+	return sc->GetPositionCacheSize();
+}
+
 void bmx_wxscintilla_copyallowline(wxScintilla * sc) {
 	sc->CopyAllowLine();
 }
