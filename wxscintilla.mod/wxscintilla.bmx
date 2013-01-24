@@ -589,6 +589,92 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Get the foreground colour of a style.
+	End Rem
+	Method StyleGetForeground:wxColour(style:Int)
+		Return wxColour._create(bmx_wxscintilla_stylegetforeground(wxObjectPtr, style))
+	End Method
+
+	Rem
+	bbdoc: Get the background colour of a style.
+	End Rem
+	Method StyleGetBackground:wxColour(style:Int)
+		Return wxColour._create(bmx_wxscintilla_stylegetbackground(wxObjectPtr, style))
+	End Method
+
+	Rem
+	bbdoc: Get is a style bold or not.
+	End Rem
+	Method StyleGetBold:Int(style:Int)
+		Return bmx_wxscintilla_stylegetbold(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get is a style italic or not.
+	End Rem
+	Method StyleGetItalic:Int(style:Int)
+		Return bmx_wxscintilla_stylegetitalic(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get the size of characters of a style.
+	End Rem
+	Method StyleGetSize:Int(style:Int)
+		Return bmx_wxscintilla_stylegetsize(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get the font of a style.
+	about: Returns the length of the fontName
+	End Rem
+	Method StyleGetFaceName:String(style:Int)
+		Return bmx_wxscintilla_stylegetfacename(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get is a style to have its end of line filled or not.
+	End Rem
+	Method StyleGetEOLFilled:Int(style:Int)
+		Return bmx_wxscintilla_stylegeteolfilled(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get is a style underlined or not.
+	End Rem
+	Method StyleGetUnderline:Int(style:Int)
+		Return bmx_wxscintilla_stylegetunderline(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get is a style mixed case, or to force upper or lower case.
+	End Rem
+	Method StyleGetCase:Int(style:Int)
+		Return bmx_wxscintilla_stylegetcase(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get is a style visible or not.
+	End Rem
+	Method StyleGetVisible:Int(style:Int)
+		Return bmx_wxscintilla_stylegetvisible(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get is a style changeable or not (read only).
+	about: Experimental feature, currently buggy.
+	End Rem
+	Method StyleGetChangeable:Int(style:Int)
+		Return bmx_wxscintilla_stylegetchangeable(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get is a style a hotspot or not.
+	End Rem
+	Method StyleGetHotSpot:Int(style:Int)
+		Return bmx_wxscintilla_stylegethotspot(wxObjectPtr, style)
+	End Method
+
+	Rem
 	bbdoc: Set a style to be mixed case, or to force upper or lower case.
 	End Rem
 	Method StyleSetCase(style:Int, caseForce:Int)

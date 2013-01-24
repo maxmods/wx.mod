@@ -417,6 +417,56 @@ void bmx_wxscintilla_stylesetunderline(wxScintilla * sc, int style, int underlin
 	sc->StyleSetUnderline(style, underline);
 }
 
+MaxColour * bmx_wxscintilla_stylegetforeground(wxScintilla * sc, int style) {
+	wxColour c(sc->StyleGetForeground(style));
+	return new MaxColour(c);
+}
+
+MaxColour * bmx_wxscintilla_stylegetbackground(wxScintilla * sc, int style) {
+	wxColour c(sc->StyleGetBackground(style));
+	return new MaxColour(c);
+}
+
+int bmx_wxscintilla_stylegetbold(wxScintilla * sc, int style) {
+	return sc->StyleGetBold(style);
+}
+
+int bmx_wxscintilla_stylegetitalic(wxScintilla * sc, int style) {
+	return sc->StyleGetItalic(style);
+}
+
+int bmx_wxscintilla_stylegetsize(wxScintilla * sc, int style) {
+	return sc->StyleGetSize(style);
+}
+
+BBString * bmx_wxscintilla_stylegetfacename(wxScintilla * sc, int style) {
+	return bbStringFromWxString(sc->StyleGetFaceName(style));
+}
+
+int bmx_wxscintilla_stylegeteolfilled(wxScintilla * sc, int style) {
+	return sc->StyleGetEOLFilled(style);
+}
+
+int bmx_wxscintilla_stylegetunderline(wxScintilla * sc, int style) {
+	return sc->StyleGetUnderline(style);
+}
+
+int bmx_wxscintilla_stylegetcase(wxScintilla * sc, int style) {
+	return sc->StyleGetCase(style);
+}
+
+int bmx_wxscintilla_stylegetvisible(wxScintilla * sc, int style) {
+	return sc->StyleGetVisible(style);
+}
+
+int bmx_wxscintilla_stylegetchangeable(wxScintilla * sc, int style) {
+	return sc->StyleGetChangeable(style);
+}
+
+int bmx_wxscintilla_stylegethotspot(wxScintilla * sc, int style) {
+	return sc->StyleGetHotSpot(style);
+}
+
 void bmx_wxscintilla_stylesetcase(wxScintilla * sc, int style, int caseForce) {
 	sc->StyleSetCase(style, caseForce);
 }

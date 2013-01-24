@@ -137,6 +137,18 @@ extern "C" {
 	void bmx_wxscintilla_styleseteolfilled(wxScintilla * sc, int style, int filled);
 	void bmx_wxscintilla_styleresetdefault(wxScintilla * sc);
 	void bmx_wxscintilla_stylesetunderline(wxScintilla * sc, int style, int underline);
+	MaxColour * bmx_wxscintilla_stylegetforeground(wxScintilla * sc, int style);
+	MaxColour * bmx_wxscintilla_stylegetbackground(wxScintilla * sc, int style);
+	int bmx_wxscintilla_stylegetbold(wxScintilla * sc, int style);
+	int bmx_wxscintilla_stylegetitalic(wxScintilla * sc, int style);
+	int bmx_wxscintilla_stylegetsize(wxScintilla * sc, int style);
+	BBString * bmx_wxscintilla_stylegetfacename(wxScintilla * sc, int style);
+	int bmx_wxscintilla_stylegeteolfilled(wxScintilla * sc, int style);
+	int bmx_wxscintilla_stylegetunderline(wxScintilla * sc, int style);
+	int bmx_wxscintilla_stylegetcase(wxScintilla * sc, int style);
+	int bmx_wxscintilla_stylegetvisible(wxScintilla * sc, int style);
+	int bmx_wxscintilla_stylegetchangeable(wxScintilla * sc, int style);
+	int bmx_wxscintilla_stylegethotspot(wxScintilla * sc, int style);
 	void bmx_wxscintilla_stylesetcase(wxScintilla * sc, int style, int caseForce);
 	void bmx_wxscintilla_stylesetsizefractional(wxScintilla * sc, int style, int caseForce);
 	int bmx_wxscintilla_stylegetsizefractional(wxScintilla * sc, int style);

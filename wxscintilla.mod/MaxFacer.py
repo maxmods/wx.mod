@@ -877,6 +877,8 @@ def checkNameChange(name):
 		name = "GetMarginCursor"
 	elif name == "StyleSetFont":
 		name = "StyleSetFaceName"
+	elif name == "StyleGetFont":
+		name = "StyleGetFaceName"
 	elif name.endswith("Fore"):
 		name = name.replace("Fore", "Foreground")
 	elif name.endswith("Back") and not Contains(name, "DeleteBack"):
@@ -912,7 +914,7 @@ def checkNameChange(name):
 	return name
 
 def includeName(name):
-	if name in ["StyleGetFont", "EncodedFromUTF8", "TargetAsUTF8", "SetUsePalette", "StyleGetFore", "StyleGetBack", "StyleGetBold", "StyleGetItalic", "StyleGetSize", "StyleGetEOLFilled", "StyleGetUnderline", "StyleGetCase", "StyleGetCharacterSet", "StyleGetVisible", "StyleGetChangeable", "StyleGetHotSpot", "PointXFromPosition", "PointYFromPosition", "SetCaretStyle", "GetCaretStyle", "SetIndicatorCurrent", "GetIndicatorCurrent", "SetIndicatorValue", "GetIndicatorValue", "IndicatorFillRange", "IndicatorClearRange", "IndicatorAllOnFor", "IndicatorValueAt", "IndicatorStart", "IndicatorEnd", "GetPositionCache", "SetPositionCache", "LoadLexerLibrary", "SetLengthForEncode", "GetSelEOLFilled", "SetSelEOLFilled", "GetUsePalette", "GetDirectFunction", "GetDirectPointer", "IndicSetUnder", "IndicGetUnder", "Null", "GrabFocus", "CopyText", "GetCursor", "SetStylingEx", "SetCursor", "SetSelection", "GetFontQuality", "SetFontQuality", "GetLexerLanguage", "AutoCGetCurrentText"]:
+	if name in ["EncodedFromUTF8", "TargetAsUTF8", "SetUsePalette", "StyleGetCharacterSet", "PointXFromPosition", "PointYFromPosition", "SetCaretStyle", "GetCaretStyle", "SetIndicatorCurrent", "GetIndicatorCurrent", "SetIndicatorValue", "GetIndicatorValue", "IndicatorFillRange", "IndicatorClearRange", "IndicatorAllOnFor", "IndicatorValueAt", "IndicatorStart", "IndicatorEnd", "GetPositionCache", "SetPositionCache", "LoadLexerLibrary", "SetLengthForEncode", "GetSelEOLFilled", "SetSelEOLFilled", "GetUsePalette", "GetDirectFunction", "GetDirectPointer", "IndicSetUnder", "IndicGetUnder", "Null", "GrabFocus", "CopyText", "GetCursor", "SetStylingEx", "SetCursor", "SetSelection", "GetFontQuality", "SetFontQuality", "GetLexerLanguage", "AutoCGetCurrentText"]:
 		return False
 	if Contains(name, "GetHotspot"):
 		return False
