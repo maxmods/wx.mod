@@ -1,4 +1,4 @@
-' Copyright (c) 2008-2009 Bruce A Henderson
+' Copyright (c) 2008-2013 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -164,7 +164,7 @@ Function LoadProjects()
 		GetLanguage()
 	End If
 
-    locale.Init(languageId, wxLOCALE_CONV_ENCODING)
+    locale.Init(languageId, wxLOCALE_DONT_LOAD_DEFAULT)
 
 	wxLocale.AddCatalogLookupPathPrefix("locale")
 	locale.AddCatalog("wxCodeGen")
@@ -339,7 +339,7 @@ Function GetLanguage()
 	If lng <> -1 Then
 		' don't use wxLOCALE_LOAD_DEFAULT flag so that Init() doesn't return
 		' False just because it failed To Load wxstd catalog
-		If Not locale.Init(langIds[lng], wxLOCALE_CONV_ENCODING) Then
+		If Not locale.Init(langIds[lng], wxLOCALE_DONT_LOAD_DEFAULT) Then
 			languageId = wxLANGUAGE_ENGLISH
 		Else
 			languageId = langIds[lng]
