@@ -102,6 +102,13 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Delete a range of text in the document.
+	End Rem
+	Method DeleteRange(pos:Int, deleteLength:Int)
+		bmx_wxscintilla_deleterange(wxObjectPtr, pos, deleteLength)
+	End Method
+
+	Rem
 	bbdoc: Set all style bytes to 0, remove all folding information.
 	End Rem
 	Method ClearDocumentStyle()
@@ -109,7 +116,7 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
-	bbdoc: Returns the number of characters in the document.
+	bbdoc: Returns the number of bytes in the document.
 	End Rem
 	Method GetLength:Int()
 		Return bmx_wxscintilla_getlength(wxObjectPtr)
@@ -258,7 +265,7 @@ Type wxScintilla Extends wxControl
 	about: Returns the index of the caret on the line.
 	End Rem
 	Method GetCurLine:String(index:Int Var)
-		Return bmx_wxscintilla_getcurline(wxObjectPtr, Varptr index)
+		Return bmx_wxscintilla_getcurline(wxObjectPtr, VarPtr index)
 	End Method
 
 	Rem
@@ -364,6 +371,20 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Set the background colour used for a particular marker number when its folding block is selected.
+	End Rem
+	Method MarkerSetBackgroundSelected(markerNumber:Int, back:wxColour)
+		bmx_wxscintilla_markersetbackgroundselected(wxObjectPtr, markerNumber, back.wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Enable/disable highlight for current folding bloc (smallest one that contains the caret)
+	End Rem
+	Method MarkerEnableHighlight(enabled:Int)
+		bmx_wxscintilla_markerenablehighlight(wxObjectPtr, enabled)
+	End Method
+
+	Rem
 	bbdoc: Add a marker to a line, returning an ID which can be used to find or delete the marker.
 	End Rem
 	Method MarkerAdd:Int(line:Int, markerNumber:Int)
@@ -392,7 +413,8 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
-	bbdoc: Find the next line after lineStart that includes a marker in mask.
+	bbdoc: Find the next line at or after lineStart that includes a marker in mask.
+	about: Return -1 when no more lines.
 	End Rem
 	Method MarkerNext:Int(lineStart:Int, markerMask:Int)
 		Return bmx_wxscintilla_markernext(wxObjectPtr, lineStart, markerMask)
@@ -483,6 +505,20 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Set the cursor shown when the mouse is inside a margin.
+	End Rem
+	Method SetMarginCursor(margin:Int, cursor:Int)
+		bmx_wxscintilla_setmargincursor(wxObjectPtr, margin, cursor)
+	End Method
+
+	Rem
+	bbdoc: Retrieve the cursor shown in a margin.
+	End Rem
+	Method GetMarginCursor:Int(margin:Int)
+		Return bmx_wxscintilla_getmargincursor(wxObjectPtr, margin)
+	End Method
+
+	Rem
 	bbdoc: Clear all the styles and make equivalent to the global default style.
 	End Rem
 	Method StyleClearAll()
@@ -524,12 +560,12 @@ Type wxScintilla Extends wxControl
 		bmx_wxscintilla_stylesetsize(wxObjectPtr, style, sizePoints)
 	End Method
 
-'	Rem
-'	bbdoc: Set the font of a style.
-'	End Rem
-'	Method StyleSetFont(style:Int, FontName:String)
-'		bmx_wxscintilla_stylesetfont(wxObjectPtr, style, FontName)
-'	End Method
+	Rem
+	bbdoc: Set the font of a style.
+	End Rem
+	Method StyleSetFaceName(style:Int, fontName:String)
+		bmx_wxscintilla_stylesetfacename(wxObjectPtr, style, fontName)
+	End Method
 
 	Rem
 	bbdoc: Set a style to have its end of line filled or not.
@@ -560,6 +596,34 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Set the size of characters of a style. Size is in points multiplied by 100.
+	End Rem
+	Method StyleSetSizeFractional(style:Int, caseForce:Int)
+		bmx_wxscintilla_stylesetsizefractional(wxObjectPtr, style, caseForce)
+	End Method
+
+	Rem
+	bbdoc: Get the size of characters of a style in points multiplied by 100
+	End Rem
+	Method StyleGetSizeFractional:Int(style:Int)
+		Return bmx_wxscintilla_stylegetsizefractional(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Set the weight of characters of a style.
+	End Rem
+	Method StyleSetWeight(style:Int, weight:Int)
+		bmx_wxscintilla_stylesetweight(wxObjectPtr, style, weight)
+	End Method
+
+	Rem
+	bbdoc: Get the weight of characters of a style.
+	End Rem
+	Method StyleGetWeight:Int(style:Int)
+		Return bmx_wxscintilla_stylegetweight(wxObjectPtr, style)
+	End Method
+
+	Rem
 	bbdoc: Set the character set of the font in a style.
 	End Rem
 	Method StyleSetCharacterSet(style:Int, characterSet:Int)
@@ -574,14 +638,14 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
-	bbdoc: Set the foreground colour of the selection and whether to use this setting.
+	bbdoc: Set the foreground colour of the main and additional selections and whether to use this setting.
 	End Rem
 	Method SetSelForeground(useSetting:Int, fore:wxColour)
 		bmx_wxscintilla_setselforeground(wxObjectPtr, useSetting, fore.wxObjectPtr)
 	End Method
 
 	Rem
-	bbdoc: Set the background colour of the selection and whether to use this setting.
+	bbdoc: Set the background colour of the main and additional selections and whether to use this setting.
 	End Rem
 	Method SetSelBackground(useSetting:Int, back:wxColour)
 		bmx_wxscintilla_setselbackground(wxObjectPtr, useSetting, back.wxObjectPtr)
@@ -638,10 +702,18 @@ Type wxScintilla Extends wxControl
 
 	Rem
 	bbdoc: Set the set of characters making up words for when moving or selecting by word.
-	about: First sets deaults like SetCharsDefault.
+	about: First sets defaults like SetCharsDefault.
 	End Rem
 	Method SetWordChars(characters:String)
 		bmx_wxscintilla_setwordchars(wxObjectPtr, characters)
+	End Method
+
+	Rem
+	bbdoc: Get the set of characters making up words for when moving or selecting by word.
+	about: Retuns the number of characters
+	End Rem
+	Method GetWordChars:String()
+		Return bmx_wxscintilla_getwordchars(wxObjectPtr)
 	End Method
 
 	Rem
@@ -699,6 +771,20 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Method SetWhitespaceBackground(useSetting:Int, back:wxColour)
 		bmx_wxscintilla_setwhitespacebackground(wxObjectPtr, useSetting, back.wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the size of the dots used to mark space characters.
+	End Rem
+	Method SetWhitespaceSize(size:Int)
+		bmx_wxscintilla_setwhitespacesize(wxObjectPtr, size)
+	End Method
+
+	Rem
+	bbdoc: Get the size of the dots used to mark space characters.
+	End Rem
+	Method GetWhitespaceSize:Int()
+		Return bmx_wxscintilla_getwhitespacesize(wxObjectPtr)
 	End Method
 
 	Rem
@@ -1045,6 +1131,13 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Count characters between two positions.
+	End Rem
+	Method CountCharacters:Int(startPos:Int, endPos:Int)
+		Return bmx_wxscintilla_countcharacters(wxObjectPtr, startPos, endPos)
+	End Method
+
+	Rem
 	bbdoc: Show or hide the horizontal scroll bar.
 	End Rem
 	Method SetUseHorizontalScrollBar(show:Int)
@@ -1061,8 +1154,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Show or hide indentation guides.
 	End Rem
-	Method SetIndentationGuides(show:Int)
-		bmx_wxscintilla_setindentationguides(wxObjectPtr, show)
+	Method SetIndentationGuides(indentView:Int)
+		bmx_wxscintilla_setindentationguides(wxObjectPtr, indentView)
 	End Method
 
 	Rem
@@ -1151,6 +1244,13 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Set caret to a position, while removing any existing selection.
+	End Rem
+	Method SetEmptySelection(pos:Int)
+		bmx_wxscintilla_setemptyselection(wxObjectPtr, pos)
+	End Method
+
+	Rem
 	bbdoc: Sets the print magnification added to the point size of each style for printing.
 	End Rem
 	Method SetPrintMagnification(magnification:Int)
@@ -1167,8 +1267,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Modify colours when printing for clearer printed text.
 	End Rem
-	Method SetPrintColourMode(Mode:Int)
-		bmx_wxscintilla_setprintcolourmode(wxObjectPtr, Mode)
+	Method SetPrintColourMode(mode:Int)
+		bmx_wxscintilla_setprintcolourmode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -1565,6 +1665,13 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Set position of calltip, above or below text.
+	End Rem
+	Method CallTipSetPosition(above:Int)
+		bmx_wxscintilla_calltipsetposition(wxObjectPtr, above)
+	End Method
+
+	Rem
 	bbdoc: Find the display line of a document line taking hidden lines into account.
 	End Rem
 	Method VisibleFromDocLine:Int(line:Int)
@@ -1634,6 +1741,13 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Method GetLineVisible:Int(line:Int)
 		Return bmx_wxscintilla_getlinevisible(wxObjectPtr, line)
+	End Method
+
+	Rem
+	bbdoc: Are all lines visible?
+	End Rem
+	Method GetAllLinesVisible:Int()
+		Return bmx_wxscintilla_getalllinesvisible(wxObjectPtr)
 	End Method
 
 	Rem
@@ -1738,8 +1852,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Sets whether text is word wrapped.
 	End Rem
-	Method SetWrapMode(Mode:Int)
-		bmx_wxscintilla_setwrapmode(wxObjectPtr, Mode)
+	Method SetWrapMode(mode:Int)
+		bmx_wxscintilla_setwrapmode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -1792,10 +1906,24 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Sets how wrapped sublines are placed. Default is fixed.
+	End Rem
+	Method SetWrapIndentMode(mode:Int)
+		bmx_wxscintilla_setwrapindentmode(wxObjectPtr, mode)
+	End Method
+
+	Rem
+	bbdoc: Retrieve how wrapped sublines are placed. Default is fixed.
+	End Rem
+	Method GetWrapIndentMode:Int()
+		Return bmx_wxscintilla_getwrapindentmode(wxObjectPtr)
+	End Method
+
+	Rem
 	bbdoc: Sets the degree of caching of layout information.
 	End Rem
-	Method SetLayoutCache(Mode:Int)
-		bmx_wxscintilla_setlayoutcache(wxObjectPtr, Mode)
+	Method SetLayoutCache(mode:Int)
+		bmx_wxscintilla_setlayoutcache(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -1817,6 +1945,20 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Method GetScrollWidth:Int()
 		Return bmx_wxscintilla_getscrollwidth(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Sets whether the maximum width line displayed is used to set scroll width.
+	End Rem
+	Method SetScrollWidthTracking(tracking:Int)
+		bmx_wxscintilla_setscrollwidthtracking(wxObjectPtr, tracking)
+	End Method
+
+	Rem
+	bbdoc: Retrieve whether the scroll width tracks wide lines.
+	End Rem
+	Method GetScrollWidthTracking:Int()
+		Return bmx_wxscintilla_getscrollwidthtracking(wxObjectPtr)
 	End Method
 
 	Rem
@@ -1886,6 +2028,34 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Method SetTwoPhaseDraw(twoPhase:Int)
 		bmx_wxscintilla_settwophasedraw(wxObjectPtr, twoPhase)
+	End Method
+
+	Rem
+	bbdoc: Scroll so that a display line is at the top of the display.
+	End Rem
+	Method SetFirstVisibleLine(lineDisplay:Int)
+		bmx_wxscintilla_setfirstvisibleline(wxObjectPtr, lineDisplay)
+	End Method
+
+	Rem
+	bbdoc: Change the effect of pasting when there are multiple selections.
+	End Rem
+	Method SetMultiPaste(multiPaste:Int)
+		bmx_wxscintilla_setmultipaste(wxObjectPtr, multiPaste)
+	End Method
+
+	Rem
+	bbdoc: Retrieve the effect of pasting when there are multiple selections..
+	End Rem
+	Method GetMultiPaste:Int()
+		Return bmx_wxscintilla_getmultipaste(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Retrieve the value of a tag from a regular expression search.
+	End Rem
+	Method GetTag:String(tagNumber:Int)
+		Return bmx_wxscintilla_gettag(wxObjectPtr, tagNumber)
 	End Method
 
 	Rem
@@ -2186,6 +2356,13 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Delete the word to the right of the caret, but not the trailing non-word characters.
+	End Rem
+	Method DelWordRightEnd()
+		bmx_wxscintilla_delwordrightend(wxObjectPtr)
+	End Method
+
+	Rem
 	bbdoc: Cut the line containing the caret.
 	End Rem
 	Method LineCut()
@@ -2374,10 +2551,24 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Use specified indicator to highlight matching braces instead of changing their style.
+	End Rem
+	Method BraceHighlightIndicator(useBraceHighlightIndicator:Int, indicator:Int)
+		bmx_wxscintilla_bracehighlightindicator(wxObjectPtr, useBraceHighlightIndicator, indicator)
+	End Method
+
+	Rem
 	bbdoc: Highlight the character at a position indicating there is no matching brace.
 	End Rem
 	Method BraceBadLight(pos:Int)
 		bmx_wxscintilla_bracebadlight(wxObjectPtr, pos)
+	End Method
+
+	Rem
+	bbdoc: Use specified indicator to highlight non matching brace instead of changing its style.
+	End Rem
+	Method BraceBadLightIndicator(useBraceBadLightIndicator:Int, indicator:Int)
+		bmx_wxscintilla_bracebadlightindicator(wxObjectPtr, useBraceBadLightIndicator, indicator)
 	End Method
 
 	Rem
@@ -2448,8 +2639,8 @@ Type wxScintilla Extends wxControl
 	bbdoc: The edge may be displayed by a line (EDGE_LINE) or by highlighting text that
 	about: goes beyond it (EDGE_BACKGROUND) or not displayed at all (EDGE_NONE).
 	End Rem
-	Method SetEdgeMode(Mode:Int)
-		bmx_wxscintilla_setedgemode(wxObjectPtr, Mode)
+	Method SetEdgeMode(mode:Int)
+		bmx_wxscintilla_setedgemode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -2558,15 +2749,15 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Change internal focus flag.
 	End Rem
-	Method SetSCIFocus(focus:Int)
-		bmx_wxscintilla_setscifocus(wxObjectPtr, focus)
+	Method SetSTCFocus(focus:Int)
+		bmx_wxscintilla_setstcfocus(wxObjectPtr, focus)
 	End Method
 
 	Rem
 	bbdoc: Get internal focus flag.
 	End Rem
-	Method GetSCIFocus:Int()
-		Return bmx_wxscintilla_getscifocus(wxObjectPtr)
+	Method GetSTCFocus:Int()
+		Return bmx_wxscintilla_getstcfocus(wxObjectPtr)
 	End Method
 
 	Rem
@@ -2665,14 +2856,14 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
-	bbdoc: Get and Set the xOffset (ie, horizonal scroll position).
+	bbdoc: Get and Set the xOffset (ie, horizontal scroll position).
 	End Rem
 	Method SetXOffset(newOffset:Int)
 		bmx_wxscintilla_setxoffset(wxObjectPtr, newOffset)
 	End Method
 
 	Rem
-	bbdoc: Get and Set the xOffset (ie, horizonal scroll position).
+	bbdoc: Get and Set the xOffset (ie, horizontal scroll position).
 	End Rem
 	Method GetXOffset:Int()
 		Return bmx_wxscintilla_getxoffset(wxObjectPtr)
@@ -2686,7 +2877,7 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
-	bbdoc: Set the way the caret is kept visible when going sideway.
+	bbdoc: Set the way the caret is kept visible when going sideways.
 	about: The exclusion zone is given in pixels.
 	End Rem
 	Method SetXCaretPolicy(caretPolicy:Int, caretSlop:Int)
@@ -2704,8 +2895,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Set printing to line wrapped (SC_WRAP_WORD) or not line wrapped (SC_WRAP_NONE).
 	End Rem
-	Method SetPrintWrapMode(Mode:Int)
-		bmx_wxscintilla_setprintwrapmode(wxObjectPtr, Mode)
+	Method SetPrintWrapMode(mode:Int)
+		bmx_wxscintilla_setprintwrapmode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -2795,11 +2986,11 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
-	bbdoc: Set the selection mode to stream (SC_SEL_STREAM) or rectangular (SC_SEL_RECTANGLE) or
+	bbdoc: Set the selection mode to stream (SC_SEL_STREAM) or rectangular (SC_SEL_RECTANGLE/SC_SEL_THIN) or
 	about: by lines (SC_SEL_LINES).
 	End Rem
-	Method SetSelectionMode(Mode:Int)
-		bmx_wxscintilla_setselectionmode(wxObjectPtr, Mode)
+	Method SetSelectionMode(mode:Int)
+		bmx_wxscintilla_setselectionmode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -2953,6 +3144,28 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Get the set of characters making up whitespace for when moving or selecting by word.
+	End Rem
+	Method GetWhitespaceChars:String()
+		Return bmx_wxscintilla_getwhitespacechars(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the set of characters making up punctuation characters
+	about: Should be called after SetWordChars.
+	End Rem
+	Method SetPunctuationChars(characters:String)
+		bmx_wxscintilla_setpunctuationchars(wxObjectPtr, characters)
+	End Method
+
+	Rem
+	bbdoc: Get the set of characters making up punctuation characters
+	End Rem
+	Method GetPunctuationChars:String()
+		Return bmx_wxscintilla_getpunctuationchars(wxObjectPtr)
+	End Method
+
+	Rem
 	bbdoc: Reset the set of characters for whitespace and word characters to the defaults.
 	End Rem
 	Method SetCharsDefault()
@@ -2964,6 +3177,20 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Method AutoCompGetCurrent:Int()
 		Return bmx_wxscintilla_autocompgetcurrent(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set auto-completion case insensitive behaviour to either prefer case-sensitive matches or have no preference.
+	End Rem
+	Method AutoCompSetCaseInsensitiveBehaviour(behaviour:Int)
+		bmx_wxscintilla_autocompsetcaseinsensitivebehaviour(wxObjectPtr, behaviour)
+	End Method
+
+	Rem
+	bbdoc: Get auto-completion case insensitive behaviour.
+	End Rem
+	Method AutoCompGetCaseInsensitiveBehaviour:Int()
+		Return bmx_wxscintilla_autocompgetcaseinsensitivebehaviour(wxObjectPtr)
 	End Method
 
 	Rem
@@ -3024,17 +3251,684 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
-	bbdoc: Set background alpha of the caret line.
+	bbdoc: Copy the selection, if selection empty copy the line with the caret
 	End Rem
-	Method SetCaretLineBackgroundAlpha(alpha:Int)
-		bmx_wxscintilla_setcaretlinebackgroundalpha(wxObjectPtr, alpha)
+	Method CopyAllowLine()
+		bmx_wxscintilla_copyallowline(wxObjectPtr)
 	End Method
 
 	Rem
-	bbdoc: Get the background alpha of the caret line.
+	bbdoc: Return a position which, to avoid performance costs, should not be within
+	about: the range of a call to GetRangePointer.
 	End Rem
-	Method GetCaretLineBackgroundAlpha:Int()
-		Return bmx_wxscintilla_getcaretlinebackgroundalpha(wxObjectPtr)
+	Method GetGapPosition:Int()
+		Return bmx_wxscintilla_getgapposition(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Always interpret keyboard input as Unicode
+	End Rem
+	Method SetKeysUnicode(keysUnicode:Int)
+		bmx_wxscintilla_setkeysunicode(wxObjectPtr, keysUnicode)
+	End Method
+
+	Rem
+	bbdoc: Are keys always interpreted as Unicode?
+	End Rem
+	Method GetKeysUnicode:Int()
+		Return bmx_wxscintilla_getkeysunicode(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the alpha fill colour of the given indicator.
+	End Rem
+	Method IndicatorSetAlpha(indicator:Int, alpha:Int)
+		bmx_wxscintilla_indicatorsetalpha(wxObjectPtr, indicator, alpha)
+	End Method
+
+	Rem
+	bbdoc: Get the alpha fill colour of the given indicator.
+	End Rem
+	Method IndicatorGetAlpha:Int(indicator:Int)
+		Return bmx_wxscintilla_indicatorgetalpha(wxObjectPtr, indicator)
+	End Method
+
+	Rem
+	bbdoc: Set the alpha outline colour of the given indicator.
+	End Rem
+	Method IndicatorSetOutlineAlpha(indicator:Int, alpha:Int)
+		bmx_wxscintilla_indicatorsetoutlinealpha(wxObjectPtr, indicator, alpha)
+	End Method
+
+	Rem
+	bbdoc: Get the alpha outline colour of the given indicator.
+	End Rem
+	Method IndicatorGetOutlineAlpha:Int(indicator:Int)
+		Return bmx_wxscintilla_indicatorgetoutlinealpha(wxObjectPtr, indicator)
+	End Method
+
+	Rem
+	bbdoc: Set extra ascent for each line
+	End Rem
+	Method SetExtraAscent(extraAscent:Int)
+		bmx_wxscintilla_setextraascent(wxObjectPtr, extraAscent)
+	End Method
+
+	Rem
+	bbdoc: Get extra ascent for each line
+	End Rem
+	Method GetExtraAscent:Int()
+		Return bmx_wxscintilla_getextraascent(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set extra descent for each line
+	End Rem
+	Method SetExtraDescent(extraDescent:Int)
+		bmx_wxscintilla_setextradescent(wxObjectPtr, extraDescent)
+	End Method
+
+	Rem
+	bbdoc: Get extra descent for each line
+	End Rem
+	Method GetExtraDescent:Int()
+		Return bmx_wxscintilla_getextradescent(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the text in the text margin for a line
+	End Rem
+	Method MarginSetText(line:Int, text:String)
+		bmx_wxscintilla_marginsettext(wxObjectPtr, line, text)
+	End Method
+
+	Rem
+	bbdoc: Get the text in the text margin for a line
+	End Rem
+	Method MarginGetText:String(line:Int)
+		Return bmx_wxscintilla_margingettext(wxObjectPtr, line)
+	End Method
+
+	Rem
+	bbdoc: Set the style number for the text margin for a line
+	End Rem
+	Method MarginSetStyle(line:Int, style:Int)
+		bmx_wxscintilla_marginsetstyle(wxObjectPtr, line, style)
+	End Method
+
+	Rem
+	bbdoc: Get the style number for the text margin for a line
+	End Rem
+	Method MarginGetStyle:Int(line:Int)
+		Return bmx_wxscintilla_margingetstyle(wxObjectPtr, line)
+	End Method
+
+	Rem
+	bbdoc: Set the style in the text margin for a line
+	End Rem
+	Method MarginSetStyles(line:Int, styles:String)
+		bmx_wxscintilla_marginsetstyles(wxObjectPtr, line, styles)
+	End Method
+
+	Rem
+	bbdoc: Get the styles in the text margin for a line
+	End Rem
+	Method MarginGetStyles:String(line:Int)
+		Return bmx_wxscintilla_margingetstyles(wxObjectPtr, line)
+	End Method
+
+	Rem
+	bbdoc: Clear the margin text on all lines
+	End Rem
+	Method MarginTextClearAll()
+		bmx_wxscintilla_margintextclearall(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Get the start of the range of style numbers used for margin text
+	End Rem
+	Method MarginSetStyleOffset(style:Int)
+		bmx_wxscintilla_marginsetstyleoffset(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get the start of the range of style numbers used for margin text
+	End Rem
+	Method MarginGetStyleOffset:Int()
+		Return bmx_wxscintilla_margingetstyleoffset(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the margin options.
+	End Rem
+	Method SetMarginOptions(marginOptions:Int)
+		bmx_wxscintilla_setmarginoptions(wxObjectPtr, marginOptions)
+	End Method
+
+	Rem
+	bbdoc: Get the margin options.
+	End Rem
+	Method GetMarginOptions:Int()
+		Return bmx_wxscintilla_getmarginoptions(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the annotation text for a line
+	End Rem
+	Method AnnotationSetText(line:Int, text:String)
+		bmx_wxscintilla_annotationsettext(wxObjectPtr, line, text)
+	End Method
+
+	Rem
+	bbdoc: Get the annotation text for a line
+	End Rem
+	Method AnnotationGetText:String(line:Int)
+		Return bmx_wxscintilla_annotationgettext(wxObjectPtr, line)
+	End Method
+
+	Rem
+	bbdoc: Set the style number for the annotations for a line
+	End Rem
+	Method AnnotationSetStyle(line:Int, style:Int)
+		bmx_wxscintilla_annotationsetstyle(wxObjectPtr, line, style)
+	End Method
+
+	Rem
+	bbdoc: Get the style number for the annotations for a line
+	End Rem
+	Method AnnotationGetStyle:Int(line:Int)
+		Return bmx_wxscintilla_annotationgetstyle(wxObjectPtr, line)
+	End Method
+
+	Rem
+	bbdoc: Set the annotation styles for a line
+	End Rem
+	Method AnnotationSetStyles(line:Int, styles:String)
+		bmx_wxscintilla_annotationsetstyles(wxObjectPtr, line, styles)
+	End Method
+
+	Rem
+	bbdoc: Get the annotation styles for a line
+	End Rem
+	Method AnnotationGetStyles:String(line:Int)
+		Return bmx_wxscintilla_annotationgetstyles(wxObjectPtr, line)
+	End Method
+
+	Rem
+	bbdoc: Get the number of annotation lines for a line
+	End Rem
+	Method AnnotationGetLines:Int(line:Int)
+		Return bmx_wxscintilla_annotationgetlines(wxObjectPtr, line)
+	End Method
+
+	Rem
+	bbdoc: Clear the annotations from all lines
+	End Rem
+	Method AnnotationClearAll()
+		bmx_wxscintilla_annotationclearall(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the visibility for the annotations for a view
+	End Rem
+	Method AnnotationSetVisible(visible:Int)
+		bmx_wxscintilla_annotationsetvisible(wxObjectPtr, visible)
+	End Method
+
+	Rem
+	bbdoc: Get the visibility for the annotations for a view
+	End Rem
+	Method AnnotationGetVisible:Int()
+		Return bmx_wxscintilla_annotationgetvisible(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Get the start of the range of style numbers used for annotations
+	End Rem
+	Method AnnotationSetStyleOffset(style:Int)
+		bmx_wxscintilla_annotationsetstyleoffset(wxObjectPtr, style)
+	End Method
+
+	Rem
+	bbdoc: Get the start of the range of style numbers used for annotations
+	End Rem
+	Method AnnotationGetStyleOffset:Int()
+		Return bmx_wxscintilla_annotationgetstyleoffset(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Add a container action to the undo stack
+	End Rem
+	Method AddUndoAction(token:Int, flags:Int)
+		bmx_wxscintilla_addundoaction(wxObjectPtr, token, flags)
+	End Method
+
+	Rem
+	bbdoc: Find the position of a character from a point within the window.
+	End Rem
+	Method CharPositionFromPoint:Int(x:Int, y:Int)
+		Return bmx_wxscintilla_charpositionfrompoint(wxObjectPtr, x, y)
+	End Method
+
+	Rem
+	bbdoc: Find the position of a character from a point within the window.
+	about: Return INVALID_POSITION if not close to text.
+	End Rem
+	Method CharPositionFromPointClose:Int(x:Int, y:Int)
+		Return bmx_wxscintilla_charpositionfrompointclose(wxObjectPtr, x, y)
+	End Method
+
+	Rem
+	bbdoc: Set whether multiple selections can be made
+	End Rem
+	Method SetMultipleSelection(multipleSelection:Int)
+		bmx_wxscintilla_setmultipleselection(wxObjectPtr, multipleSelection)
+	End Method
+
+	Rem
+	bbdoc: Whether multiple selections can be made
+	End Rem
+	Method GetMultipleSelection:Int()
+		Return bmx_wxscintilla_getmultipleselection(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set whether typing can be performed into multiple selections
+	End Rem
+	Method SetAdditionalSelectionTyping(additionalSelectionTyping:Int)
+		bmx_wxscintilla_setadditionalselectiontyping(wxObjectPtr, additionalSelectionTyping)
+	End Method
+
+	Rem
+	bbdoc: Whether typing can be performed into multiple selections
+	End Rem
+	Method GetAdditionalSelectionTyping:Int()
+		Return bmx_wxscintilla_getadditionalselectiontyping(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set whether additional carets will blink
+	End Rem
+	Method SetAdditionalCaretsBlink(additionalCaretsBlink:Int)
+		bmx_wxscintilla_setadditionalcaretsblink(wxObjectPtr, additionalCaretsBlink)
+	End Method
+
+	Rem
+	bbdoc: Whether additional carets will blink
+	End Rem
+	Method GetAdditionalCaretsBlink:Int()
+		Return bmx_wxscintilla_getadditionalcaretsblink(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set whether additional carets are visible
+	End Rem
+	Method SetAdditionalCaretsVisible(additionalCaretsBlink:Int)
+		bmx_wxscintilla_setadditionalcaretsvisible(wxObjectPtr, additionalCaretsBlink)
+	End Method
+
+	Rem
+	bbdoc: Whether additional carets are visible
+	End Rem
+	Method GetAdditionalCaretsVisible:Int()
+		Return bmx_wxscintilla_getadditionalcaretsvisible(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: How many selections are there?
+	End Rem
+	Method GetSelections:Int()
+		Return bmx_wxscintilla_getselections(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Clear selections to a single empty stream selection
+	End Rem
+	Method ClearSelections()
+		bmx_wxscintilla_clearselections(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Add a selection
+	End Rem
+	Method AddSelection:Int(caret:Int, anchor:Int)
+		Return bmx_wxscintilla_addselection(wxObjectPtr, caret, anchor)
+	End Method
+
+	Rem
+	bbdoc: Set the main selection
+	End Rem
+	Method SetMainSelection(selection:Int)
+		bmx_wxscintilla_setmainselection(wxObjectPtr, selection)
+	End Method
+
+	Rem
+	bbdoc: Which selection is the main selection
+	End Rem
+	Method GetMainSelection:Int()
+		Return bmx_wxscintilla_getmainselection(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Which selection is the main selection
+	End Rem
+	Method SetSelectionNCaret(selection:Int, pos:Int)
+		bmx_wxscintilla_setselectionncaret(wxObjectPtr, selection, pos)
+	End Method
+
+	Rem
+	bbdoc: Which selection is the main selection
+	End Rem
+	Method GetSelectionNCaret:Int(selection:Int)
+		Return bmx_wxscintilla_getselectionncaret(wxObjectPtr, selection)
+	End Method
+
+	Rem
+	bbdoc: Which selection is the main selection
+	End Rem
+	Method SetSelectionNAnchor(selection:Int, posAnchor:Int)
+		bmx_wxscintilla_setselectionnanchor(wxObjectPtr, selection, posAnchor)
+	End Method
+
+	Rem
+	bbdoc: Which selection is the main selection
+	End Rem
+	Method GetSelectionNAnchor:Int(selection:Int)
+		Return bmx_wxscintilla_getselectionnanchor(wxObjectPtr, selection)
+	End Method
+
+	Rem
+	bbdoc: Which selection is the main selection
+	End Rem
+	Method SetSelectionNCaretVirtualSpace(selection:Int, space:Int)
+		bmx_wxscintilla_setselectionncaretvirtualspace(wxObjectPtr, selection, space)
+	End Method
+
+	Rem
+	bbdoc: Which selection is the main selection
+	End Rem
+	Method GetSelectionNCaretVirtualSpace:Int(selection:Int)
+		Return bmx_wxscintilla_getselectionncaretvirtualspace(wxObjectPtr, selection)
+	End Method
+
+	Rem
+	bbdoc: Which selection is the main selection
+	End Rem
+	Method SetSelectionNAnchorVirtualSpace(selection:Int, space:Int)
+		bmx_wxscintilla_setselectionnanchorvirtualspace(wxObjectPtr, selection, space)
+	End Method
+
+	Rem
+	bbdoc: Which selection is the main selection
+	End Rem
+	Method GetSelectionNAnchorVirtualSpace:Int(selection:Int)
+		Return bmx_wxscintilla_getselectionnanchorvirtualspace(wxObjectPtr, selection)
+	End Method
+
+	Rem
+	bbdoc: Sets the position that starts the selection - this becomes the anchor.
+	End Rem
+	Method SetSelectionNStart(selection:Int, pos:Int)
+		bmx_wxscintilla_setselectionnstart(wxObjectPtr, selection, pos)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the start of the selection.
+	End Rem
+	Method GetSelectionNStart:Int(selection:Int)
+		Return bmx_wxscintilla_getselectionnstart(wxObjectPtr, selection)
+	End Method
+
+	Rem
+	bbdoc: Sets the position that ends the selection - this becomes the currentPosition.
+	End Rem
+	Method SetSelectionNEnd(selection:Int, pos:Int)
+		bmx_wxscintilla_setselectionnend(wxObjectPtr, selection, pos)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method GetSelectionNEnd:Int(selection:Int)
+		Return bmx_wxscintilla_getselectionnend(wxObjectPtr, selection)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method SetRectangularSelectionCaret(pos:Int)
+		bmx_wxscintilla_setrectangularselectioncaret(wxObjectPtr, pos)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method GetRectangularSelectionCaret:Int()
+		Return bmx_wxscintilla_getrectangularselectioncaret(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method SetRectangularSelectionAnchor(posAnchor:Int)
+		bmx_wxscintilla_setrectangularselectionanchor(wxObjectPtr, posAnchor)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method GetRectangularSelectionAnchor:Int()
+		Return bmx_wxscintilla_getrectangularselectionanchor(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method SetRectangularSelectionCaretVirtualSpace(space:Int)
+		bmx_wxscintilla_setrectangularselectioncaretvirtualspace(wxObjectPtr, space)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method GetRectangularSelectionCaretVirtualSpace:Int()
+		Return bmx_wxscintilla_getrectangularselectioncaretvirtualspace(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method SetRectangularSelectionAnchorVirtualSpace(space:Int)
+		bmx_wxscintilla_setrectangularselectionanchorvirtualspace(wxObjectPtr, space)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method GetRectangularSelectionAnchorVirtualSpace:Int()
+		Return bmx_wxscintilla_getrectangularselectionanchorvirtualspace(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method SetVirtualSpaceOptions(virtualSpaceOptions:Int)
+		bmx_wxscintilla_setvirtualspaceoptions(wxObjectPtr, virtualSpaceOptions)
+	End Method
+
+	Rem
+	bbdoc: Returns the position at the end of the selection.
+	End Rem
+	Method GetVirtualSpaceOptions:Int()
+		Return bmx_wxscintilla_getvirtualspaceoptions(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: On GTK+, allow selecting the modifier key to use for mouse-based
+	about: rectangular selection. Often the window manager requires Alt+Mouse Drag
+	for moving windows.
+	Valid values are SCMOD_CTRL(default), SCMOD_ALT, or SCMOD_SUPER.
+	End Rem
+	Method SetRectangularSelectionModifier(modifier:Int)
+		bmx_wxscintilla_setrectangularselectionmodifier(wxObjectPtr, modifier)
+	End Method
+
+	Rem
+	bbdoc: Get the modifier key used for rectangular selection.
+	End Rem
+	Method GetRectangularSelectionModifier:Int()
+		Return bmx_wxscintilla_getrectangularselectionmodifier(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the foreground colour of additional selections.
+	about: Must have previously called SetSelFore with non-zero first argument for this to have an effect.
+	End Rem
+	Method SetAdditionalSelForeground(fore:wxColour)
+		bmx_wxscintilla_setadditionalselforeground(wxObjectPtr, fore.wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the background colour of additional selections.
+	about: Must have previously called SetSelBack with non-zero first argument for this to have an effect.
+	End Rem
+	Method SetAdditionalSelBackground(back:wxColour)
+		bmx_wxscintilla_setadditionalselbackground(wxObjectPtr, back.wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the alpha of the selection.
+	End Rem
+	Method SetAdditionalSelAlpha(alpha:Int)
+		bmx_wxscintilla_setadditionalselalpha(wxObjectPtr, alpha)
+	End Method
+
+	Rem
+	bbdoc: Get the alpha of the selection.
+	End Rem
+	Method GetAdditionalSelAlpha:Int()
+		Return bmx_wxscintilla_getadditionalselalpha(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the foreground colour of additional carets.
+	End Rem
+	Method SetAdditionalCaretForeground(fore:wxColour)
+		bmx_wxscintilla_setadditionalcaretforeground(wxObjectPtr, fore.wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Get the foreground colour of additional carets.
+	End Rem
+	Method GetAdditionalCaretForeground:wxColour()
+		Return wxColour._create(bmx_wxscintilla_getadditionalcaretforeground(wxObjectPtr))
+	End Method
+
+	Rem
+	bbdoc: Set the main selection to the next selection.
+	End Rem
+	Method RotateSelection()
+		bmx_wxscintilla_rotateselection(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Swap that caret and anchor of the main selection.
+	End Rem
+	Method SwapMainAnchorCaret()
+		bmx_wxscintilla_swapmainanchorcaret(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Indicate that the internal state of a lexer has changed over a range and therefore
+	about: there may be a need to redraw.
+	End Rem
+	Method ChangeLexerState:Int(startPos:Int, endPos:Int)
+		Return bmx_wxscintilla_changelexerstate(wxObjectPtr, startPos, endPos)
+	End Method
+
+	Rem
+	bbdoc: Find the next line at or after lineStart that is a contracted fold header line.
+	about: Return -1 when no more lines.
+	End Rem
+	Method ContractedFoldNext:Int(lineStart:Int)
+		Return bmx_wxscintilla_contractedfoldnext(wxObjectPtr, lineStart)
+	End Method
+
+	Rem
+	bbdoc: Centre current line in window.
+	End Rem
+	Method VerticalCentreCaret()
+		bmx_wxscintilla_verticalcentrecaret(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Move the selected lines up one line, shifting the line above after the selection
+	End Rem
+	Method MoveSelectedLinesUp()
+		bmx_wxscintilla_moveselectedlinesup(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Move the selected lines down one line, shifting the line below before the selection
+	End Rem
+	Method MoveSelectedLinesDown()
+		bmx_wxscintilla_moveselectedlinesdown(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the identifier reported as idFrom in notification messages.
+	End Rem
+	Method SetIdentifier(identifier:Int)
+		bmx_wxscintilla_setidentifier(wxObjectPtr, identifier)
+	End Method
+
+	Rem
+	bbdoc: Get the identifier.
+	End Rem
+	Method GetIdentifier:Int()
+		Return bmx_wxscintilla_getidentifier(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the width for future RGBA image data.
+	End Rem
+	Method RGBAImageSetWidth(width:Int)
+		bmx_wxscintilla_rgbaimagesetwidth(wxObjectPtr, width)
+	End Method
+
+	Rem
+	bbdoc: Set the height for future RGBA image data.
+	End Rem
+	Method RGBAImageSetHeight(height:Int)
+		bmx_wxscintilla_rgbaimagesetheight(wxObjectPtr, height)
+	End Method
+
+	Rem
+	bbdoc: Scroll to start of document.
+	End Rem
+	Method ScrollToStart()
+		bmx_wxscintilla_scrolltostart(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Scroll to end of document.
+	End Rem
+	Method ScrollToEnd()
+		bmx_wxscintilla_scrolltoend(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the technology used.
+	End Rem
+	Method SetTechnology(technology:Int)
+		bmx_wxscintilla_settechnology(wxObjectPtr, technology)
+	End Method
+
+	Rem
+	bbdoc: Get the tech.
+	End Rem
+	Method GetTechnology:Int()
+		Return bmx_wxscintilla_gettechnology(wxObjectPtr)
 	End Method
 
 	Rem
@@ -3121,6 +4015,34 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Method GetStyleBitsNeeded:Int()
 		Return bmx_wxscintilla_getstylebitsneeded(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Retrieve a '\n' separated list of properties understood by the current lexer.
+	End Rem
+	Method PropertyNames:String()
+		Return bmx_wxscintilla_propertynames(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Retrieve the type of a property.
+	End Rem
+	Method PropertyType:Int(name:String)
+		Return bmx_wxscintilla_propertytype(wxObjectPtr, name)
+	End Method
+
+	Rem
+	bbdoc: Describe a property.
+	End Rem
+	Method DescribeProperty:String(name:String)
+		Return bmx_wxscintilla_describeproperty(wxObjectPtr, name)
+	End Method
+
+	Rem
+	bbdoc: Retrieve a '\n' separated list of descriptions of the keyword sets understood by the current lexer.
+	End Rem
+	Method DescribeKeyWordSets:String()
+		Return bmx_wxscintilla_describekeywordsets(wxObjectPtr)
 	End Method
 
 	' //--Autogenerated

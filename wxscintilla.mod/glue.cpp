@@ -145,6 +145,10 @@ void bmx_wxscintilla_clearall(wxScintilla * sc) {
 	sc->ClearAll();
 }
 
+void bmx_wxscintilla_deleterange(wxScintilla * sc, int pos, int deleteLength) {
+	sc->DeleteRange(pos, deleteLength);
+}
+
 void bmx_wxscintilla_cleardocumentstyle(wxScintilla * sc) {
 	sc->ClearDocumentStyle();
 }
@@ -173,7 +177,7 @@ void bmx_wxscintilla_redo(wxScintilla * sc) {
 	sc->Redo();
 }
 
-void bmx_wxscintilla_setundocollection(wxScintilla * sc, bool collectUndo) {
+void bmx_wxscintilla_setundocollection(wxScintilla * sc, int collectUndo) {
 	sc->SetUndoCollection(collectUndo);
 }
 
@@ -185,7 +189,7 @@ void bmx_wxscintilla_setsavepoint(wxScintilla * sc) {
 	sc->SetSavePoint();
 }
 
-bool bmx_wxscintilla_canredo(wxScintilla * sc) {
+int bmx_wxscintilla_canredo(wxScintilla * sc) {
 	return sc->CanRedo();
 }
 
@@ -197,7 +201,7 @@ void bmx_wxscintilla_markerdeletehandle(wxScintilla * sc, int handle) {
 	sc->MarkerDeleteHandle(handle);
 }
 
-bool bmx_wxscintilla_getundocollection(wxScintilla * sc) {
+int bmx_wxscintilla_getundocollection(wxScintilla * sc) {
 	return sc->GetUndoCollection();
 }
 
@@ -257,11 +261,11 @@ void bmx_wxscintilla_setstyling(wxScintilla * sc, int length, int style) {
 	sc->SetStyling(length, style);
 }
 
-bool bmx_wxscintilla_getbuffereddraw(wxScintilla * sc) {
+int bmx_wxscintilla_getbuffereddraw(wxScintilla * sc) {
 	return sc->GetBufferedDraw();
 }
 
-void bmx_wxscintilla_setbuffereddraw(wxScintilla * sc, bool buffered) {
+void bmx_wxscintilla_setbuffereddraw(wxScintilla * sc, int buffered) {
 	sc->SetBufferedDraw(buffered);
 }
 
@@ -287,6 +291,14 @@ void bmx_wxscintilla_markersetforeground(wxScintilla * sc, int markerNumber, Max
 
 void bmx_wxscintilla_markersetbackground(wxScintilla * sc, int markerNumber, MaxColour * back) {
 	sc->MarkerSetBackground(markerNumber, back->Colour());
+}
+
+void bmx_wxscintilla_markersetbackgroundselected(wxScintilla * sc, int markerNumber, MaxColour * back) {
+	sc->MarkerSetBackgroundSelected(markerNumber, back->Colour());
+}
+
+void bmx_wxscintilla_markerenablehighlight(wxScintilla * sc, int enabled) {
+	sc->MarkerEnableHighlight(enabled);
 }
 
 int bmx_wxscintilla_markeradd(wxScintilla * sc, int line, int markerNumber) {
@@ -349,12 +361,20 @@ int bmx_wxscintilla_getmarginmask(wxScintilla * sc, int margin) {
 	return sc->GetMarginMask(margin);
 }
 
-void bmx_wxscintilla_setmarginsensitive(wxScintilla * sc, int margin, bool sensitive) {
+void bmx_wxscintilla_setmarginsensitive(wxScintilla * sc, int margin, int sensitive) {
 	sc->SetMarginSensitive(margin, sensitive);
 }
 
-bool bmx_wxscintilla_getmarginsensitive(wxScintilla * sc, int margin) {
+int bmx_wxscintilla_getmarginsensitive(wxScintilla * sc, int margin) {
 	return sc->GetMarginSensitive(margin);
+}
+
+void bmx_wxscintilla_setmargincursor(wxScintilla * sc, int margin, int cursor) {
+	sc->SetMarginCursor(margin, cursor);
+}
+
+int bmx_wxscintilla_getmargincursor(wxScintilla * sc, int margin) {
+	return sc->GetMarginCursor(margin);
 }
 
 void bmx_wxscintilla_styleclearall(wxScintilla * sc) {
@@ -369,11 +389,11 @@ void bmx_wxscintilla_stylesetbackground(wxScintilla * sc, int style, MaxColour *
 	sc->StyleSetBackground(style, back->Colour());
 }
 
-void bmx_wxscintilla_stylesetbold(wxScintilla * sc, int style, bool bold) {
+void bmx_wxscintilla_stylesetbold(wxScintilla * sc, int style, int bold) {
 	sc->StyleSetBold(style, bold);
 }
 
-void bmx_wxscintilla_stylesetitalic(wxScintilla * sc, int style, bool italic) {
+void bmx_wxscintilla_stylesetitalic(wxScintilla * sc, int style, int italic) {
 	sc->StyleSetItalic(style, italic);
 }
 
@@ -381,11 +401,11 @@ void bmx_wxscintilla_stylesetsize(wxScintilla * sc, int style, int sizePoints) {
 	sc->StyleSetSize(style, sizePoints);
 }
 
-//void bmx_wxscintilla_stylesetfont(wxScintilla * sc, int style, BBString * fontName) {
-//	sc->StyleSetFont(style, wxStringFromBBString(fontName));
-//}
+void bmx_wxscintilla_stylesetfacename(wxScintilla * sc, int style, BBString * fontName) {
+	sc->StyleSetFaceName(style, wxStringFromBBString(fontName));
+}
 
-void bmx_wxscintilla_styleseteolfilled(wxScintilla * sc, int style, bool filled) {
+void bmx_wxscintilla_styleseteolfilled(wxScintilla * sc, int style, int filled) {
 	sc->StyleSetEOLFilled(style, filled);
 }
 
@@ -393,7 +413,7 @@ void bmx_wxscintilla_styleresetdefault(wxScintilla * sc) {
 	sc->StyleResetDefault();
 }
 
-void bmx_wxscintilla_stylesetunderline(wxScintilla * sc, int style, bool underline) {
+void bmx_wxscintilla_stylesetunderline(wxScintilla * sc, int style, int underline) {
 	sc->StyleSetUnderline(style, underline);
 }
 
@@ -401,19 +421,35 @@ void bmx_wxscintilla_stylesetcase(wxScintilla * sc, int style, int caseForce) {
 	sc->StyleSetCase(style, caseForce);
 }
 
+void bmx_wxscintilla_stylesetsizefractional(wxScintilla * sc, int style, int caseForce) {
+	sc->StyleSetSizeFractional(style, caseForce);
+}
+
+int bmx_wxscintilla_stylegetsizefractional(wxScintilla * sc, int style) {
+	return sc->StyleGetSizeFractional(style);
+}
+
+void bmx_wxscintilla_stylesetweight(wxScintilla * sc, int style, int weight) {
+	sc->StyleSetWeight(style, weight);
+}
+
+int bmx_wxscintilla_stylegetweight(wxScintilla * sc, int style) {
+	return sc->StyleGetWeight(style);
+}
+
 void bmx_wxscintilla_stylesetcharacterset(wxScintilla * sc, int style, int characterSet) {
 	sc->StyleSetCharacterSet(style, characterSet);
 }
 
-void bmx_wxscintilla_stylesethotspot(wxScintilla * sc, int style, bool hotspot) {
+void bmx_wxscintilla_stylesethotspot(wxScintilla * sc, int style, int hotspot) {
 	sc->StyleSetHotSpot(style, hotspot);
 }
 
-void bmx_wxscintilla_setselforeground(wxScintilla * sc, bool useSetting, MaxColour * fore) {
+void bmx_wxscintilla_setselforeground(wxScintilla * sc, int useSetting, MaxColour * fore) {
 	sc->SetSelForeground(useSetting, fore->Colour());
 }
 
-void bmx_wxscintilla_setselbackground(wxScintilla * sc, bool useSetting, MaxColour * back) {
+void bmx_wxscintilla_setselbackground(wxScintilla * sc, int useSetting, MaxColour * back) {
 	sc->SetSelBackground(useSetting, back->Colour());
 }
 
@@ -433,7 +469,7 @@ void bmx_wxscintilla_cmdkeyclearall(wxScintilla * sc) {
 	sc->CmdKeyClearAll();
 }
 
-void bmx_wxscintilla_stylesetvisible(wxScintilla * sc, int style, bool visible) {
+void bmx_wxscintilla_stylesetvisible(wxScintilla * sc, int style, int visible) {
 	sc->StyleSetVisible(style, visible);
 }
 
@@ -447,6 +483,10 @@ void bmx_wxscintilla_setcaretperiod(wxScintilla * sc, int periodMilliseconds) {
 
 void bmx_wxscintilla_setwordchars(wxScintilla * sc, BBString * characters) {
 	sc->SetWordChars(wxStringFromBBString(characters));
+}
+
+BBString * bmx_wxscintilla_getwordchars(wxScintilla * sc) {
+	return bbStringFromWxString(sc->GetWordChars());
 }
 
 void bmx_wxscintilla_beginundoaction(wxScintilla * sc) {
@@ -474,12 +514,20 @@ MaxColour * bmx_wxscintilla_indicatorgetforeground(wxScintilla * sc, int indic) 
 	return new MaxColour(c);
 }
 
-void bmx_wxscintilla_setwhitespaceforeground(wxScintilla * sc, bool useSetting, MaxColour * fore) {
+void bmx_wxscintilla_setwhitespaceforeground(wxScintilla * sc, int useSetting, MaxColour * fore) {
 	sc->SetWhitespaceForeground(useSetting, fore->Colour());
 }
 
-void bmx_wxscintilla_setwhitespacebackground(wxScintilla * sc, bool useSetting, MaxColour * back) {
+void bmx_wxscintilla_setwhitespacebackground(wxScintilla * sc, int useSetting, MaxColour * back) {
 	sc->SetWhitespaceBackground(useSetting, back->Colour());
+}
+
+void bmx_wxscintilla_setwhitespacesize(wxScintilla * sc, int size) {
+	sc->SetWhitespaceSize(size);
+}
+
+int bmx_wxscintilla_getwhitespacesize(wxScintilla * sc) {
+	return sc->GetWhitespaceSize();
 }
 
 void bmx_wxscintilla_setstylebits(wxScintilla * sc, int bits) {
@@ -502,11 +550,11 @@ int bmx_wxscintilla_getmaxlinestate(wxScintilla * sc) {
 	return sc->GetMaxLineState();
 }
 
-bool bmx_wxscintilla_getcaretlinevisible(wxScintilla * sc) {
+int bmx_wxscintilla_getcaretlinevisible(wxScintilla * sc) {
 	return sc->GetCaretLineVisible();
 }
 
-void bmx_wxscintilla_setcaretlinevisible(wxScintilla * sc, bool show) {
+void bmx_wxscintilla_setcaretlinevisible(wxScintilla * sc, int show) {
 	sc->SetCaretLineVisible(show);
 }
 
@@ -519,7 +567,7 @@ void bmx_wxscintilla_setcaretlinebackground(wxScintilla * sc, MaxColour * back) 
 	sc->SetCaretLineBackground(back->Colour());
 }
 
-void bmx_wxscintilla_stylesetchangeable(wxScintilla * sc, int style, bool changeable) {
+void bmx_wxscintilla_stylesetchangeable(wxScintilla * sc, int style, int changeable) {
 	sc->StyleSetChangeable(style, changeable);
 }
 
@@ -531,7 +579,7 @@ void bmx_wxscintilla_autocompcancel(wxScintilla * sc) {
 	sc->AutoCompCancel();
 }
 
-bool bmx_wxscintilla_autocompactive(wxScintilla * sc) {
+int bmx_wxscintilla_autocompactive(wxScintilla * sc) {
 	return sc->AutoCompActive();
 }
 
@@ -559,11 +607,11 @@ void bmx_wxscintilla_autocompselect(wxScintilla * sc, BBString * text) {
 	sc->AutoCompSelect(wxStringFromBBString(text));
 }
 
-void bmx_wxscintilla_autocompsetcancelatstart(wxScintilla * sc, bool cancel) {
+void bmx_wxscintilla_autocompsetcancelatstart(wxScintilla * sc, int cancel) {
 	sc->AutoCompSetCancelAtStart(cancel);
 }
 
-bool bmx_wxscintilla_autocompgetcancelatstart(wxScintilla * sc) {
+int bmx_wxscintilla_autocompgetcancelatstart(wxScintilla * sc) {
 	return sc->AutoCompGetCancelAtStart();
 }
 
@@ -571,19 +619,19 @@ void bmx_wxscintilla_autocompsetfillups(wxScintilla * sc, BBString * characterSe
 	sc->AutoCompSetFillUps(wxStringFromBBString(characterSet));
 }
 
-void bmx_wxscintilla_autocompsetchoosesingle(wxScintilla * sc, bool chooseSingle) {
+void bmx_wxscintilla_autocompsetchoosesingle(wxScintilla * sc, int chooseSingle) {
 	sc->AutoCompSetChooseSingle(chooseSingle);
 }
 
-bool bmx_wxscintilla_autocompgetchoosesingle(wxScintilla * sc) {
+int bmx_wxscintilla_autocompgetchoosesingle(wxScintilla * sc) {
 	return sc->AutoCompGetChooseSingle();
 }
 
-void bmx_wxscintilla_autocompsetignorecase(wxScintilla * sc, bool ignoreCase) {
+void bmx_wxscintilla_autocompsetignorecase(wxScintilla * sc, int ignoreCase) {
 	sc->AutoCompSetIgnoreCase(ignoreCase);
 }
 
-bool bmx_wxscintilla_autocompgetignorecase(wxScintilla * sc) {
+int bmx_wxscintilla_autocompgetignorecase(wxScintilla * sc) {
 	return sc->AutoCompGetIgnoreCase();
 }
 
@@ -591,19 +639,19 @@ void bmx_wxscintilla_userlistshow(wxScintilla * sc, int listType, BBString * ite
 	sc->UserListShow(listType, wxStringFromBBString(itemList));
 }
 
-void bmx_wxscintilla_autocompsetautohide(wxScintilla * sc, bool autoHide) {
+void bmx_wxscintilla_autocompsetautohide(wxScintilla * sc, int autoHide) {
 	sc->AutoCompSetAutoHide(autoHide);
 }
 
-bool bmx_wxscintilla_autocompgetautohide(wxScintilla * sc) {
+int bmx_wxscintilla_autocompgetautohide(wxScintilla * sc) {
 	return sc->AutoCompGetAutoHide();
 }
 
-void bmx_wxscintilla_autocompsetdroprestofword(wxScintilla * sc, bool dropRestOfWord) {
+void bmx_wxscintilla_autocompsetdroprestofword(wxScintilla * sc, int dropRestOfWord) {
 	sc->AutoCompSetDropRestOfWord(dropRestOfWord);
 }
 
-bool bmx_wxscintilla_autocompgetdroprestofword(wxScintilla * sc) {
+int bmx_wxscintilla_autocompgetdroprestofword(wxScintilla * sc) {
 	return sc->AutoCompGetDropRestOfWord();
 }
 
@@ -647,11 +695,11 @@ int bmx_wxscintilla_getindent(wxScintilla * sc) {
 	return sc->GetIndent();
 }
 
-void bmx_wxscintilla_setusetabs(wxScintilla * sc, bool useTabs) {
+void bmx_wxscintilla_setusetabs(wxScintilla * sc, int useTabs) {
 	sc->SetUseTabs(useTabs);
 }
 
-bool bmx_wxscintilla_getusetabs(wxScintilla * sc) {
+int bmx_wxscintilla_getusetabs(wxScintilla * sc) {
 	return sc->GetUseTabs();
 }
 
@@ -671,19 +719,23 @@ int bmx_wxscintilla_getcolumn(wxScintilla * sc, int pos) {
 	return sc->GetColumn(pos);
 }
 
-void bmx_wxscintilla_setusehorizontalscrollbar(wxScintilla * sc, bool show) {
+int bmx_wxscintilla_countcharacters(wxScintilla * sc, int startPos, int endPos) {
+	return sc->CountCharacters(startPos, endPos);
+}
+
+void bmx_wxscintilla_setusehorizontalscrollbar(wxScintilla * sc, int show) {
 	sc->SetUseHorizontalScrollBar(show);
 }
 
-bool bmx_wxscintilla_getusehorizontalscrollbar(wxScintilla * sc) {
+int bmx_wxscintilla_getusehorizontalscrollbar(wxScintilla * sc) {
 	return sc->GetUseHorizontalScrollBar();
 }
 
-void bmx_wxscintilla_setindentationguides(wxScintilla * sc, bool show) {
-	sc->SetIndentationGuides(show);
+void bmx_wxscintilla_setindentationguides(wxScintilla * sc, int indentView) {
+	sc->SetIndentationGuides(indentView);
 }
 
-bool bmx_wxscintilla_getindentationguides(wxScintilla * sc) {
+int bmx_wxscintilla_getindentationguides(wxScintilla * sc) {
 	return sc->GetIndentationGuides();
 }
 
@@ -708,7 +760,7 @@ MaxColour * bmx_wxscintilla_getcaretforeground(wxScintilla * sc) {
 	return new MaxColour(c);
 }
 
-bool bmx_wxscintilla_getreadonly(wxScintilla * sc) {
+int bmx_wxscintilla_getreadonly(wxScintilla * sc) {
 	return sc->GetReadOnly();
 }
 
@@ -730,6 +782,10 @@ void bmx_wxscintilla_setselectionend(wxScintilla * sc, int pos) {
 
 int bmx_wxscintilla_getselectionend(wxScintilla * sc) {
 	return sc->GetSelectionEnd();
+}
+
+void bmx_wxscintilla_setemptyselection(wxScintilla * sc, int pos) {
+	sc->SetEmptySelection(pos);
 }
 
 void bmx_wxscintilla_setprintmagnification(wxScintilla * sc, int magnification) {
@@ -784,7 +840,7 @@ int bmx_wxscintilla_getmarginright(wxScintilla * sc) {
 	return sc->GetMarginRight();
 }
 
-bool bmx_wxscintilla_getmodify(wxScintilla * sc) {
+int bmx_wxscintilla_getmodify(wxScintilla * sc) {
 	return sc->GetModify();
 }
 
@@ -800,7 +856,7 @@ BBString * bmx_wxscintilla_gettextrange(wxScintilla * sc, int start, int end) {
 	return bbStringFromWxString(sc->GetTextRange(start, end));
 }
 
-void bmx_wxscintilla_hideselection(wxScintilla * sc, bool normal) {
+void bmx_wxscintilla_hideselection(wxScintilla * sc, int normal) {
 	sc->HideSelection(normal);
 }
 
@@ -824,15 +880,15 @@ void bmx_wxscintilla_replaceselection(wxScintilla * sc, BBString * text) {
 	sc->ReplaceSelection(wxStringFromBBString(text));
 }
 
-void bmx_wxscintilla_setreadonly(wxScintilla * sc, bool readOnly) {
+void bmx_wxscintilla_setreadonly(wxScintilla * sc, int readOnly) {
 	sc->SetReadOnly(readOnly);
 }
 
-bool bmx_wxscintilla_canpaste(wxScintilla * sc) {
+int bmx_wxscintilla_canpaste(wxScintilla * sc) {
 	return sc->CanPaste();
 }
 
-bool bmx_wxscintilla_canundo(wxScintilla * sc) {
+int bmx_wxscintilla_canundo(wxScintilla * sc) {
 	return sc->CanUndo();
 }
 
@@ -872,11 +928,11 @@ int bmx_wxscintilla_gettextlength(wxScintilla * sc) {
 	return sc->GetTextLength();
 }
 
-void bmx_wxscintilla_setovertype(wxScintilla * sc, bool overtype) {
+void bmx_wxscintilla_setovertype(wxScintilla * sc, int overtype) {
 	sc->SetOvertype(overtype);
 }
 
-bool bmx_wxscintilla_getovertype(wxScintilla * sc) {
+int bmx_wxscintilla_getovertype(wxScintilla * sc) {
 	return sc->GetOvertype();
 }
 
@@ -932,7 +988,7 @@ void bmx_wxscintilla_calltipcancel(wxScintilla * sc) {
 	sc->CallTipCancel();
 }
 
-bool bmx_wxscintilla_calltipactive(wxScintilla * sc) {
+int bmx_wxscintilla_calltipactive(wxScintilla * sc) {
 	return sc->CallTipActive();
 }
 
@@ -958,6 +1014,10 @@ void bmx_wxscintilla_calltipsetforegroundhighlight(wxScintilla * sc, MaxColour *
 
 void bmx_wxscintilla_calltipusestyle(wxScintilla * sc, int tabSize) {
 	sc->CallTipUseStyle(tabSize);
+}
+
+void bmx_wxscintilla_calltipsetposition(wxScintilla * sc, int above) {
+	sc->CallTipSetPosition(above);
 }
 
 int bmx_wxscintilla_visiblefromdocline(wxScintilla * sc, int line) {
@@ -996,15 +1056,19 @@ void bmx_wxscintilla_hidelines(wxScintilla * sc, int lineStart, int lineEnd) {
 	sc->HideLines(lineStart, lineEnd);
 }
 
-bool bmx_wxscintilla_getlinevisible(wxScintilla * sc, int line) {
+int bmx_wxscintilla_getlinevisible(wxScintilla * sc, int line) {
 	return sc->GetLineVisible(line);
 }
 
-void bmx_wxscintilla_setfoldexpanded(wxScintilla * sc, int line, bool expanded) {
+int bmx_wxscintilla_getalllinesvisible(wxScintilla * sc) {
+	return sc->GetAllLinesVisible();
+}
+
+void bmx_wxscintilla_setfoldexpanded(wxScintilla * sc, int line, int expanded) {
 	sc->SetFoldExpanded(line, expanded);
 }
 
-bool bmx_wxscintilla_getfoldexpanded(wxScintilla * sc, int line) {
+int bmx_wxscintilla_getfoldexpanded(wxScintilla * sc, int line) {
 	return sc->GetFoldExpanded(line);
 }
 
@@ -1024,19 +1088,19 @@ void bmx_wxscintilla_ensurevisibleenforcepolicy(wxScintilla * sc, int line) {
 	sc->EnsureVisibleEnforcePolicy(line);
 }
 
-void bmx_wxscintilla_settabindents(wxScintilla * sc, bool tabIndents) {
+void bmx_wxscintilla_settabindents(wxScintilla * sc, int tabIndents) {
 	sc->SetTabIndents(tabIndents);
 }
 
-bool bmx_wxscintilla_gettabindents(wxScintilla * sc) {
+int bmx_wxscintilla_gettabindents(wxScintilla * sc) {
 	return sc->GetTabIndents();
 }
 
-void bmx_wxscintilla_setbackspaceunindents(wxScintilla * sc, bool bsUnIndents) {
+void bmx_wxscintilla_setbackspaceunindents(wxScintilla * sc, int bsUnIndents) {
 	sc->SetBackSpaceUnIndents(bsUnIndents);
 }
 
-bool bmx_wxscintilla_getbackspaceunindents(wxScintilla * sc) {
+int bmx_wxscintilla_getbackspaceunindents(wxScintilla * sc) {
 	return sc->GetBackSpaceUnIndents();
 }
 
@@ -1048,11 +1112,11 @@ int bmx_wxscintilla_getmousedwelltime(wxScintilla * sc) {
 	return sc->GetMouseDwellTime();
 }
 
-int bmx_wxscintilla_wordstartposition(wxScintilla * sc, int pos, bool onlyWordCharacters) {
+int bmx_wxscintilla_wordstartposition(wxScintilla * sc, int pos, int onlyWordCharacters) {
 	return sc->WordStartPosition(pos, onlyWordCharacters);
 }
 
-int bmx_wxscintilla_wordendposition(wxScintilla * sc, int pos, bool onlyWordCharacters) {
+int bmx_wxscintilla_wordendposition(wxScintilla * sc, int pos, int onlyWordCharacters) {
 	return sc->WordEndPosition(pos, onlyWordCharacters);
 }
 
@@ -1088,6 +1152,14 @@ int bmx_wxscintilla_getwrapstartindent(wxScintilla * sc) {
 	return sc->GetWrapStartIndent();
 }
 
+void bmx_wxscintilla_setwrapindentmode(wxScintilla * sc, int mode) {
+	sc->SetWrapIndentMode(mode);
+}
+
+int bmx_wxscintilla_getwrapindentmode(wxScintilla * sc) {
+	return sc->GetWrapIndentMode();
+}
+
 void bmx_wxscintilla_setlayoutcache(wxScintilla * sc, int mode) {
 	sc->SetLayoutCache(mode);
 }
@@ -1104,15 +1176,23 @@ int bmx_wxscintilla_getscrollwidth(wxScintilla * sc) {
 	return sc->GetScrollWidth();
 }
 
+void bmx_wxscintilla_setscrollwidthtracking(wxScintilla * sc, int tracking) {
+	sc->SetScrollWidthTracking(tracking);
+}
+
+int bmx_wxscintilla_getscrollwidthtracking(wxScintilla * sc) {
+	return sc->GetScrollWidthTracking();
+}
+
 int bmx_wxscintilla_textwidth(wxScintilla * sc, int style, BBString * text) {
 	return sc->TextWidth(style, wxStringFromBBString(text));
 }
 
-void bmx_wxscintilla_setendatlastline(wxScintilla * sc, bool endAtLastLine) {
+void bmx_wxscintilla_setendatlastline(wxScintilla * sc, int endAtLastLine) {
 	sc->SetEndAtLastLine(endAtLastLine);
 }
 
-bool bmx_wxscintilla_getendatlastline(wxScintilla * sc) {
+int bmx_wxscintilla_getendatlastline(wxScintilla * sc) {
 	return sc->GetEndAtLastLine();
 }
 
@@ -1120,11 +1200,11 @@ int bmx_wxscintilla_textheight(wxScintilla * sc, int line) {
 	return sc->TextHeight(line);
 }
 
-void bmx_wxscintilla_setuseverticalscrollbar(wxScintilla * sc, bool show) {
+void bmx_wxscintilla_setuseverticalscrollbar(wxScintilla * sc, int show) {
 	sc->SetUseVerticalScrollBar(show);
 }
 
-bool bmx_wxscintilla_getuseverticalscrollbar(wxScintilla * sc) {
+int bmx_wxscintilla_getuseverticalscrollbar(wxScintilla * sc) {
 	return sc->GetUseVerticalScrollBar();
 }
 
@@ -1132,12 +1212,28 @@ void bmx_wxscintilla_appendtext(wxScintilla * sc, BBString * text) {
 	sc->AppendText(wxStringFromBBString(text));
 }
 
-bool bmx_wxscintilla_gettwophasedraw(wxScintilla * sc) {
+int bmx_wxscintilla_gettwophasedraw(wxScintilla * sc) {
 	return sc->GetTwoPhaseDraw();
 }
 
-void bmx_wxscintilla_settwophasedraw(wxScintilla * sc, bool twoPhase) {
+void bmx_wxscintilla_settwophasedraw(wxScintilla * sc, int twoPhase) {
 	sc->SetTwoPhaseDraw(twoPhase);
+}
+
+void bmx_wxscintilla_setfirstvisibleline(wxScintilla * sc, int lineDisplay) {
+	sc->SetFirstVisibleLine(lineDisplay);
+}
+
+void bmx_wxscintilla_setmultipaste(wxScintilla * sc, int multiPaste) {
+	sc->SetMultiPaste(multiPaste);
+}
+
+int bmx_wxscintilla_getmultipaste(wxScintilla * sc) {
+	return sc->GetMultiPaste();
+}
+
+BBString * bmx_wxscintilla_gettag(wxScintilla * sc, int tagNumber) {
+	return bbStringFromWxString(sc->GetTag(tagNumber));
 }
 
 void bmx_wxscintilla_targetfromselection(wxScintilla * sc) {
@@ -1152,11 +1248,11 @@ void bmx_wxscintilla_linessplit(wxScintilla * sc, int pixelWidth) {
 	sc->LinesSplit(pixelWidth);
 }
 
-void bmx_wxscintilla_setfoldmargincolour(wxScintilla * sc, bool useSetting, MaxColour * back) {
+void bmx_wxscintilla_setfoldmargincolour(wxScintilla * sc, int useSetting, MaxColour * back) {
 	sc->SetFoldMarginColour(useSetting, back->Colour());
 }
 
-void bmx_wxscintilla_setfoldmarginhicolour(wxScintilla * sc, bool useSetting, MaxColour * fore) {
+void bmx_wxscintilla_setfoldmarginhicolour(wxScintilla * sc, int useSetting, MaxColour * fore) {
 	sc->SetFoldMarginHiColour(useSetting, fore->Colour());
 }
 
@@ -1308,6 +1404,10 @@ void bmx_wxscintilla_delwordright(wxScintilla * sc) {
 	sc->DelWordRight();
 }
 
+void bmx_wxscintilla_delwordrightend(wxScintilla * sc) {
+	sc->DelWordRightEnd();
+}
+
 void bmx_wxscintilla_linecut(wxScintilla * sc) {
 	sc->LineCut();
 }
@@ -1400,19 +1500,27 @@ void bmx_wxscintilla_bracehighlight(wxScintilla * sc, int pos1, int pos2) {
 	sc->BraceHighlight(pos1, pos2);
 }
 
+void bmx_wxscintilla_bracehighlightindicator(wxScintilla * sc, int useBraceHighlightIndicator, int indicator) {
+	sc->BraceHighlightIndicator(useBraceHighlightIndicator, indicator);
+}
+
 void bmx_wxscintilla_bracebadlight(wxScintilla * sc, int pos) {
 	sc->BraceBadLight(pos);
+}
+
+void bmx_wxscintilla_bracebadlightindicator(wxScintilla * sc, int useBraceBadLightIndicator, int indicator) {
+	sc->BraceBadLightIndicator(useBraceBadLightIndicator, indicator);
 }
 
 int bmx_wxscintilla_bracematch(wxScintilla * sc, int pos) {
 	return sc->BraceMatch(pos);
 }
 
-bool bmx_wxscintilla_getvieweol(wxScintilla * sc) {
+int bmx_wxscintilla_getvieweol(wxScintilla * sc) {
 	return sc->GetViewEOL();
 }
 
-void bmx_wxscintilla_setvieweol(wxScintilla * sc, bool visible) {
+void bmx_wxscintilla_setvieweol(wxScintilla * sc, int visible) {
 	sc->SetViewEOL(visible);
 }
 
@@ -1469,11 +1577,11 @@ int bmx_wxscintilla_linesonscreen(wxScintilla * sc) {
 	return sc->LinesOnScreen();
 }
 
-void bmx_wxscintilla_usepopup(wxScintilla * sc, bool allowPopUp) {
+void bmx_wxscintilla_usepopup(wxScintilla * sc, int allowPopUp) {
 	sc->UsePopUp(allowPopUp);
 }
 
-bool bmx_wxscintilla_selectionisrectangle(wxScintilla * sc) {
+int bmx_wxscintilla_selectionisrectangle(wxScintilla * sc) {
 	return sc->SelectionIsRectangle();
 }
 
@@ -1501,11 +1609,11 @@ int bmx_wxscintilla_getmodeventmask(wxScintilla * sc) {
 	return sc->GetModEventMask();
 }
 
-void bmx_wxscintilla_setscifocus(wxScintilla * sc, bool focus) {
+void bmx_wxscintilla_setstcfocus(wxScintilla * sc, int focus) {
 	sc->SetSTCFocus(focus);
 }
 
-bool bmx_wxscintilla_getscifocus(wxScintilla * sc) {
+int bmx_wxscintilla_getstcfocus(wxScintilla * sc) {
 	return sc->GetSTCFocus();
 }
 
@@ -1517,11 +1625,11 @@ int bmx_wxscintilla_getstatus(wxScintilla * sc) {
 	return sc->GetStatus();
 }
 
-void bmx_wxscintilla_setmousedowncaptures(wxScintilla * sc, bool captures) {
+void bmx_wxscintilla_setmousedowncaptures(wxScintilla * sc, int captures) {
 	sc->SetMouseDownCaptures(captures);
 }
 
-bool bmx_wxscintilla_getmousedowncaptures(wxScintilla * sc) {
+int bmx_wxscintilla_getmousedowncaptures(wxScintilla * sc) {
 	return sc->GetMouseDownCaptures();
 }
 
@@ -1589,19 +1697,19 @@ int bmx_wxscintilla_getprintwrapmode(wxScintilla * sc) {
 	return sc->GetPrintWrapMode();
 }
 
-void bmx_wxscintilla_sethotspotactiveforeground(wxScintilla * sc, bool useSetting, MaxColour * fore) {
+void bmx_wxscintilla_sethotspotactiveforeground(wxScintilla * sc, int useSetting, MaxColour * fore) {
 	sc->SetHotspotActiveForeground(useSetting, fore->Colour());
 }
 
-void bmx_wxscintilla_sethotspotactivebackground(wxScintilla * sc, bool useSetting, MaxColour * back) {
+void bmx_wxscintilla_sethotspotactivebackground(wxScintilla * sc, int useSetting, MaxColour * back) {
 	sc->SetHotspotActiveBackground(useSetting, back->Colour());
 }
 
-void bmx_wxscintilla_sethotspotactiveunderline(wxScintilla * sc, bool underline) {
+void bmx_wxscintilla_sethotspotactiveunderline(wxScintilla * sc, int underline) {
 	sc->SetHotspotActiveUnderline(underline);
 }
 
-void bmx_wxscintilla_sethotspotsingleline(wxScintilla * sc, bool singleLine) {
+void bmx_wxscintilla_sethotspotsingleline(wxScintilla * sc, int singleLine) {
 	sc->SetHotspotSingleLine(singleLine);
 }
 
@@ -1721,12 +1829,32 @@ void bmx_wxscintilla_setwhitespacechars(wxScintilla * sc, BBString * characters)
 	sc->SetWhitespaceChars(wxStringFromBBString(characters));
 }
 
+BBString * bmx_wxscintilla_getwhitespacechars(wxScintilla * sc) {
+	return bbStringFromWxString(sc->GetWhitespaceChars());
+}
+
+void bmx_wxscintilla_setpunctuationchars(wxScintilla * sc, BBString * characters) {
+	sc->SetPunctuationChars(wxStringFromBBString(characters));
+}
+
+BBString * bmx_wxscintilla_getpunctuationchars(wxScintilla * sc) {
+	return bbStringFromWxString(sc->GetPunctuationChars());
+}
+
 void bmx_wxscintilla_setcharsdefault(wxScintilla * sc) {
 	sc->SetCharsDefault();
 }
 
 int bmx_wxscintilla_autocompgetcurrent(wxScintilla * sc) {
 	return sc->AutoCompGetCurrent();
+}
+
+void bmx_wxscintilla_autocompsetcaseinsensitivebehaviour(wxScintilla * sc, int behaviour) {
+	sc->AutoCompSetCaseInsensitiveBehaviour(behaviour);
+}
+
+int bmx_wxscintilla_autocompgetcaseinsensitivebehaviour(wxScintilla * sc) {
+	return sc->AutoCompGetCaseInsensitiveBehaviour();
 }
 
 void bmx_wxscintilla_allocate(wxScintilla * sc, int bytes) {
@@ -1737,11 +1865,11 @@ int bmx_wxscintilla_findcolumn(wxScintilla * sc, int line, int column) {
 	return sc->FindColumn(line, column);
 }
 
-bool bmx_wxscintilla_getcaretsticky(wxScintilla * sc) {
+int bmx_wxscintilla_getcaretsticky(wxScintilla * sc) {
 	return sc->GetCaretSticky();
 }
 
-void bmx_wxscintilla_setcaretsticky(wxScintilla * sc, bool useCaretStickyBehaviour) {
+void bmx_wxscintilla_setcaretsticky(wxScintilla * sc, int useCaretStickyBehaviour) {
 	sc->SetCaretSticky(useCaretStickyBehaviour);
 }
 
@@ -1749,11 +1877,11 @@ void bmx_wxscintilla_togglecaretsticky(wxScintilla * sc) {
 	sc->ToggleCaretSticky();
 }
 
-void bmx_wxscintilla_setpasteconvertendings(wxScintilla * sc, bool convert) {
+void bmx_wxscintilla_setpasteconvertendings(wxScintilla * sc, int convert) {
 	sc->SetPasteConvertEndings(convert);
 }
 
-bool bmx_wxscintilla_getpasteconvertendings(wxScintilla * sc) {
+int bmx_wxscintilla_getpasteconvertendings(wxScintilla * sc) {
 	return sc->GetPasteConvertEndings();
 }
 
@@ -1761,12 +1889,389 @@ void bmx_wxscintilla_selectionduplicate(wxScintilla * sc) {
 	sc->SelectionDuplicate();
 }
 
-void bmx_wxscintilla_setcaretlinebackgroundalpha(wxScintilla * sc, int alpha) {
-	sc->SetCaretLineBackAlpha(alpha);
+void bmx_wxscintilla_copyallowline(wxScintilla * sc) {
+	sc->CopyAllowLine();
 }
 
-int bmx_wxscintilla_getcaretlinebackgroundalpha(wxScintilla * sc) {
-	return sc->GetCaretLineBackAlpha();
+int bmx_wxscintilla_getgapposition(wxScintilla * sc) {
+	return sc->GetGapPosition();
+}
+
+void bmx_wxscintilla_setkeysunicode(wxScintilla * sc, int keysUnicode) {
+	sc->SetKeysUnicode(keysUnicode);
+}
+
+int bmx_wxscintilla_getkeysunicode(wxScintilla * sc) {
+	return sc->GetKeysUnicode();
+}
+
+void bmx_wxscintilla_indicatorsetalpha(wxScintilla * sc, int indicator, int alpha) {
+	sc->IndicatorSetAlpha(indicator, alpha);
+}
+
+int bmx_wxscintilla_indicatorgetalpha(wxScintilla * sc, int indicator) {
+	return sc->IndicatorGetAlpha(indicator);
+}
+
+void bmx_wxscintilla_indicatorsetoutlinealpha(wxScintilla * sc, int indicator, int alpha) {
+	sc->IndicatorSetOutlineAlpha(indicator, alpha);
+}
+
+int bmx_wxscintilla_indicatorgetoutlinealpha(wxScintilla * sc, int indicator) {
+	return sc->IndicatorGetOutlineAlpha(indicator);
+}
+
+void bmx_wxscintilla_setextraascent(wxScintilla * sc, int extraAscent) {
+	sc->SetExtraAscent(extraAscent);
+}
+
+int bmx_wxscintilla_getextraascent(wxScintilla * sc) {
+	return sc->GetExtraAscent();
+}
+
+void bmx_wxscintilla_setextradescent(wxScintilla * sc, int extraDescent) {
+	sc->SetExtraDescent(extraDescent);
+}
+
+int bmx_wxscintilla_getextradescent(wxScintilla * sc) {
+	return sc->GetExtraDescent();
+}
+
+void bmx_wxscintilla_marginsettext(wxScintilla * sc, int line, BBString * text) {
+	sc->MarginSetText(line, wxStringFromBBString(text));
+}
+
+BBString * bmx_wxscintilla_margingettext(wxScintilla * sc, int line) {
+	return bbStringFromWxString(sc->MarginGetText(line));
+}
+
+void bmx_wxscintilla_marginsetstyle(wxScintilla * sc, int line, int style) {
+	sc->MarginSetStyle(line, style);
+}
+
+int bmx_wxscintilla_margingetstyle(wxScintilla * sc, int line) {
+	return sc->MarginGetStyle(line);
+}
+
+void bmx_wxscintilla_marginsetstyles(wxScintilla * sc, int line, BBString * styles) {
+	sc->MarginSetStyles(line, wxStringFromBBString(styles));
+}
+
+BBString * bmx_wxscintilla_margingetstyles(wxScintilla * sc, int line) {
+	return bbStringFromWxString(sc->MarginGetStyles(line));
+}
+
+void bmx_wxscintilla_margintextclearall(wxScintilla * sc) {
+	sc->MarginTextClearAll();
+}
+
+void bmx_wxscintilla_marginsetstyleoffset(wxScintilla * sc, int style) {
+	sc->MarginSetStyleOffset(style);
+}
+
+int bmx_wxscintilla_margingetstyleoffset(wxScintilla * sc) {
+	return sc->MarginGetStyleOffset();
+}
+
+void bmx_wxscintilla_setmarginoptions(wxScintilla * sc, int marginOptions) {
+	sc->SetMarginOptions(marginOptions);
+}
+
+int bmx_wxscintilla_getmarginoptions(wxScintilla * sc) {
+	return sc->GetMarginOptions();
+}
+
+void bmx_wxscintilla_annotationsettext(wxScintilla * sc, int line, BBString * text) {
+	sc->AnnotationSetText(line, wxStringFromBBString(text));
+}
+
+BBString * bmx_wxscintilla_annotationgettext(wxScintilla * sc, int line) {
+	return bbStringFromWxString(sc->AnnotationGetText(line));
+}
+
+void bmx_wxscintilla_annotationsetstyle(wxScintilla * sc, int line, int style) {
+	sc->AnnotationSetStyle(line, style);
+}
+
+int bmx_wxscintilla_annotationgetstyle(wxScintilla * sc, int line) {
+	return sc->AnnotationGetStyle(line);
+}
+
+void bmx_wxscintilla_annotationsetstyles(wxScintilla * sc, int line, BBString * styles) {
+	sc->AnnotationSetStyles(line, wxStringFromBBString(styles));
+}
+
+BBString * bmx_wxscintilla_annotationgetstyles(wxScintilla * sc, int line) {
+	return bbStringFromWxString(sc->AnnotationGetStyles(line));
+}
+
+int bmx_wxscintilla_annotationgetlines(wxScintilla * sc, int line) {
+	return sc->AnnotationGetLines(line);
+}
+
+void bmx_wxscintilla_annotationclearall(wxScintilla * sc) {
+	sc->AnnotationClearAll();
+}
+
+void bmx_wxscintilla_annotationsetvisible(wxScintilla * sc, int visible) {
+	sc->AnnotationSetVisible(visible);
+}
+
+int bmx_wxscintilla_annotationgetvisible(wxScintilla * sc) {
+	return sc->AnnotationGetVisible();
+}
+
+void bmx_wxscintilla_annotationsetstyleoffset(wxScintilla * sc, int style) {
+	sc->AnnotationSetStyleOffset(style);
+}
+
+int bmx_wxscintilla_annotationgetstyleoffset(wxScintilla * sc) {
+	return sc->AnnotationGetStyleOffset();
+}
+
+void bmx_wxscintilla_addundoaction(wxScintilla * sc, int token, int flags) {
+	sc->AddUndoAction(token, flags);
+}
+
+int bmx_wxscintilla_charpositionfrompoint(wxScintilla * sc, int x, int y) {
+	return sc->CharPositionFromPoint(x, y);
+}
+
+int bmx_wxscintilla_charpositionfrompointclose(wxScintilla * sc, int x, int y) {
+	return sc->CharPositionFromPointClose(x, y);
+}
+
+void bmx_wxscintilla_setmultipleselection(wxScintilla * sc, int multipleSelection) {
+	sc->SetMultipleSelection(multipleSelection);
+}
+
+int bmx_wxscintilla_getmultipleselection(wxScintilla * sc) {
+	return sc->GetMultipleSelection();
+}
+
+void bmx_wxscintilla_setadditionalselectiontyping(wxScintilla * sc, int additionalSelectionTyping) {
+	sc->SetAdditionalSelectionTyping(additionalSelectionTyping);
+}
+
+int bmx_wxscintilla_getadditionalselectiontyping(wxScintilla * sc) {
+	return sc->GetAdditionalSelectionTyping();
+}
+
+void bmx_wxscintilla_setadditionalcaretsblink(wxScintilla * sc, int additionalCaretsBlink) {
+	sc->SetAdditionalCaretsBlink(additionalCaretsBlink);
+}
+
+int bmx_wxscintilla_getadditionalcaretsblink(wxScintilla * sc) {
+	return sc->GetAdditionalCaretsBlink();
+}
+
+void bmx_wxscintilla_setadditionalcaretsvisible(wxScintilla * sc, int additionalCaretsBlink) {
+	sc->SetAdditionalCaretsVisible(additionalCaretsBlink);
+}
+
+int bmx_wxscintilla_getadditionalcaretsvisible(wxScintilla * sc) {
+	return sc->GetAdditionalCaretsVisible();
+}
+
+int bmx_wxscintilla_getselections(wxScintilla * sc) {
+	return sc->GetSelections();
+}
+
+void bmx_wxscintilla_clearselections(wxScintilla * sc) {
+	sc->ClearSelections();
+}
+
+int bmx_wxscintilla_addselection(wxScintilla * sc, int caret, int anchor) {
+	return sc->AddSelection(caret, anchor);
+}
+
+void bmx_wxscintilla_setmainselection(wxScintilla * sc, int selection) {
+	sc->SetMainSelection(selection);
+}
+
+int bmx_wxscintilla_getmainselection(wxScintilla * sc) {
+	return sc->GetMainSelection();
+}
+
+void bmx_wxscintilla_setselectionncaret(wxScintilla * sc, int selection, int pos) {
+	sc->SetSelectionNCaret(selection, pos);
+}
+
+int bmx_wxscintilla_getselectionncaret(wxScintilla * sc, int selection) {
+	return sc->GetSelectionNCaret(selection);
+}
+
+void bmx_wxscintilla_setselectionnanchor(wxScintilla * sc, int selection, int posAnchor) {
+	sc->SetSelectionNAnchor(selection, posAnchor);
+}
+
+int bmx_wxscintilla_getselectionnanchor(wxScintilla * sc, int selection) {
+	return sc->GetSelectionNAnchor(selection);
+}
+
+void bmx_wxscintilla_setselectionncaretvirtualspace(wxScintilla * sc, int selection, int space) {
+	sc->SetSelectionNCaretVirtualSpace(selection, space);
+}
+
+int bmx_wxscintilla_getselectionncaretvirtualspace(wxScintilla * sc, int selection) {
+	return sc->GetSelectionNCaretVirtualSpace(selection);
+}
+
+void bmx_wxscintilla_setselectionnanchorvirtualspace(wxScintilla * sc, int selection, int space) {
+	sc->SetSelectionNAnchorVirtualSpace(selection, space);
+}
+
+int bmx_wxscintilla_getselectionnanchorvirtualspace(wxScintilla * sc, int selection) {
+	return sc->GetSelectionNAnchorVirtualSpace(selection);
+}
+
+void bmx_wxscintilla_setselectionnstart(wxScintilla * sc, int selection, int pos) {
+	sc->SetSelectionNStart(selection, pos);
+}
+
+int bmx_wxscintilla_getselectionnstart(wxScintilla * sc, int selection) {
+	return sc->GetSelectionNStart(selection);
+}
+
+void bmx_wxscintilla_setselectionnend(wxScintilla * sc, int selection, int pos) {
+	sc->SetSelectionNEnd(selection, pos);
+}
+
+int bmx_wxscintilla_getselectionnend(wxScintilla * sc, int selection) {
+	return sc->GetSelectionNEnd(selection);
+}
+
+void bmx_wxscintilla_setrectangularselectioncaret(wxScintilla * sc, int pos) {
+	sc->SetRectangularSelectionCaret(pos);
+}
+
+int bmx_wxscintilla_getrectangularselectioncaret(wxScintilla * sc) {
+	return sc->GetRectangularSelectionCaret();
+}
+
+void bmx_wxscintilla_setrectangularselectionanchor(wxScintilla * sc, int posAnchor) {
+	sc->SetRectangularSelectionAnchor(posAnchor);
+}
+
+int bmx_wxscintilla_getrectangularselectionanchor(wxScintilla * sc) {
+	return sc->GetRectangularSelectionAnchor();
+}
+
+void bmx_wxscintilla_setrectangularselectioncaretvirtualspace(wxScintilla * sc, int space) {
+	sc->SetRectangularSelectionCaretVirtualSpace(space);
+}
+
+int bmx_wxscintilla_getrectangularselectioncaretvirtualspace(wxScintilla * sc) {
+	return sc->GetRectangularSelectionCaretVirtualSpace();
+}
+
+void bmx_wxscintilla_setrectangularselectionanchorvirtualspace(wxScintilla * sc, int space) {
+	sc->SetRectangularSelectionAnchorVirtualSpace(space);
+}
+
+int bmx_wxscintilla_getrectangularselectionanchorvirtualspace(wxScintilla * sc) {
+	return sc->GetRectangularSelectionAnchorVirtualSpace();
+}
+
+void bmx_wxscintilla_setvirtualspaceoptions(wxScintilla * sc, int virtualSpaceOptions) {
+	sc->SetVirtualSpaceOptions(virtualSpaceOptions);
+}
+
+int bmx_wxscintilla_getvirtualspaceoptions(wxScintilla * sc) {
+	return sc->GetVirtualSpaceOptions();
+}
+
+void bmx_wxscintilla_setrectangularselectionmodifier(wxScintilla * sc, int modifier) {
+	sc->SetRectangularSelectionModifier(modifier);
+}
+
+int bmx_wxscintilla_getrectangularselectionmodifier(wxScintilla * sc) {
+	return sc->GetRectangularSelectionModifier();
+}
+
+void bmx_wxscintilla_setadditionalselforeground(wxScintilla * sc, MaxColour * fore) {
+	sc->SetAdditionalSelForeground(fore->Colour());
+}
+
+void bmx_wxscintilla_setadditionalselbackground(wxScintilla * sc, MaxColour * back) {
+	sc->SetAdditionalSelBackground(back->Colour());
+}
+
+void bmx_wxscintilla_setadditionalselalpha(wxScintilla * sc, int alpha) {
+	sc->SetAdditionalSelAlpha(alpha);
+}
+
+int bmx_wxscintilla_getadditionalselalpha(wxScintilla * sc) {
+	return sc->GetAdditionalSelAlpha();
+}
+
+void bmx_wxscintilla_setadditionalcaretforeground(wxScintilla * sc, MaxColour * fore) {
+	sc->SetAdditionalCaretForeground(fore->Colour());
+}
+
+MaxColour * bmx_wxscintilla_getadditionalcaretforeground(wxScintilla * sc) {
+	wxColour c(sc->GetAdditionalCaretForeground());
+	return new MaxColour(c);
+}
+
+void bmx_wxscintilla_rotateselection(wxScintilla * sc) {
+	sc->RotateSelection();
+}
+
+void bmx_wxscintilla_swapmainanchorcaret(wxScintilla * sc) {
+	sc->SwapMainAnchorCaret();
+}
+
+int bmx_wxscintilla_changelexerstate(wxScintilla * sc, int start, int end) {
+	return sc->ChangeLexerState(start, end);
+}
+
+int bmx_wxscintilla_contractedfoldnext(wxScintilla * sc, int lineStart) {
+	return sc->ContractedFoldNext(lineStart);
+}
+
+void bmx_wxscintilla_verticalcentrecaret(wxScintilla * sc) {
+	sc->VerticalCentreCaret();
+}
+
+void bmx_wxscintilla_moveselectedlinesup(wxScintilla * sc) {
+	sc->MoveSelectedLinesUp();
+}
+
+void bmx_wxscintilla_moveselectedlinesdown(wxScintilla * sc) {
+	sc->MoveSelectedLinesDown();
+}
+
+void bmx_wxscintilla_setidentifier(wxScintilla * sc, int identifier) {
+	sc->SetIdentifier(identifier);
+}
+
+int bmx_wxscintilla_getidentifier(wxScintilla * sc) {
+	return sc->GetIdentifier();
+}
+
+void bmx_wxscintilla_rgbaimagesetwidth(wxScintilla * sc, int width) {
+	sc->RGBAImageSetWidth(width);
+}
+
+void bmx_wxscintilla_rgbaimagesetheight(wxScintilla * sc, int height) {
+	sc->RGBAImageSetHeight(height);
+}
+
+void bmx_wxscintilla_scrolltostart(wxScintilla * sc) {
+	sc->ScrollToStart();
+}
+
+void bmx_wxscintilla_scrolltoend(wxScintilla * sc) {
+	sc->ScrollToEnd();
+}
+
+void bmx_wxscintilla_settechnology(wxScintilla * sc, int technology) {
+	sc->SetTechnology(technology);
+}
+
+int bmx_wxscintilla_gettechnology(wxScintilla * sc) {
+	return sc->GetTechnology();
 }
 
 void bmx_wxscintilla_startrecord(wxScintilla * sc) {
@@ -1815,6 +2320,22 @@ int bmx_wxscintilla_getpropertyint(wxScintilla * sc, BBString * key) {
 
 int bmx_wxscintilla_getstylebitsneeded(wxScintilla * sc) {
 	return sc->GetStyleBitsNeeded();
+}
+
+BBString * bmx_wxscintilla_propertynames(wxScintilla * sc) {
+	return bbStringFromWxString(sc->PropertyNames());
+}
+
+int bmx_wxscintilla_propertytype(wxScintilla * sc, BBString * name) {
+	return sc->PropertyType(wxStringFromBBString(name));
+}
+
+BBString * bmx_wxscintilla_describeproperty(wxScintilla * sc, BBString * name) {
+	return bbStringFromWxString(sc->DescribeProperty(wxStringFromBBString(name)));
+}
+
+BBString * bmx_wxscintilla_describekeywordsets(wxScintilla * sc) {
+	return bbStringFromWxString(sc->DescribeKeyWordSets());
 }
 
 //--Autogenerated

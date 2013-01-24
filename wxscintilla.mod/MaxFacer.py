@@ -127,9 +127,14 @@ def printMainFile(f,out):
 				
 				if v["ReturnType"] != "void":
 					rtype = "UNDEFINED"
-					if v["ReturnType"] in ["int", "bool", "position"]:
+					if v["ReturnType"] in ["bool", "position"]:
 						rtype = "Int"
-					if v["ReturnType"] in ["colour"]:
+					elif v["ReturnType"] == "int":
+						if (v["Param1Type"] and v["Param1Type"] == "stringresult") or (v["Param2Type"] and v["Param2Type"] == "stringresult"):
+							rtype = "String"
+						else:
+							rtype = "Int"
+					elif v["ReturnType"] in ["colour"]:
 						rtype = "wxColour"
 					out.write(":" + rtype)
 				out.write("(")
@@ -153,18 +158,23 @@ def printMainFile(f,out):
 							paramName = "startPos"
 						elif paramName == "end":
 							paramName = "endPos"
-						out.write(paramName)
+
+						if v["Param1Type"] != "stringresult":
+							out.write(paramName)
+
 						if v["Param1Type"] in ["int", "position", "bool"]:
 							 out.write(":Int")
 						elif v["Param1Type"] in ["colour"]:
 							out.write(":wxColour")
 						elif v["Param1Type"] == "string":
 							out.write(":String")
+						elif v["Param1Type"] == "stringresult":
+							out.write("")
 						else:
 							out.write(", PARAM! - " + v["Param1Type"])
 				if v["Param2Type"]:
-					if v["Param1Type"]:
-						out.write(", ")
+					#if v["Param1Type"]:
+					#	out.write(", ")
 					paramName = v["Param2Name"]
 					if paramName == "type":
 						paramName = "type_"
@@ -174,13 +184,20 @@ def printMainFile(f,out):
 						paramName = "startPos"
 					elif paramName == "end":
 						paramName = "endPos"
-					out.write(paramName)
+
+					if v["Param2Type"] != "stringresult":
+						if v["Param1Type"]:
+							out.write(", ")
+						out.write(paramName)
+
 					if v["Param2Type"] in ["int", "position", "bool"]:
 						 out.write(":Int")
 					elif v["Param2Type"] in ["colour"]:
 						out.write(":wxColour")
 					elif v["Param2Type"] == "string":
 						out.write(":String")
+					elif v["Param2Type"] == "stringresult":
+						out.write("")
 					else:
 						out.write(", PARAM! - " + v["Param2Type"])
 				out.write(")\n")
@@ -204,7 +221,8 @@ def printMainFile(f,out):
 						paramName = "startPos"
 					elif paramName == "end":
 						paramName = "endPos"
-					out.write(", " + paramName)
+					if v["Param1Type"] != "stringresult":
+						out.write(", " + paramName)
 					
 					if v["Param1Type"] == "colour":
 						out.write(".wxObjectPtr")
@@ -219,7 +237,8 @@ def printMainFile(f,out):
 						paramName = "startPos"
 					elif paramName == "end":
 						paramName = "endPos"
-					out.write(", " + paramName)
+					if v["Param2Type"] != "stringresult":
+						out.write(", " + paramName)
 					
 					if v["Param2Type"] == "colour":
 						out.write(".wxObjectPtr")
@@ -305,9 +324,14 @@ def printCommonFile(f,out):
 				
 				if v["ReturnType"] != "void":
 					rtype = "UNDEFINED"
-					if v["ReturnType"] in ["int", "bool", "position"]:
+					if v["ReturnType"] in ["bool", "position"]:
 						rtype = "Int"
-					if v["ReturnType"] in ["colour"]:
+					elif v["ReturnType"] == "int":
+						if (v["Param1Type"] and v["Param1Type"] == "stringresult") or (v["Param2Type"] and v["Param2Type"] == "stringresult"):
+							rtype = "String"
+						else:
+							rtype = "Int"
+					elif v["ReturnType"] in ["colour"]:
 						rtype = "Byte Ptr"
 					out.write(":" + rtype)
 				out.write("(handle:Byte Ptr")
@@ -325,13 +349,18 @@ def printCommonFile(f,out):
 							paramName = "startPos"
 						elif paramName == "end":
 							paramName = "endPos"
-						out.write(", " + paramName)
+							
+						if v["Param1Type"] != "stringresult":
+							out.write(", " + paramName)
+							
 						if v["Param1Type"] in ["int", "position", "bool"]:
 							 out.write(":Int")
 						elif v["Param1Type"] in ["colour"]:
 							out.write(":Byte Ptr")
 						elif v["Param1Type"] == "string":
 							out.write(":String")
+						elif v["Param1Type"] == "stringresult":
+							out.write("")
 						else:
 							out.write(", PARAM! - " + v["Param1Type"])
 				if v["Param2Type"]:
@@ -344,13 +373,18 @@ def printCommonFile(f,out):
 						paramName = "startPos"
 					elif paramName == "end":
 						paramName = "endPos"
-					out.write(", " + paramName)
+
+					if v["Param2Type"] != "stringresult":
+						out.write(", " + paramName)
+
 					if v["Param2Type"] in ["int", "position", "bool"]:
 						 out.write(":Int")
 					elif v["Param2Type"] in ["colour"]:
 						out.write(":Byte Ptr")
 					elif v["Param2Type"] == "string":
 						out.write(":String")
+					elif v["Param2Type"] == "stringresult":
+						out.write("")
 					else:
 						out.write(", PARAM! - " + v["Param2Type"])
 				out.write(")\n")
@@ -429,8 +463,13 @@ def printGlueHFile(f,out):
 					continue
 				
 				out.write("\t")
-				if v["ReturnType"] in ["void", "int", "bool"]:
+				if v["ReturnType"] == "void":
 					out.write(v["ReturnType"])
+				elif v["ReturnType"] in ["int", "bool"]:
+					if (v["Param1Type"] and v["Param1Type"] == "stringresult") or (v["Param2Type"] and v["Param2Type"] == "stringresult"):
+						out.write("BBString *")
+					else:
+						out.write("int")
 				elif v["ReturnType"]  == "position":
 					out.write("int")
 				if v["ReturnType"] == "colour":
@@ -445,31 +484,41 @@ def printGlueHFile(f,out):
 						out.write(", BBString * " + v["Param2Name"] + ");\n")
 						continue
 					else:
-						out.write(", ")
+						writeName = 1
 						if v["Param1Type"] in ["int", "bool"]:
-							 out.write(v["Param1Type"])
+							out.write(", int")
 						elif v["Param1Type"] == "position":
-							out.write("int")
+							out.write(", int")
 						elif v["Param1Type"] in ["colour"]:
-							out.write("MaxColour *")
+							out.write(", MaxColour *")
 						elif v["Param1Type"] == "string":
-							out.write("BBString *")
+							out.write(", BBString *")
+						elif v["Param1Type"] == "stringresult":
+							# no param here. We return the value instead!
+							out.write("")
+							writeName = 0
 						else:
 							out.write(", PARAM! - " + v["Param1Type"])
-						out.write(" " + v["Param1Name"])
+						if writeName:
+							out.write(" " + v["Param1Name"])
 				if v["Param2Type"]:
-						out.write(", ")
+						writeName = 1
 						if v["Param2Type"] in ["int", "bool"]:
-							 out.write(v["Param2Type"])
+							out.write(", int")
 						elif v["Param2Type"] == "position":
-							out.write("int")
+							out.write(", int")
 						elif v["Param2Type"] in ["colour"]:
-							out.write("MaxColour *")
+							out.write(", MaxColour *")
 						elif v["Param2Type"] == "string":
-							out.write("BBString *")
+							out.write(", BBString *")
+						elif v["Param2Type"] == "stringresult":
+							# no param here. We return the value instead!
+							out.write("")
+							writeName = 0
 						else:
 							out.write(" PARAM! - " + v["Param2Type"])
-						out.write(" " + v["Param2Name"])
+						if writeName:
+							out.write(" " + v["Param2Name"])
 				out.write(");\n")
 			#elif v["FeatureType"] in ["evt"]:
 			#	featureDefineName = "SCN_" + string.upper(name)
@@ -579,8 +628,16 @@ def printGlueCPPFile(f,out):
 					out.write("}\n\n")
 					continue
 			
-				if v["ReturnType"] in ["void", "int", "bool"]:
+				hasResultString = 0
+				
+				if v["ReturnType"] == "void":
 					out.write(v["ReturnType"])
+				elif v["ReturnType"] in ["int", "bool"]:
+					if (v["Param1Type"] and v["Param1Type"] == "stringresult") or (v["Param2Type"] and v["Param2Type"] == "stringresult"):
+						out.write("BBString *")
+						hasResultString = 1
+					else:
+						out.write("int")
 				elif v["ReturnType"]  == "position":
 					out.write("int")
 				if v["ReturnType"] == "colour":
@@ -597,34 +654,45 @@ def printGlueCPPFile(f,out):
 						out.write("}\n\n")
 						continue
 					else:
-						out.write(", ")
+						writeName = 1
 						if v["Param1Type"] in ["int", "bool"]:
-							 out.write(v["Param1Type"])
+							 out.write(", int")
 						elif v["Param1Type"] == "position":
-							out.write("int")
+							out.write(", int")
 						elif v["Param1Type"] in ["colour"]:
-							out.write("MaxColour *")
+							out.write(", MaxColour *")
 						elif v["Param1Type"] == "string":
-							out.write("BBString *")
+							out.write(", BBString *")
+						elif v["Param1Type"] == "stringresult":
+							# no param here. We return the value instead!
+							out.write("")
+							writeName = 0
 						else:
 							out.write(", PARAM! - " + v["Param1Type"])
-						out.write(" " + v["Param1Name"])
+						if writeName:
+							out.write(" " + v["Param1Name"])
 				if v["Param2Type"]:
-						out.write(", ")
+						writeName = 1
 						if v["Param2Type"] in ["int", "bool"]:
-							 out.write(v["Param2Type"])
+							 out.write(", int")
 						elif v["Param2Type"] == "position":
-							out.write("int")
+							out.write(", int")
 						elif v["Param2Type"] in ["colour"]:
-							out.write("MaxColour *")
+							out.write(", MaxColour *")
 						elif v["Param2Type"] == "string":
-							out.write("BBString *")
+							out.write(", BBString *")
+						elif v["Param2Type"] == "stringresult":
+							# no param here. We return the value instead!
+							out.write("")
+							writeName = 0
 						else:
 							out.write(" PARAM! - " + v["Param2Type"])
-						out.write(" " + v["Param2Name"])
+						if writeName:
+							out.write(" " + v["Param2Name"])
 				out.write(") {\n")
 				
 				# The method implementation section
+				
 				if v["ReturnType"] == "colour":
 					out.write("\twxColour c(")
 				elif v["ReturnType"] != "void":
@@ -632,7 +700,7 @@ def printGlueCPPFile(f,out):
 				else:
 					out.write("\t")
 
-				if v["ReturnType"] == "string":
+				if v["ReturnType"] == "string" or hasResultString:
 					out.write("bbStringFromWxString(")
 				
 				out.write("sc->" + name + "(")
@@ -644,24 +712,37 @@ def printGlueCPPFile(f,out):
 							out.write(v["Param1Name"] + "->Colour()")
 						elif v["Param1Type"] == "string":
 							out.write("wxStringFromBBString(" + v["Param1Name"] + ")")
+						elif v["Param1Type"] == "stringresult":
+							# no param here.
+							out.write("")
 						else:
 							out.write("PARAM! - " + v["Param1Type"])
 				if v["Param2Type"]:
-						if v["Param1Type"]:
-							out.write(", ")
 						if v["Param2Type"] in ["int", "bool", "position"]:
-							 out.write(v["Param2Name"])
+							if v["Param1Type"]:
+								out.write(", ")
+							out.write(v["Param2Name"])
 						elif v["Param2Type"] in ["colour"]:
+							if v["Param1Type"]:
+								out.write(", ")
 							out.write(v["Param2Name"] + "->Colour()")
 						elif v["Param2Type"] == "string":
+							if v["Param1Type"]:
+								out.write(", ")
 							out.write("wxStringFromBBString(" + v["Param2Name"] + ")")
+						elif v["Param2Type"] == "stringresult":
+							# no param here.
+							out.write("")
 						else:
 							out.write(" PARAM! - " + v["Param2Type"])
 				
 				out.write(")")
 				
-				if v["ReturnType"] in ["colour", "string"]:
+				if v["ReturnType"] == "colour":
 					out.write(");\n")
+					
+				if v["ReturnType"] == "string" or hasResultString:
+					out.write(")")
 				
 				if v["ReturnType"] == "colour":
 					out.write("\treturn new MaxColour(c);\n")
@@ -788,6 +869,14 @@ def checkNameChange(name):
 		name = "SetStyleBytes"
 	elif name == "CallTipPosStart":
 		name = "CallTipPosAtStart"
+	elif name == "MarkerSetBackSelected":
+		name = "MarkerSetBackgroundSelected"
+	elif name == "SetMarginCursorN":
+		name = "SetMarginCursor"
+	elif name == "GetMarginCursorN":
+		name = "GetMarginCursor"
+	elif name == "StyleSetFont":
+		name = "StyleSetFaceName"
 	elif name.endswith("Fore"):
 		name = name.replace("Fore", "Foreground")
 	elif name.endswith("Back") and not Contains(name, "DeleteBack"):
@@ -805,7 +894,7 @@ def checkNameChange(name):
 	elif Contains(name, "AutoC"):
 		name = name.replace("AutoC", "AutoComp")
 	elif Contains(name, "Focus"):
-		name = name.replace("Focus", "SCIFocus")
+		name = name.replace("Focus", "STCFocus")
 	elif Contains(name, "BackAlpha"):
 		name = name.replace("BackAlpha", "BackgroundAlpha")
 	elif Contains(name, "HScroll"):
@@ -823,9 +912,16 @@ def checkNameChange(name):
 	return name
 
 def includeName(name):
-	if name in ["StyleGetFont", "EncodedFromUTF8", "TargetAsUTF8", "SetUsePalette", "StyleGetFore", "StyleGetBack", "StyleGetBold", "StyleGetItalic", "StyleGetSize", "StyleGetEOLFilled", "StyleGetUnderline", "StyleGetCase", "StyleGetCharacterSet", "StyleGetVisible", "StyleGetChangeable", "StyleGetHotSpot", "PointXFromPosition", "PointYFromPosition", "SetCaretStyle", "GetCaretStyle", "SetIndicatorCurrent", "GetIndicatorCurrent", "SetIndicatorValue", "GetIndicatorValue", "IndicatorFillRange", "IndicatorClearRange", "IndicatorAllOnFor", "IndicatorValueAt", "IndicatorStart", "IndicatorEnd", "GetPositionCache", "SetPositionCache", "LoadLexerLibrary", "SetLengthForEncode", "GetSelEOLFilled", "SetSelEOLFilled", "GetUsePalette", "GetDirectFunction", "GetDirectPointer", "IndicSetUnder", "IndicGetUnder", "Null", "GrabFocus", "CopyText", "GetCursor", "SetStylingEx", "SetCursor"]:
+	if name in ["StyleGetFont", "EncodedFromUTF8", "TargetAsUTF8", "SetUsePalette", "StyleGetFore", "StyleGetBack", "StyleGetBold", "StyleGetItalic", "StyleGetSize", "StyleGetEOLFilled", "StyleGetUnderline", "StyleGetCase", "StyleGetCharacterSet", "StyleGetVisible", "StyleGetChangeable", "StyleGetHotSpot", "PointXFromPosition", "PointYFromPosition", "SetCaretStyle", "GetCaretStyle", "SetIndicatorCurrent", "GetIndicatorCurrent", "SetIndicatorValue", "GetIndicatorValue", "IndicatorFillRange", "IndicatorClearRange", "IndicatorAllOnFor", "IndicatorValueAt", "IndicatorStart", "IndicatorEnd", "GetPositionCache", "SetPositionCache", "LoadLexerLibrary", "SetLengthForEncode", "GetSelEOLFilled", "SetSelEOLFilled", "GetUsePalette", "GetDirectFunction", "GetDirectPointer", "IndicSetUnder", "IndicGetUnder", "Null", "GrabFocus", "CopyText", "GetCursor", "SetStylingEx", "SetCursor", "SetSelection", "GetFontQuality", "SetFontQuality", "GetLexerLanguage", "AutoCGetCurrentText"]:
 		return False
 	if Contains(name, "GetHotspot"):
+		return False
+	if Contains(name, "FindIndicator"):
+		return False
+	if name in ["GetCharacterPointer", "GetRangePointer", "SetCaretLineVisibleAlways", "GetCaretLineVisibleAlways", "VCHomeDisplayExtend", "VCHomeDisplay", "CreateLoader", "PrivateLexerCall", "RGBAImageSetScale", "GetSelectionEmpty", "MarkerSymbolDefined", "GetCaretLineBackAlpha", "SetCaretLineBackAlpha"]:
+		return False
+	# TODO : to implement
+	if name in ["MarkerDefineRGBAImage", "RegisterRGBAImage"]:
 		return False
 	return True
 

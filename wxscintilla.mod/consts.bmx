@@ -36,9 +36,6 @@ Const wxSCI_EOL_CRLF:Int = 0
 Const wxSCI_EOL_CR:Int = 1
 Const wxSCI_EOL_LF:Int = 2
 Const wxSCI_CP_UTF8:Int = 65001
-
-' The SC_CP_DBCS value can be used to indicate a DBCS mode for GTK+.
-Const wxSCI_CP_DBCS:Int = 1
 Const wxSCI_MARKER_MAX:Int = 31
 Const wxSCI_MARK_CIRCLE:Int = 0
 Const wxSCI_MARK_ROUNDRECT:Int = 1
@@ -65,12 +62,16 @@ Const wxSCI_MARK_CIRCLEPLUSCONNECTED:Int = 19
 Const wxSCI_MARK_CIRCLEMINUS:Int = 20
 Const wxSCI_MARK_CIRCLEMINUSCONNECTED:Int = 21
 
-' Invisible mark that only sets the line background color.
+' Invisible mark that only sets the line background colour.
 Const wxSCI_MARK_BACKGROUND:Int = 22
 Const wxSCI_MARK_DOTDOTDOT:Int = 23
 Const wxSCI_MARK_ARROWS:Int = 24
 Const wxSCI_MARK_PIXMAP:Int = 25
 Const wxSCI_MARK_FULLRECT:Int = 26
+Const wxSCI_MARK_LEFTRECT:Int = 27
+Const wxSCI_MARK_AVAILABLE:Int = 28
+Const wxSCI_MARK_UNDERLINE:Int = 29
+Const wxSCI_MARK_RGBAIMAGE:Int = 30
 Const wxSCI_MARK_CHARACTER:Int = 10000
 
 ' Markers used for outlining column.
@@ -88,6 +89,8 @@ Const wxSCI_MARGIN_SYMBOL:Int = 0
 Const wxSCI_MARGIN_NUMBER:Int = 1
 Const wxSCI_MARGIN_BACK:Int = 2
 Const wxSCI_MARGIN_FORE:Int = 3
+Const wxSCI_MARGIN_TEXT:Int = 4
+Const wxSCI_MARGIN_RTEXT:Int = 5
 Const wxSCI_STYLE_DEFAULT:Int = 32
 Const wxSCI_STYLE_LINENUMBER:Int = 33
 Const wxSCI_STYLE_BRACELIGHT:Int = 34
@@ -96,7 +99,7 @@ Const wxSCI_STYLE_CONTROLCHAR:Int = 36
 Const wxSCI_STYLE_INDENTGUIDE:Int = 37
 Const wxSCI_STYLE_CALLTIP:Int = 38
 Const wxSCI_STYLE_LASTPREDEFINED:Int = 39
-Const wxSCI_STYLE_MAX:Int = 127
+Const wxSCI_STYLE_MAX:Int = 255
 Const wxSCI_CHARSET_ANSI:Int = 0
 Const wxSCI_CHARSET_DEFAULT:Int = 1
 Const wxSCI_CHARSET_BALTIC:Int = 186
@@ -124,6 +127,14 @@ Const wxSCI_CASE_MIXED:Int = 0
 Const wxSCI_CASE_UPPER:Int = 1
 Const wxSCI_CASE_LOWER:Int = 2
 
+' Set a style to be mixed case, or to force upper or lower case.
+Const wxSCI_FONT_SIZE_MULTIPLIER:Int = 100
+
+' Get the size of characters of a style in points multiplied by 100
+Const wxSCI_WEIGHT_NORMAL:Int = 400
+Const wxSCI_WEIGHT_SEMIBOLD:Int = 600
+Const wxSCI_WEIGHT_BOLD:Int = 700
+
 ' Indicator style enumeration and some constants
 Const wxSCI_INDIC_PLAIN:Int = 0
 Const wxSCI_INDIC_SQUIGGLE:Int = 1
@@ -133,12 +144,24 @@ Const wxSCI_INDIC_STRIKE:Int = 4
 Const wxSCI_INDIC_HIDDEN:Int = 5
 Const wxSCI_INDIC_BOX:Int = 6
 Const wxSCI_INDIC_ROUNDBOX:Int = 7
+Const wxSCI_INDIC_STRAIGHTBOX:Int = 8
+Const wxSCI_INDIC_DASH:Int = 9
+Const wxSCI_INDIC_DOTS:Int = 10
+Const wxSCI_INDIC_SQUIGGLELOW:Int = 11
+Const wxSCI_INDIC_DOTBOX:Int = 12
+Const wxSCI_INDIC_SQUIGGLEPIXMAP:Int = 13
 Const wxSCI_INDIC_MAX:Int = 31
 Const wxSCI_INDIC_CONTAINER:Int = 8
 Const wxSCI_INDIC0_MASK:Int = $20
 Const wxSCI_INDIC1_MASK:Int = $40
 Const wxSCI_INDIC2_MASK:Int = $80
 Const wxSCI_INDICS_MASK:Int = $E0
+
+' Is the horizontal scroll bar visible?
+Const wxSCI_IV_NONE:Int = 0
+Const wxSCI_IV_REAL:Int = 1
+Const wxSCI_IV_LOOKFORWARD:Int = 2
+Const wxSCI_IV_LOOKBOTH:Int = 3
 
 ' PrintColourMode - use same colours as screen.
 Const wxSCI_PRINT_NORMAL:Int = 0
@@ -166,10 +189,6 @@ Const wxSCI_POSIX:Int = $00400000
 Const wxSCI_FOLDLEVELBASE:Int = $400
 Const wxSCI_FOLDLEVELWHITEFLAG:Int = $1000
 Const wxSCI_FOLDLEVELHEADERFLAG:Int = $2000
-Const wxSCI_FOLDLEVELBOXHEADERFLAG:Int = $4000
-Const wxSCI_FOLDLEVELBOXFOOTERFLAG:Int = $8000
-Const wxSCI_FOLDLEVELCONTRACTED:Int = $10000
-Const wxSCI_FOLDLEVELUNINDENT:Int = $20000
 Const wxSCI_FOLDLEVELNUMBERMASK:Int = $0FFF
 
 ' Ensure a particular line is visible by expanding any header line hiding it.
@@ -178,7 +197,6 @@ Const wxSCI_FOLDFLAG_LINEBEFORE_CONTRACTED:Int = $0004
 Const wxSCI_FOLDFLAG_LINEAFTER_EXPANDED:Int = $0008
 Const wxSCI_FOLDFLAG_LINEAFTER_CONTRACTED:Int = $0010
 Const wxSCI_FOLDFLAG_LEVELNUMBERS:Int = $0040
-Const wxSCI_FOLDFLAG_BOX:Int = $0001
 
 ' Does a backspace pressed when caret is within indentation unindent?
 Const wxSCI_TIME_FOREVER:Int = 10000000
@@ -192,6 +210,7 @@ Const wxSCI_WRAP_CHAR:Int = 2
 Const wxSCI_WRAPVISUALFLAG_NONE:Int = $0000
 Const wxSCI_WRAPVISUALFLAG_END:Int = $0001
 Const wxSCI_WRAPVISUALFLAG_START:Int = $0002
+Const wxSCI_WRAPVISUALFLAG_MARGIN:Int = $0004
 
 ' Retrive the display mode of visual flags for wrapped lines.
 Const wxSCI_WRAPVISUALFLAGLOC_DEFAULT:Int = $0000
@@ -199,19 +218,42 @@ Const wxSCI_WRAPVISUALFLAGLOC_END_BY_TEXT:Int = $0001
 Const wxSCI_WRAPVISUALFLAGLOC_START_BY_TEXT:Int = $0002
 
 ' Retrive the start indent for wrapped lines.
+Const wxSCI_WRAPINDENT_FIXED:Int = 0
+Const wxSCI_WRAPINDENT_SAME:Int = 1
+Const wxSCI_WRAPINDENT_INDENT:Int = 2
+
+' Retrieve how wrapped sublines are placed. Default is fixed.
 Const wxSCI_CACHE_NONE:Int = 0
 Const wxSCI_CACHE_CARET:Int = 1
 Const wxSCI_CACHE_PAGE:Int = 2
 Const wxSCI_CACHE_DOCUMENT:Int = 3
+
+' Control font anti-aliasing.
+Const wxSCI_EFF_QUALITY_MASK:Int = $F
+Const wxSCI_EFF_QUALITY_DEFAULT:Int = 0
+Const wxSCI_EFF_QUALITY_NON_ANTIALIASED:Int = 1
+Const wxSCI_EFF_QUALITY_ANTIALIASED:Int = 2
+Const wxSCI_EFF_QUALITY_LCD_OPTIMIZED:Int = 3
+
+' Scroll so that a display line is at the top of the display.
+Const wxSCI_MULTIPASTE_ONCE:Int = 0
+Const wxSCI_MULTIPASTE_EACH:Int = 1
 
 ' Set which document modification events are sent to the container.
 Const wxSCI_EDGE_NONE:Int = 0
 Const wxSCI_EDGE_LINE:Int = 1
 Const wxSCI_EDGE_BACKGROUND:Int = 2
 
+' Get internal focus flag.
+Const wxSCI_STATUS_OK:Int = 0
+Const wxSCI_STATUS_FAILURE:Int = 1
+Const wxSCI_STATUS_BADALLOC:Int = 2
+
 ' Get whether mouse gets captured.
 Const wxSCI_CURSORNORMAL:Int = -1
+Const wxSCI_CURSORARROW:Int = 2
 Const wxSCI_CURSORWAIT:Int = 4
+Const wxSCI_CURSORREVERSEARROW:Int = 7
 
 ' Constants for use with SetVisiblePolicy, similar to SetCaretPolicy.
 Const wxSCI_VISIBLE_SLOP:Int = $01
@@ -225,6 +267,14 @@ Const wxSCI_CARET_EVEN:Int = $08
 Const wxSCI_SEL_STREAM:Int = 0
 Const wxSCI_SEL_RECTANGLE:Int = 1
 Const wxSCI_SEL_LINES:Int = 2
+Const wxSCI_SEL_THIN:Int = 3
+Const wxSCI_CASEINSENSITIVEBEHAVIOUR_RESPECTCASE:Int = 0
+Const wxSCI_CASEINSENSITIVEBEHAVIOUR_IGNORECASE:Int = 1
+
+' Stop the caret preferred x position changing when the user types.
+Const wxSCI_CARETSTICKY_OFF:Int = 0
+Const wxSCI_CARETSTICKY_ON:Int = 1
+Const wxSCI_CARETSTICKY_WHITESPACE:Int = 2
 
 ' Duplicate the selection. If selection empty duplicate the line containing the caret.
 Const wxSCI_ALPHA_TRANSPARENT:Int = 0
@@ -236,8 +286,34 @@ Const wxSCI_CARETSTYLE_INVISIBLE:Int = 0
 Const wxSCI_CARETSTYLE_LINE:Int = 1
 Const wxSCI_CARETSTYLE_BLOCK:Int = 2
 
+' Get the start of the range of style numbers used for margin text
+Const wxSCI_MARGINOPTION_NONE:Int = 0
+Const wxSCI_MARGINOPTION_SUBLINESELECT:Int = 1
+
+' Clear the annotations from all lines
+Const wxSCI_ANNOTATION_HIDDEN:Int = 0
+Const wxSCI_ANNOTATION_STANDARD:Int = 1
+Const wxSCI_ANNOTATION_BOXED:Int = 2
+
+' Get the start of the range of style numbers used for annotations
+Const wxSCI_UNDO_MAY_COALESCE:Int = 1
+
+' Returns the position at the end of the selection.
+Const wxSCI_SCVS_NONE:Int = 0
+Const wxSCI_SCVS_RECTANGULARSELECTION:Int = 1
+Const wxSCI_SCVS_USERACCESSIBLE:Int = 2
+
+' Scroll to end of document.
+Const wxSCI_TECHNOLOGY_DEFAULT:Int = 0
+Const wxSCI_TECHNOLOGY_DIRECTWRITE:Int = 1
+
 ' Maximum value of keywordSet parameter of SetKeyWords.
 Const wxSCI_KEYWORDSET_MAX:Int = 8
+
+' Retrieve a '\n' separated list of properties understood by the current lexer.
+Const wxSCI_TYPE_BOOLEAN:Int = 0
+Const wxSCI_TYPE_INTEGER:Int = 1
+Const wxSCI_TYPE_STRING:Int = 2
 Const wxSCI_MOD_INSERTTEXT:Int = $1
 Const wxSCI_MOD_DELETETEXT:Int = $2
 Const wxSCI_MOD_CHANGESTYLE:Int = $4
@@ -253,7 +329,16 @@ Const wxSCI_MOD_BEFOREDELETE:Int = $800
 Const wxSCI_MULTILINEUNDOREDO:Int = $1000
 Const wxSCI_STARTACTION:Int = $2000
 Const wxSCI_MOD_CHANGEINDICATOR:Int = $4000
-Const wxSCI_MODEVENTMASKALL:Int = $6FFF
+Const wxSCI_MOD_CHANGELINESTATE:Int = $8000
+Const wxSCI_MOD_CHANGEMARGIN:Int = $10000
+Const wxSCI_MOD_CHANGEANNOTATION:Int = $20000
+Const wxSCI_MOD_CONTAINER:Int = $40000
+Const wxSCI_MOD_LEXERSTATE:Int = $80000
+Const wxSCI_MODEVENTMASKALL:Int = $FFFFF
+Const wxSCI_UPDATE_CONTENT:Int = $1
+Const wxSCI_UPDATE_SELECTION:Int = $2
+Const wxSCI_UPDATE_V_SCROLL:Int = $4
+Const wxSCI_UPDATE_H_SCROLL:Int = $8
 Const wxSCI_KEY_DOWN:Int = 300
 Const wxSCI_KEY_UP:Int = 301
 Const wxSCI_KEY_LEFT:Int = 302
@@ -278,6 +363,8 @@ Const wxSCI_SCMOD_NORM:Int = 0
 Const wxSCI_SCMOD_SHIFT:Int = 1
 Const wxSCI_SCMOD_CTRL:Int = 2
 Const wxSCI_SCMOD_ALT:Int = 4
+Const wxSCI_SCMOD_SUPER:Int = 8
+Const wxSCI_SCMOD_META:Int = 16
 
 ' For SciLexer.h
 Const wxSCI_LEX_CONTAINER:Int = 0
@@ -362,6 +449,30 @@ Const wxSCI_LEX_CMAKE:Int = 80
 Const wxSCI_LEX_GAP:Int = 81
 Const wxSCI_LEX_PLM:Int = 82
 Const wxSCI_LEX_PROGRESS:Int = 83
+Const wxSCI_LEX_ABAQUS:Int = 84
+Const wxSCI_LEX_ASYMPTOTE:Int = 85
+Const wxSCI_LEX_R:Int = 86
+Const wxSCI_LEX_MAGIK:Int = 87
+Const wxSCI_LEX_POWERSHELL:Int = 88
+Const wxSCI_LEX_MYSQL:Int = 89
+Const wxSCI_LEX_PO:Int = 90
+Const wxSCI_LEX_TAL:Int = 91
+Const wxSCI_LEX_COBOL:Int = 92
+Const wxSCI_LEX_TACL:Int = 93
+Const wxSCI_LEX_SORCUS:Int = 94
+Const wxSCI_LEX_POWERPRO:Int = 95
+Const wxSCI_LEX_NIMROD:Int = 96
+Const wxSCI_LEX_SML:Int = 97
+Const wxSCI_LEX_MARKDOWN:Int = 98
+Const wxSCI_LEX_TXT2TAGS:Int = 99
+Const wxSCI_LEX_A68K:Int = 100
+Const wxSCI_LEX_MODULA:Int = 101
+Const wxSCI_LEX_COFFEESCRIPT:Int = 102
+Const wxSCI_LEX_TCMD:Int = 103
+Const wxSCI_LEX_AVS:Int = 104
+Const wxSCI_LEX_ECL:Int = 105
+Const wxSCI_LEX_OSCRIPT:Int = 106
+Const wxSCI_LEX_VISUALPROLOG:Int = 107
 Const wxSCI_LEX_AUTOMATIC:Int = 1000
 
 ' Lexical states for SCLEX_PYTHON
@@ -403,6 +514,10 @@ Const wxSCI_C_WORD2:Int = 16
 Const wxSCI_C_COMMENTDOCKEYWORD:Int = 17
 Const wxSCI_C_COMMENTDOCKEYWORDERROR:Int = 18
 Const wxSCI_C_GLOBALCLASS:Int = 19
+Const wxSCI_C_STRINGRAW:Int = 20
+Const wxSCI_C_TRIPLEVERBATIM:Int = 21
+Const wxSCI_C_HASHQUOTEDSTRING:Int = 22
+Const wxSCI_C_PREPROCESSORCOMMENT:Int = 23
 
 ' Lexical states for SCLEX_D
 Const wxSCI_D_DEFAULT:Int = 0
@@ -423,6 +538,11 @@ Const wxSCI_D_IDENTIFIER:Int = 14
 Const wxSCI_D_COMMENTLINEDOC:Int = 15
 Const wxSCI_D_COMMENTDOCKEYWORD:Int = 16
 Const wxSCI_D_COMMENTDOCKEYWORDERROR:Int = 17
+Const wxSCI_D_STRINGB:Int = 18
+Const wxSCI_D_STRINGR:Int = 19
+Const wxSCI_D_WORD5:Int = 20
+Const wxSCI_D_WORD6:Int = 21
+Const wxSCI_D_WORD7:Int = 22
 
 ' Lexical states for SCLEX_TCL
 Const wxSCI_TCL_DEFAULT:Int = 0
@@ -618,6 +738,19 @@ Const wxSCI_PL_STRING_QX:Int = 28
 Const wxSCI_PL_STRING_QR:Int = 29
 Const wxSCI_PL_STRING_QW:Int = 30
 Const wxSCI_PL_POD_VERB:Int = 31
+Const wxSCI_PL_SUB_PROTOTYPE:Int = 40
+Const wxSCI_PL_FORMAT_IDENT:Int = 41
+Const wxSCI_PL_FORMAT:Int = 42
+Const wxSCI_PL_STRING_VAR:Int = 43
+Const wxSCI_PL_XLAT:Int = 44
+Const wxSCI_PL_REGEX_VAR:Int = 54
+Const wxSCI_PL_REGSUBST_VAR:Int = 55
+Const wxSCI_PL_BACKTICKS_VAR:Int = 57
+Const wxSCI_PL_HERE_QQ_VAR:Int = 61
+Const wxSCI_PL_HERE_QX_VAR:Int = 62
+Const wxSCI_PL_STRING_QQ_VAR:Int = 64
+Const wxSCI_PL_STRING_QX_VAR:Int = 65
+Const wxSCI_PL_STRING_QR_VAR:Int = 66
 
 ' Lexical states for SCLEX_RUBY
 Const wxSCI_RB_DEFAULT:Int = 0
@@ -690,6 +823,14 @@ Const wxSCI_L_COMMAND:Int = 1
 Const wxSCI_L_TAG:Int = 2
 Const wxSCI_L_MATH:Int = 3
 Const wxSCI_L_COMMENT:Int = 4
+Const wxSCI_L_TAG2:Int = 5
+Const wxSCI_L_MATH2:Int = 6
+Const wxSCI_L_COMMENT2:Int = 7
+Const wxSCI_L_VERBATIM:Int = 8
+Const wxSCI_L_SHORTCMD:Int = 9
+Const wxSCI_L_SPECIAL:Int = 10
+Const wxSCI_L_CMDOPT:Int = 11
+Const wxSCI_L_ERROR:Int = 12
 
 ' Lexical states for SCLEX_LUA
 Const wxSCI_LUA_DEFAULT:Int = 0
@@ -712,6 +853,7 @@ Const wxSCI_LUA_WORD5:Int = 16
 Const wxSCI_LUA_WORD6:Int = 17
 Const wxSCI_LUA_WORD7:Int = 18
 Const wxSCI_LUA_WORD8:Int = 19
+Const wxSCI_LUA_LABEL:Int = 20
 
 ' Lexical states for SCLEX_ERRORLIST
 Const wxSCI_ERR_DEFAULT:Int = 0
@@ -735,6 +877,7 @@ Const wxSCI_ERR_IFORT:Int = 17
 Const wxSCI_ERR_ABSF:Int = 18
 Const wxSCI_ERR_TIDY:Int = 19
 Const wxSCI_ERR_JAVA_STACK:Int = 20
+Const wxSCI_ERR_VALUE:Int = 21
 
 ' Lexical states for SCLEX_BATCH
 Const wxSCI_BAT_DEFAULT:Int = 0
@@ -745,6 +888,19 @@ Const wxSCI_BAT_HIDE:Int = 4
 Const wxSCI_BAT_COMMAND:Int = 5
 Const wxSCI_BAT_IDENTIFIER:Int = 6
 Const wxSCI_BAT_OPERATOR:Int = 7
+
+' Lexical states for SCLEX_TCMD
+Const wxSCI_TCMD_DEFAULT:Int = 0
+Const wxSCI_TCMD_COMMENT:Int = 1
+Const wxSCI_TCMD_WORD:Int = 2
+Const wxSCI_TCMD_LABEL:Int = 3
+Const wxSCI_TCMD_HIDE:Int = 4
+Const wxSCI_TCMD_COMMAND:Int = 5
+Const wxSCI_TCMD_IDENTIFIER:Int = 6
+Const wxSCI_TCMD_OPERATOR:Int = 7
+Const wxSCI_TCMD_ENVIRONMENT:Int = 8
+Const wxSCI_TCMD_EXPANSION:Int = 9
+Const wxSCI_TCMD_CLABEL:Int = 10
 
 ' Lexical states for SCLEX_MAKEFILE
 Const wxSCI_MAKE_DEFAULT:Int = 0
@@ -763,6 +919,7 @@ Const wxSCI_DIFF_HEADER:Int = 3
 Const wxSCI_DIFF_POSITION:Int = 4
 Const wxSCI_DIFF_DELETED:Int = 5
 Const wxSCI_DIFF_ADDED:Int = 6
+Const wxSCI_DIFF_CHANGED:Int = 7
 
 ' Lexical states for SCLEX_CONF (Apache Configuration Files Lexer)
 Const wxSCI_CONF_DEFAULT:Int = 0
@@ -919,6 +1076,7 @@ Const wxSCI_ASM_COMMENTBLOCK:Int = 11
 Const wxSCI_ASM_CHARACTER:Int = 12
 Const wxSCI_ASM_STRINGEOL:Int = 13
 Const wxSCI_ASM_EXTINSTRUCTION:Int = 14
+Const wxSCI_ASM_COMMENTDIRECTIVE:Int = 15
 
 ' Lexical states for SCLEX_FORTRAN
 Const wxSCI_F_DEFAULT:Int = 0
@@ -955,6 +1113,13 @@ Const wxSCI_CSS_DOUBLESTRING:Int = 13
 Const wxSCI_CSS_SINGLESTRING:Int = 14
 Const wxSCI_CSS_IDENTIFIER2:Int = 15
 Const wxSCI_CSS_ATTRIBUTE:Int = 16
+Const wxSCI_CSS_IDENTIFIER3:Int = 17
+Const wxSCI_CSS_PSEUDOELEMENT:Int = 18
+Const wxSCI_CSS_EXTENDED_IDENTIFIER:Int = 19
+Const wxSCI_CSS_EXTENDED_PSEUDOCLASS:Int = 20
+Const wxSCI_CSS_EXTENDED_PSEUDOELEMENT:Int = 21
+Const wxSCI_CSS_MEDIA:Int = 22
+Const wxSCI_CSS_VARIABLE:Int = 23
 
 ' Lexical states for SCLEX_POV
 Const wxSCI_POV_DEFAULT:Int = 0
@@ -1099,6 +1264,7 @@ Const wxSCI_YAML_REFERENCE:Int = 5
 Const wxSCI_YAML_DOCUMENT:Int = 6
 Const wxSCI_YAML_TEXT:Int = 7
 Const wxSCI_YAML_ERROR:Int = 8
+Const wxSCI_YAML_OPERATOR:Int = 9
 
 ' Lexical states for SCLEX_TEX
 Const wxSCI_TEX_DEFAULT:Int = 0
@@ -1128,8 +1294,19 @@ Const wxSCI_ERLANG_FUNCTION_NAME:Int = 8
 Const wxSCI_ERLANG_CHARACTER:Int = 9
 Const wxSCI_ERLANG_MACRO:Int = 10
 Const wxSCI_ERLANG_RECORD:Int = 11
-Const wxSCI_ERLANG_SEPARATOR:Int = 12
+Const wxSCI_ERLANG_PREPROC:Int = 12
 Const wxSCI_ERLANG_NODE_NAME:Int = 13
+Const wxSCI_ERLANG_COMMENT_FUNCTION:Int = 14
+Const wxSCI_ERLANG_COMMENT_MODULE:Int = 15
+Const wxSCI_ERLANG_COMMENT_DOC:Int = 16
+Const wxSCI_ERLANG_COMMENT_DOC_MACRO:Int = 17
+Const wxSCI_ERLANG_ATOM_QUOTED:Int = 18
+Const wxSCI_ERLANG_MACRO_QUOTED:Int = 19
+Const wxSCI_ERLANG_RECORD_QUOTED:Int = 20
+Const wxSCI_ERLANG_NODE_NAME_QUOTED:Int = 21
+Const wxSCI_ERLANG_BIFS:Int = 22
+Const wxSCI_ERLANG_MODULES:Int = 23
+Const wxSCI_ERLANG_MODULES_ATT:Int = 24
 Const wxSCI_ERLANG_UNKNOWN:Int = 31
 
 ' Lexical states for SCLEX_MSSQL
@@ -1300,6 +1477,7 @@ Const wxSCI_CAML_LINENUM:Int = 6
 Const wxSCI_CAML_OPERATOR:Int = 7
 Const wxSCI_CAML_NUMBER:Int = 8
 Const wxSCI_CAML_CHAR:Int = 9
+Const wxSCI_CAML_WHITE:Int = 10
 Const wxSCI_CAML_STRING:Int = 11
 Const wxSCI_CAML_COMMENT:Int = 12
 Const wxSCI_CAML_COMMENT1:Int = 13
@@ -1442,11 +1620,19 @@ Const wxSCI_FS_IDENTIFIER:Int = 15
 Const wxSCI_FS_DATE:Int = 16
 Const wxSCI_FS_STRINGEOL:Int = 17
 Const wxSCI_FS_CONSTANT:Int = 18
-Const wxSCI_FS_ASM:Int = 19
-Const wxSCI_FS_LABEL:Int = 20
-Const wxSCI_FS_ERROR:Int = 21
-Const wxSCI_FS_HEXNUMBER:Int = 22
-Const wxSCI_FS_BINNUMBER:Int = 23
+Const wxSCI_FS_WORDOPERATOR:Int = 19
+Const wxSCI_FS_DISABLEDCODE:Int = 20
+Const wxSCI_FS_DEFAULT_C:Int = 21
+Const wxSCI_FS_COMMENTDOC_C:Int = 22
+Const wxSCI_FS_COMMENTLINEDOC_C:Int = 23
+Const wxSCI_FS_KEYWORD_C:Int = 24
+Const wxSCI_FS_KEYWORD2_C:Int = 25
+Const wxSCI_FS_NUMBER_C:Int = 26
+Const wxSCI_FS_STRING_C:Int = 27
+Const wxSCI_FS_PREPROCESSOR_C:Int = 28
+Const wxSCI_FS_OPERATOR_C:Int = 29
+Const wxSCI_FS_IDENTIFIER_C:Int = 30
+Const wxSCI_FS_STRINGEOL_C:Int = 31
 
 ' Lexical states for SCLEX_CSOUND
 Const wxSCI_CSOUND_DEFAULT:Int = 0
@@ -1473,7 +1659,7 @@ Const wxSCI_INNO_KEYWORD:Int = 2
 Const wxSCI_INNO_PARAMETER:Int = 3
 Const wxSCI_INNO_SECTION:Int = 4
 Const wxSCI_INNO_PREPROC:Int = 5
-Const wxSCI_INNO_PREPROC_INLINE:Int = 6
+Const wxSCI_INNO_INLINE_EXPANSION:Int = 6
 Const wxSCI_INNO_COMMENT_PASCAL:Int = 7
 Const wxSCI_INNO_KEYWORD_PASCAL:Int = 8
 Const wxSCI_INNO_KEYWORD_USER:Int = 9
@@ -1544,6 +1730,8 @@ Const wxSCI_PLM_IDENTIFIER:Int = 4
 Const wxSCI_PLM_OPERATOR:Int = 5
 Const wxSCI_PLM_CONTROL:Int = 6
 Const wxSCI_PLM_KEYWORD:Int = 7
+
+' Lexical state for SCLEX_PROGRESS
 Const wxSCI_4GL_DEFAULT:Int = 0
 Const wxSCI_4GL_NUMBER:Int = 1
 Const wxSCI_4GL_WORD:Int = 2
@@ -1576,6 +1764,406 @@ Const wxSCI_4GL_COMMENT3_:Int = 28
 Const wxSCI_4GL_COMMENT4_:Int = 29
 Const wxSCI_4GL_COMMENT5_:Int = 30
 Const wxSCI_4GL_COMMENT6_:Int = 31
+
+' Lexical states for SCLEX_ABAQUS
+Const wxSCI_ABAQUS_DEFAULT:Int = 0
+Const wxSCI_ABAQUS_COMMENT:Int = 1
+Const wxSCI_ABAQUS_COMMENTBLOCK:Int = 2
+Const wxSCI_ABAQUS_NUMBER:Int = 3
+Const wxSCI_ABAQUS_STRING:Int = 4
+Const wxSCI_ABAQUS_OPERATOR:Int = 5
+Const wxSCI_ABAQUS_WORD:Int = 6
+Const wxSCI_ABAQUS_PROCESSOR:Int = 7
+Const wxSCI_ABAQUS_COMMAND:Int = 8
+Const wxSCI_ABAQUS_SLASHCOMMAND:Int = 9
+Const wxSCI_ABAQUS_STARCOMMAND:Int = 10
+Const wxSCI_ABAQUS_ARGUMENT:Int = 11
+Const wxSCI_ABAQUS_FUNCTION:Int = 12
+
+' Lexical states for SCLEX_ASYMPTOTE
+Const wxSCI_ASY_DEFAULT:Int = 0
+Const wxSCI_ASY_COMMENT:Int = 1
+Const wxSCI_ASY_COMMENTLINE:Int = 2
+Const wxSCI_ASY_NUMBER:Int = 3
+Const wxSCI_ASY_WORD:Int = 4
+Const wxSCI_ASY_STRING:Int = 5
+Const wxSCI_ASY_CHARACTER:Int = 6
+Const wxSCI_ASY_OPERATOR:Int = 7
+Const wxSCI_ASY_IDENTIFIER:Int = 8
+Const wxSCI_ASY_STRINGEOL:Int = 9
+Const wxSCI_ASY_COMMENTLINEDOC:Int = 10
+Const wxSCI_ASY_WORD2:Int = 11
+
+' Lexical states for SCLEX_R
+Const wxSCI_R_DEFAULT:Int = 0
+Const wxSCI_R_COMMENT:Int = 1
+Const wxSCI_R_KWORD:Int = 2
+Const wxSCI_R_BASEKWORD:Int = 3
+Const wxSCI_R_OTHERKWORD:Int = 4
+Const wxSCI_R_NUMBER:Int = 5
+Const wxSCI_R_STRING:Int = 6
+Const wxSCI_R_STRING2:Int = 7
+Const wxSCI_R_OPERATOR:Int = 8
+Const wxSCI_R_IDENTIFIER:Int = 9
+Const wxSCI_R_INFIX:Int = 10
+Const wxSCI_R_INFIXEOL:Int = 11
+
+' Lexical state for SCLEX_MAGIKSF
+Const wxSCI_MAGIK_DEFAULT:Int = 0
+Const wxSCI_MAGIK_COMMENT:Int = 1
+Const wxSCI_MAGIK_HYPER_COMMENT:Int = 16
+Const wxSCI_MAGIK_STRING:Int = 2
+Const wxSCI_MAGIK_CHARACTER:Int = 3
+Const wxSCI_MAGIK_NUMBER:Int = 4
+Const wxSCI_MAGIK_IDENTIFIER:Int = 5
+Const wxSCI_MAGIK_OPERATOR:Int = 6
+Const wxSCI_MAGIK_FLOW:Int = 7
+Const wxSCI_MAGIK_CONTAINER:Int = 8
+Const wxSCI_MAGIK_BRACKET_BLOCK:Int = 9
+Const wxSCI_MAGIK_BRACE_BLOCK:Int = 10
+Const wxSCI_MAGIK_SQBRACKET_BLOCK:Int = 11
+Const wxSCI_MAGIK_UNKNOWN_KEYWORD:Int = 12
+Const wxSCI_MAGIK_KEYWORD:Int = 13
+Const wxSCI_MAGIK_PRAGMA:Int = 14
+Const wxSCI_MAGIK_SYMBOL:Int = 15
+
+' Lexical state for SCLEX_POWERSHELL
+Const wxSCI_POWERSHELL_DEFAULT:Int = 0
+Const wxSCI_POWERSHELL_COMMENT:Int = 1
+Const wxSCI_POWERSHELL_STRING:Int = 2
+Const wxSCI_POWERSHELL_CHARACTER:Int = 3
+Const wxSCI_POWERSHELL_NUMBER:Int = 4
+Const wxSCI_POWERSHELL_VARIABLE:Int = 5
+Const wxSCI_POWERSHELL_OPERATOR:Int = 6
+Const wxSCI_POWERSHELL_IDENTIFIER:Int = 7
+Const wxSCI_POWERSHELL_KEYWORD:Int = 8
+Const wxSCI_POWERSHELL_CMDLET:Int = 9
+Const wxSCI_POWERSHELL_ALIAS:Int = 10
+Const wxSCI_POWERSHELL_FUNCTION:Int = 11
+Const wxSCI_POWERSHELL_USER1:Int = 12
+Const wxSCI_POWERSHELL_COMMENTSTREAM:Int = 13
+
+' Lexical state for SCLEX_MYSQL
+Const wxSCI_MYSQL_DEFAULT:Int = 0
+Const wxSCI_MYSQL_COMMENT:Int = 1
+Const wxSCI_MYSQL_COMMENTLINE:Int = 2
+Const wxSCI_MYSQL_VARIABLE:Int = 3
+Const wxSCI_MYSQL_SYSTEMVARIABLE:Int = 4
+Const wxSCI_MYSQL_KNOWNSYSTEMVARIABLE:Int = 5
+Const wxSCI_MYSQL_NUMBER:Int = 6
+Const wxSCI_MYSQL_MAJORKEYWORD:Int = 7
+Const wxSCI_MYSQL_KEYWORD:Int = 8
+Const wxSCI_MYSQL_DATABASEOBJECT:Int = 9
+Const wxSCI_MYSQL_PROCEDUREKEYWORD:Int = 10
+Const wxSCI_MYSQL_STRING:Int = 11
+Const wxSCI_MYSQL_SQSTRING:Int = 12
+Const wxSCI_MYSQL_DQSTRING:Int = 13
+Const wxSCI_MYSQL_OPERATOR:Int = 14
+Const wxSCI_MYSQL_FUNCTION:Int = 15
+Const wxSCI_MYSQL_IDENTIFIER:Int = 16
+Const wxSCI_MYSQL_QUOTEDIDENTIFIER:Int = 17
+Const wxSCI_MYSQL_USER1:Int = 18
+Const wxSCI_MYSQL_USER2:Int = 19
+Const wxSCI_MYSQL_USER3:Int = 20
+Const wxSCI_MYSQL_HIDDENCOMMAND:Int = 21
+Const wxSCI_MYSQL_PLACEHOLDER:Int = 22
+
+' Lexical state for SCLEX_PO
+Const wxSCI_PO_DEFAULT:Int = 0
+Const wxSCI_PO_COMMENT:Int = 1
+Const wxSCI_PO_MSGID:Int = 2
+Const wxSCI_PO_MSGID_TEXT:Int = 3
+Const wxSCI_PO_MSGSTR:Int = 4
+Const wxSCI_PO_MSGSTR_TEXT:Int = 5
+Const wxSCI_PO_MSGCTXT:Int = 6
+Const wxSCI_PO_MSGCTXT_TEXT:Int = 7
+Const wxSCI_PO_FUZZY:Int = 8
+Const wxSCI_PO_PROGRAMMER_COMMENT:Int = 9
+Const wxSCI_PO_REFERENCE:Int = 10
+Const wxSCI_PO_FLAGS:Int = 11
+Const wxSCI_PO_MSGID_TEXT_EOL:Int = 12
+Const wxSCI_PO_MSGSTR_TEXT_EOL:Int = 13
+Const wxSCI_PO_MSGCTXT_TEXT_EOL:Int = 14
+Const wxSCI_PO_ERROR:Int = 15
+
+' Lexical states for SCLEX_PASCAL
+Const wxSCI_PAS_DEFAULT:Int = 0
+Const wxSCI_PAS_IDENTIFIER:Int = 1
+Const wxSCI_PAS_COMMENT:Int = 2
+Const wxSCI_PAS_COMMENT2:Int = 3
+Const wxSCI_PAS_COMMENTLINE:Int = 4
+Const wxSCI_PAS_PREPROCESSOR:Int = 5
+Const wxSCI_PAS_PREPROCESSOR2:Int = 6
+Const wxSCI_PAS_NUMBER:Int = 7
+Const wxSCI_PAS_HEXNUMBER:Int = 8
+Const wxSCI_PAS_WORD:Int = 9
+Const wxSCI_PAS_STRING:Int = 10
+Const wxSCI_PAS_STRINGEOL:Int = 11
+Const wxSCI_PAS_CHARACTER:Int = 12
+Const wxSCI_PAS_OPERATOR:Int = 13
+Const wxSCI_PAS_ASM:Int = 14
+
+' Lexical state for SCLEX_SORCUS
+Const wxSCI_SORCUS_DEFAULT:Int = 0
+Const wxSCI_SORCUS_COMMAND:Int = 1
+Const wxSCI_SORCUS_PARAMETER:Int = 2
+Const wxSCI_SORCUS_COMMENTLINE:Int = 3
+Const wxSCI_SORCUS_STRING:Int = 4
+Const wxSCI_SORCUS_STRINGEOL:Int = 5
+Const wxSCI_SORCUS_IDENTIFIER:Int = 6
+Const wxSCI_SORCUS_OPERATOR:Int = 7
+Const wxSCI_SORCUS_NUMBER:Int = 8
+Const wxSCI_SORCUS_CONSTANT:Int = 9
+
+' Lexical state for SCLEX_POWERPRO
+Const wxSCI_POWERPRO_DEFAULT:Int = 0
+Const wxSCI_POWERPRO_COMMENTBLOCK:Int = 1
+Const wxSCI_POWERPRO_COMMENTLINE:Int = 2
+Const wxSCI_POWERPRO_NUMBER:Int = 3
+Const wxSCI_POWERPRO_WORD:Int = 4
+Const wxSCI_POWERPRO_WORD2:Int = 5
+Const wxSCI_POWERPRO_WORD3:Int = 6
+Const wxSCI_POWERPRO_WORD4:Int = 7
+Const wxSCI_POWERPRO_DOUBLEQUOTEDSTRING:Int = 8
+Const wxSCI_POWERPRO_SINGLEQUOTEDSTRING:Int = 9
+Const wxSCI_POWERPRO_LINECONTINUE:Int = 10
+Const wxSCI_POWERPRO_OPERATOR:Int = 11
+Const wxSCI_POWERPRO_IDENTIFIER:Int = 12
+Const wxSCI_POWERPRO_STRINGEOL:Int = 13
+Const wxSCI_POWERPRO_VERBATIM:Int = 14
+Const wxSCI_POWERPRO_ALTQUOTE:Int = 15
+Const wxSCI_POWERPRO_FUNCTION:Int = 16
+
+' Lexical states for SCLEX_SML
+Const wxSCI_SML_DEFAULT:Int = 0
+Const wxSCI_SML_IDENTIFIER:Int = 1
+Const wxSCI_SML_TAGNAME:Int = 2
+Const wxSCI_SML_KEYWORD:Int = 3
+Const wxSCI_SML_KEYWORD2:Int = 4
+Const wxSCI_SML_KEYWORD3:Int = 5
+Const wxSCI_SML_LINENUM:Int = 6
+Const wxSCI_SML_OPERATOR:Int = 7
+Const wxSCI_SML_NUMBER:Int = 8
+Const wxSCI_SML_CHAR:Int = 9
+Const wxSCI_SML_STRING:Int = 11
+Const wxSCI_SML_COMMENT:Int = 12
+Const wxSCI_SML_COMMENT1:Int = 13
+Const wxSCI_SML_COMMENT2:Int = 14
+Const wxSCI_SML_COMMENT3:Int = 15
+
+' Lexical state for SCLEX_MARKDOWN
+Const wxSCI_MARKDOWN_DEFAULT:Int = 0
+Const wxSCI_MARKDOWN_LINE_BEGIN:Int = 1
+Const wxSCI_MARKDOWN_STRONG1:Int = 2
+Const wxSCI_MARKDOWN_STRONG2:Int = 3
+Const wxSCI_MARKDOWN_EM1:Int = 4
+Const wxSCI_MARKDOWN_EM2:Int = 5
+Const wxSCI_MARKDOWN_HEADER1:Int = 6
+Const wxSCI_MARKDOWN_HEADER2:Int = 7
+Const wxSCI_MARKDOWN_HEADER3:Int = 8
+Const wxSCI_MARKDOWN_HEADER4:Int = 9
+Const wxSCI_MARKDOWN_HEADER5:Int = 10
+Const wxSCI_MARKDOWN_HEADER6:Int = 11
+Const wxSCI_MARKDOWN_PRECHAR:Int = 12
+Const wxSCI_MARKDOWN_ULIST_ITEM:Int = 13
+Const wxSCI_MARKDOWN_OLIST_ITEM:Int = 14
+Const wxSCI_MARKDOWN_BLOCKQUOTE:Int = 15
+Const wxSCI_MARKDOWN_STRIKEOUT:Int = 16
+Const wxSCI_MARKDOWN_HRULE:Int = 17
+Const wxSCI_MARKDOWN_LINK:Int = 18
+Const wxSCI_MARKDOWN_CODE:Int = 19
+Const wxSCI_MARKDOWN_CODE2:Int = 20
+Const wxSCI_MARKDOWN_CODEBK:Int = 21
+
+' Lexical state for SCLEX_TXT2TAGS
+Const wxSCI_TXT2TAGS_DEFAULT:Int = 0
+Const wxSCI_TXT2TAGS_LINE_BEGIN:Int = 1
+Const wxSCI_TXT2TAGS_STRONG1:Int = 2
+Const wxSCI_TXT2TAGS_STRONG2:Int = 3
+Const wxSCI_TXT2TAGS_EM1:Int = 4
+Const wxSCI_TXT2TAGS_EM2:Int = 5
+Const wxSCI_TXT2TAGS_HEADER1:Int = 6
+Const wxSCI_TXT2TAGS_HEADER2:Int = 7
+Const wxSCI_TXT2TAGS_HEADER3:Int = 8
+Const wxSCI_TXT2TAGS_HEADER4:Int = 9
+Const wxSCI_TXT2TAGS_HEADER5:Int = 10
+Const wxSCI_TXT2TAGS_HEADER6:Int = 11
+Const wxSCI_TXT2TAGS_PRECHAR:Int = 12
+Const wxSCI_TXT2TAGS_ULIST_ITEM:Int = 13
+Const wxSCI_TXT2TAGS_OLIST_ITEM:Int = 14
+Const wxSCI_TXT2TAGS_BLOCKQUOTE:Int = 15
+Const wxSCI_TXT2TAGS_STRIKEOUT:Int = 16
+Const wxSCI_TXT2TAGS_HRULE:Int = 17
+Const wxSCI_TXT2TAGS_LINK:Int = 18
+Const wxSCI_TXT2TAGS_CODE:Int = 19
+Const wxSCI_TXT2TAGS_CODE2:Int = 20
+Const wxSCI_TXT2TAGS_CODEBK:Int = 21
+Const wxSCI_TXT2TAGS_COMMENT:Int = 22
+Const wxSCI_TXT2TAGS_OPTION:Int = 23
+Const wxSCI_TXT2TAGS_PREPROC:Int = 24
+Const wxSCI_TXT2TAGS_POSTPROC:Int = 25
+
+' Lexical states for SCLEX_A68K
+Const wxSCI_A68K_DEFAULT:Int = 0
+Const wxSCI_A68K_COMMENT:Int = 1
+Const wxSCI_A68K_NUMBER_DEC:Int = 2
+Const wxSCI_A68K_NUMBER_BIN:Int = 3
+Const wxSCI_A68K_NUMBER_HEX:Int = 4
+Const wxSCI_A68K_STRING1:Int = 5
+Const wxSCI_A68K_OPERATOR:Int = 6
+Const wxSCI_A68K_CPUINSTRUCTION:Int = 7
+Const wxSCI_A68K_EXTINSTRUCTION:Int = 8
+Const wxSCI_A68K_REGISTER:Int = 9
+Const wxSCI_A68K_DIRECTIVE:Int = 10
+Const wxSCI_A68K_MACRO_ARG:Int = 11
+Const wxSCI_A68K_LABEL:Int = 12
+Const wxSCI_A68K_STRING2:Int = 13
+Const wxSCI_A68K_IDENTIFIER:Int = 14
+Const wxSCI_A68K_MACRO_DECLARATION:Int = 15
+Const wxSCI_A68K_COMMENT_WORD:Int = 16
+Const wxSCI_A68K_COMMENT_SPECIAL:Int = 17
+Const wxSCI_A68K_COMMENT_DOXYGEN:Int = 18
+
+' Lexical states for SCLEX_MODULA
+Const wxSCI_MODULA_DEFAULT:Int = 0
+Const wxSCI_MODULA_COMMENT:Int = 1
+Const wxSCI_MODULA_DOXYCOMM:Int = 2
+Const wxSCI_MODULA_DOXYKEY:Int = 3
+Const wxSCI_MODULA_KEYWORD:Int = 4
+Const wxSCI_MODULA_RESERVED:Int = 5
+Const wxSCI_MODULA_NUMBER:Int = 6
+Const wxSCI_MODULA_BASENUM:Int = 7
+Const wxSCI_MODULA_FLOAT:Int = 8
+Const wxSCI_MODULA_STRING:Int = 9
+Const wxSCI_MODULA_STRSPEC:Int = 10
+Const wxSCI_MODULA_CHAR:Int = 11
+Const wxSCI_MODULA_CHARSPEC:Int = 12
+Const wxSCI_MODULA_PROC:Int = 13
+Const wxSCI_MODULA_PRAGMA:Int = 14
+Const wxSCI_MODULA_PRGKEY:Int = 15
+Const wxSCI_MODULA_OPERATOR:Int = 16
+Const wxSCI_MODULA_BADSTR:Int = 17
+
+' Lexical states for SCLEX_COFFEESCRIPT
+Const wxSCI_COFFEESCRIPT_DEFAULT:Int = 0
+Const wxSCI_COFFEESCRIPT_COMMENT:Int = 1
+Const wxSCI_COFFEESCRIPT_COMMENTLINE:Int = 2
+Const wxSCI_COFFEESCRIPT_COMMENTDOC:Int = 3
+Const wxSCI_COFFEESCRIPT_NUMBER:Int = 4
+Const wxSCI_COFFEESCRIPT_WORD:Int = 5
+Const wxSCI_COFFEESCRIPT_STRING:Int = 6
+Const wxSCI_COFFEESCRIPT_CHARACTER:Int = 7
+Const wxSCI_COFFEESCRIPT_UUID:Int = 8
+Const wxSCI_COFFEESCRIPT_PREPROCESSOR:Int = 9
+Const wxSCI_COFFEESCRIPT_OPERATOR:Int = 10
+Const wxSCI_COFFEESCRIPT_IDENTIFIER:Int = 11
+Const wxSCI_COFFEESCRIPT_STRINGEOL:Int = 12
+Const wxSCI_COFFEESCRIPT_VERBATIM:Int = 13
+Const wxSCI_COFFEESCRIPT_REGEX:Int = 14
+Const wxSCI_COFFEESCRIPT_COMMENTLINEDOC:Int = 15
+Const wxSCI_COFFEESCRIPT_WORD2:Int = 16
+Const wxSCI_COFFEESCRIPT_COMMENTDOCKEYWORD:Int = 17
+Const wxSCI_COFFEESCRIPT_COMMENTDOCKEYWORDERROR:Int = 18
+Const wxSCI_COFFEESCRIPT_GLOBALCLASS:Int = 19
+Const wxSCI_COFFEESCRIPT_STRINGRAW:Int = 20
+Const wxSCI_COFFEESCRIPT_TRIPLEVERBATIM:Int = 21
+Const wxSCI_COFFEESCRIPT_HASHQUOTEDSTRING:Int = 22
+Const wxSCI_COFFEESCRIPT_COMMENTBLOCK:Int = 22
+Const wxSCI_COFFEESCRIPT_VERBOSE_REGEX:Int = 23
+Const wxSCI_COFFEESCRIPT_VERBOSE_REGEX_COMMENT:Int = 24
+
+' Lexical states for SCLEX_AVS
+Const wxSCI_AVS_DEFAULT:Int = 0
+Const wxSCI_AVS_COMMENTBLOCK:Int = 1
+Const wxSCI_AVS_COMMENTBLOCKN:Int = 2
+Const wxSCI_AVS_COMMENTLINE:Int = 3
+Const wxSCI_AVS_NUMBER:Int = 4
+Const wxSCI_AVS_OPERATOR:Int = 5
+Const wxSCI_AVS_IDENTIFIER:Int = 6
+Const wxSCI_AVS_STRING:Int = 7
+Const wxSCI_AVS_TRIPLESTRING:Int = 8
+Const wxSCI_AVS_KEYWORD:Int = 9
+Const wxSCI_AVS_FILTER:Int = 10
+Const wxSCI_AVS_PLUGIN:Int = 11
+Const wxSCI_AVS_FUNCTION:Int = 12
+Const wxSCI_AVS_CLIPPROP:Int = 13
+Const wxSCI_AVS_USERDFN:Int = 14
+
+' Lexical states for SCLEX_ECL
+Const wxSCI_ECL_DEFAULT:Int = 0
+Const wxSCI_ECL_COMMENT:Int = 1
+Const wxSCI_ECL_COMMENTLINE:Int = 2
+Const wxSCI_ECL_NUMBER:Int = 3
+Const wxSCI_ECL_STRING:Int = 4
+Const wxSCI_ECL_WORD0:Int = 5
+Const wxSCI_ECL_OPERATOR:Int = 6
+Const wxSCI_ECL_CHARACTER:Int = 7
+Const wxSCI_ECL_UUID:Int = 8
+Const wxSCI_ECL_PREPROCESSOR:Int = 9
+Const wxSCI_ECL_UNKNOWN:Int = 10
+Const wxSCI_ECL_IDENTIFIER:Int = 11
+Const wxSCI_ECL_STRINGEOL:Int = 12
+Const wxSCI_ECL_VERBATIM:Int = 13
+Const wxSCI_ECL_REGEX:Int = 14
+Const wxSCI_ECL_COMMENTLINEDOC:Int = 15
+Const wxSCI_ECL_WORD1:Int = 16
+Const wxSCI_ECL_COMMENTDOCKEYWORD:Int = 17
+Const wxSCI_ECL_COMMENTDOCKEYWORDERROR:Int = 18
+Const wxSCI_ECL_WORD2:Int = 19
+Const wxSCI_ECL_WORD3:Int = 20
+Const wxSCI_ECL_WORD4:Int = 21
+Const wxSCI_ECL_WORD5:Int = 22
+Const wxSCI_ECL_COMMENTDOC:Int = 23
+Const wxSCI_ECL_ADDED:Int = 24
+Const wxSCI_ECL_DELETED:Int = 25
+Const wxSCI_ECL_CHANGED:Int = 26
+Const wxSCI_ECL_MOVED:Int = 27
+
+' Lexical states for SCLEX_OSCRIPT
+Const wxSCI_OSCRIPT_DEFAULT:Int = 0
+Const wxSCI_OSCRIPT_LINE_COMMENT:Int = 1
+Const wxSCI_OSCRIPT_BLOCK_COMMENT:Int = 2
+Const wxSCI_OSCRIPT_DOC_COMMENT:Int = 3
+Const wxSCI_OSCRIPT_PREPROCESSOR:Int = 4
+Const wxSCI_OSCRIPT_NUMBER:Int = 5
+Const wxSCI_OSCRIPT_SINGLEQUOTE_STRING:Int = 6
+Const wxSCI_OSCRIPT_DOUBLEQUOTE_STRING:Int = 7
+Const wxSCI_OSCRIPT_CONSTANT:Int = 8
+Const wxSCI_OSCRIPT_IDENTIFIER:Int = 9
+Const wxSCI_OSCRIPT_GLOBAL:Int = 10
+Const wxSCI_OSCRIPT_KEYWORD:Int = 11
+Const wxSCI_OSCRIPT_OPERATOR:Int = 12
+Const wxSCI_OSCRIPT_LABEL:Int = 13
+Const wxSCI_OSCRIPT_TYPE:Int = 14
+Const wxSCI_OSCRIPT_FUNCTION:Int = 15
+Const wxSCI_OSCRIPT_OBJECT:Int = 16
+Const wxSCI_OSCRIPT_PROPERTY:Int = 17
+Const wxSCI_OSCRIPT_METHOD:Int = 18
+
+' Lexical states for SCLEX_VISUALPROLOG
+Const wxSCI_VISUALPROLOG_DEFAULT:Int = 0
+Const wxSCI_VISUALPROLOG_KEY_MAJOR:Int = 1
+Const wxSCI_VISUALPROLOG_KEY_MINOR:Int = 2
+Const wxSCI_VISUALPROLOG_KEY_DIRECTIVE:Int = 3
+Const wxSCI_VISUALPROLOG_COMMENT_BLOCK:Int = 4
+Const wxSCI_VISUALPROLOG_COMMENT_LINE:Int = 5
+Const wxSCI_VISUALPROLOG_COMMENT_KEY:Int = 6
+Const wxSCI_VISUALPROLOG_COMMENT_KEY_ERROR:Int = 7
+Const wxSCI_VISUALPROLOG_IDENTIFIER:Int = 8
+Const wxSCI_VISUALPROLOG_VARIABLE:Int = 9
+Const wxSCI_VISUALPROLOG_ANONYMOUS:Int = 10
+Const wxSCI_VISUALPROLOG_NUMBER:Int = 11
+Const wxSCI_VISUALPROLOG_OPERATOR:Int = 12
+Const wxSCI_VISUALPROLOG_CHARACTER:Int = 13
+Const wxSCI_VISUALPROLOG_CHARACTER_TOO_MANY:Int = 14
+Const wxSCI_VISUALPROLOG_CHARACTER_ESCAPE_ERROR:Int = 15
+Const wxSCI_VISUALPROLOG_STRING:Int = 16
+Const wxSCI_VISUALPROLOG_STRING_ESCAPE:Int = 17
+Const wxSCI_VISUALPROLOG_STRING_ESCAPE_ERROR:Int = 18
+Const wxSCI_VISUALPROLOG_STRING_EOL_OPEN:Int = 19
+Const wxSCI_VISUALPROLOG_STRING_VERBATIM:Int = 20
+Const wxSCI_VISUALPROLOG_STRING_VERBATIM_SPECIAL:Int = 21
+Const wxSCI_VISUALPROLOG_STRING_VERBATIM_EOL:Int = 22
 ' //--Autogenerated
 
 Const wxEVT_SCI_CHANGE:Int = 1650
