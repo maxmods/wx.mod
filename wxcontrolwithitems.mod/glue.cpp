@@ -54,10 +54,12 @@ int bmx_wxcontrolwithitems_append(wxControlWithItems * control, BBString * item,
 void bmx_wxcontrolwithitems_clear(wxControlWithItems * control) {
 
 	int count = control->GetCount();
-	for (int i = 0; i < count; i++) {
-		void * data = control->GetClientData(i);
-		if (data) {
-			BBRELEASE((BBObject*)data);
+	if (control->HasClientUntypedData()) {
+		for (int i = 0; i < count; i++) {
+			void * data = control->GetClientData(i);
+			if (data) {
+				BBRELEASE((BBObject*)data);
+			}
 		}
 	}
 
@@ -65,9 +67,12 @@ void bmx_wxcontrolwithitems_clear(wxControlWithItems * control) {
 }
 
 void bmx_wxcontrolwithitems_deleteitem(wxControlWithItems * control, int item) {
-	void * data = control->GetClientData(item);
-	if (data) {
-		BBRELEASE((BBObject*)data);
+
+	if (control->HasClientUntypedData()) {
+		void * data = control->GetClientData(item);
+		if (data) {
+			BBRELEASE((BBObject*)data);
+		}
 	}
 	
 	control->Delete(item);
@@ -114,9 +119,11 @@ BBString * bmx_wxcontrolwithitems_getstringselection(wxControlWithItems * contro
 }
 
 void bmx_wxcontrolwithitems_setclientdata(wxControlWithItems * control, int item, BBObject * clientData) {
-	void * data = control->GetClientData(item);
-	if (data) {
-		BBRELEASE((BBObject*)data);
+	if (control->HasClientUntypedData()) {
+		void * data = control->GetClientData(item);
+		if (data) {
+			BBRELEASE((BBObject*)data);
+		}
 	}
 	control->SetClientData(item, clientData);
 	if (clientData != &bbNullObject) {

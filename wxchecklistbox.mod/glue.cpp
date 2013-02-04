@@ -39,10 +39,12 @@ MaxCheckListBox::~MaxCheckListBox() {
 
 	// we need to free any items
 	int count = GetCount();
-	for (int i = 0; i < count; i++) {
-		void * data = GetClientData(i);
-		if (data) {
-			BBRELEASE((BBObject*)data);
+	if (HasClientUntypedData()) {
+		for (int i = 0; i < count; i++) {
+			void * data = GetClientData(i);
+			if (data) {
+				BBRELEASE((BBObject*)data);
+			}
 		}
 	}
 }
@@ -54,21 +56,25 @@ void MaxCheckListBox::MaxBind(BBObject * handle) {
 void MaxCheckListBox::Clear() {
 	// we need to free any items
 	int count = GetCount();
-	for (int i = 0; i < count; i++) {
-		void * data = GetClientData(i);
-		if (data) {
-			BBRELEASE((BBObject*)data);
-			SetClientData(i, 0);
+	if (HasClientUntypedData()) {
+		for (int i = 0; i < count; i++) {
+			void * data = GetClientData(i);
+			if (data) {
+				BBRELEASE((BBObject*)data);
+				SetClientData(i, 0);
+			}
 		}
 	}
 	wxCheckListBox::Clear();
 }
 
 void MaxCheckListBox::Delete(unsigned int n) {
-	void * data = GetClientData(n);
-	if (data) {
-		BBRELEASE((BBObject*)data);
-		SetClientData(n, 0);
+	if (HasClientUntypedData()) {
+		void * data = GetClientData(n);
+		if (data) {
+			BBRELEASE((BBObject*)data);
+			SetClientData(n, 0);
+		}
 	}
 	
 	wxCheckListBox::Delete(n);
