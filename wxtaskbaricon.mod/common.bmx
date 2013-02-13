@@ -45,7 +45,7 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxtaskbaricon_create:Byte Ptr(handle:Object)
+	Function bmx_wxtaskbaricon_create:Byte Ptr(handle:Object, iconType:Int)
 	Function bmx_wxtaskbaricon_createpopupmenu:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxtaskbaricon_isiconinstalled:Int(handle:Byte Ptr)
 	Function bmx_wxtaskbaricon_isok:Int(handle:Byte Ptr)
@@ -71,3 +71,10 @@ Const wxEVT_TASKBAR_RIGHT_DCLICK:Int = 1556
 	Const wxEVT_TASKBAR_CLICK:Int = wxEVT_TASKBAR_RIGHT_DOWN
 ?
 
+Const wxTBI_DOCK:Int = 0
+Const wxTBI_CUSTOM_STATUSITEM:Int = 1
+?macos
+Const wxTBI_DEFAULT_TYPE:Int = wxTBI_CUSTOM_STATUSITEM
+?Not macos
+Const wxTBI_DEFAULT_TYPE:Int = wxTBI_DOCK
+?

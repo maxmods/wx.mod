@@ -25,8 +25,8 @@
 // ---------------------------------------------------------------------------------------
 
 
-MaxTaskBarIcon::MaxTaskBarIcon(BBObject * handle)
-	: maxHandle(handle), wxTaskBarIcon()
+MaxTaskBarIcon::MaxTaskBarIcon(BBObject * handle, int iconType)
+	: maxHandle(handle), wxTaskBarIcon((wxTaskBarIconType)iconType)
 {
 	wxbind(this, handle);
 }
@@ -42,8 +42,8 @@ wxMenu * MaxTaskBarIcon::CreatePopupMenu() {
 // *********************************************
 
 
-MaxTaskBarIcon * bmx_wxtaskbaricon_create(BBObject * handle) {
-	return new MaxTaskBarIcon(handle);
+MaxTaskBarIcon * bmx_wxtaskbaricon_create(BBObject * handle, int iconType) {
+	return new MaxTaskBarIcon(handle, iconType);
 }
 
 bool bmx_wxtaskbaricon_isiconinstalled(wxTaskBarIcon * taskBarIcon) {

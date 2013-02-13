@@ -93,15 +93,16 @@ Type wxTaskBarIcon Extends wxEvtHandler
 	bbdoc: Constructs a #wxTaskBarIcon object.
 	about: TODO
 	End Rem
-	Function CreateTaskBarIcon:wxTaskBarIcon()
-		Return New wxTaskBarIcon.Create()
+	Function CreateTaskBarIcon:wxTaskBarIcon(iconType:Int = wxTBI_DEFAULT_TYPE)
+		Return New wxTaskBarIcon.Create(iconType)
 	End Function
 
 	Rem
-	bbdoc: 
+	bbdoc: Constructs a new #wxTaskBarIcon object.
+	about: The iconType is only applicable on wxOSX_Cocoa. On OSX Cocoa the taskbar icon can be in the doc or in the status area. The default is in the status area.
 	End Rem
-	Method Create:wxTaskBarIcon()
-		wxObjectPtr = bmx_wxtaskbaricon_create(Self)
+	Method Create:wxTaskBarIcon(iconType:Int = wxTBI_DEFAULT_TYPE)
+		wxObjectPtr = bmx_wxtaskbaricon_create(Self, iconType)
 		OnInit()
 		Return Self
 	End Method

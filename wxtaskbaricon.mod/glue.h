@@ -32,7 +32,7 @@ extern "C" {
 
 	wxMenu * _wx_wxtaskbaricon_wxTaskBarIcon__CreatePopupMenu(BBObject * handle);
 
-	MaxTaskBarIcon * bmx_wxtaskbaricon_create(BBObject * handle);
+	MaxTaskBarIcon * bmx_wxtaskbaricon_create(BBObject * handle, int iconType);
 	bool bmx_wxtaskbaricon_isiconinstalled(wxTaskBarIcon * taskBarIcon);
 	bool bmx_wxtaskbaricon_isok(wxTaskBarIcon * taskBarIcon);
 	bool bmx_wxtaskbaricon_popupmenu(wxTaskBarIcon * taskBarIcon, wxMenu * menu);
@@ -50,7 +50,7 @@ extern "C" {
 class MaxTaskBarIcon : public wxTaskBarIcon
 {
 public:
-	MaxTaskBarIcon(BBObject * handle);
+	MaxTaskBarIcon(BBObject * handle, int iconType);
 	~MaxTaskBarIcon();
 
 protected:
