@@ -45,7 +45,7 @@ Type TFrame Extends wxFrame
 		If Not Icon.IsOk() Then Throw("Can't load 'Icon.ico'")
 		
 		' Create tray icon with popup menu
-		TrayIcon = New MyTaskBarIcon.Create()
+		TrayIcon = New MyTaskBarIcon.Create(wxTBI_DOCK)
 
 		' Set icon for caption and taskbar
 		Self.SetIcon(Icon)

@@ -124,7 +124,7 @@ Type Frame Extends wxFrame
 		item = New wxMenuItem.Create(styleMenu, MENU_USE_FF2_STYLE, "Use Firefox 2 Style", "Use Firefox 2 Style", wxITEM_RADIO)
 		styleMenu.AppendItem(item)
 	
-		m_visualMenu.AppendMenu(-1, "Tabs Style", styleMenu)
+		m_visualMenu.AppendSubMenu(styleMenu, "Tabs Style")
 		
 		item = New wxMenuItem.Create(m_visualMenu, MENU_SELECT_GRADIENT_COLOR_FROM, "Select fancy tab style 'from' color", "Select fancy tab style 'from' color", wxITEM_NORMAL)
 		m_visualMenu.AppendItem(item)

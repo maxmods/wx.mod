@@ -110,7 +110,7 @@ Type MyFrame Extends wxFrame
 		menuStdFonts.Append(Font_wxSMALL_FONT,  "wxSMALL_FONT",  "Small font used by wxWidgets")
 		menuStdFonts.Append(Font_wxITALIC_FONT, "wxITALIC_FONT", "Italic font used by wxWidgets")
 		menuStdFonts.Append(Font_wxSWISS_FONT,  "wxSWISS_FONT",  "Swiss font used by wxWidgets")
-		menuSelect.AppendMenu(Font_Standard, "Standar&d fonts", menuStdFonts)
+		menuSelect.AppendSubMenu(menuStdFonts, "Standar&d fonts")
 		
 		menuSelect.AppendSeparator()
 		menuSelect.Append(Font_EnumFamilies, "Enumerate font &families~tCtrl-F")
@@ -420,7 +420,7 @@ Type MyFrame Extends wxFrame
 	End Function
 
 	Function OnAbout(event:wxEvent)
-		wxMessageBox("wxWidgets font sample~n(c) 1999-2006 Vadim Zeitlin~nBlitzMax port (c) 2007 Bruce A Henderon", ..
+		wxMessageBox("wxWidgets font sample~n(c) 1999-2006 Vadim Zeitlin~nBlitzMax port (c) 2007-2013 Bruce A Henderon", ..
 			"About " + SAMPLE_TITLE, wxOK | wxICON_INFORMATION, wxWindow(event.parent))
 	End Function
 
@@ -548,7 +548,7 @@ Type MyCanvas Extends wxWindow
 	End Method
 	
 	Method SetColour(colour:wxColour)
-		self.colour = colour
+		Self.colour = colour
 	End Method
 	
 	Function OnPaint(event:wxEvent)

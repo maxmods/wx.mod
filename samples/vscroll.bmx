@@ -81,7 +81,7 @@ Type VScrollFrame Extends wxFrame
 		wxMessageBox("VScroll shows how to implement scrolling with~n" + ..
 			"variable line heights.~n" + ..
 			"(c) 2003 Vadim Zeitlin~n" + ..
-			"BlitzMax port (c) 2007-2009 Bruce A Henderson", "About VScroll", ..
+			"BlitzMax port (c) 2007-2013 Bruce A Henderson", "About VScroll", ..
 			wxOK | wxICON_INFORMATION, wxWindow(event.parent))
 	End Function
 	

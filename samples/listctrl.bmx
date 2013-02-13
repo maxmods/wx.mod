@@ -377,7 +377,7 @@ Type MyFrame Extends wxFrame
 	
 	Function OnAbout(event:wxEvent)
 		Local dialog:wxMessageDialog = New wxMessageDialog.Create(wxWindow(event.parent), ..
-			"List test sample~nJulian Smart (c) 1997~nBlitzMax port (c) 2007 Bruce A Henderson", ..
+			"List test sample~nJulian Smart (c) 1997~nBlitzMax port (c) 2007-2013 Bruce A Henderson", ..
 			"About list test", wxOK | wxCANCEL)
 		
 		dialog.ShowModal()

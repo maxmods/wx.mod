@@ -693,7 +693,7 @@ End Rem
 	
 		wxMessageBox("wxAUI Demo~nAn advanced window management library for wxWidgets~n" + ..
 			"(c) Copyright 2005-2006, Kirix Corporation~n" + ..
-			"BlitzMax Port (c) 2007-2009 Bruce A Henderson", ..
+			"BlitzMax Port (c) 2007-2013 Bruce A Henderson", ..
 			"About wxAUI Demo", wxOK, wxWindow(event.parent))
 	
 	End Function

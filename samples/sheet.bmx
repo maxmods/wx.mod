@@ -146,7 +146,7 @@ Type GridFrame Extends wxFrame
 		viewMenu.Append( ID_RESIZECELL, "Resi&ze cell (7,1)", "", wxITEM_CHECK )
 		
 		Local scrollbarMenu:wxMenu = New wxMenu.Create()
-		viewMenu.AppendMenu( ID_SCROLLBARS_MENU, "Show or hide scrollbars", scrollbarMenu, "Show or hide the scrollbars")
+		viewMenu.AppendSubMenu( scrollbarMenu, "Show or hide scrollbars", "Show or hide the scrollbars")
 		
 		scrollbarMenu.AppendRadioItem( ID_SCROLLBARS_AS_NEEDED, "As needed")
 		scrollbarMenu.AppendRadioItem( ID_SCROLLBARS_HORIZ_NEVER, "Never show horizontal")
@@ -158,14 +158,14 @@ Type GridFrame Extends wxFrame
 		
 		Local rowLabelMenu:wxMenu = New wxMenu.Create()
 		
-		viewMenu.AppendMenu( ID_ROWLABELALIGN, "R&ow label alignment", rowLabelMenu, "Change alignment of row labels")
+		viewMenu.AppendSubMenu( rowLabelMenu, "R&ow label alignment", "Change alignment of row labels")
 		
 		rowLabelMenu.Append( ID_ROWLABELHORIZALIGN, "&Horizontal")
 		rowLabelMenu.Append( ID_ROWLABELVERTALIGN, "&Vertical")
 		
 		Local colLabelMenu:wxMenu = New wxMenu.Create()
 		
-		viewMenu.AppendMenu( ID_COLLABELALIGN, "Col l&abel alignment", colLabelMenu, "Change alignment of col labels")
+		viewMenu.AppendSubMenu( colLabelMenu, "Col l&abel alignment", "Change alignment of col labels")
 		
 		colLabelMenu.Append( ID_COLLABELHORIZALIGN, "&Horizontal")
 		colLabelMenu.Append( ID_COLLABELVERTALIGN, "&Vertical")
@@ -201,7 +201,7 @@ Type GridFrame Extends wxFrame
 		selectMenu.Append( ID_DESELECT_COL, "Deselect col 2")
 		selectMenu.Append( ID_DESELECT_CELL, "Deselect cell (3, 1)")
 		Local selectionMenu:wxMenu = New wxMenu.Create()
-		selectMenu.AppendMenu( ID_CHANGESEL, "Change &selection mode", selectionMenu, "Change selection mode")
+		selectMenu.AppendSubMenu( selectionMenu, "Change &selection mode", "Change selection mode")
 		
 		selectionMenu.AppendRadioItem( ID_SELNONE,   "Select &None")
 		selectionMenu.AppendRadioItem( ID_SELCELLS,  "Select &Cells")

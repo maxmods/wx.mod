@@ -745,10 +745,10 @@ Next
 
 		If frame.m_propGrid.IsPropertyEnabled( prop ) Then
 			frame.m_propGrid.DisableProperty ( prop )
-			frame.m_itemEnable.SetText( "Enable" )
+			frame.m_itemEnable.SetItemLabel( "Enable" )
 		Else
 			frame. m_propGrid.EnableProperty( prop )
-			frame.m_itemEnable.SetText( "Disable" )
+			frame.m_itemEnable.SetItemLabel( "Disable" )
 		End If
 	End Function
 	
@@ -849,9 +849,9 @@ Next
 		frame.m_itemEnable.Enable(True)
 		If property Then
 			If property.IsEnabled() Then
-				frame.m_itemEnable.SetText( "Disable" )
+				frame.m_itemEnable.SetItemLabel( "Disable" )
 			Else
-				frame.m_itemEnable.SetText( "Enable" )
+				frame.m_itemEnable.SetItemLabel( "Enable" )
 			End If
 		End If
 

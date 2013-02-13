@@ -199,7 +199,7 @@ Type AppFrame Extends wxFrame
 		menuEdit.Append(myID_INSERTAT, _("&Insert after current"))
 		menuEdit.Append(myID_DELETE, _("&Delete this item"))
 		menuEdit.AppendSeparator()
-		menuEdit.AppendMenu(myID_FIND, _("&Find item"), menuFind)
+		menuEdit.AppendSubMenu(menuFind, _("&Find item"))
 		menuEdit.Append(myID_GOTO, _("&Goto item ..."))
 		
 		' Attribute submenu
@@ -236,8 +236,8 @@ Type AppFrame Extends wxFrame
 		menuView.AppendCheckItem(myID_SELECTMULTIPLE, _("Toggle select &multiple"))
 		menuView.AppendCheckItem(myID_SELECTEXTENDED, _("Toggle select &extended"))
 		menuView.AppendSeparator()
-		menuView.AppendMenu(myID_SETATTRIBUTE, _("Set &attribute"), menuAttr)
-		menuView.AppendMenu(myID_SETALIGNMENT, _("Align &column"), menuAlign)
+		menuView.AppendSubMenu(menuAttr, _("Set &attribute"))
+		menuView.AppendSubMenu(menuAlign, _("Align &column"))
 		
 		' extra menu
 		Local menuExtra:wxMenu = New wxMenu.Create()

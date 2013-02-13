@@ -421,7 +421,7 @@ Type MyFrame Extends wxFrame
 		Local s_text:String
 		
 		If item.IsOk()
-			s_text = GetItemText(item)
+			s_text = m_TreeCtrl.GetItemText(item)
 		Else
 			s_text = "invalid item"
 		EndIf
@@ -847,7 +847,7 @@ Type MyTreeCtrl Extends wxTreeCtrl
 			image = -1
 		EndIf
 		
-		Local root_id:wxTreeItemId = AddRoot("Root",image,image, New MyTeeItemData.Create("Root item"))  
+		Local root_id:wxTreeItemId = AddRoot("Root",image,image, New MyTreeItemData.Create("Root item"))  
 	
 		If image <> -1 Then SetItemImage(root_id, TreeCtrlIcon_FolderOpened, wxTreeItemIcon_Expanded)
 	

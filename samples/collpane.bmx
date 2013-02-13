@@ -18,10 +18,10 @@ Import wx.wxTextEntryDialog
 Import wx.wxButton
 Import wx.wxAboutBox
 
-Const PANE_COLLAPSE:Int = 0
-Const PANE_EXPAND:Int = 1
-Const PANE_SETLABEL:Int = 2
-Const PANE_SHOWDLG:Int = 3
+Const PANE_COLLAPSE:Int = 1
+Const PANE_EXPAND:Int = 2
+Const PANE_SETLABEL:Int = 3
+Const PANE_SHOWDLG:Int = 4
 Const PANE_ABOUT:Int = wxID_ABOUT
 Const PANE_QUIT:Int = wxID_EXIT
 
@@ -120,7 +120,7 @@ Type MyFrame Extends wxFrame
 		info.SetName("wxCollapsiblePane sample")
 		info.SetDescription("This sample program demonstrates usage of wxCollapsiblePane")
 		info.SetCopyright("(C) 2006 Francesco Montorsi <frm@users.sourceforge.net>~n" + ..
-			"BlitzMax port (c) 2007-2009 Bruce A Henderson")
+			"BlitzMax port (c) 2007-2013 Bruce A Henderson")
 		
 		wxAboutBox(info)
 	End Function
