@@ -67,7 +67,7 @@ Type MyApp Extends wxApp
 	    If lng <> -1 Then
 	        ' don't use wxLOCALE_LOAD_DEFAULT flag so that Init() doesn't return
 	        ' false just because it failed to load wxstd catalog
-	        If Not locale.Init(langIds[lng], wxLOCALE_CONV_ENCODING) Then
+	        If Not locale.Init(langIds[lng], wxLOCALE_DONT_LOAD_DEFAULT) Then
 	            wxLogError("This language is not supported by the system.")
 	            Return False
 	        End If
