@@ -2,9 +2,9 @@
 // Name:        sheetspt.h
 // Purpose:     wxSheetSplitter and related classes
 // Author:      John Labenski
-// Modified by: 
+// Modified by:
 // Created:     4/1/2004
-// RCS-ID:      $Id: sheetspt.h,v 1.7 2005/12/28 16:54:19 jrl1 Exp $
+// RCS-ID:      $Id: sheetspt.h,v 1.8 2007/12/11 04:37:00 jrl1 Exp $
 // Copyright:   (c) John Labenski
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,18 +17,18 @@
 #endif
 
 #include "wx/sheet/sheet.h"
-#include "wx/splitter.h"
+#include <wx/splitter.h>
 
 // ----------------------------------------------------------------------------
 // wxSheetSplitter - a 4 way splitter class for the wxSheet
 //
 // To use the wxSheetSplitter, create an instance and a single child wxSheet.
-// Attach the wxSheet to the splitter using Initialize() and the splitter 
+// Attach the wxSheet to the splitter using Initialize() and the splitter
 // will create and ref additional sheets when the user splits the sheet. When
 // the user unsplits the added sheets are destroyed. The TopLeft sheet
 // is always the sheet that you Initialized it with, even if that is the sheet
-// that is hidden by the user. The scrollbars are set to be shown as necessary 
-// and splitting is not allowed when the scrollbars are not shown. 
+// that is hidden by the user. The scrollbars are set to be shown as necessary
+// and splitting is not allowed when the scrollbars are not shown.
 //
 // Horizontally Split ===============  Vertically Split ================
 //                    |  Top Left   |                   | Top  |  Top  |
@@ -36,16 +36,16 @@
 //                    | Bottom Left |                   |      |       |
 //                    ===============                   ================
 //
-// There are a few ways you can provide the new wxSheets that are required 
-// when splitting. You'll need to do this if your sheet is derived and 
+// There are a few ways you can provide the new wxSheets that are required
+// when splitting. You'll need to do this if your sheet is derived and
 // the logic has been changed otherwise the splitter just uses a "new wxSheet."
 // 1) Subclass wxSheetSplitter and override the virtual function
-//    wxSheet* wxSheetSplitter::CreateSheet(wxWindowID id) to return your own. 
+//    wxSheet* wxSheetSplitter::CreateSheet(wxWindowID id) to return your own.
 // 2) Intercept the wxEVT_SHEET_SPLIT_CREATE_SHEET sent from the wxSheetSplitter
-//    and replace the event.Get/SetEventObject with a *new* wxSheet with the 
-//    wxSheetSplitter (the original event.GetEventObject) as the parent. 
+//    and replace the event.Get/SetEventObject with a *new* wxSheet with the
+//    wxSheetSplitter (the original event.GetEventObject) as the parent.
 //    Note that event.GetExtraLong is the preferred id, probably wxID_ANY.
-// 3) In your subclassed wxSheet override the virtual wxSheet* wxSheet::Clone
+// 3) In your subclassed wxSheet override the virtual wxSheet* wxSheet::Clone()
 //    function to return a new instance of your wxSheet.
 // ----------------------------------------------------------------------------
 enum wxSheetSplitMode_Type
@@ -68,47 +68,47 @@ enum wxSheetSplitMode_Type
 
 class WXDLLIMPEXP_SHEET wxSheetSplitter : public wxWindow
 {
-public:    
+public:
     wxSheetSplitter() : wxWindow() { Init(); }
     wxSheetSplitter(wxWindow *parent, wxWindowID id,
                     const wxPoint& pos = wxDefaultPosition,
                     const wxSize& size = wxDefaultSize,
-                    long style = wxSP_3D|wxSP_3DBORDER, 
+                    long style = wxSP_3D|wxSP_3DBORDER,
                     const wxString& name = wxT("wxSheetSplitter"))
     {
         Init();
         Create(parent, id, pos, size, style, name);
     }
-    
+
     bool Create(wxWindow *parent, wxWindowID id,
                 const wxPoint& pos = wxDefaultPosition,
                 const wxSize& size = wxDefaultSize,
                 long style = wxSP_3D|wxSP_3DBORDER,
                 const wxString& name = wxT("wxSheetSplitter"));
-    
+
     virtual ~wxSheetSplitter();
     virtual bool Destroy();
 
     // Initialize the splitter with one window, the splitter must be sheet's parent
     void Initialize(wxSheet* sheet);
-    
+
     // Will the splitting buttons be shown for vert/horiz splitting
     //   you can still call SplitVertically/Horizontally however
     bool GetEnableSplitVertically()   const { return m_enable_split_vert; }
     bool GetEnableSplitHorizontally() const { return m_enable_split_horiz; }
     void EnableSplitVertically(bool can_split)   { m_enable_split_vert  = can_split; }
     void EnableSplitHorizontally(bool can_split) { m_enable_split_horiz = can_split; }
-    
+
     // Is this currently split vertically and/or horizontally
     bool IsSplitVertically()   const { return m_tlSheet && m_trSheet; }
     bool IsSplitHorizontally() const { return m_tlSheet && m_blSheet; }
 
     // Returns if the size of this window is smaller than the size of the sheet,
-    //   meaning that allowing splitting would appropriate. Otherwise the 
+    //   meaning that allowing splitting would appropriate. Otherwise the
     //   full sheet can be shown and there is no need to split.
     bool CanSplitVertically() const;
     bool CanSplitHorizontally() const;
-    
+
     // Split the windows either vertically or horizontally
     virtual void SplitVertically(int x_pos, bool sendEvt = false);
     virtual void SplitHorizontally(int y_pos, bool sendEvt = false);
@@ -137,17 +137,17 @@ public:
     wxSheet* GetBottomLeftSheet()  const { return m_blSheet; }
     // The bottom right sheet is valid when split vertically and horizontally
     wxSheet* GetBottomRightSheet() const { return m_brSheet; }
-    
-    // Get the width of the sash 
+
+    // Get the width of the sash
     int GetSashSize() const;
     // Get the size of the border around the window
     int GetBorderSize() const;
 
-    // For the given sash position adjust it so that it's valid for the 
+    // For the given sash position adjust it so that it's valid for the
     //  window given the min size and if it can unsplit.
     int GetAdjustedVerticalSashPosition(int x_pos) const;
     int GetAdjustedHorizontalSashPosition(int y_pos) const;
-    
+
     // implementation
     void OnViewChanged(wxSheetEvent& event);
     void OnSplit(wxSheetSplitterEvent& event);
@@ -155,12 +155,12 @@ public:
     void OnPaint( wxPaintEvent& event );
     void DrawSash(wxDC &dc);
     void DrawSashTracker(int x, int y);
-    
+
     // returns wxSHEET_SPLIT_NONE/VERTICAL/HORIZONTAL
     int  SashHitTest(const wxPoint& pt) const;
     // Set the cursor to use wxSHEET_SPLIT_NONE/VERTICAL/HORIZONTAL
-    void SetMouseCursor(int sheet_split_mode); 
-    
+    void SetMouseCursor(int sheet_split_mode);
+
     // setup the configuration of the sheets (hide/show labels/scrollbars)
     void ConfigureWindows();
     // Position the windows in this window
@@ -168,13 +168,13 @@ public:
     // Send the event and returns true if it wasn't vetoed
     bool SendEvent( wxEventType type, int split_type );
     bool DoSendEvent( wxSheetSplitterEvent& event );
-    
+
 protected:
     // Override this to return a derived wxSheet of your own making
     //  if you don't want to use the wxEVT_SHEET_SPLIT_CREATE_SHEET event
     virtual wxSheet* CreateSheet(wxWindowID id = wxID_ANY);
-    // Overriding these functions are optional, they call CreateSheet to get a 
-    //  sheet to use and then properly initialize by hiding the labels and 
+    // Overriding these functions are optional, they call CreateSheet to get a
+    //  sheet to use and then properly initialize by hiding the labels and
     //  scrollbars as necessary.
     virtual wxSheet* CreateTopRightSheet(wxWindowID id = wxID_ANY);
     virtual wxSheet* CreateBottomLeftSheet(wxWindowID id = wxID_ANY);
@@ -191,7 +191,7 @@ protected:
     wxPoint m_splitPos;  // current position of the splitter
     int m_splitMode;     // currently active sash wxSHEET_SPLIT_NONE/VERTICAL/HORIZONTAL
     int m_splitCursor;   // currently active cursor wxSHEET_SPLIT_NONE/VERTICAL/HORIZONTAL
-    //int m_sash_width;  FIXME maybe be backwards compatible to 2.4? 
+    //int m_sash_width;  FIXME maybe be backwards compatible to 2.4?
     bool m_enable_split_vert;
     bool m_enable_split_horiz;
     wxSize m_minSize;
@@ -215,15 +215,15 @@ public:
     wxSheetSplitterEvent(int id = 0, wxEventType type = wxEVT_NULL)
         : wxNotifyEvent(type, id), m_sash_pos(0), m_split_mode(wxSHEET_SPLIT_NONE) {}
 
-    wxSheetSplitterEvent(const wxSheetSplitterEvent& event) : wxNotifyEvent(event), 
+    wxSheetSplitterEvent(const wxSheetSplitterEvent& event) : wxNotifyEvent(event),
               m_sash_pos(event.m_sash_pos), m_split_mode(event.m_split_mode) { }
-    
+
     // Get the current sash position, see also IsVerticalSplit for which sash.
     int GetSashPosition() const { return m_sash_pos; }
-    // Set the sash position, during a wxEVT_SHEET_SPLIT_CHANGING you may 
+    // Set the sash position, during a wxEVT_SHEET_SPLIT_CHANGING you may
     // replace the current value with a different one to force a new position.
     void SetSashPosition(int pos) { m_sash_pos = pos; }
-    
+
     // Get the splitter mode, wxSHEET_SPLIT_NONE/VERTICAL/HORIZONTAL
     int GetSplitMode() const { return m_split_mode; }
     // Does this event pertain to a vertical or horizontal splitting
@@ -233,10 +233,10 @@ public:
     wxSheet* GetSheet() const { return wxDynamicCast(GetEventObject(), wxSheet); }
     // The sheet splitter is valid for the rest of the splitter events
     wxSheetSplitter* GetSheetSplitter() const { return wxDynamicCast(GetEventObject(), wxSheetSplitter); }
-    
+
     // implementation
     virtual wxEvent *Clone() const { return new wxSheetSplitterEvent(*this); }
-    
+
     int m_sash_pos;
     int m_split_mode;
 };
@@ -244,7 +244,7 @@ public:
 BEGIN_DECLARE_EVENT_TYPES()
     // The splitter buttons in the sheet have been clicked to begin splitting
     // this event comes from the wxSheet itself when the user begins to drag the
-    // mouse on the splitter boxes. 
+    // mouse on the splitter boxes.
     DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_SPLIT_BEGIN, 1800)
     // The splitter sash position is changing
     DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_SPLIT_CHANGING, 1801)
@@ -255,7 +255,7 @@ BEGIN_DECLARE_EVENT_TYPES()
     // The splitter has been unsplit
     DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_SPLIT_UNSPLIT, 1804)
     // The splitter is splitting and is about to create a new wxSheet.
-    // You can provide your own wxSheet derived class by calling 
+    // You can provide your own wxSheet derived class by calling
     // event.SetEventObject(new MySheet(event.GetSheetSplitter(), ...))
     // where the parent of the sheet you provide is the wxSheetSplitter
     // which is the original event.GetEventObject. The sender wxSheetSplitter
@@ -278,6 +278,6 @@ typedef void (wxEvtHandler::*wxSheetSplitterEventFunction)(wxSheetSplitterEvent&
 #define EVT_SHEET_SPLIT_CHANGED(id, fn)       wx__DECLARE_SHEETSPLITEVT( wxEVT_SHEET_SPLIT_CHANGED,       id, fn )
 #define EVT_SHEET_SPLIT_DOUBLECLICKED(id, fn) wx__DECLARE_SHEETSPLITEVT( wxEVT_SHEET_SPLIT_DOUBLECLICKED, id, fn )
 #define EVT_SHEET_SPLIT_UNSPLIT(id, fn)       wx__DECLARE_SHEETSPLITEVT( wxEVT_SHEET_SPLIT_UNSPLIT,       id, fn )
-#define EVT_SHEET_SPLIT_CREATE_SHEET(id, fn)  wx__DECLARE_SHEETSPLITEVT( wxEVT_SHEET_SPLIT_CREATE_SHEET,  id, fn ) 
+#define EVT_SHEET_SPLIT_CREATE_SHEET(id, fn)  wx__DECLARE_SHEETSPLITEVT( wxEVT_SHEET_SPLIT_CREATE_SHEET,  id, fn )
 
 #endif  // __WX_SHEETSPT_H__

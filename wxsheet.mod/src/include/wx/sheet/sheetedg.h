@@ -4,7 +4,7 @@
 // Author:      John Labenski
 // Modified by:
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetedg.h,v 1.3 2005/11/09 06:14:07 jrl1 Exp $
+// RCS-ID:      $Id: sheetedg.h,v 1.4 2007/12/11 04:37:00 jrl1 Exp $
 // Copyright:   (c) John Labenski
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ public:
     //   if resizeExisting then make all equal widths
     void SetDefaultSize(int default_size, bool resizeExisting = false);
 
-    // Get the minimum size for this index, = GetMinAllowedSize unless set higher
+    // Get the minimum size for this index, = GetMinAllowedSize() unless set higher
     int GetMinSize(size_t index) const;
     // Set the minimum size for this index, must be >= min allowed size
     void SetMinSize(size_t index, int size);

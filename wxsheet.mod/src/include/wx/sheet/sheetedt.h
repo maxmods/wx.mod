@@ -4,7 +4,7 @@
 // Author:      John Labenski, Paul Gammans, Roger Gammans
 // Modified by: John Labenski
 // Created:     11/04/2001
-// RCS-ID:      $Id: sheetedt.h,v 1.5 2007/08/22 21:49:29 jrl1 Exp $
+// RCS-ID:      $Id: sheetedt.h,v 1.6 2007/12/12 05:22:38 jrl1 Exp $
 // Copyright:   (c) John Labenski, The Computer Surgery (paul@compsurg.co.uk)
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,18 +17,18 @@
 #endif
 
 #include "wx/sheet/sheetdef.h"
-#include "wx/datetime.h"
-#include "wx/bitmap.h"
-#include "wx/textctrl.h"
-#include "wx/spinctrl.h"
+#include <wx/datetime.h>
+#include <wx/bitmap.h>
+#include <wx/textctrl.h>
+#include <wx/spinctrl.h>
 
-class WXDLLIMPEXP_SHEET wxSheetCellEditorRefData;
+class WXDLLIMPEXP_FWD_SHEET wxSheetCellEditorRefData;
 
-class WXDLLEXPORT wxWindow;
-class WXDLLEXPORT wxCheckBox;
-class WXDLLEXPORT wxComboBox;
-class WXDLLEXPORT wxTextCtrl;
-class WXDLLEXPORT wxSpinCtrl;
+class WXDLLIMPEXP_FWD_CORE wxWindow;
+class WXDLLIMPEXP_FWD_CORE wxCheckBox;
+class WXDLLIMPEXP_FWD_CORE wxComboBox;
+class WXDLLIMPEXP_FWD_CORE wxTextCtrl;
+class WXDLLIMPEXP_FWD_CORE wxSpinCtrl;
 
 // ----------------------------------------------------------------------------
 // wxSheetCellEditorEvtHandler - an event handler for the editors that
@@ -160,6 +160,7 @@ public:
     wxString GetInitValue() const;
 
     bool Copy(const wxSheetCellEditor& other);
+    wxSheetCellEditor Copy() const { wxSheetCellEditor obj; obj.Copy(*this); return obj; }
 
     // operators
     bool operator == (const wxSheetCellEditor& obj) const { return m_refData == obj.m_refData; }
@@ -170,8 +171,14 @@ public:
         return *this;
     }
 
-    wxSheetCellEditor Clone() const     { wxSheetCellEditor obj; obj.Copy(*this); return obj; }
-    wxSheetCellEditor* NewClone() const { return new wxSheetCellEditor(Clone()); }
+    // wxSheet >= 1.1 : Function Clone() renamed to Copy() and NewClone() is now Clone()
+    wxSheetCellEditor& operator = (const wxSheetCellEditor* obj)
+    {
+        wxFAIL_MSG(wxT("wxSheetCellEditor a = &otherEditor? Did you mean to use Copy() instead of Clone()"));
+        return *(wxSheetCellEditor*)obj;
+    }
+
+    wxSheetCellEditor* Clone() const { return new wxSheetCellEditor(Copy()); }
     DECLARE_DYNAMIC_CLASS(wxSheetCellEditor)
 };
 

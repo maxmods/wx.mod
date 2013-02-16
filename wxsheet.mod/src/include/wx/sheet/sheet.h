@@ -4,7 +4,7 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by:
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheet.h,v 1.23 2007/07/07 15:52:47 jrl1 Exp $
+// RCS-ID:      $Id: sheet.h,v 1.26 2008/01/11 06:52:49 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -23,13 +23,13 @@
 #include "wx/sheet/sheetren.h"
 #include "wx/sheet/sheettbl.h"
 #include "wx/sheet/sheetedg.h"
-#include "wx/pen.h"
-#include "wx/window.h"
-#include "wx/scrolbar.h"
-#include "wx/clntdata.h"
+#include <wx/pen.h>
+#include <wx/window.h>
+#include <wx/scrolbar.h>
+#include <wx/clntdata.h>
 
-class WXDLLEXPORT wxTimer;
-class WXDLLEXPORT wxTimerEvent;
+class WXDLLIMPEXP_FWD_BASE wxTimer;
+class WXDLLIMPEXP_FWD_BASE wxTimerEvent;
 
 // ----------------------------------------------------------------------------
 // wxSheetChildWindow - Child window of the wxSheet, forwards events to sheet
@@ -73,7 +73,7 @@ private:
 // sheet and the table may not have been assigned yet.
 //
 // This MUST always exist as the wxObject::m_refData of the wxSheet. It is
-// automatically created in wxSheet::Init, if you wish to use your own
+// automatically created in wxSheet::Init(), if you wish to use your own
 // subclassed refdata then in your wxSheet constructor (or Create) function call
 // UnRef to delete the original and m_refData=new MySheetRefData to set the new.
 //-----------------------------------------------------------------------------
@@ -127,7 +127,7 @@ public:
 
     wxSheetCoords m_cursorCoords;
 
-    wxSheetBlock      m_selectingBlock;   // during selection !Empty
+    wxSheetBlock      m_selectingBlock;   // during selection !IsEmpty()
     wxSheetCoords     m_selectingAnchor;  // corner of active selection, other is usually cursor
     wxSheetSelection* m_selection;
     int               m_selectionMode;    // wxSheetSelectionMode_Type
@@ -186,7 +186,7 @@ public:
                            long style = wxWANTS_CHARS,
                            const wxString& name = wxT("wxSheet"));
 
-    // override wxWindow::Enable to ensure proper refresh
+    // override wxWindow::Enable() to ensure proper refresh
     virtual bool Enable(bool enable = true);
 
     // ------------------------------------------------------------------------
@@ -244,11 +244,12 @@ public:
         { return (coords.m_row == -1) && (coords.m_col == -1); }
 
     // Get an enum value of what window the coords are meant for
-    static wxSheetCell_Type GetCellCoordsType(const wxSheetCoords& coords);
+    static wxSheetCell_Type GetCellCoordsType(const wxSheetCoords& coords)
+        { return coords.GetCellCoordsType(); }
 
     // "clear" the contents of the grid (depends on table's Clear() function)
     //   the string implementations clear the cell values, not the # rows/cols
-    void ClearValues(int update = wxSHEET_UpdateValues);
+    virtual void ClearValues(int update = wxSHEET_UpdateValues);
 
     // Insert/Add/DeleteRows/Cols to the grid cells.
     //   'update' contains or'ed values of enum wxSheetUpdate_Type.
@@ -444,7 +445,7 @@ public:
     // that coords + GetCellSpan() = the owner cell
     //
     // *** To completely override spanning handling you may provide alternate
-    // *** HasSpannedCells, GetCellBlock, SetCellSpan
+    // *** HasSpannedCells(), GetCellBlock(), SetCellSpan()
 
     // Are there any spanned cells at all?
     virtual bool HasSpannedCells() const;
@@ -489,10 +490,10 @@ public:
     //   wxRowLabelSheetCoords, wxColLabelSheetCoords, wxCornerLabelSheetCoords
 
     // *** To completely override attr handling you may provide alternate
-    // *** GetOrCreateAttr, GetAttr, and SetAttr functions.
+    // *** GetOrCreateAttr(), GetAttr(), and SetAttr() functions.
 
     // Make sure that the last default attr of initAttr is defAttr
-    //   This is called internally when you call SetAttr and should not be
+    //   This is called internally when you call SetAttr() and should not be
     //   needed unless you want to specially chain together attributes.
     bool InitAttr( wxSheetCellAttr& initAttr, const wxSheetCellAttr& defAttr ) const;
 
@@ -562,10 +563,10 @@ public:
     // These are convienience functions, if for example you want to subclass the
     //  table and modify and return default attr "on the fly" for each cell.
     //  Please use the standard methods if at all possible.
-    const wxSheetCellAttr& DoGetDefaultGridAttr() const        { return GetSheetRefData()->m_defaultGridCellAttr; }
-    const wxSheetCellAttr& DoGetDefaultRowLabelAttr() const    { return GetSheetRefData()->m_defaultRowLabelAttr; }
-    const wxSheetCellAttr& DoGetDefaultColLabelAttr() const    { return GetSheetRefData()->m_defaultColLabelAttr; }
-    const wxSheetCellAttr& DoGetDefaultCornerLabelAttr() const { return GetSheetRefData()->m_defaultCornerLabelAttr; }
+    const wxSheetCellAttr& GetTheDefaultGridAttr() const        { return GetSheetRefData()->m_defaultGridCellAttr; }
+    const wxSheetCellAttr& GetTheDefaultRowLabelAttr() const    { return GetSheetRefData()->m_defaultRowLabelAttr; }
+    const wxSheetCellAttr& GetTheDefaultColLabelAttr() const    { return GetSheetRefData()->m_defaultColLabelAttr; }
+    const wxSheetCellAttr& GetTheDefaultCornerLabelAttr() const { return GetSheetRefData()->m_defaultCornerLabelAttr; }
 
     // Get/Set particular attributes for any type of cell/row/col anywhere
     //  The default is to get the attr val for type=wxSHEET_AttrAny meaning that
@@ -613,7 +614,7 @@ public:
     // Get/Set cell, row, col, and corner label values
 
     // *** To completely override value handling you may provide alternate
-	// *** GetCellValue and SetCellValue
+	// *** GetCellValue() and SetCellValue()
 
     // Get/Set cell value, uses coords = -1 notation for row/col/corner labels
     virtual wxString GetCellValue( const wxSheetCoords& coords );
@@ -691,14 +692,14 @@ public:
     //   within the actual number of cells.
     //   If sendEvt a wxEVT_SHEET_RANGE_SELECTED is sent, the SELECTING event
     //     should have been sent by the caller and if vetoed not call these.
-    //   All functions (De)Select/Row/Col/Cell, SelectAll go to (De)SelectBlock.
-    //   ClearSelection deselects everything and sends a single event with
+    //   All functions (De)Select/Row/Col/Cell(), SelectAll() go to (De)SelectBlock().
+    //   ClearSelection() deselects everything and sends a single event with
     //   wxSheetBlock(0,0,rows,cols) to imply everything is cleared.
 
     // *** To completely override selection handling you may provide alternate
-    // *** HasSelection, IsBlockSelected, SelectBlock, DeSelectBlock, and ClearSelection.
+    // *** HasSelection(), IsBlockSelected(), SelectBlock(), DeSelectBlock(), and ClearSelection().
 
-    // Is there any selection, if selecting, includes the active selection block
+    // Is there any selection, if "selecting" then include the active selection block
     //   which is not yet part of underlying selection system
     virtual bool HasSelection(bool selecting = true) const;
     // Are these coords within either the selecting block or selection
@@ -714,7 +715,7 @@ public:
     bool HasSelectionMode(int mode) { return (GetSelectionMode() == mode) || ((GetSelectionMode() & mode) != 0); }
 
     // return the input block so it's appropriate for the selection mode
-    //  if sel_mode == -1 then use GetSelectionMode.
+    //  if sel_mode == -1 then use GetSelectionMode().
     virtual wxSheetBlock FixSelectionBlock(const wxSheetBlock& block,
                                            int sel_mode = -1) const;
 
@@ -814,9 +815,9 @@ public:
     // ------------------------------------------------------------------------
     // Edit control functions (mostly used internally)
 
-    // enable and show the editor control at the coords, returns sucess, ie. !vetoed
+    // enable and show the editor control at the coords, returns success, ie. !vetoed
     bool EnableCellEditControl( const wxSheetCoords& coords );
-    // hide and disable the editor and save the value if save_value, returns sucess, ie. !vetoed
+    // hide and disable the editor and save the value if save_value, returns success, ie. !vetoed
     bool DisableCellEditControl( bool save_value );
     // is this cell valid and editable
     bool CanEnableCellControl(const wxSheetCoords& coords) const;
@@ -825,20 +826,20 @@ public:
     // is the cell editor valid and shown
     bool IsCellEditControlShown() const;
 
-    // Create and show the appropriate editor at the EnableCellEditControl coords
-    //  this is called internally by EnableCellEditControl, but if you call
-    //  HideCellEditControl and if IsCellEditControlCreated then you can reshow
-    //  it with this, returns sucess
+    // Create and show the appropriate editor at the EnableCellEditControl() coords
+    //  this is called internally by EnableCellEditControl(), but if you call
+    //  HideCellEditControl() and if IsCellEditControlCreated() then you can reshow
+    //  it with this, returns success
     bool ShowCellEditControl();
     // Hide the editor, doesn't destroy it (use DisableCellEditControl)
-    //  check if IsCellEditControlShown first, returns sucess
+    //  check if IsCellEditControlShown() first, returns success
     bool HideCellEditControl();
     // Save the value of the editor, check IsCellEditControlEnabled() first
     void SaveEditControlValue();
 
     // Get the current editor, !Ok() if !IsCellEditControlCreated()
     const wxSheetCellEditor& GetEditControl() const { return GetSheetRefData()->m_cellEditor; }
-    // These are the coords of the editor, check IsCellEditControlCreated before using
+    // These are the coords of the editor, check IsCellEditControlCreated() before using
     const wxSheetCoords& GetEditControlCoords() const { return GetSheetRefData()->m_cellEditorCoords; }
 
     // ------------------------------------------------------------------------
@@ -851,7 +852,7 @@ public:
     void EndBatch(bool refresh=true);
     int  GetBatchCount() const { return GetSheetRefData()->m_batchCount; }
 
-    // Use ForceRefresh, rather than wxWindow::Refresh(), to force an
+    // Use ForceRefresh(), rather than wxWindow::Refresh(), to force an
     // immediate repainting of the grid. No effect if GetBatchCount() > 0
     // This function is necessary because wxSheet has a minimal OnPaint()
     // handler to reduce screen flicker.
@@ -860,7 +861,7 @@ public:
     // *** Use these redrawing functions to ensure refed sheets are redrawn ***
 
     // Refresh a single cell, can also draw cells for labels using -1 notation
-    // does nothing if cell !visible, or GetBatchCount != 0
+    // does nothing if cell !visible, or GetBatchCount() != 0
     // if single_cell then literally draw only the single cell, else draw the
     // cell to left in case the overflow marker needs to be drawn and the
     // cells to the right in case this cell overflows.
@@ -869,13 +870,13 @@ public:
     //   uses -1 notation to refresh labels
     void RefreshBlock(const wxSheetBlock& block);
     // Refresh a single row, row = -1 refreshes all col labels,
-    // does nothing if row !visible, or GetBatchCount != 0
+    // does nothing if row !visible, or GetBatchCount() != 0
     void RefreshRow(int row);
     // Refresh a single col, col = -1 refreshes all row labels,
-    // does nothing if col !visible, or GetBatchCount != 0
+    // does nothing if col !visible, or GetBatchCount() != 0
     void RefreshCol(int col);
     // Refresh is called using a rect surrounding the block
-    // does nothing if block IsEmpty, !visible, or GetBatchCount != 0
+    // does nothing if block IsEmpty, !visible, or GetBatchCount() != 0
     void RefreshGridCellBlock( const wxSheetBlock& block );
     // After SetAttr call this can appropriately refresh the wxSheet areas
     void RefreshAttrChange(const wxSheetCoords& coords, wxSheetAttr_Type type);
@@ -888,7 +889,7 @@ public:
     //  The rect is the logical rect, not the scrolled device rect
     virtual void Refresh(bool eraseb = true, const wxRect* rect = NULL);
 
-    // These directly call wxWindow::Refresh for the appropriate windows
+    // These directly call wxWindow::Refresh() for the appropriate windows
     //   The input rect doesn't have to be clipped to the visible window since
     //   this function takes care of that, but it should be in client coords.
     void RefreshGridWindow(bool eraseb = true, const wxRect* rect = NULL);
@@ -899,7 +900,7 @@ public:
     // Don't use these if you plan to use the splitter since they only act
     //   on this sheet.
 
-    // These functions are called by the OnPaint handler of these windows
+    // These functions are called by the OnPaint() handler of these windows
     //   use these to add "extra touches" before or after redrawing.
     //   The dc should be prepared before calling these.
     virtual void PaintGridWindow( wxDC& dc, const wxRegion& reg );
@@ -968,22 +969,22 @@ public:
     // coordinates for mouse events etc.
     // clipToMinMax means that the return value will be within the grid cells
     // if !clipToMinMax and out of bounds it returns -1.
-    // Use ContainsGridXXX to verify validity, -1 doesn't mean label
+    // Use ContainsGridXXX() to verify validity, -1 doesn't mean label
     wxSheetCoords XYToGridCell( int x, int y, bool clipToMinMax = false ) const;
     int YToGridRow( int y, bool clipToMinMax = false ) const;
     int XToGridCol( int x, bool clipToMinMax = false ) const;
 
     // return the row/col number that the x/y coord is near the edge of, or
     // -1 if not near an edge. edge_size is +- pixels to cell edge
-    // Use ContainsGridXXX to verify validity, -1 doesn't mean label
+    // Use ContainsGridXXX() to verify validity, -1 doesn't mean label
     int YToEdgeOfGridRow( int y, int edge_size = WXSHEET_LABEL_EDGE_ZONE ) const;
     int XToEdgeOfGridCol( int x, int edge_size = WXSHEET_LABEL_EDGE_ZONE ) const;
 
     // Get a rect bounding the cell, handles spanning cells and the label
-    //  windows using the -1 notation, getDeviceRect calls CalcScrolledRect
+    //  windows using the -1 notation, getDeviceRect calls CalcScrolledRect()
     wxRect CellToRect( const wxSheetCoords& coords, bool getDeviceRect = false ) const;
     // Get a rect bounding the block, handles label windows using the -1 notation,
-    //  getDeviceRect calls CalcScrolledRect
+    //  getDeviceRect calls CalcScrolledRect()
     wxRect BlockToRect( const wxSheetBlock& block, bool getDeviceRect = false ) const;
 
     // Expand the block by unioning with intersecting spanned cells
@@ -1036,7 +1037,7 @@ public:
     //  size if the grid is smaller than the containing window.
     wxSize GetGridExtent() const;
 
-    // Same as wxScrolledWindow Calc(Un)ScrolledPosition
+    // Same as wxScrolledWindow::Calc(Un)ScrolledPosition()
     void CalcScrolledPosition(int x, int y, int *xx, int *yy) const
         { if (xx) *xx = x - m_gridOrigin.x; if (yy) *yy = y - m_gridOrigin.y; }
     void CalcUnscrolledPosition(int x, int y, int *xx, int *yy) const
@@ -1052,7 +1053,7 @@ public:
         { return wxRect(r.x+m_gridOrigin.x, r.y+m_gridOrigin.y, r.width, r.height); }
 
     // Adjust the scrollbars to match the size/origin of the grid window
-    //   call this after SetScrollBarMode
+    //   call this after SetScrollBarMode()
     virtual void AdjustScrollbars(bool calc_win_sizes = true);
 
     enum SB_Mode
@@ -1081,8 +1082,8 @@ public:
     bool NeedsVerticalScrollBar()   const { return GetGridVirtualSize().y > m_gridWin->GetSize().y; }
     bool NeedsHorizontalScrollBar() const { return GetGridVirtualSize().x > m_gridWin->GetSize().x; }
 
-    // SetDeviceOrigin for the wxDC as appropriate for these windows
-
+    // wxDC::SetDeviceOrigin() for the wxDC as appropriate for these windows
+    // given the current scrolled position of the wxSheet
     virtual void PrepareGridDC( wxDC& dc );
     virtual void PrepareRowLabelDC( wxDC& dc );
     virtual void PrepareColLabelDC( wxDC& dc );
@@ -1094,7 +1095,7 @@ public:
     //   The "splitter" is just two small rectangles at the top of the vertical
     //   scrollbar and right of the horizontal scrollbar. They're only shown
     //   when the scrollbars are shown and if splitting is enabled.
-    //   Call CalcWindowSizes after setting to update the display.
+    //   Call CalcWindowSizes() after setting to update the display.
 
     // Are the splitter buttons enabled to be shown as necessary
     bool GetEnableSplitVertically()   const { return m_enable_split_vert; }
@@ -1208,7 +1209,8 @@ public:
     bool HasMouseCursorMode(int mode) const { return GetMouseCursorMode(mode) != 0; }
 
     // Set the window that has capture, releases the previous one if necessary
-    // always use this, set with NULL to release mouse
+    // always use this instead of setting the capture window yourself,
+    // set with NULL to release mouse
     void SetCaptureWindow( wxWindow *win );
     wxWindow *GetCaptureWindow() const { return m_winCapture; }
 
@@ -1349,7 +1351,7 @@ public:
 
     // Setup the Ctrl/Shift/Alt/Meta keysDown and the mouse position from a
     //  wxKeyEvent or wxMouseEvent.
-    //  The GetEventObject of this must be of type wxSheet
+    //  The GetEventObject() of this must be of type wxSheet
     bool SetKeysDownMousePos(wxEvent *mouseOrKeyEvent);
 
     virtual wxEvent *Clone() const { return new wxSheetEvent(*this); }

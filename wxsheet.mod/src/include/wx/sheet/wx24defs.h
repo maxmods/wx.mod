@@ -13,10 +13,10 @@
 #define __WX_WX24DEFS_H__
 
 // Include any headers that we need to redefine macros for
-#include "wx/defs.h"
-#include "wx/object.h"
-#include "wx/event.h"
-#include "wx/dynarray.h"
+#include <wx/defs.h>
+#include <wx/object.h>
+#include <wx/event.h>
+#include <wx/dynarray.h>
 
 //-----------------------------------------------------------------------------
 // wxWidgets 2.4 compatibility with code from >= 2.5
@@ -71,13 +71,18 @@
 // wxWidgets 2.6 compatibility with code from >= 2.6
 
 //#ifndef wxEVT_SCROLL_CHANGED
-  //  #define wxEVT_SCROLL_CHANGED wxEVT_SCROLL_ENDSCROLL
+//    #define wxEVT_SCROLL_CHANGED wxEVT_SCROLL_ENDSCROLL
 //#endif
 
 #if wxCHECK_VERSION(2,7,0)
     #define wxRECT_CONTAINS(rect, pt) rect.Contains(pt)
 #else
     #define wxRECT_CONTAINS(rect, pt) rect.Inside(pt)
+#endif
+
+
+#if !wxCHECK_VERSION(2,9,0)
+    typedef int wxRasterOperationMode;
 #endif
 
 

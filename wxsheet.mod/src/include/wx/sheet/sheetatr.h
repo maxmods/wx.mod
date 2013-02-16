@@ -4,7 +4,7 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: John Labenski
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetatr.h,v 1.5 2007/04/02 16:44:20 jrl1 Exp $
+// RCS-ID:      $Id: sheetatr.h,v 1.7 2007/12/12 05:22:38 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,10 +17,10 @@
 #endif
 
 #include "wx/sheet/sheetdef.h"
-#include "wx/font.h"
-#include "wx/colour.h"
+#include <wx/font.h>
+#include <wx/colour.h>
 
-class WXDLLIMPEXP_SHEET wxSheetCellAttr;
+class WXDLLIMPEXP_FWD_SHEET wxSheetCellAttr;
 
 // ----------------------------------------------------------------------------
 // wxNullSheetCellAttr - an uncreated wxSheetCellAttr for use when there's no attribute
@@ -31,7 +31,7 @@ WXDLLIMPEXP_DATA_SHEET(extern const wxSheetCellAttr) wxNullSheetCellAttr;
 // ----------------------------------------------------------------------------
 // wxSheetCellAttr : contains all the attributes for a wxSheet cell
 //
-// Note: When created all the HasXXX return false, use Copy, Merge, or SetXXX
+// Note: When created all the HasXXX() return false, use Copy(), Merge(), or SetXXX()
 //
 // The default attr for the different wxSheet areas must be complete so that
 // when a new attr is assigned you need only set the values you want to be
@@ -45,7 +45,7 @@ public:
     // if create then create with ref data
     wxSheetCellAttr( bool create = false );
     // make a refed copy of the other attribute
-    wxSheetCellAttr( const wxSheetCellAttr& attr ) : wxObject() { Ref(attr); }
+    wxSheetCellAttr( const wxSheetCellAttr& attr ) { Ref(attr); }
 
     // Recreate the ref data, unrefing the old
     bool Create();
@@ -54,6 +54,9 @@ public:
 
     // Makes a full new unrefed copy of the other, this doesn't have to be created
     bool Copy(const wxSheetCellAttr& other);
+    // Return a unrefed full copy of this
+    wxSheetCellAttr Copy() const { wxSheetCellAttr obj; obj.Copy(*this); return obj; }
+
     // Copies the values from the other, but only if the other has them, this must be created
     bool UpdateWith(const wxSheetCellAttr& other);
     // Merges this with the other, copy values of other only this doesn't have them
@@ -93,7 +96,7 @@ public:
     bool HasDefaultAttr() const;
     // bool HasKind() const - always has kind, default is wxSHEET_AttrCell
 
-    // does this attr define all the HasXXX properties, except DefaultAttr
+    // does this attr define all the HasXXX() properties, except GetDefaultAttr()
     //   if this is true, it's a suitable default attr for an area
     bool IsComplete() const;
 
@@ -127,8 +130,14 @@ public:
         return *this;
     }
 
-    wxSheetCellAttr Clone() const     { wxSheetCellAttr obj; obj.Copy(*this); return obj; }
-    wxSheetCellAttr* NewClone() const { return new wxSheetCellAttr(Clone()); }
+    // wxSheet >= 1.1 : Function Clone() renamed to Copy() and NewClone() is now Clone()
+    wxSheetCellAttr& operator = (const wxSheetCellAttr* obj)
+    {
+        wxFAIL_MSG(wxT("wxSheetCellAttr a = &otherAttr? Did you mean to use Copy() instead of Clone()"));
+        return *(wxSheetCellAttr*)obj;
+    }
+
+    wxSheetCellAttr* Clone() const { return new wxSheetCellAttr(Copy()); }
 
     // implementation
     void SetType(int type, int mask);
@@ -211,7 +220,7 @@ public:
 
     // Get the attribute for the coords of type wxSheetAttr_Type
     // you must implement these cell coords for grid, row/col/corner labels
-    // see wxSheet::IsGridCell/IsRowLabelCell/IsColLabelCell/IsCornerLabelCell
+    // see wxSheetCoords::IsGridCell/IsRowLabelCell/IsColLabelCell/IsCornerLabelCell
     // and all types except wxSHEET_AttrDefault, which sheet should have handled
     // If type is wxSHEET_AttrCell/Row/Col return wxNullSheetCellAttr if one is
     // not set. Type wxSHEET_AttrAny is used to merge row/col/cell attr
@@ -220,7 +229,7 @@ public:
     virtual wxSheetCellAttr GetAttr( const wxSheetCoords& coords,
                                      wxSheetAttr_Type type );
 
-    // Set the attribute for the coords, see GetAttr for coords and type
+    // Set the attribute for the coords, see GetAttr() for coords and type
     //  if the !attr.Ok() the attr is removed w/o error even if it didn't exist
     // use wxNullSheetCellAttr to remove attr for coords and type
     virtual void SetAttr( const wxSheetCoords& coords,

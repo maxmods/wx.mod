@@ -13,8 +13,10 @@
     #pragma implementation "sheetspt.h"
 #endif
 
+#include "precomp.h"
+
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
     #pragma hdrstop
@@ -23,12 +25,12 @@
 #include "wx/sheet/sheetspt.h"
 
 #ifndef WX_PRECOMP
-    #include "wx/dcclient.h"
-    #include "wx/settings.h"
-    #include "wx/dcscreen.h"
+    #include <wx/dcclient.h>
+    #include <wx/settings.h>
+    #include <wx/dcscreen.h>
 #endif
 
-#include "wx/renderer.h"
+#include <wx/renderer.h>
 
 #define PRINT_RECT(s, b)  wxPrintf(wxT("%s %d %d %d %d - w%d h%d\n"), s, b.GetTop(), b.GetLeft(), b.GetBottom(), b.GetRight(), b.GetWidth(), b.GetHeight());
 

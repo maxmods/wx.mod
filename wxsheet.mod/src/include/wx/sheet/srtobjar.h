@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        srtobjar.h
-// Purpose:     "wxSortedObjectArray" macros 
+// Purpose:     "wxSortedObjectArray" macros
 // Author:      John Labenski
-// Modified by: 
+// Modified by:
 // Created:     1/08/2004
-// RCS-ID:      
+// RCS-ID:
 // Copyright:   (c) John Labenski
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,9 +14,9 @@
 
 // Note: there is no cpp file as all the code is contained in these macros.
 
-#include "wx/dynarray.h"
+#include <wx/dynarray.h>
 
-// NOTE! This 2x faster than the pairarr for a class with int, int members, but 
+// NOTE! This 2x faster than the pairarr for a class with int, int members, but
 //       over 2X slower for a class that has a different one of these as an array
 
 // ============================================================================
@@ -24,22 +24,22 @@
 // search to insert/retrieve values. While this doesn't have the performance
 // of a good hash table O(n), it is smaller and with a lookup speed of O(log(n))
 // is suitable for some applications. You can use virtually any class that can
-// be put into wxArrays so long as they have a default and copy constructor, 
+// be put into wxArrays so long as they have a default and copy constructor,
 // and = operator. You must define your own compare function.
 // ----------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
-// DECLARE_SORTED_OBJARRAY is a sorted WX_DECLARE_OBJARRAY but for 
-//   WX_DEFINE_SORTED_ARRAY that allows you to pass them as "const T&" rather 
-//   than "T*" as WX_ARRAY does. It automatically creates new ones and deletes 
+// DECLARE_SORTED_OBJARRAY is a sorted WX_DECLARE_OBJARRAY but for
+//   WX_DEFINE_SORTED_ARRAY that allows you to pass them as "const T&" rather
+//   than "T*" as WX_ARRAY does. It automatically creates new ones and deletes
 //   them as necessary. It also ensures that only one item per "index" exists.
 //
 // The object class to be sorted:
-//   You must create a class of objects that need to be sorted (called T). 
+//   You must create a class of objects that need to be sorted (called T).
 //   The class must define a default and copy constructor, and = operator.
 //   Additionally you must create a WX_DEFINE_SORTED_ARRAY of these objects
 //
-// You can use DECLARE_SORTED_OBJARRAY_BASE_CMP to easily extend the class 
+// You can use DECLARE_SORTED_OBJARRAY_BASE_CMP to easily extend the class
 //   without having to subclass it.
 // ---------------------------------------------------------------------------
 // DECLARE_SORTED_OBJARRAY(T, Tsortedarray, name, classexp)
@@ -68,17 +68,17 @@
 // ---------------------------------------------------------------------------
 // DECLARE_SORTED_OBJARRAY_INTUPDATEPOS and DEFINE_SORTED_OBJARRAY_INTUPDATEPOS
 // This adds the function UpdatePos for shifting and deleting items with int keys
-// You must make the int sort key accessible as either a member variable or 
+// You must make the int sort key accessible as either a member variable or
 //   int& GetKey() so it can be modified as a reference.
 //
-// bool UpdatePos(int pos, int numPos) - 
-//   if numPos > 0 - shifts keys greater than pos by numPos 
-//   if numPos < 0 - deletes keys between pos and pos-numPos, 
+// bool UpdatePos(int pos, int numPos) -
+//   if numPos > 0 - shifts keys greater than pos by numPos
+//   if numPos < 0 - deletes keys between pos and pos-numPos,
 //     and shifts keys greater than by pos-numPos by -numPos
 //
 // ---------------------------------------------------------------------------
 // Example: A sorted int key, int value class
-// 
+//
 // // Create your object array of items that we'll sort on the "key"
 // //   Needs default and const T& copy constructor and = operator only.
 // class IntInt
@@ -101,7 +101,7 @@
 // //   by ensuring that you delete them when they're removed with this array.
 // WX_DEFINE_SORTED_ARRAY(IntInt*, SortedArrayIntInt);
 //
-// // Create the DECLARE_SORTED_OBJARRAY to have it manage the memory 
+// // Create the DECLARE_SORTED_OBJARRAY to have it manage the memory
 // //   and ensure that only one item per "index" exists.
 // DECLARE_SORTED_OBJARRAY(IntInt, SortedArrayIntInt, SortedObjArrayIntInt, class)
 //
@@ -113,15 +113,15 @@
 // // Now use your new class
 // SortedObjArrayIntInt myIntIntSortedArray(IntIntSort);
 //
-// for (n=0; n < count; n++)             // add some items
+// for (n = 0; n < count; n++)             // add some items
 //     myIntIntSortedArray.Add(IntInt(rnd.Get(), 1));
 //
 // // did we add this IntInt? Check for index != wxNOT_FOUND
 // int index = myIntIntSortedArray.Index(IntInt(5 /*need only key*/));
-// 
+//
 // // Let's see if the value exists, copy it out of the array and remove it
 // IntInt ii;
-// if (index != wxNOT_FOUND) { 
+// if (index != wxNOT_FOUND) {
 //     ii = myIntIntSortedArray[index];     // get the item
 //     myIntIntSortedArray.RemoveAt(index); // remove the item
 // }
@@ -143,7 +143,7 @@
 // myIntIntSortedArrayUpdate.UpdatePos(7, -12);
 // ---------------------------------------------------------------------------
 
-// Create a obj array of class "T" using wxSortedArray "Tsortedarray" 
+// Create a obj array of class "T" using wxSortedArray "Tsortedarray"
 //   called "name" and of class "classexp"
 #define DECLARE_SORTED_OBJARRAY(T, Tsortedarray, name, classexp)                     \
 DECLARE_SORTED_OBJARRAY_BASE_CMP(T, Tsortedarray, name, wxARRAY_EMPTY_CMP, classexp) \
@@ -155,7 +155,7 @@ DECLARE_SORTED_OBJARRAY_BASE_CMP(T, Tsortedarray, name, wxARRAY_EMPTY_CMP, class
 DECLARE_SORTED_OBJARRAY_BASE_CMP(T, Tsortedarray, name, = cmpfunc, classexp)  \
 };
 
-// Create a obj array of class "T" using wxSortedArray "Tsortedarray" 
+// Create a obj array of class "T" using wxSortedArray "Tsortedarray"
 //   called "name" and of class "classexp"
 #define DECLARE_SORTED_OBJARRAY_INTUPDATEPOS(T, Tsortedarray, name, classexp) \
 DECLARE_SORTED_OBJARRAY_BASE_CMP(T, Tsortedarray, name, wxARRAY_EMPTY_CMP, classexp) \
@@ -210,26 +210,26 @@ public:                                                                     \
 // for Item() wxCHECK_MSG((index<GetCount()), m_default, wxT("Invalid index"));
 
 // NB: The first name::Add using m_array.Add is faster than the second using
-//     IndexForInsert() and AddAt(). I'm not sure why... probably 
+//     IndexForInsert() and AddAt(). I'm not sure why... probably
 //     some internal machine optimization. This is true for VC6 and gcc.
 /*
 
-void name::Add(const T &item) 
-    int index = Index(item); 
-    if (index == wxNOT_FOUND) m_array.Add(new T(item)); 
-    else { Item(index) = item; } 
+void name::Add(const T &item)
+    int index = Index(item);
+    if (index == wxNOT_FOUND) m_array.Add(new T(item));
+    else { Item(index) = item; }
 
-void name::Add(const T &item) 
-    int n = m_array.IndexForInsert((T*)&item); 
-    if (n == (int)m_array.GetCount()) 
-        m_array.AddAt(new T(item), n); 
-    else if (m_compare((T*)&item, m_array[n]) == 0) 
-        *m_array[n] = item; 
-    else 
-        m_array.AddAt(new T(item), n); 
+void name::Add(const T &item)
+    int n = m_array.IndexForInsert((T*)&item);
+    if (n == (int)m_array.GetCount())
+        m_array.AddAt(new T(item), n);
+    else if (m_compare((T*)&item, m_array[n]) == 0)
+        *m_array[n] = item;
+    else
+        m_array.AddAt(new T(item), n);
 */
 
-// Alternate Add(T*)    T* i = m_array[index]; m_array.RemoveAt(index); delete i; m_array.Add(item); return false; 
+// Alternate Add(T*)    T* i = m_array[index]; m_array.RemoveAt(index); delete i; m_array.Add(item); return false;
 
 #define DEFINE_SORTED_OBJARRAY(T, Tsortedarray, name) \
 \
@@ -297,13 +297,13 @@ bool name::UpdatePos( int pos, int numPos ) \
     if ((numPos == 0) || (start_pos >= count)) return false; \
     if ( numPos > 0 ) \
     { \
-        for (n=start_pos; n<count; n++) \
+        for (n = start_pos; n < count; n++) \
             m_array[n]->intKeyMember += numPos; \
     } \
     else if ( numPos < 0 ) \
     { \
         int pos_right = pos-numPos;     \
-        for (n=start_pos; n<count; n++) \
+        for (n = start_pos; n < count; n++) \
         { \
             int &k = m_array[n]->intKeyMember;                \
             if (k < pos_right) { RemoveAt(n); n--; count--; } \

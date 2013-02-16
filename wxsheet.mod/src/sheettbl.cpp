@@ -4,7 +4,7 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: John Labenski, Robin Dunn, Vadim Zeitlin
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheettbl.cpp,v 1.5 2007/07/06 21:39:54 jrl1 Exp $
+// RCS-ID:      $Id: sheettbl.cpp,v 1.6 2007/12/12 05:22:39 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward (mbedward@ozemail.com.au)
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -13,8 +13,10 @@
     #pragma implementation "sheettbl.h"
 #endif
 
+#include "precomp.h"
+
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
     #pragma hdrstop
@@ -68,7 +70,7 @@ int wxSheetTable::GetNumberCols()
 
 wxString wxSheetTable::GetValue( const wxSheetCoords& coords )
 {
-    switch (wxSheet::GetCellCoordsType(coords))
+    switch (coords.GetCellCoordsType())
     {
         case wxSHEET_CELL_GRID :
         {
@@ -105,7 +107,7 @@ wxString wxSheetTable::GetValue( const wxSheetCoords& coords )
 void wxSheetTable::SetValue( const wxSheetCoords& coords, const wxString& value )
 {
     // You must override this or have set data containers for this to work
-    switch (wxSheet::GetCellCoordsType(coords))
+    switch (coords.GetCellCoordsType())
     {
         case wxSHEET_CELL_GRID :
         {
@@ -136,7 +138,7 @@ void wxSheetTable::SetValue( const wxSheetCoords& coords, const wxString& value 
 }
 bool wxSheetTable::HasValue( const wxSheetCoords& coords )
 {
-    switch (wxSheet::GetCellCoordsType(coords))
+    switch (coords.GetCellCoordsType())
     {
         case wxSHEET_CELL_GRID :
         {
@@ -167,7 +169,7 @@ bool wxSheetTable::HasValue( const wxSheetCoords& coords )
 }
 int wxSheetTable::GetFirstNonEmptyColToLeft( const wxSheetCoords& coords )
 {
-    switch (wxSheet::GetCellCoordsType(coords))
+    switch (coords.GetCellCoordsType())
     {
         case wxSHEET_CELL_GRID :
         {
@@ -415,7 +417,7 @@ void wxSheetTable::SetCellSpan( const wxSheetBlock& block )
     int n, index = wxNOT_FOUND, intersections = 0, count = arrBlock.GetCount();
 
     // Check for multiple intersections, one is fine, but topleft corners must match
-    for (n=0; n<count; n++)
+    for (n = 0; n < count; n++)
     {
         if (arrBlock[n].Intersects(block))
         {

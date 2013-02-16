@@ -4,7 +4,7 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: John Labenski, Robin Dunn, Vadim Zeitlin
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheet.cpp,v 1.34 2007/08/22 21:49:29 jrl1 Exp $
+// RCS-ID:      $Id: sheet.cpp,v 1.35 2007/12/12 05:22:39 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward (mbedward@ozemail.com.au)
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -23,29 +23,32 @@
     #pragma implementation "sheet.h"
 #endif
 
+#include "precomp.h"
+
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
     #pragma hdrstop
 #endif
 
 #ifndef WX_PRECOMP
-    #include "wx/defs.h"
-    #include "wx/utils.h"
-    #include "wx/dcclient.h"
-    #include "wx/dcscreen.h"
-    #include "wx/settings.h"
-    #include "wx/log.h"
-    #include "wx/combobox.h"
+    #include <wx/defs.h>
+    #include <wx/utils.h>
+    #include <wx/dcclient.h>
+    #include <wx/dcscreen.h>
+    #include <wx/settings.h>
+    #include <wx/log.h>
+    #include <wx/combobox.h>
 #endif // WX_PRECOMP
 
 #include "wx/sheet/sheet.h"
 #include "wx/sheet/sheetspt.h" // for wxSheetSplitterEvent, wxEVT_SHEET_SPLIT_BEGIN
 
-#include "wx/timer.h"
-#include "wx/clipbrd.h"
-#include "wx/renderer.h"
+#include <wx/event.h>
+#include <wx/timer.h>
+#include <wx/clipbrd.h>
+#include <wx/renderer.h>
 
 // Required for wxIs... functions
 #include <ctype.h>
@@ -267,11 +270,11 @@ int wxSheetTypeRegistry::FindOrCloneDataType(const wxString& typeName)
     if ( index == wxNOT_FOUND )
         return wxNOT_FOUND;
 
-    wxSheetCellRenderer renderer(GetRenderer(index).Clone());
-    wxSheetCellEditor editor(GetEditor(index).Clone());
+    wxSheetCellRenderer renderer(GetRenderer(index).Copy());
+    wxSheetCellEditor editor(GetEditor(index).Copy());
 
     // do it even if there are no parameters to reset them to defaults
-    wxString params = typeName.AfterFirst(_T(':'));
+    wxString params(typeName.AfterFirst(_T(':')));
     renderer.SetParameters(params);
     editor.SetParameters(params);
 
@@ -550,7 +553,7 @@ void wxSheet::Init()
 #define _USE_VISATTR 0
 
 #if _USE_VISATTR
-#include "wx/listbox.h"
+#include <wx/listbox.h>
 #endif
 
 bool wxSheet::Create( wxWindow *parent, wxWindowID id,
@@ -613,8 +616,8 @@ bool wxSheet::Create( wxWindow *parent, wxWindowID id,
     attr->SetEditor(GetDefaultEditorForType(wxSHEET_VALUE_STRING));
 
     // default col and corner label attr are identical to row label attr
-    GetSheetRefData()->m_defaultColLabelAttr    = attr->Clone();
-    GetSheetRefData()->m_defaultCornerLabelAttr = attr->Clone();
+    GetSheetRefData()->m_defaultColLabelAttr    = attr->Copy();
+    GetSheetRefData()->m_defaultCornerLabelAttr = attr->Copy();
 
     // subwindow components that make up the wxSheet
     m_gridWin        = new wxSheetChildWindow( this, ID_GRID_WINDOW );
@@ -662,9 +665,11 @@ bool wxSheet::Create( wxWindow *parent, wxWindowID id,
 
     GetSheetRefData()->AddSheet(this);
 
-#if wxCHECK_VERSION(2,5,2)
+#if wxCHECK_VERSION(2,8,0)
+    SetInitialSize(size);
+#else
 	SetBestFittingSize(size);
-#endif // wxCHECK_VERSION(2,5,2)
+#endif // wxCHECK_VERSION(2,9,0)
 
     return true;
 }
@@ -802,28 +807,6 @@ bool wxSheet::CreateGrid( int numRows, int numCols, int options )
 
 // ------------------------------------------------------------------------
 // Dimensions of the sheet
-
-wxSheetCell_Type wxSheet::GetCellCoordsType(const wxSheetCoords& coords)
-{
-    if ((coords.m_row >= 0) && (coords.m_col >= 0))
-    {
-        return wxSHEET_CELL_GRID;
-    }
-    else if (coords.m_row == -1)
-    {
-        if (coords.m_col == -1)
-            return wxSHEET_CELL_CORNERLABEL;
-        if (coords.m_col >= 0)
-            return wxSHEET_CELL_COLLABEL;
-    }
-    else if (coords.m_col == -1)
-    {
-        if (coords.m_row >= 0)
-            return wxSHEET_CELL_ROWLABEL;
-    }
-
-    return wxSHEET_CELL_UNKNOWN;
-}
 
 void wxSheet::ClearValues(int update)
 {
@@ -1440,11 +1423,11 @@ wxSheetCellAttr wxSheet::GetOrCreateAttr(const wxSheetCoords& coords, wxSheetAtt
     wxSheetCellAttr attr;
     wxCHECK_MSG( type != wxSHEET_AttrAny, attr, wxT("Cannot create attribute of type wxSHEET_AttrAny") );
 
-    if (IsGridCell(coords))
+    if (coords.IsGridCell())
     {
         switch (type)
         {
-            case wxSHEET_AttrDefault : return DoGetDefaultGridAttr();
+            case wxSHEET_AttrDefault : return GetTheDefaultGridAttr();
             case wxSHEET_AttrCell    :
             case wxSHEET_AttrRow     :
             case wxSHEET_AttrCol     :
@@ -1455,11 +1438,11 @@ wxSheetCellAttr wxSheet::GetOrCreateAttr(const wxSheetCoords& coords, wxSheetAtt
                 {
                     attr.Create();
                     attr.SetKind(type);
-                    attr.SetDefaultAttr(DoGetDefaultGridAttr());
+                    attr.SetDefaultAttr(GetTheDefaultGridAttr());
                     GetTable()->SetAttr(coords, attr, type);
                 }
                 else
-                    InitAttr(attr, DoGetDefaultGridAttr());
+                    InitAttr(attr, GetTheDefaultGridAttr());
 
                 return attr;
             }
@@ -1470,12 +1453,12 @@ wxSheetCellAttr wxSheet::GetOrCreateAttr(const wxSheetCoords& coords, wxSheetAtt
             }
         }
     }
-    else if (IsCornerLabelCell(coords))
+    else if (coords.IsCornerLabelCell())
     {
         switch (type)
         {
             case wxSHEET_AttrDefault : // only one of these, ever
-            case wxSHEET_AttrCell    : return DoGetDefaultCornerLabelAttr();
+            case wxSHEET_AttrCell    : return GetTheDefaultCornerLabelAttr();
             default :
             {
                 wxFAIL_MSG(wxT("Grid cell attribute kind invalid for GetOrCreateAttr"));
@@ -1483,11 +1466,11 @@ wxSheetCellAttr wxSheet::GetOrCreateAttr(const wxSheetCoords& coords, wxSheetAtt
             }
         }
     }
-    else if (IsRowLabelCell(coords))
+    else if (coords.IsRowLabelCell())
     {
         switch (type)
         {
-            case wxSHEET_AttrDefault : return DoGetDefaultRowLabelAttr();
+            case wxSHEET_AttrDefault : return GetTheDefaultRowLabelAttr();
             case wxSHEET_AttrCell    :
             {
                 wxCHECK_MSG(GetTable() && ContainsRowLabelCell(coords), attr, wxT("Invalid table or attr coords"));
@@ -1496,11 +1479,11 @@ wxSheetCellAttr wxSheet::GetOrCreateAttr(const wxSheetCoords& coords, wxSheetAtt
                 {
                     attr.Create();
                     attr.SetKind(type);
-                    attr.SetDefaultAttr(DoGetDefaultRowLabelAttr());
+                    attr.SetDefaultAttr(GetTheDefaultRowLabelAttr());
                     GetTable()->SetAttr(coords, attr, type);
                 }
                 else
-                    InitAttr(attr, DoGetDefaultRowLabelAttr());
+                    InitAttr(attr, GetTheDefaultRowLabelAttr());
 
                 return attr;
             }
@@ -1511,11 +1494,11 @@ wxSheetCellAttr wxSheet::GetOrCreateAttr(const wxSheetCoords& coords, wxSheetAtt
             }
         }
     }
-    else if (IsColLabelCell(coords))
+    else if (coords.IsColLabelCell())
     {
         switch (type)
         {
-            case wxSHEET_AttrDefault : return DoGetDefaultColLabelAttr();
+            case wxSHEET_AttrDefault : return GetTheDefaultColLabelAttr();
             case wxSHEET_AttrCell    :
             {
                 wxCHECK_MSG(GetTable() && ContainsColLabelCell(coords), attr, wxT("Invalid table or attr coords"));
@@ -1524,11 +1507,11 @@ wxSheetCellAttr wxSheet::GetOrCreateAttr(const wxSheetCoords& coords, wxSheetAtt
                 {
                     attr.Create();
                     attr.SetKind(type);
-                    attr.SetDefaultAttr(DoGetDefaultColLabelAttr());
+                    attr.SetDefaultAttr(GetTheDefaultColLabelAttr());
                     GetTable()->SetAttr(coords, attr, type);
                 }
                 else
-                    InitAttr(attr, DoGetDefaultColLabelAttr());
+                    InitAttr(attr, GetTheDefaultColLabelAttr());
 
                 return attr;
             }
@@ -1546,18 +1529,18 @@ wxSheetCellAttr wxSheet::GetOrCreateAttr(const wxSheetCoords& coords, wxSheetAtt
 
 wxSheetCellAttr wxSheet::GetAttr(const wxSheetCoords& coords, wxSheetAttr_Type type) const
 {
-    if (IsGridCell(coords))
+    if (coords.IsGridCell())
     {
         switch (type)
         {
-            case wxSHEET_AttrDefault : return DoGetDefaultGridAttr();
+            case wxSHEET_AttrDefault : return GetTheDefaultGridAttr();
             case wxSHEET_AttrCell    :
             case wxSHEET_AttrRow     :
             case wxSHEET_AttrCol     :
             case wxSHEET_AttrAny     :
             default                  :
             {
-                wxCHECK_MSG(ContainsGridCell(coords), DoGetDefaultGridAttr(), wxT("Invalid attr coords"));
+                wxCHECK_MSG(ContainsGridCell(coords), GetTheDefaultGridAttr(), wxT("Invalid attr coords"));
                 wxSheetCellAttr attr;
 
                 if ( !LookupAttr(coords, type, attr) )
@@ -1571,19 +1554,19 @@ wxSheetCellAttr wxSheet::GetAttr(const wxSheetCoords& coords, wxSheetAttr_Type t
                 }
 
                 if ((type == wxSHEET_AttrAny) && !attr.Ok())
-                    attr = DoGetDefaultGridAttr();
+                    attr = GetTheDefaultGridAttr();
 
                 return attr;
             }
         }
     }
-    else if (IsCornerLabelCell(coords))
+    else if (coords.IsCornerLabelCell())
     {
         switch (type)
         {
             case wxSHEET_AttrDefault :
             case wxSHEET_AttrCell    : // only one of these, ever
-            case wxSHEET_AttrAny     : return DoGetDefaultCornerLabelAttr();
+            case wxSHEET_AttrAny     : return GetTheDefaultCornerLabelAttr();
             default :
             {
                 wxFAIL_MSG(wxT("Invalid attr type for corner label"));
@@ -1592,20 +1575,20 @@ wxSheetCellAttr wxSheet::GetAttr(const wxSheetCoords& coords, wxSheetAttr_Type t
 
         return wxNullSheetCellAttr;
     }
-    else if (IsRowLabelCell(coords))
+    else if (coords.IsRowLabelCell())
     {
         switch (type)
         {
-            case wxSHEET_AttrDefault : return DoGetDefaultRowLabelAttr();
+            case wxSHEET_AttrDefault : return GetTheDefaultRowLabelAttr();
             case wxSHEET_AttrCell    :
             case wxSHEET_AttrAny     :
             {
-                wxCHECK_MSG(ContainsRowLabelCell(coords), DoGetDefaultRowLabelAttr(), wxT("Invalid attr coords"));
+                wxCHECK_MSG(ContainsRowLabelCell(coords), GetTheDefaultRowLabelAttr(), wxT("Invalid attr coords"));
                 wxSheetCellAttr attr;
                 if (GetTable())
                     attr = GetTable()->GetAttr(coords, type);
                 if ((type == wxSHEET_AttrAny) && !attr.Ok())
-                    attr = DoGetDefaultRowLabelAttr();
+                    attr = GetTheDefaultRowLabelAttr();
 
                 return attr;
             }
@@ -1615,20 +1598,20 @@ wxSheetCellAttr wxSheet::GetAttr(const wxSheetCoords& coords, wxSheetAttr_Type t
             }
         }
     }
-    else if (IsColLabelCell(coords))
+    else if (coords.IsColLabelCell())
     {
         switch (type)
         {
-            case wxSHEET_AttrDefault : return DoGetDefaultColLabelAttr();
+            case wxSHEET_AttrDefault : return GetTheDefaultColLabelAttr();
             case wxSHEET_AttrCell    :
             case wxSHEET_AttrAny     :
             {
-                wxCHECK_MSG(ContainsColLabelCell(coords), DoGetDefaultColLabelAttr(), wxT("Invalid attr coords"));
+                wxCHECK_MSG(ContainsColLabelCell(coords), GetTheDefaultColLabelAttr(), wxT("Invalid attr coords"));
                 wxSheetCellAttr attr;
                 if (GetTable())
                     attr = GetTable()->GetAttr(coords, type);
                 if ((type == wxSHEET_AttrAny) && !attr.Ok())
-                    attr = DoGetDefaultColLabelAttr();
+                    attr = GetTheDefaultColLabelAttr();
 
                 return attr;
             }
@@ -1651,14 +1634,14 @@ void wxSheet::SetAttr(const wxSheetCoords& coords,
     wxSheetCellAttr attr(attr_);
     ClearAttrCache();
 
-    if (IsGridCell(coords))
+    if (coords.IsGridCell())
     {
         switch (type)
         {
             case wxSHEET_AttrDefault :
             {
                 wxCHECK_RET(attr_.Ok(), wxT("Invalid default attribute in wxSheet::SetAttr"));
-                wxSheetCellAttr defAttr(DoGetDefaultGridAttr());
+                wxSheetCellAttr defAttr(GetTheDefaultGridAttr());
                 defAttr.UpdateWith(attr);
                 // force good vals after update
                 defAttr.SetDefaultAttr(wxNullSheetCellAttr);
@@ -1671,7 +1654,7 @@ void wxSheet::SetAttr(const wxSheetCoords& coords,
             {
                 wxCHECK_RET(GetTable() && ContainsGridCell(coords), wxT("Invalid table or attr coords"));
                 if (attr.Ok())
-                    InitAttr(attr, DoGetDefaultGridAttr());
+                    InitAttr(attr, GetTheDefaultGridAttr());
 
                 GetTable()->SetAttr(coords, attr, type);
                 return;
@@ -1683,7 +1666,7 @@ void wxSheet::SetAttr(const wxSheetCoords& coords,
             }
         }
     }
-    else if (IsCornerLabelCell(coords))
+    else if (coords.IsCornerLabelCell())
     {
         // only one attr for the corner window
         switch (type)
@@ -1692,7 +1675,7 @@ void wxSheet::SetAttr(const wxSheetCoords& coords,
             case wxSHEET_AttrCell    :
             {
                 wxCHECK_RET(attr_.Ok(), wxT("Invalid default attribute in wxSheet::SetAttr"));
-                wxSheetCellAttr defAttr(DoGetDefaultCornerLabelAttr());
+                wxSheetCellAttr defAttr(GetTheDefaultCornerLabelAttr());
                 defAttr.UpdateWith(attr);
                 // force good vals after update
                 defAttr.SetDefaultAttr(wxNullSheetCellAttr);
@@ -1706,14 +1689,14 @@ void wxSheet::SetAttr(const wxSheetCoords& coords,
             }
         }
     }
-    else if (IsRowLabelCell(coords))
+    else if (coords.IsRowLabelCell())
     {
         switch (type)
         {
             case wxSHEET_AttrDefault :
             {
                 wxCHECK_RET(attr_.Ok(), wxT("Invalid default attribute in wxSheet::SetAttr"));
-                wxSheetCellAttr defAttr(DoGetDefaultRowLabelAttr());
+                wxSheetCellAttr defAttr(GetTheDefaultRowLabelAttr());
                 defAttr.UpdateWith(attr);
                 // force good vals after update
                 defAttr.SetDefaultAttr(wxNullSheetCellAttr);
@@ -1724,7 +1707,7 @@ void wxSheet::SetAttr(const wxSheetCoords& coords,
             {
                 wxCHECK_RET(GetTable() && ContainsRowLabelCell(coords), wxT("Invalid table or attr coords"));
                 if (attr.Ok())
-                    InitAttr(attr, DoGetDefaultRowLabelAttr());
+                    InitAttr(attr, GetTheDefaultRowLabelAttr());
 
                 GetTable()->SetAttr(coords, attr, type);
                 return;
@@ -1736,14 +1719,14 @@ void wxSheet::SetAttr(const wxSheetCoords& coords,
             }
         }
     }
-    else if (IsColLabelCell(coords))
+    else if (coords.IsColLabelCell())
     {
         switch (type)
         {
             case wxSHEET_AttrDefault :
             {
                 wxCHECK_RET(attr_.Ok(), wxT("Invalid default attribute in wxSheet::SetAttr"));
-                wxSheetCellAttr defAttr(DoGetDefaultRowLabelAttr());
+                wxSheetCellAttr defAttr(GetTheDefaultRowLabelAttr());
                 defAttr.UpdateWith(attr);
                 // force good vals after update
                 defAttr.SetDefaultAttr(wxNullSheetCellAttr);
@@ -1754,7 +1737,7 @@ void wxSheet::SetAttr(const wxSheetCoords& coords,
             {
                 wxCHECK_RET(GetTable() && ContainsColLabelCell(coords), wxT("Invalid table or attr coords"));
                 if (attr.Ok())
-                    InitAttr(attr, DoGetDefaultColLabelAttr());
+                    InitAttr(attr, GetTheDefaultColLabelAttr());
 
                 GetTable()->SetAttr(coords, attr, type);
                 return;
@@ -1778,7 +1761,7 @@ bool wxSheet::InitAttr( wxSheetCellAttr& initAttr, const wxSheetCellAttr& defAtt
     wxSheetCellAttr attr(initAttr);
     wxSheetCellAttr attrDef(attr.GetDefaultAttr());
     // only 100000 def attr, should be enough?
-    for (int n=0; n<100000; n++)
+    for (int n = 0; n < 100000; n++)
     {
         if (!attrDef.Ok())
         {
@@ -1914,7 +1897,7 @@ void wxSheet::SetAttrEditor( const wxSheetCoords& coords, const wxSheetCellEdito
 
 void wxSheet::SetColFormatFloat(int col, int width, int precision)
 {
-    wxString typeName = wxSHEET_VALUE_FLOAT;
+    wxString typeName(wxSHEET_VALUE_FLOAT);
     if ( (width != -1) || (precision != -1) )
         typeName << _T(':') << width << _T(',') << precision;
 
@@ -1925,7 +1908,7 @@ void wxSheet::SetColFormatCustom(int col, const wxString& typeName)
     wxCHECK_RET(ContainsGridCol(col), wxT("Invalid col in wxSheet::SetColFormatCustom"));
     wxSheetCellRenderer ren(GetDefaultRendererForType(typeName));
     wxCHECK_RET(ren.Ok(), wxT("Invalid renderer in wxSheet::SetColFormatCustom"));
-    SetAttrRenderer(wxSheetCoords(0,col), ren.Clone(), wxSHEET_AttrCol);
+    SetAttrRenderer(wxSheetCoords(0,col), ren.Copy(), wxSHEET_AttrCol);
 }
 
 // ----------------------------------------------------------------------------
@@ -2077,7 +2060,7 @@ void wxSheet::MakeCellVisible( const wxSheetCoords& coords )
 {
     wxCHECK_RET(ContainsCell(coords), wxT("Invalid coords in wxSheet::MakeCellVisible"));
 
-    if (IsCornerLabelCell(coords))
+    if (coords.IsCornerLabelCell())
         return;
 
     int xpos = -1, ypos = -1;
@@ -2092,7 +2075,7 @@ void wxSheet::MakeCellVisible( const wxSheetCoords& coords )
     bool too_tall = devRect.height > ch;
     bool too_wide = devRect.width  > cw;
 
-    if (!IsColLabelCell(coords))
+    if (!coords.IsColLabelCell())
     {
         if ( (too_tall && (devRect.y > 1)) || (devRect.GetTop() < 0) )
         {
@@ -2109,7 +2092,7 @@ void wxSheet::MakeCellVisible( const wxSheetCoords& coords )
         }
     }
 
-    if (!IsRowLabelCell(coords))
+    if (!coords.IsRowLabelCell())
     {
         if ( (too_wide && (devRect.x > 1)) || (devRect.GetLeft() < 0) )
         {
@@ -2379,7 +2362,7 @@ bool wxSheet::SelectBlock( const wxSheetBlock& block, bool addToSelected, bool s
     {
         wxSheetBlock bounds;
 
-        for (size_t n=0; n<addedBlocks.GetCount(); n++)
+        for (size_t n = 0; n < addedBlocks.GetCount(); n++)
             bounds = bounds.ExpandUnion(addedBlocks[n]);
 
         RefreshGridCellBlock(bounds);
@@ -2458,7 +2441,7 @@ bool wxSheet::DeselectBlock( const wxSheetBlock& block, bool sendEvt )
     {
         wxSheetBlock bounds;
 
-        for (size_t n=0; n<deletedBlocks.GetCount(); n++)
+        for (size_t n = 0; n < deletedBlocks.GetCount(); n++)
             bounds = bounds.ExpandUnion(deletedBlocks[n]);
 
         RefreshGridCellBlock(bounds);
@@ -2524,7 +2507,7 @@ bool wxSheet::ToggleColSelection( int col, bool addToSelected, bool sendEvt )
 // ----------------------------------------------------------------------------
 // Copy/Paste
 
-#include "wx/dataobj.h"
+#include <wx/dataobj.h>
 
 //#define wxDF_wxSHEET (wxDF_MAX+1001)  // works w/ GTK 1.2 non unicode
 const wxChar* wxDF_wxSHEET = wxT("wxDF_wxSHEET");
@@ -2639,7 +2622,8 @@ bool wxSheetDataObject::SetData(size_t len, const void *buf)
     if (len < 2u)
         return false; // I guess?
 
-    wxString strBuf(wxConvertMB2WX((const char *)buf).data(), len); // probably not Unicode safe
+    //wxString strBuf(wxConvertMB2WX((const char *)buf), len); // probably not Unicode safe
+    wxString strBuf((wxChar*)buf, len);
     m_data = strBuf;
 
     //wxPrintf(wxT("Data len %d %d\n"), m_data.Len(), len);
@@ -2796,26 +2780,26 @@ wxString wxSheet::CopyInternalSelectionToString(const wxChar& colSep)
 
     // find leftmost col
     int left_col = copiedData.ItemValue(0).ItemKey(0);
-    for (r=1; r<nrows; r++)
+    for (r = 1; r < nrows; r++)
     {
         if (left_col > copiedData.ItemValue(r).ItemKey(0))
             left_col = copiedData.ItemValue(r).ItemKey(0);
     }
 
     int last_row=copiedData.ItemKey(0), last_col=left_col;
-    for (r=0; r<nrows; r++)
+    for (r = 0; r < nrows; r++)
     {
         row = copiedData.ItemKey(r);
         int ncols = copiedData.ItemValue(r).GetCount();
-        for (i = last_row; i<row; i++)
+        for (i = last_row; i < row; i++)
             value += wxT("\n");
 
         last_col = left_col;
 
-        for (c=0; c<ncols; c++)
+        for (c = 0; c < ncols; c++)
         {
             col = copiedData.ItemValue(r).ItemKey(c);
-            for (i = last_col; i<col; i++)
+            for (i = last_col; i < col; i++)
                 value += colSep;
 
             value += copiedData.ItemValue(r).ItemValue(c);
@@ -2841,7 +2825,7 @@ bool wxSheet::CopyStringToInternalSelection(const wxString &string, const wxChar
     int row = 0, col = 0;
     wxString buf;
 
-    for (n=0; n<len; n++, c++)
+    for (n = 0; n < len; n++, c++)
     {
         if (((*c) == wxT('\r')) || ((*c) == wxT('\n')))
         {
@@ -2997,7 +2981,7 @@ void wxSheet::SetAreaEditable( int cell_type )
     {
         if (IsCellEditControlCreated())
 		{
-			int edit_cell_type = GetCellCoordsType(GetEditControlCoords());
+			int edit_cell_type = GetEditControlCoords().GetCellCoordsType();
 			if ((cell_type & edit_cell_type) == 0)
 				DisableCellEditControl(true);
 		}
@@ -3068,7 +3052,7 @@ bool wxSheet::DisableCellEditControl( bool save_value )
 bool wxSheet::CanEnableCellControl(const wxSheetCoords& coords) const
 {
     wxCHECK_MSG(ContainsCell(coords), false, wxT("Invalid coords"));
-    return IsAreaEditable(GetCellCoordsType(coords)) && !GetAttr(coords).GetReadOnly();
+    return IsAreaEditable(coords.GetCellCoordsType()) && !GetAttr(coords).GetReadOnly();
 }
 bool wxSheet::IsCellEditControlCreated() const
 {
@@ -3259,7 +3243,7 @@ void wxSheet::RefreshGridWindow(bool eraseb, const wxRect* rect)
         return;
 
     size_t n, count = GetSheetRefData()->GetSheetCount();
-    for (n=0; n<count; n++)
+    for (n = 0; n < count; n++)
     {
         wxSheet* s = GetSheetRefData()->GetSheet(n);
         wxWindow *win = (wxWindow*)s->GetGridWindow();
@@ -3284,7 +3268,7 @@ void wxSheet::RefreshRowLabelWindow(bool eraseb, const wxRect* rect)
         return;
 
     size_t n, count = GetSheetRefData()->GetSheetCount();
-    for (n=0; n<count; n++)
+    for (n = 0; n < count; n++)
     {
         wxSheet* s = GetSheetRefData()->GetSheet(n);
         wxWindow *win = (wxWindow*)s->GetRowLabelWindow();
@@ -3310,7 +3294,7 @@ void wxSheet::RefreshColLabelWindow(bool eraseb, const wxRect* rect)
         return;
 
     size_t n, count = GetSheetRefData()->GetSheetCount();
-    for (n=0; n<count; n++)
+    for (n = 0; n < count; n++)
     {
         wxSheet* s = GetSheetRefData()->GetSheet(n);
         wxWindow *win = (wxWindow*)s->GetColLabelWindow();
@@ -3336,7 +3320,7 @@ void wxSheet::RefreshCornerLabelWindow(bool eraseb, const wxRect* rect)
         return;
 
     size_t n, count = GetSheetRefData()->GetSheetCount();
-    for (n=0; n<count; n++)
+    for (n = 0; n < count; n++)
     {
         wxSheet* s = GetSheetRefData()->GetSheet(n);
         wxWindow *win = (wxWindow*)s->GetCornerLabelWindow();
@@ -3352,7 +3336,7 @@ void wxSheet::RefreshCell(const wxSheetCoords& coords, bool single_cell)
 
     //wxPrintf(wxT("RefreshCell %d %d\n"), coords.m_row, coords.m_col);
 
-    if (IsCornerLabelCell(coords))
+    if (coords.IsCornerLabelCell())
     {
         RefreshCornerLabelWindow(true);
         return;
@@ -3404,7 +3388,7 @@ void wxSheet::RefreshBlock(const wxSheetBlock& block)
     const int numCols = GetNumberCols();
 
     // Corner Labels
-    if (IsCornerLabelCell(coords))
+    if (coords.IsCornerLabelCell())
     {
         RefreshCornerLabelWindow(true);
     }
@@ -3453,7 +3437,7 @@ void wxSheet::RefreshGridCellBlock( const wxSheetBlock& block )
 
 void wxSheet::RefreshAttrChange(const wxSheetCoords& coords, wxSheetAttr_Type type)
 {
-    switch (GetCellCoordsType(coords))
+    switch (coords.GetCellCoordsType())
     {
         case wxSHEET_CELL_GRID :
         {
@@ -3461,7 +3445,7 @@ void wxSheet::RefreshAttrChange(const wxSheetCoords& coords, wxSheetAttr_Type ty
             {
                 case wxSHEET_AttrDefault :
                 {
-                    m_gridWin->SetBackgroundColour(DoGetDefaultGridAttr().GetBackgroundColour());
+                    m_gridWin->SetBackgroundColour(GetTheDefaultGridAttr().GetBackgroundColour());
                     RefreshGridWindow(false);
                     break;
                 }
@@ -3486,7 +3470,7 @@ void wxSheet::RefreshAttrChange(const wxSheetCoords& coords, wxSheetAttr_Type ty
         }
         case wxSHEET_CELL_CORNERLABEL :
         {
-            m_cornerLabelWin->SetBackgroundColour(DoGetDefaultCornerLabelAttr().GetBackgroundColour());
+            m_cornerLabelWin->SetBackgroundColour(GetTheDefaultCornerLabelAttr().GetBackgroundColour());
             RefreshCornerLabelWindow(true);
             break;
         }
@@ -3496,7 +3480,7 @@ void wxSheet::RefreshAttrChange(const wxSheetCoords& coords, wxSheetAttr_Type ty
             {
                 case wxSHEET_AttrDefault :
                 {
-                    m_rowLabelWin->SetBackgroundColour(DoGetDefaultRowLabelAttr().GetBackgroundColour());
+                    m_rowLabelWin->SetBackgroundColour(GetTheDefaultRowLabelAttr().GetBackgroundColour());
                     RefreshRowLabelWindow(true);
                     break;
                 }
@@ -3516,7 +3500,7 @@ void wxSheet::RefreshAttrChange(const wxSheetCoords& coords, wxSheetAttr_Type ty
             {
                 case wxSHEET_AttrDefault :
                 {
-                    m_colLabelWin->SetBackgroundColour(DoGetDefaultColLabelAttr().GetBackgroundColour());
+                    m_colLabelWin->SetBackgroundColour(GetTheDefaultColLabelAttr().GetBackgroundColour());
                     RefreshColLabelWindow(true);
                     break;
                 }
@@ -4098,7 +4082,7 @@ void wxSheet::DrawAllGridLines( wxDC& dc, const wxRegion & WXUNUSED(reg) )
             const wxSheetSelection* spannedBlocks = GetSpannedBlocks();
             const int count = spannedBlocks->GetCount();
 
-            for (i=spannedBlocks->FindTopRow(topRow); i<count; i++)
+            for (i = spannedBlocks->FindTopRow(topRow); i < count; i++)
             {
                 const wxSheetBlock &b = spannedBlocks->GetBlock(i);
                 if (block.Intersects(b))
@@ -4126,9 +4110,10 @@ void wxSheet::DrawAllGridLines( wxDC& dc, const wxRegion & WXUNUSED(reg) )
                 }
             }
         }
-
+#if !defined(__WXMAC__) || wxCHECK_VERSION(2,9,0)
         if (done)
-            dc.SetClippingRegion( clippedcells );
+            dc.SetDeviceClippingRegion( clippedcells );
+#endif
     }
 
     dc.SetPen( wxPen(GetGridLineColour(), 1, wxSOLID) );
@@ -4526,8 +4511,8 @@ void wxSheet::DrawTextRectangle( wxDC& dc, const wxArrayString& lines,
 
     int l;
     float x = 0.0, y = 0.0;
-    long text_width=0, text_height=0;
-    long line_width=0, line_height=0;
+    wxCoord text_width=0, text_height=0;
+    wxCoord line_width=0, line_height=0;
     wxArrayInt lineWidths, lineHeights;
 
     // Measure the text extent once, Gtk2 is slow (takes 2sec off 23sec run)
@@ -4599,20 +4584,17 @@ void wxSheet::DrawTextRectangle( wxDC& dc, const wxArrayString& lines,
                 y = rect.y + rect.height - 1;
         }
 
-		switch(text_orientation) {
-        case wxHORIZONTAL:
-
+        if ( text_orientation == wxHORIZONTAL )
+        {
             //dc.SetPen(*wxRED_PEN); dc.SetBrush(*wxTRANSPARENT_BRUSH); dc.DrawRectangle(rect); // debug drawing
             dc.DrawText( lines[l], (int)x, (int)y );
             y += line_height;
-        	break;
-        case wxVERTICAL:
+        }
+        else // wxVERTICAL
+        {
             //dc.SetPen(*wxRED_PEN); dc.SetBrush(*wxTRANSPARENT_BRUSH); dc.DrawRectangle(rect); // debug drawing
             dc.DrawRotatedText( lines[l], (int)x, (int)y, 90.0 );
             x += line_height;
-            break;
-        default:
-        	printf("Invalid orientation? - %d\n", text_orientation);fflush(stdout);
         }
     }
 
@@ -4666,7 +4648,7 @@ int wxSheet::StringToLines( const wxString& value, wxArrayString& lines ) const
 bool wxSheet::GetTextBoxSize( wxDC& dc, const wxArrayString& lines,
                               long *width, long *height ) const
 {
-    long w = 0, h = 0, lineW = 0, lineH = 0;
+    wxCoord w = 0, h = 0, lineW = 0, lineH = 0;
     size_t i, count = lines.GetCount();
     for ( i = 0; i < count; i++ )
     {
@@ -4722,7 +4704,7 @@ wxRect wxSheet::BlockToRect( const wxSheetBlock& block, bool getDeviceRect ) con
 
     if (getDeviceRect)
     {
-        switch (GetCellCoordsType(block.GetLeftTop()))
+        switch (block.GetLeftTop().GetCellCoordsType())
         {
             case wxSHEET_CELL_GRID     : return CalcScrolledRect(rect);
             case wxSHEET_CELL_ROWLABEL : CalcScrolledPosition(0, rect.y, NULL, &rect.y); break;
@@ -4745,7 +4727,7 @@ wxSheetBlock wxSheet::ExpandSpannedBlock(const wxSheetBlock& block_) const
     {
         const wxSheetSelection* spannedBlocks = GetSpannedBlocks();
         size_t n, count = spannedBlocks->GetCount();
-        for (n=0; n<count; n++)
+        for (n = 0; n < count; n++)
         {
             const wxSheetBlock& b = spannedBlocks->GetBlock(n);
             if (block_.Intersects(b)) // use original block so it doesn't keep growing
@@ -6361,7 +6343,7 @@ void wxSheet::OnKeyDown( wxKeyEvent& event )
 
                     break;
                 }
-                if ( !IsAreaEditable(GetCellCoordsType(GetGridCursorCell())) )
+                if ( !IsAreaEditable(GetGridCursorCell().GetCellCoordsType()) )
                 {
                     MoveCursorRight( false );
                     break;
@@ -6783,13 +6765,13 @@ void wxSheet::SetCaptureWindow(wxWindow *win)
 
 wxWindow* wxSheet::GetWindowForCoords( const wxSheetCoords& coords ) const
 {
-    if (IsGridCell(coords))
+    if (coords.IsGridCell())
         return m_gridWin;
-    if (IsRowLabelCell(coords))
+    if (coords.IsRowLabelCell())
         return m_rowLabelWin;
-    if (IsColLabelCell(coords))
+    if (coords.IsColLabelCell())
         return m_colLabelWin;
-    if (IsCornerLabelCell(coords))
+    if (coords.IsCornerLabelCell())
         return m_cornerLabelWin;
 
     wxFAIL_MSG(wxString::Format(wxT("Unable to get window for coords (%d,%d)"), coords.m_row, coords.m_col));
@@ -6898,7 +6880,7 @@ void wxSheet::HighlightSelectingBlock( const wxSheetBlock &block_ )
         block.Delete(oldSelBlock, changed[4], changed[5], changed[6], changed[7]);
 
         {
-            for (int n=0; n<8; n++)
+            for (int n = 0; n < 8; n++)
                 bounds = bounds.ExpandUnion(changed[n]);
 
             RefreshGridCellBlock(bounds);
@@ -7333,7 +7315,7 @@ Friend Function ParseCSV02(sExpr$, arVals$()) As Long
 End Function
 */
 
-#include "wx/regex.h"
+#include <wx/regex.h>
 
 
 
@@ -7397,7 +7379,7 @@ wxString Joint(const wxArrayString& a)
 {
     if (a.GetCount() == 0u) return wxEmptyString;
 
-    wxString s = wxT("'")+ a[0] + wxT("'\t ");
+    wxString s(wxT("'")+ a[0] + wxT("'\t "));
     for (size_t n = 1u; n < a.GetCount(); n++) s += wxT("'")+ a[n] + wxT("'\t ");
     return s;
 }
@@ -7410,7 +7392,7 @@ void CSV_TEST(const wxString& instr, const wxArrayString& ans, const wxArrayStri
         wxPrintf(wxT("COUNT MISMATCH ERROR! \n"));
 
     for (size_t n = 0; n < wxMin(ans.GetCount(), res.GetCount()); n++)
-        if (ans[n] != res[n]) wxPrintf(wxT("Error in item %u\n"), n);
+        if (ans[n] != res[n]) wxPrintf(wxT("Error in item %d\n"), (int)n);
 
     wxPrintf(msg + wxT("\n"));
 }

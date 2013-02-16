@@ -4,7 +4,7 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: John Labenski, Robin Dunn, Vadim Zeitlin
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetatr.cpp,v 1.5 2007/04/02 16:44:20 jrl1 Exp $
+// RCS-ID:      $Id: sheetatr.cpp,v 1.6 2007/12/12 05:22:39 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward (mbedward@ozemail.com.au)
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -13,8 +13,10 @@
     #pragma implementation "sheetatr.h"
 #endif
 
+#include "precomp.h"
+
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
     #pragma hdrstop
@@ -35,7 +37,7 @@
 
 const wxSheetCellAttr wxNullSheetCellAttr(false);
 
-#include "wx/arrimpl.cpp"
+#include <wx/arrimpl.cpp>
 WX_DEFINE_OBJARRAY(wxArraySheetCellAttr)
 DEFINE_PAIRARRAY_SHEETCOORDKEY(wxSheetCellAttr, wxPairArraySheetCoordsCellAttr)
 DEFINE_PAIRARRAY_INTKEY(wxSheetCellAttr, wxPairArrayIntSheetCellAttr)
@@ -111,9 +113,9 @@ bool wxSheetCellAttr::Copy(const wxSheetCellAttr& other)
     M_CELLATTRDATA->m_font       = ((wxSheetCellAttrRefData*)other.GetRefData())->m_font;
     M_CELLATTRDATA->m_attrTypes  = ((wxSheetCellAttrRefData*)other.GetRefData())->m_attrTypes;
     if (other.HasEditor())
-        SetEditor(((wxSheetCellAttrRefData*)other.m_refData)->m_editor->Clone());
+        SetEditor(((wxSheetCellAttrRefData*)other.m_refData)->m_editor->Copy());
     if (other.HasRenderer())
-        SetRenderer(((wxSheetCellAttrRefData*)other.m_refData)->m_renderer->Clone());
+        SetRenderer(((wxSheetCellAttrRefData*)other.m_refData)->m_renderer->Copy());
 
     SetDefaultAttr(other.GetDefaultAttr());
     return true;
@@ -148,9 +150,9 @@ bool wxSheetCellAttr::UpdateWith(const wxSheetCellAttr& other)
 
     // Maybe add support for merge of Render and Editor?
     if ( other.HasRenderer() )
-        SetRenderer(((wxSheetCellAttrRefData*)other.m_refData)->m_renderer->Clone());
+        SetRenderer(((wxSheetCellAttrRefData*)other.m_refData)->m_renderer->Copy());
     if ( other.HasEditor() )
-        SetEditor(((wxSheetCellAttrRefData*)other.m_refData)->m_editor->Clone());
+        SetEditor(((wxSheetCellAttrRefData*)other.m_refData)->m_editor->Copy());
 
     if ( other.HasDefaultAttr() )
         SetDefaultAttr(other.GetDefaultAttr());
@@ -187,9 +189,9 @@ bool wxSheetCellAttr::MergeWith(const wxSheetCellAttr &other)
 
     // Maybe add support for merge of Render and Editor?
     if ( !HasRenderer() && other.HasRenderer() )
-        SetRenderer(((wxSheetCellAttrRefData*)other.m_refData)->m_renderer->Clone());
+        SetRenderer(((wxSheetCellAttrRefData*)other.m_refData)->m_renderer->Copy());
     if ( !HasEditor() && other.HasEditor() )
-        SetEditor(((wxSheetCellAttrRefData*)other.m_refData)->m_editor->Clone());
+        SetEditor(((wxSheetCellAttrRefData*)other.m_refData)->m_editor->Copy());
 
     if ( !HasDefaultAttr() && other.HasDefaultAttr() )
         SetDefaultAttr(other.GetDefaultAttr());
@@ -605,7 +607,7 @@ void wxSheetCellAttrProvider::Clear( int update )
 wxSheetCellAttr wxSheetCellAttrProvider::GetAttr(const wxSheetCoords& coords,
                                                  wxSheetAttr_Type type )
 {
-    switch (wxSheet::GetCellCoordsType(coords))
+    switch (coords.GetCellCoordsType())
     {
         case wxSHEET_CELL_GRID :
         {
@@ -680,7 +682,7 @@ void wxSheetCellAttrProvider::SetAttr(const wxSheetCoords& coords,
                                       const wxSheetCellAttr &attr,
                                       wxSheetAttr_Type type)
 {
-    switch (wxSheet::GetCellCoordsType(coords))
+    switch (coords.GetCellCoordsType())
     {
         case wxSHEET_CELL_GRID :
         {

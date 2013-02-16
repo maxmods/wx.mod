@@ -4,7 +4,7 @@
 // Author:      John Labenski
 // Modified by:
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetval.cpp,v 1.4 2007/07/06 21:39:54 jrl1 Exp $
+// RCS-ID:      $Id: sheetval.cpp,v 1.5 2007/12/12 05:22:39 jrl1 Exp $
 // Copyright:   (c) John Labenski
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -13,8 +13,10 @@
     #pragma implementation "sheetval.h"
 #endif
 
+#include "precomp.h"
+
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
     #pragma hdrstop
@@ -29,7 +31,7 @@
 
 // ----------------------------------------------------------------------------
 
-#include "wx/arrimpl.cpp"
+#include <wx/arrimpl.cpp>
 WX_DEFINE_OBJARRAY(wxArrayPairArrayIntSheetString)
 DEFINE_PAIRARRAY_INTKEY(wxString, wxPairArrayIntSheetString)
 DEFINE_PAIRARRAY_INTKEY(wxPairArrayIntSheetString, wxPairArrayIntPairArraySheetString)
@@ -364,7 +366,7 @@ bool wxSheetValueProviderSparseString::DoUpdateCols( size_t col, int numCols )
 {
     bool done = false;
     size_t row, rowCount = m_data.GetCount();
-    for (row=0; row<rowCount; row++)
+    for (row = 0; row < rowCount; row++)
         done |= m_data.ItemValue(row).UpdatePos(col, numCols);
 
     return done;
@@ -533,7 +535,7 @@ bool wxSheetValueProviderSparseStringTest::DoUpdateCols( size_t col, int numCols
 {
     bool done = false;
     size_t row, rowCount = m_data.GetCount();
-    for (row=0; row<rowCount; row++)
+    for (row = 0; row < rowCount; row++)
         done |= m_data[row].m_value->UpdatePos(col, numCols);
 
     return done;

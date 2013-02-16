@@ -13,31 +13,34 @@
     #pragma implementation "sheetedt.h"
 #endif
 
-#include "wx/wxprec.h"
+#include "precomp.h"
+
+#include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
     #pragma hdrstop
 #endif
 
 #ifndef WX_PRECOMP
-    #include "wx/defs.h"
-    #include "wx/utils.h"
-    #include "wx/textctrl.h"
-    #include "wx/dc.h"
-    #include "wx/dcclient.h"
-    #include "wx/textctrl.h"
-    #include "wx/checkbox.h"
-    #include "wx/combobox.h"
-    #include "wx/log.h"
-    #include "wx/valtext.h"
-    #include "wx/settings.h"
-    #include "wx/intl.h"
+    #include <wx/defs.h>
+    #include <wx/utils.h>
+    #include <wx/textctrl.h>
+    #include <wx/dc.h>
+    #include <wx/dcclient.h>
+    #include <wx/textctrl.h>
+    #include <wx/checkbox.h>
+    #include <wx/combobox.h>
+    #include <wx/log.h>
+    #include <wx/valtext.h>
+    #include <wx/settings.h>
+    #include <wx/intl.h>
 #endif // WX_PRECOMP
 
 #include "wx/sheet/sheet.h"
 #include "wx/sheet/sheetedt.h"
-#include "wx/tokenzr.h"
-#include "wx/spinctrl.h"
+#include <wx/tokenzr.h>
+#include <wx/spinctrl.h>
+#include <wx/apptrait.h>
 // Required for wxIs... functions
 #include <ctype.h>
 
@@ -330,7 +333,14 @@ bool wxSheetCellEditorRefData::DestroyControl()
         if (win != win->GetEventHandler())
             win->PopEventHandler(true);
 
-        win->Destroy();
+        //win->Destroy();
+        
+#if wxCHECK_VERSION(2,9,1)
+        wxTheApp->ScheduleForDestruction(win);
+#else
+        wxTheApp->GetTraits()->ScheduleForDestroy(win);
+#endif
+
         return true;
     }
 
@@ -374,7 +384,7 @@ void wxSheetCellEditorRefData::PaintBackground(wxSheet& , const wxSheetCellAttr&
     dc.SetBrush(wxBrush(attr.GetBackgroundColour(), wxSOLID));
 
     // only draw exactly what's needed
-/*  FIXME - the checkbox in GTK doesn't draw it's full background
+/*  FIXME - the checkbox in GTK doesn't draw its full background
     wxRect ctrlRect(GetControl()->GetRect());
 
     // top
@@ -531,7 +541,7 @@ wxSize wxSheetCellTextEditorRefData::GetBestSize(wxSheet& sheet, const wxSheetCe
 {
     wxCHECK_MSG(GetTextCtrl(), sheet.GetCellSize(coords), wxT("wxSheetCellEditor not created"));
     // in GTK and MSW the wxTextCtrl returns a fixed width, ignoring contents
-    wxString value = sheet.GetCellValue(coords);
+    wxString value(sheet.GetCellValue(coords));
     int w = 0, h = 0;
     GetTextCtrl()->GetTextExtent(value, &w, &h, NULL, NULL, &attr.GetFont());
     wxSize textCtrlSize(GetTextCtrl()->GetBestSize());
@@ -566,7 +576,7 @@ bool wxSheetCellTextEditorRefData::EndEdit(const wxSheetCoords& coords, wxSheet*
 {
     wxCHECK_MSG(IsCreated() && sheet, false, wxT("The wxSheetCellEditor must be Created first!"));
 
-    wxString value = GetTextCtrl()->GetValue();
+    wxString value(GetTextCtrl()->GetValue());
     bool changed = (value != m_startValue);
 
     if (changed)
@@ -669,7 +679,7 @@ bool wxSheetCellTextEditorRefData::OnChar( wxKeyEvent& WXUNUSED(event) )
 
     // This function is used to expand the textctrl as you type
     // it doesn't stop the event, just looks at it
-    wxString value = GetTextCtrl()->GetValue();
+    wxString value(GetTextCtrl()->GetValue());
     if (int(value.Length()) <= m_maxLength)
         return true;
 
@@ -809,7 +819,7 @@ wxSize wxSheetCellNumberEditorRefData::GetBestSize(wxSheet& sheet, const wxSheet
 
     wxCHECK_MSG(GetSpinCtrl(), sheet.GetCellSize(coords), wxT("wxSheetCellEditor not created"));
     // in GTK and MSW the wxTextCtrl returns a fixed width, ignoring contents
-    wxString value = sheet.GetCellValue(coords);
+    wxString value(sheet.GetCellValue(coords));
     int w = 0, h = 0;
     GetSpinCtrl()->GetTextExtent(value, &w, &h, NULL, NULL, &attr.GetFont());
     if (s_spinSize == wxSize(-1, -1))
@@ -830,7 +840,7 @@ void wxSheetCellNumberEditorRefData::BeginEdit(const wxSheetCoords& coords, wxSh
     else
     {
         m_startValue = 0;
-        wxString sValue = sheet->GetCellValue(coords);
+        wxString sValue(sheet->GetCellValue(coords));
         wxCHECK_RET(sValue.IsEmpty() || sValue.ToLong(&m_startValue),
                     _T("this cell doesn't have numeric value") );
     }
@@ -1023,7 +1033,7 @@ void wxSheetCellFloatEditorRefData::BeginEdit(const wxSheetCoords& coords, wxShe
     else
     {
         m_startValue = 0.0;
-        wxString sValue = sheet->GetCellValue(coords);
+        wxString sValue(sheet->GetCellValue(coords));
         if (!sValue.ToDouble(&m_startValue) && !sValue.IsEmpty())
         {
             wxFAIL_MSG( _T("this cell doesn't have float value") );
@@ -1276,7 +1286,7 @@ bool wxSheetCellBoolEditorRefData::EndEdit(const wxSheetCoords& coords, wxSheet*
     wxCHECK_MSG(GetControl(), false, wxT("The wxSheetCellEditor must be Created first!"));
 
     bool value = GetCheckBox()->GetValue();
-    wxString strValue = value ? wxT("1") : wxT("0");
+    wxString strValue( value ? wxT("1") : wxT("0") );
     bool changed = ( value != m_startValue );
 
     if ( changed )
@@ -1424,7 +1434,7 @@ void wxSheetCellChoiceEditorRefData::BeginEdit(const wxSheetCoords& coords, wxSh
 {
     wxCHECK_RET(GetControl(), wxT("The wxSheetCellEditor must be Created first!"));
 
-    wxString m_startValue = sheet->GetCellValue(coords);
+    wxString m_startValue( sheet->GetCellValue(coords) );
 
     if (m_allowOthers)
         GetComboBox()->SetValue(m_startValue);
@@ -1437,14 +1447,16 @@ void wxSheetCellChoiceEditorRefData::BeginEdit(const wxSheetCoords& coords, wxSh
         if ((int)GetComboBox()->GetCount() > pos)
             GetComboBox()->SetSelection(pos);
     }
-    GetComboBox()->SetInsertionPointEnd();
+    if (GetComboBox()->IsEditable())
+        GetComboBox()->SetInsertionPointEnd();
+
     GetComboBox()->SetFocus();
 }
 
 bool wxSheetCellChoiceEditorRefData::EndEdit(const wxSheetCoords& coords, wxSheet* sheet)
 {
     wxCHECK_MSG(GetControl(), false, wxT("The wxSheetCellEditor must be Created first!"));
-    wxString value = GetComboBox()->GetValue();
+    wxString value( GetComboBox()->GetValue() );
     if (value == m_startValue)
         return false;
 
@@ -1459,7 +1471,8 @@ void wxSheetCellChoiceEditorRefData::ResetValue()
 {
     wxCHECK_RET(GetControl(), wxT("The wxSheetCellEditor must be Created first!"));
     GetComboBox()->SetValue(m_startValue);
-    GetComboBox()->SetInsertionPointEnd();
+    if (GetComboBox()->IsEditable())
+        GetComboBox()->SetInsertionPointEnd();
 }
 
 void wxSheetCellChoiceEditorRefData::SetParameters(const wxString& params)
@@ -1508,7 +1521,7 @@ void wxSheetCellEnumEditorRefData::BeginEdit(const wxSheetCoords& coords, wxShee
         m_startint = table->GetValueAsLong(coords);
     else
     {
-        wxString startValue = sheet->GetCellValue(coords);
+        wxString startValue( sheet->GetCellValue(coords) );
         if (startValue.IsEmpty() || !startValue.ToLong(&m_startint))
             m_startint = -1;
     }
@@ -1522,7 +1535,7 @@ bool wxSheetCellEnumEditorRefData::EndEdit(const wxSheetCoords& coords, wxSheet*
 {
     wxCHECK_MSG(GetControl(), false, wxT("The wxSheetCellEditor must be Created first!"));
     int value = GetComboBox()->GetSelection();
-    wxString strValue = wxString::Format(wxT("%i"), value);
+    wxString strValue( wxString::Format(wxT("%i"), value) );
     bool changed = (value != m_startint);
     if (changed)
     {

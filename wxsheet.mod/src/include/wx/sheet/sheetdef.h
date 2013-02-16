@@ -4,7 +4,7 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: John Labenski
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetdef.h,v 1.8 2007/08/22 21:49:29 jrl1 Exp $
+// RCS-ID:      $Id: sheetdef.h,v 1.10 2007/12/12 05:22:38 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,12 +12,12 @@
 #ifndef __WX_SHEETDEF_H__
 #define __WX_SHEETDEF_H__
 
-#include "wx/defs.h"
-#include "wx/datetime.h"
+#include <wx/defs.h>
+#include <wx/datetime.h>
 #include "wx/sheet/wx24defs.h"   // wx2.4 backwards compatibility
-#include "wx/dynarray.h"
+#include <wx/dynarray.h>
 #if wxCHECK_VERSION(2,5,0)
-    #include "wx/arrstr.h"
+    #include <wx/arrstr.h>
 #endif // wxCHECK_VERSION(2,5,0)
 #include "wx/sheet/pairarr.h"
 
@@ -26,10 +26,10 @@
 //-----------------------------------------------------------------------------
 
 #define wxSHEET_MAJOR_VERSION      1
-#define wxSHEET_MINOR_VERSION      0
-#define wxSHEET_RELEASE_VERSION    1
+#define wxSHEET_MINOR_VERSION      1
+#define wxSHEET_RELEASE_VERSION    0
 #define wxSHEET_SUBRELEASE_VERSION 0
-#define wxSHEET_VERSION_STRING    wxT("wxSheet 1.0.1")
+#define wxSHEET_VERSION_STRING    wxT("wxSheet 1.1.0")
 
 // For non-Unix systems (i.e. when building without a configure script),
 // users of this component can use the following macro to check if the
@@ -55,6 +55,13 @@
     #define WXDLLIMPEXP_DATA_SHEET(type) type
 #endif
 
+// Forward declare all wxSheet classes with this macro
+#if defined(HAVE_VISIBILITY) || (defined(__WINDOWS__) && defined(__GNUC__))
+    #define WXDLLIMPEXP_FWD_SHEET
+#else
+    #define WXDLLIMPEXP_FWD_SHEET WXDLLIMPEXP_SHEET
+#endif
+
 // ----------------------------------------------------------------------------
 // Two simple macros that do wxCHECK_RET/MSG for the UpdatePos functions
 //   giving reasonable messages to help debugging
@@ -63,54 +70,55 @@
 #define wxSHEET_CHECKUPDATE_RET(pos, count, origcount) \
     wxCHECK_RET((int(count) == 0) || ((int(count) > 0) && (int(pos) <= int(origcount))) || \
                                      ((int(count) < 0) && (int(pos) - int(count) <= int(origcount))), \
-          wxString::Format(wxT("Updating past end of array, pos %d count %d, orig count %d"), pos, count, origcount));
+          wxString::Format(wxT("Updating past end of array, pos %d count %d, orig count %d"), int(pos), int(count), int(origcount)));
 
 #define wxSHEET_CHECKUPDATE_MSG(pos, count, origcount, ret) \
     wxCHECK_MSG((int(count) == 0) || ((int(count) > 0) && (int(pos) <= int(origcount))) || \
                                      ((int(count) < 0) && (int(pos) - int(count) <= int(origcount))), ret, \
-          wxString::Format(wxT("Updating past end of array, pos %d count %d, orig count %d"), pos, count, origcount));
+          wxString::Format(wxT("Updating past end of array, pos %d count %d, orig count %d"), int(pos), int(count), int(origcount)));
 
 // ----------------------------------------------------------------------------
 // Complete list of classes implemented by wxSheet
 // ----------------------------------------------------------------------------
 
 // Windows
-class WXDLLIMPEXP_SHEET wxSheet;                    // the spreadsheet widget
-class WXDLLIMPEXP_SHEET wxSheetChildWindow;         // child windows of the sheet
-class WXDLLIMPEXP_SHEET wxSheetRefData;             // internal use sheet data
+class WXDLLIMPEXP_FWD_SHEET wxSheet;                    // the spreadsheet widget
+class WXDLLIMPEXP_FWD_SHEET wxSheetChildWindow;         // child wxWindows of the wxSheet
+class WXDLLIMPEXP_FWD_SHEET wxSheetRefData;             // internal use wxSheet wxObjectRefData
+class WXDLLIMPEXP_FWD_SHEET wxSheetSplitter;            // wxWindow parent of a wxSheet to split it
 // Events
-class WXDLLIMPEXP_SHEET wxSheetEvent;               // events returned from the sheet
-class WXDLLIMPEXP_SHEET wxSheetRangeSelectEvent;    // cells (de)selected
-class WXDLLIMPEXP_SHEET wxSheetEditorCreatedEvent;  // editor created
-class WXDLLIMPEXP_SHEET wxSheetSplitterEvent;       // events sent from the sheet splitter
+class WXDLLIMPEXP_FWD_SHEET wxSheetEvent;               // wxEvent sent from the wxSheet
+class WXDLLIMPEXP_FWD_SHEET wxSheetRangeSelectEvent;    // cells (de)selected
+class WXDLLIMPEXP_FWD_SHEET wxSheetEditorCreatedEvent;  // editor created
+class WXDLLIMPEXP_FWD_SHEET wxSheetSplitterEvent;       // wxEvent sent from the sheet splitter
 // Attributes
-class WXDLLIMPEXP_SHEET wxSheetCellAttr;            // attribute for cell/row/col
-class WXDLLIMPEXP_SHEET wxSheetCellAttrRefData;     // refdata for attribute
-class WXDLLIMPEXP_SHEET wxArraySheetCellAttr;       //  array of cell attrs
-class WXDLLIMPEXP_SHEET wxPairArrayIntSheetCellAttr;    // int, attr pair array
-class WXDLLIMPEXP_SHEET wxPairArraySheetCoordsCellAttr; // coords, attr pair array
-class WXDLLIMPEXP_SHEET wxSheetCellAttrProvider;    // provider of attr for row/col/cell
-class WXDLLIMPEXP_SHEET wxSheetTypeRegistry;        // internal use
+class WXDLLIMPEXP_FWD_SHEET wxSheetCellAttr;            // attribute for cell/row/col
+class WXDLLIMPEXP_FWD_SHEET wxSheetCellAttrRefData;     // refdata for wxSheetCellAttr
+class WXDLLIMPEXP_FWD_SHEET wxArraySheetCellAttr;       //  array of cell attrs
+class WXDLLIMPEXP_FWD_SHEET wxPairArrayIntSheetCellAttr;    // int, attr pair array
+class WXDLLIMPEXP_FWD_SHEET wxPairArraySheetCoordsCellAttr; // coords, attr pair array
+class WXDLLIMPEXP_FWD_SHEET wxSheetCellAttrProvider;    // provider of attr for row/col/cell
+class WXDLLIMPEXP_FWD_SHEET wxSheetTypeRegistry;        // internal use
 // String containers
-//class WXDLLIMPEXP_SHEET wxSheetStringArray;             // wxArray of wxArrayString
-class WXDLLIMPEXP_SHEET wxPairArrayIntSheetString;        // pair (int, wxString)
-class WXDLLIMPEXP_SHEET wxArrayPairArrayIntSheetString;   // array of (int, str) pair
-class WXDLLIMPEXP_SHEET wxSheetValueProviderBase;         // base class value provider
-class WXDLLIMPEXP_SHEET wxSheetValueProviderString;       // a wxArrayString value provider
-class WXDLLIMPEXP_SHEET wxSheetValueProviderSparseString; // a string pair array value provider
+//class WXDLLIMPEXP_FWD_SHEET wxSheetStringArray;             // wxArray of wxArrayString
+class WXDLLIMPEXP_FWD_SHEET wxPairArrayIntSheetString;        // pair (int, wxString)
+class WXDLLIMPEXP_FWD_SHEET wxArrayPairArrayIntSheetString;   // array of (int, str) pair
+class WXDLLIMPEXP_FWD_SHEET wxSheetValueProviderBase;         // base class value provider
+class WXDLLIMPEXP_FWD_SHEET wxSheetValueProviderString;       // a wxArrayString value provider
+class WXDLLIMPEXP_FWD_SHEET wxSheetValueProviderSparseString; // a string pair array value provider
 
 // Coords/Blocks/Selection/Int arrays/Edge arrays
-class WXDLLIMPEXP_SHEET wxSheetCoords;              // cell coordinates
-class WXDLLIMPEXP_SHEET wxSheetBlock;               // rectangular block of cells
-class WXDLLIMPEXP_SHEET wxSheetSelection;           // cell selection container
-class WXDLLIMPEXP_SHEET wxSheetSelectionIterator;   // selection iterator
-class WXDLLIMPEXP_SHEET wxSheetArrayEdge;           // row/col edge container
-class WXDLLIMPEXP_SHEET wxPairArrayIntInt;          // pair of (int, int)
+class WXDLLIMPEXP_FWD_SHEET wxSheetCoords;              // cell coordinates
+class WXDLLIMPEXP_FWD_SHEET wxSheetBlock;               // rectangular block of cells
+class WXDLLIMPEXP_FWD_SHEET wxSheetSelection;           // cell selection container
+class WXDLLIMPEXP_FWD_SHEET wxSheetSelectionIterator;   // selection iterator
+class WXDLLIMPEXP_FWD_SHEET wxSheetArrayEdge;           // row/col edge container
+class WXDLLIMPEXP_FWD_SHEET wxPairArrayIntInt;          // pair of (int, int)
 // "Widgets"
-class WXDLLIMPEXP_SHEET wxSheetCellRenderer;        // drawing renderer for cell
-class WXDLLIMPEXP_SHEET wxSheetCellEditor;          // cell editor
+class WXDLLIMPEXP_FWD_SHEET wxSheetCellRenderer;        // drawing renderer for cell
+class WXDLLIMPEXP_FWD_SHEET wxSheetCellEditor;          // cell editor
 // Tables
-class WXDLLIMPEXP_SHEET wxSheetTable;               // cell value/attr provider
+class WXDLLIMPEXP_FWD_SHEET wxSheetTable;               // cell value/attr provider
 
 // ----------------------------------------------------------------------------
 // constants
@@ -197,7 +205,7 @@ enum wxSheetCell_Type
 enum wxSheetSelectionMode_Type
 {
     wxSHEET_SelectNone   = 0x0001, // don't allow selections by mouse or keyboard
-                                  // direct calls to the selections work however
+                                   // direct calls to the selections work however
     wxSHEET_SelectCells  = 0x0002, // single cells, blocks, rows, and cols
     wxSHEET_SelectRows   = 0x0004, // only rows can be selected
     wxSHEET_SelectCols   = 0x0008, // only cols can be selected

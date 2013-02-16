@@ -4,7 +4,7 @@
 // Author:      John Labenski, Paul Gammans, Roger Gammans
 // Modified by: John Labenski
 // Created:     11/04/2001
-// RCS-ID:      $Id: sheetren.h,v 1.3 2006/07/27 02:41:32 jrl1 Exp $
+// RCS-ID:      $Id: sheetren.h,v 1.5 2007/12/12 05:22:38 jrl1 Exp $
 // Copyright:   (c) John Labenski, The Computer Surgery (paul@compsurg.co.uk)
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,10 +17,10 @@
 #endif
 
 #include "wx/sheet/sheetdef.h"
-#include "wx/datetime.h"
-#include "wx/bitmap.h"
+#include <wx/datetime.h>
+#include <wx/bitmap.h>
 
-class WXDLLIMPEXP_SHEET wxSheetCellRendererRefData;
+class WXDLLIMPEXP_FWD_SHEET wxSheetCellRendererRefData;
 
 // ----------------------------------------------------------------------------
 // wxSheetCellRenderer:
@@ -59,6 +59,7 @@ public:
     void SetParameters(const wxString& params);
 
     bool Copy(const wxSheetCellRenderer& other);
+    wxSheetCellRenderer  Copy() const  { wxSheetCellRenderer obj; obj.Copy(*this); return obj; }
 
     // operators
     bool operator == (const wxSheetCellRenderer& obj) const { return m_refData == obj.m_refData; }
@@ -69,8 +70,14 @@ public:
         return *this;
     }
 
-    wxSheetCellRenderer Clone() const     { wxSheetCellRenderer obj; obj.Copy(*this); return obj; }
-    wxSheetCellRenderer* NewClone() const { return new wxSheetCellRenderer(Clone()); }
+    // wxSheet >= 1.1 : Function Clone() renamed to Copy() and NewClone() is now Clone()
+    wxSheetCellRenderer& operator = (const wxSheetCellRenderer* obj)
+    {
+        wxFAIL_MSG(wxT("wxSheetCellRenderer a = &otherRenderer? Did you mean to use Copy() instead of Clone()"));
+        return *(wxSheetCellRenderer*)obj;
+    }
+
+    wxSheetCellRenderer* Clone() const { return new wxSheetCellRenderer(Copy()); }
     DECLARE_DYNAMIC_CLASS(wxSheetCellRenderer)
 };
 
@@ -84,25 +91,26 @@ class WXDLLIMPEXP_SHEET wxSheetCellRendererRefData : public wxObjectRefData, pub
 public:
     wxSheetCellRendererRefData() {}
 
-    // this pure virtual function has a default implementation which will
+    // Draw whatever is necessary onto the wxDC in the wxRect pixel coords.
+    // This function has a default implementation which will
     // prepare the DC using the given attribute: it will draw the cell rectangle
     // with the bg colour from attr and set the dc's text colour and font
     virtual void Draw(wxSheet& sheet, const wxSheetCellAttr& attr,
                       wxDC& dc, const wxRect& rect,
                       const wxSheetCoords& coords, bool isSelected);
 
-    // get the preferred size of the cell for its contents
+    // Get the preferred size of the cell for its contents
     virtual wxSize GetBestSize(wxSheet& sheet, const wxSheetCellAttr& attr,
                                wxDC& dc, const wxSheetCoords& coords);
 
     // Get a string representation of the cell value
     virtual wxString GetString(wxSheet& sheet, const wxSheetCoords& coords);
 
-    // interpret renderer parameters: arbitrary string whose interpretation is
+    // Interpret renderer parameters: arbitrary string whose interpretation is
     // left to the derived classes
     virtual void SetParameters(const wxString& WXUNUSED(params)) {}
 
-    // always define Copy for DECLARE_SHEETOBJREFDATA_COPY_CLASS
+    // Always define Copy for DECLARE_SHEETOBJREFDATA_COPY_CLASS
     bool Copy(const wxSheetCellRendererRefData& WXUNUSED(other)) { return true; }
     DECLARE_SHEETOBJREFDATA_COPY_CLASS(wxSheetCellRendererRefData,
                                        wxSheetCellRendererRefData)
@@ -118,12 +126,12 @@ class WXDLLIMPEXP_SHEET wxSheetCellStringRendererRefData : public wxSheetCellRen
 public:
     wxSheetCellStringRendererRefData();
 
-    // draw the string
+    // Sraw the string
     virtual void Draw(wxSheet& sheet, const wxSheetCellAttr& attr,
                       wxDC& dc, const wxRect& rect,
                       const wxSheetCoords& coords, bool isSelected);
 
-    // return the string extent
+    // Return the string extent
     virtual wxSize GetBestSize(wxSheet& sheet, const wxSheetCellAttr& attr,
                                wxDC& dc, const wxSheetCoords& coords);
 
@@ -131,11 +139,11 @@ public:
                 wxDC& dc, const wxRect& rect,
                 const wxSheetCoords& coords, bool isSelected);
 
-    // set the text colours before drawing
+    // Set the text colours before drawing
     void SetTextColoursAndFont(wxSheet& sheet, const wxSheetCellAttr& attr,
                                wxDC& dc, bool isSelected);
 
-    // calc the string extent for given string/font
+    // Calc the string extent for given string/font
     wxSize DoGetBestSize(wxSheet& sheet, const wxSheetCellAttr& attr,
                          wxDC& dc, const wxString& text);
 
@@ -201,7 +209,7 @@ public:
     wxSheetCellFloatRendererRefData(int width = -1, int precision = -1)
         : m_width(width), m_precision(precision) { }
 
-    // get/change formatting parameters "%[width].[precision]f"
+    // Get/change formatting parameters "%[width].[precision]f"
     int  GetWidth() const            { return m_width; }
     void SetWidth(int width)         { m_width = width; m_format.clear(); }
     int  GetPrecision() const        { return m_precision; }
@@ -211,7 +219,7 @@ public:
                       wxDC& dc, const wxRect& rect,
                       const wxSheetCoords& coords, bool isSelected);
 
-    // parameters string format is "width[,precision]"
+    // Parameters string format is "width[,precision]"
     virtual void SetParameters(const wxString& params);
 
     virtual wxString GetString(wxSheet& sheet, const wxSheetCoords& coords);
@@ -247,12 +255,12 @@ public:
     wxSheetCellBitmapRendererRefData(const wxBitmap& bitmap = wxNullBitmap,
                                      int align = 0) : m_bitmap(bitmap), m_align(align) {}
 
-    // draw a the bitmap
+    // Draw a the bitmap
     virtual void Draw(wxSheet& sheet, const wxSheetCellAttr& attr,
                       wxDC& dc, const wxRect& rect,
                       const wxSheetCoords& coords, bool isSelected);
 
-    // return the bitmap size
+    // Return the bitmap size
     virtual wxSize GetBestSize(wxSheet& sheet, const wxSheetCellAttr& attr,
                                wxDC& dc, const wxSheetCoords& coords);
 
@@ -261,9 +269,9 @@ public:
     void SetBitmap(const wxBitmap& bitmap) { m_bitmap = bitmap; }
     // Get/Set the bitmap alignment, wxALIGN_XXX | wxSHEET_BMPREN_Type | wxGROW
     //   The wxSHEET_BMPREN_Type determines the relative positions of bmp and text
-    //   The wxALIGN_XXX sets the alignment of the bitmap in it's area of the cell
+    //   The wxALIGN_XXX sets the alignment of the bitmap in its area of the cell
     //   wxGROW will expand or shrink bitmap instead of clipping it
-    //   The cell attribute's alignment sets the alignment of the text in it's area of the cell
+    //   The cell attribute's alignment sets the alignment of the text in its area of the cell
     int GetAlignment() const { return m_align; }
     void SetAlignment(int align) { m_align = align; }
 
@@ -293,12 +301,12 @@ class WXDLLIMPEXP_SHEET wxSheetCellBoolRendererRefData : public wxSheetCellRende
 public:
     wxSheetCellBoolRendererRefData() {}
 
-    // draw a check mark or nothing
+    // Draw a check mark or nothing
     virtual void Draw(wxSheet& sheet, const wxSheetCellAttr& attr,
                       wxDC& dc, const wxRect& rect,
                       const wxSheetCoords& coords, bool isSelected);
 
-    // return the checkmark size
+    // Return the checkmark size
     virtual wxSize GetBestSize(wxSheet& sheet, const wxSheetCellAttr& attr,
                                wxDC& dc, const wxSheetCoords& coords);
 
@@ -329,7 +337,7 @@ public:
                       wxDC& dc, const wxRect& rect,
                       const wxSheetCoords& coords, bool isSelected);
 
-    // parameters string format is "width[,precision]"
+    // Parameters string format is "width[,precision]"
     virtual void SetParameters(const wxString& params);
 
     wxString GetInFormat() const  { return m_inFormat; }
@@ -364,7 +372,7 @@ public:
                       wxDC& dc, const wxRect& rect,
                       const wxSheetCoords& coords, bool isSelected);
 
-    // parameters string format is "item1[,item2[...,itemN]]"
+    // Parameters string format is "item1[,item2[...,itemN]]"
     virtual void SetParameters(const wxString& params);
 
     wxArrayString& GetChoices() { return m_choices; }

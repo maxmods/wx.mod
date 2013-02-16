@@ -4,7 +4,7 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: John Labenski
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheettbl.h,v 1.3 2005/08/02 06:05:22 jrl1 Exp $
+// RCS-ID:      $Id: sheettbl.h,v 1.4 2007/12/11 04:37:00 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@
 // ----------------------------------------------------------------------------
 // wxSheetTable - data provider table for the wxSheet you may want to subclass
 //    this to optimize it for your purposes, however it is usable as is
-//    if you set the appropriate containers. See wxSheet::CreateGrid code.
+//    if you set the appropriate containers. See wxSheet::CreateGrid() code.
 // ----------------------------------------------------------------------------
 class WXDLLIMPEXP_SHEET wxSheetTable : public wxObject, public wxClientDataContainer
 {
@@ -49,12 +49,12 @@ public:
         { return (coords.m_col == -1) && ContainsGridRow(coords.m_row); }
     bool ContainsColLabelCell( const wxSheetCoords& coords )
         { return (coords.m_row == -1) && ContainsGridCol(coords.m_col); }
-    
+
     // ------------------------------------------------------------------------
     // Cell value handling
-        
+
     // GetValue as a string, coords use -1 notatation for label cells
-    //   you must have set the value providers for cell values or subclass 
+    //   you must have set the value providers for cell values or subclass
     //   this and return values on the fly.
     //   The label cells will return a default value if no provider is set.
     virtual wxString GetValue( const wxSheetCoords& coords );
@@ -68,22 +68,22 @@ public:
     virtual int GetFirstNonEmptyColToLeft( const wxSheetCoords& coords );
 
     // Clear the values of the grid, the defaut can be used to clear
-    //   ORed together different enum wxSheetUpdate_Type 
+    //   ORed together different enum wxSheetUpdate_Type
     virtual void ClearValues(int update = wxSHEET_UpdateValues);
-        
+
     // default GetRow/ColLabelValue returns numbers for rows and A-AZ for cols
     //   GetValue is routed to these functions if no value providers for the
     //   labels are set.
     wxString GetDefaultRowLabelValue( int row ) const;
     wxString GetDefaultColLabelValue( int col ) const;
-        
+
     // Specific data type determination and value access
 
     // try to return GetValue as a long, returns 0 on failure
     virtual long   GetValueAsLong( const wxSheetCoords& coords );
     // try to return GetValue as a double, returns 0 on failure
     virtual double GetValueAsDouble( const wxSheetCoords& coords );
-    // try to return GetValue as a bool, 
+    // try to return GetValue as a bool,
     //    false is "", "0", "f", "false" w/ no case, true otherwise
     virtual bool   GetValueAsBool( const wxSheetCoords& coords );
 
@@ -98,18 +98,18 @@ public:
     //   The default implementation does nothing and gives an error if used
     virtual void* GetValueAsCustom( const wxSheetCoords& coords, const wxString& typeName );
     virtual void  SetValueAsCustom( const wxSheetCoords& coords, const wxString& typeName, void* value );
-    
+
     // Returns whether the type is supported, default is wxSHEET_VALUE_STRING
     virtual bool CanGetValueAs( const wxSheetCoords& coords, const wxString& typeName );
     // Can you set the value as type? default returns CanGetValueAs
     virtual bool CanSetValueAs( const wxSheetCoords& coords, const wxString& typeName );
 
-    // Get the type name for the cell, default returns wxEmptyString, if you 
-    //  return one of wxSHEET_VALUE_XXX the attributes will return an 
+    // Get the type name for the cell, default returns wxEmptyString, if you
+    //  return one of wxSHEET_VALUE_XXX the attributes will return an
     //  appropriate renderer and editor
     virtual wxString GetTypeName( const wxSheetCoords& coords );
 
-    // Get/Set value providers, may be NULL. 
+    // Get/Set value providers, may be NULL.
     //   The GridCellValueProvider is required unless you have subclassed
     //   the table and override GetValue yourself. The label providers
     //   are not necesary and GetDefaultRow/ColLabelValue will be called.
@@ -123,34 +123,34 @@ public:
 
     // ------------------------------------------------------------------------
     // Attribute handling
-   
+
     // by default forwarded to wxSheetCellAttrProvider if any. May be
     // overridden to handle attributes directly in the table.
     // See wxSheetCellAttrProvider for coords and type meaning
     virtual wxSheetCellAttr GetAttr( const wxSheetCoords& coords,
                                      wxSheetAttr_Type kind );
-    
+
     // See wxSheetCellAttrProvider for coords and type meaning
-    virtual void SetAttr( const wxSheetCoords& coords, 
-                          const wxSheetCellAttr &attr, 
+    virtual void SetAttr( const wxSheetCoords& coords,
+                          const wxSheetCellAttr &attr,
                           wxSheetAttr_Type kind );
 
     // get the currently used attr provider (may be NULL)
     virtual wxSheetCellAttrProvider* GetAttrProvider() const { return m_attrProvider; }
     // Set the attr provider to use - take ownership if is_owner
     void SetAttrProvider(wxSheetCellAttrProvider *attrProvider, bool is_owner);
-    
+
     // ------------------------------------------------------------------------
-    // Cell spanning - cells may overlap neighbor cells to the right and below, 
-    //   hiding the cells they cover. 
-    //   By default, the internal selection is created for you, however in a 
-    //     subclassed table you may return NULL so long as you don't call 
+    // Cell spanning - cells may overlap neighbor cells to the right and below,
+    //   hiding the cells they cover.
+    //   By default, the internal selection is created for you, however in a
+    //     subclassed table you may return NULL so long as you don't call
     //     SetCellSpan, if not set GetCellBlock() returns a 1x1 block.
-    
-    // Note: this code should be as efficient as possible since it's called 
-    //  numerous times during drawing. It would be nice to have two virtual 
-    //  functions Get/Set and use them exculsively, but direct access to the 
-    //  selection's array is decidedly faster under many circumstances. 
+
+    // Note: this code should be as efficient as possible since it's called
+    //  numerous times during drawing. It would be nice to have two virtual
+    //  functions Get/Set and use them exculsively, but direct access to the
+    //  selection's array is decidedly faster under many circumstances.
     //  See DrawAllGridLines and ExpandSpannedBlock for examples
 
     // Are there any spanned cells at all?
@@ -158,11 +158,11 @@ public:
     // Get a block of the cell, unless a spanned cell it's of size 1,1
     //   note: the top left of block is the 'owner' cell of coords
     virtual wxSheetBlock GetCellBlock( const wxSheetCoords& coords );
-    // Set the span of a cell, must be 1x1 or greater. 
+    // Set the span of a cell, must be 1x1 or greater.
     // To remove a spanned cell set it to a cell of size 1x1
-    // For grid cells the whole block must be contained within the grid cells 
-    //  and if the block intersects a previously spanned cell block the top left 
-    //  corners must match up. 
+    // For grid cells the whole block must be contained within the grid cells
+    //  and if the block intersects a previously spanned cell block the top left
+    //  corners must match up.
     // Row and Col labels can span cells as well, spanned row labels must have a
     //  width of 1 and a height of >= 1, col labels a height of 1 and width >= 1
     virtual void SetCellSpan( const wxSheetBlock& block );
@@ -172,25 +172,25 @@ public:
     // Set the spanned block provider to use - take ownership if is_owner
     void SetSpannedBlocks(wxSheetSelection *spannedCells, bool is_owner);
 
-    // ------------------------------------------------------------------------   
+    // ------------------------------------------------------------------------
 
-    // Update the number of rows cols 
-    //   if numRows/Cols < 0 delete, else append if row/col == the current 
+    // Update the number of rows cols
+    //   if numRows/Cols < 0 delete, else append if row/col == the current
     //   number of rows/cols, else insert at row/col
     virtual bool UpdateRows( size_t row, int numRows, int update = wxSHEET_UpdateAll );
     virtual bool UpdateCols( size_t col, int numCols, int update = wxSHEET_UpdateAll );
 
     // If you have a pure virtual table and you merely want to alert the sheet
     //  that the number of rows/cols have changed then call this function.
-    //  It compares the wxSheetTable::GetNumberRows/Cols to 
-    //  wxSheet::GetNumberRows/Cols and either appends Rows/Cols or deletes 
+    //  It compares the wxSheetTable::GetNumberRows/Cols to
+    //  wxSheet::GetNumberRows/Cols and either appends Rows/Cols or deletes
     //  them from the end.
-    //  You probably won't want to use this if you've set attributes for 
+    //  You probably won't want to use this if you've set attributes for
     //  particular cells since this only appends and deletes from the end.
     virtual bool UpdateSheetRowsCols(int update = wxSHEET_UpdateAll );
 
 protected:
-    // return update functions back to the sheet calling DoUpdateRows/Cols 
+    // return update functions back to the sheet calling DoUpdateRows/Cols
     // if you subclass this you must make sure these are called
     bool UpdateSheetRows( size_t row, int numRows, int update = wxSHEET_UpdateAll );
     bool UpdateSheetCols( size_t col, int numCols, int update = wxSHEET_UpdateAll );
