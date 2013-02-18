@@ -46,7 +46,7 @@ extern "C" {
 	int bmx_wxanimationctrl_loadfile(wxAnimationCtrl * anim, BBString * file, int animType);
 	int bmx_wxanimationctrl_load(wxAnimationCtrl * anim, MaxInputStream * stream, int animType);
 	int bmx_wxanimationctrl_play(wxAnimationCtrl * anim);
-	void bmx_wxanimationctrl_setanimation(wxAnimationCtrl * anim, MaxAnimation * anim);
+	void bmx_wxanimationctrl_setanimation(wxAnimationCtrl * anim, MaxAnimation * animation);
 	void bmx_wxanimationctrl_setinactivebitmap(wxAnimationCtrl * anim, MaxBitmap * bitmap);
 	void bmx_wxanimationctrl_stop(wxAnimationCtrl * anim);
 
