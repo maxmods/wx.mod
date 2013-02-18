@@ -21,6 +21,35 @@ Import wx.wxGauge
 Import wx.wxComboBox
 Import wx.wxColourPickerCtrl
 Import wx.wxCalendarCtrl
+Import wx.wxChoicebook
+Import wx.wxAnimationCtrl
+Import wx.wxBannerWindow
+Import wx.wxCommandLinkButton
+Import wx.wxCheckListBox
+Import wx.wxBitmapComboBox
+Import wx.wxGenericDirCtrl
+Import wx.wxFileCtrl
+Import wx.wxHtmlWindow
+Import wx.wxListBox
+Import wx.wxSimpleHtmlListBox
+Import wx.wxListCtrl
+Import wx.wxSplitterWindow
+Import wx.wxRadioButton
+Import wx.wxRadioBox
+'Import wx.wxRibbonBar
+Import wx.wxScrollBar
+Import wx.wxSpinButton
+Import wx.wxSpinCtrl
+Import wx.wxSearchCtrl
+Import wx.wxOwnerDrawnComboBox
+Import wx.wxToolbook
+Import wx.wxTreebook
+Import wx.wxTreeCtrl
+Import wx.wxFilePickerCtrl
+'Import wx.wxDirPickerCtrl
+Import wx.wxFontPickerCtrl
+Import wx.wxBitmapButton
+Import wx.wxCollapsiblePane
 
 New MyApp.Run()
  
@@ -33,6 +62,7 @@ Type MyApp Extends wxApp
 		' you want PNGs, then add a PNG handler, etc. See wxImage.AddHandler()
 		' documentation for the types of image handlers available.
 		wxImage.AddHandler(New wxXPMHandler)
+		wxImage.AddHandler(New wxGIFHandler)
 		
 		' Initialize all the XRC handlers. Always required (unless you feel like
 		' going through and initializing a handler of each control type you will
