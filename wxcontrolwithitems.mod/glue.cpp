@@ -102,12 +102,15 @@ int bmx_wxcontrolwithitems_findstring(wxControlWithItems * control, BBString * t
 }
 
 BBObject * bmx_wxcontrolwithitems_getclientdata(wxControlWithItems * control, int item) {
-	void * data = control->GetClientData(item);
-	if (data) {
-		return (BBObject*)data;
-	} else {
-		return &bbNullObject;
+	if (control->HasClientUntypedData()) {
+		void * data = control->GetClientData(item);
+		if (data) {
+			return (BBObject*)data;
+		} else {
+			return &bbNullObject;
+		}
 	}
+	return &bbNullObject;
 }
 
 BBArray * bmx_wxcontrolwithitems_getstrings(wxControlWithItems * control) {

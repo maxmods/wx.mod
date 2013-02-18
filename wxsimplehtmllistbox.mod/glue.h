@@ -20,14 +20,21 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_SIMPLEHTMLLISTBOX_H_
+#define _WX_MAX_SIMPLEHTMLLISTBOX_H_
+
 #include "wxglue.h"
 #include "wx/htmllbox.h"
+#include "wx/xrc/xh_htmllbox.h"
+#include "wx/xml/xml.h"
 
 class MaxSimpleHtmlListBox;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxsimplehtmllistbox_wxSimpleHtmlListBox__xrcNew(wxSimpleHtmlListBox * listbox);
 
 	MaxSimpleHtmlListBox * bmx_wxsimplehtmllistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 
@@ -51,7 +58,7 @@ extern "C" {
 	void bmx_wxsimplehtmllistbox_setstring(wxSimpleHtmlListBox * listbox, unsigned int item, BBString * text);
 	void bmx_wxsimplehtmllistbox_setstringselection(wxSimpleHtmlListBox * listbox, BBString * text);
 
-	
+	void bmx_wxsimplehtmllistbox_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -72,3 +79,19 @@ private:
 };
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxSimpleHtmlListBoxXmlHandler : public wxSimpleHtmlListBoxXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxSimpleHtmlListBoxXmlHandler)
+
+public:
+    MaxSimpleHtmlListBoxXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
+
+
+    bool m_insideBox;
+    wxArrayString strList;
+};
+
+#endif

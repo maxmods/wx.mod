@@ -20,6 +20,9 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_TOOLBAR_H_
+#define _WX_MAX_TOOLBAR_H_
+
 #include "wxglue.h"
 #include "wx/toolbar.h"
 #include "../wxbitmap.mod/glue.h"
@@ -147,4 +150,7 @@ public:
 
     bool m_isInside;
     wxToolBar *m_toolbar;
+    wxSize m_toolSize;
 };
+
+#endif

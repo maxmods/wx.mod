@@ -39,10 +39,12 @@ MaxChoice::~MaxChoice() {
 
 	// we need to free any items
 	int count = GetCount();
-	for (int i = 0; i < count; i++) {
-		void * data = GetClientData(i);
-		if (data) {
-			BBRELEASE((BBObject*)data);
+	if (HasClientUntypedData()) {
+		for (int i = 0; i < count; i++) {
+			void * data = GetClientData(i);
+			if (data) {
+				BBRELEASE((BBObject*)data);
+			}
 		}
 	}
 }

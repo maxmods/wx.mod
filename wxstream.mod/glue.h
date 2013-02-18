@@ -20,6 +20,9 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_STREAM_H_
+#define _WX_MAX_STREAM_H_
+
 #include "wxglue.h"
 
 class MaxInputStream;
@@ -59,3 +62,5 @@ private:
 	BBObject * maxHandle;
 
 };
+
+#endif

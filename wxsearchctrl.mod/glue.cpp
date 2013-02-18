@@ -30,10 +30,44 @@ MaxSearchCtrl::MaxSearchCtrl(BBObject * handle, wxWindow * parent, wxWindowID id
 	wxbind(this, handle);
 }
 
+MaxSearchCtrl::MaxSearchCtrl()
+{}
+
 MaxSearchCtrl::~MaxSearchCtrl() {
 	wxunbind(this);
 }
 
+void MaxSearchCtrl::MaxBind(BBObject * handle) {
+	wxbind(this, handle);
+}
+
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxSearchCtrlXmlHandler, wxSearchCtrlXmlHandler)
+
+MaxSearchCtrlXmlHandler::MaxSearchCtrlXmlHandler()
+	: wxSearchCtrlXmlHandler()
+{}
+
+wxObject *MaxSearchCtrlXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(ctrl, MaxSearchCtrl)
+
+    ctrl->Create(m_parentAsWindow,
+                 GetID(),
+                 GetText(wxT("value")),
+                 GetPosition(),
+                 GetSize(),
+                 GetStyle(wxT("style"), wxTE_LEFT),
+                 wxDefaultValidator,
+                 GetName());
+
+	ctrl->MaxBind(_wx_wxsearchctrl_wxSearchCtrl__xrcNew(ctrl));
+
+    SetupWindow(ctrl);
+
+    return ctrl;
+}
 
 // *********************************************
 
@@ -82,3 +116,8 @@ int bmx_wxsearchctrl_geteventtype(int type) {
 	return 0;
 }
 
+// *********************************************
+
+void bmx_wxsearchctrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxSearchCtrlXmlHandler);
+}

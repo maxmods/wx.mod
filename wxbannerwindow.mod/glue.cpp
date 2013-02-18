@@ -104,6 +104,9 @@ wxObject * MaxBannerWindowXmlHandler::DoCreateResource()
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxBannerWindow, wxBannerWindow)
+END_EVENT_TABLE()
+
 MaxBannerWindow * bmx_wxbannerwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int dir, int x, int y,
 		int w, int h, long style) {
 		
@@ -122,3 +125,8 @@ void bmx_wxbannerwindow_setgradient(wxBannerWindow * banner, MaxColour * colStar
 	banner->SetGradient(colStart->Colour(), colEnd->Colour());
 }
 
+// *********************************************
+
+void bmx_wxbannerwindow_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxBannerWindowXmlHandler);
+}

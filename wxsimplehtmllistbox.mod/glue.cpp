@@ -39,10 +39,12 @@ MaxSimpleHtmlListBox::~MaxSimpleHtmlListBox() {
 
 	// we need to free any items
 	int count = GetCount();
-	for (int i = 0; i < count; i++) {
-		void * data = GetClientData(i);
-		if (data) {
-			BBRELEASE((BBObject*)data);
+	if (HasClientUntypedData()) {
+		for (int i = 0; i < count; i++) {
+			void * data = GetClientData(i);
+			if (data) {
+				BBRELEASE((BBObject*)data);
+			}
 		}
 	}
 }
@@ -51,6 +53,66 @@ void MaxSimpleHtmlListBox::MaxBind(BBObject * handle) {
 	wxbind(this, handle);
 }
 
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxSimpleHtmlListBoxXmlHandler, wxSimpleHtmlListBoxXmlHandler)
+
+MaxSimpleHtmlListBoxXmlHandler::MaxSimpleHtmlListBoxXmlHandler()
+	: wxSimpleHtmlListBoxXmlHandler()
+{}
+
+wxObject * MaxSimpleHtmlListBoxXmlHandler::DoCreateResource()
+{
+    if ( m_class == wxT("wxSimpleHtmlListBox"))
+    {
+        // find the selection
+        long selection = GetLong(wxT("selection"), -1);
+
+        // need to build the list of strings from children
+        m_insideBox = true;
+        CreateChildrenPrivately(NULL, GetParamNode(wxT("content")));
+        m_insideBox = false;
+
+        XRC_MAKE_INSTANCE(control, MaxSimpleHtmlListBox)
+
+        control->Create(m_parentAsWindow,
+                        GetID(),
+                        GetPosition(), GetSize(),
+                        strList,
+                        GetStyle(wxT("style"), wxHLB_DEFAULT_STYLE),
+                        wxDefaultValidator,
+                        GetName());
+
+        if (selection != -1)
+            control->SetSelection(selection);
+
+        control->MaxBind(_wx_wxsimplehtmllistbox_wxSimpleHtmlListBox__xrcNew(control));
+
+        SetupWindow(control);
+        strList.Clear();    // dump the strings
+
+        return control;
+    }
+    else
+    {
+        // on the inside now.
+        // handle <item>Label</item>
+
+        // add to the list
+        wxString str = GetNodeContent(m_node);
+        if (m_resource->GetFlags() & wxXRC_USE_LOCALE)
+            str = wxGetTranslation(str, m_resource->GetDomain());
+        strList.Add(str);
+
+        return NULL;
+    }
+}
+
+bool MaxSimpleHtmlListBoxXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return (IsOfClass(node, wxT("wxSimpleHtmlListBox")) ||
+           (m_insideBox && node->GetName() == wxT("item")));
+}
 
 // *********************************************
 
@@ -73,8 +135,8 @@ bool bmx_wxsimplehtmllistbox_isempty(wxSimpleHtmlListBox * listbox) {
 	return listbox->IsEmpty();
 }
 
-void bmx_wxsimplehtmllistbox_selectitem(wxItemContainerImmutable * listbox, int item) {
-	listbox->Select(item);
+void bmx_wxsimplehtmllistbox_selectitem(wxSimpleHtmlListBox * listbox, int item) {
+	static_cast<wxItemContainerImmutable*>(listbox)->Select(item);
 }
 
 int bmx_wxsimplehtmllistbox_append(wxSimpleHtmlListBox * listbox, BBString * item, BBObject * clientData) {
@@ -86,11 +148,13 @@ int bmx_wxsimplehtmllistbox_append(wxSimpleHtmlListBox * listbox, BBString * ite
 
 void bmx_wxsimplehtmllistbox_clear(wxSimpleHtmlListBox * listbox) {
 
-	int count = listbox->GetCount();
-	for (int i = 0; i < count; i++) {
-		void * data = listbox->GetClientData(i);
-		if (data) {
-			BBRELEASE((BBObject*)data);
+	if (listbox->HasClientUntypedData()) {
+		int count = listbox->GetCount();
+		for (int i = 0; i < count; i++) {
+			void * data = listbox->GetClientData(i);
+			if (data) {
+				BBRELEASE((BBObject*)data);
+			}
 		}
 	}
 
@@ -98,9 +162,11 @@ void bmx_wxsimplehtmllistbox_clear(wxSimpleHtmlListBox * listbox) {
 }
 
 void bmx_wxsimplehtmllistbox_deleteitem(wxSimpleHtmlListBox * listbox, int item) {
-	void * data = listbox->GetClientData(item);
-	if (data) {
-		BBRELEASE((BBObject*)data);
+	if (listbox->HasClientUntypedData()) {
+		void * data = listbox->GetClientData(item);
+		if (data) {
+			BBRELEASE((BBObject*)data);
+		}
 	}
 	
 	listbox->Delete(item);
@@ -130,12 +196,16 @@ int bmx_wxsimplehtmllistbox_findstring(wxSimpleHtmlListBox * listbox, BBString *
 }
 
 BBObject * bmx_wxsimplehtmllistbox_getclientdata(wxSimpleHtmlListBox * listbox, int item) {
-	void * data = listbox->GetClientData(item);
-	if (data) {
-		return (BBObject*)data;
-	} else {
-		return &bbNullObject;
+	if (listbox->HasClientUntypedData()) {
+		void * data = listbox->GetClientData(item);
+		if (data) {
+			return (BBObject*)data;
+		} else {
+			return &bbNullObject;
+		}
 	}
+	
+	return &bbNullObject;
 }
 
 BBArray * bmx_wxsimplehtmllistbox_getstrings(wxSimpleHtmlListBox * listbox) {
@@ -147,9 +217,11 @@ BBString * bmx_wxsimplehtmllistbox_getstringselection(wxSimpleHtmlListBox * list
 }
 
 void bmx_wxsimplehtmllistbox_setclientdata(wxSimpleHtmlListBox * listbox, int item, BBObject * clientData) {
-	void * data = listbox->GetClientData(item);
-	if (data) {
-		BBRELEASE((BBObject*)data);
+	if (listbox->HasClientUntypedData()) {
+		void * data = listbox->GetClientData(item);
+		if (data) {
+			BBRELEASE((BBObject*)data);
+		}
 	}
 	listbox->SetClientData(item, clientData);
 	if (clientData != &bbNullObject) {
@@ -165,4 +237,9 @@ void bmx_wxsimplehtmllistbox_setstringselection(wxSimpleHtmlListBox * listbox, B
 	listbox->SetStringSelection(wxStringFromBBString(text));
 }
 
+// *********************************************
+
+void bmx_wxsimplehtmllistbox_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxSimpleHtmlListBoxXmlHandler);
+}
 

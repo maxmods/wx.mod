@@ -20,8 +20,13 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_TOOLBOOK_H_
+#define _WX_MAX_TOOLBOOK_H_
+
 #include "wxglue.h"
 #include "wx/toolbook.h"
+#include "wx/xrc/xh_toolbk.h"
+#include "wx/xml/xml.h"
 
 class MaxToolbook;
 
@@ -29,10 +34,13 @@ extern "C" {
 
 #include <blitz.h>
 
+	BBObject * _wx_wxtoolbook_wxToolbook__xrcNew(wxToolbook * toolbook);
+
 	MaxToolbook * bmx_wxtoolbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	wxToolBarBase * bmx_wxtoolbook_gettoolbar(wxToolbook * book);
 	void bmx_wxtoolbook_realize(wxToolbook * book);
 
+	void bmx_wxtoolbook_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -40,7 +48,26 @@ extern "C" {
 class MaxToolbook : public wxToolbook
 {
 public:
+	MaxToolbook();
 	MaxToolbook(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	~MaxToolbook();
+
+	void MaxBind(BBObject * handle);
 };
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxToolbookXmlHandler : public wxToolbookXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxToolbookXmlHandler)
+
+public:
+    MaxToolbookXmlHandler();
+    virtual wxObject *DoCreateResource();
+	bool CanHandle(wxXmlNode *node);
+	
+    bool m_isInside;
+    wxToolbook *m_toolbook;
+};
+
+#endif

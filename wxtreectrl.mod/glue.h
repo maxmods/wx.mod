@@ -20,9 +20,14 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_TREECTRL_H_
+#define _WX_MAX_TREECTRL_H_
+
 #include "wxglue.h"
 #include "wx/treectrl.h"
 #include "wx/imaglist.h"
+#include "wx/xrc/xh_tree.h"
+#include "wx/xml/xml.h"
 
 class MaxTreeCtrl;
 class MaxTreeItem;
@@ -137,6 +142,8 @@ extern "C" {
 	bool bmx_wxtreeevent_iseditcancelled(wxTreeEvent & event);
 	void bmx_wxtreeevent_settooltip(wxTreeEvent & event, BBString * tip);
 
+	void bmx_wxtreectrl_addresourcehandler();
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -183,3 +190,16 @@ public:
 private :
 	BBObject * maxHandle;
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxTreeCtrlXmlHandler : public wxTreeCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxTreeCtrlXmlHandler)
+
+public:
+    MaxTreeCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+
+#endif

@@ -55,6 +55,18 @@ bbdoc: Similar to wxNotebook but which uses a wxToolBar to show the labels inste
 End Rem
 Type wxToolbook Extends wxBookCtrlBase
 
+	Function _create:wxToolbook(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxToolbook = New wxToolbook
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxToolbook(wxObjectPtr:Byte Ptr)
+		Return wxToolbook._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: 
 	End Rem
@@ -140,3 +152,12 @@ End Type
 
 New TToolBookEventFactory
 
+Type TToolbookResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxtoolbook_addresourcehandler()
+	End Method
+		
+End Type
+
+New TToolbookResourceFactory

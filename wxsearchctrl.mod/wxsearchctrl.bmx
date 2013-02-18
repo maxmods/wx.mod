@@ -55,6 +55,18 @@ bbdoc: A search control is a composite control with a search button, a text cont
 End Rem
 Type wxSearchCtrl Extends wxTextCtrl
 
+	Function _create:wxSearchCtrl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxSearchCtrl = New wxSearchCtrl
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+	End Function
+
+	Function _xrcNew:wxSearchCtrl(wxObjectPtr:Byte Ptr)
+		Return wxSearchCtrl._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Constructor, creating and showing a text control.
 	End Rem
@@ -163,3 +175,13 @@ Type TSearchCtrlEventFactory Extends TEventFactory
 End Type
 
 New TSearchCtrlEventFactory
+
+Type TSearchCtrlResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxsearchctrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New TSearchCtrlResourceFactory

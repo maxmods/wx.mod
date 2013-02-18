@@ -28,7 +28,7 @@ Module wx.wxShapeFramework
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2009-2011 Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2009-2013 Bruce A Henderson"
 
 
 ?linux

@@ -708,3 +708,12 @@ Rem
 bbdoc: File extensions the stream handles
 End Rem
 Const wxSTREAM_FILEEXT:Int = 3
+
+Rem
+bbdoc: The default wildcard string used in wxFileDialog corresponding to all files.
+End Rem
+?win32
+Const wxFileSelectorDefaultWildcard:String = "*.*"
+?Not win32
+Const wxFileSelectorDefaultWildcard:String = "*"
+?

@@ -66,7 +66,7 @@ Extern
 	Function bmx_wxsimplehtmllistbox_setstring(handle:Byte Ptr, item:Int, text:String)
 	Function bmx_wxsimplehtmllistbox_setstringselection(handle:Byte Ptr, text:String)
 
-
+	Function bmx_wxsimplehtmllistbox_addresourcehandler()
 End Extern
 
 

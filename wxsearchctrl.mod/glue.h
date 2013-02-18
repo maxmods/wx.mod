@@ -20,15 +20,22 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_SEARCHCTRL_H_
+#define _WX_MAX_SEARCHCTRL_H_
+
 #include "wxglue.h"
 #include "wx/srchctrl.h"
 #include "../wxtextvalidator.mod/glue.h"
+#include "wx/xrc/xh_srchctrl.h"
+#include "wx/xml/xml.h"
 
 class MaxSearchCtrl;
 
 extern "C" {
 
 #include <blitz.h>
+
+	BBObject * _wx_wxsearchctrl_wxSearchCtrl__xrcNew(wxSearchCtrl * search);
 
 	MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, wxValidator * validator);
 	void bmx_wxsearchctrl_setmenu(wxSearchCtrl * search, wxMenu * menu);
@@ -40,6 +47,7 @@ extern "C" {
 
 	int bmx_wxsearchctrl_geteventtype(int type);
 
+	void bmx_wxsearchctrl_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -48,8 +56,23 @@ class MaxSearchCtrl : public wxSearchCtrl
 {
 public:
 	MaxSearchCtrl(BBObject * handle, wxWindow * parent, wxWindowID id, const wxString& value, int x, int y, int w, int h, long style, const wxValidator & val);
+	MaxSearchCtrl();
 	~MaxSearchCtrl();
 	
+	void MaxBind(BBObject * handle);
 private:
 	DECLARE_EVENT_TABLE()
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxSearchCtrlXmlHandler : public wxSearchCtrlXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(MaxSearchCtrlXmlHandler)
+
+public:
+    MaxSearchCtrlXmlHandler();
+    virtual wxObject *DoCreateResource();
+};
+
+#endif

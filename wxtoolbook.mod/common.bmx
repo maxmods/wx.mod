@@ -49,6 +49,8 @@ Extern
 	Function bmx_wxtoolbook_gettoolbar:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxtoolbook_realize(handle:Byte Ptr)
 
+	Function bmx_wxtoolbook_addresourcehandler()
+	
 End Extern
 
 Const wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED:Int = -806

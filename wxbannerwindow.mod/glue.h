@@ -43,6 +43,7 @@ extern "C" {
 	void bmx_wxbannerwindow_settext(wxBannerWindow * banner, BBString * title, BBString * message);
 	void bmx_wxbannerwindow_setgradient(wxBannerWindow * banner, MaxColour * colStart, MaxColour * colEnd);
 
+	void bmx_wxbannerwindow_addresourcehandler();
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

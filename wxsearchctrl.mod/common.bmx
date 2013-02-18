@@ -54,6 +54,7 @@ Extern
 	Function bmx_wxsearchctrl_iscancelbuttonvisible:Int(handle:Byte Ptr)
 
 	Function bmx_wxsearchctrl_geteventtype:Int(evt:Int)
+	Function bmx_wxsearchctrl_addresourcehandler()
 	
 End Extern
 

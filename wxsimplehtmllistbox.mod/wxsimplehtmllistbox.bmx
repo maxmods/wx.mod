@@ -82,6 +82,10 @@ Type wxSimpleHtmlListBox Extends wxHtmlListBox
 		End If
 	End Function
 
+	Function _xrcNew:wxSimpleHtmlListBox(wxObjectPtr:Byte Ptr)
+		Return wxSimpleHtmlListBox._create(wxObjectPtr)
+	End Function
+
 	Rem
 	bbdoc: Creates a new HTML list box.
 	End Rem
@@ -245,3 +249,12 @@ Type wxSimpleHtmlListBox Extends wxHtmlListBox
 
 End Type
 
+Type TSimpleHtmlListBoxResourceFactory Extends TXMLResourceFactory
+
+	Method AddHandler()
+		bmx_wxsimplehtmllistbox_addresourcehandler()
+	End Method
+		
+End Type
+
+New TSimpleHtmlListBoxResourceFactory

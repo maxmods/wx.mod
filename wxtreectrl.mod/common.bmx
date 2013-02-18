@@ -143,6 +143,8 @@ Extern
 	Function bmx_wxtreeevent_iseditcancelled(handle:Byte Ptr)
 	Function bmx_wxtreeevent_settooltip(handle:Byte Ptr, tip:String)
 
+	Function bmx_wxtreectrl_addresourcehandler()
+
 End Extern
 
 Const wxTR_NO_BUTTONS:Int = $0000     ' For convenience

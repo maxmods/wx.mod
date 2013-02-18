@@ -1049,4 +1049,12 @@ End Type
 
 New TTreeEventFactory
 
+Type TTreeCtrlResourceFactory Extends TXMLResourceFactory
 
+	Method AddHandler()
+		bmx_wxtreectrl_addresourcehandler()
+	End Method
+		
+End Type
+
+New TTreeCtrlResourceFactory

@@ -93,6 +93,35 @@ BBObject * MaxTreeItemData::GetData() {
 	return maxHandle;
 }
 
+// ---------------------------------------------------------------------------------------
+
+IMPLEMENT_DYNAMIC_CLASS(MaxTreeCtrlXmlHandler, wxTreeCtrlXmlHandler)
+
+MaxTreeCtrlXmlHandler::MaxTreeCtrlXmlHandler()
+	: wxTreeCtrlXmlHandler()
+{}
+
+wxObject *MaxTreeCtrlXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(tree, MaxTreeCtrl)
+
+    tree->Create(m_parentAsWindow,
+                GetID(),
+                GetPosition(), GetSize(),
+                GetStyle(wxT("style"), wxTR_DEFAULT_STYLE),
+                wxDefaultValidator,
+                GetName());
+
+	tree->MaxBind(_wx_wxtreectrl_wxTreeCtrl__xrcNew(tree));
+
+    wxImageList *imagelist = GetImageList();
+    if ( imagelist )
+        tree->AssignImageList(imagelist);
+
+    SetupWindow(tree);
+
+    return tree;
+}
 
 // *********************************************
 
@@ -554,4 +583,10 @@ int bmx_wxtreectrl_geteventtype(int type) {
 	}
 	
 	return 0;
+}
+
+// *********************************************
+
+void bmx_wxtreectrl_addresourcehandler() {
+	wxXmlResource::Get()->AddHandler(new MaxTreeCtrlXmlHandler);
 }
