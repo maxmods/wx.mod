@@ -383,9 +383,30 @@ Const wxEVT_COMMAND_TEXT_COPY:Int = 444
 Const wxEVT_COMMAND_TEXT_CUT:Int = 445
 Const wxEVT_COMMAND_TEXT_PASTE:Int = 446
 
-Const wxBG_STYLE_SYSTEM:Int = 0
-Const wxBG_STYLE_COLOUR:Int = 1
-Const wxBG_STYLE_CUSTOM:Int = 2
+Rem
+bbdoc: Background is erased in the EVT_ERASE_BACKGROUND handler or using the system default background if no such handler is defined (this is the default style)
+End Rem
+Const wxBG_STYLE_ERASE:Int = 0
+Rem
+bbdoc: Background is erased by the system, no EVT_ERASE_BACKGROUND event is generated at all
+End Rem
+Const wxBG_STYLE_SYSTEM:Int = 1
+Rem
+bbdoc: Background is erased in EVT_PAINT handler and not erased at all before it, this should be used if the paint handler paints over the entire window to avoid flicker
+End Rem
+Const wxBG_STYLE_PAINT:Int = 2
+Rem
+bbdoc: This is a Mac-only style, don't use in portable code
+End Rem
+Const wxBG_STYLE_TRANSPARENT:Int = 3
+Rem
+bbdoc: This style is deprecated and doesn't do anything, don't use
+End Rem
+Const wxBG_STYLE_COLOUR:Int = 4
+Rem
+bbdoc: This style is deprecated and is synonymous with wxBG_STYLE_PAINT, use the new name.
+End Rem
+Const wxBG_STYLE_CUSTOM:Int = wxBG_STYLE_PAINT
 
 Const wxFLEX_GROWMODE_NONE:Int = 0
 Const wxFLEX_GROWMODE_SPECIFIED:Int = 1
