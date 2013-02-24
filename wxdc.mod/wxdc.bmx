@@ -470,6 +470,17 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
+	bbdoc: Returns a value that can be used as a handle to the native drawing context, if this wxDC has something that could be thought of in that way.
+	about: For example, on Windows the return value is an HDC, on OSX it is a CGContextRef and
+	on wxGTK it will be a GdkDrawable. If the DC is a wxGCDC then the return value will
+	be the value returned from wxGraphicsContext::GetNativeContext. A value of NULL is returned
+	if the DC does not have anything that fits the handle concept.
+	End Rem
+	Method GetHandle:Byte Ptr()
+		Return bmx_wxdc_gethandle(wxObjectPtr)
+	End Method
+	
+	Rem
 	bbdoc: Gets the current layout direction of the device context.
 	about: On platforms where RTL layout is supported, the return value will either be wxLayout_LeftToRight
 	or wxLayout_RightToLeft. If RTL layout is not supported, the return value will be wxLayout_Default.

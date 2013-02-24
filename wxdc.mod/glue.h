@@ -141,6 +141,8 @@ extern "C" {
 	int wx_wxdc_stretchblit(MaxDC * dc, int xdest, int ydest, int dstWidth, int dstHeight, MaxDC * source, int xsrc, int ysrc, int srcWidth, int srcHeight,
 		int logicalFunc, int useMask, int xsrcMask, int ysrcMask);
 
+	void * bmx_wxdc_gethandle(MaxDC * dc);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

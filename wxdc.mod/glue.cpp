@@ -473,6 +473,10 @@ int wx_wxdc_stretchblit(MaxDC * dc, int xdest, int ydest, int dstWidth, int dstH
 #endif
 }
 
+void * bmx_wxdc_gethandle(MaxDC * dc) {
+	return dc->GetDC()->GetHandle();
+}
+
 // *********************************************
 
 MaxClientDC * bmx_wxclientdc_create(wxWindow * window) {

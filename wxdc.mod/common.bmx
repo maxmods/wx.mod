@@ -155,6 +155,8 @@ Extern
 	Function wx_wxdc_stretchblit:Int(handle:Byte Ptr, xdest:Int, ydest:Int, dstWidth:Int, dstHeight:Int, source:Byte Ptr, xsrc:Int, ysrc:Int, srcWidth:Int, srcHeight:Int, ..
 		logicalFunc:Int, useMask:Int, xsrcMask:Int, ysrcMask:Int)
 
+	Function bmx_wxdc_gethandle:Byte Ptr(handle:Byte Ptr)
+	
 End Extern
 
 
