@@ -1287,6 +1287,13 @@ Function wxSleep(secs:Int)
 End Function
 
 Rem
+bbdoc: Calls wxAppConsole::Yield
+End Rem
+Function wxYield:Int()
+	Return bmx_wxyield()
+End Function
+
+Rem
 bbdoc: Ring the system bell.
 End Rem
 Function wxBell()

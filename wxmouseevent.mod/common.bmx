@@ -82,9 +82,4 @@ Extern
 
 End Extern
 
-Const wxMOUSE_BTN_ANY:Int = -1
-Const wxMOUSE_BTN_NONE:Int = 0
-Const wxMOUSE_BTN_LEFT:Int = 1
-Const wxMOUSE_BTN_MIDDLE:Int = 2
-Const wxMOUSE_BTN_RIGHT:Int = 3
 

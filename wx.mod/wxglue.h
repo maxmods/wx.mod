@@ -388,6 +388,7 @@ extern "C" {
 	bool bmx_wxiconizeevent_iconized(wxIconizeEvent & event);
 
 	void bmx_wxbell();
+	int bmx_wxyield();
 }
 
 /*

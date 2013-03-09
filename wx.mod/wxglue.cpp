@@ -1916,3 +1916,7 @@ void bmx_wxbell() {
 	wxBell();
 }
 
+int bmx_wxyield() {
+	return static_cast<int>(wxYield());
+}
+

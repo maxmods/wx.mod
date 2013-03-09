@@ -513,6 +513,7 @@ Extern
 	Function bmx_wxiconizeevent_iconized:Int(handle:Byte Ptr)
 
 	Function bmx_wxbell()
+	Function bmx_wxyield:Int()
 
 End Extern
 
