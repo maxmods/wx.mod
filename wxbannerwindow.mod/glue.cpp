@@ -99,6 +99,8 @@ wxObject * MaxBannerWindowXmlHandler::DoCreateResource()
         banner->SetBitmap(bitmap);
     }
 
+    banner->SetText(GetText(wxS("title")), GetText(wxS("message")));
+
     return banner;
 }
 
