@@ -717,3 +717,32 @@ Const wxFileSelectorDefaultWildcard:String = "*.*"
 ?Not win32
 Const wxFileSelectorDefaultWildcard:String = "*"
 ?
+
+Rem
+bbdoc: Any mouse button, means to check for any button being pressed for example.
+End Rem
+Const wxMOUSE_BTN_ANY:Int = -1
+Rem
+bbdoc: None of the mouse buttons.
+End Rem
+Const wxMOUSE_BTN_NONE:Int = 0
+Rem
+bbdoc: Left mouse button.
+End Rem
+Const wxMOUSE_BTN_LEFT:Int = 1
+Rem
+bbdoc: Middle mouse button.
+End Rem
+Const wxMOUSE_BTN_MIDDLE:Int = 2
+Rem
+bbdoc: Right mouse button.
+End Rem
+Const wxMOUSE_BTN_RIGHT:Int = 3
+Rem
+bbdoc: First additional mouse button.
+End Rem
+Const wxMOUSE_BTN_AUX1:Int = 4
+Rem
+bbdoc: Second additional mouse button.
+End Rem
+Const wxMOUSE_BTN_AUX2:Int = 5

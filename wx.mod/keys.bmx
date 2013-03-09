@@ -34,6 +34,48 @@ Const wxACCEL_CMD:Int = wxACCEL_CTRL
 Const wxACCEL_CMD:Int = wxACCEL_CTRL
 ?
 
+Rem
+bbdoc: 
+End Rem
+Const wxMOD_NONE:Int = $0000
+Rem
+bbdoc: 
+End Rem
+Const wxMOD_ALT:Int = $0001
+Rem
+bbdoc: Ctlr Key, corresponds to Command key on OS X.
+End Rem
+Const wxMOD_CONTROL:Int = $0002
+Rem
+bbdoc: 
+End Rem
+Const wxMOD_ALTGR:Int = wxMOD_ALT | wxMOD_CONTROL
+Rem
+bbdoc: 
+End Rem
+Const wxMOD_SHIFT:Int = $0004
+Rem
+bbdoc: 
+End Rem
+Const wxMOD_META:Int = $0008
+Rem
+bbdoc: 
+End Rem
+Const wxMOD_WIN:Int = wxMOD_META
+Rem
+bbdoc: Used to describe the true Ctrl Key under OSX, identic to wxMOD_CONTROL on other platforms
+End Rem
+?macos
+Const wxMOD_RAW_CONTROL:Int = $0010
+?Not macos
+Const wxMOD_RAW_CONTROL:Int = wxMOD_CONTROL
+?
+Rem
+bbdoc: 
+End Rem
+Const wxMOD_ALL:Int = $ffff
+
+
 Const WXK_BACK:Int = 8
 Const WXK_TAB:Int = 9
 Const WXK_RETURN:Int = 13
