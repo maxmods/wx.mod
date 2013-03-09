@@ -24,8 +24,8 @@
 
 // ---------------------------------------------------------------------------------------
 
-MaxImageList::MaxImageList(BBObject * handle, int width, int height, bool mask, int initialCount)
-	: maxHandle(handle), wxImageList(width, height, mask, initialCount)
+MaxImageList::MaxImageList(BBObject * handle, int width, int height, int mask, int initialCount)
+	: maxHandle(handle), wxImageList(width, height, static_cast<bool>(mask), initialCount)
 {
 	wxbind(this, handle);
 }
@@ -38,7 +38,7 @@ MaxImageList::~MaxImageList() {
 // *********************************************
 
 
-MaxImageList * bmx_wximagelist_create(BBObject * maxHandle, int width, int height, bool mask, int initialCount) {
+MaxImageList * bmx_wximagelist_create(BBObject * maxHandle, int width, int height, int mask, int initialCount) {
 	return new MaxImageList(maxHandle, width, height, mask, initialCount);
 }
 
@@ -79,28 +79,28 @@ int bmx_wximagelist_getimagecount(wxImageList * list) {
 	return list->GetImageCount();
 }
 
-bool bmx_wximagelist_getsize(wxImageList * list, int index, int * width, int * height) {
-	return list->GetSize(index, *width, *height);
+int bmx_wximagelist_getsize(wxImageList * list, int index, int * width, int * height) {
+	return static_cast<int>(list->GetSize(index, *width, *height));
 }
 
-bool bmx_wximagelist_remove(wxImageList * list, int index) {
-	return list->Remove(index);
+int bmx_wximagelist_remove(wxImageList * list, int index) {
+	return static_cast<int>(list->Remove(index));
 }
 
-bool bmx_wximagelist_removeall(wxImageList * list) {
-	return list->RemoveAll();
+int bmx_wximagelist_removeall(wxImageList * list) {
+	return static_cast<int>(list->RemoveAll());
 }
 
-bool bmx_wximagelist_replace(wxImageList * list, int index, MaxBitmap * bitmap, MaxBitmap * mask) {
-	return list->Replace(index, bitmap->Bitmap(), (mask) ? mask->Bitmap() : wxNullBitmap);
+int bmx_wximagelist_replace(wxImageList * list, int index, MaxBitmap * bitmap, MaxBitmap * mask) {
+	return static_cast<int>(list->Replace(index, bitmap->Bitmap(), (mask) ? mask->Bitmap() : wxNullBitmap));
 }
 
-bool bmx_wximagelist_replaceicon(wxImageList * list, int index, MaxIcon * icon) {
-	return list->Replace(index, icon->Icon());
+int bmx_wximagelist_replaceicon(wxImageList * list, int index, MaxIcon * icon) {
+	return static_cast<int>(list->Replace(index, icon->Icon()));
 }
 
-bool bmx_wximagelist_draw(wxImageList * list, int index, MaxDC * dc, int x, int y, int flags, bool solidBackground) {
-	return list->Draw(index, *dc->GetDC(), x, y, flags, solidBackground);
+int bmx_wximagelist_draw(wxImageList * list, int index, MaxDC * dc, int x, int y, int flags, int solidBackground) {
+	return static_cast<int>(list->Draw(index, *dc->GetDC(), x, y, flags, static_cast<bool>(solidBackground)));
 }
 
 

@@ -42,8 +42,8 @@ extern "C" {
 	void bmx_wxhyperlinkctrl_sethovercolour(wxHyperlinkCtrl * hlink, MaxColour * colour);
 	void bmx_wxhyperlinkctrl_setvisitedcolour(wxHyperlinkCtrl * hlink, MaxColour * colour);
 	void bmx_wxhyperlinkctrl_setnormalcolour(wxHyperlinkCtrl * hlink, MaxColour * colour);
-	bool bmx_wxhyperlinkctrl_getvisited(wxHyperlinkCtrl * hlink);
-	void bmx_wxhyperlinkctrl_setvisited(wxHyperlinkCtrl * hlink, bool visited);
+	int bmx_wxhyperlinkctrl_getvisited(wxHyperlinkCtrl * hlink);
+	void bmx_wxhyperlinkctrl_setvisited(wxHyperlinkCtrl * hlink, int visited);
 	BBString * bmx_wxhyperlinkctrl_geturl(wxHyperlinkCtrl * hlink);
 	void bmx_wxhyperlinkctrl_seturl(wxHyperlinkCtrl * hlink, BBString * url);
 

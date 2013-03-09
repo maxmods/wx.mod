@@ -105,12 +105,12 @@ void bmx_wxhyperlinkctrl_setnormalcolour(wxHyperlinkCtrl * hlink, MaxColour * co
 	hlink->SetNormalColour(colour->Colour());
 }
 
-bool bmx_wxhyperlinkctrl_getvisited(wxHyperlinkCtrl * hlink) {
-	return hlink->GetVisited();
+int bmx_wxhyperlinkctrl_getvisited(wxHyperlinkCtrl * hlink) {
+	return static_cast<int>(hlink->GetVisited());
 }
 
-void bmx_wxhyperlinkctrl_setvisited(wxHyperlinkCtrl * hlink, bool visited) {
-	hlink->SetVisited(visited);
+void bmx_wxhyperlinkctrl_setvisited(wxHyperlinkCtrl * hlink, int visited) {
+	hlink->SetVisited(static_cast<bool>(visited));
 }
 
 BBString * bmx_wxhyperlinkctrl_geturl(wxHyperlinkCtrl * hlink) {

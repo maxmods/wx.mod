@@ -32,20 +32,20 @@ wxHtmlEasyPrinting * bmx_wxhtmleasyprinting_create(BBString * name, wxWindow * p
 	return new wxHtmlEasyPrinting(wxStringFromBBString(name), parent);
 }
 
-bool bmx_wxhtmleasyprinting_previewfile(wxHtmlEasyPrinting * easy, BBString * htmlFile) {
-	return easy->PreviewFile(wxStringFromBBString(htmlFile));
+int bmx_wxhtmleasyprinting_previewfile(wxHtmlEasyPrinting * easy, BBString * htmlFile) {
+	return static_cast<int>(easy->PreviewFile(wxStringFromBBString(htmlFile)));
 }
 
-bool bmx_wxhtmleasyprinting_previewtext(wxHtmlEasyPrinting * easy, BBString * htmlText, BBString * basePath) {
-	return easy->PreviewText(wxStringFromBBString(htmlText), wxStringFromBBString(basePath));
+int bmx_wxhtmleasyprinting_previewtext(wxHtmlEasyPrinting * easy, BBString * htmlText, BBString * basePath) {
+	return static_cast<int>(easy->PreviewText(wxStringFromBBString(htmlText), wxStringFromBBString(basePath)));
 }
 
-bool bmx_wxhtmleasyprinting_printfile(wxHtmlEasyPrinting * easy, BBString * htmlFile) {
-	return easy->PrintFile(wxStringFromBBString(htmlFile));
+int bmx_wxhtmleasyprinting_printfile(wxHtmlEasyPrinting * easy, BBString * htmlFile) {
+	return static_cast<int>(easy->PrintFile(wxStringFromBBString(htmlFile)));
 }
 
-bool bmx_wxhtmleasyprinting_printtext(wxHtmlEasyPrinting * easy, BBString * htmlText, BBString * basePath) {
-	return easy->PrintText(wxStringFromBBString(htmlText), wxStringFromBBString(basePath));
+int bmx_wxhtmleasyprinting_printtext(wxHtmlEasyPrinting * easy, BBString * htmlText, BBString * basePath) {
+	return static_cast<int>(easy->PrintText(wxStringFromBBString(htmlText), wxStringFromBBString(basePath)));
 }
 
 void bmx_wxhtmleasyprinting_pagesetup(wxHtmlEasyPrinting * easy) {

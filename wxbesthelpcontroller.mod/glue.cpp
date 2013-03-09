@@ -45,8 +45,8 @@ void bmx_wxbesthelpcontroller_displaycontents(wxBestHelpController * cont) {
 	cont->DisplayContents();
 }
 
-bool bmx_wxbesthelpcontroller_keywordsearch(wxBestHelpController * cont, BBString * keyword, wxHelpSearchMode mode) {
-	return cont->KeywordSearch(wxStringFromBBString(keyword), mode);
+int bmx_wxbesthelpcontroller_keywordsearch(wxBestHelpController * cont, BBString * keyword, wxHelpSearchMode mode) {
+	return static_cast<int>(cont->KeywordSearch(wxStringFromBBString(keyword), mode));
 }
 
 

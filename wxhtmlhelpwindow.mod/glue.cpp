@@ -42,24 +42,24 @@ wxHtmlHelpWindow * bmx_wxhtmlhelpwindow_create(BBObject * handle, wxWindow * par
 	return new MaxHtmlHelpWindow(handle, parent, id, x, y, w, h, style, helpStyle);
 }
 
-bool bmx_wxhtmlhelpwindow_display(wxHtmlHelpWindow * window, BBString * x) {
-	return window->Display(wxStringFromBBString(x));
+int bmx_wxhtmlhelpwindow_display(wxHtmlHelpWindow * window, BBString * x) {
+	return static_cast<int>(window->Display(wxStringFromBBString(x)));
 }
 
-bool bmx_wxhtmlhelpwindow_displaywithid(wxHtmlHelpWindow * window, int id) {
-	return window->Display(id);
+int bmx_wxhtmlhelpwindow_displaywithid(wxHtmlHelpWindow * window, int id) {
+	return static_cast<int>(window->Display(id));
 }
 
-bool bmx_wxhtmlhelpwindow_displaycontents(wxHtmlHelpWindow * window) {
-	return window->DisplayContents();
+int bmx_wxhtmlhelpwindow_displaycontents(wxHtmlHelpWindow * window) {
+	return static_cast<int>(window->DisplayContents());
 }
 
-bool bmx_wxhtmlhelpwindow_displayindex(wxHtmlHelpWindow * window) {
-	return window->DisplayIndex();
+int bmx_wxhtmlhelpwindow_displayindex(wxHtmlHelpWindow * window) {
+	return static_cast<int>(window->DisplayIndex());
 }
 
-bool bmx_wxhtmlhelpwindow_keywordsearch(wxHtmlHelpWindow * window, BBString * keyword, wxHelpSearchMode mode) {
-	return window->KeywordSearch(wxStringFromBBString(keyword), mode);
+int bmx_wxhtmlhelpwindow_keywordsearch(wxHtmlHelpWindow * window, BBString * keyword, wxHelpSearchMode mode) {
+	return static_cast<int>(window->KeywordSearch(wxStringFromBBString(keyword), mode));
 }
 
 void bmx_wxhtmlhelpwindow_readcustomization(wxHtmlHelpWindow * window, wxConfigBase * config, BBString * path) {

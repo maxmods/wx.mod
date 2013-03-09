@@ -152,8 +152,8 @@ void bmx_wxmdichildframe_activate(wxMDIChildFrame * frame) {
 	frame->Activate();
 }
 
-void bmx_wxmdichildframe_maximize(wxMDIChildFrame * frame, bool value) {
-	frame->Maximize(value);
+void bmx_wxmdichildframe_maximize(wxMDIChildFrame * frame, int value) {
+	frame->Maximize(static_cast<bool>(value));
 }
 
 void bmx_wxmdichildframe_restore(wxMDIChildFrame * frame) {

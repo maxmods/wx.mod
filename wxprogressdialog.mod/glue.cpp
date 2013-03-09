@@ -50,12 +50,18 @@ void bmx_wxprogressdialog_resume(wxProgressDialog * dialog) {
 	dialog->Resume();
 }
 
-bool bmx_wxprogressdialog_updateprogress(wxProgressDialog * dialog, int value, BBString * newMessage, bool * skip) {
-	return dialog->Update(value, wxStringFromBBString(newMessage), skip);
+int bmx_wxprogressdialog_updateprogress(wxProgressDialog * dialog, int value, BBString * newMessage, int * skip) {
+	bool sk;
+	bool ret = dialog->Update(value, wxStringFromBBString(newMessage), &sk);
+	*skip = static_cast<int>(sk);
+	return static_cast<int>(ret);
 }
 
-bool bmx_wxprogressdialog_pulse(wxProgressDialog * dialog, BBString * newMessage, bool * skip) {
-	return dialog->Pulse(wxStringFromBBString(newMessage), skip);
+int bmx_wxprogressdialog_pulse(wxProgressDialog * dialog, BBString * newMessage, bool * skip) {
+	bool sk;
+	bool ret = dialog->Pulse(wxStringFromBBString(newMessage), &sk);
+	*skip = static_cast<int>(sk);
+	return static_cast<int>(ret);
 }
 
 

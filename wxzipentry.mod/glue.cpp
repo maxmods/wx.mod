@@ -89,12 +89,12 @@ BBString * bmx_wxzipentry_getname(wxZipEntry * entry, wxPathFormat format) {
 	return bbStringFromWxString(entry->GetName(format));
 }
 
-bool bmx_wxzipentry_ismadebyunix(wxZipEntry * entry) {
-	return entry->IsMadeByUnix();
+int bmx_wxzipentry_ismadebyunix(wxZipEntry * entry) {
+	return static_cast<int>(entry->IsMadeByUnix());
 }
 
-bool bmx_wxzipentry_istext(wxZipEntry * entry) {
-	return entry->IsText();
+int bmx_wxzipentry_istext(wxZipEntry * entry) {
+	return static_cast<int>(entry->IsText());
 }
 
 void bmx_wxzipentry_setname(wxZipEntry * entry, BBString * name, wxPathFormat format) {
@@ -125,8 +125,8 @@ void bmx_wxzipentry_setexternalattributes(wxZipEntry * entry, unsigned int attr)
 	entry->SetExternalAttributes(attr);
 }
 
-void bmx_wxzipentry_setistext(wxZipEntry * entry, bool text) {
-	entry->SetIsText(text);
+void bmx_wxzipentry_setistext(wxZipEntry * entry, int text) {
+	entry->SetIsText(static_cast<bool>(text));
 }
 
 void bmx_wxzipentry_setlocalextra(wxZipEntry * entry, const char * extra, int length) {
@@ -149,20 +149,20 @@ void bmx_wxzipentry_setsystemmadeby(wxZipEntry * entry, int system) {
 	entry->SetSystemMadeBy(system);
 }
 
-bool bmx_wxzipentry_isdir(wxZipEntry * entry) {
-	return entry->IsDir();
+int bmx_wxzipentry_isdir(wxZipEntry * entry) {
+	return static_cast<int>(entry->IsDir());
 }
 
-void bmx_wxzipentry_setisdir(wxZipEntry * entry, bool dir) {
-	entry->SetIsDir(dir);
+void bmx_wxzipentry_setisdir(wxZipEntry * entry, int dir) {
+	entry->SetIsDir(static_cast<bool>(dir));
 }
 
-bool bmx_wxzipentry_isreadonly(wxZipEntry * entry) {
-	return entry->IsReadOnly();
+int bmx_wxzipentry_isreadonly(wxZipEntry * entry) {
+	return static_cast<int>(entry->IsReadOnly());
 }
 
-void bmx_wxzipentry_setisreadonly(wxZipEntry * entry, bool readOnly) {
-	entry->SetIsReadOnly(readOnly);
+void bmx_wxzipentry_setisreadonly(wxZipEntry * entry, int readOnly) {
+	entry->SetIsReadOnly(static_cast<bool>(readOnly));
 }
 
 

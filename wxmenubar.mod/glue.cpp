@@ -78,20 +78,20 @@ MaxMenuBar * bmx_wxmenubar_create(BBObject * maxHandle, long style) {
 	return new MaxMenuBar(maxHandle, style);
 }
 
-bool bmx_wxmenubar_append(wxMenuBar * menubar, MaxMenu * menu, BBString * title) {
-	return menubar->Append(menu, wxStringFromBBString(title));
+int bmx_wxmenubar_append(wxMenuBar * menubar, MaxMenu * menu, BBString * title) {
+	return static_cast<int>(menubar->Append(menu, wxStringFromBBString(title)));
 }
 
-void bmx_wxmenubar_check(wxMenuBar * menubar, int id, bool value) {
-	menubar->Check(id, value);
+void bmx_wxmenubar_check(wxMenuBar * menubar, int id, int value) {
+	menubar->Check(id, static_cast<bool>(value));
 }
 
-void bmx_wxmenubar_enable(wxMenuBar * menubar, int id, bool value) {
-	menubar->Enable(id, value);
+void bmx_wxmenubar_enable(wxMenuBar * menubar, int id, int value) {
+	menubar->Enable(id, static_cast<bool>(value));
 }
 
-void bmx_wxmenubar_enabletop(wxMenuBar * menubar, int pos, bool value) {
-	menubar->EnableTop(pos, value);
+void bmx_wxmenubar_enabletop(wxMenuBar * menubar, int pos, int value) {
+	menubar->EnableTop(pos, static_cast<bool>(value));
 }
 
 int bmx_wxmenubar_findmenu(wxMenuBar * menubar, BBString * title) {
@@ -122,16 +122,16 @@ int bmx_wxmenubar_getmenucount(wxMenuBar * menubar) {
 	return menubar->GetMenuCount();
 }
 
-bool bmx_wxmenubar_insert(wxMenuBar * menubar, int pos, MaxMenu * menu, BBString * title) {
-	return menubar->Insert(pos, menu, wxStringFromBBString(title));
+int bmx_wxmenubar_insert(wxMenuBar * menubar, int pos, MaxMenu * menu, BBString * title) {
+	return static_cast<int>(menubar->Insert(pos, menu, wxStringFromBBString(title)));
 }
 
-bool bmx_wxmenubar_ischecked(wxMenuBar * menubar, int id) {
-	return menubar->IsChecked(id);
+int bmx_wxmenubar_ischecked(wxMenuBar * menubar, int id) {
+	return static_cast<int>(menubar->IsChecked(id));
 }
 
-bool bmx_wxmenubar_isenabled(wxMenuBar * menubar, int id) {
-	return menubar->IsEnabled(id);
+int bmx_wxmenubar_isenabled(wxMenuBar * menubar, int id) {
+	return static_cast<int>(menubar->IsEnabled(id));
 }
 
 void bmx_wxmenubar_refresh(wxMenuBar * menubar) {

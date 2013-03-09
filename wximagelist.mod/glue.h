@@ -34,7 +34,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	MaxImageList * bmx_wximagelist_create(BBObject * maxHandle, int width, int height, bool mask, int initialCount);
+	MaxImageList * bmx_wximagelist_create(BBObject * maxHandle, int width, int height, int mask, int initialCount);
 	int bmx_wximagelist_add(MaxImageList * list, MaxBitmap * bitmap, MaxBitmap * mask);
 	void bmx_wximagelist_delete(wxImageList * list);
 	int bmx_wximagelist_addwithcolourmask(wxImageList * list, MaxBitmap * bitmap, MaxColour * maskColour);
@@ -43,13 +43,13 @@ extern "C" {
 	MaxBitmap * bmx_wximagelist_getbitmap(wxImageList * list, int index);
 	MaxIcon * bmx_wximagelist_geticon(wxImageList * list, int index);
 	int bmx_wximagelist_getimagecount(wxImageList * list);
-	bool bmx_wximagelist_getsize(wxImageList * list, int index, int * width, int * height);
-	bool bmx_wximagelist_remove(wxImageList * list, int index);
-	bool bmx_wximagelist_removeall(wxImageList * list);
-	bool bmx_wximagelist_replace(wxImageList * list, int index, MaxBitmap * bitmap, MaxBitmap * mask);
-	bool bmx_wximagelist_replaceicon(wxImageList * list, int index, MaxIcon * icon);
+	int bmx_wximagelist_getsize(wxImageList * list, int index, int * width, int * height);
+	int bmx_wximagelist_remove(wxImageList * list, int index);
+	int bmx_wximagelist_removeall(wxImageList * list);
+	int bmx_wximagelist_replace(wxImageList * list, int index, MaxBitmap * bitmap, MaxBitmap * mask);
+	int bmx_wximagelist_replaceicon(wxImageList * list, int index, MaxIcon * icon);
 
-	bool bmx_wximagelist_draw(wxImageList * list, int index, MaxDC * dc, int x, int y, int flags, bool solidBackground);
+	int bmx_wximagelist_draw(wxImageList * list, int index, MaxDC * dc, int x, int y, int flags, int solidBackground);
 
 }
 
@@ -58,7 +58,7 @@ extern "C" {
 class MaxImageList : public wxImageList
 {
 public:
-	MaxImageList(BBObject * handle, int width, int height, bool mask, int initialCount);
+	MaxImageList(BBObject * handle, int width, int height, int mask, int initialCount);
 	~MaxImageList();
 	
 private:

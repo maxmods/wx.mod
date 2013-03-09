@@ -37,8 +37,8 @@ extern "C" {
 	void bmx_wxlocale_addlanguage(MaxLanguageInfo * info);
 	MaxLanguageInfo * bmx_wxlocale_findlanguageinfo(BBString * locale);
 
-	bool bmx_wxlocale_addcatalog(wxLocale * locale, BBString * domain);
-	bool bmx_wxlocale_addcataloglang(wxLocale * locale, BBString *domain, wxLanguage language, BBString *msgIdCharSet);
+	int bmx_wxlocale_addcatalog(wxLocale * locale, BBString * domain);
+	int bmx_wxlocale_addcataloglang(wxLocale * locale, BBString *domain, wxLanguage language, BBString *msgIdCharSet);
 	void bmx_wxlocale_addcataloglookuppathprefix(BBString *prefix);
 	BBString * bmx_wxlocale_getcanonicalname(wxLocale * locale);
 	int bmx_wxlocale_getlanguage(wxLocale * locale);
@@ -53,10 +53,10 @@ extern "C" {
 	wxFontEncoding bmx_wxlocale_getsystemencoding();
 	BBString * bmx_wxlocale_getsystemencodingname();
 	int bmx_wxlocale_getsystemlanguage();
-	bool bmx_wxlocale_init(wxLocale * locale, int language, int flags);
-	bool bmx_wxlocale_isavailable(int lang);
-	bool bmx_wxlocale_isloaded(wxLocale * locale, BBString *domain);
-	bool bmx_wxlocale_isok(wxLocale * locale);
+	int bmx_wxlocale_init(wxLocale * locale, int language, int flags);
+	int bmx_wxlocale_isavailable(int lang);
+	int bmx_wxlocale_isloaded(wxLocale * locale, BBString *domain);
+	int bmx_wxlocale_isok(wxLocale * locale);
 
 	void bmx_wxlocale_delete(wxLocale * locale);
 

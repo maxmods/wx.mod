@@ -33,13 +33,13 @@ extern "C" {
 	wxMenu * _wx_wxtaskbaricon_wxTaskBarIcon__CreatePopupMenu(BBObject * handle);
 
 	MaxTaskBarIcon * bmx_wxtaskbaricon_create(BBObject * handle, int iconType);
-	bool bmx_wxtaskbaricon_isiconinstalled(wxTaskBarIcon * taskBarIcon);
-	bool bmx_wxtaskbaricon_isok(wxTaskBarIcon * taskBarIcon);
-	bool bmx_wxtaskbaricon_popupmenu(wxTaskBarIcon * taskBarIcon, wxMenu * menu);
-	bool bmx_wxtaskbaricon_removeicon(wxTaskBarIcon * taskBarIcon);
-	bool bmx_wxtaskbaricon_seticon(wxTaskBarIcon * taskBarIcon, MaxIcon * icon, BBString * tooltip);
+	int bmx_wxtaskbaricon_isiconinstalled(wxTaskBarIcon * taskBarIcon);
+	int bmx_wxtaskbaricon_isok(wxTaskBarIcon * taskBarIcon);
+	int bmx_wxtaskbaricon_popupmenu(wxTaskBarIcon * taskBarIcon, wxMenu * menu);
+	int bmx_wxtaskbaricon_removeicon(wxTaskBarIcon * taskBarIcon);
+	int bmx_wxtaskbaricon_seticon(wxTaskBarIcon * taskBarIcon, MaxIcon * icon, BBString * tooltip);
 	void bmx_wxtaskbaricon_free(wxTaskBarIcon * taskBarIcon);
-	bool bmx_wxtaskbaricon_isavailable();
+	int bmx_wxtaskbaricon_isavailable();
 	
 	int bmx_wxtaskbariconevent_geteventtype(int type);
 }

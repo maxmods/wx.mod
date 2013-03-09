@@ -32,11 +32,11 @@ wxRarInputStream * bmx_wxrarinputstream_create(BBString * filename) {
 	return new wxRarInputStream(wxStringFromBBString(filename));
 }
 
-bool bmx_wxrarinputstream_opennextfile(wxRarInputStream * stream) {
-	return stream->OpenNextFile();
+int bmx_wxrarinputstream_opennextfile(wxRarInputStream * stream) {
+	return static_cast<int>(stream->OpenNextFile());
 }
 
-bool bmx_wxrarinputstream_extractfile(wxRarInputStream * stream, BBString * destPath, BBString * destName) {
+int bmx_wxrarinputstream_extractfile(wxRarInputStream * stream, BBString * destPath, BBString * destName) {
 	char *p = bbStringToCString( destPath );
 	char *n;
 	bool ret;
@@ -54,7 +54,7 @@ bool bmx_wxrarinputstream_extractfile(wxRarInputStream * stream, BBString * dest
 	bbMemFree(p);
 	if (n) bbMemFree(n);
 	
-	return ret;
+	return static_cast<int>(ret);
 }
 
 wxRarFileInfo * bmx_wxrarinputstream_getfileinfo(wxRarInputStream * stream) {

@@ -45,12 +45,12 @@ wxMacPageMarginsDialog * bmx_wxmacpagemarginsdialog_create(BBObject * handle, wx
 	}
 }
 
-bool bmx_wxmacpagemarginsdialog_transfertowindow(wxMacPageMarginsDialog * dialog) {
-	return dialog->TransferToWindow();
+int bmx_wxmacpagemarginsdialog_transfertowindow(wxMacPageMarginsDialog * dialog) {
+	return static_cast<int>(dialog->TransferToWindow());
 }
 
-bool bmx_wxmacpagemarginsdialog_transferdatafromwindow(wxMacPageMarginsDialog * dialog) {
-	return dialog->TransferDataFromWindow();
+int bmx_wxmacpagemarginsdialog_transferdatafromwindow(wxMacPageMarginsDialog * dialog) {
+	return static_cast<int>(dialog->TransferDataFromWindow());
 }
 
 MaxPageSetupDialogData * bmx_wxmacpagemarginsdialog_getpagesetupdialogdata(wxMacPageMarginsDialog * dialog) {

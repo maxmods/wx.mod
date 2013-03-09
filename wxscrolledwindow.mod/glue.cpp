@@ -126,8 +126,8 @@ void bmx_wxscrolledwindow_scroll(wxScrolledWindow * window, int x, int y) {
 	window->Scroll(x, y);
 }
 
-void bmx_wxscrolledwindow_setscrollbars(wxScrolledWindow * window, int pixelsPerUnitX, int pixelsPerUnitY, int noUnitsX, int noUnitsY, int xPos, int yPos, bool noRefresh) {
-	window->SetScrollbars(pixelsPerUnitX, pixelsPerUnitY, noUnitsX, noUnitsY, xPos, yPos, noRefresh);
+void bmx_wxscrolledwindow_setscrollbars(wxScrolledWindow * window, int pixelsPerUnitX, int pixelsPerUnitY, int noUnitsX, int noUnitsY, int xPos, int yPos, int noRefresh) {
+	window->SetScrollbars(pixelsPerUnitX, pixelsPerUnitY, noUnitsX, noUnitsY, xPos, yPos, static_cast<bool>(noRefresh));
 }
 
 void bmx_wxscrolledwindow_setscrollrate(wxScrolledWindow * window, int xStep, int yStep) {

@@ -80,13 +80,13 @@ MaxLanguageInfo * bmx_wxlocale_findlanguageinfo(BBString * locale) {
 	}
 }
 
-bool bmx_wxlocale_addcatalog(wxLocale * locale, BBString * domain) {
-    return locale->AddCatalog(wxStringFromBBString(domain).c_str());
+int bmx_wxlocale_addcatalog(wxLocale * locale, BBString * domain) {
+    return static_cast<int>(locale->AddCatalog(wxStringFromBBString(domain).c_str()));
 }
 
-bool bmx_wxlocale_addcataloglang(wxLocale * locale, BBString *domain, wxLanguage language, BBString *msgIdCharSet) {
-    return locale->AddCatalog(wxStringFromBBString(domain).c_str(), language, 
-        wxStringFromBBString(msgIdCharSet).c_str());
+int bmx_wxlocale_addcataloglang(wxLocale * locale, BBString *domain, wxLanguage language, BBString *msgIdCharSet) {
+    return static_cast<int>(locale->AddCatalog(wxStringFromBBString(domain).c_str(), language, 
+        wxStringFromBBString(msgIdCharSet).c_str()));
 }
 
 void bmx_wxlocale_addcataloglookuppathprefix(BBString *prefix) {
@@ -165,20 +165,20 @@ int bmx_wxlocale_getsystemlanguage() {
     return wxLocale::GetSystemLanguage();
 }
 
-bool bmx_wxlocale_init(wxLocale * locale, int language, int flags) {
-    return locale->Init(language, flags);
+int bmx_wxlocale_init(wxLocale * locale, int language, int flags) {
+    return static_cast<int>(locale->Init(language, flags));
 }
 
-bool bmx_wxlocale_isavailable(int lang) {
-    return wxLocale::IsAvailable(lang);
+int bmx_wxlocale_isavailable(int lang) {
+    return static_cast<int>(wxLocale::IsAvailable(lang));
 }
 
-bool bmx_wxlocale_isloaded(wxLocale * locale, BBString *domain) {
-    return locale->IsLoaded(wxStringFromBBString(domain).c_str());
+int bmx_wxlocale_isloaded(wxLocale * locale, BBString *domain) {
+    return static_cast<int>(locale->IsLoaded(wxStringFromBBString(domain).c_str()));
 }
 
-bool bmx_wxlocale_isok(wxLocale * locale) {
-    return locale->IsOk();
+int bmx_wxlocale_isok(wxLocale * locale) {
+    return static_cast<int>(locale->IsOk());
 }
 
 void bmx_wxlocale_delete(wxLocale * locale) {

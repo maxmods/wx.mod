@@ -45,8 +45,8 @@ MaxSashWindow * bmx_wxsashwindow_create(BBObject * handle, wxWindow * parent, wx
 	return new MaxSashWindow(handle, parent, id, x, y, w, h, style);
 }
 
-bool bmx_wxsashwindow_getsashvisible(wxSashWindow * sash, wxSashEdgePosition edge) {
-	return sash->GetSashVisible(edge);
+int bmx_wxsashwindow_getsashvisible(wxSashWindow * sash, wxSashEdgePosition edge) {
+	return static_cast<int>(sash->GetSashVisible(edge));
 }
 
 int bmx_wxsashwindow_getmaximumsizex(wxSashWindow * sash) {
@@ -81,8 +81,8 @@ void bmx_wxsashwindow_setminimumsizey(wxSashWindow * sash, int size) {
 	sash->SetMinimumSizeY(size);
 }
 
-void bmx_wxsashwindow_setsashvisible(wxSashWindow * sash, wxSashEdgePosition edge, bool visible) {
-	sash->SetSashVisible(edge, visible);
+void bmx_wxsashwindow_setsashvisible(wxSashWindow * sash, wxSashEdgePosition edge, int visible) {
+	sash->SetSashVisible(edge, static_cast<bool>(visible));
 }
 
 

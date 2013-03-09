@@ -199,11 +199,11 @@ void bmx_wxpdfdocument_ellipse(wxPdfDocument * doc, double x0, double y0, double
 	doc->Ellipse(x0, y0, rx, ry, angle, astart, afinish, style, nSeg);
 }
 
-bool bmx_wxpdfdocument_image(wxPdfDocument * doc, BBString * file, double x, double y, double w, double h, BBString * mimeType, MaxPdfLink * link, int maskImage) {
+int bmx_wxpdfdocument_image(wxPdfDocument * doc, BBString * file, double x, double y, double w, double h, BBString * mimeType, MaxPdfLink * link, int maskImage) {
 	if (link) {
-		return doc->Image(wxStringFromBBString(file), x, y, w, h, wxStringFromBBString(mimeType), link->Link(), maskImage);
+		return static_cast<int>(doc->Image(wxStringFromBBString(file), x, y, w, h, wxStringFromBBString(mimeType), link->Link(), maskImage));
 	} else {
-		return doc->Image(wxStringFromBBString(file), x, y, w, h, wxStringFromBBString(mimeType), wxPdfLink(-1), maskImage);
+		return static_cast<int>(doc->Image(wxStringFromBBString(file), x, y, w, h, wxStringFromBBString(mimeType), wxPdfLink(-1), maskImage));
 	}
 }
 
@@ -259,16 +259,16 @@ int bmx_wxpdfdocument_multicell(wxPdfDocument * doc, double w, double h, BBStrin
 	return doc->MultiCell(w, h, wxStringFromBBString(txt), border, align, fill, maxline);
 }
 
-bool bmx_wxpdfdocument_acceptpagebreak(MaxPdfDocument * doc) {
-	return doc->AcceptPageBreak_default();
+int bmx_wxpdfdocument_acceptpagebreak(MaxPdfDocument * doc) {
+	return static_cast<int>(doc->AcceptPageBreak_default());
 }
 
-bool bmx_wxpdfdocument_addfont(wxPdfDocument * doc, BBString * family, BBString * style, BBString * file) {
-	return doc->AddFont(wxStringFromBBString(family), wxStringFromBBString(style), wxStringFromBBString(file));
+int bmx_wxpdfdocument_addfont(wxPdfDocument * doc, BBString * family, BBString * style, BBString * file) {
+	return static_cast<int>(doc->AddFont(wxStringFromBBString(family), wxStringFromBBString(style), wxStringFromBBString(file)));
 }
 
-bool bmx_wxpdfdocument_addfontcjk(wxPdfDocument * doc, BBString * family) {
-	return doc->AddFontCJK(wxStringFromBBString(family));
+int bmx_wxpdfdocument_addfontcjk(wxPdfDocument * doc, BBString * family) {
+	return static_cast<int>(doc->AddFontCJK(wxStringFromBBString(family)));
 }
 
 int bmx_wxpdfdocument_addlink(wxPdfDocument * doc) {
@@ -347,8 +347,8 @@ BBString * bmx_wxpdfdocument_getfontstyle(wxPdfDocument * doc) {
 	return bbStringFromWxString(doc->GetFontStyle());
 }
 
-bool bmx_wxpdfdocument_getfontsubsetting(wxPdfDocument * doc) {
-	return doc->GetFontSubsetting();
+int bmx_wxpdfdocument_getfontsubsetting(wxPdfDocument * doc) {
+	return static_cast<int>(doc->GetFontSubsetting());
 }
 
 double bmx_wxpdfdocument_getimagescale(wxPdfDocument * doc) {
@@ -407,12 +407,12 @@ void bmx_wxpdfdocument_writecell(wxPdfDocument * doc, double h, BBString * txt, 
 	}
 }
 
-void bmx_wxpdfdocument_textfield(wxPdfDocument * doc, BBString * name, double width, double height, BBString * value, bool multiline) {
-	doc->TextField(wxStringFromBBString(name), width, height, wxStringFromBBString(value), multiline);
+void bmx_wxpdfdocument_textfield(wxPdfDocument * doc, BBString * name, double width, double height, BBString * value, int multiline) {
+	doc->TextField(wxStringFromBBString(name), width, height, wxStringFromBBString(value), static_cast<bool>(multiline));
 }
 
-void bmx_wxpdfdocument_textfieldxy(wxPdfDocument * doc, BBString * name, double x, double y, double width, double height, BBString * value, bool multiline) {
-	doc->TextField(wxStringFromBBString(name), x, y, width, height, wxStringFromBBString(value), multiline);
+void bmx_wxpdfdocument_textfieldxy(wxPdfDocument * doc, BBString * name, double x, double y, double width, double height, BBString * value, int multiline) {
+	doc->TextField(wxStringFromBBString(name), x, y, width, height, wxStringFromBBString(value), static_cast<bool>(multiline));
 }
 
 void bmx_wxpdfdocument_stoptransform(wxPdfDocument * doc) {
@@ -427,12 +427,12 @@ int bmx_wxpdfdocument_textbox(wxPdfDocument * doc, double w, double h, BBString 
 	return doc->TextBox(w, h, wxStringFromBBString(txt), halign, valign, border, fill);
 }
 
-void bmx_wxpdfdocument_checkbox(wxPdfDocument * doc, BBString * name, double width, bool checked) {
-	doc->CheckBox(wxStringFromBBString(name), width, checked);
+void bmx_wxpdfdocument_checkbox(wxPdfDocument * doc, BBString * name, double width, int checked) {
+	doc->CheckBox(wxStringFromBBString(name), width, static_cast<bool>(checked));
 }
 
-void bmx_wxpdfdocument_checkboxxy(wxPdfDocument * doc, BBString * name, double x, double y, double width, bool checked) {
-	doc->CheckBox(wxStringFromBBString(name), x, y, width, checked);
+void bmx_wxpdfdocument_checkboxxy(wxPdfDocument * doc, BBString * name, double x, double y, double width, int checked) {
+	doc->CheckBox(wxStringFromBBString(name), x, y, width, static_cast<bool>(checked));
 }
 
 void bmx_wxpdfdocument_combobox(wxPdfDocument * doc, BBString * name, double width, double height, BBArray * values) {
@@ -451,8 +451,8 @@ void bmx_wxpdfdocument_clippedcell(wxPdfDocument * doc, double w, double h, BBSt
 	}
 }
 
-void bmx_wxpdfdocument_clippingellipse(wxPdfDocument * doc, double x, double y, double rx, double ry, bool outline) {
-	doc->ClippingEllipse(x, y, rx, ry, outline);
+void bmx_wxpdfdocument_clippingellipse(wxPdfDocument * doc, double x, double y, double rx, double ry, int outline) {
+	doc->ClippingEllipse(x, y, rx, ry, static_cast<bool>(outline));
 }
 
 void bmx_wxpdfdocument_clippingpath(wxPdfDocument * doc) {
@@ -463,16 +463,16 @@ void bmx_wxpdfdocument_clippingpathshape(wxPdfDocument * doc, MaxPdfShape * shap
 	doc->ClippingPath(shape->Shape(), style);
 }
 
-void bmx_wxpdfdocument_clippingpolygon(wxPdfDocument * doc, BBArray * x, BBArray * y, bool outline) {
-	doc->ClippingPolygon(bbDoubleArrayTowxPdfArrayDouble(x), bbDoubleArrayTowxPdfArrayDouble(y), outline);
+void bmx_wxpdfdocument_clippingpolygon(wxPdfDocument * doc, BBArray * x, BBArray * y, int outline) {
+	doc->ClippingPolygon(bbDoubleArrayTowxPdfArrayDouble(x), bbDoubleArrayTowxPdfArrayDouble(y), static_cast<bool>(outline));
 }
 
-void bmx_wxpdfdocument_clippingrect(wxPdfDocument * doc, double x, double y, double w, double h, bool outline) {
-	doc->ClippingRect(x, y, w, h, outline);
+void bmx_wxpdfdocument_clippingrect(wxPdfDocument * doc, double x, double y, double w, double h, int outline) {
+	doc->ClippingRect(x, y, w, h, static_cast<bool>(outline));
 }
 
-void bmx_wxpdfdocument_clippingtext(wxPdfDocument * doc, double x, double y, BBString * txt, bool outline) {
-	doc->ClippingText(x, y, wxStringFromBBString(txt), outline);
+void bmx_wxpdfdocument_clippingtext(wxPdfDocument * doc, double x, double y, BBString * txt, int outline) {
+	doc->ClippingText(x, y, wxStringFromBBString(txt), static_cast<bool>(outline));
 }
 
 void bmx_wxpdfdocument_closepath(wxPdfDocument * doc, int style) {
@@ -507,31 +507,31 @@ void bmx_wxpdfdocument_setxy(wxPdfDocument * doc, double x, double y) {
 	doc->SetXY(x, y);
 }
 
-bool bmx_wxpdfdocument_skew(wxPdfDocument * doc, double xAngle, double yAngle, double x, double y) {
-	return doc->Skew(xAngle, yAngle, x, y);
+int bmx_wxpdfdocument_skew(wxPdfDocument * doc, double xAngle, double yAngle, double x, double y) {
+	return static_cast<int>(doc->Skew(xAngle, yAngle, x, y));
 }
 
-bool bmx_wxpdfdocument_skewx(wxPdfDocument * doc, double xAngle, double x, double y) {
-	return doc->SkewX(xAngle, x, y);
+int bmx_wxpdfdocument_skewx(wxPdfDocument * doc, double xAngle, double x, double y) {
+	return static_cast<int>(doc->SkewX(xAngle, x, y));
 }
 
-bool bmx_wxpdfdocument_skewy(wxPdfDocument * doc, double yAngle, double x, double y) {
-	return doc->SkewY(yAngle, x, y);
+int bmx_wxpdfdocument_skewy(wxPdfDocument * doc, double yAngle, double x, double y) {
+	return static_cast<int>(doc->SkewY(yAngle, x, y));
 }
 
 void bmx_wxpdfdocument_starpolygon(wxPdfDocument * doc, double x0, double y0, double r,
-		int nv, int nr, double angle, bool circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStype, MaxPdfColour * circleFillColour) {
+		int nv, int nr, double angle, int circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStype, MaxPdfColour * circleFillColour) {
 	if (circleLineStype) {
 		if (circleFillColour) {
-			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStype->Style(), circleFillColour->Colour());
+			doc->StarPolygon(x0, y0, r, nv, nr, angle, static_cast<bool>(circle), style, circleStyle, circleLineStype->Style(), circleFillColour->Colour());
 		} else {
-			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, circleLineStype->Style(), wxPdfColour());
+			doc->StarPolygon(x0, y0, r, nv, nr, angle, static_cast<bool>(circle), style, circleStyle, circleLineStype->Style(), wxPdfColour());
 		}
 	} else {
 		if (circleFillColour) {
-			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, wxPdfLineStyle(), circleFillColour->Colour());
+			doc->StarPolygon(x0, y0, r, nv, nr, angle, static_cast<bool>(circle), style, circleStyle, wxPdfLineStyle(), circleFillColour->Colour());
 		} else {
-			doc->StarPolygon(x0, y0, r, nv, nr, angle, circle, style, circleStyle, wxPdfLineStyle(), wxPdfColour());
+			doc->StarPolygon(x0, y0, r, nv, nr, angle, static_cast<bool>(circle), style, circleStyle, wxPdfLineStyle(), wxPdfColour());
 		}
 	}
 }
@@ -544,8 +544,8 @@ void bmx_wxpdfdocument_shapedtext(wxPdfDocument * doc, MaxPdfShape * shape, BBSt
 	doc->ShapedText(shape->Shape(), wxStringFromBBString(text), mode);
 }
 
-bool bmx_wxpdfdocument_setlink(wxPdfDocument * doc, int link, double y, int page) {
-	return doc->SetLink(link, y, page);
+int bmx_wxpdfdocument_setlink(wxPdfDocument * doc, int link, double y, int page) {
+	return static_cast<int>(doc->SetLink(link, y, page));
 }
 
 double bmx_wxpdfdocument_getpageheight(wxPdfDocument * doc) {
@@ -564,8 +564,8 @@ double bmx_wxpdfdocument_getscalefactor(wxPdfDocument * doc) {
 	return doc->GetScaleFactor();
 }
 
-bool bmx_wxpdfdocument_getsourceinfo(wxPdfDocument * doc, MaxPdfInfo * info) {
-	return doc->GetSourceInfo(info->Info());
+int bmx_wxpdfdocument_getsourceinfo(wxPdfDocument * doc, MaxPdfInfo * info) {
+	return static_cast<int>(doc->GetSourceInfo(info->Info()));
 }
 
 int bmx_wxpdfdocument_coonspatchgradient(wxPdfDocument * doc, MaxPdfCoonsPatchMesh * mesh, double minCoord, double maxCoord) {
@@ -609,24 +609,24 @@ MaxPdfColour * bmx_wxpdfdocument_gettextcolour(wxPdfDocument * doc) {
 	return new MaxPdfColour(doc->GetTextColour());
 }
 
-bool bmx_wxpdfdocument_imageimage(wxPdfDocument * doc, BBString * name, MaxImage * image, double x, double y, double w, double h, MaxPdfLink * link, int maskImage) {
+int bmx_wxpdfdocument_imageimage(wxPdfDocument * doc, BBString * name, MaxImage * image, double x, double y, double w, double h, MaxPdfLink * link, int maskImage) {
 	if (link) {
-		return doc->Image(wxStringFromBBString(name), image->Image(), x, y, w, h, link->Link(), maskImage);
+		return static_cast<int>(doc->Image(wxStringFromBBString(name), image->Image(), x, y, w, h, link->Link(), maskImage));
 	} else {
-		return doc->Image(wxStringFromBBString(name), image->Image(), x, y, w, h, wxPdfLink(-1), maskImage);
+		return static_cast<int>(doc->Image(wxStringFromBBString(name), image->Image(), x, y, w, h, wxPdfLink(-1), maskImage));
 	}
 }
 
-bool bmx_wxpdfdocument_imagemaskimage(wxPdfDocument * doc, BBString * name, MaxImage * image) {
-	return doc->ImageMask(wxStringFromBBString(name), image->Image());
+int bmx_wxpdfdocument_imagemaskimage(wxPdfDocument * doc, BBString * name, MaxImage * image) {
+	return static_cast<int>(doc->ImageMask(wxStringFromBBString(name), image->Image()));
 }
 
 int bmx_wxpdfdocument_importpage(wxPdfDocument * doc, int page) {
 	return doc->ImportPage(page);
 }
 
-bool bmx_wxpdfdocument_isinfooter(wxPdfDocument * doc) {
-	return doc->IsInFooter();
+int bmx_wxpdfdocument_isinfooter(wxPdfDocument * doc) {
+	return static_cast<int>(doc->IsInFooter());
 }
 
 void bmx_wxpdfdocument_line(wxPdfDocument * doc, double x1, double y1, double x2, double y2) {
@@ -753,20 +753,20 @@ void bmx_wxpdfdocument_roundedrect(wxPdfDocument * doc, double x, double y, doub
 	doc->RoundedRect(x, y, w, h, r, roundCorner, style);
 }
 
-bool bmx_wxpdfdocument_scale(wxPdfDocument * doc, double sx, double sy, double x, double y) {
-	return doc->Scale(sx, sy, x, y);
+int bmx_wxpdfdocument_scale(wxPdfDocument * doc, double sx, double sy, double x, double y) {
+	return static_cast<int>(doc->Scale(sx, sy, x, y));
 }
 
-bool bmx_wxpdfdocument_scalex(wxPdfDocument * doc, double sx, double x, double y) {
-	return doc->ScaleX(sx, x, y);
+int bmx_wxpdfdocument_scalex(wxPdfDocument * doc, double sx, double x, double y) {
+	return static_cast<int>(doc->ScaleX(sx, x, y));
 }
 
-bool bmx_wxpdfdocument_scaley(wxPdfDocument * doc, double sy, double x, double y) {
-	return doc->ScaleY(sy, x, y);
+int bmx_wxpdfdocument_scaley(wxPdfDocument * doc, double sy, double x, double y) {
+	return static_cast<int>(doc->ScaleY(sy, x, y));
 }
 
-bool bmx_wxpdfdocument_scalexy(wxPdfDocument * doc, double s, double x, double y) {
-	return doc->ScaleXY(s, x, y);
+int bmx_wxpdfdocument_scalexy(wxPdfDocument * doc, double s, double x, double y) {
+	return static_cast<int>(doc->ScaleXY(s, x, y));
 }
 
 void bmx_wxpdfdocument_setdrawcolourgrayscale(wxPdfDocument * doc, int grayscale) {
@@ -805,8 +805,8 @@ void bmx_wxpdfdocument_setfontsize(wxPdfDocument * doc, double size) {
 	doc->SetFontSize(size);
 }
 
-void bmx_wxpdfdocument_setfontsubsetting(wxPdfDocument * doc, bool fontSubsetting) {
-	doc->SetFontSubsetting(fontSubsetting);
+void bmx_wxpdfdocument_setfontsubsetting(wxPdfDocument * doc, int fontSubsetting) {
+	doc->SetFontSubsetting(static_cast<bool>(fontSubsetting));
 }
 
 void bmx_wxpdfdocument_setformborderstyle(wxPdfDocument * doc, wxPdfBorderStyle borderStyle, double borderWidth) {
@@ -821,16 +821,16 @@ void bmx_wxpdfdocument_setfillgradient(wxPdfDocument * doc, double x, double y, 
 	doc->SetFillGradient(x, y, w, h, gradient);
 }
 
-void bmx_wxpdfdocument_setautopagebreak(wxPdfDocument * doc, bool autoPageBreak, double margin) {
-	doc->SetAutoPageBreak(autoPageBreak, margin);
+void bmx_wxpdfdocument_setautopagebreak(wxPdfDocument * doc, int autoPageBreak, double margin) {
+	doc->SetAutoPageBreak(static_cast<bool>(autoPageBreak), margin);
 }
 
 void bmx_wxpdfdocument_setcellmargin(wxPdfDocument * doc, double margin) {
 	doc->SetCellMargin(margin);
 }
 
-void bmx_wxpdfdocument_setcompression(wxPdfDocument * doc, bool compress) {
-	doc->SetCompression(compress);
+void bmx_wxpdfdocument_setcompression(wxPdfDocument * doc, int compress) {
+	doc->SetCompression(static_cast<bool>(compress));
 }
 
 void bmx_wxpdfdocument_setcreator(wxPdfDocument * doc, BBString * creator) {
@@ -845,12 +845,12 @@ void bmx_wxpdfdocument_setalphastate(wxPdfDocument * doc, int state) {
 	doc->SetAlphaState(state);
 }
 
-void bmx_wxpdfdocument_sector(wxPdfDocument * doc, double x0, double y0, double r, double astart, double afinish, int style, bool clockwise, double origin) {
-	doc->Sector(x0, y0, r, astart, afinish, style, clockwise, origin);
+void bmx_wxpdfdocument_sector(wxPdfDocument * doc, double x0, double y0, double r, double astart, double afinish, int style, int clockwise, double origin) {
+	doc->Sector(x0, y0, r, astart, afinish, style, static_cast<bool>(clockwise), origin);
 }
 
-void bmx_wxpdfdocument_regularpolygon(wxPdfDocument * doc, double x0, double y0, double r, int ns, double angle, bool circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStyle, MaxPdfColour * circleFillColour) {
-	doc->RegularPolygon(x0, y0, r, ns, angle, circle, style, circleStyle, (circleLineStyle)?circleLineStyle->Style():wxPdfLineStyle(), (circleFillColour)?circleFillColour->Colour():wxPdfColour());
+void bmx_wxpdfdocument_regularpolygon(wxPdfDocument * doc, double x0, double y0, double r, int ns, double angle, int circle, int style, int circleStyle, MaxPdfLineStyle * circleLineStyle, MaxPdfColour * circleFillColour) {
+	doc->RegularPolygon(x0, y0, r, ns, angle, static_cast<bool>(circle), style, circleStyle, (circleLineStyle)?circleLineStyle->Style():wxPdfLineStyle(), (circleFillColour)?circleFillColour->Colour():wxPdfColour());
 }
 
 void bmx_wxpdfdocument_rotatedimage(wxPdfDocument * doc, BBString * file, double x, double y, double w, double h, double angle, BBString * imgType, MaxPdfLink * link, int maskImage) {
@@ -979,24 +979,24 @@ void bmx_wxpdfbarcodecreator_free(wxPdfBarCodeCreator * creator) {
 	delete creator;
 }
 
-bool bmx_wxpdfbarcodecreator_ean13(wxPdfBarCodeCreator * creator, double x, double y, BBString * barcode, double w, double h) {
-	return creator->EAN13(x, y, wxStringFromBBString(barcode), h, w);
+int bmx_wxpdfbarcodecreator_ean13(wxPdfBarCodeCreator * creator, double x, double y, BBString * barcode, double w, double h) {
+	return static_cast<int>(creator->EAN13(x, y, wxStringFromBBString(barcode), h, w));
 }
 
-bool bmx_wxpdfbarcodecreator_upc_a(wxPdfBarCodeCreator * creator, double x, double y, BBString * barcode, double w, double h) {
-	return creator->UPC_A(x, y, wxStringFromBBString(barcode), h, w);
+int bmx_wxpdfbarcodecreator_upc_a(wxPdfBarCodeCreator * creator, double x, double y, BBString * barcode, double w, double h) {
+	return static_cast<int>(creator->UPC_A(x, y, wxStringFromBBString(barcode), h, w));
 }
 
-bool bmx_wxpdfbarcodecreator_code39(wxPdfBarCodeCreator * creator, double x, double y, BBString * code, bool ext, bool cks, double w, double h, bool wide) {
-	return creator->Code39(x, y, wxStringFromBBString(code), ext, cks, w, h, wide);
+int bmx_wxpdfbarcodecreator_code39(wxPdfBarCodeCreator * creator, double x, double y, BBString * code, int ext, int cks, double w, double h, int wide) {
+	return static_cast<int>(creator->Code39(x, y, wxStringFromBBString(code), static_cast<bool>(ext), static_cast<bool>(cks), w, h, static_cast<bool>(wide)));
 }
 
-bool bmx_wxpdfbarcodecreator_I25(wxPdfBarCodeCreator * creator, double x, double y, BBString * code, double basewidth, double height) {
-	return creator->I25(x, y, wxStringFromBBString(code), basewidth, height);
+int bmx_wxpdfbarcodecreator_I25(wxPdfBarCodeCreator * creator, double x, double y, BBString * code, double basewidth, double height) {
+	return static_cast<int>(creator->I25(x, y, wxStringFromBBString(code), basewidth, height));
 }
 
-bool bmx_wxpdfbarcodecreator_postnet(wxPdfBarCodeCreator * creator, double x, double y, BBString * zipcode) {
-	return creator->PostNet(x, y, wxStringFromBBString(zipcode));
+int bmx_wxpdfbarcodecreator_postnet(wxPdfBarCodeCreator * creator, double x, double y, BBString * zipcode) {
+	return static_cast<int>(creator->PostNet(x, y, wxStringFromBBString(zipcode)));
 }
 
 // *********************************************

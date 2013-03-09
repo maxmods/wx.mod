@@ -34,10 +34,10 @@ extern "C" {
 	BBObject * _wx_wxmenubar_wxMenuBar__xrcNew(wxMenuBar * menubar);
 
 	MaxMenuBar * bmx_wxmenubar_create(BBObject * maxHandle, long style);
-	bool bmx_wxmenubar_append(wxMenuBar * menubar, MaxMenu * menu, BBString * title);
-	void bmx_wxmenubar_check(wxMenuBar * menubar, int id, bool value);
-	void bmx_wxmenubar_enable(wxMenuBar * menubar, int id, bool value);
-	void bmx_wxmenubar_enabletop(wxMenuBar * menubar, int pos, bool value);
+	int bmx_wxmenubar_append(wxMenuBar * menubar, MaxMenu * menu, BBString * title);
+	void bmx_wxmenubar_check(wxMenuBar * menubar, int id, int value);
+	void bmx_wxmenubar_enable(wxMenuBar * menubar, int id, int value);
+	void bmx_wxmenubar_enabletop(wxMenuBar * menubar, int pos, int value);
 	int bmx_wxmenubar_findmenu(wxMenuBar * menubar, BBString * title);
 	int bmx_wxmenubar_findmenuitem(wxMenuBar * menubar, BBString * menuString, BBString * itemString);
 	BBString * bmx_wxmenubar_gethelpstring(wxMenuBar * menubar, int id);
@@ -45,9 +45,9 @@ extern "C" {
 	BBString * bmx_wxmenubar_getmenulabel(wxMenuBar * menubar, int pos);
 	wxMenu * bmx_wxmenubar_getmenu(wxMenuBar * menubar, int index);
 	int bmx_wxmenubar_getmenucount(wxMenuBar * menubar);
-	bool bmx_wxmenubar_insert(wxMenuBar * menubar, int pos, MaxMenu * menu, BBString * title);
-	bool bmx_wxmenubar_ischecked(wxMenuBar * menubar, int id);
-	bool bmx_wxmenubar_isenabled(wxMenuBar * menubar, int id);
+	int bmx_wxmenubar_insert(wxMenuBar * menubar, int pos, MaxMenu * menu, BBString * title);
+	int bmx_wxmenubar_ischecked(wxMenuBar * menubar, int id);
+	int bmx_wxmenubar_isenabled(wxMenuBar * menubar, int id);
 	void bmx_wxmenubar_refresh(wxMenuBar * menubar);
 	wxMenu * bmx_wxmenubar_remove(wxMenuBar * menubar, int pos);
 	wxMenu * bmx_wxmenubar_replace(wxMenuBar * menubar, int pos, MaxMenu * menu, BBString * title);

@@ -31,7 +31,7 @@ extern "C" {
 
 	MaxSashWindow * bmx_wxsashwindow_create(BBObject * handle, wxWindow * parent, wxWindowID id, 
 		int x, int y, int w, int h, long style);
-	bool bmx_wxsashwindow_getsashvisible(wxSashWindow * sash, wxSashEdgePosition edge);
+	int bmx_wxsashwindow_getsashvisible(wxSashWindow * sash, wxSashEdgePosition edge);
 	int bmx_wxsashwindow_getmaximumsizex(wxSashWindow * sash);
 	int bmx_wxsashwindow_getmaximumsizey(wxSashWindow * sash);
 	int bmx_wxsashwindow_getminimumsizex(wxSashWindow * sash);
@@ -40,7 +40,7 @@ extern "C" {
 	void bmx_wxsashwindow_setmaximumsizey(wxSashWindow * sash, int size);
 	void bmx_wxsashwindow_setminimumsizex(wxSashWindow * sash, int size);
 	void bmx_wxsashwindow_setminimumsizey(wxSashWindow * sash, int size);
-	void bmx_wxsashwindow_setsashvisible(wxSashWindow * sash, wxSashEdgePosition edge, bool visible);
+	void bmx_wxsashwindow_setsashvisible(wxSashWindow * sash, wxSashEdgePosition edge, int visible);
 
 	wxSashEdgePosition bmx_wxsashevent_getedge(wxSashEvent & event);
 	void bmx_wxsashevent_getdragrect(wxSashEvent & event, int * x, int * y, int * w, int * h);

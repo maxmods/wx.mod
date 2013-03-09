@@ -31,8 +31,8 @@ extern "C" {
 
 	wxProgressDialog * bmx_wxprogressdialog_create(BBObject * handle, BBString * title, BBString * message, int maximum, wxWindow * parent, int style);
 	void bmx_wxprogressdialog_resume(wxProgressDialog * dialog);
-	bool bmx_wxprogressdialog_updateprogress(wxProgressDialog * dialog, int value, BBString * newMessage, bool * skip);
-	bool bmx_wxprogressdialog_pulse(wxProgressDialog * dialog, BBString * newMessage, bool * skip);
+	int bmx_wxprogressdialog_updateprogress(wxProgressDialog * dialog, int value, BBString * newMessage, int * skip);
+	int bmx_wxprogressdialog_pulse(wxProgressDialog * dialog, BBString * newMessage, int * skip);
 
 }
 

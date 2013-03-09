@@ -45,8 +45,8 @@ extern "C" {
 	int bmx_wxzipentry_getmethod(wxZipEntry * entry);
 	int bmx_wxzipentry_getmode(wxZipEntry * entry);
 	BBString * bmx_wxzipentry_getname(wxZipEntry * entry, wxPathFormat format);
-	bool bmx_wxzipentry_ismadebyunix(wxZipEntry * entry);
-	bool bmx_wxzipentry_istext(wxZipEntry * entry);
+	int bmx_wxzipentry_ismadebyunix(wxZipEntry * entry);
+	int bmx_wxzipentry_istext(wxZipEntry * entry);
 	void bmx_wxzipentry_setname(wxZipEntry * entry, BBString * name, wxPathFormat format);
 	int bmx_wxzipentry_getoffset(wxZipEntry * entry);
 	int bmx_wxzipentry_getsize(wxZipEntry * entry);
@@ -54,16 +54,16 @@ extern "C" {
 	void bmx_wxzipentry_setcomment(wxZipEntry * entry, BBString * comment);
 	void bmx_wxzipentry_setextra(wxZipEntry * entry, const char * extra, int length);
 	void bmx_wxzipentry_setexternalattributes(wxZipEntry * entry, unsigned int attr);
-	void bmx_wxzipentry_setistext(wxZipEntry * entry, bool text);
+	void bmx_wxzipentry_setistext(wxZipEntry * entry, int text);
 	void bmx_wxzipentry_setlocalextra(wxZipEntry * entry, const char * extra, int length);
 	void bmx_wxzipentry_setmethod(wxZipEntry * entry, int meth);
 	void bmx_wxzipentry_setmode(wxZipEntry * entry, int mode);
 	void bmx_wxzipentry_setsize(wxZipEntry * entry, int size);
 	void bmx_wxzipentry_setsystemmadeby(wxZipEntry * entry, int system);
-	bool bmx_wxzipentry_isdir(wxZipEntry * entry);
-	void bmx_wxzipentry_setisdir(wxZipEntry * entry, bool dir);
-	bool bmx_wxzipentry_isreadonly(wxZipEntry * entry);
-	void bmx_wxzipentry_setisreadonly(wxZipEntry * entry, bool readOnly);
+	int bmx_wxzipentry_isdir(wxZipEntry * entry);
+	void bmx_wxzipentry_setisdir(wxZipEntry * entry, int dir);
+	int bmx_wxzipentry_isreadonly(wxZipEntry * entry);
+	void bmx_wxzipentry_setisreadonly(wxZipEntry * entry, int readOnly);
 
 }
 

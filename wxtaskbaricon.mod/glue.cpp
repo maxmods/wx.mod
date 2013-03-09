@@ -46,28 +46,28 @@ MaxTaskBarIcon * bmx_wxtaskbaricon_create(BBObject * handle, int iconType) {
 	return new MaxTaskBarIcon(handle, iconType);
 }
 
-bool bmx_wxtaskbaricon_isiconinstalled(wxTaskBarIcon * taskBarIcon) {
-	return taskBarIcon->IsIconInstalled();
+int bmx_wxtaskbaricon_isiconinstalled(wxTaskBarIcon * taskBarIcon) {
+	return static_cast<int>(taskBarIcon->IsIconInstalled());
 }
 
-bool bmx_wxtaskbaricon_isok(wxTaskBarIcon * taskBarIcon) {
-	return taskBarIcon->IsOk();
+int bmx_wxtaskbaricon_isok(wxTaskBarIcon * taskBarIcon) {
+	return static_cast<int>(taskBarIcon->IsOk());
 }
 
-bool bmx_wxtaskbaricon_removeicon(wxTaskBarIcon * taskBarIcon) {
-	return taskBarIcon->RemoveIcon();
+int bmx_wxtaskbaricon_removeicon(wxTaskBarIcon * taskBarIcon) {
+	return static_cast<int>(taskBarIcon->RemoveIcon());
 }
 
-bool bmx_wxtaskbaricon_seticon(wxTaskBarIcon * taskBarIcon, MaxIcon * icon, BBString * tooltip) {
-	return taskBarIcon->SetIcon(icon->Icon(), wxStringFromBBString(tooltip));
+int bmx_wxtaskbaricon_seticon(wxTaskBarIcon * taskBarIcon, MaxIcon * icon, BBString * tooltip) {
+	return static_cast<int>(taskBarIcon->SetIcon(icon->Icon(), wxStringFromBBString(tooltip)));
 }
 
 void bmx_wxtaskbaricon_free(wxTaskBarIcon * taskBarIcon) {
 	delete taskBarIcon;
 }
 
-bool bmx_wxtaskbaricon_isavailable() {
-	return wxTaskBarIcon::IsAvailable();
+int bmx_wxtaskbaricon_isavailable() {
+	return static_cast<int>(wxTaskBarIcon::IsAvailable());
 }
 
 int bmx_wxtaskbariconevent_geteventtype(int type) {

@@ -278,8 +278,8 @@ MaxToolBar * bmx_wxtoolbar_create(BBObject * maxHandle, wxWindow* parent, wxWind
 	return new MaxToolBar(maxHandle, parent, id, x, y, w, h, style);
 }
 
-bool bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control) {
-	return toolbar->AddControl(control);
+void bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control) {
+	toolbar->AddControl(control);
 }
 
 void bmx_wxtoolbar_addseparator(wxToolBar * toolbar) {
@@ -298,8 +298,8 @@ wxToolBarToolBase * bmx_wxtoolbar_addtool(wxToolBar * toolbar, int id, BBString 
 	}
 }
 
-bool bmx_wxtoolbar_realize(wxToolBar * toolbar) {
-	return toolbar->Realize();
+int bmx_wxtoolbar_realize(wxToolBar * toolbar) {
+	return static_cast<int>(toolbar->Realize());
 }
 
 void bmx_wxtoolbar_settoolbitmapsize(wxToolBar * toolbar, int w, int h) {
@@ -311,16 +311,16 @@ void bmx_wxtoolbar_cleartools(wxToolBar * toolbar) {
 	toolbar->ClearTools();
 }
 
-bool bmx_wxtoolbar_deletetool(wxToolBar * toolbar, int toolId) {
-	return toolbar->DeleteTool(toolId);
+int bmx_wxtoolbar_deletetool(wxToolBar * toolbar, int toolId) {
+	return static_cast<int>(toolbar->DeleteTool(toolId));
 }
 
-bool bmx_wxtoolbar_deletetoolbypos(wxToolBar * toolbar, int pos) {
-	return toolbar->DeleteToolByPos(pos);
+int bmx_wxtoolbar_deletetoolbypos(wxToolBar * toolbar, int pos) {
+	return static_cast<int>(toolbar->DeleteToolByPos(pos));
 }
 
-void bmx_wxtoolbar_enabletool(wxToolBar * toolbar, int toolId, bool enable) {
-	toolbar->EnableTool(toolId, enable);
+void bmx_wxtoolbar_enabletool(wxToolBar * toolbar, int toolId, int enable) {
+	toolbar->EnableTool(toolId, static_cast<bool>(enable));
 }
 
 int bmx_wxtoolbar_gettoolscount(wxToolBar * toolbar) {
@@ -345,8 +345,8 @@ void bmx_wxtoolbar_getmargins(wxToolBar * toolbar, int * leftRight, int * topBot
 	*topBottom = m.y;
 }
 
-bool bmx_wxtoolbar_gettoolenabled(wxToolBar * toolbar, int toolId) {
-	return toolbar->GetToolEnabled(toolId);
+int bmx_wxtoolbar_gettoolenabled(wxToolBar * toolbar, int toolId) {
+	return static_cast<int>(toolbar->GetToolEnabled(toolId));
 }
 
 BBString * bmx_wxtoolbar_gettoollonghelp(wxToolBar * toolbar, int toolId) {
@@ -369,8 +369,8 @@ BBString * bmx_wxtoolbar_gettoolshorthelp(wxToolBar * toolbar, int toolId) {
 	return bbStringFromWxString(toolbar->GetToolShortHelp(toolId));
 }
 
-bool bmx_wxtoolbar_gettoolstate(wxToolBar * toolbar, int toolId) {
-	return toolbar->GetToolState(toolId);
+int bmx_wxtoolbar_gettoolstate(wxToolBar * toolbar, int toolId) {
+	return static_cast<int>(toolbar->GetToolState(toolId));
 }
 
 
@@ -462,8 +462,8 @@ void bmx_wxtoolbar_settoolseparation(wxToolBar * toolbar, int separation) {
 	toolbar->SetToolSeparation(separation);
 }
 
-void bmx_wxtoolbar_toggletool(wxToolBar * toolbar, int id, bool toggle) {
-	toolbar->ToggleTool(id, toggle);
+void bmx_wxtoolbar_toggletool(wxToolBar * toolbar, int id, int toggle) {
+	toolbar->ToggleTool(id, static_cast<bool>(toggle));
 }
 
 wxToolBarToolBase * bmx_wxtoolbar_removetool(wxToolBar * toolbar, int id) {
@@ -499,16 +499,16 @@ wxToolBarToolBase * bmx_wxtoolbar_insertseparator(wxToolBar * toolbar, int pos) 
 }
 
 
-bool bmx_wxtoolbartoolbase_isbutton(wxToolBarToolBase * base) {
-	return base->IsButton();
+int bmx_wxtoolbartoolbase_isbutton(wxToolBarToolBase * base) {
+	return static_cast<int>(base->IsButton());
 }
 
-bool bmx_wxtoolbartoolbase_iscontrol(wxToolBarToolBase * base) {
-	return base->IsControl();
+int bmx_wxtoolbartoolbase_iscontrol(wxToolBarToolBase * base) {
+	return static_cast<int>(base->IsControl());
 }
 
-bool bmx_wxtoolbartoolbase_isseparator(wxToolBarToolBase * base) {
-	return base->IsSeparator();
+int bmx_wxtoolbartoolbase_isseparator(wxToolBarToolBase * base) {
+	return static_cast<int>(base->IsSeparator());
 }
 
 int bmx_wxtoolbartoolbase_getstyle(wxToolBarToolBase * base) {
@@ -519,16 +519,16 @@ wxItemKind bmx_wxtoolbartoolbase_getkind(wxToolBarToolBase * base) {
 	return base->GetKind();
 }
 
-bool bmx_wxtoolbartoolbase_isenabled(wxToolBarToolBase * base) {
-	return base->IsEnabled();
+int bmx_wxtoolbartoolbase_isenabled(wxToolBarToolBase * base) {
+	return static_cast<int>(base->IsEnabled());
 }
 
-bool bmx_wxtoolbartoolbase_istoggled(wxToolBarToolBase * base) {
-	return base->IsToggled();
+int bmx_wxtoolbartoolbase_istoggled(wxToolBarToolBase * base) {
+	return static_cast<int>(base->IsToggled());
 }
 
-bool bmx_wxtoolbartoolbase_canbetoggled(wxToolBarToolBase * base) {
-	return base->CanBeToggled();
+int bmx_wxtoolbartoolbase_canbetoggled(wxToolBarToolBase * base) {
+	return static_cast<int>(base->CanBeToggled());
 }
 
 MaxBitmap * bmx_wxtoolbartoolbase_getnormalbitmap(wxToolBarToolBase * base) {
@@ -567,24 +567,24 @@ BBObject * bmx_wxtoolbartoolbase_getclientdata(wxToolBarToolBase * base) {
 	}
 }
 
-bool bmx_wxtoolbartoolbase_enable(wxToolBarToolBase * base, bool value) {
-	return base->Enable(value);
+int bmx_wxtoolbartoolbase_enable(wxToolBarToolBase * base, int value) {
+	return static_cast<int>(base->Enable(static_cast<bool>(value)));
 }
 
 void bmx_wxtoolbartoolbase_toggle(wxToolBarToolBase * base) {
 	base->Toggle();
 }
 
-bool bmx_wxtoolbartoolbase_settoggle(wxToolBarToolBase * base, bool value) {
-	return base->SetToggle(value);
+int bmx_wxtoolbartoolbase_settoggle(wxToolBarToolBase * base, int value) {
+	return static_cast<int>(base->SetToggle(static_cast<bool>(value)));
 }
 
-bool bmx_wxtoolbartoolbase_setshorthelp(wxToolBarToolBase * base, BBString * help) {
-	return base->SetShortHelp(wxStringFromBBString(help));
+int bmx_wxtoolbartoolbase_setshorthelp(wxToolBarToolBase * base, BBString * help) {
+	return static_cast<int>(base->SetShortHelp(wxStringFromBBString(help)));
 }
 
-bool bmx_wxtoolbartoolbase_setlonghelp(wxToolBarToolBase * base, BBString * help) {
-	return base->SetLongHelp(wxStringFromBBString(help));
+int bmx_wxtoolbartoolbase_setlonghelp(wxToolBarToolBase * base, BBString * help) {
+	return static_cast<int>(base->SetLongHelp(wxStringFromBBString(help)));
 }
 
 void bmx_wxtoolbartoolbase_setnormalbitmap(wxToolBarToolBase * base, MaxBitmap * bitmap) {

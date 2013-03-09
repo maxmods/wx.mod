@@ -165,16 +165,16 @@ MaxRadioBox * bmx_wxradiobox_create(BBObject * handle, wxWindow * parent, int id
 		bbStringArrayTowxArrayStr(array), majorDimension, style);
 }
 
-bool bmx_wxradiobox_enable(wxRadioBox * radiobox, bool value) {
-	return radiobox->Enable(value);
+int bmx_wxradiobox_enable(wxRadioBox * radiobox, int value) {
+	return static_cast<int>(radiobox->Enable(static_cast<bool>(value)));
 }
 
-bool bmx_wxradiobox_enableitem(wxRadioBox * radiobox, unsigned int item, bool value) {
-	return radiobox->Enable(item, value);
+int bmx_wxradiobox_enableitem(wxRadioBox * radiobox, unsigned int item, int value) {
+	return static_cast<int>(radiobox->Enable(item, static_cast<bool>(value)));
 }
 
-int bmx_wxradiobox_findstring(wxRadioBox * radiobox, BBString * text, bool caseSensitive) {
-	return radiobox->FindString(wxStringFromBBString(text));
+int bmx_wxradiobox_findstring(wxRadioBox * radiobox, BBString * text, int caseSensitive) {
+	return radiobox->FindString(wxStringFromBBString(text), static_cast<bool>(caseSensitive));
 }
 
 unsigned int bmx_wxradiobox_getcolumncount(wxRadioBox * radiobox) {
@@ -213,12 +213,12 @@ BBString * bmx_wxradiobox_getstring(wxRadioBox * radiobox, unsigned int item) {
 	return bbStringFromWxString(radiobox->GetString(item));
 }
 
-bool bmx_wxradiobox_isitemenabled(wxRadioBox * radiobox, unsigned int item) {
-	return radiobox->IsItemEnabled(item);
+int bmx_wxradiobox_isitemenabled(wxRadioBox * radiobox, unsigned int item) {
+	return static_cast<int>(radiobox->IsItemEnabled(item));
 }
 
-bool bmx_wxradiobox_isitemshown(wxRadioBox * radiobox, unsigned int item) {
-	return radiobox->IsItemShown(item);
+int bmx_wxradiobox_isitemshown(wxRadioBox * radiobox, unsigned int item) {
+	return static_cast<int>(radiobox->IsItemShown(item));
 }
 
 void bmx_wxradiobox_setitemhelptext(wxRadioBox * radiobox, unsigned int item, BBString * helpText) {
@@ -245,12 +245,12 @@ void bmx_wxradiobox_setitemtooltip(wxRadioBox * radiobox, unsigned int item, BBS
 	radiobox->SetItemToolTip(item, wxStringFromBBString(text));
 }
 
-bool bmx_wxradiobox_show(wxRadioBox * radiobox, bool value) {
-	return radiobox->Show(value);
+int bmx_wxradiobox_show(wxRadioBox * radiobox, int value) {
+	return static_cast<int>(radiobox->Show(static_cast<bool>(value)));
 }
 
-bool bmx_wxradiobox_showItem(wxRadioBox * radiobox, unsigned int item, bool value) {
-	return radiobox->Show(item, value);
+int bmx_wxradiobox_showItem(wxRadioBox * radiobox, unsigned int item, int value) {
+	return static_cast<int>(radiobox->Show(item, static_cast<bool>(value)));
 }
 
 wxToolTip * bmx_wxradiobox_getitemtooltip(wxRadioBox * radiobox, int item) {

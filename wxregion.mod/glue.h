@@ -43,22 +43,22 @@ extern "C" {
 	MaxBitmap * bmx_wxregion_converttobitmap(MaxRegion * region);
 	void bmx_wxregion_getbox(MaxRegion * region, int * x, int * y, int * w, int * h);
 	MaxRect * bmx_wxregion_getboxrect(MaxRegion * region);
-	bool bmx_wxregion_intersect(MaxRegion * region, int x, int y, int w, int h);
-	bool bmx_wxregion_intersectrect(MaxRegion * region, MaxRect * rect);
-	bool bmx_wxregion_intersectregion(MaxRegion * region, MaxRegion * r);
-	bool bmx_wxregion_isempty(MaxRegion * region);
-	bool bmx_wxregion_isequal(MaxRegion * region, MaxRegion * r);
-	bool bmx_wxregion_subtract(MaxRegion * region, int x, int y, int w, int h);
-	bool bmx_wxregion_subtractrect(MaxRegion * region, MaxRect * rect);
-	bool bmx_wxregion_subtractregion(MaxRegion * region, MaxRegion * r);
-	bool bmx_wxregion_offset(MaxRegion * region, int x, int y);
-	bool bmx_wxregion_union(MaxRegion * region, int x, int y, int w, int h);
-	bool bmx_wxregion_unionrect(MaxRegion * region, MaxRect * rect);
-	bool bmx_wxregion_unionregion(MaxRegion * region, MaxRegion * r);
-	bool bmx_wxregion_unionbitmap(MaxRegion * region, MaxBitmap * bmp);
-	bool bmx_wxregion_xor(MaxRegion * region, int x, int y, int w, int h);
-	bool bmx_wxregion_xorrect(MaxRegion * region, MaxRect * rect);
-	bool bmx_wxregion_xorregion(MaxRegion * region, MaxRegion * r);
+	int bmx_wxregion_intersect(MaxRegion * region, int x, int y, int w, int h);
+	int bmx_wxregion_intersectrect(MaxRegion * region, MaxRect * rect);
+	int bmx_wxregion_intersectregion(MaxRegion * region, MaxRegion * r);
+	int bmx_wxregion_isempty(MaxRegion * region);
+	int bmx_wxregion_isequal(MaxRegion * region, MaxRegion * r);
+	int bmx_wxregion_subtract(MaxRegion * region, int x, int y, int w, int h);
+	int bmx_wxregion_subtractrect(MaxRegion * region, MaxRect * rect);
+	int bmx_wxregion_subtractregion(MaxRegion * region, MaxRegion * r);
+	int bmx_wxregion_offset(MaxRegion * region, int x, int y);
+	int bmx_wxregion_union(MaxRegion * region, int x, int y, int w, int h);
+	int bmx_wxregion_unionrect(MaxRegion * region, MaxRect * rect);
+	int bmx_wxregion_unionregion(MaxRegion * region, MaxRegion * r);
+	int bmx_wxregion_unionbitmap(MaxRegion * region, MaxBitmap * bmp);
+	int bmx_wxregion_xor(MaxRegion * region, int x, int y, int w, int h);
+	int bmx_wxregion_xorrect(MaxRegion * region, MaxRect * rect);
+	int bmx_wxregion_xorregion(MaxRegion * region, MaxRegion * r);
 	void bmx_wxregion_delete(MaxRegion * region);
 
 

@@ -90,12 +90,12 @@ wxLEDScrollDirection bmx_wxledpanel_getscrolldirection(wxLEDPanel * panel) {
 	return panel->GetScrollDirection();
 }
 
-void bmx_wxledpanel_showinverted(wxLEDPanel * panel, bool invert) {
-	panel->ShowInvertet(invert);
+void bmx_wxledpanel_showinverted(wxLEDPanel * panel, int invert) {
+	panel->ShowInvertet(static_cast<bool>(invert));
 }
 
-void bmx_wxledpanel_showinactiveleds(wxLEDPanel * panel, bool showInactives) {
-	panel->ShowInactivLEDs(showInactives);
+void bmx_wxledpanel_showinactiveleds(wxLEDPanel * panel, int showInactives) {
+	panel->ShowInactivLEDs(static_cast<bool>(showInactives));
 }
 
 void bmx_wxledpanel_settextalign(wxLEDPanel * panel, int align) {
@@ -146,6 +146,6 @@ void bmx_wxledpanel_setfonttypesmall(wxLEDPanel * panel) {
 	panel->SetFontTypeSmall();
 }
 
-bool bmx_wxledpanel_isfonttypesmall(wxLEDPanel * panel) {
-	return panel->IsFontTypeSmall();
+int bmx_wxledpanel_isfonttypesmall(wxLEDPanel * panel) {
+	return static_cast<int>(panel->IsFontTypeSmall());
 }

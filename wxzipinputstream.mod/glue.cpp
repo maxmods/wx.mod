@@ -32,8 +32,8 @@ wxZipInputStream * bmx_wxzipinputstream_create(wxInputStream * stream) {
 	return new wxZipInputStream(*stream);
 }
 
-bool bmx_wxzipinputstream_closeentry(wxZipInputStream * stream) {
-	return stream->CloseEntry();
+int bmx_wxzipinputstream_closeentry(wxZipInputStream * stream) {
+	return static_cast<int>(stream->CloseEntry());
 }
 
 BBString * bmx_wxzipinputstream_getcomment(wxZipInputStream * stream) {
@@ -48,8 +48,8 @@ int bmx_wxzipinputstream_gettotalentries(wxZipInputStream * stream) {
 	return stream->GetTotalEntries();
 }
 
-bool bmx_wxzipinputstream_openentry(wxZipInputStream * stream, wxZipEntry * entry) {
-	return stream->OpenEntry(*entry);
+int bmx_wxzipinputstream_openentry(wxZipInputStream * stream, wxZipEntry * entry) {
+	return static_cast<int>(stream->OpenEntry(*entry));
 }
 
 void bmx_wxzipinputstream_free(wxZipInputStream * stream) {

@@ -52,7 +52,7 @@ extern "C" {
 
 	wxMDIChildFrame * bmx_wxmdichildframe_create(BBObject * handle, wxMDIParentFrame * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, long style);
 	void bmx_wxmdichildframe_activate(wxMDIChildFrame * frame);
-	void bmx_wxmdichildframe_maximize(wxMDIChildFrame * frame, bool value);
+	void bmx_wxmdichildframe_maximize(wxMDIChildFrame * frame, int value);
 	void bmx_wxmdichildframe_restore(wxMDIChildFrame * frame);
 
 	void bmx_wxmdi_addresourcehandler();

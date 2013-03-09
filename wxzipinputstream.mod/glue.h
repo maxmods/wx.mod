@@ -28,11 +28,11 @@ extern "C" {
 #include <blitz.h>
 
 	wxZipInputStream * bmx_wxzipinputstream_create(wxInputStream * stream);
-	bool bmx_wxzipinputstream_closeentry(wxZipInputStream * stream);
+	int bmx_wxzipinputstream_closeentry(wxZipInputStream * stream);
 	BBString * bmx_wxzipinputstream_getcomment(wxZipInputStream * stream);
 	wxZipEntry * bmx_wxzipinputstream_getnextentry(wxZipInputStream * stream);
 	int bmx_wxzipinputstream_gettotalentries(wxZipInputStream * stream);
-	bool bmx_wxzipinputstream_openentry(wxZipInputStream * stream, wxZipEntry * entry);
+	int bmx_wxzipinputstream_openentry(wxZipInputStream * stream, wxZipEntry * entry);
 	void bmx_wxzipinputstream_free(wxZipInputStream * stream);
 	
 

@@ -31,8 +31,8 @@ extern "C" {
 #include <blitz.h>
 
 	wxMacPageMarginsDialog * bmx_wxmacpagemarginsdialog_create(BBObject * handle, wxFrame * parent, MaxPageSetupDialogData * data);
-	bool bmx_wxmacpagemarginsdialog_transfertowindow(wxMacPageMarginsDialog * dialog);
-	bool bmx_wxmacpagemarginsdialog_transferdatafromwindow(wxMacPageMarginsDialog * dialog);
+	int bmx_wxmacpagemarginsdialog_transfertowindow(wxMacPageMarginsDialog * dialog);
+	int bmx_wxmacpagemarginsdialog_transferdatafromwindow(wxMacPageMarginsDialog * dialog);
 	MaxPageSetupDialogData * bmx_wxmacpagemarginsdialog_getpagesetupdialogdata(wxMacPageMarginsDialog * dialog);
 
 }

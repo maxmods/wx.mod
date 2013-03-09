@@ -85,68 +85,68 @@ MaxRect * bmx_wxregion_getboxrect(MaxRegion * region) {
 	return new MaxRect(region->Region().GetBox());
 }
 
-bool bmx_wxregion_intersect(MaxRegion * region, int x, int y, int w, int h) {
-	return region->Region().Intersect(x, y, w, h);
+int bmx_wxregion_intersect(MaxRegion * region, int x, int y, int w, int h) {
+	return static_cast<int>(region->Region().Intersect(x, y, w, h));
 }
 
-bool bmx_wxregion_intersectrect(MaxRegion * region, MaxRect * rect) {
-	return region->Region().Intersect(rect->Rect());
+int bmx_wxregion_intersectrect(MaxRegion * region, MaxRect * rect) {
+	return static_cast<int>(region->Region().Intersect(rect->Rect()));
 }
 
-bool bmx_wxregion_intersectregion(MaxRegion * region, MaxRegion * r) {
-	return region->Region().Intersect(r->Region());
+int bmx_wxregion_intersectregion(MaxRegion * region, MaxRegion * r) {
+	return static_cast<int>(region->Region().Intersect(r->Region()));
 }
 
-bool bmx_wxregion_isempty(MaxRegion * region) {
-	return region->Region().IsEmpty();
+int bmx_wxregion_isempty(MaxRegion * region) {
+	return static_cast<int>(region->Region().IsEmpty());
 }
 
-bool bmx_wxregion_isequal(MaxRegion * region, MaxRegion * r) {
-	return region->Region().IsEqual(r->Region());
+int bmx_wxregion_isequal(MaxRegion * region, MaxRegion * r) {
+	return static_cast<int>(region->Region().IsEqual(r->Region()));
 }
 
-bool bmx_wxregion_subtract(MaxRegion * region, int x, int y, int w, int h) {
-	return region->Region().Subtract(wxRect(x, y, w, h));
+int bmx_wxregion_subtract(MaxRegion * region, int x, int y, int w, int h) {
+	return static_cast<int>(region->Region().Subtract(wxRect(x, y, w, h)));
 }
 
-bool bmx_wxregion_subtractrect(MaxRegion * region, MaxRect * rect) {
-	return region->Region().Subtract(rect->Rect());
+int bmx_wxregion_subtractrect(MaxRegion * region, MaxRect * rect) {
+	return static_cast<int>(region->Region().Subtract(rect->Rect()));
 }
 
-bool bmx_wxregion_subtractregion(MaxRegion * region, MaxRegion * r) {
-	return region->Region().Subtract(r->Region());
+int bmx_wxregion_subtractregion(MaxRegion * region, MaxRegion * r) {
+	return static_cast<int>(region->Region().Subtract(r->Region()));
 }
 
-bool bmx_wxregion_offset(MaxRegion * region, int x, int y) {
-	return region->Region().Offset(x, y);
+int bmx_wxregion_offset(MaxRegion * region, int x, int y) {
+	return static_cast<int>(region->Region().Offset(x, y));
 }
 
-bool bmx_wxregion_union(MaxRegion * region, int x, int y, int w, int h) {
-	return region->Region().Union(x, y, w, h);
+int bmx_wxregion_union(MaxRegion * region, int x, int y, int w, int h) {
+	return static_cast<int>(region->Region().Union(x, y, w, h));
 }
 
-bool bmx_wxregion_unionrect(MaxRegion * region, MaxRect * rect) {
-	return region->Region().Union(rect->Rect());
+int bmx_wxregion_unionrect(MaxRegion * region, MaxRect * rect) {
+	return static_cast<int>(region->Region().Union(rect->Rect()));
 }
 
-bool bmx_wxregion_unionregion(MaxRegion * region, MaxRegion * r) {
-	return region->Region().Union(r->Region());
+int bmx_wxregion_unionregion(MaxRegion * region, MaxRegion * r) {
+	return static_cast<int>(region->Region().Union(r->Region()));
 }
 
-bool bmx_wxregion_unionbitmap(MaxRegion * region, MaxBitmap * bmp) {
-	return region->Region().Union(bmp->Bitmap());
+int bmx_wxregion_unionbitmap(MaxRegion * region, MaxBitmap * bmp) {
+	return static_cast<int>(region->Region().Union(bmp->Bitmap()));
 }
 
-bool bmx_wxregion_xor(MaxRegion * region, int x, int y, int w, int h) {
-	return region->Region().Xor(x, y, w, h);
+int bmx_wxregion_xor(MaxRegion * region, int x, int y, int w, int h) {
+	return static_cast<int>(region->Region().Xor(x, y, w, h));
 }
 
-bool bmx_wxregion_xorrect(MaxRegion * region, MaxRect * rect) {
-	return region->Region().Xor(rect->Rect());
+int bmx_wxregion_xorrect(MaxRegion * region, MaxRect * rect) {
+	return static_cast<int>(region->Region().Xor(rect->Rect()));
 }
 
-bool bmx_wxregion_xorregion(MaxRegion * region, MaxRegion * r) {
-	return region->Region().Xor(r->Region());
+int bmx_wxregion_xorregion(MaxRegion * region, MaxRegion * r) {
+	return static_cast<int>(region->Region().Xor(r->Region()));
 }
 
 void bmx_wxregion_delete(MaxRegion * region) {

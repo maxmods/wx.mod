@@ -30,11 +30,11 @@ extern "C" {
 #include <blitz.h>
 
 	wxHtmlHelpWindow * bmx_wxhtmlhelpwindow_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, int style, int helpStyle);
-	bool bmx_wxhtmlhelpwindow_display(wxHtmlHelpWindow * window, BBString * x);
-	bool bmx_wxhtmlhelpwindow_displaywithid(wxHtmlHelpWindow * window, int id);
-	bool bmx_wxhtmlhelpwindow_displaycontents(wxHtmlHelpWindow * window);
-	bool bmx_wxhtmlhelpwindow_displayindex(wxHtmlHelpWindow * window);
-	bool bmx_wxhtmlhelpwindow_keywordsearch(wxHtmlHelpWindow * window, BBString * keyword, wxHelpSearchMode mode);
+	int bmx_wxhtmlhelpwindow_display(wxHtmlHelpWindow * window, BBString * x);
+	int bmx_wxhtmlhelpwindow_displaywithid(wxHtmlHelpWindow * window, int id);
+	int bmx_wxhtmlhelpwindow_displaycontents(wxHtmlHelpWindow * window);
+	int bmx_wxhtmlhelpwindow_displayindex(wxHtmlHelpWindow * window);
+	int bmx_wxhtmlhelpwindow_keywordsearch(wxHtmlHelpWindow * window, BBString * keyword, wxHelpSearchMode mode);
 	void bmx_wxhtmlhelpwindow_readcustomization(wxHtmlHelpWindow * window, wxConfigBase * config, BBString * path);
 	void bmx_wxhtmlhelpwindow_refreshlists(wxHtmlHelpWindow * window);
 	void bmx_wxhtmlhelpwindow_useconfig(wxHtmlHelpWindow * window, wxConfigBase * config, BBString * rootpath);

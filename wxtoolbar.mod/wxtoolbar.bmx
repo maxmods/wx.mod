@@ -127,8 +127,8 @@ Type wxToolBar Extends wxControl
 	Rem
 	bbdoc: Adds any control to the toolbar, typically e.g. a combobox.
 	End Rem
-	Method AddControl:Int(control:wxControl)
-		Return bmx_wxtoolbar_addcontrol(wxObjectPtr, control.wxObjectPtr)
+	Method AddControl(control:wxControl)
+		bmx_wxtoolbar_addcontrol(wxObjectPtr, control.wxObjectPtr)
 	End Method
 	
 	Rem

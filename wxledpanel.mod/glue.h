@@ -41,8 +41,8 @@ extern "C" {
 	int bmx_wxledpanel_getscrollspeed(wxLEDPanel * panel);
 	void bmx_wxledpanel_setscrolldirection(wxLEDPanel * panel, wxLEDScrollDirection direction);
 	wxLEDScrollDirection bmx_wxledpanel_getscrolldirection(wxLEDPanel * panel);
-	void bmx_wxledpanel_showinverted(wxLEDPanel * panel, bool invert);
-	void bmx_wxledpanel_showinactiveleds(wxLEDPanel * panel, bool showInactives);
+	void bmx_wxledpanel_showinverted(wxLEDPanel * panel, int invert);
+	void bmx_wxledpanel_showinactiveleds(wxLEDPanel * panel, int showInactives);
 	void bmx_wxledpanel_settextalign(wxLEDPanel * panel, int align);
 	int bmx_wxledpanel_gettextalign(wxLEDPanel * panel);
 	void bmx_wxledpanel_settext(wxLEDPanel * panel, BBString * text, int align);
@@ -55,7 +55,7 @@ extern "C" {
 	int bmx_wxledpanel_getletterspace(wxLEDPanel * panel);
 	void bmx_wxledpanel_setfonttypewide(wxLEDPanel * panel);
 	void bmx_wxledpanel_setfonttypesmall(wxLEDPanel * panel);
-	bool bmx_wxledpanel_isfonttypesmall(wxLEDPanel * panel);
+	int bmx_wxledpanel_isfonttypesmall(wxLEDPanel * panel);
 
 }
 

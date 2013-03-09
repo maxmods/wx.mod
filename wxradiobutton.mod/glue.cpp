@@ -80,12 +80,12 @@ MaxRadioButton * bmx_wxradiobutton_create(BBObject * maxHandle, wxWindow * paren
 	return new MaxRadioButton(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }
 
-bool bmx_wxradiobutton_getvalue(wxRadioButton * button) {
-	return button->GetValue();
+int bmx_wxradiobutton_getvalue(wxRadioButton * button) {
+	return static_cast<int>(button->GetValue());
 }
 
-void bmx_wxradiobutton_setvalue(wxRadioButton * button, bool value) {
-	button->SetValue(value);
+void bmx_wxradiobutton_setvalue(wxRadioButton * button, int value) {
+	button->SetValue(static_cast<bool>(value));
 }
 
 int bmx_wxradiobutton_geteventtype(int type) {

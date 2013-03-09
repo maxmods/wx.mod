@@ -105,7 +105,7 @@ MaxHtmlTagHandler::~MaxHtmlTagHandler() {
 }
 
 bool MaxHtmlTagHandler::HandleTag(const wxHtmlTag& tag) {
-	return _wx_wxhtmlwindow_wxHtmlTagHandler__HandleTag(maxHandle, new MaxHtmlTag(tag));
+	return static_cast<bool>(_wx_wxhtmlwindow_wxHtmlTagHandler__HandleTag(maxHandle, new MaxHtmlTag(tag)));
 }
 
 wxString MaxHtmlTagHandler::GetSupportedTags() {
@@ -186,13 +186,13 @@ MaxHtmlWindow * bmx_wxhtmlwindow_create(BBObject * maxHandle, wxWindow * parent,
 	return new MaxHtmlWindow(maxHandle, parent, id, x, y, w, h, style);
 }
 
-bool bmx_wxhtmlwindow_setpage(wxHtmlWindow * window, BBString * source) {
-	return window->SetPage(wxStringFromBBString(source));
+int bmx_wxhtmlwindow_setpage(wxHtmlWindow * window, BBString * source) {
+	return static_cast<int>(window->SetPage(wxStringFromBBString(source)));
 }
 
 
-bool bmx_wxhtmlwindow_appendtopage(wxHtmlWindow * window, BBString * source) {
-	return window->AppendToPage(wxStringFromBBString(source));
+int bmx_wxhtmlwindow_appendtopage(wxHtmlWindow * window, BBString * source) {
+	return static_cast<int>(window->AppendToPage(wxStringFromBBString(source)));
 }
 
 BBString * bmx_wxhtmlwindow_getopenedanchor(wxHtmlWindow * window) {
@@ -211,28 +211,28 @@ wxFrame * bmx_wxhtmlwindow_getrelatedframe(wxHtmlWindow * window) {
 	return window->GetRelatedFrame();
 }
 
-bool bmx_wxhtmlwindow_historyback(wxHtmlWindow * window) {
-	return window->HistoryBack();
+int bmx_wxhtmlwindow_historyback(wxHtmlWindow * window) {
+	return static_cast<int>(window->HistoryBack());
 }
 
-bool bmx_wxhtmlwindow_hisotrycanback(wxHtmlWindow * window) {
-	return window->HistoryCanBack();
+int bmx_wxhtmlwindow_hisotrycanback(wxHtmlWindow * window) {
+	return static_cast<int>(window->HistoryCanBack());
 }
 
-bool bmx_wxhtmlwindow_historycanforward(wxHtmlWindow * window) {
-	return window->HistoryCanForward();
+int bmx_wxhtmlwindow_historycanforward(wxHtmlWindow * window) {
+	return static_cast<int>(window->HistoryCanForward());
 }
 
 void bmx_wxhtmlwindow_historyclear(wxHtmlWindow * window) {
 	window->HistoryClear();
 }
 
-bool bmx_wxhtmlwindow_historyforward(wxHtmlWindow * window) {
-	return window->HistoryForward();
+int bmx_wxhtmlwindow_historyforward(wxHtmlWindow * window) {
+	return static_cast<int>(window->HistoryForward());
 }
 
-bool bmx_wxhtmlwindow_loadpage(wxHtmlWindow * window, BBString * location) {
-	return window->LoadPage(wxStringFromBBString(location));
+int bmx_wxhtmlwindow_loadpage(wxHtmlWindow * window, BBString * location) {
+	return static_cast<int>(window->LoadPage(wxStringFromBBString(location)));
 }
 
 void bmx_wxhtmlwindow_selectall(wxHtmlWindow * window) {
@@ -282,12 +282,12 @@ void bmx_wxhtmlcellevent_getpoint(wxHtmlCellEvent & event, int * x, int * y) {
 	*y = p.y;
 }
 
-void bmx_wxhtmlcellevent_setlinkclicked(wxHtmlCellEvent & event, bool clicked) {
-	event.SetLinkClicked(clicked);
+void bmx_wxhtmlcellevent_setlinkclicked(wxHtmlCellEvent & event, int clicked) {
+	event.SetLinkClicked(static_cast<bool>(clicked));
 }
 
-bool bmx_wxhtmlcellevent_getlinkclicked(wxHtmlCellEvent & event) {
-	return event.GetLinkClicked();
+int bmx_wxhtmlcellevent_getlinkclicked(wxHtmlCellEvent & event) {
+	return static_cast<int>(event.GetLinkClicked());
 }
 
 wxHtmlCell * bmx_wxhtmlcellevent_getcell(wxHtmlCellEvent & event) {
@@ -321,12 +321,12 @@ MaxHtmlProcessor * bmx_wxhtmlprocessor_create(BBObject * handle) {
 	return new MaxHtmlProcessor(handle);
 }
 
-void bmx_wxhtmlprocessor_enable(wxHtmlProcessor * proc, bool value) {
-	proc->Enable(value);
+void bmx_wxhtmlprocessor_enable(wxHtmlProcessor * proc, int value) {
+	proc->Enable(static_cast<bool>(value));
 }
 
-bool bmx_wxhtmlprocessor_isenabled(wxHtmlProcessor * proc) {
-	return proc->IsEnabled();
+int bmx_wxhtmlprocessor_isenabled(wxHtmlProcessor * proc) {
+	return static_cast<int>(proc->IsEnabled());
 }
 
 
@@ -367,8 +367,8 @@ BBString * bmx_wxhtmltag_getname(MaxHtmlTag * tag) {
 	return bbStringFromWxString(tag->Tag().GetName());
 }
 
-BBString * bmx_wxhtmltag_getparam(MaxHtmlTag * tag, BBString * par, bool withCommas) {
-	return bbStringFromWxString(tag->Tag().GetParam(wxStringFromBBString(par), withCommas));
+BBString * bmx_wxhtmltag_getparam(MaxHtmlTag * tag, BBString * par, int withCommas) {
+	return bbStringFromWxString(tag->Tag().GetParam(wxStringFromBBString(par), static_cast<bool>(withCommas)));
 }
 
 MaxColour * bmx_wxhtmltag_getparamascolour(MaxHtmlTag * tag, BBString * par) {
@@ -383,12 +383,12 @@ int bmx_wxhtmltag_getparamasint(MaxHtmlTag * tag, BBString * par, int * value) {
 	return tag->Tag().GetParamAsInt(wxStringFromBBString(par), value);
 }
 
-bool bmx_wxhtmltag_hasending(MaxHtmlTag * tag) {
-	return tag->Tag().HasEnding();
+int bmx_wxhtmltag_hasending(MaxHtmlTag * tag) {
+	return static_cast<int>(tag->Tag().HasEnding());
 }
 
-bool bmx_wxhtmltag_hasparam(MaxHtmlTag * tag, BBString * par) {
-	return tag->Tag().HasParam(wxStringFromBBString(par));
+int bmx_wxhtmltag_hasparam(MaxHtmlTag * tag, BBString * par) {
+	return static_cast<int>(tag->Tag().HasParam(wxStringFromBBString(par)));
 }
 
 

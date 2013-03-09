@@ -32,12 +32,12 @@ wxZipOutputStream * bmx_wxzipoutputstream_create(wxOutputStream * s, int level) 
 	return new wxZipOutputStream(*s, level);
 }
 
-bool bmx_wxzipoutputstream_close(wxZipOutputStream * s) {
-	return s->Close();
+int bmx_wxzipoutputstream_close(wxZipOutputStream * s) {
+	return static_cast<int>(s->Close());
 }
 
-bool bmx_wxzipoutputstream_closeentry(wxZipOutputStream * s) {
-	return s->CloseEntry();
+int bmx_wxzipoutputstream_closeentry(wxZipOutputStream * s) {
+	return static_cast<int>(s->CloseEntry());
 }
 
 int bmx_wxzipoutputstream_getlevel(wxZipOutputStream * s) {
@@ -48,12 +48,12 @@ void bmx_wxzipoutputstream_setlevel(wxZipOutputStream * s, int level) {
 	s->SetLevel(level);
 }
 
-bool bmx_wxzipoutputstream_putnextdirentry(wxZipOutputStream * s, BBString * name, MaxDateTime * dt) {
-	return s->PutNextDirEntry(wxStringFromBBString(name), (dt)?dt->DateTime():wxDateTime::Now());
+int bmx_wxzipoutputstream_putnextdirentry(wxZipOutputStream * s, BBString * name, MaxDateTime * dt) {
+	return static_cast<int>(s->PutNextDirEntry(wxStringFromBBString(name), (dt)?dt->DateTime():wxDateTime::Now()));
 }
 
-bool bmx_wxzipoutputstream_putnextentry(wxZipOutputStream * s, BBString * name, MaxDateTime * dt) {
-	return s->PutNextEntry(wxStringFromBBString(name), (dt)?dt->DateTime():wxDateTime::Now());
+int bmx_wxzipoutputstream_putnextentry(wxZipOutputStream * s, BBString * name, MaxDateTime * dt) {
+	return static_cast<int>(s->PutNextEntry(wxStringFromBBString(name), (dt)?dt->DateTime():wxDateTime::Now()));
 }
 
 void bmx_wxzipoutputstream_setcomment(wxZipOutputStream * s, BBString * comment) {

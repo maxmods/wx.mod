@@ -35,9 +35,9 @@ extern "C" {
 
 	MaxRadioBox * bmx_wxradiobox_create(BBObject * handle, wxWindow * parent, int id, BBString * label,
 		int x, int y, int w, int h, BBArray * array, int majorDimension, long style);
-	bool bmx_wxradiobox_enable(wxRadioBox * radiobox, bool value);
-	bool bmx_wxradiobox_enableitem(wxRadioBox * radiobox, unsigned int item, bool value);
-	int bmx_wxradiobox_findstring(wxRadioBox * radiobox, BBString * text, bool caseSensitive);
+	int bmx_wxradiobox_enable(wxRadioBox * radiobox, int value);
+	int bmx_wxradiobox_enableitem(wxRadioBox * radiobox, unsigned int item, int value);
+	int bmx_wxradiobox_findstring(wxRadioBox * radiobox, BBString * text, int caseSensitive);
 	unsigned int bmx_wxradiobox_getcolumncount(wxRadioBox * radiobox);
 	BBString * bmx_wxradiobox_getitemhelptext(wxRadioBox * radiobox, unsigned int item);
 	int bmx_wxradiobox_getitemfrompoint(wxRadioBox * radiobox, int x, int y);
@@ -47,16 +47,16 @@ extern "C" {
 	int bmx_wxradiobox_getselection(wxRadioBox * radiobox);
 	BBString * bmx_wxradiobox_getstringselection(wxRadioBox * radiobox);
 	BBString * bmx_wxradiobox_getstring(wxRadioBox * radiobox, unsigned int item);
-	bool bmx_wxradiobox_isitemenabled(wxRadioBox * radiobox, unsigned int item);
-	bool bmx_wxradiobox_isitemshown(wxRadioBox * radiobox, unsigned int item);
+	int bmx_wxradiobox_isitemenabled(wxRadioBox * radiobox, unsigned int item);
+	int bmx_wxradiobox_isitemshown(wxRadioBox * radiobox, unsigned int item);
 	void bmx_wxradiobox_setitemhelptext(wxRadioBox * radiobox, unsigned int item, BBString * helpText);
 	void bmx_wxradiobox_setlabel(wxRadioBox * radiobox, BBString * label);
 	void bmx_wxradiobox_setitemlabel(wxRadioBox * radiobox, int item, BBString * label);
 	void bmx_wxradiobox_setselection(wxRadioBox * radiobox, int item);
 	void bmx_wxradiobox_setstringselection(wxRadioBox * radiobox, BBString * text);
 	void bmx_wxradiobox_setitemtooltip(wxRadioBox * radiobox, unsigned int item, BBString * text);
-	bool bmx_wxradiobox_show(wxRadioBox * radiobox, bool value);
-	bool bmx_wxradiobox_showItem(wxRadioBox * radiobox, unsigned int item, bool value);
+	int bmx_wxradiobox_show(wxRadioBox * radiobox, int value);
+	int bmx_wxradiobox_showItem(wxRadioBox * radiobox, unsigned int item, int value);
 	wxToolTip * bmx_wxradiobox_getitemtooltip(wxRadioBox * radiobox, int item);
 
 	int bmx_wxradiobox_geteventtype(int type);

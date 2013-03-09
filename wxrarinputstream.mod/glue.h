@@ -30,8 +30,8 @@ extern "C" {
 #include <blitz.h>
 
 	wxRarInputStream * bmx_wxrarinputstream_create(BBString * filename);
-	bool bmx_wxrarinputstream_opennextfile(wxRarInputStream * stream);
-	bool bmx_wxrarinputstream_extractfile(wxRarInputStream * stream, BBString * destPath, BBString * destName);
+	int bmx_wxrarinputstream_opennextfile(wxRarInputStream * stream);
+	int bmx_wxrarinputstream_extractfile(wxRarInputStream * stream, BBString * destPath, BBString * destName);
 	wxRarFileInfo * bmx_wxrarinputstream_getfileinfo(wxRarInputStream * stream);
 	void bmx_wxrarinputstream_close(wxRarInputStream * stream);
 
