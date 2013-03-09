@@ -40,13 +40,13 @@ extern "C" {
 	int bmx_wxvscrolledwindow_getvisiblebegin(wxVScrolledWindow * window);
 	int bmx_wxvscrolledwindow_getvisibleend(wxVScrolledWindow * window);
 	int bmx_wxvscrolledwindow_hittest(wxVScrolledWindow * window, int x, int y);
-	bool bmx_wxvscrolledwindow_isvisible(wxVScrolledWindow * window, int line);
+	int bmx_wxvscrolledwindow_isvisible(wxVScrolledWindow * window, int line);
 	void bmx_wxvscrolledwindow_refreshrow(wxVScrolledWindow * window, int line);
 	void bmx_wxvscrolledwindow_refreshrows(wxVScrolledWindow * window, int fromline, int toLine);
 	void bmx_wxvscrolledwindow_refreshall(wxVScrolledWindow * window);
-	bool bmx_wxvscrolledwindow_scrollrows(wxVScrolledWindow * window, int lines);
-	bool bmx_wxvscrolledwindow_scrollrowpages(wxVScrolledWindow * window, int pages);
-	bool bmx_wxvscrolledwindow_scrolltorow(wxVScrolledWindow * window, int line);
+	int bmx_wxvscrolledwindow_scrollrows(wxVScrolledWindow * window, int lines);
+	int bmx_wxvscrolledwindow_scrollrowpages(wxVScrolledWindow * window, int pages);
+	int bmx_wxvscrolledwindow_scrolltorow(wxVScrolledWindow * window, int line);
 	void bmx_wxvscrolledwindow_setrowcount(wxVScrolledWindow * window, int count);
 
 }

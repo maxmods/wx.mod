@@ -46,11 +46,11 @@ extern "C" {
 	wxInputStream * bmx_wxprocess_geterrorstream(wxProcess * process);
 	wxInputStream * bmx_wxprocess_getintputstream(wxProcess * process);
 	wxOutputStream * bmx_wxprocess_getoutputstream(wxProcess * process);
-	bool bmx_wxprocess_iserroravailable(wxProcess * process);
-	bool bmx_wxprocess_isinputavailable(wxProcess * process);
-	bool bmx_wxprocess_isinputopened(wxProcess * process);
+	int bmx_wxprocess_iserroravailable(wxProcess * process);
+	int bmx_wxprocess_isinputavailable(wxProcess * process);
+	int bmx_wxprocess_isinputopened(wxProcess * process);
 	wxKillError bmx_wxprocess_kill(int pid, wxSignal signal, int flags);
-	bool bmx_wxprocess_exists(int pid);
+	int bmx_wxprocess_exists(int pid);
 	wxProcess * bmx_wxprocess_open(BBString * cmd, int flags);
 	int bmx_wxprocess_getpid(wxProcess * process);
 	void bmx_wxprocess_redirect(wxProcess * process);
@@ -58,8 +58,8 @@ extern "C" {
 	void bmx_wxprocess_onterminate(MaxProcess * process, int pid, int status);
 
 
-	bool bmx_wxshell(BBString * command);
-	bool bmx_wxshutdown(wxShutdownFlags flags);
+	int bmx_wxshell(BBString * command);
+	int bmx_wxshutdown(wxShutdownFlags flags);
 	unsigned long bmx_wxgetprocessid();
 	void bmx_wxexit();
 	int bmx_wxkill(long pid, wxSignal signal, wxKillError * rc, int flags);

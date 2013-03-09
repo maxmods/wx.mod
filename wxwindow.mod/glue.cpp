@@ -221,20 +221,20 @@ MaxWindow * bmx_wxwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindo
 // *********************************************
 
 
-bool bmx_wxwindow_show(wxWindow * window, bool value) {
-	return window->Show(value);
+int bmx_wxwindow_show(wxWindow * window, bool value) {
+	return static_cast<int>(window->Show(value));
 }
 
-bool bmx_wxwindow_close(wxWindow * window, bool force) {
-	return window->Close(force);
+int bmx_wxwindow_close(wxWindow * window, bool force) {
+	return static_cast<int>(window->Close(force));
 }
 
-void bmx_wxwindow_setsizer(wxWindow * window, wxSizer * sizer, bool deleteOld) {
-	window->SetSizer(sizer, deleteOld);
+void bmx_wxwindow_setsizer(wxWindow * window, wxSizer * sizer, int deleteOld) {
+	window->SetSizer(sizer, static_cast<bool>(deleteOld));
 }
 
-void bmx_wxwindow_setautolayout(wxWindow * window, bool autoLayout) {
-	window->SetAutoLayout(autoLayout);
+void bmx_wxwindow_setautolayout(wxWindow * window, int autoLayout) {
+	window->SetAutoLayout(static_cast<bool>(autoLayout));
 }
 
 void bmx_wxwindow_delete(wxWindow * window) {
@@ -304,8 +304,8 @@ void bmx_wxwindow_preparedc(wxWindow * window, MaxDC * dc) {
 	window->PrepareDC(*dc->GetDC());
 }
 
-void bmx_wxwindow_refresh(wxWindow * window, bool erase) {
-	window->Refresh(erase);
+void bmx_wxwindow_refresh(wxWindow * window, int erase) {
+	window->Refresh(static_cast<bool>(erase));
 }
 
 wxWindow * bmx_wxwindow_getparent(wxWindow * window) {
@@ -415,12 +415,12 @@ void bmx_wxwindow_setlabel(wxWindow * window, BBString * label) {
 	window->SetLabel(wxStringFromBBString(label));
 }
 
-void bmx_wxwindow_setscrollbar(wxWindow * window, int orientation, int position, int thumbsize, int range, bool refresh) {
-	window->SetScrollbar(orientation, position, thumbsize, range, refresh);
+void bmx_wxwindow_setscrollbar(wxWindow * window, int orientation, int position, int thumbsize, int range, int refresh) {
+	window->SetScrollbar(orientation, position, thumbsize, range, static_cast<bool>(refresh));
 }
 
-void bmx_wxwindow_setscrollpos(wxWindow * window, int orientation, int pos, bool refresh) {
-	window->SetScrollPos(orientation, pos, refresh);
+void bmx_wxwindow_setscrollpos(wxWindow * window, int orientation, int pos, int refresh) {
+	window->SetScrollPos(orientation, pos, static_cast<bool>(refresh));
 }
 
 void bmx_wxwindow_setcursor(wxWindow * window, MaxCursor * cursor) {
@@ -435,8 +435,8 @@ void bmx_wxwindow_setwindowstyleflag(wxWindow * window, long style) {
 	window->SetWindowStyleFlag(style);
 }
 
-bool bmx_wxwindow_hide(wxWindow * window) {
-	return window->Hide();
+int bmx_wxwindow_hide(wxWindow * window) {
+	return static_cast<int>(window->Hide());
 }
 
 void bmx_wxwindow_move(wxWindow * window, int x, int y) {
@@ -459,24 +459,24 @@ wxWindowVariant bmx_wxwindow_getwindowvariant(wxWindow * window) {
 	return window->GetWindowVariant();
 }
 
-bool bmx_wxwindow_hascapture(wxWindow * window) {
-	return window->HasCapture();
+int bmx_wxwindow_hascapture(wxWindow * window) {
+	return static_cast<int>(window->HasCapture());
 }
 
-bool bmx_wxwindow_hasflag(wxWindow * window, int flag) {
-	return window->HasFlag(flag);
+int bmx_wxwindow_hasflag(wxWindow * window, int flag) {
+	return static_cast<int>(window->HasFlag(flag));
 }
 
-bool bmx_wxwindow_hasmultiplepages(wxWindow * window) {
-	return window->HasMultiplePages();
+int bmx_wxwindow_hasmultiplepages(wxWindow * window) {
+	return static_cast<int>(window->HasMultiplePages());
 }
 
-bool bmx_wxwindow_hastransparentbackground(wxWindow * window) {
-	return window->HasTransparentBackground();
+int bmx_wxwindow_hastransparentbackground(wxWindow * window) {
+	return static_cast<int>(window->HasTransparentBackground());
 }
 
-bool bmx_wxwindow_hasscrollbar(wxWindow * window, int orient) {
-	return window->HasScrollbar(orient);
+int bmx_wxwindow_hasscrollbar(wxWindow * window, int orient) {
+	return static_cast<int>(window->HasScrollbar(orient));
 }
 
 void bmx_wxwindow_inheritattributes(wxWindow * window) {
@@ -491,70 +491,68 @@ void bmx_wxwindow_invalidatebestsize(wxWindow * window) {
 	window->InvalidateBestSize();
 }
 
-bool bmx_wxwindow_isdoublebuffered(wxWindow * window) {
-	return window->IsDoubleBuffered();
+int bmx_wxwindow_isdoublebuffered(wxWindow * window) {
+	return static_cast<int>(window->IsDoubleBuffered());
 }
 
-bool bmx_wxwindow_isenabled(wxWindow * window) {
-	return window->IsEnabled();
+int bmx_wxwindow_isenabled(wxWindow * window) {
+	return static_cast<int>(window->IsEnabled());
 }
 
-bool bmx_wxwindow_isexposed(wxWindow * window, int x, int y, int w, int h) {
+int bmx_wxwindow_isexposed(wxWindow * window, int x, int y, int w, int h) {
 	if (w == 0 || h == 0) {
-		return window->IsExposed(x, y);
+		return static_cast<int>(window->IsExposed(x, y));
 	} else {
-		return window->IsExposed(x, y, w, h);
+		return static_cast<int>(window->IsExposed(x, y, w, h));
 	}
 }
 
-bool bmx_wxwindow_isexposedrect(wxWindow * window, MaxRect * rect) {
-	return window->IsExposed(rect->Rect());
+int bmx_wxwindow_isexposedrect(wxWindow * window, MaxRect * rect) {
+	return static_cast<int>(window->IsExposed(rect->Rect()));
 }
 
-bool bmx_wxwindow_isfrozen(wxWindow * window) {
-	return window->IsFrozen();
+int bmx_wxwindow_isfrozen(wxWindow * window) {
+	return static_cast<int>(window->IsFrozen());
 }
 
-bool bmx_wxwindow_isretained(wxWindow * window) {
-	return window->IsRetained();
+int bmx_wxwindow_isretained(wxWindow * window) {
+	return static_cast<int>(window->IsRetained());
 }
 
-bool bmx_wxwindow_isshown(wxWindow * window) {
-	return window->IsShown();
+int bmx_wxwindow_isshown(wxWindow * window) {
+	return static_cast<int>(window->IsShown());
 }
 
-bool bmx_wxwindow_isshownonscreen(wxWindow * window) {
-	return window->IsShownOnScreen();
+int bmx_wxwindow_isshownonscreen(wxWindow * window) {
+	return static_cast<int>(window->IsShownOnScreen());
 }
 
-bool bmx_wxwindow_istoplevel(wxWindow * window) {
-	return window->IsTopLevel();
+int bmx_wxwindow_istoplevel(wxWindow * window) {
+	return static_cast<int>(window->IsTopLevel());
 }
 
-bool bmx_wxwindow_reparent(wxWindow * window, wxWindow * parent) {
-	return window->Reparent(parent);
+int bmx_wxwindow_reparent(wxWindow * window, wxWindow * parent) {
+	return static_cast<int>(window->Reparent(parent));
 }
 
-bool bmx_wxwindow_destroy(wxWindow * window) {
-	return window->Destroy();
+int bmx_wxwindow_destroy(wxWindow * window) {
+	return static_cast<int>(window->Destroy());
 }
 
 void bmx_wxwindow_destroyChildren(wxWindow * window) {
 	window->DestroyChildren();
 }
 
-bool bmx_wxwindow_disable(wxWindow * window) {
-	return window->Disable();
+int bmx_wxwindow_disable(wxWindow * window) {
+	return static_cast<int>(window->Disable());
 }
 
-void bmx_wxwindow_dragacceptfiles(wxWindow * window, bool accept) {
-#ifdef WIN32
-	window->DragAcceptFiles(accept);
-#endif
+void bmx_wxwindow_dragacceptfiles(wxWindow * window, int accept) {
+	window->DragAcceptFiles(static_cast<bool>(accept));
 }
 
-bool bmx_wxwindow_enable(wxWindow * window, bool value) {
-	return window->Enable(value);
+int bmx_wxwindow_enable(wxWindow * window, int value) {
+	return static_cast<int>(window->Enable(static_cast<bool>(value)));
 }
 
 void bmx_wxwindow_fit(wxWindow * window) {
@@ -596,16 +594,16 @@ void bmx_wxwindow_centreonparent(wxWindow * window, int direction) {
 	window->CentreOnParent(direction);
 }
 
-bool bmx_wxwindow_popupmenu(wxWindow * window, wxMenu * menu, int x, int y) {
-	return window->PopupMenu(menu, wxPoint(x, y));
+int bmx_wxwindow_popupmenu(wxWindow * window, wxMenu * menu, int x, int y) {
+	return static_cast<int>(window->PopupMenu(menu, wxPoint(x, y)));
 }
 
-void bmx_wxwindow_refreshrect(wxWindow * window, int x, int y, int w, int h, bool erase) {
-	window->RefreshRect(wxRect(x, y, w, h), erase);
+void bmx_wxwindow_refreshrect(wxWindow * window, int x, int y, int w, int h, int erase) {
+	window->RefreshRect(wxRect(x, y, w, h), static_cast<bool>(erase));
 }
 
-void bmx_wxwindow_refreshrectrect(wxWindow * window, MaxRect * rect, bool erase) {
-	window->RefreshRect(rect->Rect(), erase);
+void bmx_wxwindow_refreshrectrect(wxWindow * window, MaxRect * rect, int erase) {
+	window->RefreshRect(rect->Rect(), static_cast<bool>(erase));
 }
 
 void bmx_wxwindow_releasemouse(wxWindow * window) {
@@ -640,8 +638,8 @@ void bmx_wxwindow_lower(wxWindow * window) {
 	window->Lower();
 }
 
-void bmx_wxwindow_makemodal(wxWindow * window, bool flag) {
-	window->MakeModal(flag);
+void bmx_wxwindow_makemodal(wxWindow * window, int flag) {
+	window->MakeModal(static_cast<bool>(flag));
 }
 
 void bmx_wxwindow_moveafterintaborder(wxWindow * window, wxWindow * win) {
@@ -660,16 +658,16 @@ void bmx_wxwindow_pageup(wxWindow * window) {
 	window->PageUp();
 }
 
-wxEvtHandler * bmx_wxwindow_popeventhandler(wxWindow * window, bool deleteHandler) {
-	return window->PopEventHandler(deleteHandler);
+wxEvtHandler * bmx_wxwindow_popeventhandler(wxWindow * window, int deleteHandler) {
+	return window->PopEventHandler(static_cast<bool>(deleteHandler));
 }
 
 void bmx_wxwindow_raise(wxWindow * window) {
 	window->Raise();
 }
 
-bool bmx_wxwindow_removeeventhandler(wxWindow * window, wxEvtHandler * handler) {
-	return window->RemoveEventHandler(handler);
+int bmx_wxwindow_removeeventhandler(wxWindow * window, wxEvtHandler * handler) {
+	return static_cast<int>(window->RemoveEventHandler(handler));
 }
 
 void bmx_wxwindow_setbackgroundstyle(wxWindow * window, wxBackgroundStyle style) {
@@ -732,16 +730,16 @@ void bmx_wxwindow_thaw(wxWindow * window) {
 	window->Thaw();
 }
 
-bool bmx_wxwindow_togglewindowstyle(wxWindow * window, int flag) {
-	return window->ToggleWindowStyle(flag);
+int bmx_wxwindow_togglewindowstyle(wxWindow * window, int flag) {
+	return static_cast<int>(window->ToggleWindowStyle(flag));
 }
 
-bool bmx_wxwindow_transferdatafromwindow(wxWindow * window) {
-	return window->TransferDataFromWindow();
+int bmx_wxwindow_transferdatafromwindow(wxWindow * window) {
+	return static_cast<int>(window->TransferDataFromWindow());
 }
 
-bool bmx_wxwindow_transferdatatowindow(wxWindow * window) {
-	return window->TransferDataToWindow();
+int bmx_wxwindow_transferdatatowindow(wxWindow * window) {
+	return static_cast<int>(window->TransferDataToWindow());
 }
 
 void bmx_wxwindow_udpate(wxWindow * window) {
@@ -752,16 +750,16 @@ void bmx_wxwindow_updatewindowui(wxWindow * window, long flags) {
 	window->UpdateWindowUI(flags);
 }
 
-bool bmx_wxwindow_validate(wxWindow * window) {
-	return window->Validate();
+int bmx_wxwindow_validate(wxWindow * window) {
+	return static_cast<int>(window->Validate());
 }
 
-void bmx_wxwindow_setsizerandfit(wxWindow * window, wxSizer * sizer, bool deleteOld) {
-	window->SetSizerAndFit(sizer, deleteOld);
+void bmx_wxwindow_setsizerandfit(wxWindow * window, wxSizer * sizer, int deleteOld) {
+	window->SetSizerAndFit(sizer, static_cast<bool>(deleteOld));
 }
 
-void bmx_wxwindow_setthemeenabled(wxWindow * window, bool enable) {
-	window->SetThemeEnabled(enable);
+void bmx_wxwindow_setthemeenabled(wxWindow * window, int enable) {
+	window->SetThemeEnabled(static_cast<bool>(enable));
 }
 
 void bmx_wxwindow_settooltip(wxWindow * window, BBString * tip) {
@@ -856,7 +854,7 @@ wxEvtHandler * bmx_wxwindow_geteventhandler(wxWindow * window) {
 }
 
 void bmx_wxwindow_gettextextent(wxWindow * window, BBString * text, int * x, int * y, int * descent,
-		int * externalLeading, MaxFont * font, bool use16) {
+		int * externalLeading, MaxFont * font, int use16) {
 	if (font) {
 		window->GetTextExtent(wxStringFromBBString(text), x, y, descent, externalLeading, &font->Font());//, use16);
 	} else {
@@ -878,20 +876,20 @@ void bmx_wxwindow_navigate(wxWindow * window, int flags) {
 	window->Navigate(flags);
 }
 
-bool bmx_wxwindow_registerhotkey(wxWindow * window, int hotKeyId, int modifiers, int virtualKeyCode) {
+int bmx_wxwindow_registerhotkey(wxWindow * window, int hotKeyId, int modifiers, int virtualKeyCode) {
 #ifdef WIN32
-	return window->RegisterHotKey(hotKeyId, modifiers, virtualKeyCode);
+	return static_cast<int>(window->RegisterHotKey(hotKeyId, modifiers, virtualKeyCode));
 #else
-	return false;
+	return 0;
 #endif
 }
 
-bool bmx_wxwindow_scrolllines(wxWindow * window, int lines) {
-	return window->ScrollLines(lines);
+int bmx_wxwindow_scrolllines(wxWindow * window, int lines) {
+	return static_cast<int>(window->ScrollLines(lines));
 }
 
-bool bmx_wxwindow_scrollpages(wxWindow * window, int pages) {
-	return window->ScrollPages(pages);
+int bmx_wxwindow_scrollpages(wxWindow * window, int pages) {
+	return static_cast<int>(window->ScrollPages(pages));
 }
 
 void bmx_wxwindow_setcaret(wxWindow * window, wxCaret * caret) {
@@ -902,11 +900,11 @@ void bmx_wxwindow_setwindowvariant(wxWindow * window, wxWindowVariant variant) {
 	window->SetWindowVariant(variant);
 }
 
-bool bmx_wxwindow_unregisterhotkey(wxWindow * window, int hotKeyId) {
+int bmx_wxwindow_unregisterhotkey(wxWindow * window, int hotKeyId) {
 #ifdef WIN32
-	return window->UnregisterHotKey(hotKeyId);
+	return static_cast<int>(window->UnregisterHotKey(hotKeyId));
 #else
-	return false;
+	return 0;
 #endif
 }
 
@@ -974,12 +972,12 @@ wxSizerItem * bmx_wxsizer_addsizer(wxSizer * sizer, wxSizer * sz, int proportion
 	return sizer->Add(sz, proportion, flag, border);
 }
 
-bool bmx_wxsizer_detach(wxSizer * sizer, wxWindow * window) {
-	return sizer->Detach(window);
+int bmx_wxsizer_detach(wxSizer * sizer, wxWindow * window) {
+	return static_cast<int>(sizer->Detach(window));
 }
 
-bool bmx_wxsizer_detachsizer(wxSizer * sizer, wxSizer * sz) {
-	return sizer->Detach(sz);
+int bmx_wxsizer_detachsizer(wxSizer * sizer, wxSizer * sz) {
+	return static_cast<int>(sizer->Detach(sz));
 }
 
 wxSizerItem * bmx_wxsizer_insert(wxSizer * sizer, int index, wxWindow * window, int proportion, int flag, int border) {
@@ -1014,8 +1012,8 @@ void bmx_wxsizer_setitemminsizesizer(wxSizer * sizer, wxSizer * sz, int width, i
 	sizer->SetItemMinSize(sz, width, height);
 }
 
-void bmx_wxsizer_clear(wxSizer * sizer, bool deleteWindows) {
-	sizer->Clear(deleteWindows);
+void bmx_wxsizer_clear(wxSizer * sizer, int deleteWindows) {
+	sizer->Clear(static_cast<bool>(deleteWindows));
 }
 
 void bmx_wxsizer_fitinside(wxSizer * sizer, wxWindow * window) {
@@ -1048,16 +1046,16 @@ void bmx_wxsizer_setvirtualsizehints(wxSizer * sizer, wxWindow * window) {
 	sizer->SetVirtualSizeHints(window);
 }
 
-bool bmx_wxsizer_show(wxSizer * sizer, wxWindow * window, bool doShow, bool recursive) {
-	return sizer->Show(window, doShow, recursive);
+int bmx_wxsizer_show(wxSizer * sizer, wxWindow * window, int doShow, int recursive) {
+	return static_cast<int>(sizer->Show(window, static_cast<bool>(doShow), static_cast<bool>(recursive)));
 }
 
-bool bmx_wxsizer_showsizer(wxSizer * sizer, wxSizer * s, bool doShow, bool recursive) {
-	return sizer->Show(s, doShow, recursive);
+int bmx_wxsizer_showsizer(wxSizer * sizer, wxSizer * s, int doShow, int recursive) {
+	return static_cast<int>(sizer->Show(s, static_cast<bool>(doShow), static_cast<bool>(recursive)));
 }
 
-bool bmx_wxsizer_showitem(wxSizer * sizer, int index, bool doShow) {
-	return sizer->Show(index, doShow);
+int bmx_wxsizer_showitem(wxSizer * sizer, int index, int doShow) {
+	return static_cast<int>(sizer->Show(index, static_cast<bool>(doShow)));
 }
 
 MaxGridSizer * bmx_wxgridsizer_create(BBObject * maxHandle, int cols, int vgap, int hgap) {
@@ -1135,8 +1133,8 @@ int bmx_wxboxsizer_getorientation(wxBoxSizer * sizer) {
 	return sizer->GetOrientation();
 }
 
-bool bmx_wxsizer_isshown(wxSizer * sizer, int index) {
-	return sizer->IsShown(index);
+int bmx_wxsizer_isshown(wxSizer * sizer, int index) {
+	return static_cast<int>(sizer->IsShown(index));
 }
 
 void bmx_wxsizer_layout(wxSizer * sizer) {
@@ -1179,12 +1177,12 @@ wxSizerItem * bmx_wxsizer_insertstretchspacer(wxSizer * sizer, int index, int pr
 	return sizer->InsertStretchSpacer(index, prop);
 }
 
-bool bmx_wxsizer_iswindowshown(wxSizer * sizer, wxWindow * window) {
-	return sizer->IsShown(window);
+int bmx_wxsizer_iswindowshown(wxSizer * sizer, wxWindow * window) {
+	return static_cast<int>(sizer->IsShown(window));
 }
 
-bool bmx_wxsizer_issizershown(wxSizer * sizer, wxSizer * sz) {
-	return sizer->IsShown(sz);
+int bmx_wxsizer_issizershown(wxSizer * sizer, wxSizer * sz) {
+	return static_cast<int>(sizer->IsShown(sz));
 }
 
 void bmx_wxsizer_setdimension(wxSizer * sizer, int x, int y, int width, int height) {
@@ -1211,24 +1209,24 @@ wxSizerItem * bmx_wxsizer_prependstretchspacer(wxSizer * sizer, int prop) {
 	return sizer->PrependStretchSpacer(prop);
 }
 
-bool bmx_wxsizer_removesizer(wxSizer * sizer, wxSizer * sz) {
-	return sizer->Remove(sz);
+int bmx_wxsizer_removesizer(wxSizer * sizer, wxSizer * sz) {
+	return static_cast<int>(sizer->Remove(sz));
 }
 
-bool bmx_wxsizer_remove(wxSizer * sizer, int index) {
-	return sizer->Remove(index);
+int bmx_wxsizer_remove(wxSizer * sizer, int index) {
+	return static_cast<int>(sizer->Remove(index));
 }
 
-bool bmx_wxsizer_replacewindow(wxSizer * sizer, wxWindow * oldWin, wxWindow * newWin, bool recursive) {
-	return sizer->Replace(oldWin, newWin, recursive);
+int bmx_wxsizer_replacewindow(wxSizer * sizer, wxWindow * oldWin, wxWindow * newWin, int recursive) {
+	return static_cast<int>(sizer->Replace(oldWin, newWin, static_cast<bool>(recursive)));
 }
 
-bool bmx_wxsizer_replacesizer(wxSizer * sizer, wxSizer * oldsz, wxSizer * newsz, bool recursive) {
-	return sizer->Replace(oldsz, newsz, recursive);
+int bmx_wxsizer_replacesizer(wxSizer * sizer, wxSizer * oldsz, wxSizer * newsz, int recursive) {
+	return static_cast<int>(sizer->Replace(oldsz, newsz, static_cast<bool>(recursive)));
 }
 
-bool bmx_wxsizer_replace(wxSizer * sizer, int oldIndex, wxSizerItem * newItem) {
-	return sizer->Replace(oldIndex, newItem);
+int bmx_wxsizer_replace(wxSizer * sizer, int oldIndex, wxSizerItem * newItem) {
+	return static_cast<int>(sizer->Replace(oldIndex, newItem));
 }
 
 BBArray * bmx_wxsizer_getchildren(wxSizer * sizer) {
@@ -1248,8 +1246,8 @@ BBArray * bmx_wxsizer_getchildren(wxSizer * sizer) {
 // *********************************************
 
 
-void bmx_wxtooltip_enable(bool flag) {
-	wxToolTip::Enable(flag);
+void bmx_wxtooltip_enable(int flag) {
+	wxToolTip::Enable(static_cast<bool>(flag));
 }
 
 void bmx_wxtooltip_setdelay(long msecs) {
@@ -1270,20 +1268,20 @@ wxWindow * bmx_wxtooltip_getwindow(wxToolTip * tip) {
 
 // *********************************************
 
-bool bmx_wxupdateeventui_canupdate(wxWindow * window) {
-	return wxUpdateUIEvent::CanUpdate(window);
+int bmx_wxupdateeventui_canupdate(wxWindow * window) {
+	return static_cast<int>(wxUpdateUIEvent::CanUpdate(window));
 }
 
-bool bmx_wxupdateeventui_getchecked(wxUpdateUIEvent & event) {
-	return event.GetChecked();
+int bmx_wxupdateeventui_getchecked(wxUpdateUIEvent & event) {
+	return static_cast<int>(event.GetChecked());
 }
 
-bool bmx_wxupdateeventui_getenabled(wxUpdateUIEvent & event) {
-	return event.GetEnabled();
+int bmx_wxupdateeventui_getenabled(wxUpdateUIEvent & event) {
+	return static_cast<int>(event.GetEnabled());
 }
 
-bool bmx_wxupdateeventui_getshown(wxUpdateUIEvent & event) {
-	return event.GetShown();
+int bmx_wxupdateeventui_getshown(wxUpdateUIEvent & event) {
+	return static_cast<int>(event.GetShown());
 }
 
 BBString * bmx_wxupdateeventui_gettext(wxUpdateUIEvent & event) {
@@ -1319,12 +1317,12 @@ wxIdleMode bmx_wxidleevent_getmode() {
 	return wxIdleEvent::GetMode();
 }
 
-void bmx_wxidleevent_requestmore(wxIdleEvent & event, bool needMore) {
-	event.RequestMore(needMore);
+void bmx_wxidleevent_requestmore(wxIdleEvent & event, int needMore) {
+	event.RequestMore(static_cast<bool>(needMore));
 }
 
-bool bmx_wxidleevent_morerequested(wxIdleEvent & event) {
-	return event.MoreRequested();
+int bmx_wxidleevent_morerequested(wxIdleEvent & event) {
+	return static_cast<int>(event.MoreRequested());
 }
 
 void bmx_wxidleevent_setmode(wxIdleMode mode) {
@@ -1352,8 +1350,8 @@ int bmx_wxsetcursorevent_gety(wxSetCursorEvent & event) {
 	return event.GetY();
 }
 
-bool bmx_wxsetcursorevent_hascursor(wxSetCursorEvent & event) {
-	return event.HasCursor();
+int bmx_wxsetcursorevent_hascursor(wxSetCursorEvent & event) {
+	return static_cast<int>(event.HasCursor());
 }
 
 void bmx_wxsetcursorevent_setcursor(wxSetCursorEvent & event, MaxCursor * cursor) {
@@ -1392,12 +1390,12 @@ void bmx_wxcaret_hide(wxCaret * caret) {
 	caret->Hide();
 }
 
-bool bmx_wxcaret_isok(wxCaret * caret) {
-	return caret->IsOk();
+int bmx_wxcaret_isok(wxCaret * caret) {
+	return static_cast<int>(caret->IsOk());
 }
 
-bool bmx_wxcaret_isvisible(wxCaret * caret) {
-	return caret->IsVisible();
+int bmx_wxcaret_isvisible(wxCaret * caret) {
+	return static_cast<int>(caret->IsVisible());
 }
 
 void bmx_wxcaret_move(wxCaret * caret, int x, int y) {
@@ -1412,8 +1410,8 @@ void bmx_wxcaret_setsize(wxCaret * caret, int width, int height) {
 	caret->SetSize(width, height);
 }
 
-void bmx_wxcaret_show(wxCaret * caret, bool _show) {
-	caret->Show(_show);
+void bmx_wxcaret_show(wxCaret * caret, int _show) {
+	caret->Show(static_cast<bool>(_show));
 }
 
 // *********************************************
@@ -1456,12 +1454,12 @@ wxSizerItem * bmx_wxgridbagsizer_addgbsizeritem(wxGridBagSizer * gb, wxGBSizerIt
 	return gb->Add(item);
 }
 
-bool bmx_wxgridbagsizer_checkforintersection(wxGridBagSizer * gb, wxGBSizerItem * item, wxGBSizerItem * excludeItem) {
-	return gb->CheckForIntersection(item, excludeItem);
+int bmx_wxgridbagsizer_checkforintersection(wxGridBagSizer * gb, wxGBSizerItem * item, wxGBSizerItem * excludeItem) {
+	return static_cast<int>(gb->CheckForIntersection(item, excludeItem));
 }
 
-bool bmx_wxgridbagsizer_checkforintersectionpos(wxGridBagSizer * gb, int row, int col, int rowspan, int colspan, wxGBSizerItem * excludeItem) {
-	return gb->CheckForIntersection(wxGBPosition(row, col), wxGBSpan(rowspan, colspan), excludeItem);
+int bmx_wxgridbagsizer_checkforintersectionpos(wxGridBagSizer * gb, int row, int col, int rowspan, int colspan, wxGBSizerItem * excludeItem) {
+	return static_cast<int>(gb->CheckForIntersection(wxGBPosition(row, col), wxGBSpan(rowspan, colspan), excludeItem));
 }
 
 void bmx_wxgridbagsizer_getcellsize(wxGridBagSizer * gb, int row, int col, int * width, int * height) {
@@ -1516,28 +1514,28 @@ void bmx_wxgridbagsizer_setemptycellsize(wxGridBagSizer * gb, int width, int hei
 	gb->SetEmptyCellSize(wxSize(width, height));
 }
 
-bool bmx_wxgridbagsizer_setitempositionwindow(wxGridBagSizer * gb, wxWindow * window, int row, int col) {
-	return gb->SetItemPosition(window, wxGBPosition(row, col));
+int bmx_wxgridbagsizer_setitempositionwindow(wxGridBagSizer * gb, wxWindow * window, int row, int col) {
+	return static_cast<int>(gb->SetItemPosition(window, wxGBPosition(row, col)));
 }
 
-bool bmx_wxgridbagsizer_setitempositionsizer(wxGridBagSizer * gb, wxSizer * sizer, int row, int col) {
-	return gb->SetItemPosition(sizer, wxGBPosition(row, col));
+int bmx_wxgridbagsizer_setitempositionsizer(wxGridBagSizer * gb, wxSizer * sizer, int row, int col) {
+	return static_cast<int>(gb->SetItemPosition(sizer, wxGBPosition(row, col)));
 }
 
-bool bmx_wxgridbagsizer_setitemposition(wxGridBagSizer * gb, int index, int row, int col) {
-	return gb->SetItemPosition(index, wxGBPosition(row, col));
+int bmx_wxgridbagsizer_setitemposition(wxGridBagSizer * gb, int index, int row, int col) {
+	return static_cast<int>(gb->SetItemPosition(index, wxGBPosition(row, col)));
 }
 
-bool bmx_wxgridbagsizer_setitemspanwindow(wxGridBagSizer * gb, wxWindow * window, int rowspan, int colspan) {
-	return gb->SetItemSpan(window, wxGBSpan(rowspan, colspan));
+int bmx_wxgridbagsizer_setitemspanwindow(wxGridBagSizer * gb, wxWindow * window, int rowspan, int colspan) {
+	return static_cast<int>(gb->SetItemSpan(window, wxGBSpan(rowspan, colspan)));
 }
 
-bool bmx_wxgridbagsizer_setitemspansizer(wxGridBagSizer * gb, wxSizer * sizer, int rowspan, int colspan) {
-	return gb->SetItemSpan(sizer, wxGBSpan(rowspan, colspan));
+int bmx_wxgridbagsizer_setitemspansizer(wxGridBagSizer * gb, wxSizer * sizer, int rowspan, int colspan) {
+	return static_cast<int>(gb->SetItemSpan(sizer, wxGBSpan(rowspan, colspan)));
 }
 
-bool bmx_wxgridbagsizer_setitemspan(wxGridBagSizer * gb, int index, int rowspan, int colspan) {
-	return gb->SetItemSpan(index, wxGBSpan(rowspan, colspan));
+int bmx_wxgridbagsizer_setitemspan(wxGridBagSizer * gb, int index, int rowspan, int colspan) {
+	return static_cast<int>(gb->SetItemSpan(index, wxGBSpan(rowspan, colspan)));
 }
 
 wxGBSizerItem * bmx_wxgridbagsizer_finditemwindow(wxGridBagSizer * gb, wxWindow * window) {

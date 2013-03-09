@@ -131,8 +131,8 @@ int bmx_wxsimplehtmllistbox_getcount(wxSimpleHtmlListBox * listbox) {
 	return listbox->GetCount();
 }
 
-bool bmx_wxsimplehtmllistbox_isempty(wxSimpleHtmlListBox * listbox) {
-	return listbox->IsEmpty();
+int bmx_wxsimplehtmllistbox_isempty(wxSimpleHtmlListBox * listbox) {
+	return static_cast<int>(listbox->IsEmpty());
 }
 
 void bmx_wxsimplehtmllistbox_selectitem(wxSimpleHtmlListBox * listbox, int item) {

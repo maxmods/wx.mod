@@ -39,8 +39,8 @@ extern "C" {
 		BBString * dir, int x, int y, int w, int h, long style, BBString * filter, int defaultFilter);
 	void bmx_wxgenericdirctrl_init(wxGenericDirCtrl * dir);
 	void bmx_wxgenericdirctrl_collapsetree(wxGenericDirCtrl * dir);
-	bool bmx_wxgenericdirctrl_expandpath(wxGenericDirCtrl * dir, BBString * path);
-	bool bmx_wxgenericdirctrl_collapsepath(wxGenericDirCtrl * dir, BBString * path);
+	int bmx_wxgenericdirctrl_expandpath(wxGenericDirCtrl * dir, BBString * path);
+	int bmx_wxgenericdirctrl_collapsepath(wxGenericDirCtrl * dir, BBString * path);
 	BBString * bmx_wxgenericdirctrl_getdefaultpath(wxGenericDirCtrl * dir);
 	BBString * bmx_wxgenericdirctrl_getpath(wxGenericDirCtrl * dir);
 	BBString * bmx_wxgenericdirctrl_getfilepath(wxGenericDirCtrl * dir);
@@ -53,7 +53,7 @@ extern "C" {
 	void bmx_wxgenericdirctrl_setfilter(wxGenericDirCtrl * dir, BBString * filter);
 	void bmx_wxgenericdirctrl_setfilterindex(wxGenericDirCtrl * dir, int index);
 	void bmx_wxgenericdirctrl_setpath(wxGenericDirCtrl * dir, BBString * path);
-	void bmx_wxgenericdirctrl_showhidden(wxGenericDirCtrl * dir, bool show);
+	void bmx_wxgenericdirctrl_showhidden(wxGenericDirCtrl * dir, int show);
 
 	void bmx_wxgenericdirctrl_addresourcehandler();
 	

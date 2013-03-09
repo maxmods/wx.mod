@@ -82,9 +82,9 @@ void bmx_wximage_resize(MaxImage * image, int width, int height, int x, int y, i
 	image->Image().Resize(wxSize(width, height), wxPoint(x, y), red, green, blue);
 }
 
-MaxImage * bmx_wximage_rotate(MaxImage * image, double angle, int centreX, int centreY, bool interpolating, int * offsetX, int * offsetY) {
+MaxImage * bmx_wximage_rotate(MaxImage * image, double angle, int centreX, int centreY, int interpolating, int * offsetX, int * offsetY) {
 	wxPoint offset;
-	wxImage i = image->Image().Rotate(angle, wxPoint(centreX, centreY), interpolating, &offset);
+	wxImage i = image->Image().Rotate(angle, wxPoint(centreX, centreY), static_cast<bool>(interpolating), &offset);
 	*offsetX = offset.x;
 	*offsetY = offset.y;
 	return new MaxImage(i);
@@ -106,8 +106,8 @@ MaxImage * bmx_wximage_blurvertical(MaxImage * image, int blurRadius) {
 	return new MaxImage(i);
 }
 
-bool bmx_wximage_convertalphatomask(MaxImage * image, int threshold) {
-	return image->Image().ConvertAlphaToMask(static_cast<unsigned char>(threshold));
+int bmx_wximage_convertalphatomask(MaxImage * image, int threshold) {
+	return static_cast<int>(image->Image().ConvertAlphaToMask(static_cast<unsigned char>(threshold)));
 }
 
 MaxImage * bmx_wximage_converttogreyscale(MaxImage * image, double lr, double lg, double lb) {
@@ -129,13 +129,13 @@ void bmx_wximage_destroy(MaxImage * image) {
 	image->Image().Destroy();
 }
 
-bool bmx_wximage_findfirstunusedcolour(MaxImage * image, int * r, int * g, int * b, int startR, int startG, int startB) {
+int bmx_wximage_findfirstunusedcolour(MaxImage * image, int * r, int * g, int * b, int startR, int startG, int startB) {
 	unsigned char pr, pg, pb;
 	bool ret = image->Image().FindFirstUnusedColour(&pr, &pg, &pb, static_cast<unsigned char>(startR), static_cast<unsigned char>(startG), static_cast<unsigned char>(startB));
 	*r = static_cast<int>(pr);
 	*g = static_cast<int>(pg);
 	*b = static_cast<int>(pb);
-	return ret;
+	return static_cast<int>(ret);
 }
 
 BBString * bmx_wximage_getimageextwildcard() {
@@ -174,13 +174,13 @@ int bmx_wximage_getmaskred(MaxImage * image) {
 	return static_cast<int>(image->Image().GetMaskRed());
 }
 
-bool bmx_wximage_getorfindmaskcolour(MaxImage * image, int * r, int * g, int * b) {
+int bmx_wximage_getorfindmaskcolour(MaxImage * image, int * r, int * g, int * b) {
 	unsigned char pr, pg, pb;
 	bool ret = image->Image().GetOrFindMaskColour(&pr, &pg, &pb);
 	*r = static_cast<int>(pr);
 	*g = static_cast<int>(pg);
 	*b = static_cast<int>(pb);
-	return ret;
+	return static_cast<int>(ret);
 }
 
 int bmx_wximage_getred(MaxImage * image, int x, int y) {
@@ -192,12 +192,12 @@ MaxImage * bmx_wximage_getsubimage(MaxImage * image, int x, int y, int w, int h)
 	return new MaxImage(i);
 }
 
-bool bmx_wximage_hasalpha(MaxImage * image) {
-	return image->Image().HasAlpha();
+int bmx_wximage_hasalpha(MaxImage * image) {
+	return static_cast<int>(image->Image().HasAlpha());
 }
 
-bool bmx_wximage_hasmask(MaxImage * image) {
-	return image->Image().HasMask();
+int bmx_wximage_hasmask(MaxImage * image) {
+	return static_cast<int>(image->Image().HasMask());
 }
 
 BBString * bmx_wximage_getoption(MaxImage * image, BBString * name) {
@@ -208,30 +208,30 @@ int bmx_wximage_getoptionint(MaxImage * image, BBString * name) {
 	return image->Image().GetOptionInt(wxStringFromBBString(name));
 }
 
-bool bmx_wximage_hasoption(MaxImage * image, BBString * name) {
-	return image->Image().HasOption(wxStringFromBBString(name));
+int bmx_wximage_hasoption(MaxImage * image, BBString * name) {
+	return static_cast<int>(image->Image().HasOption(wxStringFromBBString(name)));
 }
 
 void bmx_wximage_initalpha(MaxImage * image) {
 	image->Image().InitAlpha();
 }
 
-bool bmx_wximage_istransparent(MaxImage * image, int x, int y, int threshold) {
-	return image->Image().IsTransparent(x, y, static_cast<unsigned char>(threshold));
+int bmx_wximage_istransparent(MaxImage * image, int x, int y, int threshold) {
+	return static_cast<int>(image->Image().IsTransparent(x, y, static_cast<unsigned char>(threshold)));
 }
 
-bool bmx_wximage_isok(MaxImage * image) {
-	return image->Image().IsOk();
+int bmx_wximage_isok(MaxImage * image) {
+	return static_cast<int>(image->Image().IsOk());
 }
 
-bool bmx_wximage_removehandler(BBString * name) {
-	return wxImage::RemoveHandler(wxStringFromBBString(name));
+int bmx_wximage_removehandler(BBString * name) {
+	return static_cast<int>(wxImage::RemoveHandler(wxStringFromBBString(name)));
 }
 
 
 
-MaxImage * bmx_wximage_mirror(MaxImage * image, bool horizontally) {
-	wxImage i(image->Image().Mirror(horizontally));
+MaxImage * bmx_wximage_mirror(MaxImage * image, int horizontally) {
+	wxImage i(image->Image().Mirror(static_cast<bool>(horizontally)));
 	return new MaxImage(i);
 }
 
@@ -268,16 +268,16 @@ void bmx_wximage_setdata(MaxImage * image, unsigned char * data) {
 	image->Image().SetData(data);
 }
 
-void bmx_wximage_setmask(MaxImage * image, bool hasMask) {
-	image->Image().SetMask(hasMask);
+void bmx_wximage_setmask(MaxImage * image, int hasMask) {
+	image->Image().SetMask(static_cast<bool>(hasMask));
 }
 
 void bmx_wximage_setmaskcolour(MaxImage * image, int red, int green, int blue) {
 	image->Image().SetMaskColour(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
 }
 
-bool bmx_wximage_setmaskfromimage(MaxImage * image, MaxImage * mask, int mr, int mg, int mb) {
-	return image->Image().SetMaskFromImage(mask->Image(), static_cast<unsigned char>(mr), static_cast<unsigned char>(mg), static_cast<unsigned char>(mb));
+int bmx_wximage_setmaskfromimage(MaxImage * image, MaxImage * mask, int mr, int mg, int mb) {
+	return static_cast<int>(image->Image().SetMaskFromImage(mask->Image(), static_cast<unsigned char>(mr), static_cast<unsigned char>(mg), static_cast<unsigned char>(mb)));
 }
 
 MaxImage * bmx_wximage_scale(MaxImage * image, int width, int height, int quality) {
@@ -294,8 +294,8 @@ void bmx_wximage_rotatehue(MaxImage * image, double angle) {
 	image->Image().RotateHue(angle);
 }
 
-MaxImage * bmx_wximage_rotate90(MaxImage * image, bool clockwise) {
-	wxImage i(image->Image().Rotate90(clockwise));
+MaxImage * bmx_wximage_rotate90(MaxImage * image, int clockwise) {
+	wxImage i(image->Image().Rotate90(static_cast<bool>(clockwise)));
 	return new MaxImage(i);
 }
 
@@ -362,16 +362,16 @@ MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, long kind, int i
 	return new MaxImage(i);
 }
 
-bool bmx_wximage_savefiletype(MaxImage * image, BBString * name, int type) {
-	return image->Image().SaveFile(wxStringFromBBString(name), type);
+int bmx_wximage_savefiletype(MaxImage * image, BBString * name, int type) {
+	return static_cast<int>(image->Image().SaveFile(wxStringFromBBString(name), type));
 }
 
-bool bmx_wximage_savefilemimetype(MaxImage * image, BBString * name, BBString * mimeType) {
-	return image->Image().SaveFile(wxStringFromBBString(name), wxStringFromBBString(mimeType));
+int bmx_wximage_savefilemimetype(MaxImage * image, BBString * name, BBString * mimeType) {
+	return static_cast<int>(image->Image().SaveFile(wxStringFromBBString(name), wxStringFromBBString(mimeType)));
 }
 
-bool bmx_wximage_savefile(MaxImage * image, BBString * name) {
-	return image->Image().SaveFile(wxStringFromBBString(name));
+int bmx_wximage_savefile(MaxImage * image, BBString * name) {
+	return static_cast<int>(image->Image().SaveFile(wxStringFromBBString(name)));
 }
 
 MaxPalette * bmx_wximage_getpalette(MaxImage * image) {

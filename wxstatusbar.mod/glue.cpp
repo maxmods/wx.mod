@@ -143,14 +143,14 @@ MaxStatusBar * bmx_wxstatusbar_create(BBObject * handle, wxWindow * parent, int 
 	return new MaxStatusBar(handle, parent, id, style);
 }
 
-bool bmx_wxstatusbar_getfieldrect(wxStatusBar * statusbar, int index, int * x, int * y, int * w, int * h) {
+int bmx_wxstatusbar_getfieldrect(wxStatusBar * statusbar, int index, int * x, int * y, int * w, int * h) {
 	wxRect r;
 	bool ret = statusbar->GetFieldRect(index, r);
 	*x = r.x;
 	*y = r.y;
 	*w = r.width;
 	*h = r.height;
-	return ret;
+	return static_cast<int>(ret);
 }
 
 MaxRect * bmx_wxstatusbar_getfieldrectrect(wxStatusBar * statusbar, int index) {

@@ -55,18 +55,18 @@ extern "C" {
 	BBArray * bmx_wxlog_gettracemasks();
 	wxLog * bmx_wxlog_getactivetarget();
 	wxLogLevel bmx_wxlog_getloglevel();
-	bool bmx_wxlog_getrepetitioncounting();
+	int bmx_wxlog_getrepetitioncounting();
 	BBString * bmx_wxlog_gettimestamp();
 	wxTraceMask bmx_wxlog_gettracemask();
-	bool bmx_wxlog_getverbose();
-	bool bmx_wxlog_isallowedtracemask(BBString * mask);
+	int bmx_wxlog_getverbose();
+	int bmx_wxlog_isallowedtracemask(BBString * mask);
 	void bmx_wxlog_removetracemask(BBString * mask);
 	void bmx_wxlog_resume();
 	void bmx_wxlog_setloglevel(wxLogLevel level);
-	void bmx_wxlog_setrepetitioncounting(bool repetCounting);
+	void bmx_wxlog_setrepetitioncounting(int repetCounting);
 	void bmx_wxlog_settracemask(wxTraceMask mask);
 	void bmx_wxlog_suspend();
-	void bmx_wxlog_setverbose(bool verbose);
+	void bmx_wxlog_setverbose(int verbose);
 
 	wxLogBuffer * bmx_wxlogbuffer_create(BBObject * handle);
 	void bmx_wxlogbuffer_flush(wxLogBuffer * log);

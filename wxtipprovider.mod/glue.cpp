@@ -61,8 +61,8 @@ wxTipProvider * bmx_wxcreatefiletipprovider(BBString * filename, int currentTip)
 	return wxCreateFileTipProvider(wxStringFromBBString(filename), currentTip);
 }
 
-bool bmx_wxshowtip(wxWindow * parent, wxTipProvider * tip, bool showAtStartup) {
-	return wxShowTip(parent, tip, showAtStartup);
+int bmx_wxshowtip(wxWindow * parent, wxTipProvider * tip, int showAtStartup) {
+	return static_cast<int>(wxShowTip(parent, tip, static_cast<bool>(showAtStartup)));
 }
 
 

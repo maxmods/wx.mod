@@ -130,8 +130,8 @@ BBString * bmx_wxprintout_gettitle(wxPrintout * printout) {
     return bbStringFromWxString(printout->GetTitle());
 }
 
-bool bmx_wxprintout_ispreview(wxPrintout * printout) {
-    return printout->IsPreview();
+int bmx_wxprintout_ispreview(wxPrintout * printout) {
+    return static_cast<int>(printout->IsPreview());
 }
 
 void bmx_wxprintout_fitthissizetopaper(wxPrintout * printout, int w, int h) {

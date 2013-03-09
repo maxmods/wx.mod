@@ -144,8 +144,8 @@ int bmx_wxpen_getwidth(MaxPen * pen) {
 	return pen->Pen().GetWidth();
 }
 
-bool bmx_wxpen_isok(MaxPen * pen) {
-	return pen->Pen().IsOk();
+int bmx_wxpen_isok(MaxPen * pen) {
+	return static_cast<int>(pen->Pen().IsOk());
 }
 
 void bmx_wxpen_setcap(MaxPen * pen, wxPenCap style) {

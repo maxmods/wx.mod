@@ -36,7 +36,7 @@ MaxTextDropTarget::~MaxTextDropTarget() {
 }
 
 bool MaxTextDropTarget::OnDropText(wxCoord x, wxCoord y, const wxString& data) {
-	return _wx_wxtextdroptarget_wxTextDropTarget__OnDropText(maxHandle, x, y, bbStringFromWxString(data));
+	return static_cast<bool>(_wx_wxtextdroptarget_wxTextDropTarget__OnDropText(maxHandle, x, y, bbStringFromWxString(data)));
 }
 
 

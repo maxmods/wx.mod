@@ -28,12 +28,12 @@
 
 // *********************************************
 
-bool bmx_wxtoplevelwindow_cansettransparent(wxTopLevelWindow * window) {
-	return window->CanSetTransparent();
+int bmx_wxtoplevelwindow_cansettransparent(wxTopLevelWindow * window) {
+	return static_cast<int>(window->CanSetTransparent());
 }
 
-bool bmx_wxtoplevelwindow_enableclosebutton(wxTopLevelWindow * window, bool value) {
-	return window->EnableCloseButton(value);
+int bmx_wxtoplevelwindow_enableclosebutton(wxTopLevelWindow * window, int value) {
+	return static_cast<int>(window->EnableCloseButton(static_cast<bool>(value)));
 }
 
 MaxIcon * bmx_wxtoplevelwindow_geticon(wxTopLevelWindow * window) {
@@ -45,32 +45,32 @@ BBString * bmx_wxtoplevelwindow_gettitle(wxTopLevelWindow * window) {
 	return bbStringFromWxString(window->GetTitle());
 }
 
-bool bmx_wxtoplevelwindow_isactive(wxTopLevelWindow * window) {
-	return window->IsActive();
+int bmx_wxtoplevelwindow_isactive(wxTopLevelWindow * window) {
+	return static_cast<int>(window->IsActive());
 }
 
-bool bmx_wxtoplevelwindow_isalwaysmaximized(wxTopLevelWindow * window) {
-	return window->IsAlwaysMaximized();
+int bmx_wxtoplevelwindow_isalwaysmaximized(wxTopLevelWindow * window) {
+	return static_cast<int>(window->IsAlwaysMaximized());
 }
 
-void bmx_wxtoplevelwindow_iconize(wxTopLevelWindow * window, bool value) {
-	window->Iconize(value);
+void bmx_wxtoplevelwindow_iconize(wxTopLevelWindow * window, int value) {
+	window->Iconize(static_cast<bool>(value));
 }
 
-bool bmx_wxtoplevelwindow_isfullscreen(wxTopLevelWindow * window) {
-	return window->IsFullScreen();
+int bmx_wxtoplevelwindow_isfullscreen(wxTopLevelWindow * window) {
+	return static_cast<int>(window->IsFullScreen());
 }
 
-bool bmx_wxtoplevelwindow_isiconized(wxTopLevelWindow * window) {
-	return window->IsIconized();
+int bmx_wxtoplevelwindow_isiconized(wxTopLevelWindow * window) {
+	return static_cast<int>(window->IsIconized());
 }
 
-bool bmx_wxtoplevelwindow_ismaximized(wxTopLevelWindow * window) {
-	return window->IsMaximized();
+int bmx_wxtoplevelwindow_ismaximized(wxTopLevelWindow * window) {
+	return static_cast<int>(window->IsMaximized());
 }
 
-void bmx_wxtoplevelwindow_maximize(wxTopLevelWindow * window, bool value) {
-	window->Maximize(value);
+void bmx_wxtoplevelwindow_maximize(wxTopLevelWindow * window, int value) {
+	window->Maximize(static_cast<bool>(value));
 }
 
 void bmx_wxtoplevelwindow_requestuserattention(wxTopLevelWindow * window, int flags) {
@@ -105,8 +105,8 @@ void bmx_wxtoplevelwindow_settransparent(wxTopLevelWindow * window, int alpha) {
 	window->SetTransparent(alpha);
 }
 
-bool bmx_wxtoplevelwindow_showfullscreen(wxTopLevelWindow * window, bool show, long style) {
-	return window->ShowFullScreen(show, style);
+int bmx_wxtoplevelwindow_showfullscreen(wxTopLevelWindow * window, int show, long style) {
+	return static_cast<int>(window->ShowFullScreen(static_cast<bool>(show), style));
 }
 
 void bmx_wxtoplevelwindow_centreonscreen(wxTopLevelWindow * window, int direction) {
@@ -129,8 +129,8 @@ MaxIconBundle * bmx_wxtoplevelwindow_geticons(wxTopLevelWindow * window) {
 	return new MaxIconBundle(window->GetIcons());
 }
 
-bool bmx_wxtoplevelwindow_setshape(wxTopLevelWindow * window, MaxRegion * region) {
-	return window->SetShape(region->Region());
+int bmx_wxtoplevelwindow_setshape(wxTopLevelWindow * window, MaxRegion * region) {
+	return static_cast<int>(window->SetShape(region->Region()));
 }
 
 //#ifdef __WXMAC__

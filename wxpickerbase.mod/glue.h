@@ -35,12 +35,12 @@ extern "C" {
 	void bmx_wxpickerbase_setpickerctrlproportion(wxPickerBase * picker, int prop);
 	int bmx_wxpickerbase_gettextctrlproportion(wxPickerBase * picker);
 	int bmx_wxpickerbase_getpickerctrlproportion(wxPickerBase * picker);
-	bool bmx_wxpickerbase_hastextctrl(wxPickerBase * picker);
+	int bmx_wxpickerbase_hastextctrl(wxPickerBase * picker);
 	wxTextCtrl * bmx_wxpickerbase_gettextctrl(wxPickerBase * picker);
-	bool bmx_wxpickerbase_istextctrlgrowable(wxPickerBase * picker);
-	void bmx_wxpickerbase_setpickerctrlgrowable(wxPickerBase * picker, bool grow);
-	void bmx_wxpickerbase_settextctrlgrowable(wxPickerBase * picker, bool grow);
-	bool bmx_wxpickerbase_ispickerctrlgrowable(wxPickerBase * picker);
+	int bmx_wxpickerbase_istextctrlgrowable(wxPickerBase * picker);
+	void bmx_wxpickerbase_setpickerctrlgrowable(wxPickerBase * picker, int grow);
+	void bmx_wxpickerbase_settextctrlgrowable(wxPickerBase * picker, int grow);
+	int bmx_wxpickerbase_ispickerctrlgrowable(wxPickerBase * picker);
 
 }
 

@@ -83,12 +83,12 @@ MaxToggleButton * bmx_wxtogglebutton_create(BBObject * maxHandle, wxWindow * par
 	return new MaxToggleButton(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }
 
-bool bmx_wxtogglebutton_getvalue(wxToggleButton * button) {
-	return button->GetValue();
+int bmx_wxtogglebutton_getvalue(wxToggleButton * button) {
+	return static_cast<int>(button->GetValue());
 }
 
-void bmx_wxtogglebutton_setvalue(wxToggleButton * button, bool state) {
-	button->SetValue(state);
+void bmx_wxtogglebutton_setvalue(wxToggleButton * button, int state) {
+	button->SetValue(static_cast<bool>(state));
 }
 
 int bmx_wxtogglebutton_geteventtype(int type) {

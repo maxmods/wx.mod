@@ -42,12 +42,12 @@ wxHtmlHelpController * bmx_wxhtmlhelpcontroller_create(BBObject * handle, int st
 	return new MaxHtmlHelpController(handle, style, parentWindow);
 }
 
-bool bmx_wxhtmlhelpcontroller_addbook(wxHtmlHelpController * cont, BBString * bookUrl, bool showWaitMsg) {
-	return cont->AddBook(wxStringFromBBString(bookUrl), showWaitMsg);
+int bmx_wxhtmlhelpcontroller_addbook(wxHtmlHelpController * cont, BBString * bookUrl, int showWaitMsg) {
+	return static_cast<int>(cont->AddBook(wxStringFromBBString(bookUrl), static_cast<bool>(showWaitMsg)));
 }
 
-bool bmx_wxhtmlhelpcontroller_addbookfile(wxHtmlHelpController * cont, MaxFileName * file, bool showWaitMsg) {
-	return cont->AddBook(file->Filename(), showWaitMsg);
+int bmx_wxhtmlhelpcontroller_addbookfile(wxHtmlHelpController * cont, MaxFileName * file, int showWaitMsg) {
+	return static_cast<int>(cont->AddBook(file->Filename(), static_cast<bool>(showWaitMsg)));
 }
 
 void bmx_wxhtmlhelpcontroller_display(wxHtmlHelpController * cont, BBString * x) {
@@ -66,8 +66,8 @@ void bmx_wxhtmlhelpcontroller_displayindex(wxHtmlHelpController * cont) {
 	cont->DisplayIndex();
 }
 
-bool bmx_wxhtmlhelpcontroller_keywordsearch(wxHtmlHelpController * cont, BBString * keyword, wxHelpSearchMode mode) {
-	return cont->KeywordSearch(wxStringFromBBString(keyword), mode);
+int bmx_wxhtmlhelpcontroller_keywordsearch(wxHtmlHelpController * cont, BBString * keyword, wxHelpSearchMode mode) {
+	return static_cast<int>(cont->KeywordSearch(wxStringFromBBString(keyword), mode));
 }
 
 void bmx_wxhtmlhelpcontroller_readcustomization(wxHtmlHelpController * cont, wxConfigBase * config, BBString * path) {

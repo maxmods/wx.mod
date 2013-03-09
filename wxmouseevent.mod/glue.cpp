@@ -24,40 +24,40 @@
 
 // ---------------------------------------------------------------------------------------
 
-bool bmx_wxmouseevent_altdown(wxMouseEvent & event) {
-	return event.AltDown();
+int bmx_wxmouseevent_altdown(wxMouseEvent & event) {
+	return static_cast<int>(event.AltDown());
 }
 
-bool bmx_wxmouseevent_button(wxMouseEvent & event, int but) {
-	return event.Button(but);
+int bmx_wxmouseevent_button(wxMouseEvent & event, int but) {
+	return static_cast<int>(event.Button(but));
 }
 
-bool bmx_wxmouseevent_buttondclick(wxMouseEvent & event, int but) {
-	return event.ButtonDClick(but);
+int bmx_wxmouseevent_buttondclick(wxMouseEvent & event, int but) {
+	return static_cast<int>(event.ButtonDClick(but));
 }
 
-bool bmx_wxmouseevent_buttondown(wxMouseEvent & event, int but) {
-	return event.ButtonDown(but);
+int bmx_wxmouseevent_buttondown(wxMouseEvent & event, int but) {
+	return static_cast<int>(event.ButtonDown(but));
 }
 
-bool bmx_wxmouseevent_buttonup(wxMouseEvent & event, int but) {
-	return event.ButtonUp(but);
+int bmx_wxmouseevent_buttonup(wxMouseEvent & event, int but) {
+	return static_cast<int>(event.ButtonUp(but));
 }
 
-bool bmx_wxmouseevent_cmddown(wxMouseEvent & event) {
-	return event.CmdDown();
+int bmx_wxmouseevent_cmddown(wxMouseEvent & event) {
+	return static_cast<int>(event.CmdDown());
 }
 
-bool bmx_wxmouseevent_controldown(wxMouseEvent & event) {
-	return event.ControlDown();
+int bmx_wxmouseevent_controldown(wxMouseEvent & event) {
+	return static_cast<int>(event.ControlDown());
 }
 
-bool bmx_wxmouseevent_dragging(wxMouseEvent & event) {
-	return event.Dragging();
+int bmx_wxmouseevent_dragging(wxMouseEvent & event) {
+	return static_cast<int>(event.Dragging());
 }
 
-bool bmx_wxmouseevent_entering(wxMouseEvent & event) {
-	return event.Entering();
+int bmx_wxmouseevent_entering(wxMouseEvent & event) {
+	return static_cast<int>(event.Entering());
 }
 
 int bmx_wxmouseevent_getbutton(wxMouseEvent & event) {
@@ -88,76 +88,76 @@ int bmx_wxmouseevent_gety(wxMouseEvent & event) {
 	return event.GetY();
 }
 
-bool bmx_wxmouseevent_isbutton(wxMouseEvent & event) {
-	return event.IsButton();
+int bmx_wxmouseevent_isbutton(wxMouseEvent & event) {
+	return static_cast<int>(event.IsButton());
 }
 
-bool bmx_wxmouseevent_ispagescroll(wxMouseEvent & event) {
-	return event.IsPageScroll();
+int bmx_wxmouseevent_ispagescroll(wxMouseEvent & event) {
+	return static_cast<int>(event.IsPageScroll());
 }
 
-bool bmx_wxmouseevent_leaving(wxMouseEvent & event) {
-	return event.Leaving();
+int bmx_wxmouseevent_leaving(wxMouseEvent & event) {
+	return static_cast<int>(event.Leaving());
 }
 
-bool bmx_wxmouseevent_leftdclick(wxMouseEvent & event) {
-	return event.LeftDClick();
+int bmx_wxmouseevent_leftdclick(wxMouseEvent & event) {
+	return static_cast<int>(event.LeftDClick());
 }
 
-bool bmx_wxmouseevent_leftdown(wxMouseEvent & event) {
-	return event.LeftDown();
+int bmx_wxmouseevent_leftdown(wxMouseEvent & event) {
+	return static_cast<int>(event.LeftDown());
 }
 
-bool bmx_wxmouseevent_leftisdown(wxMouseEvent & event) {
-	return event.LeftIsDown();
+int bmx_wxmouseevent_leftisdown(wxMouseEvent & event) {
+	return static_cast<int>(event.LeftIsDown());
 }
 
-bool bmx_wxmouseevent_leftup(wxMouseEvent & event) {
-	return event.LeftUp();
+int bmx_wxmouseevent_leftup(wxMouseEvent & event) {
+	return static_cast<int>(event.LeftUp());
 }
 
-bool bmx_wxmouseevent_metadown(wxMouseEvent & event) {
-	return event.MetaDown();
+int bmx_wxmouseevent_metadown(wxMouseEvent & event) {
+	return static_cast<int>(event.MetaDown());
 }
 
-bool bmx_wxmouseevent_middledclick(wxMouseEvent & event) {
-	return event.MiddleDClick();
+int bmx_wxmouseevent_middledclick(wxMouseEvent & event) {
+	return static_cast<int>(event.MiddleDClick());
 }
 
-bool bmx_wxmouseevent_middledown(wxMouseEvent & event) {
-	return event.MiddleDown();
+int bmx_wxmouseevent_middledown(wxMouseEvent & event) {
+	return static_cast<int>(event.MiddleDown());
 }
 
-bool bmx_wxmouseevent_middleisdown(wxMouseEvent & event) {
-	return event.MiddleIsDown();
+int bmx_wxmouseevent_middleisdown(wxMouseEvent & event) {
+	return static_cast<int>(event.MiddleIsDown());
 }
 
-bool bmx_wxmouseevent_middleup(wxMouseEvent & event) {
-	return event.MiddleUp();
+int bmx_wxmouseevent_middleup(wxMouseEvent & event) {
+	return static_cast<int>(event.MiddleUp());
 }
 
-bool bmx_wxmouseevent_moving(wxMouseEvent & event) {
-	return event.Moving();
+int bmx_wxmouseevent_moving(wxMouseEvent & event) {
+	return static_cast<int>(event.Moving());
 }
 
-bool bmx_wxmouseevent_rightdclick(wxMouseEvent & event) {
-	return event.RightDClick();
+int bmx_wxmouseevent_rightdclick(wxMouseEvent & event) {
+	return static_cast<int>(event.RightDClick());
 }
 
-bool bmx_wxmouseevent_rightdown(wxMouseEvent & event) {
-	return event.RightDown();
+int bmx_wxmouseevent_rightdown(wxMouseEvent & event) {
+	return static_cast<int>(event.RightDown());
 }
 
-bool bmx_wxmouseevent_rightisdown(wxMouseEvent & event) {
-	return event.RightIsDown();
+int bmx_wxmouseevent_rightisdown(wxMouseEvent & event) {
+	return static_cast<int>(event.RightIsDown());
 }
 
-bool bmx_wxmouseevent_rightup(wxMouseEvent & event) {
-	return event.RightUp();
+int bmx_wxmouseevent_rightup(wxMouseEvent & event) {
+	return static_cast<int>(event.RightUp());
 }
 
-bool bmx_wxmouseevent_shiftdown(wxMouseEvent & event) {
-	return event.ShiftDown();
+int bmx_wxmouseevent_shiftdown(wxMouseEvent & event) {
+	return static_cast<int>(event.ShiftDown());
 }
 
 void bmx_wxmouseevent_getlogicalposition(wxMouseEvent & event, MaxDC * dc, int * x, int * y) {

@@ -36,7 +36,7 @@ extern "C" {
 	void bmx_wxlistbox_insertitems(wxListBox * listbox, BBArray * items, int pos);
 	BBArray * bmx_wxlistbox_getselections(wxListBox * listbox);
 	
-	bool bmx_wxlistbox_isselected(wxListBox * listbox, int item);
+	int bmx_wxlistbox_isselected(wxListBox * listbox, int item);
 	void bmx_wxlistbox_deselect(wxListBox * listbox, int item);
 	int bmx_wxlistbox_hittest(wxListBox * listbox, int x, int y);
 	void bmx_wxlistbox_setfirstitem(wxListBox * listbox, int item);

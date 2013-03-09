@@ -52,28 +52,28 @@ int bmx_wxpickerbase_getpickerctrlproportion(wxPickerBase * picker) {
     return picker->GetPickerCtrlProportion();
 }
 
-bool bmx_wxpickerbase_hastextctrl(wxPickerBase * picker) {
-    return picker->HasTextCtrl();
+int bmx_wxpickerbase_hastextctrl(wxPickerBase * picker) {
+    return static_cast<int>(picker->HasTextCtrl());
 }
 
 wxTextCtrl * bmx_wxpickerbase_gettextctrl(wxPickerBase * picker) {
     return picker->GetTextCtrl();
 }
 
-bool bmx_wxpickerbase_istextctrlgrowable(wxPickerBase * picker) {
-    return picker->IsTextCtrlGrowable();
+int bmx_wxpickerbase_istextctrlgrowable(wxPickerBase * picker) {
+    return static_cast<int>(picker->IsTextCtrlGrowable());
 }
 
-void bmx_wxpickerbase_setpickerctrlgrowable(wxPickerBase * picker, bool grow) {
-    picker->SetPickerCtrlGrowable(grow);
+void bmx_wxpickerbase_setpickerctrlgrowable(wxPickerBase * picker, int grow) {
+    picker->SetPickerCtrlGrowable(static_cast<bool>(grow));
 }
 
-void bmx_wxpickerbase_settextctrlgrowable(wxPickerBase * picker, bool grow) {
-    picker->SetTextCtrlGrowable(grow);
+void bmx_wxpickerbase_settextctrlgrowable(wxPickerBase * picker, int grow) {
+    picker->SetTextCtrlGrowable(static_cast<bool>(grow));
 }
 
-bool bmx_wxpickerbase_ispickerctrlgrowable(wxPickerBase * picker) {
-    return picker->IsPickerCtrlGrowable();
+int bmx_wxpickerbase_ispickerctrlgrowable(wxPickerBase * picker) {
+    return static_cast<int>(picker->IsPickerCtrlGrowable());
 }
 
 

@@ -38,9 +38,9 @@ extern "C" {
 	void bmx_wxprinter_delete(wxPrinter * printer);
 
 	void bmx_wxprinter_createabortwindow(wxPrinter * printer, wxWindow * parent, wxPrintout * printout);
-	bool bmx_wxprinter_getabort(wxPrinter * printer);
+	int bmx_wxprinter_getabort(wxPrinter * printer);
 	wxPrinterError bmx_wxprinter_getlasterror();
-	bool bmx_wxprinter_print(wxPrinter * printer, wxWindow * parent, wxPrintout * printout, bool prompt);
+	int bmx_wxprinter_print(wxPrinter * printer, wxWindow * parent, wxPrintout * printout, int prompt);
 	MaxPrintDialogData * bmx_wxprinter_getprintdialogdata(wxPrinter * printer);
 
 	MaxDC * bmx_wxprinter_printdialog(wxPrinter * printer, wxWindow * parent);

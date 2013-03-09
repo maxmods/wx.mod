@@ -41,19 +41,19 @@ extern "C" {
 	int bmx_wxsplitterwindow_getsashposition(wxSplitterWindow * splitter);
 	int bmx_wxsplitterwindow_getsplitmode(wxSplitterWindow * splitter);
 	void bmx_wxsplitterwindow_initialize(wxSplitterWindow * splitter, wxWindow * window);
-	bool bmx_wxsplitterwindow_issplit(wxSplitterWindow * splitter);
+	int bmx_wxsplitterwindow_issplit(wxSplitterWindow * splitter);
 	void bmx_wxsplitterwindow_setsashgravity(wxSplitterWindow * splitter, double gravity);
-	void bmx_wxsplitterwindow_setsashposition(wxSplitterWindow * splitter, int position, bool redraw);
+	void bmx_wxsplitterwindow_setsashposition(wxSplitterWindow * splitter, int position, int redraw);
 	void bmx_wxsplitterwindow_setsashsize(wxSplitterWindow * splitter, int size);
 	void bmx_wxsplitterwindow_setminimumpanesize(wxSplitterWindow * splitter, int paneSize);
 	void bmx_wxsplitterwindow_setsplitmode(wxSplitterWindow * splitter, int mode);
-	bool bmx_wxsplitterwindow_splithorizontally(wxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition);
-	bool bmx_wxsplitterwindow_splitvertically(wxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition);
+	int bmx_wxsplitterwindow_splithorizontally(wxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition);
+	int bmx_wxsplitterwindow_splitvertically(wxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition);
 	void bmx_wxsplitterwindow_updatesize(wxSplitterWindow * splitter);
 	wxWindow * bmx_wxsplitterwindow_getwindow1(wxSplitterWindow * splitter);
 	wxWindow * bmx_wxsplitterwindow_getwindow2(wxSplitterWindow * splitter);
-	bool bmx_wxsplitterwindow_replacewindow(wxSplitterWindow * splitter, wxWindow * oldwin, wxWindow * newwin);
-	bool bmx_wxsplitterwindow_unsplit(wxSplitterWindow * splitter, wxWindow * rep);
+	int bmx_wxsplitterwindow_replacewindow(wxSplitterWindow * splitter, wxWindow * oldwin, wxWindow * newwin);
+	int bmx_wxsplitterwindow_unsplit(wxSplitterWindow * splitter, wxWindow * rep);
 
 	int bmx_wxsplitterevent_getsashposition(wxSplitterEvent & event);
 	int bmx_wxsplitterevent_getx(wxSplitterEvent & event);

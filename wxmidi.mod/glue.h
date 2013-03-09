@@ -74,9 +74,9 @@ extern "C" {
 	wxMidiError bmx_wxmididevice_close(wxMidiDevice * device);
 	BBString * bmx_wxmididevice_devicename(wxMidiDevice * device);
 	BBString *bmx_wxmididevice_interfaceused(wxMidiDevice * device);
-	bool bmx_wxmididevice_isinputport(wxMidiDevice * device);
-	bool bmx_wxmididevice_isoutputport(wxMidiDevice * device);
-	bool bmx_wxmididevice_hashosterror(wxMidiDevice * device);
+	int bmx_wxmididevice_isinputport(wxMidiDevice * device);
+	int bmx_wxmididevice_isoutputport(wxMidiDevice * device);
+	int bmx_wxmididevice_hashosterror(wxMidiDevice * device);
 
 	int bmx_wxmidi_geteventtype(int type);
 

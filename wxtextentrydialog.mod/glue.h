@@ -36,7 +36,7 @@ extern "C" {
 	int bmx_wxtextentrydialog_showmodal(wxTextEntryDialog * dialog);
 
 	BBString * bmx_wxgettextfromuser(BBString * message, BBString * caption, BBString * defaultValue, wxWindow * parent,
-		int x, int y, bool centre);
+		int x, int y, int centre);
 
 }
 

@@ -29,17 +29,17 @@ extern "C" {
 
 #include <blitz.h>
 
-	bool bmx_wxhelpcontrollerbase_initialize(wxHelpControllerBase * controller, BBString * file);
+	int bmx_wxhelpcontrollerbase_initialize(wxHelpControllerBase * controller, BBString * file);
 
-	bool bmx_wxhelpcontrollerbase_displayBlock(wxHelpControllerBase * controller, long blockNo);
-	bool bmx_wxhelpcontrollerbase_displaycontextpopup(wxHelpControllerBase * controller, int contextId);
-	bool bmx_wxhelpcontrollerbase_displaysection(wxHelpControllerBase * controller, int sectionNo);
-	bool bmx_wxhelpcontrollerbase_displaysectionbyname(wxHelpControllerBase * controller, BBString * section);
-	bool bmx_wxhelpcontrollerbase_displaytextpopup(wxHelpControllerBase * controller, BBString * text, int x, int y);
+	int bmx_wxhelpcontrollerbase_displayBlock(wxHelpControllerBase * controller, long blockNo);
+	int bmx_wxhelpcontrollerbase_displaycontextpopup(wxHelpControllerBase * controller, int contextId);
+	int bmx_wxhelpcontrollerbase_displaysection(wxHelpControllerBase * controller, int sectionNo);
+	int bmx_wxhelpcontrollerbase_displaysectionbyname(wxHelpControllerBase * controller, BBString * section);
+	int bmx_wxhelpcontrollerbase_displaytextpopup(wxHelpControllerBase * controller, BBString * text, int x, int y);
 	wxWindow * bmx_wxhelpcontrollerbase_getparentwindow(wxHelpControllerBase * controller);
-	bool bmx_wxhelpcontrollerbase_quit(wxHelpControllerBase * controller);
+	int bmx_wxhelpcontrollerbase_quit(wxHelpControllerBase * controller);
 
-	bool bmx_wxhelpcontrollerbase_keywordsearch(wxHelpControllerBase * cont, BBString * keyword, wxHelpSearchMode mode);
+	int bmx_wxhelpcontrollerbase_keywordsearch(wxHelpControllerBase * cont, BBString * keyword, wxHelpSearchMode mode);
 	void bmx_wxhelpcontrollerbase_displaycontents(wxHelpControllerBase * cont);
 
 }

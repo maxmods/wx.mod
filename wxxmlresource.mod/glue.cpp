@@ -40,8 +40,8 @@ void bmx_wxxmlresource_initallhandlers(wxXmlResource * res) {
     res->AddHandler(new wxIconXmlHandler);
 }
 
-bool bmx_wxxmlresource_load(wxXmlResource * res, BBString * filemask) {
-	return res->Load(wxStringFromBBString(filemask));
+int bmx_wxxmlresource_load(wxXmlResource * res, BBString * filemask) {
+	return static_cast<int>(res->Load(wxStringFromBBString(filemask)));
 }
 
 wxFrame * bmx_wxxmlresource_loadframe(wxXmlResource * res, wxWindow * parent, BBString * name) {
@@ -95,7 +95,7 @@ wxToolBar * bmx_wxxmlresource_loadtoolbar(wxXmlResource * res, wxWindow * parent
 	return res->LoadToolBar(parent, wxStringFromBBString(name));
 }
 
-bool bmx_wxxmlresource_unload(wxXmlResource * res, BBString * filename) {
-	return res->Unload(wxStringFromBBString(filename));
+int bmx_wxxmlresource_unload(wxXmlResource * res, BBString * filename) {
+	return static_cast<int>(res->Unload(wxStringFromBBString(filename)));
 }
 

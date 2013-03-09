@@ -35,19 +35,19 @@ extern "C" {
 	MaxPrintData * bmx_wxprintdata_create();
 	void bmx_wxprintdata_delete(MaxPrintData * data);
 
-	bool bmx_wxprintdata_getcollate(MaxPrintData * data);
+	int bmx_wxprintdata_getcollate(MaxPrintData * data);
 	wxPrintBin bmx_wxprintdata_getbin(MaxPrintData * data);
-	bool bmx_wxprintdata_getcolour(MaxPrintData * data);
+	int bmx_wxprintdata_getcolour(MaxPrintData * data);
 	wxDuplexMode bmx_wxprintdata_getduplex(MaxPrintData * data);
 	int bmx_wxprintdata_getnocopies(MaxPrintData * data);
 	int bmx_wxprintdata_getorientation(MaxPrintData * data);
 	wxPaperSize bmx_wxprintdata_getpaperid(MaxPrintData * data);
 	BBString * bmx_wxprintdata_getprintername(MaxPrintData * data);
 	wxPrintQuality bmx_wxprintdata_getquality(MaxPrintData * data);
-	bool bmx_wxprintdata_getisok(MaxPrintData * data);
+	int bmx_wxprintdata_getisok(MaxPrintData * data);
 	void bmx_wxprintdata_setbin(MaxPrintData * data, wxPrintBin flag);
-	void bmx_wxprintdata_setcollate(MaxPrintData * data, bool flag);
-	void bmx_wxprintdata_setcolour(MaxPrintData * data, bool flag);
+	void bmx_wxprintdata_setcollate(MaxPrintData * data, int flag);
+	void bmx_wxprintdata_setcolour(MaxPrintData * data, int flag);
 	void bmx_wxprintdata_setduplex(MaxPrintData * data, wxDuplexMode mode);
 	void bmx_wxprintdata_setnocopies(MaxPrintData * data, int n);
 	void bmx_wxprintdata_setorientation(MaxPrintData * data, int orientation);

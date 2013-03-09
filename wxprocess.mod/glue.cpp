@@ -80,24 +80,24 @@ wxOutputStream * bmx_wxprocess_getoutputstream(wxProcess * process) {
 	return process->GetOutputStream();
 }
 
-bool bmx_wxprocess_iserroravailable(wxProcess * process) {
-	return process->IsErrorAvailable();
+int bmx_wxprocess_iserroravailable(wxProcess * process) {
+	return static_cast<int>(process->IsErrorAvailable());
 }
 
-bool bmx_wxprocess_isinputavailable(wxProcess * process) {
-	return process->IsInputAvailable();
+int bmx_wxprocess_isinputavailable(wxProcess * process) {
+	return static_cast<int>(process->IsInputAvailable());
 }
 
-bool bmx_wxprocess_isinputopened(wxProcess * process) {
-	return process->IsInputOpened();
+int bmx_wxprocess_isinputopened(wxProcess * process) {
+	return static_cast<int>(process->IsInputOpened());
 }
 
 wxKillError bmx_wxprocess_kill(int pid, wxSignal signal, int flags) {
 	return wxProcess::Kill(pid, signal, flags);
 }
 
-bool bmx_wxprocess_exists(int pid) {
-	return wxProcess::Exists(pid);
+int bmx_wxprocess_exists(int pid) {
+	return static_cast<int>(wxProcess::Exists(pid));
 }
 
 wxProcess * bmx_wxprocess_open(BBString * cmd, int flags) {
@@ -122,11 +122,11 @@ void bmx_wxprocess_onterminate(MaxProcess * process, int pid, int status) {
 
 // *********************************************
 
-bool bmx_wxshell(BBString * command) {
+int bmx_wxshell(BBString * command) {
 	if (command == &bbEmptyString) {
-		return wxShell();
+		return static_cast<int>(wxShell());
 	} else {
-		return wxShell(wxStringFromBBString(command));
+		return static_cast<int>(wxShell(wxStringFromBBString(command)));
 	}
 }
 
@@ -172,9 +172,9 @@ OSStatus SendAppleEventToSystemProcess(AEEventID EventToSend)
 }
 #endif
 
-bool bmx_wxshutdown(wxShutdownFlags flags) {
+int bmx_wxshutdown(wxShutdownFlags flags) {
 #ifndef __APPLE__
-	return wxShutdown(flags);
+	return static_cast<int>(wxShutdown(flags));
 #else
 	OSStatus error = noErr;
 

@@ -66,8 +66,8 @@ MaxJSONValue * bmx_wxjsonvalue_createlong(BBInt64 value) {
 	return new MaxJSONValue(v);
 }
 
-MaxJSONValue * bmx_wxjsonvalue_createbool(bool value) {
-	wxJSONValue v(value);
+MaxJSONValue * bmx_wxjsonvalue_createbool(int value) {
+	wxJSONValue v(static_cast<bool>(value));
 	return new MaxJSONValue(v);
 }
 
@@ -101,8 +101,8 @@ void bmx_wxjsonvalue_delete(MaxJSONValue * val) {
 	delete val;
 }
 
-bool bmx_wxjsonvalue_cat(MaxJSONValue * val, BBString * text) {
-	return val->Value().Cat(wxStringFromBBString(text));
+int bmx_wxjsonvalue_cat(MaxJSONValue * val, BBString * text) {
+	return static_cast<int>(val->Value().Cat(wxStringFromBBString(text)));
 }
 
 void bmx_wxjsonvalue_clear(MaxJSONValue * val) {
@@ -141,56 +141,56 @@ wxJSONType bmx_wxjsonvalue_gettype(MaxJSONValue * val) {
 	return val->Value().GetType();
 }
 
-bool bmx_wxjsonvalue_hasmember(MaxJSONValue * val, BBString * key) {
-	return val->Value().HasMember(wxStringFromBBString(key));
+int bmx_wxjsonvalue_hasmember(MaxJSONValue * val, BBString * key) {
+	return static_cast<int>(val->Value().HasMember(wxStringFromBBString(key)));
 }
 
-bool bmx_wxjsonvalue_hasmemberindex(MaxJSONValue * val, int index) {
-	return val->Value().HasMember(index);
+int bmx_wxjsonvalue_hasmemberindex(MaxJSONValue * val, int index) {
+	return static_cast<int>(val->Value().HasMember(index));
 }
 
-bool bmx_wxjsonvalue_isarray(MaxJSONValue * val) {
-	return val->Value().IsArray();
+int bmx_wxjsonvalue_isarray(MaxJSONValue * val) {
+	return static_cast<int>(val->Value().IsArray());
 }
 
-bool bmx_wxjsonvalue_isbool(MaxJSONValue * val) {
-	return val->Value().IsBool();
+int bmx_wxjsonvalue_isbool(MaxJSONValue * val) {
+	return static_cast<int>(val->Value().IsBool());
 }
 
-bool bmx_wxjsonvalue_isdouble(MaxJSONValue * val) {
-	return val->Value().IsDouble();
+int bmx_wxjsonvalue_isdouble(MaxJSONValue * val) {
+	return static_cast<int>(val->Value().IsDouble());
 }
 
-bool bmx_wxjsonvalue_isint(MaxJSONValue * val) {
-	return val->Value().IsInt() || val->Value().IsUInt();
+int bmx_wxjsonvalue_isint(MaxJSONValue * val) {
+	return static_cast<int>(val->Value().IsInt() || val->Value().IsUInt());
 }
 
-bool bmx_wxjsonvalue_islong(MaxJSONValue * val) {
-	return val->Value().IsInt64() || val->Value().IsUInt64();
+int bmx_wxjsonvalue_islong(MaxJSONValue * val) {
+	return static_cast<int>(val->Value().IsInt64() || val->Value().IsUInt64());
 }
 
-bool bmx_wxjsonvalue_isnull(MaxJSONValue * val) {
-	return val->Value().IsNull();
+int bmx_wxjsonvalue_isnull(MaxJSONValue * val) {
+	return static_cast<int>(val->Value().IsNull());
 }
 
-bool bmx_wxjsonvalue_isobject(MaxJSONValue * val) {
-	return val->Value().IsObject();
+int bmx_wxjsonvalue_isobject(MaxJSONValue * val) {
+	return static_cast<int>(val->Value().IsObject());
 }
 
-bool bmx_wxjsonvalue_issameas(MaxJSONValue * val, MaxJSONValue * other) {
-	return val->Value().IsSameAs(other->Value());
+int bmx_wxjsonvalue_issameas(MaxJSONValue * val, MaxJSONValue * other) {
+	return static_cast<int>(val->Value().IsSameAs(other->Value()));
 }
 
-bool bmx_wxjsonvalue_isstring(MaxJSONValue * val) {
-	return val->Value().IsString();
+int bmx_wxjsonvalue_isstring(MaxJSONValue * val) {
+	return static_cast<int>(val->Value().IsString());
 }
 
 void bmx_wxjsonvalue_setint(MaxJSONValue * val, int value) {
 	val->Value() = value;
 }
 
-void bmx_wxjsonvalue_setbool(MaxJSONValue * val, bool value) {
-	val->Value() = value;
+void bmx_wxjsonvalue_setbool(MaxJSONValue * val, int value) {
+	val->Value() = static_cast<bool>(value);
 }
 
 void bmx_wxjsonvalue_setdouble(MaxJSONValue * val, double value) {
@@ -209,8 +209,8 @@ MaxJSONValue * bmx_wxjsonvalue_appenddouble(MaxJSONValue * val, double value) {
 	return new MaxJSONValue(&val->Value().Append(value));
 }
 
-MaxJSONValue * bmx_wxjsonvalue_appendbool(MaxJSONValue * val, bool value) {
-	return new MaxJSONValue(&val->Value().Append(value));
+MaxJSONValue * bmx_wxjsonvalue_appendbool(MaxJSONValue * val, int value) {
+	return new MaxJSONValue(&val->Value().Append(static_cast<bool>(value)));
 }
 
 MaxJSONValue * bmx_wxjsonvalue_appendlong(MaxJSONValue * val, BBInt64 value) {
@@ -225,8 +225,8 @@ MaxJSONValue * bmx_wxjsonvalue_append(MaxJSONValue * val, MaxJSONValue * value) 
 	return new MaxJSONValue(&val->Value().Append(value->Value()));
 }
 
-bool bmx_wxjsonvalue_asbool(MaxJSONValue * val) {
-	return val->Value().AsBool();
+int bmx_wxjsonvalue_asbool(MaxJSONValue * val) {
+	return static_cast<int>(val->Value().AsBool());
 }
 
 BBString * bmx_wxjsonvalue_asstring(MaxJSONValue * val) {
@@ -249,12 +249,12 @@ int bmx_wxjsonvalue_addcomments(MaxJSONValue * val, BBArray * comments, int posi
 	return val->Value().AddComment(bbStringArrayTowxArrayStr(comments), position);
 }
 
-bool bmx_wxjsonvalue_remove(MaxJSONValue * val, BBString * key) {
-	return val->Value().Remove(wxStringFromBBString(key));
+int bmx_wxjsonvalue_remove(MaxJSONValue * val, BBString * key) {
+	return static_cast<int>(val->Value().Remove(wxStringFromBBString(key)));
 }
 
-bool bmx_wxjsonvalue_removefrom(MaxJSONValue * val, int index) {
-	return val->Value().Remove(index);
+int bmx_wxjsonvalue_removefrom(MaxJSONValue * val, int index) {
+	return static_cast<int>(val->Value().Remove(index));
 }
 
 void bmx_wxjsonvalue_setlineno(MaxJSONValue * val, int num) {

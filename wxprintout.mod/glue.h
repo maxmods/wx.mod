@@ -34,14 +34,14 @@ extern "C" {
 	void bmx_printout_delete(wxPrintout * printout);
 	
 	void _wx_wxprintout_wxPrintout__GetPageInfo(BBObject * handle, int *minPage, int *maxPage, int *pageFrom, int *pageTo);
-	bool _wx_wxprintout_wxPrintout__HasPage(BBObject * handle, int pageNum);
+	int _wx_wxprintout_wxPrintout__HasPage(BBObject * handle, int pageNum);
 
-	bool _wx_wxprintout_wxPrintout__OnBeginDocument(BBObject * handle, int startPage, int endPage);
+	int _wx_wxprintout_wxPrintout__OnBeginDocument(BBObject * handle, int startPage, int endPage);
 	void _wx_wxprintout_wxPrintout__OnEndDocument(BBObject * handle);
 	void _wx_wxprintout_wxPrintout__OnBeginPrinting(BBObject * handle);
 	void _wx_wxprintout_wxPrintout__OnEndPrinting(BBObject * handle);
 	void _wx_wxprintout_wxPrintout__OnPreparePrinting(BBObject * handle);
-	bool _wx_wxprintout_wxPrintout__OnPrintPage(BBObject * handle, int pageNum);
+	int _wx_wxprintout_wxPrintout__OnPrintPage(BBObject * handle, int pageNum);
 
 	MaxDC * bmx_wxprintout_getdc(wxPrintout * printout);
 	void bmx_wxprintout_getpagesizemm(wxPrintout * printout, int * w, int * h);
@@ -51,7 +51,7 @@ extern "C" {
 	void bmx_wxprintout_getppiprinter(wxPrintout * printout, int * w, int * h);
 	void bmx_wxprintout_getppiscreen(wxPrintout * printout, int * w, int * h);
 	BBString * bmx_wxprintout_gettitle(wxPrintout * printout);
-	bool bmx_wxprintout_ispreview(wxPrintout * printout);
+	int bmx_wxprintout_ispreview(wxPrintout * printout);
 	void bmx_wxprintout_fitthissizetopaper(wxPrintout * printout, int w, int h);
 	void bmx_wxprintout_fitthissizetopage(wxPrintout * printout, int w, int h);
 	void bmx_wxprintout_fitthissizetopagemargins(wxPrintout * printout, int w, int h,  wxPageSetupDialogData * pageSetupData);

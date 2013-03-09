@@ -73,44 +73,44 @@ void bmx_wxmediactrl_length(wxMediaCtrl * ctrl, BBInt64 * value) {
 	*value = ctrl->Length();
 }
 
-bool bmx_wxmediactrl_load(wxMediaCtrl * ctrl, BBString * filename) {
-	return ctrl->Load(wxStringFromBBString(filename));
+int bmx_wxmediactrl_load(wxMediaCtrl * ctrl, BBString * filename) {
+	return static_cast<int>(ctrl->Load(wxStringFromBBString(filename)));
 }
 
-bool bmx_wxmediactrl_loaduri(wxMediaCtrl * ctrl, BBString * uri) {
-	return ctrl->LoadURI(wxStringFromBBString(uri));
+int bmx_wxmediactrl_loaduri(wxMediaCtrl * ctrl, BBString * uri) {
+	return static_cast<int>(ctrl->LoadURI(wxStringFromBBString(uri)));
 }
 
-bool bmx_wxmediactrl_loaduriwithproxy(wxMediaCtrl * ctrl, BBString * uri, BBString * proxy) {
-	return ctrl->LoadURIWithProxy(wxStringFromBBString(uri), wxStringFromBBString(proxy));
+int bmx_wxmediactrl_loaduriwithproxy(wxMediaCtrl * ctrl, BBString * uri, BBString * proxy) {
+	return static_cast<int>(ctrl->LoadURIWithProxy(wxStringFromBBString(uri), wxStringFromBBString(proxy)));
 }
 
-bool bmx_wxmediactrl_pause(wxMediaCtrl * ctrl) {
-	return ctrl->Pause();
+int bmx_wxmediactrl_pause(wxMediaCtrl * ctrl) {
+	return static_cast<int>(ctrl->Pause());
 }
 
-bool bmx_wxmediactrl_play(wxMediaCtrl * ctrl) {
-	return ctrl->Play();
+int bmx_wxmediactrl_play(wxMediaCtrl * ctrl) {
+	return static_cast<int>(ctrl->Play());
 }
 
 void bmx_wxmediactrl_seek(wxMediaCtrl * ctrl, BBInt64 where, wxSeekMode mode, BBInt64 * value) {
 	*value = ctrl->Seek(where, mode);
 }
 
-bool bmx_wxmediactrl_setplaybackrate(wxMediaCtrl * ctrl, double rate) {
-	return ctrl->SetPlaybackRate(rate);
+int bmx_wxmediactrl_setplaybackrate(wxMediaCtrl * ctrl, double rate) {
+	return static_cast<int>(ctrl->SetPlaybackRate(rate));
 }
 
-bool bmx_wxmediactrl_setvolume(wxMediaCtrl * ctrl, double volume) {
-	return ctrl->SetVolume(volume);
+int bmx_wxmediactrl_setvolume(wxMediaCtrl * ctrl, double volume) {
+	return static_cast<int>(ctrl->SetVolume(volume));
 }
 
-bool bmx_wxmediactrl_showplayercontrols(wxMediaCtrl * ctrl, wxMediaCtrlPlayerControls flags) {
-	return ctrl->ShowPlayerControls(flags);
+int bmx_wxmediactrl_showplayercontrols(wxMediaCtrl * ctrl, wxMediaCtrlPlayerControls flags) {
+	return static_cast<int>(ctrl->ShowPlayerControls(flags));
 }
 
-bool bmx_wxmediactrl_stop(wxMediaCtrl * ctrl) {
-	return ctrl->Stop();
+int bmx_wxmediactrl_stop(wxMediaCtrl * ctrl) {
+	return static_cast<int>(ctrl->Stop());
 }
 
 void bmx_wxmediactrl_tell(wxMediaCtrl * ctrl, BBInt64 * value) {

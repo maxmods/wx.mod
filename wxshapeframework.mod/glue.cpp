@@ -180,28 +180,28 @@ void bmx_wxsfshapecanvas_redo(wxSFShapeCanvas * canvas) {
 	canvas->Redo();
 }
 
-bool bmx_wxsfshapecanvas_cancopy(wxSFShapeCanvas * canvas) {
-	return canvas->CanCopy();
+int bmx_wxsfshapecanvas_cancopy(wxSFShapeCanvas * canvas) {
+	return static_cast<int>(canvas->CanCopy());
 }
 
-bool bmx_wxsfshapecanvas_cancut(wxSFShapeCanvas * canvas) {
-	return canvas->CanCut();
+int bmx_wxsfshapecanvas_cancut(wxSFShapeCanvas * canvas) {
+	return static_cast<int>(canvas->CanCut());
 }
 
-bool bmx_wxsfshapecanvas_canpaste(wxSFShapeCanvas * canvas) {
-	return canvas->CanPaste();
+int bmx_wxsfshapecanvas_canpaste(wxSFShapeCanvas * canvas) {
+	return static_cast<int>(canvas->CanPaste());
 }
 
-bool bmx_wxsfshapecanvas_canundo(wxSFShapeCanvas * canvas) {
-	return canvas->CanUndo();
+int bmx_wxsfshapecanvas_canundo(wxSFShapeCanvas * canvas) {
+	return static_cast<int>(canvas->CanUndo());
 }
 
-bool bmx_wxsfshapecanvas_canredo(wxSFShapeCanvas * canvas) {
-	return canvas->CanRedo();
+int bmx_wxsfshapecanvas_canredo(wxSFShapeCanvas * canvas) {
+	return static_cast<int>(canvas->CanRedo());
 }
 
-bool bmx_wxsfshapecanvas_canalignselected(wxSFShapeCanvas * canvas) {
-	return canvas->CanAlignSelected();
+int bmx_wxsfshapecanvas_canalignselected(wxSFShapeCanvas * canvas) {
+	return static_cast<int>(canvas->CanAlignSelected());
 }
 
 void bmx_wxsfshapecanvas_savecanvasstate(wxSFShapeCanvas * canvas) {
@@ -227,11 +227,11 @@ wxSFDiagramManager * bmx_wxsfdiagrammanager_create(BBObject * handle) {
 	return new MaxSFDiagramManager(handle);
 }
 
-BBObject * bmx_wxsfdiagrammanager_addshape(wxSFDiagramManager * manager, BBString * shapeInfo, int xPos, int yPos, bool saveState) {
+BBObject * bmx_wxsfdiagrammanager_addshape(wxSFDiagramManager * manager, BBString * shapeInfo, int xPos, int yPos, int saveState) {
 	if (xPos >= 0 || yPos >= 0) {
-		return newObjectForShape(manager->AddShape(wxClassInfo::FindClass(wxStringFromBBString(shapeInfo).c_str()), wxPoint(xPos, yPos), saveState));
+		return newObjectForShape(manager->AddShape(wxClassInfo::FindClass(wxStringFromBBString(shapeInfo).c_str()), wxPoint(xPos, yPos), static_cast<bool>(saveState)));
 	} else {
-		return newObjectForShape(manager->AddShape(wxClassInfo::FindClass(wxStringFromBBString(shapeInfo).c_str()), saveState));
+		return newObjectForShape(manager->AddShape(wxClassInfo::FindClass(wxStringFromBBString(shapeInfo).c_str()), static_cast<bool>(saveState)));
 	}
 }
 
@@ -242,8 +242,8 @@ void bmx_wxsfdiagrammanager_acceptshape(wxSFDiagramManager * manager, BBString *
 
 // *********************************************
 
-void bmx_wxsfcontrolshape_setcontrol(wxSFControlShape * shape, wxWindow * ctrl, bool fit) {
-	shape->SetControl(ctrl, fit);
+void bmx_wxsfcontrolshape_setcontrol(wxSFControlShape * shape, wxWindow * ctrl, int fit) {
+	shape->SetControl(ctrl, static_cast<bool>(fit));
 }
 
 wxWindow * bmx_wxsfcontrolshape_getcontrol(wxSFControlShape * shape) {

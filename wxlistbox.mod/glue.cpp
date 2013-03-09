@@ -129,8 +129,8 @@ BBArray * bmx_wxlistbox_getselections(wxListBox * listbox) {
 	return wxArrayIntToBBIntArray(selections);
 }
 
-bool bmx_wxlistbox_isselected(wxListBox * listbox, int item) {
-	return listbox->IsSelected(item);
+int bmx_wxlistbox_isselected(wxListBox * listbox, int item) {
+	return static_cast<int>(listbox->IsSelected(item));
 }
 
 void bmx_wxlistbox_deselect(wxListBox * listbox, int item) {

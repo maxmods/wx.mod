@@ -39,7 +39,7 @@ extern "C" {
 	int bmx_wxgauge_getrange(wxGauge * gauge);
 	int bmx_wxgauge_getshadowwidth(wxGauge * gauge);
 	int bmx_wxgauge_getvalue(wxGauge * gauge);
-	bool bmx_wxgauge_isvertical(wxGauge * gauge);
+	int bmx_wxgauge_isvertical(wxGauge * gauge);
 	void bmx_wxgauge_setbezelface(wxGauge * gauge, int width);
 	void bmx_wxgauge_setrange(wxGauge * gauge, int range);
 	void bmx_wxgauge_setshadowwidth(wxGauge * gauge, int width);

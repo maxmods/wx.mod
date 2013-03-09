@@ -64,52 +64,52 @@ void bmx_wxpagesetupdialogdata_delete(MaxPageSetupDialogData * setup) {
 	delete setup;
 }
 
-void bmx_wxpagesetupdialogdata_enablehelp(MaxPageSetupDialogData * setup, bool flag) {
-    setup->Data().EnableHelp(flag);
+void bmx_wxpagesetupdialogdata_enablehelp(MaxPageSetupDialogData * setup, int flag) {
+    setup->Data().EnableHelp(static_cast<bool>(flag));
 }
 
-void bmx_wxpagesetupdialogdata_enablemargins(MaxPageSetupDialogData * setup, bool flag) {
-    setup->Data().EnableMargins(flag);
+void bmx_wxpagesetupdialogdata_enablemargins(MaxPageSetupDialogData * setup, int flag) {
+    setup->Data().EnableMargins(static_cast<bool>(flag));
 }
 
-void bmx_wxpagesetupdialogdata_enableorientation(MaxPageSetupDialogData * setup, bool flag) {
-    setup->Data().EnableOrientation(flag);
+void bmx_wxpagesetupdialogdata_enableorientation(MaxPageSetupDialogData * setup, int flag) {
+    setup->Data().EnableOrientation(static_cast<bool>(flag));
 }
 
-void bmx_wxpagesetupdialogdata_enablepaper(MaxPageSetupDialogData * setup, bool flag) {
-    setup->Data().EnablePaper(flag);
+void bmx_wxpagesetupdialogdata_enablepaper(MaxPageSetupDialogData * setup, int flag) {
+    setup->Data().EnablePaper(static_cast<bool>(flag));
 }
 
-void bmx_wxpagesetupdialogdata_enableprinter(MaxPageSetupDialogData * setup, bool flag) {
-    setup->Data().EnablePrinter(flag);
+void bmx_wxpagesetupdialogdata_enableprinter(MaxPageSetupDialogData * setup, int flag) {
+    setup->Data().EnablePrinter(static_cast<bool>(flag));
 }
 
-bool bmx_wxpagesetupdialogdata_getdefaultminmargins(MaxPageSetupDialogData * setup) {
-    return setup->Data().GetDefaultMinMargins();
+int bmx_wxpagesetupdialogdata_getdefaultminmargins(MaxPageSetupDialogData * setup) {
+    return static_cast<int>(setup->Data().GetDefaultMinMargins());
 }
 
-bool bmx_wxpagesetupdialogdata_getenablemargins(MaxPageSetupDialogData * setup) {
-    return setup->Data().GetEnableMargins();
+int bmx_wxpagesetupdialogdata_getenablemargins(MaxPageSetupDialogData * setup) {
+    return static_cast<int>(setup->Data().GetEnableMargins());
 }
 
-bool bmx_wxpagesetupdialogdata_getenableorientation(MaxPageSetupDialogData * setup) {
-    return setup->Data().GetEnableOrientation();
+int bmx_wxpagesetupdialogdata_getenableorientation(MaxPageSetupDialogData * setup) {
+    return static_cast<int>(setup->Data().GetEnableOrientation());
 }
 
-bool bmx_wxpagesetupdialogdata_getenablepaper(MaxPageSetupDialogData * setup) {
-    return setup->Data().GetEnablePaper();
+int bmx_wxpagesetupdialogdata_getenablepaper(MaxPageSetupDialogData * setup) {
+    return static_cast<int>(setup->Data().GetEnablePaper());
 }
 
-bool bmx_wxpagesetupdialogdata_getenableprinter(MaxPageSetupDialogData * setup) {
-    return setup->Data().GetEnablePrinter();
+int bmx_wxpagesetupdialogdata_getenableprinter(MaxPageSetupDialogData * setup) {
+    return static_cast<int>(setup->Data().GetEnablePrinter());
 }
 
-bool bmx_wxpagesetupdialogdata_getenablehelp(MaxPageSetupDialogData * setup) {
-    return setup->Data().GetEnableHelp();
+int bmx_wxpagesetupdialogdata_getenablehelp(MaxPageSetupDialogData * setup) {
+    return static_cast<int>(setup->Data().GetEnableHelp());
 }
 
-bool bmx_wxpagesetupdialogdata_getdefaultinfo(MaxPageSetupDialogData * setup) {
-    return setup->Data().GetDefaultInfo();
+int bmx_wxpagesetupdialogdata_getdefaultinfo(MaxPageSetupDialogData * setup) {
+    return static_cast<int>(setup->Data().GetDefaultInfo());
 }
 
 void bmx_wxpagesetupdialogdata_getmargintopleft(MaxPageSetupDialogData * setup, int * leftMargin, int * topMargin) {
@@ -150,16 +150,16 @@ MaxPrintData * bmx_wxpagesetupdialogdata_getprintdata(MaxPageSetupDialogData * s
     return new MaxPrintData(setup->Data().GetPrintData());
 }
 
-bool bmx_wxpagesetupdialogdata_isok(MaxPageSetupDialogData * setup) {
-    return setup->Data().IsOk();
+int bmx_wxpagesetupdialogdata_isok(MaxPageSetupDialogData * setup) {
+    return static_cast<int>(setup->Data().IsOk());
 }
 
-void bmx_wxpagesetupdialogdata_setdefaultinfo(MaxPageSetupDialogData * setup, bool flag) {
-    setup->Data().SetDefaultInfo(flag);
+void bmx_wxpagesetupdialogdata_setdefaultinfo(MaxPageSetupDialogData * setup, int flag) {
+    setup->Data().SetDefaultInfo(static_cast<bool>(flag));
 }
 
-void bmx_wxpagesetupdialogdata_setdefaultminmargins(MaxPageSetupDialogData * setup, bool flag) {
-    setup->Data().SetDefaultMinMargins(flag);
+void bmx_wxpagesetupdialogdata_setdefaultminmargins(MaxPageSetupDialogData * setup, int flag) {
+    setup->Data().SetDefaultMinMargins(static_cast<bool>(flag));
 }
 
 void bmx_wxpagesetupdialogdata_setmargintopleft(MaxPageSetupDialogData * setup, int leftMargin, int topMargin) {

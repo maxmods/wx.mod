@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	bool _wx_wxprintpreview_wxPrintPreview__PaintPage(BBObject * maxHandle, wxPreviewCanvas * canvas, MaxDC * dc);
+	int _wx_wxprintpreview_wxPrintPreview__PaintPage(BBObject * maxHandle, wxPreviewCanvas * canvas, MaxDC * dc);
 
 	wxPrintPreview * bmx_wxprintpreview_create(BBObject * handle, wxPrintout * printout, wxPrintout * printoutForPrinting, MaxPrintData * data);
 	void bmx_wxprintpreview_free(wxPrintPreview * preview);
@@ -41,10 +41,10 @@ extern "C" {
 	int bmx_wxprintpreview_getminpage(wxPrintPreview * preview);
 	wxPrintout * bmx_wxprintpreview_getprintout(wxPrintPreview * preview);
 	wxPrintout * bmx_wxprintpreview_getprintoutforprinting(wxPrintPreview * preview);
-	bool bmx_wxprintpreview_isok(wxPrintPreview * preview);
-	bool bmx_wxprintpreview_paintpage(wxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc);
-	bool bmx_wxprintpreview_paintpage_default(MaxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc);
-	bool bmx_wxprintpreview_print(wxPrintPreview * preview, bool prompt);
+	int bmx_wxprintpreview_isok(wxPrintPreview * preview);
+	int bmx_wxprintpreview_paintpage(wxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc);
+	int bmx_wxprintpreview_paintpage_default(MaxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc);
+	int bmx_wxprintpreview_print(wxPrintPreview * preview, int prompt);
 	void bmx_wxprintpreview_setCanvas(wxPrintPreview * preview, wxPreviewCanvas * canvas);
 	void bmx_wxprintpreview_setcurrentpage(wxPrintPreview * preview, int pageNum);
 	void bmx_wxprintpreview_setframe(wxPrintPreview * preview, wxFrame * frame);

@@ -161,8 +161,8 @@ wxLogLevel bmx_wxlog_getloglevel() {
 	return wxLog::GetLogLevel();
 }
 
-bool bmx_wxlog_getrepetitioncounting() {
-	return wxLog::GetRepetitionCounting();
+int bmx_wxlog_getrepetitioncounting() {
+	return static_cast<int>(wxLog::GetRepetitionCounting());
 }
 
 BBString * bmx_wxlog_gettimestamp() {
@@ -173,12 +173,12 @@ wxTraceMask bmx_wxlog_gettracemask() {
 	return wxLog::GetTraceMask();
 }
 
-bool bmx_wxlog_getverbose() {
-	return wxLog::GetVerbose();
+int bmx_wxlog_getverbose() {
+	return static_cast<int>(wxLog::GetVerbose());
 }
 
-bool bmx_wxlog_isallowedtracemask(BBString * mask) {
-	return wxLog::IsAllowedTraceMask(wxStringFromBBString(mask));
+int bmx_wxlog_isallowedtracemask(BBString * mask) {
+	return static_cast<int>(wxLog::IsAllowedTraceMask(wxStringFromBBString(mask)));
 }
 
 void bmx_wxlog_removetracemask(BBString * mask) {
@@ -193,8 +193,8 @@ void bmx_wxlog_setloglevel(wxLogLevel level) {
 	wxLog::SetLogLevel(level);
 }
 
-void bmx_wxlog_setrepetitioncounting(bool repetCounting) {
-	wxLog::SetRepetitionCounting(repetCounting);
+void bmx_wxlog_setrepetitioncounting(int repetCounting) {
+	wxLog::SetRepetitionCounting(static_cast<bool>(repetCounting));
 }
 
 void bmx_wxlog_settracemask(wxTraceMask mask) {
@@ -205,8 +205,8 @@ void bmx_wxlog_suspend() {
 	wxLog::Suspend();
 }
 
-void bmx_wxlog_setverbose(bool verbose) {
-	wxLog::SetVerbose(verbose);
+void bmx_wxlog_setverbose(int verbose) {
+	wxLog::SetVerbose(static_cast<bool>(verbose));
 }
 
 // *********************************************

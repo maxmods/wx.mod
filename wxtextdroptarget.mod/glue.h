@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	bool _wx_wxtextdroptarget_wxTextDropTarget__OnDropText(BBObject * handle, wxCoord x, wxCoord y, BBString * data);
+	int _wx_wxtextdroptarget_wxTextDropTarget__OnDropText(BBObject * handle, wxCoord x, wxCoord y, BBString * data);
 
 	wxTextDropTarget * bmx_wxtextdroptarget_create(BBObject * handle);
 

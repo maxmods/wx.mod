@@ -30,7 +30,7 @@ extern "C" {
 #include <blitz.h>
 
 	BBString * bmx_wxgetpasswordfromuser(BBString * message, BBString * caption, BBString * defaultValue, wxWindow * parent,
-		int x, int y, bool centre);
+		int x, int y, int centre);
 
 	wxPasswordEntryDialog * bmx_wxpasswordentrydialog_create(BBObject * handle, wxWindow * parent, BBString * message,
 			BBString * caption, BBString * defaultValue, long style, int x, int y);

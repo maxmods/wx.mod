@@ -180,8 +180,8 @@ wxMenuItem * bmx_wxmenu_appendsubmenu(wxMenu * menu, wxMenu * submenu, BBString 
 	return menu->AppendSubMenu(submenu, wxStringFromBBString(item), wxStringFromBBString(helpString));
 }
 
-void bmx_wxmenu_check(wxMenu * menu, int id, bool value) {
-	menu->Check(id, value);
+void bmx_wxmenu_check(wxMenu * menu, int id, int value) {
+	menu->Check(id, static_cast<bool>(value));
 }
 
 void bmx_wxmenu_delete(wxMenu * menu, int id) {
@@ -196,8 +196,8 @@ void bmx_wxmenu_destroyitem(wxMenu * menu, wxMenuItem * item) {
 	menu->Destroy(item);
 }
 
-void bmx_wxmenu_enable(wxMenu * menu, int id, bool value) {
-	menu->Enable(id, value);
+void bmx_wxmenu_enable(wxMenu * menu, int id, int value) {
+	menu->Enable(id, static_cast<bool>(value));
 }
 
 int bmx_wxmenu_finditem(wxMenu * menu, BBString * itemString) {
@@ -244,12 +244,12 @@ wxMenuItem * bmx_wxmenu_insertseparator(wxMenu * menu, int pos) {
 	return menu->InsertSeparator(pos);
 }
 
-bool bmx_wxmenu_ischecked(wxMenu * menu, int id) {
-	return menu->IsChecked(id);
+int bmx_wxmenu_ischecked(wxMenu * menu, int id) {
+	return static_cast<int>(menu->IsChecked(id));
 }
 
-bool bmx_wxmenu_isenabled(wxMenu * menu, int id) {
-	return menu->IsEnabled(id);
+int bmx_wxmenu_isenabled(wxMenu * menu, int id) {
+	return static_cast<int>(menu->IsEnabled(id));
 }
 
 wxMenuItem * bmx_wxmenu_prepend(wxMenu * menu, int id, BBString * item, BBString * helpString, wxItemKind kind) {
@@ -316,12 +316,12 @@ void bmx_wxmenuitem_delete(wxMenuItem * item) {
 	delete item;
 }
 
-void bmx_wxmenuitem_check(wxMenuItem * item, bool value) {
-	item->Check(value);
+void bmx_wxmenuitem_check(wxMenuItem * item, int value) {
+	item->Check(static_cast<bool>(value));
 }
 
-void bmx_wxmenuitem_enable(wxMenuItem * item, bool value) {
-	item->Enable(value);
+void bmx_wxmenuitem_enable(wxMenuItem * item, int value) {
+	item->Enable(static_cast<bool>(value));
 }
 
 MaxColour * bmx_wxmenuitem_getbackgroundcolour(wxMenuItem * item) {
@@ -333,9 +333,9 @@ MaxColour * bmx_wxmenuitem_getbackgroundcolour(wxMenuItem * item) {
 	return new MaxColour(c);
 }
 
-MaxBitmap * bmx_wxmenuitem_getbitmap(wxMenuItem * item, bool checked) {
+MaxBitmap * bmx_wxmenuitem_getbitmap(wxMenuItem * item, int checked) {
 #ifdef WIN32
-	wxBitmap b(item->GetBitmap(checked));
+	wxBitmap b(item->GetBitmap(static_cast<bool>(checked)));
 #else
 	wxBitmap b = wxNullBitmap;
 #endif
@@ -400,24 +400,24 @@ MaxColour * bmx_wxmenuitem_gettextcolour(wxMenuItem * item) {
 	return new MaxColour(c);
 }
 
-bool bmx_wxmenuitem_ischeckable(wxMenuItem * item) {
-	return item->IsCheckable();
+int bmx_wxmenuitem_ischeckable(wxMenuItem * item) {
+	return static_cast<int>(item->IsCheckable());
 }
 
-bool bmx_wxmenuitem_ischecked(wxMenuItem * item) {
-	return item->IsChecked();
+int bmx_wxmenuitem_ischecked(wxMenuItem * item) {
+	return static_cast<int>(item->IsChecked());
 }
 
-bool bmx_wxmenuitem_isenabled(wxMenuItem * item) {
-	return item->IsEnabled();
+int bmx_wxmenuitem_isenabled(wxMenuItem * item) {
+	return static_cast<int>(item->IsEnabled());
 }
 
-bool bmx_wxmenuitem_isseparator(wxMenuItem * item) {
-	return item->IsSeparator();
+int bmx_wxmenuitem_isseparator(wxMenuItem * item) {
+	return static_cast<int>(item->IsSeparator());
 }
 
-bool bmx_wxmenuitem_issubmenu(wxMenuItem * item) {
-	return item->IsSubMenu();
+int bmx_wxmenuitem_issubmenu(wxMenuItem * item) {
+	return static_cast<int>(item->IsSubMenu());
 }
 
 void bmx_wxmenuitem_setbackgroundcolour(wxMenuItem * item, MaxColour * colour) {
@@ -495,8 +495,8 @@ int bmx_wxmenuevent_getmenuid(wxMenuEvent & event) {
 	return event.GetMenuId();
 }
 
-bool bmx_wxmenuevent_ispopup(wxMenuEvent & event) {
-	return event.IsPopup();
+int bmx_wxmenuevent_ispopup(wxMenuEvent & event) {
+	return static_cast<int>(event.IsPopup());
 }
 
 

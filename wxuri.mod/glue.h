@@ -41,14 +41,14 @@ extern "C" {
 	BBString * bmx_wxuri_getserver(wxURI * uri);
 	BBString * bmx_wxuri_getuser(wxURI * uri);
 	BBString * bmx_wxuri_getuserinfo(wxURI * uri);
-	bool bmx_wxuri_hasfragment(wxURI * uri);
-	bool bmx_wxuri_haspath(wxURI * uri);
-	bool bmx_wxuri_hasport(wxURI * uri);
-	bool bmx_wxuri_hasquery(wxURI * uri);
-	bool bmx_wxuri_hasscheme(wxURI * uri);
-	bool bmx_wxuri_hasserver(wxURI * uri);
-	bool bmx_wxuri_isreference(wxURI * uri);
-	bool bmx_wxuri_equals(wxURI * uri, wxURI * other);
+	int bmx_wxuri_hasfragment(wxURI * uri);
+	int bmx_wxuri_haspath(wxURI * uri);
+	int bmx_wxuri_hasport(wxURI * uri);
+	int bmx_wxuri_hasquery(wxURI * uri);
+	int bmx_wxuri_hasscheme(wxURI * uri);
+	int bmx_wxuri_hasserver(wxURI * uri);
+	int bmx_wxuri_isreference(wxURI * uri);
+	int bmx_wxuri_equals(wxURI * uri, wxURI * other);
 	void bmx_wxuri_resolve(wxURI * uri, wxURI * base, int flags);
 	BBString * bmx_wxuri_unescape(BBString * uri);
 

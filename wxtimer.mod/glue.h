@@ -34,10 +34,10 @@ extern "C" {
 	MaxTimer * bmx_wxtimer_create(BBObject * maxHandle, wxEvtHandler * owner, int id);
 	void bmx_wxtimer_free(wxTimer * timer);
 	int bmx_wxtimer_getinterval(wxTimer * timer);
-	bool bmx_wxtimer_isoneshot(wxTimer * timer);
-	bool bmx_wxtimer_isrunning(wxTimer * timer);
+	int bmx_wxtimer_isoneshot(wxTimer * timer);
+	int bmx_wxtimer_isrunning(wxTimer * timer);
 	void bmx_wxtimer_setowner(wxTimer * timer, wxEvtHandler * owner, int id);
-	bool bmx_wxtimer_start(wxTimer * timer, int milli, bool oneshot);
+	int bmx_wxtimer_start(wxTimer * timer, int milli, int oneshot);
 	void bmx_wxtimer_stop(wxTimer * timer);
 
 	int bmx_wxtimerevent_getinterval(wxTimerEvent & event);

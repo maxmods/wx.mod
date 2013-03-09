@@ -154,32 +154,32 @@ wxTreebook * bmx_wxtreebook_create(BBObject * handle, wxWindow * parent, wxWindo
 	return new MaxTreebook(handle, parent, id, x, y, w, h, style);
 }
 
-bool bmx_wxtreebook_addpage(wxTreebook * book, wxWindow * page, BBString * text, bool selected, int imageId) {
-	return book->AddPage(page, wxStringFromBBString(text), selected, imageId);
+int bmx_wxtreebook_addpage(wxTreebook * book, wxWindow * page, BBString * text, int selected, int imageId) {
+	return static_cast<int>(book->AddPage(page, wxStringFromBBString(text), static_cast<bool>(selected), imageId));
 }
 
-bool bmx_wxtreebook_addsubpage(wxTreebook * book, wxWindow * page, BBString * text, bool selected, int imageId) {
-	return book->AddSubPage(page, wxStringFromBBString(text), selected, imageId);
+int bmx_wxtreebook_addsubpage(wxTreebook * book, wxWindow * page, BBString * text, int selected, int imageId) {
+	return static_cast<int>(book->AddSubPage(page, wxStringFromBBString(text), static_cast<bool>(selected), imageId));
 }
 
-bool bmx_wxtreebook_insertpage(wxTreebook * book, int index, wxWindow * page, BBString * text, bool selected, int imageId) {
-	return book->InsertPage(static_cast<size_t>(index), page, wxStringFromBBString(text), selected, imageId);
+int bmx_wxtreebook_insertpage(wxTreebook * book, int index, wxWindow * page, BBString * text, int selected, int imageId) {
+	return static_cast<int>(book->InsertPage(static_cast<size_t>(index), page, wxStringFromBBString(text), static_cast<bool>(selected), imageId));
 }
 
-bool bmx_wxtreebook_insertsubpage(wxTreebook * book, int index, wxWindow * page, BBString * text, bool selected, int imageId) {
-	return book->InsertSubPage(static_cast<size_t>(index), page, wxStringFromBBString(text), selected, imageId);
+int bmx_wxtreebook_insertsubpage(wxTreebook * book, int index, wxWindow * page, BBString * text, int selected, int imageId) {
+	return static_cast<int>(book->InsertSubPage(static_cast<size_t>(index), page, wxStringFromBBString(text), static_cast<bool>(selected), imageId));
 }
 
-bool bmx_wxtreebook_collapsenode(wxTreebook * book, int pageId) {
-	return book->CollapseNode(static_cast<size_t>(pageId));
+int bmx_wxtreebook_collapsenode(wxTreebook * book, int pageId) {
+	return static_cast<int>(book->CollapseNode(static_cast<size_t>(pageId)));
 }
 
-bool bmx_wxtreebook_expandnode(wxTreebook * book, int pageId, bool expand) {
-	return book->ExpandNode(static_cast<size_t>(pageId), expand);
+int bmx_wxtreebook_expandnode(wxTreebook * book, int pageId, int expand) {
+	return static_cast<int>(book->ExpandNode(static_cast<size_t>(pageId), static_cast<bool>(expand)));
 }
 
-bool bmx_wxtreebook_isnodeexpanded(wxTreebook * book, int pos) {
-	return book->IsNodeExpanded(static_cast<size_t>(pos));
+int bmx_wxtreebook_isnodeexpanded(wxTreebook * book, int pos) {
+	return static_cast<int>(book->IsNodeExpanded(static_cast<size_t>(pos)));
 }
 
 int bmx_wxtreebook_getpageparent(wxTreebook * book, int pos) {

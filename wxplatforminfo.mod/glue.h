@@ -28,8 +28,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	bool bmx_wxplatforminfo_checkosversion(int major, int minor);
-	bool bmx_wxplatforminfo_checktoolkitversion(int major, int minor);
+	int bmx_wxplatforminfo_checkosversion(int major, int minor);
+	int bmx_wxplatforminfo_checktoolkitversion(int major, int minor);
 	wxArchitecture bmx_wxplatforminfo_getarch(BBString * arch);
 	BBString * bmx_wxplatforminfo_getarchname();
 	wxArchitecture bmx_wxplatforminfo_getarchitecture();

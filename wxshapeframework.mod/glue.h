@@ -60,12 +60,12 @@ extern "C" {
 	void bmx_wxsfshapecanvas_paste(wxSFShapeCanvas * canvas);
 	void bmx_wxsfshapecanvas_undo(wxSFShapeCanvas * canvas);
 	void bmx_wxsfshapecanvas_redo(wxSFShapeCanvas * canvas);
-	bool bmx_wxsfshapecanvas_cancopy(wxSFShapeCanvas * canvas);
-	bool bmx_wxsfshapecanvas_cancut(wxSFShapeCanvas * canvas);
-	bool bmx_wxsfshapecanvas_canpaste(wxSFShapeCanvas * canvas);
-	bool bmx_wxsfshapecanvas_canundo(wxSFShapeCanvas * canvas);
-	bool bmx_wxsfshapecanvas_canredo(wxSFShapeCanvas * canvas);
-	bool bmx_wxsfshapecanvas_canalignselected(wxSFShapeCanvas * canvas);
+	int bmx_wxsfshapecanvas_cancopy(wxSFShapeCanvas * canvas);
+	int bmx_wxsfshapecanvas_cancut(wxSFShapeCanvas * canvas);
+	int bmx_wxsfshapecanvas_canpaste(wxSFShapeCanvas * canvas);
+	int bmx_wxsfshapecanvas_canundo(wxSFShapeCanvas * canvas);
+	int bmx_wxsfshapecanvas_canredo(wxSFShapeCanvas * canvas);
+	int bmx_wxsfshapecanvas_canalignselected(wxSFShapeCanvas * canvas);
 	void bmx_wxsfshapecanvas_savecanvasstate(wxSFShapeCanvas * canvas);
 	void bmx_wxsfshapecanvas_clearcanvashistory(wxSFShapeCanvas * canvas);
 	void bmx_wxsfshapecanvas_printpreview(wxSFShapeCanvas * canvas);
@@ -73,10 +73,10 @@ extern "C" {
 
 
 	wxSFDiagramManager * bmx_wxsfdiagrammanager_create(BBObject * handle);
-	BBObject * bmx_wxsfdiagrammanager_addshape(wxSFDiagramManager * manager, BBString * shapeInfo, int xPos, int yPos, bool saveState);
+	BBObject * bmx_wxsfdiagrammanager_addshape(wxSFDiagramManager * manager, BBString * shapeInfo, int xPos, int yPos, int saveState);
 	void bmx_wxsfdiagrammanager_acceptshape(wxSFDiagramManager * manager, BBString * shapeType);
 
-	void bmx_wxsfcontrolshape_setcontrol(wxSFControlShape * shape, wxWindow * ctrl, bool fit);
+	void bmx_wxsfcontrolshape_setcontrol(wxSFControlShape * shape, wxWindow * ctrl, int fit);
 	wxWindow * bmx_wxsfcontrolshape_getcontrol(wxSFControlShape * shape);
 	void bmx_wxsfcontrolshape_seteventprocessing(wxSFControlShape * shape, int mask);
 	int bmx_wxsfcontrolshape_geteventprocessing(wxSFControlShape * shape);

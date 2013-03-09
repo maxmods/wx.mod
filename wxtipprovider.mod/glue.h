@@ -36,7 +36,7 @@ extern "C" {
 	int bmx_wxtipprovider_getcurrenttip(wxTipProvider * tip);
 	void bmx_wxtipprovider_free(wxTipProvider * tip);
 	wxTipProvider * bmx_wxcreatefiletipprovider(BBString * filename, int currentTip);
-	bool bmx_wxshowtip(wxWindow * parent, wxTipProvider * tip, bool showAtStartup);
+	int bmx_wxshowtip(wxWindow * parent, wxTipProvider * tip, int showAtStartup);
 
 }
 

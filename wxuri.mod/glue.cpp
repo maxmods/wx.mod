@@ -88,36 +88,36 @@ BBString * bmx_wxuri_getuserinfo(wxURI * uri) {
 	return bbStringFromWxString(uri->GetUserInfo());
 }
 
-bool bmx_wxuri_hasfragment(wxURI * uri) {
-	return uri->HasFragment();
+int bmx_wxuri_hasfragment(wxURI * uri) {
+	return static_cast<int>(uri->HasFragment());
 }
 
-bool bmx_wxuri_haspath(wxURI * uri) {
-	return uri->HasPath();
+int bmx_wxuri_haspath(wxURI * uri) {
+	return static_cast<int>(uri->HasPath());
 }
 
-bool bmx_wxuri_hasport(wxURI * uri) {
-	return uri->HasPort();
+int bmx_wxuri_hasport(wxURI * uri) {
+	return static_cast<int>(uri->HasPort());
 }
 
-bool bmx_wxuri_hasquery(wxURI * uri) {
-	return uri->HasQuery();
+int bmx_wxuri_hasquery(wxURI * uri) {
+	return static_cast<int>(uri->HasQuery());
 }
 
-bool bmx_wxuri_hasscheme(wxURI * uri) {
-	return uri->HasScheme();
+int bmx_wxuri_hasscheme(wxURI * uri) {
+	return static_cast<int>(uri->HasScheme());
 }
 
-bool bmx_wxuri_hasserver(wxURI * uri) {
-	return uri->HasServer();
+int bmx_wxuri_hasserver(wxURI * uri) {
+	return static_cast<int>(uri->HasServer());
 }
 
-bool bmx_wxuri_isreference(wxURI * uri) {
-	return uri->IsReference();
+int bmx_wxuri_isreference(wxURI * uri) {
+	return static_cast<int>(uri->IsReference());
 }
 
-bool bmx_wxuri_equals(wxURI * uri, wxURI * other) {
-	return *uri == *other;
+int bmx_wxuri_equals(wxURI * uri, wxURI * other) {
+	return static_cast<int>(*uri == *other);
 }
 
 void bmx_wxuri_resolve(wxURI * uri, wxURI * base, int flags) {

@@ -35,8 +35,8 @@ extern "C" {
 
 	MaxToggleButton * bmx_wxtogglebutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);
-	bool bmx_wxtogglebutton_getvalue(wxToggleButton * button);
-	void bmx_wxtogglebutton_setvalue(wxToggleButton * button, bool state);
+	int bmx_wxtogglebutton_getvalue(wxToggleButton * button);
+	void bmx_wxtogglebutton_setvalue(wxToggleButton * button, int state);
 
 	int bmx_wxtogglebutton_geteventtype(int type);
 	

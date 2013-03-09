@@ -31,8 +31,8 @@ extern "C" {
 
 	BBString * bmx_wxsystemtoptions_getoption(BBString * name);
 	int bmx_wxsystemtoptions_getoptionint(BBString * name);
-	bool bmx_wxsystemtoptions_hasoption(BBString * name);
-	bool bmx_wxsystemtoptions_isfalse(BBString * name);
+	int bmx_wxsystemtoptions_hasoption(BBString * name);
+	int bmx_wxsystemtoptions_isfalse(BBString * name);
 	void bmx_wxsystemtoptions_setoptionstring(BBString * name, BBString * option);
 	void bmx_wxsystemtoptions_setoption(BBString * name, int option);
 

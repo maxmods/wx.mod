@@ -26,15 +26,15 @@ extern "C" {
 
 #include <blitz.h>
 
-	bool bmx_wxmouseevent_altdown(wxMouseEvent & event);
-	bool bmx_wxmouseevent_button(wxMouseEvent & event, int but);
-	bool bmx_wxmouseevent_buttondclick(wxMouseEvent & event, int but);
-	bool bmx_wxmouseevent_buttondown(wxMouseEvent & event, int but);
-	bool bmx_wxmouseevent_buttonup(wxMouseEvent & event, int but);
-	bool bmx_wxmouseevent_cmddown(wxMouseEvent & event);
-	bool bmx_wxmouseevent_controldown(wxMouseEvent & event);
-	bool bmx_wxmouseevent_dragging(wxMouseEvent & event);
-	bool bmx_wxmouseevent_entering(wxMouseEvent & event);
+	int bmx_wxmouseevent_altdown(wxMouseEvent & event);
+	int bmx_wxmouseevent_button(wxMouseEvent & event, int but);
+	int bmx_wxmouseevent_buttondclick(wxMouseEvent & event, int but);
+	int bmx_wxmouseevent_buttondown(wxMouseEvent & event, int but);
+	int bmx_wxmouseevent_buttonup(wxMouseEvent & event, int but);
+	int bmx_wxmouseevent_cmddown(wxMouseEvent & event);
+	int bmx_wxmouseevent_controldown(wxMouseEvent & event);
+	int bmx_wxmouseevent_dragging(wxMouseEvent & event);
+	int bmx_wxmouseevent_entering(wxMouseEvent & event);
 	int bmx_wxmouseevent_getbutton(wxMouseEvent & event);
 	void bmx_wxmouseevent_getposition(wxMouseEvent & event, long * x, long * y);
 	int bmx_wxmouseevent_getlinesperaction(wxMouseEvent & event);
@@ -42,24 +42,24 @@ extern "C" {
 	int bmx_wxmouseevent_getwheeldelta(wxMouseEvent & event);
 	int bmx_wxmouseevent_getx(wxMouseEvent & event);
 	int bmx_wxmouseevent_gety(wxMouseEvent & event);
-	bool bmx_wxmouseevent_isbutton(wxMouseEvent & event);
-	bool bmx_wxmouseevent_ispagescroll(wxMouseEvent & event);
-	bool bmx_wxmouseevent_leaving(wxMouseEvent & event);
-	bool bmx_wxmouseevent_leftdclick(wxMouseEvent & event);
-	bool bmx_wxmouseevent_leftdown(wxMouseEvent & event);
-	bool bmx_wxmouseevent_leftisdown(wxMouseEvent & event);
-	bool bmx_wxmouseevent_leftup(wxMouseEvent & event);
-	bool bmx_wxmouseevent_metadown(wxMouseEvent & event);
-	bool bmx_wxmouseevent_middledclick(wxMouseEvent & event);
-	bool bmx_wxmouseevent_middledown(wxMouseEvent & event);
-	bool bmx_wxmouseevent_middleisdown(wxMouseEvent & event);
-	bool bmx_wxmouseevent_middleup(wxMouseEvent & event);
-	bool bmx_wxmouseevent_moving(wxMouseEvent & event);
-	bool bmx_wxmouseevent_rightdclick(wxMouseEvent & event);
-	bool bmx_wxmouseevent_rightdown(wxMouseEvent & event);
-	bool bmx_wxmouseevent_rightisdown(wxMouseEvent & event);
-	bool bmx_wxmouseevent_rightup(wxMouseEvent & event);
-	bool bmx_wxmouseevent_shiftdown(wxMouseEvent & event);
+	int bmx_wxmouseevent_isbutton(wxMouseEvent & event);
+	int bmx_wxmouseevent_ispagescroll(wxMouseEvent & event);
+	int bmx_wxmouseevent_leaving(wxMouseEvent & event);
+	int bmx_wxmouseevent_leftdclick(wxMouseEvent & event);
+	int bmx_wxmouseevent_leftdown(wxMouseEvent & event);
+	int bmx_wxmouseevent_leftisdown(wxMouseEvent & event);
+	int bmx_wxmouseevent_leftup(wxMouseEvent & event);
+	int bmx_wxmouseevent_metadown(wxMouseEvent & event);
+	int bmx_wxmouseevent_middledclick(wxMouseEvent & event);
+	int bmx_wxmouseevent_middledown(wxMouseEvent & event);
+	int bmx_wxmouseevent_middleisdown(wxMouseEvent & event);
+	int bmx_wxmouseevent_middleup(wxMouseEvent & event);
+	int bmx_wxmouseevent_moving(wxMouseEvent & event);
+	int bmx_wxmouseevent_rightdclick(wxMouseEvent & event);
+	int bmx_wxmouseevent_rightdown(wxMouseEvent & event);
+	int bmx_wxmouseevent_rightisdown(wxMouseEvent & event);
+	int bmx_wxmouseevent_rightup(wxMouseEvent & event);
+	int bmx_wxmouseevent_shiftdown(wxMouseEvent & event);
 	void bmx_wxmouseevent_getlogicalposition(wxMouseEvent & event, MaxDC * dc, int * x, int * y);
 
 }

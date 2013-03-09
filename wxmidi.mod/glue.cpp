@@ -193,16 +193,16 @@ BBString *bmx_wxmididevice_interfaceused(wxMidiDevice * device) {
 	return bbStringFromWxString(device->InterfaceUsed());
 }
 
-bool bmx_wxmididevice_isinputport(wxMidiDevice * device) {
-	return device->IsInputPort();
+int bmx_wxmididevice_isinputport(wxMidiDevice * device) {
+	return static_cast<int>(device->IsInputPort());
 }
 
-bool bmx_wxmididevice_isoutputport(wxMidiDevice * device) {
-	return device->IsOutputPort();
+int bmx_wxmididevice_isoutputport(wxMidiDevice * device) {
+	return static_cast<int>(device->IsOutputPort());
 }
 
-bool bmx_wxmididevice_hashosterror(wxMidiDevice * device) {
-	return device->HasHostError();
+int bmx_wxmididevice_hashosterror(wxMidiDevice * device) {
+	return static_cast<int>(device->HasHostError());
 }
 
 

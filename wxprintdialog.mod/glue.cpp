@@ -85,28 +85,28 @@ void bmx_wxprintdialogdata_delete(MaxPrintDialogData * data) {
 	delete data;
 }
 
-void bmx_wxprintdialogdata_enablehelp(MaxPrintDialogData * data, bool flag) {
-    data->Data().EnableHelp(flag);
+void bmx_wxprintdialogdata_enablehelp(MaxPrintDialogData * data, int flag) {
+    data->Data().EnableHelp(static_cast<bool>(flag));
 }
 
-void bmx_wxprintdialogdata_enablepagenumbers(MaxPrintDialogData * data, bool flag) {
-    data->Data().EnablePageNumbers(flag);
+void bmx_wxprintdialogdata_enablepagenumbers(MaxPrintDialogData * data, int flag) {
+    data->Data().EnablePageNumbers(static_cast<bool>(flag));
 }
 
-void bmx_wxprintdialogdata_enableprinttofile(MaxPrintDialogData * data, bool flag) {
-    data->Data().EnablePrintToFile(flag);
+void bmx_wxprintdialogdata_enableprinttofile(MaxPrintDialogData * data, int flag) {
+    data->Data().EnablePrintToFile(static_cast<bool>(flag));
 }
 
-void bmx_wxprintdialogdata_enableselection(MaxPrintDialogData * data, bool flag) {
-    data->Data().EnableSelection(flag);
+void bmx_wxprintdialogdata_enableselection(MaxPrintDialogData * data, int flag) {
+    data->Data().EnableSelection(static_cast<bool>(flag));
 }
 
-bool bmx_wxprintdialogdata_getallpages(MaxPrintDialogData * data) {
-    return data->Data().GetAllPages();
+int bmx_wxprintdialogdata_getallpages(MaxPrintDialogData * data) {
+    return static_cast<int>(data->Data().GetAllPages());
 }
 
-bool bmx_wxprintdialogdata_getcollate(MaxPrintDialogData * data) {
-    return data->Data().GetCollate();
+int bmx_wxprintdialogdata_getcollate(MaxPrintDialogData * data) {
+    return static_cast<int>(data->Data().GetCollate());
 }
 
 int bmx_wxprintdialogdata_getfrompage(MaxPrintDialogData * data) {
@@ -129,24 +129,24 @@ MaxPrintData * bmx_wxprintdialogdata_getprintdata(MaxPrintDialogData * data) {
     return new MaxPrintData(data->Data().GetPrintData());
 }
 
-bool bmx_wxprintdialogdata_getprinttofile(MaxPrintDialogData * data) {
-    return data->Data().GetPrintToFile();
+int bmx_wxprintdialogdata_getprinttofile(MaxPrintDialogData * data) {
+    return static_cast<int>(data->Data().GetPrintToFile());
 }
 
-bool bmx_wxprintdialogdata_getselection(MaxPrintDialogData * data) {
-    return data->Data().GetSelection();
+int bmx_wxprintdialogdata_getselection(MaxPrintDialogData * data) {
+    return static_cast<int>(data->Data().GetSelection());
 }
 
 int bmx_wxprintdialogdata_gettopage(MaxPrintDialogData * data) {
     return data->Data().GetToPage();
 }
 
-bool bmx_wxprintdialogdata_isok(MaxPrintDialogData * data) {
-    return data->Data().IsOk();
+int bmx_wxprintdialogdata_isok(MaxPrintDialogData * data) {
+    return static_cast<int>(data->Data().IsOk());
 }
 
-void bmx_wxprintdialogdata_setcollate(MaxPrintDialogData * data, bool flag) {
-    data->Data().SetCollate(flag);
+void bmx_wxprintdialogdata_setcollate(MaxPrintDialogData * data, int flag) {
+    data->Data().SetCollate(static_cast<bool>(flag));
 }
 
 void bmx_wxprintdialogdata_setfrompage(MaxPrintDialogData * data, int page) {
@@ -169,12 +169,12 @@ void bmx_wxprintdialogdata_setprintdata(MaxPrintDialogData * data, MaxPrintData 
     data->Data().SetPrintData(printdata->Data());
 }
 
-void bmx_wxprintdialogdata_setprinttofile(MaxPrintDialogData * data, bool flag) {
-    data->Data().SetPrintToFile(flag);
+void bmx_wxprintdialogdata_setprinttofile(MaxPrintDialogData * data, int flag) {
+    data->Data().SetPrintToFile(static_cast<bool>(flag));
 }
 
-void bmx_wxprintdialogdata_setselection(MaxPrintDialogData * data, bool flag) {
-    data->Data().SetSelection(flag);
+void bmx_wxprintdialogdata_setselection(MaxPrintDialogData * data, int flag) {
+    data->Data().SetSelection(static_cast<bool>(flag));
 }
 
 void bmx_wxprintdialogdata_settopage(MaxPrintDialogData * data, int page) {

@@ -35,8 +35,8 @@ extern "C" {
 	long bmx_wxlistview_getfirstselected(wxListView * list);
 	long bmx_wxlistview_getfocuseditem(wxListView * list);
 	long bmx_wxlistview_getnextselected(wxListView * list, long item);
-	bool bmx_wxlistview_isselected(wxListView * list, long index);
-	void bmx_wxlistview_selectitem(wxListView * list, long item, bool on);
+	int bmx_wxlistview_isselected(wxListView * list, long index);
+	void bmx_wxlistview_selectitem(wxListView * list, long item, int on);
 	void bmx_wxlistview_setcolumnimage(wxListView * list, int col, int image);
 
 }

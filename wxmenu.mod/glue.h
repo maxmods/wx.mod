@@ -45,11 +45,11 @@ extern "C" {
 	void bmx_wxmenu_free(wxMenu * menu);
 
 	wxMenuItem * bmx_wxmenu_appendsubmenu(wxMenu * menu, wxMenu * submenu, BBString * item, BBString * helpString);
-	void bmx_wxmenu_check(wxMenu * menu, int id, bool value);
+	void bmx_wxmenu_check(wxMenu * menu, int id, int value);
 	void bmx_wxmenu_delete(wxMenu * menu, int id);
 	void bmx_wxmenu_destroy(wxMenu * menu, int id);
 	void bmx_wxmenu_destroyitem(wxMenu * menu, wxMenuItem * item);
-	void bmx_wxmenu_enable(wxMenu * menu, int id, bool value);
+	void bmx_wxmenu_enable(wxMenu * menu, int id, int value);
 	int bmx_wxmenu_finditem(wxMenu * menu, BBString * itemString);
 	wxMenuItem * bmx_wxmenu_finditembyposition(wxMenu * menu, int pos);
 	BBString * bmx_wxmenu_gethelpstring(wxMenu * menu, int id);
@@ -61,8 +61,8 @@ extern "C" {
 	wxMenuItem * bmx_wxmenu_insertcheckitem(wxMenu * menu, int pos, int id, BBString * item, BBString * helpString);
 	wxMenuItem * bmx_wxmenu_insertradioitem(wxMenu * menu, int pos, int id, BBString * item, BBString * helpString);
 	wxMenuItem * bmx_wxmenu_insertseparator(wxMenu * menu, int pos);
-	bool bmx_wxmenu_ischecked(wxMenu * menu, int id);
-	bool bmx_wxmenu_isenabled(wxMenu * menu, int id);
+	int bmx_wxmenu_ischecked(wxMenu * menu, int id);
+	int bmx_wxmenu_isenabled(wxMenu * menu, int id);
 	wxMenuItem * bmx_wxmenu_prepend(wxMenu * menu, int id, BBString * item, BBString * helpString, wxItemKind kind);
 	wxMenuItem * bmx_wxmenu_prependcheckitem(wxMenu * menu, int id, BBString * item, BBString * helpString);
 	wxMenuItem * bmx_wxmenu_prependradioitem(wxMenu * menu, int id, BBString * item, BBString * helpString);
@@ -79,10 +79,10 @@ extern "C" {
 	wxMenuItem * bmx_wxmenuitem_create(wxMenu * parentMenu, int id, BBString * text, BBString * helpString,
 		wxItemKind kind, wxMenu * subMenu);
 	void bmx_wxmenuitem_delete(wxMenuItem * item);
-	void bmx_wxmenuitem_check(wxMenuItem * item, bool value);
-	void bmx_wxmenuitem_enable(wxMenuItem * item, bool value);
+	void bmx_wxmenuitem_check(wxMenuItem * item, int value);
+	void bmx_wxmenuitem_enable(wxMenuItem * item, int value);
 	MaxColour * bmx_wxmenuitem_getbackgroundcolour(wxMenuItem * item);
-	MaxBitmap * bmx_wxmenuitem_getbitmap(wxMenuItem * item, bool checked);
+	MaxBitmap * bmx_wxmenuitem_getbitmap(wxMenuItem * item, int checked);
 	MaxFont * bmx_wxmenuitem_getfont(wxMenuItem * item);
 	BBString * bmx_wxmenuitem_gethelp(wxMenuItem * item);
 	int bmx_wxmenuitem_getid(wxMenuItem * item);
@@ -94,11 +94,11 @@ extern "C" {
 	BBString * bmx_wxmenuitem_getitemlabel(wxMenuItem * item);
 	wxMenu * bmx_wxmenuitem_getsubmenu(wxMenuItem * item);
 	MaxColour * bmx_wxmenuitem_gettextcolour(wxMenuItem * item);
-	bool bmx_wxmenuitem_ischeckable(wxMenuItem * item);
-	bool bmx_wxmenuitem_ischecked(wxMenuItem * item);
-	bool bmx_wxmenuitem_isenabled(wxMenuItem * item);
-	bool bmx_wxmenuitem_isseparator(wxMenuItem * item);
-	bool bmx_wxmenuitem_issubmenu(wxMenuItem * item);
+	int bmx_wxmenuitem_ischeckable(wxMenuItem * item);
+	int bmx_wxmenuitem_ischecked(wxMenuItem * item);
+	int bmx_wxmenuitem_isenabled(wxMenuItem * item);
+	int bmx_wxmenuitem_isseparator(wxMenuItem * item);
+	int bmx_wxmenuitem_issubmenu(wxMenuItem * item);
 	void bmx_wxmenuitem_setbackgroundcolour(wxMenuItem * item, MaxColour * colour);
 	void bmx_wxmenuitem_setbitmap(wxMenuItem * item, MaxBitmap * bitmap);
 	void bmx_wxmenuitem_setbitmaps(wxMenuItem * item, MaxBitmap * checked, MaxBitmap * unchecked);
@@ -114,7 +114,7 @@ extern "C" {
 
 	wxMenu * bmx_wxmenuevent_getmenu(wxMenuEvent & event);
 	int bmx_wxmenuevent_getmenuid(wxMenuEvent & event);
-	bool bmx_wxmenuevent_ispopup(wxMenuEvent & event);
+	int bmx_wxmenuevent_ispopup(wxMenuEvent & event);
 
 	void bmx_wxmenu_addresourcehandler();
 

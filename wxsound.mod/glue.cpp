@@ -38,12 +38,12 @@ MaxSound::~MaxSound() {
 // *********************************************
 
 
-MaxSound * bmx_wxsound_create(BBObject * handle, BBString * fileName, bool isResource) {
-	return new MaxSound(handle, fileName, isResource);
+MaxSound * bmx_wxsound_create(BBObject * handle, BBString * fileName, int isResource) {
+	return new MaxSound(handle, fileName, static_cast<bool>(isResource));
 }
 
-bool bmx_wxsound_isok(wxSound * sound) {
-	return sound->IsOk();
+int bmx_wxsound_isok(wxSound * sound) {
+	return static_cast<int>(sound->IsOk());
 }
 
 /*
@@ -52,8 +52,8 @@ bool bmx_wxsound_isplaying(wxSound * sound) {
 }
 */
 
-bool bmx_wxsound_play(wxSound * sound, unsigned flags) {
-	return sound->Play(flags);
+int bmx_wxsound_play(wxSound * sound, unsigned flags) {
+	return static_cast<int>(sound->Play(flags));
 }
 
 void bmx_wxsound_stop(wxSound * sound) {

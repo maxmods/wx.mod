@@ -51,7 +51,7 @@ extern "C" {
 	MaxBitmap * bmx_wxpen_getstipple(MaxPen * pen);
 	int bmx_wxpen_getstyle(MaxPen * pen);
 	int bmx_wxpen_getwidth(MaxPen * pen);
-	bool bmx_wxpen_isok(MaxPen * pen);
+	int bmx_wxpen_isok(MaxPen * pen);
 	void bmx_wxpen_setcap(MaxPen * pen, wxPenCap style);
 	void bmx_wxpen_setcolour(MaxPen * pen, BBString * name);
 	void bmx_wxpen_setfromcolour(MaxPen * pen, MaxColour * colour);

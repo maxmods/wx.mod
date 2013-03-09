@@ -148,16 +148,16 @@ void bmx_wxsplitterwindow_initialize(wxSplitterWindow * splitter, wxWindow * win
 	splitter->Initialize(window);
 }
 
-bool bmx_wxsplitterwindow_issplit(wxSplitterWindow * splitter) {
-	return splitter->IsSplit();
+int bmx_wxsplitterwindow_issplit(wxSplitterWindow * splitter) {
+	return static_cast<int>(splitter->IsSplit());
 }
 
 void bmx_wxsplitterwindow_setsashgravity(wxSplitterWindow * splitter, double gravity) {
 	splitter->SetSashGravity(gravity);
 }
 
-void bmx_wxsplitterwindow_setsashposition(wxSplitterWindow * splitter, int position, bool redraw) {
-	splitter->SetSashPosition(position, redraw);
+void bmx_wxsplitterwindow_setsashposition(wxSplitterWindow * splitter, int position, int redraw) {
+	splitter->SetSashPosition(position, static_cast<bool>(redraw));
 }
 
 void bmx_wxsplitterwindow_setsashsize(wxSplitterWindow * splitter, int size) {
@@ -172,12 +172,12 @@ void bmx_wxsplitterwindow_setsplitmode(wxSplitterWindow * splitter, int mode) {
 	splitter->SetSplitMode(mode);
 }
 
-bool bmx_wxsplitterwindow_splithorizontally(wxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition) {
-	return splitter->SplitHorizontally(window1, window2, sashPosition);
+int bmx_wxsplitterwindow_splithorizontally(wxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition) {
+	return static_cast<int>(splitter->SplitHorizontally(window1, window2, sashPosition));
 }
 
-bool bmx_wxsplitterwindow_splitvertically(wxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition) {
-	return splitter->SplitVertically(window1, window2, sashPosition);
+int bmx_wxsplitterwindow_splitvertically(wxSplitterWindow * splitter, wxWindow * window1, wxWindow * window2, int sashPosition) {
+	return static_cast<int>(splitter->SplitVertically(window1, window2, sashPosition));
 }
 
 void bmx_wxsplitterwindow_updatesize(wxSplitterWindow * splitter) {
@@ -192,15 +192,15 @@ wxWindow * bmx_wxsplitterwindow_getwindow2(wxSplitterWindow * splitter) {
 	return splitter->GetWindow2();
 }
 
-bool bmx_wxsplitterwindow_replacewindow(wxSplitterWindow * splitter, wxWindow * oldwin, wxWindow * newwin) {
-	return splitter->ReplaceWindow(oldwin, newwin);
+int bmx_wxsplitterwindow_replacewindow(wxSplitterWindow * splitter, wxWindow * oldwin, wxWindow * newwin) {
+	return static_cast<int>(splitter->ReplaceWindow(oldwin, newwin));
 }
 
-bool bmx_wxsplitterwindow_unsplit(wxSplitterWindow * splitter, wxWindow * rep) {
+int bmx_wxsplitterwindow_unsplit(wxSplitterWindow * splitter, wxWindow * rep) {
 	if (rep) {
-		return splitter->Unsplit(rep);
+		return static_cast<int>(splitter->Unsplit(rep));
 	} else {
-		return splitter->Unsplit();
+		return static_cast<int>(splitter->Unsplit());
 	}
 }
 

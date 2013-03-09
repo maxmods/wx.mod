@@ -28,10 +28,10 @@ class MaxSound;
 extern "C" {
 
 #include <blitz.h>
-	MaxSound * bmx_wxsound_create(BBObject * handle, BBString * fileName, bool isResource);
-	bool bmx_wxsound_isok(wxSound * sound);
+	MaxSound * bmx_wxsound_create(BBObject * handle, BBString * fileName, int isResource);
+	int bmx_wxsound_isok(wxSound * sound);
 	// bool bmx_wxsound_isplaying(wxSound * sound);
-	bool bmx_wxsound_play(wxSound * sound, unsigned flags);
+	int bmx_wxsound_play(wxSound * sound, unsigned flags);
 	void bmx_wxsound_stop(wxSound * sound);
 	void bmx_wxsound_free(wxSound * sound);
 }

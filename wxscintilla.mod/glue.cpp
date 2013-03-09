@@ -65,8 +65,8 @@ void bmx_wxscintilla_stylesetfontfont(wxScintilla * sc, int style, MaxFont * fon
 	sc->StyleSetFont(style, font->Font());
 }
 
-void bmx_wxscintilla_stylesetfontattr(wxScintilla * sc, int style, int size, BBString * faceName, bool bold, bool italic, bool underline, wxFontEncoding encoding) {
-	sc->StyleSetFontAttr(style, size, wxStringFromBBString(faceName), bold, italic, underline, encoding);
+void bmx_wxscintilla_stylesetfontattr(wxScintilla * sc, int style, int size, BBString * faceName, int bold, int italic, int underline, wxFontEncoding encoding) {
+	sc->StyleSetFontAttr(style, size, wxStringFromBBString(faceName), static_cast<bool>(bold), static_cast<bool>(italic), static_cast<bool>(underline), encoding);
 }
 
 void bmx_wxscintilla_stylesetfontencoding(wxScintilla * sc, int style, wxFontEncoding encoding) {
@@ -107,28 +107,28 @@ void bmx_wxscintilla_sethscrollbar(wxScintilla * sc, wxScrollBar * bar) {
 	sc->SetHScrollBar(bar);
 }
 
-bool bmx_wxscintilla_getlastkeydownprocessed(wxScintilla * sc) {
-	return sc->GetLastKeydownProcessed();
+int bmx_wxscintilla_getlastkeydownprocessed(wxScintilla * sc) {
+	return static_cast<int>(sc->GetLastKeydownProcessed());
 }
 
-void bmx_wxscintilla_setlastkeydownprocessed(wxScintilla * sc, bool val) {
-	sc->SetLastKeydownProcessed(val);
+void bmx_wxscintilla_setlastkeydownprocessed(wxScintilla * sc, int val) {
+	sc->SetLastKeydownProcessed(static_cast<bool>(val));
 }
 
-bool bmx_wxscintilla_savefile(wxScintilla * sc, BBString * filename) {
-	return sc->SaveFile(wxStringFromBBString(filename));
+int bmx_wxscintilla_savefile(wxScintilla * sc, BBString * filename) {
+	return static_cast<int>(sc->SaveFile(wxStringFromBBString(filename)));
 }
 
-bool bmx_wxscintilla_loadfile(wxScintilla * sc, BBString * filename) {
-	return sc->LoadFile(wxStringFromBBString(filename));
+int bmx_wxscintilla_loadfile(wxScintilla * sc, BBString * filename) {
+	return static_cast<int>(sc->LoadFile(wxStringFromBBString(filename)));
 }
 
-void bmx_wxscintilla_setuseantialiasing(wxScintilla * sc, bool useAA) {
-	sc->SetUseAntiAliasing(useAA);
+void bmx_wxscintilla_setuseantialiasing(wxScintilla * sc, int useAA) {
+	sc->SetUseAntiAliasing(static_cast<bool>(useAA));
 }
 
-bool bmx_wxscintilla_getuseantialiasing(wxScintilla * sc) {
-	return sc->GetUseAntiAliasing();
+int bmx_wxscintilla_getuseantialiasing(wxScintilla * sc) {
+	return static_cast<int>(sc->GetUseAntiAliasing());
 }
 
 
@@ -2518,20 +2518,20 @@ BBString * bmx_wxscintillaevent_getdragtext(wxScintillaEvent & event) {
 	return bbStringFromWxString(event.GetDragText());
 }
 
-bool bmx_wxscintillaevent_getdragallowmove(wxScintillaEvent & event) {
-	return event.GetDragAllowMove();
+int bmx_wxscintillaevent_getdragallowmove(wxScintillaEvent & event) {
+	return static_cast<int>(event.GetDragAllowMove());
 }
 
-bool bmx_wxscintillaevent_getshift(wxScintillaEvent & event) {
-	return event.GetShift();
+int bmx_wxscintillaevent_getshift(wxScintillaEvent & event) {
+	return static_cast<int>(event.GetShift());
 }
 
-bool bmx_wxscintillaevent_getcontrol(wxScintillaEvent & event) {
-	return event.GetControl();
+int bmx_wxscintillaevent_getcontrol(wxScintillaEvent & event) {
+	return static_cast<int>(event.GetControl());
 }
 
-bool bmx_wxscintillaevent_getalt(wxScintillaEvent & event) {
-	return event.GetAlt();
+int bmx_wxscintillaevent_getalt(wxScintillaEvent & event) {
+	return static_cast<int>(event.GetAlt());
 }
 
 

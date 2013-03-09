@@ -36,12 +36,12 @@ int bmx_wxsystemtoptions_getoptionint(BBString * name) {
 	return wxSystemOptions::GetOptionInt(wxStringFromBBString(name));
 }
 
-bool bmx_wxsystemtoptions_hasoption(BBString * name) {
-	return wxSystemOptions::HasOption(wxStringFromBBString(name));
+int bmx_wxsystemtoptions_hasoption(BBString * name) {
+	return static_cast<int>(wxSystemOptions::HasOption(wxStringFromBBString(name)));
 }
 
-bool bmx_wxsystemtoptions_isfalse(BBString * name) {
-	return wxSystemOptions::IsFalse(wxStringFromBBString(name));
+int bmx_wxsystemtoptions_isfalse(BBString * name) {
+	return static_cast<int>(wxSystemOptions::IsFalse(wxStringFromBBString(name)));
 }
 
 void bmx_wxsystemtoptions_setoptionstring(BBString * name, BBString * option) {

@@ -60,16 +60,16 @@ void bmx_wxprintdata_delete(MaxPrintData * data) {
 	delete data;
 }
 
-bool bmx_wxprintdata_getcollate(MaxPrintData * data) {
-    return data->Data().GetCollate();
+int bmx_wxprintdata_getcollate(MaxPrintData * data) {
+    return static_cast<int>(data->Data().GetCollate());
 }
 
 wxPrintBin bmx_wxprintdata_getbin(MaxPrintData * data) {
     return data->Data().GetBin();
 }
 
-bool bmx_wxprintdata_getcolour(MaxPrintData * data) {
-    return data->Data().GetColour();
+int bmx_wxprintdata_getcolour(MaxPrintData * data) {
+    return static_cast<int>(data->Data().GetColour());
 }
 
 wxDuplexMode bmx_wxprintdata_getduplex(MaxPrintData * data) {
@@ -96,20 +96,20 @@ wxPrintQuality bmx_wxprintdata_getquality(MaxPrintData * data) {
     return data->Data().GetQuality();
 }
 
-bool bmx_wxprintdata_getisok(MaxPrintData * data) {
-    return data->Data().IsOk();
+int bmx_wxprintdata_getisok(MaxPrintData * data) {
+    return static_cast<int>(data->Data().IsOk());
 }
 
 void bmx_wxprintdata_setbin(MaxPrintData * data, wxPrintBin flag) {
     data->Data().SetBin(flag);
 }
 
-void bmx_wxprintdata_setcollate(MaxPrintData * data, bool flag) {
-    data->Data().SetCollate(flag);
+void bmx_wxprintdata_setcollate(MaxPrintData * data, int flag) {
+    data->Data().SetCollate(static_cast<bool>(flag));
 }
 
-void bmx_wxprintdata_setcolour(MaxPrintData * data, bool flag) {
-    data->Data().SetColour(flag);
+void bmx_wxprintdata_setcolour(MaxPrintData * data, int flag) {
+    data->Data().SetColour(static_cast<bool>(flag));
 }
 
 void bmx_wxprintdata_setduplex(MaxPrintData * data, wxDuplexMode mode) {

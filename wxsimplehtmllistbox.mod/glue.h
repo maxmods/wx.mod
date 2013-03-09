@@ -43,7 +43,7 @@ extern "C" {
 	void bmx_wxsimplehtmllistbox_deleteitem(wxSimpleHtmlListBox * listbox, int item);
 	int bmx_wxsimplehtmllistbox_getselection(wxSimpleHtmlListBox * listbox);
 	int bmx_wxsimplehtmllistbox_getcount(wxSimpleHtmlListBox * listbox);
-	bool bmx_wxsimplehtmllistbox_isempty(wxSimpleHtmlListBox * listbox);
+	int bmx_wxsimplehtmllistbox_isempty(wxSimpleHtmlListBox * listbox);
 	void bmx_wxsimplehtmllistbox_selectitem(wxSimpleHtmlListBox * listbox, int item);
 	int bmx_wxsimplehtmllistbox_insert(wxSimpleHtmlListBox * listbox, BBString * item, int pos, BBObject * clientData);
 	BBString * bmx_wxsimplehtmllistbox_getstring(wxSimpleHtmlListBox * listbox, int item);

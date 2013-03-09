@@ -102,12 +102,12 @@ void bmx_wxgenericdirctrl_collapsetree(wxGenericDirCtrl * dir) {
 	dir->CollapseTree();
 }
 
-bool bmx_wxgenericdirctrl_expandpath(wxGenericDirCtrl * dir, BBString * path) {
-	return dir->ExpandPath(wxStringFromBBString(path));
+int bmx_wxgenericdirctrl_expandpath(wxGenericDirCtrl * dir, BBString * path) {
+	return static_cast<int>(dir->ExpandPath(wxStringFromBBString(path)));
 }
 
-bool bmx_wxgenericdirctrl_collapsepath(wxGenericDirCtrl * dir, BBString * path) {
-	return dir->CollapsePath(wxStringFromBBString(path));
+int bmx_wxgenericdirctrl_collapsepath(wxGenericDirCtrl * dir, BBString * path) {
+	return static_cast<int>(dir->CollapsePath(wxStringFromBBString(path)));
 }
 
 BBString * bmx_wxgenericdirctrl_getdefaultpath(wxGenericDirCtrl * dir) {
@@ -158,8 +158,8 @@ void bmx_wxgenericdirctrl_setpath(wxGenericDirCtrl * dir, BBString * path) {
 	dir->SetPath(wxStringFromBBString(path));
 }
 
-void bmx_wxgenericdirctrl_showhidden(wxGenericDirCtrl * dir, bool show) {
-	dir->ShowHidden(show);
+void bmx_wxgenericdirctrl_showhidden(wxGenericDirCtrl * dir, int show) {
+	dir->ShowHidden(static_cast<bool>(show));
 }
 
 // *********************************************

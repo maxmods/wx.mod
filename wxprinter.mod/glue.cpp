@@ -43,16 +43,16 @@ void bmx_wxprinter_createabortwindow(wxPrinter * printer, wxWindow * parent, wxP
 	printer->CreateAbortWindow(parent, printout);
 }
 
-bool bmx_wxprinter_getabort(wxPrinter * printer) {
-	return printer->GetAbort();
+int bmx_wxprinter_getabort(wxPrinter * printer) {
+	return static_cast<int>(printer->GetAbort());
 }
 
 wxPrinterError bmx_wxprinter_getlasterror() {
 	return wxPrinter::GetLastError();
 }
 
-bool bmx_wxprinter_print(wxPrinter * printer, wxWindow * parent, wxPrintout * printout, bool prompt) {
-	return printer->Print(parent, printout, prompt);
+int bmx_wxprinter_print(wxPrinter * printer, wxWindow * parent, wxPrintout * printout, int prompt) {
+	return static_cast<int>(printer->Print(parent, printout, static_cast<bool>(prompt)));
 }
 
 MaxPrintDialogData * bmx_wxprinter_getprintdialogdata(wxPrinter * printer) {

@@ -81,12 +81,12 @@ long bmx_wxlistview_getnextselected(wxListView * list, long item) {
 	return list->GetNextSelected(item);
 }
 
-bool bmx_wxlistview_isselected(wxListView * list, long index) {
-	return list->IsSelected(index);
+int bmx_wxlistview_isselected(wxListView * list, long index) {
+	return static_cast<int>(list->IsSelected(index));
 }
 
-void bmx_wxlistview_selectitem(wxListView * list, long item, bool on) {
-	list->Select(item, on);
+void bmx_wxlistview_selectitem(wxListView * list, long item, int on) {
+	list->Select(item, static_cast<bool>(on));
 }
 
 void bmx_wxlistview_setcolumnimage(wxListView * list, int col, int image) {

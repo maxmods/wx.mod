@@ -111,8 +111,8 @@ int bmx_wxgauge_getvalue(wxGauge * gauge) {
 	return gauge->GetValue();
 }
 
-bool bmx_wxgauge_isvertical(wxGauge * gauge) {
-	return gauge->IsVertical();
+int bmx_wxgauge_isvertical(wxGauge * gauge) {
+	return static_cast<int>(gauge->IsVertical());
 }
 
 void bmx_wxgauge_setbezelface(wxGauge * gauge, int width) {

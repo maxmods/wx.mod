@@ -35,11 +35,11 @@ MaxPrintPreview::~MaxPrintPreview() {
 }
 
 bool MaxPrintPreview::PaintPage(wxPreviewCanvas *canvas, wxDC & dc) {
-	_wx_wxprintpreview_wxPrintPreview__PaintPage(maxHandle, canvas, new MaxDC(dc));
+	return static_cast<bool>(_wx_wxprintpreview_wxPrintPreview__PaintPage(maxHandle, canvas, new MaxDC(dc)));
 }
 
 bool MaxPrintPreview::PaintPage_default(wxPreviewCanvas *canvas, MaxDC * dc) {
-	wxPrintPreview::PaintPage(canvas, *dc->GetDC());
+	return wxPrintPreview::PaintPage(canvas, *dc->GetDC());
 }
 
 // *********************************************
@@ -92,20 +92,20 @@ wxPrintout * bmx_wxprintpreview_getprintoutforprinting(wxPrintPreview * preview)
     return preview->GetPrintoutForPrinting();
 }
 
-bool bmx_wxprintpreview_isok(wxPrintPreview * preview) {
-    return preview->IsOk();
+int bmx_wxprintpreview_isok(wxPrintPreview * preview) {
+    return static_cast<int>(preview->IsOk());
 }
 
-bool bmx_wxprintpreview_paintpage(wxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc) {
-    return preview->PaintPage(canvas, *dc->GetDC());
+int bmx_wxprintpreview_paintpage(wxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc) {
+    return static_cast<int>(preview->PaintPage(canvas, *dc->GetDC()));
 }
 
-bool bmx_wxprintpreview_paintpage_default(MaxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc) {
-    return preview->PaintPage_default(canvas, dc);
+int bmx_wxprintpreview_paintpage_default(MaxPrintPreview * preview, wxPreviewCanvas * canvas, MaxDC * dc) {
+    return static_cast<int>(preview->PaintPage_default(canvas, dc));
 }
 
-bool bmx_wxprintpreview_print(wxPrintPreview * preview, bool prompt) {
-    return preview->Print(prompt);
+int bmx_wxprintpreview_print(wxPrintPreview * preview, int prompt) {
+    return static_cast<int>(preview->Print(static_cast<bool>(prompt)));
 }
 
 void bmx_wxprintpreview_setCanvas(wxPrintPreview * preview, wxPreviewCanvas * canvas) {

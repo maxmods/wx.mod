@@ -29,12 +29,12 @@
 // *********************************************
 
 
-bool bmx_wxplatforminfo_checkosversion(int major, int minor) {
-	return wxPlatformInfo::Get().CheckOSVersion(major, minor);
+int bmx_wxplatforminfo_checkosversion(int major, int minor) {
+	return static_cast<int>(wxPlatformInfo::Get().CheckOSVersion(major, minor));
 }
 
-bool bmx_wxplatforminfo_checktoolkitversion(int major, int minor) {
-	return wxPlatformInfo::Get().CheckToolkitVersion(major, minor);
+int bmx_wxplatforminfo_checktoolkitversion(int major, int minor) {
+	return static_cast<int>(wxPlatformInfo::Get().CheckToolkitVersion(major, minor));
 }
 
 wxArchitecture bmx_wxplatforminfo_getarch(BBString * arch) {

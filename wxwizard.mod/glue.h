@@ -44,9 +44,9 @@ extern "C" {
 	wxWizardPage * bmx_wxwizard_getcurrentpage(wxWizard * wizard);
 	wxSizer * bmx_wxwizard_getpageareasizer(wxWizard * wizard);
 	void bmx_wxwizard_getpagesize(wxWizard * wizard, int * w, int * h);
-	bool bmx_wxwizard_hasnextpage(wxWizard * wizard, wxWizardPage * page);
-	bool bmx_wxwizard_hasprevpage(wxWizard * wizard, wxWizardPage * page);
-	bool bmx_wxwizard_runwizard(wxWizard * wizard, wxWizardPage * firstPage);
+	int bmx_wxwizard_hasnextpage(wxWizard * wizard, wxWizardPage * page);
+	int bmx_wxwizard_hasprevpage(wxWizard * wizard, wxWizardPage * page);
+	int bmx_wxwizard_runwizard(wxWizard * wizard, wxWizardPage * firstPage);
 	void bmx_wxwizard_setborder(wxWizard * wizard, int border);
 
 	MaxWizardPage * bmx_wxwizardpage_create(BBObject * handle, wxWizard * parent, MaxBitmap * bitmap);
@@ -59,7 +59,7 @@ extern "C" {
 	void bmx_wxwizardpagesimple_setnext(wxWizardPageSimple * p, wxWizardPage * page);
 	void bmx_wxwizardpagesimple_chain(wxWizardPageSimple * first, wxWizardPageSimple * second);
 
-	bool bmx_wxwizardevent_getdirection(wxWizardEvent & event);
+	int bmx_wxwizardevent_getdirection(wxWizardEvent & event);
 	wxWizardPage * bmx_wxwizardevent_getpage(wxWizardEvent & event);
 
 	int bmx_wxwizard_geteventtype(int type);

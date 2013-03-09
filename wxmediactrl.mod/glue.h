@@ -35,16 +35,16 @@ extern "C" {
 	double bmx_wxmediactrl_getvolume(wxMediaCtrl * ctrl);
 	wxMediaState bmx_wxmediactrl_getstate(wxMediaCtrl * ctrl);
 	void bmx_wxmediactrl_length(wxMediaCtrl * ctrl, BBInt64 * value);
-	bool bmx_wxmediactrl_load(wxMediaCtrl * ctrl, BBString * filename);
-	bool bmx_wxmediactrl_loaduri(wxMediaCtrl * ctrl, BBString * uri);
-	bool bmx_wxmediactrl_loaduriwithproxy(wxMediaCtrl * ctrl, BBString * uri, BBString * proxy);
-	bool bmx_wxmediactrl_pause(wxMediaCtrl * ctrl);
-	bool bmx_wxmediactrl_play(wxMediaCtrl * ctrl);
+	int bmx_wxmediactrl_load(wxMediaCtrl * ctrl, BBString * filename);
+	int bmx_wxmediactrl_loaduri(wxMediaCtrl * ctrl, BBString * uri);
+	int bmx_wxmediactrl_loaduriwithproxy(wxMediaCtrl * ctrl, BBString * uri, BBString * proxy);
+	int bmx_wxmediactrl_pause(wxMediaCtrl * ctrl);
+	int bmx_wxmediactrl_play(wxMediaCtrl * ctrl);
 	void bmx_wxmediactrl_seek(wxMediaCtrl * ctrl, BBInt64 where, wxSeekMode mode, BBInt64 * value);
-	bool bmx_wxmediactrl_setplaybackrate(wxMediaCtrl * ctrl, double rate);
-	bool bmx_wxmediactrl_setvolume(wxMediaCtrl * ctrl, double volume);
-	bool bmx_wxmediactrl_showplayercontrols(wxMediaCtrl * ctrl, wxMediaCtrlPlayerControls flags);
-	bool bmx_wxmediactrl_stop(wxMediaCtrl * ctrl);
+	int bmx_wxmediactrl_setplaybackrate(wxMediaCtrl * ctrl, double rate);
+	int bmx_wxmediactrl_setvolume(wxMediaCtrl * ctrl, double volume);
+	int bmx_wxmediactrl_showplayercontrols(wxMediaCtrl * ctrl, wxMediaCtrlPlayerControls flags);
+	int bmx_wxmediactrl_stop(wxMediaCtrl * ctrl);
 	void bmx_wxmediactrl_tell(wxMediaCtrl * ctrl, BBInt64 * value);
 
 

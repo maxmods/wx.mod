@@ -31,13 +31,13 @@ extern "C" {
 #include <blitz.h>
 
 	wxHtmlHelpController * bmx_wxhtmlhelpcontroller_create(BBObject * handle, int style, wxWindow * parentWindow);
-	bool bmx_wxhtmlhelpcontroller_addbook(wxHtmlHelpController * cont, BBString * bookUrl, bool showWaitMsg);
-	bool bmx_wxhtmlhelpcontroller_addbookfile(wxHtmlHelpController * cont, MaxFileName * file, bool showWaitMsg);
+	int bmx_wxhtmlhelpcontroller_addbook(wxHtmlHelpController * cont, BBString * bookUrl, int showWaitMsg);
+	int bmx_wxhtmlhelpcontroller_addbookfile(wxHtmlHelpController * cont, MaxFileName * file, int showWaitMsg);
 	void bmx_wxhtmlhelpcontroller_display(wxHtmlHelpController * cont, BBString * x);
 	void bmx_wxhtmlhelpcontroller_displayid(wxHtmlHelpController * cont, int id);
 	void bmx_wxhtmlhelpcontroller_displaycontents(wxHtmlHelpController * cont);
 	void bmx_wxhtmlhelpcontroller_displayindex(wxHtmlHelpController * cont);
-	bool bmx_wxhtmlhelpcontroller_keywordsearch(wxHtmlHelpController * cont, BBString * keyword, wxHelpSearchMode mode);
+	int bmx_wxhtmlhelpcontroller_keywordsearch(wxHtmlHelpController * cont, BBString * keyword, wxHelpSearchMode mode);
 	void bmx_wxhtmlhelpcontroller_readcustomization(wxHtmlHelpController * cont, wxConfigBase * config, BBString * path);
 	void bmx_wxhtmlhelpcontroller_settempdir(wxHtmlHelpController * cont, BBString * path);
 	void bmx_wxhtmlhelpcontroller_settitleformat(wxHtmlHelpController * cont, BBString * format);

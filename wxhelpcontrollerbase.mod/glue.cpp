@@ -28,42 +28,42 @@
 
 // *********************************************
 
-bool bmx_wxhelpcontrollerbase_initialize(wxHelpControllerBase * controller, BBString * file) {
-	return controller->Initialize(wxStringFromBBString(file));
+int bmx_wxhelpcontrollerbase_initialize(wxHelpControllerBase * controller, BBString * file) {
+	return static_cast<int>(controller->Initialize(wxStringFromBBString(file)));
 }
 
 
-bool bmx_wxhelpcontrollerbase_displayBlock(wxHelpControllerBase * controller, long blockNo) {
-	return controller->DisplayBlock(blockNo);
+int bmx_wxhelpcontrollerbase_displayBlock(wxHelpControllerBase * controller, long blockNo) {
+	return static_cast<int>(controller->DisplayBlock(blockNo));
 }
 
-bool bmx_wxhelpcontrollerbase_displaycontextpopup(wxHelpControllerBase * controller, int contextId) {
-	return controller->DisplayContextPopup(contextId);
+int bmx_wxhelpcontrollerbase_displaycontextpopup(wxHelpControllerBase * controller, int contextId) {
+	return static_cast<int>(controller->DisplayContextPopup(contextId));
 }
 
-bool bmx_wxhelpcontrollerbase_displaysection(wxHelpControllerBase * controller, int sectionNo) {
-	return controller->DisplaySection(sectionNo);
+int bmx_wxhelpcontrollerbase_displaysection(wxHelpControllerBase * controller, int sectionNo) {
+	return static_cast<int>(controller->DisplaySection(sectionNo));
 }
 
-bool bmx_wxhelpcontrollerbase_displaysectionbyname(wxHelpControllerBase * controller, BBString * section) {
-	return controller->DisplaySection(wxStringFromBBString(section));
+int bmx_wxhelpcontrollerbase_displaysectionbyname(wxHelpControllerBase * controller, BBString * section) {
+	return static_cast<int>(controller->DisplaySection(wxStringFromBBString(section)));
 }
 
-bool bmx_wxhelpcontrollerbase_displaytextpopup(wxHelpControllerBase * controller, BBString * text, int x, int y) {
-	return controller->DisplayTextPopup(wxStringFromBBString(text), wxPoint(x, y));
+int bmx_wxhelpcontrollerbase_displaytextpopup(wxHelpControllerBase * controller, BBString * text, int x, int y) {
+	return static_cast<int>(controller->DisplayTextPopup(wxStringFromBBString(text), wxPoint(x, y)));
 }
 
 wxWindow * bmx_wxhelpcontrollerbase_getparentwindow(wxHelpControllerBase * controller) {
 	return controller->GetParentWindow();
 }
 
-bool bmx_wxhelpcontrollerbase_quit(wxHelpControllerBase * controller) {
-	return controller->Quit();
+int bmx_wxhelpcontrollerbase_quit(wxHelpControllerBase * controller) {
+	return static_cast<int>(controller->Quit());
 }
 
 
-bool bmx_wxhelpcontrollerbase_keywordsearch(wxHelpControllerBase * cont, BBString * keyword, wxHelpSearchMode mode) {
-	return cont->KeywordSearch(wxStringFromBBString(keyword), mode);
+int bmx_wxhelpcontrollerbase_keywordsearch(wxHelpControllerBase * cont, BBString * keyword, wxHelpSearchMode mode) {
+	return static_cast<int>(cont->KeywordSearch(wxStringFromBBString(keyword), mode));
 }
 
 void bmx_wxhelpcontrollerbase_displaycontents(wxHelpControllerBase * cont) {

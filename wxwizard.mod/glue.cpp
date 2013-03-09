@@ -196,16 +196,16 @@ void bmx_wxwizard_getpagesize(wxWizard * wizard, int * w, int * h) {
 	*h = s.y;
 }
 
-bool bmx_wxwizard_hasnextpage(wxWizard * wizard, wxWizardPage * page) {
-	return wizard->HasNextPage(page);
+int bmx_wxwizard_hasnextpage(wxWizard * wizard, wxWizardPage * page) {
+	return static_cast<int>(wizard->HasNextPage(page));
 }
 
-bool bmx_wxwizard_hasprevpage(wxWizard * wizard, wxWizardPage * page) {
-	return wizard->HasPrevPage(page);
+int bmx_wxwizard_hasprevpage(wxWizard * wizard, wxWizardPage * page) {
+	return static_cast<int>(wizard->HasPrevPage(page));
 }
 
-bool bmx_wxwizard_runwizard(wxWizard * wizard, wxWizardPage * firstPage) {
-	return wizard->RunWizard(firstPage);
+int bmx_wxwizard_runwizard(wxWizard * wizard, wxWizardPage * firstPage) {
+	return static_cast<int>(wizard->RunWizard(firstPage));
 }
 
 void bmx_wxwizard_setborder(wxWizard * wizard, int border) {
@@ -255,8 +255,8 @@ void bmx_wxwizardpagesimple_chain(wxWizardPageSimple * first, wxWizardPageSimple
 	wxWizardPageSimple::Chain(first, second);
 }
 
-bool bmx_wxwizardevent_getdirection(wxWizardEvent & event) {
-	return event.GetDirection();
+int bmx_wxwizardevent_getdirection(wxWizardEvent & event) {
+	return static_cast<int>(event.GetDirection());
 }
 
 wxWizardPage * bmx_wxwizardevent_getpage(wxWizardEvent & event) {

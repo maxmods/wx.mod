@@ -47,13 +47,13 @@ wxPasswordEntryDialog * bmx_wxpasswordentrydialog_create(BBObject * handle, wxWi
 
 
 BBString * bmx_wxgetpasswordfromuser(BBString * message, BBString * caption, BBString * defaultValue, wxWindow * parent,
-	int x, int y, bool centre) {
+	int x, int y, int centre) {
 
 	if (parent) {
 		return bbStringFromWxString(wxGetPasswordFromUser(wxStringFromBBString(message), wxStringFromBBString(caption), wxStringFromBBString(defaultValue), 
-			parent, x, y, centre));
+			parent, x, y, static_cast<bool>(centre)));
 	} else {
 		return bbStringFromWxString(wxGetPasswordFromUser(wxStringFromBBString(message), wxStringFromBBString(caption), wxStringFromBBString(defaultValue), 
-			NULL, x, y, centre));
+			NULL, x, y, static_cast<bool>(centre)));
 	}
 }

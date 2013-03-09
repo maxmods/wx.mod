@@ -52,17 +52,17 @@ int bmx_wxpalette_getpixel(MaxPalette * palette, int red, int green, int blue) {
 		static_cast<unsigned char>(green), static_cast<unsigned char>(blue));
 }
 
-bool bmx_wxpalette_getrgb(MaxPalette * palette, int pixel, int * red, int * green, int * blue) {
+int bmx_wxpalette_getrgb(MaxPalette * palette, int pixel, int * red, int * green, int * blue) {
 	unsigned char* r, *g, *b;
 	bool ret = palette->Palette().GetRGB(pixel, r, g, b);
 	*red = static_cast<int>(*r);
 	*green = static_cast<int>(*g);
 	*blue = static_cast<int>(*b);
-	return ret;
+	return static_cast<int>(ret);
 }
 
-bool bmx_wxpalette_isok(MaxPalette * palette) {
-	return palette->Palette().IsOk();
+int bmx_wxpalette_isok(MaxPalette * palette) {
+	return static_cast<int>(palette->Palette().IsOk());
 }
 
 void bmx_wxpalette_delete(MaxPalette * palette) {

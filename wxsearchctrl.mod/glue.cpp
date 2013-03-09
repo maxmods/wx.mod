@@ -91,20 +91,20 @@ wxMenu * bmx_wxsearchctrl_getmenu(wxSearchCtrl * search) {
 	return search->GetMenu();
 }
 
-void bmx_wxsearchctrl_showsearchbutton(wxSearchCtrl * search, bool show) {
-	search->ShowSearchButton(show);
+void bmx_wxsearchctrl_showsearchbutton(wxSearchCtrl * search, int show) {
+	search->ShowSearchButton(static_cast<bool>(show));
 }
 
-bool bmx_wxsearchctrl_issearchbuttonvisible(wxSearchCtrl * search) {
-	return search->IsSearchButtonVisible();
+int bmx_wxsearchctrl_issearchbuttonvisible(wxSearchCtrl * search) {
+	return static_cast<int>(search->IsSearchButtonVisible());
 }
 
-void  bmx_wxsearchctrl_showcancelbutton(wxSearchCtrl * search, bool show) {
-	search->ShowCancelButton(show);
+void  bmx_wxsearchctrl_showcancelbutton(wxSearchCtrl * search, int show) {
+	search->ShowCancelButton(static_cast<bool>(show));
 }
 
-bool bmx_wxsearchctrl_iscancelbuttonvisible(wxSearchCtrl * search) {
-	return search->IsCancelButtonVisible();
+int bmx_wxsearchctrl_iscancelbuttonvisible(wxSearchCtrl * search) {
+	return static_cast<int>(search->IsCancelButtonVisible());
 }
 
 int bmx_wxsearchctrl_geteventtype(int type) {
