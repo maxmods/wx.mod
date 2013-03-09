@@ -221,12 +221,12 @@ MaxWindow * bmx_wxwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindo
 // *********************************************
 
 
-int bmx_wxwindow_show(wxWindow * window, bool value) {
-	return static_cast<int>(window->Show(value));
+int bmx_wxwindow_show(wxWindow * window, int value) {
+	return static_cast<int>(window->Show(static_cast<bool>(value)));
 }
 
-int bmx_wxwindow_close(wxWindow * window, bool force) {
-	return static_cast<int>(window->Close(force));
+int bmx_wxwindow_close(wxWindow * window, int force) {
+	return static_cast<int>(window->Close(static_cast<bool>(force)));
 }
 
 void bmx_wxwindow_setsizer(wxWindow * window, wxSizer * sizer, int deleteOld) {

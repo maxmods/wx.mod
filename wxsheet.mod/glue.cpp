@@ -150,8 +150,8 @@ MaxSheet * bmx_wxsheet_create(BBObject * handle, wxWindow * parent, wxWindowID i
 	return new MaxSheet(handle, parent, id, x, y, w, h, style);
 }
 
-bool bmx_wxsheet_creategrid(wxSheet * sheet, int numRows, int numCols, int options) {
-	return sheet->CreateGrid(numRows, numCols, options);
+int bmx_wxsheet_creategrid(wxSheet * sheet, int numRows, int numCols, int options) {
+	return static_cast<int>(sheet->CreateGrid(numRows, numCols, options));
 }
 
 int bmx_wxsheet_getnumberrows(wxSheet * sheet) {
@@ -162,84 +162,84 @@ int bmx_wxsheet_getnumbercols(wxSheet * sheet) {
 	return sheet->GetNumberCols();
 }
 
-bool bmx_wxsheet_containscell(wxSheet * sheet, int row, int col) {
-	return sheet->ContainsCell(wxSheetCoords(row, col));
+int bmx_wxsheet_containscell(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->ContainsCell(wxSheetCoords(row, col)));
 }
 
-bool bmx_wxsheet_containsgridrow(wxSheet * sheet, int row) {
-	return sheet->ContainsGridRow(row);
+int bmx_wxsheet_containsgridrow(wxSheet * sheet, int row) {
+	return static_cast<int>(sheet->ContainsGridRow(row));
 }
 
-bool bmx_wxsheet_containsgridcol(wxSheet * sheet, int col) {
-	return sheet->ContainsGridCol(col);
+int bmx_wxsheet_containsgridcol(wxSheet * sheet, int col) {
+	return static_cast<int>(sheet->ContainsGridCol(col));
 }
 
-bool bmx_wxsheet_containsgridcell(wxSheet * sheet, int row, int col) {
-	return sheet->ContainsGridCell(wxSheetCoords(row, col));
+int bmx_wxsheet_containsgridcell(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->ContainsGridCell(wxSheetCoords(row, col)));
 }
 
-bool bmx_wxsheet_containsrowlabelcell(wxSheet * sheet, int row, int col) {
-	return sheet->ContainsRowLabelCell(wxSheetCoords(row, col));
+int bmx_wxsheet_containsrowlabelcell(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->ContainsRowLabelCell(wxSheetCoords(row, col)));
 }
 
-bool bmx_wxsheet_containscollabelcell(wxSheet * sheet, int row, int col) {
-	return sheet->ContainsColLabelCell(wxSheetCoords(row, col));
+int bmx_wxsheet_containscollabelcell(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->ContainsColLabelCell(wxSheetCoords(row, col)));
 }
 
-bool bmx_wxsheet_isgridcell(wxSheet * sheet, int row, int col) {
-	return sheet->IsGridCell(wxSheetCoords(row, col));
+int bmx_wxsheet_isgridcell(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->IsGridCell(wxSheetCoords(row, col)));
 }
 
-bool bmx_wxsheet_islabelcell(wxSheet * sheet, int row, int col) {
-	return sheet->IsLabelCell(wxSheetCoords(row, col));
+int bmx_wxsheet_islabelcell(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->IsLabelCell(wxSheetCoords(row, col)));
 }
 
-bool bmx_wxsheet_isrowlabelcell(wxSheet * sheet, int row, int col) {
-	return sheet->IsRowLabelCell(wxSheetCoords(row, col));
+int bmx_wxsheet_isrowlabelcell(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->IsRowLabelCell(wxSheetCoords(row, col)));
 }
 
-bool bmx_wxsheet_iscollabelcell(wxSheet * sheet, int row, int col) {
-	return sheet->IsColLabelCell(wxSheetCoords(row, col));
+int bmx_wxsheet_iscollabelcell(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->IsColLabelCell(wxSheetCoords(row, col)));
 }
 
-bool bmx_wxsheet_iscornerlabelcell(wxSheet * sheet, int row, int col) {
-	return sheet->IsCornerLabelCell(wxSheetCoords(row, col));
+int bmx_wxsheet_iscornerlabelcell(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->IsCornerLabelCell(wxSheetCoords(row, col)));
 }
 
 void bmx_wxsheet_clearvalues(wxSheet * sheet, int update) {
 	sheet->ClearValues(update);
 }
 
-bool bmx_wxsheet_insertrows(wxSheet * sheet, int row, int numRows, int update) {
-	return sheet->InsertRows(row, numRows, update);
+int bmx_wxsheet_insertrows(wxSheet * sheet, int row, int numRows, int update) {
+	return static_cast<int>(sheet->InsertRows(row, numRows, update));
 }
 
-bool bmx_wxsheet_appendrows(wxSheet * sheet, int numRows, int update) {
-	return sheet->AppendRows(numRows, update);
+int bmx_wxsheet_appendrows(wxSheet * sheet, int numRows, int update) {
+	return static_cast<int>(sheet->AppendRows(numRows, update));
 }
 
-bool bmx_wxsheet_deleterows(wxSheet * sheet, int row, int numRows, int update) {
-	return sheet->DeleteRows(row, numRows, update);
+int bmx_wxsheet_deleterows(wxSheet * sheet, int row, int numRows, int update) {
+	return static_cast<int>(sheet->DeleteRows(row, numRows, update));
 }
 
-bool bmx_wxsheet_insertcols(wxSheet * sheet, int col, int numCols, int update) {
-	return sheet->InsertCols(col, numCols, update);
+int bmx_wxsheet_insertcols(wxSheet * sheet, int col, int numCols, int update) {
+	return static_cast<int>(sheet->InsertCols(col, numCols, update));
 }
 
-bool bmx_wxsheet_appendcols(wxSheet * sheet, int numCols, int update) {
-	return sheet->AppendCols(numCols, update);
+int bmx_wxsheet_appendcols(wxSheet * sheet, int numCols, int update) {
+	return static_cast<int>(sheet->AppendCols(numCols, update));
 }
 
-bool bmx_wxsheet_deletecols(wxSheet * sheet, int col, int numCols, int update) {
-	return sheet->DeleteCols(col, numCols, update);
+int bmx_wxsheet_deletecols(wxSheet * sheet, int col, int numCols, int update) {
+	return static_cast<int>(sheet->DeleteCols(col, numCols, update));
 }
 
-void bmx_wxsheet_setrowheight(wxSheet * sheet, int row, int height, bool ignoreMinSize) {
-	sheet->SetRowHeight(row, height, ignoreMinSize);
+void bmx_wxsheet_setrowheight(wxSheet * sheet, int row, int height, int ignoreMinSize) {
+	sheet->SetRowHeight(row, height, static_cast<bool>(ignoreMinSize));
 }
 
-void bmx_wxsheet_setcolwidth(wxSheet * sheet, int col, int width, bool ignoreMinSize) {
-	sheet->SetColWidth(col, width, ignoreMinSize);
+void bmx_wxsheet_setcolwidth(wxSheet * sheet, int col, int width, int ignoreMinSize) {
+	sheet->SetColWidth(col, width, static_cast<bool>(ignoreMinSize));
 }
 
 int bmx_wxsheet_getrowheight(wxSheet * sheet, int row) {
@@ -286,8 +286,8 @@ void bmx_wxsheet_setattreditor(wxSheet * sheet, int row, int col, MaxSheetCellEd
 	sheet->SetAttrEditor(wxSheetCoords(row, col), editor->Editor(), attrType);
 }
 
-void bmx_wxsheet_setattrreadonly(wxSheet * sheet, int row, int col, bool isReadOnly, wxSheetAttr_Type attrType) {
-	sheet->SetAttrReadOnly(wxSheetCoords(row, col), isReadOnly, attrType);
+void bmx_wxsheet_setattrreadonly(wxSheet * sheet, int row, int col, int isReadOnly, wxSheetAttr_Type attrType) {
+	sheet->SetAttrReadOnly(wxSheetCoords(row, col), static_cast<bool>(isReadOnly), attrType);
 }
 
 void bmx_wxsheet_setattrorientation(wxSheet * sheet, int row, int col, int orientation, wxSheetAttr_Type attrType) {
@@ -314,16 +314,16 @@ void bmx_wxsheet_setattrlevel(wxSheet * sheet, int row, int col, int level, wxSh
 	sheet->SetAttrLevel(wxSheetCoords(row, col), level, attrType);
 }
 
-void bmx_wxsheet_setattroverflow(wxSheet * sheet, int row, int col, bool allow, wxSheetAttr_Type attrType) {
-	sheet->SetAttrOverflow(wxSheetCoords(row, col), allow, attrType);
+void bmx_wxsheet_setattroverflow(wxSheet * sheet, int row, int col, int allow, wxSheetAttr_Type attrType) {
+	sheet->SetAttrOverflow(wxSheetCoords(row, col), static_cast<bool>(allow), attrType);
 }
 
-void bmx_wxsheet_setattroverflowmarker(wxSheet * sheet, int row, int col, bool drawMarker, wxSheetAttr_Type attrType) {
-	sheet->SetAttrOverflowMarker(wxSheetCoords(row, col), drawMarker, attrType);
+void bmx_wxsheet_setattroverflowmarker(wxSheet * sheet, int row, int col, int drawMarker, wxSheetAttr_Type attrType) {
+	sheet->SetAttrOverflowMarker(wxSheetCoords(row, col), static_cast<bool>(drawMarker), attrType);
 }
 
-void bmx_wxsheet_setattrshoweditor(wxSheet * sheet, int row, int col, bool showEditor, wxSheetAttr_Type attrType) {
-	sheet->SetAttrShowEditor(wxSheetCoords(row, col), showEditor, attrType);
+void bmx_wxsheet_setattrshoweditor(wxSheet * sheet, int row, int col, int showEditor, wxSheetAttr_Type attrType) {
+	sheet->SetAttrShowEditor(wxSheetCoords(row, col), static_cast<bool>(showEditor), attrType);
 }
 
 MaxColour * bmx_wxsheet_getattrbackgroundcolour(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
@@ -353,20 +353,20 @@ int bmx_wxsheet_getattrlevel(wxSheet * sheet, int row, int col, wxSheetAttr_Type
 	return sheet->GetAttrLevel(wxSheetCoords(row, col), attrType);
 }
 
-bool bmx_wxsheet_getattroverflow(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
-	return sheet->GetAttrOverflow(wxSheetCoords(row, col), attrType);
+int bmx_wxsheet_getattroverflow(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return static_cast<int>(sheet->GetAttrOverflow(wxSheetCoords(row, col), attrType));
 }
 
-bool bmx_wxsheet_getattroverflowmarker(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
-	return sheet->GetAttrOverflowMarker(wxSheetCoords(row, col), attrType);
+int bmx_wxsheet_getattroverflowmarker(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return static_cast<int>(sheet->GetAttrOverflowMarker(wxSheetCoords(row, col), attrType));
 }
 
-bool bmx_wxsheet_getattrshoweditor(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
-	return sheet->GetAttrShowEditor(wxSheetCoords(row, col), attrType);
+int bmx_wxsheet_getattrshoweditor(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return static_cast<int>(sheet->GetAttrShowEditor(wxSheetCoords(row, col), attrType));
 }
 
-bool bmx_wxsheet_getattrreadonly(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
-	return sheet->GetAttrReadOnly(wxSheetCoords(row, col), attrType);
+int bmx_wxsheet_getattrreadonly(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
+	return static_cast<int>(sheet->GetAttrReadOnly(wxSheetCoords(row, col), attrType));
 }
 
 MaxSheetCellRenderer * bmx_wxsheet_getattrrenderer(wxSheet * sheet, int row, int col, wxSheetAttr_Type attrType) {
@@ -393,16 +393,16 @@ void bmx_wxsheet_setcolformatcustom(wxSheet * sheet, int col, BBString * typeNam
 	sheet->SetColFormatCustom(col, wxStringFromBBString(typeName));
 }
 
-bool bmx_wxsheet_iscellvisible(wxSheet * sheet, int row, int col, bool wholeCellVisible) {
-	return sheet->IsCellVisible(wxSheetCoords(row, col), wholeCellVisible);
+int bmx_wxsheet_iscellvisible(wxSheet * sheet, int row, int col, int wholeCellVisible) {
+	return static_cast<int>(sheet->IsCellVisible(wxSheetCoords(row, col), static_cast<bool>(wholeCellVisible)));
 }
 
-bool bmx_wxsheet_isrowvisible(wxSheet * sheet, int row, bool wholeRowVisible) {
-	return sheet->IsRowVisible(row, wholeRowVisible);
+int bmx_wxsheet_isrowvisible(wxSheet * sheet, int row, int wholeRowVisible) {
+	return static_cast<int>(sheet->IsRowVisible(row, static_cast<bool>(wholeRowVisible)));
 }
 
-bool bmx_wxsheet_iscolvisible(wxSheet * sheet, int col, bool wholeColVisible) {
-	return sheet->IsColVisible(col, wholeColVisible);
+int bmx_wxsheet_iscolvisible(wxSheet * sheet, int col, int wholeColVisible) {
+	return static_cast<int>(sheet->IsColVisible(col, static_cast<bool>(wholeColVisible)));
 }
 
 void bmx_wxsheet_makecellvisible(wxSheet * sheet, int row, int col) {
@@ -467,8 +467,8 @@ void bmx_wxsheet_setgridcolattr(wxSheet * sheet, int col, MaxSheetCellAttr * att
 	sheet->SetGridColAttr(col, attr->Attr());
 }
 
-bool bmx_wxsheet_hasspannedcells(wxSheet * sheet) {
-	return sheet->HasSpannedCells();
+int bmx_wxsheet_hasspannedcells(wxSheet * sheet) {
+	return static_cast<int>(sheet->HasSpannedCells());
 }
 
 void bmx_wxsheet_getcellowner(wxSheet * sheet, int row, int col, int * ownerRow, int * ownerCol) {
@@ -566,8 +566,8 @@ void bmx_wxsheet_getcellsize(wxSheet * sheet, int row, int col, int * w, int * h
 	*h = s.y;
 }
 
-bool bmx_wxsheet_iscellshown(wxSheet * sheet, int row, int col) {
-	return sheet->IsCellShown(wxSheetCoords(row, col));
+int bmx_wxsheet_iscellshown(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->IsCellShown(wxSheetCoords(row, col)));
 }
 
 void bmx_wxsheet_setmargins(wxSheet * sheet, int width, int height) {
@@ -582,12 +582,12 @@ int bmx_wxsheet_getcolbestwidth(wxSheet * sheet, int col) {
 	return sheet->GetColBestWidth(col);
 }
 
-int bmx_wxsheet_getrowlabelwidth(wxSheet * sheet, bool zeroNotShown) {
-	return sheet->GetRowLabelWidth(zeroNotShown);
+int bmx_wxsheet_getrowlabelwidth(wxSheet * sheet, int zeroNotShown) {
+	return sheet->GetRowLabelWidth(static_cast<bool>(zeroNotShown));
 }
 
-int bmx_wxsheet_getcollabelheight(wxSheet * sheet, bool zeroNotShown) {
-	return sheet->GetColLabelHeight(zeroNotShown);
+int bmx_wxsheet_getcollabelheight(wxSheet * sheet, int zeroNotShown) {
+	return sheet->GetColLabelHeight(static_cast<bool>(zeroNotShown));
 }
 
 void bmx_wxsheet_setrowlabelwidth(wxSheet * sheet, int width) {
@@ -598,24 +598,24 @@ void bmx_wxsheet_setcollabelheight(wxSheet * sheet, int height) {
 	sheet->SetColLabelHeight(height);
 }
 
-int bmx_wxsheet_autosizerow(wxSheet * sheet, int row, bool setAsMin) {
-	return sheet->AutoSizeRow(row, setAsMin);
+int bmx_wxsheet_autosizerow(wxSheet * sheet, int row, int setAsMin) {
+	return sheet->AutoSizeRow(row, static_cast<bool>(setAsMin));
 }
 
-int bmx_wxsheet_autosizecol(wxSheet * sheet, int col, bool setAsMin) {
-	return sheet->AutoSizeCol(col, setAsMin);
+int bmx_wxsheet_autosizecol(wxSheet * sheet, int col, int setAsMin) {
+	return sheet->AutoSizeCol(col, static_cast<bool>(setAsMin));
 }
 
-void bmx_wxsheet_autosizerows(wxSheet * sheet, bool setAsMin) {
-	sheet->AutoSizeRows(setAsMin);
+void bmx_wxsheet_autosizerows(wxSheet * sheet, int setAsMin) {
+	sheet->AutoSizeRows(static_cast<bool>(setAsMin));
 }
 
-void bmx_wxsheet_autosizecols(wxSheet * sheet, bool setAsMin) {
-	sheet->AutoSizeCols(setAsMin);
+void bmx_wxsheet_autosizecols(wxSheet * sheet, int setAsMin) {
+	sheet->AutoSizeCols(static_cast<bool>(setAsMin));
 }
 
-void bmx_wxsheet_autosize(wxSheet * sheet, bool setAsMin) {
-	sheet->AutoSize(setAsMin);
+void bmx_wxsheet_autosize(wxSheet * sheet, int setAsMin) {
+	sheet->AutoSize(static_cast<bool>(setAsMin));
 }
 
 void bmx_wxsheet_autosizerowlabelheight(wxSheet * sheet, int row) {
@@ -666,16 +666,16 @@ void bmx_wxsheet_setareaeditable(wxSheet * sheet, int cellType) {
 	sheet->SetAreaEditable(cellType);
 }
 
-void bmx_wxsheet_enabledragrowsize(wxSheet * sheet, bool enable) {
-	sheet->EnableDragRowSize(enable);
+void bmx_wxsheet_enabledragrowsize(wxSheet * sheet, int enable) {
+	sheet->EnableDragRowSize(static_cast<bool>(enable));
 }
 
-void bmx_wxsheet_enabledragcolsize(wxSheet * sheet, bool enable) {
-	sheet->EnableDragColSize(enable);
+void bmx_wxsheet_enabledragcolsize(wxSheet * sheet, int enable) {
+	sheet->EnableDragColSize(static_cast<bool>(enable));
 }
 
-void bmx_wxsheet_enabledraggridsize(wxSheet * sheet, bool enable) {
-	sheet->EnableDragGridSize(enable);
+void bmx_wxsheet_enabledraggridsize(wxSheet * sheet, int enable) {
+	sheet->EnableDragGridSize(static_cast<bool>(enable));
 }
 
 void bmx_wxsheet_disabledragrowsize(wxSheet * sheet) {
@@ -690,16 +690,16 @@ void bmx_wxsheet_disabledraggridsize(wxSheet * sheet) {
 	sheet->DisableDragGridSize();
 }
 
-bool bmx_wxsheet_candragrowsize(wxSheet * sheet) {
-	return sheet->CanDragRowSize();
+int bmx_wxsheet_candragrowsize(wxSheet * sheet) {
+	return static_cast<int>(sheet->CanDragRowSize());
 }
 
-bool bmx_wxsheet_candragcolsize(wxSheet * sheet) {
-	return sheet->CanDragColSize();
+int bmx_wxsheet_candragcolsize(wxSheet * sheet) {
+	return static_cast<int>(sheet->CanDragColSize());
 }
 
-bool bmx_wxsheet_candraggridsize(wxSheet * sheet) {
-	return sheet->CanDragGridSize();
+int bmx_wxsheet_candraggridsize(wxSheet * sheet) {
+	return static_cast<int>(sheet->CanDragGridSize());
 }
 
 void bmx_wxsheet_enablegridlines(wxSheet * sheet, int dir) {
@@ -723,8 +723,8 @@ MaxSheetSelection * bmx_wxsheet_getselection(wxSheet * sheet) {
 	return new MaxSheetSelection(*sheet->GetSelection());
 }
 
-void bmx_wxsheet_adjustscrollbars(wxSheet * sheet, bool calcWinSizes) {
-	sheet->AdjustScrollbars(calcWinSizes);
+void bmx_wxsheet_adjustscrollbars(wxSheet * sheet, int calcWinSizes) {
+	sheet->AdjustScrollbars(static_cast<bool>(calcWinSizes));
 }
 
 int bmx_wxsheet_getscrollbarmode(wxSheet * sheet) {
@@ -751,8 +751,8 @@ int bmx_wxsheet_needshorizontalscrollbar(wxSheet * sheet) {
 	return sheet->NeedsHorizontalScrollBar();
 }
 
-void bmx_wxsheet_refreshcell(wxSheet * sheet, int row, int col, bool singleCell) {
-	sheet->RefreshCell(wxSheetCoords(row, col), singleCell);
+void bmx_wxsheet_refreshcell(wxSheet * sheet, int row, int col, int singleCell) {
+	sheet->RefreshCell(wxSheetCoords(row, col), static_cast<bool>(singleCell));
 }
 
 void bmx_wxsheet_refreshblock(wxSheet * sheet, MaxSheetBlock * block) {
@@ -775,36 +775,36 @@ void bmx_wxsheet_refreshattrchange(wxSheet * sheet, int row, int col, wxSheetAtt
 	sheet->RefreshAttrChange(wxSheetCoords(row, col), attrType);
 }
 
-void bmx_wxsheet_refreshsheet(wxSheet * sheet, bool eraseb, MaxRect * rect) {
+void bmx_wxsheet_refreshsheet(wxSheet * sheet, int eraseb, MaxRect * rect) {
 	if (rect) {
-		sheet->Refresh(eraseb, & rect->Rect());
+		sheet->Refresh(static_cast<bool>(eraseb), & rect->Rect());
 	} else {
-		sheet->Refresh(eraseb);
+		sheet->Refresh(static_cast<bool>(eraseb));
 	}
 }
 
-bool bmx_wxsheet_hasselection(wxSheet * sheet, bool selecting) {
-	return sheet->HasSelection(selecting);
+int bmx_wxsheet_hasselection(wxSheet * sheet, int selecting) {
+	return static_cast<int>(sheet->HasSelection(static_cast<bool>(selecting)));
 }
 
-bool bmx_wxsheet_iscellselected(wxSheet * sheet, int row, int col) {
-	return sheet->IsCellSelected(wxSheetCoords(row, col));
+int bmx_wxsheet_iscellselected(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->IsCellSelected(wxSheetCoords(row, col)));
 }
 
-bool bmx_wxsheet_isrowselected(wxSheet * sheet, int row) {
-	return sheet->IsRowSelected(row);
+int bmx_wxsheet_isrowselected(wxSheet * sheet, int row) {
+	return static_cast<int>(sheet->IsRowSelected(row));
 }
 
-bool bmx_wxsheet_iscolselected(wxSheet * sheet, int col) {
-	return sheet->IsColSelected(col);
+int bmx_wxsheet_iscolselected(wxSheet * sheet, int col) {
+	return static_cast<int>(sheet->IsColSelected(col));
 }
 
-bool bmx_wxsheet_isblockselected(wxSheet * sheet, MaxSheetBlock * block) {
-	return sheet->IsBlockSelected(block->Block());
+int bmx_wxsheet_isblockselected(wxSheet * sheet, MaxSheetBlock * block) {
+	return static_cast<int>(sheet->IsBlockSelected(block->Block()));
 }
 
-bool bmx_wxsheet_isselecting(wxSheet * sheet) {
-	return sheet->IsSelecting();
+int bmx_wxsheet_isselecting(wxSheet * sheet) {
+	return static_cast<int>(sheet->IsSelecting());
 }
 
 void bmx_wxsheet_setselectionmode(wxSheet * sheet, wxSheetSelectionMode_Type selmode) {
@@ -815,16 +815,16 @@ int bmx_wxsheet_getselectionmode(wxSheet * sheet) {
 	return sheet->GetSelectionMode();
 }
 
-bool bmx_wxsheet_hasselectionmode(wxSheet * sheet, int mode) {
-	return sheet->HasSelectionMode(mode);
+int bmx_wxsheet_hasselectionmode(wxSheet * sheet, int mode) {
+	return static_cast<int>(sheet->HasSelectionMode(mode));
 }
 
 void bmx_wxsheet_beginbatch(wxSheet * sheet) {
 	sheet->BeginBatch();
 }
 
-void bmx_wxsheet_endbatch(wxSheet * sheet, bool refresh) {
-	sheet->EndBatch(refresh);
+void bmx_wxsheet_endbatch(wxSheet * sheet, int refresh) {
+	sheet->EndBatch(static_cast<bool>(refresh));
 }
 
 int bmx_wxsheet_getbatchcount(wxSheet * sheet) {
@@ -839,72 +839,72 @@ MaxSheetBlock * bmx_wxsheet_fixselectionblock(wxSheet * sheet, MaxSheetBlock * b
 	return new MaxSheetBlock(sheet->FixSelectionBlock(block->Block(), selMode));
 }
 
-bool bmx_wxsheet_selectrow(wxSheet * sheet, int row, bool addToSelected, bool sendEvt) {
-	return sheet->SelectRow(row, addToSelected, sendEvt);
+int bmx_wxsheet_selectrow(wxSheet * sheet, int row, int addToSelected, int sendEvt) {
+	return static_cast<int>(sheet->SelectRow(row, static_cast<bool>(addToSelected), static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_selectrows(wxSheet * sheet, int rowTop, int rowBottom, bool addToSelected, bool sendEvt) {
-	return sheet->SelectRows(rowTop, rowBottom, addToSelected, sendEvt);
+int bmx_wxsheet_selectrows(wxSheet * sheet, int rowTop, int rowBottom, int addToSelected, int sendEvt) {
+	return static_cast<int>(sheet->SelectRows(rowTop, rowBottom, static_cast<bool>(addToSelected), static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_selectCol(wxSheet * sheet, int col, bool addToSelected, bool sendEvt) {
-	return sheet->SelectCol(col, addToSelected, sendEvt);
+int bmx_wxsheet_selectCol(wxSheet * sheet, int col, int addToSelected, int sendEvt) {
+	return static_cast<int>(sheet->SelectCol(col, static_cast<bool>(addToSelected), static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_selectcols(wxSheet * sheet, int colLeft, int colRight, bool addToSelected, bool sendEvt) {
-	return sheet->SelectCols(colLeft, colRight, addToSelected, sendEvt);
+int bmx_wxsheet_selectcols(wxSheet * sheet, int colLeft, int colRight, int addToSelected, int sendEvt) {
+	return static_cast<int>(sheet->SelectCols(colLeft, colRight, static_cast<bool>(addToSelected), static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_selectcell(wxSheet * sheet, int row, int col, bool addToSelected, bool sendEvt) {
-	return sheet->SelectCell(wxSheetCoords(row, col), addToSelected, sendEvt);
+int bmx_wxsheet_selectcell(wxSheet * sheet, int row, int col, int addToSelected, int sendEvt) {
+	return static_cast<int>(sheet->SelectCell(wxSheetCoords(row, col), static_cast<bool>(addToSelected), static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_selectblock(wxSheet * sheet, MaxSheetBlock * block, bool addToSelected, bool sendEvt) {
-	return sheet->SelectBlock(block->Block(), addToSelected, sendEvt);
+int bmx_wxsheet_selectblock(wxSheet * sheet, MaxSheetBlock * block, int addToSelected, int sendEvt) {
+	return static_cast<int>(sheet->SelectBlock(block->Block(), static_cast<bool>(addToSelected), static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_selectall(wxSheet * sheet, bool sendEvt) {
-	return sheet->SelectAll(sendEvt);
+int bmx_wxsheet_selectall(wxSheet * sheet, int sendEvt) {
+	return static_cast<int>(sheet->SelectAll(static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_deselectrow(wxSheet * sheet, int row, bool sendEvt) {
-	return sheet->DeselectRow(row, sendEvt);
+int bmx_wxsheet_deselectrow(wxSheet * sheet, int row, int sendEvt) {
+	return static_cast<int>(sheet->DeselectRow(row, static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_deselectrows(wxSheet * sheet, int rowTop, int rowBottom, bool sendEvt) {
-	return sheet->DeselectRows(rowTop, rowBottom, sendEvt);
+int bmx_wxsheet_deselectrows(wxSheet * sheet, int rowTop, int rowBottom, int sendEvt) {
+	return static_cast<int>(sheet->DeselectRows(rowTop, rowBottom, static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_deselectcol(wxSheet * sheet, int col, bool sendEvt) {
-	return sheet->DeselectCol(col, sendEvt);
+int bmx_wxsheet_deselectcol(wxSheet * sheet, int col, int sendEvt) {
+	return static_cast<int>(sheet->DeselectCol(col, static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_deselectcols(wxSheet * sheet, int colLeft, int colRight, bool sendEvt) {
-	return sheet->DeselectCols(colLeft, colRight, sendEvt);
+int bmx_wxsheet_deselectcols(wxSheet * sheet, int colLeft, int colRight, int sendEvt) {
+	return static_cast<int>(sheet->DeselectCols(colLeft, colRight, static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_deselectcell(wxSheet * sheet, int row, int col, bool sendEvt) {
-	return sheet->DeselectCell(wxSheetCoords(row, col), sendEvt);
+int bmx_wxsheet_deselectcell(wxSheet * sheet, int row, int col, int sendEvt) {
+	return static_cast<int>(sheet->DeselectCell(wxSheetCoords(row, col), static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_deselectblock(wxSheet * sheet, MaxSheetBlock * block, bool sendEvt) {
-	return sheet->DeselectBlock(block->Block(), sendEvt);
+int bmx_wxsheet_deselectblock(wxSheet * sheet, MaxSheetBlock * block, int sendEvt) {
+	return static_cast<int>(sheet->DeselectBlock(block->Block(), static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_clearselection(wxSheet * sheet, bool sendEvt) {
-	return sheet->ClearSelection(sendEvt);
+int bmx_wxsheet_clearselection(wxSheet * sheet, int sendEvt) {
+	return static_cast<int>(sheet->ClearSelection(static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_togglecellselection(wxSheet * sheet, int row, int col, bool addToSelected, bool sendEvt) {
-	return sheet->ToggleCellSelection(wxSheetCoords(row, col), addToSelected, sendEvt);
+int bmx_wxsheet_togglecellselection(wxSheet * sheet, int row, int col, int addToSelected, int sendEvt) {
+	return static_cast<int>(sheet->ToggleCellSelection(wxSheetCoords(row, col), static_cast<bool>(addToSelected), static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_togglerowselection(wxSheet * sheet, int row, bool addToSelected, bool sendEvt) {
-	return sheet->ToggleRowSelection(row, addToSelected, sendEvt);
+int bmx_wxsheet_togglerowselection(wxSheet * sheet, int row, int addToSelected, int sendEvt) {
+	return static_cast<int>(sheet->ToggleRowSelection(row, static_cast<bool>(addToSelected), static_cast<bool>(sendEvt)));
 }
 
-bool bmx_wxsheet_togglecolselection(wxSheet * sheet, int col, bool addToSelected, bool sendEvt) {
-	return sheet->ToggleColSelection(col, addToSelected, sendEvt);
+int bmx_wxsheet_togglecolselection(wxSheet * sheet, int col, int addToSelected, int sendEvt) {
+	return static_cast<int>(sheet->ToggleColSelection(col, static_cast<bool>(addToSelected), static_cast<bool>(sendEvt)));
 }
 
 MaxPen * bmx_wxsheet_getcursorcellhighlightpen(wxSheet * sheet) {
@@ -952,40 +952,40 @@ void bmx_wxsheet_setselectionforeground(wxSheet * sheet, MaxColour * colour) {
 	sheet->SetSelectionForeground(colour->Colour());
 }
 
-bool bmx_wxsheet_hasfocus(wxSheet * sheet) {
-	return sheet->HasFocus();
+int bmx_wxsheet_hasfocus(wxSheet * sheet) {
+	return static_cast<int>(sheet->HasFocus());
 }
 
-bool bmx_wxsheet_copycurrentselectiontoclipboard(wxSheet * sheet, bool copyCursor, BBString * colSep) {
-	return sheet->CopyCurrentSelectionToClipboard(copyCursor, wxStringFromBBString(colSep).GetChar(0));
+int bmx_wxsheet_copycurrentselectiontoclipboard(wxSheet * sheet, int copyCursor, BBString * colSep) {
+	return static_cast<int>(sheet->CopyCurrentSelectionToClipboard(static_cast<bool>(copyCursor), wxStringFromBBString(colSep).GetChar(0)));
 }
 
-bool bmx_wxsheet_copycurrentselectiontointernalselection(wxSheet * sheet, bool copyCursor) {
-	return sheet->CopyCurrentSelectionToInternalSelection(copyCursor);
+int bmx_wxsheet_copycurrentselectiontointernalselection(wxSheet * sheet, int copyCursor) {
+	return static_cast<int>(sheet->CopyCurrentSelectionToInternalSelection(static_cast<bool>(copyCursor)));
 }
 
-bool bmx_wxsheet_copyinternalselectiontoclipboard(wxSheet * sheet, BBString * colSep) {
-	return sheet->CopyInternalSelectionToClipboard(wxStringFromBBString(colSep).GetChar(0));
+int bmx_wxsheet_copyinternalselectiontoclipboard(wxSheet * sheet, BBString * colSep) {
+	return static_cast<int>(sheet->CopyInternalSelectionToClipboard(wxStringFromBBString(colSep).GetChar(0)));
 }
 
 BBString * bmx_wxsheet_copyinternalselectiontostring(wxSheet * sheet, BBString * colSep) {
 	return bbStringFromWxString(sheet->CopyInternalSelectionToString(wxStringFromBBString(colSep).GetChar(0)));
 }
 
-bool bmx_wxsheet_copystringtointernalselection(wxSheet * sheet, BBString * value, BBString * colSep) {
-	return sheet->CopyStringToInternalSelection(wxStringFromBBString(value), wxStringFromBBString(colSep).GetChar(0));
+int bmx_wxsheet_copystringtointernalselection(wxSheet * sheet, BBString * value, BBString * colSep) {
+	return static_cast<int>(sheet->CopyStringToInternalSelection(wxStringFromBBString(value), wxStringFromBBString(colSep).GetChar(0)));
 }
 
-bool bmx_wxsheet_pastefromclipboard(wxSheet * sheet, int row, int col, BBString * colSep) {
-	return sheet->PasteFromClipboard(wxSheetCoords(row, col), wxStringFromBBString(colSep).GetChar(0));
+int bmx_wxsheet_pastefromclipboard(wxSheet * sheet, int row, int col, BBString * colSep) {
+	return static_cast<int>(sheet->PasteFromClipboard(wxSheetCoords(row, col), wxStringFromBBString(colSep).GetChar(0)));
 }
 
-bool bmx_wxsheet_pasteinternalcopiedselection(wxSheet * sheet, int row, int col) {
-	return sheet->PasteInternalCopiedSelection(wxSheetCoords(row, col));
+int bmx_wxsheet_pasteinternalcopiedselection(wxSheet * sheet, int row, int col) {
+	return static_cast<int>(sheet->PasteInternalCopiedSelection(wxSheetCoords(row, col)));
 }
 
-bool bmx_wxsheet_currentlypasting(wxSheet * sheet) {
-	return sheet->CurrentlyPasting();
+int bmx_wxsheet_currentlypasting(wxSheet * sheet) {
+	return static_cast<int>(sheet->CurrentlyPasting());
 }
 
 MaxSheetCellEditor * bmx_wxsheet_getdefaulteditorfortype(wxSheet * sheet, BBString * typeName) {
@@ -996,16 +996,16 @@ MaxSheetCellRenderer * bmx_wxsheet_getdefaultrendererfortype(wxSheet * sheet, BB
 	return new MaxSheetCellRenderer(sheet->GetDefaultRendererForType(wxStringFromBBString(typeName)));
 }
 
-bool bmx_wxsheet_setnumberrows(wxSheet * sheet, int rows, bool update) {
-	return sheet->SetNumberRows(rows, update);
+int bmx_wxsheet_setnumberrows(wxSheet * sheet, int rows, int update) {
+	return static_cast<int>(sheet->SetNumberRows(rows, static_cast<bool>(update)));
 }
 
-bool bmx_wxsheet_setnumbercols(wxSheet * sheet, int cols, bool update) {
-	return sheet->SetNumberCols(cols, update);
+int bmx_wxsheet_setnumbercols(wxSheet * sheet, int cols, int update) {
+	return static_cast<int>(sheet->SetNumberCols(cols, static_cast<bool>(update)));
 }
 
-bool bmx_wxsheet_setnumbercells(wxSheet * sheet, int rows, int cols, bool update) {
-	return sheet->SetNumberCells(rows, cols, update);
+int bmx_wxsheet_setnumbercells(wxSheet * sheet, int rows, int cols, int update) {
+	return static_cast<int>(sheet->SetNumberCells(rows, cols, static_cast<bool>(update)));
 }
 
 int bmx_wxsheet_getdefaultrowheight(wxSheet * sheet) {
@@ -1016,12 +1016,12 @@ int bmx_wxsheet_getdefaultcolwidth(wxSheet * sheet) {
 	return sheet->GetDefaultColWidth();
 }
 
-void bmx_wxsheet_setdefaultrowheight(wxSheet * sheet, int height, bool resizeExistingRows) {
-	sheet->SetDefaultRowHeight(height, resizeExistingRows);
+void bmx_wxsheet_setdefaultrowheight(wxSheet * sheet, int height, int resizeExistingRows) {
+	sheet->SetDefaultRowHeight(height, static_cast<bool>(resizeExistingRows));
 }
 
-void bmx_wxsheet_setdefaultcolwidth(wxSheet * sheet, int width, bool resizeExistingCols) {
-	sheet->SetDefaultColWidth(width, resizeExistingCols);
+void bmx_wxsheet_setdefaultcolwidth(wxSheet * sheet, int width, int resizeExistingCols) {
+	sheet->SetDefaultColWidth(width, static_cast<bool>(resizeExistingCols));
 }
 
 int bmx_wxsheet_getminimalacceptablerowheight(wxSheet * sheet) {
@@ -1074,16 +1074,16 @@ void bmx_wxsheetselection_setoptions(MaxSheetSelection * selection, int options)
 	selection->Selection().SetOptions(options);
 }
 
-bool bmx_wxsheetselection_hasselection(MaxSheetSelection * selection) {
-	return selection->Selection().HasSelection();
+int bmx_wxsheetselection_hasselection(MaxSheetSelection * selection) {
+	return static_cast<int>(selection->Selection().HasSelection());
 }
 
 int bmx_wxsheetselection_getcount(MaxSheetSelection * selection) {
 	return selection->Selection().GetCount();
 }
 
-bool bmx_wxsheetselection_isminimized(MaxSheetSelection * selection) {
-	return selection->Selection().IsMinimzed();
+int bmx_wxsheetselection_isminimized(MaxSheetSelection * selection) {
+	return static_cast<int>(selection->Selection().IsMinimzed());
 }
 
 int bmx_wxsheetselection_clear(MaxSheetSelection * selection) {
@@ -1173,16 +1173,16 @@ int bmx_wxsheettable_getnumbercols(wxSheetTable * table) {
 	return table->GetNumberCols();
 }
 
-bool bmx_wxsheettable_containsgridrow(wxSheetTable * table, int row) {
-	return table->ContainsGridRow(row);
+int bmx_wxsheettable_containsgridrow(wxSheetTable * table, int row) {
+	return static_cast<int>(table->ContainsGridRow(row));
 }
 
-bool bmx_wxsheettable_containsgridcol(wxSheetTable * table, int col) {
-	return table->ContainsGridCol(col);
+int bmx_wxsheettable_containsgridcol(wxSheetTable * table, int col) {
+	return static_cast<int>(table->ContainsGridCol(col));
 }
 
-bool bmx_wxsheettable_containsgridcell(wxSheetTable * table, int row, int col) {
-	return table->ContainsGridCell(wxSheetCoords(row, col));
+int bmx_wxsheettable_containsgridcell(wxSheetTable * table, int row, int col) {
+	return static_cast<int>(table->ContainsGridCell(wxSheetCoords(row, col)));
 }
 
 BBString * bmx_wxsheettable_getvalue(wxSheetTable * table, int row, int col) {
@@ -1193,8 +1193,8 @@ void bmx_wxsheettable_setvalue(wxSheetTable * table, int row, int col, BBString 
 	table->SetValue(wxSheetCoords(row, col), wxStringFromBBString(value));
 }
 
-bool bmx_wxsheettable_hasvalue(wxSheetTable * table, int row, int col) {
-	return table->HasValue(wxSheetCoords(row, col));
+int bmx_wxsheettable_hasvalue(wxSheetTable * table, int row, int col) {
+	return static_cast<int>(table->HasValue(wxSheetCoords(row, col)));
 }
 
 int bmx_wxsheettable_getfirstnonemptycoltoleft(wxSheetTable * table, int row, int col) {
@@ -1221,8 +1221,8 @@ double bmx_wxsheettable_getvalueasdouble(wxSheetTable * table, int row, int col)
 	return table->GetValueAsDouble(wxSheetCoords(row, col));
 }
 
-bool bmx_wxsheettable_getvalueasbool(wxSheetTable * table, int row, int col) {
-	return table->GetValueAsBool(wxSheetCoords(row, col));
+int bmx_wxsheettable_getvalueasbool(wxSheetTable * table, int row, int col) {
+	return static_cast<int>(table->GetValueAsBool(wxSheetCoords(row, col)));
 }
 
 
@@ -1280,8 +1280,8 @@ wxSheetCellFloatEditorRefData * bmx_wxsheetcellfloateditorrefdata_create(int wid
 
 // *********************************************
 
-wxSheetCellChoiceEditorRefData * bmx_wxsheetcellchoiceeditorrefdata_create(BBArray * choices, bool allowOthers) {
-	return new wxSheetCellChoiceEditorRefData(bbStringArrayTowxArrayStr(choices), allowOthers);
+wxSheetCellChoiceEditorRefData * bmx_wxsheetcellchoiceeditorrefdata_create(BBArray * choices, int allowOthers) {
+	return new wxSheetCellChoiceEditorRefData(bbStringArrayTowxArrayStr(choices), static_cast<bool>(allowOthers));
 }
 
 // *********************************************
@@ -1304,9 +1304,9 @@ MaxSheetCellStringRendererRefData * bmx_wxsheetcellstringrendererrefdata_create(
 
 
 void bmx_wxsheetcellstringrendererrefdata_draw(MaxSheetCellStringRendererRefData * data,
-		wxSheet * sheet, MaxSheetCellAttr * attr, MaxDC * dc, MaxRect * rect, int row, int col, bool isSelected) {
+		wxSheet * sheet, MaxSheetCellAttr * attr, MaxDC * dc, MaxRect * rect, int row, int col, int isSelected) {
 
-	data->MaxDraw(sheet, attr, dc, rect, row, col, isSelected);
+	data->MaxDraw(sheet, attr, dc, rect, row, col, static_cast<bool>(isSelected));
 }
 
 // *********************************************
@@ -1342,8 +1342,8 @@ wxSheetCellBitmapRendererRefData * bmx_wxsheetcellbitmaprendererrefdata_create(M
 
 // *********************************************
 
-MaxSheetCellAttr * bmx_wxsheetcellattr_create(bool createData) {
-	return new MaxSheetCellAttr(createData);
+MaxSheetCellAttr * bmx_wxsheetcellattr_create(int createData) {
+	return new MaxSheetCellAttr(static_cast<bool>(createData));
 }
 
 void bmx_wxsheetcellattr_setforegroundcolour(MaxSheetCellAttr * attr, MaxColour * colour) {
@@ -1374,20 +1374,20 @@ void bmx_wxsheetcellattr_setlevel(MaxSheetCellAttr * attr, wxSheetAttrLevel_Type
 	attr->Attr().SetLevel(level);
 }
 
-void bmx_wxsheetcellattr_setoverflow(MaxSheetCellAttr * attr, bool allow) {
-	attr->Attr().SetOverflow(allow);
+void bmx_wxsheetcellattr_setoverflow(MaxSheetCellAttr * attr, int allow) {
+	attr->Attr().SetOverflow(static_cast<bool>(allow));
 }
 
-void bmx_wxsheetcellattr_setoverflowmarker(MaxSheetCellAttr * attr, bool drawMarker) {
-	attr->Attr().SetOverflowMarker(drawMarker);
+void bmx_wxsheetcellattr_setoverflowmarker(MaxSheetCellAttr * attr, int drawMarker) {
+	attr->Attr().SetOverflowMarker(static_cast<bool>(drawMarker));
 }
 
-void bmx_wxsheetcellattr_setshoweditor(MaxSheetCellAttr * attr, bool showEditor) {
-	attr->Attr().SetShowEditor(showEditor);
+void bmx_wxsheetcellattr_setshoweditor(MaxSheetCellAttr * attr, int showEditor) {
+	attr->Attr().SetShowEditor(static_cast<bool>(showEditor));
 }
 
-void bmx_wxsheetcellattr_setreadonly(MaxSheetCellAttr * attr, bool isReadOnly) {
-	attr->Attr().SetReadOnly(isReadOnly);
+void bmx_wxsheetcellattr_setreadonly(MaxSheetCellAttr * attr, int isReadOnly) {
+	attr->Attr().SetReadOnly(static_cast<bool>(isReadOnly));
 }
 
 void bmx_wxsheetcellattr_setrenderer(MaxSheetCellAttr * attr, MaxSheetCellRenderer * renderer) {
@@ -1402,60 +1402,60 @@ void bmx_wxsheetcellattr_setkind(MaxSheetCellAttr * attr, wxSheetAttr_Type kind)
 	attr->Attr().SetKind(kind);
 }
 
-bool bmx_wxsheetcellattr_hasforegroundcolour(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasForegroundColour();
+int bmx_wxsheetcellattr_hasforegroundcolour(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasForegroundColour());
 }
 
-bool bmx_wxsheetcellattr_hasbackgroundcolour(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasBackgroundColour();
+int bmx_wxsheetcellattr_hasbackgroundcolour(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasBackgroundColour());
 }
 
-bool bmx_wxsheetcellattr_hasfont(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasFont();
+int bmx_wxsheetcellattr_hasfont(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasFont());
 }
 
-bool bmx_wxsheetcellattr_hasalignment(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasAlignment();
+int bmx_wxsheetcellattr_hasalignment(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasAlignment());
 }
 
-bool bmx_wxsheetcellattr_hasorientation(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasOrientation();
+int bmx_wxsheetcellattr_hasorientation(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasOrientation());
 }
 
-bool bmx_wxsheetcellattr_haslevel(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasLevel();
+int bmx_wxsheetcellattr_haslevel(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasLevel());
 }
 
-bool bmx_wxsheetcellattr_hasoverflowmode(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasOverflowMode();
+int bmx_wxsheetcellattr_hasoverflowmode(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasOverflowMode());
 }
 
-bool bmx_wxsheetcellattr_hasoverflowmarkermode(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasOverflowMarkerMode();
+int bmx_wxsheetcellattr_hasoverflowmarkermode(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasOverflowMarkerMode());
 }
 
-bool bmx_wxsheetcellattr_hasshoweditormode(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasShowEditorMode();
+int bmx_wxsheetcellattr_hasshoweditormode(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasShowEditorMode());
 }
 
-bool bmx_wxsheetcellattr_hasreadwritemode(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasReadWriteMode();
+int bmx_wxsheetcellattr_hasreadwritemode(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasReadWriteMode());
 }
 
-bool bmx_wxsheetcellattr_hasrenderer(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasRenderer();
+int bmx_wxsheetcellattr_hasrenderer(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasRenderer());
 }
 
-bool bmx_wxsheetcellattr_haseditor(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasEditor();
+int bmx_wxsheetcellattr_haseditor(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasEditor());
 }
 
-bool bmx_wxsheetcellattr_hasdefaultattr(MaxSheetCellAttr * attr) {
-	return attr->Attr().HasDefaultAttr();
+int bmx_wxsheetcellattr_hasdefaultattr(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().HasDefaultAttr());
 }
 
-bool bmx_wxsheetcellattr_iscomplete(MaxSheetCellAttr * attr) {
-	return attr->Attr().IsComplete();
+int bmx_wxsheetcellattr_iscomplete(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().IsComplete());
 }
 
 MaxColour * bmx_wxsheetcellattr_getforegroundcolour(MaxSheetCellAttr * attr) {
@@ -1485,20 +1485,20 @@ wxSheetAttrLevel_Type bmx_wxsheetcellattr_getlevel(MaxSheetCellAttr * attr) {
 	return attr->Attr().GetLevel();
 }
 
-bool bmx_wxsheetcellattr_getoverflow(MaxSheetCellAttr * attr) {
-	return attr->Attr().GetOverflow();
+int bmx_wxsheetcellattr_getoverflow(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().GetOverflow());
 }
 
-bool bmx_wxsheetcellattr_getoverflowmarker(MaxSheetCellAttr * attr) {
-	return attr->Attr().GetOverflowMarker();
+int bmx_wxsheetcellattr_getoverflowmarker(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().GetOverflowMarker());
 }
 
-bool bmx_wxsheetcellattr_getshoweditor(MaxSheetCellAttr * attr) {
-	return attr->Attr().GetShowEditor();
+int bmx_wxsheetcellattr_getshoweditor(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().GetShowEditor());
 }
 
-bool bmx_wxsheetcellattr_getreadonly(MaxSheetCellAttr * attr) {
-	return attr->Attr().GetReadOnly();
+int bmx_wxsheetcellattr_getreadonly(MaxSheetCellAttr * attr) {
+	return static_cast<int>(attr->Attr().GetReadOnly());
 }
 
 MaxSheetCellRenderer * bmx_wxsheetcellattr_getrenderer(MaxSheetCellAttr * attr, wxSheet * sheet, int row, int col) {
@@ -1533,24 +1533,24 @@ void bmx_wxsheetevent_getcoords(wxSheetEvent & event, int * row, int * col) {
 	*col = s.GetCol();
 }
 
-bool bmx_wxsheetevent_selecting(wxSheetEvent & event) {
-	return event.Selecting();
+int bmx_wxsheetevent_selecting(wxSheetEvent & event) {
+	return static_cast<int>(event.Selecting());
 }
 
-bool bmx_wxsheetevent_controldown(wxSheetEvent & event) {
-	return event.ControlDown();
+int bmx_wxsheetevent_controldown(wxSheetEvent & event) {
+	return static_cast<int>(event.ControlDown());
 }
 
-bool bmx_wxsheetevent_shiftdown(wxSheetEvent & event) {
-	return event.ShiftDown();
+int bmx_wxsheetevent_shiftdown(wxSheetEvent & event) {
+	return static_cast<int>(event.ShiftDown());
 }
 
-bool bmx_wxsheetevent_altdown(wxSheetEvent & event) {
-	return event.AltDown();
+int bmx_wxsheetevent_altdown(wxSheetEvent & event) {
+	return static_cast<int>(event.AltDown());
 }
 
-bool bmx_wxsheetevent_metadown(wxSheetEvent & event) {
-	return event.MetaDown();
+int bmx_wxsheetevent_metadown(wxSheetEvent & event) {
+	return static_cast<int>(event.MetaDown());
 }
 
 void bmx_wxsheetevent_getposition(wxSheetEvent & event, int * x, int * y) {
@@ -1584,8 +1584,8 @@ int bmx_wxsheetsplitterevent_getsplitmode(wxSheetSplitterEvent & event) {
 	return event.GetSplitMode();
 }
 
-bool bmx_wxsheetsplitterevent_isverticalsplit(wxSheetSplitterEvent & event) {
-	return event.IsVerticalSplit();
+int bmx_wxsheetsplitterevent_isverticalsplit(wxSheetSplitterEvent & event) {
+	return static_cast<int>(event.IsVerticalSplit());
 }
 
 wxSheet * bmx_wxsheetsplitterevent_getsheet(wxSheetSplitterEvent & event) {
@@ -1624,8 +1624,8 @@ MaxSheetBlock * bmx_wxsheetrangeselectevent_getblock(wxSheetRangeSelectEvent & e
 	return new MaxSheetBlock(event.GetBlock());
 }
 
-bool bmx_wxsheetrangeselectevent_getaddtoselection(wxSheetRangeSelectEvent & event) {
-	return event.GetAddToSelection();
+int bmx_wxsheetrangeselectevent_getaddtoselection(wxSheetRangeSelectEvent & event) {
+	return static_cast<int>(event.GetAddToSelection());
 }
 
 void bmx_wxsheetrangeselectevent_setblock(wxSheetRangeSelectEvent & event, MaxSheetBlock * block) {
