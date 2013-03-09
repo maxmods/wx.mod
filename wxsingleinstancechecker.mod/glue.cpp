@@ -36,8 +36,8 @@ wxSingleInstanceChecker * bmx_wxsingleinstancechecker_create(BBString * name, BB
 	}
 }
 
-bool bmx_wxsingleinstancechecker_isanotherrunning(wxSingleInstanceChecker * checker) {
-	return checker->IsAnotherRunning();
+int bmx_wxsingleinstancechecker_isanotherrunning(wxSingleInstanceChecker * checker) {
+	return static_cast<int>(checker->IsAnotherRunning());
 }
 
 void bmx_wxsingleinstancechecker_delete(wxSingleInstanceChecker * checker) {

@@ -30,7 +30,7 @@ extern "C" {
 #include <blitz.h>
 
 	wxSingleInstanceChecker * bmx_wxsingleinstancechecker_create(BBString * name, BBString * path);
-	bool bmx_wxsingleinstancechecker_isanotherrunning(wxSingleInstanceChecker * checker);
+	int bmx_wxsingleinstancechecker_isanotherrunning(wxSingleInstanceChecker * checker);
 	void bmx_wxsingleinstancechecker_delete(wxSingleInstanceChecker * checker);
 
 }
