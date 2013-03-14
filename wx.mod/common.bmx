@@ -66,6 +66,7 @@ Import "-lglib-2.0"
 Import "-lSM"
 Import "-lgtk-x11-2.0"
 Import "-lXxf86vm"
+Import "-lwebkitgtk-1.0"
 
 Import "-ltiff"
 Import "-ljpeg"
