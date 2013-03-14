@@ -40,14 +40,6 @@ Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
 Import "../include/*.h"
 ?
 
-?linux
-Import "-lwx_gtk2u_webview-2.9"
-?win32
-Import "-lwxmsw29u_webview"
-?macosx86
-Import "-lwx_osx_cocoau_webview-2.9"
-?
-
 Import "glue.cpp"
 
 Extern

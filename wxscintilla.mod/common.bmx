@@ -44,17 +44,6 @@ Import "../include/*.h"
 
 'Import "include/*.h"
 
-?linux
-Import "-lwx_gtk2u_stc-2.9"
-Import "-lwxscintilla-2.9"
-?win32
-Import "-lwxmsw29u_stc"
-Import "-lwxscintilla"
-?macosx86
-Import "-lwx_osx_cocoau_stc-2.9"
-Import "-lwxscintilla-2.9"
-?
-
 ' scintilla source
 ' Headers
 Import "src/scintilla/src/*.h"

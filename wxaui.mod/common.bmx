@@ -42,14 +42,6 @@ Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
 Import "../include/*.h"
 ?
 
-?linux
-Import "-lwx_gtk2u_aui-2.9"
-?win32
-Import "-lwxmsw29u_aui"
-?macosx86
-Import "-lwx_osx_cocoau_aui-2.9"
-?
-
 Import "glue.cpp"
 
 Extern
