@@ -24,6 +24,18 @@
 
 // ---------------------------------------------------------------------------------------
 
+MaxWebViewHistoryItem::MaxWebViewHistoryItem(wxSharedPtr< wxWebViewHistoryItem > i)
+	: item(i)
+{
+}
+
+MaxWebViewHistoryItem::~MaxWebViewHistoryItem()
+{
+}
+
+wxSharedPtr< wxWebViewHistoryItem > MaxWebViewHistoryItem::Item() {
+	return item;
+}
 
 // *********************************************
 
@@ -38,4 +50,256 @@ wxWebView * bmx_wxwebview_create(BBObject * maxHandle, wxWindow * parent, wxWind
 
 BBString * bmx_wxwebview_getcurrenttitle(wxWebView * view) {
 	return bbStringFromWxString(view->GetCurrentTitle());
+}
+
+BBString * bmx_wxwebview_getcurrenturl(wxWebView * view) {
+	return bbStringFromWxString(view->GetCurrentURL());
+}
+
+BBString * bmx_wxwebview_getpagesource(wxWebView * view) {
+	return bbStringFromWxString(view->GetPageSource());
+}
+
+BBString * bmx_wxwebview_getpagetext(wxWebView * view) {
+	return bbStringFromWxString(view->GetPageText());
+}
+
+int bmx_wxwebview_isbusy(wxWebView * view) {
+	return static_cast<int>(view->IsBusy());
+}
+
+int bmx_wxwebview_iseditable(wxWebView * view) {
+	return static_cast<int>(view->IsEditable());
+}
+
+void bmx_wxwebview_loadurl(wxWebView * view, BBString * url) {
+	view->LoadURL(wxStringFromBBString(url));
+}
+
+void bmx_wxwebview_print(wxWebView * view) {
+	view->Print();
+}
+
+void bmx_wxwebview_reload(wxWebView * view, int flags) {
+	view->Reload(static_cast<wxWebViewReloadFlags>(flags));
+}
+
+void bmx_wxwebview_runscript(wxWebView * view, BBString * script) {
+	view->RunScript(wxStringFromBBString(script));
+}
+
+void bmx_wxwebview_seteditable(wxWebView * view, int enable) {
+	view->SetEditable(static_cast<bool>(enable));
+}
+
+void bmx_wxwebview_setpage(wxWebView * view, BBString * html, BBString * baseUrl) {
+	view->SetPage(wxStringFromBBString(html), wxStringFromBBString(baseUrl));
+}
+
+void bmx_wxwebview_setpagestream(wxWebView * view, wxInputStream * html, BBString * baseUrl) {
+	view->SetPage(*html, wxStringFromBBString(baseUrl));
+}
+
+void bmx_wxwebview_stop(wxWebView * view) {
+	view->Stop();
+}
+
+int bmx_wxwebview_cancopy(wxWebView * view) {
+	return static_cast<int>(view->CanCopy());
+}
+
+int bmx_wxwebview_cancut(wxWebView * view) {
+	return static_cast<int>(view->CanCut());
+}
+
+int bmx_wxwebview_canpaste(wxWebView * view) {
+	return static_cast<int>(view->CanPaste());
+}
+
+void bmx_wxwebview_copy(wxWebView * view) {
+	view->Copy();
+}
+
+void bmx_wxwebview_cut(wxWebView * view) {
+	view->Cut();
+}
+
+void bmx_wxwebview_paste(wxWebView * view) {
+	view->Paste();
+}
+
+void bmx_wxwebview_enablecontextmenu(wxWebView * view, int enable) {
+	view->EnableContextMenu(static_cast<bool>(enable));
+}
+
+int bmx_wxwebview_iscontextmenuenabled(wxWebView * view) {
+	return static_cast<int>(view->IsContextMenuEnabled());
+}
+
+int bmx_wxwebview_cangoback(wxWebView * view) {
+	return static_cast<int>(view->CanGoBack());
+}
+
+int bmx_wxwebview_cangoforward(wxWebView * view) {
+	return static_cast<int>(view->CanGoForward());
+}
+
+void bmx_wxwebview_clearhistory(wxWebView * view) {
+	view->ClearHistory();
+}
+
+void bmx_wxwebview_enablehistory(wxWebView * view, int enable) {
+	view->EnableHistory(static_cast<bool>(enable));
+}
+
+BBArray * bmx_wxwebview_getbackwardhistory(wxWebView * view) {
+	wxVector< wxSharedPtr < wxWebViewHistoryItem > > list = view->GetBackwardHistory();
+	if (list.size() > 0) {
+		BBArray * arr = _wx_wxwebview_wxWebViewHistoryItem__newArray(list.size());
+		
+		for (int i = 0; i < list.size(); i++) {
+			_wx_wxwebview_wxWebViewHistoryItem__setArrayValue(arr, i, new MaxWebViewHistoryItem(list[i]));
+		}
+		
+		return arr;
+	} else {
+		return &bbEmptyArray;
+	}
+}
+
+BBArray * bmx_wxwebview_getforwardhistory(wxWebView * view) {
+	wxVector< wxSharedPtr < wxWebViewHistoryItem > > list = view->GetForwardHistory();
+	if (list.size() > 0) {
+		BBArray * arr = _wx_wxwebview_wxWebViewHistoryItem__newArray(list.size());
+		
+		for (int i = 0; i < list.size(); i++) {
+			_wx_wxwebview_wxWebViewHistoryItem__setArrayValue(arr, i, new MaxWebViewHistoryItem(list[i]));
+		}
+		
+		return arr;
+	} else {
+		return &bbEmptyArray;
+	}
+}
+
+void bmx_wxwebview_goback(wxWebView * view) {
+	view->GoBack();
+}
+
+void bmx_wxwebview_goforward(wxWebView * view) {
+	view->GoForward();
+}
+
+void bmx_wxwebview_loadhistoryitem(wxWebView * view, MaxWebViewHistoryItem * item) {
+	view->LoadHistoryItem(item->Item());
+}
+
+void bmx_wxwebview_clearselection(wxWebView * view) {
+	view->ClearSelection();
+}
+
+void bmx_wxwebview_deleteselection(wxWebView * view) {
+	view->DeleteSelection();
+}
+
+BBString * bmx_wxwebview_getselectedsource(wxWebView * view) {
+	return bbStringFromWxString(view->GetSelectedSource());
+}
+
+BBString * bmx_wxwebview_getselectedtext(wxWebView * view) {
+	return bbStringFromWxString(view->GetSelectedText());
+}
+
+int bmx_wxwebview_hasselection(wxWebView * view) {
+	return static_cast<int>(view->HasSelection());
+}
+
+void bmx_wxwebview_selectall(wxWebView * view) {
+	view->SelectAll();
+}
+
+int bmx_wxwebview_canredo(wxWebView * view) {
+	return static_cast<int>(view->CanRedo());
+}
+
+int bmx_wxwebview_canundo(wxWebView * view) {
+	return static_cast<int>(view->CanUndo());
+}
+
+void bmx_wxwebview_redo(wxWebView * view) {
+	view->Redo();
+}
+
+void bmx_wxwebview_undo(wxWebView * view) {
+	view->Undo();
+}
+
+int bmx_wxwebview_find(wxWebView * view, BBString * text, int flags) {
+	return static_cast<int>(view->Find(wxStringFromBBString(text), wxWebViewFindFlags(flags)));
+}
+
+int bmx_wxwebview_cansetzoomtype(wxWebView * view, int zoomtype) {
+	return static_cast<int>(view->CanSetZoomType(wxWebViewZoomType(zoomtype)));
+}
+
+int bmx_wxwebview_getzoom(wxWebView * view) {
+	return static_cast<int>(view->GetZoom());
+}
+
+int bmx_wxwebview_getzoomtype(wxWebView * view) {
+	return static_cast<int>(view->GetZoomType());
+}
+
+void bmx_wxwebview_setzoom(wxWebView * view, int zoom) {
+	view->SetZoom(wxWebViewZoom(zoom));
+}
+
+void bmx_wxwebview_setzoomtype(wxWebView * view, int zoomType) {
+	view->SetZoomType(wxWebViewZoomType(zoomType));
+}
+
+
+// *********************************************
+
+MaxWebViewHistoryItem * bmx_wxwebviewhistoryitem_create(BBString * url, BBString * title) {
+	wxWebViewHistoryItem  * hist = new wxWebViewHistoryItem(wxStringFromBBString(url), wxStringFromBBString(title));
+	wxSharedPtr< wxWebViewHistoryItem > item(hist);
+	return new MaxWebViewHistoryItem(item);
+}
+
+BBString * bmx_wxwebviewhistoryitem_geturl(MaxWebViewHistoryItem * item) {
+	return bbStringFromWxString(item->Item()->GetUrl());
+}
+
+BBString * bmx_wxwebviewhistoryitem_gettitle(MaxWebViewHistoryItem * item) {
+	return bbStringFromWxString(item->Item()->GetTitle());
+}
+
+void bmx_wxwebviewhistoryitem_free(MaxWebViewHistoryItem * item) {
+	delete item;
+}
+
+// *********************************************
+
+BBString * bmx_wxwebviewevent_gettarget(wxWebViewEvent & event) {
+	return bbStringFromWxString(event.GetTarget());
+}
+
+BBString * bmx_wxwebviewevent_geturl(wxWebViewEvent & event) {
+	return bbStringFromWxString(event.GetURL());
+}
+
+// *********************************************
+
+int bmx_wxwebview_geteventtype(int type) {
+	switch(type) {
+		case -61: return wxEVT_COMMAND_WEB_VIEW_NAVIGATING;
+		case -62: return wxEVT_COMMAND_WEB_VIEW_NAVIGATED;
+		case -63: return wxEVT_COMMAND_WEB_VIEW_LOADED;
+		case -64: return wxEVT_COMMAND_WEB_VIEW_ERROR;
+		case -65: return wxEVT_COMMAND_WEB_VIEW_NEWWINDOW;
+		case -66: return wxEVT_COMMAND_WEB_VIEW_TITLE_CHANGED;
+	}
+	
+	return 0;
 }
