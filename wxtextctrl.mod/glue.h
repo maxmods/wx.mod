@@ -85,6 +85,7 @@ extern "C" {
 	void bmx_wxtextctrl_undo(wxTextCtrl * ctrl);
 	void bmx_wxtextctrl_writetext(wxTextCtrl * ctrl, BBString * text);
 	long bmx_wxtextctrl_xytoposition(wxTextCtrl * ctrl, long x, long y);
+	void bmx_wxtextctrl_setvalue(wxTextCtrl * ctrl, BBString * text);
 	
 	wxTextCtrlHitTestResult bmx_wxtextctrl_hittest(wxTextCtrl * ctrl, int x, int y, long * col, long * row);
 

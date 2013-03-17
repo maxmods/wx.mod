@@ -616,6 +616,13 @@ Type wxTextCtrl Extends wxControl
 	Method XYToPosition:Int(x:Int, y:Int)
 		Return bmx_wxtextctrl_xytoposition(wxObjectPtr, x, y)
 	End Method
+
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetValue(value:String)
+		bmx_wxtextctrl_setvalue(wxObjectPtr, value)
+	End Method
 	
 End Type
 

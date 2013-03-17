@@ -362,6 +362,10 @@ long bmx_wxtextctrl_xytoposition(wxTextCtrl * ctrl, long x, long y) {
 	return ctrl->XYToPosition(x, y);
 }
 
+void bmx_wxtextctrl_setvalue(wxTextCtrl * ctrl, BBString * text) {
+	ctrl->SetValue(wxStringFromBBString(text));
+}
+
 wxTextCtrlHitTestResult bmx_wxtextctrl_hittest(wxTextCtrl * ctrl, int x, int y, long * col, long * row) {
 	return ctrl->HitTest(wxPoint(x, y), col, row);
 }

@@ -96,6 +96,7 @@ Extern
 	Function bmx_wxtextctrl_undo(handle:Byte Ptr)
 	Function bmx_wxtextctrl_writetext(handle:Byte Ptr, text:String)
 	Function bmx_wxtextctrl_xytoposition:Int(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxtextctrl_setvalue(handle:Byte Ptr, value:String)
 
 	Function bmx_wxtextctrl_hittest:Int(handle:Byte Ptr, x:Int, y:Int, col:Int Ptr, row:Int Ptr)
 
