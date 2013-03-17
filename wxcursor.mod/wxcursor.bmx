@@ -150,6 +150,13 @@ Function wxSetCursor(cursor:wxCursor)
 End Function
 
 Rem
+bbdoc: Globally sets the cursor using the provided stock id.
+End Rem
+Function wxSetCursorId(stockId:Int)
+	wxSetCursor(New wxCursor.StockCreate(stockId))
+End Function
+
+Rem
 bbdoc: 
 End Rem
 Function wxCROSS_CURSOR:wxCursor()
