@@ -74,9 +74,25 @@ Const wxDEFAULT_FRAME_STYLE:Int = wxSYSTEM_MENU | wxRESIZE_BORDER | wxMINIMIZE_B
 ' menu items
 
 Const wxITEM_SEPARATOR:Int = -1
+Rem
+bbdoc: Normal tool button / menu item.
+End Rem
 Const wxITEM_NORMAL:Int = 0
+Rem
+bbdoc: Check (or toggle) tool button / menu item.
+End Rem
 Const wxITEM_CHECK:Int = 1
+Rem
+bbdoc: Radio tool button / menu item.
+End Rem
 Const wxITEM_RADIO:Int = 2
+Rem
+bbdoc: Normal tool button with a dropdown arrow next to it.
+about: Clicking the dropdown arrow sends a @c wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED event and may
+also display the menu previously associated with the item with wxToolBar::SetDropdownMenu().
+Currently this type of tools is supported under MSW and GTK.
+End Rem
+Const wxITEM_DROPDOWN:Int = 3
 
 Const wxID_ANY:Int = -1
 
