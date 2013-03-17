@@ -134,8 +134,19 @@ Type wxToolBar Extends wxControl
 	Rem
 	bbdoc: Adds a separator for spacing groups of tools.
 	End Rem
-	Method AddSeparator()
-		bmx_wxtoolbar_addseparator(wxObjectPtr)
+	Method AddSeparator:wxToolBarToolBase()
+		Return wxToolBarToolBase._create(bmx_wxtoolbar_addseparator(wxObjectPtr))
+	End Method
+	
+	Rem
+	bbdoc: Adds a stretchable space to the toolbar.
+	about: Any space not taken up by the fixed items (all items except for stretchable spaces) is distributed in equal measure
+	between the stretchable spaces in the toolbar. The most common use for this method is to add a single stretchable space before
+	the items which should be right-aligned in the toolbar, but more exotic possibilities are possible, e.g. a stretchable space may
+	be added in the beginning and the end of the toolbar to centre all toolbar items.
+	End Rem
+	Method AddStretchableSpace:wxToolBarToolBase()
+		Return wxToolBarToolBase._create(bmx_wxtoolbar_addstretchablespace(wxObjectPtr))
 	End Method
 	
 	Rem
@@ -396,6 +407,14 @@ Type wxToolBar Extends wxControl
 	Method InsertSeparator:wxToolBarToolBase(pos:Int)
 		Return wxToolBarToolBase._create(bmx_wxtoolbar_insertseparator(wxObjectPtr, pos))
 	End Method
+
+	Rem
+	bbdoc: Inserts a stretchable space at the given position.
+	about: You must call Realize for the change to take place.
+	End Rem
+	Method InsertStretchableSpace:wxToolBarToolBase(pos:Int)
+		Return wxToolBarToolBase._create(bmx_wxtoolbar_insertstretchablespace(wxObjectPtr, pos))
+	End Method
 	
 	Rem
 	bbdoc: Inserts the tool with the specified attributes into the toolbar at the given position.
@@ -450,7 +469,16 @@ Type wxToolBar Extends wxControl
 	Method SetMargins(leftRight:Int, topBottom:Int)
 		bmx_wxtoolbar_setmargins(wxObjectPtr, leftRight, topBottom)
 	End Method
-		
+	
+	Rem
+	bbdoc: Sets the dropdown menu for the tool given by its id.
+	about: The tool itself will delete the menu when it's no longer needed. Only supported under GTK+ und MSW.
+	If you define a wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED handler in your program, you must call wxEvent::Skip() from it or the menu won't be displayed.
+	End Rem
+	Method SetDropdownMenu:Int(id:Int, menu:wxMenu)
+		bmx_wxtoolbar_setdropdownmenu(wxObjectPtr, id, menu.wxObjectPtr)
+	End Method
+	
 	Rem
 	bbdoc: Sets the default size of each tool bitmap.
 	about: The default bitmap size is 16 by 15 pixels.
@@ -725,6 +753,20 @@ Type wxToolBarToolBase Extends wxControl
 		bmx_wxtoolbartoolbase_attach(wxObjectPtr, toolbar.wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: 
+	End Rem
+	Method SetDropdownMenu(menu:wxMenu)
+		bmx_wxtoolbartoolbase_setdropdownmenu(wxObjectPtr, menu.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetDropdownMenu:wxMenu()
+		Return wxMenu._find(bmx_wxtoolbartoolbase_getdropdownmenu(wxObjectPtr))
+	End Method
+	
 End Type
 
 
@@ -736,7 +778,8 @@ Type TToolBarEventFactory Extends TEventFactory
 		Select evt.eventType
 			Case wxEVT_COMMAND_TOOL_CLICKED, ..
 					wxEVT_COMMAND_TOOL_RCLICKED, ..
-					wxEVT_COMMAND_TOOL_ENTER
+					wxEVT_COMMAND_TOOL_ENTER, ..
+					wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED
 				Return wxCommandEvent.Create(wxEventPtr, evt)
 		End Select
 		
@@ -747,7 +790,8 @@ Type TToolBarEventFactory Extends TEventFactory
 		Select eventType
 			Case wxEVT_COMMAND_TOOL_CLICKED, ..
 				wxEVT_COMMAND_TOOL_RCLICKED, ..
-				wxEVT_COMMAND_TOOL_ENTER
+				wxEVT_COMMAND_TOOL_ENTER, ..
+				wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED
 			Return bmx_wxtoolbar_geteventtype(eventType)
 		End Select
 	End Method

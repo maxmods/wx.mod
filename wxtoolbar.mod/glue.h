@@ -42,7 +42,8 @@ extern "C" {
 	MaxToolBar * bmx_wxtoolbar_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id,
 		int x, int y, int w, int h, long style);
 	void bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control, BBString * label);
-	void bmx_wxtoolbar_addseparator(wxToolBar * toolbar);
+	wxToolBarToolBase * bmx_wxtoolbar_addseparator(wxToolBar * toolbar);
+	wxToolBarToolBase * bmx_wxtoolbar_addstretchablespace(wxToolBar * toolbar);
 	wxToolBarToolBase * bmx_wxtoolbar_addtool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
 			MaxBitmap * bitmap2, wxItemKind kind, BBString * shortHelp, BBString * longHelp, void * clientData);
 	int bmx_wxtoolbar_realize(wxToolBar * toolbar);
@@ -87,6 +88,8 @@ extern "C" {
 	wxToolBarToolBase * bmx_wxtoolbar_findtoolforposition(wxToolBar * toolbar, int x, int y);
 	wxToolBarToolBase * bmx_wxtoolbar_insertcontrol(wxToolBar * toolbar, int pos, wxControl * control);
 	wxToolBarToolBase * bmx_wxtoolbar_insertseparator(wxToolBar * toolbar, int pos);
+	wxToolBarToolBase * bmx_wxtoolbar_insertstretchablespace(wxToolBar * toolbar, int pos);
+	int bmx_wxtoolbar_setdropdownmenu(wxToolBar * toolbar, int id, wxMenu * menu);
 
 	int bmx_wxtoolbartoolbase_isbutton(wxToolBarToolBase * base);
 	int bmx_wxtoolbartoolbase_iscontrol(wxToolBarToolBase * base);
@@ -115,6 +118,8 @@ extern "C" {
 	void bmx_wxtoolbartoolbase_setclientdata(wxToolBarToolBase * base, BBObject * data);
 	void bmx_wxtoolbartoolbase_detach(wxToolBarToolBase * base);
 	void bmx_wxtoolbartoolbase_attach(wxToolBarToolBase * base, wxToolBarBase * toolbar);
+	void bmx_wxtoolbartoolbase_setdropdownmenu(wxToolBarToolBase * base, wxMenu * menu);
+	wxMenu * bmx_wxtoolbartoolbase_getdropdownmenu(wxToolBarToolBase * base);
 
 	int bmx_wxtoolbar_geteventtype(int type);
 
@@ -133,6 +138,10 @@ public:
 	void injectSelf(BBObject * handle);
 
 	void MaxBind(BBObject * handle);
+
+private:
+    // any class wishing to process wxWidgets events must use this macro
+    DECLARE_EVENT_TABLE()
 };
 
 

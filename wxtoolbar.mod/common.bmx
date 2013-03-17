@@ -23,6 +23,7 @@ SuperStrict
 Import wx.wx
 Import wx.wxControl
 Import wx.wxBitmap
+Import wx.wxMenu
 Import BRL.Blitz
 
 
@@ -49,7 +50,8 @@ Extern
 
 	Function bmx_wxtoolbar_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
 	Function bmx_wxtoolbar_addcontrol(handle:Byte Ptr, control:Byte Ptr, label:String)
-	Function bmx_wxtoolbar_addseparator(handle:Byte Ptr)
+	Function bmx_wxtoolbar_addseparator:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxtoolbar_addstretchablespace:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxtoolbar_addtool:Byte Ptr(handle:Byte Ptr, id:Int, label:String, bitmap1:Byte Ptr, bitmap2:Byte Ptr, ..
 			kind:Int, shortHelp:String, longHelp:String, clientData:Object)
 	Function bmx_wxtoolbar_realize:Int(handle:Byte Ptr)
@@ -93,6 +95,8 @@ Extern
 	Function bmx_wxtoolbar_findtoolforposition:Byte Ptr(handle:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxtoolbar_insertcontrol:Byte Ptr(handle:Byte Ptr, pos:Int, control:Byte Ptr)
 	Function bmx_wxtoolbar_insertseparator:Byte Ptr(handle:Byte Ptr, pos:Int)
+	Function bmx_wxtoolbar_insertstretchablespace:Byte Ptr(handle:Byte Ptr, pos:Int)
+	Function bmx_wxtoolbar_setdropdownmenu:Int(handle:Byte Ptr, id:Int, menu:Byte Ptr)
 	
 	Function bmx_wxtoolbartoolbase_isbutton:Int(handle:Byte Ptr)
 	Function bmx_wxtoolbartoolbase_iscontrol:Int(handle:Byte Ptr)
@@ -121,6 +125,8 @@ Extern
 	Function bmx_wxtoolbartoolbase_setclientdata(handle:Byte Ptr, data:Object)
 	Function bmx_wxtoolbartoolbase_detach(handle:Byte Ptr)
 	Function bmx_wxtoolbartoolbase_attach(handle:Byte Ptr, toolbar:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_setdropdownmenu(handle:Byte Ptr, menu:Byte Ptr)
+	Function bmx_wxtoolbartoolbase_getdropdownmenu:Byte Ptr(handle:Byte Ptr)
 
 	Function bmx_wxtoolbar_geteventtype:Int(evt:Int)
 	
@@ -131,6 +137,7 @@ End Extern
 Const wxEVT_COMMAND_TOOL_CLICKED:Int = wxEVT_COMMAND_MENU_SELECTED
 Const wxEVT_COMMAND_TOOL_RCLICKED:Int = 16
 Const wxEVT_COMMAND_TOOL_ENTER:Int = 17
+Const wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED:Int = -18
 
 Const wxTB_HORIZONTAL:Int = wxHORIZONTAL    ' == $0004
 Const wxTB_TOP:Int = wxTB_HORIZONTAL

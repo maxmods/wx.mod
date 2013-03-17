@@ -270,6 +270,9 @@ bool MaxToolBarXmlHandler::CanHandle(wxXmlNode *node)
 
 // *********************************************
 
+BEGIN_EVENT_TABLE(MaxToolBar, wxToolBar)
+END_EVENT_TABLE()
+
 void bmx_wxtoolbar_injectSelf(MaxToolBar * toolbar, BBObject * handle) {
 	toolbar->injectSelf(handle);
 }
@@ -282,8 +285,12 @@ void bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control, BBString
 	toolbar->AddControl(control, wxStringFromBBString(label));
 }
 
-void bmx_wxtoolbar_addseparator(wxToolBar * toolbar) {
-	toolbar->AddSeparator();
+wxToolBarToolBase * bmx_wxtoolbar_addseparator(wxToolBar * toolbar) {
+	return toolbar->AddSeparator();
+}
+
+wxToolBarToolBase * bmx_wxtoolbar_addstretchablespace(wxToolBar * toolbar) {
+	return toolbar->AddStretchableSpace();
 }
 
 wxToolBarToolBase * bmx_wxtoolbar_addtool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
@@ -498,6 +505,13 @@ wxToolBarToolBase * bmx_wxtoolbar_insertseparator(wxToolBar * toolbar, int pos) 
 	return toolbar->InsertSeparator(pos);
 }
 
+wxToolBarToolBase * bmx_wxtoolbar_insertstretchablespace(wxToolBar * toolbar, int pos) {
+	return toolbar->InsertStretchableSpace(pos);
+}
+
+int bmx_wxtoolbar_setdropdownmenu(wxToolBar * toolbar, int id, wxMenu * menu) {
+	return static_cast<int>(toolbar->SetDropdownMenu(id, menu));
+}
 
 int bmx_wxtoolbartoolbase_isbutton(wxToolBarToolBase * base) {
 	return static_cast<int>(base->IsButton());
@@ -622,6 +636,13 @@ void bmx_wxtoolbartoolbase_attach(wxToolBarToolBase * base, wxToolBarBase * tool
 	base->Attach(toolbar);
 }
 
+void bmx_wxtoolbartoolbase_setdropdownmenu(wxToolBarToolBase * base, wxMenu * menu) {
+	base->SetDropdownMenu(menu);
+}
+
+wxMenu * bmx_wxtoolbartoolbase_getdropdownmenu(wxToolBarToolBase * base) {
+	return base->GetDropdownMenu();
+}
 
 
 int bmx_wxtoolbar_geteventtype(int type) {
@@ -629,6 +650,7 @@ int bmx_wxtoolbar_geteventtype(int type) {
 		case 9: return wxEVT_COMMAND_TOOL_CLICKED;
 		case 16: return wxEVT_COMMAND_TOOL_RCLICKED;
 		case 17: return wxEVT_COMMAND_TOOL_ENTER;
+		case -18: return wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED;
 	}
 	
 	return 0;
