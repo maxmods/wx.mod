@@ -48,7 +48,7 @@ Extern
 	Function bmx_wxtoolbar_injectSelf(handle:Byte Ptr, obj:Object)
 
 	Function bmx_wxtoolbar_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxtoolbar_addcontrol(handle:Byte Ptr, control:Byte Ptr)
+	Function bmx_wxtoolbar_addcontrol(handle:Byte Ptr, control:Byte Ptr, label:String)
 	Function bmx_wxtoolbar_addseparator(handle:Byte Ptr)
 	Function bmx_wxtoolbar_addtool:Byte Ptr(handle:Byte Ptr, id:Int, label:String, bitmap1:Byte Ptr, bitmap2:Byte Ptr, ..
 			kind:Int, shortHelp:String, longHelp:String, clientData:Object)

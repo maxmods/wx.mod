@@ -41,7 +41,7 @@ extern "C" {
 
 	MaxToolBar * bmx_wxtoolbar_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id,
 		int x, int y, int w, int h, long style);
-	void bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control);
+	void bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control, BBString * label);
 	void bmx_wxtoolbar_addseparator(wxToolBar * toolbar);
 	wxToolBarToolBase * bmx_wxtoolbar_addtool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
 			MaxBitmap * bitmap2, wxItemKind kind, BBString * shortHelp, BBString * longHelp, void * clientData);

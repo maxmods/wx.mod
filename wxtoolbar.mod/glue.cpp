@@ -278,8 +278,8 @@ MaxToolBar * bmx_wxtoolbar_create(BBObject * maxHandle, wxWindow* parent, wxWind
 	return new MaxToolBar(maxHandle, parent, id, x, y, w, h, style);
 }
 
-void bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control) {
-	toolbar->AddControl(control);
+void bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control, BBString * label) {
+	toolbar->AddControl(control, wxStringFromBBString(label));
 }
 
 void bmx_wxtoolbar_addseparator(wxToolBar * toolbar) {
