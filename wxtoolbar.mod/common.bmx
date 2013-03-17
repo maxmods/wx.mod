@@ -98,6 +98,7 @@ Extern
 	Function bmx_wxtoolbar_insertstretchablespace:Byte Ptr(handle:Byte Ptr, pos:Int)
 	Function bmx_wxtoolbar_setdropdownmenu:Int(handle:Byte Ptr, id:Int, menu:Byte Ptr)
 	
+	Function bmx_wxtoolbartoolbase_getid:Int(handle:Byte Ptr)
 	Function bmx_wxtoolbartoolbase_isbutton:Int(handle:Byte Ptr)
 	Function bmx_wxtoolbartoolbase_iscontrol:Int(handle:Byte Ptr)
 	Function bmx_wxtoolbartoolbase_isseparator:Int(handle:Byte Ptr)

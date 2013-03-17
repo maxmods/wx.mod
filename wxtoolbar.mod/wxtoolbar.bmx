@@ -561,7 +561,7 @@ about: It has a unique id (except for the separators which always have id wxID_A
  is popped up when the mouse pointer enters the tool and the long help string
  for the applications status bar.
 End Rem
-Type wxToolBarToolBase Extends wxControl
+Type wxToolBarToolBase Extends wxObject
 
 	Function _create:wxToolBarToolBase(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
@@ -570,6 +570,13 @@ Type wxToolBarToolBase Extends wxControl
 			Return this
 		End If
 	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method GetId:Int()
+		Return bmx_wxtoolbartoolbase_getid(wxObjectPtr)
+	End Method
 
 	Rem
 	bbdoc: Returns True if this item is a button.

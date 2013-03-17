@@ -91,6 +91,7 @@ extern "C" {
 	wxToolBarToolBase * bmx_wxtoolbar_insertstretchablespace(wxToolBar * toolbar, int pos);
 	int bmx_wxtoolbar_setdropdownmenu(wxToolBar * toolbar, int id, wxMenu * menu);
 
+	int bmx_wxtoolbartoolbase_getid(wxToolBarToolBase * base);
 	int bmx_wxtoolbartoolbase_isbutton(wxToolBarToolBase * base);
 	int bmx_wxtoolbartoolbase_iscontrol(wxToolBarToolBase * base);
 	int bmx_wxtoolbartoolbase_isseparator(wxToolBarToolBase * base);

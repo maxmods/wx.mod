@@ -513,6 +513,10 @@ int bmx_wxtoolbar_setdropdownmenu(wxToolBar * toolbar, int id, wxMenu * menu) {
 	return static_cast<int>(toolbar->SetDropdownMenu(id, menu));
 }
 
+int bmx_wxtoolbartoolbase_getid(wxToolBarToolBase * base) {
+	return base->GetId();
+}
+
 int bmx_wxtoolbartoolbase_isbutton(wxToolBarToolBase * base) {
 	return static_cast<int>(base->IsButton());
 }
