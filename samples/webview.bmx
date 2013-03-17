@@ -196,9 +196,10 @@ Type WebFrame Extends wxFrame
 		
 		'Set a more sensible size for web browsing
 		SetSize(800, 600)
-'DebugStop
+
 		' Create a log window
-		New wxLogWindow.Create(Self, _("Logging"))
+		' TODO : this is broken...
+		'New wxLogWindow.Create(Self, _("Logging"))
 
 		' Create the Tools menu
 		m_tools_menu = New wxMenu.Create()
@@ -414,7 +415,7 @@ Type WebFrame Extends wxFrame
 		'	m_info.Dismiss()
 		'End If
 
-		wxLogMessage("Navigation request to '" + evt.GetURL() + "' (target='" + evt.GetTarget() + "')")
+		'wxLogMessage("Navigation request to '" + evt.GetURL() + "' (target='" + evt.GetTarget() + "')")
 
 		'If we don't want to handle navigation then veto the event and navigation
 		'will not take place, we also need to stop the loading animation
@@ -428,7 +429,7 @@ Type WebFrame Extends wxFrame
 
 	' Callback invoked when a navigation request was accepted
 	Method OnNavigationComplete(evt:wxWebViewEvent)
-		wxLogMessage("Navigation complete; url='" + evt.GetURL() + "'")
+		'wxLogMessage("Navigation complete; url='" + evt.GetURL() + "'")
 		UpdateState()
 	End Method
 	
@@ -436,7 +437,7 @@ Type WebFrame Extends wxFrame
 	Method OnDocumentLoaded(evt:wxWebViewEvent)
 		' Only notify if the document is the main frame, not a subframe
 		If evt.GetURL() = m_browser.GetCurrentURL() Then
-			wxLogMessage("Document loaded; url='" + evt.GetURL() + "'")
+			'wxLogMessage("Document loaded; url='" + evt.GetURL() + "'")
 		End If
 		UpdateState()
 	End Method
@@ -450,12 +451,12 @@ Type WebFrame Extends wxFrame
 	
 	Method OnTitleChanged(evt:wxWebViewEvent)
 		SetTitle(evt.GetString())
-		wxLogMessage("Title changed; title='" + evt.GetString() + "'")
+		'wxLogMessage("Title changed; title='" + evt.GetString() + "'")
 	End Method
 	
 	' Invoked when user selects the "Menu" item
 	Method OnToolsClicked(evt:wxCommandEvent)
-DebugStop
+
 		If m_browser.GetCurrentURL() = "" Then
 			Return
 		End If
