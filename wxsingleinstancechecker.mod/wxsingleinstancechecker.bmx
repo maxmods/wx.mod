@@ -72,6 +72,10 @@ Method OnInit:Int()
 End Method
 </pre>
 </p>
+<p>
+Note, that you should call Free() before the termination of your application, so that any locked file resources
+are also freed up on the system.
+</p>
 End Rem
 Type wxSingleInstanceChecker
 
@@ -106,11 +110,18 @@ Type wxSingleInstanceChecker
 		Return bmx_wxsingleinstancechecker_isanotherrunning(wxObjectPtr)
 	End Method
 	
-	Method Delete()
+	Rem
+	bbdoc: Free this instance.
+	End Rem
+	Method Free()
 		If wxObjectPtr Then
 			bmx_wxsingleinstancechecker_delete(wxObjectPtr)
 			wxObjectPtr = Null
 		End If
+	End Method
+	
+	Method Delete()
+		Free()
 	End Method
 
 End Type
