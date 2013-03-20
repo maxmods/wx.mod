@@ -51,7 +51,7 @@ void wxunbind(wxObject *obj) {
 
 // Converts a wxString to a BBString
 BBString *bbStringFromWxString(const wxString &s ) {
-#ifdef WIN32
+#ifdef WIN32e
 	return bbStringFromShorts((const BBChar*)s.wc_str(wxConvISO8859_1), s.Length());
 #else
 #ifdef wxUSE_UNICODE_UTF8
@@ -565,6 +565,12 @@ int bmx_app_wxentry() {
 	static int i = 0;
 	static const char *const empty = "";
 	return wxEntry(i, (char **)&empty);
+}
+
+int bmx_app_wxentrystart() {
+	static int i = 0;
+	static const char *const empty = "";
+	return wxEntryStart(i, (char **)&empty);
 }
 
 int bmx_wxapp_macexitmenuitemid() {

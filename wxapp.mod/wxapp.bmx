@@ -113,6 +113,13 @@ Type wxApp Extends wxEvtHandler Abstract
 	End Method
 	
 	Rem
+	bbdoc: 
+	End Rem
+	Method EntryStart:Int()
+		Return bmx_app_wxentrystart()
+	End Method
+	
+	Rem
 	bbdoc: Sets the 'top' window.
 	about: You can call this from within wxApp::OnInit to let wxWidgets know which is the main window.
 	You don't have to set the top window; it is only a convenience so that (for example) certain dialogs without

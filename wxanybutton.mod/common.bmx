@@ -21,7 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxAnyButton
+Import wx.wxControl
 Import BRL.Blitz
 
 
@@ -44,29 +44,20 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxbutton_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, label:String, x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxbutton_getlabel:String(handle:Byte Ptr)
-	Function bmx_wxbutton_getdefaultsize(handle:Byte Ptr, width:Int Ptr, height:Int Ptr)
-	Function bmx_wxbutton_setdefault(handle:Byte Ptr)
-	Function bmx_wxbutton_setlabel(handle:Byte Ptr, label:String)
+	Function bmx_wxanybutton_getbitmap:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxanybutton_getbitmapcurrent:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxanybutton_getbitmapdisabled:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxanybutton_getbitmapfocus:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxanybutton_getbitmaplabel:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxanybutton_getbitmappressed:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxanybutton_setbitmap(handle:Byte Ptr, bitmap:Byte Ptr, dir:Int)
+	Function bmx_wxanybutton_setbitmapcurrent(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxanybutton_setbitmapdisabled(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxanybutton_setbitmapfocus(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxanybutton_setbitmaplabel(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxanybutton_setbitmappressed(handle:Byte Ptr, bitmap:Byte Ptr)
+	Function bmx_wxanybutton_getbitmapmargins(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxanybutton_setbitmapposition(handle:Byte Ptr, dir:Int)
+	Function bmx_wxanybutton_setbitmapmargins(handle:Byte Ptr, x:Int, y:Int)
 	
-	Function bmx_wxbutton_geteventtype:Int(evt:Int)
-	
-	Function bmx_wxbutton_addresourcehandler()
 End Extern
-
-
-Const wxEVT_COMMAND_BUTTON_CLICKED:Int = 1
-
-Const wxBU_LEFT:Int = $0040
-Const wxBU_TOP:Int = $0080
-Const wxBU_RIGHT:Int = $0100
-Const wxBU_BOTTOM:Int = $0200
-Const wxBU_ALIGN_MASK:Int = wxBU_LEFT | wxBU_TOP | wxBU_RIGHT | wxBU_BOTTOM
-
-
-Const wxBU_NOAUTODRAW:Int = $0000
-Const wxBU_AUTODRAW:Int = $0004
-
-Const wxBU_EXACTFIT:Int = $0001
-

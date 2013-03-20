@@ -74,7 +74,7 @@ See also <a href="../../wxwindow.mod/doc/commands.html#wxWindow">wxWindow</a> st
 </ul>
 </p>
 End Rem
-Type wxButton Extends wxControl
+Type wxButton Extends wxAnyButton
 
 	Function _create:wxButton(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then

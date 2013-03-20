@@ -86,6 +86,13 @@ Type wxIcon Extends wxBitmap
 		wxObjectPtr = bmx_wxicon_create()
 		Return Self
 	End Method
+
+	Rem
+	bbdoc: Copies bitmap to this icon.
+	End Rem
+	Method CopyFromBitmap(bitmap:wxBitmap)
+		bmx_wxicon_copyfrombitmap(wxObjectPtr, bitmap.wxObjectPtr)
+	End Method
 	
 	Rem
 	bbdoc: 

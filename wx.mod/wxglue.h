@@ -77,6 +77,7 @@ extern "C" {
 	BBObject *wxfind( wxObject *obj );
 
 	int bmx_app_wxentry();
+	int bmx_app_wxentrystart();
 	int _wx_wxapp_wxApp__OnInit();
 	int _wx_wxapp_wxApp__OnExit();
 	int bmx_wxapp_macexitmenuitemid();

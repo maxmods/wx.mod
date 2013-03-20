@@ -21,7 +21,7 @@
 SuperStrict
 
 Import wx.wx
-Import wx.wxControl
+Import wx.wxAnyButton
 Import BRL.Blitz
 
 

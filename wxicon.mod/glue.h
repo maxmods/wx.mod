@@ -49,7 +49,6 @@ extern "C" {
 	
 	int bmx_wxicon_isok(MaxIcon * icon);
 
-
 	MaxIconBundle * bmx_iconbundle_create(BBString * filename, long ftype);
 	MaxIconBundle * bmx_wxiconbundle_createwithicon(MaxIcon * icon);
 	void bmx_wxiconbundle_addicon(MaxIconBundle * bundle, BBString * file, long ftype);

@@ -54,7 +54,7 @@ Rem
 bbdoc: wxToggleButton is a button that stays pressed when clicked by the user.
 about: In other words, it is similar to wxCheckBox in functionality but looks like a wxButton.
 End Rem
-Type wxToggleButton Extends wxControl
+Type wxToggleButton Extends wxAnyButton
 
 	Function _create:wxToggleButton(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then

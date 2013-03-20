@@ -209,6 +209,7 @@ Extern
 	Function wxfind:Object(handle:Byte Ptr)
 
 	Function bmx_app_wxentry:Int()
+	Function bmx_app_wxentrystart:Int()
 	Function bmx_wxapp_settopwindow(window:Byte Ptr)
 	Function bmx_wxapp_setappname(name:String)
 	Function bmx_wxapp_yield:Int(onlyIfNeeded:Int)
