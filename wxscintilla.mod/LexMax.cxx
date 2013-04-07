@@ -242,7 +242,7 @@ public:
 		return 0;
 	}
 	static ILexer *LexerFactoryBlitzMax() {
-		return new LexerMax(';', CheckBMFoldPoint, blitzmaxWordListDesc);
+		return new LexerMax('\'', CheckBMFoldPoint, blitzmaxWordListDesc);
 	}
 };
 
