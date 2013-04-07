@@ -57,7 +57,7 @@ int bmx_wxprogressdialog_updateprogress(wxProgressDialog * dialog, int value, BB
 	return static_cast<int>(ret);
 }
 
-int bmx_wxprogressdialog_pulse(wxProgressDialog * dialog, BBString * newMessage, bool * skip) {
+int bmx_wxprogressdialog_pulse(wxProgressDialog * dialog, BBString * newMessage, int * skip) {
 	bool sk;
 	bool ret = dialog->Pulse(wxStringFromBBString(newMessage), &sk);
 	*skip = static_cast<int>(sk);
