@@ -1424,6 +1424,13 @@ Type wxAuiManagerEvent Extends wxEvent
 	
 End Type
 
+Rem
+bbdoc: A wxAuiNotebook event.
+End Rem
+Type wxAuiNotebookEvent Extends wxBookCtrlEvent
+
+End Type
+
 
 Type TAuiEventFactory Extends TEventFactory
 
@@ -1445,7 +1452,7 @@ Type TAuiEventFactory Extends TEventFactory
 					wxEVT_COMMAND_AUINOTEBOOK_TAB_RIGHT_UP, ..
 					wxEVT_COMMAND_AUINOTEBOOK_DRAG_DONE, ..
 					wxEVT_COMMAND_AUINOTEBOOK_BG_DCLICK
-				Return wxCommandEvent.Create(wxEventPtr, evt)
+				Return wxAuiNotebookEvent.Create(wxEventPtr, evt)
 			Case wxEVT_AUI_PANE_BUTTON, ..
 					wxEVT_AUI_PANE_CLOSE, ..
 					wxEVT_AUI_PANE_MAXIMIZE, ..

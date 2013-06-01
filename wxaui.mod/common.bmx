@@ -24,6 +24,7 @@ Import wx.wx
 Import wx.wxControl
 Import wx.wxBitmap
 Import wx.wxDC
+Import wx.wxBookCtrlBase
 Import BRL.Blitz
 
 
