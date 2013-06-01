@@ -497,6 +497,10 @@ wxToolBarToolBase * bmx_wxtoolbar_findtoolforposition(wxToolBar * toolbar, int x
 	return toolbar->FindToolForPosition(x, y);
 }
 
+const wxToolBarToolBase * bmx_wxtoolbar_gettoolbypos(wxToolBar * toolbar, int pos) {
+	return toolbar->GetToolByPos(pos);
+}
+
 wxToolBarToolBase * bmx_wxtoolbar_insertcontrol(wxToolBar * toolbar, int pos, wxControl * control) {
 	return toolbar->InsertControl(pos, control);
 }

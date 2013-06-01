@@ -80,7 +80,7 @@ Type wxToolBar Extends wxControl
 	bbdoc: 
 	End Rem
 	Function CreateToolBar:wxToolBar(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, ..
-			w:Int = -1, h:Int = -1, style:Int = wxTB_HORIZONTAL | wxNO_BORDER)
+			w:Int = -1, h:Int = -1, style:Int = wxTB_DEFAULT_STYLE)
 			
 		Return New wxToolBar.Create(parent, id, x, y, w, h, style)
 
@@ -90,7 +90,7 @@ Type wxToolBar Extends wxControl
 	bbdoc: Creation method, for two-step construction. For details see CreateToolBar.
 	End Rem
 	Method Create:wxToolBar(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, ..
-			w:Int = -1, h:Int = -1, style:Int = wxTB_HORIZONTAL | wxNO_BORDER)
+			w:Int = -1, h:Int = -1, style:Int = wxTB_DEFAULT_STYLE)
 			
 		wxObjectPtr = bmx_wxtoolbar_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
 		
@@ -300,6 +300,14 @@ Type wxToolBar Extends wxControl
 	End Rem
 	Method FindToolForPosition:wxToolBarToolBase(x:Int, y:Int)
 		Return wxToolBarToolBase._create(bmx_wxtoolbar_findtoolforposition(wxObjectPtr, x, y))
+	End Method
+	
+	Rem
+	bbdoc: Returns a pointer to the tool at ordinal position @pos.
+	about: Don't confuse this with FindToolForPosition().
+	End Rem
+	Method GetToolByPos:wxToolBarToolBase(pos:Int)
+		Return wxToolBarToolBase._create(bmx_wxtoolbar_gettoolbypos(wxObjectPtr, pos))
 	End Method
 	
 	Rem

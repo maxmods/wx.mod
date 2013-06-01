@@ -93,6 +93,7 @@ Extern
 	Function bmx_wxtoolbar_findbyid:Byte Ptr(handle:Byte Ptr, id:Int)
 	Function bmx_wxtoolbar_findcontrol:Byte Ptr(handle:Byte Ptr, id:Int)
 	Function bmx_wxtoolbar_findtoolforposition:Byte Ptr(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxtoolbar_gettoolbypos:Byte Ptr(handle:Byte Ptr, pos:Int)
 	Function bmx_wxtoolbar_insertcontrol:Byte Ptr(handle:Byte Ptr, pos:Int, control:Byte Ptr)
 	Function bmx_wxtoolbar_insertseparator:Byte Ptr(handle:Byte Ptr, pos:Int)
 	Function bmx_wxtoolbar_insertstretchablespace:Byte Ptr(handle:Byte Ptr, pos:Int)
@@ -180,4 +181,7 @@ Const wxTB_BOTTOM:Int = $2000
 
 ' lay out toolbar at the Right edge of the window
 Const wxTB_RIGHT:Int = $4000
+
+' Combination of wxTB_HORIZONTAL and wxTB_FLAT.
+Const wxTB_DEFAULT_STYLE:Int = wxTB_HORIZONTAL | wxTB_FLAT
 

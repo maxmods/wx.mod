@@ -86,6 +86,7 @@ extern "C" {
 	wxToolBarToolBase * bmx_wxtoolbar_findbyid(wxToolBar * toolbar, int id);
 	wxControl * bmx_wxtoolbar_findcontrol(wxToolBar * toolbar, int id);
 	wxToolBarToolBase * bmx_wxtoolbar_findtoolforposition(wxToolBar * toolbar, int x, int y);
+	const wxToolBarToolBase * bmx_wxtoolbar_gettoolbypos(wxToolBar * toolbar, int pos);
 	wxToolBarToolBase * bmx_wxtoolbar_insertcontrol(wxToolBar * toolbar, int pos, wxControl * control);
 	wxToolBarToolBase * bmx_wxtoolbar_insertseparator(wxToolBar * toolbar, int pos);
 	wxToolBarToolBase * bmx_wxtoolbar_insertstretchablespace(wxToolBar * toolbar, int pos);
