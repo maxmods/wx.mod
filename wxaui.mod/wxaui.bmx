@@ -1429,6 +1429,14 @@ bbdoc: A wxAuiNotebook event.
 End Rem
 Type wxAuiNotebookEvent Extends wxBookCtrlEvent
 
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxAuiNotebookEvent = New wxAuiNotebookEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+
 End Type
 
 
