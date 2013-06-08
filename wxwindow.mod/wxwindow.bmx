@@ -3247,6 +3247,11 @@ one.
 Notice that the set focus event happens both when the user gives focus to the window (whether using
 the mouse or keyboard) and when it is done from the program itself using SetFocus.
 </p>
+<p>
+The focus event handlers should almost invariably call wxEvent::Skip() on their event argument to allow the default handling to take place.
+Failure to do this may result in incorrect behaviour of the native controls. Also note that wxEVT_KILL_FOCUS handler must not call wxWindow::SetFocus() as this, again,
+is not supported by all native controls. If you need to do this, consider using the Delayed Action Mechanism described in wxIdleEvent documentation.
+</p>
 End Rem
 Type wxFocusEvent Extends wxEvent
 
