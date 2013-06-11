@@ -927,6 +927,7 @@ Type TEventHandler
 	Field eventType:Int
 	Field id:Int
 	Field lastId:Int = -1
+	Field refPtr:Byte Ptr
 	
 	Function eventCallback(evt:Byte Ptr, data:Object)
 
@@ -949,6 +950,12 @@ Type TEventHandler
 		End If
 		
 	End Function
+	
+	Method Delete()
+		If refPtr Then
+			bmx_wxevthandler_freeref(refPtr)
+		End If
+	End Method
 	
 End Type
 
@@ -1089,7 +1096,72 @@ Type wxEvtHandler Extends wxObject
 			eventType = evt
 		End If
 		
-		bmx_wxevthandler_connectnoid(wxObjectPtr, eventType, handler)
+		handler.refPtr = bmx_wxevthandler_newref(handler)
+		
+		bmx_wxevthandler_connectnoid(wxObjectPtr, eventType, handler.refPtr)
+	End Method
+	
+	Rem
+	bbdoc: Disconnects the given eventType dynamically from the event handler, returning true if a matching function has been found and removed.
+	End Rem
+	Method DisconnectAny:Int(eventType:Int)
+
+		' ********** SPECIAL CASES *************
+		If eventType = wxEVT_SCROLLWIN Then
+			DisconnectAny(wxEVT_SCROLLWIN_TOP)
+			DisconnectAny(wxEVT_SCROLLWIN_BOTTOM)
+			DisconnectAny(wxEVT_SCROLLWIN_LINEUP)
+			DisconnectAny(wxEVT_SCROLLWIN_LINEDOWN)
+			DisconnectAny(wxEVT_SCROLLWIN_PAGEUP)
+			DisconnectAny(wxEVT_SCROLLWIN_PAGEDOWN)
+			DisconnectAny(wxEVT_SCROLLWIN_THUMBTRACK)
+			DisconnectAny(wxEVT_SCROLLWIN_THUMBRELEASE)
+			Return True
+		End If
+		
+		If eventType = wxEVT_SCROLL Then
+			DisconnectAny(wxEVT_SCROLL_TOP)
+			DisconnectAny(wxEVT_SCROLL_BOTTOM)
+			DisconnectAny(wxEVT_SCROLL_LINEUP)
+			DisconnectAny(wxEVT_SCROLL_LINEDOWN)
+			DisconnectAny(wxEVT_SCROLL_PAGEUP)
+			DisconnectAny(wxEVT_SCROLL_PAGEDOWN)
+			DisconnectAny(wxEVT_SCROLL_THUMBTRACK)
+			DisconnectAny(wxEVT_SCROLL_THUMBRELEASE)
+			DisconnectAny(wxEVT_SCROLL_CHANGED)
+			Return True
+		End If
+		
+		If eventType = wxEVT_MOUSE_EVENTS Then
+			DisconnectAny(wxEVT_ENTER_WINDOW)
+			DisconnectAny(wxEVT_LEAVE_WINDOW)
+			DisconnectAny(wxEVT_LEFT_DOWN)
+			DisconnectAny(wxEVT_LEFT_UP)
+			DisconnectAny(wxEVT_LEFT_DCLICK)
+			DisconnectAny(wxEVT_MIDDLE_DOWN)
+			DisconnectAny(wxEVT_MIDDLE_UP)
+			DisconnectAny(wxEVT_MIDDLE_DCLICK)
+			DisconnectAny(wxEVT_RIGHT_DOWN)
+			DisconnectAny(wxEVT_RIGHT_UP)
+			DisconnectAny(wxEVT_RIGHT_DCLICK)
+			DisconnectAny(wxEVT_MOTION)
+			DisconnectAny(wxEVT_MOUSEWHEEL)
+			Return True
+		End If
+
+
+		Local key:String = "xx.-1." + eventType
+		Local handler:TEventHandler = TEventHandler(events.ValueForKey(key))
+		
+		If handler Then
+			If bmx_wxevthandler_disconnectnoid(wxObjectPtr, eventType)
+				events.Remove(key)
+				
+				Return True
+			End If
+		End If
+		
+		Return False
 	End Method
 
 	Rem
@@ -1149,7 +1221,42 @@ Type wxEvtHandler Extends wxObject
 			eventType = evt
 		End If
 		
-		bmx_wxevthandler_connect(wxObjectPtr, id, eventType, handler)
+		handler.refPtr = bmx_wxevthandler_newref(handler)
+		
+		bmx_wxevthandler_connect(wxObjectPtr, id, eventType, handler.refPtr)
+	End Method
+	
+	Rem
+	bbdoc: Disconnects the given event dynamically from the event handler, using the specified parameters as search criteria and returning true if a matching function has been found and removed.
+	End Rem
+	Method Disconnect:Int(id:Int = -1, eventType:Int)
+
+		' ********** SPECIAL CASES *************
+		If eventType = wxEVT_SCROLL Then
+			Disconnect(id, wxEVT_SCROLL_TOP)
+			Disconnect(id, wxEVT_SCROLL_BOTTOM)
+			Disconnect(id, wxEVT_SCROLL_LINEUP)
+			Disconnect(id, wxEVT_SCROLL_LINEDOWN)
+			Disconnect(id, wxEVT_SCROLL_PAGEUP)
+			Disconnect(id, wxEVT_SCROLL_PAGEDOWN)
+			Disconnect(id, wxEVT_SCROLL_THUMBTRACK)
+			Disconnect(id, wxEVT_SCROLL_THUMBRELEASE)
+			Disconnect(id, wxEVT_SCROLL_CHANGED)
+			Return True
+		End If
+
+		Local key:String = id + ".-1." + eventType
+		Local handler:TEventHandler = TEventHandler(events.ValueForKey(key))
+		
+		If handler Then
+			If bmx_wxevthandler_disconnect(wxObjectPtr, id, eventType)
+				events.Remove(key)
+				
+				Return True
+			End If
+		End If
+		
+		Return False
 	End Method
 
 	Rem
@@ -1194,7 +1301,27 @@ Type wxEvtHandler Extends wxObject
 			eventType = evt
 		End If
 		
-		bmx_wxevthandler_connectrange(wxObjectPtr, id, lastId, eventType, handler)
+		handler.refPtr = bmx_wxevthandler_newref(handler)
+		
+		bmx_wxevthandler_connectrange(wxObjectPtr, id, lastId, eventType, handler.refPtr)
+	End Method
+	
+	Rem
+	bbdoc: Disconnects the given event range dynamically from the event handler, using the specified parameters as search criteria and returning true if a matching function has been found and removed.
+	End Rem
+	Method DisconnectRange:Int(id:Int, lastId:Int, eventType:Int)
+		Local key:String = id + "." + lastId + "." + eventType
+		Local handler:TEventHandler = TEventHandler(events.ValueForKey(key))
+		
+		If handler Then
+			If bmx_wxevthandler_disconnectrange(wxObjectPtr, id, lastId, eventType)
+				events.Remove(key)
+				
+				Return True
+			End If
+		End If
+		
+		Return False
 	End Method
 	
 	Rem

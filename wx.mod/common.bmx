@@ -215,12 +215,16 @@ Extern
 	Function bmx_wxapp_yield:Int(onlyIfNeeded:Int)
 	
 	Function bmx_wxevthandler_create:Byte Ptr(handle:Object)
-	Function bmx_wxevthandler_connectnoid(handle:Byte Ptr, eventType:Int, data:Object)
-	Function bmx_wxevthandler_connect(handle:Byte Ptr, id:Int, eventType:Int, data:Object)
-	Function bmx_wxevthandler_connectrange(handle:Byte Ptr, id:Int, lastId:Int, eventType:Int, data:Object)
+	Function bmx_wxevthandler_connectnoid(handle:Byte Ptr, eventType:Int, data:Byte Ptr)
+	Function bmx_wxevthandler_connect(handle:Byte Ptr, id:Int, eventType:Int, data:Byte Ptr)
+	Function bmx_wxevthandler_connectrange(handle:Byte Ptr, id:Int, lastId:Int, eventType:Int, data:Byte Ptr)
 	Function bmx_wxevthandler_addpendingevent(handle:Byte Ptr, event:Byte Ptr)
 	Function bmx_wxevthandler_processevent:Int(handle:Byte Ptr, event:Byte Ptr)
-
+	Function bmx_wxevthandler_newref:Byte Ptr(data:Object)
+	Function bmx_wxevthandler_freeref(handle:Byte Ptr)
+	Function bmx_wxevthandler_disconnectnoid:Int(handle:Byte Ptr, eventType:Int)
+	Function bmx_wxevthandler_disconnect:Int(handle:Byte Ptr, id:Int, eventType:Int)
+	Function bmx_wxevthandler_disconnectrange:Int(handle:Byte Ptr, id:Int, lastId:Int, eventType:Int)
 	
 	Function bmx_event_geteventobject:Object(evt:Byte Ptr)
 	Function bmx_eventtype_value:Int(value:Int)

@@ -652,27 +652,21 @@ void MaxEventCallBack::EventThunker(wxEvent& event) {
 }
 
 
-void bmx_wxevthandler_connectnoid(wxEvtHandler * evtHandler, wxEventType eventType, void * data) {
+void bmx_wxevthandler_connectnoid(wxEvtHandler * evtHandler, wxEventType eventType, MaxObject * data) {
 
-	MaxObject * userData = new MaxObject(data);
-	
-	evtHandler->Connect(eventType, (wxObjectEventFunction) &MaxEventCallBack::EventThunker, userData);
+	evtHandler->Connect(eventType, (wxObjectEventFunction) &MaxEventCallBack::EventThunker, data);
 	
 }
 
-void bmx_wxevthandler_connect(wxEvtHandler * evtHandler, int id, wxEventType eventType, void * data) {
+void bmx_wxevthandler_connect(wxEvtHandler * evtHandler, int id, wxEventType eventType, MaxObject * data) {
 
-	MaxObject * userData = new MaxObject(data);
-	
-	evtHandler->Connect(id, eventType, (wxObjectEventFunction) &MaxEventCallBack::EventThunker, userData);
+	evtHandler->Connect(id, eventType, (wxObjectEventFunction) &MaxEventCallBack::EventThunker, data);
 	
 }
 
-void bmx_wxevthandler_connectrange(wxEvtHandler * evtHandler, int id, int lastId, wxEventType eventType, void * data) {
+void bmx_wxevthandler_connectrange(wxEvtHandler * evtHandler, int id, int lastId, wxEventType eventType, MaxObject * data) {
 
-	MaxObject * userData = new MaxObject(data);
-	
-	evtHandler->Connect(id, lastId, eventType, (wxObjectEventFunction) &MaxEventCallBack::EventThunker, userData);
+	evtHandler->Connect(id, lastId, eventType, (wxObjectEventFunction) &MaxEventCallBack::EventThunker, data);
 	
 }
 
@@ -680,8 +674,8 @@ void bmx_wxevthandler_addpendingevent(wxEvtHandler * evtHandler, wxEvent & event
 	evtHandler->AddPendingEvent(event);
 }
 
-bool bmx_wxevthandler_processevent(wxEvtHandler * evtHandler, wxEvent & event) {
-	return evtHandler->ProcessEvent(event);
+int bmx_wxevthandler_processevent(wxEvtHandler * evtHandler, wxEvent & event) {
+	return static_cast<int>(evtHandler->ProcessEvent(event));
 }
 
 
@@ -692,7 +686,25 @@ void * bmx_event_geteventobject(wxEvent * evt) {
 
 }
 
+MaxObject * bmx_wxevthandler_newref(void * data) {
+	return new MaxObject(data);
+}
 
+void bmx_wxevthandler_freeref(MaxObject * obj) {
+	delete obj;
+}
+
+int bmx_wxevthandler_disconnectnoid(wxEvtHandler * evtHandler, wxEventType eventType) {
+	return static_cast<int>(evtHandler->Disconnect(eventType));
+}
+
+int bmx_wxevthandler_disconnect(wxEvtHandler * evtHandler, int id, wxEventType eventType) {
+	return static_cast<int>(evtHandler->Disconnect(id, eventType));
+}
+
+int bmx_wxevthandler_disconnectrange(wxEvtHandler * evtHandler, int id, int lastId, wxEventType eventType) {
+	return static_cast<int>(evtHandler->Disconnect(id, lastId, eventType));
+}
 
 int bmx_eventtype_value(int type) {
 

@@ -91,11 +91,16 @@ extern "C" {
 	void bmx_wxapp_pollevents();
 
 	MaxEvtHandler * bmx_wxevthandler_create(BBObject * maxHandle);
-	void bmx_wxevthandler_connectnoid(wxEvtHandler * evtHandler, wxEventType eventType, void * data);
-	void bmx_wxevthandler_connect(wxEvtHandler * evtHandler, int id, wxEventType eventType, void * data);
-	void bmx_wxevthandler_connectrange(wxEvtHandler * evtHandler, int id, int lastId, wxEventType eventType, void * data);
+	void bmx_wxevthandler_connectnoid(wxEvtHandler * evtHandler, wxEventType eventType, MaxObject * data);
+	void bmx_wxevthandler_connect(wxEvtHandler * evtHandler, int id, wxEventType eventType, MaxObject * data);
+	void bmx_wxevthandler_connectrange(wxEvtHandler * evtHandler, int id, int lastId, wxEventType eventType, MaxObject * data);
 	void bmx_wxevthandler_addpendingevent(wxEvtHandler * evtHandler, wxEvent & event);
-	bool bmx_wxevthandler_processevent(wxEvtHandler * evtHandler, wxEvent & event);
+	int bmx_wxevthandler_processevent(wxEvtHandler * evtHandler, wxEvent & event);
+	int bmx_wxevthandler_disconnectnoid(wxEvtHandler * evtHandler, wxEventType eventType);
+	int bmx_wxevthandler_disconnect(wxEvtHandler * evtHandler, int id, wxEventType eventType);
+	int bmx_wxevthandler_disconnectrange(wxEvtHandler * evtHandler, int id, int lastId, wxEventType eventType);
+	MaxObject * bmx_wxevthandler_newref(void * data);
+	void bmx_wxevthandler_freeref(MaxObject * obj);
 
 	void * bmx_event_geteventobject(wxEvent * evt);
 	wxEventType bmx_eventtype_value(int type);
