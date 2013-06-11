@@ -31,6 +31,8 @@ extern "C" {
 	BBString * bmx_wxcontrol_getlabel(wxControl * control);
 	BBString * bmx_wxcontrol_getlabeltext(wxControl * control);
 	void bmx_wxcontrol_setlabel(wxControl * control, BBString * label);
+	void bmx_wxcontrol_setlabeltext(wxControl * control, BBString * label);
+	int bmx_wxcontrol_setlabelmarkup(wxControl * control, BBString * label);
 
 	MaxControl * bmx_wxcontrol_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 

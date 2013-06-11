@@ -55,5 +55,13 @@ void bmx_wxcontrol_setlabel(wxControl * control, BBString * label) {
 	control->SetLabel(wxStringFromBBString(label));
 }
 
+void bmx_wxcontrol_setlabeltext(wxControl * control, BBString * label) {
+	control->SetLabelText(wxStringFromBBString(label));
+}
+
+int bmx_wxcontrol_setlabelmarkup(wxControl * control, BBString * label) {
+	return static_cast<int>(control->SetLabelMarkup(wxStringFromBBString(label)));
+}
+
 // *********************************************
 

@@ -101,6 +101,22 @@ Type wxControl Extends wxWindow
 		bmx_wxcontrol_setlabel(wxObjectPtr, label)
 	End Method
 	
+	Rem
+	bbdoc: Sets the controls label to a string using markup.
+	about: Simple markup supported by this function can be used to apply different fonts or colours to different parts
+	of the control label when supported. If markup is not supported by the control or platform, it is simply stripped and SetLabel() is used with the resulting string.
+	End Rem
+	Method SetLabelMarkup:Int(label:String)
+		Return bmx_wxcontrol_setlabelmarkup(wxObjectPtr, label)
+	End Method
+	
+	Rem
+	bbdoc: Sets the control's label to exactly the given string.
+	End Rem
+	Method SetLabelText(label:String)
+		bmx_wxcontrol_setlabeltext(wxObjectPtr, label)
+	End Method
+	
 End Type
 
 
