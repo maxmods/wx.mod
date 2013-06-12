@@ -2,12 +2,18 @@ SuperStrict
 
 Import "wxcommon.bmx"
 Import "wxgadget.bmx"
+?linux
+Import "fdhandler.c"
+?
 
 Global wxDriver:TwxGUIDriver =New TwxGUIDriver
 
 Type TwxGuiSystemDriver Extends TwxSystemDriver
 	Field gui:TwxGUIDriver
 
+?linux
+	Field gsource:Byte Ptr
+?
 	Method Poll()
 		' fun with hand-crafted event handling...
 		While Not bmx_wxapp_pending() And bmx_wxapp_processidle() ; Wend
@@ -22,16 +28,23 @@ Type TwxGuiSystemDriver Extends TwxSystemDriver
 		
 	Method Wait()
 		Poll()
-
+?linux
+		' some crazy glib stuff
+		While Not g_main_context_iteration(g_main_context_default(), True)
+		Wend
+?Not linux
 		Super.Wait()
-
+?
 	End Method
 			
 	Function Create:TwxGuiSystemDriver(host:TwxGUIDriver)
 		Local guisystem:TwxGuiSystemDriver		
 		guisystem=New TwxGuiSystemDriver
 		guisystem.gui=host
-
+?linux
+		' attach max's fd to a glib event source so things like timers can work
+		guisystem.gsource = bmx_wxmg_event_source_new(bbSystemAsyncFD())
+?
 		Return guisystem
 	End Function
 	
@@ -483,3 +496,11 @@ End Rem
 
 End Type
 
+?linux
+Extern
+	Function bmx_wxmg_event_source_new:Byte Ptr(fd:Int)
+	
+	Function g_main_context_iteration:Int(context:Byte Ptr, block:Int)
+	Function g_main_context_default:Byte Ptr()
+End Extern
+?
