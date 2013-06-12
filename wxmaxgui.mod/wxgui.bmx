@@ -332,8 +332,10 @@ End Rem
 Rem
 			Case GADGET_TEXTAREA
 				Return New TQtTextArea.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
+End Rem
 			Case GADGET_COMBOBOX
-				Return New TQtComboBox.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
+				Return New TwxComboBox.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+Rem
 			Case GADGET_LISTBOX
 				Return New TQtListBox.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
 			Case GADGET_TOOLBAR
@@ -351,17 +353,18 @@ End Rem
 				Else
 					Return New TwxLabel.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
 				End If
-Rem
+
 			Case GADGET_SLIDER
 				If style & SLIDER_STEPPER Then
-					Return New TQtStepper.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
+					Return New TwxStepper.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
 				Else If style & SLIDER_TRACKBAR Then
-					Return New TQtTrackBar.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
+					Return New TwxTrackBar.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
 				Else
-					Return New TQtScrollBar.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
-				End If
+					Return New TwxScrollBar.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+				End If 
 			Case GADGET_PROGBAR
-				Return New TQtProgressBar.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
+				Return New TwxProgressBar.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+Rem 
 			Case GADGET_MENUITEM
 				Return New TQtMenuItem.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
 			Case GADGET_CANVAS

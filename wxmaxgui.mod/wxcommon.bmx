@@ -14,4 +14,8 @@ Import wx.wxStaticLine
 Import wx.wxTextCtrl
 Import wx.wxPanel
 Import wx.wxStaticBox
-
+Import wx.wxSlider
+Import wx.wxSpinButton
+Import wx.wxScrollBar
+Import wx.wxGauge
+Import wx.wxBitmapComboBox

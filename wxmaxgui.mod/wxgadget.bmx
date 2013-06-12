@@ -70,13 +70,18 @@ Type TwxGadget Extends TGadget
 	Method SetColor(r:Int, g:Int, b:Int)
 		Local col:wxColour = New wxColour.Create(r, g, b)
 		widget.SetOwnBackgroundColour(col)
+		widget.refresh() ' Windows (at least) requires this.
+	End Method
+
+	Method RealParentForChild:wxWindow()
+		Return widget
 	End Method
 
 End Type
 
 Type TwxIconStrip Extends TIconStrip
 	
-	Field icons:wxIcon[]
+	Field icons:wxBitmap[]
 	Field dim:Int
 	
 	Function IsNotBlank:Int(pixmap:TPixmap)
@@ -122,14 +127,14 @@ Type TwxIconStrip Extends TIconStrip
 		iconstrip = New TwxIconStrip
 		iconstrip.pixmap = pixmap
 		iconstrip.count = n
-		iconstrip.icons = New wxIcon[n]
+		iconstrip.icons = New wxBitmap[n]
 		
 		Local w:Int = pixmap.width / n
 		iconstrip.dim = w
 		For Local x:Int = 0 Until n
 			Local pix:TPixmap = pixmap.Window(x*w, 0, w, pixmap.height)
 			If IsNotBlank(pix) Then
-				'iconstrip.icons[x]=New QIcon.Create(QPixmap.FromPixmap(pix))
+				iconstrip.icons[x] = wxBitmap.CreateBitmapFromPixmap(pix)
 			End If
 		Next
 
@@ -155,7 +160,7 @@ Type TwxWindow Extends TwxGadget
 		Local flags:Int = 0
 		
 		If parent Then
-			widget = New MaxGuiwxFrame.MCreate(TwxGadget(parent).widget, style, Self)
+			widget = New MaxGuiwxFrame.MCreate(TwxGadget(parent).RealParentForChild(), style, Self)
 		Else
 			widget = New MaxGuiwxFrame.MCreate(Null, style, Self)
 		End If
@@ -206,6 +211,10 @@ Type TwxWindow Extends TwxGadget
 		End If
 	End Method
 
+	Method RealParentForChild:wxWindow()
+		Return MaxGuiwxFrame(widget).clientWidget
+	End Method
+
 End Type
 
 Type TwxButton Extends TwxGadget
@@ -234,7 +243,7 @@ Type TwxPushButton Extends TwxButton
 	
 	Method CreateButton()
 	
-		widget = New MaxGuiwxButton.MCreate(Self, TwxGadget(parent).widget, xpos, ypos, width, height, style)
+		widget = New MaxGuiwxButton.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, style)
 
 '		Select style & 7
 '			Case BUTTON_CHECKBOX
@@ -292,7 +301,7 @@ Type TwxCheckBox Extends TwxButton
 	
 	Method CreateButton()
 	
-		widget = New MaxGuiwxCheckBox.MCreate(Self, TwxGadget(parent).widget, xpos, ypos, width, height, 0)
+		widget = New MaxGuiwxCheckBox.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, 0)
 
 		Rethink()
 		
@@ -324,7 +333,7 @@ Type TwxToggleButton Extends TwxButton
 	
 	Method CreateButton()
 	
-		widget = New MaxGuiwxToggleButton.MCreate(Self, TwxGadget(parent).widget, xpos, ypos, width, height, 0)
+		widget = New MaxGuiwxToggleButton.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, 0)
 
 		Rethink()
 		
@@ -356,7 +365,7 @@ Type TwxRadioButton Extends TwxButton
 	
 	Method CreateButton()
 	
-		widget = New MaxGuiwxRadioButton.MCreate(Self, TwxGadget(parent).widget, xpos, ypos, width, height, 0)
+		widget = New MaxGuiwxRadioButton.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, 0)
 
 		Rethink()
 		
@@ -414,7 +423,7 @@ Type TwxLabel Extends TwxGadget
 				labelStyle :| wxALIGN_CENTRE_HORIZONTAL
 		End Select
 
-		widget = New MaxGuiwxStaticText.MCreate(Self, TwxGadget(parent).widget, xpos, ypos, width, height, labelStyle)
+		widget = New MaxGuiwxStaticText.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, labelStyle)
 		
 		Rethink()
 		
@@ -457,7 +466,7 @@ Type TwxSeparator Extends TwxGadget
 		End If
 
 
-		widget = New MaxGuiwxStaticLine.MCreate(Self, TwxGadget(parent).widget, xpos, ypos, w, h, separatorStyle)
+		widget = New MaxGuiwxStaticLine.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, w, h, separatorStyle)
 		
 		Rethink()
 		
@@ -479,7 +488,7 @@ Type TwxTextField Extends TwxGadget
 	
 	Method CreateTextField()
 	
-		widget = New MaxGuiwxTextCtrl.MCreate(Self, TwxGadget(parent).widget, xpos, ypos, width, height, style)
+		widget = New MaxGuiwxTextCtrl.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, style)
 		
 		Rethink()
 		
@@ -523,7 +532,7 @@ Type TwxPanel Extends TwxGadget
 				panelStyle :| wxBORDER_SUNKEN
 		End Select
 
-		widget = New MaxGuiwxPanel.MCreate(Self, TwxGadget(parent).widget, xpos, ypos, width, height, panelStyle)
+		widget = New MaxGuiwxPanel.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, panelStyle)
 
 '		If style & PANEL_ACTIVE Then
 '			' enable mouse sensitivity for active panel
@@ -578,7 +587,7 @@ Type TwxStaticBox Extends TwxGadget
 	
 	Method CreateStaticBox()
 	
-		widget = New MaxGuiwxStaticBox.MCreate(Self, TwxGadget(parent).widget, xpos, ypos, width, height, 0)
+		widget = New MaxGuiwxStaticBox.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, 0)
 		
 		Rethink()
 		
@@ -608,23 +617,244 @@ Type TwxStaticBox Extends TwxGadget
 	
 End Type
 
+Type TwxTrackBar Extends TwxGadget
+
+	Method InitGadget()
+		CreateTrackBar()
+	End Method
+	
+	Method CreateTrackBar()
+	
+		Local flags:Int = wxSL_HORIZONTAL
+
+		If style & SLIDER_VERTICAL Then
+			flags = wxSL_VERTICAL | wxSL_INVERSE
+		End If
+	
+		widget = New MaxGuiwxSlider.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, flags)
+		
+		' default range
+		SetRange(1, 10)
+		
+		Rethink()
+		
+		SetShow(True)
+		
+	End Method
+
+	Method SetRange(small:Int, big:Int)
+		MaxGuiwxSlider(widget).SetRange(small, big)
+	End Method
+	
+	Method SetProp(value:Int)
+		MaxGuiwxSlider(widget).SetValue(value)
+	End Method
+
+	Method GetProp:Int()
+		Return MaxGuiwxSlider(widget).GetValue()
+	End Method
+
+	Method Class:Int()
+		Return GADGET_SLIDER
+	EndMethod
+
+End Type
+
+Type TwxStepper Extends TwxGadget
+
+	Method InitGadget()
+		CreateStepper()
+	End Method
+	
+	Method CreateStepper()
+	
+		widget = New MaxGuiwxSpinButton.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, 0)
+		
+		Rethink()
+		
+		SetShow(True)
+		
+	End Method
+
+	Method SetRange(small:Int, big:Int)
+		MaxGuiwxSpinButton(widget).SetRange(small, big)
+	End Method
+	
+	Method SetProp(value:Int)
+		MaxGuiwxSpinButton(widget).SetValue(value)
+	End Method
+
+	Method GetProp:Int()
+		Return MaxGuiwxSpinButton(widget).GetValue()
+	End Method
+
+	Method Class:Int()
+		Return GADGET_SLIDER
+	EndMethod
+
+End Type
+
+Type TwxScrollBar Extends TwxGadget
+
+	Field thumbSize:Int
+	Field Range:Int
+	Field pageSize:Int
+
+	Method InitGadget()
+		CreateScrollBar()
+	End Method
+	
+	Method CreateScrollBar()
+	
+		Local orientation:Int = wxSB_HORIZONTAL
+		
+		If style & SLIDER_VERTICAL Then
+			orientation = wxSB_VERTICAL
+		End If
+	
+		widget = New MaxGuiwxScrollBar.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, orientation)
+		
+		' default range
+		SetRange(1, 10)
+
+		Rethink()
+		
+		SetShow(True)
+		
+	End Method
+
+	Method SetRange(small:Int, big:Int)
+		Range = big - small
+		pageSize = small
+		
+		If small <> 0 Then
+			thumbSize = big/small
+		Else
+			thumbSize = 1
+		End If
+		
+		MaxGuiwxScrollBar(widget).SetScrollbar(GetProp(), thumbSize, Range + thumbSize, pageSize)
+	End Method
+
+	Method SetProp(value:Int)
+		MaxGuiwxScrollBar(widget).SetScrollbar(value, thumbSize, Range + thumbSize, pageSize)
+	End Method
+
+	Method GetProp:Int()
+		Return MaxGuiwxScrollBar(widget).GetThumbPosition()
+	End Method
+
+	Method Class:Int()
+		Return GADGET_SLIDER
+	EndMethod
+
+End Type
+
+Type TwxProgressBar Extends TwxGadget
+
+	Method InitGadget()
+		CreateProgressBar()
+	End Method
+	
+	Method CreateProgressBar()
+	
+		widget = New MaxGuiwxGauge.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, wxGA_SMOOTH)
+		
+		Rethink()
+		
+		SetShow(True)
+		
+	End Method
+
+	Method SetValue(value:Float)
+		MaxGuiwxGauge(widget).SetValue(value * 100)
+	End Method
+	
+	Method Class:Int()
+		Return GADGET_PROGBAR
+	EndMethod
+
+End Type
+
+Type TwxComboBox Extends TwxGadget
+
+	Method InitGadget()
+		CreateComboBox()
+	End Method
+	
+	Method CreateComboBox()
+	
+		Local s:Int = wxCB_READONLY
+		
+		If style & COMBOBOX_EDITABLE Then
+			s = 0
+		End If
+	
+		widget = New MaxGuiwxComboBox.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, s)
+		
+		Rethink()
+		
+		SetShow(True)
+		
+	End Method
+
+	Method InsertListItem(index:Int, text:String, tip:String, icon:Int, extra:Object)
+		Local image:wxBitmap
+		
+		If icons And icon >= 0 Then
+			image = icons.icons[icon]
+		End If
+		
+		MaxGuiwxComboBox(widget).InsertBitmap(index, text, image, extra)
+	End Method
+
+	Method SetItemState:Int(index:Int, state:Int)
+DebugLog "TODO : TwxComboBox::SetItemState"
+	End Method
+
+	Method ItemState:Int(index:Int)
+DebugLog "TODO : TwxComboBox::ItemState"
+	End Method
+	
+	Method SelectedItem:Int()
+		Return MaxGuiwxComboBox(widget).GetCurrentSelection()
+	End Method
+
+	Method SetListItem(index:Int, text:String ,tip:String, icon:Int, data:Object)
+		Local image:wxBitmap
+		
+		If icons And icon >= 0 Then
+			image = icons.icons[icon]
+		End If
+		
+		MaxGuiwxComboBox(widget).SetListItem(index, text, image, data)
+	End Method
+
+
+	Method SelectItem:Int(index:Int, op:Int= 1) '0=deselect 1=select 2=toggle
+		MaxGuiwxComboBox(widget).SetSelection(index)
+	End Method
+	
+	Method RemoveListItem(index:Int)
+'DebugLog "TQtComboBox::RemoveListItem(" + index + ")"
+		MaxGuiwxComboBox(widget).DeleteItem(index)
+	End Method
+
+	Method Class:Int()
+		Return GADGET_COMBOBOX
+	EndMethod
+
+End Type
+
+' +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 Type MaxGuiwxFrame Extends wxFrame
 
 	Field gadget:TwxGadget
-	'Field menubar:QMenuBar
-	'Field statusbar:QStatusBar
-	
-	'Field sbLabels:QLabel[3]
-	'Field sbText:String
-
-	'Field tbIconSize:Int
-	
-	'Field okButton:TQtPushButton
-	'Field cancelButton:TQtPushButton
 	
 	' this is our "client area"
 	' it automatically scales to fit the inside of the window.
-	'Field clientWidget:wxWindow
+	Field clientWidget:wxPanel
 
 	Method MCreate:MaxGuiwxFrame(parent:wxWindow = Null, style:Int, owner:TwxGadget)
 		Local flags:Int
@@ -643,6 +873,8 @@ Type MaxGuiwxFrame Extends wxFrame
 	End Method
 
 	Method OnInit()
+		clientWidget = New wxPanel.Create(Self, wxID_ANY)
+
 		ConnectAny(wxEVT_CLOSE_WINDOW, _OnCloseWindow)
 	End Method
 	
@@ -674,16 +906,12 @@ Type MaxGuiwxButton Extends wxButton
 	End Method
 
 	Method OnInit()
-		ConnectAny(wxEVT_COMMAND_BUTTON_CLICKED, _OnClick)
+		ConnectAny(wxEVT_COMMAND_BUTTON_CLICKED, OnClick)
 	End Method
 
-	Function _OnClick(event:wxEvent)
-		MaxGuiwxButton(event.parent).OnClick(wxCommandEvent(event))
+	Function OnClick(event:wxEvent)
+		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxButton(event.parent).gadget
 	End Function
-
-	Method OnClick(event:wxCommandEvent)
-		PostGuiEvent EVENT_GADGETACTION, gadget
-	End Method
 	
 End Type
 
@@ -698,16 +926,12 @@ Type MaxGuiwxCheckBox Extends wxCheckBox
 	End Method
 
 	Method OnInit()
-		ConnectAny(wxEVT_COMMAND_CHECKBOX_CLICKED, _OnClick)
+		ConnectAny(wxEVT_COMMAND_CHECKBOX_CLICKED, OnClick)
 	End Method
 
-	Function _OnClick(event:wxEvent)
-		MaxGuiwxCheckBox(event.parent).OnClick(wxCommandEvent(event))
+	Function OnClick(event:wxEvent)
+		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxCheckBox(event.parent).gadget
 	End Function
-
-	Method OnClick(event:wxCommandEvent)
-		PostGuiEvent EVENT_GADGETACTION, gadget
-	End Method
 	
 End Type
 
@@ -722,16 +946,12 @@ Type MaxGuiwxToggleButton Extends wxToggleButton
 	End Method
 
 	Method OnInit()
-		ConnectAny(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, _OnClick)
+		ConnectAny(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, OnClick)
 	End Method
 
-	Function _OnClick(event:wxEvent)
-		MaxGuiwxToggleButton(event.parent).OnClick(wxCommandEvent(event))
+	Function OnClick(event:wxEvent)
+		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxToggleButton(event.parent).gadget
 	End Function
-
-	Method OnClick(event:wxCommandEvent)
-		PostGuiEvent EVENT_GADGETACTION, gadget
-	End Method
 	
 End Type
 
@@ -746,16 +966,12 @@ Type MaxGuiwxRadioButton Extends wxRadioButton
 	End Method
 
 	Method OnInit()
-		ConnectAny(wxEVT_COMMAND_RADIOBUTTON_SELECTED, _OnClick)
+		ConnectAny(wxEVT_COMMAND_RADIOBUTTON_SELECTED, OnClick)
 	End Method
 
-	Function _OnClick(event:wxEvent)
-		MaxGuiwxRadioButton(event.parent).OnClick(wxCommandEvent(event))
+	Function OnClick(event:wxEvent)
+		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxRadioButton(event.parent).gadget
 	End Function
-
-	Method OnClick(event:wxCommandEvent)
-		PostGuiEvent EVENT_GADGETACTION, gadget
-	End Method
 	
 End Type
 
@@ -800,16 +1016,12 @@ Type MaxGuiwxTextCtrl Extends wxTextCtrl
 	End Method
 
 	Method OnInit()
-		ConnectAny(wxEVT_COMMAND_TEXT_UPDATED, _OnEdit)
+		ConnectAny(wxEVT_COMMAND_TEXT_UPDATED, OnEdit)
 	End Method
 
-	Function _OnEdit(event:wxEvent)
-		MaxGuiwxTextCtrl(event.parent).OnEdit(wxCommandEvent(event))
+	Function OnEdit(event:wxEvent)
+		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxTextCtrl(event.parent).gadget
 	End Function
-
-	Method OnEdit(event:wxCommandEvent)
-		PostGuiEvent EVENT_GADGETACTION, gadget
-	End Method
 
 End Type
 
@@ -843,4 +1055,102 @@ Type MaxGuiwxStaticBox Extends wxStaticBox
 
 	End Method
 
+End Type
+
+Type MaxGuiwxSlider Extends wxSlider
+
+	Field gadget:TwxGadget
+
+	Method MCreate:MaxGuiwxSlider(owner:TwxGadget, parent:wxWindow, x:Int, y:Int, w:Int, h:Int, style:Int)
+		gadget = owner
+		Super.Create(parent, -1, 1, 1, 10, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Method OnInit()
+		ConnectAny(wxEVT_SCROLL, OnScroll, Self)
+	End Method
+	
+	Function OnScroll(event:wxEvent)
+		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxSlider(event.parent).gadget, wxScrollEvent(event).GetPosition()
+	End Function
+
+End Type
+
+Type MaxGuiwxSpinButton Extends wxSpinButton
+
+	Field gadget:TwxGadget
+
+	Method MCreate:MaxGuiwxSpinButton(owner:TwxGadget, parent:wxWindow, x:Int, y:Int, w:Int, h:Int, style:Int)
+		gadget = owner
+		Super.Create(parent, -1, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Method OnInit()
+		ConnectAny(wxEVT_SPIN, OnSpin, Self)
+	End Method
+
+	Function OnSpin(event:wxEvent)
+		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxSpinButton(event.parent).gadget, wxSpinEvent(event).GetPosition()
+	End Function
+
+End Type
+
+Type MaxGuiwxScrollBar Extends wxScrollBar
+
+	Field gadget:TwxGadget
+
+	Method MCreate:MaxGuiwxScrollBar(owner:TwxGadget, parent:wxWindow, x:Int, y:Int, w:Int, h:Int, style:Int)
+		gadget = owner
+		Super.Create(parent, -1, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Method OnInit()
+		ConnectAny(wxEVT_SCROLL, OnScroll, Self)
+	End Method
+	
+	Function OnScroll(event:wxEvent)
+		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxScrollBar(event.parent).gadget, wxScrollEvent(event).GetPosition()
+	End Function
+
+End Type
+
+Type MaxGuiwxGauge Extends wxGauge
+
+	Field gadget:TwxGadget
+
+	Method MCreate:MaxGuiwxGauge(owner:TwxGadget, parent:wxWindow, x:Int, y:Int, w:Int, h:Int, style:Int)
+		gadget = owner
+		Super.Create(parent, -1, 100, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Method OnInit()
+
+	End Method
+	
+End Type
+
+Type MaxGuiwxComboBox Extends wxBitmapComboBox
+
+	Field gadget:TwxGadget
+
+	Method MCreate:MaxGuiwxComboBox(owner:TwxGadget, parent:wxWindow, x:Int, y:Int, w:Int, h:Int, style:Int)
+		gadget = owner
+		Super.Create(parent, -1, "", Null, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Method OnInit()
+
+	End Method
+	
+	Method SetListItem(index:Int, text:String, icon:wxBitmap, data:Object)
+		SetString(index, text)
+		SetItemBitmap(index, icon)
+		SetItemClientData(index, data)
+	End Method
+	
 End Type
