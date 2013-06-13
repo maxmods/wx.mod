@@ -805,7 +805,8 @@ Type TwxComboBox Extends TwxGadget
 			image = icons.icons[icon]
 		End If
 		
-		MaxGuiwxComboBox(widget).InsertBitmap(index, text, image, extra)
+		'MaxGuiwxComboBox(widget).InsertBitmap(index, text, image, extra)
+		MaxGuiwxComboBox(widget).Insert(text, index, extra)
 	End Method
 
 	Method SetItemState:Int(index:Int, state:Int)
@@ -1133,7 +1134,7 @@ Type MaxGuiwxGauge Extends wxGauge
 	
 End Type
 
-Type MaxGuiwxComboBox Extends wxBitmapComboBox
+Type MaxGuiwxComboBox Extends wxComboBox
 
 	Field gadget:TwxGadget
 
@@ -1144,12 +1145,16 @@ Type MaxGuiwxComboBox Extends wxBitmapComboBox
 	End Method
 
 	Method OnInit()
-
+		Connect(-1, wxEVT_COMMAND_COMBOBOX_SELECTED, OnSelected, Self)
 	End Method
+
+	Function OnSelected(event:wxEvent)
+		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxComboBox(event.parent).gadget, MaxGuiwxComboBox(event.parent).GetSelection()
+	End Function
 	
 	Method SetListItem(index:Int, text:String, icon:wxBitmap, data:Object)
 		SetString(index, text)
-		SetItemBitmap(index, icon)
+		'SetItemBitmap(index, icon)
 		SetItemClientData(index, data)
 	End Method
 	

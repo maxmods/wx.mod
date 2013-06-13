@@ -287,18 +287,27 @@ End Type
 Type TComboEventFactory Extends TEventFactory
 
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
-	
-		If evt.eventType = wxEVT_COMMAND_COMBOBOX_SELECTED Then
-			Return wxCommandEvent.Create(wxEventPtr, evt)
-		End If
+		Select evt.eventType
+			Case wxEVT_COMMAND_COMBOBOX_SELECTED, ..
+				wxEVT_COMMAND_TEXT_UPDATED, ..
+				wxEVT_COMMAND_TEXT_ENTER, ..
+				wxEVT_COMMAND_COMBOBOX_DROPDOWN, ..
+				wxEVT_COMMAND_COMBOBOX_CLOSEUP
+					Return wxCommandEvent.Create(wxEventPtr, evt)
+		End Select
 		
 		Return Null
 	End Method
 
 	Method GetEventType:Int(eventType:Int)
-		If eventType = wxEVT_COMMAND_COMBOBOX_SELECTED Then
+		Select eventType
+			Case wxEVT_COMMAND_COMBOBOX_SELECTED, ..
+				wxEVT_COMMAND_TEXT_UPDATED, ..
+				wxEVT_COMMAND_TEXT_ENTER, ..
+				wxEVT_COMMAND_COMBOBOX_DROPDOWN, ..
+				wxEVT_COMMAND_COMBOBOX_CLOSEUP
 			Return bmx_wxcombobox_geteventtype(eventType)
-		End If
+		End Select
 	End Method
 		
 End Type

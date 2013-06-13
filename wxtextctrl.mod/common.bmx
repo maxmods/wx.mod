@@ -145,8 +145,6 @@ End Extern
 
 ' note : these are set as negative because they used to be positive but where then moved (in wxWidgets), where
 ' they are these days assigned a runtime number...
-Const wxEVT_COMMAND_TEXT_UPDATED:Int = -7
-Const wxEVT_COMMAND_TEXT_ENTER:Int = -8
 Const wxEVT_COMMAND_TEXT_URL:Int = -13
 Const wxEVT_COMMAND_TEXT_MAXLEN:Int = -14
 

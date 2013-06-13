@@ -18,4 +18,4 @@ Import wx.wxSlider
 Import wx.wxSpinButton
 Import wx.wxScrollBar
 Import wx.wxGauge
-Import wx.wxBitmapComboBox
+Import wx.wxComboBox

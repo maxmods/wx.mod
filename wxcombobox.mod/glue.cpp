@@ -217,6 +217,10 @@ void bmx_wxcombobox_undo(wxComboBox * combo) {
 int bmx_wxcombobox_geteventtype(int type) {
 	switch(type) {
 		case 15: return wxEVT_COMMAND_COMBOBOX_SELECTED;
+		case -7: return wxEVT_COMMAND_TEXT_UPDATED;
+		case -8: return wxEVT_COMMAND_TEXT_ENTER;
+		case -63: return wxEVT_COMMAND_COMBOBOX_DROPDOWN;
+		case -64: return wxEVT_COMMAND_COMBOBOX_CLOSEUP;
 	}
 	
 	return 0;
