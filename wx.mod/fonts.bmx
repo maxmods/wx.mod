@@ -142,10 +142,24 @@ Type wxFont Extends wxGDIObject
 	End Method
 
 	Rem
+	bbdoc: Gets the pixel size.
+	End Rem
+	Method GetPixelSize(w:Int Var, h:Int Var)
+		bmx_wxfont_getpixelsize(wxObjectPtr, Varptr w, Varptr h)
+	End Method
+	
+	Rem
 	bbdoc: Gets the point size.
 	End Rem
 	Method GetPointSize:Int()
 		Return bmx_wxfont_getpointsize(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the font is stricken-through, false otherwise.
+	End Rem
+	Method GetStrikethrough:Int()
+		Return bmx_wxfont_getstrikethrough(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -264,10 +278,33 @@ Type wxFont Extends wxGDIObject
 	End Method
 	
 	Rem
+	bbdoc: Sets the pixel size.
+	about: The height parameter of the pixel size must be positive while the width parameter may also
+	be zero (to indicate that you're not interested in the width of the characters: a suitable width
+	will be chosen for best rendering).
+	<p>
+	This feature (specifying the font pixel size) is directly supported only under wxMSW and wxGTK
+	currently; under other platforms a font with the closest size to the given one is found using
+	binary search (this may be slower).
+	</p>
+	End Rem
+	Method SetPixelSize(w:Int, h:Int)
+		bmx_wxfont_setpixelsize(wxObjectPtr, w, h)
+	End Method
+	
+	Rem
 	bbdoc: Sets the point size.
 	End Rem
 	Method SetPointSize(size:Int)
 		bmx_wxfont_setpointsize(wxObjectPtr, size)
+	End Method
+	
+	Rem
+	bbdoc: Sets strike-through attribute of the font.
+	about: Currently stricken-through fonts are only supported in wxMSW and wxGTK.
+	End Rem
+	Method SetStrikethrough(strikethrough:Int)
+		bmx_wxfont_setstrikethrough(wxObjectPtr, strikethrough)
 	End Method
 
 	Rem

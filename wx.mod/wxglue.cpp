@@ -1128,9 +1128,9 @@ MaxFont * bmx_wxfont_create() {
 }
 
 MaxFont * bmx_wxfont_createattr(int pointSize, wxFontFamily family, int style, wxFontWeight weight,
-		bool underline, BBString * faceName, wxFontEncoding encoding) {
+		int underline, BBString * faceName, wxFontEncoding encoding) {
 
-	wxFont f(pointSize, family, style, weight, underline, wxStringFromBBString(faceName), encoding);
+	wxFont f(pointSize, family, style, weight, static_cast<bool>(underline), wxStringFromBBString(faceName), encoding);
 	return new MaxFont(f);
 
 }
@@ -1147,8 +1147,8 @@ void bmx_wxfont_setpointsize(MaxFont * font, int size) {
 	font->Font().SetPointSize(size);
 }
 
-bool bmx_wxfont_isfixedwidth(MaxFont * font) {
-	return font->Font().IsFixedWidth();
+int bmx_wxfont_isfixedwidth(MaxFont * font) {
+	return static_cast<int>(font->Font().IsFixedWidth());
 }
 
 wxFontEncoding bmx_wxfont_getdefaultencoding() {
@@ -1179,16 +1179,16 @@ int bmx_wxfont_getstyle(MaxFont * font) {
 	return font->Font().GetStyle();
 }
 
-bool bmx_wxfont_getunderlined(MaxFont * font) {
-	return font->Font().GetUnderlined();
+int bmx_wxfont_getunderlined(MaxFont * font) {
+	return static_cast<int>(font->Font().GetUnderlined());
 }
 
 int bmx_wxfont_getweight(MaxFont * font) {
 	return font->Font().GetWeight();
 }
 
-bool bmx_wxfont_isok(MaxFont * font) {
-	return font->Font().IsOk();
+int bmx_wxfont_isok(MaxFont * font) {
+	return static_cast<int>(font->Font().IsOk());
 }
 
 wxFontEncoding bmx_wxfont_getencoding(MaxFont * font) {
@@ -1207,8 +1207,8 @@ void bmx_wxfont_setstyle(MaxFont * font, int style) {
 	font->Font().SetStyle(style);
 }
 
-void bmx_wxfont_setunderlined(MaxFont * font, bool underlined) {
-	font->Font().SetUnderlined(underlined);
+void bmx_wxfont_setunderlined(MaxFont * font, int underlined) {
+	font->Font().SetUnderlined(static_cast<bool>(underlined));
 }
 
 void bmx_wxfont_setweight(MaxFont * font, int weight) {
@@ -1219,20 +1219,20 @@ void bmx_wxfont_setdefaultencoding(wxFontEncoding encoding) {
 	wxFont::SetDefaultEncoding(encoding);
 }
 
-bool bmx_wxfont_setfacename(MaxFont * font, BBString * name) {
-	return font->Font().SetFaceName(wxStringFromBBString(name));
+int bmx_wxfont_setfacename(MaxFont * font, BBString * name) {
+	return static_cast<int>(font->Font().SetFaceName(wxStringFromBBString(name)));
 }
 
 void bmx_wxfont_setfamily(MaxFont * font, int family) {
 	font->Font().SetFamily(family);
 }
 
-bool bmx_wxfont_setnativefontinfo(MaxFont * font, BBString * info) {
-	return font->Font().SetNativeFontInfo(wxStringFromBBString(info));
+int bmx_wxfont_setnativefontinfo(MaxFont * font, BBString * info) {
+	return static_cast<int>(font->Font().SetNativeFontInfo(wxStringFromBBString(info)));
 }
 
-bool bmx_wxfont_setnativefontinfouserdesc(MaxFont * font, BBString * info) {
-	return font->Font().SetNativeFontInfoUserDesc(wxStringFromBBString(info));
+int bmx_wxfont_setnativefontinfouserdesc(MaxFont * font, BBString * info) {
+	return static_cast<int>(font->Font().SetNativeFontInfoUserDesc(wxStringFromBBString(info)));
 }
 
 void bmx_wxfont_setencoding(MaxFont * font, wxFontEncoding encoding) {
@@ -1246,6 +1246,24 @@ MaxFont * bmx_wxfont_copy(MaxFont * font) {
 
 MaxFont * bmx_wxfont_null() {
 	return new MaxFont(wxNullFont);
+}
+
+void bmx_wxfont_getpixelsize(MaxFont * font, int * w, int * h) {
+	wxSize s(font->Font().GetPixelSize());
+	*w = s.GetWidth();
+	*h = s.GetHeight();
+}
+
+void bmx_wxfont_setpixelsize(MaxFont * font, int w, int h) {
+	font->Font().SetPixelSize(wxSize(w, h));
+}
+
+int bmx_wxfont_getstrikethrough(MaxFont * font) {
+	return static_cast<int>(font->Font().GetStrikethrough());
+}
+
+void bmx_wxfont_setstrikethrough(MaxFont * font, int strikethrough) {
+	font->Font().SetStrikethrough(static_cast<bool>(strikethrough));
 }
 
 // *********************************************

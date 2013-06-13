@@ -369,7 +369,11 @@ Extern
 	Function bmx_wxfont_setencoding(handle:Byte Ptr, encoding:Int)
 	Function bmx_wxfont_copy:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxfont_null:Byte Ptr()
-	
+	Function bmx_wxfont_getpixelsize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxfont_setpixelsize(handle:Byte Ptr, w:Int, h:Int)
+	Function bmx_wxfont_getstrikethrough:Int(handle:Byte Ptr)
+	Function bmx_wxfont_setstrikethrough(handle:Byte Ptr, strikethrough:Int)
+
 	Function bmx_wxpaintdc_create:Byte Ptr(window:Byte Ptr)
 	Function bmx_wxpaintdc_delete(handle:Byte Ptr)
 	
