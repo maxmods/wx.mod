@@ -26,6 +26,7 @@ Import wx.wxMessageDialog
 Import wx.wxDirDialog
 Import wx.wxFileDialog
 Import wx.wxListCtrl
+Import wx.wxChoice
 
 Function wxMouseButtonToMaxMouseButton:Int(button:Int)
 	If button = wxMOUSE_BTN_LEFT

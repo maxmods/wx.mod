@@ -806,13 +806,11 @@ Type TwxComboBox Extends TwxGadget
 	
 	Method CreateComboBox()
 	
-		Local s:Int = wxCB_READONLY
-		
 		If style & COMBOBOX_EDITABLE Then
-			s = 0
+			widget = New MaxGuiwxComboBox.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, 0)
+		Else
+			widget = New MaxGuiwxChoice.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, 0)
 		End If
-	
-		widget = New MaxGuiwxComboBox.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, s)
 		
 		Rethink()
 		
@@ -821,14 +819,7 @@ Type TwxComboBox Extends TwxGadget
 	End Method
 
 	Method InsertListItem(index:Int, text:String, tip:String, icon:Int, extra:Object)
-		Local image:wxBitmap
-		
-		If icons And icon >= 0 Then
-			image = icons.icons[icon]
-		End If
-		
-		'MaxGuiwxComboBox(widget).InsertBitmap(index, text, image, extra)
-		MaxGuiwxComboBox(widget).Insert(text, index, extra)
+		wxControlWithItems(widget).Insert(text, index, extra)
 	End Method
 
 	Method SetItemState:Int(index:Int, state:Int)
@@ -840,27 +831,21 @@ DebugLog "TODO : TwxComboBox::ItemState"
 	End Method
 	
 	Method SelectedItem:Int()
-		Return MaxGuiwxComboBox(widget).GetCurrentSelection()
+		Return wxControlWithItems(widget).GetSelection()
 	End Method
 
 	Method SetListItem(index:Int, text:String ,tip:String, icon:Int, data:Object)
-		Local image:wxBitmap
-		
-		If icons And icon >= 0 Then
-			image = icons.icons[icon]
-		End If
-		
-		MaxGuiwxComboBox(widget).SetListItem(index, text, image, data)
+		wxControlWithItems(widget).SetString(index, text)
+		wxControlWithItems(widget).SetItemClientData(index, data)
 	End Method
 
 
 	Method SelectItem:Int(index:Int, op:Int= 1) '0=deselect 1=select 2=toggle
-		MaxGuiwxComboBox(widget).SetSelection(index)
+		wxControlWithItems(widget).SetSelection(index)
 	End Method
 	
 	Method RemoveListItem(index:Int)
-'DebugLog "TQtComboBox::RemoveListItem(" + index + ")"
-		MaxGuiwxComboBox(widget).DeleteItem(index)
+		wxControlWithItems(widget).DeleteItem(index)
 	End Method
 
 	Method Class:Int()
@@ -924,7 +909,7 @@ Type TwxListBox Extends TwxGadget
 	
 	Method CreateListBox()
 	
-		widget = New MaxGuiwxListCtrl.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, wxLC_REPORT | wxLC_NO_HEADER)
+		widget = New MaxGuiwxListCtrl.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, wxLC_REPORT | wxLC_NO_HEADER | wxLC_SINGLE_SEL)
 		
 		Rethink()
 		
@@ -966,13 +951,11 @@ DebugLog "TwxListBox::ListItemState"
 	'End Method
 
 	Method RemoveListItem(index:Int)
-DebugLog "TwxListBox::RemoveListItem"
-		'MaxGuiQListView(widget).removeItem(index)
+		MaxGuiwxListCtrl(widget).DeleteItem(index)
 	End Method
 
 	Method ClearListItems()
-DebugLog "TwxListBox::ClearListItems"
-		'MaxGuiQListView(widget).clearListItems()
+		MaxGuiwxListCtrl(widget).DeleteAllItems()
 	End Method
 
 '	Method ItemState:Int(index:Int)
@@ -983,7 +966,7 @@ DebugLog "TwxListBox::ClearListItems"
 		icons = TwxIconStrip(iconstrip)
 		If icons Then
 			imageList = icons.GetImageList()
-			MaxGuiwxListCtrl(widget).SetImageList(imageList, wxIMAGE_LIST_NORMAL)
+			MaxGuiwxListCtrl(widget).SetImageList(imageList, wxIMAGE_LIST_SMALL)
 		End If
 	End Method
 
@@ -1329,18 +1312,31 @@ Type MaxGuiwxComboBox Extends wxComboBox
 		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxComboBox(event.parent).gadget, MaxGuiwxComboBox(event.parent).GetSelection()
 	End Function
 	
-	Method SetListItem(index:Int, text:String, icon:wxBitmap, data:Object)
-		SetString(index, text)
-		'SetItemBitmap(index, icon)
-		SetItemClientData(index, data)
+End Type
+
+Type MaxGuiwxChoice Extends wxChoice
+
+	Field gadget:TwxGadget
+
+	Method MCreate:MaxGuiwxChoice(owner:TwxGadget, parent:wxWindow, x:Int, y:Int, w:Int, h:Int, style:Int)
+		gadget = owner
+		Super.Create(parent, -1, Null, x, y, w, h, style)
+		Return Self
 	End Method
+
+	Method OnInit()
+		Connect(-1, wxEVT_COMMAND_CHOICE_SELECTED, OnSelected, Self)
+	End Method
+
+	Function OnSelected(event:wxEvent)
+		PostGuiEvent EVENT_GADGETACTION, MaxGuiwxChoice(event.parent).gadget, MaxGuiwxChoice(event.parent).GetSelection()
+	End Function
 	
 End Type
 
 Type MaxGuiwxListCtrl Extends wxListCtrl
 
 	Field gadget:TwxGadget
-	Field item:wxListItem
 
 	Method MCreate:MaxGuiwxListCtrl(owner:TwxGadget, parent:wxWindow, x:Int, y:Int, w:Int, h:Int, style:Int)
 		gadget = owner
@@ -1349,22 +1345,22 @@ Type MaxGuiwxListCtrl Extends wxListCtrl
 	End Method
 
 	Method OnInit()
-		' create a column for our list
-		item = New wxListItem.Create()
-		item.SetText("Column 1")
-		item.SetImage(-1)
-		InsertColumnItem(0, item)
+
+		InsertColumn(0, "Column 1")
+		
+		UpdateColumnWidth()
+	End Method
+	
+	' call this whenever we resize
+	Method UpdateColumnWidth()
+		Local w:Int, h:Int
+		GetSize(w, h)
+		SetColumnWidth(0, w)
 	End Method
 
 	Method InsertListItem(index:Int, text:String, icon:Int, data:Object)
-		item.Clear()
-		
-		item.SetId(index)
-		item.SetText(text)
-		item.SetImage(icon)
-		item.SetData(data)
-		
-		InsertItem(item)
+		InsertImageStringItem(index, text, icon)
+		SetItemData(index, data)
 	End Method
 	
 	Method SetListItem(index:Int, text:String, icon:Int, data:Object)
