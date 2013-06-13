@@ -203,10 +203,18 @@ bbdoc: Shows the colour selection dialog and returns the colour selected by user
 End Rem
 Function wxGetColourFromUser:wxColour(parent:wxWindow, init:wxColour = Null, caption:String = "")
 
-	If init Then
-		Return wxColour._create(bmx_wxgetcolourfromuser(parent.wxObjectPtr, init.wxObjectPtr, caption))
+	If parent Then
+		If init Then
+			Return wxColour._create(bmx_wxgetcolourfromuser(parent.wxObjectPtr, init.wxObjectPtr, caption))
+		Else
+			Return wxColour._create(bmx_wxgetcolourfromuser(parent.wxObjectPtr, Null, caption))
+		End If
 	Else
-		Return wxColour._create(bmx_wxgetcolourfromuser(parent.wxObjectPtr, Null, caption))
+		If init Then
+			Return wxColour._create(bmx_wxgetcolourfromuser(Null, init.wxObjectPtr, caption))
+		Else
+			Return wxColour._create(bmx_wxgetcolourfromuser(Null, Null, caption))
+		End If
 	End If
 
 End Function
