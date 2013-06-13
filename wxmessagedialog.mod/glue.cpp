@@ -47,3 +47,20 @@ MaxMessageDialog * bmx_wxmessagedialog_create(BBObject * handle, wxWindow * pare
 int bmx_wxmessagedialog_showmodal(wxMessageDialog * dialog) {
 	return dialog->ShowModal();
 }
+
+void bmx_wxmessagedialog_setextendedmessage(wxMessageDialog * dialog, BBString * message) {
+	dialog->SetExtendedMessage(wxStringFromBBString(message));
+}
+
+int bmx_wxmessagedialog_sethelplabeltext(wxMessageDialog * dialog, BBString * text) {
+	return static_cast<int>(dialog->SetHelpLabel(wxStringFromBBString(text)));
+}
+
+int bmx_wxmessagedialog_sethelplabelid(wxMessageDialog * dialog, int id) {
+	return static_cast<int>(dialog->SetHelpLabel(id));
+}
+
+void bmx_wxmessagedialog_setmessage(wxMessageDialog * dialog, BBString * message) {
+	dialog->SetMessage(wxStringFromBBString(message));
+}
+

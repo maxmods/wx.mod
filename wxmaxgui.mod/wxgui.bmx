@@ -83,15 +83,10 @@ Type TwxSystemDriver Extends TSystemDriver
 	End Method
 
 	Method Notify( text:String, serious:Int )
-'		Local msgBox:QMessageBox = New QMessageBox.Create()
-'		msgBox.setText(text)
-'
-'		If serious Then
-'			msgBox.setIcon(QMessageBox.Icon_Critical)
-'		End If
-'		
-'		msgBox.exec()
-'		msgBox.free()
+		Local msgBox:wxMessageDialog = New wxMessageDialog.Create(Null, text)
+		
+		msgBox.ShowModal()
+		msgBox.Free()
 	End Method
 	
 	Method Confirm:Int( text:String, serious:Int )
@@ -148,19 +143,19 @@ End Rem
 	End Method
 	
 	Method RequestFile:String(text:String, exts:String, Save:Int, file:String)
-'		Local filename:String
-'		
-'		If save Then
-'			filename = QFileDialog.getSaveFileName(Null, text, file, buildExtFilter(exts))
-'		Else
-'			filename = QFileDialog.getOpenFileName(Null, text, file, buildExtFilter(exts))
-'		End If
-'		
-'		Return filename
+		Local filename:String
+		
+		If save Then
+			filename = wxFileSelector(text, ExtractDir(file), StripDir(file), "", buildExtFilter(exts))
+		Else
+			filename = wxFileSelector(text, ExtractDir(file), StripDir(file), "", buildExtFilter(exts))
+		End If
+		
+		Return filename
 	End Method
 	
 	Method RequestDir:String( text:String, path:String )
-'		Return QFileDialog.getExistingDirectory(Null, text, path)
+		Return wxDirSelector(text, path)
 	End Method
 
 	Method OpenURL:Int( url:String )
@@ -191,7 +186,7 @@ End Rem
 				End If
 				
 				If filter Then
-					filter :+ ";;"
+					filter :+ "|"
 				End If
 				
 				If name Then
@@ -253,30 +248,30 @@ Type TwxGUIDriver Extends TMaxGUIDriver
 
 	Method LoadFont:TGuiFont(name:String, size:Int, flags:Int)
 	
-Rem		Local font:QFont
-		Local weight:Int = QFont.Weight_Normal
-		Local italic:Int
+		Local font:wxFont
+		Local weight:Int = wxFONTWEIGHT_NORMAL
+		Local style:Int = wxFONTSTYLE_NORMAL
+		Local underline:Int
 		
 		If flags & FONT_BOLD Then
-			weight = QFont.Weight_Bold
+			weight = wxFONTWEIGHT_BOLD
 		End If
 		
 		If flags & FONT_ITALIC Then
-			italic = True
+			style = wxFONTSTYLE_ITALIC
 		End If
-	
-		font = New QFont.Create(name, size, weight, italic)
-		
+
 		If flags & FONT_UNDERLINE Then
-			font.setUnderline(True)
+			underline = True
 		End If
+
+		font = New wxFont.CreateWithAttribs(size, wxFONTFAMILY_DEFAULT, weight, style, underline, name)
 		
 		If flags & FONT_STRIKETHROUGH Then
-			font.setStrikeOut(True)
+			font.SetStrikethrough(True)
 		End If
 		
-		Return New TQtGuiFont.Create(font)
-End Rem
+		Return New TwxGuiFont.Create(font)
 	End Method
 	
 	Method DoLoadFont:TGuiFont(font:TGuiFont)
@@ -284,24 +279,24 @@ End Rem
 	End Method
 
 	Method LibraryFont:TGuiFont( fontType:Int = GUIFONT_SYSTEM, size:Double = 0, style:Int = FONT_NORMAL )
-Rem
 		If fontType = GUIFONT_SYSTEM Then
-			Local font:QFont = QApplication.font()
+			Local font:wxFont = wxSystemSettings.GetFont(wxSYS_SYSTEM_FONT)
 			
 			If size <= 0 Then
-				size = font.pixelSize()
+				Local w:Int, h:Int
+				font.GetPixelSize(w, h)
+				size = h
 				
 				If size < 0 Then
-					size = font.pointSize()
+					size = font.GetPointSize()
 				End If
 			End If
 
-			Return LoadFontWithDouble( font.family(), size, TQtGuiFont.styleFromFont(font) | style )
+			Return LoadFontWithDouble( font.GetFaceName(), size, TwxGuiFont.styleFromFont(font) | style )
 		Else
 			Return Super.LibraryFont( fontType, size, style )
 		EndIf
-End Rem
-	EndMethod
+	End Method
 	
 	Method CreateGadget:TGadget(GadgetClass:Int, name:String, x:Int, y:Int, w:Int, h:Int,group:TGadget, style:Int)
 
@@ -310,8 +305,8 @@ End Rem
 '		Local gtkGroup:TQtGadget
 
 		Select GadgetClass
-			'Case GADGET_DESKTOP
-			'	Return New TQtDesktop.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
+			Case GADGET_DESKTOP
+				Return New TwxDesktop.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
 			Case GADGET_WINDOW
 				Return New TwxWindow.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
 			Case GADGET_BUTTON
@@ -348,9 +343,9 @@ Rem
 End Rem
 			Case GADGET_COMBOBOX
 				Return New TwxComboBox.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
-Rem
 			Case GADGET_LISTBOX
-				Return New TQtListBox.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
+				Return New TwxListBox.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+Rem 
 			Case GADGET_TOOLBAR
 				Return New TQtToolBar.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
 			Case GADGET_TABBER
@@ -417,31 +412,30 @@ End Rem
 	End Method
 	
 	Method RequestColor:Int(r:Int, g:Int, b:Int)
-Rem
 		Local rc:Int, gc:Int, bc:Int
-		Local color:QColor = QColorDialog.GetColor(New QColor.Create(r, g, b))
+		Local color:wxColour = wxGetColourFromUser(Null, New wxColour.Create(r, g, b))
 		
-		If color.isValid()
-			color.getRgb(rc, gc, bc)
+		If color.IsOk()
+			color.GetRGB(rc, gc, bc)
 			Return $ff000000 | (rc Shl 16) | (gc Shl 8) | bc
 		End If
 		
 		Return 0
-End Rem
 	End Method
 	
 	Method RequestFont:TGuiFont(font:TGuiFont)
-Rem
-		Local ok:Int
-		Local f:QFont = QFontDialog.getFontWithInitial(ok, TQtGuiFont(font).font)
-		Return New TQtGuiFont.Create(f)
-End Rem
+		Local f:wxFont
+		If font Then
+			f = TwxGuiFont(font).font
+		End If
+		f = wxGetFontFromUser(Null, f)
+		Return New TwxGuiFont.Create(f)
 	End Method
 	
 	Method SetPointer(shape:Int)
-Rem
+
 		' undo the last change
-		QApplication.restoreOverrideCursor()
+		wxSetCursor(Null)
 		
 		Local cursor:Int
 		Select shape
@@ -449,37 +443,37 @@ Rem
 				' just return to the standard cursor
 				Return
 			Case POINTER_ARROW
-				cursor = Qt_ArrowCursor
+				cursor = wxCURSOR_ARROW
 			Case POINTER_IBEAM
-				cursor = Qt_IBeamCursor
+				cursor = wxCURSOR_IBEAM
 			Case POINTER_WAIT
-				cursor = Qt_WaitCursor
+				cursor = wxCURSOR_WAIT
 			Case POINTER_CROSS
-				cursor = Qt_CrossCursor
+				cursor = wxCURSOR_CROSS
 			Case POINTER_UPARROW
-				cursor = Qt_UpArrowCursor
+				cursor = wxCURSOR_RIGHT_ARROW ' ???
 			Case POINTER_SIZENWSE
-				cursor = Qt_SizeFDiagCursor
+				cursor = wxCURSOR_SIZENWSE
 			Case POINTER_SIZENESW
-				cursor = Qt_SizeBDiagCursor
+				cursor = wxCURSOR_SIZENESW
 			Case POINTER_SIZEWE
-				cursor = Qt_SizeHorCursor
+				cursor = wxCURSOR_SIZEWE
 			Case POINTER_SIZENS
-				cursor = Qt_SizeVerCursor
+				cursor = wxCURSOR_SIZENS
 			Case POINTER_SIZEALL
-				cursor = Qt_SizeAllCursor
+				cursor = wxCURSOR_SIZING
 			Case POINTER_NO
-				cursor = Qt_ForbiddenCursor
+				cursor = wxCURSOR_NO_ENTRY
 			Case POINTER_HAND
-				cursor = Qt_OpenHandCursor
+				cursor = wxCURSOR_HAND
 			Case POINTER_APPSTARTING
-				cursor = Qt_BusyCursor
+				cursor = wxCURSOR_WATCH
 			Case POINTER_HELP
-				cursor = Qt_WhatsThisCursor
+				cursor = wxCURSOR_QUESTION_ARROW
 		End Select
 		
-		QApplication.setOverrideCursor(New QCursor.Create(cursor))
-End Rem
+		wxSetCursor(New wxCursor.StockCreate(cursor))
+
 	End Method
 	
 	Method LoadIconStrip:TIconStrip(source:Object)

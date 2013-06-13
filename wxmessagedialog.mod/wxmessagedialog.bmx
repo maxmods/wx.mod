@@ -59,8 +59,8 @@ Type wxMessageDialog Extends wxDialog
 	bbdoc: Constructor.
 	about: Use wxMessageDialog::ShowModal to show the dialog.
 	End Rem
-	Function CreateMessageDialog:wxMessageDialog(parent:wxWindow, message:String, caption:String = "Message box", ..
-			style:Int = wxOK | wxCANCEL, x:Int = -1, y:Int = -1)
+	Function CreateMessageDialog:wxMessageDialog(parent:wxWindow, message:String, caption:String = "Message", ..
+			style:Int = wxOK | wxCENTRE, x:Int = -1, y:Int = -1)
 		Return New wxMessageDialog.Create(parent, message, caption, style, x, y)
 	End Function
 	
@@ -68,8 +68,8 @@ Type wxMessageDialog Extends wxDialog
 	bbdoc: Constructor.
 	about: Use wxMessageDialog::ShowModal to show the dialog.
 	End Rem
-	Method Create:wxMessageDialog(parent:wxWindow, message:String, caption:String = "Message box", ..
-			style:Int = wxOK | wxCANCEL, x:Int = -1, y:Int = -1)
+	Method Create:wxMessageDialog(parent:wxWindow, message:String, caption:String = "Message", ..
+			style:Int = wxOK | wxCENTRE, x:Int = -1, y:Int = -1)
 		If parent Then
 			wxObjectPtr = bmx_wxmessagedialog_create(Self, parent.wxObjectPtr, message, caption, style, x, y)
 		Else
@@ -77,7 +77,23 @@ Type wxMessageDialog Extends wxDialog
 		End If
 		Return Self
 	End Method
-
+	
+	Method SetExtendedMessage(message:String)
+		bmx_wxmessagedialog_setextendedmessage(wxObjectPtr, message)
+	End Method
+	
+	Method SetHelpLabelText:Int(text:String)
+		Return bmx_wxmessagedialog_sethelplabeltext(wxObjectPtr, text)
+	End Method
+	
+	Method SetHelpLabelId:Int(id:Int)
+		Return bmx_wxmessagedialog_sethelplabelid(wxObjectPtr, id)
+	End Method
+	
+	Method SetMessage(message:String)
+		bmx_wxmessagedialog_setmessage(wxObjectPtr, message)
+	End Method
+	
 	Rem
 	bbdoc: Shows the dialog, returning one of wxID_OK, wxID_CANCEL, wxID_YES, wxID_NO.
 	End Rem

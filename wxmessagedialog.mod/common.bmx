@@ -46,5 +46,9 @@ Extern
 
 	Function bmx_wxmessagedialog_create:Byte Ptr(handle:Object, parent:Byte Ptr, message:String, caption:String, style:Int, x:Int, y:Int)
 	Function bmx_wxmessagedialog_showmodal:Int(handle:Byte Ptr)
+	Function bmx_wxmessagedialog_setextendedmessage(handle:Byte Ptr, message:String)
+	Function bmx_wxmessagedialog_sethelplabeltext:Int(handle:Byte Ptr, text:String)
+	Function bmx_wxmessagedialog_sethelplabelid:Int(handle:Byte Ptr, id:Int)
+	Function bmx_wxmessagedialog_setmessage(handle:Byte Ptr, message:String)
 
 End Extern

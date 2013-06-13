@@ -77,6 +77,18 @@ Type TwxGadget Extends TGadget
 		Return widget
 	End Method
 
+	Method SetFont(font:TGuiFont)
+		widget.SetFont(TwxGuiFont(font).font)
+	End Method
+	
+	Method GetFont:TGuiFont()
+		Return New TwxGuiFont.Create(widget.GetFont())
+	End Method
+
+	Method SetIconStrip(iconstrip:TIconStrip)
+		icons = TwxIconStrip(iconstrip)
+	End Method
+
 End Type
 
 Type TwxIconStrip Extends TIconStrip
@@ -145,6 +157,16 @@ Type TwxIconStrip Extends TIconStrip
 		Local a:Int = ((argb Shr 24) & $FF)
 		Return ((((argb&$ff00ff)*a)Shr 8)&$ff00ff)|((((argb&$ff00)*a)Shr 8)&$ff00)|(a Shl 24)
 	End Function
+	
+	' create an imagelist from the icons
+	Method GetImageList:wxImageList()
+		Local imageList:wxImageList = New wxImageList.Create(dim, dim)
+		For Local bitmap:wxBitmap = EachIn icons
+			imageList.Add(bitmap)
+		Next
+		
+		Return imageList
+	End Method
 	
 EndType
 
@@ -534,11 +556,11 @@ Type TwxPanel Extends TwxGadget
 
 		widget = New MaxGuiwxPanel.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, panelStyle)
 
-'		If style & PANEL_ACTIVE Then
-'			' enable mouse sensitivity for active panel
-'			sensitivity :| SENSITIZE_MOUSE
-'			widget.setMouseTracking(True)
-'		End If
+		If style & PANEL_ACTIVE Then
+			' enable mouse sensitivity for active panel
+			sensitivity :| SENSITIZE_MOUSE
+		'	widget.setMouseTracking(True)
+		End If
 
 		Rethink()
 		
@@ -847,6 +869,130 @@ DebugLog "TODO : TwxComboBox::ItemState"
 
 End Type
 
+Type TwxDesktop Extends TwxGadget
+
+	Method InitGadget()
+		CreateDesktop()
+	End Method
+	
+	Method CreateDesktop()
+	
+		widget = Null
+		
+	End Method
+	
+	Method Rethink()
+	End Method
+
+	Method GetWidth:Int()
+		Local w:Int, h:Int
+		wxDisplaySize(w, h)
+		Return w
+	EndMethod
+	
+	Method GetHeight:Int()
+		Local w:Int, h:Int
+		wxDisplaySize(w, h)
+		Return h
+	EndMethod
+
+	Method Class:Int()
+		Return GADGET_DESKTOP
+	EndMethod
+
+	Method ClientWidth:Int()
+		Local x:Int, y:Int, w:Int, h:Int
+		wxClientDisplayRect(x, y, w, h)
+		Return w
+	End Method
+	
+	Method ClientHeight:Int()
+		Local x:Int, y:Int, w:Int, h:Int
+		wxClientDisplayRect(x, y, w, h)
+		Return h
+	End Method
+	
+End Type
+
+Type TwxListBox Extends TwxGadget
+
+	Field imageList:wxImageList
+
+	Method InitGadget()
+		CreateListBox()
+	End Method
+	
+	Method CreateListBox()
+	
+		widget = New MaxGuiwxListCtrl.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, wxLC_REPORT | wxLC_NO_HEADER)
+		
+		Rethink()
+		
+		SetShow(True)
+		
+	End Method
+
+	Method InsertListItem(index:Int, text:String, tip:String, icon:Int, extra:Object)
+
+		If Not imageList Then
+			icon = -1
+		End If
+		
+		MaxGuiwxListCtrl(widget).InsertListItem(index, text, icon, extra)
+	End Method
+
+	Method SetListItem(index:Int, text:String ,tip:String, icon:Int, data:Object)
+
+		If Not imageList Then
+			icon = -1
+		End If
+		
+		MaxGuiwxListCtrl(widget).SetListItem(index, text, icon, data)
+	End Method
+
+	Method SetListItemState(index:Int, state:Int)
+DebugLog "TwxListBox::SetListItemState"
+		'MaxGuiQListView(widget).setListItemState(index, state)
+	End Method
+
+	Method ListItemState:Int(index:Int)
+DebugLog "TwxListBox::ListItemState"
+		'Return MaxGuiQListView(widget).listItemState(index)
+	End Method
+
+	'Method SelectItem:Int(index:Int, op:Int= 1) '0=deselect 1=select 2=toggle
+'DebugLog "TQtListBox::SelectItem"
+	'	MaxGuiQListView(widget).selectItem(index, op)
+	'End Method
+
+	Method RemoveListItem(index:Int)
+DebugLog "TwxListBox::RemoveListItem"
+		'MaxGuiQListView(widget).removeItem(index)
+	End Method
+
+	Method ClearListItems()
+DebugLog "TwxListBox::ClearListItems"
+		'MaxGuiQListView(widget).clearListItems()
+	End Method
+
+'	Method ItemState:Int(index:Int)
+'DebugLog "TQtListBox::ItemState"
+'	End Method
+
+	Method SetIconStrip(iconstrip:TIconStrip)
+		icons = TwxIconStrip(iconstrip)
+		If icons Then
+			imageList = icons.GetImageList()
+			MaxGuiwxListCtrl(widget).SetImageList(imageList, wxIMAGE_LIST_NORMAL)
+		End If
+	End Method
+
+	Method Class:Int()
+		Return GADGET_LISTBOX
+	EndMethod
+
+End Type
+
 ' +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Type MaxGuiwxFrame Extends wxFrame
@@ -1037,8 +1183,39 @@ Type MaxGuiwxPanel Extends wxPanel
 	End Method
 
 	Method OnInit()
-
+		ConnectAny(wxEVT_MOUSE_EVENTS, OnMouseEvent, Self)
 	End Method
+	
+	Function OnMouseEvent(event:wxEvent)
+		If MaxGuiwxPanel(event.parent).gadget.sensitivity & SENSITIZE_MOUSE Then
+			Local evt:wxMouseEvent = wxMouseEvent(event)
+			Local x:Int, y:Int
+			evt.GetPosition(x, y)
+		
+			Select evt.GetEventType()
+				Case wxEVT_ENTER_WINDOW
+					PostGuiEvent EVENT_MOUSEENTER, MaxGuiwxPanel(event.parent).gadget
+
+				Case wxEVT_LEAVE_WINDOW
+					PostGuiEvent EVENT_MOUSELEAVE, MaxGuiwxPanel(event.parent).gadget
+
+				Case wxEVT_MOTION
+					PostGuiEvent EVENT_MOUSEMOVE, MaxGuiwxPanel(event.parent).gadget, wxMouseButtonToMaxMouseButton(evt.GetButton()), , x, y
+
+				Case wxEVT_LEFT_DOWN, wxEVT_MIDDLE_DOWN
+					PostGuiEvent EVENT_MOUSEDOWN, MaxGuiwxPanel(event.parent).gadget, wxMouseButtonToMaxMouseButton(evt.GetButton()), , x, y
+
+				Case wxEVT_RIGHT_DOWN
+					PostGuiEvent EVENT_GADGETMENU, MaxGuiwxPanel(event.parent).gadget, MOUSE_RIGHT, , x, y
+
+				Case wxEVT_LEFT_UP, wxEVT_RIGHT_UP, wxEVT_MIDDLE_UP
+					PostGuiEvent EVENT_MOUSEUP, MaxGuiwxPanel(event.parent).gadget, wxMouseButtonToMaxMouseButton(evt.GetButton()), , x, y
+				
+				Case wxEVT_MOUSEWHEEL
+					PostGuiEvent EVENT_MOUSEWHEEL, MaxGuiwxPanel(event.parent).gadget, evt.GetWheelRotation(), , x, y
+			End Select
+		End If
+	End Function
 
 End Type
 
@@ -1156,6 +1333,43 @@ Type MaxGuiwxComboBox Extends wxComboBox
 		SetString(index, text)
 		'SetItemBitmap(index, icon)
 		SetItemClientData(index, data)
+	End Method
+	
+End Type
+
+Type MaxGuiwxListCtrl Extends wxListCtrl
+
+	Field gadget:TwxGadget
+	Field item:wxListItem
+
+	Method MCreate:MaxGuiwxListCtrl(owner:TwxGadget, parent:wxWindow, x:Int, y:Int, w:Int, h:Int, style:Int)
+		gadget = owner
+		Super.Create(parent, -1, x, y, w, h, style)
+		Return Self
+	End Method
+
+	Method OnInit()
+		' create a column for our list
+		item = New wxListItem.Create()
+		item.SetText("Column 1")
+		item.SetImage(-1)
+		InsertColumnItem(0, item)
+	End Method
+
+	Method InsertListItem(index:Int, text:String, icon:Int, data:Object)
+		item.Clear()
+		
+		item.SetId(index)
+		item.SetText(text)
+		item.SetImage(icon)
+		item.SetData(data)
+		
+		InsertItem(item)
+	End Method
+	
+	Method SetListItem(index:Int, text:String, icon:Int, data:Object)
+		SetStringItem(index, 0, text, icon)
+		SetItemData(index, data)
 	End Method
 	
 End Type
