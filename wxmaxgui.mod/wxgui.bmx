@@ -1,3 +1,23 @@
+' Copyright (c) 2013 Bruce A Henderson
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in
+' all copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+' THE SOFTWARE.
+' 
 SuperStrict
 
 Import "wxcommon.bmx"
@@ -352,9 +372,18 @@ Rem
 				Return New TQtTabber.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
 			Case GADGET_TREEVIEW
 				Return New TQtTreeView.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
-			Case GADGET_HTMLVIEW
-				Return New TQtHtmlView.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
 End Rem
+
+			Case GADGET_HTMLVIEW
+				If wxmaxgui_htmlview Then
+					Return wxmaxgui_htmlview.CreateHTMLView(name, x, y, w, h, TwxGadget(group), style)
+				Else
+					Throw "No HTMLView specified. You need To Import one!    " + ..
+						" Import wx.wxmaxguiwebview " + ..
+						" or    " + ..
+						" Import wx.wxmaxguihtmlwindow"
+				End If
+
 			Case GADGET_LABEL
 				If style & 3 = LABEL_SEPARATOR Then
 					Return New TwxSeparator.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
@@ -383,27 +412,27 @@ End Rem
 	End Method
 	
 	Function eventHandler:Object(id:Int, data:Object, context:Object )
-Rem
+
 		'DebugLog "event : " + event.id + " : " + EVENT_WINDOWSIZE
 		
-		Local event:TEvent = TEvent(data)
-		Local gadget:TQtGadget = TQtGadget(event.source)
+'		Local event:TEvent = TEvent(data)
+'		Local gadget:TwxGadget = TwxGadget(event.source)
 		
-		If gadget Then
-			Select event.id
-				Case EVENT_WINDOWSIZE
+'		If gadget Then
+'			Select event.id
+'				Case EVENT_WINDOWSIZE
 'DebugLog "EVENT_WINDOWSIZE"
-					If gadget.width <> event.x Or gadget.height <> event.y Then
+'					If gadget.width <> event.x Or gadget.height <> event.y Then
 'DebugLog "Need layout"
 'DebugStop
-						gadget.SetRect gadget.xpos,gadget.ypos,event.x,event.y
-						gadget.LayoutKids
-					Else
-						Return data
-					EndIf
-			End Select
-		End If
-End Rem
+'						gadget.SetRect gadget.xpos,gadget.ypos,event.x,event.y
+'						gadget.LayoutKids
+'					Else
+'						Return data
+'					EndIf
+'			End Select
+'		End If
+
 		Return data
 	End Function
 
@@ -489,6 +518,12 @@ End Rem
 	End Method
 
 End Type
+
+Type TwxWebDriver
+	Method CreateHTMLView:TGadget(text:String, x:Int, y:Int, w:Int, h:Int, group:TwxGadget, style:Int) Abstract
+End Type
+
+Global wxmaxgui_htmlview:TwxWebDriver
 
 ?linux
 Extern

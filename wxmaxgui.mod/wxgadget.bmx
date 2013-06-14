@@ -1,3 +1,23 @@
+' Copyright (c) 2013 Bruce A Henderson
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in
+' all copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+' THE SOFTWARE.
+' 
 SuperStrict
 
 Import "wxfont.bmx"
@@ -6,6 +26,8 @@ Type TwxGadget Extends TGadget
 
 	Field widget:wxWindow
 	Field icons:TwxIconStrip
+	
+	Field initing:Int = True
 
 	Method CreateGadget:TwxGadget(text:String, x:Int, y:Int, w:Int, h:Int, group:TwxGadget, style:Int)
 		
@@ -27,13 +49,14 @@ Type TwxGadget Extends TGadget
 			parent.kids.AddLast(Self)
 		End If
 		
+		initing = False
 		'SetFont(TFLTKGUIDriver.fntDefault)
 		Return Self
 		
-	EndMethod
+	End Method
 	
 	Method InitGadget()
-	EndMethod
+	End Method
 
 	Method SetShow(truefalse:Int)
 		If truefalse Then
@@ -87,6 +110,11 @@ Type TwxGadget Extends TGadget
 
 	Method SetIconStrip(iconstrip:TIconStrip)
 		icons = TwxIconStrip(iconstrip)
+	End Method
+	
+	Method Rethink()
+		widget.Move(xpos, ypos)
+		widget.SetSize(width, height)
 	End Method
 
 End Type
@@ -182,9 +210,9 @@ Type TwxWindow Extends TwxGadget
 		Local flags:Int = 0
 		
 		If parent Then
-			widget = New MaxGuiwxFrame.MCreate(TwxGadget(parent).RealParentForChild(), style, Self)
+			widget = New MaxGuiwxFrame.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, style)
 		Else
-			widget = New MaxGuiwxFrame.MCreate(Null, style, Self)
+			widget = New MaxGuiwxFrame.MCreate(Self, Null, xpos, ypos, width, height, style)
 		End If
 	
 		If style & WINDOW_MENU Then
@@ -252,7 +280,7 @@ Type TwxButton Extends TwxGadget
 
 	Method Class:Int()
 		Return GADGET_BUTTON
-	EndMethod
+	End Method
 
 End Type
 
@@ -463,7 +491,7 @@ Type TwxLabel Extends TwxGadget
 	
 	Method Class:Int()
 		Return GADGET_LABEL
-	EndMethod
+	End Method
 
 End Type
 
@@ -498,7 +526,7 @@ Type TwxSeparator Extends TwxGadget
 
 	Method Class:Int()
 		Return GADGET_LABEL
-	EndMethod
+	End Method
 
 End Type
 
@@ -534,7 +562,7 @@ Type TwxTextField Extends TwxGadget
 
 	Method Class:Int()
 		Return GADGET_TEXTFIELD
-	EndMethod
+	End Method
 
 End Type
 
@@ -597,7 +625,7 @@ Type TwxPanel Extends TwxGadget
 
 	Method Class:Int()
 		Return GADGET_PANEL
-	EndMethod
+	End Method
 
 End Type
 
@@ -678,7 +706,7 @@ Type TwxTrackBar Extends TwxGadget
 
 	Method Class:Int()
 		Return GADGET_SLIDER
-	EndMethod
+	End Method
 
 End Type
 
@@ -712,7 +740,7 @@ Type TwxStepper Extends TwxGadget
 
 	Method Class:Int()
 		Return GADGET_SLIDER
-	EndMethod
+	End Method
 
 End Type
 
@@ -768,7 +796,7 @@ Type TwxScrollBar Extends TwxGadget
 
 	Method Class:Int()
 		Return GADGET_SLIDER
-	EndMethod
+	End Method
 
 End Type
 
@@ -794,7 +822,7 @@ Type TwxProgressBar Extends TwxGadget
 	
 	Method Class:Int()
 		Return GADGET_PROGBAR
-	EndMethod
+	End Method
 
 End Type
 
@@ -850,7 +878,7 @@ DebugLog "TODO : TwxComboBox::ItemState"
 
 	Method Class:Int()
 		Return GADGET_COMBOBOX
-	EndMethod
+	End Method
 
 End Type
 
@@ -873,17 +901,17 @@ Type TwxDesktop Extends TwxGadget
 		Local w:Int, h:Int
 		wxDisplaySize(w, h)
 		Return w
-	EndMethod
+	End Method
 	
 	Method GetHeight:Int()
 		Local w:Int, h:Int
 		wxDisplaySize(w, h)
 		Return h
-	EndMethod
+	End Method
 
 	Method Class:Int()
 		Return GADGET_DESKTOP
-	EndMethod
+	End Method
 
 	Method ClientWidth:Int()
 		Local x:Int, y:Int, w:Int, h:Int
@@ -972,7 +1000,23 @@ DebugLog "TwxListBox::ListItemState"
 
 	Method Class:Int()
 		Return GADGET_LISTBOX
-	EndMethod
+	End Method
+
+End Type
+
+Type TwxHTMLView Extends TwxGadget
+	Method CreateHTMLView:TwxHTMLView(x:Int, y:Int, w:Int, h:Int, label:String, group:TGadget, style:Int) Abstract
+
+	Method InitGadget() Abstract
+	
+	Method Stop() Abstract
+	Method SetText(url:String) Abstract
+	Method GetText:String() Abstract
+	Method Activate(cmd:Int) Abstract
+	
+	Method Class:Int()
+		Return GADGET_HTMLVIEW
+	End Method
 
 End Type
 
@@ -986,7 +1030,7 @@ Type MaxGuiwxFrame Extends wxFrame
 	' it automatically scales to fit the inside of the window.
 	Field clientWidget:wxPanel
 
-	Method MCreate:MaxGuiwxFrame(parent:wxWindow = Null, style:Int, owner:TwxGadget)
+	Method MCreate:MaxGuiwxFrame(owner:TwxGadget, parent:wxWindow, x:Int, y:Int, w:Int, h:Int, style:Int)
 		Local flags:Int
 		
 		If style & WINDOW_TOOL Then
@@ -998,7 +1042,7 @@ Type MaxGuiwxFrame Extends wxFrame
 		End If
 		
 		gadget = owner
-		Super.Create(parent, -1, "", -1, -1, -1, -1, flags)
+		Super.Create(parent, -1, "", x, y, w, h, flags)
 		Return Self
 	End Method
 
@@ -1006,6 +1050,7 @@ Type MaxGuiwxFrame Extends wxFrame
 		clientWidget = New wxPanel.Create(Self, wxID_ANY)
 
 		ConnectAny(wxEVT_CLOSE_WINDOW, _OnCloseWindow)
+		ConnectAny(wxEVT_SIZE, _OnSizeWindow)
 	End Method
 	
 	Function _OnCloseWindow(event:wxEvent)
@@ -1015,6 +1060,24 @@ Type MaxGuiwxFrame Extends wxFrame
 	Method OnCloseWindow(event:wxCloseEvent)
 		PostGuiEvent EVENT_WINDOWCLOSE, gadget
 		Destroy()
+	End Method
+
+	Function _OnSizeWindow(event:wxEvent)
+		MaxGuiwxFrame(event.parent).OnSizeWindow(wxSizeEvent(event))
+	End Function
+
+	Method OnSizeWindow(event:wxSizeEvent)
+		If Not gadget.initing Then
+			Local w:Int, h:Int
+			event.GetSize(w, h)
+		
+			gadget.SetRect(gadget.xpos, gadget.ypos, w, h)
+			gadget.layoutKids
+
+			PostGuiEvent EVENT_WINDOWSIZE, gadget ,,,w,h
+		End If
+		
+		Event.Skip()
 	End Method
 
 End Type
@@ -1359,7 +1422,11 @@ Type MaxGuiwxListCtrl Extends wxListCtrl
 	End Method
 
 	Method InsertListItem(index:Int, text:String, icon:Int, data:Object)
-		InsertImageStringItem(index, text, icon)
+		If icon >= 0 Then
+			InsertImageStringItem(index, text, icon)
+		Else
+			InsertStringItem(index, text)
+		End If
 		SetItemData(index, data)
 	End Method
 	
