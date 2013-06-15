@@ -243,15 +243,26 @@ Type TMaxGUIApp Extends wxApp
 
 	Method OnInit:Int()
 
+		ConnectAny(wxEVT_ACTIVATE_APP, OnActivate)
+	
 		Return True
 	
 	End Method
+	
+	Function OnActivate(event:wxEvent)
+		If wxActivateEvent(event).GetActive() Then
+			PostGUIEvent EVENT_APPRESUME
+		Else
+			PostGUIEvent EVENT_APPSUSPEND
+		End If
+		event.Skip()
+	End Function
 
 End Type
 
 Type TwxGUIDriver Extends TMaxGUIDriver
 
-	Field app: TMaxGUIApp
+	Field app:TMaxGUIApp
 
 	Method New()
 		app = New TMaxGUIApp
