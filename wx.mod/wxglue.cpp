@@ -130,7 +130,7 @@ BBArray *wxArrayDoubleToBBDoubleArray( wxArrayDouble t ){
 	return p;
 }
 
-IMPLEMENT_APP_NO_MAIN(MaxApp)
+wxIMPLEMENT_APP_NO_MAIN(MaxApp);
 /*
 wxMainEventLoop::wxMainEventLoop(MaxApp *maxApp) : wxEventLoop()
 {
@@ -570,7 +570,9 @@ int bmx_app_wxentry() {
 int bmx_app_wxentrystart() {
 	static int i = 0;
 	static const char *const empty = "";
-	return wxEntryStart(i, (char **)&empty);
+	int res = wxEntryStart(i, (char **)&empty);
+	wxTheApp->CallOnInit();
+	return res;
 }
 
 int bmx_wxapp_macexitmenuitemid() {

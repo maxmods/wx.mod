@@ -317,3 +317,23 @@ Function wxWakeUpIdle()
 End Function
 
 
+Type TAppEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		If evt.eventType = wxEVT_ACTIVATE_APP Then
+			Return wxActivateEvent.Create(wxEventPtr, evt)
+		End If
+		
+		Return Null
+	End Method
+
+	Method GetEventType:Int(eventType:Int)
+		If eventType = wxEVT_ACTIVATE_APP Then
+			Return bmx_eventtype_value(eventType)
+		End If
+	End Method
+
+End Type
+
+New TAppEventFactory
+
