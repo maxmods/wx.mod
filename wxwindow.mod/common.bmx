@@ -279,6 +279,8 @@ Extern
 	Function bmx_wxsizer_replacewindow:Int(handle:Byte Ptr, oldWin:Byte Ptr, newWin:Byte Ptr, recursive:Int)
 	Function bmx_wxsizer_replacesizer:Int(handle:Byte Ptr, oldsz:Byte Ptr, newsz:Byte Ptr, recursive:Int)
 	Function bmx_wxsizer_replace:Int(handle:Byte Ptr, oldIndex:Int, newItem:Byte Ptr)
+	Function bmx_wxsizer_getitemcount:Int(handle:Byte Ptr)
+	Function bmx_wxsizer_isempty:Int(handle:Byte Ptr)
 
 	Function bmx_wxflexgridsizer_getflexibledirection:Int(handle:Byte Ptr)
 	Function bmx_wxflexgridsizer_getnonflexiblegrowmode:Int(handle:Byte Ptr)

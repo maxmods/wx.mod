@@ -1243,6 +1243,14 @@ BBArray * bmx_wxsizer_getchildren(wxSizer * sizer) {
 	return array;
 }
 
+int bmx_wxsizer_getitemcount(wxSizer * sizer) {
+	return static_cast<int>(sizer->GetItemCount());
+}
+
+int bmx_wxsizer_isempty(wxSizer * sizer) {
+	return static_cast<int>(sizer->IsEmpty());
+}
+
 // *********************************************
 
 

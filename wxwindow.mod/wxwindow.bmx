@@ -2180,6 +2180,14 @@ Type wxSizer
 	End Method
 	
 	Rem
+	bbdoc: Returns the number of items in the sizer.
+	about: If you just need to test whether the sizer is empty or not you can also use IsEmpty() method.
+	End Rem
+	Method GetItemCount:Int()
+		Return bmx_wxsizer_getitemcount(wxSizerPtr)
+	End Method
+	
+	Rem
 	bbdoc: Returns the current size of the sizer.
 	End Rem
 	Method GetSize(w:Int Var, h:Int Var)
@@ -2228,6 +2236,13 @@ Type wxSizer
 	End Rem
 	Method InsertStretchSpacer:wxSizerItem(index:Int, prop:Int = 1)
 		Return wxSizerItem._create(bmx_wxsizer_insertstretchspacer(wxSizerPtr, index, prop))
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the sizer has no elements.
+	End Rem
+	Method IsEmpty:Int()
+		Return bmx_wxsizer_isempty(wxSizerPtr)
 	End Method
 	
 	Rem

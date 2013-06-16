@@ -290,6 +290,8 @@ extern "C" {
 	int bmx_wxsizer_replacewindow(wxSizer * sizer, wxWindow * oldWin, wxWindow * newWin, int recursive);
 	int bmx_wxsizer_replacesizer(wxSizer * sizer, wxSizer * oldsz, wxSizer * newsz, int recursive);
 	int bmx_wxsizer_replace(wxSizer * sizer, int oldIndex, wxSizerItem * newItem);
+	int bmx_wxsizer_getitemcount(wxSizer * sizer);
+	int bmx_wxsizer_isempty(wxSizer * sizer);
 
 	int bmx_wxflexgridsizer_getflexibledirection(wxFlexGridSizer * sizer);
 	int bmx_wxflexgridsizer_getnonflexiblegrowmode(wxFlexGridSizer * sizer);
