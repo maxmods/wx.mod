@@ -266,7 +266,6 @@ Type TwxGUIDriver Extends TMaxGUIDriver
 
 	Method New()
 		app = New TMaxGUIApp
-		
 		app.EntryStart()
 	
 		brl.System.Driver = TwxGuiSystemDriver.Create(Self)
@@ -379,8 +378,10 @@ End Rem
 Rem 
 			Case GADGET_TOOLBAR
 				Return New TQtToolBar.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
+End Rem
 			Case GADGET_TABBER
-				Return New TQtTabber.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
+				Return New TwxTabber.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+Rem
 			Case GADGET_TREEVIEW
 				Return New TQtTreeView.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
 End Rem
