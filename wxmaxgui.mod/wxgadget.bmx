@@ -1022,6 +1022,8 @@ End Type
 
 Type TwxTabber Extends TwxGadget
 
+	Field imageList:wxImageList
+
 	Method InitGadget()
 		CreateTabber()
 	End Method
@@ -1037,24 +1039,21 @@ Type TwxTabber Extends TwxGadget
 	End Method
 
 	Method InsertListItem(index:Int, text:String, tip:String, icon:Int, extra:Object)
-DebugLog "TwxTabber::InsertListItem"
-		'Local image:QIcon
 		
-		'If icons And icon >= 0 Then
-		'	image = icons.icons[icon]
-		'End If
+		If Not imageList Then
+			icon = -1
+		End If
+		
 		MaxGuiwxNotebook(widget).InsertListItem(index, text, tip, icon, extra)
 	End Method
 
 	Method SetListItem(index:Int, text:String ,tip:String, icon:Int, data:Object)
-DebugLog "TwxTabber::SetListItem"
-		'Local image:QIcon
 		
-		'If icons And icon >= 0 Then
-		'	image = icons.icons[icon]
-		'End If
+		If Not imageList Then
+			icon = -1
+		End If
 		
-		'MaxGuiQTabWidget(widget).setListItem(index, text, tip, image, data)
+		MaxGuiwxNotebook(widget).SetListItem(index, text, tip, icon, data)
 	End Method
 	
 	Method RealParentForChild:wxWindow()
@@ -1062,19 +1061,11 @@ DebugLog "TwxTabber::SetListItem"
 	End Method
 
 	Method ClientWidth:Int()
-		'If Not widget.isVisible() Then
-		'	Return widget.width()
-		'Else
 		Return MaxGuiwxNotebook(widget).ClientWidth()
-		'End If
 	End Method
 
 	Method ClientHeight:Int()
-		'If Not widget.isVisible() Then
-		'	Return widget.height()
-		'Else
-			Return MaxGuiwxNotebook(widget).ClientHeight()
-		'End If
+		Return MaxGuiwxNotebook(widget).ClientHeight()
 	End Method
 	
 	Method SelectedItem:Int()
@@ -1097,7 +1088,15 @@ DebugLog "TwxTabber::SetListItem"
 	
 		LayoutKids()
 	End Method
-	
+
+	Method SetIconStrip(iconstrip:TIconStrip)
+		icons = TwxIconStrip(iconstrip)
+		If icons Then
+			imageList = icons.GetImageList()
+			MaxGuiwxNotebook(widget).SetImageList(imageList)
+		End If
+	End Method
+
 	Method Class:Int()
 		Return GADGET_TABBER
 	EndMethod
@@ -1552,6 +1551,7 @@ Type MaxGuiwxNotebook Extends wxNotebook
 		'clientWidget.Hide()
 		
 		ConnectAny(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, _OnPageChanged)
+		ConnectAny(wxEVT_CONTEXT_MENU, OnContextMenu)
 	End Method
 	
 	Function _OnPageChanged(event:wxEvent)
@@ -1560,79 +1560,70 @@ Type MaxGuiwxNotebook Extends wxNotebook
 	
 	Method OnPageChanged(event:wxNotebookEvent)
 		Local index:Int = event.GetSelection()
-DebugLog "OnPageChanged : " + index
-'DebugStop
+
 		' reparent the clientWidget
 		' remove from previous sizer
-'		Local sizer:wxSizer = clientWidget.GetContainingSizer()
-'		If sizer Then
-'			sizer.Remove(0)
-'		End If
+		Local sizer:wxSizer = clientWidget.GetContainingSizer()
+		If sizer Then
+			sizer.Remove(0)
+		End If
 		
-'		clientWidget.Reparent(pages[index])
-'Local w:Int, h:Int
-'pages[index].GetSize(w, h)
-'DebugLog w + ", " + h
+		clientWidget.Reparent(pages[index])
 
 		' clear sizer, if it isn't already empty
-'		sizer = pages[index].GetSizer()
-'		If Not sizer.IsEmpty() Then
-'			sizer.Remove(0)
-'		End If
+		sizer = pages[index].GetSizer()
+		If Not sizer.IsEmpty() Then
+			sizer.Remove(0)
+		End If
 		
 		' add to the sizer
-'		sizer.Add(clientWidget, 1, wxEXPAND | wxALL, 0)
+		sizer.Add(clientWidget, 1, wxEXPAND | wxALL, 0)
 		
 		PostGuiEvent EVENT_GADGETACTION, gadget, index
 	End Method
-	
+
+	Function OnContextMenu(event:wxEvent)
+		Local x:Int, y:Int, flags:Int
+		wxContextMenuEvent(event).GetPosition(x, y)
+		MaxGuiwxNotebook(event.parent).ScreenToClient(x, y)
+
+		Local index:Int = MaxGuiwxNotebook(event.parent).HitTest(x, y, flags)
+
+		If index <> wxNOT_FOUND Then
+			PostGuiEvent EVENT_GADGETMENU, MaxGuiwxNotebook(event.parent).gadget, index
+		End If
+	End Function
+
 	Method InsertListItem(index:Int, text:String, tip:String, image:Int, extra:Object)
 		Local page:wxPanel = New wxPanel.Create(Self)
-Local col:wxColour = New wxColour.Create(index * 100, index * 100, index * 100)
-page.SetOwnBackgroundColour(col)
-page.Refresh()
 		
-'		Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
+		Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxHORIZONTAL)
 
 		' first page
 		If Not clientWidget Then
 			' reparent the clientWidget
 			clientWidget = New wxPanel.Create(page)
-'			sizer.Add(clientWidget, 1, wxEXPAND | wxALL, 0)
+			sizer.Add(clientWidget, 1, wxEXPAND | wxALL, 0)
 		End If
 		
-'		page.SetSizer(sizer)
+		page.SetSizer(sizer)
 		
 		' add the page to our internal list
-		'pages = pages[..index] + [page] + pages[index..]
+		pages = pages[..index] + [page] + pages[index..]
 		
-		InsertPage(index, page, text)', False, image)
-		
-		
-'		If tip Then
-'			setTabToolTip(index, tip)
-'		End If
-		
+		InsertPage(index, page, text, False, image)		
 	End Method
 
 	
-	Method SetListItem(index:Int, text:String, tip:String, image:Int, extra:Object)
+	Method SetListItem(index:Int, text:String, tip:String, icon:Int, extra:Object)
 		SetPageText(index, text)
-		
-'		If icon Then
-'			setTabIcon(index, icon)
-'		End If
-'		
-'		If tip Then
-'			setTabToolTip(index, tip)
-'		End If
-		
+		SetPageImage(index, icon)
 	End Method
 
 	Method RemoveListItem(index:Int)
 
 		RemovePage(index)
-		
+' TODO : sort out clientWidget parent and dispose page
 '		If currentIndex() = index Then
 '			' unparent the clientWidget so that it is not deleted when the page is removed.
 '			clientWidget.setParent(Null)

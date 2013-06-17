@@ -251,9 +251,9 @@ Type TMaxGUIApp Extends wxApp
 	
 	Function OnActivate(event:wxEvent)
 		If wxActivateEvent(event).GetActive() Then
-			PostGUIEvent EVENT_APPRESUME
+			PostGuiEvent EVENT_APPRESUME
 		Else
-			PostGUIEvent EVENT_APPSUSPEND
+			PostGuiEvent EVENT_APPSUSPEND
 		End If
 		event.Skip()
 	End Function
@@ -381,11 +381,11 @@ Rem
 End Rem
 			Case GADGET_TABBER
 				Return New TwxTabber.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
-Rem
-			Case GADGET_TREEVIEW
-				Return New TQtTreeView.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
-End Rem
-
+				
+'			Case GADGET_TREEVIEW
+'				Return New TwxTreeView.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+'
+				
 			Case GADGET_HTMLVIEW
 				If wxmaxgui_htmlview Then
 					Return wxmaxgui_htmlview.CreateHTMLView(name, x, y, w, h, TwxGadget(group), style)
