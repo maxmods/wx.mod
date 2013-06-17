@@ -244,7 +244,12 @@ Type TMaxGUIApp Extends wxApp
 	Method OnInit:Int()
 
 		ConnectAny(wxEVT_ACTIVATE_APP, OnActivate)
-	
+
+?macos
+		' make the default Mac font for controls not so big
+		wxSystemOptions.SetOption(wxWINDOW_DEFAULT_VARIANT, wxWINDOW_VARIANT_SMALL)
+?
+
 		Return True
 	
 	End Method

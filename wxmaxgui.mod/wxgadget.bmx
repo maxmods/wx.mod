@@ -1611,7 +1611,7 @@ Type MaxGuiwxNotebook Extends wxNotebook
 		' add the page to our internal list
 		pages = pages[..index] + [page] + pages[index..]
 		
-		InsertPage(index, page, text, False, image)		
+		InsertPage(index, page, text, False, image)
 	End Method
 
 	
