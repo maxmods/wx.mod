@@ -45,6 +45,7 @@ class MaxDataViewItem
 public:
 	MaxDataViewItem();
 	MaxDataViewItem(wxDataViewItem & item);
+	MaxDataViewItem(wxDataViewItem item);
 	wxDataViewItem & Item();
 
 private:

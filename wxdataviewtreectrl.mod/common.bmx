@@ -45,4 +45,26 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxdataviewtreectrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+	Function bmx_wxdataviewtreectrl_appendcontainer:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, text:String, icon:Int, expanded:Int, data:Object)
+	Function bmx_wxdataviewtreectrl_appenditem:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, text:String, icon:Int, data:Object)
+	Function bmx_wxdataviewtreectrl_deleteallitems(handle:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_deletechildren(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_deleteitem(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_getchildcount:Int(handle:Byte Ptr, parent:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_getimagelist:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_getitemexpandedicon:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_getitemicon:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_getitemtext:String(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_getnthchild:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, pos:Int)
+	Function bmx_wxdataviewtreectrl_insertcontainer:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, previous:Byte Ptr, text:String, icon:Int, expanded:Int, data:Object)
+	Function bmx_wxdataviewtreectrl_insertitem:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, previous:Byte Ptr, text:String, icon:Int, data:Object)
+	Function bmx_wxdataviewtreectrl_iscontainer:Int(handle:Byte Ptr, item:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_prependcontainer:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, text:String, icon:Int, expanded:Int, data:Object)
+	Function bmx_wxdataviewtreectrl_prependitem:Byte Ptr(handle:Byte Ptr, parent:Byte Ptr, text:String, icon:Int, data:Object)
+	Function bmx_wxdataviewtreectrl_setimagelist(handle:Byte Ptr, imageList:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_setitemexpandedicon(handle:Byte Ptr, item:Byte Ptr, icon:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_setitemicon(handle:Byte Ptr, item:Byte Ptr, icon:Byte Ptr)
+	Function bmx_wxdataviewtreectrl_setitemtext(handle:Byte Ptr, item:Byte Ptr, text:String)
+
 End Extern

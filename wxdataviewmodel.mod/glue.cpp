@@ -34,6 +34,11 @@ MaxDataViewItem::MaxDataViewItem(wxDataViewItem & item)
 {
 }
 
+MaxDataViewItem::MaxDataViewItem(wxDataViewItem item)
+	: item(item)
+{
+}
+
 wxDataViewItem & MaxDataViewItem::Item() {
 	return item;
 }
