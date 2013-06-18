@@ -52,6 +52,7 @@ class MaxPaintDC;
 class MaxRect;
 class MaxAcceleratorTable;
 class MaxWindowDC;
+class MaxClientData;
 
 extern "C" {
 
@@ -554,6 +555,42 @@ public:
 private:
 	wxAcceleratorTable table;
 
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class MaxClientData : public wxClientData
+{
+public:
+    MaxClientData()
+		: handle(&bbNullObject)
+	{}
+	
+	MaxClientData(BBObject * maxHandle)
+		: handle(maxHandle)
+	{
+		if (handle != &bbNullObject) {
+			BBRETAIN(handle);
+		}
+	}
+	
+    ~MaxClientData()
+	{
+		if (handle && (handle != &bbNullObject)) {
+			BBRELEASE(handle);
+		}
+	}
+	
+	BBObject * Data() {
+		if (handle) {
+			return handle;
+		} else {
+			return &bbNullObject;
+		}
+	}
+
+private:
+	BBObject * handle;
 };
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
