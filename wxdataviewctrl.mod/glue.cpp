@@ -29,3 +29,40 @@
 // *********************************************
 
 
+MaxDataViewItem * bmx_wxdataviewctrl_getselection(wxDataViewCtrl * view) {
+	return new MaxDataViewItem(view->GetSelection());
+}
+
+
+int bmx_wxdataviewctrl_geteventtype(int eventType) {
+
+	switch (eventType) {
+		case -361: return wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED;
+		case -362: return wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED;
+		case -363: return wxEVT_COMMAND_DATAVIEW_ITEM_COLLAPSED;
+		case -364: return wxEVT_COMMAND_DATAVIEW_ITEM_EXPANDED;
+		case -365: return wxEVT_COMMAND_DATAVIEW_ITEM_COLLAPSING;
+		case -366: return wxEVT_COMMAND_DATAVIEW_ITEM_EXPANDING;
+		case -367: return wxEVT_COMMAND_DATAVIEW_ITEM_START_EDITING;
+		case -368: return wxEVT_COMMAND_DATAVIEW_ITEM_EDITING_STARTED;
+		case -369: return wxEVT_COMMAND_DATAVIEW_ITEM_EDITING_DONE;
+		case -370: return wxEVT_COMMAND_DATAVIEW_ITEM_VALUE_CHANGED;
+		case -371: return wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU;
+		case -372: return wxEVT_COMMAND_DATAVIEW_COLUMN_HEADER_CLICK;
+		case -373: return wxEVT_COMMAND_DATAVIEW_COLUMN_HEADER_RIGHT_CLICK;
+		case -374: return wxEVT_COMMAND_DATAVIEW_COLUMN_SORTED;
+		case -375: return wxEVT_COMMAND_DATAVIEW_COLUMN_REORDERED;
+		case -376: return wxEVT_COMMAND_DATAVIEW_CACHE_HINT;
+		case -377: return wxEVT_COMMAND_DATAVIEW_ITEM_BEGIN_DRAG;
+		case -378: return wxEVT_COMMAND_DATAVIEW_ITEM_DROP_POSSIBLE;
+		case -379: return wxEVT_COMMAND_DATAVIEW_ITEM_DROP;
+	}
+
+}
+
+// *********************************************
+
+MaxDataViewItem * bmx_wxdataviewevent_getitem(wxDataViewEvent & event) {
+	return new MaxDataViewItem(event.GetItem());
+}
+

@@ -55,6 +55,8 @@ extern "C" {
 	void bmx_wxdataviewtreectrl_setitemexpandedicon(wxDataViewTreeCtrl * tree, MaxDataViewItem * item, MaxIcon * icon);
 	void bmx_wxdataviewtreectrl_setitemicon(wxDataViewTreeCtrl * tree, MaxDataViewItem * item, MaxIcon * icon);
 	void bmx_wxdataviewtreectrl_setitemtext(wxDataViewTreeCtrl * tree, MaxDataViewItem * item, BBString * text);
+	void bmx_wxdataviewtreectrl_setitemdata(wxDataViewTreeCtrl * tree, MaxDataViewItem * item, BBObject * data);
+	BBObject * bmx_wxdataviewtreectrl_getitemdata(wxDataViewTreeCtrl * tree, MaxDataViewItem * item);
 
 }
 

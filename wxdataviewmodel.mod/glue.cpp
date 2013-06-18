@@ -46,6 +46,10 @@ wxDataViewItem & MaxDataViewItem::Item() {
 
 // *********************************************
 
+MaxDataViewItem * bmx_wxdataviewitem_create(void * id) {
+	const wxDataViewItem item(id);
+	return new MaxDataViewItem(item);
+}
 
 void * bmx_wxdataviewitem_getid(MaxDataViewItem * item) {
 	return item->Item().GetID();

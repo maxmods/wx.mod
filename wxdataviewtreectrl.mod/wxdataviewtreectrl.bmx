@@ -117,7 +117,7 @@ Type wxDataViewTreeCtrl Extends wxDataViewCtrl
 	End Method
 	
 	Method GetItemData:Object(item:wxDataViewItem)
-		' TODO
+		Return bmx_wxdataviewtreectrl_getitemdata(wxObjectPtr, item.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -191,7 +191,7 @@ Type wxDataViewTreeCtrl Extends wxDataViewCtrl
 	End Method
 	
 	Method SetItemData(item:wxDataViewItem, data:Object)
-		' TODO
+		bmx_wxdataviewtreectrl_setitemdata(wxObjectPtr, item.wxObjectPtr, data)
 	End Method
 	
 	Rem

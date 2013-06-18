@@ -43,6 +43,7 @@ Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxdataviewitem_create:Byte Ptr(id:Byte Ptr)
 	Function bmx_wxdataviewitem_getid:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxdataviewitem_isok:Int(handle:Byte Ptr)
 	Function bmx_wxdataviewitem_free(handle:Byte Ptr)

@@ -53,11 +53,11 @@ MaxDataViewTreeCtrl * bmx_wxdataviewtreectrl_create(BBObject * handle, wxWindow 
 }
 
 MaxDataViewItem * bmx_wxdataviewtreectrl_appendcontainer(wxDataViewTreeCtrl * tree, MaxDataViewItem * parent, BBString * text, int icon, int expanded, BBObject * data) {
-	return new MaxDataViewItem(tree->AppendContainer(parent->Item(), wxStringFromBBString(text), icon, expanded, NULL));
+	return new MaxDataViewItem(tree->AppendContainer(parent->Item(), wxStringFromBBString(text), icon, expanded, new MaxClientData(data)));
 }
 
 MaxDataViewItem * bmx_wxdataviewtreectrl_appenditem(wxDataViewTreeCtrl * tree, MaxDataViewItem * parent, BBString * text, int icon, BBObject * data) {
-	return new MaxDataViewItem(tree->AppendItem(parent->Item(), wxStringFromBBString(text), icon, NULL));
+	return new MaxDataViewItem(tree->AppendItem(parent->Item(), wxStringFromBBString(text), icon, new MaxClientData(data)));
 }
 
 void bmx_wxdataviewtreectrl_deleteallitems(wxDataViewTreeCtrl * tree) {
@@ -97,11 +97,11 @@ MaxDataViewItem * bmx_wxdataviewtreectrl_getnthchild(wxDataViewTreeCtrl * tree, 
 }
 
 MaxDataViewItem * bmx_wxdataviewtreectrl_insertcontainer(wxDataViewTreeCtrl * tree, MaxDataViewItem * parent, MaxDataViewItem * previous, BBString * text, int icon, int expanded, BBObject * data) {
-	return new MaxDataViewItem(tree->InsertContainer(parent->Item(), previous->Item(), wxStringFromBBString(text), icon, expanded, NULL));
+	return new MaxDataViewItem(tree->InsertContainer(parent->Item(), previous->Item(), wxStringFromBBString(text), icon, expanded, new MaxClientData(data)));
 }
 
 MaxDataViewItem * bmx_wxdataviewtreectrl_insertitem(wxDataViewTreeCtrl * tree, MaxDataViewItem * parent, MaxDataViewItem * previous, BBString * text, int icon, BBObject * data) {
-	return new MaxDataViewItem(tree->InsertItem(parent->Item(), previous->Item(), wxStringFromBBString(text), icon, NULL));
+	return new MaxDataViewItem(tree->InsertItem(parent->Item(), previous->Item(), wxStringFromBBString(text), icon, new MaxClientData(data)));
 }
 
 int bmx_wxdataviewtreectrl_iscontainer(wxDataViewTreeCtrl * tree, MaxDataViewItem * item) {
@@ -109,11 +109,11 @@ int bmx_wxdataviewtreectrl_iscontainer(wxDataViewTreeCtrl * tree, MaxDataViewIte
 }
 
 MaxDataViewItem * bmx_wxdataviewtreectrl_prependcontainer(wxDataViewTreeCtrl * tree, MaxDataViewItem * parent, BBString * text, int icon, int expanded, BBObject * data) {
-	return new MaxDataViewItem(tree->PrependContainer(parent->Item(), wxStringFromBBString(text), icon, expanded, NULL));
+	return new MaxDataViewItem(tree->PrependContainer(parent->Item(), wxStringFromBBString(text), icon, expanded, new MaxClientData(data)));
 }
 
 MaxDataViewItem * bmx_wxdataviewtreectrl_prependitem(wxDataViewTreeCtrl * tree, MaxDataViewItem * parent, BBString * text, int icon, BBObject * data) {
-	return new MaxDataViewItem(tree->PrependItem(parent->Item(), wxStringFromBBString(text), icon, NULL));
+	return new MaxDataViewItem(tree->PrependItem(parent->Item(), wxStringFromBBString(text), icon, new MaxClientData(data)));
 }
 
 void bmx_wxdataviewtreectrl_setimagelist(wxDataViewTreeCtrl * tree, wxImageList * imageList) {
@@ -130,5 +130,14 @@ void bmx_wxdataviewtreectrl_setitemicon(wxDataViewTreeCtrl * tree, MaxDataViewIt
 
 void bmx_wxdataviewtreectrl_setitemtext(wxDataViewTreeCtrl * tree, MaxDataViewItem * item, BBString * text) {
 	tree->SetItemText(item->Item(), wxStringFromBBString(text));
+}
+
+void bmx_wxdataviewtreectrl_setitemdata(wxDataViewTreeCtrl * tree, MaxDataViewItem * item, BBObject * data) {
+	tree->SetItemData(item->Item(), new MaxClientData(data));
+}
+
+BBObject * bmx_wxdataviewtreectrl_getitemdata(wxDataViewTreeCtrl * tree, MaxDataViewItem * item) {
+	MaxClientData * data = (MaxClientData*)tree->GetItemData(item->Item());
+	return data->Data();
 }
 

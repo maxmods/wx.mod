@@ -32,6 +32,7 @@ extern "C" {
 
 #include <blitz.h>
 
+	MaxDataViewItem * bmx_wxdataviewitem_create(void * id);
 	void * bmx_wxdataviewitem_getid(MaxDataViewItem * item);
 	int bmx_wxdataviewitem_isok(MaxDataViewItem * item);
 	void bmx_wxdataviewitem_free(MaxDataViewItem * item);

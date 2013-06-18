@@ -20,7 +20,12 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_DATAVIEWCTRL_H_
+#define _WX_MAX_DATAVIEWCTRL_H_
+
 #include "wxglue.h"
+#include <wx/dataview.h>
+#include "../wxdataviewmodel.mod/glue.h"
 
 //class MaxNotebook;
 
@@ -28,8 +33,16 @@ extern "C" {
 
 #include <blitz.h>
 
+	MaxDataViewItem * bmx_wxdataviewctrl_getselection(wxDataViewCtrl * view);
+
+	int bmx_wxdataviewctrl_geteventtype(int eventType);
+
+
+	MaxDataViewItem * bmx_wxdataviewevent_getitem(wxDataViewEvent & event);
 
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
+#endif

@@ -66,5 +66,7 @@ Extern
 	Function bmx_wxdataviewtreectrl_setitemexpandedicon(handle:Byte Ptr, item:Byte Ptr, icon:Byte Ptr)
 	Function bmx_wxdataviewtreectrl_setitemicon(handle:Byte Ptr, item:Byte Ptr, icon:Byte Ptr)
 	Function bmx_wxdataviewtreectrl_setitemtext(handle:Byte Ptr, item:Byte Ptr, text:String)
+	Function bmx_wxdataviewtreectrl_setitemdata(handle:Byte Ptr, item:Byte Ptr, data:Object)
+	Function bmx_wxdataviewtreectrl_getitemdata:Object(handle:Byte Ptr, item:Byte Ptr)
 
 End Extern

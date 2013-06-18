@@ -52,6 +52,86 @@ bbdoc: A control to display data either in a tree like fashion or in a tabular f
 End Rem
 Type wxDataViewCtrl Extends wxControl
 
+	Method GetSelection:wxDataViewItem()
+		Return wxDataViewItem._create(bmx_wxdataviewctrl_getselection(wxObjectPtr))
+	End Method
+
 End Type
 
+Rem
+bbdoc: The event class for wxDataViewCtrl notifications.
+End Rem
+Type wxDataViewEvent Extends wxNotifyEvent
 
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxDataViewEvent = New wxDataViewEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+	
+	Method GetItem:wxDataViewItem()
+		Return wxDataViewItem._create(bmx_wxdataviewevent_getitem(wxEventPtr))
+	End Method
+	
+End Type
+
+Type TDataViewEventFactory Extends TEventFactory
+
+	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+	
+		Select evt.eventType
+			Case wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_COLLAPSED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_EXPANDED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_COLLAPSING, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_EXPANDING, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_START_EDITING, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_EDITING_STARTED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_EDITING_DONE, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_VALUE_CHANGED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, ..
+				wxEVT_COMMAND_DATAVIEW_COLUMN_HEADER_CLICK, ..
+				wxEVT_COMMAND_DATAVIEW_COLUMN_HEADER_RIGHT_CLICK, ..
+				wxEVT_COMMAND_DATAVIEW_COLUMN_SORTED, ..
+				wxEVT_COMMAND_DATAVIEW_COLUMN_REORDERED, ..
+				wxEVT_COMMAND_DATAVIEW_CACHE_HINT, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_BEGIN_DRAG, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_DROP_POSSIBLE, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_DROP
+					Return wxDataViewEvent.Create(wxEventPtr, evt)
+		End Select
+		
+		Return Null
+	End End Method
+
+	Method GetEventType:Int(eventType:Int)
+		Select eventType
+			Case wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_COLLAPSED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_EXPANDED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_COLLAPSING, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_EXPANDING, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_START_EDITING, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_EDITING_STARTED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_EDITING_DONE, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_VALUE_CHANGED, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, ..
+				wxEVT_COMMAND_DATAVIEW_COLUMN_HEADER_CLICK, ..
+				wxEVT_COMMAND_DATAVIEW_COLUMN_HEADER_RIGHT_CLICK, ..
+				wxEVT_COMMAND_DATAVIEW_COLUMN_SORTED, ..
+				wxEVT_COMMAND_DATAVIEW_COLUMN_REORDERED, ..
+				wxEVT_COMMAND_DATAVIEW_CACHE_HINT, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_BEGIN_DRAG, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_DROP_POSSIBLE, ..
+				wxEVT_COMMAND_DATAVIEW_ITEM_DROP
+			Return bmx_wxdataviewctrl_geteventtype(eventType)
+		End Select
+	End Method
+
+End Type
+
+New TDataViewEventFactory
