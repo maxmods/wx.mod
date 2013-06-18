@@ -1103,6 +1103,157 @@ Type TwxTabber Extends TwxGadget
 
 End Type
 
+Type TwxTreeViewNode Extends TwxGadget
+
+	Field item:wxDataViewItem
+
+	Method CreateNode:TwxTreeViewNode(text:String, group:TwxGadget, tree:wxWindow, style:Int, icon:Int)
+		Self.style = style
+		parent = group
+		widget = tree
+		'InitGadget()
+
+		MaxGuiwxDataViewTreeCtrl(widget).InsertNode(Self, icon)
+		
+		'LockLayout()
+		
+		If (LocalizationMode() & LOCALIZATION_OVERRIDE) Then
+			LocalizeGadget(Self, text)
+		Else
+			SetText(text)
+		EndIf
+
+		If parent Then
+			parent.kids.Remove(Self)
+			parent.kids.AddLast(Self)
+		End If
+		
+		Return Self
+	End Method
+
+	Method InitGadget()
+	End Method
+	
+	Method InsertNode:TGadget(index:Int, text:String, icon:Int)
+		Local node:TwxTreeViewNode = New TwxTreeViewNode.CreateNode(text, Self, widget, index, icon)
+		'node.SetIcon icon
+		node._SetParent Self
+		Return node
+	End Method
+
+	Method ModifyNode(text$, icon:Int)
+'		Local image:QIcon
+'		
+'		If icons And icon >= 0 Then
+'			image = icons.icons[icon]
+'		End If
+'		
+'		MaxGuiQTreeView(widget).setItemText(item, text)
+'		If image Then
+'			item.setIcon(image)
+'		End If
+	End Method
+
+	Method RootNode:TGadget()
+		If parent Then
+			Return parent.RootNode()
+		End If
+	End Method
+
+	Method SetShow(truefalse:Int)
+
+	End Method
+	
+	Method SelectedNode:TGadget()
+		Return MaxGuiwxDataViewTreeCtrl(widget).SelectedNode()
+	End Method
+	
+	Method CountKids:Int()
+		Return MaxGuiwxDataViewTreeCtrl(widget).GetChildCount(item)
+	End Method
+
+	Method SetText(text:String)
+		MaxGuiwxDataViewTreeCtrl(widget).SetItemText(item, text)
+	End Method
+	
+	Method GetText:String()
+		Return MaxGuiwxDataViewTreeCtrl(widget).GetItemText(item)
+	End Method
+	
+'	Method Activate(command:Int)
+'		If command = ACTIVATE_EXPAND Then
+'			Local index:QModelIndex = MaxGuiQTreeView(widget).model.indexFromItem(item)
+'			MaxGuiQTreeView(widget).expand(index)
+'			Return
+'		End If
+'		
+'		If command = ACTIVATE_COLLAPSE Then
+'			Local index:QModelIndex = MaxGuiQTreeView(widget).model.indexFromItem(item)
+'			MaxGuiQTreeView(widget).collapse(index)
+'			Return
+'		End If
+'		
+'		Super.Activate(command)
+'	End Method
+
+	Method Free()
+'		If item.parent() Then
+'			item.parent().removeRows(item.row(), 1)
+'		End If
+	End Method
+
+	Method Class:Int()
+		Return GADGET_NODE
+	EndMethod
+
+End Type
+
+
+Type TwxTreeView Extends TwxTreeViewNode
+
+	Method InitGadget()
+		CreateTreeView()
+	End Method
+	
+	Method CreateTreeView()
+
+		widget = New MaxGuiwxDataViewTreeCtrl.MCreate(Self, TwxGadget(parent).RealParentForChild(), xpos, ypos, width, height, wxDV_NO_HEADER)
+		
+		' get root item
+		item = New wxDataViewItem.Create(Null)
+		
+		Rethink()
+		
+		SetShow(True)
+		
+	End Method
+
+	Method RootNode:TGadget()
+		Return Self
+	End Method
+	
+	Method SetText(text:String)
+	End Method
+
+	Method SetShow(truefalse:Int)
+		If truefalse Then
+			'widget.setAttribute(Qt_WA_DontShowOnScreen, False)
+			widget.show()
+			
+			Rethink()
+		Else
+			widget.hide()
+			'widget.setAttribute(Qt_WA_DontShowOnScreen, True)
+		EndIf
+		
+	End Method
+
+	Method Class:Int()
+		Return GADGET_TREEVIEW
+	EndMethod
+
+End Type
+
 ' +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Type MaxGuiwxFrame Extends wxFrame
@@ -1657,4 +1808,102 @@ Type MaxGuiwxNotebook Extends wxNotebook
 		Return h
 	End Method
 
+End Type
+
+Type MaxGuiwxDataViewTreeCtrl Extends wxDataViewTreeCtrl
+
+	Field gadget:TwxGadget
+	'Field model:QStandardItemModel
+	'Field selectionModel:QItemSelectionModel
+
+	Method MCreate:MaxGuiwxDataViewTreeCtrl(owner:TwxGadget, parent:wxWindow, x:Int, y:Int, w:Int, h:Int, style:Int)
+		gadget = owner
+		Super.Create(parent, -1,,,,, style)
+		Return Self
+	End Method
+
+	Method OnInit()
+		
+		ConnectAny(wxEVT_COMMAND_DATAVIEW_ITEM_EXPANDED, OnItemExpanded)
+		ConnectAny(wxEVT_COMMAND_DATAVIEW_ITEM_COLLAPSED, OnItemCollapsed)
+	End Method
+	
+	Function OnItemExpanded(event:wxEvent)
+		Local item:wxDataViewItem = wxDataViewEvent(event).GetItem()
+		PostGuiEvent EVENT_GADGETOPEN, MaxGuiwxDataViewTreeCtrl(event.parent).gadget,,,,, MaxGuiwxDataViewTreeCtrl(event.parent).GetItemData(item)
+	End Function
+
+	Function OnItemCollapsed(event:wxEvent)
+		Local item:wxDataViewItem = wxDataViewEvent(event).GetItem()
+		PostGuiEvent EVENT_GADGETCLOSE, MaxGuiwxDataViewTreeCtrl(event.parent).gadget,,,,, MaxGuiwxDataViewTreeCtrl(event.parent).GetItemData(item)
+	End Function
+
+	Method InsertNode(node:TwxTreeViewNode, icon:Int)
+
+		Local parent:wxDataViewItem = TwxTreeViewNode(node.parent).item
+		Local count:Int = GetChildCount(parent)
+		
+		' if the parent is an item, but not a container, we need to convert it to a container 
+		' so that we can add items to it.
+		If Not IsContainer(parent) Then
+			' get parent's parent
+			Local grandParent:wxDataViewItem = TwxTreeViewNode(TwxTreeViewNode(node.parent).parent).item
+			Local text:String = GetItemText(parent)
+			
+			TwxTreeViewNode(node.parent).item = InsertContainer(grandParent, parent, text, -1, -1, node.parent)
+			' remove the old item
+			DeleteItem(parent)
+			' get the new parent item
+			parent = TwxTreeViewNode(node.parent).item
+		End If
+		
+		If node.style = 0 And count > 0 Then
+			node.item = PrependItem(parent, "", icon, node)
+		Else If (node.style > 0) And (node.style < count - 1) Then
+			Local previous:wxDataViewItem = GetNthChild(parent, node.style)
+			node.item = InsertItem(parent, previous, "", icon, node)
+		Else
+			' a style of -1 means append on the end
+			node.item = AppendItem(parent, "", icon, node)
+		End If
+		
+	End Method
+	
+	Method SelectedNode:TGadget()
+		Local item:wxDataViewItem = GetSelection()
+
+		If item.isOk() Then
+			Return TGadget(GetItemData(item))
+		End If
+		
+		Return Null
+	End Method
+Rem
+	Method onDoubleClicked(index:QModelIndex)
+		Local item:QStandardItem = model.itemFromIndex(index)
+		PostGuiEvent EVENT_GADGETACTION, gadget,,,,, item.data()
+	End Method
+
+	Method focusOutEvent(event:QFocusEvent)
+		PostGuiEvent EVENT_GADGETLOSTFOCUS, gadget
+		Super.focusOutEvent(event)
+	End Method
+
+	Method contextMenuEvent(event:QContextMenuEvent)
+		Local x:Int, y:Int
+		event.pos(x, y)
+		
+		Local idx:QModelIndex = indexAt(x, y)
+
+		Local item:QStandardItem = model.itemFromIndex(idx)
+		
+		If item Then
+			PostGuiEvent EVENT_GADGETMENU, gadget, ,,,,item.data()
+		Else
+			PostGuiEvent EVENT_GADGETMENU, gadget
+		End If
+		
+		event.accept()
+	End Method
+End Rem
 End Type

@@ -49,6 +49,7 @@ Import wx.wxListCtrl
 Import wx.wxChoice
 Import wx.wxNotebook
 Import wx.wxSystemOptions
+Import wx.wxDataViewTreeCtrl
 
 Function wxMouseButtonToMaxMouseButton:Int(button:Int)
 	If button = wxMOUSE_BTN_LEFT

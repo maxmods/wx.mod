@@ -387,9 +387,8 @@ End Rem
 			Case GADGET_TABBER
 				Return New TwxTabber.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
 				
-'			Case GADGET_TREEVIEW
-'				Return New TwxTreeView.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
-'
+			Case GADGET_TREEVIEW
+				Return New TwxTreeView.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
 				
 			Case GADGET_HTMLVIEW
 				If wxmaxgui_htmlview Then
