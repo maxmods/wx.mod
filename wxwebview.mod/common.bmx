@@ -29,6 +29,10 @@ Import BRL.Blitz
 ?linux
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
 Import "../include/*.h"
+
+Import "-lwx_gtk2u_webview-2.9"
+Import "-lwebkitgtk-1.0"
+
 ?win32
 Import "../lib/win32/mswu/*.h"
 Import "../include/*.h"
