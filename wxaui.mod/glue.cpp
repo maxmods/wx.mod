@@ -172,6 +172,8 @@ BBArray * bmx_wxauimanager_getallpanes(MaxAuiManager * manager) {
 	for (int i = 0; i < n; i++) {
 		_wx_wxaui_wxAuiManager__setpanevalue(arr, i, new MaxAuiPaneInfo(infos[i]));
 	}
+	
+	return arr;
 }
 
 void bmx_wxauimanager_setartprovider(MaxAuiManager * manager, wxAuiDockArt * artProvider) {
