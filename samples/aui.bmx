@@ -378,10 +378,16 @@ Type MyFrame Extends wxFrame
 		'EVT_MENU_RANGE(MyFrame::ID_FirstPerspective, MyFrame::ID_FirstPerspective+1000, MyFrame::OnRestorePerspective)
 		
 		Connect(,wxEVT_AUI_PANE_CLOSE, OnPaneClose)
+		ConnectAny(wxEVT_CLOSE, OnClose)
 		
 		'EVT_AUINOTEBOOK_ALLOW_DND(wxID_ANY, MyFrame::OnAllowNotebookDnD)
 		'EVT_AUINOTEBOOK_PAGE_CLOSE(wxID_ANY, MyFrame::OnNotebookPageClose)
 	End Method
+	
+	Function OnClose(event:wxEvent)
+		MyFrame(event.parent).manager.UnInit()
+		event.Skip()
+	End Function
 
 	Method CreateTextCtrl:wxTextCtrl(text:String = "")
 		Global count:Int
