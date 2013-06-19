@@ -61,6 +61,7 @@ extern "C" {
 	void bbSystemEmitEvent( int id,BBObject *source,int data,int mods,int x,int y,BBObject *extra );
 
 	void _wx_wx_TEventHandler_eventCallback(wxEvent &, void * data);
+	void _wx_wx_TEventHandler__nullref(void * handle);
 	int _wx_wxapp_wxAppMain__MainLoop();
 	wxAcceleratorEntry * _wx_wx_wxAcceleratorTable__getEntry(BBArray * entries, int index);
 	void _wx_wx_wxObject__Free(BBObject * handle);
@@ -446,6 +447,7 @@ class MaxObject : public wxObject
 {
 public:
 	MaxObject(void * handle);
+	~MaxObject();
 	void * getHandle();
 	
 private:

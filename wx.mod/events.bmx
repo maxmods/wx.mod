@@ -930,6 +930,7 @@ Type TEventHandler
 	Field lastId:Int = -1
 	Field refPtr:Byte Ptr
 	Field kind:Int
+	Field ownerPtr:Byte Ptr
 	
 	Function eventCallback(evt:Byte Ptr, data:Object)
 
@@ -953,9 +954,14 @@ Type TEventHandler
 		
 	End Function
 	
+	Function _nullref(obj:TEventHandler)
+		obj.refPtr = Null
+	End Function
+	
 	Method Delete()
 		If refPtr Then
 			bmx_wxevthandler_freeref(refPtr)
+			refPtr = Null
 		End If
 	End Method
 	
@@ -969,7 +975,7 @@ End Rem
 Type wxEvtHandler Extends wxObject
 
 	Field clientData:Object
-
+	
 	Function _create:wxEvtHandler(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
 			Local this:wxEvtHandler = New wxEvtHandler
@@ -1083,6 +1089,7 @@ Type wxEvtHandler Extends wxObject
 		handler.callback = callback
 		handler.userData = userData
 		handler.kind = 0
+		handler.ownerPtr = wxObjectPtr
 		
 		events.insert(handler.key, handler)
 
@@ -1210,6 +1217,7 @@ Type wxEvtHandler Extends wxObject
 		handler.callback = callback
 		handler.userData = userData
 		handler.kind = 1
+		handler.ownerPtr = wxObjectPtr
 		
 		events.insert(handler.key, handler)
 
@@ -1292,6 +1300,7 @@ Type wxEvtHandler Extends wxObject
 		handler.callback = callback
 		handler.userData = userData
 		handler.kind = 2
+		handler.ownerPtr = wxObjectPtr
 		
 		events.insert(handler.key, handler)
 
@@ -1443,11 +1452,11 @@ Type wxEvtHandler Extends wxObject
 				' disconnect events
 				Select event.kind
 					Case 0 ' any
-						bmx_wxevthandler_disconnectnoid(wxObjectPtr, event.wxEventType, event.refPtr)
+						bmx_wxevthandler_disconnectnoid(event.ownerPtr, event.wxEventType, event.refPtr)
 					Case 1 ' id
-						bmx_wxevthandler_disconnect(wxObjectPtr, event.id, event.wxEventType, event.refPtr)
+						bmx_wxevthandler_disconnect(event.ownerPtr, event.id, event.wxEventType, event.refPtr)
 					Case 2 ' range
-						bmx_wxevthandler_disconnectrange(wxObjectPtr, event.id, event.lastId, event.wxEventType, event.refPtr)
+						bmx_wxevthandler_disconnectrange(event.ownerPtr, event.id, event.lastId, event.wxEventType, event.refPtr)
 				End Select
 			
 				event.parent = Null

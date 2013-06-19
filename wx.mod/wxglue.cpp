@@ -638,6 +638,11 @@ MaxObject::MaxObject(void * handle)
 {
 }
 
+MaxObject::~MaxObject()
+{
+	_wx_wx_TEventHandler__nullref(maxHandle);
+}
+
 void * MaxObject::getHandle() {
 	return maxHandle;
 }
