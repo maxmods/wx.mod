@@ -38,7 +38,7 @@ Import "-lwx_gtk2u_stc-2.9"
 Import "-lwxscintilla-2.9"
 Import "-lwx_gtk2u_qa-2.9"
 Import "-lwx_gtk2u_html-2.9"
-Import "-lwx_gtk2u_webview-2.9"
+'Import "-lwx_gtk2u_webview-2.9"
 Import "-lwx_gtk2u_adv-2.9"
 Import "-lwx_gtk2u_media-2.9"
 Import "-lwx_gtk2u_core-2.9"
@@ -66,13 +66,15 @@ Import "-lglib-2.0"
 Import "-lSM"
 Import "-lgtk-x11-2.0"
 Import "-lXxf86vm"
-Import "-lwebkitgtk-1.0"
+'Import "-lwebkitgtk-1.0"
 
 Import "-ltiff"
 Import "-ljpeg"
 Import "-lpangocairo-1.0"
 Import "-lcairo"
 Import "-lexpat"
+Import "-lpng"
+
 
 
 ' You may need this depending on your platform (eg. Fedora 17 has this dependency, but Ubuntu 12.10 does not)
@@ -222,9 +224,9 @@ Extern
 	Function bmx_wxevthandler_processevent:Int(handle:Byte Ptr, event:Byte Ptr)
 	Function bmx_wxevthandler_newref:Byte Ptr(data:Object)
 	Function bmx_wxevthandler_freeref(handle:Byte Ptr)
-	Function bmx_wxevthandler_disconnectnoid:Int(handle:Byte Ptr, eventType:Int)
-	Function bmx_wxevthandler_disconnect:Int(handle:Byte Ptr, id:Int, eventType:Int)
-	Function bmx_wxevthandler_disconnectrange:Int(handle:Byte Ptr, id:Int, lastId:Int, eventType:Int)
+	Function bmx_wxevthandler_disconnectnoid:Int(handle:Byte Ptr, eventType:Int, data:Byte Ptr)
+	Function bmx_wxevthandler_disconnect:Int(handle:Byte Ptr, id:Int, eventType:Int, data:Byte Ptr)
+	Function bmx_wxevthandler_disconnectrange:Int(handle:Byte Ptr, id:Int, lastId:Int, eventType:Int, data:Byte Ptr)
 	
 	Function bmx_event_geteventobject:Object(evt:Byte Ptr)
 	Function bmx_eventtype_value:Int(value:Int)

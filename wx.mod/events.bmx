@@ -925,9 +925,11 @@ Type TEventHandler
 	Field callback(event:wxEvent)
 	Field userData:Object
 	Field eventType:Int
+	Field wxEventType:Int
 	Field id:Int
 	Field lastId:Int = -1
 	Field refPtr:Byte Ptr
+	Field kind:Int
 	
 	Function eventCallback(evt:Byte Ptr, data:Object)
 
@@ -1080,6 +1082,7 @@ Type wxEvtHandler Extends wxObject
 		handler.eventType = eventType
 		handler.callback = callback
 		handler.userData = userData
+		handler.kind = 0
 		
 		events.insert(handler.key, handler)
 
@@ -1094,6 +1097,7 @@ Type wxEvtHandler Extends wxObject
 		
 		If evt Then
 			eventType = evt
+			handler.wxEventType = eventType
 		End If
 		
 		handler.refPtr = bmx_wxevthandler_newref(handler)
@@ -1154,7 +1158,7 @@ Type wxEvtHandler Extends wxObject
 		Local handler:TEventHandler = TEventHandler(events.ValueForKey(key))
 		
 		If handler Then
-			If bmx_wxevthandler_disconnectnoid(wxObjectPtr, eventType)
+			If bmx_wxevthandler_disconnectnoid(wxObjectPtr, handler.wxEventType, handler.refPtr)
 				events.Remove(key)
 				
 				Return True
@@ -1205,6 +1209,7 @@ Type wxEvtHandler Extends wxObject
 		handler.eventType = eventType
 		handler.callback = callback
 		handler.userData = userData
+		handler.kind = 1
 		
 		events.insert(handler.key, handler)
 
@@ -1219,6 +1224,7 @@ Type wxEvtHandler Extends wxObject
 		
 		If evt Then
 			eventType = evt
+			handler.wxEventType = eventType
 		End If
 		
 		handler.refPtr = bmx_wxevthandler_newref(handler)
@@ -1249,7 +1255,7 @@ Type wxEvtHandler Extends wxObject
 		Local handler:TEventHandler = TEventHandler(events.ValueForKey(key))
 		
 		If handler Then
-			If bmx_wxevthandler_disconnect(wxObjectPtr, id, eventType)
+			If bmx_wxevthandler_disconnect(wxObjectPtr, id, handler.wxEventType, handler.refPtr)
 				events.Remove(key)
 				
 				Return True
@@ -1285,6 +1291,7 @@ Type wxEvtHandler Extends wxObject
 		handler.eventType = eventType
 		handler.callback = callback
 		handler.userData = userData
+		handler.kind = 2
 		
 		events.insert(handler.key, handler)
 
@@ -1299,6 +1306,7 @@ Type wxEvtHandler Extends wxObject
 		
 		If evt Then
 			eventType = evt
+			handler.wxEventType = eventType
 		End If
 		
 		handler.refPtr = bmx_wxevthandler_newref(handler)
@@ -1314,7 +1322,7 @@ Type wxEvtHandler Extends wxObject
 		Local handler:TEventHandler = TEventHandler(events.ValueForKey(key))
 		
 		If handler Then
-			If bmx_wxevthandler_disconnectrange(wxObjectPtr, id, lastId, eventType)
+			If bmx_wxevthandler_disconnectrange(wxObjectPtr, id, lastId, handler.wxEventType, handler.refPtr)
 				events.Remove(key)
 				
 				Return True
@@ -1425,11 +1433,23 @@ Type wxEvtHandler Extends wxObject
 	End Method
 	
 	Method Free()
+
 		clientData = Null
 		' cleanup time!
 		If events Then
 
 			For Local event:TEventHandler = EachIn events.Values()
+			
+				' disconnect events
+				Select event.kind
+					Case 0 ' any
+						bmx_wxevthandler_disconnectnoid(wxObjectPtr, event.wxEventType, event.refPtr)
+					Case 1 ' id
+						bmx_wxevthandler_disconnect(wxObjectPtr, event.id, event.wxEventType, event.refPtr)
+					Case 2 ' range
+						bmx_wxevthandler_disconnectrange(wxObjectPtr, event.id, event.lastId, event.wxEventType, event.refPtr)
+				End Select
+			
 				event.parent = Null
 				event.eventSink = Null
 			Next
