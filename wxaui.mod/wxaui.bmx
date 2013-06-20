@@ -652,12 +652,12 @@ Type wxAuiPaneInfo
 	bbdoc: Constructs a new wxAuiPaneInfo object.
 	End Rem
 	Method Create:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_create())
+		Return _create(bmx_wxauipaneinfo_create())
 	End Method
 	
 	Method Delete()
 		If wxAuiPaneInfoPtr Then
-			bmx_wxauipanelinfo_delete(wxAuiPaneInfoPtr)
+			bmx_wxauipaneinfo_delete(wxAuiPaneInfoPtr)
 			wxAuiPaneInfoPtr = Null
 		End If
 	End Method
@@ -668,7 +668,7 @@ Type wxAuiPaneInfo
 	floating the pane.
 	End Rem
 	Method BestSize:wxAuiPaneInfo(w:Int, h:Int)
-		Return _create(bmx_wxauipanelinfo_bestsize(wxAuiPaneInfoPtr, w, h))
+		Return _create(bmx_wxauipaneinfo_bestsize(wxAuiPaneInfoPtr, w, h))
 	End Method
 	
 	Rem
@@ -676,21 +676,21 @@ Type wxAuiPaneInfo
 	about: This is the same thing as calling Direction(wxAUI_DOCK_BOTTOM).
 	End Rem
 	Method Bottom:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_bottom(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_bottom(wxAuiPaneInfoPtr))
 	End Method
 		
 	Rem
 	bbdoc: Indicates whether a pane can be docked at the bottom of the frame.
 	End Rem
 	Method BottomDockable:wxAuiPaneInfo(dockable:Int = True)
-		Return _create(bmx_wxauipanelinfo_bottomdockable(wxAuiPaneInfoPtr, dockable))
+		Return _create(bmx_wxauipaneinfo_bottomdockable(wxAuiPaneInfoPtr, dockable))
 	End Method
 	
 	Rem
 	bbdoc: Sets the caption of the pane.
 	End Rem
 	Method Caption:wxAuiPaneInfo(text:String)
-		Return _create(bmx_wxauipanelinfo_caption(wxAuiPaneInfoPtr, text))
+		Return _create(bmx_wxauipaneinfo_caption(wxAuiPaneInfoPtr, text))
 	End Method
 	
 	Rem
@@ -698,7 +698,7 @@ Type wxAuiPaneInfo
 	about: If false, no pane caption is drawn.
 	End Rem
 	Method CaptionVisible:wxAuiPaneInfo(visible:Int = True)
-		Return _create(bmx_wxauipanelinfo_captionvisible(wxAuiPaneInfoPtr, visible))
+		Return _create(bmx_wxauipaneinfo_captionvisible(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
@@ -710,7 +710,7 @@ Type wxAuiPaneInfo
 	</p>
 	End Rem
 	Method Centre:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_centre(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_centre(wxAuiPaneInfoPtr))
 	End Method
 
 	Rem
@@ -722,7 +722,7 @@ Type wxAuiPaneInfo
 	</p>
 	End Rem
 	Method Center:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_center(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_center(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
@@ -731,7 +731,7 @@ Type wxAuiPaneInfo
 	preparing a pane to be displayed in the center dock position.
 	End Rem
 	Method CentrePane:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_centrepane(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_centrepane(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
@@ -740,21 +740,21 @@ Type wxAuiPaneInfo
 	preparing a pane to be displayed in the center dock position.
 	End Rem
 	Method CenterPane:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_centerpane(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_centerpane(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
 	bbdoc: Indicates that a close button should be drawn for the pane.
 	End Rem
 	Method CloseButton:wxAuiPaneInfo(visible:Int = True)
-		Return _create(bmx_wxauipanelinfo_closebutton(wxAuiPaneInfoPtr, visible))
+		Return _create(bmx_wxauipaneinfo_closebutton(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
 	bbdoc: Specifies that the pane should adopt the default pane settings.
 	End Rem
 	Method DefaultPane:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_defaultpane(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_defaultpane(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
@@ -764,7 +764,7 @@ Type wxAuiPaneInfo
 	pane's close button.
 	End Rem
 	Method DestroyOnClose:wxAuiPaneInfo(dest:Int = True)
-		Return _create(bmx_wxauipanelinfo_destroyonclose(wxAuiPaneInfoPtr, dest))
+		Return _create(bmx_wxauipaneinfo_destroyonclose(wxAuiPaneInfoPtr, dest))
 	End Method
 	
 	Rem
@@ -773,7 +773,7 @@ Type wxAuiPaneInfo
 	except that docking direction may be specified programmatically via the parameter.
 	End Rem
 	Method Direction:wxAuiPaneInfo(dir:Int)
-		Return _create(bmx_wxauipanelinfo_direction(wxAuiPaneInfoPtr, dir))
+		Return _create(bmx_wxauipaneinfo_direction(wxAuiPaneInfoPtr, dir))
 	End Method
 	
 	Rem
@@ -781,7 +781,7 @@ Type wxAuiPaneInfo
 	about: It is the opposite of Float().
 	End Rem
 	Method Dock:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_dock(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_dock(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
@@ -789,7 +789,7 @@ Type wxAuiPaneInfo
 	about: This is useful for creating panes that span the entire width or height of a dock, but should not be resizable in the other direction.
 	End Rem
 	Method DockFixed:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_dockfixed(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_dockfixed(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
@@ -797,7 +797,7 @@ Type wxAuiPaneInfo
 	about: It is the same as specifying TopDockable(b).BottomDockable(b).LeftDockable(b).RightDockable(b).
 	End Rem
 	Method Dockable:wxAuiPaneInfo(dock:Int = True)
-		Return _create(bmx_wxauipanelinfo_dockable(wxAuiPaneInfoPtr, dock))
+		Return _create(bmx_wxauipaneinfo_dockable(wxAuiPaneInfoPtr, dock))
 	End Method
 	
 	Rem
@@ -805,84 +805,84 @@ Type wxAuiPaneInfo
 	about: After calling Fixed(), IsFixed() will return true.
 	End Rem
 	Method Fixed:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_fixed(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_fixed(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
 	bbdoc: Indicates that a pane should be floated.
 	End Rem
 	Method FloatPane:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_floatpane(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_floatpane(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
 	bbdoc: Sets whether the user will be able to undock a pane and turn it into a floating window.
 	End Rem
 	Method Floatable:wxAuiPaneInfo(value:Int = True)
-		Return _create(bmx_wxauipanelinfo_floatable(wxAuiPaneInfoPtr, value))
+		Return _create(bmx_wxauipaneinfo_floatable(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
 	bbdoc: Sets the position of the floating pane.
 	End Rem
 	Method FloatingPosition:wxAuiPaneInfo(x:Int, y:Int)
-		Return _create(bmx_wxauipanelinfo_floatingposition(wxAuiPaneInfoPtr, x, y))
+		Return _create(bmx_wxauipaneinfo_floatingposition(wxAuiPaneInfoPtr, x, y))
 	End Method
 	
 	Rem
 	bbdoc: Sets the size of the floating pane.
 	End Rem
 	Method FloatingSize:wxAuiPaneInfo(w:Int, h:Int)
-		Return _create(bmx_wxauipanelinfo_floatingsize(wxAuiPaneInfoPtr, w, h))
+		Return _create(bmx_wxauipaneinfo_floatingsize(wxAuiPaneInfoPtr, w, h))
 	End Method
 	
 	Rem
 	bbdoc: Returns the caption displayed on the window.
 	End Rem
 	Method GetCaption:String()
-		Return bmx_wxauipanelinfo_getcaption(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_getcaption(wxAuiPaneInfoPtr)
 	End Method
 
 	Rem
 	bbdoc: Returns the dock direction (top, bottom, left, right, center).
 	End Rem
 	Method GetDirection:Int()
-		Return bmx_wxauipanelinfo_getdirection(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_getdirection(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetFloatingPosition(x:Int Var, y:Int Var)
-		bmx_wxauipanelinfo_getfloatingpos(wxAuiPaneInfoPtr, Varptr x, Varptr y)
+		bmx_wxauipaneinfo_getfloatingpos(wxAuiPaneInfoPtr, Varptr x, Varptr y)
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetFloatingSize(w:Int Var, h:Int Var)
-		bmx_wxauipanelinfo_getfloatingsize(wxAuiPaneInfoPtr, Varptr w, Varptr h)
+		bmx_wxauipaneinfo_getfloatingsize(wxAuiPaneInfoPtr, Varptr w, Varptr h)
 	End Method
 
 	Rem
 	bbdoc: Returns the layer number (0 = innermost layer).
 	End Rem
 	Method GetLayer:Int()
-		Return bmx_wxauipanelinfo_getlayer(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_getlayer(wxAuiPaneInfoPtr)
 	End Method
 
 	Rem
 	bbdoc: Returns the row number on the docking bar (0 = first row).
 	End Rem
 	Method GetRow:Int()
-		Return bmx_wxauipanelinfo_getrow(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_getrow(wxAuiPaneInfoPtr)
 	End Method
 
 	Rem
 	bbdoc: Returns the position inside the row (0 = first position).
 	End Rem
 	Method GetPos:Int()
-		Return bmx_wxauipanelinfo_getpos(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_getpos(wxAuiPaneInfoPtr)
 	End Method
 	
 		
@@ -890,189 +890,196 @@ Type wxAuiPaneInfo
 	bbdoc: Returns the name of the pane.
 	End Rem
 	Method GetName:String()
-		Return bmx_wxauipanelinfo_getname(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_getname(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns the state: a combination of wxPaneState values.
 	End Rem
 	Method GetState:Int()
-		Return bmx_wxauipanelinfo_getstate(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_getstate(wxAuiPaneInfoPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the window that is in this pane.
+	End Rem
+	Method GetWindow:wxWindow()
+		Return wxWindow._find(bmx_wxauipaneinfo_getwindow(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
 	bbdoc: Indicates that a gripper should be drawn for the pane.
 	End Rem
 	Method Gripper:wxAuiPaneInfo(visible:Int = True)
-		Return _create(bmx_wxauipanelinfo_gripper(wxAuiPaneInfoPtr, visible))
+		Return _create(bmx_wxauipaneinfo_gripper(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
 	bbdoc:  Indicates that a gripper should be drawn at the top of the pane.
 	End Rem
 	Method GripperTop:wxAuiPaneInfo(attop:Int = True)
-		Return _create(bmx_wxauipanelinfo_grippertop(wxAuiPaneInfoPtr, attop))
+		Return _create(bmx_wxauipaneinfo_grippertop(wxAuiPaneInfoPtr, attop))
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane displays a border.
 	End Rem
 	Method HasBorder:Int()
-		Return bmx_wxauipanelinfo_hasborder(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_hasborder(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane displays a caption.
 	End Rem
 	Method HasCaption:Int()
-		Return bmx_wxauipanelinfo_hascaption(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_hascaption(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane displays a button to close the pane.
 	End Rem
 	Method HasCloseButton:Int()
-		Return bmx_wxauipanelinfo_hasclosebutton(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_hasclosebutton(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the the property specified by flag is active for the pane.
 	End Rem
 	Method HasFlag:Int(flag:Int)
-		Return bmx_wxauipanelinfo_hasflag(wxAuiPaneInfoPtr, flag)
+		Return bmx_wxauipaneinfo_hasflag(wxAuiPaneInfoPtr, flag)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane displays a gripper.
 	End Rem
 	Method HasGripper:Int()
-		Return bmx_wxauipanelinfo_hasgripper(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_hasgripper(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane displays a gripper at the top.
 	End Rem
 	Method HasGripperTop:Int()
-		Return bmx_wxauipanelinfo_hasgrippertop(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_hasgrippertop(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane displays a button to maximize the pane.
 	End Rem
 	Method HasMaximizeButton:Int()
-		Return bmx_wxauipanelinfo_hasmaximizebutton(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_hasmaximizebutton(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane displays a button to minimize the pane.
 	End Rem
 	Method HasMinimizeButton:Int()
-		Return bmx_wxauipanelinfo_hasminimizebutton(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_hasminimizebutton(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane displays a button to float the pane.
 	End Rem
 	Method HasPinButton:Int()
-		Return bmx_wxauipanelinfo_haspinbutton(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_haspinbutton(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Indicates that a pane should be hidden.
 	End Rem
 	Method Hide:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_hide(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_hide(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane can be docked at the bottom of the managed frame.
 	End Rem
 	Method IsBottomDockable:Int()
-		Return bmx_wxauipanelinfo_isbottomdockable(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_isbottomdockable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane is docked.
 	End Rem
 	Method IsDocked:Int()
-		Return bmx_wxauipanelinfo_isdocked(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_isdocked(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane cannot be resized.
 	End Rem
 	Method IsFixed:Int()
-		Return bmx_wxauipanelinfo_isfixed(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_isfixed(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane can be undocked and displayed as a floating window.
 	End Rem
 	Method IsFloatable:Int()
-		Return bmx_wxauipanelinfo_isfloatable(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_isfloatable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane is floating.
 	End Rem
 	Method IsFloating:Int()
-		Return bmx_wxauipanelinfo_isfloating(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_isfloating(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane can be docked on the left of the managed frame.
 	End Rem
 	Method IsLeftDockable:Int()
-		Return bmx_wxauipanelinfo_isleftdockable(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_isleftdockable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the docked frame can be undocked or moved to another dock position.
 	End Rem
 	Method IsMovable:Int()
-		Return bmx_wxauipanelinfo_ismovable(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_ismovable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the wxAuiPaneInfo structure is valid. A pane structure is valid if it has an associated window.
 	End Rem
 	Method IsOk:Int()
-		Return bmx_wxauipanelinfo_isok(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_isok(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane can be resized.
 	End Rem
 	Method IsResizable:Int()
-		Return bmx_wxauipanelinfo_isresizable(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_isresizable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane can be docked on the right of the managed frame.
 	End Rem
 	Method IsRightDockable:Int()
-		Return bmx_wxauipanelinfo_isrightdockable(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_isrightdockable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane is currently shown.
 	End Rem
 	Method IsShown:Int()
-		Return bmx_wxauipanelinfo_isshown(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_isshown(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane contains a toolbar.
 	End Rem
 	Method IsToolbar:Int()
-		Return bmx_wxauipanelinfo_istoolbar(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_istoolbar(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Returns true if the pane can be docked at the top of the managed frame.
 	End Rem
 	Method IsTopDockable:Int()
-		Return bmx_wxauipanelinfo_istopdockable(wxAuiPaneInfoPtr)
+		Return bmx_wxauipaneinfo_istopdockable(wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
@@ -1081,7 +1088,7 @@ Type wxAuiPaneInfo
 	direction has a higher layer number. This allows for more complex docking layout formation.
 	End Rem
 	Method Layer:wxAuiPaneInfo(value:Int)
-		Return _create(bmx_wxauipanelinfo_layer(wxAuiPaneInfoPtr, value))
+		Return _create(bmx_wxauipaneinfo_layer(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
@@ -1089,28 +1096,28 @@ Type wxAuiPaneInfo
 	about: This is the same thing as calling Direction(wxAUI_DOCK_LEFT).
 	End Rem
 	Method Left:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_left(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_left(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
 	bbdoc: Indicates whether a pane can be docked on the left of the frame.
 	End Rem
 	Method LeftDockable:wxAuiPaneInfo(dockable:Int = True)
-		Return _create(bmx_wxauipanelinfo_leftdockable(wxAuiPaneInfoPtr, dockable))
+		Return _create(bmx_wxauipaneinfo_leftdockable(wxAuiPaneInfoPtr, dockable))
 	End Method
 	
 	Rem
 	bbdoc: Sets the maximum size of the pane.
 	End Rem
 	Method MaxSize:wxAuiPaneInfo(w:Int, h:Int)
-		Return _create(bmx_wxauipanelinfo_maxsize(wxAuiPaneInfoPtr, w, h))
+		Return _create(bmx_wxauipaneinfo_maxsize(wxAuiPaneInfoPtr, w, h))
 	End Method
 	
 	Rem
 	bbdoc: Indicates that a maximize button should be drawn for the pane.
 	End Rem
 	Method MaximizeButton:wxAuiPaneInfo(visible:Int = True)
-		Return _create(bmx_wxauipanelinfo_maximizebutton(wxAuiPaneInfoPtr, visible))
+		Return _create(bmx_wxauipaneinfo_maximizebutton(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
@@ -1118,21 +1125,21 @@ Type wxAuiPaneInfo
 	about: Please note that this is only partially supported as of this writing.
 	End Rem
 	Method MinSize:wxAuiPaneInfo(w:Int, h:Int)
-		Return _create(bmx_wxauipanelinfo_minsize(wxAuiPaneInfoPtr, w, h))
+		Return _create(bmx_wxauipaneinfo_minsize(wxAuiPaneInfoPtr, w, h))
 	End Method
 	
 	Rem
 	bbdoc: Indicates that a minimize button should be drawn for the pane.
 	End Rem
 	Method MinimizeButton:wxAuiPaneInfo(visible:Int = True)
-		Return _create(bmx_wxauipanelinfo_minimizebutton(wxAuiPaneInfoPtr, visible))
+		Return _create(bmx_wxauipaneinfo_minimizebutton(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
 	bbdoc: Indicates whether a frame can be moved.
 	End Rem
 	Method Movable:wxAuiPaneInfo(move:Int = True)
-		Return _create(bmx_wxauipanelinfo_movable(wxAuiPaneInfoPtr, move))
+		Return _create(bmx_wxauipaneinfo_movable(wxAuiPaneInfoPtr, move))
 	End Method
 	
 	Rem
@@ -1140,28 +1147,28 @@ Type wxAuiPaneInfo
 	about: If a name is not specified by the user, a random name is assigned to the pane when it is added to the manager.
 	End Rem
 	Method Name:wxAuiPaneInfo(n:String)
-		Return _create(bmx_wxauipanelinfo_name(wxAuiPaneInfoPtr, n))
+		Return _create(bmx_wxauipaneinfo_name(wxAuiPaneInfoPtr, n))
 	End Method
 	
 	Rem
 	bbdoc: Indicates that a border should be drawn for the pane.
 	End Rem
 	Method PaneBorder:wxAuiPaneInfo(visible:Int = True)
-		Return _create(bmx_wxauipanelinfo_paneborder(wxAuiPaneInfoPtr, visible))
+		Return _create(bmx_wxauipaneinfo_paneborder(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
 	bbdoc: Indicates that a pin button should be drawn for the pane.
 	End Rem
 	Method PinButton:wxAuiPaneInfo(visible:Int = True)
-		Return _create(bmx_wxauipanelinfo_pinbutton(wxAuiPaneInfoPtr, visible))
+		Return _create(bmx_wxauipaneinfo_pinbutton(wxAuiPaneInfoPtr, visible))
 	End Method
 	
 	Rem
 	bbdoc: Determines the position of the docked pane.
 	End Rem
 	Method Position:wxAuiPaneInfo(pos:Int)
-		Return _create(bmx_wxauipanelinfo_position(wxAuiPaneInfoPtr, pos))
+		Return _create(bmx_wxauipaneinfo_position(wxAuiPaneInfoPtr, pos))
 	End Method
 	
 	Rem
@@ -1169,28 +1176,28 @@ Type wxAuiPaneInfo
 	about: This is simply an antonym for Fixed().
 	End Rem
 	Method Resizable:wxAuiPaneInfo(value:Int = True)
-		Return _create(bmx_wxauipanelinfo_resizable(wxAuiPaneInfoPtr, value))
+		Return _create(bmx_wxauipaneinfo_resizable(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
 	bbdoc: Sets the pane dock position to the right side of the frame.
 	End Rem
 	Method Right:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_right(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_right(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
 	bbdoc: Indicates whether a pane can be docked on the right of the frame.
 	End Rem
 	Method RightDockable:wxAuiPaneInfo(dockable:Int = True)
-		Return _create(bmx_wxauipanelinfo_rightdockable(wxAuiPaneInfoPtr, dockable))
+		Return _create(bmx_wxauipaneinfo_rightdockable(wxAuiPaneInfoPtr, dockable))
 	End Method
 	
 	Rem
 	bbdoc: Determines the row of the docked pane.
 	End Rem
 	Method Row:wxAuiPaneInfo(value:Int)
-		Return _create(bmx_wxauipanelinfo_row(wxAuiPaneInfoPtr, value))
+		Return _create(bmx_wxauipaneinfo_row(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
@@ -1198,42 +1205,42 @@ Type wxAuiPaneInfo
 	about: Used on loading perspectives etc.
 	End Rem
 	Method SafeSet(source:wxAuiPaneInfo)
-		bmx_wxauipanelinfo_safeset(wxAuiPaneInfoPtr, source.wxAuiPaneInfoPtr)
+		bmx_wxauipaneinfo_safeset(wxAuiPaneInfoPtr, source.wxAuiPaneInfoPtr)
 	End Method
 	
 	Rem
 	bbdoc: Turns the property given by flag on or off with the @optionState parameter.
 	End Rem
 	Method SetFlag:wxAuiPaneInfo(flag:Int, optionState:Int)
-		Return _create(bmx_wxauipanelinfo_setflag(wxAuiPaneInfoPtr, flag, optionState))
+		Return _create(bmx_wxauipaneinfo_setflag(wxAuiPaneInfoPtr, flag, optionState))
 	End Method
 	
 	Rem
 	bbdoc: Indicates that a pane should be shown.
 	End Rem
 	Method Show:wxAuiPaneInfo(value:Int = True)
-		Return _create(bmx_wxauipanelinfo_show(wxAuiPaneInfoPtr, value))
+		Return _create(bmx_wxauipaneinfo_show(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
 	bbdoc: Specifies that the pane should adopt the default toolbar pane settings.
 	End Rem
 	Method ToolbarPane:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_toolbarpane(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_toolbarpane(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
 	bbdoc: Sets the pane dock position to the top of the frame.
 	End Rem
 	Method Top:wxAuiPaneInfo()
-		Return _create(bmx_wxauipanelinfo_top(wxAuiPaneInfoPtr))
+		Return _create(bmx_wxauipaneinfo_top(wxAuiPaneInfoPtr))
 	End Method
 	
 	Rem
 	bbdoc: Indicates whether a pane can be docked at the top of the frame.
 	End Rem
 	Method TopDockable:wxAuiPaneInfo(value:Int = True)
-		Return _create(bmx_wxauipanelinfo_topdocakable(wxAuiPaneInfoPtr, value))
+		Return _create(bmx_wxauipaneinfo_topdocakable(wxAuiPaneInfoPtr, value))
 	End Method
 	
 	Rem
@@ -1242,7 +1249,7 @@ Type wxAuiPaneInfo
 	wxAuiPaneInfo structure as soon as it is added to the manager.
 	End Rem
 	Method Window:wxAuiPaneInfo(w:wxWindow)
-		Return _create(bmx_wxauipanelinfo_window(wxAuiPaneInfoPtr, w.wxObjectPtr))
+		Return _create(bmx_wxauipaneinfo_window(wxAuiPaneInfoPtr, w.wxObjectPtr))
 	End Method
 
 End Type

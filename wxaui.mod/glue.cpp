@@ -183,330 +183,334 @@ void bmx_wxauimanager_setartprovider(MaxAuiManager * manager, wxAuiDockArt * art
 // *********************************************
 
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_create() {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_create() {
 	return new MaxAuiPaneInfo();
 }
 
-void bmx_wxauipanelinfo_delete(MaxAuiPaneInfo * info) {
+void bmx_wxauipaneinfo_delete(MaxAuiPaneInfo * info) {
 	delete info;
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_bestsize(MaxAuiPaneInfo * info, int w, int h) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_bestsize(MaxAuiPaneInfo * info, int w, int h) {
 	return new MaxAuiPaneInfo(info->Info().BestSize(wxSize(w, h)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_bottom(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_bottom(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().Bottom());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_bottomdockable(MaxAuiPaneInfo * info, int dockable) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_bottomdockable(MaxAuiPaneInfo * info, int dockable) {
 	return new MaxAuiPaneInfo(info->Info().BottomDockable(static_cast<bool>(dockable)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_caption(MaxAuiPaneInfo * info, BBString * caption) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_caption(MaxAuiPaneInfo * info, BBString * caption) {
 	return new MaxAuiPaneInfo(info->Info().Caption(wxStringFromBBString(caption)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_captionvisible(MaxAuiPaneInfo * info, int visible) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_captionvisible(MaxAuiPaneInfo * info, int visible) {
 	return new MaxAuiPaneInfo(info->Info().CaptionVisible(static_cast<bool>(visible)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_centre(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_centre(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().Centre());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_center(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_center(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().Center());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_centrepane(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_centrepane(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().CentrePane());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_centerpane(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_centerpane(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().CenterPane());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_closebutton(MaxAuiPaneInfo * info, int visible) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_closebutton(MaxAuiPaneInfo * info, int visible) {
 	return new MaxAuiPaneInfo(info->Info().CloseButton(static_cast<bool>(visible)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_defaultpane(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_defaultpane(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().DefaultPane());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_destroyonclose(MaxAuiPaneInfo * info, int dest) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_destroyonclose(MaxAuiPaneInfo * info, int dest) {
 	return new MaxAuiPaneInfo(info->Info().DestroyOnClose(static_cast<bool>(dest)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_direction(MaxAuiPaneInfo * info, int dir) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_direction(MaxAuiPaneInfo * info, int dir) {
 	return new MaxAuiPaneInfo(info->Info().Direction(dir));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_dock(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_dock(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().Dock());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_dockable(MaxAuiPaneInfo * info, int dock) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_dockable(MaxAuiPaneInfo * info, int dock) {
 	return new MaxAuiPaneInfo(info->Info().Dockable(static_cast<bool>(dock)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_fixed(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_fixed(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().Fixed());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_floatpane(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_floatpane(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().Float());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_floatable(MaxAuiPaneInfo * info, int value) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_floatable(MaxAuiPaneInfo * info, int value) {
 	return new MaxAuiPaneInfo(info->Info().Floatable(static_cast<bool>(value)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_floatingposition(MaxAuiPaneInfo * info, int x, int y) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_floatingposition(MaxAuiPaneInfo * info, int x, int y) {
 	return new MaxAuiPaneInfo(info->Info().FloatingPosition(wxPoint(x, y)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_floatingsize(MaxAuiPaneInfo * info, int w, int h) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_floatingsize(MaxAuiPaneInfo * info, int w, int h) {
 	return new MaxAuiPaneInfo(info->Info().FloatingSize(wxSize(w, h)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_gripper(MaxAuiPaneInfo * info, int visible) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_gripper(MaxAuiPaneInfo * info, int visible) {
 	return new MaxAuiPaneInfo(info->Info().Gripper(static_cast<bool>(visible)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_grippertop(MaxAuiPaneInfo * info, int attop) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_grippertop(MaxAuiPaneInfo * info, int attop) {
 	return new MaxAuiPaneInfo(info->Info().GripperTop(static_cast<bool>(attop)));
 }
 
 
-int bmx_wxauipanelinfo_hasborder(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_hasborder(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().HasBorder());
 }
 
-int bmx_wxauipanelinfo_hascaption(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_hascaption(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().HasCaption());
 }
 
-int bmx_wxauipanelinfo_hasclosebutton(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_hasclosebutton(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().HasCloseButton());
 }
 
-int bmx_wxauipanelinfo_hasflag(MaxAuiPaneInfo * info, unsigned int flag) {
+int bmx_wxauipaneinfo_hasflag(MaxAuiPaneInfo * info, unsigned int flag) {
 	return static_cast<int>(info->Info().HasFlag(flag));
 }
 
-int bmx_wxauipanelinfo_hasgripper(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_hasgripper(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().HasGripper());
 }
 
-int bmx_wxauipanelinfo_hasgrippertop(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_hasgrippertop(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().HasGripperTop());
 }
 
-int bmx_wxauipanelinfo_hasmaximizebutton(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_hasmaximizebutton(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().HasMaximizeButton());
 }
 
-int bmx_wxauipanelinfo_hasminimizebutton(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_hasminimizebutton(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().HasMinimizeButton());
 }
 
-int bmx_wxauipanelinfo_haspinbutton(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_haspinbutton(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().HasPinButton());
 }
 
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_hide(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_hide(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().Hide());
 }
 
-int bmx_wxauipanelinfo_isbottomdockable(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_isbottomdockable(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsBottomDockable());
 }
 
-int bmx_wxauipanelinfo_isdocked(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_isdocked(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsDocked());
 }
 
-int bmx_wxauipanelinfo_isfixed(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_isfixed(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsFixed());
 }
 
-int bmx_wxauipanelinfo_isfloatable(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_isfloatable(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsFloatable());
 }
 
-int bmx_wxauipanelinfo_isfloating(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_isfloating(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsFloating());
 }
 
-int bmx_wxauipanelinfo_isleftdockable(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_isleftdockable(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsLeftDockable());
 }
 
-int bmx_wxauipanelinfo_ismovable(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_ismovable(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsMovable());
 }
 
-int bmx_wxauipanelinfo_isok(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_isok(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsOk());
 }
 
-int bmx_wxauipanelinfo_isresizable(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_isresizable(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsResizable());
 }
 
-int bmx_wxauipanelinfo_isrightdockable(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_isrightdockable(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsRightDockable());
 }
 
-int bmx_wxauipanelinfo_isshown(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_isshown(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsShown());
 }
 
-int bmx_wxauipanelinfo_istoolbar(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_istoolbar(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsToolbar());
 }
 
-int bmx_wxauipanelinfo_istopdockable(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_istopdockable(MaxAuiPaneInfo * info) {
 	return static_cast<int>(info->Info().IsTopDockable());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_layer(MaxAuiPaneInfo * info, int value) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_layer(MaxAuiPaneInfo * info, int value) {
 	return new MaxAuiPaneInfo(info->Info().Layer(value));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_left(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_left(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().Left());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_leftdockable(MaxAuiPaneInfo * info, int dockable) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_leftdockable(MaxAuiPaneInfo * info, int dockable) {
 	return new MaxAuiPaneInfo(info->Info().LeftDockable(static_cast<bool>(dockable)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_maxsize(MaxAuiPaneInfo * info, int w, int h) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_maxsize(MaxAuiPaneInfo * info, int w, int h) {
 	return new MaxAuiPaneInfo(info->Info().MaxSize(wxSize(w, h)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_maximizebutton(MaxAuiPaneInfo * info, int visible) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_maximizebutton(MaxAuiPaneInfo * info, int visible) {
 	return new MaxAuiPaneInfo(info->Info().MaximizeButton(static_cast<bool>(visible)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_minsize(MaxAuiPaneInfo * info, int w, int h) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_minsize(MaxAuiPaneInfo * info, int w, int h) {
 	return new MaxAuiPaneInfo(info->Info().MinSize(wxSize(w, h)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_minimizebutton(MaxAuiPaneInfo * info, int visible) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_minimizebutton(MaxAuiPaneInfo * info, int visible) {
 	return new MaxAuiPaneInfo(info->Info().MinimizeButton(static_cast<bool>(visible)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_movable(MaxAuiPaneInfo * info, int move) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_movable(MaxAuiPaneInfo * info, int move) {
 	return new MaxAuiPaneInfo(info->Info().Movable(static_cast<bool>(move)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_name(MaxAuiPaneInfo * info, BBString * n) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_name(MaxAuiPaneInfo * info, BBString * n) {
 	return new MaxAuiPaneInfo(info->Info().Name(wxStringFromBBString(n)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_paneborder(MaxAuiPaneInfo * info, int visible) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_paneborder(MaxAuiPaneInfo * info, int visible) {
 	return new MaxAuiPaneInfo(info->Info().PaneBorder(static_cast<bool>(visible)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_pinbutton(MaxAuiPaneInfo * info, int visible) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_pinbutton(MaxAuiPaneInfo * info, int visible) {
 	return new MaxAuiPaneInfo(info->Info().PinButton(static_cast<bool>(visible)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_position(MaxAuiPaneInfo * info, int pos) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_position(MaxAuiPaneInfo * info, int pos) {
 	return new MaxAuiPaneInfo(info->Info().Position(pos));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_resizable(MaxAuiPaneInfo * info, int value) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_resizable(MaxAuiPaneInfo * info, int value) {
 	return new MaxAuiPaneInfo(info->Info().Resizable(static_cast<bool>(value)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_right(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_right(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().Right());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_rightdockable(MaxAuiPaneInfo * info, int dockable) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_rightdockable(MaxAuiPaneInfo * info, int dockable) {
 	return new MaxAuiPaneInfo(info->Info().RightDockable(static_cast<bool>(dockable)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_row(MaxAuiPaneInfo * info, int value) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_row(MaxAuiPaneInfo * info, int value) {
 	return new MaxAuiPaneInfo(info->Info().Row(value));
 }
 
-void bmx_wxauipanelinfo_safeset(MaxAuiPaneInfo * info, MaxAuiPaneInfo * source) {
+void bmx_wxauipaneinfo_safeset(MaxAuiPaneInfo * info, MaxAuiPaneInfo * source) {
 	info->Info().SafeSet(source->Info());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_setflag(MaxAuiPaneInfo * info, unsigned int flag, int option_state) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_setflag(MaxAuiPaneInfo * info, unsigned int flag, int option_state) {
 	return new MaxAuiPaneInfo(info->Info().SetFlag(flag, static_cast<bool>(option_state)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_show(MaxAuiPaneInfo * info, int value) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_show(MaxAuiPaneInfo * info, int value) {
 	return new MaxAuiPaneInfo(info->Info().Show(static_cast<bool>(value)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_toolbarpane(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_toolbarpane(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().ToolbarPane());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_top(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_top(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().Top());
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_topdocakable(MaxAuiPaneInfo * info, int value) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_topdocakable(MaxAuiPaneInfo * info, int value) {
 	return new MaxAuiPaneInfo(info->Info().TopDockable(static_cast<bool>(value)));
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_window(MaxAuiPaneInfo * info, wxWindow * window) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_window(MaxAuiPaneInfo * info, wxWindow * window) {
 	return new MaxAuiPaneInfo(info->Info().Window(window));
 }
 
-BBString * bmx_wxauipanelinfo_getcaption(MaxAuiPaneInfo * info) {
+BBString * bmx_wxauipaneinfo_getcaption(MaxAuiPaneInfo * info) {
 	return bbStringFromWxString(info->Info().caption);
 }
 
-BBString * bmx_wxauipanelinfo_getname(MaxAuiPaneInfo * info) {
+BBString * bmx_wxauipaneinfo_getname(MaxAuiPaneInfo * info) {
 	return bbStringFromWxString(info->Info().name);
 }
 
-unsigned int bmx_wxauipanelinfo_getstate(MaxAuiPaneInfo * info) {
+unsigned int bmx_wxauipaneinfo_getstate(MaxAuiPaneInfo * info) {
 	return info->Info().state;
 }
 
-int bmx_wxauipanelinfo_getdirection(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_getdirection(MaxAuiPaneInfo * info) {
 	return info->Info().dock_direction;
 }
 
-int bmx_wxauipanelinfo_getlayer(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_getlayer(MaxAuiPaneInfo * info) {
 	return info->Info().dock_layer;
 }
 
-int bmx_wxauipanelinfo_getrow(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_getrow(MaxAuiPaneInfo * info) {
 	return info->Info().dock_row;
 }
 
-int bmx_wxauipanelinfo_getpos(MaxAuiPaneInfo * info) {
+int bmx_wxauipaneinfo_getpos(MaxAuiPaneInfo * info) {
 	return info->Info().dock_pos;
 }
 
-void bmx_wxauipanelinfo_getfloatingpos(MaxAuiPaneInfo * info, int * x, int * y) {
+void bmx_wxauipaneinfo_getfloatingpos(MaxAuiPaneInfo * info, int * x, int * y) {
 	wxPoint p = info->Info().floating_pos;
 	*x = p.x;
 	*y = p.y;
 }
 
-void bmx_wxauipanelinfo_getfloatingsize(MaxAuiPaneInfo * info, int * w, int * h) {
+void bmx_wxauipaneinfo_getfloatingsize(MaxAuiPaneInfo * info, int * w, int * h) {
 	wxSize p = info->Info().floating_size;
 	*w = p.x;
 	*h = p.y;
 }
 
-MaxAuiPaneInfo * bmx_wxauipanelinfo_dockfixed(MaxAuiPaneInfo * info) {
+MaxAuiPaneInfo * bmx_wxauipaneinfo_dockfixed(MaxAuiPaneInfo * info) {
 	return new MaxAuiPaneInfo(info->Info().DockFixed());
+}
+
+wxWindow * bmx_wxauipaneinfo_getwindow(MaxAuiPaneInfo * info) {
+	return info->Info().window;
 }
 
 // *********************************************
