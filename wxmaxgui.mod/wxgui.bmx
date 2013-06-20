@@ -372,10 +372,10 @@ Type TwxGUIDriver Extends TMaxGUIDriver
 
 			Case GADGET_TEXTFIELD
 				Return New TwxTextField.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
-Rem
+
 			Case GADGET_TEXTAREA
-				Return New TQtTextArea.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
-End Rem
+				Return New TwxTextArea.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+
 			Case GADGET_COMBOBOX
 				Return New TwxComboBox.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
 			Case GADGET_LISTBOX
