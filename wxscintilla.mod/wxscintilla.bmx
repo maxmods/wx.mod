@@ -265,7 +265,7 @@ Type wxScintilla Extends wxControl
 	about: Returns the index of the caret on the line.
 	End Rem
 	Method GetCurLine:String(index:Int Var)
-		Return bmx_wxscintilla_getcurline(wxObjectPtr, VarPtr index)
+		Return bmx_wxscintilla_getcurline(wxObjectPtr, Varptr index)
 	End Method
 
 	Rem
@@ -563,8 +563,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Set the font of a style.
 	End Rem
-	Method StyleSetFaceName(style:Int, fontName:String)
-		bmx_wxscintilla_stylesetfacename(wxObjectPtr, style, fontName)
+	Method StyleSetFaceName(style:Int, FontName:String)
+		bmx_wxscintilla_stylesetfacename(wxObjectPtr, style, FontName)
 	End Method
 
 	Rem
@@ -1353,8 +1353,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Modify colours when printing for clearer printed text.
 	End Rem
-	Method SetPrintColourMode(mode:Int)
-		bmx_wxscintilla_setprintcolourmode(wxObjectPtr, mode)
+	Method SetPrintColourMode(Mode:Int)
+		bmx_wxscintilla_setprintcolourmode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -1938,8 +1938,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Sets whether text is word wrapped.
 	End Rem
-	Method SetWrapMode(mode:Int)
-		bmx_wxscintilla_setwrapmode(wxObjectPtr, mode)
+	Method SetWrapMode(Mode:Int)
+		bmx_wxscintilla_setwrapmode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -1994,8 +1994,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Sets how wrapped sublines are placed. Default is fixed.
 	End Rem
-	Method SetWrapIndentMode(mode:Int)
-		bmx_wxscintilla_setwrapindentmode(wxObjectPtr, mode)
+	Method SetWrapIndentMode(Mode:Int)
+		bmx_wxscintilla_setwrapindentmode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -2008,8 +2008,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Sets the degree of caching of layout information.
 	End Rem
-	Method SetLayoutCache(mode:Int)
-		bmx_wxscintilla_setlayoutcache(wxObjectPtr, mode)
+	Method SetLayoutCache(Mode:Int)
+		bmx_wxscintilla_setlayoutcache(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -2725,8 +2725,8 @@ Type wxScintilla Extends wxControl
 	bbdoc: The edge may be displayed by a line (EDGE_LINE) or by highlighting text that
 	about: goes beyond it (EDGE_BACKGROUND) or not displayed at all (EDGE_NONE).
 	End Rem
-	Method SetEdgeMode(mode:Int)
-		bmx_wxscintilla_setedgemode(wxObjectPtr, mode)
+	Method SetEdgeMode(Mode:Int)
+		bmx_wxscintilla_setedgemode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -2981,8 +2981,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Set printing to line wrapped (SC_WRAP_WORD) or not line wrapped (SC_WRAP_NONE).
 	End Rem
-	Method SetPrintWrapMode(mode:Int)
-		bmx_wxscintilla_setprintwrapmode(wxObjectPtr, mode)
+	Method SetPrintWrapMode(Mode:Int)
+		bmx_wxscintilla_setprintwrapmode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -3075,8 +3075,8 @@ Type wxScintilla Extends wxControl
 	bbdoc: Set the selection mode to stream (SC_SEL_STREAM) or rectangular (SC_SEL_RECTANGLE/SC_SEL_THIN) or
 	about: by lines (SC_SEL_LINES).
 	End Rem
-	Method SetSelectionMode(mode:Int)
-		bmx_wxscintilla_setselectionmode(wxObjectPtr, mode)
+	Method SetSelectionMode(Mode:Int)
+		bmx_wxscintilla_setselectionmode(wxObjectPtr, Mode)
 	End Method
 
 	Rem
@@ -4532,7 +4532,12 @@ Type TScintillaEventFactory Extends TEventFactory
 					wxEVT_SCI_HOTSPOT_CLICK, ..
 					wxEVT_SCI_HOTSPOT_DCLICK, ..
 					wxEVT_SCI_CALLTIP_CLICK, ..
-					wxEVT_SCI_AUTOCOMP_SELECTION
+					wxEVT_SCI_AUTOCOMP_SELECTION, ..
+					wxEVT_STC_INDICATOR_CLICK, ..
+					wxEVT_STC_INDICATOR_RELEASE, ..
+					wxEVT_STC_AUTOCOMP_CANCELLED, ..
+					wxEVT_STC_AUTOCOMP_CHAR_DELETED, ..
+					wxEVT_STC_HOTSPOT_RELEASE_CLICK
 				Return wxScintillaEvent.Create(wxEventPtr, evt)
 		End Select
 		
@@ -4566,7 +4571,12 @@ Type TScintillaEventFactory Extends TEventFactory
 					wxEVT_SCI_HOTSPOT_CLICK, ..
 					wxEVT_SCI_HOTSPOT_DCLICK, ..
 					wxEVT_SCI_CALLTIP_CLICK, ..
-					wxEVT_SCI_AUTOCOMP_SELECTION
+					wxEVT_SCI_AUTOCOMP_SELECTION, ..
+					wxEVT_STC_INDICATOR_CLICK, ..
+					wxEVT_STC_INDICATOR_RELEASE, ..
+					wxEVT_STC_AUTOCOMP_CANCELLED, ..
+					wxEVT_STC_AUTOCOMP_CHAR_DELETED, ..
+					wxEVT_STC_HOTSPOT_RELEASE_CLICK
 				Return bmx_wxscintilla_geteventtype(eventType)
 		End Select
 	End Method

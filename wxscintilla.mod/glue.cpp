@@ -2563,6 +2563,11 @@ int bmx_wxscintilla_geteventtype(int type) {
 		case 1674: return wxEVT_STC_HOTSPOT_DCLICK;
 		case 1675: return wxEVT_STC_CALLTIP_CLICK;
 		case 1676: return wxEVT_STC_AUTOCOMP_SELECTION;
+        case 1677: return wxEVT_STC_INDICATOR_CLICK;
+        case 1678: return wxEVT_STC_INDICATOR_RELEASE;
+        case 1679: return wxEVT_STC_AUTOCOMP_CANCELLED;
+        case 1680: return wxEVT_STC_AUTOCOMP_CHAR_DELETED;
+        case 1681: return wxEVT_STC_HOTSPOT_RELEASE_CLICK;
 	}
 	
 	return 0;
