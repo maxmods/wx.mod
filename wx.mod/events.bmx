@@ -954,6 +954,11 @@ Type TEventHandler
 		
 	End Function
 	
+	Method SetRef(ref:Byte Ptr)
+		refPtr = ref
+		key :+ "." + Int(ref) ' generates unique(ish) key
+	End Method
+	
 	Function _nullref(obj:TEventHandler)
 		obj.refPtr = Null
 	End Function
@@ -1090,6 +1095,7 @@ Type wxEvtHandler Extends wxObject
 		handler.userData = userData
 		handler.kind = 0
 		handler.ownerPtr = wxObjectPtr
+		handler.SetRef(bmx_wxevthandler_newref(handler))
 		
 		events.insert(handler.key, handler)
 
@@ -1107,7 +1113,6 @@ Type wxEvtHandler Extends wxObject
 			handler.wxEventType = eventType
 		End If
 		
-		handler.refPtr = bmx_wxevthandler_newref(handler)
 		
 		bmx_wxevthandler_connectnoid(wxObjectPtr, eventType, handler.refPtr)
 	End Method
@@ -1218,6 +1223,7 @@ Type wxEvtHandler Extends wxObject
 		handler.userData = userData
 		handler.kind = 1
 		handler.ownerPtr = wxObjectPtr
+		handler.SetRef(bmx_wxevthandler_newref(handler))
 		
 		events.insert(handler.key, handler)
 
@@ -1234,8 +1240,6 @@ Type wxEvtHandler Extends wxObject
 			eventType = evt
 			handler.wxEventType = eventType
 		End If
-		
-		handler.refPtr = bmx_wxevthandler_newref(handler)
 		
 		bmx_wxevthandler_connect(wxObjectPtr, id, eventType, handler.refPtr)
 	End Method
@@ -1301,6 +1305,7 @@ Type wxEvtHandler Extends wxObject
 		handler.userData = userData
 		handler.kind = 2
 		handler.ownerPtr = wxObjectPtr
+		handler.SetRef(bmx_wxevthandler_newref(handler))
 		
 		events.insert(handler.key, handler)
 
@@ -1317,8 +1322,6 @@ Type wxEvtHandler Extends wxObject
 			eventType = evt
 			handler.wxEventType = eventType
 		End If
-		
-		handler.refPtr = bmx_wxevthandler_newref(handler)
 		
 		bmx_wxevthandler_connectrange(wxObjectPtr, id, lastId, eventType, handler.refPtr)
 	End Method
@@ -1448,7 +1451,6 @@ Type wxEvtHandler Extends wxObject
 		If events Then
 
 			For Local event:TEventHandler = EachIn events.Values()
-			
 				' disconnect events
 				Select event.kind
 					Case 0 ' any
