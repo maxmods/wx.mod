@@ -167,6 +167,20 @@ Type wxEvent
 	Method NewEvent:wxEvent(evtType:Int, winId:Int = 0)
 	End Method
 	
+	Rem
+	bbdoc: Return the user data associated with a dynamically connected event handler. 
+	End Rem
+	Method GetEventUserData:Object()
+		Return userData
+	End Method
+	
+	Rem
+	bbdoc: Returns the parent event handler for this event.
+	End Rem
+	Method GetParent:wxEvtHandler()
+		Return parent
+	End Method
+	
 	Method Delete()
 		If customEventPtr Then
 			bmx_wxevent_delete(customEventPtr)
