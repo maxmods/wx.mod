@@ -511,6 +511,14 @@ void bmx_wxscintilla_setselalpha(wxScintilla * sc, int alpha) {
 	sc->SetSelAlpha(alpha);
 }
 
+int bmx_wxscintilla_getseleolfilled(wxScintilla * sc) {
+	return sc->GetSelEOLFilled();
+}
+
+void bmx_wxscintilla_setseleolfilled(wxScintilla * sc, int filled) {
+	sc->SetSelEOLFilled(filled);
+}
+
 void bmx_wxscintilla_setcaretforeground(wxScintilla * sc, MaxColour * fore) {
 	sc->SetCaretForeground(fore->Colour());
 }
@@ -1939,6 +1947,14 @@ void bmx_wxscintilla_selectionduplicate(wxScintilla * sc) {
 	sc->SelectionDuplicate();
 }
 
+void bmx_wxscintilla_setcaretlinebackalpha(wxScintilla * sc, int alpha) {
+	sc->SetCaretLineBackAlpha(alpha);
+}
+
+int bmx_wxscintilla_getcaretlinebackalpha(wxScintilla * sc) {
+	return sc->GetCaretLineBackAlpha();
+}
+
 void bmx_wxscintilla_setcaretstyle(wxScintilla * sc, int caretStyle) {
 	sc->SetCaretStyle(caretStyle);
 }
@@ -2041,6 +2057,10 @@ void bmx_wxscintilla_setextradescent(wxScintilla * sc, int extraDescent) {
 
 int bmx_wxscintilla_getextradescent(wxScintilla * sc) {
 	return sc->GetExtraDescent();
+}
+
+int bmx_wxscintilla_getmarkersymboldefined(wxScintilla * sc, int markerNumber) {
+	return sc->GetMarkerSymbolDefined(markerNumber);
 }
 
 void bmx_wxscintilla_marginsettext(wxScintilla * sc, int line, BBString * text) {

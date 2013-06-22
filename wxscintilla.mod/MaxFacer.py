@@ -871,6 +871,8 @@ def checkNameChange(name):
 		name = "CallTipPosAtStart"
 	elif name == "MarkerSetBackSelected":
 		name = "MarkerSetBackgroundSelected"
+	elif name == "MarkerSymbolDefined":
+		name = "GetMarkerSymbolDefined"
 	elif name == "SetMarginCursorN":
 		name = "SetMarginCursor"
 	elif name == "GetMarginCursorN":
@@ -897,8 +899,8 @@ def checkNameChange(name):
 		name = name.replace("AutoC", "AutoComp")
 	elif Contains(name, "Focus"):
 		name = name.replace("Focus", "STCFocus")
-	elif Contains(name, "BackAlpha"):
-		name = name.replace("BackAlpha", "BackgroundAlpha")
+#	elif Contains(name, "BackgroundAlpha"):
+#		name = name.replace("BackAlpha", "BackgroundAlpha")
 	elif Contains(name, "HScroll"):
 		name = name.replace("HScroll", "UseHorizontalScroll")
 	elif Contains(name, "VScroll"):
@@ -916,13 +918,13 @@ def checkNameChange(name):
 	return name
 
 def includeName(name):
-	if name in ["EncodedFromUTF8", "TargetAsUTF8", "SetUsePalette", "StyleGetCharacterSet", "PointXFromPosition", "PointYFromPosition", "LoadLexerLibrary", "SetLengthForEncode", "GetSelEOLFilled", "SetSelEOLFilled", "GetUsePalette", "GetDirectFunction", "GetDirectPointer", "IndicSetUnder", "IndicGetUnder", "Null", "GrabFocus", "CopyText", "GetCursor", "SetStylingEx", "SetCursor", "SetSelection", "GetFontQuality", "SetFontQuality", "GetLexerLanguage", "AutoCGetCurrentText"]:
+	if name in ["EncodedFromUTF8", "TargetAsUTF8", "SetUsePalette", "StyleGetCharacterSet", "PointXFromPosition", "PointYFromPosition", "LoadLexerLibrary", "SetLengthForEncode", "GetUsePalette", "GetDirectFunction", "GetDirectPointer", "IndicSetUnder", "IndicGetUnder", "Null", "GrabFocus", "CopyText", "GetCursor", "SetStylingEx", "SetCursor", "SetSelection", "GetFontQuality", "SetFontQuality", "GetLexerLanguage", "AutoCGetCurrentText"]:
 		return False
 	if Contains(name, "GetHotspot"):
 		return False
 	if Contains(name, "FindIndicator"):
 		return False
-	if name in ["GetCharacterPointer", "GetRangePointer", "SetCaretLineVisibleAlways", "GetCaretLineVisibleAlways", "VCHomeDisplayExtend", "VCHomeDisplay", "CreateLoader", "PrivateLexerCall", "RGBAImageSetScale", "GetSelectionEmpty", "MarkerSymbolDefined", "GetCaretLineBackAlpha", "SetCaretLineBackAlpha"]:
+	if name in ["GetCharacterPointer", "GetRangePointer", "SetCaretLineVisibleAlways", "GetCaretLineVisibleAlways", "VCHomeDisplayExtend", "VCHomeDisplay", "CreateLoader", "PrivateLexerCall", "RGBAImageSetScale", "GetSelectionEmpty"]:
 		return False
 	# TODO : to implement
 	if name in ["MarkerDefineRGBAImage", "RegisterRGBAImage"]:

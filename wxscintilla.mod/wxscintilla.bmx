@@ -265,7 +265,7 @@ Type wxScintilla Extends wxControl
 	about: Returns the index of the caret on the line.
 	End Rem
 	Method GetCurLine:String(index:Int Var)
-		Return bmx_wxscintilla_getcurline(wxObjectPtr, Varptr index)
+		Return bmx_wxscintilla_getcurline(wxObjectPtr, VarPtr index)
 	End Method
 
 	Rem
@@ -563,8 +563,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Set the font of a style.
 	End Rem
-	Method StyleSetFaceName(style:Int, FontName:String)
-		bmx_wxscintilla_stylesetfacename(wxObjectPtr, style, FontName)
+	Method StyleSetFaceName(style:Int, fontName:String)
+		bmx_wxscintilla_stylesetfacename(wxObjectPtr, style, fontName)
 	End Method
 
 	Rem
@@ -749,6 +749,20 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Method SetSelAlpha(alpha:Int)
 		bmx_wxscintilla_setselalpha(wxObjectPtr, alpha)
+	End Method
+
+	Rem
+	bbdoc: Is the selection end of line filled?
+	End Rem
+	Method GetSelEOLFilled:Int()
+		Return bmx_wxscintilla_getseleolfilled(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Set the selection to have its end of line filled or not.
+	End Rem
+	Method SetSelEOLFilled(filled:Int)
+		bmx_wxscintilla_setseleolfilled(wxObjectPtr, filled)
 	End Method
 
 	Rem
@@ -1353,8 +1367,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Modify colours when printing for clearer printed text.
 	End Rem
-	Method SetPrintColourMode(Mode:Int)
-		bmx_wxscintilla_setprintcolourmode(wxObjectPtr, Mode)
+	Method SetPrintColourMode(mode:Int)
+		bmx_wxscintilla_setprintcolourmode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -1938,8 +1952,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Sets whether text is word wrapped.
 	End Rem
-	Method SetWrapMode(Mode:Int)
-		bmx_wxscintilla_setwrapmode(wxObjectPtr, Mode)
+	Method SetWrapMode(mode:Int)
+		bmx_wxscintilla_setwrapmode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -1994,8 +2008,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Sets how wrapped sublines are placed. Default is fixed.
 	End Rem
-	Method SetWrapIndentMode(Mode:Int)
-		bmx_wxscintilla_setwrapindentmode(wxObjectPtr, Mode)
+	Method SetWrapIndentMode(mode:Int)
+		bmx_wxscintilla_setwrapindentmode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -2008,8 +2022,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Sets the degree of caching of layout information.
 	End Rem
-	Method SetLayoutCache(Mode:Int)
-		bmx_wxscintilla_setlayoutcache(wxObjectPtr, Mode)
+	Method SetLayoutCache(mode:Int)
+		bmx_wxscintilla_setlayoutcache(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -2725,8 +2739,8 @@ Type wxScintilla Extends wxControl
 	bbdoc: The edge may be displayed by a line (EDGE_LINE) or by highlighting text that
 	about: goes beyond it (EDGE_BACKGROUND) or not displayed at all (EDGE_NONE).
 	End Rem
-	Method SetEdgeMode(Mode:Int)
-		bmx_wxscintilla_setedgemode(wxObjectPtr, Mode)
+	Method SetEdgeMode(mode:Int)
+		bmx_wxscintilla_setedgemode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -2981,8 +2995,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Set printing to line wrapped (SC_WRAP_WORD) or not line wrapped (SC_WRAP_NONE).
 	End Rem
-	Method SetPrintWrapMode(Mode:Int)
-		bmx_wxscintilla_setprintwrapmode(wxObjectPtr, Mode)
+	Method SetPrintWrapMode(mode:Int)
+		bmx_wxscintilla_setprintwrapmode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -3075,8 +3089,8 @@ Type wxScintilla Extends wxControl
 	bbdoc: Set the selection mode to stream (SC_SEL_STREAM) or rectangular (SC_SEL_RECTANGLE/SC_SEL_THIN) or
 	about: by lines (SC_SEL_LINES).
 	End Rem
-	Method SetSelectionMode(Mode:Int)
-		bmx_wxscintilla_setselectionmode(wxObjectPtr, Mode)
+	Method SetSelectionMode(mode:Int)
+		bmx_wxscintilla_setselectionmode(wxObjectPtr, mode)
 	End Method
 
 	Rem
@@ -3337,6 +3351,20 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
+	bbdoc: Set background alpha of the caret line.
+	End Rem
+	Method SetCaretLineBackAlpha(alpha:Int)
+		bmx_wxscintilla_setcaretlinebackalpha(wxObjectPtr, alpha)
+	End Method
+
+	Rem
+	bbdoc: Get the background alpha of the caret line.
+	End Rem
+	Method GetCaretLineBackAlpha:Int()
+		Return bmx_wxscintilla_getcaretlinebackalpha(wxObjectPtr)
+	End Method
+
+	Rem
 	bbdoc: Set the style of the caret to be drawn.
 	End Rem
 	Method SetCaretStyle(caretStyle:Int)
@@ -3517,6 +3545,13 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Method GetExtraDescent:Int()
 		Return bmx_wxscintilla_getextradescent(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Which symbol was defined for markerNumber with MarkerDefine
+	End Rem
+	Method GetMarkerSymbolDefined:Int(markerNumber:Int)
+		Return bmx_wxscintilla_getmarkersymboldefined(wxObjectPtr, markerNumber)
 	End Method
 
 	Rem
