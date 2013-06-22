@@ -276,7 +276,10 @@ Type TwxGUIDriver Extends TMaxGUIDriver
 		brl.System.Driver = TwxGuiSystemDriver.Create(Self)
 
 		maxgui_driver=Self
-		
+
+?win32
+		wxSystemOptions.SetOption("msw.remap", 2)
+?		
 		
 		AddHook EmitEventHook, eventHandler, Null, True
 	End Method
@@ -378,12 +381,13 @@ Type TwxGUIDriver Extends TMaxGUIDriver
 
 			Case GADGET_COMBOBOX
 				Return New TwxComboBox.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+
 			Case GADGET_LISTBOX
 				Return New TwxListBox.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
-Rem 
+
 			Case GADGET_TOOLBAR
-				Return New TQtToolBar.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
-End Rem
+				Return New TwxToolBar.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+
 			Case GADGET_TABBER
 				Return New TwxTabber.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
 				
