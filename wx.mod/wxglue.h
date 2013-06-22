@@ -50,7 +50,6 @@ class MaxFont;
 class MaxDC;
 class MaxPaintDC;
 class MaxRect;
-class MaxAcceleratorTable;
 class MaxWindowDC;
 class MaxClientData;
 
@@ -63,7 +62,6 @@ extern "C" {
 	void _wx_wx_TEventHandler_eventCallback(wxEvent &, void * data);
 	void _wx_wx_TEventHandler__nullref(void * handle);
 	int _wx_wxapp_wxAppMain__MainLoop();
-	wxAcceleratorEntry * _wx_wx_wxAcceleratorTable__getEntry(BBArray * entries, int index);
 	void _wx_wx_wxObject__Free(BBObject * handle);
 
 	BBString *bbStringFromWxString(const wxString &s );
@@ -258,17 +256,6 @@ extern "C" {
 	bool bmx_wxstreambase_isok(wxStreamBase * stream);
 	bool bmx_wxstreambase_isseekable(wxStreamBase * stream);
 
-	MaxAcceleratorTable * bmx_wxacceleratortable_create(BBArray * entries);
-	bool bmx_wxacceleratortable_isok(MaxAcceleratorTable * table);
-	void bmx_wxacceleratortable_delete(MaxAcceleratorTable * table);
-
-	wxAcceleratorEntry * bmx_wxacceleratorentry_create(int flags, int keyCode, int cmd);
-	int bmx_wxacceleratorentry_getcommand(wxAcceleratorEntry * entry);
-	int bmx_wxacceleratorentry_getflags(wxAcceleratorEntry * entry);
-	int bmx_wxacceleratorentry_getkeycode(wxAcceleratorEntry * entry);
-	void bmx_wxacceleratorentry_set(wxAcceleratorEntry * entry, int flags, int keyCode, int cmd);
-	void bmx_wxacceleratorentry_delete(wxAcceleratorEntry * entry);
-	
 	int bmx_wxisalnum(int code);
 	int bmx_wxisprint(int code);
 	void bmx_wxinitallimagehandlers();
@@ -543,19 +530,6 @@ public:
 
 private:
 	wxRect rect;
-
-};
-
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-class MaxAcceleratorTable
-{
-public:
-	MaxAcceleratorTable(const wxAcceleratorTable & t);
-	wxAcceleratorTable & Table();
-
-private:
-	wxAcceleratorTable table;
 
 };
 

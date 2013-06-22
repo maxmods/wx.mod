@@ -484,6 +484,47 @@ wxAcceleratorEntry * bmx_wxmenuitem_getaccel(wxMenuItem * item) {
 	return item->GetAccel();
 }
 
+// *********************************************
+
+wxAcceleratorEntry * bmx_wxacceleratorentry_create(int flags, int keyCode, int cmd, wxMenuItem * item) {
+	return new wxAcceleratorEntry(flags, keyCode, cmd, item);
+}
+
+int bmx_wxacceleratorentry_getcommand(wxAcceleratorEntry * entry) {
+	return entry->GetCommand();
+}
+
+int bmx_wxacceleratorentry_getflags(wxAcceleratorEntry * entry) {
+	return entry->GetFlags();
+}
+
+int bmx_wxacceleratorentry_getkeycode(wxAcceleratorEntry * entry) {
+	return entry->GetKeyCode();
+}
+
+void bmx_wxacceleratorentry_set(wxAcceleratorEntry * entry, int flags, int keyCode, int cmd) {
+	entry->Set(flags, keyCode, cmd);
+}
+
+void bmx_wxacceleratorentry_delete(wxAcceleratorEntry * entry) {
+	delete entry;
+}
+
+int bmx_wxacceleratorentry_fromstring(wxAcceleratorEntry * entry, BBString * text) {
+	return static_cast<int>(entry->FromString(wxStringFromBBString(text)));
+}
+
+BBString * bmx_wxacceleratorentry_torawstring(wxAcceleratorEntry * entry) {
+	return bbStringFromWxString(entry->ToRawString());
+}
+
+BBString * bmx_wxacceleratorentry_tostring(wxAcceleratorEntry * entry) {
+	return bbStringFromWxString(entry->ToString());
+}
+
+wxMenuItem * bmx_wxacceleratorentry_getmenuitem(wxAcceleratorEntry * entry) {
+	return entry->GetMenuItem();
+}
 
 // *********************************************
 

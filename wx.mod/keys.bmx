@@ -22,16 +22,29 @@ SuperStrict
 
 Import BRL.KeyCodes
 
-Const wxACCEL_NORMAL:Int = $0000   ' no modifiers
-Const wxACCEL_ALT:Int = $001   ' hold Alt key down
-Const wxACCEL_CTRL:Int = $0002   ' hold Ctrl key down
-Const wxACCEL_SHIFT:Int = $0004   ' hold Shift key down
+Rem
+bbdoc: No modifiers
+End Rem
+Const wxACCEL_NORMAL:Int = $0
+Rem
+bbdoc: Hold Alt key down
+End Rem
+Const wxACCEL_ALT:Int = $1
+Rem
+bbdoc: Hold Ctrl key down, corresponds to Command key on OS X
+End Rem
+Const wxACCEL_CTRL:Int = $2
+Rem
+bbdoc: Hold Shift key down
+End Rem
+Const wxACCEL_SHIFT:Int = $4
+Rem
+bbdoc: Corresponds to real Ctrl key on OS X, identic to wxACCEL_CTRL on other platforms
+End Rem
 ?macos
-Const wxACCEL_CMD:Int = $0008   ' Command key on OS X
-?linux
-Const wxACCEL_CMD:Int = wxACCEL_CTRL
-?win32
-Const wxACCEL_CMD:Int = wxACCEL_CTRL
+Const wxACCEL_RAW_CTRL:Int = $8
+?Not macos
+Const wxACCEL_RAW_CTRL:Int = wxACCEL_CTRL
 ?
 
 Rem

@@ -118,6 +118,17 @@ extern "C" {
 
 	void bmx_wxmenu_addresourcehandler();
 
+	wxAcceleratorEntry * bmx_wxacceleratorentry_create(int flags, int keyCode, int cmd, wxMenuItem * item);
+	int bmx_wxacceleratorentry_getcommand(wxAcceleratorEntry * entry);
+	int bmx_wxacceleratorentry_getflags(wxAcceleratorEntry * entry);
+	int bmx_wxacceleratorentry_getkeycode(wxAcceleratorEntry * entry);
+	void bmx_wxacceleratorentry_set(wxAcceleratorEntry * entry, int flags, int keyCode, int cmd);
+	void bmx_wxacceleratorentry_delete(wxAcceleratorEntry * entry);
+	int bmx_wxacceleratorentry_fromstring(wxAcceleratorEntry * entry, BBString * text);
+	BBString * bmx_wxacceleratorentry_torawstring(wxAcceleratorEntry * entry);
+	BBString * bmx_wxacceleratorentry_tostring(wxAcceleratorEntry * entry);
+	wxMenuItem * bmx_wxacceleratorentry_getmenuitem(wxAcceleratorEntry * entry);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

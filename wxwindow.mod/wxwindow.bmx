@@ -474,7 +474,7 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Gets the accelerator table for this window.
 	End Rem
 	Method GetAcceleratorTable:wxAcceleratorTable()
 		Return wxAcceleratorTable._create(bmx_wxwindow_getacceleratortable(wxObjectPtr))
@@ -1279,7 +1279,8 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: Sets the accelerator table for this window. See wxAcceleratorTable.
+	bbdoc: Sets the accelerator table for this window.
+	about: See @wxAcceleratorTable.
 	End Rem
 	Method SetAcceleratorTable(accel:wxAcceleratorTable)
 		bmx_wxwindow_setacceleratortable(wxObjectPtr, accel.wxObjectPtr)

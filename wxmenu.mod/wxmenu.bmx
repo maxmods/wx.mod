@@ -767,6 +767,107 @@ Type wxMenuEvent Extends wxEvent
 	
 End Type
 
+Rem
+bbdoc: An object used by an application wishing to create an accelerator table.
+End Rem
+Type wxAcceleratorEntry
+
+	Field wxAcceleratorPtr:Byte Ptr
+
+	Function _create:wxAcceleratorEntry(wxAcceleratorPtr:Byte Ptr)
+		If wxAcceleratorPtr Then
+			Local this:wxAcceleratorEntry = New wxAcceleratorEntry
+			this.wxAcceleratorPtr = wxAcceleratorPtr
+			Return this
+		End If
+	End Function
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method Create:wxAcceleratorEntry(flags:Int = 0, keyCode:Int = 0, cmd:Int = 0, item:wxMenuItem = Null)
+		If item Then
+			wxAcceleratorPtr = bmx_wxacceleratorentry_create(flags, keyCode, cmd, item.wxObjectPtr)
+		Else
+			wxAcceleratorPtr = bmx_wxacceleratorentry_create(flags, keyCode, cmd, Null)
+		End If
+		Return Self
+	End Method
+	
+	Rem
+	bbdoc: Parses the given string and sets the accelerator accordingly.
+	returns: True if the given string correctly initialized this object (i.e. if IsOk() returns true after this call)
+	about: @text may be either in the same format as returned by ToString(), i.e. contain the accelerator itself only, or have the format of a full menu
+	item text with i.e. Label TAB Accelerator. In the latter case, the part of the string before the TAB is ignored. Notice that the latter
+	format is only supported for the compatibility with the previous wxWidgets versions and the new code should pass only the accelerator string itself to this function.
+	End Rem
+	Method FromString:Int(text:String)
+		Return bmx_wxacceleratorentry_fromstring(wxAcceleratorPtr, text)
+	End Method
+
+	Rem
+	bbdoc: Returns the command identifier for the accelerator table entry.
+	End Rem
+	Method GetCommand:Int()
+		Return bmx_wxacceleratorentry_getcommand(wxAcceleratorPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the flags for the accelerator table entry.
+	End Rem
+	Method GetFlags:Int()
+		Return bmx_wxacceleratorentry_getflags(wxAcceleratorPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the keycode for the accelerator table entry.
+	End Rem
+	Method GetKeyCode:Int()
+		Return bmx_wxacceleratorentry_getkeycode(wxAcceleratorPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the menu item associated with this accelerator entry.
+	End Rem
+	Method GetMenuItem:wxMenuItem()
+		Return wxMenuItem._create(bmx_wxacceleratorentry_getmenuitem(wxAcceleratorPtr))
+	End Method
+	
+	Rem
+	bbdoc: Sets the accelerator entry parameters.
+	End Rem
+	Method Set(flags:Int, keyCode:Int, cmd:Int)
+		bmx_wxacceleratorentry_set(wxAcceleratorPtr, flags, keyCode, cmd)
+	End Method
+	
+	Rem
+	bbdoc: Returns a textual representation of this accelerator which is appropriate for saving in configuration files.
+	about: Unlike the string returned by ToString(), this one is never translated so, while it's not suitable for showing to the user, it can be used to uniquely
+	identify the accelerator independently of the user language.
+	<p>
+	The returned string can still be parsed by FromString().
+	</p>
+	End Rem
+	Method ToRawString:String()
+		Return bmx_wxacceleratorentry_torawstring(wxAcceleratorPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns a textual representation of this accelerator.
+	about: The returned string is of the form [Alt+][Ctrl+][RawCtrl+][Shift+]Key where the modifier keys are present only if the corresponding flag is set.
+	End Rem
+	Method ToString:String()
+		Return bmx_wxacceleratorentry_tostring(wxAcceleratorPtr)
+	End Method
+
+	Method Delete()
+		If wxAcceleratorPtr Then
+			bmx_wxacceleratorentry_delete(wxAcceleratorPtr)
+			wxAcceleratorPtr = Null
+		End If
+	End Method
+	
+End Type
 
 Type TMenuEventFactory Extends TEventFactory
 

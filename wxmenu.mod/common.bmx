@@ -124,7 +124,18 @@ Extern
 	Function bmx_wxmenu_geteventtype:Int(evt:Int)
 	
 	Function bmx_wxmenu_addresourcehandler()
-	
+
+	Function bmx_wxacceleratorentry_create:Byte Ptr(flags:Int, keyCode:Int, cmd:Int, item:Byte Ptr)
+	Function bmx_wxacceleratorentry_getcommand:Int(handle:Byte Ptr)
+	Function bmx_wxacceleratorentry_getflags:Int(handle:Byte Ptr)
+	Function bmx_wxacceleratorentry_getkeycode:Int(handle:Byte Ptr)
+	Function bmx_wxacceleratorentry_set(handle:Byte Ptr, flags:Int, keyCode:Int, cmd:Int)
+	Function bmx_wxacceleratorentry_delete(handle:Byte Ptr)
+	Function bmx_wxacceleratorentry_fromstring:Int(handle:Byte Ptr, text:String)
+	Function bmx_wxacceleratorentry_torawstring:String(handle:Byte Ptr)
+	Function bmx_wxacceleratorentry_tostring:String(handle:Byte Ptr)
+	Function bmx_wxacceleratorentry_getmenuitem:Byte Ptr(handle:Byte Ptr)
+
 End Extern
 
 Const wxEVT_MENU_OPEN:Int = 421

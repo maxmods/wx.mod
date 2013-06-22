@@ -530,17 +530,6 @@ MaxRect::~MaxRect() {
 
 // ---------------------------------------------------------------------------------------
 
-MaxAcceleratorTable::MaxAcceleratorTable(const wxAcceleratorTable & t)
-	: table(t)
-{
-}
-
-wxAcceleratorTable & MaxAcceleratorTable::Table() {
-	return table;
-}
-
-// ---------------------------------------------------------------------------------------
-
 BEGIN_EVENT_TABLE(MaxEvtHandler, wxEvtHandler)
 END_EVENT_TABLE()
 
@@ -1328,55 +1317,6 @@ bool bmx_wxstreambase_isok(wxStreamBase * stream) {
 
 bool bmx_wxstreambase_isseekable(wxStreamBase * stream) {
 	return stream->IsSeekable();
-}
-
-// *********************************************
-
-MaxAcceleratorTable * bmx_wxacceleratortable_create(BBArray * p) {
-	int n = p->scales[0];
-	wxAcceleratorEntry entries[n];
-
-	for( int i=0;i<n;++i ){
-		entries[i] = *_wx_wx_wxAcceleratorTable__getEntry(p, i);
-	}
-
-	wxAcceleratorTable table(n, entries);
-	return new MaxAcceleratorTable(table);
-}
-
-bool bmx_wxacceleratortable_isok(MaxAcceleratorTable * table) {
-	return table->Table().IsOk();
-}
-
-void bmx_wxacceleratortable_delete(MaxAcceleratorTable * table) {
-	delete table;
-}
-
-
-// *********************************************
-
-wxAcceleratorEntry * bmx_wxacceleratorentry_create(int flags, int keyCode, int cmd) {
-	return new wxAcceleratorEntry(flags, keyCode, cmd);
-}
-
-int bmx_wxacceleratorentry_getcommand(wxAcceleratorEntry * entry) {
-	return entry->GetCommand();
-}
-
-int bmx_wxacceleratorentry_getflags(wxAcceleratorEntry * entry) {
-	return entry->GetFlags();
-}
-
-int bmx_wxacceleratorentry_getkeycode(wxAcceleratorEntry * entry) {
-	return entry->GetKeyCode();
-}
-
-void bmx_wxacceleratorentry_set(wxAcceleratorEntry * entry, int flags, int keyCode, int cmd) {
-	entry->Set(flags, keyCode, cmd);
-}
-
-void bmx_wxacceleratorentry_delete(wxAcceleratorEntry * entry) {
-	delete entry;
 }
 
 // *********************************************

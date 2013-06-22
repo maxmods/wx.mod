@@ -26,6 +26,7 @@ Import wx.wxCursor
 Import wx.wxMenu
 Import wx.wxDropTarget
 Import wx.wxValidator
+Import wx.wxAcceleratorTable
 Import BRL.Blitz
 
 
