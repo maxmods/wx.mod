@@ -234,7 +234,16 @@ Type wxMenu Extends wxEvtHandler
 	End Method
 	
 	Rem
+	bbdoc: Finds the menu item object associated with the given menu item identifier and the position of the item in the menu.
+	about: Unlike FindItem(), this function doesn't recurse but only looks at the direct children of this menu.
+	End Rem
+	Method FindChildItem:wxMenuItem(id:Int, pos:Int Var)
+		Return wxMenuItem._create(bmx_wxmenu_findchilditem(wxObjectPtr, id, Varptr pos))
+	End Method
+	
+	Rem
 	bbdoc: Finds the menu item id for a menu item string.
+	about: Any special menu codes are stripped out of source and target strings before matching.
 	End Rem
 	Method FindItem:Int(itemString:String)
 		Return bmx_wxmenu_finditem(wxObjectPtr, itemString)

@@ -81,6 +81,7 @@ Extern
 	Function bmx_wxmenu_setlabel(handle:Byte Ptr, id:Int, label:String)
 	Function bmx_wxmenu_settitle(handle:Byte Ptr, title:String)
 	Function bmx_wxmenu_updateui(handle:Byte Ptr, source:Byte Ptr)
+	Function bmx_wxmenu_findchilditem:Byte Ptr(handle:Byte Ptr, id:Int, pos:Int Ptr)
 
 	Function bmx_wxmenuitem_create:Byte Ptr(parentMenu:Byte Ptr, id:Int, text:String, helpString:String, kind:Int, subMenu:Byte Ptr)
 	Function bmx_wxmenuitem_delete(handle:Byte Ptr)

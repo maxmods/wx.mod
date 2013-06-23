@@ -73,6 +73,7 @@ extern "C" {
 	void bmx_wxmenu_settitle(wxMenu * menu, BBString * title);
 	void bmx_wxmenu_updateui(wxMenu * menu, wxEvtHandler * source);
 	void bmx_wxmenu_getmenuitems(wxMenu * menu, BBArray * items);
+	wxMenuItem * bmx_wxmenu_findchilditem(wxMenu * menu, int id, int pos);
 
 	int bmx_wxmenu_geteventtype(int type);
 

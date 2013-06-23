@@ -304,6 +304,12 @@ void bmx_wxmenu_free(wxMenu * menu) {
 	delete menu;
 }
 
+wxMenuItem * bmx_wxmenu_findchilditem(wxMenu * menu, int id, int pos) {
+	size_t p;
+	wxMenuItem * item = menu->FindChildItem(id, &p);
+	pos = static_cast<int>(p);
+	return item;
+}
 
 // *********************************************
 
