@@ -28,6 +28,7 @@
 #include "wx/tooltip.h"
 #include "wx/caret.h"
 #include "../wxcursor.mod/glue.h"
+#include "../wxacceleratortable.mod/glue.h"
 #include "wx/gbsizer.h"
 #include "wx/xrc/xh_sizer.h"
 #include "wx/tokenzr.h"

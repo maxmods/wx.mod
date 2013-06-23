@@ -20,6 +20,9 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_ACCELERATORTABLE_H_
+#define _WX_MAX_ACCELERATORTABLE_H_
+
 #include "wxglue.h"
 
 class MaxAcceleratorTable;
@@ -51,3 +54,5 @@ private:
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
+#endif
