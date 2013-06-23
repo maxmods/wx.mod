@@ -345,8 +345,10 @@ Type TwxGUIDriver Extends TMaxGUIDriver
 		Select GadgetClass
 			Case GADGET_DESKTOP
 				Return New TwxDesktop.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+				
 			Case GADGET_WINDOW
 				Return New TwxWindow.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+				
 			Case GADGET_BUTTON
 				Select style & 7
 					Case 0, BUTTON_OK, BUTTON_CANCEL
@@ -418,12 +420,18 @@ Type TwxGUIDriver Extends TMaxGUIDriver
 					Return New TwxTrackBar.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
 				Else
 					Return New TwxScrollBar.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
-				End If 
+				End If
+				
 			Case GADGET_PROGBAR
 				Return New TwxProgressBar.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
-Rem 
+
 			Case GADGET_MENUITEM
-				Return New TQtMenuItem.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
+				If Not name Then
+					style = wxITEM_SEPARATOR
+				End If
+			
+				Return New TwxMenuItem.CreateGadget(name, x, y, w, h, TwxGadget(group), style)
+Rem
 			Case GADGET_CANVAS
 				Return New TQtCanvas.CreateGadget(name, x, y, w, h, TQtGadget(group), style)
 End Rem

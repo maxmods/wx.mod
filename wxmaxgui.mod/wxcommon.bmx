@@ -68,3 +68,87 @@ Function wxMouseButtonToMaxMouseButton:Int(button:Int)
 	' none or unknown
 	Return 0
 End Function
+
+Function maxModifierToString:String(modifier:Int)
+	Local s:String
+	If modifier & MODIFIER_SHIFT Then
+		s:+ "SHIFT"
+	End If
+	
+	If modifier & MODIFIER_CONTROL Then
+		If s Then
+			s :+ "+"
+		End If
+		s :+ "RAWCTRL"
+	End If
+	
+	If modifier & MODIFIER_OPTION Then
+		If s Then
+			s :+ "+"
+		End If
+		s :+ "ALT"
+	End If
+	
+	?macos
+	If modifier & MODIFIER_COMMAND Then
+		If s Then
+			s :+ "+"
+		End If
+		s :+ "CTRL"
+	End If
+	?
+	
+	Return s
+End Function
+
+Function maxKeyCodeToString:String(keycode:Int)
+	Select keycode
+		Case KEY_BACKSPACE
+			Return "BACK"
+		Case KEY_TAB
+			Return "TAB"
+		Case KEY_RETURN
+			Return "RETURN"
+		Case KEY_ENTER
+			Return "ENTER"
+		Case KEY_ESCAPE
+			Return "ESC"
+		Case KEY_SPACE
+			Return "SPACE"
+		Case KEY_PAGEUP
+			Return "PGUP"
+		Case KEY_PAGEDOWN
+			Return "PGDN"
+		Case KEY_END
+			Return "END"
+		Case KEY_HOME
+			Return "HOME"
+		Case KEY_LEFT
+			Return "LEFT"
+		Case KEY_UP
+			Return "UP"
+		Case KEY_RIGHT
+			Return "RIGHT"
+		Case KEY_DOWN
+			Return "DOWN"
+		Case KEY_INSERT
+			Return "INS"
+		Case KEY_DELETE
+			Return "DEL"
+	End Select
+	
+	If keycode >= KEY_0 And keycode <= KEY_9 Then
+		Return keycode - KEY_0
+	End If
+	
+	If keycode >= KEY_A And keycode <= KEY_Z Then
+		Return Chr(keycode)
+	End If
+	
+	If keycode >= KEY_F1 And keycode <= KEY_F12 Then
+		Return "F" + (keycode - KEY_F1 + 1)
+	End If
+
+	Return ""
+End Function
+
