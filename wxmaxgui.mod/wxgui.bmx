@@ -303,7 +303,7 @@ Type TwxGUIDriver Extends TMaxGUIDriver
 			underline = True
 		End If
 
-		font = New wxFont.CreateWithAttribs(size, wxFONTFAMILY_DEFAULT, weight, style, underline, name)
+		font = New wxFont.CreateWithAttribs(size, wxFONTFAMILY_DEFAULT, style, weight, underline, name)
 		
 		If flags & FONT_STRIKETHROUGH Then
 			font.SetStrikethrough(True)
