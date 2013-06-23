@@ -732,6 +732,13 @@ Type wxMenuItem Extends wxObject
 		bmx_wxmenuitem_toggle(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Sets the item checkableness.
+	End Rem
+	Method SetCheckable(checkable:Int)
+		bmx_wxmenuitem_setcheckable(wxObjectPtr, checkable)
+	End Method
+	
 End Type
 
 Rem

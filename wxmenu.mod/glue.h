@@ -112,6 +112,7 @@ extern "C" {
 	void bmx_wxmenuitem_settextcolour(wxMenuItem * item, MaxColour * colour);
 	void bmx_wxmenuitem_toggle(wxMenuItem * item);
 	wxAcceleratorEntry * bmx_wxmenuitem_getaccel(wxMenuItem * item);
+	void bmx_wxmenuitem_setcheckable(wxMenuItem * item, int checkable);
 
 	wxMenu * bmx_wxmenuevent_getmenu(wxMenuEvent & event);
 	int bmx_wxmenuevent_getmenuid(wxMenuEvent & event);

@@ -117,6 +117,7 @@ Extern
 	Function bmx_wxmenuitem_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxmenuitem_toggle(handle:Byte Ptr)
 	Function bmx_wxmenuitem_getaccel:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxmenuitem_setcheckable(handle:Byte Ptr, checkable:Int)
 
 	Function bmx_wxmenuevent_getmenu:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxmenuevent_getmenuid:Int(handle:Byte Ptr)

@@ -490,6 +490,10 @@ wxAcceleratorEntry * bmx_wxmenuitem_getaccel(wxMenuItem * item) {
 	return item->GetAccel();
 }
 
+void bmx_wxmenuitem_setcheckable(wxMenuItem * item, int checkable) {
+	item->SetCheckable(static_cast<bool>(checkable));
+}
+
 // *********************************************
 
 wxAcceleratorEntry * bmx_wxacceleratorentry_create(int flags, int keyCode, int cmd, wxMenuItem * item) {
