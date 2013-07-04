@@ -210,7 +210,7 @@ extern "C" {
 	int bmx_wxscintilla_autocompgetautohide(wxScintilla * sc);
 	void bmx_wxscintilla_autocompsetdroprestofword(wxScintilla * sc, int dropRestOfWord);
 	int bmx_wxscintilla_autocompgetdroprestofword(wxScintilla * sc);
-	void bmx_wxscintilla_registerimage(wxScintilla * sc, int type, BBString * xpmData);
+	void bmx_wxscintilla_registerimage(wxScintilla * sc, int type, MaxBitmap * bitmap);
 	void bmx_wxscintilla_clearregisteredimages(wxScintilla * sc);
 	int bmx_wxscintilla_autocompgettypeseparator(wxScintilla * sc);
 	void bmx_wxscintilla_autocompsettypeseparator(wxScintilla * sc, int separatorCharacter);
@@ -627,6 +627,8 @@ void bmx_wxscintilla_releasedocument(wxScintilla * sc, void * docPointer);
 	int bmx_wxscintilla_getidentifier(wxScintilla * sc);
 	void bmx_wxscintilla_rgbaimagesetwidth(wxScintilla * sc, int width);
 	void bmx_wxscintilla_rgbaimagesetheight(wxScintilla * sc, int height);
+	void bmx_wxscintilla_markerdefinergbaimage(wxScintilla * sc, int markerNumber, const unsigned char * pixels);
+	void bmx_wxscintilla_registerrgbaimage(wxScintilla * sc, int type, const unsigned char * pixels);
 	void bmx_wxscintilla_scrolltostart(wxScintilla * sc);
 	void bmx_wxscintilla_scrolltoend(wxScintilla * sc);
 	void bmx_wxscintilla_settechnology(wxScintilla * sc, int technology);

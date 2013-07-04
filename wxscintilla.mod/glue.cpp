@@ -713,8 +713,8 @@ int bmx_wxscintilla_autocompgetdroprestofword(wxScintilla * sc) {
 	return sc->AutoCompGetDropRestOfWord();
 }
 
-void bmx_wxscintilla_registerimage(wxScintilla * sc, int type, BBString * xpmData) {
-	sc->RegisterImage(type, wxStringFromBBString(xpmData));
+void bmx_wxscintilla_registerimage(wxScintilla * sc, int type, MaxBitmap * bitmap) {
+	sc->RegisterImage(type, bitmap->Bitmap());
 }
 
 void bmx_wxscintilla_clearregisteredimages(wxScintilla * sc) {
@@ -2382,6 +2382,14 @@ void bmx_wxscintilla_rgbaimagesetwidth(wxScintilla * sc, int width) {
 
 void bmx_wxscintilla_rgbaimagesetheight(wxScintilla * sc, int height) {
 	sc->RGBAImageSetHeight(height);
+}
+
+void bmx_wxscintilla_markerdefinergbaimage(wxScintilla * sc, int markerNumber, const unsigned char * pixels) {
+	sc->MarkerDefineRGBAImage(markerNumber, pixels);
+}
+
+void bmx_wxscintilla_registerrgbaimage(wxScintilla * sc, int type, const unsigned char * pixels) {
+	sc->RegisterRGBAImage(type, pixels);
 }
 
 void bmx_wxscintilla_scrolltostart(wxScintilla * sc) {

@@ -1115,10 +1115,10 @@ Type wxScintilla Extends wxControl
 	End Method
 
 	Rem
-	bbdoc: Register an XPM image for use in autocompletion lists.
+	bbdoc: Register a bitmap for use in autocompletion lists.
 	End Rem
-	Method RegisterImage(type_:Int, xpmData:String)
-		bmx_wxscintilla_registerimage(wxObjectPtr, type_, xpmData)
+	Method RegisterImage(type_:Int, bitmap:wxBitmap)
+		bmx_wxscintilla_registerimage(wxObjectPtr, type_, bitmap.wxObjectPtr)
 	End Method
 
 	Rem
@@ -4120,6 +4120,22 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Method RGBAImageSetHeight(height:Int)
 		bmx_wxscintilla_rgbaimagesetheight(wxObjectPtr, height)
+	End Method
+
+	Rem
+	bbdoc: Define a marker from RGBA data.
+	about: It has the width and height from RGBAImageSetWidth/Height
+	End Rem
+	Method MarkerDefineRGBAImage(markerNumber:Int, pixels:Byte Ptr)
+		bmx_wxscintilla_markerdefinergbaimage(wxObjectPtr, markerNumber, pixels)
+	End Method
+
+	Rem
+	bbdoc: Register an RGBA image for use in autocompletion lists.
+	about: It has the width and height from RGBAImageSetWidth/Height
+	End Rem
+	Method RegisterRGBAImage(type_:Int, pixels:byte ptr)
+		bmx_wxscintilla_registerrgbaimage(wxObjectPtr, type_, pixels)
 	End Method
 
 	Rem

@@ -42,7 +42,10 @@ def printMainFile(f,out):
 							out.write("\tabout: ")
 						else:
 							out.write("\t")
-						out.write(comment + "\n")
+						if name == "RegisterImage":
+							out.write("Register a bitmap for use in autocompletion lists.\n")
+						else:
+							out.write(comment + "\n")
 						count = count + 1
 					out.write("\tEnd Rem\n")
 				
@@ -99,6 +102,11 @@ def printMainFile(f,out):
 					out.write("\t\tbmx_wxscintilla_markerdefinebitmap(wxObjectPtr, markerNumber, bitmap.wxObjectPtr)\n")
 					out.write("\tEnd Method\n\n")
 					continue
+				elif name == "MarkerDefineRGBAImage":
+					out.write("(markerNumber:Int, pixels:Byte Ptr)\n")
+					out.write("\t\tbmx_wxscintilla_markerdefinergbaimage(wxObjectPtr, markerNumber, pixels)\n")
+					out.write("\tEnd Method\n\n")
+					continue
 				elif name == "GetDocPointer":
 					out.write(":Byte Ptr()\n")
 					out.write("\t\tReturn bmx_wxscintilla_getdocpointer(wxObjectPtr)\n")
@@ -122,6 +130,16 @@ def printMainFile(f,out):
 				elif name == "AddRefDocument":
 					out.write("(docPointer:Byte Ptr)\n")
 					out.write("\t\tbmx_wxscintilla_addrefdocument(wxObjectPtr, docPointer)\n")
+					out.write("\tEnd Method\n\n")
+					continue
+				elif name == "RegisterImage":
+					out.write("(type_:Int, bitmap:wxBitmap)\n")
+					out.write("\t\tbmx_wxscintilla_registerimage(wxObjectPtr, type_, bitmap.wxObjectPtr)\n")
+					out.write("\tEnd Method\n\n")
+					continue
+				elif name == "RegisterRGBAImage":
+					out.write("(type_:Int, pixels:byte ptr)\n")
+					out.write("\t\tbmx_wxscintilla_registerrgbaimage(wxObjectPtr, type_, pixels)\n")
 					out.write("\tEnd Method\n\n")
 					continue
 				
@@ -306,6 +324,9 @@ def printCommonFile(f,out):
 				elif name == "MarkerDefineBitmap":
 					out.write("(handle:Byte Ptr, markerNumber:Int, bitmap:Byte Ptr)\n")
 					continue
+				elif name == "MarkerDefineRGBAImage":
+					out.write("(handle:Byte Ptr, markerNumber:Int, pixels:Byte Ptr)\n")
+					continue
 				elif name == "GetDocPointer":
 					out.write(":Byte Ptr(handle:Byte Ptr)\n")
 					continue
@@ -320,6 +341,12 @@ def printCommonFile(f,out):
 					continue
 				elif name == "AddRefDocument":
 					out.write("(handle:Byte Ptr, docPointer:Byte Ptr)\n")
+					continue
+				elif name == "RegisterImage":
+					out.write("(handle:Byte Ptr, type_:Int, bitmap:Byte Ptr)\n")
+					continue
+				elif name == "RegisterRGBAImage":
+					out.write("(handle:Byte Ptr, type_:Int, pixels:Byte Ptr)\n")
 					continue
 				
 				if v["ReturnType"] != "void":
@@ -446,6 +473,9 @@ def printGlueHFile(f,out):
 				elif name == "MarkerDefineBitmap":
 					out.write("\tvoid bmx_wxscintilla_markerdefinebitmap(wxScintilla * sc, int markerNumber, MaxBitmap * bitmap);\n")
 					continue
+				elif name == "MarkerDefineRGBAImage":
+					out.write("\tvoid bmx_wxscintilla_markerdefinergbaimage(wxScintilla * sc, int markerNumber, const unsigned char * pixels);\n")
+					continue
 				elif name == "GetDocPointer":
 					out.write("\tvoid * bmx_wxscintilla_getdocpointer(wxScintilla * sc);\n")
 					continue
@@ -460,6 +490,12 @@ def printGlueHFile(f,out):
 					continue
 				elif name == "AddRefDocument":
 					out.write("void bmx_wxscintilla_addrefdocument(wxScintilla * sc, void * docPointer);\n")
+					continue
+				elif name == "RegisterImage":
+					out.write("\tvoid bmx_wxscintilla_registerimage(wxScintilla * sc, int type, MaxBitmap * bitmap);\n")
+					continue
+				elif name == "RegisterRGBAImage":
+					out.write("\tvoid bmx_wxscintilla_registerrgbaimage(wxScintilla * sc, int type, const unsigned char * pixels);\n")
 					continue
 				
 				out.write("\t")
@@ -602,6 +638,11 @@ def printGlueCPPFile(f,out):
 					out.write("\tsc->MarkerDefineBitmap(markerNumber, bitmap->Bitmap());\n")
 					out.write("}\n\n")
 					continue
+				elif name == "MarkerDefineRGBAImage":
+					out.write("void bmx_wxscintilla_markerdefinergbaimage(wxScintilla * sc, int markerNumber, const unsigned char * pixels) {\n")
+					out.write("\tsc->MarkerDefineRGBAImage(markerNumber, pixels);\n")
+					out.write("}\n\n")
+					continue
 				elif name == "GetDocPointer":
 					out.write("void * bmx_wxscintilla_getdocpointer(wxScintilla * sc) {\n")
 					out.write("\treturn sc->GetDocPointer();\n")
@@ -625,6 +666,16 @@ def printGlueCPPFile(f,out):
 				elif name == "AddRefDocument":
 					out.write("void bmx_wxscintilla_addrefdocument(wxScintilla * sc, void * docPointer) {\n")
 					out.write("\tsc->AddRefDocument(docPointer);\n")
+					out.write("}\n\n")
+					continue
+				elif name == "RegisterImage":
+					out.write("void bmx_wxscintilla_registerimage(wxScintilla * sc, int type, MaxBitmap * bitmap) {\n")
+					out.write("\tsc->RegisterImage(type, bitmap->Bitmap());\n")
+					out.write("}\n\n")
+					continue
+				elif name == "RegisterRGBAImage":
+					out.write("void bmx_wxscintilla_registerrgbaimage(wxScintilla * sc, int type, const unsigned char * pixels) {\n")
+					out.write("\tsc->RegisterRGBAImage(type, pixels);\n")
 					out.write("}\n\n")
 					continue
 			
@@ -925,9 +976,6 @@ def includeName(name):
 	if Contains(name, "FindIndicator"):
 		return False
 	if name in ["GetCharacterPointer", "GetRangePointer", "SetCaretLineVisibleAlways", "GetCaretLineVisibleAlways", "VCHomeDisplayExtend", "VCHomeDisplay", "CreateLoader", "PrivateLexerCall", "RGBAImageSetScale", "GetSelectionEmpty"]:
-		return False
-	# TODO : to implement
-	if name in ["MarkerDefineRGBAImage", "RegisterRGBAImage"]:
 		return False
 	return True
 
