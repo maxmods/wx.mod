@@ -366,17 +366,8 @@ void wxSFShapeBase::MoveTo(double x, double y)
 	// HINT: overload it for custom actions...
 	
 	m_nRelativePosition = wxRealPoint(x, y) - GetParentAbsolutePosition();
-
-	/*wxSFShapeBase* m_pParentShape = GetParentShape();
-	if(m_pParentShape)
-	{
-		m_nRelativePosition = wxRealPoint(x, y) - m_pParentShape->GetAbsolutePosition();
-	}
-	else
-	{
-		m_nRelativePosition.x = x;
-		m_nRelativePosition.y = y;
-	}*/
+	
+	if( GetShapeManager() ) GetShapeManager()->SetModified( true );
 }
 
 void wxSFShapeBase::MoveTo(const wxRealPoint& pos)
@@ -390,6 +381,8 @@ void wxSFShapeBase::MoveBy(double x, double y)
 
 	m_nRelativePosition.x += x;
 	m_nRelativePosition.y += y;
+	
+	if( GetShapeManager() ) GetShapeManager()->SetModified( true );
 }
 
 void wxSFShapeBase::MoveBy(const wxRealPoint& delta)
@@ -405,6 +398,8 @@ void wxSFShapeBase::Scale(double x, double y, bool children)
 	{
 	    ScaleChildren(x, y);
 	}
+	
+	if( GetShapeManager() ) GetShapeManager()->SetModified( true );
 
     //this->Update();
 }
@@ -458,7 +453,7 @@ void wxSFShapeBase::Update()
     //}
 
     // fit the shape to its children
-    this->FitToChildren();
+    if( ! ContainsStyle( sfsNO_FIT_TO_CHILDREN ) ) this->FitToChildren();
 
     // do it recursively on all parent shapes
     if( GetParentShape() )GetParentShape()->Update();
@@ -1183,6 +1178,8 @@ void wxSFShapeBase::OnBeginHandle(wxSFShapeHandle& handle)
 void wxSFShapeBase::OnEndHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
+	
+	GetParentCanvas()->GetDiagramManager()->SetModified( true );
 	
 	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
 	{
