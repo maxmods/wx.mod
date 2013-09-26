@@ -57,10 +57,17 @@ about:
 <table width="90%" align="center">
 <tr><th>Constant</th><th>Description</th></tr>
 <tr><td>wxFILTER_NONE </td><td>No filtering takes place.</td></tr>
+<tr><td>wxFILTER_EMPTY </td><td> Empty strings are filtered out. If this style is not specified then empty strings are
+accepted only if they pass the other checks (if you use more than one wxTextValidatorStyle). </td></tr>
 <tr><td>wxFILTER_ASCII </td><td>Non-ASCII characters are filtered out.</td></tr>
-<tr><td>wxFILTER_ALPHA </td><td>Non-alpha characters are filtered out.</td></tr>
-<tr><td>wxFILTER_ALPHANUMERIC </td><td>Non-alphanumeric characters are filtered out. </td></tr>
-<tr><td>wxFILTER_NUMERIC </td><td>Non-numeric characters are filtered out.</td></tr>
+<tr><td>wxFILTER_ALPHA </td><td>Non-alpha characters are filtered out. Uses the wxWidgets wrapper for the standard CRT
+function isalpha (which is locale-dependent) on all characters of the string. </td></tr>
+<tr><td>wxFILTER_ALPHANUMERIC </td><td>Non-alphanumeric characters are filtered out. Uses the wxWidgets wrapper for the
+standard CRT function isalnum (which is locale-dependent) on all characters of the string. </td></tr>
+<tr><td>wxFILTER_DIGITS </td><td>Non-numeric characters are filtered out. Uses the wxWidgets wrapper for the standard
+CRT function isdigit (which is locale-dependent) on all characters of the string. </td></tr>
+<tr><td>wxFILTER_NUMERIC </td><td>Non-numeric characters are filtered out. Works like wxFILTER_DIGITS but allows also
+decimal points, minus/plus signs and the 'e' or 'E' character to input exponents.</td></tr>
 <tr><td>wxFILTER_INCLUDE_LIST </td><td>Use an include list. The validator checks if the user input is on the list,
 complaining if not. See wxTextValidator::SetIncludes.</td></tr>
 <tr><td>wxFILTER_EXCLUDE_LIST </td><td>Use an exclude list. The validator checks if the user input is on the list,

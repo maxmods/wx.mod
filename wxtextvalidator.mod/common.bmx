@@ -57,14 +57,67 @@ Extern
 
 End Extern
 
+Rem
+bbdoc: No filtering takes place.
+End Rem
+Const wxFILTER_NONE:Int = $000
 
-Const wxFILTER_NONE:Int = $0000
-Const wxFILTER_ASCII:Int = $0001
-Const wxFILTER_ALPHA:Int = $0002
-Const wxFILTER_ALPHANUMERIC:Int = $0004
-Const wxFILTER_NUMERIC:Int = $0008
-Const wxFILTER_INCLUDE_LIST:Int = $0010
-Const wxFILTER_EXCLUDE_LIST:Int = $0020
-Const wxFILTER_INCLUDE_CHAR_LIST:Int = $0040
-Const wxFILTER_EXCLUDE_CHAR_LIST:Int = $0080
+Rem
+bbdoc: Empty strings are filtered out.
+about: If this style is not specified then empty strings are accepted only if they pass the other checks (if you use more than one wxTextValidatorStyle).
+End Rem
+Const wxFILTER_EMPTY:Int = $001
+
+Rem
+bbdoc: Non-ASCII characters are filtered out.
+End Rem
+Const wxFILTER_ASCII:Int = $002
+
+Rem
+bbdoc: Non-alpha characters are filtered out.
+about: Uses the wxWidgets wrapper for the standard CRT function isalpha (which is locale-dependent) on all characters of the string.
+End Rem
+Const wxFILTER_ALPHA:Int = $004
+
+Rem
+bbdoc: Non-alphanumeric characters are filtered out.
+about: Uses the wxWidgets wrapper for the standard CRT function isalnum (which is locale-dependent) on all characters of the string.
+End Rem
+Const wxFILTER_ALPHANUMERIC:Int = $008
+
+Rem
+bbdoc: Non-numeric characters are filtered out.
+about: Uses the wxWidgets wrapper for the standard CRT function isdigit (which is locale-dependent) on all characters of the string.
+End Rem
+Const wxFILTER_DIGITS:Int = $010
+
+Rem
+bbdoc: Non-numeric characters are filtered out.
+about: Works like wxFILTER_DIGITS but allows also decimal points, minus/plus signs and the 'e' or 'E' character to input exponents. Note that this is not the same behaviour of wxString::IsNumber().
+End Rem
+Const wxFILTER_NUMERIC:Int = $020
+
+Rem
+bbdoc: Use an include list.
+about: The validator checks if the user input is on the list, complaining if not. See wxTextValidator::SetIncludes().
+End Rem
+Const wxFILTER_INCLUDE_LIST:Int = $040
+
+Rem
+bbdoc: Use an include list.
+about: The validator checks if each input character is in the list (one character per list element), complaining if not. See wxTextValidator::SetCharIncludes().
+End Rem
+Const wxFILTER_INCLUDE_CHAR_LIST:Int = $080
+
+Rem
+bbdoc: Use an exclude list.
+about: The validator checks if the user input is on the list, complaining if it is. See wxTextValidator::SetExcludes().
+End Rem
+Const wxFILTER_EXCLUDE_LIST:Int = $100
+
+Rem
+bbdoc: Use an exclude list.
+about: The validator checks if each input character is in the list (one character per list element), complaining if it is. See wxTextValidator::SetCharExcludes().
+End Rem
+Const wxFILTER_EXCLUDE_CHAR_LIST:Int = $200
 
