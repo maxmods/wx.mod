@@ -93,6 +93,7 @@ Extern
 	Function bmx_wxpropertygrid_setpropertyhelpstringbyname(handle:Byte Ptr, name:String, helpString:String)
 
 	Function bmx_wxsystemcolourproperty_create:Byte Ptr(handle:Object, label:String, name:String, value:Byte Ptr)
+	Function bmx_wxsystemcolourproperty_getcolour:Byte Ptr(handle:Byte Ptr, index:Int)
 
 	Function bmx_wxcolourpropertyvalue_delete(handle:Byte Ptr)
 	
@@ -252,6 +253,9 @@ Extern
 
 	Function bmx_wxenumproperty_createwitharrays:Byte Ptr(handle:Object, label:String, name:String, labels:String[], values:Int[], value:Int)
 	Function bmx_wxenumproperty_createwithchoices:Byte Ptr(handle:Object, label:String, name:String, choices:Byte Ptr, value:Int)
+	Function bmx_wxenumproperty_getindexforvalue:Int(handle:Byte Ptr, value:Int)
+	Function bmx_wxenumproperty_getitemcount:Int(handle:Byte Ptr)
+	Function bmx_wxenumproperty_getchoiceselection:Int(handle:Byte Ptr)
 
 	Function bmx_wxmultichoiceproperty_createwitharrays:Byte Ptr(handle:Object, label:String, name:String, labels:String[], value:String[])
 	Function bmx_wxmultichoiceproperty_createwithchoices:Byte Ptr(handle:Object, label:String, name:String, choices:Byte Ptr, value:String[])
@@ -419,6 +423,11 @@ Extern
 	Function bmx_wxpgproperty_getvalueassize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
 	Function bmx_wxpgproperty_setvaluecolour(handle:Byte Ptr, value:Byte Ptr)
 	Function bmx_wxpgproperty_getchoicecount:Int(handle:Byte Ptr)
+	Function bmx_wxpgproperty_setchoiceselection(handle:Byte Ptr, newValue:Int)
+	Function bmx_wxpgproperty_setwasmodified(handle:Byte Ptr, set:Int)
+	Function bmx_wxpgproperty_setvalueimage(handle:Byte Ptr, bmp:Byte Ptr)
+	Function bmx_wxpgproperty_setvaluetounspecified(handle:Byte Ptr)
+	Function bmx_wxpgproperty_usesautounspecified:Int(handle:Byte Ptr)
 
 	Function bmx_wxdateproperty_getdatepickerstyle:Int(handle:Byte Ptr)
 	Function bmx_wxdateproperty_getdatevalue:Byte Ptr(handle:Byte Ptr)

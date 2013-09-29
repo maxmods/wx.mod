@@ -746,6 +746,11 @@ wxSystemColourProperty * bmx_wxsystemcolourproperty_create(BBObject * handle, BB
 		(value) ? value->Colour() : wxColour());
 }
 
+MaxColour * bmx_wxsystemcolourproperty_getcolour(wxSystemColourProperty * prop, int index) {
+	wxColour c(prop->GetColour(index));
+	return new MaxColour(c);
+}
+
 // *********************************************
 
 wxIntProperty * bmx_wxintproperty_create(BBObject * handle, BBString * label, BBString * name, int value) {
@@ -2059,6 +2064,26 @@ unsigned int bmx_wxpgproperty_getchoicecount(wxPGProperty * prop) {
 	return 0;
 }
 
+void bmx_wxpgproperty_setchoiceselection(wxPGProperty * prop, int newValue) {
+	prop->SetChoiceSelection(newValue);
+}
+
+void bmx_wxpgproperty_setwasmodified(wxPGProperty * prop, int set) {
+	prop->SetWasModified(static_cast<bool>(set));
+}
+
+void bmx_wxpgproperty_setvalueimage(wxPGProperty * prop, MaxBitmap * bmp) {
+	prop->SetValueImage(bmp->Bitmap());
+}
+
+void bmx_wxpgproperty_setvaluetounspecified(wxPGProperty * prop) {
+	prop->SetValueToUnspecified();
+}
+
+int bmx_wxpgproperty_usesautounspecified(wxPGProperty * prop) {
+	return static_cast<int>(prop->UsesAutoUnspecified());
+}
+
 // *********************************************
 
 long bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop) {
@@ -2099,6 +2124,18 @@ wxEnumProperty * bmx_wxenumproperty_createwithchoices(BBObject * handle, BBStrin
 		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
 		choices->Choices(),
 		value);
+}
+
+int bmx_wxenumproperty_getindexforvalue(wxEnumProperty * prop, int value) {
+	return prop->GetIndexForValue(value);
+}
+
+int bmx_wxenumproperty_getitemcount(wxEnumProperty * prop) {
+	return static_cast<int>(prop->GetItemCount());
+}
+
+int bmx_wxenumproperty_getchoiceselection(wxEnumProperty * prop) {
+	return prop->GetChoiceSelection();
 }
 
 // *********************************************

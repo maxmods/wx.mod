@@ -1680,13 +1680,6 @@ Type wxPGProperty Extends wxObject
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetChoiceInfo:Int(choiceinfo:wxPGChoiceInfo)
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
 	Method GetChoices:wxPGChoices()
 		' TODO
 	End Method
@@ -2168,17 +2161,10 @@ Type wxPGProperty Extends wxObject
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Sets selected choice and changes property value.
 	End Rem
-	Method SetChoiceSelection(newValue:Int, choiceInfo:wxPGChoiceInfo)
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method SetChoicesExclusive()
-		' TODO
+	Method SetChoiceSelection(newValue:Int)
+		bmx_wxpgproperty_setchoiceselection(wxObjectPtr, newValue)
 	End Method
 	
 	Rem
@@ -2350,14 +2336,21 @@ Type wxPGProperty Extends wxObject
 	about: This bitmap may be ignored by custom cell renderers. 
 	End Rem
 	Method SetValueImage(bmp:wxBitmap)
-		' TODO
+		bmx_wxpgproperty_setvalueimage(wxObjectPtr, bmp.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Sets property's value to unspecified.
+	End Rem
+	Method SetValueToUnspecified()
+		bmx_wxpgproperty_setvaluetounspecified(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: Call with 'false' in OnSetValue to cancel value changes after all.
 	End Rem
 	Method SetWasModified(set:Int = True)
-		' TODO
+		bmx_wxpgproperty_setwasmodified(wxObjectPtr, set)
 	End Method
 	
 	Rem
@@ -2372,7 +2365,7 @@ Type wxPGProperty Extends wxObject
 	bbdoc: Returns true if containing grid uses wxPG_EX_AUTO_UNSPECIFIED_VALUES. 
 	End Rem
 	Method UsesAutoUnspecified:Int()
-		' TODO
+		Return bmx_wxpgproperty_usesautounspecified(wxObjectPtr)
 	End Method
 	
 End Type
@@ -2715,29 +2708,22 @@ Type wxEnumProperty Extends wxBaseEnumProperty
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetChoices:wxPGChoices()
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
-	Method GetEntry:String(index:Int, value:Int Var)
-		' TODO
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
 	Method GetIndexForValue:Int(value:Int)
-		' TODO
+		Return bmx_wxenumproperty_getindexforvalue(wxObjectPtr, value)
 	End Method
 	
 	Rem
-	bbdoc: 
+	bbdoc: Returns the number of enumrated items.
 	End Rem
 	Method GetItemCount:Int()
-		' TODO
+		Return bmx_wxenumproperty_getitemcount(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns which choice is currently selected.
+	End Rem
+	Method GetChoiceSelection:Int()
+		Return bmx_wxenumproperty_getchoiceselection(wxObjectPtr)
 	End Method
 	
 End Type
@@ -2765,7 +2751,7 @@ Type wxSystemColourProperty Extends wxEnumProperty
 	bbdoc: Default is to use wxSystemSettings::GetColour(index). 
 	End Rem
 	Method GetColour:wxColour(index:Int)	
-		' TODO
+		Return wxColour._create(bmx_wxsystemcolourproperty_getcolour(wxObjectPtr, index))
 	End Method
 	
 End Type
@@ -3417,9 +3403,6 @@ Type wxPGCell
 End Type
 
 Type wxPGCellRenderer
-End Type
-
-Type wxPGChoiceInfo
 End Type
 
 Type wxPGPropertyDataExt

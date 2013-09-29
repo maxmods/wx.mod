@@ -80,6 +80,7 @@ extern "C" {
 	void bmx_wxpropertygrid_setpropertyhelpstringbyname(wxPropertyGrid * grid, BBString * name, BBString * helpString);
 
 	wxSystemColourProperty * bmx_wxsystemcolourproperty_create(BBObject * handle, BBString * label, BBString * name, MaxColour * value);
+	MaxColour * bmx_wxsystemcolourproperty_getcolour(wxSystemColourProperty * prop, int index);
 
 	void bmx_wxcolourpropertyvalue_delete(MaxColourPropertyValue * value);
 	
@@ -293,6 +294,11 @@ extern "C" {
 	void bmx_wxpgproperty_getvalueassize(wxPGProperty * prop, int * w, int * h);
 	void bmx_wxpgproperty_setvaluecolour(wxPGProperty * prop, MaxColour * value);
 	unsigned int bmx_wxpgproperty_getchoicecount(wxPGProperty * prop);
+	void bmx_wxpgproperty_setchoiceselection(wxPGProperty * prop, int newValue);
+	void bmx_wxpgproperty_setwasmodified(wxPGProperty * prop, int set);
+	void bmx_wxpgproperty_setvalueimage(wxPGProperty * prop, MaxBitmap * bmp);
+	void bmx_wxpgproperty_setvaluetounspecified(wxPGProperty * prop);
+	int bmx_wxpgproperty_usesautounspecified(wxPGProperty * prop);
 
 	long bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop);
 	MaxDateTime * bmx_wxdateproperty_getdatevalue(wxDateProperty * prop);
@@ -303,6 +309,9 @@ extern "C" {
 
 	wxEnumProperty * bmx_wxenumproperty_createwitharrays(BBObject * handle, BBString * label, BBString * name, BBArray * labels, BBArray * values, int value);
 	wxEnumProperty * bmx_wxenumproperty_createwithchoices(BBObject * handle, BBString * label, BBString * name, MaxPGChoices * choices, int value);
+	int bmx_wxenumproperty_getindexforvalue(wxEnumProperty * prop, int value);
+	int bmx_wxenumproperty_getitemcount(wxEnumProperty * prop);
+	int bmx_wxenumproperty_getchoiceselection(wxEnumProperty * prop);
 
 	wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwitharrays(BBObject * handle, BBString * label, BBString * name, BBArray * labels, BBArray * value);
 	wxMultiChoiceProperty * bmx_wxmultichoiceproperty_createwithchoices(BBObject * handle, BBString * label, BBString * name, MaxPGChoices * choices, BBArray * value);
