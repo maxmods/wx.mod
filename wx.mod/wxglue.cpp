@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2009 Bruce A Henderson
+  Copyright (c) 2007-2013 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -70,11 +70,12 @@ wxString wxStringFromBBString(BBString * s) {
 wxArrayString bbStringArrayTowxArrayStr( BBArray *p ){
 	int n=p->scales[0];
 	BBString **s=(BBString**)BBARRAYDATA( p,p->dims );
-	wxString t[n];
+	wxArrayString arr;
+	arr.Alloc(n);
 	for( int i=0;i<n;++i ){
-		t[i]=wxStringFromBBString( s[i] );
+		arr.Add(wxStringFromBBString( s[i] ));
 	}
-	return wxArrayString( n,t );
+	return arr;
 }
 
 BBArray *wxArrayStringToBBStringArray( wxArrayString t ){

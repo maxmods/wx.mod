@@ -26,6 +26,7 @@ Import wx.wxPen
 Import wx.wxBrush
 Import wx.wxRegion
 Import wx.wxWindow
+Import wx.wxMemoryDC
 Import BRL.Blitz
 
 
@@ -49,6 +50,7 @@ Import "glue.cpp"
 Extern
 
 	Function bmx_wxgraphicscontext_create:Byte Ptr(dc:Byte Ptr)
+	Function bmx_wxgraphicscontext_createfrommemorydc:Byte Ptr(dc:Byte Ptr)
 	Function bmx_wxgraphicscontext_createfromwindow:Byte Ptr(window:Byte Ptr)
 	Function bmx_wxgraphicscontext_createpen:Byte Ptr(handle:Byte Ptr, pen:Byte Ptr)
 	Function bmx_wxgraphicscontext_createbrush:Byte Ptr(handle:Byte Ptr, brush:Byte Ptr)

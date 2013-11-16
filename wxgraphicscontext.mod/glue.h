@@ -26,6 +26,7 @@
 #include "../wxbrush.mod/glue.h"
 #include "../wxicon.mod/glue.h"
 #include "../wxregion.mod/glue.h"
+#include "wx/dcmemory.h"
 
 class MaxGraphicsPen;
 class MaxGraphicsBrush;
@@ -38,6 +39,7 @@ extern "C" {
 #include <blitz.h>
 
 	wxGraphicsContext * bmx_wxgraphicscontext_create(MaxWindowDC * dc);
+	wxGraphicsContext * bmx_wxgraphicscontext_createfrommemorydc(MaxDC * dc);
 	wxGraphicsContext * bmx_wxgraphicscontext_createfromwindow(wxWindow * window);
 	MaxGraphicsPen * bmx_wxgraphicscontext_createpen(wxGraphicsContext * context, MaxPen * pen);
 	MaxGraphicsBrush * bmx_wxgraphicscontext_createbrush(wxGraphicsContext * context, MaxBrush * brush);

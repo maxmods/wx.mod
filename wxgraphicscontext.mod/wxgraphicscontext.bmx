@@ -69,15 +69,19 @@ Type wxGraphicsContext Extends wxGraphicsObject
 	Rem
 	bbdoc: Creates a wxGraphicsContext from a wxWindowDC (eg a wxPaintDC).
 	End Rem
-	Function CreateGraphicsContext:wxGraphicsContext(dc:wxWindowDC)
+	Function CreateGraphicsContext:wxGraphicsContext(dc:Object)
 		Return New wxGraphicsContext.Create(dc)
 	End Function
 	
 	Rem
-	bbdoc: Creates a wxGraphicsContext from a wxWindowDC (eg a wxPaintDC).
+	bbdoc: Creates a wxGraphicsContext from a wxWindowDC (eg a wxPaintDC) or a wxMemoryDC.
 	End Rem
-	Method Create:wxGraphicsContext(dc:wxWindowDC)
-		wxObjectPtr = bmx_wxgraphicscontext_create(dc.wxObjectPtr)
+	Method Create:wxGraphicsContext(dc:Object)
+		If wxWindowDC(dc) Then
+			wxObjectPtr = bmx_wxgraphicscontext_create(wxWindowDC(dc).wxObjectPtr)
+		Else If wxMemoryDC(dc) Then
+			wxObjectPtr = bmx_wxgraphicscontext_createfrommemorydc(wxMemoryDC(dc).wxObjectPtr)
+		End If
 		Return Self
 	End Method
 	

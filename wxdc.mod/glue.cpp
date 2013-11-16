@@ -220,23 +220,25 @@ void bmx_wxdc_drawlabelrect(MaxDC * dc, BBString * text, MaxRect * rect, MaxBitm
 void bmx_wxdc_drawlines(MaxDC * dc, BBArray * p, int xOffset, int yOffset) {
 	int n= p->scales[0] / 2;
 	int *s=(int*)BBARRAYDATA( p,p->dims );
-	wxPoint points[n];
+	wxPoint * points = new wxPoint[n];
 	for (int i = 0; i < n; i++) {
 		points[i].x = s[i * 2];
 		points[i].y = s[i * 2 + 1];
 	}
 	dc->GetDC()->DrawLines(n, points, xOffset, yOffset);
+	delete [] points;
 }
 
 void bmx_wxdc_drawpolygon(MaxDC * dc, BBArray * p, int xOffset, int yOffset, wxPolygonFillMode fillStyle) {
 	int n= p->scales[0] / 2;
 	int *s=(int*)BBARRAYDATA( p,p->dims );
-	wxPoint points[n];
+	wxPoint * points = new wxPoint[n];
 	for (int i = 0; i < n; i++) {
 		points[i].x = s[i * 2];
 		points[i].y = s[i * 2 + 1];
 	}
 	dc->GetDC()->DrawPolygon(n, points, xOffset, yOffset, fillStyle);
+	delete [] points;
 }
 
 void bmx_wxdc_drawpoint(MaxDC * dc, int x, int y) {
@@ -250,12 +252,13 @@ void bmx_wxdc_drawrotatedtext(MaxDC * dc, BBString * text, int x, int y, double 
 void bmx_wxdc_drawspline(MaxDC * dc, BBArray * p) {
 	int n= p->scales[0] / 2;
 	int *s=(int*)BBARRAYDATA( p,p->dims );
-	wxPoint points[n];
+	wxPoint * points = new wxPoint[n];
 	for (int i = 0; i < n; i++) {
 		points[i].x = s[i * 2];
 		points[i].y = s[i * 2 + 1];
 	}
 	dc->GetDC()->DrawSpline(n, points);
+	delete [] points;
 }
 
 void bmx_wxdc_enddoc(MaxDC * dc) {

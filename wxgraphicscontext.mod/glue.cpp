@@ -76,6 +76,10 @@ wxGraphicsContext * bmx_wxgraphicscontext_create(MaxWindowDC * dc) {
 	return wxGraphicsContext::Create(*(wxWindowDC*)dc->GetDC());
 }
 
+wxGraphicsContext * bmx_wxgraphicscontext_createfrommemorydc(MaxDC * dc) {
+	return wxGraphicsContext::Create(*(wxMemoryDC*)dc->GetDC());
+}
+
 wxGraphicsContext * bmx_wxgraphicscontext_createfromwindow(wxWindow * window) {
 	return wxGraphicsContext::Create(window);
 }
@@ -137,13 +141,14 @@ void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * p, w
 	int n = p->scales[0] / 2;
 	double *s=(double*)BBARRAYDATA( p,p->dims );
 	
-	wxPoint2DDouble points[n];
+	wxPoint2DDouble * points = new wxPoint2DDouble[n];
 	for (int i = 0; i < n; i++) {
 		points[i].m_x = s[i * 2];
 		points[i].m_y = s[i * 2 + 1];
 	}
 	
 	context->DrawLines(n, points, fillStyle);
+	delete [] points;
 }
 
 void bmx_wxgraphicscontext_drawpath(wxGraphicsContext * context, MaxGraphicsPath * path, wxPolygonFillMode fillStyle) {
@@ -240,23 +245,23 @@ void bmx_wxgraphicscontext_strokelines(wxGraphicsContext * context, BBArray * p)
 	int n = p->scales[0] / 2;
 	double *s=(double*)BBARRAYDATA( p,p->dims );
 	
-	wxPoint2DDouble points[n];
+	wxPoint2DDouble * points = new wxPoint2DDouble[n];
 	for (int i = 0; i < n; i++) {
 		points[i].m_x = s[i * 2];
 		points[i].m_y = s[i * 2 + 1];
 	}
 	
 	context->StrokeLines(n, points);
+	delete [] points;
 }
-
 
 void bmx_wxgraphicscontext_strokedisconnectedlines(wxGraphicsContext * context, BBArray * sp, BBArray * ep) {
 	int n = sp->scales[0] / 2;
 	double *s=(double*)BBARRAYDATA( sp,sp->dims );
 	double *e=(double*)BBARRAYDATA( ep,ep->dims );
 	
-	wxPoint2DDouble startPoints[n];
-	wxPoint2DDouble endPoints[n];
+	wxPoint2DDouble * startPoints = new wxPoint2DDouble[n];
+	wxPoint2DDouble * endPoints = new wxPoint2DDouble[n];
 
 	for (int i = 0; i < n; i++) {
 		startPoints[i].m_x = s[i * 2];
@@ -267,6 +272,8 @@ void bmx_wxgraphicscontext_strokedisconnectedlines(wxGraphicsContext * context, 
 	}
 	
 	context->StrokeLines(n, startPoints, endPoints);
+	delete [] startPoints;
+	delete [] endPoints;
 }
 
 // *********************************************
