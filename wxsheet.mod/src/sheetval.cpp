@@ -4,7 +4,6 @@
 // Author:      John Labenski
 // Modified by:
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetval.cpp,v 1.5 2007/12/12 05:22:39 jrl1 Exp $
 // Copyright:   (c) John Labenski
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,8 +32,6 @@
 
 #include <wx/arrimpl.cpp>
 WX_DEFINE_OBJARRAY(wxArrayPairArrayIntSheetString)
-DEFINE_PAIRARRAY_INTKEY(wxString, wxPairArrayIntSheetString)
-DEFINE_PAIRARRAY_INTKEY(wxPairArrayIntSheetString, wxPairArrayIntPairArraySheetString)
 
 #if !wxUSE_GRID
     WX_DEFINE_OBJARRAY(wxSheetStringArray) // else use wxGridStringArray

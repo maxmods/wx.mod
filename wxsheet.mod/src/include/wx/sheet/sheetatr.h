@@ -4,7 +4,6 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: John Labenski
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetatr.h,v 1.7 2007/12/12 05:22:38 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -186,12 +185,12 @@ public:
 // Create a 1-D array of wxArraySheetCellAttr for row/col labels
 WX_DECLARE_OBJARRAY_WITH_DECL(wxSheetCellAttr, wxArraySheetCellAttr,
                               class WXDLLIMPEXP_SHEET);
+
 // Create the paired array of attrs for row/col labels
-DECLARE_PAIRARRAY_INTKEY( wxSheetCellAttr, wxArraySheetCellAttr,
-                          wxPairArrayIntSheetCellAttr, class WXDLLIMPEXP_SHEET)
+typedef class WXDLLIMPEXP_SHEET SortedPairArrayNumberKey<int, wxArrayInt, wxSheetCellAttr, wxArraySheetCellAttr> wxPairArrayIntSheetCellAttr;
+
 // Create wxPairArraySheetCoordsCellAttr for storing coords keys and attr values.
-DECLARE_PAIRARRAY_SHEETCOORDKEY(wxSheetCellAttr, wxArraySheetCellAttr,
-                                wxPairArraySheetCoordsCellAttr, class WXDLLIMPEXP_SHEET)
+typedef class WXDLLIMPEXP_SHEET SortedPairArraySheetCoordsKey<wxSheetCellAttr, wxArraySheetCellAttr> wxPairArraySheetCoordsCellAttr;
 
 // ----------------------------------------------------------------------------
 // wxSheetCellAttrProvider : for wxSheetTable to retrieve/store cell attr

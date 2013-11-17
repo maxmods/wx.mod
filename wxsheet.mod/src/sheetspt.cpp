@@ -4,7 +4,6 @@
 // Author:      John Labenski
 // Modified by:
 // Created:     4/1/2004
-// RCS-ID:      $Id: sheetspt.cpp,v 1.8 2006/10/17 05:11:43 jrl1 Exp $
 // Copyright:   (c) John Labenski
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -145,7 +144,7 @@ wxSheet* wxSheetSplitter::CreateSheet(wxWindowID id)
 wxSheet* wxSheetSplitter::CreateTopRightSheet(wxWindowID id)
 {
     wxSheet *sheet = CreateSheet(id);
-    wxCHECK_MSG(sheet, NULL, wxT("Unable to create wxSheet child in splitter"));
+    wxCHECK_MSG(sheet, NULL, wxT("Unable to CreateTopRightSheet wxSheet child in splitter"));
     sheet->RefSheet(m_tlSheet);
     sheet->GetRowLabelWindow()->Show(false);
     sheet->GetCornerLabelWindow()->Show(false);
@@ -156,7 +155,7 @@ wxSheet* wxSheetSplitter::CreateTopRightSheet(wxWindowID id)
 wxSheet* wxSheetSplitter::CreateBottomLeftSheet(wxWindowID id)
 {
     wxSheet *sheet = CreateSheet(id);
-    wxCHECK_MSG(sheet, NULL, wxT("Unable to create wxSheet child in splitter"));
+    wxCHECK_MSG(sheet, NULL, wxT("Unable to CreateBottomLeftSheet wxSheet child in splitter"));
     sheet->RefSheet(m_tlSheet);
     sheet->GetColLabelWindow()->Show(false);
     sheet->GetCornerLabelWindow()->Show(false);
@@ -167,7 +166,7 @@ wxSheet* wxSheetSplitter::CreateBottomLeftSheet(wxWindowID id)
 wxSheet* wxSheetSplitter::CreateBottomRightSheet(wxWindowID id)
 {
     wxSheet *sheet = CreateSheet(id);
-    wxCHECK_MSG(sheet, NULL, wxT("Unable to create wxSheet child in splitter"));
+    wxCHECK_MSG(sheet, NULL, wxT("Unable to CreateBottomRightSheet wxSheet child in splitter"));
     sheet->RefSheet(m_tlSheet);
     sheet->GetRowLabelWindow()->Show(false);
     sheet->GetColLabelWindow()->Show(false);

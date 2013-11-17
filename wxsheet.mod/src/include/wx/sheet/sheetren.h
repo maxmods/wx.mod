@@ -4,7 +4,6 @@
 // Author:      John Labenski, Paul Gammans, Roger Gammans
 // Modified by: John Labenski
 // Created:     11/04/2001
-// RCS-ID:      $Id: sheetren.h,v 1.5 2007/12/12 05:22:38 jrl1 Exp $
 // Copyright:   (c) John Labenski, The Computer Surgery (paul@compsurg.co.uk)
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////

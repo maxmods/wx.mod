@@ -4,7 +4,6 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by:
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheet.h,v 1.26 2008/01/11 06:52:49 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -20,6 +19,7 @@
 #include "wx/sheet/sheetatr.h" // might as well include everything
 #include "wx/sheet/sheetsel.h"
 #include "wx/sheet/sheetedt.h"
+#include "wx/sheet/sheetevt.h"
 #include "wx/sheet/sheetren.h"
 #include "wx/sheet/sheettbl.h"
 #include "wx/sheet/sheetedg.h"
@@ -52,7 +52,7 @@ public:
     void OnFocus( wxFocusEvent& event );
     void OnEraseBackground( wxEraseEvent& );
 
-    wxSheet* GetOwner() const { return m_owner; }
+    inline wxSheet* GetOwner() const { return m_owner; }
 
     wxSheet *m_owner;
     int      m_mouseCursor; // remember the last cursor set for this window
@@ -181,7 +181,7 @@ public:
     //   a "new MySheet" for the other sheets as necessary
     //   This is one of the few ways for the splitter to create new sheets.
     virtual wxSheet* Clone(wxWindow *parent, wxWindowID id = wxID_ANY,
-						   const wxPoint& pos = wxDefaultPosition,
+                           const wxPoint& pos = wxDefaultPosition,
                            const wxSize& size = wxDefaultSize,
                            long style = wxWANTS_CHARS,
                            const wxString& name = wxT("wxSheet"));
@@ -207,45 +207,36 @@ public:
     // ------------------------------------------------------------------------
     // Dimensions of the number of cells on the sheet and helper cell functions
 
-    int GetNumberRows() const { return GetSheetRefData()->m_rowEdges.GetCount(); }
-    int GetNumberCols() const { return GetSheetRefData()->m_colEdges.GetCount(); }
+    inline int GetNumberRows() const { return GetSheetRefData()->m_rowEdges.GetCount(); }
+    inline int GetNumberCols() const { return GetSheetRefData()->m_colEdges.GetCount(); }
 
     // Is the coords anywhere in labels or grid, -1 to GetNumberRows/Cols()-1
-    bool ContainsCell( const wxSheetCoords& coords ) const
+    inline bool ContainsCell( const wxSheetCoords& coords ) const
         { return (coords.m_row >= -1) && (coords.m_col >= -1) &&
                  (coords.m_row < GetNumberRows()) &&
                  (coords.m_col < GetNumberCols()); }
 
     // returns true if the coords are within the grid cells of the sheet
-    bool ContainsGridRow( int row ) const { return (row >= 0) && (row < GetNumberRows()); }
-    bool ContainsGridCol( int col ) const { return (col >= 0) && (col < GetNumberCols()); }
-    bool ContainsGridCell( const wxSheetCoords& coords ) const
-        { return ContainsGridRow(coords.m_row) && ContainsGridCol(coords.m_col); }
+    inline bool ContainsGridRow( int row ) const { return (row >= 0) && (row < GetNumberRows()); }
+    inline bool ContainsGridCol( int col ) const { return (col >= 0) && (col < GetNumberCols()); }
+    inline bool ContainsGridCell( const wxSheetCoords& coords ) const { return ContainsGridRow(coords.m_row) && ContainsGridCol(coords.m_col); }
 
     // returns true if the coords are within the row/col label cells
-    bool ContainsRowLabelCell( const wxSheetCoords& coords ) const
-        { return (coords.m_col == -1) && ContainsGridRow(coords.m_row); }
-    bool ContainsColLabelCell( const wxSheetCoords& coords ) const
-        { return (coords.m_row == -1) && ContainsGridCol(coords.m_col); }
+    inline bool ContainsRowLabelCell( const wxSheetCoords& coords ) const { return (coords.m_col == -1) && ContainsGridRow(coords.m_row); }
+    inline bool ContainsColLabelCell( const wxSheetCoords& coords ) const { return (coords.m_row == -1) && ContainsGridCol(coords.m_col); }
 
     // static helper functions to determine what type of cell it is.
     // These functions do not check the cell's validity.
 
-    static bool IsGridCell(const wxSheetCoords& coords)
-        { return (coords.m_row >=  0) && (coords.m_col >=  0); }
-    static bool IsLabelCell(const wxSheetCoords& coords)
-        { return (coords.m_row >= -1) && (coords.m_col >= -1) &&
-                ((coords.m_row == -1) || (coords.m_col == -1)); }
-    static bool IsRowLabelCell(const wxSheetCoords& coords)
-        { return (coords.m_row >=  0) && (coords.m_col == -1); }
-    static bool IsColLabelCell(const wxSheetCoords& coords)
-        { return (coords.m_row == -1) && (coords.m_col >=  0); }
-    static bool IsCornerLabelCell(const wxSheetCoords& coords)
-        { return (coords.m_row == -1) && (coords.m_col == -1); }
+    static inline bool IsGridCell(const wxSheetCoords& coords)  { return (coords.m_row >=  0) && (coords.m_col >=  0); }
+    static inline bool IsLabelCell(const wxSheetCoords& coords) { return (coords.m_row >= -1) && (coords.m_col >= -1) &&
+                                                                        ((coords.m_row == -1) || (coords.m_col == -1)); }
+    static inline bool IsRowLabelCell(const wxSheetCoords& coords)    { return (coords.m_row >=  0) && (coords.m_col == -1); }
+    static inline bool IsColLabelCell(const wxSheetCoords& coords)    { return (coords.m_row == -1) && (coords.m_col >=  0); }
+    static inline bool IsCornerLabelCell(const wxSheetCoords& coords) { return (coords.m_row == -1) && (coords.m_col == -1); }
 
     // Get an enum value of what window the coords are meant for
-    static wxSheetCell_Type GetCellCoordsType(const wxSheetCoords& coords)
-        { return coords.GetCellCoordsType(); }
+    static inline wxSheetCell_Type GetCellCoordsType(const wxSheetCoords& coords) { return coords.GetCellCoordsType(); }
 
     // "clear" the contents of the grid (depends on table's Clear() function)
     //   the string implementations clear the cell values, not the # rows/cols
@@ -520,13 +511,13 @@ public:
     // ------ Simplified functions for accessing the attributes ---------------
     // Get an attribute for the grid coords, returning a cell/row/col attr or
     //   if multiple attr for the coords an attr that's merged, or the def attr
-    wxSheetCellAttr GetGridAttr(const wxSheetCoords& coords) const { return GetAttr(coords, wxSHEET_AttrAny); }
+    inline wxSheetCellAttr GetGridAttr(const wxSheetCoords& coords) const { return GetAttr(coords, wxSHEET_AttrAny); }
 
     // Get a specific Cell/Row/Col attr for the coords in the grid
     //   if none set returns wxNullSheetCellAttr
-    wxSheetCellAttr GetGridCellAttr(const wxSheetCoords& coords) const { return GetAttr(coords, wxSHEET_AttrCell); }
-    wxSheetCellAttr GetGridRowAttr(int row) const { return GetAttr(wxSheetCoords(row,  0), wxSHEET_AttrRow); }
-    wxSheetCellAttr GetGridColAttr(int col) const { return GetAttr(wxSheetCoords(0,  col), wxSHEET_AttrCol); }
+    inline wxSheetCellAttr GetGridCellAttr(const wxSheetCoords& coords) const { return GetAttr(coords, wxSHEET_AttrCell); }
+    inline wxSheetCellAttr GetGridRowAttr(int row) const { return GetAttr(wxSheetCoords(row,  0), wxSHEET_AttrRow); }
+    inline wxSheetCellAttr GetGridColAttr(int col) const { return GetAttr(wxSheetCoords(0,  col), wxSHEET_AttrCol); }
     // Set a specific Cell/Row/Col attr for coords, row/col only apply to the grid
     void SetGridCellAttr(const wxSheetCoords& coords, const wxSheetCellAttr& attr) { SetAttr(coords, attr, wxSHEET_AttrCell); }
     void SetGridRowAttr(int row, const wxSheetCellAttr& attr) { SetAttr(wxSheetCoords(row,  0), attr, wxSHEET_AttrRow); }
@@ -535,14 +526,14 @@ public:
     // Get the row/col/corner label attributes, if one is not set for the
     //  particular coords, returns the default one. (note: only one corner attr)
     //  if you want the particular attr use GetRow/ColLabelCellAttr
-    wxSheetCellAttr GetRowLabelAttr(int row) const { return GetAttr(wxSheetCoords(row, -1), wxSHEET_AttrAny); }
-    wxSheetCellAttr GetColLabelAttr(int col) const { return GetAttr(wxSheetCoords(-1, col), wxSHEET_AttrAny); }
-    wxSheetCellAttr GetCornerLabelAttr() const     { return GetAttr(wxSheetCoords(-1,  -1), wxSHEET_AttrAny); }
+    inline wxSheetCellAttr GetRowLabelAttr(int row) const { return GetAttr(wxSheetCoords(row, -1), wxSHEET_AttrAny); }
+    inline wxSheetCellAttr GetColLabelAttr(int col) const { return GetAttr(wxSheetCoords(-1, col), wxSHEET_AttrAny); }
+    inline wxSheetCellAttr GetCornerLabelAttr() const     { return GetAttr(wxSheetCoords(-1,  -1), wxSHEET_AttrAny); }
 
     // Get a specific attr the row/col/corner label cell
     //   if none set returns wxNullSheetCellAttr
-    wxSheetCellAttr GetRowLabelCellAttr(int row) const { return GetAttr(wxSheetCoords(row, -1), wxSHEET_AttrCell); }
-    wxSheetCellAttr GetColLabelCellAttr(int col) const { return GetAttr(wxSheetCoords(-1, col), wxSHEET_AttrCell); }
+    inline wxSheetCellAttr GetRowLabelCellAttr(int row) const { return GetAttr(wxSheetCoords(row, -1), wxSHEET_AttrCell); }
+    inline wxSheetCellAttr GetColLabelCellAttr(int col) const { return GetAttr(wxSheetCoords(-1, col), wxSHEET_AttrCell); }
     // Set a specific attribute for particular row/col/corner label cell
     void SetRowLabelCellAttr(int row, const wxSheetCellAttr& attr) { SetAttr(wxSheetCoords(row, -1), attr, wxSHEET_AttrCell); }
     void SetColLabelCellAttr(int col, const wxSheetCellAttr& attr) { SetAttr(wxSheetCoords(-1, col), attr, wxSHEET_AttrCell); }
@@ -551,10 +542,10 @@ public:
     // Get/Set default attributes for the areas (only one corner attr)
     //  For setting, wxSheetCellAttr::UpdateWith is called with the current default
     //  attr so you so need only set the values that you want to change.
-    wxSheetCellAttr GetDefaultAttr(const wxSheetCoords& coords) const { return GetAttr(coords, wxSHEET_AttrDefault); }
-    wxSheetCellAttr GetDefaultGridCellAttr() const { return GetAttr(wxGridCellSheetCoords, wxSHEET_AttrDefault); }
-    wxSheetCellAttr GetDefaultRowLabelAttr() const { return GetAttr(wxRowLabelSheetCoords, wxSHEET_AttrDefault); }
-    wxSheetCellAttr GetDefaultColLabelAttr() const { return GetAttr(wxColLabelSheetCoords, wxSHEET_AttrDefault); }
+    inline wxSheetCellAttr GetDefaultAttr(const wxSheetCoords& coords) const { return GetAttr(coords, wxSHEET_AttrDefault); }
+    inline wxSheetCellAttr GetDefaultGridCellAttr() const { return GetAttr(wxGridCellSheetCoords, wxSHEET_AttrDefault); }
+    inline wxSheetCellAttr GetDefaultRowLabelAttr() const { return GetAttr(wxRowLabelSheetCoords, wxSHEET_AttrDefault); }
+    inline wxSheetCellAttr GetDefaultColLabelAttr() const { return GetAttr(wxColLabelSheetCoords, wxSHEET_AttrDefault); }
     void SetDefaultAttr(const wxSheetCoords& coords, const wxSheetCellAttr& attr) { SetAttr(coords, attr, wxSHEET_AttrDefault); }
     void SetDefaultGridCellAttr(const wxSheetCellAttr& attr) { SetAttr(wxGridCellSheetCoords, attr, wxSHEET_AttrDefault); }
     void SetDefaultRowLabelAttr(const wxSheetCellAttr& attr) { SetAttr(wxRowLabelSheetCoords, attr, wxSHEET_AttrDefault); }
@@ -563,10 +554,10 @@ public:
     // These are convienience functions, if for example you want to subclass the
     //  table and modify and return default attr "on the fly" for each cell.
     //  Please use the standard methods if at all possible.
-    const wxSheetCellAttr& GetTheDefaultGridAttr() const        { return GetSheetRefData()->m_defaultGridCellAttr; }
-    const wxSheetCellAttr& GetTheDefaultRowLabelAttr() const    { return GetSheetRefData()->m_defaultRowLabelAttr; }
-    const wxSheetCellAttr& GetTheDefaultColLabelAttr() const    { return GetSheetRefData()->m_defaultColLabelAttr; }
-    const wxSheetCellAttr& GetTheDefaultCornerLabelAttr() const { return GetSheetRefData()->m_defaultCornerLabelAttr; }
+    inline const wxSheetCellAttr& GetTheDefaultGridAttr() const        { return GetSheetRefData()->m_defaultGridCellAttr; }
+    inline const wxSheetCellAttr& GetTheDefaultRowLabelAttr() const    { return GetSheetRefData()->m_defaultRowLabelAttr; }
+    inline const wxSheetCellAttr& GetTheDefaultColLabelAttr() const    { return GetSheetRefData()->m_defaultColLabelAttr; }
+    inline const wxSheetCellAttr& GetTheDefaultCornerLabelAttr() const { return GetSheetRefData()->m_defaultCornerLabelAttr; }
 
     // Get/Set particular attributes for any type of cell/row/col anywhere
     //  The default is to get the attr val for type=wxSHEET_AttrAny meaning that
@@ -614,7 +605,7 @@ public:
     // Get/Set cell, row, col, and corner label values
 
     // *** To completely override value handling you may provide alternate
-	// *** GetCellValue() and SetCellValue()
+    // *** GetCellValue() and SetCellValue()
 
     // Get/Set cell value, uses coords = -1 notation for row/col/corner labels
     virtual wxString GetCellValue( const wxSheetCoords& coords );
@@ -623,13 +614,13 @@ public:
     // Is this cell empty, see wxSheetTable
     virtual bool HasCellValue( const wxSheetCoords& coords );
 
-    wxString GetRowLabelValue( int row ) { return GetCellValue(wxSheetCoords(row, -1)); }
-    wxString GetColLabelValue( int col ) { return GetCellValue(wxSheetCoords(-1, col)); }
-    void     SetRowLabelValue( int row, const wxString& value ) { SetCellValue(wxSheetCoords(row, -1), value); }
-    void     SetColLabelValue( int col, const wxString& value ) { SetCellValue(wxSheetCoords(-1, col), value); }
+    inline wxString GetRowLabelValue( int row ) { return GetCellValue(wxSheetCoords(row, -1)); }
+    inline wxString GetColLabelValue( int col ) { return GetCellValue(wxSheetCoords(-1, col)); }
+    inline void     SetRowLabelValue( int row, const wxString& value ) { SetCellValue(wxSheetCoords(row, -1), value); }
+    inline void     SetColLabelValue( int col, const wxString& value ) { SetCellValue(wxSheetCoords(-1, col), value); }
 
-    wxString GetCornerLabelValue() { return GetCellValue(wxSheetCoords(-1, -1)); }
-    void     SetCornerLabelValue(const wxString& value) { SetCellValue(wxSheetCoords(-1, -1), value); }
+    inline wxString GetCornerLabelValue() { return GetCellValue(wxSheetCoords(-1, -1)); }
+    inline void     SetCornerLabelValue(const wxString& value) { SetCellValue(wxSheetCoords(-1, -1), value); }
 
     // ------------------------------------------------------------------------
     // Register mapping between data types to Renderers/Editors
@@ -662,9 +653,9 @@ public:
 
     // Get/Set cursor cell, this is the "current" cell where a highlight is drawn.
     //  The cursor only applies to the grid cells.
-    const wxSheetCoords& GetGridCursorCell() const { return GetSheetRefData()->m_cursorCoords; }
-    int  GetGridCursorRow() const { return GetGridCursorCell().GetRow(); }
-    int  GetGridCursorCol() const { return GetGridCursorCell().GetCol(); }
+    inline const wxSheetCoords& GetGridCursorCell() const { return GetSheetRefData()->m_cursorCoords; }
+    inline int  GetGridCursorRow() const { return GetGridCursorCell().GetRow(); }
+    inline int  GetGridCursorCol() const { return GetGridCursorCell().GetCol(); }
     void SetGridCursorCell( const wxSheetCoords& coords );
 
     // These are simplified methods for moving the cursor, mostly used internally
@@ -711,8 +702,8 @@ public:
     bool IsSelecting() const { return !GetSelectingBlock().IsEmpty(); }
 
     void SetSelectionMode(wxSheetSelectionMode_Type selmode);
-    int  GetSelectionMode() const { return GetSheetRefData()->m_selectionMode; }
-    bool HasSelectionMode(int mode) { return (GetSelectionMode() == mode) || ((GetSelectionMode() & mode) != 0); }
+    inline int  GetSelectionMode() const { return GetSheetRefData()->m_selectionMode; }
+    inline bool HasSelectionMode(int mode) { return (GetSelectionMode() == mode) || ((GetSelectionMode() & mode) != 0); }
 
     // return the input block so it's appropriate for the selection mode
     //  if sel_mode == -1 then use GetSelectionMode().
@@ -746,16 +737,16 @@ public:
 
     // Get a pointer to the selection mechanism. You are free to do what you
     //  want with it, do a ForceRefresh to update the grid when done.
-    wxSheetSelection* GetSelection() const { return GetSheetRefData()->m_selection; }
+    inline wxSheetSelection* GetSelection() const { return GetSheetRefData()->m_selection; }
 
     // During a selection this is the selecting block, else empty
-    const wxSheetBlock& GetSelectingBlock() const { return GetSheetRefData()->m_selectingBlock; }
-    const wxSheetCoords& GetSelectingAnchor() const { return GetSheetRefData()->m_selectingAnchor; }
+    inline const wxSheetBlock& GetSelectingBlock() const { return GetSheetRefData()->m_selectingBlock; }
+    inline const wxSheetCoords& GetSelectingAnchor() const { return GetSheetRefData()->m_selectingAnchor; }
 
     // These are internal use functions to highlight a block during mouse
     //  dragging or keyboard selecting
-    void SetSelectingBlock(const wxSheetBlock& selectingBlock) { GetSheetRefData()->m_selectingBlock = selectingBlock; }
-    void SetSelectingAnchor(const wxSheetCoords& selectingAnchor) { GetSheetRefData()->m_selectingAnchor = selectingAnchor; }
+    inline void SetSelectingBlock(const wxSheetBlock& selectingBlock) { GetSheetRefData()->m_selectingBlock = selectingBlock; }
+    inline void SetSelectingAnchor(const wxSheetCoords& selectingAnchor) { GetSheetRefData()->m_selectingAnchor = selectingAnchor; }
 
     // while selecting set and draw m_selectingBlock highlight and clear up last
     virtual void HighlightSelectingBlock( const wxSheetBlock& selectingBlock );
@@ -806,10 +797,10 @@ public:
 
     // Are the cells in the enum wxSheetCell_Type editable?
     int IsAreaEditable( int cell_type ) const { return (cell_type & GetSheetRefData()->m_editable) != 0; }
-	// Get the area editable mask of areas that are editable
+    // Get the area editable mask of areas that are editable
     int GetAreaEditable() const { return GetSheetRefData()->m_editable; }
     // Enable editing of the cells in the enum wxSheetCell_Type, can use masks or
-	// wxSHEET_CELL_ANY for all editable, or wxSHEET_CELL_NONE for none
+    // wxSHEET_CELL_ANY for all editable, or wxSHEET_CELL_NONE for none
     void SetAreaEditable( int cell_type );
 
     // ------------------------------------------------------------------------
@@ -1038,18 +1029,18 @@ public:
     wxSize GetGridExtent() const;
 
     // Same as wxScrolledWindow::Calc(Un)ScrolledPosition()
-    void CalcScrolledPosition(int x, int y, int *xx, int *yy) const
+    inline void CalcScrolledPosition(int x, int y, int *xx, int *yy) const
         { if (xx) *xx = x - m_gridOrigin.x; if (yy) *yy = y - m_gridOrigin.y; }
-    void CalcUnscrolledPosition(int x, int y, int *xx, int *yy) const
+    inline void CalcUnscrolledPosition(int x, int y, int *xx, int *yy) const
         { if (xx) *xx = x + m_gridOrigin.x; if (yy) *yy = y + m_gridOrigin.y; }
-    wxPoint CalcScrolledPosition(const wxPoint& pt) const   { return pt - m_gridOrigin; }
-    wxPoint CalcUnscrolledPosition(const wxPoint& pt) const { return pt + m_gridOrigin; }
+    inline wxPoint CalcScrolledPosition(const wxPoint& pt) const   { return pt - m_gridOrigin; }
+    inline wxPoint CalcUnscrolledPosition(const wxPoint& pt) const { return pt + m_gridOrigin; }
 
     // returns the scrolled position of the rect, logical -> device coords
-    wxRect CalcScrolledRect(const wxRect &r) const
+    inline wxRect CalcScrolledRect(const wxRect &r) const
         { return wxRect(r.x-m_gridOrigin.x, r.y-m_gridOrigin.y, r.width, r.height); }
     // returns the unscrolled position of the rect, device -> logical coords
-    wxRect CalcUnscrolledRect(const wxRect &r) const
+    inline wxRect CalcUnscrolledRect(const wxRect &r) const
         { return wxRect(r.x+m_gridOrigin.x, r.y+m_gridOrigin.y, r.width, r.height); }
 
     // Adjust the scrollbars to match the size/origin of the grid window
@@ -1079,8 +1070,8 @@ public:
     void SetVerticalScrollBarMode(int mode)
         { m_scrollBarMode &= (~SB_VERT_MASK);  m_scrollBarMode |= mode; }
 
-    bool NeedsVerticalScrollBar()   const { return GetGridVirtualSize().y > m_gridWin->GetSize().y; }
-    bool NeedsHorizontalScrollBar() const { return GetGridVirtualSize().x > m_gridWin->GetSize().x; }
+    inline bool NeedsVerticalScrollBar()   const { return GetGridVirtualSize().y > m_gridWin->GetSize().y; }
+    inline bool NeedsHorizontalScrollBar() const { return GetGridVirtualSize().x > m_gridWin->GetSize().x; }
 
     // wxDC::SetDeviceOrigin() for the wxDC as appropriate for these windows
     // given the current scrolled position of the wxSheet
@@ -1116,10 +1107,10 @@ public:
     bool HasFocus() const;
 
     // Accessors for component windows
-    wxSheetChildWindow* GetGridWindow()        const { return m_gridWin; }
-    wxSheetChildWindow* GetRowLabelWindow()    const { return m_rowLabelWin; }
-    wxSheetChildWindow* GetColLabelWindow()    const { return m_colLabelWin; }
-    wxSheetChildWindow* GetCornerLabelWindow() const { return m_cornerLabelWin; }
+    inline wxSheetChildWindow* GetGridWindow()        const { return m_gridWin; }
+    inline wxSheetChildWindow* GetRowLabelWindow()    const { return m_rowLabelWin; }
+    inline wxSheetChildWindow* GetColLabelWindow()    const { return m_colLabelWin; }
+    inline wxSheetChildWindow* GetCornerLabelWindow() const { return m_cornerLabelWin; }
     // Get the window with these coords, uses -1 notation
     wxWindow* GetWindowForCoords( const wxSheetCoords& coords ) const;
 
@@ -1303,311 +1294,5 @@ private:
     DECLARE_NO_COPY_CLASS(wxSheet)
 };
 
-// ----------------------------------------------------------------------------
-// wxSheetEvent
-// ----------------------------------------------------------------------------
-class WXDLLIMPEXP_SHEET wxSheetEvent : public wxNotifyEvent
-{
-public:
-    wxSheetEvent(wxWindowID id = 0, wxEventType type = wxEVT_NULL,
-                 wxObject* obj = NULL,
-                 const wxSheetCoords &coords = wxNullSheetCoords,
-                 const wxPoint &pos = wxPoint(-1, -1), bool sel = true);
-
-    wxSheetEvent(const wxSheetEvent& event) : wxNotifyEvent(event),
-                     m_coords(event.m_coords),
-                     m_pos(event.m_pos), m_scrPos(event.m_scrPos),
-                     m_selecting(event.m_selecting),
-                     m_control(event.m_control), m_shift(event.m_shift),
-                     m_alt(event.m_alt), m_meta(event.m_meta),
-                     m_evtWin(event.m_evtWin) { }
-
-    // Get the coords for the cell the event is for or the cursor cell.
-    int   GetRow() const { return m_coords.m_row; }
-    int   GetCol() const { return m_coords.m_col; }
-    const wxSheetCoords& GetCoords() const { return m_coords; }
-
-    // For (de)selection events
-    bool  Selecting()   const { return m_selecting; }
-    // Are these keys pressed, for events generated from key/mouse events
-    bool  ControlDown() const { return m_control; }
-    bool  ShiftDown()   const { return m_shift; }
-    bool  AltDown()     const { return m_alt; }
-    bool  MetaDown()    const { return m_meta; }
-
-    // Get the unscrolled position of the mouse for a mouse generated event
-    const wxPoint& GetPosition() const { return m_pos; }
-    // Get the scrolled position of the mouse relative to the upper left of
-    //   the window that it occured in.
-    const wxPoint& GetScrolledPosition() const { return m_scrPos; }
-    // Get the window that the event originally occured in.
-    //   (for mouse and key events)
-    //   example for wxEVT_SHEET_CELL_RIGHT_UP
-    //   if (evt.GetEventWindow())
-    //       evt.GetEventWindow()->PopupMenu(menu, evt.GetScrolledPosition());
-    wxWindow* GetEventWindow() const { return m_evtWin; }
-
-    // implementation
-
-    // Setup the Ctrl/Shift/Alt/Meta keysDown and the mouse position from a
-    //  wxKeyEvent or wxMouseEvent.
-    //  The GetEventObject() of this must be of type wxSheet
-    bool SetKeysDownMousePos(wxEvent *mouseOrKeyEvent);
-
-    virtual wxEvent *Clone() const { return new wxSheetEvent(*this); }
-
-    wxSheetCoords m_coords;
-    wxPoint       m_pos;
-    wxPoint       m_scrPos;
-    bool m_selecting;
-    bool m_control;
-    bool m_shift;
-    bool m_alt;
-    bool m_meta;
-    wxWindow *m_evtWin;
-
-    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxSheetEvent)
-};
-
-// ----------------------------------------------------------------------------
-// wxSheetCellSizeEvent - wxEVT_SHEET_ROW/COL_SIZE/ING/ED
-// ----------------------------------------------------------------------------
-class WXDLLIMPEXP_SHEET wxSheetCellSizeEvent : public wxSheetEvent
-{
-public:
-    wxSheetCellSizeEvent( wxWindowID id = 0, wxEventType type = wxEVT_NULL,
-                          wxObject* obj = NULL,
-                          const wxSheetCoords &coords = wxNullSheetCoords,
-                          int size = 0 );
-
-    wxSheetCellSizeEvent(const wxSheetCellSizeEvent& event)
-        : wxSheetEvent(event) { }
-
-    int GetSize() const { return GetInt(); }
-
-    // implementation
-    virtual wxEvent *Clone() const { return new wxSheetCellSizeEvent(*this); }
-
-    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxSheetCellSizeEvent)
-};
-
-// ----------------------------------------------------------------------------
-// wxSheetRangeSelectEvent - wxEVT_SHEET_RANGE_SELECTING(ED)
-// ----------------------------------------------------------------------------
-class WXDLLIMPEXP_SHEET wxSheetRangeSelectEvent : public wxSheetEvent
-{
-public:
-    wxSheetRangeSelectEvent( wxWindowID id = 0, wxEventType type = wxEVT_NULL,
-                             wxObject* obj = NULL,
-                             const wxSheetBlock& block = wxNullSheetBlock,
-                             bool sel = false, bool add_to_sel = false );
-
-    wxSheetRangeSelectEvent(const wxSheetRangeSelectEvent& event)
-        : wxSheetEvent(event), m_block(event.m_block), m_add(event.m_add) { }
-
-    const wxSheetBlock& GetBlock() const { return m_block; }
-    bool GetAddToSelection() const       { return m_add; }
-
-    void SetBlock( const wxSheetBlock& block ) { m_block = block; }
-
-    // wxPoint GetPosition() is unused
-    // int GetCoords/Row/Col() is unused
-
-    // implementation
-    virtual wxEvent *Clone() const { return new wxSheetRangeSelectEvent(*this); }
-
-    wxSheetBlock m_block;
-    bool m_add;
-
-    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxSheetRangeSelectEvent)
-};
-
-// ----------------------------------------------------------------------------
-// wxSheetEditorCreatedEvent - wxEVT_SHEET_EDITOR_CREATED
-// ----------------------------------------------------------------------------
-class WXDLLIMPEXP_SHEET wxSheetEditorCreatedEvent : public wxCommandEvent
-{
-public:
-    wxSheetEditorCreatedEvent( wxWindowID id = 0, wxEventType type = wxEVT_NULL,
-                               wxObject* obj = NULL,
-                               const wxSheetCoords& coords = wxNullSheetCoords,
-                               wxWindow* ctrl = NULL );
-
-    wxSheetEditorCreatedEvent(const wxSheetEditorCreatedEvent& evt)
-        : wxCommandEvent(evt), m_coords(evt.m_coords), m_ctrl(evt.m_ctrl) { }
-
-
-    const wxSheetCoords& GetCoords() const { return m_coords; }
-    wxWindow* GetControl() const           { return m_ctrl; }
-
-    void SetCoords(const wxSheetCoords& coords) { m_coords = coords; }
-    void SetControl(wxWindow* ctrl)             { m_ctrl = ctrl; }
-
-    // implementation
-    virtual wxEvent *Clone() const { return new wxSheetEditorCreatedEvent(*this); }
-
-    wxSheetCoords m_coords;
-    wxWindow*     m_ctrl;
-
-    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(wxSheetEditorCreatedEvent)
-};
-
-// ----------------------------------------------------------------------------
-// events
-// ----------------------------------------------------------------------------
-
-BEGIN_DECLARE_EVENT_TYPES()
-    // The origin of the grid window has changed
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_VIEW_CHANGED, 1592)
-
-    // The grid cursor is about to be in a new cell, veto or !Skip() to block
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_SELECTING_CELL, 1592)
-    // The grid cursor is in a new cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_SELECTED_CELL, 1592)
-
-    // left down click in a grid cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_CELL_LEFT_DOWN, 1580)
-    // right down click in a grid cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_CELL_RIGHT_DOWN, 1581)
-    // left up click in a grid cell, sent after default processing
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_CELL_LEFT_UP, 1580)
-    // right up click in a grid cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_CELL_RIGHT_UP, 1581)
-    // left double click in a grid cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_CELL_LEFT_DCLICK, 1582)
-    // right double click in a grid cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_CELL_RIGHT_DCLICK, 1583)
-
-    // left down click in a label cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_LABEL_LEFT_DOWN, 1584)
-    // right down click in a label cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_LABEL_RIGHT_DOWN, 1585)
-    // left up click in a label cell, sent after default processing
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_LABEL_LEFT_UP, 1584)
-    // right up click in a label cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_LABEL_RIGHT_UP, 1585)
-    // left double click in a label cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_LABEL_LEFT_DCLICK, 1586)
-    // right double click in a label cell
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_LABEL_RIGHT_DCLICK, 1587)
-
-    // A row is about to be resized, the mouse is over an edge of cell
-    // This is a wxSheetCellSizeEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_ROW_SIZE, 1588)
-    // A row is being resized
-    // This is a wxSheetCellSizeEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_ROW_SIZING, 1588)
-    // A row has been resized, sent after default processing
-    // This is a wxSheetCellSizeEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_ROW_SIZED, 1588)
-    // A col is about to be resized, the mouse is over an edge of cell
-    // This is a wxSheetCellSizeEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_COL_SIZE, 1589)
-    // A col is being resized
-    // This is a wxSheetCellSizeEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_COL_SIZING, 1589)
-    // A col has been resized, sent after default processing
-    // This is a wxSheetCellSizeEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_COL_SIZED, 1589)
-
-    // A block of cells is about to be (de)selected (veto to stop)
-    // This is a wxSheetRangeSelectEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_RANGE_SELECTING, 1590)
-    // A block of cells has been (de)selected
-    // This is a wxSheetRangeSelectEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_RANGE_SELECTED, 1590)
-
-    // The value of a cell is about to be changed (veto to stop)
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_CELL_VALUE_CHANGING, 1591)
-    // The value of a cell has been changed (veto to put old val back)
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_CELL_VALUE_CHANGED, 1591)
-
-    // From EnableCellEditControl, the control is about to enabled (can veto)
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_EDITOR_ENABLED, 1593)
-    // From DisableCellEditControl, the control is about to disabled (can veto)
-    // This is a wxSheetEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_EDITOR_DISABLED, 1594)
-    // From EnableCellEditControl, the edit control has been created
-    // This is a wxSheetEditorCreatedEvent
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SHEET, wxEVT_SHEET_EDITOR_CREATED, 1595)
-END_DECLARE_EVENT_TYPES()
-
-typedef void (wxEvtHandler::*wxSheetEventFunction)(wxSheetEvent&);
-typedef void (wxEvtHandler::*wxSheetCellSizeEventFunction)(wxSheetCellSizeEvent&);
-typedef void (wxEvtHandler::*wxSheetRangeSelectEventFunction)(wxSheetRangeSelectEvent&);
-typedef void (wxEvtHandler::*wxSheetEditorCreatedEventFunction)(wxSheetEditorCreatedEvent&);
-
-#define wxSheetEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSheetEventFunction, &func)
-#define wxSheetCellSizeEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSheetCellSizeEventFunction, &func)
-#define wxSheetRangeSelectEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSheetRangeSelectEventFunction, &func)
-#define wxSheetEditorCreatedEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSheetEditorCreatedEventFunction, &func)
-
-#define wx__DECLARE_SHEETEVT(evt, id, fn)         wx__DECLARE_EVT1( evt, id, wxSheetEventHandler(fn))
-#define wx__DECLARE_SHEETCELLSIZEEVT(evt, id, fn) wx__DECLARE_EVT1( evt, id, wxSheetCellSizeEventHandler(fn))
-#define wx__DECLARE_SHEETRANGESELEVT(evt, id, fn) wx__DECLARE_EVT1( evt, id, wxSheetRangeSelectEventHandler(fn))
-#define wx__DECLARE_SHEETEDITOREVT(evt, id, fn)   wx__DECLARE_EVT1( evt, id, wxSheetEditorCreatedEventHandler(fn))
-
-#define EVT_SHEET_VIEW_CHANGED(id, fn)        wx__DECLARE_SHEETEVT( wxEVT_SHEET_VIEW_CHANGED,        id, fn )
-#define EVT_SHEET_SELECTING_CELL(id, fn)      wx__DECLARE_SHEETEVT( wxEVT_SHEET_SELECTING_CELL,      id, fn )
-#define EVT_SHEET_SELECTED_CELL(id, fn)       wx__DECLARE_SHEETEVT( wxEVT_SHEET_SELECTED_CELL,       id, fn )
-#define EVT_SHEET_CELL_LEFT_DOWN(id, fn)      wx__DECLARE_SHEETEVT( wxEVT_SHEET_CELL_LEFT_DOWN,      id, fn )
-#define EVT_SHEET_CELL_RIGHT_DOWN(id, fn)     wx__DECLARE_SHEETEVT( wxEVT_SHEET_CELL_RIGHT_DOWN,     id, fn )
-#define EVT_SHEET_CELL_LEFT_UP(id, fn)        wx__DECLARE_SHEETEVT( wxEVT_SHEET_CELL_LEFT_UP,        id, fn )
-#define EVT_SHEET_CELL_RIGHT_UP(id, fn)       wx__DECLARE_SHEETEVT( wxEVT_SHEET_CELL_RIGHT_UP,       id, fn )
-#define EVT_SHEET_CELL_LEFT_DCLICK(id, fn)    wx__DECLARE_SHEETEVT( wxEVT_SHEET_CELL_LEFT_DCLICK,    id, fn )
-#define EVT_SHEET_CELL_RIGHT_DCLICK(id, fn)   wx__DECLARE_SHEETEVT( wxEVT_SHEET_CELL_RIGHT_DCLICK,   id, fn )
-#define EVT_SHEET_LABEL_LEFT_DOWN(id, fn)     wx__DECLARE_SHEETEVT( wxEVT_SHEET_LABEL_LEFT_DOWN,     id, fn )
-#define EVT_SHEET_LABEL_RIGHT_DOWN(id, fn)    wx__DECLARE_SHEETEVT( wxEVT_SHEET_LABEL_RIGHT_DOWN,    id, fn )
-#define EVT_SHEET_LABEL_LEFT_UP(id, fn)       wx__DECLARE_SHEETEVT( wxEVT_SHEET_LABEL_LEFT_UP,       id, fn )
-#define EVT_SHEET_LABEL_RIGHT_UP(id, fn)      wx__DECLARE_SHEETEVT( wxEVT_SHEET_LABEL_RIGHT_UP,      id, fn )
-#define EVT_SHEET_LABEL_LEFT_DCLICK(id, fn)   wx__DECLARE_SHEETEVT( wxEVT_SHEET_LABEL_LEFT_DCLICK,   id, fn )
-#define EVT_SHEET_LABEL_RIGHT_DCLICK(id, fn)  wx__DECLARE_SHEETEVT( wxEVT_SHEET_LABEL_RIGHT_DCLICK,  id, fn )
-#define EVT_SHEET_ROW_SIZE(id, fn)            wx__DECLARE_SHEETCELLSIZEEVT( wxEVT_SHEET_ROW_SIZE,    id, fn )
-#define EVT_SHEET_ROW_SIZING(id, fn)          wx__DECLARE_SHEETCELLSIZEEVT( wxEVT_SHEET_ROW_SIZING,  id, fn )
-#define EVT_SHEET_ROW_SIZED(id, fn)           wx__DECLARE_SHEETCELLSIZEEVT( wxEVT_SHEET_ROW_SIZED,   id, fn )
-#define EVT_SHEET_COL_SIZE(id, fn)            wx__DECLARE_SHEETCELLSIZEEVT( wxEVT_SHEET_COL_SIZE,    id, fn )
-#define EVT_SHEET_COL_SIZING(id, fn)          wx__DECLARE_SHEETCELLSIZEEVT( wxEVT_SHEET_COL_SIZING,  id, fn )
-#define EVT_SHEET_COL_SIZED(id, fn)           wx__DECLARE_SHEETCELLSIZEEVT( wxEVT_SHEET_COL_SIZED,   id, fn )
-#define EVT_SHEET_RANGE_SELECTING(id, fn)     wx__DECLARE_SHEETRANGESELEVT( wxEVT_SHEET_RANGE_SELECTING, id, fn )
-#define EVT_SHEET_RANGE_SELECTED(id, fn)      wx__DECLARE_SHEETRANGESELEVT( wxEVT_SHEET_RANGE_SELECTED,  id, fn )
-#define EVT_SHEET_CELL_VALUE_CHANGING(id, fn) wx__DECLARE_SHEETEVT( wxEVT_SHEET_CELL_VALUE_CHANGING,  id, fn )
-#define EVT_SHEET_CELL_VALUE_CHANGED(id, fn)  wx__DECLARE_SHEETEVT( wxEVT_SHEET_CELL_VALUE_CHANGED,   id, fn )
-#define EVT_SHEET_EDITOR_ENABLED(id, fn)      wx__DECLARE_SHEETEVT( wxEVT_SHEET_EDITOR_ENABLED,       id, fn )
-#define EVT_SHEET_EDITOR_DISABLED(id, fn)     wx__DECLARE_SHEETEVT( wxEVT_SHEET_EDITOR_DISABLED,      id, fn )
-#define EVT_SHEET_EDITOR_CREATED(id, fn)      wx__DECLARE_SHEETEDITOREVT( wxEVT_SHEET_EDITOR_CREATED, id, fn )
-
-#if 0  // TODO: implement these ?  others ?
-
-wxEVT_SHEET_CREATE_CELL;
-wxEVT_SHEET_CHANGE_LABELS;
-wxEVT_SHEET_CHANGE_SEL_LABEL;
-
-#define EVT_SHEET_CREATE_CELL(id, fn)      DECLARE_EVENT_TABLE_ENTRY( wxEVT_SHEET_CREATE_CELL,      id, wxID_ANY, (wxObjectEventFunction) (wxEventFunction) (wxSheetEventFunction) &fn, NULL ),
-#define EVT_SHEET_CHANGE_LABELS(id, fn)    DECLARE_EVENT_TABLE_ENTRY( wxEVT_SHEET_CHANGE_LABELS,    id, wxID_ANY, (wxObjectEventFunction) (wxEventFunction) (wxSheetEventFunction) &fn, NULL ),
-#define EVT_SHEET_CHANGE_SEL_LABEL(id, fn) DECLARE_EVENT_TABLE_ENTRY( wxEVT_SHEET_CHANGE_SEL_LABEL, id, wxID_ANY, (wxObjectEventFunction) (wxEventFunction) (wxSheetEventFunction) &fn, NULL ),
-
-#endif // 0
 
 #endif  // __WX_SHEET_H__

@@ -4,7 +4,6 @@
 // Author:      John Labenski
 // Modified by:
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetedg.h,v 1.4 2007/12/11 04:37:00 jrl1 Exp $
 // Copyright:   (c) John Labenski
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -23,8 +22,7 @@
 //   used to store the min col widths for rows and cols
 // ----------------------------------------------------------------------------
 
-DECLARE_PAIRARRAY_INTKEY( int, wxArrayInt,
-                          wxPairArrayIntInt, class WXDLLIMPEXP_SHEET )
+typedef class WXDLLIMPEXP_SHEET SortedPairArrayNumberKey<int, wxArrayInt, int, wxArrayInt> wxPairArrayIntInt;
 
 // ----------------------------------------------------------------------------
 // wxSheetArrayEdge - a wxArrayInt container that sums its values, starts at 0
@@ -42,7 +40,7 @@ public:
                       size_t min_allowed_size = 0 );
 
     // Get the number of edges
-    int GetCount() const { return m_count; }
+    inline int GetCount() const { return m_count; }
     // Find the index of the element that corresponds to this coord
     //   if clipToMinMax return the min or max edge element, else -1 for out of bounds
     int FindIndex(int val, bool clipToMinMax) const;
@@ -62,7 +60,7 @@ public:
     void SetSize(size_t item, int size, bool ignore_min_size = false);
 
     // Get the default size to use between the edges
-    int GetDefaultSize() const { return m_default_size; }
+    inline int GetDefaultSize() const { return m_default_size; }
     // Set the default size to use between edges, used when inserting
     //   if resizeExisting then make all equal widths
     void SetDefaultSize(int default_size, bool resizeExisting = false);
@@ -73,7 +71,7 @@ public:
     void SetMinSize(size_t index, int size);
 
     // Get the min allowed size for all elements
-    int GetMinAllowedSize() const { return m_min_allowed_size; }
+    inline int GetMinAllowedSize() const { return m_min_allowed_size; }
     // set the min allowed size, resize the existing sizes to match the min size
     //   if resizeExisting and return if anything was done
     bool SetMinAllowedSize(int min_allowed_size, bool resizeExisting = false);

@@ -49,6 +49,7 @@ Import "src/sheet.cpp"
 Import "src/sheetatr.cpp"
 Import "src/sheetedg.cpp"
 Import "src/sheetedt.cpp"
+Import "src/sheetevt.cpp"
 Import "src/sheetren.cpp"
 Import "src/sheetsel.cpp"
 Import "src/sheetspt.cpp"
@@ -206,9 +207,9 @@ Extern
 
 	Function bmx_wxsheet_adjustscrollbars(handle:Byte Ptr, calcWinSizes:Int)
 	Function bmx_wxsheet_getscrollbarmode:Int(handle:Byte Ptr)
-	Function bmx_wxsheet_setscrollbarmode(handle:Byte Ptr, mode:Int)
-	Function bmx_wxsheet_sethorizontalscrollbarmode(handle:Byte Ptr, mode:Int)
-	Function bmx_wxsheet_setverticalscrollbarmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxsheet_setscrollbarmode(handle:Byte Ptr, Mode:Int)
+	Function bmx_wxsheet_sethorizontalscrollbarmode(handle:Byte Ptr, Mode:Int)
+	Function bmx_wxsheet_setverticalscrollbarmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxsheet_needsverticalscrollbar:Int(handle:Byte Ptr)
 	Function bmx_wxsheet_needshorizontalscrollbar:Int(handle:Byte Ptr)
 
@@ -228,7 +229,7 @@ Extern
 	Function bmx_wxsheet_isselecting:Int(handle:Byte Ptr)
 	Function bmx_wxsheet_setselectionmode(handle:Byte Ptr, selmode:Int)
 	Function bmx_wxsheet_getselectionmode:Int(handle:Byte Ptr)
-	Function bmx_wxsheet_hasselectionmode:Int(handle:Byte Ptr, mode:Int)
+	Function bmx_wxsheet_hasselectionmode:Int(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxsheet_beginbatch(handle:Byte Ptr)
 	Function bmx_wxsheet_endbatch(handle:Byte Ptr, refresh:Int)
 	Function bmx_wxsheet_getbatchcount:Int(handle:Byte Ptr)

@@ -4,7 +4,6 @@
 // Author:      John Labenski
 // Modified by:
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetedg.cpp,v 1.3 2005/11/09 06:14:07 jrl1 Exp $
 // Copyright:   (c) John Labenski
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,9 +27,6 @@
 
 #include "wx/sheet/sheet.h"
 #include "wx/sheet/sheetedg.h"
-
-#include <wx/arrimpl.cpp>
-DEFINE_PAIRARRAY_INTKEY(int, wxPairArrayIntInt)
 
 // ----------------------------------------------------------------------------
 // wxSheetArrayEdge - a wxArrayInt container that sums its values

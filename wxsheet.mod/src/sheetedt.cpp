@@ -4,7 +4,6 @@
 // Author:      John Labenski, Paul Gammans, Roger Gammans
 // Modified by: John Labenski
 // Created:     11/04/2001
-// RCS-ID:      $Id: sheetedt.cpp,v 1.10 2007/08/22 21:49:30 jrl1 Exp $
 // Copyright:   (c) John Labenski, The Computer Surgery (paul@compsurg.co.uk)
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////

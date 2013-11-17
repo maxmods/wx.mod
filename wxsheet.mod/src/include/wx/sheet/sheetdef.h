@@ -4,7 +4,6 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: John Labenski
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetdef.h,v 1.10 2007/12/12 05:22:38 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,17 +18,16 @@
 #if wxCHECK_VERSION(2,5,0)
     #include <wx/arrstr.h>
 #endif // wxCHECK_VERSION(2,5,0)
-#include "wx/sheet/pairarr.h"
 
 //-----------------------------------------------------------------------------
 // The version of wxSheet
 //-----------------------------------------------------------------------------
 
 #define wxSHEET_MAJOR_VERSION      1
-#define wxSHEET_MINOR_VERSION      1
+#define wxSHEET_MINOR_VERSION      2
 #define wxSHEET_RELEASE_VERSION    0
 #define wxSHEET_SUBRELEASE_VERSION 0
-#define wxSHEET_VERSION_STRING    wxT("wxSheet 1.1.0")
+#define wxSHEET_VERSION_STRING    wxT("wxSheet 1.2.0")
 
 // For non-Unix systems (i.e. when building without a configure script),
 // users of this component can use the following macro to check if the
@@ -81,6 +79,8 @@
 // Complete list of classes implemented by wxSheet
 // ----------------------------------------------------------------------------
 
+#include "wx/sheet/pairarr.h"
+
 // Windows
 class WXDLLIMPEXP_FWD_SHEET wxSheet;                    // the spreadsheet widget
 class WXDLLIMPEXP_FWD_SHEET wxSheetChildWindow;         // child wxWindows of the wxSheet
@@ -95,17 +95,17 @@ class WXDLLIMPEXP_FWD_SHEET wxSheetSplitterEvent;       // wxEvent sent from the
 class WXDLLIMPEXP_FWD_SHEET wxSheetCellAttr;            // attribute for cell/row/col
 class WXDLLIMPEXP_FWD_SHEET wxSheetCellAttrRefData;     // refdata for wxSheetCellAttr
 class WXDLLIMPEXP_FWD_SHEET wxArraySheetCellAttr;       //  array of cell attrs
-class WXDLLIMPEXP_FWD_SHEET wxPairArrayIntSheetCellAttr;    // int, attr pair array
-class WXDLLIMPEXP_FWD_SHEET wxPairArraySheetCoordsCellAttr; // coords, attr pair array
+//class WXDLLIMPEXP_FWD_SHEET wxPairArrayIntSheetCellAttr;    // int, attr pair array
+//class WXDLLIMPEXP_FWD_SHEET wxPairArraySheetCoordsCellAttr; // coords, attr pair array
 class WXDLLIMPEXP_FWD_SHEET wxSheetCellAttrProvider;    // provider of attr for row/col/cell
 class WXDLLIMPEXP_FWD_SHEET wxSheetTypeRegistry;        // internal use
 // String containers
 //class WXDLLIMPEXP_FWD_SHEET wxSheetStringArray;             // wxArray of wxArrayString
-class WXDLLIMPEXP_FWD_SHEET wxPairArrayIntSheetString;        // pair (int, wxString)
-class WXDLLIMPEXP_FWD_SHEET wxArrayPairArrayIntSheetString;   // array of (int, str) pair
-class WXDLLIMPEXP_FWD_SHEET wxSheetValueProviderBase;         // base class value provider
-class WXDLLIMPEXP_FWD_SHEET wxSheetValueProviderString;       // a wxArrayString value provider
-class WXDLLIMPEXP_FWD_SHEET wxSheetValueProviderSparseString; // a string pair array value provider
+//class WXDLLIMPEXP_FWD_SHEET wxPairArrayIntSheetString;        // pair (int, wxString)
+//class WXDLLIMPEXP_FWD_SHEET wxArrayPairArrayIntSheetString;   // array of (int, str) pair
+//class WXDLLIMPEXP_FWD_SHEET wxSheetValueProviderBase;         // base class value provider
+//class WXDLLIMPEXP_FWD_SHEET wxSheetValueProviderString;       // a wxArrayString value provider
+//class WXDLLIMPEXP_FWD_SHEET wxSheetValueProviderSparseString; // a string pair array value provider
 
 // Coords/Blocks/Selection/Int arrays/Edge arrays
 class WXDLLIMPEXP_FWD_SHEET wxSheetCoords;              // cell coordinates
@@ -113,7 +113,7 @@ class WXDLLIMPEXP_FWD_SHEET wxSheetBlock;               // rectangular block of 
 class WXDLLIMPEXP_FWD_SHEET wxSheetSelection;           // cell selection container
 class WXDLLIMPEXP_FWD_SHEET wxSheetSelectionIterator;   // selection iterator
 class WXDLLIMPEXP_FWD_SHEET wxSheetArrayEdge;           // row/col edge container
-class WXDLLIMPEXP_FWD_SHEET wxPairArrayIntInt;          // pair of (int, int)
+//class WXDLLIMPEXP_FWD_SHEET wxPairArrayIntInt;          // pair of (int, int)
 // "Widgets"
 class WXDLLIMPEXP_FWD_SHEET wxSheetCellRenderer;        // drawing renderer for cell
 class WXDLLIMPEXP_FWD_SHEET wxSheetCellEditor;          // cell editor
@@ -138,14 +138,14 @@ class WXDLLIMPEXP_FWD_SHEET wxSheetTable;               // cell value/attr provi
 #define WXSHEET_MIN_COL_WIDTH              15
 
 // type names for grid table values
-#define wxSHEET_VALUE_STRING     _T("string")
-#define wxSHEET_VALUE_BOOL       _T("bool")
-#define wxSHEET_VALUE_NUMBER     _T("long")
-#define wxSHEET_VALUE_FLOAT      _T("double")
-#define wxSHEET_VALUE_CHOICE     _T("choice")
-#define wxSHEET_VALUE_CHOICEINT  _T("choiceint")
-#define wxSHEET_VALUE_DATETIME   _T("datetime")
-#define wxSHEET_VALUE_LABEL      _T("label")
+#define wxSHEET_VALUE_STRING     wxT("string")
+#define wxSHEET_VALUE_BOOL       wxT("bool")
+#define wxSHEET_VALUE_NUMBER     wxT("long")
+#define wxSHEET_VALUE_FLOAT      wxT("double")
+#define wxSHEET_VALUE_CHOICE     wxT("choice")
+#define wxSHEET_VALUE_CHOICEINT  wxT("choiceint")
+#define wxSHEET_VALUE_DATETIME   wxT("datetime")
+#define wxSHEET_VALUE_LABEL      wxT("label")
 
 // ----------------------------------------------------------------------------
 // wxSheet cell drawing scheme, also applies to label cells
@@ -194,8 +194,8 @@ enum wxSheetCell_Type
     wxSHEET_CELL_COLLABEL	 = 0x04, // A col label cell row == -1 && col >= 0
     wxSHEET_CELL_CORNERLABEL = 0x08, // The corner label row == -1 && col == -1
 
-	wxSHEET_CELL_NONE        = 0x00, // An invalid cell coords
-	wxSHEET_CELL_ANY         = 0x0F  // Any cell
+    wxSHEET_CELL_NONE        = 0x00, // An invalid cell coords
+    wxSHEET_CELL_ANY         = 0x0F  // Any cell
 };
 
 // ----------------------------------------------------------------------------
@@ -381,52 +381,80 @@ enum wxSheetAttrShowEditor_Type
 //   UpdateRows(size_t pos, int numRows), UpdateCols(size_t pos, int numCols)
 //      for when for when rows/cols are inserted/deleted
 // ----------------------------------------------------------------------------
+
 #include "wx/sheet/sheetsel.h"
 
-#define DECLARE_PAIRARRAY_SHEETCOORDKEY(Tval, TvalArray, name, classexp) \
-DECLARE_PAIRARRAY_BASE(wxSheetCoords, wxArraySheetCoords, Tval, TvalArray, name, classexp) \
-public: \
-    bool UpdateRows( size_t pos, int numRows ); \
-    bool UpdateCols( size_t pos, int numCols ); \
+// --------------------------------------------------------------------------
+// SortedPairArraySheetCoordsKey
+// --------------------------------------------------------------------------
+
+template <typename Tval, typename TvalArray>
+class WXDLLIMPEXP_SHEET SortedPairArraySheetCoordsKey : public SortedPairArray<wxSheetCoords, wxArraySheetCoords, Tval, TvalArray>
+{
+public:
+    SortedPairArraySheetCoordsKey() : SortedPairArray<wxSheetCoords, wxArraySheetCoords, Tval, TvalArray>() {}
+    SortedPairArraySheetCoordsKey(Tval defaultVal) : SortedPairArray<wxSheetCoords, wxArraySheetCoords, Tval, TvalArray>(defaultVal) {}
+    SortedPairArraySheetCoordsKey(const SortedPairArraySheetCoordsKey& other) : SortedPairArray<wxSheetCoords, wxArraySheetCoords, Tval, TvalArray>() { Copy(other); }
+    virtual ~SortedPairArraySheetCoordsKey() {}
+
+    inline bool UpdateRows( size_t pos_, int numRows );
+    inline bool UpdateCols( size_t pos_, int numCols );
 };
 
-#define DEFINE_PAIRARRAY_SHEETCOORDKEY(Tval, name) \
-DEFINE_PAIRARRAY(wxSheetCoords, Tval, name) \
-bool name::UpdateRows( size_t pos_, int numRows ) \
-{ \
-    if (numRows == 0) return false; \
-    int n, count = GetCount(), pos = pos_; \
-    bool done = false, remove = numRows < 0; \
-    for ( n = 0; n < count; n++ ) \
-    { \
-        wxSheetCoords& coords = ItemKey(n); \
-        if (coords.m_row >= pos) \
-        { \
-            if (remove && (coords.m_row < pos - numRows)) \
-                { done = true; RemoveAt(n); count--; n--; } \
-            else \
-                { done = true; coords.m_row += numRows; } \
-        } \
-    } \
-    return done; \
-} \
-bool name::UpdateCols( size_t pos_, int numCols ) \
-{ \
-    if (numCols == 0) return false; \
-    int n, count = GetCount(), pos = pos_; \
-    bool done = false, remove = numCols < 0; \
-    for ( n = 0; n < count; n++ ) \
-    { \
-        wxSheetCoords& coords = ItemKey(n); \
-        if (coords.m_col >= pos) \
-        { \
-            if (remove && (coords.m_col < pos - numCols)) \
-                { done = true; RemoveAt(n); count--; n--; } \
-            else \
-                { done = true; coords.m_col += numCols; } \
-        } \
-    } \
-    return done; \
+template <typename Tval, typename TvalArray>
+inline bool SortedPairArraySheetCoordsKey<Tval, TvalArray>::UpdateRows( size_t pos_, int numRows )
+{
+    if (numRows == 0) return false;
+    int n, count = this->GetCount(), pos = pos_;
+    bool done = false, remove = numRows < 0;
+    for ( n = 0; n < count; ++n )
+    {
+        wxSheetCoords& coords = this->ItemKey(n);
+        if (coords.m_row >= pos)
+        {
+            if (remove && (coords.m_row < pos - numRows))
+            { 
+                done = true; 
+                this->RemoveAt(n); 
+                --count; 
+                --n; 
+            }
+            else
+            { 
+                done = true; 
+                coords.m_row += numRows; 
+            }
+        }
+    }
+    return done;
+}
+
+template <typename Tval, typename TvalArray>
+inline bool SortedPairArraySheetCoordsKey<Tval, TvalArray>::UpdateCols( size_t pos_, int numCols )
+{
+    if (numCols == 0) return false;
+    int n, count = this->GetCount(), pos = pos_;
+    bool done = false, remove = numCols < 0;
+    for ( n = 0; n < count; ++n )
+    {
+        wxSheetCoords& coords = this->ItemKey(n);
+        if (coords.m_col >= pos)
+        {
+            if (remove && (coords.m_col < pos - numCols))
+            { 
+                done = true; 
+                this->RemoveAt(n); 
+                --count; 
+                --n; 
+            }
+            else
+            { 
+                done = true; 
+                coords.m_col += numCols; 
+            }
+        }
+    }
+    return done;
 }
 
 // ----------------------------------------------------------------------------

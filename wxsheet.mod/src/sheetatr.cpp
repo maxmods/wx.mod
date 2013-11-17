@@ -4,7 +4,6 @@
 // Author:      John Labenski, Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: John Labenski, Robin Dunn, Vadim Zeitlin
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetatr.cpp,v 1.6 2007/12/12 05:22:39 jrl1 Exp $
 // Copyright:   (c) John Labenski, Michael Bedward (mbedward@ozemail.com.au)
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -39,8 +38,6 @@ const wxSheetCellAttr wxNullSheetCellAttr(false);
 
 #include <wx/arrimpl.cpp>
 WX_DEFINE_OBJARRAY(wxArraySheetCellAttr)
-DEFINE_PAIRARRAY_SHEETCOORDKEY(wxSheetCellAttr, wxPairArraySheetCoordsCellAttr)
-DEFINE_PAIRARRAY_INTKEY(wxSheetCellAttr, wxPairArrayIntSheetCellAttr)
 
 // ----------------------------------------------------------------------------
 // wxSheetCellAttrRefData

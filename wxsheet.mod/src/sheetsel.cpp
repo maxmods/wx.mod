@@ -4,7 +4,6 @@
 // Author:      John Labenski
 // Modified by:
 // Created:     20/02/1999
-// RCS-ID:      $Id: sheetsel.cpp,v 1.8 2007/12/12 05:22:39 jrl1 Exp $
 // Copyright:   (c) John Labenski, Stefan Neis (Stefan.Neis@t-online.de)
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -693,7 +692,7 @@ int wxSheetSelection::IndexForInsert(const wxSheetBlock& block) const
 int wxSheetSelection::FindTopRow(int row) const
 {
     int n, lo = 0, hi = m_blocks.GetCount();
-	if (hi == 0) return -1;
+    if (hi == 0) return -1;
     if (row >= m_blocks[0].GetTop()) return 0;
 
     while ( lo < hi )
@@ -703,14 +702,14 @@ int wxSheetSelection::FindTopRow(int row) const
         if (tmp_row > row) hi = n;
         else               lo = n + 1;
     }
-	// just in case we have a few blocks all on the same row
-	while (lo > 1)
-	{
-		if (m_blocks[lo-1].GetTop() <= row)
-			lo--;
-		else
-			break;
-	}
+    // just in case we have a few blocks all on the same row
+    while (lo > 1)
+    {
+        if (m_blocks[lo-1].GetTop() <= row)
+            lo--;
+        else
+            break;
+    }
 
     return lo;
 }

@@ -4,7 +4,6 @@
 // Author:      John Labenski
 // Modified by:
 // Created:     1/08/1999
-// RCS-ID:      $Id: sheetval.h,v 1.4 2007/12/11 04:37:00 jrl1 Exp $
 // Copyright:   (c) John Labenski
 // Licence:     wxWidgets licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -67,7 +66,7 @@ public:
     //   note: If you change the size you must alert the sheet - see wxSheetTable::UpdateSheetXXX()
     virtual int GetNumberRows() const { return m_numRows; }
     virtual int GetNumberCols() const { return m_numCols; }
-    bool ContainsCell(const wxSheetCoords& coords) const
+    inline bool ContainsCell(const wxSheetCoords& coords) const
         { return (coords.m_row >= 0) && (coords.m_col >= 0) &&
                  (coords.m_row < GetNumberRows()) &&
                  (coords.m_col < GetNumberCols()); }
@@ -159,8 +158,7 @@ protected:
 //   stores the strings for the sparse table
 // ----------------------------------------------------------------------------
 
-DECLARE_PAIRARRAY_INTKEY( wxString, wxArrayString,
-                          wxPairArrayIntSheetString, class WXDLLIMPEXP_SHEET)
+typedef class WXDLLIMPEXP_SHEET SortedPairArrayNumberKey<int, wxArrayInt, wxString, wxArrayString> wxPairArrayIntSheetString;
 
 // ----------------------------------------------------------------------------
 
@@ -168,8 +166,8 @@ WX_DECLARE_OBJARRAY_WITH_DECL(wxPairArrayIntSheetString, wxArrayPairArrayIntShee
                               class WXDLLIMPEXP_SHEET);
 
 // ----------------------------------------------------------------------------
-DECLARE_PAIRARRAY_INTKEY( wxPairArrayIntSheetString, wxArrayPairArrayIntSheetString,
-                          wxPairArrayIntPairArraySheetString, class WXDLLIMPEXP_SHEET)
+
+typedef class WXDLLIMPEXP_SHEET SortedPairArrayNumberKey<int, wxArrayInt, wxPairArrayIntSheetString, wxArrayPairArrayIntSheetString> wxPairArrayIntPairArraySheetString;
 
 // ----------------------------------------------------------------------------
 // wxSheetValueProviderSparseString - a sparse wxString data container class
