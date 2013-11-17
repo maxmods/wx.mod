@@ -4,7 +4,6 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: setup0.h 71792 2012-06-17 21:34:47Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -771,7 +770,7 @@
 #   else
         // MSVC 6 didn't include GDI+ headers so disable by default, enable it
         // here if you use MSVC 6 with a newer SDK
-#       define wxUSE_GRAPHICS_CONTEXT 1
+#       define wxUSE_GRAPHICS_CONTEXT 0
 #   endif
 #else
     // Disable support for other Windows compilers, enable it if your compiler
@@ -1097,6 +1096,16 @@
 //
 // Recommended setting: 1
 #define wxUSE_NOTIFICATION_MESSAGE 1
+
+// wxPreferencesEditor provides a common API for different ways of presenting
+// the standard "Preferences" or "Properties" dialog under different platforms
+// (e.g. some use modal dialogs, some use modeless ones; some apply the changes
+// immediately while others require an explicit "Apply" button).
+//
+// Default is 1.
+//
+// Recommended setting: 1 (but can be safely disabled if you don't use it)
+#define wxUSE_PREFERENCES_EDITOR 1
 
 // wxRichToolTip is a customizable tooltip class which has more functionality
 // than the stock (but native, unlike this class) wxToolTip.
