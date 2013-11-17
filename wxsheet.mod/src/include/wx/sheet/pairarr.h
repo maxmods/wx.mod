@@ -137,7 +137,7 @@ class SortedPairArrayNumberKey : public SortedPairArray<Tkey, TkeyArray, Tval, T
 public:
     SortedPairArrayNumberKey() : SortedPairArray<Tkey, TkeyArray, Tval, TvalArray>() {}
     SortedPairArrayNumberKey(Tval defaultVal) : SortedPairArray<Tkey, TkeyArray, Tval, TvalArray>(defaultVal) {}
-    SortedPairArrayNumberKey(const SortedPairArrayNumberKey& other) : SortedPairArray<Tkey, TkeyArray, Tval, TvalArray>() { Copy(other); }
+    SortedPairArrayNumberKey(const SortedPairArrayNumberKey& other) : SortedPairArray<Tkey, TkeyArray, Tval, TvalArray>() { this->Copy(other); }
     virtual ~SortedPairArrayNumberKey() {}
 
     // ----------------------------------------------------------------------
