@@ -54,9 +54,7 @@ Import "common.bmx"
 
 '
 ' Build notes :
-' ScaledDC.cpp - on Mac, wxSFScaledDC::GetSelectedBitmap() needs to return a wxNullBitmap.
-' ShapeCanvas.cpp - Various changes for Mac.
-' ShapeCanvas.h   - Various changes for Mac.
+' ScaledDC.h - added const for DoDrawLines() and DoDrawPolygon()
 '
 
 Rem

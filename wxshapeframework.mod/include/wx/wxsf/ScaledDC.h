@@ -521,7 +521,7 @@ public:
 #if wxVERSION_NUMBER < 2905
     virtual void DoDrawLines(int n, wxPoint points[],
 #else
-    virtual void DoDrawLines(int n, wxPoint points[],
+    virtual void DoDrawLines(int n, const wxPoint points[],
 #endif	
                              wxCoord xoffset, wxCoord yoffset )
 	{
@@ -560,7 +560,7 @@ public:
 #if wxVERSION_NUMBER < 2905
     virtual void DoDrawPolygon(int n, wxPoint points[],
 #else
-    virtual void DoDrawPolygon(int n, wxPoint points[],
+    virtual void DoDrawPolygon(int n, const wxPoint points[],
 #endif
                            wxCoord xoffset, wxCoord yoffset,
                            wxPolygonFillMode fillStyle = wxODDEVEN_RULE)
