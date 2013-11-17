@@ -3,7 +3,6 @@
 // Purpose:     wxMSW native wxHeaderCtrl
 // Author:      Vadim Zeitlin
 // Created:     2008-12-01
-// RCS-ID:      $Id: headerctrl.h 71998 2012-07-10 06:42:15Z RD $
 // Copyright:   (c) 2008 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -126,6 +125,9 @@ private:
 
     // the offset of the window used to emulate scrolling it
     int m_scrollOffset;
+
+    // actual column we are dragging or -1 if not dragging anything
+    int m_colBeingDragged;
 
     wxDECLARE_NO_COPY_CLASS(wxHeaderCtrl);
 };

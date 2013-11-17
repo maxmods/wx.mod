@@ -22,6 +22,8 @@
 
 #include "wxglue.h"
 
+#undef EVENTS_DEBUG
+
 typedef std::map<wxObject*, BBObject*> PeerMap;
 
 static PeerMap peerMap;
@@ -132,21 +134,12 @@ BBArray *wxArrayDoubleToBBDoubleArray( wxArrayDouble t ){
 }
 
 wxIMPLEMENT_APP_NO_MAIN(MaxApp);
-/*
-wxMainEventLoop::wxMainEventLoop(MaxApp *maxApp) : wxEventLoop()
-{
-	mMaxApp = maxApp;
-}
-
-void wxMainEventLoop::OnExit()
-{
-	mMaxApp->SetShouldLeave(true);
-}
-*/
-
 
 bool MaxApp::OnInit()
 {
+#ifdef EVENTS_DEBUG
+	printf("MaxApp::OnInit()\n");fflush(stdout);
+#endif
     if ( !wxApp::OnInit() ) {
         return false;
 	}
@@ -156,6 +149,9 @@ bool MaxApp::OnInit()
 
 int MaxApp::OnExit()
 {
+#ifdef EVENTS_DEBUG
+	printf("MaxApp::OnExit()\n");fflush(stdout);
+#endif
 	return _wx_wxapp_wxApp__OnExit();
 }
 
@@ -552,12 +548,18 @@ END_EVENT_TABLE()
 
 
 int bmx_app_wxentry() {
+#ifdef EVENTS_DEBUG
+	printf("bmx_app_wxentry()\n");fflush(stdout);
+#endif
 	static int i = 0;
 	static const char *const empty = "";
 	return wxEntry(i, (char **)&empty);
 }
 
 int bmx_app_wxentrystart() {
+#ifdef EVENTS_DEBUG
+	printf("bmx_app_wxentrystart()\n");fflush(stdout);
+#endif
 	static int i = 0;
 	static const char *const empty = "";
 	int res = wxEntryStart(i, (char **)&empty);

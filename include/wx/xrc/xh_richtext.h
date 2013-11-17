@@ -3,7 +3,6 @@
 // Purpose:     XML resource handler for wxRichTextCtrl
 // Author:      Julian Smart
 // Created:     2006-11-08
-// RCS-ID:      $Id: xh_richtext.h 72727 2012-10-23 13:51:32Z VZ $
 // Copyright:   (c) 2006 Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

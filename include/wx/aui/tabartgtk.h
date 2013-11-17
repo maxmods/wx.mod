@@ -4,7 +4,6 @@
 // Author:      Jens Lody and Teodor Petrov
 // Modified by:
 // Created:     2012-03-23
-// RCS-ID:      $Id: tabartgtk.h 72720 2012-10-22 21:46:46Z VZ $
 // Copyright:   (c) 2012 Jens Lody <jens@codeblocks.org>
 //                  and Teodor Petrov
 // Licence:     wxWindows licence

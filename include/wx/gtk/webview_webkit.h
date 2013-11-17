@@ -2,7 +2,6 @@
 // Name:        include/gtk/wx/webview.h
 // Purpose:     GTK webkit backend for web view component
 // Author:      Robert Roebling, Marianne Gagnon
-// Id:          $Id: webview_webkit.h 73369 2013-01-13 19:22:24Z SJL $
 // Copyright:   (c) 2010 Marianne Gagnon, 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -59,7 +58,7 @@ public:
     virtual void LoadURL(const wxString& url);
     virtual void GoBack();
     virtual void GoForward();
-    virtual void Reload(wxWebViewReloadFlags flags = wxWEB_VIEW_RELOAD_DEFAULT);
+    virtual void Reload(wxWebViewReloadFlags flags = wxWEBVIEW_RELOAD_DEFAULT);
     virtual bool CanGoBack() const;
     virtual bool CanGoForward() const;
     virtual void ClearHistory();
@@ -96,7 +95,7 @@ public:
     virtual void Redo();
 
     //Find function
-    virtual long Find(const wxString& text, int flags = wxWEB_VIEW_FIND_DEFAULT);
+    virtual long Find(const wxString& text, int flags = wxWEBVIEW_FIND_DEFAULT);
 
     //Editing functions
     virtual void SetEditable(bool enable = true);
@@ -131,6 +130,9 @@ public:
     //We use this flag to stop recursion when we load a page from the navigation
     //callback, mainly when loading a VFS page
     bool m_guard;
+    //This flag is use to indicate when a navigation event is the result of a
+    //create-web-view signal and so we need to send a new window event
+    bool m_creating;
 
 protected:
     virtual void DoSetPage(const wxString& html, const wxString& baseUrl);

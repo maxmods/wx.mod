@@ -3,7 +3,6 @@
 // Purpose:     private definitions of wxListCtrl helpers
 // Author:      Robert Roebling
 //              Vadim Zeitlin (virtual list control support)
-// Id:          $Id: listctrl.h 72671 2012-10-13 22:54:55Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -336,13 +335,16 @@ protected:
 public:
     wxListHeaderWindow();
 
-    wxListHeaderWindow( wxWindow *win,
-                        wxWindowID id,
-                        wxListMainWindow *owner,
-                        const wxPoint &pos = wxDefaultPosition,
-                        const wxSize &size = wxDefaultSize,
-                        long style = 0,
-                        const wxString &name = wxT("wxlistctrlcolumntitles") );
+    // We provide only Create(), not the ctor, because we need to create the
+    // C++ object before creating the window, see the explanations in
+    // CreateOrDestroyHeaderWindowAsNeeded()
+    bool Create( wxWindow *win,
+                 wxWindowID id,
+                 wxListMainWindow *owner,
+                 const wxPoint &pos = wxDefaultPosition,
+                 const wxSize &size = wxDefaultSize,
+                 long style = 0,
+                 const wxString &name = wxT("wxlistctrlcolumntitles") );
 
     virtual ~wxListHeaderWindow();
 

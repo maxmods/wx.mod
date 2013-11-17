@@ -4,7 +4,6 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     Apr-30-2006
-// RCS-ID:      $Id: combo.h 72955 2012-11-14 13:48:23Z VZ $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -471,6 +470,10 @@ public:
     virtual wxWindow *GetMainWindowOfCompositeControl()
         { return m_mainCtrlWnd; }
 
+    // also set the embedded wxTextCtrl colours
+    virtual bool SetForegroundColour(const wxColour& colour);
+    virtual bool SetBackgroundColour(const wxColour& colour);
+
 protected:
 
     // Returns true if hint text should be drawn in the control
@@ -546,10 +549,6 @@ protected:
     virtual wxSize DoGetBestSize() const;
     virtual wxSize DoGetSizeFromTextSize(int xlen, int ylen = -1) const;
 
-    // also set the embedded wxTextCtrl colours
-    virtual bool SetForegroundColour(const wxColour& colour);
-    virtual bool SetBackgroundColour(const wxColour& colour);
-
     // NULL popup can be used to indicate default in a derived class
     virtual void DoSetPopupControl(wxComboPopup* popup);
 
@@ -561,7 +560,7 @@ protected:
     //             just recalculate.
     void CalculateAreas( int btnWidth = 0 );
 
-    // Standard textctrl positioning routine. Just give it platform-dependant
+    // Standard textctrl positioning routine. Just give it platform-dependent
     // textctrl coordinate adjustment.
     virtual void PositionTextCtrl( int textCtrlXAdjust = 0,
                                    int textCtrlYAdjust = 0);
@@ -702,7 +701,7 @@ protected:
     // area used by the button
     wxSize                  m_btnSize;
 
-    // platform-dependant customization and other flags
+    // platform-dependent customization and other flags
     wxUint32                m_iFlags;
 
     // custom style for m_text

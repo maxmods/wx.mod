@@ -3,7 +3,6 @@
 // Purpose:     Generic list control
 // Author:      Robert Roebling
 // Created:     01/02/97
-// RCS-ID:      $Id: listctrl.h 73239 2012-12-22 02:33:23Z VZ $
 // Copyright:   (c) 1998 Robert Roebling and Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -210,11 +209,6 @@ protected:
 
 
     virtual bool DoPopupMenu( wxMenu *menu, int x, int y );
-
-    // take into account the coordinates difference between the container
-    // window and the list control window itself here
-    virtual void DoClientToScreen( int *x, int *y ) const;
-    virtual void DoScreenToClient( int *x, int *y ) const;
 
     virtual wxSize DoGetBestClientSize() const;
 

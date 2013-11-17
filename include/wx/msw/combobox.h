@@ -4,7 +4,6 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: combobox.h 72954 2012-11-14 13:47:59Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -133,6 +132,9 @@ protected:
 #endif
 
     virtual wxSize DoGetSizeFromTextSize(int xlen, int ylen = -1) const;
+
+    // Override this one to avoid eating events from our popup listbox.
+    virtual wxWindow *MSWFindItem(long id, WXHWND hWnd) const;
 
     // this is the implementation of GetEditHWND() which can also be used when
     // we don't have the edit control, it simply returns NULL then

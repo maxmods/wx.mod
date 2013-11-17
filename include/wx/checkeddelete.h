@@ -3,7 +3,6 @@
 // Purpose:     wxCHECKED_DELETE() macro
 // Author:      Vadim Zeitlin
 // Created:     2009-02-03
-// RCS-ID:      $Id: checkeddelete.h 73101 2012-12-02 23:48:36Z VZ $
 // Copyright:   (c) 2002-2009 wxWidgets dev team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -30,13 +29,13 @@
 
 #define wxCHECKED_DELETE(ptr)                                                 \
     wxSTATEMENT_MACRO_BEGIN                                                   \
-        typedef char complete[sizeof(*ptr)];                                  \
+        typedef char complete[sizeof(*ptr)] WX_ATTRIBUTE_UNUSED;              \
         delete ptr;                                                           \
     wxSTATEMENT_MACRO_END
 
 #define wxCHECKED_DELETE_ARRAY(ptr)                                           \
     wxSTATEMENT_MACRO_BEGIN                                                   \
-        typedef char complete[sizeof(*ptr)];                                  \
+        typedef char complete[sizeof(*ptr)] WX_ATTRIBUTE_UNUSED;              \
         delete [] ptr;                                                        \
     wxSTATEMENT_MACRO_END
 

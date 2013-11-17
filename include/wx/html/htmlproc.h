@@ -2,7 +2,6 @@
 // Name:        wx/html/htmlprep.h
 // Purpose:     HTML processor
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id: htmlproc.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) 2001 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

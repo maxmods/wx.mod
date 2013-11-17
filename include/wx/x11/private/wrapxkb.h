@@ -3,7 +3,6 @@
 // Purpose:     Private header wrapping X11/XKBlib.h inclusion.
 // Author:      Vadim Zeitlin
 // Created:     2012-05-07
-// RCS-ID:      $Id: wrapxkb.h 71372 2012-05-07 13:12:20Z VZ $
 // Copyright:   (c) 2012 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

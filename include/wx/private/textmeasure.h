@@ -3,7 +3,6 @@
 // Purpose:     declaration of wxTextMeasure class
 // Author:      Manuel Martin
 // Created:     2012-10-05
-// RCS-ID:      $Id:
 // Copyright:   (c) 1997-2012 wxWidgets team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -157,7 +156,7 @@ protected:
     wxDECLARE_NO_COPY_CLASS(wxTextMeasureBase);
 };
 
-// Include the platform dependant class declaration, if any.
+// Include the platform dependent class declaration, if any.
 #if defined(__WXGTK20__)
     #include "wx/gtk/private/textmeasure.h"
 #elif defined(__WXMSW__)

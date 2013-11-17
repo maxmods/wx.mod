@@ -3,7 +3,6 @@
 // Purpose:     helpers for GUI testing
 // Author:      Vaclav Slavik
 // Created:     2012-08-28
-// RCS-ID:      $Id$
 // Copyright:   (c) 2012 Vaclav Slavik
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,55 +12,10 @@
 
 #include "wx/debug.h"
 #include "wx/string.h"
+#include "wx/modalhook.h"
 
-class WXDLLIMPEXP_FWD_CORE wxDialog;
 class WXDLLIMPEXP_FWD_CORE wxMessageDialogBase;
 class WXDLLIMPEXP_FWD_CORE wxFileDialogBase;
-
-// ----------------------------------------------------------------------------
-// implementation helpers
-// ----------------------------------------------------------------------------
-
-// Helper hook class used to redirect ShowModal() to testing code.
-// Instead of showing a dialog modally, hook code is called to simulate what
-// the user would do and return appropriate ID from ShowModal().
-class WXDLLIMPEXP_CORE wxModalDialogHook
-{
-public:
-    wxModalDialogHook() {}
-    virtual ~wxModalDialogHook() {}
-
-    /// Returns currently active hook object or NULL.
-    static wxModalDialogHook *Get() { return ms_instance; }
-
-    /// Set the hook and returns the previously set one.
-    static wxModalDialogHook *Set(wxModalDialogHook *hook)
-    {
-        wxModalDialogHook *old = ms_instance;
-        ms_instance = hook;
-        return old;
-    }
-
-    /// Entry point that is called from ShowModal().
-    virtual int Invoke(wxDialog *dlg) = 0;
-
-private:
-    static wxModalDialogHook *ms_instance;
-
-    wxDECLARE_NO_COPY_CLASS(wxModalDialogHook);
-};
-
-// This macro needs to be used at the top of every implementation of
-// ShowModal() in order for the above modal dialogs testing code to work.
-#define WX_TESTING_SHOW_MODAL_HOOK()                                        \
-    if ( wxModalDialogHook::Get() )                                         \
-    {                                                                       \
-        int rc = wxModalDialogHook::Get()->Invoke(this);                    \
-        if ( rc != wxID_NONE )                                              \
-            return rc;                                                      \
-    }                                                                       \
-    struct wxDummyTestingStruct /* just to force a semicolon */
-
 
 // ----------------------------------------------------------------------------
 // testing API
@@ -233,15 +187,42 @@ class wxTestingModalHook : public wxModalDialogHook
 public:
     wxTestingModalHook()
     {
-        m_prevHook = wxModalDialogHook::Set(this);
+        Register();
     }
 
-    virtual ~wxTestingModalHook()
+    // Called to verify that all expectations were met. This cannot be done in
+    // the destructor, because ReportFailure() may throw (either because it's
+    // overriden or because wx's assertions handling is, globally). And
+    // throwing from the destructor would introduce all sort of problems,
+    // including messing up the order of errors in some cases.
+    void CheckUnmetExpectations()
     {
-        wxModalDialogHook::Set(m_prevHook);
+        while ( !m_expectations.empty() )
+        {
+            const wxModalExpectation *expect = m_expectations.front();
+            m_expectations.pop();
+            if ( expect->IsOptional() )
+                continue;
+
+            ReportFailure
+            (
+                wxString::Format
+                (
+                    "Expected %s dialog was not shown.",
+                    expect->GetDescription()
+                )
+            );
+            break;
+        }
     }
 
-    virtual int Invoke(wxDialog *dlg)
+    void AddExpectation(const wxModalExpectation& e)
+    {
+        m_expectations.push(&e);
+    }
+
+protected:
+    virtual int Enter(wxDialog *dlg)
     {
         while ( !m_expectations.empty() )
         {
@@ -281,37 +262,6 @@ public:
         return wxID_NONE;
     }
 
-    // Called to verify that all expectations were met. This cannot be done in
-    // the destructor, because ReportFailure() may throw (either because it's
-    // overriden or because wx's assertions handling is, globally). And
-    // throwing from the destructor would introduce all sort of problems,
-    // including messing up the order of errors in some cases.
-    void CheckUnmetExpectations()
-    {
-        while ( !m_expectations.empty() )
-        {
-            const wxModalExpectation *expect = m_expectations.front();
-            m_expectations.pop();
-            if ( expect->IsOptional() )
-                continue;
-
-            ReportFailure
-            (
-                wxString::Format
-                (
-                    "Expected %s dialog was not shown.",
-                    expect->GetDescription()
-                )
-            );
-            break;
-        }
-    }
-
-    void AddExpectation(const wxModalExpectation& e)
-    {
-        m_expectations.push(&e);
-    }
-
 protected:
     virtual void ReportFailure(const wxString& msg)
     {
@@ -319,7 +269,6 @@ protected:
     }
 
 private:
-    wxModalDialogHook *m_prevHook;
     std::queue<const wxModalExpectation*> m_expectations;
 
     wxDECLARE_NO_COPY_CLASS(wxTestingModalHook);
@@ -387,7 +336,7 @@ private:
           wxExpectModal<> for your dialog type and implement its OnInvoked()
           method.
  */
-#ifdef wxHAS_VARIADIC_MACROS
+#ifdef HAVE_VARIADIC_MACROS
 #define wxTEST_DIALOG(codeToRun, ...)                                          \
     {                                                                          \
         wxTEST_DIALOG_HOOK_CLASS wx_hook;                                      \
@@ -395,7 +344,7 @@ private:
         codeToRun;                                                             \
         wx_hook.CheckUnmetExpectations();                                      \
     }
-#endif /* wxHAS_VARIADIC_MACROS */
+#endif /* HAVE_VARIADIC_MACROS */
 
 #endif // !WXBUILDING
 

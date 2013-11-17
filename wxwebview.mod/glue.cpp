@@ -293,12 +293,12 @@ BBString * bmx_wxwebviewevent_geturl(wxWebViewEvent & event) {
 
 int bmx_wxwebview_geteventtype(int type) {
 	switch(type) {
-		case -61: return wxEVT_COMMAND_WEB_VIEW_NAVIGATING;
-		case -62: return wxEVT_COMMAND_WEB_VIEW_NAVIGATED;
-		case -63: return wxEVT_COMMAND_WEB_VIEW_LOADED;
-		case -64: return wxEVT_COMMAND_WEB_VIEW_ERROR;
-		case -65: return wxEVT_COMMAND_WEB_VIEW_NEWWINDOW;
-		case -66: return wxEVT_COMMAND_WEB_VIEW_TITLE_CHANGED;
+		case -61: return wxEVT_WEBVIEW_NAVIGATING;
+		case -62: return wxEVT_WEBVIEW_NAVIGATED;
+		case -63: return wxEVT_WEBVIEW_LOADED;
+		case -64: return wxEVT_WEBVIEW_ERROR;
+		case -65: return wxEVT_WEBVIEW_NEWWINDOW;
+		case -66: return wxEVT_WEBVIEW_TITLE_CHANGED;
 	}
 	
 	return 0;

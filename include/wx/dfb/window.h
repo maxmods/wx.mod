@@ -3,7 +3,6 @@
 // Purpose:     wxWindow class
 // Author:      Vaclav Slavik
 // Created:     2006-08-10
-// RCS-ID:      $Id: window.h 66633 2011-01-07 18:15:21Z PC $
 // Copyright:   (c) 2006 REA Elektronik GmbH
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

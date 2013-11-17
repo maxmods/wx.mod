@@ -4,7 +4,6 @@
 // Author:      David Webster
 // Modified by:
 // Created:     09/12/99
-// RCS-ID:      $Id: dcclient.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) David Webster
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

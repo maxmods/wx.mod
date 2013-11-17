@@ -3,7 +3,6 @@
 // Purpose:     wxWeakRef - Generic weak references for wxWidgets
 // Author:      Arne Steinarson
 // Created:     27 Dec 07
-// RCS-ID:      $Id: weakref.h 71498 2012-05-19 06:33:28Z SC $
 // Copyright:   (c) 2007 Arne Steinarson
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

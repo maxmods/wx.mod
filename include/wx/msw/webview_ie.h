@@ -2,7 +2,6 @@
 // Name:        include/wx/msw/webview_ie.h
 // Purpose:     wxMSW IE wxWebView backend
 // Author:      Marianne Gagnon
-// Id:          $Id: webview_ie.h 73369 2013-01-13 19:22:24Z SJL $
 // Copyright:   (c) 2010 Marianne Gagnon, 2011 Steven Lamerton
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -75,7 +74,7 @@ public:
     virtual void ClearHistory();
     virtual void EnableHistory(bool enable = true);
     virtual void Stop();
-    virtual void Reload(wxWebViewReloadFlags flags = wxWEB_VIEW_RELOAD_DEFAULT);
+    virtual void Reload(wxWebViewReloadFlags flags = wxWEBVIEW_RELOAD_DEFAULT);
 
     virtual wxString GetPageSource() const;
     virtual wxString GetPageText() const;
@@ -108,7 +107,7 @@ public:
     virtual void Redo();
 
     //Find function
-    virtual long Find(const wxString& text, int flags = wxWEB_VIEW_FIND_DEFAULT);
+    virtual long Find(const wxString& text, int flags = wxWEBVIEW_FIND_DEFAULT);
 
     //Editing functions
     virtual void SetEditable(bool enable = true);
@@ -184,7 +183,7 @@ private:
     bool CanExecCommand(wxString command) const;
     void ExecCommand(wxString command);
     wxCOMPtr<IHTMLDocument2> GetDocument() const;
-    bool IsElementVisible(IHTMLElement* elm);
+    bool IsElementVisible(wxCOMPtr<IHTMLElement> elm);
     //Find helper functions.
     void FindInternal(const wxString& text, int flags, int internal_flag);
     long FindNext(int direction = 1);
@@ -221,7 +220,7 @@ protected:
 
 public:
     VirtualProtocol(wxSharedPtr<wxWebViewHandler> handler);
-    ~VirtualProtocol() {}
+    virtual ~VirtualProtocol() {}
 
     //IUnknown
     DECLARE_IUNKNOWN_METHODS;
@@ -256,7 +255,8 @@ class ClassFactory : public IClassFactory
 {
 public:
     ClassFactory(wxSharedPtr<wxWebViewHandler> handler) : m_handler(handler) 
-    { AddRef(); }
+        { AddRef(); }
+    virtual ~ClassFactory() {}
 
     wxString GetName() { return m_handler->GetName(); }
 
@@ -286,7 +286,7 @@ class DocHostUIHandler : public wxIDocHostUIHandler
 {
 public:
     DocHostUIHandler(wxWebView* browser) { m_browser = browser; }
-    ~DocHostUIHandler() {};
+    virtual ~DocHostUIHandler() {}
 
     virtual HRESULT wxSTDCALL ShowContextMenu(DWORD dwID, POINT *ppt,
                                               IUnknown *pcmdtReserved,

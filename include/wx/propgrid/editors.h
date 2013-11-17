@@ -4,7 +4,6 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     2007-04-14
-// RCS-ID:      $Id: editors.h 70610 2012-02-15 15:40:22Z VZ $
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -149,7 +148,7 @@ public:
         (see wxPGProperty::OnEvent for more information).
 
         @remarks wxPropertyGrid will automatically unfocus the editor when
-                wxEVT_COMMAND_TEXT_ENTER is received and when it results in
+                wxEVT_TEXT_ENTER is received and when it results in
                 property value being modified. This happens regardless of
                 editor type (ie. behaviour is same for any wxTextCtrl and
                 wxComboBox based editor).

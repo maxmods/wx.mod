@@ -3,7 +3,6 @@
 // Purpose:     Configuration for the universal build of the library
 // Author:      Julian Smart
 // Created:     01/02/97
-// RCS-ID:      $Id: setup.h 71102 2012-04-05 18:40:11Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,6 @@
 // Purpose:     wxNotificationMessage for wxGTK.
 // Author:      Vadim Zeitlin
 // Created:     2012-07-25
-// RCS-ID:      $Id: notifmsg.h 72503 2012-09-17 23:35:26Z DS $
 // Copyright:   (c) 2012 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

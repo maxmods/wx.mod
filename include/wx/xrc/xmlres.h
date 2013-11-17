@@ -3,7 +3,6 @@
 // Purpose:     XML resources
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: xmlres.h 72782 2012-10-27 00:46:58Z VZ $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -261,8 +260,16 @@ public:
     // Compares resources version to argument. Returns -1 if resources version
     // is less than the argument, +1 if greater and 0 if they equal.
     int CompareVersion(int major, int minor, int release, int revision) const
-        { return GetVersion() -
-                 (major*256*256*256 + minor*256*256 + release*256 + revision); }
+    {
+        long diff = GetVersion() -
+                    (major*256*256*256 + minor*256*256 + release*256 + revision);
+        if ( diff < 0 )
+            return -1;
+        else if ( diff > 0 )
+            return +1;
+        else
+            return 0;
+    }
 
     //// Singleton accessors.
 
@@ -533,7 +540,7 @@ public:
                          wxWindow *windowToUse = NULL);
 
     // Gets a direction, complains if the value is invalid.
-    wxDirection GetDirection(const wxString& param, wxDirection dir = wxLEFT);
+    wxDirection GetDirection(const wxString& param, wxDirection dirDefault = wxLEFT);
 
     // Gets a bitmap.
     wxBitmap GetBitmap(const wxString& param = wxT("bitmap"),

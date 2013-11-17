@@ -2,7 +2,6 @@
 // Name:        wx/html/winpars.h
 // Purpose:     wxHtmlWinParser class (parser to be used with wxHtmlWindow)
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id: winpars.h 73020 2012-11-26 13:13:47Z VZ $
 // Copyright:   (c) 1999 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -204,7 +203,7 @@ private:
             // actual hypertext link or empty string
     bool m_UseLink;
             // true if m_Link is not empty
-    long m_CharHeight, m_CharWidth;
+    int m_CharHeight, m_CharWidth;
             // average height of normal-sized text
     int m_Align;
             // actual alignment

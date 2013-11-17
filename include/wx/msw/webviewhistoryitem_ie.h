@@ -2,7 +2,6 @@
 // Name:        include/wx/msw/webviewhistoryitem.h
 // Purpose:     wxWebViewHistoryItem header for MSW
 // Author:      Steven Lamerton
-// Id:          $Id: webviewhistoryitem_ie.h 71034 2012-03-28 18:00:30Z SJL $
 // Copyright:   (c) 2011 Steven Lamerton
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

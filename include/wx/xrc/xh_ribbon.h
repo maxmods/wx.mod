@@ -3,7 +3,6 @@
 // Purpose:     XML resource handler for wxRibbon related classes
 // Author:      Armel Asselin
 // Created:     2010-04-23
-// RCS-ID:      $Id: xh_ribbon.h 72729 2012-10-23 13:52:27Z VZ $
 // Copyright:   (c) 2010 Armel Asselin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

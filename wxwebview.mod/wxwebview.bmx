@@ -540,9 +540,9 @@ Type TWebViewEventFactory Extends TEventFactory
 	Method CreateEvent:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
 	
 		Select evt.eventType
-			Case wxEVT_COMMAND_WEB_VIEW_NAVIGATING, wxEVT_COMMAND_WEB_VIEW_NAVIGATED, ..
-					wxEVT_COMMAND_WEB_VIEW_LOADED, wxEVT_COMMAND_WEB_VIEW_ERROR, wxEVT_COMMAND_WEB_VIEW_NEWWINDOW, ..
-					wxEVT_COMMAND_WEB_VIEW_TITLE_CHANGED
+			Case wxEVT_WEBVIEW_NAVIGATING, wxEVT_WEBVIEW_NAVIGATED, ..
+					wxEVT_WEBVIEW_LOADED, wxEVT_WEBVIEW_ERROR, wxEVT_WEBVIEW_NEWWINDOW, ..
+					wxEVT_WEBVIEW_TITLE_CHANGED
 				Return wxWebViewEvent.Create(wxEventPtr, evt)
 		End Select
 		
@@ -551,9 +551,9 @@ Type TWebViewEventFactory Extends TEventFactory
 
 	Method GetEventType:Int(eventType:Int)
 		Select eventType
-			Case wxEVT_COMMAND_WEB_VIEW_NAVIGATING, wxEVT_COMMAND_WEB_VIEW_NAVIGATED, ..
-					wxEVT_COMMAND_WEB_VIEW_LOADED, wxEVT_COMMAND_WEB_VIEW_ERROR, wxEVT_COMMAND_WEB_VIEW_NEWWINDOW, ..
-					wxEVT_COMMAND_WEB_VIEW_TITLE_CHANGED
+			Case wxEVT_WEBVIEW_NAVIGATING, wxEVT_WEBVIEW_NAVIGATED, ..
+					wxEVT_WEBVIEW_LOADED, wxEVT_WEBVIEW_ERROR, wxEVT_WEBVIEW_NEWWINDOW, ..
+					wxEVT_WEBVIEW_TITLE_CHANGED
 			Return bmx_wxwebview_geteventtype(eventType)
 		End Select
 	End Method

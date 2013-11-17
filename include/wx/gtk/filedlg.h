@@ -2,7 +2,6 @@
 // Name:        wx/gtk/filedlg.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: filedlg.h 72979 2012-11-17 23:56:47Z VZ $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -43,7 +42,6 @@ public:
 
     virtual wxString GetPath() const;
     virtual void GetPaths(wxArrayString& paths) const;
-    virtual wxString GetDirectory() const;
     virtual wxString GetFilename() const;
     virtual void GetFilenames(wxArrayString& files) const;
     virtual int GetFilterIndex() const;
@@ -60,8 +58,8 @@ public:
     virtual bool SupportsExtraControl() const { return true; }
 
     // Implementation only.
-    void GTKOnAccept();
-    void GTKOnCancel();
+    void GTKSelectionChanged(const wxString& filename);
+
 
 protected:
     // override this from wxTLW since the native
@@ -72,10 +70,10 @@ protected:
 
 
 private:
+    void OnFakeOk( wxCommandEvent &event );
     void OnSize(wxSizeEvent&);
     virtual void AddChildGTK(wxWindowGTK* child);
 
-    wxString m_selectedDirectory;
     wxGtkFileChooser    m_fc;
 
     DECLARE_DYNAMIC_CLASS(wxFileDialog)

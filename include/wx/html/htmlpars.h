@@ -2,7 +2,6 @@
 // Name:        wx/html/htmlpars.h
 // Purpose:     wxHtmlParser class (generic parser)
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id: htmlpars.h 72297 2012-08-06 11:06:45Z VZ $
 // Copyright:   (c) 1999 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -227,6 +226,9 @@ public:
     // reentrancy.
     virtual void SetParser(wxHtmlParser *parser)
         { m_Parser = parser; }
+
+    // Get the parser associated with this tag handler.
+    wxHtmlParser* GetParser() const { return m_Parser; }
 
     // Returns list of supported tags. The list is in uppercase and
     // tags are delimited by ','.

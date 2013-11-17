@@ -3,7 +3,6 @@
 // Purpose:     Helpers for working with OLE SAFEARRAYs.
 // Author:      PB
 // Created:     2012-09-23
-// RCS-ID:      $Id: safearray.h 72543 2012-09-23 22:49:50Z VZ $
 // Copyright:   (c) 2012 wxWidgets development team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

@@ -5,7 +5,6 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Stefan Csomor
-// RCS-ID:      $Id: graphics.h 72290 2012-08-03 13:05:11Z VZ $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -398,7 +397,7 @@ public:
     void Add(wxColour col, float pos) { Add(wxGraphicsGradientStop(col, pos)); }
 
     // Get the number of stops.
-    unsigned GetCount() const { return m_stops.size(); }
+    size_t GetCount() const { return m_stops.size(); }
 
     // Return the stop at the given index (which must be valid).
     wxGraphicsGradientStop Item(unsigned n) const { return m_stops.at(n); }

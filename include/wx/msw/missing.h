@@ -3,7 +3,6 @@
 // Purpose:     Declarations for parts of the Win32 SDK that are missing in
 //              the versions that come with some compilers
 // Created:     2002/04/23
-// RCS-ID:      $Id: missing.h 72431 2012-09-08 10:53:16Z VS $
 // Copyright:   (c) 2002 Mattia Barbon
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -85,6 +84,9 @@
     #endif
     #ifndef SPI_GETWHEELSCROLLLINES
         #define SPI_GETWHEELSCROLLLINES 104
+    #endif
+    #ifndef SPI_GETWHEELSCROLLCHARS
+        #define SPI_GETWHEELSCROLLCHARS 108
     #endif
 #endif // wxUSE_MOUSEWHEEL
 
@@ -662,7 +664,7 @@ typedef struct
 #include <_mingw.h>
 #endif
 
-#if defined(__MINGW32__) && !defined(__MINGW64_VERSION_MAJOR)
+#ifdef __MINGW32_TOOLCHAIN__
 typedef enum CommandStateChangeConstants {
     CSC_UPDATECOMMANDS = (int) 0xFFFFFFFF,
     CSC_NAVIGATEFORWARD = 0x1,

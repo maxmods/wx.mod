@@ -947,7 +947,6 @@ Type TEventHandler
 	Field ownerPtr:Byte Ptr
 	
 	Function eventCallback(evt:Byte Ptr, data:Object)
-
 		Local handler:TEventHandler = TEventHandler(data)
 		
 		If handler And handler.parent Then

@@ -4,7 +4,6 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     2006-01-12
-// RCS-ID:      $Id: evtloop.h 73020 2012-11-26 13:13:47Z VZ $
 // Copyright:   (c) 2006 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -24,13 +23,9 @@ public:
     wxCFEventLoop();
     virtual ~wxCFEventLoop();
 
-    // enters a loop calling OnNextIteration(), Pending() and Dispatch() and
-    // terminating when Exit() is called
-    virtual int Run();
-
     // sets the "should exit" flag and wakes up the loop so that it terminates
     // soon
-    virtual void Exit(int rc = 0);
+    virtual void ScheduleExit(int rc = 0);
 
     // return true if any events are available
     virtual bool Pending() const;
@@ -49,12 +44,19 @@ public:
 
     virtual bool YieldFor(long eventsToProcess);
 
-#if wxUSE_EVENTLOOP_SOURCE
-    virtual wxEventLoopSource *
-      AddSourceForFD(int fd, wxEventLoopSourceHandler *handler, int flags);
-#endif // wxUSE_EVENTLOOP_SOURCE
-
+    bool ShouldProcessIdleEvents() const { return m_processIdleEvents ; }
+    
+#if wxUSE_UIACTIONSIMULATOR
+    // notifies Yield and Dispatch to wait for at least one event before
+    // returning, this is necessary, because the synthesized events need to be
+    // converted by the OS before being available on the native event queue
+    void SetShouldWaitForEvent(bool should) { m_shouldWaitForEvent = should; }
+#endif
 protected:
+    // enters a loop calling OnNextIteration(), Pending() and Dispatch() and
+    // terminating when Exit() is called
+    virtual int DoRun();
+
     void CommonModeObserverCallBack(CFRunLoopObserverRef observer, int activity);
     void DefaultModeObserverCallBack(CFRunLoopObserverRef observer, int activity);
 
@@ -69,12 +71,8 @@ protected:
 
     virtual int DoDispatchTimeout(unsigned long timeout);
 
-    virtual void DoRun();
-
-    virtual void DoStop();
-
-    // should we exit the loop?
-    bool m_shouldExit;
+    virtual void OSXDoRun();
+    virtual void OSXDoStop();
 
     // the loop exit code
     int m_exitcode;
@@ -91,6 +89,9 @@ protected:
     // set to false to avoid idling at unexpected moments - eg when having native message boxes
     bool m_processIdleEvents;
 
+#if wxUSE_UIACTIONSIMULATOR
+    bool m_shouldWaitForEvent;
+#endif
 private:
     // process all already pending events and dispatch a new one (blocking
     // until it appears in the event queue if necessary)
@@ -106,6 +107,8 @@ class WXDLLIMPEXP_BASE wxCFEventLoopPauseIdleEvents : public wxObject
 public:
     wxCFEventLoopPauseIdleEvents();
     virtual ~wxCFEventLoopPauseIdleEvents();
+private:
+    bool m_formerState;
 };
 
 #endif // _WX_OSX_EVTLOOP_H_

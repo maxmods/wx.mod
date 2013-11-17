@@ -3,7 +3,6 @@
 // Purpose:     classes allowing to wrap a native window handle
 // Author:      Vadim Zeitlin
 // Created:     2008-03-05
-// RCS-ID:      $Id: nativewin.h 72011 2012-07-10 23:52:14Z VZ $
 // Copyright:   (c) 2008 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

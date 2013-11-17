@@ -2,7 +2,6 @@
 // Name:        wx/gtk/window.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: window.h 73359 2013-01-10 06:28:18Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,9 +19,8 @@
     #define WXUNUSED_IN_GTK3(x) x
 #endif
 
-// helper structure that holds class that holds GtkIMContext object and
-// some additional data needed for key events processing
-struct wxGtkIMData;
+typedef struct _GdkEventKey GdkEventKey;
+typedef struct _GtkIMContext GtkIMContext;
 
 WX_DEFINE_EXPORTED_ARRAY_PTR(GdkWindow *, wxArrayGdkWindows);
 
@@ -272,7 +270,40 @@ public:
     void GTKDisableFocusOutEvent();
     void GTKEnableFocusOutEvent();
 
-    wxGtkIMData         *m_imData;
+
+    // Input method support
+
+    // The IM context used for generic, i.e. non-native, windows.
+    //
+    // It might be a good idea to avoid allocating it unless key events from
+    // this window are really needed but currently we do it unconditionally.
+    //
+    // For native widgets (i.e. those for which IsOfStandardClass() returns
+    // true) it is NULL.
+    GtkIMContext* m_imContext;
+
+    // Pointer to the event being currently processed by the IME or NULL if not
+    // inside key handling.
+    GdkEventKey* m_imKeyEvent;
+
+    // This method generalizes gtk_im_context_filter_keypress(): for the
+    // generic windows it does just that but it's overridden by the classes
+    // wrapping native widgets that use IM themselves and so provide specific
+    // methods for accessing it such gtk_entry_im_context_filter_keypress().
+    virtual int GTKIMFilterKeypress(GdkEventKey* event) const;
+
+    // This method must be called from the derived classes "insert-text" signal
+    // handlers to check if the text is not being inserted by the IM and, if
+    // this is the case, generate appropriate wxEVT_CHAR events for it.
+    //
+    // Returns true if we did generate and process events corresponding to this
+    // text or false if we didn't handle it.
+    bool GTKOnInsertText(const char* text);
+
+    // This is just a helper of GTKOnInsertText() which is also used by GTK+
+    // "commit" signal handler.
+    bool GTKDoInsertTextFromIM(const char* text);
+
 
     // indices for the arrays below
     enum ScrollDir { ScrollDir_Horz, ScrollDir_Vert, ScrollDir_Max };

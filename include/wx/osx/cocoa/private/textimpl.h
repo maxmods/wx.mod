@@ -4,7 +4,6 @@
 // Author:      Stefan Csomor
 // Modified by:
 // Created:     03/02/99
-// RCS-ID:      $Id: textimpl.h 73053 2012-11-28 20:57:59Z SC $
 // Copyright:   (c) Stefan Csomor
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -114,6 +113,10 @@ public :
     virtual int FindString(const wxString& text) const;
     virtual void Popup();
     virtual void Dismiss();
+
+    virtual void SetEditable(bool editable);
+
+    virtual void mouseEvent(WX_NSEvent event, WXWidget slf, void *_cmd);
 
 private:
     NSComboBox* m_comboBox;

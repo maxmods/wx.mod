@@ -3,7 +3,6 @@
 // Purpose:     OS/2 implementation of wxTlsValue<>
 // Author:      Stefan Neis
 // Created:     2008-08-30
-// RCS-ID:      $Id: tls.h 63653 2010-03-08 12:21:58Z VS $
 // Copyright:   (c) 2008 Stefan Neis
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

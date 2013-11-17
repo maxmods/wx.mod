@@ -4,7 +4,6 @@
 // Author:      Diaa M. Sami
 // Modified by:
 // Created:     Jul-07-2007
-// RCS-ID:      $Id: filectrlg.h 71362 2012-05-04 22:20:55Z VZ $
 // Copyright:   (c) Diaa M. Sami
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

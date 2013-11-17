@@ -2,7 +2,6 @@
 // Name:        wx/gtk1/menu.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: menu.h 66180 2010-11-17 05:57:21Z PC $
 // Copyright:   (c) 1998 Robert Roebling, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

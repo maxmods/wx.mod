@@ -3,7 +3,6 @@
  * Purpose: PNG file reader
  * Author:  Alejandro Aguilar Sierra/Julian Smart
  * Created: 1995
- * RCS-ID:  $Id: pngread.h 70165 2011-12-29 14:42:13Z SN $
  * Copyright: (c) 1995, Alejandro Aguilar Sierra <asierra@servidor.unam.mx>
  *
  *

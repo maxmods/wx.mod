@@ -4,7 +4,6 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: prntbase.h 72308 2012-08-09 15:52:15Z VS $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -261,7 +260,7 @@ private:
 class WXDLLIMPEXP_CORE wxPrintout: public wxObject
 {
 public:
-    wxPrintout(const wxString& title = _("Printout"));
+    wxPrintout(const wxString& title = wxGetTranslation("Printout"));
     virtual ~wxPrintout();
 
     virtual bool OnBeginDocument(int startPage, int endPage);
@@ -393,7 +392,7 @@ class WXDLLIMPEXP_CORE wxPreviewFrame: public wxFrame
 public:
     wxPreviewFrame(wxPrintPreviewBase *preview,
                    wxWindow *parent,
-                   const wxString& title = _("Print Preview"),
+                   const wxString& title = wxGetTranslation("Print Preview"),
                    const wxPoint& pos = wxDefaultPosition,
                    const wxSize& size = wxDefaultSize,
                    long style = wxDEFAULT_FRAME_STYLE | wxFRAME_FLOAT_ON_PARENT,

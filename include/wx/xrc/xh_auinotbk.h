@@ -3,7 +3,6 @@
 // Purpose:     XML resource handler for wxAuiNotebook
 // Author:      Steve Lamerton
 // Created:     2009-06-12
-// RCS-ID:      $Id: xh_auinotbk.h 72728 2012-10-23 13:51:58Z VZ $
 // Copyright:   (c) 2009 Steve Lamerton
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

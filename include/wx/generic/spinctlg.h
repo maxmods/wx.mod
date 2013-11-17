@@ -4,7 +4,6 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     28.10.99
-// RCS-ID:      $Id: spinctlg.h 72995 2012-11-20 12:49:53Z VZ $
 // Copyright:   (c) Vadim Zeitlin
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -43,7 +42,7 @@ class wxSpinCtrlTextGeneric; // wxTextCtrl used for the wxSpinCtrlGenericBase
 // ----------------------------------------------------------------------------
 
 class WXDLLIMPEXP_CORE wxSpinCtrlGenericBase
-                : public wxCompositeWindow<wxSpinCtrlBase>
+                : public wxNavigationEnabled<wxCompositeWindow<wxSpinCtrlBase> >
 {
 public:
     wxSpinCtrlGenericBase() { Init(); }
@@ -88,6 +87,8 @@ public:
     virtual void DoSetToolTip(wxToolTip *tip);
 #endif // wxUSE_TOOLTIPS
 
+    virtual bool SetBackgroundColour(const wxColour& colour);
+
     // get the subcontrols
     wxTextCtrl   *GetText() const       { return m_textCtrl; }
     wxSpinButton *GetSpinButton() const { return m_spinButton; }
@@ -116,9 +117,15 @@ protected:
     virtual void DoEnable(bool enable);
 #endif // __WXMSW__
 
+    enum SendEvent
+    {
+        SendEvent_None,
+        SendEvent_Text
+    };
+
     // generic double valued functions
     double DoGetValue() const { return m_value; }
-    bool DoSetValue(double val);
+    bool DoSetValue(double val, SendEvent sendEvent);
     void DoSetRange(double min_val, double max_val);
     void DoSetIncrement(double inc);
 
@@ -128,7 +135,7 @@ protected:
     // can also change the text control if its value is invalid
     //
     // return true if our value has changed
-    bool SyncSpinToText();
+    bool SyncSpinToText(SendEvent sendEvent);
 
     // Send the correct event type
     virtual void DoSendEvent() = 0;
@@ -200,7 +207,7 @@ public:
 
         bool ok = wxTextCtrl::Create(parent, id, value, pos, size, style,
                                      wxDefaultValidator, name);
-        DoSetValue(initial);
+        DoSetValue(initial, SendEvent_None);
 
         return ok;
     }
@@ -236,9 +243,20 @@ protected:
         return n;
     }
 
-    bool DoSetValue(double val)
+    bool DoSetValue(double val, SendEvent sendEvent)
     {
-        wxTextCtrl::SetValue(wxString::Format(m_format.c_str(), val));
+        wxString str(wxString::Format(m_format, val));
+        switch ( sendEvent )
+        {
+            case SendEvent_None:
+                wxTextCtrl::ChangeValue(str);
+                break;
+
+            case SendEvent_Text:
+                wxTextCtrl::SetValue(str);
+                break;
+        }
+
         return true;
     }
     void DoSetRange(double min_val, double max_val)
@@ -304,7 +322,7 @@ public:
     // operations
     void SetValue(const wxString& value)
         { wxSpinCtrlGenericBase::SetValue(value); }
-    void SetValue( int value )              { DoSetValue(value); }
+    void SetValue( int value )              { DoSetValue(value, SendEvent_None); }
     void SetRange( int minVal, int maxVal ) { DoSetRange(minVal, maxVal); }
     void SetIncrement(int inc) { DoSetIncrement(inc); }
 
@@ -380,7 +398,7 @@ public:
     // operations
     void SetValue(const wxString& value)
         { wxSpinCtrlGenericBase::SetValue(value); }
-    void SetValue(double value)                 { DoSetValue(value); }
+    void SetValue(double value)                 { DoSetValue(value, SendEvent_None); }
     void SetRange(double minVal, double maxVal) { DoSetRange(minVal, maxVal); }
     void SetIncrement(double inc)               { DoSetIncrement(inc); }
     void SetDigits(unsigned digits);

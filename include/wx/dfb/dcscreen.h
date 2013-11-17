@@ -3,7 +3,6 @@
 // Purpose:     wxScreenDCImpl declaration
 // Author:      Vaclav Slavik
 // Created:     2006-08-10
-// RCS-ID:      $Id: dcscreen.h 50695 2007-12-14 22:41:07Z VZ $
 // Copyright:   (c) 2006 REA Elektronik GmbH
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

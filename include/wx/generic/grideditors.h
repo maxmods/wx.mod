@@ -4,7 +4,6 @@
 // Author:      Michael Bedward (based on code by Julian Smart, Robin Dunn)
 // Modified by: Santiago Palacios
 // Created:     1/08/1999
-// RCS-ID:      $Id: grideditors.h 72697 2012-10-17 16:44:02Z VZ $
 // Copyright:   (c) Michael Bedward
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,6 +14,8 @@
 #include "wx/defs.h"
 
 #if wxUSE_GRID
+
+#include "wx/scopedptr.h"
 
 class wxGridCellEditorEvtHandler : public wxEvtHandler
 {
@@ -52,7 +53,7 @@ private:
 class WXDLLIMPEXP_ADV wxGridCellTextEditor : public wxGridCellEditor
 {
 public:
-    wxGridCellTextEditor();
+    wxEXPLICIT wxGridCellTextEditor(size_t maxChars = 0);
 
     virtual void Create(wxWindow* parent,
                         wxWindowID id,
@@ -75,9 +76,9 @@ public:
 
     // parameters string format is "max_width"
     virtual void SetParameters(const wxString& params);
+    virtual void SetValidator(const wxValidator& validator);
 
-    virtual wxGridCellEditor *Clone() const
-        { return new wxGridCellTextEditor; }
+    virtual wxGridCellEditor *Clone() const;
 
     // added GetValue so we can get the value which is in the control
     virtual wxString GetValue() const;
@@ -92,8 +93,9 @@ protected:
     void DoReset(const wxString& startValue);
 
 private:
-    size_t   m_maxChars;        // max number of chars allowed
-    wxString m_value;
+    size_t                   m_maxChars;        // max number of chars allowed
+    wxScopedPtr<wxValidator> m_validator;
+    wxString                 m_value;
 
     wxDECLARE_NO_COPY_CLASS(wxGridCellTextEditor);
 };

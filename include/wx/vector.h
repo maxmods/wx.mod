@@ -139,9 +139,11 @@ public:
     typedef size_t difference_type;
     typedef T value_type;
     typedef value_type* pointer;
+    typedef const value_type* const_pointer;
     typedef value_type* iterator;
     typedef const value_type* const_iterator;
     typedef value_type& reference;
+    typedef const value_type& const_reference;
 
     class reverse_iterator
     {
@@ -183,6 +185,51 @@ public:
 
     private:
         value_type *m_ptr;
+
+        friend class const_reverse_iterator;
+    };
+
+    class const_reverse_iterator
+    {
+    public:
+        const_reverse_iterator() : m_ptr(NULL) { }
+        wxEXPLICIT const_reverse_iterator(const_iterator it) : m_ptr(it) { }
+        const_reverse_iterator(const reverse_iterator& it) : m_ptr(it.m_ptr) { }
+        const_reverse_iterator(const const_reverse_iterator& it) : m_ptr(it.m_ptr) { }
+
+        const_reference operator*() const { return *m_ptr; }
+        const_pointer operator->() const { return m_ptr; }
+
+        const_iterator base() const { return m_ptr; }
+
+        const_reverse_iterator& operator++()
+            { --m_ptr; return *this; }
+        const_reverse_iterator operator++(int)
+            { const_reverse_iterator tmp = *this; --m_ptr; return tmp; }
+        const_reverse_iterator& operator--()
+            { ++m_ptr; return *this; }
+        const_reverse_iterator operator--(int)
+            { const_reverse_iterator tmp = *this; ++m_ptr; return tmp; }
+
+        const_reverse_iterator operator+(difference_type n) const
+            { return const_reverse_iterator(m_ptr - n); }
+        const_reverse_iterator& operator+=(difference_type n)
+            { m_ptr -= n; return *this; }
+        const_reverse_iterator operator-(difference_type n) const
+            { return const_reverse_iterator(m_ptr + n); }
+        const_reverse_iterator& operator-=(difference_type n)
+            { m_ptr += n; return *this; }
+
+        const_reference operator[](difference_type n) const
+            { return *(*this + n); }
+
+        bool operator ==(const const_reverse_iterator& it) const
+            { return m_ptr == it.m_ptr; }
+        bool operator !=(const const_reverse_iterator& it) const
+            { return m_ptr != it.m_ptr; }
+
+    protected:
+        const value_type *m_ptr;
     };
 
     wxVector() : m_size(0), m_capacity(0), m_values(NULL) {}
@@ -208,6 +255,13 @@ public:
         Copy(c);
     }
 
+    template <class InputIterator>
+    wxVector(InputIterator first, InputIterator last)
+        : m_size(0), m_capacity(0), m_values(NULL)
+    {
+        assign(first, last);
+    }
+
     ~wxVector()
     {
         clear();
@@ -219,6 +273,19 @@ public:
         reserve(p_size);
         for ( size_t n = 0; n < p_size; n++ )
             push_back(v);
+    }
+
+    template <class InputIterator>
+    void assign(InputIterator first, InputIterator last)
+    {
+        clear();
+
+        // Notice that it would be nice to call reserve() here but we can't do
+        // it for arbitrary input iterators, we should have a dispatch on
+        // iterator type and call it if possible.
+
+        for ( InputIterator it = first; it != last; ++it )
+            push_back(*it);
     }
 
     void swap(wxVector& v)
@@ -352,6 +419,9 @@ public:
 
     reverse_iterator rbegin() { return reverse_iterator(end() - 1); }
     reverse_iterator rend() { return reverse_iterator(begin() - 1); }
+
+    const_reverse_iterator rbegin() const { return const_reverse_iterator(end() - 1); }
+    const_reverse_iterator rend() const { return const_reverse_iterator(begin() - 1); }
 
     iterator insert(iterator it, const value_type& v = value_type())
     {

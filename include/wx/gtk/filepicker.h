@@ -5,7 +5,6 @@
 // Modified by:
 // Created:     14/4/2006
 // Copyright:   (c) Francesco Montorsi
-// RCS-ID:      $Id: filepicker.h 72604 2012-10-02 15:57:03Z PC $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -32,13 +31,6 @@
     virtual wxWindow *GetDialogParent()                                       \
     {                                                                         \
         return NULL;                                                          \
-    }                                                                         \
-                                                                              \
-    virtual bool Destroy()                                                    \
-    {                                                                         \
-        if (m_dialog)                                                         \
-            m_dialog->Destroy();                                              \
-        return wxButton::Destroy();                                           \
     }                                                                         \
                                                                               \
     /* even if wx derive from wxGenericFileButton, i.e. from wxButton, our */ \

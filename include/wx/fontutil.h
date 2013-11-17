@@ -4,7 +4,6 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     05.11.99
-// RCS-ID:      $Id: fontutil.h 72488 2012-09-15 23:17:12Z VZ $
 // Copyright:   (c) wxWidgets team
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -143,9 +142,7 @@ public:
         return *this;
     }
 
-#if wxOSX_USE_CORE_TEXT
     void Init(CTFontDescriptorRef descr);
-#endif
     void Init(const wxNativeFontInfo& info);
     void Init(int size,
                   wxFontFamily family,

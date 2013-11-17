@@ -5,7 +5,6 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: app.h 72951 2012-11-14 13:46:50Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -103,6 +102,9 @@ public:
     // be done here. When OnRun() returns, the programs starts shutting down.
     virtual int OnRun();
 
+    // Called before the first events are handled, called from within MainLoop()
+    virtual void OnLaunched();
+    
     // This is called by wxEventLoopBase::SetActive(): you should put the code
     // which needs an active event loop here.
     // Note that this function is called whenever an event loop is activated;
@@ -227,6 +229,14 @@ public:
     // of course, it still returns NULL in this case and the caller must check
     // for it
     static wxAppTraits *GetTraitsIfExists();
+
+    // Return some valid traits object.
+    //
+    // This method checks if we have wxTheApp and returns its traits if it does
+    // exist and the traits are non-NULL, similarly to GetTraitsIfExists(), but
+    // falls back to wxConsoleAppTraits to ensure that it always returns
+    // something valid.
+    static wxAppTraits& GetValidTraits();
 
     // returns the main event loop instance, i.e. the event loop which is started
     // by OnRun() and which dispatches all events sent from the native toolkit
@@ -648,10 +658,9 @@ public:
     virtual void SetActive(bool isActive, wxWindow *lastFocus);
 
 #if WXWIN_COMPATIBILITY_2_6
-    // OBSOLETE: don't use, always returns true
-    //
     // returns true if the program is successfully initialized
-    wxDEPRECATED( bool Initialized() );
+    wxDEPRECATED_MSG("always returns true now, don't call")
+    bool Initialized();
 #endif // WXWIN_COMPATIBILITY_2_6
 
 protected:

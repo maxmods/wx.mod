@@ -2,7 +2,6 @@
 // Name:        wx/gtk/gauge.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: gauge.h 72604 2012-10-02 15:57:03Z PC $
 // Copyright:   (c) 1998 Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

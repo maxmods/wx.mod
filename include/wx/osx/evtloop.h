@@ -6,7 +6,6 @@
 // Author:      Vadim Zeitlin
 // Modified by:
 // Created:     2006-01-12
-// RCS-ID:      $Id: evtloop.h 72206 2012-07-24 20:45:43Z VZ $
 // Copyright:   (c) 2006 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,11 +27,14 @@ class WXDLLIMPEXP_CORE wxModalEventLoop : public wxGUIEventLoop
 public:
     wxModalEventLoop(wxWindow *modalWindow);
     wxModalEventLoop(WXWindow modalNativeWindow);
-
+    
+#ifdef __WXOSX_COCOA__
+    // skip wxGUIEventLoop to avoid missing Enter/Exit notifications
+    int Run() { return wxCFEventLoop::Run(); }
+#endif
 protected:
-    virtual void DoRun();
-
-    virtual void DoStop();
+    virtual void OSXDoRun();
+    virtual void OSXDoStop();
 
     // (in case) the modal window for this event loop
     wxNonOwnedWindow* m_modalWindow;

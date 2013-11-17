@@ -3,13 +3,15 @@
 // Purpose:     declaration of wxEventLoopSource class
 // Author:      Vadim Zeitlin
 // Created:     2009-10-21
-// RCS-ID:      $Id: evtloopsrc.h 72180 2012-07-23 15:03:42Z VZ $
 // Copyright:   (c) 2009 Vadim Zeitlin <vadim@wxwidgets.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef _WX_EVTLOOPSRC_H_
 #define _WX_EVTLOOPSRC_H_
+
+// Include the header to get wxUSE_EVENTLOOP_SOURCE definition from it.
+#include "wx/evtloop.h"
 
 // ----------------------------------------------------------------------------
 // wxEventLoopSource: a source of events which may be added to wxEventLoop

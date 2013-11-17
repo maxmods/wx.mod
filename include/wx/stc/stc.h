@@ -12,7 +12,6 @@
 // Author:      Robin Dunn
 //
 // Created:     13-Jan-2000
-// RCS-ID:      $Id: stc.h 73150 2012-12-08 13:27:55Z VZ $
 // Copyright:   (c) 2000 by Total Control Software
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -3256,12 +3255,12 @@ public:
     // Returns the length of the replacement text.
     int ReplaceTarget(const wxString& text);
 
-    // Replace the target text with the argument text after \d processing.
+    // Replace the target text with the argument text after \\d processing.
     // Text is counted so it can contain NULs.
-    // Looks for \d where d is between 1 and 9 and replaces these with the strings
+    // Looks for \\d where d is between 1 and 9 and replaces these with the strings
     // matched in the last search operation which were surrounded by \( and \).
     // Returns the length of the replacement text including any change
-    // caused by processing the \d patterns.
+    // caused by processing the \\d patterns.
     int ReplaceTargetRE(const wxString& text);
 
     // Search for a counted string in the target and set the target to the found
@@ -3470,7 +3469,7 @@ public:
     // Change the effect of pasting when there are multiple selections.
     void SetMultiPaste(int multiPaste);
 
-    // Retrieve the effect of pasting when there are multiple selections..
+    // Retrieve the effect of pasting when there are multiple selections.
     int GetMultiPaste() const;
 
     // Retrieve the value of a tag from a regular expression search.
@@ -4557,8 +4556,8 @@ public:
     }
     virtual void Replace(long from, long to, const wxString& text)
     {
-        SetTargetStart(from);
-        SetTargetEnd(to);
+        SetTargetStart((int)from);
+        SetTargetEnd((int)to);
         ReplaceTarget(text);
     }
 
@@ -4577,7 +4576,10 @@ public:
 
     */
 
-    virtual void SetInsertionPoint(long pos) { SetCurrentPos(pos); }
+    virtual void SetInsertionPoint(long pos)
+    {
+        SetCurrentPos(int(pos == -1 ? GetLastPosition() : pos));
+    }
     virtual long GetInsertionPoint() const { return GetCurrentPos(); }
     virtual long GetLastPosition() const { return GetTextLength(); }
 
@@ -4589,8 +4591,8 @@ public:
         }
         else
         {
-            SetSelectionStart(from);
-            SetSelectionEnd(to);
+            SetSelectionStart((int)from);
+            SetSelectionEnd((int)to);
         }
     }
 
@@ -4616,9 +4618,9 @@ public:
         long f, t;
         GetSelection(&f, &t);
         if ( from )
-            *from = f;
+            *from = (int)f;
         if ( to )
-            *to = t;
+            *to = (int)t;
     }
 #endif
 
@@ -4670,14 +4672,14 @@ public:
 
     virtual long XYToPosition(long x, long y) const
     {
-        long pos = PositionFromLine(y);
+        long pos = PositionFromLine((int)y);
         pos += x;
         return pos;
     }
 
     virtual bool PositionToXY(long pos, long *x, long *y) const
     {
-        long l = LineFromPosition(pos);
+        int l = LineFromPosition((int)pos);
         if ( l == -1 )
             return false;
 
@@ -4690,7 +4692,7 @@ public:
         return true;
     }
 
-    virtual void ShowPosition(long pos) { GotoPos(pos); }
+    virtual void ShowPosition(long pos) { GotoPos((int)pos); }
 
     // FIXME-VC6: can't use wxWindow here because of "error C2603: illegal
     //            access declaration: 'wxWindow' is not a direct base of

@@ -2,7 +2,6 @@
 // Name:        wx/html/m_templ.h
 // Purpose:     Modules template file
 // Author:      Vaclav Slavik
-// RCS-ID:      $Id: m_templ.h 67254 2011-03-20 00:14:35Z DS $
 // Copyright:   (c) Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

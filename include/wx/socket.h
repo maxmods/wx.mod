@@ -4,7 +4,6 @@
 // Authors:     Guilhem Lavaux, Guillermo Rodriguez Garcia
 // Modified by:
 // Created:     April 1997
-// RCS-ID:      $Id: socket.h 72828 2012-10-31 00:17:17Z VZ $
 // Copyright:   (c) Guilhem Lavaux
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -29,6 +28,16 @@ class wxSocketImpl;
 // ------------------------------------------------------------------------
 // Types and constants
 // ------------------------------------------------------------------------
+
+// Define the type of native sockets.
+#if defined(__WINDOWS__)
+    // Although socket descriptors are still 32 bit values, even under Win64,
+    // the socket type is 64 bit there.
+    typedef wxUIntPtr wxSOCKET_T;
+#else
+    typedef int wxSOCKET_T;
+#endif
+
 
 // Types of different socket notifications or events.
 //
@@ -186,6 +195,9 @@ public:
     void SetEventHandler(wxEvtHandler& handler, int id = wxID_ANY);
     void SetNotify(wxSocketEventFlags flags);
     void Notify(bool notify);
+
+    // Get the underlying socket descriptor.
+    wxSOCKET_T GetSocket() const;
 
     // initialize/shutdown the sockets (done automatically so there is no need
     // to call these functions usually)

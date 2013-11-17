@@ -4,7 +4,6 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     01/02/97
-// RCS-ID:      $Id: textdlgg.h 72567 2012-09-27 22:41:33Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -62,6 +61,8 @@ public:
     void SetValue(const wxString& val);
     wxString GetValue() const { return m_value; }
 
+    void SetMaxLength(unsigned long len);
+
 #if wxUSE_VALIDATORS
     void SetTextValidator( const wxTextValidator& validator );
 #if WXWIN_COMPATIBILITY_2_8
@@ -69,8 +70,10 @@ public:
 #endif
     void SetTextValidator( wxTextValidatorStyle style = wxFILTER_NONE );
     wxTextValidator* GetTextValidator() { return (wxTextValidator*)m_textctrl->GetValidator(); }
-#endif
-  // wxUSE_VALIDATORS
+#endif // wxUSE_VALIDATORS
+
+    virtual bool TransferDataToWindow();
+    virtual bool TransferDataFromWindow();
 
     // implementation only
     void OnOK(wxCommandEvent& event);

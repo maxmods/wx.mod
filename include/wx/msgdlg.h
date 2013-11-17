@@ -4,7 +4,6 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:
-// RCS-ID:      $Id: msgdlg.h 72479 2012-09-13 17:16:11Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -209,8 +208,9 @@ public:
         { return m_help.empty() ? GetDefaultHelpLabel() : m_help; }
 
     // based on message dialog style, returns exactly one of: wxICON_NONE,
-    // wxICON_ERROR, wxICON_WARNING, wxICON_QUESTION, wxICON_INFORMATION
-    long GetEffectiveIcon() const
+    // wxICON_ERROR, wxICON_WARNING, wxICON_QUESTION, wxICON_INFORMATION,
+    // wxICON_AUTH_NEEDED
+    virtual long GetEffectiveIcon() const
     {
         if ( m_dialogStyle & wxICON_NONE )
             return wxICON_NONE;

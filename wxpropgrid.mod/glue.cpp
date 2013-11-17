@@ -43,8 +43,8 @@ void MaxPropertyGrid::MaxBind(BBObject * handle) {
 }
 
 MaxPGPropArg::MaxPGPropArg(wxPGPropArg p)
+	: pgId(p)
 {
-	pgId = wxPGPropArg(p);
 }
 
 wxPGPropArgCls & MaxPGPropArg::PGId() {

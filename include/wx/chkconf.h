@@ -4,7 +4,6 @@
  * Author:      Vadim Zeitlin
  * Modified by:
  * Created:     09.08.00
- * RCS-ID:      $Id: chkconf.h 73290 2012-12-28 16:03:03Z VZ $
  * Copyright:   (c) 2000 Vadim Zeitlin <vadim@wxwidgets.org>
  * Licence:     wxWindows licence
  */
@@ -935,6 +934,14 @@
 #       define wxUSE_POPUPWIN 0
 #   endif
 #endif /* !defined(wxUSE_POPUPWIN) */
+
+#ifndef wxUSE_PREFERENCES_EDITOR
+#   ifdef wxABORT_ON_CONFIG_ERROR
+#       error "wxUSE_PREFERENCES_EDITOR must be defined, please read comment near the top of this file."
+#   else
+#       define wxUSE_PREFERENCES_EDITOR 0
+#   endif
+#endif /* !defined(wxUSE_PREFERENCES_EDITOR) */
 
 #ifndef wxUSE_PRINTING_ARCHITECTURE
 #   ifdef wxABORT_ON_CONFIG_ERROR
@@ -2191,6 +2198,33 @@
 #       define wxUSE_WEBVIEW 0
 #   endif
 #endif /* wxUSE_WEBVIEW && !any web view backend */
+
+#if wxUSE_PREFERENCES_EDITOR
+    /*
+        We can use either a generic implementation, using wxNotebook, or a
+        native one under wxOSX/Cocoa but then we must be using the native
+        toolbar.
+    */
+#   if !wxUSE_NOTEBOOK
+#       ifdef __WXOSX_COCOA__
+#           if !wxUSE_TOOLBAR || !wxOSX_USE_NATIVE_TOOLBAR
+#               ifdef wxABORT_ON_CONFIG_ERROR
+#                   error "wxUSE_PREFERENCES_EDITOR requires native toolbar in wxOSX"
+#               else
+#                   undef wxUSE_PREFERENCES_EDITOR
+#                   define wxUSE_PREFERENCES_EDITOR 0
+#               endif
+#           endif
+#       else
+#           ifdef wxABORT_ON_CONFIG_ERROR
+#               error "wxUSE_PREFERENCES_EDITOR requires wxNotebook"
+#           else
+#               undef wxUSE_PREFERENCES_EDITOR
+#               define wxUSE_PREFERENCES_EDITOR 0
+#           endif
+#       endif
+#   endif
+#endif /* wxUSE_PREFERENCES_EDITOR */
 
 #endif /* wxUSE_GUI */
 

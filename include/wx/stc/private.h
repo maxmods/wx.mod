@@ -3,7 +3,6 @@
 // Purpose:     Private declarations for wxSTC
 // Author:      Robin Dunn
 // Created:     2007-07-15
-// RCS-ID:      $Id: private.h 71429 2012-05-13 21:37:23Z VZ $
 // Copyright:   (c) 2000 by Total Control Software
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

@@ -6,6 +6,8 @@ Linux :
     wxGTK 2.9.x
     ./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared
 
+	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared CPPFLAGS=-m32 CFLAGS=-m32 LDFLAGS=-m32
+
     add "--disable-shared" for static libraries
     using "--enable-mediactrl" requires gstreamer installation
     
@@ -25,10 +27,12 @@ Linux :
 
 MacOS :
 
-    wxMac 2.9.x
-    ./configure --with-osx_carbon --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin CC=gcc-4.0 CXX=g++-4.0 LD=g++-4.0 --with-macosx-version-min=10.4
+    wxMac 3.0.x
 
+	./configure --with-osx_cocoa --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" --with-macosx-sdk=/Developer/SDKs/MacOSX10.6.sdk
+	
     use "--disable-shared" for static libraries, otherwise you get .dylibs
+
 
     make
     for a shared install use

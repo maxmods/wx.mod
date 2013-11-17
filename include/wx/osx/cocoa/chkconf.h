@@ -4,13 +4,23 @@
  * Author:      Stefan Csomor
  * Modified by:
  * Created:     2008-07-30
- * RCS-ID:      $Id: chkconf.h 73264 2012-12-23 11:50:33Z SC $
  * Copyright:   (c) Stefan Csomor
  * Licence:     wxWindows licence
  */
 
 #ifndef _WX_OSX_COCOA_CHKCONF_H_
 #define _WX_OSX_COCOA_CHKCONF_H_
+
+/* Many wchar functions (and also strnlen(), for some reason) are only
+   available since 10.7 so don't use them if we want to build the applications
+   that would run under 10.6 and earlier. */
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_7
+#define HAVE_STRNLEN 1
+#define HAVE_WCSDUP 1
+#define HAVE_WCSNLEN 1
+#define HAVE_WCSCASECMP 1
+#define HAVE_WCSNCASECMP 1
+#endif
 
 /*
  * native (1) or emulated (0) toolbar
@@ -31,33 +41,14 @@
  * text rendering system
  */
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
-
-    #define wxOSX_USE_CORE_TEXT 1
-    #define wxOSX_USE_ATSU_TEXT 0
-
-#else // platform < 10.5
-
-    #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-        #define wxOSX_USE_CORE_TEXT 1
-    #else
-        #define wxOSX_USE_CORE_TEXT 0
-    #endif
-    #define wxOSX_USE_ATSU_TEXT 1
-
-#endif
+#define wxOSX_USE_ATSU_TEXT 0
 
 /*
  * Audio System
  */
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
-    #define wxOSX_USE_QUICKTIME 0
-    #define wxOSX_USE_AUDIOTOOLBOX 1
-#else // platform < 10.5
-    #define wxOSX_USE_QUICKTIME 1
-    #define wxOSX_USE_AUDIOTOOLBOX 0
-#endif
+#define wxOSX_USE_QUICKTIME 0
+#define wxOSX_USE_AUDIOTOOLBOX 1
 
 /*
  * turning off capabilities that don't work under cocoa yet

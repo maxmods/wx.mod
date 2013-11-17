@@ -4,7 +4,6 @@
 // Author:      Benjamin I. Williams
 // Modified by: Jens Lody (extracted from wx/aui/auibook.h)
 // Created:     2012-03-21
-// RCS-ID:      $Id: tabart.h 72720 2012-10-22 21:46:46Z VZ $
 // Copyright:   (C) Copyright 2006, Kirix Corporation, All Rights Reserved.
 // Licence:     wxWindows Library Licence, Version 3.1
 ///////////////////////////////////////////////////////////////////////////////

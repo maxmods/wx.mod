@@ -391,18 +391,6 @@ extern "C" {
 	int bmx_wxyield();
 }
 
-/*
-class wxMainEventLoop : public wxEventLoopBase
-{
-	public:
-
-	wxMainEventLoop(MaxApp *maxApp);
-	virtual void OnExit();
-
-	private:
-	MaxApp *mMaxApp;
-};
-*/
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

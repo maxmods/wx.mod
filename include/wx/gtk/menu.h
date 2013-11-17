@@ -2,7 +2,6 @@
 // Name:        wx/gtk/menu.h
 // Purpose:
 // Author:      Robert Roebling
-// Id:          $Id: menu.h 73310 2012-12-29 06:29:52Z PC $
 // Copyright:   (c) 1998 Robert Roebling, Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -82,7 +81,8 @@ public:
     // Returns the title, with mnemonics translated to wx format
     wxString GetTitle() const;
 
-    // TODO: virtual void SetTitle(const wxString& title);
+    // Sets the title, with mnemonics translated to gtk format
+    virtual void SetTitle(const wxString& title);
 
     // implementation GTK only
     GtkWidget       *m_menu;  // GtkMenu

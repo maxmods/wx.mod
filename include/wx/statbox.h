@@ -5,7 +5,6 @@
 // Modified by:
 // Created:
 // Copyright:   (c) Julian Smart
-// RCS-ID:      $Id: statbox.h 72663 2012-10-13 22:51:50Z VZ $
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -28,7 +27,7 @@ extern WXDLLIMPEXP_DATA_CORE(const char) wxStaticBoxNameStr[];
 class WXDLLIMPEXP_CORE wxStaticBoxBase : public wxNavigationEnabled<wxControl>
 {
 public:
-    wxStaticBoxBase() { m_container.DisableSelfFocus(); }
+    wxStaticBoxBase();
 
     // overridden base class virtuals
     virtual bool HasTransparentBackground() { return true; }

@@ -5,7 +5,6 @@
 // Modified by:
 // Created:     14/4/2006
 // Copyright:   (c) Vadim Zeitlin, Francesco Montorsi
-// RCS-ID:      $Id: pickerbase.h 71190 2012-04-12 05:33:29Z RD $
 // Licence:     wxWindows Licence
 /////////////////////////////////////////////////////////////////////////////
 

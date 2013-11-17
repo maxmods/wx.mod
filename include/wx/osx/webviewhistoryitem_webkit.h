@@ -2,7 +2,6 @@
 // Name:        include/wx/osx/webviewhistoryitem.h
 // Purpose:     wxWebViewHistoryItem header for OSX
 // Author:      Steven Lamerton
-// Id:          $Id: webviewhistoryitem_webkit.h 71567 2012-05-26 12:29:39Z VZ $
 // Copyright:   (c) 2011 Steven Lamerton
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
