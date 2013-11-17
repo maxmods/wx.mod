@@ -66,6 +66,13 @@ Win32 :
             USE_OPENGL = 1
             USE_GDIPLUS := 1
 
+			# Standard flags for CC 
+			CFLAGS ?= -DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES
+
+			# Standard flags for C++ 
+			CXXFLAGS ?= -DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES
+
+
     Also, edit wx/msw/setup0.h and enable wxUSE_GLCANVAS :
             #define wxUSE_GLCANVAS       1
             #define wxUSE_GRAPHICS_CONTEXT 1
@@ -89,6 +96,8 @@ Win32 :
     NOTES on wxUSE_STD_IOSTREAM : 2.9.0 appears to set this to 1 by default on Win32 now. Except that it breaks (at least) wxDocument SaveObject()
     so, I'm building with this disabled in order to use wx streams instead of c++ iostreams - which is better for BlitzMax.
 
+	NOTES on wx_rc.o resources file : From the main wxWidgets folder, you can run this command to regenerate the wx_rx.o file :
+		windres -I include include\wx\msw\wx.rc wx_rc.o
 
 
 ------------------------------------------------------------
