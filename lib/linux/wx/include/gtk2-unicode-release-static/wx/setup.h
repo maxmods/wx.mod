@@ -1,4 +1,4 @@
-/* lib/wx/include/gtk2-unicode-static-2.9/wx/setup.h.  Generated from setup.h.in by configure.  */
+/* lib/wx/include/gtk2-unicode-static-3.0/wx/setup.h.  Generated from setup.h.in by configure.  */
 /* This define (__WX_SETUP_H__) is used both to ensure setup.h is included
  * only once and to indicate that we are building using configure. */
 #ifndef __WX_SETUP_H__
@@ -16,7 +16,7 @@
 #endif /* __cplusplus */
 
 /* fill in with the string wxGetOsDescription() will return */
-#define WXWIN_OS_DESCRIPTION "Linux 3.5.0-21-generic x86_64"
+#define WXWIN_OS_DESCRIPTION "Linux 3.9.10-100.fc17.i686 i686"
 
 /* the installation location prefix from configure */
 #define wxINSTALL_PREFIX "/usr/local"
@@ -220,7 +220,7 @@
 
 #define wxUSE_STD_CONTAINERS 0
 
-#define wxUSE_STD_IOSTREAM 1
+#define wxUSE_STD_IOSTREAM  wxUSE_STD_DEFAULT
 
 #define wxUSE_STD_STRING 1
 
@@ -239,7 +239,7 @@
 #define wxUSE_FILE 1
 #define wxUSE_FFILE 1
 
-#define wxUSE_FSVOLUME      0
+#define wxUSE_FSVOLUME 1
 
 #define wxUSE_STDPATHS 1
 
@@ -475,6 +475,8 @@
 
 #define wxUSE_NOTIFICATION_MESSAGE 1
 
+#define wxUSE_PREFERENCES_EDITOR 1
+
 #define wxUSE_RICHTOOLTIP 1
 
 #define wxUSE_SASH 1
@@ -599,7 +601,7 @@
 
 #define wxUSE_LIBJPEG 1
 
-#define wxUSE_LIBTIFF 1
+#define wxUSE_LIBTIFF       0
 
 #define wxUSE_TGA 1
 
@@ -713,6 +715,12 @@
 #define HAVE_VARIADIC_MACROS 1
 
 /*
+ * Define if you don't want variadic macros to be used even if they are
+ * supported by the compiler.
+ */
+/* #undef wxNO_VARIADIC_MACROS */
+
+/*
  * Define if your compiler has std::wstring
  */
 #define HAVE_STD_WSTRING 1
@@ -804,13 +812,9 @@
 #define wxUSE_PLUGINS 0
 
 /*
- * Use GTK print for printing under GTK+ 2.0
+ * Use GTK print for printing under GTK+ 2.10+
  */
 #define wxUSE_GTKPRINT 1
-/*
- * Use GNOME print for printing under GTK+ 2.0
- */
-#define wxUSE_LIBGNOMEPRINT 0
 /*
  * Use GNOME VFS for MIME types
  */
@@ -1187,12 +1191,6 @@
 /* Define this if you have fputws() */
 #define HAVE_FPUTWS 1
 
-/* Define this if you have strcasecmp() function in <string.h> */
-#define HAVE_STRCASECMP_IN_STRING_H 1
-
-/* Define this if you have strcasecmp() function in <strings.h> */
-/* #undef HAVE_STRCASECMP_IN_STRINGS_H */
-
 /* Define this if you have wprintf() and related functions */
 #define HAVE_WPRINTF 1
 
@@ -1241,6 +1239,9 @@
 /* Define if getgrgid_r is available. */
 #define HAVE_GETGRGID_R 1
 
+/* Define if setpriority() is available. */
+#define HAVE_SETPRIORITY 1
+
 /* Define if locale_t is available */
 #define HAVE_LOCALE_T 1
 
@@ -1255,10 +1256,6 @@
    ------------------------------------------------------------------------- */
 
 #ifdef __WIN32__
-
-/* we need to define wxUSE_XPM_IN_MSW for MSW compilation for compatibility
-   with wx/msw/setup.h */
-#define wxUSE_XPM_IN_MSW wxUSE_XPM
 
 /* When using an external jpeg library and the Windows headers already define
  * boolean, define to the type used by the jpeg library for boolean.  */
