@@ -25,6 +25,9 @@ Import wx.wxPrintData
 Import wx.wxImage
 Import BRL.Blitz
 
+?linux
+Import "-lfontconfig"
+?
 
 ' headers :-)
 ?linux
@@ -231,15 +234,15 @@ Extern
 	Function bmx_wxpdfdocument_settextcolourpdf(handle:Byte Ptr, pdfColour:Byte Ptr)
 	Function bmx_wxpdfdocument_settextcolourrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
 	Function bmx_wxpdfdocument_settextcolourcmyk(handle:Byte Ptr, cyan:Double, magenta:Double, yellow:Double, black:Double)
-	Function bmx_wxpdfdocument_settextcolourname(handle:Byte Ptr, name:String, tint:Double)
+	Function bmx_wxpdfdocument_settextcolourname(handle:Byte Ptr, name:String, TInt:Double)
 	Function bmx_wxpdfdocument_setdrawcolourpdf(handle:Byte Ptr, pdfColour:Byte Ptr)
 	Function bmx_wxpdfdocument_setdrawcolourrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
 	Function bmx_wxpdfdocument_setdrawcolourcmyk(handle:Byte Ptr, cyan:Double, magenta:Double, yellow:Double, black:Double)
-	Function bmx_wxpdfdocument_setdrawcolourname(handle:Byte Ptr, name:String, tint:Double)
+	Function bmx_wxpdfdocument_setdrawcolourname(handle:Byte Ptr, name:String, TInt:Double)
 	Function bmx_wxpdfdocument_setfillcolourpdf(handle:Byte Ptr, pdfColour:Byte Ptr)
 	Function bmx_wxpdfdocument_setfillcolourrgb(handle:Byte Ptr, red:Int, green:Int, blue:Int)
 	Function bmx_wxpdfdocument_setfillcolourcmyk(handle:Byte Ptr, cyan:Double, magenta:Double, yellow:Double, black:Double)
-	Function bmx_wxpdfdocument_setfillcolourname(handle:Byte Ptr, name:String, tint:Double)
+	Function bmx_wxpdfdocument_setfillcolourname(handle:Byte Ptr, name:String, TInt:Double)
 
 	Function bmx_wxpdfdocument_rotate(handle:Byte Ptr, angle:Double, x:Double, y:Double)
 	Function bmx_wxpdfdocument_rotatedtext(handle:Byte Ptr, x:Double, y:Double, txt:String, angle:Double)
