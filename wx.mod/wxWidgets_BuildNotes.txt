@@ -102,3 +102,95 @@ Win32 :
 
 ------------------------------------------------------------
 
+wxWidgets code changes
+======================
+
+Changes made to the supplied source to improve things when used with BlitzMax.
+
+All Platforms
+-------------
+
+src/jpeg/jpeglib.h
+
+Add this text for wx-specific function prefixes :
+
+/* BaH - wx_ prefix */
+#ifdef WXWIDGETS_JPEG_EXTERNAL_NAMES
+#define jpeg_std_error	wx_jpeg_std_error
+#define jpeg_CreateCompress	wx_jpeg_CreateCompress
+#define jpeg_CreateDecompress	wx_jpeg_CreateDecompress
+#define jpeg_destroy_compress	wx_jpeg_destroy_compress
+#define jpeg_destroy_decompress	wx_jpeg_destroy_decompress
+#define jpeg_stdio_dest	wx_jpeg_stdio_dest
+#define jpeg_stdio_src	wx_jpeg_stdio_src
+#define jpeg_mem_dest	wx_jpeg_mem_dest
+#define jpeg_mem_src	wx_jpeg_mem_src
+#define jpeg_set_defaults	wx_jpeg_set_defaults
+#define jpeg_set_colorspace	wx_jpeg_set_colorspace
+#define jpeg_default_colorspace	wx_jpeg_default_colorspace
+#define jpeg_set_quality	wx_jpeg_set_quality
+#define jpeg_set_linear_quality	wx_jpeg_set_linear_quality
+#define jpeg_default_qtables	wx_jpeg_default_qtables
+#define jpeg_add_quant_table	wx_jpeg_add_quant_table
+#define jpeg_quality_scaling	wx_jpeg_quality_scaling
+#define jpeg_simple_progression	wx_jpeg_simple_progression
+#define jpeg_suppress_tables	wx_jpeg_suppress_tables
+#define jpeg_alloc_quant_table	wx_jpeg_alloc_quant_table
+#define jpeg_alloc_huff_table	wx_jpeg_alloc_huff_table
+#define jpeg_start_compress	wx_jpeg_start_compress
+#define jpeg_write_scanlines	wx_jpeg_write_scanlines
+#define jpeg_finish_compress	wx_jpeg_finish_compress
+#define jpeg_calc_jpeg_dimensions	wx_jpeg_calc_jpeg_dimensions
+#define jpeg_write_raw_data	wx_jpeg_write_raw_data
+#define jpeg_write_marker	wx_jpeg_write_marker
+#define jpeg_write_m_header	wx_jpeg_write_m_header
+#define jpeg_write_m_byte	wx_jpeg_write_m_byte
+#define jpeg_write_tables	wx_jpeg_write_tables
+#define jpeg_read_header	wx_jpeg_read_header
+#define jpeg_start_decompress	wx_jpeg_start_decompress
+#define jpeg_read_scanlines	wx_jpeg_read_scanlines
+#define jpeg_finish_decompress	wx_jpeg_finish_decompress
+#define jpeg_read_raw_data	wx_jpeg_read_raw_data
+#define jpeg_has_multiple_scans	wx_jpeg_has_multiple_scans
+#define jpeg_start_output	wx_jpeg_start_output
+#define jpeg_finish_output	wx_jpeg_finish_output
+#define jpeg_input_complete	wx_jpeg_input_complete
+#define jpeg_new_colormap	wx_jpeg_new_colormap
+#define jpeg_consume_input	wx_jpeg_consume_input
+#define jpeg_core_output_dimensions	wx_jpeg_core_output_dimensions
+#define jpeg_calc_output_dimensions	wx_jpeg_calc_output_dimensions
+#define jpeg_save_markers	wx_jpeg_save_markers
+#define jpeg_set_marker_processor	wx_jpeg_set_marker_processor
+#define jpeg_read_coefficients	wx_jpeg_read_coefficients
+#define jpeg_write_coefficients	wx_jpeg_write_coefficients
+#define jpeg_copy_critical_parameters	wx_jpeg_copy_critical_parameters
+#define jpeg_abort_compress	wx_jpeg_abort_compress
+#define jpeg_abort_decompress	wx_jpeg_abort_decompress
+#define jpeg_abort	wx_jpeg_abort
+#define jpeg_destroy	wx_jpeg_destroy
+#define jpeg_resync_to_restart	wx_jpeg_resync_to_restart
+#define jpeg_std_message_table wx_jpeg_std_message_table
+#define jinit_marker_reader wx_jinit_marker_reader
+#endif /* WXWIDGETS_JPEG_EXTERNAL_NAMES */
+
+
+
+src/zlib/zconf.h
+
+Add this text for wx-specific function prefix to the ifdef Z_PREFIX section :
+
+/* BaH */
+#define z_errmsg wx_z_errmsg
+
+
+
+OS X
+-----
+
+src/osx/cocoa/utils.mm
+
+in function wxApp::CallOnInit(), comment out call to NSApp run, because it hangs processing..
+
+	// BaH - this hangs in 3.0.0 - but it worked in 2.9.5...
+	//    [NSApp run];
+
