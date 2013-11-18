@@ -72,17 +72,8 @@ Import "-lgtk-x11-2.0"
 Import "-lXxf86vm"
 'Import "-lwebkitgtk-1.0"
 
-'Import "-ltiff"
-'Import "-ljpeg"
 Import "-lpangocairo-1.0"
 Import "-lcairo"
-'Import "-lexpat"
-'Import "-lpng"
-
-
-
-' You may need this depending on your platform (eg. Fedora 17 has this dependency, but Ubuntu 12.10 does not)
-Import "-lpng15"
 
 
 ?win32
