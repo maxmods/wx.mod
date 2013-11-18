@@ -6,7 +6,7 @@ Linux :
     wxGTK 2.9.x
     ./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared
 
-	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared CPPFLAGS=-m32 CFLAGS=-m32 LDFLAGS=-m32
+	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -m32" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES"
 
     add "--disable-shared" for static libraries
     using "--enable-mediactrl" requires gstreamer installation
