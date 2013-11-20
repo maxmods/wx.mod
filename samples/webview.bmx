@@ -283,12 +283,12 @@ Type WebFrame Extends wxFrame
 	
 		
 		' Connect the webview events
-		Connect(m_browser.GetId(), wxEVT_COMMAND_WEB_VIEW_NAVIGATING, _OnNavigationRequest)
-		Connect(m_browser.GetId(), wxEVT_COMMAND_WEB_VIEW_NAVIGATED, _OnNavigationComplete)
-		Connect(m_browser.GetId(), wxEVT_COMMAND_WEB_VIEW_LOADED, _OnDocumentLoaded)
-		Connect(m_browser.GetId(), wxEVT_COMMAND_WEB_VIEW_ERROR, _OnError)
-		Connect(m_browser.GetId(), wxEVT_COMMAND_WEB_VIEW_NEWWINDOW, _OnNewWindow)
-		Connect(m_browser.GetId(), wxEVT_COMMAND_WEB_VIEW_TITLE_CHANGED, _OnTitleChanged)
+		Connect(m_browser.GetId(), wxEVT_WEBVIEW_NAVIGATING, _OnNavigationRequest)
+		Connect(m_browser.GetId(), wxEVT_WEBVIEW_NAVIGATED, _OnNavigationComplete)
+		Connect(m_browser.GetId(), wxEVT_WEBVIEW_LOADED, _OnDocumentLoaded)
+		Connect(m_browser.GetId(), wxEVT_WEBVIEW_ERROR, _OnError)
+		Connect(m_browser.GetId(), wxEVT_WEBVIEW_NEWWINDOW, _OnNewWindow)
+		Connect(m_browser.GetId(), wxEVT_WEBVIEW_TITLE_CHANGED, _OnTitleChanged)
 
 
 	End Method
