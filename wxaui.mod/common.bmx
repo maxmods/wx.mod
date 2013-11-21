@@ -205,7 +205,53 @@ Extern
 	Function bmx_wxauinotebook_showwindowmenu:Int(handle:Byte Ptr)
 
 	Function bmx_wxaui_geteventtype:Int(evt:Int)
-	
+
+	Function bmx_wxauitoolbar_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
+
+	Function bmx_wxauitoolbarevent_isdropdownclicked:Int(handle:Byte Ptr)
+	Function bmx_wxauitoolbarevent_getclickpoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxauitoolbarevent_getitemrect(handle:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxauitoolbarevent_gettoolid:Int(handle:Byte Ptr)
+
+	Function bmx_wxauitoolbaritem_setwindow(handle:Byte Ptr, w:Byte Ptr)
+	Function bmx_wxauitoolbaritem_getwindow:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setid(handle:Byte Ptr, newId:Int)
+	Function bmx_wxauitoolbaritem_getid:Int(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setkind(handle:Byte Ptr, newKind:Int)
+	Function bmx_wxauitoolbaritem_getkind:Int(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setstate(handle:Byte Ptr, newState:Int)
+	Function bmx_wxauitoolbaritem_getstate:Int(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setSizerItem(handle:Byte Ptr, s:Byte Ptr)
+	Function bmx_wxauitoolbaritem_getsizeritem:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setlabel(handle:Byte Ptr, s:String)
+	Function bmx_wxauitoolbaritem_getlabel:String(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setbitmap(handle:Byte Ptr, bmp:Byte Ptr)
+	Function bmx_wxauitoolbaritem_getbitmap:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setdisabledbitmap(handle:Byte Ptr, bmp:Byte Ptr)
+	Function bmx_wxauitoolbaritem_getdisabledbitmap:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_sethoverbitmap(handle:Byte Ptr, bmp:Byte Ptr)
+	Function bmx_wxauitoolbaritem_gethoverbitmap:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setshorthelp(handle:Byte Ptr, s:String)
+	Function bmx_wxauitoolbaritem_getshorthelp:String(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setlonghelp(handle:Byte Ptr, s:String)
+	Function bmx_wxauitoolbaritem_getlonghelp:String(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setminsize(handle:Byte Ptr, w:Int, h:Int)
+	Function bmx_wxauitoolbaritem_getminsize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxauitoolbaritem_setspacerpixels(handle:Byte Ptr, s:Int)
+	Function bmx_wxauitoolbaritem_getspacerpixels:Int(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setproportion(handle:Byte Ptr, p:Int)
+	Function bmx_wxauitoolbaritem_getproportion:Int(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setactive(handle:Byte Ptr, active:Int)
+	Function bmx_wxauitoolbaritem_isactive:Int(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_sethasdropdown(handle:Byte Ptr, value:Int)
+	Function bmx_wxauitoolbaritem_hasdropdown:Int(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setsticky(handle:Byte Ptr, value:Int)
+	Function bmx_wxauitoolbaritem_issticky:Int(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setuserdata(handle:Byte Ptr, data:Int)
+	Function bmx_wxauitoolbaritem_getuserdata:Int(handle:Byte Ptr)
+	Function bmx_wxauitoolbaritem_setalignment(handle:Byte Ptr, value:Int)
+	Function bmx_wxauitoolbaritem_getalignment:Int(handle:Byte Ptr)
+
 End Extern
 
 
@@ -233,23 +279,73 @@ Const wxAUI_INSERT_PANE:Int = 0
 Const wxAUI_INSERT_ROW:Int = 1
 Const wxAUI_INSERT_DOCK:Int = 2
 
-
+Rem
+bbdoc: Customizes the sash size.
+End Rem
 Const wxAUI_DOCKART_SASH_SIZE:Int = 0
+Rem
+bbdoc: Customizes the caption size.
+End Rem
 Const wxAUI_DOCKART_CAPTION_SIZE:Int = 1
+Rem
+bbdoc: Customizes the gripper size.
+End Rem
 Const wxAUI_DOCKART_GRIPPER_SIZE:Int = 2
+Rem
+bbdoc: Customizes the pane border size.
+End Rem
 Const wxAUI_DOCKART_PANE_BORDER_SIZE:Int = 3
+Rem
+bbdoc: Customizes the pane button size.
+End Rem
 Const wxAUI_DOCKART_PANE_BUTTON_SIZE:Int = 4
+Rem
+bbdoc: Customizes the background colour, which corresponds to the client area.
+End Rem
 Const wxAUI_DOCKART_BACKGROUND_COLOUR:Int = 5
+Rem
+bbdoc: Customizes the sash colour.
+End Rem
 Const wxAUI_DOCKART_SASH_COLOUR:Int = 6
+Rem
+bbdoc: Customizes the active caption colour.
+End Rem
 Const wxAUI_DOCKART_ACTIVE_CAPTION_COLOUR:Int = 7
+Rem
+bbdoc: Customizes the active caption gradient colour.
+End Rem
 Const wxAUI_DOCKART_ACTIVE_CAPTION_GRADIENT_COLOUR:Int = 8
+Rem
+bbdoc: Customizes the inactive caption colour.
+End Rem
 Const wxAUI_DOCKART_INACTIVE_CAPTION_COLOUR:Int = 9
+Rem
+bbdoc: Customizes the inactive gradient caption colour.
+End Rem
 Const wxAUI_DOCKART_INACTIVE_CAPTION_GRADIENT_COLOUR:Int = 10
+Rem
+bbdoc: Customizes the active caption text colour.
+End Rem
 Const wxAUI_DOCKART_ACTIVE_CAPTION_TEXT_COLOUR:Int = 11
+Rem
+bbdoc: Customizes the inactive caption text colour.
+End Rem
 Const wxAUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR:Int = 12
+Rem
+bbdoc: Customizes the border colour.
+End Rem
 Const wxAUI_DOCKART_BORDER_COLOUR:Int = 13
+Rem
+bbdoc: Customizes the gripper colour.
+End Rem
 Const wxAUI_DOCKART_GRIPPER_COLOUR:Int = 14
+Rem
+bbdoc: Customizes the caption font.
+End Rem
 Const wxAUI_DOCKART_CAPTION_FONT:Int = 15
+Rem
+bbdoc: Customizes the gradient type (no gradient, vertical or horizontal)
+End Rem
 Const wxAUI_DOCKART_GRADIENT_TYPE:Int = 16
 
 Const wxAUI_GRADIENT_NONE:Int = 0
@@ -274,20 +370,65 @@ Const wxAUI_BUTTON_CUSTOM1:Int = 201
 Const wxAUI_BUTTON_CUSTOM2:Int = 202
 Const wxAUI_BUTTON_CUSTOM3:Int = 203
 
+Rem
+bbdoc: With this style, tabs are drawn along the top of the notebook.
+End Rem
 Const wxAUI_NB_TOP:Int = 1 Shl 0
+Rem
+bbdoc: Not implemented yet.
+End Rem
 Const wxAUI_NB_LEFT:Int = 1 Shl 1
+Rem
+bbdoc: Not implemented yet.
+End Rem
 Const wxAUI_NB_RIGHT:Int = 1 Shl 2
+Rem
+bbdoc: With this style, tabs are drawn along the bottom of the notebook.
+End Rem
 Const wxAUI_NB_BOTTOM:Int = 1 Shl 3
+Rem
+bbdoc: Allows the tab control to be split by dragging a tab.
+End Rem
 Const wxAUI_NB_TAB_SPLIT:Int = 1 Shl 4
+Rem
+bbdoc: Allows a tab to be moved horizontally by dragging.
+End Rem
 Const wxAUI_NB_TAB_MOVE:Int = 1 Shl 5
+Rem
+bbdoc: Allows a tab to be moved to another tab control.
+End Rem
 Const wxAUI_NB_TAB_EXTERNAL_MOVE:Int = 1 Shl 6
+Rem
+bbdoc: With this style, all tabs have the same width.
+End Rem
 Const wxAUI_NB_TAB_FIXED_WIDTH:Int = 1 Shl 7
+Rem
+bbdoc: With this style, left and right scroll buttons are displayed.
+End Rem
 Const wxAUI_NB_SCROLL_BUTTONS:Int = 1 Shl 8
+Rem
+bbdoc: With this style, a drop-down list of windows is available.
+End Rem
 Const wxAUI_NB_WINDOWLIST_BUTTON:Int = 1 Shl 9
+Rem
+bbdoc: With this style, a close button is available on the tab bar.
+End Rem
 Const wxAUI_NB_CLOSE_BUTTON:Int = 1 Shl 10
+Rem
+bbdoc: With this style, the close button is visible on the active tab.
+End Rem
 Const wxAUI_NB_CLOSE_ON_ACTIVE_TAB:Int = 1 Shl 11
+Rem
+bbdoc: With this style, the close button is visible on all tabs.
+End Rem
 Const wxAUI_NB_CLOSE_ON_ALL_TABS:Int = 1 Shl 12
-
+Rem
+bbdoc: With this style, middle click on a tab closes the tab.
+End Rem
+Const wxAUI_NB_MIDDLE_CLICK_CLOSE:Int = 1 Shl 13
+Rem
+bbdoc: Defined as wxAUI_NB_TOP | wxAUI_NB_TAB_SPLIT | wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_CLOSE_ON_ACTIVE_TAB | wxAUI_NB_MIDDLE_CLICK_CLOSE.
+End Rem
 Const wxAUI_NB_DEFAULT_STYLE:Int = wxAUI_NB_TOP | wxAUI_NB_TAB_SPLIT | wxAUI_NB_TAB_MOVE | ..
 		wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_CLOSE_ON_ACTIVE_TAB
 
@@ -315,3 +456,92 @@ Const wxEVT_COMMAND_AUINOTEBOOK_TAB_RIGHT_UP:Int = -38
 Const wxEVT_COMMAND_AUINOTEBOOK_DRAG_DONE:Int = -39
 Const wxEVT_COMMAND_AUINOTEBOOK_BG_DCLICK:Int = -40
 
+Rem
+bbdoc: Shows the text in the toolbar buttons.
+about: By default only icons are shown.
+End Rem
+Const wxAUI_TB_TEXT:Int = 1 Shl 0
+Rem
+bbdoc: Don't show tooltips on wxAuiToolBar items.
+End Rem
+Const wxAUI_TB_NO_TOOLTIPS:Int = 1 Shl 1
+Rem
+bbdoc: Do not auto-resize the wxAuiToolBar.
+End Rem
+Const wxAUI_TB_NO_AUTORESIZE:Int = 1 Shl 2
+Rem
+bbdoc: Shows a gripper on the wxAuiToolBar.
+End Rem
+Const wxAUI_TB_GRIPPER:Int = 1 Shl 3
+Rem
+bbdoc: The wxAuiToolBar can contain overflow items.
+End Rem
+Const wxAUI_TB_OVERFLOW:Int = 1 Shl 4
+Rem
+bbdoc: Using this style forces the toolbar to be vertical and be only dockable to the left or right sides of the window whereas by default it can be horizontal or vertical and be docked anywhere.
+End Rem
+Const wxAUI_TB_VERTICAL:Int = 1 Shl 5
+Rem
+bbdoc: Shows the text and the icons alongside, not vertically stacked.
+about: This style must be used with wxAUI_TB_TEXT
+End Rem
+Const wxAUI_TB_HORZ_LAYOUT:Int = 1 Shl 6
+Rem
+bbdoc: Analogous to wxAUI_TB_VERTICAL, but forces the toolbar to be horizontal, docking to the top or bottom of the window.
+End Rem
+Const wxAUI_TB_HORIZONTAL:Int = 1 Shl 7
+Rem
+bbdoc: Draw a plain background (based on parent) instead of the default gradient background.
+End Rem
+Const wxAUI_TB_PLAIN_BACKGROUND:Int = 1 Shl 8
+Rem
+bbdoc: Shows the text alongside the icons, not vertically stacked.
+End Rem
+Const wxAUI_TB_HORZ_TEXT:Int = (wxAUI_TB_HORZ_LAYOUT | wxAUI_TB_TEXT)
+Rem
+bbdoc: Shows the text in the toolbar buttons.
+about: By default only icons are shown.
+End Rem
+Const wxAUI_ORIENTATION_MASK:Int = (wxAUI_TB_VERTICAL | wxAUI_TB_HORIZONTAL)
+Rem
+bbdoc: By default only icons are shown.
+End Rem
+Const wxAUI_TB_DEFAULT_STYLE:Int = 0
+
+Rem
+bbdoc: wxAuiToolBar seperator size.
+End Rem
+Const wxAUI_TBART_SEPARATOR_SIZE:Int = 0
+Rem
+bbdoc: wxAuiToolBar gripper size.
+End Rem
+Const wxAUI_TBART_GRIPPER_SIZE:Int = 1
+Rem
+bbdoc: Overflow button size in wxAuiToolBar.
+End Rem
+Const wxAUI_TBART_OVERFLOW_SIZE:Int = 2
+
+Rem
+bbdoc: Text in wxAuiToolBar items is left aligned.
+about: Currently unused/unimplemented.
+End Rem
+Const wxAUI_TBTOOL_TEXT_LEFT:Int= 0
+Rem
+bbdoc: Text in wxAuiToolBar items is right aligned.
+End Rem
+Const wxAUI_TBTOOL_TEXT_RIGHT:Int= 1
+Rem
+bbdoc: Text in wxAuiToolBar items is top aligned.
+about: Currently unused/unimplemented.
+End Rem
+Const wxAUI_TBTOOL_TEXT_TOP:Int= 2
+Rem
+bbdoc: Text in wxAuiToolBar items is bottom aligned.
+End Rem
+Const wxAUI_TBTOOL_TEXT_BOTTOM:Int= 3
+
+Const wxEVT_AUITOOLBAR_TOOL_DROPDOWN:Int = -41
+Const wxEVT_AUITOOLBAR_OVERFLOW_CLICK:Int = -42
+Const wxEVT_AUITOOLBAR_RIGHT_CLICK:Int = -43
+Const wxEVT_AUITOOLBAR_MIDDLE_CLICK:Int = -44
+Const wxEVT_AUITOOLBAR_BEGIN_DRAG:Int = -45

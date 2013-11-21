@@ -1409,6 +1409,205 @@ Type wxAuiDockArt
 End Type
 
 Rem
+bbdoc: wxAuiToolBar is a dockable toolbar, part of the wxAUI class framework.
+End Rem
+Type wxAuiToolBar Extends wxControl
+
+	Rem
+	bbdoc: Constructor. Creates a wxAuiToolBar control.
+	End Rem
+	Function CreateAuiToolBar:wxAuiToolBar(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxAUI_TB_DEFAULT_STYLE)
+			
+		Return New wxAuiToolBar.Create(parent, id, x, y, w, h, style)
+
+	End Function
+	
+	Rem
+	bbdoc: Creation method, for two-step construction. For details see wxAuiToolBar.
+	End Rem
+	Method Create:wxAuiToolBar(parent:wxWindow, id:Int, x:Int = -1, y:Int = -1, ..
+			w:Int = -1, h:Int = -1, style:Int = wxAUI_TB_DEFAULT_STYLE)
+			
+		wxObjectPtr = bmx_wxauitoolbar_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
+		OnInit()
+		Return Self
+	End Method
+
+End Type
+
+
+Rem
+bbdoc: 
+End Rem
+Type wxAuiToolBarItem
+
+	Field wxAuiToolBarItemPtr:Byte Ptr
+	
+	Function _create:wxAuiToolBarItem(wxAuiToolBarItemPtr:Byte Ptr)
+		If wxAuiToolBarItemPtr Then
+			Local this:wxAuiToolBarItem = New wxAuiToolBarItem
+			this.wxAuiToolBarItemPtr = wxAuiToolBarItemPtr
+			Return this
+		End If
+		Return Null
+	End Function
+
+	Method SetWindow(w:wxWindow)
+		bmx_wxauitoolbaritem_setwindow(wxAuiToolBarItemPtr, w.wxObjectPtr)
+	End Method
+
+	Method GetWindow:wxWindow()
+		Return wxWindow._find(bmx_wxauitoolbaritem_getwindow(wxAuiToolBarItemPtr))
+	End Method
+
+	Method SetId(newId:Int)
+		bmx_wxauitoolbaritem_setid(wxAuiToolBarItemPtr, newId)
+	End Method
+
+	Method GetId:Int()
+		Return bmx_wxauitoolbaritem_getid(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetKind(newKind:Int)
+		bmx_wxauitoolbaritem_setkind(wxAuiToolBarItemPtr, newKind)
+	End Method
+
+	Method GetKind:Int()
+		Return bmx_wxauitoolbaritem_getkind(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetState(newState:Int)
+		bmx_wxauitoolbaritem_setstate(wxAuiToolBarItemPtr, newState)
+	End Method
+
+	Method GetState:Int()
+		Return bmx_wxauitoolbaritem_getstate(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetSizerItem(s:wxSizerItem)
+		bmx_wxauitoolbaritem_setSizerItem(wxAuiToolBarItemPtr, s.wxSizerItemPtr)
+	End Method
+
+	Method GetSizerItem:wxSizerItem()
+		Return wxSizerItem._create(bmx_wxauitoolbaritem_getsizeritem(wxAuiToolBarItemPtr))
+	End Method
+
+	Method SetLabel(s:String)
+		bmx_wxauitoolbaritem_setlabel(wxAuiToolBarItemPtr, s)
+	End Method
+
+	Method GetLabel:String()
+		Return bmx_wxauitoolbaritem_getlabel(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetBitmap(bmp:wxBitmap)
+		bmx_wxauitoolbaritem_setbitmap(wxAuiToolBarItemPtr, bmp.wxObjectPtr)
+	End Method
+
+	Method GetBitmap:wxBitmap()
+		Return wxBitmap._create(bmx_wxauitoolbaritem_getbitmap(wxAuiToolBarItemPtr))
+	End Method
+
+	Method SetDisabledBitmap(bmp:wxBitmap)
+		bmx_wxauitoolbaritem_setdisabledbitmap(wxAuiToolBarItemPtr, bmp.wxObjectPtr)
+	End Method
+
+	Method GetDisabledBitmap:wxBitmap()
+		Return wxBitmap._create(bmx_wxauitoolbaritem_getdisabledbitmap(wxAuiToolBarItemPtr))
+	End Method
+
+	Method SetHoverBitmap(bmp:wxBitmap)
+		bmx_wxauitoolbaritem_sethoverbitmap(wxAuiToolBarItemPtr, bmp.wxObjectPtr)
+	End Method
+
+	Method GetHoverBitmap:wxBitmap()
+		Return wxBitmap._create(bmx_wxauitoolbaritem_gethoverbitmap(wxAuiToolBarItemPtr))
+	End Method
+
+	Method SetShortHelp(s:String)
+		bmx_wxauitoolbaritem_setshorthelp(wxAuiToolBarItemPtr, s)
+	End Method
+
+	Method GetShortHelp:String()
+		Return bmx_wxauitoolbaritem_getshorthelp(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetLongHelp(s:String)
+		bmx_wxauitoolbaritem_setlonghelp(wxAuiToolBarItemPtr, s)
+	End Method
+
+	Method GetLongHelp:String()
+		Return bmx_wxauitoolbaritem_getlonghelp(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetMinSize(w:Int, h:Int)
+		bmx_wxauitoolbaritem_setminsize(wxAuiToolBarItemPtr, w, h)
+	End Method
+
+	Method GetMinSize(w:Int Var, h:Int Var)
+		bmx_wxauitoolbaritem_getminsize(wxAuiToolBarItemPtr, Varptr w, Varptr h)
+	End Method
+
+	Method SetSpacerPixels(s:Int)
+		bmx_wxauitoolbaritem_setspacerpixels(wxAuiToolBarItemPtr, s)
+	End Method
+
+	Method GetSpacerPixels:Int()
+		Return bmx_wxauitoolbaritem_getspacerpixels(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetProportion(p:Int)
+		bmx_wxauitoolbaritem_setproportion(wxAuiToolBarItemPtr, p)
+	End Method
+
+	Method GetProportion:Int()
+		Return bmx_wxauitoolbaritem_getproportion(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetActive(active:Int)
+		bmx_wxauitoolbaritem_setactive(wxAuiToolBarItemPtr, active)
+	End Method
+
+	Method IsActive:Int()
+		Return bmx_wxauitoolbaritem_isactive(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetHasDropDown(value:Int)
+		bmx_wxauitoolbaritem_sethasdropdown(wxAuiToolBarItemPtr, value)
+	End Method
+
+	Method HasDropDown:Int()
+		Return bmx_wxauitoolbaritem_hasdropdown(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetSticky(value:Int)
+		bmx_wxauitoolbaritem_setsticky(wxAuiToolBarItemPtr, value)
+	End Method
+
+	Method IsSticky:Int()
+		Return bmx_wxauitoolbaritem_issticky(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetUserData(data:Int)
+		bmx_wxauitoolbaritem_setuserdata(wxAuiToolBarItemPtr, data)
+	End Method
+
+	Method GetUserData:Int()
+		Return bmx_wxauitoolbaritem_getuserdata(wxAuiToolBarItemPtr)
+	End Method
+
+	Method SetAlignment(value:Int)
+		bmx_wxauitoolbaritem_setalignment(wxAuiToolBarItemPtr, value)
+	End Method
+
+	Method GetAlignment:Int()
+		Return bmx_wxauitoolbaritem_getalignment(wxAuiToolBarItemPtr)
+	End Method
+
+End Type
+
+Rem
 bbdoc: An aui manager event.
 End Rem
 Type wxAuiManagerEvent Extends wxEvent
@@ -1494,6 +1693,48 @@ Type wxAuiNotebookEvent Extends wxBookCtrlEvent
 
 End Type
 
+Rem
+bbdoc: A wxAuiToolBarEvent event.
+End Rem
+Type wxAuiToolBarEvent Extends wxNotifyEvent
+
+	Function Create:wxEvent(wxEventPtr:Byte Ptr, evt:TEventHandler)
+		Local this:wxAuiToolBarEvent = New wxAuiToolBarEvent
+		
+		this.init(wxEventPtr, evt)
+		
+		Return this
+	End Function
+	
+	Rem
+	bbdoc: Returns whether the drop down menu has been clicked.
+	End Rem
+	Method IsDropDownClicked:Int()
+		Return bmx_wxauitoolbarevent_isdropdownclicked(wxEventPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns the point where the user clicked with the mouse.
+	End Rem
+	Method GetClickPoint(x:Int Var, y:Int Var)
+		bmx_wxauitoolbarevent_getclickpoint(wxEventPtr, Varptr x, Varptr y)
+	End Method
+	
+	Rem
+	bbdoc: Returns the wxAuiToolBarItem rectangle bounding the mouse click point. 
+	End Rem
+	Method GetItemRect(x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+		bmx_wxauitoolbarevent_getitemrect(wxEventPtr, Varptr x, Varptr y, Varptr w, Varptr h)
+	End Method
+	
+	Rem
+	bbdoc: Returns the wxAuiToolBarItem identifier.
+	End Rem
+	Method GetToolId:Int()
+		Return bmx_wxauitoolbarevent_gettoolid(wxEventPtr)
+	End Method
+
+End Type
 
 Type TAuiEventFactory Extends TEventFactory
 
@@ -1523,6 +1764,12 @@ Type TAuiEventFactory Extends TEventFactory
 					wxEVT_AUI_RENDER, ..
 					wxEVT_AUI_FIND_MANAGER
 				Return wxAuiManagerEvent.Create(wxEventPtr, evt)
+			Case wxEVT_AUITOOLBAR_TOOL_DROPDOWN, ..
+					wxEVT_AUITOOLBAR_OVERFLOW_CLICK, ..
+					wxEVT_AUITOOLBAR_RIGHT_CLICK, ..
+					wxEVT_AUITOOLBAR_MIDDLE_CLICK, ..
+					wxEVT_AUITOOLBAR_BEGIN_DRAG
+				Return wxAuiToolBarEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -1550,7 +1797,12 @@ Type TAuiEventFactory Extends TEventFactory
 					wxEVT_AUI_PANE_MAXIMIZE, ..
 					wxEVT_AUI_PANE_RESTORE, ..
 					wxEVT_AUI_RENDER, ..
-					wxEVT_AUI_FIND_MANAGER
+					wxEVT_AUI_FIND_MANAGER, ..
+					wxEVT_AUITOOLBAR_TOOL_DROPDOWN, ..
+					wxEVT_AUITOOLBAR_OVERFLOW_CLICK, ..
+					wxEVT_AUITOOLBAR_RIGHT_CLICK, ..
+					wxEVT_AUITOOLBAR_MIDDLE_CLICK, ..
+					wxEVT_AUITOOLBAR_BEGIN_DRAG
 				Return bmx_wxaui_geteventtype(eventType)
 		End Select
 	End Method

@@ -20,6 +20,9 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_AUI_H_
+#define _WX_MAX_AUI_H_
+
 #include "wxglue.h"
 #include "wx/aui/aui.h"
 #include "../wxbitmap.mod/glue.h"
@@ -27,6 +30,7 @@
 class MaxAuiManager;
 class MaxAuiPaneInfo;
 class MaxAuiNotebook;
+class MaxAuiToolBar;
 
 extern "C" {
 
@@ -198,6 +202,54 @@ extern "C" {
 	
 	int bmx_wxaui_geteventtype(int type);
 
+
+	MaxAuiToolBar * bmx_wxauitoolbar_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
+		int w, int h, long style);
+
+	int bmx_wxauitoolbarevent_isdropdownclicked(wxAuiToolBarEvent & event);
+	void bmx_wxauitoolbarevent_getclickpoint(wxAuiToolBarEvent & event, int * x, int * y);
+	void bmx_wxauitoolbarevent_getitemrect(wxAuiToolBarEvent & event, int * x, int * y, int * w, int * h);
+	int bmx_wxauitoolbarevent_gettoolid(wxAuiToolBarEvent & event);
+
+	void bmx_wxauitoolbaritem_setwindow(wxAuiToolBarItem * item, wxWindow * w);
+	wxWindow * bmx_wxauitoolbaritem_getwindow(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setid(wxAuiToolBarItem * item, int newId);
+	int bmx_wxauitoolbaritem_getid(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setkind(wxAuiToolBarItem * item, int newKind);
+	int bmx_wxauitoolbaritem_getkind(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setstate(wxAuiToolBarItem * item, int newState);
+	int bmx_wxauitoolbaritem_getstate(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setSizerItem(wxAuiToolBarItem * item, wxSizerItem * s);
+	wxSizerItem * bmx_wxauitoolbaritem_getsizeritem(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setlabel(wxAuiToolBarItem * item, BBString * s);
+	BBString * bmx_wxauitoolbaritem_getlabel(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setbitmap(wxAuiToolBarItem * item, MaxBitmap * bmp);
+	MaxBitmap * bmx_wxauitoolbaritem_getbitmap(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setdisabledbitmap(wxAuiToolBarItem * item, MaxBitmap * bmp);
+	MaxBitmap * bmx_wxauitoolbaritem_getdisabledbitmap(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_sethoverbitmap(wxAuiToolBarItem * item, MaxBitmap * bmp);
+	MaxBitmap * bmx_wxauitoolbaritem_gethoverbitmap(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setshorthelp(wxAuiToolBarItem * item, BBString * s);
+	BBString * bmx_wxauitoolbaritem_getshorthelp(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setlonghelp(wxAuiToolBarItem * item, BBString * s);
+	BBString * bmx_wxauitoolbaritem_getlonghelp(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setminsize(wxAuiToolBarItem * item, int w, int h);
+	void bmx_wxauitoolbaritem_getminsize(wxAuiToolBarItem * item, int * w, int * h);
+	void bmx_wxauitoolbaritem_setspacerpixels(wxAuiToolBarItem * item, int s);
+	int bmx_wxauitoolbaritem_getspacerpixels(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setproportion(wxAuiToolBarItem * item, int p);
+	int bmx_wxauitoolbaritem_getproportion(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setactive(wxAuiToolBarItem * item, int active);
+	int bmx_wxauitoolbaritem_isactive(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_sethasdropdown(wxAuiToolBarItem * item, int value);
+	int bmx_wxauitoolbaritem_hasdropdown(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setsticky(wxAuiToolBarItem * item, int value);
+	int bmx_wxauitoolbaritem_issticky(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setuserdata(wxAuiToolBarItem * item, int data);
+	int bmx_wxauitoolbaritem_getuserdata(wxAuiToolBarItem * item);
+	void bmx_wxauitoolbaritem_setalignment(wxAuiToolBarItem * item, int value);
+	int bmx_wxauitoolbaritem_getalignment(wxAuiToolBarItem * item);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -237,4 +289,16 @@ private:
 
 };
 
+class MaxAuiToolBar : public wxAuiToolBar
+{
+public:
+	MaxAuiToolBar(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
+		int w, int h, long style);
+	~MaxAuiToolBar();
+	
+private:
+	BBObject * maxHandle;
 
+};
+
+#endif // _WX_MAX_AUI_H_

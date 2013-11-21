@@ -62,6 +62,17 @@ MaxAuiNotebook::~MaxAuiNotebook() {
 }
 
 
+MaxAuiToolBar::MaxAuiToolBar(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
+		int w, int h, long style)
+	: maxHandle(handle), wxAuiToolBar(parent, id, wxPoint(x, y), wxSize(w, h), style)
+{
+	wxbind(this, handle);
+}
+
+MaxAuiToolBar::~MaxAuiToolBar() {
+	wxunbind(this);
+}
+
 // *********************************************
 
 MaxAuiManager * bmx_wxauimanager_create(BBObject * handle, wxWindow * window, unsigned int flags) {
@@ -752,6 +763,199 @@ int bmx_wxauinotebook_showwindowmenu(wxAuiNotebook * notebook) {
 }
 
 
+// *********************************************
+
+MaxAuiToolBar * bmx_wxauitoolbar_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
+		int w, int h, long style) {
+
+	return new MaxAuiToolBar(maxHandle, parent, id, x, y, w, h, style);
+}
+		
+
+// *********************************************
+
+int bmx_wxauitoolbarevent_isdropdownclicked(wxAuiToolBarEvent & event) {
+	return static_cast<int>(event.IsDropDownClicked());
+}
+
+void bmx_wxauitoolbarevent_getclickpoint(wxAuiToolBarEvent & event, int * x, int * y) {
+	wxPoint p(event.GetClickPoint());
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxauitoolbarevent_getitemrect(wxAuiToolBarEvent & event, int * x, int * y, int * w, int * h) {
+	wxRect r(event.GetItemRect());
+	*x = r.GetX();
+	*y = r.GetY();
+	*w = r.GetWidth();
+	*h = r.GetHeight();
+}
+
+int bmx_wxauitoolbarevent_gettoolid(wxAuiToolBarEvent & event) {
+	return event.GetToolId();
+}
+
+
+// *********************************************
+
+void bmx_wxauitoolbaritem_setwindow(wxAuiToolBarItem * item, wxWindow * w) {
+	item->SetWindow(w);
+}
+
+wxWindow * bmx_wxauitoolbaritem_getwindow(wxAuiToolBarItem * item) {
+	return item->GetWindow();
+}
+
+void bmx_wxauitoolbaritem_setid(wxAuiToolBarItem * item, int newId) {
+	item->SetId(newId);
+}
+
+int bmx_wxauitoolbaritem_getid(wxAuiToolBarItem * item) {
+	return item->GetId();
+}
+
+void bmx_wxauitoolbaritem_setkind(wxAuiToolBarItem * item, int newKind) {
+	item->SetKind(newKind);
+}
+
+int bmx_wxauitoolbaritem_getkind(wxAuiToolBarItem * item) {
+	return item->GetKind();
+}
+
+void bmx_wxauitoolbaritem_setstate(wxAuiToolBarItem * item, int newState) {
+	item->SetState(newState);
+}
+
+int bmx_wxauitoolbaritem_getstate(wxAuiToolBarItem * item) {
+	return item->GetState();
+}
+
+void bmx_wxauitoolbaritem_setSizerItem(wxAuiToolBarItem * item, wxSizerItem * s) {
+	item->SetSizerItem(s);
+}
+
+wxSizerItem * bmx_wxauitoolbaritem_getsizeritem(wxAuiToolBarItem * item) {
+	return item->GetSizerItem();
+}
+
+void bmx_wxauitoolbaritem_setlabel(wxAuiToolBarItem * item, BBString * s) {
+	item->SetLabel(wxStringFromBBString(s));
+}
+
+BBString * bmx_wxauitoolbaritem_getlabel(wxAuiToolBarItem * item) {
+	return bbStringFromWxString(item->GetLabel());
+}
+
+void bmx_wxauitoolbaritem_setbitmap(wxAuiToolBarItem * item, MaxBitmap * bmp) {
+	item->SetBitmap(bmp->Bitmap());
+}
+
+MaxBitmap * bmx_wxauitoolbaritem_getbitmap(wxAuiToolBarItem * item) {
+	wxBitmap b(item->GetBitmap());
+	return new MaxBitmap(b);
+}
+
+void bmx_wxauitoolbaritem_setdisabledbitmap(wxAuiToolBarItem * item, MaxBitmap * bmp) {
+	item->SetDisabledBitmap(bmp->Bitmap());
+}
+
+MaxBitmap * bmx_wxauitoolbaritem_getdisabledbitmap(wxAuiToolBarItem * item) {
+	wxBitmap b(item->GetDisabledBitmap());
+	return new MaxBitmap(b);
+}
+
+void bmx_wxauitoolbaritem_sethoverbitmap(wxAuiToolBarItem * item, MaxBitmap * bmp) {
+	item->SetHoverBitmap(bmp->Bitmap());
+}
+
+MaxBitmap * bmx_wxauitoolbaritem_gethoverbitmap(wxAuiToolBarItem * item) {
+	wxBitmap b(item->GetHoverBitmap());
+	return new MaxBitmap(b);
+}
+
+void bmx_wxauitoolbaritem_setshorthelp(wxAuiToolBarItem * item, BBString * s) {
+	item->SetShortHelp(wxStringFromBBString(s));
+}
+
+BBString * bmx_wxauitoolbaritem_getshorthelp(wxAuiToolBarItem * item) {
+	return bbStringFromWxString(item->GetShortHelp());
+}
+
+void bmx_wxauitoolbaritem_setlonghelp(wxAuiToolBarItem * item, BBString * s) {
+	item->SetLongHelp(wxStringFromBBString(s));
+}
+
+BBString * bmx_wxauitoolbaritem_getlonghelp(wxAuiToolBarItem * item) {
+	return bbStringFromWxString(item->GetLongHelp());
+}
+
+void bmx_wxauitoolbaritem_setminsize(wxAuiToolBarItem * item, int w, int h) {
+	item->SetMinSize(wxSize(w, h));
+}
+
+void bmx_wxauitoolbaritem_getminsize(wxAuiToolBarItem * item, int * w, int * h) {
+	wxSize s(item->GetMinSize());
+	*w = s.GetWidth();
+	*h = s.GetHeight();
+}
+
+void bmx_wxauitoolbaritem_setspacerpixels(wxAuiToolBarItem * item, int s) {
+	item->SetSpacerPixels(s);
+}
+
+int bmx_wxauitoolbaritem_getspacerpixels(wxAuiToolBarItem * item) {
+	return item->GetSpacerPixels();
+}
+
+void bmx_wxauitoolbaritem_setproportion(wxAuiToolBarItem * item, int p) {
+	item->SetProportion(p);
+}
+
+int bmx_wxauitoolbaritem_getproportion(wxAuiToolBarItem * item) {
+	return item->GetProportion();
+}
+
+void bmx_wxauitoolbaritem_setactive(wxAuiToolBarItem * item, int active) {
+	item->SetActive(static_cast<bool>(active));
+}
+
+int bmx_wxauitoolbaritem_isactive(wxAuiToolBarItem * item) {
+	return static_cast<int>(item->IsActive());
+}
+
+void bmx_wxauitoolbaritem_sethasdropdown(wxAuiToolBarItem * item, int value) {
+	item->SetHasDropDown(static_cast<bool>(value));
+}
+
+int bmx_wxauitoolbaritem_hasdropdown(wxAuiToolBarItem * item) {
+	return static_cast<int>(item->HasDropDown());
+}
+
+void bmx_wxauitoolbaritem_setsticky(wxAuiToolBarItem * item, int value) {
+	item->SetSticky(static_cast<bool>(value));
+}
+
+int bmx_wxauitoolbaritem_issticky(wxAuiToolBarItem * item) {
+	return static_cast<int>(item->IsSticky());
+}
+
+void bmx_wxauitoolbaritem_setuserdata(wxAuiToolBarItem * item, int data) {
+	item->SetUserData(static_cast<long>(data));
+}
+
+int bmx_wxauitoolbaritem_getuserdata(wxAuiToolBarItem * item) {
+	return static_cast<int>(item->GetUserData());
+}
+
+void bmx_wxauitoolbaritem_setalignment(wxAuiToolBarItem * item, int value) {
+	item->SetAlignment(value);
+}
+
+int bmx_wxauitoolbaritem_getalignment(wxAuiToolBarItem * item) {
+	return item->GetAlignment();
+}
+
 
 // *********************************************
 
@@ -778,6 +982,11 @@ int bmx_wxaui_geteventtype(int type) {
 		case -38: return wxEVT_COMMAND_AUINOTEBOOK_TAB_RIGHT_UP;
 		case -39: return wxEVT_COMMAND_AUINOTEBOOK_DRAG_DONE;
 		case -40: return wxEVT_COMMAND_AUINOTEBOOK_BG_DCLICK;
+		case -41: return wxEVT_AUITOOLBAR_TOOL_DROPDOWN;
+		case -42: return wxEVT_AUITOOLBAR_OVERFLOW_CLICK;
+		case -43: return wxEVT_AUITOOLBAR_RIGHT_CLICK;
+		case -44: return wxEVT_AUITOOLBAR_MIDDLE_CLICK;
+		case -45: return wxEVT_AUITOOLBAR_BEGIN_DRAG;
 	}
 	
 	return 0;
