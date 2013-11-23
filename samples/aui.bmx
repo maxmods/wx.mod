@@ -19,6 +19,7 @@ Import wx.wxStaticText
 Import wx.wxArtProvider
 Import wx.wxColourDialog
 Import wx.wxHtmlWindow
+Import wx.wxChoice
 
 Type MyApp Extends wxApp
 
@@ -72,19 +73,28 @@ Type MyFrame Extends wxFrame
 	Const ID_NoGradient:Int = wxID_HIGHEST + 24
 	Const ID_VerticalGradient:Int = wxID_HIGHEST + 25
 	Const ID_HorizontalGradient:Int = wxID_HIGHEST + 26
-	Const ID_Settings:Int = wxID_HIGHEST + 27
-	Const ID_NotebookNoCloseButton:Int = wxID_HIGHEST + 28
-	Const ID_NotebookCloseButton:Int = wxID_HIGHEST + 29
-	Const ID_NotebookCloseButtonAll:Int = wxID_HIGHEST + 30
-	Const ID_NotebookCloseButtonActive:Int = wxID_HIGHEST + 31
-	Const ID_NotebookAllowTabMove:Int = wxID_HIGHEST + 32
-	Const ID_NotebookAllowTabExternalMove:Int = wxID_HIGHEST + 33
-	Const ID_NotebookAllowTabSplit:Int = wxID_HIGHEST + 34
-	Const ID_NotebookWindowList:Int = wxID_HIGHEST + 35
-	Const ID_NotebookScrollButtons:Int = wxID_HIGHEST + 36
-	Const ID_NotebookTabFixedWidth:Int = wxID_HIGHEST + 37
-	Const ID_NotebookArtGloss:Int = wxID_HIGHEST + 38
-	Const ID_NotebookArtSimple:Int = wxID_HIGHEST + 39
+	Const ID_LiveUpdate:Int = wxID_HIGHEST + 27
+	Const ID_AllowToolbarResizing:Int = wxID_HIGHEST + 28
+	Const ID_Settings:Int = wxID_HIGHEST + 29
+	Const ID_CustomizeToolbar:Int = wxID_HIGHEST + 30
+	Const ID_DropDownToolbarItem:Int = wxID_HIGHEST + 31
+	Const ID_NotebookNoCloseButton:Int = wxID_HIGHEST + 32
+	Const ID_NotebookCloseButton:Int = wxID_HIGHEST + 33
+	Const ID_NotebookCloseButtonAll:Int = wxID_HIGHEST + 34
+	Const ID_NotebookCloseButtonActive:Int = wxID_HIGHEST + 35
+	Const ID_NotebookAllowTabMove:Int = wxID_HIGHEST + 36
+	Const ID_NotebookAllowTabExternalMove:Int = wxID_HIGHEST + 37
+	Const ID_NotebookAllowTabSplit:Int = wxID_HIGHEST + 38
+	Const ID_NotebookWindowList:Int = wxID_HIGHEST + 39
+	Const ID_NotebookScrollButtons:Int = wxID_HIGHEST + 40
+	Const ID_NotebookTabFixedWidth:Int = wxID_HIGHEST + 41
+	Const ID_NotebookArtGloss:Int = wxID_HIGHEST + 42
+	Const ID_NotebookArtSimple:Int = wxID_HIGHEST + 43
+	Const ID_NotebookAlignTop:Int = wxID_HIGHEST + 44
+	Const ID_NotebookAlignBottom:Int = wxID_HIGHEST + 45
+	
+	Const ID_SampleItem:Int = wxID_HIGHEST + 46
+	
 	Const ID_FirstPerspective:Int = ID_CreatePerspective + 1000
 
 	Method OnInit()
@@ -128,10 +138,13 @@ Type MyFrame Extends wxFrame
 		optionsMenu.AppendCheckItem(ID_NoVenetianFade, "Disable Venetian Blinds Hint Fade-in")
 		optionsMenu.AppendCheckItem(ID_TransparentDrag, "Transparent Drag")
 		optionsMenu.AppendCheckItem(ID_AllowActivePane, "Allow Active Pane")
+		optionsMenu.AppendCheckItem(ID_LiveUpdate, "Live Resize Update")
 		optionsMenu.AppendSeparator()
 		optionsMenu.AppendRadioItem(ID_NoGradient, "No Caption Gradient")
 		optionsMenu.AppendRadioItem(ID_VerticalGradient, "Vertical Caption Gradient")
 		optionsMenu.AppendRadioItem(ID_HorizontalGradient, "Horizontal Caption Gradient")
+		optionsMenu.AppendSeparator()
+		optionsMenu.AppendCheckItem(ID_AllowToolbarResizing, "Allow Toolbar Resizing")
 		optionsMenu.AppendSeparator()
 		optionsMenu.Append(ID_Settings, "Settings Pane")
 		
@@ -143,6 +156,9 @@ Type MyFrame Extends wxFrame
 		notebookMenu.AppendRadioItem(ID_NotebookCloseButton, "Close Button at Right")
 		notebookMenu.AppendRadioItem(ID_NotebookCloseButtonAll, "Close Button on All Tabs")
 		notebookMenu.AppendRadioItem(ID_NotebookCloseButtonActive, "Close Button on Active Tab")
+		notebookMenu.AppendSeparator()
+		notebookMenu.AppendRadioItem(ID_NotebookAlignTop, "Tab Top Alignment")
+		notebookMenu.AppendRadioItem(ID_NotebookAlignBottom, "Tab Bottom Alignment")
 		notebookMenu.AppendSeparator()
 		notebookMenu.AppendCheckItem(ID_NotebookAllowTabMove, "Allow Tab Move")
 		notebookMenu.AppendCheckItem(ID_NotebookAllowTabExternalMove, "Allow External Tab Move")
@@ -181,60 +197,75 @@ Type MyFrame Extends wxFrame
 
 
 		' create some toolbars
-		Local tb1:wxToolBar = New wxToolBar.Create(Self, wxID_ANY, ,, ,, wxTB_FLAT | wxTB_NODIVIDER)
+		Local tb1:wxAuiToolBar = New wxAuiToolBar.Create(Self, wxID_ANY, ,, ,, wxAUI_TB_DEFAULT_STYLE | wxAUI_TB_OVERFLOW)
 		tb1.SetToolBitmapSize(48, 48)
-		tb1.AddTool(101, "Test", wxArtProvider.GetBitmap(wxART_ERROR))
+		tb1.AddTool(ID_SampleItem + 1, "Test", wxArtProvider.GetBitmap(wxART_ERROR))
 		tb1.AddSeparator()
-		tb1.AddTool(102, "Test", wxArtProvider.GetBitmap(wxART_QUESTION))
-		tb1.AddTool(103, "Test", wxArtProvider.GetBitmap(wxART_INFORMATION))
-		tb1.AddTool(103, "Test", wxArtProvider.GetBitmap(wxART_WARNING))
-		tb1.AddTool(103, "Test", wxArtProvider.GetBitmap(wxART_MISSING_IMAGE))
+		tb1.AddTool(ID_SampleItem + 2, "Test", wxArtProvider.GetBitmap(wxART_QUESTION))
+		tb1.AddTool(ID_SampleItem + 3, "Test", wxArtProvider.GetBitmap(wxART_INFORMATION))
+		tb1.AddTool(ID_SampleItem + 4, "Test", wxArtProvider.GetBitmap(wxART_WARNING))
+		tb1.AddTool(ID_SampleItem + 5, "Test", wxArtProvider.GetBitmap(wxART_MISSING_IMAGE))
 		tb1.Realize()
 
-		Local tb2:wxToolBar = New wxToolBar.Create(Self, wxID_ANY, ,, ,, wxTB_FLAT | wxTB_NODIVIDER)
+		Local tb2:wxAuiToolBar = New wxAuiToolBar.Create(Self, wxID_ANY, ,, ,, wxAUI_TB_DEFAULT_STYLE | wxAUI_TB_OVERFLOW | wxAUI_TB_HORIZONTAL)
 		tb2.SetToolBitmapSize(16, 16)
 		
 		Local tb2bmp1:wxBitmap = wxArtProvider.GetBitmap(wxART_QUESTION, wxART_OTHER, 16, 16)
-		tb2.AddTool(101, "Test", tb2bmp1)
-		tb2.AddTool(101, "Test", tb2bmp1)
-		tb2.AddTool(101, "Test", tb2bmp1)
-		tb2.AddTool(101, "Test", tb2bmp1)
+		tb2.AddTool(ID_SampleItem+6, "Test", tb2bmp1)
+		tb2.AddTool(ID_SampleItem+7, "Test", tb2bmp1)
+		tb2.AddTool(ID_SampleItem+8, "Test", tb2bmp1)
+		tb2.AddTool(ID_SampleItem+9, "Test", tb2bmp1)
 		tb2.AddSeparator()
-		tb2.AddTool(101, "Test", tb2bmp1)
-		tb2.AddTool(101, "Test", tb2bmp1)
+		tb2.AddTool(ID_SampleItem+10, "Test", tb2bmp1)
+		tb2.AddTool(ID_SampleItem+11, "Test", tb2bmp1)
 		tb2.AddSeparator()
-		tb2.AddTool(101, "Test", tb2bmp1)
-		tb2.AddTool(101, "Test", tb2bmp1)
-		tb2.AddTool(101, "Test", tb2bmp1)
-		tb2.AddTool(101, "Test", tb2bmp1)
+		tb2.AddTool(ID_SampleItem+12, "Test", tb2bmp1)
+		tb2.AddTool(ID_SampleItem+13, "Test", tb2bmp1)
+		tb2.AddTool(ID_SampleItem+14, "Test", tb2bmp1)
+		tb2.AddTool(ID_SampleItem+15, "Test", tb2bmp1)
+		'tb2.SetCustomOverflowItems(prepend_items, append_items)
+		tb2.EnableTool(ID_SampleItem + 6, False)
 		tb2.Realize()
 		
 		
-		Local tb3:wxToolBar = New wxToolBar.Create(Self, wxID_ANY, ,, ,, wxTB_FLAT | wxTB_NODIVIDER)
+		Local tb3:wxAuiToolBar = New wxAuiToolBar.Create(Self, wxID_ANY, ,, ,, wxAUI_TB_DEFAULT_STYLE | wxAUI_TB_OVERFLOW)
 		tb3.SetToolBitmapSize(16, 16)
 		Local tb3bmp1:wxBitmap = wxArtProvider.GetBitmap(wxART_FOLDER, wxART_OTHER, 16, 16)
-		tb3.AddTool(101, "Test", tb3bmp1)
-		tb3.AddTool(101, "Test", tb3bmp1)
-		tb3.AddTool(101, "Test", tb3bmp1)
-		tb3.AddTool(101, "Test", tb3bmp1)
+		tb3.AddTool(ID_SampleItem+16, "Check 1", tb3bmp1, "Check 1", wxITEM_CHECK)
+		tb3.AddTool(ID_SampleItem+17, "Check 2", tb3bmp1, "Check 2", wxITEM_CHECK)
+		tb3.AddTool(ID_SampleItem+18, "Check 3", tb3bmp1, "Check 3", wxITEM_CHECK)
+		tb3.AddTool(ID_SampleItem+19, "Check 4", tb3bmp1, "Check 4", wxITEM_CHECK)
 		tb3.AddSeparator()
-		tb3.AddTool(101, "Test", tb3bmp1)
-		tb3.AddTool(101, "Test", tb3bmp1)
+		tb3.AddTool(ID_SampleItem+20, "Radio 1", tb3bmp1, "Radio 1", wxITEM_RADIO)
+		tb3.AddTool(ID_SampleItem+21, "Radio 2", tb3bmp1, "Radio 2", wxITEM_RADIO)
+		tb3.AddTool(ID_SampleItem+22, "Radio 3", tb3bmp1, "Radio 3", wxITEM_RADIO)
+		tb3.AddSeparator()
+		tb3.AddTool(ID_SampleItem+23, "Radio 1 (Group 2)", tb3bmp1, "Radio 1 (Group 2)", wxITEM_RADIO)
+		tb3.AddTool(ID_SampleItem+24, "Radio 2 (Group 2)", tb3bmp1, "Radio 2 (Group 2)", wxITEM_RADIO)
+		tb3.AddTool(ID_SampleItem+25, "Radio 3 (Group 2)", tb3bmp1, "Radio 3 (Group 2)", wxITEM_RADIO)
+		'tb3.SetCustomOverflowItems(prepend_items, append_items)
 		tb3.Realize()
 		
 		
-		Local tb4:wxToolBar = New wxToolBar.Create(Self, wxID_ANY, ,, ,, wxTB_FLAT | wxTB_NODIVIDER | wxTB_HORZ_TEXT)
+		Local tb4:wxAuiToolBar = New wxAuiToolBar.Create(Self, wxID_ANY, ,, ,, wxAUI_TB_DEFAULT_STYLE | wxAUI_TB_OVERFLOW | ..
+                                         wxAUI_TB_TEXT | wxAUI_TB_HORZ_TEXT)
 		tb4.SetToolBitmapSize(16, 16)
 		Local tb4bmp1:wxBitmap = wxArtProvider.GetBitmap(wxART_NORMAL_FILE, wxART_OTHER, 16, 16)
-		tb4.AddTool(101, "Item 1", tb4bmp1)
-		tb4.AddTool(101, "Item 2", tb4bmp1)
-		tb4.AddTool(101, "Item 3", tb4bmp1)
-		tb4.AddTool(101, "Item 4", tb4bmp1)
+		tb4.AddTool(ID_SampleItem+26, "Item 1", tb4bmp1)
+		tb4.AddTool(ID_SampleItem+27, "Item 2", tb4bmp1)
+		tb4.AddTool(ID_SampleItem+28, "Item 3", tb4bmp1)
+		tb4.AddTool(ID_SampleItem+29, "Item 4", tb4bmp1)
 		tb4.AddSeparator()
-		tb4.AddTool(101, "Item 5", tb4bmp1)
-		tb4.AddTool(101, "Item 6", tb4bmp1)
-		tb4.AddTool(101, "Item 7", tb4bmp1)
-		tb4.AddTool(101, "Item 8", tb4bmp1)
+		tb4.AddTool(ID_SampleItem+30, "Item 5", tb4bmp1)
+		tb4.AddTool(ID_SampleItem+31, "Item 6", tb4bmp1)
+		tb4.AddTool(ID_SampleItem+32, "Item 7", tb4bmp1)
+		tb4.AddTool(ID_SampleItem+33, "Item 8", tb4bmp1)
+		tb4.SetToolDropDown(ID_DropDownToolbarItem, True)
+		'tb4.SetCustomOverflowItems(prepend_items, append_items)
+		Local choice:wxChoice = New wxChoice.Create(tb4, ID_SampleItem+34, Null)
+		choice.Append("One choice")
+		choice.Append("Another choice")
+		tb4.AddControl(choice)
 		tb4.Realize()
 		
 		' create some more toolbars
@@ -247,7 +278,7 @@ Type MyFrame Extends wxFrame
 		tb5.AddTool(103, "Test", wxArtProvider.GetBitmap(wxART_WARNING))
 		tb5.AddTool(103, "Test", wxArtProvider.GetBitmap(wxART_MISSING_IMAGE))
 		tb5.Realize()
-
+'DebugStop
 		' add a bunch of panes
 		manager.AddPaneInfo(CreateTreeCtrl(), New wxAuiPaneInfo.Create().Name("test8").Caption("Tree Pane"). ..
                   Left().Layer(1).Position(1).CloseButton(True).MaximizeButton(True))
