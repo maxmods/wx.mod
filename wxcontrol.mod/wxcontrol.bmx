@@ -64,7 +64,17 @@ Type wxControl Extends wxWindow
 			Return this
 		End If
 	End Function
-	
+
+	Function _find:wxControl(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local control:wxControl = wxControl(wxfind(wxObjectPtr))
+			If Not control Then
+				Return wxControl._create(wxObjectPtr)
+			End If
+			Return control
+		End If
+	End Function
+
 	Rem
 	bbdoc: Creates a new generic control
 	End Rem
