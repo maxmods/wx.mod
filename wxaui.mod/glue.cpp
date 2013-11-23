@@ -770,7 +770,267 @@ MaxAuiToolBar * bmx_wxauitoolbar_create(BBObject * maxHandle, wxWindow * parent,
 
 	return new MaxAuiToolBar(maxHandle, parent, id, x, y, w, h, style);
 }
-		
+
+void bmx_wxauitoolbar_setwindowstyle(wxAuiToolBar * tb, int style) {
+	tb->SetWindowStyle(style);
+}
+
+int bmx_wxauitoolbar_getwindowstyle(wxAuiToolBar * tb) {
+	return static_cast<int>(tb->GetWindowStyle());
+}
+
+void bmx_wxauitoolbar_setartprovider(wxAuiToolBar * tb, wxAuiToolBarArt * art) {
+	tb->SetArtProvider(art);
+}
+
+wxAuiToolBarArt * bmx_wxauitoolbar_getartprovider(wxAuiToolBar * tb) {
+	return tb->GetArtProvider();
+}
+
+int bmx_wxauitoolbar_setfont(wxAuiToolBar * tb, MaxFont * font) {
+	return static_cast<int>(tb->SetFont(font->Font()));
+}
+
+wxAuiToolBarItem * bmx_wxauitoolbar_addtool(wxAuiToolBar * tb, int toolId, BBString * label, MaxBitmap * bitmap, BBString * shortHelp, int kind) {
+	return tb->AddTool(toolId, wxStringFromBBString(label), bitmap->Bitmap(), wxStringFromBBString(shortHelp), static_cast<wxItemKind>(kind));
+}
+
+wxAuiToolBarItem * bmx_wxauitoolbar_addlabel(wxAuiToolBar * tb, int toolId, BBString * label, int width) {
+	return tb->AddLabel(toolId, wxStringFromBBString(label), width);
+}
+
+wxAuiToolBarItem * bmx_wxauitoolbar_addcontrol(wxAuiToolBar * tb, wxControl * control, BBString * label) {
+	return tb->AddControl(control, wxStringFromBBString(label));
+}
+
+wxAuiToolBarItem * bmx_wxauitoolbar_addseparator(wxAuiToolBar * tb) {
+	return tb->AddSeparator();
+}
+
+wxAuiToolBarItem * bmx_wxauitoolbar_addspacer(wxAuiToolBar * tb, int pixels) {
+	return tb->AddSpacer(pixels);
+}
+
+wxAuiToolBarItem * bmx_wxauitoolbar_addstretchspacer(wxAuiToolBar * tb, int proportion) {
+	return tb->AddStretchSpacer(proportion);
+}
+
+int bmx_wxauitoolbar_realize(wxAuiToolBar * tb) {
+	return static_cast<int>(tb->Realize());
+}
+
+wxControl * bmx_wxauitoolbar_findcontrol(wxAuiToolBar * tb, int windowId) {
+	return tb->FindControl(windowId);
+}
+
+wxAuiToolBarItem * bmx_wxauitoolbar_findtoolbyposition(wxAuiToolBar * tb, int x, int y) {
+	return tb->FindToolByPosition(x, y);
+}
+
+wxAuiToolBarItem * bmx_wxauitoolbar_findtoolbyindex(wxAuiToolBar * tb, int idx) {
+	return tb->FindToolByIndex(idx);
+}
+
+wxAuiToolBarItem * bmx_wxauitoolbar_findtool(wxAuiToolBar * tb, int toolId) {
+	return tb->FindTool(toolId);
+}
+
+void bmx_wxauitoolbar_cleartools(wxAuiToolBar * tb) {
+	tb->ClearTools();
+}
+
+void bmx_wxauitoolbar_clear(wxAuiToolBar * tb) {
+	tb->Clear();
+}
+
+int bmx_wxauitoolbar_deletetool(wxAuiToolBar * tb, int toolId) {
+	return static_cast<int>(tb->DeleteTool(toolId));
+}
+
+int bmx_wxauitoolbar_deletebyindex(wxAuiToolBar * tb, int idx) {
+	return static_cast<int>(tb->DeleteByIndex(idx));
+}
+
+int bmx_wxauitoolbar_gettoolcount(wxAuiToolBar * tb) {
+	return static_cast<int>(tb->GetToolCount());
+}
+
+int bmx_wxauitoolbar_gettoolpos(wxAuiToolBar * tb, int toolId) {
+	return tb->GetToolPos(toolId);
+}
+
+int bmx_wxauitoolbar_gettoolindex(wxAuiToolBar * tb, int toolId) {
+	return tb->GetToolIndex(toolId);
+}
+
+int bmx_wxauitoolbar_gettoolfits(wxAuiToolBar * tb, int toolId) {
+	return static_cast<int>(tb->GetToolFits(toolId));
+}
+
+void bmx_wxauitoolbar_gettoolrect(wxAuiToolBar * tb, int toolId, int * x, int * y, int * w, int * h) {
+	wxRect r(tb->GetToolRect(toolId));
+	*x = r.x;
+	*y = r.y;
+	*w = r.width;
+	*h = r.height;
+}
+
+int bmx_wxauitoolbar_gettoolfitsbyindex(wxAuiToolBar * tb, int idx) {
+	return static_cast<int>(tb->GetToolFitsByIndex(idx));
+}
+
+int bmx_wxauitoolbar_gettoolbarfits(wxAuiToolBar * tb) {
+	return static_cast<int>(tb->GetToolBarFits());
+}
+
+void bmx_wxauitoolbar_setmargins(wxAuiToolBar * tb, int w, int h) {
+	tb->SetMargins(w, h);
+}
+
+void bmx_wxauitoolbar_setmarginsrect(wxAuiToolBar * tb, int Left, int Right, int top, int bottom) {
+	tb->SetMargins(Left, Right, top, bottom);
+}
+
+void bmx_wxauitoolbar_settoolbitmapsize(wxAuiToolBar * tb, int w, int h) {
+	tb->SetToolBitmapSize(wxSize(w, h));
+}
+
+void bmx_wxauitoolbar_gettoolbitmapsize(wxAuiToolBar * tb, int * w, int * h) {
+	wxSize s(tb->GetToolBitmapSize());
+	*w = s.GetWidth();
+	*h = s.GetHeight();
+}
+
+int bmx_wxauitoolbar_getoverflowvisible(wxAuiToolBar * tb) {
+	return static_cast<int>(tb->GetOverflowVisible());
+}
+
+void bmx_wxauitoolbar_setoverflowvisible(wxAuiToolBar * tb, int visible) {
+	tb->SetOverflowVisible(static_cast<bool>(visible));
+}
+
+int bmx_wxauitoolbar_getgrippervisible(wxAuiToolBar * tb) {
+	return static_cast<int>(tb->GetGripperVisible());
+}
+
+void bmx_wxauitoolbar_setgrippervisible(wxAuiToolBar * tb, int visible) {
+	tb->SetGripperVisible(static_cast<bool>(visible));
+}
+
+void bmx_wxauitoolbar_toggletool(wxAuiToolBar * tb, int toolId, int state) {
+	tb->ToggleTool(toolId, static_cast<bool>(state));
+}
+
+int bmx_wxauitoolbar_gettooltoggled(wxAuiToolBar * tb, int toolId) {
+	return static_cast<int>(tb->GetToolToggled(toolId));
+}
+
+void bmx_wxauitoolbar_enabletool(wxAuiToolBar * tb, int toolId, int state) {
+	tb->EnableTool(toolId, static_cast<bool>(state));
+}
+
+int bmx_wxauitoolbar_gettoolenabled(wxAuiToolBar * tb, int toolId) {
+	return static_cast<int>(tb->GetToolEnabled(toolId));
+}
+
+void bmx_wxauitoolbar_settooldropdown(wxAuiToolBar * tb, int toolId, int dropdown) {
+	tb->SetToolDropDown(toolId, static_cast<bool>(dropdown));
+}
+
+int bmx_wxauitoolbar_gettooldropdown(wxAuiToolBar * tb, int toolId) {
+	return static_cast<int>(tb->GetToolDropDown(toolId));
+}
+
+void bmx_wxauitoolbar_settoolborderpadding(wxAuiToolBar * tb, int padding) {
+	tb->SetToolBorderPadding(padding);
+}
+
+int bmx_wxauitoolbar_gettoolborderpadding(wxAuiToolBar * tb) {
+	return tb->GetToolBorderPadding();
+}
+
+void bmx_wxauitoolbar_settooltextorientation(wxAuiToolBar * tb, int orientation) {
+	tb->SetToolTextOrientation(orientation);
+}
+
+int bmx_wxauitoolbar_gettooltextorientation(wxAuiToolBar * tb) {
+	return tb->GetToolTextOrientation();
+}
+
+void bmx_wxauitoolbar_settoolpacking(wxAuiToolBar * tb, int packing) {
+	tb->SetToolPacking(packing);
+}
+
+int bmx_wxauitoolbar_gettoolpacking(wxAuiToolBar * tb) {
+	return tb->GetToolPacking();
+}
+
+void bmx_wxauitoolbar_settoolproportion(wxAuiToolBar * tb, int toolId, int proportion) {
+	tb->SetToolProportion(toolId, proportion);
+}
+
+int bmx_wxauitoolbar_gettoolproportion(wxAuiToolBar * tb, int toolId) {
+	return tb->GetToolProportion(toolId);
+}
+
+void bmx_wxauitoolbar_settoolseparation(wxAuiToolBar * tb, int separation) {
+	tb->SetToolSeparation(separation);
+}
+
+int bmx_wxauitoolbar_gettoolseparation(wxAuiToolBar * tb) {
+	return tb->GetToolSeparation();
+}
+
+void bmx_wxauitoolbar_settoolsticky(wxAuiToolBar * tb, int toolId, int sticky) {
+	tb->SetToolSticky(toolId, static_cast<bool>(sticky));
+}
+
+int bmx_wxauitoolbar_gettoolsticky(wxAuiToolBar * tb, int toolId) {
+	return static_cast<int>(tb->GetToolSticky(toolId));
+}
+
+BBString * bmx_wxauitoolbar_gettoollabel(wxAuiToolBar * tb, int toolId) {
+	return bbStringFromWxString(tb->GetToolLabel(toolId));
+}
+
+void bmx_wxauitoolbar_settoollabel(wxAuiToolBar * tb, int toolId, BBString * label) {
+	tb->SetToolLabel(toolId, wxStringFromBBString(label));
+}
+
+MaxBitmap * bmx_wxauitoolbar_gettoolbitmap(wxAuiToolBar * tb, int toolId) {
+	wxBitmap b(tb->GetToolBitmap(toolId));
+	return new MaxBitmap(b);
+}
+
+void bmx_wxauitoolbar_settoolbitmap(wxAuiToolBar * tb, int toolId, MaxBitmap * bitmap) {
+	tb->SetToolBitmap(toolId, bitmap->Bitmap());
+}
+
+BBString * bmx_wxauitoolbar_gettoolshorthelp(wxAuiToolBar * tb, int toolId) {
+	return bbStringFromWxString(tb->GetToolShortHelp(toolId));
+}
+
+void bmx_wxauitoolbar_settoolshorthelp(wxAuiToolBar * tb, int toolId, BBString * helpString) {
+	tb->SetToolShortHelp(toolId, wxStringFromBBString(helpString));
+}
+
+BBString * bmx_wxauitoolbar_gettoollonghelp(wxAuiToolBar * tb, int toolId) {
+	return bbStringFromWxString(tb->GetToolLongHelp(toolId));
+}
+
+void bmx_wxauitoolbar_settoollonghelp(wxAuiToolBar * tb, int toolId, BBString * helpString) {
+	tb->SetToolLongHelp(toolId, wxStringFromBBString(helpString));
+}
+
+void bmx_wxauitoolbar_gethintsize(wxAuiToolBar * tb, int dockDirection, int * w, int * h) {
+	wxSize s(tb->GetHintSize(dockDirection));
+	*w = s.GetWidth();
+	*h = s.GetHeight();
+}
+
+int bmx_wxauitoolbar_ispanevalid(wxAuiToolBar * tb, MaxAuiPaneInfo * pane) {
+	return static_cast<int>(tb->IsPaneValid(pane->Info()));
+}
 
 // *********************************************
 

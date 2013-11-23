@@ -1409,6 +1409,24 @@ Type wxAuiDockArt
 End Type
 
 Rem
+bbdoc: ToolBar art type.
+End Rem
+Type wxAuiToolBarArt
+
+	Field wxObjectPtr:Byte Ptr
+
+	Function _create:wxAuiToolBarArt(wxObjectPtr:Byte Ptr)
+		If wxObjectPtr Then
+			Local this:wxAuiToolBarArt = New wxAuiToolBarArt
+			this.wxObjectPtr = wxObjectPtr
+			Return this
+		End If
+		Return Null
+	End Function
+
+End Type
+
+Rem
 bbdoc: wxAuiToolBar is a dockable toolbar, part of the wxAUI class framework.
 End Rem
 Type wxAuiToolBar Extends wxControl
@@ -1432,6 +1450,258 @@ Type wxAuiToolBar Extends wxControl
 		wxObjectPtr = bmx_wxauitoolbar_create(Self, parent.wxObjectPtr, id, x, y, w, h, style)
 		OnInit()
 		Return Self
+	End Method
+	
+	Method SetWindowStyleFlag(style:Int)
+		bmx_wxauitoolbar_setwindowstyle(wxObjectPtr, style)
+	End Method
+	
+	Method GetWindowStyleFlag:Int()
+		Return bmx_wxauitoolbar_getwindowstyle(wxObjectPtr)
+	End Method
+	
+	Method SetArtProvider(art:wxAuiToolBarArt)
+		bmx_wxauitoolbar_setartprovider(wxObjectPtr, art.wxObjectPtr)
+	End Method
+	
+	Method GetArtProvider:wxAuiToolBarArt()
+		Return wxAuiToolBarArt._create(bmx_wxauitoolbar_getartprovider(wxObjectPtr))
+	End Method
+	
+	Method SetFont:Int(font:wxFont)
+		Return bmx_wxauitoolbar_setfont(wxObjectPtr, font.wxObjectPtr)
+	End Method
+
+	Method AddTool:wxAuiToolBarItem(toolId:Int, label:String, bitmap:wxBitmap, shortHelp:String = Null, kind:Int = wxITEM_NORMAL)
+		Return wxAuiToolBarItem._create(bmx_wxauitoolbar_addtool(wxObjectPtr, toolId, label, bitmap.wxObjectPtr, shortHelp, kind))
+	End Method
+
+	Method AddLabel:wxAuiToolBarItem(toolId:Int, label:String = Null, width:Int = -1)
+		Return wxAuiToolBarItem._create(bmx_wxauitoolbar_addlabel(wxObjectPtr, toolId, label, width))
+	End Method
+
+	Method AddControl:wxAuiToolBarItem(control:wxControl, label:String = Null)
+		Return wxAuiToolBarItem._create(bmx_wxauitoolbar_addcontrol(wxObjectPtr, control.wxObjectPtr, label))
+	End Method
+
+	Method AddSeparator:wxAuiToolBarItem()
+		Return wxAuiToolBarItem._create(bmx_wxauitoolbar_addseparator(wxObjectPtr))
+	End Method
+
+	Method AddSpacer:wxAuiToolBarItem(pixels:Int)
+		Return wxAuiToolBarItem._create(bmx_wxauitoolbar_addspacer(wxObjectPtr, pixels))
+	End Method
+
+	Method AddStretchSpacer:wxAuiToolBarItem(proportion:Int=1)
+		Return wxAuiToolBarItem._create(bmx_wxauitoolbar_addstretchspacer(wxObjectPtr, proportion))
+	End Method
+
+	Method Realize:Int()
+		Return bmx_wxauitoolbar_realize(wxObjectPtr)
+	End Method
+
+	Method FindControl:wxControl(windowId:Int)
+		Return wxControl._find(bmx_wxauitoolbar_findcontrol(wxObjectPtr, windowId))
+	End Method
+
+	Method FindToolByPosition:wxAuiToolBarItem(x:Int, y:Int)
+		Return wxAuiToolBarItem._create(bmx_wxauitoolbar_findtoolbyposition(wxObjectPtr, x, y))
+	End Method
+
+	Method FindToolByIndex:wxAuiToolBarItem(idx:Int)
+		Return wxAuiToolBarItem._create(bmx_wxauitoolbar_findtoolbyindex(wxObjectPtr, idx))
+	End Method
+
+	Method FindTool:wxAuiToolBarItem(toolId:Int)
+		Return wxAuiToolBarItem._create(bmx_wxauitoolbar_findtool(wxObjectPtr, toolId))
+	End Method
+
+	Method ClearTools()
+		bmx_wxauitoolbar_cleartools(wxObjectPtr)
+	End Method
+
+	Method Clear()
+		bmx_wxauitoolbar_clear(wxObjectPtr)
+	End Method
+
+	Method DeleteTool:Int(toolId:Int)
+		Return bmx_wxauitoolbar_deletetool(wxObjectPtr, toolId)
+	End Method
+
+	Method DeleteByIndex:Int(idx:Int)
+		Return bmx_wxauitoolbar_deletebyindex(wxObjectPtr, idx)
+	End Method
+
+	Method GetToolCount:Int()
+		Return bmx_wxauitoolbar_gettoolcount(wxObjectPtr)
+	End Method
+
+	Method GetToolPos:Int(toolId:Int)
+		Return bmx_wxauitoolbar_gettoolpos(wxObjectPtr, toolId)
+	End Method
+
+	Method GetToolIndex:Int(toolId:Int)
+		Return bmx_wxauitoolbar_gettoolindex(wxObjectPtr, toolId)
+	End Method
+
+	Method GetToolFits:Int(toolId:Int)
+		Return bmx_wxauitoolbar_gettoolfits(wxObjectPtr, toolId)
+	End Method
+
+	Method GetToolRect(toolId:Int, x:Int Var, y:Int Var, w:Int Var, h:Int Var)
+		bmx_wxauitoolbar_gettoolrect(wxObjectPtr, toolId, Varptr x, Varptr y, Varptr w, Varptr h)
+	End Method
+
+	Method GetToolFitsByIndex:Int(idx:Int)
+		Return bmx_wxauitoolbar_gettoolfitsbyindex(wxObjectPtr, idx)
+	End Method
+
+	Method GetToolBarFits:Int()
+		Return bmx_wxauitoolbar_gettoolbarfits(wxObjectPtr)
+	End Method
+
+	Method SetMargins(w:Int, h:Int)
+		bmx_wxauitoolbar_setmargins(wxObjectPtr, w, h)
+	End Method
+
+	Method SetMarginsRect(Left:Int, Right:Int, top:Int, bottom:Int)
+		bmx_wxauitoolbar_setmarginsrect(wxObjectPtr, Left, Right, top, bottom)
+	End Method
+
+	Method SetToolBitmapSize(w:Int, h:Int)
+		bmx_wxauitoolbar_settoolbitmapsize(wxObjectPtr, w, h)
+	End Method
+
+	Method GetToolBitmapSize(w:Int Var, h:Int Var)
+		bmx_wxauitoolbar_gettoolbitmapsize(wxObjectPtr, Varptr w, Varptr h)
+	End Method
+
+	Method GetOverflowVisible:Int()
+		Return bmx_wxauitoolbar_getoverflowvisible(wxObjectPtr)
+	End Method
+
+	Method SetOverflowVisible(visible:Int)
+		bmx_wxauitoolbar_setoverflowvisible(wxObjectPtr, visible)
+	End Method
+
+	Method GetGripperVisible:Int()
+		Return bmx_wxauitoolbar_getgrippervisible(wxObjectPtr)
+	End Method
+
+	Method SetGripperVisible(visible:Int)
+		bmx_wxauitoolbar_setgrippervisible(wxObjectPtr, visible)
+	End Method
+
+	Method ToggleTool(toolId:Int, state:Int)
+		bmx_wxauitoolbar_toggletool(wxObjectPtr, toolId, state)
+	End Method
+
+	Method GetToolToggled:Int(toolId:Int)
+		Return bmx_wxauitoolbar_gettooltoggled(wxObjectPtr, toolId)
+	End Method
+
+	Method EnableTool(toolId:Int, state:Int)
+		bmx_wxauitoolbar_enabletool(wxObjectPtr, toolId, state)
+	End Method
+
+	Method GetToolEnabled:Int(toolId:Int)
+		Return bmx_wxauitoolbar_gettoolenabled(wxObjectPtr, toolId)
+	End Method
+
+	Method SetToolDropDown(toolId:Int, dropdown:Int)
+		bmx_wxauitoolbar_settooldropdown(wxObjectPtr, toolId, dropdown)
+	End Method
+
+	Method GetToolDropDown:Int(toolId:Int)
+		Return bmx_wxauitoolbar_gettooldropdown(wxObjectPtr, toolId)
+	End Method
+
+	Method SetToolBorderPadding(padding:Int)
+		bmx_wxauitoolbar_settoolborderpadding(wxObjectPtr, padding)
+	End Method
+
+	Method GetToolBorderPadding:Int()
+		Return bmx_wxauitoolbar_gettoolborderpadding(wxObjectPtr)
+	End Method
+
+	Method SetToolTextOrientation(orientation:Int)
+		bmx_wxauitoolbar_settooltextorientation(wxObjectPtr, orientation)
+	End Method
+
+	Method GetToolTextOrientation:Int()
+		Return bmx_wxauitoolbar_gettooltextorientation(wxObjectPtr)
+	End Method
+
+	Method SetToolPacking(packing:Int)
+		bmx_wxauitoolbar_settoolpacking(wxObjectPtr, packing)
+	End Method
+
+	Method GetToolPacking:Int()
+		Return bmx_wxauitoolbar_gettoolpacking(wxObjectPtr)
+	End Method
+
+	Method SetToolProportion(toolId:Int, proportion:Int)
+		bmx_wxauitoolbar_settoolproportion(wxObjectPtr, toolId, proportion)
+	End Method
+
+	Method GetToolProportion:Int(toolId:Int)
+		Return bmx_wxauitoolbar_gettoolproportion(wxObjectPtr, toolId)
+	End Method
+
+	Method SetToolSeparation(separation:Int)
+		bmx_wxauitoolbar_settoolseparation(wxObjectPtr, separation)
+	End Method
+
+	Method GetToolSeparation:Int()
+		Return bmx_wxauitoolbar_gettoolseparation(wxObjectPtr)
+	End Method
+
+	Method SetToolSticky(toolId:Int, sticky:Int)
+		bmx_wxauitoolbar_settoolsticky(wxObjectPtr, toolId, sticky)
+	End Method
+
+	Method GetToolSticky:Int(toolId:Int)
+		Return bmx_wxauitoolbar_gettoolsticky(wxObjectPtr, toolId)
+	End Method
+
+	Method GetToolLabel:String(toolId:Int)
+		Return bmx_wxauitoolbar_gettoollabel(wxObjectPtr, toolId)
+	End Method
+
+	Method SetToolLabel(toolId:Int, label:String)
+		bmx_wxauitoolbar_settoollabel(wxObjectPtr, toolId, label)
+	End Method
+
+	Method GetToolBitmap:wxBitmap(toolId:Int)
+		Return wxBitmap._create(bmx_wxauitoolbar_gettoolbitmap(wxObjectPtr, toolId))
+	End Method
+
+	Method SetToolBitmap(toolId:Int, bitmap:wxBitmap)
+		bmx_wxauitoolbar_settoolbitmap(wxObjectPtr, toolId, bitmap.wxObjectPtr)
+	End Method
+
+	Method GetToolShortHelp:String(toolId:Int)
+		Return bmx_wxauitoolbar_gettoolshorthelp(wxObjectPtr, toolId)
+	End Method
+
+	Method SetToolShortHelp(toolId:Int, helpString:String)
+		bmx_wxauitoolbar_settoolshorthelp(wxObjectPtr, toolId, helpString)
+	End Method
+
+	Method GetToolLongHelp:String(toolId:Int)
+		Return bmx_wxauitoolbar_gettoollonghelp(wxObjectPtr, toolId)
+	End Method
+
+	Method SetToolLongHelp(toolId:Int, helpString:String)
+		bmx_wxauitoolbar_settoollonghelp(wxObjectPtr, toolId, helpString)
+	End Method
+
+	Method GetHintSize(dockDirection:Int, w:Int Var, h:Int Var)
+		bmx_wxauitoolbar_gethintsize(wxObjectPtr, dockDirection, Varptr w, Varptr h)
+	End Method
+
+	Method IsPaneValid:Int(pane:wxAuiPaneInfo)
+		Return bmx_wxauitoolbar_ispanevalid(wxObjectPtr, pane.wxAuiPaneInfoPtr)
 	End Method
 
 End Type
