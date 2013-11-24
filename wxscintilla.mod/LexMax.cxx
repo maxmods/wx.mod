@@ -100,17 +100,20 @@ static int LowerCase(int c)
 }
 
 static int CheckBMFoldPoint(char const *token, int &level) {
-	if (!strcmp(token, "function") ||
-		!strcmp(token, "type") ||
-		!strcmp(token, "method")) {
+	if (!strcmp(token, "rem") ||
+			!strcmp(token, "function") ||
+			!strcmp(token, "type") ||
+			!strcmp(token, "method")) {
 		level |= SC_FOLDLEVELHEADERFLAG;
 		return 1;
 	}
-	if (!strcmp(token, "end function") ||
-        !strcmp(token, "endfunction") ||
-        !strcmp(token, "end type") ||
-	 	!strcmp(token, "endtype") ||
-		!strcmp(token, "end method") ||
+	if (!strcmp(token, "end rem") ||
+			!strcmp(token, "endrem") ||
+			!strcmp(token, "end function") ||
+    	    !strcmp(token, "endfunction") ||
+        	!strcmp(token, "end type") ||
+		 	!strcmp(token, "endtype") ||
+			!strcmp(token, "end method") ||
         	!strcmp(token, "endmethod")) {
 		return -1;
 	}
