@@ -181,14 +181,14 @@ Type wxFileDirPickerEvent Extends wxCommandEvent
 	bbdoc: Retrieve the absolute path of the file/directory the user has just selected.
 	End Rem
 	Method GetPath:String()
-		Return wx_wxfiledirpickerevent_getpath(wxEventPtr)
+		Return bmx_wxfiledirpickerevent_getpath(wxEventPtr)
 	End Method
 	
 	Rem
 	bbdoc: Set the absolute path of the file/directory associated with the event.
 	End Rem
 	Method SetPath(path:String)
-		wx_wxfiledirpickerevent_setpath(wxEventPtr, path)
+		bmx_wxfiledirpickerevent_setpath(wxEventPtr, path)
 	End Method
 
 End Type

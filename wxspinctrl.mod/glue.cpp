@@ -65,7 +65,7 @@ wxObject * MaxSpinCtrlXmlHandler::DoCreateResource()
                     GetLong(wxT("value"), 0),
                     GetName());
 
-	control->MaxBind(_wx_wxspinctrl_wxSpinCtrl__xrcNew(control));
+	control->MaxBind(CB_PREF(wx_wxspinctrl_wxSpinCtrl__xrcNew)(control));
 
     SetupWindow(control);
 

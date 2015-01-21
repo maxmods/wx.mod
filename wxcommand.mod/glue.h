@@ -29,9 +29,9 @@ extern "C" {
 
 #include <blitz.h>
 
-	int _wx_wxcommand_wxCommand__CanUndo(BBObject * handle);
-	int _wx_wxcommand_wxCommand__Do(BBObject * handle);
-	int _wx_wxcommand_wxCommand__Undo(BBObject * handle);
+	int CB_PREF(wx_wxcommand_wxCommand__CanUndo)(BBObject * handle);
+	int CB_PREF(wx_wxcommand_wxCommand__Do)(BBObject * handle);
+	int CB_PREF(wx_wxcommand_wxCommand__Undo)(BBObject * handle);
 
 	MaxCommand * bmx_wxcommand_create(BBObject * handle, int canUndo, BBString * name);
 	int bmx_wxcommand_canundo(MaxCommand * command);

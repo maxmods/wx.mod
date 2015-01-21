@@ -45,7 +45,7 @@ MaxTreeCtrl::~MaxTreeCtrl() {
 }
 
 int MaxTreeCtrl::OnCompareItems(const wxTreeItemId& item1, const wxTreeItemId& item2) {
-	return _wx_wxtreectrl_wxTreeCtrl__OnCompareItems(maxHandle, new MaxTreeItem(item1), new MaxTreeItem(item2));
+	return CB_PREF(wx_wxtreectrl_wxTreeCtrl__OnCompareItems)(maxHandle, new MaxTreeItem(item1), new MaxTreeItem(item2));
 }
 
 void MaxTreeCtrl::MaxBind(BBObject * handle) {
@@ -112,7 +112,7 @@ wxObject *MaxTreeCtrlXmlHandler::DoCreateResource()
                 wxDefaultValidator,
                 GetName());
 
-	tree->MaxBind(_wx_wxtreectrl_wxTreeCtrl__xrcNew(tree));
+	tree->MaxBind(CB_PREF(wx_wxtreectrl_wxTreeCtrl__xrcNew)(tree));
 
     wxImageList *imagelist = GetImageList();
     if ( imagelist )
@@ -509,12 +509,12 @@ BBArray * bmx_wxtreectrl_getselections(wxTreeCtrl * tree) {
 	wxArrayTreeItemIds selection;
 	int count = tree->GetSelections(selection);
 	
-	BBArray * array = _wx_wxtreectrl_wxTreeCtrl__newSelections(count);
+	BBArray * array = CB_PREF(wx_wxtreectrl_wxTreeCtrl__newSelections)(count);
 	
 	if (count > 0) {
 		for (int i = 0; i < count; i++) {
 			MaxTreeItem * item = new MaxTreeItem(selection.Item(i));
-			_wx_wxtreectrl_wxTreeCtrl__setSelection(array, i, item);
+			CB_PREF(wx_wxtreectrl_wxTreeCtrl__setSelection)(array, i, item);
 		}
 	}
 

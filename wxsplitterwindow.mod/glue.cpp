@@ -61,7 +61,7 @@ wxObject * MaxSplitterWindowXmlHandler::DoCreateResource()
                      GetStyle(wxT("style"), wxSP_3D),
                      GetName());
 
-	splitter->MaxBind(_wx_wxsplitterwindow_wxSplitterWindow__xrcNew(splitter));
+	splitter->MaxBind(CB_PREF(wx_wxsplitterwindow_wxSplitterWindow__xrcNew)(splitter));
 
     SetupWindow(splitter);
 

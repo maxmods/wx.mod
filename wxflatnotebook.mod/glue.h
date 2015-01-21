@@ -32,10 +32,10 @@ extern "C" {
 
 #include <blitz.h>
 	
-	BBArray * _wx_wxflatnotebook_wxFlatNotebook__newbitmaparray(int size);
-	void _wx_wxflatnotebook_wxFlatNotebook__setbitmap(BBArray * list, int index, MaxBitmap * bitmap);
-	MaxBitmap * _wx_wxflatnotebook_wxFlatNotebook__getbitmap(BBArray * list, int index);
-	BBObject * _wx_wxflatnotebook_wxFlatNotebook__xrcNew(wxFlatNotebook * fnb);
+	BBArray * CB_PREF(wx_wxflatnotebook_wxFlatNotebook__newbitmaparray)(int size);
+	void CB_PREF(wx_wxflatnotebook_wxFlatNotebook__setbitmap)(BBArray * list, int index, MaxBitmap * bitmap);
+	MaxBitmap * CB_PREF(wx_wxflatnotebook_wxFlatNotebook__getbitmap)(BBArray * list, int index);
+	BBObject * CB_PREF(wx_wxflatnotebook_wxFlatNotebook__xrcNew)(wxFlatNotebook * fnb);
 
 	wxFlatNotebook * bmx_wxflatnotebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 

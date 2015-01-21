@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxstaticline_wxStaticLine__xrcNew(wxStaticLine * line);
+	BBObject * CB_PREF(wx_wxstaticline_wxStaticLine__xrcNew)(wxStaticLine * line);
 
 	MaxStaticLine * bmx_wxstaticline_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);

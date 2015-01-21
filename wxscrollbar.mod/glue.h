@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxscrollbar_wxScrollBar__xrcNew(wxScrollBar * scrollbar);
+	BBObject * CB_PREF(wx_wxscrollbar_wxScrollBar__xrcNew)(wxScrollBar * scrollbar);
 
 	MaxScrollBar * bmx_wxscrollbar_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	int bmx_wxscrollbar_getrange(wxScrollBar * scrollbar);

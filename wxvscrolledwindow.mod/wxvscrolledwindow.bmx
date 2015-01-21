@@ -92,7 +92,7 @@ Type wxVScrolledWindow Extends wxPanel
 	bbdoc: Called during window creation.
 	about: Override this method to provide your own initialization, like adding controls etc.
 	End Rem
-	Method OnInit()
+	Method OnInit:Int()
 	End Method
 
 	Rem
@@ -196,8 +196,8 @@ Type wxVScrolledWindow Extends wxPanel
 	about: Returns true if the window was scrolled, false otherwise (for example if we're trying to scroll down
 	but we are already showing the last line).
 	End Rem
-	Method ScrollRows:Int(lines:Int)
-		Return bmx_wxvscrolledwindow_scrollrows(wxObjectPtr, lines)
+	Method ScrollRows:Int(LINES:Int)
+		Return bmx_wxvscrolledwindow_scrollrows(wxObjectPtr, LINES)
 	End Method
 	
 	Rem

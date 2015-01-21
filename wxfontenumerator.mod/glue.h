@@ -29,8 +29,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	int _wx_wxfontenumerator_wxFontEnumerator__OnFacename(BBObject * handle, BBString * font);
-	int _wx_wxfontenumerator_wxFontEnumerator__OnFontEncoding(BBObject * handle, BBString * font, BBString * encoding);
+	int CB_PREF(wx_wxfontenumerator_wxFontEnumerator__OnFacename)(BBObject * handle, BBString * font);
+	int CB_PREF(wx_wxfontenumerator_wxFontEnumerator__OnFontEncoding)(BBObject * handle, BBString * font, BBString * encoding);
 
 	MaxFontEnumerator * bmx_wxfontenumerator_create(BBObject * handle);
 	void bmx_wxfontenumerator_delete(wxFontEnumerator * enumerator);
@@ -53,11 +53,11 @@ public:
 protected:
 
 	virtual bool OnFacename(const wxString& font) {
-		return static_cast<bool>(_wx_wxfontenumerator_wxFontEnumerator__OnFacename(maxHandle, bbStringFromWxString(font)));
+		return static_cast<bool>(CB_PREF(wx_wxfontenumerator_wxFontEnumerator__OnFacename)(maxHandle, bbStringFromWxString(font)));
 	}
 
 	virtual bool OnFontEncoding(const wxString& font, const wxString& encoding) {
-		return static_cast<bool>(_wx_wxfontenumerator_wxFontEnumerator__OnFontEncoding(maxHandle, bbStringFromWxString(font), 
+		return static_cast<bool>(CB_PREF(wx_wxfontenumerator_wxFontEnumerator__OnFontEncoding)(maxHandle, bbStringFromWxString(font), 
 			bbStringFromWxString(encoding)));
 	}
 	

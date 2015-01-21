@@ -35,11 +35,11 @@ MaxTipProvider::~MaxTipProvider() {
 }
 
 wxString MaxTipProvider::GetTip() {
-	return wxStringFromBBString(_wx_wxtipprovider_wxTipProvider__GetTip(maxHandle));
+	return wxStringFromBBString(CB_PREF(wx_wxtipprovider_wxTipProvider__GetTip)(maxHandle));
 }
 
 wxString MaxTipProvider::PreProcessTip(const wxString & tip) {
-	return wxStringFromBBString(_wx_wxtipprovider_wxTipProvider__PreProcessTip(maxHandle, bbStringFromWxString(tip)));
+	return wxStringFromBBString(CB_PREF(wx_wxtipprovider_wxTipProvider__PreProcessTip)(maxHandle, bbStringFromWxString(tip)));
 }
 
 

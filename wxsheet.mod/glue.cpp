@@ -53,7 +53,7 @@ MaxSheetSplitter::~MaxSheetSplitter() {
 }
 
 wxSheet * MaxSheetSplitter::CreateSheet(wxWindowID id) {
-	return _wx_wxsheet_wxSheetSplitter__createsheet(maxHandle, id);
+	return CB_PREF(wx_wxsheet_wxSheetSplitter__createsheet)(maxHandle, id);
 }
 
 
@@ -137,7 +137,7 @@ void MaxSheetCellStringRendererRefData::MaxDraw(wxSheet * sheet, MaxSheetCellAtt
 void MaxSheetCellStringRendererRefData::Draw(wxSheet& sheet, const wxSheetCellAttr& attr, wxDC& dc,
 		const wxRect& rect, const wxSheetCoords& coords, bool isSelected) {
 
-	_wx_wxsheet_wxSheetCellStringRendererRefData__Draw(maxHandle, &sheet, new MaxSheetCellAttr(attr), 
+	CB_PREF(wx_wxsheet_wxSheetCellStringRendererRefData__Draw)(maxHandle, &sheet, new MaxSheetCellAttr(attr), 
 			new MaxDC(dc), new MaxRect(rect), coords.GetRow(), coords.GetCol(), isSelected);
 }
 

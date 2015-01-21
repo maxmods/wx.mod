@@ -1425,7 +1425,7 @@ Type TListEventFactory Extends TEventFactory
 		End Select
 		
 		Return Null
-	End End Method
+	End Method
 
 	Method GetEventType:Int(eventType:Int)
 		Select eventType

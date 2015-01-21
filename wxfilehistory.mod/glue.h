@@ -29,8 +29,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBArray * _wx_wxfilehistory_wxFileHistory__makeMenus(int size);
-	void _wx_wxfilehistory_wxFileHistory__addMenu(BBArray * menus, int index, wxMenu * menu);
+	BBArray * CB_PREF(wx_wxfilehistory_wxFileHistory__makeMenus)(int size);
+	void CB_PREF(wx_wxfilehistory_wxFileHistory__addMenu)(BBArray * menus, int index, wxMenu * menu);
 
 	wxFileHistory * bmx_wxfilehistory_create(BBObject * handle, int maxFiles, wxWindowID idBase);
 	void bmx_wxfilehistory_addfiletohistory(wxFileHistory * hist, BBString * filename);

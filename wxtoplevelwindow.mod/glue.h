@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	int _wx_wxtoplevelwindow_wxTopLevelWindow__myShouldPreventAppExit(void * window);
+	int CB_PREF(wx_wxtoplevelwindow_wxTopLevelWindow__myShouldPreventAppExit)(void * window);
 
 	int bmx_wxtoplevelwindow_cansettransparent(wxTopLevelWindow * window);
 	int bmx_wxtoplevelwindow_enableclosebutton(wxTopLevelWindow * window, int value);

@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxspinctrl_wxSpinCtrl__xrcNew(wxSpinCtrl * spin);
+	BBObject * CB_PREF(wx_wxspinctrl_wxSpinCtrl__xrcNew)(wxSpinCtrl * spin);
 
 	MaxSpinCtrl * bmx_wxspinctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y,
 		int w, int h, long style, int min, int max, int initial);

@@ -56,7 +56,7 @@ wxObject * MaxMenuBarXmlHandler::DoCreateResource()
     MaxMenuBar *menubar = new MaxMenuBar(GetStyle());
 
 
-	menubar->MaxBind(_wx_wxmenubar_wxMenuBar__xrcNew(menubar));
+	menubar->MaxBind(CB_PREF(wx_wxmenubar_wxMenuBar__xrcNew)(menubar));
 
     CreateChildren(menubar);
 

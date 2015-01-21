@@ -30,22 +30,22 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxshapeframework_wxSFLineShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFCurveShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFRectShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFBitmapShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFControlShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFEllipseShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFFlexGridShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFGridShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFMultiSelRect__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFDiamondShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFPolygonShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFRoundRectShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFCircleShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFSquareShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFEditTextShape__find(wxSFShapeBase * shape);
-	BBObject * _wx_wxshapeframework_wxSFTextShape__find(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFLineShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFCurveShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFRectShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFBitmapShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFControlShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFEllipseShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFFlexGridShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFGridShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFMultiSelRect__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFDiamondShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFPolygonShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFRoundRectShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFCircleShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFSquareShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFEditTextShape__find)(wxSFShapeBase * shape);
+	BBObject * CB_PREF(wx_wxshapeframework_wxSFTextShape__find)(wxSFShapeBase * shape);
 
 	void bmx_xsserializable_bind(xsSerializable * handle, BBObject * obj);
 

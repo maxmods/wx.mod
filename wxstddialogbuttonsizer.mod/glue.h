@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxstddialogbuttonsizer_wxStdDialogButtonSizer__xrcNew(wxStdDialogButtonSizer * sizer);
+	BBObject * CB_PREF(wx_wxstddialogbuttonsizer_wxStdDialogButtonSizer__xrcNew)(wxStdDialogButtonSizer * sizer);
 
 	wxStdDialogButtonSizer * bmx_wxstddialogbuttonsizer_create(BBObject * handle);
 	void bmx_wxstddialogbuttonsizer_addbutton(wxStdDialogButtonSizer * sizer, wxButton * button);

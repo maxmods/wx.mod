@@ -45,15 +45,15 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBArray * _wx_wxwindow_wxWindow__newwindowarray(int size);
-	void _wx_wxwindow_wxWindow__setwindow(BBArray * array, int index, wxWindow * window);
-	BBArray * _wx_wxwindow_wxSizer__newsizeritemsarray(int size);
-	void _wx_wxwindow_wxSizer__setsizeritem(BBArray * array, int index, wxSizerItem * item);
+	BBArray * CB_PREF(wx_wxwindow_wxWindow__newwindowarray)(int size);
+	void CB_PREF(wx_wxwindow_wxWindow__setwindow)(BBArray * array, int index, wxWindow * window);
+	BBArray * CB_PREF(wx_wxwindow_wxSizer__newsizeritemsarray)(int size);
+	void CB_PREF(wx_wxwindow_wxSizer__setsizeritem)(BBArray * array, int index, wxSizerItem * item);
 
-	BBObject * _wx_wxwindow_wxGridSizer__xrcNew(wxSizer * sizer);
-	BBObject * _wx_wxwindow_wxBoxSizer__xrcNew(wxSizer * sizer);
-	BBObject * _wx_wxwindow_wxFlexGridSizer__xrcNew(wxSizer * sizer);
-	BBObject * _wx_wxwindow_wxGridBagSizer__xrcNew(wxSizer * sizer);
+	BBObject * CB_PREF(wx_wxwindow_wxGridSizer__xrcNew)(wxSizer * sizer);
+	BBObject * CB_PREF(wx_wxwindow_wxBoxSizer__xrcNew)(wxSizer * sizer);
+	BBObject * CB_PREF(wx_wxwindow_wxFlexGridSizer__xrcNew)(wxSizer * sizer);
+	BBObject * CB_PREF(wx_wxwindow_wxGridBagSizer__xrcNew)(wxSizer * sizer);
 
 	MaxWindow * bmx_wxwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	int bmx_wxwindow_show(wxWindow * window, int value);
@@ -70,7 +70,7 @@ extern "C" {
 	void bmx_wxwindow_clienttoscreen(wxWindow * window, int * x, int * y);
 	void bmx_wxwindow_setbackgroundcolour(wxWindow * window, MaxColour * colour);
 	void bmx_wxwindow_setforegroundcolour(wxWindow * window, MaxColour * colour);
-	void bmx_wxwindow_setfont(wxWindow * window, MaxFont * font);
+	int bmx_wxwindow_setfont(wxWindow * window, MaxFont * font);
 	MaxFont * bmx_wxwindow_getfont(wxWindow * window);
 	BBString * bmx_wxwindow_gethelptext(wxWindow * window);
 	int bmx_wxwindow_getid(wxWindow * window);

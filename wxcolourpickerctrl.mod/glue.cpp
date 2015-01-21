@@ -63,7 +63,7 @@ wxObject * MaxColourPickerCtrlXmlHandler::DoCreateResource()
                   wxDefaultValidator,
                   GetName());
 
-	picker->MaxBind(_wx_wxcolourpickerctrl_wxColourPickerCtrl__xrcNew(picker));
+	picker->MaxBind(CB_PREF(wx_wxcolourpickerctrl_wxColourPickerCtrl__xrcNew)(picker));
 
     SetupWindow(picker);
 

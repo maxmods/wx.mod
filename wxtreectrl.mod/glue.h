@@ -36,11 +36,11 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxtreectrl_wxTreeCtrl__xrcNew(wxTreeCtrl * tree);
-	int _wx_wxtreectrl_wxTreeCtrl__OnCompareItems(BBObject * maxHandle, MaxTreeItem * item1, MaxTreeItem * item2);
+	BBObject * CB_PREF(wx_wxtreectrl_wxTreeCtrl__xrcNew)(wxTreeCtrl * tree);
+	int CB_PREF(wx_wxtreectrl_wxTreeCtrl__OnCompareItems)(BBObject * maxHandle, MaxTreeItem * item1, MaxTreeItem * item2);
 
-	BBArray * _wx_wxtreectrl_wxTreeCtrl__newSelections(int size);
-	void _wx_wxtreectrl_wxTreeCtrl__setSelection(BBArray * array, int index, MaxTreeItem * item);
+	BBArray * CB_PREF(wx_wxtreectrl_wxTreeCtrl__newSelections)(int size);
+	void CB_PREF(wx_wxtreectrl_wxTreeCtrl__setSelection)(BBArray * array, int index, MaxTreeItem * item);
 
 	MaxTreeCtrl * bmx_wxtreectrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);

@@ -33,15 +33,15 @@ MaxPdfDocument::~MaxPdfDocument() {
 }
 
 void MaxPdfDocument::Header() {
-	_wx_wxpdfdocument_wxPdfDocument__Header(maxHandle);
+	CB_PREF(wx_wxpdfdocument_wxPdfDocument__Header)(maxHandle);
 }
 
 void MaxPdfDocument::Footer() {
-	_wx_wxpdfdocument_wxPdfDocument__Footer(maxHandle);
+	CB_PREF(wx_wxpdfdocument_wxPdfDocument__Footer)(maxHandle);
 }
 
 bool MaxPdfDocument::AcceptPageBreak() {
-	return _wx_wxpdfdocument_wxPdfDocument__AcceptPageBreak(maxHandle);
+	return CB_PREF(wx_wxpdfdocument_wxPdfDocument__AcceptPageBreak)(maxHandle);
 }
 
 bool MaxPdfDocument::AcceptPageBreak_default() {

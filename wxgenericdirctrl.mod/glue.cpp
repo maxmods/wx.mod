@@ -47,7 +47,7 @@ void MaxGenericDirCtrl::MaxBind(BBObject * handle) {
 
 wxTreeCtrl* MaxGenericDirCtrl::CreateTreeCtrl(wxWindow *parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long treeStyle) {
 	MaxTreeCtrl * tree = new MaxTreeCtrl(parent, id, pos, size, treeStyle);
-	tree->MaxBind(_wx_wxtreectrl_wxTreeCtrl__xrcNew(tree));
+	tree->MaxBind(CB_PREF(wx_wxtreectrl_wxTreeCtrl__xrcNew)(tree));
 	return tree;
 }
 
@@ -73,7 +73,7 @@ wxObject * MaxGenericDirCtrlXmlHandler::DoCreateResource()
                  (int)GetLong(wxT("defaultfilter")),
                  GetName());
 
-	ctrl->MaxBind(_wx_wxgenericdirctrl_wxGenericDirCtrl__xrcNew(ctrl));
+	ctrl->MaxBind(CB_PREF(wx_wxgenericdirctrl_wxGenericDirCtrl__xrcNew)(ctrl));
 
     SetupWindow(ctrl);
 

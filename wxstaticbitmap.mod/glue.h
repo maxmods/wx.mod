@@ -32,7 +32,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxstaticbitmap_wxStaticBitmap__xrcNew(wxStaticBitmap * sb);
+	BBObject * CB_PREF(wx_wxstaticbitmap_wxStaticBitmap__xrcNew)(wxStaticBitmap * sb);
 
 	MaxStaticBitmap * bmx_wxstaticbitmap_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, MaxBitmap * bitmap, int x, int y,
 		int w, int h, long style);

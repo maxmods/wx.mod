@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxfontpickerctrl_wxFontPickerCtrl__xrcNew(wxFontPickerCtrl * picker);
+	BBObject * CB_PREF(wx_wxfontpickerctrl_wxFontPickerCtrl__xrcNew)(wxFontPickerCtrl * picker);
 
 	MaxFontPickerCtrl * bmx_wxfontpickerctrl_create(BBObject * handle, wxWindow * parent, int id,
 		MaxFont * font, int x, int y, int w, int h, long style);

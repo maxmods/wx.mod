@@ -36,8 +36,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxfilepickerctrl_wxFilePickerCtrl__xrcNew(wxFilePickerCtrl * picker);
-	BBObject * _wx_wxfilepickerctrl_wxDirPickerCtrl__xrcNew(wxDirPickerCtrl * picker);
+	BBObject * CB_PREF(wx_wxfilepickerctrl_wxFilePickerCtrl__xrcNew)(wxFilePickerCtrl * picker);
+	BBObject * CB_PREF(wx_wxfilepickerctrl_wxDirPickerCtrl__xrcNew)(wxDirPickerCtrl * picker);
 
 	MaxFilePickerCtrl * bmx_wxfilepickerctrl_create(BBObject * handle, wxWindow * parent, int id,
 		BBString * path, BBString * message, BBString * wildcard, int x, int y, int w, int h, long style);
@@ -49,8 +49,8 @@ extern "C" {
 	BBString * bmx_wxdirpickerctrl_getpath(wxDirPickerCtrl * picker);
 	void bmx_wxdirpickerctrl_setpath(wxDirPickerCtrl * picker, BBString * dirname);
 
-	BBString * wx_wxfiledirpickerevent_getpath(wxFileDirPickerEvent & event);
-	void wx_wxfiledirpickerevent_setpath(wxFileDirPickerEvent & event, BBString * path);
+	BBString * bmx_wxfiledirpickerevent_getpath(wxFileDirPickerEvent & event);
+	void bmx_wxfiledirpickerevent_setpath(wxFileDirPickerEvent & event, BBString * path);
 
 	int bmx_wxfilepickerctrl_geteventtype(int type);
 

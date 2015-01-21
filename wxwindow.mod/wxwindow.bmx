@@ -174,7 +174,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Called during window creation.
 	about: Override this method to provide your own initialization, like adding controls etc.
 	End Rem
-	Method OnInit()
+	Method OnInit:Int()
 	End Method
 	
 	Rem
@@ -1250,8 +1250,8 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Scrolls the window by the given number of lines down (if lines is positive) or up.
 	about: This method is currently only implemented under MSW and wxTextCtrl under wxGTK (it also works for wxScrolledWindow derived classes under all platforms).
 	End Rem
-	Method ScrollLines:Int(lines:Int)
-		Return bmx_wxwindow_scrolllines(wxObjectPtr, lines)
+	Method ScrollLines:Int(LINES:Int)
+		Return bmx_wxwindow_scrolllines(wxObjectPtr, LINES)
 	End Method
 	
 	Rem
@@ -1472,8 +1472,8 @@ Type wxWindow Extends wxEvtHandler
 	drawing their text as well as by wxWindow::GetTextExtent().
 	</p>
 	End Rem
-	Method SetFont(font:wxFont)
-		bmx_wxwindow_setfont(wxObjectPtr, font.wxObjectPtr)
+	Method SetFont:Int(font:wxFont)
+		Return bmx_wxwindow_setfont(wxObjectPtr, font.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -2643,16 +2643,16 @@ Type wxGridSizer Extends wxSizer
 	Rem
 	bbdoc: Constructor for a wxGridSize, using rows and cols.
 	End Rem
-	Method CreateRC:wxGridSizer(rows:Int, cols:Int, vgap:Int, hgap:Int)
-		wxSizerPtr = bmx_wxgridsizer_createrc(Self, rows, cols, vgap, hgap)
+	Method CreateRC:wxGridSizer(rows:Int, COLS:Int, vgap:Int, hgap:Int)
+		wxSizerPtr = bmx_wxgridsizer_createrc(Self, rows, COLS, vgap, hgap)
 		Return Self
 	End Method
 
 	Rem
 	bbdoc: Constructor for a wxGridSize.
 	End Rem
-	Method Create:wxGridSizer(cols:Int, vgap:Int = 0, hgap:Int = 0)
-		wxSizerPtr = bmx_wxgridsizer_create(Self, cols, vgap, hgap)
+	Method Create:wxGridSizer(COLS:Int, vgap:Int = 0, hgap:Int = 0)
+		wxSizerPtr = bmx_wxgridsizer_create(Self, COLS, vgap, hgap)
 		Return Self
 	End Method
 
@@ -2687,8 +2687,8 @@ Type wxGridSizer Extends wxSizer
 	Rem
 	bbdoc: Sets the number of columns in the sizer.
 	End Rem
-	Method SetCols(cols:Int)
-		bmx_wxgridsizer_setcols(wxSizerPtr, cols)
+	Method SetCols(COLS:Int)
+		bmx_wxgridsizer_setcols(wxSizerPtr, COLS)
 	End Method
 	
 	Rem
@@ -2745,8 +2745,8 @@ Type wxFlexGridSizer Extends wxGridSizer
 	parameters is zero, it will be calculated to form the total number of children in the sizer,
 	thus making the sizer grow dynamically. vgap and hgap define extra space between all children.
 	End Rem
-	Method Create:wxFlexGridSizer(cols:Int, vgap:Int = 0, hgap:Int = 0)
-		wxSizerPtr = bmx_wxflexgridsizer_create(Self, cols, vgap, hgap)
+	Method Create:wxFlexGridSizer(COLS:Int, vgap:Int = 0, hgap:Int = 0)
+		wxSizerPtr = bmx_wxflexgridsizer_create(Self, COLS, vgap, hgap)
 		Return Self
 	End Method
 
@@ -2756,8 +2756,8 @@ Type wxFlexGridSizer Extends wxGridSizer
 	parameters is zero, it will be calculated to form the total number of children in the sizer,
 	thus making the sizer grow dynamically. vgap and hgap define extra space between all children.
 	End Rem
-	Method CreateRC:wxFlexGridSizer(rows:Int, cols:Int, vgap:Int, hgap:Int)
-		wxSizerPtr = bmx_wxflexgridsizer_createrc(Self, rows, cols, vgap, hgap)
+	Method CreateRC:wxFlexGridSizer(rows:Int, COLS:Int, vgap:Int, hgap:Int)
+		wxSizerPtr = bmx_wxflexgridsizer_createrc(Self, rows, COLS, vgap, hgap)
 		Return Self
 	End Method
 

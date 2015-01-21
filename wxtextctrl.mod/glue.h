@@ -33,7 +33,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxtextctrl_wxTextCtrl__xrcNew(wxTextCtrl * text);
+	BBObject * CB_PREF(wx_wxtextctrl_wxTextCtrl__xrcNew)(wxTextCtrl * text);
 
 	MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, wxValidator * validator);
 	void bmx_wxtextctrl_appendtext(wxTextCtrl * ctrl, BBString * text);

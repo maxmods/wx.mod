@@ -105,7 +105,7 @@ wxObject * MaxListbookXmlHandler::DoCreateResource()
                    GetStyle(wxT("style")),
                    GetName());
 
-	nb->MaxBind(_wx_wxlistbook_wxListbook__xrcNew(nb));
+	nb->MaxBind(CB_PREF(wx_wxlistbook_wxListbook__xrcNew)(nb));
 
        wxListbook *old_par = m_listbook;
         m_listbook = nb;

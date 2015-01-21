@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxcombobox_wxComboBox__xrcNew(wxComboBox * combo);
+	BBObject * CB_PREF(wx_wxcombobox_wxComboBox__xrcNew)(wxComboBox * combo);
 
 	MaxComboBox * bmx_wxcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style);
 

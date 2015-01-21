@@ -33,7 +33,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxsimplebook_wxSimplebook__xrcNew(wxSimplebook * simple);
+	BBObject * CB_PREF(wx_wxsimplebook_wxSimplebook__xrcNew)(wxSimplebook * simple);
 
 	MaxSimplebook * bmx_wxchoicebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	void bmx_wxsimplebook_seteffects(wxSimplebook * simple, int showEffect, int hideEffect);

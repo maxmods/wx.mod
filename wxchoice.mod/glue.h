@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxchoice_wxChoice__xrcNew(wxChoice * choice);
+	BBObject * CB_PREF(wx_wxchoice_wxChoice__xrcNew)(wxChoice * choice);
 
 	MaxChoice * bmx_wxchoice_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
 	int bmx_wxchoice_getcurrentselection(MaxChoice * choice);

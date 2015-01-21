@@ -66,7 +66,7 @@ wxObject * MaxSliderXmlHandler::DoCreateResource()
                     GetName());
 
 
-	control->MaxBind(_wx_wxslider_wxSlider__xrcNew(control));
+	control->MaxBind(CB_PREF(wx_wxslider_wxSlider__xrcNew)(control));
 
     if( HasParam(wxT("tickfreq")))
     {

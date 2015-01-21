@@ -29,8 +29,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBString * _wx_wxtipprovider_wxTipProvider__PreProcessTip(BBObject * handle, BBString * tip);
-	BBString * _wx_wxtipprovider_wxTipProvider__GetTip(BBObject * handle);
+	BBString * CB_PREF(wx_wxtipprovider_wxTipProvider__PreProcessTip)(BBObject * handle, BBString * tip);
+	BBString * CB_PREF(wx_wxtipprovider_wxTipProvider__GetTip)(BBObject * handle);
 
 	wxTipProvider * bmx_wxtipprovider_create(BBObject * handle, int currentTip);
 	int bmx_wxtipprovider_getcurrenttip(wxTipProvider * tip);

@@ -35,7 +35,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxbitmapcombobox_wxBitmapComboBox__xrcNew(wxBitmapComboBox * combobox);
+	BBObject * CB_PREF(wx_wxbitmapcombobox_wxBitmapComboBox__xrcNew)(wxBitmapComboBox * combobox);
 
 	MaxBitmapComboBox * bmx_wxbitmapcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style);
 	int bmx_wxbitmapcombobox_append(wxBitmapComboBox * combobox, BBString * item, MaxBitmap * bitmap, void * clientData);

@@ -145,7 +145,7 @@ wxObject * MaxTextCtrlXmlHandler::DoCreateResource()
                  wxDefaultValidator,
                  GetName());
 
-	text->MaxBind(_wx_wxtextctrl_wxTextCtrl__xrcNew(text));
+	text->MaxBind(CB_PREF(wx_wxtextctrl_wxTextCtrl__xrcNew)(text));
 
     SetupWindow(text);
 

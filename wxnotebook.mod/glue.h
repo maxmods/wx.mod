@@ -32,7 +32,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxnotebook_wxNotebook__xrcNew(wxNotebook * notebook);
+	BBObject * CB_PREF(wx_wxnotebook_wxNotebook__xrcNew)(wxNotebook * notebook);
 
 	MaxNotebook * bmx_wxnotebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	int bmx_wxnotebook_getrowcount(wxNotebook * notebook);

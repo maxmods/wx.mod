@@ -46,7 +46,7 @@ Import "glue.cpp"
 Extern
 
 	Function bmx_wxdatepickerctrl_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, dt:Byte Ptr, x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxdatepickerctrl_getrange(handle:Byte Ptr, dt1:Byte Ptr, dt2:Byte Ptr)
+	Function bmx_wxdatepickerctrl_getrange:Int(handle:Byte Ptr, dt1:Byte Ptr, dt2:Byte Ptr)
 	Function bmx_wxdatepickerctrl_getvalue:Byte Ptr(handle:Byte Ptr)
 '	Function bmx_wxdatepickerctrl_setformat(handle:Byte Ptr, format:String)
 	Function bmx_wxdatepickerctrl_setrange(handle:Byte Ptr, dt1:Byte Ptr, dt2:Byte Ptr)

@@ -33,15 +33,15 @@ extern "C" {
 	MaxPrintout * bmx_wxprintout_create(BBObject * handle, BBString * title);
 	void bmx_printout_delete(wxPrintout * printout);
 	
-	void _wx_wxprintout_wxPrintout__GetPageInfo(BBObject * handle, int *minPage, int *maxPage, int *pageFrom, int *pageTo);
-	int _wx_wxprintout_wxPrintout__HasPage(BBObject * handle, int pageNum);
+	void CB_PREF(wx_wxprintout_wxPrintout__GetPageInfo)(BBObject * handle, int *minPage, int *maxPage, int *pageFrom, int *pageTo);
+	int CB_PREF(wx_wxprintout_wxPrintout__HasPage)(BBObject * handle, int pageNum);
 
-	int _wx_wxprintout_wxPrintout__OnBeginDocument(BBObject * handle, int startPage, int endPage);
-	void _wx_wxprintout_wxPrintout__OnEndDocument(BBObject * handle);
-	void _wx_wxprintout_wxPrintout__OnBeginPrinting(BBObject * handle);
-	void _wx_wxprintout_wxPrintout__OnEndPrinting(BBObject * handle);
-	void _wx_wxprintout_wxPrintout__OnPreparePrinting(BBObject * handle);
-	int _wx_wxprintout_wxPrintout__OnPrintPage(BBObject * handle, int pageNum);
+	int CB_PREF(wx_wxprintout_wxPrintout__OnBeginDocument)(BBObject * handle, int startPage, int endPage);
+	void CB_PREF(wx_wxprintout_wxPrintout__OnEndDocument)(BBObject * handle);
+	void CB_PREF(wx_wxprintout_wxPrintout__OnBeginPrinting)(BBObject * handle);
+	void CB_PREF(wx_wxprintout_wxPrintout__OnEndPrinting)(BBObject * handle);
+	void CB_PREF(wx_wxprintout_wxPrintout__OnPreparePrinting)(BBObject * handle);
+	int CB_PREF(wx_wxprintout_wxPrintout__OnPrintPage)(BBObject * handle, int pageNum);
 
 	MaxDC * bmx_wxprintout_getdc(wxPrintout * printout);
 	void bmx_wxprintout_getpagesizemm(wxPrintout * printout, int * w, int * h);

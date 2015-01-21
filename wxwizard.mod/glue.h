@@ -34,11 +34,11 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxWizardPage * _wx_wxwizard_wxWizardPage__GetPrev(BBObject * handle);
-	wxWizardPage * _wx_wxwizard_wxWizardPage__GetNext(BBObject * handle);
-	BBObject * _wx_wxwizard_wxWizard__xrcNew(wxWizard * wizard);
-	BBObject * _wx_wxwizard_wxWizardPage__xrcNew(wxWizardPage * page);
-	BBObject * _wx_wxwizard_wxWizardPageSimple__xrcNew(wxWizardPageSimple * page);
+	wxWizardPage * CB_PREF(wx_wxwizard_wxWizardPage__GetPrev)(BBObject * handle);
+	wxWizardPage * CB_PREF(wx_wxwizard_wxWizardPage__GetNext)(BBObject * handle);
+	BBObject * CB_PREF(wx_wxwizard_wxWizard__xrcNew)(wxWizard * wizard);
+	BBObject * CB_PREF(wx_wxwizard_wxWizardPage__xrcNew)(wxWizardPage * page);
+	BBObject * CB_PREF(wx_wxwizard_wxWizardPageSimple__xrcNew)(wxWizardPageSimple * page);
 
 	MaxWizard * bmx_wxwizard_create(BBObject * handle, wxWindow * parent, int id, BBString * title, MaxBitmap * bitmap, int x, int y, long style);
 	wxWizardPage * bmx_wxwizard_getcurrentpage(wxWizard * wizard);

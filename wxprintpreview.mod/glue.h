@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	int _wx_wxprintpreview_wxPrintPreview__PaintPage(BBObject * maxHandle, wxPreviewCanvas * canvas, MaxDC * dc);
+	int CB_PREF(wx_wxprintpreview_wxPrintPreview__PaintPage)(BBObject * maxHandle, wxPreviewCanvas * canvas, MaxDC * dc);
 
 	wxPrintPreview * bmx_wxprintpreview_create(BBObject * handle, wxPrintout * printout, wxPrintout * printoutForPrinting, MaxPrintData * data);
 	void bmx_wxprintpreview_free(wxPrintPreview * preview);

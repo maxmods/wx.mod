@@ -83,7 +83,7 @@ wxObject * MaxFilePickerCtrlXmlHandler::DoCreateResource()
                   wxDefaultValidator,
                   GetName());
 
-	picker->MaxBind(_wx_wxfilepickerctrl_wxFilePickerCtrl__xrcNew(picker));
+	picker->MaxBind(CB_PREF(wx_wxfilepickerctrl_wxFilePickerCtrl__xrcNew)(picker));
 
     SetupWindow(picker);
     return picker;
@@ -112,7 +112,7 @@ wxObject * MaxDirPickerCtrlXmlHandler::DoCreateResource()
                   wxDefaultValidator,
                   GetName());
 
-	picker->MaxBind(_wx_wxfilepickerctrl_wxDirPickerCtrl__xrcNew(picker));
+	picker->MaxBind(CB_PREF(wx_wxfilepickerctrl_wxDirPickerCtrl__xrcNew)(picker));
 
     SetupWindow(picker);
 
@@ -157,11 +157,11 @@ void bmx_wxdirpickerctrl_setpath(wxDirPickerCtrl * picker, BBString * dirname) {
 }
 
 
-BBString * wx_wxfiledirpickerevent_getpath(wxFileDirPickerEvent & event) {
+BBString * bmx_wxfiledirpickerevent_getpath(wxFileDirPickerEvent & event) {
 	return bbStringFromWxString(event.GetPath());
 }
 
-void wx_wxfiledirpickerevent_setpath(wxFileDirPickerEvent & event, BBString * path) {
+void bmx_wxfiledirpickerevent_setpath(wxFileDirPickerEvent & event, BBString * path) {
 	event.SetPath(wxStringFromBBString(path));
 }
 

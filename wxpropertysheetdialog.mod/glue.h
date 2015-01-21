@@ -36,9 +36,9 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxBookCtrlBase * _wx_wxpropertysheetdialog_wxPropertySheetDialog__CreateBookCtrl(BBObject * handle);
-	void _wx_wxpropertysheetdialog_wxPropertySheetDialog__AddBookCtrl(BBObject * handle, wxSizer * sizer);
-	BBObject * _wx_wxpropertysheetdialog_wxPropertySheetDialog__xrcNew(wxPropertySheetDialog * dialog);
+	wxBookCtrlBase * CB_PREF(wx_wxpropertysheetdialog_wxPropertySheetDialog__CreateBookCtrl)(BBObject * handle);
+	void CB_PREF(wx_wxpropertysheetdialog_wxPropertySheetDialog__AddBookCtrl)(BBObject * handle, wxSizer * sizer);
+	BBObject * CB_PREF(wx_wxpropertysheetdialog_wxPropertySheetDialog__xrcNew)(wxPropertySheetDialog * dialog);
 
 	wxPropertySheetDialog * bmx_wxpropertysheetdialog_create(BBObject * handle, wxWindow * parent,
 		wxWindowID id, BBString * title, int x, int y, int w, int h, long style);

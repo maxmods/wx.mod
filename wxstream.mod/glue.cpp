@@ -42,15 +42,15 @@ MaxInputStream::~MaxInputStream() {
 //}
 
 size_t MaxInputStream::OnSysRead(void *buffer, size_t bufsize){
-	return _wx_wxstream_wxMaxInputStream__sysread(maxHandle, buffer, bufsize);
+	return CB_PREF(wx_wxstream_wxMaxInputStream__sysread)(maxHandle, buffer, bufsize);
 }
 
 wxFileOffset MaxInputStream::OnSysSeek(wxFileOffset seek, wxSeekMode mode) {
-	return _wx_wxstream_wxMaxInputStream__sysseek(maxHandle, seek, mode);
+	return CB_PREF(wx_wxstream_wxMaxInputStream__sysseek)(maxHandle, seek, mode);
 }
 
 wxFileOffset MaxInputStream::OnSysTell() const {
-	return _wx_wxstream_wxMaxInputStream__systell(maxHandle);
+	return CB_PREF(wx_wxstream_wxMaxInputStream__systell)(maxHandle);
 }
 
 // *********************************************

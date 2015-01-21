@@ -22,7 +22,11 @@ SuperStrict
 
 Import BRL.Map
 Import BRL.Blitz
+?Not bmx_ng
 Import BRL.System
+?bmx_ng
+Import BRL.SystemDefault
+?
 
 Import "consts.bmx"
 

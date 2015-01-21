@@ -64,7 +64,7 @@ wxObject * MaxGaugeXmlHandler::DoCreateResource()
                     GetName());
 
 
-	control->MaxBind(_wx_wxgauge_wxGauge__xrcNew(control));
+	control->MaxBind(CB_PREF(wx_wxgauge_wxGauge__xrcNew)(control));
 
     if( HasParam(wxT("value")))
     {

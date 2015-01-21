@@ -56,11 +56,11 @@ MaxListCtrl::MaxListCtrl()
 {}
 
 wxString MaxListCtrl::OnGetItemText(long item, long column) const {
-	return wxStringFromBBString(_wx_wxlistctrl_wxListCtrl__OnGetItemText(maxHandle, item, column));
+	return wxStringFromBBString(CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemText)(maxHandle, item, column));
 }
 
 int MaxListCtrl::OnGetItemColumnImage(long item, long column) const {
-	return _wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage(maxHandle, item, column);
+	return CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage)(maxHandle, item, column);
 }
 
 void MaxListCtrl::MaxBind(BBObject * handle) {
@@ -68,11 +68,11 @@ void MaxListCtrl::MaxBind(BBObject * handle) {
 }
 
 wxListItemAttr * MaxListCtrl::OnGetItemAttr(long item) const {
-	return _wx_wxlistctrl_wxListCtrl__OnGetItemAttr(maxHandle, item);
+	return CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemAttr)(maxHandle, item);
 }
 
 int MaxListCtrl::OnGetItemImage(long item) const {
-	return _wx_wxlistctrl_wxListCtrl__OnGetItemImage(maxHandle, item);
+	return CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemImage)(maxHandle, item);
 }
 
 MaxListCtrl::~MaxListCtrl() {
@@ -84,7 +84,7 @@ int wxCALLBACK compare(long item1, long item2, long sortData) {
 	void * data1 = wxUIntToPtr(item1);
 	void * data2 = wxUIntToPtr(item2);
 	void * data3 = wxUIntToPtr(sortData);
-	return _wx_wxlistctrl_wxListCtrl__sortCallback((BBObject*)data1,
+	return CB_PREF(wx_wxlistctrl_wxListCtrl__sortCallback)((BBObject*)data1,
 			(BBObject*)data2, (BBObject*)data3);
 }
 
@@ -132,7 +132,7 @@ wxObject * MaxListCtrlXmlHandler::DoCreateResource()
 
     // FIXME: add columns definition
 
-	list->MaxBind(_wx_wxlistctrl_wxListCtrl__xrcNew(list));
+	list->MaxBind(CB_PREF(wx_wxlistctrl_wxListCtrl__xrcNew)(list));
 
     SetupWindow(list);
 

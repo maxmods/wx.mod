@@ -50,7 +50,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	void _wx_wxglcanvas_wxGLCanvas__OnPaint(BBObject * event);
+	void CB_PREF(wx_wxglcanvas_wxGLCanvas__OnPaint)(BBObject * event);
 
 	MaxGLCanvas * bmx_wxglcanvas_create(BBObject * handle, wxWindow* parent, wxWindowID id,
 		int flags, int x, int y, int w, int h, long style);

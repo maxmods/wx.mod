@@ -108,7 +108,7 @@ wxWindow *MaxMdiXmlHandler::CreateFrame()
                       GetName());
 
 
-		frame->MaxBind(_wx_wxmdi_wxMDIParentFrame__xrcNew(frame));
+		frame->MaxBind(CB_PREF(wx_wxmdi_wxMDIParentFrame__xrcNew)(frame));
 
         return frame;
     }
@@ -131,7 +131,7 @@ wxWindow *MaxMdiXmlHandler::CreateFrame()
                       GetStyle(wxT("style"), wxDEFAULT_FRAME_STYLE),
                       GetName());
 
-		frame->MaxBind(_wx_wxmdi_wxMDIChildFrame__xrcNew(frame));
+		frame->MaxBind(CB_PREF(wx_wxmdi_wxMDIChildFrame__xrcNew)(frame));
 
         return frame;
     }

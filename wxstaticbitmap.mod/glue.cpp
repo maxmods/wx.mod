@@ -62,7 +62,7 @@ wxObject * MaxStaticBitmapXmlHandler::DoCreateResource()
                 GetStyle(),
                 GetName());
 
-	bmp->MaxBind(_wx_wxstaticbitmap_wxStaticBitmap__xrcNew(bmp));
+	bmp->MaxBind(CB_PREF(wx_wxstaticbitmap_wxStaticBitmap__xrcNew)(bmp));
 
     SetupWindow(bmp);
 

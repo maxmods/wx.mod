@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxpanel_wxPanel__xrcNew(wxPanel * panel);
+	BBObject * CB_PREF(wx_wxpanel_wxPanel__xrcNew)(wxPanel * panel);
 
 	MaxPanel * bmx_wxpanel_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	void bmx_wxpanel_initdialog(wxPanel * panel);

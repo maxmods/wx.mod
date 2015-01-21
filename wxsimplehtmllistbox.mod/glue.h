@@ -34,7 +34,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxsimplehtmllistbox_wxSimpleHtmlListBox__xrcNew(wxSimpleHtmlListBox * listbox);
+	BBObject * CB_PREF(wx_wxsimplehtmllistbox_wxSimpleHtmlListBox__xrcNew)(wxSimpleHtmlListBox * listbox);
 
 	MaxSimpleHtmlListBox * bmx_wxsimplehtmllistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 

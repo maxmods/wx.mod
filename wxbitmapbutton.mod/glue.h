@@ -34,7 +34,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxbitmapbutton_wxBitmapButton__xrcNew(wxBitmapButton * button);
+	BBObject * CB_PREF(wx_wxbitmapbutton_wxBitmapButton__xrcNew)(wxBitmapButton * button);
 
 	MaxBitmapButton * bmx_wxbitmapbutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, MaxBitmap * bitmap, int x, int y,
 		int w, int h, long style);

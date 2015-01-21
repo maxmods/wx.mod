@@ -35,7 +35,7 @@ MaxPrintPreview::~MaxPrintPreview() {
 }
 
 bool MaxPrintPreview::PaintPage(wxPreviewCanvas *canvas, wxDC & dc) {
-	return static_cast<bool>(_wx_wxprintpreview_wxPrintPreview__PaintPage(maxHandle, canvas, new MaxDC(dc)));
+	return static_cast<bool>(CB_PREF(wx_wxprintpreview_wxPrintPreview__PaintPage)(maxHandle, canvas, new MaxDC(dc)));
 }
 
 bool MaxPrintPreview::PaintPage_default(wxPreviewCanvas *canvas, MaxDC * dc) {

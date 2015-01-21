@@ -63,7 +63,7 @@ wxObject * MaxMenuXmlHandler::DoCreateResource()
 			menu = wxStaticCast(m_instance, MaxMenu);
 		} else {
 	          menu = new MaxMenu(GetStyle());
-			menu->MaxBind(_wx_wxmenu_wxMenu__xrcNew(menu));
+			menu->MaxBind(CB_PREF(wx_wxmenu_wxMenu__xrcNew)(menu));
 		}
 
         wxString title = GetText(wxT("label"));
@@ -295,7 +295,7 @@ void bmx_wxmenu_updateui(wxMenu * menu, wxEvtHandler * source) {
 void bmx_wxmenu_getmenuitems(wxMenu * menu, BBArray * items) {
 	int index = 0;
 	for ( wxwxMenuItemListNode *node = menu->GetMenuItems().GetFirst(); node; node = node->GetNext() )     { 
-		_wx_wxmenu_wxMenu__setmenuitem(items, index, node->GetData());
+		CB_PREF(wx_wxmenu_wxMenu__setmenuitem)(items, index, node->GetData());
 		index++;
 	} 
 }

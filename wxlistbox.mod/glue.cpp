@@ -84,7 +84,7 @@ wxObject * MaxListBoxXmlHandler::DoCreateResource()
                         wxDefaultValidator,
                         GetName());
 
-		control->MaxBind(_wx_wxlistbox_wxListBox__xrcNew(control));
+		control->MaxBind(CB_PREF(wx_wxlistbox_wxListBox__xrcNew)(control));
 
         if (selection != -1)
             control->SetSelection(selection);

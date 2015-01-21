@@ -43,7 +43,7 @@ MaxTimer::~MaxTimer() {
 void MaxTimer::Notify() {
 	if (GetOwner() == this) {
 		// call our own Notify()
-		_wx_wxtimer_wxTimer__notify(maxHandle);
+		CB_PREF(wx_wxtimer_wxTimer__notify)(maxHandle);
 	} else {
 		// pass the event to the current owner!
 		wxTimerEvent event(*this);

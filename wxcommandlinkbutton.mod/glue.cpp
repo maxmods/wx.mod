@@ -65,7 +65,7 @@ wxObject * MaxCommandLinkButtonXmlHandler::DoCreateResource()
                     wxDefaultValidator,
                     GetName());
 
-	button->MaxBind(_wx_wxcommandlinkbutton_wxCommandLinkButton__xrcNew(button));
+	button->MaxBind(CB_PREF(wx_wxcommandlinkbutton_wxCommandLinkButton__xrcNew)(button));
 
     SetupWindow(button);
 

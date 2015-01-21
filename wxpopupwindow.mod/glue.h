@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	void _wx_wxpopupwindow_wxPopupWindow__Position(BBObject * handle, int x, int y, int w, int h);
+	void CB_PREF(wx_wxpopupwindow_wxPopupWindow__Position)(BBObject * handle, int x, int y, int w, int h);
 
 	wxPopupWindow * bmx_wxpopupwindow_create(BBObject * handle, wxWindow * parent, int flags);
 	void bmx_wxpopupwindow_position(MaxPopupWindow * window, int x, int y, int w, int h);

@@ -29,8 +29,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	void _wx_wxpreviewframe_wxPreviewFrame__CreateControlBar(BBObject * handle);
-	void _wx_wxpreviewframe_wxPreviewFrame__CreateCanvas(BBObject * handle);
+	void CB_PREF(wx_wxpreviewframe_wxPreviewFrame__CreateControlBar)(BBObject * handle);
+	void CB_PREF(wx_wxpreviewframe_wxPreviewFrame__CreateCanvas)(BBObject * handle);
 
 
 	wxPreviewFrame * bmx_wxpreviewframe_create(BBObject * handle, wxPrintPreview * preview, wxWindow * parent, BBString * title,

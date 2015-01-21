@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxstatusbar_wxStatusBar__xrcNew(wxStatusBar * statusbar);
+	BBObject * CB_PREF(wx_wxstatusbar_wxStatusBar__xrcNew)(wxStatusBar * statusbar);
 
 	void bmx_wxstatusbar_injectSelf(MaxStatusBar * statusbar, BBObject * handle);
 	

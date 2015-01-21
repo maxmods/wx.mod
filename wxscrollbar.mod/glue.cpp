@@ -66,7 +66,7 @@ wxObject * MaxScrollBarXmlHandler::DoCreateResource()
                           GetLong( wxT("range"), 10),
                           GetLong( wxT("pagesize"),1));
 
-	control->MaxBind(_wx_wxscrollbar_wxScrollBar__xrcNew(control));
+	control->MaxBind(CB_PREF(wx_wxscrollbar_wxScrollBar__xrcNew)(control));
 
     SetupWindow(control);
     CreateChildren(control);

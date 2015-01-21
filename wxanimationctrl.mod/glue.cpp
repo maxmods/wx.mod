@@ -63,7 +63,7 @@ wxObject * MaxAnimationCtrlXmlHandler::DoCreateResource()
                   GetStyle(wxT("style"), wxAC_DEFAULT_STYLE),
                   GetName());
 
-	ctrl->MaxBind(_wx_wxanimationctrl_wxAnimationCtrl__xrcNew(ctrl));
+	ctrl->MaxBind(CB_PREF(wx_wxanimationctrl_wxAnimationCtrl__xrcNew)(ctrl));
 
     // if no inactive-bitmap has been provided, GetBitmap() will return wxNullBitmap
     // which just tells wxAnimationCtrl to use the default for inactive status

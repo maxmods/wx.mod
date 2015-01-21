@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	MaxBitmap * _wx_wxartprovider_wxArtProvider__CreateBitmap(BBObject * handle, BBString * id, BBString * client, int w, int h);
+	MaxBitmap * CB_PREF(wx_wxartprovider_wxArtProvider__CreateBitmap)(BBObject * handle, BBString * id, BBString * client, int w, int h);
 
 	MaxArtProvider * bmx_wxartprovider_create(BBObject * handle);
 	MaxBitmap * bmx_wxartprovider_getbitmap(BBString * id, BBString * client, int w, int h);

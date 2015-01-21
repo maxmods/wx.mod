@@ -1021,7 +1021,7 @@ Type wxEvtHandler Extends wxObject
 		Return Self
 	End Method
 	
-	Method OnInit()
+	Method OnInit:Int()
 	End Method
 
 	' TODO: a map/list of event handles for this instance

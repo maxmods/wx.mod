@@ -35,11 +35,11 @@ MaxVScrolledWindow::~MaxVScrolledWindow() {
 }
 
 wxCoord MaxVScrolledWindow::OnGetRowHeight(size_t n) const {
-	return _wx_wxvscrolledwindow_wxVScrolledWindow__OnGetRowHeight(this, n);
+	return CB_PREF(wx_wxvscrolledwindow_wxVScrolledWindow__OnGetRowHeight)(this, n);
 }
 
 void MaxVScrolledWindow::OnGetRowsHeightHint(size_t lineMin, size_t lineMax) const {
-	_wx_wxvscrolledwindow_wxVScrolledWindow__OnGetRowsHeightHint(this, lineMin, lineMax);
+	CB_PREF(wx_wxvscrolledwindow_wxVScrolledWindow__OnGetRowsHeightHint)(this, lineMin, lineMax);
 }
 
 

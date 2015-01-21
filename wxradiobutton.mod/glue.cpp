@@ -63,7 +63,7 @@ wxObject * MaxRadioButtonXmlHandler::DoCreateResource()
                     wxDefaultValidator,
                     GetName());
 
-	control->MaxBind(_wx_wxradiobutton_wxRadioButton__xrcNew(control));
+	control->MaxBind(CB_PREF(wx_wxradiobutton_wxRadioButton__xrcNew)(control));
 
     control->SetValue(GetBool(wxT("value"), 0));
     SetupWindow(control);

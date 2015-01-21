@@ -167,7 +167,7 @@ Type wxFrame Extends wxTopLevelWindow
 	bbdoc: Called during frame creation.
 	about: Override this method to provide your own initialization, like adding menus, controls etc.
 	End Rem
-	Method OnInit()
+	Method OnInit:Int()
 	End Method
 	
 	Rem

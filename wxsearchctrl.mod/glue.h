@@ -35,7 +35,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxsearchctrl_wxSearchCtrl__xrcNew(wxSearchCtrl * search);
+	BBObject * CB_PREF(wx_wxsearchctrl_wxSearchCtrl__xrcNew)(wxSearchCtrl * search);
 
 	MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, wxValidator * validator);
 	void bmx_wxsearchctrl_setmenu(wxSearchCtrl * search, wxMenu * menu);

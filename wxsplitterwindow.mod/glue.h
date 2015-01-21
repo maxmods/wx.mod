@@ -32,7 +32,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxsplitterwindow_wxSplitterWindow__xrcNew(wxSplitterWindow * window);
+	BBObject * CB_PREF(wx_wxsplitterwindow_wxSplitterWindow__xrcNew)(wxSplitterWindow * window);
 
 	MaxSplitterWindow * bmx_wxsplitterwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);

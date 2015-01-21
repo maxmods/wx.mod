@@ -33,8 +33,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxmdi_wxMDIParentFrame__xrcNew(wxMDIParentFrame * frame);
-	BBObject * _wx_wxmdi_wxMDIChildFrame__xrcNew(wxMDIChildFrame * frame);
+	BBObject * CB_PREF(wx_wxmdi_wxMDIParentFrame__xrcNew)(wxMDIParentFrame * frame);
+	BBObject * CB_PREF(wx_wxmdi_wxMDIChildFrame__xrcNew)(wxMDIChildFrame * frame);
 
 	wxMDIParentFrame * bmx_wxmdiparentframe_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, long style);
 	void bmx_wxmdiparentframe_activatenext(wxMDIParentFrame * frame);

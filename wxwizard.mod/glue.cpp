@@ -56,11 +56,11 @@ MaxWizardPage::~MaxWizardPage() {
 }
 
 wxWizardPage* MaxWizardPage::GetPrev() const {
-	return _wx_wxwizard_wxWizardPage__GetPrev(maxHandle);
+	return CB_PREF(wx_wxwizard_wxWizardPage__GetPrev)(maxHandle);
 }
 
 wxWizardPage* MaxWizardPage::GetNext() const {
-	return _wx_wxwizard_wxWizardPage__GetNext(maxHandle);
+	return CB_PREF(wx_wxwizard_wxWizardPage__GetNext)(maxHandle);
 }
 
 void MaxWizardPage::MaxBind(BBObject * handle) {
@@ -107,7 +107,7 @@ wxObject * MaxWizardXmlHandler::DoCreateResource()
                     GetBitmap(),
                     GetPosition());
 
-	wiz->MaxBind(_wx_wxwizard_wxWizard__xrcNew(wiz));
+	wiz->MaxBind(CB_PREF(wx_wxwizard_wxWizard__xrcNew)(wiz));
 
         wxWizard *old = m_wizard;
         m_wizard = wiz;
@@ -129,7 +129,7 @@ wxObject * MaxWizardXmlHandler::DoCreateResource()
             page = p;
             m_lastSimplePage = p;
 
-		p->MaxBind(_wx_wxwizard_wxWizardPageSimple__xrcNew(p));
+		p->MaxBind(CB_PREF(wx_wxwizard_wxWizardPageSimple__xrcNew)(p));
 
         }
         else /*if (m_class == wxT("wxWizardPage"))*/

@@ -35,7 +35,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxtoolbar_wxToolBar__xrcNew(wxToolBar * toolbar);
+	BBObject * CB_PREF(wx_wxtoolbar_wxToolBar__xrcNew)(wxToolBar * toolbar);
 
 	void bmx_wxtoolbar_injectSelf(MaxToolBar * toolbar, BBObject * handle);
 

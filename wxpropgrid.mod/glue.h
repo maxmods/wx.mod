@@ -52,10 +52,10 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBArray * _wx_wxpropgrid_wxPropertyGrid__newPropertiesArray(int size);
-	void _wx_wxpropgrid_wxPropertyGrid__addProperty(BBArray * props, int i, wxPGProperty * prop);
-	wxPGProperty * _wx_wxpropgrid_wxPropertyGrid__getProperty(BBArray * props, int i);
-	BBObject * _wx_wxpropgrid_wxPropertyGrid__xrcNew(wxPropertyGrid * grid);
+	BBArray * CB_PREF(wx_wxpropgrid_wxPropertyGrid__newPropertiesArray)(int size);
+	void CB_PREF(wx_wxpropgrid_wxPropertyGrid__addProperty)(BBArray * props, int i, wxPGProperty * prop);
+	wxPGProperty * CB_PREF(wx_wxpropgrid_wxPropertyGrid__getProperty)(BBArray * props, int i);
+	BBObject * CB_PREF(wx_wxpropgrid_wxPropertyGrid__xrcNew)(wxPropertyGrid * grid);
 
 	wxPropertyGrid * bmx_wxpropertygrid_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	wxPGProperty * bmx_wxpropertycontainermethods_append(wxPropertyGridInterface * prop, wxPGProperty * property);

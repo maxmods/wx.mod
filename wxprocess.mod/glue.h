@@ -37,7 +37,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	void _wx_wxprocess_wxProcess__OnTerminate(BBObject * handle, int pid, int status);
+	void CB_PREF(wx_wxprocess_wxProcess__OnTerminate)(BBObject * handle, int pid, int status);
 
 	wxProcess * bmx_wxprocess_create(BBObject * handle, wxEvtHandler * parent, int id);
 	wxProcess * bmx_wxprocess_createwithflags(BBObject * handle, int flags);

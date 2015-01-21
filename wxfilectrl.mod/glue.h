@@ -34,7 +34,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxfilectrl_wxFileCtrl__xrcNew(wxFileCtrl * control);
+	BBObject * CB_PREF(wx_wxfilectrl_wxFileCtrl__xrcNew)(wxFileCtrl * control);
 
 	MaxFileCtrl * bmx_wxfilectrl_create(BBObject * handle, wxWindow * parent, int id, BBString * defaultDirectory, BBString * defaultFilename, BBString * wildcard, int x, int y, int w, int h, int style);
 	BBString * bmx_wxfilectrl_getdirectory(wxFileCtrl * control);

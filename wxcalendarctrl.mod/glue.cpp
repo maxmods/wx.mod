@@ -63,7 +63,7 @@ wxObject * MaxCalendarCtrlXmlHandler::DoCreateResource()
                      GetStyle(),
                      GetName());
 
- 	calendar->MaxBind(_wx_wxcalendarctrl_wxCalendarCtrl__xrcNew(calendar));
+ 	calendar->MaxBind(CB_PREF(wx_wxcalendarctrl_wxCalendarCtrl__xrcNew)(calendar));
 
    SetupWindow(calendar);
 

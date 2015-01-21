@@ -105,7 +105,7 @@ wxObject * MaxNotebookXmlHandler::DoCreateResource()
                    GetStyle(wxT("style")),
                    GetName());
 
-		nb->MaxBind(_wx_wxnotebook_wxNotebook__xrcNew(nb));
+		nb->MaxBind(CB_PREF(wx_wxnotebook_wxNotebook__xrcNew)(nb));
 
         SetupWindow(nb);
 

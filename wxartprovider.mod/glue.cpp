@@ -36,7 +36,7 @@ MaxArtProvider::~MaxArtProvider() {
 
 wxBitmap MaxArtProvider::CreateBitmap(const wxArtID& id, const wxArtClient& client, const wxSize& size) {
 
-	MaxBitmap * bitmap = _wx_wxartprovider_wxArtProvider__CreateBitmap(maxHandle, bbStringFromWxString(id),
+	MaxBitmap * bitmap = CB_PREF(wx_wxartprovider_wxArtProvider__CreateBitmap)(maxHandle, bbStringFromWxString(id),
 		bbStringFromWxString(client), size.x, size.y);
 		
 	if (bitmap) {

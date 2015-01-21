@@ -32,8 +32,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	void _wx_wxmenu_wxMenu__setmenuitem(BBArray * items, int index, wxMenuItem * item);
-	BBObject * _wx_wxmenu_wxMenu__xrcNew(wxMenu * menu);
+	void CB_PREF(wx_wxmenu_wxMenu__setmenuitem)(BBArray * items, int index, wxMenuItem * item);
+	BBObject * CB_PREF(wx_wxmenu_wxMenu__xrcNew)(wxMenu * menu);
 
 	MaxMenu * bmx_wxmenu_create(BBObject * maxHandle, BBString * title, long style);
 	wxMenuItem * bmx_wxmenu_append(wxMenu * menu, int id, BBString * item, BBString * helpString, wxItemKind kind);

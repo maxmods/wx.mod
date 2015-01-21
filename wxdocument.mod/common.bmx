@@ -133,7 +133,7 @@ Extern
 
 	Function bmx_wxview_create:Byte Ptr(handle:Object)
 	Function bmx_wxview_activate(handle:Byte Ptr, doActivate:Int)
-	Function bmx_wxview_close(handle:Byte Ptr, deleteWindow:Int)
+	Function bmx_wxview_close:Int(handle:Byte Ptr, deleteWindow:Int)
 	Function bmx_wxview_getdocument:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxview_getdocumentmanager:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxview_getframe:Byte Ptr(handle:Byte Ptr)

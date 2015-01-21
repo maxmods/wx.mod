@@ -31,11 +31,11 @@ extern "C" {
 
 #include <blitz.h>
 
-	bool _wx_wxstream_wxMaxInputStream__eof(BBObject * handle);
-	MaxInputStream * _wx_wxstream_wxMaxInputStream__read(BBObject * handle, void *buffer, size_t size);
-	size_t _wx_wxstream_wxMaxInputStream__sysread(BBObject * handle, void *buffer, size_t size);
-	wxFileOffset _wx_wxstream_wxMaxInputStream__sysseek(BBObject * handle, wxFileOffset seek, wxSeekMode mode);
-	wxFileOffset _wx_wxstream_wxMaxInputStream__systell(BBObject * handle);
+	int CB_PREF(wx_wxstream_wxMaxInputStream__eof)(BBObject * handle);
+	MaxInputStream * CB_PREF(wx_wxstream_wxMaxInputStream__read)(BBObject * handle, void *buffer, size_t size);
+	size_t CB_PREF(wx_wxstream_wxMaxInputStream__sysread)(BBObject * handle, void *buffer, size_t size);
+	wxFileOffset CB_PREF(wx_wxstream_wxMaxInputStream__sysseek)(BBObject * handle, wxFileOffset seek, wxSeekMode mode);
+	wxFileOffset CB_PREF(wx_wxstream_wxMaxInputStream__systell)(BBObject * handle);
 
 	MaxInputStream * bmx_wxmaxinputstream_create(BBObject * handle);
 	void bmx_wxmaxinputstream_delete(MaxInputStream * handle);

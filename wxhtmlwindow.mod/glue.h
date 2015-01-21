@@ -39,14 +39,14 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxhtmlwindow_wxHtmlWindow__xrcNew(wxHtmlWindow * window);
+	BBObject * CB_PREF(wx_wxhtmlwindow_wxHtmlWindow__xrcNew)(wxHtmlWindow * window);
 
-	BBString * _wx_wxhtmlwindow_wxHtmlProcessor__Process(BBObject * handle, BBString * text);
-	BBString * _wx_wxhtmlwindow_wxHtmlWindow__OnOpeningURL(BBObject * handle, wxHtmlURLType urlType, BBString * url, wxHtmlOpeningStatus * returnStatus);
-	void _wx_wxhtmlwindow_wxHtmlWindow__OnSetTitle(BBObject * handle, BBString * title);
-	void _wx_wxhtmlwindow_wxHtmlTagsModule__FillHandlersTable(BBObject * handle, wxHtmlWinParser * parser);
-	int _wx_wxhtmlwindow_wxHtmlTagHandler__HandleTag(BBObject * handle, MaxHtmlTag * tag);
-	BBString * _wx_wxhtmlwindow_wxHtmlTagHandler__GetSupportedTags(BBObject * handle);
+	BBString * CB_PREF(wx_wxhtmlwindow_wxHtmlProcessor__Process)(BBObject * handle, BBString * text);
+	BBString * CB_PREF(wx_wxhtmlwindow_wxHtmlWindow__OnOpeningURL)(BBObject * handle, wxHtmlURLType urlType, BBString * url, wxHtmlOpeningStatus * returnStatus);
+	void CB_PREF(wx_wxhtmlwindow_wxHtmlWindow__OnSetTitle)(BBObject * handle, BBString * title);
+	void CB_PREF(wx_wxhtmlwindow_wxHtmlTagsModule__FillHandlersTable)(BBObject * handle, wxHtmlWinParser * parser);
+	int CB_PREF(wx_wxhtmlwindow_wxHtmlTagHandler__HandleTag)(BBObject * handle, MaxHtmlTag * tag);
+	BBString * CB_PREF(wx_wxhtmlwindow_wxHtmlTagHandler__GetSupportedTags)(BBObject * handle);
 
 	MaxHtmlWindow * bmx_wxhtmlwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);

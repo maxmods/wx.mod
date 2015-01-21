@@ -35,7 +35,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxbannerwindow_wxBannerWindow__xrcNew(wxBannerWindow * banner);
+	BBObject * CB_PREF(wx_wxbannerwindow_wxBannerWindow__xrcNew)(wxBannerWindow * banner);
 
 	MaxBannerWindow * bmx_wxbannerwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int dir, int x, int y,
 		int w, int h, long style);

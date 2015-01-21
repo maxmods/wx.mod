@@ -62,7 +62,7 @@ wxObject * MaxDatePickerCtrlXmlHandler::DoCreateResource()
                   wxDefaultValidator,
                   GetName());
 
- 	picker->MaxBind(_wx_wxdatepickerctrl_wxDatePickerCtrl__xrcNew(picker));
+ 	picker->MaxBind(CB_PREF(wx_wxdatepickerctrl_wxDatePickerCtrl__xrcNew)(picker));
 
    SetupWindow(picker);
 
@@ -82,8 +82,8 @@ wxDatePickerCtrl * bmx_wxdatepickerctrl_create(BBObject * handle, wxWindow * par
 	return new MaxDatePickerCtrl(handle, parent, id, (dt)?dt->DateTime():wxDefaultDateTime, x, y, w, h, style);
 }
 
-void bmx_wxdatepickerctrl_getrange(wxDatePickerCtrl * picker, MaxDateTime * dt1, MaxDateTime * dt2) {
-	picker->GetRange((dt1)?&dt1->DateTime():NULL, (dt2)?&dt2->DateTime():NULL);
+int bmx_wxdatepickerctrl_getrange(wxDatePickerCtrl * picker, MaxDateTime * dt1, MaxDateTime * dt2) {
+	return static_cast<int>(picker->GetRange((dt1)?&dt1->DateTime():NULL, (dt2)?&dt2->DateTime():NULL));
 }
 
 MaxDateTime * bmx_wxdatepickerctrl_getvalue(wxDatePickerCtrl * picker) {

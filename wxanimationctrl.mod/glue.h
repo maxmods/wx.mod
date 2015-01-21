@@ -36,7 +36,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxanimationctrl_wxAnimationCtrl__xrcNew(wxAnimationCtrl * anim);
+	BBObject * CB_PREF(wx_wxanimationctrl_wxAnimationCtrl__xrcNew)(wxAnimationCtrl * anim);
 
 	MaxAnimationCtrl * bmx_wxanimationctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, MaxAnimation * anim, int x, int y,
 		int w, int h, long style);

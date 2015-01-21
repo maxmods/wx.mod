@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	void _wx_wxtimer_wxTimer__notify(BBObject * handle);
+	void CB_PREF(wx_wxtimer_wxTimer__notify)(BBObject * handle);
 
 	MaxTimer * bmx_wxtimer_create(BBObject * maxHandle, wxEvtHandler * owner, int id);
 	void bmx_wxtimer_free(wxTimer * timer);

@@ -41,14 +41,14 @@ MaxHtmlWindow::~MaxHtmlWindow() {
 wxHtmlOpeningStatus MaxHtmlWindow::OnOpeningURL(wxHtmlURLType type,const wxString& url, wxString *redirect) const {
 	wxHtmlOpeningStatus status;
 
-	*redirect = wxStringFromBBString(_wx_wxhtmlwindow_wxHtmlWindow__OnOpeningURL(maxHandle, type,
+	*redirect = wxStringFromBBString(CB_PREF(wx_wxhtmlwindow_wxHtmlWindow__OnOpeningURL)(maxHandle, type,
 		bbStringFromWxString(url), &status));
 
 	return status;
 }
 
 void MaxHtmlWindow::OnSetTitle(const wxString& title) const{
-	_wx_wxhtmlwindow_wxHtmlWindow__OnSetTitle(maxHandle, bbStringFromWxString(title));
+	CB_PREF(wx_wxhtmlwindow_wxHtmlWindow__OnSetTitle)(maxHandle, bbStringFromWxString(title));
 }
 
 void MaxHtmlWindow::MaxBind(BBObject * handle) {
@@ -68,7 +68,7 @@ MaxHtmlProcessor::~MaxHtmlProcessor() {
 }
 
 wxString MaxHtmlProcessor::Process(const wxString& text) const {
-	return wxStringFromBBString(_wx_wxhtmlwindow_wxHtmlProcessor__Process(maxHandle, bbStringFromWxString(text)));
+	return wxStringFromBBString(CB_PREF(wx_wxhtmlwindow_wxHtmlProcessor__Process)(maxHandle, bbStringFromWxString(text)));
 }
 
 
@@ -90,7 +90,7 @@ MaxHtmlTagsModule::MaxHtmlTagsModule(BBObject * handle)
 }
 
 void MaxHtmlTagsModule::FillHandlersTable(wxHtmlWinParser *parser) {
-	_wx_wxhtmlwindow_wxHtmlTagsModule__FillHandlersTable(maxHandle, parser);
+	CB_PREF(wx_wxhtmlwindow_wxHtmlTagsModule__FillHandlersTable)(maxHandle, parser);
 }
 
 
@@ -105,11 +105,11 @@ MaxHtmlTagHandler::~MaxHtmlTagHandler() {
 }
 
 bool MaxHtmlTagHandler::HandleTag(const wxHtmlTag& tag) {
-	return static_cast<bool>(_wx_wxhtmlwindow_wxHtmlTagHandler__HandleTag(maxHandle, new MaxHtmlTag(tag)));
+	return static_cast<bool>(CB_PREF(wx_wxhtmlwindow_wxHtmlTagHandler__HandleTag)(maxHandle, new MaxHtmlTag(tag)));
 }
 
 wxString MaxHtmlTagHandler::GetSupportedTags() {
-	return wxStringFromBBString(_wx_wxhtmlwindow_wxHtmlTagHandler__GetSupportedTags(maxHandle));
+	return wxStringFromBBString(CB_PREF(wx_wxhtmlwindow_wxHtmlTagHandler__GetSupportedTags)(maxHandle));
 }
 
 
@@ -166,7 +166,7 @@ wxObject * MaxHtmlWindowXmlHandler::DoCreateResource()
         control->SetPage(GetText(wxT("htmlcode")));
     }
 
-	control->MaxBind(_wx_wxhtmlwindow_wxHtmlWindow__xrcNew(control));
+	control->MaxBind(CB_PREF(wx_wxhtmlwindow_wxHtmlWindow__xrcNew)(control));
 
     SetupWindow(control);
 

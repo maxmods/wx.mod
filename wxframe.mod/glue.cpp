@@ -77,7 +77,7 @@ wxObject * MaxFrameXmlHandler::DoCreateResource()
                   GetStyle(wxT("style"), wxDEFAULT_FRAME_STYLE),
                   GetName());
 
-	frame->MaxBind(_wx_wxframe_wxFrame__xrcNew(frame));
+	frame->MaxBind(CB_PREF(wx_wxframe_wxFrame__xrcNew)(frame));
 
     if (HasParam(wxT("size")))
         frame->SetClientSize(GetSize(wxT("size"), frame));

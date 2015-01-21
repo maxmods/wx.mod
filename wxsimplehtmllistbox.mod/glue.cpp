@@ -86,7 +86,7 @@ wxObject * MaxSimpleHtmlListBoxXmlHandler::DoCreateResource()
         if (selection != -1)
             control->SetSelection(selection);
 
-        control->MaxBind(_wx_wxsimplehtmllistbox_wxSimpleHtmlListBox__xrcNew(control));
+        control->MaxBind(CB_PREF(wx_wxsimplehtmllistbox_wxSimpleHtmlListBox__xrcNew)(control));
 
         SetupWindow(control);
         strList.Clear();    // dump the strings

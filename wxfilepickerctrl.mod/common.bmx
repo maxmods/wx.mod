@@ -54,8 +54,8 @@ Extern
 	Function bmx_wxdirpickerctrl_getpath:String(handle:Byte Ptr)
 	Function bmx_wxdirpickerctrl_setpath(handle:Byte Ptr, dirname:String)
 
-	Function wx_wxfiledirpickerevent_getpath:String(handle:Byte Ptr)
-	Function wx_wxfiledirpickerevent_setpath(handle:Byte Ptr, path:String)
+	Function bmx_wxfiledirpickerevent_getpath:String(handle:Byte Ptr)
+	Function bmx_wxfiledirpickerevent_setpath(handle:Byte Ptr, path:String)
 
 	Function bmx_wxfilepickerctrl_geteventtype:Int(evt:Int)
 	

@@ -52,7 +52,7 @@ Extern
 	Function bmx_wxclipboard_adddata:Int(handle:Byte Ptr, data:Byte Ptr)
 	Function bmx_wxclipboard_getdata:Int(handle:Byte Ptr, data:Byte Ptr)
 	Function bmx_wxclipboard_setdata:Int(handle:Byte Ptr, data:Byte Ptr)
-	Function bmx_wxclipboard_isopened(handle:Byte Ptr)
+	Function bmx_wxclipboard_isopened:Int(handle:Byte Ptr)
 ?linux
 	Function bmx_wxclipboard_useprimaryselection(handle:Byte Ptr, primary:Int)
 ?

@@ -198,7 +198,7 @@ Type TDateEventFactory Extends TEventFactory
 		End If
 		
 		Return Null
-	End End Method
+	End Method
 
 	Method GetEventType:Int(eventType:Int)
 		If eventType = wxEVT_DATE_CHANGED Then

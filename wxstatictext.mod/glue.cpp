@@ -64,7 +64,7 @@ wxObject * MaxStaticTextXmlHandler::DoCreateResource()
 
     SetupWindow(text);
 
-	text->MaxBind(_wx_wxstatictext_wxStaticText__xrcNew(text));
+	text->MaxBind(CB_PREF(wx_wxstatictext_wxStaticText__xrcNew)(text));
 
     long wrap = GetLong(wxT("wrap"), -1);
     if (wrap != -1)

@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxhyperlinkctrl_wxHyperlinkCtrl__xrcNew(wxHyperlinkCtrl * hlink);
+	BBObject * CB_PREF(wx_wxhyperlinkctrl_wxHyperlinkCtrl__xrcNew)(wxHyperlinkCtrl * hlink);
 
 	MaxHyperlinkCtrl * bmx_wxhyperlinkctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id,
 		BBString * label, BBString * url, int x, int y, int w, int h, long style);

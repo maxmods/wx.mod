@@ -32,10 +32,10 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxdatepickerctrl_wxDatePickerCtrl__xrcNew(wxDatePickerCtrl * picker);
+	BBObject * CB_PREF(wx_wxdatepickerctrl_wxDatePickerCtrl__xrcNew)(wxDatePickerCtrl * picker);
 
 	wxDatePickerCtrl * bmx_wxdatepickerctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * dt, int x, int y, int w, int h, long style);
-	void bmx_wxdatepickerctrl_getrange(wxDatePickerCtrl * picker, MaxDateTime * dt1, MaxDateTime * dt2);
+	int bmx_wxdatepickerctrl_getrange(wxDatePickerCtrl * picker, MaxDateTime * dt1, MaxDateTime * dt2);
 	MaxDateTime * bmx_wxdatepickerctrl_getvalue(wxDatePickerCtrl * picker);
 //	void bmx_wxdatepickerctrl_setformat(wxDatePickerCtrl * picker, BBString * format);
 	void bmx_wxdatepickerctrl_setrange(wxDatePickerCtrl * picker, MaxDateTime * dt1, MaxDateTime * dt2);

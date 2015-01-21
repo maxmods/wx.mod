@@ -82,7 +82,7 @@ wxObject * MaxOwnerDrawnComboBoxXmlHandler::DoCreateResource()
                         wxDefaultValidator,
                         GetName());
 
-		control->MaxBind(_wx_wxownerdrawncombobox_wxOwnerDrawnComboBox__xrcNew(control));
+		control->MaxBind(CB_PREF(wx_wxownerdrawncombobox_wxOwnerDrawnComboBox__xrcNew)(control));
 
         wxSize sizeBtn=GetSize(wxT("buttonsize"));
 

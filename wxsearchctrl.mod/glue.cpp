@@ -62,7 +62,7 @@ wxObject *MaxSearchCtrlXmlHandler::DoCreateResource()
                  wxDefaultValidator,
                  GetName());
 
-	ctrl->MaxBind(_wx_wxsearchctrl_wxSearchCtrl__xrcNew(ctrl));
+	ctrl->MaxBind(CB_PREF(wx_wxsearchctrl_wxSearchCtrl__xrcNew)(ctrl));
 
     SetupWindow(ctrl);
 

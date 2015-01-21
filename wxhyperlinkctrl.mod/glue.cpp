@@ -60,7 +60,7 @@ wxObject * MaxHyperlinkCtrlXmlHandler::DoCreateResource()
         GetStyle(wxT("style"), wxHL_DEFAULT_STYLE),
         GetName());
 
-	control->MaxBind(_wx_wxhyperlinkctrl_wxHyperlinkCtrl__xrcNew(control));
+	control->MaxBind(CB_PREF(wx_wxhyperlinkctrl_wxHyperlinkCtrl__xrcNew)(control));
 
     SetupWindow(control);
 

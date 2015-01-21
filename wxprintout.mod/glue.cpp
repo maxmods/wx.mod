@@ -31,7 +31,7 @@ MaxPrintout::MaxPrintout(BBObject * handle, const wxString& title)
 
 bool MaxPrintout::OnBeginDocument(int startPage, int endPage) {
 
-	bool check = _wx_wxprintout_wxPrintout__OnBeginDocument(maxHandle, startPage, endPage);
+	bool check = CB_PREF(wx_wxprintout_wxPrintout__OnBeginDocument)(maxHandle, startPage, endPage);
 	if (!wxPrintout::OnBeginDocument(startPage, endPage)) {
 		return false;
 	}
@@ -40,44 +40,44 @@ bool MaxPrintout::OnBeginDocument(int startPage, int endPage) {
 
 void MaxPrintout::OnEndDocument() {
 
-	_wx_wxprintout_wxPrintout__OnEndDocument(maxHandle);
+	CB_PREF(wx_wxprintout_wxPrintout__OnEndDocument)(maxHandle);
 	wxPrintout::OnEndDocument();
 
 }
 
 void MaxPrintout::OnBeginPrinting() {
 
-	_wx_wxprintout_wxPrintout__OnBeginPrinting(maxHandle);
+	CB_PREF(wx_wxprintout_wxPrintout__OnBeginPrinting)(maxHandle);
 
 }
 
 void MaxPrintout::OnEndPrinting() {
 
-	_wx_wxprintout_wxPrintout__OnEndPrinting(maxHandle);
+	CB_PREF(wx_wxprintout_wxPrintout__OnEndPrinting)(maxHandle);
 
 }
 
 void MaxPrintout::OnPreparePrinting() {
 
-	_wx_wxprintout_wxPrintout__OnPreparePrinting(maxHandle);
+	CB_PREF(wx_wxprintout_wxPrintout__OnPreparePrinting)(maxHandle);
 
 }
 
 bool MaxPrintout::OnPrintPage(int pageNum) {
 
-	return _wx_wxprintout_wxPrintout__OnPrintPage(maxHandle, pageNum);
+	return CB_PREF(wx_wxprintout_wxPrintout__OnPrintPage)(maxHandle, pageNum);
 
 }
 
 void MaxPrintout::GetPageInfo(int *minPage, int *maxPage, int *pageFrom, int *pageTo) {
 
-	_wx_wxprintout_wxPrintout__GetPageInfo(maxHandle, minPage, maxPage, pageFrom, pageTo);
+	CB_PREF(wx_wxprintout_wxPrintout__GetPageInfo)(maxHandle, minPage, maxPage, pageFrom, pageTo);
 
 }
 
 bool MaxPrintout::HasPage(int pageNum) {
 
-	return _wx_wxprintout_wxPrintout__HasPage(maxHandle, pageNum);
+	return CB_PREF(wx_wxprintout_wxPrintout__HasPage)(maxHandle, pageNum);
 
 }
 

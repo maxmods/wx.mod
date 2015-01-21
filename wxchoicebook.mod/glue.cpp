@@ -106,7 +106,7 @@ wxObject * MaxChoicebookXmlHandler::DoCreateResource()
                    GetName());
 
 
-		nb->MaxBind(_wx_wxchoicebook_wxChoicebook__xrcNew(nb));
+		nb->MaxBind(CB_PREF(wx_wxchoicebook_wxChoicebook__xrcNew)(nb));
 
         wxChoicebook *old_par = m_choicebook;
         m_choicebook = nb;

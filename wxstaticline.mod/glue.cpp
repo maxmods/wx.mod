@@ -60,7 +60,7 @@ wxObject * MaxStaticLineXmlHandler::DoCreateResource()
                 GetStyle(wxT("style"), wxLI_HORIZONTAL),
                 GetName());
 
-	line->MaxBind(_wx_wxstaticline_wxStaticLine__xrcNew(line));
+	line->MaxBind(CB_PREF(wx_wxstaticline_wxStaticLine__xrcNew)(line));
 
     SetupWindow(line);
 

@@ -109,8 +109,8 @@ Extern
 
 	Function bmx_wxflatnotebookevent_setselection(handle:Byte Ptr, selection:Int)
 	Function bmx_wxflatnotebookevent_setoldselection(handle:Byte Ptr, selection:Int)
-	Function bmx_wxflatnotebookevent_getselection(handle:Byte Ptr)
-	Function bmx_wxflatnotebookevent_getoldselection(handle:Byte Ptr)
+	Function bmx_wxflatnotebookevent_getselection:Int(handle:Byte Ptr)
+	Function bmx_wxflatnotebookevent_getoldselection:Int(handle:Byte Ptr)
 
 	Function bmx_wxflatnotebook_setimagelist:Byte Ptr(handle:Byte Ptr, list:wxBitmap[])
 	Function bmx_wxflatnotebook_getimagelist:wxBitmap[](handle:Byte Ptr)

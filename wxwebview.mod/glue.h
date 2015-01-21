@@ -29,8 +29,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBArray * _wx_wxwebview_wxWebViewHistoryItem__newArray(int size);
-	void _wx_wxwebview_wxWebViewHistoryItem__setArrayValue(BBArray * arr, int index, MaxWebViewHistoryItem * item);
+	BBArray * CB_PREF(wx_wxwebview_wxWebViewHistoryItem__newArray)(int size);
+	void CB_PREF(wx_wxwebview_wxWebViewHistoryItem__setArrayValue)(BBArray * arr, int index, MaxWebViewHistoryItem * item);
 
 	wxWebView * bmx_wxwebview_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * url, int x, int y,
 		int w, int h, long style);

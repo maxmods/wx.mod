@@ -67,7 +67,7 @@ wxObject * MaxBitmapButtonXmlHandler::DoCreateResource()
         button->SetDefault();
     SetupWindow(button);
 
-	button->MaxBind(_wx_wxbitmapbutton_wxBitmapButton__xrcNew(button));
+	button->MaxBind(CB_PREF(wx_wxbitmapbutton_wxBitmapButton__xrcNew)(button));
 
 
     if (GetParamNode(wxT("selected")))

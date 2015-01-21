@@ -36,15 +36,15 @@ MaxCommand::~MaxCommand()
 }
 
 bool MaxCommand::Do() {
-	return static_cast<bool>(_wx_wxcommand_wxCommand__Do(maxHandle));
+	return static_cast<bool>(CB_PREF(wx_wxcommand_wxCommand__Do)(maxHandle));
 }
 
 bool MaxCommand::Undo() {
-	return static_cast<bool>(_wx_wxcommand_wxCommand__Undo(maxHandle));
+	return static_cast<bool>(CB_PREF(wx_wxcommand_wxCommand__Undo)(maxHandle));
 }
 
 bool MaxCommand::CanUndo() {
-	return static_cast<bool>(_wx_wxcommand_wxCommand__CanUndo(maxHandle));
+	return static_cast<bool>(CB_PREF(wx_wxcommand_wxCommand__CanUndo)(maxHandle));
 }
 
 bool MaxCommand::CanUndo_default() {

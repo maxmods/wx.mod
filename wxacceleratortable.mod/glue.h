@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxAcceleratorEntry * _wx_wxacceleratortable_wxAcceleratorTable__getEntry(BBArray * entries, int index);
+	wxAcceleratorEntry * CB_PREF(wx_wxacceleratortable_wxAcceleratorTable__getEntry)(BBArray * entries, int index);
 
 	MaxAcceleratorTable * bmx_wxacceleratortable_create(BBArray * entries);
 	bool bmx_wxacceleratortable_isok(MaxAcceleratorTable * table);

@@ -155,10 +155,10 @@ void bmx_wxwebview_enablehistory(wxWebView * view, int enable) {
 BBArray * bmx_wxwebview_getbackwardhistory(wxWebView * view) {
 	wxVector< wxSharedPtr < wxWebViewHistoryItem > > list = view->GetBackwardHistory();
 	if (list.size() > 0) {
-		BBArray * arr = _wx_wxwebview_wxWebViewHistoryItem__newArray(list.size());
+		BBArray * arr = CB_PREF(wx_wxwebview_wxWebViewHistoryItem__newArray)(list.size());
 		
 		for (int i = 0; i < list.size(); i++) {
-			_wx_wxwebview_wxWebViewHistoryItem__setArrayValue(arr, i, new MaxWebViewHistoryItem(list[i]));
+			CB_PREF(wx_wxwebview_wxWebViewHistoryItem__setArrayValue)(arr, i, new MaxWebViewHistoryItem(list[i]));
 		}
 		
 		return arr;
@@ -170,10 +170,10 @@ BBArray * bmx_wxwebview_getbackwardhistory(wxWebView * view) {
 BBArray * bmx_wxwebview_getforwardhistory(wxWebView * view) {
 	wxVector< wxSharedPtr < wxWebViewHistoryItem > > list = view->GetForwardHistory();
 	if (list.size() > 0) {
-		BBArray * arr = _wx_wxwebview_wxWebViewHistoryItem__newArray(list.size());
+		BBArray * arr = CB_PREF(wx_wxwebview_wxWebViewHistoryItem__newArray)(list.size());
 		
 		for (int i = 0; i < list.size(); i++) {
-			_wx_wxwebview_wxWebViewHistoryItem__setArrayValue(arr, i, new MaxWebViewHistoryItem(list[i]));
+			CB_PREF(wx_wxwebview_wxWebViewHistoryItem__setArrayValue)(arr, i, new MaxWebViewHistoryItem(list[i]));
 		}
 		
 		return arr;

@@ -62,7 +62,7 @@ wxObject * MaxCheckBoxXmlHandler::DoCreateResource()
                     wxDefaultValidator,
                     GetName());
 
-	control->MaxBind(_wx_wxcheckbox_wxCheckBox__xrcNew(control));
+	control->MaxBind(CB_PREF(wx_wxcheckbox_wxCheckBox__xrcNew)(control));
 
     control->SetValue(GetBool( wxT("checked")));
     SetupWindow(control);

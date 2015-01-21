@@ -98,10 +98,10 @@ BBArray * bmx_wxfilehistory_getmenus(wxFileHistory * hist) {
 	wxList list = hist->GetMenus();
 	int size = list.GetCount();
 	
-	BBArray * menus = _wx_wxfilehistory_wxFileHistory__makeMenus(size);
+	BBArray * menus = CB_PREF(wx_wxfilehistory_wxFileHistory__makeMenus)(size);
 	
 	for( int i=0;i<size;++i ){
-		_wx_wxfilehistory_wxFileHistory__addMenu(menus, i, (wxMenu*)list.Item(i)->GetData());
+		CB_PREF(wx_wxfilehistory_wxFileHistory__addMenu)(menus, i, (wxMenu*)list.Item(i)->GetData());
 	}
 	
 	return menus;

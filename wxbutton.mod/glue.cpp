@@ -63,7 +63,7 @@ wxObject * MaxButtonXmlHandler::DoCreateResource()
                     wxDefaultValidator,
                     GetName());
 
-	button->MaxBind(_wx_wxbutton_wxButton__xrcNew(button));
+	button->MaxBind(CB_PREF(wx_wxbutton_wxButton__xrcNew)(button));
 
     if (GetBool(wxT("default"), 0))
         button->SetDefault();

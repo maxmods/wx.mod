@@ -68,7 +68,7 @@ wxObject * MaxStatusBarXmlHandler::DoCreateResource()
                     GetStyle(),
                     GetName());
 
-	statbar->MaxBind(_wx_wxstatusbar_wxStatusBar__xrcNew(statbar));
+	statbar->MaxBind(CB_PREF(wx_wxstatusbar_wxStatusBar__xrcNew)(statbar));
 
     int fields = GetLong(wxT("fields"), 1);
     wxString widths = GetParamValue(wxT("widths"));

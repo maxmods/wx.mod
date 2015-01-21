@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxlistbox_wxListBox__xrcNew(wxListBox * listbox);
+	BBObject * CB_PREF(wx_wxlistbox_wxListBox__xrcNew)(wxListBox * listbox);
 
 	MaxListBox * bmx_wxlistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
 	void bmx_wxlistbox_insertitems(wxListBox * listbox, BBArray * items, int pos);

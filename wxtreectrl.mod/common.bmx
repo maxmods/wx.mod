@@ -87,7 +87,7 @@ Extern
 	Function bmx_wxtreectrl_getitemparent:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
 	Function bmx_wxtreectrl_getprevsibling:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
 	Function bmx_wxtreectrl_getprevvisible:Byte Ptr(handle:Byte Ptr, item:Byte Ptr)
-	Function bmx_wxtreectrl_getquickbestsize(handle:Byte Ptr)
+	Function bmx_wxtreectrl_getquickbestsize:Int(handle:Byte Ptr)
 	Function bmx_wxtreectrl_getrootitem:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxtreectrl_getselection:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxtreectrl_isbold:Int(handle:Byte Ptr, item:Byte Ptr)
@@ -140,7 +140,7 @@ Extern
 	Function bmx_wxtreeevent_getlabel:String(handle:Byte Ptr)
 	Function bmx_wxtreeevent_getolditem:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxtreeevent_getpoint(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
-	Function bmx_wxtreeevent_iseditcancelled(handle:Byte Ptr)
+	Function bmx_wxtreeevent_iseditcancelled:Int(handle:Byte Ptr)
 	Function bmx_wxtreeevent_settooltip(handle:Byte Ptr, tip:String)
 
 	Function bmx_wxtreectrl_addresourcehandler()

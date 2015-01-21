@@ -36,11 +36,11 @@ MaxPreviewFrame::~ MaxPreviewFrame() {
 }
 
 void MaxPreviewFrame::CreateControlBar() {
-	_wx_wxpreviewframe_wxPreviewFrame__CreateControlBar(maxHandle);
+	CB_PREF(wx_wxpreviewframe_wxPreviewFrame__CreateControlBar)(maxHandle);
 }
 
 void MaxPreviewFrame::CreateCanvas() {
-	_wx_wxpreviewframe_wxPreviewFrame__CreateCanvas(maxHandle);
+	CB_PREF(wx_wxpreviewframe_wxPreviewFrame__CreateCanvas)(maxHandle);
 }
 
 void MaxPreviewFrame::CreateControlBarX() {

@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxcheckbox_wxCheckBox__xrcNew(wxCheckBox * checkbox);
+	BBObject * CB_PREF(wx_wxcheckbox_wxCheckBox__xrcNew)(wxCheckBox * checkbox);
 
 	MaxCheckBox * bmx_wxcheckbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);

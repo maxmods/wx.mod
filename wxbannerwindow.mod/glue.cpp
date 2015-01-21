@@ -62,7 +62,7 @@ wxObject * MaxBannerWindowXmlHandler::DoCreateResource()
                    GetStyle(wxS("style")),
                    GetName());
 
-	banner->MaxBind(_wx_wxbannerwindow_wxBannerWindow__xrcNew(banner));
+	banner->MaxBind(CB_PREF(wx_wxbannerwindow_wxBannerWindow__xrcNew)(banner));
 
     SetupWindow(banner);
 

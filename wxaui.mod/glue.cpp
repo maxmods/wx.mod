@@ -178,10 +178,10 @@ BBArray * bmx_wxauimanager_getallpanes(MaxAuiManager * manager) {
 	wxAuiPaneInfoArray & infos = manager->GetAllPanes();
 	int n = infos.GetCount();
 	
-	BBArray * arr = _wx_wxaui_wxAuiManager__createpanearray(n);
+	BBArray * arr = CB_PREF(wx_wxaui_wxAuiManager__createpanearray)(n);
 	
 	for (int i = 0; i < n; i++) {
-		_wx_wxaui_wxAuiManager__setpanevalue(arr, i, new MaxAuiPaneInfo(infos[i]));
+		CB_PREF(wx_wxaui_wxAuiManager__setpanevalue)(arr, i, new MaxAuiPaneInfo(infos[i]));
 	}
 	
 	return arr;

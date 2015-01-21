@@ -37,7 +37,7 @@ MaxPopupWindow::~MaxPopupWindow()
 }
 	
 void MaxPopupWindow::Position(const wxPoint &ptOrigin, const wxSize &sizePopup) {
-	_wx_wxpopupwindow_wxPopupWindow__Position(maxHandle, ptOrigin.x, ptOrigin.y, sizePopup.GetWidth(), sizePopup.GetHeight());
+	CB_PREF(wx_wxpopupwindow_wxPopupWindow__Position)(maxHandle, ptOrigin.x, ptOrigin.y, sizePopup.GetWidth(), sizePopup.GetHeight());
 }
 
 void MaxPopupWindow::Position_default(int x, int y, int w, int h) {

@@ -31,10 +31,10 @@ extern "C" {
 
 #include <blitz.h>
 
-	int _wx_wxtreelistctrl_wxTreeListCtrl__OnCompareItems(BBObject * maxHandle, MaxTreeItem * item1, MaxTreeItem * item2);
+	int CB_PREF(wx_wxtreelistctrl_wxTreeListCtrl__OnCompareItems)(BBObject * maxHandle, MaxTreeItem * item1, MaxTreeItem * item2);
 
-	BBArray * _wx_wxtreelistctrl_wxTreeListCtrl__newSelections(int size);
-	void _wx_wxtreelistctrl_wxTreeListCtrl__setSelection(BBArray * array, int index, MaxTreeItem * item);
+	BBArray * CB_PREF(wx_wxtreelistctrl_wxTreeListCtrl__newSelections)(int size);
+	void CB_PREF(wx_wxtreelistctrl_wxTreeListCtrl__setSelection)(BBArray * array, int index, MaxTreeItem * item);
 
 	MaxTreeListCtrl * bmx_wxtreelistctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
 		int w, int h, long style);

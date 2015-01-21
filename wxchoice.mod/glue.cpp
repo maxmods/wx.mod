@@ -84,7 +84,7 @@ wxObject * MaxChoiceXmlHandler::DoCreateResource()
                         GetName());
 
 
-	control->MaxBind(_wx_wxchoice_wxChoice__xrcNew(control));
+	control->MaxBind(CB_PREF(wx_wxchoice_wxChoice__xrcNew)(control));
 
         if (selection != -1)
             control->SetSelection(selection);

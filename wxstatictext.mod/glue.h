@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxstatictext_wxStaticText__xrcNew(wxStaticText * text);
+	BBObject * CB_PREF(wx_wxstatictext_wxStaticText__xrcNew)(wxStaticText * text);
 
 	MaxStaticText * bmx_wxstatictext_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);

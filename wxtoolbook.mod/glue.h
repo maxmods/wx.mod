@@ -34,7 +34,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxtoolbook_wxToolbook__xrcNew(wxToolbook * toolbook);
+	BBObject * CB_PREF(wx_wxtoolbook_wxToolbook__xrcNew)(wxToolbook * toolbook);
 
 	MaxToolbook * bmx_wxtoolbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	wxToolBarBase * bmx_wxtoolbook_gettoolbar(wxToolbook * book);

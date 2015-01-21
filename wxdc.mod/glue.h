@@ -20,6 +20,9 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_DC_H_
+#define _WX_MAX_DC_H_
+
 #include "wxglue.h"
 #include "wx/dcmirror.h"
 #include "../wxicon.mod/glue.h"
@@ -162,3 +165,5 @@ public:
 private:
 	wxClientDC clientDC;
 };
+
+#endif // _WX_MAX_DC_H_

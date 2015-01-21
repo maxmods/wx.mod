@@ -128,7 +128,7 @@ wxObject * MaxCheckListBoxXmlHandler::DoCreateResource()
             n = n->GetNext();
         }
 
-		control->MaxBind(_wx_wxchecklistbox_wxCheckListBox__xrcNew(control));
+		control->MaxBind(CB_PREF(wx_wxchecklistbox_wxCheckListBox__xrcNew)(control));
 
         SetupWindow(control);
 

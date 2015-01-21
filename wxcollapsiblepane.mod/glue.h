@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxcollapsiblepane_wxCollapsiblePane__xrcNew(wxCollapsiblePane * pane);
+	BBObject * CB_PREF(wx_wxcollapsiblepane_wxCollapsiblePane__xrcNew)(wxCollapsiblePane * pane);
 
 	MaxCollapsiblePane * bmx_wxcollapsiblepane_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);

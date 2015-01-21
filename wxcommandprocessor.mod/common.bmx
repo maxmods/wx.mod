@@ -62,7 +62,7 @@ Extern
 	Function bmx_wxcommandprocessor_setmenustrings(handle:Byte Ptr)
 	Function bmx_wxcommandprocessor_setredoaccelerator(handle:Byte Ptr, accel:String)
 	Function bmx_wxcommandprocessor_setundoaccelerator(handle:Byte Ptr, accel:String)
-	Function bmx_wxcommandprocessor_submit(handle:Byte Ptr, command:Byte Ptr, storeIt:Int)
+	Function bmx_wxcommandprocessor_submit:Int(handle:Byte Ptr, command:Byte Ptr, storeIt:Int)
 	Function bmx_wxcommandprocessor_undo:Int(handle:Byte Ptr)
 
 End Extern

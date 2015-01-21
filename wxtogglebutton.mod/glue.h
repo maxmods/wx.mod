@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxtogglebutton_wxToggleButton__xrcNew(wxToggleButton * button);
+	BBObject * CB_PREF(wx_wxtogglebutton_wxToggleButton__xrcNew)(wxToggleButton * button);
 
 	MaxToggleButton * bmx_wxtogglebutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);

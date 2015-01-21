@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxslider_wxSlider__xrcNew(wxSlider * slider);
+	BBObject * CB_PREF(wx_wxslider_wxSlider__xrcNew)(wxSlider * slider);
 
 	MaxSlider * bmx_wxslider_create(BBObject * handle, wxWindow * parent, int id, int value,
 			int minValue, int maxValue, int x, int y, int w, int h, long style);

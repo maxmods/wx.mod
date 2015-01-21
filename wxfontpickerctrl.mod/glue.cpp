@@ -66,7 +66,7 @@ wxObject * MaxFontPickerCtrlXmlHandler::DoCreateResource()
                   wxDefaultValidator,
                   GetName());
 
-	picker->MaxBind(_wx_wxfontpickerctrl_wxFontPickerCtrl__xrcNew(picker));
+	picker->MaxBind(CB_PREF(wx_wxfontpickerctrl_wxFontPickerCtrl__xrcNew)(picker));
 
     SetupWindow(picker);
 

@@ -33,13 +33,13 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxlistctrl_wxListCtrl__xrcNew(wxListCtrl * list);
+	BBObject * CB_PREF(wx_wxlistctrl_wxListCtrl__xrcNew)(wxListCtrl * list);
 
-	wxListItemAttr * _wx_wxlistctrl_wxListCtrl__OnGetItemAttr(BBObject * handle, long item);
-	BBString * _wx_wxlistctrl_wxListCtrl__OnGetItemText(BBObject * handle, long item, long column);
-	int _wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage(BBObject * handle, long item, long column);
-	int _wx_wxlistctrl_wxListCtrl__OnGetItemImage(BBObject * handle, long item);
-	int _wx_wxlistctrl_wxListCtrl__sortCallback(BBObject * item1, BBObject * item2, BBObject * data);
+	wxListItemAttr * CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemAttr)(BBObject * handle, long item);
+	BBString * CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemText)(BBObject * handle, long item, long column);
+	int CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage)(BBObject * handle, long item, long column);
+	int CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemImage)(BBObject * handle, long item);
+	int CB_PREF(wx_wxlistctrl_wxListCtrl__sortCallback)(BBObject * item1, BBObject * item2, BBObject * data);
 
 	MaxListCtrl * bmx_wxlistctrl_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, long style);
 	int bmx_wxlistctrl_arrange(wxListCtrl * list, int flag);

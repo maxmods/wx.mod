@@ -29,7 +29,7 @@
 
 extern "C" {
 
-#include <blitz.h>
+#include <brl.mod/blitz.mod/blitz.h>
 
 	void bmx_wxapp_setvendorname(BBString * name);
 	void bmx_wxapp_setexitonframedelete(int flag);

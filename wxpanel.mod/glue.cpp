@@ -60,7 +60,7 @@ wxObject * MaxPanelXmlHandler::DoCreateResource()
                   GetStyle(wxT("style"), wxTAB_TRAVERSAL),
                   GetName());
 
-	panel->MaxBind(_wx_wxpanel_wxPanel__xrcNew(panel));
+	panel->MaxBind(CB_PREF(wx_wxpanel_wxPanel__xrcNew)(panel));
 
     SetupWindow(panel);
     CreateChildren(panel);

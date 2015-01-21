@@ -42,9 +42,9 @@ extern "C" {
 
 #include <blitz.h>
 
-	void _wx_wxpdfdocument_wxPdfDocument__Header(BBObject * handle);
-	void _wx_wxpdfdocument_wxPdfDocument__Footer(BBObject * handle);
-	int _wx_wxpdfdocument_wxPdfDocument__AcceptPageBreak(BBObject * handle);
+	void CB_PREF(wx_wxpdfdocument_wxPdfDocument__Header)(BBObject * handle);
+	void CB_PREF(wx_wxpdfdocument_wxPdfDocument__Footer)(BBObject * handle);
+	int CB_PREF(wx_wxpdfdocument_wxPdfDocument__AcceptPageBreak)(BBObject * handle);
 
 	void bmx_wxpdfdocument_free(wxPdfDocument * doc);
 

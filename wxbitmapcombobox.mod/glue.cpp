@@ -77,7 +77,7 @@ wxObject * MaxBitmapComboBoxXmlHandler::DoCreateResource()
                         wxDefaultValidator,
                         GetName());
 
-		control->MaxBind(_wx_wxbitmapcombobox_wxBitmapComboBox__xrcNew(control));
+		control->MaxBind(CB_PREF(wx_wxbitmapcombobox_wxBitmapComboBox__xrcNew)(control));
 
         m_isInside = true;
         m_combobox = control;

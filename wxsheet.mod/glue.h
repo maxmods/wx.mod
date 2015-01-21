@@ -40,10 +40,10 @@ extern "C" {
 
 #include <blitz.h>
 
-	void _wx_wxsheet_wxSheetCellStringRendererRefData__Draw(BBObject * handle, wxSheet * sheet,
+	void CB_PREF(wx_wxsheet_wxSheetCellStringRendererRefData__Draw)(BBObject * handle, wxSheet * sheet,
 			MaxSheetCellAttr * attr, MaxDC * dc, MaxRect * rect, int row, int col, int isSelected);
 	
-	wxSheet * _wx_wxsheet_wxSheetSplitter__createsheet(BBObject * handle, wxWindowID id);
+	wxSheet * CB_PREF(wx_wxsheet_wxSheetSplitter__createsheet)(BBObject * handle, wxWindowID id);
 
 	MaxSheet * bmx_wxsheet_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 //	MaxSheet * bmx_wxsheet_createforsplitter(BBObject * handle, wxWindow * parent, wxWindowID id);

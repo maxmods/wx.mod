@@ -41,7 +41,7 @@ MaxProcess::~MaxProcess() {
 }
 
 void MaxProcess::OnTerminate(int pid, int status) {
-	_wx_wxprocess_wxProcess__OnTerminate(maxHandle, pid, status);
+	CB_PREF(wx_wxprocess_wxProcess__OnTerminate)(maxHandle, pid, status);
 }
 
 void MaxProcess::OnTerminate_default(int pid, int status) {

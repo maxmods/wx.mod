@@ -44,7 +44,7 @@ MaxAcceleratorTable * bmx_wxacceleratortable_create(BBArray * p) {
 	wxAcceleratorEntry * entries = new wxAcceleratorEntry[n];
 
 	for( int i=0;i<n;++i ){
-		entries[i] = *_wx_wxacceleratortable_wxAcceleratorTable__getEntry(p, i);
+		entries[i] = *CB_PREF(wx_wxacceleratortable_wxAcceleratorTable__getEntry)(p, i);
 	}
 
 	wxAcceleratorTable table(n, entries);

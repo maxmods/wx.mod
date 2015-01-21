@@ -34,8 +34,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	int _wx_wxtoplevelwindow_wxTopLevelWindow__myShouldPreventAppExit(void * window);
-	BBObject * _wx_wxframe_wxFrame__xrcNew(wxFrame * frame);
+	int CB_PREF(wx_wxtoplevelwindow_wxTopLevelWindow__myShouldPreventAppExit)(void * window);
+	BBObject * CB_PREF(wx_wxframe_wxFrame__xrcNew)(wxFrame * frame);
 
 	MaxFrame * bmx_wxframe_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id, BBString * title,
 		int x, int y, int w, int h, long style);
@@ -73,7 +73,7 @@ public:
 	virtual MaxToolBar * OnCreateToolBar(long style, wxWindowID id, const wxString& name);
 
 	virtual bool ShouldPreventAppExit() const {
-		return static_cast<bool>(_wx_wxtoplevelwindow_wxTopLevelWindow__myShouldPreventAppExit(wxfind(const_cast<wxObject *>((wxObject*)this))));
+		return static_cast<bool>(CB_PREF(wx_wxtoplevelwindow_wxTopLevelWindow__myShouldPreventAppExit)(wxfind(const_cast<wxObject *>((wxObject*)this))));
 	}
 	
 	virtual void PositionStatusBar() {

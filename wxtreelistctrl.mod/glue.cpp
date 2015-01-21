@@ -46,7 +46,7 @@ MaxTreeListCtrl::~MaxTreeListCtrl() {
 }
 
 int MaxTreeListCtrl::OnCompareItems(const wxTreeItemId& item1, const wxTreeItemId& item2) {
-	return _wx_wxtreelistctrl_wxTreeListCtrl__OnCompareItems(maxHandle, new MaxTreeItem(item1), new MaxTreeItem(item2));
+	return CB_PREF(wx_wxtreelistctrl_wxTreeListCtrl__OnCompareItems)(maxHandle, new MaxTreeItem(item1), new MaxTreeItem(item2));
 }
 
 void MaxTreeListCtrl::MaxBind(BBObject * handle) {
@@ -352,12 +352,12 @@ BBArray * bmx_wxtreelistctrl_getselections(wxTreeListCtrl * tree) {
 	wxArrayTreeItemIds selection;
 	int count = tree->GetSelections(selection);
 	
-	BBArray * array = _wx_wxtreelistctrl_wxTreeListCtrl__newSelections(count);
+	BBArray * array = CB_PREF(wx_wxtreelistctrl_wxTreeListCtrl__newSelections)(count);
 	
 	if (count > 0) {
 		for (int i = 0; i < count; i++) {
 			MaxTreeItem * item = new MaxTreeItem(selection.Item(i));
-			_wx_wxtreelistctrl_wxTreeListCtrl__setSelection(array, i, item);
+			CB_PREF(wx_wxtreelistctrl_wxTreeListCtrl__setSelection)(array, i, item);
 		}
 	}
 

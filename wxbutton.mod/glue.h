@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxbutton_wxButton__xrcNew(wxButton * button);
+	BBObject * CB_PREF(wx_wxbutton_wxButton__xrcNew)(wxButton * button);
 
 	MaxButton * bmx_wxbutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
 		int w, int h, long style);

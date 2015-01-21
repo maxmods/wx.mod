@@ -201,7 +201,7 @@ wxObject * MaxToolBarXmlHandler::DoCreateResource()
                          GetName());
         SetupWindow(toolbar);
 
-		toolbar->MaxBind(_wx_wxtoolbar_wxToolBar__xrcNew(toolbar));
+		toolbar->MaxBind(CB_PREF(wx_wxtoolbar_wxToolBar__xrcNew)(toolbar));
 
         m_toolSize = GetSize(wxT("bitmapsize"));
         if (!(m_toolSize == wxDefaultSize))

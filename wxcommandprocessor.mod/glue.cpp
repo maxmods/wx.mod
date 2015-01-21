@@ -106,8 +106,8 @@ void bmx_wxcommandprocessor_setundoaccelerator(wxCommandProcessor * proc, BBStri
 	proc->SetUndoAccelerator(wxStringFromBBString(accel));
 }
 
-void bmx_wxcommandprocessor_submit(wxCommandProcessor * proc, wxCommand * command, int storeIt) {
-	proc->Submit(command, static_cast<bool>(storeIt));
+int bmx_wxcommandprocessor_submit(wxCommandProcessor * proc, wxCommand * command, int storeIt) {
+	return static_cast<int>(proc->Submit(command, static_cast<bool>(storeIt)));
 }
 
 int bmx_wxcommandprocessor_undo(wxCommandProcessor * proc) {

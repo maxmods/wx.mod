@@ -32,30 +32,30 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxdocument_wxDocument__create(wxDocument * doc);
-	void _wx_wxdocument_wxDocument__OnChangedViewList(BBObject * handle);
-	int _wx_wxdocument_wxDocument__OnCloseDocument(BBObject * handle);
-	int _wx_wxdocument_wxDocument__OnCreate(BBObject * handle, BBString * path, long flags);
-	wxCommandProcessor * _wx_wxdocument_wxDocument__OnCreateCommandProcessor(BBObject * handle);
-	int _wx_wxdocument_wxDocument__OnNewDocument(BBObject * handle);
-	int _wx_wxdocument_wxDocument__OnOpenDocument(BBObject * handle, BBString * filename);
-	int _wx_wxdocument_wxDocument__OnSaveDocument(BBObject * handle, BBString * filename);
-	int _wx_wxdocument_wxDocument__OnSaveModified(BBObject * handle);
-	int _wx_wxdocument_wxDocument__IsModified(BBObject * handle);
-	void _wx_wxdocument_wxDocument__Modify(BBObject * handle, int doModify);
+	BBObject * CB_PREF(wx_wxdocument_wxDocument__create)(wxDocument * doc);
+	void CB_PREF(wx_wxdocument_wxDocument__OnChangedViewList)(BBObject * handle);
+	int CB_PREF(wx_wxdocument_wxDocument__OnCloseDocument)(BBObject * handle);
+	int CB_PREF(wx_wxdocument_wxDocument__OnCreate)(BBObject * handle, BBString * path, long flags);
+	wxCommandProcessor * CB_PREF(wx_wxdocument_wxDocument__OnCreateCommandProcessor)(BBObject * handle);
+	int CB_PREF(wx_wxdocument_wxDocument__OnNewDocument)(BBObject * handle);
+	int CB_PREF(wx_wxdocument_wxDocument__OnOpenDocument)(BBObject * handle, BBString * filename);
+	int CB_PREF(wx_wxdocument_wxDocument__OnSaveDocument)(BBObject * handle, BBString * filename);
+	int CB_PREF(wx_wxdocument_wxDocument__OnSaveModified)(BBObject * handle);
+	int CB_PREF(wx_wxdocument_wxDocument__IsModified)(BBObject * handle);
+	void CB_PREF(wx_wxdocument_wxDocument__Modify)(BBObject * handle, int doModify);
 
-	void _wx_wxdocument_wxView__OnActivateView(BBObject * handle, int activate, wxView *activeView, wxView *deactiveView);
-	void _wx_wxdocument_wxView_OnChangeFilename(BBObject * handle);
-	int _wx_wxdocument_wxView_OnClose(BBObject * handle, int deleteWindow);
-	void _wx_wxdocument_wxView_OnClosingDocument(BBObject * handle);
-	int _wx_wxdocument_wxView_OnCreate(BBObject * handle, wxDocument* doc, long flags);
-	wxPrintout * _wx_wxdocument_wxView_OnCreatePrintout(BBObject * handle);
-	void _wx_wxdocument_wxView_OnDraw(BBObject * handle, MaxDC * dc);
-	void _wx_wxdocument_wxView_OnUpdate(BBObject * handle, wxView* sender);
+	void CB_PREF(wx_wxdocument_wxView__OnActivateView)(BBObject * handle, int activate, wxView *activeView, wxView *deactiveView);
+	void CB_PREF(wx_wxdocument_wxView_OnChangeFilename)(BBObject * handle);
+	int CB_PREF(wx_wxdocument_wxView_OnClose)(BBObject * handle, int deleteWindow);
+	void CB_PREF(wx_wxdocument_wxView_OnClosingDocument)(BBObject * handle);
+	int CB_PREF(wx_wxdocument_wxView_OnCreate)(BBObject * handle, wxDocument* doc, long flags);
+	wxPrintout * CB_PREF(wx_wxdocument_wxView_OnCreatePrintout)(BBObject * handle);
+	void CB_PREF(wx_wxdocument_wxView_OnDraw)(BBObject * handle, MaxDC * dc);
+	void CB_PREF(wx_wxdocument_wxView_OnUpdate)(BBObject * handle, wxView* sender);
 
-	int _wx_wxdocument_wxDocTemplate_InitDocument(BBObject * handle, wxDocument * doc, BBString * path, long flags);
+	int CB_PREF(wx_wxdocument_wxDocTemplate_InitDocument)(BBObject * handle, wxDocument * doc, BBString * path, long flags);
 
-	BBObject * _wx_wxdocument_wxView__create(wxView * view);
+	BBObject * CB_PREF(wx_wxdocument_wxView__create)(wxView * view);
 
 	wxDocument * bmx_wxdocument_create(BBObject * handle);
 	int bmx_wxdocument_addview(wxDocument * doc, wxView * view);
@@ -144,7 +144,7 @@ extern "C" {
 
 	wxView * bmx_wxview_create(BBObject * handle);
 	void bmx_wxview_activate(wxView * view, int doActivate);
-	void bmx_wxview_close(wxView * view, int deleteWindow);
+	int bmx_wxview_close(wxView * view, int deleteWindow);
 	wxDocument * bmx_wxview_getdocument(wxView * view);
 	wxDocManager * bmx_wxview_getdocumentmanager(wxView * view);
 	wxWindow * bmx_wxview_getframe(wxView * view);

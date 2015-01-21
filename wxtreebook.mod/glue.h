@@ -32,7 +32,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxtreebook_wxTreebook__xrcNew(wxTreebook * book);
+	BBObject * CB_PREF(wx_wxtreebook_wxTreebook__xrcNew)(wxTreebook * book);
 
 	wxTreebook * bmx_wxtreebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	int bmx_wxtreebook_addpage(wxTreebook * book, wxWindow * page, BBString * text, int selected, int imageId);

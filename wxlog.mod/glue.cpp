@@ -63,7 +63,7 @@ void MaxLogStream::DoLogString(const wxChar *szString, time_t t) {
     str << szString;
 
 
-	_wx_wxlog_wxLogStream__DoLogString(maxHandle, bbStringFromWxString(str));
+	CB_PREF(wx_wxlog_wxLogStream__DoLogString)(maxHandle, bbStringFromWxString(str));
 }
 
 

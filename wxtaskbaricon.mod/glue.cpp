@@ -36,7 +36,7 @@ MaxTaskBarIcon::~MaxTaskBarIcon() {
 }
 
 wxMenu * MaxTaskBarIcon::CreatePopupMenu() {
-	return _wx_wxtaskbaricon_wxTaskBarIcon__CreatePopupMenu(maxHandle);
+	return CB_PREF(wx_wxtaskbaricon_wxTaskBarIcon__CreatePopupMenu)(maxHandle);
 }
 
 // *********************************************

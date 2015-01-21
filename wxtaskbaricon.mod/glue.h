@@ -30,7 +30,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxMenu * _wx_wxtaskbaricon_wxTaskBarIcon__CreatePopupMenu(BBObject * handle);
+	wxMenu * CB_PREF(wx_wxtaskbaricon_wxTaskBarIcon__CreatePopupMenu)(BBObject * handle);
 
 	MaxTaskBarIcon * bmx_wxtaskbaricon_create(BBObject * handle, int iconType);
 	int bmx_wxtaskbaricon_isiconinstalled(wxTaskBarIcon * taskBarIcon);

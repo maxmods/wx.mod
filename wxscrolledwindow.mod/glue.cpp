@@ -39,7 +39,7 @@ MaxScrolledWindow::~MaxScrolledWindow() {
 
 void MaxScrolledWindow::OnDraw(wxDC & dc) {
 	BBObject * obj = wxfind(this);
-	_wx_wxscrolledwindow_wxScrolledWindow__OnDraw(obj, new MaxDC(dc));
+	CB_PREF(wx_wxscrolledwindow_wxScrolledWindow__OnDraw)(obj, new MaxDC(dc));
 }
 
 void MaxScrolledWindow::DefaultOnDraw(MaxDC * dc) {
@@ -69,7 +69,7 @@ wxObject * MaxScrolledWindowXmlHandler::DoCreateResource()
                     GetStyle(wxT("style"), wxHSCROLL | wxVSCROLL),
                     GetName());
 
-	control->MaxBind(_wx_wxscrolledwindow_wxScrolledWindow__xrcNew(control));
+	control->MaxBind(CB_PREF(wx_wxscrolledwindow_wxScrolledWindow__xrcNew)(control));
 
     SetupWindow(control);
     CreateChildren(control);

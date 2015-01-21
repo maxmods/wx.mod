@@ -34,7 +34,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxlistbook_wxListbook__xrcNew(wxListbook * book);
+	BBObject * CB_PREF(wx_wxlistbook_wxListbook__xrcNew)(wxListbook * book);
 
 	MaxListbook * bmx_wxlistbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
 	wxListView * bmx_wxlistbook_getlistview(wxListbook * book);

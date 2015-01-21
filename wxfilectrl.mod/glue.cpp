@@ -66,7 +66,7 @@ wxObject * MaxFileCtrlXmlHandler::DoCreateResource()
                      GetSize(),
                      GetName());
 
-	filectrl->MaxBind(_wx_wxfilectrl_wxFileCtrl__xrcNew(filectrl));
+	filectrl->MaxBind(CB_PREF(wx_wxfilectrl_wxFileCtrl__xrcNew)(filectrl));
 
     SetupWindow(filectrl);
     return filectrl;

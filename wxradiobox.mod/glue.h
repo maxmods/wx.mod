@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxradiobox_wxRadioBox__xrcNew(wxRadioBox * radiobox);
+	BBObject * CB_PREF(wx_wxradiobox_wxRadioBox__xrcNew)(wxRadioBox * radiobox);
 
 	MaxRadioBox * bmx_wxradiobox_create(BBObject * handle, wxWindow * parent, int id, BBString * label,
 		int x, int y, int w, int h, BBArray * array, int majorDimension, long style);

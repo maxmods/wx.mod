@@ -105,7 +105,7 @@ wxObject * MaxFlatNotebookXmlHandler::DoCreateResource()
                    GetStyle(wxT("style")),
                    GetName());
 
-		nb->MaxBind(_wx_wxflatnotebook_wxFlatNotebook__xrcNew(nb));
+		nb->MaxBind(CB_PREF(wx_wxflatnotebook_wxFlatNotebook__xrcNew)(nb));
 
         SetupWindow(nb);
 
@@ -341,7 +341,7 @@ wxFlatNotebookImageList * bmx_wxflatnotebook_setimagelist(wxFlatNotebook * fnb, 
 	int n = bits->scales[0];
 	MaxBitmap *s = (MaxBitmap*)BBARRAYDATA( bits, bits->dims );
 	for( int i = 0; i < n; ++i ){
-		wxBitmap b = _wx_wxflatnotebook_wxFlatNotebook__getbitmap(bits, i)->Bitmap();
+		wxBitmap b = CB_PREF(wx_wxflatnotebook_wxFlatNotebook__getbitmap)(bits, i)->Bitmap();
 		list->push_back(b);
 	}
 	
@@ -355,11 +355,11 @@ BBArray * bmx_wxflatnotebook_getimagelist(wxFlatNotebook * fnb) {
 	wxFlatNotebookImageList * imageList = fnb->GetImageList();
 	int size = imageList->size();
 	
-	BBArray * list = _wx_wxflatnotebook_wxFlatNotebook__newbitmaparray(size);
+	BBArray * list = CB_PREF(wx_wxflatnotebook_wxFlatNotebook__newbitmaparray)(size);
 	
 	for (int i = 0; i < size; i++) {
 		MaxBitmap * bitmap = new MaxBitmap(imageList->Item(i));
-		_wx_wxflatnotebook_wxFlatNotebook__setbitmap(list, i, bitmap);
+		CB_PREF(wx_wxflatnotebook_wxFlatNotebook__setbitmap)(list, i, bitmap);
 	}
 	
 	return list;

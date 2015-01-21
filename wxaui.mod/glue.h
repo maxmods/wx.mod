@@ -36,8 +36,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBArray * _wx_wxaui_wxAuiManager__createpanearray(int size);
-	void _wx_wxaui_wxAuiManager__setpanevalue(BBArray * arr, int index, MaxAuiPaneInfo * info);
+	BBArray * CB_PREF(wx_wxaui_wxAuiManager__createpanearray)(int size);
+	void CB_PREF(wx_wxaui_wxAuiManager__setpanevalue)(BBArray * arr, int index, MaxAuiPaneInfo * info);
 
 	MaxAuiManager * bmx_wxauimanager_create(BBObject * handle, wxWindow * window, unsigned int flags);
 	int bmx_wxauimanager_addpane(MaxAuiManager * manager, wxWindow * window, int direction, BBString * caption);

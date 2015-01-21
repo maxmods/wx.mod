@@ -57,7 +57,7 @@ wxObject * MaxStaticBoxXmlHandler::DoCreateResource()
                 GetStyle(),
                 GetName());
 
-	box->MaxBind(_wx_wxstaticbox_wxStaticBox__xrcNew(box));
+	box->MaxBind(CB_PREF(wx_wxstaticbox_wxStaticBox__xrcNew)(box));
     SetupWindow(box);
 
     return box;

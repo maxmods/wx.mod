@@ -39,11 +39,11 @@ MaxPropertySheetDialog::MaxPropertySheetDialog()
 {}
 
 void MaxPropertySheetDialog::AddBookCtrl(wxSizer* sizer) {
-	_wx_wxpropertysheetdialog_wxPropertySheetDialog__AddBookCtrl(maxHandle, sizer);
+	CB_PREF(wx_wxpropertysheetdialog_wxPropertySheetDialog__AddBookCtrl)(maxHandle, sizer);
 }
 
 wxBookCtrlBase* MaxPropertySheetDialog::CreateBookCtrl() {
-	return _wx_wxpropertysheetdialog_wxPropertySheetDialog__CreateBookCtrl(maxHandle);
+	return CB_PREF(wx_wxpropertysheetdialog_wxPropertySheetDialog__CreateBookCtrl)(maxHandle);
 }
 
 void MaxPropertySheetDialog::AddBookCtrl_default(wxSizer* sizer) {
@@ -125,7 +125,7 @@ wxObject * MaxPropertySheetDialogXmlHandler::DoCreateResource()
 
         if (HasParam(wxT("icon"))) dlg->SetIcon(GetIcon(wxT("icon"), wxART_FRAME_ICON));
 
- 		dlg->MaxBind(_wx_wxpropertysheetdialog_wxPropertySheetDialog__xrcNew(dlg));
+ 		dlg->MaxBind(CB_PREF(wx_wxpropertysheetdialog_wxPropertySheetDialog__xrcNew)(dlg));
 
        SetupWindow(dlg);
 

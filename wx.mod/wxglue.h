@@ -59,10 +59,25 @@ extern "C" {
 #include "../../brl.mod/event.mod/event.h"
 	void bbSystemEmitEvent( int id,BBObject *source,int data,int mods,int x,int y,BBObject *extra );
 
+#ifdef BMX_NG
+#define CB_PREF(func) func
+#else
+#define CB_PREF(func) _##func
+#endif
+
+#ifndef BMX_NG
 	void _wx_wx_TEventHandler_eventCallback(wxEvent &, void * data);
 	void _wx_wx_TEventHandler__nullref(void * handle);
-	int _wx_wxapp_wxAppMain__MainLoop();
 	void _wx_wx_wxObject__Free(BBObject * handle);
+#else
+	void wx_wx_events_TEventHandler_eventCallback(wxEvent &, void * data);
+	void wx_wx_events_TEventHandler__nullref(void * handle);
+	void wx_wx_base_wxObject__Free(BBObject * handle);
+#endif
+
+	int CB_PREF(wx_wxapp_wxAppMain__MainLoop)();
+	int CB_PREF(wx_wxapp_wxApp__OnInit)();
+	int CB_PREF(wx_wxapp_wxApp__OnExit)();
 
 	BBString *bbStringFromWxString(const wxString &s );
 	wxString wxStringFromBBString(BBString * s);
@@ -78,8 +93,6 @@ extern "C" {
 
 	int bmx_app_wxentry();
 	int bmx_app_wxentrystart();
-	int _wx_wxapp_wxApp__OnInit();
-	int _wx_wxapp_wxApp__OnExit();
 	int bmx_wxapp_macexitmenuitemid();
 	void bmx_wxapp_settopwindow(wxWindow * window);
 	void bmx_wxapp_setappname(BBString * name);

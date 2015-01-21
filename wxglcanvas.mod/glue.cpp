@@ -59,7 +59,7 @@ void MaxGLCanvas::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 
 void MaxGLCanvas::Render(BBObject * event) {
 	wxPaintDC dc(this);
-	_wx_wxglcanvas_wxGLCanvas__OnPaint(event);
+	CB_PREF(wx_wxglcanvas_wxGLCanvas__OnPaint)(event);
 }
 
 void MaxGLCanvas::Refresh(bool eraseBackground, const wxRect* rect) {

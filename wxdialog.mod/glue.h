@@ -32,7 +32,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxdialog_wxDialog__xrcNew(wxDialog * dialog);
+	BBObject * CB_PREF(wx_wxdialog_wxDialog__xrcNew)(wxDialog * dialog);
 
 	MaxDialog * bmx_wxdialog_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y,
 		int w, int h, long style);

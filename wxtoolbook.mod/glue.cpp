@@ -122,7 +122,7 @@ wxObject * MaxToolbookXmlHandler::DoCreateResource()
                     GetStyle(wxT("style")),
                     GetName() );
 
-		nb->MaxBind(_wx_wxtoolbook_wxToolbook__xrcNew(nb));
+		nb->MaxBind(CB_PREF(wx_wxtoolbook_wxToolbook__xrcNew)(nb));
 
         wxImageList *imagelist = GetImageList();
         if ( imagelist )

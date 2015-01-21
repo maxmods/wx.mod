@@ -382,7 +382,7 @@ wxObject * MaxPropertyGridXmlHandler::DoCreateResource()
                         GetName());
 
 
-		control->MaxBind(_wx_wxpropgrid_wxPropertyGrid__xrcNew(control));
+		control->MaxBind(CB_PREF(wx_wxpropgrid_wxPropertyGrid__xrcNew)(control));
 
         m_pg = control;
         HandlePropertyGridParams();
@@ -1391,9 +1391,9 @@ BBArray * bmx_wxpropertygrid_getpropertieswithflag(wxPropertyGrid * grid, int fl
 	grid->GetPropertiesWithFlag(&arr, flags, static_cast<bool>(inverse), iterFlags);
 	
 	int n = arr.GetCount();
-	BBArray * props = _wx_wxpropgrid_wxPropertyGrid__newPropertiesArray(n);
+	BBArray * props = CB_PREF(wx_wxpropgrid_wxPropertyGrid__newPropertiesArray)(n);
 	for( int i=0;i<n;++i ){
-		_wx_wxpropgrid_wxPropertyGrid__addProperty(props, i, arr[i]);
+		CB_PREF(wx_wxpropgrid_wxPropertyGrid__addProperty)(props, i, arr[i]);
 	}
 
 	return props;
@@ -1406,7 +1406,7 @@ BBArray * bmx_wxpropertygrid_propertiestonames(wxPropertyGrid * grid, BBArray * 
 	arr.Alloc(n);
 	
 	for( int i=0;i<n;++i ){
-		arr.Add(_wx_wxpropgrid_wxPropertyGrid__getProperty(props, i));
+		arr.Add(CB_PREF(wx_wxpropgrid_wxPropertyGrid__getProperty)(props, i));
 	}
 
 	wxArrayString names;
@@ -1433,9 +1433,9 @@ BBArray * bmx_wxpropertygrid_namestoproperties(wxPropertyGrid * grid, BBArray * 
 	}
 	
 	int n = props.GetCount();
-	BBArray * properties = _wx_wxpropgrid_wxPropertyGrid__newPropertiesArray(n);
+	BBArray * properties = CB_PREF(wx_wxpropgrid_wxPropertyGrid__newPropertiesArray)(n);
 	for( int i=0;i<n;++i ){
-		_wx_wxpropgrid_wxPropertyGrid__addProperty(properties, i, props[i]);
+		CB_PREF(wx_wxpropgrid_wxPropertyGrid__addProperty)(properties, i, props[i]);
 	}
 
 	return properties;

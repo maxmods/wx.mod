@@ -85,7 +85,7 @@ wxObject * MaxComboBoxXmlHandler::DoCreateResource()
                         GetName());
 
 
-		control->MaxBind(_wx_wxcombobox_wxComboBox__xrcNew(control));
+		control->MaxBind(CB_PREF(wx_wxcombobox_wxComboBox__xrcNew)(control));
 
         if (selection != -1)
             control->SetSelection(selection);

@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxcolourpickerctrl_wxColourPickerCtrl__xrcNew(wxColourPickerCtrl * picker);
+	BBObject * CB_PREF(wx_wxcolourpickerctrl_wxColourPickerCtrl__xrcNew)(wxColourPickerCtrl * picker);
 
 	MaxColourPickerCtrl * bmx_wxcolourpickerctrl_create(BBObject * handle, wxWindow * parent, int id,
 		MaxColour * colour, int x, int y, int w, int h, long style);

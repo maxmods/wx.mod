@@ -93,7 +93,7 @@ wxObject * MaxRadioBoxXmlHandler::DoCreateResource()
         if (selection != -1)
             control->SetSelection(selection);
 
-		control->MaxBind(_wx_wxradiobox_wxRadioBox__xrcNew(control));
+		control->MaxBind(CB_PREF(wx_wxradiobox_wxRadioBox__xrcNew)(control));
 
         SetupWindow(control);
 

@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	void _wx_wxlog_wxLogStream__DoLogString(BBObject * maxHandle, BBString * str);
+	void CB_PREF(wx_wxlog_wxLogStream__DoLogString)(BBObject * maxHandle, BBString * str);
 
 	BBObject *wxlogfind( wxLog *obj );
 

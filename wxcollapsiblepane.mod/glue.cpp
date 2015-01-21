@@ -95,7 +95,7 @@ wxObject * MaxCollapsiblePaneXmlHandler::DoCreateResource()
                     GetName());
 
 
-		ctrl->MaxBind(_wx_wxcollapsiblepane_wxCollapsiblePane__xrcNew(ctrl));
+		ctrl->MaxBind(CB_PREF(wx_wxcollapsiblepane_wxCollapsiblePane__xrcNew)(ctrl));
 
         ctrl->Collapse(GetBool(_T("collapsed")));
         SetupWindow(ctrl);

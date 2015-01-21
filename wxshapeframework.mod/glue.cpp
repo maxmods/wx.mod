@@ -65,67 +65,67 @@ BBObject * newObjectForShape(wxSFShapeBase * shape) {
 	}
 
 	if (wxIsKindOf(shape, wxSFCurveShape)) {
-		return _wx_wxshapeframework_wxSFCurveShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFCurveShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFLineShape)) {
-		return _wx_wxshapeframework_wxSFLineShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFLineShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFBitmapShape)) {
-		return _wx_wxshapeframework_wxSFBitmapShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFBitmapShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFControlShape)) {
-		return _wx_wxshapeframework_wxSFControlShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFControlShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFEllipseShape)) {
-		return _wx_wxshapeframework_wxSFEllipseShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFEllipseShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFFlexGridShape)) {
-		return _wx_wxshapeframework_wxSFFlexGridShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFFlexGridShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFGridShape)) {
-		return _wx_wxshapeframework_wxSFGridShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFGridShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFMultiSelRect)) {
-		return _wx_wxshapeframework_wxSFMultiSelRect__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFMultiSelRect__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFDiamondShape)) {
-		return _wx_wxshapeframework_wxSFDiamondShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFDiamondShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFPolygonShape)) {
-		return _wx_wxshapeframework_wxSFPolygonShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFPolygonShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFRoundRectShape)) {
-		return _wx_wxshapeframework_wxSFRoundRectShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFRoundRectShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFCircleShape)) {
-		return _wx_wxshapeframework_wxSFCircleShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFCircleShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFSquareShape)) {
-		return _wx_wxshapeframework_wxSFSquareShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFSquareShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFEditTextShape)) {
-		return _wx_wxshapeframework_wxSFEditTextShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFEditTextShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFTextShape)) {
-		return _wx_wxshapeframework_wxSFTextShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFTextShape__find)(shape);
 	}
 
 	if (wxIsKindOf(shape, wxSFRectShape)) {
-		return _wx_wxshapeframework_wxSFRectShape__find(shape);
+		return CB_PREF(wx_wxshapeframework_wxSFRectShape__find)(shape);
 	}
 
 }

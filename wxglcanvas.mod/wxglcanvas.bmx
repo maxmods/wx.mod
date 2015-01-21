@@ -105,12 +105,19 @@ Type wxGLCanvas Extends wxWindow
 	Method SetCurrent()
 		bmx_wxglcanvas_setcurrent(wxObjectPtr)
 	End Method
-	
+
+	Method CanvasGraphics:TGraphics()
+		If Not _graphics Then
+			_graphics = brl.Graphics.AttachGraphics( Int (GetHandle()), 0 )
+		End If
+		Return _graphics
+	End Method
+
 End Type
 
 
 
-
+Rem
 Private
 
 Incbin "gldrawtextfont.bin"
@@ -144,6 +151,7 @@ Type TwxGLGraphics Extends TGraphics
 		If _context Then
 			_context.GetSize(width, height)
 		End If
+DebugLog width + ", " + height
 		'width=w
 		'height=h
 		depth=d
@@ -230,17 +238,17 @@ Type TwxGLGraphicsDriver Extends TGraphicsDriver
 	Field currentContext:wxGLCanvas
 	
 End Type
-
+End Rem
 Rem
 bbdoc: Get OpenGL graphics driver
 returns: An OpenGL graphics driver
 about:
 The returned driver can be used with #brl.graphics.SetGraphicsDriver
 End Rem
-Function wxGLGraphicsDriver:TwxGLGraphicsDriver()
-	Global _driver:TwxGLGraphicsDriver=New TwxGLGraphicsDriver
-	Return _driver
-End Function
+'Function wxGLGraphicsDriver:TwxGLGraphicsDriver()
+'	Global _driver:TwxGLGraphicsDriver=New TwxGLGraphicsDriver
+'	Return _driver
+'End Function
 
 'Rem
 'bbdoc: Create OpenGL Graphics
@@ -253,5 +261,5 @@ End Function
 '	Return Graphics( width,height,depth,hertz,flags )
 'End Function
 	
-SetGraphicsDriver wxGLGraphicsDriver()
+'SetGraphicsDriver wxGLGraphicsDriver()
 

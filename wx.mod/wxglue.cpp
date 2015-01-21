@@ -45,7 +45,11 @@ void wxunbind(wxObject *obj) {
 	BBObject * peer = wxfind(obj);
 	if (peer != &bbNullObject) {
 		peerMap.erase(obj);
+#ifndef BMX_NG
 		_wx_wx_wxObject__Free(peer);
+#else
+		wx_wx_base_wxObject__Free(peer);
+#endif
 		BBRELEASE(peer);
 	}
 }
@@ -144,7 +148,7 @@ bool MaxApp::OnInit()
         return false;
 	}
 
-    return _wx_wxapp_wxApp__OnInit();
+    return CB_PREF(wx_wxapp_wxApp__OnInit)();
 }
 
 int MaxApp::OnExit()
@@ -152,7 +156,7 @@ int MaxApp::OnExit()
 #ifdef EVENTS_DEBUG
 	printf("MaxApp::OnExit()\n");fflush(stdout);
 #endif
-	return _wx_wxapp_wxApp__OnExit();
+	return CB_PREF(wx_wxapp_wxApp__OnExit)();
 }
 
 
@@ -168,7 +172,7 @@ int MaxApp::MainLoop() {
 	eventLoop = m_mainLoop = GetTraits()->CreateEventLoop();
 	wxEventLoopBase::SetActive(m_mainLoop);
 	
-	return _wx_wxapp_wxAppMain__MainLoop();
+	return CB_PREF(wx_wxapp_wxAppMain__MainLoop)();
 }
 
 #ifdef __WXOSX__
@@ -632,7 +636,11 @@ MaxObject::MaxObject(void * handle)
 
 MaxObject::~MaxObject()
 {
+#ifndef BMX_NG
 	_wx_wx_TEventHandler__nullref(maxHandle);
+#else
+	wx_wx_events_TEventHandler__nullref(maxHandle);
+#endif
 }
 
 void * MaxObject::getHandle() {
@@ -647,7 +655,11 @@ public:
 
 void MaxEventCallBack::EventThunker(wxEvent& event) {
 	MaxObject*   cb = (MaxObject*)event.m_callbackUserData;
+#ifndef BMX_NG
 	_wx_wx_TEventHandler_eventCallback(event, cb->getHandle());
+#else
+	wx_wx_events_TEventHandler_eventCallback(event, cb->getHandle());
+#endif
 }
 
 

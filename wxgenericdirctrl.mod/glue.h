@@ -33,7 +33,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxgenericdirctrl_wxGenericDirCtrl__xrcNew(wxGenericDirCtrl * dir);
+	BBObject * CB_PREF(wx_wxgenericdirctrl_wxGenericDirCtrl__xrcNew)(wxGenericDirCtrl * dir);
 
 	wxGenericDirCtrl * bmx_wxgenericdirctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id,
 		BBString * dir, int x, int y, int w, int h, long style, BBString * filter, int defaultFilter);

@@ -146,7 +146,7 @@ MaxSizerXmlHandler::MaxSizerXmlHandler()
 
 wxSizer*  MaxSizerXmlHandler::Handle_wxBoxSizer() {
     MaxBoxSizer * sizer = new MaxBoxSizer(GetStyle(wxT("orient"), wxHORIZONTAL));
-	sizer->MaxBind(_wx_wxwindow_wxBoxSizer__xrcNew(sizer));
+	sizer->MaxBind(CB_PREF(wx_wxwindow_wxBoxSizer__xrcNew)(sizer));
 	return sizer;
 }
 
@@ -154,7 +154,7 @@ wxSizer*  MaxSizerXmlHandler::Handle_wxGridSizer() {
     MaxGridSizer * sizer = new MaxGridSizer(GetLong(wxT("rows")), GetLong(wxT("cols")),
                            GetDimension(wxT("vgap")), GetDimension(wxT("hgap")));
 
-	sizer->MaxBind(_wx_wxwindow_wxGridSizer__xrcNew(sizer));
+	sizer->MaxBind(CB_PREF(wx_wxwindow_wxGridSizer__xrcNew)(sizer));
 	return sizer;
 }
 
@@ -164,7 +164,7 @@ wxSizer*  MaxSizerXmlHandler::Handle_wxFlexGridSizer() {
                             GetDimension(wxT("vgap")), GetDimension(wxT("hgap")));
     SetGrowables(sizer, wxT("growablerows"), true);
     SetGrowables(sizer, wxT("growablecols"), false);
-	sizer->MaxBind(_wx_wxwindow_wxFlexGridSizer__xrcNew(sizer));
+	sizer->MaxBind(CB_PREF(wx_wxwindow_wxFlexGridSizer__xrcNew)(sizer));
     return sizer;
 
 }
@@ -174,7 +174,7 @@ wxSizer*  MaxSizerXmlHandler::Handle_wxGridBagSizer() {
         new MaxGridBagSizer(GetDimension(wxT("vgap")), GetDimension(wxT("hgap")));
     SetGrowables(sizer, wxT("growablerows"), true);
     SetGrowables(sizer, wxT("growablecols"), false);
-	sizer->MaxBind(_wx_wxwindow_wxGridBagSizer__xrcNew(sizer));
+	sizer->MaxBind(CB_PREF(wx_wxwindow_wxGridBagSizer__xrcNew)(sizer));
     return sizer;
 }
 
@@ -279,8 +279,8 @@ void bmx_wxwindow_setforegroundcolour(wxWindow * window, MaxColour * colour) {
 	window->SetForegroundColour(colour->Colour());
 }
 
-void bmx_wxwindow_setfont(wxWindow * window, MaxFont * font) {
-	window->SetFont(font->Font());
+int bmx_wxwindow_setfont(wxWindow * window, MaxFont * font) {
+	return static_cast<int>(window->SetFont(font->Font()));
 }
 
 MaxFont * bmx_wxwindow_getfont(wxWindow * window) {
@@ -777,13 +777,13 @@ void bmx_wxwindow_setvirtualsizehints(wxWindow * window, int minW, int minH, int
 BBArray * bmx_wxwindow_getchildren(wxWindow * window) {
 	wxWindowList wlist = window->GetChildren();
 	int size = wlist.size();
-	BBArray * array = _wx_wxwindow_wxWindow__newwindowarray(size);
+	BBArray * array = CB_PREF(wx_wxwindow_wxWindow__newwindowarray)(size);
 
 	wxWindowList::iterator iter;
 	int i = 0;
 	for (iter = wlist.begin(); iter != wlist.end(); ++iter) { 
 		wxWindow * win = *iter;
-		_wx_wxwindow_wxWindow__setwindow(array, i++, win);
+		CB_PREF(wx_wxwindow_wxWindow__setwindow)(array, i++, win);
 	}
 	return array;
 }
@@ -1232,13 +1232,13 @@ int bmx_wxsizer_replace(wxSizer * sizer, int oldIndex, wxSizerItem * newItem) {
 BBArray * bmx_wxsizer_getchildren(wxSizer * sizer) {
 	wxSizerItemList ilist = sizer->GetChildren();
 	int size = ilist.size();
-	BBArray * array = _wx_wxwindow_wxSizer__newsizeritemsarray(size);
+	BBArray * array = CB_PREF(wx_wxwindow_wxSizer__newsizeritemsarray)(size);
 
 	wxSizerItemList::iterator iter;
 	int i = 0;
 	for (iter = ilist.begin(); iter != ilist.end(); ++iter) { 
 		wxSizerItem * item = *iter;
-		_wx_wxwindow_wxSizer__setsizeritem(array, i++, item);
+		CB_PREF(wx_wxwindow_wxSizer__setsizeritem)(array, i++, item);
 	}
 	return array;
 }

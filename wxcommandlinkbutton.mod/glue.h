@@ -34,7 +34,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxcommandlinkbutton_wxCommandLinkButton__xrcNew(wxCommandLinkButton * button);
+	BBObject * CB_PREF(wx_wxcommandlinkbutton_wxCommandLinkButton__xrcNew)(wxCommandLinkButton * button);
 
 	MaxCommandLinkButton * bmx_wxcommandlinkbutton_create(BBObject * handle, wxWindow * parent, int id, BBString * mainLabel, BBString * note, int x, int y, int w, int h, int style);
 	void bmx_wxcommandlinkbutton_setlabel(wxCommandLinkButton * button, BBString * label);

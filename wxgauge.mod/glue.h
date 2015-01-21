@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxgauge_wxGauge__xrcNew(wxGauge * gauge);
+	BBObject * CB_PREF(wx_wxgauge_wxGauge__xrcNew)(wxGauge * gauge);
 
 	MaxGauge * bmx_wxgauge_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int range, int x, int y,
 		int w, int h, long style);

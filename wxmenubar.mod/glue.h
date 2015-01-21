@@ -31,7 +31,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	BBObject * _wx_wxmenubar_wxMenuBar__xrcNew(wxMenuBar * menubar);
+	BBObject * CB_PREF(wx_wxmenubar_wxMenuBar__xrcNew)(wxMenuBar * menubar);
 
 	MaxMenuBar * bmx_wxmenubar_create(BBObject * maxHandle, long style);
 	int bmx_wxmenubar_append(wxMenuBar * menubar, MaxMenu * menu, BBString * title);

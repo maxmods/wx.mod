@@ -46,7 +46,7 @@ extern "C" {
 	void bmx_wxcommandprocessor_setmenustrings(wxCommandProcessor * proc);
 	void bmx_wxcommandprocessor_setredoaccelerator(wxCommandProcessor * proc, BBString * accel);
 	void bmx_wxcommandprocessor_setundoaccelerator(wxCommandProcessor * proc, BBString * accel);
-	void bmx_wxcommandprocessor_submit(wxCommandProcessor * proc, wxCommand * command, int storeIt);
+	int bmx_wxcommandprocessor_submit(wxCommandProcessor * proc, wxCommand * command, int storeIt);
 	int bmx_wxcommandprocessor_undo(wxCommandProcessor * proc);
 
 }

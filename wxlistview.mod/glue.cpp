@@ -31,19 +31,19 @@ MaxListView::MaxListView(BBObject * handle, wxWindow * parent, wxWindowID id, in
 }
 
 wxString MaxListView::OnGetItemText(long item, long column) const {
-	return wxStringFromBBString(_wx_wxlistctrl_wxListCtrl__OnGetItemText(maxHandle, item, column));
+	return wxStringFromBBString(CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemText)(maxHandle, item, column));
 }
 
 int MaxListView::OnGetItemColumnImage(long item, long column) const {
-	return _wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage(maxHandle, item, column);
+	return CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemColumnImage)(maxHandle, item, column);
 }
 
 wxListItemAttr * MaxListView::OnGetItemAttr(long item) const {
-	return _wx_wxlistctrl_wxListCtrl__OnGetItemAttr(maxHandle, item);
+	return CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemAttr)(maxHandle, item);
 }
 
 int MaxListView::OnGetItemImage(long item) const {
-	return _wx_wxlistctrl_wxListCtrl__OnGetItemImage(maxHandle, item);
+	return CB_PREF(wx_wxlistctrl_wxListCtrl__OnGetItemImage)(maxHandle, item);
 }
 
 MaxListView::~MaxListView() {

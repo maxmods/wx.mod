@@ -62,7 +62,7 @@ wxObject * MaxDialogXmlHandler::DoCreateResource()
                 GetStyle(wxT("style"), wxDEFAULT_DIALOG_STYLE),
                 GetName());
 
-	dlg->MaxBind(_wx_wxdialog_wxDialog__xrcNew(dlg));
+	dlg->MaxBind(CB_PREF(wx_wxdialog_wxDialog__xrcNew)(dlg));
 
     if (HasParam(wxT("size")))
         dlg->SetClientSize(GetSize(wxT("size"), dlg));

@@ -63,7 +63,7 @@ wxObject * MaxTreebookXmlHandler::DoCreateResource()
                     GetName());
 
 
-		tbk->MaxBind(_wx_wxtreebook_wxTreebook__xrcNew(tbk));
+		tbk->MaxBind(CB_PREF(wx_wxtreebook_wxTreebook__xrcNew)(tbk));
 
         wxTreebook * old_par = m_tbk;
         m_tbk = tbk;

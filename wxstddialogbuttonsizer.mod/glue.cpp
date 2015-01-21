@@ -61,7 +61,7 @@ wxObject * MaxStdDialogButtonSizerXmlHandler::DoCreateResource()
 	
         m_isInside = true;
 
-		s->MaxBind(_wx_wxstddialogbuttonsizer_wxStdDialogButtonSizer__xrcNew(s));
+		s->MaxBind(CB_PREF(wx_wxstddialogbuttonsizer_wxStdDialogButtonSizer__xrcNew)(s));
 
         CreateChildren(m_parent, true/*only this handler*/);
 
