@@ -23,7 +23,9 @@ SuperStrict
 Import wx.wx
 Import wx.wxWindow
 Import BRL.Blitz
-
+?bmxng
+Import BRL.SystemDefault
+?
 
 ' headers :-)
 ?linux
