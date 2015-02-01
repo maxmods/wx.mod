@@ -56,7 +56,7 @@ extern "C" {
 	BBString * bmx_wxsimplehtmllistbox_getstringselection(wxSimpleHtmlListBox * listbox);
 	void bmx_wxsimplehtmllistbox_setclientdata(wxSimpleHtmlListBox * listbox, int item, BBObject * clientData);
 	void bmx_wxsimplehtmllistbox_setstring(wxSimpleHtmlListBox * listbox, unsigned int item, BBString * text);
-	void bmx_wxsimplehtmllistbox_setstringselection(wxSimpleHtmlListBox * listbox, BBString * text);
+	int bmx_wxsimplehtmllistbox_setstringselection(wxSimpleHtmlListBox * listbox, BBString * text);
 
 	void bmx_wxsimplehtmllistbox_addresourcehandler();
 }

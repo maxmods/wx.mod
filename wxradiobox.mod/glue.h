@@ -53,7 +53,7 @@ extern "C" {
 	void bmx_wxradiobox_setlabel(wxRadioBox * radiobox, BBString * label);
 	void bmx_wxradiobox_setitemlabel(wxRadioBox * radiobox, int item, BBString * label);
 	void bmx_wxradiobox_setselection(wxRadioBox * radiobox, int item);
-	void bmx_wxradiobox_setstringselection(wxRadioBox * radiobox, BBString * text);
+	int bmx_wxradiobox_setstringselection(wxRadioBox * radiobox, BBString * text);
 	void bmx_wxradiobox_setitemtooltip(wxRadioBox * radiobox, unsigned int item, BBString * text);
 	int bmx_wxradiobox_show(wxRadioBox * radiobox, int value);
 	int bmx_wxradiobox_showItem(wxRadioBox * radiobox, unsigned int item, int value);

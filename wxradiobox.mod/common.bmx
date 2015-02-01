@@ -64,7 +64,7 @@ Extern
 	Function bmx_wxradiobox_setlabel(handle:Byte Ptr, label:String)
 	Function bmx_wxradiobox_setitemlabel(handle:Byte Ptr, item:Int, label:String)
 	Function bmx_wxradiobox_setselection(handle:Byte Ptr, item:Int)
-	Function bmx_wxradiobox_setstringselection(handle:Byte Ptr, text:String)
+	Function bmx_wxradiobox_setstringselection:Int(handle:Byte Ptr, text:String)
 	Function bmx_wxradiobox_setitemtooltip(handle:Byte Ptr, item:Int, text:String)
 	Function bmx_wxradiobox_show:Int(handle:Byte Ptr, value:Int)
 	Function bmx_wxradiobox_showItem:Int(handle:Byte Ptr, item:Int, value:Int)

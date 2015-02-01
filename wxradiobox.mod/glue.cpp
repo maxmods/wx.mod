@@ -237,8 +237,8 @@ void bmx_wxradiobox_setselection(wxRadioBox * radiobox, int item) {
 	radiobox->SetSelection(item);
 }
 
-void bmx_wxradiobox_setstringselection(wxRadioBox * radiobox, BBString * text) {
-	radiobox->SetStringSelection(wxStringFromBBString(text));
+int bmx_wxradiobox_setstringselection(wxRadioBox * radiobox, BBString * text) {
+	return static_cast<int>(radiobox->SetStringSelection(wxStringFromBBString(text)));
 }
 
 void bmx_wxradiobox_setitemtooltip(wxRadioBox * radiobox, unsigned int item, BBString * text) {

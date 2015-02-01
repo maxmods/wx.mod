@@ -210,7 +210,7 @@ Type wxSimpleHtmlListBox Extends wxHtmlListBox
 	Rem
 	bbdoc: This is the same as SetSelection and exists only because it is slightly more natural for controls which support multiple selection.
 	End Rem
-	Method SelectItem(item:Int)
+	Method SelectItem:Int(item:Int)
 		bmx_wxsimplehtmllistbox_selectitem(wxObjectPtr, item)
 	End Method
 	
@@ -243,7 +243,7 @@ Type wxSimpleHtmlListBox Extends wxHtmlListBox
 	about: This doesn't cause any command events being emitted.
 	End Rem
 	Method SetStringSelection:Int(text:String)
-		bmx_wxsimplehtmllistbox_setstringselection(wxObjectPtr, text)
+		Return bmx_wxsimplehtmllistbox_setstringselection(wxObjectPtr, text)
 	End Method
 
 

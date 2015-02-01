@@ -233,8 +233,8 @@ void bmx_wxsimplehtmllistbox_setstring(wxSimpleHtmlListBox * listbox, unsigned i
 	listbox->SetString(item, wxStringFromBBString(text));
 }
 
-void bmx_wxsimplehtmllistbox_setstringselection(wxSimpleHtmlListBox * listbox, BBString * text) {
-	listbox->SetStringSelection(wxStringFromBBString(text));
+int bmx_wxsimplehtmllistbox_setstringselection(wxSimpleHtmlListBox * listbox, BBString * text) {
+	return static_cast<int>(listbox->SetStringSelection(wxStringFromBBString(text)));
 }
 
 // *********************************************

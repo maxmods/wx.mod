@@ -204,7 +204,7 @@ Type wxControlWithItems Extends wxControl Abstract
 	about: This doesn't cause any command events being emitted.
 	End Rem
 	Method SetStringSelection:Int(text:String)
-		bmx_wxcontrolwithitems_setstringselection(wxObjectPtr, text)
+		Return bmx_wxcontrolwithitems_setstringselection(wxObjectPtr, text)
 	End Method
 
 End Type

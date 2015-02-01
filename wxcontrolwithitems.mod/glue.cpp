@@ -138,8 +138,8 @@ void bmx_wxcontrolwithitems_setstring(wxControlWithItems * control, unsigned int
 	control->SetString(item, wxStringFromBBString(text));
 }
 
-void bmx_wxcontrolwithitems_setstringselection(wxControlWithItems * control, BBString * text) {
-	control->SetStringSelection(wxStringFromBBString(text));
+int bmx_wxcontrolwithitems_setstringselection(wxControlWithItems * control, BBString * text) {
+	return static_cast<int>(control->SetStringSelection(wxStringFromBBString(text)));
 }
 
 

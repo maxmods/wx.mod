@@ -46,7 +46,7 @@ extern "C" {
 	BBString * bmx_wxcontrolwithitems_getstringselection(wxControlWithItems * control);
 	void bmx_wxcontrolwithitems_setclientdata(wxControlWithItems * control, int item, BBObject * clientData);
 	void bmx_wxcontrolwithitems_setstring(wxControlWithItems * control, unsigned int item, BBString * text);
-	void bmx_wxcontrolwithitems_setstringselection(wxControlWithItems * control, BBString * text);
+	int bmx_wxcontrolwithitems_setstringselection(wxControlWithItems * control, BBString * text);
 
 }
 

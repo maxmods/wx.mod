@@ -62,6 +62,6 @@ Extern
 	Function bmx_wxcontrolwithitems_getstringselection:String(handle:Byte Ptr)
 	Function bmx_wxcontrolwithitems_setclientdata(handle:Byte Ptr, item:Int, clientData:Object)
 	Function bmx_wxcontrolwithitems_setstring(handle:Byte Ptr, item:Int, text:String)
-	Function bmx_wxcontrolwithitems_setstringselection(handle:Byte Ptr, text:String)
+	Function bmx_wxcontrolwithitems_setstringselection:Int(handle:Byte Ptr, text:String)
 	
 End Extern

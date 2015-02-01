@@ -228,8 +228,8 @@ Type wxRadioBox Extends wxControlWithItems
 	bbdoc: Sets the selection to a button by passing the desired string.
 	about: This does not cause a wxEVT_COMMAND_RADIOBOX_SELECTED event to get emitted.
 	End Rem
-	Method SetStringSelection(text:String)
-		bmx_wxradiobox_setstringselection(wxObjectPtr, text)
+	Method SetStringSelection:Int(text:String)
+		Return bmx_wxradiobox_setstringselection(wxObjectPtr, text)
 	End Method
 	
 	Rem
