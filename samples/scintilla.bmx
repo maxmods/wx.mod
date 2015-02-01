@@ -40,7 +40,7 @@ Type AppFrame Extends wxFrame
 	Field mEdit:Edit
 	Field menuBar:wxMenuBar
 	
-	Method OnInit()
+	Method OnInit:Int()
 
 		' Create menu
 		menuBar = New wxMenuBar.Create()
@@ -127,7 +127,7 @@ Type Edit Extends wxScintilla
 	Field dividerID:Int
 
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		filename = ""
 		'm_language = Null;

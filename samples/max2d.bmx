@@ -32,7 +32,7 @@ Type MyFrame Extends wxFrame
 
 	Field canvas:MyCanvas
 
-	Method OnInit()
+	Method OnInit:Int()
 		
 		canvas = MyCanvas(New MyCanvas.CreateWin(Self))
 		
@@ -52,7 +52,7 @@ Type MyCanvas Extends wxWindow
 
 	Field timer:wxTimer
 
-	Method OnInit()
+	Method OnInit:Int()
 		SetBackgroundStyle(wxBG_STYLE_CUSTOM)
 	
 		timer = New wxTimer.Create(Self)

@@ -104,7 +104,7 @@ Type WebFrame Extends wxFrame
 		Return Self
 	End Method
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		' set the frame icon
 		'SetIcon(wxIcon(sample));

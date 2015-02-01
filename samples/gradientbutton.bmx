@@ -42,7 +42,7 @@ Const ID_LISTBOX:Int = 10004
 
 Type MyFrame Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 	
 		SetBackgroundColour(New wxColour.Create(87, 87, 87))
 		

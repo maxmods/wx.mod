@@ -96,7 +96,7 @@ Type MyFrame Extends wxFrame
 		bbdoc:   
 		about:    
 	End Rem	
-	Method OnInit()
+	Method OnInit:Int()
 		
 		m_frame = Self
 					
@@ -429,7 +429,7 @@ Type MySplitterWindow Extends wxSplitterWindow
 	End Rem	
 	Method CreateMySplitterWindow:MySplitterWindow(parent:wxWindow)
 		m_frame = MyFrame(parent)
-		create(parent,wxID_ANY,,,,,wxSP_3D | wxSP_LIVE_UPDATE | wxCLIP_CHILDREN)
+		Create(parent,wxID_ANY,,,,,wxSP_3D | wxSP_LIVE_UPDATE | wxCLIP_CHILDREN)
 		m_splitter = Self
 		Return Self
 	End Method	
@@ -439,7 +439,7 @@ Type MySplitterWindow Extends wxSplitterWindow
 		bbdoc:   
 		about:    
 	End Rem	
-	Method OnInit()
+	Method OnInit:Int()
 
 		Connect(wxID_ANY, wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGED, OnPositionChanged)
 		Connect(wxID_ANY, wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING, OnPositionChanging)
@@ -528,7 +528,7 @@ Type MyCanvas Extends wxScrolledWindow
 	Method CreateMyCanvas:MyCanvas(parent:wxWindow, mirror:Int)
 		
 		' wxNO_FULL_REPAINT_ON_RESIZE Omitted as it is obsolete, default behaviour and instantiated as 0
-		create(parent,wxID_ANY,,,,,wxHSCROLL | wxVSCROLL)' | wxNO_FULL_REPAINT_ON_RESIZE) 
+		Create(parent,wxID_ANY,,,,,wxHSCROLL | wxVSCROLL)' | wxNO_FULL_REPAINT_ON_RESIZE) 
 		
 		m_mirror = mirror
 		
@@ -543,7 +543,7 @@ Type MyCanvas Extends wxScrolledWindow
 	
 	Method OnDraw(dcOrig:wxDC)
 
-		Local dc:wxMirrorDC = New wxMirrorDC.create(dcOrig,m_mirror)
+		Local dc:wxMirrorDC = New wxMirrorDC.Create(dcOrig,m_mirror)
 
 		dc.SetPen(wxBLACK_PEN())
 		dc.DrawLine(0,0,100,200)

@@ -24,7 +24,7 @@ End Type
 
 Type MyFrame Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local ctrl:wxFixWidthImportCtrl = New wxFixWidthImportCtrl.Create(Self)
 		ctrl.LoadFile("media/fixwidth/flatdata.txt")

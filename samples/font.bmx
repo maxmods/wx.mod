@@ -74,7 +74,7 @@ Type MyFrame Extends wxFrame
 	Const Font_SetEncoding:Int = 108
 	Const Font_Max:Int = 109
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		FontSize = wxNORMAL_FONT().GetPointSize()
 		
@@ -530,7 +530,7 @@ Type MyCanvas Extends wxWindow
 	Field colour:wxColour = wxRED()
 	Field font:wxFont = wxNORMAL_FONT()
 
-	Method OnInit()
+	Method OnInit:Int()
 		ConnectNoId(wxEVT_PAINT, OnPaint)
 	End Method
 

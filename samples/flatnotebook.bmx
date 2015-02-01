@@ -58,7 +58,7 @@ Type Frame Extends wxFrame
 
 	Field m_ImageList:wxBitmap[]
 
-	Method OnInit()
+	Method OnInit:Int()
 		m_ImageList = New wxBitmap[3]
 		m_ImageList[0] = wxBitmap.CreateFromFile("media/flatnotebook/book_red.png", wxBITMAP_TYPE_PNG)
 		m_ImageList[1] = wxBitmap.CreateFromFile("media/flatnotebook/book_green.png", wxBITMAP_TYPE_PNG)

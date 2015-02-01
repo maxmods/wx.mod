@@ -97,7 +97,7 @@ Type MyFrame Extends wxFrame
 
 	Field m_radiobox:wxRadioBox
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		wxInitAllImageHandlers()
 	

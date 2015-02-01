@@ -4,8 +4,9 @@ Framework wx.wxApp
 Import wx.wxFrame
 Import wx.wxGLCanvas
 Import wx.wxTimer
+Import brl.GLGraphics
 
-SetGraphicsDriver wxGLGraphicsDriver(),GRAPHICS_BACKBUFFER|GRAPHICS_DEPTHBUFFER
+SetGraphicsDriver GLGraphicsDriver(),GRAPHICS_BACKBUFFER|GRAPHICS_DEPTHBUFFER
 
 ' Start the app !!!!!
 New MyApp.run()
@@ -32,7 +33,7 @@ Type MyFrame Extends wxFrame
 
 	Field canvas:MyCanvas
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		canvas = MyCanvas(New MyCanvas.Create(Self, -1, GRAPHICS_BACKBUFFER|GRAPHICS_DEPTHBUFFER))
 	
@@ -51,7 +52,7 @@ Type MyCanvas Extends wxGLCanvas
 	Field timer:wxTimer
 	Field ax#, ay#, tim#
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		timer = New wxTimer.Create(Self)
 
@@ -71,8 +72,8 @@ Type MyCanvas Extends wxGLCanvas
 	End Method
 
 	Method Render()
-
-		SetGraphics CanvasGraphics( Self )
+'DebugStop
+		SetGraphics CanvasGraphics( )
 		Local wid:Int, hgt:Int
 		GetSize(wid, hgt)
 		Local asp# = Float(wid)/Float(hgt)
@@ -117,7 +118,7 @@ Type MyCanvas Extends wxGLCanvas
 		ax:+1
 		ay:+5
 		DrawSizeCube(7)
-		
+	
 		Flip
 	
 	End Method

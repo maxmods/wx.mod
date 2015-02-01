@@ -28,7 +28,7 @@ End Type
 
 Type LEDFrame Extends wxFrame
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
 		

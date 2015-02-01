@@ -17,6 +17,8 @@ Incbin "media/artprovider/stock_internet-16.png"
 Incbin "media/artprovider/stock_folder-16.png"
 Incbin "media/artprovider/stock_new-template-16.png"
 
+Const ART_FOLDER:Int= wxID_HIGHEST+1
+
 New MyApp.run()
 
 Type MyApp Extends wxApp
@@ -48,7 +50,9 @@ Type MyFrame Extends wxFrame
 	
 		New wxGenericDirCtrl.Create(Self, -1)
 	
-	
+		Local tb:wxToolBar = CreateToolBar()
+		tb.AddTool(wxID_ANY, "abc", wxArtProvider.GetBitmap(ART_FOLDER, wxART_TOOLBAR) )
+		tb.realize()
 	End Method
 
 End Type
@@ -64,6 +68,8 @@ Type MyProvider Extends wxArtProvider
 				Return wxBitmap.CreateFromFile("incbin::media/artprovider/stock_folder-16.png", wxBITMAP_TYPE_PNG)
 			Case wxART_NORMAL_FILE
 				Return wxBitmap.CreateFromFile("incbin::media/artprovider/stock_new-template-16.png", wxBITMAP_TYPE_PNG)
+			Case ART_FOLDER
+				Return wxBitmap.CreateFromFile("incbin::media/artprovider/stock_folder-16.png", wxBITMAP_TYPE_PNG)
 		End Select
 		Return wxNullBitmap
 	End Method

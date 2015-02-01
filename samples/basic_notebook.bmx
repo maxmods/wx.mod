@@ -41,7 +41,7 @@ Type MyFrame Extends wxFrame
 	Const FILE_QUIT:Int = wxID_EXIT
 	Const HELP_ABOUT:Int = wxID_ABOUT
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		Local fileMenu:wxMenu = wxMenu.CreateMenu()
 		Local helpMenu:wxMenu = wxMenu.CreateMenu()
@@ -67,7 +67,7 @@ Type MyFrame Extends wxFrame
 		Local panel:wxPanel = wxPanel.CreatePanel(notebook)
 		
 		' the first page
-		notebook.AddPage(panel, "Tab1", True)
+		notebook.InsertPage(0, panel, "Tab1", True)
 		
 		' add buttons to the panel
 		wxButton.CreateButton(panel, BUTTON1, "Button &1", 50, 30, 100, 30)
@@ -86,6 +86,9 @@ Type MyFrame Extends wxFrame
 		
 		' another new panel
 		panel = wxPanel.CreatePanel(notebook)
+Local col:wxColour = New wxColour.Create(2 * 100, 2 * 100, 2 * 100)
+panel.SetOwnBackgroundColour(col)
+panel.Refresh()
 
 		Local mysizer:wxBoxSizer = wxBoxSizer.CreateBoxSizer(wxVERTICAL)
 		panel.SetSizer(mysizer)
@@ -93,7 +96,7 @@ Type MyFrame Extends wxFrame
 		textlog = wxTextCtrl.CreateTextCtrl(panel, TEXTBOX1, "Log~n", 0, 250, 100, 50, wxTE_MULTILINE)
 		mysizer.Add(textlog, 1, wxEXPAND | wxALL, 5)
 		
-		notebook.AddPage(panel, "Tab3", False)
+		notebook.InsertPage(2, panel, "Tab3", False)
 
 
 		Connect(FILE_QUIT, wxEVT_COMMAND_MENU_SELECTED, OnQuit)

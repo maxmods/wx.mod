@@ -7,7 +7,7 @@ SuperStrict
 
 Framework wx.wxApp
 Import wx.wxFrame
-Import wx.wxABoutBox
+Import wx.wxAboutBox
 
 
 New MyApp.run()
@@ -33,7 +33,7 @@ End Type
 
 Type MyFrame Extends wxFrame
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		' create a menu bar
 		
