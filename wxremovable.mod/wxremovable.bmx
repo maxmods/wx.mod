@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2013 Bruce A Henderson & Nigel Brown
+' Copyright (c) 2007-2015 Bruce A Henderson & Nigel Brown
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ Module wx.wxRemovable
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2007-2013 Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2007-2015 Bruce A Henderson"
 
 
 ?linux
