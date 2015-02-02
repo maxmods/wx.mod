@@ -18,7 +18,7 @@
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ' THE SOFTWARE.
 ' 
-SuperStrict
+Strict
 
 Rem
 bbdoc: wxMax2D
@@ -171,7 +171,7 @@ Type TwxMax2DDriver Extends TMax2DDriver
 		'Return GLGraphicsDriver().GraphicsModes()
 	End Method
 	
-	Method AttachGraphics:TMax2DGraphics( widget:Int ,flags:Int )
+	Method AttachGraphics:TMax2DGraphics( widget:Byte Ptr ,flags:Int )
 		Local g:TwxGraphics=wxGraphicsDriver().AttachGraphics( widget,flags )
 		If g Return TMax2DGraphics.Create( g,Self )
 	End Method
@@ -514,7 +514,7 @@ Type TwxGraphicsDriver Extends TGraphicsDriver
 		Return Null
 	End Method
 	
-	Method AttachGraphics:TwxGraphics( widget:Int,flags:Int )
+	Method AttachGraphics:TwxGraphics( widget:Byte Ptr,flags:Int )
 'DebugLog "AttachGraphics"
 		Local t:TwxGraphics=New TwxGraphics
 		't._context=bbGLGraphicsAttachGraphics( widget,flags )
