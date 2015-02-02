@@ -199,7 +199,7 @@ int bmx_wxkill(long pid, wxSignal signal, wxKillError * rc, int flags) {
 	return wxKill(pid, signal, rc, flags);
 }
 
-long bmx_wxexecute(BBString * command, int sync, wxProcess * callback) {
+int bmx_wxexecute(BBString * command, int sync, wxProcess * callback) {
 	if (callback) {
 		return wxExecute(wxStringFromBBString(command), sync, callback);
 	} else {

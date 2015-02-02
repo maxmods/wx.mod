@@ -63,7 +63,7 @@ extern "C" {
 	unsigned long bmx_wxgetprocessid();
 	void bmx_wxexit();
 	int bmx_wxkill(long pid, wxSignal signal, wxKillError * rc, int flags);
-	long bmx_wxexecute(BBString * command, int sync, wxProcess * callback);
+	int bmx_wxexecute(BBString * command, int sync, wxProcess * callback);
 
 	int bmx_wxprocess_geteventtype(int type);
 	int bmx_wxprocessevent_getpid(wxProcessEvent & event);
