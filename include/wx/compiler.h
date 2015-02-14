@@ -135,39 +135,8 @@
 #endif
 
 /*
-   This macro can be used to check that the version of mingw32 compiler is
-   at least maj.min
+    wxCHECK_MINGW32_VERSION() is defined in wx/msw/gccpriv.h which is included
+    later, see comments there.
  */
-
-/* Check for Mingw runtime version: */
-#if defined(__MINGW32_MAJOR_VERSION) && defined(__MINGW32_MINOR_VERSION)
-    #define wxCHECK_MINGW32_VERSION( major, minor ) \
- ( ( ( __MINGW32_MAJOR_VERSION > (major) ) \
-      || ( __MINGW32_MAJOR_VERSION == (major) && __MINGW32_MINOR_VERSION >= (minor) ) ) )
-
-/*
-    MinGW-w64 project provides compilers for both Win32 and Win64 but only
-    defines the same __MINGW32__ symbol for the former as MinGW32 toolchain
-    which is quite different (notably doesn't provide many SDK headers that
-    MinGW-w64 does include). So we define a separate symbol which, unlike the
-    predefined __MINGW64__, can be used to detect this toolchain in both 32 and
-    64 bit builds.
-
-    And define __MINGW32_TOOLCHAIN__ for consistency and also because it's
-    convenient as we often want to have some workarounds only for the (old)
-    MinGW32 but not (newer) MinGW-w64, which still predefines __MINGW32__.
- */
-#   ifdef __MINGW64_VERSION_MAJOR
-#       ifndef __MINGW64_TOOLCHAIN__
-#           define __MINGW64_TOOLCHAIN__
-#       endif
-#   else
-#       ifndef __MINGW32_TOOLCHAIN__
-#           define __MINGW32_TOOLCHAIN__
-#       endif
-#   endif
-#else
-    #define wxCHECK_MINGW32_VERSION( major, minor ) (0)
-#endif
 
 #endif // _WX_COMPILER_H_

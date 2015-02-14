@@ -945,8 +945,8 @@ bindir="${exec_prefix}/bin"
 [ -z "$output_option_prefix"        ] || echo $prefix
 [ -z "$output_option_exec_prefix"   ] || echo $exec_prefix
 [ -z "$output_option_release"       ] || echo "3.0"
-[ -z "$output_option_version"       ] || echo "3.0.0"
-[ -z "$output_option_version_full"  ] || echo "3.0.0.0"
+[ -z "$output_option_version"       ] || echo "3.0.2"
+[ -z "$output_option_version_full"  ] || echo "3.0.2.0"
 [ -z "$output_option_basename"      ] || echo "wx_osx_cocoau"
 [ -z "$output_option_cc"            ] || echo "gcc -isysroot /Developer/SDKs/MacOSX10.6.sdk -mmacosx-version-min=10.5"
 [ -z "$output_option_cxx"           ] || echo "g++ -isysroot /Developer/SDKs/MacOSX10.6.sdk -mmacosx-version-min=10.5"
@@ -1203,12 +1203,14 @@ if is_monolithic; then
 
     # Only add additional info if --libs was specified and not just --optional-libs
     if [ -n "$output_option_libs" ]; then
-        # Core libs are already built into the blob.
-        for i in std xrc webview html qa adv core xml net base; do
-            wx_libs=`remove_field $i $wx_libs`
-        done
+        # The only library we need to add when using monolithic build is the gl
+        # one as all the others are already included into the main one.
+        if match_field gl $wx_libs; then
+            wx_libs=gl
+        else
+            wx_libs=
+        fi
 
-        wx_libs=`order_libs $wx_libs`
         wx_libs=" `lib_flags_for $wx_libs`"
 
         # We still need the core lib deps for a static build though
@@ -1365,17 +1367,17 @@ if [ -n "$output_option_rescomp" ]; then
         if is_installed; then
             echo "cat /dev/null \| Rez --include-dir" \
                            "${includedir}/wx-3.0" \
-                           "-d __DARWIN__ -t APPL $libdir/libwx_osx_cocoau-3.0.0.r"
+                           "-d __DARWIN__ -t APPL $libdir/libwx_osx_cocoau-3.0.2.r"
         else
             echo "cat /dev/null \| Rez --include-dir ${includedir}" \
-                           "-d __DARWIN__ -t APPL $libdir/libwx_osx_cocoau-3.0.0.r"
+                           "-d __DARWIN__ -t APPL $libdir/libwx_osx_cocoau-3.0.2.r"
         fi
         ;;
 
       # neither rez not emxbind have any specific needs from
       # us, so just output what was determined by configure.
       *)
-        echo cat /dev/null \| Rez -d __DARWIN__ -t APPL $libdir/libwx_osx_cocoau-3.0.0.r
+        echo cat /dev/null \| Rez -d __DARWIN__ -t APPL $libdir/libwx_osx_cocoau-3.0.2.r
         ;;
     esac
 

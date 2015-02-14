@@ -16,7 +16,7 @@
 #endif /* __cplusplus */
 
 /* fill in with the string wxGetOsDescription() will return */
-#define WXWIN_OS_DESCRIPTION "Darwin 11.4.2 x86_64"
+#define WXWIN_OS_DESCRIPTION "Darwin 13.4.0 x86_64"
 
 /* the installation location prefix from configure */
 #define wxINSTALL_PREFIX "/usr/local"
@@ -291,7 +291,7 @@
 
 #define wxUSE_APPLE_IEEE 1
 
-#define wxUSE_JOYSTICK            0
+#define wxUSE_JOYSTICK 1
 
 #define wxUSE_FONTENUM 1
 
@@ -1001,6 +1001,10 @@
 /* Define if you have a _broken_ vsnprintf() declaration in the header,
  * with 'char*' for the 3rd parameter instead of 'const char*' */
 /* #undef HAVE_BROKEN_VSNPRINTF_DECL */
+
+/* Define if you have a _broken_ vsscanf() declaration in the header,
+ * with 'char*' for the 1st parameter instead of 'const char*' */
+/* #undef HAVE_BROKEN_VSSCANF_DECL */
 
 /* Define if you have vsscanf() */
 #define HAVE_VSSCANF 1

@@ -269,6 +269,7 @@ enum wxLanguage
     wxLANGUAGE_YORUBA,
     wxLANGUAGE_ZHUANG,
     wxLANGUAGE_ZULU,
+    wxLANGUAGE_KABYLE,
 
     /// For custom, user-defined languages.
     wxLANGUAGE_USER_DEFINED
