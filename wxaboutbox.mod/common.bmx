@@ -38,6 +38,9 @@ Import "../include/*.h"
 ?macosx86
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
 Import "../include/*.h"
+?macosx64
+Import "../lib/macosx64/wx/include/mac-unicode-release-static/*.h"
+Import "../include/*.h"
 ?
 
 Import "glue.cpp"

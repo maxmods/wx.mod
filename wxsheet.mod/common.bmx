@@ -27,19 +27,24 @@ Import BRL.Blitz
 
 
 ' headers :-)
-?linux
+?linuxx86
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
-Import "../include/*.h"
-?win32
+?linuxx64
+Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
+?win32x86
 Import "../lib/win32/mswu/*.h"
-Import "../include/*.h"
+?win32x64
+Import "../lib/win32x64/mswu/*.h"
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
 ?macosx86
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
+?macosx64
+Import "../lib/macosx64/wx/include/mac-unicode-release-static/*.h"
+?raspberrypi
+Import "../lib/raspberrypi/wx/include/gtk2-unicode-release-static/*.h"
 ?
+Import "../include/*.h"
 
 Import "src/include/*.h"
 
@@ -145,7 +150,7 @@ Extern
 	Function bmx_wxsheet_getcellowner(handle:Byte Ptr, row:Int, col:Int, ownerRow:Int Ptr, ownerCol:Int Ptr)
 	Function bmx_wxsheet_getcellblock(handle:Byte Ptr, row:Int, col:Int, oRow:Int Ptr, oCol:Int Ptr, oWidth:Int Ptr, oHeight:Int Ptr)
 	Function bmx_wxsheet_getcellspan(handle:Byte Ptr, row:Int, col:Int, rowSpan:Int Ptr, colSpan:Int Ptr)
-	Function bmx_wxsheet_setcellspan(handle:Byte Ptr, row:Int, col:Int, rows:Int, cols:Int)
+	Function bmx_wxsheet_setcellspan(handle:Byte Ptr, row:Int, col:Int, rows:Int, COLS:Int)
 
 	Function bmx_wxsheet_getrowlabelattr:Byte Ptr(handle:Byte Ptr, row:Int)
 	Function bmx_wxsheet_getcollabelattr:Byte Ptr(handle:Byte Ptr, col:Int)
@@ -279,8 +284,8 @@ Extern
 	Function bmx_wxsheet_getdefaultrendererfortype:Byte Ptr(handle:Byte Ptr, typeName:String)
 
 	Function bmx_wxsheet_setnumberrows:Int(handle:Byte Ptr, rows:Int, update:Int)
-	Function bmx_wxsheet_setnumbercols:Int(handle:Byte Ptr, cols:Int, update:Int)
-	Function bmx_wxsheet_setnumbercells:Int(handle:Byte Ptr, rows:Int, cols:Int, update:Int)
+	Function bmx_wxsheet_setnumbercols:Int(handle:Byte Ptr, COLS:Int, update:Int)
+	Function bmx_wxsheet_setnumbercells:Int(handle:Byte Ptr, rows:Int, COLS:Int, update:Int)
 	Function bmx_wxsheet_getdefaultrowheight:Int(handle:Byte Ptr)
 	Function bmx_wxsheet_getdefaultcolwidth:Int(handle:Byte Ptr)
 	Function bmx_wxsheet_setdefaultrowheight(handle:Byte Ptr, height:Int, resizeExistingRows:Int)

@@ -40,7 +40,6 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ModuleInfo "CC_OPTS: -DHAVE_W32API_H"
 ModuleInfo "CC_OPTS: -D__WXMSW__"
 ModuleInfo "CC_OPTS: -D_UNICODE"
-ModuleInfo "CC_OPTS: -DUNICODE"
 ?macos
 ModuleInfo "CC_OPTS: -D__WXOSX_COCOA__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"

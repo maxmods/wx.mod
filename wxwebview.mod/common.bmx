@@ -26,23 +26,29 @@ Import BRL.Blitz
 
 
 ' headers :-)
-?linux
+?linuxx86
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
-Import "../include/*.h"
+?linuxx64
+Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
+?linux
 
-Import "-lwx_gtk2u_webview-2.9"
+Import "-lwx_gtk2u_webview-3.0"
 Import "-lwebkitgtk-1.0"
 
-?win32
+?win32x86
 Import "../lib/win32/mswu/*.h"
-Import "../include/*.h"
+?win32x64
+Import "../lib/win32x64/mswu/*.h"
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
 ?macosx86
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
+?macosx64
+Import "../lib/macosx64/wx/include/mac-unicode-release-static/*.h"
+?raspberrypi
+Import "../lib/raspberrypi/wx/include/gtk2-unicode-release-static/*.h"
 ?
+Import "../include/*.h"
 
 Import "glue.cpp"
 

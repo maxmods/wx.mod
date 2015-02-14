@@ -137,6 +137,8 @@ BBArray *wxArrayDoubleToBBDoubleArray( wxArrayDouble t ){
 	return p;
 }
 
+IMPLEMENT_WX_THEME_SUPPORT;
+
 wxIMPLEMENT_APP_NO_MAIN(MaxApp);
 
 bool MaxApp::OnInit()

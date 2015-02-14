@@ -36,12 +36,18 @@ ModuleInfo "CC_OPTS: -D__WXGTK__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
+?linuxx86
 ModuleInfo "LD_OPTS: -L%PWD%/../lib/linux"
+?linuxx64
+ModuleInfo "LD_OPTS: -L%PWD%/../lib/linuxx64"
 ?win32
 ModuleInfo "CC_OPTS: -DHAVE_W32API_H"
 ModuleInfo "CC_OPTS: -D__WXMSW__"
 ModuleInfo "CC_OPTS: -D_UNICODE"
+?win32x86
 ModuleInfo "LD_OPTS: -L%PWD%/../lib/win32"
+?win32x64
+ModuleInfo "LD_OPTS: -L%PWD%/../lib/win32x64"
 ?macos
 ModuleInfo "CC_OPTS: -D__WXOSX_COCOA__"
 ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
@@ -51,6 +57,10 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ModuleInfo "LD_OPTS: -L%PWD%/../lib/macosppc"
 ?macosx86
 ModuleInfo "LD_OPTS: -L%PWD%/../lib/macosx86"
+?macosx64
+ModuleInfo "LD_OPTS: -L%PWD%/../lib/macosx64"
+?raspberrypi
+ModuleInfo "LD_OPTS: -L%PWD%/../lib/raspberrypi"
 ?
 
 Import BRL.Map

@@ -26,19 +26,24 @@ Import BRL.Blitz
 
 
 ' headers :-)
-?linux
+?linuxx86
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
-Import "../include/*.h"
-?win32
+?linuxx64
+Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
+?win32x86
 Import "../lib/win32/mswu/*.h"
-Import "../include/*.h"
+?win32x64
+Import "../lib/win32x64/mswu/*.h"
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
 ?macosx86
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
+?macosx64
+Import "../lib/macosx64/wx/include/mac-unicode-release-static/*.h"
+?raspberrypi
+Import "../lib/raspberrypi/wx/include/gtk2-unicode-release-static/*.h"
 ?
+Import "../include/*.h"
 
 Import "glue.cpp"
 
@@ -55,7 +60,7 @@ Extern
 	Function bmx_wxsplitterwindow_setsashposition(handle:Byte Ptr, position:Int, redraw:Int)
 	Function bmx_wxsplitterwindow_setsashsize(handle:Byte Ptr, size:Int)
 	Function bmx_wxsplitterwindow_setminimumpanesize(handle:Byte Ptr, paneSize:Int)
-	Function bmx_wxsplitterwindow_setsplitmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxsplitterwindow_setsplitmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxsplitterwindow_splithorizontally:Int(handle:Byte Ptr, window1:Byte Ptr, window2:Byte Ptr, sashPosition:Int)
 	Function bmx_wxsplitterwindow_splitvertically:Int(handle:Byte Ptr, window1:Byte Ptr, window2:Byte Ptr, sashPosition:Int)
 	Function bmx_wxsplitterwindow_updatesize(handle:Byte Ptr)

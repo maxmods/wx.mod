@@ -29,19 +29,24 @@ Import BRL.Blitz
 
 
 ' headers :-)
-?linux
+?linuxx86
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
-Import "../include/*.h"
-?win32
+?linuxx64
+Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
+?win32x86
 Import "../lib/win32/mswu/*.h"
-Import "../include/*.h"
+?win32x64
+Import "../lib/win32x64/mswu/*.h"
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
 ?macosx86
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
+?macosx64
+Import "../lib/macosx64/wx/include/mac-unicode-release-static/*.h"
+?raspberrypi
+Import "../lib/raspberrypi/wx/include/gtk2-unicode-release-static/*.h"
 ?
+Import "../include/*.h"
 
 Import "glue.cpp"
 
@@ -54,7 +59,7 @@ Extern
 	Function bmx_wxhtmlhelpcontroller_displayid(handle:Byte Ptr, id:Int)
 	Function bmx_wxhtmlhelpcontroller_displaycontents(handle:Byte Ptr)
 	Function bmx_wxhtmlhelpcontroller_displayindex(handle:Byte Ptr)
-	Function bmx_wxhtmlhelpcontroller_keywordsearch:Int(handle:Byte Ptr, keyword:String, mode:Int)
+	Function bmx_wxhtmlhelpcontroller_keywordsearch:Int(handle:Byte Ptr, keyword:String, Mode:Int)
 	Function bmx_wxhtmlhelpcontroller_readcustomization(handle:Byte Ptr, config:Byte Ptr, path:String)
 	Function bmx_wxhtmlhelpcontroller_settempdir(handle:Byte Ptr, path:String)
 	Function bmx_wxhtmlhelpcontroller_settitleformat(handle:Byte Ptr, format:String)

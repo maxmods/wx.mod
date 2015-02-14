@@ -28,19 +28,24 @@ Import wx.wxBitmap
 Import BRL.Blitz
 
 ' headers :-)
-?linux
+?linuxx86
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
-Import "../include/*.h"
-?win32
+?linuxx64
+Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
+?win32x86
 Import "../lib/win32/mswu/*.h"
-Import "../include/*.h"
+?win32x64
+Import "../lib/win32x64/mswu/*.h"
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
 ?macosx86
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
+?macosx64
+Import "../lib/macosx64/wx/include/mac-unicode-release-static/*.h"
+?raspberrypi
+Import "../lib/raspberrypi/wx/include/gtk2-unicode-release-static/*.h"
 ?
+Import "../include/*.h"
 
 'Import "include/*.h"
 
@@ -256,7 +261,7 @@ Extern
 	Function bmx_wxscintilla_stylesetbold(handle:Byte Ptr, style:Int, bold:Int)
 	Function bmx_wxscintilla_stylesetitalic(handle:Byte Ptr, style:Int, italic:Int)
 	Function bmx_wxscintilla_stylesetsize(handle:Byte Ptr, style:Int, sizePoints:Int)
-	Function bmx_wxscintilla_stylesetfacename(handle:Byte Ptr, style:Int, fontName:String)
+	Function bmx_wxscintilla_stylesetfacename(handle:Byte Ptr, style:Int, FontName:String)
 	Function bmx_wxscintilla_styleseteolfilled(handle:Byte Ptr, style:Int, filled:Int)
 	Function bmx_wxscintilla_styleresetdefault(handle:Byte Ptr)
 	Function bmx_wxscintilla_stylesetunderline(handle:Byte Ptr, style:Int, underline:Int)
@@ -368,7 +373,7 @@ Extern
 	Function bmx_wxscintilla_setemptyselection(handle:Byte Ptr, pos:Int)
 	Function bmx_wxscintilla_setprintmagnification(handle:Byte Ptr, magnification:Int)
 	Function bmx_wxscintilla_getprintmagnification:Int(handle:Byte Ptr)
-	Function bmx_wxscintilla_setprintcolourmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxscintilla_setprintcolourmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxscintilla_getprintcolourmode:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_findtext:Int(handle:Byte Ptr, minPos:Int, maxPos:Int, text:String, flags:Int)
 	Function bmx_wxscintilla_formatrange:Int(handle:Byte Ptr, doDraw:Int, startPos:Int, endPos:Int, draw:Byte Ptr, target:Byte Ptr, renderRect:Byte Ptr, pageRect:Byte Ptr)
@@ -386,7 +391,7 @@ Extern
 	Function bmx_wxscintilla_hideselection(handle:Byte Ptr, normal:Int)
 	Function bmx_wxscintilla_linefromposition:Int(handle:Byte Ptr, pos:Int)
 	Function bmx_wxscintilla_positionfromline:Int(handle:Byte Ptr, line:Int)
-	Function bmx_wxscintilla_linescroll(handle:Byte Ptr, columns:Int, lines:Int)
+	Function bmx_wxscintilla_linescroll(handle:Byte Ptr, columns:Int, LINES:Int)
 	Function bmx_wxscintilla_ensurecaretvisible(handle:Byte Ptr)
 	Function bmx_wxscintilla_replaceselection(handle:Byte Ptr, text:String)
 	Function bmx_wxscintilla_setreadonly(handle:Byte Ptr, readOnly:Int)
@@ -449,7 +454,7 @@ Extern
 	Function bmx_wxscintilla_getmousedwelltime:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_wordstartposition:Int(handle:Byte Ptr, pos:Int, onlyWordCharacters:Int)
 	Function bmx_wxscintilla_wordendposition:Int(handle:Byte Ptr, pos:Int, onlyWordCharacters:Int)
-	Function bmx_wxscintilla_setwrapmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxscintilla_setwrapmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxscintilla_getwrapmode:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_setwrapvisualflags(handle:Byte Ptr, wrapVisualFlags:Int)
 	Function bmx_wxscintilla_getwrapvisualflags:Int(handle:Byte Ptr)
@@ -457,9 +462,9 @@ Extern
 	Function bmx_wxscintilla_getwrapvisualflagslocation:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_setwrapstartindent(handle:Byte Ptr, indent:Int)
 	Function bmx_wxscintilla_getwrapstartindent:Int(handle:Byte Ptr)
-	Function bmx_wxscintilla_setwrapindentmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxscintilla_setwrapindentmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxscintilla_getwrapindentmode:Int(handle:Byte Ptr)
-	Function bmx_wxscintilla_setlayoutcache(handle:Byte Ptr, mode:Int)
+	Function bmx_wxscintilla_setlayoutcache(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxscintilla_getlayoutcache:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_setscrollwidth(handle:Byte Ptr, pixelWidth:Int)
 	Function bmx_wxscintilla_getscrollwidth:Int(handle:Byte Ptr)
@@ -556,7 +561,7 @@ Extern
 	Function bmx_wxscintilla_getedgecolumn:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_setedgecolumn(handle:Byte Ptr, column:Int)
 	Function bmx_wxscintilla_getedgemode:Int(handle:Byte Ptr)
-	Function bmx_wxscintilla_setedgemode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxscintilla_setedgemode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxscintilla_getedgecolour:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxscintilla_setedgecolour(handle:Byte Ptr, edgeColour:Byte Ptr)
 	Function bmx_wxscintilla_searchanchor(handle:Byte Ptr)
@@ -591,7 +596,7 @@ Extern
 	Function bmx_wxscintilla_choosecaretx(handle:Byte Ptr)
 	Function bmx_wxscintilla_setxcaretpolicy(handle:Byte Ptr, caretPolicy:Int, caretSlop:Int)
 	Function bmx_wxscintilla_setycaretpolicy(handle:Byte Ptr, caretPolicy:Int, caretSlop:Int)
-	Function bmx_wxscintilla_setprintwrapmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxscintilla_setprintwrapmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxscintilla_getprintwrapmode:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_sethotspotactiveforeground(handle:Byte Ptr, useSetting:Int, fore:Byte Ptr)
 	Function bmx_wxscintilla_sethotspotactivebackground(handle:Byte Ptr, useSetting:Int, back:Byte Ptr)
@@ -604,7 +609,7 @@ Extern
 	Function bmx_wxscintilla_positionbefore:Int(handle:Byte Ptr, pos:Int)
 	Function bmx_wxscintilla_positionafter:Int(handle:Byte Ptr, pos:Int)
 	Function bmx_wxscintilla_copyrange(handle:Byte Ptr, startPos:Int, endPos:Int)
-	Function bmx_wxscintilla_setselectionmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxscintilla_setselectionmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxscintilla_getselectionmode:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_getlineselstartposition:Int(handle:Byte Ptr, line:Int)
 	Function bmx_wxscintilla_getlineselendposition:Int(handle:Byte Ptr, line:Int)

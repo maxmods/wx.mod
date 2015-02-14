@@ -30,11 +30,15 @@ Import BRL.SystemDefault
 
 Import "consts.bmx"
 
-?linux
-'Import "-L../lib/linux/"
+?linuxx86
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
 Import "../include/*.h"
 
+?linuxx64
+Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
+Import "../include/*.h"
+
+?linux
 ' the wx libs
 Import "-lwx_gtk2u_aui-3.0"
 Import "-lwx_gtk2u_xrc-3.0"
@@ -80,8 +84,21 @@ Import "-lpangocairo-1.0"
 Import "-lcairo"
 
 
-?win32
+?win32x86
 Import "../lib/win32/mswu/*.h"
+
+' NOTE : this is the file wx.rc from include/wx/msw/wx.rc
+' Compiled with windres and given the name wx_rc.o
+Import "../lib/win32/wx_rc.o"
+
+?win32x64
+Import "../lib/win32x64/mswu/*.h"
+
+' NOTE : this is the file wx.rc from include/wx/msw/wx.rc
+' Compiled with windres and given the name wx_rc.o
+Import "../lib/win32x64/wx_rc.o"
+
+?win32
 Import "../include/*.h"
 
 Import "-lwxmsw30u_aui"
@@ -123,50 +140,14 @@ Import "-lwsock32"
 Import "-lodbc32"
 Import "-lgdiplus"
 
-' NOTE : this is the file wx.rc from include/wx/msw/wx.rc
-' Compiled with windres and given the name wx_rc.o
-Import "../lib/win32/wx_rc.o"
-
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
-
-Import "-lwx_osx_carbonu_aui-2.9"
-Import "-lwx_osx_carbonu_xrc-2.9"
-Import "-lwx_osx_carbonu_qa-2.9"
-Import "-lwx_osx_carbonu_html-2.9"
-Import "-lwx_osx_carbonu_adv-2.9"
-Import "-lwx_osx_carbonu_core-2.9"
-Import "-lwx_baseu_xml-2.9"
-Import "-lwx_baseu_net-2.9"
-Import "-lwx_baseu-2.9"
-Import "-lwx_osx_carbonu_propgrid-2.9"
-'Import "-lwx_osx_carbonu_stc-2.9"
-Import "-lwx_osx_carbonu_gl-2.9"
-Import "-lwx_osx_carbonu_media-2.9"
-Import "-lwx_osx_carbonu_richtext-2.9"
-'Import "-lwxscintilla-2.9"
-Import "-lwxtiff-2.9"
-Import "-lwxjpeg-2.9"
-Import "-lwxpng-2.9"
-Import "-lwxregexu-2.9"
-Import "-lwxexpat-2.9"
-
-Import "-framework QuickTime"
-Import "-framework IOKit"
-Import "-framework Carbon"
-Import "-framework Cocoa"
-Import "-framework System"
-Import "-framework WebKit"
-Import "-framework OpenGL"
-Import "-framework AGL"
-Import "-framework AudioToolbox"
-Import "-lz"
-Import "-liconv"
 ?macosx86
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
+?macosx64
+Import "../lib/macosx64/wx/include/mac-unicode-release-static/*.h"
+?macos
 Import "../include/*.h"
-
 Import "-lwx_osx_cocoau_aui-3.0"
 Import "-lwx_osx_cocoau_xrc-3.0"
 Import "-lwx_osx_cocoau_qa-3.0"
@@ -183,14 +164,13 @@ Import "-lwx_osx_cocoau_gl-3.0"
 Import "-lwx_osx_cocoau_media-3.0"
 Import "-lwx_osx_cocoau_richtext-3.0"
 Import "-lwxscintilla-3.0"
-'Import "-lwxtiff-3.0"
 Import "-lwxjpeg-3.0"
 Import "-lwxpng-3.0"
 Import "-lwxregexu-3.0"
 Import "-lwxexpat-3.0"
 Import "-lwxzlib-3.0"
 
-Import "-framework QuickTime"
+'Import "-framework QuickTime"
 Import "-framework IOKit"
 Import "-framework Carbon"
 Import "-framework Cocoa"
@@ -199,7 +179,6 @@ Import "-framework WebKit"
 Import "-framework OpenGL"
 Import "-framework AGL"
 Import "-framework AudioToolbox"
-'Import "-lz"
 Import "-liconv"
 ?
 

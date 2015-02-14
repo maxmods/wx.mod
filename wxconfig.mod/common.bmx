@@ -25,19 +25,24 @@ Import BRL.Blitz
 
 
 ' headers :-)
-?linux
+?linuxx86
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
-Import "../include/*.h"
-?win32
+?linuxx64
+Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
+?win32x86
 Import "../lib/win32/mswu/*.h"
-Import "../include/*.h"
+?win32x64
+Import "../lib/win32x64/mswu/*.h"
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
 ?macosx86
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
+?macosx64
+Import "../lib/macosx64/wx/include/mac-unicode-release-static/*.h"
+?raspberrypi
+Import "../lib/raspberrypi/wx/include/gtk2-unicode-release-static/*.h"
 ?
+Import "../include/*.h"
 
 Import "glue.cpp"
 
@@ -57,7 +62,7 @@ Extern
 	Function bmx_wxconfigbase_getentrytype:Int(handle:Byte Ptr, name:String)
 	Function bmx_wxconfigbase_getfirstgroup:String(handle:Byte Ptr, index:Int Ptr, cont:Int Ptr)
 	Function bmx_wxconfigbase_getfirstentry:Int(handle:Byte Ptr, name:String, index:Int Ptr)
-	Function bmx_wxconfigbase_getnextgroup:String(handle:Byte Ptr, index:Int Ptr, cont:Int ptr)
+	Function bmx_wxconfigbase_getnextgroup:String(handle:Byte Ptr, index:Int Ptr, cont:Int Ptr)
 	Function bmx_wxconfigbase_getnextentry:Int(handle:Byte Ptr, name:String, index:Int Ptr)
 	Function bmx_wxconfigbase_getnumberofentries:Int(handle:Byte Ptr, recursive:Int)
 	Function bmx_wxconfigbase_getnumberofgroups:Int(handle:Byte Ptr, recursive:Int)

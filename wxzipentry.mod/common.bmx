@@ -26,19 +26,24 @@ Import BRL.Blitz
 
 
 ' headers :-)
-?linux
+?linuxx86
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
-Import "../include/*.h"
-?win32
+?linuxx64
+Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
+?win32x86
 Import "../lib/win32/mswu/*.h"
-Import "../include/*.h"
+?win32x64
+Import "../lib/win32x64/mswu/*.h"
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
 ?macosx86
 Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
-Import "../include/*.h"
+?macosx64
+Import "../lib/macosx64/wx/include/mac-unicode-release-static/*.h"
+?raspberrypi
+Import "../lib/raspberrypi/wx/include/gtk2-unicode-release-static/*.h"
 ?
+Import "../include/*.h"
 
 Import "glue.cpp"
 
@@ -71,7 +76,7 @@ Extern
 	Function bmx_wxzipentry_setistext(handle:Byte Ptr, text:Int)
 	Function bmx_wxzipentry_setlocalextra(handle:Byte Ptr, extra:Byte Ptr, length:Int)
 	Function bmx_wxzipentry_setmethod(handle:Byte Ptr, meth:Int)
-	Function bmx_wxzipentry_setmode(handle:Byte Ptr, mode:Int)
+	Function bmx_wxzipentry_setmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxzipentry_setsize(handle:Byte Ptr, size:Int)
 	Function bmx_wxzipentry_setsystemmadeby(handle:Byte Ptr, system:Int)
 	Function bmx_wxzipentry_isdir:Int(handle:Byte Ptr)
