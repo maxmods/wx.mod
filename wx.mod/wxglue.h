@@ -427,7 +427,7 @@ private:
 	wxEventLoopBase * eventLoop;
 };
 
-//wxDECLARE_APP(MaxApp);
+wxDECLARE_APP(MaxApp);
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
