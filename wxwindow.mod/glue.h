@@ -156,14 +156,14 @@ extern "C" {
 	void bmx_wxwindow_setposition(wxWindow * window, int x, int y);
 
 	void * bmx_wxwindow_gethandle(wxWindow * window);
-	void bmx_wxwindow_linedown(wxWindow * window);
-	void bmx_wxwindow_lineup(wxWindow * window);
+	int bmx_wxwindow_linedown(wxWindow * window);
+	int bmx_wxwindow_lineup(wxWindow * window);
 	void bmx_wxwindow_lower(wxWindow * window);
 	void bmx_wxwindow_makemodal(wxWindow * window, int flag);
 	void bmx_wxwindow_moveafterintaborder(wxWindow * window, wxWindow * win);
 	void bmx_wxwindow_movebeforeintaborder(wxWindow * window, wxWindow * win);
-	void bmx_wxwindow_pagedown(wxWindow * window);
-	void bmx_wxwindow_pageup(wxWindow * window);
+	int bmx_wxwindow_pagedown(wxWindow * window);
+	int bmx_wxwindow_pageup(wxWindow * window);
 	wxEvtHandler * bmx_wxwindow_popeventhandler(wxWindow * window, int deleteHandler);
 	void bmx_wxwindow_raise(wxWindow * window);
 	int bmx_wxwindow_removeeventhandler(wxWindow * window, wxEvtHandler * handler);

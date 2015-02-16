@@ -626,12 +626,12 @@ void * bmx_wxwindow_gethandle(wxWindow * window) {
 	return window->GetHandle();
 }
 
-void bmx_wxwindow_linedown(wxWindow * window) {
-	window->LineDown();
+int bmx_wxwindow_linedown(wxWindow * window) {
+	return static_cast<int>(window->LineDown());
 }
 
-void bmx_wxwindow_lineup(wxWindow * window) {
-	window->LineUp();
+int bmx_wxwindow_lineup(wxWindow * window) {
+	return static_cast<int>(window->LineUp());
 }
 
 void bmx_wxwindow_lower(wxWindow * window) {
@@ -650,12 +650,12 @@ void bmx_wxwindow_movebeforeintaborder(wxWindow * window, wxWindow * win) {
 	window->MoveBeforeInTabOrder(win);
 }
 
-void bmx_wxwindow_pagedown(wxWindow * window) {
-	window->PageDown();
+int bmx_wxwindow_pagedown(wxWindow * window) {
+	return static_cast<int>(window->PageDown());
 }
 
-void bmx_wxwindow_pageup(wxWindow * window) {
-	window->PageUp();
+int bmx_wxwindow_pageup(wxWindow * window) {
+	return static_cast<int>(window->PageUp());
 }
 
 wxEvtHandler * bmx_wxwindow_popeventhandler(wxWindow * window, int deleteHandler) {

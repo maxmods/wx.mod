@@ -1041,15 +1041,15 @@ Type wxWindow Extends wxEvtHandler
 	Rem
 	bbdoc: This is just a wrapper for ScrollLines(1).
 	End Rem
-	Method LineDown()
-		bmx_wxwindow_linedown(wxObjectPtr)
+	Method LineDown:Int()
+		Return bmx_wxwindow_linedown(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: This is just a wrapper for ScrollLines(-1).
 	End Rem
-	Method LineUp()
-		bmx_wxwindow_lineup(wxObjectPtr)
+	Method LineUp:Int()
+		Return bmx_wxwindow_lineup(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -1105,15 +1105,15 @@ Type wxWindow Extends wxEvtHandler
 	Rem
 	bbdoc: This is just a wrapper for ScrollPages()(1).
 	End Rem
-	Method PageDown()
-		bmx_wxwindow_pagedown(wxObjectPtr)
+	Method PageDown:Int()
+		Return bmx_wxwindow_pagedown(wxObjectPtr)
 	End Method
 	
 	Rem
 	bbdoc: This is just a wrapper for ScrollPages()(-1).
 	End Rem
-	Method PageUp()
-		bmx_wxwindow_pageup(wxObjectPtr)
+	Method PageUp:Int()
+		Return bmx_wxwindow_pageup(wxObjectPtr)
 	End Method
 	
 	Rem
