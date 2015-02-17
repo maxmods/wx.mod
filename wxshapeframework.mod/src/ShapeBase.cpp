@@ -895,21 +895,28 @@ wxSFConnectionPoint* wxSFShapeBase::GetNearestConnectionPoint(const wxRealPoint&
 	return pConnPt;
 }
 
-void wxSFShapeBase::AddConnectionPoint(wxSFConnectionPoint::CPTYPE type, bool persistent)
+wxSFConnectionPoint* wxSFShapeBase::AddConnectionPoint(wxSFConnectionPoint::CPTYPE type, bool persistent)
 {
 	if( !GetConnectionPoint( type ) )
 	{
 		wxSFConnectionPoint *cp = new wxSFConnectionPoint( this, type);
 		cp->EnableSerialization( persistent );
 		m_lstConnectionPts.Append( cp );
+		
+		return cp;
+		
+	} else {
+		return NULL;
 	}
 }
 
-void wxSFShapeBase::AddConnectionPoint(const wxRealPoint& relpos, long id, bool persistent)
+wxSFConnectionPoint* wxSFShapeBase::AddConnectionPoint(const wxRealPoint& relpos, long id, bool persistent)
 {
 	wxSFConnectionPoint *cp = new wxSFConnectionPoint( this, relpos, id );
 	cp->EnableSerialization( persistent );
 	m_lstConnectionPts.Append( cp );
+	
+	return cp;
 }
 
 void wxSFShapeBase::AddConnectionPoint(wxSFConnectionPoint* cp, bool persistent)
@@ -1363,40 +1370,61 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 		// determine, whether the shape should be highlighted for any reason
 		if(pCanvas)
 		{
-		    switch(pCanvas->GetMode())
-		    {
-            case wxSFShapeCanvas::modeSHAPEMOVE:
-                {
+			switch(pCanvas->GetMode())
+			{
+			case wxSFShapeCanvas::modeSHAPEMOVE:
+				{
 					if(ContainsStyle(sfsHIGHLIGHTING) && pCanvas->ContainsStyle(wxSFShapeCanvas::sfsHIGHLIGHTING))
-                    {
-                        if(pCanvas->GetShapeUnderCursor(wxSFShapeCanvas::searchUNSELECTED) == this)
-                        {
-                            fUpdateShape = m_fHighlighParent = AcceptCurrentlyDraggedShapes();
-                        }
-                    }
-                }
-                break;
+					{
+						wxSFShapeBase* shapeUnderCursor = pCanvas->GetShapeUnderCursor(wxSFShapeCanvas::searchUNSELECTED);
+						while (shapeUnderCursor != NULL)
+						{
+							if (!shapeUnderCursor->ContainsStyle(sfsPROPAGATE_HIGHLIGHTING))
+								break;
+							shapeUnderCursor = shapeUnderCursor->GetParentShape();
+						}
+						if (shapeUnderCursor == this)
+						{
+							fUpdateShape = m_fHighlighParent = AcceptCurrentlyDraggedShapes();
+						}
+					}
+				}
+				break;
 
-            case wxSFShapeCanvas::modeHANDLEMOVE:
-                {
-                    if(ContainsStyle(sfsHOVERING) && pCanvas->ContainsStyle(wxSFShapeCanvas::sfsHOVERING))
-                    {
-                        if(pCanvas->GetShapeUnderCursor(wxSFShapeCanvas::searchUNSELECTED) == this)fUpdateShape = true;
-                        m_fHighlighParent = false;
-                    }
-                }
-                break;
+			case wxSFShapeCanvas::modeHANDLEMOVE:
+				{
+					if(ContainsStyle(sfsHOVERING) && pCanvas->ContainsStyle(wxSFShapeCanvas::sfsHOVERING))
+					{
+						wxSFShapeBase* shapeUnderCursor = pCanvas->GetShapeUnderCursor(wxSFShapeCanvas::searchUNSELECTED);
+						while (shapeUnderCursor != NULL)
+						{
+							if (!shapeUnderCursor->ContainsStyle(sfsPROPAGATE_HOVERING))
+								break;
+							shapeUnderCursor = shapeUnderCursor->GetParentShape();
+						}
+						if (shapeUnderCursor == this) fUpdateShape = true;
+						m_fHighlighParent = false;
+					}
+				}
+				break;
 
-            default:
-                {
-                    if(ContainsStyle(sfsHOVERING) && pCanvas->ContainsStyle(wxSFShapeCanvas::sfsHOVERING))
-                    {
-                        if(pCanvas->GetShapeUnderCursor() == this)fUpdateShape = true;
-                        m_fHighlighParent = false;
-                    }
-                }
-                break;
-		    }
+			default:
+				{
+					if(ContainsStyle(sfsHOVERING) && pCanvas->ContainsStyle(wxSFShapeCanvas::sfsHOVERING))
+					{
+						wxSFShapeBase* shapeUnderCursor = pCanvas->GetShapeUnderCursor();
+						while (shapeUnderCursor != NULL)
+						{
+							if (!shapeUnderCursor->ContainsStyle(sfsPROPAGATE_HOVERING))
+								break;
+							shapeUnderCursor = shapeUnderCursor->GetParentShape();
+						}
+						if (shapeUnderCursor == this) fUpdateShape = true;
+						m_fHighlighParent = false;
+					}
+				}
+				break;
+			}
 		}
 		
 		if(Contains(pos) && fUpdateShape)
