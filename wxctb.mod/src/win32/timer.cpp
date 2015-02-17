@@ -52,7 +52,11 @@ int timer::start()
     control.stop = timeSetEvent(control.msecs, 
 						  (control.msecs > 10) ? 5 : 1, 
 						  (LPTIMECALLBACK) timer_fnc, 
-						  (DWORD) &control, 
+#ifdef __x86_64
+						  (long long unsigned int) &control, 
+#else
+						  (long unsigned int) &control, 
+#endif
 						  TIME_ONESHOT | TIME_CALLBACK_FUNCTION);
     return 0;
 };
