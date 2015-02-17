@@ -109,7 +109,11 @@ enum UNRARCALLBACK_MESSAGES {
   UCM_CHANGEVOLUME,UCM_PROCESSDATA,UCM_NEEDPASSWORD
 };
 
-typedef int (CALLBACK *UNRARCALLBACK)(UINT msg,LONG UserData,LONG P1,LONG P2);
+#ifdef __x86_64
+typedef int (CALLBACK *UNRARCALLBACK)(UINT msg,LONG UserData,long long unsigned int P1,LONG P2);
+#else
+typedef int (CALLBACK *UNRARCALLBACK)(UINT msg,LONG UserData,long unsigned int P1,LONG P2);
+#endif
 
 typedef int (PASCAL *CHANGEVOLPROC)(char *ArcName,int Mode);
 typedef int (PASCAL *PROCESSDATAPROC)(unsigned char *Addr,int Size);

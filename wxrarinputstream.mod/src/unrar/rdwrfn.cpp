@@ -118,7 +118,11 @@ void ComprDataIO::UnpWrite(byte *Addr,uint Count)
   if (Cmd->DllOpMode!=RAR_SKIP)
   {
     if (Cmd->Callback!=NULL &&
-        Cmd->Callback(UCM_PROCESSDATA,Cmd->UserData,(LONG)Addr,Count)==-1)
+#ifdef __x86_64
+        Cmd->Callback(UCM_PROCESSDATA,Cmd->UserData,(long long unsigned int)Addr,Count)==-1)
+#else
+        Cmd->Callback(UCM_PROCESSDATA,Cmd->UserData,(long unsigned int)Addr,Count)==-1)
+#endif
       ErrHandler.Exit(USER_BREAK);
     if (Cmd->ProcessDataProc!=NULL)
     {

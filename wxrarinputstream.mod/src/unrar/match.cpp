@@ -13,7 +13,9 @@ inline uint toupperc(byte ch,bool ForceCase)
   if (ForceCase)
     return(ch);
 #ifdef _WIN_32
-  return((uint)CharUpper((LPTSTR)(ch)));
+  byte _ch = ch;
+  CharUpper((LPTSTR)_ch);
+  return _ch;
 #elif defined(_UNIX)
   return(ch);
 #else

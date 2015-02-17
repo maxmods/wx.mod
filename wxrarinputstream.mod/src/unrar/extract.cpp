@@ -370,7 +370,11 @@ bool CmdExtract::ExtractCurrentFile(CommandData *Cmd,Archive &Arc,int HeaderSize
 #ifdef RARDLL
         if (*Cmd->Password==0)
           if (Cmd->Callback==NULL ||
-              Cmd->Callback(UCM_NEEDPASSWORD,Cmd->UserData,(LONG)Cmd->Password,sizeof(Cmd->Password))==-1)
+#ifdef __x86_64
+             Cmd->Callback(UCM_NEEDPASSWORD,Cmd->UserData,(long long unsigned int)Cmd->Password,sizeof(Cmd->Password))==-1)
+#else
+             Cmd->Callback(UCM_NEEDPASSWORD,Cmd->UserData,(long unsigned int)Cmd->Password,sizeof(Cmd->Password))==-1)
+#endif
             return(false);
         strcpy(Password,Cmd->Password);
 

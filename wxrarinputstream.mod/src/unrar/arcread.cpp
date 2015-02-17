@@ -52,7 +52,11 @@ int Archive::ReadHeader()
     if (*Cmd->Password==0)
 #ifdef RARDLL
       if (Cmd->Callback==NULL ||
-          Cmd->Callback(UCM_NEEDPASSWORD,Cmd->UserData,(LONG)Cmd->Password,sizeof(Cmd->Password))==-1)
+#ifdef __x86_64
+          Cmd->Callback(UCM_NEEDPASSWORD,Cmd->UserData,(long long unsigned int)Cmd->Password,sizeof(Cmd->Password))==-1)
+#else
+          Cmd->Callback(UCM_NEEDPASSWORD,Cmd->UserData,(long unsigned int)Cmd->Password,sizeof(Cmd->Password))==-1)
+#endif
       {
         Close();
         ErrHandler.Exit(USER_BREAK);

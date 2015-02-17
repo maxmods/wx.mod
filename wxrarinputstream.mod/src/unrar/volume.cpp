@@ -75,7 +75,11 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,char Comman
     }
 #ifdef RARDLL
     if (Cmd->Callback==NULL && Cmd->ChangeVolProc==NULL ||
-        Cmd->Callback!=NULL && Cmd->Callback(UCM_CHANGEVOLUME,Cmd->UserData,(LONG)NextName,RAR_VOL_ASK)==-1)
+#ifdef __x86_64
+        Cmd->Callback!=NULL && Cmd->Callback(UCM_CHANGEVOLUME,Cmd->UserData,(long long unsigned int)NextName,RAR_VOL_ASK)==-1)
+#else
+        Cmd->Callback!=NULL && Cmd->Callback(UCM_CHANGEVOLUME,Cmd->UserData,(long unsigned int)NextName,RAR_VOL_ASK)==-1)
+#endif
     {
       Cmd->DllError=ERAR_EOPEN;
       FailedOpen=true;
@@ -138,7 +142,11 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,char Comman
   Arc.CheckArc(true);
 #ifdef RARDLL
   if (Cmd->Callback!=NULL &&
-      Cmd->Callback(UCM_CHANGEVOLUME,Cmd->UserData,(LONG)NextName,RAR_VOL_NOTIFY)==-1)
+#ifdef __x86_64
+      Cmd->Callback(UCM_CHANGEVOLUME,Cmd->UserData,(long long unsigned int)NextName,RAR_VOL_NOTIFY)==-1)
+#else
+      Cmd->Callback(UCM_CHANGEVOLUME,Cmd->UserData,(long unsigned int)NextName,RAR_VOL_NOTIFY)==-1)
+#endif
     return(false);
   if (Cmd->ChangeVolProc!=NULL)
   {
