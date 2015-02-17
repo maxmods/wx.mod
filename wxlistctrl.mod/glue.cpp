@@ -80,17 +80,14 @@ MaxListCtrl::~MaxListCtrl() {
 	wxunbind(this);
 }
 
-int wxCALLBACK compare(long item1, long item2, long sortData) {
-	void * data1 = wxUIntToPtr(item1);
-	void * data2 = wxUIntToPtr(item2);
-	void * data3 = wxUIntToPtr(sortData);
-	return CB_PREF(wx_wxlistctrl_wxListCtrl__sortCallback)((BBObject*)data1,
-			(BBObject*)data2, (BBObject*)data3);
+int wxCALLBACK compare(wxIntPtr item1, wxIntPtr item2, wxIntPtr sortData) {
+	return CB_PREF(wx_wxlistctrl_wxListCtrl__sortCallback)((BBObject*) item1,
+			(BBObject*) item2, (BBObject*) sortData);
 }
 
 
 bool MaxListCtrl::SetSortCallback() {
-	return SortItems(compare, wxPtrToUInt((void*)maxHandle));
+	return SortItems(compare, (wxIntPtr)maxHandle);
 }
 
 MaxListItem::MaxListItem()
