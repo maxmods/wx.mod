@@ -11,7 +11,9 @@
 
 
  #define wxUSE_RC_MANIFEST 1
-# 35 "..\\..\\include\\wx\\msw\\genrcdefs.h"
- #define WX_CPU_X86
+
+
+
+ #define WX_CPU_AMD64
 # 46 "..\\..\\include\\wx\\msw\\genrcdefs.h"
  #endif
