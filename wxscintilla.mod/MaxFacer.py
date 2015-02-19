@@ -142,6 +142,26 @@ def printMainFile(f,out):
 					out.write("\t\tbmx_wxscintilla_registerrgbaimage(wxObjectPtr, type_, pixels)\n")
 					out.write("\tEnd Method\n\n")
 					continue
+				elif name == "LineUp":
+					out.write(":Int()\n")
+					out.write("\t\tbmx_wxscintilla_lineup(wxObjectPtr)\n")
+					out.write("\tEnd Method\n\n")
+					continue
+				elif name == "LineDown":
+					out.write(":Int()\n")
+					out.write("\t\tbmx_wxscintilla_linedown(wxObjectPtr)\n")
+					out.write("\tEnd Method\n\n")
+					continue
+				elif name == "PageUp":
+					out.write(":Int()\n")
+					out.write("\t\tbmx_wxscintilla_pageup(wxObjectPtr)\n")
+					out.write("\tEnd Method\n\n")
+					continue
+				elif name == "PageDown":
+					out.write(":Int()\n")
+					out.write("\t\tbmx_wxscintilla_pagedown(wxObjectPtr)\n")
+					out.write("\tEnd Method\n\n")
+					continue
 				
 				if v["ReturnType"] != "void":
 					rtype = "UNDEFINED"
