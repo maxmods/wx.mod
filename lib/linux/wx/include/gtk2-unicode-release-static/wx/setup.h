@@ -16,7 +16,7 @@
 #endif /* __cplusplus */
 
 /* fill in with the string wxGetOsDescription() will return */
-#define WXWIN_OS_DESCRIPTION "Linux 3.9.10-100.fc17.i686 i686"
+#define WXWIN_OS_DESCRIPTION "Linux 3.11.0-12-generic i686"
 
 /* the installation location prefix from configure */
 #define wxINSTALL_PREFIX "/usr/local"
@@ -1001,6 +1001,10 @@
 /* Define if you have a _broken_ vsnprintf() declaration in the header,
  * with 'char*' for the 3rd parameter instead of 'const char*' */
 /* #undef HAVE_BROKEN_VSNPRINTF_DECL */
+
+/* Define if you have a _broken_ vsscanf() declaration in the header,
+ * with 'char*' for the 1st parameter instead of 'const char*' */
+/* #undef HAVE_BROKEN_VSSCANF_DECL */
 
 /* Define if you have vsscanf() */
 #define HAVE_VSSCANF 1

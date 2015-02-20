@@ -89,7 +89,7 @@ EOF
 
 
 # Contentious tools determined by configure.
-EGREP="/usr/bin/grep -E"
+EGREP="/bin/grep -E"
 
 
 # For the people who know what they want, or think they do:
@@ -945,8 +945,8 @@ bindir="${exec_prefix}/bin"
 [ -z "$output_option_prefix"        ] || echo $prefix
 [ -z "$output_option_exec_prefix"   ] || echo $exec_prefix
 [ -z "$output_option_release"       ] || echo "3.0"
-[ -z "$output_option_version"       ] || echo "3.0.0"
-[ -z "$output_option_version_full"  ] || echo "3.0.0.0"
+[ -z "$output_option_version"       ] || echo "3.0.2"
+[ -z "$output_option_version_full"  ] || echo "3.0.2.0"
 [ -z "$output_option_basename"      ] || echo "wx_gtk2u"
 [ -z "$output_option_cc"            ] || echo "gcc"
 [ -z "$output_option_cxx"           ] || echo "g++"
@@ -1026,7 +1026,7 @@ fi
 ldflags_gl=""
 
 ldlibs_base="-lwxregexu-3.0 -lwxexpat-3.0 -lwxjpeg-3.0 -lwxpng-3.0 -lwxzlib-3.0 -ldl -lm"
-ldlibs_core="-pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgthread-2.0 -lrt -lglib-2.0 -lX11 -lXxf86vm -lSM -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lglib-2.0 -lwebkitgtk-1.0 -lgtk-x11-2.0 -lsoup-2.4 -ljavascriptcoregtk-1.0 -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgio-2.0 -lgobject-2.0 -lglib-2.0"
+ldlibs_core="-pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgthread-2.0 -lglib-2.0 -lX11 -lXxf86vm -lSM -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lglib-2.0 -lwebkitgtk-1.0 -lgtk-x11-2.0 -lsoup-2.4 -ljavascriptcoregtk-1.0 -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgio-2.0 -lgobject-2.0 -lglib-2.0"
 ldlibs_gl="-lGL -lGLU"
 ldlibs_html=""
 ldlibs_xml=""
@@ -1203,12 +1203,14 @@ if is_monolithic; then
 
     # Only add additional info if --libs was specified and not just --optional-libs
     if [ -n "$output_option_libs" ]; then
-        # Core libs are already built into the blob.
-        for i in std xrc webview html qa adv core xml net base; do
-            wx_libs=`remove_field $i $wx_libs`
-        done
+        # The only library we need to add when using monolithic build is the gl
+        # one as all the others are already included into the main one.
+        if match_field gl $wx_libs; then
+            wx_libs=gl
+        else
+            wx_libs=
+        fi
 
-        wx_libs=`order_libs $wx_libs`
         wx_libs=" `lib_flags_for $wx_libs`"
 
         # We still need the core lib deps for a static build though
