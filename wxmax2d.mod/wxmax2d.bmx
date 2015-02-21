@@ -170,8 +170,11 @@ Type TwxMax2DDriver Extends TMax2DDriver
 	Method GraphicsModes:TGraphicsMode[]()
 		'Return GLGraphicsDriver().GraphicsModes()
 	End Method
-	
+?bmxng
 	Method AttachGraphics:TMax2DGraphics( widget:Byte Ptr ,flags:Int )
+?Not bmxng
+	Method AttachGraphics:TMax2DGraphics( widget:Int ,flags:Int )
+?
 		Local g:TwxGraphics=wxGraphicsDriver().AttachGraphics( widget,flags )
 		If g Return TMax2DGraphics.Create( g,Self )
 	End Method
@@ -513,8 +516,12 @@ Type TwxGraphicsDriver Extends TGraphicsDriver
 'DebugLog "GraphicsModes"
 		Return Null
 	End Method
-	
+
+?bmxng
 	Method AttachGraphics:TwxGraphics( widget:Byte Ptr,flags:Int )
+?Not bmxng
+	Method AttachGraphics:TwxGraphics( widget:Int,flags:Int )
+?
 'DebugLog "AttachGraphics"
 		Local t:TwxGraphics=New TwxGraphics
 		't._context=bbGLGraphicsAttachGraphics( widget,flags )
