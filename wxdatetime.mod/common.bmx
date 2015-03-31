@@ -157,7 +157,10 @@ Extern
 	Function bmx_wxdatetime_toutc:Byte Ptr(handle:Byte Ptr, noDST:Int)
 	Function bmx_wxdatetime_makeutc(handle:Byte Ptr, noDST:Int)
 	Function bmx_wxdatetime_isdst:Int(handle:Byte Ptr, country:Int)
-
+	Function bmx_wxdatetime_parseisodate:Int(handle:Byte Ptr, date:String)
+	Function bmx_wxdatetime_parseisotime:Int(handle:Byte Ptr, time:String)
+	Function bmx_wxdatetime_parseisocombined:Int(handle:Byte Ptr, date:String, sep:Int)
+		
 	Function bmx_wxdatespan_create:Byte Ptr(years:Int, months:Int, weeks:Int, days:Int)
 	Function bmx_wxdatespan_delete(handle:Byte Ptr)
 	Function bmx_wxdatespan_add:Byte Ptr(handle:Byte Ptr, other:Byte Ptr)

@@ -794,6 +794,32 @@ Type wxDateTime
 	End Method
 	
 	Rem
+	bbdoc: Parses the string containing the date and time in ISO 8601 combined format "YYYY-MM-DDTHH:MM:SS".
+	returns: True if the entire string was parsed successfully, False otherwise.
+	about: The separator between the date and time parts must be equal to @sep for the method to succeed.
+	End Rem
+	Method ParseISOCombined:Int(datetime:String, sep:String = "T")
+		Local s:Int = Asc(sep)
+		Return bmx_wxdatetime_parseisocombined(wxObjectPtr, datetime, s)
+	End Method
+	
+	Rem
+	bbdoc: Parses the date in ISO 8601 format "YYYY-MM-DD"
+	returns: True if the entire string was parsed successfully, False otherwise.
+	End Rem
+	Method ParseISODate:Int(date:String)
+		Return bmx_wxdatetime_parseisodate(wxObjectPtr, date)
+	End Method
+	
+	Rem
+	bbdoc: Parses the time in ISO 8601 format "HH:MM:SS".
+	returns: True if the entire string was parsed successfully, False otherwise.
+	End Rem
+	Method ParseISOTime:Int(date:String)
+		Return bmx_wxdatetime_parseisotime(wxObjectPtr, date)
+	End Method
+	
+	Rem
 	bbdoc: Does the same as the standard ANSI C strftime(3) function.
 	about: Please see its description for the meaning of format parameter.
 	<p>

@@ -145,6 +145,9 @@ extern "C" {
 	MaxDateTime * bmx_wxdatetime_toutc(MaxDateTime * datetime, int noDST);
 	void bmx_wxdatetime_makeutc(MaxDateTime * datetime, int noDST);
 	int bmx_wxdatetime_isdst(MaxDateTime * datetime, wxDateTime::Country country);
+	int bmx_wxdatetime_parseisodate(MaxDateTime * datetime, BBString * date);
+	int bmx_wxdatetime_parseisotime(MaxDateTime * datetime, BBString * time);
+	int bmx_wxdatetime_parseisocombined(MaxDateTime * datetime, BBString * date, int sep);
 
 	MaxDateSpan * bmx_wxdatespan_create(int years, int months, int weeks, int days);
 	void bmx_wxdatespan_delete(MaxDateSpan * span);

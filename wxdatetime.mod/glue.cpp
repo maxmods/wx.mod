@@ -569,6 +569,18 @@ int bmx_wxdatetime_isdst(MaxDateTime * datetime, wxDateTime::Country country) {
 	return static_cast<int>(datetime->DateTime().IsDST(country));
 }
 
+int bmx_wxdatetime_parseisodate(MaxDateTime * datetime, BBString * date) {
+	return static_cast<int>(datetime->DateTime().ParseISODate(wxStringFromBBString(date)));
+}
+
+int bmx_wxdatetime_parseisotime(MaxDateTime * datetime, BBString * time) {
+	return static_cast<int>(datetime->DateTime().ParseISOTime(wxStringFromBBString(time)));
+}
+
+int bmx_wxdatetime_parseisocombined(MaxDateTime * datetime, BBString * date, int sep) {
+	return static_cast<int>(datetime->DateTime().ParseISOCombined(wxStringFromBBString(date), static_cast<char>(sep)));
+}
+
 // *********************************************
 
 MaxDateSpan * bmx_wxdatespan_create(int years, int months, int weeks, int days) {
