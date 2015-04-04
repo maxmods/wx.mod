@@ -258,6 +258,55 @@ Type TFBGenFactory
 			Case "auinotebookpage"
 				widget = New TFBAuiNotebookPage
 
+			'=== propertyGrid-Widgets ===
+			Case "wxPropertyGrid"
+				widget = New TFBPropertyGrid
+
+			'this is the generic name for all properties
+			Case "propGridItem"
+				local propertyType:String = string(obj.properties.ValueForKey("type"))
+				Select propertyType.ToLower()
+					Case "bool"
+						widget = New TFBBoolProperty
+					Case "category"
+						widget = New TFBPropertyCategory
+					Case "colour"
+						widget = New TFBColourProperty
+					Case "cursor"
+						widget = New TFBCursorProperty
+					Case "date"
+						widget = New TFBDateProperty
+					Case "dir"
+						widget = New TFBDirProperty
+					'not supported by wxmax
+					'Case "editenum"
+					'	widget = New TFBEditEnumProperty
+					Case "enum"
+						widget = New TFBEnumProperty
+					Case "file"
+						widget = New TFBFileProperty
+					Case "flags"
+						widget = New TFBFlagsProperty
+					Case "float"
+						widget = New TFBFloatProperty
+					Case "font"
+						widget = New TFBFontProperty
+					Case "imagefile"
+						widget = New TFBImageFileProperty
+					Case "int"
+						widget = New TFBIntProperty
+					Case "longstring"
+						widget = New TFBLongStringProperty
+					Case "multichoice"
+						widget = New TFBMultiChoiceProperty
+					Case "string"
+						widget = New TFBStringProperty
+					Case "systemcolour"
+						widget = New TFBSystemColourProperty
+					Case "uint"
+						widget = New TFBUIntProperty
+				End Select
+
 		End Select
 		
 		If widget Then
@@ -1552,6 +1601,365 @@ Type TFBTextCtrl Extends TFBWidget
 	End Method
 
 End Type
+
+
+Type TFBPropertyGrid Extends TFBWidget
+
+	Method Generate(out:TCodeOutput)
+	
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+
+		Local text:String = prop("name") + " = new " + GetFullType(GetType())
+		text :+ ".Create("
+		text :+ ContainerReference() + ", " + prop("id")
+		text :+ DoPosSizeStyle(Self)
+		text :+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+	
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+			
+			out.Add(prop("name") + ".Append(" + child.prop("name")+")", 2)
+		Next
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxPropertyGrid"
+	End Method
+	
+	Method GetImport:String()
+		Return GetFullImport("wx.wxPropGrid")
+	End Method
+
+End Type
+
+
+Type TFBPropGridItem Extends TFBWidget
+	Method Generate(out:TCodeOutput)
+	
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create("
+
+		text:+ GetString("~q" + prop("label") + "~q")
+		text:+ GetString(", ~q" + prop("name") + "~q")
+		If GetInitialValue()
+			text:+ GetString(", "+ GetInitialValue())
+		End If
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+	End Method
+
+	Method GetInitialValue:String()
+		return prop("initialValue")
+	End Method
+	
+	Method GetImport:String()
+		Return GetFullImport("wx.wxPropGrid")
+	End Method
+End Type
+
+
+Type TFBLongStringProperty Extends TFBPropGridItem
+	Method GetInitialValue:String()
+		return "~q" + prop("initialValue") + "~q"
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxLongStringProperty"
+	End Method
+End Type
+
+
+
+
+Type TFBBoolProperty Extends TFBPropGridItem
+	Method GetInitialValue:String()
+		If prop("initialValue").ToLower() = "true"
+			return "1"
+		Else
+			return "0"
+		End If
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxFloatProperty"
+	End Method
+End Type
+
+
+Type TFBColourProperty Extends TFBPropGridItem
+	Method GetInitialValue:String()
+		If prop("initialValue")
+			return prop("initialValue")
+		Else
+			return "Null"
+		End If
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxColourProperty"
+	End Method
+End Type
+
+
+Type TFBCursorProperty Extends TFBPropGridItem
+	Method GetInitialValue:String()
+		If prop("initialValue")
+			return prop("initialValue")
+		Else
+			return "Null"
+		End If
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxCursorProperty"
+	End Method
+End Type
+
+
+Type TFBDateProperty Extends TFBPropGridItem
+	Method GetInitialValue:String()
+		If prop("initialValue")
+			return prop("initialValue")
+		Else
+			return "Null"
+		End If
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxDateProperty"
+	End Method
+End Type
+
+
+Type TFBDirProperty Extends TFBPropGridItem
+	Method GetInitialValue:String()
+		If prop("initialValue")
+			return prop("initialValue")
+		Else
+			return "Null"
+		End If
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxDirProperty"
+	End Method
+End Type
+
+
+Type TFBEnumProperty Extends TFBPropertyGrid
+	Method Generate(out:TCodeOutput)
+	
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateWithArrays("
+
+		text:+ GetString("~q" + prop("label") + "~q")
+		text:+ GetString(", ~q" + prop("name") + "~q")
+		'labels:string[], values:int[], value:int
+		text:+ GetString(",Null, Null, 0")
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxEnumProperty"
+	End Method
+End Type
+
+
+Type TFBFileProperty Extends TFBPropGridItem
+	Method GetInitialValue:String()
+		return prop("initialValue")
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxFileProperty"
+	End Method
+End Type
+
+
+Type TFBFlagsProperty Extends TFBPropGridItem
+	Method Generate(out:TCodeOutput)
+	
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateWithArrays("
+
+		text:+ GetString("~q" + prop("label") + "~q")
+		text:+ GetString(", ~q" + prop("name") + "~q")
+		'labels:string[], values:int[], value:int
+		text:+ GetString(",Null, Null, 0")
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+	End Method
+	
+	Method GetType:String(def:Int = False)
+		Return "wxFlagsProperty"
+	End Method
+End Type
+
+
+Type TFBFloatProperty Extends TFBIntProperty
+	Method GetInitialValue:String()
+		return String(Float(prop("initialValue")))
+	End Method
+	
+	Method GetType:String(def:Int = False)
+		Return "wxFloatProperty"
+	End Method
+End Type
+
+
+Type TFBFontProperty Extends TFBPropGridItem
+	Method GetInitialValue:String()
+		If prop("initialValue")
+			return prop("initialValue")
+		Else
+			return "Null"
+		End If
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxFontProperty"
+	End Method
+End Type
+
+
+Type TFBImageFileProperty Extends TFBFileProperty
+	Method GetType:String(def:Int = False)
+		Return "wxImageFileProperty"
+	End Method
+End Type
+
+
+Type TFBIntProperty Extends TFBPropGridItem
+	Method GetInitialValue:String()
+		return String(int(prop("initialValue")))
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxIntProperty"
+	End Method
+End Type
+
+
+Type TFBMultiChoiceProperty Extends TFBPropGridItem
+	Method Generate(out:TCodeOutput)
+	
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateWithArrays("
+
+		text:+ GetString("~q" + prop("label") + "~q")
+		text:+ GetString(", ~q" + prop("name") + "~q")
+		'labels:string[], values:int[], value:int
+		text:+ GetString(",Null, Null, 0")
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+	End Method
+	
+	Method GetType:String(def:Int = False)
+		Return "wxMultiChoiceProperty"
+	End Method
+End Type
+
+
+Type TFBPropertyCategory Extends TFBPropGridItem
+	Method GetType:String(def:Int = False)
+		Return "wxPropertyCategory"
+	End Method
+End Type
+
+
+Type TFBStringProperty Extends TFBPropGridItem
+
+	Method Generate(out:TCodeOutput)
+	
+		If Not HasPermissions() Then
+			out.Add("Local " + prop("name") + ":" + GetType(), 2)
+		End If
+
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create("
+
+		text:+ GetString("~q" + prop("label") + "~q")
+		text:+ GetString(", ~q" + prop("name") + "~q")
+		
+		'this allows to have tree-like property structures
+		If kids.Count() > 0
+			text:+ GetString(", ~q<composed>~q")
+		Else
+			text:+ GetString(", ~q"+ GetInitialValue() + "~q")
+		End If
+
+		text:+ ")"
+		
+		out.Add(text, 2)
+
+		StandardSettings(out)
+
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+			
+			out.Add(prop("name") + ".AppendIn(" + prop("name") + "," + child.prop("name")+")", 2)
+		Next
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxStringProperty"
+	End Method
+End Type
+
+
+Type TFBSystemColourProperty Extends TFBPropGridItem
+	Method GetInitialValue:String()
+		If prop("initialValue")
+			return prop("initialValue")
+		Else
+			return "Null"
+		End If
+	End Method
+
+	Method GetType:String(def:Int = False)
+		Return "wxSystemColourProperty"
+	End Method
+End Type
+
+Type TFBUIntProperty Extends TFBIntProperty
+	Method GetType:String(def:Int = False)
+		Return "wxUIntProperty"
+	End Method
+End Type
+
 
 Type TFBStaticBitmap Extends TFBWidget
 
