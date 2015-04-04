@@ -1879,7 +1879,7 @@ Type TFBMultiChoiceProperty Extends TFBPropGridItem
 		text:+ GetString("~q" + prop("label") + "~q")
 		text:+ GetString(", ~q" + prop("name") + "~q")
 		'labels:string[], values:int[], value:int
-		text:+ GetString(",Null, Null, 0")
+		text:+ GetString(",Null, Null")
 
 		text:+ ")"
 		
