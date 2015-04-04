@@ -1803,7 +1803,7 @@ Type TFBFlagsProperty Extends TFBPropGridItem
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 
-		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateWithArrays("
+		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create("
 
 		text:+ GetString("~q" + prop("label") + "~q")
 		text:+ GetString(", ~q" + prop("name") + "~q")
@@ -4593,4 +4593,3 @@ Type TStringTokenizer
 
 
 End Type
-
