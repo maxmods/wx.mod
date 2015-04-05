@@ -22,6 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxControl
+Import wx.wxSpinButton
 Import BRL.Blitz
 
 
@@ -45,19 +46,29 @@ Import "../lib/raspberrypi/wx/include/gtk2-unicode-release-static/*.h"
 ?
 Import "../include/*.h"
 
-Import "include/*.h"
-Import "src/spinctld.cpp"
-
 Import "glue.cpp"
 
 Extern
 
+	Function bmx_wxspinctrldouble_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, value:String, x:Int, y:Int, ..
+		w:Int, h:Int, style:Int, minimum:Double, maximum:Double, initial:Double)
+
+	Function bmx_wxspinctrldouble_setvalue(handle:Byte Ptr, value:Double)
+	Function bmx_wxspinctrldouble_settextvalue(handle:Byte Ptr, value:String)
+	Function bmx_wxspinctrldouble_setrange(handle:Byte Ptr, minVal:Double, maxVal:Double)
+	Function bmx_wxspinctrldouble_setincrement(handle:Byte Ptr, increment:Double)
+	Function bmx_wxspinctrldouble_setdigits(handle:Byte Ptr, digits:Int)
+	Function bmx_wxspinctrldouble_getvalue:Double(handle:Byte Ptr)
+	Function bmx_wxspinctrldouble_getmin:Double(handle:Byte Ptr)
+	Function bmx_wxspinctrldouble_getmax:Double(handle:Byte Ptr)
+	Function bmx_wxspinctrldouble_getincrement:Double(handle:Byte Ptr)
+	Function bmx_wxspinctrldouble_getdigits:Int(handle:Byte Ptr)
+
+	Function bmx_wxspindoubleevent_getvalue:Double(event:Byte Ptr)
+	Function bmx_wxspindoubleevent_setvalue(event:Byte Ptr, value:Double)
+
+	Function bmx_wxspinctrldouble_geteventtype:Int(evt:Int)
+
 End Extern
 
-
-Const wxSPINCTRLDBL_AUTODIGITS:Int = -1
-
-Const FORMAT_LF:Int = 0
-Const FORMAT_LE:Int = 1
-Const FORMAT_LG:Int = 2
-
+Const wxEVT_COMMAND_SPINCTRLDOUBLE:Int = -1322
