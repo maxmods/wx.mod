@@ -1825,7 +1825,7 @@ End Type
 
 Type TFBFloatProperty Extends TFBIntProperty
 	Method GetInitialValue:String()
-		return String(Float(prop("initialValue")))
+		return String(Float(prop("initialValue"))).Replace(",",".")
 	End Method
 	
 	Method GetType:String(def:Int = False)
