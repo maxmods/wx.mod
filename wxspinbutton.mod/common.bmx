@@ -72,6 +72,6 @@ Const wxEVT_SPIN:Int = -wxEVT_SCROLL_THUMBTRACK
 
 Const wxSP_HORIZONTAL:Int = wxHORIZONTAL
 Const wxSP_VERTICAL:Int = wxVERTICAL
-Const wxSP_ARROW_KEYS:Int = $1000
-Const wxSP_WRAP:Int = $2000
+Const wxSP_ARROW_KEYS:Int = $4000
+Const wxSP_WRAP:Int = $8000
 
