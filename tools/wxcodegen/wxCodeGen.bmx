@@ -1,4 +1,4 @@
-' Copyright (c) 2008-2013 Bruce A Henderson
+' Copyright (c) 2008-2015 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -63,7 +63,7 @@ Type CodeGenFrame Extends CodeGenFrameBase
 
 	Field currentProject:TCGProject
 
-	Method OnInit()
+	Method OnInit:Int()
 		Super.OnInit()
 
 ?macos
@@ -328,7 +328,7 @@ Type CodeGenFrame Extends CodeGenFrameBase
 	Method OnAbout(event:wxCommandEvent)
 
 		wxMessageBox("A wxMax BlitzMax Code Generator~n" + ..
-			"(c) 2008-2013 Bruce A Henderson", ..
+			"(c) 2008-2015 Bruce A Henderson", ..
 			"About wxCodeGen v"+ AppVersion, wxOK, Self)
 	End Method
 

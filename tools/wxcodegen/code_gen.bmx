@@ -1,4 +1,4 @@
-' Copyright (c) 2008-2013 Bruce A Henderson
+' Copyright (c) 2008-2015 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -605,7 +605,7 @@ Type TFBWidget
 				proj.imports.Insert("wx.wxSystemSettings", "")
 			End If
 		Else
-			text:+ "new wxColour.Create(" + col + ")"
+			text:+ "New wxColour.Create(" + col + ")"
 		End If
 		
 		Return text
@@ -619,9 +619,14 @@ Type TFBWidget
 		Local bitmap:String[] = bm.Split(";")
 		
 		If bitmap[0] Then
-			text:+ "wxBitmap.CreateFromFile(~q" + bitmap[0] + "~q, "
+			Local file:String = bitmap[0]
+			If file = "LoadFromFile" Then
+				file = bitmap[1]
+			End If
 			
-			Local kind:String = bitmap[0].Split(".")[1].ToUpper()
+			text:+ "wxBitmap.CreateFromFile(~q" + file + "~q, "
+			
+			Local kind:String = file.Split(".")[1].ToUpper()
 			Select kind
 				Case "PNG"
 					text:+ "wxBITMAP_TYPE_PNG"
@@ -650,7 +655,7 @@ Type TFBWidget
 		Local font:String = prop("font")
 		If font Then
 			Local text:String = NameReference(prop("name"), noref) + "SetFont("
-			text:+ "new wxFont.CreateWithAttribs("
+			text:+ "New wxFont.CreateWithAttribs("
 			
 			Local attribs:String[] = font.Split(",")
 			
@@ -1020,7 +1025,7 @@ Type TFBContainer Extends TFBWidget
 		DoConstructor(out)
 		
 		' OnInit() - variable init etc
-		out.Add("Method OnInit()", 1)
+		out.Add("Method OnInit:Int()", 1)
 		
 		StandardSettings(out, True)
 		
@@ -1069,7 +1074,7 @@ Type TFBContainer Extends TFBWidget
 
 
 		' OnInit() - variable init etc
-		out.Add("Method OnInit()", 1)
+		out.Add("Method OnInit:Int()", 1)
 		out.Add("Super.OnInit()", 2, 2)
 		out.Add("' Add own initialisation code here", 2, 2)
 		out.Add("End Method", 1, 2)
@@ -1276,7 +1281,7 @@ Type TFBFrame Extends TFBForm
 		
 		text:+")"
 		out.Add(text, 1)
-		out.Add("return " + prop("name") + "Base(Super.Create(parent, id, title, x, y, w, h, style))", 2)
+		out.Add("Return " + prop("name") + "Base(Super.Create(parent, id, title, x, y, w, h, style))", 2)
 		out.Add("End Method", 1, 2)
 	End Method
 
@@ -1394,7 +1399,7 @@ Type TFBPanel Extends TFBContainer
 		
 		text:+")"
 		out.Add(text, 1)
-		out.Add("return " + prop("name") + "Base(Super.Create(parent, id, x, y, w, h, style))", 2)
+		out.Add("Return " + prop("name") + "Base(Super.Create(parent, id, x, y, w, h, style))", 2)
 		out.Add("End Method", 1, 2)
 	End Method
 
@@ -1483,7 +1488,7 @@ Type TFBDialog Extends TFBContainer
 		
 		text:+")"
 		out.Add(text, 1)
-		out.Add("return " + prop("name") + "Base(Super.Create_(parent, id, title, x, y, w, h, style))", 2)
+		out.Add("Return " + prop("name") + "Base(Super.Create_(parent, id, title, x, y, w, h, style))", 2)
 		out.Add("End Method", 1, 2)
 	End Method
 
@@ -2763,7 +2768,7 @@ Type TFBToolBar Extends TFBContainer
 			text:+ "CreateToolBar("
 			text:+ prop("style") + ", " + prop("id") + ")"
 		Else
-			text:+ "new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
+			text:+ "New " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 	
 			text:+ DoPosSizeStyle(Self)
 	
@@ -2981,7 +2986,7 @@ Type TFBFontPickerCtrl Extends TFBWidget
 		If prop("value") Then
 			Local font:String = prop("value")
 			
-			text:+ "new wxFont.CreateWithAttribs("
+			text:+ "New wxFont.CreateWithAttribs("
 			
 			Local attribs:String[] = font.Split(",")
 			
@@ -3316,7 +3321,7 @@ Type TFBStaticBoxSizer Extends TFBSizer
 		Super.Generate(out)
 		
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateSizerWithBox( "
-		text:+ "new wxStaticBox.Create(" + ContainerReference() + ", wxID_ANY, " + ..
+		text:+ "New wxStaticBox.Create(" + ContainerReference() + ", wxID_ANY, " + ..
 			GetString("~q" + prop("label") + "~q") + ")"
 		text:+ ", " + prop("orient") + ")"
 
@@ -3389,9 +3394,9 @@ Type TFBFlexGridSizer Extends TFBSizer
 		out.Add(text, 2)
 	
 		If prop("growablecols") Then
-			Local cols:String[] = prop("growablecols").Split(",")
-			For Local i:Int = 0 Until cols.length
-				out.Add(prop("name") + ".AddGrowableCol( " + cols[i] + " )", 2)
+			Local COLS:String[] = prop("growablecols").Split(",")
+			For Local i:Int = 0 Until COLS.length
+				out.Add(prop("name") + ".AddGrowableCol( " + COLS[i] + " )", 2)
 			Next
 		End If
 
@@ -3644,9 +3649,9 @@ Type TFBGridBagSizer Extends TFBSizer
 		out.Add(prop("name") + " = new " + GetFullType(GetType()) + ".CreateGB(" + prop("vgap") + ", " + prop("hgap") + ")", 2)
 
 		If prop("growablecols") Then
-			Local cols:String[] = prop("growablecols").Split(",")
-			For Local i:Int = 0 Until cols.length
-				out.Add(prop("name") + ".AddGrowableCol( " + cols[i] + " )", 2)
+			Local COLS:String[] = prop("growablecols").Split(",")
+			For Local i:Int = 0 Until COLS.length
+				out.Add(prop("name") + ".AddGrowableCol( " + COLS[i] + " )", 2)
 			Next
 		End If
 
