@@ -463,6 +463,12 @@ Function DoPosSize:String(widget:TFBWidget, showIfEmpty:Int = True)
 	Return text
 End Function
 
+Function IsNumericValue:int(value:string)
+	if not(Double(value) = 0) return True '-1, 1, 2, 1.2, ...
+	if value = string(int(value)) return True '0
+	return False
+End Function
+
 Type TCodeOutput
 
 	Field code:String
@@ -1649,9 +1655,13 @@ Type TFBPropGridItem Extends TFBWidget
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create("
 
 		text:+ GetString("~q" + prop("label") + "~q")
-		text:+ GetString(", ~q" + prop("name") + "~q")
+		text:+ ", " + GetString("~q" + prop("name") + "~q")
 		If GetInitialValue()
-			text:+ GetString(", "+ GetInitialValue())
+			If IsNumericValue(GetInitialValue())
+				text:+ ", "+ GetInitialValue()
+			Else
+				text:+ ", "+ GetString(GetInitialValue())
+			End If
 		End If
 		text:+ ")"
 		
@@ -1768,9 +1778,9 @@ Type TFBEnumProperty Extends TFBPropertyGrid
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateWithArrays("
 
 		text:+ GetString("~q" + prop("label") + "~q")
-		text:+ GetString(", ~q" + prop("name") + "~q")
+		text:+ ", " + GetString("~q" + prop("name") + "~q")
 		'labels:string[], values:int[], value:int
-		text:+ GetString(",Null, Null, 0")
+		text:+ ",Null, Null, 0"
 
 		text:+ ")"
 		
@@ -1806,9 +1816,9 @@ Type TFBFlagsProperty Extends TFBPropGridItem
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create("
 
 		text:+ GetString("~q" + prop("label") + "~q")
-		text:+ GetString(", ~q" + prop("name") + "~q")
+		text:+ ", " + GetString("~q" + prop("name") + "~q")
 		'labels:string[], values:int[], value:int
-		text:+ GetString(",Null, Null, 0")
+		text:+ ",Null, Null, 0"
 
 		text:+ ")"
 		
@@ -1877,9 +1887,9 @@ Type TFBMultiChoiceProperty Extends TFBPropGridItem
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateWithArrays("
 
 		text:+ GetString("~q" + prop("label") + "~q")
-		text:+ GetString(", ~q" + prop("name") + "~q")
+		text:+ ", " + GetString("~q" + prop("name") + "~q")
 		'labels:string[], values:int[], value:int
-		text:+ GetString(",Null, Null")
+		text:+ ", Null, Null"
 
 		text:+ ")"
 		
@@ -1912,13 +1922,13 @@ Type TFBStringProperty Extends TFBPropGridItem
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create("
 
 		text:+ GetString("~q" + prop("label") + "~q")
-		text:+ GetString(", ~q" + prop("name") + "~q")
+		text:+ ", " + GetString("~q" + prop("name") + "~q")
 		
 		'this allows to have tree-like property structures
 		If kids.Count() > 0
-			text:+ GetString(", ~q<composed>~q")
+			text:+ ", ~q<composed>~q"
 		Else
-			text:+ GetString(", ~q"+ GetInitialValue() + "~q")
+			text:+ ", " + GetString("~q" + GetInitialValue() + "~q")
 		End If
 
 		text:+ ")"
