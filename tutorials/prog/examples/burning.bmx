@@ -28,7 +28,7 @@ Type Burning Extends wxFrame
 	Field m_slider:wxSlider
 	Field m_wid:Widget
 
-	Method OnInit()
+	Method OnInit:Int()
  
 		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
 		Local centerPanel:wxPanel = New wxPanel.Create(panel, wxID_ANY)

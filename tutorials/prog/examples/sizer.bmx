@@ -27,7 +27,7 @@ Type Sizer Extends wxFrame
 	Field help:wxMenu
 	Field textctrl:wxTextCtrl
 	
-	Method OnInit()
+	Method OnInit:Int()
  
 		menubar = New wxMenuBar.Create()
 		file = New wxMenu.Create()

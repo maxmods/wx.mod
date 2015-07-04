@@ -22,7 +22,7 @@ End Type
 
 Type StaticText Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
 		Local text:String = "'Cause sometimes you feel tired,~n" + ..

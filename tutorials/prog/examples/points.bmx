@@ -21,7 +21,7 @@ End Type
 
 Type Points Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		SeedRnd(MilliSecs())
 		ConnectAny(wxEVT_PAINT, OnPaint)

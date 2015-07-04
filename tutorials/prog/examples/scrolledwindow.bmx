@@ -22,7 +22,7 @@ End Type
 
 Type ScrolledWindow Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		wxImage.AddHandler(New wxJPEGHandler)
 		

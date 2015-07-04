@@ -25,7 +25,7 @@ End Type
 
 Type CustomDialog Extends wxDialog
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local panel:wxPanel = New wxPanel.Create(Self, -1)
 		

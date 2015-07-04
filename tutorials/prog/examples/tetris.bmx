@@ -5,7 +5,7 @@ Import wx.wxFrame
 Import wx.wxPanel
 Import wx.wxTimer
 Import BRL.Random
-
+Import brl.standardio
 Const NoShape:Int = 0
 Const ZShape:Int = 1
 Const SShape:Int = 2
@@ -35,7 +35,7 @@ End Type
 
 Type Tetris Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local sb:wxStatusBar = CreateStatusBar()
 		sb.SetStatusText("0")
@@ -64,10 +64,11 @@ Type Board Extends wxPanel
 	Field m_stsbar:wxStatusBar
 
 
-	Method OnInit()
+	Method OnInit:Int()
 		timer = New wxTimer.Create(Self, 1)
-		
+
 		m_stsbar = wxFrame(GetParent()).GetStatusBar()
+
 		isFallingFinished = False
 		isStarted = False
 		isPaused = False

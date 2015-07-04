@@ -25,7 +25,7 @@ Type Move Extends wxFrame
 	Field st1:wxStaticText
 	Field st2:wxStaticText
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		Local panel:wxPanel = New wxPanel.Create(Self, -1)
 		

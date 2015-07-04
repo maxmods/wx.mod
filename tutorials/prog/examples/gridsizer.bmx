@@ -31,7 +31,7 @@ Type GridSizer Extends wxFrame
 	Field display:wxTextCtrl
 
  
-	Method OnInit()
+	Method OnInit:Int()
  
 		menubar = New wxMenuBar.Create()
 		file = New wxMenu.Create()
@@ -43,7 +43,7 @@ Type GridSizer Extends wxFrame
 		display = New wxTextCtrl.Create(Self, -1, "", -1, -1, -1, -1, wxTE_RIGHT)
 		
 		sizer.Add(display, 0, wxEXPAND | wxTOP | wxBOTTOM, 4)
-		gs = New wxGridSizer.CreateRC(4, 4, 3, 3)
+		gs = New wxGridSizer.CreateRC(5, 4, 3, 3)
 		
 		gs.Add(New wxButton.Create(Self, -1, "Cls"), 0, wxEXPAND)
 		gs.Add(New wxButton.Create(Self, -1, "Bck"), 0, wxEXPAND)

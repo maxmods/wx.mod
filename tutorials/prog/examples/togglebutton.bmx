@@ -34,7 +34,7 @@ Type ToggleButton Extends wxFrame
 	Field m_panel:wxPanel
 	Field colour:wxColour
 
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
 		
@@ -66,7 +66,7 @@ Type ToggleButton Extends wxFrame
 	
 		Local green:Int = tog.colour.Green()
 		Local blue:Int = tog.colour.Blue()
-		
+
 		If tog.colour.Red() Then
 			tog.colour.Set(0, green, blue)
 		Else
@@ -74,6 +74,7 @@ Type ToggleButton Extends wxFrame
 		End If
 		
 		tog.m_panel.SetBackgroundColour(tog.colour)
+		tog.m_panel.Refresh()
 	End Function
 	
 	Function OnToggleGreen(event:wxEvent)
@@ -89,6 +90,7 @@ Type ToggleButton Extends wxFrame
 		End If
 		
 		tog.m_panel.SetBackgroundColour(tog.colour)
+		tog.m_panel.Refresh()
 	End Function
 
 	Function OnToggleBlue(event:wxEvent)
@@ -104,6 +106,7 @@ Type ToggleButton Extends wxFrame
 		End If
 		
 		tog.m_panel.SetBackgroundColour(tog.colour)
+		tog.m_panel.Refresh()
 	End Function
 
 	

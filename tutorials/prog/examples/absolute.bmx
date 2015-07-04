@@ -28,7 +28,7 @@ Type Absolute Extends wxFrame
 	Field help:wxMenu
 	Field textctrl:wxTextCtrl
 	
-	Method OnInit()
+	Method OnInit:Int()
  
 		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
  

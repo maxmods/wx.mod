@@ -25,7 +25,7 @@ End Type
 
 Type Propagate Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local panel:MyPanel = MyPanel(New MyPanel.Create(Self, -1))
 		
@@ -46,7 +46,7 @@ End Type
 
 Type MyButton Extends wxButton
 
-	Method OnInit()
+	Method OnInit:Int()
 		Connect(ID_BUTTON, wxEVT_COMMAND_BUTTON_CLICKED, OnClick)
 	End Method
 	
@@ -59,7 +59,7 @@ End Type
 
 Type MyPanel Extends wxPanel
 
-	Method OnInit()
+	Method OnInit:int()
 		Connect(ID_BUTTON, wxEVT_COMMAND_BUTTON_CLICKED, OnClick)
 	End Method
 

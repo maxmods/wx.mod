@@ -23,7 +23,7 @@ Type Toolbars Extends wxFrame
 	Field toolbar1:wxToolBar
 	Field toolbar2:wxToolBar
 
-	Method OnInit()
+	Method OnInit:Int()
 		
 		wxImage.AddHandler( New wxPNGHandler )
 

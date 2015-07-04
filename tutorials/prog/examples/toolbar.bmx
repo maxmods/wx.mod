@@ -20,7 +20,7 @@ End Type
 
 Type Toolbar Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		wxImage.AddHandler( New wxPNGHandler )
 

@@ -31,7 +31,7 @@ Type TextDrop Extends wxFrame
 	Field m_lc1:wxListCtrl
 	Field m_lc2:wxListCtrl
 
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local spl1:wxSplitterWindow = New wxSplitterWindow.Create(..
 			Self, -1)
@@ -64,8 +64,11 @@ Type TextDrop Extends wxFrame
 	
 		Local filename:String
 		Local path:String = drop.m_gdir.GetPath()
+?bmxng
+		Local dir:Byte Ptr = ReadDir(path)
+?Not bmxng
 		Local dir:Int = ReadDir(path)
-		
+?		
 		If Not dir Then
 			Return
 		End If

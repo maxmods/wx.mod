@@ -14,7 +14,7 @@ Type Widget Extends wxPanel
 		Return Widget(Super.Create(parent, id, x, y, w, 30, wxSUNKEN_BORDER))
 	End Method
  
-	Method OnInit()
+	Method OnInit:Int()
 		m_parent = wxPanel(GetParent())
 		
 		ConnectAny(wxEVT_PAINT, OnPaint)

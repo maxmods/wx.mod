@@ -24,7 +24,7 @@ Type FileOpen Extends wxFrame
  
 	Field tc:wxTextCtrl
 	
-	Method OnInit()
+	Method OnInit:Int()
  
 		Local menubar:wxMenuBar = New wxMenuBar.Create()
 		Local file:wxMenu = New wxMenu.Create()

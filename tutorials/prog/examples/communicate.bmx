@@ -30,7 +30,7 @@ Type Communicate Extends wxFrame
 	Field m_rp:RightPanel 
 	Field m_parent:wxPanel 
 
-	Method OnInit()
+	Method OnInit:Int()
 				
 		m_parent = New wxPanel.Create(Self, wxID_ANY)
 
@@ -61,7 +61,7 @@ Type LeftPanel Extends wxPanel
 	Field m_parent:wxPanel
 	Field count:Int
 	
-	Method OnInit()
+	Method OnInit:Int()
 		count = 0
 		m_parent = wxPanel(GetParent())
 		
@@ -96,7 +96,7 @@ Type RightPanel Extends wxPanel
 
 	Field m_text:wxStaticText
 	
-	Method OnInit()
+	Method OnInit:Int()
 		m_text = New wxStaticText.Create(Self, -1, "0", 40, 60)
 	End Method
 	

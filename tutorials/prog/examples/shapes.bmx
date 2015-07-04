@@ -20,7 +20,7 @@ End Type
 
 Type Shapes Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		ConnectAny(wxEVT_PAINT, OnPaint)
 		Centre()
@@ -31,7 +31,7 @@ Type Shapes Extends wxFrame
 
 		Local dc:wxPaintDC = New wxPaintDC.Create(wxWindow(event.parent))
 		
-		Local lines:Int[] = [ 20, 260, 100, 260, 20, 210, ..
+		Local LINES:Int[] = [ 20, 260, 100, 260, 20, 210, ..
 			100, 210 ]
 		Local polygon:Int[] = [ 130, 140, 180, 170, 180, 140, ..
 			220, 110, 140, 100 ]
@@ -46,7 +46,7 @@ Type Shapes Extends wxFrame
 		dc.DrawRectangle(20, 120, 80, 50)
 		dc.DrawSpline(splines)
 		
-		dc.DrawLines(lines)
+		dc.DrawLines(LINES)
 		dc.DrawCircle(170, 230, 35)
 		dc.DrawRectangle(250, 200, 60, 60)
 	

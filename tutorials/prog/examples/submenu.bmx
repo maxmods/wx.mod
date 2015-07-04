@@ -25,7 +25,7 @@ Type SubMenu Extends wxFrame
 	Field imp:wxMenu
 	Field quit:wxMenuItem
 	
-	Method OnInit()
+	Method OnInit:Int()
 		
 		menubar = New wxMenuBar.Create()
 		file = New wxMenu.Create()

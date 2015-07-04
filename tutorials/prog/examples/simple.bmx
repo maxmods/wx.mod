@@ -20,7 +20,7 @@ End Type
 
 Type Simple Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Centre()
  

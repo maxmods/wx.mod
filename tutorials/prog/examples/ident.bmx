@@ -22,7 +22,7 @@ End Type
 
 Type Ident Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local panel:wxPanel = New wxPanel.Create(Self, -1)
 		

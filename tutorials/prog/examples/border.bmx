@@ -21,7 +21,7 @@ End Type
 
 Type Border Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 	
 		Local col1:wxColour = New wxColour.CreateNamedColour("#4f5049")
 		Local col2:wxColour = New wxColour.CreateNamedColour("#ededed")

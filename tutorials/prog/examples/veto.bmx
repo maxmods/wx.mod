@@ -21,7 +21,7 @@ End Type
 
 Type Veto Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		ConnectAny(wxEVT_CLOSE_WINDOW, OnClose)
 		

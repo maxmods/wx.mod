@@ -26,7 +26,7 @@ Type CheckBox Extends wxFrame
  
 	Field m_cb:wxCheckBox
 	
-	Method OnInit()
+	Method OnInit:Int()
  
 		Local panel:wxPanel = New wxPanel.Create(Self, wxID_ANY)
  

@@ -22,7 +22,7 @@ End Type
 
 Type Notebook Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local nb:wxNotebook = New wxNotebook.Create(Self, -1, ..
 			-1, -1, -1, -1, wxNB_BOTTOM)
@@ -57,7 +57,7 @@ End Type
 
 Type MySheet Extends wxSheet
 
-	Method OnInit()
+	Method OnInit:Int()
 		CreateGrid(30, 30)
 		SetRowLabelWidth(50)
 		SetColLabelHeight(25)

@@ -20,7 +20,7 @@ End Type
 
 Type Line Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		ConnectAny(wxEVT_PAINT, OnPaint)
 		Centre()

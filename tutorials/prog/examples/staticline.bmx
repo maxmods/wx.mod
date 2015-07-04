@@ -23,7 +23,7 @@ End Type
 
 Type Staticline Extends wxDialog
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local font:wxFont = New wxFont.CreateWithAttribs(10, ..
 			wxDEFAULT, wxNORMAL, wxBOLD)

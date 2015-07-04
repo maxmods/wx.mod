@@ -24,7 +24,7 @@ End Type
 Type FlexGridSizer Extends wxFrame
 
 
-	Method OnInit()
+	Method OnInit:Int()
  
 		Local panel:wxPanel = New wxPanel.Create(Self, -1)
 		

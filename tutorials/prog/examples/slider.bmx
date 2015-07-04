@@ -26,7 +26,7 @@ Type Slider Extends wxFrame
  
 	Field panel:MyPanel
 	
-	Method OnInit()
+	Method OnInit:Int()
 		panel = MyPanel(New MyPanel.Create(Self))
 		
 		Centre()
@@ -40,7 +40,7 @@ Type MyPanel Extends wxPanel
     Field slider:wxSlider
     Field fill:Int
 
-	Method OnInit()
+	Method OnInit:Int()
 		fill = 0
 		slider = New wxSlider.Create(Self, ID_SLIDER, 0, 0, 140, ..
 			50, 30, -1, 140, wxSL_VERTICAL)

@@ -23,7 +23,7 @@ End Type
 
 Type Icon Extends wxFrame
  
-	Method OnInit()
+	Method OnInit:int()
 				
 		SetIcon(wxIcon.CreateFromFile("../media/world.png", wxBITMAP_TYPE_PNG))
 

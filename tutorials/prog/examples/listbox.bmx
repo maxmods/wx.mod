@@ -29,7 +29,7 @@ Type TListbox Extends wxFrame
 	Field listbox:wxListBox
 	Field btnPanel:MyPanel
  
-	Method OnInit()
+	Method OnInit:Int()
 		
 		Local panel:wxPanel = New wxPanel.Create(Self, -1)
 		
@@ -78,7 +78,7 @@ Type MyPanel Extends wxPanel
 	Field m_clearb:wxButton
 	Field m_deleteb:wxButton
 
-	Method OnInit()
+	Method OnInit:Int()
 		Local vbox:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
 		
 		Local lb:TListbox = TListbox(GetParent().GetParent())

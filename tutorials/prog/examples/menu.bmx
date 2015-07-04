@@ -23,7 +23,7 @@ Type SimpleMenu Extends wxFrame
     Field menubar:wxMenuBar
     Field file:wxMenu
 
-	Method OnInit()
+	Method OnInit:Int()
 		
 		menubar = New wxMenuBar.Create()
 		file = New wxMenu.Create()

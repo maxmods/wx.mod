@@ -29,7 +29,7 @@ Type BitmapButton Extends wxFrame
 	Field button:wxBitmapButton
 	Field pos:Int
 	
-	Method OnInit()
+	Method OnInit:Int()
 
 		wxImage.AddHandler( New wxPNGHandler )
 		
