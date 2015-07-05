@@ -136,7 +136,7 @@ Type wxApp Extends wxEvtHandler Abstract
 	find the first top-level window (frame or dialog) and return that.
 	End Rem
 	Method GetTopWindow:wxWindow()
-		Return wxWindow._find(bmx_wxapp_gettopwindow())
+		Return wxWindow(wxWindow._find(bmx_wxapp_gettopwindow()))
 	End Method
 	
 	Rem

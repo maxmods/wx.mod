@@ -101,7 +101,7 @@ Type wxTextValidator Extends wxValidator
 	bbdoc: Returns the window associated with the validator.
 	End Rem
 	Method GetWindow:wxWindow()
-		Return wxWindow._find(bmx_wxtextvalidator_getwindow(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxtextvalidator_getwindow(wxObjectPtr)))
 	End Method
 
 	Rem

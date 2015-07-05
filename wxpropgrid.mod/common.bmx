@@ -363,7 +363,7 @@ Extern
 	Function bmx_wxpropertygrid_selectproperty:Int(handle:Byte Ptr, prop:Byte Ptr, focus:Int)
 
 	Function bmx_wxpgproperty_getvalueascolour:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxpgproperty_getvaluestring:String(handle:Byte Ptr, argFlags:Int)
+	Function bmx_wxpgproperty_getvalueasstring:String(handle:Byte Ptr, argFlags:Int)
 	Function bmx_wxpgproperty_gety:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_hasflag:Int(handle:Byte Ptr, flag:Int)
 	Function bmx_wxpgproperty_hide:Int(handle:Byte Ptr, hide:Int)
@@ -420,7 +420,6 @@ Extern
 	Function bmx_wxpgproperty_setvalueint(handle:Byte Ptr, value:Int)
 	Function bmx_wxpgproperty_getvalueasarrayint:Int[](handle:Byte Ptr)
 	Function bmx_wxpgproperty_getvalueasarraystring:String[](handle:Byte Ptr)
-	Function bmx_wxpgproperty_getvalueasstring:String(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getvalueasdouble:Double(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getvalueasbool:Int(handle:Byte Ptr)
 	Function bmx_wxpgproperty_getvalueasint:Int(handle:Byte Ptr)

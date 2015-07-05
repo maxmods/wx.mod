@@ -123,9 +123,9 @@ Type wxFrame Extends wxTopLevelWindow
 		End If
 	End Function
 	
-	Function _find:wxFrame(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local frame:wxFrame = wxFrame(wxfind(wxObjectPtr))
+			Local frame:Object = wxfind(wxObjectPtr)
 			If Not frame Then
 				Return wxFrame._create(wxObjectPtr)
 			End If

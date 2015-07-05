@@ -118,14 +118,14 @@ Type wxBookCtrlBase Extends wxControl
 	bbdoc: Returns the currently selected notebook page or Null.
 	End Rem
 	Method GetCurrentPage:wxWindow()
-		Return wxWindow._find(bmx_wxbookctrlbase_getcurrentpage(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxbookctrlbase_getcurrentpage(wxObjectPtr)))
 	End Method
 	
 	Rem
 	bbdoc: Returns the associated image list.
 	End Rem
 	Method GetPage:wxWindow(page:Int)
-		Return wxWindow._find(bmx_wxbookctrlbase_getpage(wxObjectPtr, page))
+		Return wxWindow(wxWindow._find(bmx_wxbookctrlbase_getpage(wxObjectPtr, page)))
 	End Method
 	
 	Rem

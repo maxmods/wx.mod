@@ -56,7 +56,6 @@ Extern
 	Function bmx_wxartprovider_getsizehint(client:String, platformDefault:Int, width:Int Ptr, height:Int Ptr)
 
 	Function bmx_wxartprovider_deleteprovider:Int(provider:Byte Ptr)
-	Function bmx_wxartprovider_insert(provider:Byte Ptr)
 	Function bmx_wxartprovider_pop:Int()
 	Function bmx_wxartprovider_push(provider:Byte Ptr)
 	Function bmx_wxartprovider_remove:Int(provider:Byte Ptr)

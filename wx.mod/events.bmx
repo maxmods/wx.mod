@@ -1002,9 +1002,9 @@ Type wxEvtHandler Extends wxObject
 		End If
 	End Function
 
-	Function _find:wxEvtHandler(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local handler:wxEvtHandler = wxEvtHandler(wxfind(wxObjectPtr))
+			Local handler:Object = wxfind(wxObjectPtr)
 			If Not handler Then
 				Return wxEvtHandler._create(wxObjectPtr)
 			End If

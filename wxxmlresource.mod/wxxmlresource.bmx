@@ -111,9 +111,9 @@ Type wxXmlResource Extends wxObject
 	End Rem
 	Method LoadDialog:wxDialog(parent:wxWindow, name:String)
 		If parent Then
-			Return wxDialog._find(bmx_wxxmlresource_loaddialog(wxObjectPtr, parent.wxObjectPtr, name))
+			Return wxDialog(wxDialog._find(bmx_wxxmlresource_loaddialog(wxObjectPtr, parent.wxObjectPtr, name)))
 		Else
-			Return wxDialog._find(bmx_wxxmlresource_loaddialog(wxObjectPtr, Null, name))
+			Return wxDialog(wxDialog._find(bmx_wxxmlresource_loaddialog(wxObjectPtr, Null, name)))
 		End If
 	End Method
 	
@@ -122,9 +122,9 @@ Type wxXmlResource Extends wxObject
 	End Rem
 	Method LoadFrame:wxFrame(parent:wxWindow, name:String)
 		If parent Then
-			Return wxFrame._find(bmx_wxxmlresource_loadframe(wxObjectPtr, parent.wxObjectPtr, name))
+			Return wxFrame(wxFrame._find(bmx_wxxmlresource_loadframe(wxObjectPtr, parent.wxObjectPtr, name)))
 		Else
-			Return wxFrame._find(bmx_wxxmlresource_loadframe(wxObjectPtr, Null, name))
+			Return wxFrame(wxFrame._find(bmx_wxxmlresource_loadframe(wxObjectPtr, Null, name)))
 		End If
 	End Method
 	
@@ -145,9 +145,9 @@ Type wxXmlResource Extends wxObject
 	End Rem
 	Method LoadMenuBar:wxMenuBar(parent:wxWindow = Null, name:String)
 		If parent Then
-			Return wxMenuBar._find(bmx_wxxmlresource_loadmenubar(wxObjectPtr, parent.wxObjectPtr, name))
+			Return wxMenuBar(wxMenuBar._find(bmx_wxxmlresource_loadmenubar(wxObjectPtr, parent.wxObjectPtr, name)))
 		Else
-			Return wxMenuBar._find(bmx_wxxmlresource_loadmenubar(wxObjectPtr, Null, name))
+			Return wxMenuBar(wxMenuBar._find(bmx_wxxmlresource_loadmenubar(wxObjectPtr, Null, name)))
 		End If
 	End Method
 
@@ -167,9 +167,9 @@ Type wxXmlResource Extends wxObject
 	End Rem
 	Method LoadPanel:wxPanel(parent:wxWindow, name:String)
 		If parent Then
-			Return wxPanel._find(bmx_wxxmlresource_loadpanel(wxObjectPtr, parent.wxObjectPtr, name))
+			Return wxPanel(wxPanel._find(bmx_wxxmlresource_loadpanel(wxObjectPtr, parent.wxObjectPtr, name)))
 		Else
-			Return wxPanel._find(bmx_wxxmlresource_loadpanel(wxObjectPtr, Null, name))
+			Return wxPanel(wxPanel._find(bmx_wxxmlresource_loadpanel(wxObjectPtr, Null, name)))
 		End If
 	End Method
 	
@@ -178,9 +178,9 @@ Type wxXmlResource Extends wxObject
 	End Rem
 	Method LoadToolBar:wxToolBar(parent:wxWindow, name:String)
 		If parent Then
-			Return wxToolBar._find(bmx_wxxmlresource_loadtoolbar(wxObjectPtr, parent.wxObjectPtr, name))
+			Return wxToolBar(wxToolBar._find(bmx_wxxmlresource_loadtoolbar(wxObjectPtr, parent.wxObjectPtr, name)))
 		Else
-			Return wxToolBar._find(bmx_wxxmlresource_loadtoolbar(wxObjectPtr, Null, name))
+			Return wxToolBar(wxToolBar._find(bmx_wxxmlresource_loadtoolbar(wxObjectPtr, Null, name)))
 		End If
 	End Method
 	
@@ -198,7 +198,7 @@ Rem
 bbdoc: Returns pointer to particular control in dialog created using XML resources.
 End Rem
 Function XRCCTRL:wxWindow(parent:wxWindow, id:String)
-	Return wxWindow._find(bmx_wxxmlresource_xrcctrl(parent.wxObjectPtr, id))
+	Return wxWindow(wxWindow._find(bmx_wxxmlresource_xrcctrl(parent.wxObjectPtr, id)))
 End Function
 
 Rem

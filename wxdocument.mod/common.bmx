@@ -64,7 +64,7 @@ Extern
 	Function bmx_wxdocument_getdocumentwindow:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxdocument_getfilename:String(handle:Byte Ptr)
 	Function bmx_wxdocument_getfirstview:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxdocument_getprintablename:String(handle:Byte Ptr)
+	Function bmx_wxdocument_getuserreadablename:String(handle:Byte Ptr)
 	Function bmx_wxdocument_gettitle:String(handle:Byte Ptr)
 	Function bmx_wxdocument_ismodified:Int(handle:Byte Ptr)
 ?Not linux
@@ -131,7 +131,7 @@ Extern
 	Function bmx_wxdocmanager_getlastdirectory:String(handle:Byte Ptr)
 	Function bmx_wxdocmanager_getmaxdocsopen:Int(handle:Byte Ptr)
 	Function bmx_wxdocmanager_gethistoryfilescount:Int(handle:Byte Ptr)
-	Function bmx_wxdocmanager_makedefaultname:String(handle:Byte Ptr)
+	Function bmx_wxdocmanager_makenewdocumentname:String(handle:Byte Ptr)
 	Function bmx_wxdocmanager_removedocument(handle:Byte Ptr, doc:Byte Ptr)
 	Function bmx_wxdocmanager_setlastdirectory(handle:Byte Ptr, dir:String)
 	Function bmx_wxdocmanager_setmaxdocsopen(handle:Byte Ptr, num:Int)

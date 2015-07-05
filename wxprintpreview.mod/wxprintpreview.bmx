@@ -136,7 +136,7 @@ Type wxPrintPreview Extends wxObject
 	bbdoc: Gets the frame used for displaying the print preview canvas and control bar.
 	End Rem
 	Method GetFrame:wxFrame()
-		Return wxFrame._find(bmx_wxprintpreview_getframe(wxObjectPtr))
+		Return wxFrame(wxFrame._find(bmx_wxprintpreview_getframe(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -157,14 +157,14 @@ Type wxPrintPreview Extends wxObject
 	bbdoc: Gets the preview printout object associated with the wxPrintPreview object.
 	End Rem
 	Method GetPrintout:wxPrintout()
-		Return wxPrintout._find(bmx_wxprintpreview_getprintout(wxObjectPtr))
+		Return wxPrintout(wxPrintout._find(bmx_wxprintpreview_getprintout(wxObjectPtr)))
 	End Method
 	
 	Rem
 	bbdoc: Gets the printout object to be used for printing from within the preview interface, or NULL if none exists.
 	End Rem
 	Method GetPrintoutForPrinting:wxPrintout()
-		Return wxPrintout._find(bmx_wxprintpreview_getprintoutforprinting(wxObjectPtr))
+		Return wxPrintout(wxPrintout._find(bmx_wxprintpreview_getprintoutforprinting(wxObjectPtr)))
 	End Method
 	
 	Rem

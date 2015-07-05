@@ -1655,12 +1655,12 @@ wxDragResult wxPageContainer::OnDropTarget(wxCoord x, wxCoord y, int nTabPage, w
 	if(!((wxPageContainer *)wnd_oldContainer)->m_pagesInfoVec[nTabPage].GetEnabled())
 		return wxDragCancel;
 
-	wxLogTrace(wxTraceMask(), _("Old Page Index = %i"), nTabPage);
+	//wxLogTrace(wxTraceMask(), _("Old Page Index = %i"), nTabPage);
 	wxPageContainer * oldContainer = (wxPageContainer *)wnd_oldContainer;
 	int nIndex = -1;
 	wxPageInfo pgInfo;
 	int where = HitTest(wxPoint(x, y), pgInfo, nIndex);
-	wxLogTrace(wxTraceMask(), _("OnDropTarget: index by HitTest = %i"), nIndex);
+	//wxLogTrace(wxTraceMask(), _("OnDropTarget: index by HitTest = %i"), nIndex);
 	wxFlatNotebook * oldNotebook = (wxFlatNotebook *)oldContainer->GetParent();
 	wxFlatNotebook * newNotebook = (wxFlatNotebook *)GetParent();
 

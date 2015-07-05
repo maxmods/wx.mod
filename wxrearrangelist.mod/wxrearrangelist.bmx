@@ -87,9 +87,9 @@ Type wxRearrangeList Extends wxCheckListBox
 		End If
 	End Function
 
-	Function _find:wxRearrangeList(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local list:wxRearrangeList = wxRearrangeList(wxfind(wxObjectPtr))
+			Local list:Object = wxfind(wxObjectPtr)
 			If Not list Then
 				Return wxRearrangeList._create(wxObjectPtr)
 			End If

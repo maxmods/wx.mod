@@ -99,9 +99,9 @@ Type wxPrintout Extends wxObject
 		End If
 	End Function
 
-	Function _find:wxPrintout(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local printout:wxPrintout = wxPrintout(wxfind(wxObjectPtr))
+			Local printout:Object = wxfind(wxObjectPtr)
 			If Not printout Then
 				Return wxPrintout._create(wxObjectPtr)
 			End If

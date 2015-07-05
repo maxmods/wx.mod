@@ -106,9 +106,9 @@ Type wxToolBar Extends wxControl
 		End If
 	End Function
 
-	Function _find:wxToolBar(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local tb:wxToolBar = wxToolBar(wxfind(wxObjectPtr))
+			Local tb:Object = wxfind(wxObjectPtr)
 			If Not tb Then
 				Return wxToolBar._create(wxObjectPtr)
 			End If
@@ -283,10 +283,10 @@ Type wxToolBar Extends wxControl
 	Rem
 	bbdoc: Returns the control identified by id or Null if no corresponding control is found.
 	End Rem
-	Method FindControl:wxControl(id:Int)
+	Method FindControl:Object(id:Int)
 		Local ctrl:Byte Ptr = bmx_wxtoolbar_findcontrol(wxObjectPtr, id)
 		If ctrl Then
-			Local control:wxControl = wxControl(wxfind(ctrl))
+			Local control:Object = wxfind(ctrl)
 			If Not control Then
 				Return wxControl._create(ctrl)
 			End If
@@ -779,7 +779,7 @@ Type wxToolBarToolBase Extends wxObject
 	bbdoc: 
 	End Rem
 	Method GetDropdownMenu:wxMenu()
-		Return wxMenu._find(bmx_wxtoolbartoolbase_getdropdownmenu(wxObjectPtr))
+		Return wxMenu(wxMenu._find(bmx_wxtoolbartoolbase_getdropdownmenu(wxObjectPtr)))
 	End Method
 	
 End Type

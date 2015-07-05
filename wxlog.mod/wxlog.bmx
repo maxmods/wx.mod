@@ -155,16 +155,16 @@ Type wxLog
 	Rem
 	bbdoc: Add the mask to the list of allowed masks for wxLogTrace.
 	End Rem
-	Function AddTraceMask(mask:String)
-		bmx_wxlog_addtracemask(mask)
-	End Function
+	'Function AddTraceMask(mask:String)
+	'	bmx_wxlog_addtracemask(mask)
+	'End Function
 	
 	Rem
 	bbdoc: Removes all trace masks previously set with AddTraceMask.
 	End Rem
-	Function ClearTraceMasks()
-		bmx_wxlog_cleartracemasks()
-	End Function
+	'Function ClearTraceMasks()
+	'	bmx_wxlog_cleartracemasks()
+	'End Function
 	
 	Rem
 	bbdoc: Instructs wxLog to not create new log targets on the fly if there is none currently.
@@ -187,9 +187,9 @@ Type wxLog
 	Rem
 	bbdoc: Returns the currently allowed list of string trace masks.
 	End Rem
-	Function GetTraceMasks:String[]()
-		bmx_wxlog_gettracemasks()
-	End Function
+	'Function GetTraceMasks:String[]()
+	'	bmx_wxlog_gettracemasks()
+	'End Function
 
 	Rem
 	bbdoc: Returns the pointer to the active log target (may be NULL).
@@ -222,9 +222,9 @@ Type wxLog
 	Rem
 	bbdoc: Returns the current trace mask.
 	End Rem
-	Function GetTraceMask:Int()
-		Return bmx_wxlog_gettracemask()
-	End Function
+	'Function GetTraceMask:Int()
+	'	Return bmx_wxlog_gettracemask()
+	'End Function
 	
 	Rem
 	bbdoc: Returns whether the verbose mode is currently active.
@@ -236,16 +236,16 @@ Type wxLog
 	Rem
 	bbdoc: Returns true if the mask is one of allowed masks for wxLogTrace.
 	End Rem
-	Function IsAllowedTraceMask:Int(mask:String)
-		Return bmx_wxlog_isallowedtracemask(mask)
-	End Function
+	'Function IsAllowedTraceMask:Int(mask:String)
+	'	Return bmx_wxlog_isallowedtracemask(mask)
+	'End Function
 	
 	Rem
 	bbdoc: Remove the mask from the list of allowed masks for wxLogTrace.
 	End Rem
-	Function RemoveTraceMask(mask:String)
-		bmx_wxlog_removetracemask(mask)
-	End Function
+	'Function RemoveTraceMask(mask:String)
+	'	bmx_wxlog_removetracemask(mask)
+	'End Function
 
 	Rem
 	bbdoc: Resumes logging previously suspended by a call to Suspend.
@@ -289,9 +289,9 @@ Type wxLog
 	Rem
 	bbdoc: Sets the trace mask.
 	End Rem
-	Function SetTraceMask(mask:Int)
-		bmx_wxlog_settracemask(mask)
-	End Function
+	'Function SetTraceMask(mask:Int)
+	'	bmx_wxlog_settracemask(mask)
+	'End Function
 	
 	Rem
 	bbdoc: Suspends the logging until Resume is called.

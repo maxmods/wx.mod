@@ -151,7 +151,7 @@ Type wxHtmlWindow Extends wxScrolledWindow
 	bbdoc: Returns the related frame.
 	End Rem
 	Method GetRelatedFrame:wxFrame()
-		Return wxFrame._find(bmx_wxhtmlwindow_getrelatedframe(wxObjectPtr))
+		Return wxFrame(wxFrame._find(bmx_wxhtmlwindow_getrelatedframe(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -828,7 +828,7 @@ Type wxHtmlWindowInterface
 	bbdoc: Returns the window used For rendering (May be Null).
 	End Rem
 	Method GetHTMLWindow:wxWindow()
-		Return wxWindow._find(bmx_wxhtmlwindowinterface_gethtmlwindow(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxhtmlwindowinterface_gethtmlwindow(wxObjectPtr)))
 	End Method
 
 	Rem
@@ -950,9 +950,9 @@ Type wxHtmlTag Extends wxObject
 	                   | 
 	</pre>
 	End Rem
-	Method GetBeginPos:Int()
-		Return bmx_wxhtmltag_getbeginpos(wxObjectPtr)
-	End Method
+	'Method GetBeginPos:Int()
+	'	Return bmx_wxhtmltag_getbeginpos(wxObjectPtr)
+	'End Method
 	
 	Rem
 	bbdoc: Returns ending position of the text between this tag and paired ending tag.
@@ -962,9 +962,9 @@ Type wxHtmlTag Extends wxObject
 	                                        | 
 	</pre>
 	End Rem
-	Method GetEndPos1:Int()
-		Return bmx_wxhtmltag_getendpos1(wxObjectPtr)
-	End Method
+	'Method GetEndPos1:Int()
+	'	Return bmx_wxhtmltag_getendpos1(wxObjectPtr)
+	'End Method
 	
 	Rem
 	bbdoc: Returns ending position 2 of the text between this tag and paired ending tag.
@@ -974,9 +974,9 @@ Type wxHtmlTag Extends wxObject
 	                                               | 
 	</pre>
 	End Rem
-	Method GetEndPos2:Int()
-		Return bmx_wxhtmltag_getendpos2(wxObjectPtr)
-	End Method
+	'Method GetEndPos2:Int()
+	'	Return bmx_wxhtmltag_getendpos2(wxObjectPtr)
+	'End Method
 	
 	Rem
 	bbdoc: Returns tag's name.

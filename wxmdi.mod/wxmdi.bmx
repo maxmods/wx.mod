@@ -66,9 +66,9 @@ Type wxMDIParentFrame Extends wxFrame
 		End If
 	End Function
 
-	Function _find:wxMDIParentFrame(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxMDIParentFrame = wxMDIParentFrame(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxMDIParentFrame._create(wxObjectPtr)
 			End If
@@ -164,14 +164,14 @@ Type wxMDIParentFrame Extends wxFrame
 	bbdoc: Returns the active MDI child, if there is one.
 	End Rem
 	Method GetActiveChild:wxMDIChildFrame()
-		Return wxMDIChildFrame._find(bmx_wxmdiparentframe_getactivechild(wxObjectPtr))
+		Return wxMDIChildFrame(wxMDIChildFrame._find(bmx_wxmdiparentframe_getactivechild(wxObjectPtr)))
 	End Method
 	
 	Rem
 	bbdoc: Returns the client window.
 	End Rem
 	Method GetClientWindow:wxMDIClientWindow()
-		Return wxMDIClientWindow._find(bmx_wxmdiparentframe_getclientwindow(wxObjectPtr))
+		Return wxMDIClientWindow(wxMDIClientWindow._find(bmx_wxmdiparentframe_getclientwindow(wxObjectPtr)))
 	End Method
 	
 ?win32
@@ -180,7 +180,7 @@ Type wxMDIParentFrame Extends wxFrame
 	about: This method is available under Windows only.
 	End Rem
 	Method GetWindowMenu:wxMenu()
-		Return wxMenu._find(bmx_wxmdiparentframe_getwindowmenu(wxObjectPtr))
+		Return wxMenu(wxMenu._find(bmx_wxmdiparentframe_getwindowmenu(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -222,9 +222,9 @@ Type wxMDIChildFrame Extends wxFrame
 		End If
 	End Function
 
-	Function _find:wxMDIChildFrame(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxMDIChildFrame = wxMDIChildFrame(wxfind(wxObjectPtr))
+			Local window:Object =wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxMDIChildFrame._create(wxObjectPtr)
 			End If
@@ -289,9 +289,9 @@ Type wxMDIClientWindow Extends wxWindow
 		End If
 	End Function
 
-	Function _find:wxMDIClientWindow(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxMDIClientWindow = wxMDIClientWindow(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxMDIClientWindow._create(wxObjectPtr)
 			End If

@@ -67,9 +67,9 @@ Type wxFileHistory Extends wxObject
 		End If
 	End Function
 
-	Function _find:wxFileHistory(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxFileHistory = wxFileHistory(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxFileHistory._create(wxObjectPtr)
 			End If

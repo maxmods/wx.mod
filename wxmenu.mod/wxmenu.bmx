@@ -93,9 +93,9 @@ Type wxMenu Extends wxEvtHandler
 		End If
 	End Function
 	
-	Function _find:wxMenu(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local menu:wxMenu = wxMenu(wxfind(wxObjectPtr))
+			Local menu:Object = wxfind(wxObjectPtr)
 			If Not menu Then
 				Return _create(wxObjectPtr)
 			End If
@@ -590,7 +590,7 @@ Type wxMenuItem Extends wxObject
 	bbdoc: Returns the menu this menu item is in, or NULL if this menu item is not attached.
 	End Rem
 	Method GetMenu:wxMenu()
-		Return wxMenu._find(bmx_wxmenuitem_getmenu(wxObjectPtr))
+		Return wxMenu(wxMenu._find(bmx_wxmenuitem_getmenu(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -604,7 +604,7 @@ Type wxMenuItem Extends wxObject
 	bbdoc: Returns the submenu associated with the menu item, or NULL if there isn't one.
 	End Rem
 	Method GetSubMenu:wxMenu()
-		Return wxMenu._find(bmx_wxmenuitem_getsubmenu(wxObjectPtr))
+		Return wxMenu(wxMenu._find(bmx_wxmenuitem_getsubmenu(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -762,7 +762,7 @@ Type wxMenuEvent Extends wxEvent
 	returned pointer may be Null in some ports.
 	End Rem
 	Method GetMenu:wxMenu()
-		Return wxMenu._find(bmx_wxmenuevent_getmenu(wxEventPtr))
+		Return wxMenu(wxMenu._find(bmx_wxmenuevent_getmenu(wxEventPtr)))
 	End Method
 	
 	Rem

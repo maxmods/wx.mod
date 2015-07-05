@@ -106,9 +106,9 @@ Extern
 
 	Function bmx_wxhtmltag_delete(handle:Byte Ptr)
 	Function bmx_wxhtmltag_getallparams:String(handle:Byte Ptr)
-	Function bmx_wxhtmltag_getbeginpos:Int(handle:Byte Ptr)
-	Function bmx_wxhtmltag_getendpos1:Int(handle:Byte Ptr)
-	Function bmx_wxhtmltag_getendpos2:Int(handle:Byte Ptr)
+	'Function bmx_wxhtmltag_getbeginpos:Int(handle:Byte Ptr)
+	'Function bmx_wxhtmltag_getendpos1:Int(handle:Byte Ptr)
+	'Function bmx_wxhtmltag_getendpos2:Int(handle:Byte Ptr)
 	Function bmx_wxhtmltag_getname:String(handle:Byte Ptr)
 	Function bmx_wxhtmltag_getparam:String(handle:Byte Ptr, par:String, withCommas:Int)
 	Function bmx_wxhtmltag_getparamascolour:Byte Ptr(handle:Byte Ptr, par:String)

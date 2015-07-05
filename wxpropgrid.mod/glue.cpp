@@ -303,7 +303,7 @@ wxObject * MaxPropertyGridXmlHandler::DoCreateResource()
     if ( nodeName == wxT("property") )
     {
         // property
-        wxString clas = wxXML_GetAttribute(node, wxT("class"), emptyString);
+        wxString clas = node->GetAttribute(wxT("class"), emptyString);
 
         wxString label;
         wxString sLabel(wxT("label"));
@@ -502,7 +502,7 @@ bool MaxPropertyGridXmlHandler::CanHandle(wxXmlNode *node)
 BEGIN_EVENT_TABLE(MaxPropertyGrid, wxPropertyGrid)
 END_EVENT_TABLE()
 
-wxPropertyGrid * bmx_wxpropertygrid_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+wxPropertyGrid * bmx_wxpropertygrid_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxPropertyGrid(handle, parent, id, x, y, w, h, style);
 }
 
@@ -761,7 +761,7 @@ wxIntProperty * bmx_wxintproperty_create(BBObject * handle, BBString * label, BB
 
 // *********************************************
 
-wxUIntProperty * bmx_wxuintproperty_create(BBObject * handle, BBString * label, BBString * name, unsigned long value) {
+wxUIntProperty * bmx_wxuintproperty_create(BBObject * handle, BBString * label, BBString * name, int value) {
 	return new MaxUIntProperty(handle, 
 		(label != &bbEmptyString) ? wxStringFromBBString(label) : wxT("_LABEL_AS_NAME"),
 		(name != &bbEmptyString) ? wxStringFromBBString(name) : wxStringFromBBString(label),
@@ -980,11 +980,11 @@ double bmx_wxpropertygrid_getpropertyvalueasdoublebyname(wxPropertyGrid * grid, 
 	return grid->GetPropertyValue(wxStringFromBBString(name)).GetDouble();
 }
 
-long bmx_wxpropertygrid_getpropertyvalueasint(wxPropertyGrid * grid, wxPGProperty * prop) {
+int bmx_wxpropertygrid_getpropertyvalueasint(wxPropertyGrid * grid, wxPGProperty * prop) {
 	return grid->GetPropertyValue(prop).GetLong();
 }
 
-long bmx_wxpropertygrid_getpropertyvalueasintbyname(wxPropertyGrid * grid, BBString * name) {
+int bmx_wxpropertygrid_getpropertyvalueasintbyname(wxPropertyGrid * grid, BBString * name) {
 	return grid->GetPropertyValue(wxStringFromBBString(name)).GetLong();
 }
 
@@ -1776,8 +1776,8 @@ MaxColour * bmx_wxpgproperty_getvalueascolour(wxPGProperty * prop) {
 	return new MaxColour(c);
 }
 
-BBString * bmx_wxpgproperty_getvaluestring(wxPGProperty * prop, int argFlags) {
-	return bbStringFromWxString(prop->GetValueString(argFlags));
+BBString * bmx_wxpgproperty_getvalueasstring(wxPGProperty * prop, int argFlags) {
+	return bbStringFromWxString(prop->GetValueAsString(argFlags));
 }
 
 int bmx_wxpgproperty_gety(wxPGProperty * prop) {
@@ -1864,7 +1864,7 @@ int bmx_wxpgproperty_setmaxlength(wxPGProperty * prop, int maxLen) {
 	return static_cast<int>(prop->SetMaxLength(maxLen));
 }
 
-long bmx_wxpgproperty_getattributeasint(wxPGProperty * prop, BBString * name, long defVal) {
+int bmx_wxpgproperty_getattributeasint(wxPGProperty * prop, BBString * name, int defVal) {
 	return prop->GetAttributeAsLong(wxStringFromBBString(name), defVal);
 }
 
@@ -2012,10 +2012,6 @@ BBArray * bmx_wxpgproperty_getvalueasarraystring(wxPGProperty * prop) {
 	return wxArrayStringToBBStringArray(prop->GetValue().GetArrayString());
 }
 
-BBString * bmx_wxpgproperty_getvalueasstring(wxPGProperty * prop) {
-	return bbStringFromWxString(prop->GetValue().GetString());
-}
-
 double bmx_wxpgproperty_getvalueasdouble(wxPGProperty * prop) {
 	return prop->GetValue().GetDouble();
 }
@@ -2024,7 +2020,7 @@ int bmx_wxpgproperty_getvalueasbool(wxPGProperty * prop) {
 	return static_cast<int>(prop->GetValue().GetBool());
 }
 
-long bmx_wxpgproperty_getvalueasint(wxPGProperty * prop) {
+int bmx_wxpgproperty_getvalueasint(wxPGProperty * prop) {
 	return prop->GetValue().GetLong();
 }
 
@@ -2086,7 +2082,7 @@ int bmx_wxpgproperty_usesautounspecified(wxPGProperty * prop) {
 
 // *********************************************
 
-long bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop) {
+int bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop) {
 	return prop->GetDatePickerStyle();
 }
 
@@ -2201,7 +2197,7 @@ double bmx_wxpropertygridevent_getvalueasdouble(wxPropertyGridEvent & event) {
 	return event.GetValue().GetDouble();
 }
 
-long bmx_wxpropertygridevent_getvalueasint(wxPropertyGridEvent & event) {
+int bmx_wxpropertygridevent_getvalueasint(wxPropertyGridEvent & event) {
 	return event.GetValue().GetLong();
 }
 

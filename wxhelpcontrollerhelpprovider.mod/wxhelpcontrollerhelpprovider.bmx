@@ -85,7 +85,7 @@ Type wxHelpControllerHelpProvider Extends wxSimpleHelpProvider
 	bbdoc: Returns the help controller associated with this help provider.
 	End Rem
 	Method GetHelpController:wxHelpControllerBase()
-		Return wxHelpControllerBase._find(bmx_wxhelpcontrollerhelpprovider_gethelpcontroller(wxObjectPtr))
+		Return wxHelpControllerBase(wxHelpControllerBase._find(bmx_wxhelpcontrollerhelpprovider_gethelpcontroller(wxObjectPtr)))
 	End Method
 
 End Type

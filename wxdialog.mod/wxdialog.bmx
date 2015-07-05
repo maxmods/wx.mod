@@ -91,9 +91,9 @@ Type wxDialog Extends wxTopLevelWindow
 		End If
 	End Function
 
-	Function _find:wxDialog(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local dialog:wxDialog = wxDialog(wxfind(wxObjectPtr))
+			Local dialog:Object = wxfind(wxObjectPtr)
 			If Not dialog Then
 				Return wxDialog._create(wxObjectPtr)
 			End If
@@ -149,7 +149,7 @@ Type wxDialog Extends wxTopLevelWindow
 	</p>
 	End Rem
 	Method CreateButtonSizer:wxSizer(flags:Int)
-		Return wxSizer._find(bmx_wxdialog_createbuttonsizer(wxObjectPtr, flags))
+		Return wxSizer(wxSizer._find(bmx_wxdialog_createbuttonsizer(wxObjectPtr, flags)))
 	End Method
 	
 	Rem
@@ -158,7 +158,7 @@ Type wxDialog Extends wxTopLevelWindow
 	no buttons were created.
 	End Rem
 	Method CreateSeparatedButtonSizer:wxSizer(flags:Int)
-		Return wxSizer._find(bmx_wxdialog_createseparatedbuttonsizer(wxObjectPtr, flags))
+		Return wxSizer(wxSizer._find(bmx_wxdialog_createseparatedbuttonsizer(wxObjectPtr, flags)))
 	End Method
 	
 	Rem

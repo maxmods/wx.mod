@@ -85,9 +85,9 @@ Type wxTreeListCtrl Extends wxControl
 		End If
 	End Function
 
-	Function _find:wxTreeListCtrl(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxTreeListCtrl = wxTreeListCtrl(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxTreeListCtrl._create(wxObjectPtr)
 			End If

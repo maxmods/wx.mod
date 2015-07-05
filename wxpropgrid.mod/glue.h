@@ -57,7 +57,7 @@ extern "C" {
 	wxPGProperty * CB_PREF(wx_wxpropgrid_wxPropertyGrid__getProperty)(BBArray * props, int i);
 	BBObject * CB_PREF(wx_wxpropgrid_wxPropertyGrid__xrcNew)(wxPropertyGrid * grid);
 
-	wxPropertyGrid * bmx_wxpropertygrid_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	wxPropertyGrid * bmx_wxpropertygrid_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	wxPGProperty * bmx_wxpropertycontainermethods_append(wxPropertyGridInterface * prop, wxPGProperty * property);
 	wxPropertyGrid * bmx_wxpropertygrid_getgrid(wxPropertyGrid * grid);
 	wxPGProperty * bmx_wxpropertygrid_append(wxPropertyGrid * prop, wxPGProperty * property);
@@ -93,7 +93,7 @@ extern "C" {
 	void bmx_wxpropertygriditeratorbase_setbaseparent(wxPropertyGridIteratorBase * iter, wxPGProperty * baseParent);
 
 	wxIntProperty * bmx_wxintproperty_create(BBObject * handle, BBString * label, BBString * name, int value);
-	wxUIntProperty * bmx_wxuintproperty_create(BBObject * handle, BBString * label, BBString * name, unsigned long value);
+	wxUIntProperty * bmx_wxuintproperty_create(BBObject * handle, BBString * label, BBString * name, int value);
 	wxFloatProperty * bmx_wxdoubleproperty_create(BBObject * handle, BBString * label, BBString * name, double value);
 	wxBoolProperty * bmx_wxboolproperty_create(BBObject * handle, BBString * label, BBString * name, int value);
 	wxFlagsProperty * bmx_wxflagsproperty_create(BBObject * handle, BBString * label, BBString * name, BBArray * labels, BBArray * values, int value);
@@ -160,8 +160,8 @@ extern "C" {
 	MaxDateTime * bmx_wxpropertygrid_getpropertyvalueasdatetimebyname(wxPropertyGrid * grid, BBString * name);
 	double bmx_wxpropertygrid_getpropertyvalueasdouble(wxPropertyGrid * grid, wxPGProperty * prop);
 	double bmx_wxpropertygrid_getpropertyvalueasdoublebyname(wxPropertyGrid * grid, BBString * name);
-	long bmx_wxpropertygrid_getpropertyvalueasint(wxPropertyGrid * grid, wxPGProperty * prop);
-	long bmx_wxpropertygrid_getpropertyvalueasintbyname(wxPropertyGrid * grid, BBString * name);
+	int bmx_wxpropertygrid_getpropertyvalueasint(wxPropertyGrid * grid, wxPGProperty * prop);
+	int bmx_wxpropertygrid_getpropertyvalueasintbyname(wxPropertyGrid * grid, BBString * name);
 	void bmx_wxpropertygrid_getpropertyvalueaslong(wxPropertyGrid * grid, wxPGProperty * prop, BBInt64 * value);
 	void bmx_wxpropertygrid_getpropertyvalueaslongbyname(wxPropertyGrid * grid, BBString * name, BBInt64 * value);
 	void bmx_wxpropertygrid_getpropertyvalueaspoint(wxPropertyGrid * grid, wxPGProperty * prop, int * x, int * y);
@@ -229,7 +229,7 @@ extern "C" {
 	unsigned int bmx_wxpgproperty_getdepth(wxPGProperty * prop);
 	int bmx_wxpgproperty_getdisplayedcommonvaluecount(wxPGProperty * prop);
 	MaxColour * bmx_wxpgproperty_getvalueascolour(wxPGProperty * prop);
-	BBString * bmx_wxpgproperty_getvaluestring(wxPGProperty * prop, int argFlags);
+	BBString * bmx_wxpgproperty_getvalueasstring(wxPGProperty * prop, int argFlags);
 	int bmx_wxpgproperty_gety(wxPGProperty * prop);
 	int bmx_wxpgproperty_hasflag(wxPGProperty * prop, int flag);
 	int bmx_wxpgproperty_hide(wxPGProperty * prop, int hide);
@@ -251,7 +251,7 @@ extern "C" {
 	void bmx_wxpgproperty_sethelpstring(wxPGProperty * prop, BBString * helpString);
 	void bmx_wxpgproperty_setlabel(wxPGProperty * prop, BBString * label);
 	int bmx_wxpgproperty_setmaxlength(wxPGProperty * prop, int maxLen);
-	long bmx_wxpgproperty_getattributeasint(wxPGProperty * prop, BBString * name, long defVal);
+	int bmx_wxpgproperty_getattributeasint(wxPGProperty * prop, BBString * name, int defVal);
 	BBString * bmx_wxpgproperty_getattributeasstring(wxPGProperty * prop, BBString * name, BBString * defVal);
 	double bmx_wxpgproperty_getattributeasdouble(wxPGProperty * prop, BBString * name);
 	void bmx_wxpgproperty_getattributeaslong(wxPGProperty * prop, BBString * name, BBInt64 * value);
@@ -285,10 +285,9 @@ extern "C" {
 	void bmx_wxpgproperty_setvalueint(wxPGProperty * prop, int value);
 	BBArray * bmx_wxpgproperty_getvalueasarrayint(wxPGProperty * prop);
 	BBArray * bmx_wxpgproperty_getvalueasarraystring(wxPGProperty * prop);
-	BBString * bmx_wxpgproperty_getvalueasstring(wxPGProperty * prop);
 	double bmx_wxpgproperty_getvalueasdouble(wxPGProperty * prop);
 	int bmx_wxpgproperty_getvalueasbool(wxPGProperty * prop);
-	long bmx_wxpgproperty_getvalueasint(wxPGProperty * prop);
+	int bmx_wxpgproperty_getvalueasint(wxPGProperty * prop);
 	void bmx_wxpgproperty_getvalueaslong(wxPGProperty * prop, BBInt64 * value);
 	void bmx_wxpgproperty_getvalueaspoint(wxPGProperty * prop, int * x, int * y);
 	void bmx_wxpgproperty_getvalueassize(wxPGProperty * prop, int * w, int * h);
@@ -300,7 +299,7 @@ extern "C" {
 	void bmx_wxpgproperty_setvaluetounspecified(wxPGProperty * prop);
 	int bmx_wxpgproperty_usesautounspecified(wxPGProperty * prop);
 
-	long bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop);
+	int bmx_wxdateproperty_getdatepickerstyle(wxDateProperty * prop);
 	MaxDateTime * bmx_wxdateproperty_getdatevalue(wxDateProperty * prop);
 	BBString * bmx_wxdateproperty_getformat(wxDateProperty * prop);
 	void bmx_wxdateproperty_setdatevalue(wxDateProperty * prop, MaxDateTime * dt);
@@ -328,7 +327,7 @@ extern "C" {
 	BBArray * bmx_wxpropertygridevent_getvalueasarraystring(wxPropertyGridEvent & event);
 	int bmx_wxpropertygridevent_getvalueasbool(wxPropertyGridEvent & event);
 	double bmx_wxpropertygridevent_getvalueasdouble(wxPropertyGridEvent & event);
-	long bmx_wxpropertygridevent_getvalueasint(wxPropertyGridEvent & event);
+	int bmx_wxpropertygridevent_getvalueasint(wxPropertyGridEvent & event);
 	void bmx_wxpropertygridevent_getvalueaspoint(wxPropertyGridEvent & event, int * x, int * y);
 	void bmx_wxpropertygridevent_getvalueassize(wxPropertyGridEvent & event, int * w, int * h);
 	BBString * bmx_wxpropertygridevent_getvalueasstring(wxPropertyGridEvent & event);

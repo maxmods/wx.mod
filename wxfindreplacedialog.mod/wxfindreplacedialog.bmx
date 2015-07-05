@@ -85,9 +85,9 @@ Type wxFindReplaceDialog Extends wxDialog
 		End If
 	End Function
 
-	Function _find:wxFindReplaceDialog(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local dialog:wxFindReplaceDialog = wxFindReplaceDialog(wxfind(wxObjectPtr))
+			Local dialog:Object = wxfind(wxObjectPtr)
 			If Not dialog Then
 				Return wxFindReplaceDialog._create(wxObjectPtr)
 			End If
@@ -235,7 +235,7 @@ Type wxFindDialogEvent Extends wxCommandEvent
 	bbdoc: Return the dialog which generated this event.
 	End Rem
 	Method GetDialog:wxFindReplaceDialog()
-		Return wxFindReplaceDialog._find(bmx_wxfinddialogevent_getdialog(wxEventPtr))
+		Return wxFindReplaceDialog(wxFindReplaceDialog._find(bmx_wxfinddialogevent_getdialog(wxEventPtr)))
 	End Method
 	
 End Type

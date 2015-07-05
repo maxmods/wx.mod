@@ -40,31 +40,31 @@ extern "C" {
 	void bmx_wxlogverbose(BBString * message);
 	void bmx_wxlogstatus(BBString * message, wxFrame * frame);
 	void bmx_wxsafeshowmessage(BBString * message);
-	unsigned long bmx_wxsyserrorcode();
-	BBString * bmx_wxsyserrormsg(unsigned long code);
+	int bmx_wxsyserrorcode();
+	BBString * bmx_wxsyserrormsg(int code);
 
 	void bmx_wxlog_delete(wxLog * logger);
 	wxLog * bmx_wxlogtextctrl_create(BBObject * handle, wxTextCtrl * textctrl);
 	wxLog * bmx_wxlog_setactivetarget(wxLog * log);
 	void bmx_wxlog_settimestamp(BBString * format);
 
-	void bmx_wxlog_addtracemask(BBString * mask);
-	void bmx_wxlog_cleartracemasks();
+	//void bmx_wxlog_addtracemask(BBString * mask);
+	//void bmx_wxlog_cleartracemasks();
 	void bmx_wxlog_dontcreateondemand();
 	void bmx_wxlog_flushactive();
-	BBArray * bmx_wxlog_gettracemasks();
+	//BBArray * bmx_wxlog_gettracemasks();
 	wxLog * bmx_wxlog_getactivetarget();
 	wxLogLevel bmx_wxlog_getloglevel();
 	int bmx_wxlog_getrepetitioncounting();
 	BBString * bmx_wxlog_gettimestamp();
-	wxTraceMask bmx_wxlog_gettracemask();
+	//wxTraceMask bmx_wxlog_gettracemask();
 	int bmx_wxlog_getverbose();
-	int bmx_wxlog_isallowedtracemask(BBString * mask);
-	void bmx_wxlog_removetracemask(BBString * mask);
+	//int bmx_wxlog_isallowedtracemask(BBString * mask);
+	//void bmx_wxlog_removetracemask(BBString * mask);
 	void bmx_wxlog_resume();
 	void bmx_wxlog_setloglevel(wxLogLevel level);
 	void bmx_wxlog_setrepetitioncounting(int repetCounting);
-	void bmx_wxlog_settracemask(wxTraceMask mask);
+	//void bmx_wxlog_settracemask(wxTraceMask mask);
 	void bmx_wxlog_suspend();
 	void bmx_wxlog_setverbose(int verbose);
 

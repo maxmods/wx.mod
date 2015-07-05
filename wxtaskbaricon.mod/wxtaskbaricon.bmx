@@ -79,9 +79,9 @@ Type wxTaskBarIcon Extends wxEvtHandler
 		End If
 	End Function
 	
-	Function _find:wxTaskBarIcon(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local taskBarIcon:wxTaskBarIcon = wxTaskBarIcon(wxfind(wxObjectPtr))
+			Local taskBarIcon:Object = wxfind(wxObjectPtr)
 			If Not taskBarIcon Then
 				Return _create(wxObjectPtr)
 			End If

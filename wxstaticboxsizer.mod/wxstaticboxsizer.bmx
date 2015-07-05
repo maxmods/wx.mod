@@ -91,7 +91,7 @@ Type wxStaticBoxSizer Extends wxBoxSizer
 	bbdoc: Returns the static box associated with the sizer.
 	End Rem
 	Method GetStaticBox:wxStaticBox()
-		Return wxStaticBox._find(bmx_wxstaticboxsizer_getstaticbox(wxSizerPtr))
+		Return wxStaticBox(wxStaticBox._find(bmx_wxstaticboxsizer_getstaticbox(wxSizerPtr)))
 	End Method
 	
 End Type

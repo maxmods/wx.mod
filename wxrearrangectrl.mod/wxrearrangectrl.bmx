@@ -65,9 +65,9 @@ Type wxRearrangeCtrl Extends wxPanel
 		End If
 	End Function
 
-	Function _find:wxRearrangeCtrl(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local ctl:wxRearrangeCtrl = wxRearrangeCtrl(wxfind(wxObjectPtr))
+			Local ctl:Object = wxfind(wxObjectPtr)
 			If Not ctl Then
 				Return wxRearrangeCtrl._create(wxObjectPtr)
 			End If
@@ -97,7 +97,7 @@ Type wxRearrangeCtrl Extends wxPanel
 	bbdoc: Returns the listbox which is the main part of this control. 
 	End Rem
 	Method GetList:wxRearrangeList()
-		Return wxRearrangeList._find(bmx_wxrearrangectrl_getlist(wxObjectPtr))
+		Return wxRearrangeList(wxRearrangeList._find(bmx_wxrearrangectrl_getlist(wxObjectPtr)))
 	End Method
 
 End Type

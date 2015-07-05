@@ -64,9 +64,9 @@ Type wxHelpControllerBase Extends wxObject
 		End If
 	End Function
 
-	Function _find:wxHelpControllerBase(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local controller:wxHelpControllerBase = wxHelpControllerBase(wxfind(wxObjectPtr))
+			Local controller:Object = wxfind(wxObjectPtr)
 			If Not controller Then
 				Return wxHelpControllerBase._create(wxObjectPtr)
 			End If
@@ -102,7 +102,7 @@ Type wxHelpControllerBase Extends wxObject
 	End Method
 	
 	Method GetParentWindow:wxWindow()
-		Return wxWindow._find(bmx_wxhelpcontrollerbase_getparentwindow(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxhelpcontrollerbase_getparentwindow(wxObjectPtr)))
 	End Method
 	
 	Method Quit:Int()
@@ -117,8 +117,8 @@ Type wxHelpControllerBase Extends wxObject
 	Important: KeywordSearch searches only pages listed in .hhc file(s). You should list all pages in the contents file.
 	</p>
 	End Rem
-	Method KeywordSearch:Int(keyword:String, mode:Int = wxHELP_SEARCH_ALL)
-		Return bmx_wxhelpcontrollerbase_keywordsearch(wxObjectPtr, keyword, mode)
+	Method KeywordSearch:Int(keyword:String, Mode:Int = wxHELP_SEARCH_ALL)
+		Return bmx_wxhelpcontrollerbase_keywordsearch(wxObjectPtr, keyword, Mode)
 	End Method
 
 	Rem

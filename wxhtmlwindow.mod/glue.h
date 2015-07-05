@@ -49,7 +49,7 @@ extern "C" {
 	BBString * CB_PREF(wx_wxhtmlwindow_wxHtmlTagHandler__GetSupportedTags)(BBObject * handle);
 
 	MaxHtmlWindow * bmx_wxhtmlwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	int bmx_wxhtmlwindow_setpage(wxHtmlWindow * window, BBString * source);
 
 	int bmx_wxhtmlwindow_appendtopage(wxHtmlWindow * window, BBString * source);
@@ -99,9 +99,9 @@ extern "C" {
 
 	void bmx_wxhtmltag_delete(MaxHtmlTag * tag);
 	BBString * bmx_wxhtmltag_getallparams(MaxHtmlTag * tag);
-	int bmx_wxhtmltag_getbeginpos(MaxHtmlTag * tag);
-	int bmx_wxhtmltag_getendpos1(MaxHtmlTag * tag);
-	int bmx_wxhtmltag_getendpos2(MaxHtmlTag * tag);
+	//int bmx_wxhtmltag_getbeginpos(MaxHtmlTag * tag);
+	//int bmx_wxhtmltag_getendpos1(MaxHtmlTag * tag);
+	//int bmx_wxhtmltag_getendpos2(MaxHtmlTag * tag);
 	BBString * bmx_wxhtmltag_getname(MaxHtmlTag * tag);
 	BBString * bmx_wxhtmltag_getparam(MaxHtmlTag * tag, BBString * par, int withCommas);
 	MaxColour * bmx_wxhtmltag_getparamascolour(MaxHtmlTag * tag, BBString * par);

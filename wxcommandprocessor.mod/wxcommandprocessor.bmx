@@ -64,9 +64,9 @@ Type wxCommandProcessor Extends wxObject
 		End If
 	End Function
 
-	Function _find:wxCommandProcessor(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxCommandProcessor = wxCommandProcessor(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxCommandProcessor._create(wxObjectPtr)
 			End If
@@ -78,13 +78,13 @@ Type wxCommandProcessor Extends wxObject
 	bbdoc: 
 	End Rem
 	Function CreateCommandProcessor:wxCommandProcessor(maxCommands:Int = -1)
-		Return New wxCommandProcessor.create(maxCommands)
+		Return New wxCommandProcessor.Create(maxCommands)
 	End Function
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method create:wxCommandProcessor(maxCommands:Int = -1)
+	Method Create:wxCommandProcessor(maxCommands:Int = -1)
 		wxObjectPtr = bmx_wxcommandprocessor_create(Self, maxCommands)
 		Return Self
 	End Method
@@ -128,7 +128,7 @@ Type wxCommandProcessor Extends wxObject
 	bbdoc: Returns the edit menu associated with the command processor.
 	End Rem
 	Method GetEditMenu:wxMenu()
-		Return wxMenu._find(bmx_wxcommandprocessor_geteditmenu(wxObjectPtr))
+		Return wxMenu(wxMenu._find(bmx_wxcommandprocessor_geteditmenu(wxObjectPtr)))
 	End Method
 	
 	Rem

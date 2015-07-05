@@ -65,9 +65,9 @@ Type wxSound Extends wxObject
 		End If
 	End Function
 	
-	Function _find:wxSound(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local sound:wxSound = wxSound(wxfind(wxObjectPtr))
+			Local sound:Object = wxfind(wxObjectPtr)
 			If Not sound Then
 				Return _create(wxObjectPtr)
 			End If

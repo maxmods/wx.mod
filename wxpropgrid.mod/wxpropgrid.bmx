@@ -589,9 +589,9 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Function
 
-	Function _find:wxPropertyGrid(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local grid:wxPropertyGrid = wxPropertyGrid(wxfind(wxObjectPtr))
+			Local grid:Object = wxfind(wxObjectPtr)
 			If Not grid Then
 				Return wxPropertyGrid._create(wxObjectPtr)
 			End If
@@ -856,7 +856,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 '	about: Dummy Method that enables same kind of code To use wxPropertyGrid And wxPropertyGridManager.
 '	End Rem
 	Method GetGrid:wxPropertyGrid()
-		Return _find(bmx_wxpropertygrid_getgrid(wxObjectptr))
+		Return wxPropertyGrid(_find(bmx_wxpropertygrid_getgrid(wxObjectptr)))
 	End Method
 	
 	Method GetLineColour:wxColour()
@@ -945,7 +945,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 
 	
 	Method GetFirst:wxPGProperty(flags:Int)
-		Return wxPGProperty._find(bmx_wxpropertygrid_getfirst(wxObjectPtr, flags))
+		Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_getfirst(wxObjectPtr, flags)))
 	End Method
 	
 	Method GetIterator:wxPropertyGridIterator(flags:Int, firstProp:wxPGProperty = Null)
@@ -961,7 +961,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Function
 	
 	Function _addProperty(arr:wxPGProperty[], index:Int, prop:Byte Ptr)
-		arr[index] = wxPGProperty._find(prop)
+		arr[index] = wxPGProperty(wxPGProperty._find(prop))
 	End Function
 
 	Function _getProperty:Byte Ptr(arr:wxPGProperty[], index:Int)
@@ -969,18 +969,18 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Function
 	
 	Method GetPropertyBySubName:wxPGProperty(name:String, subName:String)
-		Return wxPGProperty._find(bmx_wxpropertygrid_getpropertybysubname(wxObjectPtr, name, subName))
+		Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_getpropertybysubname(wxObjectPtr, name, subName)))
 	End Method
 	
 	Method GetPropertyByName:wxPGProperty(name:String)
-		Return wxPGProperty._find(bmx_wxpropertygrid_getpropertybyname(wxObjectPtr, name))
+		Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_getpropertybyname(wxObjectPtr, name)))
 	End Method
 	
 	Method GetPropertyCategory:wxPropertyCategory(prop:Object)
 		If wxPGProperty(prop) Then
-			Return wxPropertyCategory._find(bmx_wxpropertygrid_getpropertycategory(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+			Return wxPropertyCategory(wxPropertyCategory._find(bmx_wxpropertygrid_getpropertycategory(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)))
 		Else If String(prop) Then
-			Return wxPropertyCategory._find(bmx_wxpropertygrid_getpropertycategorybyname(wxObjectPtr, String(prop)))
+			Return wxPropertyCategory(wxPropertyCategory._find(bmx_wxpropertygrid_getpropertycategorybyname(wxObjectPtr, String(prop))))
 		End If
 	End Method
 	
@@ -1002,7 +1002,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 
 	Method GetPropertyEditor:wxPGEditor(prop:Object)
 		If wxPGProperty(prop) Then
-			Return wxPGEditor._find(bmx_wxpropertygrid_getpropertyeditor(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+			Return wxPGEditor(wxPGEditor._find(bmx_wxpropertygrid_getpropertyeditor(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)))
 		Else If String(prop) Then
 		' TODO
 		End If
@@ -1040,7 +1040,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 
 	Method GetPropertyParent:wxPGProperty(prop:Object)
 		If wxPGProperty(prop) Then
-			Return wxPGProperty._find(bmx_wxpropertygrid_getpropertyparent(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+			Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_getpropertyparent(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)))
 		Else If String(prop) Then
 		' TODO
 		End If
@@ -1048,7 +1048,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 
 	Method GetPropertyPtr:wxPGProperty(prop:Object)
 		If wxPGProperty(prop) Then
-			Return wxPGProperty._find(bmx_wxpropertygrid_getpropertyptr(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
+			Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_getpropertyptr(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)))
 		Else If String(prop) Then
 		' TODO
 		End If
@@ -1156,7 +1156,7 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	End Method
 	
 	Method GetSelection:wxPGProperty()
-		Return wxPGProperty._find(bmx_wxpropertygrid_getselection(wxObjectPtr))
+		Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_getselection(wxObjectPtr)))
 	End Method
 	
 	Method GetState:wxPropertyGridState()
@@ -1173,9 +1173,9 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	
 	Method Insert:wxPGProperty(parent:Object, index:Int, newproperty:wxPGProperty)
 		If wxPGProperty(parent) Then
-			Return wxPGProperty._find(bmx_wxpropertygrid_insert(wxObjectPtr, wxPGProperty(parent).wxObjectPtr, index, newproperty.wxObjectPtr))
+			Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_insert(wxObjectPtr, wxPGProperty(parent).wxObjectPtr, index, newproperty.wxObjectPtr)))
 		Else If String(parent) Then
-			Return wxPGProperty._find(bmx_wxpropertygrid_insertbyname(wxObjectPtr, String(parent), index, newproperty.wxObjectPtr))
+			Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_insertbyname(wxObjectPtr, String(parent), index, newproperty.wxObjectPtr)))
 		End If
 	End Method
 	
@@ -1256,9 +1256,9 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 	
 	Method ReplaceProperty:wxPGProperty(prop:Object, property:wxPGProperty)
 		If wxPGProperty(prop) Then
-			Return wxPGProperty._find(bmx_wxpropertygrid_replaceproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, property.wxObjectPtr))
+			Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_replaceproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, property.wxObjectPtr)))
 		Else If String(prop) Then
-			Return wxPGProperty._find(bmx_wxpropertygrid_replacepropertybyname(wxObjectPtr, String(prop), property.wxObjectPtr))
+			Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_replacepropertybyname(wxObjectPtr, String(prop), property.wxObjectPtr)))
 		End If
 	End Method
 	
@@ -1541,9 +1541,9 @@ Type wxPGProperty Extends wxObject
 		End If
 	End Function
 
-	Function _find:wxPGProperty(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local prop:wxPGProperty = wxPGProperty(wxfind(wxObjectPtr))
+			Local prop:Object = wxfind(wxObjectPtr)
 			If Not prop Then
 				Return wxPGProperty._create(wxObjectPtr)
 			End If
@@ -1886,13 +1886,6 @@ Type wxPGProperty Extends wxObject
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetValueAsString:String()
-		Return bmx_wxpgproperty_getvalueasstring(wxObjectPtr)
-	End Method
-	
-	Rem
-	bbdoc: 
-	End Rem
 	Method GetValueAsDouble:Double()
 		Return bmx_wxpgproperty_getvalueasdouble(wxObjectPtr)
 	End Method
@@ -1959,8 +1952,8 @@ Type wxPGProperty Extends wxObject
 	property string value.</li>
 	</ul>
 	End Rem
-	Method GetValueString:String(argFlags:Int = 0)
-		Return bmx_wxpgproperty_getvaluestring(wxObjectPtr, argFlags)
+	Method GetValueAsString:String(argFlags:Int = 0)
+		Return bmx_wxpgproperty_getvalueasstring(wxObjectPtr, argFlags)
 	End Method
 	
 	Rem
@@ -2636,9 +2629,9 @@ Type wxPropertyCategory Extends wxPGPropertyWithChildren
 		End If
 	End Function
 
-	Function _find:wxPropertyCategory(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local prop:wxPropertyCategory = wxPropertyCategory(wxfind(wxObjectPtr))
+			Local prop:Object = wxfind(wxObjectPtr)
 			If Not prop Then
 				Return wxPropertyCategory._create(wxObjectPtr)
 			End If
@@ -3325,9 +3318,9 @@ Type wxPGEditor Extends wxObject
 		End If
 	End Function
 
-	Function _find:wxPGEditor(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local prop:wxPGEditor = wxPGEditor(wxfind(wxObjectPtr))
+			Local prop:Object = wxfind(wxObjectPtr)
 			If Not prop Then
 				Return wxPGEditor._create(wxObjectPtr)
 			End If
@@ -3455,14 +3448,14 @@ Type wxPropertyGridEvent Extends wxCommandEvent
 	bbdoc: 
 	End Rem
 	Method GetMainParent:wxPGProperty()
-		Return wxPGProperty._find(bmx_wxpropertygridevent_getmainparent(wxEventPtr))
+		Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygridevent_getmainparent(wxEventPtr)))
 	End Method
 	
 	Rem
 	bbdoc: Returns associated property. 
 	End Rem
 	Method GetProperty:wxPGProperty()
-		Return wxPGProperty._find(bmx_wxpropertygridevent_getproperty(wxEventPtr))
+		Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygridevent_getproperty(wxEventPtr)))
 	End Method
 	
 '	Rem

@@ -65,9 +65,9 @@ Type wxControl Extends wxWindow
 		End If
 	End Function
 
-	Function _find:wxControl(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local control:wxControl = wxControl(wxfind(wxObjectPtr))
+			Local control:Object = wxfind(wxObjectPtr)
 			If Not control Then
 				Return wxControl._create(wxObjectPtr)
 			End If

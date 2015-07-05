@@ -162,14 +162,14 @@ Type wxFlatNotebook Extends wxPanel
 	bbdoc: Returns the window object associated with selected notebook page
 	End Rem
 	Method GetCurrentPage:wxWindow()
-		Return wxWindow._find(bmx_wxflatnotebook_getcurrentpage(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxflatnotebook_getcurrentpage(wxObjectPtr)))
 	End Method
 	
 	Rem
 	bbdoc: Returns the window object associated with a notebook page
 	End Rem
 	Method GetPage:wxWindow(page:Int)
-		Return wxWindow._find(bmx_wxflatnotebook_getpage(wxObjectPtr, page))
+		Return wxWindow(wxWindow._find(bmx_wxflatnotebook_getpage(wxObjectPtr, page)))
 	End Method
 	
 	Rem

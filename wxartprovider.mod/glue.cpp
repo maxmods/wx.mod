@@ -73,10 +73,6 @@ int bmx_wxartprovider_deleteprovider(wxArtProvider * provider) {
 	return static_cast<int>(wxArtProvider::Delete(provider));
 }
 
-void bmx_wxartprovider_insert(wxArtProvider * provider) {
-	wxArtProvider::Insert(provider);
-}
-
 int bmx_wxartprovider_pop() {
 	return static_cast<int>(wxArtProvider::Pop());
 }

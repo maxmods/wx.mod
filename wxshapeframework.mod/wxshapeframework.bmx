@@ -449,9 +449,9 @@ Type wxSFArrowBase Extends xsSerializable
 		End If
 	End Function
 
-	Function _find:wxSFArrowBase(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFArrowBase = wxSFArrowBase(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFArrowBase._create(wxObjectPtr)
 			End If
@@ -483,9 +483,9 @@ Type wxSFOpenArrow Extends wxSFArrowBase
 		End If
 	End Function
 
-	Function _find:wxSFOpenArrow(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFOpenArrow = wxSFOpenArrow(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFOpenArrow._create(wxObjectPtr)
 			End If
@@ -509,9 +509,9 @@ Type wxSFSolidArrow Extends wxSFOpenArrow
 		End If
 	End Function
 
-	Function _find:wxSFSolidArrow(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFSolidArrow = wxSFSolidArrow(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFSolidArrow._create(wxObjectPtr)
 			End If
@@ -610,9 +610,9 @@ Type wxSFLineShape Extends wxSFShapeBase
 		End If
 	End Function
 
-	Function _find:wxSFLineShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFLineShape = wxSFLineShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFLineShape._create(wxObjectPtr)
 			End If
@@ -691,9 +691,9 @@ Type wxSFCurveShape Extends wxSFLineShape
 		End If
 	End Function
 
-	Function _find:wxSFCurveShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFCurveShape = wxSFCurveShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFCurveShape._create(wxObjectPtr)
 			End If
@@ -720,9 +720,9 @@ Type wxSFRectShape Extends wxSFShapeBase
 		End If
 	End Function
 
-	Function _find:wxSFRectShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFRectShape = wxSFRectShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFRectShape._create(wxObjectPtr)
 			End If
@@ -779,9 +779,9 @@ Type wxSFBitmapShape Extends wxSFRectShape
 		End If
 	End Function
 
-	Function _find:wxSFBitmapShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFBitmapShape = wxSFBitmapShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFBitmapShape._create(wxObjectPtr)
 			End If
@@ -848,9 +848,9 @@ Type wxSFControlShape Extends wxSFRectShape
 		End If
 	End Function
 
-	Function _find:wxSFControlShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFControlShape = wxSFControlShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFControlShape._create(wxObjectPtr)
 			End If
@@ -869,7 +869,7 @@ Type wxSFControlShape Extends wxSFRectShape
 	bbdoc: Returns reference to managed GUI control.
 	End Rem
 	Method GetControl:wxWindow()
-		Return wxWindow._find(bmx_wxsfcontrolshape_getcontrol(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxsfcontrolshape_getcontrol(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -937,9 +937,9 @@ Type wxSFEllipseShape Extends wxSFRectShape
 		End If
 	End Function
 
-	Function _find:wxSFEllipseShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFEllipseShape = wxSFEllipseShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFEllipseShape._create(wxObjectPtr)
 			End If
@@ -966,9 +966,9 @@ Type wxSFGridShape Extends wxSFRectShape
 		End If
 	End Function
 
-	Function _find:wxSFGridShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFGridShape = wxSFGridShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFGridShape._create(wxObjectPtr)
 			End If
@@ -995,9 +995,9 @@ Type wxSFFlexGridShape Extends wxSFGridShape
 		End If
 	End Function
 
-	Function _find:wxSFFlexGridShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFFlexGridShape = wxSFFlexGridShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFFlexGridShape._create(wxObjectPtr)
 			End If
@@ -1024,9 +1024,9 @@ Type wxSFMultiSelRect Extends wxSFRectShape
 		End If
 	End Function
 
-	Function _find:wxSFMultiSelRect(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFMultiSelRect = wxSFMultiSelRect(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFMultiSelRect._create(wxObjectPtr)
 			End If
@@ -1053,9 +1053,9 @@ Type wxSFPolygonShape Extends wxSFRectShape
 		End If
 	End Function
 
-	Function _find:wxSFPolygonShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFPolygonShape = wxSFPolygonShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFPolygonShape._create(wxObjectPtr)
 			End If
@@ -1082,9 +1082,9 @@ Type wxSFDiamondShape Extends wxSFPolygonShape
 		End If
 	End Function
 
-	Function _find:wxSFDiamondShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFDiamondShape = wxSFDiamondShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFDiamondShape._create(wxObjectPtr)
 			End If
@@ -1111,9 +1111,9 @@ Type wxSFRoundRectShape Extends wxSFRectShape
 		End If
 	End Function
 
-	Function _find:wxSFRoundRectShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFRoundRectShape = wxSFRoundRectShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFRoundRectShape._create(wxObjectPtr)
 			End If
@@ -1140,9 +1140,9 @@ Type wxSFSquareShape Extends wxSFRectShape
 		End If
 	End Function
 
-	Function _find:wxSFSquareShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFSquareShape = wxSFSquareShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFSquareShape._create(wxObjectPtr)
 			End If
@@ -1169,9 +1169,9 @@ Type wxSFCircleShape Extends wxSFSquareShape
 		End If
 	End Function
 
-	Function _find:wxSFCircleShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFCircleShape = wxSFCircleShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFCircleShape._create(wxObjectPtr)
 			End If
@@ -1198,9 +1198,9 @@ Type wxSFTextShape Extends wxSFRectShape
 		End If
 	End Function
 
-	Function _find:wxSFTextShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFTextShape = wxSFTextShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFTextShape._create(wxObjectPtr)
 			End If
@@ -1227,9 +1227,9 @@ Type wxSFEditTextShape Extends wxSFTextShape
 		End If
 	End Function
 
-	Function _find:wxSFEditTextShape(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxSFEditTextShape = wxSFEditTextShape(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxSFEditTextShape._create(wxObjectPtr)
 			End If

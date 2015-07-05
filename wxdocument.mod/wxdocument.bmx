@@ -66,9 +66,9 @@ Type wxDocument Extends wxEvtHandler
 		End If
 	End Function
 
-	Function _find:wxDocument(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxDocument = wxDocument(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxDocument._create(wxObjectPtr)
 			End If
@@ -153,7 +153,7 @@ Type wxDocument Extends wxEvtHandler
 	about: By default, uses the frame associated with the first view.
 	End Rem
 	Method GetDocumentWindow:wxWindow()
-		Return wxWindow._find(bmx_wxdocument_getdocumentwindow(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxdocument_getdocumentwindow(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -167,14 +167,14 @@ Type wxDocument Extends wxEvtHandler
 	bbdoc: A convenience method to get the first view for a document, because in many cases a document will only have a single view.
 	End Rem
 	Method GetFirstView:wxView()
-		Return wxView._find(bmx_wxdocument_getfirstview(wxObjectPtr))
+		Return wxView(wxView._find(bmx_wxdocument_getfirstview(wxObjectPtr)))
 	End Method
 	
 	Rem
 	bbdoc: The default method uses the title, or if there is no title, uses the filename; or if no filename, the string unnamed. 
 	End Rem
-	Method GetPrintableName:String()
-		Return bmx_wxdocument_getprintablename(wxObjectPtr)
+	Method GetUserReadableName:String()
+		Return bmx_wxdocument_getuserreadablename(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -269,7 +269,7 @@ Type wxDocument Extends wxEvtHandler
 	about: By default, it returns an instance of wxCommandProcessor.
 	End Rem
 	Method OnCreateCommandProcessor:wxCommandProcessor()
-		Return wxCommandProcessor._find(bmx_wxdocument_oncreatecommandprocessor(wxObjectPtr))
+		Return wxCommandProcessor(wxCommandProcessor._find(bmx_wxdocument_oncreatecommandprocessor(wxObjectPtr)))
 	End Method
 
 	Function _OnCreateCommandProcessor:Byte Ptr(doc:wxDocument)
@@ -424,9 +424,9 @@ Type wxView Extends wxEvtHandler
 		End If
 	End Function
 
-	Function _find:wxView(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxView = wxView(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxView._create(wxObjectPtr)
 			End If
@@ -482,14 +482,14 @@ Type wxView Extends wxEvtHandler
 	bbdoc: Returns the document associated with the view.
 	End Rem
 	Method GetDocument:wxDocument()
-		Return wxDocument._find(bmx_wxview_getdocument(wxObjectPtr))
+		Return wxDocument(wxDocument._find(bmx_wxview_getdocument(wxObjectPtr)))
 	End Method
 	
 	Rem
 	bbdoc: Returns the document manager instance associated with this view.
 	End Rem
 	Method GetDocumentManager:wxDocManager()
-		Return wxDocManager._find(bmx_wxview_getdocumentmanager(wxObjectPtr))
+		Return wxDocManager(wxDocManager._find(bmx_wxview_getdocumentmanager(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -499,7 +499,7 @@ Type wxView Extends wxEvtHandler
 	not a wxFrame.
 	End Rem
 	Method GetFrame:wxWindow()
-		Return wxWindow._find(bmx_wxview_getframe(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxview_getframe(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -521,7 +521,7 @@ Type wxView Extends wxEvtHandler
 	End Method
 	
 	Function _OnActivateView(view:wxView, activate:Int, activeView:Byte Ptr, deactiveView:Byte Ptr)
-		view.OnActivateView(activate, wxView._find(activeView), wxView._find(deactiveView))
+		view.OnActivateView(activate, wxView(wxView._find(activeView)), wxView(wxView._find(deactiveView)))
 	End Function
 	
 	Rem
@@ -586,7 +586,7 @@ Type wxView Extends wxEvtHandler
 	End Method
 	
 	Function _OnCreate:Int(view:wxView, doc:Byte Ptr, flags:Int)
-		Return view.OnCreate(wxDocument._find(doc), flags)
+		Return view.OnCreate(wxDocument(wxDocument._find(doc)), flags)
 	End Function
 	
 	Rem
@@ -632,7 +632,7 @@ Type wxView Extends wxEvtHandler
 	End Method
 	
 	Function _OnUpdate(view:wxView, sender:Byte Ptr)
-		view.OnUpdate(wxView._find(sender))
+		view.OnUpdate(wxView(wxView._find(sender)))
 	End Function
 	
 	Rem
@@ -677,9 +677,9 @@ Type wxDocManager Extends wxEvtHandler
 		End If
 	End Function
 
-	Function _find:wxDocManager(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxDocManager = wxDocManager(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxDocManager._create(wxObjectPtr)
 			End If
@@ -757,7 +757,7 @@ Type wxDocManager Extends wxEvtHandler
 	</p>
 	End Rem
 	Method CreateDocument:wxDocument(path:String, flags:Int)
-		Return wxDocument._find(bmx_wxdocmanager_createdocument(wxObjectPtr, path, flags))
+		Return wxDocument(wxDocument._find(bmx_wxdocmanager_createdocument(wxObjectPtr, path, flags)))
 	End Method
 	
 	Rem
@@ -766,7 +766,7 @@ Type wxDocManager Extends wxEvtHandler
 	the same document type), a choice of view is presented to the user.
 	End Rem
 	Method CreateView:wxView(doc:wxDocument, flags:Int)
-		Return wxView._find(bmx_wxdocmanager_createview(wxObjectPtr, doc.wxObjectPtr, flags))
+		Return wxView(wxView._find(bmx_wxdocmanager_createview(wxObjectPtr, doc.wxObjectPtr, flags)))
 	End Method
 	
 	Rem
@@ -821,21 +821,21 @@ Type wxDocManager Extends wxEvtHandler
 	about: This is only an approximate method of finding a template for creating a document.
 	End Rem
 	Method FindTemplateForPath:wxDocTemplate(path:String)
-		Return wxDocTemplate._find(bmx_wxdocmanager_findtemplateforpath(wxObjectPtr, path))
+		Return wxDocTemplate(wxDocTemplate._find(bmx_wxdocmanager_findtemplateforpath(wxObjectPtr, path)))
 	End Method
 	
 	Rem
 	bbdoc: Returns the document associated with the currently active view (if any).
 	End Rem
 	Method GetCurrentDocument:wxDocument()
-		Return wxDocument._find(bmx_wxdocmanager_getcurrentdocument(wxObjectPtr))
+		Return wxDocument(wxDocument._find(bmx_wxdocmanager_getcurrentdocument(wxObjectPtr)))
 	End Method
 	
 	Rem
 	bbdoc: Returns the currently active view 
 	End Rem
 	Method GetCurrentView:wxView()
-		Return wxView._find(bmx_wxdocmanager_getcurrentview(wxObjectPtr))
+		Return wxView(wxView._find(bmx_wxdocmanager_getcurrentview(wxObjectPtr)))
 	End Method
 	
 	Method GetDocuments:wxDocument[]()
@@ -846,7 +846,7 @@ Type wxDocManager Extends wxEvtHandler
 	bbdoc: Returns the file history.
 	End Rem
 	Method GetFileHistory:wxFileHistory()
-		Return wxFileHistory._find(bmx_wxdocmanager_getfilehistory(wxObjectPtr))
+		Return wxFileHistory(wxFileHistory._find(bmx_wxdocmanager_getfilehistory(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -877,8 +877,8 @@ Type wxDocManager Extends wxEvtHandler
 	Rem
 	bbdoc: 
 	End Rem
-	Method MakeDefaultName:String()
-		Return bmx_wxdocmanager_makedefaultname(wxObjectPtr)
+	Method MakeNewDocumentName:String()
+		Return bmx_wxdocmanager_makenewdocumentname(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -922,9 +922,9 @@ Type wxDocTemplate Extends wxObject
 		End If
 	End Function
 
-	Function _find:wxDocTemplate(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxDocTemplate = wxDocTemplate(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxDocTemplate._create(wxObjectPtr)
 			End If
@@ -983,7 +983,7 @@ Type wxDocTemplate Extends wxObject
 	End Method
 	
 	Function _CreateView:Byte Ptr(templ:wxDocTemplate, doc:Byte Ptr, flags:Int)
-		Return templ.CreateView(wxDocument._find(doc), flags).wxObjectPtr
+		Return templ.CreateView(wxDocument(wxDocument._find(doc)), flags).wxObjectPtr
 	End Function
 	
 	Rem
@@ -1011,7 +1011,7 @@ Type wxDocTemplate Extends wxObject
 	bbdoc: Returns a pointer to the document manager instance for which this template was created.
 	End Rem
 	Method GetDocumentManager:wxDocManager()
-		Return wxDocManager._find(bmx_wxdoctemplate_getdocumentmanager(wxObjectPtr))
+		Return wxDocManager(wxDocManager._find(bmx_wxdoctemplate_getdocumentmanager(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -1054,7 +1054,7 @@ Type wxDocTemplate Extends wxObject
 	End Method
 	
 	Function _InitDocument:Int(templ:wxDocTemplate, doc:Byte Ptr, path:String, flags:Int)
-		Return templ.InitDocument(wxDocument._find(doc), path, flags)
+		Return templ.InitDocument(wxDocument(wxDocument._find(doc)), path, flags)
 	End Function
 	
 	Rem

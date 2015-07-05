@@ -72,9 +72,9 @@ Type wxStaticBox Extends wxControl
 		End If
 	End Function
 
-	Function _find:wxStaticBox(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxStaticBox = wxStaticBox(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxStaticBox._create(wxObjectPtr)
 			End If

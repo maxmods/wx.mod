@@ -237,6 +237,26 @@ End Rem
 		Return filter
 	End Method
 
+	Method DesktopWidth:Int()
+		Local w:Int, h:Int
+		wxDisplaySize(w, h)
+		Return w
+	End Method
+	
+	Method DesktopHeight:Int()
+		Local w:Int, h:Int
+		wxDisplaySize(w, h)
+		Return h
+	End Method
+	
+	Method DesktopDepth:Int()
+		Return wxDisplayDepth()
+	End Method
+	
+	Method DesktopHertz:Int()
+		Return 0
+	End Method
+	
 End Type
 
 Type TMaxGUIApp Extends wxApp

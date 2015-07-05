@@ -49,6 +49,7 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
 
 Import "common.bmx"
+Import brl.standardio
 
 Extern
 	Function bmx_wxwindow_getchildren:wxWindow[](handle:Byte Ptr)
@@ -160,9 +161,9 @@ Type wxWindow Extends wxEvtHandler
 		End If
 	End Function
 
-	Function _find:wxWindow(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local window:wxWindow = wxWindow(wxfind(wxObjectPtr))
+			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
 				Return wxWindow._create(wxObjectPtr)
 			End If
@@ -382,14 +383,14 @@ Type wxWindow Extends wxEvtHandler
 	about: Note that this is a static function, so it can be called without needing a wxWindow .
 	End Rem
 	Function FindFocus:wxWindow()
-		Return wxWindow._find(bmx_wxwindow_findfocus())
+		Return wxWindow(wxWindow._find(bmx_wxwindow_findfocus()))
 	End Function
 
 	Rem
 	bbdoc: Find a child of this window, by identifier.
 	End Rem
 	Method FindWindow:wxWindow(id:Int)
-		Return _find(bmx_wxwindow_findwindow(wxObjectPtr, id))
+		Return wxWindow(_find(bmx_wxwindow_findwindow(wxObjectPtr, id)))
 	End Method
 		
 	Rem
@@ -399,9 +400,9 @@ Type wxWindow Extends wxEvtHandler
 	End Rem
 	Function FindWindowById:wxWindow(id:Int, parent:wxWindow = Null)
 		If parent Then
-			Return wxWindow._find(bmx_wxwindow_findwindowbyid(id, parent.wxObjectPtr))
+			Return wxWindow(wxWindow._find(bmx_wxwindow_findwindowbyid(id, parent.wxObjectPtr)))
 		Else
-			Return wxWindow._find(bmx_wxwindow_findwindowbyid(id, Null))
+			Return wxWindow(wxWindow._find(bmx_wxwindow_findwindowbyid(id, Null)))
 		End If
 	End Function
 	
@@ -415,9 +416,9 @@ Type wxWindow Extends wxEvtHandler
 	End Rem
 	Function FindWindowByName:wxWindow(name:String, parent:wxWindow = Null)
 		If parent Then
-			Return wxWindow._find(bmx_wxwindow_findwindowbyname(name, parent.wxObjectPtr))
+			Return wxWindow(wxWindow._find(bmx_wxwindow_findwindowbyname(name, parent.wxObjectPtr)))
 		Else
-			Return wxWindow._find(bmx_wxwindow_findwindowbyname(name, Null))
+			Return wxWindow(wxWindow._find(bmx_wxwindow_findwindowbyname(name, Null)))
 		End If
 	End Function
 	
@@ -429,9 +430,9 @@ Type wxWindow Extends wxEvtHandler
 	End Rem
 	Function FindWindowByLabel:wxWindow(label:String, parent:wxWindow = Null)
 		If parent Then
-			Return wxWindow._find(bmx_wxwindow_findwindowbylabel(label, parent.wxObjectPtr))
+			Return wxWindow(wxWindow._find(bmx_wxwindow_findwindowbylabel(label, parent.wxObjectPtr)))
 		Else
-			Return wxWindow._find(bmx_wxwindow_findwindowbylabel(label, Null))
+			Return wxWindow(wxWindow._find(bmx_wxwindow_findwindowbylabel(label, Null)))
 		End If
 	End Function
 	
@@ -526,7 +527,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Returns the currently captured window.
 	End Rem
 	Function GetCapture:wxWindow()
-		Return wxWindow._find(bmx_wxwindow_getcapture())
+		Return wxWindow(wxWindow._find(bmx_wxwindow_getcapture()))
 	End Function
 	
 	Rem
@@ -562,7 +563,7 @@ Type wxWindow Extends wxEvtHandler
 	End Function
 	
 	Function _setwindow(list:wxWindow[], index:Int, windowPtr:Byte Ptr)
-		list[index] = wxWindow._find(windowPtr)
+		list[index] = wxWindow(wxWindow._find(windowPtr))
 	End Function
 
 	'Method GetClassDefaultAttributes()
@@ -609,7 +610,7 @@ Type wxWindow Extends wxEvtHandler
 	about: By default, the window is its own event handler.
 	End Rem
 	Method GetEventHandler:wxEvtHandler()
-		Return wxEvtHandler._find(bmx_wxwindow_geteventhandler(wxObjectPtr))
+		Return wxEvtHandler(wxEvtHandler._find(bmx_wxwindow_geteventhandler(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -639,7 +640,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Returns the grandparent of a window, or Null if there isn't one.
 	End Rem
 	Method GetGrandParent:wxWindow()
-		Return wxWindow._find(bmx_wxwindow_getgrandparent(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxwindow_getgrandparent(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -716,7 +717,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Returns the parent of the window, or Null if there is no parent.
 	End Rem
 	Method GetParent:wxWindow()
-		Return wxWindow._find(bmx_wxwindow_getparent(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxwindow_getparent(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -1060,13 +1061,6 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
-	bbdoc: Disables all other windows in the application so that the user can only interact with this window.
-	End Rem
-	Method MakeModal(flag:Int)
-		bmx_wxwindow_makemodal(wxObjectPtr, flag)
-	End Method
-	
-	Rem
 	bbdoc: Moves the window to the given position.
 	End Rem
 	Method Move(x:Int, y:Int)
@@ -1120,7 +1114,7 @@ Type wxWindow Extends wxEvtHandler
 	bbdoc: Removes and returns the top-most event handler on the event handler stack.
 	End Rem
 	Method PopEventHandler:wxEvtHandler(deleteHandler:Int = False)
-		Return wxEvtHandler._find(bmx_wxwindow_popeventhandler(wxObjectPtr, deleteHandler))
+		Return wxEvtHandler(wxEvtHandler._find(bmx_wxwindow_popeventhandler(wxObjectPtr, deleteHandler)))
 	End Method
 	
 	Rem
@@ -1691,8 +1685,12 @@ Type wxWindow Extends wxEvtHandler
 	the given bounds.
 	</p>
 	End Rem
-	Method SetVirtualSizeHints(minW:Int = -1, minH:Int = -1, maxW:Int = -1, maxH:Int = -1)
-		bmx_wxwindow_setvirtualsizehints(wxObjectPtr, minW, minH, maxW, maxH)
+	Method SetMinClientSize(minW:Int = -1, minH:Int = -1)
+		bmx_wxwindow_setminclientsize(wxObjectPtr, minW, minH)
+	End Method
+
+	Method SetMaxClientSize(maxW:Int = -1, maxH:Int = -1)
+		bmx_wxwindow_setmaxclientsize(wxObjectPtr, maxW, maxH)
 	End Method
 	
 	Rem
@@ -2177,7 +2175,7 @@ Type wxSizer
 	bbdoc: Returns the window this sizer is used in or NULL if none.
 	End Rem
 	Method GetContainingWindow:wxWindow()
-		Return wxWindow._find(bmx_wxsizer_getcontainingwindow(wxSizerPtr))
+		Return wxWindow(wxWindow._find(bmx_wxsizer_getcontainingwindow(wxSizerPtr)))
 	End Method
 	
 	Rem
@@ -2440,14 +2438,6 @@ Type wxSizer
 	End Rem
 	Method SetSizeHints(window:wxWindow)
 		bmx_wxsizer_setsizehints(wxSizerPtr, window.wxObjectPtr)
-	End Method
-	
-	Rem
-	bbdoc: Tell the sizer to set the minimal size of the window virtual area to match the sizer's minimal size.
-	about: For windows with managed scrollbars this will set them appropriately.
-	End Rem
-	Method SetVirtualSizeHints(window:wxWindow)
-		bmx_wxsizer_setvirtualsizehints(wxSizerPtr, window.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -3288,7 +3278,7 @@ Type wxFocusEvent Extends wxEvent
 	</p>
 	End Rem
 	Method GetWindow:wxWindow()
-		Return wxWindow._find(bmx_wxfocusevent_getwindow(wxEventPtr))
+		Return wxWindow(wxWindow._find(bmx_wxfocusevent_getwindow(wxEventPtr)))
 	End Method
 
 End Type
@@ -3577,7 +3567,7 @@ Type wxToolTip Extends wxObject
 	bbdoc: Get the associated window.
 	End Rem
 	Method GetWindow:wxWindow()
-		Return wxWindow._find(bmx_wxtooltip_getwindow(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxtooltip_getwindow(wxObjectPtr)))
 	End Method
 	
 End Type
@@ -3652,7 +3642,7 @@ Type wxCaret
 	bbdoc: Get the window the caret is associated with.
 	End Rem
 	Method GetWindow:wxWindow()
-		Return wxWindow._find(bmx_wxcaret_getwindow(wxObjectPtr))
+		Return wxWindow(wxWindow._find(bmx_wxcaret_getwindow(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -3767,7 +3757,7 @@ Type wxWindowDestroyEvent Extends wxCommandEvent
 	bbdoc: Returns the window being destroyed.
 	End Rem
 	Method GetWindow:wxWindow()
-		Return wxWindow._find(bmx_wxwindowdestroyevent_getwindow(wxEventPtr))
+		Return wxWindow(wxWindow._find(bmx_wxwindowdestroyevent_getwindow(wxEventPtr)))
 	End Method
 	
 End Type
@@ -3777,21 +3767,21 @@ Rem
 bbdoc: Find the deepest window at the given mouse position in screen coordinates, returning the window if found, or NULL if not.
 End Rem
 Function wxFindWindowAtPoint:wxWindow(x:Int, y:Int)
-	Return wxWindow._find(bmx_wxfindwindowatpoint(x, y))
+	Return wxWindow(wxWindow._find(bmx_wxfindwindowatpoint(x, y)))
 End Function
 
 Rem
 bbdoc: Find the deepest window at the mouse pointer position, returning the window and current pointer position in screen coordinates.
 End Rem
 Function wxFindWindowAtPointer:wxWindow(x:Int Var, y:Int Var)
-	Return wxWindow._find(bmx_wxfindwindowatpointer(Varptr x, Varptr y))
+	Return wxWindow(wxWindow._find(bmx_wxfindwindowatpointer(Varptr x, Varptr y)))
 End Function
 
 Rem
 bbdoc: Gets the currently active window.
 End Rem
 Function wxGetActiveWindow:wxWindow()
-	Return wxWindow._find(bmx_wxgetactivewindow())
+	Return wxWindow(wxWindow._find(bmx_wxgetactivewindow()))
 End Function
 
 Type TWindowEventFactory Extends TEventFactory

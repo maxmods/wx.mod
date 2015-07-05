@@ -102,11 +102,11 @@ void bmx_wxsafeshowmessage(BBString * message) {
 	wxSafeShowMessage(_("%s"), wxStringFromBBString(message).c_str());
 }
 
-unsigned long bmx_wxsyserrorcode() {
+int bmx_wxsyserrorcode() {
 	return wxSysErrorCode();
 }
 
-BBString * bmx_wxsyserrormsg(unsigned long code) {
+BBString * bmx_wxsyserrormsg(int code) {
 	return bbStringFromWxString(wxString(wxSysErrorMsg(code)));
 }
 
@@ -133,13 +133,13 @@ void bmx_wxlog_settimestamp(BBString * format) {
 	}
 }
 
-void bmx_wxlog_addtracemask(BBString * mask) {
-	wxLog::AddTraceMask(wxStringFromBBString(mask));
-}
+//void bmx_wxlog_addtracemask(BBString * mask) {
+//	wxLog::AddTraceMask(wxStringFromBBString(mask));
+//}
 
-void bmx_wxlog_cleartracemasks() {
-	wxLog::ClearTraceMasks();
-}
+//void bmx_wxlog_cleartracemasks() {
+//	wxLog::ClearTraceMasks();
+//}
 
 void bmx_wxlog_dontcreateondemand() {
 	wxLog::DontCreateOnDemand();
@@ -149,9 +149,9 @@ void bmx_wxlog_flushactive() {
 	wxLog::FlushActive();
 }
 
-BBArray * bmx_wxlog_gettracemasks() {
-	return wxArrayStringToBBStringArray(wxLog::GetTraceMasks());
-}
+//BBArray * bmx_wxlog_gettracemasks() {
+//	return wxArrayStringToBBStringArray(wxLog::GetTraceMasks());
+//}
 
 wxLog * bmx_wxlog_getactivetarget() {
 	return wxLog::GetActiveTarget();
@@ -169,21 +169,21 @@ BBString * bmx_wxlog_gettimestamp() {
 	return bbStringFromWxString(wxString(wxLog::GetTimestamp()));
 }
 
-wxTraceMask bmx_wxlog_gettracemask() {
-	return wxLog::GetTraceMask();
-}
+//wxTraceMask bmx_wxlog_gettracemask() {
+//	return wxLog::GetTraceMask();
+//}
 
 int bmx_wxlog_getverbose() {
 	return static_cast<int>(wxLog::GetVerbose());
 }
 
-int bmx_wxlog_isallowedtracemask(BBString * mask) {
-	return static_cast<int>(wxLog::IsAllowedTraceMask(wxStringFromBBString(mask)));
-}
+//int bmx_wxlog_isallowedtracemask(BBString * mask) {
+//	return static_cast<int>(wxLog::IsAllowedTraceMask(wxStringFromBBString(mask)));
+//}
 
-void bmx_wxlog_removetracemask(BBString * mask) {
-	wxLog::RemoveTraceMask(wxStringFromBBString(mask));
-}
+//void bmx_wxlog_removetracemask(BBString * mask) {
+//	wxLog::RemoveTraceMask(wxStringFromBBString(mask));
+//}
 
 void bmx_wxlog_resume() {
 	wxLog::Resume();
@@ -197,9 +197,9 @@ void bmx_wxlog_setrepetitioncounting(int repetCounting) {
 	wxLog::SetRepetitionCounting(static_cast<bool>(repetCounting));
 }
 
-void bmx_wxlog_settracemask(wxTraceMask mask) {
-	wxLog::SetTraceMask(mask);
-}
+//void bmx_wxlog_settracemask(wxTraceMask mask) {
+//	wxLog::SetTraceMask(mask);
+//}
 
 void bmx_wxlog_suspend() {
 	wxLog::Suspend();

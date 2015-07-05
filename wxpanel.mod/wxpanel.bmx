@@ -93,9 +93,9 @@ Type wxPanel Extends wxWindow
 		End If
 	End Function
 
-	Function _find:wxPanel(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local panel:wxPanel = wxPanel(wxfind(wxObjectPtr))
+			Local panel:Object = wxfind(wxObjectPtr)
 			If Not panel Then
 				Return wxPanel._create(wxObjectPtr)
 			End If

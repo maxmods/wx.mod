@@ -181,7 +181,7 @@ END_EVENT_TABLE()
 
 
 MaxHtmlWindow * bmx_wxhtmlwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	return new MaxHtmlWindow(maxHandle, parent, id, x, y, w, h, style);
 }
@@ -351,7 +351,7 @@ BBString * bmx_wxhtmltag_getallparams(MaxHtmlTag * tag) {
 	return bbStringFromWxString(tag->Tag().GetAllParams());
 }
 
-int bmx_wxhtmltag_getbeginpos(MaxHtmlTag * tag) {
+/*int bmx_wxhtmltag_getbeginpos(MaxHtmlTag * tag) {
 	return tag->Tag().GetBeginPos();
 }
 
@@ -362,7 +362,7 @@ int bmx_wxhtmltag_getendpos1(MaxHtmlTag * tag) {
 int bmx_wxhtmltag_getendpos2(MaxHtmlTag * tag) {
 	return tag->Tag().GetEndPos2();
 }
-
+*/
 BBString * bmx_wxhtmltag_getname(MaxHtmlTag * tag) {
 	return bbStringFromWxString(tag->Tag().GetName());
 }

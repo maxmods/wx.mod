@@ -187,13 +187,6 @@ Type wxArtProvider Extends wxObject
 	End Function
 	
 	Rem
-	bbdoc: Register new art provider and add it to the bottom of providers stack (i.e. it will be queried as the last one).
-	End Rem
-	Function Insert(provider:wxArtProvider)
-		bmx_wxartprovider_insert(provider.wxObjectPtr)
-	End Function
-	
-	Rem
 	bbdoc: Remove latest added provider and delete it.
 	End Rem
 	Function Pop:Int()

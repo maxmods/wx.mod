@@ -110,9 +110,9 @@ Type wxAuiManager Extends wxEvtHandler
 		End If
 	End Function
 
-	Function _find:wxAuiManager(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local manager:wxAuiManager = wxAuiManager(wxfind(wxObjectPtr))
+			Local manager:Object = wxfind(wxObjectPtr)
 			If Not manager Then
 				Return wxAuiManager._create(wxObjectPtr)
 			End If
@@ -457,7 +457,7 @@ Type wxAuiNotebook Extends wxControl
 	bbdoc: Returns the page specified by the given index.
 	End Rem
 	Method GetPage:wxWindow(page:Int)
-		Return wxWindow._find(bmx_wxauinotebook_getpage(wxObjectPtr, page))
+		Return wxWindow(wxWindow._find(bmx_wxauinotebook_getpage(wxObjectPtr, page)))
 	End Method
 	
 	Rem
@@ -927,7 +927,7 @@ Type wxAuiPaneInfo
 	bbdoc: Returns the window that is in this pane.
 	End Rem
 	Method GetWindow:wxWindow()
-		Return wxWindow._find(bmx_wxauipaneinfo_getwindow(wxAuiPaneInfoPtr))
+		Return wxWindow(wxWindow._find(bmx_wxauipaneinfo_getwindow(wxAuiPaneInfoPtr)))
 	End Method
 	
 	Rem
@@ -1501,7 +1501,7 @@ Type wxAuiToolBar Extends wxControl
 	End Method
 
 	Method FindControl:wxControl(windowId:Int)
-		Return wxControl._find(bmx_wxauitoolbar_findcontrol(wxObjectPtr, windowId))
+		Return wxControl(wxControl._find(bmx_wxauitoolbar_findcontrol(wxObjectPtr, windowId)))
 	End Method
 
 	Method FindToolByPosition:wxAuiToolBarItem(x:Int, y:Int)
@@ -1728,7 +1728,7 @@ Type wxAuiToolBarItem
 	End Method
 
 	Method GetWindow:wxWindow()
-		Return wxWindow._find(bmx_wxauitoolbaritem_getwindow(wxAuiToolBarItemPtr))
+		Return wxWindow(wxWindow._find(bmx_wxauitoolbaritem_getwindow(wxAuiToolBarItemPtr)))
 	End Method
 
 	Method SetId(newId:Int)
@@ -1894,7 +1894,7 @@ Type wxAuiManagerEvent Extends wxEvent
 	bbdoc: Returns the manager associated with this event.
 	End Rem
 	Method GetManager:wxAuiManager()
-		Return wxAuiManager._find(bmx_wxauimanagerevent_getmanager(wxEventPtr))
+		Return wxAuiManager(wxAuiManager._find(bmx_wxauimanagerevent_getmanager(wxEventPtr)))
 	End Method
 	
 	Rem

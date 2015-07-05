@@ -230,7 +230,7 @@ void bmx_wxapp_pollevents() {
 		eventsRequired |= _MOUSEMOVE;
 	}
 	
-	if (_oldLeftDown != state.LeftDown()) {
+	if (_oldLeftDown != state.LeftIsDown()) {
 		if (_oldLeftDown) {
 			eventsRequired |= _MOUSELUP;
 		} else {
@@ -239,7 +239,7 @@ void bmx_wxapp_pollevents() {
 		_oldLeftDown = !_oldLeftDown;
 	}
 
-	if (_oldMiddleDown != state.MiddleDown()) {
+	if (_oldMiddleDown != state.MiddleIsDown()) {
 		if ( _oldMiddleDown) {
 			eventsRequired |= _MOUSEMUP;
 		} else {
@@ -248,7 +248,7 @@ void bmx_wxapp_pollevents() {
 		_oldMiddleDown = !_oldMiddleDown;
 	}
 
-	if (_oldRightDown != state.RightDown()) {
+	if (_oldRightDown != state.RightIsDown()) {
 		if (_oldRightDown) {
 			eventsRequired |= _MOUSERUP;
 		} else {
@@ -1907,7 +1907,7 @@ bool bmx_wxactivateevent_getactive(wxActivateEvent & event) {
 }
 
 bool bmx_wxiconizeevent_iconized(wxIconizeEvent & event) {
-	return event.Iconized();
+	return event.IsIconized();
 }
 
 // *********************************************

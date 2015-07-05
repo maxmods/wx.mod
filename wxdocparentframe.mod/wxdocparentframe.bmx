@@ -73,7 +73,7 @@ Type wxDocParentFrame Extends wxFrame
 	End Method
 
 	Method GetDocumentManager:wxDocManager()
-		Return wxDocManager._find(bmx_wxdocparentframe_getdocumentmanager(wxObjectPtr))
+		Return wxDocManager(wxDocManager._find(bmx_wxdocparentframe_getdocumentmanager(wxObjectPtr)))
 	End Method
 	
 End Type

@@ -38,7 +38,6 @@ extern "C" {
 	void bmx_wxartprovider_getsizehint(BBString * client, int platformDefault, int * width, int * height);
 
 	int bmx_wxartprovider_deleteprovider(wxArtProvider * provider);
-	void bmx_wxartprovider_insert(wxArtProvider * provider);
 	int bmx_wxartprovider_pop();
 	void bmx_wxartprovider_push(wxArtProvider * provider);
 	int bmx_wxartprovider_remove(wxArtProvider * provider);
