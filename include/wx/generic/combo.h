@@ -93,8 +93,6 @@ protected:
 #endif
 #elif defined(__WXMAC__)
     // Looks like there's nothing we need to override here
-#elif defined(__WXPM__)
-    virtual WXHWND GetEditHWND() const { return NULL; }
 #endif
 
     // For better transparent background rendering
@@ -122,9 +120,9 @@ protected:
 private:
     void Init();
 
-    DECLARE_EVENT_TABLE()
+    wxDECLARE_EVENT_TABLE();
 
-    DECLARE_DYNAMIC_CLASS(wxGenericComboCtrl)
+    wxDECLARE_DYNAMIC_CLASS(wxGenericComboCtrl);
 };
 
 
@@ -156,7 +154,7 @@ public:
 protected:
 
 private:
-    DECLARE_DYNAMIC_CLASS(wxComboCtrl)
+    wxDECLARE_DYNAMIC_CLASS(wxComboCtrl);
 };
 
 #endif // _WX_COMBOCONTROL_H_

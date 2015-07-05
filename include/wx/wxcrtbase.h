@@ -73,6 +73,9 @@
 
 #ifdef wxNEED_ISASCII
     inline int isascii(int c) { return (unsigned)c < 0x80; }
+
+    // Avoid further (re)definitions of it.
+    #define isascii isascii
 #endif
 
 #ifdef _WIN32_WCE
@@ -197,17 +200,27 @@ WXDLLIMPEXP_BASE void *calloc( size_t num, size_t size );
 #define wxCRT_StrtodA    strtod
 #define wxCRT_StrtolA    strtol
 #define wxCRT_StrtoulA   strtoul
+
+#ifdef __ANDROID__ // these functions are broken on android
+
+extern double android_wcstod(const wchar_t *nptr, wchar_t **endptr);
+extern long android_wcstol(const wchar_t *nptr, wchar_t **endptr, int base);
+extern unsigned long android_wcstoul(const wchar_t *nptr, wchar_t **endptr, int base);
+
+#define wxCRT_StrtodW    android_wcstod
+#define wxCRT_StrtolW    android_wcstol
+#define wxCRT_StrtoulW   android_wcstoul
+#else
 #define wxCRT_StrtodW    wcstod
 #define wxCRT_StrtolW    wcstol
 #define wxCRT_StrtoulW   wcstoul
+#endif
 
 #ifdef __VISUALC__
-    #if __VISUALC__ >= 1300 && !defined(__WXWINCE__)
-        #define wxCRT_StrtollA   _strtoi64
-        #define wxCRT_StrtoullA  _strtoui64
-        #define wxCRT_StrtollW   _wcstoi64
-        #define wxCRT_StrtoullW  _wcstoui64
-    #endif /* VC++ 7+ */
+    #define wxCRT_StrtollA   _strtoi64
+    #define wxCRT_StrtoullA  _strtoui64
+    #define wxCRT_StrtollW   _wcstoi64
+    #define wxCRT_StrtoullW  _wcstoui64
 #else
     #ifdef HAVE_STRTOULL
         #define wxCRT_StrtollA   strtoll
@@ -243,9 +256,7 @@ WXDLLIMPEXP_BASE void *calloc( size_t num, size_t size );
 
 /* define wxCRT_StricmpA/W and wxCRT_StrnicmpA/W for various compilers */
 
-#if defined(__BORLANDC__) || defined(__WATCOMC__) || \
-        defined(__VISAGECPP__) || \
-        defined(__EMX__) || defined(__DJGPP__)
+#if defined(__BORLANDC__) || defined(__DJGPP__)
     #define wxCRT_StricmpA stricmp
     #define wxCRT_StrnicmpA strnicmp
 #elif defined(__SYMANTEC__) || (defined(__VISUALC__) && !defined(__WXWINCE__))
@@ -443,30 +454,22 @@ WXDLLIMPEXP_BASE wchar_t *wxCRT_StrtokW(wchar_t *psz, const wchar_t *delim, wcha
     #define wxCRT_Rename  rename
 
 #else /* Unicode filenames */
-    /* special case: these functions are missing under Win9x with Unicows so we
-       have to implement them ourselves */
-    #if wxUSE_UNICODE_MSLU || defined(__WX_STRICT_ANSI_GCC__)
-            WXDLLIMPEXP_BASE FILE* wxMSLU__wfopen(const wchar_t *name, const wchar_t *mode);
-            WXDLLIMPEXP_BASE FILE* wxMSLU__wfreopen(const wchar_t *name, const wchar_t *mode, FILE *stream);
-            WXDLLIMPEXP_BASE int wxMSLU__wrename(const wchar_t *oldname, const wchar_t *newname);
-            WXDLLIMPEXP_BASE int wxMSLU__wremove(const wchar_t *name);
-            #define wxCRT_Fopen     wxMSLU__wfopen
-            #define wxCRT_Freopen   wxMSLU__wfreopen
-            #define wxCRT_Remove    wxMSLU__wremove
-            #define wxCRT_Rename    wxMSLU__wrename
+    wxDECL_FOR_STRICT_MINGW32(FILE*, _wfopen, (const wchar_t*, const wchar_t*))
+    wxDECL_FOR_STRICT_MINGW32(FILE*, _wfreopen, (const wchar_t*, const wchar_t*, FILE*))
+    wxDECL_FOR_STRICT_MINGW32(int, _wrename, (const wchar_t*, const wchar_t*))
+    wxDECL_FOR_STRICT_MINGW32(int, _wremove, (const wchar_t*))
+
+    /* WinCE CRT doesn't provide these functions so use our own */
+    #ifdef __WXWINCE__
+        WXDLLIMPEXP_BASE int wxCRT_Rename(const wchar_t *src,
+                                          const wchar_t *dst);
+        WXDLLIMPEXP_BASE int wxCRT_Remove(const wchar_t *path);
     #else
-        /* WinCE CRT doesn't provide these functions so use our own */
-        #ifdef __WXWINCE__
-            WXDLLIMPEXP_BASE int wxCRT_Rename(const wchar_t *src,
-                                              const wchar_t *dst);
-            WXDLLIMPEXP_BASE int wxCRT_Remove(const wchar_t *path);
-        #else
-            #define wxCRT_Rename   _wrename
-            #define wxCRT_Remove _wremove
-        #endif
-        #define wxCRT_Fopen    _wfopen
-        #define wxCRT_Freopen  _wfreopen
+        #define wxCRT_Rename   _wrename
+        #define wxCRT_Remove _wremove
     #endif
+    #define wxCRT_Fopen    _wfopen
+    #define wxCRT_Freopen  _wfreopen
 
 #endif /* wxMBFILES/!wxMBFILES */
 
@@ -613,23 +616,17 @@ WXDLLIMPEXP_BASE size_t wxCRT_StrftimeW(wchar_t *s, size_t max,
                                 ctype.h
    ------------------------------------------------------------------------- */
 
-#ifdef __WATCOMC__
-  #define WXWCHAR_T_CAST(c) (wint_t)(c)
-#else
-  #define WXWCHAR_T_CAST(c) c
-#endif
-
-#define wxCRT_IsalnumW(c)   iswalnum(WXWCHAR_T_CAST(c))
-#define wxCRT_IsalphaW(c)   iswalpha(WXWCHAR_T_CAST(c))
-#define wxCRT_IscntrlW(c)   iswcntrl(WXWCHAR_T_CAST(c))
-#define wxCRT_IsdigitW(c)   iswdigit(WXWCHAR_T_CAST(c))
-#define wxCRT_IsgraphW(c)   iswgraph(WXWCHAR_T_CAST(c))
-#define wxCRT_IslowerW(c)   iswlower(WXWCHAR_T_CAST(c))
-#define wxCRT_IsprintW(c)   iswprint(WXWCHAR_T_CAST(c))
-#define wxCRT_IspunctW(c)   iswpunct(WXWCHAR_T_CAST(c))
-#define wxCRT_IsspaceW(c)   iswspace(WXWCHAR_T_CAST(c))
-#define wxCRT_IsupperW(c)   iswupper(WXWCHAR_T_CAST(c))
-#define wxCRT_IsxdigitW(c)  iswxdigit(WXWCHAR_T_CAST(c))
+#define wxCRT_IsalnumW(c)   iswalnum(c)
+#define wxCRT_IsalphaW(c)   iswalpha(c)
+#define wxCRT_IscntrlW(c)   iswcntrl(c)
+#define wxCRT_IsdigitW(c)   iswdigit(c)
+#define wxCRT_IsgraphW(c)   iswgraph(c)
+#define wxCRT_IslowerW(c)   iswlower(c)
+#define wxCRT_IsprintW(c)   iswprint(c)
+#define wxCRT_IspunctW(c)   iswpunct(c)
+#define wxCRT_IsspaceW(c)   iswspace(c)
+#define wxCRT_IsupperW(c)   iswupper(c)
+#define wxCRT_IsxdigitW(c)  iswxdigit(c)
 
 #ifdef __GLIBC__
     #if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ == 0)
@@ -643,14 +640,34 @@ WXDLLIMPEXP_BASE size_t wxCRT_StrftimeW(wchar_t *s, size_t max,
         #define wxCRT_ToupperW   towupper
     #endif
 #else /* !__GLIBC__ */
-    /* There is a bug in VC6 C RTL: toxxx() functions dosn't do anything
+    /* There is a bug in MSVC RTL: toxxx() functions dosn't do anything
        with signed chars < 0, so "fix" it here. */
     #define wxCRT_TolowerW(c)   towlower((wxUChar)(wxChar)(c))
     #define wxCRT_ToupperW(c)   towupper((wxUChar)(wxChar)(c))
 #endif /* __GLIBC__/!__GLIBC__ */
 
+/* The Android platform, as of 2014, only support most wide-char function with
+   the exception of multi-byte encoding/decoding functions & wsprintf/wsscanf
+   See android-ndk-r9d/docs/STANDALONE-TOOLCHAIN.html (section 7.2)
+   In fact, mbstowcs/wcstombs are defined and compile, but don't work correctly
+*/
 
+#if defined(__WXQT__) && defined(__ANDROID__)
+    #define wxNEED_WX_MBSTOWCS
+    #undef HAVE_WCSRTOMBS
+    // TODO: use Qt built-in required functionality
+#endif
 
+#if defined(wxNEED_WX_MBSTOWCS) && defined(__ANDROID__)
+    #warning "Custom mb/wchar conv. only works for ASCII, see Android NDK notes"
+    WXDLLIMPEXP_BASE size_t android_mbstowcs(wchar_t *, const char *, size_t);
+    WXDLLIMPEXP_BASE size_t android_wcstombs(char *, const wchar_t *, size_t);
+    #define wxMbstowcs android_mbstowcs
+    #define wxWcstombs android_wcstombs
+#else
+    #define wxMbstowcs mbstowcs
+    #define wxWcstombs wcstombs
+#endif
 
 
 /* -------------------------------------------------------------------------

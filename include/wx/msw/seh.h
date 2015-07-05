@@ -18,7 +18,7 @@
     extern unsigned long wxGlobalSEHandler(EXCEPTION_POINTERS *pExcPtrs);
 
     // helper macro for wxSEH_HANDLE
-#if defined(__BORLANDC__) || (defined(__VISUALC__) && (__VISUALC__ <= 1200))
+#if defined(__BORLANDC__)
     // some compilers don't understand that this code is unreachable and warn
     // about no value being returned from the function without it, so calm them
     // down
@@ -55,9 +55,8 @@
     extern void wxSETranslator(unsigned int code, EXCEPTION_POINTERS *ep);
 
     // up to VC 12 this warning ("calling _set_se_translator() requires /EHa")
-    // is harmless and it's easier to suppress it than use different makefiles
-    // for VC5 and 6 (which don't support /EHa at all) and VC7+ (which does
-    // accept it but it seems to change nothing for it anyhow)
+    // is harmless and it's easier to suppress it than deal with it as make/
+    // project file level as it seems to be harmless
     #if __VISUALC__ < 1900
         #pragma warning(disable: 4535)
     #endif

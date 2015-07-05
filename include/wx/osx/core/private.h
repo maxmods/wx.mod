@@ -179,7 +179,7 @@ public :
 protected :
     wxMenuItem* m_peer;
 
-    DECLARE_ABSTRACT_CLASS(wxMenuItemImpl)
+    wxDECLARE_ABSTRACT_CLASS(wxMenuItemImpl);
 } ;
 
 class wxMenuImpl : public wxObject
@@ -202,13 +202,18 @@ public :
     wxMenu* GetWXPeer() { return m_peer ; }
 
     virtual void PopUp( wxWindow *win, int x, int y ) = 0;
+    
+    virtual void GetMenuBarDimensions(int &x, int &y, int &width, int &height) const
+    {
+        x = y = width = height = -1;
+    }
 
     static wxMenuImpl* Create( wxMenu* peer, const wxString& title );
     static wxMenuImpl* CreateRootMenu( wxMenu* peer );
 protected :
     wxMenu* m_peer;
 
-    DECLARE_ABSTRACT_CLASS(wxMenuItemImpl)
+    wxDECLARE_ABSTRACT_CLASS(wxMenuItemImpl);
 } ;
 #endif
 
@@ -563,7 +568,7 @@ protected :
     bool                m_needsFrame;
     bool                m_shouldSendEvents;
 
-    DECLARE_ABSTRACT_CLASS(wxWidgetImpl)
+    wxDECLARE_ABSTRACT_CLASS(wxWidgetImpl);
 };
 
 //
@@ -867,6 +872,8 @@ public :
 
     virtual void ShowWithoutActivating() { Show(true); }
 
+    virtual bool EnableFullScreenView(bool enable) = 0;
+
     virtual bool ShowFullScreen(bool show, long style)= 0;
 
     virtual void RequestUserAttention(int flags) = 0;
@@ -906,7 +913,7 @@ public :
     virtual void RestoreWindowLevel() {}
 protected :
     wxNonOwnedWindow*   m_wxPeer;
-    DECLARE_ABSTRACT_CLASS(wxNonOwnedWindowImpl)
+    wxDECLARE_ABSTRACT_CLASS(wxNonOwnedWindowImpl);
 };
 
 #endif // wxUSE_GUI

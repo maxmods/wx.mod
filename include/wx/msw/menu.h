@@ -67,11 +67,9 @@ public:
     // menu handle and will delete it when this object is destroyed.
     static wxMenu *MSWNewFromHMENU(WXHMENU hMenu) { return new wxMenu(hMenu); }
 
-#if wxABI_VERSION >= 30002
     // Detaches HMENU so that it isn't deleted when this object is destroyed.
     // Don't use this object after calling this method.
     WXHMENU MSWDetachHMENU() { WXHMENU m = m_hMenu; m_hMenu = NULL; return m; }
-#endif
 
     // implementation only from now on
     // -------------------------------
@@ -104,6 +102,9 @@ public:
     wxAcceleratorTable *CreateAccelTable() const;
 #endif // wxUSE_ACCEL
 
+    // get the menu with given handle (recursively)
+    wxMenu* MSWGetMenu(WXHMENU hMenu);
+
 #if wxUSE_OWNER_DRAWN
 
     int GetMaxAccelWidth()
@@ -117,9 +118,6 @@ public:
     {
         m_maxAccelWidth = -1;
     }
-
-    // get the menu with given handle (recursively)
-    wxMenu* MSWGetMenu(WXHMENU hMenu);
 
 private:
     void CalculateMaxAccelWidth();
@@ -175,7 +173,7 @@ private:
     int m_maxAccelWidth;
 #endif // wxUSE_OWNER_DRAWN
 
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxMenu)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxMenu);
 };
 
 // ----------------------------------------------------------------------------
@@ -237,8 +235,11 @@ public:
     void Refresh( bool eraseBackground,
                           const wxRect *rect = (const wxRect *) NULL ) { wxWindow::Refresh(eraseBackground, rect); }
 
-    // get the menu with given handle (recursively)
-    wxMenu* MSWGetMenu(WXHMENU hMenu);
+    // Get a top level menu position or wxNOT_FOUND from its handle.
+    int MSWGetTopMenuPos(WXHMENU hMenu) const;
+
+    // Get a top level or sub menu with given handle (recursively).
+    wxMenu* MSWGetMenu(WXHMENU hMenu) const;
 
 protected:
     // common part of all ctors
@@ -260,7 +261,7 @@ protected:
 #endif
 
 private:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxMenuBar)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxMenuBar);
 };
 
 #endif // _WX_MENU_H_

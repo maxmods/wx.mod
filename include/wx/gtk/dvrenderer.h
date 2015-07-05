@@ -34,6 +34,8 @@ public:
     virtual void EnableEllipsize(wxEllipsizeMode mode = wxELLIPSIZE_MIDDLE);
     virtual wxEllipsizeMode GetEllipsizeMode() const;
 
+    virtual bool FinishEditing() wxOVERRIDE;
+
     // GTK-specific implementation
     // ---------------------------
 
@@ -76,8 +78,12 @@ public:
     // specific attributes: can return NULL if this renderer doesn't render any
     // text
     virtual GtkCellRendererText *GtkGetTextRenderer() const { return NULL; }
-    
-    wxDataViewCellMode GtkGetMode() { return m_mode; }
+
+
+    // Change the mode at GTK level without touching m_mode, this is useful for
+    // temporarily making the renderer insensitive but does mean that GetMode()
+    // may return a value different from the actual GTK renderer mode.
+    void GtkSetMode(wxDataViewCellMode mode);
 
 protected:
     virtual void GtkOnCellChanged(const wxVariant& value,
@@ -90,6 +96,9 @@ protected:
 
     GtkCellRenderer    *m_renderer;
     int                 m_alignment;
+
+    // We store the renderer mode at wx level as it can differ from the mode of
+    // the corresponding GTK+ renderer as explained above.
     wxDataViewCellMode  m_mode;
 
     // true if we hadn't changed any visual attributes or restored them since
@@ -97,7 +106,7 @@ protected:
     bool m_usingDefaultAttrs;
 
 protected:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewRenderer)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewRenderer);
 };
 
 #endif // _WX_GTK_DVRENDERER_H_

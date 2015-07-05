@@ -193,9 +193,6 @@ protected:
 
   // true if we have already subclassed our updown control
   bool m_hasSubclassedUpdown;
-
-  // true if we already refreshed the current page after showing the window
-  bool m_doneUpdateHack;
 #endif // __WXWINCE__
 
 #if wxUSE_UXTHEME
@@ -204,8 +201,8 @@ protected:
 #endif // wxUSE_UXTHEME
 
 
-  DECLARE_DYNAMIC_CLASS_NO_COPY(wxNotebook)
-  DECLARE_EVENT_TABLE()
+  wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxNotebook);
+  wxDECLARE_EVENT_TABLE();
 };
 
 #endif // wxUSE_NOTEBOOK

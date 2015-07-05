@@ -61,7 +61,7 @@ enum
     // lay out toolbar at the right edge of the window
     wxTB_RIGHT        = 0x4000,
 
-    wxTB_DEFAULT_STYLE = wxTB_HORIZONTAL | wxTB_FLAT
+    wxTB_DEFAULT_STYLE = wxTB_HORIZONTAL
 };
 
 #if wxUSE_TOOLBAR
@@ -81,10 +81,8 @@ enum
         #include "wx/gtk1/toolbar.h"
     #elif defined(__WXMAC__)
        #include "wx/osx/toolbar.h"
-    #elif defined(__WXCOCOA__)
-       #include "wx/cocoa/toolbar.h"
-    #elif defined(__WXPM__)
-       #include "wx/os2/toolbar.h"
+    #elif defined(__WXQT__)
+        #include "wx/qt/toolbar.h"
     #endif
 #endif // wxUSE_TOOLBAR
 

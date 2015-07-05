@@ -124,12 +124,13 @@ protected:
     // Look in our GetSubcontrols() for the windows with the given ID.
     virtual wxWindow *MSWFindItem(long id, WXHWND hWnd) const;
 
+
     // for controls like radiobuttons which are really composite this array
     // holds the ids (not HWNDs!) of the sub controls
     wxArrayLong m_subControls;
 
 private:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxControl)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxControl);
 };
 
 #endif // _WX_CONTROL_H_

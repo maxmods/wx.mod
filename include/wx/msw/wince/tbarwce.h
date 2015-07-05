@@ -28,7 +28,7 @@ public:
                 wxWindowID id,
                 const wxPoint& pos = wxDefaultPosition,
                 const wxSize& size = wxDefaultSize,
-                long style = wxTB_HORIZONTAL,
+                long style = wxTB_DEFAULT_STYLE,
                 const wxString& name = wxToolBarNameStr)
     {
         Create(parent, id, pos, size, style, name);
@@ -38,7 +38,7 @@ public:
                 wxWindowID id,
                 const wxPoint& pos = wxDefaultPosition,
                 const wxSize& size = wxDefaultSize,
-                long style = wxTB_HORIZONTAL,
+                long style = wxTB_DEFAULT_STYLE,
                 const wxString& name = wxToolBarNameStr);
 
     // override/implement base class virtuals
@@ -66,8 +66,8 @@ protected:
                                           const wxString& label);
 
 private:
-    DECLARE_EVENT_TABLE()
-    DECLARE_DYNAMIC_CLASS(wxToolBar)
+    wxDECLARE_EVENT_TABLE();
+    wxDECLARE_DYNAMIC_CLASS(wxToolBar);
     wxDECLARE_NO_COPY_CLASS(wxToolBar);
 };
 
@@ -87,7 +87,7 @@ public:
                 wxWindowID id,
                 const wxPoint& pos = wxDefaultPosition,
                 const wxSize& size = wxDefaultSize,
-                long style = wxTB_HORIZONTAL,
+                long style = wxTB_DEFAULT_STYLE,
                 const wxString& name = wxToolBarNameStr,
                 wxMenuBar* menuBar = NULL)
     {
@@ -100,7 +100,7 @@ public:
                 wxWindowID id,
                 const wxPoint& pos = wxDefaultPosition,
                 const wxSize& size = wxDefaultSize,
-                long style = wxTB_HORIZONTAL,
+                long style = wxTB_DEFAULT_STYLE,
                 const wxString& name = wxToolBarNameStr,
                 wxMenuBar* menuBar = NULL);
 
@@ -155,8 +155,8 @@ protected:
     wxMenuBar*  m_menuBar;
 
 private:
-    DECLARE_EVENT_TABLE()
-    DECLARE_DYNAMIC_CLASS(wxToolMenuBar)
+    wxDECLARE_EVENT_TABLE();
+    wxDECLARE_DYNAMIC_CLASS(wxToolMenuBar);
     wxDECLARE_NO_COPY_CLASS(wxToolMenuBar);
 };
 

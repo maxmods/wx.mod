@@ -72,7 +72,7 @@ private:
     wxString    m_text;
     wxIcon      m_icon;
 
-    DECLARE_DYNAMIC_CLASS(wxDataViewIconText)
+    wxDECLARE_DYNAMIC_CLASS(wxDataViewIconText);
 };
 
 DECLARE_VARIANT_OBJECT_EXPORTED(wxDataViewIconText, WXDLLIMPEXP_ADV)
@@ -163,9 +163,7 @@ public:
     virtual bool IsCustomRenderer() const { return false; }
 
 
-protected:
-    // Called from {Cancel,Finish}Editing() to cleanup m_editorCtrl
-    void DestroyEditControl();
+    // Implementation only from now on.
 
     // Return the alignment of this renderer if it's specified (i.e. has value
     // different from the default wxDVR_DEFAULT_ALIGNMENT) or the alignment of
@@ -175,6 +173,10 @@ protected:
     // wxALIGN_XXX flags (although possibly wxALIGN_NOT) and never returns
     // wxDVR_DEFAULT_ALIGNMENT.
     int GetEffectiveAlignment() const;
+
+protected:
+    // Called from {Cancel,Finish}Editing() to cleanup m_editorCtrl
+    void DestroyEditControl();
 
     wxString                m_variantType;
     wxDataViewColumn       *m_owner;
@@ -186,7 +188,7 @@ protected:
     wxDataViewCtrl* GetView() const;
 
 protected:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewRendererBase)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewRendererBase);
 };
 
 // include the real wxDataViewRenderer declaration for the native ports
@@ -206,6 +208,8 @@ protected:
         #include "wx/gtk/dvrenderer.h"
     #elif defined(__WXMAC__)
         #include "wx/osx/dvrenderer.h"
+    #elif defined(__WXQT__)
+        #include "wx/qt/dvrenderer.h"
     #else
         #error "unknown native wxDataViewCtrl implementation"
     #endif
@@ -330,6 +334,8 @@ private:
     #include "wx/gtk/dvrenderers.h"
 #elif defined(__WXMAC__)
     #include "wx/osx/dvrenderers.h"
+#elif defined(__WXQT__)
+    #include "wx/qt/dvrenderers.h"
 #else
     #error "unknown native wxDataViewCtrl implementation"
 #endif

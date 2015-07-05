@@ -25,7 +25,9 @@
 class WXDLLIMPEXP_ADV wxDataViewTextRenderer: public wxDataViewRenderer
 {
 public:
-    wxDataViewTextRenderer( const wxString &varianttype = "string",
+    static wxString GetDefaultType() { return wxS("string"); }
+
+    wxDataViewTextRenderer( const wxString &varianttype = GetDefaultType(),
                             wxDataViewCellMode mode = wxDATAVIEW_CELL_INERT,
                             int align = wxDVR_DEFAULT_ALIGNMENT );
 
@@ -58,7 +60,7 @@ protected:
     bool GetTextValue(wxString& str) const;
 
 
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewTextRenderer)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewTextRenderer);
 };
 
 // ---------------------------------------------------------
@@ -68,7 +70,9 @@ protected:
 class WXDLLIMPEXP_ADV wxDataViewBitmapRenderer: public wxDataViewRenderer
 {
 public:
-    wxDataViewBitmapRenderer( const wxString &varianttype = "wxBitmap",
+    static wxString GetDefaultType() { return wxS("wxBitmap"); }
+
+    wxDataViewBitmapRenderer( const wxString &varianttype = GetDefaultType(),
                               wxDataViewCellMode mode = wxDATAVIEW_CELL_INERT,
                               int align = wxDVR_DEFAULT_ALIGNMENT );
 
@@ -76,7 +80,7 @@ public:
     bool GetValue( wxVariant &value ) const;
 
 protected:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewBitmapRenderer)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewBitmapRenderer);
 };
 
 // ---------------------------------------------------------
@@ -86,7 +90,9 @@ protected:
 class WXDLLIMPEXP_ADV wxDataViewToggleRenderer: public wxDataViewRenderer
 {
 public:
-    wxDataViewToggleRenderer( const wxString &varianttype = "bool",
+    static wxString GetDefaultType() { return wxS("bool"); }
+
+    wxDataViewToggleRenderer( const wxString &varianttype = GetDefaultType(),
                               wxDataViewCellMode mode = wxDATAVIEW_CELL_INERT,
                               int align = wxDVR_DEFAULT_ALIGNMENT );
 
@@ -94,7 +100,7 @@ public:
     bool GetValue( wxVariant &value ) const;
 
 protected:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewToggleRenderer)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewToggleRenderer);
 };
 
 // ---------------------------------------------------------
@@ -104,7 +110,9 @@ protected:
 class WXDLLIMPEXP_ADV wxDataViewCustomRenderer: public wxDataViewCustomRendererBase
 {
 public:
-    wxDataViewCustomRenderer( const wxString &varianttype = "string",
+    static wxString GetDefaultType() { return wxS("string"); }
+
+    wxDataViewCustomRenderer( const wxString &varianttype = GetDefaultType(),
                               wxDataViewCellMode mode = wxDATAVIEW_CELL_INERT,
                               int align = wxDVR_DEFAULT_ALIGNMENT,
                               bool no_init = false );
@@ -156,7 +164,7 @@ private:
     // them forward to m_text_renderer if our RenderText() is called
     GTKRenderParams* m_renderParams;
 
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewCustomRenderer)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewCustomRenderer);
 };
 
 // ---------------------------------------------------------
@@ -166,8 +174,10 @@ private:
 class WXDLLIMPEXP_ADV wxDataViewProgressRenderer: public wxDataViewCustomRenderer
 {
 public:
+    static wxString GetDefaultType() { return wxS("long"); }
+
     wxDataViewProgressRenderer( const wxString &label = wxEmptyString,
-                                const wxString &varianttype = "long",
+                                const wxString &varianttype = GetDefaultType(),
                                 wxDataViewCellMode mode = wxDATAVIEW_CELL_INERT,
                                 int align = wxDVR_DEFAULT_ALIGNMENT );
     virtual ~wxDataViewProgressRenderer();
@@ -191,7 +201,7 @@ private:
 #endif // !wxUSE_UNICODE
 
 protected:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewProgressRenderer)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewProgressRenderer);
 };
 
 // ---------------------------------------------------------
@@ -201,7 +211,9 @@ protected:
 class WXDLLIMPEXP_ADV wxDataViewIconTextRenderer: public wxDataViewTextRenderer
 {
 public:
-    wxDataViewIconTextRenderer( const wxString &varianttype = "wxDataViewIconText",
+    static wxString GetDefaultType() { return wxS("wxDataViewIconText"); }
+
+    wxDataViewIconTextRenderer( const wxString &varianttype = GetDefaultType(),
                                 wxDataViewCellMode mode = wxDATAVIEW_CELL_INERT,
                                 int align = wxDVR_DEFAULT_ALIGNMENT );
     virtual ~wxDataViewIconTextRenderer();
@@ -222,7 +234,7 @@ private:
     // we use the base class m_renderer for the text and this one for the icon
     GtkCellRenderer *m_rendererIcon;
 
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewIconTextRenderer)
+    wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewIconTextRenderer);
 };
 
 // -------------------------------------

@@ -78,6 +78,12 @@ public:
     wxSizerFlags& Centre() { return Align(wxALIGN_CENTRE); }
     wxSizerFlags& Center() { return Centre(); }
 
+    wxSizerFlags& CentreVertical() { return Align(wxALIGN_CENTRE_VERTICAL); }
+    wxSizerFlags& CenterVertical() { return CentreVertical(); }
+
+    wxSizerFlags& CentreHorizontal() { return Align(wxALIGN_CENTRE_HORIZONTAL); }
+    wxSizerFlags& CenterHorizontal() { return CentreHorizontal(); }
+
     wxSizerFlags& Top()
     {
         m_flags &= ~(wxALIGN_BOTTOM | wxALIGN_CENTRE_VERTICAL);
@@ -111,10 +117,21 @@ public:
         // GNOME HIG says to use 6px as the base unit:
         // http://library.gnome.org/devel/hig-book/stable/design-window.html.en
         return 6;
-    #else
-        // FIXME: default border size shouldn't be hardcoded and at the very
-        //        least they should depend on the current font size
+    #elif defined(__WXMAC__)
+        // Not sure if this is really the correct size for the border.
         return 5;
+    #else
+        // For the other platforms, we need to scale raw pixel values using the
+        // current DPI, do it once (and cache the result) in another function.
+        #define wxNEEDS_BORDER_IN_PX
+
+        // We don't react to dynamic DPI changes, so we can cache the values of
+        // the border in on-screen pixels after computing it once. This
+        // could/should change in the future.
+        if ( !ms_defaultBorderInPx )
+            ms_defaultBorderInPx = DoGetDefaultBorderInPx();
+
+        return ms_defaultBorderInPx;
     #endif
 #else
         return 0;
@@ -216,6 +233,12 @@ public:
     int GetBorderInPixels() const { return m_borderInPixels; }
 
 private:
+#ifdef wxNEEDS_BORDER_IN_PX
+    static int DoGetDefaultBorderInPx();
+
+    static int ms_defaultBorderInPx;
+#endif // wxNEEDS_BORDER_IN_PX
+
     int m_proportion;
     int m_flags;
     int m_borderInPixels;
@@ -351,12 +374,6 @@ public:
     bool IsSizer() const { return m_kind == Item_Sizer; }
     bool IsSpacer() const { return m_kind == Item_Spacer; }
 
-#if WXWIN_COMPATIBILITY_2_6
-    // Deprecated in 2.6, use {G,S}etProportion instead.
-    wxDEPRECATED( void SetOption( int option ) );
-    wxDEPRECATED( int GetOption() const );
-#endif // WXWIN_COMPATIBILITY_2_6
-
     void SetProportion( int proportion )
         { m_proportion = proportion; }
     int GetProportion() const
@@ -481,7 +498,7 @@ protected:
     wxObject    *m_userData;
 
 private:
-    DECLARE_CLASS(wxSizerItem)
+    wxDECLARE_CLASS(wxSizerItem);
     wxDECLARE_NO_COPY_CLASS(wxSizerItem);
 };
 
@@ -590,12 +607,6 @@ public:
     // is used in
     void SetContainingWindow(wxWindow *window);
     wxWindow *GetContainingWindow() const { return m_containingWindow; }
-
-#if WXWIN_COMPATIBILITY_2_6
-    // Deprecated in 2.6 since historically it does not delete the window,
-    // use Detach instead.
-    wxDEPRECATED( virtual bool Remove( wxWindow *window ) );
-#endif // WXWIN_COMPATIBILITY_2_6
 
     virtual bool Remove( wxSizer *sizer );
     virtual bool Remove( int index );
@@ -741,7 +752,7 @@ protected:
     virtual wxSizerItem* DoInsert(size_t index, wxSizerItem *item);
 
 private:
-    DECLARE_CLASS(wxSizer)
+    wxDECLARE_CLASS(wxSizer);
 };
 
 //---------------------------------------------------------------------------
@@ -760,8 +771,8 @@ public:
     wxGridSizer( int rows, int cols, int vgap, int hgap );
     wxGridSizer( int rows, int cols, const wxSize& gap );
 
-    virtual void RecalcSizes();
-    virtual wxSize CalcMin();
+    virtual void RecalcSizes() wxOVERRIDE;
+    virtual wxSize CalcMin() wxOVERRIDE;
 
     void SetCols( int cols )
     {
@@ -799,7 +810,7 @@ protected:
     int    m_vgap;
     int    m_hgap;
 
-    virtual wxSizerItem *DoInsert(size_t index, wxSizerItem *item);
+    virtual wxSizerItem *DoInsert(size_t index, wxSizerItem *item) wxOVERRIDE;
 
     void SetItemBounds( wxSizerItem *item, int x, int y, int w, int h );
 
@@ -828,7 +839,7 @@ protected:
     }
 
 private:
-    DECLARE_CLASS(wxGridSizer)
+    wxDECLARE_CLASS(wxGridSizer);
 };
 
 //---------------------------------------------------------------------------
@@ -891,8 +902,8 @@ public:
     const wxArrayInt& GetColWidths() const  { return m_colWidths; }
 
     // implementation
-    virtual void RecalcSizes();
-    virtual wxSize CalcMin();
+    virtual void RecalcSizes() wxOVERRIDE;
+    virtual wxSize CalcMin() wxOVERRIDE;
 
 protected:
     void AdjustForFlexDirection();
@@ -920,7 +931,7 @@ protected:
     wxSize m_calculatedMinSize;
 
 private:
-    DECLARE_CLASS(wxFlexGridSizer)
+    wxDECLARE_CLASS(wxFlexGridSizer);
     wxDECLARE_NO_COPY_CLASS(wxFlexGridSizer);
 };
 
@@ -940,7 +951,7 @@ public:
                       wxT("invalid value for wxBoxSizer orientation") );
     }
 
-    virtual wxSizerItem *AddSpacer(int size);
+    virtual wxSizerItem *AddSpacer(int size) wxOVERRIDE;
 
     int GetOrientation() const { return m_orient; }
 
@@ -949,10 +960,13 @@ public:
     void SetOrientation(int orient) { m_orient = orient; }
 
     // implementation of our resizing logic
-    virtual wxSize CalcMin();
-    virtual void RecalcSizes();
+    virtual wxSize CalcMin() wxOVERRIDE;
+    virtual void RecalcSizes() wxOVERRIDE;
 
 protected:
+    // Only overridden to perform extra debugging checks.
+    virtual wxSizerItem *DoInsert(size_t index, wxSizerItem *item) wxOVERRIDE;
+
     // helpers for our code: this returns the component of the given wxSize in
     // the direction of the sizer and in the other direction, respectively
     int GetSizeInMajorDir(const wxSize& sz) const
@@ -1010,7 +1024,7 @@ protected:
     wxSize m_minSize;
 
 private:
-    DECLARE_CLASS(wxBoxSizer)
+    wxDECLARE_CLASS(wxBoxSizer);
 };
 
 //---------------------------------------------------------------------------
@@ -1028,25 +1042,25 @@ public:
     wxStaticBoxSizer(int orient, wxWindow *win, const wxString& label = wxEmptyString);
     virtual ~wxStaticBoxSizer();
 
-    void RecalcSizes();
-    wxSize CalcMin();
+    void RecalcSizes() wxOVERRIDE;
+    wxSize CalcMin() wxOVERRIDE;
 
     wxStaticBox *GetStaticBox() const
         { return m_staticBox; }
 
     // override to hide/show the static box as well
-    virtual void ShowItems (bool show);
-    virtual bool AreAnyItemsShown() const;
+    virtual void ShowItems (bool show) wxOVERRIDE;
+    virtual bool AreAnyItemsShown() const wxOVERRIDE;
 
-    virtual bool Detach( wxWindow *window );
-    virtual bool Detach( wxSizer *sizer ) { return wxBoxSizer::Detach(sizer); }
-    virtual bool Detach( int index ) { return wxBoxSizer::Detach(index); }
+    virtual bool Detach( wxWindow *window ) wxOVERRIDE;
+    virtual bool Detach( wxSizer *sizer ) wxOVERRIDE { return wxBoxSizer::Detach(sizer); }
+    virtual bool Detach( int index ) wxOVERRIDE { return wxBoxSizer::Detach(index); }
 
 protected:
     wxStaticBox   *m_staticBox;
 
 private:
-    DECLARE_CLASS(wxStaticBoxSizer)
+    wxDECLARE_CLASS(wxStaticBoxSizer);
     wxDECLARE_NO_COPY_CLASS(wxStaticBoxSizer);
 };
 
@@ -1098,7 +1112,7 @@ protected:
     wxButton *m_buttonHelp;         // wxID_HELP, wxID_CONTEXT_HELP
 
 private:
-    DECLARE_CLASS(wxStdDialogButtonSizer)
+    wxDECLARE_CLASS(wxStdDialogButtonSizer);
     wxDECLARE_NO_COPY_CLASS(wxStdDialogButtonSizer);
 };
 

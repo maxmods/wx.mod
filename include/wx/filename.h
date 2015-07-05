@@ -28,7 +28,7 @@ class WXDLLIMPEXP_FWD_BASE wxFFile;
 
 // this symbol is defined for the platforms where file systems use volumes in
 // paths
-#if defined(__WINDOWS__) || defined(__DOS__) || defined(__OS2__)
+#if defined(__WINDOWS__) || defined(__DOS__)
     #define wxHAS_FILESYSTEM_VOLUMES
 #endif
 
@@ -597,10 +597,8 @@ public:
     // deprecated methods, don't use any more
     // --------------------------------------
 
-#ifndef __DIGITALMARS__
     wxString GetPath( bool withSep, wxPathFormat format = wxPATH_NATIVE ) const
         { return GetPath(withSep ? wxPATH_GET_SEPARATOR : 0, format); }
-#endif
     wxString GetPathWithSep(wxPathFormat format = wxPATH_NATIVE ) const
         { return GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR, format); }
 

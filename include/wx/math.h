@@ -57,7 +57,7 @@
 #if __cplusplus >= 201103
     #include <cmath>
     #define wxFinite(x) std::isfinite(x)
-#elif defined(__VISUALC__) || defined(__BORLANDC__) || defined(__WATCOMC__)
+#elif defined(__VISUALC__) || defined(__BORLANDC__)
     #include <float.h>
     #define wxFinite(x) _finite(x)
 #elif defined(__MINGW64_TOOLCHAIN__) || defined(__clang__)
@@ -71,6 +71,10 @@
     #else
         #define wxFinite(x) isfinite(x)
     #endif
+#elif defined(wxNEEDS_STRICT_ANSI_WORKAROUNDS)
+    wxDECL_FOR_STRICT_MINGW32(int, _finite, (double))
+
+    #define wxFinite(x) _finite(x)
 #elif ( defined(__GNUG__)||defined(__GNUWIN32__)||defined(__DJGPP__)|| \
       defined(__SGI_CC__)||defined(__SUNCC__)||defined(__XLC__)|| \
       defined(__HPUX__) ) && ( !defined(wxOSX_USE_IPHONE) || wxOSX_USE_IPHONE == 0 )
@@ -133,6 +137,10 @@ inline int wxRound(double x)
     #endif
 }
 
+// Convert between degrees and radians.
+inline double wxDegToRad(double deg) { return (deg * M_PI) / 180.0; }
+inline double wxRadToDeg(double rad) { return (rad * 180.0) / M_PI; }
+
 #endif /* __cplusplus */
 
 
@@ -161,5 +169,7 @@ inline int wxRound(double x)
 #endif
 #endif /* wxUSE_APPLE_IEEE */
 
+/* Compute the greatest common divisor of two positive integers */
+WXDLLIMPEXP_BASE unsigned int wxGCD(unsigned int u, unsigned int v);
 
 #endif /* _WX_MATH_H_ */

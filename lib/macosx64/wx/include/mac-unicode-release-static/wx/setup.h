@@ -1,4 +1,4 @@
-/* lib/wx/include/osx_cocoa-unicode-static-3.0/wx/setup.h.  Generated from setup.h.in by configure.  */
+/* lib/wx/include/osx_cocoa-unicode-static-3.1/wx/setup.h.  Generated from setup.h.in by configure.  */
 /* This define (__WX_SETUP_H__) is used both to ensure setup.h is included
  * only once and to indicate that we are building using configure. */
 #ifndef __WX_SETUP_H__
@@ -14,9 +14,6 @@
 /* #undef inline */
 
 #endif /* __cplusplus */
-
-/* fill in with the string wxGetOsDescription() will return */
-#define WXWIN_OS_DESCRIPTION "Darwin 13.4.0 x86_64"
 
 /* the installation location prefix from configure */
 #define wxINSTALL_PREFIX "/usr/local"
@@ -60,14 +57,14 @@
 /* Define this if your version of GTK+ is greater than 2.0 */
 /* #undef __WXGTK20__ */
 
-/* Define this if your version of GTK+ is greater than 2.6 */
-/* #undef __WXGTK26__ */
-
 /* Define this if your version of GTK+ is greater than 2.10 */
 /* #undef __WXGTK210__ */
 
 /* Define this if your version of GTK+ is greater than 2.18 */
 /* #undef __WXGTK218__ */
+
+/* Define this if your version of GTK+ is greater than 2.20 */
+/* #undef __WXGTK220__ */
 
 /* Define this if your version of GTK+ is >= 3.0 */
 /* #undef __WXGTK3__ */
@@ -143,9 +140,6 @@
 /* #undef WINVER */
 #endif
 
-/* OS/2 with EMX */
-/* #undef __OS2__ */
-
 /* --- start common options --- */
 
 #ifndef wxUSE_GUI
@@ -153,9 +147,9 @@
 #endif
 
 
-#define WXWIN_COMPATIBILITY_2_6 0
+#define WXWIN_COMPATIBILITY_2_8 0
 
-#define WXWIN_COMPATIBILITY_2_8 1
+#define WXWIN_COMPATIBILITY_3_0 1
 
 #define wxDIALOG_UNIT_COMPATIBILITY   0
 
@@ -211,12 +205,9 @@
 
 #define wxUSE_STL 0
 
-#if defined(__DMC__) || defined(__WATCOMC__) \
-        || (defined(_MSC_VER) && _MSC_VER < 1200)
-    #define wxUSE_STD_DEFAULT  0
-#else
-    #define wxUSE_STD_DEFAULT  0
-#endif
+#define wxUSE_STD_DEFAULT  0
+
+#define wxUSE_STD_CONTAINERS_COMPATIBLY 1
 
 #define wxUSE_STD_CONTAINERS 0
 
@@ -349,15 +340,7 @@
 
 
 #ifdef _MSC_VER
-#   if _MSC_VER >= 1310
-
-
 #define wxUSE_GRAPHICS_CONTEXT 1
-#   else
-
-
-#       define wxUSE_GRAPHICS_CONTEXT 1
-#   endif
 #else
 
 
@@ -379,6 +362,7 @@
 
 #define wxUSE_TIPWINDOW 1
 
+#define wxUSE_ACTIVITYINDICATOR 1
 #define wxUSE_ANIMATIONCTRL 1
 #define wxUSE_BANNERWINDOW 1
 #define wxUSE_BUTTON 1
@@ -451,6 +435,8 @@
 #define wxUSE_BITMAPCOMBOBOX 1
 
 #define wxUSE_REARRANGECTRL 1
+
+#define wxUSE_ADDREMOVECTRL 1
 
 
 #define wxUSE_ACCEL 1
@@ -651,11 +637,15 @@
 
 /* --- start MSW options --- */
 
-#ifndef wxUSE_UNICODE_MSLU
-    #define wxUSE_UNICODE_MSLU 0
+
+#define wxUSE_GRAPHICS_GDIPLUS wxUSE_GRAPHICS_CONTEXT
+
+#if defined(_MSC_VER) && _MSC_VER >= 1600
+    #define wxUSE_GRAPHICS_DIRECT2D wxUSE_GRAPHICS_CONTEXT
+#else
+    #define wxUSE_GRAPHICS_DIRECT2D 0
 #endif
 
-#define wxUSE_MFC           0
 
 #define wxUSE_OLE           0
 
@@ -678,6 +668,8 @@
 #define wxUSE_OWNER_DRAWN 0
 
 #define wxUSE_TASKBARICON_BALLOONS 1
+
+#define wxUSE_TASKBARBUTTON 0
 
 #define wxUSE_UXTHEME           0
 
@@ -1072,6 +1064,9 @@
 /* Define if you have the dlerror function.  */
 #define HAVE_DLERROR 1
 
+/* Define if you have the dladdr function.  */
+#define HAVE_DLADDR 1
+
 /* Define if you have Posix fnctl() function. */
 #define HAVE_FCNTL 1
 
@@ -1148,7 +1143,7 @@
 #define HAVE_UNSETENV 1
 
 /* Define if you have the <X11/XKBlib.h> header file.  */
-#define HAVE_X11_XKBLIB_H 1
+/* #undef HAVE_X11_XKBLIB_H */
 
 /* Define if you have the <X11/extensions/xf86vmode.h> header file.  */
 /* #undef HAVE_X11_EXTENSIONS_XF86VMODE_H */

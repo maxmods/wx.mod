@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 // Name:        wx/richtext/richtextsymboldlg.h
-// Purpose:
+// Purpose:     Declares the symbol picker dialog.
 // Author:      Julian Smart
 // Modified by:
 // Created:     10/5/2006 3:11:58 PM
@@ -55,8 +55,8 @@ class wxStdDialogButtonSizer;
 
 class WXDLLIMPEXP_RICHTEXT wxSymbolPickerDialog: public wxDialog
 {
-    DECLARE_DYNAMIC_CLASS( wxSymbolPickerDialog )
-    DECLARE_EVENT_TABLE()
+    wxDECLARE_DYNAMIC_CLASS(wxSymbolPickerDialog);
+    wxDECLARE_EVENT_TABLE();
     DECLARE_HELP_PROVISION()
 
 public:
@@ -366,9 +366,9 @@ private:
     // Unicode/ASCII mode
     bool        m_unicodeMode;
 
-    DECLARE_EVENT_TABLE()
+    wxDECLARE_EVENT_TABLE();
     wxDECLARE_NO_COPY_CLASS(wxSymbolListCtrl);
-    DECLARE_ABSTRACT_CLASS(wxSymbolListCtrl)
+    wxDECLARE_ABSTRACT_CLASS(wxSymbolListCtrl);
 };
 
 #endif

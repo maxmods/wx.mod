@@ -72,13 +72,6 @@ public:
         return true;
     }
 
-#if WXWIN_COMPATIBILITY_2_6
-
-    wxDEPRECATED( long GetStyle() const );
-    wxDEPRECATED( void SetStyle(long style) );
-
-#endif  // WXWIN_COMPATIBILITY_2_6
-
     virtual void SetMessage(const wxString& message) { m_message = message; }
     virtual void SetPath(const wxString& path) { m_path = path; }
 
@@ -95,8 +88,7 @@ protected:
 #if defined(__WXUNIVERSAL__)
     #include "wx/generic/dirdlgg.h"
     #define wxDirDialog wxGenericDirDialog
-#elif defined(__WXMSW__) && (!wxUSE_OLE               || \
-                             (defined (__GNUWIN32__) && !wxUSE_NORLANDER_HEADERS))
+#elif defined(__WXMSW__) && !wxUSE_OLE
     #include "wx/generic/dirdlgg.h"
     #define wxDirDialog wxGenericDirDialog
 #elif defined(__WXMSW__) && defined(__WXWINCE__) && !defined(__HANDHELDPC__)
@@ -111,14 +103,12 @@ protected:
     #define wxDirDialog wxGenericDirDialog
 #elif defined(__WXMAC__)
     #include "wx/osx/dirdlg.h"      // Native Mac
-#elif defined(__WXCOCOA__)
-    #include "wx/cocoa/dirdlg.h"    // Native Cocoa
 #elif defined(__WXMOTIF__) || \
-      defined(__WXX11__)   || \
-      defined(__WXCOCOA__) || \
-      defined(__WXPM__)
+      defined(__WXX11__)
     #include "wx/generic/dirdlgg.h"     // Other ports use generic implementation
     #define wxDirDialog wxGenericDirDialog
+#elif defined(__WXQT__)
+    #include "wx/qt/dirdlg.h"
 #endif
 
 // ----------------------------------------------------------------------------

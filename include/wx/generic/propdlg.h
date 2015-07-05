@@ -106,7 +106,7 @@ public:
     wxBookCtrlBase* GetBookCtrl() const { return m_bookCtrl; }
 
     // Override function in base
-    virtual wxWindow* GetContentWindow() const;
+    virtual wxWindow* GetContentWindow() const wxOVERRIDE;
 
     // Set and get the inner sizer
     void SetInnerSize(wxSizer* sizer) { m_innerSizer = sizer; }
@@ -158,8 +158,8 @@ protected:
     int             m_sheetInnerBorder;
     int             m_selectedPage;
 
-    DECLARE_DYNAMIC_CLASS(wxPropertySheetDialog)
-    DECLARE_EVENT_TABLE()
+    wxDECLARE_DYNAMIC_CLASS(wxPropertySheetDialog);
+    wxDECLARE_EVENT_TABLE();
 };
 
 #endif // wxUSE_BOOKCTRL

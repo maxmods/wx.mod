@@ -119,6 +119,10 @@ public:
 
     /// Create a string containing style attributes
     static wxString AddAttributes(const wxRichTextAttr& attr, bool isPara = false);
+
+    /// Create a string containing style attributes, plus further object 'attributes' (shown, id)
+    static wxString AddAttributes(wxRichTextObject* obj, bool isPara = false);
+    
     virtual bool ExportStyleDefinition(wxOutputStream& stream, wxRichTextStyleDefinition* def, int level);
 
     virtual bool WriteProperties(wxOutputStream& stream, const wxRichTextProperties& properties, int level);
@@ -136,6 +140,7 @@ public:
     static void AddAttribute(wxXmlNode* node, const wxString& rootName, const wxTextAttrBorders& borders);
 
     static bool AddAttributes(wxXmlNode* node, wxRichTextAttr& attr, bool isPara = false);
+    static bool AddAttributes(wxXmlNode* node, wxRichTextObject* obj, bool isPara = false);
 
     virtual bool ExportStyleDefinition(wxXmlNode* parent, wxRichTextStyleDefinition* def);
 
@@ -170,7 +175,7 @@ class WXDLLIMPEXP_FWD_XML wxXmlDocument;
 
 class WXDLLIMPEXP_RICHTEXT wxRichTextXMLHandler: public wxRichTextFileHandler
 {
-    DECLARE_DYNAMIC_CLASS(wxRichTextXMLHandler)
+    wxDECLARE_DYNAMIC_CLASS(wxRichTextXMLHandler);
 public:
     wxRichTextXMLHandler(const wxString& name = wxT("XML"), const wxString& ext = wxT("xml"), int type = wxRICHTEXT_TYPE_XML)
         : wxRichTextFileHandler(name, ext, type)

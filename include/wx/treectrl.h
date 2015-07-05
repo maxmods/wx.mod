@@ -25,6 +25,10 @@
 
 class WXDLLIMPEXP_FWD_CORE wxImageList;
 
+#ifndef __WXMSW__
+    #define wxHAS_GENERIC_TREECTRL
+#endif
+
 // ----------------------------------------------------------------------------
 // wxTreeCtrlBase
 // ----------------------------------------------------------------------------
@@ -391,14 +395,14 @@ public:
     // implementation
     // --------------
 
-    virtual bool ShouldInheritColours() const { return false; }
+    virtual bool ShouldInheritColours() const wxOVERRIDE { return false; }
 
     // hint whether to calculate best size quickly or accurately
     void SetQuickBestSize(bool q) { m_quickBestSize = q; }
     bool GetQuickBestSize() const { return m_quickBestSize; }
 
 protected:
-    virtual wxSize DoGetBestSize() const;
+    virtual wxSize DoGetBestSize() const wxOVERRIDE;
 
     // common part of Get/SetItemState()
     virtual int DoGetItemState(const wxTreeItemId& item) const = 0;
@@ -456,20 +460,12 @@ private:
 // include the platform-dependent wxTreeCtrl class
 // ----------------------------------------------------------------------------
 
-#if defined(__WXUNIVERSAL__)
+#ifdef wxHAS_GENERIC_TREECTRL
     #include "wx/generic/treectlg.h"
 #elif defined(__WXMSW__)
     #include "wx/msw/treectrl.h"
-#elif defined(__WXMOTIF__)
-    #include "wx/generic/treectlg.h"
-#elif defined(__WXGTK__)
-    #include "wx/generic/treectlg.h"
-#elif defined(__WXMAC__)
-    #include "wx/generic/treectlg.h"
-#elif defined(__WXCOCOA__)
-    #include "wx/generic/treectlg.h"
-#elif defined(__WXPM__)
-    #include "wx/generic/treectlg.h"
+#else
+    #error "unknown native wxTreeCtrl implementation"
 #endif
 
 #endif // wxUSE_TREECTRL

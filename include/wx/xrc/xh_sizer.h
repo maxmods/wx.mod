@@ -19,7 +19,7 @@
 
 class WXDLLIMPEXP_XRC wxSizerXmlHandler : public wxXmlResourceHandler
 {
-    DECLARE_DYNAMIC_CLASS(wxSizerXmlHandler)
+    wxDECLARE_DYNAMIC_CLASS(wxSizerXmlHandler);
 
 public:
     wxSizerXmlHandler();
@@ -57,6 +57,7 @@ private:
     wxSizerItem* MakeSizerItem();
     void SetSizerItemAttributes(wxSizerItem* sitem);
     void AddSizerItem(wxSizerItem* sitem);
+    int GetSizerFlags();
 };
 
 #if wxUSE_BUTTON
@@ -64,7 +65,7 @@ private:
 class WXDLLIMPEXP_XRC wxStdDialogButtonSizerXmlHandler
     : public wxXmlResourceHandler
 {
-    DECLARE_DYNAMIC_CLASS(wxStdDialogButtonSizerXmlHandler)
+    wxDECLARE_DYNAMIC_CLASS(wxStdDialogButtonSizerXmlHandler);
 
 public:
     wxStdDialogButtonSizerXmlHandler();
