@@ -82,9 +82,9 @@ Type wxSheet Extends wxWindow
 		End If
 	End Function
 
-	Function _find:wxSheet(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local sheet:wxSheet = wxSheet(wxfind(wxObjectPtr))
+			Local sheet:Object = wxfind(wxObjectPtr)
 			If Not sheet Then
 				Return wxSheet._create(wxObjectPtr)
 			End If
@@ -262,15 +262,15 @@ Type wxSheet Extends wxWindow
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetNumberCols:Int(cols:Int, update:Int = wxSHEET_UpdateAll)
-		Return bmx_wxsheet_setnumbercols(wxObjectPtr, cols, update)
+	Method SetNumberCols:Int(COLS:Int, update:Int = wxSHEET_UpdateAll)
+		Return bmx_wxsheet_setnumbercols(wxObjectPtr, COLS, update)
 	End Method
 
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetNumberCells:Int(rows:Int, cols:Int, update:Int = wxSHEET_UpdateAll)
-		Return bmx_wxsheet_setnumbercells(wxObjectPtr, rows, cols, update)
+	Method SetNumberCells:Int(rows:Int, COLS:Int, update:Int = wxSHEET_UpdateAll)
+		Return bmx_wxsheet_setnumbercells(wxObjectPtr, rows, COLS, update)
 	End Method
 
 	Rem
@@ -1074,8 +1074,8 @@ Type wxSheet Extends wxWindow
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetCellSpan(row:Int, col:Int, rows:Int, cols:Int)
-		bmx_wxsheet_setcellspan(wxObjectPtr, row, col, rows, cols)
+	Method SetCellSpan(row:Int, col:Int, rows:Int, COLS:Int)
+		bmx_wxsheet_setcellspan(wxObjectPtr, row, col, rows, COLS)
 	End Method
 
 
@@ -1717,7 +1717,7 @@ Type wxSheetCellStringRendererRefData Extends wxSheetCellRendererRefData
 	End Method
 	
 	Function _Draw(obj:wxObject, sheet:Byte Ptr, attr:Byte Ptr, dc:Byte Ptr, rectCell:Byte Ptr, row:Int, col:Int, isSelected:Int)
-		wxSheetCellStringRendererRefData(obj).Draw(wxSheet._find(sheet), wxSheetCellAttr._create(attr), ..
+		wxSheetCellStringRendererRefData(obj).Draw(wxSheet(wxSheet._find(sheet)), wxSheetCellAttr._create(attr), ..
 				wxDC._create(dc), wxRect._create(rectCell), row, col, isSelected)
 	End Function
 	
@@ -2485,9 +2485,9 @@ Type wxSheetSplitter Extends wxWindow
 		End If
 	End Function
 
-	Function _find:wxSheetSplitter(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local splitter:wxSheetSplitter = wxSheetSplitter(wxfind(wxObjectPtr))
+			Local splitter:Object = wxfind(wxObjectPtr)
 			If Not splitter Then
 				Return wxSheetSplitter._create(wxObjectPtr)
 			End If
@@ -2853,7 +2853,7 @@ Type wxSheetEvent Extends wxNotifyEvent
 	bbdoc: 
 	End Rem
 	Method GetEventWindow:wxWindow()
-		Return wxWindow._find(bmx_wxsheetevent_geteventwindow(wxEventPtr))
+		Return wxWindow(wxWindow._find(bmx_wxsheetevent_geteventwindow(wxEventPtr)))
 	End Method
 
 End Type
@@ -2941,7 +2941,7 @@ Type wxSheetEditorCreatedEvent Extends wxCommandEvent
 	bbdoc: 
 	End Rem
 	Method GetControl:wxWindow()
-		Return wxWindow._find(bmx_wxsheeteditorcreatedevent_getcontrol(wxEventPtr))
+		Return wxWindow(wxWindow._find(bmx_wxsheeteditorcreatedevent_getcontrol(wxEventPtr)))
 	End Method
 	
 	Rem
@@ -3005,14 +3005,14 @@ Type wxSheetSplitterEvent Extends wxNotifyEvent
 	bbdoc: 
 	End Rem
 	Method GetSheet:wxSheet()
-		Return wxSheet._find(bmx_wxsheetsplitterevent_getsheet(wxEventPtr))
+		Return wxSheet(wxSheet._find(bmx_wxsheetsplitterevent_getsheet(wxEventPtr)))
 	End Method
 	
 	Rem
 	bbdoc: 
 	End Rem
 	Method GetSheetSplitter:wxSheetSplitter()
-		Return wxSheetSplitter._find(bmx_wxsheetsplitterevent_getsheetsplitter(wxEventPtr))
+		Return wxSheetSplitter(wxSheetSplitter._find(bmx_wxsheetsplitterevent_getsheetsplitter(wxEventPtr)))
 	End Method
 
 End Type
