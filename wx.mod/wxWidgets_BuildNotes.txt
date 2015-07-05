@@ -3,10 +3,14 @@ Build Notes
 
 Linux :
 
-    wxGTK 2.9.x
-    ./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared
+    wxGTK 3.1.x
 
+	32-bit
 	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -m32" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES"
+
+	64-bit
+	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES"
+
 
     add "--disable-shared" for static libraries
     using "--enable-mediactrl" requires gstreamer installation
@@ -27,13 +31,13 @@ Linux :
 
 MacOS :
 
-    wxMac 3.0.x
+    wxMac 3.1.x
 
 	32-bit
-	../configure --with-osx_cocoa --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" --with-macosx-sdk=/Developer/SDKs/MacOSX10.6.sdk
+	../configure --with-osx_cocoa --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES"
 
 	64-bit
-	../configure --with-osx_cocoa --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" --with-macosx-sdk=/Developer/SDKs/MacOSX10.6.sdk
+	../configure --with-osx_cocoa --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES"
 	
     use "--disable-shared" for static libraries, otherwise you get .dylibs
 
@@ -62,13 +66,13 @@ MacOS :
 
 Win32 :
 
-    wxMSW 2.9.x
+    wxMSW 3.1.x
     
     edit build/msw/config.gcc, and change the following entries :
             BUILD := release
             UNICODE = 1
             USE_OPENGL = 1
-            USE_GDIPLUS := 1
+            USE_GDIPLUS := 1               <- this option doesn't appear in the latest config. May be enabled by default.
 
 			# Standard flags for CC 
 			CFLAGS ?= -DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES
