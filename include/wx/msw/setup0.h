@@ -342,7 +342,7 @@
 // Recommended setting: 1 if you use the standard streams anyhow and so
 //                      dependency on the standard streams library is not a
 //                      problem
-#define wxUSE_STD_IOSTREAM  wxUSE_STD_DEFAULT
+#define wxUSE_STD_IOSTREAM  0
 
 // Enable minimal interoperability with the standard C++ string class if 1.
 // "Minimal" means that wxString can be constructed from std::string or
@@ -754,16 +754,16 @@
 
 // notice that we can't use wxCHECK_VISUALC_VERSION() here as this file is
 // included from wx/platform.h before wxCHECK_VISUALC_VERSION() is defined
-#ifdef _MSC_VER
+//#ifdef _MSC_VER
 #   define wxUSE_GRAPHICS_CONTEXT 1
-#else
+//#else
     // Disable support for other Windows compilers, enable it if your compiler
     // comes with new enough SDK or you installed the headers manually.
     //
     // Notice that this will be set by configure under non-Windows platforms
     // anyhow so the value there is not important.
-#   define wxUSE_GRAPHICS_CONTEXT 0
-#endif
+//#   define wxUSE_GRAPHICS_CONTEXT 0
+//#endif
 
 // Enable wxGraphicsContext implementation using Cairo library.
 //
