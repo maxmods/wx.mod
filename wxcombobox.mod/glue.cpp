@@ -169,7 +169,10 @@ wxTextPos bmx_wxcombobox_getlastposition(wxComboBox * combo) {
 
 void bmx_wxcombobox_gettextselection(wxComboBox * combo, int * fromPos, int * toPos) {
 #ifndef __APPLE__
-	combo->GetSelection(fromPos, toPos);
+	long fp, tp;
+	combo->GetSelection(&fp, &tp);
+	*fromPos = fp;
+	*toPos = tp;
 #endif
 }
 
