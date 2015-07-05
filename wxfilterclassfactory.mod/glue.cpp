@@ -28,12 +28,12 @@
 
 // *********************************************
 
-const wxFilterClassFactory * bmx_wxfilterclassfactory_find(BBString * protocol, wxStreamProtocolType protocolType) {
-	return wxFilterClassFactory::Find(wxStringFromBBString(protocol), protocolType);
+const wxFilterClassFactory * bmx_wxfilterclassfactory_find(BBString * protocol, int protocolType) {
+	return wxFilterClassFactory::Find(wxStringFromBBString(protocol), static_cast<wxStreamProtocolType>(protocolType));
 }
 
-int bmx_wxfilterclassfactory_canhandle(wxFilterClassFactory * factory, BBString * protocol, wxStreamProtocolType protocolType) {
-	return static_cast<int>(factory->CanHandle(wxStringFromBBString(protocol), protocolType));
+int bmx_wxfilterclassfactory_canhandle(wxFilterClassFactory * factory, BBString * protocol, int protocolType) {
+	return static_cast<int>(factory->CanHandle(wxStringFromBBString(protocol), static_cast<wxStreamProtocolType>(protocolType)));
 }
 
 BBString * bmx_wxfilterclassfactory_getprotocol(wxFilterClassFactory * factory) {

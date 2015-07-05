@@ -130,7 +130,7 @@ bool MaxFlatNotebookXmlHandler::CanHandle(wxXmlNode *node)
 
 // *********************************************
 
-wxFlatNotebook * bmx_wxflatnotebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+wxFlatNotebook * bmx_wxflatnotebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxFlatNotebook(handle, parent, id, x, y, w, h, style);
 }
 
@@ -212,7 +212,7 @@ void bmx_wxflatnotebook_setpadding(wxFlatNotebook * fnb, int padW, int padH) {
     fnb->SetPadding(wxSize(padW, padH));
 }
 
-void bmx_wxflatnotebook_setwindowstyleflag(wxFlatNotebook * fnb, long style) {
+void bmx_wxflatnotebook_setwindowstyleflag(wxFlatNotebook * fnb, int style) {
     fnb->SetWindowStyleFlag(style);
 }
 
@@ -315,11 +315,11 @@ int bmx_wxflatnotebook_getpadding(wxFlatNotebook * fnb) {
     return fnb->GetPadding();
 }
 
-void bmx_wxflatnotebook_setcustomizeoptions(wxFlatNotebook * fnb, long options) {
+void bmx_wxflatnotebook_setcustomizeoptions(wxFlatNotebook * fnb, int options) {
     fnb->SetCustomizeOptions(options);
 }
 
-long bmx_wxflatnotebook_getcustomizeoptions(wxFlatNotebook * fnb) {
+int bmx_wxflatnotebook_getcustomizeoptions(wxFlatNotebook * fnb) {
     return fnb->GetCustomizeOptions();
 }
 

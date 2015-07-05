@@ -48,7 +48,7 @@ void MaxGradientButton::MaxBind(BBObject * handle) {
 BEGIN_EVENT_TABLE(MaxGradientButton, wxGradientButton)
 END_EVENT_TABLE()
 
-wxGradientButton * bmx_wxgradientbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y, int w, int h, long style) {
+wxGradientButton * bmx_wxgradientbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y, int w, int h, int style) {
 	return new MaxGradientButton(handle, parent, id, label, x, y, w, h, style);
 }
 

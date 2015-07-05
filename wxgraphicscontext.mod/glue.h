@@ -54,12 +54,12 @@ extern "C" {
 	void bmx_wxgraphicscontext_drawbitmap(wxGraphicsContext * context, MaxBitmap * bmp, double x, double y, double w, double h);
 	void bmx_wxgraphicscontext_drawellipse(wxGraphicsContext * context, double x, double y, double w, double h);
 	void bmx_wxgraphicscontext_drawicon(wxGraphicsContext * context, MaxIcon * icon, double x, double y, double w, double h);
-	void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * points, wxPolygonFillMode fillStyle);
-	void bmx_wxgraphicscontext_drawpath(wxGraphicsContext * context, MaxGraphicsPath * path, wxPolygonFillMode fillStyle);
+	void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * points, int fillStyle);
+	void bmx_wxgraphicscontext_drawpath(wxGraphicsContext * context, MaxGraphicsPath * path, int fillStyle);
 	void bmx_wxgraphicscontext_drawrectangle(wxGraphicsContext * context, double x, double y, double w, double h);
 	void bmx_wxgraphicscontext_drawroundedrectangle(wxGraphicsContext * context, double x, double y, double w, double h, double radius);
 	void bmx_wxgraphicscontext_drawtext(wxGraphicsContext * context, BBString * text, double x, double y, double angle);
-	void bmx_wxgraphicscontext_fillpath(wxGraphicsContext * context, MaxGraphicsPath * path, wxPolygonFillMode fillStyle);
+	void bmx_wxgraphicscontext_fillpath(wxGraphicsContext * context, MaxGraphicsPath * path, int fillStyle);
 	void bmx_wxgraphicscontext_strokepath(wxGraphicsContext * context, MaxGraphicsPath * path);
 	void * bmx_wxgraphicscontext_getnativecontext(wxGraphicsContext * context);
 	BBArray * bmx_wxgraphicscontext_getpartialtextextents(wxGraphicsContext * context, BBString * text);
@@ -90,8 +90,8 @@ extern "C" {
 	void bmx_wxgraphicsmatrix_get(MaxGraphicsMatrix * matrix, double * a, double * b, double * c, double * d, double * tx, double * ty);
 	void * bmx_wxgraphicsmatrix_getnativematrix(MaxGraphicsMatrix * matrix);
 	void bmx_wxgraphicsmatrix_invert(MaxGraphicsMatrix * matrix);
-	bool bmx_wxgraphicsmatrix_isequal(MaxGraphicsMatrix * matrix, MaxGraphicsMatrix * t);
-	bool bmx_wxgraphicsmatrix_isidentity(MaxGraphicsMatrix * matrix);
+	int bmx_wxgraphicsmatrix_isequal(MaxGraphicsMatrix * matrix, MaxGraphicsMatrix * t);
+	int bmx_wxgraphicsmatrix_isidentity(MaxGraphicsMatrix * matrix);
 	void bmx_wxgraphicsmatrix_rotate(MaxGraphicsMatrix * matrix, double angle);
 	void bmx_wxgraphicsmatrix_scale(MaxGraphicsMatrix * matrix, double xScale, double yScale);
 	void bmx_wxgraphicsmatrix_translate(MaxGraphicsMatrix * matrix, double dx, double dy);
@@ -100,7 +100,7 @@ extern "C" {
 	void bmx_wxgraphicsmatrix_transformdistance(MaxGraphicsMatrix * matrix, double * dx, double * dy);
 	
 	void bmx_wxgraphicspath_movetopoint(MaxGraphicsPath * path, double x, double y);
-	void bmx_wxgraphicspath_addarc(MaxGraphicsPath * path, double x, double y, double r, double startAngle, double endAngle, bool clockwise);
+	void bmx_wxgraphicspath_addarc(MaxGraphicsPath * path, double x, double y, double r, double startAngle, double endAngle, int clockwise);
 	void bmx_wxgraphicspath_addarctopoint(MaxGraphicsPath * path, double x1, double y1, double x2, double y2, double radius);
 	void bmx_wxgraphicspath_addcircle(MaxGraphicsPath * path, double x, double y, double radius);
 	void bmx_wxgraphicspath_addcurvetopoint(MaxGraphicsPath * path, double cx1, double cy1, double cx2, double cy2, double x, double y);
@@ -111,7 +111,7 @@ extern "C" {
 	void bmx_wxgraphicspath_addrectangle(MaxGraphicsPath * path, double x, double y, double w, double h);
 	void bmx_wxgraphicspath_addroundedrectangle(MaxGraphicsPath * path, double x, double y, double w, double h, double radius);
 	void bmx_wxgraphicspath_closesubpath(MaxGraphicsPath * path);
-	bool bmx_wxgraphicspath_contains(MaxGraphicsPath * path, double x, double y, wxPolygonFillMode fillStyle);
+	int bmx_wxgraphicspath_contains(MaxGraphicsPath * path, double x, double y, int fillStyle);
 	void bmx_wxgraphicspath_getbox(MaxGraphicsPath * path, double * x, double * y, double * w, double * h);
 	void bmx_wxgraphicspath_getcurrentpoint(MaxGraphicsPath * path, double * x, double * y);
 	void bmx_wxgraphicspath_transform(MaxGraphicsPath * path, MaxGraphicsMatrix * matrix);

@@ -277,7 +277,7 @@ void bmx_wxtoolbar_injectSelf(MaxToolBar * toolbar, BBObject * handle) {
 	toolbar->injectSelf(handle);
 }
 
-MaxToolBar * bmx_wxtoolbar_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id, int x, int y, int w, int h, long style) {
+MaxToolBar * bmx_wxtoolbar_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxToolBar(maxHandle, parent, id, x, y, w, h, style);
 }
 
@@ -294,13 +294,13 @@ wxToolBarToolBase * bmx_wxtoolbar_addstretchablespace(wxToolBar * toolbar) {
 }
 
 wxToolBarToolBase * bmx_wxtoolbar_addtool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
-		MaxBitmap * bitmap2, wxItemKind kind, BBString * shortHelp, BBString * longHelp, void * clientData) {
+		MaxBitmap * bitmap2, int kind, BBString * shortHelp, BBString * longHelp, void * clientData) {
 
 	if (bitmap2) {
-		return toolbar->AddTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), bitmap2->Bitmap(), kind, 
+		return toolbar->AddTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), bitmap2->Bitmap(), static_cast<wxItemKind>(kind), 
 			wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp));
 	} else {
-		return toolbar->AddTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), wxNullBitmap, kind, 
+		return toolbar->AddTool(id, wxStringFromBBString(label), bitmap1->Bitmap(), wxNullBitmap, static_cast<wxItemKind>(kind), 
 			wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp));
 	}
 }
@@ -416,7 +416,7 @@ wxToolBarToolBase * bmx_wxtoolbar_addradiotool(wxToolBar * toolbar, int id, BBSt
 }
 
 wxToolBarToolBase * bmx_wxtoolbar_inserttool(wxToolBar * toolbar, size_t pos, int id, BBString * label, MaxBitmap * bitmap1,
-		MaxBitmap * bitmap2, wxItemKind kind, void * clientData, BBString * shortHelp, BBString * longHelp) {
+		MaxBitmap * bitmap2, int kind, void * clientData, BBString * shortHelp, BBString * longHelp) {
 
 	MaxObject * userData;
 	if (clientData) {
@@ -425,10 +425,10 @@ wxToolBarToolBase * bmx_wxtoolbar_inserttool(wxToolBar * toolbar, size_t pos, in
 
 	if (bitmap2) {
 		return toolbar->InsertTool(pos, id, wxStringFromBBString(label), bitmap1->Bitmap(), bitmap2->Bitmap(),
-			kind, wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp), userData);
+			static_cast<wxItemKind>(kind), wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp), userData);
 	} else {
 		return toolbar->InsertTool(pos, id, wxStringFromBBString(label), bitmap1->Bitmap(), wxNullBitmap,
-			kind, wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp), userData);
+			static_cast<wxItemKind>(kind), wxStringFromBBString(shortHelp), wxStringFromBBString(longHelp), userData);
 	}
 	
 }
@@ -537,8 +537,8 @@ int bmx_wxtoolbartoolbase_getstyle(wxToolBarToolBase * base) {
 	return base->GetStyle();
 }
 
-wxItemKind bmx_wxtoolbartoolbase_getkind(wxToolBarToolBase * base) {
-	return base->GetKind();
+int bmx_wxtoolbartoolbase_getkind(wxToolBarToolBase * base) {
+	return static_cast<int>(base->GetKind());
 }
 
 int bmx_wxtoolbartoolbase_isenabled(wxToolBarToolBase * base) {

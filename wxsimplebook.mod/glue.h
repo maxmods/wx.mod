@@ -35,7 +35,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxsimplebook_wxSimplebook__xrcNew)(wxSimplebook * simple);
 
-	MaxSimplebook * bmx_wxchoicebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxSimplebook * bmx_wxchoicebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	void bmx_wxsimplebook_seteffects(wxSimplebook * simple, int showEffect, int hideEffect);
 	void bmx_wxsimplebook_seteffect(wxSimplebook * simple, int effect);
 	void bmx_wxsimplebook_seteffectstimeouts(wxSimplebook * simple, int showTimeout, int hideTimeout);

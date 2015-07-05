@@ -170,7 +170,7 @@ extern "C" {
 	void bmx_wxauidockart_setfont(wxAuiDockArt * dockart, int id, MaxFont * font);
 
 	MaxAuiNotebook * bmx_wxauinotebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	int bmx_wxauinotebook_addpage(MaxAuiNotebook * notebook, wxWindow * page, BBString * caption, int sel, MaxBitmap * bitmap);
 
 	void bmx_wxauinotebook_advanceselection(wxAuiNotebook * notebook, int forward);
@@ -204,7 +204,7 @@ extern "C" {
 
 
 	MaxAuiToolBar * bmx_wxauitoolbar_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	void bmx_wxauitoolbar_setwindowstyle(wxAuiToolBar * tb, int style);
 	int bmx_wxauitoolbar_getwindowstyle(wxAuiToolBar * tb);
 	void bmx_wxauitoolbar_setartprovider(wxAuiToolBar * tb, wxAuiToolBarArt * art);

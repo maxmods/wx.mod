@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxFileConfig * bmx_wxfileconfig_create(BBString * appName, BBString * vendorName, BBString * localFilename, BBString * globalFilename, long style);
+	wxFileConfig * bmx_wxfileconfig_create(BBString * appName, BBString * vendorName, BBString * localFilename, BBString * globalFilename, int style);
 	void bmx_wxfileconfig_setumask(wxFileConfig * config, int mode);
 
 }

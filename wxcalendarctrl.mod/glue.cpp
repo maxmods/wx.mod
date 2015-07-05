@@ -76,7 +76,7 @@ wxObject * MaxCalendarCtrlXmlHandler::DoCreateResource()
 BEGIN_EVENT_TABLE(MaxCalendarCtrl, wxCalendarCtrl)
 END_EVENT_TABLE()
 
-wxCalendarCtrl * bmx_wxcalendarctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * date, int x, int y, int w, int h, long style) {
+wxCalendarCtrl * bmx_wxcalendarctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * date, int x, int y, int w, int h, int style) {
 	return new MaxCalendarCtrl(handle, parent, id, date, x, y, w, h, style);
 }
 

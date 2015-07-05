@@ -32,7 +32,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxchoice_wxChoice__xrcNew)(wxChoice * choice);
 
-	MaxChoice * bmx_wxchoice_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
+	MaxChoice * bmx_wxchoice_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, int style);
 	int bmx_wxchoice_getcurrentselection(MaxChoice * choice);
 
 	int bmx_wxchoice_geteventtype(int type);

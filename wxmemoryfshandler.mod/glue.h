@@ -32,8 +32,8 @@ extern "C" {
 
 	wxMemoryFSHandler * bmx_wxmemoryfshandler_new(BBObject * handle);
 	
-	void bmx_wxmemoryfshandler_addimagefile(BBString * filename, MaxImage * image, wxBitmapType type);
-	void bmx_wxmemoryfshandler_addbitmapfile(BBString * filename, MaxBitmap * bitmap, wxBitmapType type);
+	void bmx_wxmemoryfshandler_addimagefile(BBString * filename, MaxImage * image, int type);
+	void bmx_wxmemoryfshandler_addbitmapfile(BBString * filename, MaxBitmap * bitmap, int type);
 	void bmx_wxmemoryfshandler_addfilewithmimetype(BBString * filename, BBString * textData, BBString * mimeType);
 	void bmx_wxmemoryfshandler_addbinaryfilewithmimetype(BBString * filename, const void * data, int size, BBString * mimeType);
 	void bmx_wxmemoryfshandler_removefile(BBString * filename);

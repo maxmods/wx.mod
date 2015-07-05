@@ -28,10 +28,10 @@ extern "C" {
 
 #include <blitz.h>
 
-	MaxColour * bmx_wxsystemsettings_getcolour(wxSystemColour index);
-	MaxFont * bmx_wxsystemsettings_getfont(wxSystemFont index);
-	int bmx_wxsystemsettings_getmetric(wxSystemMetric index, wxWindow * window);
-	wxSystemScreenType bmx_wxsystemsettings_getscreentype();
+	MaxColour * bmx_wxsystemsettings_getcolour(int index);
+	MaxFont * bmx_wxsystemsettings_getfont(int index);
+	int bmx_wxsystemsettings_getmetric(int index, wxWindow * window);
+	int bmx_wxsystemsettings_getscreentype();
 
 }
 

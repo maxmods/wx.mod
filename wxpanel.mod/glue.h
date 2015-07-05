@@ -32,7 +32,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxpanel_wxPanel__xrcNew)(wxPanel * panel);
 
-	MaxPanel * bmx_wxpanel_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxPanel * bmx_wxpanel_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	void bmx_wxpanel_initdialog(wxPanel * panel);
 	void bmx_wxpanel_setfocus(wxPanel * panel);
 	void bmx_wxpanel_setfocusignoringchildren(wxPanel * panel);

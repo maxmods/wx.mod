@@ -92,8 +92,8 @@ int bmx_wxprocess_isinputopened(wxProcess * process) {
 	return static_cast<int>(process->IsInputOpened());
 }
 
-wxKillError bmx_wxprocess_kill(int pid, wxSignal signal, int flags) {
-	return wxProcess::Kill(pid, signal, flags);
+wxKillError bmx_wxprocess_kill(int pid, int signal, int flags) {
+	return wxProcess::Kill(pid, static_cast<wxSignal>(signal), flags);
 }
 
 int bmx_wxprocess_exists(int pid) {
@@ -187,7 +187,7 @@ int bmx_wxshutdown(wxShutdownFlags flags) {
 #endif
 }
 
-unsigned long bmx_wxgetprocessid() {
+int bmx_wxgetprocessid() {
 	return wxGetProcessId();
 }
 
@@ -195,8 +195,8 @@ void bmx_wxexit() {
 	wxExit();
 }
 
-int bmx_wxkill(long pid, wxSignal signal, wxKillError * rc, int flags) {
-	return wxKill(pid, signal, rc, flags);
+int bmx_wxkill(int pid, int signal, wxKillError * rc, int flags) {
+	return wxKill(pid, static_cast<wxSignal>(signal), rc, flags);
 }
 
 int bmx_wxexecute(BBString * command, int sync, wxProcess * callback) {

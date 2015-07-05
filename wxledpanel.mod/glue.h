@@ -30,17 +30,17 @@ extern "C" {
 #include <blitz.h>
 
 	wxLEDPanel * bmx_wxledpanel_create(BBObject * handle, wxWindow* parent, wxWindowID id, int pointW, int pointH,
-			int fieldW, int fieldH, int padding, int x, int y, long style);
+			int fieldW, int fieldH, int padding, int x, int y, int style);
 	void bmx_wxledpanel_clear(wxLEDPanel * panel);
 	void bmx_wxledpanel_reset(wxLEDPanel * panel);
 	void bmx_wxledpanel_getfieldsize(wxLEDPanel * panel, int * w, int * h);
 	void bmx_wxledpanel_getpointsize(wxLEDPanel * panel, int * w, int * h);
-	void bmx_wxledpanel_setledcolour(wxLEDPanel * panel, wxLEDColour colourID);
+	void bmx_wxledpanel_setledcolour(wxLEDPanel * panel, int colourID);
 	MaxColour * bmx_wxledpanel_getledcolour(wxLEDPanel * panel);
 	void bmx_wxledpanel_setscrollspeed(wxLEDPanel * panel, int speed);
 	int bmx_wxledpanel_getscrollspeed(wxLEDPanel * panel);
-	void bmx_wxledpanel_setscrolldirection(wxLEDPanel * panel, wxLEDScrollDirection direction);
-	wxLEDScrollDirection bmx_wxledpanel_getscrolldirection(wxLEDPanel * panel);
+	void bmx_wxledpanel_setscrolldirection(wxLEDPanel * panel, int direction);
+	int bmx_wxledpanel_getscrolldirection(wxLEDPanel * panel);
 	void bmx_wxledpanel_showinverted(wxLEDPanel * panel, int invert);
 	void bmx_wxledpanel_showinactiveleds(wxLEDPanel * panel, int showInactives);
 	void bmx_wxledpanel_settextalign(wxLEDPanel * panel, int align);

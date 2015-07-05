@@ -34,7 +34,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxslider_wxSlider__xrcNew)(wxSlider * slider);
 
 	MaxSlider * bmx_wxslider_create(BBObject * handle, wxWindow * parent, int id, int value,
-			int minValue, int maxValue, int x, int y, int w, int h, long style);
+			int minValue, int maxValue, int x, int y, int w, int h, int style);
 	int bmx_wxslider_getlinesize(wxSlider * slider);
 	int bmx_wxslider_getmax(wxSlider * slider);
 	int bmx_wxslider_getmin(wxSlider * slider);

@@ -29,8 +29,8 @@ extern "C" {
 
 #include <blitz.h>
 
-	const wxFilterClassFactory * bmx_wxfilterclassfactory_find(BBString * protocol, wxStreamProtocolType protocolType);
-	int bmx_wxfilterclassfactory_canhandle(wxFilterClassFactory * factory, BBString * protocol, wxStreamProtocolType protocolType);
+	const wxFilterClassFactory * bmx_wxfilterclassfactory_find(BBString * protocol, int protocolType);
+	int bmx_wxfilterclassfactory_canhandle(wxFilterClassFactory * factory, BBString * protocol, int protocolType);
 	BBString * bmx_wxfilterclassfactory_getprotocol(wxFilterClassFactory * factory);
 	wxFilterInputStream * bmx_wxfilterclassfactory_newinputstream(wxFilterClassFactory * factory, wxInputStream * stream);
 	BBString * bmx_wxfilterclassfactory_popextension(wxFilterClassFactory * factory, BBString * location);

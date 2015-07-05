@@ -40,7 +40,7 @@ MaxDirDialog::~MaxDirDialog() {
 
 
 MaxDirDialog * bmx_wxdirdialog_create(BBObject * handle, wxWindow * parent, BBString * message, 
-		BBString * defaultPath, long style, int x, int y, int w, int h) {
+		BBString * defaultPath, int style, int x, int y, int w, int h) {
 	return new MaxDirDialog(handle, parent, wxStringFromBBString(message), wxStringFromBBString(defaultPath),
 		style, x, y, w, h);
 }
@@ -65,7 +65,7 @@ int bmx_wxdirdialog_showmodal(MaxDirDialog * dir) {
 	return dir->ShowModal();
 }
 
-BBString * bmx_wxdirselector(BBString * message, BBString * defaultPath, long style, int x, int y, wxWindow *parent) {
+BBString * bmx_wxdirselector(BBString * message, BBString * defaultPath, int style, int x, int y, wxWindow *parent) {
 	if (parent) {
 		return bbStringFromWxString(wxDirSelector(wxStringFromBBString(message), wxStringFromBBString(defaultPath), 
 			style, wxPoint(x, y), parent));

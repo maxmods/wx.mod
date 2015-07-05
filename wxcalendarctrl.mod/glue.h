@@ -34,7 +34,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxcalendarctrl_wxCalendarCtrl__xrcNew)(wxCalendarCtrl * ctrl);
 
-	wxCalendarCtrl * bmx_wxcalendarctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * date, int x, int y, int w, int h, long style);
+	wxCalendarCtrl * bmx_wxcalendarctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * date, int x, int y, int w, int h, int style);
 	void bmx_wxcalendarctrl_setdate(wxCalendarCtrl * ctrl, MaxDateTime * date);
 	MaxDateTime * bmx_wxcalendarctrl_getdate(wxCalendarCtrl * ctrl);
 	void bmx_wxcalendarctrl_enablemonthchange(wxCalendarCtrl * ctrl, int enable);

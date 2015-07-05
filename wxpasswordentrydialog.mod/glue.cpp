@@ -39,7 +39,7 @@ MaxPasswordEntryDialog::~MaxPasswordEntryDialog() {
 // *********************************************
 
 wxPasswordEntryDialog * bmx_wxpasswordentrydialog_create(BBObject * handle, wxWindow * parent, BBString * message,
-		BBString * caption, BBString * defaultValue, long style, int x, int y) {
+		BBString * caption, BBString * defaultValue, int style, int x, int y) {
 
 	return new MaxPasswordEntryDialog(handle, parent, wxStringFromBBString(message), wxStringFromBBString(caption),
 		wxStringFromBBString(defaultValue), style, x, y);

@@ -33,7 +33,7 @@ extern "C" {
 #include <blitz.h>
 
 	MaxSpinCtrlDouble * bmx_wxspinctrldouble_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y,
-		int w, int h, long style, double min, double max, double initial);
+		int w, int h, int style, double min, double max, double initial);
 
 	void bmx_wxspinctrldouble_setvalue(wxSpinCtrlDouble * spin, double value);
 	void bmx_wxspinctrldouble_settextvalue(wxSpinCtrlDouble * spin, BBString * value);

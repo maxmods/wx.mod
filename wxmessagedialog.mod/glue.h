@@ -30,7 +30,7 @@ extern "C" {
 #include <blitz.h>
 
 	MaxMessageDialog * bmx_wxmessagedialog_create(BBObject * handle, wxWindow * parent, BBString * message,
-			BBString * caption, long style, int x, int y);
+			BBString * caption, int style, int x, int y);
 	int bmx_wxmessagedialog_showmodal(wxMessageDialog * dialog);
 	void bmx_wxmessagedialog_setextendedmessage(wxMessageDialog * dialog, BBString * message);
 	int bmx_wxmessagedialog_sethelplabeltext(wxMessageDialog * dialog, BBString * text);

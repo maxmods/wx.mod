@@ -87,7 +87,7 @@ BEGIN_EVENT_TABLE(MaxGenericDirCtrl, wxGenericDirCtrl)
 END_EVENT_TABLE()
 
 wxGenericDirCtrl * bmx_wxgenericdirctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id,
-		BBString * dir, int x, int y, int w, int h, long style, BBString * filter, int defaultFilter) {
+		BBString * dir, int x, int y, int w, int h, int style, BBString * filter, int defaultFilter) {
 	MaxGenericDirCtrl * ctrl = new MaxGenericDirCtrl();
 	ctrl->MaxBind(handle);
 	ctrl->Create(parent, id, wxStringFromBBString(dir), wxPoint(x, y), wxSize(w, h), style, wxStringFromBBString(filter), defaultFilter);

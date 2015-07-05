@@ -64,8 +64,11 @@ int bmx_wxmouseevent_getbutton(wxMouseEvent & event) {
 	return event.GetButton();
 }
 
-void bmx_wxmouseevent_getposition(wxMouseEvent & event, long * x, long * y) {
-	event.GetPosition(x, y);
+void bmx_wxmouseevent_getposition(wxMouseEvent & event, int * x, int * y) {
+	long _x, _y;
+	event.GetPosition(&_x, &_y);
+	*x = _x;
+	*y = _y;
 }
 
 int bmx_wxmouseevent_getlinesperaction(wxMouseEvent & event) {

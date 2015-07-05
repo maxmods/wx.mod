@@ -31,11 +31,11 @@ extern "C" {
 	wxHelpProvider * bmx_wxhelpprovider_set(wxHelpProvider * helpProvider);
 	wxHelpProvider * bmx_wxhelpprovider_get();
 	void bmx_wxhelpprovider_addhelp(wxHelpProvider * provider, wxWindow * window, BBString * text);
-	void bmx_wxhelpprovider_addhelpid(wxHelpProvider * provider, wxWindowID windowId, BBString * text);
+	void bmx_wxhelpprovider_addhelpid(wxHelpProvider * provider, int windowId, BBString * text);
 	BBString * bmx_wxhelpprovider_gethelp(wxHelpProvider * provider, wxWindow * window);
 	void bmx_wxhelpprovider_removehelp(wxHelpProvider * provider, wxWindow * window);
 	int bmx_wxhelpprovider_showhelp(wxHelpProvider * provider, wxWindow * window);
-	int bmx_wxhelpprovider_showhelpatpoint(wxHelpProvider * provider, wxWindow * window, int x, int y, wxHelpEvent::Origin origin);
+	int bmx_wxhelpprovider_showhelpatpoint(wxHelpProvider * provider, wxWindow * window, int x, int y, int origin);
 
 	wxSimpleHelpProvider * bmx_wxsimplehelpprovider_create();
 

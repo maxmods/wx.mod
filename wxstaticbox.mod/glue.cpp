@@ -69,7 +69,7 @@ BEGIN_EVENT_TABLE(MaxStaticBox, wxStaticBox)
 END_EVENT_TABLE()
 
 MaxStaticBox * bmx_wxstaticbox_create(void * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	return new MaxStaticBox(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }

@@ -79,7 +79,7 @@ BEGIN_EVENT_TABLE(MaxSpinCtrl, wxSpinCtrl)
 END_EVENT_TABLE()
 
 MaxSpinCtrl * bmx_wxspinctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y,
-		int w, int h, long style, int min, int max, int initial) {
+		int w, int h, int style, int min, int max, int initial) {
 
 	return new MaxSpinCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, min, max, initial);
 }

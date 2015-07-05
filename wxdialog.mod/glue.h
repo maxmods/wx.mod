@@ -35,7 +35,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxdialog_wxDialog__xrcNew)(wxDialog * dialog);
 
 	MaxDialog * bmx_wxdialog_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	void bmx_wxdialog_free(wxDialog * dialog);
 
 	void bmx_wxdialog_centre(wxDialog * dialog, int direction);

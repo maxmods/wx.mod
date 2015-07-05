@@ -35,8 +35,8 @@ extern "C" {
 	void CB_PREF(wx_wxmenu_wxMenu__setmenuitem)(BBArray * items, int index, wxMenuItem * item);
 	BBObject * CB_PREF(wx_wxmenu_wxMenu__xrcNew)(wxMenu * menu);
 
-	MaxMenu * bmx_wxmenu_create(BBObject * maxHandle, BBString * title, long style);
-	wxMenuItem * bmx_wxmenu_append(wxMenu * menu, int id, BBString * item, BBString * helpString, wxItemKind kind);
+	MaxMenu * bmx_wxmenu_create(BBObject * maxHandle, BBString * title, int style);
+	wxMenuItem * bmx_wxmenu_append(wxMenu * menu, int id, BBString * item, BBString * helpString, int kind);
 	wxMenuItem * bmx_wxmenu_appenditem(wxMenu * menu, wxMenuItem * item);
 	wxMenuItem * bmx_wxmenu_appendseparator(wxMenu * menu);
 	wxMenuItem * bmx_wxmenu_appendcheckitem(wxMenu * menu, int id, BBString * item, BBString * helpString);
@@ -56,14 +56,14 @@ extern "C" {
 	BBString * bmx_wxmenu_getlabel(wxMenu * menu, int id);
 	int bmx_wxmenu_getmenuitemcount(wxMenu * menu);
 	BBString * bmx_wxmenu_gettitle(wxMenu * menu);
-	wxMenuItem * bmx_wxmenu_insert(wxMenu * menu, int pos, int id, BBString * item, BBString * helpString, wxItemKind kind);
+	wxMenuItem * bmx_wxmenu_insert(wxMenu * menu, int pos, int id, BBString * item, BBString * helpString, int kind);
 	wxMenuItem * bmx_wxmenu_insertitem(wxMenu * menu, int pos, wxMenuItem * item);
 	wxMenuItem * bmx_wxmenu_insertcheckitem(wxMenu * menu, int pos, int id, BBString * item, BBString * helpString);
 	wxMenuItem * bmx_wxmenu_insertradioitem(wxMenu * menu, int pos, int id, BBString * item, BBString * helpString);
 	wxMenuItem * bmx_wxmenu_insertseparator(wxMenu * menu, int pos);
 	int bmx_wxmenu_ischecked(wxMenu * menu, int id);
 	int bmx_wxmenu_isenabled(wxMenu * menu, int id);
-	wxMenuItem * bmx_wxmenu_prepend(wxMenu * menu, int id, BBString * item, BBString * helpString, wxItemKind kind);
+	wxMenuItem * bmx_wxmenu_prepend(wxMenu * menu, int id, BBString * item, BBString * helpString, int kind);
 	wxMenuItem * bmx_wxmenu_prependcheckitem(wxMenu * menu, int id, BBString * item, BBString * helpString);
 	wxMenuItem * bmx_wxmenu_prependradioitem(wxMenu * menu, int id, BBString * item, BBString * helpString);
 	wxMenuItem * bmx_wxmenu_prependseparator(wxMenu * menu);
@@ -78,7 +78,7 @@ extern "C" {
 	int bmx_wxmenu_geteventtype(int type);
 
 	wxMenuItem * bmx_wxmenuitem_create(wxMenu * parentMenu, int id, BBString * text, BBString * helpString,
-		wxItemKind kind, wxMenu * subMenu);
+		int kind, wxMenu * subMenu);
 	void bmx_wxmenuitem_delete(wxMenuItem * item);
 	void bmx_wxmenuitem_check(wxMenuItem * item, int value);
 	void bmx_wxmenuitem_enable(wxMenuItem * item, int value);

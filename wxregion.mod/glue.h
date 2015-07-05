@@ -38,8 +38,8 @@ extern "C" {
 	MaxRegion * bmx_wxregion_createwithpoints(BBArray * points, int fillStyle);
 	MaxRegion * bmx_wxregion_createwithbitmap(MaxBitmap * bmp, MaxColour * colour, int tolerance);
 	void bmx_wxregion_clear(MaxRegion * region);
-	wxRegionContain bmx_wxregion_contains(MaxRegion * region, int x, int y);
-	wxRegionContain bmx_wxregion_containsrect(MaxRegion * region, MaxRect * rect);
+	int bmx_wxregion_contains(MaxRegion * region, int x, int y);
+	int bmx_wxregion_containsrect(MaxRegion * region, MaxRect * rect);
 	MaxBitmap * bmx_wxregion_converttobitmap(MaxRegion * region);
 	void bmx_wxregion_getbox(MaxRegion * region, int * x, int * y, int * w, int * h);
 	MaxRect * bmx_wxregion_getboxrect(MaxRegion * region);

@@ -80,7 +80,7 @@ BEGIN_EVENT_TABLE(MaxAnimationCtrl, wxAnimationCtrl)
 END_EVENT_TABLE()
 
 MaxAnimationCtrl * bmx_wxanimationctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, MaxAnimation * anim, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 	return new MaxAnimationCtrl(maxHandle, parent, id, anim, x, y, w, h, style);
 }
 

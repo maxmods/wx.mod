@@ -76,7 +76,7 @@ BEGIN_EVENT_TABLE(MaxCheckBox, wxCheckBox)
 END_EVENT_TABLE()
 
 MaxCheckBox * bmx_wxcheckbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	return new MaxCheckBox(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }

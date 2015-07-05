@@ -52,8 +52,8 @@ MaxAcceleratorTable * bmx_wxacceleratortable_create(BBArray * p) {
 	return new MaxAcceleratorTable(table);
 }
 
-bool bmx_wxacceleratortable_isok(MaxAcceleratorTable * table) {
-	return table->Table().IsOk();
+int bmx_wxacceleratortable_isok(MaxAcceleratorTable * table) {
+	return static_cast<int>(table->Table().IsOk());
 }
 
 void bmx_wxacceleratortable_delete(MaxAcceleratorTable * table) {

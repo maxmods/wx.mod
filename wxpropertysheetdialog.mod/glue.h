@@ -41,7 +41,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxpropertysheetdialog_wxPropertySheetDialog__xrcNew)(wxPropertySheetDialog * dialog);
 
 	wxPropertySheetDialog * bmx_wxpropertysheetdialog_create(BBObject * handle, wxWindow * parent,
-		wxWindowID id, BBString * title, int x, int y, int w, int h, long style);
+		wxWindowID id, BBString * title, int x, int y, int w, int h, int style);
 	void bmx_wxpropertysheetdialog_addbookctrl(MaxPropertySheetDialog * dialog, wxSizer * sizer);
 	wxBookCtrlBase * bmx_wxpropertysheetdialog_createbookctrl(MaxPropertySheetDialog * dialog);
 	void bmx_wxpropertysheetdialog_createbuttons(wxPropertySheetDialog * dialog, int flags);

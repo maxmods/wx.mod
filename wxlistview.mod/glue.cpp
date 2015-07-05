@@ -57,7 +57,7 @@ MaxListView::~MaxListView() {
 BEGIN_EVENT_TABLE(MaxListView, wxListView)
 END_EVENT_TABLE()
 
-MaxListView * bmx_wxlistview_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, long style) {
+MaxListView * bmx_wxlistview_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, int style) {
 	return new MaxListView(handle, parent, id, x, y, w, h, style);
 }
 
@@ -65,27 +65,27 @@ void bmx_wxlistview_clearcolumnimage(wxListView * list, int col) {
 	list->ClearColumnImage(col);
 }
 
-void bmx_wxlistview_focus(wxListView * list, long index) {
+void bmx_wxlistview_focus(wxListView * list, int index) {
 	list->Focus(index);
 }
 
-long bmx_wxlistview_getfirstselected(wxListView * list) {
+int bmx_wxlistview_getfirstselected(wxListView * list) {
 	return list->GetFirstSelected();
 }
 
-long bmx_wxlistview_getfocuseditem(wxListView * list) {
+int bmx_wxlistview_getfocuseditem(wxListView * list) {
 	return list->GetFocusedItem();
 }
 
-long bmx_wxlistview_getnextselected(wxListView * list, long item) {
+int bmx_wxlistview_getnextselected(wxListView * list, int item) {
 	return list->GetNextSelected(item);
 }
 
-int bmx_wxlistview_isselected(wxListView * list, long index) {
+int bmx_wxlistview_isselected(wxListView * list, int index) {
 	return static_cast<int>(list->IsSelected(index));
 }
 
-void bmx_wxlistview_selectitem(wxListView * list, long item, int on) {
+void bmx_wxlistview_selectitem(wxListView * list, int item, int on) {
 	list->Select(item, static_cast<bool>(on));
 }
 

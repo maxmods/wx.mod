@@ -119,7 +119,7 @@ wxObject * MaxCheckListBoxXmlHandler::DoCreateResource()
                { n = n->GetNext(); continue; }
 
             // checking boolean is a bit ugly here (see GetBool() )
-            wxString v = n->GetPropVal(wxT("checked"), wxEmptyString);
+            wxString v = n->GetAttribute(wxT("checked"), wxEmptyString);
             v.MakeLower();
             if (v == wxT("1"))
                 control->Check( i, true );
@@ -161,7 +161,7 @@ bool MaxCheckListBoxXmlHandler::CanHandle(wxXmlNode *node)
 BEGIN_EVENT_TABLE(MaxCheckListBox, wxCheckListBox)
 END_EVENT_TABLE()
 
-MaxCheckListBox * bmx_wxchecklistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style) {
+MaxCheckListBox * bmx_wxchecklistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, int style) {
 	return new MaxCheckListBox(maxHandle, parent, id, bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }
 

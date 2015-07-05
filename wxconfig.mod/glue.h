@@ -41,10 +41,10 @@ extern "C" {
 	int bmx_wxconfigbase_flush(wxConfigBase * config, int currentOnly);
 	BBString * bmx_wxconfigbase_getappname(wxConfigBase * config);
 	wxConfigBase::EntryType bmx_wxconfigbase_getentrytype(wxConfigBase * config, BBString * name);
-	BBString * bmx_wxconfigbase_getfirstgroup(wxConfigBase * config, long * index, int * cont);
-	int bmx_wxconfigbase_getfirstentry(wxConfigBase * config, BBString * name, long * index);
-	BBString * bmx_wxconfigbase_getnextgroup(wxConfigBase * config, long * index, int * cont);
-	int bmx_wxconfigbase_getnextentry(wxConfigBase * config, BBString * name, long * index);
+	BBString * bmx_wxconfigbase_getfirstgroup(wxConfigBase * config, int * index, int * cont);
+	int bmx_wxconfigbase_getfirstentry(wxConfigBase * config, BBString * name, int * index);
+	BBString * bmx_wxconfigbase_getnextgroup(wxConfigBase * config, int * index, int * cont);
+	int bmx_wxconfigbase_getnextentry(wxConfigBase * config, BBString * name, int * index);
 	unsigned int bmx_wxconfigbase_getnumberofentries(wxConfigBase * config, int recursive);
 	unsigned int bmx_wxconfigbase_getnumberofgroups(wxConfigBase * config, int recursive);
 	BBString * bmx_wxconfigbase_getpath(wxConfigBase * config);

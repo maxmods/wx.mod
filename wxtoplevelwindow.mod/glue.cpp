@@ -105,7 +105,7 @@ void bmx_wxtoplevelwindow_settransparent(wxTopLevelWindow * window, int alpha) {
 	window->SetTransparent(alpha);
 }
 
-int bmx_wxtoplevelwindow_showfullscreen(wxTopLevelWindow * window, int show, long style) {
+int bmx_wxtoplevelwindow_showfullscreen(wxTopLevelWindow * window, int show, int style) {
 	return static_cast<int>(window->ShowFullScreen(static_cast<bool>(show), style));
 }
 

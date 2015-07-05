@@ -34,11 +34,11 @@ extern "C" {
 #include <blitz.h>
 
 	MaxIcon * bmx_wxicon_create();
-	MaxIcon * bmx_wxicon_createfromfile(BBString * name, wxBitmapType type, int desiredWidth, int desiredHeight);
+	MaxIcon * bmx_wxicon_createfromfile(BBString * name, int type, int desiredWidth, int desiredHeight);
 	void bmx_wxicon_copyfrombitmap(MaxIcon * icon, MaxBitmap * bitmap);
 	void * bmx_wxicon_delete(MaxIcon * icon);
 	MaxIcon * bmx_wxicon_null();
-	int bmx_wxicon_loadfile(MaxIcon * icon, BBString * name, wxBitmapType type);
+	int bmx_wxicon_loadfile(MaxIcon * icon, BBString * name, int type);
 
 	int bmx_wxicon_getdepth(MaxIcon * icon);
 	int bmx_wxicon_getheight(MaxIcon * icon);
@@ -49,9 +49,9 @@ extern "C" {
 	
 	int bmx_wxicon_isok(MaxIcon * icon);
 
-	MaxIconBundle * bmx_iconbundle_create(BBString * filename, long ftype);
+	MaxIconBundle * bmx_iconbundle_create(BBString * filename, int ftype);
 	MaxIconBundle * bmx_wxiconbundle_createwithicon(MaxIcon * icon);
-	void bmx_wxiconbundle_addicon(MaxIconBundle * bundle, BBString * file, long ftype);
+	void bmx_wxiconbundle_addicon(MaxIconBundle * bundle, BBString * file, int ftype);
 	void bmx_wxiconbundle_addiconicon(MaxIconBundle * bundle, MaxIcon * icon);
 	MaxIcon * bmx_wxiconbundle_geticon(MaxIconBundle * bundle, int w, int h);
 	void bmx_wxiconbundle_delete(MaxIconBundle * bundle);

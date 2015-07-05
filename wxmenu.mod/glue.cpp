@@ -148,12 +148,12 @@ bool MaxMenuXmlHandler::CanHandle(wxXmlNode *node)
 // *********************************************
 
 
-MaxMenu * bmx_wxmenu_create(BBObject * maxHandle, BBString * title, long style) {
+MaxMenu * bmx_wxmenu_create(BBObject * maxHandle, BBString * title, int style) {
 	return new MaxMenu(maxHandle, wxStringFromBBString(title), style);
 }
 
-wxMenuItem * bmx_wxmenu_append(wxMenu * menu, int id, BBString * item, BBString * helpString, wxItemKind kind) {
-	return menu->Append(id, wxStringFromBBString(item), wxStringFromBBString(helpString), kind);
+wxMenuItem * bmx_wxmenu_append(wxMenu * menu, int id, BBString * item, BBString * helpString, int kind) {
+	return menu->Append(id, wxStringFromBBString(item), wxStringFromBBString(helpString), static_cast<wxItemKind>(kind));
 }
 
 wxMenuItem * bmx_wxmenu_appenditem(wxMenu * menu, wxMenuItem * item) {
@@ -224,8 +224,8 @@ BBString * bmx_wxmenu_gettitle(wxMenu * menu) {
 	return bbStringFromWxString(menu->GetTitle());
 }
 
-wxMenuItem * bmx_wxmenu_insert(wxMenu * menu, int pos, int id, BBString * item, BBString * helpString, wxItemKind kind) {
-	return menu->Insert(pos, id, wxStringFromBBString(item), wxStringFromBBString(helpString), kind);
+wxMenuItem * bmx_wxmenu_insert(wxMenu * menu, int pos, int id, BBString * item, BBString * helpString, int kind) {
+	return menu->Insert(pos, id, wxStringFromBBString(item), wxStringFromBBString(helpString), static_cast<wxItemKind>(kind));
 }
 
 wxMenuItem * bmx_wxmenu_insertitem(wxMenu * menu, int pos, wxMenuItem * item) {
@@ -252,8 +252,8 @@ int bmx_wxmenu_isenabled(wxMenu * menu, int id) {
 	return static_cast<int>(menu->IsEnabled(id));
 }
 
-wxMenuItem * bmx_wxmenu_prepend(wxMenu * menu, int id, BBString * item, BBString * helpString, wxItemKind kind) {
-	return menu->Prepend(id, wxStringFromBBString(item), wxStringFromBBString(helpString), kind);
+wxMenuItem * bmx_wxmenu_prepend(wxMenu * menu, int id, BBString * item, BBString * helpString, int kind) {
+	return menu->Prepend(id, wxStringFromBBString(item), wxStringFromBBString(helpString), static_cast<wxItemKind>(kind));
 }
 
 wxMenuItem * bmx_wxmenu_prependcheckitem(wxMenu * menu, int id, BBString * item, BBString * helpString) {
@@ -314,8 +314,8 @@ wxMenuItem * bmx_wxmenu_findchilditem(wxMenu * menu, int id, int pos) {
 // *********************************************
 
 wxMenuItem * bmx_wxmenuitem_create(wxMenu * parentMenu, int id, BBString * text, BBString * helpString,
-		wxItemKind kind, wxMenu * subMenu) {	
-	return new wxMenuItem(parentMenu, id, wxStringFromBBString(text), wxStringFromBBString(helpString), kind, subMenu);
+		int kind, wxMenu * subMenu) {	
+	return new wxMenuItem(parentMenu, id, wxStringFromBBString(text), wxStringFromBBString(helpString), static_cast<wxItemKind>(kind), subMenu);
 }
 
 void bmx_wxmenuitem_delete(wxMenuItem * item) {

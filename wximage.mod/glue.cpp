@@ -52,8 +52,8 @@ MaxImage * bmx_wximage_createempty(int width, int height) {
 	return new MaxImage(i);
 }
 
-MaxImage * bmx_wximage_create(BBString * name, long flag, int index) {
-	wxImage i(wxStringFromBBString(name), flag, index);
+MaxImage * bmx_wximage_create(BBString * name, int flag, int index) {
+	wxImage i(wxStringFromBBString(name), static_cast<wxBitmapType>(flag), index);
 	return new MaxImage(i);
 }
 
@@ -357,13 +357,13 @@ wxANIHandler * bmx_wxanihandler_create() {
 	return new wxANIHandler();
 }
 
-MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, long kind, int index) {
-	wxImage i(*stream, kind, index);
+MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, int kind, int index) {
+	wxImage i(*stream, static_cast<wxBitmapType>(kind), index);
 	return new MaxImage(i);
 }
 
 int bmx_wximage_savefiletype(MaxImage * image, BBString * name, int type) {
-	return static_cast<int>(image->Image().SaveFile(wxStringFromBBString(name), type));
+	return static_cast<int>(image->Image().SaveFile(wxStringFromBBString(name), static_cast<wxBitmapType>(type)));
 }
 
 int bmx_wximage_savefilemimetype(MaxImage * image, BBString * name, BBString * mimeType) {
@@ -382,12 +382,12 @@ wxImageHandler * bmx_wximage_findhandler(BBString * name) {
 	return wxImage::FindHandler(wxStringFromBBString(name));
 }
 
-wxImageHandler * bmx_wximage_findhandlerbyextension(BBString * extension, long imageType) {
-	return wxImage::FindHandler(wxStringFromBBString(extension), imageType);
+wxImageHandler * bmx_wximage_findhandlerbyextension(BBString * extension, int imageType) {
+	return wxImage::FindHandler(wxStringFromBBString(extension), static_cast<wxBitmapType>(imageType));
 }
 
-wxImageHandler * bmx_wximage_findhandlerbytype(long imageType) {
-	return wxImage::FindHandler(imageType);
+wxImageHandler * bmx_wximage_findhandlerbytype(int imageType) {
+	return wxImage::FindHandler(static_cast<wxBitmapType>(imageType));
 }
 
 wxImageHandler * bmx_wximage_findhandlermime(BBString * mimeType) {
@@ -405,7 +405,7 @@ BBString * bmx_wximagehandler_getextension(wxImageHandler * handler) {
 	return bbStringFromWxString(handler->GetExtension());
 }
 
-long bmx_wximagehandler_gettype(wxImageHandler * handler) {
+int bmx_wximagehandler_gettype(wxImageHandler * handler) {
 	return handler->GetType();
 }
 

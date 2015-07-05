@@ -34,7 +34,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxradiobox_wxRadioBox__xrcNew)(wxRadioBox * radiobox);
 
 	MaxRadioBox * bmx_wxradiobox_create(BBObject * handle, wxWindow * parent, int id, BBString * label,
-		int x, int y, int w, int h, BBArray * array, int majorDimension, long style);
+		int x, int y, int w, int h, BBArray * array, int majorDimension, int style);
 	int bmx_wxradiobox_enable(wxRadioBox * radiobox, int value);
 	int bmx_wxradiobox_enableitem(wxRadioBox * radiobox, unsigned int item, int value);
 	int bmx_wxradiobox_findstring(wxRadioBox * radiobox, BBString * text, int caseSensitive);

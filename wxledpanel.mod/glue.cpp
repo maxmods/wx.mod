@@ -41,7 +41,7 @@ BEGIN_EVENT_TABLE(MaxLEDPanel, wxLEDPanel)
 END_EVENT_TABLE()
 
 wxLEDPanel * bmx_wxledpanel_create(BBObject * handle, wxWindow* parent, wxWindowID id, int pointW, int pointH,
-		int fieldW, int fieldH, int padding, int x, int y, long style) {
+		int fieldW, int fieldH, int padding, int x, int y, int style) {
 	return new MaxLEDPanel(handle, parent, id, pointW, pointH, fieldW, fieldH, padding, x, y, style);
 }
 
@@ -65,8 +65,8 @@ void bmx_wxledpanel_getpointsize(wxLEDPanel * panel, int * w, int * h) {
 	*h = s.y;
 }
 
-void bmx_wxledpanel_setledcolour(wxLEDPanel * panel, wxLEDColour colourID) {
-	panel->SetLEDColour(colourID);
+void bmx_wxledpanel_setledcolour(wxLEDPanel * panel, int colourID) {
+	panel->SetLEDColour(static_cast<wxLEDColour>(colourID));
 }
 
 MaxColour * bmx_wxledpanel_getledcolour(wxLEDPanel * panel) {
@@ -82,12 +82,12 @@ int bmx_wxledpanel_getscrollspeed(wxLEDPanel * panel) {
 	return panel->GetScrollSpeed();
 }
 
-void bmx_wxledpanel_setscrolldirection(wxLEDPanel * panel, wxLEDScrollDirection direction) {
-	panel->SetScrollDirection(direction);
+void bmx_wxledpanel_setscrolldirection(wxLEDPanel * panel, int direction) {
+	panel->SetScrollDirection(static_cast<wxLEDScrollDirection>(direction));
 }
 
-wxLEDScrollDirection bmx_wxledpanel_getscrolldirection(wxLEDPanel * panel) {
-	return panel->GetScrollDirection();
+int bmx_wxledpanel_getscrolldirection(wxLEDPanel * panel) {
+	return static_cast<int>(panel->GetScrollDirection());
 }
 
 void bmx_wxledpanel_showinverted(wxLEDPanel * panel, int invert) {

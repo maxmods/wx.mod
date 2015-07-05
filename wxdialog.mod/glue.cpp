@@ -85,7 +85,7 @@ wxObject * MaxDialogXmlHandler::DoCreateResource()
 
 
 MaxDialog * bmx_wxdialog_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 	if (parent) {
 		return new MaxDialog(maxHandle, parent, id, wxStringFromBBString(title), x, y, w, h, style);
 	} else {

@@ -78,7 +78,7 @@ END_EVENT_TABLE()
 
 
 wxDatePickerCtrl * bmx_wxdatepickerctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, 
-		MaxDateTime * dt, int x, int y, int w, int h, long style) {
+		MaxDateTime * dt, int x, int y, int w, int h, int style) {
 	return new MaxDatePickerCtrl(handle, parent, id, (dt)?dt->DateTime():wxDefaultDateTime, x, y, w, h, style);
 }
 

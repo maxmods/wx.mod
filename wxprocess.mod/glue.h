@@ -49,7 +49,7 @@ extern "C" {
 	int bmx_wxprocess_iserroravailable(wxProcess * process);
 	int bmx_wxprocess_isinputavailable(wxProcess * process);
 	int bmx_wxprocess_isinputopened(wxProcess * process);
-	wxKillError bmx_wxprocess_kill(int pid, wxSignal signal, int flags);
+	wxKillError bmx_wxprocess_kill(int pid, int signal, int flags);
 	int bmx_wxprocess_exists(int pid);
 	wxProcess * bmx_wxprocess_open(BBString * cmd, int flags);
 	int bmx_wxprocess_getpid(wxProcess * process);
@@ -60,9 +60,9 @@ extern "C" {
 
 	int bmx_wxshell(BBString * command);
 	int bmx_wxshutdown(wxShutdownFlags flags);
-	unsigned long bmx_wxgetprocessid();
+	int bmx_wxgetprocessid();
 	void bmx_wxexit();
-	int bmx_wxkill(long pid, wxSignal signal, wxKillError * rc, int flags);
+	int bmx_wxkill(int pid, int signal, wxKillError * rc, int flags);
 	int bmx_wxexecute(BBString * command, int sync, wxProcess * callback);
 
 	int bmx_wxprocess_geteventtype(int type);

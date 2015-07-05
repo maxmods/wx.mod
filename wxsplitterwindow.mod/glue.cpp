@@ -123,7 +123,7 @@ BEGIN_EVENT_TABLE(MaxSplitterWindow, wxSplitterWindow)
 END_EVENT_TABLE()
 
 MaxSplitterWindow * bmx_wxsplitterwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 	
 	return new MaxSplitterWindow(maxHandle, parent, id, x, y, w, h, style);
 }

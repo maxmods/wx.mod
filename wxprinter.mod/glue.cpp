@@ -47,7 +47,7 @@ int bmx_wxprinter_getabort(wxPrinter * printer) {
 	return static_cast<int>(printer->GetAbort());
 }
 
-wxPrinterError bmx_wxprinter_getlasterror() {
+int bmx_wxprinter_getlasterror() {
 	return wxPrinter::GetLastError();
 }
 

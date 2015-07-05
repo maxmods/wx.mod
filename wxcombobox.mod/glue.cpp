@@ -123,7 +123,7 @@ bool MaxComboBoxXmlHandler::CanHandle(wxXmlNode *node)
 BEGIN_EVENT_TABLE(MaxComboBox, wxComboBox)
 END_EVENT_TABLE()
 
-MaxComboBox * bmx_wxcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style) {
+MaxComboBox * bmx_wxcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, int style) {
 	return new MaxComboBox(maxHandle, parent, id, wxStringFromBBString(value), bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }
 
@@ -159,7 +159,7 @@ int bmx_wxcombobox_getcurrentselection(wxComboBox * combo) {
 	return combo->GetCurrentSelection();
 }
 
-long bmx_wxcombobox_getinsertionpoint(wxComboBox * combo) {
+int bmx_wxcombobox_getinsertionpoint(wxComboBox * combo) {
 	return combo->GetInsertionPoint();
 }
 
@@ -167,7 +167,7 @@ wxTextPos bmx_wxcombobox_getlastposition(wxComboBox * combo) {
 	return combo->GetLastPosition();
 }
 
-void bmx_wxcombobox_gettextselection(wxComboBox * combo, long * fromPos, long * toPos) {
+void bmx_wxcombobox_gettextselection(wxComboBox * combo, int * fromPos, int * toPos) {
 #ifndef __APPLE__
 	combo->GetSelection(fromPos, toPos);
 #endif
@@ -185,15 +185,15 @@ void bmx_wxcombobox_redo(wxComboBox * combo) {
 	combo->Redo();
 }
 
-void bmx_wxcombobox_replace(wxComboBox * combo, long fromPos, long toPos, BBString * text) {
+void bmx_wxcombobox_replace(wxComboBox * combo, int fromPos, int toPos, BBString * text) {
 	combo->Replace(fromPos, toPos, wxStringFromBBString(text));
 }
 
-void bmx_wxcombobox_remove(wxComboBox * combo, long fromPos, long toPos) {
+void bmx_wxcombobox_remove(wxComboBox * combo, int fromPos, int toPos) {
 	combo->Remove(fromPos, toPos);
 }
 
-void bmx_wxcombobox_setinsertionpoint(wxComboBox * combo, long pos) {
+void bmx_wxcombobox_setinsertionpoint(wxComboBox * combo, int pos) {
 	combo->SetInsertionPoint(pos);
 }
 
@@ -201,7 +201,7 @@ void bmx_wxcombobox_setinsertionpointend(wxComboBox * combo) {
 	combo->SetInsertionPointEnd();
 }
 
-void bmx_wxcombobox_settextselection(wxComboBox * combo, long fromPos, long toPos) {
+void bmx_wxcombobox_settextselection(wxComboBox * combo, int fromPos, int toPos) {
 	combo->SetSelection(fromPos, toPos);
 }
 

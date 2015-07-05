@@ -41,7 +41,7 @@ MaxRearrangeList::~MaxRearrangeList()
 BEGIN_EVENT_TABLE(MaxRearrangeList, wxRearrangeList)
 END_EVENT_TABLE()
 
-wxRearrangeList * bmx_wxrearrangelist_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBArray * items, BBArray * order, int x, int y, int w, int h, long style) {
+wxRearrangeList * bmx_wxrearrangelist_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBArray * items, BBArray * order, int x, int y, int w, int h, int style) {
 	return new MaxRearrangeList(handle, parent, id, bbStringArrayTowxArrayStr(items), bbIntArrayTowxArrayInt(order), x, y, w, h, style);
 }
 

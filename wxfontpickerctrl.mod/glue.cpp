@@ -78,7 +78,7 @@ wxObject * MaxFontPickerCtrlXmlHandler::DoCreateResource()
 // *********************************************
 
 MaxFontPickerCtrl * bmx_wxfontpickerctrl_create(BBObject * handle, wxWindow * parent, int id,
-		MaxFont * font, int x, int y, int w, int h, long style) {
+		MaxFont * font, int x, int y, int w, int h, int style) {
 	if (font) {
 		return new MaxFontPickerCtrl(handle, parent, id, font->Font(), x, y, w, h, style);
 	} else {

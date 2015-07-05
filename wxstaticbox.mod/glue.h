@@ -33,7 +33,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxstaticbox_wxStaticBox__xrcNew)(wxStaticBox * box);
 
 	MaxStaticBox * bmx_wxstaticbox_create(void * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 
 	void bmx_wxstaticbox_addresourcehandler();
 }

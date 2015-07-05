@@ -49,7 +49,7 @@ END_EVENT_TABLE()
 
 
 MaxScintilla * bmx_wxscintilla_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 	return new MaxScintilla(handle, parent, id, x, y, w, h, style);
 }
 

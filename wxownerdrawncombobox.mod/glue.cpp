@@ -124,7 +124,7 @@ bool MaxOwnerDrawnComboBoxXmlHandler::CanHandle(wxXmlNode *node)
 BEGIN_EVENT_TABLE(MaxOwnerDrawnComboBox, wxOwnerDrawnComboBox)
 END_EVENT_TABLE()
 
-MaxOwnerDrawnComboBox * bmx_wxownerdrawncombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style) {
+MaxOwnerDrawnComboBox * bmx_wxownerdrawncombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, int style) {
 	return new MaxOwnerDrawnComboBox(maxHandle, parent, id, wxStringFromBBString(value), bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }
 

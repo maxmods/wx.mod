@@ -102,7 +102,7 @@ static int _initAttrs( int * attrs,int flags ){
 }
 
 MaxGLCanvas * bmx_wxglcanvas_create(BBObject * handle, wxWindow* parent, wxWindowID id,
-	int flags, int x, int y, int w, int h, long style) {
+	int flags, int x, int y, int w, int h, int style) {
 
 	int attribList[16];
 	

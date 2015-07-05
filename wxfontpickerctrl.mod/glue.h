@@ -34,7 +34,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxfontpickerctrl_wxFontPickerCtrl__xrcNew)(wxFontPickerCtrl * picker);
 
 	MaxFontPickerCtrl * bmx_wxfontpickerctrl_create(BBObject * handle, wxWindow * parent, int id,
-		MaxFont * font, int x, int y, int w, int h, long style);
+		MaxFont * font, int x, int y, int w, int h, int style);
 	MaxFont * bmx_wxfontpickerctrl_getselectedfont(wxFontPickerCtrl * picker);
 	void bmx_wxfontpickerctrl_setselectedfont(wxFontPickerCtrl * picker, MaxFont * font);
 	unsigned int bmx_wxfontpickerctrl_getmaxpointsize(wxFontPickerCtrl * picker);

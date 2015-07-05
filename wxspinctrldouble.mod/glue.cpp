@@ -53,7 +53,7 @@ END_EVENT_TABLE()
 
 
 MaxSpinCtrlDouble * bmx_wxspinctrldouble_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y,
-		int w, int h, long style, double min, double max, double initial) {
+		int w, int h, int style, double min, double max, double initial) {
 	return new MaxSpinCtrlDouble(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, min, max, initial);
 }
 

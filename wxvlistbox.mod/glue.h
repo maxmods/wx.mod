@@ -29,15 +29,15 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxVListBox * bmx_wxvlistbox_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	wxVListBox * bmx_wxvlistbox_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	void bmx_wxvlistbox_clear(wxVListBox * listbox);
 	int bmx_wxvlistbox_deselectall(wxVListBox * listbox);
-	int bmx_wxvlistbox_getfirstselected(wxVListBox * listbox, unsigned long * cookie);
+	int bmx_wxvlistbox_getfirstselected(wxVListBox * listbox, int * cookie);
 	int bmx_wxvlistbox_getitemcount(wxVListBox * listbox);
 	void bmx_wxvlistbox_getmargins(wxVListBox * listbox, int * x, int * y);
 	void bmx_wxvlistbox_getitemrect(wxVListBox * listbox, int item, int * x, int * y, int * w, int * h);
 	MaxRect * bmx_wxvlistbox_getitemrectrect(wxVListBox * listbox, int item);
-	int bmx_wxvlistbox_getnextselected(wxVListBox * listbox, unsigned long * cookie);
+	int bmx_wxvlistbox_getnextselected(wxVListBox * listbox, int * cookie);
 	int bmx_wxvlistbox_getselectedcount(wxVListBox * listbox);
 	int bmx_wxvlistbox_getselection(wxVListBox * listbox);
 	MaxColour * bmx_wxvlistbox_getselectionbackground(wxVListBox * listbox);

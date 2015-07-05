@@ -30,10 +30,10 @@ extern "C" {
 
 #include <blitz.h>
 
-	MaxSplashScreen * bmx_wxsplashscreen_create(BBObject * maxHandle, MaxBitmap * bitmap, long splashStyle, 
-		int milliseconds, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxSplashScreen * bmx_wxsplashscreen_create(BBObject * maxHandle, MaxBitmap * bitmap, int splashStyle, 
+		int milliseconds, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 
-	long bmx_wxsplashscreen_getsplashstyle(wxSplashScreen * splash);
+	int bmx_wxsplashscreen_getsplashstyle(wxSplashScreen * splash);
 	wxWindow * bmx_wxsplashscreen_getsplashwindow(wxSplashScreen * splash);
 	int bmx_wxsplashscreen_gettimeout(wxSplashScreen * splash);
 }

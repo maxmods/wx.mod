@@ -34,7 +34,7 @@ extern "C" {
 	int bmx_wxhtmlhelpwindow_displaywithid(wxHtmlHelpWindow * window, int id);
 	int bmx_wxhtmlhelpwindow_displaycontents(wxHtmlHelpWindow * window);
 	int bmx_wxhtmlhelpwindow_displayindex(wxHtmlHelpWindow * window);
-	int bmx_wxhtmlhelpwindow_keywordsearch(wxHtmlHelpWindow * window, BBString * keyword, wxHelpSearchMode mode);
+	int bmx_wxhtmlhelpwindow_keywordsearch(wxHtmlHelpWindow * window, BBString * keyword, int mode);
 	void bmx_wxhtmlhelpwindow_readcustomization(wxHtmlHelpWindow * window, wxConfigBase * config, BBString * path);
 	void bmx_wxhtmlhelpwindow_refreshlists(wxHtmlHelpWindow * window);
 	void bmx_wxhtmlhelpwindow_useconfig(wxHtmlHelpWindow * window, wxConfigBase * config, BBString * rootpath);

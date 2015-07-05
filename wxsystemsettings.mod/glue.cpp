@@ -29,25 +29,25 @@
 // *********************************************
 
 
-MaxColour * bmx_wxsystemsettings_getcolour(wxSystemColour index) {
-	wxColour c(wxSystemSettings::GetColour(index));
+MaxColour * bmx_wxsystemsettings_getcolour(int index) {
+	wxColour c(wxSystemSettings::GetColour(static_cast<wxSystemColour>(index)));
 	return new MaxColour(c);
 }
 
-MaxFont * bmx_wxsystemsettings_getfont(wxSystemFont index) {
-	wxFont f(wxSystemSettings::GetFont(index));
+MaxFont * bmx_wxsystemsettings_getfont(int index) {
+	wxFont f(wxSystemSettings::GetFont(static_cast<wxSystemFont>(index)));
 	return new MaxFont(f);
 }
 
-int bmx_wxsystemsettings_getmetric(wxSystemMetric index, wxWindow * window) {
+int bmx_wxsystemsettings_getmetric(int index, wxWindow * window) {
 	if (window) {
-		return wxSystemSettings::GetMetric(index, window);
+		return wxSystemSettings::GetMetric(static_cast<wxSystemMetric>(index), window);
 	} else {
-		return wxSystemSettings::GetMetric(index);
+		return wxSystemSettings::GetMetric(static_cast<wxSystemMetric>(index));
 	}
 }
 
-wxSystemScreenType bmx_wxsystemsettings_getscreentype() {
-	return wxSystemSettings::GetScreenType();
+int bmx_wxsystemsettings_getscreentype() {
+	return static_cast<int>(wxSystemSettings::GetScreenType());
 }
 

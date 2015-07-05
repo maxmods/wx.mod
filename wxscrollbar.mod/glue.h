@@ -32,7 +32,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxscrollbar_wxScrollBar__xrcNew)(wxScrollBar * scrollbar);
 
-	MaxScrollBar * bmx_wxscrollbar_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxScrollBar * bmx_wxscrollbar_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	int bmx_wxscrollbar_getrange(wxScrollBar * scrollbar);
 	int bmx_wxscrollbar_getpagesize(wxScrollBar * scrollbar);
 	int bmx_wxscrollbar_getthumbposition(wxScrollBar * scrollbar);

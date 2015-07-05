@@ -30,7 +30,7 @@
 
 
 wxMozillaLikeAboutBoxDialog * bmx_wxmozillalikeaboutdialog_create(BBObject * handle, wxWindow * parent, wxWindowID id,
-		BBString * caption, int x, int y, int w, int h, long style) {
+		BBString * caption, int x, int y, int w, int h, int style) {
 	return new wxMozillaLikeAboutBoxDialog(parent, id, wxStringFromBBString(caption), wxPoint(x, y), wxSize(w, h), style);
 }
 
@@ -74,8 +74,8 @@ MaxIcon * bmx_wxmozillalikeaboutdialog_geticonresource(wxMozillaLikeAboutBoxDial
 	return new MaxIcon(handle->GetIconResource(wxStringFromBBString(name)));
 }
 
-BBString * bmx_wxmozillalikeaboutdialog_getbuildinfo(wxMozillaLikeAboutBoxDialog::wxBuildInfoFormat format) {
-	return bbStringFromWxString(wxMozillaLikeAboutBoxDialog::GetBuildInfo(format));
+BBString * bmx_wxmozillalikeaboutdialog_getbuildinfo(int format) {
+	return bbStringFromWxString(wxMozillaLikeAboutBoxDialog::GetBuildInfo(static_cast<wxMozillaLikeAboutBoxDialog::wxBuildInfoFormat>(format)));
 }
 
 void bmx_wxmozillalikeaboutdialog_setheaderbitmap(wxMozillaLikeAboutBoxDialog * handle, MaxBitmap * value) {

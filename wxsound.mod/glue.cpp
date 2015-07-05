@@ -52,7 +52,7 @@ bool bmx_wxsound_isplaying(wxSound * sound) {
 }
 */
 
-int bmx_wxsound_play(wxSound * sound, unsigned flags) {
+int bmx_wxsound_play(wxSound * sound, int flags) {
 	return static_cast<int>(sound->Play(flags));
 }
 

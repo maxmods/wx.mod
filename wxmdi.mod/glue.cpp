@@ -144,7 +144,7 @@ wxWindow *MaxMdiXmlHandler::CreateFrame()
 BEGIN_EVENT_TABLE(MaxMDIChildFrame, wxMDIChildFrame)
 END_EVENT_TABLE()
 
-wxMDIChildFrame * bmx_wxmdichildframe_create(BBObject * handle, wxMDIParentFrame * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, long style) {
+wxMDIChildFrame * bmx_wxmdichildframe_create(BBObject * handle, wxMDIParentFrame * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, int style) {
 	return new MaxMDIChildFrame(handle, parent, id, wxStringFromBBString(title), x, y, w, h, style);
 }
 
@@ -166,7 +166,7 @@ void bmx_wxmdichildframe_restore(wxMDIChildFrame * frame) {
 BEGIN_EVENT_TABLE(MaxMDIParentFrame, wxMDIParentFrame)
 END_EVENT_TABLE()
 
-wxMDIParentFrame * bmx_wxmdiparentframe_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, long style) {
+wxMDIParentFrame * bmx_wxmdiparentframe_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, int style) {
 	return new MaxMDIParentFrame(handle, parent, id, wxStringFromBBString(title), x, y, w, h, style);
 }
 

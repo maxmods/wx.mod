@@ -34,7 +34,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxgauge_wxGauge__xrcNew)(wxGauge * gauge);
 
 	MaxGauge * bmx_wxgauge_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int range, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	int bmx_wxgauge_getbezelface(wxGauge * gauge);
 	int bmx_wxgauge_getrange(wxGauge * gauge);
 	int bmx_wxgauge_getshadowwidth(wxGauge * gauge);

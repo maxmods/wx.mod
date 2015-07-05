@@ -55,7 +55,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxwindow_wxFlexGridSizer__xrcNew)(wxSizer * sizer);
 	BBObject * CB_PREF(wx_wxwindow_wxGridBagSizer__xrcNew)(wxSizer * sizer);
 
-	MaxWindow * bmx_wxwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxWindow * bmx_wxwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	int bmx_wxwindow_show(wxWindow * window, int value);
 	int bmx_wxwindow_close(wxWindow * window, int force);
 	void bmx_wxwindow_setsizer(wxWindow * window, wxSizer * sizer, int deleteOld);
@@ -63,7 +63,7 @@ extern "C" {
 	void bmx_wxwindow_delete(wxWindow * window);
 	wxSizer * bmx_wxwindow_getsizer(wxWindow * window);
 	void bmx_wxwindow_layout(wxWindow * window);
-	long bmx_wxwindow_getwindowstyleflag(wxWindow * window);
+	int bmx_wxwindow_getwindowstyleflag(wxWindow * window);
 	void bmx_wxwindow_getbestsize(wxWindow * window, int * w, int * h);
 	void bmx_wxwindow_setfocus(wxWindow * window);
 	void bmx_wxwindow_clearbackground(wxWindow * window);
@@ -105,8 +105,8 @@ extern "C" {
 	void bmx_wxwindow_setscrollpos(wxWindow * window, int orientation, int pos, int refresh);
 	
 	void bmx_wxwindow_setcursor(wxWindow * window, MaxCursor * cursor);
-	void bmx_wxwindow_setwindowstyle(wxWindow * window, long style);
-	void bmx_wxwindow_setwindowstyleflag(wxWindow * window, long style);
+	void bmx_wxwindow_setwindowstyle(wxWindow * window, int style);
+	void bmx_wxwindow_setwindowstyleflag(wxWindow * window, int style);
 	int bmx_wxwindow_hide(wxWindow * window);
 	void bmx_wxwindow_move(wxWindow * window, int x, int y);
 	void bmx_wxwindow_setdimensions(wxWindow * window, int x, int y, int w, int h, int flags);
@@ -159,7 +159,6 @@ extern "C" {
 	int bmx_wxwindow_linedown(wxWindow * window);
 	int bmx_wxwindow_lineup(wxWindow * window);
 	void bmx_wxwindow_lower(wxWindow * window);
-	void bmx_wxwindow_makemodal(wxWindow * window, int flag);
 	void bmx_wxwindow_moveafterintaborder(wxWindow * window, wxWindow * win);
 	void bmx_wxwindow_movebeforeintaborder(wxWindow * window, wxWindow * win);
 	int bmx_wxwindow_pagedown(wxWindow * window);
@@ -173,7 +172,7 @@ extern "C" {
 	void bmx_wxwindow_setcontainingsizer(wxWindow * window, wxSizer * sizer);
 	//void bmx_wxwindow_setinitialbestsize(wxWindow * window, int w, int h);
 	void bmx_wxwindow_seteventhandler(wxWindow * window, wxEvtHandler * handler);
-	void bmx_wxwindow_setextrastyle(wxWindow * window, long style);
+	void bmx_wxwindow_setextrastyle(wxWindow * window, int style);
 	void bmx_wxwindow_setmaxsize(wxWindow * window, int width, int height);
 	void bmx_wxwindow_setminsize(wxWindow * window, int width, int height);
 	void bmx_wxwindow_setname(wxWindow * window, BBString * name);
@@ -187,26 +186,27 @@ extern "C" {
 	int bmx_wxwindow_transferdatafromwindow(wxWindow * window);
 	int bmx_wxwindow_transferdatatowindow(wxWindow * window);
 	void bmx_wxwindow_udpate(wxWindow * window);
-	void bmx_wxwindow_updatewindowui(wxWindow * window, long flags);
+	void bmx_wxwindow_updatewindowui(wxWindow * window, int flags);
 	int bmx_wxwindow_validate(wxWindow * window);
 	void bmx_wxwindow_setsizerandfit(wxWindow * window, wxSizer * sizer, int deleteOld);
 	void bmx_wxwindow_setthemeenabled(wxWindow * window, int enable);
 	void bmx_wxwindow_settooltip(wxWindow * window, BBString * tip);
 	void bmx_wxwindow_setvirtualsize(wxWindow * window, int width, int height);
-	void bmx_wxwindow_setvirtualsizehints(wxWindow * window, int minW, int minH, int maxW, int maxH);
+	void bmx_wxwindow_setminclientsize(wxWindow * window, int minW, int minH);
+	void bmx_wxwindow_setmaxclientsize(wxWindow * window, int maxW, int maxH);
 	
 	BBArray * bmx_wxwindow_getchildren(wxWindow * window);
 	void bmx_wxwindow_convertdialogtopixels(wxWindow * window, int dx, int dy, int * px, int  * py);
 	void bmx_wxwindow_convertpixelstodialog(wxWindow * window, int px, int py, int * dx, int * dy);
-	wxWindow * bmx_wxwindow_findwindow(wxWindow * window, long id);
-	wxWindow * bmx_wxwindow_findwindowbyid(long id, wxWindow * parent);
+	wxWindow * bmx_wxwindow_findwindow(wxWindow * window, int id);
+	wxWindow * bmx_wxwindow_findwindowbyid(int id, wxWindow * parent);
 	wxWindow * bmx_wxwindow_findwindowbyname(BBString * name, wxWindow * parent);
 	wxWindow * bmx_wxwindow_findwindowbylabel(BBString * label, wxWindow * parent);
 	wxWindow * bmx_wxwindow_getcapture();
 	wxCaret * bmx_wxwindow_getcaret(wxWindow * window);
 	wxSizer * bmx_wxwindow_getcontainingsizer(wxWindow * window);
 	MaxCursor * bmx_wxwindow_getcursor(wxWindow * window);
-	long bmx_wxwindow_getextrastyle(wxWindow * window);
+	int bmx_wxwindow_getextrastyle(wxWindow * window);
 	wxEvtHandler * bmx_wxwindow_geteventhandler(wxWindow * window);
 	void bmx_wxwindow_gettextextent(wxWindow * window, BBString * text, int * x, int * y, int * descent, int * externalLeading, MaxFont * font, int use16);
 	void bmx_wxwindow_getvirtualsize(wxWindow * window, int * width, int * height);
@@ -249,7 +249,6 @@ extern "C" {
 	void bmx_wxsizer_getsize(wxSizer * sizer, int * w, int * h);
 	void bmx_wxsizer_getposition(wxSizer * sizer, int * x, int * y);
 	void bmx_wxsizer_getminsize(wxSizer * sizer, int * w, int * h);
-	void bmx_wxsizer_setvirtualsizehints(wxSizer * sizer, wxWindow * window);
 	int bmx_wxsizer_show(wxSizer * sizer, wxWindow * window, int doShow, int recursive);
 	int bmx_wxsizer_showsizer(wxSizer * sizer, wxSizer * s, int doShow, int recursive);
 	int bmx_wxsizer_showitem(wxSizer * sizer, int index, int doShow);
@@ -302,7 +301,7 @@ extern "C" {
 	void bmx_wxflexgridsizer_setnonflexiblegrowmode(wxFlexGridSizer * sizer, wxFlexSizerGrowMode mode);
 
 	void bmx_wxtooltip_enable(int flag);
-	void bmx_wxtooltip_setdelay(long msecs);
+	void bmx_wxtooltip_setdelay(int msecs);
 	void bmx_wxtooltip_settip(wxToolTip * tip, BBString * text);
 	BBString * bmx_wxtooltip_gettip(wxToolTip * tip);
 	wxWindow * bmx_wxtooltip_getwindow(wxToolTip * tip);
@@ -313,10 +312,10 @@ extern "C" {
 	int bmx_wxupdateeventui_getshown(wxUpdateUIEvent & event);
 	BBString * bmx_wxupdateeventui_gettext(wxUpdateUIEvent & event);
 	wxUpdateUIMode bmx_wxupdateeventui_getmode();
-	long bmx_wxupdateeventui_getupdateinterval();
+	int bmx_wxupdateeventui_getupdateinterval();
 	void bmx_wxupdateeventui_setmode(wxUpdateUIMode mode);
 	void bmx_wxupdateeventui_settext(wxUpdateUIEvent & event, BBString * text);
-	void bmx_wxupdateeventui_setupdateinterval(long interval);
+	void bmx_wxupdateeventui_setupdateinterval(int interval);
 
 	wxIdleMode bmx_wxidleevent_getmode();
 	void bmx_wxidleevent_requestmore(wxIdleEvent & event, int needMore);

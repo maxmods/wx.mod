@@ -77,7 +77,7 @@ int bmx_wxgetsinglechoiceindex(BBString * message, BBString * caption, BBArray *
 }
 
 MaxSingleChoiceDialog * bmx_wxsinglechoicedialog_create(BBObject * handle, wxWindow * parent,
-		BBString * message, BBString * caption, BBArray * choices, long style, int x, int y) {
+		BBString * message, BBString * caption, BBArray * choices, int style, int x, int y) {
 
 	return new MaxSingleChoiceDialog(handle, parent, wxStringFromBBString(message), 
 		wxStringFromBBString(caption), bbStringArrayTowxArrayStr(choices), style, x, y);
@@ -101,7 +101,7 @@ int bmx_wxsinglechoicedialog_showmodal(wxSingleChoiceDialog * dialog) {
 
 
 MaxMultiChoiceDialog * bmx_wxmultichoicedialog_create(BBObject * handle, wxWindow * parent,
-		BBString * message, BBString * caption, BBArray * choices, long style, int x, int y) {
+		BBString * message, BBString * caption, BBArray * choices, int style, int x, int y) {
 
 	return new MaxMultiChoiceDialog(handle, parent, wxStringFromBBString(message), 
 		wxStringFromBBString(caption), bbStringArrayTowxArrayStr(choices), style, x, y);

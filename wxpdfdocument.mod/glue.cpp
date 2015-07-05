@@ -151,8 +151,8 @@ void bmx_wxpdfdocument_free(wxPdfDocument * doc) {
 	delete doc;
 }
 
-wxPdfDocument * bmx_wxpdfdocument_create(BBObject * handle, int orientation, BBString * unit, wxPaperSize format) {
-	return new MaxPdfDocument(handle, orientation, wxStringFromBBString(unit), format);
+wxPdfDocument * bmx_wxpdfdocument_create(BBObject * handle, int orientation, BBString * unit, int format) {
+	return new MaxPdfDocument(handle, orientation, wxStringFromBBString(unit), static_cast<wxPaperSize>(format));
 }
 
 void bmx_wxpdfdocument_addpage(wxPdfDocument * doc, int orientation) {
@@ -479,8 +479,8 @@ void bmx_wxpdfdocument_closepath(wxPdfDocument * doc, int style) {
 	doc->ClosePath(style);
 }
 
-int bmx_wxpdfdocument_setalpha(wxPdfDocument * doc, double lineAlpha, double fillAlpha, wxPdfBlendMode blendMode) {
-	return doc->SetAlpha(lineAlpha, fillAlpha, blendMode);
+int bmx_wxpdfdocument_setalpha(wxPdfDocument * doc, double lineAlpha, double fillAlpha, int blendMode) {
+	return doc->SetAlpha(lineAlpha, fillAlpha, static_cast<wxPdfBlendMode>(blendMode));
 }
 
 void bmx_wxpdfdocument_rect(wxPdfDocument * doc, double x, double y, double w, double h, int style) {
@@ -540,8 +540,8 @@ void bmx_wxpdfdocument_shape(wxPdfDocument * doc, MaxPdfShape * shape, int style
 	doc->Shape(shape->Shape(), style);
 }
 
-void bmx_wxpdfdocument_shapedtext(wxPdfDocument * doc, MaxPdfShape * shape, BBString * text, wxPdfShapedTextMode mode) {
-	doc->ShapedText(shape->Shape(), wxStringFromBBString(text), mode);
+void bmx_wxpdfdocument_shapedtext(wxPdfDocument * doc, MaxPdfShape * shape, BBString * text, int mode) {
+	doc->ShapedText(shape->Shape(), wxStringFromBBString(text), static_cast<wxPdfShapedTextMode>(mode));
 }
 
 int bmx_wxpdfdocument_setlink(wxPdfDocument * doc, int link, double y, int page) {
@@ -633,8 +633,8 @@ void bmx_wxpdfdocument_line(wxPdfDocument * doc, double x1, double y1, double x2
 	doc->Line(x1, y1, x2, y2);
 }
 
-int bmx_wxpdfdocument_lineargradient(wxPdfDocument * doc, MaxPdfColour * col1, MaxPdfColour * col2, wxPdfLinearGradientType gradientType) {
-	return doc->LinearGradient(col1->Colour(), col2->Colour(), gradientType);
+int bmx_wxpdfdocument_lineargradient(wxPdfDocument * doc, MaxPdfColour * col1, MaxPdfColour * col2, int gradientType) {
+	return doc->LinearGradient(col1->Colour(), col2->Colour(), static_cast<wxPdfLinearGradientType>(gradientType));
 }
 
 int bmx_wxpdfdocument_linecount(wxPdfDocument * doc, double w, BBString * txt) {
@@ -649,8 +649,8 @@ void bmx_wxpdfdocument_link(wxPdfDocument * doc, double x, double y, double w, d
 	doc->Link(x, y, w, h, link->Link());
 }
 
-void bmx_wxpdfdocument_marker(wxPdfDocument * doc, double x, double y, wxPdfMarker markerType, double size) {
-	doc->Marker(x, y, markerType, size);
+void bmx_wxpdfdocument_marker(wxPdfDocument * doc, double x, double y, int markerType, double size) {
+	doc->Marker(x, y, static_cast<wxPdfMarker>(markerType), size);
 }
 
 void bmx_wxpdfdocument_midaxialgradient(wxPdfDocument * doc, MaxPdfColour * col1, MaxPdfColour * col2, double x1, double y1, double x2, double y2, double midpoint, double intexp) {
@@ -809,8 +809,8 @@ void bmx_wxpdfdocument_setfontsubsetting(wxPdfDocument * doc, int fontSubsetting
 	doc->SetFontSubsetting(static_cast<bool>(fontSubsetting));
 }
 
-void bmx_wxpdfdocument_setformborderstyle(wxPdfDocument * doc, wxPdfBorderStyle borderStyle, double borderWidth) {
-	doc->SetFormBorderStyle(borderStyle, borderWidth);
+void bmx_wxpdfdocument_setformborderstyle(wxPdfDocument * doc, int borderStyle, double borderWidth) {
+	doc->SetFormBorderStyle(static_cast<wxPdfBorderStyle>(borderStyle), borderWidth);
 }
 
 void bmx_wxpdfdocument_setformcolours(wxPdfDocument * doc, MaxPdfColour * borderColour, MaxPdfColour * backgroundColour, MaxPdfColour * textColour) {
@@ -837,8 +837,8 @@ void bmx_wxpdfdocument_setcreator(wxPdfDocument * doc, BBString * creator) {
 	doc->SetCreator(wxStringFromBBString(creator));
 }
 
-void bmx_wxpdfdocument_setdisplaymode(wxPdfDocument * doc, wxPdfZoom zoom, wxPdfLayout layout, double zoomFactor) {
-	doc->SetDisplayMode(zoom, layout, zoomFactor);
+void bmx_wxpdfdocument_setdisplaymode(wxPdfDocument * doc, int zoom, int layout, double zoomFactor) {
+	doc->SetDisplayMode(static_cast<wxPdfZoom>(zoom), static_cast<wxPdfLayout>(layout), zoomFactor);
 }
 
 void bmx_wxpdfdocument_setalphastate(wxPdfDocument * doc, int state) {
@@ -955,12 +955,12 @@ void bmx_wxpdflink_delete(MaxPdfLink * link) {
 
 // *********************************************
 
-MaxPdfLineStyle * bmx_wxpdflinestyle_create(double width, wxPdfLineCap cap, wxPdfLineJoin join, BBArray * dash, double phase, MaxPdfColour * colour) {
+MaxPdfLineStyle * bmx_wxpdflinestyle_create(double width, int cap, int join, BBArray * dash, double phase, MaxPdfColour * colour) {
 	if (colour) {
-		wxPdfLineStyle s(width, cap, join, bbDoubleArrayTowxPdfArrayDouble(dash), phase, colour->Colour());
+		wxPdfLineStyle s(width, static_cast<wxPdfLineCap>(cap), static_cast<wxPdfLineJoin>(join), bbDoubleArrayTowxPdfArrayDouble(dash), phase, colour->Colour());
 		return new MaxPdfLineStyle(s);
 	} else {
-		wxPdfLineStyle s(width, cap, join, bbDoubleArrayTowxPdfArrayDouble(dash), phase);
+		wxPdfLineStyle s(width, static_cast<wxPdfLineCap>(cap), static_cast<wxPdfLineJoin>(join), bbDoubleArrayTowxPdfArrayDouble(dash), phase);
 		return new MaxPdfLineStyle(s);
 	}	
 }

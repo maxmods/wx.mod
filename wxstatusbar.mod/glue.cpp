@@ -139,7 +139,7 @@ BEGIN_EVENT_TABLE(MaxStatusBar, wxStatusBar)
 END_EVENT_TABLE()
 
 
-MaxStatusBar * bmx_wxstatusbar_create(BBObject * handle, wxWindow * parent, int id, long style) {
+MaxStatusBar * bmx_wxstatusbar_create(BBObject * handle, wxWindow * parent, int id, int style) {
 	return new MaxStatusBar(handle, parent, id, style);
 }
 

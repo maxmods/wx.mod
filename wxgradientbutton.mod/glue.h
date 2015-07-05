@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxGradientButton * bmx_wxgradientbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y, int w, int h, long style);
+	wxGradientButton * bmx_wxgradientbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y, int w, int h, int style);
 	BBString * bmx_wxgradientbutton_getlabel(wxGradientButton * button);
 	void bmx_wxgradientbutton_setlabel(wxGradientButton * button, BBString * value);
 	MaxColour * bmx_wxgradientbutton_getgradienttopstartcolour(wxGradientButton * button);

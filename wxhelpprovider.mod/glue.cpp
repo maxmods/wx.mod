@@ -45,7 +45,7 @@ void bmx_wxhelpprovider_addhelp(wxHelpProvider * provider, wxWindow * window, BB
 	provider->AddHelp(window, wxStringFromBBString(text));
 }
 
-void bmx_wxhelpprovider_addhelpid(wxHelpProvider * provider, wxWindowID windowId, BBString * text) {
+void bmx_wxhelpprovider_addhelpid(wxHelpProvider * provider, int windowId, BBString * text) {
 	provider->AddHelp(windowId, wxStringFromBBString(text));
 }
 
@@ -61,8 +61,8 @@ int bmx_wxhelpprovider_showhelp(wxHelpProvider * provider, wxWindow * window) {
 	return static_cast<int>(provider->ShowHelp(window));
 }
 
-int bmx_wxhelpprovider_showhelpatpoint(wxHelpProvider * provider, wxWindow * window, int x, int y, wxHelpEvent::Origin origin) {
-	return static_cast<int>(provider->ShowHelpAtPoint(window, wxPoint(x, y), origin));
+int bmx_wxhelpprovider_showhelpatpoint(wxHelpProvider * provider, wxWindow * window, int x, int y, int origin) {
+	return static_cast<int>(provider->ShowHelpAtPoint(window, wxPoint(x, y), static_cast<wxHelpEvent::Origin>(origin)));
 }
 
 // *********************************************

@@ -33,7 +33,7 @@ extern "C" {
 		int x, int y, int centre);
 
 	wxPasswordEntryDialog * bmx_wxpasswordentrydialog_create(BBObject * handle, wxWindow * parent, BBString * message,
-			BBString * caption, BBString * defaultValue, long style, int x, int y);
+			BBString * caption, BBString * defaultValue, int style, int x, int y);
 
 }
 

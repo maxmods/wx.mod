@@ -42,7 +42,7 @@ BEGIN_EVENT_TABLE(MaxKnob, wxKnob)
 END_EVENT_TABLE()
 
 wxKnob * bmx_wxknob_create(BBObject * handle, wxWindow * parent, wxWindowID id, int value,
-		int minValue, int maxValue, int minAngle, int maxAngle, int x, int y, int w, int h, long style) {
+		int minValue, int maxValue, int minAngle, int maxAngle, int x, int y, int w, int h, int style) {
 	return new MaxKnob(handle, parent, id, value, minValue, maxValue, minAngle, maxAngle, x, y, w, h, style);
 }
 

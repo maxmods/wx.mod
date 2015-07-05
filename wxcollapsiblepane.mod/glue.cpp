@@ -122,7 +122,7 @@ bool MaxCollapsiblePaneXmlHandler::CanHandle(wxXmlNode *node)
 // *********************************************
 
 MaxCollapsiblePane * bmx_wxcollapsiblepane_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	return new MaxCollapsiblePane(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }

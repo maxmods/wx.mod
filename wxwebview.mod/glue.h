@@ -33,7 +33,7 @@ extern "C" {
 	void CB_PREF(wx_wxwebview_wxWebViewHistoryItem__setArrayValue)(BBArray * arr, int index, MaxWebViewHistoryItem * item);
 
 	wxWebView * bmx_wxwebview_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * url, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	BBString * bmx_wxwebview_getcurrenttitle(wxWebView * view);
 	BBString * bmx_wxwebview_getcurrenturl(wxWebView * view);
 	BBString * bmx_wxwebview_getpagesource(wxWebView * view);

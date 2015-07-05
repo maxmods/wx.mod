@@ -36,7 +36,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxgenericdirctrl_wxGenericDirCtrl__xrcNew)(wxGenericDirCtrl * dir);
 
 	wxGenericDirCtrl * bmx_wxgenericdirctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id,
-		BBString * dir, int x, int y, int w, int h, long style, BBString * filter, int defaultFilter);
+		BBString * dir, int x, int y, int w, int h, int style, BBString * filter, int defaultFilter);
 	void bmx_wxgenericdirctrl_init(wxGenericDirCtrl * dir);
 	void bmx_wxgenericdirctrl_collapsetree(wxGenericDirCtrl * dir);
 	int bmx_wxgenericdirctrl_expandpath(wxGenericDirCtrl * dir, BBString * path);

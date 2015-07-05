@@ -161,7 +161,7 @@ BEGIN_EVENT_TABLE(MaxTextCtrl, wxTextCtrl)
 END_EVENT_TABLE()
 
 
-MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, wxValidator * validator) {
+MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, int style, wxValidator * validator) {
 	if (validator) {
 		return new MaxTextCtrl(maxHandle, parent, id, wxStringFromBBString(value), x, y, w, h, style, *validator);
 	} else {
@@ -214,19 +214,19 @@ MaxTextAttr * bmx_wxtextctrl_getdefaultstyle(wxTextCtrl * ctrl) {
 	return new MaxTextAttr(a);
 }
 
-long bmx_wxtextctrl_getinsertionpoint(wxTextCtrl * ctrl) {
+int bmx_wxtextctrl_getinsertionpoint(wxTextCtrl * ctrl) {
 	return ctrl->GetInsertionPoint();
 }
 
-long bmx_wxtextctrl_getlastposition(wxTextCtrl * ctrl) {
+int bmx_wxtextctrl_getlastposition(wxTextCtrl * ctrl) {
 	return ctrl->GetLastPosition();
 }
 
-int bmx_wxtextctrl_getlinelength(wxTextCtrl * ctrl, long lineNo) {
+int bmx_wxtextctrl_getlinelength(wxTextCtrl * ctrl, int lineNo) {
 	return ctrl->GetLineLength(lineNo);
 }
 
-BBString * bmx_wxtextctrl_getlinetext(wxTextCtrl * ctrl, long lineNo) {
+BBString * bmx_wxtextctrl_getlinetext(wxTextCtrl * ctrl, int lineNo) {
 	return bbStringFromWxString(ctrl->GetLineText(lineNo));
 }
 
@@ -234,19 +234,22 @@ int bmx_wxtextctrl_getnumberoflines(wxTextCtrl * ctrl) {
 	return ctrl->GetNumberOfLines();
 }
 
-BBString * bmx_wxtextctrl_getrange(wxTextCtrl * ctrl, long fromPos, long toPos) {
+BBString * bmx_wxtextctrl_getrange(wxTextCtrl * ctrl, int fromPos, int toPos) {
 	return bbStringFromWxString(ctrl->GetRange(fromPos, toPos));
 }
 
-void bmx_wxtextctrl_getselection(wxTextCtrl * ctrl, long * fromPos, long * toPos) {
-	ctrl->GetSelection(fromPos, toPos);
+void bmx_wxtextctrl_getselection(wxTextCtrl * ctrl, int * fromPos, int * toPos) {
+	long fp, tp;
+	ctrl->GetSelection(&fp, &tp);
+	*fromPos = fp;
+	*toPos = tp;
 }
 
 BBString * bmx_wxtextctrl_getstringselection(wxTextCtrl * ctrl) {
 	return bbStringFromWxString(ctrl->GetStringSelection());
 }
 
-MaxTextAttr * bmx_wxtextctrl_getstyle(wxTextCtrl * ctrl, long position) {
+MaxTextAttr * bmx_wxtextctrl_getstyle(wxTextCtrl * ctrl, int position) {
 	wxTextAttr attr;
 	bool ret = ctrl->GetStyle(position, attr);
 	
@@ -290,19 +293,23 @@ void bmx_wxtextctrl_paste(wxTextCtrl * ctrl) {
 	ctrl->Paste();
 }
 
-int bmx_wxtextctrl_positiontoxy(wxTextCtrl * ctrl, long pos, long * x, long * y) {
-	return static_cast<int>(ctrl->PositionToXY(pos, x, y));
+int bmx_wxtextctrl_positiontoxy(wxTextCtrl * ctrl, int pos, int * x, int * y) {
+	long _x, _y;
+	int res = static_cast<int>(ctrl->PositionToXY(pos, &_x, &_y));
+	*x = _x;
+	*y = _y;
+	return res;
 }
 
 void bmx_wxtextctrl_redo(wxTextCtrl * ctrl) {
 	ctrl->Redo();
 }
 
-void bmx_wxtextctrl_remove(wxTextCtrl * ctrl, long fromPos, long toPos) {
+void bmx_wxtextctrl_remove(wxTextCtrl * ctrl, int fromPos, int toPos) {
 	ctrl->Remove(fromPos, toPos);
 }
 
-void bmx_wxtextctrl_replace(wxTextCtrl * ctrl, long fromPos, long toPos, BBString * value) {
+void bmx_wxtextctrl_replace(wxTextCtrl * ctrl, int fromPos, int toPos, BBString * value) {
 	ctrl->Replace(fromPos, toPos, wxStringFromBBString(value));
 }
 
@@ -318,7 +325,7 @@ void bmx_wxtextctrl_seteditable(wxTextCtrl * ctrl, int editable) {
 	ctrl->SetEditable(static_cast<bool>(editable));
 }
 
-void bmx_wxtextctrl_setinsertionpoint(wxTextCtrl * ctrl, long pos) {
+void bmx_wxtextctrl_setinsertionpoint(wxTextCtrl * ctrl, int pos) {
 	ctrl->SetInsertionPoint(pos);
 }
 
@@ -326,7 +333,7 @@ void bmx_wxtextctrl_setinsertionpointend(wxTextCtrl * ctrl) {
 	ctrl->SetInsertionPointEnd();
 }
 
-void bmx_wxtextctrl_setmaxlength(wxTextCtrl * ctrl, unsigned long length) {
+void bmx_wxtextctrl_setmaxlength(wxTextCtrl * ctrl, int length) {
 	ctrl->SetMaxLength(length);
 }
 
@@ -334,11 +341,11 @@ void bmx_wxtextctrl_setmodified(wxTextCtrl * ctrl, int modified) {
 	ctrl->SetModified(static_cast<bool>(modified));
 }
 
-void bmx_wxtextctrl_setselection(wxTextCtrl * ctrl, long fromPos, long toPos) {
+void bmx_wxtextctrl_setselection(wxTextCtrl * ctrl, int fromPos, int toPos) {
 	ctrl->SetSelection(fromPos, toPos);
 }
 
-void bmx_wxtextctrl_setstyle(wxTextCtrl * ctrl, long fromPos, long toPos, MaxTextAttr * style) {
+void bmx_wxtextctrl_setstyle(wxTextCtrl * ctrl, int fromPos, int toPos, MaxTextAttr * style) {
 	ctrl->SetStyle(fromPos, toPos, style->TextAttr());
 }
 
@@ -346,7 +353,7 @@ void bmx_wxtextctrl_changevalue(wxTextCtrl * ctrl, BBString * value) {
 	ctrl->ChangeValue(wxStringFromBBString(value));
 }
 
-void bmx_wxtextctrl_showposition(wxTextCtrl * ctrl, long pos) {
+void bmx_wxtextctrl_showposition(wxTextCtrl * ctrl, int pos) {
 	ctrl->ShowPosition(pos);
 }
 
@@ -358,7 +365,7 @@ void bmx_wxtextctrl_writetext(wxTextCtrl * ctrl, BBString * text) {
 	ctrl->WriteText(wxStringFromBBString(text));
 }
 
-long bmx_wxtextctrl_xytoposition(wxTextCtrl * ctrl, long x, long y) {
+int bmx_wxtextctrl_xytoposition(wxTextCtrl * ctrl, int x, int y) {
 	return ctrl->XYToPosition(x, y);
 }
 
@@ -366,8 +373,12 @@ void bmx_wxtextctrl_setvalue(wxTextCtrl * ctrl, BBString * text) {
 	ctrl->SetValue(wxStringFromBBString(text));
 }
 
-wxTextCtrlHitTestResult bmx_wxtextctrl_hittest(wxTextCtrl * ctrl, int x, int y, long * col, long * row) {
-	return ctrl->HitTest(wxPoint(x, y), col, row);
+int bmx_wxtextctrl_hittest(wxTextCtrl * ctrl, int x, int y, int * col, int * row) {
+	long c, r;
+	int res = static_cast<int>(ctrl->HitTest(wxPoint(x, y), &c, &r));
+	*col = c;
+	*row = r;
+	return res;
 }
 
 int bmx_wxtextctrl_emulatekeypress(wxTextCtrl * ctrl, wxKeyEvent & event) {
@@ -379,8 +390,8 @@ void bmx_wxtextattr_delete(MaxTextAttr * style) {
 }
 
 
-wxTextAttrAlignment bmx_wxtextattr_getalignment(MaxTextAttr * style) {
-	return style->TextAttr().GetAlignment();
+int bmx_wxtextattr_getalignment(MaxTextAttr * style) {
+	return static_cast<int>(style->TextAttr().GetAlignment());
 }
 
 MaxColour * bmx_wxtextattr_getbackgroundcolour(MaxTextAttr * style) {
@@ -442,7 +453,7 @@ int bmx_wxtextattr_hastextcolour(MaxTextAttr * style) {
 	return static_cast<int>(style->TextAttr().HasTextColour());
 }
 
-long bmx_wxtextattr_getflags(MaxTextAttr * style) {
+int bmx_wxtextattr_getflags(MaxTextAttr * style) {
 	return style->TextAttr().GetFlags();
 }
 
@@ -454,15 +465,15 @@ void bmx_wxtextattr_merge(MaxTextAttr * style, MaxTextAttr * overlay) {
 	style->TextAttr().Merge(overlay->TextAttr());
 }
 
-void bmx_wxtextattr_setalignment(MaxTextAttr * style, wxTextAttrAlignment alignment) {
-	style->TextAttr().SetAlignment(alignment);
+void bmx_wxtextattr_setalignment(MaxTextAttr * style, int alignment) {
+	style->TextAttr().SetAlignment(static_cast<wxTextAttrAlignment>(alignment));
 }
 
 void bmx_wxtextattr_setbackgroundcolour(MaxTextAttr * style, MaxColour * colour) {
 	style->TextAttr().SetBackgroundColour(colour->Colour());
 }
 
-void bmx_wxtextattr_setflags(MaxTextAttr * style, long flags) {
+void bmx_wxtextattr_setflags(MaxTextAttr * style, int flags) {
 	style->TextAttr().SetFlags(flags);
 }
 
@@ -486,21 +497,21 @@ void bmx_wxtextattr_settextcolour(MaxTextAttr * style, MaxColour * colour) {
 	style->TextAttr().SetTextColour(colour->Colour());
 }
 
-MaxTextAttr * bmx_wxtextattr_create(MaxColour * colText, MaxColour * colBack, MaxFont * font, wxTextAttrAlignment alignment) {
+MaxTextAttr * bmx_wxtextattr_create(MaxColour * colText, MaxColour * colBack, MaxFont * font, int alignment) {
 
 	wxTextAttr attr;
 	
 	if (colBack) {
 		if (font) {
-			attr = wxTextAttr(colText->Colour(), colBack->Colour(), font->Font(), alignment);
+			attr = wxTextAttr(colText->Colour(), colBack->Colour(), font->Font(), static_cast<wxTextAttrAlignment>(alignment));
 		} else {
-			attr = wxTextAttr(colText->Colour(), colBack->Colour(), wxNullFont, alignment);
+			attr = wxTextAttr(colText->Colour(), colBack->Colour(), wxNullFont, static_cast<wxTextAttrAlignment>(alignment));
 		}
 	} else {
 		if (font) {
-			attr = wxTextAttr(colText->Colour(), wxNullColour, font->Font(), alignment);
+			attr = wxTextAttr(colText->Colour(), wxNullColour, font->Font(), static_cast<wxTextAttrAlignment>(alignment));
 		} else {
-			attr = wxTextAttr(colText->Colour(), wxNullColour, wxNullFont, alignment);
+			attr = wxTextAttr(colText->Colour(), wxNullColour, wxNullFont, static_cast<wxTextAttrAlignment>(alignment));
 		}
 	}
 
@@ -511,11 +522,11 @@ const wxMouseEvent & bmx_wxtexturlevent_getmouseevent(wxTextUrlEvent & event) {
 	return event.GetMouseEvent();
 }
 
-long bmx_wxtexturlevent_geturlstart(wxTextUrlEvent & event) {
+int bmx_wxtexturlevent_geturlstart(wxTextUrlEvent & event) {
 	return event.GetURLStart();
 }
 
-long bmx_wxtexturlevent_geturlend(wxTextUrlEvent & event) {
+int bmx_wxtexturlevent_geturlend(wxTextUrlEvent & event) {
 	return event.GetURLEnd();
 }
 

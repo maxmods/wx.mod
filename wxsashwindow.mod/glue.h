@@ -30,8 +30,8 @@ extern "C" {
 #include <blitz.h>
 
 	MaxSashWindow * bmx_wxsashwindow_create(BBObject * handle, wxWindow * parent, wxWindowID id, 
-		int x, int y, int w, int h, long style);
-	int bmx_wxsashwindow_getsashvisible(wxSashWindow * sash, wxSashEdgePosition edge);
+		int x, int y, int w, int h, int style);
+	int bmx_wxsashwindow_getsashvisible(wxSashWindow * sash, int edge);
 	int bmx_wxsashwindow_getmaximumsizex(wxSashWindow * sash);
 	int bmx_wxsashwindow_getmaximumsizey(wxSashWindow * sash);
 	int bmx_wxsashwindow_getminimumsizex(wxSashWindow * sash);
@@ -40,12 +40,12 @@ extern "C" {
 	void bmx_wxsashwindow_setmaximumsizey(wxSashWindow * sash, int size);
 	void bmx_wxsashwindow_setminimumsizex(wxSashWindow * sash, int size);
 	void bmx_wxsashwindow_setminimumsizey(wxSashWindow * sash, int size);
-	void bmx_wxsashwindow_setsashvisible(wxSashWindow * sash, wxSashEdgePosition edge, int visible);
+	void bmx_wxsashwindow_setsashvisible(wxSashWindow * sash, int edge, int visible);
 
-	wxSashEdgePosition bmx_wxsashevent_getedge(wxSashEvent & event);
+	int bmx_wxsashevent_getedge(wxSashEvent & event);
 	void bmx_wxsashevent_getdragrect(wxSashEvent & event, int * x, int * y, int * w, int * h);
 	MaxRect * bmx_wxsashevent_getdragrectrect(wxSashEvent & event);
-	wxSashDragStatus bmx_wxsashevent_getdragstatus(wxSashEvent & event);
+	int bmx_wxsashevent_getdragstatus(wxSashEvent & event);
 
 	int bmx_wxsashwindow_geteventtype(int type);
 

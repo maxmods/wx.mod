@@ -33,8 +33,8 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxhyperlinkctrl_wxHyperlinkCtrl__xrcNew)(wxHyperlinkCtrl * hlink);
 
-	MaxHyperlinkCtrl * bmx_wxhyperlinkctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id,
-		BBString * label, BBString * url, int x, int y, int w, int h, long style);
+	MaxHyperlinkCtrl * bmx_wxhyperlinkctrl_create(BBObject * maxHandle, wxWindow * parent, int id,
+		BBString * label, BBString * url, int x, int y, int w, int h, int style);
 
 	MaxColour * bmx_wxhyperlinkctrl_gethovercolour(wxHyperlinkCtrl * hlink);
 	MaxColour * bmx_wxhyperlinkctrl_getnormalcolour(wxHyperlinkCtrl * hlink);

@@ -43,7 +43,7 @@ extern "C" {
 	void CB_PREF(wx_wxtreectrl_wxTreeCtrl__setSelection)(BBArray * array, int index, MaxTreeItem * item);
 
 	MaxTreeCtrl * bmx_wxtreectrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	MaxTreeItem * bmx_wxtreectrl_addroot(wxTreeCtrl * tree, BBString * text, int image, int selImage, BBObject * data);
 	MaxTreeItem * bmx_wxtreectrl_appenditem(wxTreeCtrl * tree, MaxTreeItem * parent, BBString * text, int image, int selImage, BBObject * data);
 	void bmx_wxtreectrl_assignimagelist(wxTreeCtrl * tree, wxImageList * list);
@@ -75,7 +75,7 @@ extern "C" {
 	int bmx_wxtreectrl_getindent(wxTreeCtrl * tree);
 	MaxColour * bmx_wxtreectrl_getitembackgroundcolour(wxTreeCtrl * tree, MaxTreeItem * item);
 	MaxFont * bmx_wxtreectrl_getitemfont(wxTreeCtrl * tree, MaxTreeItem * item);
-	int bmx_wxtreectrl_getitemimage(wxTreeCtrl * tree, MaxTreeItem * item, wxTreeItemIcon which);
+	int bmx_wxtreectrl_getitemimage(wxTreeCtrl * tree, MaxTreeItem * item, int which);
 	BBString * bmx_wxtreectrl_getitemtext(wxTreeCtrl * tree, MaxTreeItem * item);
 	MaxColour * bmx_wxtreectrl_getitemtextcolour(wxTreeCtrl * tree, MaxTreeItem * item);
 	MaxTreeItem * bmx_wxtreectrl_getlastchild(wxTreeCtrl * tree, MaxTreeItem * item);
@@ -104,12 +104,12 @@ extern "C" {
 	void bmx_wxtreectrl_setitemdrophighlight(wxTreeCtrl * tree, MaxTreeItem * item, int highlight);
 	void bmx_wxtreectrl_setitemfont(wxTreeCtrl * tree, MaxTreeItem * item, MaxFont * font);
 	void bmx_wxtreectrl_setitemhaschildren(wxTreeCtrl * tree, MaxTreeItem * item, int hasChildren);
-	void bmx_wxtreectrl_setitemimage(wxTreeCtrl * tree, MaxTreeItem * item, int image, wxTreeItemIcon which);
+	void bmx_wxtreectrl_setitemimage(wxTreeCtrl * tree, MaxTreeItem * item, int image, int which);
 	void bmx_wxtreectrl_setitemtext(wxTreeCtrl * tree, MaxTreeItem * item, BBString * text);
 	void bmx_wxtreectrl_setitemtextcolour(wxTreeCtrl * tree, MaxTreeItem * item, MaxColour * colour);
 	void bmx_wxtreectrl_setquickbestsize(wxTreeCtrl * tree, int quickBestSize);
 	void bmx_wxtreectrl_setstateimagelist(wxTreeCtrl * tree, wxImageList * imageList);
-	void bmx_wxtreectrl_setwindowstyle(wxTreeCtrl * tree, long style);
+	void bmx_wxtreectrl_setwindowstyle(wxTreeCtrl * tree, int style);
 	void bmx_wxtreectrl_sortchildren(wxTreeCtrl * tree, MaxTreeItem * item);
 	void bmx_wxtreectrl_toggle(wxTreeCtrl * tree, MaxTreeItem * item);
 	void bmx_wxtreectrl_toggleitemselection(wxTreeCtrl * tree, MaxTreeItem * item);

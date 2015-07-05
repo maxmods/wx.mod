@@ -38,16 +38,16 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxframe_wxFrame__xrcNew)(wxFrame * frame);
 
 	MaxFrame * bmx_wxframe_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id, BBString * title,
-		int x, int y, int w, int h, long style);
+		int x, int y, int w, int h, int style);
 	void bmx_wxframe_setmenubar(wxFrame * frame, MaxMenuBar * menubar);
-	MaxStatusBar * bmx_wxframe_createstatusbar(wxFrame * frame, int number, long style, wxWindowID id);
+	MaxStatusBar * bmx_wxframe_createstatusbar(wxFrame * frame, int number, int style, wxWindowID id);
 	void bmx_wxframe_setstatustext(wxFrame * frame, BBString * text, int number);
 	wxMenuBar * bmx_wxframe_getmenubar(wxFrame * frame);
 	void bmx_wxframe_setstatusbar(wxFrame * frame, wxStatusBar * statusbar);
 	wxStatusBar * bmx_wxframe_getstatusbar(wxFrame * frame);
 	void bmx_wxframe_positionstatusbar(MaxFrame * frame);
 
-	wxToolBar * bmx_wxframe_createtoolbar(wxFrame * frame, long style, wxWindowID id);
+	wxToolBar * bmx_wxframe_createtoolbar(wxFrame * frame, int style, wxWindowID id);
 	wxToolBar * bmx_wxframe_gettoolbar(wxFrame * frame);
 	void bmx_wxframe_settoolbar(wxFrame * frame, wxToolBar * toolbar);
 	void bmx_wxframe_sendsizeevent(wxFrame * frame);

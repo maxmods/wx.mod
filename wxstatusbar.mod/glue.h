@@ -34,7 +34,7 @@ extern "C" {
 
 	void bmx_wxstatusbar_injectSelf(MaxStatusBar * statusbar, BBObject * handle);
 	
-	MaxStatusBar * bmx_wxstatusbar_create(BBObject * handle, wxWindow * parent, int id, long style);
+	MaxStatusBar * bmx_wxstatusbar_create(BBObject * handle, wxWindow * parent, int id, int style);
 	int bmx_wxstatusbar_getfieldrect(wxStatusBar * statusbar, int index, int * x, int * y, int * w, int * h);
 	MaxRect * bmx_wxstatusbar_getfieldrectrect(wxStatusBar * statusbar, int index);
 	int bmx_wxstatusbar_getfieldscount(wxStatusBar * statusbar);

@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxMediaCtrl * bmx_wxmediactrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * filename, int x, int y, int w, int h, long style, BBString * backend);
+	wxMediaCtrl * bmx_wxmediactrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * filename, int x, int y, int w, int h, int style, BBString * backend);
 	void bmx_wxmediactrl_getbestsize(wxMediaCtrl * ctrl, int * w, int * h);
 	double bmx_wxmediactrl_getplaybackrate(wxMediaCtrl * ctrl);
 	double bmx_wxmediactrl_getvolume(wxMediaCtrl * ctrl);
@@ -40,10 +40,10 @@ extern "C" {
 	int bmx_wxmediactrl_loaduriwithproxy(wxMediaCtrl * ctrl, BBString * uri, BBString * proxy);
 	int bmx_wxmediactrl_pause(wxMediaCtrl * ctrl);
 	int bmx_wxmediactrl_play(wxMediaCtrl * ctrl);
-	void bmx_wxmediactrl_seek(wxMediaCtrl * ctrl, BBInt64 where, wxSeekMode mode, BBInt64 * value);
+	void bmx_wxmediactrl_seek(wxMediaCtrl * ctrl, BBInt64 where, int mode, BBInt64 * value);
 	int bmx_wxmediactrl_setplaybackrate(wxMediaCtrl * ctrl, double rate);
 	int bmx_wxmediactrl_setvolume(wxMediaCtrl * ctrl, double volume);
-	int bmx_wxmediactrl_showplayercontrols(wxMediaCtrl * ctrl, wxMediaCtrlPlayerControls flags);
+	int bmx_wxmediactrl_showplayercontrols(wxMediaCtrl * ctrl, int flags);
 	int bmx_wxmediactrl_stop(wxMediaCtrl * ctrl);
 	void bmx_wxmediactrl_tell(wxMediaCtrl * ctrl, BBInt64 * value);
 

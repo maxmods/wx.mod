@@ -126,10 +126,10 @@ wxObject * MaxRadioBoxXmlHandler::DoCreateResource()
         wxString str = GetNodeContent(m_node);
 
         wxString tooltip;
-        m_node->GetPropVal(wxT("tooltip"), &tooltip);
+        m_node->GetAttribute(wxT("tooltip"), &tooltip);
 
         wxString helptext;
-        bool hasHelptext = m_node->GetPropVal(wxT("helptext"), &helptext);
+        bool hasHelptext = m_node->GetAttribute(wxT("helptext"), &helptext);
 
         if (m_resource->GetFlags() & wxXRC_USE_LOCALE)
         {
@@ -160,7 +160,7 @@ bool MaxRadioBoxXmlHandler::CanHandle(wxXmlNode *node)
 // *********************************************
 
 MaxRadioBox * bmx_wxradiobox_create(BBObject * handle, wxWindow * parent, int id, BBString * label,
-		int x, int y, int w, int h, BBArray * array, int majorDimension, long style) {
+		int x, int y, int w, int h, BBArray * array, int majorDimension, int style) {
 	return new MaxRadioBox(handle, parent, id, wxStringFromBBString(label), x, y, w, h, 
 		bbStringArrayTowxArrayStr(array), majorDimension, style);
 }

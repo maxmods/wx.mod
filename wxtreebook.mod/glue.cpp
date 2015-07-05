@@ -150,7 +150,7 @@ bool MaxTreebookXmlHandler::CanHandle(wxXmlNode *node)
 
 // *********************************************
 
-wxTreebook * bmx_wxtreebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+wxTreebook * bmx_wxtreebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxTreebook(handle, parent, id, x, y, w, h, style);
 }
 

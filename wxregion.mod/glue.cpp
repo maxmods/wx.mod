@@ -65,11 +65,11 @@ void bmx_wxregion_clear(MaxRegion * region) {
 	region->Region().Clear();
 }
 
-wxRegionContain bmx_wxregion_contains(MaxRegion * region, int x, int y) {
+int bmx_wxregion_contains(MaxRegion * region, int x, int y) {
 	return region->Region().Contains(x, y);
 }
 
-wxRegionContain bmx_wxregion_containsrect(MaxRegion * region, MaxRect * rect) {
+int bmx_wxregion_containsrect(MaxRegion * region, MaxRect * rect) {
 	return region->Region().Contains(rect->Rect());
 }
 

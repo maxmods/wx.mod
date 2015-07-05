@@ -34,7 +34,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxspinctrl_wxSpinCtrl__xrcNew)(wxSpinCtrl * spin);
 
 	MaxSpinCtrl * bmx_wxspinctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y,
-		int w, int h, long style, int min, int max, int initial);
+		int w, int h, int style, int min, int max, int initial);
 
 	void bmx_wxspinctrl_setvalue(wxSpinCtrl * spin, int value);
 	void bmx_wxspinctrl_settextvalue(wxSpinCtrl * spin, BBString * value);

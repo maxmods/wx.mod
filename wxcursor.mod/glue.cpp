@@ -42,7 +42,7 @@ wxCursor & MaxCursor::Cursor() {
 // *********************************************
 
 MaxCursor * bmx_wxcursor_stockcreate(int id) {
-	wxCursor c(id);
+	wxCursor c(static_cast<wxStockCursor>(id));
 	return new MaxCursor(c);
 }
 

@@ -79,7 +79,7 @@ BEGIN_EVENT_TABLE(MaxStaticText, wxStaticText)
 END_EVENT_TABLE()
 
 MaxStaticText * bmx_wxstatictext_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	return new MaxStaticText(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }

@@ -29,12 +29,12 @@ extern "C" {
 
 #include <blitz.h>
 
-	long bmx_wxgetnumberfromuser(BBString * message, BBString * prompt, BBString * caption, long value, 
-		long min, long max, wxWindow * parent, int x, int y);
+	int bmx_wxgetnumberfromuser(BBString * message, BBString * prompt, BBString * caption, int value, 
+		int min, int max, wxWindow * parent, int x, int y);
 
 	wxNumberEntryDialog * bmx_wxnumberentrydialog_create(BBObject * handle, wxWindow * parent,
-		BBString * message, BBString * prompt, BBString * caption, long value, long minimum, long maximum, int x, int y);
-	long bmx_wxnumberentrydialog_getvalue(wxNumberEntryDialog * dialog);
+		BBString * message, BBString * prompt, BBString * caption, int value, int minimum, int maximum, int x, int y);
+	int bmx_wxnumberentrydialog_getvalue(wxNumberEntryDialog * dialog);
 
 }
 

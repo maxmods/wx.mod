@@ -40,7 +40,7 @@ wxSharedPtr< wxWebViewHistoryItem > MaxWebViewHistoryItem::Item() {
 // *********************************************
 
 wxWebView * bmx_wxwebview_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * url, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	wxWebView * webView = wxWebView::New(parent, id, wxStringFromBBString(url), wxPoint(x, y), wxSize(w, h), wxWebViewBackendDefault, style);
 	wxbind(webView, maxHandle);

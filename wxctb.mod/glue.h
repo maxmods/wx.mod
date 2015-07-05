@@ -45,7 +45,7 @@ extern "C" {
 	int bmx_wxiobase_close(wxIOBase * base);
 	int bmx_wxiobase_open(wxIOBase * base, BBString * deviceName, void * dcs);
 	int bmx_wxiobase_putback(wxIOBase * base, int chr);
-	int bmx_wxiobase_readuntileos(wxIOBase * base, char * buffer, int * bytesRead, BBString * eos, long timeout, int quota);
+	int bmx_wxiobase_readuntileos(wxIOBase * base, char * buffer, int * bytesRead, BBString * eos, int timeout, int quota);
 	int bmx_wxiobase_readv(wxIOBase * base, char * buffer, int size, int * timeoutFlag, int nice);
 	int bmx_wxiobase_writev(wxIOBase * base, char * buffer, int size, int * timeoutFlag, int nice);
 

@@ -61,8 +61,8 @@ int bmx_wxzipentry_getflags(wxZipEntry * entry) {
 	return entry->GetFlags();
 }
 
-wxPathFormat bmx_wxzipentry_getinternalformat(wxZipEntry * entry) {
-	return entry->GetInternalFormat();
+int bmx_wxzipentry_getinternalformat(wxZipEntry * entry) {
+	return static_cast<int>(entry->GetInternalFormat());
 }
 
 BBString * bmx_wxzipentry_getinternalname(wxZipEntry * entry) {
@@ -85,8 +85,8 @@ int bmx_wxzipentry_getmode(wxZipEntry * entry) {
 	return entry->GetMode();
 }
 
-BBString * bmx_wxzipentry_getname(wxZipEntry * entry, wxPathFormat format) {
-	return bbStringFromWxString(entry->GetName(format));
+BBString * bmx_wxzipentry_getname(wxZipEntry * entry, int format) {
+	return bbStringFromWxString(entry->GetName(static_cast<wxPathFormat>(format)));
 }
 
 int bmx_wxzipentry_ismadebyunix(wxZipEntry * entry) {
@@ -97,8 +97,8 @@ int bmx_wxzipentry_istext(wxZipEntry * entry) {
 	return static_cast<int>(entry->IsText());
 }
 
-void bmx_wxzipentry_setname(wxZipEntry * entry, BBString * name, wxPathFormat format) {
-	entry->SetName(wxStringFromBBString(name), format);
+void bmx_wxzipentry_setname(wxZipEntry * entry, BBString * name, int format) {
+	entry->SetName(wxStringFromBBString(name), static_cast<wxPathFormat>(format));
 }
 
 int bmx_wxzipentry_getoffset(wxZipEntry * entry) {

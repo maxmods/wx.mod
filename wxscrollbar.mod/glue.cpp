@@ -78,7 +78,7 @@ wxObject * MaxScrollBarXmlHandler::DoCreateResource()
 // *********************************************
 
 
-MaxScrollBar * bmx_wxscrollbar_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+MaxScrollBar * bmx_wxscrollbar_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxScrollBar(maxHandle, parent, id, x, y, w, h, style);
 }
 

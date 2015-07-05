@@ -33,7 +33,7 @@ extern "C" {
 	void CB_PREF(wx_wxscrolledwindow_wxScrolledWindow__OnDraw)(BBObject * handle, MaxDC * dc);
 	BBObject * CB_PREF(wx_wxscrolledwindow_wxScrolledWindow__xrcNew)(wxScrolledWindow * window);
 
-	MaxScrolledWindow * bmx_wxscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxScrolledWindow * bmx_wxscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 
 	void bmx_wxscrolledwindow_calcscrolledposition(wxScrolledWindow * window, int x, int y, int * xx, int * yy);
 	void bmx_wxscrolledwindow_calcunscrolledposition(wxScrolledWindow * window, int x, int y, int * xx, int * yy);

@@ -645,7 +645,7 @@ void bmx_wxauidockart_setfont(wxAuiDockArt * dockart, int id, MaxFont * font) {
 // *********************************************
 
 MaxAuiNotebook * bmx_wxauinotebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	return new MaxAuiNotebook(maxHandle, parent, id, x, y, w, h, style);
 }
@@ -766,7 +766,7 @@ int bmx_wxauinotebook_showwindowmenu(wxAuiNotebook * notebook) {
 // *********************************************
 
 MaxAuiToolBar * bmx_wxauitoolbar_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	return new MaxAuiToolBar(maxHandle, parent, id, x, y, w, h, style);
 }

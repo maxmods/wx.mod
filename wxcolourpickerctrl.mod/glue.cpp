@@ -74,7 +74,7 @@ wxObject * MaxColourPickerCtrlXmlHandler::DoCreateResource()
 // *********************************************
 
 MaxColourPickerCtrl * bmx_wxcolourpickerctrl_create(BBObject * handle, wxWindow * parent, int id,
-		MaxColour * colour, int x, int y, int w, int h, long style) {
+		MaxColour * colour, int x, int y, int w, int h, int style) {
 	if (colour) {
 		return new MaxColourPickerCtrl(handle, parent, id, colour->Colour(), x, y, w, h, style);
 	} else {

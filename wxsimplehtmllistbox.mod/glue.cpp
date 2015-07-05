@@ -119,7 +119,7 @@ bool MaxSimpleHtmlListBoxXmlHandler::CanHandle(wxXmlNode *node)
 BEGIN_EVENT_TABLE(MaxSimpleHtmlListBox, wxSimpleHtmlListBox)
 END_EVENT_TABLE()
 
-MaxSimpleHtmlListBox * bmx_wxsimplehtmllistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+MaxSimpleHtmlListBox * bmx_wxsimplehtmllistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxSimpleHtmlListBox(maxHandle, parent, id, x, y, w, h, style);
 }
 

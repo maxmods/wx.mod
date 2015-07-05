@@ -74,7 +74,7 @@ wxObject * MaxMenuBarXmlHandler::DoCreateResource()
 // *********************************************
 
 
-MaxMenuBar * bmx_wxmenubar_create(BBObject * maxHandle, long style) {
+MaxMenuBar * bmx_wxmenubar_create(BBObject * maxHandle, int style) {
 	return new MaxMenuBar(maxHandle, style);
 }
 

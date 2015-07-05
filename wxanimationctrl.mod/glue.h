@@ -39,7 +39,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxanimationctrl_wxAnimationCtrl__xrcNew)(wxAnimationCtrl * anim);
 
 	MaxAnimationCtrl * bmx_wxanimationctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, MaxAnimation * anim, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	MaxAnimation * bmx_wxanimationctrl_getanimation(wxAnimationCtrl * anim);
 	MaxBitmap * bmx_wxanimationctrl_getinactivebitmap(wxAnimationCtrl * anim);
 	int bmx_wxanimationctrl_isplaying(wxAnimationCtrl * anim);

@@ -137,7 +137,7 @@ void bmx_wxgraphicscontext_drawicon(wxGraphicsContext * context, MaxIcon * icon,
 	context->DrawIcon(icon->Icon(), x, y, w, h);
 }
 
-void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * p, wxPolygonFillMode fillStyle) {
+void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * p, int fillStyle) {
 	int n = p->scales[0] / 2;
 	double *s=(double*)BBARRAYDATA( p,p->dims );
 	
@@ -147,12 +147,12 @@ void bmx_wxgraphicscontext_drawlines(wxGraphicsContext * context, BBArray * p, w
 		points[i].m_y = s[i * 2 + 1];
 	}
 	
-	context->DrawLines(n, points, fillStyle);
+	context->DrawLines(n, points, static_cast<wxPolygonFillMode>(fillStyle));
 	delete [] points;
 }
 
-void bmx_wxgraphicscontext_drawpath(wxGraphicsContext * context, MaxGraphicsPath * path, wxPolygonFillMode fillStyle) {
-	context->DrawPath(path->Path(), fillStyle);
+void bmx_wxgraphicscontext_drawpath(wxGraphicsContext * context, MaxGraphicsPath * path, int fillStyle) {
+	context->DrawPath(path->Path(), static_cast<wxPolygonFillMode>(fillStyle));
 }
 
 void bmx_wxgraphicscontext_drawrectangle(wxGraphicsContext * context, double x, double y, double w, double h) {
@@ -167,8 +167,8 @@ void bmx_wxgraphicscontext_drawtext(wxGraphicsContext * context, BBString * text
 	context->DrawText(wxStringFromBBString(text), x, y, angle * 0.0174533f);
 }
 
-void bmx_wxgraphicscontext_fillpath(wxGraphicsContext * context, MaxGraphicsPath * path, wxPolygonFillMode fillStyle) {
-	context->FillPath(path->Path(), fillStyle);
+void bmx_wxgraphicscontext_fillpath(wxGraphicsContext * context, MaxGraphicsPath * path, int fillStyle) {
+	context->FillPath(path->Path(), static_cast<wxPolygonFillMode>(fillStyle));
 }
 
 void bmx_wxgraphicscontext_strokepath(wxGraphicsContext * context, MaxGraphicsPath * path) {
@@ -315,12 +315,12 @@ void bmx_wxgraphicsmatrix_invert(MaxGraphicsMatrix * matrix) {
 	matrix->Matrix().Invert();
 }
 
-bool bmx_wxgraphicsmatrix_isequal(MaxGraphicsMatrix * matrix, MaxGraphicsMatrix * t) {
-	return matrix->Matrix().IsEqual(t->Matrix());
+int bmx_wxgraphicsmatrix_isequal(MaxGraphicsMatrix * matrix, MaxGraphicsMatrix * t) {
+	return static_cast<int>(matrix->Matrix().IsEqual(t->Matrix()));
 }
 
-bool bmx_wxgraphicsmatrix_isidentity(MaxGraphicsMatrix * matrix) {
-	return matrix->Matrix().IsIdentity();
+int bmx_wxgraphicsmatrix_isidentity(MaxGraphicsMatrix * matrix) {
+	return static_cast<int>(matrix->Matrix().IsIdentity());
 }
 
 void bmx_wxgraphicsmatrix_rotate(MaxGraphicsMatrix * matrix, double angle) {
@@ -354,8 +354,8 @@ void bmx_wxgraphicspath_movetopoint(MaxGraphicsPath * path, double x, double y) 
 	path->Path().MoveToPoint(x, y);
 }
 
-void bmx_wxgraphicspath_addarc(MaxGraphicsPath * path, double x, double y, double r, double startAngle, double endAngle, bool clockwise) {
-	path->Path().AddArc(x, y, r, startAngle * 0.0174533f, endAngle * 0.0174533f, clockwise);
+void bmx_wxgraphicspath_addarc(MaxGraphicsPath * path, double x, double y, double r, double startAngle, double endAngle, int clockwise) {
+	path->Path().AddArc(x, y, r, startAngle * 0.0174533f, endAngle * 0.0174533f, static_cast<bool>(clockwise));
 }
 
 void bmx_wxgraphicspath_addarctopoint(MaxGraphicsPath * path, double x1, double y1, double x2, double y2, double radius) {
@@ -398,8 +398,8 @@ void bmx_wxgraphicspath_closesubpath(MaxGraphicsPath * path) {
 	path->Path().CloseSubpath();
 }
 
-bool bmx_wxgraphicspath_contains(MaxGraphicsPath * path, double x, double y, wxPolygonFillMode fillStyle) {
-	return path->Path().Contains(x, y, fillStyle);
+int bmx_wxgraphicspath_contains(MaxGraphicsPath * path, double x, double y, int fillStyle) {
+	return static_cast<int>(path->Path().Contains(x, y, static_cast<wxPolygonFillMode>(fillStyle)));
 }
 
 void bmx_wxgraphicspath_getbox(MaxGraphicsPath * path, double * x, double * y, double * w, double * h) {

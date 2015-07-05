@@ -37,7 +37,7 @@ extern "C" {
 	void CB_PREF(wx_wxtreelistctrl_wxTreeListCtrl__setSelection)(BBArray * array, int index, MaxTreeItem * item);
 
 	MaxTreeListCtrl * bmx_wxtreelistctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	MaxTreeItem * bmx_wxtreelistctrl_addroot(wxTreeListCtrl * tree, BBString * text, int image, int selImage, BBObject * data);
 	MaxTreeItem * bmx_wxtreelistctrl_appenditem(wxTreeListCtrl * tree, MaxTreeItem * parent, BBString * text, int image, int selImage, BBObject * data);
 	void bmx_wxtreelistctrl_assignimagelist(wxTreeListCtrl * tree, wxImageList * list);
@@ -50,9 +50,9 @@ extern "C" {
 	void bmx_wxtreelistctrl_deletechildren(wxTreeListCtrl * tree, MaxTreeItem * item);
 	void bmx_wxtreelistctrl_editlabel(wxTreeListCtrl * tree, MaxTreeItem * item);
 	void bmx_wxtreelistctrl_ensurevisible(wxTreeListCtrl * tree, MaxTreeItem * item);
-	bool bmx_wxtreelistctrl_getboundingrect(wxTreeListCtrl * tree, MaxTreeItem * item, int * x, int * y, int * w, int * h, bool textOnly);
-	MaxRect * bmx_wxtreelistctrl_getboundingrectrect(wxTreeListCtrl * tree, MaxTreeItem * item, bool textOnly);
-	int bmx_wxtreelistctrl_getchildrencount(wxTreeListCtrl * tree, MaxTreeItem * item, bool recursively);
+	int bmx_wxtreelistctrl_getboundingrect(wxTreeListCtrl * tree, MaxTreeItem * item, int * x, int * y, int * w, int * h, int textOnly);
+	MaxRect * bmx_wxtreelistctrl_getboundingrectrect(wxTreeListCtrl * tree, MaxTreeItem * item, int textOnly);
+	int bmx_wxtreelistctrl_getchildrencount(wxTreeListCtrl * tree, MaxTreeItem * item, int recursively);
 	int bmx_wxtreelistctrl_getcount(wxTreeListCtrl * tree);
 
 	BBObject * bmx_wxtreelistctrl_getitemdata(wxTreeListCtrl * tree, MaxTreeItem * item);
@@ -72,10 +72,10 @@ extern "C" {
 	MaxTreeItem * bmx_wxtreelistctrl_getprevvisible(wxTreeListCtrl * tree, MaxTreeItem * item);
 	MaxTreeItem * bmx_wxtreelistctrl_getrootitem(wxTreeListCtrl * tree);
 	MaxTreeItem * bmx_wxtreelistctrl_getselection(wxTreeListCtrl * tree);
-	bool bmx_wxtreelistctrl_isbold(wxTreeListCtrl * tree, MaxTreeItem * item);
-	bool bmx_wxtreelistctrl_isexpanded(wxTreeListCtrl * tree, MaxTreeItem * item);
-	bool bmx_wxtreelistctrl_isselected(wxTreeListCtrl * tree, MaxTreeItem * item);
-	bool bmx_wxtreelistctrl_isvisible(wxTreeListCtrl * tree, MaxTreeItem * item);
+	int bmx_wxtreelistctrl_isbold(wxTreeListCtrl * tree, MaxTreeItem * item);
+	int bmx_wxtreelistctrl_isexpanded(wxTreeListCtrl * tree, MaxTreeItem * item);
+	int bmx_wxtreelistctrl_isselected(wxTreeListCtrl * tree, MaxTreeItem * item);
+	int bmx_wxtreelistctrl_isvisible(wxTreeListCtrl * tree, MaxTreeItem * item);
 
 	void bmx_wxtreelistctrl_scrollto(wxTreeListCtrl * tree, MaxTreeItem * item);
 	int bmx_wxtreelistctrl_selectitem(wxTreeListCtrl * tree, MaxTreeItem * item, MaxTreeItem * last, int selected);
@@ -88,7 +88,7 @@ extern "C" {
 	void bmx_wxtreelistctrl_setitemhaschildren(wxTreeListCtrl * tree, MaxTreeItem * item, int hasChildren);
 	void bmx_wxtreelistctrl_setitemtextcolour(wxTreeListCtrl * tree, MaxTreeItem * item, MaxColour * colour);
 	void bmx_wxtreelistctrl_setstateimagelist(wxTreeListCtrl * tree, wxImageList * imageList);
-	void bmx_wxtreelistctrl_setwindowstyle(wxTreeListCtrl * tree, long style);
+	void bmx_wxtreelistctrl_setwindowstyle(wxTreeListCtrl * tree, int style);
 	void bmx_wxtreelistctrl_sortchildren(wxTreeListCtrl * tree, MaxTreeItem * item);
 	void bmx_wxtreelistctrl_toggle(wxTreeListCtrl * tree, MaxTreeItem * item);
 	void bmx_wxtreelistctrl_unselect(wxTreeListCtrl * tree);

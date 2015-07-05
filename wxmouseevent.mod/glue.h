@@ -36,7 +36,7 @@ extern "C" {
 	int bmx_wxmouseevent_dragging(wxMouseEvent & event);
 	int bmx_wxmouseevent_entering(wxMouseEvent & event);
 	int bmx_wxmouseevent_getbutton(wxMouseEvent & event);
-	void bmx_wxmouseevent_getposition(wxMouseEvent & event, long * x, long * y);
+	void bmx_wxmouseevent_getposition(wxMouseEvent & event, int * x, int * y);
 	int bmx_wxmouseevent_getlinesperaction(wxMouseEvent & event);
 	int bmx_wxmouseevent_getwheelrotation(wxMouseEvent & event);
 	int bmx_wxmouseevent_getwheeldelta(wxMouseEvent & event);

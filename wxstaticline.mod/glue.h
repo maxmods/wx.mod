@@ -34,7 +34,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxstaticline_wxStaticLine__xrcNew)(wxStaticLine * line);
 
 	MaxStaticLine * bmx_wxstaticline_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 
 	int bmx_wxstaticline_isvertical(wxStaticLine * line);
 	int bmx_wxstaticline_getdefaultsize();

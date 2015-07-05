@@ -36,7 +36,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxmdi_wxMDIParentFrame__xrcNew)(wxMDIParentFrame * frame);
 	BBObject * CB_PREF(wx_wxmdi_wxMDIChildFrame__xrcNew)(wxMDIChildFrame * frame);
 
-	wxMDIParentFrame * bmx_wxmdiparentframe_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, long style);
+	wxMDIParentFrame * bmx_wxmdiparentframe_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, int style);
 	void bmx_wxmdiparentframe_activatenext(wxMDIParentFrame * frame);
 	void bmx_wxmdiparentframe_activateprevious(wxMDIParentFrame * frame);
 	void bmx_wxmdiparentframe_arrangeicons(wxMDIParentFrame * frame);
@@ -50,7 +50,7 @@ extern "C" {
 #endif
 	void bmx_wxmdiparentframe_tile(wxMDIParentFrame * frame, wxOrientation orient);
 
-	wxMDIChildFrame * bmx_wxmdichildframe_create(BBObject * handle, wxMDIParentFrame * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, long style);
+	wxMDIChildFrame * bmx_wxmdichildframe_create(BBObject * handle, wxMDIParentFrame * parent, wxWindowID id, BBString * title, int x, int y, int w, int h, int style);
 	void bmx_wxmdichildframe_activate(wxMDIChildFrame * frame);
 	void bmx_wxmdichildframe_maximize(wxMDIChildFrame * frame, int value);
 	void bmx_wxmdichildframe_restore(wxMDIChildFrame * frame);

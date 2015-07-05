@@ -101,7 +101,7 @@ wxObject * MaxFrameXmlHandler::DoCreateResource()
 // ---------------------------------------------------------------------------------------
 
 MaxFrame * bmx_wxframe_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id, BBString * title, int x,
-		int y, int w, int h, long style) {
+		int y, int w, int h, int style) {
 		
 	return new MaxFrame(maxHandle, parent, id, wxStringFromBBString(title), x, y, w, h, style);
 }
@@ -110,7 +110,7 @@ void bmx_wxframe_setmenubar(wxFrame * frame, MaxMenuBar * menubar) {
 	frame->SetMenuBar(menubar);
 }
 
-MaxStatusBar * bmx_wxframe_createstatusbar(wxFrame * frame, int number, long style, wxWindowID id) {
+MaxStatusBar * bmx_wxframe_createstatusbar(wxFrame * frame, int number, int style, wxWindowID id) {
 	return (MaxStatusBar *)frame->CreateStatusBar(number, style, id);
 }
 
@@ -138,7 +138,7 @@ void bmx_wxframe_positionstatusbar(MaxFrame * frame) {
 	frame->PositionStatusBar();
 }
 
-wxToolBar * bmx_wxframe_createtoolbar(wxFrame * frame, long style, wxWindowID id) {
+wxToolBar * bmx_wxframe_createtoolbar(wxFrame * frame, int style, wxWindowID id) {
 	return frame->CreateToolBar(style, id);
 }
 

@@ -31,7 +31,7 @@ extern "C" {
 #include <blitz.h>
 
 	MaxMiniFrame * bmx_wxminiframe_create(void * maxHandle, wxWindow* parent, wxWindowID id, BBString * title,
-		int x, int y, int w, int h, long style);
+		int x, int y, int w, int h, int style);
 
 }
 

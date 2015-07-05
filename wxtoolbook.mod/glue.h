@@ -36,7 +36,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxtoolbook_wxToolbook__xrcNew)(wxToolbook * toolbook);
 
-	MaxToolbook * bmx_wxtoolbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxToolbook * bmx_wxtoolbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	wxToolBarBase * bmx_wxtoolbook_gettoolbar(wxToolbook * book);
 	void bmx_wxtoolbook_realize(wxToolbook * book);
 

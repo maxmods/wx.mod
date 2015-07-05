@@ -76,7 +76,7 @@ wxObject * MaxSpinButtonXmlHandler::DoCreateResource()
 BEGIN_EVENT_TABLE(MaxSpinButton, wxSpinButton)
 END_EVENT_TABLE()
 
-MaxSpinButton * bmx_wxspinbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+MaxSpinButton * bmx_wxspinbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxSpinButton(handle, parent, id, x, y, w, h, style);
 }
 

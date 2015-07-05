@@ -56,7 +56,7 @@ void MaxPreviewFrame::CreateCanvasX() {
 
 
 wxPreviewFrame * bmx_wxpreviewframe_create(BBObject * handle, wxPrintPreview * preview, wxWindow * parent, BBString * title,
-		int x, int y, int w, int h, long style) {
+		int x, int y, int w, int h, int style) {
 	return new MaxPreviewFrame(handle, preview, parent, wxStringFromBBString(title), x, y, w, h, style);
 }
 

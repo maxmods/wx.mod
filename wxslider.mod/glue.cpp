@@ -70,7 +70,7 @@ wxObject * MaxSliderXmlHandler::DoCreateResource()
 
     if( HasParam(wxT("tickfreq")))
     {
-        control->SetTickFreq(GetLong(wxT("tickfreq")), 0);
+        control->SetTickFreq(GetLong(wxT("tickfreq")));
     }
     if( HasParam(wxT("pagesize")))
     {
@@ -106,7 +106,7 @@ BEGIN_EVENT_TABLE(MaxSlider, wxSlider)
 END_EVENT_TABLE()
 
 MaxSlider * bmx_wxslider_create(BBObject * handle, wxWindow * parent, int id, int value,
-		int minValue, int maxValue, int x, int y, int w, int h, long style) {
+		int minValue, int maxValue, int x, int y, int w, int h, int style) {
 	return new MaxSlider(handle, parent, id, value, minValue, maxValue, x, y, w, h, style);
 }
 

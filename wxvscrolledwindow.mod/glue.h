@@ -32,7 +32,7 @@ extern "C" {
 	int CB_PREF(wx_wxvscrolledwindow_wxVScrolledWindow__OnGetRowHeight)(const wxVScrolledWindow * window, int n);
 	void CB_PREF(wx_wxvscrolledwindow_wxVScrolledWindow__OnGetRowsHeightHint)(const wxVScrolledWindow * window, int lineMin, int lineMax);
 
-	MaxVScrolledWindow * bmx_wxvscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxVScrolledWindow * bmx_wxvscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 
 	int bmx_wxvscrolledwindow_getvisiblerowsbegin(wxVScrolledWindow * window);
 	int bmx_wxvscrolledwindow_getvisiblerowsend(wxVScrolledWindow * window);

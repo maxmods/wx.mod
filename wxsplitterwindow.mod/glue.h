@@ -35,7 +35,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxsplitterwindow_wxSplitterWindow__xrcNew)(wxSplitterWindow * window);
 
 	MaxSplitterWindow * bmx_wxsplitterwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	int bmx_wxsplitterwindow_getminimumpanesize(wxSplitterWindow * splitter);
 	double bmx_wxsplitterwindow_getsashgravity(wxSplitterWindow * splitter);
 	int bmx_wxsplitterwindow_getsashposition(wxSplitterWindow * splitter);

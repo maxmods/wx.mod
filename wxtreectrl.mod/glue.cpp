@@ -129,7 +129,7 @@ BEGIN_EVENT_TABLE(MaxTreeCtrl, wxTreeCtrl)
 END_EVENT_TABLE()
 
 MaxTreeCtrl * bmx_wxtreectrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 	return new MaxTreeCtrl(maxHandle, parent, id, x, y, w, h, style);
 }
 	
@@ -277,8 +277,8 @@ MaxFont * bmx_wxtreectrl_getitemfont(wxTreeCtrl * tree, MaxTreeItem * item) {
 	return new MaxFont(f);
 }
 
-int bmx_wxtreectrl_getitemimage(wxTreeCtrl * tree, MaxTreeItem * item, wxTreeItemIcon which) {
-	return tree->GetItemImage(item->Item(), which);
+int bmx_wxtreectrl_getitemimage(wxTreeCtrl * tree, MaxTreeItem * item, int which) {
+	return tree->GetItemImage(item->Item(), static_cast<wxTreeItemIcon>(which));
 }
 
 BBString * bmx_wxtreectrl_getitemtext(wxTreeCtrl * tree, MaxTreeItem * item) {
@@ -397,8 +397,8 @@ void bmx_wxtreectrl_setitemhaschildren(wxTreeCtrl * tree, MaxTreeItem * item, in
 	tree->SetItemHasChildren(item->Item(), static_cast<bool>(hasChildren));
 }
 
-void bmx_wxtreectrl_setitemimage(wxTreeCtrl * tree, MaxTreeItem * item, int image, wxTreeItemIcon which) {
-	tree->SetItemImage(item->Item(), image, which);
+void bmx_wxtreectrl_setitemimage(wxTreeCtrl * tree, MaxTreeItem * item, int image, int which) {
+	tree->SetItemImage(item->Item(), image, static_cast<wxTreeItemIcon>(which));
 }
 
 void bmx_wxtreectrl_setitemtext(wxTreeCtrl * tree, MaxTreeItem * item, BBString * text) {
@@ -417,7 +417,7 @@ void bmx_wxtreectrl_setstateimagelist(wxTreeCtrl * tree, wxImageList * imageList
 	tree->SetStateImageList(imageList);
 }
 
-void bmx_wxtreectrl_setwindowstyle(wxTreeCtrl * tree, long style) {
+void bmx_wxtreectrl_setwindowstyle(wxTreeCtrl * tree, int style) {
 	tree->SetWindowStyle(style);
 }
 

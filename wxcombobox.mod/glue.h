@@ -33,7 +33,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxcombobox_wxComboBox__xrcNew)(wxComboBox * combo);
 
-	MaxComboBox * bmx_wxcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style);
+	MaxComboBox * bmx_wxcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, int style);
 
 	int bmx_wxcombobox_cancopy(wxComboBox * combo);
 	int bmx_wxcombobox_cancut(wxComboBox * combo);
@@ -43,17 +43,17 @@ extern "C" {
 	void bmx_wxcombobox_copy(wxComboBox * combo);
 	void bmx_wxcombobox_cut(wxComboBox * combo);
 	int bmx_wxcombobox_getcurrentselection(wxComboBox * combo);
-	long bmx_wxcombobox_getinsertionpoint(wxComboBox * combo);
+	int bmx_wxcombobox_getinsertionpoint(wxComboBox * combo);
 	wxTextPos bmx_wxcombobox_getlastposition(wxComboBox * combo);
-	void bmx_wxcombobox_gettextselection(wxComboBox * combo, long * fromPos, long * toPos);
+	void bmx_wxcombobox_gettextselection(wxComboBox * combo, int * fromPos, int * toPos);
 	BBString * bmx_wxcombobox_getvalue(wxComboBox * combo);
 	void bmx_wxcombobox_paste(wxComboBox * combo);
 	void bmx_wxcombobox_redo(wxComboBox * combo);
-	void bmx_wxcombobox_replace(wxComboBox * combo, long fromPos, long toPos, BBString * text);
-	void bmx_wxcombobox_remove(wxComboBox * combo, long fromPos, long toPos);
-	void bmx_wxcombobox_setinsertionpoint(wxComboBox * combo, long pos);
+	void bmx_wxcombobox_replace(wxComboBox * combo, int fromPos, int toPos, BBString * text);
+	void bmx_wxcombobox_remove(wxComboBox * combo, int fromPos, int toPos);
+	void bmx_wxcombobox_setinsertionpoint(wxComboBox * combo, int pos);
 	void bmx_wxcombobox_setinsertionpointend(wxComboBox * combo);
-	void bmx_wxcombobox_settextselection(wxComboBox * combo, long fromPos, long toPos);
+	void bmx_wxcombobox_settextselection(wxComboBox * combo, int fromPos, int toPos);
 	void bmx_wxcombobox_setvalue(wxComboBox * combo, BBString * text);
 	void bmx_wxcombobox_undo(wxComboBox * combo);
 

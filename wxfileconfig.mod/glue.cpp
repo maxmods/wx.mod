@@ -29,7 +29,7 @@
 // *********************************************
 
 
-wxFileConfig * bmx_wxfileconfig_create(BBString * appName, BBString * vendorName, BBString * localFilename, BBString * globalFilename, long style) {
+wxFileConfig * bmx_wxfileconfig_create(BBString * appName, BBString * vendorName, BBString * localFilename, BBString * globalFilename, int style) {
 	return new wxFileConfig(wxStringFromBBString(appName), wxStringFromBBString(vendorName),
 		wxStringFromBBString(localFilename), wxStringFromBBString(globalFilename), style);
 }

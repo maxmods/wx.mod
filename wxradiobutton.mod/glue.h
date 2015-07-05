@@ -34,7 +34,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxradiobutton_wxRadioButton__xrcNew)(wxRadioButton * button);
 
 	MaxRadioButton * bmx_wxradiobutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	int bmx_wxradiobutton_getvalue(wxRadioButton * button);
 	void bmx_wxradiobutton_setvalue(wxRadioButton * button, int value);
 

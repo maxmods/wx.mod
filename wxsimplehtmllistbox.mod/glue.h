@@ -36,7 +36,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxsimplehtmllistbox_wxSimpleHtmlListBox__xrcNew)(wxSimpleHtmlListBox * listbox);
 
-	MaxSimpleHtmlListBox * bmx_wxsimplehtmllistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxSimpleHtmlListBox * bmx_wxsimplehtmllistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 
 	int bmx_wxsimplehtmllistbox_append(wxSimpleHtmlListBox * listbox, BBString * item, BBObject * clientData);
 	void bmx_wxsimplehtmllistbox_clear(wxSimpleHtmlListBox * listbox);

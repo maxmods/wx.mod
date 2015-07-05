@@ -34,7 +34,7 @@ extern "C" {
 	wxAcceleratorEntry * CB_PREF(wx_wxacceleratortable_wxAcceleratorTable__getEntry)(BBArray * entries, int index);
 
 	MaxAcceleratorTable * bmx_wxacceleratortable_create(BBArray * entries);
-	bool bmx_wxacceleratortable_isok(MaxAcceleratorTable * table);
+	int bmx_wxacceleratortable_isok(MaxAcceleratorTable * table);
 	void bmx_wxacceleratortable_delete(MaxAcceleratorTable * table);
 
 }

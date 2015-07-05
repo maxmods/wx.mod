@@ -58,8 +58,8 @@ int bmx_wxhtmlhelpwindow_displayindex(wxHtmlHelpWindow * window) {
 	return static_cast<int>(window->DisplayIndex());
 }
 
-int bmx_wxhtmlhelpwindow_keywordsearch(wxHtmlHelpWindow * window, BBString * keyword, wxHelpSearchMode mode) {
-	return static_cast<int>(window->KeywordSearch(wxStringFromBBString(keyword), mode));
+int bmx_wxhtmlhelpwindow_keywordsearch(wxHtmlHelpWindow * window, BBString * keyword, int mode) {
+	return static_cast<int>(window->KeywordSearch(wxStringFromBBString(keyword), static_cast<wxHelpSearchMode>(mode)));
 }
 
 void bmx_wxhtmlhelpwindow_readcustomization(wxHtmlHelpWindow * window, wxConfigBase * config, BBString * path) {

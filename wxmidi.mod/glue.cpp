@@ -37,8 +37,8 @@ wxMidiTimestamp bmx_wxmidisystem_gettime(wxMidiSystem * sys) {
 	return sys->GetTime();
 }
 
-BBString * bmx_wxmidisystem_geterrortext(wxMidiSystem * sys, wxMidiError errnum) {
-	return bbStringFromWxString(sys->GetErrorText(errnum));
+BBString * bmx_wxmidisystem_geterrortext(wxMidiSystem * sys, int errnum) {
+	return bbStringFromWxString(sys->GetErrorText(static_cast<wxMidiError>(errnum)));
 }
 
 BBString * bmx_wxmidisystem_gethosterrortext(wxMidiSystem * sys) {
@@ -53,7 +53,7 @@ wxMidiInDevice * bmx_wxmidiindevice_create(wxMidiDeviceID device) {
 	return new wxMidiInDevice(device);
 }
 
-wxMidiError bmx_wxmidiindevice_open(wxMidiInDevice * in) {
+int bmx_wxmidiindevice_open(wxMidiInDevice * in) {
 	return in->Open();
 }
 
@@ -61,27 +61,30 @@ void bmx_wxmidiindevice_flush(wxMidiInDevice * in) {
 	in->Flush();
 }
 
-wxMidiError bmx_wxmidiindevice_poll(wxMidiInDevice * in) {
+int bmx_wxmidiindevice_poll(wxMidiInDevice * in) {
 	return in->Poll();
 }
 
-wxMidiMessage * bmx_wxmidiindevice_read(wxMidiInDevice * in, wxMidiError * error) {
-	return in->Read(error);
+wxMidiMessage * bmx_wxmidiindevice_read(wxMidiInDevice * in, int * error) {
+	wxMidiError e;
+	wxMidiMessage * mes = in->Read(&e);
+	*error = e;
+	return mes;
 }
 
-wxMidiError bmx_wxmidiindevice_setfilter(wxMidiInDevice * in, long filters) {
+int bmx_wxmidiindevice_setfilter(wxMidiInDevice * in, int filters) {
 	return in->SetFilter(filters);
 }
 
-wxMidiError bmx_wxmidiindevice_setchannelmask(wxMidiInDevice * in, long mask) {
+int bmx_wxmidiindevice_setchannelmask(wxMidiInDevice * in, int mask) {
 	return in->SetChannelMask(mask);
 }
 
-wxMidiError bmx_wxmidiindevice_startlistening(wxMidiInDevice * in, wxWindow * window, unsigned long pollingRate) {
+int bmx_wxmidiindevice_startlistening(wxMidiInDevice * in, wxWindow * window, int pollingRate) {
 	return in->StartListening(window, pollingRate);
 }
 
-wxMidiError bmx_wxmidiindevice_stoplistening(wxMidiInDevice * in) {
+int bmx_wxmidiindevice_stoplistening(wxMidiInDevice * in) {
 	return in->StopListening();
 }
 
@@ -89,39 +92,39 @@ wxMidiOutDevice * bmx_wxmidioutdevice_create(wxMidiDeviceID device) {
 	return new wxMidiOutDevice(device);
 }
 
-wxMidiError bmx_wxmidioutdevice_abort(wxMidiOutDevice * out) {
+int bmx_wxmidioutdevice_abort(wxMidiOutDevice * out) {
 	return out->Abort();
 }
 
-wxMidiError bmx_wxmidioutdevice_allsoundsoff(wxMidiOutDevice * out) {
+int bmx_wxmidioutdevice_allsoundsoff(wxMidiOutDevice * out) {
 	return out->AllSoundsOff();
 }
 
-wxMidiError bmx_wxmidioutdevice_noteon(wxMidiOutDevice * out, int channel, int note, int velocity) {
+int bmx_wxmidioutdevice_noteon(wxMidiOutDevice * out, int channel, int note, int velocity) {
 	return out->NoteOn(channel, note, velocity);
 }
 
-wxMidiError bmx_wxmidioutdevice_noteoff(wxMidiOutDevice * out, int channel, int note, int velocity) {
+int bmx_wxmidioutdevice_noteoff(wxMidiOutDevice * out, int channel, int note, int velocity) {
 	return out->NoteOff(channel, note, velocity);
 }
 
-wxMidiError bmx_wxmidioutdevice_open(wxMidiOutDevice * out, long latency) {
+int bmx_wxmidioutdevice_open(wxMidiOutDevice * out, int latency) {
 	return out->Open(latency);
 }
 
-wxMidiError bmx_wxmidioutdevice_programchange(wxMidiOutDevice * out, int channel, int instrument) {
+int bmx_wxmidioutdevice_programchange(wxMidiOutDevice * out, int channel, int instrument) {
 	return out->ProgramChange(channel, instrument);
 }
 
-wxMidiError bmx_wxmidioutdevice_writeshort(wxMidiOutDevice * out, wxMidiShortMessage * msg) {
+int bmx_wxmidioutdevice_writeshort(wxMidiOutDevice * out, wxMidiShortMessage * msg) {
 	return out->Write(msg);
 }
 
-wxMidiError bmx_wxmidioutdevice_writesysex(wxMidiOutDevice * out, wxMidiSysExMessage * msg) {
+int bmx_wxmidioutdevice_writesysex(wxMidiOutDevice * out, wxMidiSysExMessage * msg) {
 	out->Write(msg);
 }
 
-wxMidiError bmx_wxmidioutdevice_writebytes(wxMidiOutDevice * out, wxByte * bytes, wxMidiTimestamp when) {
+int bmx_wxmidioutdevice_writebytes(wxMidiOutDevice * out, wxByte * bytes, wxMidiTimestamp when) {
 	out->Write(bytes, when);
 }
 
@@ -130,7 +133,7 @@ void bmx_wxmidimessage_free(wxMidiMessage * msg) {
 	delete msg;
 }
 
-void bmx_wxmidimessage_settimestamp(wxMidiMessage * msg, long timestamp) {
+void bmx_wxmidimessage_settimestamp(wxMidiMessage * msg, int timestamp) {
 	msg->SetTimestamp(timestamp);
 }
 
@@ -162,7 +165,7 @@ wxMidiSysExMessage * bmx_wxmidisysexmessage_create(wxByte * msg, wxMidiTimestamp
 	return new wxMidiSysExMessage(msg, timestamp);
 }
 
-wxMidiError bmx_wxmidisysexmessage_error(wxMidiSysExMessage * msg) {
+int bmx_wxmidisysexmessage_error(wxMidiSysExMessage * msg) {
 	return msg->Error();
 }
 
@@ -181,7 +184,7 @@ void bmx_wxmididevice_free(wxMidiDevice * device) {
 	delete device;
 }
 
-wxMidiError bmx_wxmididevice_close(wxMidiDevice * device) {
+int bmx_wxmididevice_close(wxMidiDevice * device) {
 	return device->Close();
 }
 

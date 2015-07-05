@@ -33,7 +33,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxstatictext_wxStaticText__xrcNew)(wxStaticText * text);
 
 	MaxStaticText * bmx_wxstatictext_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	BBString * bmx_wxstatictext_getlabel(wxStaticText * text);
 	void bmx_wxstatictext_setlabel(wxStaticText * text, BBString * label);
 	void bmx_wxstatictext_wrap(wxStaticText * text, int width);

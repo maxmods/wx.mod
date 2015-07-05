@@ -214,7 +214,7 @@ void MaxSizerXmlHandler::SetGrowables(wxFlexGridSizer* sizer, const wxChar* para
 BEGIN_EVENT_TABLE(MaxWindow, wxWindow)
 END_EVENT_TABLE()
 
-MaxWindow * bmx_wxwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+MaxWindow * bmx_wxwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxWindow(maxHandle, parent, id, x, y, w, h, style);
 }
 
@@ -249,7 +249,7 @@ void bmx_wxwindow_layout(wxWindow * window){
 	window->Layout();
 }
 
-long bmx_wxwindow_getwindowstyleflag(wxWindow * window) {
+int bmx_wxwindow_getwindowstyleflag(wxWindow * window) {
 	return window->GetWindowStyleFlag();
 }
 
@@ -427,11 +427,11 @@ void bmx_wxwindow_setcursor(wxWindow * window, MaxCursor * cursor) {
 	window->SetCursor(cursor->Cursor());
 }
 
-void bmx_wxwindow_setwindowstyle(wxWindow * window, long style) {
+void bmx_wxwindow_setwindowstyle(wxWindow * window, int style) {
 	window->SetWindowStyle(style);
 }
 
-void bmx_wxwindow_setwindowstyleflag(wxWindow * window, long style) {
+void bmx_wxwindow_setwindowstyleflag(wxWindow * window, int style) {
 	window->SetWindowStyleFlag(style);
 }
 
@@ -638,10 +638,6 @@ void bmx_wxwindow_lower(wxWindow * window) {
 	window->Lower();
 }
 
-void bmx_wxwindow_makemodal(wxWindow * window, int flag) {
-	window->MakeModal(static_cast<bool>(flag));
-}
-
 void bmx_wxwindow_moveafterintaborder(wxWindow * window, wxWindow * win) {
 	window->MoveAfterInTabOrder(win);
 }
@@ -694,7 +690,7 @@ void bmx_wxwindow_seteventhandler(wxWindow * window, wxEvtHandler * handler) {
 	window->SetEventHandler(handler);
 }
 
-void bmx_wxwindow_setextrastyle(wxWindow * window, long style) {
+void bmx_wxwindow_setextrastyle(wxWindow * window, int style) {
 	window->SetExtraStyle(style);
 }
 
@@ -746,7 +742,7 @@ void bmx_wxwindow_udpate(wxWindow * window) {
 	window->Update();
 }
 
-void bmx_wxwindow_updatewindowui(wxWindow * window, long flags) {
+void bmx_wxwindow_updatewindowui(wxWindow * window, int flags) {
 	window->UpdateWindowUI(flags);
 }
 
@@ -770,8 +766,12 @@ void bmx_wxwindow_setvirtualsize(wxWindow * window, int width, int height) {
 	window->SetVirtualSize(width, height);
 }
 
-void bmx_wxwindow_setvirtualsizehints(wxWindow * window, int minW, int minH, int maxW, int maxH) {
-	window->SetVirtualSizeHints(minW, minH, maxW, maxH);
+void bmx_wxwindow_setminclientsize(wxWindow * window, int minW, int minH) {
+	window->SetMinClientSize(wxSize(minW, minH));
+}
+
+void bmx_wxwindow_setmaxclientsize(wxWindow * window, int maxW, int maxH) {
+	window->SetMaxClientSize(wxSize(maxW, maxH));
 }
 
 BBArray * bmx_wxwindow_getchildren(wxWindow * window) {
@@ -800,11 +800,11 @@ void bmx_wxwindow_convertpixelstodialog(wxWindow * window, int px, int py, int *
 	*dy = p.y;
 }
 
-wxWindow * bmx_wxwindow_findwindow(wxWindow * window, long id) {
+wxWindow * bmx_wxwindow_findwindow(wxWindow * window, int id) {
 	return window->FindWindow(id);
 }
 
-wxWindow * bmx_wxwindow_findwindowbyid(long id, wxWindow * parent) {
+wxWindow * bmx_wxwindow_findwindowbyid(int id, wxWindow * parent) {
 	if (parent) {
 		return wxWindow::FindWindowById(id, parent);
 	} else {
@@ -845,7 +845,7 @@ MaxCursor * bmx_wxwindow_getcursor(wxWindow * window) {
 	return new MaxCursor(c);
 }
 
-long bmx_wxwindow_getextrastyle(wxWindow * window) {
+int bmx_wxwindow_getextrastyle(wxWindow * window) {
 	return window->GetExtraStyle();
 }
 
@@ -1040,10 +1040,6 @@ void bmx_wxsizer_getminsize(wxSizer * sizer, int * w, int * h) {
 	wxSize s = sizer->GetMinSize();
 	*w = s.x;
 	*h = s.y;
-}
-
-void bmx_wxsizer_setvirtualsizehints(wxSizer * sizer, wxWindow * window) {
-	sizer->SetVirtualSizeHints(window);
 }
 
 int bmx_wxsizer_show(wxSizer * sizer, wxWindow * window, int doShow, int recursive) {
@@ -1258,7 +1254,7 @@ void bmx_wxtooltip_enable(int flag) {
 	wxToolTip::Enable(static_cast<bool>(flag));
 }
 
-void bmx_wxtooltip_setdelay(long msecs) {
+void bmx_wxtooltip_setdelay(int msecs) {
 	wxToolTip::SetDelay(msecs);
 }
 
@@ -1300,7 +1296,7 @@ wxUpdateUIMode bmx_wxupdateeventui_getmode() {
 	return wxUpdateUIEvent::GetMode();
 }
 
-long bmx_wxupdateeventui_getupdateinterval() {
+int bmx_wxupdateeventui_getupdateinterval() {
 	return wxUpdateUIEvent::GetUpdateInterval();
 }
 
@@ -1312,7 +1308,7 @@ void bmx_wxupdateeventui_settext(wxUpdateUIEvent & event, BBString * text) {
 	event.SetText(wxStringFromBBString(text));
 }
 
-void bmx_wxupdateeventui_setupdateinterval(long interval) {
+void bmx_wxupdateeventui_setupdateinterval(int interval) {
 	wxUpdateUIEvent::SetUpdateInterval(interval);
 }
 

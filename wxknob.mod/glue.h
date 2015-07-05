@@ -33,7 +33,7 @@ extern "C" {
 #include <blitz.h>
 
 	wxKnob * bmx_wxknob_create(BBObject * handle, wxWindow * parent, wxWindowID id, int value,
-		int minValue, int maxValue, int minAngle, int maxAngle, int x, int y, int w, int h, long style);
+		int minValue, int maxValue, int minAngle, int maxAngle, int x, int y, int w, int h, int style);
 	
 	void bmx_wxknob_setrange(wxKnob * knob, int minValue, int maxValue);
 	int bmx_wxknob_getmin(wxKnob * knob);

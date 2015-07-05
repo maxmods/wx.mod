@@ -33,7 +33,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxownerdrawncombobox_wxOwnerDrawnComboBox__xrcNew)(wxOwnerDrawnComboBox * combo);
 
-	MaxOwnerDrawnComboBox * bmx_wxownerdrawncombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style);
+	MaxOwnerDrawnComboBox * bmx_wxownerdrawncombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, int style);
 
 	void bmx_wxownerdrawncombobox_addresourcehandler();
 

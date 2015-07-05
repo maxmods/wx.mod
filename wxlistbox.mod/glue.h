@@ -32,7 +32,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxlistbox_wxListBox__xrcNew)(wxListBox * listbox);
 
-	MaxListBox * bmx_wxlistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
+	MaxListBox * bmx_wxlistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, int style);
 	void bmx_wxlistbox_insertitems(wxListBox * listbox, BBArray * items, int pos);
 	BBArray * bmx_wxlistbox_getselections(wxListBox * listbox);
 	

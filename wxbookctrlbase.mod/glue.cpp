@@ -82,8 +82,11 @@ int bmx_wxbookctrlbase_getselection(wxBookCtrlBase * book) {
 	return book->GetSelection();
 }
 
-int bmx_wxbookctrlbase_hittest(wxBookCtrlBase * book, int x, int y, long * flags) {
-	return book->HitTest(wxPoint(x, y), flags);
+int bmx_wxbookctrlbase_hittest(wxBookCtrlBase * book, int x, int y, int * flags) {
+	long f;
+	int res = book->HitTest(wxPoint(x, y), &f);
+	*flags = f;
+	return res;
 }
 
 int bmx_wxbookctrlbase_removepage(wxBookCtrlBase * book, int page) {

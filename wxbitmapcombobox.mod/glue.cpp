@@ -119,7 +119,7 @@ bool MaxBitmapComboBoxXmlHandler::CanHandle(wxXmlNode *node)
 BEGIN_EVENT_TABLE(MaxBitmapComboBox, wxBitmapComboBox)
 END_EVENT_TABLE()
 
-MaxBitmapComboBox * bmx_wxbitmapcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, long style) {
+MaxBitmapComboBox * bmx_wxbitmapcombobox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, BBArray * array, int x, int y, int w, int h, int style) {
 	return new MaxBitmapComboBox(maxHandle, parent, id, wxStringFromBBString(value), bbStringArrayTowxArrayStr(array), x, y, w, h, style);
 }
 

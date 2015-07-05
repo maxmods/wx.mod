@@ -34,7 +34,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxtreebook_wxTreebook__xrcNew)(wxTreebook * book);
 
-	wxTreebook * bmx_wxtreebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	wxTreebook * bmx_wxtreebook_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	int bmx_wxtreebook_addpage(wxTreebook * book, wxWindow * page, BBString * text, int selected, int imageId);
 	int bmx_wxtreebook_addsubpage(wxTreebook * book, wxWindow * page, BBString * text, int selected, int imageId);
 	int bmx_wxtreebook_insertpage(wxTreebook * book, int index, wxWindow * page, BBString * text, int selected, int imageId);

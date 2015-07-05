@@ -35,7 +35,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxtextctrl_wxTextCtrl__xrcNew)(wxTextCtrl * text);
 
-	MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, wxValidator * validator);
+	MaxTextCtrl * bmx_wxtextctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, int style, wxValidator * validator);
 	void bmx_wxtextctrl_appendtext(wxTextCtrl * ctrl, BBString * text);
 	int bmx_wxtextctrl_cancopy(wxTextCtrl * ctrl);
 	int bmx_wxtextctrl_cancut(wxTextCtrl * ctrl);
@@ -48,15 +48,15 @@ extern "C" {
 
 	void bmx_wxtextctrl_discardedits(wxTextCtrl * ctrl);
 	MaxTextAttr * bmx_wxtextctrl_getdefaultstyle(wxTextCtrl * ctrl);
-	long bmx_wxtextctrl_getinsertionpoint(wxTextCtrl * ctrl);
-	long bmx_wxtextctrl_getlastposition(wxTextCtrl * ctrl);
-	int bmx_wxtextctrl_getlinelength(wxTextCtrl * ctrl, long lineNo);
-	BBString * bmx_wxtextctrl_getlinetext(wxTextCtrl * ctrl, long lineNo);
+	int bmx_wxtextctrl_getinsertionpoint(wxTextCtrl * ctrl);
+	int bmx_wxtextctrl_getlastposition(wxTextCtrl * ctrl);
+	int bmx_wxtextctrl_getlinelength(wxTextCtrl * ctrl, int lineNo);
+	BBString * bmx_wxtextctrl_getlinetext(wxTextCtrl * ctrl, int lineNo);
 	int bmx_wxtextctrl_getnumberoflines(wxTextCtrl * ctrl);
-	BBString * bmx_wxtextctrl_getrange(wxTextCtrl * ctrl, long fromPos, long toPos);
-	void bmx_wxtextctrl_getselection(wxTextCtrl * ctrl, long * fromPos, long * toPos);
+	BBString * bmx_wxtextctrl_getrange(wxTextCtrl * ctrl, int fromPos, int toPos);
+	void bmx_wxtextctrl_getselection(wxTextCtrl * ctrl, int * fromPos, int * toPos);
 	BBString * bmx_wxtextctrl_getstringselection(wxTextCtrl * ctrl);
-	MaxTextAttr * bmx_wxtextctrl_getstyle(wxTextCtrl * ctrl, long position);
+	MaxTextAttr * bmx_wxtextctrl_getstyle(wxTextCtrl * ctrl, int position);
 	BBString * bmx_wxtextctrl_getvalue(wxTextCtrl * ctrl);
 	int bmx_wxtextctrl_iseditable(wxTextCtrl * ctrl);
 	int bmx_wxtextctrl_isempty(wxTextCtrl * ctrl);
@@ -67,29 +67,29 @@ extern "C" {
 	int bmx_wxtextctrl_loadfile(wxTextCtrl * ctrl, BBString * filename, int ftype);
 	void bmx_wxtextctrl_markdirty(wxTextCtrl * ctrl);
 	void bmx_wxtextctrl_paste(wxTextCtrl * ctrl);
-	int bmx_wxtextctrl_positiontoxy(wxTextCtrl * ctrl, long pos, long * x, long * y);
+	int bmx_wxtextctrl_positiontoxy(wxTextCtrl * ctrl, int pos, int * x, int * y);
 	void bmx_wxtextctrl_redo(wxTextCtrl * ctrl);
-	void bmx_wxtextctrl_remove(wxTextCtrl * ctrl, long fromPos, long toPos);
-	void bmx_wxtextctrl_replace(wxTextCtrl * ctrl, long fromPos, long toPos, BBString * value);
+	void bmx_wxtextctrl_remove(wxTextCtrl * ctrl, int fromPos, int toPos);
+	void bmx_wxtextctrl_replace(wxTextCtrl * ctrl, int fromPos, int toPos, BBString * value);
 	int bmx_wxtextctrl_savefile(wxTextCtrl * ctrl, BBString * filename, int ftype);
 	int bmx_wxtextctrl_setdefaultstyle(wxTextCtrl * ctrl, MaxTextAttr * style);
 	void bmx_wxtextctrl_seteditable(wxTextCtrl * ctrl, int editable);
-	void bmx_wxtextctrl_setinsertionpoint(wxTextCtrl * ctrl, long pos);
+	void bmx_wxtextctrl_setinsertionpoint(wxTextCtrl * ctrl, int pos);
 	void bmx_wxtextctrl_setinsertionpointend(wxTextCtrl * ctrl);
-	void bmx_wxtextctrl_setmaxlength(wxTextCtrl * ctrl, unsigned long length);
+	void bmx_wxtextctrl_setmaxlength(wxTextCtrl * ctrl, int length);
 	void bmx_wxtextctrl_setmodified(wxTextCtrl * ctrl, int modified);
-	void bmx_wxtextctrl_setselection(wxTextCtrl * ctrl, long fromPos, long toPos);
-	void bmx_wxtextctrl_setstyle(wxTextCtrl * ctrl, long fromPos, long toPos, MaxTextAttr * style);
+	void bmx_wxtextctrl_setselection(wxTextCtrl * ctrl, int fromPos, int toPos);
+	void bmx_wxtextctrl_setstyle(wxTextCtrl * ctrl, int fromPos, int toPos, MaxTextAttr * style);
 	void bmx_wxtextctrl_changevalue(wxTextCtrl * ctrl, BBString * value);
-	void bmx_wxtextctrl_showposition(wxTextCtrl * ctrl, long pos);
+	void bmx_wxtextctrl_showposition(wxTextCtrl * ctrl, int pos);
 	void bmx_wxtextctrl_undo(wxTextCtrl * ctrl);
 	void bmx_wxtextctrl_writetext(wxTextCtrl * ctrl, BBString * text);
-	long bmx_wxtextctrl_xytoposition(wxTextCtrl * ctrl, long x, long y);
+	int bmx_wxtextctrl_xytoposition(wxTextCtrl * ctrl, int x, int y);
 	void bmx_wxtextctrl_setvalue(wxTextCtrl * ctrl, BBString * text);
 	
-	wxTextCtrlHitTestResult bmx_wxtextctrl_hittest(wxTextCtrl * ctrl, int x, int y, long * col, long * row);
+	int bmx_wxtextctrl_hittest(wxTextCtrl * ctrl, int x, int y, int * col, int * row);
 
-	wxTextAttrAlignment bmx_wxtextattr_getalignment(MaxTextAttr * style);
+	int bmx_wxtextattr_getalignment(MaxTextAttr * style);
 	MaxColour * bmx_wxtextattr_getbackgroundcolour(MaxTextAttr * style);
 	MaxFont * bmx_wxtextattr_getfont(MaxTextAttr * style);
 	int bmx_wxtextattr_getleftindent(MaxTextAttr * style);
@@ -104,26 +104,26 @@ extern "C" {
 	int bmx_wxtextattr_hasrightindent(MaxTextAttr * style);
 	int bmx_wxtextattr_hastabs(MaxTextAttr * style);
 	int bmx_wxtextattr_hastextcolour(MaxTextAttr * style);
-	long bmx_wxtextattr_getflags(MaxTextAttr * style);
+	int bmx_wxtextattr_getflags(MaxTextAttr * style);
 	int bmx_wxtextattr_isdefault(MaxTextAttr * style);
 	void bmx_wxtextattr_merge(MaxTextAttr * style, MaxTextAttr * overlay);
-	void bmx_wxtextattr_setalignment(MaxTextAttr * style, wxTextAttrAlignment alignment);
+	void bmx_wxtextattr_setalignment(MaxTextAttr * style, int alignment);
 	void bmx_wxtextattr_setbackgroundcolour(MaxTextAttr * style, MaxColour * colour);
-	void bmx_wxtextattr_setflags(MaxTextAttr * style, long flags);
+	void bmx_wxtextattr_setflags(MaxTextAttr * style, int flags);
 	void bmx_wxtextattr_setfont(MaxTextAttr * style, MaxFont * font);
 	void bmx_wxtextattr_setleftindent(MaxTextAttr * style, int indent, int subIndent);
 	void bmx_wxtextattr_setrightindent(MaxTextAttr * style, int indent);
 	void bmx_wxtextattr_settabs(MaxTextAttr * style, BBArray * tabs);
 	void bmx_wxtextattr_settextcolour(MaxTextAttr * style, MaxColour * colour);
 	
-	MaxTextAttr * bmx_wxtextattr_create(MaxColour * colText, MaxColour * colBack, MaxFont * font, wxTextAttrAlignment alignment);
+	MaxTextAttr * bmx_wxtextattr_create(MaxColour * colText, MaxColour * colBack, MaxFont * font, int alignment);
 	void bmx_wxtextattr_delete(MaxTextAttr * style);
 	
 	int bmx_wxtextctrl_geteventtype(int type);
 	
 	const wxMouseEvent & bmx_wxtexturlevent_getmouseevent(wxTextUrlEvent & event);
-	long bmx_wxtexturlevent_geturlstart(wxTextUrlEvent & event);
-	long bmx_wxtexturlevent_geturlend(wxTextUrlEvent & event);
+	int bmx_wxtexturlevent_geturlstart(wxTextUrlEvent & event);
+	int bmx_wxtexturlevent_geturlend(wxTextUrlEvent & event);
 
 	int bmx_wxtextctrl_emulatekeypress(wxTextCtrl * ctrl, wxKeyEvent & event);
 

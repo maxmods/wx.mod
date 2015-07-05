@@ -48,7 +48,7 @@ void MaxVScrolledWindow::OnGetRowsHeightHint(size_t lineMin, size_t lineMax) con
 BEGIN_EVENT_TABLE(MaxVScrolledWindow, wxVScrolledWindow)
 END_EVENT_TABLE()
 
-MaxVScrolledWindow * bmx_wxvscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+MaxVScrolledWindow * bmx_wxvscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxVScrolledWindow(maxHandle, parent, id, x, y, w, h, style);
 }
 

@@ -50,7 +50,7 @@ BEGIN_EVENT_TABLE(MaxBitmapToggleButton, wxBitmapToggleButton)
 END_EVENT_TABLE()
 
 wxBitmapToggleButton * bmx_wxbitmaptogglebutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxBitmap * bitmap,
-		int x, int y, int w, int h, long style) {
+		int x, int y, int w, int h, int style) {
 	return new MaxBitmapToggleButton(handle, parent, id, bitmap->Bitmap(), x, y, w, h, style);
 }
 

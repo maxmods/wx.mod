@@ -49,8 +49,8 @@ extern "C" {
 
 	void bmx_xsserializable_bind(xsSerializable * handle, BBObject * obj);
 
-	wxSFShapeCanvas * bmx_wxsfshapecanvas_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
-	void bmx_wxsfshapecanvas_addstyle(wxSFShapeCanvas * canvas, wxSFShapeCanvas::STYLE style);
+	wxSFShapeCanvas * bmx_wxsfshapecanvas_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
+	void bmx_wxsfshapecanvas_addstyle(wxSFShapeCanvas * canvas, int style);
 	void bmx_wxsfshapecanvas_setdiagrammanager(wxSFShapeCanvas * canvas, wxSFDiagramManager * 	manager	);
 	void bmx_wxsfshapecanvas_selectall(wxSFShapeCanvas * canvas);
 	void bmx_wxsfshapecanvas_deselectall(wxSFShapeCanvas * canvas);

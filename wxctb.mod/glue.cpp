@@ -96,7 +96,7 @@ int bmx_wxiobase_putback(wxIOBase * base, int chr) {
 	return base->PutBack(static_cast<char>(chr));
 }
 
-int bmx_wxiobase_readuntileos(wxIOBase * base, char * buffer, int * bytesRead, BBString * eos, long timeout, int quota) {
+int bmx_wxiobase_readuntileos(wxIOBase * base, char * buffer, int * bytesRead, BBString * eos, int timeout, int quota) {
 	char * p = bbStringToCString( eos );
 	char * newbuff = NULL;
 	

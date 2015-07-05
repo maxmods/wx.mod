@@ -34,7 +34,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxcollapsiblepane_wxCollapsiblePane__xrcNew)(wxCollapsiblePane * pane);
 
 	MaxCollapsiblePane * bmx_wxcollapsiblepane_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	int bmx_wxcollapsiblepane_iscollapsed(wxCollapsiblePane * pane);
 	int bmx_wxcollapsiblepane_isexpanded(wxCollapsiblePane * pane);
 	void bmx_wxcollapsiblepane_collapse(wxCollapsiblePane * pane, int value);

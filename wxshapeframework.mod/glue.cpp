@@ -136,12 +136,12 @@ BBObject * newObjectForShape(wxSFShapeBase * shape) {
 BEGIN_EVENT_TABLE(MaxSFShapeCanvas, wxSFShapeCanvas)
 END_EVENT_TABLE()
 
-wxSFShapeCanvas * bmx_wxsfshapecanvas_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+wxSFShapeCanvas * bmx_wxsfshapecanvas_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxSFShapeCanvas(maxHandle, parent, id, x, y, w, h, style);
 }
 
-void bmx_wxsfshapecanvas_addstyle(wxSFShapeCanvas * canvas, wxSFShapeCanvas::STYLE style) {
-	canvas->AddStyle(style);
+void bmx_wxsfshapecanvas_addstyle(wxSFShapeCanvas * canvas, int style) {
+	canvas->AddStyle(static_cast<wxSFShapeCanvas::STYLE>(style));
 }
 
 void bmx_wxsfshapecanvas_setdiagrammanager(wxSFShapeCanvas * canvas, wxSFDiagramManager * 	manager	) {

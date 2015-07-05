@@ -31,7 +31,7 @@ extern "C" {
 
 	int bmx_wxhelpcontrollerbase_initialize(wxHelpControllerBase * controller, BBString * file);
 
-	int bmx_wxhelpcontrollerbase_displayBlock(wxHelpControllerBase * controller, long blockNo);
+	int bmx_wxhelpcontrollerbase_displayBlock(wxHelpControllerBase * controller, int blockNo);
 	int bmx_wxhelpcontrollerbase_displaycontextpopup(wxHelpControllerBase * controller, int contextId);
 	int bmx_wxhelpcontrollerbase_displaysection(wxHelpControllerBase * controller, int sectionNo);
 	int bmx_wxhelpcontrollerbase_displaysectionbyname(wxHelpControllerBase * controller, BBString * section);

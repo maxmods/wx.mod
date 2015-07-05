@@ -64,16 +64,16 @@ int bmx_wxprintdata_getcollate(MaxPrintData * data) {
     return static_cast<int>(data->Data().GetCollate());
 }
 
-wxPrintBin bmx_wxprintdata_getbin(MaxPrintData * data) {
-    return data->Data().GetBin();
+int bmx_wxprintdata_getbin(MaxPrintData * data) {
+    return static_cast<int>(data->Data().GetBin());
 }
 
 int bmx_wxprintdata_getcolour(MaxPrintData * data) {
     return static_cast<int>(data->Data().GetColour());
 }
 
-wxDuplexMode bmx_wxprintdata_getduplex(MaxPrintData * data) {
-    return data->Data().GetDuplex();
+int bmx_wxprintdata_getduplex(MaxPrintData * data) {
+    return static_cast<int>(data->Data().GetDuplex());
 }
 
 int bmx_wxprintdata_getnocopies(MaxPrintData * data) {
@@ -84,24 +84,24 @@ int bmx_wxprintdata_getorientation(MaxPrintData * data) {
     return data->Data().GetOrientation();
 }
 
-wxPaperSize bmx_wxprintdata_getpaperid(MaxPrintData * data) {
-    return data->Data().GetPaperId();
+int bmx_wxprintdata_getpaperid(MaxPrintData * data) {
+    return static_cast<int>(data->Data().GetPaperId());
 }
 
 BBString * bmx_wxprintdata_getprintername(MaxPrintData * data) {
     return bbStringFromWxString(data->Data().GetPrinterName());
 }
 
-wxPrintQuality bmx_wxprintdata_getquality(MaxPrintData * data) {
-    return data->Data().GetQuality();
+int bmx_wxprintdata_getquality(MaxPrintData * data) {
+    return static_cast<int>(data->Data().GetQuality());
 }
 
 int bmx_wxprintdata_getisok(MaxPrintData * data) {
     return static_cast<int>(data->Data().IsOk());
 }
 
-void bmx_wxprintdata_setbin(MaxPrintData * data, wxPrintBin flag) {
-    data->Data().SetBin(flag);
+void bmx_wxprintdata_setbin(MaxPrintData * data, int flag) {
+    data->Data().SetBin(static_cast<wxPrintBin>(flag));
 }
 
 void bmx_wxprintdata_setcollate(MaxPrintData * data, int flag) {
@@ -112,8 +112,8 @@ void bmx_wxprintdata_setcolour(MaxPrintData * data, int flag) {
     data->Data().SetColour(static_cast<bool>(flag));
 }
 
-void bmx_wxprintdata_setduplex(MaxPrintData * data, wxDuplexMode mode) {
-    data->Data().SetDuplex(mode);
+void bmx_wxprintdata_setduplex(MaxPrintData * data, int mode) {
+    data->Data().SetDuplex(static_cast<wxDuplexMode>(mode));
 }
 
 void bmx_wxprintdata_setnocopies(MaxPrintData * data, int n) {
@@ -124,16 +124,16 @@ void bmx_wxprintdata_setorientation(MaxPrintData * data, int orientation) {
     data->Data().SetOrientation(orientation);
 }
 
-void bmx_wxprintdata_setpaperid(MaxPrintData * data, wxPaperSize paperId) {
-    data->Data().SetPaperId(paperId);
+void bmx_wxprintdata_setpaperid(MaxPrintData * data, int paperId) {
+    data->Data().SetPaperId(static_cast<wxPaperSize>(paperId));
 }
 
 void bmx_wxprintdata_setprintername(MaxPrintData * data, BBString * name) {
     data->Data().SetPrinterName(wxStringFromBBString(name));
 }
 
-void bmx_wxprintdata_setquality(MaxPrintData * data, wxPrintQuality quality) {
-    data->Data().SetQuality(quality);
+void bmx_wxprintdata_setquality(MaxPrintData * data, int quality) {
+    data->Data().SetQuality(static_cast<wxPrintQuality>(quality));
 }
 
 

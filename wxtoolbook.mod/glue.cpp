@@ -148,7 +148,7 @@ bool MaxToolbookXmlHandler::CanHandle(wxXmlNode *node)
 
 // *********************************************
 
-MaxToolbook * bmx_wxtoolbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+MaxToolbook * bmx_wxtoolbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxToolbook(maxHandle, parent, id, x, y, w, h, style);
 }
 

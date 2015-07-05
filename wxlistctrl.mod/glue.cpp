@@ -34,7 +34,7 @@ void bmx_releaseallclientdata(wxListCtrl * list) {
 	}
 }
 
-void bmx_releaseindexedclientdata(wxListCtrl * list, long index) {
+void bmx_releaseindexedclientdata(wxListCtrl * list, int index) {
 	void * data = wxUIntToPtr(list->GetItemData(index));
 	if (data) {
 		if ((BBObject*)data != &bbNullObject) {
@@ -143,7 +143,7 @@ wxObject * MaxListCtrlXmlHandler::DoCreateResource()
 BEGIN_EVENT_TABLE(MaxListCtrl, wxListCtrl)
 END_EVENT_TABLE()
 
-MaxListCtrl * bmx_wxlistctrl_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, long style) {
+MaxListCtrl * bmx_wxlistctrl_create(BBObject * handle, wxWindow * parent, int id, int x, int y, int w, int h, int style) {
 	return new MaxListCtrl(handle, parent, id, x, y, w, h, style);
 }
 
@@ -170,28 +170,28 @@ int bmx_wxlistctrl_deletecolumn(wxListCtrl * list, int col) {
 	return static_cast<int>(list->DeleteColumn(col));
 }
 
-int bmx_wxlistctrl_deleteitem(wxListCtrl * list, long item) {
+int bmx_wxlistctrl_deleteitem(wxListCtrl * list, int item) {
 	bmx_releaseindexedclientdata(list, item);
 	return static_cast<int>(list->DeleteItem(item));
 }
 
-void bmx_wxlistctrl_editlabel(wxListCtrl * list, long item) {
+void bmx_wxlistctrl_editlabel(wxListCtrl * list, int item) {
 	list->EditLabel(item);
 }
 
-int bmx_wxlistctrl_ensurevisible(wxListCtrl * list, long item) {
+int bmx_wxlistctrl_ensurevisible(wxListCtrl * list, int item) {
 	return static_cast<int>(list->EnsureVisible(item));
 }
 
-long bmx_wxlistctrl_finditem(wxListCtrl * list, long start, BBString * text, int partial) {
+int bmx_wxlistctrl_finditem(wxListCtrl * list, int start, BBString * text, int partial) {
 	return list->FindItem(start, wxStringFromBBString(text), static_cast<bool>(partial));
 }
 
-long bmx_wxlistctrl_finditemdata(wxListCtrl * list, long start, BBObject * data) {
+int bmx_wxlistctrl_finditemdata(wxListCtrl * list, int start, BBObject * data) {
 	return list->FindItem(start, wxPtrToUInt((void *)data));
 }
 
-long bmx_wxlistctrl_finditematpos(wxListCtrl * list, long start, int x, int y, int direction) {
+int bmx_wxlistctrl_finditematpos(wxListCtrl * list, int start, int x, int y, int direction) {
 	return list->FindItem(start, wxPoint(x, y), direction);
 }
 
@@ -223,7 +223,7 @@ int bmx_wxlistctrl_getitem(wxListCtrl * list, MaxListItem * item) {
 	return static_cast<int>(list->GetItem(item->Item()));
 }
 
-MaxColour * bmx_wxlistctrl_getitembackgroundcolour(wxListCtrl * list, long item) {
+MaxColour * bmx_wxlistctrl_getitembackgroundcolour(wxListCtrl * list, int item) {
 	wxColour c(list->GetItemBackgroundColour(item));
 	return new MaxColour(c);
 }
@@ -232,7 +232,7 @@ int bmx_wxlistctrl_getitemcount(wxListCtrl * list) {
 	return list->GetItemCount();
 }
 
-BBObject * bmx_wxlistctrl_getitemdata(wxListCtrl * list, long item) {
+BBObject * bmx_wxlistctrl_getitemdata(wxListCtrl * list, int item) {
 	void * data = wxUIntToPtr(list->GetItemData(item));
 
 	if (data) {
@@ -245,12 +245,12 @@ BBObject * bmx_wxlistctrl_getitemdata(wxListCtrl * list, long item) {
 
 }
 
-MaxFont * bmx_wxlistctrl_getitemfont(wxListCtrl * list, long item) {
+MaxFont * bmx_wxlistctrl_getitemfont(wxListCtrl * list, int item) {
 	wxFont f(list->GetItemFont(item));
 	return new MaxFont(f);
 }
 
-int bmx_wxlistctrl_getitemposition(wxListCtrl * list, long item, int * x, int * y) {
+int bmx_wxlistctrl_getitemposition(wxListCtrl * list, int item, int * x, int * y) {
 	wxPoint p;
 	bool ret = list->GetItemPosition(item, p);
 	*x = p.x;
@@ -258,7 +258,7 @@ int bmx_wxlistctrl_getitemposition(wxListCtrl * list, long item, int * x, int * 
 	return static_cast<int>(ret);
 }
 
-int bmx_wxlistctrl_getitemrect(wxListCtrl * list, long item, int * x, int * y, int * w, int * h, int code) {
+int bmx_wxlistctrl_getitemrect(wxListCtrl * list, int item, int * x, int * y, int * w, int * h, int code) {
 	wxRect r;
 	bool ret = list->GetItemRect(item, r, code);
 	*x = r.x;
@@ -268,7 +268,7 @@ int bmx_wxlistctrl_getitemrect(wxListCtrl * list, long item, int * x, int * y, i
 	return static_cast<int>(ret);
 }
 
-int bmx_wxlistctrl_getsubitemrect(wxListCtrl * list, long item, long subitem, int * x, int * y, int * w, int * h, int code) {
+int bmx_wxlistctrl_getsubitemrect(wxListCtrl * list, int item, int subitem, int * x, int * y, int * w, int * h, int code) {
 #ifdef WIN32
 	wxRect r;
 	bool ret = list->GetSubItemRect(item, subitem, r, code);
@@ -288,20 +288,20 @@ void bmx_wxlistctrl_getitemspacing(wxListCtrl * list, int * w, int * h) {
 	*h = s.y;
 }
 
-int bmx_wxlistctrl_getitemstate(wxListCtrl * list, long item, long stateMask) {
+int bmx_wxlistctrl_getitemstate(wxListCtrl * list, int item, int stateMask) {
 	return list->GetItemState(item , stateMask);
 }
 
-BBString * bmx_wxlistctrl_getitemtext(wxListCtrl * list, long item) {
+BBString * bmx_wxlistctrl_getitemtext(wxListCtrl * list, int item) {
 	return bbStringFromWxString(list->GetItemText(item));
 }
 
-MaxColour * bmx_wxlistctrl_getitemtextcolour(wxListCtrl * list, long item) {
+MaxColour * bmx_wxlistctrl_getitemtextcolour(wxListCtrl * list, int item) {
 	wxColour c(list->GetItemTextColour(item));
 	return new MaxColour(c);
 }
 
-long bmx_wxlistctrl_getnextitem(wxListCtrl * list, long item, int geometry, int state) {
+int bmx_wxlistctrl_getnextitem(wxListCtrl * list, int item, int geometry, int state) {
 	return list->GetNextItem(item, geometry, state);
 }
 
@@ -314,7 +314,7 @@ MaxColour * bmx_wxlistctrl_gettextcolour(wxListCtrl * list) {
 	return new MaxColour(c);
 }
 
-long bmx_wxlistctrl_gettopitem(wxListCtrl * list) {
+int bmx_wxlistctrl_gettopitem(wxListCtrl * list) {
 	return list->GetTopItem();
 }
 
@@ -326,39 +326,41 @@ void bmx_wxlistctrl_getviewrect(wxListCtrl * list, int * x, int * y, int * w, in
 	*h = r.height;
 }
 
-long bmx_wxlistctrl_hittest(wxListCtrl * list, int x, int y, int * flags, long * subitem) {
-	return list->HitTest(wxPoint(x, y), *flags, subitem);
+int bmx_wxlistctrl_hittest(wxListCtrl * list, int x, int y, int * flags, int * subitem) {
+	long s;
+	int res = list->HitTest(wxPoint(x, y), *flags, &s);
+	*subitem = s;
 }
 
-long bmx_wxlistctrl_insertcolumn(wxListCtrl * list, long col, BBString * heading, int format, int width) {
+int bmx_wxlistctrl_insertcolumn(wxListCtrl * list, int col, BBString * heading, int format, int width) {
 	return list->InsertColumn(col, wxStringFromBBString(heading), format, width);
 }
 
-long bmx_wxlistctrl_insertcolumnitem(wxListCtrl * list, long col, MaxListItem * info) {
+int bmx_wxlistctrl_insertcolumnitem(wxListCtrl * list, int col, MaxListItem * info) {
 	return list->InsertColumn(col, info->Item());
 }
 
-long bmx_wxlistctrl_insertitem(wxListCtrl * list, MaxListItem * item) {
+int bmx_wxlistctrl_insertitem(wxListCtrl * list, MaxListItem * item) {
 	return list->InsertItem(item->Item());
 }
 
-long bmx_wxlistctrl_insertstringitem(wxListCtrl * list, long index, BBString * label) {
+int bmx_wxlistctrl_insertstringitem(wxListCtrl * list, int index, BBString * label) {
 	return list->InsertItem(index, wxStringFromBBString(label));
 }
 
-long bmx_wxlistctrl_insertimageitem(wxListCtrl * list, long index, int imageIndex) {
+int bmx_wxlistctrl_insertimageitem(wxListCtrl * list, int index, int imageIndex) {
 	return list->InsertItem(index, imageIndex);
 }
 
-long bmx_wxlistctrl_insertimagestringitem(wxListCtrl * list, long index, BBString * label, int imageIndex) {
+int bmx_wxlistctrl_insertimagestringitem(wxListCtrl * list, int index, BBString * label, int imageIndex) {
 	return list->InsertItem(index, wxStringFromBBString(label), imageIndex);
 }
 
-void bmx_wxlistctrl_refreshitem(wxListCtrl * list, long item) {
+void bmx_wxlistctrl_refreshitem(wxListCtrl * list, int item) {
 	list->RefreshItem(item);
 }
 
-void bmx_wxlistctrl_refreshitems(wxListCtrl * list, long itemFrom, long itemTo) {
+void bmx_wxlistctrl_refreshitems(wxListCtrl * list, int itemFrom, int itemTo) {
 	list->RefreshItems(itemFrom, itemTo);
 }
 
@@ -386,19 +388,19 @@ int bmx_wxlistctrl_setitem(wxListCtrl * list, MaxListItem * item) {
 	return static_cast<int>(list->SetItem(item->Item()));
 }
 
-long bmx_wxlistctrl_setstringitem(wxListCtrl * list, long item, int col, BBString * label, int imageId) {
+int bmx_wxlistctrl_setstringitem(wxListCtrl * list, int item, int col, BBString * label, int imageId) {
 	return list->SetItem(item, col, wxStringFromBBString(label), imageId);
 }
 
-void bmx_wxlistctrl_setitembackgroundcolour(wxListCtrl * list, long item, MaxColour * colour) {
+void bmx_wxlistctrl_setitembackgroundcolour(wxListCtrl * list, int item, MaxColour * colour) {
 	list->SetItemBackgroundColour(item, colour->Colour());
 }
 
-void bmx_wxlistctrl_setitemcount(wxListCtrl * list, long count) {
+void bmx_wxlistctrl_setitemcount(wxListCtrl * list, int count) {
 	list->SetItemCount(count);
 }
 
-int bmx_wxlistctrl_setitemdata(wxListCtrl * list, long item, BBObject * data) {
+int bmx_wxlistctrl_setitemdata(wxListCtrl * list, int item, BBObject * data) {
 	// delete current client data if any exists
 	bmx_releaseindexedclientdata(list, item);
 
@@ -408,35 +410,35 @@ int bmx_wxlistctrl_setitemdata(wxListCtrl * list, long item, BBObject * data) {
 	return static_cast<int>(list->SetItemData(item, wxPtrToUInt((void *)data)));
 }
 
-void bmx_wxlistctrl_setitemfont(wxListCtrl * list, long item, MaxFont * font) {
+void bmx_wxlistctrl_setitemfont(wxListCtrl * list, int item, MaxFont * font) {
 	list->SetItemFont(item, font->Font());
 }
 
-int bmx_wxlistctrl_setitemimage(wxListCtrl * list, long item, int image) {
+int bmx_wxlistctrl_setitemimage(wxListCtrl * list, int item, int image) {
 	return static_cast<int>(list->SetItemImage(item, image));
 }
 
-int bmx_wxlistctrl_setitemcolumnimage(wxListCtrl * list, long item, int col, int image) {
+int bmx_wxlistctrl_setitemcolumnimage(wxListCtrl * list, int item, int col, int image) {
 	return static_cast<int>(list->SetItemColumnImage(item, col, image));
 }
 
-int bmx_wxlistctrl_setitemposition(wxListCtrl * list, long item, int x, int y) {
+int bmx_wxlistctrl_setitemposition(wxListCtrl * list, int item, int x, int y) {
 	return static_cast<int>(list->SetItemPosition(item, wxPoint(x, y)));
 }
 
-int bmx_wxlistctrl_setitemstate(wxListCtrl * list, long item, long state, long stateMask) {
+int bmx_wxlistctrl_setitemstate(wxListCtrl * list, int item, int state, int stateMask) {
 	return static_cast<int>(list->SetItemState(item , state, stateMask));
 }
 
-void bmx_wxlistctrl_setitemtext(wxListCtrl * list, long item, BBString * text) {
+void bmx_wxlistctrl_setitemtext(wxListCtrl * list, int item, BBString * text) {
 	list->SetItemText(item, wxStringFromBBString(text));
 }
 
-void bmx_wxlistctrl_setitemtextcolour(wxListCtrl * list, long item, MaxColour * colour) {
+void bmx_wxlistctrl_setitemtextcolour(wxListCtrl * list, int item, MaxColour * colour) {
 	list->SetItemTextColour(item, colour->Colour());
 }
 
-void bmx_wxlistctrl_setsinglestyle(wxListCtrl * list, long style, int add) {
+void bmx_wxlistctrl_setsinglestyle(wxListCtrl * list, int style, int add) {
 	list->SetSingleStyle(style, static_cast<bool>(add));
 }
 
@@ -444,7 +446,7 @@ void bmx_wxlistctrl_settextcolour(wxListCtrl * list, MaxColour * colour) {
 	list->SetTextColour(colour->Colour());
 }
 
-void bmx_wxlistctrl_setwindowstyleflag(wxListCtrl * list, long style) {
+void bmx_wxlistctrl_setwindowstyleflag(wxListCtrl * list, int style) {
 	list->SetWindowStyleFlag(style);
 }
 
@@ -495,7 +497,7 @@ MaxFont * bmx_wxlistitem_getfont(MaxListItem * item) {
 	return new MaxFont(f);
 }
 
-long bmx_wxlistitem_getid(MaxListItem * item) {
+int bmx_wxlistitem_getid(MaxListItem * item) {
 	return item->Item().GetId();
 }
 
@@ -503,11 +505,11 @@ int bmx_wxlistitem_getimage(MaxListItem * item) {
 	return item->Item().GetImage();
 }
 
-long bmx_wxlistitem_getmask(MaxListItem * item) {
+int bmx_wxlistitem_getmask(MaxListItem * item) {
 	return item->Item().GetMask();
 }
 
-long bmx_wxlistitem_getstate(MaxListItem * item) {
+int bmx_wxlistitem_getstate(MaxListItem * item) {
 	return item->Item().GetState();
 }
 
@@ -563,7 +565,7 @@ void bmx_wxlistitem_setfont(MaxListItem * item, MaxFont * font) {
 	item->Item().SetFont(font->Font());
 }
 
-void bmx_wxlistitem_setid(MaxListItem * item, long id) {
+void bmx_wxlistitem_setid(MaxListItem * item, int id) {
 	item->Item().SetId(id);
 }
 
@@ -571,15 +573,15 @@ void bmx_wxlistitem_setimage(MaxListItem * item, int image) {
 	item->Item().SetImage(image);
 }
 
-void bmx_wxlistitem_setmask(MaxListItem * item, long mask) {
+void bmx_wxlistitem_setmask(MaxListItem * item, int mask) {
 	item->Item().SetMask(mask);
 }
 
-void bmx_wxlistitem_setstate(MaxListItem * item, long state) {
+void bmx_wxlistitem_setstate(MaxListItem * item, int state) {
 	item->Item().SetState(state);
 }
 
-void bmx_wxlistitem_setstatemask(MaxListItem * item, long stateMask) {
+void bmx_wxlistitem_setstatemask(MaxListItem * item, int stateMask) {
 	item->Item().SetStateMask(stateMask);
 }
 
@@ -660,11 +662,11 @@ void bmx_wxlistitemattr_delete(wxListItemAttr * attr) {
 	delete attr;
 }
 
-long bmx_wxlistevent_getcachefrom(wxListEvent & event) {
+int bmx_wxlistevent_getcachefrom(wxListEvent & event) {
 	return event.GetCacheFrom();
 }
 
-long bmx_wxlistevent_getcacheto(wxListEvent & event) {
+int bmx_wxlistevent_getcacheto(wxListEvent & event) {
 	return event.GetCacheTo();
 }
 
@@ -672,11 +674,11 @@ int bmx_wxlistevent_getkeycode(wxListEvent & event) {
 	return event.GetKeyCode();
 }
 
-long bmx_wxlistevent_getindex(wxListEvent & event) {
+int bmx_wxlistevent_getindex(wxListEvent & event) {
 	return event.GetIndex();
 }
 
-long bmx_wxlistevent_getcolumn(wxListEvent & event) {
+int bmx_wxlistevent_getcolumn(wxListEvent & event) {
 	return event.GetColumn();
 }
 
@@ -698,11 +700,11 @@ int bmx_wxlistevent_getimage(wxListEvent & event) {
 	return event.GetImage();
 }
 
-long bmx_wxlistevent_getdata(wxListEvent & event) {
+int bmx_wxlistevent_getdata(wxListEvent & event) {
 	return event.GetData();
 }
 
-long bmx_wxlistevent_getmask(wxListEvent & event) {
+int bmx_wxlistevent_getmask(wxListEvent & event) {
 	return event.GetMask();
 }
 

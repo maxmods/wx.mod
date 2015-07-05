@@ -34,7 +34,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxnotebook_wxNotebook__xrcNew)(wxNotebook * notebook);
 
-	MaxNotebook * bmx_wxnotebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxNotebook * bmx_wxnotebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	int bmx_wxnotebook_getrowcount(wxNotebook * notebook);
 	MaxColour * bmx_wxnotebook_getthemebackgroundcolour(wxNotebook * notebook);
 	void bmx_wxnotebook_setpadding(wxNotebook * notebook, int width, int height);

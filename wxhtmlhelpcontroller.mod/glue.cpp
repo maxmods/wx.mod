@@ -66,8 +66,8 @@ void bmx_wxhtmlhelpcontroller_displayindex(wxHtmlHelpController * cont) {
 	cont->DisplayIndex();
 }
 
-int bmx_wxhtmlhelpcontroller_keywordsearch(wxHtmlHelpController * cont, BBString * keyword, wxHelpSearchMode mode) {
-	return static_cast<int>(cont->KeywordSearch(wxStringFromBBString(keyword), mode));
+int bmx_wxhtmlhelpcontroller_keywordsearch(wxHtmlHelpController * cont, BBString * keyword, int mode) {
+	return static_cast<int>(cont->KeywordSearch(wxStringFromBBString(keyword), static_cast<wxHelpSearchMode>(mode)));
 }
 
 void bmx_wxhtmlhelpcontroller_readcustomization(wxHtmlHelpController * cont, wxConfigBase * config, BBString * path) {

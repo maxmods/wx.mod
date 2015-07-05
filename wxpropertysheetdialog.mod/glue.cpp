@@ -169,7 +169,7 @@ END_EVENT_TABLE()
 
 
 wxPropertySheetDialog * bmx_wxpropertysheetdialog_create(BBObject * handle, wxWindow * parent,
-		wxWindowID id, BBString * title, int x, int y, int w, int h, long style) {
+		wxWindowID id, BBString * title, int x, int y, int w, int h, int style) {
 	return new MaxPropertySheetDialog(handle, parent, id, wxStringFromBBString(title), x, y, w, h, style);
 }
 

@@ -74,7 +74,7 @@ wxObject * MaxPanelXmlHandler::DoCreateResource()
 BEGIN_EVENT_TABLE(MaxPanel, wxPanel)
 END_EVENT_TABLE()
 
-MaxPanel * bmx_wxpanel_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+MaxPanel * bmx_wxpanel_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxPanel(maxHandle, parent, id, x, y, w, h, style);
 }
 

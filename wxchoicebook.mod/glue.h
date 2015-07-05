@@ -34,7 +34,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxchoicebook_wxChoicebook__xrcNew)(wxChoicebook * choice);
 
-	MaxChoicebook * bmx_wxchoicebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxChoicebook * bmx_wxchoicebook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	wxChoice * bmx_wxchoicebook_getchoicectrl(wxChoicebook * book);
 
 	void bmx_wxchoicebook_addresourcehandler();

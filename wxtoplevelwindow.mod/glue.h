@@ -51,7 +51,7 @@ extern "C" {
 	void bmx_wxtoplevelwindow_setsizehints(wxTopLevelWindow * window, int minW, int minH, int maxW, int maxH);
 	void bmx_wxtoplevelwindow_settitle(wxTopLevelWindow * window, BBString * title);
 	void bmx_wxtoplevelwindow_settransparent(wxTopLevelWindow * window, int alpha);
-	int bmx_wxtoplevelwindow_showfullscreen(wxTopLevelWindow * window, int show, long style);
+	int bmx_wxtoplevelwindow_showfullscreen(wxTopLevelWindow * window, int show, int style);
 	void bmx_wxtoplevelwindow_centreonscreen(wxTopLevelWindow * window, int direction);
 	void bmx_wxtoplevelwindow_centeronscreen(wxTopLevelWindow * window, int direction);
 

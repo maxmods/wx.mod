@@ -78,7 +78,7 @@ BEGIN_EVENT_TABLE(MaxToggleButton, wxToggleButton)
 END_EVENT_TABLE()
 
 MaxToggleButton * bmx_wxtogglebutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	return new MaxToggleButton(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }

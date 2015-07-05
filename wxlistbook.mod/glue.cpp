@@ -129,7 +129,7 @@ bool MaxListbookXmlHandler::CanHandle(wxXmlNode *node)
 
 // *********************************************
 
-MaxListbook * bmx_wxlistbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+MaxListbook * bmx_wxlistbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxListbook(maxHandle, parent, id, x, y, w, h, style);
 }
 

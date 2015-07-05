@@ -43,7 +43,7 @@ MaxFixWidthImportCtrl::~MaxFixWidthImportCtrl() {
 
 
 wxFixWidthImportCtrl * bmx_wxfixwidthimportctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, 
-		int x, int y, int w, int h, long style) {
+		int x, int y, int w, int h, int style) {
 	return new MaxFixWidthImportCtrl(handle, parent, id, x, y, w, h, style);
 }
 

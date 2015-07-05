@@ -35,7 +35,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxstaticbitmap_wxStaticBitmap__xrcNew)(wxStaticBitmap * sb);
 
 	MaxStaticBitmap * bmx_wxstaticbitmap_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, MaxBitmap * bitmap, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	MaxBitmap * bmx_wxstaticbitmap_getbitmap(wxStaticBitmap * sb);
 	MaxIcon * bmx_wxstaticbitmap_geticon(wxStaticBitmap * sb);
 	void bmx_wxstaticbitmap_setbitmap(wxStaticBitmap * sb, MaxBitmap * bitmap);

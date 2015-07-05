@@ -30,7 +30,7 @@ extern "C" {
 #include <blitz.h>
 
 	wxDocParentFrame * bmx_wxdocparentframe_create(BBObject * handle, wxDocManager * manager, wxFrame * parent, 
-			wxWindowID id, BBString * title, int x, int y, int w, int h, long style);
+			wxWindowID id, BBString * title, int x, int y, int w, int h, int style);
 	wxDocManager * bmx_wxdocparentframe_getdocumentmanager(wxDocParentFrame * frame);
 
 }

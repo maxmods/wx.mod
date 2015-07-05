@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxFixWidthImportCtrl * bmx_wxfixwidthimportctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	wxFixWidthImportCtrl * bmx_wxfixwidthimportctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	int bmx_wxfixwidthimportctrl_getvalcount(wxFixWidthImportCtrl * ctrl);
 	BBArray * bmx_wxfixwidthimportctrl_getvalues(wxFixWidthImportCtrl * ctrl);
 	void bmx_wxfixwidthimportctrl_setvalues(wxFixWidthImportCtrl * ctrl, BBArray * values);

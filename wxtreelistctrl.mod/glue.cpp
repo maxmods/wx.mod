@@ -60,7 +60,7 @@ BEGIN_EVENT_TABLE(MaxTreeListCtrl, wxTreeListCtrl)
 END_EVENT_TABLE()
 
 MaxTreeListCtrl * bmx_wxtreelistctrl_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 	return new MaxTreeListCtrl(maxHandle, parent, id, x, y, w, h, style);
 }
 	
@@ -116,9 +116,9 @@ void bmx_wxtreelistctrl_ensurevisible(wxTreeListCtrl * tree, MaxTreeItem * item)
 	tree->EnsureVisible(item->Item());
 }
 
-bool bmx_wxtreelistctrl_getboundingrect(wxTreeListCtrl * tree, MaxTreeItem * item, int * x, int * y, int * w, int * h, bool textOnly) {
+int bmx_wxtreelistctrl_getboundingrect(wxTreeListCtrl * tree, MaxTreeItem * item, int * x, int * y, int * w, int * h, int textOnly) {
 	wxRect r;
-	bool ret = tree->GetBoundingRect(item->Item(), r, textOnly);
+	int ret = static_cast<int>(tree->GetBoundingRect(item->Item(), r, static_cast<bool>(textOnly)));
 	*x = r.x;
 	*y = r.y;
 	*w = r.width;
@@ -126,17 +126,17 @@ bool bmx_wxtreelistctrl_getboundingrect(wxTreeListCtrl * tree, MaxTreeItem * ite
 	return ret;
 }
 
-MaxRect * bmx_wxtreelistctrl_getboundingrectrect(wxTreeListCtrl * tree, MaxTreeItem * item, bool textOnly) {
+MaxRect * bmx_wxtreelistctrl_getboundingrectrect(wxTreeListCtrl * tree, MaxTreeItem * item, int textOnly) {
 	wxRect r;
-	bool ret = tree->GetBoundingRect(item->Item(), r, textOnly);
+	bool ret = tree->GetBoundingRect(item->Item(), r, static_cast<bool>(textOnly));
 	if (ret) {
 		return new MaxRect(r);
 	}
 	return 0;	
 }
 
-int bmx_wxtreelistctrl_getchildrencount(wxTreeListCtrl * tree, MaxTreeItem * item, bool recursively) {
-	return tree->GetChildrenCount(item->Item(), recursively);
+int bmx_wxtreelistctrl_getchildrencount(wxTreeListCtrl * tree, MaxTreeItem * item, int recursively) {
+	return tree->GetChildrenCount(item->Item(), static_cast<bool>(recursively));
 }
 
 int bmx_wxtreelistctrl_getcount(wxTreeListCtrl * tree) {
@@ -219,20 +219,20 @@ MaxTreeItem * bmx_wxtreelistctrl_getselection(wxTreeListCtrl * tree) {
 	return new MaxTreeItem(tree->GetSelection());
 }
 
-bool bmx_wxtreelistctrl_isbold(wxTreeListCtrl * tree, MaxTreeItem * item) {
-	return tree->IsBold(item->Item());
+int bmx_wxtreelistctrl_isbold(wxTreeListCtrl * tree, MaxTreeItem * item) {
+	return static_cast<int>(tree->IsBold(item->Item()));
 }
 
-bool bmx_wxtreelistctrl_isexpanded(wxTreeListCtrl * tree, MaxTreeItem * item) {
-	return tree->IsExpanded(item->Item());
+int bmx_wxtreelistctrl_isexpanded(wxTreeListCtrl * tree, MaxTreeItem * item) {
+	return static_cast<int>(tree->IsExpanded(item->Item()));
 }
 
-bool bmx_wxtreelistctrl_isselected(wxTreeListCtrl * tree, MaxTreeItem * item) {
-	return tree->IsSelected(item->Item());
+int bmx_wxtreelistctrl_isselected(wxTreeListCtrl * tree, MaxTreeItem * item) {
+	return static_cast<int>(tree->IsSelected(item->Item()));
 }
 
-bool bmx_wxtreelistctrl_isvisible(wxTreeListCtrl * tree, MaxTreeItem * item) {
-	return tree->IsVisible(item->Item());
+int bmx_wxtreelistctrl_isvisible(wxTreeListCtrl * tree, MaxTreeItem * item) {
+	return static_cast<int>(tree->IsVisible(item->Item()));
 }
 
 void bmx_wxtreelistctrl_scrollto(wxTreeListCtrl * tree, MaxTreeItem * item) {
@@ -289,7 +289,7 @@ void bmx_wxtreelistctrl_setstateimagelist(wxTreeListCtrl * tree, wxImageList * i
 	tree->SetStateImageList(imageList);
 }
 
-void bmx_wxtreelistctrl_setwindowstyle(wxTreeListCtrl * tree, long style) {
+void bmx_wxtreelistctrl_setwindowstyle(wxTreeListCtrl * tree, int style) {
 	tree->SetWindowStyle(style);
 }
 

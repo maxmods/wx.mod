@@ -34,7 +34,7 @@ extern "C" {
 
 
 	wxPreviewFrame * bmx_wxpreviewframe_create(BBObject * handle, wxPrintPreview * preview, wxWindow * parent, BBString * title,
-		int x, int y, int w, int h, long style);
+		int x, int y, int w, int h, int style);
 
 	void bmx_wxpreviewframe_createcontrolbar(MaxPreviewFrame * frame);
 	void bmx_wxpreviewframe_createcanvas(MaxPreviewFrame * frame);

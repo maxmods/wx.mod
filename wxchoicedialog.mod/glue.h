@@ -36,14 +36,14 @@ extern "C" {
 		int x, int y, int centre, int width, int height);
 
 	MaxSingleChoiceDialog * bmx_wxsinglechoicedialog_create(BBObject * handle, wxWindow * parent,
-			BBString * message, BBString * caption, BBArray * choices, long style, int x, int y);
+			BBString * message, BBString * caption, BBArray * choices, int style, int x, int y);
 	int bmx_wxsinglechoicedialog_getselection(wxSingleChoiceDialog * dialog);
 	BBString * bmx_wxsinglechoicedialog_getstringselection(wxSingleChoiceDialog * dialog);
 	void bmx_wxsinglechoicedialog_setselection(wxSingleChoiceDialog * dialog, int index);
 	int bmx_wxsinglechoicedialog_showmodal(wxSingleChoiceDialog * dialog);
 
 	MaxMultiChoiceDialog * bmx_wxmultichoicedialog_create(BBObject * handle, wxWindow * parent,
-			BBString * message, BBString * caption, BBArray * choices, long style, int x, int y);
+			BBString * message, BBString * caption, BBArray * choices, int style, int x, int y);
 	BBArray * bmx_wxmultichoicedialog_getselections(wxMultiChoiceDialog * dialog);
 	void bmx_wxmultichoicedialog_setselections(wxMultiChoiceDialog * dialog, BBArray * selections);
 	int bmx_wxmultichoicedialog_showmodal(wxMultiChoiceDialog * dialog);

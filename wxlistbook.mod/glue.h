@@ -36,7 +36,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxlistbook_wxListbook__xrcNew)(wxListbook * book);
 
-	MaxListbook * bmx_wxlistbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxListbook * bmx_wxlistbook_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	wxListView * bmx_wxlistbook_getlistview(wxListbook * book);
 
 	void bmx_wxlistbook_addresourcehandler();

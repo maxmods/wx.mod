@@ -43,7 +43,7 @@ extern "C" {
 
 	void bmx_init_scintilla_modules();
 
-	MaxScintilla * bmx_wxscintilla_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxScintilla * bmx_wxscintilla_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 
 	int bmx_wxscintilla_getcurrentline(wxScintilla * sc);
 	void bmx_wxscintilla_stylesetspec(wxScintilla * sc, int style, BBString * spec);

@@ -31,7 +31,7 @@ extern "C" {
 	MaxSound * bmx_wxsound_create(BBObject * handle, BBString * fileName, int isResource);
 	int bmx_wxsound_isok(wxSound * sound);
 	// bool bmx_wxsound_isplaying(wxSound * sound);
-	int bmx_wxsound_play(wxSound * sound, unsigned flags);
+	int bmx_wxsound_play(wxSound * sound, int flags);
 	void bmx_wxsound_stop(wxSound * sound);
 	void bmx_wxsound_free(wxSound * sound);
 }

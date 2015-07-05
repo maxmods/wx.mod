@@ -42,7 +42,7 @@ MaxDocParentFrame::~MaxDocParentFrame() {
 
 
 wxDocParentFrame * bmx_wxdocparentframe_create(BBObject * handle, wxDocManager * manager, wxFrame * parent, 
-		wxWindowID id, BBString * title, int x, int y, int w, int h, long style) {
+		wxWindowID id, BBString * title, int x, int y, int w, int h, int style) {
 	return new MaxDocParentFrame(handle, manager, parent, id, wxStringFromBBString(title), x, y, w, h, style);
 }
 

@@ -34,7 +34,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxcolourpickerctrl_wxColourPickerCtrl__xrcNew)(wxColourPickerCtrl * picker);
 
 	MaxColourPickerCtrl * bmx_wxcolourpickerctrl_create(BBObject * handle, wxWindow * parent, int id,
-		MaxColour * colour, int x, int y, int w, int h, long style);
+		MaxColour * colour, int x, int y, int w, int h, int style);
 	MaxColour * bmx_wxcolourpickerctrl_getcolour(wxColourPickerCtrl * picker);
 	void bmx_wxcolourpickerctrl_setcolour(wxColourPickerCtrl * picker, MaxColour * colour);
 	void bmx_wxcolourpickerctrl_setcolourname(wxColourPickerCtrl * picker, BBString * name);

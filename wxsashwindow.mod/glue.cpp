@@ -41,12 +41,12 @@ BEGIN_EVENT_TABLE(MaxSashWindow, wxSashWindow)
 END_EVENT_TABLE()
 
 MaxSashWindow * bmx_wxsashwindow_create(BBObject * handle, wxWindow * parent, wxWindowID id, 
-		int x, int y, int w, int h, long style) {
+		int x, int y, int w, int h, int style) {
 	return new MaxSashWindow(handle, parent, id, x, y, w, h, style);
 }
 
-int bmx_wxsashwindow_getsashvisible(wxSashWindow * sash, wxSashEdgePosition edge) {
-	return static_cast<int>(sash->GetSashVisible(edge));
+int bmx_wxsashwindow_getsashvisible(wxSashWindow * sash, int edge) {
+	return static_cast<int>(sash->GetSashVisible(static_cast<wxSashEdgePosition>(edge)));
 }
 
 int bmx_wxsashwindow_getmaximumsizex(wxSashWindow * sash) {
@@ -81,13 +81,13 @@ void bmx_wxsashwindow_setminimumsizey(wxSashWindow * sash, int size) {
 	sash->SetMinimumSizeY(size);
 }
 
-void bmx_wxsashwindow_setsashvisible(wxSashWindow * sash, wxSashEdgePosition edge, int visible) {
-	sash->SetSashVisible(edge, static_cast<bool>(visible));
+void bmx_wxsashwindow_setsashvisible(wxSashWindow * sash, int edge, int visible) {
+	sash->SetSashVisible(static_cast<wxSashEdgePosition>(edge), static_cast<bool>(visible));
 }
 
 
-wxSashEdgePosition bmx_wxsashevent_getedge(wxSashEvent & event) {
-	return event.GetEdge();
+int bmx_wxsashevent_getedge(wxSashEvent & event) {
+	return static_cast<int>(event.GetEdge());
 }
 
 void bmx_wxsashevent_getdragrect(wxSashEvent & event, int * x, int * y, int * w, int * h) {
@@ -102,8 +102,8 @@ MaxRect * bmx_wxsashevent_getdragrectrect(wxSashEvent & event) {
 	return new MaxRect(event.GetDragRect());	
 }
 
-wxSashDragStatus bmx_wxsashevent_getdragstatus(wxSashEvent & event) {
-	return event.GetDragStatus();
+int bmx_wxsashevent_getdragstatus(wxSashEvent & event) {
+	return static_cast<wxSashDragStatus>(event.GetDragStatus());
 }
 
 

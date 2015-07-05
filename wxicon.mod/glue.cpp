@@ -54,8 +54,8 @@ wxIconBundle & MaxIconBundle::Bundle() {
 
 // *********************************************
 
-MaxIcon * bmx_wxicon_createfromfile(BBString * name, wxBitmapType type, int desiredWidth, int desiredHeight) {
-	wxIcon i(wxStringFromBBString(name), type, desiredWidth, desiredHeight);
+MaxIcon * bmx_wxicon_createfromfile(BBString * name, int type, int desiredWidth, int desiredHeight) {
+	wxIcon i(wxStringFromBBString(name), static_cast<wxBitmapType>(type), desiredWidth, desiredHeight);
 
 	return new MaxIcon(i);
 }
@@ -77,8 +77,8 @@ MaxIcon * bmx_wxicon_null() {
 	return new MaxIcon(i);
 }
 
-int bmx_wxicon_loadfile(MaxIcon * icon, BBString * name, wxBitmapType type) {
-	return static_cast<int>(icon->Icon().LoadFile(wxStringFromBBString(name), type));
+int bmx_wxicon_loadfile(MaxIcon * icon, BBString * name, int type) {
+	return static_cast<int>(icon->Icon().LoadFile(wxStringFromBBString(name), static_cast<wxBitmapType>(type)));
 }
 
 int bmx_wxicon_getdepth(MaxIcon * icon) {
@@ -111,8 +111,8 @@ int bmx_wxicon_isok(MaxIcon * icon) {
 
 // *********************************************
 
-MaxIconBundle * bmx_iconbundle_create(BBString * filename, long ftype) {
-	wxIconBundle b(wxStringFromBBString(filename), ftype);
+MaxIconBundle * bmx_iconbundle_create(BBString * filename, int ftype) {
+	wxIconBundle b(wxStringFromBBString(filename), static_cast<wxBitmapType>(ftype));
 	return new MaxIconBundle(b);
 }
 
@@ -121,8 +121,8 @@ MaxIconBundle * bmx_wxiconbundle_createwithicon(MaxIcon * icon) {
 	return new MaxIconBundle(b);
 }
 
-void bmx_wxiconbundle_addicon(MaxIconBundle * bundle, BBString * file, long ftype) {
-	bundle->Bundle().AddIcon(wxStringFromBBString(file), ftype);
+void bmx_wxiconbundle_addicon(MaxIconBundle * bundle, BBString * file, int ftype) {
+	bundle->Bundle().AddIcon(wxStringFromBBString(file), static_cast<wxBitmapType>(ftype));
 }
 
 void bmx_wxiconbundle_addiconicon(MaxIconBundle * bundle, MaxIcon * icon) {

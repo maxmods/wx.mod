@@ -49,7 +49,7 @@ BEGIN_EVENT_TABLE(MaxVListBox, wxVListBox)
 END_EVENT_TABLE()
 
 
-wxVListBox * bmx_wxvlistbox_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+wxVListBox * bmx_wxvlistbox_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxVListBox(handle, parent, id, x, y, w, h, style);
 }
 
@@ -61,8 +61,11 @@ int bmx_wxvlistbox_deselectall(wxVListBox * listbox) {
 	return listbox->DeselectAll();
 }
 
-int bmx_wxvlistbox_getfirstselected(wxVListBox * listbox, unsigned long * cookie) {
-	return listbox->GetFirstSelected(*cookie);
+int bmx_wxvlistbox_getfirstselected(wxVListBox * listbox, int * cookie) {
+	unsigned long c;
+	int res = listbox->GetFirstSelected(c);
+	*cookie = c;
+	return res;
 }
 
 int bmx_wxvlistbox_getitemcount(wxVListBox * listbox) {
@@ -87,8 +90,11 @@ MaxRect * bmx_wxvlistbox_getitemrectrect(wxVListBox * listbox, int item) {
 	return new MaxRect(listbox->GetItemRect(static_cast<size_t>(item)));
 }
 
-int bmx_wxvlistbox_getnextselected(wxVListBox * listbox, unsigned long * cookie) {
-	return listbox->GetNextSelected(*cookie);
+int bmx_wxvlistbox_getnextselected(wxVListBox * listbox, int * cookie) {
+	unsigned long c;
+	int res = listbox->GetNextSelected(c);
+	*cookie = c;
+	return res;
 }
 
 int bmx_wxvlistbox_getselectedcount(wxVListBox * listbox) {

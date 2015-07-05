@@ -33,7 +33,7 @@ int bmx_wxhelpcontrollerbase_initialize(wxHelpControllerBase * controller, BBStr
 }
 
 
-int bmx_wxhelpcontrollerbase_displayBlock(wxHelpControllerBase * controller, long blockNo) {
+int bmx_wxhelpcontrollerbase_displayBlock(wxHelpControllerBase * controller, int blockNo) {
 	return static_cast<int>(controller->DisplayBlock(blockNo));
 }
 

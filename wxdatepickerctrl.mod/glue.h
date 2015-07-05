@@ -34,7 +34,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxdatepickerctrl_wxDatePickerCtrl__xrcNew)(wxDatePickerCtrl * picker);
 
-	wxDatePickerCtrl * bmx_wxdatepickerctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * dt, int x, int y, int w, int h, long style);
+	wxDatePickerCtrl * bmx_wxdatepickerctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxDateTime * dt, int x, int y, int w, int h, int style);
 	int bmx_wxdatepickerctrl_getrange(wxDatePickerCtrl * picker, MaxDateTime * dt1, MaxDateTime * dt2);
 	MaxDateTime * bmx_wxdatepickerctrl_getvalue(wxDatePickerCtrl * picker);
 //	void bmx_wxdatepickerctrl_setformat(wxDatePickerCtrl * picker, BBString * format);

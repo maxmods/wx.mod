@@ -31,7 +31,7 @@ extern "C" {
 #include <blitz.h>
 
 	wxBitmapToggleButton * bmx_wxbitmaptogglebutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, MaxBitmap * bitmap,
-		int x, int y, int w, int h, long style);
+		int x, int y, int w, int h, int style);
 	int bmx_wxbitmaptogglebutton_getvalue(wxBitmapToggleButton * button);
 	void bmx_wxbitmaptogglebutton_setvalue(wxBitmapToggleButton * button, int value);
 	void bmx_wxbitmaptogglebutton_setbitmap(wxBitmapToggleButton * button, MaxBitmap * bitmap);

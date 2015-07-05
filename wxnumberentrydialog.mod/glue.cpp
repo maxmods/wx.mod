@@ -40,8 +40,8 @@ MaxNumberEntryDialog::~MaxNumberEntryDialog()
 // *********************************************
 
 
-long bmx_wxgetnumberfromuser(BBString * message, BBString * prompt, BBString * caption, long value, 
-		long min, long max, wxWindow * parent, int x, int y) {
+int bmx_wxgetnumberfromuser(BBString * message, BBString * prompt, BBString * caption, int value, 
+		int min, int max, wxWindow * parent, int x, int y) {
 
 	if (parent) {
 		return wxGetNumberFromUser(wxStringFromBBString(message), wxStringFromBBString(prompt), 
@@ -55,11 +55,11 @@ long bmx_wxgetnumberfromuser(BBString * message, BBString * prompt, BBString * c
 // *********************************************
 
 wxNumberEntryDialog * bmx_wxnumberentrydialog_create(BBObject * handle, wxWindow * parent,
-		BBString * message, BBString * prompt, BBString * caption, long value, long minimum, long maximum, int x, int y) {
+		BBString * message, BBString * prompt, BBString * caption, int value, int minimum, int maximum, int x, int y) {
 	return new MaxNumberEntryDialog(handle, parent, wxStringFromBBString(message), wxStringFromBBString(prompt),
 		wxStringFromBBString(caption), value, minimum, maximum, x, y);
 }
 
-long bmx_wxnumberentrydialog_getvalue(wxNumberEntryDialog * dialog) {
+int bmx_wxnumberentrydialog_getvalue(wxNumberEntryDialog * dialog) {
 	return dialog->GetValue();
 }

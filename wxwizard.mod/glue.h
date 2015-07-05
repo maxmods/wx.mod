@@ -40,7 +40,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxwizard_wxWizardPage__xrcNew)(wxWizardPage * page);
 	BBObject * CB_PREF(wx_wxwizard_wxWizardPageSimple__xrcNew)(wxWizardPageSimple * page);
 
-	MaxWizard * bmx_wxwizard_create(BBObject * handle, wxWindow * parent, int id, BBString * title, MaxBitmap * bitmap, int x, int y, long style);
+	MaxWizard * bmx_wxwizard_create(BBObject * handle, wxWindow * parent, int id, BBString * title, MaxBitmap * bitmap, int x, int y, int style);
 	wxWizardPage * bmx_wxwizard_getcurrentpage(wxWizard * wizard);
 	wxSizer * bmx_wxwizard_getpageareasizer(wxWizard * wizard);
 	void bmx_wxwizard_getpagesize(wxWizard * wizard, int * w, int * h);

@@ -37,7 +37,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxsearchctrl_wxSearchCtrl__xrcNew)(wxSearchCtrl * search);
 
-	MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, long style, wxValidator * validator);
+	MaxSearchCtrl * bmx_wxsearchctrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * value, int x, int y, int w, int h, int style, wxValidator * validator);
 	void bmx_wxsearchctrl_setmenu(wxSearchCtrl * search, wxMenu * menu);
 	wxMenu * bmx_wxsearchctrl_getmenu(wxSearchCtrl * search);
 	void bmx_wxsearchctrl_showsearchbutton(wxSearchCtrl * search, int show);

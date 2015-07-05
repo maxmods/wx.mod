@@ -32,7 +32,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxchecklistbox_wxCheckListBox__xrcNew)(wxCheckListBox * listbox);
 
-	MaxCheckListBox * bmx_wxchecklistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, long style);
+	MaxCheckListBox * bmx_wxchecklistbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBArray * array, int x, int y, int w, int h, int style);
 	void bmx_wxchecklistbox_check(wxCheckListBox * listbox, int item, int check);
 	int bmx_wxchecklistbox_ischecked(wxCheckListBox * listbox, int item);
 	int bmx_wxchecklistbox_append(wxCheckListBox * listbox, BBString * item);

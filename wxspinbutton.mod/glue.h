@@ -33,7 +33,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxspinbutton_wxSpinButton__xrcNew)(wxSpinButton * button);
 
-	MaxSpinButton * bmx_wxspinbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style);
+	MaxSpinButton * bmx_wxspinbutton_create(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	int bmx_wxspinbutton_getmax(wxSpinButton * button);
 	int bmx_wxspinbutton_getmin(wxSpinButton * button);
 	int bmx_wxspinbutton_getvalue(wxSpinButton * button);

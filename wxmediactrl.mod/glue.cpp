@@ -47,7 +47,7 @@ void MaxMediaCtrl::MaxBind(BBObject * handle) {
 BEGIN_EVENT_TABLE(MaxMediaCtrl, wxMediaCtrl)
 END_EVENT_TABLE()
 
-wxMediaCtrl * bmx_wxmediactrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * filename, int x, int y, int w, int h, long style, BBString * backend) {
+wxMediaCtrl * bmx_wxmediactrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * filename, int x, int y, int w, int h, int style, BBString * backend) {
 	return new MaxMediaCtrl(handle, parent, id, wxStringFromBBString(filename), x, y, w, h, style, wxStringFromBBString(backend));
 }
 
@@ -93,8 +93,8 @@ int bmx_wxmediactrl_play(wxMediaCtrl * ctrl) {
 	return static_cast<int>(ctrl->Play());
 }
 
-void bmx_wxmediactrl_seek(wxMediaCtrl * ctrl, BBInt64 where, wxSeekMode mode, BBInt64 * value) {
-	*value = ctrl->Seek(where, mode);
+void bmx_wxmediactrl_seek(wxMediaCtrl * ctrl, BBInt64 where, int mode, BBInt64 * value) {
+	*value = ctrl->Seek(where, static_cast<wxSeekMode>(mode));
 }
 
 int bmx_wxmediactrl_setplaybackrate(wxMediaCtrl * ctrl, double rate) {
@@ -105,8 +105,8 @@ int bmx_wxmediactrl_setvolume(wxMediaCtrl * ctrl, double volume) {
 	return static_cast<int>(ctrl->SetVolume(volume));
 }
 
-int bmx_wxmediactrl_showplayercontrols(wxMediaCtrl * ctrl, wxMediaCtrlPlayerControls flags) {
-	return static_cast<int>(ctrl->ShowPlayerControls(flags));
+int bmx_wxmediactrl_showplayercontrols(wxMediaCtrl * ctrl, int flags) {
+	return static_cast<int>(ctrl->ShowPlayerControls(static_cast<wxMediaCtrlPlayerControls>(flags)));
 }
 
 int bmx_wxmediactrl_stop(wxMediaCtrl * ctrl) {

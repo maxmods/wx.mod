@@ -38,7 +38,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxbannerwindow_wxBannerWindow__xrcNew)(wxBannerWindow * banner);
 
 	MaxBannerWindow * bmx_wxbannerwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int dir, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 	void bmx_wxbannerwindow_setbitmap(wxBannerWindow * banner, MaxBitmap * bitmap);
 	void bmx_wxbannerwindow_settext(wxBannerWindow * banner, BBString * title, BBString * message);
 	void bmx_wxbannerwindow_setgradient(wxBannerWindow * banner, MaxColour * colStart, MaxColour * colEnd);

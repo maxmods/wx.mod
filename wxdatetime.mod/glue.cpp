@@ -312,11 +312,11 @@ int bmx_wxdatetime_isworkday(MaxDateTime * datetime, wxDateTime::Country country
 	return static_cast<int>(datetime->DateTime().IsWorkDay(country));
 }
 
-void bmx_wxdatetime_setfromdos(MaxDateTime * datetime, unsigned long ddt) {
+void bmx_wxdatetime_setfromdos(MaxDateTime * datetime, int ddt) {
 	datetime->DateTime().SetFromDOS(ddt);
 }
 
-unsigned long bmx_wxdatetime_getasdos(MaxDateTime * datetime) {
+int bmx_wxdatetime_getasdos(MaxDateTime * datetime) {
 	return datetime->DateTime().GetAsDOS();
 }
 
@@ -687,7 +687,7 @@ void bmx_wxtimespan_delete(MaxTimeSpan * span) {
 	delete span;
 }
 
-MaxTimeSpan * bmx_wxtimespan_create(long hours, long minutes, long seconds, long msec) {
+MaxTimeSpan * bmx_wxtimespan_create(int hours, int minutes, int seconds, int msec) {
 	wxTimeSpan ts;
 	return new MaxTimeSpan(ts);
 }
@@ -700,7 +700,7 @@ MaxTimeSpan * bmx_wxtimespan_add(MaxTimeSpan * timespan, MaxTimeSpan * diff) {
 	return new MaxTimeSpan(timespan->Span().Add(diff->Span()));
 }
 
-MaxTimeSpan * bmx_wxtimespan_days(long numDays) {
+MaxTimeSpan * bmx_wxtimespan_days(int numDays) {
 	return new MaxTimeSpan(wxTimeSpan::Days(numDays));
 }
 
@@ -740,7 +740,7 @@ int bmx_wxtimespan_getweeks(MaxTimeSpan * timespan) {
 	return timespan->Span().GetWeeks();
 }
 
-MaxTimeSpan * bmx_wxtimespan_hours(long hours) {
+MaxTimeSpan * bmx_wxtimespan_hours(int hours) {
 	return new MaxTimeSpan(wxTimeSpan::Hours(hours));
 }
 
@@ -772,7 +772,7 @@ int bmx_wxtimespan_isshorterthan(MaxTimeSpan * timespan, MaxTimeSpan * ts) {
 	return static_cast<int>(timespan->Span().IsShorterThan(ts->Span()));
 }
 
-MaxTimeSpan * bmx_wxtimespan_minutes(long mins) {
+MaxTimeSpan * bmx_wxtimespan_minutes(int mins) {
 	return new MaxTimeSpan(wxTimeSpan::Hour());
 }
 
@@ -788,7 +788,7 @@ MaxTimeSpan * bmx_wxtimespan_negate(MaxTimeSpan * timespan) {
 	return new MaxTimeSpan(timespan->Span().Negate());
 }
 
-MaxTimeSpan * bmx_wxtimespan_milliseconds(long ms) {
+MaxTimeSpan * bmx_wxtimespan_milliseconds(int ms) {
 	return new MaxTimeSpan(wxTimeSpan::Milliseconds(ms));
 }
 
@@ -796,7 +796,7 @@ MaxTimeSpan * bmx_wxtimespan_millisecond() {
 	return new MaxTimeSpan(wxTimeSpan::Millisecond());
 }
 
-MaxTimeSpan * bmx_wxtimespan_seconds(long sec) {
+MaxTimeSpan * bmx_wxtimespan_seconds(int sec) {
 	return new MaxTimeSpan(wxTimeSpan::Seconds(sec));
 }
 
@@ -808,7 +808,7 @@ MaxTimeSpan * bmx_wxtimespan_subtract(MaxTimeSpan * timespan, MaxTimeSpan * diff
 	return new MaxTimeSpan(timespan->Span().Subtract(diff->Span()));
 }
 
-MaxTimeSpan * bmx_wxtimespan_weeks(long wks) {
+MaxTimeSpan * bmx_wxtimespan_weeks(int wks) {
 	return new MaxTimeSpan(wxTimeSpan::Weeks(wks));
 }
 

@@ -40,12 +40,12 @@ extern "C" {
 	void bmx_wxtoolbar_injectSelf(MaxToolBar * toolbar, BBObject * handle);
 
 	MaxToolBar * bmx_wxtoolbar_create(BBObject * maxHandle, wxWindow* parent, wxWindowID id,
-		int x, int y, int w, int h, long style);
+		int x, int y, int w, int h, int style);
 	void bmx_wxtoolbar_addcontrol(wxToolBar * toolbar, wxControl * control, BBString * label);
 	wxToolBarToolBase * bmx_wxtoolbar_addseparator(wxToolBar * toolbar);
 	wxToolBarToolBase * bmx_wxtoolbar_addstretchablespace(wxToolBar * toolbar);
 	wxToolBarToolBase * bmx_wxtoolbar_addtool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, 
-			MaxBitmap * bitmap2, wxItemKind kind, BBString * shortHelp, BBString * longHelp, void * clientData);
+			MaxBitmap * bitmap2, int kind, BBString * shortHelp, BBString * longHelp, void * clientData);
 	int bmx_wxtoolbar_realize(wxToolBar * toolbar);
 	void bmx_wxtoolbar_settoolbitmapsize(wxToolBar * toolbar, int w, int h);
 
@@ -71,7 +71,7 @@ extern "C" {
 	wxToolBarToolBase * bmx_wxtoolbar_addradiotool(wxToolBar * toolbar, int id, BBString * label, MaxBitmap * bitmap1, MaxBitmap * bitmap2,
 			BBString * shortHelp, BBString * longHelp, void * clientData);
 	wxToolBarToolBase * bmx_wxtoolbar_inserttool(wxToolBar * toolbar, size_t pos, int id, BBString * label, MaxBitmap * bitmap1,
-		MaxBitmap * bitmap2, wxItemKind kind, void * clientData, BBString * shortHelp, BBString * longHelp);
+		MaxBitmap * bitmap2, int kind, void * clientData, BBString * shortHelp, BBString * longHelp);
 	void bmx_wxtoolbar_setmargins(wxToolBar * toolbar, int leftRight, int topBottom);
 	void bmx_wxtoolbar_settoolclientdata(wxToolBar * toolbar, int id, void * clientData);
 	void bmx_wxtoolbar_settooldisabledbitmap(wxToolBar * toolbar, int id, MaxBitmap * bitmap);
@@ -97,7 +97,7 @@ extern "C" {
 	int bmx_wxtoolbartoolbase_iscontrol(wxToolBarToolBase * base);
 	int bmx_wxtoolbartoolbase_isseparator(wxToolBarToolBase * base);
 	int bmx_wxtoolbartoolbase_getstyle(wxToolBarToolBase * base);
-	wxItemKind bmx_wxtoolbartoolbase_getkind(wxToolBarToolBase * base);
+	int bmx_wxtoolbartoolbase_getkind(wxToolBarToolBase * base);
 	int bmx_wxtoolbartoolbase_isenabled(wxToolBarToolBase * base);
 	int bmx_wxtoolbartoolbase_istoggled(wxToolBarToolBase * base);
 	int bmx_wxtoolbartoolbase_canbetoggled(wxToolBarToolBase * base);

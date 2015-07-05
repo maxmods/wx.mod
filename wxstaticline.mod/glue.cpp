@@ -72,7 +72,7 @@ wxObject * MaxStaticLineXmlHandler::DoCreateResource()
 
 
 MaxStaticLine * bmx_wxstaticline_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	return new MaxStaticLine(maxHandle, parent, id, x, y, w, h, style);
 }

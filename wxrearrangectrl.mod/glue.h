@@ -29,7 +29,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxRearrangeCtrl * bmx_wxrearrangectrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBArray * items, BBArray * order, int x, int y, int w, int h, long style);
+	wxRearrangeCtrl * bmx_wxrearrangectrl_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBArray * items, BBArray * order, int x, int y, int w, int h, int style);
 	wxRearrangeList * bmx_wxrearrangectrl_getlist(wxRearrangeCtrl * ctl);
 
 }

@@ -89,7 +89,7 @@ wxObject * MaxScrolledWindowXmlHandler::DoCreateResource()
 BEGIN_EVENT_TABLE(MaxScrolledWindow, wxScrolledWindow)
 END_EVENT_TABLE()
 
-MaxScrolledWindow * bmx_wxscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style) {
+MaxScrolledWindow * bmx_wxscrolledwindow_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style) {
 	return new MaxScrolledWindow(maxHandle, parent, id, x, y, w, h, style);
 }
 

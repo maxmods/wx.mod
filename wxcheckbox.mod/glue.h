@@ -33,7 +33,7 @@ extern "C" {
 	BBObject * CB_PREF(wx_wxcheckbox_wxCheckBox__xrcNew)(wxCheckBox * checkbox);
 
 	MaxCheckBox * bmx_wxcheckbox_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style);
+		int w, int h, int style);
 
 	int bmx_wxcheckbox_getvalue(MaxCheckBox * checkbox);
 	int bmx_wxcheckbox_get3statevalue(MaxCheckBox * checkbox);

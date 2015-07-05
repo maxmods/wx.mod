@@ -174,7 +174,7 @@ END_EVENT_TABLE()
 BEGIN_EVENT_TABLE(MaxWizardPageSimple, wxWizardPageSimple)
 END_EVENT_TABLE()
 
-MaxWizard * bmx_wxwizard_create(BBObject * handle, wxWindow * parent, int id, BBString * title, MaxBitmap * bitmap, int x, int y, long style) {
+MaxWizard * bmx_wxwizard_create(BBObject * handle, wxWindow * parent, int id, BBString * title, MaxBitmap * bitmap, int x, int y, int style) {
 	if (!bitmap) {
 		return new MaxWizard(handle, parent, id, wxStringFromBBString(title), wxNullBitmap, x, y, style);
 	} else {

@@ -34,7 +34,7 @@ extern "C" {
 
 	MaxImage * bmx_wximage_createempty(int width, int height);
 	void bmx_wximage_delete(MaxImage * image);
-	MaxImage * bmx_wximage_create(BBString * name, long flag, int index);
+	MaxImage * bmx_wximage_create(BBString * name, int flag, int index);
 	MaxImage * bmx_wximage_createnull();
 	
 	void bmx_wximage_setrgb(MaxImage * image, int x, int y, int r, int g, int b);
@@ -107,20 +107,20 @@ extern "C" {
 	wxCURHandler * bmx_wxcurhandler_create();
 	wxANIHandler * bmx_wxanihandler_create();
 	
-	MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, long kind, int index);
+	MaxImage * bmx_wximage_createfromstream(wxInputStream * stream, int kind, int index);
 
 	int bmx_wximage_savefiletype(MaxImage * image, BBString * name, int type);
 	int bmx_wximage_savefilemimetype(MaxImage * image, BBString * name, BBString * mimeType);
 	int bmx_wximage_savefile(MaxImage * image, BBString * name);
 	MaxPalette * bmx_wximage_getpalette(MaxImage * image);
 	wxImageHandler * bmx_wximage_findhandler(BBString * name);
-	wxImageHandler * bmx_wximage_findhandlerbyextension(BBString * extension, long imageType);
-	wxImageHandler * bmx_wximage_findhandlerbytype(long imageType);
+	wxImageHandler * bmx_wximage_findhandlerbyextension(BBString * extension, int imageType);
+	wxImageHandler * bmx_wximage_findhandlerbytype(int imageType);
 	wxImageHandler * bmx_wximage_findhandlermime(BBString * mimeType);
 
 	BBString * bmx_wximagehandler_getname(wxImageHandler * handler);
 	BBString * bmx_wximagehandler_getextension(wxImageHandler * handler);
-	long bmx_wximagehandler_gettype(wxImageHandler * handler);
+	int bmx_wximagehandler_gettype(wxImageHandler * handler);
 	BBString * bmx_wximagehandler_getmimetype(wxImageHandler * handler);
 
 }

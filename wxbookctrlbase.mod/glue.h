@@ -45,7 +45,7 @@ extern "C" {
 	int bmx_wxbookctrlbase_getpageimage(wxBookCtrlBase * book, int page);
 	BBString * bmx_wxbookctrlbase_getpagetext(wxBookCtrlBase * book, int page);
 	int bmx_wxbookctrlbase_getselection(wxBookCtrlBase * book);
-	int bmx_wxbookctrlbase_hittest(wxBookCtrlBase * book, int x, int y, long * flags);
+	int bmx_wxbookctrlbase_hittest(wxBookCtrlBase * book, int x, int y, int * flags);
 	int bmx_wxbookctrlbase_removepage(wxBookCtrlBase * book, int page);
 	void bmx_wxbookctrlbase_setpagesize(wxBookCtrlBase * book, int width, int height);
 	int bmx_wxbookctrlbase_setpageimage(wxBookCtrlBase * book, int page, int image);

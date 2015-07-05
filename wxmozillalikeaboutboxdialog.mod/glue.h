@@ -28,7 +28,7 @@ extern "C" {
 
 #include <blitz.h>
 
-	wxMozillaLikeAboutBoxDialog * bmx_wxmozillalikeaboutdialog_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * caption, int x, int y, int w, int h, long style);
+	wxMozillaLikeAboutBoxDialog * bmx_wxmozillalikeaboutdialog_create(BBObject * handle, wxWindow * parent, wxWindowID id, BBString * caption, int x, int y, int w, int h, int style);
 	BBString * bmx_wxmozillalikeaboutdialog_getappname(wxMozillaLikeAboutBoxDialog * handle);
 	void bmx_wxmozillalikeaboutdialog_setappname(wxMozillaLikeAboutBoxDialog * handle, BBString * value);
 	BBString * bmx_wxmozillalikeaboutdialog_getversion(wxMozillaLikeAboutBoxDialog * handle);
@@ -39,7 +39,7 @@ extern "C" {
 	void bmx_wxmozillalikeaboutdialog_setcustombuildinfo(wxMozillaLikeAboutBoxDialog * handle, BBString * value);
 	MaxBitmap * bmx_wxmozillalikeaboutdialog_getbitmapresource(wxMozillaLikeAboutBoxDialog * handle, BBString * name);
 	MaxIcon * bmx_wxmozillalikeaboutdialog_geticonresource(wxMozillaLikeAboutBoxDialog * handle, BBString * name);
-	BBString * bmx_wxmozillalikeaboutdialog_getbuildinfo(wxMozillaLikeAboutBoxDialog::wxBuildInfoFormat format);
+	BBString * bmx_wxmozillalikeaboutdialog_getbuildinfo(int format);
 	void bmx_wxmozillalikeaboutdialog_setheaderbitmap(wxMozillaLikeAboutBoxDialog * handle, MaxBitmap * value);
 	void bmx_wxmozillalikeaboutdialog_applyinfo(wxMozillaLikeAboutBoxDialog * handle);
 

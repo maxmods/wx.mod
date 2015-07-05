@@ -33,7 +33,7 @@ extern "C" {
 
 	BBObject * CB_PREF(wx_wxmenubar_wxMenuBar__xrcNew)(wxMenuBar * menubar);
 
-	MaxMenuBar * bmx_wxmenubar_create(BBObject * maxHandle, long style);
+	MaxMenuBar * bmx_wxmenubar_create(BBObject * maxHandle, int style);
 	int bmx_wxmenubar_append(wxMenuBar * menubar, MaxMenu * menu, BBString * title);
 	void bmx_wxmenubar_check(wxMenuBar * menubar, int id, int value);
 	void bmx_wxmenubar_enable(wxMenuBar * menubar, int id, int value);

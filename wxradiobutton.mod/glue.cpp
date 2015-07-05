@@ -75,7 +75,7 @@ wxObject * MaxRadioButtonXmlHandler::DoCreateResource()
 // *********************************************
 
 MaxRadioButton * bmx_wxradiobutton_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, BBString * label, int x, int y,
-		int w, int h, long style) {
+		int w, int h, int style) {
 
 	return new MaxRadioButton(maxHandle, parent, id, wxStringFromBBString(label), x, y, w, h, style);
 }
