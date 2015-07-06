@@ -104,9 +104,18 @@ Win32 :
     NOTES on wxUSE_STD_IOSTREAM : 2.9.0 appears to set this to 1 by default on Win32 now. Except that it breaks (at least) wxDocument SaveObject()
     so, I'm building with this disabled in order to use wx streams instead of c++ iostreams - which is better for BlitzMax.
 
-	NOTES on wx_rc.o resources file : From the main wxWidgets folder, you can run this command to regenerate the wx_rx.o file :
-		windres -I include include\wx\msw\wx.rc wx_rc.o
 
+	Resource file compilation
+	-------------------------
+	
+	wx_rc.o resource file is compiled into the binaries.
+	From the main wxWidgets folder, you can run this command to regenerate the wx_rx.o file :
+		PATH_TO_MINGW\bin\windres -i include\wx\msw\wx.rc -o wx_rc.o -Iinclude 
+		
+	If using 64-bit MINGW, you need to add the following to build a 32-bit res file :
+		-F pe-i386
+		
+	Otherwise, it will build 64-bit by default.
 
 ------------------------------------------------------------
 
