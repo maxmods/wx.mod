@@ -32,7 +32,7 @@ Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
 Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
 ?linux
 
-Import "-lwx_gtk2u_webview-3.0"
+Import "-lwx_gtk2u_webview-3.1"
 Import "-lwebkitgtk-1.0"
 
 ?win32x86
