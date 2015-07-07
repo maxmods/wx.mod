@@ -4043,12 +4043,8 @@ void wxTreeListMainWindow::OnIdle (wxIdleEvent &WXUNUSED(event)) {
 }
 
 void wxTreeListMainWindow::OnScroll (wxScrollWinEvent& event) {
-    // FIXME
-#if defined(__WXGTK__) && !defined(__WXUNIVERSAL__)
-    wxScrolledWindow::OnScroll(event);
-#else
+
     HandleOnScroll( event );
-#endif
 
     if(event.GetOrientation() == wxHORIZONTAL) {
         m_owner->GetHeaderWindow()->Refresh();
