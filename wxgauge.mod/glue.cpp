@@ -95,16 +95,8 @@ MaxGauge * bmx_wxgauge_create(BBObject * maxHandle, wxWindow * parent, wxWindowI
 	return new MaxGauge(maxHandle, parent, id, range, x, y, w, h, style);
 }
 
-int bmx_wxgauge_getbezelface(wxGauge * gauge) {
-	return gauge->GetBezelFace();
-}
-
 int bmx_wxgauge_getrange(wxGauge * gauge) {
 	return gauge->GetRange();
-}
-
-int bmx_wxgauge_getshadowwidth(wxGauge * gauge) {
-	return gauge->GetShadowWidth();
 }
 
 int bmx_wxgauge_getvalue(wxGauge * gauge) {
@@ -115,16 +107,8 @@ int bmx_wxgauge_isvertical(wxGauge * gauge) {
 	return static_cast<int>(gauge->IsVertical());
 }
 
-void bmx_wxgauge_setbezelface(wxGauge * gauge, int width) {
-	gauge->SetBezelFace(width);
-}
-
 void bmx_wxgauge_setrange(wxGauge * gauge, int range) {
 	gauge->SetRange(range);
-}
-
-void bmx_wxgauge_setshadowwidth(wxGauge * gauge, int width) {
-	gauge->SetShadowWidth(width);
 }
 
 void bmx_wxgauge_setvalue(wxGauge * gauge, int pos) {

@@ -50,14 +50,10 @@ Import "glue.cpp"
 Extern
 
 	Function bmx_wxgauge_create:Byte Ptr(handle:Object, parent:Byte Ptr, id:Int, Range:Int, x:Int, y:Int, w:Int, h:Int, style:Int)
-	Function bmx_wxgauge_getbezelface:Int(handle:Byte Ptr)
 	Function bmx_wxgauge_getrange:Int(handle:Byte Ptr)
-	Function bmx_wxgauge_getshadowwidth:Int(handle:Byte Ptr)
 	Function bmx_wxgauge_getvalue:Int(handle:Byte Ptr)
 	Function bmx_wxgauge_isvertical:Int(handle:Byte Ptr)
-	Function bmx_wxgauge_setbezelface(handle:Byte Ptr, width:Int)
 	Function bmx_wxgauge_setrange(handle:Byte Ptr, Range:Int)
-	Function bmx_wxgauge_setshadowwidth(handle:Byte Ptr, width:Int)
 	Function bmx_wxgauge_setvalue(handle:Byte Ptr, pos:Int)
 	Function bmx_wxgauge_pulse(handle:Byte Ptr)
 
@@ -65,7 +61,21 @@ Extern
 End Extern
 
 
+Rem
+bbdoc: Creates a horizontal gauge.
+End Rem
 Const wxGA_HORIZONTAL:Int = wxHORIZONTAL
+Rem
+bbdoc: Creates a vertical gauge.
+End Rem
 Const wxGA_VERTICAL:Int = wxVERTICAL
 
+Rem
+bbdoc: Creates smooth progress bar with one pixel wide update step (not supported by all platforms).
+End Rem
 Const wxGA_SMOOTH:Int = $0020
+
+Rem
+bbdoc: Reflects the value of gauge in the application taskbar button under Windows 7 and later and the dock icon under OS X, ignored under the other platforms.
+End Rem
+Const wxGA_PROGRESS:Int = $0010

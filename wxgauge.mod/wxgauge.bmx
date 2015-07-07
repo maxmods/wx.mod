@@ -83,10 +83,10 @@ Type wxGauge Extends wxControl
 	Rem
 	bbdoc: Constructor, creating and showing a gauge.
 	End Rem
-	Function CreateGauge:wxGauge(parent:wxWindow, id:Int, range:Int, x:Int = -1, y:Int = -1, ..
+	Function CreateGauge:wxGauge(parent:wxWindow, id:Int, Range:Int, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = wxGA_HORIZONTAL)
 			
-		Return New wxGauge.Create(parent, id, range, x, y, w, h, style)
+		Return New wxGauge.Create(parent, id, Range, x, y, w, h, style)
 
 	End Function
 	
@@ -94,10 +94,10 @@ Type wxGauge Extends wxControl
 	bbdoc: Creates the gauge for two-step construction.
 	about: See CreateGauge for further details.
 	End Rem
-	Method Create:wxGauge(parent:wxWindow, id:Int, range:Int, x:Int = -1, y:Int = -1, ..
+	Method Create:wxGauge(parent:wxWindow, id:Int, Range:Int, x:Int = -1, y:Int = -1, ..
 			w:Int = -1, h:Int = -1, style:Int = 0)
 			
-		wxObjectPtr = bmx_wxgauge_create(Self, parent.wxObjectPtr, id, range, x, y, w, h, style)
+		wxObjectPtr = bmx_wxgauge_create(Self, parent.wxObjectPtr, id, Range, x, y, w, h, style)
 		
 		OnInit()
 		
@@ -105,26 +105,10 @@ Type wxGauge Extends wxControl
 	End Method
 
 	Rem
-	bbdoc: Returns the width of the 3D bezel face.
-	about: This method is not implemented (returns 0) for most platforms.
-	End Rem
-	Method GetBezelFace:Int()
-		Return bmx_wxgauge_getbezelface(wxObjectPtr)
-	End Method
-	
-	Rem
 	bbdoc: Returns the maximum position of the gauge.
 	End Rem
 	Method GetRange:Int()
 		Return bmx_wxgauge_getrange(wxObjectPtr)
-	End Method
-	
-	Rem
-	bbdoc: Returns the 3D shadow margin width.
-	about: This method is not implemented (returns 0) for most platforms.
-	End Rem
-	Method GetShadowWidth:Int()
-		Return bmx_wxgauge_getshadowwidth(wxObjectPtr)
 	End Method
 	
 	Rem
@@ -142,27 +126,11 @@ Type wxGauge Extends wxControl
 	End Method
 	
 	Rem
-	bbdoc: Sets the 3D bezel face width.
-	about: This method is not implemented (doesn't do anything) for most platforms.
-	End Rem
-	Method SetBezelFace(width:Int)
-		bmx_wxgauge_setbezelface(wxObjectPtr, width)
-	End Method
-	
-	Rem
 	bbdoc: Sets the range (maximum value) of the gauge.
 	about: This method makes the gauge switch to determinate mode, if it's not already.
 	End Rem
-	Method SetRange(range:Int)
-		bmx_wxgauge_setrange(wxObjectPtr, range)
-	End Method
-	
-	Rem
-	bbdoc: Sets the 3D shadow width.
-	about: This method is not implemented (doesn't do anything) for most platforms.
-	End Rem
-	Method SetShadowWidth(width:Int)
-		bmx_wxgauge_setshadowwidth(wxObjectPtr, width)
+	Method SetRange(Range:Int)
+		bmx_wxgauge_setrange(wxObjectPtr, Range)
 	End Method
 	
 	Rem

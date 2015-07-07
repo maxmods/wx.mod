@@ -35,14 +35,10 @@ extern "C" {
 
 	MaxGauge * bmx_wxgauge_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int range, int x, int y,
 		int w, int h, int style);
-	int bmx_wxgauge_getbezelface(wxGauge * gauge);
 	int bmx_wxgauge_getrange(wxGauge * gauge);
-	int bmx_wxgauge_getshadowwidth(wxGauge * gauge);
 	int bmx_wxgauge_getvalue(wxGauge * gauge);
 	int bmx_wxgauge_isvertical(wxGauge * gauge);
-	void bmx_wxgauge_setbezelface(wxGauge * gauge, int width);
 	void bmx_wxgauge_setrange(wxGauge * gauge, int range);
-	void bmx_wxgauge_setshadowwidth(wxGauge * gauge, int width);
 	void bmx_wxgauge_setvalue(wxGauge * gauge, int pos);
 	void bmx_wxgauge_pulse(wxGauge * gauge);
 
