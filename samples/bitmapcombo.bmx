@@ -67,7 +67,7 @@ Type MyFrame Extends wxFrame
 '		Return this
 '	End Function
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		' Make a menubar
 		

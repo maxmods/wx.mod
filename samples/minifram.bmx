@@ -130,7 +130,7 @@ Type MyBabyFrame Extends wxMiniFrame
 		'	Remember who our creator was OR you could go: 	MyApp(wxApp.app)
 		ParentApp = _my_app
 
-		create(_parent,_id,_s_title,_x,_y,_w,_h)
+		Create(_parent,_id,_s_title,_x,_y,_w,_h)
 		
 		Return Self
 		
@@ -161,7 +161,7 @@ Type MyBabyFrame Extends wxMiniFrame
 		bbdoc:   
 		about:    
 	End Rem	
-	Method OnInit()
+	Method OnInit:Int()
 
 		CreateToolBar(wxNO_BORDER|wxTB_HORIZONTAL|wxTB_FLAT, ID_TOOLBAR)
 		ParentApp.InitToolbar(GetToolBar())
@@ -225,7 +225,7 @@ Type MyMainFrame Extends wxFrame
 		'	Remember who our creator was
 		ParentApp = _my_app
 
-		create(_parent,_id,_s_title,_x,_y,_w,_h)
+		Create(_parent,_id,_s_title,_x,_y,_w,_h)
 		
 		Return Self
 		
@@ -253,7 +253,7 @@ Type MyMainFrame Extends wxFrame
 		bbdoc:   
 		about:    
 	End Rem	
-	Method OnInit()
+	Method OnInit:Int()
 
 		SetSizeHints(100,100,400,400)
 		

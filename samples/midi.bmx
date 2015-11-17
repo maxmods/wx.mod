@@ -53,7 +53,7 @@ End Type
 
 Type MyFrame Extends wxFrame
 
-	Method OnInit()
+	Method OnInit:Int()
 
 	    ' Create a menu bar
 	    Local menuFile:wxMenu = New wxMenu.Create()
@@ -143,7 +143,7 @@ Type MyPanel Extends wxPanel
 	Field m_fDoCrash:Int
 	Field m_fCreatePollingEvent:Int
 	
-	Method OnInit()
+	Method OnInit:Int()
 	
 		m_pMidi = wxMidiSystem.GetInstance()
 	

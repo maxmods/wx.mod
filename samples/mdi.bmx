@@ -68,7 +68,7 @@ Type MyFrame Extends wxMDIParentFrame
 
    	Field textWindow:wxTextCtrl
 
-	Method OnInit()
+	Method OnInit:Int()
 'DebugStop
 		textWindow = New wxTextCtrl.Create(Self, wxID_ANY, "A help window", ,, ,, wxTE_MULTILINE | wxSUNKEN_BORDER)
 
@@ -258,7 +258,7 @@ Type MyChild Extends wxMDIChildFrame
 
 	Field canvas:MyCanvas
 
-	Method OnInit()
+	Method OnInit:Int()
 
 
 	    Connect(MDI_CHILD_QUIT, wxEVT_COMMAND_MENU_SELECTED, OnQuit)
@@ -351,7 +351,7 @@ Type MyCanvas Extends wxScrolledWindow
 	Field m_text:String
 	Field m_dirty:Int
 
-	Method OnInit()
+	Method OnInit:Int()
 		ConnectAny(wxEVT_MOUSE_EVENTS, OnEvent)
 	End Method
 
@@ -413,8 +413,8 @@ Type MyCanvas Extends wxScrolledWindow
 		dc.Free()
 	End Function
 
-    Method SetText(text:String)
-		m_text = text
+    Method SetText(Text:String)
+		m_text = Text
 	End Method
 
 End Type

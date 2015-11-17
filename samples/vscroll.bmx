@@ -29,7 +29,7 @@ Type VScrollFrame Extends wxFrame
 	Const VScroll_Quit:Int = wxID_EXIT
 	Const VScroll_About:Int = wxID_ABOUT
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		' set the frame icon
 		'SetIcon(wxICON(sample));
@@ -93,7 +93,7 @@ Type VScrollWindow Extends wxVScrolledWindow
 	Field frame:wxFrame
 	Field changed:Int
 
-	Method OnInit()
+	Method OnInit:Int()
 		frame = wxFrame(GetParent())
 
 		ConnectNoId(wxEVT_IDLE, OnIdle)

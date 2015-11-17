@@ -128,7 +128,7 @@ Type MyTextCtrl Extends wxTextCtrl
 	
 	Field hasCapture:Int
 	
-	Method OnInit()
+	Method OnInit:Int()
 		ConnectAny(wxEVT_KEY_DOWN, OnKeyDown)
 		ConnectAny(wxEVT_KEY_UP, OnKeyUp)
 		ConnectAny(wxEVT_CHAR, OnChar)
@@ -618,7 +618,7 @@ End Type
 
 Type MyPanel Extends wxPanel
 
-	Field text:MyTextCtrl
+	Field Text:MyTextCtrl
 	Field password:MyTextCtrl
 	Field enter:MyTextCtrl
 	Field tab:MyTextCtrl
@@ -635,7 +635,7 @@ Type MyPanel Extends wxPanel
 	Field logOld:wxLog
 	
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		Log = New wxTextCtrl.Create( Self, wxID_ANY, "This is the log window.~n", 5, 260, 630, 100, wxTE_MULTILINE | wxTE_READONLY )
 		
@@ -643,12 +643,12 @@ Type MyPanel Extends wxPanel
 
 		' single line text controls
 		
-		text = MyTextCtrl(New MyTextCtrl.Create( Self, wxID_ANY, "Single line.", ,, ,, wxTE_PROCESS_ENTER))
-		text.SetForegroundColour(wxBLUE())
-		text.SetBackgroundColour(wxLIGHT_GREY())
-		text.AppendText(" Appended.")
-		text.SetInsertionPoint(0)
-		text.WriteText("Prepended. ")
+		Text = MyTextCtrl(New MyTextCtrl.Create( Self, wxID_ANY, "Single line.", ,, ,, wxTE_PROCESS_ENTER))
+		Text.SetForegroundColour(wxBLUE())
+		Text.SetBackgroundColour(wxLIGHT_GREY())
+		Text.AppendText(" Appended.")
+		Text.SetInsertionPoint(0)
+		Text.WriteText("Prepended. ")
 		
 		password = MyTextCtrl(New MyTextCtrl.Create( Self, wxID_ANY, "", 10, 50, 140,, wxTE_PASSWORD ))
 		
@@ -709,7 +709,7 @@ Type MyPanel Extends wxPanel
 
 		' lay out the controls
 		Local column1:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
-		column1.Add( text, 0, wxALL | wxEXPAND, 10 )
+		column1.Add( Text, 0, wxALL | wxEXPAND, 10 )
 		column1.Add( password, 0, wxALL | wxEXPAND, 10 )
 		column1.Add( readonly, 0, wxALL | wxEXPAND, 10 )
 		column1.Add( limited, 0, wxALL | wxEXPAND, 10 )
@@ -769,8 +769,8 @@ Type MyPanel Extends wxPanel
 	End Method
 	
 	Method DoMoveToEndOfEntry()
-		text.SetInsertionPointEnd()
-		text.SetFocus()
+		Text.SetInsertionPointEnd()
+		Text.SetFocus()
 	End Method
 
 
@@ -787,7 +787,7 @@ Type MyFrame Extends wxFrame
 
 	Field panel:MyPanel
 
-	Method Oninit()
+	Method Oninit:Int()
 		CreateStatusBar(2)
 		
 		panel = MyPanel(New MyPanel.Create( Self, 10, 10, 300, 100 ))
@@ -1013,7 +1013,7 @@ Type MyFrame Extends wxFrame
 	
 		Global editable:Int
 
-		panel.text.SetEditable(editable)
+		panel.Text.SetEditable(editable)
 		panel.password.SetEditable(editable)
 		panel.multitext.SetEditable(editable)
 		panel.textrich.SetEditable(editable)
@@ -1024,10 +1024,10 @@ Type MyFrame Extends wxFrame
 	Function OnSetEnabled(event:wxEvent)
 		Local panel:MyPanel = MyFrame(event.parent).panel
 		
-		Local enabled:Int = panel.text.IsEnabled()
+		Local enabled:Int = panel.Text.IsEnabled()
 		enabled = Not enabled
 		
-		panel.text.Enable(enabled)
+		panel.Text.Enable(enabled)
 		panel.password.Enable(enabled)
 		panel.multitext.Enable(enabled)
 		panel.readonly.Enable(enabled)
@@ -1072,7 +1072,7 @@ Type MyFrame Extends wxFrame
 
 
 	Function OnChangeText(event:wxEvent)
-		MyFrame(event.parent).panel.text.ChangeValue("Changed, not set: no event")
+		MyFrame(event.parent).panel.Text.ChangeValue("Changed, not set: no event")
 	End Function
 
 
@@ -1092,22 +1092,22 @@ Type MyFrame Extends wxFrame
 	End Function
 
 	Method DoAddText(freeze:Int)
-		Local text:wxTextCtrl = panel.textrich
-		text.Clear()
+		Local Text:wxTextCtrl = panel.textrich
+		Text.Clear()
 		
 		If freeze Then
-			text.Freeze()
+			Text.Freeze()
 		End If
 		
 		For Local i:Int = 0 Until 100
-			text.AppendText("Line " + i + "~n")
+			Text.AppendText("Line " + i + "~n")
 		Next
 		
 		If freeze Then
-			text.Thaw()
+			Text.Thaw()
 		End If
 		
-		text.SetInsertionPoint(0)
+		Text.SetInsertionPoint(0)
 	End Method
 
 End Type

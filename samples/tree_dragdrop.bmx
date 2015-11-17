@@ -26,7 +26,7 @@ Type MyFrame Extends wxFrame
 	Field treectrl:wxTreeCtrl
 	Field dragItem:wxTreeItemId
 	
-	Method OnInit()
+	Method OnInit:Int()
 		
 		treectrl = New wxTreeCtrl.Create(Self, -1)
 		

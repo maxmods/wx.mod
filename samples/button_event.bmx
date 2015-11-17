@@ -30,7 +30,7 @@ Type MyFrame Extends wxFrame
 
 	Const BUTTON1:Int = 101
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		' a panel
 		Local panel:wxPanel = wxPanel.CreatePanel(Self)
@@ -44,7 +44,7 @@ End Type
 
 Type MyButton Extends wxButton
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		ConnectAny(wxEVT_LEFT_DOWN, OnMouseDown)
 

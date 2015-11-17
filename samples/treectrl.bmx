@@ -188,7 +188,7 @@ Type MyFrame Extends wxFrame
 		bbdoc:   
 		about:    
 	End Rem	
-	Method OnInit()
+	Method OnInit:Int()
 	
    		' This reduces flicker effects - even better would be To define
     		' OnEraseBackground To do nothing. When the tree control's scrollbars are

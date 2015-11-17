@@ -25,7 +25,7 @@ End Type
 
 Type myframe Extends wxFrame
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		Local control:mybutton = mybutton(New mybutton.Create(Self, 100))
 	
@@ -37,7 +37,7 @@ End Type
 ' implementation of a custom control
 Type mybutton Extends customcontrol
 
-	Method OnInit()
+	Method OnInit:Int()
 		Super.OnInit()
 		ConnectAny(wxEVT_COMMAND_BUTTON_CLICKED, clicked)
 	End Method
@@ -56,7 +56,7 @@ Type customcontrol Extends wxControl
 		Return Self
 	End Method
 
-	Method OnInit()
+	Method OnInit:Int()
 		
 		ConnectAny(wxEVT_LEFT_UP, click)
 	End Method

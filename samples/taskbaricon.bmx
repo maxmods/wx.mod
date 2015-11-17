@@ -38,7 +38,7 @@ Type TFrame Extends wxFrame
 	Field TrayIcon : wxTaskBarIcon
 	'Field Popup    : wxMenu
 	
-	Method OnInit()
+	Method OnInit:Int()
 		' Load Icon
 		Icon = New wxIcon.Create()
 		Icon.LoadFile("media/taskbaricon/Icon.ico", wxBITMAP_TYPE_ICO)

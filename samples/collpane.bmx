@@ -51,7 +51,7 @@ Type MyFrame Extends wxFrame
 
     Field collPane:wxCollapsiblePane
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		CreateStatusBar(2)
 
@@ -101,8 +101,8 @@ Type MyFrame Extends wxFrame
 	End Function
 	
 	Function OnSetLabel(event:wxEvent)
-		Local text:String = wxGetTextFromUser("Input the new label")
-		MyFrame(event.parent).collPane.SetLabel(text)
+		Local Text:String = wxGetTextFromUser("Input the new label")
+		MyFrame(event.parent).collPane.SetLabel(Text)
 	End Function
 	
 	Function OnShowDialog(event:wxEvent)
@@ -144,7 +144,7 @@ Type MyDialog Extends wxDialog
 		Return MyDialog(Create_(parent, wxID_ANY, "Test dialog", ,,,, wxRESIZE_BORDER|wxDEFAULT_DIALOG_STYLE))
 	End Method
 	
-	Method OnInit()
+	Method OnInit:Int()
 
 		Local sz:wxSizer = New wxBoxSizer.Create(wxVERTICAL)
 		sz.Add(New wxStaticText.Create(Self, -1, "This dialog allows you to test the wxCollapsiblePane control"), ..

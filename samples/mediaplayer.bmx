@@ -37,7 +37,7 @@ Type Player Extends wxFrame
 	Field loaded:Int
 	Field playing:Int
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		Local sizer:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
 		

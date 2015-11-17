@@ -105,7 +105,7 @@ Type MyFrame Extends wxFrame
 	' the previous Log target
 	Field logOld:wxLog
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		ConnectAny(wxEvt_Size, OnSize)
 	
@@ -753,7 +753,7 @@ Type MyEvtHandler Extends wxEvtHandler
 		Return MyEvtHandler(CreateHandler())
 	End Method
 	
-	Method OnInit()
+	Method OnInit:Int()
 	    Connect(wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, OnMenuEvent)
 	End Method
 		

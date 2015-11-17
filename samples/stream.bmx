@@ -36,7 +36,7 @@ Type MyFrame Extends wxFrame
 	Const FILE_QUIT:Int = wxID_EXIT
 	Const HELP_ABOUT:Int = wxID_ABOUT
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		panel = wxPanel.CreatePanel(Self)
 

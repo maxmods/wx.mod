@@ -66,7 +66,7 @@ Type MyStatusBar Extends wxStatusBar
 	Field checkbox:wxCheckBox
 	Field statbmp:wxBitmapButton
 	
-	Method OnInit()
+	Method OnInit:Int()
 		timer = New wxTimer.Create(Self)
 
 		Local widths:Int[] = [ -1, 150, BITMAP_SIZE_X, 100 ]
@@ -194,7 +194,7 @@ Type MyFrame Extends wxFrame
 	Const StatBar_Custom:Int = 1
 	Const StatBar_Max:Int = 2
 
-	Method OnInit()
+	Method OnInit:Int()
 		statbarDefault = Null
 		statbarCustom = Null
 		
@@ -424,8 +424,8 @@ Type MyAboutDialog Extends wxDialog
 		Return Self
 	End Method
 	
-	Method OnInit()
-		Local text:wxStaticText = New wxStaticText.Create(Self, wxID_ANY, "wxStatusBar sample~n" + ..
+	Method OnInit:Int()
+		Local Text:wxStaticText = New wxStaticText.Create(Self, wxID_ANY, "wxStatusBar sample~n" + ..
 			"(c) 2000 Vadim Zeitlin~nBlitzmax port (c) 2007-2013 Bruce A Henderson")
 
 		Local btn:wxButton = New wxButton.Create(Self, wxID_OK, "&Close")
@@ -446,7 +446,7 @@ Type MyAboutDialog Extends wxDialog
 		Local sizerTop:wxBoxSizer = New wxBoxSizer.Create(wxVERTICAL)
 		sizerTop.Add(statbarTop, 0, wxGROW)
 		sizerTop.AddCustomSpacer(-1, 10, 1, wxGROW)
-		sizerTop.Add(text, 0, wxCENTRE | wxRIGHT | wxLEFT, 20)
+		sizerTop.Add(Text, 0, wxCENTRE | wxRIGHT | wxLEFT, 20)
 		sizerTop.AddCustomSpacer(-1, 10, 1, wxGROW)
 		sizerTop.Add(btn, 0, wxCENTRE | wxRIGHT | wxLEFT, 20)
 		sizerTop.AddCustomSpacer(-1, 10, 1, wxGROW)

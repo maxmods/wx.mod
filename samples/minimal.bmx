@@ -23,7 +23,7 @@ End Type
 
 Type MyFrame Extends wxFrame
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		' create a menu bar
 	

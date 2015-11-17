@@ -112,7 +112,7 @@ Type GridFrame Extends wxFrame
 	
 	Const ID_TESTFUNC:Int = 164
 
-	Method OnInit()
+	Method OnInit:Int()
 		SetupConnections()
 		
 		Local fileMenu:wxMenu = New wxMenu.Create()

@@ -43,7 +43,7 @@ Type AppFrame Extends wxFrame
 	Field treelist:MyTreeListCtrl
 	Field logOld:wxLog
 	
-	Method OnInit()
+	Method OnInit:Int()
 		' Create menu
 		CreateMenu()
 		
@@ -593,16 +593,16 @@ Type AppFrame Extends wxFrame
 	End Method
 
 	Method OnAddItem(event:wxCommandEvent)
-		Local text:String = "Item #" + treelist.GetCount() + 1
+		Local Text:String = "Item #" + treelist.GetCount() + 1
 		Local c:wxTreeItemId = treelist.GetSelection()
-		Local n:wxTreeItemId = treelist.AppendItem(c, text)
+		Local n:wxTreeItemId = treelist.AppendItem(c, Text)
 		treelist.EnsureVisible(n)
 	End Method
 
 	Method OnInsertItem(event:wxCommandEvent)
-		Local text:String = "Item #" + treelist.GetCount() + 1
+		Local Text:String = "Item #" + treelist.GetCount() + 1
 		Local c:wxTreeItemId = treelist.GetSelection()
-		Local n:wxTreeItemId = treelist.InsertItem(treelist.GetItemParent(c), c, text)
+		Local n:wxTreeItemId = treelist.InsertItem(treelist.GetItemParent(c), c, Text)
 		treelist.EnsureVisible(n)
 	End Method
 
@@ -622,9 +622,9 @@ Type AppFrame Extends wxFrame
 			Case myID_FINDVISIBLE
 				_mode :| wxTL_MODE_NAV_VISIBLE
 		End Select
-		Local text:String = wxGetTextFromUser("Finds the item with the given text", "Find text")
+		Local Text:String = wxGetTextFromUser("Finds the item with the given text", "Find text")
 		Local c:wxTreeItemId = treelist.GetSelection()
-		treelist.SelectItem(treelist.FindItem(c, text, _mode))
+		treelist.SelectItem(treelist.FindItem(c, Text, _mode))
 	End Method
 
 	Method OnGotoItem(event:wxCommandEvent)
@@ -765,12 +765,12 @@ Type AppFrame Extends wxFrame
 			item = treelist.GetRootItem()
 		End If
 		Local last:wxTreeItemId = treelist.GetNextSibling(item)
-		Local text:String
+		Local Text:String
 		While item.IsOk() And item <> last
-			text:+ treelist.GetItemText(item) + "~n"
+			Text:+ treelist.GetItemText(item) + "~n"
 			item = treelist.GetNext(item)
 		Wend
-		wxMessageBox(text, "All items", wxOK | wxICON_INFORMATION)
+		wxMessageBox(Text, "All items", wxOK | wxICON_INFORMATION)
 	End Method
 
 	Method OnListChildren(event:wxCommandEvent)
@@ -778,25 +778,25 @@ Type AppFrame Extends wxFrame
 		If Not item.IsOk() Then
 			item = treelist.GetRootItem ()
 		End If
-		Local text:String
+		Local Text:String
 
 
 		item = treelist.GetFirstChild(item)
 		While item.IsOk()
-			text:+ treelist.GetItemText(item) + "~n"
+			Text:+ treelist.GetItemText(item) + "~n"
 			item = treelist.GetNextSibling(item)
 		Wend
-		wxMessageBox(text, "Children items", wxOK | wxICON_INFORMATION)
+		wxMessageBox(Text, "Children items", wxOK | wxICON_INFORMATION)
 	End Method
 
 	Method OnListSelected(event:wxCommandEvent)
 		Local items:wxTreeItemId[] = treelist.GetSelections()
 		Local count:Int = items.length
-		Local text:String
+		Local Text:String
 		For Local i:Int = 0 Until count
-			text:+ treelist.GetItemText(items[i]) + "~n"
+			Text:+ treelist.GetItemText(items[i]) + "~n"
 		Next
-		wxMessageBox(text, "Selected items", wxOK | wxICON_INFORMATION)
+		wxMessageBox(Text, "Selected items", wxOK | wxICON_INFORMATION)
 	End Method
 
 	Method OnSetIndent(event:wxCommandEvent)
@@ -935,7 +935,7 @@ End Type
 
 Type MyTreeListCtrl Extends wxTreeListCtrl
 
-	Method OnInit()
+	Method OnInit:Int()
 		ConnectAny(wxEVT_MOUSE_EVENTS, _OnMouseGeneric)
 	End Method
 	

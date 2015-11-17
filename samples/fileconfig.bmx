@@ -47,7 +47,7 @@ Type MyFrame Extends wxFrame
 	
 	'
 	'---------------------------------------------------------------------
-	Method OnInit()
+	Method OnInit:Int()
 	'---------------------------------------------------------------------
 		'
 		wxConfigBase.Set(New wxFileConfig.Create("","","default.ini","",wxCONFIG_USE_RELATIVE_PATH))

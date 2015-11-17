@@ -43,7 +43,7 @@ Type MyFrame Extends wxFrame
 	Const RunSimulation:Int = 1
 	Const SimulateText:Int = 2
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		' Create a menu bar
 		Local fileMenu:wxMenu = New wxMenu.Create()
@@ -111,12 +111,12 @@ Type MyFrame Extends wxFrame
 	Function OnSimulateText(event:wxEvent)
 		Global s_text:String
 		
-		Local text:String = wxGetTextFromUser("Enter text to simulate: ", "wxUIActionSimulator wxWidgets Sample", s_text, wxWindow(event.parent))
-		If Not text Then
+		Local Text:String = wxGetTextFromUser("Enter text to simulate: ", "wxUIActionSimulator wxWidgets Sample", s_text, wxWindow(event.parent))
+		If Not Text Then
 			Return
 		End If
 		
-		s_text = text
+		s_text = Text
 		
 		Local sim:wxUIActionSimulator = New wxUIActionSimulator.Create()
 		MyFrame(event.parent).m_text.SetFocus()

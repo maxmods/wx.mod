@@ -107,7 +107,7 @@ Type MyRenderedImage
 		bbdoc:   
 		about:    
 	End Rem	
-	Method create:MyRenderedImage(_bmp:wxBitmap, _x:Int, _y:Int)
+	Method Create:MyRenderedImage(_bmp:wxBitmap, _x:Int, _y:Int)
 	
 		m_X 	= _x
 		m_Y 	= _y
@@ -150,7 +150,7 @@ Type MyCanvas Extends wxScrolledWindow
 	Method CreateMyCanvas:MyCanvas( _parent:wxWindow, _id:Int )
 	
 		'	Invoke the wxScrolledWindow create
-		create(_parent,_id)
+		Create(_parent,_id)
 		
 		Return Self
 		
@@ -160,7 +160,7 @@ Type MyCanvas Extends wxScrolledWindow
 	Rem
 		bbdoc:   
 	End Rem	
-	Method OnInit()
+	Method OnInit:Int()
 	
 		'	Set a particularly ugly background colour
 		SetBackgroundColour(New wxColour.Create(0,80,60))
@@ -237,7 +237,7 @@ Type MyCanvas Extends wxScrolledWindow
 		Local my_canvas:MyCanvas= (MyCanvas)(_event.parent)
 	
 		'	Display a text message
-		dc.SetTextForeground(New wxColour.create(255,255,255))
+		dc.SetTextForeground(New wxColour.Create(255,255,255))
 		dc.DrawText("Click on the canvas to draw a duck.",10,10)
 		
 		'	Draw all the ducks
@@ -272,7 +272,7 @@ Type MyFrame Extends wxFrame
 	End Rem	
 	Method CreateMyFrame:MyFrame( _parent:wxFrame = Null, _id:Int = wxID_ANY, _s_title:String, _x:Int,_y:Int,_w:Int,_h:Int )
 	
-		create(_parent,_id,_s_title,_x,_y,_w,_h)
+		Create(_parent,_id,_s_title,_x,_y,_w,_h)
 		
 		Return Self
 		
@@ -311,7 +311,7 @@ Type MyFrame Extends wxFrame
 		bbdoc:   
 		about:    
 	End Rem	
-	Method OnInit()
+	Method OnInit:Int()
 
 		'	The angle to start drawing ducks
 		m_Angle = 0.1

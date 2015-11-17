@@ -69,7 +69,7 @@ Type MyFrame Extends wxFrame
 	Field logOld:wxLog
 	Field smallVirtual:Int
 
-	Method OnInit()
+	Method OnInit:Int()
 		DoConnections()
 	
 		If wxSystemSettings.GetScreenType() > wxSYS_SCREEN_SMALL Then
@@ -597,7 +597,7 @@ Type MyListCtrl Extends wxListCtrl
     Field logOld:wxLog
     Field attr:wxListItemAttr
 
-	Method OnInit()
+	Method OnInit:Int()
 		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_BEGIN_DRAG, OnBeginDrag)
 		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_BEGIN_RDRAG, OnBeginRDrag)
 		Connect(LIST_CTRL, wxEVT_COMMAND_LIST_BEGIN_LABEL_EDIT, OnBeginLabelEdit)

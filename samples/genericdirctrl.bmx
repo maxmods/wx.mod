@@ -24,7 +24,7 @@ Type MyFrame Extends wxFrame
 	Field dirCtrl:wxGenericDirCtrl
 	Field tree:wxTreeCtrl
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		dirCtrl = New wxGenericDirCtrl.Create(Self, wxID_ANY, CurrentDir())
 
