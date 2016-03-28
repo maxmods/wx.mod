@@ -292,7 +292,7 @@ End Rem
 	End Method
 
 	Method SetLineWidth( width# )
-		pen.SetWidth(width)
+		pen.SetWidth(Int(width))
 '		glLineWidth width
 	End Method
 	
@@ -340,14 +340,14 @@ End Rem
 
 	Method Plot( x#,y# )
 		If dc Then
-			dc.DrawPoint(x + 0.5, y + 0.5)
+			dc.DrawPoint(Int(x + 0.5), Int(y + 0.5))
 		End If
 	End Method
 
 	Method DrawLine( x0#,y0#,x1#,y1#,tx#,ty# )
 		If dc Then
 			dc.setPen(pen)
-			dc.DrawLine x0*ix+y0*iy+tx+.5, x0*jx+y0*jy+ty+.5, x1*ix+y1*iy+tx+.5, x1*jx+y1*jy+ty+.5
+			dc.DrawLine Int(x0*ix+y0*iy+tx+.5), Int(x0*jx+y0*jy+ty+.5), Int(x1*ix+y1*iy+tx+.5), Int(x1*jx+y1*jy+ty+.5)
 		End If
 	End Method
 
@@ -435,7 +435,7 @@ End Rem
 'DebugLog "x0 = " + x0 + ", y0 = " + y0 + ", x1 = " + x1 + ", y1 = " + y1
 'DebugLog "tx = " + tx + ", ty = " + ty
 		If dc Then
-			dc.DrawBitmap(bitmap, tx, ty, False)
+			dc.DrawBitmap(bitmap, Int(tx), Int(ty), False)
 		End If
 	End Method
 
@@ -470,7 +470,7 @@ SetGraphicsDriver wxMax2DDriver()
 
 Function wxGraphics:TGraphics(widget:wxWindow)
 	If Not widget._data Then
-		Local g:TGraphics = BRL.Graphics.AttachGraphics(0, 0)
+		Local g:TGraphics = BRL.Graphics.AttachGraphics(Null, 0)
 		widget._data = g
 		TwxGraphics(TMax2DGraphics(g)._graphics).target = widget
 		Return g
