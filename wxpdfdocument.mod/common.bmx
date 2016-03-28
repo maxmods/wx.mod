@@ -267,7 +267,7 @@ Extern
 	Function bmx_wxpdfdocument_setrightmargin(handle:Byte Ptr, margin:Double)
 	Function bmx_wxpdfdocument_setfontsize(handle:Byte Ptr, size:Double)
 	Function bmx_wxpdfdocument_setfontsubsetting(handle:Byte Ptr, fontSubsetting:Int)
-	Function bmx_wxpdfdocument_setformborderstyle(handle:Byte Ptr, borderStyle:Int, borderWidth:Int)
+	Function bmx_wxpdfdocument_setformborderstyle(handle:Byte Ptr, borderStyle:Int, borderWidth:Double)
 	Function bmx_wxpdfdocument_setformcolours(handle:Byte Ptr, borderColour:Byte Ptr, backgroundColour:Byte Ptr, textColour:Byte Ptr)
 	Function bmx_wxpdfdocument_setfillgradient(handle:Byte Ptr, x:Double, y:Double, w:Double, h:Double, gradient:Int)
 	Function bmx_wxpdfdocument_setautopagebreak(handle:Byte Ptr, autoPageBreak:Int, margin:Double)
