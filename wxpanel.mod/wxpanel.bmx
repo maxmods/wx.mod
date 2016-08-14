@@ -103,7 +103,7 @@ Type wxPanel Extends wxWindow
 		End If
 	End Function
 	
-	Function _xrcNew:wxPanel(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxPanel(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxPanel._create(wxObjectPtr)
 	End Function
 	

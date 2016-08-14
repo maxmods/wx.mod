@@ -91,7 +91,7 @@ Type wxScrollBar Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxScrollBar(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxScrollBar(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxScrollBar._create(wxObjectPtr)
 	End Function
 
@@ -182,8 +182,8 @@ Type wxScrollBar Extends wxControl
 	function.
 	</p>
 	End Rem
-	Method SetScrollbar(position:Int, thumbSize:Int, range:Int, pageSize:Int, refresh:Int = True)
-		bmx_wxscrollbar_setscrollbar(wxObjectPtr, position, thumbSize, range, pageSize, refresh)
+	Method SetScrollbar(position:Int, thumbSize:Int, Range:Int, pageSize:Int, refresh:Int = True)
+		bmx_wxscrollbar_setscrollbar(wxObjectPtr, position, thumbSize, Range, pageSize, refresh)
 	End Method
 	
 End Type

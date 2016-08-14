@@ -170,11 +170,11 @@ Type wxAuiManager Extends wxEvtHandler
 		Return bmx_wxauimanager_getallpanes(wxObjectPtr)
 	End Method
 	
-	Function _createpanearray:wxAuiPaneInfo[](size:Int)
+	Function _createpanearray:wxAuiPaneInfo[](size:Int) { nomangle }
 		Return New wxAuiPaneInfo[size]
 	End Function
 	
-	Function _setpanevalue(arr:wxAuiPaneInfo[], index:Int, info:Byte Ptr)
+	Function _setpanevalue(arr:wxAuiPaneInfo[], index:Int, info:Byte Ptr) { nomangle }
 		arr[index] = wxAuiPaneInfo._create(info)
 	End Function
 	
@@ -568,8 +568,8 @@ Type wxAuiNotebook Extends wxControl
 	Rem
 	bbdoc: Sets the tab label for the page.
 	End Rem
-	Method SetPageText:Int(page:Int, text:String)
-		Return bmx_wxauinotebook_setpagetext(wxObjectPtr, page, text)
+	Method SetPageText:Int(page:Int, Text:String)
+		Return bmx_wxauinotebook_setpagetext(wxObjectPtr, page, Text)
 	End Method
 	
 	Rem
@@ -694,8 +694,8 @@ Type wxAuiPaneInfo
 	Rem
 	bbdoc: Sets the caption of the pane.
 	End Rem
-	Method Caption:wxAuiPaneInfo(text:String)
-		bmx_wxauipaneinfo_caption(wxAuiPaneInfoPtr, text)
+	Method Caption:wxAuiPaneInfo(Text:String)
+		bmx_wxauipaneinfo_caption(wxAuiPaneInfoPtr, Text)
 		Return Self
 	End Method
 	

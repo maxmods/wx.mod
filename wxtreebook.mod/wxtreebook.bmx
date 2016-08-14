@@ -72,7 +72,7 @@ Type wxTreebook Extends wxBookCtrlBase
 		End If
 	End Function
 	
-	Function _xrcNew:wxTreebook(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxTreebook(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxTreebook._create(wxObjectPtr)
 	End Function
 
@@ -98,11 +98,11 @@ Type wxTreebook Extends wxBookCtrlBase
 	bbdoc: Adds a new page.
 	about: The page is placed at the topmost level after all other pages. NULL could be specified for page to create an empty page.
 	End Rem
-	Method AddPage:Int(page:wxWindow, text:String, selected:Int = False, imageId:Int = -1)
+	Method AddPage:Int(page:wxWindow, Text:String, selected:Int = False, imageId:Int = -1)
 		If page Then
-			Return bmx_wxtreebook_addpage(wxObjectPtr, page.wxObjectPtr, text, selected, imageId)
+			Return bmx_wxtreebook_addpage(wxObjectPtr, page.wxObjectPtr, Text, selected, imageId)
 		Else
-			Return bmx_wxtreebook_addpage(wxObjectPtr, Null, text, selected, imageId)
+			Return bmx_wxtreebook_addpage(wxObjectPtr, Null, Text, selected, imageId)
 		End If
 	End Method
 	
@@ -110,11 +110,11 @@ Type wxTreebook Extends wxBookCtrlBase
 	bbdoc: Adds a new child-page to the last top-level page.
 	about: NULL could be specified for page to create an empty page.
 	End Rem
-	Method AddSubPage:Int(page:wxWindow, text:String, selected:Int = False, imageId:Int = -1)
+	Method AddSubPage:Int(page:wxWindow, Text:String, selected:Int = False, imageId:Int = -1)
 		If page Then
-			Return bmx_wxtreebook_addsubpage(wxObjectPtr, page.wxObjectPtr, text, selected, imageId)
+			Return bmx_wxtreebook_addsubpage(wxObjectPtr, page.wxObjectPtr, Text, selected, imageId)
 		Else
-			Return bmx_wxtreebook_addsubpage(wxObjectPtr, Null, text, selected, imageId)
+			Return bmx_wxtreebook_addsubpage(wxObjectPtr, Null, Text, selected, imageId)
 		End If
 	End Method
 
@@ -122,11 +122,11 @@ Type wxTreebook Extends wxBookCtrlBase
 	bbdoc: Inserts a new page just before the page indicated by pagePos.
 	about: The new page is placed before @index page and on the same level. NULL could be specified for page to create an empty page.
 	End Rem
-	Method InsertPage:Int(index:Int, page:wxWindow, text:String, selected:Int = False, imageId:Int = -1)
+	Method InsertPage:Int(index:Int, page:wxWindow, Text:String, selected:Int = False, imageId:Int = -1)
 		If page Then
-			Return bmx_wxtreebook_insertpage(wxObjectPtr, index, page.wxObjectPtr, text, selected, imageId)
+			Return bmx_wxtreebook_insertpage(wxObjectPtr, index, page.wxObjectPtr, Text, selected, imageId)
 		Else
-			Return bmx_wxtreebook_insertpage(wxObjectPtr, index, Null, text, selected, imageId)
+			Return bmx_wxtreebook_insertpage(wxObjectPtr, index, Null, Text, selected, imageId)
 		End If
 	End Method
 	
@@ -134,11 +134,11 @@ Type wxTreebook Extends wxBookCtrlBase
 	bbdoc: Inserts a sub page under the specified page.
 	about: NULL could be specified for page to create an empty page.
 	End Rem
-	Method InsertSubPage:Int(index:Int, page:wxWindow, text:String, selected:Int = False, imageId:Int = -1)
+	Method InsertSubPage:Int(index:Int, page:wxWindow, Text:String, selected:Int = False, imageId:Int = -1)
 		If page Then
-			Return bmx_wxtreebook_insertsubpage(wxObjectPtr, index, page.wxObjectPtr, text, selected, imageId)
+			Return bmx_wxtreebook_insertsubpage(wxObjectPtr, index, page.wxObjectPtr, Text, selected, imageId)
 		Else
-			Return bmx_wxtreebook_insertsubpage(wxObjectPtr, index, Null, text, selected, imageId)
+			Return bmx_wxtreebook_insertsubpage(wxObjectPtr, index, Null, Text, selected, imageId)
 		End If
 	End Method
 	

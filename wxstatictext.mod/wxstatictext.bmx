@@ -75,7 +75,7 @@ Type wxStaticText Extends wxControl
 		End If
 	End Function
 
-	Function _xrcNew:wxStaticText(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxStaticText(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxStaticText._create(wxObjectPtr)
 	End Function
 

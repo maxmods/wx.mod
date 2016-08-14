@@ -64,7 +64,7 @@ Type wxBannerWindow Extends wxWindow
 		End If
 	End Function
 	
-	Function _xrcNew:wxBannerWindow(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxBannerWindow(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxBannerWindow._create(wxObjectPtr)
 	End Function
 

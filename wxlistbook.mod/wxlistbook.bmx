@@ -63,7 +63,7 @@ Type wxListbook Extends wxBookCtrlBase
 		End If
 	End Function
 	
-	Function _xrcNew:wxListbook(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxListbook(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxListbook._create(wxObjectPtr)
 	End Function
 

@@ -946,7 +946,7 @@ Type TEventHandler
 	Field kind:Int
 	Field ownerPtr:Byte Ptr
 	
-	Function eventCallback(evt:Byte Ptr, data:Object)
+	Function eventCallback(evt:Byte Ptr, data:Object) { nomangle }
 		Local handler:TEventHandler = TEventHandler(data)
 		
 		If handler And handler.parent Then
@@ -972,7 +972,7 @@ Type TEventHandler
 		key :+ "." + Int(ref) ' generates unique(ish) key
 	End Method
 	
-	Function _nullref(obj:TEventHandler)
+	Function _nullref(obj:TEventHandler) { nomangle }
 		obj.refPtr = Null
 	End Function
 	

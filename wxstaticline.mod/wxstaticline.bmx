@@ -71,7 +71,7 @@ Type wxStaticLine Extends wxControl
 		End If
 	End Function
 
-	Function _xrcNew:wxStaticLine(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxStaticLine(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxStaticLine._create(wxObjectPtr)
 	End Function
 

@@ -72,7 +72,7 @@ Type wxChoicebook Extends wxBookCtrlBase
 		End If
 	End Function
 	
-	Function _xrcNew:wxChoicebook(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxChoicebook(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxChoicebook._create(wxObjectPtr)
 	End Function
 

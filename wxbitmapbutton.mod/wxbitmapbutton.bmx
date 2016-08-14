@@ -111,7 +111,7 @@ Type wxBitmapButton Extends wxButton
 		End If
 	End Function
 
-	Function _xrcNew:wxBitmapButton(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxBitmapButton(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxBitmapButton._create(wxObjectPtr)
 	End Function
 

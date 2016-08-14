@@ -123,7 +123,7 @@ Type wxTaskBarIcon Extends wxEvtHandler
 		Return Null
 	End Method
 	
-	Function _CreatePopupMenu:Byte Ptr(taskbaricon:wxTaskBarIcon)
+	Function _CreatePopupMenu:Byte Ptr(taskbaricon:wxTaskBarIcon) { nomangle }
 		Local menu:wxMenu = taskbaricon.CreatePopupMenu()
 		If menu Then
 			Return menu.wxObjectPtr

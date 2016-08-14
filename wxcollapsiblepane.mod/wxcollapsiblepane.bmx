@@ -89,7 +89,7 @@ Type wxCollapsiblePane Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxCollapsiblePane(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxCollapsiblePane(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxCollapsiblePane._create(wxObjectPtr)
 	End Function
 

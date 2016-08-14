@@ -66,7 +66,7 @@ Type wxColourPickerCtrl Extends wxPickerBase
 		End If
 	End Function
 	
-	Function _xrcNew:wxColourPickerCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxColourPickerCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxColourPickerCtrl._create(wxObjectPtr)
 	End Function
 

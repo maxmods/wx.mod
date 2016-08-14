@@ -84,7 +84,7 @@ Type wxPropertySheetDialog Extends wxDialog
 		End If
 	End Function
 	
-	Function _xrcNew:wxPropertySheetDialog(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxPropertySheetDialog(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxPropertySheetDialog._create(wxObjectPtr)
 	End Function
 
@@ -117,7 +117,7 @@ Type wxPropertySheetDialog Extends wxDialog
 		bmx_wxpropertysheetdialog_addbookctrl(wxObjectPtr, sizer.wxSizerPtr)
 	End Method
 	
-	Function _AddBookCtrl(obj:wxPropertySheetDialog, sizer:Byte Ptr)
+	Function _AddBookCtrl(obj:wxPropertySheetDialog, sizer:Byte Ptr) { nomangle }
 		obj.AddBookCtrl(wxSizer._create(sizer))
 	End Function
 
@@ -130,7 +130,7 @@ Type wxPropertySheetDialog Extends wxDialog
 		Return wxBookCtrlBase._create(bmx_wxpropertysheetdialog_createbookctrl(wxObjectPtr))
 	End Method
 	
-	Function _CreateBookCtrl:Byte Ptr(obj:wxPropertySheetDialog)
+	Function _CreateBookCtrl:Byte Ptr(obj:wxPropertySheetDialog) { nomangle }
 		Return obj.CreateBookCtrl().wxObjectPtr
 	End Function
 

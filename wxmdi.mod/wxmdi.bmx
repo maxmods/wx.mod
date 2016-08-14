@@ -76,7 +76,7 @@ Type wxMDIParentFrame Extends wxFrame
 		End If
 	End Function
 
-	Function _xrcNew:wxMDIParentFrame(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxMDIParentFrame(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxMDIParentFrame._create(wxObjectPtr)
 	End Function
 
@@ -232,7 +232,7 @@ Type wxMDIChildFrame Extends wxFrame
 		End If
 	End Function
 
-	Function _xrcNew:wxMDIChildFrame(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxMDIChildFrame(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxMDIChildFrame._create(wxObjectPtr)
 	End Function
 

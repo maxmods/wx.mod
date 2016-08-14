@@ -90,7 +90,7 @@ Type wxBitmapComboBox Extends wxComboBox
 		End If
 	End Function
 	
-	Function _xrcNew:wxBitmapComboBox(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxBitmapComboBox(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxBitmapComboBox._create(wxObjectPtr)
 	End Function
 

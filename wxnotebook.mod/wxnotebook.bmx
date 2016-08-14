@@ -67,7 +67,7 @@ Type wxNotebook Extends wxBookCtrlBase
 		End If
 	End Function
 	
-	Function _xrcNew:wxNotebook(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxNotebook(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxNotebook._create(wxObjectPtr)
 	End Function
 

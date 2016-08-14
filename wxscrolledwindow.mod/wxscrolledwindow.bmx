@@ -112,7 +112,7 @@ Type wxScrolledWindow Extends wxPanel
 		End If
 	End Function
 	
-	Function _xrcNew:wxScrolledWindow(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxScrolledWindow(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxScrolledWindow._create(wxObjectPtr)
 	End Function
 
@@ -261,7 +261,7 @@ Type wxScrolledWindow Extends wxPanel
 		bmx_wxscrolledwindow_ondraw_default(wxObjectPtr, dc.wxObjectPtr)
 	End Method
 	
-	Function _OnDraw(handle:Object, dc:Byte Ptr)
+	Function _OnDraw(handle:Object, dc:Byte Ptr) { nomangle }
 		If wxScrolledWindow(handle) Then
 			wxScrolledWindow(handle).OnDraw(wxDC._create(dc))
 		End If

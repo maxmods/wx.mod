@@ -103,7 +103,7 @@ Type wxMenu Extends wxEvtHandler
 		End If
 	End Function
 
-	Function _xrcNew:wxMenu(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxMenu(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxMenu._create(wxObjectPtr)
 	End Function
 
@@ -182,8 +182,8 @@ Type wxMenu Extends wxEvtHandler
 	about: @text is the text shown in the menu for it and @help is the help string shown in the status
 	bar when the submenu item is selected.
 	End Rem
-	Method AppendSubMenu:wxMenuItem(submenu:wxMenu, text:String, help:String = "")
-		Return wxMenuItem._create(bmx_wxmenu_appendsubmenu(wxObjectPtr, submenu.wxObjectPtr, text, help))
+	Method AppendSubMenu:wxMenuItem(submenu:wxMenu, Text:String, help:String = "")
+		Return wxMenuItem._create(bmx_wxmenu_appendsubmenu(wxObjectPtr, submenu.wxObjectPtr, Text, help))
 	End Method
 	
 	Rem
@@ -286,7 +286,7 @@ Type wxMenu Extends wxEvtHandler
 		Return items
 	End Method
 	
-	Function _setmenuitem(items:wxMenuItem[], index:Int, item:Byte Ptr)
+	Function _setmenuitem(items:wxMenuItem[], index:Int, item:Byte Ptr) { nomangle }
 		items[index] = wxMenuItem._create(item)
 	End Function
 	
@@ -456,26 +456,26 @@ Type wxMenuItem Extends wxObject
 	</p>
 	End Rem
 	Function CreateMenuItem:wxMenuItem(parentMenu:wxMenu = Null, id:Int = wxID_SEPARATOR, ..
-			text:String = "", helpString:String = "", kind:Int = wxITEM_NORMAL, subMenu:wxMenu = Null)
-		Return New wxMenuItem.Create(parentMenu, id, text, helpString, kind, subMenu)
+			Text:String = "", helpString:String = "", kind:Int = wxITEM_NORMAL, subMenu:wxMenu = Null)
+		Return New wxMenuItem.Create(parentMenu, id, Text, helpString, kind, subMenu)
 	End Function
 	
 	Rem
 	bbdoc: Constructs a wxMenuItem object.
 	End Rem
 	Method Create:wxMenuItem(parentMenu:wxMenu = Null, id:Int = wxID_SEPARATOR, ..
-			text:String = "", helpString:String = "", kind:Int = wxITEM_NORMAL, subMenu:wxMenu = Null)
+			Text:String = "", helpString:String = "", kind:Int = wxITEM_NORMAL, subMenu:wxMenu = Null)
 		If parentMenu Then
 			If subMenu Then
-				wxObjectPtr = bmx_wxmenuitem_create(parentMenu.wxObjectPtr, id, text, helpString, kind, subMenu.wxObjectPtr)
+				wxObjectPtr = bmx_wxmenuitem_create(parentMenu.wxObjectPtr, id, Text, helpString, kind, subMenu.wxObjectPtr)
 			Else
-				wxObjectPtr = bmx_wxmenuitem_create(parentMenu.wxObjectPtr, id, text, helpString, kind, Null)
+				wxObjectPtr = bmx_wxmenuitem_create(parentMenu.wxObjectPtr, id, Text, helpString, kind, Null)
 			End If
 		Else
 			If subMenu Then
-				wxObjectPtr = bmx_wxmenuitem_create(Null, id, text, helpString, kind, subMenu.wxObjectPtr)
+				wxObjectPtr = bmx_wxmenuitem_create(Null, id, Text, helpString, kind, subMenu.wxObjectPtr)
 			Else
-				wxObjectPtr = bmx_wxmenuitem_create(Null, id, text, helpString, kind, Null)
+				wxObjectPtr = bmx_wxmenuitem_create(Null, id, Text, helpString, kind, Null)
 			End If
 		End If
 		Return Self
@@ -575,8 +575,8 @@ Type wxMenuItem Extends wxObject
 	</pre>
 	will return just "Hello".
 	End Rem
-	Function GetLabelText:String(text:String)
-		Return bmx_wxmenuitem_getlabeltext(text)
+	Function GetLabelText:String(Text:String)
+		Return bmx_wxmenuitem_getlabeltext(Text)
 	End Function
 	
 	Rem
@@ -714,8 +714,8 @@ Type wxMenuItem Extends wxObject
 	Rem
 	bbdoc: Sets the text associated with the menu item.
 	End Rem
-	Method SetItemLabel(text:String)
-		bmx_wxmenuitem_setitemlabel(wxObjectPtr, text)
+	Method SetItemLabel(Text:String)
+		bmx_wxmenuitem_setitemlabel(wxObjectPtr, Text)
 	End Method
 	
 	Rem
@@ -817,8 +817,8 @@ Type wxAcceleratorEntry
 	item text with i.e. Label TAB Accelerator. In the latter case, the part of the string before the TAB is ignored. Notice that the latter
 	format is only supported for the compatibility with the previous wxWidgets versions and the new code should pass only the accelerator string itself to this function.
 	End Rem
-	Method FromString:Int(text:String)
-		Return bmx_wxacceleratorentry_fromstring(wxAcceleratorPtr, text)
+	Method FromString:Int(Text:String)
+		Return bmx_wxacceleratorentry_fromstring(wxAcceleratorPtr, Text)
 	End Method
 
 	Rem

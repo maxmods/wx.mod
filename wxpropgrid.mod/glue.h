@@ -114,7 +114,7 @@ extern "C" {
 
 	void bmx_wxpropertygrid_beginaddchildren(wxPropertyGrid * grid, wxPGProperty * prop);
 	void bmx_wxpropertygrid_beginaddchildrenbyname(wxPropertyGrid * grid, BBString * name);
-	int bmx_wxpropertygrid_clearselection(wxPropertyGrid * grid);
+	int bmx_wxpropertygrid_clearselection(wxPropertyGrid * grid, int validation);
 	int bmx_wxpropertygrid_collapse(wxPropertyGrid * grid, wxPGProperty * prop);
 	int bmx_wxpropertygrid_collapsebyname(wxPropertyGrid * grid, BBString * name);
 	void bmx_wxpropertygrid_deleteproperty(wxPropertyGrid * grid, wxPGProperty * prop);
@@ -148,6 +148,8 @@ extern "C" {
 	void bmx_wxpropertygrid_addpropertychoicebyname(wxPropertyGrid * grid, BBString * name, BBString * label, int value);
 	int bmx_wxpropertygrid_setpropertymaxlength(wxPropertyGrid * grid, wxPGProperty * prop, int maxLen);
 	int bmx_wxpropertygrid_setpropertymaxlengthbyname(wxPropertyGrid * grid, BBString * name, int maxLen);
+	int bmx_wxpropertygrid_expandall(wxPropertyGrid * grid, int expand);
+	int bmx_wxpropertygrid_collapseall(wxPropertyGrid * grid);
 
 	wxPGProperty * bmx_wxpropertygrid_getpropertyptr(wxPropertyGrid * grid, wxPGProperty * prop);
 	BBArray * bmx_wxpropertygrid_getpropertyvalueasarrayint(wxPropertyGrid * grid, wxPGProperty * prop);
@@ -438,6 +440,13 @@ extern "C" {
 	void bmx_wxpropertygrid_setsplitterposition(wxPropertyGrid * grid, int xPos, int refresh);
 	int bmx_wxpropertygrid_commitchangesfromeditor(wxPropertyGrid * grid, int flags);
 	int bmx_wxpropertygrid_selectproperty(wxPropertyGrid * grid, wxPGProperty * prop, int focus);
+
+	wxPGEditor * bmx_wxpgtextctrleditor_init(BBObject * obj);
+	wxPGEditor * bmx_wxpgchoiceeditor_init(BBObject * obj);
+	wxPGEditor * bmx_wxpgcomboboxeditor_init(BBObject * obj);
+	wxPGEditor * bmx_wxpgcheckboxeditor_init(BBObject * obj);
+	wxPGEditor * bmx_wxpgtextctrlandbuttoneditor_init(BBObject * obj);
+	wxPGEditor * bmx_wxpgchoiceandbuttoneditor_init(BBObject * obj);
 
 	void bmx_wxpropertygrid_addresourcehandler();
 

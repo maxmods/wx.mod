@@ -50,16 +50,6 @@ ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 
 Import "common.bmx"
 
-
-' Important notes !
-' propgrid.cpp
-'
-' set wxPG_REFRESH_CONTROLS_AFTER_REPAINT to 1 for wxMAC !!
-' otherwise, it doesn't refresh properly...
-'
-' in wxPGProperty::Init(), must include the check for "_LABEL_AS_NAME"
-'
-
 Rem
 bbdoc: 
 End Rem
@@ -161,7 +151,7 @@ Type wxPropertyContainerMethods Extends wxPanel
 	bbdoc: Deselect current selection, If any.
 	returns: True If success (ie. validator did Not intercept).
 	End Rem
-	Method ClearSelection:Int() Abstract
+	Method ClearSelection:Int(validation:Int = False) Abstract
 
 	Rem
 	bbdoc: Collapses given category or property with children.
@@ -424,7 +414,7 @@ Type wxPropertyContainerMethods Extends wxPanel
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetPropertyCell(prop:Object, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null) Abstract
+	Method SetPropertyCell(prop:Object, column:Int, Text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null) Abstract
 	
 	Rem
 	bbdoc: 
@@ -830,22 +820,38 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 '	Method CollapseId(id:wxPGPropArg)
 '	End Method
 '	
+
+	Rem
+	bbdoc: Returns current category caption background colour.
+	End Rem
 	Method GetCaptionBackgroundColour:wxColour()
 		Return wxColour._create(bmx_wxpropertygrid_getcaptionbackgroundcolour(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns current category caption text colour.
+	End Rem
 	Method GetCaptionForegroundColour:wxColour()
 		Return wxColour._create(bmx_wxpropertygrid_getcaptionforegroundcolour(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns current cell background colour.
+	End Rem
 	Method GetCellBackgroundColour:wxColour()
 		Return wxColour._create(bmx_wxpropertygrid_getcellbackgroundcolour(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns current cell text colour when disabled.
+	End Rem
 	Method GetCellDisabledTextColour:wxColour()
 		Return wxColour._create(bmx_wxpropertygrid_getcelldisabledtextcolour(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns current cell text colour.
+	End Rem
 	Method GetCellTextColour:wxColour()
 		Return wxColour._create(bmx_wxpropertygrid_getcelltextcolour(wxObjectPtr))
 	End Method
@@ -859,14 +865,23 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		Return wxPropertyGrid(_find(bmx_wxpropertygrid_getgrid(wxObjectptr)))
 	End Method
 	
+	Rem
+	bbdoc: Returns colour of lines between cells.
+	End Rem
 	Method GetLineColour:wxColour()
 		Return wxColour._create(bmx_wxpropertygrid_getlinecolour(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns background colour of margin.
+	End Rem
 	Method GetMarginColour:wxColour()
 		Return wxColour._create(bmx_wxpropertygrid_getmargincolour(wxObjectPtr))
 	End Method
 	
+	Rem
+	bbdoc: Returns background colour of first cell of a property.
+	End Rem
 	Method GetPropertyBackgroundColour:wxColour(prop:Object)
 		If wxPGProperty(prop) Then
 			Return wxColour._create(bmx_wxpropertygrid_getpropertybackgroundcolour(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
@@ -875,6 +890,9 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
+	Rem
+	bbdoc: Returns text colour of first cell of a property.
+	End Rem
 	Method GetPropertyTextColour:wxColour(prop:Object)
 		If wxPGProperty(prop) Then
 			Return wxColour._create(bmx_wxpropertygrid_getpropertytextcolour(wxObjectPtr, wxPGProperty(prop).wxObjectPtr))
@@ -883,6 +901,10 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 
+	Rem
+	bbdoc: In order to add new items into a property with private children (for instance, wxFlagsProperty), you need to call this method.
+	about: After populating has been finished, you need to call EndAddChildren().
+	End Rem
 	Method BeginAddChildren(prop:Object)
 		If wxPGProperty(prop) Then
 			bmx_wxpropertygrid_beginaddchildren(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
@@ -891,10 +913,18 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
-	Method ClearSelection:Int()
-		Return bmx_wxpropertygrid_clearselection(wxObjectPtr)
+	Rem
+	bbdoc: Clears current selection, if any.
+	returns: True if successful or if there was no selection. May fail if validation was enabled and active editor had invalid value.
+	about: If @validation is False, deselecting the property will always work, even if its editor had invalid value in it.
+	End Rem
+	Method ClearSelection:Int(validation:Int = False)
+		Return bmx_wxpropertygrid_clearselection(wxObjectPtr, validation)
 	End Method
 
+	Rem
+	bbdoc: Collapses given category or property with children.
+	End Rem
 	Method Collapse:Int(prop:Object)
 		If wxPGProperty(prop) Then
 			Return bmx_wxpropertygrid_collapse(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
@@ -903,6 +933,16 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
+	Rem
+	bbdoc: Collapses all items that can be collapsed.
+	End Rem
+	Method CollapseAll:Int()
+		Return bmx_wxpropertygrid_collapseall(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Removes and deletes a property and any children.
+	End Rem
 	Method DeleteProperty(prop:Object)
 		If wxPGProperty(prop) Then
 			bmx_wxpropertygrid_deleteproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
@@ -911,6 +951,9 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
+	Rem
+	bbdoc: Disables a property.
+	End Rem
 	Method DisableProperty:Int(prop:Object)
 		If wxPGProperty(prop) Then
 			Return bmx_wxpropertygrid_disableproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
@@ -919,6 +962,10 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
+	Rem
+	bbdoc: Enables or disables property.
+	about: Disabled property usually appears as having grey text.
+	End Rem
 	Method EnableProperty:Int(prop:Object, enable:Int = True)
 		If wxPGProperty(prop) Then
 			Return bmx_wxpropertygrid_enableproperty(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, enable)
@@ -927,6 +974,9 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
+	Rem
+	bbdoc: Called after population of property with fixed children has finished.
+	End Rem
 	Method EndAddChildren(prop:Object)
 		If wxPGProperty(prop) Then
 			bmx_wxpropertygrid_endaddchildren(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
@@ -935,6 +985,11 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
+	Rem
+	bbdoc: Expands given category or property with children.
+	about: This method may deselect selected property, if any.
+	Validation failure option wxPG_VFB_STAY_IN_PROPERTY is not respected, ie. selection is cleared even if editor had invalid value.
+	End Rem
 	Method Expand:Int(prop:Object)
 		If wxPGProperty(prop) Then
 			Return bmx_wxpropertygrid_expand(wxObjectPtr, wxPGProperty(prop).wxObjectPtr)
@@ -943,6 +998,12 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 
+	Rem
+	bbdoc: Expands all items that can be expanded.
+	End Rem
+	Method ExpandAll:Int(_expand:Int = True)
+		Return bmx_wxpropertygrid_expandall(wxObjectPtr, _expand)
+	End Method
 	
 	Method GetFirst:wxPGProperty(flags:Int)
 		Return wxPGProperty(wxPGProperty._find(bmx_wxpropertygrid_getfirst(wxObjectPtr, flags)))
@@ -956,15 +1017,15 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		Return bmx_wxpropertygrid_getpropertieswithflag(wxObjectPtr, flags, inverse, iterFlags)
 	End Method
 	
-	Function _newPropertiesArray:wxPGProperty[](size:Int)
+	Function _newPropertiesArray:wxPGProperty[](size:Int) { nomangle }
 		Return New wxPGProperty[size]
 	End Function
 	
-	Function _addProperty(arr:wxPGProperty[], index:Int, prop:Byte Ptr)
+	Function _addProperty(arr:wxPGProperty[], index:Int, prop:Byte Ptr) { nomangle }
 		arr[index] = wxPGProperty(wxPGProperty._find(prop))
 	End Function
 
-	Function _getProperty:Byte Ptr(arr:wxPGProperty[], index:Int)
+	Function _getProperty:Byte Ptr(arr:wxPGProperty[], index:Int) { nomangle }
 		Return arr[index].wxObjectPtr
 	End Function
 	
@@ -1262,34 +1323,34 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 		End If
 	End Method
 	
-	Method SetPropertyCell(prop:Object, column:Int, text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null)
+	Method SetPropertyCell(prop:Object, column:Int, Text:String = "", bitmap:wxBitmap = Null, fgCol:wxColour = Null, bgCol:wxColour = Null)
 		If wxPGProperty(prop) Then
 			If bitmap Then
 				If fgCol Then
 					If bgCol Then
-						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, Text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
 					Else
-						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, Null)
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, Text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, Null)
 					End If
 				Else
 					If bgCol Then
-						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, bitmap.wxObjectPtr, Null, bgCol.wxObjectPtr)
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, Text, bitmap.wxObjectPtr, Null, bgCol.wxObjectPtr)
 					Else
-						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, bitmap.wxObjectPtr, Null, Null)
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, Text, bitmap.wxObjectPtr, Null, Null)
 					End If
 				End If
 			Else
 				If fgCol Then
 					If bgCol Then
-						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, Null, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, Text, Null, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
 					Else
-						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, Null, fgCol.wxObjectPtr, Null)
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, Text, Null, fgCol.wxObjectPtr, Null)
 					End If
 				Else
 					If bgCol Then
-						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, Null, Null, bgCol.wxObjectPtr)
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, Text, Null, Null, bgCol.wxObjectPtr)
 					Else
-						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, text, Null, Null, Null)
+						bmx_wxpropertygrid_setpropertycell(wxObjectPtr, wxPGProperty(prop).wxObjectPtr, column, Text, Null, Null, Null)
 					End If
 				End If
 			End If
@@ -1297,29 +1358,29 @@ Type wxPropertyGrid Extends wxPropertyContainerMethods
 			If bitmap Then
 				If fgCol Then
 					If bgCol Then
-						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, Text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
 					Else
-						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, Null)
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, Text, bitmap.wxObjectPtr, fgCol.wxObjectPtr, Null)
 					End If
 				Else
 					If bgCol Then
-						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, bitmap.wxObjectPtr, Null, bgCol.wxObjectPtr)
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, Text, bitmap.wxObjectPtr, Null, bgCol.wxObjectPtr)
 					Else
-						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, bitmap.wxObjectPtr, Null, Null)
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, Text, bitmap.wxObjectPtr, Null, Null)
 					End If
 				End If
 			Else
 				If fgCol Then
 					If bgCol Then
-						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, Null, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, Text, Null, fgCol.wxObjectPtr, bgCol.wxObjectPtr)
 					Else
-						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, Null, fgCol.wxObjectPtr, Null)
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, Text, Null, fgCol.wxObjectPtr, Null)
 					End If
 				Else
 					If bgCol Then
-						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, Null, Null, bgCol.wxObjectPtr)
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, Text, Null, Null, bgCol.wxObjectPtr)
 					Else
-						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, text, Null, Null, Null)
+						bmx_wxpropertygrid_setpropertycellbyname(wxObjectPtr, String(prop), column, Text, Null, Null, Null)
 					End If
 				End If
 			End If
@@ -3209,8 +3270,8 @@ Type wxPGChoiceEntry Extends wxPGCell
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetText(text:String)
-		bmx_wxpgchoiceentry_settext(wxObjectPtr, text)
+	Method SetText(Text:String)
+		bmx_wxpgchoiceentry_settext(wxObjectPtr, Text)
 	End Method
 	
 	Rem
@@ -3331,6 +3392,108 @@ Type wxPGEditor Extends wxObject
 End Type
 
 Rem
+bbdoc: Built-in TextCtrl property editor.
+End Rem
+Global wxPGEditor_TextCtrl:wxPGTextCtrlEditor = New wxPGTextCtrlEditor._init()
+
+Rem
+bbdoc: A TextCtrl property editor.
+End Rem
+Type wxPGTextCtrlEditor Extends wxPGEditor
+
+	Method _init:wxPGTextCtrlEditor()
+		wxObjectPtr = bmx_wxpgtextctrleditor_init(Self)
+		Return Self
+	End Method
+	
+End Type
+
+Rem
+bbdoc: Built-in Choice property editor.
+End Rem
+Global wxPGEditor_Choice:wxPGChoiceEditor = New wxPGChoiceEditor._init()
+
+Rem
+bbdoc: A Choice property editor.
+End Rem
+Type wxPGChoiceEditor Extends wxPGEditor
+
+	Method _init:wxPGChoiceEditor()
+		wxObjectPtr = bmx_wxpgchoiceeditor_init(Self)
+		Return Self
+	End Method
+	
+End Type
+
+Rem
+bbdoc: Built-in ComboBox property editor.
+End Rem
+Global wxPGEditor_ComboBox:wxPGComboBoxEditor = New wxPGComboBoxEditor._init()
+
+Rem
+bbdoc: A ComboBox property editor.
+End Rem
+Type wxPGComboBoxEditor Extends wxPGEditor
+
+	Method _init:wxPGComboBoxEditor()
+		wxObjectPtr = bmx_wxpgcomboboxeditor_init(Self)
+		Return Self
+	End Method
+	
+End Type
+
+Rem
+bbdoc: Built-in CheckBox property editor.
+End Rem
+Global wxPGEditor_CheckBox:wxPGCheckBoxEditor = New wxPGCheckBoxEditor._init()
+
+Rem
+bbdoc: A CheckBox property editor.
+End Rem
+Type wxPGCheckBoxEditor Extends wxPGEditor
+
+	Method _init:wxPGCheckBoxEditor()
+		wxObjectPtr = bmx_wxpgcheckboxeditor_init(Self)
+		Return Self
+	End Method
+	
+End Type
+
+Rem
+bbdoc: Built-in TextCtrlAndButton property editor.
+End Rem
+Global wxPGEditor_TextCtrlAndButton:wxPGTextCtrlAndButtonEditor = New wxPGTextCtrlAndButtonEditor._init()
+
+Rem
+bbdoc: A TextCtrlAndButton property editor.
+End Rem
+Type wxPGTextCtrlAndButtonEditor Extends wxPGEditor
+
+	Method _init:wxPGTextCtrlAndButtonEditor()
+		wxObjectPtr = bmx_wxpgtextctrlandbuttoneditor_init(Self)
+		Return Self
+	End Method
+	
+End Type
+
+Rem
+bbdoc: Built-in ChoiceAndButton property editor.
+End Rem
+Global wxPGEditor_ChoiceAndButton:wxPGChoiceAndButtonEditor = New wxPGChoiceAndButtonEditor._init()
+
+Rem
+bbdoc: A ChoiceAndButton property editor.
+End Rem
+Type wxPGChoiceAndButtonEditor Extends wxPGEditor
+
+	Method _init:wxPGChoiceAndButtonEditor()
+		wxObjectPtr = bmx_wxpgchoiceandbuttoneditor_init(Self)
+		Return Self
+	End Method
+	
+End Type
+
+Rem
 bbdoc: 
 End Rem
 Type wxPGCell
@@ -3389,7 +3552,7 @@ Type wxPGCell
 	Rem
 	bbdoc: 
 	End Rem
-	Method SetText(text:String)
+	Method SetText(Text:String)
 		' TODO
 	End Method
 

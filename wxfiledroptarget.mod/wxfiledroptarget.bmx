@@ -79,7 +79,7 @@ Type wxFileDropTarget Extends wxDropTarget
 		Return False
 	End Method
 	
-	Function _OnDropFiles:Int(target:wxFileDropTarget, x:Int, y:Int, filenames:String[])
+	Function _OnDropFiles:Int(target:wxFileDropTarget, x:Int, y:Int, filenames:String[]) { nomangle }
 		Return target.OnDropFiles(x, y, filenames)
 	End Function
 

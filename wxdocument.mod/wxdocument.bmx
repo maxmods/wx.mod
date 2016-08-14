@@ -58,7 +58,7 @@ End Rem
 Type wxDocument Extends wxEvtHandler
 
 	' soft linking
-	Function _create:wxDocument(wxObjectPtr:Byte Ptr)
+	Function _create:wxDocument(wxObjectPtr:Byte Ptr) { nomangle }
 		If wxObjectPtr Then
 			Local this:wxDocument = New wxDocument
 			this.wxObjectPtr = wxObjectPtr
@@ -66,7 +66,7 @@ Type wxDocument Extends wxEvtHandler
 		End If
 	End Function
 
-	Function _find:Object(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr) { nomangle }
 		If wxObjectPtr Then
 			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
@@ -202,7 +202,7 @@ Type wxDocument Extends wxEvtHandler
 		Return bmx_wxdocument_ismodified(wxObjectPtr)
 	End Method
 	
-	Function _IsModified:Int(doc:wxDocument)
+	Function _IsModified:Int(doc:wxDocument) { nomangle }
 		Return doc.IsModified()
 	End Function
 ?Not linux
@@ -222,7 +222,7 @@ Type wxDocument Extends wxEvtHandler
 		bmx_wxdocument_modify(wxObjectPtr, doModify)
 	End Method
 	
-	Function _Modify(doc:wxDocument, doModify:Int)
+	Function _Modify(doc:wxDocument, doModify:Int) { nomangle }
 		doc.Modify(doModify)
 	End Function
 
@@ -235,7 +235,7 @@ Type wxDocument Extends wxEvtHandler
 		bmx_wxdocument_onchangedviewlist(wxObjectPtr)
 	End Method
 	
-	Function _OnChangedViewList(doc:wxDocument)
+	Function _OnChangedViewList(doc:wxDocument) { nomangle }
 		doc.OnChangedViewList()
 	End Function
 	
@@ -247,7 +247,7 @@ Type wxDocument Extends wxEvtHandler
 		Return bmx_wxdocument_onclosedocument(wxObjectPtr)
 	End Method
 	
-	Function _OnCloseDocument:Int(doc:wxDocument)
+	Function _OnCloseDocument:Int(doc:wxDocument) { nomangle }
 		Return doc.OnCloseDocument()
 	End Function
 	
@@ -260,7 +260,7 @@ Type wxDocument Extends wxEvtHandler
 		Return bmx_wxdocument_oncreate(wxObjectPtr, path, flags)
 	End Method
 
-	Function _OnCreate:Int(doc:wxDocument, path:String, flags:Int)
+	Function _OnCreate:Int(doc:wxDocument, path:String, flags:Int) { nomangle }
 		Return doc.OnCreate(path, flags)
 	End Function
 	
@@ -272,7 +272,7 @@ Type wxDocument Extends wxEvtHandler
 		Return wxCommandProcessor(wxCommandProcessor._find(bmx_wxdocument_oncreatecommandprocessor(wxObjectPtr)))
 	End Method
 
-	Function _OnCreateCommandProcessor:Byte Ptr(doc:wxDocument)
+	Function _OnCreateCommandProcessor:Byte Ptr(doc:wxDocument) { nomangle }
 		Return doc.OnCreateCommandProcessor().wxObjectPtr
 	End Function
 	
@@ -283,7 +283,7 @@ Type wxDocument Extends wxEvtHandler
 		Return bmx_wxdocument_onnewdocument(wxObjectPtr)
 	End Method
 
-	Function _OnNewDocument:Int(doc:wxDocument)
+	Function _OnNewDocument:Int(doc:wxDocument) { nomangle }
 		Return doc.OnNewDocument()
 	End Function
 	
@@ -297,7 +297,7 @@ Type wxDocument Extends wxEvtHandler
 		Return bmx_wxdocument_onopendocument(wxObjectPtr, filename)
 	End Method
 
-	Function _OnOpenDocument:Int(doc:wxDocument, filename:String)
+	Function _OnOpenDocument:Int(doc:wxDocument, filename:String) { nomangle }
 		Return doc.OnOpenDocument(filename)
 	End Function
 	
@@ -310,7 +310,7 @@ Type wxDocument Extends wxEvtHandler
 		Return bmx_wxdocument_onsavedocument(wxObjectPtr, filename)
 	End Method
 
-	Function _OnSaveDocument:Int(doc:wxDocument, filename:String)
+	Function _OnSaveDocument:Int(doc:wxDocument, filename:String) { nomangle }
 		Return doc.OnSaveDocument(filename)
 	End Function
 	
@@ -323,7 +323,7 @@ Type wxDocument Extends wxEvtHandler
 		Return bmx_wxdocument_onsavemodified(wxObjectPtr)
 	End Method
 
-	Function _OnSaveModified:Int(doc:wxDocument)
+	Function _OnSaveModified:Int(doc:wxDocument) { nomangle }
 		Return doc.OnSaveModified()
 	End Function
 	
@@ -416,7 +416,7 @@ End Rem
 Type wxView Extends wxEvtHandler
 
 	' soft linking
-	Function _create:wxView(wxObjectPtr:Byte Ptr)
+	Function _create:wxView(wxObjectPtr:Byte Ptr) { nomangle }
 		If wxObjectPtr Then
 			Local this:wxView = New wxView
 			this.wxObjectPtr = wxObjectPtr
@@ -424,7 +424,7 @@ Type wxView Extends wxEvtHandler
 		End If
 	End Function
 
-	Function _find:Object(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr) { nomangle }
 		If wxObjectPtr Then
 			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
@@ -520,7 +520,7 @@ Type wxView Extends wxEvtHandler
 		bmx_wxview_onactivateview(wxObjectPtr, activate, activeView.wxObjectPtr, deactiveView.wxObjectPtr)
 	End Method
 	
-	Function _OnActivateView(view:wxView, activate:Int, activeView:Byte Ptr, deactiveView:Byte Ptr)
+	Function _OnActivateView(view:wxView, activate:Int, activeView:Byte Ptr, deactiveView:Byte Ptr) { nomangle }
 		view.OnActivateView(activate, wxView(wxView._find(activeView)), wxView(wxView._find(deactiveView)))
 	End Function
 	
@@ -535,7 +535,7 @@ Type wxView Extends wxEvtHandler
 		bmx_wxview_onchangefilename(wxObjectPtr)
 	End Method
 	
-	Function _OnChangeFilename(view:wxView)
+	Function _OnChangeFilename(view:wxView) { nomangle }
 		view.OnChangeFilename()
 	End Function
 	
@@ -554,7 +554,7 @@ Type wxView Extends wxEvtHandler
 		Return bmx_wxview_onclose(wxObjectPtr, deleteWindow)
 	End Method
 	
-	Function _OnClose:Int(view:wxView, deleteWindow:Int)
+	Function _OnClose:Int(view:wxView, deleteWindow:Int) { nomangle }
 		Return view.OnClose(deleteWindow)
 	End Function
 	
@@ -565,7 +565,7 @@ Type wxView Extends wxEvtHandler
 		bmx_wxview_onclosingdocument(wxObjectPtr)
 	End Method
 	
-	Function _OnClosingDocument(view:wxView)
+	Function _OnClosingDocument(view:wxView) { nomangle }
 		view.OnClosingDocument()
 	End Function
 	
@@ -585,7 +585,7 @@ Type wxView Extends wxEvtHandler
 		Return bmx_wxView_oncreate(wxObjectPtr, doc.wxObjectPtr, flags)
 	End Method
 	
-	Function _OnCreate:Int(view:wxView, doc:Byte Ptr, flags:Int)
+	Function _OnCreate:Int(view:wxView, doc:Byte Ptr, flags:Int) { nomangle }
 		Return view.OnCreate(wxDocument(wxDocument._find(doc)), flags)
 	End Function
 	
@@ -604,7 +604,7 @@ Type wxView Extends wxEvtHandler
 		Return wxPrintout._create(bmx_wxview_oncreateprintout(wxObjectPtr))
 	End Method
 	
-	Function _OnCreatePrintout:Byte Ptr(view:wxView)
+	Function _OnCreatePrintout:Byte Ptr(view:wxView) { nomangle }
 		Return View.OnCreatePrintout().wxObjectPtr
 	End Function
 	
@@ -615,7 +615,7 @@ Type wxView Extends wxEvtHandler
 		bmx_wxview_ondraw(wxObjectPtr, dc.wxObjectPtr)
 	End Method
 	
-	Function _OnDraw(view:wxView, dc:Byte Ptr)
+	Function _OnDraw(view:wxView, dc:Byte Ptr) { nomangle }
 		view.OnDraw(wxDC._create(dc))
 	End Function
 	
@@ -631,7 +631,7 @@ Type wxView Extends wxEvtHandler
 		bmx_wxview_onupdate(wxObjectPtr, sender.wxObjectPtr)
 	End Method
 	
-	Function _OnUpdate(view:wxView, sender:Byte Ptr)
+	Function _OnUpdate(view:wxView, sender:Byte Ptr) { nomangle }
 		view.OnUpdate(wxView(wxView._find(sender)))
 	End Function
 	
@@ -669,7 +669,7 @@ End Rem
 Type wxDocManager Extends wxEvtHandler
 
 	' soft linking
-	Function _create:wxDocManager(wxObjectPtr:Byte Ptr)
+	Function _create:wxDocManager(wxObjectPtr:Byte Ptr) { nomangle }
 		If wxObjectPtr Then
 			Local this:wxDocManager = New wxDocManager
 			this.wxObjectPtr = wxObjectPtr
@@ -677,7 +677,7 @@ Type wxDocManager Extends wxEvtHandler
 		End If
 	End Function
 
-	Function _find:Object(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr) { nomangle }
 		If wxObjectPtr Then
 			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
@@ -914,7 +914,7 @@ End Rem
 Type wxDocTemplate Extends wxObject
 
 	' soft linking
-	Function _create:wxDocTemplate(wxObjectPtr:Byte Ptr)
+	Function _create:wxDocTemplate(wxObjectPtr:Byte Ptr) { nomangle }
 		If wxObjectPtr Then
 			Local this:wxDocTemplate = New wxDocTemplate
 			this.wxObjectPtr = wxObjectPtr
@@ -922,7 +922,7 @@ Type wxDocTemplate Extends wxObject
 		End If
 	End Function
 
-	Function _find:Object(wxObjectPtr:Byte Ptr)
+	Function _find:Object(wxObjectPtr:Byte Ptr) { nomangle }
 		If wxObjectPtr Then
 			Local window:Object = wxfind(wxObjectPtr)
 			If Not window Then
@@ -968,7 +968,7 @@ Type wxDocTemplate Extends wxObject
 		Return doc
 	End Method
 	
-	Function _CreateDocument:Byte Ptr(templ:wxDocTemplate, path:String, flags:Int = 0)
+	Function _CreateDocument:Byte Ptr(templ:wxDocTemplate, path:String, flags:Int = 0) { nomangle }
 		Return templ.CreateDocument(path, flags).wxObjectPtr
 	End Function
 	
@@ -982,7 +982,7 @@ Type wxDocTemplate Extends wxObject
 		Return view
 	End Method
 	
-	Function _CreateView:Byte Ptr(templ:wxDocTemplate, doc:Byte Ptr, flags:Int)
+	Function _CreateView:Byte Ptr(templ:wxDocTemplate, doc:Byte Ptr, flags:Int) { nomangle }
 		Return templ.CreateView(wxDocument(wxDocument._find(doc)), flags).wxObjectPtr
 	End Function
 	
@@ -1053,7 +1053,7 @@ Type wxDocTemplate Extends wxObject
 		Return bmx_wxdoctemplate_initdocument(wxObjectPtr, doc.wxObjectPtr, path, flags)
 	End Method
 	
-	Function _InitDocument:Int(templ:wxDocTemplate, doc:Byte Ptr, path:String, flags:Int)
+	Function _InitDocument:Int(templ:wxDocTemplate, doc:Byte Ptr, path:String, flags:Int) { nomangle }
 		Return templ.InitDocument(wxDocument(wxDocument._find(doc)), path, flags)
 	End Function
 	

@@ -94,7 +94,7 @@ Type wxChoice Extends wxControlWithItems
 		End If
 	End Function
 	
-	Function _xrcNew:wxChoice(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxChoice(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxChoice._create(wxObjectPtr)
 	End Function
 	

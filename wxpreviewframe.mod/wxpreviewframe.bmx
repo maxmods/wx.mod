@@ -87,7 +87,7 @@ Type wxPreviewFrame Extends wxFrame
 		bmx_wxpreviewframe_createcontrolbar(wxObjectPtr)
 	End Method
 	
-	Function _CreateControlBar(frame:wxPreviewFrame)
+	Function _CreateControlBar(frame:wxPreviewFrame) { nomangle }
 		frame.CreateControlBar()
 	End Function
 	
@@ -99,7 +99,7 @@ Type wxPreviewFrame Extends wxFrame
 		bmx_wxpreviewframe_createcanvas(wxObjectPtr)
 	End Method
 	
-	Function _CreateCanvas(frame:wxPreviewFrame)
+	Function _CreateCanvas(frame:wxPreviewFrame) { nomangle }
 		frame.CreateCanvas()
 	End Function
 

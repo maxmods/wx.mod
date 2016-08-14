@@ -558,11 +558,11 @@ Type wxWindow Extends wxEvtHandler
 		Return bmx_wxwindow_getchildren(wxObjectPtr)
 	End Method
 	
-	Function _newwindowarray:wxWindow[](size:Int)
+	Function _newwindowarray:wxWindow[](size:Int) { nomangle }
 		Return New wxWindow[size]
 	End Function
 	
-	Function _setwindow(list:wxWindow[], index:Int, windowPtr:Byte Ptr)
+	Function _setwindow(list:wxWindow[], index:Int, windowPtr:Byte Ptr) { nomangle }
 		list[index] = wxWindow(wxWindow._find(windowPtr))
 	End Function
 
@@ -817,13 +817,13 @@ Type wxWindow Extends wxEvtHandler
 	<li><b>use16</b> : If true, string contains 16-bit characters. The default is false.</li>
 	</ul>
 	End Rem
-	Method GetTextExtent(text:String, x:Int Var, y:Int Var, descent:Int Var, ..
+	Method GetTextExtent(Text:String, x:Int Var, y:Int Var, descent:Int Var, ..
 			externalLeading:Int Var, font:wxFont = Null, use16:Int = False)
 		If font Then
-			bmx_wxwindow_gettextextent(wxObjectPtr, text, Varptr x, Varptr y, Varptr descent, ..
+			bmx_wxwindow_gettextextent(wxObjectPtr, Text, Varptr x, Varptr y, Varptr descent, ..
 				Varptr externalLeading, font.wxObjectPtr, use16)
 		Else
-			bmx_wxwindow_gettextextent(wxObjectPtr, text, Varptr x, Varptr y, Varptr descent, ..
+			bmx_wxwindow_gettextextent(wxObjectPtr, Text, Varptr x, Varptr y, Varptr descent, ..
 				Varptr externalLeading, Null, use16)
 		End If
 	End Method
@@ -2163,11 +2163,11 @@ Type wxSizer
 		Return bmx_wxsizer_getchildren(wxSizerPtr)
 	End Method
 	
-	Function _newsizeritemsarray:wxSizerItem[](size:Int)
+	Function _newsizeritemsarray:wxSizerItem[](size:Int) { nomangle }
 		Return New wxSizerItem[size]
 	End Function
 	
-	Function _setsizeritem(items:wxSizerItem[], index:Int, item:Byte Ptr)
+	Function _setsizeritem(items:wxSizerItem[], index:Int, item:Byte Ptr) { nomangle }
 		items[index] = wxSizerItem._create(item)
 	End Function
 	
@@ -2567,7 +2567,7 @@ Type wxBoxSizer Extends wxSizer
 		Return Null
 	End Function
 
-	Function _xrcNew:wxBoxSizer(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxBoxSizer(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxBoxSizer._create(wxObjectPtr)
 	End Function
 
@@ -2626,7 +2626,7 @@ Type wxGridSizer Extends wxSizer
 		Return Null
 	End Function
 
-	Function _xrcNew:wxGridSizer(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxGridSizer(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxGridSizer._create(wxObjectPtr)
 	End Function
 
@@ -2725,7 +2725,7 @@ Type wxFlexGridSizer Extends wxGridSizer
 		Return Null
 	End Function
 
-	Function _xrcNew:wxFlexGridSizer(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxFlexGridSizer(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxFlexGridSizer._create(wxObjectPtr)
 	End Function
 
@@ -2841,7 +2841,7 @@ Type wxGridBagSizer Extends wxFlexGridSizer
 		Return Null
 	End Function
 
-	Function _xrcNew:wxGridBagSizer(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxGridBagSizer(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxGridBagSizer._create(wxObjectPtr)
 	End Function
 
@@ -3224,8 +3224,8 @@ Type wxUpdateUIEvent Extends wxCommandEvent
 	Rem
 	bbdoc: Sets the text for this UI element.
 	End Rem
-	Method SetText(text:String)
-		bmx_wxupdateeventui_settext(wxEventPtr, text)
+	Method SetText(Text:String)
+		bmx_wxupdateeventui_settext(wxEventPtr, Text)
 	End Method
 	
 	Rem

@@ -64,7 +64,7 @@ Type wxFlatNotebook Extends wxPanel
 
 	Field imageListPtr:Byte Ptr
 
-	Function _create:wxFlatNotebook(wxObjectPtr:Byte Ptr)
+	Function _create:wxFlatNotebook(wxObjectPtr:Byte Ptr) { nomangle }
 		If wxObjectPtr Then
 			Local this:wxFlatNotebook = New wxFlatNotebook
 			this.wxObjectPtr = wxObjectPtr
@@ -72,7 +72,7 @@ Type wxFlatNotebook Extends wxPanel
 		End If
 	End Function
 	
-	Function _xrcNew:wxFlatNotebook(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxFlatNotebook(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxFlatNotebook._create(wxObjectPtr)
 	End Function
 	
@@ -126,8 +126,8 @@ Type wxFlatNotebook Extends wxPanel
 	Rem
 	bbdoc: Inserts new notebook page
 	End Rem
-	Method InsertPage:Int(index:Int, page:wxWindow, text:String, selected:Int = False, imgIndex:Int = -1)
-		Return bmx_wxflatnotebook_insertpage(wxObjectPtr, index, page.wxObjectPtr, text, selected, imgIndex)
+	Method InsertPage:Int(index:Int, page:wxWindow, Text:String, selected:Int = False, imgIndex:Int = -1)
+		Return bmx_wxflatnotebook_insertpage(wxObjectPtr, index, page.wxObjectPtr, Text, selected, imgIndex)
 	End Method
 	
 	Rem
@@ -224,8 +224,8 @@ Type wxFlatNotebook Extends wxPanel
 	Rem
 	bbdoc: Sets the caption/text of the notebook page
 	End Rem
-	Method SetPageText:Int(page:Int, text:String)
-		Return bmx_wxflatnotebook_setpagetext(wxObjectPtr, page, text)
+	Method SetPageText:Int(page:Int, Text:String)
+		Return bmx_wxflatnotebook_setpagetext(wxObjectPtr, page, Text)
 	End Method
 	
 	Rem
@@ -327,7 +327,7 @@ Type wxFlatNotebook Extends wxPanel
 		End If
 	End Method
 	
-	Function _getbitmap:Byte Ptr(list:wxBitmap[], index:Int)
+	Function _getbitmap:Byte Ptr(list:wxBitmap[], index:Int) { nomangle }
 		Return list[index].wxObjectPtr
 	End Function
 	
@@ -338,11 +338,11 @@ Type wxFlatNotebook Extends wxPanel
 		Return bmx_wxflatnotebook_getimagelist(wxObjectPtr)
 	End Method
 	
-	Function _newbitmaparray:wxBitmap[](size:Int)
+	Function _newbitmaparray:wxBitmap[](size:Int) { nomangle } { nomangle }
 		Return New wxBitmap[size]
 	End Function
 	
-	Function _setbitmap(list:wxBitmap[], index:Int, bitmap:Byte Ptr)
+	Function _setbitmap(list:wxBitmap[], index:Int, bitmap:Byte Ptr) { nomangle }
 		list[index] = wxBitmap._create(bitmap)
 	End Function
 	

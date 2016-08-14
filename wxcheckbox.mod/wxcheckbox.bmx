@@ -84,7 +84,7 @@ Type wxCheckBox Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxCheckBox(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxCheckBox(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxCheckBox._create(wxObjectPtr)
 	End Function
 

@@ -75,7 +75,7 @@ Type wxWizard Extends wxDialog
 		End If
 	End Function
 
-	Function _xrcNew:wxWizard(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxWizard(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxWizard._create(wxObjectPtr)
 	End Function
 
@@ -248,7 +248,7 @@ Type wxWizardPage Extends wxPanel
 		End If
 	End Function
 
-	Function _xrcNew:wxWizardPage(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxWizardPage(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxWizardPage._create(wxObjectPtr)
 	End Function
 
@@ -268,7 +268,7 @@ Type wxWizardPage Extends wxPanel
 		End If
 	End Method
 	
-	Function _GetPrev:Byte Ptr(obj:Object)
+	Function _GetPrev:Byte Ptr(obj:Object) { nomangle }
 		Local page:wxWizardPage = wxWizardPage(obj).GetPrev()
 		If page Then
 			Return page.wxObjectPtr
@@ -293,7 +293,7 @@ Type wxWizardPage Extends wxPanel
 		End If
 	End Method
 	
-	Function _GetNext:Byte Ptr(obj:Object)
+	Function _GetNext:Byte Ptr(obj:Object) { nomangle }
 		Local page:wxWizardPage = wxWizardPage(obj).GetNext()
 		If page Then
 			Return page.wxObjectPtr
@@ -329,7 +329,7 @@ Type wxWizardPageSimple Extends wxWizardPage
 		End If
 	End Function
 
-	Function _xrcNew:wxWizardPageSimple(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxWizardPageSimple(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxWizardPageSimple._create(wxObjectPtr)
 	End Function
 

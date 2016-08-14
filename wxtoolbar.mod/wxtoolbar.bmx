@@ -116,7 +116,7 @@ Type wxToolBar Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxToolBar(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxToolBar(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxToolBar._create(wxObjectPtr)
 	End Function
 

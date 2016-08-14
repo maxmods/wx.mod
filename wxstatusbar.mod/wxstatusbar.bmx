@@ -86,7 +86,7 @@ Type wxStatusBar Extends wxWindow
 		Return this
 	End Function
 
-	Function _xrcNew:wxStatusBar(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxStatusBar(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxStatusBar._create(wxObjectPtr)
 	End Function
 
@@ -133,8 +133,8 @@ Type wxStatusBar Extends wxWindow
 	Rem
 	bbdoc: Saves the current field text in a per field stack, and sets the field text to the string passed as argument.
 	End Rem
-	Method PushStatusText(text:String, index:Int = 0)
-		bmx_wxstatusbar_pushstatustext(wxObjectPtr, text, index)
+	Method PushStatusText(Text:String, index:Int = 0)
+		bmx_wxstatusbar_pushstatustext(wxObjectPtr, Text, index)
 	End Method
 	
 	Rem
@@ -156,8 +156,8 @@ Type wxStatusBar Extends wxWindow
 	Rem
 	bbdoc: Sets the text for one field.
 	End Rem
-	Method SetStatusText(text:String, index:Int = 0)
-		bmx_wxstatusbar_setstatustext(wxObjectPtr, text, index)
+	Method SetStatusText(Text:String, index:Int = 0)
+		bmx_wxstatusbar_setstatustext(wxObjectPtr, Text, index)
 	End Method
 	
 	Rem

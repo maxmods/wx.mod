@@ -90,7 +90,7 @@ Type wxTipProvider
 		Return ""
 	End Method
 	
-	Function _GetTip:String(obj:wxTipProvider)
+	Function _GetTip:String(obj:wxTipProvider) { nomangle }
 		Return obj.GetTip()
 	End Function
 	
@@ -106,7 +106,7 @@ Type wxTipProvider
 		Return tip
 	End Method
 	
-	Function _PreProcessTip:String(obj:wxTipProvider, tip:String)
+	Function _PreProcessTip:String(obj:wxTipProvider, tip:String) { nomangle }
 		Return obj.PreProcessTip(tip)
 	End Function
 	

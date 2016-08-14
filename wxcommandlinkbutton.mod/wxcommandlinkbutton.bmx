@@ -81,7 +81,7 @@ Type wxCommandLinkButton Extends wxButton
 		End If
 	End Function
 
-	Function _xrcNew:wxCommandLinkButton(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxCommandLinkButton(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxCommandLinkButton._create(wxObjectPtr)
 	End Function
 

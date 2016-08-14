@@ -64,7 +64,7 @@ Type wxToggleButton Extends wxAnyButton
 		End If
 	End Function
 	
-	Function _xrcNew:wxToggleButton(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxToggleButton(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxToggleButton._create(wxObjectPtr)
 	End Function
 

@@ -447,12 +447,12 @@ Type wxLogStream Extends wxLog
 		Return Self
 	End Method
 
-	Function _DoLogString(logger:wxLogStream, text:String)
-		logger.DoLogString(text)
+	Function _DoLogString(logger:wxLogStream, Text:String) { nomangle }
+		logger.DoLogString(Text)
 	End Function
 	
-	Method DoLogString(text:String)
-		_stream.WriteLine(text)
+	Method DoLogString(Text:String)
+		_stream.WriteLine(Text)
 	End Method
 	
 End Type

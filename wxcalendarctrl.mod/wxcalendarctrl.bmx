@@ -83,7 +83,7 @@ Type wxCalendarCtrl Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxCalendarCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxCalendarCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxCalendarCtrl._create(wxObjectPtr)
 	End Function
 

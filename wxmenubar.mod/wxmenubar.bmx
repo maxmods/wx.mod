@@ -81,7 +81,7 @@ Type wxMenuBar Extends wxWindow
 		End If
 	End Function
 	
-	Function _xrcNew:wxMenuBar(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxMenuBar(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxMenuBar._create(wxObjectPtr)
 	End Function
 	

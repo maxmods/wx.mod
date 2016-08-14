@@ -63,7 +63,7 @@ Type wxOwnerDrawnComboBox Extends wxControlWithItems
 		End If
 	End Function
 	
-	Function _xrcNew:wxOwnerDrawnComboBox(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxOwnerDrawnComboBox(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxOwnerDrawnComboBox._create(wxObjectPtr)
 	End Function
 

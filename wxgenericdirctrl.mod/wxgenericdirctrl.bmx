@@ -75,7 +75,7 @@ Type wxGenericDirCtrl Extends wxControl
 		End If
 	End Function
 
-	Function _xrcNew:wxGenericDirCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxGenericDirCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxGenericDirCtrl._create(wxObjectPtr)
 	End Function
 

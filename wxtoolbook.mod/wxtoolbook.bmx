@@ -63,7 +63,7 @@ Type wxToolbook Extends wxBookCtrlBase
 		End If
 	End Function
 
-	Function _xrcNew:wxToolbook(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxToolbook(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxToolbook._create(wxObjectPtr)
 	End Function
 

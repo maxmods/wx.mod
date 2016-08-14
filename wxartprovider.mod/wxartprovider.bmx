@@ -175,7 +175,7 @@ Type wxArtProvider Extends wxObject
 	End Method
 	
 	' internal callback function
-	Function _CreateBitmap:Byte Ptr(obj:Object, id:String, client:String, w:Int, h:Int)
+	Function _CreateBitmap:Byte Ptr(obj:Object, id:String, client:String, w:Int, h:Int) { nomangle }
 		Return wxArtProvider(obj).CreateBitmap(id, client, w, h).wxObjectPtr
 	End Function
 	

@@ -133,7 +133,7 @@ Type wxPdfDocument
 		Return bmx_wxpdfdocument_acceptpagebreak(wxObjectPtr)
 	End Method
 	
-	Function _AcceptPageBreak:Int(obj:wxPdfDocument)
+	Function _AcceptPageBreak:Int(obj:wxPdfDocument) { nomangle }
 		Return obj.AcceptPageBreak()
 	End Function
 	
@@ -219,8 +219,8 @@ Type wxPdfDocument
 	<li>@text - annotation text </li>
 	</ul>
 	End Rem
-	Method Annotate(x:Double, y:Double, text:String)
-		bmx_wxpdfdocument_annotate(wxObjectPtr, x, y, text)
+	Method Annotate(x:Double, y:Double, Text:String)
+		bmx_wxpdfdocument_annotate(wxObjectPtr, x, y, Text)
 	End Method
 	
 	Rem
@@ -509,7 +509,7 @@ Type wxPdfDocument
 	Method Footer()
 	End Method
 	
-	Function _Footer(doc:wxPdfDocument)
+	Function _Footer(doc:wxPdfDocument) { nomangle }
 		doc.Footer()
 	End Function
 	
@@ -657,8 +657,8 @@ Type wxPdfDocument
 	<li>xxxxxxxxxxxxxx</li>
 	</ul>
 	End Rem
-	Method GetStringWidth:Double(text:String)
-		Return bmx_wxpdfdocument_getstringwidth(wxObjectPtr, text)
+	Method GetStringWidth:Double(Text:String)
+		Return bmx_wxpdfdocument_getstringwidth(wxObjectPtr, Text)
 	End Method
 	
 	Rem
@@ -721,7 +721,7 @@ Type wxPdfDocument
 	End Method
 	
 	' callback
-	Function _Header(doc:wxPdfDocument)
+	Function _Header(doc:wxPdfDocument) { nomangle }
 		doc.Header()
 	End Function
 	
@@ -1689,8 +1689,8 @@ Type wxPdfDocument
 	<li>xxxxxxxxxxxxxx</li>
 	</ul>
 	End Rem
-	Method ShapedText(shape:wxPdfShape, text:String, Mode:Int = wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT)
-		bmx_wxpdfdocument_shapedtext(wxObjectPtr, shape.wxObjectPtr, text, Mode)
+	Method ShapedText(shape:wxPdfShape, Text:String, Mode:Int = wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT)
+		bmx_wxpdfdocument_shapedtext(wxObjectPtr, shape.wxObjectPtr, Text, Mode)
 	End Method
 
 	Rem

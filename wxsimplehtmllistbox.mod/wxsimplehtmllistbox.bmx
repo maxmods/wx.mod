@@ -82,7 +82,7 @@ Type wxSimpleHtmlListBox Extends wxHtmlListBox
 		End If
 	End Function
 
-	Function _xrcNew:wxSimpleHtmlListBox(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxSimpleHtmlListBox(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxSimpleHtmlListBox._create(wxObjectPtr)
 	End Function
 
@@ -141,8 +141,8 @@ Type wxSimpleHtmlListBox Extends wxHtmlListBox
 	bbdoc: Finds an item whose label matches the given string.
 	returns: The zero-based position of the item, or wxNOT_FOUND if the string was not found.
 	End Rem
-	Method FindString:Int(text:String, caseSensitive:Int = False)
-		Return bmx_wxsimplehtmllistbox_findstring(wxObjectPtr, text, caseSensitive)
+	Method FindString:Int(Text:String, caseSensitive:Int = False)
+		Return bmx_wxsimplehtmllistbox_findstring(wxObjectPtr, Text, caseSensitive)
 	End Method
 	
 	Rem
@@ -233,8 +233,8 @@ Type wxSimpleHtmlListBox Extends wxHtmlListBox
 	Rem
 	bbdoc: Sets the label for the given item.
 	End Rem
-	Method SetString(item:Int, text:String)
-		bmx_wxsimplehtmllistbox_setstring(wxObjectPtr, item, text)
+	Method SetString(item:Int, Text:String)
+		bmx_wxsimplehtmllistbox_setstring(wxObjectPtr, item, Text)
 	End Method
 	
 	Rem
@@ -242,8 +242,8 @@ Type wxSimpleHtmlListBox Extends wxHtmlListBox
 	returns: True if the specified string has been selected, False if it wasn't found in the control.
 	about: This doesn't cause any command events being emitted.
 	End Rem
-	Method SetStringSelection:Int(text:String)
-		Return bmx_wxsimplehtmllistbox_setstringselection(wxObjectPtr, text)
+	Method SetStringSelection:Int(Text:String)
+		Return bmx_wxsimplehtmllistbox_setstringselection(wxObjectPtr, Text)
 	End Method
 
 

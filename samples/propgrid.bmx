@@ -102,19 +102,8 @@ Type MyFrame Extends wxFrame
 		wxInitAllImageHandlers()
 	
 		CreateGrid( wxPG_BOLD_MODIFIED | wxPG_SPLITTER_AUTO_CENTER | ..
-               wxPG_AUTO_SORT ..
-                | wxPG_SPLITTER_AUTO_CENTER ..
-                | wxPG_DEFAULT_STYLE, ..
-				wxPG_EX_HELP_AS_TOOLTIPS | wxPG_EX_NATIVE_DOUBLE_BUFFERING)
-                'wxPG_HIDE_MARGIN|wxPG_STATIC_SPLITTER |
-                'wxPG_TOOLTIPS |
-                'wxPG_HIDE_CATEGORIES |
-                'wxPG_LIMITED_EDITING |
-                ' extra style
-                '| wxPG_EX_AUTO_UNSPECIFIED_VALUES
-                '| wxPG_EX_GREY_LABEL_WHEN_DISABLED
-                '| wxPG_EX_NATIVE_DOUBLE_BUFFERING
-                '| wxPG_EX_HELP_AS_TOOLTIPS
+                wxPG_AUTO_SORT | wxPG_TOOLBAR | ..
+                wxPG_DESCRIPTION, wxPG_EX_MODE_BUTTONS | wxPG_EX_MULTIPLE_SELECTION)
 	
 	
 		' Create menubar
@@ -370,6 +359,7 @@ Type MyFrame Extends wxFrame
 		
 		Local pid:wxPGProperty
 'DebugStop
+
 		' Append is ideal way To add items To wxPropertyGrid.
 		pg.Append( New wxPropertyCategory.Create("Appearance", wxPG_LABEL) )
 
@@ -465,7 +455,7 @@ Type MyFrame Extends wxFrame
 
 	    ' Add bool property
 	    pg.Append( New wxBoolProperty.Create( "BoolProperty", wxPG_LABEL, False ) )
-	
+
 	    ' Add bool property with check box
 	    pg.Append( New wxBoolProperty.Create( "BoolProperty with CheckBox", wxPG_LABEL, False ) )
 	    pg.SetPropertyAttribute( "BoolProperty with CheckBox", wxPG_BOOL_USE_CHECKBOX, 1 )
@@ -676,22 +666,20 @@ Next
 			DebugLog col.Red() + ", " + col.Green() + ", " + col.Blue()
 		End If
 
-
 		' nested categories
 		
-		Local cat_gadget:wxPropertyCategory = New wxPropertyCategory.Create("category", wxPG_LABEL)
-		Local cat_gadget2:wxPropertyCategory = New wxPropertyCategory.Create("category2", wxPG_LABEL)
+'		Local cat_gadget:wxPropertyCategory = New wxPropertyCategory.Create("category", wxPG_LABEL)
+'		Local cat_gadget2:wxPropertyCategory = New wxPropertyCategory.Create("category2", wxPG_LABEL)
 		
 		'..create a prop and add it to the category
-		Local prop1:wxPGProperty = wxPGProperty(New wxIntProperty.Create("propnameA", wxPG_LABEL, 0))
-		pg.AppendIn(cat_gadget, prop1)
-		pg.AppendIn(cat_gadget, cat_gadget2)
+'		Local prop1:wxPGProperty = wxPGProperty(New wxIntProperty.Create("propnameA", wxPG_LABEL, 0))
+'		pg.AppendIn(cat_gadget, prop1)
+'		pg.AppendIn(cat_gadget, cat_gadget2)
 
-		pg.AppendIn(cat_gadget2, wxPGProperty(New wxIntProperty.Create("propnameB", wxPG_LABEL, 0)))
+'		pg.AppendIn(cat_gadget2, wxPGProperty(New wxIntProperty.Create("propnameB", wxPG_LABEL, 0)))
 
 		'add the category to the propgrid
-		pg.Append(cat_gadget)
-
+'		pg.Append(cat_gadget)
 	End Method
 	
 	Method PopulateWithLibraryConfig()

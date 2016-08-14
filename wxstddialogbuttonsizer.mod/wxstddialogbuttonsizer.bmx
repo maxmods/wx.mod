@@ -83,7 +83,7 @@ Type wxStdDialogButtonSizer Extends wxBoxSizer
 		Return Null
 	End Function
 
-	Function _xrcNew:wxStdDialogButtonSizer(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxStdDialogButtonSizer(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxStdDialogButtonSizer._create(wxObjectPtr)
 	End Function
 

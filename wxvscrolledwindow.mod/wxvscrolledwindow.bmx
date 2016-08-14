@@ -225,7 +225,7 @@ Type wxVScrolledWindow Extends wxPanel
 	End Method
 	
 	' callback handler
-	Function _OnGetRowHeight:Int(win:Byte Ptr, n:Int)
+	Function _OnGetRowHeight:Int(win:Byte Ptr, n:Int) { nomangle }
 		Local scrolled:wxVScrolledWindow = wxVScrolledWindow(wxfind(win))
 		If Not scrolled Then
 			Assert Null, "Error! Could not find derived wxVScrolledWindow object!"
@@ -236,7 +236,7 @@ Type wxVScrolledWindow Extends wxPanel
 	End Function
 	
 	' callback handler
-	Function _OnGetRowsHeightHint(win:Byte Ptr, lineMin:Int, lineMax:Int)
+	Function _OnGetRowsHeightHint(win:Byte Ptr, lineMin:Int, lineMax:Int) { nomangle }
 		Local scrolled:wxVScrolledWindow = wxVScrolledWindow(wxfind(win))
 		If Not scrolled Then
 			Assert Null, "Error! Could not find derived wxVScrolledWindow object!"

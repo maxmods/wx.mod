@@ -157,11 +157,11 @@ Type wxFileHistory Extends wxObject
 		Return bmx_wxfilehistory_getmenus(wxObjectPtr)
 	End Method
 	
-	Function _makeMenus:wxMenu[](size:Int)
+	Function _makeMenus:wxMenu[](size:Int) { nomangle }
 		Return New wxMenu[size]
 	End Function
 	
-	Function _addMenu(menus:wxMenu[], index:Int, menu:Byte Ptr)
+	Function _addMenu(menus:wxMenu[], index:Int, menu:Byte Ptr) { nomangle }
 		menus[index] = wxMenu._create(menu)
 	End Function
 	

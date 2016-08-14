@@ -93,7 +93,7 @@ Type wxListBox Extends wxControlWithItems
 		End If
 	End Function
 
-	Function _xrcNew:wxListBox(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxListBox(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxListBox._create(wxObjectPtr)
 	End Function
 

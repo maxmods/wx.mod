@@ -133,7 +133,7 @@ Type wxPrintout Extends wxObject
 		pageTo = 1
 	End Method
 
-	Function _GetPageInfo(obj:wxPrintout, minPage:Int Var, maxPage:Int Var, pageFrom:Int Var, pageTo:Int Var)
+	Function _GetPageInfo(obj:wxPrintout, minPage:Int Var, maxPage:Int Var, pageFrom:Int Var, pageTo:Int Var) { nomangle }
 		obj.GetPageInfo(minPage, maxPage, pageFrom, pageTo)
 	End Function
 
@@ -227,7 +227,7 @@ Type wxPrintout Extends wxObject
 		Return False
 	End Method
 	
-	Function _HasPage:Int(obj:wxPrintout, pageNum:Int)
+	Function _HasPage:Int(obj:wxPrintout, pageNum:Int) { nomangle }
 		Return obj.HasPage(pageNum)
 	End Function
 	
@@ -376,7 +376,7 @@ Type wxPrintout Extends wxObject
 	Method OnBeginDocument:Int(startPage:Int, endPage:Int)
 	End Method
 
-	Function _OnBeginDocument:Int(obj:wxPrintout, startPage:Int, endPage:Int)
+	Function _OnBeginDocument:Int(obj:wxPrintout, startPage:Int, endPage:Int) { nomangle }
 		Return obj.OnBeginDocument(startPage, endPage)
 	End Function
 	
@@ -387,7 +387,7 @@ Type wxPrintout Extends wxObject
 	Method OnEndDocument()
 	End Method
 	
-	Function _OnEndDocument(obj:wxPrintout)
+	Function _OnEndDocument(obj:wxPrintout) { nomangle }
 		obj.OnEndDocument()
 	End Function
 	
@@ -399,7 +399,7 @@ Type wxPrintout Extends wxObject
 	Method OnBeginPrinting()
 	End Method
 
-	Function _OnBeginPrinting(obj:wxPrintout)
+	Function _OnBeginPrinting(obj:wxPrintout) { nomangle }
 		obj.OnBeginPrinting()
 	End Function
 
@@ -410,7 +410,7 @@ Type wxPrintout Extends wxObject
 	Method OnEndPrinting()
 	End Method
 
-	Function _OnEndPrinting(obj:wxPrintout)
+	Function _OnEndPrinting(obj:wxPrintout) { nomangle }
 		obj.OnEndPrinting()
 	End Function
 
@@ -422,7 +422,7 @@ Type wxPrintout Extends wxObject
 	Method OnPreparePrinting()
 	End Method
 
-	Function _OnPreparePrinting(obj:wxPrintout)
+	Function _OnPreparePrinting(obj:wxPrintout) { nomangle }
 		obj.OnPreparePrinting()
 	End Function
 
@@ -434,7 +434,7 @@ Type wxPrintout Extends wxObject
 	Method OnPrintPage:Int(pageNum:Int)
 	End Method
 
-	Function _OnPrintPage:Int(obj:wxPrintout, pageNum:Int)
+	Function _OnPrintPage:Int(obj:wxPrintout, pageNum:Int) { nomangle }
 		Return obj.OnPrintPage(pageNum)
 	End Function
 

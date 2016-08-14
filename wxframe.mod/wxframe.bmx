@@ -133,7 +133,7 @@ Type wxFrame Extends wxTopLevelWindow
 		End If
 	End Function
 	
-	Function _xrcNew:wxFrame(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxFrame(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxFrame._create(wxObjectPtr)
 	End Function
 	
@@ -204,8 +204,8 @@ Type wxFrame Extends wxTopLevelWindow
 	bbdoc: Sets the status bar text and redraws the status bar.
 	about: 
 	End Rem
-	Method SetStatusText(text:String, number:Int = 0)
-		bmx_wxframe_setstatustext(wxObjectPtr, text, number)
+	Method SetStatusText(Text:String, number:Int = 0)
+		bmx_wxframe_setstatustext(wxObjectPtr, Text, number)
 	End Method
 	
 	Rem

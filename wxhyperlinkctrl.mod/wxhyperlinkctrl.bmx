@@ -70,14 +70,14 @@ Type wxHyperlinkCtrl Extends wxControl
 		End If
 	End Function
 
-	Function _xrcNew:wxHyperlinkCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxHyperlinkCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxHyperlinkCtrl._create(wxObjectPtr)
 	End Function
 
 	Rem
 	bbdoc: Constructor.
 	End Rem
-	Function CreateHyperLink:wxHyperlinkCtrl(parent:wxWindow, id:Int, label:String, url:String, ..
+	Function CreateHyperlink:wxHyperlinkCtrl(parent:wxWindow, id:Int, label:String, url:String, ..
 			x:Int = -1, y:Int = -1, w:Int = -1, h:Int = -1, style:Int = 0)
 		Return New wxHyperlinkCtrl.Create(parent, id, label, url, x, y, w, h, style)
 	End Function

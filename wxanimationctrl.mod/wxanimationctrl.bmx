@@ -65,7 +65,7 @@ Type wxAnimationCtrl Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxAnimationCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxAnimationCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxAnimationCtrl._create(wxObjectPtr)
 	End Function
 

@@ -1713,12 +1713,12 @@ Type wxSheetCellStringRendererRefData Extends wxSheetCellRendererRefData
 
 	Method Draw(sheet:wxSheet, attr:wxSheetCellAttr, dc:wxDC, rectCell:wxRect, row:Int, col:Int, isSelected:Int)
 		bmx_wxsheetcellstringrendererrefdata_draw(wxObjectPtr, sheet.wxObjectPtr, attr.wxObjectPtr, dc.wxObjectPtr, ..
-			rectCell.wxObjectPtr, row, col, isSelected);
+			rectCell.wxObjectPtr, row, col, isSelected)
 	End Method
 	
-	Function _Draw(obj:wxObject, sheet:Byte Ptr, attr:Byte Ptr, dc:Byte Ptr, rectCell:Byte Ptr, row:Int, col:Int, isSelected:Int)
+	Function _Draw(obj:wxObject, sheet:Byte Ptr, attr:Byte Ptr, dc:Byte Ptr, rectCell:Byte Ptr, row:Int, col:Int, isSelected:Int) { nomangle }
 		wxSheetCellStringRendererRefData(obj).Draw(wxSheet(wxSheet._find(sheet)), wxSheetCellAttr._create(attr), ..
-				wxDC._create(dc), wxRect._create(rectCell), row, col, isSelected)
+				wxDC._create(dc), wxRect._create(rectCell), row, col, isSelected) 
 	End Function
 	
 End Type
@@ -2504,7 +2504,7 @@ Type wxSheetSplitter Extends wxWindow
 		Return New wxSheet.Create(Self, id)
 	End Method
 	
-	Function _createsheet:Byte Ptr(splitter:wxSheetSplitter, id:Int)
+	Function _createsheet:Byte Ptr(splitter:wxSheetSplitter, id:Int) { nomangle }
 		Return splitter.CreateSheet(id).wxObjectPtr
 	End Function
 

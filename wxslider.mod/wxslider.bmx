@@ -67,7 +67,7 @@ Type wxSlider Extends wxControl
 		End If
 	End Function
 
-	Function _xrcNew:wxSlider(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxSlider(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxSlider._create(wxObjectPtr)
 	End Function
 

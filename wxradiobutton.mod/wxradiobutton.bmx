@@ -68,7 +68,7 @@ Type wxRadioButton Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxRadioButton(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxRadioButton(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxRadioButton._create(wxObjectPtr)
 	End Function
 

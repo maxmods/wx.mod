@@ -30,7 +30,7 @@ Type wxObject
 
 	Field wxObjectPtr:Byte Ptr
 
-	Function _Free(obj:wxObject)
+	Function _Free(obj:wxObject) { nomangle }
 		' WARNING... we free wxObjectPtr NOW, just in case any of the subclasses have a Free() method, where
 		' the probably shouldn't have.
 		obj.wxObjectPtr = Null

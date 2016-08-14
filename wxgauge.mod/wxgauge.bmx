@@ -76,7 +76,7 @@ Type wxGauge Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxGauge(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxGauge(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxGauge._create(wxObjectPtr)
 	End Function
 	

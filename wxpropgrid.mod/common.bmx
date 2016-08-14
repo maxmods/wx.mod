@@ -120,7 +120,7 @@ Extern
 
 	Function bmx_wxpropertygrid_beginaddchildren(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_beginaddchildrenbyname(handle:Byte Ptr, name:String)
-	Function bmx_wxpropertygrid_clearselection:Int(handle:Byte Ptr)
+	Function bmx_wxpropertygrid_clearselection:Int(handle:Byte Ptr, validation:Int)
 	Function bmx_wxpropertygrid_collapse:Int(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_collapsebyname:Int(handle:Byte Ptr, name:String)
 	Function bmx_wxpropertygrid_deleteproperty(handle:Byte Ptr, prop:Byte Ptr)
@@ -209,6 +209,8 @@ Extern
 	Function bmx_wxpropertygrid_ispropertyexpanded:Int(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_ispropertymodified:Int(handle:Byte Ptr, prop:Byte Ptr)
 	Function bmx_wxpropertygrid_ispropertyshown:Int(handle:Byte Ptr, prop:Byte Ptr)
+	Function bmx_wxpropertygrid_expandall:Int(handle:Byte Ptr, _expand:Int)
+	Function bmx_wxpropertygrid_collapseall:Int(handle:Byte Ptr)
 
 	Function bmx_wxpgchoices_create:Byte Ptr()
 	Function bmx_wxpgchoices_delete(handle:Byte Ptr)
@@ -440,6 +442,13 @@ Extern
 	Function bmx_wxdateproperty_setdatevalue(handle:Byte Ptr, dt:Byte Ptr)
 	Function bmx_wxdateproperty_setformat(handle:Byte Ptr, format:String)
 
+	Function bmx_wxpgtextctrleditor_init:Byte Ptr(obj:Object)
+	Function bmx_wxpgchoiceeditor_init:Byte Ptr(obj:Object)
+	Function bmx_wxpgcomboboxeditor_init:Byte Ptr(obj:Object)
+	Function bmx_wxpgcheckboxeditor_init:Byte Ptr(obj:Object)
+	Function bmx_wxpgtextctrlandbuttoneditor_init:Byte Ptr(obj:Object)
+	Function bmx_wxpgchoiceandbuttoneditor_init:Byte Ptr(obj:Object)
+	
 	Function bmx_wxpropertygrid_addresourcehandler()
 	
 End Extern
@@ -461,16 +470,32 @@ Const wxPG_STATIC_LAYOUT:Int = wxPG_HIDE_MARGIN | wxPG_STATIC_SPLITTER
 Const wxPG_LIMITED_EDITING:Int = $00000800
 Const wxPG_TOOLBAR:Int = $00001000
 Const wxPG_DESCRIPTION:Int = $00002000
-Const wxPG_COMPACTOR:Int = $00004000
+Const wxPG_NO_INTERNAL_BORDER:Int = $00004000
+
+Const wxPG_WINDOW_STYLE_MASK:Int = wxPG_AUTO_SORT|wxPG_HIDE_CATEGORIES|wxPG_BOLD_MODIFIED| ..
+		wxPG_SPLITTER_AUTO_CENTER|wxPG_TOOLTIPS|wxPG_HIDE_MARGIN| ..
+		wxPG_STATIC_SPLITTER|wxPG_LIMITED_EDITING|wxPG_TOOLBAR| ..
+		wxPG_DESCRIPTION|wxPG_NO_INTERNAL_BORDER
 
 Const wxPG_EX_INIT_NOCAT:Int = $00001000
 Const wxPG_EX_NO_FLAT_TOOLBAR:Int = $00002000
 Const wxPG_EX_MODE_BUTTONS:Int = $00008000
 Const wxPG_EX_HELP_AS_TOOLTIPS:Int = $00010000
-Const wxPG_EX_GREY_LABEL_WHEN_DISABLED:Int = $00040000
 Const wxPG_EX_NATIVE_DOUBLE_BUFFERING:Int = $00080000
-Const wxPG_EX_PROCESS_EVENTS_IMMEDIATELY:Int = $00100000
 Const wxPG_EX_AUTO_UNSPECIFIED_VALUES:Int = $00200000
+Const wxPG_EX_WRITEONLY_BUILTIN_ATTRIBUTES:Int = $00400000
+Const wxPG_EX_HIDE_PAGE_BUTTONS:Int = $01000000
+Const wxPG_EX_MULTIPLE_SELECTION:Int = $02000000
+Const wxPG_EX_ENABLE_TLP_TRACKING:Int = $04000000
+Const wxPG_EX_NO_TOOLBAR_DIVIDER:Int = $08000000
+Const wxPG_EX_TOOLBAR_SEPARATOR:Int = $10000000
+Const wxPG_EX_ALWAYS_ALLOW_FOCUS:Int = $00100000
+
+Const wxPG_EX_WINDOW_STYLE_MASK:Int = wxPG_EX_INIT_NOCAT|wxPG_EX_NO_FLAT_TOOLBAR|wxPG_EX_MODE_BUTTONS| ..
+		wxPG_EX_HELP_AS_TOOLTIPS|wxPG_EX_NATIVE_DOUBLE_BUFFERING|wxPG_EX_AUTO_UNSPECIFIED_VALUES| ..
+		wxPG_EX_WRITEONLY_BUILTIN_ATTRIBUTES|wxPG_EX_HIDE_PAGE_BUTTONS|wxPG_EX_MULTIPLE_SELECTION| ..
+		wxPG_EX_ENABLE_TLP_TRACKING|wxPG_EX_NO_TOOLBAR_DIVIDER|wxPG_EX_TOOLBAR_SEPARATOR| ..
+		wxPG_EX_ALWAYS_ALLOW_FOCUS
 
 Const wxPG_DEFAULT_STYLE:Int = 0
 Const wxPGMAN_DEFAULT_STYLE:Int = 0

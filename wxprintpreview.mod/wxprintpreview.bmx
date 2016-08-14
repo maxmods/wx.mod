@@ -188,7 +188,7 @@ Type wxPrintPreview Extends wxObject
 		Return bmx_wxprintpreview_paintpage_default(wxObjectPtr, canvas.wxObjectPtr, dc.wxObjectPtr)
 	End Method
 	
-	Function _PaintPage:Int(preview:wxPrintPreview, canvas:Byte Ptr, dc:Byte Ptr)
+	Function _PaintPage:Int(preview:wxPrintPreview, canvas:Byte Ptr, dc:Byte Ptr) { nomangle }
 		preview.PaintPage(wxPreviewCanvas._create(canvas), wxDC._create(dc))
 	End Function
 	

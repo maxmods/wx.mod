@@ -63,7 +63,7 @@ Type wxSpinCtrl Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxSpinCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxSpinCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxSpinCtrl._create(wxObjectPtr)
 	End Function
 

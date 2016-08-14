@@ -158,7 +158,7 @@ Type wxTextCtrl Extends wxControl
 		End If
 	End Function
 
-	Function _xrcNew:wxTextCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxTextCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxTextCtrl._create(wxObjectPtr)
 	End Function
 
@@ -193,8 +193,8 @@ Type wxTextCtrl Extends wxControl
 	about: After the text is appended, the insertion point will be at the end of the text control.
 	If this behaviour is not desired, the programmer should use GetInsertionPoint and SetInsertionPoint.
 	End Rem
-	Method AppendText(text:String)
-		bmx_wxtextctrl_appendtext(wxObjectPtr, text)
+	Method AppendText(Text:String)
+		bmx_wxtextctrl_appendtext(wxObjectPtr, Text)
 	End Method
 	
 	Rem
@@ -606,8 +606,8 @@ Type wxTextCtrl Extends wxControl
 	call wxTextCtrl::SetInsertionPointEnd before writing.
 	</p>
 	End Rem
-	Method WriteText(text:String)
-		bmx_wxtextctrl_writetext(wxObjectPtr, text)
+	Method WriteText(Text:String)
+		bmx_wxtextctrl_writetext(wxObjectPtr, Text)
 	End Method
 	
 	Rem

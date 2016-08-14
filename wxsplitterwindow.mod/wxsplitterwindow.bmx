@@ -91,7 +91,7 @@ Type wxSplitterWindow Extends wxWindow
 		End If
 	End Function
 	
-	Function _xrcNew:wxSplitterWindow(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxSplitterWindow(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxSplitterWindow._create(wxObjectPtr)
 	End Function
 
@@ -265,8 +265,8 @@ Type wxSplitterWindow Extends wxWindow
 	bbdoc: Sets the split mode.
 	about: Only sets the internal variable; does not update the display.
 	End Rem
-	Method SetSplitMode(mode:Int)
-		bmx_wxsplitterwindow_setsplitmode(wxObjectPtr, mode)
+	Method SetSplitMode(Mode:Int)
+		bmx_wxsplitterwindow_setsplitmode(wxObjectPtr, Mode)
 	End Method
 	
 	Rem

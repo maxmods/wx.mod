@@ -77,7 +77,7 @@ Type wxPopupWindow Extends wxWindow
 		bmx_wxpopupwindow_position(wxObjectPtr, x, y, w, h)
 	End Method
 	
-	Function _Position(window:wxPopupWindow, x:Int, y:Int, w:Int, h:Int)
+	Function _Position(window:wxPopupWindow, x:Int, y:Int, w:Int, h:Int) { nomangle }
 		window.Position(x, y, w, h)
 	End Function
 	

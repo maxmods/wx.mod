@@ -101,7 +101,7 @@ Type wxDialog Extends wxTopLevelWindow
 		End If
 	End Function
 
-	Function _xrcNew:wxDialog(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxDialog(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxDialog._create(wxObjectPtr)
 	End Function
 

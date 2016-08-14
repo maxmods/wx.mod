@@ -128,11 +128,11 @@ Type wxFontEnumerator
 		Return True
 	End Method
 
-	Function _OnFacename:Int(obj:Object, font:String)
+	Function _OnFacename:Int(obj:Object, font:String) { nomangle }
 		Return wxFontEnumerator(obj).OnFacename(font)
 	End Function
 
-	Function _OnFontEncoding:Int(obj:Object, font:String, encoding:String)
+	Function _OnFontEncoding:Int(obj:Object, font:String, encoding:String) { nomangle }
 		Return wxFontEnumerator(obj).OnFontEncoding(font, encoding)
 	End Function
 	

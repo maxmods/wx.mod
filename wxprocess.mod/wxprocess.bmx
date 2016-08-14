@@ -244,7 +244,7 @@ Type wxProcess Extends wxEvtHandler
 		bmx_wxprocess_onterminate(wxObjectPtr, pid, status)
 	End Method
 	
-	Function _OnTerminate(obj:wxProcess, pid:Int, status:Int)
+	Function _OnTerminate(obj:wxProcess, pid:Int, status:Int) { nomangle }
 		obj.OnTerminate(pid, status)
 	End Function
 	

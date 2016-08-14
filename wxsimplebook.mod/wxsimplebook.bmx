@@ -58,16 +58,16 @@ displayed, unlike all the other book control classes, only the program can do it
 End Rem
 Type wxSimplebook Extends wxBookCtrlBase
 
-	Function _create:wxSimpleBook(wxObjectPtr:Byte Ptr)
+	Function _create:wxSimplebook(wxObjectPtr:Byte Ptr)
 		If wxObjectPtr Then
-			Local this:wxSimpleBook = New wxSimpleBook
+			Local this:wxSimplebook = New wxSimplebook
 			this.wxObjectPtr = wxObjectPtr
 			Return this
 		End If
 	End Function
 	
-	Function _xrcNew:wxSimpleBook(wxObjectPtr:Byte Ptr)
-		Return wxSimpleBook._create(wxObjectPtr)
+	Function _xrcNew:wxSimplebook(wxObjectPtr:Byte Ptr) { nomangle }
+		Return wxSimplebook._create(wxObjectPtr)
 	End Function
 	
 	Rem

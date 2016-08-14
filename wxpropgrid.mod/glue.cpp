@@ -621,8 +621,8 @@ void bmx_wxpropertygrid_beginaddchildrenbyname(wxPropertyGrid * grid, BBString *
 	grid->BeginAddChildren(wxStringFromBBString(name));
 }
 
-int bmx_wxpropertygrid_clearselection(wxPropertyGrid * grid) {
-	return static_cast<int>(grid->ClearSelection());
+int bmx_wxpropertygrid_clearselection(wxPropertyGrid * grid, int validation) {
+	return static_cast<int>(grid->ClearSelection(static_cast<bool>(validation)));
 }
 
 int bmx_wxpropertygrid_collapse(wxPropertyGrid * grid, wxPGProperty * prop) {
@@ -1582,6 +1582,13 @@ int bmx_wxpropertygrid_changepropertyvalueintbyname(wxPropertyGrid * grid, BBStr
 	return static_cast<int>(grid->ChangePropertyValue(wxStringFromBBString(name), value));
 }
 
+int bmx_wxpropertygrid_expandall(wxPropertyGrid * grid, int expand) {
+	return static_cast<int>(grid->ExpandAll(static_cast<bool>(expand)));
+}
+
+int bmx_wxpropertygrid_collapseall(wxPropertyGrid * grid) {
+	return static_cast<int>(grid->CollapseAll());
+}
 
 // *********************************************
 
@@ -2220,6 +2227,57 @@ void bmx_wxpropertygridevent_getvalueassize(wxPropertyGridEvent & event, int * w
 BBString * bmx_wxpropertygridevent_getvalueasstring(wxPropertyGridEvent & event) {
 	return bbStringFromWxString(event.GetValue().GetString());
 }
+
+// *********************************************
+
+wxPGEditor * bmx_wxpgtextctrleditor_init(BBObject * obj) {
+	wxPGEditor * editor = wxPGEditor_TextCtrl;
+	
+	wxbind(editor, obj);
+	
+	return editor;
+}
+
+wxPGEditor * bmx_wxpgchoiceeditor_init(BBObject * obj) {
+	wxPGEditor * editor = wxPGEditor_Choice;
+	
+	wxbind(editor, obj);
+	
+	return editor;
+}
+
+wxPGEditor * bmx_wxpgcomboboxeditor_init(BBObject * obj) {
+	wxPGEditor * editor = wxPGEditor_ComboBox;
+	
+	wxbind(editor, obj);
+	
+	return editor;
+}
+
+wxPGEditor * bmx_wxpgcheckboxeditor_init(BBObject * obj) {
+	wxPGEditor * editor = wxPGEditor_CheckBox;
+	
+	wxbind(editor, obj);
+	
+	return editor;
+}
+
+wxPGEditor * bmx_wxpgtextctrlandbuttoneditor_init(BBObject * obj) {
+	wxPGEditor * editor = wxPGEditor_TextCtrlAndButton;
+	
+	wxbind(editor, obj);
+	
+	return editor;
+}
+
+wxPGEditor * bmx_wxpgchoiceandbuttoneditor_init(BBObject * obj) {
+	wxPGEditor * editor = wxPGEditor_ChoiceAndButton;
+	
+	wxbind(editor, obj);
+	
+	return editor;
+}
+
 
 // *********************************************
 

@@ -97,7 +97,7 @@ Type wxComboBox Extends wxControlWithItems
 		End If
 	End Function
 	
-	Function _xrcNew:wxComboBox(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxComboBox(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxComboBox._create(wxObjectPtr)
 	End Function
 
@@ -228,8 +228,8 @@ Type wxComboBox Extends wxControlWithItems
 	Rem
 	bbdoc: Replaces the text between two positions with the given text, in the combobox text field.
 	End Rem
-	Method Replace(fromPos:Int, toPos:Int, text:String)
-		bmx_wxcombobox_replace(wxObjectPtr, fromPos, toPos, text)
+	Method Replace(fromPos:Int, toPos:Int, Text:String)
+		bmx_wxcombobox_replace(wxObjectPtr, fromPos, toPos, Text)
 	End Method
 	
 	Rem
@@ -268,8 +268,8 @@ Type wxComboBox Extends wxControlWithItems
 	about: NB: For a combobox with wxCB_READONLY style the string must be in the combobox choices list, otherwise
 	the call to SetValue() is ignored.
 	End Rem
-	Method SetValue(text:String)
-		bmx_wxcombobox_setvalue(wxObjectPtr, text)
+	Method SetValue(Text:String)
+		bmx_wxcombobox_setvalue(wxObjectPtr, Text)
 	End Method
 	
 	Rem

@@ -70,7 +70,7 @@ Type wxHtmlWindow Extends wxScrolledWindow
 		End If
 	End Function
 	
-	Function _xrcNew:wxHtmlWindow(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxHtmlWindow(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxHtmlWindow._create(wxObjectPtr)
 	End Function
 
@@ -623,12 +623,12 @@ Type wxHtmlProcessor Extends wxObject
 	Rem
 	bbdoc: Process input text and return processed result.
 	End Rem
-	Method Process:String(text:String)
-		Return text
+	Method Process:String(Text:String)
+		Return Text
 	End Method
 
-	Function _Process:String(obj:Object, text:String)
-		Return wxHtmlProcessor(obj).Process(text)
+	Function _Process:String(obj:Object, Text:String) { nomangle }
+		Return wxHtmlProcessor(obj).Process(Text)
 	End Function
 	
 End Type
@@ -655,7 +655,7 @@ Type wxHtmlTagsModule
 	Method FillHandlersTable(parser:wxHtmlWinParser)
 	End Method
 	
-	Function _FillHandlersTable(obj:wxHtmlTagsModule, parserPtr:Byte Ptr)
+	Function _FillHandlersTable(obj:wxHtmlTagsModule, parserPtr:Byte Ptr) { nomangle }
 		obj.FillHandlersTable(wxHtmlWinParser._create(parserPtr))
 	End Function
 	
@@ -772,7 +772,7 @@ Type wxHtmlTagHandler Extends wxObject
 	Method GetSupportedTags:String()
 	End Method
 	
-	Function _GetSupportedTags:String(obj:wxHtmlTagHandler)
+	Function _GetSupportedTags:String(obj:wxHtmlTagHandler) { nomangle }
 		Return obj.GetSupportedTags()
 	End Function
 	
@@ -784,7 +784,7 @@ Type wxHtmlTagHandler Extends wxObject
 	Method HandleTag:Int(tag:wxHtmlTag)
 	End Method
 	
-	Function _HandleTag:Int(obj:wxHtmlTagHandler, tag:Byte Ptr)
+	Function _HandleTag:Int(obj:wxHtmlTagHandler, tag:Byte Ptr) { nomangle }
 		Return obj.HandleTag(wxHtmlTag._create(tag))
 	End Function
 	

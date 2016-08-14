@@ -100,7 +100,7 @@ Type wxTreeCtrl Extends wxControl
 		End If
 	End Function
 
-	Function _xrcNew:wxTreeCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxTreeCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxTreeCtrl._create(wxObjectPtr)
 	End Function
 
@@ -110,11 +110,11 @@ Type wxTreeCtrl Extends wxControl
 	the image to use for unselected and selected items, respectively. If image > -1 and selImage
 	is -1, the same image is used for both selected and unselected items.
 	End Rem
-	Method AddRoot:wxTreeItemId(text:String, image:Int = -1, selImage:Int = -1, data:Object = Null)
+	Method AddRoot:wxTreeItemId(Text:String, image:Int = -1, selImage:Int = -1, data:Object = Null)
 		If data Then
-			Return wxTreeItemId._create(bmx_wxtreectrl_addroot(wxObjectPtr, text, image, selImage, data))
+			Return wxTreeItemId._create(bmx_wxtreectrl_addroot(wxObjectPtr, Text, image, selImage, data))
 		Else
-			Return wxTreeItemId._create(bmx_wxtreectrl_addroot(wxObjectPtr, text, image, selImage, Null))
+			Return wxTreeItemId._create(bmx_wxtreectrl_addroot(wxObjectPtr, Text, image, selImage, Null))
 		End If
 	End Method
 	
@@ -124,11 +124,11 @@ Type wxTreeCtrl Extends wxControl
 	image to use for unselected and selected items, respectively. If image > -1 and selImage is -1,
 	the same image is used for both selected and unselected items.
 	End Rem
-	Method AppendItem:wxTreeItemId(parent:wxTreeItemId, text:String, image:Int = -1, selImage:Int = -1, data:Object = Null)
+	Method AppendItem:wxTreeItemId(parent:wxTreeItemId, Text:String, image:Int = -1, selImage:Int = -1, data:Object = Null)
 		If data Then
-			Return wxTreeItemId._create(bmx_wxtreectrl_appenditem(wxObjectPtr, parent.wxTreeItemIdPtr, text, image, selImage, data))
+			Return wxTreeItemId._create(bmx_wxtreectrl_appenditem(wxObjectPtr, parent.wxTreeItemIdPtr, Text, image, selImage, data))
 		Else
-			Return wxTreeItemId._create(bmx_wxtreectrl_appenditem(wxObjectPtr, parent.wxTreeItemIdPtr, text, image, selImage, Null))
+			Return wxTreeItemId._create(bmx_wxtreectrl_appenditem(wxObjectPtr, parent.wxTreeItemIdPtr, Text, image, selImage, Null))
 		End If
 	End Method
 	
@@ -508,11 +508,11 @@ Type wxTreeCtrl Extends wxControl
 		Return bmx_wxtreectrl_getselections(wxObjectPtr)
 	End Method
 
-	Function _newSelections:wxTreeItemId[](size:Int)
+	Function _newSelections:wxTreeItemId[](size:Int) { nomangle }
 		Return New wxTreeItemId[size]
 	End Function
 	
-	Function _setSelection(selections:wxTreeItemId[], index:Int, value:Byte Ptr)
+	Function _setSelection(selections:wxTreeItemId[], index:Int, value:Byte Ptr) { nomangle }
 		selections[index] = wxTreeItemId._create(value)
 	End Function
 	
@@ -535,11 +535,11 @@ Type wxTreeCtrl Extends wxControl
 	unselected and selected items, respectively. If image &gt; -1 and selImage is -1, the same image is used
 	for both selected and unselected items.
 	End Rem
-	Method InsertItem:wxTreeItemId(parent:wxTreeItemId, previous:wxTreeItemId, text:String, image:Int = -1, selImage:Int = -1, data:Object = Null)
+	Method InsertItem:wxTreeItemId(parent:wxTreeItemId, previous:wxTreeItemId, Text:String, image:Int = -1, selImage:Int = -1, data:Object = Null)
 		If data Then
-			Return wxTreeItemId._create(bmx_wxtreectrl_insertitem(wxObjectPtr, parent.wxTreeItemIdPtr, previous.wxTreeItemIdPtr, text, image, selImage, data))
+			Return wxTreeItemId._create(bmx_wxtreectrl_insertitem(wxObjectPtr, parent.wxTreeItemIdPtr, previous.wxTreeItemIdPtr, Text, image, selImage, data))
 		Else
-			Return wxTreeItemId._create(bmx_wxtreectrl_insertitem(wxObjectPtr, parent.wxTreeItemIdPtr, previous.wxTreeItemIdPtr, text, image, selImage, Null))
+			Return wxTreeItemId._create(bmx_wxtreectrl_insertitem(wxObjectPtr, parent.wxTreeItemIdPtr, previous.wxTreeItemIdPtr, Text, image, selImage, Null))
 		End If
 	End Method
 
@@ -552,11 +552,11 @@ Type wxTreeCtrl Extends wxControl
 	for both selected and unselected items.
 	</p>
 	End Rem
-	Method InsertItemBefore:wxTreeItemId(parent:wxTreeItemId, before:Int, text:String, image:Int = -1, selImage:Int = -1, data:Object = Null)
+	Method InsertItemBefore:wxTreeItemId(parent:wxTreeItemId, before:Int, Text:String, image:Int = -1, selImage:Int = -1, data:Object = Null)
 		If data Then
-			Return wxTreeItemId._create(bmx_wxtreectrl_insertitembefore(wxObjectPtr, parent.wxTreeItemIdPtr, before, text, image, selImage, data))
+			Return wxTreeItemId._create(bmx_wxtreectrl_insertitembefore(wxObjectPtr, parent.wxTreeItemIdPtr, before, Text, image, selImage, data))
 		Else
-			Return wxTreeItemId._create(bmx_wxtreectrl_insertitembefore(wxObjectPtr, parent.wxTreeItemIdPtr, before, text, image, selImage, Null))
+			Return wxTreeItemId._create(bmx_wxtreectrl_insertitembefore(wxObjectPtr, parent.wxTreeItemIdPtr, before, Text, image, selImage, Null))
 		End If
 	End Method
 
@@ -612,7 +612,7 @@ Type wxTreeCtrl Extends wxControl
 	End Method
 	
 	' internal callback
-	Function _OnCompareItems:Int(obj:Object, item1:Byte Ptr, item2:Byte Ptr)
+	Function _OnCompareItems:Int(obj:Object, item1:Byte Ptr, item2:Byte Ptr) { nomangle }
 		Return wxTreeCtrl(obj).OnCompareItems(wxTreeItemId._create(item1), wxTreeItemId._create(item2))
 	End Function
 
@@ -622,11 +622,11 @@ Type wxTreeCtrl Extends wxControl
 	image to use for unselected and selected items, respectively. If image &gt; -1 and selImage is -1, the
 	same image is used for both selected and unselected items.
 	End Rem
-	Method PrependItem:wxTreeItemId(parent:wxTreeItemId, text:String, image:Int = -1, selImage:Int = -1, data:Object = Null)
+	Method PrependItem:wxTreeItemId(parent:wxTreeItemId, Text:String, image:Int = -1, selImage:Int = -1, data:Object = Null)
 		If data Then
-			Return wxTreeItemId._create(bmx_wxtreectrl_prependitem(wxObjectPtr, parent.wxTreeItemIdPtr, text, image, selImage, data))
+			Return wxTreeItemId._create(bmx_wxtreectrl_prependitem(wxObjectPtr, parent.wxTreeItemIdPtr, Text, image, selImage, data))
 		Else
-			Return wxTreeItemId._create(bmx_wxtreectrl_prependitem(wxObjectPtr, parent.wxTreeItemIdPtr, text, image, selImage, Null))
+			Return wxTreeItemId._create(bmx_wxtreectrl_prependitem(wxObjectPtr, parent.wxTreeItemIdPtr, Text, image, selImage, Null))
 		End If
 	End Method
 
@@ -719,8 +719,8 @@ Type wxTreeCtrl Extends wxControl
 	Rem
 	bbdoc: Sets the item label.
 	End Rem
-	Method SetItemText(item:wxTreeItemId, text:String)
-		bmx_wxtreectrl_setitemtext(wxObjectPtr, item.wxTreeItemIdPtr, text)
+	Method SetItemText(item:wxTreeItemId, Text:String)
+		bmx_wxtreectrl_setitemtext(wxObjectPtr, item.wxTreeItemIdPtr, Text)
 	End Method
 
 	Rem

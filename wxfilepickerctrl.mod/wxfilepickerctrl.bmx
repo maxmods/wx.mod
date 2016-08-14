@@ -65,7 +65,7 @@ Type wxFilePickerCtrl Extends wxPickerBase
 		End If
 	End Function
 	
-	Function _xrcNew:wxFilePickerCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxFilePickerCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxFilePickerCtrl._create(wxObjectPtr)
 	End Function
 
@@ -124,7 +124,7 @@ Type wxDirPickerCtrl Extends wxPickerBase
 		End If
 	End Function
 	
-	Function _xrcNew:wxDirPickerCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxDirPickerCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxDirPickerCtrl._create(wxObjectPtr)
 	End Function
 

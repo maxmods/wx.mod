@@ -70,7 +70,7 @@ Type wxTextDropTarget Extends wxDropTarget
 	Method OnDropText:Int(x:Int, y:Int, data:String)
 	End Method
 	
-	Function _OnDropText:Int(obj:wxTextDropTarget, x:Int, y:Int, data:String)
+	Function _OnDropText:Int(obj:wxTextDropTarget, x:Int, y:Int, data:String) { nomangle }
 		Return obj.OnDropText(x, y, data)
 	End Function
 	

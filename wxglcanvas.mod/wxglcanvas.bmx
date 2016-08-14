@@ -94,7 +94,7 @@ Type wxGLCanvas Extends wxWindow
 		bmx_wxglcanvas_onpainthook(event.parent.wxObjectPtr, event)
 	End Function
 	
-	Function _OnPaint(event:wxPaintEvent)
+	Function _OnPaint(event:wxPaintEvent) { nomangle }
 		wxGLCanvas(event.parent).OnPaint(event)
 	End Function
 	

@@ -394,8 +394,8 @@ Type wxWebView Extends wxControl
 	since this will require a new search. To reset the search, for example reseting the highlights call
 	the method with an empty search phrase. This always returns wxNOT_FOUND on the OSX WebKit backend.
 	End Rem
-	Method Find:Int(text:String, flags:Int = wxWEB_VIEW_FIND_DEFAULT)
-		Return bmx_wxwebview_find(wxObjectPtr, text, flags)
+	Method Find:Int(Text:String, flags:Int = wxWEB_VIEW_FIND_DEFAULT)
+		Return bmx_wxwebview_find(wxObjectPtr, Text, flags)
 	End Method
 	
 	Rem
@@ -459,11 +459,11 @@ Type wxWebViewHistoryItem
 		End If
 	End Function
 	
-	Function _newArray:wxWebViewHistoryItem[](size:Int)
+	Function _newArray:wxWebViewHistoryItem[](size:Int) { nomangle }
 		Return New wxWebViewHistoryItem[size]
 	End Function
 	
-	Function _setArrayValue(arr:wxWebViewHistoryItem[], index:Int, item:Byte Ptr)
+	Function _setArrayValue(arr:wxWebViewHistoryItem[], index:Int, item:Byte Ptr) { nomangle }
 		arr[index] = _create(item)
 	End Function
 	

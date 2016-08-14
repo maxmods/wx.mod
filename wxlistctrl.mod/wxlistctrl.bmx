@@ -138,7 +138,7 @@ Type wxListCtrl Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxListCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxListCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxListCtrl._create(wxObjectPtr)
 	End Function
 
@@ -243,8 +243,8 @@ Type wxListCtrl Extends wxControl
 	about: The string comparison is case insensitive. If partial is true then this method will look for
 	items which begin with @text.
 	End Rem
-	Method FindItem:Int(start:Int, text:String, partial:Int = False)
-		Return bmx_wxlistctrl_finditem(wxObjectPtr, start, text, partial)
+	Method FindItem:Int(start:Int, Text:String, partial:Int = False)
+		Return bmx_wxlistctrl_finditem(wxObjectPtr, start, Text, partial)
 	End Method
 	
 	Rem
@@ -777,8 +777,8 @@ Type wxListCtrl Extends wxControl
 	Rem
 	bbdoc: Sets the item text for this item.
 	End Rem
-	Method SetItemText(item:Int, text:String)
-		bmx_wxlistctrl_setitemtext(wxObjectPtr, item, text)
+	Method SetItemText(item:Int, Text:String)
+		bmx_wxlistctrl_setitemtext(wxObjectPtr, item, Text)
 	End Method
 	
 	Rem
@@ -822,7 +822,7 @@ Type wxListCtrl Extends wxControl
 		Return bmx_wxlistctrl_sortitems(wxObjectPtr)
 	End Method
 	
-	Function _sortCallback:Int(item1:Object, item2:Object, data:Object)
+	Function _sortCallback:Int(item1:Object, item2:Object, data:Object) { nomangle }
 		Return wxListCtrl(data).callback(item1, item2, wxListCtrl(data).callbackData)
 	End Function
 	
@@ -842,7 +842,7 @@ Type wxListCtrl Extends wxControl
 		Return Null
 	End Method
 	
-	Function _OnGetItemAttr:Byte Ptr(obj:Object, item:Int)
+	Function _OnGetItemAttr:Byte Ptr(obj:Object, item:Int) { nomangle }
 		Local attr:wxListItemAttr = wxListCtrl(obj).OnGetItemAttr(item)
 		If attr Then
 			Return attr.wxItemAttrPtr
@@ -858,7 +858,7 @@ Type wxListCtrl Extends wxControl
 	Method OnGetItemText:String(item:Int, column:Int)
 	End Method
 	
-	Function _OnGetItemText:String(obj:Object, item:Int, column:Int)
+	Function _OnGetItemText:String(obj:Object, item:Int, column:Int) { nomangle }
 		Return wxListCtrl(obj).OnGetItemText(item, column)
 	End Function
 	
@@ -870,7 +870,7 @@ Type wxListCtrl Extends wxControl
 		Return -1
 	End Method
 	
-	Function _OnGetItemColumnImage:Int(obj:Object, item:Int, column:Int)
+	Function _OnGetItemColumnImage:Int(obj:Object, item:Int, column:Int) { nomangle }
 		Return wxListCtrl(obj).OnGetItemColumnImage(item, column)
 	End Function
 	
@@ -886,7 +886,7 @@ Type wxListCtrl Extends wxControl
 		Return -1
 	End Method
 
-	Function _OnGetItemImage:Int(obj:Object, item:Int)
+	Function _OnGetItemImage:Int(obj:Object, item:Int) { nomangle }
 		Return wxListCtrl(obj).OnGetItemImage(item)
 	End Function
 	
@@ -1128,8 +1128,8 @@ Type wxListItem Extends wxObject
 	Rem
 	bbdoc: Sets the text label for the item.
 	End Rem
-	Method SetText(text:String)
-		bmx_wxlistitem_settext(wxObjectPtr, text)
+	Method SetText(Text:String)
+		bmx_wxlistitem_settext(wxObjectPtr, Text)
 	End Method
 	
 	Rem

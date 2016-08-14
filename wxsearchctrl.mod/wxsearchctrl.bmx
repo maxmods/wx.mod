@@ -63,7 +63,7 @@ Type wxSearchCtrl Extends wxTextCtrl
 		End If
 	End Function
 
-	Function _xrcNew:wxSearchCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxSearchCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxSearchCtrl._create(wxObjectPtr)
 	End Function
 

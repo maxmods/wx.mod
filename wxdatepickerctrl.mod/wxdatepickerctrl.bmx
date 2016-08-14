@@ -92,7 +92,7 @@ Type wxDatePickerCtrl Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxDatePickerCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxDatePickerCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxDatePickerCtrl._create(wxObjectPtr)
 	End Function
 

@@ -64,7 +64,7 @@ Type wxRadioBox Extends wxControlWithItems
 		End If
 	End Function
 	
-	Function _xrcNew:wxRadioBox(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxRadioBox(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxRadioBox._create(wxObjectPtr)
 	End Function
 
@@ -106,8 +106,8 @@ Type wxRadioBox Extends wxControlWithItems
 	Rem
 	bbdoc: Finds a button matching the given string, returning the position if found, or -1 if not found.
 	End Rem
-	Method FindString:Int(text:String, caseSensitive:Int = False)
-		Return bmx_wxradiobox_findstring(wxObjectPtr, text, caseSensitive)
+	Method FindString:Int(Text:String, caseSensitive:Int = False)
+		Return bmx_wxradiobox_findstring(wxObjectPtr, Text, caseSensitive)
 	End Method
 	
 	Rem
@@ -228,15 +228,15 @@ Type wxRadioBox Extends wxControlWithItems
 	bbdoc: Sets the selection to a button by passing the desired string.
 	about: This does not cause a wxEVT_COMMAND_RADIOBOX_SELECTED event to get emitted.
 	End Rem
-	Method SetStringSelection:Int(text:String)
-		Return bmx_wxradiobox_setstringselection(wxObjectPtr, text)
+	Method SetStringSelection:Int(Text:String)
+		Return bmx_wxradiobox_setstringselection(wxObjectPtr, Text)
 	End Method
 	
 	Rem
 	bbdoc: Sets the tooltip text for the specified item in the radio group.
 	End Rem
-	Method SetItemToolTip(item:Int, text:String)
-		bmx_wxradiobox_setitemtooltip(wxObjectPtr, item, text)
+	Method SetItemToolTip(item:Int, Text:String)
+		bmx_wxradiobox_setitemtooltip(wxObjectPtr, item, Text)
 	End Method
 	
 	Rem

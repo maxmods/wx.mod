@@ -152,32 +152,32 @@ Type wxMaxInputStream Extends wxInputStream
 	
 	' CALLBACK functions
 	
-	Function _eof:Int(obj:Object)
+	Function _eof:Int(obj:Object) { nomangle }
 		Return wxMaxInputStream(obj).Eof()
 	End Function
 	
-	Function _read:Byte Ptr(obj:Object, buffer:Byte Ptr, size:Int)
+	Function _read:Byte Ptr(obj:Object, buffer:Byte Ptr, size:Int) { nomangle }
 		Return wxMaxInputStream(obj).Read(buffer, size).wxStreamPtr
 	End Function
 
-	Function _sysread:Int(obj:Object, buffer:Byte Ptr, size:Int)
+	Function _sysread:Int(obj:Object, buffer:Byte Ptr, size:Int) { nomangle }
 		wxMaxInputStream(obj).Read(buffer, size)
 		Return wxMaxInputStream(obj)._lastread
 	End Function
 
-	Function _seeki:Int(obj:Object, pos:Int, Mode:Int)
+	Function _seeki:Int(obj:Object, pos:Int, Mode:Int) { nomangle }
 		Return wxMaxInputStream(obj).SeekI(pos, Mode)
 	End Function
 
-	Function _sysseek:Int(obj:Object, pos:Int, Mode:Int)
+	Function _sysseek:Int(obj:Object, pos:Int, Mode:Int) { nomangle }
 		Return wxMaxInputStream(obj).SeekI(pos, Mode)
 	End Function
 	
-	Function _systell:Int(obj:Object)
+	Function _systell:Int(obj:Object) { nomangle }
 		Return wxMaxInputStream(obj).TellI()
 	End Function
 
-	Function _telli:Int(obj:Object)
+	Function _telli:Int(obj:Object) { nomangle }
 		Return wxMaxInputStream(obj).TellI()
 	End Function
 	

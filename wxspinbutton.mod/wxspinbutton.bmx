@@ -71,7 +71,7 @@ Type wxSpinButton Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxSpinButton(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxSpinButton(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxSpinButton._create(wxObjectPtr)
 	End Function
 

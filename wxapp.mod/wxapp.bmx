@@ -84,7 +84,7 @@ Type wxApp Extends wxEvtHandler Abstract
 	End Rem
 	Method OnInit:Int() Abstract
 
-	Function _OnInit:Int()
+	Function _OnInit:Int() { nomangle }
 		app.wxObjectPtr = bmx_app_getapp()
 		Return app.OnInit()
 	End Function
@@ -101,7 +101,7 @@ Type wxApp Extends wxEvtHandler Abstract
 	Method OnExit:Int()
 	End Method
 	
-	Function _OnExit:Int()
+	Function _OnExit:Int() { nomangle }
 		Return app.OnExit()
 	End Function
 
@@ -250,7 +250,7 @@ Type wxAppMain Extends wxApp Abstract
 	End Rem
 	Method MainLoop:Int() Abstract
 
-	Function _MainLoop:Int()
+	Function _MainLoop:Int() { nomangle }
 		Return wxAppMain(app).MainLoop()
 	End Function
 	

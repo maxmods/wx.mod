@@ -59,13 +59,13 @@ Type wxCommand Extends wxObject
 	bbdoc: 
 	End Rem
 	Function CreateCommand:wxCommand(canUndo:Int = False, name:String = "")
-		Return New wxCommand.create(canUndo, name)
+		Return New wxCommand.Create(canUndo, name)
 	End Function
 	
 	Rem
 	bbdoc: 
 	End Rem
-	Method create:wxCommand(canUndo:Int = False, name:String = "")
+	Method Create:wxCommand(canUndo:Int = False, name:String = "")
 		wxObjectPtr = bmx_wxcommand_create(Self, canUndo, name)
 		Return Self
 	End Method
@@ -78,7 +78,7 @@ Type wxCommand Extends wxObject
 		Return bmx_wxcommand_canundo(wxObjectPtr)
 	End Method
 	
-	Function _CanUndo:Int(command:wxCommand)
+	Function _CanUndo:Int(command:wxCommand) { nomangle }
 		Return command.CanUndo()
 	End Function
 	
@@ -95,7 +95,7 @@ Type wxCommand Extends wxObject
 		Return False
 	End Method
 	
-	Function _Do:Int(command:wxCommand)
+	Function _Do:Int(command:wxCommand) { nomangle }
 		Return command.Do()
 	End Function
 
@@ -135,7 +135,7 @@ Type wxCommand Extends wxObject
 		Return False
 	End Method
 	
-	Function _Undo:Int(command:wxCommand)
+	Function _Undo:Int(command:wxCommand) { nomangle }
 		Return command.Undo()
 	End Function
 

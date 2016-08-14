@@ -82,7 +82,7 @@ Type wxStaticBox Extends wxControl
 		End If
 	End Function
 
-	Function _xrcNew:wxStaticBox(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxStaticBox(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxStaticBox._create(wxObjectPtr)
 	End Function
 

@@ -65,7 +65,7 @@ Type wxStaticBitmap Extends wxControl
 		End If
 	End Function
 	
-	Function _xrcNew:wxStaticBitmap(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxStaticBitmap(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxStaticBitmap._create(wxObjectPtr)
 	End Function
 

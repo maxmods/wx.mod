@@ -146,7 +146,7 @@ Type wxTimer Extends wxEvtHandler
 	Method Notify()
 	End Method
 
-	Function _notify(obj:Object)
+	Function _notify(obj:Object) { nomangle }
 		wxTimer(obj).Notify()
 	End Function
 	

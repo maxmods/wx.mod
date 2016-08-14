@@ -65,7 +65,7 @@ Type wxFontPickerCtrl Extends wxPickerBase
 		End If
 	End Function
 	
-	Function _xrcNew:wxFontPickerCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxFontPickerCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxFontPickerCtrl._create(wxObjectPtr)
 	End Function
 

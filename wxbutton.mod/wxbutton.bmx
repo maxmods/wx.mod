@@ -84,7 +84,7 @@ Type wxButton Extends wxAnyButton
 		End If
 	End Function
 
-	Function _xrcNew:wxButton(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxButton(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxButton._create(wxObjectPtr)
 	End Function
 
@@ -144,8 +144,8 @@ Type wxButton Extends wxAnyButton
 	Rem
 	bbdoc: Sets the string label for the button.
 	End Rem
-	Method SetLabel(text:String)
-		bmx_wxbutton_setlabel(wxObjectPtr, text)
+	Method SetLabel(Text:String)
+		bmx_wxbutton_setlabel(wxObjectPtr, Text)
 	End Method
 
 End Type

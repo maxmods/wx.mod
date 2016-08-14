@@ -89,7 +89,7 @@ Type wxAcceleratorTable Extends wxObject
 		Return Self
 	End Method
 	
-	Function _getEntry:Byte Ptr(entries:wxAcceleratorEntry[], index:Int)
+	Function _getEntry:Byte Ptr(entries:wxAcceleratorEntry[], index:Int) { nomangle }
 		Return entries[index].wxAcceleratorPtr
 	End Function
 

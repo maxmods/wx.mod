@@ -264,7 +264,7 @@ Type wxTopLevelWindow Extends wxWindow
 		Return True
 	End Method
 	
-	Function _myShouldPreventAppExit:Int(window:Object)
+	Function _myShouldPreventAppExit:Int(window:Object) { nomangle }
 		If wxTopLevelWindow(window) Then
 			Return wxTopLevelWindow(window).ShouldPreventAppExit()
 		End If

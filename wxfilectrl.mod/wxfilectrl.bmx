@@ -64,7 +64,7 @@ Type wxFileCtrl Extends wxControl
 		End If
 	End Function
 
-	Function _xrcNew:wxFileCtrl(wxObjectPtr:Byte Ptr)
+	Function _xrcNew:wxFileCtrl(wxObjectPtr:Byte Ptr) { nomangle }
 		Return wxFileCtrl._create(wxObjectPtr)
 	End Function
 
