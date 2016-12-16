@@ -311,11 +311,11 @@ Type wxHtmlWindow Extends wxScrolledWindow
 		Return bmx_wxhtmlwindow_totext(wxObjectPtr)
 	End Method
 	
-	Function _OnOpeningURL:String(obj:wxHtmlWindow, urlType:Int, url:String, returnStatus:Int Var)
+	Function _OnOpeningURL:String(obj:wxHtmlWindow, urlType:Int, url:String, returnStatus:Int Var) { nomangle }
 		Return obj.OnOpeningURL(urlType, url, returnStatus)
 	End Function
 	
-	Function _OnSetTitle(obj:wxHtmlWindow, title:String)
+	Function _OnSetTitle(obj:wxHtmlWindow, title:String) { nomangle }
 		obj.OnSetTitle(title)
 	End Function
 
