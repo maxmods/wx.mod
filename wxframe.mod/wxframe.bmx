@@ -258,8 +258,12 @@ Type wxFrame Extends wxTopLevelWindow
 	Rem
 	bbdoc: Creates a toolbar at the top or left of the frame
 	End Rem
-	Method CreateToolBar:wxToolBar(style:Int = wxNO_BORDER | wxTB_HORIZONTAL, id:Int = -1)
-		Local tb:wxToolBar = wxToolBar._create(bmx_wxframe_createtoolbar(wxObjectPtr, style, id))
+	Method CreateToolBar:wxToolBar(style:Int = wxNO_BORDER | wxTB_HORIZONTAL, id:Int = -1, tb:wxToolBar = Null)
+		If Not tb Then
+			tb = wxToolBar._create(bmx_wxframe_createtoolbar(wxObjectPtr, style, id))
+		Else
+			tb.wxObjectPtr = bmx_wxframe_createtoolbar(wxObjectPtr, style, id)
+		End If
 		tb.injectSelf()
 		Return tb
 	End Method
