@@ -89,6 +89,7 @@ Const wxSPLIT_DRAG_DRAGGING:Int = 1
 Const wxSPLIT_DRAG_LEFT_DOWN:Int = 2
 
 Const wxSP_NOBORDER:Int = $0000
+Const wxSP_THIN_SASH:Int = $0000
 Const wxSP_NOSASH:Int = $0010
 Const wxSP_PERMIT_UNSPLIT:Int = $0040
 Const wxSP_LIVE_UPDATE:Int = $0080
