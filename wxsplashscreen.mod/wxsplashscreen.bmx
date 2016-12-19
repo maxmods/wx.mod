@@ -80,6 +80,9 @@ Type wxSplashScreen Extends wxFrame
 			wxObjectPtr = bmx_wxsplashscreen_create(Self, bitmap.wxObjectPtr, splashStyle, milliseconds, ..
 				Null, id, x, y, w, h, style)
 		End If
+		
+		OnInit()
+		
 		Return Self
 	End Method
 	
