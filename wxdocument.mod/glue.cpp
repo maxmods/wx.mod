@@ -151,31 +151,31 @@ void MaxView::OnActivateView(bool activate, wxView *activeView, wxView *deactive
 }
 
 void MaxView::OnChangeFilename() {
-	CB_PREF(wx_wxdocument_wxView_OnChangeFilename)(maxHandle);
+	CB_PREF(wx_wxdocument_wxView__OnChangeFilename)(maxHandle);
 }
 
 bool MaxView::OnClose(bool deleteWindow) {
-	return static_cast<bool>(CB_PREF(wx_wxdocument_wxView_OnClose)(maxHandle, deleteWindow));
+	return static_cast<bool>(CB_PREF(wx_wxdocument_wxView__OnClose)(maxHandle, deleteWindow));
 }
 
 void MaxView::OnClosingDocument() {
-	CB_PREF(wx_wxdocument_wxView_OnClosingDocument)(maxHandle);
+	CB_PREF(wx_wxdocument_wxView__OnClosingDocument)(maxHandle);
 }
 
 bool MaxView::OnCreate(wxDocument* doc, long flags) {
-	return static_cast<bool>(CB_PREF(wx_wxdocument_wxView_OnCreate)(maxHandle, doc, flags));
+	return static_cast<bool>(CB_PREF(wx_wxdocument_wxView__OnCreate)(maxHandle, doc, flags));
 }
 
 wxPrintout* MaxView::OnCreatePrintout() {
-	return CB_PREF(wx_wxdocument_wxView_OnCreatePrintout)(maxHandle);
+	return CB_PREF(wx_wxdocument_wxView__OnCreatePrintout)(maxHandle);
 }
 
 void MaxView::OnDraw(wxDC* dc) {
-	CB_PREF(wx_wxdocument_wxView_OnDraw)(maxHandle, new MaxDC(dc));
+	CB_PREF(wx_wxdocument_wxView__OnDraw)(maxHandle, new MaxDC(dc));
 }
 
 void MaxView::OnUpdate(wxView* sender, wxObject* hint) {
-	CB_PREF(wx_wxdocument_wxView_OnUpdate)(maxHandle, sender);
+	CB_PREF(wx_wxdocument_wxView__OnUpdate)(maxHandle, sender);
 }
 
 
@@ -228,13 +228,20 @@ MaxDocTemplate::~MaxDocTemplate()
 }
 
 bool MaxDocTemplate::InitDocument(wxDocument* doc, const wxString& path, long flags) {
-	return static_cast<bool>(CB_PREF(wx_wxdocument_wxDocTemplate_InitDocument)(maxHandle, doc, bbStringFromWxString(path), flags));
+	return static_cast<bool>(CB_PREF(wx_wxdocument_wxDocTemplate__InitDocument)(maxHandle, doc, bbStringFromWxString(path), flags));
 }
 
 bool MaxDocTemplate::InitDocument_default(wxDocument* doc, const wxString& path, long flags) {
 	return wxDocTemplate::InitDocument(doc, path, flags);
 }
 
+wxDocument * MaxDocTemplate::CreateDocument(const wxString& path, long flags) {
+	return CB_PREF(wx_wxdocument_wxDocTemplate__CreateDocument)(maxHandle, bbStringFromWxString(path), flags);
+}
+
+wxView * MaxDocTemplate::CreateView(wxDocument* doc, long flags) {
+	return CB_PREF(wx_wxdocument_wxDocTemplate__CreateView)(maxHandle, doc, flags);
+}
 
 // +++++++++++++++++++++++++++++++++++++++++++++
 

@@ -45,15 +45,18 @@ extern "C" {
 	void CB_PREF(wx_wxdocument_wxDocument__Modify)(BBObject * handle, int doModify);
 
 	void CB_PREF(wx_wxdocument_wxView__OnActivateView)(BBObject * handle, int activate, wxView *activeView, wxView *deactiveView);
-	void CB_PREF(wx_wxdocument_wxView_OnChangeFilename)(BBObject * handle);
-	int CB_PREF(wx_wxdocument_wxView_OnClose)(BBObject * handle, int deleteWindow);
-	void CB_PREF(wx_wxdocument_wxView_OnClosingDocument)(BBObject * handle);
-	int CB_PREF(wx_wxdocument_wxView_OnCreate)(BBObject * handle, wxDocument* doc, int flags);
-	wxPrintout * CB_PREF(wx_wxdocument_wxView_OnCreatePrintout)(BBObject * handle);
-	void CB_PREF(wx_wxdocument_wxView_OnDraw)(BBObject * handle, MaxDC * dc);
-	void CB_PREF(wx_wxdocument_wxView_OnUpdate)(BBObject * handle, wxView* sender);
+	void CB_PREF(wx_wxdocument_wxView__OnChangeFilename)(BBObject * handle);
+	int CB_PREF(wx_wxdocument_wxView__OnClose)(BBObject * handle, int deleteWindow);
+	void CB_PREF(wx_wxdocument_wxView__OnClosingDocument)(BBObject * handle);
+	int CB_PREF(wx_wxdocument_wxView__OnCreate)(BBObject * handle, wxDocument* doc, int flags);
+	wxPrintout * CB_PREF(wx_wxdocument_wxView__OnCreatePrintout)(BBObject * handle);
+	void CB_PREF(wx_wxdocument_wxView__OnDraw)(BBObject * handle, MaxDC * dc);
+	void CB_PREF(wx_wxdocument_wxView__OnUpdate)(BBObject * handle, wxView* sender);
 
-	int CB_PREF(wx_wxdocument_wxDocTemplate_InitDocument)(BBObject * handle, wxDocument * doc, BBString * path, int flags);
+	BBObject * CB_PREF(wx_wxdocument_wxDocTemplate__create)(wxDocTemplate * tmpl);
+	int CB_PREF(wx_wxdocument_wxDocTemplate__InitDocument)(BBObject * handle, wxDocument * doc, BBString * path, int flags);
+	wxDocument * CB_PREF(wx_wxdocument_wxDocTemplate__CreateDocument)(BBObject * handle, BBString * path, int flags);
+	wxView * CB_PREF(wx_wxdocument_wxDocTemplate__CreateView)(BBObject * handle, wxDocument * doc, int flags);
 
 	BBObject * CB_PREF(wx_wxdocument_wxView__create)(wxView * view);
 
@@ -244,6 +247,9 @@ public:
 	bool InitDocument(wxDocument* doc, const wxString& path, long flags = 0);
 
 	bool InitDocument_default(wxDocument* doc, const wxString& path, long flags = 0);
+
+    wxDocument * CreateDocument(const wxString& path, long flags = 0);
+    wxView * CreateView(wxDocument* doc, long flags = 0);
 	
 private: 
 	BBObject * maxHandle;
