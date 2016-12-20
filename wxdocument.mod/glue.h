@@ -98,6 +98,8 @@ extern "C" {
 	void bmx_wxdocument_setfilename(wxDocument * doc, BBString * filename, int notifyViews);
 	void bmx_wxdocument_settitle(wxDocument * doc, BBString * title);
 	void bmx_wxdocument_updateallviews(wxDocument * doc, wxView * sender);
+	int bmx_wxdocument_alreadysaved(wxDocument * doc);
+	void bmx_wxdocument_activate(wxDocument * doc);
 
 	wxDocTemplate * bmx_wxdoctemplate_create(BBObject * handle, wxDocManager * manager, BBString *desc, BBString * filter,
 			BBString * dir, BBString * ext, BBString * docTypeName, BBString * viewTypeName, int flags);

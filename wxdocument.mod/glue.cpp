@@ -398,6 +398,14 @@ void bmx_wxdocument_updateallviews(wxDocument * doc, wxView * sender) {
 	doc->UpdateAllViews(sender);
 }
 
+int bmx_wxdocument_alreadysaved(wxDocument * doc) {
+	return static_cast<int>(doc->AlreadySaved());
+}
+
+void bmx_wxdocument_activate(wxDocument * doc) {
+	doc->Activate();
+}
+
 // *********************************************
 
 

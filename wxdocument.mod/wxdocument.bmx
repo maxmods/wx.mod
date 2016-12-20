@@ -89,6 +89,7 @@ Type wxDocument Extends wxEvtHandler
 	Method Create:wxDocument()
 		wxObjectPtr = bmx_wxdocument_create(Self)
 		OnInit()
+		Return Self
 	End Method
 	
 	Rem
@@ -96,6 +97,23 @@ Type wxDocument Extends wxEvtHandler
 	End Rem
 	Method AddView:Int(view:wxView)
 		Return bmx_wxdocument_addview(wxObjectPtr, view.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if the document hasn't been modified since the last time it had been saved.
+	about: Notice that this method returns False if the document had been never saved at all, so it may be also used to test whether it makes sense to save the document:
+	if it returns true, there is nothing to save but if false is returned, it can be saved, even if it might be not modified (this can be used to create an empty document file by the user).
+	End Rem
+	Method AlreadySaved:Int()
+		Return bmx_wxdocument_alreadysaved(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Activate the first view of the document if any.
+	about: This method simply calls the Raise() method of the frame of the first view. You may need to override the Raise() method to get the desired effect if you are not using a standard wxFrame for your view. 
+	End Rem
+	Method Activate()
+		bmx_wxdocument_activate(wxObjectPtr)
 	End Method
 	
 	Rem
