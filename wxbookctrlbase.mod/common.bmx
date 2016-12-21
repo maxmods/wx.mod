@@ -50,8 +50,8 @@ Import "glue.cpp"
 
 Extern
 
-	Function bmx_wxbookctrlbase_addpage:Int(handle:Byte Ptr, page:Byte Ptr, text:String, selected:Int, imageId:Int)
-	Function bmx_wxbookctrlbase_insertpage:Int(handle:Byte Ptr, index:Int, page:Byte Ptr, text:String, selected:Int, imageId:Int)
+	Function bmx_wxbookctrlbase_addpage:Int(handle:Byte Ptr, page:Byte Ptr, Text:String, selected:Int, imageId:Int)
+	Function bmx_wxbookctrlbase_insertpage:Int(handle:Byte Ptr, index:Int, page:Byte Ptr, Text:String, selected:Int, imageId:Int)
 	Function bmx_wxbookctrlbase_advanceselection(handle:Byte Ptr, forward:Int)
 	
 	Function bmx_wxbookctrlbase_assignimagelist(handle:Byte Ptr, imagelist:Byte Ptr)
@@ -69,9 +69,10 @@ Extern
 	Function bmx_wxbookctrlbase_removepage:Int(handle:Byte Ptr, page:Int)
 	Function bmx_wxbookctrlbase_setpagesize(handle:Byte Ptr, width:Int, height:Int)
 	Function bmx_wxbookctrlbase_setpageimage:Int(handle:Byte Ptr, page:Int, image:Int)
-	Function bmx_wxbookctrlbase_setpagetext:Int(handle:Byte Ptr, page:Int, text:String)
+	Function bmx_wxbookctrlbase_setpagetext:Int(handle:Byte Ptr, page:Int, Text:String)
 	Function bmx_wxbookctrlbase_setselection:Int(handle:Byte Ptr, page:Int)
 	Function bmx_wxbookctrlbase_changeselection:Int(handle:Byte Ptr, page:Int)
+	Function bmx_wxbookctrlbase_findpage:Int(handle:Byte Ptr, page:Byte Ptr)
 
 	Function bmx_wxbookctrlevent_getoldselection:Int(evt:Byte Ptr)
 	Function bmx_wxbookctrlevent_getselection:Int(evt:Byte Ptr)

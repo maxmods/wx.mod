@@ -113,6 +113,10 @@ int bmx_wxbookctrlbase_changeselection(wxBookCtrlBase * book, int page) {
 	return book->ChangeSelection(page);
 }
 
+int bmx_wxbookctrlbase_findpage(wxBookCtrlBase * book, wxWindow * page) {
+	return book->FindPage(page);
+}
+
 
 
 int bmx_wxbookctrlevent_getoldselection(wxBookCtrlEvent & event) {

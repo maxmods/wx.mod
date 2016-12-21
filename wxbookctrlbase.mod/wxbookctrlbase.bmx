@@ -72,16 +72,16 @@ Type wxBookCtrlBase Extends wxControl
 	Do not delete the page, it will be deleted by the notebook.
 	</p>
 	End Rem
-	Method AddPage:Int(page:wxWindow, text:String, selected:Int = False, imageId:Int = -1)
-		Return bmx_wxbookctrlbase_addpage(wxObjectPtr, page.wxObjectPtr, text, selected, imageId)
+	Method AddPage:Int(page:wxWindow, Text:String, selected:Int = False, imageId:Int = -1)
+		Return bmx_wxbookctrlbase_addpage(wxObjectPtr, page.wxObjectPtr, Text, selected, imageId)
 	End Method
 
 	Rem
 	bbdoc: Inserts a new page at the specified position.
 	returns: True if successful, False otherwise.
 	End Rem
-	Method InsertPage:Int(index:Int, page:wxWindow, text:String, selected:Int = False, imageId:Int = -1)
-		Return bmx_wxbookctrlbase_insertpage(wxObjectPtr, index, page.wxObjectPtr, text, selected, imageId)
+	Method InsertPage:Int(index:Int, page:wxWindow, Text:String, selected:Int = False, imageId:Int = -1)
+		Return bmx_wxbookctrlbase_insertpage(wxObjectPtr, index, page.wxObjectPtr, Text, selected, imageId)
 	End Method
 
 	Rem
@@ -112,6 +112,13 @@ Type wxBookCtrlBase Extends wxControl
 	End Rem
 	Method DeletePage:Int(page:Int)
 		Return bmx_wxbookctrlbase_deletepage(wxObjectPtr, page)
+	End Method
+	
+	Rem
+	bbdoc: Returns the index of the specified tab window or wxNOT_FOUND if not found.
+	End Rem
+	Method FindPage:Int(page:wxWindow)
+		Return bmx_wxbookctrlbase_findpage(wxObjectPtr, page.wxObjectPtr)
 	End Method
 	
 	Rem
@@ -212,8 +219,8 @@ Type wxBookCtrlBase Extends wxControl
 	Rem
 	bbdoc: Sets the text for the given page.
 	End Rem
-	Method SetPageText:Int(page:Int, text:String)
-		Return bmx_wxbookctrlbase_setpagetext(wxObjectPtr, page, text)
+	Method SetPageText:Int(page:Int, Text:String)
+		Return bmx_wxbookctrlbase_setpagetext(wxObjectPtr, page, Text)
 	End Method
 	
 	Rem
