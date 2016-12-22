@@ -145,14 +145,14 @@ Type wxDocument Extends wxEvtHandler
 	bbdoc: Gets the template that created the document.
 	End Rem
 	Method GetDocumentTemplate:wxDocTemplate()
-		Return wxDocTemplate._create(bmx_wxdocument_getdocumenttemplate(wxObjectPtr))
+		Return wxDocTemplate(wxDocTemplate._find(bmx_wxdocument_getdocumenttemplate(wxObjectPtr)))
 	End Method
 	
 	Rem
 	bbdoc: Gets the associated document manager.
 	End Rem
 	Method GetDocumentManager:wxDocManager()
-		Return wxDocManager._create(bmx_wxdocument_getdocumentmanager(wxObjectPtr))
+		Return wxDocManager(wxDocManager._find(bmx_wxdocument_getdocumentmanager(wxObjectPtr)))
 	End Method
 
 	Rem
