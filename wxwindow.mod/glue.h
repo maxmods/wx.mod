@@ -229,6 +229,13 @@ extern "C" {
 	MaxAcceleratorTable * bmx_wxwindow_getacceleratortable(wxWindow * window);
 	void bmx_wxwindow_setacceleratortable(wxWindow * window, MaxAcceleratorTable * table);
 
+	void bmx_wxwindow_alwaysshowscrollbars(wxWindow * window, int hflag, int vflag);
+	int bmx_wxwindow_beginrepositioningchildren(wxWindow * window);
+	int bmx_wxwindow_canacceptfocus(wxWindow * window);
+	int bmx_wxwindow_canacceptfocusfromkeyboard(wxWindow * window);
+	int bmx_wxwindow_canscroll(wxWindow * window, int orient);
+	int bmx_wxwindow_cansettransparent(wxWindow * window);
+	void bmx_wxwindow_endrepositioningchildren(wxWindow * window);
 
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);

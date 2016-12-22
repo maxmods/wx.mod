@@ -179,6 +179,54 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
+	bbdoc: Forces one or both scrollbars to be always shown, even if the window is big enough to show its entire contents without scrolling.
+	End Rem
+	Method AlwaysShowScrollbars(hflag:Int = True, vflag:Int = True)
+		bmx_wxwindow_alwaysshowscrollbars(wxObjectPtr, hflag, vflag)
+	End Method
+	
+	Rem
+	bbdoc: Prepare for changing positions of multiple child windows.
+	about: This method should be called before changing positions of multiple child windows to reduce flicker and, in MSW case, even avoid display corruption in some cases.
+	It is used internally by wxWidgets and called automatically when the window size changes but it can also be useful to call it from outside of the library if a repositioning
+	involving multiple children is done without changing the window size.
+	If this method returns true, then EndRepositioningChildren() must be called after setting all children positions.
+	End Rem
+	Method BeginRepositioningChildren:Int()
+		Return bmx_wxwindow_beginrepositioningchildren(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: Can this window have focus right now?
+	about: If this method returns true, it means that calling SetFocus() will put focus either to this window or one of its children, if you need to know whether this window accepts focus itself, use IsFocusable()
+	End Rem
+	Method CanAcceptFocus:Int()
+		Return bmx_wxwindow_canacceptfocus(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Can this window be assigned focus from keyboard right now?
+	End Rem
+	Method CanAcceptFocusFromKeyboard:Int()
+		Return bmx_wxwindow_canacceptfocusfromkeyboard(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Returns true if this window can have a scroll bar in this orientation.
+	End Rem
+	Method CanScroll:Int(orient:Int)
+		Return bmx_wxwindow_canscroll(wxObjectPtr, orient)
+	End Method
+	
+	Rem
+	bbdoc: Returns True if the system supports transparent windows and calling SetTransparent() may succeed.
+	about: If this method returns False, transparent windows are definitely not supported by the current system.
+	End Rem
+	Method CanSetTransparent:Int()
+		Return bmx_wxwindow_cansettransparent(wxObjectPtr)
+	End Method
+	
+	Rem
 	bbdoc: Directs all mouse input to this window.
 	about: Call wxWindow::ReleaseMouse to release the capture.
 	<p>
@@ -376,6 +424,14 @@ Type wxWindow Extends wxEvtHandler
 	End Rem
 	Method Enable:Int(value:Int = True)
 		Return bmx_wxwindow_enable(wxObjectPtr, value)
+	End Method
+	
+	Rem
+	bbdoc: Fixes child window positions after setting all of them at once.
+	about: This method must be called if and only if the previous call to BeginRepositioningChildren() returned true.
+	End Rem
+	Method EndRepositioningChildren()
+		bmx_wxwindow_endrepositioningchildren(wxObjectPtr)
 	End Method
 	
 	Rem

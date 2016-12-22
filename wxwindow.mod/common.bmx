@@ -206,7 +206,7 @@ Extern
 	Function bmx_wxwindow_getcursor:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxwindow_getextrastyle:Int(handle:Byte Ptr)
 	Function bmx_wxwindow_geteventhandler:Byte Ptr(handle:Byte Ptr)
-	Function bmx_wxwindow_gettextextent(handle:Byte Ptr, text:String, x:Int Ptr, y:Int Ptr, descent:Int Ptr, ..
+	Function bmx_wxwindow_gettextextent(handle:Byte Ptr, Text:String, x:Int Ptr, y:Int Ptr, descent:Int Ptr, ..
 			externalLeading:Int Ptr, font:Byte Ptr, use16:Int)
 	Function bmx_wxwindow_getvirtualsize(handle:Byte Ptr, width:Int Ptr, height:Int Ptr)
 	Function bmx_wxwindow_getwindowbordersize(handle:Byte Ptr, leftRight:Int Ptr, topBottom:Int Ptr)
@@ -224,6 +224,14 @@ Extern
 	Function bmx_wxwindow_gettooltip:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxwindow_scrollwindow(handle:Byte Ptr, dx:Int, dy:Int, x:Int, y:Int, w:Int, h:Int)
 	Function bmx_wxwindow_scrollwindowrect(handle:Byte Ptr, dx:Int, dy:Int, rect:Byte Ptr)
+	
+	Function bmx_wxwindow_alwaysshowscrollbars(handle:Byte Ptr, hflag:Int, vflag:Int)
+	Function bmx_wxwindow_beginrepositioningchildren:Int(handle:Byte Ptr)
+	Function bmx_wxwindow_canacceptfocus:Int(handle:Byte Ptr)
+	Function bmx_wxwindow_canacceptfocusfromkeyboard:Int(handle:Byte Ptr)
+	Function bmx_wxwindow_canscroll:Int(handle:Byte Ptr, orient:Int)
+	Function bmx_wxwindow_cansettransparent:Int(handle:Byte Ptr)
+	Function bmx_wxwindow_endrepositioningchildren(handle:Byte Ptr)
 
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)
@@ -308,7 +316,7 @@ Extern
 	Function bmx_wxupdateeventui_getmode:Int()
 	Function bmx_wxupdateeventui_getupdateinterval:Int()
 	Function bmx_wxupdateeventui_setmode(Mode:Int)
-	Function bmx_wxupdateeventui_settext(handle:Byte Ptr, text:String)
+	Function bmx_wxupdateeventui_settext(handle:Byte Ptr, Text:String)
 	Function bmx_wxupdateeventui_setupdateinterval(interval:Int)
 
 	Function bmx_wxidleevent_getmode:Int()

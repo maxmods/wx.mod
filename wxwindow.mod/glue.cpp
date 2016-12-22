@@ -957,6 +957,35 @@ void bmx_wxwindow_setvalidator(wxWindow * window, wxValidator * validator) {
 	}
 }
 
+void bmx_wxwindow_alwaysshowscrollbars(wxWindow * window, int hflag, int vflag) {
+	window->AlwaysShowScrollbars(static_cast<bool>(hflag), static_cast<bool>(vflag));
+}
+
+int bmx_wxwindow_beginrepositioningchildren(wxWindow * window) {
+	return window->BeginRepositioningChildren();
+}
+
+int bmx_wxwindow_canacceptfocus(wxWindow * window) {
+	return static_cast<int>(window->CanAcceptFocus());
+}
+
+int bmx_wxwindow_canacceptfocusfromkeyboard(wxWindow * window) {
+	return static_cast<int>(window->CanAcceptFocusFromKeyboard());
+}
+
+int bmx_wxwindow_canscroll(wxWindow * window, int orient) {
+	return static_cast<int>(window->CanScroll(orient));
+}
+
+int bmx_wxwindow_cansettransparent(wxWindow * window) {
+	return static_cast<int>(window->CanSetTransparent());
+}
+
+void bmx_wxwindow_endrepositioningchildren(wxWindow * window) {
+	window->EndRepositioningChildren();
+}
+
+
 // *********************************************
 
 
