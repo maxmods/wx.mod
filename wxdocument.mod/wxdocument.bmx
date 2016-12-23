@@ -165,6 +165,13 @@ Type wxDocument Extends wxEvtHandler
 	Method GetDocumentName:String()
 		Return bmx_wxdocument_getdocumentname(wxObjectPtr)
 	End Method
+
+	Rem
+	bbdoc: Returns true if this document had been already saved.
+	End Rem
+	Method GetDocumentSaved:Int()
+		Return bmx_wxdocument_getdocumentsaved(wxObjectPtr)
+	End Method
 	
 	Rem
 	bbdoc: Intended to return a suitable window for using as a parent for document-related dialog boxes.
@@ -388,6 +395,16 @@ Type wxDocument Extends wxEvtHandler
 	End Rem
 	Method SetDocumentName(name:String)
 		bmx_wxdocument_setdocumentname(wxObjectPtr, name)
+	End Method
+	
+	Rem
+	bbdoc: Sets if this document has been already saved or not.
+	about: Normally there is no need to call this method as the document-view framework does it itself as the documents are loaded from and saved to the files.
+	However it may be useful in some particular cases, for example it may be called with false argument to prevent the user from saving the just opened document
+	into the same file if this shouldn't be done for some reason (e.g. file format version changes and a new extension should be used for saving).
+	End Rem
+	Method SetDocumentSaved(saved:Int = True)
+		bmx_wxdocument_setdocumentsaved(wxObjectPtr, saved)
 	End Method
 	
 	Rem

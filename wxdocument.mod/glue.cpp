@@ -406,6 +406,14 @@ void bmx_wxdocument_activate(wxDocument * doc) {
 	doc->Activate();
 }
 
+void bmx_wxdocument_setdocumentsaved(wxDocument * doc, int saved) {
+	doc->SetDocumentSaved(static_cast<bool>(saved));
+}
+
+int bmx_wxdocument_getdocumentsaved(wxDocument * doc) {
+	return static_cast<int>(doc->GetDocumentSaved());
+}
+
 // *********************************************
 
 

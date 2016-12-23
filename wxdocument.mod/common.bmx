@@ -93,6 +93,8 @@ Extern
 	Function bmx_wxdocument_updateallviews(handle:Byte Ptr, sender:Byte Ptr)
 	Function bmx_wxdocument_alreadysaved:Int(handle:Byte Ptr)
 	Function bmx_wxdocument_activate(handle:Byte Ptr)
+	Function bmx_wxdocument_setdocumentsaved(handle:Byte Ptr, saved:Int)
+	Function bmx_wxdocument_getdocumentsaved:Int(handle:Byte Ptr)
 
 	Function bmx_wxdoctemplate_create:Byte Ptr(handle:Object, manager:Byte Ptr, desc:String, filter:String, dir:String, ext:String, ..
 			docTypeName:String, viewTypeName:String, flags:Int)
