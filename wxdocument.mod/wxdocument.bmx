@@ -767,6 +767,13 @@ Type wxDocManager Extends wxEvtHandler
 	End Method
 	
 	Rem
+	bbdoc: 
+	End Rem
+	Method CloseDocument:Int(doc:wxDocument, force:Int = False)
+		Return bmx_wxdocmanager_closedocument(wxObjectPtr, doc.wxObjectPtr, force)
+	End Method
+	
+	Rem
 	bbdoc: Closes all currently opened documents.
 	End Rem
 	Method CloseDocuments:Int(force:Int = True)
@@ -852,11 +859,27 @@ Type wxDocManager Extends wxEvtHandler
 	End Method
 	
 	Rem
+	bbdoc: Searches for the document corresponding to the given file.
+	End Rem
+	Method FindDocumentByPath:wxDocument(path:String)
+		Return wxDocument(wxDocument._find(bmx_wxdocmanager_finddocumentbypath(wxObjectPtr, path)))
+	End Method
+	
+	Rem
 	bbdoc: Given a path, try to find template that matches the extension.
 	about: This is only an approximate method of finding a template for creating a document.
 	End Rem
 	Method FindTemplateForPath:wxDocTemplate(path:String)
 		Return wxDocTemplate(wxDocTemplate._find(bmx_wxdocmanager_findtemplateforpath(wxObjectPtr, path)))
+	End Method
+	
+	Rem
+	bbdoc: Returns the view to apply a user command to.
+	about: This method tries to find the view that the user wants to interact with. It returns the same view as GetCurrentDocument() if there is any
+	currently active view but falls back to the first view of the first document if there is no active view.
+	End Rem
+	Method GetAnyUsableView:wxView()
+		Return wxView(wxView._find(bmx_wxdocmanager_getanyusableview(wxObjectPtr)))
 	End Method
 	
 	Rem
@@ -939,6 +962,13 @@ Type wxDocManager Extends wxEvtHandler
 	End Rem
 	Method SetMaxDocsOpen(num:Int)
 		bmx_wxdocmanager_setmaxdocsopen(wxObjectPtr, num)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method OnMRUFile(event:wxCommandEvent)
+		bmx_wxdocmanager_onmrufile(wxObjectPtr, event.wxEventPtr)
 	End Method
 	
 End Type

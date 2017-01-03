@@ -77,7 +77,7 @@ bool MaxDocument::OnSaveModified() {
 	return static_cast<bool>(CB_PREF(wx_wxdocument_wxDocument__OnSaveModified)(maxHandle));
 }
 
-bool MaxDocument::IsModified() {
+bool MaxDocument::IsModified() const {
 	return static_cast<bool>(CB_PREF(wx_wxdocument_wxDocument__IsModified)(maxHandle));
 }
 
@@ -507,6 +507,10 @@ void bmx_wxdocmanager_associatetemplate(wxDocManager * mgr, wxDocTemplate * temp
 	mgr->AssociateTemplate(temp);
 }
 
+int bmx_wxdocmanager_closedocument(wxDocManager * mgr, wxDocument * doc, int force) {
+	return static_cast<int>(mgr->CloseDocument(doc, static_cast<bool>(force)));
+}
+
 int bmx_wxdocmanager_closedocuments(wxDocManager * mgr, int force) {
 	return static_cast<int>(mgr->CloseDocuments(static_cast<bool>(force)));
 }
@@ -543,8 +547,16 @@ void bmx_wxdocmanager_filehistoryusemenu(wxDocManager * mgr, wxMenu * menu) {
 	mgr->FileHistoryUseMenu(menu);
 }
 
+wxDocument * bmx_wxdocmanager_finddocumentbypath(wxDocManager * mgr, BBString * path) {
+	return mgr->FindDocumentByPath(wxStringFromBBString(path));
+}
+
 wxDocTemplate * bmx_wxdocmanager_findtemplateforpath(wxDocManager * mgr, BBString * path) {
 	return mgr->FindTemplateForPath(wxStringFromBBString(path));
+}
+
+wxView * bmx_wxdocmanager_getanyusableview(wxDocManager * mgr) {
+	return mgr->GetAnyUsableView();
 }
 
 wxDocument * bmx_wxdocmanager_getcurrentdocument(wxDocManager * mgr) {
@@ -585,6 +597,10 @@ void bmx_wxdocmanager_setlastdirectory(wxDocManager * mgr, BBString * dir) {
 
 void bmx_wxdocmanager_setmaxdocsopen(wxDocManager * mgr, int num) {
 	mgr->SetMaxDocsOpen(num);
+}
+
+void bmx_wxdocmanager_onmrufile(wxDocManager * mgr, wxCommandEvent & event) {
+	mgr->OnMRUFile(event);
 }
 
 // *********************************************

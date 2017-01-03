@@ -128,6 +128,7 @@ extern "C" {
 	void bmx_wxdocmanager_adddocument(wxDocManager * mgr, wxDocument * doc);
 	void bmx_wxdocmanager_addfiletohistory(wxDocManager * mgr, BBString * filename);
 	void bmx_wxdocmanager_associatetemplate(wxDocManager * mgr, wxDocTemplate * temp);
+	int bmx_wxdocmanager_closedocument(wxDocManager * mgr, wxDocument * doc, int force);
 	int bmx_wxdocmanager_closedocuments(wxDocManager * mgr, int force);
 	wxDocument * bmx_wxdocmanager_createdocument(wxDocManager * mgr, BBString * path, int flags);
 	wxView * bmx_wxdocmanager_createview(wxDocManager * mgr, wxDocument * doc, int flags);
@@ -137,7 +138,9 @@ extern "C" {
 	void bmx_wxdocmanager_filehistoryremovemenu(wxDocManager * mgr, wxMenu * menu);
 	void bmx_wxdocmanager_filehistorysave(wxDocManager * mgr, wxConfigBase * resourceFile);
 	void bmx_wxdocmanager_filehistoryusemenu(wxDocManager * mgr, wxMenu * menu);
+	wxDocument * bmx_wxdocmanager_finddocumentbypath(wxDocManager * mgr, BBString * path);
 	wxDocTemplate * bmx_wxdocmanager_findtemplateforpath(wxDocManager * mgr, BBString * path);
+	wxView * bmx_wxdocmanager_getanyusableview(wxDocManager * mgr);
 	wxDocument * bmx_wxdocmanager_getcurrentdocument(wxDocManager * mgr);
 	wxView * bmx_wxdocmanager_getcurrentview(wxDocManager * mgr);
 	wxFileHistory * bmx_wxdocmanager_getfilehistory(wxDocManager * mgr);
@@ -148,7 +151,7 @@ extern "C" {
 	void bmx_wxdocmanager_removedocument(wxDocManager * mgr, wxDocument * doc);
 	void bmx_wxdocmanager_setlastdirectory(wxDocManager * mgr, BBString * dir);
 	void bmx_wxdocmanager_setmaxdocsopen(wxDocManager * mgr, int num);
-
+	void bmx_wxdocmanager_onmrufile(wxDocManager * mgr, wxCommandEvent & event);
 
 	wxView * bmx_wxview_create(BBObject * handle);
 	void bmx_wxview_activate(wxView * view, int doActivate);
@@ -192,7 +195,7 @@ public:
 	bool OnOpenDocument(const wxString& filename);
 	bool OnSaveDocument(const wxString& filename);
 	bool OnSaveModified();
-	bool IsModified();
+	bool IsModified() const;
 	void Modify(bool doModify);
 
 	void OnChangedViewList_default();
