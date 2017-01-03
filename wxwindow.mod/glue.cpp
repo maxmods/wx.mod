@@ -178,8 +178,7 @@ wxSizer*  MaxSizerXmlHandler::Handle_wxGridBagSizer() {
     return sizer;
 }
 
-bool MaxSizerXmlHandler::IsSizerNode(wxXmlNode *node)
-{
+bool MaxSizerXmlHandler::IsSizerNode(wxXmlNode *node) const {
     return (IsOfClass(node, wxT("wxBoxSizer"))) ||
            (IsOfClass(node, wxT("wxGridSizer"))) ||
            (IsOfClass(node, wxT("wxFlexGridSizer"))) ||

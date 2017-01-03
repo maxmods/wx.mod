@@ -479,7 +479,7 @@ class MaxSizerXmlHandler : public wxSizerXmlHandler
 public:
     MaxSizerXmlHandler();
     //virtual wxObject *DoCreateResource();
-    bool IsSizerNode(wxXmlNode *node);
+    bool IsSizerNode(wxXmlNode *node) const;
 
 	void SetGrowables(wxFlexGridSizer* sizer, const wxChar* param, bool rows);
 
