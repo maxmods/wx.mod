@@ -53,6 +53,11 @@ ModuleInfo "CC_OPTS: -DMACOSX -D__WX__ -DSCI_LEXER"
 
 Import "common.bmx"
 
+'
+' NOTE : when updating wxWidgets, the same version of scintilla source needs to be copied here
+'  for the Max lexer to build correctly.
+'
+
 bmx_init_scintilla_modules()
 
 Rem
@@ -83,15 +88,15 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Add text to the document at current position.
 	End Rem
-	Method AddText(text:String)
-		bmx_wxscintilla_addtext(wxObjectPtr, text)
+	Method AddText(Text:String)
+		bmx_wxscintilla_addtext(wxObjectPtr, Text)
 	End Method
 
 	Rem
 	bbdoc: Insert string at a position.
 	End Rem
-	Method InsertText(pos:Int, text:String)
-		bmx_wxscintilla_inserttext(wxObjectPtr, pos, text)
+	Method InsertText(pos:Int, Text:String)
+		bmx_wxscintilla_inserttext(wxObjectPtr, pos, Text)
 	End Method
 
 	Rem
@@ -1022,8 +1027,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Select the item in the auto-completion list that starts with a string.
 	End Rem
-	Method AutoCompSelect(text:String)
-		bmx_wxscintilla_autocompselect(wxObjectPtr, text)
+	Method AutoCompSelect(Text:String)
+		bmx_wxscintilla_autocompselect(wxObjectPtr, Text)
 	End Method
 
 	Rem
@@ -1381,8 +1386,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Find some text in the document.
 	End Rem
-	Method FindText:Int(minPos:Int, maxPos:Int, text:String, flags:Int)
-		Return bmx_wxscintilla_findtext(wxObjectPtr, minPos, maxPos, text, flags)
+	Method FindText:Int(minPos:Int, maxPos:Int, Text:String, flags:Int)
+		Return bmx_wxscintilla_findtext(wxObjectPtr, minPos, maxPos, Text, flags)
 	End Method
 
 	Rem
@@ -1510,8 +1515,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Replace the selected text with the argument text.
 	End Rem
-	Method ReplaceSelection(text:String)
-		bmx_wxscintilla_replaceselection(wxObjectPtr, text)
+	Method ReplaceSelection(Text:String)
+		bmx_wxscintilla_replaceselection(wxObjectPtr, Text)
 	End Method
 
 	Rem
@@ -1580,8 +1585,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Replace the contents of the document with the argument text.
 	End Rem
-	Method SetText(text:String)
-		bmx_wxscintilla_settext(wxObjectPtr, text)
+	Method SetText(Text:String)
+		bmx_wxscintilla_settext(wxObjectPtr, Text)
 	End Method
 
 	Rem
@@ -1662,8 +1667,8 @@ Type wxScintilla Extends wxControl
 	about: Text is counted so it can contain NULs.
 	Returns the length of the replacement text.
 	End Rem
-	Method ReplaceTarget:Int(text:String)
-		Return bmx_wxscintilla_replacetarget(wxObjectPtr, text)
+	Method ReplaceTarget:Int(Text:String)
+		Return bmx_wxscintilla_replacetarget(wxObjectPtr, Text)
 	End Method
 
 	Rem
@@ -1674,8 +1679,8 @@ Type wxScintilla Extends wxControl
 	Returns the length of the replacement text including any change
 	caused by processing the \d patterns.
 	End Rem
-	Method ReplaceTargetRE:Int(text:String)
-		Return bmx_wxscintilla_replacetargetre(wxObjectPtr, text)
+	Method ReplaceTargetRE:Int(Text:String)
+		Return bmx_wxscintilla_replacetargetre(wxObjectPtr, Text)
 	End Method
 
 	Rem
@@ -1683,8 +1688,8 @@ Type wxScintilla Extends wxControl
 	about: range. Text is counted so it can contain NULs.
 	Returns length of range or -1 for failure in which case target is not moved.
 	End Rem
-	Method SearchInTarget:Int(text:String)
-		Return bmx_wxscintilla_searchintarget(wxObjectPtr, text)
+	Method SearchInTarget:Int(Text:String)
+		Return bmx_wxscintilla_searchintarget(wxObjectPtr, Text)
 	End Method
 
 	Rem
@@ -2066,8 +2071,8 @@ Type wxScintilla Extends wxControl
 	about: NUL terminated text argument.
 	Does not handle tab or control characters.
 	End Rem
-	Method TextWidth:Int(style:Int, text:String)
-		Return bmx_wxscintilla_textwidth(wxObjectPtr, style, text)
+	Method TextWidth:Int(style:Int, Text:String)
+		Return bmx_wxscintilla_textwidth(wxObjectPtr, style, Text)
 	End Method
 
 	Rem
@@ -2111,8 +2116,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Append a string to the end of the document without changing the selection.
 	End Rem
-	Method AppendText(text:String)
-		bmx_wxscintilla_appendtext(wxObjectPtr, text)
+	Method AppendText(Text:String)
+		bmx_wxscintilla_appendtext(wxObjectPtr, Text)
 	End Method
 
 	Rem
@@ -2768,16 +2773,16 @@ Type wxScintilla Extends wxControl
 	bbdoc: Find some text starting at the search anchor.
 	about: Does not ensure the selection is visible.
 	End Rem
-	Method SearchNext:Int(flags:Int, text:String)
-		Return bmx_wxscintilla_searchnext(wxObjectPtr, flags, text)
+	Method SearchNext:Int(flags:Int, Text:String)
+		Return bmx_wxscintilla_searchnext(wxObjectPtr, flags, Text)
 	End Method
 
 	Rem
 	bbdoc: Find some text starting at the search anchor and moving backwards.
 	about: Does not ensure the selection is visible.
 	End Rem
-	Method SearchPrev:Int(flags:Int, text:String)
-		Return bmx_wxscintilla_searchprev(wxObjectPtr, flags, text)
+	Method SearchPrev:Int(flags:Int, Text:String)
+		Return bmx_wxscintilla_searchprev(wxObjectPtr, flags, Text)
 	End Method
 
 	Rem
@@ -3557,8 +3562,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Set the text in the text margin for a line
 	End Rem
-	Method MarginSetText(line:Int, text:String)
-		bmx_wxscintilla_marginsettext(wxObjectPtr, line, text)
+	Method MarginSetText(line:Int, Text:String)
+		bmx_wxscintilla_marginsettext(wxObjectPtr, line, Text)
 	End Method
 
 	Rem
@@ -3634,8 +3639,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Set the annotation text for a line
 	End Rem
-	Method AnnotationSetText(line:Int, text:String)
-		bmx_wxscintilla_annotationsettext(wxObjectPtr, line, text)
+	Method AnnotationSetText(line:Int, Text:String)
+		bmx_wxscintilla_annotationsettext(wxObjectPtr, line, Text)
 	End Method
 
 	Rem

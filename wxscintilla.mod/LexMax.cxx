@@ -68,6 +68,10 @@ static int character_classification[128] =
     4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  2,  2,  2,  2,  0
 };
 
+static bool IsWordStart(int ch) {
+	return (IsASCII(ch) && (isalpha(ch) || ch == '_')) || !IsASCII(ch);
+}
+
 static bool IsSpace(int c) {
 	return c < 128 && (character_classification[c] & 1);
 }
@@ -172,8 +176,6 @@ struct OptionsBasic {
 static const char * const blitzmaxWordListDesc[] = {
 	"BlitzMax Keywords",
 	"user1",
-	"user2",
-	"user3",
 	0
 };
 
@@ -207,7 +209,7 @@ struct OptionSetBasic : public OptionSet<OptionsBasic> {
 class LexerMax : public ILexer {
 	char comment_char;
 	int (*CheckFoldPoint)(char const *, int &);
-	WordList keywordlists[4];
+	WordList keywordlists[2];
 	OptionsBasic options;
 	OptionSetBasic osBasic;
 public:
@@ -265,12 +267,6 @@ int SCI_METHOD LexerMax::WordListSet(int n, const char *wl) {
 	case 1:
 		wordListN = &keywordlists[1];
 		break;
-	case 2:
-		wordListN = &keywordlists[2];
-		break;
-	case 3:
-		wordListN = &keywordlists[3];
-		break;
 	}
 	int firstModification = -1;
 	if (wordListN) {
@@ -287,176 +283,141 @@ int SCI_METHOD LexerMax::WordListSet(int n, const char *wl) {
 void SCI_METHOD LexerMax::Lex(unsigned int startPos, int length, int initStyle, IDocument *pAccess) {
 	LexAccessor styler(pAccess);
 
-	bool wasfirst = true, isfirst = true; // true if first token in a line
-	int endPos = startPos + length;
-	char word[256];
-
-	styler.StartAt(startPos);
-
 	StyleContext sc(startPos, length, initStyle, styler);
 
-	// Can't use sc.More() here else we miss the last character
-	for (; ; sc.Forward()) {
-		if (sc.state == SCE_B_IDENTIFIER) {
-			if (!IsIdentifier(sc.ch)) {
-				// Labels
-				if (wasfirst && sc.Match(':')) {
-					sc.ChangeState(SCE_B_LABEL);
+	int endPos = startPos + length;
+	char word[256];
+	
+
+	for (; sc.More(); sc.Forward()) {
+
+
+		// Determine if the current state should terminate.
+		switch (sc.state) {
+			case SCE_B_OPERATOR:
+				sc.SetState(SCE_B_DEFAULT);
+				break;
+			case SCE_B_COMMENT:
+				if (sc.atLineEnd) {
+					sc.SetState(SCE_B_DEFAULT);
+				}
+				break;
+			case SCE_B_NUMBER:
+				if (!IsDigit(sc.ch)) {
+					sc.SetState(SCE_B_DEFAULT);
+				}
+				break;
+			case SCE_B_HEXNUMBER:
+				if (!IsHexDigit(sc.ch)) {
+					sc.SetState(SCE_B_DEFAULT);
+				}
+				break;
+			case SCE_B_STRING:
+				if (sc.ch == '"') {
 					sc.ForwardSetState(SCE_B_DEFAULT);
-				} else {
+				}
+				if (sc.atLineEnd) {
+					sc.ChangeState(SCE_B_ERROR);
+					sc.SetState(SCE_B_DEFAULT);
+				}
+				break;
+			case SCE_B_IDENTIFIER:
+				if (!IsIdentifier(sc.ch)) {
 					char s[100];
-					int kstates[4] = {
+					int kstates[2] = {
 						SCE_B_KEYWORD,
-						SCE_B_KEYWORD2,
-						SCE_B_KEYWORD3,
-						SCE_B_KEYWORD4,
+						SCE_B_KEYWORD2
 					};
 					sc.GetCurrentLowered(s, sizeof(s));
-					// special case for Rem blocks
     				if (strcmp(s, "rem") == 0) {
 	   				    sc.ChangeState(SCE_B_COMMENTREM);
 	                } else {
-						for (int i = 0; i < 4; i++) {
+						for (int i = 0; i < 2; i++) {
 							if (keywordlists[i].InList(s)) {
 								sc.ChangeState(kstates[i]);
-							}
-						}
-						// Types, must set them as operator else they will be
-						// matched as number/constant
-						if (sc.Match('.') || sc.Match('$') || sc.Match('%') ||
-							sc.Match('#')) {
-							sc.SetState(SCE_B_OPERATOR);
-						} else {
-							sc.SetState(SCE_B_DEFAULT);
-						}
-					}
-				}
-			}
-		} else if (sc.state == SCE_B_COMMENTREM) {
-		  // check if this line has endrem or end rem... indicating finish of rem block
-		  if (sc.atLineStart) {
-			bool go;
-			int wordlen = 0;
-			for (int i = sc.currentPos; i < endPos; i++) {
-				int c = styler.SafeGetCharAt(i);
-
-				if (wordlen) { // are we scanning a token already?
-					word[wordlen] = static_cast<char>(LowerCase(c));
-					if (!IsIdentifier(c)) { // done with token
-						if (wordlen > 8) {
-							break;
-						}
-						word[wordlen] = '\0';
-						go = CheckBMEndRem(word);
-						if (!go) {
-						    // skip linebreaks..
-						    if (c == '\n' || c == '\r') {
-						      wordlen = 0;
-						      continue;
-						    }
-							// Treat any whitespace as single blank, for
-							// things like "End   Function".
-							if (IsSpace(c) && IsIdentifier(word[wordlen - 1])) {
-								word[wordlen] = ' ';
-								if (wordlen < 255)
-									wordlen++;
-							}
-							else {  // done with this line
 								break;
 							}
-						} else {
-							sc.Forward(i - sc.currentPos);
-							sc.SetState(SCE_B_DEFAULT);
-							break;
 						}
-					} else if (wordlen < 255) {
-						wordlen++;
-					}
-				} else { // start scanning at first non-whitespace character
-					if (!IsSpace(c)) {
-						if (IsIdentifier(c)) {
-							word[0] = static_cast<char>(LowerCase(c));
-							wordlen = 1;
-						} else // done with this line
-							break;
+						sc.SetState(SCE_B_DEFAULT);
 					}
 				}
-			}
-		  }
-		} else if (sc.state == SCE_B_OPERATOR) {
-			if (!IsOperator(sc.ch) || sc.Match('#'))
-				sc.SetState(SCE_B_DEFAULT);
-		} else if (sc.state == SCE_B_LABEL) {
-			if (!IsIdentifier(sc.ch))
-				sc.SetState(SCE_B_DEFAULT);
-		} else if (sc.state == SCE_B_CONSTANT) {
-			if (!IsIdentifier(sc.ch))
-				sc.SetState(SCE_B_DEFAULT);
-		} else if (sc.state == SCE_B_NUMBER) {
-			if (!IsDigit(sc.ch))
-				sc.SetState(SCE_B_DEFAULT);
-		} else if (sc.state == SCE_B_HEXNUMBER) {
-			if (!IsHexDigit(sc.ch))
-				sc.SetState(SCE_B_DEFAULT);
-		} else if (sc.state == SCE_B_BINNUMBER) {
-			if (!IsBinDigit(sc.ch))
-				sc.SetState(SCE_B_DEFAULT);
-		} else if (sc.state == SCE_B_STRING) {
-			if (sc.ch == '"') {
-				sc.ForwardSetState(SCE_B_DEFAULT);
-			}
-			if (sc.atLineEnd) {
-				sc.ChangeState(SCE_B_ERROR);
-				sc.SetState(SCE_B_DEFAULT);
-			}
-		} else if (sc.state == SCE_B_COMMENT || sc.state == SCE_B_PREPROCESSOR) {
-			if (sc.atLineEnd) {
-				sc.SetState(SCE_B_DEFAULT);
-			}
+				break;
+			case SCE_B_COMMENTREM:
+				// check if this line has endrem or end rem... indicating finish of rem block
+				if (sc.atLineStart) {
+					bool go;
+					int wordlen = 0;
+					for (int i = sc.currentPos; i < endPos; i++) {
+						int c = styler.SafeGetCharAt(i);
+
+						if (wordlen) { // are we scanning a token already?
+							word[wordlen] = static_cast<char>(LowerCase(c));
+							if (!IsIdentifier(c)) { // done with token
+								if (wordlen > 8) {
+									break;
+								}
+								word[wordlen] = '\0';
+								go = CheckBMEndRem(word);
+								if (!go) {
+									// skip linebreaks..
+									if (c == '\n' || c == '\r') {
+									  wordlen = 0;
+									  continue;
+									}
+									// Treat any whitespace as single blank, for
+									// things like "End   Function".
+									if (IsSpace(c) && IsIdentifier(word[wordlen - 1])) {
+										word[wordlen] = ' ';
+										if (wordlen < 255)
+											wordlen++;
+									}
+									else {  // done with this line
+										break;
+									}
+								} else {
+									sc.Forward(i - sc.currentPos);
+									sc.SetState(SCE_B_DEFAULT);
+									break;
+								}
+							} else if (wordlen < 255) {
+								wordlen++;
+							}
+						} else { // start scanning at first non-whitespace character
+							if (!IsSpace(c)) {
+								if (IsIdentifier(c)) {
+									word[0] = static_cast<char>(LowerCase(c));
+									wordlen = 1;
+								} else // done with this line
+									break;
+							}
+						}
+					}
+				}
+				break;
 		}
 
-		if (sc.atLineStart)
-			isfirst = true;
 
+		// Determine if a new state should be entered.
 		if (sc.state == SCE_B_DEFAULT || sc.state == SCE_B_ERROR) {
-			if (isfirst && sc.Match('.')) {
-				sc.SetState(SCE_B_LABEL);
-			} else if (isfirst && sc.Match('#')) {
-				wasfirst = isfirst;
-				sc.SetState(SCE_B_IDENTIFIER);
-			} else if (sc.Match(comment_char)) {
-				// Hack to make deprecated QBASIC '$Include show
-				// up in freebasic with SCE_B_PREPROCESSOR.
-				if (comment_char == '\'' && sc.Match(comment_char, '$'))
-					sc.SetState(SCE_B_PREPROCESSOR);
-				else
-					sc.SetState(SCE_B_COMMENT);
+			if (sc.Match("'")) {
+				sc.SetState(SCE_B_COMMENT);
+				sc.Forward();
 			} else if (sc.Match('"')) {
 				sc.SetState(SCE_B_STRING);
-			} else if (IsDigit(sc.ch)) {
+			} else if (IsADigit(sc.ch)) {
 				sc.SetState(SCE_B_NUMBER);
-			} else if (sc.Match('$')) {
+			} else if (sc.Match('$') && IsHexDigit(sc.chNext)) {
 				sc.SetState(SCE_B_HEXNUMBER);
-			} else if (sc.Match('%')) {
-				sc.SetState(SCE_B_BINNUMBER);
-			} else if (sc.Match('#')) {
-				sc.SetState(SCE_B_CONSTANT);
-			} else if (IsOperator(sc.ch)) {
-				sc.SetState(SCE_B_OPERATOR);
-			} else if (IsIdentifier(sc.ch)) {
-				wasfirst = isfirst;
+				sc.Forward();
+			} else if (IsWordStart(sc.ch)) {
 				sc.SetState(SCE_B_IDENTIFIER);
-			} else if (!IsSpace(sc.ch)) {
-				sc.SetState(SCE_B_ERROR);
+			} else if (isoperator(static_cast<char>(sc.ch))) {
+				sc.SetState(SCE_B_OPERATOR);
+				if (sc.ch == '.' && sc.chNext == '.') sc.Forward(); // Range operator
 			}
 		}
-
-		if (!IsSpace(sc.ch))
-			isfirst = false;
-
-		if (!sc.More())
-			break;
 	}
+
 	sc.Complete();
 }
 
