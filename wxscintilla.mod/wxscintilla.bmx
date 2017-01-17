@@ -4330,6 +4330,20 @@ Type wxScintilla Extends wxControl
 	End Method
 	
 	Rem
+	bbdoc: When key+modifiers combination is pressed perform cmd.
+	End Rem
+	Method CmdKeyAssign(key:Int, modifiers:Int, cmd:Int)
+		bmx_wxscintilla_cmdkeyassign(wxObjectPtr, key, modifiers, cmd)
+	End Method
+	
+	Rem
+	bbdoc: When key+modifiers combination is pressed do nothing.
+	End Rem
+	Method CmdKeyClear(key:Int, modifiers:Int)
+		bmx_wxscintilla_cmdkeyclear(wxObjectPtr, key, modifiers)
+	End Method
+	
+	Rem
 	bbdoc: 
 	End Rem
 	Method CmdKeyExecute(cmd:Int)
