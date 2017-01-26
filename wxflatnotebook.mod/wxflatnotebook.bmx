@@ -338,7 +338,7 @@ Type wxFlatNotebook Extends wxPanel
 		Return bmx_wxflatnotebook_getimagelist(wxObjectPtr)
 	End Method
 	
-	Function _newbitmaparray:wxBitmap[](size:Int) { nomangle } { nomangle }
+	Function _newbitmaparray:wxBitmap[](size:Int) { nomangle }
 		Return New wxBitmap[size]
 	End Function
 	
