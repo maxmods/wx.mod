@@ -134,6 +134,7 @@ Import "-lwinmm"
 Import "-lcomctl32"
 Import "-lole32"
 Import "-loleaut32"
+Import "-lopengl32"
 Import "-luuid"
 Import "-lrpcrt4"
 Import "-lwsock32"
@@ -275,7 +276,7 @@ Extern
 	
 
 	Function bmx_wxarraystring_create:Byte Ptr()
-	Function bmx_wxarraystring_add:Int(handle:Byte Ptr, text:String, copies:Int)
+	Function bmx_wxarraystring_add:Int(handle:Byte Ptr, Text:String, copies:Int)
 	Function bmx_wxarraystring_alloc(handle:Byte Ptr, count:Int)
 	Function bmx_wxarraystring_delete(handle:Byte Ptr)
 	
