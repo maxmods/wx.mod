@@ -27,6 +27,13 @@ Import wx.wxDC
 Import wx.wxBookCtrlBase
 Import BRL.Blitz
 
+?linux
+Import "-lwx_gtk2u_aui-3.1"
+?win32
+Import "-lwxmsw31u_aui"
+?macos
+Import "-lwx_osx_cocoau_aui-3.1"
+?
 
 ' headers :-)
 ?linuxx86

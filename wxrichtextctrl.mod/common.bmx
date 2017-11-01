@@ -27,6 +27,13 @@ Import wx.wxImage
 Import wx.wxPrintout
 Import BRL.Blitz
 
+?linux
+Import "-lwx_gtk2u_richtext-3.1"
+?win32
+Import "-lwxmsw31u_richtext"
+?macos
+Import "-lwx_osx_cocoau_richtext-3.1"
+?
 
 ' headers :-)
 ?linuxx86

@@ -24,17 +24,20 @@ Import wx.wx
 Import wx.wxControl
 Import BRL.Blitz
 
+?linux
+Import "-lwx_gtk2u_webview-3.1"
+Import "-lwebkitgtk-1.0"
+?win32
+Import "-lwxmsw31u_webview"
+?macos
+Import "-lwx_osx_cocoau_webview-3.1"
+?
 
 ' headers :-)
 ?linuxx86
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
 ?linuxx64
 Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
-?linux
-
-Import "-lwx_gtk2u_webview-3.1"
-Import "-lwebkitgtk-1.0"
-
 ?win32x86
 Import "../lib/win32/mswu/*.h"
 ?win32x64

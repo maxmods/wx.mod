@@ -25,6 +25,13 @@ Import wx.wxPanel
 Import wx.wxDateTime
 Import BRL.Blitz
 
+?linux
+Import "-lwx_gtk2u_propgrid-3.1"
+?win32
+Import "-lwxmsw31u_propgrid"
+?macos
+Import "-lwx_osx_cocoau_propgrid-3.1"
+?
 
 ' headers :-)
 ?linuxx86

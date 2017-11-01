@@ -28,6 +28,11 @@ Import BRL.Blitz
 ?linux
 Import "-lgstreamer-0.10"
 Import "-lgstinterfaces-0.10"
+Import "-lwx_gtk2u_media-3.1"
+?win32
+Import "-lwxmsw31u_media"
+?macos
+Import "-lwx_osx_cocoau_media-3.1"
 ?
 
 ' headers :-)

@@ -27,6 +27,17 @@ Import wx.wxDC
 Import wx.wxBitmap
 Import BRL.Blitz
 
+?linux
+Import "-lwx_gtk2u_stc-3.1"
+Import "-lwxscintilla-3.1"
+?win32
+Import "-lwxmsw31u_stc"
+Import "-lwxscintilla"
+?macos
+Import "-lwx_osx_cocoau_stc-3.1"
+Import "-lwxscintilla-3.1"
+?
+
 ' headers :-)
 ?linuxx86
 Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
