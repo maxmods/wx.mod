@@ -57,12 +57,11 @@ class WXDLLIMPEXP_FWD_BASE wxObject;
 
 #include "wx/arrstr.h"
 
-#ifndef __WXWINCE__
-    #include <time.h>   // for time_t
-#endif
+#include <time.h>   // for time_t
 
 #include "wx/dynarray.h"
 #include "wx/hashmap.h"
+#include "wx/msgout.h"
 
 #if wxUSE_THREADS
     #include "wx/thread.h"
@@ -159,7 +158,11 @@ public:
         line = line_;
         component = component_;
 
-        timestamp = time(NULL);
+        // don't initialize the timestamp yet, we might not need it at all if
+        // the message doesn't end up being logged and otherwise we'll fill it
+        // just before logging it, which won't change it by much and definitely
+        // less than a second resolution of the timestamp
+        timestamp = 0;
 
 #if wxUSE_THREADS
         threadId = wxThread::GetCurrentId();
@@ -718,17 +721,17 @@ private:
 
 
 // log everything to a "FILE *", stderr by default
-class WXDLLIMPEXP_BASE wxLogStderr : public wxLog
+class WXDLLIMPEXP_BASE wxLogStderr : public wxLog,
+                                     protected wxMessageOutputStderr
 {
 public:
     // redirect log output to a FILE
-    wxLogStderr(FILE *fp = NULL);
+    wxLogStderr(FILE *fp = NULL,
+                const wxMBConv &conv = wxConvWhateverWorks);
 
 protected:
     // implement sink function
     virtual void DoLogText(const wxString& msg) wxOVERRIDE;
-
-    FILE *m_fp;
 
     wxDECLARE_NO_COPY_CLASS(wxLogStderr);
 };
@@ -736,11 +739,13 @@ protected:
 #if wxUSE_STD_IOSTREAM
 
 // log everything to an "ostream", cerr by default
-class WXDLLIMPEXP_BASE wxLogStream : public wxLog
+class WXDLLIMPEXP_BASE wxLogStream : public wxLog,
+                                     private wxMessageOutputWithConv
 {
 public:
     // redirect log output to an ostream
-    wxLogStream(wxSTD ostream *ostr = (wxSTD ostream *) NULL);
+    wxLogStream(wxSTD ostream *ostr = (wxSTD ostream *) NULL,
+                const wxMBConv& conv = wxConvWhateverWorks);
 
 protected:
     // implement sink function
@@ -748,6 +753,8 @@ protected:
 
     // using ptr here to avoid including <iostream.h> from this file
     wxSTD ostream *m_ostr;
+
+    wxDECLARE_NO_COPY_CLASS(wxLogStream);
 };
 
 #endif // wxUSE_STD_IOSTREAM
@@ -1159,6 +1166,11 @@ private:
 
     void DoCallOnLog(wxLogLevel level, const wxString& format, va_list argptr)
     {
+        // As explained in wxLogRecordInfo ctor, we don't initialize its
+        // timestamp to avoid calling time() unnecessary, but now that we are
+        // about to log the message, we do need to do it.
+        m_info.timestamp = time(NULL);
+
         wxLog::OnLog(level, wxString::FormatV(format, argptr), m_info);
     }
 
@@ -1189,6 +1201,9 @@ WXDLLIMPEXP_BASE unsigned long wxSysErrorCode();
 
 // return the error message for given (or last if 0) error code
 WXDLLIMPEXP_BASE const wxChar* wxSysErrorMsg(unsigned long nErrCode = 0);
+
+// return the error message for given (or last if 0) error code
+WXDLLIMPEXP_BASE wxString wxSysErrorMsgStr(unsigned long nErrCode = 0);
 
 // ----------------------------------------------------------------------------
 // define wxLog<level>() functions which can be used by application instead of
@@ -1274,6 +1289,10 @@ WXDLLIMPEXP_BASE const wxChar* wxSysErrorMsg(unsigned long nErrCode = 0);
 #define wxLogMessage wxDO_LOG_IF_ENABLED(Message)
 #define wxVLogMessage(format, argptr) wxDO_LOGV(Message, format, argptr)
 
+#define wxLogInfo wxDO_LOG_IF_ENABLED(Info)
+#define wxVLogInfo(format, argptr) wxDO_LOGV(Info, format, argptr)
+
+
 // this one is special as it only logs if we're in verbose mode
 #define wxLogVerbose                                                          \
     if ( !(wxLog::IsLevelEnabled(wxLOG_Info, wxLOG_COMPONENT) &&              \
@@ -1287,11 +1306,6 @@ WXDLLIMPEXP_BASE const wxChar* wxSysErrorMsg(unsigned long nErrCode = 0);
     {}                                                                        \
     else                                                                      \
         wxDO_LOGV(Info, format, argptr)
-
-// deprecated synonyms for wxLogVerbose() and wxVLogVerbose()
-#define wxLogInfo wxLogVerbose
-#define wxVLogInfo wxVLogVerbose
-
 
 // another special case: the level is passed as first argument of the function
 // and so is not available to the macro
@@ -1396,6 +1410,7 @@ public:
 // Dummy macros to replace some functions.
 #define wxSysErrorCode() (unsigned long)0
 #define wxSysErrorMsg( X ) (const wxChar*)NULL
+#define wxSysErrorMsgStr( X ) wxEmptyString
 
 // Fake symbolic trace masks... for those that are used frequently
 #define wxTRACE_OleCalls wxEmptyString // OLE interface calls
@@ -1478,13 +1493,13 @@ wxSafeShowMessage(const wxString& title, const wxString& text);
     #define wxLogApiError(api, rc)                                            \
         wxLogDebug(wxT("%s(%d): '%s' failed with error 0x%08lx (%s)."),       \
                    __FILE__, __LINE__, api,                                   \
-                   (long)rc, wxSysErrorMsg(rc))
+                   (long)rc, wxSysErrorMsgStr(rc))
 #else // !VC++
     #define wxLogApiError(api, rc)                                            \
         wxLogDebug(wxT("In file %s at line %d: '%s' failed with ")            \
                    wxT("error 0x%08lx (%s)."),                                \
                    __FILE__, __LINE__, api,                                   \
-                   (long)rc, wxSysErrorMsg(rc))
+                   (long)rc, wxSysErrorMsgStr(rc))
 #endif // VC++/!VC++
 
     #define wxLogLastError(api) wxLogApiError(api, wxSysErrorCode())

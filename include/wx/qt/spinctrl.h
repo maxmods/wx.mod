@@ -8,8 +8,8 @@
 #ifndef _WX_QT_SPINCTRL_H_
 #define _WX_QT_SPINCTRL_H_
 
-#include <QtWidgets/QSpinBox>
-#include <QtWidgets/QDoubleSpinBox>
+class QSpinBox;
+class QDoubleSpinBox;
 
 // Take advantage of the Qt compile time polymorphy and use a template to avoid
 // copy&paste code for the usage of QSpinBox/QDoubleSpinBox.
@@ -45,7 +45,7 @@ public:
     T GetMax() const;
     T GetIncrement() const;
 
-    virtual Widget *GetHandle() const;
+    virtual QWidget *GetHandle() const;
 
 protected:
     Widget *m_qtSpinBox;
@@ -76,7 +76,7 @@ public:
     virtual int GetBase() const wxOVERRIDE { return m_base; }
     virtual bool SetBase(int base) wxOVERRIDE;
     virtual void SetValue(const wxString & val);
-    virtual void SetValue(int val) { wxSpinCtrlQt::SetValue(val); }
+    virtual void SetValue(int val) { wxSpinCtrlQt<int,QSpinBox>::SetValue(val); }
 
 private:
     // Common part of all ctors.
@@ -118,7 +118,7 @@ public:
     virtual int GetBase() const wxOVERRIDE { return 10; }
     virtual bool SetBase(int WXUNUSED(base)) wxOVERRIDE { return false; }
     virtual void SetValue(const wxString & val);
-    virtual void SetValue(double val) { wxSpinCtrlQt::SetValue(val); }
+    virtual void SetValue(double val) { wxSpinCtrlQt<double,QDoubleSpinBox>::SetValue(val); }
 
 private:
     wxDECLARE_DYNAMIC_CLASS( wxSpinCtrlDouble );

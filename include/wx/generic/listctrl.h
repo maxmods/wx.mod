@@ -101,6 +101,11 @@ public:
     void SetTextColour(const wxColour& col);
     long GetTopItem() const;
 
+    virtual bool HasCheckBoxes() const wxOVERRIDE;
+    virtual bool EnableCheckBoxes(bool enable = true) wxOVERRIDE;
+    virtual bool IsItemChecked(long item) const wxOVERRIDE;
+    virtual void CheckItem(long item, bool check) wxOVERRIDE;
+
     void SetSingleStyle( long style, bool add = true ) ;
     void SetWindowStyleFlag( long style ) wxOVERRIDE;
     void RecreateWindow() {}
@@ -235,7 +240,7 @@ private:
 
     // we need to return a special WM_GETDLGCODE value to process just the
     // arrows but let the other navigation characters through
-#if defined(__WXMSW__) && !defined(__WXWINCE__) && !defined(__WXUNIVERSAL__)
+#if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
     virtual WXLRESULT
     MSWWindowProc(WXUINT nMsg, WXWPARAM wParam, WXLPARAM lParam);
 #endif // __WXMSW__

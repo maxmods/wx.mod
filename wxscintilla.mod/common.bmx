@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2015 Bruce A Henderson
+' Copyright (c) 2007-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -25,18 +25,6 @@ Import wx.wxControl
 Import wx.wxScrollBar
 Import wx.wxDC
 Import wx.wxBitmap
-Import BRL.Blitz
-
-?linux
-Import "-lwx_gtk2u_stc-3.1"
-Import "-lwxscintilla-3.1"
-?win32
-Import "-lwxmsw31u_stc"
-Import "-lwxscintilla"
-?macos
-Import "-lwx_osx_cocoau_stc-3.1"
-Import "-lwxscintilla-3.1"
-?
 
 ' headers :-)
 ?linuxx86
@@ -569,8 +557,6 @@ Extern
 	Function bmx_wxscintilla_getpositioncachesize:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_copyallowline(handle:Byte Ptr)
 	Function bmx_wxscintilla_getgapposition:Int(handle:Byte Ptr)
-	Function bmx_wxscintilla_setkeysunicode(handle:Byte Ptr, keysUnicode:Int)
-	Function bmx_wxscintilla_getkeysunicode:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_indicatorsetalpha(handle:Byte Ptr, indicator:Int, alpha:Int)
 	Function bmx_wxscintilla_indicatorgetalpha:Int(handle:Byte Ptr, indicator:Int)
 	Function bmx_wxscintilla_indicatorsetoutlinealpha(handle:Byte Ptr, indicator:Int, alpha:Int)

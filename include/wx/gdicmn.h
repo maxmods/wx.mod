@@ -155,11 +155,35 @@ enum wxStockCursor
     #define wxCURSOR_CLOSED_HAND    wxCURSOR_HAND
 #endif
 
+// ----------------------------------------------------------------------------
+// Ellipsize() constants
+// ----------------------------------------------------------------------------
+
+enum wxEllipsizeFlags
+{
+    wxELLIPSIZE_FLAGS_NONE = 0,
+    wxELLIPSIZE_FLAGS_PROCESS_MNEMONICS = 1,
+    wxELLIPSIZE_FLAGS_EXPAND_TABS = 2,
+
+    wxELLIPSIZE_FLAGS_DEFAULT = wxELLIPSIZE_FLAGS_PROCESS_MNEMONICS |
+    wxELLIPSIZE_FLAGS_EXPAND_TABS
+};
+
+// NB: Don't change the order of these values, they're the same as in
+//     PangoEllipsizeMode enum.
+enum wxEllipsizeMode
+{
+    wxELLIPSIZE_NONE,
+    wxELLIPSIZE_START,
+    wxELLIPSIZE_MIDDLE,
+    wxELLIPSIZE_END
+};
+
 // ---------------------------------------------------------------------------
 // macros
 // ---------------------------------------------------------------------------
 
-#if defined(__WINDOWS__)
+#if defined(__WINDOWS__) && wxUSE_WXDIB
     #define wxHAS_IMAGES_IN_RESOURCES
 #endif
 
@@ -173,7 +197,7 @@ enum wxStockCursor
     wxIcon *icon = new wxIcon(sample_xpm);    // On wxGTK/Linux
  */
 
-#ifdef __WINDOWS__
+#ifdef wxHAS_IMAGES_IN_RESOURCES
     // Load from a resource
     #define wxICON(X) wxIcon(wxT(#X))
 #elif defined(__WXDFB__)
@@ -203,7 +227,7 @@ enum wxStockCursor
    under Unix bitmaps live in XPMs and under Windows they're in ressources.
  */
 
-#if defined(__WINDOWS__)
+#if defined(__WINDOWS__) && wxUSE_WXDIB
     #define wxBITMAP(name) wxBitmap(wxT(#name), wxBITMAP_TYPE_BMP_RESOURCE)
 #elif defined(__WXGTK__)   || \
       defined(__WXMOTIF__) || \
@@ -232,7 +256,7 @@ enum wxStockCursor
 // resource type and under OS X the PNG file with the specified name must be
 // available in the resource subdirectory of the bundle. Elsewhere, this is
 // exactly the same thing as wxBITMAP_PNG_FROM_DATA() described above.
-#if defined(__WINDOWS__) || defined(__WXOSX__)
+#if (defined(__WINDOWS__) && wxUSE_WXDIB) || defined(__WXOSX__)
     #define wxBITMAP_PNG(name) wxBitmap(wxS(#name), wxBITMAP_TYPE_PNG_RESOURCE)
 #else
     #define wxBITMAP_PNG(name) wxBITMAP_PNG_FROM_DATA(name)
@@ -901,7 +925,7 @@ class WXDLLIMPEXP_CORE wxResourceCache: public wxList
 public:
     wxResourceCache() { }
 #if !wxUSE_STD_CONTAINERS
-    wxResourceCache(const unsigned int keyType) : wxList(keyType) { }
+    wxResourceCache(unsigned int keyType) : wxList(keyType) { }
 #endif
     virtual ~wxResourceCache();
 };

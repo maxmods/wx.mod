@@ -21,6 +21,7 @@
 #include "wx/dynarray.h"
 #include "wx/font.h"
 #include "wx/image.h"
+#include "wx/peninfobase.h"
 #include "wx/vector.h"
 
 enum wxAntialiasMode
@@ -70,6 +71,7 @@ enum wxCompositionMode
     wxCOMPOSITION_ADD /* R = S + D */
 };
 
+class WXDLLIMPEXP_FWD_CORE wxDC;
 class WXDLLIMPEXP_FWD_CORE wxWindowDC;
 class WXDLLIMPEXP_FWD_CORE wxMemoryDC;
 #if wxUSE_PRINTING_ARCHITECTURE
@@ -129,6 +131,34 @@ protected:
     virtual wxObjectRefData* CloneRefData(const wxObjectRefData* data) const wxOVERRIDE;
 
     wxDECLARE_DYNAMIC_CLASS(wxGraphicsObject);
+};
+
+// ----------------------------------------------------------------------------
+// wxGraphicsPenInfo describes a wxGraphicsPen
+// ----------------------------------------------------------------------------
+
+class wxGraphicsPenInfo : public wxPenInfoBase<wxGraphicsPenInfo>
+{
+public:
+    explicit wxGraphicsPenInfo(const wxColour& colour = wxColour(),
+                               wxDouble width = 1.0,
+                               wxPenStyle style = wxPENSTYLE_SOLID)
+        : wxPenInfoBase<wxGraphicsPenInfo>(colour, style)
+    {
+        m_width = width;
+    }
+
+    // Setters
+
+    wxGraphicsPenInfo& Width(wxDouble width)
+        { m_width = width; return *this; }
+
+    // Accessors
+
+    wxDouble GetWidth() const { return m_width; }
+
+private:
+    wxDouble m_width;
 };
 
 class WXDLLIMPEXP_CORE wxGraphicsPen : public wxGraphicsObject
@@ -437,9 +467,16 @@ public:
 #endif
 #endif
 
+    // Create a context from a DC of unknown type, if supported, returns NULL otherwise
+    static wxGraphicsContext* CreateFromUnknownDC(const wxDC& dc);
+
     static wxGraphicsContext* CreateFromNative( void * context );
 
     static wxGraphicsContext* CreateFromNativeWindow( void * window );
+
+#ifdef __WXMSW__
+    static wxGraphicsContext* CreateFromNativeHDC(WXHDC dc);
+#endif
 
     static wxGraphicsContext* Create( wxWindow* window );
 
@@ -471,7 +508,10 @@ public:
 
     wxGraphicsPath CreatePath() const;
 
-    virtual wxGraphicsPen CreatePen(const wxPen& pen) const;
+    wxGraphicsPen CreatePen(const wxPen& pen) const;
+
+    wxGraphicsPen CreatePen(const wxGraphicsPenInfo& info) const
+        { return DoCreatePen(info); }
 
     virtual wxGraphicsBrush CreateBrush(const wxBrush& brush ) const;
 
@@ -543,6 +583,9 @@ public:
 
     // resets the clipping to original extent
     virtual void ResetClip() = 0;
+
+    // returns bounding box of the clipping region
+    virtual void GetClipBox(wxDouble* x, wxDouble* y, wxDouble* w, wxDouble* h) = 0;
 
     // returns the native context
     virtual void * GetNativeContext() = 0;
@@ -642,6 +685,9 @@ public:
     // draws a path by first filling and then stroking
     virtual void DrawPath( const wxGraphicsPath& path, wxPolygonFillMode fillStyle = wxODDEVEN_RULE );
 
+    // paints a transparent rectangle (only useful for bitmaps or windows)
+    virtual void ClearRectangle(wxDouble x, wxDouble y, wxDouble w, wxDouble h);
+
     //
     // text
     //
@@ -730,6 +776,8 @@ protected:
     // implementations of overloaded public functions: we use different names
     // for them to avoid the virtual function hiding problems in the derived
     // classes
+    virtual wxGraphicsPen DoCreatePen(const wxGraphicsPenInfo& info) const;
+
     virtual void DoDrawText(const wxString& str, wxDouble x, wxDouble y) = 0;
     virtual void DoDrawRotatedText(const wxString& str, wxDouble x, wxDouble y,
                                    wxDouble angle);
@@ -823,6 +871,10 @@ public:
 
     virtual wxGraphicsContext * CreateContextFromNativeWindow( void * window ) = 0;
 
+#ifdef __WXMSW__
+    virtual wxGraphicsContext * CreateContextFromNativeHDC(WXHDC dc) = 0;
+#endif
+
     virtual wxGraphicsContext * CreateContext( wxWindow* window ) = 0;
 
 #if wxUSE_IMAGE
@@ -843,7 +895,7 @@ public:
 
     // Paints
 
-    virtual wxGraphicsPen CreatePen(const wxPen& pen) = 0;
+    virtual wxGraphicsPen CreatePen(const wxGraphicsPenInfo& info) = 0;
 
     virtual wxGraphicsBrush CreateBrush(const wxBrush& brush ) = 0;
 

@@ -7,6 +7,8 @@
 
 #include <string.h>
 
+#include <stdexcept>
+
 #include "Platform.h"
 
 #include "Scintilla.h"
@@ -17,6 +19,10 @@ using namespace Scintilla;
 #endif
 
 FontAlias::FontAlias() {
+}
+
+FontAlias::FontAlias(const FontAlias &other) : Font() {
+	SetID(other.fid);
 }
 
 FontAlias::~FontAlias() {

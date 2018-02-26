@@ -9,7 +9,9 @@
 #define _WX_QT_LISTCTRL_H_
 
 #include "wx/textctrl.h"
-#include <QtWidgets/QTreeWidget>
+
+class QTreeWidget;
+class QTreeWidgetItem;
 
 class WXDLLIMPEXP_FWD_CORE wxImageList;
 
@@ -173,12 +175,6 @@ public:
     wxImageList *GetImageList(int which) const;
 
     // Sets the image list
-    // N.B. There's a quirk in the Win95 list view implementation.
-    // If in wxLC_LIST mode, it'll *still* display images by the labels if
-    // there's a small-icon image list set for the control - even though you
-    // haven't specified wxLIST_MASK_IMAGE when inserting.
-    // So you have to set a NULL small-icon image list to be sure that
-    // the wxLC_LIST mode works without icons. Of course, you may want icons...
     void SetImageList(wxImageList *imageList, int which);
     void AssignImageList(wxImageList *imageList, int which);
 
@@ -285,12 +281,12 @@ public:
     virtual int OnGetItemColumnImage(long item, long column) const;
 
     // return the attribute for the given item and column (may return NULL if none)
-    virtual wxListItemAttr *OnGetItemColumnAttr(long item, long WXUNUSED(column)) const
+    virtual wxItemAttr *OnGetItemColumnAttr(long item, long WXUNUSED(column)) const
     {
         return OnGetItemAttr(item);
     }
 
-    virtual QTreeWidget *GetHandle() const;
+    virtual QWidget *GetHandle() const;
 
 protected:
     void Init();

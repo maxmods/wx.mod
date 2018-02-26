@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2015 Bruce A Henderson
+' Copyright (c) 2007-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ Import wx.wxToolBar
 Import wx.wxStatusBar
 Import wx.wxMenuBar
 Import wx.wxTopLevelWindow
-Import BRL.Blitz
+
 
 
 ' headers :-)

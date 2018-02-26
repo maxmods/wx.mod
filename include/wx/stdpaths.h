@@ -49,6 +49,31 @@ public:
         AppInfo_VendorName = 2   // the vendor name
     };
 
+    enum Dir
+    {
+        Dir_Cache,
+        Dir_Documents,
+        Dir_Desktop,
+        Dir_Downloads,
+        Dir_Music,
+        Dir_Pictures,
+        Dir_Videos
+    };
+
+    // Layout to use for user config/data files under Unix.
+    enum FileLayout
+    {
+        FileLayout_Classic,     // Default: use home directory.
+        FileLayout_XDG          // Recommended: use XDG specification.
+    };
+
+    // Naming convention for the config files under Unix.
+    enum ConfigFileConv
+    {
+        ConfigFileConv_Dot,     // Classic Unix dot-file convention.
+        ConfigFileConv_Ext      // Use .conf extension.
+    };
+
 
     // return the global standard paths object
     static wxStandardPaths& Get();
@@ -130,7 +155,10 @@ public:
     //
     // C:\Documents and Settings\username\My Documents under Windows,
     // $HOME under Unix and ~/Documents under Mac
-    virtual wxString GetDocumentsDir() const;
+    virtual wxString GetDocumentsDir() const
+    {
+        return GetUserDir(Dir_Documents);
+    }
 
     // return the directory for the documents files used by this application:
     // it's a subdirectory of GetDocumentsDir() constructed using the
@@ -140,6 +168,11 @@ public:
     // return the temporary directory for the current user
     virtual wxString GetTempDir() const;
 
+    virtual wxString GetUserDir(Dir userDir) const;
+
+    virtual wxString
+    MakeConfigFileName(const wxString& basename,
+                       ConfigFileConv conv = ConfigFileConv_Ext) const = 0;
 
     // virtual dtor for the base class
     virtual ~wxStandardPathsBase();
@@ -152,6 +185,15 @@ public:
 
     bool UsesAppInfo(int info) const { return (m_usedAppInfo & info) != 0; }
 
+    void SetFileLayout(FileLayout layout)
+    {
+        m_fileLayout = layout;
+    }
+
+    FileLayout GetFileLayout() const
+    {
+        return m_fileLayout;
+    }
 
 protected:
     // Ctor is protected as this is a base class which should never be created
@@ -168,19 +210,22 @@ protected:
 
     // combination of AppInfo_XXX flags used by AppendAppInfo()
     int m_usedAppInfo;
+
+    // The file layout to use, currently only used under Unix.
+    FileLayout m_fileLayout;
 };
 
 #if wxUSE_STDPATHS
     #if defined(__WINDOWS__)
         #include "wx/msw/stdpaths.h"
         #define wxHAS_NATIVE_STDPATHS
-    // We want CoreFoundation paths on both CarbonLib and Darwin (for all ports)
-    #elif defined(__WXMAC__) || defined(__DARWIN__)
-        #include "wx/osx/core/stdpaths.h"
+    #elif defined(__WXOSX_COCOA__) || defined(__WXOSX_IPHONE__) || defined(__DARWIN__)
+        #include "wx/osx/cocoa/stdpaths.h"
         #define wxHAS_NATIVE_STDPATHS
     #elif defined(__UNIX__)
         #include "wx/unix/stdpaths.h"
         #define wxHAS_NATIVE_STDPATHS
+        #define wxHAS_STDPATHS_INSTALL_PREFIX
     #endif
 #endif
 
@@ -192,6 +237,7 @@ protected:
 //     wxUSE_STDPATHS=0, so that our code can still use wxStandardPaths.
 
 #ifndef wxHAS_NATIVE_STDPATHS
+#define wxHAS_STDPATHS_INSTALL_PREFIX
 class WXDLLIMPEXP_BASE wxStandardPaths : public wxStandardPathsBase
 {
 public:
@@ -205,7 +251,10 @@ public:
     virtual wxString GetLocalDataDir() const { return m_prefix; }
     virtual wxString GetUserDataDir() const { return m_prefix; }
     virtual wxString GetPluginsDir() const { return m_prefix; }
-    virtual wxString GetDocumentsDir() const { return m_prefix; }
+    virtual wxString GetUserDir(Dir WXUNUSED(userDir)) const { return m_prefix; }
+    virtual wxString MakeConfigFileName(const wxString& basename,
+                                        ConfigFileConv WXUNUSED(conv)) const
+                         { return m_prefix + wxS("/") + basename; }
 
 protected:
     // Ctor is protected because wxStandardPaths::Get() should always be used

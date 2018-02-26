@@ -87,9 +87,9 @@ public:
     int GetScrollPos();
 
     // don't hide base class virtuals
-    virtual void SetScrollPos( int orient, int pos, bool refresh = true )
+    virtual void SetScrollPos( int orient, int pos, bool refresh = true ) wxOVERRIDE
         { return wxControl::SetScrollPos(orient, pos, refresh); }
-    virtual int GetScrollPos( int orient ) const
+    virtual int GetScrollPos( int orient ) const wxOVERRIDE
         { return wxControl::GetScrollPos(orient); }
 
     //we need to resize the webview when the control size changes
@@ -98,7 +98,7 @@ public:
     void OnMouseEvents(wxMouseEvent &event);
 protected:
     wxDECLARE_EVENT_TABLE();
-    void MacVisibilityChanged();
+    void MacVisibilityChanged() wxOVERRIDE;
 
 private:
     wxWindow *m_parent;
@@ -107,7 +107,11 @@ private:
     wxString m_pageTitle;
 
     OSXWebViewPtr m_webView;
-
+    
+    WX_NSObject m_frameLoadMonitor;
+    WX_NSObject m_policyDelegate;
+    WX_NSObject m_UIDelegate;
+    
     // we may use this later to setup our own mouse events,
     // so leave it in for now.
     void* m_webKitCtrlEventHandler;
@@ -165,7 +169,7 @@ class WXDLLIMPEXP_CORE wxWebKitStateChangedEvent : public wxCommandEvent
 
 public:
     int GetState() { return m_state; }
-    void SetState(const int state) { m_state = state; }
+    void SetState(int state) { m_state = state; }
     wxString GetURL() { return m_url; }
     void SetURL(const wxString& url) { m_url = url; }
 

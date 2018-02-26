@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2015 Bruce A Henderson
+' Copyright (c) 2007-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ Module wx.wxScintilla
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2007-2015 Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2007-2018 Bruce A Henderson"
 
 
 ?linux
@@ -3480,20 +3480,6 @@ Type wxScintilla Extends wxControl
 	End Rem
 	Method GetGapPosition:Int()
 		Return bmx_wxscintilla_getgapposition(wxObjectPtr)
-	End Method
-
-	Rem
-	bbdoc: Always interpret keyboard input as Unicode
-	End Rem
-	Method SetKeysUnicode(keysUnicode:Int)
-		bmx_wxscintilla_setkeysunicode(wxObjectPtr, keysUnicode)
-	End Method
-
-	Rem
-	bbdoc: Are keys always interpreted as Unicode?
-	End Rem
-	Method GetKeysUnicode:Int()
-		Return bmx_wxscintilla_getkeysunicode(wxObjectPtr)
 	End Method
 
 	Rem

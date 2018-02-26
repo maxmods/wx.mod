@@ -27,9 +27,6 @@ enum
     wxTB_VERTICAL    = wxVERTICAL,      // == 0x0008
     wxTB_LEFT        = wxTB_VERTICAL,
 
-    // show 3D buttons (wxToolBarSimple only)
-    wxTB_3DBUTTONS   = 0x0010,
-
     // "flat" buttons (Win32/GTK only)
     wxTB_FLAT        = 0x0020,
 
@@ -69,10 +66,8 @@ enum
 
     #if defined(__WXUNIVERSAL__)
        #include "wx/univ/toolbar.h"
-    #elif defined(__WXMSW__) && (!defined(_WIN32_WCE) || (_WIN32_WCE >= 400 && !defined(__POCKETPC__) && !defined(__SMARTPHONE__)))
+    #elif defined(__WXMSW__)
        #include "wx/msw/toolbar.h"
-    #elif defined(__WXWINCE__)
-       #include "wx/msw/wince/tbarwce.h"
     #elif defined(__WXMOTIF__)
        #include "wx/motif/toolbar.h"
     #elif defined(__WXGTK20__)

@@ -28,11 +28,7 @@ class wxTextSizerWrapper;
 
 #define wxDIALOG_NO_PARENT      0x00000020  // Don't make owned by apps top window
 
-#ifdef __WXWINCE__
-#define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxMAXIMIZE | wxCLOSE_BOX | wxNO_BORDER)
-#else
 #define wxDEFAULT_DIALOG_STYLE  (wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX)
-#endif
 
 // Layout adaptation levels, for SetLayoutAdaptationLevel
 
@@ -120,13 +116,15 @@ public:
 
 #if wxUSE_STATTEXT // && wxUSE_TEXTCTRL
     // splits text up at newlines and places the lines into a vertical
-    // wxBoxSizer
-    wxSizer *CreateTextSizer( const wxString& message );
+    // wxBoxSizer, with the given maximum width, lines will not be wrapped
+    // for negative values of widthMax
+    wxSizer *CreateTextSizer(const wxString& message, int widthMax = -1);
 
     // same as above but uses a customized wxTextSizerWrapper to create
     // non-standard controls for the lines
-    wxSizer *CreateTextSizer( const wxString& message,
-                              wxTextSizerWrapper& wrapper );
+    wxSizer *CreateTextSizer(const wxString& message,
+                             wxTextSizerWrapper& wrapper,
+                             int widthMax = -1);
 #endif // wxUSE_STATTEXT // && wxUSE_TEXTCTRL
 
     // returns a horizontal wxBoxSizer containing the given buttons
@@ -347,7 +345,7 @@ public:
     static int DoMustScroll(wxDialog* dialog, wxSize& windowSize, wxSize& displaySize);
 };
 
-#if defined(__WXUNIVERSAL__) && !defined(__WXMICROWIN__)
+#if defined(__WXUNIVERSAL__)
     #include "wx/univ/dialog.h"
 #else
     #if defined(__WXMSW__)

@@ -38,7 +38,7 @@ enum
     wxBK_HITTEST_NOWHERE = 1,   // not on tab
     wxBK_HITTEST_ONICON  = 2,   // on icon
     wxBK_HITTEST_ONLABEL = 4,   // on label
-    wxBK_HITTEST_ONITEM  = wxBK_HITTEST_ONICON | wxBK_HITTEST_ONLABEL,
+    wxBK_HITTEST_ONITEM  = 16,  // on tab control but not on its icon or label
     wxBK_HITTEST_ONPAGE  = 8    // not on tab control, but over the selected page
 };
 
@@ -228,9 +228,6 @@ public:
     // we do have multiple pages
     virtual bool HasMultiplePages() const wxOVERRIDE { return true; }
 
-    // we don't want focus for ourselves
-    virtual bool AcceptsFocus() const wxOVERRIDE { return false; }
-
     // returns true if the platform should explicitly apply a theme border
     virtual bool CanApplyThemeBorder() const wxOVERRIDE { return false; }
 
@@ -310,6 +307,11 @@ protected:
 
     // Lay out controls
     virtual void DoSize();
+
+    // It is better to make this control transparent so that by default the controls on
+    // its pages are on the same colour background as the rest of the window. If the user
+    // prefers a coloured background they can set the background colour on the page panel
+    virtual bool HasTransparentBackground() wxOVERRIDE { return true; }
 
     // This method also invalidates the size of the controller and should be
     // called instead of just InvalidateBestSize() whenever pages are added or

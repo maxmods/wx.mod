@@ -19,21 +19,18 @@
 
 class WXDLLIMPEXP_ADV wxHyperlinkCtrl : public wxGenericHyperlinkCtrl
 {
+    typedef wxGenericHyperlinkCtrl base_type;
 public:
-    // Default constructor (for two-step construction).
-    wxHyperlinkCtrl() { }
-
-    // Constructor.
+    wxHyperlinkCtrl();
     wxHyperlinkCtrl(wxWindow *parent,
                     wxWindowID id,
                     const wxString& label, const wxString& url,
                     const wxPoint& pos = wxDefaultPosition,
                     const wxSize& size = wxDefaultSize,
                     long style = wxHL_DEFAULT_STYLE,
-                    const wxString& name = wxHyperlinkCtrlNameStr)
-    {
-        (void)Create(parent, id, label, url, pos, size, style, name);
-    }
+                    const wxString& name = wxHyperlinkCtrlNameStr);
+
+    virtual ~wxHyperlinkCtrl();
 
     // Creation function (for two-step construction).
     bool Create(wxWindow *parent,
@@ -57,6 +54,9 @@ public:
 
     virtual wxString GetURL() const wxOVERRIDE;
     virtual void SetURL(const wxString &url) wxOVERRIDE;
+
+    virtual void SetVisited(bool visited = true) wxOVERRIDE;
+    virtual bool GetVisited() const wxOVERRIDE;
 
     virtual void SetLabel(const wxString &label) wxOVERRIDE;
 

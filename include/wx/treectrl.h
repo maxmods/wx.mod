@@ -22,10 +22,11 @@
 #include "wx/control.h"
 #include "wx/treebase.h"
 #include "wx/textctrl.h" // wxTextCtrl::ms_classinfo used through wxCLASSINFO macro
+#include "wx/systhemectrl.h"
 
 class WXDLLIMPEXP_FWD_CORE wxImageList;
 
-#ifndef __WXMSW__
+#if !defined(__WXMSW__) || defined(__WXUNIVERSAL__)
     #define wxHAS_GENERIC_TREECTRL
 #endif
 
@@ -33,7 +34,7 @@ class WXDLLIMPEXP_FWD_CORE wxImageList;
 // wxTreeCtrlBase
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_CORE wxTreeCtrlBase : public wxControl
+class WXDLLIMPEXP_CORE wxTreeCtrlBase : public wxSystemThemedControl<wxControl>
 {
 public:
     wxTreeCtrlBase();
@@ -361,7 +362,7 @@ public:
 
         // this function is called to compare 2 items and should return -1, 0
         // or +1 if the first item is less than, equal to or greater than the
-        // second one. The base class version performs alphabetic comparaison
+        // second one. The base class version performs alphabetic comparison
         // of item labels (GetText)
     virtual int OnCompareItems(const wxTreeItemId& item1,
                                const wxTreeItemId& item2)

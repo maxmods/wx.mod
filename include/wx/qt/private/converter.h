@@ -14,6 +14,8 @@
 #include "wx/defs.h"
 #include <QtCore/Qt>
 
+#include "wx/kbdstate.h"
+
 // Rely on overloading and let the compiler pick the correct version, which makes
 // them easier to use then to write wxQtConvertQtRectToWxRect() or wxQtConvertWxRectToQtRect()
 
@@ -50,7 +52,7 @@ QSize  wxQtConvertSize( const wxSize &size );
 Qt::Orientation wxQtConvertOrientation( long style, wxOrientation defaultOrientation );
 wxOrientation wxQtConvertOrientation( Qt::Orientation );
 
-wxKeyCode wxQtConvertKeyCode( int key, const Qt::KeyboardModifiers modifiers );
+wxKeyCode wxQtConvertKeyCode( int key, Qt::KeyboardModifiers modifiers );
 void wxQtFillKeyboardModifiers( Qt::KeyboardModifiers modifiers, wxKeyboardState *state );
 int wxQtConvertKeyCode( int keyCode, int modifiers, Qt::KeyboardModifiers &qtmodifiers );
 

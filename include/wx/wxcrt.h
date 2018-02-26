@@ -95,7 +95,7 @@ WXDLLIMPEXP_BASE size_t wxWC2MB(char *buf, const wchar_t *psz, size_t n);
         return (wxChar*) memmove(szOut, szIn, len * sizeof(wxChar));
     }
 
-    inline wxChar* wxTmemset(wxChar* szOut, const wxChar cIn, size_t len)
+    inline wxChar* wxTmemset(wxChar* szOut, wxChar cIn, size_t len)
     {
         wxChar* szRet = szOut;
 
@@ -117,7 +117,7 @@ inline char* wxTmemcpy(char* szOut, const char* szIn, size_t len)
     { return (char*)memcpy(szOut, szIn, len); }
 inline char* wxTmemmove(char* szOut, const char* szIn, size_t len)
     { return (char*)memmove(szOut, szIn, len); }
-inline char* wxTmemset(char* szOut, const char cIn, size_t len)
+inline char* wxTmemset(char* szOut, char cIn, size_t len)
     { return (char*)memset(szOut, cIn, len); }
 
 
@@ -905,10 +905,9 @@ WX_STRTOX_FUNC(wxULongLong_t, wxStrtoull, wxCRT_StrtoullA, wxCRT_StrtoullW)
 
 #undef WX_STRTOX_FUNC
 
-
-// there is no command interpreter under CE, hence no system()
-#ifndef __WXWINCE__
-
+// ios doesn't export system starting from iOS 11 anymore and usage was critical before
+#if defined(__WXOSX__) && wxOSX_USE_IPHONE
+#else
 // mingw32 doesn't provide _tsystem() even though it provides other stdlib.h
 // functions in their wide versions
 #ifdef wxCRT_SystemW
@@ -916,8 +915,7 @@ inline int wxSystem(const wxString& str) { return wxCRT_SystemW(str.wc_str()); }
 #else
 inline int wxSystem(const wxString& str) { return wxCRT_SystemA(str.mb_str()); }
 #endif
-
-#endif // !__WXWINCE__/__WXWINCE__
+#endif
 
 inline char* wxGetenv(const char *name) { return wxCRT_GetenvA(name); }
 inline wchar_t* wxGetenv(const wchar_t *name) { return wxCRT_GetenvW(name); }

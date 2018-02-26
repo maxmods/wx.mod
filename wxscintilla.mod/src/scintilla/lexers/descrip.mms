@@ -2,7 +2,7 @@
 #                                                                            *
 # Make file for VMS                                                          *
 # Author : J.Jansen (joukj@hrem.nano.tudelft.nl)                             *
-# Date : 1 April 2014                                                        *
+# Date : 22 February 2017                                                    *
 #                                                                            *
 #*****************************************************************************
 
@@ -14,28 +14,32 @@
 .ifdef __WXMOTIF__
 CXX_DEFINE = /define=(__WX__=1,__WXMOTIF__=1,__USE_STD_IOSTREAM=1)/name=(as_is,short)\
 	   /assume=(nostdnew,noglobal_array_new)\
-	   /include=([],[-.src],[-.include],[-.lexlib])
+	   /include=([],[-.src],[-.include],[-.lexlib])\
+	   /warn=disable=(INTSIGNCHANGE)
 CC_DEFINE = /define=(__WX__=1,__WXMOTIF__=1)/name=(as_is,short)\
 	/include=([],[-.src],[-.include],[-.lexlib])
 .else
 .ifdef __WXGTK__
 CXX_DEFINE = /define=(__WX__=1,__WXGTK__=1,__USE_STD_IOSTREAM=1)/float=ieee/name=(as_is,short)/ieee=denorm\
 	   /assume=(nostdnew,noglobal_array_new)\
-	   /include=([],[-.src],[-.include],[-.lexlib])
+	   /include=([],[-.src],[-.include],[-.lexlib])\
+	   /warn=disable=(INTSIGNCHANGE)
 CC_DEFINE = /define=(__WX__=1,__WXGTK__=1)/float=ieee/name=(as_is,short)/ieee=denorm\
 	/include=([],[-.src],[-.include],[-.lexlib])
 .else
 .ifdef __WXGTK2__
 CXX_DEFINE = /define=(__WX__=1,__WXGTK__=1,VMS_GTK2=1,__USE_STD_IOSTREAM=1)/float=ieee/name=(as_is,short)/ieee=denorm\
 	   /assume=(nostdnew,noglobal_array_new)\
-	   /include=([],[-.src],[-.include],[-.lexlib])
+	   /include=([],[-.src],[-.include],[-.lexlib])\
+	   /warn=disable=(INTSIGNCHANGE)
 CC_DEFINE = /define=(__WX__=1,__WXGTK__=1,VMS_GTK2=1)/float=ieee/name=(as_is,short)\
 	/ieee=denorm/include=([],[-.src],[-.include],[-.lexlib])
 .else
 .ifdef __WXX11__
 CXX_DEFINE = /define=(__WX__=1,__WXX11__=1,__WXUNIVERSAL__==1,__USE_STD_IOSTREAM=1)/float=ieee\
 	/name=(as_is,short)/assume=(nostdnew,noglobal_array_new)\
-	/include=([],[-.src],[-.include],[-.lexlib])
+	/include=([],[-.src],[-.include],[-.lexlib])\
+	/warn=disable=(INTSIGNCHANGE)
 CC_DEFINE = /define=(__WX__=1,__WXX11__=1,__WXUNIVERSAL__==1)/float=ieee\
 	/name=(as_is,short)/include=([],[-.src],[-.include],[-.lexlib])
 .else
@@ -65,14 +69,17 @@ OBJECTS=LexA68k.obj,LexAbaqus.obj,LexAda.obj,LexAPDL.obj,LexAsm.obj,\
         LexMetapost.obj
 
 OBJECTS1=LexMMIXAL.obj,LexModula.obj,LexMPT.obj,LexMSSQL.obj,LexMySQL.obj,\
-	LexNimrod.obj,LexNsis.obj,LexOpal.obj,LexOScript.obj,LexOthers.obj,\
+	LexNimrod.obj,LexNsis.obj,LexOpal.obj,LexOScript.obj,\
 	LexPascal.obj,LexPB.obj,LexPerl.obj,LexPLM.obj,LexPO.obj,LexPOV.obj,\
 	LexPowerPro.obj,LexPowerShell.obj,LexProgress.obj,LexPS.obj,\
 	LexPython.obj,LexR.obj,LexRebol.obj,LexRuby.obj,LexRust.obj,\
 	LexScriptol.obj,LexSmalltalk.obj,LexSML.obj,LexSorcus.obj,LexSpecman.obj,\
 	LexSpice.obj,LexSQL.obj,LexSTTXT.obj,LexTACL.obj,LexTADS3.obj,LexTAL.obj,\
 	LexTCL.obj,LexTCMD.obj,LexTeX.obj,LexTxt2tags.obj,LexVB.obj,\
-	LexVerilog.obj,LexVHDL.obj,LexVisualProlog.obj,LexYAML.obj,LexDMAP.obj
+	LexVerilog.obj,LexVHDL.obj,LexVisualProlog.obj,LexYAML.obj,\
+	LexDMAP.obj,LexHex.obj,LexBibTeX.obj,LexDMIS.obj,LexRegistry.obj,\
+	LexBatch.obj,LexDiff.obj,LexErrorList.obj,LexMake.obj,LexNull.obj,\
+	LexProps.obj,LexJSON.obj,LexEDIFACT.obj
 
 SOURCES=LexA68k.cxx,LexAbaqus.cxx,LexAda.cxx,LexAPDL.cxx,LexAsm.cxx,\
 	LexAsn1.cxx,LexASY.cxx,LexAU3.cxx,LexAVE.cxx,LexAVS.cxx,LexBaan.cxx,\
@@ -85,14 +92,17 @@ SOURCES=LexA68k.cxx,LexAbaqus.cxx,LexAda.cxx,LexAPDL.cxx,LexAsm.cxx,\
 	LexLout.cxx,LexLua.cxx,LexMagik.cxx,LexMarkdown.cxx,LexMatlab.cxx,\
         LexMetapost.cxx,\
 	LexMMIXAL.cxx,LexModula.cxx,LexMPT.cxx,LexMSSQL.cxx,LexMySQL.cxx,\
-	LexNimrod.cxx,LexNsis.cxx,LexOpal.cxx,LexOScript.cxx,LexOthers.cxx,\
+	LexNimrod.cxx,LexNsis.cxx,LexOpal.cxx,LexOScript.cxx,\
 	LexPascal.cxx,LexPB.cxx,LexPerl.cxx,LexPLM.cxx,LexPO.cxx,LexPOV.cxx,\
 	LexPowerPro.cxx,LexPowerShell.cxx,LexProgress.cxx,LexPS.cxx,\
 	LexPython.cxx,LexR.cxx,LexRebol.cxx,LexRuby.cxx,LexRust.cxx,\
 	LexScriptol.cxx,LexSmalltalk.cxx,LexSML.cxx,LexSorcus.cxx,LexSpecman.cxx,\
 	LexSpice.cxx,LexSQL.cxx,LexSTTXT.cxx,LexTACL.cxx,LexTADS3.cxx,LexTAL.cxx,\
 	LexTCL.cxx,LexTCMD.cxx,LexTeX.cxx,LexTxt2tags.cxx,LexVB.cxx,\
-	LexVerilog.cxx,LexVHDL.cxx,LexVisualProlog.cxx,LexYAML.cxx,LexDMAP.cxx
+	LexVerilog.cxx,LexVHDL.cxx,LexVisualProlog.cxx,LexYAML.cxx,\
+	LexDMAP.cxx LexHex.cxx LexBibTeX.cxx LexDMIS.cxx LexRegistry.cxx \
+	LexBatch.cxx LexDiff.cxx LexErrorList.cxx LexMake.cxx LexNull.cxx \
+	LexProps.cxx LexJSON.cxx LexEDIFACT.cxx
 
 all : $(SOURCES)
 	$(MMS)$(MMSQUALIFIERS) $(OBJECTS)
@@ -181,7 +191,6 @@ LexNimrod.obj : LexNimrod.cxx
 LexNsis.obj : LexNsis.cxx
 LexOpal.obj : LexOpal.cxx
 LexOScript.obj : LexOScript.cxx
-LexOthers.obj : LexOthers.cxx
 LexPascal.obj : LexPascal.cxx
 LexPB.obj : LexPB.cxx
 LexPerl.obj : LexPerl.cxx
@@ -218,3 +227,15 @@ LexVHDL.obj : LexVHDL.cxx
 LexVisualProlog.obj : LexVisualProlog.cxx
 LexYAML.obj : LexYAML.cxx
 LexDMAP.obj : LexDMAP.cxx
+LexHex.obj : LexHex.cxx
+LexBibTeX.obj : LexBibTeX.cxx
+LexDMIS.obj : LexDMIS.cxx
+LexRegistry.obj : LexRegistry.cxx
+LexBatch.obj : LexBatch.cxx
+LexDiff.obj : LexDiff.cxx
+LexErrorList.obj : LexErrorList.cxx
+LexMake.obj : LexMake.cxx
+LexNull.obj : LexNull.cxx
+LexProps.obj : LexProps.cxx
+LexJSON.obj : LexJSON.cxx
+LexEDIFACT.obj : LexEDIFACT.cxx

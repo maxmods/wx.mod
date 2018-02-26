@@ -46,7 +46,7 @@ End Type
 
 Type MyFrame Extends wxFrame
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		New wxGenericDirCtrl.Create(Self, -1)
 	

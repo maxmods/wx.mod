@@ -61,9 +61,8 @@ public:
     virtual void ShowCancelButton( bool show ) wxOVERRIDE;
     virtual bool IsCancelButtonVisible() const wxOVERRIDE;
 
-    // TODO: In 2.9 these should probably be virtual, and declared in the base class...
-    void SetDescriptiveText(const wxString& text);
-    wxString GetDescriptiveText() const;
+    virtual void SetDescriptiveText(const wxString& text) wxOVERRIDE;
+    virtual wxString GetDescriptiveText() const wxOVERRIDE;
 
     // accessors
     // ---------
@@ -88,6 +87,8 @@ public:
 
     // operations
     // ----------
+
+    virtual void ChangeValue(const wxString& value) wxOVERRIDE;
 
     // editing
     virtual void Clear() wxOVERRIDE;
@@ -166,6 +167,11 @@ public:
     virtual void SelectAll() wxOVERRIDE;
     virtual void SetEditable(bool editable) wxOVERRIDE;
 
+    // Autocomplete
+    virtual bool DoAutoCompleteStrings(const wxArrayString &choices) wxOVERRIDE;
+    virtual bool DoAutoCompleteFileNames(int flags) wxOVERRIDE;
+    virtual bool DoAutoCompleteCustom(wxTextCompleter *completer) wxOVERRIDE;
+
 #if 0
 
     // override streambuf method
@@ -180,7 +186,7 @@ public:
     wxTextCtrl& operator<<(long i);
     wxTextCtrl& operator<<(float f);
     wxTextCtrl& operator<<(double d);
-    wxTextCtrl& operator<<(const wxChar c);
+    wxTextCtrl& operator<<(wxChar c);
 #endif
 
     // do the window-specific processing after processing the update event
@@ -219,7 +225,6 @@ protected:
 
     void OnCancelButton( wxCommandEvent& event );
 
-    void OnSetFocus( wxFocusEvent& event );
     void OnSize( wxSizeEvent& event );
 
     bool HasMenu() const

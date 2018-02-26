@@ -62,11 +62,7 @@
 
 #define wxNEEDS_WX_HASH_MAP
 
-#ifdef __WXWINCE__
-typedef int ptrdiff_t;
-#else
 #include <stddef.h>             // for ptrdiff_t
-#endif
 
 // private
 struct WXDLLIMPEXP_BASE _wxHashTable_NodeBase
@@ -644,8 +640,8 @@ public: \
     typedef VALUE_T mapped_type; \
     _WX_DECLARE_PAIR( iterator, bool, Insert_Result, CLASSEXP ) \
  \
-    wxEXPLICIT CLASSNAME( size_type hint = 100, hasher hf = hasher(),        \
-                          key_equal eq = key_equal() )                       \
+    explicit CLASSNAME( size_type hint = 100, hasher hf = hasher(),          \
+                        key_equal eq = key_equal() )                         \
         : CLASSNAME##_wxImplementation_HashTable( hint, hf, eq,              \
                                    CLASSNAME##_wxImplementation_KeyEx() ) {} \
  \

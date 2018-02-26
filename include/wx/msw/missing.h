@@ -141,6 +141,11 @@
 #define QS_ALLPOSTMESSAGE 0
 #endif
 
+// Missing from MinGW 4.8 SDK headers.
+#ifndef BS_TYPEMASK
+#define BS_TYPEMASK 0xf
+#endif
+
 // ----------------------------------------------------------------------------
 // menu stuff
 // ----------------------------------------------------------------------------
@@ -176,13 +181,16 @@
     #define LVS_EX_FULLROWSELECT 0x00000020
 #endif
 
-// LVS_EX_LABELTIP is not supported by Windows CE, don't define it there
-#if !defined(LVS_EX_LABELTIP) && !defined(__WXWINCE__)
+#if !defined(LVS_EX_LABELTIP)
     #define LVS_EX_LABELTIP 0x00004000
 #endif
 
 #ifndef LVS_EX_SUBITEMIMAGES
     #define LVS_EX_SUBITEMIMAGES 0x00000002
+#endif
+
+#ifndef LVS_EX_DOUBLEBUFFER
+    #define LVS_EX_DOUBLEBUFFER 0x00010000
 #endif
 
 #ifndef HDN_GETDISPINFOW
@@ -194,6 +202,9 @@
 #endif
 #ifndef HDS_FLAT
     #define HDS_FLAT 0x0200
+#endif
+#ifndef HDS_NOSIZING
+    #define HDS_NOSIZING 0x0800
 #endif
 
 #ifndef HDF_SORTUP
@@ -217,10 +228,6 @@
     #define TB_SETDISABLEDIMAGELIST (WM_USER + 54)
 #endif // !defined(TB_SETDISABLEDIMAGELIST)
 
-#ifndef CFM_BACKCOLOR
-    #define CFM_BACKCOLOR 0x04000000
-#endif
-
 #ifndef HANGUL_CHARSET
     #define HANGUL_CHARSET 129
 #endif
@@ -237,6 +244,10 @@
     #define TV_FIRST                0x1100
 #endif
 
+#ifndef TVS_EX_DOUBLEBUFFER
+    #define TVS_EX_DOUBLEBUFFER     0x0004
+#endif
+
 #ifndef TVS_FULLROWSELECT
     #define TVS_FULLROWSELECT       0x1000
 #endif
@@ -246,25 +257,9 @@
     #define TVM_SETTEXTCOLOR        (TV_FIRST + 30)
 #endif
 
- /*
-  * The following are specifically required for MinGW.
-  */
-
-#if defined (__MINGW32__)
-
-#if !wxCHECK_W32API_VERSION(3,1)
-
-#include <windows.h>
-#include "wx/msw/winundef.h"
-
-typedef struct
-{
-    RECT       rgrc[3];
-    WINDOWPOS *lppos;
-} NCCALCSIZE_PARAMS, *LPNCCALCSIZE_PARAMS;
-
-#endif
-
+#ifndef TVM_SETEXTENDEDSTYLE
+    #define TVM_SETEXTENDEDSTYLE    (TV_FIRST + 44)
+    #define TVM_GETEXTENDEDSTYLE    (TV_FIRST + 45)
 #endif
 
 // Various defines used by the webview library that are needed by mingw 
@@ -399,14 +394,6 @@ typedef struct
 
 #ifndef MUI_LANGUAGE_NAME
 #define MUI_LANGUAGE_NAME 0x8
-#endif
-
- /*
-  * In addition to the declarations for VC++, the following are required for WinCE
-  */
-
-#ifdef __WXWINCE__
-    #include "wx/msw/wince/missing.h"
 #endif
 
  /*

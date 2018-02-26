@@ -20,17 +20,6 @@
 #include "wx/osx/core/cfstring.h"
 #include "wx/osx/core/cfdataref.h"
 
-// Define helper macros allowing to insert small snippets of code to be
-// compiled for high enough OS X version only: this shouldn't be abused for
-// anything big but it's handy for e.g. specifying OS X 10.6-only protocols in
-// the Objective C classes declarations when they're not supported under the
-// previous versions
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
-    #define wxOSX_10_6_AND_LATER(x) x
-#else
-    #define wxOSX_10_6_AND_LATER(x)
-#endif
-
 // platform specific Clang analyzer support
 #ifndef NS_RETURNS_RETAINED
 #   if WX_HAS_CLANG_FEATURE(attribute_ns_returns_retained)
@@ -53,8 +42,6 @@
 // Carbon functions are currently still used in wxOSX/Cocoa too (including
 // wxBase part of it).
 #include <Carbon/Carbon.h>
-
-WXDLLIMPEXP_BASE long UMAGetSystemVersion() ;
 
 void WXDLLIMPEXP_CORE wxMacStringToPascal( const wxString&from , unsigned char * to );
 wxString WXDLLIMPEXP_CORE wxMacMakeStringFromPascal( const unsigned char * from );
@@ -138,14 +125,12 @@ class wxComboBox;
 class wxNotebook;
 class wxTextCtrl;
 class wxSearchCtrl;
+class wxMenuItem;
+class wxAcceleratorEntry;
 
 WXDLLIMPEXP_CORE wxWindowMac * wxFindWindowFromWXWidget(WXWidget inControl );
 
-#if wxOSX_USE_CARBON
-typedef wxMacControl wxWidgetImplType;
-#else
 typedef wxWidgetImpl wxWidgetImplType;
-#endif
 
 #if wxUSE_MENUS
 class wxMenuItemImpl : public wxObject
@@ -305,6 +290,8 @@ public :
 #if wxUSE_MARKUP && wxOSX_USE_COCOA
     virtual void        SetLabelMarkup( const wxString& WXUNUSED(markup) ) { }
 #endif
+    virtual void        SetInitialLabel( const wxString& title, wxFontEncoding encoding )
+                            { SetLabel(title, encoding); }
 
     virtual void        SetCursor( const wxCursor & cursor ) = 0;
     virtual void        CaptureMouse() = 0;
@@ -339,6 +326,8 @@ public :
 
     virtual void        InstallEventHandler( WXWidget control = NULL ) = 0;
 
+    virtual bool        EnableTouchEvents(int eventsMask) = 0;
+
     // Mechanism used to keep track of whether a change should send an event
     // Do SendEvents(false) when starting actions that would trigger programmatic events
     // and SendEvents(true) at the end of the block.
@@ -358,6 +347,7 @@ public :
                         FindBestFromWXWidget(WXWidget control);
     
     static void         RemoveAssociations( wxWidgetImpl* impl);
+    static void         RemoveAssociation(WXWidget control);
 
     static void         Associate( WXWidget control, wxWidgetImpl *impl );
 
@@ -626,6 +616,8 @@ public:
     // display
 
     virtual void            ListScrollTo( unsigned int n ) = 0;
+    virtual int             ListGetTopItem() const = 0;
+    virtual int             ListGetCountPerPage() const = 0;
     virtual void            UpdateLine( unsigned int n, wxListWidgetColumn* col = NULL ) = 0;
     virtual void            UpdateLineToEnd( unsigned int n) = 0;
 
@@ -668,7 +660,10 @@ public :
 
     virtual bool CanClipMaxLength() const { return false; }
     virtual void SetMaxLength(unsigned long WXUNUSED(len)) {}
-    
+
+    virtual bool CanForceUpper() { return false; }
+    virtual void ForceUpper() {}
+
     virtual bool GetStyle( long position, wxTextAttr& style);
     virtual void SetStyle( long start, long end, const wxTextAttr& style ) ;
     virtual void Copy() ;
@@ -695,14 +690,17 @@ public :
     virtual int GetNumberOfLines() const ;
     virtual long XYToPosition(long x, long y) const;
     virtual bool PositionToXY(long pos, long *x, long *y) const ;
-    virtual void ShowPosition(long WXUNUSED(pos)) ;
+    virtual void ShowPosition(long pos) ;
     virtual int GetLineLength(long lineNo) const ;
     virtual wxString GetLineText(long lineNo) const ;
     virtual void CheckSpelling(bool WXUNUSED(check)) { }
+    virtual void EnableAutomaticQuoteSubstitution(bool WXUNUSED(enable)) {}
+    virtual void EnableAutomaticDashSubstitution(bool WXUNUSED(enable)) {}
 
     virtual wxSize GetBestSize() const { return wxDefaultSize; }
 
     virtual bool SetHint(const wxString& WXUNUSED(hint)) { return false; }
+    virtual void SetJustification();
 private:
     wxTextEntry * const m_entry;
 
@@ -859,6 +857,10 @@ public :
     }
 
     virtual void SetTitle( const wxString& title, wxFontEncoding encoding ) = 0;
+
+    virtual bool EnableCloseButton(bool enable) = 0;
+    virtual bool EnableMaximizeButton(bool enable) = 0;
+    virtual bool EnableMinimizeButton(bool enable) = 0;
 
     virtual bool IsMaximized() const = 0;
 

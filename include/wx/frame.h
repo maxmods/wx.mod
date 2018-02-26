@@ -152,8 +152,8 @@ public:
 
     // event handlers
 #if wxUSE_MENUS
-#if wxUSE_STATUSBAR
     void OnMenuOpen(wxMenuEvent& event);
+#if wxUSE_STATUSBAR
     void OnMenuClose(wxMenuEvent& event);
     void OnMenuHighlight(wxMenuEvent& event);
 #endif // wxUSE_STATUSBAR
@@ -243,15 +243,15 @@ protected:
     wxToolBar *m_frameToolBar;
 #endif // wxUSE_TOOLBAR
 
-#if wxUSE_MENUS && wxUSE_STATUSBAR
+#if wxUSE_MENUS
     wxDECLARE_EVENT_TABLE();
-#endif // wxUSE_MENUS && wxUSE_STATUSBAR
+#endif // wxUSE_MENUS
 
     wxDECLARE_NO_COPY_CLASS(wxFrameBase);
 };
 
 // include the real class declaration
-#if defined(__WXUNIVERSAL__) // && !defined(__WXMICROWIN__)
+#if defined(__WXUNIVERSAL__)
     #include "wx/univ/frame.h"
 #else // !__WXUNIVERSAL__
     #if defined(__WXMSW__)

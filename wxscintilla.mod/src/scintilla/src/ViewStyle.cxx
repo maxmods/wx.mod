@@ -8,12 +8,14 @@
 #include <string.h>
 #include <assert.h>
 
+#include <stdexcept>
 #include <vector>
 #include <map>
 
 #include "Platform.h"
 
 #include "Scintilla.h"
+#include "Position.h"
 #include "SplitVector.h"
 #include "Partitioning.h"
 #include "RunStyles.h"
@@ -75,12 +77,12 @@ void FontRealised::Realise(Surface &surface, int zoomLevel, int technology, cons
 	if (sizeZoomed <= 2 * SC_FONT_SIZE_MULTIPLIER)	// Hangs if sizeZoomed <= 1
 		sizeZoomed = 2 * SC_FONT_SIZE_MULTIPLIER;
 
-	float deviceHeight = surface.DeviceHeightFont(sizeZoomed);
+	float deviceHeight = static_cast<float>(surface.DeviceHeightFont(sizeZoomed));
 	FontParameters fp(fs.fontName, deviceHeight / SC_FONT_SIZE_MULTIPLIER, fs.weight, fs.italic, fs.extraFontFlag, technology, fs.characterSet);
 	font.Create(fp);
 
-	ascent = surface.Ascent(font);
-	descent = surface.Descent(font);
+	ascent = static_cast<unsigned int>(surface.Ascent(font));
+	descent = static_cast<unsigned int>(surface.Descent(font));
 	aveCharWidth = surface.AverageCharWidth(font);
 	spaceWidth = surface.WidthChar(font, ' ');
 }
@@ -101,8 +103,14 @@ ViewStyle::ViewStyle(const ViewStyle &source) {
 		markers[mrk] = source.markers[mrk];
 	}
 	CalcLargestMarkerHeight();
+	indicatorsDynamic = 0;
+	indicatorsSetFore = 0;
 	for (int ind=0; ind<=INDIC_MAX; ind++) {
 		indicators[ind] = source.indicators[ind];
+		if (indicators[ind].IsDynamic())
+			indicatorsDynamic++;
+		if (indicators[ind].OverridesTextFore())
+			indicatorsSetFore++;
 	}
 
 	selColours = source.selColours;
@@ -131,23 +139,21 @@ ViewStyle::ViewStyle(const ViewStyle &source) {
 	alwaysShowCaretLineBackground = source.alwaysShowCaretLineBackground;
 	caretLineBackground = source.caretLineBackground;
 	caretLineAlpha = source.caretLineAlpha;
-	edgecolour = source.edgecolour;
-	edgeState = source.edgeState;
 	caretStyle = source.caretStyle;
 	caretWidth = source.caretWidth;
 	someStylesProtected = false;
 	someStylesForceCase = false;
 	leftMarginWidth = source.leftMarginWidth;
 	rightMarginWidth = source.rightMarginWidth;
-	for (int margin=0; margin <= SC_MAX_MARGIN; margin++) {
-		ms[margin] = source.ms[margin];
-	}
+	ms = source.ms;
 	maskInLine = source.maskInLine;
+	maskDrawInText = source.maskDrawInText;
 	fixedColumnWidth = source.fixedColumnWidth;
 	marginInside = source.marginInside;
 	textStart = source.textStart;
 	zoomLevel = source.zoomLevel;
 	viewWhitespace = source.viewWhitespace;
+	tabDrawMode = source.tabDrawMode;
 	whitespaceSize = source.whitespaceSize;
 	viewIndentationGuides = source.viewIndentationGuides;
 	viewEOL = source.viewEOL;
@@ -162,7 +168,9 @@ ViewStyle::ViewStyle(const ViewStyle &source) {
 	braceBadLightIndicatorSet = source.braceBadLightIndicatorSet;
 	braceBadLightIndicator = source.braceBadLightIndicator;
 
+	edgeState = source.edgeState;
 	theEdge = source.theEdge;
+	theMultiEdge = source.theMultiEdge;
 
 	marginNumberPadding = source.marginNumberPadding;
 	ctrlCharPadding = source.ctrlCharPadding;
@@ -183,6 +191,32 @@ ViewStyle::~ViewStyle() {
 	fonts.clear();
 }
 
+void ViewStyle::CalculateMarginWidthAndMask() {
+	fixedColumnWidth = marginInside ? leftMarginWidth : 0;
+	maskInLine = 0xffffffff;
+	int maskDefinedMarkers = 0;
+	for (size_t margin = 0; margin < ms.size(); margin++) {
+		fixedColumnWidth += ms[margin].width;
+		if (ms[margin].width > 0)
+			maskInLine &= ~ms[margin].mask;
+		maskDefinedMarkers |= ms[margin].mask;
+	}
+	maskDrawInText = 0;
+	for (int markBit = 0; markBit < 32; markBit++) {
+		const int maskBit = 1 << markBit;
+		switch (markers[markBit].markType) {
+		case SC_MARK_EMPTY:
+			maskInLine &= ~maskBit;
+			break;
+		case SC_MARK_BACKGROUND:
+		case SC_MARK_UNDERLINE:
+			maskInLine &= ~maskBit;
+			maskDrawInText |= maskDefinedMarkers & maskBit;
+			break;
+		}
+	}
+}
+
 void ViewStyle::Init(size_t stylesSize_) {
 	AllocStyles(stylesSize_);
 	nextExtendedStyle = 256;
@@ -192,18 +226,15 @@ void ViewStyle::Init(size_t stylesSize_) {
 	// There are no image markers by default, so no need for calling CalcLargestMarkerHeight()
 	largestMarkerHeight = 0;
 
-	indicators[0].style = INDIC_SQUIGGLE;
-	indicators[0].under = false;
-	indicators[0].fore = ColourDesired(0, 0x7f, 0);
-	indicators[1].style = INDIC_TT;
-	indicators[1].under = false;
-	indicators[1].fore = ColourDesired(0, 0, 0xff);
-	indicators[2].style = INDIC_PLAIN;
-	indicators[2].under = false;
-	indicators[2].fore = ColourDesired(0xff, 0, 0);
+	indicators[0] = Indicator(INDIC_SQUIGGLE, ColourDesired(0, 0x7f, 0));
+	indicators[1] = Indicator(INDIC_TT, ColourDesired(0, 0, 0xff));
+	indicators[2] = Indicator(INDIC_PLAIN, ColourDesired(0xff, 0, 0));
 
 	technology = SC_TECHNOLOGY_DEFAULT;
+	indicatorsDynamic = 0;
+	indicatorsSetFore = 0;
 	lineHeight = 1;
+	lineOverlap = 0;
 	maxAscent = 1;
 	maxDescent = 1;
 	aveCharWidth = 8;
@@ -236,8 +267,6 @@ void ViewStyle::Init(size_t stylesSize_) {
 	alwaysShowCaretLineBackground = false;
 	caretLineBackground = ColourDesired(0xff, 0xff, 0);
 	caretLineAlpha = SC_ALPHA_NOALPHA;
-	edgecolour = ColourDesired(0xc0, 0xc0, 0xc0);
-	edgeState = EDGE_NONE;
 	caretStyle = CARETSTYLE_LINE;
 	caretWidth = 1;
 	someStylesProtected = false;
@@ -250,6 +279,7 @@ void ViewStyle::Init(size_t stylesSize_) {
 
 	leftMarginWidth = 1;
 	rightMarginWidth = 1;
+	ms.resize(SC_MAX_MARGIN + 1);
 	ms[0].style = SC_MARGIN_NUMBER;
 	ms[0].width = 0;
 	ms[0].mask = 0;
@@ -260,16 +290,11 @@ void ViewStyle::Init(size_t stylesSize_) {
 	ms[2].width = 0;
 	ms[2].mask = 0;
 	marginInside = true;
-	fixedColumnWidth = marginInside ? leftMarginWidth : 0;
-	maskInLine = 0xffffffff;
-	for (int margin=0; margin <= SC_MAX_MARGIN; margin++) {
-		fixedColumnWidth += ms[margin].width;
-		if (ms[margin].width > 0)
-			maskInLine &= ~ms[margin].mask;
-	}
+	CalculateMarginWidthAndMask();
 	textStart = marginInside ? fixedColumnWidth : leftMarginWidth;
 	zoomLevel = 0;
 	viewWhitespace = wsInvisible;
+	tabDrawMode = tdLongArrow;
 	whitespaceSize = 1;
 	viewIndentationGuides = ivNone;
 	viewEOL = false;
@@ -284,7 +309,8 @@ void ViewStyle::Init(size_t stylesSize_) {
 	braceBadLightIndicatorSet = false;
 	braceBadLightIndicator = 0;
 
-	theEdge = 0;
+	edgeState = EDGE_NONE;
+	theEdge = EdgeProperties(0, ColourDesired(0xc0, 0xc0, 0xc0));
 
 	marginNumberPadding = 3;
 	ctrlCharPadding = 3; // +3 For a blank on front and rounded edge each side
@@ -323,12 +349,25 @@ void ViewStyle::Refresh(Surface &surface, int tabInChars) {
 		FontRealised *fr = Find(styles[k]);
 		styles[k].Copy(fr->font, *fr);
 	}
+	indicatorsDynamic = 0;
+	indicatorsSetFore = 0;
+	for (int ind = 0; ind <= INDIC_MAX; ind++) {
+		if (indicators[ind].IsDynamic())
+			indicatorsDynamic++;
+		if (indicators[ind].OverridesTextFore())
+			indicatorsSetFore++;
+	}
 	maxAscent = 1;
 	maxDescent = 1;
 	FindMaxAscentDescent();
 	maxAscent += extraAscent;
 	maxDescent += extraDescent;
 	lineHeight = maxAscent + maxDescent;
+	lineOverlap = lineHeight / 10;
+	if (lineOverlap < 2)
+		lineOverlap = 2;
+	if (lineOverlap > lineHeight)
+		lineOverlap = lineHeight;
 
 	someStylesProtected = false;
 	someStylesForceCase = false;
@@ -347,16 +386,10 @@ void ViewStyle::Refresh(Surface &surface, int tabInChars) {
 
 	controlCharWidth = 0.0;
 	if (controlCharSymbol >= 32) {
-		controlCharWidth = surface.WidthChar(styles[STYLE_CONTROLCHAR].font, controlCharSymbol);
+		controlCharWidth = surface.WidthChar(styles[STYLE_CONTROLCHAR].font, static_cast<char>(controlCharSymbol));
 	}
 
-	fixedColumnWidth = marginInside ? leftMarginWidth : 0;
-	maskInLine = 0xffffffff;
-	for (int margin=0; margin <= SC_MAX_MARGIN; margin++) {
-		fixedColumnWidth += ms[margin].width;
-		if (ms[margin].width > 0)
-			maskInLine &= ~ms[margin].mask;
-	}
+	CalculateMarginWidthAndMask();
 	textStart = marginInside ? fixedColumnWidth : leftMarginWidth;
 }
 
@@ -414,6 +447,17 @@ int ViewStyle::ExternalMarginWidth() const {
 	return marginInside ? 0 : fixedColumnWidth;
 }
 
+int ViewStyle::MarginFromLocation(Point pt) const {
+	int margin = -1;
+	int x = textStart - fixedColumnWidth;
+	for (size_t i = 0; i < ms.size(); i++) {
+		if ((pt.x >= x) && (pt.x < x + ms[i].width))
+			margin = static_cast<int>(i);
+		x += ms[i].width;
+	}
+	return margin;
+}
+
 bool ViewStyle::ValidStyle(size_t styleIndex) const {
 	return styleIndex < styles.size();
 }
@@ -432,6 +476,57 @@ void ViewStyle::CalcLargestMarkerHeight() {
 			break;
 		}
 	}
+}
+
+// See if something overrides the line background color:  Either if caret is on the line
+// and background color is set for that, or if a marker is defined that forces its background
+// color onto the line, or if a marker is defined but has no selection margin in which to
+// display itself (as long as it's not an SC_MARK_EMPTY marker).  These are checked in order
+// with the earlier taking precedence.  When multiple markers cause background override,
+// the color for the highest numbered one is used.
+ColourOptional ViewStyle::Background(int marksOfLine, bool caretActive, bool lineContainsCaret) const {
+	ColourOptional background;
+	if ((caretActive || alwaysShowCaretLineBackground) && showCaretLineBackground && (caretLineAlpha == SC_ALPHA_NOALPHA) && lineContainsCaret) {
+		background = ColourOptional(caretLineBackground, true);
+	}
+	if (!background.isSet && marksOfLine) {
+		int marks = marksOfLine;
+		for (int markBit = 0; (markBit < 32) && marks; markBit++) {
+			if ((marks & 1) && (markers[markBit].markType == SC_MARK_BACKGROUND) &&
+				(markers[markBit].alpha == SC_ALPHA_NOALPHA)) {
+				background = ColourOptional(markers[markBit].back, true);
+			}
+			marks >>= 1;
+		}
+	}
+	if (!background.isSet && maskInLine) {
+		int marksMasked = marksOfLine & maskInLine;
+		if (marksMasked) {
+			for (int markBit = 0; (markBit < 32) && marksMasked; markBit++) {
+				if ((marksMasked & 1) &&
+					(markers[markBit].alpha == SC_ALPHA_NOALPHA)) {
+					background = ColourOptional(markers[markBit].back, true);
+				}
+				marksMasked >>= 1;
+			}
+		}
+	}
+	return background;
+}
+
+bool ViewStyle::SelectionBackgroundDrawn() const {
+	return selColours.back.isSet &&
+		((selAlpha == SC_ALPHA_NOALPHA) || (selAdditionalAlpha == SC_ALPHA_NOALPHA));
+}
+
+bool ViewStyle::WhitespaceBackgroundDrawn() const {
+	return (viewWhitespace != wsInvisible) && (whitespaceColours.back.isSet);
+}
+
+bool ViewStyle::WhiteSpaceVisible(bool inIndent) const {
+	return (!inIndent && viewWhitespace == wsVisibleAfterIndent) ||
+		(inIndent && viewWhitespace == wsVisibleOnlyInIndent) ||
+		viewWhitespace == wsVisibleAlways;
 }
 
 ColourDesired ViewStyle::WrapColour() const {

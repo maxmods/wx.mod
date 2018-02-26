@@ -8,7 +8,11 @@
 #ifndef _WX_GLCANVAS_H_
 #define _WX_GLCANVAS_H_
 
-#include <QtOpenGL/QGLWidget>
+#include <GL/gl.h>
+
+class QGLWidget;
+class QGLContext;
+class QGLFormat;
 
 class WXDLLIMPEXP_GL wxGLContext : public wxGLContextBase
 {
@@ -31,7 +35,7 @@ private:
 class WXDLLIMPEXP_GL wxGLCanvas : public wxGLCanvasBase
 {
 public:
-    wxEXPLICIT // avoid implicitly converting a wxWindow* to wxGLCanvas
+    explicit // avoid implicitly converting a wxWindow* to wxGLCanvas
     wxGLCanvas(wxWindow *parent,
                wxWindowID id = wxID_ANY,
                const int *attribList = NULL,
@@ -53,8 +57,6 @@ public:
     virtual bool SwapBuffers();
 
     static bool ConvertWXAttrsToQtGL(const int *wxattrs, QGLFormat &format);
-
-    virtual QGLWidget *GetHandle() const { return static_cast<QGLWidget *>(m_qtWindow); }
 
 private:
 

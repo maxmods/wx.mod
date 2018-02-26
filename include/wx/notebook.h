@@ -48,7 +48,6 @@ enum
 #define wxNB_FIXEDWIDTH       0x0100
 #define wxNB_MULTILINE        0x0200
 #define wxNB_NOPAGETHEME      0x0400
-#define wxNB_FLAT             0x0800
 
 
 typedef wxWindow wxNotebookPage;  // so far, any window can be a page
@@ -139,10 +138,6 @@ public:
     // sends the event about page change from old to new (or GetSelection() if
     // new is wxNOT_FOUND)
     void SendPageChangedEvent(int nPageOld, int nPageNew = wxNOT_FOUND);
-
-    // wxBookCtrlBase overrides this method to return false but we do need
-    // focus because we have tabs
-    virtual bool AcceptsFocus() const wxOVERRIDE { return wxControl::AcceptsFocus(); }
 
 #if wxUSE_EXTENDED_RTTI    
     // XTI accessors

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2015 Bruce A Henderson
+  Copyright (c) 2007-2018 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -2024,14 +2024,6 @@ void bmx_wxscintilla_copyallowline(wxScintilla * sc) {
 
 int bmx_wxscintilla_getgapposition(wxScintilla * sc) {
 	return sc->GetGapPosition();
-}
-
-void bmx_wxscintilla_setkeysunicode(wxScintilla * sc, int keysUnicode) {
-	sc->SetKeysUnicode(keysUnicode);
-}
-
-int bmx_wxscintilla_getkeysunicode(wxScintilla * sc) {
-	return sc->GetKeysUnicode();
 }
 
 void bmx_wxscintilla_indicatorsetalpha(wxScintilla * sc, int indicator, int alpha) {

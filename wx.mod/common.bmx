@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2015 Bruce A Henderson
+' Copyright (c) 2007-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
 SuperStrict
 
 Import BRL.Map
-Import BRL.Blitz
+
 ?Not bmx_ng
 Import BRL.System
 ?bmx_ng
@@ -40,22 +40,22 @@ Import "../include/*.h"
 
 ?linux
 ' the wx libs
-'Import "-lwx_gtk2u_aui-3.1"
+Import "-lwx_gtk2u_aui-3.1"
 Import "-lwx_gtk2u_xrc-3.1"
-'Import "-lwx_gtk2u_stc-3.1"
-'Import "-lwxscintilla-3.1"
-'Import "-lwx_gtk2u_propgrid-3.1"
+Import "-lwx_gtk2u_stc-3.1"
+Import "-lwxscintilla-3.1"
+Import "-lwx_gtk2u_propgrid-3.1"
 Import "-lwx_gtk2u_qa-3.1"
 Import "-lwx_gtk2u_html-3.1"
-'Import "-lwx_gtk2u_webview-3.1"
+Import "-lwx_gtk2u_webview-3.1"
 Import "-lwx_gtk2u_adv-3.1"
-'Import "-lwx_gtk2u_media-3.1"
+Import "-lwx_gtk2u_media-3.1"
 Import "-lwx_gtk2u_core-3.1"
 Import "-lwx_baseu_xml-3.1"
 Import "-lwx_baseu_net-3.1"
 Import "-lwx_baseu-3.1"
 Import "-lwx_gtk2u_gl-3.1"
-'Import "-lwx_gtk2u_richtext-3.1"
+Import "-lwx_gtk2u_richtext-3.1"
 Import "-lwxjpeg-3.1"
 Import "-lwxpng-3.1"
 Import "-lwxregexu-3.1"
@@ -78,7 +78,9 @@ Import "-lglib-2.0"
 Import "-lSM"
 Import "-lgtk-x11-2.0"
 Import "-lXxf86vm"
-'Import "-lwebkitgtk-1.0"
+Import "-lwebkit2gtk-4.0"
+Import "-lgstreamer-1.0"
+Import "-lgstinterfaces-1.0"
 
 Import "-lpangocairo-1.0"
 Import "-lcairo"
@@ -89,27 +91,27 @@ Import "../lib/win32/mswu/*.h"
 
 ' NOTE : this is the file wx.rc from include/wx/msw/wx.rc
 ' Compiled with windres and given the name wx_rc.o
-Import "../lib/win32/wx_rc.o"
+'Import "../lib/win32/wx_rc.o"
 
 ?win32x64
 Import "../lib/win32x64/mswu/*.h"
 
 ' NOTE : this is the file wx.rc from include/wx/msw/wx.rc
 ' Compiled with windres and given the name wx_rc.o
-Import "../lib/win32x64/wx_rc.o"
+'Import "../lib/win32x64/wx_rc.o"
 
 ?win32
 Import "../include/*.h"
 
-'Import "-lwxmsw31u_aui"
+Import "-lwxmsw31u_aui"
 Import "-lwxmsw31u_xrc"
 Import "-lwxmsw31u_html"
-'Import "-lwxmsw31u_propgrid"
-'Import "-lwxmsw31u_stc"
-'Import "-lwxscintilla"
-'Import "-lwxmsw31u_webview"
+Import "-lwxmsw31u_propgrid"
+Import "-lwxmsw31u_stc"
+Import "-lwxscintilla"
+Import "-lwxmsw31u_webview"
 Import "-lwxmsw31u_adv"
-'Import "-lwxmsw31u_media"
+Import "-lwxmsw31u_media"
 Import "-lwxbase31u_xml"
 Import "-lwxbase31u_net"
 Import "-lwxmsw31u_core"
@@ -120,7 +122,7 @@ Import "-lwxpng"
 Import "-lwxzlib"
 Import "-lwxregexu"
 Import "-lwxexpat"
-'Import "-lwxmsw31u_richtext"
+Import "-lwxmsw31u_richtext"
 Import "-lwxtiff"
 
 Import "-ladvapi32"
@@ -143,6 +145,7 @@ Import "-lodbc32"
 Import "-lgdiplus"
 Import "-loleacc"
 Import "-lversion"
+Import "-luxtheme"
 
 ?macosppc
 Import "../lib/macosppc/wx/include/mac-unicode-release-static/*.h"
@@ -152,7 +155,7 @@ Import "../lib/macosx86/wx/include/mac-unicode-release-static/*.h"
 Import "../lib/macosx64/wx/include/mac-unicode-release-static/*.h"
 ?macos
 Import "../include/*.h"
-'Import "-lwx_osx_cocoau_aui-3.1"
+Import "-lwx_osx_cocoau_aui-3.1"
 Import "-lwx_osx_cocoau_xrc-3.1"
 Import "-lwx_osx_cocoau_qa-3.1"
 Import "-lwx_osx_cocoau_html-3.1"
@@ -163,11 +166,11 @@ Import "-lwx_baseu_net-3.1"
 Import "-lwx_baseu-3.1"
 Import "-lwx_osx_cocoau_core-3.1"
 'Import "-lwx_osx_cocoau_propgrid-3.1"
-'Import "-lwx_osx_cocoau_stc-3.1"
+Import "-lwx_osx_cocoau_stc-3.1"
 Import "-lwx_osx_cocoau_gl-3.1"
 'Import "-lwx_osx_cocoau_media-3.1"
 'Import "-lwx_osx_cocoau_richtext-3.1"
-'Import "-lwxscintilla-3.1"
+Import "-lwxscintilla-3.1"
 Import "-lwxjpeg-3.1"
 Import "-lwxpng-3.1"
 Import "-lwxregexu-3.1"

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2015 Bruce A Henderson
+  Copyright (c) 2007-2018 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -55,8 +55,8 @@ class MaxClientData;
 
 extern "C" {
 
-#include <blitz.h>
-#include "../../brl.mod/event.mod/event.h"
+#include "brl.mod/blitz.mod/blitz.h"
+#include "brl.mod/event.mod/event.h"
 	void bbSystemEmitEvent( int id,BBObject *source,int data,int mods,int x,int y,BBObject *extra );
 
 #ifdef BMX_NG

@@ -105,6 +105,7 @@ public :
     void                SetFont( const wxFont & font , const wxColour& foreground , long windowStyle, bool ignoreBlack = true );
 
     void                InstallEventHandler( WXWidget control = NULL );
+    bool                EnableTouchEvents(int WXUNUSED(eventsMask)) { return false; }
 
     virtual void        DoNotifyFocusEvent(bool receivedFocus, wxWidgetImpl* otherWindow);
 
@@ -158,6 +159,11 @@ public :
     bool SetShape(const wxRegion& region);
 
     virtual void SetTitle( const wxString& title, wxFontEncoding encoding ) ;
+
+    // Title bar buttons don't exist in iOS.
+    virtual bool EnableCloseButton(bool WXUNUSED(enable)) { return false; }
+    virtual bool EnableMaximizeButton(bool WXUNUSED(enable)) { return false; }
+    virtual bool EnableMinimizeButton(bool WXUNUSED(enable)) { return false; }
 
     virtual bool IsMaximized() const;
 

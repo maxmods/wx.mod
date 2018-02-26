@@ -31,10 +31,6 @@ public:
 
     virtual bool MacRender();
 
-#if wxOSX_USE_COCOA
-    virtual void OSXApplyAttr(const wxDataViewItemAttr& attr);
-#endif // Cocoa
-
     virtual wxDC* GetDC(); // creates a device context and keeps it
     void SetDC(wxDC* newDCPtr); // this method takes ownership of the pointer
 
@@ -44,6 +40,29 @@ private:
     wxDC* m_DCPtr;
 
     wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewCustomRenderer);
+};
+
+// ---------------------------------------------------------------------------
+// This is a Mac-specific class that should be used as the base class for the
+// renderers that should be disabled when they're inert, to prevent the user
+// from editing them.
+// ---------------------------------------------------------------------------
+
+class wxOSXDataViewDisabledInertRenderer : public wxDataViewRenderer
+{
+protected:
+    wxOSXDataViewDisabledInertRenderer(const wxString& varianttype,
+                                       wxDataViewCellMode mode,
+                                       int alignment)
+        : wxDataViewRenderer(varianttype, mode, alignment)
+    {
+    }
+
+    virtual void SetEnabled(bool enabled) wxOVERRIDE
+    {
+        wxDataViewRenderer::SetEnabled(enabled &&
+                                        GetMode() != wxDATAVIEW_CELL_INERT);
+    }
 };
 
 // ---------------------------------------------------------
@@ -59,15 +78,22 @@ public:
                            wxDataViewCellMode mode = wxDATAVIEW_CELL_INERT,
                            int align = wxDVR_DEFAULT_ALIGNMENT);
 
+#if wxUSE_MARKUP && wxOSX_USE_COCOA
+    void EnableMarkup(bool enable = true);
+#endif // wxUSE_MARKUP && Cocoa
+
     virtual bool MacRender();
 
-#if wxOSX_USE_COCOA
     virtual void OSXOnCellChanged(NSObject *value,
                                   const wxDataViewItem& item,
                                   unsigned col);
-#endif // Cocoa
 
 private:
+#if wxUSE_MARKUP && wxOSX_USE_COCOA
+    // True if we should interpret markup in our text.
+    bool m_useMarkup;
+#endif // wxUSE_MARKUP && Cocoa
+
     wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewTextRenderer);
 };
 
@@ -90,13 +116,12 @@ private:
     wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewBitmapRenderer);
 };
 
-#if wxOSX_USE_COCOA
-
 // -------------------------------------
 // wxDataViewChoiceRenderer
 // -------------------------------------
 
-class WXDLLIMPEXP_ADV wxDataViewChoiceRenderer: public wxDataViewRenderer
+class WXDLLIMPEXP_ADV wxDataViewChoiceRenderer
+    : public wxOSXDataViewDisabledInertRenderer
 {
 public:
     wxDataViewChoiceRenderer(const wxArrayString& choices,
@@ -108,11 +133,9 @@ public:
     wxString GetChoice(size_t index) const { return m_choices[index]; }
     const wxArrayString& GetChoices() const { return m_choices; }
 
-#if wxOSX_USE_COCOA
     virtual void OSXOnCellChanged(NSObject *value,
                                   const wxDataViewItem& item,
                                   unsigned col);
-#endif // Cocoa
 
 private:
     wxArrayString m_choices;
@@ -120,7 +143,24 @@ private:
     wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewChoiceRenderer);
 };
 
-#endif // wxOSX_USE_COCOA
+// ----------------------------------------------------------------------------
+// wxDataViewChoiceByIndexRenderer
+// ----------------------------------------------------------------------------
+
+class WXDLLIMPEXP_ADV wxDataViewChoiceByIndexRenderer: public wxDataViewChoiceRenderer
+{
+public:
+    wxDataViewChoiceByIndexRenderer(const wxArrayString& choices,
+                                    wxDataViewCellMode mode = wxDATAVIEW_CELL_EDITABLE,
+                                    int alignment = wxDVR_DEFAULT_ALIGNMENT);
+
+    virtual bool SetValue(const wxVariant& value) wxOVERRIDE;
+    virtual bool GetValue(wxVariant& value) const wxOVERRIDE;
+
+    virtual void OSXOnCellChanged(NSObject *value,
+                                  const wxDataViewItem& item,
+                                  unsigned col) wxOVERRIDE;
+};
 
 // ---------------------------------------------------------
 // wxDataViewIconTextRenderer
@@ -136,11 +176,9 @@ public:
 
     virtual bool MacRender();
 
-#if wxOSX_USE_COCOA
     virtual void OSXOnCellChanged(NSObject *value,
                                   const wxDataViewItem& item,
                                   unsigned col);
-#endif // Cocoa
 
 private:
     wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewIconTextRenderer);
@@ -150,7 +188,8 @@ private:
 // wxDataViewToggleRenderer
 // ---------------------------------------------------------
 
-class WXDLLIMPEXP_ADV wxDataViewToggleRenderer: public wxDataViewRenderer
+class WXDLLIMPEXP_ADV wxDataViewToggleRenderer
+    : public wxOSXDataViewDisabledInertRenderer
 {
 public:
     static wxString GetDefaultType() { return wxS("bool"); }
@@ -161,11 +200,9 @@ public:
 
     virtual bool MacRender();
 
-#if wxOSX_USE_COCOA
     virtual void OSXOnCellChanged(NSObject *value,
                                   const wxDataViewItem& item,
                                   unsigned col);
-#endif // Cocoa
 
 private:
     wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewToggleRenderer);
@@ -187,11 +224,9 @@ public:
 
     virtual bool MacRender();
 
-#if wxOSX_USE_COCOA
     virtual void OSXOnCellChanged(NSObject *value,
                                   const wxDataViewItem& item,
                                   unsigned col);
-#endif // Cocoa
 
 private:
     wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewProgressRenderer);
@@ -212,11 +247,9 @@ public:
 
     virtual bool MacRender();
 
-#if wxOSX_USE_COCOA
     virtual void OSXOnCellChanged(NSObject *value,
                                   const wxDataViewItem& item,
                                   unsigned col);
-#endif // Cocoa
 
 private:
     wxDECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewDateRenderer);

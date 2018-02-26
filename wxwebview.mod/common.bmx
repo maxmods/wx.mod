@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2015 Bruce A Henderson
+' Copyright (c) 2007-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,7 @@ SuperStrict
 
 Import wx.wx
 Import wx.wxControl
-Import BRL.Blitz
 
-?linux
-Import "-lwx_gtk2u_webview-3.1"
-Import "-lwebkitgtk-1.0"
-?win32
-Import "-lwxmsw31u_webview"
-?macos
-Import "-lwx_osx_cocoau_webview-3.1"
-?
 
 ' headers :-)
 ?linuxx86

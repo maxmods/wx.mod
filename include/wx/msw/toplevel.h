@@ -11,6 +11,8 @@
 #ifndef _WX_MSW_TOPLEVEL_H_
 #define _WX_MSW_TOPLEVEL_H_
 
+#include "wx/weakref.h"
+
 // ----------------------------------------------------------------------------
 // wxTopLevelWindowMSW
 // ----------------------------------------------------------------------------
@@ -45,33 +47,35 @@ public:
     virtual ~wxTopLevelWindowMSW();
 
     // implement base class pure virtuals
-    virtual void SetTitle( const wxString& title);
-    virtual wxString GetTitle() const;
-    virtual void Maximize(bool maximize = true);
-    virtual bool IsMaximized() const;
-    virtual void Iconize(bool iconize = true);
-    virtual bool IsIconized() const;
-    virtual void SetIcons(const wxIconBundle& icons );
-    virtual void Restore();
+    virtual void SetTitle( const wxString& title) wxOVERRIDE;
+    virtual wxString GetTitle() const wxOVERRIDE;
+    virtual void Maximize(bool maximize = true) wxOVERRIDE;
+    virtual bool IsMaximized() const wxOVERRIDE;
+    virtual void Iconize(bool iconize = true) wxOVERRIDE;
+    virtual bool IsIconized() const wxOVERRIDE;
+    virtual void SetIcons(const wxIconBundle& icons ) wxOVERRIDE;
+    virtual void Restore() wxOVERRIDE;
 
-    virtual void SetLayoutDirection(wxLayoutDirection dir);
+    virtual void SetLayoutDirection(wxLayoutDirection dir) wxOVERRIDE;
 
-    virtual void RequestUserAttention(int flags = wxUSER_ATTENTION_INFO);
+    virtual void RequestUserAttention(int flags = wxUSER_ATTENTION_INFO) wxOVERRIDE;
 
-    virtual bool Show(bool show = true);
-    virtual void Raise();
+    virtual bool Show(bool show = true) wxOVERRIDE;
+    virtual void Raise() wxOVERRIDE;
 
-    virtual void ShowWithoutActivating();
-    virtual bool ShowFullScreen(bool show, long style = wxFULLSCREEN_ALL);
-    virtual bool IsFullScreen() const { return m_fsIsShowing; }
+    virtual void ShowWithoutActivating() wxOVERRIDE;
+    virtual bool ShowFullScreen(bool show, long style = wxFULLSCREEN_ALL) wxOVERRIDE;
+    virtual bool IsFullScreen() const wxOVERRIDE { return m_fsIsShowing; }
 
     // wxMSW only: EnableCloseButton(false) may be used to remove the "Close"
     // button from the title bar
-    virtual bool EnableCloseButton(bool enable = true);
+    virtual bool EnableCloseButton(bool enable = true) wxOVERRIDE;
+    virtual bool EnableMaximizeButton(bool enable = true) wxOVERRIDE;
+    virtual bool EnableMinimizeButton(bool enable = true) wxOVERRIDE;
 
     // Set window transparency if the platform supports it
-    virtual bool SetTransparent(wxByte alpha);
-    virtual bool CanSetTransparent();
+    virtual bool SetTransparent(wxByte alpha) wxOVERRIDE;
+    virtual bool CanSetTransparent() wxOVERRIDE;
 
 
     // MSW-specific methods
@@ -86,6 +90,9 @@ public:
     // NULL if getting the system menu failed.
     wxMenu *MSWGetSystemMenu() const;
 
+    // Enable or disable the close button of the specified window.
+    static bool MSWEnableCloseButton(WXHWND hwnd, bool enable = true);
+
 
     // implementation from now on
     // --------------------------
@@ -97,29 +104,17 @@ public:
     void SetLastFocus(wxWindow *win) { m_winLastFocused = win; }
     wxWindow *GetLastFocus() const { return m_winLastFocused; }
 
-#if defined(__SMARTPHONE__) && defined(__WXWINCE__)
-    virtual void SetLeftMenu(int id = wxID_ANY, const wxString& label = wxEmptyString, wxMenu *subMenu = NULL);
-    virtual void SetRightMenu(int id = wxID_ANY, const wxString& label = wxEmptyString, wxMenu *subMenu = NULL);
-    bool HandleCommand(WXWORD id, WXWORD cmd, WXHWND control);
-    virtual bool MSWShouldPreProcessMessage(WXMSG* pMsg);
-#endif // __SMARTPHONE__ && __WXWINCE__
-
-#if defined(__SMARTPHONE__) || defined(__POCKETPC__)
-    // Soft Input Panel (SIP) change notification
-    virtual bool HandleSettingChange(WXWPARAM wParam, WXLPARAM lParam);
-#endif
-
     // translate wxWidgets flags to Windows ones
-    virtual WXDWORD MSWGetStyle(long flags, WXDWORD *exstyle) const;
+    virtual WXDWORD MSWGetStyle(long flags, WXDWORD *exstyle) const wxOVERRIDE;
 
     // choose the right parent to use with CreateWindow()
-    virtual WXHWND MSWGetParent() const;
+    virtual WXHWND MSWGetParent() const wxOVERRIDE;
 
     // window proc for the frames
-    WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
+    WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam) wxOVERRIDE;
 
     // returns true if the platform should explicitly apply a theme border
-    virtual bool CanApplyThemeBorder() const { return false; }
+    virtual bool CanApplyThemeBorder() const wxOVERRIDE { return false; }
 
 protected:
     // common part of all ctors
@@ -142,14 +137,12 @@ protected:
 
     // override those to return the normal window coordinates even when the
     // window is minimized
-#ifndef __WXWINCE__
-    virtual void DoGetPosition(int *x, int *y) const;
-    virtual void DoGetSize(int *width, int *height) const;
-#endif // __WXWINCE__
+    virtual void DoGetPosition(int *x, int *y) const wxOVERRIDE;
+    virtual void DoGetSize(int *width, int *height) const wxOVERRIDE;
 
     // Top level windows have different freeze semantics on Windows
-    virtual void DoFreeze();
-    virtual void DoThaw();
+    virtual void DoFreeze() wxOVERRIDE;
+    virtual void DoThaw() wxOVERRIDE;
 
     // helper of SetIcons(): calls gets the icon with the size specified by the
     // given system metrics (SM_C{X|Y}[SM]ICON) from the bundle and sets it
@@ -161,7 +154,7 @@ protected:
     virtual void MSWGetCreateWindowCoords(const wxPoint& pos,
                                           const wxSize& size,
                                           int& x, int& y,
-                                          int& w, int& h) const;
+                                          int& w, int& h) const wxOVERRIDE;
 
 
     // is the window currently iconized?
@@ -188,48 +181,9 @@ protected:
     // The last focused child: we remember it when we're deactivated and
     // restore focus to it when we're activated (this is done here) or restored
     // from iconic state (done by wxFrame).
-    wxWindow             *m_winLastFocused;
-
-#if defined(__SMARTPHONE__) && defined(__WXWINCE__)
-    class ButtonMenu
-    {
-    public:
-        ButtonMenu();
-        ~ButtonMenu();
-
-        void SetButton(int id = wxID_ANY,
-                       const wxString& label  = wxEmptyString,
-                       wxMenu *subMenu = NULL);
-
-        bool IsAssigned() const {return m_assigned;}
-        bool IsMenu() const {return m_menu!=NULL;}
-
-        int GetId() const {return m_id;}
-        wxMenu* GetMenu() const {return m_menu;}
-        wxString GetLabel() {return m_label;}
-
-        static wxMenu *DuplicateMenu(wxMenu *menu);
-
-    protected:
-        int      m_id;
-        wxString m_label;
-        wxMenu  *m_menu;
-        bool     m_assigned;
-    };
-
-    ButtonMenu               m_LeftButton;
-    ButtonMenu               m_RightButton;
-    HWND                     m_MenuBarHWND;
-
-    void ReloadButton(ButtonMenu& button, UINT menuID);
-    void ReloadAllButtons();
-#endif // __SMARTPHONE__ && __WXWINCE__
+    wxWindowRef m_winLastFocused;
 
 private:
-
-#if defined(__SMARTPHONE__) || defined(__POCKETPC__)
-    void* m_activateInfo;
-#endif
 
     // The system menu: initially NULL but can be set (once) by
     // MSWGetSystemMenu(). Owned by this window.

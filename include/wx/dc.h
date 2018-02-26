@@ -325,6 +325,9 @@ public:
 
     virtual void CalcBoundingBox(wxCoord x, wxCoord y)
     {
+      // Bounding box is internally stored in device units.
+      x = LogicalToDeviceX(x);
+      y = LogicalToDeviceY(y);
       if ( m_isBBoxValid )
       {
          if ( x < m_minX ) m_minX = x;
@@ -349,10 +352,11 @@ public:
         m_minX = m_maxX = m_minY = m_maxY = 0;
     }
 
-    wxCoord MinX() const { return m_minX; }
-    wxCoord MaxX() const { return m_maxX; }
-    wxCoord MinY() const { return m_minY; }
-    wxCoord MaxY() const { return m_maxY; }
+    // Get bounding box in logical units.
+    wxCoord MinX() const { return m_isBBoxValid ? DeviceToLogicalX(m_minX) : 0; }
+    wxCoord MaxX() const { return m_isBBoxValid ? DeviceToLogicalX(m_maxX) : 0; }
+    wxCoord MinY() const { return m_isBBoxValid ? DeviceToLogicalY(m_minY) : 0; }
+    wxCoord MaxY() const { return m_isBBoxValid ? DeviceToLogicalY(m_maxY) : 0; }
 
     // setters and getters
 
@@ -445,14 +449,17 @@ public:
     virtual void DoGetClippingBox(wxCoord *x, wxCoord *y,
                                   wxCoord *w, wxCoord *h) const
     {
+        int dcWidth, dcHeight;
+        DoGetSize(&dcWidth, &dcHeight);
+
         if ( x )
-            *x = m_clipX1;
+            *x = m_clipping ? m_clipX1 : DeviceToLogicalX(0);
         if ( y )
-            *y = m_clipY1;
+            *y = m_clipping ? m_clipY1 : DeviceToLogicalY(0);
         if ( w )
-            *w = m_clipX2 - m_clipX1;
+            *w = m_clipping ? m_clipX2 - m_clipX1 : DeviceToLogicalXRel(dcWidth);
         if ( h )
-            *h = m_clipY2 - m_clipY1;
+            *h = m_clipping ? m_clipY2 - m_clipY1 : DeviceToLogicalYRel(dcHeight);
     }
 
     virtual void DestroyClippingRegion() { ResetClipping(); }
@@ -670,53 +677,6 @@ protected:
         m_clipX1 = m_clipX2 = m_clipY1 = m_clipY2 = 0;
     }
 
-#ifdef __WXWINCE__
-    //! Generic method to draw ellipses, circles and arcs with current pen and brush.
-    /*! \param x Upper left corner of bounding box.
-     *  \param y Upper left corner of bounding box.
-     *  \param w Width of bounding box.
-     *  \param h Height of bounding box.
-     *  \param sa Starting angle of arc
-     *            (counterclockwise, start at 3 o'clock, 360 is full circle).
-     *  \param ea Ending angle of arc.
-     *  \param angle Rotation angle, the Arc will be rotated after
-     *               calculating begin and end.
-     */
-    void DrawEllipticArcRot( wxCoord x, wxCoord y,
-                             wxCoord width, wxCoord height,
-                             double sa = 0, double ea = 0, double angle = 0 )
-    { DoDrawEllipticArcRot( x, y, width, height, sa, ea, angle ); }
-
-    void DrawEllipticArcRot( const wxPoint& pt,
-                             const wxSize& sz,
-                             double sa = 0, double ea = 0, double angle = 0 )
-    { DoDrawEllipticArcRot( pt.x, pt.y, sz.x, sz.y, sa, ea, angle ); }
-
-    void DrawEllipticArcRot( const wxRect& rect,
-                             double sa = 0, double ea = 0, double angle = 0 )
-    { DoDrawEllipticArcRot( rect.x, rect.y, rect.width, rect.height, sa, ea, angle ); }
-
-    virtual void DoDrawEllipticArcRot( wxCoord x, wxCoord y,
-                                       wxCoord w, wxCoord h,
-                                       double sa = 0, double ea = 0, double angle = 0 );
-
-    //! Rotates points around center.
-    /*! This is a quite straight method, it calculates in pixels
-     *  and so it produces rounding errors.
-     *  \param points The points inside will be rotated.
-     *  \param angle Rotating angle (counterclockwise, start at 3 o'clock, 360 is full circle).
-     *  \param center Center of rotation.
-     */
-    void Rotate( wxPointList* points, double angle, wxPoint center = wxPoint(0,0) );
-
-    // used by DrawEllipticArcRot
-    // Careful: wxList gets filled with points you have to delete later.
-    void CalculateEllipticPoints( wxPointList* points,
-                                  wxCoord xStart, wxCoord yStart,
-                                  wxCoord w, wxCoord h,
-                                  double sa, double ea );
-#endif // __WXWINCE__
-
     // returns adjustment factor for converting wxFont "point size"; in wx
     // it is point size on screen and needs to be multiplied by this value
     // for rendering on higher-resolution DCs such as printer ones
@@ -756,8 +716,8 @@ protected:
                  m_mm_to_pix_y;
 
     // bounding and clipping boxes
-    wxCoord m_minX, m_minY, m_maxX, m_maxY;
-    wxCoord m_clipX1, m_clipY1, m_clipX2, m_clipY2;
+    wxCoord m_minX, m_minY, m_maxX, m_maxY; // Bounding box is stored in device units.
+    wxCoord m_clipX1, m_clipY1, m_clipX2, m_clipY2;  // Clipping box is stored in logical units.
 
     wxRasterOperationMode m_logicalFunction;
     int m_backgroundMode;
@@ -1476,16 +1436,31 @@ class WXDLLIMPEXP_CORE wxDCClipper
 {
 public:
     wxDCClipper(wxDC& dc, const wxRegion& r) : m_dc(dc)
-        { dc.SetClippingRegion(r.GetBox()); }
+    {
+        dc.GetClippingBox(m_oldClipRect);
+        dc.SetClippingRegion(r.GetBox());
+    }
     wxDCClipper(wxDC& dc, const wxRect& r) : m_dc(dc)
-        { dc.SetClippingRegion(r.x, r.y, r.width, r.height); }
+    {
+        dc.GetClippingBox(m_oldClipRect);
+        dc.SetClippingRegion(r.x, r.y, r.width, r.height);
+    }
     wxDCClipper(wxDC& dc, wxCoord x, wxCoord y, wxCoord w, wxCoord h) : m_dc(dc)
-        { dc.SetClippingRegion(x, y, w, h); }
+    {
+        dc.GetClippingBox(m_oldClipRect);
+        dc.SetClippingRegion(x, y, w, h);
+    }
 
-    ~wxDCClipper() { m_dc.DestroyClippingRegion(); }
+    ~wxDCClipper()
+    {
+        m_dc.DestroyClippingRegion();
+        if ( !m_oldClipRect.IsEmpty() )
+            m_dc.SetClippingRegion(m_oldClipRect);
+    }
 
 private:
     wxDC& m_dc;
+    wxRect m_oldClipRect;
 
     wxDECLARE_NO_COPY_CLASS(wxDCClipper);
 };

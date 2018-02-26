@@ -182,7 +182,21 @@ public:
     // In all ports keyboard navigation must stop at MDI child frame level and
     // can't cross its boundary. Indicate this by overriding this function to
     // return true.
-    virtual bool IsTopNavigationDomain() const wxOVERRIDE { return true; }
+    virtual bool IsTopNavigationDomain(NavigationKind kind) const wxOVERRIDE
+    {
+        switch ( kind )
+        {
+            case Navigation_Tab:
+                return true;
+
+            case Navigation_Accel:
+                // Parent frame accelerators should work inside MDI child, so
+                // don't block their processing by returning true for them.
+                break;
+        }
+
+        return false;
+    }
 
     // Raising any frame is supposed to show it but wxFrame Raise()
     // implementation doesn't work for MDI child frames in most forms so
@@ -239,7 +253,7 @@ public:
 
     // title is used as the tab label
     virtual wxString GetTitle() const wxOVERRIDE { return m_title; }
-    virtual void SetTitle(const wxString& title) = 0;
+    virtual void SetTitle(const wxString& title) wxOVERRIDE = 0;
 
     // no maximize etc
     virtual void Maximize(bool WXUNUSED(maximize) = true) wxOVERRIDE { }
@@ -265,17 +279,17 @@ public:
 
     // extra platform-specific hacks
 #ifdef __WXMSW__
-    virtual WXDWORD MSWGetStyle(long flags, WXDWORD *exstyle = NULL) const
+    virtual WXDWORD MSWGetStyle(long flags, WXDWORD *exstyle = NULL) const wxOVERRIDE
     {
         return wxWindow::MSWGetStyle(flags, exstyle);
     }
 
-    virtual WXHWND MSWGetParent() const
+    virtual WXHWND MSWGetParent() const wxOVERRIDE
     {
         return wxWindow::MSWGetParent();
     }
 
-    WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam)
+    WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam) wxOVERRIDE
     {
         return wxWindow::MSWWindowProc(message, wParam, lParam);
     }

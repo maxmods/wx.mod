@@ -48,26 +48,6 @@
     #define wxUSE_MENUS_NATIVE wxUSE_MENUS
 #endif // __WXUNIVERSAL__/!__WXUNIVERSAL__
 
-
-// Define this macro if the corresponding operating system handles the state
-// of children windows automatically when the parent is enabled/disabled.
-// Otherwise wx itself must ensure that when the parent is disabled its
-// children are disabled too, and their initial state is restored when the
-// parent is enabled back.
-#if defined(__WXMSW__)
-    // must do everything ourselves
-    #undef wxHAS_NATIVE_ENABLED_MANAGEMENT
-#elif defined(__WXOSX__)
-    #if wxOSX_USE_CARBON
-        #define wxHAS_NATIVE_ENABLED_MANAGEMENT
-    #else
-        // must do everything ourselves
-        #undef wxHAS_NATIVE_ENABLED_MANAGEMENT
-    #endif
-#else
-    #define wxHAS_NATIVE_ENABLED_MANAGEMENT
-#endif
-
 // ----------------------------------------------------------------------------
 // forward declarations
 // ----------------------------------------------------------------------------
@@ -105,7 +85,7 @@ struct WXDLLIMPEXP_CORE wxVisualAttributes
     wxColour colBg;
 };
 
-// different window variants, on platforms like eg mac uses different
+// different window variants, on platforms like e.g. mac uses different
 // rendering sizes
 enum wxWindowVariant
 {
@@ -135,6 +115,20 @@ enum wxShowEffect
     wxSHOW_EFFECT_BLEND,
     wxSHOW_EFFECT_EXPAND,
     wxSHOW_EFFECT_MAX
+};
+
+// Values for EnableTouchEvents() mask.
+enum
+{
+    wxTOUCH_NONE                    = 0x0000,
+    wxTOUCH_VERTICAL_PAN_GESTURE    = 0x0001,
+    wxTOUCH_HORIZONTAL_PAN_GESTURE  = 0x0002,
+    wxTOUCH_PAN_GESTURES            = wxTOUCH_VERTICAL_PAN_GESTURE |
+                                      wxTOUCH_HORIZONTAL_PAN_GESTURE,
+    wxTOUCH_ZOOM_GESTURE            = 0x0004,
+    wxTOUCH_ROTATE_GESTURE          = 0x0008,
+    wxTOUCH_PRESS_GESTURES          = 0x0010,
+    wxTOUCH_ALL_GESTURES            = 0x001f
 };
 
 // flags for SendSizeEvent()
@@ -209,7 +203,7 @@ public:
     virtual void SetLabel(const wxString& label) = 0;
     virtual wxString GetLabel() const = 0;
 
-        // the window name is used for ressource setting in X, it is not the
+        // the window name is used for resource setting in X, it is not the
         // same as the window title/label
     virtual void SetName( const wxString &name ) { m_windowName = name; }
     virtual wxString GetName() const { return m_windowName; }
@@ -406,15 +400,19 @@ public:
         // returns the results.
     virtual wxSize GetEffectiveMinSize() const;
 
+#if WXWIN_COMPATIBILITY_2_8
     wxDEPRECATED_MSG("use GetEffectiveMinSize() instead")
     wxSize GetBestFittingSize() const;
+#endif // WXWIN_COMPATIBILITY_2_8
 
         // A 'Smart' SetSize that will fill in default size values with 'best'
         // size.  Sets the minsize to what was passed in.
     void SetInitialSize(const wxSize& size=wxDefaultSize);
 
+#if WXWIN_COMPATIBILITY_2_8
     wxDEPRECATED_MSG("use SetInitialSize() instead")
     void SetBestFittingSize(const wxSize& size=wxDefaultSize);
+#endif // WXWIN_COMPATIBILITY_2_8
 
 
         // the generic centre function - centers the window on parent by`
@@ -512,7 +510,7 @@ public:
     }
 
         // Override these methods for windows that have a virtual size
-        // independent of their client size.  eg. the virtual area of a
+        // independent of their client size. e.g. the virtual area of a
         // wxScrolledWindow.
 
     virtual void DoSetVirtualSize( int x, int y );
@@ -530,7 +528,7 @@ public:
     }
 
     // returns the magnification of the content of this window
-    // eg 2.0 for a window on a retina screen
+    // e.g. 2.0 for a window on a retina screen
     virtual double GetContentScaleFactor() const;
 
     // return the size of the left/right and top/bottom borders in x and y
@@ -585,7 +583,7 @@ public:
     public:
         // Notice that window can be NULL here, for convenience. In this case
         // this class simply doesn't do anything.
-        wxEXPLICIT ChildrenRepositioningGuard(wxWindowBase* win)
+        explicit ChildrenRepositioningGuard(wxWindowBase* win)
             : m_win(win),
               m_callEnd(win && win->BeginRepositioningChildren())
         {
@@ -846,7 +844,7 @@ public:
     void SetEventHandler( wxEvtHandler *handler );
 
         // push/pop event handler: allows to chain a custom event handler to
-        // alreasy existing ones
+        // already existing ones
     void PushEventHandler( wxEvtHandler *handler );
     wxEvtHandler *PopEventHandler( bool deleteHandler = false );
 
@@ -979,6 +977,21 @@ public:
     wxPoint FromDIP(const wxPoint& pt) const { return FromDIP(pt, this); }
     int FromDIP(int d) const { return FromDIP(d, this); }
 
+    static wxSize ToDIP(const wxSize& sz, const wxWindowBase* w);
+    static wxPoint ToDIP(const wxPoint& pt, const wxWindowBase* w)
+    {
+        const wxSize sz = ToDIP(wxSize(pt.x, pt.y), w);
+        return wxPoint(sz.x, sz.y);
+    }
+    static int ToDIP(int d, const wxWindowBase* w)
+    {
+        return ToDIP(wxSize(d, 0), w).x;
+    }
+
+    wxSize ToDIP(const wxSize& sz) const { return ToDIP(sz, this); }
+    wxPoint ToDIP(const wxPoint& pt) const { return ToDIP(pt, this); }
+    int ToDIP(int d) const { return ToDIP(d, this); }
+
 
         // Dialog units are based on the size of the current font.
 
@@ -1018,6 +1031,13 @@ public:
     virtual bool HasCapture() const
         { return (wxWindow *)this == GetCapture(); }
 
+        // enable the specified touch events for this window, return false if
+        // the requested events are not supported
+    virtual bool EnableTouchEvents(int WXUNUSED(eventsMask))
+    {
+        return false;
+    }
+
     // painting the window
     // -------------------
 
@@ -1050,6 +1070,9 @@ public:
         // adjust DC for drawing on this window
     virtual void PrepareDC( wxDC & WXUNUSED(dc) ) { }
 
+        // enable or disable double buffering
+    virtual void SetDoubleBuffered(bool WXUNUSED(on)) { }
+
         // return true if the window contents is double buffered by the system
     virtual bool IsDoubleBuffered() const { return false; }
 
@@ -1058,7 +1081,7 @@ public:
     const wxRegion& GetUpdateRegion() const { return m_updateRegion; }
     wxRegion& GetUpdateRegion() { return m_updateRegion; }
 
-        // get the update rectangleregion bounding box in client coords
+        // get the update rectangle region bounding box in client coords
     wxRect GetUpdateClientRect() const;
 
         // these functions verify whether the given point/rectangle belongs to
@@ -1112,6 +1135,10 @@ public:
     {
         return m_hasBgCol;
     }
+    bool UseBackgroundColour() const
+    {
+        return UseBgCol();
+    }
 
     virtual bool SetForegroundColour(const wxColour& colour);
     void SetOwnForegroundColour(const wxColour& colour)
@@ -1120,6 +1147,14 @@ public:
             m_inheritFgCol = false;
     }
     wxColour GetForegroundColour() const;
+    bool UseForegroundColour() const
+    {
+        return m_hasFgCol;
+    }
+    bool InheritsForegroundColour() const
+    {
+        return m_inheritFgCol;
+    }
 
         // Set/get the background style.
     virtual bool SetBackgroundStyle(wxBackgroundStyle style);
@@ -1360,7 +1395,7 @@ public:
     bool CopyToolTip(wxToolTip *tip);
 #else // !wxUSE_TOOLTIPS
         // make it much easier to compile apps in an environment
-        // that doesn't support tooltips, such as PocketPC
+        // that doesn't support tooltips
     void SetToolTip(const wxString & WXUNUSED(tip)) { }
     void UnsetToolTip() { }
 #endif // wxUSE_TOOLTIPS/!wxUSE_TOOLTIPS
@@ -1438,7 +1473,7 @@ public:
     // ----------------------
 #if wxUSE_ACCESSIBILITY
     // Override to create a specific accessible object.
-    virtual wxAccessible* CreateAccessible();
+    virtual wxAccessible* CreateAccessible() { return NULL; }
 
     // Sets the accessible object.
     void SetAccessible(wxAccessible* accessible) ;
@@ -1446,7 +1481,8 @@ public:
     // Returns the accessible object.
     wxAccessible* GetAccessible() { return m_accessible; }
 
-    // Returns the accessible object, creating if necessary.
+    // Returns the accessible object, calling CreateAccessible if necessary.
+    // May return NULL, in which case system-provide accessible is used.
     wxAccessible* GetOrCreateAccessible() ;
 #endif
 
@@ -1526,13 +1562,23 @@ public:
     virtual wxWindow *GetMainWindowOfCompositeControl()
         { return (wxWindow*)this; }
 
-    // If this function returns true, keyboard navigation events shouldn't
+    enum NavigationKind
+    {
+        Navigation_Tab,
+        Navigation_Accel
+    };
+
+    // If this function returns true, keyboard events of the given kind can't
     // escape from it. A typical example of such "navigation domain" is a top
     // level window because pressing TAB in one of them must not transfer focus
     // to a different top level window. But it's not limited to them, e.g. MDI
     // children frames are not top level windows (and their IsTopLevel()
-    // returns false) but still are self-contained navigation domains as well.
-    virtual bool IsTopNavigationDomain() const { return false; }
+    // returns false) but still are self-contained navigation domains for the
+    // purposes of TAB navigation -- but not for the accelerators.
+    virtual bool IsTopNavigationDomain(NavigationKind WXUNUSED(kind)) const
+    {
+        return false;
+    }
 
 
 protected:
@@ -1716,10 +1762,12 @@ protected:
     // recalculated each time the value is needed.
     wxSize m_bestSizeCache;
 
+#if WXWIN_COMPATIBILITY_2_8
     wxDEPRECATED_MSG("use SetInitialSize() instead.")
     void SetBestSize(const wxSize& size);
     wxDEPRECATED_MSG("use SetInitialSize() instead.")
     virtual void SetInitialBestSize(const wxSize& size);
+#endif // WXWIN_COMPATIBILITY_2_8
 
 
 
@@ -1876,7 +1924,7 @@ private:
 };
 
 
-
+#if WXWIN_COMPATIBILITY_2_8
 // Inlines for some deprecated methods
 inline wxSize wxWindowBase::GetBestFittingSize() const
 {
@@ -1897,6 +1945,7 @@ inline void wxWindowBase::SetInitialBestSize(const wxSize& size)
 {
     SetInitialSize(size);
 }
+#endif // WXWIN_COMPATIBILITY_2_8
 
 
 // ----------------------------------------------------------------------------
@@ -1979,10 +2028,19 @@ inline wxWindow *wxWindowBase::GetGrandParent() const
 
 #ifdef wxHAVE_DPI_INDEPENDENT_PIXELS
 
-// FromDIP() becomes trivial in this case, so make it inline to avoid overhead.
+// FromDIP() and ToDIP() become trivial in this case, so make them inline to
+// avoid any overhead.
+
 /* static */
 inline wxSize
 wxWindowBase::FromDIP(const wxSize& sz, const wxWindowBase* WXUNUSED(w))
+{
+    return sz;
+}
+
+/* static */
+inline wxSize
+wxWindowBase::ToDIP(const wxSize& sz, const wxWindowBase* WXUNUSED(w))
 {
     return sz;
 }

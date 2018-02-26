@@ -27,7 +27,7 @@
 enum
 {
     // show Sunday as the first day of the week (default)
-    wxCAL_SUNDAY_FIRST               = 0x0000,
+    wxCAL_SUNDAY_FIRST               = 0x0080,
 
     // show Monday as the first day of the week
     wxCAL_MONDAY_FIRST               = 0x0001,
@@ -164,7 +164,7 @@ public:
     wxCalendarEvent(const wxCalendarEvent& event)
         : wxDateEvent(event), m_wday(event.m_wday) { }
 
-    void SetWeekDay(const wxDateTime::WeekDay wd) { m_wday = wd; }
+    void SetWeekDay(wxDateTime::WeekDay wd) { m_wday = wd; }
     wxDateTime::WeekDay GetWeekDay() const { return m_wday; }
 
     virtual wxEvent *Clone() const wxOVERRIDE { return new wxCalendarEvent(*this); }
@@ -332,6 +332,9 @@ protected:
 
     // called by EnableHolidayDisplay()
     virtual void RefreshHolidays() { }
+
+    // does the week start on monday based on flags and OS settings?
+    bool WeekStartsOnMonday() const;
 };
 
 // ----------------------------------------------------------------------------

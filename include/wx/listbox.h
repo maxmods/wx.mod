@@ -72,6 +72,9 @@ public:
     // necessary
     virtual void EnsureVisible(int n);
 
+    virtual int GetTopItem() const { return wxNOT_FOUND; }
+    virtual int GetCountPerPage() const { return -1; }
+
     // a combination of Append() and EnsureVisible(): appends the item to the
     // listbox and ensures that it is visible i.e. not scrolled out of view
     void AppendAndEnsureVisible(const wxString& s);

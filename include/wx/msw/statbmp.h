@@ -46,18 +46,18 @@ public:
 
     virtual ~wxStaticBitmap() { Free(); }
 
-    virtual void SetIcon(const wxIcon& icon) { SetImage(&icon); }
-    virtual void SetBitmap(const wxBitmap& bitmap) { SetImage(&bitmap); }
-    virtual wxBitmap GetBitmap() const;
-    virtual wxIcon GetIcon() const;
+    virtual void SetIcon(const wxIcon& icon) wxOVERRIDE { SetImage(&icon); }
+    virtual void SetBitmap(const wxBitmap& bitmap) wxOVERRIDE { SetImage(&bitmap); }
+    virtual wxBitmap GetBitmap() const wxOVERRIDE;
+    virtual wxIcon GetIcon() const wxOVERRIDE;
 
-    virtual WXDWORD MSWGetStyle(long style, WXDWORD *exstyle) const;
+    virtual WXDWORD MSWGetStyle(long style, WXDWORD *exstyle) const wxOVERRIDE;
 
     // returns true if the platform should explicitly apply a theme border
-    virtual bool CanApplyThemeBorder() const { return false; }
+    virtual bool CanApplyThemeBorder() const wxOVERRIDE { return false; }
 
 protected:
-    virtual wxSize DoGetBestClientSize() const;
+    virtual wxSize DoGetBestClientSize() const wxOVERRIDE;
 
     // ctor/dtor helpers
     void Init();
@@ -69,11 +69,9 @@ protected:
     void SetImage(const wxGDIImage* image);
     void SetImageNoCopy( wxGDIImage* image );
 
-#ifndef __WXWINCE__
     // draw the bitmap ourselves here if the OS can't do it correctly (if it
     // can we leave it to it)
     void DoPaintManually(wxPaintEvent& event);
-#endif // !__WXWINCE__
 
     void WXHandleSize(wxSizeEvent& event);
 

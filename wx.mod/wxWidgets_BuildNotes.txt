@@ -192,6 +192,8 @@ Add this text for wx-specific function prefixes :
 
 
 
+Current version of wxWidgets already sets this...
+
 src/zlib/zconf.h
 
 Add this text for wx-specific function prefix to the ifdef Z_PREFIX section :

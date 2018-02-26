@@ -1,4 +1,4 @@
-' Copyright (c) 2010-2015 Bruce A Henderson
+' Copyright (c) 2010-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ Module wx.wxTreeListCtrl
 ModuleInfo "Version: 1.00"
 ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
-ModuleInfo "Copyright: (c) 2010-2015 Bruce A Henderson"
+ModuleInfo "Copyright: (c) 2010-2018 Bruce A Henderson"
 
 
 ?linux
@@ -48,6 +48,7 @@ ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
 
+?na
 Import "common.bmx"
 
 Type wxTreeListCtrl Extends wxControl
@@ -798,4 +799,4 @@ End Type
 Extern
 	Function bmx_wxtreelistctrl_getselections:wxTreeItemId[](handle:Byte Ptr)
 End Extern
-
+?

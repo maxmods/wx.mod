@@ -19,7 +19,6 @@
  * under a certain platform
  */
 
-#define wxOSX_USE_ATSU_TEXT 0
 #define wxHAS_OPENGL_ES
 
 #define wxOSX_USE_QUICKTIME 0
@@ -371,6 +370,11 @@
 #if wxUSE_WEBVIEW
 #undef wxUSE_WEBVIEW
 #define wxUSE_WEBVIEW 0
+#endif
+
+#if wxUSE_SECRETSTORE
+    #undef wxUSE_SECRETSTORE
+    #define wxUSE_SECRETSTORE 0
 #endif
 
 #endif

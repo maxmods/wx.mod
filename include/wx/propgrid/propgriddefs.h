@@ -30,6 +30,8 @@
 // Here are some platform dependent defines
 // NOTE: More in propertygrid.cpp
 //
+// NB: Only define wxPG_TEXTCTRLXADJUST for platforms that do not
+//     (yet) support wxTextEntry::SetMargins() for the left margin.
 
 #if defined(__WXMSW__)
 
@@ -37,6 +39,9 @@
     #define wxPG_XBEFORETEXT            4
     // space between vertical line and value editor control
     #define wxPG_XBEFOREWIDGET          1
+
+    // left margin can be set with wxTextEntry::SetMargins()
+    #undef wxPG_TEXTCTRLXADJUST
 
     // comment to use bitmap buttons
     #define wxPG_ICON_WIDTH             9
@@ -67,9 +72,8 @@
     #define wxPG_XBEFOREWIDGET          1
 
     // x position adjustment for wxTextCtrl (and like)
-    // NB: Only define wxPG_TEXTCTRLXADJUST for platforms that do not
-    //     (yet) support wxTextEntry::SetMargins() for the left margin.
-    //#define wxPG_TEXTCTRLXADJUST        3
+    // left margin can be set with wxTextEntry::SetMargins()
+    #undef wxPG_TEXTCTRLXADJUST
 
     // comment to use bitmap buttons
     #define wxPG_ICON_WIDTH             9
@@ -100,7 +104,8 @@
     #define wxPG_XBEFOREWIDGET          1
 
     // x position adjustment for wxTextCtrl (and like)
-    #define wxPG_TEXTCTRLXADJUST        0
+    // left margin cannot be set with wxTextEntry::SetMargins()
+    #define wxPG_TEXTCTRLXADJUST        1
 
     // comment to use bitmap buttons
     #define wxPG_ICON_WIDTH             11
@@ -131,6 +136,7 @@
     #define wxPG_XBEFOREWIDGET          1
 
     // x position adjustment for wxTextCtrl (and like)
+    // left margin cannot be set with wxTextEntry::SetMargins()
     #define wxPG_TEXTCTRLXADJUST        3
 
     // comment to use bitmap buttons
@@ -175,7 +181,7 @@
 #endif
 
 // Use this macro to generate standard custom image height from
-#define wxPG_STD_CUST_IMAGE_HEIGHT(LINEHEIGHT)  (LINEHEIGHT-3)
+#define wxPG_STD_CUST_IMAGE_HEIGHT(LINEHEIGHT)  ((LINEHEIGHT)-3)
 
 // Undefine wxPG_ICON_WIDTH to use supplied xpm bitmaps instead
 // (for tree buttons)
@@ -224,48 +230,38 @@ class wxPGValidationInfo;
 
 // -----------------------------------------------------------------------
 
-/** @section propgrid_misc wxPropertyGrid Miscellaneous
-
-    This section describes some miscellaneous values, types and macros.
-    @{
-*/
+// Some miscellaneous values, types and macros.
 
 // Used to tell wxPGProperty to use label as name as well
 #define wxPG_LABEL              (*wxPGProperty::sm_wxPG_LABEL)
 
 // This is the value placed in wxPGProperty::sm_wxPG_LABEL
 #define wxPG_LABEL_STRING       wxS("@!")
+#if WXWIN_COMPATIBILITY_3_0
 #define wxPG_NULL_BITMAP        wxNullBitmap
+#endif // WXWIN_COMPATIBILITY_3_0
 #define wxPG_COLOUR_BLACK       (*wxBLACK)
 
-/** Convert Red, Green and Blue to a single 32-bit value.
-*/
-#define wxPG_COLOUR(R,G,B) ((wxUint32)(R+(G<<8)+(B<<16)))
+// Convert Red, Green and Blue to a single 32-bit value.
+#define wxPG_COLOUR(R,G,B) ((wxUint32)((R)+((G)<<8)+((B)<<16)))
 
 
-/** If property is supposed to have custom-painted image, then returning
-    this in OnMeasureImage() will usually be enough.
-*/
-#define wxPG_DEFAULT_IMAGE_SIZE             wxSize(-1, -1)
+// If property is supposed to have custom-painted image, then returning
+// this in OnMeasureImage() will usually be enough.
+#define wxPG_DEFAULT_IMAGE_SIZE  wxDefaultSize
 
 
-/** This callback function is used for sorting properties.
-
-    Call wxPropertyGrid::SetSortFunction() to set it.
-
-    Sort function should return a value greater than 0 if position of p1 is
-    after p2. So, for instance, when comparing property names, you can use
-    following implementation:
-
-        @code
-            int MyPropertySortFunction(wxPropertyGrid* propGrid,
-                                       wxPGProperty* p1,
-                                       wxPGProperty* p2)
-            {
-                return p1->GetBaseName().compare( p2->GetBaseName() );
-            }
-        @endcode
-*/
+// This callback function is used for sorting properties.
+// Call wxPropertyGrid::SetSortFunction() to set it.
+// Sort function should return a value greater than 0 if position of p1 is
+// after p2. So, for instance, when comparing property names, you can use
+// following implementation:
+//   int MyPropertySortFunction(wxPropertyGrid* propGrid,
+//                              wxPGProperty* p1,
+//                              wxPGProperty* p2)
+//   {
+//      return p1->GetBaseName().compare( p2->GetBaseName() );
+//   }
 typedef int (*wxPGSortCallback)(wxPropertyGrid* propGrid,
                                 wxPGProperty* p1,
                                 wxPGProperty* p2);
@@ -274,9 +270,6 @@ typedef int (*wxPGSortCallback)(wxPropertyGrid* propGrid,
 #if WXWIN_COMPATIBILITY_3_0
 typedef wxString wxPGCachedString;
 #endif
-
-/** @}
-*/
 
 // -----------------------------------------------------------------------
 
@@ -319,48 +312,39 @@ WX_DEFINE_TYPEARRAY_WITH_DECL_PTR(wxObject*, wxArrayPGObject,
                                   wxBaseArrayPtrVoid,
                                   class WXDLLIMPEXP_PROPGRID);
 
-// Utility to find if specific item is in a vector. Returns index to
-// the item, or wxNOT_FOUND if not present.
-template<typename CONTAINER, typename T>
-int wxPGFindInVector( CONTAINER vector, const T& item )
-{
-    for ( unsigned int i=0; i<vector.size(); i++ )
-    {
-        if ( vector[i] == item )
-            return (int) i;
-    }
-    return wxNOT_FOUND;
-}
-
 // -----------------------------------------------------------------------
 
-enum wxPG_GETPROPERTYVALUES_FLAGS
+enum wxPG_PROPERTYVALUES_FLAGS
 {
+// Flag for wxPropertyGridInterface::SetProperty* functions,
+// wxPropertyGridInterface::HideProperty(), etc.
+// Apply changes only for the property in question.
+wxPG_DONT_RECURSE                 = 0x00000000,
 
-/** Flags for wxPropertyGridInterface::GetPropertyValues */
+// Flag for wxPropertyGridInterface::GetPropertyValues().
+// Use this flag to retain category structure; each sub-category
+// will be its own wxVariantList of wxVariant.
 wxPG_KEEP_STRUCTURE               = 0x00000010,
 
-/** Flags for wxPropertyGrid::SetPropertyAttribute() etc */
+// Flag for wxPropertyGridInterface::SetProperty* functions,
+// wxPropertyGridInterface::HideProperty(), etc.
+// Apply changes recursively for the property and all its children.
 wxPG_RECURSE                      = 0x00000020,
 
-/** Include attributes for GetPropertyValues. */
+// Flag for wxPropertyGridInterface::GetPropertyValues().
+// Use this flag to include property attributes as well.
 wxPG_INC_ATTRIBUTES               = 0x00000040,
 
-/** Used when first starting recursion. */
+// Used when first starting recursion.
 wxPG_RECURSE_STARTS               = 0x00000080,
 
-/** Force value change. */
+// Force value change.
 wxPG_FORCE                        = 0x00000100,
 
-/** Only sort categories and their immediate children.
-    Sorting done by wxPG_AUTO_SORT option uses this.
-*/
+// Only sort categories and their immediate children.
+// Sorting done by wxPG_AUTO_SORT option uses this.
 wxPG_SORT_TOP_LEVEL_ONLY          = 0x00000200
-
 };
-
-/** Flags for wxPropertyGrid::SetPropertyAttribute() etc */
-#define wxPG_DONT_RECURSE         0x00000000
 
 // -----------------------------------------------------------------------
 
@@ -370,6 +354,7 @@ enum wxPG_MISC_ARG_FLAGS
     // Get/Store full value instead of displayed value.
     wxPG_FULL_VALUE                     = 0x00000001,
 
+    // Perform special action in case of unsuccessful conversion.
     wxPG_REPORT_ERROR                   = 0x00000002,
 
     wxPG_PROPERTY_SPECIFIC              = 0x00000004,
@@ -532,11 +517,11 @@ public:\
 \
     const classname &GetValue() const { return m_value; } \
 \
-    virtual bool Eq(wxVariantData& data) const; \
+    virtual bool Eq(wxVariantData& data) const wxOVERRIDE; \
 \
-    virtual wxString GetType() const; \
+    virtual wxString GetType() const wxOVERRIDE; \
 \
-    virtual wxVariantData* Clone() const { return new classname##VariantData(m_value); } \
+    virtual wxVariantData* Clone() const wxOVERRIDE { return new classname##VariantData(m_value); } \
 \
     DECLARE_WXANY_CONVERSION() \
 protected:\

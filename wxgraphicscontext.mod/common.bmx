@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2015 Bruce A Henderson
+' Copyright (c) 2007-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ Import wx.wxBrush
 Import wx.wxRegion
 Import wx.wxWindow
 Import wx.wxMemoryDC
-Import BRL.Blitz
+
 
 
 ' headers :-)

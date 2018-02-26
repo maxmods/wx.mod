@@ -93,7 +93,7 @@ private:
     wxHtmlWinParser *m_Parser;
     wxFileSystem *m_FS;
     wxHtmlContainerCell *m_Cells;
-    int m_MaxWidth, m_Width, m_Height;
+    int m_Width, m_Height;
 
     wxDECLARE_NO_COPY_CLASS(wxHtmlDCRenderer);
 };
@@ -156,8 +156,10 @@ public:
 
     void SetMargins(float top = 25.2f, float bottom = 25.2f, float left = 25.2f, float right = 25.2f,
                     float spaces = 5);
-            // sets margins in milimeters. Defaults to 1 inch for margins and 0.5cm for space
+            // sets margins in millimeters. Defaults to 1 inch for margins and 0.5cm for space
             // between text and header and/or footer
+
+    void SetMargins(const wxPageSetupDialogData& pageSetupData);
 
     // wxPrintout stuff:
     bool OnPrintPage(int page) wxOVERRIDE;

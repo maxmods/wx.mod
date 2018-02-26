@@ -123,9 +123,9 @@ public:
         { InitPointSize(-1); }
 
     // These ctors specify the font size, either in points or in pixels.
-    wxEXPLICIT wxFontInfo(int pointSize)
+    explicit wxFontInfo(int pointSize)
         { InitPointSize(pointSize); }
-    wxEXPLICIT wxFontInfo(const wxSize& pixelSize) : m_pixelSize(pixelSize)
+    explicit wxFontInfo(const wxSize& pixelSize) : m_pixelSize(pixelSize)
         { Init(); }
 
     // Setters for the various attributes. All of them return the object itself
@@ -209,10 +209,9 @@ public:
     // Default copy ctor, assignment operator and dtor are OK.
 
 private:
-    // Common part of all ctor, initializing everything except the size (which
-    // is initialized by the ctors themselves).
     void Init()
     {
+        m_pointSize = -1;
         m_family = wxFONTFAMILY_DEFAULT;
         m_flags = wxFONTFLAG_DEFAULT;
         m_encoding = wxFONTENCODING_DEFAULT;
@@ -327,6 +326,12 @@ public:
 
     // from the string representation of wxNativeFontInfo
     static wxFont *New(const wxString& strNativeFontDesc);
+
+    // Load the font from the given file and return true on success or false on
+    // error (an error message will be logged in this case).
+#if wxUSE_PRIVATE_FONTS
+    static bool AddPrivateFont(const wxString& filename);
+#endif // wxUSE_PRIVATE_FONTS
 
     // comparison
     bool operator==(const wxFont& font) const;
@@ -552,6 +557,12 @@ public:
                               wxFontEncoding encoding = wxFONTENCODING_DEFAULT)
         { return FindOrCreateFont(pointSize, (wxFontFamily)family, (wxFontStyle)style,
                                   (wxFontWeight)weight, underline, face, encoding); }
+
+    wxFont *FindOrCreateFont(const wxFontInfo& fontInfo)
+        { return FindOrCreateFont(fontInfo.GetPointSize(), fontInfo.GetFamily(),
+                                  fontInfo.GetStyle(), fontInfo.GetWeight(),
+                                  fontInfo.IsUnderlined(), fontInfo.GetFaceName(),
+                                  fontInfo.GetEncoding()); }
 };
 
 extern WXDLLIMPEXP_DATA_CORE(wxFontList*)    wxTheFontList;

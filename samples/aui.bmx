@@ -97,7 +97,7 @@ Type MyFrame Extends wxFrame
 	
 	Const ID_FirstPerspective:Int = ID_CreatePerspective + 1000
 
-	Method OnInit()
+	Method OnInit:Int()
 
 		' tell wxAuiManager to manage this frame
 		manager = New wxAuiManager.Create(Self)
@@ -946,7 +946,7 @@ Type SettingsPanel Extends wxPanel
 		Return Self
 	End Method
 	
-	Method OnInit()
+	Method OnInit:Int()
 
 		Connect(ID_PaneBorderSize,  wxEVT_COMMAND_SPINCTRL_UPDATED, OnPaneBorderSize)
 		Connect(ID_SashSize,  wxEVT_COMMAND_SPINCTRL_UPDATED, OnSashSize)

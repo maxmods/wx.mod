@@ -15,11 +15,6 @@
 
 #include "wx/msw/wrapwin.h"
 
-#ifdef __WXMICROWIN__
-    // Extra prototypes and symbols not defined by MicroWindows
-    #include "wx/msw/microwin.h"
-#endif
-
 #include "wx/log.h"
 
 #if wxUSE_GUI
@@ -72,12 +67,6 @@ WXDLLIMPEXP_BASE void wxSetInstance(HINSTANCE hInst);
 // define things missing from some compilers' headers
 // ---------------------------------------------------------------------------
 
-#if defined(__WXWINCE__)
-#ifndef ZeroMemory
-    inline void ZeroMemory(void *buf, size_t len) { memset(buf, 0, len); }
-#endif
-#endif // old mingw32
-
 // this defines a CASTWNDPROC macro which casts a pointer to the type of a
 // window proc
 #if defined(STRICT) || defined(__GNUC__)
@@ -86,57 +75,8 @@ WXDLLIMPEXP_BASE void wxSetInstance(HINSTANCE hInst);
     typedef FARPROC WndProcCast;
 #endif
 
-
 #define CASTWNDPROC (WndProcCast)
 
-
-
-// ---------------------------------------------------------------------------
-// some stuff for old Windows versions (FIXME: what does it do here??)
-// ---------------------------------------------------------------------------
-
-#if !defined(APIENTRY)  // NT defines APIENTRY, 3.x not
-    #define APIENTRY FAR PASCAL
-#endif
-
-#ifdef __WIN32__
-    #define _EXPORT
-#else
-    #define _EXPORT _export
-#endif
-
-#ifndef __WIN32__
-    typedef signed short int SHORT;
-#endif
-
-#if !defined(__WIN32__)  // 3.x uses FARPROC for dialogs
-#ifndef STRICT
-    #define DLGPROC FARPROC
-#endif
-#endif
-
-/*
- * Decide what window classes we're going to use
- * for this combination of CTl3D/FAFA settings
- */
-
-#define STATIC_CLASS     wxT("STATIC")
-#define STATIC_FLAGS     (SS_LEFT|WS_CHILD|WS_VISIBLE)
-#define CHECK_CLASS      wxT("BUTTON")
-#define CHECK_FLAGS      (BS_AUTOCHECKBOX|WS_TABSTOP|WS_CHILD)
-#define CHECK_IS_FAFA    FALSE
-#define RADIO_CLASS      wxT("BUTTON")
-#define RADIO_FLAGS      (BS_AUTORADIOBUTTON|WS_CHILD|WS_VISIBLE)
-#define RADIO_SIZE       20
-#define RADIO_IS_FAFA    FALSE
-#define PURE_WINDOWS
-#define GROUP_CLASS      wxT("BUTTON")
-#define GROUP_FLAGS      (BS_GROUPBOX|WS_CHILD|WS_VISIBLE)
-
-/*
-#define BITCHECK_FLAGS   (FB_BITMAP|FC_BUTTONDRAW|FC_DEFAULT|WS_VISIBLE)
-#define BITRADIO_FLAGS   (FC_BUTTONDRAW|FB_BITMAP|FC_RADIO|WS_CHILD|WS_VISIBLE)
-*/
 
 // ---------------------------------------------------------------------------
 // misc macros
@@ -152,7 +92,7 @@ WXDLLIMPEXP_BASE void wxSetInstance(HINSTANCE hInst);
 
 // Generic subclass proc, for panel item moving/sizing and intercept
 // EDIT control VK_RETURN messages
-extern LONG APIENTRY _EXPORT
+extern LONG APIENTRY
   wxSubclassedGenericControlProc(WXHWND hWnd, WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
 
 // ---------------------------------------------------------------------------
@@ -160,21 +100,14 @@ extern LONG APIENTRY _EXPORT
 // ---------------------------------------------------------------------------
 
 // a wrapper macro for ZeroMemory()
-#if defined(__WIN32__) && !defined(__WXMICROWIN__)
 #define wxZeroMemory(obj)   ::ZeroMemory(&obj, sizeof(obj))
-#else
-#define wxZeroMemory(obj)   memset((void*) & obj, 0, sizeof(obj))
-#endif
 
 // This one is a macro so that it can be tested with #ifdef, it will be
 // undefined if it cannot be implemented for a given compiler.
 // Vc++, bcc, dmc, ow, mingw akk have _get_osfhandle() and Cygwin has
 // get_osfhandle. Others are currently unknown, e.g. Salford, Intel, Visual
 // Age.
-#if defined(__WXWINCE__)
-    #define wxGetOSFHandle(fd) ((HANDLE)fd)
-    #define wxOpenOSFHandle(h, flags) ((int)wxPtrToUInt(h))
-#elif defined(__CYGWIN__)
+#if defined(__CYGWIN__)
     #define wxGetOSFHandle(fd) ((HANDLE)get_osfhandle(fd))
 #elif defined(__VISUALC__) \
    || defined(__BORLANDC__) \
@@ -187,11 +120,11 @@ extern LONG APIENTRY _EXPORT
 #endif
 
 // close the handle in the class dtor
-template <wxUIntPtr INVALID_VALUE = (wxUIntPtr)INVALID_HANDLE_VALUE>
+template <wxUIntPtr INVALID_VALUE>
 class AutoHANDLE
 {
 public:
-    wxEXPLICIT AutoHANDLE(HANDLE handle = InvalidHandle()) : m_handle(handle) { }
+    explicit AutoHANDLE(HANDLE handle = InvalidHandle()) : m_handle(handle) { }
 
     bool IsOk() const { return m_handle != InvalidHandle(); }
     operator HANDLE() const { return m_handle; }
@@ -366,15 +299,6 @@ extern
 BOOL wxDrawStateBitmap(HDC hDC, HBITMAP hBitmap, int x, int y, UINT uState);
 
 #endif // wxUSE_OWNER_DRAWN
-
-// get (x, y) from DWORD - notice that HI/LOWORD can *not* be used because they
-// will fail on system with multiple monitors where the coords may be negative
-//
-// these macros are standard now (Win98) but some older headers don't have them
-#ifndef GET_X_LPARAM
-    #define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
-    #define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
-#endif // GET_X_LPARAM
 
 // get the current state of SHIFT/CTRL/ALT keys
 inline bool wxIsModifierDown(int vk)
@@ -667,12 +591,6 @@ private:
 };
 
 // set the given map mode for the life time of this object
-//
-// NB: SetMapMode() is not supported by CE so we also define a helper macro
-//     to avoid using it there
-#ifdef __WXWINCE__
-    #define wxCHANGE_HDC_MAP_MODE(hdc, mm)
-#else // !__WXWINCE__
     class HDCMapModeChanger
     {
     public:
@@ -701,7 +619,6 @@ private:
 
     #define wxCHANGE_HDC_MAP_MODE(hdc, mm) \
         HDCMapModeChanger wxMAKE_UNIQUE_NAME(wxHDCMapModeChanger)(hdc, mm)
-#endif // __WXWINCE__/!__WXWINCE__
 
 // smart pointer using GlobalAlloc/GlobalFree()
 class GlobalPtr
@@ -941,23 +858,17 @@ inline wxString wxGetFullModuleName()
 // return the run-time version of the OS in a format similar to
 // WINVER/_WIN32_WINNT compile-time macros:
 //
-//      0x0300      Windows NT 3.51
-//      0x0400      Windows 95, NT4
-//      0x0410      Windows 98
-//      0x0500      Windows ME, 2000
 //      0x0501      Windows XP, 2003
 //      0x0502      Windows XP SP2, 2003 SP1
 //      0x0600      Windows Vista, 2008
 //      0x0601      Windows 7
 //      0x0602      Windows 8 (currently also returned for 8.1 if program does not have a manifest indicating 8.1 support)
 //      0x0603      Windows 8.1 (currently only returned for 8.1 if program has a manifest indicating 8.1 support)
-//      0x0604      Windows 10 (currently only returned for 10 if program has a manifest indicating 10 support)
+//      0x1000      Windows 10 (currently only returned for 10 if program has a manifest indicating 10 support)
 //
-// for the other Windows versions 0 is currently returned
+// for the other Windows versions wxWinVersion_Unknown is currently returned.
 enum wxWinVersion
 {
-    wxWinVersion_Unknown = 0,
-
     wxWinVersion_3 = 0x0300,
     wxWinVersion_NT3 = wxWinVersion_3,
 
@@ -984,7 +895,11 @@ enum wxWinVersion
     wxWinVersion_8 = 0x602,
     wxWinVersion_8_1 = 0x603,
 
-    wxWinVersion_10 = 0x604
+    wxWinVersion_10 = 0x1000,
+
+    // Any version we can't recognize will be later than the last currently
+    // known one, so give it a value greater than any in the known range.
+    wxWinVersion_Unknown = 0x7fff
 };
 
 WXDLLIMPEXP_BASE wxWinVersion wxGetWinVersion();
@@ -1030,19 +945,9 @@ inline bool wxStyleHasBorder(long style)
                      wxSUNKEN_BORDER | wxDOUBLE_BORDER)) != 0;
 }
 
-inline long wxGetWindowExStyle(const wxWindowMSW *win)
-{
-    return ::GetWindowLong(GetHwndOf(win), GWL_EXSTYLE);
-}
-
 inline bool wxHasWindowExStyle(const wxWindowMSW *win, long style)
 {
-    return (wxGetWindowExStyle(win) & style) != 0;
-}
-
-inline long wxSetWindowExStyle(const wxWindowMSW *win, long style)
-{
-    return ::SetWindowLong(GetHwndOf(win), GWL_EXSTYLE, style);
+    return (::GetWindowLong(GetHwndOf(win), GWL_EXSTYLE) & style) != 0;
 }
 
 // Common helper of wxUpdate{,Edit}LayoutDirection() below: sets or clears the
@@ -1136,7 +1041,6 @@ extern WXDLLIMPEXP_CORE wxWindow *wxGetWindowFromHWND(WXHWND hwnd);
 // Get the size of an icon
 extern WXDLLIMPEXP_CORE wxSize wxGetHiconSize(HICON hicon);
 
-// Lines are drawn differently for WinCE and regular WIN32
 WXDLLIMPEXP_CORE void wxDrawLine(HDC hdc, int x1, int y1, int x2, int y2);
 
 // fill the client rect of the given window on the provided dc using this brush

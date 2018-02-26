@@ -14,37 +14,23 @@
 #include "wx/list.h"
 #include "wx/arrstr.h"
 
-#ifdef __WXWINCE__
-    #include "wx/msw/wince/time.h"
-    #include "wx/msw/private.h"
-#else
-    #include <time.h>
-#endif
+#include <time.h>
 
-#ifndef __WXWINCE__
-    #include <sys/types.h>
-    #include <sys/stat.h>
-#endif
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #if defined(__UNIX__)
     #include <unistd.h>
     #include <dirent.h>
 #endif
 
-#if defined(__WINDOWS__) && !defined(__WXMICROWIN__)
-#if !defined( __GNUWIN32__ ) && !defined(__WXWINCE__) && !defined(__CYGWIN__)
+#if defined(__WINDOWS__)
+#if !defined( __GNUWIN32__ ) && !defined(__CYGWIN__)
     #include <direct.h>
     #include <dos.h>
     #include <io.h>
 #endif // __WINDOWS__
 #endif // native Win compiler
-
-#if defined(__DOS__)
-    #ifdef __DJGPP__
-        #include <io.h>
-        #include <unistd.h>
-    #endif
-#endif
 
 #ifdef __BORLANDC__ // Please someone tell me which version of Borland needs
                     // this (3.1 I believe) and how to test for it.
@@ -52,33 +38,24 @@
     #include <dir.h>
 #endif
 
-#ifndef __WXWINCE__
-    #include  <fcntl.h>       // O_RDONLY &c
-#endif
+#include  <fcntl.h>       // O_RDONLY &c
 
 // ----------------------------------------------------------------------------
 // constants
 // ----------------------------------------------------------------------------
 
-#if defined(__VISUALC__)
+// MSVC doesn't define mode_t, so do it ourselves unless someone else
+// had already predefined it.
+#if defined(__VISUALC__) && !defined(wxHAS_MODE_T)
+    #define wxHAS_MODE_T
     typedef int mode_t;
 #endif
 
-#ifdef __WXWINCE__
-    typedef long off_t;
-#else
-    // define off_t
-    #if !defined(__WXMAC__) || defined(__UNIX__) || defined(__MACH__)
-        #include  <sys/types.h>
-    #else
-        typedef long off_t;
-    #endif
-#endif
+// define off_t
+#include  <sys/types.h>
 
-#if defined(__VISUALC__) && !defined(__WXWINCE__)
+#if defined(__VISUALC__)
     typedef _off_t off_t;
-#elif defined(__SYMANTEC__)
-    typedef long off_t;
 #endif
 
 enum wxSeekMode
@@ -146,34 +123,11 @@ enum wxPosixPermissions
 // underscores to the usual names, some also have Unicode versions of them
 // ----------------------------------------------------------------------------
 
-// Wrappers around Win32 api functions like CreateFile, ReadFile and such
-// Implemented in filefnwce.cpp
-#if defined( __WXWINCE__)
-    typedef __int64 wxFileOffset;
-    #define wxFileOffsetFmtSpec wxT("I64")
-    WXDLLIMPEXP_BASE int wxCRT_Open(const wxChar *filename, int oflag, int WXUNUSED(pmode));
-    WXDLLIMPEXP_BASE int wxCRT_Access(const wxChar *name, int WXUNUSED(how));
-    WXDLLIMPEXP_BASE int wxCRT_Chmod(const wxChar *name, int WXUNUSED(how));
-    WXDLLIMPEXP_BASE int wxClose(int fd);
-    WXDLLIMPEXP_BASE int wxFsync(int WXUNUSED(fd));
-    WXDLLIMPEXP_BASE int wxRead(int fd, void *buf, unsigned int count);
-    WXDLLIMPEXP_BASE int wxWrite(int fd, const void *buf, unsigned int count);
-    WXDLLIMPEXP_BASE int wxEof(int fd);
-    WXDLLIMPEXP_BASE wxFileOffset wxSeek(int fd, wxFileOffset offset, int origin);
-    #define wxLSeek wxSeek
-    WXDLLIMPEXP_BASE wxFileOffset wxTell(int fd);
-
-    // always Unicode under WinCE
-    #define   wxCRT_MkDir      _wmkdir
-    #define   wxCRT_RmDir      _wrmdir
-    #define   wxCRT_Stat       _wstat
-    #define   wxStructStat struct _stat
-#elif defined(__WINDOWS__) && \
+#if defined(__WINDOWS__) && \
       ( \
         defined(__VISUALC__) || \
         defined(__MINGW64_TOOLCHAIN__) || \
-        (defined(__MINGW32__) && !defined(__WINE__) && \
-                                wxCHECK_W32API_VERSION(0, 5)) || \
+        (defined(__MINGW32__) && !defined(__WINE__)) || \
         defined(__BORLANDC__) \
       )
 
@@ -338,8 +292,12 @@ enum wxPosixPermissions
             #define wxCRT_OpenW       _wopen
         #endif
 
+        wxDECL_FOR_STRICT_MINGW32(int, _wopen, (const wchar_t*, int, ...))
+        wxDECL_FOR_STRICT_MINGW32(int, _waccess, (const wchar_t*, int))
+        wxDECL_FOR_STRICT_MINGW32(int, _wchmod, (const wchar_t*, int))
         wxDECL_FOR_STRICT_MINGW32(int, _wmkdir, (const wchar_t*))
         wxDECL_FOR_STRICT_MINGW32(int, _wrmdir, (const wchar_t*))
+        wxDECL_FOR_STRICT_MINGW32(int, _wstati64, (const wchar_t*, struct _stati64*))
 
         #define   wxCRT_AccessW     _waccess
         #define   wxCRT_ChmodW      _wchmod
@@ -470,8 +428,6 @@ inline int wxChmod(const wxString& path, mode_t mode)
 inline int wxOpen(const wxString& path, int flags, mode_t mode)
     { return wxCRT_Open(path.fn_str(), flags, mode); }
 
-// FIXME-CE: provide our own implementations of the missing CRT functions
-#ifndef __WXWINCE__
 inline int wxStat(const wxString& path, wxStructStat *buf)
     { return wxCRT_Stat(path.fn_str(), buf); }
 inline int wxLstat(const wxString& path, wxStructStat *buf)
@@ -485,7 +441,6 @@ inline int wxMkDir(const wxString& path, mode_t WXUNUSED(mode) = 0)
 inline int wxMkDir(const wxString& path, mode_t mode)
     { return wxCRT_MkDir(path.fn_str(), mode); }
 #endif
-#endif // !__WXWINCE__
 
 #ifdef O_BINARY
     #define wxO_BINARY O_BINARY
@@ -575,17 +530,17 @@ WXDLLIMPEXP_BASE bool wxIsWild(const wxString& pattern);
 WXDLLIMPEXP_BASE bool wxMatchWild(const wxString& pattern,  const wxString& text, bool dot_special = true);
 
 // Concatenate two files to form third
-WXDLLIMPEXP_BASE bool wxConcatFiles(const wxString& file1, const wxString& file2, const wxString& file3);
+WXDLLIMPEXP_BASE bool wxConcatFiles(const wxString& src1, const wxString& src2, const wxString& dest);
 
-// Copy file1 to file2
-WXDLLIMPEXP_BASE bool wxCopyFile(const wxString& file1, const wxString& file2,
+// Copy file
+WXDLLIMPEXP_BASE bool wxCopyFile(const wxString& src, const wxString& dest,
                                  bool overwrite = true);
 
 // Remove file
 WXDLLIMPEXP_BASE bool wxRemoveFile(const wxString& file);
 
 // Rename file
-WXDLLIMPEXP_BASE bool wxRenameFile(const wxString& file1, const wxString& file2, bool overwrite = true);
+WXDLLIMPEXP_BASE bool wxRenameFile(const wxString& oldpath, const wxString& newpath, bool overwrite = true);
 
 // Get current working directory.
 WXDLLIMPEXP_BASE wxString wxGetCwd();
@@ -640,7 +595,7 @@ WXDLLIMPEXP_BASE bool wxIsExecutable(const wxString &path);
 #elif defined(__MAC__)
   #define wxFILE_SEP_PATH     wxFILE_SEP_PATH_MAC
   #define wxPATH_SEP          wxPATH_SEP_MAC
-#else   // Windows and OS/2
+#else   // Windows
   #define wxFILE_SEP_PATH     wxFILE_SEP_PATH_DOS
   #define wxPATH_SEP          wxPATH_SEP_DOS
 #endif  // Unix/Windows
@@ -649,7 +604,7 @@ WXDLLIMPEXP_BASE bool wxIsExecutable(const wxString &path);
 // filename1.IsSameAs(filename2, wxARE_FILENAMES_CASE_SENSITIVE)
 #if defined(__UNIX__) && !defined(__DARWIN__)
   #define wxARE_FILENAMES_CASE_SENSITIVE  true
-#else   // Windows, Mac OS and OS/2
+#else   // Windows and OSX
   #define wxARE_FILENAMES_CASE_SENSITIVE  false
 #endif  // Unix/Windows
 

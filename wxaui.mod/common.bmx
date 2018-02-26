@@ -1,4 +1,4 @@
-' Copyright (c) 2007-2015 Bruce A Henderson
+' Copyright (c) 2007-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -25,15 +25,6 @@ Import wx.wxControl
 Import wx.wxBitmap
 Import wx.wxDC
 Import wx.wxBookCtrlBase
-Import BRL.Blitz
-
-?linux
-Import "-lwx_gtk2u_aui-3.1"
-?win32
-Import "-lwxmsw31u_aui"
-?macos
-Import "-lwx_osx_cocoau_aui-3.1"
-?
 
 ' headers :-)
 ?linuxx86

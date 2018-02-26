@@ -12,11 +12,7 @@
 
 #include "wx/dataview.h"
 
-#if wxOSX_USE_CARBON
-typedef wxMacControl wxWidgetImplType;
-#else
 typedef wxWidgetImpl wxWidgetImplType;
-#endif
 
 // ---------------------------------------------------------
 // Helper functions for dataview implementation on OSX
@@ -66,9 +62,10 @@ public:
   virtual bool         Add          (wxDataViewItem const& parent, wxDataViewItemArray const& itesm) = 0; // adds a items to the native control
   virtual void         Collapse     (wxDataViewItem const& item)                                     = 0; // collapses the passed item in the native control
   virtual void         EnsureVisible(wxDataViewItem const& item, wxDataViewColumn const* columnPtr)  = 0; // ensures that the passed item's value in the passed column is visible (column pointer can be NULL)
-  virtual void         Expand       (wxDataViewItem const& item)                                     = 0; // expands the passed item in the native control
   virtual unsigned int GetCount     (void) const                                                     = 0; // returns the number of items in the native control
+  virtual int          GetCountPerPage(void) const                                                   = 0; // get number of items that fit into a single page
   virtual wxRect       GetRectangle (wxDataViewItem const& item, wxDataViewColumn const* columnPtr)  = 0; // returns the rectangle that is used by the passed item and column in the native control
+  virtual wxDataViewItem GetTopItem (void) const                                                     = 0; // get top-most visible item
   virtual bool         IsExpanded   (wxDataViewItem const& item) const                               = 0; // checks if the passed item is expanded in the native control
   virtual bool         Reload       (void)                                                           = 0; // clears the native control and reloads all data
   virtual bool         Remove       (wxDataViewItem const& parent, wxDataViewItem const& item)       = 0; // removes an item from the native control
@@ -108,7 +105,10 @@ public:
  // other methods
  //
   virtual void DoSetIndent (int indent)                                                                     = 0; // sets the indention in the native control
+  virtual void DoExpand    (wxDataViewItem const& item)                                                     = 0; // expands the passed item in the native control
+
   virtual void HitTest     (wxPoint const& point, wxDataViewItem& item, wxDataViewColumn*& columnPtr) const = 0; // return the item and column pointer that contains with the passed point
+  virtual void SetRowHeight(int height)                                                                     = 0; // sets the height of all rows
   virtual void SetRowHeight(wxDataViewItem const& item, unsigned int height)                                = 0; // sets the height of the row containg the passed item in the native control
   virtual void OnSize      (void)                                                                           = 0; // updates the layout of the native control after a size event
   virtual void StartEditor( const wxDataViewItem & item, unsigned int column )                              = 0; // starts editing the passed in item and column

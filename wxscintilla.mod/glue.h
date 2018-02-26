@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2007-2015 Bruce A Henderson
+  Copyright (c) 2007-2018 Bruce A Henderson
  
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -538,8 +538,6 @@ void bmx_wxscintilla_releasedocument(wxScintilla * sc, void * docPointer);
 	int bmx_wxscintilla_getpositioncachesize(wxScintilla * sc);
 	void bmx_wxscintilla_copyallowline(wxScintilla * sc);
 	int bmx_wxscintilla_getgapposition(wxScintilla * sc);
-	void bmx_wxscintilla_setkeysunicode(wxScintilla * sc, int keysUnicode);
-	int bmx_wxscintilla_getkeysunicode(wxScintilla * sc);
 	void bmx_wxscintilla_indicatorsetalpha(wxScintilla * sc, int indicator, int alpha);
 	int bmx_wxscintilla_indicatorgetalpha(wxScintilla * sc, int indicator);
 	void bmx_wxscintilla_indicatorsetoutlinealpha(wxScintilla * sc, int indicator, int alpha);

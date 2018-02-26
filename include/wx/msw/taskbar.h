@@ -28,9 +28,9 @@ public:
     bool IsIconInstalled() const { return m_iconAdded; }
 
     // Operations
-    bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxEmptyString);
-    bool RemoveIcon(void);
-    bool PopupMenu(wxMenu *menu);
+    bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxEmptyString) wxOVERRIDE;
+    bool RemoveIcon(void) wxOVERRIDE;
+    bool PopupMenu(wxMenu *menu) wxOVERRIDE;
 
     // MSW-specific class methods
 
@@ -49,7 +49,8 @@ public:
     bool ShowBalloon(const wxString& title,
                      const wxString& text,
                      unsigned msec = 0,
-                     int flags = 0);
+                     int flags = 0,
+                     const wxIcon& icon = wxNullIcon);
 #endif // wxUSE_TASKBARICON_BALLOONS
 
 protected:

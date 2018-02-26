@@ -55,7 +55,7 @@ void wxKnob::Create (wxWindow* parent, wxWindowID id, int value,
                      const wxString &name)
 {
     wxControl::Create (parent, id);
-    SetInitialBestSize (size);
+    SetInitialSize (size);
 //    SetClientSize (size);
    
     m_min = minValue;

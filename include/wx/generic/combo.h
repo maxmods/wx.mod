@@ -16,6 +16,8 @@
 // Only define generic if native doesn't have all the features
 #if !defined(wxCOMBOCONTROL_FULLY_FEATURED)
 
+#include "wx/containr.h"
+
 // ----------------------------------------------------------------------------
 // Generic wxComboCtrl
 // ----------------------------------------------------------------------------
@@ -30,15 +32,14 @@
 
 #endif
 
-#include "wx/dcbuffer.h"
-
 extern WXDLLIMPEXP_DATA_CORE(const char) wxComboBoxNameStr[];
 
-class WXDLLIMPEXP_CORE wxGenericComboCtrl : public wxComboCtrlBase
+class WXDLLIMPEXP_CORE wxGenericComboCtrl
+    : public wxNavigationEnabled<wxComboCtrlBase>
 {
 public:
     // ctors and such
-    wxGenericComboCtrl() : wxComboCtrlBase() { Init(); }
+    wxGenericComboCtrl() { Init(); }
 
     wxGenericComboCtrl(wxWindow *parent,
                        wxWindowID id = wxID_ANY,
@@ -48,7 +49,6 @@ public:
                        long style = 0,
                        const wxValidator& validator = wxDefaultValidator,
                        const wxString& name = wxComboBoxNameStr)
-        : wxComboCtrlBase()
     {
         Init();
 
@@ -68,7 +68,7 @@ public:
 
     void SetCustomPaintWidth( int width );
 
-    virtual bool IsKeyPopupToggle(const wxKeyEvent& event) const;
+    virtual bool IsKeyPopupToggle(const wxKeyEvent& event) const wxOVERRIDE;
 
     static int GetFeatures() { return wxComboCtrlFeatures::All; }
 
@@ -88,30 +88,18 @@ protected:
     virtual WXWidget GetTextWidget() const { return NULL; }
 #elif defined(__WXGTK__)
 #if defined(__WXGTK20__)
-    virtual GtkEditable *GetEditable() const { return NULL; }
-    virtual GtkEntry *GetEntry() const { return NULL; }
+    virtual GtkEditable *GetEditable() const wxOVERRIDE { return NULL; }
+    virtual GtkEntry *GetEntry() const wxOVERRIDE { return NULL; }
 #endif
 #elif defined(__WXMAC__)
     // Looks like there's nothing we need to override here
 #endif
 
     // For better transparent background rendering
-    virtual bool HasTransparentBackground()
-    {
-        #if wxALWAYS_NATIVE_DOUBLE_BUFFER
-          #ifdef __WXGTK__
-            // Sanity check for GTK+
-            return IsDoubleBuffered();
-          #else
-            return true;
-          #endif
-        #else
-            return false;
-        #endif
-    }
+    virtual bool HasTransparentBackground() wxOVERRIDE;
 
     // Mandatory virtuals
-    virtual void OnResize();
+    virtual void OnResize() wxOVERRIDE;
 
     // Event handlers
     void OnPaintEvent( wxPaintEvent& event );

@@ -1,4 +1,4 @@
-' Copyright (c) 2013-2015 Bruce A Henderson
+' Copyright (c) 2013-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -18,7 +18,7 @@
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ' THE SOFTWARE.
 ' 
-Strict
+SuperStrict
 
 Import "wxcommon.bmx"
 Import "wxgadget.bmx"
@@ -70,13 +70,30 @@ Type TwxGuiSystemDriver Extends TwxSystemDriver
 	
 End Type
 
+?bmxng
+Type TwxSystemDriver Extends TSystemDriver Implements IWrappedSystemDriver
+?Not bmxng
 Type TwxSystemDriver Extends TSystemDriver
-
+?
 	Field NativeDriver:TSystemDriver
 
+?Not bmxng
 	Method New()
 		NativeDriver=brl.System.Driver
 	End Method
+?bmxng
+	Method SetDriver(driver:TSystemDriver)
+		NativeDriver = driver
+	End Method
+	
+	Method GetDriver:TSystemDriver()
+		Return NativeDriver
+	End Method
+	
+	Method Name:String()
+		Return "wxSystemDriver"
+	End Method
+?
 	
 	Method Poll()
 		NativeDriver.Poll()
@@ -292,9 +309,12 @@ Type TwxGUIDriver Extends TMaxGUIDriver
 	Method New()
 		app = New TMaxGUIApp
 		app.EntryStart()
-	
-		brl.System.Driver = TwxGuiSystemDriver.Create(Self)
 
+?bmxng
+		InitSystemDriver(TwxGuiSystemDriver.Create(Self))
+?Not bmxng
+		brl.System.Driver = TwxGuiSystemDriver.Create(Self)
+?
 		maxgui_driver=Self
 
 ?win32
@@ -509,7 +529,7 @@ End Rem
 		Return New TwxGuiFont.Create(f)
 	End Method
 	
-	Method SetPointer(shape:Int)
+	Method SetPointer:Int(shape:Int)
 
 		' undo the last change
 		wxSetCursor(Null)
@@ -518,7 +538,7 @@ End Rem
 		Select shape
 			Case POINTER_DEFAULT
 				' just return to the standard cursor
-				Return
+				Return 0
 			Case POINTER_ARROW
 				cursor = wxCURSOR_ARROW
 			Case POINTER_IBEAM

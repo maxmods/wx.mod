@@ -47,8 +47,10 @@ public:
     virtual wxString GetLocalizedResourcesDir(const wxString& lang,
                                               ResourceCat category) const wxOVERRIDE;
 #ifndef __VMS
-    virtual wxString GetDocumentsDir() const wxOVERRIDE;
+    virtual wxString GetUserDir(Dir userDir) const wxOVERRIDE;
 #endif
+    virtual wxString MakeConfigFileName(const wxString& basename,
+                                        ConfigFileConv conv) const wxOVERRIDE;
 
 protected:
     // Ctor is protected, use wxStandardPaths::Get() instead of instantiating

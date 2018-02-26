@@ -25,6 +25,10 @@
     #include "wx/msw/wrapwin.h"
 #endif
 
+#if defined(__WXQT__)
+    #include <QtGui/QFont>
+#endif
+
 class WXDLLIMPEXP_FWD_BASE wxArrayString;
 struct WXDLLIMPEXP_FWD_CORE wxNativeEncodingInfo;
 
@@ -154,24 +158,9 @@ public:
                   wxFontEncoding encoding);
 
     void Free();
-    void EnsureValid();
     
     static void UpdateNamesMap(const wxString& familyname, CTFontDescriptorRef descr);
     static void UpdateNamesMap(const wxString& familyname, CTFontRef font);
-
-    bool m_descriptorValid;
-
-#if wxOSX_USE_ATSU_TEXT
-    bool            m_atsuFontValid;
-    // the atsu font ID
-    wxUint32        m_atsuFontID;
-    // the qd styles that are not intrinsic to the font above
-    wxInt16         m_atsuAdditionalQDStyles;
-#if wxOSX_USE_CARBON
-    wxInt16         m_qdFontFamily;
-    wxInt16         m_qdFontStyle;
-#endif
-#endif
 
     int           m_pointSize;
     wxFontFamily  m_family;
@@ -230,6 +219,9 @@ public:
     // init with the parameters of the given font
     void InitFromFont(const wxFont& font)
     {
+#if wxUSE_PANGO
+        Init(*font.GetNativeFontInfo());
+#else
         // translate all font parameters
         SetStyle((wxFontStyle)font.GetStyle());
         SetWeight((wxFontWeight)font.GetWeight());
@@ -255,6 +247,7 @@ public:
         // deal with encoding now (it may override the font family and facename
         // so do it after setting them)
         SetEncoding(font.GetEncoding());
+#endif // !wxUSE_PANGO
     }
 
     // accessors and modifiers for the font elements

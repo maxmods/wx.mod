@@ -14,6 +14,8 @@ typedef struct _GdkEventKey GdkEventKey;
 typedef struct _GtkEditable GtkEditable;
 typedef struct _GtkEntry GtkEntry;
 
+class wxTextAutoCompleteData; // private class used only by wxTextEntry itself
+
 // ----------------------------------------------------------------------------
 // wxTextEntry: roughly corresponds to GtkEditable
 // ----------------------------------------------------------------------------
@@ -21,7 +23,8 @@ typedef struct _GtkEntry GtkEntry;
 class WXDLLIMPEXP_CORE wxTextEntry : public wxTextEntryBase
 {
 public:
-    wxTextEntry() { }
+    wxTextEntry();
+    virtual ~wxTextEntry();
 
     // implement wxTextEntryBase pure virtual methods
     virtual void WriteText(const wxString& text) wxOVERRIDE;
@@ -47,6 +50,7 @@ public:
     virtual void SetEditable(bool editable) wxOVERRIDE;
 
     virtual void SetMaxLength(unsigned long len) wxOVERRIDE;
+    virtual void ForceUpper() wxOVERRIDE;
 
 #ifdef __WXGTK3__
     virtual bool SetHint(const wxString& hint) wxOVERRIDE;
@@ -56,6 +60,7 @@ public:
     // implementation only from now on
     void SendMaxLenEvent();
     bool GTKEntryOnInsertText(const char* text);
+    bool GTKIsUpperCase() const { return m_isUpperCase; }
 
 protected:
     // This method must be called from the derived class Create() to connect
@@ -74,9 +79,12 @@ protected:
     virtual wxPoint DoGetMargins() const wxOVERRIDE;
 
     virtual bool DoAutoCompleteStrings(const wxArrayString& choices) wxOVERRIDE;
+    virtual bool DoAutoCompleteCustom(wxTextCompleter *completer) wxOVERRIDE;
 
     // Override the base class method to use GtkEntry IM context.
     virtual int GTKIMFilterKeypress(GdkEventKey* event) const;
+
+    static unsigned int GTKGetEntryTextLength(GtkEntry* entry);
 
 private:
     // implement this to return the associated GtkEntry or another widget
@@ -85,7 +93,19 @@ private:
 
     // implement this to return the associated GtkEntry
     virtual GtkEntry *GetEntry() const = 0;
+
+    // Various auto-completion-related stuff, only used if any of AutoComplete()
+    // methods are called.
+    wxTextAutoCompleteData *m_autoCompleteData;
+
+    // It needs to call our GetEntry() method.
+    friend class wxTextAutoCompleteData;
+
+    bool m_isUpperCase;
 };
+
+// We don't need the generic version.
+#define wxHAS_NATIVE_TEXT_FORCEUPPER
 
 #endif // _WX_GTK_TEXTENTRY_H_
 

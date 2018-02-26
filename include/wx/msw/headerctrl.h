@@ -12,6 +12,8 @@
 
 class WXDLLIMPEXP_FWD_CORE wxImageList;
 
+class wxMSWHeaderCtrlCustomDraw;
+
 // ----------------------------------------------------------------------------
 // wxHeaderCtrl
 // ----------------------------------------------------------------------------
@@ -45,28 +47,32 @@ public:
 
     virtual ~wxHeaderCtrl();
 
-    
+    // Override to implement colours support via custom drawing.
+    virtual bool SetBackgroundColour(const wxColour& colour) wxOVERRIDE;
+    virtual bool SetForegroundColour(const wxColour& colour) wxOVERRIDE;
+    virtual bool SetFont(const wxFont& font) wxOVERRIDE;
+
 protected:
     // override wxWindow methods which must be implemented by a new control
-    virtual wxSize DoGetBestSize() const;
+    virtual wxSize DoGetBestSize() const wxOVERRIDE;
     virtual void DoSetSize(int x, int y,
                            int width, int height,
-                           int sizeFlags = wxSIZE_AUTO);
+                           int sizeFlags = wxSIZE_AUTO) wxOVERRIDE;
     
 private:
     // implement base class pure virtuals
-    virtual void DoSetCount(unsigned int count);
-    virtual unsigned int DoGetCount() const;
-    virtual void DoUpdate(unsigned int idx);
+    virtual void DoSetCount(unsigned int count) wxOVERRIDE;
+    virtual unsigned int DoGetCount() const wxOVERRIDE;
+    virtual void DoUpdate(unsigned int idx) wxOVERRIDE;
 
-    virtual void DoScrollHorz(int dx);
+    virtual void DoScrollHorz(int dx) wxOVERRIDE;
 
-    virtual void DoSetColumnsOrder(const wxArrayInt& order);
-    virtual wxArrayInt DoGetColumnsOrder() const;
+    virtual void DoSetColumnsOrder(const wxArrayInt& order) wxOVERRIDE;
+    virtual wxArrayInt DoGetColumnsOrder() const wxOVERRIDE;
 
     // override MSW-specific methods needed for new control
-    virtual WXDWORD MSWGetStyle(long style, WXDWORD *exstyle) const;
-    virtual bool MSWOnNotify(int idCtrl, WXLPARAM lParam, WXLPARAM *result);
+    virtual WXDWORD MSWGetStyle(long style, WXDWORD *exstyle) const wxOVERRIDE;
+    virtual bool MSWOnNotify(int idCtrl, WXLPARAM lParam, WXLPARAM *result) wxOVERRIDE;
 
     // common part of all ctors
     void Init();
@@ -98,6 +104,10 @@ private:
     // mouse button
     wxEventType GetClickEventType(bool dblclk, int button);
 
+    // allocate m_customDraw if we need it or free it if it no longer is,
+    // return the pointer which can be used to update it if it's non-null
+    wxMSWHeaderCtrlCustomDraw* GetCustomDraw();
+
 
     // the number of columns in the control, including the hidden ones (not
     // taken into account by the native control, see comment in DoGetCount())
@@ -128,6 +138,13 @@ private:
 
     // actual column we are dragging or -1 if not dragging anything
     int m_colBeingDragged;
+
+    // a column is currently being resized
+    bool m_isColBeingResized;
+
+    // the custom draw helper: initially NULL, created on demand, use
+    // GetCustomDraw() to do it
+    wxMSWHeaderCtrlCustomDraw *m_customDraw;
 
     wxDECLARE_NO_COPY_CLASS(wxHeaderCtrl);
 };
