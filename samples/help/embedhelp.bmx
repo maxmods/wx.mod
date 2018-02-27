@@ -43,7 +43,7 @@ Type MyFrame Extends wxFrame
 	Field m_help:wxHtmlHelpController = New wxHtmlHelpController.Create()
 	Field m_helpWindow:wxHtmlHelpWindow
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		m_help = New wxHtmlHelpController.Create(wxHF_EMBEDDED | wxHF_DEFAULT_STYLE)
 	

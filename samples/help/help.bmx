@@ -103,7 +103,7 @@ Type MyFrame Extends wxFrame
 ?
 
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		m_embeddedHtmlHelp = New wxHtmlHelpController.Create(wxHF_EMBEDDED|wxHF_DEFAULT_STYLE)
 	

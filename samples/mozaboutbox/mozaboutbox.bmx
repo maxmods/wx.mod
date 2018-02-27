@@ -47,7 +47,7 @@ Type MyFrame Extends wxFrame
 
 	Const wxID_MOZABOUT:Int = 10001
 
-	Method OnInit()
+	Method OnInit:Int()
 	
 		' create a menu bar
 		
