@@ -319,7 +319,7 @@ void wxFixWidthImportCtrl::OnPaint(wxPaintEvent& event)
 
         if ( n % 10 == 0 && x < m_rS.xmax - fontW )
         {
-            strShow = wxString::Format(wxT("%d"),n);
+            strShow = wxString::Format(wxT("%zu"),n);
             dc.GetTextExtent(strShow, &w, &h);
             dc.DrawText(strShow, x + fontW - w / 2, 2);
         }
