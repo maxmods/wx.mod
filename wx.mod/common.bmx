@@ -31,11 +31,11 @@ Import BRL.SystemDefault
 Import "consts.bmx"
 
 ?linuxx86
-Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
+Import "../lib/linux/wx/include/gtk3-unicode-release-static/*.h"
 Import "../include/*.h"
 
 ?linuxx64
-Import "../lib/linuxx64/wx/include/gtk2-unicode-release-static/*.h"
+Import "../lib/linuxx64/wx/include/gtk3-unicode-release-static/*.h"
 Import "../include/*.h"
 
 ?linux

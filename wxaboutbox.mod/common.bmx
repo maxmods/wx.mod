@@ -26,7 +26,7 @@ Import wx.wxIcon
 
 ' headers :-)
 ?linux
-Import "../lib/linux/wx/include/gtk2-unicode-release-static/*.h"
+Import "../lib/linux/wx/include/gtk3-unicode-release-static/*.h"
 Import "../include/*.h"
 ?win32
 Import "../lib/win32/mswu/*.h"
