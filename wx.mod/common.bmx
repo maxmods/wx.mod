@@ -38,6 +38,10 @@ Import "../include/*.h"
 Import "../lib/linuxx64/wx/include/gtk3-unicode-release-static/*.h"
 Import "../include/*.h"
 
+?raspberrypi
+Import "../lib/raspberrypi/wx/include/gtk3-unicode-release-static/*.h"
+Import "../include/*.h"
+
 ?linux
 ' the wx libs
 Import "-lwx_gtk3u_aui-3.1"
