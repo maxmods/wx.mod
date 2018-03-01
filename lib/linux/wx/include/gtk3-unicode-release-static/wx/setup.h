@@ -1065,10 +1065,10 @@
 #define SIZEOF_INT 4
 
 /* The number of bytes in a pointer.  */
-#define SIZEOF_VOID_P 8
+#define SIZEOF_VOID_P 4
 
 /* The number of bytes in a long.  */
-#define SIZEOF_LONG 8
+#define SIZEOF_LONG 4
 
 /* The number of bytes in a long long.  */
 #define SIZEOF_LONG_LONG 8
@@ -1077,13 +1077,13 @@
 #define SIZEOF_SHORT 2
 
 /* The number of bytes in a size_t.  */
-#define SIZEOF_SIZE_T 8
+#define SIZEOF_SIZE_T 4
 
 /* Define if size_t on your machine is the same type as unsigned int. */
-/* #undef wxSIZE_T_IS_UINT */
+#define wxSIZE_T_IS_UINT 1
 
 /* Define if size_t on your machine is the same type as unsigned long. */
-#define wxSIZE_T_IS_ULONG 1
+/* #undef wxSIZE_T_IS_ULONG */
 
 /* Define if wchar_t is distinct type in your compiler. */
 #define wxWCHAR_T_IS_REAL_TYPE 1
