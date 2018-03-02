@@ -26,7 +26,7 @@ You can find the downloads for 32-bit and 64-bit builds here :
 * x64 - https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/7.2.0/threads-posix/seh/x86_64-7.2.0-release-posix-seh-rt_v5-rev1.7z/download
 
 ### Linux
-TODO
+The static libraries have been compiled with gcc 5.4.0, using webkit2gtk-4.0 (wxWebView) and libgstreamermm-1.0 (wxMediaCtrl).	
 
 ### macOS
 TODO

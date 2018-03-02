@@ -6,10 +6,10 @@ Linux :
     wxGTK 3.1.x
 
 	32-bit
-	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -m32" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES"
+	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -m32" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -DWX_WEB_EXTENSIONS_DIRECTORY=\\\".\\\""
 
 	64-bit
-	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES"
+	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -DWX_WEB_EXTENSIONS_DIRECTORY=\\\".\\\""
 
 
     add "--disable-shared" for static libraries
@@ -27,7 +27,7 @@ Linux :
     You'll see something like mac-unicode-release-static-2.8
     Remove the -2.8, so that it becomes mac-unicode-release-static
 
-	Note : to build with wxMediaCtrl you will need the gstreamer dev packages. something like libgstreamer-0.10-dev.
+	Note : to build with wxMediaCtrl you will need the gstreamer dev packages. something like libgstreamermm-1.0-dev.
 
 MacOS :
 
