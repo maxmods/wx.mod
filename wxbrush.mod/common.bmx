@@ -58,6 +58,7 @@ Extern
 	Function bmx_wxstockgdi_brush_red:Byte Ptr()
 	Function bmx_wxstockgdi_brush_transparent:Byte Ptr()
 	Function bmx_wxstockgdi_brush_white:Byte Ptr()
+	Function bmx_wxstockgdi_brush_yellow:Byte Ptr()
 
 	Function bmx_wxbrush_null:Byte Ptr()
 	

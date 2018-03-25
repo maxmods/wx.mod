@@ -91,6 +91,11 @@ MaxBrush * bmx_wxstockgdi_brush_white() {
 	return new MaxBrush(b);
 }
 
+MaxBrush * bmx_wxstockgdi_brush_yellow() {
+	wxBrush b(*wxYELLOW_BRUSH);
+	return new MaxBrush(b);
+}
+
 
 MaxBrush * bmx_wxbrush_create(BBString * name, int style) {
 	wxBrush b(wxStringFromBBString(name), style);

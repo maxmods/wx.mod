@@ -251,3 +251,7 @@ Function wxWHITE_BRUSH:wxBrush()
 	Return wxBrush._create(bmx_wxstockgdi_brush_white())
 End Function
 
+Function wxYELLOW_BRUSH:wxBrush()
+	Return wxBrush._create(bmx_wxstockgdi_brush_yellow())
+End Function
+

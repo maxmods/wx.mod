@@ -39,6 +39,7 @@ extern "C" {
 	MaxBrush * bmx_wxstockgdi_brush_red();
 	MaxBrush * bmx_wxstockgdi_brush_transparent();
 	MaxBrush * bmx_wxstockgdi_brush_white();
+	MaxBrush * bmx_wxstockgdi_brush_yellow();
 
 	MaxBrush * bmx_wxbrush_create(BBString * name, int style);
 	void bmx_wxbrush_delete(MaxBrush * brush);
