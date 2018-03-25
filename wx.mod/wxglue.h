@@ -212,7 +212,7 @@ extern "C" {
 	MaxColour * bmx_wxstockgdi_colour_lightgrey();
 	MaxColour * bmx_wxstockgdi_colour_red();
 	MaxColour * bmx_wxstockgdi_colour_white();
-	
+		
 	MaxFont * bmx_wxstockgdi_font_italic();
 	MaxFont * bmx_wxstockgdi_font_normal();
 	MaxFont * bmx_wxstockgdi_font_small();

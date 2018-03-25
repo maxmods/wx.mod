@@ -230,6 +230,10 @@ Function wxBLACK_PEN:wxPen()
 	Return wxPen._create(bmx_wxstockgdi_pen_black())
 End Function
 
+Function wxBLUE_PEN:wxPen()
+	Return wxPen._create(bmx_wxstockgdi_pen_blue())
+End Function
+
 Function wxCYAN_PEN:wxPen()
 	Return wxPen._create(bmx_wxstockgdi_pen_cyan())
 End Function
@@ -250,7 +254,7 @@ Function wxMEDIUM_GREY_PEN:wxPen()
 	Return wxPen._create(bmx_wxstockgdi_pen_mediumgrey())
 End Function
 
-Function wxRED_PEN :wxPen()
+Function wxRED_PEN:wxPen()
 	Return wxPen._create(bmx_wxstockgdi_pen_red())
 End Function
 
@@ -260,6 +264,10 @@ End Function
 
 Function wxWHITE_PEN:wxPen()
 	Return wxPen._create(bmx_wxstockgdi_pen_white())
+End Function
+
+Function wxYELLOW_PEN:wxPen()
+	Return wxPen._create(bmx_wxstockgdi_pen_yellow())
 End Function
 
 Rem

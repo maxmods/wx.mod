@@ -72,6 +72,11 @@ MaxPen * bmx_wxstockgdi_pen_black() {
 	return new MaxPen(p);
 }
 
+MaxPen * bmx_wxstockgdi_pen_blue() {
+	wxPen p(*wxBLUE_PEN);
+	return new MaxPen(p);
+}
+
 MaxPen * bmx_wxstockgdi_pen_cyan() {
 	wxPen p(*wxCYAN_PEN);
 	return new MaxPen(p);
@@ -112,6 +117,10 @@ MaxPen * bmx_wxstockgdi_pen_white() {
 	return new MaxPen(p);
 }
 
+MaxPen * bmx_wxstockgdi_pen_yellow() {
+	wxPen p(*wxYELLOW_PEN);
+	return new MaxPen(p);
+}
 
 // *********************************************
 

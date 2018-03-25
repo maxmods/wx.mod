@@ -324,6 +324,7 @@ Extern
 	
 	Function bmx_wxstockgdi_pen_blackdashed:Byte Ptr()
 	Function bmx_wxstockgdi_pen_black:Byte Ptr()
+	Function bmx_wxstockgdi_pen_blue:Byte Ptr()
 	Function bmx_wxstockgdi_pen_cyan:Byte Ptr()
 	Function bmx_wxstockgdi_pen_green:Byte Ptr()
 	Function bmx_wxstockgdi_pen_grey:Byte Ptr()
@@ -332,6 +333,7 @@ Extern
 	Function bmx_wxstockgdi_pen_red:Byte Ptr()
 	Function bmx_wxstockgdi_pen_transparent:Byte Ptr()
 	Function bmx_wxstockgdi_pen_white:Byte Ptr()
+	Function bmx_wxstockgdi_pen_yellow:Byte Ptr()
 
 	Function bmx_wxfont_create:Byte Ptr()
 	Function bmx_wxfont_createattr:Byte Ptr(pointSize:Int, family:Int, style:Int, weight:Int, underline:Int, faceName:String, encoding:Int)

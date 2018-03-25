@@ -36,6 +36,7 @@ extern "C" {
 
 	MaxPen * bmx_wxstockgdi_pen_blackdashed();
 	MaxPen * bmx_wxstockgdi_pen_black();
+	MaxPen * bmx_wxstockgdi_pen_blue();
 	MaxPen * bmx_wxstockgdi_pen_cyan();
 	MaxPen * bmx_wxstockgdi_pen_green();
 	MaxPen * bmx_wxstockgdi_pen_grey();
@@ -44,6 +45,7 @@ extern "C" {
 	MaxPen * bmx_wxstockgdi_pen_red();
 	MaxPen * bmx_wxstockgdi_pen_transparent();
 	MaxPen * bmx_wxstockgdi_pen_white();
+	MaxPen * bmx_wxstockgdi_pen_yellow();
 
 	int bmx_wxpen_getcap(MaxPen * pen);
 	MaxColour * bmx_wxpen_getcolour(MaxPen * pen);
