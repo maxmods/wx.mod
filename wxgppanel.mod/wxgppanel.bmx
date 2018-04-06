@@ -30,6 +30,7 @@ ModuleInfo "License: MIT"
 ModuleInfo "Author: Bruce A Henderson"
 ModuleInfo "Copyright: (c) 2018 Bruce A Henderson"
 
+ModuleInfo "CC_OPTS: -std=c++11"
 
 ?linux
 ModuleInfo "CC_OPTS: -D__WXGTK__"
