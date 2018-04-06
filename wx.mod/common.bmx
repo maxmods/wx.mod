@@ -53,7 +53,6 @@ Import "-lwx_gtk3u_qa-3.1"
 Import "-lwx_gtk3u_html-3.1"
 Import "-lwx_gtk3u_webview-3.1"
 Import "-lwx_gtk3u_adv-3.1"
-Import "-lwx_gtk3u_media-3.1"
 Import "-lwx_gtk3u_core-3.1"
 Import "-lwx_baseu_xml-3.1"
 Import "-lwx_baseu_net-3.1"
@@ -83,15 +82,21 @@ Import "-lgdk-3"
 Import "-lgtk-3"
 Import "-lSM"
 Import "-lXxf86vm"
-Import "-lwebkit2gtk-4.0"
-Import "-lgstreamer-1.0"
 
 Import "-lfontconfig"
 Import "-lpangocairo-1.0"
 Import "-lcairo"
 Import "-lpangoft2-1.0"
-
-
+?linuxx86
+Import "-lwx_gtk3u_media-3.1"
+Import "-lgstreamer-1.0"
+Import "-lwebkit2gtk-4.0"
+?linuxx64
+Import "-lwx_gtk3u_media-3.1"
+Import "-lgstreamer-1.0"
+Import "-lwebkit2gtk-4.0"
+?raspberrypi
+Import "-lwebkitgtk-3.0"
 ?win32x86
 Import "../lib/win32/mswu/*.h"
 

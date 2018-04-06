@@ -48,6 +48,8 @@ ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
 
+?Not raspberrypi
+
 Import "common.bmx"
 
 Rem
@@ -289,4 +291,4 @@ End Type
 
 New TMediaEventFactory
 
-
+?

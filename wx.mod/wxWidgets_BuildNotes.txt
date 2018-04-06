@@ -6,11 +6,14 @@ Linux :
     wxGTK 3.1.x
 
 	32-bit
-	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -m32" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -DWX_WEB_EXTENSIONS_DIRECTORY=\\\".\\\""
+	./configure --with-gtk=3 --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -m32" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -DWX_WEB_EXTENSIONS_DIRECTORY=\\\".\\\""
 
 	64-bit
-	./configure --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -DWX_WEB_EXTENSIONS_DIRECTORY=\\\".\\\""
+	./configure --with-gtk=3 --enable-unicode --with-opengl --enable-graphics_ctx --enable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -DWX_WEB_EXTENSIONS_DIRECTORY=\\\".\\\""
 
+
+Raspberry pi :
+	./configure --with-gtk=3 --enable-unicode --with-opengl --enable-graphics_ctx --disable-mediactrl --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -m32" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES -DWX_WEB_EXTENSIONS_DIRECTORY=\\\".\\\""
 
     add "--disable-shared" for static libraries
     using "--enable-mediactrl" requires gstreamer installation
