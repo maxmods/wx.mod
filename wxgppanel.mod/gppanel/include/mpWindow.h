@@ -352,7 +352,7 @@ public:
 
 	/** This value sets the zoom steps whenever the user clicks "Zoom in/out" or performs zoom with the mouse wheel.
 	*  It must be a number above unity. This number is used for zoom in, and its inverse for zoom out. Set to 1.5 by default. */
-	static double zoomIncrementalFactor;
+	double zoomIncrementalFactor;
 
 	//void SetMaximumXZoomLevel(double level){ m_MaximumXZoomLevel = level; }
 

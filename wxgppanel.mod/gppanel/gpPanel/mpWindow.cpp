@@ -110,9 +110,6 @@
 #define MP_POPMENU_HELP_INFO            _("Tietoa hiirilekomennoista")
 #endif
 
-// See doxygen comments.
-double mpWindow::zoomIncrementalFactor = 1.5;
-
 //-----------------------------------------------------------------------------
 // mpWindow
 //-----------------------------------------------------------------------------
@@ -167,6 +164,9 @@ mpWindow::mpWindow(wxWindow *parent, wxWindowID id, const wxPoint &pos, const wx
 	m_enableMousePopup = TRUE;
 	m_mouseMovedAfterRightClick = FALSE;
 	m_mouseMovedAfterMiddleClickWithCtrl = FALSE;
+
+	// See doxygen comments.
+	zoomIncrementalFactor = 1.5;
 
 	m_movingInfoLayer = NULL;
 	m_movingPointLayer = NULL;
