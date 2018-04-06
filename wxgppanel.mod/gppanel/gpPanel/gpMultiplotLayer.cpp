@@ -5,8 +5,8 @@
 #include "mpInfoCoord.h"
 #include "gpSeries.h"
 #include "lineChartLayer.h"
-#include "BarChartLayer.h"
-#include "AreaChartLayer.h"
+#include "barChartLayer.h"
+#include "areaChartLayer.h"
 
 gpSeries * gpMultiPlotLayer::FindSeries(wxString SeriesLabel)
 {
