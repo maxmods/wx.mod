@@ -20,6 +20,7 @@
 // For compilers that support precompilation, includes "wx.h".
 #include <wx/window.h>
 //#include <wx/wxprec.h>
+#include <wx/dcclient.h>
 
 // Comment out for release operation:
 // (Added by J.L.Blanco, Aug 2007)
