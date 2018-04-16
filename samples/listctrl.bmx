@@ -937,28 +937,28 @@ Type MyListCtrl Extends wxListCtrl
 		wxMouseEvent(event).GetPosition(x, y)
 		Local item:Int = MyListCtrl(event.parent).HitTestSub(x, y, flags, subitem)
 		
-		Local where:String
+		Local where_:String
 		Select flags
 			Case wxLIST_HITTEST_ABOVE
-				where = "above"
+				where_ = "above"
 			Case wxLIST_HITTEST_BELOW
-				where = "below"
+				where_ = "below"
 			Case wxLIST_HITTEST_NOWHERE
-				where = "nowhere near"
+				where_ = "nowhere near"
 			Case wxLIST_HITTEST_ONITEMICON
-				where = "on icon of"
+				where_ = "on icon of"
 			Case wxLIST_HITTEST_ONITEMLABEL
-				where = "on label of"
+				where_ = "on label of"
 			Case wxLIST_HITTEST_ONITEMRIGHT
-				where = "right on"
+				where_ = "right on"
 			Case wxLIST_HITTEST_TOLEFT
-				where = "to the left of"
+				where_ = "to the left of"
 			Case wxLIST_HITTEST_TORIGHT
-				where = "to the right of"
+				where_ = "to the right of"
 			Default
-				where = "not clear exactly where on"
+				where_ = "not clear exactly where on"
 		End Select
-		wxLogMessage("Right double click " + where + " item " + item + ", subitem " + subitem)
+		wxLogMessage("Right double click " + where_ + " item " + item + ", subitem " + subitem)
 	End Function
 
 End Type

@@ -60,7 +60,7 @@ Extern
 	Function bmx_wxmediactrl_loaduriwithproxy:Int(handle:Byte Ptr, uri:String, proxy:String)
 	Function bmx_wxmediactrl_pause:Int(handle:Byte Ptr)
 	Function bmx_wxmediactrl_play:Int(handle:Byte Ptr)
-	Function bmx_wxmediactrl_seek(handle:Byte Ptr, where:Long, Mode:Int, value:Long Ptr)
+	Function bmx_wxmediactrl_seek(handle:Byte Ptr, where_:Long, Mode:Int, value:Long Ptr)
 	Function bmx_wxmediactrl_setplaybackrate:Int(handle:Byte Ptr, rate:Double)
 	Function bmx_wxmediactrl_setvolume:Int(handle:Byte Ptr, volume:Double)
 	Function bmx_wxmediactrl_showplayercontrols:Int(handle:Byte Ptr, flags:Int)

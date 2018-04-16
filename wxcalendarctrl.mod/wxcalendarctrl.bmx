@@ -243,8 +243,8 @@ Type wxCalendarCtrl Extends wxControl
 	bbdoc: Returns one of wxCAL_HITTEST_XXX constants and fills either date or wd pointer with the corresponding value
 	depending on the hit test code.
 	End Rem
-	Method HitTest:wxDateTime(x:Int, y:Int, where:Int Var, wd:Int Var)
-		Return wxDateTime._create(bmx_wxcalendarctrl_hittest(wxObjectPtr, x, y, Varptr where, Varptr wd))
+	Method HitTest:wxDateTime(x:Int, y:Int, where_:Int Var, wd:Int Var)
+		Return wxDateTime._create(bmx_wxcalendarctrl_hittest(wxObjectPtr, x, y, Varptr where_, Varptr wd))
 	End Method
 	
 End Type

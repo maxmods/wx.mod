@@ -182,9 +182,9 @@ Type wxMediaCtrl Extends wxControl
 	bbdoc: Seeks to a position within the movie.
 	about: 
 	End Rem
-	Method Seek:Long(where:Long, mode:Int = wxFromStart)
+	Method Seek:Long(where_:Long, mode:Int = wxFromStart)
 		Local v:Long
-		bmx_wxmediactrl_seek(wxObjectPtr, where, mode, Varptr v)
+		bmx_wxmediactrl_seek(wxObjectPtr, where_, mode, Varptr v)
 		Return v
 	End Method
 	
