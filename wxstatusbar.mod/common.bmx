@@ -68,10 +68,36 @@ Extern
 
 End Extern
 
-Const wxST_SIZEGRIP:Int = $0010
+Rem
+bbdoc: Displays a gripper at the right-hand side of the status bar which can be used to resize the parent window.
+End Rem
+Const wxSTB_SIZEGRIP:Int = $0010
+Rem
+bbdoc: Displays tooltips for those panes whose status text has been ellipsized/truncated because the status text doesn't fit the pane width.
+about: Note that this style has effect only on wxGTK (with GTK+ >= 2.12) currently.
+End Rem
+Const wxSTB_SHOW_TIPS:Int = $0020
+
+Rem
+bbdoc: Replaces the beginning of the status texts with an ellipsis when the status text widths exceed the status bar pane's widths.
+End Rem
+Const wxSTB_ELLIPSIZE_START:Int = $0040
+Rem
+bbdoc: Replaces the middle of the status texts with an ellipsis when the status text widths exceed the status bar pane's widths
+End Rem
+Const wxSTB_ELLIPSIZE_MIDDLE:Int = $0080
+Rem
+bbdoc: Replaces the end of the status texts with an ellipsis when the status text widths exceed the status bar pane's widths
+End Rem
+Const wxSTB_ELLIPSIZE_END:Int = $0100
+
+Rem
+bbdoc: The default style.
+End Rem
+Const wxSTB_DEFAULT_STYLE:Int = wxSTB_SIZEGRIP | wxSTB_ELLIPSIZE_END | wxSTB_SHOW_TIPS | wxFULL_REPAINT_ON_RESIZE
 
 Const wxSB_NORMAL:Int = $0000
 Const wxSB_FLAT:Int = $0001
 Const wxSB_RAISED:Int = $0002
-
+Const wxSB_SUNKEN:Int = $0003
 
