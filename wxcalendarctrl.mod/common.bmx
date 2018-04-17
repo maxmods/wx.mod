@@ -67,7 +67,7 @@ Extern
 	Function bmx_wxcalendarctrl_setattr(handle:Byte Ptr, day:Int, attr:Byte Ptr)
 	Function bmx_wxcalendarctrl_setholiday(handle:Byte Ptr, day:Int)
 	Function bmx_wxcalendarctrl_resetattr(handle:Byte Ptr, day:Int)
-	Function bmx_wxcalendarctrl_hittest:Byte Ptr(handle:Byte Ptr, x:Int, y:Int, where:Int Ptr, wd:Int Ptr)
+	Function bmx_wxcalendarctrl_hittest:Byte Ptr(handle:Byte Ptr, x:Int, y:Int, where_:Int Ptr, wd:Int Ptr)
 
 	Function bmx_wxcalendardateattr_create:Byte Ptr(colText:Byte Ptr, colBack:Byte Ptr, colBorder:Byte Ptr, font:Byte Ptr, border:Int)
 	Function bmx_wxcalendardateattr_settextcolour(handle:Byte Ptr, colour:Byte Ptr)
