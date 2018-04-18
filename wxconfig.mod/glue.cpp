@@ -75,7 +75,7 @@ wxConfigBase::EntryType bmx_wxconfigbase_getentrytype(wxConfigBase * config, BBS
 
 BBString * bmx_wxconfigbase_getfirstgroup(wxConfigBase * config, int * index, int * cont) {
 	wxString n;
-	long i;
+	long i = *index;
 	*cont = static_cast<int>(config->GetFirstGroup(n, i));
 	*index = i;
 	return bbStringFromWxString(n);
@@ -83,7 +83,7 @@ BBString * bmx_wxconfigbase_getfirstgroup(wxConfigBase * config, int * index, in
 
 int bmx_wxconfigbase_getfirstentry(wxConfigBase * config, BBString * name, int * index) {
 	wxString n(wxStringFromBBString(name));
-	long i;
+	long i = *index;
 	int res = static_cast<int>(config->GetFirstEntry(n, i));
 	*index = i;
 	return res;
@@ -91,7 +91,7 @@ int bmx_wxconfigbase_getfirstentry(wxConfigBase * config, BBString * name, int *
 
 BBString * bmx_wxconfigbase_getnextgroup(wxConfigBase * config, int * index, int * cont) {
 	wxString n;
-	long i;
+	long i = *index;
 	*cont =  static_cast<int>(config->GetNextGroup(n, i));
 	*index = i;
 	return bbStringFromWxString(n);
@@ -99,7 +99,7 @@ BBString * bmx_wxconfigbase_getnextgroup(wxConfigBase * config, int * index, int
 
 int bmx_wxconfigbase_getnextentry(wxConfigBase * config, BBString * name, int * index) {
 	wxString n(wxStringFromBBString(name));
-	long i;
+	long i = *index;
 	int res = static_cast<int>(config->GetNextEntry(n, i));
 	*index = i;
 	return res;
