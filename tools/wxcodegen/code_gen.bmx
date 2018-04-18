@@ -877,7 +877,7 @@ Type TFBWidget
 	Method GetFullImport:String(name:String)
 		If prop("subclass") Then
 			Local s:String = prop("subclass").split(";")[1].Trim()
-			If s Then
+			If s And s <> "forward_declare" Then
 				If s.find(".bmx") >= 0 Then
 					Return "~q" + s + "~q"
 				Else
