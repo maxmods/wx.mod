@@ -143,6 +143,7 @@ extern "C" {
 	void bmx_wxwindow_freeze(wxWindow * window);
 	MaxColour * bmx_wxwindow_getbackgroundcolour(wxWindow * window);
 	int bmx_wxwindow_getbackgroundstyle(wxWindow * window);
+	double bmx_wxwindow_getcontentscalefactor(wxWindow * window);
 	void bmx_wxwindow_geteffectiveminsize(wxWindow * window, int * w, int * h);
 	void bmx_wxwindow_capturemouse(wxWindow * window);
 	void bmx_wxwindow_centre(wxWindow * window, int direction);

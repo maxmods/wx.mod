@@ -575,6 +575,10 @@ int bmx_wxwindow_getbackgroundstyle(wxWindow * window) {
 	return window->GetBackgroundStyle();
 }
 
+double bmx_wxwindow_getcontentscalefactor(wxWindow * window) {
+	return window->GetContentScaleFactor();
+}
+
 void bmx_wxwindow_geteffectiveminsize(wxWindow * window, int * w, int * h) {
 	wxSize s = window->GetEffectiveMinSize();
 	*w = s.x;

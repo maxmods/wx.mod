@@ -548,6 +548,13 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
+	bbdoc: Returns the magnification of the backing store of this window, eg 2.0 for a window on a retina screen.
+	End Rem
+	Method GetContentScaleFactor:Double()
+		Return bmx_wxwindow_getcontentscalefactor(wxObjectPtr)
+	End Method
+	
+	Rem
 	bbdoc: Returns the background style of the window.
 	about: The background style indicates whether background colour should be determined by the system
 	(wxBG_STYLE_SYSTEM), be set to a specific colour (wxBG_STYLE_COLOUR), or should be left to the application

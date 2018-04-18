@@ -142,6 +142,7 @@ Extern
 	Function bmx_wxwindow_freeze(handle:Byte Ptr)
 	Function bmx_wxwindow_getbackgroundcolour:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxwindow_getbackgroundstyle:Int(handle:Byte Ptr)
+	Function bmx_wxwindow_getcontentscalefactor:Double(handle:Byte Ptr)
 	Function bmx_wxwindow_geteffectiveminsize(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)
 	Function bmx_wxwindow_capturemouse(handle:Byte Ptr)
 	Function bmx_wxwindow_centre(handle:Byte Ptr, direction:Int)
