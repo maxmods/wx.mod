@@ -188,6 +188,7 @@ void gpPanel::DelAllLayers(bool alsoDeleteObjects)
     //while( m_gpLayerList.size() )
     {
         //DelLayer( m_gpLayerList[0]->layer, true );
+		gpSizer::GetSizer()->Clear(true);
         wxDELETE( *it );
         //this call destructor and delete all mpLayers
         //wxDELETE( (*it)->layer );   //delete gpLayer
