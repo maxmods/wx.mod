@@ -162,6 +162,10 @@ void gpSeries::SetBrush(wxBrush brush)
 void gpSeries::DataClear( void )
 {
     m_Data.DataClear();
+	m_lineLayer->DataClear();
+	m_barLayer->DataClear();
+	m_areaLayer->DataClear();
+	m_pointLayer->DataClear();
 }
 
 void gpSeries::invert(bool value)
