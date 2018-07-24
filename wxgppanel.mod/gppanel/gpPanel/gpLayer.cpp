@@ -274,12 +274,12 @@ void gpLayer::SetEnable(bool enabled)	{ m_enable = enabled; }
 mpScaleX* gpLayer::GetXAxis()			{ return xaxis; }
 mpScaleY* gpLayer::GetYAxis()			{ return yaxis; }
 
-void gpLayer::SetYXFormula(wxString yxformula)  { m_customYXFormula = yxformula; }
-void gpLayer::SetXFormula(wxString xformula) 	{ m_customXFormula = xformula; }
-void gpLayer::SetYFormula(wxString yformula) 	{ m_customYFormula = yformula; }
-bool gpLayer::IsYXFormula()						{ return m_customYXFormula.IsEmpty()?false:true; }
-bool gpLayer::IsXFormula()						{ return m_customXFormula.IsEmpty()?false:true; }
-bool gpLayer::IsYFormula()						{ return m_customYFormula.IsEmpty()?false:true; }
+void gpLayer::SetYXFormula(wxString yxformula)  { m_customYXFormula = yxformula; RefreshLabels(); }
+void gpLayer::SetXFormula(wxString xformula) 	{ m_customXFormula = xformula; RefreshLabels(); }
+void gpLayer::SetYFormula(wxString yformula) 	{ m_customYFormula = yformula; RefreshLabels(); }
+bool gpLayer::IsYXFormula()						{ return !m_customYXFormula.IsEmpty(); }
+bool gpLayer::IsXFormula()						{ return !m_customXFormula.IsEmpty(); }
+bool gpLayer::IsYFormula()						{ return !m_customYFormula.IsEmpty(); }
 wxString gpLayer::GetYXFormula() const			{ return m_customYXFormula; }
 wxString gpLayer::GetXFormula() const 			{ return m_customXFormula; }
 wxString gpLayer::GetYFormula() const 			{ return m_customYFormula; }
