@@ -165,6 +165,9 @@ Extern
 	Function bmx_gplayer_addlayer(handle:Byte Ptr, layer:Byte Ptr)
 	Function bmx_gplayer_dellayer(handle:Byte Ptr, layer:Byte Ptr)
 	Function bmx_gplayer_delalllayers(handle:Byte Ptr)
+	Function bmx_gplayer_selectxaxisscale:Int(handle:Byte Ptr, kind:Int)
+	Function bmx_gplayer_selectyaxisscale:Int(handle:Byte Ptr, kind:Int)
+	Function bmx_gplayer_setchartkind:Int(handle:Byte Ptr, kind:Int)
 
 	Function bmx_gpmenu_getmenuitembyid:Byte Ptr(handle:Byte Ptr, id:Int, menu:Byte Ptr)
 	Function bmx_gpmenu_addmenuitem:Int(handle:Byte Ptr, label:String, help:String, kind:Int, checked:Int, toGroup:Int)
@@ -184,7 +187,16 @@ Extern
 	Function bmx_gpmultiplotlayer_addserieslayer:Byte Ptr(handle:Byte Ptr, label:String)
 	Function bmx_gpmultiplotlayer_settype(handle:Byte Ptr, value:Int)
 	Function bmx_gpmultiplotlayer_refreshchart(handle:Byte Ptr)
-		
+	Function bmx_gpmultiplotlayer_invertyscale(handle:Byte Ptr, value:Int)
+	Function bmx_gpmultiplotlayer_mydatapush(handle:Byte Ptr, x:Double, y:Double, seriesLabel:String)
+	Function bmx_gpmultiplotlayer_dataclearlabel(handle:Byte Ptr, seriesLabel:String)
+	Function bmx_gpmultiplotlayer_setpen(handle:Byte Ptr, pen:Byte Ptr, seriesLabel:String)
+	Function bmx_gpmultiplotlayer_deleteseries(handle:Byte Ptr, seriesLabel:String)
+	Function bmx_gpmultiplotlayer_addlegendinfo(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_gpmultiplotlayer_addcoordinfo(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_gpmultiplotlayer_getminy:Double(handle:Byte Ptr)
+	Function bmx_gpmultiplotlayer_getchartkind:Int(handle:Byte Ptr)
+
 	Function bmx_gpseries_islabel:Int(handle:Byte Ptr, compareLabel:String)
 	Function bmx_gpseries_datapush(handle:Byte Ptr, x:Double, y:Double)
 	Function bmx_gpseries_refreshchart(handle:Byte Ptr, chartKind:Int, sampleRate:Double, fftLength:Int, customXFormula:String, customYFormula:String, customYXFormula:String, xAxisType:Int, yAxisType:Int)

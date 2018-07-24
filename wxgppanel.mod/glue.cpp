@@ -245,7 +245,44 @@ void bmx_gpmultiplotlayer_settype(gpMultiPlotLayer * layer, int value) {
 void bmx_gpmultiplotlayer_refreshchart(gpMultiPlotLayer * layer) {
 	layer->RefreshChart();
 }
-	
+
+void bmx_gpmultiplotlayer_invertyscale(gpMultiPlotLayer * layer, int value) {
+	layer->invertYScale(static_cast<bool>(value));
+}
+
+void bmx_gpmultiplotlayer_mydatapush(gpMultiPlotLayer * layer, double x, double y, BBString * seriesLabel) {
+	layer->myDataPush(x, y, wxStringFromBBString(seriesLabel));
+}
+
+void bmx_gpmultiplotlayer_dataclearlabel(gpMultiPlotLayer * layer, BBString * seriesLabel) {
+	layer->DataClear(wxStringFromBBString(seriesLabel));
+}
+
+void bmx_gpmultiplotlayer_setpen(gpMultiPlotLayer * layer, MaxPen * pen, BBString * seriesLabel) {
+	layer->SetPen(pen->Pen(), wxStringFromBBString(seriesLabel));
+}
+
+void bmx_gpmultiplotlayer_deleteseries(gpMultiPlotLayer * layer, BBString * seriesLabel) {
+	layer->DeleteSeries(wxStringFromBBString(seriesLabel));
+}
+
+void bmx_gpmultiplotlayer_addlegendinfo(gpMultiPlotLayer * layer, int x, int y) {
+	layer->AddLegendInfo(x, y);
+}
+
+void bmx_gpmultiplotlayer_addcoordinfo(gpMultiPlotLayer * layer, int x, int y) {
+	layer->AddCoordInfo(x, y);
+}
+
+double bmx_gpmultiplotlayer_getminy(gpMultiPlotLayer * layer) {
+	return layer->getMinY();
+}
+
+int bmx_gpmultiplotlayer_getchartkind(gpMultiPlotLayer * layer) {
+	return static_cast<int>(layer->GetChartKind());
+}
+
+
 // *********************************************
 
 int bmx_gpseries_islabel(gpSeries * series, BBString * compareLabel) {
@@ -464,6 +501,18 @@ void bmx_gplayer_dellayer(gpLayer * layer, mpLayer * mpl) {
 
 void bmx_gplayer_delalllayers(gpLayer * layer) {
 	layer->DelAllLayers(false);
+}
+
+int bmx_gplayer_selectxaxisscale(gpLayer * layer, int kind) {
+	return static_cast<int>(layer->SelectXAxisScale(static_cast<gpAXIS_SCALE>(kind)));
+}
+
+int bmx_gplayer_selectyaxisscale(gpLayer * layer, int kind) {
+	return static_cast<int>(layer->SelectYAxisScale(static_cast<gpAXIS_SCALE>(kind)));
+}
+
+int bmx_gplayer_setchartkind(gpLayer * layer, int kind) {
+	return static_cast<int>(layer->SetChartKind(static_cast<gpCHART_KIND>(kind)));
 }
 
 // *********************************************

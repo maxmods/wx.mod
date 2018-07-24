@@ -83,6 +83,15 @@ extern "C" {
 	gpSeries * bmx_gpmultiplotlayer_addserieslayer(gpMultiPlotLayer * layer, BBString * label);
 	void bmx_gpmultiplotlayer_settype(gpMultiPlotLayer * layer, int value);
 	void bmx_gpmultiplotlayer_refreshchart(gpMultiPlotLayer * layer);
+	void bmx_gpmultiplotlayer_invertyscale(gpMultiPlotLayer * layer, int value);
+	void bmx_gpmultiplotlayer_mydatapush(gpMultiPlotLayer * layer, double x, double y, BBString * seriesLabel);
+	void bmx_gpmultiplotlayer_dataclearlabel(gpMultiPlotLayer * layer, BBString * seriesLabel);
+	void bmx_gpmultiplotlayer_setpen(gpMultiPlotLayer * layer, MaxPen * pen, BBString * seriesLabel);
+	void bmx_gpmultiplotlayer_deleteseries(gpMultiPlotLayer * layer, BBString * seriesLabel);
+	void bmx_gpmultiplotlayer_addlegendinfo(gpMultiPlotLayer * layer, int x, int y);
+	void bmx_gpmultiplotlayer_addcoordinfo(gpMultiPlotLayer * layer, int x, int y);
+	double bmx_gpmultiplotlayer_getminy(gpMultiPlotLayer * layer);
+	int bmx_gpmultiplotlayer_getchartkind(gpMultiPlotLayer * layer);
 
 	int bmx_gpseries_islabel(gpSeries * series, BBString * compareLabel);
 	void bmx_gpseries_datapush(gpSeries * series, double x, double y);
@@ -137,6 +146,9 @@ extern "C" {
 	void bmx_gplayer_addlayer(gpLayer * layer, mpLayer * mpl);
 	void bmx_gplayer_dellayer(gpLayer * layer, mpLayer * mpl);
 	void bmx_gplayer_delalllayers(gpLayer * layer);
+	int bmx_gplayer_selectxaxisscale(gpLayer * layer, int kind);
+	int bmx_gplayer_selectyaxisscale(gpLayer * layer, int kind);
+	int bmx_gplayer_setchartkind(gpLayer * layer, int kind);
 
 	wxMenuItem * bmx_gpmenu_getmenuitembyid(gpMenu * menu, int id, wxMenu * m);
 	int bmx_gpmenu_addmenuitem(gpMenu * menu, BBString * label, BBString * help, int kind, int checked, int toGroup);

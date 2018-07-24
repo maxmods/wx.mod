@@ -518,6 +518,18 @@ Type gpLayer Extends gpMenu Abstract
 		bmx_gplayer_showinfolayer(wxObjectPtr, visibility)
 	End Method	
 	
+	Method SelectXAxisScale:Int(kind:Int)
+		Return bmx_gplayer_selectxaxisscale(wxObjectPtr, kind)
+	End Method
+	
+	Method SelectYAxisScale:Int(kind:Int)
+		Return bmx_gplayer_selectyaxisscale(wxObjectPtr, kind)
+	End Method
+	
+	Method SetChartKind:Int(kind:Int)
+		Return bmx_gplayer_setchartkind(wxObjectPtr, kind)
+	End Method
+	
 	Rem
 	bbdoc: 
 	End Rem
@@ -583,12 +595,15 @@ Type gpMultiPlotLayer Extends gpLayer
 	End Method
 	
 	Method InvertYScale(value:Int)
+		bmx_gpmultiplotlayer_invertyscale(wxObjectPtr, value)
 	End Method
 	
 	Method MyDataPush(x:Double, y:Double, seriesLabel:String)
+		bmx_gpmultiplotlayer_mydatapush(wxObjectPtr, x, y, seriesLabel)
 	End Method
 	
 	Method DataClearLabel(seriesLabel:String)
+		bmx_gpmultiplotlayer_dataclearlabel(wxObjectPtr, seriesLabel)
 	End Method
 
 	Method RefreshChart()
@@ -600,21 +615,27 @@ Type gpMultiPlotLayer Extends gpLayer
 	End Method
 	
 	Method SetPen(pen:wxPen, seriesLabel:String)
+		bmx_gpmultiplotlayer_setpen(wxObjectPtr, pen.wxObjectPtr, seriesLabel)
 	End Method
 	
 	Method DeleteSeries(seriesLabel:String)
+		bmx_gpmultiplotlayer_deleteseries(wxObjectPtr, seriesLabel)
 	End Method
 	
 	Method AddLegendInfo(x:Int = 200, y:Int = 20)
+		bmx_gpmultiplotlayer_addlegendinfo(wxObjectPtr, x, y)
 	End Method
 	
 	Method AddCoordInfo(x:Int = 80, y:Int = 20)
+		bmx_gpmultiplotlayer_addcoordinfo(wxObjectPtr, x, y)
 	End Method
 	
 	Method getMinY:Double()
+		Return bmx_gpmultiplotlayer_getminy(wxObjectPtr)
 	End Method
 	
 	Method GetChartKind:Int()
+		Return bmx_gpmultiplotlayer_getchartkind(wxObjectPtr)
 	End Method
 	
 	
