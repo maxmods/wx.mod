@@ -287,7 +287,7 @@ Extern
 	Function bmx_wxscintilla_linescroll(handle:Byte Ptr, columns:Int, LINES:Int)
 	Function bmx_wxscintilla_ensurecaretvisible(handle:Byte Ptr)
 	Function bmx_wxscintilla_replaceselection(handle:Byte Ptr, Text:String)
-	Function bmx_wxscintilla_setreadonly(handle:Byte Ptr, readOnly:Int)
+	Function bmx_wxscintilla_setreadonly(handle:Byte Ptr, value:Int)
 	Function bmx_wxscintilla_canpaste:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_canundo:Int(handle:Byte Ptr)
 	Function bmx_wxscintilla_emptyundobuffer(handle:Byte Ptr)

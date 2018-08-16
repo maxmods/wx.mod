@@ -321,8 +321,8 @@ Type wxZipEntry Extends wxArchiveEntry
 	Rem
 	bbdoc: Sets this entry's read only status.
 	End Rem
-	Method SetIsReadOnly(readOnly:Int = True)
-		bmx_wxzipentry_setisreadonly(wxObjectPtr, readOnly)
+	Method SetIsReadOnly(value:Int = True)
+		bmx_wxzipentry_setisreadonly(wxObjectPtr, value)
 	End Method
 
 End Type

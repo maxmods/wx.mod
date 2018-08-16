@@ -126,7 +126,7 @@ Type wxArchiveEntry Extends wxObject
 		Return bmx_wxarchiveentry_isreadonly(wxObjectPtr)
 	End Method
 	
-	Method SetIsReadOnly(readOnly:Int = True)
+	Method SetIsReadOnly(value:Int = True)
 	End Method
 	
 End Type

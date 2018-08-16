@@ -1522,8 +1522,8 @@ Type wxScintilla Extends wxControl
 	Rem
 	bbdoc: Set to read only or read write.
 	End Rem
-	Method SetReadOnly(readOnly:Int)
-		bmx_wxscintilla_setreadonly(wxObjectPtr, readOnly)
+	Method SetReadOnly(value:Int)
+		bmx_wxscintilla_setreadonly(wxObjectPtr, value)
 	End Method
 
 	Rem

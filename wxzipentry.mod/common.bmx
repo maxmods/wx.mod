@@ -82,7 +82,7 @@ Extern
 	Function bmx_wxzipentry_isdir:Int(handle:Byte Ptr)
 	Function bmx_wxzipentry_setisdir(handle:Byte Ptr, dir:Int)
 	Function bmx_wxzipentry_isreadonly:Int(handle:Byte Ptr)
-	Function bmx_wxzipentry_setisreadonly(handle:Byte Ptr, readOnly:Int)
+	Function bmx_wxzipentry_setisreadonly(handle:Byte Ptr, value:Int)
 
 End Extern
 
