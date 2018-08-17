@@ -1,15 +1,15 @@
 ' Copyright (c) 2008-2018 Bruce A Henderson
-' 
+'
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
 ' in the Software without restriction, including without limitation the rights
 ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 ' copies of the Software, and to permit persons to whom the Software is
 ' furnished to do so, subject to the following conditions:
-' 
+'
 ' The above copyright notice and this permission notice shall be included in
 ' all copies or substantial portions of the Software.
-' 
+'
 ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -17,7 +17,7 @@
 ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ' THE SOFTWARE.
-' 
+'
 SuperStrict
 
 Import BaH.libxml
@@ -45,27 +45,27 @@ Type TFBGenFactory
 
 
 	Function CreateModel:TFBProject(obj:TFBObject, flags:Int)
-	
+
 		If obj.class = "Project" Then
-		
+
 			Local project:TFBProject = TFBProject(Make(Null, obj, flags))
-			
+
 			Return project
-		
+
 		End If
-	
+
 	End Function
 
 
 	Function Make:TFBWidget(parent:TFBWidget, obj:TFBObject, flags:Int = 0)
-	
+
 		Local widget:TFBWidget
-	
+
 		Select obj.class
-		
+
 			Case "Project"
 				widget = New TFBProject
-			
+
 			Case "Frame"
 				widget = New TFBFrame
 
@@ -104,31 +104,31 @@ Type TFBGenFactory
 
 			Case "wxComboBox"
 				widget = New TFBComboBox
-				
+
 			Case "wxTreeCtrl"
 				widget = New TFBTreeCtrl
-		
+
 			Case "wxStaticBitmap"
 				widget = New TFBStaticBitmap
-		
+
 			Case "wxGauge"
 				widget = New TFBGauge
-		
+
 			Case "wxSlider"
 				widget = New TFBSlider
-		
+
 			Case "wxStaticLine"
 				widget = New TFBStaticLine
-		
+
 			Case "wxRadioButton"
 				widget = New TFBRadioButton
-		
+
 			Case "wxRadioBox"
 				widget = New TFBRadioBox
-		
+
 			Case "wxCheckBox"
 				widget = New TFBCheckBox
-		
+
 			Case "wxMenuBar"
 				widget = New TFBMenuBar
 
@@ -161,31 +161,31 @@ Type TFBGenFactory
 
 			Case "wxSpinCtrl"
 				widget = New TFBSpinCtrl
-			
+
 			Case "wxListbook"
 				widget = New TFBListBook
-			
+
 			Case "listbookpage"
 				widget = New TFBListBookPage
-			
+
 			Case "wxChoicebook"
 				widget = New TFBChoicebook
-			
+
 			Case "choicebookpage"
 				widget = New TFBChoiceBookPage
-			
+
 			Case "wxRichTextCtrl"
 				widget = New TFBRichTextCtrl
 
 			Case "wxNotebook"
 				widget = New TFBNotebook
-			
+
 			Case "notebookpage"
 				widget = New TFBNoteBookPage
-			
+
 			Case "wxFilePickerCtrl"
 				widget = New TFBFilePickerCtrl
-			
+
 			Case "wxDirPickerCtrl"
 				widget = New TFBDirPickerCtrl
 
@@ -200,16 +200,16 @@ Type TFBGenFactory
 
 			Case "wxHyperlinkCtrl"
 				widget = New TFBHyperlinkCtrl
-				
+
 			Case "wxBitmapButton"
 				widget = New TFBBitmapButton
 
 			Case "wxChoice"
 				widget = New TFBChoice
-				
+
 			Case "wxDatePickerCtrl"
 				widget = New TFBDatePickerCtrl
-			
+
 			Case "wxToolBar"
 				widget = New TFBToolBar
 
@@ -218,7 +218,7 @@ Type TFBGenFactory
 
 			Case "toolSeparator"
 				widget = New TFBToolSeparator
-				
+
 			Case "wxStdDialogButtonSizer"
 				widget = New TFBStdDialogButtonSizer
 
@@ -236,7 +236,7 @@ Type TFBGenFactory
 
 			Case "wxFontPickerCtrl"
 				widget = New TFBFontPickerCtrl
-			
+
 			Case "spacer"
 				widget = New TFBSpacer
 
@@ -245,10 +245,10 @@ Type TFBGenFactory
 
 			Case "wxColourPickerCtrl"
 				widget = New TFBColourPickerCtrl
-			
+
 			Case "wxSpinButton"
 				widget = New TFBSpinButton
-				
+
 			Case "wxScrolledWindow"
 				widget = New TFBScrolledWindow
 
@@ -259,33 +259,33 @@ Type TFBGenFactory
 				widget = New TFBAuiNotebookPage
 
 		End Select
-		
+
 		If widget Then
 			widget.obj = obj
-			
+
 			If TFBProject(widget) Then
 				firstId = widget.prop("first_id").ToInt() - 1
 				lastId = firstId
 				TFBProject(widget).SetOpts(flags)
 			End If
-			
+
 			' add the new widget to the parent
 			If parent Then
 				parent.kids.AddLast(widget)
 				widget.parent = parent
-				
+
 				lastId = widget.Configure(lastId)
 			End If
-			
+
 			' process any kids of this widget
 			If obj.objects.count() > 0 Then
 				For Local o:TFBObject = EachIn obj.objects
 					Make(widget, o)
 				Next
 			End If
-		
+
 		End If
-	
+
 		Return widget
 	End Function
 
@@ -298,7 +298,7 @@ Type TEventType
 	Field event:String
 	Field constant:String
 	Field extraImport:String
-	
+
 	Function Set:TEventType(name:String, event:String, constant:String, extraImport:String = "")
 		Local this:TEventType = New TEventType
 		this.name = name
@@ -307,13 +307,13 @@ Type TEventType
 		this.extraImport = extraImport
 		Return this
 	End Function
-	
+
 End Type
 
 Function MapEvent:String(event:String)
 
 	Local evt:TEventType = TEventType(eventMap.ValueForKey(event))
-	
+
 	If evt Then
 		Return evt.event
 	End If
@@ -325,11 +325,11 @@ End Function
 Function MapEventConst:String(event:String)
 
 	Local evt:TEventType = TEventType(eventMap.ValueForKey(event))
-	
+
 	If evt Then
 		Return evt.constant
 	End If
-	
+
 	Return "EVENT_" + event + "_NOT_AVAILABLE"
 
 End Function
@@ -350,7 +350,7 @@ End Function
 Function MapEventImport:String(event:String)
 
 	Local evt:TEventType = TEventType(eventMap.ValueForKey(event))
-	
+
 	If evt Then
 		Return evt.extraImport
 	End If
@@ -381,7 +381,7 @@ Function DoPosSizeStyle:String(widget:TFBWidget, showIfEmpty:Int = False)
 			text:+ ",,"
 		End If
 	End If
-	
+
 	If widget.prop("style") Or widget.prop("window_style") Or showIfEmpty Then
 		text:+ ", " + widget.WindowStyle()
 	End If
@@ -410,7 +410,7 @@ Function DoPosSize:String(widget:TFBWidget, showIfEmpty:Int = True)
 			text:+ ",,"
 		End If
 	End If
-	
+
 	Return text
 End Function
 
@@ -419,23 +419,23 @@ Type TCodeOutput
 	Field code:String
 
 	Method Add(text:String, indent:Int = 0, newline:Int = 1)
-	
+
 		If indent Then
 			For Local i:Int = 0 Until indent
 				code:+ "~t"
 			Next
 		End If
-		
+
 		code:+ text
-		
+
 		If newline Then
 			For Local i:Int = 0 Until newline
 				code:+ "~n"
 			Next
 		End If
-		
+
 	End Method
-	
+
 	Method Reset()
 		code = ""
 	End Method
@@ -447,13 +447,13 @@ Type TFBWidget
 	Global genFlags:Int
 
 	Field parent:TFBWidget
-	
+
 	Field obj:TFBObject
 	Field kids:TList = New TList
-	
+
 	Field id:Int = 0
 	Global version:Float
-	
+
 	Method Free()
 		parent = Null
 		For Local kid:TFBWidget = EachIn kids
@@ -477,32 +477,32 @@ Type TFBWidget
 				form.fields.AddLast(Self)
 			End If
 		End If
-		
+
 		If prop("id") Then
-		
+
 			If Not IsSpecialId(prop("id")) Then
 				lastId :+ 1
 				id = lastId
-				
+
 				Local form:TFBContainer = GetMainContainer()
 				If form Then
 					form.consts.AddLast(Self)
 				End If
 			End If
-		
+
 		End If
-		
+
 		AddImport()
-		
+
 		Return lastId
 	End Method
-	
+
 	' returns True if my permissions are set. This determines whether I am Local or a Field of my parent
 	Method HasPermissions:Int()
 		Local perm:String = String(prop("permission"))
 		Return perm = Null Or perm <> "none"
 	End Method
-	
+
 	Method prop:String(name:String)
 		Return String(obj.properties.ValueForKey(name))
 	End Method
@@ -535,7 +535,7 @@ Type TFBWidget
 		End If
 		Return parent.GetParentContainer()
 	End Method
-	
+
 	' depending on the context of who owns me, return Self or my parent-container name.
 	Method ContainerReference:String()
 		Local container:TFBContainer = GetParentContainer()
@@ -562,7 +562,7 @@ Type TFBWidget
 			If imp Then
 				proj.imports.Insert(imp, "")
 			End If
-			
+
 			If genflags & GEN_WXLOCALE Then
 				proj.imports.Insert("wx.wxLocale", "")
 			End If
@@ -570,21 +570,21 @@ Type TFBWidget
 			If genflags & GEN_BAHLOCALE Then
 				proj.imports.Insert("BaH.Locale", "")
 			End If
-			
+
 		End If
 	End Method
-	
+
 	' is my parent the Project? - this means that I am like a wxFrame or custom panel or dialog
 	Method IsMainContainer:Int()
 		If parent And TFBProject(parent) Then
 			Return True
 		End If
 	End Method
-	
+
 	Method IsDefault:Int(text:String)
 		Return text = "-1,-1"
 	End Method
-	
+
 	Method NameReference:String(name:String, noref:Int = False)
 		If Not noref Then
 			Return name + "."
@@ -592,7 +592,7 @@ Type TFBWidget
 			Return ""
 		End If
 	End Method
-	
+
 	Method DoColour:String(col:String)
 
 		Local text:String = ""
@@ -607,25 +607,25 @@ Type TFBWidget
 		Else
 			text:+ "New wxColour.Create(" + col + ")"
 		End If
-		
+
 		Return text
-	
+
 	End Method
-	
+
 	Method DoBitmap:String(bm:String)
 
 		Local text:String = ""
-		
+
 		Local bitmap:String[] = bm.Split(";")
-		
+
 		If bitmap[0] Then
 			Local file:String = bitmap[0]
 			If file = "LoadFromFile" Then
 				file = bitmap[1]
 			End If
-			
+
 			text:+ "wxBitmap.CreateFromFile(~q" + file + "~q, "
-			
+
 			Local kind:String = file.Split(".")[1].ToUpper()
 			Select kind
 				Case "PNG"
@@ -633,16 +633,16 @@ Type TFBWidget
 				Default
 					text:+ "wxBITMAP_TYPE_ANY"
 			End Select
-			
+
 			text:+ ")"
 		Else
 			text = "Null"
 		End If
-		
+
 		Return text
-	
+
 	End Method
-	
+
 	' standard widget settings, like Enabled,  MinSize, MaxSize etc.
 	Method StandardSettings(out:TCodeOutput, noref:Int = False)
 
@@ -650,49 +650,49 @@ Type TFBWidget
 		If prop("enabled") And prop("enabled") <> "1" Then
 			out.Add(NameReference(prop("name"), noref) + "Enable(False)", 2)
 		End If
-		
+
 		' SetFont()
 		Local font:String = prop("font")
 		If font Then
 			Local text:String = NameReference(prop("name"), noref) + "SetFont("
 			text:+ "New wxFont.CreateWithAttribs("
-			
+
 			Local attribs:String[] = font.Split(",")
-			
+
 			If attribs[3] = "-1" Then
 				text:+ "wxNORMAL_FONT().GetPointSize(), "
 			Else
 				text:+ attribs[3] + ", "
 			End If
-			
+
 			text:+ attribs[4] + ", "
 			text:+ attribs[1] + ", "
 			text:+ attribs[2] + ", "
-			
+
 			If attribs[5] = "0" Then
 				text:+ "False"
 			Else
 				text:+ "True"
 			End If
-			
+
 			If attribs[0] Then
 				text:+ ", ~q" + attribs[0] + "~q"
 			End If
-			
+
 			text:+ "))"
-			
+
 			out.Add(text, 2)
 		End If
-		
+
 		' SetForegroundColour()
 		Local col:String = prop("fg")
 		If col Then
 			Local text:String = NameReference(prop("name"), noref) + "SetForegroundColour("
-			
+
 			text:+ DoColour(col)
-			
+
 			text:+ ")"
-			
+
 			out.Add( text, 2)
 		End If
 
@@ -702,12 +702,12 @@ Type TFBWidget
 			Local text:String = NameReference(prop("name"), noref) + "SetBackgroundColour("
 
 			text:+ DoColour(col)
-			
+
 			text:+ ")"
-			
+
 			out.Add( text, 2)
 		End If
-		
+
 		' extra_style?
 		If prop("extra_style") Then
 			out.Add(NameReference(prop("name"), noref) + "SetExtraStyle(" + prop("extra_style") + ")", 2)
@@ -722,12 +722,12 @@ Type TFBWidget
 		If prop("hide") = "1" Then
 			out.Add(NameReference(prop("name"), noref) + "Hide()", 2)
 		End If
-		
+
 		' SetToolTip()
 		If prop("tooltip") Then
 			out.Add(NameReference(prop("name"), noref) + "SetToolTip(" + GetString("~q" + prop("tooltip") + "~q") + ")", 2)
 		End If
-		
+
 		' SetHelpText()
 		If prop("context_help") Then
 			out.Add(NameReference(prop("name"), noref) + "SetHelpText(" + GetString("~q" + prop("context_help") + "~q") + ")", 2)
@@ -737,32 +737,32 @@ Type TFBWidget
 		If prop("minimum_size") And Not IsDefault(prop("minimum_size")) Then
 			out.Add(NameReference(prop("name"), noref) + "SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
-	
+
 		' SetMaxSize()
 		If prop("maximum_size") And Not IsDefault(prop("maximum_size")) Then
 			out.Add(NameReference(prop("name"), noref) + "SetMaxSize(" + prop("maximum_size") + ")", 2)
 		End If
 
 	End Method
-	
+
 	Method WindowStyle:String(def:String = "")
-	
+
 		Local text:String = def
-		
+
 		If prop("style") Then
 			If def Then
 				text:+ "|"
 			End If
 			text:+ prop("style")
 		End If
-		
+
 		If prop("window_style") Then
 			If def Or prop("style") Then
 				text:+ "|"
 			End If
 			text:+ prop("window_style")
 		End If
-	
+
 		Return text
 	End Method
 
@@ -775,13 +775,13 @@ Type TFBWidget
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 
 		text:+ DoPosSizeStyle(Self)
-		
+
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 	End Method
-	
+
 	Method StandardCreateWithLabel(out:TCodeOutput)
 
 		If Not HasPermissions() Then
@@ -791,23 +791,23 @@ Type TFBWidget
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 
 		text:+ GetString("~q" + prop("label") + "~q")
-		
+
 		text:+ DoPosSizeStyle(Self)
-		
+
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 	End Method
-	
+
 	Method MakeChoices:String(text:String)
-	
+
 		Local s:String = text.Replace("\'", "'")
 		s = s.Replace("\\", "\")
 		s = s.Replace("\~q", "~~q")
 		s = s.Replace("\t", "~~t")
 		s = s.Replace("\r", "~~r")
-		
+
 		Local tok:TStringTokenizer
 
 		' 1.9 uses ", <1.9 uses '
@@ -816,32 +816,32 @@ Type TFBWidget
 		Else
 			tok = New TStringTokenizer.Create(s, "~q")
 		End If
-	
+
 		Local str:String
-		
+
 		While tok.HasMoreTokens()
 			If str Then
 				str:+ ", "
 			End If
-		
+
 			str:+ GetString("~q" + tok.GetNextToken() + "~q")
 		Wend
-		
+
 		Return str
 	End Method
-	
+
 	Method IsSpecialId:Int(text:String)
 		If text.StartsWith("wxID_") Then
 			Return True
 		End If
-		
+
 		Return False
 	End Method
-	
+
 	Method IsEmptyQuotes:Int(text:String)
 		Return text = "~q~q"
 	End Method
-	
+
 	Method GetString:String(text:String, noLocale:Int = False)
 		text = text.Replace("~r", "")
 		text = text.Replace("~n", "~~n")
@@ -856,7 +856,7 @@ Type TFBWidget
 		End If
 		Return text
 	End Method
-	
+
 	Method GetType:String(def:Int = False) Abstract
 	Method GetImport:String() Abstract
 
@@ -873,7 +873,7 @@ Type TFBWidget
 		End If
 		Return name
 	End Method
-	
+
 	Method GetFullImport:String(name:String)
 		If prop("subclass") Then
 			Local s:String = prop("subclass").split(";")[1].Trim()
@@ -887,19 +887,19 @@ Type TFBWidget
 		End If
 		Return name
 	End Method
-	
+
 	Method IsInSizer:Int()
 		If Not parent Then
 			Return False
 		End If
-		
+
 		If TFBSizer(parent) Then
 			Return True
 		End If
-		
+
 		Return parent.IsInSizer()
 	End Method
-	
+
 End Type
 
 Type TFBProject Extends TFBWidget
@@ -907,44 +907,44 @@ Type TFBProject Extends TFBWidget
 	Field generatedName:String
 
 	Field imports:TMap = New TMap
-	
+
 	Method Free()
 		Super.Free()
-		
+
 		imports.Clear()
 	End Method
-	
+
 	Method SetOpts(flags:Int)
 		genflags = flags
 	End Method
 
 	Method Generate(out:TCodeOutput)
-	
+
 		out.Add(GeneratedNotice())
-	
+
 		If genflags & GEN_SUPER Then
 			out.Add("SuperStrict",,2)
 		End If
-		
+
 		If genflags & GEN_IMPORTS Then
 			' imports !
 			For Local imp:String = EachIn imports.keys()
 				out.Add("Import " + imp)
 			Next
 		End If
-		
+
 		' some space...
 		out.Add("",,2)
-		
+
 		' our forms and things
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
-		
+
 	End Method
-	
+
 	Method GenerateAppCode(out:TCodeOutput)
-	
+
 		out.Add("'")
 		out.Add("' Example application stub generated by wxCodeGen v" + AppVersion + " : " + CurrentDate() + " " + CurrentTime())
 		out.Add("'")
@@ -960,9 +960,9 @@ Type TFBProject Extends TFBWidget
 		out.Add("Method OnInit:Int()",1,2)
 
 		out.Add("' Add frame creation code here",2,2)
-	
+
 		out.Add("Return True",2)
-	
+
 		out.Add("End Method",1,2)
 
 		out.Add("End Type",,4)
@@ -977,7 +977,7 @@ Type TFBProject Extends TFBWidget
 
 	Method GetType:String(def:Int = False)
 	End Method
-	
+
 	Method GetImport:String()
 	End Method
 
@@ -988,30 +988,30 @@ Type TFBContainer Extends TFBWidget
 	Field fields:TList = New TList
 
 	Field consts:TList = New TList
-	
+
 	Field functions:TMap = New TMap
-	
+
 	Method Free()
 		Super.Free()
-		
+
 		fields.Clear()
 		consts.Clear()
 	End Method
 
 	Method Generate(out:TCodeOutput)
-	
+
 		' reset the functions map
 		functions.Clear()
-	
+
 		Local topSizer:TFBWidget
-		
+
 		out.Add("Type " + prop("name") + "Base Extends " + GetType(), ,2)
-		
+
 		' fields
 		For Local fld:TFBWidget = EachIn fields
 			out.Add("Field " + fld.prop("name") + ":" + fld.GetType(True), 1)
 		Next
-		
+
 		out.Add("")
 
 		' consts
@@ -1023,53 +1023,53 @@ Type TFBContainer Extends TFBWidget
 
 		' constructor
 		DoConstructor(out)
-		
+
 		' OnInit() - variable init etc
 		out.Add("Method OnInit:Int()", 1)
-		
+
 		StandardSettings(out, True)
-		
+
 		For Local child:TFBWidget = EachIn kids
-		
+
 			If Not topSizer Then
 				If TFBSizer(child) Then
 					topSizer = child
 				End If
 			End If
-			
+
 			child.Generate(out)
 		Next
-		
+
 		' the main sizer
 		If topSizer Then
 			out.Add("SetSizer(" + topSizer.prop("name") + ")", 2)
 		End If
-		
+
 		' layout
 		out.Add("Layout()", 2)
-		
+
 		' no default size? then we must fit to controls
 		If (Not prop("size") Or prop("size") = "-1,-1") And topSizer Then
 			out.add(topSizer.prop("name") + ".Fit(Self)", 2)
 		End If
-		
+
 		If prop("center") Then
 			out.Add("Center(" + prop("center") + ")", 2)
 		End If
-		
+
 		ConnectEvents(out)
-		
+
 		out.Add("End Method", 1, 2)
-		
+
 		' event functions
 		EventFunctions(out)
-		
+
 		out.Add("End Type", , 2)
-		
+
 	End Method
 
 	Method GenerateAppCode(out:TCodeOutput)
-	
+
 		out.Add("Type " + prop("name") + " Extends " + prop("name") + "Base", ,2)
 
 
@@ -1078,61 +1078,61 @@ Type TFBContainer Extends TFBWidget
 		out.Add("Super.OnInit()", 2, 2)
 		out.Add("' Add own initialisation code here", 2, 2)
 		out.Add("End Method", 1, 2)
-		
+
 		' event functions
 		EventFunctions(out, True)
-		
+
 		out.Add("End Type", , 2)
-		
+
 	End Method
-	
+
 	Method DoConstructor(out:TCodeOutput)
 	End Method
-	
+
 	Method ConnectEvents(out:TCodeOutput)
-	
+
 		out.Add("")
-	
+
 		' my events
 		For Local evt:String = EachIn obj.events.keys()
-		
+
 			Local event:String =  String(obj.events.ValueForKey(evt))
 			Local ec:String = MapEventConst(evt)
 			out.Add("ConnectAny(" + ec + ", _" + event + ")", 2)
-		
+
 			ec = MapEventImport(evt)
 			If ec Then
 				GetProject().imports.Insert(ec, "")
 			End If
 		Next
-	
+
 		' child events
 		For Local child:TFBWidget = EachIn kids
 			ChildConnectEvents(child, out)
 		Next
-	
+
 	End Method
 
 	Method EventFunctions(out:TCodeOutput, forAppCode:Int = False)
-	
+
 		Local text:String
-	
+
 		' my events
 		For Local evt:String = EachIn obj.events.keys()
-		
+
 			If Not functions.Contains(event(evt)) Then
 
-				functions.Insert(event(evt), "")		
+				functions.Insert(event(evt), "")
 
 				If Not forAppCode Then
 					out.Add("Function _" + event(evt) + "(event:wxEvent)", 1)
-					
+
 					text = prop("name") + "Base(event.parent)." + event(evt) + "(" + MapEvent(evt) + "(event))"
 					out.Add(text, 2, 1)
-					
+
 					out.Add("End Function", 1, 2)
 				End If
-				
+
 				out.Add("Method " + event(evt) + "(event:" + MapEvent(evt) + ")", 1)
 				If Not forAppCode Then
 					out.Add("DebugLog ~qPlease override " + prop("name") + "." + event(evt) + "()~q", 2)
@@ -1143,42 +1143,42 @@ Type TFBContainer Extends TFBWidget
 				out.Add("End Method", 1, 2)
 			End If
 		Next
-		
+
 		' child events
 		For Local child:TFBWidget = EachIn kids
 			ChildEventFunctions(child, out, forAppCode)
 		Next
-	
+
 	End Method
 
 	Method ChildEventFunctions(widget:TFBWidget, out:TCodeOutput, forAppCode:Int = False)
-	
+
 		Local text:String
-	
+
 		' my events
 		For Local evt:String = EachIn widget.obj.events.keys()
 
 			If Not functions.Contains(widget.event(evt)) Then
 
-				functions.Insert(widget.event(evt), "")		
-		
+				functions.Insert(widget.event(evt), "")
+
 				If Not forAppCode Then
 					out.Add("Function _" + widget.event(evt) + "(event:wxEvent)", 1)
-					
+
 					text = prop("name") + "Base(event."
-					
+
 					If EventRequiresSink(MapEventConst(evt)) Or (Not widget.id) Then
 						text:+ "sink"
 					Else
 						text:+ "parent"
 					End If
-					
+
 					text:+ ")." + widget.event(evt) + "(" + MapEvent(evt) + "(event))"
 					out.Add(text, 2, 1)
-					
+
 					out.Add("End Function", 1, 2)
 				End If
-			
+
 				out.Add("Method " + widget.event(evt) + "(event:" + MapEvent(evt) + ")", 1)
 				If Not forAppCode Then
 					out.Add("DebugLog ~qPlease override " + prop("name") + "." + widget.event(evt) + "()~q", 2)
@@ -1187,23 +1187,23 @@ Type TFBContainer Extends TFBWidget
 					out.Add("' TODO : Implement me", 2)
 				End If
 				out.Add("End Method", 1, 2)
-		
+
 			End If
 		Next
 
 		For Local child:TFBWidget = EachIn widget.kids
 			ChildEventFunctions(child, out, forAppCode)
 		Next
-	
+
 	End Method
-	
+
 	Method ChildConnectEvents(widget:TFBWidget, out:TCodeOutput)
 
 		For Local evt:String = EachIn widget.obj.events.keys()
 
 			Local event:String =  widget.event(evt)
 			Local ec:String = MapEventConst(evt)
-	
+
 			' special connect for menu items...
 			If TFBMenuItem(widget) Then
 				out.Add("Connect(" + widget.prop("name") + ".GetId(), " + ec + ", _" + event + ")", 2)
@@ -1224,7 +1224,7 @@ Type TFBContainer Extends TFBWidget
 				GetProject().imports.Insert(ec, "")
 			End If
 		Next
-		
+
 		For Local child:TFBWidget = EachIn widget.kids
 			ChildConnectEvents(child, out)
 		Next
@@ -1233,7 +1233,7 @@ Type TFBContainer Extends TFBWidget
 
 End Type
 
-Type TFBForm Extends TFBContainer 
+Type TFBForm Extends TFBContainer
 
 End Type
 
@@ -1251,34 +1251,34 @@ Type TFBFrame Extends TFBForm
 		Else
 			text:+ "-1"
 		End If
-		
+
 		text:+ ", title:String = ~q"
 		If prop("title") Then
 			text:+ prop("title")
 		End If
-		
+
 		text:+ "~q, "
-		
+
 		If Not prop("pos") Then
 			text:+ "x:Int = -1, y:Int = -1, "
 		Else
 			Local pos:String[] = prop("pos").Split(",")
 			text:+ "x:Int = " + pos[0] + ", y:Int = " + pos[1] + ", "
 		End If
-			
+
 		If Not prop("size") Then
 			text:+ "w:Int = -1, h:Int = -1, "
 		Else
 			Local size:String[] = prop("size").Split(",")
 			text:+ "w:Int = " + size[0] + ", h:Int = " + size[1] + ", "
 		End If
-		
+
 		If Not prop("style") Then
 			text:+ "style:Int = " + WindowStyle("wxDEFAULT_FRAME_STYLE")
 		Else
 			text:+ "style:Int = " + WindowStyle()
 		End If
-		
+
 		text:+")"
 		out.Add(text, 1)
 		out.Add("Return " + prop("name") + "Base(Super.Create(parent, id, title, x, y, w, h, style))", 2)
@@ -1302,13 +1302,13 @@ Type TFBListCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -1328,41 +1328,41 @@ End Type
 Type TFBPanel Extends TFBContainer
 
 	Method Generate(out:TCodeOutput)
-	
+
 		If IsMainContainer() Then
 			Super.Generate(out)
 		Else
-		
+
 			Local topSizer:TFBWidget
-	
+
 			StandardCreate(out)
 
 			StandardSettings(out)
-	
+
 			' our forms and things
 			For Local child:TFBWidget = EachIn kids
-	
+
 				If Not topSizer Then
 					If TFBSizer(child) Then
 						topSizer = child
 					End If
 				End If
-	
+
 				child.Generate(out)
 			Next
-	
+
 			' the main sizer
 			If topSizer Then
 				out.Add(prop("name") + ".SetSizer(" + topSizer.prop("name") + ")", 2)
 			End If
-			
+
 			If topSizer Then
 				' layout
 				out.Add(prop("name") + ".Layout()", 2)
 				' fit
 				out.Add(topSizer.prop("name") + ".Fit(" + prop("name") + ")", 2)
 			End If
-			
+
 		End If
 	End Method
 
@@ -1374,29 +1374,29 @@ Type TFBPanel Extends TFBContainer
 		Else
 			text:+ "-1"
 		End If
-		
+
 		text:+ ", "
-		
+
 		If Not prop("pos") Then
 			text:+ "x:Int = -1, y:Int = -1, "
 		Else
 			Local pos:String[] = prop("pos").Split(",")
 			text:+ "x:Int = " + pos[0] + ", y:Int = " + pos[1] + ", "
 		End If
-			
+
 		If Not prop("size") Then
 			text:+ "w:Int = -1, h:Int = -1, "
 		Else
 			Local size:String[] = prop("size").Split(",")
 			text:+ "w:Int = " + size[0] + ", h:Int = " + size[1] + ", "
 		End If
-		
+
 		If Not prop("style") Then
 			text:+ "style:Int = wxTAB_TRAVERSAL"
 		Else
 			text:+ "style:Int = " + prop("style")
 		End If
-		
+
 		text:+")"
 		out.Add(text, 1)
 		out.Add("Return " + prop("name") + "Base(Super.Create(parent, id, x, y, w, h, style))", 2)
@@ -1416,34 +1416,34 @@ End Type
 Type TFBDialog Extends TFBContainer
 
 	Method Generate(out:TCodeOutput)
-	
+
 		If IsMainContainer() Then
 			Super.Generate(out)
 		Else
-		
+
 			Local topSizer:TFBWidget
-	
+
 			StandardCreate(out)
 
 			StandardSettings(out)
-	
+
 			' our forms and things
 			For Local child:TFBWidget = EachIn kids
-	
+
 				If Not topSizer Then
 					If TFBSizer(child) Then
 						topSizer = child
 					End If
 				End If
-	
+
 				child.Generate(out)
 			Next
-	
+
 			' the main sizer
 			If topSizer Then
 				out.Add(prop("name") + ".SetSizer(" + topSizer.prop("name") + ")", 2)
 			End If
-			
+
 			' layout
 			out.Add(prop("name") + ".Layout()", 2)
 		End If
@@ -1458,34 +1458,34 @@ Type TFBDialog Extends TFBContainer
 		Else
 			text:+ "-1"
 		End If
-		
+
 		text:+ ", title:String = ~q"
 		If prop("title") Then
 			text:+ prop("title")
 		End If
 
 		text:+ "~q, "
-		
+
 		If Not prop("pos") Then
 			text:+ "x:Int = -1, y:Int = -1, "
 		Else
 			Local pos:String[] = prop("pos").Split(",")
 			text:+ "x:Int = " + pos[0] + ", y:Int = " + pos[1] + ", "
 		End If
-			
+
 		If Not prop("size") Then
 			text:+ "w:Int = -1, h:Int = -1, "
 		Else
 			Local size:String[] = prop("size").Split(",")
 			text:+ "w:Int = " + size[0] + ", h:Int = " + size[1] + ", "
 		End If
-		
+
 		If Not prop("style") Then
 			text:+ "style:Int = 0"
 		Else
 			text:+ "style:Int = " + prop("style")
 		End If
-		
+
 		text:+")"
 		out.Add(text, 1)
 		out.Add("Return " + prop("name") + "Base(Super.Create_(parent, id, title, x, y, w, h, style))", 2)
@@ -1509,7 +1509,7 @@ Type TFBButton Extends TFBWidget
 		StandardCreateWithLabel(out)
 
 		StandardSettings(out)
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -1531,21 +1531,21 @@ Type TFBTextCtrl Extends TFBWidget
 		End If
 
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		text:+ GetString("~q" + prop("value") + "~q")
 
 		text:+ DoPosSizeStyle(Self)
-		
+
 		text:+ ")"
-		
+
 		out.Add(text, 2)
-		
+
 		If prop("maxlength") Then
-			out.Add(prop("name") + ".SetMaxLength(" + prop("maxlength") + ")", 2) 
+			out.Add(prop("name") + ".SetMaxLength(" + prop("maxlength") + ")", 2)
 		End If
 
 		StandardSettings(out)
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -1567,7 +1567,7 @@ Type TFBStaticBitmap Extends TFBWidget
 		End If
 
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		If prop("bitmap") Then
 			text:+ DoBitmap(prop("bitmap"))
 		Else
@@ -1575,11 +1575,11 @@ Type TFBStaticBitmap Extends TFBWidget
 		End If
 
 		text:+ DoPosSizeStyle(Self)
-		
+
 		text:+ ")"
-		
+
 		out.Add(text, 2)
-		
+
 		StandardSettings(out)
 
 	End Method
@@ -1616,7 +1616,7 @@ Type TFBStaticText Extends TFBWidget
 	Method GetImport:String()
 		Return GetFullImport("wx.wxStaticText")
 	End Method
-	
+
 End Type
 
 Type TFBComboBox Extends TFBWidget
@@ -1626,7 +1626,7 @@ Type TFBComboBox Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		If prop("choices") Then
 			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
 		End If
@@ -1634,7 +1634,7 @@ Type TFBComboBox Extends TFBWidget
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 
 		text:+ GetString("~q" + prop("value") + "~q")
-		
+
 		' choices
 		If prop("choices") Then
 			text:+ ", " + prop("name") + "Choices"
@@ -1645,7 +1645,7 @@ Type TFBComboBox Extends TFBWidget
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -1669,13 +1669,13 @@ Type TFBTreeCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
 
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -1699,15 +1699,15 @@ Type TFBGauge Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		text:+ prop("range")
 
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		If prop("value") Then
@@ -1737,17 +1737,17 @@ Type TFBSlider Extends TFBWidget
 		End If
 
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		text:+ prop("value") + ", " + prop("minValue") + ", " + prop("maxValue")
 
 		text:+ DoPosSizeStyle(Self)
-		
+
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -1767,7 +1767,7 @@ Type TFBStaticLine Extends TFBWidget
 		StandardCreate(out)
 
 		StandardSettings(out)
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -1785,13 +1785,13 @@ Type TFBRadioButton Extends TFBWidget
 	Method Generate(out:TCodeOutput)
 
 		StandardCreateWithLabel(out)
-		
+
 		If prop("value") = "1" Then
 			out.Add(prop("name") + ".SetValue(True)", 2)
 		End If
 
 		StandardSettings(out)
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -1817,25 +1817,25 @@ Type TFBRadioBox Extends TFBWidget
 		End If
 
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		text:+ GetString("~q" + prop("label") + "~q")
 
 		text:+ DoPosSize(Self)
-		
+
 		If prop("choices") Then
 			text:+ ", " + prop("name") + "Choices, "
 		Else
-			text:+ ", Null ,"	
+			text:+ ", Null ,"
 		End If
 
 		text:+ prop("majorDimension") + ", " + prop("style")
-		
+
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -1853,13 +1853,13 @@ Type TFBCheckBox Extends TFBWidget
 	Method Generate(out:TCodeOutput)
 
 		StandardCreateWithLabel(out)
-		
+
 		If prop("checked") = "1" Then
 			out.Add(prop("name") + ".SetValue(True)", 2)
 		End If
 
 		StandardSettings(out)
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -1886,7 +1886,7 @@ Type TFBHTMLWindow Extends TFBWidget
 		Return "wxHtmlWindow"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxHtmlWindow")
 	End Method
@@ -1900,7 +1900,7 @@ Type TFBCheckListBox Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		If prop("choices") Then
 			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
 		End If
@@ -1917,11 +1917,11 @@ Type TFBCheckListBox Extends TFBWidget
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
-		
+
 		out.Add("")
 
 	End Method
@@ -1930,7 +1930,7 @@ Type TFBCheckListBox Extends TFBWidget
 		Return "wxCheckListBox"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxCheckListBox")
 	End Method
@@ -1957,7 +1957,7 @@ Type TFBToggleButton Extends TFBWidget
 		Return "wxToggleButton"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxToggleButton")
 	End Method
@@ -1980,7 +1980,7 @@ Type TFBScrollBar Extends TFBWidget
 		Return "wxScrollBar"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxScrollBar")
 	End Method
@@ -1994,20 +1994,20 @@ Type TFBSpinCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 
 		text:+ GetString("~q" + prop("value") + "~q")
-		
+
 
 		text:+ DoPosSizeStyle(Self, True)
-		
+
 		text:+ ", " + prop("min")
 		text:+ ", " + prop("max")
 		text:+ ", " + prop("initial")
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -2020,7 +2020,7 @@ Type TFBSpinCtrl Extends TFBWidget
 		Return "wxSpinCtrl"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxSpinCtrl")
 	End Method
@@ -2035,7 +2035,7 @@ Type TFBListBook Extends TFBWidget
 		StandardCreate(out)
 
 		StandardSettings(out)
-		
+
 		' do the imagelist stuff
 		If prop("bitmapsize") And Not IsDefault(prop("bitmapsize")) Then
 
@@ -2046,7 +2046,7 @@ Type TFBListBook Extends TFBWidget
 			out.Add("Local " + prop("name") + "Bitmap:wxBitmap", 2)
 			out.Add("Local " + prop("name") + "Image:wxImage", 2)
 		End If
-		 
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
@@ -2059,7 +2059,7 @@ Type TFBListBook Extends TFBWidget
 		Return "wxListBook"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxListBook")
 	End Method
@@ -2076,21 +2076,21 @@ Type TFBListBookPage Extends TFBWidget
 
 			Local text:String = parent.prop("name")
 			text:+ ".AddPage(" + child.prop("name") + ", "
-			
+
 			text:+ GetString("~q" + prop("label") + "~q") + ", "
-			
+
 			If prop("select") = "1" Then
 				text:+ "True"
 			Else
 				text:+ "False"
 			End If
-			
+
 			text:+ ")"
-			
+
 			out.Add(text, 2)
-			
+
 			If prop("bitmap") And (parent.prop("bitmapsize") And Not IsDefault(parent.prop("bitmapsize"))) Then
-			
+
 				out.Add(parent.prop("name") + "Bitmap = " + DoBitmap(prop("bitmap")), 2)
 				out.Add("If " + parent.prop("name") + "Bitmap.IsOk() Then", 2)
 				out.Add(parent.prop("name") + "Image = " + parent.prop("name") + "Bitmap.ConvertToImage()", 3)
@@ -2098,7 +2098,7 @@ Type TFBListBookPage Extends TFBWidget
 				out.Add(parent.prop("name") + ".SetPageImage(" + parent.prop("name") + "Index, " + parent.prop("name") + "Index)", 3)
 				out.Add(parent.prop("name") + "Index :+ 1", 3)
 				out.Add("End If", 2)
-			
+
 			End If
 		Next
 
@@ -2109,7 +2109,7 @@ Type TFBListBookPage Extends TFBWidget
 	Method GetType:String(def:Int = False)
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxListBook")
 	End Method
@@ -2123,7 +2123,7 @@ Type TFBChoicebook Extends TFBWidget
 		StandardCreate(out)
 
 		StandardSettings(out)
-		
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
@@ -2136,7 +2136,7 @@ Type TFBChoicebook Extends TFBWidget
 		Return "wxChoicebook"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxChoicebook")
 	End Method
@@ -2153,17 +2153,17 @@ Type TFBChoicebookPage Extends TFBWidget
 
 			Local text:String = parent.prop("name")
 			text:+ ".AddPage(" + child.prop("name") + ", "
-			
+
 			text:+ GetString("~q" + prop("label") + "~q") + ", "
-			
+
 			If prop("select") = "1" Then
 				text:+ "True"
 			Else
 				text:+ "False"
 			End If
-			
+
 			text:+ ")"
-			
+
 			out.Add(text, 2)
 		Next
 
@@ -2174,7 +2174,7 @@ Type TFBChoicebookPage Extends TFBWidget
 	Method GetType:String(def:Int = False)
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxChoicebook")
 	End Method
@@ -2185,7 +2185,7 @@ Type TFBRichTextCtrl Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
 
-		' TODO 
+		' TODO
 
 		out.Add("")
 
@@ -2195,7 +2195,7 @@ Type TFBRichTextCtrl Extends TFBWidget
 		Return "wxRichTextCtrl"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxRichTextCtrl")
 	End Method
@@ -2210,7 +2210,7 @@ Type TFBNotebook Extends TFBContainer
 		StandardCreate(out)
 
 		StandardSettings(out)
- 
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
@@ -2223,7 +2223,7 @@ Type TFBNotebook Extends TFBContainer
 		Return GetFullType("wxNotebook")
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxNotebook")
 	End Method
@@ -2240,17 +2240,17 @@ Type TFBNotebookPage Extends TFBWidget
 
 			Local text:String = parent.prop("name")
 			text:+ ".AddPage(" + child.prop("name") + ", "
-			
+
 			text:+ GetString("~q" + prop("label") + "~q") + ", "
-			
+
 			If prop("select") = "1" Then
 				text:+ "True"
 			Else
 				text:+ "False"
 			End If
-			
+
 			text:+ ")"
-			
+
 			out.Add(text, 2)
 		Next
 
@@ -2261,7 +2261,7 @@ Type TFBNotebookPage Extends TFBWidget
 	Method GetType:String(def:Int = False)
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxNotebook")
 	End Method
@@ -2275,17 +2275,17 @@ Type TFBFilePickerCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		text:+ GetString("~q" + prop("value") + "~q") + ", "
 		text:+ GetString("~q" + prop("message") + "~q") + ", "
 		text:+ GetString("~q" + prop("wildcard") + "~q")
-		
+
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -2298,7 +2298,7 @@ Type TFBFilePickerCtrl Extends TFBWidget
 		Return "wxFilePickerCtrl"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxFilePickerCtrl")
 	End Method
@@ -2312,16 +2312,16 @@ Type TFBDirPickerCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		text:+ GetString("~q" + prop("value") + "~q") + ", "
 		text:+ GetString("~q" + prop("message") + "~q")
 
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -2334,7 +2334,7 @@ Type TFBDirPickerCtrl Extends TFBWidget
 		Return "wxDirPickerCtrl"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxFilePickerCtrl")
 	End Method
@@ -2348,14 +2348,14 @@ Type TFBStatusBar Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
-		Local text:String = prop("name") + " = " + ContainerReference() + ".CreateStatusBar(" 
-		text:+ prop("fields") + ", " 
+
+		Local text:String = prop("name") + " = " + ContainerReference() + ".CreateStatusBar("
+		text:+ prop("fields") + ", "
 		text:+ WindowStyle("0") + ", "
 		text:+ prop("id") + ")"
 
 		out.Add(text, 2)
-		
+
 		out.Add("")
 
 	End Method
@@ -2364,7 +2364,7 @@ Type TFBStatusBar Extends TFBWidget
 		Return "wxStatusBar"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxStatusBar")
 	End Method
@@ -2378,7 +2378,7 @@ Type TFBListBox Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		If prop("choices") Then
 			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
 		End If
@@ -2395,7 +2395,7 @@ Type TFBListBox Extends TFBWidget
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -2408,7 +2408,7 @@ Type TFBListBox Extends TFBWidget
 		Return "wxListBox"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxListBox")
 	End Method
@@ -2422,22 +2422,22 @@ Type TFBGenericDirCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		text:+ GetString("~q" + prop("defaultfolder") + "~q")
-		
+
 		text:+ DoPosSizeStyle(Self) + ", "
-		
+
 		text:+ GetString("~q" + prop("filter") + "~q") + ", "
 		text:+ prop("defaultfilter")
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		text = prop("name") + ".ShowHidden("
-		
+
 		If prop("show_hidden") = "1" Then
 			text:+ "True)"
 		Else
@@ -2445,10 +2445,10 @@ Type TFBGenericDirCtrl Extends TFBWidget
 		End If
 
 		out.Add(text, 2)
-	
+
 
 		StandardSettings(out)
-			
+
 		out.Add("")
 
 	End Method
@@ -2457,7 +2457,7 @@ Type TFBGenericDirCtrl Extends TFBWidget
 		Return "wxGenericDirCtrl"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxGenericDirCtrl")
 	End Method
@@ -2470,7 +2470,7 @@ Type TFBScintilla Extends TFBWidget
 	Method Generate(out:TCodeOutput)
 
 		StandardCreate(out)
-		
+
 		out.Add("")
 
 		If prop("use_tabs") = "1" Then
@@ -2478,42 +2478,42 @@ Type TFBScintilla Extends TFBWidget
 		Else
 			out.Add(prop("name") + ".SetUseTabs( False )", 2)
 		End If
-		
+
 		out.Add(prop("name") + ".SetTabWidth( " + prop("tab_width") + " )", 2)
 		out.Add(prop("name") + ".SetIndent( " + prop("tab_width") + " )", 2)
-		
+
 		If prop("tab_indents") = "1" Then
 			out.Add(prop("name") + ".SetTabIndents( True )", 2)
 		Else
 			out.Add(prop("name") + ".SetTabIndents( False )", 2)
 		End If
-		
+
 		If prop("backspace_unindents") = "1" Then
 			out.Add(prop("name") + ".SetBackSpaceUnIndents( True )", 2)
 		Else
 			out.Add(prop("name") + ".SetBackSpaceUnIndents( False )", 2)
 		End If
-		
+
 		If prop("view_eol") = "1" Then
 			out.Add(prop("name") + ".SetViewEOL( True )", 2)
 		Else
 			out.Add(prop("name") + ".SetViewEOL( False )", 2)
 		End If
-		
+
 		If prop("view_whitespace") = "1" Then
 			out.Add(prop("name") + ".SetViewWhiteSpace( True )", 2)
 		Else
 			out.Add(prop("name") + ".SetViewWhiteSpace( False )", 2)
 		End If
-		
+
 		out.Add(prop("name") + ".SetMarginWidth( 2, 0 )", 2)
-		
+
 		If prop("indentation_guides") = "1" Then
 			out.Add(prop("name") + ".SetIndentationGuides( True )", 2)
 		Else
 			out.Add(prop("name") + ".SetIndentationGuides( False )", 2)
 		End If
-		
+
 		If prop("folding") = "1" Then
 			out.Add(prop("name") + ".SetMarginType( 1, wxSCI_MARGIN_SYMBOL )", 2)
 			out.Add(prop("name") + ".SetMarginMask( 1, wxSCI_MASK_FOLDERS )", 2)
@@ -2524,14 +2524,14 @@ Type TFBScintilla Extends TFBWidget
 		Else
 			out.Add(prop("name") + ".SetMarginWidth( 1, 0 )", 2)
 		End If
-	
+
 		If prop("line_numbers") = "1" Then
 			out.Add(prop("name") + ".SetMarginType( 0, wxSCI_MARGIN_NUMBER )", 2)
 			out.Add(prop("name") + ".SetMarginWidth( 0, " + prop("name") + ".TextWidth( wxSCI_STYLE_LINENUMBER, ~q_99999~q ) )", 2)
 		Else
 			out.Add(prop("name") + ".SetMarginWidth( 0, 0 )", 2)
 		End If
-	
+
 		out.Add(prop("name") + ".MarkerDefine( wxSCI_MARKNUM_FOLDER, wxSCI_MARK_BOXPLUS )", 2)
 		out.Add(prop("name") + ".MarkerSetBackground( wxSCI_MARKNUM_FOLDER, new wxColour.CreateNamedColour( ~qBLACK~q ) )", 2)
 		out.Add(prop("name") + ".MarkerSetForeground( wxSCI_MARKNUM_FOLDER, new wxColour.CreateNamedColour( ~qWHITE~q ) )", 2)
@@ -2549,14 +2549,14 @@ Type TFBScintilla Extends TFBWidget
 		out.Add(prop("name") + ".MarkerDefine( wxSCI_MARKNUM_FOLDERTAIL, wxSCI_MARK_EMPTY )", 2)
 		out.Add(prop("name") + ".SetSelBackground( true, wxSystemSettings.GetColour( wxSYS_COLOUR_HIGHLIGHT ) )", 2)
 		out.Add(prop("name") + ".SetSelForeground( true, wxSystemSettings.GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) )", 2)
-	
+
 		Local proj:TFBProject = GetProject()
 		If proj Then
 			proj.imports.Insert("wx.wxSystemSettings", "")
 		End If
-	
+
 		StandardSettings(out)
-			
+
 		out.Add("")
 
 	End Method
@@ -2565,7 +2565,7 @@ Type TFBScintilla Extends TFBWidget
 		Return "wxScintilla"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxScintilla")
 	End Method
@@ -2579,16 +2579,16 @@ Type TFBHyperlinkCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		text:+ GetString("~q" + prop("label") + "~q") + ", "
 		text:+ GetString("~q" + prop("url") + "~q", True)
-		
+
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		If prop("hover_color") Then
@@ -2604,7 +2604,7 @@ Type TFBHyperlinkCtrl Extends TFBWidget
 		End If
 
 		StandardSettings(out)
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -2624,19 +2624,19 @@ Type TFBBitmapButton Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		If prop("bitmap") Then
 			text:+ DoBitmap(prop("bitmap"))
 		Else
 			text:+ "wxNullBitmap"
 		End If
-		
+
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		If prop("disabled") Then
@@ -2656,7 +2656,7 @@ Type TFBBitmapButton Extends TFBWidget
 		End If
 
 		StandardSettings(out)
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -2676,7 +2676,7 @@ Type TFBChoice Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		If prop("choices") Then
 			out.Add("Local " + prop("name") + "Choices:String[] = [ " + MakeChoices(prop("choices")) + " ]", 2)
 		End If
@@ -2693,16 +2693,16 @@ Type TFBChoice Extends TFBWidget
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
-		
+
 		If prop("selection") Then
 			out.Add(prop("name") + ".SetSelection(" + prop("selection") + ")", 2)
 		End If
-		
+
 
 		StandardSettings(out)
-		
+
 		out.Add("")
 
 	End Method
@@ -2711,7 +2711,7 @@ Type TFBChoice Extends TFBWidget
 		Return "wxChoice"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxChoice")
 	End Method
@@ -2725,16 +2725,16 @@ Type TFBDatePickerCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		' default datetime
 		text:+ "Null"
 
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -2747,7 +2747,7 @@ Type TFBDatePickerCtrl Extends TFBWidget
 		Return "wxDatePickerCtrl"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxDatePickerCtrl")
 	End Method
@@ -2761,22 +2761,22 @@ Type TFBToolBar Extends TFBContainer
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = "
-		
+
 		If Not IsInSizer()
 			text:+ "CreateToolBar("
 			text:+ prop("style") + ", " + prop("id") + ")"
 		Else
 			text:+ "New " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id")
-	
+
 			text:+ DoPosSizeStyle(Self)
-	
+
 			text:+ ")"
 		End If
-		
+
 		out.Add(text, 2)
-		
+
 		If prop("bitmapsize") And Not IsDefault(prop("bitmapsize")) Then
 			out.Add(prop("name") + ".SetToolBitmapSize(" + prop("bitmapsize") + ")", 2)
 		End If
@@ -2784,7 +2784,7 @@ Type TFBToolBar Extends TFBContainer
 		If prop("margins") And Not IsDefault(prop("margins")) Then
 			out.Add(prop("name") + ".SetMargins(" + prop("margins") + ")", 2)
 		End If
-		
+
 		If prop("packing") <> "1" Then
 			out.Add(prop("name") + ".SetToolPacking(" + prop("packing") + ")", 2)
 		End If
@@ -2801,7 +2801,7 @@ Type TFBToolBar Extends TFBContainer
 				out.Add(prop("name") + ".AddControl(" + child.prop("name") + ")", 2)
 			End If
 		Next
-		
+
 		out.Add(prop("name") + ".Realize()",2)
 
 		out.Add("")
@@ -2811,7 +2811,7 @@ Type TFBToolBar Extends TFBContainer
 	Method GetType:String(def:Int = False)
 		Return "wxToolBar"
 	End Method
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxToolBar")
 	End Method
@@ -2832,11 +2832,11 @@ Type TFBToolItem Extends TFBWidget
 		Else
 			text:+ "wxNullBitmap"
 		End If
-		
+
 		text:+ ", wxNullBitmap, "
-		
+
 		text:+ prop("kind") + ", "
-		
+
 		text:+ GetString("~q" + prop("tooltip") + "~q") + ", "
 		text:+ GetString("~q" + prop("statusbar") + "~q") + ")"
 
@@ -2847,7 +2847,7 @@ Type TFBToolItem Extends TFBWidget
 	Method GetType:String(def:Int = False)
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return "wx.wxToolBar"
 	End Method
@@ -2866,7 +2866,7 @@ Type TFBToolSeparator Extends TFBWidget
 	Method GetType:String(def:Int = False)
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return "wx.wxToolBar"
 	End Method
@@ -2880,44 +2880,44 @@ Type TFBSplitterWindow Extends TFBContainer
 		StandardCreate(out)
 
 		StandardSettings(out)
-		
+
 		If prop("sashgravity") Then
 			out.Add(prop("name") + ".SetSashGravity(" + prop("sashgravity") + ")", 2)
 		End If
 
-		If kids.count() < 2 Then 
+		If kids.count() < 2 Then
 			For Local child:TFBWidget = EachIn kids
 				child.Generate(out)
 			Next
 		Else
 			Local splits:String = ""
-			
+
 			For Local child:TFBWidget = EachIn kids
 				If splits.length > 0 Then
 					splits:+ ", "
 				End If
 				splits:+ TFBSplitterItem(child).GenerateSplit(out)
 			Next
-			
+
 			Local text:String = prop("name") + ".Split"
 			If prop("splitmode") = "wxSPLIT_VERTICAL" Then
 				text:+ "Vertically"
 			Else
 				text:+ "Horizontally"
 			End If
-			
+
 			text:+ "(" + splits
-			
+
 			If prop("sashpos") And prop("sashpos") <> "0" Then
 				text:+ ", " + prop("sashpos")
 			End If
-			
+
 			text:+ ")"
-			
+
 			out.Add(text, 2)
-			
+
 		End If
-		
+
 		If prop("min_pane_size") And prop("min_pane_size") <> "0" Then
 			out.Add(prop("name") + ".SetMinimumPaneSize(" + prop("min_pane_size") + ")", 2)
 		End If
@@ -2930,7 +2930,7 @@ Type TFBSplitterWindow Extends TFBContainer
 		Return "wxSplitterWindow"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxSplitterWindow")
 	End Method
@@ -2953,7 +2953,7 @@ Type TFBSplitterItem Extends TFBWidget
 
 	Method GenerateSplit:String(out:TCodeOutput)
 		Local name:String
-		
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 			name = child.prop("name")
@@ -2962,11 +2962,11 @@ Type TFBSplitterItem Extends TFBWidget
 		out.Add("")
 		Return name
 	End Method
-	
+
 	Method GetType:String(def:Int = False)
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxSplitterWindow")
 	End Method
@@ -2980,49 +2980,49 @@ Type TFBFontPickerCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
 
 		If prop("value") Then
 			Local font:String = prop("value")
-			
+
 			text:+ "New wxFont.CreateWithAttribs("
-			
+
 			Local attribs:String[] = font.Split(",")
-			
+
 			If attribs[3] = "-1" Then
 				text:+ "wxNORMAL_FONT().GetPointSize(), "
 			Else
 				text:+ attribs[3] + ", "
 			End If
-			
+
 			text:+ attribs[4] + ", "
 			text:+ attribs[1] + ", "
 			text:+ attribs[2] + ", "
-			
+
 			If attribs[5] = "0" Then
 				text:+ "False"
 			Else
 				text:+ "True"
 			End If
-			
+
 			If attribs[0] Then
 				text:+ ", ~q" + attribs[0] + "~q"
 			End If
-			
+
 			text:+ ")"
 		Else
 			text:+ "Null"
 		End If
-		
+
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
-		
+
 		If prop("max_point_size") Then
 			out.Add(prop("name") + ".SetMaxPointSize(" + prop("max_point_size") + ")", 2)
 		End If
@@ -3035,7 +3035,7 @@ Type TFBFontPickerCtrl Extends TFBWidget
 		Return "wxFontPickerCtrl"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxFontPickerCtrl")
 	End Method
@@ -3049,16 +3049,16 @@ Type TFBCalendarCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		' default datetime
 		text:+ "Null"
 
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -3071,7 +3071,7 @@ Type TFBCalendarCtrl Extends TFBWidget
 		Return "wxCalendarCtrl"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxCalendarCtrl")
 	End Method
@@ -3085,9 +3085,9 @@ Type TFBColourPickerCtrl Extends TFBWidget
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + ContainerReference() + ", " + prop("id") + ", "
-		
+
 		If prop("colour") Then
 			text:+ DoColour(prop("colour"))
 		Else
@@ -3097,7 +3097,7 @@ Type TFBColourPickerCtrl Extends TFBWidget
 		text:+ DoPosSizeStyle(Self)
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -3110,7 +3110,7 @@ Type TFBColourPickerCtrl Extends TFBWidget
 		Return "wxColourPickerCtrl"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxColourPickerCtrl")
 	End Method
@@ -3133,7 +3133,7 @@ Type TFBSpinButton Extends TFBWidget
 		Return "wxSpinButton"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxSpinButton")
 	End Method
@@ -3146,22 +3146,22 @@ Type TFBScrolledWindow Extends TFBContainer
 
 
 		Local topSizer:TFBWidget
-	
+
 		StandardCreate(out)
 
-		out.Add(prop("name") + ".SetScrollRate(" + prop("scroll_rate_x") + ", " + prop("scroll_rate_y") + ")", 2) 
+		out.Add(prop("name") + ".SetScrollRate(" + prop("scroll_rate_x") + ", " + prop("scroll_rate_y") + ")", 2)
 
 		StandardSettings(out)
 
 		' child wigdets
 		For Local child:TFBWidget = EachIn kids
-	
+
 			If Not topSizer Then
 				If TFBSizer(child) Then
 					topSizer = child
 				End If
 			End If
-	
+
 			child.Generate(out)
 		Next
 
@@ -3193,15 +3193,15 @@ Type TFBAuiNotebook Extends TFBContainer
 		StandardCreate(out)
 
 		StandardSettings(out)
-		
+
 		If prop("tab_ctrl_height") And prop("tab_ctrl_height") <> -1 Then
 			out.Add(prop("name") + ".SetTabCtrlHeight(" + prop("tab_ctrl_height") + ")", 2)
 		End If
-		
+
 		If prop("uniform_bitmap_size") And Not IsDefault(prop("uniform_bitmap_size")) Then
 			out.Add(prop("name") + ".SetUniformBitmapSize(" + prop("uniform_bitmap_size") + ")", 2)
 		End If
- 
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
@@ -3214,7 +3214,7 @@ Type TFBAuiNotebook Extends TFBContainer
 		Return GetFullType("wxAuiNotebook")
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxAUI")
 	End Method
@@ -3231,21 +3231,21 @@ Type TFBAuiNotebookPage Extends TFBWidget
 
 			Local text:String = parent.prop("name")
 			text:+ ".AddPage(" + child.prop("name") + ", "
-			
+
 			text:+ GetString("~q" + prop("label") + "~q") + ", "
-			
+
 			If prop("select") = "1" Then
 				text:+ "True"
 			Else
 				text:+ "False"
 			End If
-			
+
 			If prop("bitmap") Then
 				text:+ ", " + DoBitmap(prop("bitmap"))
 			End If
-			
+
 			text:+ ")"
-			
+
 			out.Add(text, 2)
 		Next
 
@@ -3256,7 +3256,7 @@ Type TFBAuiNotebookPage Extends TFBWidget
 	Method GetType:String(def:Int = False)
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return "wx.wxAUI"
 	End Method
@@ -3269,13 +3269,13 @@ End Type
 Type TFBSizer Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
-	
+
 		out.Add("")
-	
+
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
-		
+
 	End Method
 
 End Type
@@ -3287,21 +3287,21 @@ Type TFBBoxSizer Extends TFBSizer
 	End Method
 
 	Method Generate(out:TCodeOutput)
-	
+
 		Super.Generate(out)
-	
+
 		out.Add(prop("name") + " = new " + GetFullType(GetType()) + ".Create(" + prop("orient") + ")", 2)
-	
+
 		If prop("minimum_size") Then
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
-		
+
 		out.Add("")
 
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
-		
+
 	End Method
 
 	Method GetImport:String()
@@ -3317,9 +3317,9 @@ Type TFBStaticBoxSizer Extends TFBSizer
 	End Method
 
 	Method Generate(out:TCodeOutput)
-	
+
 		Super.Generate(out)
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateSizerWithBox( "
 		text:+ "New wxStaticBox.Create(" + ContainerReference() + ", wxID_ANY, " + ..
 			GetString("~q" + prop("label") + "~q") + ")"
@@ -3330,13 +3330,13 @@ Type TFBStaticBoxSizer Extends TFBSizer
 		If prop("minimum_size") Then
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
-	
+
 		out.Add("")
 
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
-		
+
 	End Method
 
 	Method GetImport:String()
@@ -3348,25 +3348,25 @@ End Type
 Type TFBGridSizer Extends TFBSizer
 
 	Method Generate(out:TCodeOutput)
-	
+
 		Super.Generate(out)
-	
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateRC("
-	
+
 		text:+ prop("rows") + ", " + prop("cols") + ", "
 		text:+ prop("vgap") + ", " + prop("hgap")
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		If prop("minimum_size") Then
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
-	
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -3382,17 +3382,17 @@ End Type
 Type TFBFlexGridSizer Extends TFBSizer
 
 	Method Generate(out:TCodeOutput)
-	
+
 		Super.Generate(out)
-	
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateRC("
-	
+
 		text:+ prop("rows") + ", " + prop("cols") + ", "
 		text:+ prop("vgap") + ", " + prop("hgap")
 		text:+ ")"
-		
+
 		out.Add(text, 2)
-	
+
 		If prop("growablecols") Then
 			Local COLS:String[] = prop("growablecols").Split(",")
 			For Local i:Int = 0 Until COLS.length
@@ -3400,31 +3400,31 @@ Type TFBFlexGridSizer Extends TFBSizer
 			Next
 		End If
 
-		If prop("growablerows") Then	
+		If prop("growablerows") Then
 			Local rows:String[] = prop("growablerows").Split(",")
 			For Local i:Int = 0 Until rows.length
 				out.Add(prop("name") + ".AddGrowableRow( " + rows[i] + " )", 2)
 			Next
 		End If
 
-		If prop("flexible_direction") Then	
+		If prop("flexible_direction") Then
 			out.Add(prop("name") + ".SetFlexibleDirection( " + prop("flexible_direction") + " )", 2)
 		End If
 
-		If prop("non_flexible_grow_mode") Then	
+		If prop("non_flexible_grow_mode") Then
 			out.Add(prop("name") + ".SetNonFlexibleGrowMode( " + prop("non_flexible_grow_mode") + " )", 2)
 		End If
 
 		If prop("minimum_size") And Not IsDefault(prop("minimum_size")) Then
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
-	
+
 		out.Add("")
 
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -3440,40 +3440,40 @@ End Type
 Type TFBSizerItem Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
-	
+
 		For Local child:TFBWidget = EachIn kids
 			If Not TFBSpacer(child) Then
 				child.Generate(out)
 			End If
-			
-			
+
+
 			Local text:String = parent.prop("name") + ".Add"
 			If TFBSizer(child) Then
 				text:+ "Sizer"
 			Else If TFBSpacer(child) Then
 				text:+ "CustomSpacer"
 			End If
-			
+
 			text:+ "("
-			
+
 			If Not TFBSpacer(child) Then
 				text:+ child.prop("name") + ", "
 			Else
 				text:+ child.prop("width") + ", " + child.prop("height") + ", "
 			End If
-			
+
 			text:+ prop("proportion") + ", "
 			text:+ prop("flag") + ", "
 			text:+ prop("border") + ")"
-			
+
 			out.Add(text, 2, 2)
 		Next
-		
+
 	End Method
-	
+
 	Method GetType:String(def:Int = False)
 	End Method
-	
+
 	Method GetImport:String()
 	End Method
 
@@ -3486,7 +3486,7 @@ Type TFBStdDialogButtonSizer Extends TFBSizer
 		Super.Generate(out)
 
 		If Not HasPermissions() Then
-			
+
 			If prop("Apply") = "1" Then
 				out.Add(prop("name") + "Apply:wxButton", 2)
 			End If
@@ -3512,17 +3512,17 @@ Type TFBStdDialogButtonSizer Extends TFBSizer
 				out.Add(prop("name") + "Yes:wxButton", 2)
 			End If
 		End If
-		
+
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".CreateSizer()"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
-		
+
 		If prop("Apply") = "1" Then
 			addButton(out, "Apply")
 		End If
-		
+
 		If prop("Cancel") = "1" Then
 			addButton(out, "Cancel")
 		End If
@@ -3550,28 +3550,28 @@ Type TFBStdDialogButtonSizer Extends TFBSizer
 		If prop("Yes") = "1" Then
 			addButton(out, "Yes")
 		End If
-		
+
 		out.Add(prop("name") + ".Realize()", 2)
-	
+
 	End Method
 
 	Method GetType:String(def:Int = False)
 		Return "wxStdDialogButtonSizer"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxStdDialogButtonSizer")
 	End Method
 
 	Method Configure:Int(lastId:Int)
 		Super.Configure(lastId)
-		
+
 		Local perm:String = String(prop("permission"))
 		If perm And perm <> "none" Then
 			Local form:TFBContainer = GetMainContainer()
 			If form Then
-				
+
 				If prop("Apply") = "1" Then
 					form.fields.AddLast(makeButton(prop("name") + "Apply"))
 				End If
@@ -3603,19 +3603,19 @@ Type TFBStdDialogButtonSizer Extends TFBSizer
 				If prop("Yes") = "1" Then
 					form.fields.AddLast(makeButton(prop("name") + "Yes"))
 				End If
-				
+
 			End If
 		End If
 
 	End Method
-	
+
 	Method makebutton:TFBButton(name:String)
 		Local but:TFBButton = New TFBButton
 		but.obj = NewObjectForType(obj.oType)
 		but.obj.properties.Insert("name", name)
 		Return but
 	End Method
-	
+
 	Method addButton(out:TCodeOutput, name:String)
 		Local upperName:String = name.ToUpper()
 		If upperName = "CONTEXTHELP" Then
@@ -3628,11 +3628,11 @@ Type TFBStdDialogButtonSizer Extends TFBSizer
 	Method ConnectEvent(out:TCodeOutput, evt:String, ec:String, event:String)
 		out.Add(prop("name") + nameFromEvt(evt) + ".ConnectAny(" + ec + ", _" + event + ", Null, Self)", 2)
 	End Method
-	
+
 	Method nameFromEvt:String(evt:String)
 		Return evt.Replace("ButtonClick", "").Replace("On", "")
 	End Method
-	
+
 End Type
 
 
@@ -3643,9 +3643,9 @@ Type TFBGridBagSizer Extends TFBSizer
 	End Method
 
 	Method Generate(out:TCodeOutput)
-	
+
 		Super.Generate(out)
-	
+
 		out.Add(prop("name") + " = new " + GetFullType(GetType()) + ".CreateGB(" + prop("vgap") + ", " + prop("hgap") + ")", 2)
 
 		If prop("growablecols") Then
@@ -3655,7 +3655,7 @@ Type TFBGridBagSizer Extends TFBSizer
 			Next
 		End If
 
-		If prop("growablerows") Then	
+		If prop("growablerows") Then
 			Local rows:String[] = prop("growablerows").Split(",")
 			For Local i:Int = 0 Until rows.length
 				out.Add(prop("name") + ".AddGrowableRow( " + rows[i] + " )", 2)
@@ -3673,19 +3673,19 @@ Type TFBGridBagSizer Extends TFBSizer
 		If prop("empty_cell_size") And Not IsDefault(prop("empty_cell_size")) Then
 			out.Add(prop("name") + ".SetEmptyCellSize(" + prop("empty_cell_size") + ")", 2)
 		End If
-		
+
 		out.Add("")
-	
+
 		If prop("minimum_size") And Not IsDefault(prop("minimum_size")) Then
 			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
 		End If
 
 		out.Add("")
-		
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
-		
+
 	End Method
 
 	Method GetImport:String()
@@ -3697,40 +3697,40 @@ End Type
 Type TFBGBSizerItem Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
-	
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
-			
-			
+
+
 			Local text:String = parent.prop("name") + ".AddGB"
 			If TFBSizer(child) Then
 				text:+ "Sizer"
 			Else If TFBSpacer(child) Then
 				text:+ "Spacer"
 			End If
-			
+
 			text:+ "("
 			If Not TFBSpacer(child) Then
 				text:+ child.prop("name") + ", "
 			Else
-				
+
 			End If
-			
+
 			text:+ prop("row") + ", "
 			text:+ prop("column") + ", "
 			text:+ prop("rowspan") + ", "
 			text:+ prop("colspan") + ", "
 			text:+ prop("flag") + ", "
 			text:+ prop("border") + ")"
-			
+
 			out.Add(text, 2, 2)
 		Next
-		
+
 	End Method
-	
+
 	Method GetType:String(def:Int = False)
 	End Method
-	
+
 	Method GetImport:String()
 	End Method
 
@@ -3755,7 +3755,7 @@ End Type
 Type TFBMenuBar Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
-	
+
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
@@ -3763,29 +3763,29 @@ Type TFBMenuBar Extends TFBWidget
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create("
 
 		text:+ WindowStyle()
-		
+
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
-	
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
-			
+
 			out.Add(prop("name") + ".Append(" + child.prop("name") + ", " + ..
 				GetString("~q" + child.prop("label") + "~q") + ")", 2)
 		Next
-		
+
 		' add the menubar to the form
 		out.Add("SetMenuBar(" + prop("name") + ")", 2, 2)
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
 		Return "wxMenuBar"
 	End Method
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxMenuBar")
 	End Method
@@ -3797,15 +3797,15 @@ Type TFBMenu Extends TFBWidget
 	Method Generate(out:TCodeOutput)
 
 		out.Add("")
-		
+
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create()"
-		
+
 		out.Add(text, 2)
-	
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 
@@ -3813,23 +3813,23 @@ Type TFBMenu Extends TFBWidget
 				out.Add(prop("name") + ".AppendMenu(-1, " + GetString("~q" + child.prop("label") + "~q") + ..
 					", " + child.prop("name") + ")", 2)
 			EndIf
-			
+
 			If TFBMenuItem(child) Then
 				out.Add(prop("name") + ".AppendItem(" + child.prop("name") + ")", 2)
 			End If
-			
+
 			If TFBMenuSeparator(child) Then
 				out.Add(prop("name") + ".AppendSeparator()", 2)
 			End If
 		Next
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
 		Return "wxMenu"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxMenu")
 	End Method
@@ -3841,47 +3841,47 @@ Type TFBMenuItem Extends TFBWidget
 	Method Generate(out:TCodeOutput)
 
 		out.Add("")
-	
+
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
 
 		Local text:String = prop("name") + " = new " + GetFullType(GetType()) + ".Create("
-		
+
 		text:+ parent.prop("name") + ", "
 		text:+ prop("id") + ", "
 		text:+ GetString("~q" + prop("label") + "~q")
-		
+
 		' a keyboard shortcut for the menu?
 		If prop("shortcut") Then
 			text:+ " + ~q~t" + prop("shortcut") + "~q, "
 		Else
 			text:+ ", "
 		End If
-		
+
 		' help text?
 		If prop("help") Then
 			text:+ GetString("~q" + prop("help") + "~q") + ", "
 		Else
 			text:+ "~q~q, "
 		End If
-		
+
 		text:+ prop("kind")
 		text:+ ")"
-					
+
 		out.Add(text, 2)
-	
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
-		
+
 	End Method
 
 	Method GetType:String(def:Int = False)
 		Return "wxMenuItem"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxMenu")
 	End Method
@@ -3900,7 +3900,7 @@ Type TFBMenuSeparator Extends TFBWidget
 		Return "wxMenuItem"
 	End Method
 
-	
+
 	Method GetImport:String()
 		Return "wx.wxMenu"
 	End Method
@@ -3919,7 +3919,7 @@ Function GeneratedNotice:String()
 		"' ~n" + ..
 		"' PLEASE DO ~qNOT~q EDIT THIS FILE!~n" + ..
 		"' "
-		
+
 	Return text
 End Function
 
@@ -3933,13 +3933,13 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnHibernate", "wxActivateEvent", "wxEVT_HIBERNATE"))
 	AddEvent(TEventType.Set("OnIconize", "wxIconizeEvent", "wxEVT_ICONIZE"))
 	AddEvent(TEventType.Set("OnIdle", "wxIdleEvent", "wxEVT_IDLE"))
-			
+
 	AddEvent(TEventType.Set("OnButtonClick", "wxCommandEvent", "wxEVT_COMMAND_BUTTON_CLICKED"))
-			
+
 	AddEvent(TEventType.Set("OnChar", "wxKeyEvent", "wxEVT_CHAR"))
 	AddEvent(TEventType.Set("OnKeyDown", "wxKeyEvent", "wxEVT_KEY_DOWN"))
 	AddEvent(TEventType.Set("OnKeyUp", "wxKeyEvent", "wxEVT_KEY_UP"))
-			
+
 	AddEvent(TEventType.Set("OnEnterWindow", "wxMouseEvent", "wxEVT_ENTER_WINDOW", "wx.wxMouseEvent"))
 	AddEvent(TEventType.Set("OnLeaveWindow", "wxMouseEvent", "wxEVT_LEAVE_WINDOW", "wx.wxMouseEvent"))
 	AddEvent(TEventType.Set("OnLeftDClick", "wxMouseEvent", "wxEVT_LEFT_DCLICK", "wx.wxMouseEvent"))
@@ -3956,13 +3956,13 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnRightUp", "wxMouseEvent", "wxEVT_RIGHT_UP", "wx.wxMouseEvent"))
 	AddEvent(TEventType.Set("OnSetFocus", "wxFocusEvent", "wxEVT_SET_FOCUS"))
 	AddEvent(TEventType.Set("OnKillFocus", "wxFocusEvent", "wxEVT_KILL_FOCUS"))
-	
+
 	AddEvent(TEventType.Set("OnUpdateUI", "wxUpdateUIEvent", "wxEVT_UPDATE_UI"))
-			
+
 	AddEvent(TEventType.Set("OnEraseBackground", "wxEraseEvent", "wxEVT_ERASE_BACKGROUND"))
-			
+
 	AddEvent(TEventType.Set("OnPaint", "wxPaintEvent", "wxEVT_PAINT"))
-	
+
 	AddEvent(TEventType.Set("OnCommandScroll", "wxScrollEvent", "wxEVT_COMMAND_SCROLL"))
 	AddEvent(TEventType.Set("OnCommandScrollBottom", "wxScrollEvent", "wxEVT_COMMAND_SCROLL_BOTTOM"))
 	AddEvent(TEventType.Set("OnCommandScrollChanged", "wxScrollEvent", "wxEVT_COMMAND_SCROLL_CHANGED"))
@@ -4017,7 +4017,7 @@ Function InitEvents()
 
 	AddEvent(TEventType.Set("OnListBoxDClick", "wxCommandEvent", "wxEVT_COMMAND_LISTBOX_DOUBLECLICKED"))
 	AddEvent(TEventType.Set("OnListBox", "wxCommandEvent", "wxEVT_COMMAND_LISTBOX_SELECTED"))
-   
+
 	AddEvent(TEventType.Set("OnTreeBeginDrag", "wxTreeEvent", "wxEVT_COMMAND_TREE_BEGIN_DRAG"))
 	AddEvent(TEventType.Set("OnTreeBeginRDrag", "wxTreeEvent", "wxEVT_COMMAND_TREE_BEGIN_RDRAG"))
 	AddEvent(TEventType.Set("OnTreeBeginLabelEdit", "wxTreeEvent", "wxEVT_COMMAND_TREE_BEGIN_LABEL_EDIT"))
@@ -4047,12 +4047,12 @@ Function InitEvents()
 	AddEvent(TEventType.Set("OnCheckListBox", "wxCommandEvent", "wxEVT_COMMAND_LISTBOX_SELECTED"))
 	AddEvent(TEventType.Set("OnCheckListBoxDClick", "wxCommandEvent", "wxEVT_COMMAND_LISTBOX_DOUBLECLICKED"))
 	AddEvent(TEventType.Set("OnCheckListBoxToggled", "wxCommandEvent", "wxEVT_COMMAND_CHECKLISTBOX_TOGGLED"))
-		
+
 	AddEvent(TEventType.Set("OnToggleButton", "wxCommandEvent", "wxEVT_COMMAND_TOGGLEBUTTON_CLICKED"))
 
 	AddEvent(TEventType.Set("OnSpinCtrl", "wxCommandEvent", "wxEVT_COMMAND_SPINCTRL_UPDATED"))
 	AddEvent(TEventType.Set("OnSpinCtrlText", "wxCommandEvent", "wxEVT_COMMAND_TEXT_UPDATED"))
-		
+
 	AddEvent(TEventType.Set("OnText", "wxCommandEvent", "wxEVT_COMMAND_TEXT_UPDATED"))
 	AddEvent(TEventType.Set("OnTextEnter", "wxCommandEvent", "wxEVT_COMMAND_TEXT_ENTER"))
 	AddEvent(TEventType.Set("OnTextMaxLen", "wxCommandEvent", "wxEVT_COMMAND_TEXT_MAXLEN"))
@@ -4137,16 +4137,16 @@ Type TStringTokenizer
 	End Function
 
 	Method HasMoreTokens:Int()
-	
+
 		Local i:Int = curpos
 		Local inToken:Int = False
-		
+
 		Local prevA:String
-		
+
 		While i < str.length
-		
+
 			Local a:String = str[i..i+1]
-			
+
 			If Not inToken Then
 				If a = delimeter Then
 					inToken = True
@@ -4163,7 +4163,7 @@ Type TStringTokenizer
 						curPos = i
 						Return True
 					End If
-				
+
 					prevA = a
 				Else
 					readyToken:+ "~~" + a
@@ -4173,17 +4173,17 @@ Type TStringTokenizer
 
 			i:+ 1
 		Wend
-		
+
 		curpos = str.length
-		
+
 		If inToken Then
 			Return True
 		End If
-		
+
 		Return False
-		
+
 	End Method
-	
+
 	Method GetNextToken:String()
 		Return readyToken
 	End Method
