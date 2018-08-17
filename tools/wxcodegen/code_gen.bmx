@@ -3712,6 +3712,8 @@ Type TFBGBSizerItem Extends TFBWidget
 			text:+ "("
 			If Not TFBSpacer(child) Then
 				text:+ child.prop("name") + ", "
+			Else If TFBSpacer(child) Then
+				text:+ child.prop("width") + ", " + child.prop("height") + ", "
 			Else
 
 			End If
