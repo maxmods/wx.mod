@@ -48,8 +48,7 @@ ModuleInfo "CC_OPTS: -D_FILE_OFFSET_BITS=64"
 ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
-
-
+?deprecated
 Import "common.bmx"
 
 Rem
@@ -1227,3 +1226,4 @@ Type mpFXYVector Extends mpFXY
 	End Method
 
 End Type
+?
