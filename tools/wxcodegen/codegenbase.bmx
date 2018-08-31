@@ -185,7 +185,8 @@ Type CodeGenFrameBase Extends wxFrame
 		Local bSizer6:wxBoxSizer
 		bSizer6 = New wxBoxSizer.Create(wxVERTICAL)
 		txtAppCode = New wxTextCtrl.Create(pnlCode, wxID_ANY, "",,,,, wxTE_DONTWRAP|wxTE_MULTILINE|wxTE_READONLY)
-		txtAppCode.SetMaxLength(0)
+		'not allowed for "multiline"
+		'txtAppCode.SetMaxLength(0)
 		txtAppCode.SetFont(New wxFont.CreateWithAttribs(wxNORMAL_FONT().GetPointSize(), 76, 90, 90, False))
 		bSizer6.Add(txtAppCode, 1, wxALL|wxEXPAND, 5)
 
