@@ -24,6 +24,8 @@ Type MyApp Extends wxApp
 	
 
 	Method OnInit:Int()
+	
+		wxImage.AddHandler(New wxPNGHandler)
 
 		tutorial1()
 		tutorial2()
