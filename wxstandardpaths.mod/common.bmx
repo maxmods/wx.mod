@@ -67,4 +67,41 @@ Extern
 	Function bmx_wxstandardpaths_setinstallprefix(handle:Byte Ptr, prefix:String)
 ?
 
+
+	Function bmx_wxstandardpaths_getappdocumentsdir:String(handle:Byte Ptr)
+?win32
+	Function bmx_wxstandardpaths_dontignoreappsubdir(handle:Byte Ptr)
+	Function bmx_wxstandardpaths_ignoreappbuidsubdirs(handle:Byte Ptr)
+	Function bmx_wxstandardpaths_ignoreappsubdir(handle:Byte Ptr, subdirPattern:String)
+	Function bmx_wxstandardpaths_mswgetshelldir:String(csidl:Int)
+?
+	Function bmx_wxstandardpaths_getuserdir:String(handle:Byte Ptr, dir:int)
+
 End Extern
+
+Const Dir_Cache:Int = 0
+Rem
+bbdoc: Directory containing user documents.
+End Rem
+Const Dir_Documents:Int = 1
+Rem
+bbdoc: Directory containing files on the users desktop.
+End Rem
+Const Dir_Desktop:Int = 2
+Rem
+bbdoc: Directory for downloaded files.
+End Rem
+Const Dir_Downloads:Int = 3
+Rem
+bbdoc: Directory containing music files.
+End Rem
+Const Dir_Music:Int = 4
+Rem
+bbdoc: Directory containing picture files.
+End Rem
+Const Dir_Pictures:Int = 5
+Rem
+bbdoc: Directory containing video files.
+End Rem
+Const Dir_Videos:Int = 6
+

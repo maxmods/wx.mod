@@ -86,9 +86,26 @@ Type wxStandardPaths
 	Function Get:wxStandardPaths()
 		Return wxStandardPaths._create(bmx_wxstandardpaths_get())
 	End Function
+?win32
+	Rem
+	bbdoc: Windows-specific function undoing the effect of #IgnoreAppSubDir() calls.
+	about: After a call to this method the program directory will be exactly the directory containing the main
+	application binary, i.e. it undoes the effect of any previous IgnoreAppSubDir() calls including the ones 
+	done indirectly by #IgnoreAppBuildSubDirs() called from the type constructor.
+	End Rem
+	Method DontIgnoreAppSubDir()
+		bmx_wxstandardpaths_dontignoreappsubdir(wxObjectPtr)
+	End Method
+?
+	Rem
+	bbdoc: Returns the directory for the document files used by this application.
+	End Rem
+	Method GetAppDocumentsDir:String()
+		Return bmx_wxstandardpaths_getappdocumentsdir(wxObjectPtr)
+	End Method
 	
 	Rem
-	bbdoc: Return the directory containing the system config files.
+	bbdoc: Returns the directory containing the system config files.
 	about: Example return values: 
 	<ul>
 	<li>Unix: /etc </li>
@@ -101,7 +118,7 @@ Type wxStandardPaths
 	End Method
 	
 	Rem
-	bbdoc: Return the location of the applications global, i.e. not user-specific, data files.
+	bbdoc: Returns the location of the applications global, i.e. not user-specific, data files.
 	about: Example return values: 
 	<ul>
 	<li>Unix: prefix/share/appname </li>
@@ -114,7 +131,7 @@ Type wxStandardPaths
 	End Method
 	
 	Rem
-	bbdoc: Return the directory containing the current user's documents.
+	bbdoc: Returns the directory containing the current user's documents.
 	about: Example return values: 
 	<ul>
 	<li>Unix: ~ (the home directory) </li>
@@ -127,7 +144,7 @@ Type wxStandardPaths
 	End Method
 	
 	Rem
-	bbdoc: Return the directory and the filename for the current executable.
+	bbdoc: Returns the directory and the filename For the current executable.
 	about: Example return values: 
 	<ul>
 	<li>Unix: /usr/local/bin/exename </li>
@@ -141,7 +158,7 @@ Type wxStandardPaths
 
 ?linux	
 	Rem
-	bbdoc: Return the program installation prefix, e.g. /usr, /opt or /home/zeitlin.
+	bbdoc: Returns the program installation prefix, e.g. /usr, /opt or /home/zeitlin.
 	about: If the prefix had been previously by SetInstallPrefix, returns that value, otherwise
 	tries to determine it automatically (Linux only right now) and finally returns the
 	default /usr/local value if it failed.
@@ -153,9 +170,8 @@ Type wxStandardPaths
 		Return bmx_wxstandardpaths_getinstallprefix(wxObjectPtr)
 	End Method
 ?
-	
 	Rem
-	bbdoc: Return the location for application data files which are host-specific and can't, or shouldn't, be shared with the other machines.
+	bbdoc: Returns the location for application data files which are host-specific and can't, or shouldn't, be shared with the other machines.
 	about: This is the same as GetDataDir() except under Unix where it returns /etc/appname.
 	End Rem
 	Method GetLocalDataDir:String()
@@ -163,7 +179,7 @@ Type wxStandardPaths
 	End Method
 	
 	Rem
-	bbdoc: Return the directory where the loadable modules (plugins) live.
+	bbdoc: Returns the directory where the loadable modules (plugins) live.
 	about: Example return values: 
 	<ul>
 	<li>Unix: prefix/lib/appname </li>
@@ -176,7 +192,7 @@ Type wxStandardPaths
 	End Method
 	
 	Rem
-	bbdoc: Return the directory where the application resource files are located.
+	bbdoc: Returns the directory where the application resource files are located.
 	about: The resources are the auxiliary data files needed for the application to run
 	and include, for example, image and sound files it might use.
 	<p>
@@ -194,7 +210,7 @@ Type wxStandardPaths
 	End Method
 	
 	Rem
-	bbdoc: Return the directory for storing temporary files.
+	bbdoc: Returns the directory for storing temporary files.
 	about: To create unique temporary files, it is best to use wxFileName::CreateTempFileName for correct behaviour when multiple processes
 	are attempting to create temporary files.
 	End Rem
@@ -203,7 +219,7 @@ Type wxStandardPaths
 	End Method
 	
 	Rem
-	bbdoc: Return the directory for the user config files: 
+	bbdoc: Returns the directory for the user config files: 
 	about:
 	<ul>
 	<li>Unix: ~ (the home directory) </li>
@@ -220,7 +236,7 @@ Type wxStandardPaths
 	End Method
 	
 	Rem
-	bbdoc: Return the directory for the user-dependent application data files: 
+	bbdoc: Returns the directory for the user-dependent application data files: 
 	<ul>
 	<li>Unix: ~/.appname </li>
 	<li>Windows: C:\Documents and Settings\username\Application Data\appname </li>
@@ -232,13 +248,44 @@ Type wxStandardPaths
 	End Method
 	
 	Rem
-	bbdoc: Return the directory for user data files which shouldn't be shared with the other machines.
+	bbdoc: Returns the path of the specified user data directory.
+	about: If the value could not be determined the users home directory is returned.
+	End Rem
+	Method GetUserDir:String(dir:Int)
+		Return bmx_wxstandardpaths_getuserdir(wxObjectPtr, dir)
+	End Method
+	
+	Rem
+	bbdoc: Returns the directory for user data files which shouldn't be shared with the other machines.
 	about: This is the same as GetUserDataDir() for all platforms except Windows where it
 	returns C:\Documents and Settings\username\Local Settings\Application Data\appname
 	End Rem
 	Method GetUserLocalDataDir:String()
 		Return bmx_wxstandardpaths_getuserlocaldatadir(wxObjectPtr)
 	End Method
+
+?win32
+	Rem
+	bbdoc: MSW-specific method to ignore all common build directories.
+	End Rem
+	Method IgnoreAppBuildSubDirs()
+		bmx_wxstandardpaths_ignoreappbuidsubdirs(wxObjectPtr)
+	End Method
+
+	Rem
+	bbdoc: MSW-specific method to customize application directory detection.
+	End Rem
+	Method IgnoreAppSubDir(subdirPattern:String)
+		bmx_wxstandardpaths_ignoreappsubdir(wxObjectPtr, subdirPattern)
+	End Method
+	
+	Rem
+	bbdoc: Returns location of Windows shell special folder.
+	End Rem
+	Function MSWGetShellDir:String(csidl:Int)
+		Return bmx_wxstandardpaths_mswgetshelldir(csidl)
+	End Function
+?
 
 ?linux
 	Rem

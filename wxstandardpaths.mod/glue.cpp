@@ -90,5 +90,30 @@ void bmx_wxstandardpaths_setinstallprefix(wxStandardPaths * sp, BBString * prefi
 }
 #endif
 
+BBString * bmx_wxstandardpaths_getappdocumentsdir(wxStandardPaths * sp) {
+	return bbStringFromWxString(sp->GetAppDocumentsDir());
+}
+
+#ifdef __WXMSW__
+void bmx_wxstandardpaths_dontignoreappsubdir(wxStandardPaths * sp) {
+	sp->DontIgnoreAppSubDir();
+}
+
+void bmx_wxstandardpaths_ignoreappbuidsubdirs(wxStandardPaths * sp) {
+	sp->IgnoreAppBuildSubDirs();
+}
+
+void bmx_wxstandardpaths_ignoreappsubdir(wxStandardPaths * sp, BBString * subdirPattern) {
+	sp->IgnoreAppSubDir(wxStringFromBBString(subdirPattern));
+}
+
+BBString * bmx_wxstandardpaths_mswgetshelldir(int csidl) {
+	return bbStringFromWxString(wxStandardPaths::MSWGetShellDir(csidl));
+}
+#endif
+
+BBString * bmx_wxstandardpaths_getuserdir(wxStandardPaths * sp, int dir) {
+	return bbStringFromWxString(sp->GetUserDir(static_cast<wxStandardPaths::Dir>(dir)));
+}
 
 

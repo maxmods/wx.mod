@@ -48,6 +48,15 @@ extern "C" {
 	void bmx_wxstandardpaths_setinstallprefix(wxStandardPaths * sp, BBString * prefix);
 #endif
 
+	BBString * bmx_wxstandardpaths_getappdocumentsdir(wxStandardPaths * sp);
+#ifdef __WXMSW__
+	void bmx_wxstandardpaths_dontignoreappsubdir(wxStandardPaths * sp);
+	void bmx_wxstandardpaths_ignoreappbuidsubdirs(wxStandardPaths * sp);
+	void bmx_wxstandardpaths_ignoreappsubdir(wxStandardPaths * sp, BBString * subdirPattern);
+	BBString * bmx_wxstandardpaths_mswgetshelldir(int csidl);
+#endif
+	BBString * bmx_wxstandardpaths_getuserdir(wxStandardPaths * sp, int dir);
+
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
