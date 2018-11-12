@@ -25,7 +25,7 @@ Import wx.wxIcon
 Import wx.wxBrush
 Import wx.wxPen
 Import wx.wxRegion
-
+Import wx.wxFontMetrics
 
 
 ' headers :-)
@@ -54,13 +54,13 @@ Extern
 
 	Function bmx_wxdc_clear(handle:Byte Ptr)
 	Function bmx_wxdc_setbackground(handle:Byte Ptr, brush:Byte Ptr)
-	Function bmx_wxdc_drawtext(handle:Byte Ptr, text:String, x:Int, y:Int)
+	Function bmx_wxdc_drawtext(handle:Byte Ptr, Text:String, x:Int, y:Int)
 	
 	Function bmx_wxdc_getcharheight:Int(handle:Byte Ptr)
 	Function bmx_wxdc_setfont(handle:Byte Ptr, font:Byte Ptr)
 	Function bmx_wxdc_settextbackground(handle:Byte Ptr, colour:Byte Ptr)
 	Function bmx_wxdc_settextforeground(handle:Byte Ptr, colour:Byte Ptr)
-	Function bmx_wxdc_gettextextent(handle:Byte Ptr, text:String, w:Int Ptr, h:Int Ptr)
+	Function bmx_wxdc_gettextextent(handle:Byte Ptr, Text:String, w:Int Ptr, h:Int Ptr)
 	Function bmx_wxdc_setmapmode(handle:Byte Ptr, Mode:Int)
 	Function bmx_wxdc_setpen(handle:Byte Ptr, pen:Byte Ptr)
 	Function bmx_wxdc_setuserscale(handle:Byte Ptr, xscale:Double, yscale:Double)
@@ -94,12 +94,12 @@ Extern
 	
 	Function bmx_wxdc_drawellipticarc(handle:Byte Ptr, x:Int, y:Int, width:Int, height:Int, _start:Double, _end:Double)
 	Function bmx_wxdc_drawicon(handle:Byte Ptr, icon:Byte Ptr, x:Int, y:Int)
-	Function bmx_wxdc_drawlabel(handle:Byte Ptr, text:String, x:Int, y:Int, w:Int, h:Int, image:Byte Ptr, alignment:Int, indexAccel:Int)
-	Function bmx_wxdc_drawlabelrect(handle:Byte Ptr, text:String, rect:Byte Ptr, image:Byte Ptr, alignment:Int, indexAccel:Int)
+	Function bmx_wxdc_drawlabel(handle:Byte Ptr, Text:String, x:Int, y:Int, w:Int, h:Int, image:Byte Ptr, alignment:Int, indexAccel:Int)
+	Function bmx_wxdc_drawlabelrect(handle:Byte Ptr, Text:String, rect:Byte Ptr, image:Byte Ptr, alignment:Int, indexAccel:Int)
 	Function bmx_wxdc_drawlines(handle:Byte Ptr, points:Int[], xOffset:Int, yOffset:Int)
 	Function bmx_wxdc_drawpolygon(handle:Byte Ptr, points:Int[], xOffset:Int, yOffset:Int, fillStyle:Int)
 	Function bmx_wxdc_drawpoint(handle:Byte Ptr, x:Int, y:Int)
-	Function bmx_wxdc_drawrotatedtext(handle:Byte Ptr, text:String, x:Int, y:Int, angle:Double)
+	Function bmx_wxdc_drawrotatedtext(handle:Byte Ptr, Text:String, x:Int, y:Int, angle:Double)
 	Function bmx_wxdc_drawspline(handle:Byte Ptr, points:Int[])
 	Function bmx_wxdc_enddoc(handle:Byte Ptr)
 	Function bmx_wxdc_endpage(handle:Byte Ptr)
@@ -110,12 +110,13 @@ Extern
 	Function bmx_wxdc_getcharwidth:Int(handle:Byte Ptr)
 	Function bmx_wxdc_getclippingbox(handle:Byte Ptr, x:Int Ptr, y:Int Ptr, w:Int Ptr, h:Int Ptr)
 	Function bmx_wxdc_getfont:Byte Ptr(handle:Byte Ptr)
+	Function bmx_wxdc_getfontmetrics:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxdc_getlayoutdirection:Int(handle:Byte Ptr)
 	Function bmx_wxdc_getlogicalfunction:Int(handle:Byte Ptr)
 	Function bmx_wxdc_getmapmode:Int(handle:Byte Ptr)
 
-	Function bmx_wxdc_getmultilinetextextent(handle:Byte Ptr, text:String, width:Int Ptr, height:Int Ptr, heightline:Int Ptr)
-	Function bmx_wxdc_getpartialtextextents:Int[](handle:Byte Ptr, text:String)
+	Function bmx_wxdc_getmultilinetextextent(handle:Byte Ptr, Text:String, width:Int Ptr, height:Int Ptr, heightline:Int Ptr)
+	Function bmx_wxdc_getpartialtextextents:Int[](handle:Byte Ptr, Text:String)
 	Function bmx_wxdc_getpen:Byte Ptr(handle:Byte Ptr)
 	Function bmx_wxdc_getpixel:Byte Ptr(handle:Byte Ptr, x:Int, y:Int)
 	Function bmx_wxdc_getppi(handle:Byte Ptr, w:Int Ptr, h:Int Ptr)

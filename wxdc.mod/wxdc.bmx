@@ -247,12 +247,12 @@ Type wxDC Extends wxObject
 	bbdoc: Draw optional bitmap and the text into the given rectangle and aligns it as specified by alignment parameter.
 	about: It also will emphasize the character with the given index if it is != -1.
 	End Rem
-	Method DrawLabel(text:String, x:Int, y:Int, width:Int, height:Int, image:wxBitmap = Null, ..
+	Method DrawLabel(Text:String, x:Int, y:Int, width:Int, height:Int, image:wxBitmap = Null, ..
 			alignment:Int = wxALIGN_LEFT | wxALIGN_TOP, indexAccel:Int = -1)
 		If image Then
-			bmx_wxdc_drawlabel(wxObjectPtr, text, x, y, width, height, image.wxObjectPtr, alignment, indexAccel)
+			bmx_wxdc_drawlabel(wxObjectPtr, Text, x, y, width, height, image.wxObjectPtr, alignment, indexAccel)
 		Else
-			bmx_wxdc_drawlabel(wxObjectPtr, text, x, y, width, height, Null, alignment, indexAccel)
+			bmx_wxdc_drawlabel(wxObjectPtr, Text, x, y, width, height, Null, alignment, indexAccel)
 		End If
 	End Method
 
@@ -260,12 +260,12 @@ Type wxDC Extends wxObject
 	bbdoc: Draw optional bitmap and the text into the given rectangle and aligns it as specified by alignment parameter.
 	about: It also will emphasize the character with the given index if it is != -1.
 	End Rem
-	Method DrawLabelRect(text:String, rect:wxRect, image:wxBitmap = Null, ..
+	Method DrawLabelRect(Text:String, rect:wxRect, image:wxBitmap = Null, ..
 			alignment:Int = wxALIGN_LEFT | wxALIGN_TOP, indexAccel:Int = -1)
 		If image Then
-			bmx_wxdc_drawlabelrect(wxObjectPtr, text, rect.wxObjectPtr, image.wxObjectPtr, alignment, indexAccel)
+			bmx_wxdc_drawlabelrect(wxObjectPtr, Text, rect.wxObjectPtr, image.wxObjectPtr, alignment, indexAccel)
 		Else
-			bmx_wxdc_drawlabelrect(wxObjectPtr, text, rect.wxObjectPtr, Null, alignment, indexAccel)
+			bmx_wxdc_drawlabelrect(wxObjectPtr, Text, rect.wxObjectPtr, Null, alignment, indexAccel)
 		End If
 	End Method
 
@@ -335,8 +335,8 @@ Type wxDC Extends wxObject
 	Rem
 	bbdoc: Draws the text rotated by angle degrees.
 	End Rem
-	Method DrawRotatedText(text:String, x:Int, y:Int, angle:Double)
-		bmx_wxdc_drawrotatedtext(wxObjectPtr, text, x, y, angle)
+	Method DrawRotatedText(Text:String, x:Int, y:Int, angle:Double)
+		bmx_wxdc_drawrotatedtext(wxObjectPtr, Text, x, y, angle)
 	End Method
 	
 	Rem
@@ -382,8 +382,8 @@ Type wxDC Extends wxObject
 	See wxDC::GetTextExtent for how to get the dimensions of a text string, which can be used to position
 	the text more precisely
 	End Rem
-	Method DrawText(text:String, x:Int, y:Int)
-		bmx_wxdc_drawtext(wxObjectPtr, text, x, y)
+	Method DrawText(Text:String, x:Int, y:Int)
+		bmx_wxdc_drawtext(wxObjectPtr, Text, x, y)
 	End Method
 	
 	Rem
@@ -470,6 +470,16 @@ Type wxDC Extends wxObject
 	End Method
 	
 	Rem
+	bbdoc: Allows to retrieve some of the font characteristics not returned by GetTextExtent(), notably internal leading and average character width.
+	returns: The various font characteristics.
+	about: Currently this method returns correct results only under wxMSW, in the other ports the internal leading will always be 0
+	and the average character width will be computed as the width of the character 'x'.
+	End Rem
+	Method GetFontMetrics:wxFontMetrics()
+		Return wxFontMetrics._create(bmx_wxdc_getfontmetrics(wxObjectPtr))
+	End Method
+	
+	Rem
 	bbdoc: Returns a value that can be used as a handle to the native drawing context, if this wxDC has something that could be thought of in that way.
 	about: For example, on Windows the return value is an HDC, on OSX it is a CGContextRef and
 	on wxGTK it will be a GdkDrawable. If the DC is a wxGCDC then the return value will
@@ -513,8 +523,8 @@ Type wxDC Extends wxObject
 	Note that this method works both with single-line and multi-line strings.
 	</p>
 	End Rem
-	Method GetMultiLineTextExtent(text:String, width:Int Var, height:Int Var, heightLine:Int Var)
-		bmx_wxdc_getmultilinetextextent(wxObjectPtr, text, Varptr width, Varptr height, Varptr heightline)
+	Method GetMultiLineTextExtent(Text:String, width:Int Var, height:Int Var, heightLine:Int Var)
+		bmx_wxdc_getmultilinetextextent(wxObjectPtr, Text, Varptr width, Varptr height, Varptr heightline)
 	End Method
 	
 	Rem
@@ -523,8 +533,8 @@ Type wxDC Extends wxObject
 	GetTextExtent, however if the various platforms have a native API function that is faster or more
 	accurate than the generic implementation then it will be used instead. 
 	End Rem
-	Method GetPartialTextExtents:Int[](text:String)
-		Return bmx_wxdc_getpartialtextextents(wxObjectPtr, text)
+	Method GetPartialTextExtents:Int[](Text:String)
+		Return bmx_wxdc_getpartialtextextents(wxObjectPtr, Text)
 	End Method
 
 	Rem
@@ -583,8 +593,8 @@ Type wxDC Extends wxObject
 	Rem
 	bbdoc: 
 	End Rem
-	Method GetTextExtent(text:String, w:Int Var, h:Int Var)
-		bmx_wxdc_gettextextent(wxObjectPtr, text, Varptr w, Varptr h)
+	Method GetTextExtent(Text:String, w:Int Var, h:Int Var)
+		bmx_wxdc_gettextextent(wxObjectPtr, Text, Varptr w, Varptr h)
 	End Method
 	
 	Rem

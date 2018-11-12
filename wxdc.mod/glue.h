@@ -29,6 +29,7 @@
 #include "../wxbrush.mod/glue.h"
 #include "../wxpen.mod/glue.h"
 #include "../wxregion.mod/glue.h"
+#include "../wxfontmetrics.mod/glue.h"
 
 class MaxMirrorDC;
 class MaxClientDC;
@@ -96,6 +97,7 @@ extern "C" {
 	int bmx_wxdc_getcharwidth(MaxDC * dc);
 	void bmx_wxdc_getclippingbox(MaxDC * dc, int * x, int * y, int * w, int * h);
 	MaxFont * bmx_wxdc_getfont(MaxDC * dc);
+	MaxFontMetrics * bmx_wxdc_getfontmetrics(MaxDC * dc);
 	int bmx_wxdc_getlayoutdirection(MaxDC * dc);
 	int bmx_wxdc_getlogicalfunction(MaxDC * dc);
 	wxMappingMode bmx_wxdc_getmapmode(MaxDC * dc);

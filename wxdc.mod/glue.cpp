@@ -300,6 +300,11 @@ MaxFont * bmx_wxdc_getfont(MaxDC * dc) {
 	return new MaxFont(f);
 }
 
+MaxFontMetrics * bmx_wxdc_getfontmetrics(MaxDC * dc) {
+	wxFontMetrics f(dc->GetDC()->GetFontMetrics());
+	return new MaxFontMetrics(f);
+}
+
 int bmx_wxdc_getlayoutdirection(MaxDC * dc) {
 	return dc->GetDC()->GetLayoutDirection();
 }
