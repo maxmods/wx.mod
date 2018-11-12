@@ -175,6 +175,93 @@ End Rem
 Global wxNullColour:wxColour = wxColour._create(bmx_wxcolour_null())
 
 Rem
+bbdoc: A global colour database instance.
+End Rem
+Global wxTheColourDatabase:wxColourDatabase = wxColourDatabase._create(bmx_wxcolourdatase_instance(), False)
+
+Rem
+bbdoc: A database of standard RGB colours for a predefined set of named colours.
+about: The application may add to this set if desired by using AddColour() and may use it to look up colours by names using
+Find() or find the names for the standard colour using FindName().
+
+There is one predefined, global instance of this class called wxTheColourDatabase.
+
+The standard database contains at least the following colours:
+| Colour | Colour | Colour | Colour|
+| --- | --- | --- | --- |
+| AQUAMARINE | BLACK | BLUE | BLUE VIOLET |
+| BROWN | CADET BLUE | CORAL | CORNFLOWER BLUE |
+| CYAN | DARK GREY | DARK GREEN | DARK OLIVE GREEN |
+| DARK ORCHID | DARK SLATE BLUE | DARK SLATE GREY | DARK TURQUOISE |
+| DIM GREY | FIREBRICK | FOREST GREEN | GOLD |
+| GOLDENROD | GREY | GREEN | GREEN YELLOW |
+| INDIAN RED | KHAKI | LIGHT BLUE | LIGHT GREY |
+| LIGHT STEEL BLUE | LIME GREEN | MAGENTA | MAROON |
+| MEDIUM AQUAMARINE | MEDIUM BLUE | MEDIUM FOREST GREEN | MEDIUM GOLDENROD |
+| MEDIUM ORCHID | MEDIUM SEA GREEN | MEDIUM SLATE BLUE | MEDIUM SPRING GREEN |
+| MEDIUM TURQUOISE | MEDIUM VIOLET RED | MIDNIGHT BLUE | NAVY |
+| ORANGE | ORANGE RED | ORCHID | PALE GREEN |
+| PINK | PLUM | PURPLE | RED |
+| SALMON | SEA GREEN | SIENNA | SKY BLUE |
+| SLATE BLUE | SPRING GREEN | STEEL BLUE | TAN |
+| THISTLE | TURQUOISE | VIOLET | VIOLET RED |
+| WHEAT | WHITE | YELLOW | YELLOW GREEN |
+End Rem
+Type wxColourDatabase
+
+	Field databasePtr:Byte Ptr
+	Field own:Int
+	
+	Rem
+	bbdoc: Creates a new wxColourDatabase instance.
+	End Rem
+	Method Create:wxColourDatabase()
+		Return _create(bmx_wxcolourdatabase_create())
+	End Method
+
+	Function _create:wxColourDatabase(databasePtr:Byte Ptr, own:Int = True)
+		If databasePtr Then
+			Local this:wxColourDatabase = New wxColourDatabase
+			this.databasePtr = databasePtr
+			this.own = own
+			Return this
+		End If
+	End Function
+
+	Rem
+	bbdoc: Adds a colour to the database.
+	about: If a colour with the same name already exists, it is replaced.
+	End Rem
+	Method AddColour(colourName:String, colour:wxColour)
+		bmx_wxcolourdatabase_addcolour(databasePtr, colourName, colour.wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Finds a colour given the name.
+	returns: An invalid colour object (that is, wxColour::IsOk() will return false) if the colour wasn't found in the database.
+	End Rem
+	Method Find:wxColour(colourName:String)
+		Return wxColour._create(bmx_wxcolourdatabase_find(databasePtr, colourName))
+	End Method
+	
+	Rem
+	bbdoc: Finds a colour name given the colour.
+	returns: An empty string if the colour is not found in the database.
+	End Rem
+	Method FindName:String(colour:wxColour)
+		Return bmx_wxcolourdatabase_findname(databasePtr, colour.wxObjectPtr)
+	End Method
+	
+	Method Delete()
+		If own And databasePtr Then
+			bmx_wxcolourdatabase_free(databasePtr)
+			databasePtr = Null
+		End If
+	End Method
+	
+End Type
+
+Rem
 bbdoc: This type is the base type of most stream related types in wxWidgets.
 about: It must not be used directly.
 End Rem

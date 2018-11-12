@@ -205,6 +205,13 @@ extern "C" {
 	void bmx_wxcolour_getrgba(MaxColour * col, int * r, int * g, int * b, int * a);
 	MaxColour * bmx_wxcolour_copy(MaxColour * col);
 
+	wxColourDatabase * bmx_wxcolourdatabase_create();
+	wxColourDatabase * bmx_wxcolourdatase_instance();
+	void bmx_wxcolourdatabase_addcolour(wxColourDatabase * database, BBString * colourName, MaxColour * colour);
+	MaxColour * bmx_wxcolourdatabase_find(wxColourDatabase * database, BBString * colourName);
+	BBString * bmx_wxcolourdatabase_findname(wxColourDatabase * database, MaxColour * colour);
+	void bmx_wxcolourdatabase_free(wxColourDatabase * database);
+
 	MaxColour * bmx_wxstockgdi_colour_black();
 	MaxColour * bmx_wxstockgdi_colour_blue();
 	MaxColour * bmx_wxstockgdi_colour_cyan();

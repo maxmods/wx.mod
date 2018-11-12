@@ -314,6 +314,13 @@ Extern
 	Function bmx_wxcolour_getrgba(handle:Byte Ptr, r:Int Ptr, g:Int Ptr, b:Int Ptr, a:Int Ptr)
 	Function bmx_wxcolour_copy:Byte Ptr(handle:Byte Ptr)
 
+	Function bmx_wxcolourdatabase_create:Byte Ptr()
+	Function bmx_wxcolourdatase_instance:Byte Ptr()
+	Function bmx_wxcolourdatabase_addcolour(handle:Byte Ptr, colourName:String, colour:Byte Ptr)
+	Function bmx_wxcolourdatabase_find:Byte Ptr(handle:Byte Ptr, colourName:String)
+	Function bmx_wxcolourdatabase_findname:String(handle:Byte Ptr, colour:Byte Ptr)
+	Function bmx_wxcolourdatabase_free(handle:Byte Ptr)
+
 	Function bmx_wxstockgdi_colour_black:Byte Ptr()
 	Function bmx_wxstockgdi_colour_blue:Byte Ptr()
 	Function bmx_wxstockgdi_colour_cyan:Byte Ptr()

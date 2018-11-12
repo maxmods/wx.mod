@@ -1076,6 +1076,35 @@ MaxColour * bmx_wxcolour_copy(MaxColour * col) {
 
 // **************************
 
+wxColourDatabase * bmx_wxcolourdatabase_create() {
+	return new wxColourDatabase();
+}
+
+wxColourDatabase * bmx_wxcolourdatase_instance() {
+	return wxTheColourDatabase;
+}
+
+void bmx_wxcolourdatabase_addcolour(wxColourDatabase * database, BBString * colourName, MaxColour * colour) {
+	database->AddColour(wxStringFromBBString(colourName), colour->Colour());
+}
+
+MaxColour * bmx_wxcolourdatabase_find(wxColourDatabase * database, BBString * colourName) {
+	wxColour c(database->Find(wxStringFromBBString(colourName)));
+	return new MaxColour(c);
+}
+
+BBString * bmx_wxcolourdatabase_findname(wxColourDatabase * database, MaxColour * colour) {
+	return bbStringFromWxString(database->FindName(colour->Colour()));
+}
+
+void bmx_wxcolourdatabase_free(wxColourDatabase * database) {
+	if (database != wxTheColourDatabase)
+		delete database;
+}
+
+
+// **************************
+
 MaxColour * bmx_wxstockgdi_colour_black() {
 	wxColour c(*wxBLACK);
 	return new MaxColour(c);
