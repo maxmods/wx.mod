@@ -20,6 +20,9 @@
   THE SOFTWARE.
 */ 
 
+#ifndef _WX_MAX_PEN_H_
+#define _WX_MAX_PEN_H_
+
 #include "wxglue.h"
 #include "../wxbitmap.mod/glue.h"
 
@@ -87,3 +90,4 @@ private:
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+#endif // _WX_MAX_PEN_H_
