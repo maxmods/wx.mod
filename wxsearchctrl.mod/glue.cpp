@@ -66,6 +66,10 @@ wxObject *MaxSearchCtrlXmlHandler::DoCreateResource()
 
     SetupWindow(ctrl);
 
+    const wxString& hint = GetText(wxS("hint"));
+    if ( !hint.empty() )
+        ctrl->SetDescriptiveText(hint);
+
     return ctrl;
 }
 

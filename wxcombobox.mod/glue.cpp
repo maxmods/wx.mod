@@ -92,6 +92,9 @@ wxObject * MaxComboBoxXmlHandler::DoCreateResource()
 
         SetupWindow(control);
 
+        const wxString hint = GetText(wxS("hint"));
+        if ( !hint.empty() )
+            control->SetHint(hint);
         strList.Clear();    // dump the strings
 
         return control;
