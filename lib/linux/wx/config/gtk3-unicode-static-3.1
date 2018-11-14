@@ -945,8 +945,8 @@ bindir="${exec_prefix}/bin"
 [ -z "$output_option_prefix"        ] || echo $prefix
 [ -z "$output_option_exec_prefix"   ] || echo $exec_prefix
 [ -z "$output_option_release"       ] || echo "3.1"
-[ -z "$output_option_version"       ] || echo "3.1.1"
-[ -z "$output_option_version_full"  ] || echo "3.1.1.0"
+[ -z "$output_option_version"       ] || echo "3.1.2"
+[ -z "$output_option_version_full"  ] || echo "3.1.2.0"
 [ -z "$output_option_basename"      ] || echo "wx_gtk3u"
 [ -z "$output_option_cc"            ] || echo "gcc"
 [ -z "$output_option_cxx"           ] || echo "g++"
@@ -1026,11 +1026,11 @@ fi
 ldflags_gl=""
 
 ldlibs_base="-lwxjpeg-3.1 -lwxpng-3.1 -lwxregexu-3.1 -lwxscintilla-3.1 -lwxexpat-3.1 -lwxzlib-3.1 -ldl -lm"
-ldlibs_core="-lgtk-3 -lgdk-3 -lpangocairo-1.0 -lpango-1.0 -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lgthread-2.0 -pthread -lglib-2.0 -lX11 -lXxf86vm -lSM -lgtk-3 -lgdk-3 -lpangocairo-1.0 -lpango-1.0 -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lXtst -lpangoft2-1.0 -lpango-1.0 -lgobject-2.0 -lglib-2.0 -lfontconfig -lfreetype"
+ldlibs_core="-lgtk-3 -lgdk-3 -lpangocairo-1.0 -lpango-1.0 -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lgthread-2.0 -pthread -lglib-2.0 -lX11 -lXxf86vm -lSM -lgtk-3 -lgdk-3 -lpangocairo-1.0 -lpango-1.0 -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lXtst -lpangoft2-1.0 -lpango-1.0 -lgobject-2.0 -lglib-2.0 -lfontconfig -lfreetype "
 ldlibs_gl="-lGL -lGLU"
 ldlibs_html=""
+ldlibs_media="-lgstvideo-1.0 -lgstbase-1.0 -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0"
 ldlibs_xml=""
-ldlibs_adv=""
 ldlibs_stc="-lwxscintilla-3.1"
 ldlibs_webview="-lwebkit2gtk-4.0 -lgtk-3 -lgdk-3 -lpangocairo-1.0 -lpango-1.0 -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lsoup-2.4 -lgio-2.0 -lgobject-2.0 -ljavascriptcoregtk-4.0 -lglib-2.0"
 
@@ -1050,15 +1050,14 @@ order_libs()
             # those that can be output immediately because no other libraries
             # depend on them.
             case "$lib" in
-                base|core|html|xml|adv) eval "use_$lib=1" ;;
-                *)                      libs="$libs $lib" ;;
+                base|core|html|xml) eval "use_$lib=1" ;;
+                *)                  libs="$libs $lib" ;;
             esac
         done
 
         # Add the libraries that we postponed adding above.
         # Order of the checks here is important.
         [ -z "$use_html" ] || libs="$libs html"
-        [ -z "$use_adv" ] || libs="$libs adv"
         [ -z "$use_core" ] || libs="$libs core"
         [ -z "$use_xml" ] || libs="$libs xml"
         [ -z "$use_base" ] || libs="$libs base"
@@ -1242,6 +1241,10 @@ else    # MONOLITHIC = 0
             wx_libs="$wx_libs base"
         fi
     fi
+
+    # Existing scripts may use "wx-config --libs std,adv" or similar, but "adv"
+    # library is not used any longer.
+    wx_libs=`remove_field adv $wx_libs`
 
     if [ -n "$output_option_libs" ]; then
         using_gui=no

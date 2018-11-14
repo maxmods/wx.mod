@@ -1,21 +1,15 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wx/osx/setup.h
+// Name:        wx/msw/setup.h
 // Purpose:     Configuration for the library
-// Author:      Stefan Csomor
-// Modified by: Stefan Csomor
-// Created:     1998-01-01
-// Copyright:   (c) Stefan Csomor
+// Author:      Julian Smart
+// Modified by:
+// Created:     01/02/97
+// Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef _WX_SETUP_H_
 #define _WX_SETUP_H_
-
-#ifdef __WXMAC_XCODE__
-// while configure based builds have the flags prepended, we must do this here
-// for xcode based builds
-#include "wx/osx/config_xcode.h"
-#endif
 
 /* --- start common options --- */
 // ----------------------------------------------------------------------------
@@ -370,7 +364,7 @@
 // Recommended setting: 1 if you use the standard streams anyhow and so
 //                      dependency on the standard streams library is not a
 //                      problem
-#define wxUSE_STD_IOSTREAM  wxUSE_STD_DEFAULT
+#define wxUSE_STD_IOSTREAM  0
 
 // Enable minimal interoperability with the standard C++ string class if 1.
 // "Minimal" means that wxString can be constructed from std::string or
@@ -616,6 +610,22 @@
 // Set to 1 to compile wxZlibInput/OutputStream classes. Also required by
 // wxUSE_LIBPNG
 #define wxUSE_ZLIB          1
+
+// Set to 1 if liblzma is available to enable wxLZMA{Input,Output}Stream
+// classes.
+//
+// Notice that if you enable this build option when not using configure or
+// CMake, you need to ensure that liblzma headers and libraries are available
+// (i.e. by building the library yourself or downloading its binaries) and can
+// be found, either by copying them to one of the locations searched by the
+// compiler/linker by default (e.g. any of the directories in the INCLUDE or
+// LIB environment variables, respectively, when using MSVC) or modify the
+// make- or project files to add references to these directories.
+//
+// Default is 0 under MSW, auto-detected by configure.
+//
+// Recommended setting: 1 if you need LZMA compression.
+#define wxUSE_LIBLZMA       0
 
 // If enabled, the code written by Apple will be used to write, in a portable
 // way, float on the disk. See extended.c for the license which is different
@@ -1553,60 +1563,200 @@
 
 /* --- end common options --- */
 
-/* --- start OSX options --- */
+/* --- start MSW options --- */
 // ----------------------------------------------------------------------------
-// Unix-specific options settings
-// ----------------------------------------------------------------------------
-
-// use wxSelectDispatcher class
-#define wxUSE_SELECT_DISPATCHER 1
-
-// use wxEpollDispatcher class (Linux only)
-#define wxUSE_EPOLL_DISPATCHER 0
-
-/*
- Use GStreamer for Unix.
-
- Default is 0 as this requires a lot of dependencies which might not be
- available.
-
- Recommended setting: 1 (wxMediaCtrl won't work by default without it).
- */
-#define wxUSE_GSTREAMER 0
-
-// This is only used under Unix, but needs to be defined here as it's checked
-// by wx/unix/chkconf.h.
-#define wxUSE_XTEST 0
-
-// ----------------------------------------------------------------------------
-// Mac-specific settings
+// Graphics backends choices for Windows
 // ----------------------------------------------------------------------------
 
-#undef wxUSE_GRAPHICS_CONTEXT
-#define wxUSE_GRAPHICS_CONTEXT 1
+// The options here are only taken into account if wxUSE_GRAPHICS_CONTEXT is 1.
 
+// Enable support for GDI+-based implementation of wxGraphicsContext.
+//
+// Default is 1.
+//
+// Recommended setting: 1 if you need to support XP, as Direct2D is not
+// available there.
+#define wxUSE_GRAPHICS_GDIPLUS wxUSE_GRAPHICS_CONTEXT
 
-// things not implemented under Mac
-
-#undef wxUSE_STACKWALKER
-#define wxUSE_STACKWALKER 0
-
-// wxWebKit is a wrapper for Apple's WebKit framework, use it if you want to
-// embed the Safari browser control
-// 0 by default because of Jaguar compatibility problems
-#define wxUSE_WEBKIT        1
-
-
-// Set to 0 for no libmspack
-#define wxUSE_LIBMSPACK     0
-
-// native toolbar does support embedding controls, but not complex panels, please test
-#define wxOSX_USE_NATIVE_TOOLBAR 1
-
-// make sure we have the proper dispatcher for the console event loop
-#define wxUSE_SELECT_DISPATCHER 1
-#define wxUSE_EPOLL_DISPATCHER 0
-/* --- end OSX options --- */
-
+// Enable support for Direct2D-based implementation of wxGraphicsContext.
+//
+// Default is 1 for compilers which support it, i.e. VC10+ currently. If you
+// use an earlier MSVC version or another compiler and installed the necessary
+// SDK components manually, you need to change this setting.
+//
+// Recommended setting: 1 for faster and better quality graphics under Windows
+// 7 and later systems (if wxUSE_GRAPHICS_GDIPLUS is also enabled, earlier
+// systems will fall back on using GDI+).
+#if defined(_MSC_VER) && _MSC_VER >= 1600
+    #define wxUSE_GRAPHICS_DIRECT2D wxUSE_GRAPHICS_CONTEXT
+#else
+    #define wxUSE_GRAPHICS_DIRECT2D 0
 #endif
-    // _WX_SETUP_H_
+
+// ----------------------------------------------------------------------------
+// Windows-only settings
+// ----------------------------------------------------------------------------
+
+// Set this to 1 for generic OLE support: this is required for drag-and-drop,
+// clipboard, OLE Automation. Only set it to 0 if your compiler is very old and
+// can't compile/doesn't have the OLE headers.
+//
+// Default is 1.
+//
+// Recommended setting: 1
+#define wxUSE_OLE           1
+
+// Set this to 1 to enable wxAutomationObject class.
+//
+// Default is 1.
+//
+// Recommended setting: 1 if you need to control other applications via OLE
+// Automation, can be safely set to 0 otherwise
+#define wxUSE_OLE_AUTOMATION 1
+
+// Set this to 1 to enable wxActiveXContainer class allowing to embed OLE
+// controls in wx.
+//
+// Default is 1.
+//
+// Recommended setting: 1, required by wxMediaCtrl
+#define wxUSE_ACTIVEX 1
+
+// Enable WinRT support
+//
+// Default is 1 for compilers which support it, i.e. VS2012+ currently. If you
+// use an earlier MSVC version or another compiler and installed the necessary
+// SDK components manually, you need to change this setting.
+//
+// Recommended setting: 1
+#if defined(_MSC_VER) && _MSC_VER >= 1700 && !defined(_USING_V110_SDK71_)
+    #define wxUSE_WINRT 1
+#else
+    #define wxUSE_WINRT 0
+#endif
+
+// wxDC caching implementation
+#define wxUSE_DC_CACHEING 1
+
+// Set this to 1 to enable wxDIB class used internally for manipulating
+// wxBitmap data.
+//
+// Default is 1, set it to 0 only if you don't use wxImage neither
+//
+// Recommended setting: 1 (without it conversion to/from wxImage won't work)
+#define wxUSE_WXDIB 1
+
+// Set to 0 to disable PostScript print/preview architecture code under Windows
+// (just use Windows printing).
+#define wxUSE_POSTSCRIPT_ARCHITECTURE_IN_MSW 1
+
+// Set this to 1 to compile in wxRegKey class.
+//
+// Default is 1
+//
+// Recommended setting: 1, this is used internally by wx in a few places
+#define wxUSE_REGKEY 1
+
+// Set this to 1 to use RICHEDIT controls for wxTextCtrl with style wxTE_RICH
+// which allows to put more than ~32Kb of text in it even under Win9x (NT
+// doesn't have such limitation).
+//
+// Default is 1 for compilers which support it
+//
+// Recommended setting: 1, only set it to 0 if your compiler doesn't have
+//                      or can't compile <richedit.h>
+#define wxUSE_RICHEDIT  1
+
+// Set this to 1 to use extra features of richedit v2 and later controls
+//
+// Default is 1 for compilers which support it
+//
+// Recommended setting: 1
+#define wxUSE_RICHEDIT2 1
+
+// Set this to 1 to enable support for the owner-drawn menu and listboxes. This
+// is required by wxUSE_CHECKLISTBOX.
+//
+// Default is 1.
+//
+// Recommended setting: 1, set to 0 for a small library size reduction
+#define wxUSE_OWNER_DRAWN 1
+
+// Set this to 1 to enable MSW-specific wxTaskBarIcon::ShowBalloon() method. It
+// is required by native wxNotificationMessage implementation.
+//
+// Default is 1 but disabled in wx/msw/chkconf.h if SDK is too old to contain
+// the necessary declarations.
+//
+// Recommended setting: 1, set to 0 for a tiny library size reduction
+#define wxUSE_TASKBARICON_BALLOONS 1
+
+// Set this to 1 to enable following functionality added in Windows 7: thumbnail
+// representations, thumbnail toolbars, notification and status overlays,
+// progress indicators and jump lists.
+//
+// Default is 1.
+//
+// Recommended setting: 1, set to 0 for a tiny library size reduction
+#define wxUSE_TASKBARBUTTON 1
+
+// Set to 1 to compile MS Windows XP theme engine support
+#define wxUSE_UXTHEME           1
+
+// Set to 1 to use InkEdit control (Tablet PC), if available
+#define wxUSE_INKEDIT  0
+
+// Set to 1 to enable .INI files based wxConfig implementation (wxIniConfig)
+//
+// Default is 0.
+//
+// Recommended setting: 0, nobody uses .INI files any more
+#define wxUSE_INICONF 0
+
+// ----------------------------------------------------------------------------
+// Generic versions of native controls
+// ----------------------------------------------------------------------------
+
+// Set this to 1 to be able to use wxDatePickerCtrlGeneric in addition to the
+// native wxDatePickerCtrl
+//
+// Default is 0.
+//
+// Recommended setting: 0, this is mainly used for testing
+#define wxUSE_DATEPICKCTRL_GENERIC 0
+
+// Set this to 1 to be able to use wxTimePickerCtrlGeneric in addition to the
+// native wxTimePickerCtrl for the platforms that have the latter (MSW).
+//
+// Default is 0.
+//
+// Recommended setting: 0, this is mainly used for testing
+#define wxUSE_TIMEPICKCTRL_GENERIC 0
+
+// ----------------------------------------------------------------------------
+// Crash debugging helpers
+// ----------------------------------------------------------------------------
+
+// Set this to 1 to use dbghelp.dll for providing stack traces in crash
+// reports.
+//
+// Default is 1 if the compiler supports it, 0 for old MinGW.
+//
+// Recommended setting: 1, there is not much gain in disabling this
+#if defined(__VISUALC__) || defined(__MINGW64_TOOLCHAIN__)
+    #define wxUSE_DBGHELP 1
+#else
+    #define wxUSE_DBGHELP 0
+#endif
+
+// Set this to 1 to be able to use wxCrashReport::Generate() to create mini
+// dumps of your program when it crashes (or at any other moment)
+//
+// Default is 1 if supported by the compiler (VC++ and recent BC++ only).
+//
+// Recommended setting: 1, set to 0 if your programs never crash
+#define wxUSE_CRASHREPORT 1
+/* --- end MSW options --- */
+
+#endif // _WX_SETUP_H_
+

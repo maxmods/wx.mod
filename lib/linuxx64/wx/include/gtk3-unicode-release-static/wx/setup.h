@@ -288,6 +288,8 @@
 
 #define wxUSE_ZLIB 1
 
+#define wxUSE_LIBLZMA       0
+
 #define wxUSE_APPLE_IEEE 1
 
 #define wxUSE_JOYSTICK 1
@@ -867,7 +869,7 @@
 /*
  * Define if compiler has __thread keyword.
  */
-#define HAVE___THREAD_KEYWORD 1
+/* #undef HAVE___THREAD_KEYWORD */
 /*
  * Define if large (64 bit file offsets) files are supported.
  */

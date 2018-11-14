@@ -16,5 +16,5 @@
 
 
  #define WX_CPU_AMD64
-# 46 "..\\..\\include\\wx\\msw\\genrcdefs.h"
+# 50 "..\\..\\include\\wx\\msw\\genrcdefs.h"
  #endif

@@ -1,7 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wx/univ/setup.h
-// Purpose:     Configuration for the universal build of the library
+// Name:        wx/gtk/setup.h
+// Purpose:     Configuration for the library
 // Author:      Julian Smart
+// Modified by:
 // Created:     01/02/97
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
@@ -609,6 +610,22 @@
 // Set to 1 to compile wxZlibInput/OutputStream classes. Also required by
 // wxUSE_LIBPNG
 #define wxUSE_ZLIB          1
+
+// Set to 1 if liblzma is available to enable wxLZMA{Input,Output}Stream
+// classes.
+//
+// Notice that if you enable this build option when not using configure or
+// CMake, you need to ensure that liblzma headers and libraries are available
+// (i.e. by building the library yourself or downloading its binaries) and can
+// be found, either by copying them to one of the locations searched by the
+// compiler/linker by default (e.g. any of the directories in the INCLUDE or
+// LIB environment variables, respectively, when using MSVC) or modify the
+// make- or project files to add references to these directories.
+//
+// Default is 0 under MSW, auto-detected by configure.
+//
+// Recommended setting: 1 if you need LZMA compression.
+#define wxUSE_LIBLZMA       0
 
 // If enabled, the code written by Apple will be used to write, in a portable
 // way, float on the disk. See extended.c for the license which is different
@@ -1548,6 +1565,35 @@
 
 /* --- start MSW options --- */
 // ----------------------------------------------------------------------------
+// Graphics backends choices for Windows
+// ----------------------------------------------------------------------------
+
+// The options here are only taken into account if wxUSE_GRAPHICS_CONTEXT is 1.
+
+// Enable support for GDI+-based implementation of wxGraphicsContext.
+//
+// Default is 1.
+//
+// Recommended setting: 1 if you need to support XP, as Direct2D is not
+// available there.
+#define wxUSE_GRAPHICS_GDIPLUS wxUSE_GRAPHICS_CONTEXT
+
+// Enable support for Direct2D-based implementation of wxGraphicsContext.
+//
+// Default is 1 for compilers which support it, i.e. VC10+ currently. If you
+// use an earlier MSVC version or another compiler and installed the necessary
+// SDK components manually, you need to change this setting.
+//
+// Recommended setting: 1 for faster and better quality graphics under Windows
+// 7 and later systems (if wxUSE_GRAPHICS_GDIPLUS is also enabled, earlier
+// systems will fall back on using GDI+).
+#if defined(_MSC_VER) && _MSC_VER >= 1600
+    #define wxUSE_GRAPHICS_DIRECT2D wxUSE_GRAPHICS_CONTEXT
+#else
+    #define wxUSE_GRAPHICS_DIRECT2D 0
+#endif
+
+// ----------------------------------------------------------------------------
 // Windows-only settings
 // ----------------------------------------------------------------------------
 
@@ -1575,6 +1621,19 @@
 //
 // Recommended setting: 1, required by wxMediaCtrl
 #define wxUSE_ACTIVEX 1
+
+// Enable WinRT support
+//
+// Default is 1 for compilers which support it, i.e. VS2012+ currently. If you
+// use an earlier MSVC version or another compiler and installed the necessary
+// SDK components manually, you need to change this setting.
+//
+// Recommended setting: 1
+#if defined(_MSC_VER) && _MSC_VER >= 1700 && !defined(_USING_V110_SDK71_)
+    #define wxUSE_WINRT 1
+#else
+    #define wxUSE_WINRT 0
+#endif
 
 // wxDC caching implementation
 #define wxUSE_DC_CACHEING 1
@@ -1632,6 +1691,15 @@
 // Recommended setting: 1, set to 0 for a tiny library size reduction
 #define wxUSE_TASKBARICON_BALLOONS 1
 
+// Set this to 1 to enable following functionality added in Windows 7: thumbnail
+// representations, thumbnail toolbars, notification and status overlays,
+// progress indicators and jump lists.
+//
+// Default is 1.
+//
+// Recommended setting: 1, set to 0 for a tiny library size reduction
+#define wxUSE_TASKBARBUTTON 1
+
 // Set to 1 to compile MS Windows XP theme engine support
 #define wxUSE_UXTHEME           1
 
@@ -1657,9 +1725,29 @@
 // Recommended setting: 0, this is mainly used for testing
 #define wxUSE_DATEPICKCTRL_GENERIC 0
 
+// Set this to 1 to be able to use wxTimePickerCtrlGeneric in addition to the
+// native wxTimePickerCtrl for the platforms that have the latter (MSW).
+//
+// Default is 0.
+//
+// Recommended setting: 0, this is mainly used for testing
+#define wxUSE_TIMEPICKCTRL_GENERIC 0
+
 // ----------------------------------------------------------------------------
 // Crash debugging helpers
 // ----------------------------------------------------------------------------
+
+// Set this to 1 to use dbghelp.dll for providing stack traces in crash
+// reports.
+//
+// Default is 1 if the compiler supports it, 0 for old MinGW.
+//
+// Recommended setting: 1, there is not much gain in disabling this
+#if defined(__VISUALC__) || defined(__MINGW64_TOOLCHAIN__)
+    #define wxUSE_DBGHELP 1
+#else
+    #define wxUSE_DBGHELP 0
+#endif
 
 // Set this to 1 to be able to use wxCrashReport::Generate() to create mini
 // dumps of your program when it crashes (or at any other moment)
@@ -1670,22 +1758,12 @@
 #define wxUSE_CRASHREPORT 1
 /* --- end MSW options --- */
 
-/* --- start wxUniv options --- */
-// ----------------------------------------------------------------------------
-// wxUniversal-only options
-// ----------------------------------------------------------------------------
-
-// Set to 1 to enable compilation of all themes, this is the default
-#define wxUSE_ALL_THEMES    1
-
-// Set to 1 to enable the compilation of individual theme if wxUSE_ALL_THEMES
-// is unset, if it is set these options are not used; notice that metal theme
-// uses Win32 one
-#define wxUSE_THEME_GTK     0
-#define wxUSE_THEME_METAL   0
-#define wxUSE_THEME_MONO    0
-#define wxUSE_THEME_WIN32   0
-/* --- end wxUniv options --- */
+// GTK-specific options used when not using configure. As we can't test for the
+// exact GTK version (without including GTK+ headers that we don't want to
+// include from our own public headers), just assume a recent GTK 2.x.
+#define __WXGTK20__
+#define __WXGTK210__
+#define __WXGTK218__
+//#define __WXGTK3__
 
 #endif // _WX_SETUP_H_
-

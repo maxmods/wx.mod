@@ -33,6 +33,9 @@ inline void wxVectorSort(wxVector<T>& v)
 #include "wx/meta/if.h"
 
 #include "wx/beforestd.h"
+#if wxUSE_STD_CONTAINERS_COMPATIBLY
+#include <iterator>
+#endif
 #include <new> // for placement new
 #include "wx/afterstd.h"
 
@@ -160,7 +163,7 @@ private:
 
 public:
     typedef size_t size_type;
-    typedef size_t difference_type;
+    typedef ptrdiff_t difference_type;
     typedef T value_type;
     typedef value_type* pointer;
     typedef const value_type* const_pointer;
@@ -172,6 +175,14 @@ public:
     class reverse_iterator
     {
     public:
+#if wxUSE_STD_CONTAINERS_COMPATIBLY
+        typedef std::random_access_iterator_tag iterator_category;
+#endif
+        typedef ptrdiff_t difference_type;
+        typedef T value_type;
+        typedef value_type* pointer;
+        typedef value_type& reference;
+
         reverse_iterator() : m_ptr(NULL) { }
         explicit reverse_iterator(iterator it) : m_ptr(it) { }
         reverse_iterator(const reverse_iterator& it) : m_ptr(it.m_ptr) { }
@@ -218,6 +229,14 @@ public:
     class const_reverse_iterator
     {
     public:
+#if wxUSE_STD_CONTAINERS_COMPATIBLY
+        typedef std::random_access_iterator_tag iterator_category;
+#endif
+        typedef ptrdiff_t difference_type;
+        typedef T value_type;
+        typedef const value_type* pointer;
+        typedef const value_type& reference;
+
         const_reverse_iterator() : m_ptr(NULL) { }
         explicit const_reverse_iterator(const_iterator it) : m_ptr(it) { }
         const_reverse_iterator(const reverse_iterator& it) : m_ptr(it.m_ptr) { }
@@ -649,6 +668,19 @@ void wxVectorSort(wxVector<T>& v)
 
 
 #endif // wxUSE_STD_CONTAINERS/!wxUSE_STD_CONTAINERS
+
+// Define vector::shrink_to_fit() equivalent which can be always used, even
+// when using pre-C++11 std::vector.
+template<typename T>
+inline void wxShrinkToFit(wxVector<T>& v)
+{
+#if !wxUSE_STD_CONTAINERS || __cplusplus >= 201103L || wxCHECK_VISUALC_VERSION(10)
+    v.shrink_to_fit();
+#else
+    wxVector<T> tmp(v);
+    v.swap(tmp);
+#endif
+}
 
 #if WXWIN_COMPATIBILITY_2_8
     #define WX_DECLARE_VECTORBASE(obj, cls) typedef wxVector<obj> cls
