@@ -152,8 +152,31 @@ Type wxApp Extends wxEvtHandler Abstract
 	bbdoc: Returns the application name.
 	about: wxWidgets sets this to a reasonable default before calling wxApp::OnInit, but the application can reset it at will.
 	End Rem
-	Method getAppName:String()
+	Method GetAppName:String()
 		Return bmx_wxapp_getappname()
+	End Method
+	
+	Rem
+	bbdoc: Sets the application name to be used in the user-visible places such as window titles.
+	about: See #GetAppDisplayName() for more about the differences between the display name and name.
+	Notice that if this function is called, the name is used as is, without any capitalization as done by default by #GetAppDisplayName().
+	End Rem
+	Method SetAppDisplayName(name:String)
+		bmx_wxapp_setappdisplayname(name)
+	End Method
+	
+	Rem
+	bbdoc: Returns the user-readable application name.
+	about: The difference between this string and the one returned by #GetAppName() is that this one is meant to be shown
+	to the user and so should be used for the window titles, page headers and so on while the other one should be only used
+	internally, e.g. for the file names or configuration file keys.
+
+	If the application name for display had been previously set by #SetAppDisplayName(), it will be returned by this function.
+	Otherwise, if #SetAppName() had been called its value will be returned; also as is. Finally if none was called, this function
+	returns the program name capitalized using wxString::Capitalize().
+	End Rem
+	Method GetAppDisplayName:String()
+		Return bmx_wxapp_getappdisplayname()
 	End Method
 	
 	Rem

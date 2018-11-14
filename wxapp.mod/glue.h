@@ -37,6 +37,8 @@ extern "C" {
 	wxWindow * bmx_wxapp_gettopwindow();
 	BBString * bmx_wxapp_getappname();
 	BBString * bmx_wxapp_getvendorname();
+	void bmx_wxapp_setappdisplayname(BBString * name);
+	BBString * bmx_wxapp_getappdisplayname();
 
 	wxApp * bmx_app_getapp();
 

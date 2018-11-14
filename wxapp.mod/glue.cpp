@@ -57,6 +57,14 @@ BBString * bmx_wxapp_getvendorname() {
 	return bbStringFromWxString(wxGetApp().GetVendorName());
 }
 
+void bmx_wxapp_setappdisplayname(BBString * name) {
+	wxGetApp().SetAppDisplayName(wxStringFromBBString(name));
+}
+
+BBString * bmx_wxapp_getappdisplayname() {
+	return bbStringFromWxString(wxGetApp().GetAppDisplayName());
+}
+
 // *********************************************
 
 int bmx_wxsafeyield(wxWindow * win, int onlyIfNeeded) {
