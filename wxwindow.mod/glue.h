@@ -482,9 +482,6 @@ public:
     //virtual wxObject *DoCreateResource();
     bool IsSizerNode(wxXmlNode *node) const;
 
-	void SetGrowables(wxFlexGridSizer* sizer, const wxChar* param, bool rows);
-
-
     wxSizer*  Handle_wxBoxSizer();
     wxSizer*  Handle_wxGridSizer();
     wxSizer*  Handle_wxFlexGridSizer();

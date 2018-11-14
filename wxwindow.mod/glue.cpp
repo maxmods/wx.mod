@@ -162,8 +162,6 @@ wxSizer*  MaxSizerXmlHandler::Handle_wxFlexGridSizer() {
     MaxFlexGridSizer *sizer =
         new MaxFlexGridSizer(GetLong(wxT("rows")), GetLong(wxT("cols")),
                             GetDimension(wxT("vgap")), GetDimension(wxT("hgap")));
-    SetGrowables(sizer, wxT("growablerows"), true);
-    SetGrowables(sizer, wxT("growablecols"), false);
 	sizer->MaxBind(CB_PREF(wx_wxwindow_wxFlexGridSizer__xrcNew)(sizer));
     return sizer;
 
@@ -172,8 +170,6 @@ wxSizer*  MaxSizerXmlHandler::Handle_wxFlexGridSizer() {
 wxSizer*  MaxSizerXmlHandler::Handle_wxGridBagSizer() {
     MaxGridBagSizer *sizer =
         new MaxGridBagSizer(GetDimension(wxT("vgap")), GetDimension(wxT("hgap")));
-    SetGrowables(sizer, wxT("growablerows"), true);
-    SetGrowables(sizer, wxT("growablecols"), false);
 	sizer->MaxBind(CB_PREF(wx_wxwindow_wxGridBagSizer__xrcNew)(sizer));
     return sizer;
 }
@@ -184,25 +180,6 @@ bool MaxSizerXmlHandler::IsSizerNode(wxXmlNode *node) const {
            (IsOfClass(node, wxT("wxFlexGridSizer"))) ||
            (IsOfClass(node, wxT("wxGridBagSizer")));
 }
-
-
-void MaxSizerXmlHandler::SetGrowables(wxFlexGridSizer* sizer, const wxChar* param, bool rows) {
-    wxStringTokenizer tkn;
-    unsigned long l;
-    tkn.SetString(GetParamValue(param), wxT(","));
-    while (tkn.HasMoreTokens())
-    {
-        if (!tkn.GetNextToken().ToULong(&l))
-            wxLogError(wxT("growable[rows|cols] must be comma-separated list of row numbers"));
-        else {
-            if (rows)
-                sizer->AddGrowableRow(l);
-            else
-                sizer->AddGrowableCol(l);
-        }
-    }
-}
-
 
 // ---------------------------------------------------------------------------------------
 
