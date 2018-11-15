@@ -156,8 +156,8 @@ Type TPrefsPageGeneralPanel Extends wxPanel
 		
 		SetSizerAndFit(sizer)
 		
-		ConnectAny(wxEVT_CHECKBOX, OnChangedUseMarkdown, Self, useMarkdown)
-		ConnectAny(wxEVT_CHECKBOX, OnChangedSpellcheck, Self, spellcheck)
+		useMarkdown.ConnectAny(wxEVT_CHECKBOX, OnChangedUseMarkdown, Null, Self)
+		spellcheck.ConnectAny(wxEVT_CHECKBOX, OnChangedSpellcheck, Null, Self)
 	End Method
 
 	Method TransferDataToWindow:Int()
@@ -193,7 +193,7 @@ Type TPrefsPageGeneralPanel Extends wxPanel
 	End Method
 	
 	Function OnChangedUseMarkdown(evt:wxEvent)
-		TPrefsPageGeneralPanel(evt.parent).ChangedUseMarkdown(wxCommandEvent(evt))
+		TPrefsPageGeneralPanel(evt.sink).ChangedUseMarkdown(wxCommandEvent(evt))
 	End Function
 	
 	Method ChangedSpellcheck(evt:wxCommandEvent)
@@ -202,7 +202,7 @@ Type TPrefsPageGeneralPanel Extends wxPanel
 	End Method
 
 	Function OnChangedSpellcheck(evt:wxEvent)
-		TPrefsPageGeneralPanel(evt.parent).ChangedSpellcheck(wxCommandEvent(evt))
+		TPrefsPageGeneralPanel(evt.sink).ChangedSpellcheck(wxCommandEvent(evt))
 	End Function
 	
 End Type
