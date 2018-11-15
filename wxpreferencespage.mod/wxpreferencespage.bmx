@@ -85,7 +85,6 @@ Type wxPreferencesPage
 	Method CreateWindow:wxWindow(parent:wxWindow) Abstract
 
 	Function _OnGetName:String(page:wxPreferencesPage) { nomangle }
-Print "_OnGetName"
 		Return page.GetName()
 	End Function
 	
