@@ -132,6 +132,31 @@ Type wxPanel Extends wxWindow
 		bmx_wxpanel_setfocusignoringchildren(wxObjectPtr)
 	End Method
 	
+	Rem
+	bbdoc: Transfers values from child controls to data areas specified by their validators.
+	returns: #False if a transfer failed.
+	about: Notice that this also calls #TransferDataFromWindow() for all children recursively.
+	End Rem
+	Method TransferDataFromWindow:Int()
+		Return Super.TransferDataFromWindow()
+	End Method
+	
+	Function _OnTransferDataFromWindow:Int(panel:wxPanel) { nomangle }
+		Return panel.TransferDataFromWindow()
+	End Function
+	
+	Rem
+	bbdoc: Transfers values to child controls from data areas specified by their validators.
+	about: Notice that this also calls #TransferDataToWindow() for all children recursively.
+	End Rem
+	Method TransferDataToWindow:Int()
+		Return Super.TransferDataToWindow()
+	End Method
+	
+	Function _OnTransferDataToWindow:Int(panel:wxPanel) { nomangle }
+		Return panel.TransferDataToWindow()
+	End Function
+	
 End Type
 
 Type TPanelResourceFactory Extends TXMLResourceFactory

@@ -31,6 +31,8 @@ extern "C" {
 #include <blitz.h>
 
 	BBObject * CB_PREF(wx_wxpanel_wxPanel__xrcNew)(wxPanel * panel);
+	int CB_PREF(wx_wxpanel_wxPanel__OnTransferDataFromWindow)(BBObject * handle);
+	int CB_PREF(wx_wxpanel_wxPanel__OnTransferDataToWindow)(BBObject * handle);
 
 	MaxPanel * bmx_wxpanel_create(BBObject * maxHandle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, int style);
 	void bmx_wxpanel_initdialog(wxPanel * panel);
@@ -49,10 +51,15 @@ public:
 	MaxPanel();
 	~MaxPanel();
 	
+	virtual bool TransferDataFromWindow();
+	virtual bool TransferDataToWindow();
+
 	void MaxBind(BBObject * handle);
 
 private:
 
+	BBObject * maxHandle;
+	
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };

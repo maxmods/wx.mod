@@ -26,7 +26,7 @@
 
 
 MaxPanel::MaxPanel(BBObject * handle, wxWindow * parent, wxWindowID id, int x, int y, int w, int h, long style)
-	: wxPanel(parent, id, wxPoint(x, y), wxSize(w, h), style)
+	: wxPanel(parent, id, wxPoint(x, y), wxSize(w, h), style), maxHandle(handle)
 {
 	wxbind(this, handle);
 }
@@ -40,6 +40,14 @@ MaxPanel::~MaxPanel() {
 
 void MaxPanel::MaxBind(BBObject * handle) {
 	wxbind(this, handle);
+}
+
+bool MaxPanel::TransferDataFromWindow() {
+	return static_cast<bool>(CB_PREF(wx_wxpanel_wxPanel__OnTransferDataFromWindow)(maxHandle));
+}
+
+bool MaxPanel::TransferDataToWindow() {
+	return static_cast<bool>(CB_PREF(wx_wxpanel_wxPanel__OnTransferDataToWindow)(maxHandle));
 }
 
 // ---------------------------------------------------------------------------------------
