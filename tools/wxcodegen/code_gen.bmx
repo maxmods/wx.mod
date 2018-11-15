@@ -264,7 +264,7 @@ Type TFBGenFactory
 
 			'this is the generic name for all properties
 			Case "propGridItem"
-				local propertyType:String = string(obj.properties.ValueForKey("type"))
+				Local propertyType:String = String(obj.properties.ValueForKey("type"))
 				Select propertyType.ToLower()
 					Case "bool"
 						widget = New TFBBoolProperty
@@ -463,10 +463,10 @@ Function DoPosSize:String(widget:TFBWidget, showIfEmpty:Int = True)
 	Return text
 End Function
 
-Function IsNumericValue:int(value:string)
-	if not(Double(value) = 0) return True '-1, 1, 2, 1.2, ...
-	if value = string(int(value)) return True '0
-	return False
+Function IsNumericValue:Int(value:String)
+	If Not(Double(value) = 0) Return True '-1, 1, 2, 1.2, ...
+	If value = String(Int(value)) Return True '0
+	Return False
 End Function
 
 Type TCodeOutput
@@ -520,6 +520,16 @@ Type TFBWidget
 	End Method
 
 	Method Generate(out:TCodeOutput) Abstract
+
+
+	Method GenerateAtLast(out:TCodeOutput)
+		If Not kids Then Return
+
+		For Local child:TFBWidget = EachIn kids
+			child.GenerateAtLast(out)
+		Next
+	End Method
+
 
 	Method GenerateAppCode(out:TCodeOutput)
 	End Method
@@ -995,7 +1005,6 @@ Type TFBProject Extends TFBWidget
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
 		Next
-
 	End Method
 
 	Method GenerateAppCode(out:TCodeOutput)
@@ -1094,6 +1103,14 @@ Type TFBContainer Extends TFBWidget
 
 			child.Generate(out)
 		Next
+
+		out.Add("")
+
+		'append addGrowableCol() etc
+		For Local child:TFBWidget = EachIn kids
+			child.GenerateAtLast(out)
+		Next
+
 
 		' the main sizer
 		If topSizer Then
@@ -1595,7 +1612,8 @@ Type TFBTextCtrl Extends TFBWidget
 
 		out.Add(text, 2)
 
-		If prop("maxlength") Then
+		'not allowed for multiline text controls
+		If prop("maxlength") and text.Find("wxTE_MULTILINE")=-1 Then
 			out.Add(prop("name") + ".SetMaxLength(" + prop("maxlength") + ")", 2)
 		End If
 
@@ -1617,7 +1635,7 @@ End Type
 Type TFBPropertyGrid Extends TFBWidget
 
 	Method Generate(out:TCodeOutput)
-	
+
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
@@ -1627,14 +1645,14 @@ Type TFBPropertyGrid Extends TFBWidget
 		text :+ ContainerReference() + ", " + prop("id")
 		text :+ DoPosSizeStyle(Self)
 		text :+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
-	
+
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
-			
+
 			out.Add(prop("name") + ".Append(" + child.prop("name")+")", 2)
 		Next
 	End Method
@@ -1642,7 +1660,7 @@ Type TFBPropertyGrid Extends TFBWidget
 	Method GetType:String(def:Int = False)
 		Return "wxPropertyGrid"
 	End Method
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxPropGrid")
 	End Method
@@ -1652,7 +1670,7 @@ End Type
 
 Type TFBPropGridItem Extends TFBWidget
 	Method Generate(out:TCodeOutput)
-	
+
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
@@ -1669,16 +1687,16 @@ Type TFBPropGridItem Extends TFBWidget
 			End If
 		End If
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
 	End Method
 
 	Method GetInitialValue:String()
-		return prop("initialValue")
+		Return prop("initialValue")
 	End Method
-	
+
 	Method GetImport:String()
 		Return GetFullImport("wx.wxPropGrid")
 	End Method
@@ -1687,7 +1705,7 @@ End Type
 
 Type TFBLongStringProperty Extends TFBPropGridItem
 	Method GetInitialValue:String()
-		return "~q" + prop("initialValue") + "~q"
+		Return "~q" + prop("initialValue") + "~q"
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -1701,9 +1719,9 @@ End Type
 Type TFBBoolProperty Extends TFBPropGridItem
 	Method GetInitialValue:String()
 		If prop("initialValue").ToLower() = "true"
-			return "1"
+			Return "1"
 		Else
-			return "0"
+			Return "0"
 		End If
 	End Method
 
@@ -1716,9 +1734,9 @@ End Type
 Type TFBColourProperty Extends TFBPropGridItem
 	Method GetInitialValue:String()
 		If prop("initialValue")
-			return prop("initialValue")
+			Return prop("initialValue")
 		Else
-			return "Null"
+			Return "Null"
 		End If
 	End Method
 
@@ -1731,9 +1749,9 @@ End Type
 Type TFBCursorProperty Extends TFBPropGridItem
 	Method GetInitialValue:String()
 		If prop("initialValue")
-			return prop("initialValue")
+			Return prop("initialValue")
 		Else
-			return "Null"
+			Return "Null"
 		End If
 	End Method
 
@@ -1746,9 +1764,9 @@ End Type
 Type TFBDateProperty Extends TFBPropGridItem
 	Method GetInitialValue:String()
 		If prop("initialValue")
-			return prop("initialValue")
+			Return prop("initialValue")
 		Else
-			return "Null"
+			Return "Null"
 		End If
 	End Method
 
@@ -1761,9 +1779,9 @@ End Type
 Type TFBDirProperty Extends TFBPropGridItem
 	Method GetInitialValue:String()
 		If prop("initialValue")
-			return prop("initialValue")
+			Return prop("initialValue")
 		Else
-			return "Null"
+			Return "Null"
 		End If
 	End Method
 
@@ -1775,7 +1793,7 @@ End Type
 
 Type TFBEnumProperty Extends TFBPropertyGrid
 	Method Generate(out:TCodeOutput)
-	
+
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
@@ -1788,7 +1806,7 @@ Type TFBEnumProperty Extends TFBPropertyGrid
 		text:+ ",Null, Null, 0"
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
@@ -1802,7 +1820,7 @@ End Type
 
 Type TFBFileProperty Extends TFBPropGridItem
 	Method GetInitialValue:String()
-		return prop("initialValue")
+		Return prop("initialValue")
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -1813,7 +1831,7 @@ End Type
 
 Type TFBFlagsProperty Extends TFBPropGridItem
 	Method Generate(out:TCodeOutput)
-	
+
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
@@ -1826,12 +1844,12 @@ Type TFBFlagsProperty Extends TFBPropGridItem
 		text:+ ",Null, Null, 0"
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
 	End Method
-	
+
 	Method GetType:String(def:Int = False)
 		Return "wxFlagsProperty"
 	End Method
@@ -1840,9 +1858,9 @@ End Type
 
 Type TFBFloatProperty Extends TFBIntProperty
 	Method GetInitialValue:String()
-		return String(Float(prop("initialValue"))).Replace(",",".")
+		Return String(Float(prop("initialValue"))).Replace(",",".")
 	End Method
-	
+
 	Method GetType:String(def:Int = False)
 		Return "wxFloatProperty"
 	End Method
@@ -1852,9 +1870,9 @@ End Type
 Type TFBFontProperty Extends TFBPropGridItem
 	Method GetInitialValue:String()
 		If prop("initialValue")
-			return prop("initialValue")
+			Return prop("initialValue")
 		Else
-			return "Null"
+			Return "Null"
 		End If
 	End Method
 
@@ -1873,7 +1891,7 @@ End Type
 
 Type TFBIntProperty Extends TFBPropGridItem
 	Method GetInitialValue:String()
-		return String(int(prop("initialValue")))
+		Return String(Int(prop("initialValue")))
 	End Method
 
 	Method GetType:String(def:Int = False)
@@ -1884,7 +1902,7 @@ End Type
 
 Type TFBMultiChoiceProperty Extends TFBPropGridItem
 	Method Generate(out:TCodeOutput)
-	
+
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
@@ -1897,12 +1915,12 @@ Type TFBMultiChoiceProperty Extends TFBPropGridItem
 		text:+ ", Null, Null"
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
 	End Method
-	
+
 	Method GetType:String(def:Int = False)
 		Return "wxMultiChoiceProperty"
 	End Method
@@ -1919,7 +1937,7 @@ End Type
 Type TFBStringProperty Extends TFBPropGridItem
 
 	Method Generate(out:TCodeOutput)
-	
+
 		If Not HasPermissions() Then
 			out.Add("Local " + prop("name") + ":" + GetType(), 2)
 		End If
@@ -1928,7 +1946,7 @@ Type TFBStringProperty Extends TFBPropGridItem
 
 		text:+ GetString("~q" + prop("label") + "~q")
 		text:+ ", " + GetString("~q" + prop("name") + "~q")
-		
+
 		'this allows to have tree-like property structures
 		If kids.Count() > 0
 			text:+ ", ~q<composed>~q"
@@ -1937,14 +1955,14 @@ Type TFBStringProperty Extends TFBPropGridItem
 		End If
 
 		text:+ ")"
-		
+
 		out.Add(text, 2)
 
 		StandardSettings(out)
 
 		For Local child:TFBWidget = EachIn kids
 			child.Generate(out)
-			
+
 			out.Add(prop("name") + ".AppendIn(" + prop("name") + "," + child.prop("name")+")", 2)
 		Next
 	End Method
@@ -1958,9 +1976,9 @@ End Type
 Type TFBSystemColourProperty Extends TFBPropGridItem
 	Method GetInitialValue:String()
 		If prop("initialValue")
-			return prop("initialValue")
+			Return prop("initialValue")
 		Else
-			return "Null"
+			Return "Null"
 		End If
 	End Method
 
@@ -3811,6 +3829,20 @@ Type TFBFlexGridSizer Extends TFBSizer
 
 		out.Add(text, 2)
 
+		If prop("minimum_size") And Not IsDefault(prop("minimum_size")) Then
+			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
+		End If
+
+		out.Add("")
+
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+		Next
+
+	End Method
+
+
+	Method GenerateAtLast(out:TCodeOutput)
 		If prop("growablecols") Then
 			Local COLS:String[] = prop("growablecols").Split(",")
 			For Local i:Int = 0 Until COLS.length
@@ -3833,17 +3865,10 @@ Type TFBFlexGridSizer Extends TFBSizer
 			out.Add(prop("name") + ".SetNonFlexibleGrowMode( " + prop("non_flexible_grow_mode") + " )", 2)
 		End If
 
-		If prop("minimum_size") And Not IsDefault(prop("minimum_size")) Then
-			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
-		End If
-
 		out.Add("")
-
-		For Local child:TFBWidget = EachIn kids
-			child.Generate(out)
-		Next
-
+		Super.GenerateAtLast(out)
 	End Method
+
 
 	Method GetType:String(def:Int = False)
 		Return "wxFlexGridSizer"
@@ -4066,6 +4091,26 @@ Type TFBGridBagSizer Extends TFBSizer
 
 		out.Add(prop("name") + " = new " + GetFullType(GetType()) + ".CreateGB(" + prop("vgap") + ", " + prop("hgap") + ")", 2)
 
+		If prop("empty_cell_size") And Not IsDefault(prop("empty_cell_size")) Then
+			out.Add(prop("name") + ".SetEmptyCellSize(" + prop("empty_cell_size") + ")", 2)
+		End If
+
+		out.Add("")
+
+		If prop("minimum_size") And Not IsDefault(prop("minimum_size")) Then
+			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
+		End If
+
+		out.Add("")
+
+		For Local child:TFBWidget = EachIn kids
+			child.Generate(out)
+		Next
+
+	End Method
+
+
+	Method GenerateAtLast(out:TCodeOutput)
 		If prop("growablecols") Then
 			Local COLS:String[] = prop("growablecols").Split(",")
 			For Local i:Int = 0 Until COLS.length
@@ -4088,23 +4133,10 @@ Type TFBGridBagSizer Extends TFBSizer
 			out.Add(prop("name") + ".SetNonFlexibleGrowMode(" + prop("non_flexible_grow_mode") + ")", 2)
 		End If
 
-		If prop("empty_cell_size") And Not IsDefault(prop("empty_cell_size")) Then
-			out.Add(prop("name") + ".SetEmptyCellSize(" + prop("empty_cell_size") + ")", 2)
-		End If
-
 		out.Add("")
-
-		If prop("minimum_size") And Not IsDefault(prop("minimum_size")) Then
-			out.Add(prop("name") + ".SetMinSize(" + prop("minimum_size") + ")", 2)
-		End If
-
-		out.Add("")
-
-		For Local child:TFBWidget = EachIn kids
-			child.Generate(out)
-		Next
-
+		Super.GenerateAtLast(out)
 	End Method
+
 
 	Method GetImport:String()
 		Return GetFullImport("wx.wxWindow")
@@ -4610,4 +4642,3 @@ Type TStringTokenizer
 
 
 End Type
-
