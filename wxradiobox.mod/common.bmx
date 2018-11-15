@@ -53,7 +53,7 @@ Extern
 		w:Int, h:Int, choices:String[], majorDimension:Int, style:Int)
 	Function bmx_wxradiobox_enable:Int(handle:Byte Ptr, value:Int)
 	Function bmx_wxradiobox_enableitem:Int(handle:Byte Ptr, item:Int, value:Int)
-	Function bmx_wxradiobox_findstring:Int(handle:Byte Ptr, text:String, caseSensitive:Int)
+	Function bmx_wxradiobox_findstring:Int(handle:Byte Ptr, Text:String, caseSensitive:Int)
 	Function bmx_wxradiobox_getcolumncount:Int(handle:Byte Ptr)
 	Function bmx_wxradiobox_getitemhelptext:String(handle:Byte Ptr, item:Int)
 	Function bmx_wxradiobox_getitemfrompoint:Int(handle:Byte Ptr, x:Int, y:Int)
@@ -69,8 +69,8 @@ Extern
 	Function bmx_wxradiobox_setlabel(handle:Byte Ptr, label:String)
 	Function bmx_wxradiobox_setitemlabel(handle:Byte Ptr, item:Int, label:String)
 	Function bmx_wxradiobox_setselection(handle:Byte Ptr, item:Int)
-	Function bmx_wxradiobox_setstringselection:Int(handle:Byte Ptr, text:String)
-	Function bmx_wxradiobox_setitemtooltip(handle:Byte Ptr, item:Int, text:String)
+	Function bmx_wxradiobox_setstringselection:Int(handle:Byte Ptr, Text:String)
+	Function bmx_wxradiobox_setitemtooltip(handle:Byte Ptr, item:Int, Text:String)
 	Function bmx_wxradiobox_show:Int(handle:Byte Ptr, value:Int)
 	Function bmx_wxradiobox_showItem:Int(handle:Byte Ptr, item:Int, value:Int)
 	Function bmx_wxradiobox_getitemtooltip:Byte Ptr(handle:Byte Ptr, item:Int)
@@ -82,6 +82,7 @@ Extern
 End Extern
 
 Const wxEVT_COMMAND_RADIOBOX_SELECTED:Int = 11
+Const wxEVT_RADIOBOX:Int = wxEVT_COMMAND_RADIOBOX_SELECTED
 
 Const wxRA_LEFTTORIGHT:Int = $0001
 Const wxRA_TOPTOBOTTOM:Int = $0002

@@ -64,12 +64,12 @@ Extern
 	Function bmx_wxcombobox_getvalue:String(handle:Byte Ptr)
 	Function bmx_wxcombobox_paste(handle:Byte Ptr)
 	Function bmx_wxcombobox_redo(handle:Byte Ptr)
-	Function bmx_wxcombobox_replace(handle:Byte Ptr, fromPos:Int, toPos:Int, text:String)
+	Function bmx_wxcombobox_replace(handle:Byte Ptr, fromPos:Int, toPos:Int, Text:String)
 	Function bmx_wxcombobox_remove(handle:Byte Ptr, fromPos:Int, toPos:Int)
 	Function bmx_wxcombobox_setinsertionpoint(handle:Byte Ptr, pos:Int)
 	Function bmx_wxcombobox_setinsertionpointend(handle:Byte Ptr)
 	Function bmx_wxcombobox_settextselection(handle:Byte Ptr, fromPos:Int, toPos:Int)
-	Function bmx_wxcombobox_setvalue(handle:Byte Ptr, text:String)
+	Function bmx_wxcombobox_setvalue(handle:Byte Ptr, Text:String)
 	Function bmx_wxcombobox_undo(handle:Byte Ptr)
 	
 	Function bmx_wxcombobox_geteventtype:Int(evt:Int)
@@ -80,7 +80,7 @@ End Extern
 
 
 Const wxEVT_COMMAND_COMBOBOX_SELECTED:Int = 15
-
+Const wxEVT_COMBOBOX:Int = wxEVT_COMMAND_COMBOBOX_SELECTED
 
 Const wxCB_SIMPLE:Int = $0004
 Const wxCB_SORT:Int = $0008

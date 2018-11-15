@@ -61,6 +61,7 @@ End Extern
 
 
 Const wxEVT_COMMAND_BUTTON_CLICKED:Int = 1
+Const wxEVT_BUTTON:Int = wxEVT_COMMAND_BUTTON_CLICKED
 
 Const wxBU_LEFT:Int = $0040
 Const wxBU_TOP:Int = $0080

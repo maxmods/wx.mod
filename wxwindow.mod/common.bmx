@@ -398,6 +398,9 @@ Const wxEVT_KILL_FOCUS:Int = 113
 Const wxEVT_COMMAND_TEXT_COPY:Int = 444
 Const wxEVT_COMMAND_TEXT_CUT:Int = 445
 Const wxEVT_COMMAND_TEXT_PASTE:Int = 446
+Const wxEVT_TEXT_COPY:Int = wxEVT_COMMAND_TEXT_COPY
+Const wxEVT_TEXT_CUT:Int = wxEVT_COMMAND_TEXT_CUT
+Const wxEVT_TEXT_PASTE:Int = wxEVT_COMMAND_TEXT_PASTE
 
 Rem
 bbdoc: Background is erased in the EVT_ERASE_BACKGROUND handler or using the system default background if no such handler is defined (this is the default style)
