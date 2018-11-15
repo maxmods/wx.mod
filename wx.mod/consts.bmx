@@ -384,6 +384,24 @@ Const wxID_ZOOM_IN:Int = 5137
 Const wxID_ZOOM_OUT:Int = 5138
 Const wxID_UNDELETE:Int = 5139
 Const wxID_REVERT_TO_SAVED:Int = 5140
+Const wxID_CDROM:Int = 5141
+Const wxID_CONVERT:Int = 5142
+Const wxID_EXECUTE:Int = 5143
+Const wxID_FLOPPY:Int = 5144
+Const wxID_HARDDISK:Int = 5145
+Const wxID_BOTTOM:Int = 5146
+Const wxID_FIRST:Int = 5147
+Const wxID_LAST:Int = 5148
+Const wxID_TOP:Int = 5149
+Const wxID_INFO:Int = 5150
+Const wxID_JUMP_TO:Int = 5151
+Const wxID_NETWORK:Int = 5152
+Const wxID_SELECT_COLOR:Int = 5153
+Const wxID_SELECT_FONT:Int = 5154
+Const wxID_SORT_ASCENDING:Int = 5155
+Const wxID_SORT_DESCENDING:Int = 5156
+Const wxID_SPELL_CHECK:Int = 5157
+Const wxID_STRIKETHROUGH:Int = 5158
 
 '  System menu IDs (used by wxUniv):
 Const wxID_SYSTEM_MENU:Int = 5200
@@ -393,6 +411,24 @@ Const wxID_RESIZE_FRAME:Int = 5203
 Const wxID_MAXIMIZE_FRAME:Int = 5204
 Const wxID_ICONIZE_FRAME:Int = 5205
 Const wxID_RESTORE_FRAME:Int = 5206
+
+' MDI window menu ids
+Const wxID_MDI_WINDOW_FIRST:Int = 5230
+Const wxID_MDI_WINDOW_CASCADE:Int = wxID_MDI_WINDOW_FIRST
+Const wxID_MDI_WINDOW_TILE_HORZ:Int = 5231
+Const wxID_MDI_WINDOW_TILE_VERT:Int = 5232
+Const wxID_MDI_WINDOW_ARRANGE_ICONS:Int = 5233
+Const wxID_MDI_WINDOW_PREV:Int = 5234
+Const wxID_MDI_WINDOW_NEXT:Int = 5235
+Const wxID_MDI_WINDOW_LAST:Int = wxID_MDI_WINDOW_NEXT
+
+' OS X system menu ids
+Const wxID_OSX_MENU_FIRST:Int = 5250
+Const wxID_OSX_HIDE:Int = wxID_OSX_MENU_FIRST
+Const wxID_OSX_HIDEOTHERS:Int = 5251
+Const wxID_OSX_SHOWALL:Int = 5252
+Const wxID_OSX_SERVICES:Int = 5253
+Const wxID_OSX_MENU_LAST:Int = wxID_OSX_SERVICES
 
 ' alignment flags
 Const wxALIGN_NOT:Int = $0000
@@ -426,14 +462,25 @@ Const wxHORIZONTAL:Int = $0004
 Const wxVERTICAL:Int = $0008
 Const wxBOTH:Int = wxVERTICAL | wxHORIZONTAL
 
+' a mask to extract orientation from the combination of flags
+Const wxORIENTATION_MASK:Int = wxBOTH
+
+' misc. flags for wxSizer items
+Const wxFIXED_MINSIZE:Int = $8000
+Const wxRESERVE_SPACE_EVEN_IF_HIDDEN:Int = $0002
+
+' a mask to extract wxSizerFlagBits from combination of flags
+Const wxSIZER_FLAG_BITS_MASK:Int = $8002
+
 ' stretch
 Const wxSTRETCH_NOT:Int = $0000
 Const wxSHRINK:Int = $1000
 Const wxGROW:Int = $2000
 Const wxEXPAND:Int = wxGROW
 Const wxSHAPED:Int = $4000
-Const wxFIXED_MINSIZE:Int = $8000
-Const wxTILE:Int = $c000
+Const wxTILE:Int = wxSHAPED | wxFIXED_MINSIZE
+
+Const wxSTRETCH_MASK:Int = $7000 ' sans wxTILE
 
 Const wxBORDER_DEFAULT:Int = 0
 Const wxBORDER_NONE:Int = $00200000
@@ -441,7 +488,7 @@ Const wxBORDER_STATIC:Int = $01000000
 Const wxBORDER_SIMPLE:Int = $02000000
 Const wxBORDER_RAISED:Int = $04000000
 Const wxBORDER_SUNKEN:Int = $08000000
-Const wxBORDER_DOUBLE:Int = $10000000
+Const wxBORDER_DOUBLE:Int = $10000000 ' deprecated
 Const wxBORDER_THEME:Int = $10000000
 
 '  a mask To extract border style from the combination of flags */
