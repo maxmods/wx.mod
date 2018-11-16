@@ -1001,6 +1001,17 @@ void bmx_wxwindow_todippoint(wxWindow * window, int x, int y, int * px, int * py
 	*py = p.y;	
 }
 
+void bmx_wxwindow_unsettooltip(wxWindow * window) {
+	window->UnsetToolTip();
+}
+
+int bmx_window_showwitheffect(wxWindow * window, int effect, int timeout) {
+	return static_cast<int>(window->ShowWithEffect(static_cast<wxShowEffect>(effect), static_cast<unsigned int>(timeout)));
+}
+
+int bmx_window_hidewitheffect(wxWindow * window, int effect, int timeout) {
+	return static_cast<int>(window->HideWithEffect(static_cast<wxShowEffect>(effect), static_cast<unsigned int>(timeout)));
+}
 
 // *********************************************
 

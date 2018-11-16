@@ -241,6 +241,9 @@ Extern
 	Function bmx_wxwindow_todip:Int(handle:Byte Ptr, d:Int)
 	Function bmx_wxwindow_todipsize(handle:Byte Ptr, w:Int, h:Int, sw:Int Ptr, sh:Int Ptr)
 	Function bmx_wxwindow_todippoint(handle:Byte Ptr, x:Int, y:Int, px:Int Ptr, py:Int Ptr)
+	Function bmx_wxwindow_unsettooltip(handle:Byte Ptr)
+	Function bmx_window_showwitheffect:Int(handle:Byte Ptr, effect:Int, timeout:Int)
+	Function bmx_window_hidewitheffect:Int(handle:Byte Ptr, effect:Int, timeout:Int)
 
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)
@@ -526,3 +529,48 @@ Rem
 bbdoc: Enable all supported gesture events.
 End Rem
 Const wxTOUCH_ALL_GESTURES:Int = $001F
+
+Rem
+bbdoc: No effect, equivalent to normal #wxWindow.Show() or #Hide() call.
+End Rem
+Const wxSHOW_EFFECT_NONE:Int = 0
+Rem
+bbdoc: Roll window to the left.
+End Rem
+Const wxSHOW_EFFECT_ROLL_TO_LEFT:Int = 1
+Rem
+bbdoc: Roll window to the right.
+End Rem
+Const wxSHOW_EFFECT_ROLL_TO_RIGHT:Int = 2
+Rem
+bbdoc: Roll window to the top.
+End Rem
+Const wxSHOW_EFFECT_ROLL_TO_TOP:Int = 3
+Rem
+bbdoc: Roll window to the bottom.
+End Rem
+Const wxSHOW_EFFECT_ROLL_TO_BOTTOM:Int = 4
+Rem
+bbdoc: Slide window to the left.
+End Rem
+Const wxSHOW_EFFECT_SLIDE_TO_LEFT:Int = 5
+Rem
+bbdoc: Slide window to the right.
+End Rem
+Const wxSHOW_EFFECT_SLIDE_TO_RIGHT:Int = 6
+Rem
+bbdoc: Slide window to the top.
+End Rem
+Const wxSHOW_EFFECT_SLIDE_TO_TOP:Int = 7
+Rem
+bbdoc: Slide window to the bottom.
+End Rem
+Const wxSHOW_EFFECT_SLIDE_TO_BOTTOM:Int = 8
+Rem
+bbdoc: Fade in or out effect.
+End Rem
+Const wxSHOW_EFFECT_BLEND:Int = 9
+Rem
+bbdoc: Expanding or collapsing effect.
+End Rem
+Const wxSHOW_EFFECT_EXPAND:Int = 10

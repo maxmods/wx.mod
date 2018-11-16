@@ -1037,7 +1037,15 @@ Type wxWindow Extends wxEvtHandler
 	Method Hide:Int()
 		Return bmx_wxwindow_hide(wxObjectPtr)
 	End Method
-	
+
+	Rem
+	bbdoc: Hides a window, like #Hide(), but using a special visual effect if possible.
+	about: The parameters of this method are the same as for #ShowWithEffect(), please see their description there.
+	End Rem
+	Method HideWithEffect:Int(effect:Int, timeout:Int = 0)
+		Return bmx_window_hidewitheffect(wxObjectPtr, effect, timeout)
+	End Method
+
 	Rem
 	bbdoc: This method is (or should be, in case of custom controls) called during window creation to intelligently set up the window visual attributes, that is the font and the foreground and background colours.
 	about: By "intelligently" the following is meant: by default, all windows use their own default attributes.
@@ -1864,6 +1872,14 @@ Type wxWindow Extends wxEvtHandler
 	Method Show:Int(value:Int = True)
 		Return bmx_wxwindow_show(wxObjectPtr, value)
 	End Method
+	
+	Rem
+	bbdoc: Shows a window, like #Show(), but using a special visual effect if possible.
+	about: Currently this function is only implemented in wxMSW and wxOSX and does the same thing as #Show() in the other ports.
+	End Rem
+	Method ShowWithEffect:Int(effect:Int, timeout:Int = 0)
+		Return bmx_window_showwitheffect(wxObjectPtr, effect, timeout)
+	End Method
 
 	Rem
 	bbdoc: Reenables window updating after a previous call to Freeze.
@@ -1998,6 +2014,13 @@ Type wxWindow Extends wxEvtHandler
 	End Rem
 	Method UpdateWindowUI(flags:Int = wxUPDATE_UI_NONE)
 		bmx_wxwindow_updatewindowui(wxObjectPtr, flags)
+	End Method
+	
+	Rem
+	bbdoc: Unsets any existing tooltip.
+	End Rem
+	Method UnsetToolTip()
+		bmx_wxwindow_unsettooltip(wxObjectPtr)
 	End Method
 	
 	Rem

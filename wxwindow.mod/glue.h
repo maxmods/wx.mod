@@ -245,6 +245,9 @@ extern "C" {
 	int bmx_wxwindow_todip(wxWindow * window, int d);
 	void bmx_wxwindow_todipsize(wxWindow * window, int w, int h, int * sw, int * sh);
 	void bmx_wxwindow_todippoint(wxWindow * window, int x, int y, int * px, int * py);
+	void bmx_wxwindow_unsettooltip(wxWindow * window);
+	int bmx_window_showwitheffect(wxWindow * window, int effect, int timeout);
+	int bmx_window_hidewitheffect(wxWindow * window, int effect, int timeout);
 
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);
