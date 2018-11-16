@@ -542,6 +542,48 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
+	bbdoc: Converts DPI-independent pixel values to the value in pixels appropriate for the current toolkit.
+	about: A DPI-independent pixel is just a pixel at the standard 96 DPI resolution. To keep the same physical size
+	at higher resolution, the physical pixel value must be scaled by GetContentScaleFactor() but this scaling may be
+	already done by the underlying toolkit (GTK+, Cocoa, ...) automatically. This method performs the conversion only
+	if it is not already done by the lower level toolkit and so by using it with pixel values you can guarantee that the
+	physical size of the corresponding elements will remain the same in all resolutions under all platforms. For example,
+	instead of creating a bitmap of the hard coded size of 32 pixels you should use
+	```
+	Local x:Int, y:Int
+	FromDIP(32, 32, x, y)
+	Local bmp:wxBitmap = New wxBitmap.CreateEmpty(x, y)
+	```
+	to avoid using tiny bitmaps on high DPI screens.
+
+	Notice that this function is only needed when using hard coded pixel values. It is not necessary if the sizes are already
+	based on the DPI-independent units such as dialog units or if you are relying on the controls automatic best size
+	determination and using sizers to lay out them.
+
+	Also note that if either component of sz has the special value of -1, it is returned unchanged independently of the
+	current DPI, to preserve the special value of -1 in wxWidgets API (it is often used to mean "unspecified").
+	End Rem
+	Method FromDIPPoint(x:Int, y:Int, px:Int Var, py:Int Var)
+		bmx_wxwindow_fromdippoint(wxObjectPtr, x, y, Varptr px, Varptr py)
+	End Method
+
+	Rem
+	bbdoc: Same as #FromDIPPoint.
+	End Rem
+	Method FromDIPSize(w:Int, h:Int, sw:Int Var, sh:Int Var)
+		bmx_wxwindow_fromdipsize(wxObjectPtr, w, h, Varptr sw, Varptr sh)
+	End Method
+
+	Rem
+	bbdoc: Converts DPI-independent distance in pixels to the value in pixels appropriate for the current toolkit.
+	about: This is the same as FromDIPPoint(const wxSize& sz) overload, but assumes that the resolution is the same in horizontal and vertical directions.
+	If @d has the special value of -1, it is returned unchanged independently of the current DPI.
+	End Rem
+	Method FromDIP:Int(d:Int)
+		Return bmx_wxwindow_fromdip(wxObjectPtr, d)
+	End Method
+	
+	Rem
 	bbdoc: Gets the accelerator table for this window.
 	End Rem
 	Method GetAcceleratorTable:wxAcceleratorTable()
@@ -1829,6 +1871,47 @@ Type wxWindow Extends wxEvtHandler
 	End Rem
 	Method Thaw()
 		bmx_wxwindow_thaw(wxObjectPtr)
+	End Method
+	
+	Rem
+	bbdoc: Converts pixel values of the current toolkit to DPI-independent pixel values.
+	about: This is the same as #ToDIPSize(), but assumes that the resolution is the same in horizontal and vertical directions.
+	If @d has the special value of -1, it is returned unchanged independently of the current DPI.
+	End Rem
+	Method ToDIP:Int(d:Int)
+		Return bmx_wxwindow_todip(wxObjectPtr, d)
+	End Method
+	
+	Rem
+	bbdoc: Converts pixel values of the current toolkit to DPI-independent pixel values.
+	about: A DPI-independent pixel is just a pixel at the standard 96 DPI resolution. To keep the same physical size at higher
+	resolution, the physical pixel value must be scaled by GetContentScaleFactor() but this scaling may be already done by
+	the underlying toolkit (GTK+, Cocoa, ...) automatically. This method performs the conversion only if it is not already
+	done by the lower level toolkit, For example, you may want to use this to store window sizes and positions so that they
+	can be re-used regardless of the display DPI:
+	```
+	Local x:Int, y:Int
+	Local px:Int, py:Int
+	GetPosition(px, py)
+	ToDIPPoint(px, py, x, y)
+
+	Local w:Int, h:Int
+	Local sw:Int, sh:Int
+	GetSize(sw, sh)
+	ToDIPSize(sw, sh, w, h)
+	```
+	Also note that if either component of size has the special value of -1, it is returned unchanged independently of the current DPI,
+	to preserve the special value of -1 in wxWidgets API (it is often used to mean "unspecified").
+	End Rem
+	Method ToDIPSize(w:Int, h:Int, sw:Int Var, sh:Int Var)
+		bmx_wxwindow_todipsize(wxObjectPtr, w, h, Varptr sw, Varptr sh)
+	End Method
+	
+	Rem
+	bbdoc: 
+	End Rem
+	Method ToDIPPoint(x:Int, y:Int, px:Int Var, py:Int Var)
+		bmx_wxwindow_todippoint(wxObjectPtr, x, y, Varptr px, Varptr py)
 	End Method
 	
 	Rem

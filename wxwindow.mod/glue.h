@@ -239,6 +239,13 @@ extern "C" {
 	int bmx_wxwindow_cansettransparent(wxWindow * window);
 	void bmx_wxwindow_endrepositioningchildren(wxWindow * window);
 
+	void bmx_wxwindow_fromdippoint(wxWindow * window, int x, int y, int * px, int * py);
+	void bmx_wxwindow_fromdipsize(wxWindow * window, int w, int h, int * sw, int * sh);
+	int bmx_wxwindow_fromdip(wxWindow * window, int d);
+	int bmx_wxwindow_todip(wxWindow * window, int d);
+	void bmx_wxwindow_todipsize(wxWindow * window, int w, int h, int * sw, int * sh);
+	void bmx_wxwindow_todippoint(wxWindow * window, int x, int y, int * px, int * py);
+
 	MaxBoxSizer * bmx_wxboxsizer_create(BBObject * maxHandle, int orient);
 	wxSizerItem * bmx_wxsizer_add(wxSizer * sizer, wxWindow * window, int proportion, int flag, int border);
 	wxSizerItem * bmx_wxsizer_addsizer(wxSizer * sizer, wxSizer * sz, int proportion, int flag, int border);

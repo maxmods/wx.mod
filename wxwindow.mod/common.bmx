@@ -235,6 +235,13 @@ Extern
 	Function bmx_wxwindow_cansettransparent:Int(handle:Byte Ptr)
 	Function bmx_wxwindow_endrepositioningchildren(handle:Byte Ptr)
 
+	Function bmx_wxwindow_fromdippoint(handle:Byte Ptr, x:Int, y:Int, px:Int Ptr, py:Int Ptr)
+	Function bmx_wxwindow_fromdipsize(handle:Byte Ptr, w:Int, h:Int, sw:Int Ptr, sh:Int Ptr)
+	Function bmx_wxwindow_fromdip:Int(handle:Byte Ptr, d:Int)
+	Function bmx_wxwindow_todip:Int(handle:Byte Ptr, d:Int)
+	Function bmx_wxwindow_todipsize(handle:Byte Ptr, w:Int, h:Int, sw:Int Ptr, sh:Int Ptr)
+	Function bmx_wxwindow_todippoint(handle:Byte Ptr, x:Int, y:Int, px:Int Ptr, py:Int Ptr)
+
 	Function bmx_wxboxsizer_create:Byte Ptr(handle:Object, orient:Int)
 	Function bmx_wxsizer_add:Byte Ptr(handler:Byte Ptr, window:Byte Ptr, proportion:Int, flag:Int, border:Int)
 	Function bmx_wxsizer_addsizer:Byte Ptr(handler:Byte Ptr, sizer:Byte Ptr, proportion:Int, flag:Int, border:Int)

@@ -969,6 +969,38 @@ void bmx_wxwindow_endrepositioningchildren(wxWindow * window) {
 	window->EndRepositioningChildren();
 }
 
+void bmx_wxwindow_fromdippoint(wxWindow * window, int x, int y, int * px, int * py) {
+	wxPoint p(window->FromDIP(wxPoint(x, y)));
+	*px = p.x;
+	*py = p.y;
+}
+
+void bmx_wxwindow_fromdipsize(wxWindow * window, int w, int h, int * sw, int * sh) {
+	wxSize s(window->FromDIP(wxSize(w, h)));
+	*sw = s.GetWidth();
+	*sh = s.GetHeight();
+}
+
+int bmx_wxwindow_fromdip(wxWindow * window, int d) {
+	return window->FromDIP(d);
+}
+
+int bmx_wxwindow_todip(wxWindow * window, int d) {
+	return window->ToDIP(d);
+}
+
+void bmx_wxwindow_todipsize(wxWindow * window, int w, int h, int * sw, int * sh) {
+	wxSize s(window->ToDIP(wxSize(w, h)));
+	*sw = s.GetWidth();
+	*sh = s.GetHeight();	
+}
+
+void bmx_wxwindow_todippoint(wxWindow * window, int x, int y, int * px, int * py) {
+	wxPoint p(window->ToDIP(wxPoint(x, y)));
+	*px = p.x;
+	*py = p.y;	
+}
+
 
 // *********************************************
 
