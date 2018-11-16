@@ -96,11 +96,11 @@ extern "C" {
 	int bmx_wxapp_macexitmenuitemid();
 	void bmx_wxapp_settopwindow(wxWindow * window);
 	void bmx_wxapp_setappname(BBString * name);
-	bool bmx_wxapp_yield(bool onlyIfNeeded);
+	int bmx_wxapp_yield(int onlyIfNeeded);
 	void bmx_wxapp_setownmain();
-	bool bmx_wxapp_dispatch();
+	int bmx_wxapp_dispatch();
 	int bmx_wxapp_pending();
-	bool bmx_wxapp_processidle();
+	int bmx_wxapp_processidle();
 	void bmx_wxapp_pollevents();
 
 	MaxEvtHandler * bmx_wxevthandler_create(BBObject * maxHandle);
@@ -118,37 +118,37 @@ extern "C" {
 	void * bmx_event_geteventobject(wxEvent * evt);
 	wxEventType bmx_eventtype_value(int type);
 	BBString * bmx_wxcommandevent_getstring(wxCommandEvent & event);
-	bool bmx_wxcommandevent_ischecked(wxCommandEvent & event);
+	int bmx_wxcommandevent_ischecked(wxCommandEvent & event);
 	int bmx_wxcommandevent_getint(wxCommandEvent & event);
 	int bmx_wxcommandevent_getselection(wxCommandEvent & event);
-	bool bmx_wxcommandevent_isselection(wxCommandEvent & event);
-	long bmx_wxcommandevent_getextralong(wxCommandEvent & event);
+	int bmx_wxcommandevent_isselection(wxCommandEvent & event);
+	int bmx_wxcommandevent_getextralong(wxCommandEvent & event);
 	void * bmx_wxcommandevent_getclientdata(wxCommandEvent & event);
 	void bmx_wxcommandevent_setclientdata(wxCommandEvent & event, void * data);
 	void bmx_wxcommandevent_setstring(wxCommandEvent & event, BBString * value);
 	void bmx_wxcommandevent_setint(wxCommandEvent & event, int value);
 
 	void bmx_wxmoveevent_getposition(wxMoveEvent & event, int * x, int * y);
-	void bmx_wxevent_skip(wxEvent & event, bool skip);
+	void bmx_wxevent_skip(wxEvent & event, int skip);
 	void bmx_wxsizeevent_getsize(wxSizeEvent & event, int * w, int * h);
 	wxEventType bmx_wxevent_geteventtype(wxEvent & event);
 	int bmx_wxevent_getid(wxEvent & event);
-	bool bmx_wxevent_getskipped(wxEvent & event);
-	long bmx_wxevent_gettimestamp(wxEvent & event);
-	bool bmx_wxevent_iscommandevent(wxEvent & event);
+	int bmx_wxevent_getskipped(wxEvent & event);
+	int bmx_wxevent_gettimestamp(wxEvent & event);
+	int bmx_wxevent_iscommandevent(wxEvent & event);
 	void bmx_wxevent_resumepropagation(wxEvent & event, int propagationLevel);
-	bool bmx_wxevent_shouldpropagate(wxEvent & event);
+	int bmx_wxevent_shouldpropagate(wxEvent & event);
 	int bmx_wxevent_stoppropagation(wxEvent & event);
 	wxObject * bmx_wxevent_geteventobject(wxEvent & event);
 
 	
-	void bmx_wxupdateeventui_check(wxUpdateUIEvent & event, bool value);
-	void bmx_wxupdateeventui_enable(wxUpdateUIEvent & event, bool value);
-	void bmx_wxupdateeventui_show(wxUpdateUIEvent & event, bool value);
+	void bmx_wxupdateeventui_check(wxUpdateUIEvent & event, int value);
+	void bmx_wxupdateeventui_enable(wxUpdateUIEvent & event, int value);
+	void bmx_wxupdateeventui_show(wxUpdateUIEvent & event, int value);
 	
 	void bmx_wxnotifyevent_allow(wxNotifyEvent & event);
 	void bmx_wxnotifyevent_veto(wxNotifyEvent & event);
-	bool bmx_wxnotifyevent_isallowed(wxNotifyEvent & event);
+	int bmx_wxnotifyevent_isallowed(wxNotifyEvent & event);
 
 	int bmx_wxscrollevent_getorientation(wxScrollEvent & event);
 	int bmx_wxscrollevent_getposition(wxScrollEvent & event);
@@ -156,26 +156,26 @@ extern "C" {
 	void bmx_wxcontextmenuevent_getposition(wxContextMenuEvent & event, int * x, int * y);
 	void bmx_wxcontextmenuevent_setposition(wxContextMenuEvent & event, int x, int y);
 
-	bool bmx_wxkeyevent_altdown(wxKeyEvent & event);
-	bool bmx_wxkeyevent_cmddown(wxKeyEvent & event);
-	bool bmx_wxkeyevent_controldown(wxKeyEvent & event);
+	int bmx_wxkeyevent_altdown(wxKeyEvent & event);
+	int bmx_wxkeyevent_cmddown(wxKeyEvent & event);
+	int bmx_wxkeyevent_controldown(wxKeyEvent & event);
 	int bmx_wxkeyevent_getkeycode(wxKeyEvent & event);
 	int bmx_wxkeyevent_getmodifiers(wxKeyEvent & event);
 	void bmx_wxkeyevent_getposition(wxKeyEvent & event, int * x, int * y);
 	int bmx_wxkeyevent_getrawkeycode(wxKeyEvent & event);
 	int bmx_wxkeyevent_getrawkeyflags(wxKeyEvent & event);
 	BBString * bmx_wxkeyevent_getunicodekey(wxKeyEvent & event);
-	long bmx_wxkeyevent_getx(wxKeyEvent & event);
-	long bmx_wxkeyevent_gety(wxKeyEvent & event);
-	bool bmx_wxkeyevent_hasmodifiers(wxKeyEvent & event);
-	bool bmx_wxkeyevent_metadown(wxKeyEvent & event);
-	bool bmx_wxkeyevent_shiftdown(wxKeyEvent & event);
+	int bmx_wxkeyevent_getx(wxKeyEvent & event);
+	int bmx_wxkeyevent_gety(wxKeyEvent & event);
+	int bmx_wxkeyevent_hasmodifiers(wxKeyEvent & event);
+	int bmx_wxkeyevent_metadown(wxKeyEvent & event);
+	int bmx_wxkeyevent_shiftdown(wxKeyEvent & event);
 
-	bool bmx_wxcloseevent_canveto(wxCloseEvent & event);
-	bool bmx_wxcloseevent_getloggingoff(wxCloseEvent & event);
-	void bmx_wxcloseevent_setcanveto(wxCloseEvent & event, bool canVeto);
-	void bmx_wxcloseevent_setloggingoff(wxCloseEvent & event, bool loggingOff);
-	void bmx_wxcloseevent_veto(wxCloseEvent & event, bool value);
+	int bmx_wxcloseevent_canveto(wxCloseEvent & event);
+	int bmx_wxcloseevent_getloggingoff(wxCloseEvent & event);
+	void bmx_wxcloseevent_setcanveto(wxCloseEvent & event, int canVeto);
+	void bmx_wxcloseevent_setloggingoff(wxCloseEvent & event, int loggingOff);
+	void bmx_wxcloseevent_veto(wxCloseEvent & event, int value);
 
 
 	BBString * bmx_wxversion_string();
@@ -191,7 +191,7 @@ extern "C" {
 	MaxColour * bmx_wxcolour_create(int r, int g, int b, int a);
 	MaxColour * bmx_wxcolour_null();
 	void bmx_wxcolour_delete(MaxColour * col);
-	bool bmx_wxcolour_isok(MaxColour * col);
+	int bmx_wxcolour_isok(MaxColour * col);
 	int bmx_wxcolour_red(MaxColour * col);
 	int bmx_wxcolour_green(MaxColour * col);
 	int bmx_wxcolour_blue(MaxColour * col);
@@ -199,8 +199,8 @@ extern "C" {
 	BBString * bmx_wxcolour_getasstring(MaxColour * col, int flags);
 	MaxColour * bmx_wxcolour_createnamedcolour(BBString * name);
 	void bmx_wxcolour_set(MaxColour * col, int r, int g, int b, int a);
-	bool bmx_wxcolour_setasnamedcolour(MaxColour * col, BBString * name);
-	bool bmx_wxcolour_equals(MaxColour * col, MaxColour * other);
+	int bmx_wxcolour_setasnamedcolour(MaxColour * col, BBString * name);
+	int bmx_wxcolour_equals(MaxColour * col, MaxColour * other);
 	void bmx_wxcolour_getrgb(MaxColour * col, int * r, int * g, int * b);
 	void bmx_wxcolour_getrgba(MaxColour * col, int * r, int * g, int * b, int * a);
 	MaxColour * bmx_wxcolour_copy(MaxColour * col);
@@ -273,19 +273,19 @@ extern "C" {
 	void bmx_wxstreambase_getlength(wxStreamBase * stream, BBInt64 * i);
 	int bmx_wxstreambase_getlasterror(wxStreamBase * stream);
 	int bmx_wxstreambase_getsize(wxStreamBase * stream);
-	bool bmx_wxstreambase_isok(wxStreamBase * stream);
-	bool bmx_wxstreambase_isseekable(wxStreamBase * stream);
+	int bmx_wxstreambase_isok(wxStreamBase * stream);
+	int bmx_wxstreambase_isseekable(wxStreamBase * stream);
 
 	int bmx_wxisalnum(int code);
 	int bmx_wxisprint(int code);
 	void bmx_wxinitallimagehandlers();
-	bool bmx_wxlaunchdefaultbrowser(BBString * url, int flags);
+	int bmx_wxlaunchdefaultbrowser(BBString * url, int flags);
 
 	MaxRect * bmx_wxrect_create(int x, int y, int w, int h);
 	MaxRect * bmx_wxrect_centrein(MaxRect * rect, MaxRect * r, int dir);
 	MaxRect * bmx_wxrect_centerin(MaxRect * rect, MaxRect * r, int dir);
-	bool bmx_wxrect_contains(MaxRect * rect, int x, int y);
-	bool bmx_wxrect_containsrect(MaxRect * rect, MaxRect * r);
+	int bmx_wxrect_contains(MaxRect * rect, int x, int y);
+	int bmx_wxrect_containsrect(MaxRect * rect, MaxRect * r);
 	void bmx_wxrect_deflate(MaxRect * rect, int dx, int dy);
 	int bmx_wxrect_getbottom(MaxRect * rect);
 	int bmx_wxrect_getheight(MaxRect * rect);
@@ -302,8 +302,8 @@ extern "C" {
 	int bmx_wxrect_getx(MaxRect * rect);
 	int bmx_wxrect_gety(MaxRect * rect);
 	void bmx_wxrect_inflate(MaxRect * rect, int dx, int dy);
-	bool bmx_wxrect_intersects(MaxRect * rect, MaxRect * r);
-	bool bmx_wxrect_isempty(MaxRect * rect);
+	int bmx_wxrect_intersects(MaxRect * rect, MaxRect * r);
+	int bmx_wxrect_isempty(MaxRect * rect);
 	void bmx_wxrect_offset(MaxRect * rect, int dx, int dy);
 	void bmx_wxrect_setheight(MaxRect * rect, int height);
 	void bmx_wxrect_setsize(MaxRect * rect, int w, int h);
@@ -315,7 +315,7 @@ extern "C" {
 
 	void bmx_gdi_wxclientdisplayrect(int * x, int * y, int * width, int * height);
 	MaxRect * bmx_gdi_wxgetclientdisplayrect();
-	bool bmx_gdi_wxcolourdisplay();
+	int bmx_gdi_wxcolourdisplay();
 	int bmx_gdi_wxdisplaydepth();
 	void bmx_gdi_wxdisplaysize(int * width, int * height);
 	void bmx_gdi_wxdisplaysizemm(int * width, int * height);
@@ -327,8 +327,8 @@ extern "C" {
 	BBString * bmx_wxgethomedir();
 	BBString * bmx_wxgethostname();
 	wxOperatingSystemId bmx_wxgetosversion(int * major, int * minor);
-	bool bmx_wxisplatformlittleendian();
-	bool bmx_wxisplatform64bit();
+	int bmx_wxisplatformlittleendian();
+	int bmx_wxisplatform64bit();
 	BBString * bmx_wxgetuserhome(BBString * user);
 	BBString * bmx_wxgetuserid();
 	BBString * bmx_wxgetusername();
@@ -342,8 +342,8 @@ extern "C" {
 
 	int bmx_wxinputstream_lastread(wxInputStream * s);
 	wxInputStream * bmx_wxinputstream_read(wxInputStream * s, void * buffer, int size);
-	bool bmx_wxinputstream_canread(wxInputStream * s);
-	bool bmx_wxinputstream_eof(wxInputStream * s);
+	int bmx_wxinputstream_canread(wxInputStream * s);
+	int bmx_wxinputstream_eof(wxInputStream * s);
 
 	wxTextInputStream * bmx_wxtextinputstream_create(wxInputStream * inp, BBString * separators);
 	int bmx_wxtextinputstream_read8(wxTextInputStream * s, int base);
@@ -359,31 +359,31 @@ extern "C" {
 	void bmx_wxtextinputstream_setstringseparators(wxTextInputStream * s, BBString * separators);
 	void bmx_wxtextinputstream_delete(wxTextInputStream * s);
 
-	bool bmx_wxoutputstream_close(wxOutputStream * s);
+	int bmx_wxoutputstream_close(wxOutputStream * s);
 	int bmx_wxoutputstream_lastwrite(wxOutputStream * s);
 	wxOutputStream * bmx_wxoutputstream_write(wxOutputStream * s, void * buffer, int size);
 
 	wxFileOutputStream * bmx_wxfileoutputstream_create(BBString * filename);
-	bool bmx_wxfileoutputstream_isok(wxFileOutputStream * stream);
+	int bmx_wxfileoutputstream_isok(wxFileOutputStream * stream);
 	void bmx_wxfileoutputstream_free(wxFileOutputStream * stream);
 
 	wxFileInputStream * bmx_wxfileinputstream_create(BBString * filename);
-	bool bmx_wxfileinputstream_isok(wxFileInputStream * stream);
+	int bmx_wxfileinputstream_isok(wxFileInputStream * stream);
 	void bmx_wxfileinputstream_free(wxFileInputStream * stream);
 
 	void bmx_wxfilterinputstream_free(wxFilterInputStream * stream);
 
-	long bmx_wxnewid();
-	void bmx_wxregisterid(long id);
-	void bmx_wxenabletoplevelwindows(bool enable);
+	int bmx_wxnewid();
+	void bmx_wxregisterid(int id);
+	void bmx_wxenabletoplevelwindows(int enable);
 	void bmx_wxgetmouseposition(int * x, int * y);
 
 //	long bmx_wxgetelapsedtime(bool resetTimer);
-	long bmx_wxgetlocaltime();
+	int bmx_wxgetlocaltime();
 	void bmx_wxgetlocaltimemillis(BBInt64 * time);
-	long bmx_wxgetutctime();
-	void bmx_wxmicrosleep(unsigned long microseconds);
-	void bmx_wxmillisleep(unsigned long milliseconds);
+	int bmx_wxgetutctime();
+	void bmx_wxmicrosleep(int microseconds);
+	void bmx_wxmillisleep(int milliseconds);
 	BBString * bmx_wxnow();
 	void bmx_wxsleep(int secs);
 //	void bmx_wxstarttimer();
@@ -404,11 +404,27 @@ extern "C" {
 	void bmx_wxpowerevent_veto(wxEvent & event);
 #endif
 
-	bool bmx_wxactivateevent_getactive(wxActivateEvent & event);
-	bool bmx_wxiconizeevent_iconized(wxIconizeEvent & event);
+	int bmx_wxactivateevent_getactive(wxActivateEvent & event);
+	int bmx_wxiconizeevent_iconized(wxIconizeEvent & event);
 
 	void bmx_wxbell();
 	int bmx_wxyield();
+
+	void bmx_wxgestureevent_getposition(wxGestureEvent & event, int * x, int * y);
+	int bmx_wxgestureevent_isgesturestart(wxGestureEvent & event);
+	int bmx_wxgestureevent_isgestureend(wxGestureEvent & event);
+	void bmx_wxgestureevent_setposition(wxGestureEvent & event, int x, int y);
+	void bmx_wxgestureevent_setgesturestart(wxGestureEvent & event, int isStart);
+	void bmx_wxgestureevent_setgestureend(wxGestureEvent & event, int isEnd);
+
+	void bmx_wxpangestureevent_getdelta(wxPanGestureEvent & event, int * x, int * y);
+	void bmx_wxpangestureevent_setdelta(wxPanGestureEvent & event, int x, int y);
+
+	double bmx_wxrotategestureevent_getrotationangle(wxRotateGestureEvent & event);
+	void bmx_wxrotategestureevent_setrotationangle(wxRotateGestureEvent & event, double angle);
+
+	double bmx_wxzoomgestureevent_getzoomfactor(wxZoomGestureEvent & event);
+	void bmx_wxzoomgestureevent_setzoomfactor(wxZoomGestureEvent & event, double factor);
 }
 
 

@@ -427,6 +427,17 @@ Type wxWindow Extends wxEvtHandler
 	End Method
 	
 	Rem
+	bbdoc: Requests generation of touch events for this window.
+	returns: #True if the specified events were enabled or #False if the current platform doesn't support touch events.
+	about: Each call to this method supersedes the previous ones, i.e. if you want to receive events for both zoom and rotate gestures, you need to call
+	```EnableTouchEvents(wxTOUCH_ZOOM_GESTURE | wxTOUCH_ROTATE_GESTURE)```
+	instead of calling it twice in a row as the second call would disable the first gesture.
+	End Rem
+	Method EnableTouchEvents:Int(eventMask:Int)
+		Return bmx_wxwindow_enabletouchevents(wxObjectPtr, eventMask)
+	End Method
+	
+	Rem
 	bbdoc: Fixes child window positions after setting all of them at once.
 	about: This method must be called if and only if the previous call to BeginRepositioningChildren() returned true.
 	End Rem
@@ -3873,6 +3884,18 @@ Type TWindowEventFactory Extends TEventFactory
 				Return wxEraseEvent.Create(wxEventPtr, evt)
 			Case wxEVT_DESTROY
 				Return wxWindowDestroyEvent.Create(wxEventPtr, evt)
+			Case wxEVT_LONG_PRESS
+				Return wxLongPressEvent.Create(wxEventPtr, evt)
+			Case wxEVT_GESTURE_PAN
+				Return wxPanGestureEvent.Create(wxEventPtr, evt)
+			Case wxEVT_PRESS_AND_TAP
+				Return wxPressAndTapEvent.Create(wxEventPtr, evt)
+			Case wxEVT_GESTURE_ROTATE
+				Return wxRotateGestureEvent.Create(wxEventPtr, evt)
+			Case wxEVT_TWO_FINGER_TAP
+				Return wxTwoFingerTapEvent.Create(wxEventPtr, evt)
+			Case wxEVT_GESTURE_ZOOM
+				Return wxZoomGestureEvent.Create(wxEventPtr, evt)
 		End Select
 		
 		Return Null
@@ -3892,7 +3915,14 @@ Type TWindowEventFactory Extends TEventFactory
 					wxEVT_COMMAND_TEXT_PASTE, ..
 					wxEVT_SET_CURSOR, ..
 					wxEVT_ERASE_BACKGROUND, ..
-					wxEVT_DESTROY
+					wxEVT_DESTROY, ..
+					wxEVT_LONG_PRESS, ..
+					wxEVT_GESTURE_PAN, ..
+					wxEVT_PRESS_AND_TAP, ..
+					wxEVT_GESTURE_ROTATE, ..
+					wxEVT_TWO_FINGER_TAP, ..
+					wxEVT_GESTURE_ZOOM
+
 			Return bmx_eventtype_value(eventType)
 		End Select
 	End Method

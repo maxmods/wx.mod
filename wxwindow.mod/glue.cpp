@@ -531,6 +531,10 @@ int bmx_wxwindow_enable(wxWindow * window, int value) {
 	return static_cast<int>(window->Enable(static_cast<bool>(value)));
 }
 
+int bmx_wxwindow_enabletouchevents(wxWindow * window, int eventMask) {
+	return static_cast<int>(window->EnableTouchEvents(eventMask));
+}
+
 void bmx_wxwindow_fit(wxWindow * window) {
 	window->Fit();
 }

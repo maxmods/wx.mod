@@ -137,6 +137,7 @@ Extern
 	Function bmx_wxwindow_disable:Int(handle:Byte Ptr)
 	Function bmx_wxwindow_dragacceptfiles(handle:Byte Ptr, accept:Int)
 	Function bmx_wxwindow_enable:Int(handle:Byte Ptr, value:Int)
+	Function bmx_wxwindow_enabletouchevents:Int(handle:Byte Ptr, eventMask:Int)
 	Function bmx_wxwindow_fit(handle:Byte Ptr)
 	Function bmx_wxwindow_fitinside(handle:Byte Ptr)
 	Function bmx_wxwindow_freeze(handle:Byte Ptr)
@@ -483,4 +484,38 @@ about: Currently for Win32 only and it doesn't work if wxMINIMIZE_BOX or wxMAXIM
 End Rem
 Const wxWS_EX_CONTEXTHELP:Int = $00000080
 
-
+Rem
+bbdoc: Don't generate any touch events.
+End Rem
+Const wxTOUCH_NONE:Int = $0000
+Rem
+bbdoc: Generate #wxPanGestureEvent for vertical pans.
+about: Note that under macOS horizontal pan events are also enabled when this flag is specified.
+End Rem
+Const wxTOUCH_VERTICAL_PAN_GESTURE:Int = $0001
+Rem
+bbdoc: Generate #wxPanGestureEvent for horizontal pans.
+about: Note that under macOS vertical pan events are also enabled when this flag is specified.
+End Rem
+Const wxTOUCH_HORIZONTAL_PAN_GESTURE:Int = $0002
+Rem
+bbdoc: Generate #wxPanGestureEvent for any pans.
+about: This is just a convenient combination of #wxTOUCH_VERTICAL_PAN_GESTURE and #wxTOUCH_HORIZONTAL_PAN_GESTURE
+End Rem
+Const wxTOUCH_PAN_GESTURES:Int = wxTOUCH_VERTICAL_PAN_GESTURE | wxTOUCH_HORIZONTAL_PAN_GESTURE
+Rem
+bbdoc: Generate #wxZoomGestureEvent.
+End Rem
+Const wxTOUCH_ZOOM_GESTURE:Int = $0004
+Rem
+bbdoc: Generate #wxRotateGestureEvent.
+End Rem
+Const wxTOUCH_ROTATE_GESTURE:Int = $0008
+Rem
+bbdoc: Generate events for press or tap gestures such as #wxTwoFingerTapEvent, #wxLongPressEvent and #wxPressAndTapEvent.
+End Rem
+Const wxTOUCH_PRESS_GESTURES:Int = $0010
+Rem
+bbdoc: Enable all supported gesture events.
+End Rem
+Const wxTOUCH_ALL_GESTURES:Int = $001F

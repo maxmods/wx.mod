@@ -521,6 +521,22 @@ Extern
 
 	Function bmx_wxbell()
 	Function bmx_wxyield:Int()
+	
+	Function bmx_wxgestureevent_getposition(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxgestureevent_isgesturestart:Int(handle:Byte Ptr)
+	Function bmx_wxgestureevent_isgestureend:Int(handle:Byte Ptr)
+	Function bmx_wxgestureevent_setposition(handle:Byte Ptr, x:Int, y:Int)
+	Function bmx_wxgestureevent_setgesturestart(handle:Byte Ptr, isStart:Int)
+	Function bmx_wxgestureevent_setgestureend(handle:Byte Ptr, isEnd:Int)
+
+	Function bmx_wxpangestureevent_getdelta(handle:Byte Ptr, x:Int Ptr, y:Int Ptr)
+	Function bmx_wxpangestureevent_setdelta(handle:Byte Ptr, x:Int, y:Int)
+
+	Function bmx_wxrotategestureevent_getrotationangle:Double(handle:Byte Ptr)
+	Function bmx_wxrotategestureevent_setrotationangle(handle:Byte Ptr, angle:Double)
+
+	Function bmx_wxzoomgestureevent_getzoomfactor:Double(handle:Byte Ptr)
+	Function bmx_wxzoomgestureevent_setzoomfactor(handle:Byte Ptr, factor:Double)
 
 End Extern
 

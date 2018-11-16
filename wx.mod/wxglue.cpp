@@ -589,24 +589,24 @@ void bmx_wxapp_setappname(BBString * name) {
 	wxGetApp().SetAppName(wxStringFromBBString(name));
 }
 
-bool bmx_wxapp_yield(bool onlyIfNeeded) {
-	return wxGetApp().Yield(onlyIfNeeded);
+int bmx_wxapp_yield(int onlyIfNeeded) {
+	return static_cast<int>(wxGetApp().Yield(static_cast<bool>(onlyIfNeeded)));
 }
 
 void bmx_wxapp_setownmain() {
 	MaxApp::ownMain = true;
 }
 
-bool bmx_wxapp_dispatch() {
-	return wxGetApp().Dispatch();
+int bmx_wxapp_dispatch() {
+	return static_cast<int>(wxGetApp().Dispatch());
 }
 
 int bmx_wxapp_pending() {
 	return wxGetApp().Pending();
 }
 
-bool bmx_wxapp_processidle() {
-	return wxGetApp().ProcessIdle();
+int bmx_wxapp_processidle() {
+	return static_cast<int>(wxGetApp().ProcessIdle());
 }
 
 // *********************************************
@@ -838,6 +838,12 @@ int bmx_eventtype_value(int type) {
 		case 504: return wxEVT_COMMAND_SET_FOCUS;
 		case 505: return wxEVT_COMMAND_KILL_FOCUS;
 		case 506: return wxEVT_COMMAND_ENTER;
+		case -510: return wxEVT_LONG_PRESS;
+		case -511: return wxEVT_GESTURE_PAN;
+		case -512: return wxEVT_PRESS_AND_TAP;
+		case -513: return wxEVT_GESTURE_ROTATE;
+		case -514: return wxEVT_TWO_FINGER_TAP;
+		case -515: return wxEVT_GESTURE_ZOOM;
 	}
 	
 	return 0;
@@ -863,8 +869,8 @@ BBString * bmx_wxcommandevent_getstring(wxCommandEvent & event) {
 	return bbStringFromWxString(event.GetString());
 }
 
-bool bmx_wxcommandevent_ischecked(wxCommandEvent & event) {
-	return event.IsChecked();
+int bmx_wxcommandevent_ischecked(wxCommandEvent & event) {
+	return static_cast<int>(event.IsChecked());
 }
 
 
@@ -876,8 +882,8 @@ void bmx_wxnotifyevent_veto(wxNotifyEvent & event) {
 	event.Veto();
 }
 
-bool bmx_wxnotifyevent_isallowed(wxNotifyEvent & event) {
-	return event.IsAllowed();
+int bmx_wxnotifyevent_isallowed(wxNotifyEvent & event) {
+	return static_cast<int>(event.IsAllowed());
 }
 
 int bmx_wxcommandevent_getint(wxCommandEvent & event) {
@@ -888,12 +894,12 @@ int bmx_wxcommandevent_getselection(wxCommandEvent & event) {
 	return event.GetSelection();
 }
 
-bool bmx_wxcommandevent_isselection(wxCommandEvent & event) {
-	return event.IsSelection();
+int bmx_wxcommandevent_isselection(wxCommandEvent & event) {
+	return static_cast<int>(event.IsSelection());
 }
 
-long bmx_wxcommandevent_getextralong(wxCommandEvent & event) {
-	return event.GetExtraLong();
+int bmx_wxcommandevent_getextralong(wxCommandEvent & event) {
+	return static_cast<int>(event.GetExtraLong());
 }
 
 void * bmx_wxcommandevent_getclientdata(wxCommandEvent & event) {
@@ -920,8 +926,8 @@ void bmx_wxmoveevent_getposition(wxMoveEvent & event, int * x, int * y) {
 	*y = p.y;
 }
 
-void bmx_wxevent_skip(wxEvent & event, bool skip) {
-	event.Skip(skip);
+void bmx_wxevent_skip(wxEvent & event, int skip) {
+	event.Skip(static_cast<bool>(skip));
 }
 
 void bmx_wxsizeevent_getsize(wxSizeEvent & event, int * w, int * h) {
@@ -938,24 +944,24 @@ int bmx_wxevent_getid(wxEvent & event) {
 	return event.GetId();
 }
 
-bool bmx_wxevent_getskipped(wxEvent & event) {
-	return event.GetSkipped();
+int bmx_wxevent_getskipped(wxEvent & event) {
+	return static_cast<int>(event.GetSkipped());
 }
 
-long bmx_wxevent_gettimestamp(wxEvent & event) {
-	return event.GetTimestamp();
+int bmx_wxevent_gettimestamp(wxEvent & event) {
+	return static_cast<int>(event.GetTimestamp());
 }
 
-bool bmx_wxevent_iscommandevent(wxEvent & event) {
-	return event.IsCommandEvent();
+int bmx_wxevent_iscommandevent(wxEvent & event) {
+	return static_cast<int>(event.IsCommandEvent());
 }
 
 void bmx_wxevent_resumepropagation(wxEvent & event, int propagationLevel) {
 	event.ResumePropagation(propagationLevel);
 }
 
-bool bmx_wxevent_shouldpropagate(wxEvent & event) {
-	return event.ShouldPropagate();
+int bmx_wxevent_shouldpropagate(wxEvent & event) {
+	return static_cast<int>(event.ShouldPropagate());
 }
 
 int bmx_wxevent_stoppropagation(wxEvent & event) {
@@ -967,16 +973,16 @@ wxObject * bmx_wxevent_geteventobject(wxEvent & event) {
 }
 
 
-void bmx_wxupdateeventui_check(wxUpdateUIEvent & event, bool value) {
-	event.Check(value);
+void bmx_wxupdateeventui_check(wxUpdateUIEvent & event, int value) {
+	event.Check(static_cast<bool>(value));
 }
 
-void bmx_wxupdateeventui_enable(wxUpdateUIEvent & event, bool value) {
-	event.Enable(value);
+void bmx_wxupdateeventui_enable(wxUpdateUIEvent & event, int value) {
+	event.Enable(static_cast<bool>(value));
 }
 
-void bmx_wxupdateeventui_show(wxUpdateUIEvent & event, bool value) {
-	event.Show(value);
+void bmx_wxupdateeventui_show(wxUpdateUIEvent & event, int value) {
+	event.Show(static_cast<bool>(value));
 }
 
 int bmx_wxscrollevent_getorientation(wxScrollEvent & event) {
@@ -1010,8 +1016,8 @@ void bmx_wxcolour_delete(MaxColour * col) {
 	delete col;
 }
 
-bool bmx_wxcolour_isok(MaxColour * col) {
-	return col->Colour().IsOk();
+int bmx_wxcolour_isok(MaxColour * col) {
+	return static_cast<int>(col->Colour().IsOk());
 }
 
 int bmx_wxcolour_red(MaxColour * col) {
@@ -1043,8 +1049,8 @@ void bmx_wxcolour_set(MaxColour * col, int r, int g, int b, int a) {
 	col->Colour().Set(r, g, b, a);
 }
 
-bool bmx_wxcolour_setasnamedcolour(MaxColour * col, BBString * name) {
-	return col->Colour().Set(wxStringFromBBString(name));
+int bmx_wxcolour_setasnamedcolour(MaxColour * col, BBString * name) {
+	return static_cast<int>(col->Colour().Set(wxStringFromBBString(name)));
 }
 
 MaxColour * bmx_wxcolour_null() {
@@ -1052,7 +1058,7 @@ MaxColour * bmx_wxcolour_null() {
 	return new MaxColour(c);
 }
 
-bool bmx_wxcolour_equals(MaxColour * col, MaxColour * other) {
+int bmx_wxcolour_equals(MaxColour * col, MaxColour * other) {
 	return col->Colour() == other->Colour();
 }
 
@@ -1357,12 +1363,12 @@ int bmx_wxstreambase_getsize(wxStreamBase * stream) {
 	return stream->GetSize();
 }
 
-bool bmx_wxstreambase_isok(wxStreamBase * stream) {
-	return stream->IsOk();
+int bmx_wxstreambase_isok(wxStreamBase * stream) {
+	return static_cast<int>(stream->IsOk());
 }
 
-bool bmx_wxstreambase_isseekable(wxStreamBase * stream) {
-	return stream->IsSeekable();
+int bmx_wxstreambase_isseekable(wxStreamBase * stream) {
+	return static_cast<int>(stream->IsSeekable());
 }
 
 // *********************************************
@@ -1379,23 +1385,23 @@ void bmx_wxinitallimagehandlers() {
 	wxInitAllImageHandlers();
 }
 
-bool bmx_wxlaunchdefaultbrowser(BBString * url, int flags) {
-	return wxLaunchDefaultBrowser(wxStringFromBBString(url), flags);
+int bmx_wxlaunchdefaultbrowser(BBString * url, int flags) {
+	return static_cast<int>(wxLaunchDefaultBrowser(wxStringFromBBString(url), flags));
 }
 
 // *********************************************
 
 
-bool bmx_wxkeyevent_altdown(wxKeyEvent & event) {
-	return event.AltDown();
+int bmx_wxkeyevent_altdown(wxKeyEvent & event) {
+	return static_cast<int>(event.AltDown());
 }
 
-bool bmx_wxkeyevent_cmddown(wxKeyEvent & event) {
-	return event.CmdDown();
+int bmx_wxkeyevent_cmddown(wxKeyEvent & event) {
+	return static_cast<int>(event.CmdDown());
 }
 
-bool bmx_wxkeyevent_controldown(wxKeyEvent & event) {
-	return event.ControlDown();
+int bmx_wxkeyevent_controldown(wxKeyEvent & event) {
+	return static_cast<int>(event.ControlDown());
 }
 
 int bmx_wxkeyevent_getkeycode(wxKeyEvent & event) {
@@ -1422,46 +1428,46 @@ BBString * bmx_wxkeyevent_getunicodekey(wxKeyEvent & event) {
 	return bbStringFromWxString(wxString(event.GetUnicodeKey()));
 }
 
-long bmx_wxkeyevent_getx(wxKeyEvent & event) {
-	return event.GetX();
+int bmx_wxkeyevent_getx(wxKeyEvent & event) {
+	return static_cast<int>(event.GetX());
 }
 
-long bmx_wxkeyevent_gety(wxKeyEvent & event) {
-	return event.GetY();
+int bmx_wxkeyevent_gety(wxKeyEvent & event) {
+	return static_cast<int>(event.GetY());
 }
 
-bool bmx_wxkeyevent_hasmodifiers(wxKeyEvent & event) {
-	return event.HasModifiers();
+int bmx_wxkeyevent_hasmodifiers(wxKeyEvent & event) {
+	return static_cast<int>(event.HasModifiers());
 }
 
-bool bmx_wxkeyevent_metadown(wxKeyEvent & event) {
-	return event.MetaDown();
+int bmx_wxkeyevent_metadown(wxKeyEvent & event) {
+	return static_cast<int>(event.MetaDown());
 }
 
-bool bmx_wxkeyevent_shiftdown(wxKeyEvent & event) {
-	return event.ShiftDown();
+int bmx_wxkeyevent_shiftdown(wxKeyEvent & event) {
+	return static_cast<int>(event.ShiftDown());
 }
 
 // *********************************************
 
-bool bmx_wxcloseevent_canveto(wxCloseEvent & event) {
-	return event.CanVeto();
+int bmx_wxcloseevent_canveto(wxCloseEvent & event) {
+	return static_cast<int>(event.CanVeto());
 }
 
-bool bmx_wxcloseevent_getloggingoff(wxCloseEvent & event) {
-	return event.GetLoggingOff();
+int bmx_wxcloseevent_getloggingoff(wxCloseEvent & event) {
+	return static_cast<int>(event.GetLoggingOff());
 }
 
-void bmx_wxcloseevent_setcanveto(wxCloseEvent & event, bool canVeto) {
-	event.SetCanVeto(canVeto);
+void bmx_wxcloseevent_setcanveto(wxCloseEvent & event, int canVeto) {
+	event.SetCanVeto(static_cast<bool>(canVeto));
 }
 
-void bmx_wxcloseevent_setloggingoff(wxCloseEvent & event, bool loggingOff) {
-	event.SetLoggingOff(loggingOff);
+void bmx_wxcloseevent_setloggingoff(wxCloseEvent & event, int loggingOff) {
+	event.SetLoggingOff(static_cast<bool>(loggingOff));
 }
 
-void bmx_wxcloseevent_veto(wxCloseEvent & event, bool value) {
-	event.Veto(value);
+void bmx_wxcloseevent_veto(wxCloseEvent & event, int value) {
+	event.Veto(static_cast<bool>(value));
 }
 
 // *********************************************
@@ -1481,12 +1487,12 @@ MaxRect * bmx_wxrect_centerin(MaxRect * rect, MaxRect * r, int dir) {
 	return new MaxRect(rr);
 }
 
-bool bmx_wxrect_contains(MaxRect * rect, int x, int y) {
-	return rect->Rect().Contains(x, y);
+int bmx_wxrect_contains(MaxRect * rect, int x, int y) {
+	return static_cast<int>(rect->Rect().Contains(x, y));
 }
 
-bool bmx_wxrect_containsrect(MaxRect * rect, MaxRect * r) {
-	return rect->Rect().Contains(r->Rect());
+int bmx_wxrect_containsrect(MaxRect * rect, MaxRect * r) {
+	return static_cast<int>(rect->Rect().Contains(r->Rect()));
 }
 
 void bmx_wxrect_deflate(MaxRect * rect, int dx, int dy) {
@@ -1565,12 +1571,12 @@ void bmx_wxrect_inflate(MaxRect * rect, int dx, int dy) {
 	rect->Rect().Inflate(dx, dy);
 }
 
-bool bmx_wxrect_intersects(MaxRect * rect, MaxRect * r) {
-	return rect->Rect().Intersects(r->Rect());
+int bmx_wxrect_intersects(MaxRect * rect, MaxRect * r) {
+	return static_cast<int>(rect->Rect().Intersects(r->Rect()));
 }
 
-bool bmx_wxrect_isempty(MaxRect * rect) {
-	return rect->Rect().IsEmpty();
+int bmx_wxrect_isempty(MaxRect * rect) {
+	return static_cast<int>(rect->Rect().IsEmpty());
 }
 
 void bmx_wxrect_offset(MaxRect * rect, int dx, int dy) {
@@ -1612,8 +1618,8 @@ void bmx_gdi_wxclientdisplayrect(int * x, int * y, int * width, int * height) {
 	wxClientDisplayRect(x, y, width, height);
 }
 
-bool bmx_gdi_wxcolourdisplay() {
-	return wxColourDisplay();
+int bmx_gdi_wxcolourdisplay() {
+	return static_cast<int>(wxColourDisplay());
 }
 
 int bmx_gdi_wxdisplaydepth() {
@@ -1658,12 +1664,12 @@ wxOperatingSystemId bmx_wxgetosversion(int * major, int * minor) {
 	return wxGetOsVersion(major, minor);
 }
 
-bool bmx_wxisplatformlittleendian() {
-	return wxIsPlatformLittleEndian();
+int bmx_wxisplatformlittleendian() {
+	return static_cast<int>(wxIsPlatformLittleEndian());
 }
 
-bool bmx_wxisplatform64bit() {
-	return wxIsPlatform64Bit();
+int bmx_wxisplatform64bit() {
+	return static_cast<int>(wxIsPlatform64Bit());
 }
 
 BBString * bmx_wxgetuserhome(BBString * user) {
@@ -1710,12 +1716,12 @@ wxInputStream * bmx_wxinputstream_read(wxInputStream * s, void * buffer, int siz
 	return &s->Read(buffer, size);
 }
 
-bool bmx_wxinputstream_canread(wxInputStream * s) {
-	return s->CanRead();
+int bmx_wxinputstream_canread(wxInputStream * s) {
+	return static_cast<int>(s->CanRead());
 }
 
-bool bmx_wxinputstream_eof(wxInputStream * s) {
-	return s->Eof();
+int bmx_wxinputstream_eof(wxInputStream * s) {
+	return static_cast<int>(s->Eof());
 }
 
 // *********************************************
@@ -1774,8 +1780,8 @@ void bmx_wxtextinputstream_delete(wxTextInputStream * s) {
 
 // *********************************************
 
-bool bmx_wxoutputstream_close(wxOutputStream * s) {
-	return s->Close();
+int bmx_wxoutputstream_close(wxOutputStream * s) {
+	return static_cast<int>(s->Close());
 }
 
 int bmx_wxoutputstream_lastwrite(wxOutputStream * s) {
@@ -1792,8 +1798,8 @@ wxFileOutputStream * bmx_wxfileoutputstream_create(BBString * filename) {
 	return new wxFileOutputStream(wxStringFromBBString(filename));
 }
 
-bool bmx_wxfileoutputstream_isok(wxFileOutputStream * stream) {
-	return stream->IsOk();
+int bmx_wxfileoutputstream_isok(wxFileOutputStream * stream) {
+	return static_cast<int>(stream->IsOk());
 }
 
 void bmx_wxfileoutputstream_free(wxFileOutputStream * stream) {
@@ -1806,8 +1812,8 @@ wxFileInputStream * bmx_wxfileinputstream_create(BBString * filename) {
 	return new wxFileInputStream(wxStringFromBBString(filename));
 }
 
-bool bmx_wxfileinputstream_isok(wxFileInputStream * stream) {
-	return stream->IsOk();
+int bmx_wxfileinputstream_isok(wxFileInputStream * stream) {
+	return static_cast<int>(stream->IsOk());
 }
 
 void bmx_wxfileinputstream_free(wxFileInputStream * stream) {
@@ -1822,16 +1828,16 @@ void bmx_wxfilterinputstream_free(wxFilterInputStream * stream) {
 
 // *********************************************
 
-long bmx_wxnewid() {
-	return wxNewId();
+int bmx_wxnewid() {
+	return static_cast<int>(wxNewId());
 }
 
-void bmx_wxregisterid(long id) {
-	wxRegisterId(id);
+void bmx_wxregisterid(int id) {
+	wxRegisterId(static_cast<long>(id));
 }
 
-void bmx_wxenabletoplevelwindows(bool enable) {
-	wxEnableTopLevelWindows(enable);
+void bmx_wxenabletoplevelwindows(int enable) {
+	wxEnableTopLevelWindows(static_cast<bool>(enable));
 }
 
 void bmx_wxgetmouseposition(int * x, int * y) {
@@ -1846,8 +1852,8 @@ void bmx_wxgetmouseposition(int * x, int * y) {
 //	return wxGetElapsedTime(resetTimer);
 //}
 
-long bmx_wxgetlocaltime() {
-	return wxGetLocalTime();
+int bmx_wxgetlocaltime() {
+	return static_cast<int>(wxGetLocalTime());
 }
 
 void bmx_wxgetlocaltimemillis(BBInt64 * time) {
@@ -1855,16 +1861,16 @@ void bmx_wxgetlocaltimemillis(BBInt64 * time) {
 	*time = t.GetValue();
 }
 
-long bmx_wxgetutctime() {
-	return wxGetUTCTime();
+int bmx_wxgetutctime() {
+	return static_cast<int>(wxGetUTCTime());
 }
 
-void bmx_wxmicrosleep(unsigned long microseconds) {
-	wxMicroSleep(microseconds);
+void bmx_wxmicrosleep(int microseconds) {
+	wxMicroSleep(static_cast<unsigned long>(microseconds));
 }
 
-void bmx_wxmillisleep(unsigned long milliseconds) {
-	wxMilliSleep(milliseconds);
+void bmx_wxmillisleep(int milliseconds) {
+	wxMilliSleep(static_cast<unsigned long>(milliseconds));
 }
 
 BBString * bmx_wxnow() {
@@ -1931,12 +1937,12 @@ void bmx_wxpowerevent_veto(wxEvent & WXUNUSED(event)) {
 
 // *********************************************
 
-bool bmx_wxactivateevent_getactive(wxActivateEvent & event) {
-	return event.GetActive();
+int bmx_wxactivateevent_getactive(wxActivateEvent & event) {
+	return static_cast<int>(event.GetActive());
 }
 
-bool bmx_wxiconizeevent_iconized(wxIconizeEvent & event) {
-	return event.IsIconized();
+int bmx_wxiconizeevent_iconized(wxIconizeEvent & event) {
+	return static_cast<int>(event.IsIconized());
 }
 
 // *********************************************
@@ -1947,5 +1953,62 @@ void bmx_wxbell() {
 
 int bmx_wxyield() {
 	return static_cast<int>(wxYield());
+}
+
+// *********************************************
+
+void bmx_wxgestureevent_getposition(wxGestureEvent & event, int * x, int * y) {
+	wxPoint p(event.GetPosition());
+	*x = p.x;
+	*y = p.y;
+}
+
+int bmx_wxgestureevent_isgesturestart(wxGestureEvent & event) {
+	return static_cast<int>(event.IsGestureStart());
+}
+
+int bmx_wxgestureevent_isgestureend(wxGestureEvent & event) {
+	return static_cast<int>(event.IsGestureEnd());
+}
+
+void bmx_wxgestureevent_setposition(wxGestureEvent & event, int x, int y) {
+	event.SetPosition(wxPoint(x, y));
+}
+
+void bmx_wxgestureevent_setgesturestart(wxGestureEvent & event, int isStart) {
+	event.SetGestureStart(static_cast<bool>(isStart));
+}
+
+void bmx_wxgestureevent_setgestureend(wxGestureEvent & event, int isEnd) {
+	event.SetGestureEnd(static_cast<bool>(isEnd));
+}
+
+
+void bmx_wxpangestureevent_getdelta(wxPanGestureEvent & event, int * x, int * y) {
+	wxPoint p(event.GetDelta());
+	*x = p.x;
+	*y = p.y;
+}
+
+void bmx_wxpangestureevent_setdelta(wxPanGestureEvent & event, int x, int y) {
+	event.SetDelta(wxPoint(x, y));
+}
+
+
+double bmx_wxrotategestureevent_getrotationangle(wxRotateGestureEvent & event) {
+	return event.GetRotationAngle() * 57.2957795f;
+}
+
+void bmx_wxrotategestureevent_setrotationangle(wxRotateGestureEvent & event, double angle) {
+	event.SetRotationAngle(angle * 0.0174533f);
+}
+
+
+double bmx_wxzoomgestureevent_getzoomfactor(wxZoomGestureEvent & event) {
+	return event.GetZoomFactor();
+}
+
+void bmx_wxzoomgestureevent_setzoomfactor(wxZoomGestureEvent & event, double factor) {
+	event.SetZoomFactor(factor);
 }
 

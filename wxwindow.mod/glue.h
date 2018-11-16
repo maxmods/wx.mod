@@ -138,6 +138,7 @@ extern "C" {
 	int bmx_wxwindow_disable(wxWindow * window);
 	void bmx_wxwindow_dragacceptfiles(wxWindow * window, int accept);
 	int bmx_wxwindow_enable(wxWindow * window, int value);
+	int bmx_wxwindow_enabletouchevents(wxWindow * window, int eventMask);
 	void bmx_wxwindow_fit(wxWindow * window);
 	void bmx_wxwindow_fitinside(wxWindow * window);
 	void bmx_wxwindow_freeze(wxWindow * window);
