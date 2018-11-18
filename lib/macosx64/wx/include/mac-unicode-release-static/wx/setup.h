@@ -69,6 +69,9 @@
 /* Define this if your version of GTK+ is >= 3.0 */
 /* #undef __WXGTK3__ */
 
+/* Define this if your version of GTK+ is >= 3.90.0 */
+/* #undef __WXGTK4__ */
+
 /* Define this if you want to use GPE features */
 /* #undef __WXGPE__ */
 
@@ -114,7 +117,6 @@
 
 /* PowerPC Darwin & Mac OS X */
 /* #undef __POWERPC__ */
-#define TARGET_CARBON 1
 
 /* Hack to make IOGraphicsTypes.h not define Point conflicting with MacTypes */
 /* #undef __Point__ */
@@ -152,6 +154,10 @@
 #define WXWIN_COMPATIBILITY_3_0 1
 
 #define wxDIALOG_UNIT_COMPATIBILITY   0
+
+#define wxUSE_UNSAFE_WXSTRING_CONV 1
+
+#define wxUSE_REPRODUCIBLE_BUILD 0
 
 
 
@@ -232,6 +238,8 @@
 
 #define wxUSE_FSVOLUME 1
 
+#define wxUSE_SECRETSTORE 1
+
 #define wxUSE_STDPATHS 1
 
 #define wxUSE_TEXTBUFFER 1
@@ -279,6 +287,8 @@
 #define wxUSE_TARSTREAM 1
 
 #define wxUSE_ZLIB 1
+
+#define wxUSE_LIBLZMA 1
 
 #define wxUSE_APPLE_IEEE 1
 
@@ -332,22 +342,24 @@
 #define wxUSE_WEBVIEW_IE 0
 #endif
 
-#if defined(__WXGTK__) || defined(__WXOSX__)
+#if (defined(__WXGTK__) && !defined(__WXGTK3__)) || defined(__WXOSX__)
 #define wxUSE_WEBVIEW_WEBKIT 1
 #else
 #define wxUSE_WEBVIEW_WEBKIT 1
 #endif
 
+#if defined(__WXGTK3__)
+#define wxUSE_WEBVIEW_WEBKIT2 0
+#else
+#define wxUSE_WEBVIEW_WEBKIT2 0
+#endif
 
-#ifdef _MSC_VER
+
+#if defined(_MSC_VER) || \
+    (defined(__MINGW32__) && (__GNUC__ > 4 || __GNUC_MINOR__ >= 8))
 #define wxUSE_GRAPHICS_CONTEXT 1
 #else
-
-
-
-
-
-#   define wxUSE_GRAPHICS_CONTEXT 1
+#define wxUSE_GRAPHICS_CONTEXT 1
 #endif
 
 #define wxUSE_CAIRO 0
@@ -463,6 +475,8 @@
 
 #define wxUSE_PREFERENCES_EDITOR 1
 
+#define wxUSE_PRIVATE_FONTS 1
+
 #define wxUSE_RICHTOOLTIP 1
 
 #define wxUSE_SASH 1
@@ -500,6 +514,8 @@
 #define wxUSE_MSGDLG 1
 
 #define wxUSE_PROGRESSDLG 1
+
+#define wxUSE_NATIVE_PROGRESSDLG 1
 
 #define wxUSE_STARTUP_TIPS 1
 
@@ -542,7 +558,11 @@
 
 #define wxUSE_DRAG_AND_DROP 1
 
+#ifdef __WXMSW__
 #define wxUSE_ACCESSIBILITY 0
+#else
+#define wxUSE_ACCESSIBILITY 0
+#endif
 
 
 #define wxUSE_SNGLINST_CHECKER 1
@@ -635,6 +655,18 @@
  */
 #define wxUSE_GSTREAMER 0
 
+#define wxUSE_GSTREAMER_PLAYER 0
+
+/*
+   Use XTest extension to implement wxUIActionSimulator?
+
+   Default is 1, it is set to 0 if the necessary headers/libraries are not
+   found by configure.
+
+   Recommended setting: 1, wxUIActionSimulator won't work in wxGTK3 without it.
+ */
+#define wxUSE_XTEST 0
+
 /* --- start MSW options --- */
 
 
@@ -652,6 +684,12 @@
 #define wxUSE_OLE_AUTOMATION 0
 
 #define wxUSE_ACTIVEX 0
+
+#if defined(_MSC_VER) && _MSC_VER >= 1700 && !defined(_USING_V110_SDK71_)
+    #define wxUSE_WINRT 0
+#else
+    #define wxUSE_WINRT 0
+#endif
 
 #define wxUSE_DC_CACHEING 0
 
@@ -683,13 +721,14 @@
 #define wxUSE_TIMEPICKCTRL_GENERIC 0
 
 
+#if defined(__VISUALC__) || defined(__MINGW64_TOOLCHAIN__)
+    #define wxUSE_DBGHELP 0
+#else
+    #define wxUSE_DBGHELP 0
+#endif
+
 #define wxUSE_CRASHREPORT 0
 /* --- end MSW options --- */
-
-/*
- * Define if your compiler supports the explicit keyword
- */
-#define HAVE_EXPLICIT 1
 
 /*
  * Define if your compiler has C99 va_copy
@@ -760,12 +799,12 @@
 /*
  * Define if your compiler has <tr1/type_traits>
  */
-#define HAVE_TR1_TYPE_TRAITS 1
+/* #undef HAVE_TR1_TYPE_TRAITS */
 
 /*
  * Define if your compiler has <type_traits>
  */
-/* #undef HAVE_TYPE_TRAITS */
+#define HAVE_TYPE_TRAITS 1
 
 /*
  * Define if the compiler supports simple visibility declarations.
@@ -812,14 +851,6 @@
  */
 #define wxUSE_LIBGNOMEVFS 0
 /*
- * Use the Hildon framework
- */
-#define wxUSE_LIBHILDON 0
-/*
- * Use the Hildon 2.0 framework
- */
-#define wxUSE_LIBHILDON2 0
-/*
  * Use libnotify library.
  */
 #define wxUSE_LIBNOTIFY 0
@@ -865,11 +896,6 @@
 #define wxUSE_WEBKIT 1
 
 /*
- * Objective-C class name uniquifying
- */
-#define wxUSE_OBJC_UNIQUIFYING 0
-
-/*
  * The const keyword is being introduced more in wxWindows.
  * You can use this setting to maintain backward compatibility.
  * If 0: will use const wherever possible.
@@ -907,6 +933,9 @@
 
 /* struct tm doesn't always have the tm_gmtoff field, define this if it does */
 #define WX_GMTOFF_IN_TM 1
+
+/* check if nl_langinfo() can be called with argument _NL_TIME_FIRST_WEEKDAY */
+/* #undef HAVE_NL_TIME_FIRST_WEEKDAY */
 
 /* Define if you have poll(2) function */
 /* #undef HAVE_POLL */
@@ -1240,6 +1269,9 @@
 
 /* Define if setpriority() is available. */
 #define HAVE_SETPRIORITY 1
+
+/* Define if xlocale.h header file exists. */
+#define HAVE_XLOCALE_H 1
 
 /* Define if locale_t is available */
 #define HAVE_LOCALE_T 1

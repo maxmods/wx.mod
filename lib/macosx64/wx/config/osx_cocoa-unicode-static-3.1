@@ -945,12 +945,12 @@ bindir="${exec_prefix}/bin"
 [ -z "$output_option_prefix"        ] || echo $prefix
 [ -z "$output_option_exec_prefix"   ] || echo $exec_prefix
 [ -z "$output_option_release"       ] || echo "3.1"
-[ -z "$output_option_version"       ] || echo "3.1.0"
-[ -z "$output_option_version_full"  ] || echo "3.1.0.0"
+[ -z "$output_option_version"       ] || echo "3.1.2"
+[ -z "$output_option_version_full"  ] || echo "3.1.2.0"
 [ -z "$output_option_basename"      ] || echo "wx_osx_cocoau"
-[ -z "$output_option_cc"            ] || echo "gcc -mmacosx-version-min=10.5"
-[ -z "$output_option_cxx"           ] || echo "g++ -mmacosx-version-min=10.5"
-[ -z "$output_option_ld"            ] || echo "g++ -mmacosx-version-min=10.5 -o"
+[ -z "$output_option_cc"            ] || echo "gcc -mmacosx-version-min=10.9"
+[ -z "$output_option_cxx"           ] || echo "g++ -mmacosx-version-min=10.9"
+[ -z "$output_option_ld"            ] || echo "g++ -mmacosx-version-min=10.9 -o"
 [ -z "$flag_option_selected_config" ] || echo "$this_config"
 
 for q in $query_options; do
@@ -1025,13 +1025,14 @@ fi
 # Additional configuration for individual library components.
 ldflags_gl=""
 
-ldlibs_base="-lwxregexu-3.1 -lwxexpat-3.1 -lwxjpeg-3.1 -lwxpng-3.1 -lwxzlib-3.1 -lpthread -liconv"
-ldlibs_core="-framework WebKit"
+ldlibs_base="-lwxjpeg-3.1 -lwxpng-3.1 -lwxregexu-3.1 -lwxscintilla-3.1 -lwxexpat-3.1 -lwxzlib-3.1 -llzma -framework Security -lpthread -liconv -llzma"
+ldlibs_core="-llzma -framework WebKit "
 ldlibs_gl="-framework OpenGL -framework AGL"
 ldlibs_html=""
+ldlibs_media="-framework AVFoundation -framework CoreMedia -weak_framework AVKit"
 ldlibs_xml=""
-ldlibs_adv=""
 ldlibs_stc="-lwxscintilla-3.1"
+ldlibs_webview=""
 
 
 # Order the libraries passed to us correctly for static linking.
@@ -1049,15 +1050,14 @@ order_libs()
             # those that can be output immediately because no other libraries
             # depend on them.
             case "$lib" in
-                base|core|html|xml|adv) eval "use_$lib=1" ;;
-                *)                      libs="$libs $lib" ;;
+                base|core|html|xml) eval "use_$lib=1" ;;
+                *)                  libs="$libs $lib" ;;
             esac
         done
 
         # Add the libraries that we postponed adding above.
         # Order of the checks here is important.
         [ -z "$use_html" ] || libs="$libs html"
-        [ -z "$use_adv" ] || libs="$libs adv"
         [ -z "$use_core" ] || libs="$libs core"
         [ -z "$use_xml" ] || libs="$libs xml"
         [ -z "$use_base" ] || libs="$libs base"
@@ -1242,6 +1242,10 @@ else    # MONOLITHIC = 0
         fi
     fi
 
+    # Existing scripts may use "wx-config --libs std,adv" or similar, but "adv"
+    # library is not used any longer.
+    wx_libs=`remove_field adv $wx_libs`
+
     if [ -n "$output_option_libs" ]; then
         using_gui=no
         for i in $wx_libs ; do
@@ -1359,25 +1363,25 @@ fi
 
 if [ -n "$output_option_rescomp" ]; then
 
-    case "cat /dev/null \| Rez" in
+    case "" in
       *windres|wrc)
         # Note that with late model windres, we could just insert
         # _include_cppflags here, but use the old notation for now
         # as it is more universally accepted.
         if is_installed; then
-            echo "cat /dev/null \| Rez --include-dir" \
+            echo " --include-dir" \
                            "${includedir}/wx-3.1" \
-                           "-d __DARWIN__ -t APPL $libdir/libwx_osx_cocoau-3.1.0.r"
+                           ""
         else
-            echo "cat /dev/null \| Rez --include-dir ${includedir}" \
-                           "-d __DARWIN__ -t APPL $libdir/libwx_osx_cocoau-3.1.0.r"
+            echo " --include-dir ${includedir}" \
+                           ""
         fi
         ;;
 
       # rez doesn't have any specific needs so just output what was
       # determined by configure.
       *)
-        echo cat /dev/null \| Rez -d __DARWIN__ -t APPL $libdir/libwx_osx_cocoau-3.1.0.r
+        echo  
         ;;
     esac
 
