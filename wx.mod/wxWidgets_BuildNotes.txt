@@ -37,10 +37,10 @@ MacOS :
     wxMac 3.1.x
 
 	32-bit
-	../configure --with-osx_cocoa --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES"
+	../configure --with-osx_cocoa --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CPPFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" --with-macosx-version-min=10.9
 
 	64-bit
-	../configure --with-osx_cocoa --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES"
+	../configure --with-osx_cocoa --enable-unicode --with-opengl --enable-mediactrl --enable-graphics_ctx --disable-shared --with-zlib=builtin --with-expat=builtin --with-libjpeg=builtin --with-libpng=builtin --without-libtiff --disable-std_iostreams CFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" CXXFLAGS="-DZ_PREFIX -DWXWIDGETS_JPEG_EXTERNAL_NAMES" --with-macosx-version-min=10.9
 	
     use "--disable-shared" for static libraries, otherwise you get .dylibs
 
