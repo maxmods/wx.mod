@@ -104,7 +104,7 @@ int bmx_wxiobase_readuntileos(wxIOBase * base, char * buffer, int * bytesRead, B
 	int ret = base->ReadUntilEOS(newbuff, &size, p, timeout, static_cast<char>(quota));
 	*bytesRead = static_cast<int>(size);
 	
-	if (bytesRead > 0) {
+	if (*bytesRead > 0) {
 		memcpy(buffer, newbuff, size);
 	}
 	delete newbuff;
