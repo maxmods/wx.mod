@@ -45,6 +45,7 @@ ModuleInfo "CC_OPTS: -D_LARGE_FILES"
 ModuleInfo "CC_OPTS: -DWX_PRECOMP"
 ?
 
+?Not linux
 Import "common.bmx"
 
 Rem
@@ -214,4 +215,4 @@ Type wxSecretValue
 	End Function
 	
 End Type
-
+?
