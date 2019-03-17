@@ -90,7 +90,9 @@ BBArray *wxArrayStringToBBStringArray( wxArrayString t ){
 	BBString **s=(BBString**)BBARRAYDATA( p,p->dims );
 	for( int i=0;i<n;++i ){
 		s[i]=bbStringFromWxString( t[i] );
+#ifndef BMX_NG
 		BBRETAIN( s[i] );
+#endif
 	}
 	return p;
 }
