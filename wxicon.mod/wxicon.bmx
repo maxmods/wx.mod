@@ -81,7 +81,20 @@ Type wxIcon Extends wxBitmap
 		
 		Return wxNullIcon
 	End Function
-	
+?win32
+	Rem
+	bbdoc: Creates a #wxIcon from the given Windows resouce name.
+	about: If the resource is not found, a #wxNullIcon is returned.
+	End Rem
+	Function CreateFromResource:wxIcon(resource:String)
+		Local icon:wxIcon = New wxIcon.Create()
+		If bmx_wxicon_loadfile(icon.wxObjectPtr, resource, wxBITMAP_TYPE_ICO_RESOURCE) Then
+			Return icon
+		End If
+		
+		Return wxNullIcon
+	End Function
+?
 	Method Create:wxIcon()
 		wxObjectPtr = bmx_wxicon_create()
 		Return Self
