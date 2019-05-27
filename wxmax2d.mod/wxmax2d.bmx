@@ -507,6 +507,11 @@ Type TwxGraphics Extends TGraphics
 	End Method
 	
 	'Field _context
+
+?bmxng
+	Method Resize(width:Int, height:Int) Override
+ 	End Method
+?
 	
 End Type
 
