@@ -178,12 +178,18 @@ Type TwxMax2DDriver Extends TMax2DDriver
 		Local g:TwxGraphics=wxGraphicsDriver().AttachGraphics( widget,flags )
 		If g Return TMax2DGraphics.Create( g,Self )
 	End Method
-	
+
+?bmxng	
+	Method CreateGraphics:TMax2DGraphics( width:Int ,height:Int ,depth:Int ,hertz:Int ,flags:Int,x:Int,y:Int  )
+		Local g:TwxGraphics=wxGraphicsDriver().CreateGraphics( width,height,depth,hertz,flags,x,y )
+		If g Return TMax2DGraphics.Create( g,Self )
+	End Method
+?Not bmxng
 	Method CreateGraphics:TMax2DGraphics( width:Int ,height:Int ,depth:Int ,hertz:Int ,flags:Int  )
 		Local g:TwxGraphics=wxGraphicsDriver().CreateGraphics( width,height,depth,hertz,flags )
 		If g Return TMax2DGraphics.Create( g,Self )
 	End Method
-	
+?
 	Method SetGraphics( g:TGraphics )
 		Local t:TMax2DGraphics=TMax2DGraphics(g)
 		Assert t And TwxGraphics( t._graphics )
@@ -488,8 +494,12 @@ Type TwxGraphics Extends TGraphics
 		'Assert _context
 		Return wxGraphicsDriver()
 	End Method
-	
+
+?bmxng	
+	Method GetSettings( width:Int Var,height:Int  Var,depth:Int Var,hertz:Int Var,flags:Int Var,x:Int Var,y:Int Var )
+?Not bmxng
 	Method GetSettings( width:Int Var,height:Int  Var,depth:Int Var,hertz:Int Var,flags:Int Var )
+?
 		'Assert _context
 		'Local w,h,d,r,f
 		'bbGLGraphicsGetSettings _context,w,h,d,r,f
@@ -511,6 +521,9 @@ Type TwxGraphics Extends TGraphics
 ?bmxng
 	Method Resize(width:Int, height:Int) Override
  	End Method
+
+	Method Position(x:Int, y:Int) Override
+	End Method
 ?
 	
 End Type
@@ -533,7 +546,11 @@ Type TwxGraphicsDriver Extends TGraphicsDriver
 		Return t
 	End Method
 	
+?bmxng
+	Method CreateGraphics:TwxGraphics( width:Int,height:Int,depth:Int,hertz:Int,flags:Int,x:Int,y:Int )
+?Not bmxng
 	Method CreateGraphics:TwxGraphics( width:Int,height:Int,depth:Int,hertz:Int,flags:Int )
+?
 'DebugLog "CreateGraphics"
 		Local t:TwxGraphics = New TwxGraphics
 		'Local t:TGLGraphics=New TGLGraphics
@@ -558,7 +575,7 @@ Type TwxGraphicsDriver Extends TGraphicsDriver
 'DebugLog "SwapSharedContext"
 		'bbGLGraphicsSwapSharedContext
 	End Method
-	
+
 End Type
 
 Function wxGraphicsDriver:TwxGraphicsDriver()
