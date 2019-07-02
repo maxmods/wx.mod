@@ -64,7 +64,7 @@ MaxIcon * bmx_wxicon_create() {
 	return new MaxIcon();
 }
 
-void * bmx_wxicon_delete(MaxIcon * icon) {
+void bmx_wxicon_delete(MaxIcon * icon) {
 	delete icon;
 }
 

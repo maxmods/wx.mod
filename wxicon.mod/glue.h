@@ -36,7 +36,7 @@ extern "C" {
 	MaxIcon * bmx_wxicon_create();
 	MaxIcon * bmx_wxicon_createfromfile(BBString * name, int type, int desiredWidth, int desiredHeight);
 	void bmx_wxicon_copyfrombitmap(MaxIcon * icon, MaxBitmap * bitmap);
-	void * bmx_wxicon_delete(MaxIcon * icon);
+	void bmx_wxicon_delete(MaxIcon * icon);
 	MaxIcon * bmx_wxicon_null();
 	int bmx_wxicon_loadfile(MaxIcon * icon, BBString * name, int type);
 
